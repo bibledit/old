@@ -170,7 +170,7 @@ public:
 
   bool do_not_process_child_anchors_being_deleted;
   static void on_buffer_insert_text_after(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length, gpointer user_data);
-  void buffer_insert_text_after(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length);
+  void buffer_insert_text_after(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text);
   static void on_buffer_delete_range_before(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end, gpointer user_data);
   void buffer_delete_range_before(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end);
   static void on_buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end, gpointer user_data);
@@ -183,10 +183,6 @@ public:
   set <ustring> styles_at_cursor;
   set <ustring> styles_at_iterator(GtkTextIter iter);
   void apply_style(const ustring& marker);
-
-  static bool on_apply_style_at_cursor(gpointer user_data);
-  void apply_style_at_cursor_handler();
-  ustring style_to_be_applied_at_cursor;
 
   void insert_table(const ustring& rawtext, GtkTextIter * iter);
 

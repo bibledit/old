@@ -1130,11 +1130,13 @@ void Editor2::create_or_update_text_style(Style * style, bool paragraph, bool pl
 
 void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length, gpointer user_data)
 {
-  ((Editor2 *) user_data)->buffer_insert_text_after(textbuffer, pos_iter, text, length);
+  // The "length" parameter does not give the length as the number of characters 
+  // but the byte length of the "text" parameter. It is not passed on.
+  ((Editor2 *) user_data)->buffer_insert_text_after(textbuffer, pos_iter, text);
 }
 
 
-void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
+void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text)
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
 {
@@ -1143,10 +1145,13 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
     return;
   }
   
-  // The "length" parameter does not give the length as the number of characters 
-  // but the byte length of the "text" parameter.
-  // Therefore get our own length.
+  // Text to work with.
   ustring utext (text);
+  
+  // New lines in notes are not supported.
+  if (focused_paragraph->type == eatCreateNoteParagraph) {
+    replace_text (utext, "\n", " ");
+  }
 
   // Get offset of text insertion point.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - utext.length();
@@ -1623,19 +1628,6 @@ void Editor2::apply_style(const ustring & marker)
 
   // Focus editor.
   gtk_widget_grab_focus(textview);
-}
-
-
-bool Editor2::on_apply_style_at_cursor(gpointer user_data)
-{
-  ((Editor2 *) user_data)->apply_style_at_cursor_handler();
-  return false;
-}
-
-
-void Editor2::apply_style_at_cursor_handler()
-{
-  apply_style(style_to_be_applied_at_cursor);
 }
 
 
@@ -2694,7 +2686,7 @@ gboolean Editor2::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *ev
 }
 
 
-gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event) // Todo
+gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
 {
   // Clear flag for monitoring deletions from textbuffers.
   textbuffer_delete_range_was_fired = false;
@@ -2723,36 +2715,6 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
     if (keyboard_insert_pressed(event)) return true;
   }
   
-  /*
-  if (keyboard_enter_pressed(event)) {
-    // No <Enter> in a crossreference.
-    if (last_focused_type() == etvtNote) {
-      GtkWidget *textview = last_focused_textview();
-      for (unsigned int i = 0; i < editornotes.size(); i++) {
-        if (textview == editornotes[i].textview) {
-          EditorNoteType notetype = note_type_get(project, editornotes[i].marker);
-          if (notetype == entCrossreference) {
-            return true;
-          } else {
-            // If <Enter> has been given in a foot/end note, 
-            // apply the paragraph continuation style.
-            // This is done with a delay to allow the keypress to be fully processed.
-            // It was thought at first to use the keypress handler after the
-            // event, but it appears that the event is handled and no after event
-            // is called anymore.
-            style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
-            g_timeout_add(1, GSourceFunc(on_apply_style_at_cursor), gpointer(this));
-          }
-        }
-      }
-    }
-    // No <Enter> in a table cell.
-    if (last_focused_type() == etvtTable) {
-      return true;
-    }
-  }
-  */
-
   // Pressing Page Up while the cursor is in the note brings the user
   // to the note caller in the text.
   if (keyboard_page_up_pressed(event)) {

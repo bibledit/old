@@ -6847,16 +6847,22 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
+            // If <Enter> has been given in a foot/end note, 
+            // apply the paragraph continuation style.
+            // This is done with a delay to allow the keypress to be fully processed.
+            // It was thought at first to use the keypress handler after the
+            // event, but it appears that the event is handled and no after event
+            // is called anymore.
+            style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
+
+
 
 Editor: Do highlighting of search words.
 
 
 
 Editor: Implement:  show_quick_references(); This should also call up the references window if it wasn't showing yet.
-
-
-
-Editor: Implement: Double-clicking sends the word to Toolbox
 
 
 
@@ -6872,9 +6878,11 @@ Editor: Implement: last_focused_type
 
 
 
-Editor: Notes:
-Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
+
 Notes need to be ordered to the right position on placement, as it can be inserted anywhere among the existing ones.
+
+
+
 Notes should be formatted.
 
 
