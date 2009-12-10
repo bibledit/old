@@ -812,7 +812,7 @@ gboolean Editor2::on_textview_button_press_event(GtkWidget * widget, GdkEventBut
 }
 
 
-gboolean Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton * event) // Todo
+gboolean Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton * event)
 {
   // See whether the user clicked on a note caller.
   if (event->type == GDK_BUTTON_PRESS) {
@@ -839,7 +839,6 @@ gboolean Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton
   gw_destroy_source(textview_button_press_event_id);
   textview_button_press_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_button_press_delayed), gpointer(this), NULL);
 
-  /*
   // Double-clicking sends the word to Toolbox.
   if (event->type == GDK_2BUTTON_PRESS) {
 
@@ -854,12 +853,16 @@ gboolean Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton
       gtk_text_iter_forward_word_end(&enditer);
     startiter = enditer;
     gtk_text_iter_backward_word_start(&startiter);
-    word_double_clicked_text = gtk_text_buffer_get_text(textbuffer, &startiter, &enditer, false);
-
-    // Signal to have it sent to Toolbox.
-    gtk_button_clicked(GTK_BUTTON(word_double_clicked_signal));
+    // Do not include note markers.
+    GtkTextIter moved_enditer;
+    if (move_end_iterator_before_note_caller_and_validate (startiter, enditer, moved_enditer)) {
+      word_double_clicked_text = gtk_text_buffer_get_text(textbuffer, &startiter, &moved_enditer, false);
+  
+      // Signal to have it sent to Toolbox.
+      gtk_button_clicked(GTK_BUTTON(word_double_clicked_signal));
+    }
   }
-  */
+
   // Propagate the event.
   return false;
 }
