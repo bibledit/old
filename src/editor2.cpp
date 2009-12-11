@@ -2669,6 +2669,7 @@ void Editor2::paste ()
           // that results from the previous copy or cut operation, 
           // it inserts the equivalent usfm text instead.
           // Or if USFM code only was copied, nothing else, then take that too.
+          gtk_text_buffer_delete_selection (focused_paragraph->textbuffer, true, editable);
           gtk_text_buffer_insert_at_cursor (focused_paragraph->textbuffer, clipboard_text_usfm.c_str(), -1);
         } else {
           // The text that would be pasted differs from the plain text

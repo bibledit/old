@@ -6840,17 +6840,7 @@ Editor: When merging, the changes do not automatically show up in the merge wind
 They show up when clicking in one of the editors.
 
 
-Editor: If text is pasted from clipboard over selected text, this selection does not get replaced.
-
-
 Editor: When checking USFM, and toggling Editors, it should inform the user if the USFM editor is not available.
-
-
-Editor: When a new window is opened, then the window gets focus, but the old textview, e.g. the one of the Editor, keeps grabbed.
-To resolve this by grabbing focus when a new window is opened.
-
-
-Editor: Fit out any remaining controls and behaviour of the editor.
 
 
 Editor: Resizing the window is very hard. 
@@ -6858,15 +6848,13 @@ To use larger steps, creating larger steps using a timeout, which only does the 
 after no new resize requests have come in for a few milliseconds. Or detach textviews.
 
 
-
-Editor: Once the whole editor2 is ready, to check all its code and test all, and establish testing remarks in each routine.
-Also test opening several Editor windows.
+Editor: Once ready, test opening several Editor windows.
 
 
 Editor:Editor * WindowEditor::editor_get() - Needs update to give Editor2.
 
 
-Editor:EditNoteDialog does no longer work.
+Editor:EditNoteDialog does no longer work, i.e. it does not edit notes.
 
 
 
