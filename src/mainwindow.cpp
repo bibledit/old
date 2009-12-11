@@ -6816,10 +6816,6 @@ Todo tasks.
 
 
 
-Editor: Do highlighting of search words.
-
-
-
 Editor: Implement:  show_quick_references(); This should also call up the references window if it wasn't showing yet.
 
 

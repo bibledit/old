@@ -122,6 +122,7 @@ It returns true if "program" is an executable program.
   return false;
 }
 
+
 void gw_destroy_source(guint & event_id)
 // This is a combined wrapper for convenience.
 {
@@ -132,6 +133,7 @@ void gw_destroy_source(guint & event_id)
   }
   event_id = 0;
 }
+
 
 void gw_mkdir_with_parents(const ustring & directory)
 // Creates directory, with the parents, if need be.

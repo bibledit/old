@@ -30,7 +30,7 @@
 #include "date_time_utils.h"
 
 
-Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring & project, const vector < EditorNote > &editornotes, GtkTextTag * tag, const ustring & verse)
+Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring & project, GtkTextTag * tag, const ustring & verse)
 {
   // Save and initialize variables.
   maintextbuffer = buffer;
@@ -41,14 +41,9 @@ Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring
 
   // Remove any previous highlights.  
   remove_previous_highlights(maintextbuffer);
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    remove_previous_highlights(editornotes[i].textbuffer);
-  }
 
   // Determine the boundaries between which to highlight,
   // in order to highlight only the words that are within the right verse.
-  // At the same time collect any GtkTextChildAnchors within range.
-  set < GtkTextChildAnchor * >childanchors;
   {
     GtkTextIter startiter;
     GtkTextIter enditer;
@@ -63,7 +58,7 @@ Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring
       ustring paragraph_style, character_style;
       get_styles_at_iterator(iter, paragraph_style, character_style);
       if (start || (character_style == verse_style)) {
-        ustring verse_at_iter = get_verse_number_at_iterator(iter, verse_style, "", NULL); // todo
+        ustring verse_at_iter = get_verse_number_at_iterator(iter, verse_style, "", NULL);
         if (verse == verse_at_iter) {
           if (!started) {
             started = true;
@@ -79,12 +74,6 @@ Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring
         }
       }
       start = false;
-      if ((started) && (!ended)) {
-        GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
-        if (anchor) {
-          childanchors.insert(anchor);
-        }
-      }
       gtk_text_iter_forward_char(&iter);
     }
     main_start_offset = gtk_text_iter_get_offset(&startiter);
@@ -93,12 +82,8 @@ Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring
 
   // Go through all the embedded editors that are within the verse, 
   // and mark these for processing too.
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (childanchors.find(editornotes[i].childanchor_caller_text) != childanchors.end()) {
-      searchbuffers.push_back(editornotes[i].textbuffer);
-      searchviews.push_back(GTK_TEXT_VIEW(editornotes[i].textview));
-    }
-  }
+  //searchbuffers.push_back(editornotes[i].textbuffer);
+  //searchviews.push_back(GTK_TEXT_VIEW(editornotes[i].textview));
 }
 
 
@@ -256,6 +241,7 @@ to highlight, not from the casefolded searchword, but the original one.
   }
 }
 
+
 void Highlight::searchwords_find_fast(GtkTextBuffer * textbuffer, GtkTextIter * beginbound, GtkTextIter * endbound, const ustring & searchword, bool casesensitive, vector < GtkTextIter > &wordstart, vector < GtkTextIter > &wordend)
 // Searches for words to highlight. For simple highligthing. 
 // Is much faster than the slow routine, see there fore more information.
@@ -290,6 +276,7 @@ void Highlight::searchwords_find_fast(GtkTextBuffer * textbuffer, GtkTextIter * 
     }
   }
 }
+
 
 void Highlight::searchwords_in_area(GtkTextBuffer * textbuffer, vector < GtkTextIter > &start, vector < GtkTextIter > &end, bool area_id, bool area_intro, bool area_heading, bool area_chapter, bool area_study, bool area_notes, bool area_xref, bool area_verse)
 /*
@@ -348,6 +335,7 @@ one of the given areas. If not, it removes the iterator from the containers.
   }
 }
 
+
 void Highlight::remove_previous_highlights(GtkTextBuffer * textbuffer)
 // Removes previous highlights.
 // Ensure that removing the tags does not influence the modified status of the textbuffer.
@@ -361,6 +349,7 @@ void Highlight::remove_previous_highlights(GtkTextBuffer * textbuffer)
   if (!modified_status)
     gtk_text_buffer_set_modified(textbuffer, false);
 }
+
 
 void Highlight::determine_locations()
 // Determine the locations where to highlight text.
@@ -381,6 +370,7 @@ void Highlight::determine_locations()
   // Set a flag informing the main thread that the locations are available.
   locations_ready = true;
 }
+
 
 void Highlight::highlight()
 // This does the actual highlighting.

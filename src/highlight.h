@@ -34,7 +34,6 @@ public:
   Highlight (GtkTextBuffer * buffer, 
              GtkWidget * textview, 
              const ustring& project, 
-             const vector <EditorNote>& editornotes, 
              GtkTextTag * tag,
              const ustring& verse);
   ~Highlight ();

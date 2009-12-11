@@ -99,7 +99,8 @@ current_reference(0, 1000, "")
   verse_tracking_on = false;
   editor_actions_size_at_no_save = false;
   font_size_multiplier = 1;
-  
+  highlight_timeout_event_id = 0;
+    
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
 
@@ -169,9 +170,6 @@ current_reference(0, 1000, "")
     verse_highlight_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "background", "yellow", NULL);
     g_object_unref (textbuffer);
   }
-
-  // Highlighting searchwords timeout.
-  highlight_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_highlight_timeout), gpointer(this), NULL);
 
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
@@ -1683,9 +1681,20 @@ void Editor2::highlight_searchwords()
   // Destroy optional previous object.
   if (highlight)
     delete highlight;
-  // Create a new object.
-  //highlight = new Highlight(textbuffer, textview, project, editornotes, editortables, reference_tag, current_verse_number);
-  //g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
+
+  // Bail out if there's no focused paragraph.
+  if (!focused_paragraph) {
+    return;
+  }
+
+  // Highlighting timeout.
+  if (highlight_timeout_event_id)
+    gw_destroy_source (highlight_timeout_event_id);
+  highlight_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_highlight_timeout), gpointer(this), NULL);
+
+  // Create a new highlighting object.
+  highlight = new Highlight(focused_paragraph->textbuffer, focused_paragraph->textview, project, reference_tag, current_verse_number);
+  g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
 }
 
 
@@ -1697,16 +1706,18 @@ bool Editor2::on_highlight_timeout(gpointer data)
 
 bool Editor2::highlight_timeout()
 {
-  // Proceed if a highlighting object is there.
-  if (highlight) {
-    // Proceed if the locations for highlighting are ready.
-    if (highlight->locations_ready) {
-      highlight->highlight();
-      // Delete and NULL the object making it ready for next use.
-      delete highlight;
-      highlight = NULL;
-    }
+  // If the highlighting object is not there, destroy timer and bail out.
+  if (!highlight) {
+    return false;
   }
+  // Proceed if the locations for highlighting are ready.
+  if (highlight->locations_ready) {
+    highlight->highlight();
+    // Delete and NULL the object making it ready for next use.
+    delete highlight;
+    highlight = NULL;
+  }
+  // Timer keeps going.
   return true;
 }
 
@@ -2895,11 +2906,8 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   // Scroll the insertion point onto the screen.
   scroll_insertion_point_on_screen ();
 
-
-  /*
-    // Highlight search words.
-    highlight_searchwords();
-  */
+  // Highlight search words.
+  highlight_searchwords();
 }
 
 
