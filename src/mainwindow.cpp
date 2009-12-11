@@ -6847,6 +6847,11 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+Editor: When a chapter loads, and the verse to focus is more towards the end, it does not focus that verse.
+It may need a timeout after load that does the trick, or an idle handler.
+
+
+
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
             // If <Enter> has been given in a foot/end note, 
             // apply the paragraph continuation style.
@@ -6886,7 +6891,9 @@ Notes need to be ordered to the right position on placement, as it can be insert
 Notes should be formatted.
 
 
+
 Editor: What happens if we detach the GtkTExtView from the buffer while loading? Would it speed things up?
+
 
 
 Editor: When merging, the changes do not automatically show up in the merge window. 
@@ -6900,11 +6907,7 @@ Editor: When focusing a project note, so project notes window has focus, then wh
 but not its window. This confuses.
 
 
-Editor: When checking USFM, and switching Editors, it should inform the user if an editor is not available.
-
-
-Editor: When a chapter loads, and the verse to focus is more towards the end, it does not focus that verse.
-It may need a timeout after load that does the trick, or an idle handler.
+Editor: When checking USFM, and toggling Editors, it should inform the user if the USFM editor is not available.
 
 
 Editor: When a new window is opened, then the window gets focus, but the old textview, e.g. the one of the Editor, keeps grabbed.
