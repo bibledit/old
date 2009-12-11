@@ -3103,6 +3103,8 @@ void MainWindow::view_project_notes()
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->references_available_signal_button, "clicked", G_CALLBACK(on_window_notes_references_available_button_clicked), gpointer(this));
+    // The window should focus, but it doesn't, hence focus it here.
+    gtk_button_clicked(GTK_BUTTON(window_notes->focus_in_signal_button));
   }
 }
 
@@ -6847,9 +6849,8 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-
-Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
-style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
+Editor: When focusing a project note, so project notes window has focus, then when pressing Ctrl-Left, the Editor gets focus,
+but not its window. This confuses.
 
 
 
@@ -6873,28 +6874,11 @@ Editor: Implement: last_focused_type
 
 
 
-
-Notes need to be ordered to the right position on placement, as it can be inserted anywhere among the existing ones.
-
-
-
-Notes should be formatted.
-
-
-
-Editor: What happens if we detach the GtkTExtView from the buffer while loading? Would it speed things up?
-
-
-
 Editor: When merging, the changes do not automatically show up in the merge window. 
 They show up when clicking in one of the editors.
 
 
 Editor: If text is pasted from clipboard over selected text, this selection does not get replaced.
-
-
-Editor: When focusing a project note, so project notes window has focus, then when pressing Ctrl-Left, the Editor gets focus,
-but not its window. This confuses.
 
 
 Editor: When checking USFM, and toggling Editors, it should inform the user if the USFM editor is not available.

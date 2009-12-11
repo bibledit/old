@@ -607,7 +607,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   // Create new view.
   if (viewusfm) {
     usfmview = new USFMView (vbox, project);
-    connect_focus_signals ( usfmview->sourceview);
+    connect_focus_signals (usfmview->sourceview);
     g_signal_connect ((gpointer) usfmview->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect ((gpointer) usfmview->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
     g_signal_connect ((gpointer) usfmview->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));

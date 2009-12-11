@@ -614,18 +614,6 @@ void FloatingWindow::container_tree_callback (GtkWidget *widget, gpointer user_d
 }
 
 
-gboolean FloatingWindow::on_window_focus_in_event(GtkWidget * widget, GdkEventFocus * event, gpointer user_data)
-{
-  ((FloatingWindow *) user_data)->on_window_focus_in(widget);
-  return FALSE;
-}
-
-
-void FloatingWindow::on_window_focus_in(GtkWidget * widget)
-{
-}
-
-
 gboolean FloatingWindow::on_widget_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
   ((FloatingWindow *) user_data)->on_widget_button_press (widget, event);

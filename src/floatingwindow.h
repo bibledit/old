@@ -101,10 +101,8 @@ private:
   void container_tree_callback (GtkWidget *widget, gpointer user_data);
   GtkWidget * focused_widget_to_look_for;
 public:
-  static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
 private:
   static gboolean on_widget_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-  void on_window_focus_in(GtkWidget *widget);
   void on_widget_button_press (GtkWidget *widget, GdkEventButton *event);
   void title_set (bool focused);
 public:
@@ -112,7 +110,6 @@ public:
 private:
   static void on_widget_grab_focus(GtkWidget * widget, gpointer user_data);
   void widget_grab_focus(GtkWidget * widget);
-
 
   // Size and position.
   void display (bool startup);
