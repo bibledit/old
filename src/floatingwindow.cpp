@@ -645,12 +645,6 @@ void FloatingWindow::title_set (bool focused)
 }
 
 
-void FloatingWindow::debug (const gchar * intro)
-{
-  cout << intro << " - window " << title << ", position x " << my_gdk_rectangle.x << ", y " << my_gdk_rectangle.y << ", width " << my_gdk_rectangle.width << ", height " << my_gdk_rectangle.height << endl;
-}
-
-
 void FloatingWindow::on_widget_grab_focus(GtkWidget * widget, gpointer user_data)
 {
   ((FloatingWindow *) user_data)->widget_grab_focus(widget);
@@ -659,6 +653,8 @@ void FloatingWindow::on_widget_grab_focus(GtkWidget * widget, gpointer user_data
 
 void FloatingWindow::widget_grab_focus(GtkWidget * widget)
 {
+  if (widget != last_focused_widget) 
+    focus_set ();
   last_focused_widget = widget;
 }
 

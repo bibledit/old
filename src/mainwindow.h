@@ -790,8 +790,6 @@ protected:
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
   GtkWidget * focused_tool_button;
-  static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
-  void window_set_focus (GtkWidget *widget);
   void store_last_focused_tool_button (GtkButton * button);
   void shutdown_windows();
 };

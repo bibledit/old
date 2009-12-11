@@ -33,7 +33,6 @@ public:
   FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ustring title_in, bool startup);
   // Virtual method since this object will be the base for other objects.
   virtual ~FloatingWindow();
-  void debug (const gchar * intro);
 private:
   GtkWidget * layout;
   GtkBuilder * gtkbuilder;

@@ -6761,40 +6761,6 @@ void MainWindow::on_window_focus_button(GtkButton * button)
 }
 
 
-void MainWindow::on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data)
-{
-  ((MainWindow *) user_data)->window_set_focus (widget);
-}
-
-
-void MainWindow::window_set_focus (GtkWidget *widget)
-{
-  // All widgets will check whether the focused widget is theirs, and act accordingly.
-  if (window_show_related_verses)
-    window_show_related_verses->focus_if_widget_mine(widget);
-  if (window_merge)
-    window_merge->focus_if_widget_mine(widget);
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->focus_if_widget_mine(widget);
-  }
-  if (window_outline)
-    window_outline->focus_if_widget_mine(widget);
-  if (window_check_keyterms)
-    window_check_keyterms->focus_if_widget_mine(widget);
-  if (window_styles)
-    window_styles->focus_if_widget_mine(widget);
-  if (window_notes)
-    window_notes->focus_if_widget_mine(widget);
-  if (window_references)
-    window_references->focus_if_widget_mine(widget);
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->focus_if_widget_mine(widget);
-  }
-  if (window_check_usfm)
-    window_check_usfm->focus_if_widget_mine(widget);
-}
-
-
 void MainWindow::store_last_focused_tool_button (GtkButton * button)
 {
   GtkWidget * widget = GTK_WIDGET (button);
@@ -6849,10 +6815,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Editor: When focusing a project note, so project notes window has focus, then when pressing Ctrl-Left, the Editor gets focus,
-but not its window. This confuses.
-
-
 
 Editor: Do highlighting of search words.
 
@@ -6893,7 +6855,7 @@ Editor: Fit out any remaining controls and behaviour of the editor.
 
 Editor: Resizing the window is very hard. 
 To use larger steps, creating larger steps using a timeout, which only does the resizing
-after no new resize requests have come in for a few milliseconds.
+after no new resize requests have come in for a few milliseconds. Or detach textviews.
 
 
 
@@ -6905,11 +6867,6 @@ Editor:Editor * WindowEditor::editor_get() - Needs update to give Editor2.
 
 
 Editor:EditNoteDialog does no longer work.
-
-
-Editor:Look at:
-EditorTextViewType Editor2::last_focused_type()
-void Editor2::show_quick_references()
 
 
 
