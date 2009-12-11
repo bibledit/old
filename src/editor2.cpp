@@ -41,7 +41,6 @@
 #include "tiny_utilities.h"
 #include "git.h"
 #include "progresswindow.h"
-#include "dialogyesnoalways.h"
 
 
 /*
@@ -527,7 +526,7 @@ void Editor2::show_quick_references()
 // Without this pasting a long text in the footnote takes a lot of time.
 {
   gw_destroy_source(event_id_show_quick_references);
-  event_id_show_quick_references = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(show_quick_references_timeout), gpointer(this), NULL);
+  event_id_show_quick_references = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(show_quick_references_timeout), gpointer(this), NULL);
 }
 
 
@@ -569,12 +568,9 @@ void Editor2::show_quick_references_execute()
     return;
   }
 
-  // Ask whether the references should be made available.
-  if (yes_no_always_dialog ("This note has references.\nWould you like to load these in the references list?", ynadtLoadReferences, false, true)) {
-    // Make the references available and fire a signal.
-    quick_references = refscanner.references;
-    gtk_button_clicked(GTK_BUTTON(quick_references_button));
-  }
+  // Make the references available and fire a signal.
+  quick_references = refscanner.references;
+  gtk_button_clicked(GTK_BUTTON(quick_references_button));
 }
 
 
@@ -665,11 +661,7 @@ void Editor2::textview_grab_focus_delayed()
   textview_grab_focus_event_id = 0;
   signal_if_styles_changed();
   signal_if_verse_changed();
-  /*
-  if (recording_undo_actions()) {
-    show_quick_references();
-  }
-  */
+  show_quick_references();
 }
 
 
@@ -1437,14 +1429,10 @@ set < ustring > Editor2::styles_at_iterator(GtkTextIter iter)
 GtkTextBuffer *Editor2::last_focused_textbuffer()
 // Returns the focused textbuffer, or NULL if none.
 {
-  return gtk_text_view_get_buffer(GTK_TEXT_VIEW(last_focused_widget));
-}
-
-
-GtkWidget *Editor2::last_focused_textview()
-// Returns the textview that was focused last.
-{
-  return last_focused_widget;
+  if (focused_paragraph) {
+    return focused_paragraph->textbuffer;
+  }
+  return NULL;
 }
 
 
@@ -1452,25 +1440,12 @@ EditorTextViewType Editor2::last_focused_type()
 // Returns the type of the textview that was focused most recently.
 // This could be the main body of text, or a note, or a table.
 { 
-  /*
-  if (last_focused_widget == textview) {
-    return etvtBody;
-  }
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (last_focused_widget == editornotes[i].textview) {
+  if (focused_paragraph) {
+    if (focused_paragraph->type == eatCreateNoteParagraph) {
       return etvtNote;
     }
   }
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (last_focused_widget == table_cell_get_view(editortables[i], row, column)) {
-          return etvtTable;
-        }
-      }
-    }
-  }
-  */
+  // return etvtTable;
   return etvtBody;
 }
 
@@ -1995,6 +1970,9 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
   // Pointer to any widget that should grab focus.
   GtkWidget * widget_that_should_grab_focus = NULL;
   
+  // Whether contents was been changed.
+  bool contents_was_changed = false;
+  
   // Deal with the action depending on its type.
   switch (action->type) {
 
@@ -2033,6 +2011,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
         case eaaUndo:    insert_action->undo (widget_that_should_grab_focus); break;
         case eaaRedo:    insert_action->redo (widget_that_should_grab_focus); break;
       }
+      contents_was_changed = true;
       break;
     }
 
@@ -2044,6 +2023,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
         case eaaUndo:    delete_action->undo (widget_that_should_grab_focus); break;
         case eaaRedo:    delete_action->redo (widget_that_should_grab_focus); break;
       }
+      contents_was_changed = true;
       break;
     }
 
@@ -2105,6 +2085,11 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
   // because the callback for grabbing the focus uses this object.
   if (widget_that_should_grab_focus) {
     gtk_widget_grab_focus (widget_that_should_grab_focus);
+  }
+
+  // If content was changed, then show the quick references.
+  if (contents_was_changed) {
+    show_quick_references ();
   }
   
   // Applying the editor action is over.

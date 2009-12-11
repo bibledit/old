@@ -57,7 +57,6 @@ public:
   ustring current_verse_number;
   GtkWidget * new_verse_signal;
   ustring text_get_selection();
-  GtkTextBuffer * last_focused_textbuffer();
   void text_insert(ustring text);
   GtkWidget * word_double_clicked_signal;
   ustring word_double_clicked_text;
@@ -67,9 +66,9 @@ public:
   void cut ();
   void copy ();
   void paste ();
+  GtkSourceBuffer * sourcebuffer;
 private:
   GtkWidget *scrolledwindow;
-  GtkSourceBuffer * sourcebuffer;
   guint save_timeout_event_id;
   static bool on_save_timeout(gpointer data);
   bool save_timeout();

@@ -126,6 +126,7 @@
 #include "dialogmaintenance.h"
 #include "kjv.h"
 #include "xiphos.h"
+#include "dialogyesnoalways.h"
 
 
 /*
@@ -2826,9 +2827,11 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton * button)
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-  vector <Reference> references = editor_window->quick_references();
-  window_references->set(references, editor_window->project(), NULL);
-
+  // Ask whether the references should be made available.
+  if (yes_no_always_dialog ("This note has references.\nWould you like to load these in the references list?", ynadtLoadReferences, false, true)) {
+    vector <Reference> references = editor_window->quick_references();
+    window_references->set(references, editor_window->project(), NULL);
+  }
 }
 
 
@@ -6816,19 +6819,11 @@ Todo tasks.
 
 
 
-Editor: Implement:  show_quick_references(); This should also call up the references window if it wasn't showing yet.
-
-
-
 Editor: Try inserting tables, and applying table styles.
 
 
 
 Editor: Try inserting notes, and editing notes.
-
-
-
-Editor: Implement: last_focused_type
 
 
 

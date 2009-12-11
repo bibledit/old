@@ -60,7 +60,6 @@ public:
   unsigned int reload_chapter_number();
   
   EditorTextViewType last_focused_type();
-  GtkTextBuffer * last_focused_textbuffer();
 
   ustring project();
   bool editable();

@@ -112,7 +112,6 @@ private:
   // Focus handling.
 public:
   GtkWidget * last_focused_widget;
-  GtkWidget * last_focused_textview();
   GtkTextBuffer * last_focused_textbuffer();
   EditorTextViewType last_focused_type();
 

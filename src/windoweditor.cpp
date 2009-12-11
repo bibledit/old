@@ -276,18 +276,6 @@ ustring WindowEditor::text_get_selection()
 }
 
 
-GtkTextBuffer * WindowEditor::last_focused_textbuffer()
-{
-  if (usfmview) { 
-    return usfmview->last_focused_textbuffer();
-  }
-  if (editor2) {
-    return editor2->last_focused_textbuffer();
-  }
-  return NULL;
-}
-
-
 void WindowEditor::text_insert(ustring text)
 {
   if (usfmview) {
@@ -639,7 +627,7 @@ GtkTextBuffer * WindowEditor::edit_usfm_textbuffer ()
 {
   GtkTextBuffer * textbuffer = NULL;
   if (usfmview) {
-    textbuffer = usfmview->last_focused_textbuffer();
+    textbuffer = GTK_TEXT_BUFFER (usfmview->sourcebuffer);
   }
   return textbuffer;
 }

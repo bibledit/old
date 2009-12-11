@@ -508,13 +508,6 @@ ustring USFMView::text_get_selection()
 }
 
 
-GtkTextBuffer * USFMView::last_focused_textbuffer()
-{
-  GtkTextBuffer * textbuffer = GTK_TEXT_BUFFER (sourcebuffer);
-  return textbuffer;
-}
-
-
 void USFMView::text_insert(ustring text)
 // Inserts text at the cursor location.
 // If text is selected, this is erased first.
