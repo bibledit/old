@@ -54,6 +54,12 @@ private:
   void html_link_clicked(const gchar * url);
   ustring active_url;
   map <ustring, unsigned int> scrolling_position;
+  static void thread_start(gpointer data);
+  void thread_main(gpointer data);
+  bool thread_runs;
+  guint event_id;
+  static bool on_timeout(gpointer user_data);
+  bool timeout();
 };
 
 

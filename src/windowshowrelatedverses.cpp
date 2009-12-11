@@ -28,6 +28,7 @@
 #include "kjv.h"
 #include "parallel_passages.h"
 #include "settings.h"
+#include "gwrappers.h"
 
 
 WindowShowRelatedVerses::WindowShowRelatedVerses(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
@@ -35,6 +36,8 @@ FloatingWindow(parent_layout, widShowRelatedVerses, "Related verses", startup), 
 // Window showing related verses.
 {
   item_type = ritNone;
+  thread_runs = false;
+  event_id = 0;
 
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
@@ -61,6 +64,9 @@ FloatingWindow(parent_layout, widShowRelatedVerses, "Related verses", startup), 
 WindowShowRelatedVerses::~WindowShowRelatedVerses()
 {
   gtk_widget_destroy (button_item);
+  if (event_id) {
+    gw_destroy_source (event_id);
+  }
 }
 
 
@@ -69,7 +75,10 @@ void WindowShowRelatedVerses::go_to(const ustring & project, const Reference & r
   if (!myreference.equals(reference)) {
     myreference.assign(reference);
     myproject = project;
-    html_link_clicked ("");
+    if (event_id) {
+      gw_destroy_source (event_id);
+    }
+    event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_timeout), gpointer(this), NULL);
   }
 }
 
@@ -215,5 +224,30 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
   }
 }
 
+
+void WindowShowRelatedVerses::thread_start(gpointer data)
+{
+  ((WindowShowRelatedVerses *) data)->thread_main(data);
+}
+
+
+void WindowShowRelatedVerses::thread_main(gpointer data)
+{
+  thread_runs = false;
+}
+
+
+bool WindowShowRelatedVerses::on_timeout(gpointer user_data)
+{
+  return ((WindowShowRelatedVerses *) user_data)->timeout();
+}
+
+
+bool WindowShowRelatedVerses::timeout()
+{
+  html_link_clicked ("");
+  //g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+  return false;
+}
 
 

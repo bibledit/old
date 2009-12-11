@@ -6847,19 +6847,15 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+
 Editor: When a chapter loads, and the verse to focus is more towards the end, it does not focus that verse.
 It may need a timeout after load that does the trick, or an idle handler.
+If the related verses window uses a thread to collect its data, then it probably will work right in the Editor.
 
 
 
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
-            // If <Enter> has been given in a foot/end note, 
-            // apply the paragraph continuation style.
-            // This is done with a delay to allow the keypress to be fully processed.
-            // It was thought at first to use the keypress handler after the
-            // event, but it appears that the event is handled and no after event
-            // is called anymore.
-            style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
+style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
 
 
 
@@ -7037,7 +7033,9 @@ It remains one package, but more and more functionality is rewritten for the web
 A better strategy is to make a package that runs solely on the web. Bibledit will be a client to that, e.g. it uses its repository of files.
 Then people can either work on the web, or if they need more functionality, they can install the local client, and keep working with the data on the web.
 A persecution mode sets the site to look like another one, e.g. a news site. Logging in is hidden.
-
+When installing Bibledit, we may not know where the web server is. But once an address is given,
+we could use curl to upload pages to it, e.g. for uploading the online help. Or libcurl.
+Search for "php file upload" on google.
 
 
 
@@ -7066,9 +7064,6 @@ The editor is still offline, as bibledit, but the website syncs with the bibledi
 Notes marked Public also go to the website, and, actually, go in sync with bibledit and the site.
 
 
-
-The window that shows the parallel verses slows us down too much. Let is fetch its data in a thread,
-then once all's there, to display it at once.
 
 
 */
