@@ -1898,6 +1898,10 @@ bool Editor2::on_scroll_insertion_point_on_screen_timeout(gpointer data)
 void Editor2::scroll_insertion_point_on_screen_timeout()
 {
   if (focused_paragraph) {
+
+    // Ensure that the screen has been fully displayed.
+    while (gtk_events_pending()) gtk_main_iteration();
+
     // Adjustment.
     GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport));
 

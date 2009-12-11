@@ -6848,12 +6848,6 @@ Todo tasks.
 
 
 
-Editor: When a chapter loads, and the verse to focus is more towards the end, it does not focus that verse.
-It may need a timeout after load that does the trick, or an idle handler.
-If the related verses window uses a thread to collect its data, then it probably will work right in the Editor.
-
-
-
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
 
