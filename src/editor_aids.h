@@ -33,27 +33,6 @@ enum EditorTextViewType {etvtBody, etvtNote, etvtTable};
 enum EditorMovementType {emtForward, emtBack, emtUp, emtDown};
 
 
-class EditorNote
-{
-public:
-  EditorNote(int dummy);
-  ~EditorNote();
-  GtkTextChildAnchor * childanchor_caller_text;
-  GtkWidget * label_caller_text;
-  GtkTextChildAnchor * childanchor_caller_note;
-  GtkWidget * label_caller_note;
-  gint label_caller_note_allocated_width;
-  GtkTextChildAnchor * childanchor_textview;
-  GtkWidget * textview;
-  gint textview_allocated_height;
-  GtkTextBuffer * textbuffer;
-  ustring marker;
-  ustring rawtext;
-  ustring caller;
-private:
-};
-
-
 void marker_get_type_and_subtype(const ustring& project, const ustring& marker, StyleType& type, int& subtype);
 
 bool style_get_plaintext(StyleType type, int subtype);
@@ -85,7 +64,6 @@ gint table_get_n_columns(GtkTable * table);
 void usfm_internal_add_text(ustring& text, const ustring& addition);
 void usfm_internal_get_text_close_character_style(ustring& text, const ustring& project, const ustring& style);
 ustring usfm_get_note_text(GtkTextIter startiter, GtkTextIter enditer, const ustring& project);
-GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <EditorNote>& editornotes, unsigned int offset, unsigned int function);
 
 void get_styles_at_iterator(GtkTextIter iter, ustring& paragraph_style, ustring& character_style);
 ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_marker, const ustring& project, GtkWidget * parent_box);
@@ -98,8 +76,6 @@ const gchar * usfm_clipboard_code ();
 void get_next_note_caller_and_style (EditorNoteType type, ustring& caller, ustring& style, bool restart);
 void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end);
 void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);
-
-GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement);
 
 void clear_and_destroy_editor_actions (deque <EditorAction *>& actions);
 void on_container_tree_callback_destroy (GtkWidget *widget, gpointer user_data);

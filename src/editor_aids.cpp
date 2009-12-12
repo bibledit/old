@@ -30,22 +30,6 @@
 #include "bible.h"
 
 
-EditorNote::EditorNote(int dummy)
-// This object is for storing data related to the different bits of a Bible note.
-// By storing them all in one object, the relationship between the different
-// bits can be seen easily.
-{
-  textview_allocated_height = 0;
-  label_caller_note_allocated_width = 0;
-  textview = NULL;
-}
-
-
-EditorNote::~EditorNote()
-{
-}
-
-
 void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype)
 /*
  Given a "project", and a "marker", this function gives the "type" and the 
@@ -1199,54 +1183,6 @@ vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, 
 }
 
 
-GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector < EditorNote > &editornotes, unsigned int offset, unsigned int function)
-/*
- This function gets the iterator where to insert a note in the "textbuffer". 
- It gives this iterator for a note of "editornotes", with offset "offset".
- "Function" indicates what the function of the iterator is going to be:
- 0: Inserting the new line to make space for the note.
- 1: Inserting the GtkLabel for the note caller.
- 2: Inserting the GtkTextChildAnchor for the note body.
- */
-{
-  // The text iterator.
-  GtkTextIter iter;
-
-  // By default the iterator is at the end of the buffer.
-  gtk_text_buffer_get_end_iter(textbuffer, &iter);
-
-  /*
-     If the first note is not rendered yet, the location will be the one before
-     the first next note that has been rendered.
-   */
-  if (offset == 0) {
-    bool iterfound = false;
-    for (unsigned int i = 1; i < editornotes.size(); i++) {
-      if (iterfound)
-        continue;
-      if (editornotes[i].textview) {
-        gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_note);
-        if (function)
-          gtk_text_iter_backward_char(&iter);
-        iterfound = true;
-      }
-    }
-  }
-
-  /*
-     For the second note, and up, it is right after the previous note.
-     This assumes that any previous note has been rendered already. With the 
-     current mechanism this assumption is always true.
-   */
-  if (offset > 0) {
-    gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[offset - 1].childanchor_textview);
-    gtk_text_iter_forward_chars(&iter, ++function);
-  }
-  // Return the iterator.
-  return iter;
-}
-
-
 bool get_verse_number_at_iterator_internal (GtkTextIter iter, const ustring & verse_marker, ustring& verse_number)
 // This function looks at the iterator for the verse number.
 // If a verse number is not found, it iterates back till one is found.
@@ -1479,72 +1415,6 @@ void textbuffer_insert_with_named_tags(GtkTextBuffer * buffer, GtkTextIter * ite
   } else {
     gtk_text_buffer_insert_with_tags_by_name(buffer, iter, text.c_str(), -1, first_tag_name.c_str(), second_tag_name.c_str(), NULL);
   }
-}
-
-
-GtkWidget *textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector < EditorNote > &editornotes, EditorMovementType movement)
-{
-  // Variable for the next textview to go to.
-  GtkWidget *anotherview = NULL;
-
-  // See whether to get the next or previous textview.
-  bool nextview = false;
-  switch (movement) {
-  case emtForward:
-  case emtDown:
-    nextview = true;
-    break;
-  case emtBack:
-  case emtUp:
-    nextview = false;
-    break;
-  }
-
-  // Get offset of current textview.
-  gint currentoffset = 0;
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (currentview == editornotes[i].textview) {
-      GtkTextIter iter;
-      gtk_text_buffer_get_iter_at_child_anchor(mainbuffer, &iter, editornotes[i].childanchor_textview);
-      currentoffset = gtk_text_iter_get_offset(&iter);
-    }
-  }
-
-  // Only proceed if we found a current offset.
-  if (currentoffset > 0) {
-
-    // Variables.
-    gint minimum_difference = G_MAXINT;
-
-    // Go through all notes.
-    for (unsigned int i = 0; i < editornotes.size(); i++) {
-
-      // Get the offset of the note, and ...
-      GtkTextIter iter;
-      gtk_text_buffer_get_iter_at_child_anchor(mainbuffer, &iter, editornotes[i].childanchor_textview);
-      gint textviewoffset = gtk_text_iter_get_offset(&iter);
-      bool proceed = false;
-      if (nextview) {
-        proceed = textviewoffset > currentoffset;
-      } else {
-        proceed = textviewoffset < currentoffset;
-      }
-
-      // ... proceed if the it is bigger than the current offset.
-      if (proceed) {
-
-        // Look for the textview nearest the current one.
-        gint difference = ABS(textviewoffset - currentoffset);
-        if (difference < minimum_difference) {
-          anotherview = editornotes[i].textview;
-          minimum_difference = difference;
-        }
-
-      }
-    }
-  }
-  // Return the next view, if any.
-  return anotherview;
 }
 
 

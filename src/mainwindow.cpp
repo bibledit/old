@@ -6819,7 +6819,7 @@ Todo tasks.
 
 
 
-Editor:EditNoteDialog does no longer work, i.e. it does not edit notes.
+Editor:EditNoteDialog does no longer work, i.e. it does not edit notes. Move to tasks.
 
 
 

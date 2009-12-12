@@ -54,7 +54,9 @@ private:
   deque <EditorAction *> actions_undone;
   void apply_editor_action (EditorAction * action, EditorActionApplication application = eaaInitial);
   void paragraph_create_actions (EditorActionCreateParagraph * paragraph_action);
+public:
   EditorActionCreateParagraph * focused_paragraph;
+private:
   bool usfm_starts_new_paragraph (ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void editor_start_new_standard_paragraph (const ustring& marker_text);
   void editor_start_verse (ustring& line, ustring& marker_text, ustring& character_style);
@@ -163,8 +165,6 @@ public:
   bool verse_restarts_paragraph;
   double font_size_multiplier;
   
-  vector <EditorNote> editornotes;
-
   void insert_note(const ustring& marker, const ustring& rawtext);
 
   bool do_not_process_child_anchors_being_deleted;

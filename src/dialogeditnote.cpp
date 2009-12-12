@@ -132,17 +132,11 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   g_signal_connect((gpointer) radiobutton_numbering_character, "toggled", G_CALLBACK(on_radiobutton_numbering_toggled), gpointer(this));
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton1_clicked), gpointer(this));
 
-  // Get a pointer to the focused EditorNote.
-  editornote = NULL;
-  textbuffer = myeditor->last_focused_textbuffer();
-  for (unsigned int i = 0; i < myeditor->editornotes.size(); i++) {
-    if (textbuffer == myeditor->editornotes[i].textbuffer) {
-      editornote = &(myeditor->editornotes[i]);
-    }
-  }
+  // Get a pointer to the focused note paragraph.
+  note_paragraph = static_cast <EditorActionCreateNoteParagraph *> (myeditor->focused_paragraph);
 
   // If no EditorNote found, disable the OK button.
-  gtk_widget_set_sensitive(okbutton1, editornote != NULL);
+  gtk_widget_set_sensitive(okbutton1, note_paragraph != NULL);
 
   // Load the available note markers in the combobox.
   vector < ustring > names;
@@ -168,15 +162,15 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   combobox_set_strings(combobox1, names);
 
   // Set GUI.
-  if (editornote) {
+  if (note_paragraph) {
     for (unsigned int i = 0; i < names.size(); i++) {
-      if (editornote->marker == get_marker(names[i])) {
+      if (note_paragraph->opening_closing_marker == get_marker(names[i])) {
         combobox_set_string(combobox1, names[i]);
       }
     }
     NumberingType numberingtype;
     ustring character = "*";
-    biblenotes_get_note_numbering(editornote->caller, numberingtype, character);
+    biblenotes_get_note_numbering(note_paragraph->caller_usfm, numberingtype, character);
     numbering_set(numberingtype);
     gtk_entry_set_text(GTK_ENTRY(entry_numbering), character.c_str());
   }
@@ -252,16 +246,16 @@ void EditNoteDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data
 void EditNoteDialog::on_okbutton()
 {
   // Get the old note type.
-  EditorNoteType oldnotetype = note_type_get(myeditor->project, editornote->marker);
+  EditorNoteType oldnotetype = note_type_get(myeditor->project, note_paragraph->opening_closing_marker);
 
   // Get and store the new note marker and type.
-  editornote->marker = get_marker(combobox_get_active_string(combobox1));
-  EditorNoteType newnotetype = note_type_get(myeditor->project, editornote->marker);
+  note_paragraph->opening_closing_marker = get_marker(combobox_get_active_string(combobox1));
+  EditorNoteType newnotetype = note_type_get(myeditor->project, note_paragraph->opening_closing_marker);
 
   // Change the caller, if needed.
   NumberingType numberingtype = (NumberingType) numbering_get();
   gchar *character = (gchar *) gtk_entry_get_text(GTK_ENTRY(entry_numbering));
-  editornote->caller = biblenotes_get_note_caller(numberingtype, character);
+  note_paragraph->caller_usfm = biblenotes_get_note_caller(numberingtype, character);
 
   /*
      Change the main body of the footnote if the note type changed sufficiently.
@@ -285,8 +279,8 @@ void EditNoteDialog::on_okbutton()
 
     // Go through the whole note, finding tags and replacing them with new ones.
     GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter(textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter(textbuffer, &enditer);
+    gtk_text_buffer_get_start_iter(note_paragraph->textbuffer, &startiter);
+    gtk_text_buffer_get_end_iter(note_paragraph->textbuffer, &enditer);
 
     GtkTextIter iter = startiter;
     do {
@@ -313,16 +307,16 @@ void EditNoteDialog::on_okbutton()
       GtkTextIter iter2 = iter;
       gtk_text_iter_forward_char(&iter2);
       if (!paragraph_style.empty()) {
-        gtk_text_buffer_remove_tag_by_name(textbuffer, paragraph_style.c_str(), &iter, &iter2);
+        gtk_text_buffer_remove_tag_by_name(note_paragraph->textbuffer, paragraph_style.c_str(), &iter, &iter2);
       }
       if (!character_style.empty()) {
-        gtk_text_buffer_remove_tag_by_name(textbuffer, character_style.c_str(), &iter, &iter2);
+        gtk_text_buffer_remove_tag_by_name(note_paragraph->textbuffer, character_style.c_str(), &iter, &iter2);
       }
       if (!paragraph_style.empty()) {
-        textbuffer_apply_named_tag(textbuffer, switch_marker(paragraph_style, switch_to_xref), &iter, &iter2);
+        textbuffer_apply_named_tag(note_paragraph->textbuffer, switch_marker(paragraph_style, switch_to_xref), &iter, &iter2);
       }
       if (!character_style.empty()) {
-        textbuffer_apply_named_tag(textbuffer, switch_marker(character_style, switch_to_xref), &iter, &iter2);
+        textbuffer_apply_named_tag(note_paragraph->textbuffer, switch_marker(character_style, switch_to_xref), &iter, &iter2);
       }
 
       gtk_text_iter_forward_char(&iter);

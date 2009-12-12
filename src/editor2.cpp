@@ -548,8 +548,12 @@ void Editor2::show_quick_references_execute()
   if (last_focused_type() != etvtNote)
     return;
 
+  // If we're not in a paragraph, bail out.
+  if (!focused_paragraph)
+    return;
+
   // Get the text of the focused note.
-  GtkTextBuffer *note_buffer = last_focused_textbuffer();
+  GtkTextBuffer *note_buffer = focused_paragraph->textbuffer;
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(note_buffer, &startiter);
   gtk_text_buffer_get_end_iter(note_buffer, &enditer);
