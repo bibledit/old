@@ -3903,7 +3903,7 @@ void MainWindow::on_style_apply()
         if (style.subtype == fentFootnote) {
           InsertNoteDialog dialog(indtFootnote);
           if (dialog.run() == GTK_RESPONSE_OK) {
-            editor_window->insert_note(style.marker, dialog.rawtext, true);
+            editor_window->insert_note(style.marker, dialog.rawtext);
           } else {
             style_was_used = false;
           }
@@ -3912,7 +3912,7 @@ void MainWindow::on_style_apply()
         if (style.subtype == fentEndnote) {
           InsertNoteDialog dialog(indtEndnote);
           if (dialog.run() == GTK_RESPONSE_OK) {
-            editor_window->insert_note(style.marker, dialog.rawtext, true);
+            editor_window->insert_note(style.marker, dialog.rawtext);
           } else {
             style_was_used = false;
           }
@@ -3922,7 +3922,7 @@ void MainWindow::on_style_apply()
       if (style.type == stCrossreference) {
         InsertNoteDialog dialog(indtCrossreference);
         if (dialog.run() == GTK_RESPONSE_OK) {
-          editor_window->insert_note(style.marker, dialog.rawtext, true);
+          editor_window->insert_note(style.marker, dialog.rawtext);
         } else {
           style_was_used = false;
         }
@@ -6819,7 +6819,7 @@ Todo tasks.
 
 
 
-Editor: Try inserting notes, and editing notes.
+Editor:EditNoteDialog does no longer work, i.e. it does not edit notes.
 
 
 
@@ -6839,9 +6839,6 @@ Editor: Once ready, test opening several Editor windows.
 
 
 Editor:Editor * WindowEditor::editor_get() - Needs update to give Editor2.
-
-
-Editor:EditNoteDialog does no longer work, i.e. it does not edit notes.
 
 
 

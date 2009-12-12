@@ -1604,16 +1604,22 @@ void Editor2::apply_style(const ustring & marker)
 }
 
 
-void Editor2::insert_note(const ustring & marker, const ustring & rawtext, bool render)
+void Editor2::insert_note(const ustring & marker, const ustring & rawtext)
 /*
  Inserts a note in the editor.
  marker:    The marker that starts the note, e.g. "fe" for an endnote.
  rawtext:   The raw text of the note, e.g. "+ Mat 1.1.". Note that this excludes
  the note opener and note closer. It has only the caller and the
  USFM code of the note body.
- render:    Whether to render the notes straightaway.
  */
 {
+  ustring usfmcode;
+  usfmcode.append (usfm_get_full_opening_marker (marker));
+  usfmcode.append (rawtext);
+  usfmcode.append (usfm_get_full_closing_marker (marker));
+  if (focused_paragraph) {
+    gtk_text_buffer_insert_at_cursor (focused_paragraph->textbuffer, usfmcode.c_str(), -1);
+  }
 }
 
 

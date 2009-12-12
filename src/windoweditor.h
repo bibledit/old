@@ -52,7 +52,7 @@ public:
   ustring text_get_selection();
   void text_insert(ustring text);
   ustring word_double_clicked_text();
-  void insert_note(const ustring& marker, const ustring& rawtext, bool render);
+  void insert_note(const ustring& marker, const ustring& rawtext);
   ustring get_chapter();
   void insert_table(const ustring& rawtext);
   void chapter_load(unsigned int chapter_in);

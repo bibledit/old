@@ -165,7 +165,7 @@ public:
   
   vector <EditorNote> editornotes;
 
-  void insert_note(const ustring& marker, const ustring& rawtext, bool render);
+  void insert_note(const ustring& marker, const ustring& rawtext);
 
   bool do_not_process_child_anchors_being_deleted;
   static void on_buffer_insert_text_after(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length, gpointer user_data);

@@ -321,13 +321,13 @@ bool WindowEditor::editable()
 }
 
 
-void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, bool render)
+void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext)
 {
   if (usfmview) {
     usfmview->insert_note (marker, rawtext);
   }
   if (editor2) {
-    editor2->insert_note (marker, rawtext, render);
+    editor2->insert_note (marker, rawtext);
   }
 }
 
