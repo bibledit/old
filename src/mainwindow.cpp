@@ -6824,6 +6824,8 @@ Todo tasks.
 
 
 
+task #9598: import resources from the Online Bible
+Done through the interface through the Outpost.
 
 
 
@@ -6841,6 +6843,67 @@ Todo tasks.
 
 
 
+
+
+
+
+
+task #9599: Combine History pull-down menu with the Ctrl-G Go-To screen.
+Now that we have such a nice history pull down, how about combining it with the go-to menu. 
+* In other words, the fill-in (free) go to box would be at the top of the list, and then the history list would be below that. 
+* Then there would be another tab for the aided entry.
+I would suggest keeping the green arrow icon on the lower left of the Index screen to pull up this box, 
+* and keep the Go-to menu entry to call up the same thing.
+An option under Preferences > user interface, might be how many lines of history would be kept. 
+* If there are more than the screen length, perhaps a scroll bar should appear.
+I wonder if we might make it so that BE would be able to use the most common English abbreviations for books, 
+* like 1Pet or Phl— as well as the complete name.
+This already really helps me as I move around so much.
+Thanks so much for being open to BE user input.
+Phil
+
+
+
+
+
+
+
+task #9614: refresh button for key terms checking window
+The checking window does not seem to refresh itself automatically when I update a key term in a verse. 
+* In order for the verse to show as revised, it seems I have to close the window and reopen it.
+It would be helpful to have a refresh button on the window with the same icon as a browser reload/refresh button.
+OR alternatively, it would be nice if the display would update automatically. 
+* (But if this will slow down the program to be always checking and updating, the button would be better.)
+
+
+
+
+
+
+
+#9616: Move "add X to dictionary" button
+On the right click menu, there is the Spelling suggestions button, and one needs to open that second menu to add a word to the dictionary.
+It seems I have lots of words I need to add to the dictionary! 
+* It would be helpful if the Add X to the dictionary button was right under the Spelling Suggestions button. 
+* I would not remove the link from the Spelling suggestions menu, but just add it on the first Right click menu.
+By the way, when I click to add a word, often the word does not change from being red-underlined. 
+* I have to do the whole process a second time! It seems to me that it works more often if I click precisely on the center of the green plus. 
+* Is there a way to make it so that they click area extends farther toward the margins of the menu entry?
+The title of the thread should not be "Move" but "Add to first right click menu.
+One advantage of adding this to the top level of the right click menu would be that the link would have the same position each time, 
+* independent of how many spelling suggestions were given.
+The Alt-A hot key does not work in the current pop up menu for this item, even though there is a visible underline under the A in the menu.
+Have you tried the bulk spelling checker? It has been designed for situations such as you are in. 
+* It is in menu Check / Spelling error / Bulk. It aids in adding lots of words to the dictionary quickly.
+
+
+
+
+
+
+task #9617: Spell checking in USFM view
+It would be really helpful if spelling was marked also in USFM view. 
+* (But I admit that I am using that view so often only because the formatted view has problems for which I have submitted bug reports today.)
 
 
 
@@ -6866,20 +6929,6 @@ to disable whole categories of checks, as is written in the task submitted.
 
 
 
-
-
-
-task #9585: export text by email
-A useful export is to email the data of a project to an email address.
-It could do this at regular times, or let's say on shutdown a day after previous time it did that. Or so many days after a change.
-It requires mutt.
-It can send a test email, just with text, and the user can then decide whether the mailer works well. Not all mailers work well. 
-
-
-
-
-task #9598: import resources from the Online Bible
-Done through the interface through the Outpost.
 
 
 
