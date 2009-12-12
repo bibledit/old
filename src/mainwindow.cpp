@@ -6824,18 +6824,6 @@ Todo tasks.
 
 
 
-Editor: When checking USFM, and toggling Editors, it should inform the user if the USFM editor is not available.
-
-
-Editor: Resizing the window is very hard. 
-To use larger steps, creating larger steps using a timeout, which only does the resizing
-after no new resize requests have come in for a few milliseconds. Or detach textviews.
-
-
-Editor: Once ready, test opening several Editor windows.
-
-
-
 
 
 

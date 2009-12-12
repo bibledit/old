@@ -117,6 +117,9 @@ public:
   GdkRectangle rectangle_get ();
   void rectangle_set (const GdkRectangle& rectangle);
 private:
+  guint resize_event_id;
+  static bool on_resize_timeout (gpointer data);
+  void resize_timeout ();
 
   // Window deletion.
   bool my_shutdown;

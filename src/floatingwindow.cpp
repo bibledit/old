@@ -44,7 +44,8 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
   clear_previous_root_coordinates ();
   last_focused_widget = NULL;
   focused = false;
-  
+  resize_event_id = 0;
+    
   // Signalling buttons.
   focus_in_signal_button = gtk_button_new();
   delete_signal_button = gtk_button_new();
@@ -103,6 +104,7 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
 
 FloatingWindow::~FloatingWindow()
 {
+  gw_destroy_source (resize_event_id);
   on_titlebar_leave_notify (NULL);
   gtk_widget_destroy(vbox_window);
   undisplay();
@@ -212,6 +214,9 @@ gboolean FloatingWindow::on_status_bar_motion_notify_event (GtkWidget *widget, G
 gboolean FloatingWindow::on_status_bar_motion_notify (GdkEventMotion *event)
 {
   if (resizing_window) {
+    gw_destroy_source (resize_event_id);
+    resize_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(on_resize_timeout), gpointer(this), NULL);
+    gtk_widget_hide (vbox_client);
     gint event_x = event->x_root;
     gint event_y = event->y_root;
     if (previous_root_x >= 0) {
@@ -679,5 +684,26 @@ void FloatingWindow::status1 (const ustring& text)
 void FloatingWindow::status2 (const ustring& text)
 {
   gtk_label_set_text (GTK_LABEL (label_status2), text.c_str());
+}
+
+
+bool FloatingWindow::on_resize_timeout (gpointer data)
+{
+  ((FloatingWindow *) data)->resize_timeout();
+  return false;
+}
+
+
+void FloatingWindow::resize_timeout ()
+/*
+The USFM editor may take a lot of time resizing.
+This makes the GUI unresponsive.
+The solution is the following:
+When resizing starts, the client area gets hidden.
+After resizing has stopped for a while, the client area gets shown again.
+*/
+{
+  resize_event_id = 0;
+  gtk_widget_show (vbox_client);
 }
 
