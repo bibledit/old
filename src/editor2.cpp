@@ -1617,24 +1617,13 @@ void Editor2::insert_note(const ustring & marker, const ustring & rawtext, bool 
 }
 
 
-void Editor2::insert_table(const ustring & rawtext, GtkTextIter * iter)
-/*
- Inserts a table in the editor.
- rawtext: The raw text of the table, e.g. "\tr \tc1 \tc2 \tc3 \tc4 ".
- iter:    Where to insert the note. If NULL, it inserts the note at the cursor.
- */
+void Editor2::insert_table(const ustring & rawtext)
+// Inserts a table in the editor.
+// rawtext: The raw text of the table, e.g. "\tr \tc1 \tc2 \tc3 \tc4 ".
 {
-  /*
-  // Get the location where to insert the note caller.
-  GtkTextIter insertiter;
-  if (iter)
-    insertiter = *iter;
-  else
-    gtk_text_buffer_get_iter_at_mark(textbuffer, &insertiter, gtk_text_buffer_get_insert(textbuffer));
-
-  // Insert the table at that location.  
-  display_table(rawtext, insertiter);
-  */
+  if (focused_paragraph) {
+    gtk_text_buffer_insert_at_cursor (focused_paragraph->textbuffer, rawtext.c_str(), -1);
+  }
 }
 
 

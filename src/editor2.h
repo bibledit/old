@@ -183,7 +183,7 @@ public:
   set <ustring> styles_at_iterator(GtkTextIter iter);
   void apply_style(const ustring& marker);
 
-  void insert_table(const ustring& rawtext, GtkTextIter * iter);
+  void insert_table(const ustring& rawtext);
 
   // Undo/redo
   void undo();

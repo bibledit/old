@@ -344,13 +344,13 @@ ustring WindowEditor::get_chapter()
 }
 
 
-void WindowEditor::insert_table(const ustring& rawtext, GtkTextIter * iter)
+void WindowEditor::insert_table(const ustring& rawtext)
 {
   if (usfmview) {
     usfmview->text_insert (rawtext);
   }
   if (editor2) {
-    editor2->insert_table (rawtext, iter);
+    editor2->insert_table (rawtext);
   }
 }
 

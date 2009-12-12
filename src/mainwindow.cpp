@@ -3937,7 +3937,7 @@ void MainWindow::on_style_apply()
       if (style.type == stTableElement) {
         InsertTableDialog dialog(editor_window->project());
         if (dialog.run() == GTK_RESPONSE_OK) {
-          editor_window->insert_table(dialog.rawtext, NULL);
+          editor_window->insert_table(dialog.rawtext);
         } else {
           style_was_used = false;
         }
@@ -6819,10 +6819,6 @@ Todo tasks.
 
 
 
-Editor: Try inserting tables, and applying table styles.
-
-
-
 Editor: Try inserting notes, and editing notes.
 
 
@@ -6963,6 +6959,7 @@ If data is posted through http as it does now, then the apache stuff should put 
 Can we use "http://en.wikipedia.org/wiki/Comet_%28programming%29"?
 Or "http://en.wikipedia.org/wiki/Push_technology"?
 Or Google for Comet server push
+Search Google code for "apache" in files "configure.ac" to get a feeling of how to check the server.
 
 
 When using Apache, we should make a search PHP script that even highlights the words found.
