@@ -788,7 +788,7 @@ void WindowNotes::insertion_color_changed(GdkColor * color)
 }
 
 
-void WindowNotes::redisplay()
+void WindowNotes::redisplay(bool immediately)
 {
   // Do not display notes while a note is being edited.
   if (note_being_edited())
@@ -796,8 +796,12 @@ void WindowNotes::redisplay()
   // Stop any previous notes display.
   stop_displaying_more_notes();
   // Display the notes with a little delay. This improves navigation speed.
+  // Or if immediate display is requested, do that.
   gw_destroy_source(redisplay_source_id);
-  redisplay_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_redisplay_timeout), gpointer(this), NULL);
+  if (immediately)
+    redisplay_timeout();
+  else
+    redisplay_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_redisplay_timeout), gpointer(this), NULL);
 }
 
 
@@ -1258,7 +1262,8 @@ void WindowNotes::delete_ids(const vector < gint > &ids)
     notes_delete_one(ids[i]);
   }
 
-  redisplay();
+  // Immediate redisplay. This allows the user to easily delete a row of notes.
+  redisplay(true);
 }
 
 

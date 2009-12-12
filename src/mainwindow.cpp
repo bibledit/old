@@ -6842,44 +6842,29 @@ Todo tasks.
 
 
 
+
+
+
+
+
+
+
 Use Google Pages for the new wiki. Others can then also contribute.
 Mention on the summary that access requests can be sent to a certain email address. This will be the general bibledit list.
 The documentation on Google Pages can probably be extracted to bibledit.org, then from there through rsync to our local site.
+This keeps our traffic low.
 
 
 
 
-
-
-In order to find the list of problems in the USFM as mentioned below, a few options are needed such as the ability
-to disable whole categories of checks, as is written in the task submitted:
 
 Both Shona & Ndebele had a number of instances where the verse number 
 was immediately followed by the first word, without a space following 
 the number.
+In order to find this list of problems in the USFM, a few options are needed such as the ability
+to disable whole categories of checks, as is written in the task submitted.
 
 
-
-
-
-task #9578: versification system mapping
-
-The windows that check the keyterms, and that show related verses, 
-and the ones that show the references and load original texts, such as now from the KJV, 
-should remap their references following the versification system of the relevant project.
-
-When importing the KJV Bible from the Sword project the references need to be remapped to the Hebrew and Greek origins.
-And when consulting the now remapped KJV, it needs to map back again to the actual Bible's versification system. 
-
-
-
-
-
-task #9583: to easily delete all visible project notes
-When deleting project notes, it may be useful to have a link at the bottom of those notes that deletes them all, all the visible ones.
-Or to allow the user to click them all - and this could be done by waiting to redisplay the notes,
-or else, when a notes was deleted, to immediately display the rest again, so that the link to be clicked to delete always
-remains at the top.
 
 
 
