@@ -202,7 +202,6 @@ public:
   GtkTextTag * reference_tag;
 
   GtkWidget * changed_signal;
-  void signal_editor_changed();
   ustring get_chapter();
 
 private:

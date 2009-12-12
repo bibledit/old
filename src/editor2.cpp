@@ -1281,9 +1281,6 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // The pos_iter variable that was passed to this function was invalidated because text was removed and added.
   // Here it is validated again. This prevents critical errors within Gtk.
   gtk_text_buffer_get_iter_at_offset (textbuffer, pos_iter, text_insertion_offset);
-
-  // Signal that the editor changed.
-  signal_editor_changed();
 }
 
 
@@ -1361,9 +1358,6 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
   // Insert the One Action boundary.
   apply_editor_action (new EditorAction (eatOneActionBoundary));
 
-  // The editor got changed.
-  signal_editor_changed();
-  
   // Care about textbuffer signals again.
   disregard_text_buffer_signals--;
 }
@@ -1710,12 +1704,6 @@ void Editor2::highlight_thread_main()
   if (highlight) {
     highlight->determine_locations();
   }
-}
-
-
-void Editor2::signal_editor_changed()
-{
-  gtk_button_clicked(GTK_BUTTON(changed_signal));
 }
 
 
@@ -2086,9 +2074,10 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
     gtk_widget_grab_focus (widget_that_should_grab_focus);
   }
 
-  // If content was changed, then show the quick references.
+  // Handle situation where the contents of the editor has been changed.
   if (contents_was_changed) {
     show_quick_references ();
+    gtk_button_clicked(GTK_BUTTON(changed_signal));
   }
   
   // Applying the editor action is over.

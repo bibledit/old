@@ -5146,6 +5146,7 @@ void MainWindow::save_editors()
   }
 }
 
+
 void MainWindow::goto_next_previous_project(bool next)
 {
   // Bail out if there are not enough windows to switch.
@@ -5176,10 +5177,12 @@ void MainWindow::goto_next_previous_project(bool next)
   editor_windows[offset]->focus_set();
 }
 
+
 void MainWindow::on_editorsgui_changed_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_editorsgui_changed();
 }
+
 
 void MainWindow::on_editorsgui_changed()
 {
@@ -5189,10 +5192,12 @@ void MainWindow::on_editorsgui_changed()
   check_usfm_window_ping ();
 }
 
+
 void MainWindow::on_view_usfm_code_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_view_usfm_code();
 }
+
 
 void MainWindow::on_view_usfm_code()
 {
@@ -6819,14 +6824,6 @@ Todo tasks.
 
 
 
-Editor:EditNoteDialog does no longer work, i.e. it does not edit notes. Move to tasks.
-
-
-
-Editor: When merging, the changes do not automatically show up in the merge window. 
-They show up when clicking in one of the editors.
-
-
 Editor: When checking USFM, and toggling Editors, it should inform the user if the USFM editor is not available.
 
 
@@ -6836,10 +6833,6 @@ after no new resize requests have come in for a few milliseconds. Or detach text
 
 
 Editor: Once ready, test opening several Editor windows.
-
-
-Editor:Editor * WindowEditor::editor_get() - Needs update to give Editor2.
-
 
 
 
