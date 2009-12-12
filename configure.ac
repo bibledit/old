@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.01],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -13,12 +13,7 @@ AC_CONFIG_HEADERS([config.h])
 # Checks for programs.
 AC_SEARCH_LIBS([strerror],[cposix])
 AC_PROG_CC
-AC_DIAGNOSE([obsolete],[AM_PROG_CC_STDC:
-	your code should no longer depend upon `am_cv_prog_cc_stdc', but upon
-	`ac_cv_prog_cc_stdc'.  Remove this warning and the assignment when
-	you adjust the code.  You can also remove the above call to
-	AC_PROG_CC if you already called it elsewhere.])
-am_cv_prog_cc_stdc=$ac_cv_prog_cc_stdc
+AC_PROG_CC_STDC
 
 AC_PROG_RANLIB
 AC_PROG_CPP
