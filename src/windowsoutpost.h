@@ -49,6 +49,7 @@ public:
   ustring SantaFeFocusReferenceGet ();
   void SantaFeFocusReferenceSet(const Reference& reference);
   void SantaFeFocusWordSet(const ustring& word);
+  bool online_bible_server_connected;
   void OnlineBibleReferenceSet (const Reference& reference);
   ustring OnlineBibleReferenceGet ();
 private:
@@ -74,7 +75,6 @@ private:
   ustring santafefocus_word_set_value;
   void online_bible_server_connect (bool connect);
   int online_bible_server_requested_action;
-  bool online_bible_server_connected;
   ustring onlinebible_reference_set_value;
   ustring get_reference_command;
   ustring get_reference_reply;

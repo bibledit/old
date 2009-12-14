@@ -32,12 +32,13 @@
 #include "windowcheckkeyterms.h"
 #include "import.h"
 #include "bibleworks.h"
+#include "windowsoutpost.h"
 
 
 class ImportAssistant : public AssistantBase
 {
 public:
-  ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window);
+  ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window, WindowsOutpost * windows_outpost);
   virtual ~ImportAssistant();
   bool import_notes;
   bool import_keyterms;
@@ -46,6 +47,7 @@ private:
   WindowReferences * my_references_window;
   WindowStyles * my_styles_window;
   WindowCheckKeyterms * my_check_keyterms_window;
+  WindowsOutpost * my_windows_outpost;
 
   // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
@@ -83,70 +85,10 @@ private:
   GtkWidget *radiobutton_bible_raw_text;
   ImportBibleType get_bible_type ();
 
-  // USFM import type.
-  int page_number_usfm_type;
-  GtkWidget *vbox_usfm_type;
-  GtkWidget *radiobutton_usfm_everything;
-  GtkWidget *radiobutton_usfm_changes_only;
-  ExportUsfmType get_usfm_type ();
+  // Online Bible running?
+  int page_number_online_bible_running;
+  GtkWidget * label_online_bible_running;
   
-  // Changed USFM import type.
-  int page_number_usfm_changes_type;
-  GtkWidget *vbox_usfm_changes_type;
-  GtkWidget *radiobutton_usfm_changes_since_last;
-  GtkWidget *radiobutton_usfm_changes_since_date;
-  ExportUsfmChangesType get_usfm_changes_type ();
-  
-  // OSIS import type.
-  int page_number_osis_type;
-  GtkWidget *vbox_osis_type;
-  GtkWidget *radiobutton_osis_recommended;
-  GtkWidget *radiobutton_osis_go_bible;
-  GtkWidget *radiobutton_osis_old;
-  ExportOsisType get_osis_type ();
-
-  // Sword module variables.
-  int page_number_sword_name;
-  GtkWidget * entry_sword_name;
-  int page_number_sword_description;
-  GtkWidget * entry_sword_description;
-  int page_number_sword_about;
-  GtkWidget * entry_sword_about;
-  int page_number_sword_license;
-  GtkWidget * entry_sword_license;
-  int page_number_sword_version;
-  GtkWidget * entry_sword_version;
-  int page_number_sword_language;
-  GtkWidget * entry_sword_language;
-  int page_number_sword_install_path;
-  GtkWidget * entry_sword_install_path;
-  static void on_entry_sword_changed (GtkEditable *editable, gpointer user_data);
-  void on_entry_sword (GtkEditable *editable);
-  void sword_values_set ();
-  
-  // Include keyterms without rendering?
-  int page_number_keyterms_without_rendering;
-  GtkWidget *checkbutton_keyterms_without_rendering;
-  bool get_include_keyterms_without_rendering ();
-  
-  // Compress it?
-  int page_number_zip;
-  GtkWidget *checkbutton_zip;
-  bool get_compressed ();
-  
-  // Select date and time.
-  int page_number_date_time;
-  GtkWidget *vbox_date_time;
-  GtkWidget *button_date_time;
-  GtkWidget *label_date_time;
-  static void on_button_date_time_clicked (GtkButton *button, gpointer user_data);
-  void on_button_date_time ();
-  unsigned int date_time;
-
-  // Comment entry.  
-  int page_number_comment;
-  GtkWidget * entry_comment;
-
   // Select files.
   int page_number_files;
   GtkWidget *vbox_files;
@@ -157,15 +99,6 @@ private:
   vector <ustring> files_names;
   vector <unsigned int> files_book_ids;
   vector <ustring> files_messages;
-  
-  // Unicode information.
-  int page_number_unicode;
-  GtkWidget *vbox_unicode;
-  GtkWidget *button_unicode;
-  GtkWidget *label_unicode;
-  static void on_button_unicode_clicked (GtkButton *button, gpointer user_data);
-  void on_button_unicode ();
-  bool unicode_okay;
   
   // Confirmation stuff.
   int page_number_confirm;

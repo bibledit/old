@@ -454,9 +454,9 @@ void WindowsOutpost::send_line(const ustring & command)
 
 ustring WindowsOutpost::Readln()
 /*
- Receives a line from the windows outpost.
- If no data is available, or no complete line is available yet, it returns 
- immediately with a null string.
+Receives a line from the windows outpost.
+If no data is available, or no complete line is available yet, it returns 
+immediately with a null string.
  */
 {
 
@@ -605,7 +605,7 @@ ustring windowsoutpost_path ()
 
 
 // Below are some files that show how the SantaFeFocus system works. 
-// They were kindly sent to me by Nathan Miles, Paratext programmer.
+// They were kindly provided by Nathan Miles, Paratext programmer.
 
 // File SFFocus.ctl
 /*

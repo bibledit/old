@@ -87,6 +87,7 @@ AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
   g_signal_connect (G_OBJECT (assistant), "delete_event", G_CALLBACK(on_assistant_delete_event), gpointer(this));
 }
 
+
 AssistantBase::~AssistantBase()
 {
   gtk_widget_destroy (assistant);
@@ -133,6 +134,7 @@ void AssistantBase::on_button_help_activated(GtkButton * button, gpointer user_d
 {
   ((AssistantBase *) user_data)->on_button_help();
 }
+
 
 void AssistantBase::on_button_help()
 {

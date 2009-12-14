@@ -6490,7 +6490,7 @@ void MainWindow::on_file_import ()
   WindowReferences * references_window = window_references;
   if (!project_notes_management_enabled)
     references_window = NULL;
-  import_assistant = new ImportAssistant (references_window, styles_window, window_check_keyterms);
+  import_assistant = new ImportAssistant (references_window, styles_window, window_check_keyterms, windowsoutpost);
   g_signal_connect ((gpointer) import_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
@@ -6823,17 +6823,11 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-
 task #9598: import resources from the Online Bible
 Done through the interface through the Outpost.
-
-
-
-
-
-
-
-
+Decide how to connect, whether we require the references exchange on, or whether we can check manually.
+The Online Bible should have been started.
+Then keep querying the Olb for its data.
 
 
 
@@ -6895,7 +6889,8 @@ One advantage of adding this to the top level of the right click menu would be t
 The Alt-A hot key does not work in the current pop up menu for this item, even though there is a visible underline under the A in the menu.
 Have you tried the bulk spelling checker? It has been designed for situations such as you are in. 
 * It is in menu Check / Spelling error / Bulk. It aids in adding lots of words to the dictionary quickly.
-
+It could be better to remove the existing menu entries that Gtk adds on its own, and just have the speller menu.
+* This is much cleaner. Less clutter.
 
 
 
