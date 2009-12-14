@@ -39,6 +39,7 @@
 #include "usfmtools.h"
 #include "books.h"
 #include "onlinebible.h"
+#include "combobox.h"
 
 
 ImportAssistant::ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window, WindowsOutpost * windows_outpost) :
@@ -192,7 +193,7 @@ AssistantBase("Import", "import")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
 
-  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Text");
+  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Text (not implemented)");
   gtk_widget_show (radiobutton_bible_online_bible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_online_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_online_bible), radiobutton_bible_type_group);
@@ -212,7 +213,7 @@ AssistantBase("Import", "import")
   shortcuts_select_bible_type.consider_assistant();
   shortcuts_select_bible_type.process();
 
-  // Online Bible connection? // Todo
+  // Online Bible connection?
   label_online_bible_running = gtk_label_new ("");
   gtk_widget_show (label_online_bible_running);
   page_number_online_bible_running = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_online_bible_running);
@@ -226,6 +227,21 @@ AssistantBase("Import", "import")
   if (online_bible_is_running ()) {
     my_windows_outpost->OnlineBibleReferenceGet ();
   }
+
+  // Online Bible to import.
+  vbox_online_bible_bible = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_online_bible_bible);
+  page_number_online_bible_bible = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_online_bible_bible);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_online_bible_bible, "Which Bible would you like to import?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_online_bible_bible, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_online_bible_bible, true);
+
+  combobox_online_bible_bible = gtk_combo_box_new_text ();
+  gtk_widget_show (combobox_online_bible_bible);
+  gtk_box_pack_start (GTK_BOX (vbox_online_bible_bible), combobox_online_bible_bible, false, false, 0);
+
+  g_signal_connect ((gpointer) combobox_online_bible_bible, "changed", G_CALLBACK (on_combobox_online_bible_bible_changed), gpointer (this));
 
   // Select files to import from.
   vbox_files = gtk_vbox_new (FALSE, 0);
@@ -321,7 +337,7 @@ void ImportAssistant::on_assistant_prepare (GtkWidget *page)
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
   }
 
-  // Online Bible connected?. Todo
+  // Online Bible connected?
   if (page == label_online_bible_running) {
     if (my_windows_outpost->online_bible_server_connected) {
       gtk_label_set_text (GTK_LABEL (label_online_bible_running), "Yes, connected to the Online Bible");
@@ -330,7 +346,16 @@ void ImportAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_online_bible_running, my_windows_outpost->online_bible_server_connected);
   }
-  
+
+  // Online Bible to import.
+  if (page == vbox_online_bible_bible) {
+    vector <ustring> bibles = combobox_get_strings (combobox_online_bible_bible);
+    if (bibles.empty()) {
+      ustring response = my_windows_outpost->OnlineBibleCommandResponseGet ("GetVersionList");
+    }
+    combobox_set_index (combobox_online_bible_bible, 0);
+  }
+
   // Page for filenames to import.
   if (page == vbox_files) {
     if (files_names.empty()) {
@@ -391,7 +416,7 @@ void ImportAssistant::on_assistant_apply ()
         }
         case ibtOnlineBible:
         {
-          summary_messages.push_back ("This is out of order right now"); // Todo
+          summary_messages.push_back ("This has been implemented");
           break;
         }
         case ibtRawText:
@@ -437,7 +462,7 @@ gint ImportAssistant::assistant_forward_function (gint current_page, gpointer us
 }
 
 
-gint ImportAssistant::assistant_forward (gint current_page) // Todo
+gint ImportAssistant::assistant_forward (gint current_page)
 {
   // Create forward sequence.
   forward_sequence.clear();
@@ -464,7 +489,8 @@ gint ImportAssistant::assistant_forward (gint current_page) // Todo
         {
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_online_bible_running);
+          //forward_sequence.insert (page_number_online_bible_running);
+          //forward_sequence.insert (page_number_online_bible_bible);
           break;
         }
         case ibtRawText:
@@ -699,4 +725,14 @@ ImportBibleType ImportAssistant::get_bible_type ()
   return ibtUsfm;
 }
 
+
+void ImportAssistant::on_combobox_online_bible_bible_changed (GtkComboBox *combobox, gpointer user_data)
+{
+  ((ImportAssistant *) user_data)->on_combobox_online_bible_bible ();
+}
+
+
+void ImportAssistant::on_combobox_online_bible_bible ()
+{
+}
 

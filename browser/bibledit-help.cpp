@@ -32,6 +32,8 @@ int main (int argc, char *argv[])
 #endif
 
   // Initialize bits.
+  g_thread_init(NULL);
+  g_type_init();
   gtk_init (&argc, &argv);
 
   // URL to load.

@@ -52,6 +52,7 @@ public:
   bool online_bible_server_connected;
   void OnlineBibleReferenceSet (const Reference& reference);
   ustring OnlineBibleReferenceGet ();
+  ustring OnlineBibleCommandResponseGet (const ustring& command);
 private:
   struct sockaddr_in address;
   struct in_addr inaddr;
@@ -78,6 +79,8 @@ private:
   ustring onlinebible_reference_set_value;
   ustring get_reference_command;
   ustring get_reference_reply;
+  ustring online_bible_free_command;
+  ustring online_bible_free_response;
 };
 
 

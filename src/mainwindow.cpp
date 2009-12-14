@@ -6823,23 +6823,12 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-task #9598: import resources from the Online Bible
-Done through the interface through the Outpost.
-Decide how to connect, whether we require the references exchange on, or whether we can check manually.
-The Online Bible should have been started.
-Then keep querying the Olb for its data.
 
+teus@2530p:~$ bibledit-help 
 
-
-
-
-
-
-
-
-
-
-
+GLib-ERROR **: The thread system is not yet initialized.
+aborting...
+Aborted
 
 
 task #9599: Combine History pull-down menu with the Ctrl-G Go-To screen.
@@ -6855,7 +6844,7 @@ I wonder if we might make it so that BE would be able to use the most common Eng
 This already really helps me as I move around so much.
 Thanks so much for being open to BE user input.
 Phil
-
+We have to use the same dialogs, so that means, to go there through the Ctrl-G shortcut.
 
 
 

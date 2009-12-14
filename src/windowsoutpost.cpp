@@ -168,6 +168,24 @@ ustring WindowsOutpost::OnlineBibleReferenceGet()
 }
 
 
+ustring WindowsOutpost::OnlineBibleCommandResponseGet(const ustring& command)
+// Sends a command to the Online Bible and receive its reply.
+{
+  // Ensure that the Online Bible server is connected.
+  online_bible_server_connect (true);
+  // Store the command.
+  online_bible_free_response.clear();
+  online_bible_free_command = "OLB " + command;
+  // Wait for and get response.
+  unsigned int loop_counter = 0;
+  while ((loop_counter < 100) && online_bible_free_response.empty()) {
+    loop_counter++;
+    g_usleep (10000);
+  }
+  return online_bible_free_response;
+}
+
+
 void WindowsOutpost::clear()
 {
   disconnect();
@@ -313,6 +331,14 @@ void WindowsOutpost::thread_main()
           send_line (get_reference_command);
           get_reference_command.clear();
           get_reference_reply = Readln ();
+          break;
+        }
+        if (!online_bible_free_command.empty()) {
+          send_line (online_bible_free_command);
+          online_bible_free_command.clear();
+          g_usleep (1000);
+          online_bible_free_response = Readln ();
+          break;
         }
         break;
       }

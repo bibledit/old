@@ -89,6 +89,13 @@ private:
   int page_number_online_bible_running;
   GtkWidget * label_online_bible_running;
   
+  // Online Bible to import.
+  int page_number_online_bible_bible;
+  GtkWidget * vbox_online_bible_bible;
+  GtkWidget * combobox_online_bible_bible;
+  static void on_combobox_online_bible_bible_changed (GtkComboBox *combobox, gpointer user_data);
+  void on_combobox_online_bible_bible ();
+  
   // Select files.
   int page_number_files;
   GtkWidget *vbox_files;
