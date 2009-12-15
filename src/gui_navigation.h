@@ -49,6 +49,8 @@ public:
   Reference reference;
   void on_back ();
   void on_forward ();
+  void on_list_back ();
+  void on_list_forward ();
 private:
   GtkWidget *button_list_back;
   GtkWidget *image_list_back;
@@ -110,9 +112,6 @@ private:
   guint delayer_event_id;
   guint track_event_id;
   Track track;
-  
-  void on_list_back ();
-  void on_list_forward ();
 };
 
 

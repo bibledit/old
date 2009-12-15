@@ -2494,6 +2494,8 @@ void MainWindow::goto_previous_book()
 void MainWindow::goto_reference_interactive()
 // Opens a dialog to ask the user to which reference to go.
 {
+  bool go_back = false;
+  bool go_forward = false;
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
     GotoReferenceDialog dialog(editor_window->current_reference().book, editor_window->current_reference().chapter, editor_window->current_reference().verse);
@@ -2509,7 +2511,15 @@ void MainWindow::goto_reference_interactive()
         settings->genconfig.verse_set(dialog.reference.verse);
         navigation.display(dialog.reference);
       }
+      go_back = dialog.go_back;
+      go_forward = dialog.go_forward;
     }
+  }
+  if (go_back) {
+    navigation.on_list_back ();
+  }
+  if (go_forward) {
+    navigation.on_list_forward ();
   }
 }
 
@@ -6824,27 +6834,12 @@ Todo tasks.
 
 
 
-teus@2530p:~$ bibledit-help 
+Import Text from Online Bible.
+* It needs to use timer to retrieve data, e.g. the data is requested, then a timer returns the previous result.
+* It may need an update Delphi, a new one.
+* We need to ask Larry what format the Unicode version delivers its data, so the bwoutpost can convert to UTF-8.
 
-GLib-ERROR **: The thread system is not yet initialized.
-aborting...
-Aborted
 
-
-task #9599: Combine History pull-down menu with the Ctrl-G Go-To screen.
-Now that we have such a nice history pull down, how about combining it with the go-to menu. 
-* In other words, the fill-in (free) go to box would be at the top of the list, and then the history list would be below that. 
-* Then there would be another tab for the aided entry.
-I would suggest keeping the green arrow icon on the lower left of the Index screen to pull up this box, 
-* and keep the Go-to menu entry to call up the same thing.
-An option under Preferences > user interface, might be how many lines of history would be kept. 
-* If there are more than the screen length, perhaps a scroll bar should appear.
-I wonder if we might make it so that BE would be able to use the most common English abbreviations for books, 
-* like 1Pet or Phl— as well as the complete name.
-This already really helps me as I move around so much.
-Thanks so much for being open to BE user input.
-Phil
-We have to use the same dialogs, so that means, to go there through the Ctrl-G shortcut.
 
 
 
@@ -6970,6 +6965,10 @@ We think of a public review system, where the review area is on a public site, w
 The editor is still offline, as bibledit, but the website syncs with the bibledit git repository to get the data.
 Notes marked Public also go to the website, and, actually, go in sync with bibledit and the site.
 
+
+
+
+The Online Help no longer works, it fails to connect to localhost port 51516.
 
 
 
