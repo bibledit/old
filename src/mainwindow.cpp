@@ -6834,18 +6834,6 @@ Todo tasks.
 
 
 
-Import Text from Online Bible.
-* It needs to use timer to retrieve data, e.g. the data is requested, then a timer returns the previous result.
-* It may need an update Delphi, a new one.
-* We need to ask Larry what format the Unicode version delivers its data, so the bwoutpost can convert to UTF-8.
-
-
-
-
-
-
-
-
 task #9614: refresh button for key terms checking window
 The checking window does not seem to refresh itself automatically when I update a key term in a verse. 
 * In order for the verse to show as revised, it seems I have to close the window and reopen it.
@@ -6892,10 +6880,7 @@ It would be really helpful if spelling was marked also in USFM view.
 
 
 Use Google Pages for the new wiki. Others can then also contribute.
-Mention on the summary that access requests can be sent to a certain email address. This will be the general bibledit list.
-The documentation on Google Pages can probably be extracted to bibledit.org, then from there through rsync to our local site.
-This keeps our traffic low.
-
+The documentation on Google Pages can be extracted to bibledit.org, then from there through rsync to our local site. This keeps our traffic low.
 
 
 
@@ -6921,6 +6906,8 @@ It has its own log file, viewable in the main program.
 It returns the identifier, and the standard out and the standard err of the program ran.
 The dbus binary gets commands to send somewhere, and returns signals it received.
 We may have to disable dbus since it does not work in the Mac.
+We should use the Apache server as a base for communications using http calls. There are long polling calls for such things.
+
 
 
 
@@ -6969,6 +6956,7 @@ Notes marked Public also go to the website, and, actually, go in sync with bible
 
 
 The Online Help no longer works, it fails to connect to localhost port 51516.
+Once we use the Apache server, it should be better.
 
 
 

@@ -25,15 +25,12 @@
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "types.h"
+#include "windowsoutpost.h"
 
 
-void online_bible_check_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
-bool online_bible_file_looks_good (const ustring& filename);
-void onlinebible (map <ustring, unsigned int> bookmap);
-bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse, map <ustring, unsigned int>& bookmap);
-vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustring, unsigned int> bookmap);
-bool online_bible_define_parsing (ustring parsing, ustring& definition);
 bool online_bible_is_running ();
+bool online_bible_ok_reply_validate (ustring& reply);
+void import_online_bible (WindowsOutpost * windows_outpost, const ustring& online_bible, const ustring& bibledit_bible, vector <ustring>& summary_messages);
 
 
 #endif

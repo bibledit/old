@@ -32,10 +32,6 @@ bool morphology_define_parsing (ustring parsing, ustring& definition)
   if (robinson_define_parsing (parsing, definition))
     return true;
 
-  // Is it the a parsing as used by the Online Bible, as an extension of the Strong's dictionary?
-  if (online_bible_define_parsing (parsing, definition))
-    return true;
-
   // Is it a parsing coming from BibleWorks?
   if (bibleworks_define_parsing (parsing, definition)) 
     return true;

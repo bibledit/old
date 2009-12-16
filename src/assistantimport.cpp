@@ -193,7 +193,7 @@ AssistantBase("Import", "import")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
 
-  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Text (not implemented)");
+  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Text");
   gtk_widget_show (radiobutton_bible_online_bible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_online_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_online_bible), radiobutton_bible_type_group);
@@ -235,7 +235,7 @@ AssistantBase("Import", "import")
 
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_online_bible_bible, "Which Bible would you like to import?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_online_bible_bible, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_online_bible_bible, true);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_online_bible_bible, false);
 
   combobox_online_bible_bible = gtk_combo_box_new_text ();
   gtk_widget_show (combobox_online_bible_bible);
@@ -312,6 +312,7 @@ AssistantBase("Import", "import")
 
 ImportAssistant::~ImportAssistant()
 {
+  my_windows_outpost->OnlineBibleDirectMode = false;
 }
 
 
@@ -347,13 +348,21 @@ void ImportAssistant::on_assistant_prepare (GtkWidget *page)
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_online_bible_running, my_windows_outpost->online_bible_server_connected);
   }
 
-  // Online Bible to import.
+  // Online Bible to import. Set the available Bibles.
   if (page == vbox_online_bible_bible) {
+    my_windows_outpost->OnlineBibleDirectMode = true;
     vector <ustring> bibles = combobox_get_strings (combobox_online_bible_bible);
     if (bibles.empty()) {
-      ustring response = my_windows_outpost->OnlineBibleCommandResponseGet ("GetVersionList");
+      ustring response = my_windows_outpost->OnlineBibleDirectCommandResponseGet ("GetVersionList");
+      if (online_bible_ok_reply_validate (response)) {
+        ParseLine parseline (response);
+        if (!parseline.lines.empty()) {
+          combobox_set_strings (combobox_online_bible_bible, parseline.lines);
+          combobox_set_index (combobox_online_bible_bible, 0);
+          gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_online_bible_bible, true);
+        }
+      }
     }
-    combobox_set_index (combobox_online_bible_bible, 0);
   }
 
   // Page for filenames to import.
@@ -416,7 +425,7 @@ void ImportAssistant::on_assistant_apply ()
         }
         case ibtOnlineBible:
         {
-          summary_messages.push_back ("This has been implemented");
+          import_online_bible (my_windows_outpost, combobox_get_active_string (combobox_online_bible_bible), bible_name, summary_messages);
           break;
         }
         case ibtRawText:
@@ -489,8 +498,8 @@ gint ImportAssistant::assistant_forward (gint current_page)
         {
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
-          //forward_sequence.insert (page_number_online_bible_running);
-          //forward_sequence.insert (page_number_online_bible_bible);
+          forward_sequence.insert (page_number_online_bible_running);
+          forward_sequence.insert (page_number_online_bible_bible);
           break;
         }
         case ibtRawText:
@@ -653,7 +662,6 @@ void ImportAssistant::on_button_files ()
           }
         case ibtOnlineBible:
           {
-            //online_bible_check_file (files_names, files_book_ids, bible_name, files_messages);
             break;
           }
         case ibtRawText:
