@@ -35,6 +35,7 @@
 #include "bible.h"
 #include "books.h"
 #include "xmlutils.h"
+#include "gwrappers.h"
 
 
 WindowCheckKeyterms::WindowCheckKeyterms(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
@@ -43,7 +44,9 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
 {
   // Save / initialize variables.
   keyword_id = 0;
-
+  text_changed_event_id = 0;
+  my_editor = NULL;
+  
   // Build gui.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
@@ -132,6 +135,8 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
 
 WindowCheckKeyterms::~WindowCheckKeyterms()
 {
+  my_editor = NULL;
+  gw_destroy_source (text_changed_event_id);
 }
 
 
@@ -618,8 +623,6 @@ void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned
     }
     htmlwriter.text_add (information);
     htmlwriter.paragraph_close ();
-
-
   }
 }
 
@@ -644,3 +647,33 @@ void WindowCheckKeyterms::reload_collections ()
     combobox_set_index(combobox_collection, 0);
   }
 }
+
+
+void WindowCheckKeyterms::text_changed (Editor2 * editor)
+// To be called when the text in any of the USFM editors changed.
+{
+  gw_destroy_source (text_changed_event_id);
+  text_changed_event_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 500, GSourceFunc (on_text_changed_timeout), gpointer (this), NULL);
+  my_editor = editor;
+}
+
+
+gboolean WindowCheckKeyterms::on_text_changed_timeout (gpointer user_data)
+{
+  ((WindowCheckKeyterms *) user_data)->on_text_changed();
+  return false;
+}
+
+
+void WindowCheckKeyterms::on_text_changed ()
+
+{
+  if (active_url == last_keyword_url) {
+    if (my_editor) {
+      my_editor->chapter_save ();
+    }
+    my_editor = NULL;
+    html_link_clicked (last_keyword_url.c_str());
+  }
+}
+

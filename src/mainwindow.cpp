@@ -5055,7 +5055,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
   g_signal_connect((gpointer) editor_window->quick_references_button, "clicked", G_CALLBACK(on_show_quick_references_signal_button_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->word_double_clicked_signal, "clicked", G_CALLBACK(on_send_word_to_toolbox_signalled), gpointer(this));
   g_signal_connect((gpointer) editor_window->reload_signal, "clicked", G_CALLBACK(on_editor_reload_clicked), gpointer(this));
-  g_signal_connect((gpointer) editor_window->changed_signal, "clicked", G_CALLBACK(on_editorsgui_changed_clicked), gpointer(this));
+  g_signal_connect((gpointer) editor_window->changed_signal, "clicked", G_CALLBACK(on_editor_changed_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->spelling_checked_signal, "clicked", G_CALLBACK(on_editor_spelling_checked_button_clicked), gpointer(this));
   editor_windows.push_back(editor_window);
 
@@ -5188,18 +5188,26 @@ void MainWindow::goto_next_previous_project(bool next)
 }
 
 
-void MainWindow::on_editorsgui_changed_clicked(GtkButton * button, gpointer user_data)
+void MainWindow::on_editor_changed_clicked(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_editorsgui_changed();
+  ((MainWindow *) user_data)->on_editor_changed();
 }
 
 
-void MainWindow::on_editorsgui_changed()
+void MainWindow::on_editor_changed()
 {
   if (window_merge) {
     window_merge->editors_changed();
   }
   check_usfm_window_ping ();
+  // Optionally signal the keyterms checker.
+  if (window_check_keyterms) {
+    WindowEditor *editor_window = last_focused_editor_window();
+    if (editor_window) {
+      Editor2 * editor = editor_window->editor_get();
+      window_check_keyterms->text_changed(editor);
+    }
+  }
 }
 
 
@@ -6432,7 +6440,7 @@ void MainWindow::on_check_usfm()
     g_signal_connect((gpointer) window_check_usfm->delete_signal_button, "clicked", G_CALLBACK(on_window_check_usfm_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_usfm->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     handle_editor_focus();
-    on_editorsgui_changed();
+    on_editor_changed();
   }
 }
 
@@ -6834,12 +6842,7 @@ Todo tasks.
 
 
 
-task #9614: refresh button for key terms checking window
-The checking window does not seem to refresh itself automatically when I update a key term in a verse. 
-* In order for the verse to show as revised, it seems I have to close the window and reopen it.
-It would be helpful to have a refresh button on the window with the same icon as a browser reload/refresh button.
-OR alternatively, it would be nice if the display would update automatically. 
-* (But if this will slow down the program to be always checking and updating, the button would be better.)
+
 
 
 
@@ -6885,6 +6888,7 @@ The documentation on Google Pages can be extracted to bibledit.org, then from th
 
 
 
+
 Both Shona & Ndebele had a number of instances where the verse number 
 was immediately followed by the first word, without a space following 
 the number.
@@ -6911,8 +6915,17 @@ We should use the Apache server as a base for communications using http calls. T
 
 
 
+
+The git system gives a few warnings. These should be fixed.
+
+
+
+
+
 The shutdown window hides too much, better make it a normal one.
 It would be helpful if the window could be cancelled, in particular if somebody is in a hurry to get on with the work.
+
+
 
 
 
@@ -6924,6 +6937,9 @@ A persecution mode sets the site to look like another one, e.g. a news site. Log
 When installing Bibledit, we may not know where the web server is. But once an address is given,
 we could use curl to upload pages to it, e.g. for uploading the online help. Or libcurl.
 Search for "php file upload" on google.
+
+
+
 
 
 
@@ -6940,12 +6956,21 @@ Or Google for Comet server push
 Search Google code for "apache" in files "configure.ac" to get a feeling of how to check the server.
 
 
+
+
+
 When using Apache, we should make a search PHP script that even highlights the words found.
+
+
+
 
 
 When creating checks, we use the Apache server for that.
 It uploads the page to the server, so it remains there always.
 See http://www.apacheweek.com/features/put
+
+
+
 
 
 We think of a public review system, where the review area is on a public site, with comments on each verse.
@@ -6957,6 +6982,7 @@ Notes marked Public also go to the website, and, actually, go in sync with bible
 
 The Online Help no longer works, it fails to connect to localhost port 51516.
 Once we use the Apache server, it should be better.
+
 
 
 

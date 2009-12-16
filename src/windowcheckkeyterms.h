@@ -30,6 +30,7 @@ extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
 #include "htmlwriter2.h"
+#include "editor2.h"
 
 
 class WindowCheckKeyterms : public FloatingWindow
@@ -67,8 +68,6 @@ private:
   void html_link_clicked(const gchar * url);
   static void on_html_submit (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer user_data);
   void html_submit (const gchar *method, const gchar *url, const gchar *encoding);
-  static void on_entry_keyterm_changed(GtkEditable *editable, gpointer user_data);
-  static void on_entry_keyterm_activate(GtkEntry *entry, gpointer user_data);
   static void on_combobox_keyterm_collection_changed(GtkComboBox *combobox, gpointer user_data);
   static void keyterm_whole_word_toggled(GtkCellRendererToggle *cell, gchar *path_str, gpointer data);
   static void keyterm_case_sensitive_toggled(GtkCellRendererToggle *cell, gchar *path_str, gpointer data);
@@ -83,10 +82,7 @@ private:
   void on_cell_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
   void add_to_renderings(const ustring& rendering, bool wholeword);
   bool find_renderings (const ustring& text, const vector <ustring>& renderings, const vector <bool>& wholewords, const vector <bool>& casesensitives, vector <size_t> * startpositions, vector <size_t> * lengths);
-  gboolean on_textview_keyterm_text_button_press(GdkEventButton *event);
-  gboolean on_textview_keyterm_text_button_release(GdkEventButton *event);
   vector <ustring> keyterm_text_selection;
-  gboolean on_textview_keyterm_text_key_press(GdkEventKey *event);
 
   // Data routines.
   ustring enter_new_rendering_here();
@@ -101,7 +97,16 @@ private:
   ustring last_keyword_url;
   map <ustring, unsigned int> scrolling_position;
   void html_write_keyterms (HtmlWriter2& htmlwriter, unsigned int keyword_id);
-  
+
+  // Text changed signalling.
+public:
+  void text_changed (Editor2 * editor);
+private:
+  guint text_changed_event_id;
+  Editor2 * my_editor;
+  static gboolean on_text_changed_timeout (gpointer user_data);
+  void on_text_changed ();
+
 };
 
 
