@@ -30,6 +30,7 @@
 #include "types.h"
 #include "editor_aids.h"
 #include <gtksourceview/gtksourceview.h>
+#include "spelling.h"
 
 
 class USFMView
@@ -87,6 +88,21 @@ private:
   GtkTextTag * markup_tag;
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   gboolean textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
+
+  // Spelling check.
+public:
+  void load_dictionaries();
+  bool move_cursor_to_spelling_error (bool next, bool extremity);
+  GtkWidget * spelling_checked_signal;
+  void spelling_trigger();
+  vector <ustring> spelling_get_misspelled ();
+  void spelling_approve (const vector <ustring>& words);
+private:
+  guint spelling_timeout_event_id;
+  static bool on_spelling_timeout(gpointer data);
+  void spelling_timeout();
+  SpellingChecker * spellingchecker;
+  static void on_button_spelling_recheck_clicked(GtkButton *button, gpointer user_data);
 
 };
 

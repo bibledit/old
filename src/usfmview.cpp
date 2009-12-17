@@ -43,6 +43,7 @@
 #include <gtksourceview/gtksourcelanguage.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
 #include <gtksourceview/gtksourcestyleschememanager.h>
+#include "progresswindow.h"
 
 
 USFMView::USFMView(GtkWidget * vbox, const ustring & project_in):
@@ -54,6 +55,7 @@ current_reference(0, 1000, "")
   chapter = 0;
   verse_tracker_event_id = 0;
   editable = false;
+  spelling_timeout_event_id = 0;
 
   // The scrolled window that contains the sourceview.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -91,13 +93,22 @@ current_reference(0, 1000, "")
   changed_signal = gtk_button_new();
   new_verse_signal = gtk_button_new();
   word_double_clicked_signal = gtk_button_new();
+  spelling_checked_signal = gtk_button_new ();
 
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
 
   // Fonts.
   set_font();
+
+  // Spelling checker.
+  GtkTextTagTable * texttagtable = gtk_text_buffer_get_tag_table (GTK_TEXT_BUFFER (sourcebuffer));
+  spellingchecker = new SpellingChecker(texttagtable);
+  g_signal_connect((gpointer) spellingchecker->check_signal, "clicked", G_CALLBACK(on_button_spelling_recheck_clicked), gpointer(this));
+  load_dictionaries();
+  spellingchecker->attach(sourceview);
 }
+
 
 USFMView::~USFMView()
 {
@@ -107,6 +118,7 @@ USFMView::~USFMView()
   // Destroy a couple of timeout sources.
   gw_destroy_source(save_timeout_event_id);
   gw_destroy_source(verse_tracker_event_id);
+  gw_destroy_source(spelling_timeout_event_id);
 
   // Destroy the signalling buttons.
   gtk_widget_destroy(reload_signal);
@@ -114,10 +126,15 @@ USFMView::~USFMView()
   gtk_widget_destroy(new_verse_signal);
   new_verse_signal = NULL;
   gtk_widget_destroy(word_double_clicked_signal);
+  gtk_widget_destroy (spelling_checked_signal);
   
+  // Delete speller.
+  delete spellingchecker;
+
   // Destroy the sourceview.
   gtk_widget_destroy(scrolledwindow);
 }
+
 
 void USFMView::book_set(unsigned int book_in)
 {
@@ -292,6 +309,7 @@ void USFMView::chapter_save()
 
 }
 
+
 ustring USFMView::get_chapter()
 {
   GtkTextIter startiter, enditer;
@@ -304,20 +322,24 @@ ustring USFMView::get_chapter()
   return chaptertext;
 }
 
+
 bool USFMView::can_undo ()
 {
   return gtk_source_buffer_can_undo (sourcebuffer);
 }
+
 
 void USFMView::undo()
 {
   gtk_source_buffer_undo (sourcebuffer);
 }
 
+
 bool USFMView::can_redo()
 {
   return gtk_source_buffer_can_redo (sourcebuffer);
 }
+
 
 void USFMView::redo()
 {
@@ -353,16 +375,19 @@ void USFMView::set_font()
   }
 }
 
+
 bool USFMView::on_save_timeout(gpointer data)
 {
   return ((USFMView *) data)->save_timeout();
 }
+
 
 bool USFMView::save_timeout()
 {
   chapter_save();
   return true;
 }
+
 
 void USFMView::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data)
 {
@@ -399,6 +424,9 @@ void USFMView::textbuffer_changed()
       }
     }
   } while (gtk_text_iter_forward_char (&iter));
+  
+  // Initiate spelling check.
+  spelling_trigger ();
 }
 
 
@@ -406,6 +434,7 @@ void USFMView::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep s
 {
   ((USFMView *) user_data)->on_textview_cursor_moved();
 }
+
 
 void USFMView::on_textview_cursor_moved()
 {
@@ -431,10 +460,12 @@ void USFMView::restart_verse_tracker()
   verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_verse_tracker_timeout), gpointer(this), NULL);
 }
 
+
 bool USFMView::on_verse_tracker_timeout(gpointer data)
 {
   return ((USFMView *) data)->on_verse_tracker();
 }
+
 
 bool USFMView::on_verse_tracker()
 {
@@ -523,11 +554,13 @@ void USFMView::text_insert(ustring text)
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);
 }
 
+
 gboolean USFMView::on_textview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
   ((USFMView *) user_data)->on_texteditor_click(widget, event);
   return false;
 }
+
 
 void USFMView::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
 {
@@ -613,6 +646,98 @@ gboolean USFMView::textview_key_press_event(GtkWidget *widget, GdkEventKey *even
   }
   // Propagate event further.
   return FALSE;
+}
+
+
+void USFMView::load_dictionaries()
+{
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  if (projectconfig->spelling_check_get()) {
+    spellingchecker->set_dictionaries(projectconfig->spelling_dictionaries_get());
+  }
+}
+
+
+bool USFMView::move_cursor_to_spelling_error (bool next, bool extremity)
+// Move the cursor to the next (or previous) spelling error.
+// Returns true if it was found, else false.
+{
+  bool moved = spellingchecker->move_cursor_to_spelling_error (GTK_TEXT_BUFFER (sourcebuffer), next, extremity);
+  if (moved) {
+    textview_scroll_to_mark (GTK_TEXT_VIEW (sourceview), gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (sourcebuffer)), true);
+  }
+  return moved;
+}
+
+
+void USFMView::spelling_trigger()
+{
+  if (project.empty())
+    return;
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  if (!projectconfig)
+    return;
+  if (!projectconfig->spelling_check_get())
+    return;
+  gw_destroy_source(spelling_timeout_event_id);
+  spelling_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_spelling_timeout), gpointer(this), NULL);
+}
+
+
+bool USFMView::on_spelling_timeout(gpointer data)
+{
+  ((USFMView *) data)->spelling_timeout();
+  return false;
+}
+
+
+void USFMView::spelling_timeout()
+{
+  // Clear event id.
+  spelling_timeout_event_id = 0;
+
+  // Check spelling of textview.
+  spellingchecker->check(GTK_TEXT_BUFFER (sourcebuffer));
+
+  // Signal spelling checked.
+  gtk_button_clicked (GTK_BUTTON (spelling_checked_signal));
+}
+
+
+void USFMView::on_button_spelling_recheck_clicked(GtkButton * button, gpointer user_data)
+{
+  ((USFMView *) user_data)->spelling_timeout();
+}
+
+
+vector <ustring> USFMView::spelling_get_misspelled ()
+{
+  // Collect the misspelled words.
+  GtkTextBuffer * textbuffer = GTK_TEXT_BUFFER (sourcebuffer);
+  vector <ustring> words = spellingchecker->get_misspellings(textbuffer);
+  // Remove double ones.
+  set <ustring> wordset (words.begin (), words.end());
+  words.clear();
+  words.assign (wordset.begin (), wordset.end());
+  // Give result.
+  return words;  
+}
+
+
+void USFMView::spelling_approve (const vector <ustring>& words)
+{
+  // Approve all the words in the list.
+  // Since this may take time, a windows will show the progress.
+  ProgressWindow progresswindow ("Adding words to dictionary", false);
+  progresswindow.set_iterate (0, 1, words.size());
+  for (unsigned int i = 0; i < words.size(); i++)  {
+    progresswindow.iterate ();
+    spellingchecker->add_to_dictionary (words[i].c_str());
+  }
+  // Trigger a new spelling check.
+  spelling_trigger();
 }
 
 

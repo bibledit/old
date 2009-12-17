@@ -142,6 +142,7 @@ void WindowEditor::load_dictionaries()
     editor2->load_dictionaries();
   }
   if (usfmview) {
+    usfmview->load_dictionaries();
   }
 }
 
@@ -150,6 +151,9 @@ bool WindowEditor::move_cursor_to_spelling_error (bool next, bool extremity)
 {
   if (editor2) {
     return editor2->move_cursor_to_spelling_error (next, extremity);
+  }
+  if (usfmview) {
+    return usfmview->move_cursor_to_spelling_error (next, extremity);
   }
   return true;
 }
@@ -650,6 +654,9 @@ void WindowEditor::spelling_trigger ()
   if (editor2) {
     editor2->spelling_trigger ();
   }
+  if (usfmview) {
+    usfmview->spelling_trigger ();
+  }
 }
 
 
@@ -699,4 +706,23 @@ void WindowEditor::paste ()
   }
 }
 
+
+vector <ustring> WindowEditor::spelling_get_misspelled ()
+{
+  vector <ustring> misspelled_words;
+  if (usfmview)
+    misspelled_words = usfmview->spelling_get_misspelled ();
+  if (editor2)
+    misspelled_words = editor2->spelling_get_misspelled ();
+  return misspelled_words;
+}
+
+
+void WindowEditor::spelling_approve (const vector <ustring>& words)
+{
+  if (usfmview)
+    usfmview->spelling_approve (words);
+  if (editor2)
+    editor2->spelling_approve (words);
+}
 

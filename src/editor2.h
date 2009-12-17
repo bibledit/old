@@ -104,13 +104,6 @@ private:
   void textview_move_cursor_delayed();
 
 
-
-
-
-
-
-
-// Old stuff.
   // Focus handling.
 public:
   GtkWidget * last_focused_widget;
@@ -203,7 +196,6 @@ public:
 
   GtkWidget * changed_signal;
   ustring get_chapter();
-
 private:
 
   // Spelling check.

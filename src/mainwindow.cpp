@@ -1975,10 +1975,12 @@ void MainWindow::editproject()
   vcs->pause(false);
 }
 
+
 void MainWindow::on_delete1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->deleteproject();
 }
+
 
 void MainWindow::deleteproject()
 {
@@ -3733,14 +3735,9 @@ void MainWindow::on_check_spelling_bulk()
     gtkw_dialog_info (NULL, "There is nothing to be checked");
     return;
   }
-  Editor2 * editor = editor_window->editor_get ();
-  if (!editor) {
-    gtkw_dialog_info (NULL, "Please switch viewing USFM code off so as to enable spelling checking");
-    return;
-  }
-  BulkSpellingDialog dialog (editor->spelling_get_misspelled());
+  BulkSpellingDialog dialog (editor_window->spelling_get_misspelled());
   if (dialog.run () == GTK_RESPONSE_OK) {
-    editor->spelling_approve (dialog.approved);
+    editor_window->spelling_approve (dialog.approved);
   }
 }
 
@@ -6839,22 +6836,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 
 
 Todo tasks.
-
-
-
-
-
-
-
-
-
-
-
-task #9617: Spell checking in USFM view
-It would be really helpful if spelling was marked also in USFM view. 
-* (But I admit that I am using that view so often only because the formatted view has problems for which I have submitted bug reports today.)
-
-
 
 
 
