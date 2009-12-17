@@ -6839,6 +6839,11 @@ Todo tasks.
 
 
 
+Check curl is installed.
+Use curl to check the web server, and warn if none was found.
+
+
+
 
 
 
