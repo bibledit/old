@@ -141,6 +141,11 @@ if test x$FIND_SSH = xno; then
   AC_MSG_ERROR(Program "ssh" is needed. Install this first.)
 fi
 
+AC_PATH_PROG(FIND_CURL, curl, no)
+if test x$FIND_CURL = xno; then
+  AC_MSG_ERROR(Program "curl" is needed. Install this first.)
+fi
+
 # Checks for libraries.
 
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.16.0,,AC_MSG_ERROR(glib development version >= 2.16.0 is needed.))
@@ -257,6 +262,16 @@ AC_FUNC_LSTAT
 AC_TYPE_UID_T
 AC_FUNC_ERROR_AT_LINE
 AC_PROG_GCC_TRADITIONAL
+
+
+# Check for web server on localhost.
+curl localhost > /dev/null
+if test $? -ne 0
+  then
+    AC_MSG_ERROR(A local web server such as Apache is required but it was not found or it is not running)
+    exit 1
+fi
+
 
 # Checks for Additional stuffs.
 # Set PACKAGE PREFIX
