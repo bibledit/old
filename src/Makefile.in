@@ -176,7 +176,8 @@ am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT) \
 	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) \
-	editor2.$(OBJEXT) editoractions.$(OBJEXT)
+	editor2.$(OBJEXT) editoractions.$(OBJEXT) nanohttp.$(OBJEXT) \
+	c_url.$(OBJEXT)
 bibleditgui_OBJECTS = $(am_bibleditgui_OBJECTS)
 bibleditgui_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -262,11 +263,13 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
+LIBCURL = @LIBCURL@
+LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(SQLITE_LIBS) $(ENCHANT_LIBS) \
 	$(GTKHTML38_LIBS) $(GTKHTML314_LIBS) $(GTKSOURCEVIEW_LIBS) \
-	$(WEBKIT_LIBS) $(DBUSGLIB_LIBS) $(am__append_1)
+	$(WEBKIT_LIBS) $(DBUSGLIB_LIBS) $(LIBCURL) $(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
@@ -301,6 +304,7 @@ WEBKIT_LIBS = @WEBKIT_LIBS@
 XML2_CONFIG = @XML2_CONFIG@
 XML_CPPFLAGS = @XML_CPPFLAGS@
 XML_LIBS = @XML_LIBS@
+_libcurl_config = @_libcurl_config@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -627,14 +631,16 @@ bibleditgui_SOURCES = \
 				floatingwindow.cpp \
 				windowdata.cpp \
 				editor2.cpp \
-				editoractions.cpp
+				editoractions.cpp \
+				nanohttp.cpp \
+				c_url.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \
 	$(GTKHTML314_CFLAGS) $(GTKSOURCEVIEW_CFLAGS) $(WEBKIT_CFLAGS) \
-	$(DBUSGLIB_CFLAGS)
+	$(DBUSGLIB_CFLAGS) $(LIBCURL_CPPFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -735,6 +741,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bookdata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/books.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c_url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/categorize.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_capitalization.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_chapters_verses.Po@am__quote@
@@ -879,6 +886,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/merge_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/morphology.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/myfnmatch.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nanohttp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/note_editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/notecaller.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/notes_utils.Po@am__quote@

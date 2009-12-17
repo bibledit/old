@@ -271,7 +271,9 @@ bibleditgui_SOURCES = \
 				floatingwindow.cpp \
 				windowdata.cpp \
 				editor2.cpp \
-				editoractions.cpp
+				editoractions.cpp \
+				nanohttp.cpp \
+				c_url.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 
@@ -288,6 +290,7 @@ AM_CXXFLAGS += $(GTKHTML314_CFLAGS)
 AM_CXXFLAGS += $(GTKSOURCEVIEW_CFLAGS)
 AM_CXXFLAGS += $(WEBKIT_CFLAGS)
 AM_CXXFLAGS += $(DBUSGLIB_CFLAGS)
+AM_CXXFLAGS += $(LIBCURL_CPPFLAGS)
 
 LIBS = -Wall 
 LIBS += `xml2-config --libs`
@@ -302,6 +305,7 @@ LIBS += $(GTKHTML314_LIBS)
 LIBS += $(GTKSOURCEVIEW_LIBS)
 LIBS += $(WEBKIT_LIBS)
 LIBS += $(DBUSGLIB_LIBS)
+LIBS += $(LIBCURL)
 
 if LINUX
 endif

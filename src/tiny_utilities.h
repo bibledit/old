@@ -17,10 +17,13 @@
  **  
  */
 
+
 #ifndef INCLUDED_TINY_UTILITIES_H
 #define INCLUDED_TINY_UTILITIES_H
 
+
 #include "libraries.h"
+
 
 unsigned int convert_to_int(const ustring & str);
 ustring convert_to_string(int i);

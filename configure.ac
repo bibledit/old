@@ -218,6 +218,10 @@ PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1 >= 0.7.0,,AC_MSG_ERROR(libdbus-glib-1 de
 AC_SUBST(DBUSGLIB_CFLAGS)
 AC_SUBST(DBUSGLIB_LIBS)
 
+LIBCURL_CHECK_CONFIG([yes], 7.0.0,,AC_MSG_ERROR(libcurl4 development version >= 7.0.0 is needed.))
+AC_SUBST(LIBCURL_CPPFLAGS)
+AC_SUBST(LIBCURL)
+
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h sys/uio.h)

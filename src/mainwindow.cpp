@@ -6839,7 +6839,22 @@ Todo tasks.
 
 
 
-Do a runtime check on a web server, and give a message in the system log if the server is not there.
+Make a routine that gives the installation path of the web files, where to place these. In subdirectory bibledit.
+Copy the help files to the local host in subdirectory bibledit/documentation
+Let the helpfiles be accessed from there, also in the InDialogHelp and from the Help menu.
+That should fix the problem that the help from the dialogs no longer works.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
