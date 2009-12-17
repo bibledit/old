@@ -338,27 +338,22 @@ void SpellingChecker::populate_popup(GtkTextView * textview, GtkMenu * menu)
   if (!gtk_text_iter_has_tag(&start, misspelling_tag))
     return;
 
-  // Menu separator comes first.
-  GtkWidget *mi;
-  mi = gtk_menu_item_new();
-  gtk_widget_show(mi);
-  gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), mi);
-
-  // On top of it, the suggestions menu.
-  GtkWidget *img;
-  img = gtk_image_new_from_stock(GTK_STOCK_SPELL_CHECK, GTK_ICON_SIZE_MENU);
-  mi = gtk_image_menu_item_new_with_label("Spelling suggestions");
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(mi), img);
-
+  // Get the misspelled word.
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(textview);
   char *word;
-
   word = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(mi), build_suggestion_menu(buffer, word));
-  g_free(word);
+  
+  // Menu separator comes first.
+  GtkWidget *menu_item;
+  menu_item = gtk_menu_item_new();
+  gtk_widget_show(menu_item);
+  gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), menu_item);
 
-  gtk_widget_show_all(mi);
-  gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), mi);
+  // On top of it the suggestions menu.
+  build_suggestion_menu (GTK_WIDGET (menu), buffer, word);
+  
+  // Free the misspelled word.
+  g_free(word);
 }
 
 
@@ -379,95 +374,106 @@ void SpellingChecker::popup_menu_event(GtkTextView * view)
 }
 
 
-GtkWidget *SpellingChecker::build_suggestion_menu(GtkTextBuffer * buffer, const char *word)
+void SpellingChecker::build_suggestion_menu (GtkWidget * menu, GtkTextBuffer *buffer, const char *word)
 {
-  // Top menu.
-  GtkWidget *topmenu, *menu;
-  topmenu = menu = gtk_menu_new();
-
-  // Bail out if there are no dictionaries.
-  if (dicts.empty()) {
-    return topmenu;
-  }
-
-  // There can be more than one dictionary. Go through them all to find suggestions.
-  // The use of more than one dictionary will inevitably give double suggestions.
-  // These are weeded out.
-  vector < ustring > replacements;
-  set < ustring > replacement_set;
-  for (unsigned int d = 0; d < dicts.size(); d++) {
-    size_t n_suggs;
-    char **suggestions = enchant_dict_suggest(dicts[d], word, strlen(word), &n_suggs);
-    if (suggestions) {
-      for (size_t i = 0; i < n_suggs; i++) {
-        if (replacement_set.find(suggestions[i]) == replacement_set.end()) {
-          replacements.push_back(suggestions[i]);
-          replacement_set.insert(suggestions[i]);
+  // Save main menu.
+  GtkWidget * mainmenu = menu;
+  
+  // Go through all dictionaries to find suggestions.
+  // The use of more than one dictionary will likely give equal suggestions.
+  // These are removed.
+  vector <ustring> replacements;
+  {
+    set <ustring> replacement_set;
+    for (unsigned int d = 0; d < dicts.size(); d++) {
+      size_t n_suggs;
+      char **suggestions = enchant_dict_suggest(dicts[d], word, strlen(word), &n_suggs);
+      if (suggestions) {
+        for (size_t i = 0; i < n_suggs; i++) {
+          if (replacement_set.find(suggestions[i]) == replacement_set.end()) {
+            replacements.push_back(suggestions[i]);
+            replacement_set.insert(suggestions[i]);
+          }
         }
+        enchant_dict_free_suggestions(dicts[d], suggestions);
       }
-      enchant_dict_free_suggestions(dicts[d], suggestions);
     }
   }
 
   GtkWidget *mi;
-  if (replacements.empty()) {
-    // No suggestions. Put something in the menu anyway.
-    GtkWidget *label;
-    label = gtk_label_new("");
-    gtk_label_set_markup(GTK_LABEL(label), "<i>(No suggestions)</i>");
+  gint position = 0;
+  bool has_submenu = false;
 
+  if (replacements.empty()) {
+    
+    // No spelling suggestions.
+    GtkWidget *label;
+    label = gtk_label_new("(No spelling suggestions)");
     mi = gtk_menu_item_new();
     gtk_container_add(GTK_CONTAINER(mi), label);
     gtk_widget_show_all(mi);
-    gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), mi);
+    gtk_menu_shell_insert(GTK_MENU_SHELL(menu), mi, position);
+    position++;
+    
   } else {
     // Build a set of menus with suggestions.
     for (unsigned int i = 0; i < replacements.size(); i++) {
+
       if (i > 0 && i % 10 == 0) {
 
         mi = gtk_menu_item_new();
         gtk_widget_show(mi);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+        gtk_menu_shell_insert(GTK_MENU_SHELL(menu), mi, position);
+        position++;
 
         mi = gtk_menu_item_new_with_label("More...");
         gtk_widget_show(mi);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+        gtk_menu_shell_insert(GTK_MENU_SHELL(menu), mi, position);
+        position++;
 
         menu = gtk_menu_new();
         gtk_menu_item_set_submenu(GTK_MENU_ITEM(mi), menu);
+
+        position = 0;
+        has_submenu = true;
       }
 
       mi = gtk_menu_item_new_with_label(replacements[i].c_str());
       g_signal_connect(G_OBJECT(mi), "activate", G_CALLBACK(on_replace_word), gpointer(this));
       gtk_widget_show(mi);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+      gtk_menu_shell_insert(GTK_MENU_SHELL(menu), mi, position);
+      position++;
     }
   }
+
+  // Calculate position to insert the rest of the spelling menu.
+  if (has_submenu) 
+    position = 12;
 
   // Separator
   mi = gtk_menu_item_new();
   gtk_widget_show(mi);
-  gtk_menu_shell_append(GTK_MENU_SHELL(topmenu), mi);
+  gtk_menu_shell_insert(GTK_MENU_SHELL(mainmenu), mi, position);
+  position++;
 
   // + Add to Dictionary
   char *label;
-  label = g_strdup_printf("_Add \"%s\" to Dictionary", word);
+  label = g_strdup_printf("A_dd \"%s\" to Dictionary", word);
   mi = gtk_image_menu_item_new_with_mnemonic(label);
   g_free(label);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(mi), gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_MENU));
   g_signal_connect(G_OBJECT(mi), "activate", G_CALLBACK(on_add_to_dictionary), gpointer(this));
   gtk_widget_show_all(mi);
-  gtk_menu_shell_append(GTK_MENU_SHELL(topmenu), mi);
+  gtk_menu_shell_insert(GTK_MENU_SHELL(mainmenu), mi, position);
+  position++;
 
   // - Ignore All
   mi = gtk_image_menu_item_new_with_mnemonic("_Ignore All");
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(mi), gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU));
   g_signal_connect(G_OBJECT(mi), "activate", G_CALLBACK(on_ignore_all), gpointer(this));
   gtk_widget_show_all(mi);
-  gtk_menu_shell_append(GTK_MENU_SHELL(topmenu), mi);
-
-  // Return the top menu.
-  return topmenu;
+  gtk_menu_shell_insert(GTK_MENU_SHELL(mainmenu), mi, position);
+  position++;
 }
 
 

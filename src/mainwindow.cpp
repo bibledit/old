@@ -6850,27 +6850,6 @@ Todo tasks.
 
 
 
-#9616: Move "add X to dictionary" button
-On the right click menu, there is the Spelling suggestions button, and one needs to open that second menu to add a word to the dictionary.
-It seems I have lots of words I need to add to the dictionary! 
-* It would be helpful if the Add X to the dictionary button was right under the Spelling Suggestions button. 
-* I would not remove the link from the Spelling suggestions menu, but just add it on the first Right click menu.
-By the way, when I click to add a word, often the word does not change from being red-underlined. 
-* I have to do the whole process a second time! It seems to me that it works more often if I click precisely on the center of the green plus. 
-* Is there a way to make it so that they click area extends farther toward the margins of the menu entry?
-The title of the thread should not be "Move" but "Add to first right click menu.
-One advantage of adding this to the top level of the right click menu would be that the link would have the same position each time, 
-* independent of how many spelling suggestions were given.
-The Alt-A hot key does not work in the current pop up menu for this item, even though there is a visible underline under the A in the menu.
-Have you tried the bulk spelling checker? It has been designed for situations such as you are in. 
-* It is in menu Check / Spelling error / Bulk. It aids in adding lots of words to the dictionary quickly.
-It could be better to remove the existing menu entries that Gtk adds on its own, and just have the speller menu.
-* This is much cleaner. Less clutter.
-
-
-
-
-
 task #9617: Spell checking in USFM view
 It would be really helpful if spelling was marked also in USFM view. 
 * (But I admit that I am using that view so often only because the formatted view has problems for which I have submitted bug reports today.)
@@ -6983,6 +6962,12 @@ Notes marked Public also go to the website, and, actually, go in sync with bible
 The Online Help no longer works, it fails to connect to localhost port 51516.
 Once we use the Apache server, it should be better.
 
+
+
+Snapshots per chapter. If we store the snapshots per chapter, the cleaning up would be much faster,
+* and the user could cancel it if a cancel button is provided. One can store the data of the last write in the database,
+* compare it with the data of the file itself, then decide whether any cleanup is needed at all. Most chapters won't have been changed,
+* giving a big save in time.
 
 
 

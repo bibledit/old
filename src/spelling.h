@@ -69,7 +69,7 @@ private:
   static gboolean on_popup_menu_event (GtkTextView *view, gpointer user_data);
   void popup_menu_event (GtkTextView *view);
   GtkTextIter right_clicked_iter;
-  GtkWidget* build_suggestion_menu (GtkTextBuffer *buffer, const char *word);
+  void build_suggestion_menu (GtkWidget * menu, GtkTextBuffer *buffer, const char *word);
   void right_clicked_word_get_extends (GtkTextIter * start, GtkTextIter *end);
   static void on_add_to_dictionary (GtkWidget *menuitem, gpointer user_data);
   void add_to_dictionary (GtkWidget *menuitem);
