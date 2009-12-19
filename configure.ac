@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.4],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.6],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -277,6 +277,27 @@ if test $? -ne 0
 fi
 
 
+# Location of web root.
+WEBROOT=/
+test -d /var/www/
+if [ [ $? -eq 0 ] ]
+then
+  WEBROOT=/var/www/
+fi
+echo Web document root at ${WEBROOT}
+AC_SUBST(WEBROOT)
+if [ [ $WEBROOT == "/" ] ]
+  then
+    echo WARNING
+    echo WARNING
+    echo WARNING
+    echo WARNING Could not find local web server document root folder
+    echo WARNING
+    echo WARNING
+    echo WARNING
+fi
+
+
 # Checks for Additional stuffs.
 # Set PACKAGE PREFIX
 if test "x${prefix}" = "xNONE"; then
@@ -352,14 +373,14 @@ fi
 
 # Create all the Makefiles.
 AC_CONFIG_FILES([Makefile 
-		   man/Makefile 
-		   pix/Makefile 
-		   doc/Makefile 
-		   src/Makefile 
-		   scripts/Makefile
-		   templates/Makefile
-		   olpc/Makefile
-       desktop/Makefile
+		 man/Makefile 
+		 pix/Makefile 
+		 doc/Makefile 
+		 src/Makefile 
+		 scripts/Makefile
+		 templates/Makefile
+		 olpc/Makefile
+		 desktop/Makefile
        windows/Makefile
        tests/Makefile
        eeepc/Makefile
@@ -370,6 +391,7 @@ AC_CONFIG_FILES([Makefile
        lexicons/Makefile
        outpost/Makefile
        gobible/Makefile
+       web/Makefile
 		   ])
 AC_OUTPUT
 
@@ -378,4 +400,5 @@ Bibledit $VERSION configuration summary:
 
         Prefix                     : ${prefix}
         Source code location       : ${srcdir}
+        Web server document root   : ${WEBROOT}
 "

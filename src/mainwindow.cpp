@@ -6839,10 +6839,37 @@ Todo tasks.
 
 
 
+Use Google Pages for the new wiki. Others can then also contribute.
+The documentation on Google Pages can be extracted to bibledit.org, then from there through rsync to our local site. This keeps our traffic low.
+Writing Makefile.am, some files are too long for tar.
+Once all is done, we need to put new home pages on source forge, on bibledit.org, on Savannah, all pointing to google pages.
+
+
+
+
+
+
+We may have to use the multiple interface of libcurl, have one thread that does the 'perform', and keeps calling it,
+and have an object for each transfer. This object keeps the data for the transfer till it is destroyed.
+Or keep the single interface, the easy one, and use a system of storing requests till these are handled one by one.
+
+
 Make a routine that gives the installation path of the web files, where to place these. In subdirectory bibledit.
 Copy the help files to the local host in subdirectory bibledit/documentation
 Let the helpfiles be accessed from there, also in the InDialogHelp and from the Help menu.
 That should fix the problem that the help from the dialogs no longer works.
+The helpfiles are packed in a .zip file in the doc directory, and are installed using the install-hook-local (?) and unpacked there.
+Then for the time of the transition, default start page for the <web>/bibledit folder is created, that gives the various options to the user,
+e.g. whether to view the old or the new information.
+
+
+
+
+We may consider writing a new outpost.exe that actually contacts the bibledit local server, like all the other programs.
+Each request has an increasing id number, which, when it comes back, is recognized as the right answer.
+The files that have the ID's can remain on the server till such time that Bibledit shuts down, when these get deleted.
+Or when Bibledit has processed them, these get deleted too.
+Bibledit should be able to see which connections are being made to the server from the various clients.
 
 
 
@@ -6851,17 +6878,6 @@ That should fix the problem that the help from the dialogs no longer works.
 
 
 
-
-
-
-
-
-
-
-
-
-Use Google Pages for the new wiki. Others can then also contribute.
-The documentation on Google Pages can be extracted to bibledit.org, then from there through rsync to our local site. This keeps our traffic low.
 
 
 
@@ -6969,5 +6985,9 @@ Snapshots per chapter. If we store the snapshots per chapter, the cleaning up wo
 * giving a big save in time.
 
 
+
+
+The notes selection window will give the number of notes which would display if that selection now in the window will be applied.
+This is useful for e.g. finding out the outstanding notes to the Bible Society.
 
 */
