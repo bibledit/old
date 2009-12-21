@@ -6839,11 +6839,6 @@ Todo tasks.
 
 
 
-Then we need to update all online help systems to now get their information from the local host.
-We also need to update the Help buttons, so these work again.
-For that it may be that since libwebkit does not seem to show the google site, we then may have to use an external web browser instead.
-* How to make the browser display besides the dialog? Probably cancel that system, and just open the standard browser.
-
 There is a need to install bibledit on various distributions so as to find out the location of Apache on these, and the libraries to install.
 Fedora
 Debian

@@ -263,9 +263,9 @@ bookset: Indicator for the caller's relevant books.
 
   const gchar *helpfile;
   if (showportions) {
-    helpfile = "print_book_portion";
+    helpfile = "file/print/portion";
   } else {
-    helpfile = "selectbooks";
+    helpfile = "file/print/selection";
   }
   new InDialogHelp(selectbooksdialog, NULL, &shortcuts, helpfile);
 

@@ -67,7 +67,7 @@ GuiDialog::GuiDialog(int dummy)
   shortcuts.button(checkbutton_preferences);
   checkbutton_remember_verse_chapter = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_remember_verse_chapter"));
   shortcuts.button(checkbutton_remember_verse_chapter);
-  InDialogHelp * indialoghelp = new InDialogHelp(featuresdialog, gtkbuilder, &shortcuts, "preferences_gui");
+  InDialogHelp * indialoghelp = new InDialogHelp(featuresdialog, gtkbuilder, &shortcuts, "menu-preferences/user-interface");
   cancelbutton = indialoghelp->cancelbutton;
   okbutton = indialoghelp->okbutton;
   shortcuts.process();

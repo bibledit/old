@@ -78,7 +78,7 @@ ResourceConverterDialog::ResourceConverterDialog(const ustring & working_directo
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(resourceconverterdialog, NULL, &shortcuts, "resource_converter");
+  new InDialogHelp(resourceconverterdialog, NULL, &shortcuts, "file/resource/converter");
 
   helpbutton = gtk_button_new_from_stock("gtk-help");
   gtk_dialog_add_action_widget(GTK_DIALOG(resourceconverterdialog), helpbutton, GTK_RESPONSE_NONE);
