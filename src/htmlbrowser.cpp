@@ -30,7 +30,9 @@
 #include "uname.h"
 #include "windowsoutpost.h"
 
+
 #define NUMBER_OF_BROWSERS 8
+
 
 const gchar *helpcommand(int index)
 {
@@ -135,3 +137,12 @@ void htmlbrowser(const ustring & filename, bool network, bool no_tamper)
     gtkw_dialog_error(NULL, message);
   }
 }
+
+
+ustring html_server_url (const ustring& url)
+{
+  ustring server_url = "http://localhost/bibledit/";
+  server_url.append (url);
+  return server_url;
+}
+

@@ -3,7 +3,7 @@ CLEANFILES = *~
 webroot = @WEBROOT@
 
 install-data-local:
-	mkdir --parents $(WEBROOT)/bibledit
+	mkdir -p $(WEBROOT)/bibledit
 	cp -r site $(WEBROOT)/bibledit
 
 
