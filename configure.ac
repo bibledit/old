@@ -284,6 +284,11 @@ if [ [ $? -eq 0 ] ]
 then
   WEBROOT=/var/www
 fi
+test -d /Library/WebServer/Documents
+if [ [ $? -eq 0 ] ]
+then
+  WEBROOT=/Library/WebServer/Documents
+fi
 echo Web document root at ${WEBROOT}
 AC_SUBST(WEBROOT)
 if [ [ $WEBROOT == "/" ] ]
