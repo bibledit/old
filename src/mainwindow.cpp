@@ -6853,14 +6853,16 @@ openSUSE
 We may have to use the multiple interface of libcurl, have one thread that does the 'perform', and keeps calling it,
 and have an object for each transfer. This object keeps the data for the transfer till it is destroyed.
 Or keep the single interface, the easy one, and use a system of storing requests till these are handled one by one.
+This may be simpler.
+Bibledit then listens to the server if there are no requests.
+* If requests come on, the listener cuts off, and the request is handled.
+* After that the listener starts again.
 
 
 
 
 
-
-We may consider writing a new outpost.exe that actually contacts the bibledit local server, like all the other programs.
-Each request has an increasing id number, which, when it comes back, is recognized as the right answer.
+Each request to the server has an increasing id number, which, when it comes back, is recognized as the right answer.
 The files that have the ID's can remain on the server till such time that Bibledit shuts down, when these get deleted.
 Or when Bibledit has processed them, these get deleted too.
 Bibledit should be able to see which connections are being made to the server from the various clients.
