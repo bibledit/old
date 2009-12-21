@@ -6848,6 +6848,12 @@ openSUSE
 
 
 
+Uploading:
+* index.html
+* upload.php
+* create directory upload and chmod it to 0777
+curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/test/upload.php
+
 
 Bibledit uploads several reference sharing files to the server, depending on its settings where to send references to.
 We should use the Apache server as a base for communications using http calls. There are long polling calls for such things.
