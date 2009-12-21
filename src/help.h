@@ -27,9 +27,6 @@
 #include "shortcuts.h"
 
 
-void help_open (GtkButton * button, gpointer user_data);
-
-
 class InDialogHelp
 {
 public:

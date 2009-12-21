@@ -31,16 +31,6 @@
 #include "screen.h"
 
 
-void help_open(GtkButton * button, gpointer user_data)
-{
-  gchar *file = (gchar *) user_data;
-  ustring url = "localhost:51516/olh_";
-  url.append(file);
-  url.append(".html");
-  htmlbrowser(url, true);
-}
-
-
 InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts * shortcuts, const gchar * topic)
 {
   // Save and initialize variables.
@@ -52,9 +42,10 @@ InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts *
 
   // If no help is given, take a default one.
   if (!mytopic)
-    mytopic = "none";
+    mytopic = "6-reference/menu/menu-none/no-help-available"; // Todo try this one.
   
-  helpbutton = gtk_toggle_button_new();
+  //helpbutton = gtk_toggle_button_new();
+  helpbutton = gtk_button_new();
   gtk_widget_show(helpbutton);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), helpbutton, FALSE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(helpbutton, GTK_CAN_DEFAULT);
@@ -105,8 +96,10 @@ InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts *
 
 InDialogHelp::~InDialogHelp()
 {
+/*
   if (process_id)
     unix_kill(process_id);
+*/
 }
 
 
@@ -118,18 +111,21 @@ void InDialogHelp::on_helpbutton_activated(GtkButton * button, gpointer user_dat
 
 void InDialogHelp::on_helpbutton()
 {
+/*
   bool button_on = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(helpbutton));
   if (button_on) {
 
     // Calculate the position and size for the help viewer.
     gint width, height, x, y;
     window_position_get_left_space(mydialog, width, height, x, y);
+*/
 
     // Assemble the url to load.    
-    ustring url = "http://localhost:51516/olh_";
+    ustring url = html_server_url ("site/");
     url.append(mytopic);
     url.append(".html");
 
+/*
     // Start the helpviewer.
     GwSpawn spawn("bibledit-help");
     spawn.arg(url);
@@ -140,17 +136,21 @@ void InDialogHelp::on_helpbutton()
     spawn.async();
     spawn.run();
     process_id = spawn.pid;
-
+*/
+    htmlbrowser (url, false, true);
+    
     // Present the window.
     g_usleep(500000);
     gtk_window_present(GTK_WINDOW(mydialog));
 
+/*
   } else {
     if (process_id) {
       unix_kill(process_id);
       process_id = 0;
     }
   }
+*/
 }
 
 
