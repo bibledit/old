@@ -6839,14 +6839,21 @@ Todo tasks.
 
 
 
-Use Google Pages for the new wiki. Others can then also contribute.
-The documentation on Google Pages can be extracted to bibledit.org, then from there through rsync to our local site. This keeps our traffic low.
 Writing Makefile.am, some files are too long for tar.
+Once all have been fixed, to check again.
+
+
+
+
 Once all is done, we need to put new home pages on source forge, on bibledit.org, on Savannah, all pointing to google pages.
 What needs to be done too is to update the usfm pages, and change the links from the online version to the offline version.
-* We could perhaps use changedetectors on the web to monitor when the online page gets updated,
-* or we could mirror the site every day and include this in our own documentation - this one goes automatic - still the site update is needed.
+we could mirror the site every day and include this in our own documentation - this one goes automatic
 
+
+
+
+There is a need to install bibeldit on various distributions so as to find out the location of Apache on these, and the libraries to install.
+Debian, Fedora, openSUSE, Macintosh
 
 
 
