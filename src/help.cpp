@@ -42,7 +42,7 @@ InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts *
 
   // If no help is given, take a default one.
   if (!mytopic)
-    mytopic = "6-reference/menu/menu-none/no-help-available"; // Todo try this one.
+    mytopic = "menu-none/no-help-available";
   
   //helpbutton = gtk_toggle_button_new();
   helpbutton = gtk_button_new();
@@ -122,6 +122,7 @@ void InDialogHelp::on_helpbutton()
 
     // Assemble the url to load.    
     ustring url = html_server_url ("site/");
+    url.append ("6-reference/menu/");
     url.append(mytopic);
     url.append(".html");
 
