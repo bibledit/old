@@ -6849,6 +6849,16 @@ openSUSE
 
 
 
+Bibledit uploads several reference sharing files to the server, depending on its settings where to send references to.
+We should use the Apache server as a base for communications using http calls. There are long polling calls for such things.
+When installing Bibledit, we may not know where the web server is. But once an address is given,
+we could use curl to upload pages to it, e.g. for uploading the online help. Or libcurl.
+Search for "php file upload" on google.
+Make a check that php is installed.
+
+
+
+
 
 We may have to use the multiple interface of libcurl, have one thread that does the 'perform', and keeps calling it,
 and have an object for each transfer. This object keeps the data for the transfer till it is destroyed.
@@ -6900,7 +6910,6 @@ It has its own log file, viewable in the main program.
 It returns the identifier, and the standard out and the standard err of the program ran.
 The dbus binary gets commands to send somewhere, and returns signals it received.
 We may have to disable dbus since it does not work in the Mac.
-We should use the Apache server as a base for communications using http calls. There are long polling calls for such things.
 
 
 
@@ -6924,26 +6933,15 @@ It remains one package, but more and more functionality is rewritten for the web
 A better strategy is to make a package that runs solely on the web. Bibledit will be a client to that, e.g. it uses its repository of files.
 Then people can either work on the web, or if they need more functionality, they can install the local client, and keep working with the data on the web.
 A persecution mode sets the site to look like another one, e.g. a news site. Logging in is hidden.
-When installing Bibledit, we may not know where the web server is. But once an address is given,
-we could use curl to upload pages to it, e.g. for uploading the online help. Or libcurl.
-Search for "php file upload" on google.
 
 
 
 
 
 
-It is worth looking at http://wiki.freaks-unidos.net/gwebd for a good http daemon.
-svn checkout http://anonymous:@freaks-unidos.net/azul-home/src/gwebd
-Better to use the Apache web server, much simpler, less coding to be done by us.
-Also test a few other web servers, some light daemons, and ensure Bibledit works with them.
-Without it Bibledit still works, but some html stuff is offline, notably online help.
-The installer routine would need to find the /var/www stuff automatically, and add a bibledit routine there.
-If data is posted through http as it does now, then the apache stuff should put this file on disk.
 Can we use "http://en.wikipedia.org/wiki/Comet_%28programming%29"?
 Or "http://en.wikipedia.org/wiki/Push_technology"?
 Or Google for Comet server push
-Search Google code for "apache" in files "configure.ac" to get a feeling of how to check the server.
 
 
 
@@ -6970,11 +6968,6 @@ Notes marked Public also go to the website, and, actually, go in sync with bible
 
 
 
-The Online Help no longer works, it fails to connect to localhost port 51516.
-Once we use the Apache server, it should be better.
-
-
-
 Snapshots per chapter. If we store the snapshots per chapter, the cleaning up would be much faster,
 * and the user could cancel it if a cancel button is provided. One can store the data of the last write in the database,
 * compare it with the data of the file itself, then decide whether any cleanup is needed at all. Most chapters won't have been changed,
@@ -6997,6 +6990,10 @@ Instead Bibledit will remain an offline app,lication, BUT:
 * On the most it can provide one index.html with frames, and each frame has its own application.
 * When using frames, it can provide navigation controls, which are created offline by bibledit.
 * Frames, e.g. one window has sabdaweb, and another google docs, and so on, and another one the online bible, and so on.
+* Pootle for translation?
+
+
+
 
 
 */

@@ -146,6 +146,11 @@ if test x$FIND_CURL = xno; then
   AC_MSG_ERROR(Program "curl" is needed. Install this first.)
 fi
 
+AC_PATH_PROG(FIND_PHP, php, no)
+if test x$FIND_PHP = xno; then
+  AC_MSG_ERROR(Program "php" is needed. Install this first.)
+fi
+
 # Checks for libraries.
 
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.16.0,,AC_MSG_ERROR(glib development version >= 2.16.0 is needed.))
