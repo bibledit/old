@@ -6855,13 +6855,6 @@ and have an object for each transfer. This object keeps the data for the transfe
 Or keep the single interface, the easy one, and use a system of storing requests till these are handled one by one.
 
 
-Make a routine that gives the installation path of the web files, where to place these. In subdirectory bibledit.
-Copy the help files to the local host in subdirectory bibledit/documentation
-Let the helpfiles be accessed from there, also in the InDialogHelp and from the Help menu.
-That should fix the problem that the help from the dialogs no longer works.
-The helpfiles are packed in a .zip file in the doc directory, and are installed using the install-hook-local (?) and unpacked there.
-Then for the time of the transition, default start page for the <web>/bibledit folder is created, that gives the various options to the user,
-e.g. whether to view the old or the new information.
 
 
 

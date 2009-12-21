@@ -122,7 +122,7 @@ void InDialogHelp::on_helpbutton()
 
     // Assemble the url to load.    
     ustring url = html_server_url ("site/");
-    url.append ("6-reference/menu/");
+    url.append ("reference/menu/");
     url.append(mytopic);
     url.append(".html");
 
