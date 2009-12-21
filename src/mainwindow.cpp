@@ -6843,7 +6843,9 @@ Use Google Pages for the new wiki. Others can then also contribute.
 The documentation on Google Pages can be extracted to bibledit.org, then from there through rsync to our local site. This keeps our traffic low.
 Writing Makefile.am, some files are too long for tar.
 Once all is done, we need to put new home pages on source forge, on bibledit.org, on Savannah, all pointing to google pages.
-
+What needs to be done too is to update the usfm pages, and change the links from the online version to the offline version.
+* We could perhaps use changedetectors on the web to monitor when the online page gets updated,
+* or we could mirror the site every day and include this in our own documentation - this one goes automatic - still the site update is needed.
 
 
 
@@ -6989,5 +6991,18 @@ Snapshots per chapter. If we store the snapshots per chapter, the cleaning up wo
 
 The notes selection window will give the number of notes which would display if that selection now in the window will be applied.
 This is useful for e.g. finding out the outstanding notes to the Bible Society.
+
+
+
+
+We should not be writing our own web applications. At this stage this is _very_ complicated.
+Instead Bibledit will remain an offline app,lication, BUT:
+* It can use external resources
+* It can work with existing web applications, such as Google Docs
+* In case of Google Docs, it can create documents for it that have the desired layout.
+* On the most it can provide one index.html with frames, and each frame has its own application.
+* When using frames, it can provide navigation controls, which are created offline by bibledit.
+* Frames, e.g. one window has sabdaweb, and another google docs, and so on, and another one the online bible, and so on.
+
 
 */
