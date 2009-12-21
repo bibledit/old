@@ -279,10 +279,10 @@ fi
 
 # Location of web root.
 WEBROOT=/
-test -d /var/www/
+test -d /var/www
 if [ [ $? -eq 0 ] ]
 then
-  WEBROOT=/var/www/
+  WEBROOT=/var/www
 fi
 echo Web document root at ${WEBROOT}
 AC_SUBST(WEBROOT)

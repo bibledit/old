@@ -32,6 +32,9 @@ Then remove the folders that start with $ and the files starting with #.
 
 It produces .htm files and other files. Since the suffix of the files is .htm, 
 these files shouldn't interfere with Bibledit's online help, which uses .html.
+Later on the usfm documents were moved to the local web server in their own directory.
+Hence there's not going to be interference with anything else at all.
 
 Teus Benschop
 3 November 2009
+
