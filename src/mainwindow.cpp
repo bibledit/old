@@ -6852,7 +6852,9 @@ Uploading:
 * index.html
 * upload.php
 * create directory upload and chmod it to 0777
-curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/test/upload.php
+curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
+We can upload a file like this, but see:
+We better send a request with fields, e.g. http://localhost/bibledit/ipc/message.php?recipient=xiphos&command=navigate&book=Mat&chapter=2&verse=5
 
 
 Bibledit uploads several reference sharing files to the server, depending on its settings where to send references to.
