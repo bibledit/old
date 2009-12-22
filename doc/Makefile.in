@@ -235,7 +235,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 dist_pkgdata_DATA = *.html
+EXTRA_DIST = site
 CLEANFILES = *~
+webroot = @WEBROOT@
 all: all-am
 
 .SUFFIXES:
@@ -379,7 +381,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dist_pkgdataDATA
+install-data-am: install-data-local install-dist_pkgdataDATA
 
 install-dvi: install-dvi-am
 
@@ -430,15 +432,19 @@ uninstall-am: uninstall-dist_pkgdataDATA
 .PHONY: all all-am check check-am clean clean-generic distclean \
 	distclean-generic distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am \
-	install-dist_pkgdataDATA install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am uninstall uninstall-am \
+	install-data-local install-dist_pkgdataDATA install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-generic pdf pdf-am ps ps-am uninstall uninstall-am \
 	uninstall-dist_pkgdataDATA
 
+
+install-data-local:
+	mkdir -p $(WEBROOT)/bibledit
+	cp -r site $(WEBROOT)/bibledit
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
