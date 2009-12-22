@@ -18,11 +18,22 @@
  */
 
 
-#ifndef INCLUDED_CURL_H
-#define INCLUDED_CURL_H
+#ifndef INCLUDED_IPC_H
+#define INCLUDED_IPC_H
 
 
 #include "libraries.h"
+
+
+enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage};
+enum InterprocessCommunicationRecipientType {icrtXiphos};
+enum InterprocessCommunicationSubjectType {icstGoto};
+
+
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message);
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 
+                                                      InterprocessCommunicationRecipientType recipient, 
+                                                      InterprocessCommunicationSubjectType subject, const ustring& payload);
 
 
 #endif

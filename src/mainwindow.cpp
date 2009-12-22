@@ -127,6 +127,7 @@
 #include "kjv.h"
 #include "xiphos.h"
 #include "dialogyesnoalways.h"
+#include "ipc.h"
 
 
 /*
@@ -1827,6 +1828,11 @@ navigation(0), httpd(0)
 
   // Show open windows.
   g_timeout_add(300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
+  
+  // Start the URL transporter.
+  urltransport = new URLTransport (0);
+  // Clear out old messages.
+  urltransport->signal (interprocess_communication_message_url (icmtClearMessages));
 }
 
 
@@ -1850,6 +1856,9 @@ MainWindow::~MainWindow()
   // Do shutdown actions.
   shutdown_actions();
   // Destroying the window is done by Gtk itself.
+  
+  // Destroy URL transporter.
+  delete urltransport;
 }
 
 
@@ -2930,7 +2939,7 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 void MainWindow::on_tool_send_reference ()
 {
   send_reference_to_bibleworks (navigation.reference);
-  bibletime_reference_send (navigation.reference);
+  bibletime_reference_send (navigation.reference); // Todo
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
   xiphos_reference_send (navigation.reference);
@@ -6840,6 +6849,31 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 
 
 /*
+ |
+ |
+ |
+ |
+ |
+ URL transporter
+ |
+ |
+ |
+ |
+ |
+ */
+
+
+void MainWindow::xiphos_reference_send (Reference reference) // Todo
+{
+  ustring payload = xiphos_reference_create (reference);
+  if (!payload.empty()) {
+    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtXiphos, icstGoto, payload);
+    urltransport->signal (url);
+  }
+}
+
+
+/*
 
 
 Todo tasks.
@@ -6854,23 +6888,23 @@ openSUSE
 
 
 
+Modify installation documents, removing libcurl-dev, and adding libsoup2.4-dev
 
 
-Uploading:
+
+
+Uploading file:
 * index.html
 * upload.php
-* create directory upload and chmod it to 0777
 curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
-We can upload a file like this, but see:
-We better send a request with fields, e.g. http://localhost/bibledit/ipc/message.php?recipient=xiphos&command=navigate&book=Mat&chapter=2&verse=5
+
 
 
 Bibledit uploads several reference sharing files to the server, depending on its settings where to send references to.
 We should use the Apache server as a base for communications using http calls. There are long polling calls for such things.
 When installing Bibledit, we may not know where the web server is. But once an address is given,
 we could use curl to upload pages to it, e.g. for uploading the online help. Or libcurl.
-Search for "php file upload" on google.
-Make a check that php is installed.
+
 
 
 

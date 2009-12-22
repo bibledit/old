@@ -26,7 +26,7 @@
 #include "reference.h"
 
 
-void xiphos_reference_send (Reference reference);
+ustring xiphos_reference_create (Reference reference);
 
 
 #endif

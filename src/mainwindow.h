@@ -53,6 +53,7 @@
 #include "assistantexport.h"
 #include "assistantimport.h"
 #include "floatingwindow.h"
+#include "urltransport.h"
 
 
 class MainWindow
@@ -792,6 +793,11 @@ protected:
   GtkWidget * focused_tool_button;
   void store_last_focused_tool_button (GtkButton * button);
   void shutdown_windows();
+  
+  // URL transporter.
+  URLTransport * urltransport;
+  void xiphos_reference_send (Reference reference);
+
 };
 
 

@@ -45,22 +45,25 @@ const gchar * xiphos_dbus_interface ()
 
 
 
-void xiphos_reference_send (Reference reference)
-// Sends a reference to Xiphos: "sword://Genesis 1:1"
+ustring xiphos_reference_create (Reference reference)
+// Creates a reference for Xiphos: "sword://Genesis 1:1"
+// (For the time being, it will also send it)
 {
+  ustring parameter;
 #ifndef WIN32
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_xiphos_get()) {
     // Check whether the user does not receive referenes from Xiphos at this moment.
     if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_xiphos_get()) {
       // Create the reference parameters.
-      ustring parameter = "sword://" + reference.human_readable ("");
+      parameter = "sword://" + reference.human_readable ("");
       // Send it.
       extern DBus * dbus;
       dbus->send_to_xiphos (xiphos_dbus_object (), xiphos_dbus_interface (), "setCurrentReference", parameter);
     }
   }
 #endif
+  return parameter;
 }
 
 

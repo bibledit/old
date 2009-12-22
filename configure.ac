@@ -223,9 +223,10 @@ PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1 >= 0.7.0,,AC_MSG_ERROR(libdbus-glib-1 de
 AC_SUBST(DBUSGLIB_CFLAGS)
 AC_SUBST(DBUSGLIB_LIBS)
 
-LIBCURL_CHECK_CONFIG([yes], 7.0.0,,AC_MSG_ERROR(libcurl4 development version >= 7.0.0 is needed.))
-AC_SUBST(LIBCURL_CPPFLAGS)
-AC_SUBST(LIBCURL)
+PKG_CHECK_MODULES(LIBSOUP, libsoup-2.4 >= 2.26,,AC_MSG_ERROR(libsoup-2.4 development version >= 2.26 is needed.))
+AC_SUBST(LIBSOUP_CFLAGS)
+AC_SUBST(LIBSOUP_LIBS)
+
 
 # Checks for header files.
 AC_HEADER_STDC

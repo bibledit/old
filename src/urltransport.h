@@ -18,11 +18,29 @@
  */
 
 
-#ifndef INCLUDED_CURL_H
-#define INCLUDED_CURL_H
+#ifndef INCLUDED_URL_TRANSPORT_H
+#define INCLUDED_URL_TRANSPORT_H
 
 
 #include "libraries.h"
+#include <libsoup/soup.h>
+
+
+class URLTransport
+{
+public:
+  URLTransport(int dummy);
+  ~URLTransport();
+  void signal (const ustring& url);
+private:
+  void log(const ustring & message);
+  ustring last_message;
+  SoupSession *session;
+  static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+  void on_message_ready (SoupSession *session, SoupMessage *msg);
+  SoupMessage * server_test_msg;
+  vector <SoupMessage *> active_messages;
+};
 
 
 #endif

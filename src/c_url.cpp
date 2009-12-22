@@ -78,6 +78,8 @@ int on_progress_function(gpointer user_data, double t, double d, double ultotal,
 
 void curl_http_server_access ()
 {
+/*
+
   // Get the url for testing the local server.
   ustring url = "localhost";
   
@@ -139,6 +141,7 @@ void curl_http_server_access ()
     gw_critical ("Could not connect to the local web server");
 
   }
+  */
 }
 
 

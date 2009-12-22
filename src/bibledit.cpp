@@ -42,7 +42,6 @@
 #include "d_bus.h"
 #include "startup.h"
 #include <libxml/nanohttp.h>
-#include <curl/curl.h>
 #include "c_url.h"
 
 
@@ -54,7 +53,6 @@ Mappings *mappings;
 Styles *styles;
 GtkAccelGroup *accelerator_group;
 VCS *vcs;
-CURL *curl;
 
 
 int main(int argc, char *argv[])
@@ -102,8 +100,6 @@ int main(int argc, char *argv[])
   xmlInitParser();
   // Initialize the http libraries.
   xmlNanoHTTPInit();
-  curl_global_init(CURL_GLOBAL_ALL);
-  curl = curl_easy_init();
   // Check on default data structure.
   directories_check_structure();
   // Maintenance system.
@@ -126,8 +122,6 @@ int main(int argc, char *argv[])
   // Version control object.
   VCS myvcs (0);
   vcs = &myvcs;
-  // Web server access.
-  curl_http_server_access ();
   /*
      We used a trick to get Bibledit to operate as a true activity on OLPC. 
      The problem is that any regular X11 program that is started, 
@@ -166,7 +160,6 @@ int main(int argc, char *argv[])
   xmlCleanupParser();
   // Clean up http libraries.
   xmlNanoHTTPCleanup();
-  curl_easy_cleanup(curl);
   // Quit.
   return 0;
 }
