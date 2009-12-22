@@ -3361,10 +3361,12 @@ void MainWindow::on_file_export ()
  |
  */
 
+
 void MainWindow::on_validate_usfms1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_menu_check_markers_validate();
 }
+
 
 void MainWindow::on_menu_check_markers_validate()
 {
@@ -3373,10 +3375,12 @@ void MainWindow::on_menu_check_markers_validate()
   scripture_checks_validate_usfms(window_references, NULL);
 }
 
+
 void MainWindow::on_count_usfms1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_menu_check_markers_count();
 }
+
 
 void MainWindow::on_menu_check_markers_count()
 {
@@ -3585,10 +3589,12 @@ void MainWindow::on_check_references_inventory()
   scripture_checks_references_inventory(true);
 }
 
+
 void MainWindow::on_check_references_validate_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_check_references_validate();
 }
+
 
 void MainWindow::on_check_references_validate()
 {
@@ -3596,6 +3602,7 @@ void MainWindow::on_check_references_validate()
   show_references_window();
   scripture_checks_validate_references(window_references, NULL);
 }
+
 
 void MainWindow::on_check_nt_quotations_from_the_ot_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -6839,6 +6846,7 @@ Todo tasks.
 
 
 
+
 There is a need to install bibledit on various distributions so as to find out the location of Apache on these, and the libraries to install.
 Fedora
 Debian
@@ -6891,17 +6899,6 @@ Bibledit should be able to see which connections are being made to the server fr
 
 
 
-
-
-
-
-
-
-Both Shona & Ndebele had a number of instances where the verse number 
-was immediately followed by the first word, without a space following 
-the number.
-In order to find this list of problems in the USFM, a few options are needed such as the ability
-to disable whole categories of checks, as is written in the task submitted.
 
 
 

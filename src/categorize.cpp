@@ -288,10 +288,12 @@ ustring CategorizeLine::footnote_opener(bool full)
   return opener;
 }
 
+
 ustring CategorizeLine::footnote_closer()
 {
   return "\\f*";
 }
+
 
 ustring CategorizeLine::endnote_opener(bool full)
 {
@@ -304,10 +306,12 @@ ustring CategorizeLine::endnote_opener(bool full)
   return opener;
 }
 
+
 ustring CategorizeLine::endnote_closer()
 {
   return "\\fe*";
 }
+
 
 ustring CategorizeLine::xref_opener(bool full)
 {
@@ -320,10 +324,12 @@ ustring CategorizeLine::xref_opener(bool full)
   return opener;
 }
 
+
 ustring CategorizeLine::xref_closer()
 {
   return "\\x*";
 }
+
 
 bool CategorizeLine::is_verse_marker(const ustring & marker)
 // We take the rough and fast road and say that if the marker is nothing else,
@@ -347,6 +353,7 @@ bool CategorizeLine::is_verse_marker(const ustring & marker)
       is_verse = false;
   return is_verse;
 }
+
 
 void CategorizeLine::remove_verse_number(const ustring & versenumber)
 // This removes the verse number if "versenumber" is found in the text.

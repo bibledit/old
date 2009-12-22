@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "check_validate_usfm.h"
 #include "projectutils.h"
 #include "settings.h"
@@ -25,6 +26,7 @@
 #include "usfmtools.h"
 #include "books.h"
 #include "tiny_utilities.h"
+
 
 CheckValidateUsfm::CheckValidateUsfm(const ustring & project, const vector < unsigned int >&books, bool gui, bool checksheet)
 /*
@@ -43,7 +45,7 @@ checksheet: check whether markers are in the stylesheet of the project.
   if (mybooks.empty())
     mybooks = project_get_books(project);
   // Get all styles in the attached stylesheet.
-  vector < ustring > styless = stylesheet_get_markers(stylesheet_get_actual (), NULL);
+  vector <ustring> styless = stylesheet_get_markers(stylesheet_get_actual (), NULL);
   for (unsigned int i = 0; i < styless.size(); i++)
     styles.insert(styless[i]);
   // GUI.
@@ -64,10 +66,10 @@ checksheet: check whether markers are in the stylesheet of the project.
     }
     book = mybooks[bk];
     // Check each chapter.
-    vector < unsigned int >chapters = project_get_chapters(project, book);
+    vector <unsigned int> chapters = project_get_chapters(project, book);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
       chapter = chapters[ch];
-      vector < ustring > verses = project_get_verses(project, book, chapter);
+      vector <ustring> verses = project_get_verses(project, book, chapter);
       // Check each verse.
       for (unsigned int vs = 0; vs < verses.size(); vs++) {
         verse = verses[vs];
@@ -82,11 +84,13 @@ checksheet: check whether markers are in the stylesheet of the project.
   }
 }
 
+
 CheckValidateUsfm::~CheckValidateUsfm()
 {
   if (progresswindow)
     delete progresswindow;
 }
+
 
 void CheckValidateUsfm::check(const ustring & text)
 // Do the actual check of one verse.
@@ -117,6 +121,21 @@ void CheckValidateUsfm::check(const ustring & text)
       }
     } else if (marker == "c") {
     } else if (marker == "v") {
+      // Is there a space after the verse number?
+      // Check it by extracting the text will the first space, and see if any unusual characters are in it.
+      // It should cover things like \v 10a-11b or \v 10,11
+      size_t position = line.find(" ");
+      position = CLAMP(position, 0, line.length());
+      ustring verse_number = line.substr (0, position);
+      for (unsigned int i = 0; i < verse_number.length(); i++) {
+        ustring character = verse_number.substr (i, 1);
+        if (number_in_string (character) != character) {
+          if ((character != "a") || (character != "b") || (character != "-") || (character != ",")) {
+            message ("Unusual character in verse number " + verse_number);
+            break;
+          }
+        }
+      }
     } else if (marker == "add") {
       check_on_endmarker(line, marker, false);
     } else if (marker == "bdit") {
@@ -572,6 +591,7 @@ void CheckValidateUsfm::check(const ustring & text)
   }
 }
 
+
 void CheckValidateUsfm::check_on_endmarker(ustring & line, const ustring & marker, bool optional)
 // This test is ran by any marker that needs an endmarker.
 // It checks on that, and if found, removes it from the line,
@@ -595,10 +615,12 @@ void CheckValidateUsfm::check_on_endmarker(ustring & line, const ustring & marke
   }
 }
 
+
 void CheckValidateUsfm::deprecated_marker(const ustring & marker)
 {
   message("Deprecated marker " + marker);
 }
+
 
 ustring CheckValidateUsfm::usfm_extract_marker_with_forwardslash(ustring & line)
 // Returns the usfm marker from the line, but only if it starts with a forward slash
@@ -624,8 +646,10 @@ ustring CheckValidateUsfm::usfm_extract_marker_with_forwardslash(ustring & line)
   return trim(returnvalue);
 }
 
+
 void CheckValidateUsfm::message(const ustring & message)
 {
   references.push_back(books_id_to_english(book) + " " + convert_to_string(chapter) + ":" + verse);
   comments.push_back(message);
 }
+
