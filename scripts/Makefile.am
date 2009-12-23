@@ -1,3 +1,3 @@
-bin_SCRIPTS = bibledit
+# bin_SCRIPTS = bibledit
 EXTRA_DIST = *
 CLEANFILES = *~

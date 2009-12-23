@@ -1,6 +1,6 @@
-bin_PROGRAMS = bibleditgui
+bin_PROGRAMS = bibledit
 
-bibleditgui_SOURCES = \
+bibledit_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
     	tiny_utilities.cpp \
@@ -276,7 +276,7 @@ bibleditgui_SOURCES = \
 				urltransport.cpp \
 				ipc.cpp
 
-EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
+EXTRA_DIST = *.h .indent.pro update-copyright
 
 AM_CXXFLAGS = -Wall 
 AM_CXXFLAGS += `xml2-config --cflags`

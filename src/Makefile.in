@@ -35,7 +35,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = bibleditgui$(EXEEXT)
+bin_PROGRAMS = bibledit$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -50,7 +50,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
+am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	tiny_utilities.$(OBJEXT) bible.$(OBJEXT) usfmtools.$(OBJEXT) \
 	mainwindow.$(OBJEXT) dialoglistview.$(OBJEXT) \
 	dialogshowscript.$(OBJEXT) htmlbrowser.$(OBJEXT) \
@@ -178,8 +178,8 @@ am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) \
 	editor2.$(OBJEXT) editoractions.$(OBJEXT) nanohttp.$(OBJEXT) \
 	c_url.$(OBJEXT) urltransport.$(OBJEXT) ipc.$(OBJEXT)
-bibleditgui_OBJECTS = $(am_bibleditgui_OBJECTS)
-bibleditgui_LDADD = $(LDADD)
+bibledit_OBJECTS = $(am_bibledit_OBJECTS)
+bibledit_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -193,8 +193,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibleditgui_SOURCES)
-DIST_SOURCES = $(bibleditgui_SOURCES)
+SOURCES = $(bibledit_SOURCES)
+DIST_SOURCES = $(bibledit_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -362,7 +362,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bibleditgui_SOURCES = \
+bibledit_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
     	tiny_utilities.cpp \
@@ -638,7 +638,7 @@ bibleditgui_SOURCES = \
 				urltransport.cpp \
 				ipc.cpp
 
-EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
+EXTRA_DIST = *.h .indent.pro update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \
@@ -716,9 +716,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-bibleditgui$(EXEEXT): $(bibleditgui_OBJECTS) $(bibleditgui_DEPENDENCIES) 
-	@rm -f bibleditgui$(EXEEXT)
-	$(CXXLINK) $(bibleditgui_OBJECTS) $(bibleditgui_LDADD) $(LIBS)
+bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) 
+	@rm -f bibledit$(EXEEXT)
+	$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

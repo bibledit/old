@@ -44,7 +44,7 @@ bool check_bibledit_startup_okay (int argc, char *argv[])
   vector <ustring> processes = list_processes ();
   int count = 0;
   for (unsigned int i = 0; i < processes.size(); i++) {
-    if (g_str_has_suffix (processes[i].c_str(), "bibleditgui")) {
+    if (g_str_has_suffix (processes[i].c_str(), "bibledit")) {
       count++;
     }
   }

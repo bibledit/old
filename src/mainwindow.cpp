@@ -6905,11 +6905,11 @@ install bibledit on Debian and make installation document.
 
 
 
+
 Implement BibleTime reference receipt, and probably the third one as well.
 
 There should be an option to view the logfile from bibledit-dbus, and the binary itself should redirect its stdout etc.
 
-Once the dbus problem has been removed from bibledit, the bibleditgui can be renamed to bibledit again, and the script removed.
 
 
 
