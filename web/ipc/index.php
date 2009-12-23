@@ -7,7 +7,7 @@
 
 <body>
 
-<h2>Unread messages in the interprocess communication queue</h2>
+<h2>Messages in the interprocess communication queue</h2>
 
 <?php
 

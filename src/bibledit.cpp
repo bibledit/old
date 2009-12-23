@@ -65,9 +65,16 @@ int main(int argc, char *argv[])
   gtk_init(&argc, &argv);
 
   // Check whether it is fine to start the program.
+  // If not, quit the program normally.
   if (!check_bibledit_startup_okay(argc, argv)) {
-    // Quit the program normally.
     return 0;
+  }
+  
+  // Start the dbus helper program.
+  {
+    GwSpawn spawn ("bibledit-dbus");
+    spawn.async ();
+    spawn.run ();
   }
 
   // Save logfile from previous session.

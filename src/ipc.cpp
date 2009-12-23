@@ -28,8 +28,8 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
 
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 
-                                                      InterprocessCommunicationRecipientType recipient, 
-                                                      InterprocessCommunicationSubjectType subject, const ustring& payload)
+                                                InterprocessCommunicationRecipientType recipient, 
+                                                InterprocessCommunicationSubjectType subject, const ustring& payload)
 {
   ustring url = "http://localhost/bibledit/ipc/";
   switch (message) {
@@ -47,9 +47,12 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
   url.append ("&subject=");
   switch (subject) {
     case icstGoto: url.append ("goto"); break;
+    case icstQuit: url.append ("quit"); break;
   }
-  url.append ("&message=");
-  url.append (payload);
+  if (!payload.empty()) {
+    url.append ("&message=");
+    url.append (payload);
+  }
   return url;  
 }
 

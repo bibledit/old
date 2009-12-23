@@ -36,7 +36,6 @@ public:
   ~DBus ();
   void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const ustring& value);
   vector <ustring> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method);
-  void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const ustring& value);
 private:
   DBusConnection *con;
 	DBusGConnection *sigcon;
@@ -57,7 +56,6 @@ private:
   guint event_id_rescan_bus;
   static bool on_rescan_bus_timeout(gpointer user_data);
   void on_rescan_bus();
-  ustring xiphos_bus_name;
 };
 
 

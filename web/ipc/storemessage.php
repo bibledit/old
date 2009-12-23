@@ -28,8 +28,6 @@ fclose($fp_id);
 // The message file.
 $identifier = $identifier + 1000000000;
 $filename_message = "messages/"."$identifier"."."."$recipient";
-echo "Filename: $filename_message<br>";
-
 
 
 // Write the message file.

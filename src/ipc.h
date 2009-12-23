@@ -27,7 +27,7 @@
 
 enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage};
 enum InterprocessCommunicationRecipientType {icrtXiphos};
-enum InterprocessCommunicationSubjectType {icstGoto};
+enum InterprocessCommunicationSubjectType {icstGoto, icstQuit};
 
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message);

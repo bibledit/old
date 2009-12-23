@@ -1859,6 +1859,15 @@ MainWindow::~MainWindow()
   
   // Destroy URL transporter.
   delete urltransport;
+
+  // Send message to quit bibledit-dbus through curl, since the url transporter is no longer functional at this stage.
+  // Even if it were functional, since it gets destroyed, it will remove all pending messages.
+  {
+    GwSpawn spawn ("curl");
+    spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icrtXiphos, icstQuit, ""));
+    spawn.async ();
+    spawn.run ();
+  }
 }
 
 
@@ -6863,7 +6872,7 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
  */
 
 
-void MainWindow::xiphos_reference_send (Reference reference) // Todo
+void MainWindow::xiphos_reference_send (Reference reference)
 {
   ustring payload = xiphos_reference_create (reference);
   if (!payload.empty()) {
@@ -6886,12 +6895,6 @@ install bibledit on Debian and make installation document.
 
 
 
-The bibledit-dbus needs the url to be passed to check and listen to (there are two), and again, the url to send to.
-It may have to get one main url, and add the "xiphos" and the "bibletime" itself to that url.
-It could then also add the "bibledit" for the response. So it only gets one base url.
-
-On shutdown, Bibledit should send a message to shut down the various attached listeners. If Bibledit itself can't do that,
-because it destroys any pending messages, then we call curl to do the job.
 Better to clean the messages off the server on tidy up on shutdown, i.e. once a day.
 Better still is to always run the shutdown program, but with varying things to do so that the big jobs are done once a day,
 but the smaller ones, like clearing off the messages off the server, are done on each shutdown.
