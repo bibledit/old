@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.8],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.9],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -290,6 +290,16 @@ if [ [ $? -eq 0 ] ]
 then
   WEBROOT=/var/www
 fi
+test -d /var/www/html
+if [ [ $? -eq 0 ] ]
+then
+  WEBROOT=/var/www/html
+fi
+test -d /srv/www/htdocs
+if [ [ $? -eq 0 ] ]
+then
+  WEBROOT=/srv/www/htdocs
+fi
 test -d /Library/WebServer/Documents
 if [ [ $? -eq 0 ] ]
 then
@@ -403,6 +413,7 @@ AC_CONFIG_FILES([Makefile
        outpost/Makefile
        gobible/Makefile
        web/Makefile
+       dbus/Makefile
 		   ])
 AC_OUTPUT
 

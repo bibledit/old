@@ -2,11 +2,11 @@
 <body>
 <?php
 
-$directory = "messages";
-$handler = opendir($directory);
+require("constants.php");
+$handler = opendir($messagesdir);
 while ($file = readdir($handler)) {
   if ($file != '.' && $file != '..') {
-    unlink ("$directory/$file");
+    unlink ("$messagesdir/$file");
   }
 }
 closedir($handler);

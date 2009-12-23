@@ -3,6 +3,9 @@
 <?php
 
 
+require("constants.php");
+
+
 // GET the variables.
 $recipient = stripslashes($_GET["recipient"]);
 $subject = stripslashes($_GET["subject"]);
@@ -10,7 +13,7 @@ $message = stripslashes($_GET["message"]);
 
 
 // Filename that contains the message identifier.
-$filename_id = "messages/identifier";
+$filename_id = "$messagesdir/identifier";
 // Get contents, suppress errors in case the file is not there.
 @$thenames = file($filename_id);
 // Get the identifier and increase it.

@@ -17,8 +17,10 @@
 **  
 */
 
+
 #ifndef INCLUDED_LIBRARIES_H
 #define INCLUDED_LIBRARIES_H
+
 
 #include <exception>            // Standard exception class
 #include <stdexcept>            // logic_error and runtime_error
@@ -42,6 +44,8 @@
 // #define NDEBUG
 #include <cassert>
 
+
 using namespace std;
+
 
 #endif

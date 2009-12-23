@@ -6881,14 +6881,10 @@ Todo tasks.
 
 
 
-There is a need to install bibledit on various distributions so as to find out the location of Apache on these, and the libraries to install.
-Fedora
-Debian
-openSUSE
+install bibledit on Debian and make installation document.
 
 
 
-Modify installation documents, removing libcurl-dev, and adding libsoup2.4-dev
 
 
 
@@ -6900,23 +6896,24 @@ curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
 
 
 
+The bibledit-dbus needs the url to be passed to check and listen to (there are two), and again, the url to send to.
+PHP needs to sort the list, else the references sent to the server are not picked up in the right order by e..g xiphos.
+
+On shutdown, Bibledit should send a message to shut down the various attached listeners. If Bibledit itself can't do that,
+* because it destroys any pending messages, then we call curl to do the job.
+
+Better to clean the messages off the server on tidy up on shutdown, i.e. once a day.
+
+It needs an "Open web page" in the View menu, which goes to the bibledit directory on the server. It needs an index document there.
+
 Bibledit uploads several reference sharing files to the server, depending on its settings where to send references to.
 We should use the Apache server as a base for communications using http calls. There are long polling calls for such things.
-When installing Bibledit, we may not know where the web server is. But once an address is given,
-we could use curl to upload pages to it, e.g. for uploading the online help. Or libcurl.
 
 
 
 
 
 
-We may have to use the multiple interface of libcurl, have one thread that does the 'perform', and keeps calling it,
-and have an object for each transfer. This object keeps the data for the transfer till it is destroyed.
-Or keep the single interface, the easy one, and use a system of storing requests till these are handled one by one.
-This may be simpler.
-Bibledit then listens to the server if there are no requests.
-* If requests come on, the listener cuts off, and the request is handled.
-* After that the listener starts again.
 
 
 

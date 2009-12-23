@@ -21,7 +21,6 @@
 #include "c_url.h"
 #include "gwrappers.h"
 #include "tiny_utilities.h"
-#include <curl/curl.h>
 
 
 struct CurlMemoryStruct
