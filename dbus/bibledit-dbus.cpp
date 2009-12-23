@@ -27,34 +27,45 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <glib.h>
 
 
-void start_listener ()
+void start_xiphos_web_listener ()
 {
 	SoupMessage * listener_msg;
 	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/xiphos.php");
-  soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_listener_ready_callback), NULL);
+  soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_xiphos_web_listener_ready_callback), NULL);
 }
 
-void on_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+
+void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
 {
-
-
 	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
-    printf ("%s\n", msg->response_body->data);
+		// Get the response body.
 		string body (msg->response_body->data);
 		body = trim (body);
+		// Print it just for diagnostics.
+    printf ("%s\n", body.c_str());
+    // Handle "quit" command.
 		if (body.find ("quit") == 0) {
       g_main_loop_quit (loop);
 		}
+		// Handle "goto" command.
+		if (body.find ("goto") == 0) {
+			body.erase (0, 4);
+			body = trim (body);
+      send_to_xiphos (xiphos_dbus_object (), xiphos_dbus_interface (), "setCurrentReference", body);
+		}
 	} else {
-		printf ("message failure: %s\n", msg->reason_phrase);
+		// If the message was cancelled, do not start it again, just quit.
+		if (msg->status_code == 1) {
+		  return;
+		}
+		printf ("xiphos_web_listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
 		g_usleep (1000000);
 	}
-
 	g_usleep (100000);
-	start_listener ();
-	
+	start_xiphos_web_listener ();
 }
 
 
@@ -72,71 +83,469 @@ string trim(const string & s)
 }
 
 
-/*
-static void
-get_url (const char *url)
+void on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data)
 {
-	const char *name;
-	SoupMessage *msg;
-	const char *header;
-
-	msg = soup_message_new (method, url);
-	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
-
-	soup_session_send_message (session, msg);
-
-	name = soup_message_get_uri (msg)->path;
-
-	if (debug) {
-		SoupMessageHeadersIter iter;
-		const char *hname, *value;
-		char *path = soup_uri_to_string (soup_message_get_uri (msg), TRUE);
-
-		printf ("%s %s HTTP/1.%d\n\n", method, path,
-			soup_message_get_http_version (msg));
-		printf ("HTTP/1.%d %d %s\n",
-			soup_message_get_http_version (msg),
-			msg->status_code, msg->reason_phrase);
-
-		soup_message_headers_iter_init (&iter, msg->response_headers);
-		while (soup_message_headers_iter_next (&iter, &hname, &value))
-			printf ("%s: %s\r\n", hname, value);
-		printf ("\n");
-	} else
-		printf ("%s: %d %s\n", name, msg->status_code, msg->reason_phrase);
-
-	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
-		header = soup_message_headers_get_one (msg->response_headers,
-						       "Location");
-		if (header) {
-			if (!debug)
-				printf ("  -> %s\n", header);
-			get_url (header);
-		}
-	} else if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
-		fwrite (msg->response_body->data, 1,
-			msg->response_body->length, stdout);
-	}
+	//printf ("name acquired: %s\n", name);
+  names_on_dbus_changed();
 }
+
+
+void on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data)
+{
+	//printf ("name owner changed, name: %s, prev: %s, nw: %s\n", name, prev, nw);
+  names_on_dbus_changed();
+}
+
+
+void on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data)
+{
+	//printf ("name lost: %s\n", name);
+  names_on_dbus_changed();
+}
+
+
+void destroy_source(guint & event_id)
+// This is a convenience wrapper.
+{
+  if (event_id) {
+    GSource *source = g_main_context_find_source_by_id(NULL, event_id);
+    if (source)
+      g_source_destroy(source);
+  }
+  event_id = 0;
+}
+
+
+void retrieve_iter(DBusMessageIter * iter)
+// Retrieve the payload of one iterator of the message.
+{
+  do {
+    int type = dbus_message_iter_get_arg_type(iter);
+    switch (type) {
+    case DBUS_TYPE_INVALID:
+      {
+        break;
+      }
+    case DBUS_TYPE_STRING:
+      {
+        char *val;
+        dbus_message_iter_get_basic(iter, &val);
+        string_reply.push_back(val);
+        break;
+      }
+    case DBUS_TYPE_SIGNATURE:
+      {
+        char *val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_OBJECT_PATH:
+      {
+        char *val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_INT16:
+      {
+        dbus_int16_t val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_UINT16:
+      {
+        dbus_uint16_t val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_INT32:
+      {
+        dbus_int32_t val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_UINT32:
+      {
+        dbus_uint32_t val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_INT64:
+      {
+        dbus_int64_t val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_UINT64:
+      {
+        dbus_uint64_t val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_DOUBLE:
+      {
+        double val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_BYTE:
+      {
+        unsigned char val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_BOOLEAN:
+      {
+        dbus_bool_t val;
+        dbus_message_iter_get_basic(iter, &val);
+        break;
+      }
+    case DBUS_TYPE_VARIANT:
+      {
+        DBusMessageIter subiter;
+        dbus_message_iter_recurse(iter, &subiter);
+        retrieve_iter(&subiter);
+        break;
+      }
+    case DBUS_TYPE_ARRAY:
+      {
+        string_reply.clear();
+        int current_type;
+        DBusMessageIter subiter;
+        dbus_message_iter_recurse(iter, &subiter);
+        while ((current_type = dbus_message_iter_get_arg_type(&subiter)) != DBUS_TYPE_INVALID) {
+          retrieve_iter(&subiter);
+          dbus_message_iter_next(&subiter);
+        }
+        break;
+      }
+    case DBUS_TYPE_DICT_ENTRY:
+      {
+        DBusMessageIter subiter;
+        dbus_message_iter_recurse(iter, &subiter);
+        retrieve_iter(&subiter);
+        dbus_message_iter_next(&subiter);
+        retrieve_iter(&subiter);
+        break;
+      }
+    case DBUS_TYPE_STRUCT:
+      {
+        int current_type;
+        DBusMessageIter subiter;
+        dbus_message_iter_recurse(iter, &subiter);
+        while ((current_type = dbus_message_iter_get_arg_type(&subiter)) != DBUS_TYPE_INVALID) {
+          retrieve_iter(&subiter);
+          dbus_message_iter_next(&subiter);
+          if (dbus_message_iter_get_arg_type(&subiter) != DBUS_TYPE_INVALID) {
+					}
+        }
+        break;
+      }
+    }
+  } while (dbus_message_iter_next(iter));
+}
+
+
+void retrieve_message(DBusMessage * message)
+// Retrieve the payload of the message.
+{
+  DBusMessageIter iter;
+  dbus_message_iter_init(message, &iter);
+  message_type = dbus_message_iter_get_arg_type(&iter);
+  retrieve_iter(&iter);
+}
+
+
+bool on_rescan_bus_timeout(gpointer user_data)
+{
+  on_rescan_bus();
+  return false;
+}
+
+
+void on_rescan_bus()
+{
+  // Clear event id.
+  event_id_rescan_bus = 0;
+  
+  // Clear the relevant bus names.
+  bibletime_bus_name.clear();
+  xiphos_bus_name.clear();
+  
+  // Check the names currently available on the bus:
+  // dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+  vector <string> names_on_bus = method_call_wait_reply ("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames", false);
+  // Check whether the BibleTime name is visible on the bus.
+  for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+    if (names_on_bus[i].find ("BibleTime") != string::npos) {
+      bibletime_bus_name = names_on_bus[i];
+			printf ("BibleTime on DBus as service %s\n", names_on_bus[i].c_str());
+      break;
+    }
+  }
+  // If the BibleTime service was not found, inspect each name on the bus whether it represents BibleTime.
+  if (bibletime_bus_name.empty()) {
+    for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+      if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
+        bibletime_bus_name = names_on_bus[i];
+        printf ("BibleTime on DBus represented by name %s\n", names_on_bus[i].c_str());
+        break;
+      }
+    }
+  }
+  // If BibleTime is still not found, give a message.
+  if (bibletime_bus_name.empty()) {
+    printf ("BibleTime not on DBus\n");
+  }
+  // Look for the Xiphos name on the bus.
+  for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+    if (names_on_bus[i].find ("xiphos") != string::npos) {
+      xiphos_bus_name = names_on_bus[i];
+      printf ("Xiphos on DBus as service %s\n", names_on_bus[i].c_str());
+      break;
+    }
+  }
+  // If Xiphos is not found, give a message.
+  if (xiphos_bus_name.empty()) {
+    printf ("Xiphos not on DBus\n");
+  }
+}
+
+
+vector <string> method_call_wait_reply (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, bool silent)
+// This equals: dbus-send --print-reply --dest=bus_name object interface.method
+// It calls the method, and returns the reply.
+{
+  // Assemble the method call.
+  DBusMessage *dbus_message;
+  dbus_message = dbus_message_new_method_call(bus_name, object, interface, method);
+  dbus_message_set_auto_start(dbus_message, TRUE);
+
+  // Send dbus_message and handle the reply.  
+  DBusError error;
+  dbus_error_init(&error);
+  int timeout = 10; // Timeout in milliseconds.
+  DBusMessage *dbus_reply;
+  dbus_reply = dbus_connection_send_with_reply_and_block(con, dbus_message, timeout, &error);
+  if (dbus_error_is_set(&error) && !silent) {
+    string err(error.name);
+    err.append(": ");
+    err.append(error.message);
+    printf ("%s\n", err.c_str());
+  }
+  if (dbus_reply) {
+    retrieve_message(dbus_reply);
+    dbus_message_unref(dbus_reply);
+  }
+
+  // Free the message.
+  dbus_message_unref(dbus_message);
+
+  // Return reply.
+  vector <string> method_reply (string_reply);
+  string_reply.clear();
+  return method_reply;
+}
+
+
+void send(const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, const string& payload)
+{
+  // Assemble the method call.
+  DBusMessage *message;
+  message = dbus_message_new_method_call(bus_name, object, interface, method);
+  dbus_message_set_auto_start(message, TRUE);
+
+  // Add the payload to the message.
+  DBusMessageIter args;
+  dbus_message_iter_init_append(message, &args);
+  const char *pl = payload.c_str();
+  dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &pl);
+
+  // Send the message and flush the connection.
+  DBusError error;
+  dbus_error_init(&error);
+  dbus_uint32_t serial = 0;
+  dbus_connection_send(con, message, &serial);
+  dbus_connection_flush(con);
+
+  // Clear memory.
+  dbus_message_unref(message);
+}
+
+
+bool check_if_bibletime_bus_name (const gchar * bus_name)
+// Checks whether the "bus_name" belongs to BibleTime:
+// dbus-send --print-reply --dest=:1.502 / org.freedesktop.DBus.Introspectable.Introspect
+// (The ":1.502" is the bus_name.
+{
+  vector <string> reply = method_call_wait_reply (bus_name, "/", "org.freedesktop.DBus.Introspectable", "Introspect", true);
+  if (!reply.empty ()) {
+    if (reply[0].find ("BibleTime") != string::npos) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const string& value)
+/*
+Sends a message to BibleTime over the DBus
+
+dbus-send --print-reply --dest=:1.638 /BibleTime org.freedesktop.DBus.Introspectable.Introspect
+This gives BibleTime's methods.
+
+To synchronize all verse based modules, do this:
+dbus-send --print-reply --dest=:1.668 /BibleTime info.bibletime.BibleTime.syncAllVerseBasedModules "string:Gen 2.2"
+
 */
+{
+  // Bail out if BibleTime's name on the bus is not known.
+  if (bibletime_bus_name.empty()) 
+    return;
+  // Send the message.
+  send (bibletime_bus_name.c_str(), object, interface, method, value);
+}
+
+
+vector <string> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method)
+// Calls a method in BibleTime and wait for the reply.
+{
+  vector <string> reply;
+  if (!bibletime_bus_name.empty()) 
+    reply = method_call_wait_reply (bibletime_bus_name.c_str(), object, interface, method, false);
+  return reply;
+}
+
+
+void names_on_dbus_changed ()
+{
+  destroy_source (event_id_rescan_bus);
+  event_id_rescan_bus = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(on_rescan_bus_timeout), NULL, NULL);
+}
+
+
+const gchar * xiphos_dbus_object ()
+{
+  return "/org/xiphos/remote/ipc";
+}
+
+
+const gchar * xiphos_dbus_interface ()
+{
+  return "org.xiphos.remote";
+}
+
+
+void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const string& value) // Todo
+/*
+Sends a message to BibleTime over the DBus
+
+To let Xiphos scroll to a certain verse, do this:
+dbus-send --print-reply --dest=org.xiphos.remote /org/xiphos/remote/ipc org.xiphos.remote.navigate "string:sword://Genesis 2:3"
+
+*/
+{
+  // Bail out if Xiphos does not run.
+  if (xiphos_bus_name.empty()) 
+    return;
+  // Send the message.
+  send (xiphos_bus_name.c_str(), object, interface, method, value);
+}
+
+
+void sigproc(int dummy)
+{ 		 
+	printf("\nCtrl-c trapped to quit\n");
+  g_main_loop_quit (loop);
+}
+
+
+void sigquit(int dummy)
+{ 		 
+	printf("\nCtrl-\\ trapped to quit\n");
+  g_main_loop_quit (loop);
+}
+
 
 int main (int argc, char **argv)
 {
+	// The necessary g_ initializers, in the proper order.
   g_thread_init(NULL);
 	g_type_init ();
 
+  // Initialize variables.
+  event_id_rescan_bus = 0;
+
+  // The base URL (not used yet).
 	url = argv[1];
 
+  // We use asynchronous transport, so that we can send several messages simultanously.
 	session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-dbus/1.0", NULL);
+  start_xiphos_web_listener ();
 
-  start_listener ();
+	// Obtain a connection to the Session Bus.
+	GError *error = NULL;
+	sigcon = dbus_g_bus_get(DBUS_BUS_SESSION, &error);
+	if(sigcon) {
+  	con = dbus_g_connection_get_connection(sigcon);
+	} else {
+    printf ("%s\n", error->message);
+		g_error_free(error);
+  	return 1;
+  }
 
+	// Request our name on the DBus.
+  if (con) {
+  	DBusError *dbuserror = NULL;
+    int retval = dbus_bus_request_name(con, "org.bibledit.dbus", 0, dbuserror);
+    if (retval != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
+      if (dbus_error_is_set(dbuserror)) {
+        printf ("%s\n", dbuserror->message);
+        dbus_error_free(dbuserror);
+      }
+    }
+  }
 
+  // Connect to a couple of signals that indicate applications have started or have exited.
+  // Then a rescan of the bus can show whether the programs that we're interested in run.  
+  proxy = NULL;
+  if (sigcon)
+  	proxy = dbus_g_proxy_new_for_name(sigcon, "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus");
+  if (proxy) {
+    dbus_g_proxy_add_signal(proxy, "NameAcquired", G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameAcquired", G_CALLBACK (on_name_acquired), NULL, NULL);
+    dbus_g_proxy_add_signal(proxy, "NameOwnerChanged", G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameOwnerChanged", G_CALLBACK (on_name_owner_changed), NULL, NULL);
+    dbus_g_proxy_add_signal(proxy, "NameLost", G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameLost", G_CALLBACK (on_name_lost), NULL, NULL);
+  }
+
+  // Signal trapping.
+	signal(SIGINT, sigproc);
+	signal(SIGQUIT, sigquit);
+
+  // The main loop will block till something quits it.
 	loop = g_main_loop_new (NULL, TRUE);
   g_main_loop_run (loop);
-	//get_url (url);
-  // g_main_loop_quit (loop);
 	g_main_loop_unref (loop);
 
+  // Destroy any pending timeout.
+  destroy_source(event_id_rescan_bus);
+
+  // Abort the session including the listeners
+  soup_session_abort (session);
+
+  // The connection obtained through dbus_g_connection_get_connection does not have its reference count incremented.
+  // Therefore it should not be unreferenced.
+  // dbus_connection_unref(con);
+
+  // Destroy the proxy.
+  if (proxy) {
+    g_object_unref(proxy);
+  }
+
+  // Well done, my boy.
 	return 0;
 }
+
+

@@ -6886,45 +6886,30 @@ install bibledit on Debian and make installation document.
 
 
 
-
-
-
-Uploading file:
-* index.html
-* upload.php
-curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
-
-
-
 The bibledit-dbus needs the url to be passed to check and listen to (there are two), and again, the url to send to.
-PHP needs to sort the list, else the references sent to the server are not picked up in the right order by e..g xiphos.
+It may have to get one main url, and add the "xiphos" and the "bibletime" itself to that url.
+It could then also add the "bibledit" for the response. So it only gets one base url.
 
 On shutdown, Bibledit should send a message to shut down the various attached listeners. If Bibledit itself can't do that,
-* because it destroys any pending messages, then we call curl to do the job.
-
+because it destroys any pending messages, then we call curl to do the job.
 Better to clean the messages off the server on tidy up on shutdown, i.e. once a day.
+Better still is to always run the shutdown program, but with varying things to do so that the big jobs are done once a day,
+but the smaller ones, like clearing off the messages off the server, are done on each shutdown.
+
+Once the dbus problem has been removed from bibledit, the bibleditgui can be renamed to bibledit again, and the script removed.
+
+
 
 It needs an "Open web page" in the View menu, which goes to the bibledit directory on the server. It needs an index document there.
 
 Bibledit uploads several reference sharing files to the server, depending on its settings where to send references to.
-We should use the Apache server as a base for communications using http calls. There are long polling calls for such things.
-
-
-
-
-
-
-
-
-
 
 
 Each request to the server has an increasing id number, which, when it comes back, is recognized as the right answer.
-The files that have the ID's can remain on the server till such time that Bibledit shuts down, when these get deleted.
-Or when Bibledit has processed them, these get deleted too.
+
 Bibledit should be able to see which connections are being made to the server from the various clients.
-
-
+Or better, the diagnostics interprocess communicatons web page should see that.
+This means that the php file, e.g. xiphos.php creates a file when it starts, and erased that file again. That file shows who's listening, e.g. xiphos.
 
 
 
@@ -6941,6 +6926,7 @@ Since the dbus causes crashes, this should go separate also.
 bibledit-executive
 bibledit-dbus
 Both are started by the main bibledit binary.
+If these already run, then they would not get started.
 The executive gets an identifier, and the path of the binary to execute.
 It has its own log file, viewable in the main program.
 It returns the identifier, and the standard out and the standard err of the program ran.
@@ -6959,6 +6945,13 @@ The git system gives a few warnings. These should be fixed.
 
 The shutdown window hides too much, better make it a normal one.
 It would be helpful if the window could be cancelled, in particular if somebody is in a hurry to get on with the work.
+
+
+
+
+
+The outpost also should listen to the apache server. We then need to download a new Delphi, and write a new outpost in that.
+It may better read the Online Bible stuff since it probably understands the character encoding used in the Online Bible.
 
 
 
@@ -7027,6 +7020,14 @@ Instead Bibledit will remain an offline app,lication, BUT:
 * When using frames, it can provide navigation controls, which are created offline by bibledit.
 * Frames, e.g. one window has sabdaweb, and another google docs, and so on, and another one the online bible, and so on.
 * Pootle for translation?
+
+
+
+Uploading file:
+* index.html
+* upload.php
+curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
+This could be used when uploading printed documents to the web. LibSoup probably does the POST also.
 
 
 

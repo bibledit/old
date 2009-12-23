@@ -20,19 +20,57 @@
 
 #include <libsoup/soup.h>
 #include <string>
+#include <dbus/dbus.h>
+#include <dbus/dbus-glib.h>
+#include <dbus/dbus-glib-lowlevel.h>
+#include <vector>
 
 
 using namespace std;
 
 
-static SoupSession *session;
 static GMainLoop *loop;
+
+static SoupSession *session;
 static const char * url;
 
+static void start_xiphos_web_listener ();
+static void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
 
-static void start_listener ();
-static void on_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+static DBusConnection *con;
+static DBusGConnection *sigcon;
+static DBusGProxy *proxy;
+static void on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data);
+static void on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data);
+static void on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data);
+
+static guint event_id_rescan_bus;
+static int message_type;
+static vector <string> string_reply;
+static string bibletime_bus_name;
+static string xiphos_bus_name;
+static const gchar * xiphos_dbus_object ();
+static const gchar * xiphos_dbus_interface ();
+void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const string& value);
+vector <string> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method);
+void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const string& value);
+void send (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, const string& payload);
+vector <string> method_call_wait_reply (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, bool silent);
+void retrieve_message (DBusMessage *message);
+void retrieve_iter (DBusMessageIter *iter);
+bool check_if_bibletime_bus_name (const gchar * bus_name);
+void names_on_dbus_changed ();
+static bool on_rescan_bus_timeout(gpointer user_data);
+void on_rescan_bus();
+
 string trim(const string & s);
+static void destroy_source(guint & event_id);
+
+static void sigproc(int dummy);
+static void sigquit(int dummy);
 int main (int argc, char **argv);
+
+
+// Aids for dbus: dbus-monitor, d-feet
 
 

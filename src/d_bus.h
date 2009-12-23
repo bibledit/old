@@ -29,9 +29,6 @@
 #include <dbus/dbus-glib-lowlevel.h>
 
 
-enum DBusMethodType {dbmtHello, dbmtEnd};
-
-
 class DBus
 {
 public:
