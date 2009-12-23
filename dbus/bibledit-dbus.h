@@ -37,6 +37,9 @@ static const char * url;
 static void start_xiphos_web_listener ();
 static void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
 
+static void start_bibletime_web_listener ();
+static void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+
 static DBusConnection *con;
 static DBusGConnection *sigcon;
 static DBusGProxy *proxy;

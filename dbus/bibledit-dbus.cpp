@@ -38,7 +38,7 @@ void start_xiphos_web_listener ()
 }
 
 
-void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data) // Todo where used.
 {
 	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
 		// Get the response body.
@@ -66,6 +66,45 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 	}
 	g_usleep (100000);
 	start_xiphos_web_listener ();
+}
+
+
+void start_bibletime_web_listener ()
+{
+	SoupMessage * listener_msg;
+	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/bibletime.php");
+  soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_bibletime_web_listener_ready_callback), NULL);
+}
+
+
+void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+{
+	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
+		// Get the response body.
+		string body (msg->response_body->data);
+		body = trim (body);
+		// Print it just for diagnostics.
+    printf ("%s\n", body.c_str());
+    // Handle "quit" command.
+		if (body.find ("quit") == 0) {
+      g_main_loop_quit (loop);
+		}
+		// Handle "goto" command.
+		if (body.find ("goto") == 0) {
+			body.erase (0, 4);
+			body = trim (body);
+      // Todo send_to_xiphos (xiphos_dbus_object (), xiphos_dbus_interface (), "setCurrentReference", body);
+		}
+	} else {
+		// If the message was cancelled, do not start it again, just quit.
+		if (msg->status_code == 1) {
+		  return;
+		}
+		printf ("BibleTime web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
+		g_usleep (1000000);
+	}
+	g_usleep (100000);
+	start_bibletime_web_listener ();
 }
 
 
@@ -482,6 +521,7 @@ int main (int argc, char **argv)
   // We use asynchronous transport, so that we can send several messages simultanously.
 	session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-dbus/1.0", NULL);
   start_xiphos_web_listener ();
+  start_bibletime_web_listener ();
 
 	// Obtain a connection to the Session Bus.
 	GError *error = NULL;

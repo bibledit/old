@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
   }
   
   // Start the dbus helper program.
-  {
+  if (!program_is_running ("bibledit-dbus")) {
     GwSpawn spawn ("bibledit-dbus");
     spawn.async ();
     spawn.run ();
