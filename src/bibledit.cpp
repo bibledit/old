@@ -39,13 +39,11 @@
 #include "styles.h"
 #include <libxml/xmlreader.h>
 #include "vcs.h"
-#include "d_bus.h"
 #include "startup.h"
 #include <libxml/nanohttp.h>
 #include "c_url.h"
 
 
-DBus * dbus;
 Settings *settings;
 BookLocalizations *booklocalizations;
 Versifications *versifications;
@@ -100,9 +98,6 @@ int main(int argc, char *argv[])
     if (dup(1));
   }    
 
-  // Initialize the dbus.
-  DBus mydbus (0);
-  dbus = &mydbus;
   // Initialize the xml library.
   xmlInitParser();
   // Initialize the http libraries.

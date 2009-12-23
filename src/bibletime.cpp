@@ -30,19 +30,6 @@
 #include <sqlite3.h>
 #include "tiny_utilities.h"
 #include "settings.h"
-#include "d_bus.h"
-
-
-const gchar * bibletime_dbus_object ()
-{
-  return "/BibleTime";
-}
-
-
-const gchar * bibletime_dbus_interface ()
-{
-  return "info.bibletime.BibleTime";
-}
 
 
 ustring bibletime_reference_create (Reference reference)
@@ -71,10 +58,22 @@ ustring bibletime_reference_create (Reference reference)
 }
 
 
+const gchar * bibletime_dbus_object ()
+{
+  return "/BibleTime";
+}
+
+
+const gchar * bibletime_dbus_interface ()
+{
+  return "info.bibletime.BibleTime";
+}
+
+
 bool bibletime_reference_receive (Reference& reference)
 {
-  extern DBus * dbus;
-  vector <ustring> reply = dbus->receive_from_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "getCurrentReference");
+  vector <ustring> reply // Todo  = dbus->receive_from_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "getCurrentReference")
+  ;
   if (reply.empty()) 
     return false;
   // The response should be something like: "[KJV] [BIBLE] Jer.48.13" (without the quotes).
@@ -92,8 +91,7 @@ bool bibletime_reference_receive (Reference& reference)
 
 void bibletime_reload_modules ()
 {
-  extern DBus * dbus;
-  dbus->send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
+  // Todo dbus->send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
 }
 
 

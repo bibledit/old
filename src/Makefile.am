@@ -254,7 +254,6 @@ bibleditgui_SOURCES = \
 				dialogplanningedit.cpp \
 				dialoglistviewm.cpp \
 				vcs.cpp \
-				d_bus.cpp \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
 				kjv.cpp \
