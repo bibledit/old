@@ -33,13 +33,33 @@
 #include "settings.h"
 
 
-ustring log_file_name(bool previous)
+ustring log_file_name(LogFileType type, bool previous)
 {
-  ustring filename = "bibledit.log";
+  ustring filename;
+  switch (type) {
+    case lftMain:  filename = "bibledit.log"; break;
+    case lftDbus:  filename = "dbus.log";     break;
+    case lftShell: filename = "shell.log";    break;
+  }
   if (previous) {
     filename.append (".old");
   }
   return gw_build_filename(directories_get_temp(), filename);
+}
+
+
+void move_log_files ()
+{
+  for (unsigned int type = lftMain; type <= lftShell; type++) {
+    // Save logfile from previous session.
+    if (g_file_test (log_file_name(LogFileType (type), false).c_str(), G_FILE_TEST_IS_REGULAR)) {
+      GwSpawn spawn ("mv");
+      spawn.arg ("-f");
+      spawn.arg (log_file_name(LogFileType (type), false));
+      spawn.arg (log_file_name(LogFileType (type), true));
+      spawn.run ();
+    }
+  }
 }
 
 
@@ -65,16 +85,19 @@ SystemlogDialog::SystemlogDialog(int dummy)
   shortcuts.button (radiobutton_main);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_main), radiobuttongroup);
   radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_main));
+  g_signal_connect((gpointer) radiobutton_main, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
 
   radiobutton_dbus = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_dbus"));
   shortcuts.button (radiobutton_dbus);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_dbus), radiobuttongroup);
   radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_dbus));
+  g_signal_connect((gpointer) radiobutton_dbus, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
 
   radiobutton_shell = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_shell"));
   shortcuts.button (radiobutton_shell);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_shell), radiobuttongroup);
   radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_shell));
+  g_signal_connect((gpointer) radiobutton_shell, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
 
   button_diag = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_diag"));
   g_signal_connect((gpointer) button_diag, "clicked", G_CALLBACK(on_button_diagnostics_clicked), gpointer(this));
@@ -141,7 +164,7 @@ void SystemlogDialog::load(bool force)
     if (gtk_text_buffer_get_has_selection (textbuffer))
       return;
   }
-  
+
   // Read the text from the file.
   gchar *contents;
   g_file_get_contents(logfilename().c_str(), &contents, NULL, NULL);
@@ -180,7 +203,12 @@ void SystemlogDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, gp
 
 ustring SystemlogDialog::logfilename()
 {
-  return log_file_name (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_session)));
+  LogFileType type = lftMain;
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_dbus))) 
+    type = lftDbus;
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_shell))) 
+    type = lftShell;
+  return log_file_name (type, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_session)));
 }
 
 
@@ -229,4 +257,17 @@ void SystemlogDialog::on_button_diagnostics()
   unlink(diagnosticsfile.c_str());
 }
 
+
+void SystemlogDialog::on_radiobutton_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  ((SystemlogDialog *) user_data)->on_radiobutton(togglebutton);
+}
+
+
+void SystemlogDialog::on_radiobutton (GtkToggleButton *togglebutton)
+{
+  if (gtk_toggle_button_get_active (togglebutton)) {
+    load(true);
+  }
+}
 

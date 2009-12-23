@@ -26,7 +26,11 @@
 #include "libraries.h"
 
 
-ustring log_file_name(bool previous);
+enum LogFileType {lftMain, lftDbus, lftShell};
+
+
+ustring log_file_name(LogFileType type, bool previous);
+void move_log_files ();
 
 
 class SystemlogDialog
@@ -52,6 +56,8 @@ private:
   static void on_checkbutton1_toggled(GtkToggleButton *togglebutton, gpointer user_data);
   static void on_button_diagnostics_clicked(GtkButton *button, gpointer user_data);
   void on_button_diagnostics();
+  static void on_radiobutton_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void on_radiobutton (GtkToggleButton *togglebutton);
 };
 
 

@@ -32,7 +32,6 @@ using namespace std;
 static GMainLoop *loop;
 
 static SoupSession *session;
-static const char * url;
 
 static void start_xiphos_web_listener ();
 static void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);

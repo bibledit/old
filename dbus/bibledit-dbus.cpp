@@ -46,6 +46,7 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 		body = trim (body);
 		// Print it just for diagnostics.
     printf ("%s\n", body.c_str());
+    fflush (stdout);
     // Handle "quit" command.
 		if (body.find ("quit") == 0) {
       g_main_loop_quit (loop);
@@ -62,6 +63,7 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 		  return;
 		}
 		printf ("Xiphos web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
+    fflush (stdout);
 		g_usleep (1000000);
 	}
 	g_usleep (100000);
@@ -85,6 +87,7 @@ void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage
 		body = trim (body);
 		// Print it just for diagnostics.
     printf ("%s\n", body.c_str());
+    fflush (stdout);
     // Handle "quit" command.
 		if (body.find ("quit") == 0) {
       g_main_loop_quit (loop);
@@ -101,6 +104,7 @@ void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage
 		  return;
 		}
 		printf ("BibleTime web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
+    fflush (stdout);
 		g_usleep (1000000);
 	}
 	g_usleep (100000);
@@ -318,6 +322,7 @@ void on_rescan_bus()
     if (names_on_bus[i].find ("BibleTime") != string::npos) {
       bibletime_bus_name = names_on_bus[i];
 			printf ("BibleTime on DBus as service %s\n", names_on_bus[i].c_str());
+      fflush (stdout);
       break;
     }
   }
@@ -327,6 +332,7 @@ void on_rescan_bus()
       if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
         bibletime_bus_name = names_on_bus[i];
         printf ("BibleTime on DBus represented by name %s\n", names_on_bus[i].c_str());
+        fflush (stdout);
         break;
       }
     }
@@ -334,18 +340,21 @@ void on_rescan_bus()
   // If BibleTime is still not found, give a message.
   if (bibletime_bus_name.empty()) {
     printf ("BibleTime not on DBus\n");
+    fflush (stdout);
   }
   // Look for the Xiphos name on the bus.
   for (unsigned int i = 0; i < names_on_bus.size(); i++) {
     if (names_on_bus[i].find ("xiphos") != string::npos) {
       xiphos_bus_name = names_on_bus[i];
       printf ("Xiphos on DBus as service %s\n", names_on_bus[i].c_str());
+      fflush (stdout);
       break;
     }
   }
   // If Xiphos is not found, give a message.
   if (xiphos_bus_name.empty()) {
     printf ("Xiphos not on DBus\n");
+    fflush (stdout);
   }
 }
 
@@ -370,6 +379,7 @@ vector <string> method_call_wait_reply (const gchar * bus_name, const gchar * ob
     err.append(": ");
     err.append(error.message);
     printf ("%s\n", err.c_str());
+    fflush (stdout);
   }
   if (dbus_reply) {
     retrieve_message(dbus_reply);
@@ -507,6 +517,7 @@ dbus-send --print-reply --dest=org.xiphos.remote /org/xiphos/remote/ipc org.xiph
 void sigproc(int dummy)
 { 		 
 	printf("\nCtrl-c trapped to quit\n");
+  fflush (stdout);
   g_main_loop_quit (loop);
 }
 
@@ -514,6 +525,7 @@ void sigproc(int dummy)
 void sigquit(int dummy)
 { 		 
 	printf("\nCtrl-\\ trapped to quit\n");
+  fflush (stdout);
   g_main_loop_quit (loop);
 }
 
@@ -527,8 +539,21 @@ int main (int argc, char **argv)
   // Initialize variables.
   event_id_rescan_bus = 0;
 
-  // The base URL (not used yet).
-	url = argv[1];
+  // If a logfile was passed, handle it.
+  if (argc >= 2) {
+    // Redirect stdout and stderr to file.
+    // When a file is opened it is always allocated the lowest available file 
+    // descriptor. Therefore the following commands cause stdout to be 
+    // redirected to the logfile.
+    close(1);
+    creat (argv[1], 0666); 
+    // The dup() routine makes a duplicate file descriptor for an already opened 
+    // file using the first available file descriptor. Therefore the following 
+    // commands cause stderr to be redirected to the file stdout writes to.
+    close(2);
+    if (dup(1));
+
+  }
 
   // We use asynchronous transport, so that we can send several messages simultanously.
 	session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-dbus/1.0", NULL);
@@ -542,6 +567,7 @@ int main (int argc, char **argv)
   	con = dbus_g_connection_get_connection(sigcon);
 	} else {
     printf ("%s\n", error->message);
+    fflush (stdout);
 		g_error_free(error);
   	return 1;
   }
@@ -553,6 +579,7 @@ int main (int argc, char **argv)
     if (retval != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
       if (dbus_error_is_set(dbuserror)) {
         printf ("%s\n", dbuserror->message);
+        fflush (stdout);
         dbus_error_free(dbuserror);
       }
     }

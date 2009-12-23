@@ -67,20 +67,15 @@ int main(int argc, char *argv[])
   if (!check_bibledit_startup_okay(argc, argv)) {
     return 0;
   }
+
+  // Move all the logfiles to keep the previous ones.
+  move_log_files ();
   
-  // Start the dbus helper program, but only if it does not already run.
+  // Start the dbus helper program if it does not already run, and pass the names of the logfile
   if (!program_is_running ("bibledit-dbus")) {
     GwSpawn spawn ("bibledit-dbus");
+    spawn.arg (log_file_name(lftDbus, false));
     spawn.async ();
-    spawn.run ();
-  }
-
-  // Save logfile from previous session.
-  if (g_file_test (log_file_name(false).c_str(), G_FILE_TEST_IS_REGULAR)) {
-    GwSpawn spawn ("mv");
-    spawn.arg ("-f");
-    spawn.arg (log_file_name(false));
-    spawn.arg (log_file_name(true));
     spawn.run ();
   }
 
@@ -90,7 +85,7 @@ int main(int argc, char *argv[])
     // descriptor. Therefore the following commands cause stdout to be 
     // redirected to the logfile.
     close(1);
-    creat (log_file_name(false).c_str(), 0666); 
+    creat (log_file_name(lftMain, false).c_str(), 0666); 
     // The dup() routine makes a duplicate file descriptor for an already opened 
     // file using the first available file descriptor. Therefore the following 
     // commands cause stderr to be redirected to the file stdout writes to.
