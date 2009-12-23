@@ -8,7 +8,7 @@ bibledit_SOURCES = \
 		usfmtools.cpp \
 		mainwindow.cpp \
 		dialoglistview.cpp \
-		dialogshowscript.cpp \
+		dialogsystemlog.cpp \
 		htmlbrowser.cpp \
 		track.cpp \
 		dialogreplace.cpp \

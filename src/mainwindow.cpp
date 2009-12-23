@@ -22,7 +22,7 @@
 #include "mainwindow.h"
 #include "libraries.h"
 #include "dialoglistview.h"
-#include "dialogshowscript.h"
+#include "dialogsystemlog.h"
 #include "constants.h"
 #include "utilities.h"
 #include "htmlbrowser.h"
@@ -2042,8 +2042,8 @@ void MainWindow::on_system_log1_activate(GtkMenuItem * menuitem, gpointer user_d
 
 void MainWindow::viewlog()
 {
-  ShowScriptDialog showscript(0);
-  showscript.run();
+  SystemlogDialog dialog(0);
+  dialog.run();
 }
 
 
@@ -6906,17 +6906,17 @@ install bibledit on Debian and make installation document.
 
 
 
-Implement BibleTime reference receipt, and probably the third one as well.
+Make the two logs vieweable from the system log.
 
 There should be an option to view the logfile from bibledit-dbus, and the binary itself should redirect its stdout etc.
 
+Implement BibleTime reference receipt
 
+Implement BibleTime modules reload.
 
+The binary that does the git communication will be called bibledit-shell. It can then also do other shell commands.
 
 It needs an "Open web page" in the View menu, which goes to the bibledit directory on the server. It needs an index document there.
-
-Bibledit uploads several reference sharing files to the server, depending on its settings where to send references to.
-
 
 Each request to the server has an increasing id number, which, when it comes back, is recognized as the right answer.
 

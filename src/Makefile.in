@@ -53,7 +53,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	tiny_utilities.$(OBJEXT) bible.$(OBJEXT) usfmtools.$(OBJEXT) \
 	mainwindow.$(OBJEXT) dialoglistview.$(OBJEXT) \
-	dialogshowscript.$(OBJEXT) htmlbrowser.$(OBJEXT) \
+	dialogsystemlog.$(OBJEXT) htmlbrowser.$(OBJEXT) \
 	track.$(OBJEXT) dialogreplace.$(OBJEXT) \
 	dialogreplacing.$(OBJEXT) windowsoutpost.$(OBJEXT) \
 	dialoggotoreference.$(OBJEXT) projectutils.$(OBJEXT) \
@@ -370,7 +370,7 @@ bibledit_SOURCES = \
 		usfmtools.cpp \
 		mainwindow.cpp \
 		dialoglistview.cpp \
-		dialogshowscript.cpp \
+		dialogsystemlog.cpp \
 		htmlbrowser.cpp \
 		track.cpp \
 		dialogreplace.cpp \
@@ -830,8 +830,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogselectbooks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogselectchapters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshownotes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshowscript.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogstylesheet.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsystemlog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtaskduration.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtext2pdf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextreplacement.Po@am__quote@

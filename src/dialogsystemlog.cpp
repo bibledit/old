@@ -19,7 +19,7 @@
 
 
 #include "utilities.h"
-#include "dialogshowscript.h"
+#include "dialogsystemlog.h"
 #include <glib.h>
 #include "constants.h"
 #include "directories.h"
@@ -43,86 +43,55 @@ ustring log_file_name(bool previous)
 }
 
 
-ShowScriptDialog::ShowScriptDialog(int dummy)
+SystemlogDialog::SystemlogDialog(int dummy)
 {
+  gtkbuilder = gtk_builder_new ();
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.systemlogdialog.xml").c_str(), NULL);
+
   Shortcuts shortcuts(0);
 
-  showscriptdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(showscriptdialog), "System log");
-  gtk_window_set_position(GTK_WINDOW(showscriptdialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal(GTK_WINDOW(showscriptdialog), TRUE);
-  gtk_window_set_default_size(GTK_WINDOW(showscriptdialog), 640, 480);
-  gtk_window_set_type_hint(GTK_WINDOW(showscriptdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
+  dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
 
-  dialog_vbox = GTK_DIALOG(showscriptdialog)->vbox;
-  gtk_widget_show(dialog_vbox);
+  textview = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "textview"));
+  gtk_widget_grab_focus(textview);
 
-  vbox1 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox1);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox), vbox1, TRUE, TRUE, 0);
+  checkbutton_session = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_session"));
+  shortcuts.button (checkbutton_session);
+  g_signal_connect((gpointer) checkbutton_session, "toggled", G_CALLBACK(on_checkbutton1_toggled), gpointer(this));
 
-  scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow1);
-  gtk_box_pack_start(GTK_BOX(vbox1), scrolledwindow1, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  GSList *radiobuttongroup = NULL;
 
-  textview1 = gtk_text_view_new();
-  gtk_widget_show(textview1);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow1), textview1);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textview1), FALSE);
+  radiobutton_main = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_main"));
+  shortcuts.button (radiobutton_main);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_main), radiobuttongroup);
+  radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_main));
 
-  hbox1 = gtk_hbox_new (FALSE, 10);
-  gtk_widget_show (hbox1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
+  radiobutton_dbus = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_dbus"));
+  shortcuts.button (radiobutton_dbus);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_dbus), radiobuttongroup);
+  radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_dbus));
 
-  checkbutton1 = gtk_check_button_new_with_mnemonic ("Show previous session");
-  gtk_widget_show (checkbutton1);
-  gtk_box_pack_start (GTK_BOX (hbox1), checkbutton1, FALSE, FALSE, 0);
+  radiobutton_shell = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_shell"));
+  shortcuts.button (radiobutton_shell);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_shell), radiobuttongroup);
+  radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_shell));
 
-  shortcuts.button(checkbutton1);
+  button_diag = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_diag"));
+  g_signal_connect((gpointer) button_diag, "clicked", G_CALLBACK(on_button_diagnostics_clicked), gpointer(this));
+  shortcuts.button (button_diag);
 
-  button_diagnostics = gtk_button_new ();
-  gtk_widget_show (button_diagnostics);
-  gtk_box_pack_start (GTK_BOX (hbox1), button_diagnostics, FALSE, FALSE, 0);
+  InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, &shortcuts, NULL);
 
-  alignment1 = gtk_alignment_new(0.5, 0.5, 0, 0);
-  gtk_widget_show(alignment1);
-  gtk_container_add(GTK_CONTAINER(button_diagnostics), alignment1);
-
-  hbox2 = gtk_hbox_new(FALSE, 2);
-  gtk_widget_show(hbox2);
-  gtk_container_add(GTK_CONTAINER(alignment1), hbox2);
-
-  image1 = gtk_image_new_from_stock("gtk-preferences", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image1);
-  gtk_box_pack_start(GTK_BOX(hbox2), image1, FALSE, FALSE, 0);
-
-  label1 = gtk_label_new_with_mnemonic("Diagnostics");
-  gtk_widget_show(label1);
-  gtk_box_pack_start(GTK_BOX(hbox2), label1, FALSE, FALSE, 0);
-
-  shortcuts.label(label1);
-
-  dialog_action_area1 = GTK_DIALOG(showscriptdialog)->action_area;
-  gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
-
-  new InDialogHelp(showscriptdialog, NULL, &shortcuts, NULL);
-
-  cancelbutton = gtk_button_new_from_stock("gtk-cancel");
-  gtk_widget_show(cancelbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG(showscriptdialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
-
+  GtkWidget *cancelbutton;
+  cancelbutton = indialoghelp->cancelbutton;
+  gtk_widget_grab_default(cancelbutton);
   shortcuts.stockbutton(cancelbutton);
 
+  GtkWidget * okbutton = indialoghelp->okbutton;
+  shortcuts.stockbutton(okbutton);
+  gtk_widget_hide (okbutton);
+
   shortcuts.process();
-
-  g_signal_connect((gpointer) checkbutton1, "toggled", G_CALLBACK(on_checkbutton1_toggled), gpointer(this));
-  g_signal_connect((gpointer) button_diagnostics, "clicked", G_CALLBACK(on_button_diagnostics_clicked), gpointer(this));
-
-  gtk_widget_grab_focus(textview1);
-  gtk_widget_grab_default(cancelbutton);
 
   // Load the text.
   load(true);
@@ -131,30 +100,35 @@ ShowScriptDialog::ShowScriptDialog(int dummy)
   event_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(show_script_dialog_load), gpointer(this), NULL);
 }
 
-ShowScriptDialog::~ShowScriptDialog()
+
+SystemlogDialog::~SystemlogDialog()
 {
   // Destroy the source of the timeout (bibledit crashes if this is not done).
   gw_destroy_source(event_source_id);
   // Get rid of the dialog.
-  gtk_widget_destroy(showscriptdialog);
+  g_object_unref (gtkbuilder);
+  gtk_widget_destroy(dialog);
 }
 
-int ShowScriptDialog::run()
+
+int SystemlogDialog::run()
 {
-  return gtk_dialog_run(GTK_DIALOG(showscriptdialog));
+  return gtk_dialog_run(GTK_DIALOG(dialog));
 }
 
-bool ShowScriptDialog::show_script_dialog_load(gpointer data)
+
+bool SystemlogDialog::show_script_dialog_load(gpointer data)
 {
-  ((ShowScriptDialog *) data)->load(false);
+  ((SystemlogDialog *) data)->load(false);
   // Keep going.
   return true;
 }
 
-void ShowScriptDialog::load(bool force)
+
+void SystemlogDialog::load(bool force)
 {
   // Text buffer. 
-  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
 
   // In cases that message keep streaming in, it may happen that the user tries to copy 
   // the messages. He selects the text, but before he can copy it to the clipboard,
@@ -182,37 +156,41 @@ void ShowScriptDialog::load(bool force)
     // Loading a huge chunk of text would take a long time.
     // Temporally removing the view from the buffer speeds it up a huge lot.
     g_object_ref(textbuffer);
-    gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), NULL);
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), NULL);
     gtk_text_buffer_set_text(textbuffer, contents, -1);
-    gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), textbuffer);
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
     g_object_unref(textbuffer);
 
     // Scroll to end;
     while (gtk_events_pending())
       gtk_main_iteration();
     GtkTextIter end;
-    gtk_text_buffer_get_end_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1)), &end);
-    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(textview1), &end, 0, true, 0, 0);
+    gtk_text_buffer_get_end_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)), &end);
+    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(textview), &end, 0, true, 0, 0);
   }
   g_free(contents);
 }
 
-void ShowScriptDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, gpointer user_data)
+
+void SystemlogDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ShowScriptDialog *) user_data)->load(true);
+  ((SystemlogDialog *) user_data)->load(true);
 }
 
-ustring ShowScriptDialog::logfilename()
+
+ustring SystemlogDialog::logfilename()
 {
-  return log_file_name (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton1)));
+  return log_file_name (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_session)));
 }
 
-void ShowScriptDialog::on_button_diagnostics_clicked(GtkButton * button, gpointer user_data)
+
+void SystemlogDialog::on_button_diagnostics_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ShowScriptDialog *) user_data)->on_button_diagnostics();
+  ((SystemlogDialog *) user_data)->on_button_diagnostics();
 }
 
-void ShowScriptDialog::on_button_diagnostics()
+
+void SystemlogDialog::on_button_diagnostics()
 {
   // Show selection dialog.
   vector < ustring > labels;
@@ -250,3 +228,5 @@ void ShowScriptDialog::on_button_diagnostics()
   shell_pipe_file_append(diagnosticsfile, logfilename());
   unlink(diagnosticsfile.c_str());
 }
+
+

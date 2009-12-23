@@ -18,8 +18,8 @@
  */
 
 
-#ifndef INCLUDED_DIALOGSHOWSCRIPT
-#define INCLUDED_DIALOGSHOWSCRIPT
+#ifndef INCLUDED_DIALOG_SYSTEMLOG
+#define INCLUDED_DIALOG_SYSTEMLOG
 
 
 #include <gtk/gtk.h>
@@ -29,27 +29,21 @@
 ustring log_file_name(bool previous);
 
 
-class ShowScriptDialog
+class SystemlogDialog
 {
 public:
-  ShowScriptDialog(int dummy);
-  ~ShowScriptDialog();
+  SystemlogDialog(int dummy);
+  ~SystemlogDialog();
   int run();
 protected:
-  GtkWidget *showscriptdialog;
-  GtkWidget *dialog_vbox;
-  GtkWidget *vbox1;
-  GtkWidget *scrolledwindow1;
-  GtkWidget *textview1;
-  GtkWidget *hbox1;
-  GtkWidget *checkbutton1;
-  GtkWidget *button_diagnostics;
-  GtkWidget *alignment1;
-  GtkWidget *hbox2;
-  GtkWidget *image1;
-  GtkWidget *label1;
-  GtkWidget *dialog_action_area1;
-  GtkWidget *cancelbutton;
+  GtkBuilder *gtkbuilder;
+  GtkWidget *dialog;
+  GtkWidget *textview;
+  GtkWidget *checkbutton_session;
+  GtkWidget *radiobutton_main;
+  GtkWidget *radiobutton_dbus;
+  GtkWidget *radiobutton_shell;
+  GtkWidget *button_diag;
 private:
   guint event_source_id;
   static bool show_script_dialog_load(gpointer data);

@@ -61,7 +61,7 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 		if (msg->status_code == 1) {
 		  return;
 		}
-		printf ("xiphos_web_listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
+		printf ("Xiphos web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
 		g_usleep (1000000);
 	}
 	g_usleep (100000);

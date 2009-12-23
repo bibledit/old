@@ -24,7 +24,7 @@
 #include "utilities.h"
 #include "gwrappers.h"
 #include "directories.h"
-#include "dialogshowscript.h"
+#include "dialogsystemlog.h"
 #include "shell.h"
 #include "maintenance.h"
 #include "gtkwrappers.h"
