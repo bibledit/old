@@ -2948,7 +2948,7 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 void MainWindow::on_tool_send_reference ()
 {
   send_reference_to_bibleworks (navigation.reference);
-  bibletime_reference_send (navigation.reference); // Todo
+  bibletime_reference_send (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
   xiphos_reference_send (navigation.reference);
@@ -6882,6 +6882,16 @@ void MainWindow::xiphos_reference_send (Reference reference)
 }
 
 
+void MainWindow::bibletime_reference_send (Reference reference)
+{
+  ustring payload = bibletime_reference_create (reference);
+  if (!payload.empty()) {
+    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGoto, payload);
+    urltransport->signal (url);
+  }
+}
+
+
 /*
 
 
@@ -6895,9 +6905,9 @@ install bibledit on Debian and make installation document.
 
 
 
-Better to clean the messages off the server on tidy up on shutdown, i.e. once a day.
-Better still is to always run the shutdown program, but with varying things to do so that the big jobs are done once a day,
-but the smaller ones, like clearing off the messages off the server, are done on each shutdown.
+Implement BibleTime reference receipt, and probably the third one as well.
+
+There should be an option to view the logfile from bibledit-dbus, and the binary itself should redirect its stdout etc.
 
 Once the dbus problem has been removed from bibledit, the bibleditgui can be renamed to bibledit again, and the script removed.
 

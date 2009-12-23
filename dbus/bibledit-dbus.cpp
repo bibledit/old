@@ -38,7 +38,7 @@ void start_xiphos_web_listener ()
 }
 
 
-void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data) // Todo where used.
+void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
 {
 	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
 		// Get the response body.
@@ -93,7 +93,7 @@ void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage
 		if (body.find ("goto") == 0) {
 			body.erase (0, 4);
 			body = trim (body);
-      // Todo send_to_xiphos (xiphos_dbus_object (), xiphos_dbus_interface (), "setCurrentReference", body);
+      send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "syncAllVerseBasedModules", body);
 		}
 	} else {
 		// If the message was cancelled, do not start it again, just quit.
@@ -430,11 +430,11 @@ void send_to_bibletime (const gchar * object, const gchar * interface, const gch
 /*
 Sends a message to BibleTime over the DBus
 
-dbus-send --print-reply --dest=:1.638 /BibleTime org.freedesktop.DBus.Introspectable.Introspect
+dbus-send --print-reply --dest=info.bibletime.BibleTime /BibleTime org.freedesktop.DBus.Introspectable.Introspect
 This gives BibleTime's methods.
 
 To synchronize all verse based modules, do this:
-dbus-send --print-reply --dest=:1.668 /BibleTime info.bibletime.BibleTime.syncAllVerseBasedModules "string:Gen 2.2"
+dbus-send --print-reply --dest=info.bibletime.BibleTime /BibleTime info.bibletime.BibleTime.syncAllVerseBasedModules "string:Gen.2.2"
 
 */
 {
@@ -475,7 +475,19 @@ const gchar * xiphos_dbus_interface ()
 }
 
 
-void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const string& value) // Todo
+const gchar * bibletime_dbus_object ()
+{
+  return "/BibleTime";
+}
+
+
+const gchar * bibletime_dbus_interface ()
+{
+  return "info.bibletime.BibleTime";
+}
+
+
+void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const string& value)
 /*
 Sends a message to BibleTime over the DBus
 

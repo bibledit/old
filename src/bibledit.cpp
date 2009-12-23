@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     return 0;
   }
   
-  // Start the dbus helper program.
+  // Start the dbus helper program, but only if it does not already run.
   if (!program_is_running ("bibledit-dbus")) {
     GwSpawn spawn ("bibledit-dbus");
     spawn.async ();

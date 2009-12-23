@@ -26,7 +26,7 @@
 
 
 enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage};
-enum InterprocessCommunicationRecipientType {icrtXiphos};
+enum InterprocessCommunicationRecipientType {icrtXiphos, icrtBibleTime};
 enum InterprocessCommunicationSubjectType {icstGoto, icstQuit};
 
 

@@ -54,6 +54,8 @@ static string bibletime_bus_name;
 static string xiphos_bus_name;
 static const gchar * xiphos_dbus_object ();
 static const gchar * xiphos_dbus_interface ();
+static const gchar * bibletime_dbus_object ();
+static const gchar * bibletime_dbus_interface ();
 void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const string& value);
 vector <string> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method);
 void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const string& value);

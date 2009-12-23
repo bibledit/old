@@ -29,7 +29,7 @@
 #include "gwrappers.h"
 
 
-void bibletime_reference_send (Reference reference);
+ustring bibletime_reference_create (Reference reference);
 bool bibletime_reference_receive (Reference& reference);
 void bibletime_reload_modules ();
 

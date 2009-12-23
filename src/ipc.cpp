@@ -43,6 +43,7 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
   url.append ("?recipient=");
   switch (recipient) {
     case icrtXiphos: url.append ("xiphos"); break;
+    case icrtBibleTime: url.append ("bibletime"); break;
   }
   url.append ("&subject=");
   switch (subject) {

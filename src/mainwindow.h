@@ -797,6 +797,7 @@ protected:
   // URL transporter.
   URLTransport * urltransport;
   void xiphos_reference_send (Reference reference);
+  void bibletime_reference_send (Reference reference);
 
 };
 
