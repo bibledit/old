@@ -540,6 +540,7 @@ int main (int argc, char **argv)
   event_id_rescan_bus = 0;
 
   // If a logfile was passed, handle it.
+  // This implies that if the program is started by hand from the terminal, we can see its output.
   if (argc >= 2) {
     // Redirect stdout and stderr to file.
     // When a file is opened it is always allocated the lowest available file 
@@ -599,7 +600,7 @@ int main (int argc, char **argv)
     dbus_g_proxy_connect_signal(proxy, "NameLost", G_CALLBACK (on_name_lost), NULL, NULL);
   }
 
-  // Signal trapping.
+  // Signal trapping for doing a clean exit.
 	signal(SIGINT, sigproc);
 	signal(SIGQUIT, sigquit);
 

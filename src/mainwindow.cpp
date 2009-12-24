@@ -6906,8 +6906,6 @@ install bibledit on Debian and make installation document.
 
 
 
-Make the two logs vieweable from the system log.
-
 There should be an option to view the logfile from bibledit-dbus, and the binary itself should redirect its stdout etc.
 
 Implement BibleTime reference receipt

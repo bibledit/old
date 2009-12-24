@@ -208,7 +208,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = ipc
+EXTRA_DIST = ipc *.html
 CLEANFILES = *~
 webroot = @WEBROOT@
 all: all-am
@@ -393,6 +393,7 @@ uninstall-am:
 
 install-data-local:
 	mkdir -p $(WEBROOT)/bibledit
+	cp *.html $(WEBROOT)/bibledit
 	cp -r ipc $(WEBROOT)/bibledit
 	chmod 0777 $(WEBROOT)/bibledit/ipc/messages
 
