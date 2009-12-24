@@ -3028,7 +3028,7 @@ bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 }
 
 
-void MainWindow::tools_receive_reference_timeout()
+void MainWindow::tools_receive_reference_timeout() // Todo We can just send the message off, then a callback from urltransport will handle the reply.
 {
   extern Settings * settings;
   Reference received_reference (0);
@@ -3038,9 +3038,14 @@ void MainWindow::tools_receive_reference_timeout()
       new_reference_received = true;
     }
   }
-  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
+  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) { // Todo to send message from here. URL Transport will make a unique identifier, here we just get a button for a callback.
+    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGetref, urltransport->get_unique_identifier());
+    urltransport->signal (url); // Todo this should be something else, to receive with a callback.
+
+
+
     if (bibletime_reference_receive(received_reference)) {
-      new_reference_received = true;
+      //new_reference_received = true;
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
@@ -6406,13 +6411,8 @@ void MainWindow::on_assistant_ready ()
   // Export.
   if (export_assistant) {
     if (export_assistant->sword_module_created) {
-      ustring payload = bibletime_reference_create (reference);
-      if (!payload.empty()) {
-        ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGoto, payload);
-        urltransport->signal (url);
-      }
-      
-      bibletime_reload_modules(); // Todo
+      ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstReload, "");
+      urltransport->signal (url);
     }
     delete export_assistant;
     export_assistant = NULL;
@@ -6888,7 +6888,7 @@ void MainWindow::xiphos_reference_send (Reference reference)
 }
 
 
-void MainWindow::bibletime_reference_send (Reference reference) // Todo
+void MainWindow::bibletime_reference_send (Reference reference)
 {
   ustring payload = bibletime_reference_create (reference);
   if (!payload.empty()) {
@@ -6912,47 +6912,41 @@ install bibledit on Debian and make installation document.
 
 
 
-Implement BibleTime modules reload.
-
 Implement BibleTime reference receipt
+
+Each request to the server has an increasing id number, which, when it comes back, is recognized as the right answer.
+E.g., a message is created for xiphos, with this contents:
+
+getref
+1
+
+It means that also Bibledit should now listen to the server so as to catch the response through long polling.
+
+To call a function, it is put into the URL transport object.
+A GtkButton is created, which is made available to the caller.
+This button is destroyed when the function is ready, but it is clicked first, so that any caller knows that something is ready.
+
+
+
+
+
+
+
+
+
+
 
 The binary that does the git communication will be called bibledit-shell. It can then also do other shell commands.
 
-It needs an "Open web page" in the View menu, which goes to the bibledit directory on the server. It needs an index document there.
-
-Each request to the server has an increasing id number, which, when it comes back, is recognized as the right answer.
-
-Bibledit should be able to see which connections are being made to the server from the various clients.
-Or better, the diagnostics interprocess communicatons web page should see that.
-This means that the php file, e.g. xiphos.php creates a file when it starts, and erased that file again. That file shows who's listening, e.g. xiphos.
-
-
-
-
-
-
-
-
-
-
-
 Since the git subsystem at times blocks the main interface, this should go separate again.
-Since the dbus causes crashes, this should go separate also.
-bibledit-executive
-bibledit-dbus
-Both are started by the main bibledit binary.
-If these already run, then they would not get started.
-The executive gets an identifier, and the path of the binary to execute.
-It has its own log file, viewable in the main program.
+bibledit-shell gets an identifier, and the path of the binary to execute.
 It returns the identifier, and the standard out and the standard err of the program ran.
-The dbus binary gets commands to send somewhere, and returns signals it received.
-We may have to disable dbus since it does not work in the Mac.
-
-
-
-
 
 The git system gives a few warnings. These should be fixed.
+
+
+
+
 
 
 

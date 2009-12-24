@@ -27,13 +27,13 @@
 
 enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage};
 enum InterprocessCommunicationRecipientType {icrtXiphos, icrtBibleTime};
-enum InterprocessCommunicationSubjectType {icstGoto, icstQuit};
+enum InterprocessCommunicationSubjectType {icstGoto, icstQuit, icstReload, icstGetref};
 
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message);
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 
-                                                      InterprocessCommunicationRecipientType recipient, 
-                                                      InterprocessCommunicationSubjectType subject, const ustring& payload);
+                                                InterprocessCommunicationRecipientType recipient, 
+                                                InterprocessCommunicationSubjectType subject, const ustring& payload);
 
 
 #endif

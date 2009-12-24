@@ -32,6 +32,7 @@ public:
   URLTransport(int dummy);
   ~URLTransport();
   void signal (const ustring& url);
+  ustring get_unique_identifier ();
 private:
   void log(const ustring & message);
   ustring last_message;
@@ -40,6 +41,7 @@ private:
   void on_message_ready (SoupSession *session, SoupMessage *msg);
   SoupMessage * server_test_msg;
   vector <SoupMessage *> active_messages;
+  unsigned int unique_identifier;
 };
 
 

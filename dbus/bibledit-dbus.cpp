@@ -44,7 +44,7 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 		// Get the response body.
 		string body (msg->response_body->data);
 		body = trim (body);
-		// Print it just for diagnostics.
+		// Log it.
     printf ("%s\n", body.c_str());
     fflush (stdout);
     // Handle "quit" command.
@@ -85,7 +85,7 @@ void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage
 		// Get the response body.
 		string body (msg->response_body->data);
 		body = trim (body);
-		// Print it just for diagnostics.
+		// Log it.
     printf ("%s\n", body.c_str());
     fflush (stdout);
     // Handle "quit" command.
@@ -97,6 +97,10 @@ void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage
 			body.erase (0, 4);
 			body = trim (body);
       send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "syncAllVerseBasedModules", body);
+		}
+		// Handle "reload" command.
+		if (body.find ("reload") == 0) {
+      send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
 		}
 	} else {
 		// If the message was cancelled, do not start it again, just quit.

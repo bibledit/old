@@ -30,6 +30,9 @@
 URLTransport::URLTransport(int dummy)
 // URL transporter.
 {
+  // Initialize variables.
+  unique_identifier = 0;
+  
   // Create a session.
   session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit/1.0", 
                                                  SOUP_SESSION_MAX_CONNS, "50", 
@@ -110,18 +113,11 @@ void URLTransport::signal (const ustring& url)
 }
 
 
+ustring URLTransport::get_unique_identifier ()
+// This returns an identifier unique to the session.
+{
+  unique_identifier++;
+  return convert_to_string (unique_identifier);
+}
 
 
-
-
-
-
-/*
-
-Todo web access.
-
-To call a function, it is put into the object.
-A GtkButton is created, which is made available.
-This button is destroyed when the function is ready, but it is clicked first, so that any caller knows tht something is ready.
-
-*/

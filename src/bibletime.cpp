@@ -39,46 +39,30 @@ ustring bibletime_reference_create (Reference reference)
   // Check whether sending references to BibleTime has been enabled by the user.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-    // BibleTime does not accept verses like "2-6a", etc.
-    // So we take the whole verse that can be extracted from the verse.
-    reference.verse = number_in_string (reference.verse);    
-    // BibleTime does not accept chapter 0 or verse 0.
-    // If this is sent to it, it goes to another reference instead.
-    // Solution is, if chapter is 0 make it 1, and the same for the verse.
-    if (reference.chapter == 0) {
-      reference.chapter = 1;
+    // Check whether it does not receive referenes from BibleTime at this moment.
+    // If it were to send and receive references simultanously, race conditions will occur.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
+      // BibleTime does not accept verses like "2-6a", etc.
+      // So we take the whole verse that can be extracted from the verse.
+      reference.verse = number_in_string (reference.verse);    
+      // BibleTime does not accept chapter 0 or verse 0.
+      // If this is sent to it, it goes to another reference instead.
+      // Solution is, if chapter is 0 make it 1, and the same for the verse.
+      if (reference.chapter == 0) {
+        reference.chapter = 1;
+      }
+      if (reference.verse == "0") {
+        reference.verse = "1";
+      }
+      // Create the payload.
+      payload = books_id_to_osis(reference.book) + "." + convert_to_string(reference.chapter) + "." + reference.verse;
     }
-    if (reference.verse == "0") {
-      reference.verse = "1";
-    }
-    // Create the payload.
-    payload = books_id_to_osis(reference.book) + "." + convert_to_string(reference.chapter) + "." + reference.verse;
   }
   return payload;
 }
 
 
-ustring bibletime_reload_modules_create () // Todo
-{
-  ustring payload;
-  return payload;
-  // Todo dbus->send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
-}
-
-
-const gchar * bibletime_dbus_object ()
-{
-  return "/BibleTime";
-}
-
-
-const gchar * bibletime_dbus_interface ()
-{
-  return "info.bibletime.BibleTime";
-}
-
-
-bool bibletime_reference_receive (Reference& reference)
+bool bibletime_reference_receive (Reference& reference) // Todo
 {
   vector <ustring> reply // Todo  = dbus->receive_from_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "getCurrentReference")
   ;

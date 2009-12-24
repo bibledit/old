@@ -27,7 +27,7 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
 }
 
 
-ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, // Todo
                                                 InterprocessCommunicationRecipientType recipient, 
                                                 InterprocessCommunicationSubjectType subject, const ustring& payload)
 {
@@ -47,8 +47,10 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
   }
   url.append ("&subject=");
   switch (subject) {
-    case icstGoto: url.append ("goto"); break;
-    case icstQuit: url.append ("quit"); break;
+    case icstGoto:   url.append ("goto");   break;
+    case icstQuit:   url.append ("quit");   break;
+    case icstReload: url.append ("reload"); break;
+    case icstGetref: url.append ("getref"); break;
   }
   if (!payload.empty()) {
     url.append ("&message=");
