@@ -169,6 +169,12 @@ void SystemlogDialog::load(bool force)
   gchar *contents;
   g_file_get_contents(logfilename().c_str(), &contents, NULL, NULL);
 
+  // If the text isn't there, clear the textbuffer, and bail out.
+  if (!contents) {
+    gtk_text_buffer_set_text (textbuffer, "", -1);
+    return;
+  }
+
   // Only insert the text if new text is available on disk.
   GtkTextIter begin;
   gtk_text_buffer_get_start_iter(textbuffer, &begin);
