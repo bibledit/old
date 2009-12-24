@@ -58,6 +58,14 @@ ustring bibletime_reference_create (Reference reference)
 }
 
 
+ustring bibletime_reload_modules_create () // Todo
+{
+  ustring payload;
+  return payload;
+  // Todo dbus->send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
+}
+
+
 const gchar * bibletime_dbus_object ()
 {
   return "/BibleTime";
@@ -86,12 +94,6 @@ bool bibletime_reference_receive (Reference& reference)
     return true;
   }
   return false;
-}
-
-
-void bibletime_reload_modules ()
-{
-  // Todo dbus->send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
 }
 
 

@@ -30,8 +30,8 @@
 
 
 ustring bibletime_reference_create (Reference reference);
+ustring bibletime_reload_modules_create ();
 bool bibletime_reference_receive (Reference& reference);
-void bibletime_reload_modules ();
 
 
 #endif

@@ -6406,7 +6406,13 @@ void MainWindow::on_assistant_ready ()
   // Export.
   if (export_assistant) {
     if (export_assistant->sword_module_created) {
-      bibletime_reload_modules();
+      ustring payload = bibletime_reference_create (reference);
+      if (!payload.empty()) {
+        ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGoto, payload);
+        urltransport->signal (url);
+      }
+      
+      bibletime_reload_modules(); // Todo
     }
     delete export_assistant;
     export_assistant = NULL;
@@ -6882,7 +6888,7 @@ void MainWindow::xiphos_reference_send (Reference reference)
 }
 
 
-void MainWindow::bibletime_reference_send (Reference reference)
+void MainWindow::bibletime_reference_send (Reference reference) // Todo
 {
   ustring payload = bibletime_reference_create (reference);
   if (!payload.empty()) {
@@ -6906,11 +6912,9 @@ install bibledit on Debian and make installation document.
 
 
 
-There should be an option to view the logfile from bibledit-dbus, and the binary itself should redirect its stdout etc.
+Implement BibleTime modules reload.
 
 Implement BibleTime reference receipt
-
-Implement BibleTime modules reload.
 
 The binary that does the git communication will be called bibledit-shell. It can then also do other shell commands.
 
