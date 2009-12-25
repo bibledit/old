@@ -182,6 +182,7 @@ navigation(0), httpd(0)
   check_spelling_at_end = false;
   event_id_receive_reference = 0;
   previously_received_reference = NULL;
+  interprocess_communications_initiate_listener_event_id = 0;
   
   // Application name.
   g_set_application_name("Bibledit");
@@ -1832,7 +1833,9 @@ navigation(0), httpd(0)
   // Start the URL transporter.
   urltransport = new URLTransport (0);
   // Clear out old messages.
-  urltransport->signal (interprocess_communication_message_url (icmtClearMessages));
+  urltransport->send_message (interprocess_communication_message_url (icmtClearMessages));
+  // Start listening to messages directed to us.
+  interprocess_communications_initiate_listener ();
 }
 
 
@@ -1842,6 +1845,9 @@ MainWindow::~MainWindow()
   gw_destroy_source (event_id_receive_reference);
   if (previously_received_reference)
     delete previously_received_reference;
+  
+  // Destroy any pending listener restart.
+  gw_destroy_source (interprocess_communications_initiate_listener_event_id);
 
   // Store main window dimensions if windows are attached.
   ScreenLayoutDimensions dimensions(window_main);
@@ -3028,7 +3034,7 @@ bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 }
 
 
-void MainWindow::tools_receive_reference_timeout() // Todo We can just send the message off, then a callback from urltransport will handle the reply.
+void MainWindow::tools_receive_reference_timeout()
 {
   extern Settings * settings;
   Reference received_reference (0);
@@ -3038,15 +3044,10 @@ void MainWindow::tools_receive_reference_timeout() // Todo We can just send the 
       new_reference_received = true;
     }
   }
-  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) { // Todo to send message from here. URL Transport will make a unique identifier, here we just get a button for a callback.
-    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGetref, urltransport->get_unique_identifier());
-    urltransport->signal (url); // Todo this should be something else, to receive with a callback.
-
-
-
-    if (bibletime_reference_receive(received_reference)) {
-      //new_reference_received = true;
-    }
+  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
+    // Send message requesting BibleTime's reference. Response will be handled in Bibledit's listener.
+    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGetref, "");
+    urltransport->send_message (url);
   }
   if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
     ustring response = windowsoutpost->SantaFeFocusReferenceGet ();    
@@ -3082,7 +3083,6 @@ void MainWindow::tools_receive_reference_timeout() // Todo We can just send the 
     }
   }
 }
-
 
 
 /*
@@ -6412,7 +6412,7 @@ void MainWindow::on_assistant_ready ()
   if (export_assistant) {
     if (export_assistant->sword_module_created) {
       ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstReload, "");
-      urltransport->signal (url);
+      urltransport->send_message (url);
     }
     delete export_assistant;
     export_assistant = NULL;
@@ -6869,7 +6869,7 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
  |
  |
  |
- URL transporter
+ URL transporter and interprocess communications
  |
  |
  |
@@ -6883,7 +6883,7 @@ void MainWindow::xiphos_reference_send (Reference reference)
   ustring payload = xiphos_reference_create (reference);
   if (!payload.empty()) {
     ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtXiphos, icstGoto, payload);
-    urltransport->signal (url);
+    urltransport->send_message (url);
   }
 }
 
@@ -6893,8 +6893,65 @@ void MainWindow::bibletime_reference_send (Reference reference)
   ustring payload = bibletime_reference_create (reference);
   if (!payload.empty()) {
     ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGoto, payload);
-    urltransport->signal (url);
+    urltransport->send_message (url);
   }
+}
+
+
+bool MainWindow::on_interprocess_communications_initiate_listener_timeout(gpointer data)
+{
+  ((MainWindow *) data)->interprocess_communications_initiate_listener();
+  return false;
+}
+
+
+void MainWindow::interprocess_communications_initiate_listener ()
+{
+  interprocess_communications_initiate_listener_event_id = 0;
+  GtkWidget * button;
+  button = urltransport->send_message_expect_reply (interprocess_communication_message_url (icmtListen));
+  g_signal_connect((gpointer) button, "clicked", G_CALLBACK(on_interprocess_communications_listener_button_clicked), gpointer(this));
+}
+
+
+void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButton *button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_interprocess_communications_listener_button(button);
+}
+
+
+void MainWindow::on_interprocess_communications_listener_button(GtkButton *button) // Todo
+{
+  // Process the message if it looks good.
+  if (urltransport->reply_is_ok) {
+		ParseLine parseline (urltransport->reply_body);
+    if (!parseline.lines.empty()) {
+      ustring subject = parseline.lines[0];
+
+      // Handle "bibletimeref" command.
+      if (subject.find ("bibletimeref") == 0) {
+        if (parseline.lines.size() > 1) {
+          Reference received_reference (0);
+          if (bibletime_reference_receive(parseline.lines[1], received_reference)) {
+            if (!previously_received_reference->equals (received_reference)) {
+              navigation.display (received_reference);
+              previously_received_reference->assign (received_reference);
+            }
+          }
+        }
+      }
+    }
+// Todo the response gets a message identifier, but this is not needed at all.
+  }
+
+  // Since this listener is ready, it needs to start the next listener.
+  // If all went well, this is done shortly after.
+  // If there was an error, it waits a bit longer before restarting the listener.
+  unsigned int milliseconds = 1000;
+  if (urltransport->reply_is_ok) {
+    milliseconds = 100;
+  }
+  interprocess_communications_initiate_listener_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, milliseconds, GSourceFunc(on_interprocess_communications_initiate_listener_timeout), gpointer(this), NULL);
 }
 
 
@@ -6914,19 +6971,16 @@ install bibledit on Debian and make installation document.
 
 Implement BibleTime reference receipt
 
-Each request to the server has an increasing id number, which, when it comes back, is recognized as the right answer.
-E.g., a message is created for xiphos, with this contents:
-
-getref
-1
-
 It means that also Bibledit should now listen to the server so as to catch the response through long polling.
+It uses the URL Transport function with a sending function that waits, not for an indirect, but for a direct reply, and then clicks a button.
 
 To call a function, it is put into the URL transport object.
 A GtkButton is created, which is made available to the caller.
 This button is destroyed when the function is ready, but it is clicked first, so that any caller knows that something is ready.
 
-
+On shutdown, the shutdown actions should always be called with a curl function that clears the message queuq completely.
+This is so that next time we start afresh. If a "quit" command was left in the quque, then next time the helper application
+* would quit immediately, which is not what is desired.
 
 
 

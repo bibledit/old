@@ -237,7 +237,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 4.0.10"
+#define PACKAGE_STRING "bibledit 4.0.11"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -246,7 +246,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.0.10"
+#define PACKAGE_VERSION "4.0.11"
 
 /* Define to the type of arg 1 for `select'. */
 #define SELECT_TYPE_ARG1 int
@@ -264,7 +264,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "4.0.10"
+#define VERSION "4.0.11"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

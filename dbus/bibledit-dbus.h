@@ -70,6 +70,10 @@ void on_rescan_bus();
 string trim(const string & s);
 static void destroy_source(guint & event_id);
 
+string get_extract_message_identifier (string& message);
+void send_response_to_bibledit (const string& subject, const string& identifier, const string& message);
+static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+
 static void sigproc(int dummy);
 static void sigquit(int dummy);
 int main (int argc, char **argv);

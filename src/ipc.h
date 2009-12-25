@@ -25,7 +25,7 @@
 #include "libraries.h"
 
 
-enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage};
+enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage, icmtListen};
 enum InterprocessCommunicationRecipientType {icrtXiphos, icrtBibleTime};
 enum InterprocessCommunicationSubjectType {icstGoto, icstQuit, icstReload, icstGetref};
 
@@ -34,6 +34,7 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 
                                                 InterprocessCommunicationRecipientType recipient, 
                                                 InterprocessCommunicationSubjectType subject, const ustring& payload);
+void interprocess_communication_message_url_add_to_message (ustring& url, const ustring& addition);
 
 
 #endif

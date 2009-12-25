@@ -25,14 +25,12 @@
 #include "gwrappers.h"
 #include "tiny_utilities.h"
 #include <libsoup/soup.h>
+#include "ipc.h"
 
 
 URLTransport::URLTransport(int dummy)
 // URL transporter.
 {
-  // Initialize variables.
-  unique_identifier = 0;
-  
   // Create a session.
   session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit/1.0", 
                                                  SOUP_SESSION_MAX_CONNS, "50", 
@@ -52,11 +50,14 @@ URLTransport::URLTransport(int dummy)
 
 URLTransport::~URLTransport()
 {
-  // Cancel any running messages.
-  if (server_test_msg) {
-    soup_session_cancel_message (session, server_test_msg, SOUP_STATUS_CANCELLED);
+  // Clear the system for trapping replies.
+  messages_awaiting_reply.clear();
+  for (unsigned int i = 0; i < buttons_awaiting_reply.size(); i++) {
+    gtk_widget_destroy (buttons_awaiting_reply[i]);
   }
-  // Just to be sure, abort the session.
+  buttons_awaiting_reply.clear();
+
+  // Cancel pending message.
   soup_session_abort (session);
 }
 
@@ -79,15 +80,28 @@ void URLTransport::on_message_ready (SoupSession *session, SoupMessage *msg)
     }
     server_test_msg = NULL;
   }
-  // Erase the message from the list of active ones.
-  vector <SoupMessage *> ::iterator iter;
-  iter = active_messages.begin();
-  for (unsigned int i = 0; i < active_messages.size(); i++) {
-    if (msg == active_messages[i]) {
-      active_messages.erase(iter);
+  // Trap a reply.
+  vector <SoupMessage *> ::iterator message_iter = messages_awaiting_reply.begin();
+  vector <GtkWidget *>   ::iterator button_iter =  buttons_awaiting_reply.begin();
+  for (unsigned int i = 0; i < messages_awaiting_reply.size(); i++) {
+    if (msg == messages_awaiting_reply[i]) {
+      // Make information about the reply available to the caller.
+      reply_is_ok = SOUP_STATUS_IS_SUCCESSFUL (msg->status_code);
+      reply_body = msg->response_body->data;
+      // Get signal button.
+      GtkWidget * button = buttons_awaiting_reply[i];
+      // Remove trap.
+      // Note: Do this before signalling the caller, since the caller may modify the trapping system by placing another message in the queue.
+      messages_awaiting_reply.erase(message_iter);
+      buttons_awaiting_reply.erase (button_iter);
+      // Signal caller.      
+      gtk_button_clicked (GTK_BUTTON (button));
+      // Done.
       break;
     }
-    iter++;
+    // Next lot.
+    message_iter++;
+    button_iter++;
   }
 }
 
@@ -103,21 +117,28 @@ void URLTransport::log(const ustring & message)
 }
 
 
-void URLTransport::signal (const ustring& url)
-// A signal is a message that is sent, but nobody cares whether it
-// managed to get through, and nobody cares about the response.
+void URLTransport::send_message (const ustring& url)
+// Sends a message off and forgets about it.
 {
   SoupMessage * msg = soup_message_new (SOUP_METHOD_GET, url.c_str());
-  active_messages.push_back (msg);
   soup_session_queue_message (session, msg, SoupSessionCallback (on_message_ready_callback), gpointer (this));
 }
 
 
-ustring URLTransport::get_unique_identifier ()
-// This returns an identifier unique to the session.
+GtkWidget * URLTransport::send_message_expect_reply (ustring url)
+// Sends a message off, and sets up a system for trapping the reply.
 {
-  unique_identifier++;
-  return convert_to_string (unique_identifier);
+  // Button to be clicked when the reply gets trapped.
+  GtkWidget * button = gtk_button_new ();
+  buttons_awaiting_reply.push_back (button);
+
+  // Send off the message.
+  SoupMessage * msg = soup_message_new (SOUP_METHOD_GET, url.c_str());
+  messages_awaiting_reply.push_back (msg);
+  soup_session_queue_message (session, msg, SoupSessionCallback (on_message_ready_callback), gpointer (this));
+
+  // Return the button.
+  return button;
 }
 
 

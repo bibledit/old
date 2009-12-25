@@ -30,7 +30,7 @@
 
 
 ustring bibletime_reference_create (Reference reference);
-bool bibletime_reference_receive (Reference& reference);
+bool bibletime_reference_receive (ustring text, Reference& reference);
 
 
 #endif

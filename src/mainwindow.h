@@ -794,10 +794,16 @@ protected:
   void store_last_focused_tool_button (GtkButton * button);
   void shutdown_windows();
   
-  // URL transporter.
+  // URL transporter and interprocess communications.
   URLTransport * urltransport;
   void xiphos_reference_send (Reference reference);
   void bibletime_reference_send (Reference reference);
+  guint interprocess_communications_initiate_listener_event_id;
+  static bool on_interprocess_communications_initiate_listener_timeout(gpointer data);
+  void interprocess_communications_initiate_listener ();
+  static void on_interprocess_communications_listener_button_clicked(GtkButton *button, gpointer user_data);
+  void on_interprocess_communications_listener_button(GtkButton *button);
+  
 
 };
 

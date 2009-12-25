@@ -342,6 +342,7 @@ void TinySpawn::run()
   }
 }
 
+
 ParseLine::ParseLine(const ustring & text)
 // Parses text in its separate lines.
 {

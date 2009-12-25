@@ -62,15 +62,13 @@ ustring bibletime_reference_create (Reference reference)
 }
 
 
-bool bibletime_reference_receive (Reference& reference) // Todo
+bool bibletime_reference_receive (ustring text, Reference& reference) // Todo
 {
-  vector <ustring> reply // Todo  = dbus->receive_from_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "getCurrentReference")
-  ;
-  if (reply.empty()) 
+  if (text.empty()) 
     return false;
-  // The response should be something like: "[KJV] [BIBLE] Jer.48.13" (without the quotes).
-  replace_text (reply[0], ".", " ");
-  Parse parse (reply[0]);
+  // The raw text should be something like: "[KJV] [BIBLE] Jer.48.13" (without the quotes).
+  replace_text (text, ".", " ");
+  Parse parse (text);
   if (parse.words.size() == 5) {
     reference.book = books_osis_to_id (parse.words[2]);
     reference.chapter = convert_to_int (parse.words[3]);

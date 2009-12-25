@@ -27,22 +27,19 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
 }
 
 
-ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, // Todo
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message,
                                                 InterprocessCommunicationRecipientType recipient, 
                                                 InterprocessCommunicationSubjectType subject, const ustring& payload)
 {
   ustring url = "http://localhost/bibledit/ipc/";
   switch (message) {
-    case icmtClearMessages: 
-    {
-      url.append ("clearmessages.php");
-      return url;
-    }
-    case icmtStoreMessage: url.append ("storemessage.php");
+    case icmtClearMessages: url.append ("clearmessages.php"); return url;
+    case icmtStoreMessage:  url.append ("storemessage.php");  break;
+    case icmtListen:        url.append ("bibledit.php");      return url;          
   }
   url.append ("?recipient=");
   switch (recipient) {
-    case icrtXiphos: url.append ("xiphos"); break;
+    case icrtXiphos:    url.append ("xiphos");    break;
     case icrtBibleTime: url.append ("bibletime"); break;
   }
   url.append ("&subject=");
@@ -60,4 +57,24 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
 }
 
 
+void interprocess_communication_message_url_add_to_message (ustring& url, const ustring& addition)
+// This one adds the "addition" to the "url" as part of the message.
+// It ensures that the result is understood by the interprocess communications system.
+{
+  // Does the url already have the "?".
+  bool question_added = false;
+  if (url.find ("?") == string::npos) {
+    url.append ("?");
+    question_added = true;
+  }
+  // Does the url already have the &message field?
+  if (url.find ("&message=") == string::npos) {
+    if (!question_added) {
+      url.append ("&");
+    }
+    url.append ("message=");
+  }
+  // Append the addition to the url.
+  url.append (addition);
+}
 

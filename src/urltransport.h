@@ -24,6 +24,7 @@
 
 #include "libraries.h"
 #include <libsoup/soup.h>
+#include <gtk/gtk.h>
 
 
 class URLTransport
@@ -31,8 +32,10 @@ class URLTransport
 public:
   URLTransport(int dummy);
   ~URLTransport();
-  void signal (const ustring& url);
-  ustring get_unique_identifier ();
+  void send_message (const ustring& url);
+  GtkWidget * send_message_expect_reply (ustring url);
+  bool reply_is_ok;
+  ustring reply_body;
 private:
   void log(const ustring & message);
   ustring last_message;
@@ -40,8 +43,8 @@ private:
   static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
   void on_message_ready (SoupSession *session, SoupMessage *msg);
   SoupMessage * server_test_msg;
-  vector <SoupMessage *> active_messages;
-  unsigned int unique_identifier;
+  vector <SoupMessage *> messages_awaiting_reply;
+  vector <GtkWidget *> buttons_awaiting_reply;
 };
 
 

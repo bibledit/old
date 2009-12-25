@@ -102,6 +102,19 @@ void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage
 		if (body.find ("reload") == 0) {
       send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
 		}
+    // Handle "getref" command.
+    if (body.find ("getref") == 0) {
+      string message_identifier = get_extract_message_identifier (body);
+      vector <string> reply = receive_from_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "getCurrentReference");
+      string message;
+      for (unsigned int i = 0; i < reply.size(); i++) {
+        printf ("%s\n", reply[i].c_str());
+        fflush (stdout);
+        if (i) message.append (" ");
+        message.append (reply[i]);
+      }
+      send_response_to_bibledit ("bibletimeref", message_identifier, message);
+    }
 	} else {
 		// If the message was cancelled, do not start it again, just quit.
 		if (msg->status_code == 1) {
@@ -515,6 +528,39 @@ dbus-send --print-reply --dest=org.xiphos.remote /org/xiphos/remote/ipc org.xiph
     return;
   // Send the message.
   send (xiphos_bus_name.c_str(), object, interface, method, value);
+}
+
+
+string get_extract_message_identifier (string& message)
+// Gets and extracts the identifier from the message.
+// The identifier has a fixed length. It looks like, e.g.:
+//   message_identifier=1000000000
+{
+  string identifier;
+  size_t pos = message.find ("message_identifier=");
+  if (pos != string::npos) {
+    identifier = message.substr (pos, 29);
+    message.erase (pos, 29);
+  }
+  return identifier;
+}
+
+
+void send_response_to_bibledit (const string& subject, const string& identifier, const string& message)
+{
+  string url = "http://localhost/bibledit/ipc/storemessage.php?recipient=bibledit&subject=";
+  url.append (subject);
+  url.append ("&message=");
+  url.append (identifier);
+  url.append (" ");
+  url.append (message);
+  SoupMessage * msg = soup_message_new (SOUP_METHOD_GET, url.c_str());
+  soup_session_queue_message (session, msg, SoupSessionCallback (on_message_ready_callback), NULL);
+}
+
+
+void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+{
 }
 
 
