@@ -6962,7 +6962,8 @@ Todo tasks.
 
 
 
-install bibledit on Debian and make installation document.
+The shutdown window hides too much, better make it a normal one.
+It would be helpful if the window could be cancelled, in particular if somebody is in a hurry to get on with the work.
 
 
 
@@ -6972,6 +6973,12 @@ On shutdown, the shutdown actions should always be called with a curl function t
 This is so that next time we start afresh. If a "quit" command was left in the quque, then next time the helper application
 * would quit immediately, which is not what is desired.
 So it no longer erases the messages on startup.
+
+
+
+
+
+install bibledit on Debian and make installation document.
 
 
 
@@ -6996,13 +7003,6 @@ The git system gives a few warnings. These should be fixed.
 
 
 
-The shutdown window hides too much, better make it a normal one.
-It would be helpful if the window could be cancelled, in particular if somebody is in a hurry to get on with the work.
-
-
-
-
-
 The outpost also should listen to the apache server. We then need to download a new Delphi, and write a new outpost in that.
 It may better read the Online Bible stuff since it probably understands the character encoding used in the Online Bible.
 
@@ -7016,14 +7016,6 @@ A better strategy is to make a package that runs solely on the web. Bibledit wil
 Then people can either work on the web, or if they need more functionality, they can install the local client, and keep working with the data on the web.
 A persecution mode sets the site to look like another one, e.g. a news site. Logging in is hidden.
 
-
-
-
-
-
-Can we use "http://en.wikipedia.org/wiki/Comet_%28programming%29"?
-Or "http://en.wikipedia.org/wiki/Push_technology"?
-Or Google for Comet server push
 
 
 

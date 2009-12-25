@@ -405,7 +405,6 @@ AC_CONFIG_FILES([Makefile
        windows/Makefile
        tests/Makefile
        eeepc/Makefile
-       browser/Makefile
        shutdown/Makefile
        usfm/Makefile
        kjv/Makefile

@@ -11172,7 +11172,7 @@ _ACEOF
 fi
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile browser/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile lexicons/Makefile outpost/Makefile gobible/Makefile web/Makefile dbus/Makefile"
+ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile lexicons/Makefile outpost/Makefile gobible/Makefile web/Makefile dbus/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -11918,7 +11918,6 @@ do
     "windows/Makefile") CONFIG_FILES="$CONFIG_FILES windows/Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
     "eeepc/Makefile") CONFIG_FILES="$CONFIG_FILES eeepc/Makefile" ;;
-    "browser/Makefile") CONFIG_FILES="$CONFIG_FILES browser/Makefile" ;;
     "shutdown/Makefile") CONFIG_FILES="$CONFIG_FILES shutdown/Makefile" ;;
     "usfm/Makefile") CONFIG_FILES="$CONFIG_FILES usfm/Makefile" ;;
     "kjv/Makefile") CONFIG_FILES="$CONFIG_FILES kjv/Makefile" ;;
