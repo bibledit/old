@@ -62,7 +62,7 @@ ustring bibletime_reference_create (Reference reference)
 }
 
 
-bool bibletime_reference_receive (ustring text, Reference& reference) // Todo
+bool bibletime_reference_receive (ustring text, Reference& reference)
 {
   if (text.empty()) 
     return false;

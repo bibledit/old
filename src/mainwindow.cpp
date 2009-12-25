@@ -6920,7 +6920,7 @@ void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButto
 }
 
 
-void MainWindow::on_interprocess_communications_listener_button(GtkButton *button) // Todo
+void MainWindow::on_interprocess_communications_listener_button(GtkButton *button)
 {
   // Process the message if it looks good.
   if (urltransport->reply_is_ok) {
@@ -6941,7 +6941,6 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
         }
       }
     }
-// Todo the response gets a message identifier, but this is not needed at all.
   }
 
   // Since this listener is ready, it needs to start the next listener.
@@ -6969,19 +6968,10 @@ install bibledit on Debian and make installation document.
 
 
 
-Implement BibleTime reference receipt
-
-It means that also Bibledit should now listen to the server so as to catch the response through long polling.
-It uses the URL Transport function with a sending function that waits, not for an indirect, but for a direct reply, and then clicks a button.
-
-To call a function, it is put into the URL transport object.
-A GtkButton is created, which is made available to the caller.
-This button is destroyed when the function is ready, but it is clicked first, so that any caller knows that something is ready.
-
 On shutdown, the shutdown actions should always be called with a curl function that clears the message queuq completely.
 This is so that next time we start afresh. If a "quit" command was left in the quque, then next time the helper application
 * would quit immediately, which is not what is desired.
-
+So it no longer erases the messages on startup.
 
 
 
