@@ -1832,10 +1832,10 @@ navigation(0), httpd(0)
   
   // Start the URL transporter.
   urltransport = new URLTransport (0);
-  // Clear out old messages.
-  urltransport->send_message (interprocess_communication_message_url (icmtClearMessages));
   // Start listening to messages directed to us.
   interprocess_communications_initiate_listener ();
+  // Clear out old messages on shutdown.
+  maintenance_register_shell_command ("", "curl " + interprocess_communication_message_url (icmtClearMessages), 1);
 }
 
 
@@ -6962,17 +6962,17 @@ Todo tasks.
 
 
 
-The shutdown window hides too much, better make it a normal one.
-It would be helpful if the window could be cancelled, in particular if somebody is in a hurry to get on with the work.
+We need to split the various snapshot databases to the ones stored per chapter.
+Wherever this is used, it needs to be adapted to the new table format, as book and chapter have fallen out
+also the shutdown routine should respect the new structure.
 
+databases needs to be properly marked for inclusion of the vacuum command,  without that, it won't happen.
 
+If there's a change to the git repo, this repo is included for optimization - we need to think of the level, i.e. how many writes leads to an update.
 
-
-
-On shutdown, the shutdown actions should always be called with a curl function that clears the message queuq completely.
-This is so that next time we start afresh. If a "quit" command was left in the quque, then next time the helper application
-* would quit immediately, which is not what is desired.
-So it no longer erases the messages on startup.
+The optimization system works differently. If a database is written to, this gets registered in the maintenance db.
+If there are more than so many writes, then the database will be vacuumed.
+Same for commits to the git repository. If there are more then so many, the repository will then be optimized.
 
 
 

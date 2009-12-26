@@ -36,7 +36,7 @@
 
 ustring maintenance_database_filename ()
 {
-  return gw_build_filename (directories_get_temp (), "maintenance.sql");
+  return gw_build_filename (directories_get_temp (), "maintenance2.sql");
 }
 
 
@@ -47,16 +47,28 @@ void maintenance_initialize ()
   if (!g_file_test (maintenance_database_filename ().c_str(), G_FILE_TEST_IS_REGULAR)) {
     sqlite3 *db;
     sqlite3_open(maintenance_database_filename().c_str(), &db);
-    sqlite3_exec(db, "create table snapshots (project text, database text);", NULL, NULL, NULL);
-    sqlite3_exec(db, "create table vacuum (filename text);", NULL, NULL, NULL);
-    sqlite3_exec(db, "create table commands (directory text, command text);", NULL, NULL, NULL);
+    sqlite3_exec(db, "create table commands (workingdirectory text, shellcommand text, minimumrequirement integer);", NULL, NULL, NULL);
     sqlite3_close(db);
   }
 }
 
 
+void maintenance_register_shell_command (const ustring& working_directory, const ustring& shell_command, unsigned int minimum_requirement)
+{
+  sqlite3 *db;
+  sqlite3_open(maintenance_database_filename().c_str(), &db);
+  char *sql;
+  sql = g_strdup_printf("insert into commands values ('%s', '%s', %d);", double_apostrophy (working_directory).c_str(), double_apostrophy (shell_command).c_str(), minimum_requirement);
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sqlite3_close(db);
+}
+
+
 void maintenance_register_database (const ustring& project, const ustring& database)
 {
+  return; // Todo
+
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename().c_str(), &db);
   char *sql;
@@ -73,16 +85,18 @@ void maintenance_register_database (const ustring& project, const ustring& datab
 void shutdown_actions()
 // Takes certain actions when Bibledit shuts down.
 {
+  // Start maintenance on shutdown.
+  GwSpawn spawn ("bibledit-shutdown");
+  spawn.arg (maintenance_database_filename());
+  spawn.async ();
+  spawn.run ();
+
+
+
+/*
   // Open a configuration.
   extern Settings *settings;
 
-  // The actions are scheduled once a day only.
-  int clear_up_day = settings->genconfig.clear_up_day_get();
-  int current_day = date_time_julian_day_get_current();
-  if (current_day < (clear_up_day + 1)) {
-    return;
-  }
-  settings->genconfig.clear_up_day_set(current_day);
 
   // Stylesheets: vacuum the sqlite database.
   stylesheet_vacuum();
@@ -108,18 +122,14 @@ void shutdown_actions()
       git_shutdown (projects[i], run_githealth);
     }
   }
-
-  // Start maintenance on shutdown.
-  GwSpawn spawn ("bibledit-shutdown");
-  spawn.arg (maintenance_database_filename());
-  spawn.async ();
-  spawn.run ();
+*/
 }
 
 
 void vacuum_database(const ustring & filename)
 // Schedules the database given by "filename" for vacuuming.
 {
+  return; // Todo
   if (filename.empty())
     return;
   sqlite3 *db;
@@ -135,6 +145,7 @@ void vacuum_database(const ustring & filename)
 void maintenance_register_command (const ustring& path, const ustring& command)
 // Registers a command to be run during maintenance at shutdown.
 {
+  return; // Todo
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename ().c_str(), &db);
   char *sql;

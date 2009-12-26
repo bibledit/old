@@ -49,7 +49,6 @@ public:
   ~GeneralConfiguration ();
   void save ();
   // Private and public definitions follow.
-  DEFINE_GENCONFIG_H (int, clear_up_day);
   DEFINE_GENCONFIG_H (int, screen_width);
   DEFINE_GENCONFIG_H (int, screen_height);
   DEFINE_GENCONFIG_H (int, window_width);
@@ -188,7 +187,6 @@ public:
   DEFINE_GENCONFIG_H (vector<ustring>, project_tasks_names);
   DEFINE_GENCONFIG_H (vector<double>, project_tasks_durations);
   DEFINE_GENCONFIG_H (int, print_job);
-  DEFINE_GENCONFIG_H (int, git_health);
   DEFINE_GENCONFIG_H (vector<ustring>, projects_displaying_verses);
   DEFINE_GENCONFIG_H (bool, compare_disregard_notes);
   DEFINE_GENCONFIG_H (vector<ustring>, source_language_names);

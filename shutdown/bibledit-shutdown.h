@@ -40,8 +40,18 @@
 using namespace std;
 
 
-GtkWidget *splashscreen;
+GtkWidget *window;
 GtkWidget *progressbar;
+
+
+gchar * maintenance_db_filename = NULL;
+vector <string> working_directories;
+vector <string> shell_commands;
+vector <unsigned int> minimum_requirements;
+unsigned int total_commands;
+unsigned int action_offset;
+set <string> signatures_done;
+string get_signature (const string& directory, const string& command);
 
 
 class SqliteReader
@@ -66,6 +76,7 @@ void trim_snapshots (string filename);
 unsigned int convert_to_int(const string& str);
 void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, unsigned int book, unsigned int chapter, int spacing);
 void get_commands (const char * filename, vector <string>& paths, vector <string>& commands);
+static bool on_timeout (gpointer data);
 
 
 #endif

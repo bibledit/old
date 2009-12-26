@@ -74,7 +74,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
 #define INITIALIZE(parameter) parameter##_loaded = false
 
   // Initialize variables.
-  INITIALIZE(clear_up_day);
   INITIALIZE(screen_width);
   INITIALIZE(screen_height);
   INITIALIZE (window_width);
@@ -213,7 +212,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(project_tasks_names);
   INITIALIZE(project_tasks_durations);
   INITIALIZE(print_job);
-  INITIALIZE(git_health);
   INITIALIZE(projects_displaying_verses);
   INITIALIZE(compare_disregard_notes);
   INITIALIZE(source_language_names);
@@ -235,7 +233,6 @@ void GeneralConfiguration::save()
 
 #define SAVE_VALUE(item) if (item##_loaded) config_xml_values_set_assemble (values, item##_key(), item)
 
-  SAVE_VALUE(clear_up_day);
   SAVE_VALUE(screen_width);
   SAVE_VALUE(screen_height);
   SAVE_VALUE (window_width);
@@ -374,7 +371,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(project_tasks_names);
   SAVE_VALUE(project_tasks_durations);
   SAVE_VALUE(print_job);
-  SAVE_VALUE(git_health);
   SAVE_VALUE(projects_displaying_verses);
   SAVE_VALUE(compare_disregard_notes);
   SAVE_VALUE(source_language_names);
@@ -470,7 +466,6 @@ void GeneralConfiguration::store##_set (type value) \
 }
 
 // Code to make everything work.
-IMPLEMENT(int, int_get, clear_up_day, 0)
 IMPLEMENT(int, int_get, screen_width, 0)
 IMPLEMENT(int, int_get, screen_height, 0)
 IMPLEMENT (int, int_get, window_width, 0)
@@ -609,7 +604,6 @@ IMPLEMENT(ustring, string_get, pdf_viewer_arguments, "")
 IMPLEMENT(vector < ustring >, vector_string_get, project_tasks_names, NULL) 
 IMPLEMENT(vector < double >, vector_double_get, project_tasks_durations, NULL) 
 IMPLEMENT(int, int_get, print_job, 0) 
-IMPLEMENT(int, int_get, git_health, date_time_julian_day_get_current())
 IMPLEMENT(vector < ustring >, vector_string_get, projects_displaying_verses, NULL)
 IMPLEMENT(bool, bool_get, compare_disregard_notes, false)
 IMPLEMENT(vector <ustring>, vector_string_get, source_language_names, NULL)

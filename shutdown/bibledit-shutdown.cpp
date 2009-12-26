@@ -25,9 +25,11 @@ SqliteReader::SqliteReader(int dummy)
 {
 }
 
+
 SqliteReader::~SqliteReader()
 {
 }
+
 
 int SqliteReader::callback(void *userdata, int argc, char **argv, char **column_names)
 {
@@ -47,7 +49,6 @@ int SqliteReader::callback(void *userdata, int argc, char **argv, char **column_
 }
 
 
-
 int main (int argc, char *argv[])
 {
 #ifndef WIN32
@@ -57,29 +58,26 @@ int main (int argc, char *argv[])
 #endif
 
   // Database to read commands from.
-  gchar * filename = NULL;
-  if (argc > 1) filename = argv[1];
-  if (filename == NULL) 
+  if (argc > 1) maintenance_db_filename = argv[1];
+  if (maintenance_db_filename == NULL) 
     return 1;
-  if (!g_file_test(filename, G_FILE_TEST_IS_REGULAR))
+  if (!g_file_test(maintenance_db_filename, G_FILE_TEST_IS_REGULAR))
     return 1;
 
   // Initialize Gtk.
   gtk_init (&argc, &argv);
 
-  // Display the helpwindow.      
-  splashscreen = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (splashscreen), "Bibledit");
-  gtk_window_set_position (GTK_WINDOW (splashscreen), GTK_WIN_POS_CENTER);
-  gtk_window_set_skip_taskbar_hint (GTK_WINDOW (splashscreen), TRUE);
-  gtk_window_set_skip_pager_hint (GTK_WINDOW (splashscreen), TRUE);
-  gtk_window_set_type_hint (GTK_WINDOW (splashscreen), GDK_WINDOW_TYPE_HINT_SPLASHSCREEN);
-  gtk_window_set_gravity (GTK_WINDOW (splashscreen), GDK_GRAVITY_CENTER);
+  // Display the window.      
+  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (window), "Bibledit");
+  gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
+  gtk_window_set_type_hint (GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_NORMAL);
+  g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK (gtk_main_quit), NULL);
 
   GtkWidget * vbox = gtk_vbox_new (FALSE, 10);
   gtk_widget_show (vbox);
-  gtk_container_add (GTK_CONTAINER (splashscreen), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 50);
+  gtk_container_add (GTK_CONTAINER (window), vbox);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
 
   GtkWidget * label = gtk_label_new ("Tidying up");
   gtk_widget_show (label);
@@ -89,18 +87,38 @@ int main (int argc, char *argv[])
   gtk_widget_show (progressbar);
   gtk_box_pack_start (GTK_BOX (vbox), progressbar, FALSE, FALSE, 0);
 
-  gtk_widget_show_all (splashscreen);
-    
-  g_signal_connect ((gpointer) splashscreen, "delete_event", G_CALLBACK (gtk_main_quit), NULL);
+  GtkWidget * button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+  gtk_widget_show (label);
+  gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+  g_signal_connect ((gpointer) button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 
-  for (unsigned int i = 0; i < 10; i++) {
-    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), 0.01);
-    while (gtk_events_pending()) {
-      gtk_main_iteration();
-    }
-    g_usleep (300000);
+  gtk_widget_show_all (window);
+
+  // Get the data from the maintenance database.
+  sqlite3 *maintenance_db;
+  sqlite3_open(maintenance_db_filename, &maintenance_db);
+  sqlite3_busy_timeout(maintenance_db, 2000);
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select * from commands;");
+  sqlite3_exec(maintenance_db, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  working_directories = reader.string0;
+  shell_commands = reader.string1;
+  for (unsigned int i = 0; i < reader.string2.size(); i++) {
+    minimum_requirements.push_back (convert_to_int (reader.string2[i]));
   }
+  sqlite3_close(maintenance_db);
+  total_commands = shell_commands.size();
+  action_offset = 0;
+    
+  // Wait shortly, then process the data.
+  g_timeout_add(2000, GSourceFunc(on_timeout), NULL);
 
+  // Main loop.
+  gtk_main();
+
+/*
   // Trim the snapshots.
   vector <string> snapshot_databases = get_snapshot_databases (filename);
   for (unsigned int i = 0; i < snapshot_databases.size(); i++) {
@@ -110,10 +128,6 @@ int main (int argc, char *argv[])
   // Vacuum the databases.
   vector <string> vacuum_databases = get_vacuum_databases(filename);
   for (unsigned int i = 0; i < vacuum_databases.size(); i++) {
-    double fraction = ((double) i) / ((double) vacuum_databases.size());
-    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), fraction);
-    while (gtk_events_pending())
-      gtk_main_iteration();
     vacuum_database (vacuum_databases[i]);
   }
 
@@ -122,17 +136,16 @@ int main (int argc, char *argv[])
   vector <string> commands;
   get_commands  (filename, paths, commands);
   for (unsigned int i = 0; i < paths.size(); i++) {
-    double fraction = ((double) i) / ((double) commands.size());
-    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), fraction);
-    while (gtk_events_pending())
-      gtk_main_iteration();
     string command = "cd '" + paths[i] + "' ; " + commands[i];
     if (system (command.c_str()));
   }
-  
+
   // Remove the command database.
-  unlink (filename);
-  
+  unlink (maintenance_db_filename);
+
+*/  
+
+  // Done.  
   return 0;
 }
 
@@ -140,6 +153,7 @@ int main (int argc, char *argv[])
 vector <string> get_vacuum_databases (const char * filename)
 {
   vector <string> databases;
+  /*
   sqlite3 *cmddb;
   sqlite3_open(filename, &cmddb);
   sqlite3_busy_timeout(cmddb, 2000);
@@ -162,12 +176,14 @@ vector <string> get_vacuum_databases (const char * filename)
     }
   }
   sqlite3_close(cmddb);
+  */
   return databases;  
 }
 
 
 void vacuum_database (string filename)
 {
+  /*
   if (!filename.empty()) {
     sqlite3 *db;
     int rc;
@@ -187,12 +203,14 @@ void vacuum_database (string filename)
     }
     sqlite3_close(db);
   }
+  */
 }
 
 
 vector <string> get_snapshot_databases (const char * filename)
 {
   vector <string> databases;
+  /*
   sqlite3 *db;
   sqlite3_open(filename, &db);
   sqlite3_busy_timeout(db, 2000);
@@ -203,6 +221,7 @@ vector <string> get_snapshot_databases (const char * filename)
   g_free(sql);
   databases = reader.string0;
   sqlite3_close(db);
+  */
   return databases;  
 }
 
@@ -367,6 +386,7 @@ void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, u
 
 void get_commands (const char * filename, vector <string>& paths, vector <string>& commands)
 {
+  /*
   set <string> commandset;
   sqlite3 *db;
   sqlite3_open(filename, &db);
@@ -385,4 +405,76 @@ void get_commands (const char * filename, vector <string>& paths, vector <string
     }
   }
   sqlite3_close(db);
+  */
 }
+
+
+bool on_timeout (gpointer data) // Todo
+{
+  // If all commands have been handled, bail out.
+  if (action_offset >= total_commands) {
+    gtk_main_quit ();
+    return false;
+  }
+
+  // Update progress bar.
+  double fraction = ((double) action_offset) / ((double) total_commands);
+  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), fraction);
+
+  // Get commands.
+  string working_directory = working_directories[action_offset];
+  string shell_command = shell_commands[action_offset];
+  unsigned int minimum_requirement =  minimum_requirements[action_offset];
+
+  // Next step is to find out whether to run this command.
+  bool run_it = false;
+  
+  // If the minimum requirement is 1, that means that if there's one of them, or more, it should run.
+  // In this case it should run, then.
+  if (minimum_requirement <= 1) {
+    run_it = true;
+  }
+  
+  // If the command ran already, there's no need to run it again.
+  if (signatures_done.find (get_signature (working_directory, shell_command)) != signatures_done.end()) {
+    run_it = false;
+  }  
+  
+  // If the command should run, take the appropriate actions.
+  if (run_it) {
+
+    // Erase this command from the database.
+    sqlite3 *maintenance_db;
+    sqlite3_open(maintenance_db_filename, &maintenance_db);
+    sqlite3_busy_timeout(maintenance_db, 2000);
+    char *sql;
+    sql = g_strdup_printf("delete from commands where workingdirectory = '%s' and shellcommand = '%s';", working_directory.c_str(), shell_command.c_str());
+    sqlite3_exec(maintenance_db, sql, NULL, NULL, NULL);
+    g_free(sql);
+    sqlite3_close(maintenance_db);
+  
+    // Run the command.
+    string command = "cd '" + working_directory + "' ; " + shell_command;
+    if (system (command.c_str()));
+
+    // Store its's signature as being done.
+    signatures_done.insert (get_signature (working_directory, shell_command));
+
+  }
+
+  // Next cycle.
+  action_offset++ ;
+  g_timeout_add(10, GSourceFunc(on_timeout), NULL);
+  
+  // This timeout's done.
+  return false;
+}
+
+
+string get_signature (const string& directory, const string& command)
+{
+  return directory + command;
+}
+
+
+// Todo since the db persists, it needs to vacuum it at the end.
