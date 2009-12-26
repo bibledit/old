@@ -1003,3 +1003,5 @@ unsigned int notes_count (const ustring& alternate_directory)
   return count;
 }
 
+
+// Todo on note edit register for maintenance.

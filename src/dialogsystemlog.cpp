@@ -37,9 +37,10 @@ ustring log_file_name(LogFileType type, bool previous)
 {
   ustring filename;
   switch (type) {
-    case lftMain:  filename = "bibledit.log"; break;
-    case lftDbus:  filename = "dbus.log";     break;
-    case lftShell: filename = "shell.log";    break;
+    case lftMain:     filename = "bibledit.log"; break;
+    case lftDbus:     filename = "dbus.log";     break;
+    case lftShell:    filename = "shell.log";    break;
+    case lftShutdown: filename = "shutdown.log"; break;
   }
   if (previous) {
     filename.append (".old");
@@ -50,7 +51,7 @@ ustring log_file_name(LogFileType type, bool previous)
 
 void move_log_files ()
 {
-  for (unsigned int type = lftMain; type <= lftShell; type++) {
+  for (unsigned int type = lftMain; type <= lftShutdown; type++) {
     // Save logfile from previous session.
     if (g_file_test (log_file_name(LogFileType (type), false).c_str(), G_FILE_TEST_IS_REGULAR)) {
       GwSpawn spawn ("mv");
@@ -98,6 +99,12 @@ SystemlogDialog::SystemlogDialog(int dummy)
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_shell), radiobuttongroup);
   radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_shell));
   g_signal_connect((gpointer) radiobutton_shell, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
+
+  radiobutton_shutdown = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_shutdown"));
+  shortcuts.button (radiobutton_shutdown);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_shutdown), radiobuttongroup);
+  radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_shutdown));
+  g_signal_connect((gpointer) radiobutton_shutdown, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
 
   button_diag = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_diag"));
   g_signal_connect((gpointer) button_diag, "clicked", G_CALLBACK(on_button_diagnostics_clicked), gpointer(this));
@@ -214,6 +221,8 @@ ustring SystemlogDialog::logfilename()
     type = lftDbus;
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_shell))) 
     type = lftShell;
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_shutdown))) 
+    type = lftShutdown;
   return log_file_name (type, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_session)));
 }
 

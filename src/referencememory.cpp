@@ -62,7 +62,7 @@ void references_memory_database_verify()
 }
 
 
-void references_memory_store (const Reference& reference)
+void references_memory_store (const Reference& reference) // Todo register for maintenance.
 // Stores a reference into the database.
 {
   // Open database.

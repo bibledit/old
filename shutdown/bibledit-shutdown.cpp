@@ -51,11 +51,28 @@ int SqliteReader::callback(void *userdata, int argc, char **argv, char **column_
 
 int main (int argc, char *argv[])
 {
+  // Init variables.
+  action_count = 0;
+  
 #ifndef WIN32
   // Do not run as root.
   if (getuid () == 0)
     return 1;
 #endif
+
+  // Redirect stdout and stderr to file.
+  if (argc > 2) {
+    // When a file is opened it is always allocated the lowest available file 
+    // descriptor. Therefore the following commands cause stdout to be 
+    // redirected to the logfile.
+    close(1);
+    creat (argv[2], 0666); 
+    // The dup() routine makes a duplicate file descriptor for an already opened 
+    // file using the first available file descriptor. Therefore the following 
+    // commands cause stderr to be redirected to the file stdout writes to.
+    close(2);
+    if (dup(1));
+  }    
 
   // Database to read commands from.
   if (argc > 1) maintenance_db_filename = argv[1];
@@ -77,15 +94,15 @@ int main (int argc, char *argv[])
   GtkWidget * vbox = gtk_vbox_new (FALSE, 10);
   gtk_widget_show (vbox);
   gtk_container_add (GTK_CONTAINER (window), vbox);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox), 30);
 
-  GtkWidget * label = gtk_label_new ("Tidying up");
+  label = gtk_label_new ("Tidying up");
   gtk_widget_show (label);
   gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
-  progressbar = gtk_progress_bar_new ();
-  gtk_widget_show (progressbar);
-  gtk_box_pack_start (GTK_BOX (vbox), progressbar, FALSE, FALSE, 0);
+  label = gtk_label_new ("");
+  gtk_widget_show (label);
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
   GtkWidget * button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
   gtk_widget_show (label);
@@ -94,24 +111,6 @@ int main (int argc, char *argv[])
 
   gtk_widget_show_all (window);
 
-  // Get the data from the maintenance database.
-  sqlite3 *maintenance_db;
-  sqlite3_open(maintenance_db_filename, &maintenance_db);
-  sqlite3_busy_timeout(maintenance_db, 2000);
-  SqliteReader reader(0);
-  char *sql;
-  sql = g_strdup_printf("select * from commands;");
-  sqlite3_exec(maintenance_db, sql, reader.callback, &reader, NULL);
-  g_free(sql);
-  working_directories = reader.string0;
-  shell_commands = reader.string1;
-  for (unsigned int i = 0; i < reader.string2.size(); i++) {
-    minimum_requirements.push_back (convert_to_int (reader.string2[i]));
-  }
-  sqlite3_close(maintenance_db);
-  total_commands = shell_commands.size();
-  action_offset = 0;
-    
   // Wait shortly, then process the data.
   g_timeout_add(2000, GSourceFunc(on_timeout), NULL);
 
@@ -411,70 +410,88 @@ void get_commands (const char * filename, vector <string>& paths, vector <string
 
 bool on_timeout (gpointer data) // Todo
 {
-  // If all commands have been handled, bail out.
-  if (action_offset >= total_commands) {
+  bool something_was_done = false;
+
+  sqlite3 *db;
+  sqlite3_open(maintenance_db_filename, &db);
+  sqlite3_busy_timeout(db, 2000);
+
+  something_was_done = handle_shell_command (db);
+
+  if (something_was_done) {
+    g_timeout_add(10, GSourceFunc(on_timeout), NULL);
+  } else {
     gtk_main_quit ();
-    return false;
   }
 
-  // Update progress bar.
-  double fraction = ((double) action_offset) / ((double) total_commands);
-  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), fraction);
+  sqlite3_close(db);
 
-  // Get commands.
-  string working_directory = working_directories[action_offset];
-  string shell_command = shell_commands[action_offset];
-  unsigned int minimum_requirement =  minimum_requirements[action_offset];
-
-  // Next step is to find out whether to run this command.
-  bool run_it = false;
-  
-  // If the minimum requirement is 1, that means that if there's one of them, or more, it should run.
-  // In this case it should run, then.
-  if (minimum_requirement <= 1) {
-    run_it = true;
-  }
-  
-  // If the command ran already, there's no need to run it again.
-  if (signatures_done.find (get_signature (working_directory, shell_command)) != signatures_done.end()) {
-    run_it = false;
-  }  
-  
-  // If the command should run, take the appropriate actions.
-  if (run_it) {
-
-    // Erase this command from the database.
-    sqlite3 *maintenance_db;
-    sqlite3_open(maintenance_db_filename, &maintenance_db);
-    sqlite3_busy_timeout(maintenance_db, 2000);
-    char *sql;
-    sql = g_strdup_printf("delete from commands where workingdirectory = '%s' and shellcommand = '%s';", working_directory.c_str(), shell_command.c_str());
-    sqlite3_exec(maintenance_db, sql, NULL, NULL, NULL);
-    g_free(sql);
-    sqlite3_close(maintenance_db);
-  
-    // Run the command.
-    string command = "cd '" + working_directory + "' ; " + shell_command;
-    if (system (command.c_str()));
-
-    // Store its's signature as being done.
-    signatures_done.insert (get_signature (working_directory, shell_command));
-
-  }
-
-  // Next cycle.
-  action_offset++ ;
-  g_timeout_add(10, GSourceFunc(on_timeout), NULL);
-  
-  // This timeout's done.
   return false;
 }
 
 
-string get_signature (const string& directory, const string& command)
+bool handle_shell_command (sqlite3 *db) // Todo
+// Looks in the database whether there's a shell command to run.
+// It it ran one, it returns true.
 {
-  return directory + command;
+  // Read the commands to run.
+  SqliteReader reader(0);
+  sqlite3_exec(db, "select * from commands;", reader.callback, &reader, NULL);
+  // Return false if there's nothing to run.
+  if (reader.string0.empty()) {
+    return false;
+  }
+
+  // Get parameters for the shell command to run.
+  string workingdirectory = reader.string0[0];
+  string shellcommand = reader.string1[0];
+
+  // Remove this command, and any duplicate, from the database.
+  char *sql;
+  sql = g_strdup_printf("delete from commands where workingdirectory = '%s' and shellcommand = '%s';", double_apostrophy (workingdirectory).c_str(), double_apostrophy (shellcommand).c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+
+  // Run and log the command.
+  string command = "cd '" + workingdirectory + "' ; " + shellcommand;
+  printf ("Run command %s\n", command.c_str());
+  fflush (stdout);
+  int exitcode = system (command.c_str());
+  printf ("Exit code %d\n", exitcode);
+  fflush (stdout);
+
+  // Feedback.
+  feedback ();
+  
+  // Return true since it ran a shell command.
+  return true;
 }
 
 
-// Todo since the db persists, it needs to vacuum it at the end.
+string double_apostrophy(const string & line)
+// SQLite needs any apostrophy in the data to be prefixed by another one.
+// This function does that.
+{
+  string returnvalue;
+  returnvalue = line;
+  size_t offset = returnvalue.find("'");
+  while (offset != string::npos) {
+    returnvalue.insert(offset, "'");
+    offset++;
+    offset++;
+    offset = returnvalue.find("'", offset);
+  }
+  return returnvalue;
+}
+
+
+void feedback ()
+{
+  action_count++;
+  gchar *text = g_strdup_printf("%d", action_count);
+  gtk_label_set_text (GTK_LABEL (label), text);
+  g_free(text);
+}
+
+
+// Todo since the db usually persists, it needs to vacuum it at the end.

@@ -26,7 +26,7 @@
 #include "libraries.h"
 
 
-enum LogFileType {lftMain, lftDbus, lftShell};
+enum LogFileType {lftMain, lftDbus, lftShell, lftShutdown};
 
 
 ustring log_file_name(LogFileType type, bool previous);
@@ -47,6 +47,7 @@ protected:
   GtkWidget *radiobutton_main;
   GtkWidget *radiobutton_dbus;
   GtkWidget *radiobutton_shell;
+  GtkWidget *radiobutton_shutdown;
   GtkWidget *button_diag;
 private:
   guint event_source_id;

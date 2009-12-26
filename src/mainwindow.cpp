@@ -1835,7 +1835,7 @@ navigation(0), httpd(0)
   // Start listening to messages directed to us.
   interprocess_communications_initiate_listener ();
   // Clear out old messages on shutdown.
-  maintenance_register_shell_command ("", "curl " + interprocess_communication_message_url (icmtClearMessages), 1);
+  maintenance_register_shell_command ("", "curl " + interprocess_communication_message_url (icmtClearMessages));
 }
 
 
@@ -6961,6 +6961,8 @@ Todo tasks.
 
 
 
+
+It needs a log file for the shutdown command program. Also pass it as the second variable.
 
 We need to split the various snapshot databases to the ones stored per chapter.
 Wherever this is used, it needs to be adapted to the new table format, as book and chapter have fallen out

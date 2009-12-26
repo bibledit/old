@@ -151,11 +151,6 @@ if test x$FIND_PHP = xno; then
   AC_MSG_ERROR(Program "php" is needed. It is in a package called either "php" or "php5" depending on the distro.)
 fi
 
-AC_PATH_PROG(FIND_SQLITE, sqlite3, no)
-if test x$FIND_SQLITE = xno; then
-  AC_MSG_ERROR(Program "sqlite3" is needed. Install this first.)
-fi
-
 # Checks for libraries.
 
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.16.0,,AC_MSG_ERROR(glib development version >= 2.16.0 is needed.))

@@ -243,7 +243,7 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
 }
 
 
-void git_shutdown (const ustring& project, bool health)
+void git_shutdown (const ustring& project, bool health) // Todo this one to do automatic.
 {
   // Get the data directory for the project
   ustring datadirectory = tiny_project_data_directory_project(project);
@@ -257,25 +257,25 @@ void git_shutdown (const ustring& project, bool health)
   command.append("@");
   command.append(g_get_host_name());
   command.append("\"");
-  maintenance_register_command (datadirectory, command);
+  maintenance_register_shell_command (datadirectory, command);
   command = "git config user.name \"";
   command.append(g_get_real_name());
   command.append("\"");
-  maintenance_register_command (datadirectory, command);
+  maintenance_register_shell_command (datadirectory, command);
 
   // (Re)initialize the repository. This can be done repeatedly without harm.
-  maintenance_register_command (datadirectory, "git init");
+  maintenance_register_shell_command (datadirectory, "git init");
 
   // At times health-related commands are ran too.
   if (health) {
     // Prune all unreachable objects from the object database.
-    maintenance_register_command (datadirectory, "git prune");
+    maintenance_register_shell_command (datadirectory, "git prune");
     // Cleanup unnecessary files and optimize the local repository.
-    maintenance_register_command (datadirectory, "git gc --aggressive");
+    maintenance_register_shell_command (datadirectory, "git gc --aggressive");
     // Remove extra objects that are already in pack files.
-    maintenance_register_command (datadirectory, "git prune-packed");
+    maintenance_register_shell_command (datadirectory, "git prune-packed");
     // Pack unpacked objects in the repository.
-    maintenance_register_command (datadirectory, "git repack");
+    maintenance_register_shell_command (datadirectory, "git repack");
   }
 }
 
