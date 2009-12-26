@@ -38,7 +38,7 @@
 
 
 #define STYLESHEET_XML_SUFFIX ".xml2"
-const char *RECOGNIZED_SUFFIXES[] = { ".sql17", ".sql18", ".xml1", ".xml2" };
+const char *RECOGNIZED_SUFFIXES[] = { ".xml1", ".xml2" };
 
 
 ustring stylesheet_recent_filename()
@@ -390,7 +390,7 @@ void stylesheet_get_recently_used(const ustring & stylesheet, vector <ustring>& 
 }
 
 
-void stylesheet_set_recently_used(const ustring & stylesheet, vector <ustring>& styles, vector <unsigned int>& counts) // Todo register for maintenance.
+void stylesheet_set_recently_used(const ustring & stylesheet, vector <ustring>& styles, vector <unsigned int>& counts)
 {
   // Connect to db.
   ustring filename = stylesheet_recent_filename();
@@ -413,6 +413,8 @@ void stylesheet_set_recently_used(const ustring & stylesheet, vector <ustring>& 
     sqlite3_exec(db, sql, NULL, NULL, NULL);
     g_free(sql);
   }
+  // Register database write access, for possible maintenance once in a while.
+  maintenance_register_database (filename);
 }
 
 
@@ -497,12 +499,6 @@ style: the Style object to read. The marker is already given in the object.
     style.userstring2 = stylev2->userstring2;
     style.userstring3 = stylev2->userstring3;
   }
-}
-
-
-void stylesheet_vacuum()
-{
-  vacuum_database(stylesheet_recent_filename());
 }
 
 

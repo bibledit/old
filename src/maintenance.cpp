@@ -52,7 +52,7 @@ void maintenance_initialize ()
     sqlite3_exec(db, "create table commands  (workingdirectory text, shellcommand text);", NULL, NULL, NULL);
     sqlite3_exec(db, "create table snapshots (filename text);",                            NULL, NULL, NULL); // Todo register function.
     sqlite3_exec(db, "create table databases (filename text);",                            NULL, NULL, NULL); // Todo register function needed.
-    sqlite3_exec(db, "create table gitrepos  (directory text);",                           NULL, NULL, NULL); // Todo register function needed.
+    sqlite3_exec(db, "create table gitrepos  (directory text);",                           NULL, NULL, NULL);
     sqlite3_close(db);
   }
 }
@@ -72,7 +72,7 @@ void maintenance_register_shell_command (const ustring& working_directory, const
 }
 
 
-void maintenance_register_git_repository (const ustring& directory) // Todo use.
+void maintenance_register_git_repository (const ustring& directory)
 // Registers a git repository in the database for the maintenance routine on bibledit shutdown.
 // The information is interpreted as: This repository has been changed once more.
 {
@@ -87,18 +87,13 @@ void maintenance_register_git_repository (const ustring& directory) // Todo use.
 }
 
 
-void maintenance_register_database (const ustring& project, const ustring& database)
+void maintenance_register_database (const ustring& filename) // Todo, implement, call, test.
 {
-  return; // Todo
-
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename().c_str(), &db);
   sqlite3_busy_timeout(db, 2000);
   char *sql;
-  sql = g_strdup_printf("delete from snapshots where project = '%s';", double_apostrophy (project).c_str());
-  sqlite3_exec(db, sql, NULL, NULL, NULL);
-  g_free(sql);
-  sql = g_strdup_printf("insert into snapshots values ('%s', '%s');", double_apostrophy (project).c_str(), double_apostrophy (database).c_str());
+  sql = g_strdup_printf("insert into databases values ('%s');", double_apostrophy (filename).c_str());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
   sqlite3_close(db);
@@ -108,65 +103,12 @@ void maintenance_register_database (const ustring& project, const ustring& datab
 void shutdown_actions()
 // Takes certain actions when Bibledit shuts down.
 {
-  // Start maintenance on shutdown.
+  // Start maintenance program.
   GwSpawn spawn ("bibledit-shutdown");
   spawn.arg (maintenance_database_filename());
   spawn.arg (log_file_name(lftShutdown, false));
   spawn.async ();
   spawn.run ();
-
-
-
-/*
-  // Open a configuration.
-  extern Settings *settings;
-
-
-  // Stylesheets: vacuum the sqlite database.
-  stylesheet_vacuum();
-
-  // Notes: vacuum the sqlite databases.
-  notes_vacuum();
-  
-  // References memory: vacuum the sqlite database.
-  vacuum_database (references_memory_database_filename());
-
-  // Git shutdown actions, optionally with the health flag.
-  int githealth = settings->genconfig.git_health_get();
-  int currentday = date_time_julian_day_get_current();
-  bool run_githealth = false;
-  if (ABS(currentday - githealth) >= 30) {
-    run_githealth = true;
-    settings->genconfig.git_health_set(currentday);
-  }
-  vector <ustring> projects = projects_get_all ();
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    ProjectConfiguration * projectconfig = settings->projectconfig (projects[i]);
-    if (projectconfig->git_use_remote_repository_get()) {
-      git_shutdown (projects[i], run_githealth);
-    }
-  }
-*/
 }
 
 
-void vacuum_database(const ustring & filename)
-// Schedules the database given by "filename" for vacuuming.
-{
-  return; // Todo
-  if (filename.empty())
-    return;
-  sqlite3 *db;
-  sqlite3_open(maintenance_database_filename ().c_str(), &db);
-  sqlite3_busy_timeout(db, 2000);
-  char *sql;
-  sql = g_strdup_printf("insert into vacuum values ('%s')", double_apostrophy (filename).c_str());
-  sqlite3_exec(db, sql, NULL, NULL, NULL);
-  g_free(sql);
-  sqlite3_close(db);
-}
-
-
-// Todo If a shell command did not run, yet was there, the idea is to increment its occurrence once, so that eventually it will run.
-
-// Todo Change diagnostics database with the numbers of writes to the snapshots databases, so that cleaning and vacuuming is done through sqlite.

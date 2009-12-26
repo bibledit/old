@@ -163,6 +163,8 @@ void notes_delete_one(int id)
     gw_critical(ex.what());
   }
   sqlite3_close(db);
+  // Register write access to this database for possible future maintenance routine.
+  maintenance_register_database (notes_database_filename());
 }
 
 
@@ -777,13 +779,6 @@ void notes_projects_add_from_database(vector < ustring > &projects)
 }
 
 
-void notes_vacuum()
-// Vacuum the database.
-{
-  vacuum_database(notes_database_filename());
-}
-
-
 void notes_store_one(int id, ustring & note, const ustring & project, vector < Reference > &references, const ustring & category, int date_created, const ustring & user_created, ustring & logbook)
 {
   sqlite3 *db;
@@ -877,6 +872,8 @@ void notes_store_one(int id, ustring & note, const ustring & project, vector < R
   }
   // Close connection.  
   sqlite3_close(db);
+  // Register write access to this database for possible future maintenance routine.
+  maintenance_register_database (notes_database_filename());
 }
 
 
@@ -902,6 +899,8 @@ void notes_change_category(const ustring & from, const ustring & to)
     gw_critical(ex.what());
   }
   sqlite3_close(db);
+  // Register write access to this database for possible future maintenance routine.
+  maintenance_register_database (notes_database_filename());
 }
 
 
@@ -927,6 +926,8 @@ void notes_change_project(const ustring & from, const ustring & to)
     gw_critical(ex.what());
   }
   sqlite3_close(db);
+  // Register write access to this database for possible future maintenance routine.
+  maintenance_register_database (notes_database_filename());
 }
 
 
@@ -1004,4 +1005,3 @@ unsigned int notes_count (const ustring& alternate_directory)
 }
 
 
-// Todo on note edit register for maintenance.

@@ -28,10 +28,8 @@
 void maintenance_initialize ();
 void maintenance_register_shell_command (const ustring& working_directory, const ustring& shell_command);
 void maintenance_register_git_repository (const ustring& directory);
-
-void maintenance_register_database (const ustring& project, const ustring& database);
+void maintenance_register_database (const ustring& filename);
 void shutdown_actions ();
-void vacuum_database (const ustring& filename);
 
 
 #endif

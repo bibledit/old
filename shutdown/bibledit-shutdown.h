@@ -69,7 +69,6 @@ vector <string> get_snapshot_databases (const char * filename);
 void trim_snapshots (string filename);
 unsigned int convert_to_int(const string& str);
 void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, unsigned int book, unsigned int chapter, int spacing);
-void get_commands (const char * filename, vector <string>& paths, vector <string>& commands);
 static bool on_timeout (gpointer data);
 bool handle_shell_command (sqlite3 *db);
 string double_apostrophy(const string & line);

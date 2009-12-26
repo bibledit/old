@@ -62,7 +62,7 @@ void references_memory_database_verify()
 }
 
 
-void references_memory_store (const Reference& reference) // Todo register for maintenance.
+void references_memory_store (const Reference& reference)
 // Stores a reference into the database.
 {
   // Open database.
@@ -89,6 +89,9 @@ void references_memory_store (const Reference& reference) // Todo register for m
   
   // Close database.
   sqlite3_close(db);
+  
+  // Register this write in the database maintenance system.
+  maintenance_register_database (references_memory_database_filename());
 }
 
 

@@ -42,7 +42,6 @@ ustring notes_categories_filename();
 void notes_categories_check();
 void notes_categories_add_from_database(vector<ustring>& categories);
 void notes_projects_add_from_database(vector<ustring>& projects);
-void notes_vacuum();
 void notes_store_one(int id, ustring& note, const ustring& project, vector<Reference>& references, const ustring& category, int date_created, const ustring& user_created, ustring& logbook);
 void notes_change_category(const ustring& from, const ustring& to);
 void notes_change_project(const ustring& from, const ustring& to);

@@ -265,10 +265,6 @@ void git_shutdown (const ustring& project, bool health) // Todo this one to do a
 
   // (Re)initialize the repository. This can be done repeatedly without harm.
   maintenance_register_shell_command (datadirectory, "git init");
-
-  // At times health-related commands are ran too.
-  if (health) {
-  }
 }
 
 

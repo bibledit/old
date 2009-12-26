@@ -130,15 +130,6 @@ int main (int argc, char *argv[])
     vacuum_database (vacuum_databases[i]);
   }
 
-  // Run the shutdown commands.
-  vector <string> paths;
-  vector <string> commands;
-  get_commands  (filename, paths, commands);
-  for (unsigned int i = 0; i < paths.size(); i++) {
-    string command = "cd '" + paths[i] + "' ; " + commands[i];
-    if (system (command.c_str()));
-  }
-
   // Remove the command database.
   unlink (maintenance_db_filename);
 
@@ -380,31 +371,6 @@ void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, u
       previous_second = group[i];
     }
   }
-}
-
-
-void get_commands (const char * filename, vector <string>& paths, vector <string>& commands)
-{
-  /*
-  set <string> commandset;
-  sqlite3 *db;
-  sqlite3_open(filename, &db);
-  sqlite3_busy_timeout(db, 2000);
-  SqliteReader reader(0);
-  char *sql;
-  sql = g_strdup_printf("select directory, command from commands;");
-  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-  g_free(sql);
-  for (unsigned int i = 0; i < reader.string0.size(); i++) {
-    string path = reader.string0[i];
-    string command = reader.string1[i];
-    if (commandset.find (path + command) == commandset.end ()) {
-      paths.push_back (path);
-      commands.push_back (command);
-    }
-  }
-  sqlite3_close(db);
-  */
 }
 
 
