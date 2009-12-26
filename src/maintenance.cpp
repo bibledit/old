@@ -48,6 +48,7 @@ void maintenance_initialize ()
   if (!g_file_test (maintenance_database_filename ().c_str(), G_FILE_TEST_IS_REGULAR)) {
     sqlite3 *db;
     sqlite3_open(maintenance_database_filename().c_str(), &db);
+    sqlite3_busy_timeout(db, 2000);
     sqlite3_exec(db, "create table commands  (workingdirectory text, shellcommand text);", NULL, NULL, NULL);
     sqlite3_exec(db, "create table snapshots (filename text);",                            NULL, NULL, NULL); // Todo register function.
     sqlite3_exec(db, "create table databases (filename text);",                            NULL, NULL, NULL); // Todo register function needed.
@@ -58,11 +59,28 @@ void maintenance_initialize ()
 
 
 void maintenance_register_shell_command (const ustring& working_directory, const ustring& shell_command)
+// Registers a shell command to be run as part of the maintenance routine on bibledit shutdown.
 {
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename().c_str(), &db);
+  sqlite3_busy_timeout(db, 2000);
   char *sql;
   sql = g_strdup_printf("insert into commands values ('%s', '%s');", double_apostrophy (working_directory).c_str(), double_apostrophy (shell_command).c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sqlite3_close(db);
+}
+
+
+void maintenance_register_git_repository (const ustring& directory) // Todo use.
+// Registers a git repository in the database for the maintenance routine on bibledit shutdown.
+// The information is interpreted as: This repository has been changed once more.
+{
+  sqlite3 *db;
+  sqlite3_open(maintenance_database_filename().c_str(), &db);
+  sqlite3_busy_timeout(db, 2000);
+  char *sql;
+  sql = g_strdup_printf("insert into gitrepos values ('%s');", double_apostrophy (directory).c_str());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
   sqlite3_close(db);
@@ -75,6 +93,7 @@ void maintenance_register_database (const ustring& project, const ustring& datab
 
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename().c_str(), &db);
+  sqlite3_busy_timeout(db, 2000);
   char *sql;
   sql = g_strdup_printf("delete from snapshots where project = '%s';", double_apostrophy (project).c_str());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
@@ -139,6 +158,7 @@ void vacuum_database(const ustring & filename)
     return;
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename ().c_str(), &db);
+  sqlite3_busy_timeout(db, 2000);
   char *sql;
   sql = g_strdup_printf("insert into vacuum values ('%s')", double_apostrophy (filename).c_str());
   sqlite3_exec(db, sql, NULL, NULL, NULL);

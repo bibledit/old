@@ -410,27 +410,44 @@ void get_commands (const char * filename, vector <string>& paths, vector <string
 
 bool on_timeout (gpointer data) // Todo
 {
-  bool something_was_done = false;
-
+  // Open maintenance database.
   sqlite3 *db;
   sqlite3_open(maintenance_db_filename, &db);
   sqlite3_busy_timeout(db, 2000);
 
-  something_was_done = handle_shell_command (db);
+  // First do the shell commands, as these do contain the commands that we'd like to run.
+  // If these shell commands were done later on, and the user would cancel the maintenance
+  // routine, then some important shell commands would not be done.
+  bool something_was_done = handle_shell_command (db);
+
+  // Tasks related to the git repository.
+  if (!something_was_done) {
+    something_was_done = handle_git_repositories (db);
+  }
+
+  // Earlier tasks here could have added shell commands, therefore check whether there are any to be done.
+  if (!something_was_done) {
+    something_was_done = handle_shell_command (db);
+  }
 
   if (something_was_done) {
+    // There could be more tasks to be done, let's go for another round.
     g_timeout_add(10, GSourceFunc(on_timeout), NULL);
   } else {
+    // All maintenance tasks have been done.
     gtk_main_quit ();
   }
 
+  // Vacuum and close database.
+  sqlite3_exec(db, "vacuum;", NULL, NULL, NULL);
   sqlite3_close(db);
 
+  // Done.
   return false;
 }
 
 
-bool handle_shell_command (sqlite3 *db) // Todo
+bool handle_shell_command (sqlite3 *db)
 // Looks in the database whether there's a shell command to run.
 // It it ran one, it returns true.
 {
@@ -494,4 +511,76 @@ void feedback ()
 }
 
 
-// Todo since the db usually persists, it needs to vacuum it at the end.
+bool handle_git_repositories (sqlite3 *db)
+// Looks at the git repositories mentioned in the database.
+// If one needs to be optimized, it does that, and returns true.
+{
+  // Get the git repository directories from the database.
+  vector <string> repositories_in_database;
+  {
+    SqliteReader reader(0);
+    sqlite3_exec(db, "select distinct directory from gitrepos;", reader.callback, &reader, NULL);
+    repositories_in_database = reader.string0;
+  }
+
+  // Go through the repositories.
+  for (unsigned int repo = 0; repo < repositories_in_database.size(); repo++) {
+    
+    // Add one occurrence of this repository to the database. The reason is so as to ensure that
+    // even if a database is not used so much that it will trigger regular optimizations, 
+    // it would still be optimized after some time.
+    {
+      char *sql;
+      sql = g_strdup_printf("insert into gitrepos values ('%s');", double_apostrophy (repositories_in_database[repo]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free (sql);
+    }
+    // Get the number of times this repository has been mentioned in the database.
+    unsigned int repository_count = 0;
+    {
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select count (*) from gitrepos where directory = '%s'", repositories_in_database[repo].c_str());
+      sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+      g_free(sql);
+      if (!reader.string0.empty()) {
+        repository_count = convert_to_int (reader.string0[0]);
+      }
+    }
+
+    // If the repository was committed more than so many times, it should get optimized.
+    // Store shell commands in the database for later execution.
+    if (repository_count > 20) {
+      printf ("Optimize git repository at %s\n", repositories_in_database[repo].c_str());
+      fflush (stdout);
+      char *sql;
+      // Prune all unreachable objects from the object database.
+      sql = g_strdup_printf("insert into commands values ('%s', 'git prune');", double_apostrophy (repositories_in_database[repo]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      // Cleanup unnecessary files and optimize the local repository.
+      sql = g_strdup_printf("insert into commands values ('%s', 'git gc --aggressive');", double_apostrophy (repositories_in_database[repo]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      // Remove extra objects that are already in pack files.
+      sql = g_strdup_printf("insert into commands values ('%s', 'git prune-packed');", double_apostrophy (repositories_in_database[repo]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      // Pack unpacked objects in the repository.
+      sql = g_strdup_printf("insert into commands values ('%s', 'git repack');", double_apostrophy (repositories_in_database[repo]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free(sql);
+      // Remove any mention of this repository from the database.
+      sql = g_strdup_printf("delete from gitrepos where directory = '%s';", double_apostrophy (repositories_in_database[repo]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free(sql);
+      // Feedback.
+      feedback ();
+      // Return true since something was done.
+      return true;
+    }
+   
+  }
+
+  // Return false since nothing was done.
+  return false;  
+}
+
+

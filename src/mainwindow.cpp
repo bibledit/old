@@ -4607,6 +4607,8 @@ void MainWindow::git_update_timeout(bool force)
         extern VCS * vcs;
         vcs->schedule(projects[i]);
         interval = 0;
+        // Inform the maintenance system.
+        maintenance_register_git_repository (project_data_directory_project(projects[i]));
       }
       git_update_intervals[projects[i]] = interval;
     }

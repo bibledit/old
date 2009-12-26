@@ -74,6 +74,7 @@ static bool on_timeout (gpointer data);
 bool handle_shell_command (sqlite3 *db);
 string double_apostrophy(const string & line);
 void feedback ();
+bool handle_git_repositories (sqlite3 *db);
 
 
 #endif

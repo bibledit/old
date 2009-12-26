@@ -268,14 +268,6 @@ void git_shutdown (const ustring& project, bool health) // Todo this one to do a
 
   // At times health-related commands are ran too.
   if (health) {
-    // Prune all unreachable objects from the object database.
-    maintenance_register_shell_command (datadirectory, "git prune");
-    // Cleanup unnecessary files and optimize the local repository.
-    maintenance_register_shell_command (datadirectory, "git gc --aggressive");
-    // Remove extra objects that are already in pack files.
-    maintenance_register_shell_command (datadirectory, "git prune-packed");
-    // Pack unpacked objects in the repository.
-    maintenance_register_shell_command (datadirectory, "git repack");
   }
 }
 
