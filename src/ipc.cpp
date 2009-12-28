@@ -21,29 +21,31 @@
 #include "ipc.h"
 
 
-ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message)
-{
-  return interprocess_communication_message_url (message, InterprocessCommunicationChannelType (0), InterprocessCommunicationSubjectType (0), "");
-}
-
-
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message,
                                                 InterprocessCommunicationChannelType channel, 
-                                                InterprocessCommunicationSubjectType subject, const ustring& payload)
+                                                InterprocessCommunicationSubjectType subject, 
+                                                const ustring& payload)
 {
   ustring url = "http://localhost/bibledit/ipc/";
   switch (message) {
-    case icmtClearMessages: url.append ("clearmessages.php"); return url;
+    case icmtClearMessages: url.append ("clearmessages.php"); break;
     case icmtStoreMessage:  url.append ("storemessage.php");  break;
-    case icmtListen:        url.append ("bibledit.php");      return url;          
+    case icmtListen:        url.append ("getmessage.php");    break;
   }
-  url.append ("?channel=");
+  if (channel != icctNone) {
+    url.append ("?channel=");
+  }
   switch (channel) {
+    case icctNone:                                break;
     case icctXiphos:    url.append ("xiphos");    break;
     case icctBibleTime: url.append ("bibletime"); break;
+    case icctBibledit:  url.append ("bibledit");  break;
   }
-  url.append ("&subject=");
+  if (subject != icstNone) {
+    url.append ("&subject=");
+  }
   switch (subject) {
+    case icstNone:                          break;
     case icstGoto:   url.append ("goto");   break;
     case icstQuit:   url.append ("quit");   break;
     case icstReload: url.append ("reload"); break;

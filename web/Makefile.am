@@ -1,5 +1,5 @@
 EXTRA_DIST = ipc *.html
-CLEANFILES = *~
+CLEANFILES = *~ ipc/*~
 webroot = @WEBROOT@
 
 install-data-local:

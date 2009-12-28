@@ -1,6 +1,10 @@
 <?php
 
 require("constants.php");
+
+// GET the channel to listen on.
+$channel = stripslashes($_GET["channel"]);
+
 while(1) {
   $handler = opendir($messagesdir);
   $i = 0;
@@ -8,7 +12,7 @@ while(1) {
     if ($file != '.' && $file != '..') {
       $parts=explode(".",$file);
       $suffix = $parts[count($parts)-1];
-      if ("$suffix" == "bibletime") {
+      if ("$suffix" == "$channel") {
       $array[$i] = $file;
       $i++;
       }

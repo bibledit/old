@@ -1835,7 +1835,7 @@ navigation(0), httpd(0)
   // Start listening to messages directed to us.
   interprocess_communications_initiate_listener ();
   // Clear out old messages on shutdown.
-  maintenance_register_shell_command ("", "curl " + interprocess_communication_message_url (icmtClearMessages));
+  maintenance_register_shell_command ("", "curl " + interprocess_communication_message_url (icmtClearMessages, icctNone, icstNone, ""));
 }
 
 
@@ -6911,7 +6911,7 @@ void MainWindow::interprocess_communications_initiate_listener ()
 {
   interprocess_communications_initiate_listener_event_id = 0;
   GtkWidget * button;
-  button = urltransport->send_message_expect_reply (interprocess_communication_message_url (icmtListen));
+  button = urltransport->send_message_expect_reply (interprocess_communication_message_url (icmtListen, icctBibledit, icstNone, ""));
   g_signal_connect((gpointer) button, "clicked", G_CALLBACK(on_interprocess_communications_listener_button_clicked), gpointer(this));
 }
 
@@ -6959,17 +6959,9 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
 /*
 
 
+
 Todo tasks.
 
-
-
-
-
-Communication through Apache no longer through recipients, but through "channels". The listeners use one php file with a &channel= argument.
-Makes maintenance simpler.
-Steps:
-* Store message, adapt it, and try it.
-* Listen. Adapt it, and try it.
 
 
 
@@ -7030,12 +7022,6 @@ Notes marked Public also go to the website, and, actually, go in sync with bible
 
 
 
-Snapshots per chapter. If we store the snapshots per chapter, the cleaning up would be much faster,
-* and the user could cancel it if a cancel button is provided. One can store the data of the last write in the database,
-* compare it with the data of the file itself, then decide whether any cleanup is needed at all. Most chapters won't have been changed,
-* giving a big save in time.
-
-
 
 
 The notes selection window will give the number of notes which would display if that selection now in the window will be applied.
@@ -7044,8 +7030,10 @@ This is useful for e.g. finding out the outstanding notes to the Bible Society.
 
 
 
+
+
 We should not be writing our own web applications. At this stage this is _very_ complicated.
-Instead Bibledit will remain an offline app,lication, BUT:
+Instead Bibledit will remain an offline application, BUT:
 * It can use external resources
 * It can work with existing web applications, such as Google Docs
 * In case of Google Docs, it can create documents for it that have the desired layout.
@@ -7053,6 +7041,7 @@ Instead Bibledit will remain an offline app,lication, BUT:
 * When using frames, it can provide navigation controls, which are created offline by bibledit.
 * Frames, e.g. one window has sabdaweb, and another google docs, and so on, and another one the online bible, and so on.
 * Pootle for translation?
+
 
 
 

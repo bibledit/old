@@ -208,7 +208,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = ipc *.html
-CLEANFILES = *~
+CLEANFILES = *~ ipc/*~
 webroot = @WEBROOT@
 all: all-am
 

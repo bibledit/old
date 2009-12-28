@@ -34,7 +34,7 @@
 void start_xiphos_web_listener ()
 {
 	SoupMessage * listener_msg;
-	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/xiphos.php");
+	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/getmessage.php?channel=xiphos");
   soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_xiphos_web_listener_ready_callback), NULL);
 }
 
@@ -75,7 +75,7 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 void start_bibletime_web_listener ()
 {
 	SoupMessage * listener_msg;
-	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/bibletime.php");
+	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/getmessage.php?channel=bibletime");
   soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_bibletime_web_listener_ready_callback), NULL);
 }
 
@@ -549,7 +549,7 @@ string get_extract_message_identifier (string& message)
 
 void send_response_to_bibledit (const string& subject, const string& identifier, const string& message)
 {
-  string url = "http://localhost/bibledit/ipc/storemessage.php?recipient=bibledit&subject=";
+  string url = "http://localhost/bibledit/ipc/storemessage.php?channel=bibledit&subject=";
   url.append (subject);
   url.append ("&message=");
   url.append (identifier);

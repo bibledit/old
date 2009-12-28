@@ -26,14 +26,14 @@
 
 
 enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage, icmtListen};
-enum InterprocessCommunicationChannelType {icctXiphos, icctBibleTime};
-enum InterprocessCommunicationSubjectType {icstGoto, icstQuit, icstReload, icstGetref};
+enum InterprocessCommunicationChannelType {icctNone, icctXiphos, icctBibleTime, icctBibledit};
+enum InterprocessCommunicationSubjectType {icstNone, icstGoto, icstQuit, icstReload, icstGetref};
 
 
-ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message);
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 
                                                 InterprocessCommunicationChannelType channel, 
-                                                InterprocessCommunicationSubjectType subject, const ustring& payload);
+                                                InterprocessCommunicationSubjectType subject, 
+                                                const ustring& payload);
 void interprocess_communication_message_url_add_to_message (ustring& url, const ustring& addition);
 
 
