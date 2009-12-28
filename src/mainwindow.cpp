@@ -6966,6 +6966,10 @@ Todo tasks.
 
 
 
+Sorting out the man pages.
+
+
+
 
 The binary that does the git communication will be called bibledit-shell. It can then also do other shell commands.
 

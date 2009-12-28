@@ -157,6 +157,7 @@ void AssistantBase::on_button_help()
     url.append(".html");
 
     // Start the helpviewer.
+    //htmlbrowser (urlconst ustring& filename, bool network = false, bool no_tamper = false); // Todo
     GwSpawn spawn("bibledit-help");
     spawn.arg(url);
     spawn.arg(convert_to_string(width));
