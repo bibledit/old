@@ -401,11 +401,11 @@ AC_CONFIG_FILES([Makefile
        shutdown/Makefile
        usfm/Makefile
        kjv/Makefile
-       lexicons/Makefile
        outpost/Makefile
        gobible/Makefile
        web/Makefile
        dbus/Makefile
+       shell/Makefile
 		   ])
 AC_OUTPUT
 
