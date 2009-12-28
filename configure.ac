@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.12],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.13],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -136,11 +136,6 @@ if test x$FIND_TAR = xno; then
   AC_MSG_ERROR(Program "tar" is needed. Install this first.)
 fi
 
-AC_PATH_PROG(FIND_SSH, ssh, no)
-if test x$FIND_SSH = xno; then
-  AC_MSG_ERROR(Program "ssh" is needed. Install this first.)
-fi
-
 AC_PATH_PROG(FIND_CURL, curl, no)
 if test x$FIND_CURL = xno; then
   AC_MSG_ERROR(Program "curl" is needed. Install this first.)
@@ -221,7 +216,7 @@ PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1 >= 0.7.0,,AC_MSG_ERROR(libdbus-glib-1 de
 AC_SUBST(DBUSGLIB_CFLAGS)
 AC_SUBST(DBUSGLIB_LIBS)
 
-PKG_CHECK_MODULES(LIBSOUP, libsoup-2.4 >= 2.26,,AC_MSG_ERROR(libsoup-2.4 development version >= 2.26 is needed.))
+PKG_CHECK_MODULES(LIBSOUP, libsoup-2.4 >= 2.4,,AC_MSG_ERROR(libsoup-2.4 development version >= 2.4 is needed.))
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 

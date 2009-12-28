@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <glib.h>
+#include <signal.h>
 
 
 void start_xiphos_web_listener ()

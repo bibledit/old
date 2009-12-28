@@ -6963,6 +6963,10 @@ Todo tasks.
 
 
 
+No longer to look for "php" in the configure script, but to find another way of doing that. 
+Also the php5-cli is not needed, but only php5. To update Ubuntu and other installation documents.
+
+Whether the -agressive flag should go from the git-gc, probably it should. Add this to the repository help, in a maintenance section.
 
 It needs a log file for the shutdown command program. Also pass it as the second variable.
 
@@ -7077,6 +7081,8 @@ Uploading file:
 * upload.php
 curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
 This could be used when uploading printed documents to the web. LibSoup probably does the POST also.
+
+
 
 
 

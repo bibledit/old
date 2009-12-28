@@ -524,7 +524,7 @@ bool handle_git_repositories (sqlite3 *db)
       sql = g_strdup_printf("insert into commands values ('%s', 'git prune');", double_apostrophy (repositories_in_database[repo]).c_str());
       sqlite3_exec(db, sql, NULL, NULL, NULL);
       // Cleanup unnecessary files and optimize the local repository.
-      sql = g_strdup_printf("insert into commands values ('%s', 'git gc --aggressive');", double_apostrophy (repositories_in_database[repo]).c_str());
+      sql = g_strdup_printf("insert into commands values ('%s', 'git gc');", double_apostrophy (repositories_in_database[repo]).c_str());
       sqlite3_exec(db, sql, NULL, NULL, NULL);
       // Remove extra objects that are already in pack files.
       sql = g_strdup_printf("insert into commands values ('%s', 'git prune-packed');", double_apostrophy (repositories_in_database[repo]).c_str());
