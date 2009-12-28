@@ -18,32 +18,38 @@
  */
 
 
-#include <libsoup/soup.h>
+#ifndef INCLUDED_TINY_UTILITIES_H
+#define INCLUDED_TINY_UTILITIES_H
+
+
 #include <string>
 #include <vector>
+#include <glib.h>
 
 
 using namespace std;
 
 
-static GMainLoop *loop;
-
-static SoupSession *session;
-
-static void start_vcs_control_web_listener ();
-static void on_vcs_control_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
-static void start_vcs_worker_web_listener ();
-static void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
-
-string trim(const string & s);
-vector <string> parse_line (string line);
-
-string get_extract_message_identifier (string& message);
-void send_response_to_bibledit (const string& subject, const string& identifier, const string& message);
-static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
-
-static void sigproc(int dummy);
-static void sigquit(int dummy);
-int main (int argc, char **argv);
+void tiny_spawn_write (int fd, const string& text);
 
 
+class Spawn
+{
+public:
+  Spawn (const string& program);
+  ~Spawn ();
+  void workingdirectory (string directory);
+  void arg (string value);
+  void run ();
+  bool result;
+  gint exitstatus;
+  gchar *standard_output;
+  gchar *standard_error;
+private:
+  string myprogram;
+  string myworkingdirectory;
+  vector <string> arguments;
+};
+
+
+#endif

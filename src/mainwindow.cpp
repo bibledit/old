@@ -4615,6 +4615,8 @@ void MainWindow::git_update_timeout(bool force)
         extern VCS * vcs;
         vcs->schedule(projects[i]);
         interval = 0;
+        ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "ls",   project_data_directory_project(projects[i])); // Todo
+        urltransport->send_message (url);
         // Inform the maintenance system.
         maintenance_register_git_repository (project_data_directory_project(projects[i]));
       }
@@ -6977,8 +6979,9 @@ Todo tasks.
 bibledit-vcs
 
 Steps:
+* The subject will be the shell command, and the payload will be the directory to run it from.
 * Make a system that does "ls" and returns the output through the POST method of http.
-* bibledit-vcs also needs a "control" channel that says pause and continue. 
+* the control channel that says pause and continue. 
 * If it enters the paused state, it sends a message to bibledit, and the same for the continued state.
 * Instead of running git commands straight, send a message to bibledit-vcs.
 * bibledit-vcs runs the command, and sends a message back with the output of that command.
@@ -6990,6 +6993,8 @@ The git system gives a few warnings. These should be fixed.
 The whole VCS system may have to go out, all threads, or it may have to re-implement everything via bibledit-vcs.
 E.g. the pause should probably do the pause, yes, but also send a message to the server to erase all messages pending. This is very rough.
 
+The git repository should only be put into the maintenance routines if it was updated. This information 
+* is to be read from what comes back from bibledit-vcs. If there was no change, it should not be maintained. This wastes resources.
 
 
 

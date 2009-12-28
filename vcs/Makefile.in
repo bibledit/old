@@ -50,7 +50,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_bibledit_vcs_OBJECTS = bibledit-vcs.$(OBJEXT)
+am_bibledit_vcs_OBJECTS = bibledit-vcs.$(OBJEXT) spawn.$(OBJEXT)
 bibledit_vcs_OBJECTS = $(am_bibledit_vcs_OBJECTS)
 bibledit_vcs_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -227,9 +227,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bibledit_vcs_SOURCES = \
-		bibledit-vcs.cpp
-
+bibledit_vcs_SOURCES = bibledit-vcs.cpp spawn.cpp
 EXTRA_DIST = *.h
 AM_CXXFLAGS = -Wall $(GOBJECT_CFLAGS) $(GTHREAD_CFLAGS) $(GLIB_CFLAGS) \
 	$(DBUSGLIB_CFLAGS) $(LIBSOUP_CFLAGS)
@@ -316,6 +314,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-vcs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spawn.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

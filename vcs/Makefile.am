@@ -1,7 +1,6 @@
 bin_PROGRAMS = bibledit-vcs
 
-bibledit_vcs_SOURCES = \
-		bibledit-vcs.cpp
+bibledit_vcs_SOURCES = bibledit-vcs.cpp spawn.cpp
 
 EXTRA_DIST = *.h
 

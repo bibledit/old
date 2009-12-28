@@ -34,6 +34,10 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
                                                 InterprocessCommunicationChannelType channel, 
                                                 InterprocessCommunicationSubjectType subject, 
                                                 const ustring& payload);
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 
+                                                InterprocessCommunicationChannelType channel, 
+                                                const ustring& subject, 
+                                                const ustring& payload);
 void interprocess_communication_message_url_add_to_message (ustring& url, const ustring& addition);
 
 

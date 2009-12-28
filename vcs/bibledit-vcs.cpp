@@ -29,6 +29,7 @@
 #include <unistd.h>
 #include <glib.h>
 #include <signal.h>
+#include "spawn.h"
 
 
 void start_vcs_control_web_listener ()
@@ -63,6 +64,53 @@ void on_vcs_control_web_listener_ready_callback (SoupSession *session, SoupMessa
   }
   g_usleep (100000);
   start_vcs_control_web_listener ();
+}
+
+
+void start_vcs_worker_web_listener ()
+{
+  SoupMessage * listener_msg;
+  listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/getmessage.php?channel=vcsworker");
+  soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_vcs_worker_web_listener_ready_callback), NULL);
+}
+
+
+void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+{
+  if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
+    // Get the response body.
+    string body (msg->response_body->data);
+    body = trim (body);
+    // Log it.
+    printf ("%s\n", body.c_str());
+    fflush (stdout);
+    // Run the command. Todo we need to parse the command in its words, with spaces in between. E.g. "git commit"
+    vector <string> lines = parse_line (body);
+    if (!lines.empty()) {
+      printf ("Run command %s\n", lines[0].c_str());
+      Spawn spawn (lines[0]);
+      if (lines.size() >= 2) {
+	spawn.workingdirectory (lines[1]);
+        printf ("Directory %s\n", lines[1].c_str());
+      }
+      spawn.run ();
+      printf ("Run: %d\n", spawn.result);
+      printf ("Exit status: %d\n", spawn.exitstatus);
+      printf ("Standard err:\n%s", spawn.standard_error);
+      printf ("Standard out:\n%s", spawn.standard_output);
+      fflush (stdout);
+    }
+  } else {
+    // If the message was cancelled, do not start it again, just quit.
+    if (msg->status_code == 1) {
+      return;
+    }
+    printf ("Shell web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
+    fflush (stdout);
+    g_usleep (1000000);
+  }
+  g_usleep (100000);
+  start_vcs_worker_web_listener ();
 }
 
 
@@ -154,6 +202,7 @@ int main (int argc, char **argv)
   // We use asynchronous transport, so that we can send several messages simultanously.
   session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-vcs/1.0", NULL);
   start_vcs_control_web_listener ();
+  start_vcs_worker_web_listener ();
 
   // Signal trapping for doing a clean exit.
   signal(SIGINT, sigproc);
@@ -171,4 +220,21 @@ int main (int argc, char **argv)
   return 0;
 }
 
+
+vector <string> parse_line (string line)
+{
+  vector <string> lines;
+  line = trim(line);
+  size_t pos = line.find("\n");
+  while (pos != string::npos) {
+    string word = line.substr(0, pos );
+    lines.push_back(trim(word));
+    line.erase(0, pos  + 1);
+    line = trim(line);
+    pos  = line.find("\n");
+  }
+  if (!line.empty())
+    lines.push_back(trim(line));
+  return lines;
+}
 

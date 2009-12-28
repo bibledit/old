@@ -26,6 +26,23 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
                                                 InterprocessCommunicationSubjectType subject, 
                                                 const ustring& payload)
 {
+  ustring subject_string;
+  switch (subject) {
+    case icstNone:                          break;
+    case icstGoto:   subject_string.append ("goto");   break;
+    case icstQuit:   subject_string.append ("quit");   break;
+    case icstReload: subject_string.append ("reload"); break;
+    case icstGetref: subject_string.append ("getref"); break;
+  }
+  return interprocess_communication_message_url (message, channel, subject_string, payload);
+}
+
+
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, // Todo
+                                                InterprocessCommunicationChannelType channel, 
+                                                const ustring& subject, 
+                                                const ustring& payload)
+{
   ustring url = "http://localhost/bibledit/ipc/";
   switch (message) {
     case icmtClearMessages: url.append ("clearmessages.php"); break;
@@ -43,15 +60,9 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
     case icctVcsWorker:  url.append ("vcsworker");  break;
     case icctVcsControl: url.append ("vcscontrol"); break;
   }
-  if (subject != icstNone) {
+  if (!subject.empty()) {
     url.append ("&subject=");
-  }
-  switch (subject) {
-    case icstNone:                          break;
-    case icstGoto:   url.append ("goto");   break;
-    case icstQuit:   url.append ("quit");   break;
-    case icstReload: url.append ("reload"); break;
-    case icstGetref: url.append ("getref"); break;
+    url.append (subject);
   }
   if (!payload.empty()) {
     url.append ("&message=");

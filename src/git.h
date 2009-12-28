@@ -27,9 +27,6 @@
 #include "reference.h"
 
 
-// Possible results of running git update.
-enum GitUpdateType {gutOk, gutUpdated, gutAdded, gutDeleted, gutReplaced, gutMerged, gutConflict, gutError};
-// Conflict handling.
 enum GitConflictHandlingType {gchtTakeMe, gchtTakeServer};
 
 
