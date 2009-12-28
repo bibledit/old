@@ -39,7 +39,7 @@ ustring log_file_name(LogFileType type, bool previous)
   switch (type) {
     case lftMain:     filename = "bibledit.log"; break;
     case lftDbus:     filename = "dbus.log";     break;
-    case lftShell:    filename = "shell.log";    break;
+    case lftVCS:      filename = "vcs.log";    break;
     case lftShutdown: filename = "shutdown.log"; break;
   }
   if (previous) {
@@ -220,7 +220,7 @@ ustring SystemlogDialog::logfilename()
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_dbus))) 
     type = lftDbus;
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_shell))) 
-    type = lftShell;
+    type = lftVCS;
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_shutdown))) 
     type = lftShutdown;
   return log_file_name (type, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_session)));

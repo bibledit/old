@@ -173,3 +173,5 @@ bool VCS::updated ()
   return false;
 }
 
+
+// Todo this whole thing goes out, and gets improvement on the watching part.

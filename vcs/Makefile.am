@@ -1,7 +1,7 @@
-bin_PROGRAMS = bibledit-dbus
+bin_PROGRAMS = bibledit-vcs
 
-bibledit_dbus_SOURCES = \
-		bibledit-dbus.cpp
+bibledit_vcs_SOURCES = \
+		bibledit-vcs.cpp
 
 EXTRA_DIST = *.h
 

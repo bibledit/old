@@ -26,7 +26,7 @@
 #include "libraries.h"
 
 
-enum LogFileType {lftMain, lftDbus, lftShell, lftShutdown};
+enum LogFileType {lftMain, lftDbus, lftVCS, lftShutdown};
 
 
 ustring log_file_name(LogFileType type, bool previous);

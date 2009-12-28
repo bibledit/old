@@ -4603,7 +4603,7 @@ void MainWindow::git_update_timeout(bool force)
             editor_windows[i2]->chapter_save ();
           }
         }
-        // Schedule an update.
+        // Schedule an update. Todo
         extern VCS * vcs;
         vcs->schedule(projects[i]);
         interval = 0;
@@ -6966,15 +6966,21 @@ Todo tasks.
 
 
 
-The binary that does the git communication will be called bibledit-shell. It can then also do other shell commands.
+bibledit-vcs
 
-Since the git subsystem at times blocks the main interface, this should go separate again.
-bibledit-shell gets an identifier, and the path of the binary to execute.
-It returns the identifier, and the standard out and the standard err of the program ran.
+Steps:
+* Make a system that does "ls" and returns the output through the POST method of http.
+* bibledit-vcs also needs a "control" channel that says pause and continue. 
+* If it enters the paused state, it sends a message to bibledit, and the same for the continued state.
+* Instead of running git commands straight, send a message to bibledit-vcs.
+* bibledit-vcs runs the command, and sends a message back with the output of that command.
+* We may need to use identifiers so as to link the command to what comes back.
+* Do we need to upload a whole file / block of data to the server? Because the output may be big. There's stdout and stderr.
 
 The git system gives a few warnings. These should be fixed.
 
-
+The whole VCS system may have to go out, all threads, or it may have to re-implement everything via bibledit-vcs.
+E.g. the pause should probably do the pause, yes, but also send a message to the server to erase all messages pending. This is very rough.
 
 
 

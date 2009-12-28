@@ -35,9 +35,9 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = bibledit-dbus$(EXEEXT)
+bin_PROGRAMS = bibledit-vcs$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
-subdir = shell
+subdir = vcs
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -50,9 +50,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_bibledit_dbus_OBJECTS = bibledit-dbus.$(OBJEXT)
-bibledit_dbus_OBJECTS = $(am_bibledit_dbus_OBJECTS)
-bibledit_dbus_LDADD = $(LDADD)
+am_bibledit_vcs_OBJECTS = bibledit-vcs.$(OBJEXT)
+bibledit_vcs_OBJECTS = $(am_bibledit_vcs_OBJECTS)
+bibledit_vcs_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -62,8 +62,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibledit_dbus_SOURCES)
-DIST_SOURCES = $(bibledit_dbus_SOURCES)
+SOURCES = $(bibledit_vcs_SOURCES)
+DIST_SOURCES = $(bibledit_vcs_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -227,8 +227,8 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bibledit_dbus_SOURCES = \
-		bibledit-dbus.cpp
+bibledit_vcs_SOURCES = \
+		bibledit-vcs.cpp
 
 EXTRA_DIST = *.h
 AM_CXXFLAGS = -Wall $(GOBJECT_CFLAGS) $(GTHREAD_CFLAGS) $(GLIB_CFLAGS) \
@@ -247,9 +247,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu shell/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu vcs/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu shell/Makefile
+	  $(AUTOMAKE) --gnu vcs/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -305,9 +305,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-bibledit-dbus$(EXEEXT): $(bibledit_dbus_OBJECTS) $(bibledit_dbus_DEPENDENCIES) 
-	@rm -f bibledit-dbus$(EXEEXT)
-	$(CXXLINK) $(bibledit_dbus_OBJECTS) $(bibledit_dbus_LDADD) $(LIBS)
+bibledit-vcs$(EXEEXT): $(bibledit_vcs_OBJECTS) $(bibledit_vcs_DEPENDENCIES) 
+	@rm -f bibledit-vcs$(EXEEXT)
+	$(CXXLINK) $(bibledit_vcs_OBJECTS) $(bibledit_vcs_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -315,7 +315,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-dbus.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-vcs.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

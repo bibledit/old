@@ -71,10 +71,18 @@ int main(int argc, char *argv[])
   // Move all the logfiles to keep the previous ones.
   move_log_files ();
   
-  // Start the dbus helper program if it does not already run, and pass the names of the logfile
+  // Start the dbus helper program if it does not already run, and pass the names of the logfile.
   if (!program_is_running ("bibledit-dbus")) {
     GwSpawn spawn ("bibledit-dbus");
     spawn.arg (log_file_name(lftDbus, false));
+    spawn.async ();
+    spawn.run ();
+  }
+
+  // Start the shell helper program if it does not already run, and pass the names of the logfile.
+  if (!program_is_running ("bibledit-vcs")) {
+    GwSpawn spawn ("bibledit-vcs");
+    spawn.arg (log_file_name(lftVCS, false));
     spawn.async ();
     spawn.run ();
   }

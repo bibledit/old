@@ -405,7 +405,7 @@ AC_CONFIG_FILES([Makefile
        gobible/Makefile
        web/Makefile
        dbus/Makefile
-       shell/Makefile
+       vcs/Makefile
 		   ])
 AC_OUTPUT
 

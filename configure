@@ -11124,7 +11124,7 @@ _ACEOF
 fi
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile outpost/Makefile gobible/Makefile web/Makefile dbus/Makefile shell/Makefile"
+ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile outpost/Makefile gobible/Makefile web/Makefile dbus/Makefile vcs/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -11877,7 +11877,7 @@ do
     "gobible/Makefile") CONFIG_FILES="$CONFIG_FILES gobible/Makefile" ;;
     "web/Makefile") CONFIG_FILES="$CONFIG_FILES web/Makefile" ;;
     "dbus/Makefile") CONFIG_FILES="$CONFIG_FILES dbus/Makefile" ;;
-    "shell/Makefile") CONFIG_FILES="$CONFIG_FILES shell/Makefile" ;;
+    "vcs/Makefile") CONFIG_FILES="$CONFIG_FILES vcs/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
