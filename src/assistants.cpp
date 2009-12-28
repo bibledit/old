@@ -24,6 +24,7 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 #include "screen.h"
+#include "htmlbrowser.h"
 
 
 AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
@@ -138,45 +139,16 @@ void AssistantBase::on_button_help_activated(GtkButton * button, gpointer user_d
 
 void AssistantBase::on_button_help()
 {
-  bool button_on = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button_help));
-  if (button_on) {
-
-    // Calculate the position and size for the help viewer.
-    gint width, height, x, y;
-    window_position_get_left_space(assistant, width, height, x, y);
-    
-    // If there is not enough space, make space by moving the assistant.
-    if (width < 200) {
-      width = 200;
-      window_position_make_left_space (assistant, width);
-    }
-
-    // Assemble the url to load.    
-    ustring url = "http://localhost:51516/olh_";
-    url.append(topic);
-    url.append(".html");
-
-    // Start the helpviewer.
-    //htmlbrowser (urlconst ustring& filename, bool network = false, bool no_tamper = false); // Todo
-    GwSpawn spawn("bibledit-help");
-    spawn.arg(url);
-    spawn.arg(convert_to_string(width));
-    spawn.arg(convert_to_string(height));
-    spawn.arg(convert_to_string(x));
-    spawn.arg(convert_to_string(y));
-    spawn.async();
-    spawn.run();
-    process_id = spawn.pid;
-
-    // Present the window.
-    g_usleep(500000);
-    gtk_window_present(GTK_WINDOW(assistant));
-
-  } else {
-    if (process_id) {
-      unix_kill(process_id);
-      process_id = 0;
-    }
-  }
+  // Assemble the url to load.    
+  ustring url = html_server_url ("site/");
+  url.append ("reference/menu/");
+  url.append(topic);
+  url.append(".html");
+  
+  htmlbrowser (url, false, true);
+  
+  // Present the window.
+  g_usleep(500000);
+  gtk_window_present(GTK_WINDOW(assistant));
 }
 

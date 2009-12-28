@@ -111,47 +111,17 @@ void InDialogHelp::on_helpbutton_activated(GtkButton * button, gpointer user_dat
 
 void InDialogHelp::on_helpbutton()
 {
-/*
-  bool button_on = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(helpbutton));
-  if (button_on) {
-
-    // Calculate the position and size for the help viewer.
-    gint width, height, x, y;
-    window_position_get_left_space(mydialog, width, height, x, y);
-*/
-
-    // Assemble the url to load.    
-    ustring url = html_server_url ("site/");
-    url.append ("reference/menu/");
-    url.append(mytopic);
-    url.append(".html");
-
-/*
-    // Start the helpviewer.
-    GwSpawn spawn("bibledit-help");
-    spawn.arg(url);
-    spawn.arg(convert_to_string(width));
-    spawn.arg(convert_to_string(height));
-    spawn.arg(convert_to_string(x));
-    spawn.arg(convert_to_string(y));
-    spawn.async();
-    spawn.run();
-    process_id = spawn.pid;
-*/
-    htmlbrowser (url, false, true);
-    
-    // Present the window.
-    g_usleep(500000);
-    gtk_window_present(GTK_WINDOW(mydialog));
-
-/*
-  } else {
-    if (process_id) {
-      unix_kill(process_id);
-      process_id = 0;
-    }
-  }
-*/
+  // Assemble the url to load.    
+  ustring url = html_server_url ("site/");
+  url.append ("reference/menu/");
+  url.append(mytopic);
+  url.append(".html");
+  
+  htmlbrowser (url, false, true);
+  
+  // Present the window.
+  g_usleep(500000);
+  gtk_window_present(GTK_WINDOW(mydialog));
 }
 
 
