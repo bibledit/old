@@ -1835,6 +1835,8 @@ navigation(0), httpd(0)
   // Start listening to messages directed to us.
   interprocess_communications_initiate_listener ();
   // Clear out old messages on shutdown.
+  // If this is not done we may have a situation where a "quit" message remains on the server,
+  // and when a helper starts next time, it immediately quits, thus rendering the system sub-optimal.
   maintenance_register_shell_command ("", "curl " + interprocess_communication_message_url (icmtClearMessages, icctNone, icstNone, ""));
 }
 
@@ -1866,11 +1868,17 @@ MainWindow::~MainWindow()
   // Destroy URL transporter.
   delete urltransport;
 
-  // Send message to quit bibledit-dbus through curl, since the url transporter is no longer functional at this stage.
+  // Send message to quit helper programs through curl, since the url transporter is no longer functional at this stage.
   // Even if it were functional, since it gets destroyed, it will remove all pending messages.
   {
     GwSpawn spawn ("curl");
     spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icctXiphos, icstQuit, ""));
+    spawn.async ();
+    spawn.run ();
+  }
+  {
+    GwSpawn spawn ("curl");
+    spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstQuit, ""));
     spawn.async ();
     spawn.run ();
   }

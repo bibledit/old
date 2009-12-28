@@ -31,44 +31,38 @@
 #include <signal.h>
 
 
-void start_shell_web_listener ()
+void start_vcs_control_web_listener ()
 {
-	SoupMessage * listener_msg;
-	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/getmessage.php?channel=shell");
-  soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_shell_web_listener_ready_callback), NULL);
+  SoupMessage * listener_msg;
+  listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/getmessage.php?channel=vcscontrol");
+  soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_vcs_control_web_listener_ready_callback), NULL);
 }
 
 
-void on_shell_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+void on_vcs_control_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
 {
-	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
-		// Get the response body.
-		string body (msg->response_body->data);
-		body = trim (body);
-		// Log it.
+  if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
+    // Get the response body.
+    string body (msg->response_body->data);
+    body = trim (body);
+    // Log it.
     printf ("%s\n", body.c_str());
     fflush (stdout);
     // Handle "quit" command.
-		if (body.find ("quit") == 0) {
+    if (body.find ("quit") == 0) {
       g_main_loop_quit (loop);
-		}
-		// Handle "goto" command.
-		if (body.find ("goto") == 0) {
-			body.erase (0, 4);
-			body = trim (body);
-
-		}
-	} else {
-		// If the message was cancelled, do not start it again, just quit.
-		if (msg->status_code == 1) {
-		  return;
-		}
-		printf ("Shell web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
+    }
+  } else {
+    // If the message was cancelled, do not start it again, just quit.
+    if (msg->status_code == 1) {
+      return;
+    }
+    printf ("Shell web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
     fflush (stdout);
-		g_usleep (1000000);
-	}
-	g_usleep (100000);
-	start_shell_web_listener ();
+    g_usleep (1000000);
+  }
+  g_usleep (100000);
+  start_vcs_control_web_listener ();
 }
 
 
@@ -121,7 +115,7 @@ void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer
 
 void sigproc(int dummy)
 { 		 
-	printf("\nCtrl-c trapped to quit\n");
+  printf("\nCtrl-c trapped to quit\n");
   fflush (stdout);
   g_main_loop_quit (loop);
 }
@@ -129,7 +123,7 @@ void sigproc(int dummy)
 
 void sigquit(int dummy)
 { 		 
-	printf("\nCtrl-\\ trapped to quit\n");
+  printf("\nCtrl-\\ trapped to quit\n");
   fflush (stdout);
   g_main_loop_quit (loop);
 }
@@ -137,9 +131,9 @@ void sigquit(int dummy)
 
 int main (int argc, char **argv)
 {
-	// The necessary g_ initializers, in the proper order.
+  // The necessary g_ initializers, in the proper order.
   g_thread_init(NULL);
-	g_type_init ();
+  g_type_init ();
 
   // If a logfile was passed, handle it.
   // This implies that if the program is started by hand from the terminal, we can see its output.
@@ -155,27 +149,26 @@ int main (int argc, char **argv)
     // commands cause stderr to be redirected to the file stdout writes to.
     close(2);
     if (dup(1));
-
   }
 
   // We use asynchronous transport, so that we can send several messages simultanously.
-	session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-dbus/1.0", NULL);
-  start_shell_web_listener ();
+  session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-vcs/1.0", NULL);
+  start_vcs_control_web_listener ();
 
   // Signal trapping for doing a clean exit.
-	signal(SIGINT, sigproc);
-	signal(SIGQUIT, sigquit);
+  signal(SIGINT, sigproc);
+  signal(SIGQUIT, sigquit);
 
   // The main loop will block till something quits it.
-	loop = g_main_loop_new (NULL, TRUE);
+  loop = g_main_loop_new (NULL, TRUE);
   g_main_loop_run (loop);
-	g_main_loop_unref (loop);
+  g_main_loop_unref (loop);
 
   // Abort the session including the listeners
   soup_session_abort (session);
 
   // Well done, my boy.
-	return 0;
+  return 0;
 }
 
 

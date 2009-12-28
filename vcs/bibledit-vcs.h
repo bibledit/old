@@ -30,8 +30,8 @@ static GMainLoop *loop;
 
 static SoupSession *session;
 
-static void start_shell_web_listener ();
-static void on_shell_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+static void start_vcs_control_web_listener ();
+static void on_vcs_control_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
 
 string trim(const string & s);
 

@@ -83,7 +83,7 @@
             </child>
             <child>
               <object class="GtkRadioButton" id="radiobutton_shell">
-                <property name="label" translatable="yes">Shell</property>
+                <property name="label" translatable="yes">Collaboration</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>

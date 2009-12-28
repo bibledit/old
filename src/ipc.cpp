@@ -36,10 +36,12 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
     url.append ("?channel=");
   }
   switch (channel) {
-    case icctNone:                                break;
-    case icctXiphos:    url.append ("xiphos");    break;
-    case icctBibleTime: url.append ("bibletime"); break;
-    case icctBibledit:  url.append ("bibledit");  break;
+    case icctNone:                                  break;
+    case icctXiphos:     url.append ("xiphos");     break;
+    case icctBibleTime:  url.append ("bibletime");  break;
+    case icctBibledit:   url.append ("bibledit");   break;
+    case icctVcsWorker:  url.append ("vcsworker");  break;
+    case icctVcsControl: url.append ("vcscontrol"); break;
   }
   if (subject != icstNone) {
     url.append ("&subject=");

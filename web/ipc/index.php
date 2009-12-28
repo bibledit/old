@@ -2,7 +2,7 @@
 
 <head>
 <title>Messages</title>
-<meta http-equiv="refresh" content="2">
+<meta http-equiv="refresh" content="1">
 </head>
 
 <body>
