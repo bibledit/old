@@ -7,7 +7,7 @@ require("constants.php");
 
 
 // GET the variables.
-$recipient = stripslashes($_GET["recipient"]);
+$channel = stripslashes($_GET["channel"]);
 $subject = stripslashes($_GET["subject"]);
 $message = stripslashes($_GET["message"]);
 
@@ -27,7 +27,7 @@ fclose($fp_id);
 
 // The message file.
 $identifier = $identifier + 1000000000;
-$filename_message = "messages/"."$identifier"."."."$recipient";
+$filename_message = "messages/"."$identifier"."."."$channel";
 
 
 // Write the message file.

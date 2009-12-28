@@ -1870,7 +1870,7 @@ MainWindow::~MainWindow()
   // Even if it were functional, since it gets destroyed, it will remove all pending messages.
   {
     GwSpawn spawn ("curl");
-    spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icrtXiphos, icstQuit, ""));
+    spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icctXiphos, icstQuit, ""));
     spawn.async ();
     spawn.run ();
   }
@@ -3046,7 +3046,7 @@ void MainWindow::tools_receive_reference_timeout()
   }
   if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
     // Send message requesting BibleTime's reference. Response will be handled in Bibledit's listener.
-    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGetref, "");
+    ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstGetref, "");
     urltransport->send_message (url);
   }
   if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
@@ -6413,7 +6413,7 @@ void MainWindow::on_assistant_ready ()
   // Export.
   if (export_assistant) {
     if (export_assistant->sword_module_created) {
-      ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstReload, "");
+      ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstReload, "");
       urltransport->send_message (url);
     }
     delete export_assistant;
@@ -6884,7 +6884,7 @@ void MainWindow::xiphos_reference_send (Reference reference)
 {
   ustring payload = xiphos_reference_create (reference);
   if (!payload.empty()) {
-    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtXiphos, icstGoto, payload);
+    ustring url = interprocess_communication_message_url (icmtStoreMessage, icctXiphos, icstGoto, payload);
     urltransport->send_message (url);
   }
 }
@@ -6894,7 +6894,7 @@ void MainWindow::bibletime_reference_send (Reference reference)
 {
   ustring payload = bibletime_reference_create (reference);
   if (!payload.empty()) {
-    ustring url = interprocess_communication_message_url (icmtStoreMessage, icrtBibleTime, icstGoto, payload);
+    ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstGoto, payload);
     urltransport->send_message (url);
   }
 }

@@ -23,12 +23,12 @@
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message)
 {
-  return interprocess_communication_message_url (message, InterprocessCommunicationRecipientType (0), InterprocessCommunicationSubjectType (0), "");
+  return interprocess_communication_message_url (message, InterprocessCommunicationChannelType (0), InterprocessCommunicationSubjectType (0), "");
 }
 
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message,
-                                                InterprocessCommunicationRecipientType recipient, 
+                                                InterprocessCommunicationChannelType channel, 
                                                 InterprocessCommunicationSubjectType subject, const ustring& payload)
 {
   ustring url = "http://localhost/bibledit/ipc/";
@@ -37,10 +37,10 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
     case icmtStoreMessage:  url.append ("storemessage.php");  break;
     case icmtListen:        url.append ("bibledit.php");      return url;          
   }
-  url.append ("?recipient=");
-  switch (recipient) {
-    case icrtXiphos:    url.append ("xiphos");    break;
-    case icrtBibleTime: url.append ("bibletime"); break;
+  url.append ("?channel=");
+  switch (channel) {
+    case icctXiphos:    url.append ("xiphos");    break;
+    case icctBibleTime: url.append ("bibletime"); break;
   }
   url.append ("&subject=");
   switch (subject) {

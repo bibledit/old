@@ -390,6 +390,7 @@ void feedback ()
   gchar *text = g_strdup_printf("%d", action_count);
   gtk_label_set_text (GTK_LABEL (label), text);
   g_free(text);
+  while (gtk_events_pending()) gtk_main_iteration();
 }
 
 
