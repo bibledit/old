@@ -51,7 +51,7 @@ void maintenance_initialize ()
     sqlite3_busy_timeout(db, 2000);
     sqlite3_exec(db, "create table commands  (workingdirectory text, shellcommand text);", NULL, NULL, NULL);
     sqlite3_exec(db, "create table snapshots (filename text);",                            NULL, NULL, NULL); // Todo register function.
-    sqlite3_exec(db, "create table databases (filename text);",                            NULL, NULL, NULL); // Todo register function needed.
+    sqlite3_exec(db, "create table databases (filename text);",                            NULL, NULL, NULL);
     sqlite3_exec(db, "create table gitrepos  (directory text);",                           NULL, NULL, NULL);
     sqlite3_close(db);
   }
@@ -87,7 +87,7 @@ void maintenance_register_git_repository (const ustring& directory)
 }
 
 
-void maintenance_register_database (const ustring& filename) // Todo, implement, call, test.
+void maintenance_register_database (const ustring& filename)
 {
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename().c_str(), &db);

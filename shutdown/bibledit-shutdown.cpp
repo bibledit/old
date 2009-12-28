@@ -174,25 +174,6 @@ vector <string> get_vacuum_databases (const char * filename)
 void vacuum_database (string filename)
 {
   /*
-  if (!filename.empty()) {
-    sqlite3 *db;
-    int rc;
-    char *error = NULL;
-    try {
-      rc = sqlite3_open(filename.c_str(), &db);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      sqlite3_busy_timeout(db, 2000);
-      rc = sqlite3_exec(db, "vacuum;", NULL, NULL, &error);
-      if (rc != SQLITE_OK) {
-        throw runtime_error(error);
-      }
-    }
-    catch(exception & ex) {
-      g_critical("%s", ex.what());
-    }
-    sqlite3_close(db);
-  }
   */
 }
 
@@ -391,6 +372,11 @@ bool on_timeout (gpointer data) // Todo
     something_was_done = handle_git_repositories (db);
   }
 
+  // Tasks related to the databases.
+  if (!something_was_done) {
+    something_was_done = handle_databases (db);
+  }
+
   // Earlier tasks here could have added shell commands, therefore check whether there are any to be done.
   if (!something_was_done) {
     something_was_done = handle_shell_command (db);
@@ -493,7 +479,7 @@ bool handle_git_repositories (sqlite3 *db)
   for (unsigned int repo = 0; repo < repositories_in_database.size(); repo++) {
     
     // Add one occurrence of this repository to the database. The reason is so as to ensure that
-    // even if a database is not used so much that it will trigger regular optimizations, 
+    // even if a repository is not used so much that it will trigger regular optimizations, 
     // it would still be optimized after some time.
     {
       char *sql;
@@ -550,3 +536,62 @@ bool handle_git_repositories (sqlite3 *db)
 }
 
 
+bool handle_databases (sqlite3 *db)
+// Looks at the databases mentioned in the maintenance database.
+// If one needs to be optimized, it does that, and returns true.
+{
+  // Get the git repository directories from the database.
+  vector <string> databases_in_database;
+  {
+    SqliteReader reader(0);
+    sqlite3_exec(db, "select distinct filename from databases;", reader.callback, &reader, NULL);
+    databases_in_database = reader.string0;
+  }
+  // Go through the databases.
+  for (unsigned int database = 0; database < databases_in_database.size(); database++) {
+    // Add one occurrence of this database. The reason is so as to ensure that
+    // even if a database is not used so much that it will trigger regular optimizations, 
+    // it would still be optimized after some time.
+    {
+      char *sql;
+      sql = g_strdup_printf("insert into databases values ('%s');", double_apostrophy (databases_in_database[database]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free (sql);
+    }
+    // Get the number of times this database has been mentioned.
+    unsigned int database_count = 0;
+    {
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select count (*) from databases where filename = '%s'", databases_in_database[database].c_str());
+      sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+      g_free(sql);
+      if (!reader.string0.empty()) {
+        database_count = convert_to_int (reader.string0[0]);
+      }
+    }
+    // If the database was edited more than so many times, it should get optimized.
+    if (database_count > 20) {
+      printf ("Optimize database at %s\n", databases_in_database[database].c_str());
+      fflush (stdout);
+      if (!databases_in_database[database].empty()) {
+        sqlite3 *db2;
+        sqlite3_open(databases_in_database[database].c_str(), &db2);
+        sqlite3_busy_timeout(db2, 2000);
+        sqlite3_exec(db2, "vacuum;", NULL, NULL, NULL);
+        sqlite3_close(db2);
+      }
+      // Remove this database from the maintenance database.
+      gchar * sql;
+      sql = g_strdup_printf("delete from databases where filename = '%s';", double_apostrophy (databases_in_database[database]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free(sql);
+      // Feedback.
+      feedback ();
+      // Return true since something was done.
+      return true;
+    }
+  }
+  // Return false since nothing was done.
+  return false;  
+}
