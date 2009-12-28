@@ -63,9 +63,6 @@ private:
 
 
 int main (int argc, char *argv[]);
-vector <string> get_vacuum_databases (const char * filename);
-void vacuum_database (string filename);
-vector <string> get_snapshot_databases (const char * filename);
 void trim_snapshots (string filename);
 unsigned int convert_to_int(const string& str);
 void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, unsigned int book, unsigned int chapter, int spacing);
@@ -74,6 +71,7 @@ bool handle_shell_command (sqlite3 *db);
 string double_apostrophy(const string & line);
 void feedback ();
 bool handle_git_repositories (sqlite3 *db);
+bool handle_snapshots (sqlite3 *db);
 bool handle_databases (sqlite3 *db);
 
 

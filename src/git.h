@@ -38,7 +38,6 @@ void git_revert_to_internal_repository (const ustring& project);
 void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 ustring git_mine_conflict_marker ();
 void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
-void git_shutdown (const ustring& project, bool health);
 void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated);
 
 

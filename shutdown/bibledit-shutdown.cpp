@@ -117,83 +117,8 @@ int main (int argc, char *argv[])
   // Main loop.
   gtk_main();
 
-/*
-  // Trim the snapshots.
-  vector <string> snapshot_databases = get_snapshot_databases (filename);
-  for (unsigned int i = 0; i < snapshot_databases.size(); i++) {
-    trim_snapshots (snapshot_databases[i]);
-  }
-
-  // Vacuum the databases.
-  vector <string> vacuum_databases = get_vacuum_databases(filename);
-  for (unsigned int i = 0; i < vacuum_databases.size(); i++) {
-    vacuum_database (vacuum_databases[i]);
-  }
-
-  // Remove the command database.
-  unlink (maintenance_db_filename);
-
-*/  
-
   // Done.  
   return 0;
-}
-
-
-vector <string> get_vacuum_databases (const char * filename)
-{
-  vector <string> databases;
-  /*
-  sqlite3 *cmddb;
-  sqlite3_open(filename, &cmddb);
-  sqlite3_busy_timeout(cmddb, 2000);
-  {
-    SqliteReader reader(0);
-    char *sql;
-    sql = g_strdup_printf("select filename from vacuum;");
-    sqlite3_exec(cmddb, sql, reader.callback, &reader, NULL);
-    g_free(sql);
-    databases = reader.string0;
-  }
-  {
-    SqliteReader reader(0);
-    char *sql;
-    sql = g_strdup_printf("select database from snapshots;");
-    sqlite3_exec(cmddb, sql, reader.callback, &reader, NULL);
-    g_free(sql);
-    for (unsigned int i = 0; i < reader.string0.size(); i++) {
-      databases.push_back (reader.string0[i]);
-    }
-  }
-  sqlite3_close(cmddb);
-  */
-  return databases;  
-}
-
-
-void vacuum_database (string filename)
-{
-  /*
-  */
-}
-
-
-vector <string> get_snapshot_databases (const char * filename)
-{
-  vector <string> databases;
-  /*
-  sqlite3 *db;
-  sqlite3_open(filename, &db);
-  sqlite3_busy_timeout(db, 2000);
-  SqliteReader reader(0);
-  char *sql;
-  sql = g_strdup_printf("select database from snapshots;");
-  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-  g_free(sql);
-  databases = reader.string0;
-  sqlite3_close(db);
-  */
-  return databases;  
 }
 
 
@@ -355,7 +280,7 @@ void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, u
 }
 
 
-bool on_timeout (gpointer data) // Todo
+bool on_timeout (gpointer data)
 {
   // Open maintenance database.
   sqlite3 *db;
@@ -372,6 +297,11 @@ bool on_timeout (gpointer data) // Todo
     something_was_done = handle_git_repositories (db);
   }
 
+  // Tasks related to the snapshots. Done before databases.
+  if (!something_was_done) {
+    something_was_done = handle_snapshots (db);
+  }
+ 
   // Tasks related to the databases.
   if (!something_was_done) {
     something_was_done = handle_databases (db);
@@ -536,11 +466,67 @@ bool handle_git_repositories (sqlite3 *db)
 }
 
 
+bool handle_snapshots (sqlite3 *db)
+// Looks at the snapshot databases mentioned in the maintenance database.
+// If one needs to be optimized, it does that, and returns true.
+{
+  // Get the databases.
+  vector <string> databases_in_database;
+  {
+    SqliteReader reader(0);
+    sqlite3_exec(db, "select distinct filename from snapshots;", reader.callback, &reader, NULL);
+    databases_in_database = reader.string0;
+  }
+  
+  // Go through the databases.
+  for (unsigned int database = 0; database < databases_in_database.size(); database++) {
+    // Add one occurrence of this database. The reason is so as to ensure that
+    // even if a database is not used so much that it will trigger regular optimizations, 
+    // it would still be optimized after some time.
+    {
+      char *sql;
+      sql = g_strdup_printf("insert into snapshots values ('%s');", double_apostrophy (databases_in_database[database]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free (sql);
+    }
+    // Get the number of times this database has been mentioned.
+    unsigned int database_count = 0;
+    {
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select count (*) from snapshots where filename = '%s'", databases_in_database[database].c_str());
+      sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+      g_free(sql);
+      if (!reader.string0.empty()) {
+        database_count = convert_to_int (reader.string0[0]);
+      }
+    }
+    // If more than so many snapshots were added to the database, it should get optimized.
+    if (database_count > 20) {
+      printf ("Optimize snapshot at %s\n", databases_in_database[database].c_str());
+      fflush (stdout);
+      trim_snapshots (databases_in_database[database]);
+      // Remove this database from the maintenance database.
+      gchar * sql;
+      sql = g_strdup_printf("delete from snapshots where filename = '%s';", double_apostrophy (databases_in_database[database]).c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free(sql);
+      // Feedback.
+      feedback ();
+      // Return true since something was done.
+      return true;
+    }
+  }
+  // Return false since nothing was done.
+  return false;  
+}
+
+
 bool handle_databases (sqlite3 *db)
 // Looks at the databases mentioned in the maintenance database.
 // If one needs to be optimized, it does that, and returns true.
 {
-  // Get the git repository directories from the database.
+  // Get the databases.
   vector <string> databases_in_database;
   {
     SqliteReader reader(0);

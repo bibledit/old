@@ -42,17 +42,37 @@
 void git_upgrade ()
 // Upgrades the git system.
 {
+  // Go through the projects that have their git repository enabled.
   extern Settings * settings;
   vector <ustring> projects = projects_get_all ();
   for (unsigned int i = 0; i < projects.size(); i++) {
     ProjectConfiguration * projectconfig = settings->projectconfig (projects[i]);
     ustring git_directory = gw_build_filename (project_data_directory_project (projects[i]), ".git");
     if (projectconfig->git_use_remote_repository_get()) {
+      // At times there's a stale index.lock file that prevents any collaboration.
+      // This is to be removed.
       ustring index_lock = gw_build_filename (git_directory, "index.lock");
       if (g_file_test (index_lock.c_str(), G_FILE_TEST_IS_REGULAR)) {
         gw_message ("Cleaning out index lock " + index_lock);
         unlink (index_lock.c_str());
       }
+      // Get the data directory for the project
+      ustring datadirectory = tiny_project_data_directory_project(projects[i]);
+      // On most machines git can determine the user's name from the system services. 
+      // But on the XO machine, it can't. It is set here manually.
+      ustring command;
+      command = "git config user.email \"";
+      command.append(g_get_user_name());
+      command.append("@");
+      command.append(g_get_host_name());
+      command.append("\"");
+      maintenance_register_shell_command (datadirectory, command);
+      command = "git config user.name \"";
+      command.append(g_get_real_name());
+      command.append("\"");
+      maintenance_register_shell_command (datadirectory, command);
+      // (Re)initialize the repository. This can be done repeatedly without harm.
+      maintenance_register_shell_command (datadirectory, "git init");
     } else {
       if (g_file_test (git_directory.c_str(), G_FILE_TEST_IS_DIR)) {
         gw_message ("Cleaning out folder " + git_directory);
@@ -240,31 +260,6 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
     spawn.arg("-a");
     spawn.run();
   }
-}
-
-
-void git_shutdown (const ustring& project, bool health) // Todo this one to do automatic.
-{
-  // Get the data directory for the project
-  ustring datadirectory = tiny_project_data_directory_project(project);
-
-  ustring command;
-
-  // On most machines git can determine the user's name from the system services. 
-  // But on the XO machine, it can't. It is set here manually.
-  command = "git config user.email \"";
-  command.append(g_get_user_name());
-  command.append("@");
-  command.append(g_get_host_name());
-  command.append("\"");
-  maintenance_register_shell_command (datadirectory, command);
-  command = "git config user.name \"";
-  command.append(g_get_real_name());
-  command.append("\"");
-  maintenance_register_shell_command (datadirectory, command);
-
-  // (Re)initialize the repository. This can be done repeatedly without harm.
-  maintenance_register_shell_command (datadirectory, "git init");
 }
 
 

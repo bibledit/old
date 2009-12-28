@@ -174,7 +174,8 @@ void snapshots_shoot_chapter (const ustring& project, unsigned int book, unsigne
   // Store it.
   snapshots_shoot_chapter (project, book, chapter, content, seconds, persistent);
 
-  // Register project for maintenance on shutdown.
+  // Register the database.
+  maintenance_register_snapshot (snapshots_database (project, book, chapter));
   maintenance_register_database (snapshots_database (project, book, chapter));
 }
 

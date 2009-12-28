@@ -6963,33 +6963,13 @@ Todo tasks.
 
 
 
-No longer to look for "php" in the configure script, but to find another way of doing that. 
-Also the php5-cli is not needed, but only php5. To update Ubuntu and other installation documents.
-
-Whether the -agressive flag should go from the git-gc, probably it should. Add this to the repository help, in a maintenance section.
-
-It needs a log file for the shutdown command program. Also pass it as the second variable.
-
-We need to split the various snapshot databases to the ones stored per chapter.
-Wherever this is used, it needs to be adapted to the new table format, as book and chapter have fallen out
-also the shutdown routine should respect the new structure.
-
-databases needs to be properly marked for inclusion of the vacuum command,  without that, it won't happen.
-
-If there's a change to the git repo, this repo is included for optimization - we need to think of the level, i.e. how many writes leads to an update.
-
-The optimization system works differently. If a database is written to, this gets registered in the maintenance db.
-If there are more than so many writes, then the database will be vacuumed.
-Same for commits to the git repository. If there are more then so many, the repository will then be optimized.
 
 
-
-
-
-install bibledit on Debian and make installation document.
-
-
-
+Communication through Apache no longer through recipients, but through "channels". The listeners use one php file with a &channel= argument.
+Makes maintenance simpler.
+Steps:
+* Store message, adapt it, and try it.
+* Listen. Adapt it, and try it.
 
 
 
@@ -7081,6 +7061,21 @@ Uploading file:
 * upload.php
 curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
 This could be used when uploading printed documents to the web. LibSoup probably does the POST also.
+
+
+
+
+
+
+No longer to look for "php" in the configure script, but to find another way of doing that. 
+Also the php5-cli is not needed, but only php5. To update Ubuntu and other installation documents.
+We can check the local server when bibledit starts, in two steps:
+1. Have the installer upload a known .html page, and see whether Apache serves this correctly.
+2. Have the installer upload a known .php page, and see whether Apaches serves this correctly.
+
+
+
+
 
 
 
