@@ -102,11 +102,17 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
 	spawn1.workingdirectory (workingdirectory);
         printf ("Directory %s\n", workingdirectory.c_str());
       }
-      spawn1.run ();
-      printf ("Run: %d\n", spawn1.result);
-      printf ("Exit status: %d\n", spawn1.exitstatus);
-      printf ("Standard err:\n%s", spawn1.standard_error);
-      printf ("Standard out:\n%s", spawn1.standard_output);
+      if (g_file_test (workingdirectory.c_str(), G_FILE_TEST_IS_DIR)) {
+	spawn1.run ();
+	printf ("Run: %d\n", spawn1.result);
+	printf ("Exit status: %d\n", spawn1.exitstatus);
+	if (spawn1.standard_error)
+	  printf ("Standard err:\n%s", spawn1.standard_error);
+	if (spawn1.standard_output)
+	  printf ("Standard out:\n%s", spawn1.standard_output);
+      } else {
+	printf ("Directory %s does not exist\n", workingdirectory.c_str());
+      }
       fflush (stdout);
       // Assemble the message to be returned to bibledit.
       string output;
@@ -118,10 +124,12 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
       output.append (workingdirectory + "\n");
       // Standard error.
       output.append ("Standard err\n");
-      output.append (spawn1.standard_error);
+      if (spawn1.standard_error)
+	output.append (spawn1.standard_error);
       // Standard output.
       output.append ("Standard out\n");
-      output.append (spawn1.standard_output);
+      if (spawn1.standard_output)
+	output.append (spawn1.standard_output);
       // Store the message in a temporal file.
       gchar * name_used;
       g_file_open_tmp ("XXXXXX", &name_used, NULL);
@@ -135,8 +143,10 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
 	spawn2.arg (arg2);
 	spawn2.arg ("http://localhost/bibledit/ipc/uploadmessage.php");
 	spawn2.run ();
-	printf ("%s", spawn2.standard_error);
-	printf ("%s", spawn2.standard_output);
+	if (spawn2.standard_error)
+	  printf ("%s", spawn2.standard_error);
+        if (spawn2.standard_output)	  
+	  printf ("%s", spawn2.standard_output);
         fflush (stdout);
 	// Remove the temporal file.
 	unlink (name_used);

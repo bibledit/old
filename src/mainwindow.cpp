@@ -6978,12 +6978,15 @@ Todo tasks.
 
 
 
+Changes Log: add information about this external running of git.
+
 
 git / bibledit-vcs
 
+bibledit-vcs should check whether the working directory exists. If not, message and bail out.
+
 Implement the control channel that says pause and continue. 
 If it enters the paused state, it sends a message to bibledit, and the same for the continued state.
-
 
 The git system gives a few warnings. These should be fixed.
 
@@ -7000,7 +7003,7 @@ The git repository should only be put into the maintenance routines if it was up
 
 
 
-The default server should be as it is, and the default port 80. But within Bibledit one can change this.
+The default server url should be as it is, and the default port 80. But within Bibledit one can change this.
 * It needs a warning, though, that the web server should be updated too to reflect this new setting.
 
 

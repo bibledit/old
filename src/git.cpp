@@ -58,6 +58,7 @@ void git_upgrade ()
       }
       // Get the data directory for the project
       ustring datadirectory = tiny_project_data_directory_project(projects[i]);
+      /*
       // On most machines git can determine the user's name from the system services. 
       // But on the XO machine, it can't. It is set here manually.
       ustring command;
@@ -71,7 +72,9 @@ void git_upgrade ()
       command.append(g_get_real_name());
       command.append("\"");
       maintenance_register_shell_command (datadirectory, command);
+      */
       // (Re)initialize the repository. This can be done repeatedly without harm.
+      // Note that this is done on shutdown.
       maintenance_register_shell_command (datadirectory, "git init");
     } else {
       if (g_file_test (git_directory.c_str(), G_FILE_TEST_IS_DIR)) {
@@ -327,6 +330,11 @@ void git_pull_push (const ustring& project, URLTransport * urltransport)
   // Push changes to the remote repository.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git push", datadirectory);
   urltransport->send_message (url);
+  
+  
+  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "ls", "/home/xx"); // Todo
+  urltransport->send_message (url);
+  
 }
 
 

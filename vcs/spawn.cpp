@@ -25,6 +25,8 @@ Spawn::Spawn(const string& program)
 {
   myprogram = program;
   exitstatus = 0;
+  standard_output = NULL;
+  standard_error = NULL;
 }
 
 
@@ -81,8 +83,6 @@ void Spawn::run()
   // Spawn flags.
   int flags = G_SPAWN_SEARCH_PATH;
   // Possible pipes.
-  standard_output = NULL;
-  standard_error = NULL;
   gchar **standard_output_pointer = &standard_output;
   gchar **standard_error_pointer = &standard_error;
   // Spawn process.
