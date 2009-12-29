@@ -23,7 +23,7 @@
 #include <glib.h>
 
 
-vector <ustring> git_exec_update_project(const ustring & project)
+vector <ustring> git_exec_update_project(const ustring & project) // Todo
 /*
  Commits local changes.
  Pulls all changes from the remote repository.

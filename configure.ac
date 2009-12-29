@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.13],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.14],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -139,11 +139,6 @@ fi
 AC_PATH_PROG(FIND_CURL, curl, no)
 if test x$FIND_CURL = xno; then
   AC_MSG_ERROR(Program "curl" is needed. Install this first.)
-fi
-
-AC_PATH_PROG(FIND_PHP, php, no)
-if test x$FIND_PHP = xno; then
-  AC_MSG_ERROR(Program "php" is needed. It is in a package called either "php" or "php5" depending on the distro.)
 fi
 
 # Checks for libraries.

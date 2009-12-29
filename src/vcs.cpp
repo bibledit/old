@@ -42,7 +42,7 @@ VCS::VCS(bool dummy)
   watch_updated = false;
   thread_running = false;
   thread_run = true;
-  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+  // Todo g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
 

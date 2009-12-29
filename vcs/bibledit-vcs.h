@@ -37,6 +37,7 @@ static void on_vcs_worker_web_listener_ready_callback (SoupSession *session, Sou
 
 string trim(const string & s);
 vector <string> parse_line (string line);
+vector <string> parse_word (string line);
 
 string get_extract_message_identifier (string& message);
 void send_response_to_bibledit (const string& subject, const string& identifier, const string& message);

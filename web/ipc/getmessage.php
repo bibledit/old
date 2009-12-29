@@ -13,8 +13,8 @@ while(1) {
       $parts=explode(".",$file);
       $suffix = $parts[count($parts)-1];
       if ("$suffix" == "$channel") {
-      $array[$i] = $file;
-      $i++;
+        $array[$i] = $file;
+        $i++;
       }
     }
   }
@@ -24,12 +24,12 @@ while(1) {
   @sort ($array);
 
   for ($i = 0; $i < sizeof ($array); $i++) {
-
-    $fh = fopen("$messagesdir/$array[$i]", 'r');
-    $data = fread($fh, 1000);
+    $filename = "$messagesdir/$array[$i]";
+    $fh = fopen("$filename", 'r');
+    $data = fread($fh, filesize ($filename));
     fclose($fh);
     echo "$data";
-    unlink ("$messagesdir/$array[$i]");
+    unlink ("$filename");
     exit;
   }
 

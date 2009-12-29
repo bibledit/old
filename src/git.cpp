@@ -37,6 +37,7 @@
 #include "git-exec.h"
 #include "maintenance.h"
 #include "snapshots.h"
+#include "ipc.h"
 
 
 void git_upgrade ()
@@ -296,6 +297,39 @@ void git_process_feedback (const ustring& project, const vector <ustring>& feedb
       }
     }
   }
+}
+
+
+void git_pull_push (const ustring& project, URLTransport * urltransport) // Todo
+// Sends messages to the server through "urltransport" 
+// that should update the git repository for "project":
+{
+  ustring datadirectory = project_data_directory_project(project);
+  ustring url;
+
+  // Information about which Bible is being updated.  
+  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "echo Updating Bible " + project, datadirectory);
+  urltransport->send_message (url);
+
+  // Add everything because things could have been added or changed.
+  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git add .", datadirectory);
+  urltransport->send_message (url);
+
+  // Show status.
+  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git status -a", datadirectory);
+  urltransport->send_message (url);
+
+  // Commit changes locally.
+  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git commit -a -m commit", datadirectory);
+  urltransport->send_message (url);
+
+  // Pull changes from the remote repository.
+  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git pull", datadirectory);
+  urltransport->send_message (url);
+
+  // Push changes to the remote repository.
+  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git push", datadirectory);
+  urltransport->send_message (url);
 }
 
 

@@ -4612,12 +4612,9 @@ void MainWindow::git_update_timeout(bool force)
           }
         }
         // Schedule an update. Todo
-        extern VCS * vcs;
-        vcs->schedule(projects[i]);
+        git_pull_push (projects[i], urltransport);
         interval = 0;
-        ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "ls",   project_data_directory_project(projects[i])); // Todo
-        urltransport->send_message (url);
-        // Inform the maintenance system.
+        // Inform the maintenance system. // Todo to only inform it if there was an actual update.
         maintenance_register_git_repository (project_data_directory_project(projects[i]));
       }
       git_update_intervals[projects[i]] = interval;
@@ -6932,11 +6929,11 @@ void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButto
 }
 
 
-void MainWindow::on_interprocess_communications_listener_button(GtkButton *button)
+void MainWindow::on_interprocess_communications_listener_button(GtkButton *button) // Todo
 {
   // Process the message if it looks good.
   if (urltransport->reply_is_ok) {
-		ParseLine parseline (urltransport->reply_body);
+		ParseLine parseline (trim (urltransport->reply_body));
     if (!parseline.lines.empty()) {
       ustring subject = parseline.lines[0];
 
@@ -6952,6 +6949,12 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
           }
         }
       }
+      
+      // Handle the "vcs" message. It comes from the version control system, handled by bibledit-vcs.
+      if (subject == "vcs") {
+
+      }
+      
     }
   }
 
@@ -6979,7 +6982,6 @@ Todo tasks.
 bibledit-vcs
 
 Steps:
-* The subject will be the shell command, and the payload will be the directory to run it from.
 * Make a system that does "ls" and returns the output through the POST method of http.
 * the control channel that says pause and continue. 
 * If it enters the paused state, it sends a message to bibledit, and the same for the continued state.
@@ -6996,6 +6998,16 @@ E.g. the pause should probably do the pause, yes, but also send a message to the
 The git repository should only be put into the maintenance routines if it was updated. This information 
 * is to be read from what comes back from bibledit-vcs. If there was no change, it should not be maintained. This wastes resources.
 
+To have a good look at the various *git* source files, and to put them all into on. Too much clutter.
+
+
+
+
+
+
+
+The default server should be as it is, and the default port 80. But within Bibledit one can change this.
+* It needs a warning, though, that the web server should be updated too to reflect this new setting.
 
 
 
@@ -7022,12 +7034,6 @@ A persecution mode sets the site to look like another one, e.g. a news site. Log
 When using Apache, we should make a search PHP script that even highlights the words found.
 
 
-
-
-
-When creating checks, we use the Apache server for that.
-It uploads the page to the server, so it remains there always.
-See http://www.apacheweek.com/features/put
 
 
 
@@ -7063,15 +7069,6 @@ Instead Bibledit will remain an offline application, BUT:
 
 
 
-Uploading file:
-* index.html
-* upload.php
-curl -F "uploaded=@100_3950.jpeg" http://localhost/bibledit/ipc/upload.php
-This could be used when uploading printed documents to the web. LibSoup probably does the POST also.
-
-
-
-
 
 
 No longer to look for "php" in the configure script, but to find another way of doing that. 
@@ -7085,7 +7082,7 @@ We can check the local server when bibledit starts, in two steps:
 
 
 
-
+When Ubuntu reboots, does it remove the /tmp/bibledit directory? If so, this directory needs to be recreated before the logfiles are created.
 
 
 

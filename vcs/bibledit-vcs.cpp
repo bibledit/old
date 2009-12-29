@@ -75,7 +75,7 @@ void start_vcs_worker_web_listener ()
 }
 
 
-void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data) // Todo post message.
 {
   if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
     // Get the response body.
@@ -87,21 +87,63 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
     // Run the command. Todo we need to parse the command in its words, with spaces in between. E.g. "git commit"
     vector <string> lines = parse_line (body);
     if (!lines.empty()) {
+      string command;
+      vector <string> parts = parse_word (lines[0]);
       printf ("Run command %s\n", lines[0].c_str());
-      Spawn spawn (lines[0]);
-      if (lines.size() >= 2) {
-	spawn.workingdirectory (lines[1]);
-        printf ("Directory %s\n", lines[1].c_str());
+      if (!parts.empty()) 
+        command = parts[0];
+      Spawn spawn1 (command);
+      for (unsigned int i = 1; i < parts.size(); i++) {
+	spawn1.arg (parts[i]);
       }
-      spawn.run ();
-      printf ("Run: %d\n", spawn.result);
-      printf ("Exit status: %d\n", spawn.exitstatus);
-      printf ("Standard err:\n%s", spawn.standard_error);
-      printf ("Standard out:\n%s", spawn.standard_output);
+      string workingdirectory;
+      if (lines.size() >= 2) {
+        workingdirectory = lines[1];
+	spawn1.workingdirectory (workingdirectory);
+        printf ("Directory %s\n", workingdirectory.c_str());
+      }
+      spawn1.run ();
+      printf ("Run: %d\n", spawn1.result);
+      printf ("Exit status: %d\n", spawn1.exitstatus);
+      printf ("Standard err:\n%s", spawn1.standard_error);
+      printf ("Standard out:\n%s", spawn1.standard_output);
       fflush (stdout);
+      // Assemble the message to be returned to bibledit.
+      string output;
+      // Subject: vcs
+      output.append ("vcs\n");
+      // Shell command.
+      output.append (lines[0] + "\n");
+      // Working directory (if any).
+      output.append (workingdirectory + "\n");
+      // Standard error.
+      output.append ("Standard err\n");
+      output.append (spawn1.standard_error);
+      // Standard output.
+      output.append ("Standard out\n");
+      output.append (spawn1.standard_output);
+      // Store the message in a temporal file.
+      gchar * name_used;
+      g_file_open_tmp ("XXXXXX", &name_used, NULL);
+      if (name_used) {
+	g_file_set_contents (name_used, output.c_str(), -1, NULL);
+	// Upload the message through curl.
+	Spawn spawn2 ("curl");
+	spawn2.arg ("-F");
+	string arg2 = "uploaded=@";
+	arg2.append (name_used);
+	spawn2.arg (arg2);
+	spawn2.arg ("http://localhost/bibledit/ipc/uploadmessage.php");
+	spawn2.run ();
+	printf ("%s", spawn2.standard_error);
+	printf ("%s", spawn2.standard_output);
+        fflush (stdout);
+	// Remove the temporal file.
+	unlink (name_used);
+      }
     }
   } else {
-    // If the message was cancelled, do not start it again, just quit.
+    // If the message was cancelled, do not start the listener again.
     if (msg->status_code == 1) {
       return;
     }
@@ -109,6 +151,7 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
     fflush (stdout);
     g_usleep (1000000);
   }
+  // Wait shortly, the restart the listener.
   g_usleep (100000);
   start_vcs_worker_web_listener ();
 }
@@ -222,6 +265,7 @@ int main (int argc, char **argv)
 
 
 vector <string> parse_line (string line)
+// Parses the input into lines.
 {
   vector <string> lines;
   line = trim(line);
@@ -236,5 +280,22 @@ vector <string> parse_line (string line)
   if (!line.empty())
     lines.push_back(trim(line));
   return lines;
+}
+
+
+vector <string> parse_word (string line)
+// Parses the input into words.
+{
+  vector <string> words;
+  line = trim(line);
+  line.append(" ");
+  size_t pos = line.find(" ");
+  while (pos != string::npos) {
+    string word = line.substr(0, pos);
+    words.push_back(word);
+    line.erase(0, pos + 1);
+    pos = line.find(" ");
+  }
+  return words;
 }
 

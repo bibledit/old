@@ -27,8 +27,9 @@ closedir($handler);
 
 for ($i = 0; $i < sizeof ($array); $i++) {
   echo "Message $array[$i]<br>\n";
-  $fh = fopen("$messagesdir/$array[$i]", 'r');
-  $data = fread($fh, 1000);
+  $filename = "$messagesdir/$array[$i]";
+  $fh = fopen("$filename", 'r');
+  $data = fread($fh, filesize ($filename));
   fclose($fh);
   echo "$data<br>\n";
   echo "<br>\n";
