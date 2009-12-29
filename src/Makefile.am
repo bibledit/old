@@ -252,7 +252,6 @@ bibledit_SOURCES = \
 				dialogbulkspelling.cpp \
 				dialogplanningedit.cpp \
 				dialoglistviewm.cpp \
-				vcs.cpp \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
 				kjv.cpp \

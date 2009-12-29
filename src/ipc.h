@@ -27,7 +27,7 @@
 
 enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage, icmtListen};
 enum InterprocessCommunicationChannelType {icctNone, icctXiphos, icctBibleTime, icctBibledit, icctVcsWorker, icctVcsControl};
-enum InterprocessCommunicationSubjectType {icstNone, icstGoto, icstQuit, icstReload, icstGetref};
+enum InterprocessCommunicationSubjectType {icstNone, icstGoto, icstQuit, icstReload, icstGetref, icstPause, icstContinue};
 
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 

@@ -169,9 +169,8 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	guiselectbibles.$(OBJEXT) assistantexport.$(OBJEXT) \
 	java.$(OBJEXT) dialogbulkspelling.$(OBJEXT) \
 	dialogplanningedit.$(OBJEXT) dialoglistviewm.$(OBJEXT) \
-	vcs.$(OBJEXT) htmlwriter2.$(OBJEXT) \
-	dialogmaintenance.$(OBJEXT) kjv.$(OBJEXT) \
-	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
+	htmlwriter2.$(OBJEXT) dialogmaintenance.$(OBJEXT) \
+	kjv.$(OBJEXT) assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) robinson.$(OBJEXT) \
 	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT) \
@@ -612,7 +611,6 @@ bibledit_SOURCES = \
 				dialogbulkspelling.cpp \
 				dialogplanningedit.cpp \
 				dialoglistviewm.cpp \
-				vcs.cpp \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
 				kjv.cpp \
@@ -973,7 +971,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ustring.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utilities.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vcs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/webkitbrowser.Po@am__quote@

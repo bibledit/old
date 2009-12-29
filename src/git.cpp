@@ -300,10 +300,10 @@ void git_process_feedback (const ustring& project, const vector <ustring>& feedb
 }
 
 
-void git_pull_push (const ustring& project, URLTransport * urltransport)
-// Sends messages to the server through "urltransport" 
-// that should update the git repository for "project":
+void git_pull_push (const ustring& project)
+// Sends messages to the server that should update the git repository for "project".
 {
+  extern URLTransport * urltransport;
   ustring datadirectory = project_data_directory_project(project);
   ustring url;
 
@@ -330,11 +330,22 @@ void git_pull_push (const ustring& project, URLTransport * urltransport)
   // Push changes to the remote repository.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git push", datadirectory);
   urltransport->send_message (url);
-  
-  
-  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "ls", "/home/xx"); // Todo
+}
+
+
+void git_pause () // Todo
+{
+  extern URLTransport * urltransport;
+  ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstPause, "");
   urltransport->send_message (url);
-  
+}
+
+
+void git_continue () // Todo
+{
+  extern URLTransport * urltransport;
+  ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstContinue, "");
+  urltransport->send_message (url);
 }
 
 

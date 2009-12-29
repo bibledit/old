@@ -37,7 +37,9 @@ void git_resolve_conflict_chapter (const ustring& project, unsigned int book, un
 ustring git_mine_conflict_marker ();
 void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
 void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated);
-void git_pull_push (const ustring& project, URLTransport * urltransport);
+void git_pull_push (const ustring& project);
+void git_pause ();
+void git_continue ();
 
 
 #endif

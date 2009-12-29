@@ -31,7 +31,6 @@
 #include "git.h"
 #include "projectutils.h"
 #include "snapshots.h"
-#include "vcs.h"
 #include "progresswindow.h"
 
 
@@ -809,8 +808,8 @@ bool RemoteRepositoryAssistant::on_pending_tasks_timeout(gpointer user_data)
 bool RemoteRepositoryAssistant::on_pending_tasks()
 // Sets the interface depending on whether there are any git tasks pending for the project.
 {
-  extern VCS * vcs;
-  project_pending_tasks_count = vcs->tasks_for_bible(bible);
+  // Todo project_pending_tasks_count = vcs->tasks_for_bible(bible);
+  project_pending_tasks_count = 0;
   if (project_pending_tasks_count == 0) {
     if (previous_project_pending_tasks_count != 0) {
       gtk_label_set_text (GTK_LABEL (label_pending_tasks), "No pending tasks, you can go forward");
@@ -818,7 +817,7 @@ bool RemoteRepositoryAssistant::on_pending_tasks()
       previous_project_pending_tasks_count = project_pending_tasks_count;
       // Pause processing git tasks if there are no pending tasks for this project.
       // This is because tasks will be produced, but these tasks are unwanted.
-      vcs->pause(true);
+      // Todo vcs->pause(true);
     }
   } else {
     ustring text = "Waiting for the remaining ";

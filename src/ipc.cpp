@@ -28,11 +28,13 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
 {
   ustring subject_string;
   switch (subject) {
-    case icstNone:                          break;
-    case icstGoto:   subject_string.append ("goto");   break;
-    case icstQuit:   subject_string.append ("quit");   break;
-    case icstReload: subject_string.append ("reload"); break;
-    case icstGetref: subject_string.append ("getref"); break;
+    case icstNone:                                         break;
+    case icstGoto:     subject_string.append ("goto");     break;
+    case icstQuit:     subject_string.append ("quit");     break;
+    case icstReload:   subject_string.append ("reload");   break;
+    case icstGetref:   subject_string.append ("getref");   break;
+    case icstPause:    subject_string.append ("pause");    break;
+    case icstContinue: subject_string.append ("continue"); break;
   }
   return interprocess_communication_message_url (message, channel, subject_string, payload);
 }

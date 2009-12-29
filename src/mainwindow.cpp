@@ -122,7 +122,6 @@
 #include "windowtimednotifier.h"
 #include "dialogbulkspelling.h"
 #include "dialogplanningedit.h"
-#include "vcs.h"
 #include "dialogmaintenance.h"
 #include "kjv.h"
 #include "xiphos.h"
@@ -1830,8 +1829,6 @@ navigation(0), httpd(0)
   // Show open windows.
   g_timeout_add(300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
   
-  // Start the URL transporter.
-  urltransport = new URLTransport (0);
   // Start listening to messages directed to us.
   interprocess_communications_initiate_listener ();
   // Clear out old messages on shutdown.
@@ -1865,11 +1862,8 @@ MainWindow::~MainWindow()
   shutdown_actions();
   // Destroying the window is done by Gtk itself.
   
-  // Destroy URL transporter.
-  delete urltransport;
-
-  // Send message to quit helper programs through curl, since the url transporter is no longer functional at this stage.
-  // Even if it were functional, since it gets destroyed, it will remove all pending messages.
+  // Send message to quit helper programs through curl, since the url transporter is no longer of any use at this stage.
+  // Even if it were functional, since it soon gets destroyed, it will remove all pending messages.
   {
     GwSpawn spawn ("curl");
     spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icctXiphos, icstQuit, ""));
@@ -1973,13 +1967,12 @@ void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::newproject()
 {
-  extern VCS * vcs;
-  vcs->pause(true);
+  // Todo vcs->pause(true);
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
     on_file_project_open(projectdialog.newprojectname, false);
   }
-  vcs->pause(false);
+  // Todo vcs->pause(false);
 }
 
 void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -1989,8 +1982,7 @@ void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_d
 
 void MainWindow::editproject()
 {
-  extern VCS * vcs;
-  vcs->pause(true);
+  // Todo vcs->pause(true);
   save_editors();
   // Show project dialog.
   ProjectDialog projectdialog(false);
@@ -2004,7 +1996,7 @@ void MainWindow::editproject()
     // As anything could have been changed to the project, reopen it.
     reload_all_editors(false);
   }
-  vcs->pause(false);
+  // Todo vcs->pause(false);
 }
 
 
@@ -2373,11 +2365,10 @@ void MainWindow::on_compare_with()
 {
   save_editors();
   show_references_window();
-  extern VCS * vcs;
-  vcs->pause(true);
+  // Todo vcs->pause(true);
   CompareDialog dialog(window_references);
   dialog.run();
-  vcs->pause(false);
+  // Todo vcs->pause(false);
 }
 
 
@@ -3054,6 +3045,7 @@ void MainWindow::tools_receive_reference_timeout()
   }
   if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
     // Send message requesting BibleTime's reference. Response will be handled in Bibledit's listener.
+    extern URLTransport * urltransport;
     ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstGetref, "");
     urltransport->send_message (url);
   }
@@ -4478,8 +4470,7 @@ void MainWindow::on_file_backup_activate(GtkMenuItem * menuitem, gpointer user_d
 void MainWindow::on_file_backup()
 {
   save_editors();
-  extern VCS * vcs;
-  vcs->pause(true);
+  // Todo vcs->pause(true);
   backup_assistant = new BackupAssistant (0);
   g_signal_connect ((gpointer) backup_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
@@ -4540,9 +4531,8 @@ void MainWindow::on_project_changes()
 {
   // Save even the very latest changes.
   save_editors();
-  // The changes checker will generate git tasks. Pause git.
-  extern VCS * vcs;
-  vcs->pause(true);
+  // The changes checker will generate git tasks. Pause git. Todo
+  //vcs->pause(true);
   // Do the actual changes dialog. 
   show_references_window();
   changes_assistant = new ChangesAssistant (window_references);
@@ -4590,11 +4580,10 @@ bool MainWindow::on_git_update_timeout(gpointer user_data)
 void MainWindow::git_update_timeout(bool force)
 // Schedule project update tasks. Called every second.
 {
-  // Bail out if git tasks are paused.
-  extern VCS * vcs;
-  if (vcs->paused()) {
-    return;
-  }
+  // Bail out if git tasks are paused. Todo
+  //if (vcs->paused()) {
+  //  return;
+  //}
 
   // Schedule a push and pull task for each relevant project.
   extern Settings *settings;
@@ -4612,7 +4601,7 @@ void MainWindow::git_update_timeout(bool force)
           }
         }
         // Schedule an update.
-        git_pull_push (projects[i], urltransport);
+        git_pull_push (projects[i]);
         interval = 0;
         // Inform the maintenance system. // Todo to only inform it if there was an actual update.
         maintenance_register_git_repository (project_data_directory_project(projects[i]));
@@ -4621,11 +4610,11 @@ void MainWindow::git_update_timeout(bool force)
     }
   }
 
-  // If the current book and chapter have been updated through the remote repository, reopen the Bibles.
-  vcs->watch_for_updates (navigation.reference.book, navigation.reference.chapter);
-  if (vcs->updated ()) {
-    git_reopen_project = true;
-  }
+  // If the current book and chapter have been updated through the remote repository, reopen the Bibles. // Todo
+  //vcs->watch_for_updates (navigation.reference.book, navigation.reference.chapter);
+  //if (vcs->updated ()) {
+    //git_reopen_project = true;
+  //}
 }
 
 void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data)
@@ -6420,6 +6409,7 @@ void MainWindow::on_assistant_ready ()
   // Export.
   if (export_assistant) {
     if (export_assistant->sword_module_created) {
+      extern URLTransport * urltransport;
       ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstReload, "");
       urltransport->send_message (url);
     }
@@ -6442,9 +6432,8 @@ void MainWindow::on_assistant_ready ()
     }
   }
 
-  // The assistants may have paused version control operations. Resume these.
-  extern VCS * vcs;
-  vcs->pause(false);
+  // The assistants may have paused version control operations. Resume these. Todo
+  //vcs->pause(false);
 }
 
 
@@ -6891,6 +6880,7 @@ void MainWindow::xiphos_reference_send (Reference reference)
 {
   ustring payload = xiphos_reference_create (reference);
   if (!payload.empty()) {
+    extern URLTransport * urltransport;
     ustring url = interprocess_communication_message_url (icmtStoreMessage, icctXiphos, icstGoto, payload);
     urltransport->send_message (url);
   }
@@ -6901,6 +6891,7 @@ void MainWindow::bibletime_reference_send (Reference reference)
 {
   ustring payload = bibletime_reference_create (reference);
   if (!payload.empty()) {
+    extern URLTransport * urltransport;
     ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstGoto, payload);
     urltransport->send_message (url);
   }
@@ -6918,6 +6909,7 @@ void MainWindow::interprocess_communications_initiate_listener ()
 {
   interprocess_communications_initiate_listener_event_id = 0;
   GtkWidget * button;
+  extern URLTransport * urltransport;
   button = urltransport->send_message_expect_reply (interprocess_communication_message_url (icmtListen, icctBibledit, icstNone, ""));
   g_signal_connect((gpointer) button, "clicked", G_CALLBACK(on_interprocess_communications_listener_button_clicked), gpointer(this));
 }
@@ -6931,6 +6923,7 @@ void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButto
 
 void MainWindow::on_interprocess_communications_listener_button(GtkButton *button)
 {
+  extern URLTransport * urltransport;
   // Process the message if it looks good.
   if (urltransport->reply_is_ok) {
 		ParseLine parseline (trim (urltransport->reply_body));
@@ -6983,7 +6976,8 @@ Changes Log: add information about this external running of git.
 
 git / bibledit-vcs
 
-bibledit-vcs should check whether the working directory exists. If not, message and bail out.
+
+The URL transport object should be accessible from anywhere by using the external declaration.
 
 Implement the control channel that says pause and continue. 
 If it enters the paused state, it sends a message to bibledit, and the same for the continued state.

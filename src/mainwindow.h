@@ -795,7 +795,6 @@ protected:
   void shutdown_windows();
   
   // URL transporter and interprocess communications.
-  URLTransport * urltransport;
   void xiphos_reference_send (Reference reference);
   void bibletime_reference_send (Reference reference);
   guint interprocess_communications_initiate_listener_event_id;
