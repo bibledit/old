@@ -127,7 +127,7 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	ot-nt-parallels.$(OBJEXT) check_parallel_passages.$(OBJEXT) \
 	dialogpdfviewer.$(OBJEXT) displayprojectnotes.$(OBJEXT) \
 	styles.$(OBJEXT) editor_aids.$(OBJEXT) \
-	dialoginserttable.$(OBJEXT) git.$(OBJEXT) git-exec.$(OBJEXT) \
+	dialoginserttable.$(OBJEXT) git.$(OBJEXT) \
 	usfm2xslfo_utils.$(OBJEXT) hyphenate.$(OBJEXT) \
 	reporting.$(OBJEXT) planning.$(OBJEXT) \
 	dialogeditstatus.$(OBJEXT) dialogtaskduration.$(OBJEXT) \
@@ -530,7 +530,6 @@ bibledit_SOURCES = \
         editor_aids.cpp \
         dialoginserttable.cpp \
         git.cpp \
-        git-exec.cpp \
         usfm2xslfo_utils.cpp \
         hyphenate.cpp \
         reporting.cpp \
@@ -849,7 +848,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixmarkers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/floatingwindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/generalconfig.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git-exec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/greek.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkwrappers.Po@am__quote@

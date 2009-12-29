@@ -30,7 +30,6 @@
 #include "books.h"
 #include "settings.h"
 #include "tiny_utilities.h"
-#include "git-exec.h"
 
 
 VCS::VCS(bool dummy)
@@ -42,7 +41,6 @@ VCS::VCS(bool dummy)
   watch_updated = false;
   thread_running = false;
   thread_run = true;
-  // Todo g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
 
@@ -76,8 +74,6 @@ void VCS::thread_main()
   while (thread_run) {
     if (!mypause) {
       if (!tasks.empty()) {
-        vector <ustring> feedback = git_exec_update_project(tasks[0]);
-        git_process_feedback (tasks[0], feedback, watched_book, watched_chapter, watch_updated);
         erase (tasks[0]);
       }
     }

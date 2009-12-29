@@ -34,7 +34,6 @@
 #include "unixwrappers.h"
 #include "gtkwrappers.h"
 #include "generalconfig.h"
-#include "git-exec.h"
 #include "maintenance.h"
 #include "snapshots.h"
 #include "ipc.h"
@@ -167,9 +166,7 @@ void git_resolve_conflict_chapter(const ustring & project, unsigned int book, un
     }
   }
   write_lines(datafile, newdata);
-
-  // To inform git that the conflict has been resolved.
-  git_exec_update_project(project);
+  // Next time that a timed pull and push is done, the conflict will show up as resolved.
 }
 
 
@@ -300,7 +297,7 @@ void git_process_feedback (const ustring& project, const vector <ustring>& feedb
 }
 
 
-void git_pull_push (const ustring& project, URLTransport * urltransport) // Todo
+void git_pull_push (const ustring& project, URLTransport * urltransport)
 // Sends messages to the server through "urltransport" 
 // that should update the git repository for "project":
 {

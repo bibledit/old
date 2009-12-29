@@ -4611,7 +4611,7 @@ void MainWindow::git_update_timeout(bool force)
             editor_windows[i2]->chapter_save ();
           }
         }
-        // Schedule an update. Todo
+        // Schedule an update.
         git_pull_push (projects[i], urltransport);
         interval = 0;
         // Inform the maintenance system. // Todo to only inform it if there was an actual update.
@@ -6929,7 +6929,7 @@ void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButto
 }
 
 
-void MainWindow::on_interprocess_communications_listener_button(GtkButton *button) // Todo
+void MainWindow::on_interprocess_communications_listener_button(GtkButton *button)
 {
   // Process the message if it looks good.
   if (urltransport->reply_is_ok) {
@@ -6950,7 +6950,7 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
         }
       }
       
-      // Handle the "vcs" message. It comes from the version control system, handled by bibledit-vcs.
+      // Handle the "vcs" message. It comes from the version control system, handled by bibledit-vcs. Todo process feedback.
       if (subject == "vcs") {
 
       }
@@ -6979,16 +6979,11 @@ Todo tasks.
 
 
 
-bibledit-vcs
+git / bibledit-vcs
 
-Steps:
-* Make a system that does "ls" and returns the output through the POST method of http.
-* the control channel that says pause and continue. 
-* If it enters the paused state, it sends a message to bibledit, and the same for the continued state.
-* Instead of running git commands straight, send a message to bibledit-vcs.
-* bibledit-vcs runs the command, and sends a message back with the output of that command.
-* We may need to use identifiers so as to link the command to what comes back.
-* Do we need to upload a whole file / block of data to the server? Because the output may be big. There's stdout and stderr.
+Implement the control channel that says pause and continue. 
+If it enters the paused state, it sends a message to bibledit, and the same for the continued state.
+
 
 The git system gives a few warnings. These should be fixed.
 
@@ -6998,7 +6993,6 @@ E.g. the pause should probably do the pause, yes, but also send a message to the
 The git repository should only be put into the maintenance routines if it was updated. This information 
 * is to be read from what comes back from bibledit-vcs. If there was no change, it should not be maintained. This wastes resources.
 
-To have a good look at the various *git* source files, and to put them all into on. Too much clutter.
 
 
 

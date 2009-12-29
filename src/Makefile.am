@@ -170,7 +170,6 @@ bibledit_SOURCES = \
         editor_aids.cpp \
         dialoginserttable.cpp \
         git.cpp \
-        git-exec.cpp \
         usfm2xslfo_utils.cpp \
         hyphenate.cpp \
         reporting.cpp \
