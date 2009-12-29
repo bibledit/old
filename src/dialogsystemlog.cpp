@@ -49,17 +49,14 @@ ustring log_file_name(LogFileType type, bool previous)
 }
 
 
-void move_log_files ()
+void move_log_file (LogFileType type)
 {
-  for (unsigned int type = lftMain; type <= lftShutdown; type++) {
-    // Save logfile from previous session.
-    if (g_file_test (log_file_name(LogFileType (type), false).c_str(), G_FILE_TEST_IS_REGULAR)) {
-      GwSpawn spawn ("mv");
-      spawn.arg ("-f");
-      spawn.arg (log_file_name(LogFileType (type), false));
-      spawn.arg (log_file_name(LogFileType (type), true));
-      spawn.run ();
-    }
+  if (g_file_test (log_file_name(type, false).c_str(), G_FILE_TEST_IS_REGULAR)) {
+    GwSpawn spawn ("mv");
+    spawn.arg ("-f");
+    spawn.arg (log_file_name(type, false));
+    spawn.arg (log_file_name(type, true));
+    spawn.run ();
   }
 }
 

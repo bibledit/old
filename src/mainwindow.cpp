@@ -171,7 +171,6 @@ navigation(0), httpd(0)
   import_assistant = NULL;
   
   // Initialize some variables.
-  git_reopen_project = false;
   windows_startup_pointer = 0;
   focused_editor_button = NULL;
   focused_resource_button = NULL;
@@ -1817,9 +1816,6 @@ navigation(0), httpd(0)
   // Display project notes.
   notes_redisplay();
 
-  // Start the GUI updater.
-  g_timeout_add(100, GSourceFunc(on_gui_timeout), gpointer(this));
-
   // Start bibledit http responder.
   g_timeout_add(300, GSourceFunc(on_check_httpd_timeout), gpointer(this));
 
@@ -3087,33 +3083,6 @@ void MainWindow::tools_receive_reference_timeout()
   }
 }
 
-
-/*
- |
- |
- |
- |
- |
- Title bar and status bar
- |
- |
- |
- |
- |
- */
-
-bool MainWindow::on_gui_timeout(gpointer data)
-{
-  ((MainWindow *) data)->on_gui();
-  return true;
-}
-
-void MainWindow::on_gui()
-// Tasks related to the GUI.
-{
-  // Check whether to reopen the project.
-  on_git_reopen_project();
-}
 
 /*
  |
@@ -4518,18 +4487,12 @@ void MainWindow::on_preferences_remote_repository()
   g_signal_connect ((gpointer) remote_repository_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
-void MainWindow::on_git_reopen_project()
-{
-  if (git_reopen_project) {
-    git_reopen_project = false;
-    reload_all_editors(false);
-  }
-}
 
 void MainWindow::on_project_changes_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_project_changes();
 }
+
 
 void MainWindow::on_project_changes()
 {
@@ -4543,10 +4506,12 @@ void MainWindow::on_project_changes()
   g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
+
 void MainWindow::on_edit_revert_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_edit_revert();
 }
+
 
 void MainWindow::on_edit_revert()
 {
@@ -4602,18 +4567,10 @@ void MainWindow::git_update_timeout(bool force)
         // Schedule an update.
         git_pull_push (projects[i]);
         interval = 0;
-        // Inform the maintenance system. // Todo to only inform it if there was an actual update.
-        maintenance_register_git_repository (project_data_directory_project(projects[i]));
       }
       git_update_intervals[projects[i]] = interval;
     }
   }
-
-  // If the current book and chapter have been updated through the remote repository, reopen the Bibles. // Todo
-  //vcs->watch_for_updates (navigation.reference.book, navigation.reference.chapter);
-  //if (vcs->updated ()) {
-    //git_reopen_project = true;
-  //}
 }
 
 void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data)
@@ -6942,11 +6899,46 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
         }
       }
       
-      // Handle the "vcs" message. It comes from the version control system, handled by bibledit-vcs. Todo process feedback.
+      // Handle the "vcs" message. It has feedback from the version control system, handled by bibledit-vcs.
       if (subject == "vcs") {
-
+        if (parseline.lines.size() > 5) {
+          ustring vcs_git_directory = parseline.lines[2];
+          // Whether to set the push.default value of the git repository.
+          // If a message to that effect is encountered, it sets the value.
+          for (unsigned int i = 0; i < parseline.lines.size(); i++) {
+            if (parseline.lines[i].find ("push.default") != string::npos) {
+              GwSpawn spawn ("git");
+              spawn.workingdirectory (vcs_git_directory);
+              spawn.arg ("config");
+              spawn.arg ("push.default");
+              spawn.arg ("matching");
+              spawn.run ();
+              break;
+            }
+          }
+          bool display_change_lines = false;
+          bool ping_git_maintenance = false;
+          for (unsigned int i = 0; i < parseline.lines.size(); i++) {
+            if (parseline.lines[i].find ("insertions(+)") != string::npos) {
+              display_change_lines = false;
+            }
+            if (display_change_lines) {
+              gw_message (parseline.lines[i]);
+            }
+            if (parseline.lines[i].find ("Fast forward") == 0) {
+              display_change_lines = true;
+              ping_git_maintenance = true;
+            }
+            if (parseline.lines[i].find ("modified:") != string::npos) {
+              gw_message (parseline.lines[i]);
+              ping_git_maintenance = true;
+            }
+          }
+          if (ping_git_maintenance) {
+            maintenance_register_git_repository (vcs_git_directory);
+          }
+        }
       }
-      
     }
   }
 
@@ -6966,24 +6958,6 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
 
 
 Todo tasks.
-
-
-
-
-To run be on fedora to try collaboration and reloading of chapters.
-
-The git system gives a few warnings. These should be fixed.
-
-The git repository should only be put into the maintenance routines if it was updated. This information 
-* is to be read from what comes back from bibledit-vcs. If there was no change, it should not be maintained. This wastes resources.
-
-
-
-
-Changes Log: add information about this external running of git.
-
-
-
 
 
 

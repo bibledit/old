@@ -117,6 +117,9 @@ int main (int argc, char *argv[])
   // Main loop.
   gtk_main();
 
+  // Remove the maintenance database.
+  unlink (maintenance_db_filename);
+
   // Done.  
   return 0;
 }
@@ -320,8 +323,7 @@ bool on_timeout (gpointer data)
     gtk_main_quit ();
   }
 
-  // Vacuum and close database.
-  sqlite3_exec(db, "vacuum;", NULL, NULL, NULL);
+  // Close database.
   sqlite3_close(db);
 
   // Done.
@@ -409,56 +411,32 @@ bool handle_git_repositories (sqlite3 *db)
   // Go through the repositories.
   for (unsigned int repo = 0; repo < repositories_in_database.size(); repo++) {
     
-    // Add one occurrence of this repository to the database. The reason is so as to ensure that
-    // even if a repository is not used so much that it will trigger regular optimizations, 
-    // it would still be optimized after some time.
-    {
-      char *sql;
-      sql = g_strdup_printf("insert into gitrepos values ('%s');", double_apostrophy (repositories_in_database[repo]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      g_free (sql);
-    }
-    // Get the number of times this repository has been mentioned in the database.
-    unsigned int repository_count = 0;
-    {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select count (*) from gitrepos where directory = '%s'", repositories_in_database[repo].c_str());
-      sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-      g_free(sql);
-      if (!reader.string0.empty()) {
-        repository_count = convert_to_int (reader.string0[0]);
-      }
-    }
-
-    // If the repository was committed more than so many times, it should get optimized.
+    // If the repository was committed, it should get optimized.
     // Store shell commands in the database for later execution.
-    if (repository_count > 20) {
-      printf ("Optimize git repository at %s\n", repositories_in_database[repo].c_str());
-      fflush (stdout);
-      char *sql;
-      // Prune all unreachable objects from the object database.
-      sql = g_strdup_printf("insert into commands values ('%s', 'git prune');", double_apostrophy (repositories_in_database[repo]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      // Cleanup unnecessary files and optimize the local repository.
-      sql = g_strdup_printf("insert into commands values ('%s', 'git gc');", double_apostrophy (repositories_in_database[repo]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      // Remove extra objects that are already in pack files.
-      sql = g_strdup_printf("insert into commands values ('%s', 'git prune-packed');", double_apostrophy (repositories_in_database[repo]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      // Pack unpacked objects in the repository.
-      sql = g_strdup_printf("insert into commands values ('%s', 'git repack');", double_apostrophy (repositories_in_database[repo]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      g_free(sql);
-      // Remove any mention of this repository from the database.
-      sql = g_strdup_printf("delete from gitrepos where directory = '%s';", double_apostrophy (repositories_in_database[repo]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      g_free(sql);
-      // Feedback.
-      feedback ();
-      // Return true since something was done.
-      return true;
-    }
+    printf ("Optimize git repository at %s\n", repositories_in_database[repo].c_str());
+    fflush (stdout);
+    char *sql;
+    // Prune all unreachable objects from the object database.
+    sql = g_strdup_printf("insert into commands values ('%s', 'git prune');", double_apostrophy (repositories_in_database[repo]).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    // Cleanup unnecessary files and optimize the local repository.
+    sql = g_strdup_printf("insert into commands values ('%s', 'git gc');", double_apostrophy (repositories_in_database[repo]).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    // Remove extra objects that are already in pack files.
+    sql = g_strdup_printf("insert into commands values ('%s', 'git prune-packed');", double_apostrophy (repositories_in_database[repo]).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    // Pack unpacked objects in the repository.
+    sql = g_strdup_printf("insert into commands values ('%s', 'git repack');", double_apostrophy (repositories_in_database[repo]).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+    // Remove any mention of this repository from the database.
+    sql = g_strdup_printf("delete from gitrepos where directory = '%s';", double_apostrophy (repositories_in_database[repo]).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+    // Feedback.
+    feedback ();
+    // Return true since something was done.
+    return true;
    
   }
 
@@ -481,42 +459,21 @@ bool handle_snapshots (sqlite3 *db)
   
   // Go through the databases.
   for (unsigned int database = 0; database < databases_in_database.size(); database++) {
-    // Add one occurrence of this database. The reason is so as to ensure that
-    // even if a database is not used so much that it will trigger regular optimizations, 
-    // it would still be optimized after some time.
-    {
-      char *sql;
-      sql = g_strdup_printf("insert into snapshots values ('%s');", double_apostrophy (databases_in_database[database]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      g_free (sql);
-    }
-    // Get the number of times this database has been mentioned.
-    unsigned int database_count = 0;
-    {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select count (*) from snapshots where filename = '%s'", databases_in_database[database].c_str());
-      sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-      g_free(sql);
-      if (!reader.string0.empty()) {
-        database_count = convert_to_int (reader.string0[0]);
-      }
-    }
-    // If more than so many snapshots were added to the database, it should get optimized.
-    if (database_count > 20) {
-      printf ("Optimize snapshot at %s\n", databases_in_database[database].c_str());
-      fflush (stdout);
-      trim_snapshots (databases_in_database[database]);
-      // Remove this database from the maintenance database.
-      gchar * sql;
-      sql = g_strdup_printf("delete from snapshots where filename = '%s';", double_apostrophy (databases_in_database[database]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      g_free(sql);
-      // Feedback.
-      feedback ();
-      // Return true since something was done.
-      return true;
-    }
+
+    // Optimize it.
+    printf ("Optimize snapshot at %s\n", databases_in_database[database].c_str());
+    fflush (stdout);
+    trim_snapshots (databases_in_database[database]);
+    // Remove this database from the maintenance database.
+    gchar * sql;
+    sql = g_strdup_printf("delete from snapshots where filename = '%s';", double_apostrophy (databases_in_database[database]).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+    // Feedback.
+    feedback ();
+    // Return true since something was done.
+    return true;
+
   }
   // Return false since nothing was done.
   return false;  
@@ -536,48 +493,25 @@ bool handle_databases (sqlite3 *db)
   }
   // Go through the databases.
   for (unsigned int database = 0; database < databases_in_database.size(); database++) {
-    // Add one occurrence of this database. The reason is so as to ensure that
-    // even if a database is not used so much that it will trigger regular optimizations, 
-    // it would still be optimized after some time.
-    {
-      char *sql;
-      sql = g_strdup_printf("insert into databases values ('%s');", double_apostrophy (databases_in_database[database]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      g_free (sql);
+    // If the database was edited, it should get optimized.
+    printf ("Optimize database at %s\n", databases_in_database[database].c_str());
+    fflush (stdout);
+    if (!databases_in_database[database].empty()) {
+      sqlite3 *db2;
+      sqlite3_open(databases_in_database[database].c_str(), &db2);
+      sqlite3_busy_timeout(db2, 2000);
+      sqlite3_exec(db2, "vacuum;", NULL, NULL, NULL);
+      sqlite3_close(db2);
     }
-    // Get the number of times this database has been mentioned.
-    unsigned int database_count = 0;
-    {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select count (*) from databases where filename = '%s'", databases_in_database[database].c_str());
-      sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-      g_free(sql);
-      if (!reader.string0.empty()) {
-        database_count = convert_to_int (reader.string0[0]);
-      }
-    }
-    // If the database was edited more than so many times, it should get optimized.
-    if (database_count > 20) {
-      printf ("Optimize database at %s\n", databases_in_database[database].c_str());
-      fflush (stdout);
-      if (!databases_in_database[database].empty()) {
-        sqlite3 *db2;
-        sqlite3_open(databases_in_database[database].c_str(), &db2);
-        sqlite3_busy_timeout(db2, 2000);
-        sqlite3_exec(db2, "vacuum;", NULL, NULL, NULL);
-        sqlite3_close(db2);
-      }
-      // Remove this database from the maintenance database.
-      gchar * sql;
-      sql = g_strdup_printf("delete from databases where filename = '%s';", double_apostrophy (databases_in_database[database]).c_str());
-      sqlite3_exec(db, sql, NULL, NULL, NULL);
-      g_free(sql);
-      // Feedback.
-      feedback ();
-      // Return true since something was done.
-      return true;
-    }
+    // Remove this database from the maintenance database.
+    gchar * sql;
+    sql = g_strdup_printf("delete from databases where filename = '%s';", double_apostrophy (databases_in_database[database]).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+    // Feedback.
+    feedback ();
+    // Return true since something was done.
+    return true;
   }
   // Return false since nothing was done.
   return false;  

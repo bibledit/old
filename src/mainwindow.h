@@ -456,10 +456,6 @@ protected:
   void tools_receive_reference_timeout();
   Reference * previously_received_reference;
 
-  /* Title bar and status bar, GUI */
-  static bool on_gui_timeout(gpointer data);
-  void on_gui();
-
   /* Project notes */
   bool project_notes_enabled;
   bool project_notes_management_enabled;
@@ -617,7 +613,6 @@ protected:
   static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_remote_repository();  
   RemoteRepositoryAssistant * remote_repository_assistant;
-  void on_git_reopen_project();
   static void on_project_changes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_changes();
   ChangesAssistant * changes_assistant;
@@ -628,7 +623,6 @@ protected:
   unsigned int git_update_interval_event_id;
   static bool on_git_update_timeout(gpointer user_data);
   void git_update_timeout(bool force);
-  bool git_reopen_project;
   static void on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_projects_send_receive ();
 

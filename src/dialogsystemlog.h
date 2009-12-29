@@ -30,7 +30,7 @@ enum LogFileType {lftMain, lftDbus, lftVCS, lftShutdown};
 
 
 ustring log_file_name(LogFileType type, bool previous);
-void move_log_files ();
+void move_log_file (LogFileType type);
 
 
 class SystemlogDialog

@@ -68,11 +68,12 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  // Move all the logfiles to keep the previous ones.
-  move_log_files ();
-  
+  // Move logfile for shutdown program.
+  move_log_file (lftShutdown);
+
   // Start the dbus helper program if it does not already run, and pass the names of the logfile.
   if (!program_is_running ("bibledit-dbus")) {
+    move_log_file (lftDbus);
     GwSpawn spawn ("bibledit-dbus");
     spawn.arg (log_file_name(lftDbus, false));
     spawn.async ();
@@ -81,6 +82,7 @@ int main(int argc, char *argv[])
 
   // Start the shell helper program if it does not already run, and pass the names of the logfile.
   if (!program_is_running ("bibledit-vcs")) {
+    move_log_file (lftVCS);
     GwSpawn spawn ("bibledit-vcs");
     spawn.arg (log_file_name(lftVCS, false));
     spawn.async ();
@@ -89,6 +91,7 @@ int main(int argc, char *argv[])
 
   // Redirect stdout and stderr to file.
   {
+    move_log_file (lftMain);
     // When a file is opened it is always allocated the lowest available file 
     // descriptor. Therefore the following commands cause stdout to be 
     // redirected to the logfile.
