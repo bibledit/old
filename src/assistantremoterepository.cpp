@@ -808,23 +808,9 @@ bool RemoteRepositoryAssistant::on_pending_tasks_timeout(gpointer user_data)
 bool RemoteRepositoryAssistant::on_pending_tasks()
 // Sets the interface depending on whether there are any git tasks pending for the project.
 {
-  // Todo project_pending_tasks_count = vcs->tasks_for_bible(bible);
-  project_pending_tasks_count = 0;
-  if (project_pending_tasks_count == 0) {
-    if (previous_project_pending_tasks_count != 0) {
-      gtk_label_set_text (GTK_LABEL (label_pending_tasks), "No pending tasks, you can go forward");
-      gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_pending_tasks, true);
-      previous_project_pending_tasks_count = project_pending_tasks_count;
-      // Pause processing git tasks if there are no pending tasks for this project.
-      // This is because tasks will be produced, but these tasks are unwanted.
-      // Todo vcs->pause(true);
-    }
-  } else {
-    ustring text = "Waiting for the remaining ";
-    text.append (convert_to_string (project_pending_tasks_count));
-    text.append (" tasks to complete"); 
-    gtk_label_set_text (GTK_LABEL (label_pending_tasks), text.c_str());
-  }
+  gtk_label_set_text (GTK_LABEL (label_pending_tasks), "No pending tasks, you can go forward");
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_pending_tasks, true);
+  previous_project_pending_tasks_count = project_pending_tasks_count;
   return true;
 }
 

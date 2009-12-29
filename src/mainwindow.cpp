@@ -1965,24 +1965,27 @@ void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data)
   ((MainWindow *) user_data)->newproject();
 }
 
+
 void MainWindow::newproject()
 {
-  // Todo vcs->pause(true);
+  git_pause ();
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
     on_file_project_open(projectdialog.newprojectname, false);
   }
-  // Todo vcs->pause(false);
+  git_continue ();
 }
+
 
 void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->editproject();
 }
 
+
 void MainWindow::editproject()
 {
-  // Todo vcs->pause(true);
+  git_pause ();
   save_editors();
   // Show project dialog.
   ProjectDialog projectdialog(false);
@@ -1996,7 +1999,7 @@ void MainWindow::editproject()
     // As anything could have been changed to the project, reopen it.
     reload_all_editors(false);
   }
-  // Todo vcs->pause(false);
+  git_continue ();
 }
 
 
@@ -2365,10 +2368,10 @@ void MainWindow::on_compare_with()
 {
   save_editors();
   show_references_window();
-  // Todo vcs->pause(true);
+  git_pause ();
   CompareDialog dialog(window_references);
   dialog.run();
-  // Todo vcs->pause(false);
+  git_continue ();
 }
 
 
@@ -4470,7 +4473,7 @@ void MainWindow::on_file_backup_activate(GtkMenuItem * menuitem, gpointer user_d
 void MainWindow::on_file_backup()
 {
   save_editors();
-  // Todo vcs->pause(true);
+  git_pause ();
   backup_assistant = new BackupAssistant (0);
   g_signal_connect ((gpointer) backup_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
@@ -4509,6 +4512,7 @@ void MainWindow::on_preferences_remote_repository_activate(GtkMenuItem * menuite
 
 void MainWindow::on_preferences_remote_repository()
 {
+  git_pause ();
   save_editors();
   remote_repository_assistant = new RemoteRepositoryAssistant (0);
   g_signal_connect ((gpointer) remote_repository_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
@@ -4531,8 +4535,8 @@ void MainWindow::on_project_changes()
 {
   // Save even the very latest changes.
   save_editors();
-  // The changes checker will generate git tasks. Pause git. Todo
-  //vcs->pause(true);
+  // The changes checker will generate git tasks. Pause git.
+  git_pause ();
   // Do the actual changes dialog. 
   show_references_window();
   changes_assistant = new ChangesAssistant (window_references);
@@ -4580,11 +4584,6 @@ bool MainWindow::on_git_update_timeout(gpointer user_data)
 void MainWindow::git_update_timeout(bool force)
 // Schedule project update tasks. Called every second.
 {
-  // Bail out if git tasks are paused. Todo
-  //if (vcs->paused()) {
-  //  return;
-  //}
-
   // Schedule a push and pull task for each relevant project.
   extern Settings *settings;
   vector < ustring > projects = projects_get_all();
@@ -6432,8 +6431,8 @@ void MainWindow::on_assistant_ready ()
     }
   }
 
-  // The assistants may have paused version control operations. Resume these. Todo
-  //vcs->pause(false);
+  // The assistants may have paused version control operations. Resume these.
+  git_continue ();
 }
 
 
@@ -6867,7 +6866,7 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
  |
  |
  |
- URL transporter and interprocess communications
+ Interprocess communications
  |
  |
  |
@@ -6971,24 +6970,18 @@ Todo tasks.
 
 
 
-Changes Log: add information about this external running of git.
-
-
-git / bibledit-vcs
-
-
-The URL transport object should be accessible from anywhere by using the external declaration.
-
-Implement the control channel that says pause and continue. 
-If it enters the paused state, it sends a message to bibledit, and the same for the continued state.
+To run be on fedora to try collaboration and reloading of chapters.
 
 The git system gives a few warnings. These should be fixed.
 
-The whole VCS system may have to go out, all threads, or it may have to re-implement everything via bibledit-vcs.
-E.g. the pause should probably do the pause, yes, but also send a message to the server to erase all messages pending. This is very rough.
-
 The git repository should only be put into the maintenance routines if it was updated. This information 
 * is to be read from what comes back from bibledit-vcs. If there was no change, it should not be maintained. This wastes resources.
+
+
+
+
+Changes Log: add information about this external running of git.
+
 
 
 

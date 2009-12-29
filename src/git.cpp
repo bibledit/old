@@ -333,7 +333,7 @@ void git_pull_push (const ustring& project)
 }
 
 
-void git_pause () // Todo
+void git_pause ()
 {
   extern URLTransport * urltransport;
   ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstPause, "");
@@ -341,7 +341,7 @@ void git_pause () // Todo
 }
 
 
-void git_continue () // Todo
+void git_continue ()
 {
   extern URLTransport * urltransport;
   ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstContinue, "");

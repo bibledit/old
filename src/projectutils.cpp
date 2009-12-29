@@ -176,8 +176,6 @@ void project_delete(const ustring & project)
   // No project: bail out.
   if (project.empty())
     return;
-  // Remove pending data for git operations.
-  // Todo vcs->remove_bible (project);
   // Delete the whole project, including all databases and the repository.
   ustring directory = gw_build_filename(directories_get_projects(), project);
   unix_rmdir(directory);
@@ -198,8 +196,6 @@ void project_copy(const ustring & project, const ustring & newproject)
 
 void project_move(const ustring & project, const ustring & newproject)
 {
-  // Move version control project.
-  // Todo vcs->move_bible (project, newproject);
   // This moves the whole project, including the databases.
   ustring oldname = (gw_build_filename(directories_get_projects(), project));
   ustring newname = (gw_build_filename(directories_get_projects(), newproject));

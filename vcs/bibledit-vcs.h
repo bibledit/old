@@ -32,6 +32,7 @@ static SoupSession *session;
 
 static void start_vcs_control_web_listener ();
 static void on_vcs_control_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+bool run;
 static void start_vcs_worker_web_listener ();
 static void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
 

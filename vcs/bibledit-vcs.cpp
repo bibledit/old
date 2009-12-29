@@ -53,6 +53,14 @@ void on_vcs_control_web_listener_ready_callback (SoupSession *session, SoupMessa
     if (body.find ("quit") == 0) {
       g_main_loop_quit (loop);
     }
+    // Handle the "pause" command.
+    if (body.find ("pause") == 0) {
+      run = false;
+    }
+    // Handle the "continue" command.
+    if (body.find ("continue") == 0) {
+      run = true;
+    }
   } else {
     // If the message was cancelled, do not start it again, just quit.
     if (msg->status_code == 1) {
@@ -75,7 +83,7 @@ void start_vcs_worker_web_listener ()
 }
 
 
-void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data) // Todo post message.
+void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
 {
   if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
     // Get the response body.
@@ -84,7 +92,12 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
     // Log it.
     printf ("%s\n", body.c_str());
     fflush (stdout);
-    // Run the command. Todo we need to parse the command in its words, with spaces in between. E.g. "git commit"
+    // Run the command.
+    if (!run) {
+      body.clear();
+      printf ("Paused, skipping command\n");
+      fflush (stdout);
+    }
     vector <string> lines = parse_line (body);
     if (!lines.empty()) {
       string command;
@@ -235,6 +248,8 @@ int main (int argc, char **argv)
   // The necessary g_ initializers, in the proper order.
   g_thread_init(NULL);
   g_type_init ();
+  
+  run = true;
 
   // If a logfile was passed, handle it.
   // This implies that if the program is started by hand from the terminal, we can see its output.
