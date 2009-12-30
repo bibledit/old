@@ -40,7 +40,6 @@ string trim(const string & s);
 vector <string> parse_line (string line);
 vector <string> parse_word (string line);
 
-string get_extract_message_identifier (string& message);
 void send_response_to_bibledit (const string& subject, const string& identifier, const string& message);
 static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
 

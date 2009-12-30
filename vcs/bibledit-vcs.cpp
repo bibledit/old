@@ -92,75 +92,61 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
     // Log it.
     printf ("%s\n", body.c_str());
     fflush (stdout);
-    // Run the command.
+    // Command is not to run?
     if (!run) {
       body.clear();
       printf ("Paused, skipping command\n");
       fflush (stdout);
     }
+    // Assemble the command to run.
     vector <string> lines = parse_line (body);
     if (!lines.empty()) {
-      string command;
-      vector <string> parts = parse_word (lines[0]);
-      printf ("Run command %s\n", lines[0].c_str());
-      if (!parts.empty()) 
-        command = parts[0];
-      Spawn spawn1 (command);
-      for (unsigned int i = 1; i < parts.size(); i++) {
-	spawn1.arg (parts[i]);
-      }
+      string command = lines[0];
       string workingdirectory;
       if (lines.size() >= 2) {
         workingdirectory = lines[1];
-	spawn1.workingdirectory (workingdirectory);
-        printf ("Directory %s\n", workingdirectory.c_str());
       }
-      if (g_file_test (workingdirectory.c_str(), G_FILE_TEST_IS_DIR)) {
-	spawn1.run ();
-	printf ("Run: %d\n", spawn1.result);
-	printf ("Exit status: %d\n", spawn1.exitstatus);
-	if (spawn1.standard_error)
-	  printf ("Standard err:\n%s", spawn1.standard_error);
-	if (spawn1.standard_output)
-	  printf ("Standard out:\n%s", spawn1.standard_output);
+      // Only run when the working directory exists.
+      string output;
+      if (workingdirectory.empty () || g_file_test (workingdirectory.c_str(), G_FILE_TEST_IS_DIR)) {
+        string shell_command = "cd '" + workingdirectory + "' ; " + command;
+        printf ("Run %s\n", shell_command.c_str());
+	fflush (stdout);
+        // Glib's spawn routines choke after some time when it is called often, as happens here.
+	// Therefore popen is used instead.
+        FILE *stream = popen(shell_command.c_str(), "r");
+	char buf[1024];
+	while (fgets(buf, sizeof(buf), stream)) {
+	  output.append(buf);
+	}
+	int exitcode = pclose(stream);
+	printf ("Output:\n%s", output.c_str());
+	printf ("Exit code %d\n", exitcode);
+	fflush (stdout);
       } else {
 	printf ("Directory %s does not exist\n", workingdirectory.c_str());
       }
       fflush (stdout);
       // Assemble the message to be returned to bibledit.
-      string output;
+      string message;
       // Subject: vcs
-      output.append ("vcs\n");
+      message.append ("vcs\n");
       // Shell command.
-      output.append (lines[0] + "\n");
+      message.append (command + "\n");
       // Working directory (if any).
-      output.append (workingdirectory + "\n");
-      // Standard error.
-      output.append ("Standard err\n");
-      if (spawn1.standard_error)
-	output.append (spawn1.standard_error);
-      // Standard output.
-      output.append ("Standard out\n");
-      if (spawn1.standard_output)
-	output.append (spawn1.standard_output);
+      message.append (workingdirectory + "\n");
+      // Output.
+      message.append (output);
       // Store the message in a temporal file.
       gchar * name_used;
       g_file_open_tmp ("XXXXXX", &name_used, NULL);
       if (name_used) {
-	g_file_set_contents (name_used, output.c_str(), -1, NULL);
+	g_file_set_contents (name_used, message.c_str(), -1, NULL);
 	// Upload the message through curl.
-	Spawn spawn2 ("curl");
-	spawn2.arg ("-F");
-	string arg2 = "uploaded=@";
-	arg2.append (name_used);
-	spawn2.arg (arg2);
-	spawn2.arg ("http://localhost/bibledit/ipc/uploadmessage.php");
-	spawn2.run ();
-	if (spawn2.standard_error)
-	  printf ("%s", spawn2.standard_error);
-        if (spawn2.standard_output)	  
-	  printf ("%s", spawn2.standard_output);
-        fflush (stdout);
+	string command = "curl -F uploaded=@";
+	command.append (name_used);
+	command.append (" http://localhost/bibledit/ipc/uploadmessage.php");
+	if (system (command.c_str()));
 	// Remove the temporal file.
 	unlink (name_used);
       }
@@ -191,21 +177,6 @@ string trim(const string & s)
   if (beg == string::npos)
     return "";
   return string(s, beg, end - beg + 1);
-}
-
-
-string get_extract_message_identifier (string& message)
-// Gets and extracts the identifier from the message.
-// The identifier has a fixed length. It looks like, e.g.:
-//   message_identifier=1000000000
-{
-  string identifier;
-  size_t pos = message.find ("message_identifier=");
-  if (pos != string::npos) {
-    identifier = message.substr (pos, 29);
-    message.erase (pos, 29);
-  }
-  return identifier;
 }
 
 

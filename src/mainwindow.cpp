@@ -6962,11 +6962,9 @@ Todo tasks.
 
 
 
-The libsoup now posts messages in parallel. It should not do that, because e.g.  the git messages get posted out of order.
-Better still is to make our own deque <string> for storing the messages, and then only once the previous message has completed, 
-to send the next one. That way we are sure the messages go in the right order. The connections per server can then go back to 50 again.
+Let Bibledit run for a night or so to see whether the git operations no longer choke.
 
-Glib's spawn system chokes on repetitive spawn requests. Therefore use the FILE * and popen system.
+
 
 
 
