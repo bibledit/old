@@ -31,7 +31,14 @@
 URLTransport::URLTransport(int dummy)
 // URL transporter.
 {
+  // Init variables.
+  sequential_messages_in_transit = false;
+  
   // Create a session.
+  // Maximum connections is set to 2. One for the listener, and one for posting messages.
+  // This is done so that only one messages is posted at a time. If more are posted,
+  // the messages get posted out of order, and this may cause confusion in particular
+  // when doing the various git commands out of order.
   session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit/1.0", 
                                                  SOUP_SESSION_MAX_CONNS, "50", 
                                                  SOUP_SESSION_MAX_CONNS_PER_HOST, "50",
@@ -80,6 +87,32 @@ void URLTransport::on_message_ready (SoupSession *session, SoupMessage *msg)
     }
     server_test_msg = NULL;
   }
+}
+
+
+void URLTransport::on_message_in_sequence_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+{
+  ((URLTransport *) user_data)->on_message_in_sequence_ready(session, msg);
+
+}
+
+
+void URLTransport::on_message_in_sequence_ready (SoupSession *session, SoupMessage *msg)
+{
+  sequential_messages_in_transit = false;
+  send_next_message_in_sequence ();
+}
+
+
+void URLTransport::on_message_with_reply_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+{
+  ((URLTransport *) user_data)->on_message_with_reply_ready(session, msg);
+
+}
+
+
+void URLTransport::on_message_with_reply_ready (SoupSession *session, SoupMessage *msg)
+{
   // Trap a reply.
   vector <SoupMessage *> ::iterator message_iter = messages_awaiting_reply.begin();
   vector <GtkWidget *>   ::iterator button_iter =  buttons_awaiting_reply.begin();
@@ -125,6 +158,30 @@ void URLTransport::send_message (const ustring& url)
 }
 
 
+void URLTransport::send_message_in_sequence (const ustring& url)
+// Sends a message off in sequence and forgets about it. 
+// The other routines for sending messages may not actually send the messages
+// in sequence of being posted. But this routine does.
+{
+  pending_message_urls.push_back (url);
+  send_next_message_in_sequence ();
+}
+
+
+void URLTransport::send_next_message_in_sequence ()
+{
+  if (sequential_messages_in_transit)
+    return;
+  if (pending_message_urls.empty())
+    return;
+  sequential_messages_in_transit = true;
+  ustring url = pending_message_urls[0];
+  pending_message_urls.pop_front ();
+  SoupMessage * msg = soup_message_new (SOUP_METHOD_GET, url.c_str());
+  soup_session_queue_message (session, msg, SoupSessionCallback (on_message_in_sequence_ready_callback), gpointer (this));
+}
+
+
 GtkWidget * URLTransport::send_message_expect_reply (ustring url)
 // Sends a message off, and sets up a system for trapping the reply.
 {
@@ -135,7 +192,7 @@ GtkWidget * URLTransport::send_message_expect_reply (ustring url)
   // Send off the message.
   SoupMessage * msg = soup_message_new (SOUP_METHOD_GET, url.c_str());
   messages_awaiting_reply.push_back (msg);
-  soup_session_queue_message (session, msg, SoupSessionCallback (on_message_ready_callback), gpointer (this));
+  soup_session_queue_message (session, msg, SoupSessionCallback (on_message_with_reply_ready_callback), gpointer (this));
 
   // Return the button.
   return button;

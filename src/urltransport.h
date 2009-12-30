@@ -33,6 +33,7 @@ public:
   URLTransport(int dummy);
   ~URLTransport();
   void send_message (const ustring& url);
+  void send_message_in_sequence (const ustring& url);
   GtkWidget * send_message_expect_reply (ustring url);
   bool reply_is_ok;
   ustring reply_body;
@@ -40,9 +41,19 @@ private:
   void log(const ustring & message);
   ustring last_message;
   SoupSession *session;
+  SoupMessage * server_test_msg;
+
   static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
   void on_message_ready (SoupSession *session, SoupMessage *msg);
-  SoupMessage * server_test_msg;
+
+  static void on_message_in_sequence_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+  void on_message_in_sequence_ready (SoupSession *session, SoupMessage *msg);
+  bool sequential_messages_in_transit;
+  deque <ustring> pending_message_urls;
+  void send_next_message_in_sequence ();
+
+  static void on_message_with_reply_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+  void on_message_with_reply_ready (SoupSession *session, SoupMessage *msg);
   vector <SoupMessage *> messages_awaiting_reply;
   vector <GtkWidget *> buttons_awaiting_reply;
 };

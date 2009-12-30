@@ -309,27 +309,27 @@ void git_pull_push (const ustring& project)
 
   // Information about which Bible is being updated.  
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "echo Updating Bible " + project, datadirectory);
-  urltransport->send_message (url);
+  urltransport->send_message_in_sequence (url);
 
   // Add everything because things could have been added or changed.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git add .", datadirectory);
-  urltransport->send_message (url);
+  urltransport->send_message_in_sequence (url);
 
   // Show status.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git status -a", datadirectory);
-  urltransport->send_message (url);
+  urltransport->send_message_in_sequence (url);
 
   // Commit changes locally.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git commit -a -m commit", datadirectory);
-  urltransport->send_message (url);
+  urltransport->send_message_in_sequence (url);
 
   // Pull changes from the remote repository.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git pull", datadirectory);
-  urltransport->send_message (url);
+  urltransport->send_message_in_sequence (url);
 
   // Push changes to the remote repository.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git push", datadirectory);
-  urltransport->send_message (url);
+  urltransport->send_message_in_sequence (url);
 }
 
 
