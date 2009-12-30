@@ -6962,26 +6962,57 @@ Todo tasks.
 
 
 
+.
+
+
+
+
 Let Bibledit run for a night or so to see whether the git operations no longer choke.
 
 
 
 
+The php5-cli is not needed, but only php5. To update Ubuntu and other installation documents.
 
+
+
+
+Do a task or 10, then the bugs. 
+
+
+
+
+Think of sharing project notes, since these are required in the team. Private notes are not shared, but kept locally.
+
+
+
+
+
+Add to tasks:
+We can check the local server when bibledit starts, in two steps:
+1. Have the installer upload a known .html page, and see whether Apache serves this correctly.
+2. Have the installer upload a known .php page, and see whether Apaches serves this correctly.
+
+
+
+
+
+
+Add to tasks:
 The default server url should be as it is, and the default port 80. But within Bibledit one can change this.
 * It needs a warning, though, that the web server should be updated too to reflect this new setting.
 
 
 
 
-
+Add to tasks:
 The outpost also should listen to the apache server. We then need to download a new Delphi, and write a new outpost in that.
 It may better read the Online Bible stuff since it probably understands the character encoding used in the Online Bible.
 
 
 
 
-
+Add to tasks:
 We may think of slowly moving bibledit onto the web.
 It remains one package, but more and more functionality is rewritten for the web, and taken away from the local binary.
 A better strategy is to make a package that runs solely on the web. Bibledit will be a client to that, e.g. it uses its repository of files.
@@ -6992,7 +7023,7 @@ A persecution mode sets the site to look like another one, e.g. a news site. Log
 
 
 
-
+Add to tasks:
 When using Apache, we should make a search PHP script that even highlights the words found.
 
 
@@ -7000,7 +7031,7 @@ When using Apache, we should make a search PHP script that even highlights the w
 
 
 
-
+Add to tasks:
 We think of a public review system, where the review area is on a public site, with comments on each verse.
 The editor is still offline, as bibledit, but the website syncs with the bibledit git repository to get the data.
 Notes marked Public also go to the website, and, actually, go in sync with bibledit and the site.
@@ -7017,7 +7048,7 @@ This is useful for e.g. finding out the outstanding notes to the Bible Society.
 
 
 
-
+Add to tasks:
 We should not be writing our own web applications. At this stage this is _very_ complicated.
 Instead Bibledit will remain an offline application, BUT:
 * It can use external resources
@@ -7029,22 +7060,6 @@ Instead Bibledit will remain an offline application, BUT:
 * Pootle for translation?
 
 
-
-
-
-
-No longer to look for "php" in the configure script, but to find another way of doing that. 
-Also the php5-cli is not needed, but only php5. To update Ubuntu and other installation documents.
-We can check the local server when bibledit starts, in two steps:
-1. Have the installer upload a known .html page, and see whether Apache serves this correctly.
-2. Have the installer upload a known .php page, and see whether Apaches serves this correctly.
-
-
-
-
-
-
-When Ubuntu reboots, does it remove the /tmp/bibledit directory? If so, this directory needs to be recreated before the logfiles are created.
 
 
 

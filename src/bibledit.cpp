@@ -68,6 +68,9 @@ int main(int argc, char *argv[])
     return 0;
   }
 
+  // Check on required directory structure.
+  directories_check_structure();
+
   // Move logfile for shutdown program.
   move_log_file (lftShutdown);
 
@@ -108,8 +111,6 @@ int main(int argc, char *argv[])
   xmlInitParser();
   // Initialize the http libraries.
   xmlNanoHTTPInit();
-  // Check on default data structure.
-  directories_check_structure();
   // Maintenance system.
   maintenance_initialize ();
   // Settings object. 
