@@ -456,7 +456,7 @@ void WindowReferences::html_link_clicked (const gchar * url)
 }
 
 
-void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
+void WindowReferences::html_write_references (HtmlWriter2& htmlwriter) // Todo
 {
   // If the upper boundary is too high, put it a page lower, if possible.
   if (upper_boundary > references.size()) {
@@ -478,11 +478,10 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
     ustring url = "goto " + convert_to_string (i);
     htmlwriter.hyperlink_add (url, references[i].human_readable (language));
     if (!comments[i].empty()) {
-      htmlwriter.text_add (" ");
+      htmlwriter.text_add (" [");
       htmlwriter.text_add (comments[i]);
+      htmlwriter.text_add ("] ");
     }
-    htmlwriter.paragraph_close();
-    htmlwriter.paragraph_open ();
     ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
     text = usfm_get_verse_text_only (text);
     htmlwriter.text_add (text);

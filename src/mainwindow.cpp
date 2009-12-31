@@ -6963,6 +6963,29 @@ Todo tasks.
 
 
 
+task #9742: Option for one-line references
+
+I appreciate having the complete verse in the references MOST of the time. 
+* But when I am doing a lot of searches for small things, I often wish that BE had the option to show the verses in a one line display.
+If the References were shown in a wide window one could show the search string and some characters on either side, with the search string bolded. 
+Implentation:
+
+* A change in display: The verse text shows on the same line as the reference.
+
+* If a search or replace is done, or the references are loaded from file while there's a search string stored, to bold the search string in the html view.
+
+* A setting how much text to include, e.g. all text, or so many words. The bold word, if any, should then be in the middle - else take so man
+  words from the start.
+
+* If there are more hits in one verse, each hits is given on its own line. This would increase the number of hits in one window.
+
+* When a second or later hit is chosen in the window, the editor would move the cursor to the second or later hit too.
+  Information could be stored in the html link that will be clicked.
+
+
+
+
+
 Install Vista again. 20 Gbyte hd.
 
 
@@ -7034,22 +7057,10 @@ Suggestions:
 
 
 
-task #9742: Option for one-line references
-
-I appreciate having the complete verse in the references MOST of the time. But when I am doing a lot of searches for small things, I often wish that BE had the option to show the verses in a one line display.
-
-If the References were shown in a wide window one could show the search string and some characters on either side, with the search string bolded. 
-
-
-
-
-
-
-
 Sharing project notes.
 * Private notes are not shared, but kept locally.
 * Git repository for the notes.
-* How many files fit in a flat directory? There are 33743 notes now.
+* How many files fit in a flat directory? There are 33743 notes now. No worries, there can be many more of these before performance degrades.
 * Perhaps to use an index database for speeding up navigation and searching.
 * The index database would double space requirements.|
 
