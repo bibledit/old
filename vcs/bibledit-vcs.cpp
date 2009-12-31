@@ -108,23 +108,31 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
       }
       // Only run when the working directory exists.
       string output;
+      int exitcode = -1;
       if (workingdirectory.empty () || g_file_test (workingdirectory.c_str(), G_FILE_TEST_IS_DIR)) {
-        string shell_command = "cd '" + workingdirectory + "' ; " + command;
+        string shell_command = "cd '" + workingdirectory + "' ; " + command + " 2>&1";
         printf ("Run %s\n", shell_command.c_str());
-	fflush (stdout);
+        fflush (stdout);
         // Glib's spawn routines choke after some time when it is called often, as happens here.
-	// Therefore popen is used instead.
+        // Therefore popen is used instead.
         FILE *stream = popen(shell_command.c_str(), "r");
-	char buf[1024];
-	while (fgets(buf, sizeof(buf), stream)) {
-	  output.append(buf);
-	}
-	int exitcode = pclose(stream);
-	printf ("Output:\n%s", output.c_str());
-	printf ("Exit code %d\n", exitcode);
-	fflush (stdout);
+        // Only read the output of the command if forking succeeded.
+        if (stream) {
+          char buf[1024];
+          while (fgets(buf, sizeof(buf), stream)) {
+            output.append(buf);
+          }
+          exitcode = pclose(stream);
+        } else {
+          printf ("Process failed to run with error %s\n", strerror(errno));
+        }
+        printf ("Output:\n%s", output.c_str());
+        printf ("Exit code %d\n", exitcode);
+        fflush (stdout);
+        // Increate shell processes counter.
+        shell_processes_count++;
       } else {
-	printf ("Directory %s does not exist\n", workingdirectory.c_str());
+        printf ("Directory %s does not exist\n", workingdirectory.c_str());
       }
       fflush (stdout);
       // Assemble the message to be returned to bibledit.
@@ -141,14 +149,14 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
       gchar * name_used;
       g_file_open_tmp ("XXXXXX", &name_used, NULL);
       if (name_used) {
-	g_file_set_contents (name_used, message.c_str(), -1, NULL);
-	// Upload the message through curl.
-	string command = "curl -F uploaded=@";
-	command.append (name_used);
-	command.append (" http://localhost/bibledit/ipc/uploadmessage.php");
-	if (system (command.c_str()));
-	// Remove the temporal file.
-	unlink (name_used);
+        g_file_set_contents (name_used, message.c_str(), -1, NULL);
+        // Upload the message through curl.
+        string command = "curl -F uploaded=@";
+        command.append (name_used);
+        command.append (" http://localhost/bibledit/ipc/uploadmessage.php");
+        if (system (command.c_str()));
+        // Remove the temporal file.
+        unlink (name_used);
       }
     }
   } else {
@@ -159,6 +167,14 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
     printf ("Shell web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
     fflush (stdout);
     g_usleep (1000000);
+  }
+  // The bash shell complains about too many open files after more than 1000 processes have been started.
+  // Probably it does not close the files. Therefore we quit here after so many processes.
+  // The surrounding shell script should catch this event, and restart the program.
+  if (shell_processes_count >= 100) {
+    controlled_exit_code = 100; // Remember this number. Todo
+    g_main_loop_quit (loop);
+    return;
   }
   // Wait shortly, the restart the listener.
   g_usleep (100000);
@@ -221,6 +237,8 @@ int main (int argc, char **argv)
   g_type_init ();
   
   run = true;
+  controlled_exit_code = 0;
+  shell_processes_count = 0;
 
   // If a logfile was passed, handle it.
   // This implies that if the program is started by hand from the terminal, we can see its output.
@@ -255,8 +273,8 @@ int main (int argc, char **argv)
   // Abort the session including the listeners
   soup_session_abort (session);
 
-  // Well done, my boy.
-  return 0;
+  // Give the exit code.
+  return controlled_exit_code;
 }
 
 

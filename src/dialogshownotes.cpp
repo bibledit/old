@@ -28,213 +28,131 @@
 #include "settings.h"
 #include "help.h"
 #include "shortcuts.h"
+#include "directories.h"
+#include "gwrappers.h"
+#include "tiny_utilities.h"
+#include "books.h"
 
 
 ShowNotesDialog::ShowNotesDialog(int dummy)
 {
+  event_id = 0;
   extern Settings *settings;
 
-  shownotesdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(shownotesdialog), "Show Project Notes");
-  gtk_window_set_position(GTK_WINDOW(shownotesdialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal(GTK_WINDOW(shownotesdialog), TRUE);
-  // Hints for skipping the pager and the taskbar only cause trouble on some 
-  // distributions, like what we had on Suse 9.2, when these hints were set, 
-  // the whole dialog went under the main window, and so became invisible.
-  // The gtk_window_set_transient_for function gives no benefits to a modal dialog.
-  // This was tested, but no difference could be seen in any behaviour.
+  gtkbuilder = gtk_builder_new ();
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.showprojectnotesdialog.xml").c_str(), NULL);
 
-  dialog_vbox1 = GTK_DIALOG(shownotesdialog)->vbox;
-  gtk_widget_show(dialog_vbox1);
+  dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
 
-  label3 = gtk_label_new("Selection");
-  gtk_widget_show(label3);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), label3, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
+  GSList *verse_reference_group = NULL;
 
-  hbox6 = gtk_hbox_new(FALSE, 8);
-  gtk_widget_show(hbox6);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox6, FALSE, FALSE, 0);
+  radiobutton_current_verse = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_current_verse"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_current_verse), verse_reference_group);
+  verse_reference_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_current_verse));
+  g_signal_connect ((gpointer) radiobutton_current_verse, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  label5 = gtk_label_new("Notes that have the");
-  gtk_widget_show(label5);
-  gtk_box_pack_start(GTK_BOX(hbox6), label5, FALSE, FALSE, 0);
+  radiobutton_current_chapter = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_current_chapter"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_current_chapter), verse_reference_group);
+  verse_reference_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_current_chapter));
+  g_signal_connect ((gpointer) radiobutton_current_chapter, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  GSList *radiobutton_reference_verse_group = NULL;
+  radiobutton_current_book = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_current_book"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_current_book), verse_reference_group);
+  verse_reference_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_current_book));
+  g_signal_connect ((gpointer) radiobutton_current_book, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  radiobutton_reference_verse = gtk_radio_button_new_with_mnemonic(NULL, "current verse");
-  gtk_widget_show(radiobutton_reference_verse);
-  gtk_box_pack_start(GTK_BOX(hbox6), radiobutton_reference_verse, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_reference_verse), radiobutton_reference_verse_group);
-  radiobutton_reference_verse_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_reference_verse));
+  radiobutton_any_verse = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_any_verse"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_any_verse), verse_reference_group);
+  verse_reference_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_any_verse));
+  g_signal_connect ((gpointer) radiobutton_any_verse, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  radiobutton_reference_chapter = gtk_radio_button_new_with_mnemonic(NULL, "current chapter");
-  gtk_widget_show(radiobutton_reference_chapter);
-  gtk_box_pack_start(GTK_BOX(hbox6), radiobutton_reference_chapter, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_reference_chapter), radiobutton_reference_verse_group);
-  radiobutton_reference_verse_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_reference_chapter));
+  GSList *radiobutton_date_group = NULL;
 
-  radiobutton_reference_book = gtk_radio_button_new_with_mnemonic(NULL, "current book");
-  gtk_widget_show(radiobutton_reference_book);
-  gtk_box_pack_start(GTK_BOX(hbox6), radiobutton_reference_book, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_reference_book), radiobutton_reference_verse_group);
-  radiobutton_reference_verse_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_reference_book));
+  radiobutton_today = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_today"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_today), radiobutton_date_group);
+  radiobutton_date_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_today));
+  g_signal_connect ((gpointer) radiobutton_today, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  radiobutton_reference_any = gtk_radio_button_new_with_mnemonic(NULL, "any verse");
-  gtk_widget_show(radiobutton_reference_any);
-  gtk_box_pack_start(GTK_BOX(hbox6), radiobutton_reference_any, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_reference_any), radiobutton_reference_verse_group);
-  radiobutton_reference_verse_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_reference_any));
+  radiobutton_between = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_between"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_between), radiobutton_date_group);
+  radiobutton_date_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_between));
+  g_signal_connect ((gpointer) radiobutton_between, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  hbox7 = gtk_hbox_new(FALSE, 10);
-  gtk_widget_show(hbox7);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox7, TRUE, TRUE, 0);
+  button_start = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_start"));
+  g_signal_connect((gpointer) button_start, "clicked", G_CALLBACK(on_fromdatebutton_clicked), gpointer(this));
+  g_signal_connect ((gpointer) button_start, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  label6 = gtk_label_new("Notes edited");
-  gtk_widget_show(label6);
-  gtk_box_pack_start(GTK_BOX(hbox7), label6, FALSE, FALSE, 0);
+  button_end = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_end"));
+  g_signal_connect((gpointer) button_end, "clicked", G_CALLBACK(on_todatebutton_clicked), gpointer(this));
+  g_signal_connect ((gpointer) button_end, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  GSList *radiobutton_date_today_group = NULL;
+  radiobutton_at_any_time = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_at_any_time"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_at_any_time), radiobutton_date_group);
+  radiobutton_date_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_at_any_time));
+  g_signal_connect ((gpointer) radiobutton_at_any_time, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  radiobutton_date_today = gtk_radio_button_new_with_mnemonic(NULL, "today");
-  gtk_widget_show(radiobutton_date_today);
-  gtk_box_pack_start(GTK_BOX(hbox7), radiobutton_date_today, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_date_today), radiobutton_date_today_group);
-  radiobutton_date_today_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_date_today));
-
-  hbox8 = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox8);
-  gtk_box_pack_start(GTK_BOX(hbox7), hbox8, FALSE, FALSE, 0);
-
-  radiobutton_date_range = gtk_radio_button_new_with_mnemonic(NULL, "between");
-  gtk_widget_show(radiobutton_date_range);
-  gtk_box_pack_start(GTK_BOX(hbox8), radiobutton_date_range, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_date_range), radiobutton_date_today_group);
-  radiobutton_date_today_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_date_range));
-
-  button_date_from = gtk_button_new_with_mnemonic("");
-  gtk_widget_show(button_date_from);
-  gtk_box_pack_start(GTK_BOX(hbox8), button_date_from, FALSE, FALSE, 0);
-
-  label4 = gtk_label_new("and");
-  gtk_widget_show(label4);
-  gtk_box_pack_start(GTK_BOX(hbox8), label4, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
-
-  button_date_to = gtk_button_new_with_mnemonic("");
-  gtk_widget_show(button_date_to);
-  gtk_box_pack_start(GTK_BOX(hbox8), button_date_to, FALSE, FALSE, 0);
-
-  radiobutton_date_any = gtk_radio_button_new_with_mnemonic(NULL, "at any time");
-  gtk_widget_show(radiobutton_date_any);
-  gtk_box_pack_start(GTK_BOX(hbox7), radiobutton_date_any, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_date_any), radiobutton_date_today_group);
-  radiobutton_date_today_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_date_any));
-
-  hbox9 = gtk_hbox_new(FALSE, 6);
-  gtk_widget_show(hbox9);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox9, TRUE, TRUE, 0);
-
-  label7 = gtk_label_new("Notes of category");
-  gtk_widget_show(label7);
-  gtk_box_pack_start(GTK_BOX(hbox9), label7, FALSE, FALSE, 0);
-
+  // Glade-3 does not seem to be able to work with gtk_combo_box_new_text yet. Workaround below.
+  label_category = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_category"));
+  hbox_category = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "hbox_category"));
+  combobox_category = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "combobox_category"));
+  gtk_widget_destroy (combobox_category);
   combobox_category = gtk_combo_box_new_text();
   gtk_widget_show(combobox_category);
-  gtk_box_pack_start(GTK_BOX(hbox9), combobox_category, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox_category), combobox_category, TRUE, TRUE, 0);
+  gtk_label_set_mnemonic_widget(GTK_LABEL(label_category), combobox_category);
+  g_signal_connect ((gpointer) combobox_category, "changed", G_CALLBACK (on_combobox_changed), gpointer (this));
 
-  gtk_label_set_mnemonic_widget(GTK_LABEL(label7), combobox_category);
+  GSList *radiobutton_project_group = NULL;
 
-  hbox10 = gtk_hbox_new(FALSE, 6);
-  gtk_widget_show(hbox10);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox10, TRUE, TRUE, 0);
+  radiobutton_current_project = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_current_project"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_current_project), radiobutton_project_group);
+  radiobutton_project_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_current_project));
+  g_signal_connect ((gpointer) radiobutton_current_project, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  label8 = gtk_label_new("Notes of project");
-  gtk_widget_show(label8);
-  gtk_box_pack_start(GTK_BOX(hbox10), label8, FALSE, FALSE, 0);
+  radiobutton_any_project = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_any_project"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_any_project), radiobutton_project_group);
+  radiobutton_project_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_any_project));
+  g_signal_connect ((gpointer) radiobutton_any_project, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  GSList *radiobutton_project_current_group = NULL;
+  checkbutton_title = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_title"));
+  g_signal_connect((gpointer) checkbutton_title, "toggled", G_CALLBACK(on_checkbutton_show_title_toggled), gpointer(this));
+  g_signal_connect ((gpointer) checkbutton_title, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  radiobutton_project_current = gtk_radio_button_new_with_mnemonic(NULL, "current");
-  gtk_widget_show(radiobutton_project_current);
-  gtk_box_pack_start(GTK_BOX(hbox10), radiobutton_project_current, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_project_current), radiobutton_project_current_group);
-  radiobutton_project_current_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_project_current));
+  checkbutton_project = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_project"));
+  g_signal_connect ((gpointer) checkbutton_project, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  radiobutton_project_any = gtk_radio_button_new_with_mnemonic(NULL, "any");
-  gtk_widget_show(radiobutton_project_any);
-  gtk_box_pack_start(GTK_BOX(hbox10), radiobutton_project_any, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_project_any), radiobutton_project_current_group);
-  radiobutton_project_current_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_project_any));
+  checkbutton_category = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_category"));
+  g_signal_connect ((gpointer) checkbutton_category, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  hseparator1 = gtk_hseparator_new();
-  gtk_widget_show(hseparator1);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hseparator1, TRUE, TRUE, 0);
+  checkbutton_date_created = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_date_created"));
+  g_signal_connect ((gpointer) checkbutton_date_created, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  label9 = gtk_label_new("Display");
-  gtk_widget_show(label9);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), label9, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label9), 0, 0.5);
+  checkbutton_created_by = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_created_by"));
+  g_signal_connect ((gpointer) checkbutton_created_by, "clicked", G_CALLBACK (on_button_clicked), gpointer (this));
 
-  hbox12 = gtk_hbox_new(FALSE, 6);
-  gtk_widget_show(hbox12);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox12, TRUE, TRUE, 0);
+  GSList *radiobutton_text_group = NULL;
 
-  checkbutton_show_title = gtk_check_button_new_with_mnemonic("Title, including");
-  gtk_widget_show(checkbutton_show_title);
-  gtk_box_pack_start(GTK_BOX(hbox12), checkbutton_show_title, FALSE, FALSE, 0);
+  radiobutton_full = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_full"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_full), radiobutton_text_group);
+  radiobutton_text_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_full));
 
-  checkbutton_showproject = gtk_check_button_new_with_mnemonic("project");
-  gtk_widget_show(checkbutton_showproject);
-  gtk_box_pack_start(GTK_BOX(hbox12), checkbutton_showproject, FALSE, FALSE, 0);
+  radiobutton_summary = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_summary"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_summary), radiobutton_text_group);
+  radiobutton_text_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_summary));
 
-  checkbutton_show_category = gtk_check_button_new_with_mnemonic("category");
-  gtk_widget_show(checkbutton_show_category);
-  gtk_box_pack_start(GTK_BOX(hbox12), checkbutton_show_category, FALSE, FALSE, 0);
-
-  checkbutton_date_created = gtk_check_button_new_with_mnemonic("date created");
-  gtk_widget_show(checkbutton_date_created);
-  gtk_box_pack_start(GTK_BOX(hbox12), checkbutton_date_created, FALSE, FALSE, 0);
-
-  checkbutton_show_created_by = gtk_check_button_new_with_mnemonic("created by");
-  gtk_widget_show(checkbutton_show_created_by);
-  gtk_box_pack_start(GTK_BOX(hbox12), checkbutton_show_created_by, FALSE, FALSE, 0);
-
-  hbox13 = gtk_hbox_new(FALSE, 6);
-  gtk_widget_show(hbox13);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox13, TRUE, TRUE, 0);
-
-  label12 = gtk_label_new("Text");
-  gtk_widget_show(label12);
-  gtk_box_pack_start(GTK_BOX(hbox13), label12, FALSE, FALSE, 0);
-
-  GSList *radiobutton_text_full_group = NULL;
-
-  radiobutton_text_full = gtk_radio_button_new_with_mnemonic(NULL, "full");
-  gtk_widget_show(radiobutton_text_full);
-  gtk_box_pack_start(GTK_BOX(hbox13), radiobutton_text_full, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_text_full), radiobutton_text_full_group);
-  radiobutton_text_full_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_text_full));
-
-  radiobutton_text_summary = gtk_radio_button_new_with_mnemonic(NULL, "summary");
-  gtk_widget_show(radiobutton_text_summary);
-  gtk_box_pack_start(GTK_BOX(hbox13), radiobutton_text_summary, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_text_summary), radiobutton_text_full_group);
-  radiobutton_text_full_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_text_summary));
-
-  checkbutton_show_versetext = gtk_check_button_new_with_mnemonic("add text of the references");
-  gtk_widget_show(checkbutton_show_versetext);
-  gtk_box_pack_start(GTK_BOX(hbox13), checkbutton_show_versetext, FALSE, FALSE, 0);
+  checkbutton_add_ref_text = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_add_ref_text"));
 
   // Set the reference selection.
   GtkToggleButton *refbutton = reference_get_button(settings->genconfig.notes_selection_reference_get());
-  if (refbutton)
+  if (refbutton) {
     gtk_toggle_button_set_active(refbutton, true);
+  }
 
   // Set the edited selection.
   GtkToggleButton *editbutton = edited_get_button(settings->genconfig.notes_selection_edited_get());
-  if (editbutton)
+  if (editbutton) {
     gtk_toggle_button_set_active(editbutton, true);
+  }
   from_day = settings->genconfig.notes_selection_date_from_get();
   to_day = settings->genconfig.notes_selection_date_to_get();
 
@@ -248,43 +166,28 @@ ShowNotesDialog::ShowNotesDialog(int dummy)
   combobox_set_string(combobox_category, category);
 
   // Project selection.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_project_any), !settings->genconfig.notes_selection_current_project_get());
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_any_project), !settings->genconfig.notes_selection_current_project_get());
 
   // Title and inclusions.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_show_title), settings->session.project_notes_show_title);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_showproject), settings->genconfig.notes_display_project_get());
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_show_category), settings->genconfig.notes_display_category_get());
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_title), settings->session.project_notes_show_title);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_project), settings->genconfig.notes_display_project_get());
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_category), settings->genconfig.notes_display_category_get());
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_date_created), settings->genconfig.notes_display_date_created_get());
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_show_created_by), settings->genconfig.notes_display_created_by_get());
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_created_by), settings->genconfig.notes_display_created_by_get());
 
   // Notes text display.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_text_summary), settings->genconfig.notes_display_summary_get());
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_show_versetext), settings->genconfig.notes_display_reference_text_get());
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_summary), settings->genconfig.notes_display_summary_get());
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_add_ref_text), settings->genconfig.notes_display_reference_text_get());
 
-  dialog_action_area1 = GTK_DIALOG(shownotesdialog)->action_area;
-  gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
+  label_result = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_result"));
 
   Shortcuts shortcuts(0);
-  new InDialogHelp(shownotesdialog, NULL, &shortcuts, "view/project-notes");
+  InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, &shortcuts, "view/project-notes");
   shortcuts.process();
-
-  cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
-  gtk_widget_show(cancelbutton1);
-  gtk_dialog_add_action_widget(GTK_DIALOG(shownotesdialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
-
-  okbutton1 = gtk_button_new_from_stock("gtk-ok");
-  gtk_widget_show(okbutton1);
-  gtk_dialog_add_action_widget(GTK_DIALOG(shownotesdialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
-
-  g_signal_connect((gpointer) button_date_from, "clicked", G_CALLBACK(on_fromdatebutton_clicked), gpointer(this));
-  g_signal_connect((gpointer) button_date_to, "clicked", G_CALLBACK(on_todatebutton_clicked), gpointer(this));
-  g_signal_connect((gpointer) checkbutton_show_title, "toggled", G_CALLBACK(on_checkbutton_show_title_toggled), gpointer(this));
-  g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton1_clicked), gpointer(this));
-
-  gtk_widget_grab_default(okbutton1);
+  cancelbutton = indialoghelp->cancelbutton;
+  okbutton = indialoghelp->okbutton;
+  g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
+  gtk_widget_grab_default(okbutton);
 
   set_gui();
 }
@@ -292,13 +195,13 @@ ShowNotesDialog::ShowNotesDialog(int dummy)
 
 ShowNotesDialog::~ShowNotesDialog()
 {
-  gtk_widget_destroy(shownotesdialog);
+  gtk_widget_destroy(dialog);
 }
 
 
 int ShowNotesDialog::run()
 {
-  return gtk_dialog_run(GTK_DIALOG(shownotesdialog));
+  return gtk_dialog_run(GTK_DIALOG(dialog));
 }
 
 
@@ -314,7 +217,7 @@ void ShowNotesDialog::on_todatebutton_clicked(GtkButton * button, gpointer user_
 }
 
 
-void ShowNotesDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
+void ShowNotesDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ShowNotesDialog *) user_data)->on_ok();
 }
@@ -376,54 +279,54 @@ void ShowNotesDialog::on_ok()
   settings->genconfig.notes_selection_category_set(category);
 
   // Project selection.
-  settings->genconfig.notes_selection_current_project_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_project_current)));
+  settings->genconfig.notes_selection_current_project_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_current_project)));
 
   // Title and inclusions.
-  settings->session.project_notes_show_title = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_show_title));
-  settings->genconfig.notes_display_project_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_showproject)));
-  settings->genconfig.notes_display_category_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_show_category)));
+  settings->session.project_notes_show_title = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_title));
+  settings->genconfig.notes_display_project_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_project)));
+  settings->genconfig.notes_display_category_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_category)));
   settings->genconfig.notes_display_date_created_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_date_created)));
-  settings->genconfig.notes_display_created_by_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_show_created_by)));
+  settings->genconfig.notes_display_created_by_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_created_by)));
 
   // Notes text display.
-  settings->genconfig.notes_display_summary_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_text_summary)));
-  settings->genconfig.notes_display_reference_text_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_show_versetext)));
+  settings->genconfig.notes_display_summary_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_summary)));
+  settings->genconfig.notes_display_reference_text_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_add_ref_text)));
 }
 
 
 void ShowNotesDialog::set_gui()
 {
   // Set the labels on the date buttons.
-  gtk_button_set_label(GTK_BUTTON(button_date_from), date_time_julian_human_readable(from_day, true).c_str());
-  gtk_button_set_label(GTK_BUTTON(button_date_to), date_time_julian_human_readable(to_day, true).c_str());
+  gtk_button_set_label(GTK_BUTTON(button_start), date_time_julian_human_readable(from_day, true).c_str());
+  gtk_button_set_label(GTK_BUTTON(button_end), date_time_julian_human_readable(to_day, true).c_str());
 
   // Rewrite shortcuts.
   Shortcuts shortcuts(0);
-  shortcuts.button(radiobutton_reference_verse);
-  shortcuts.button(radiobutton_reference_chapter);
-  shortcuts.button(radiobutton_reference_book);
-  shortcuts.button(radiobutton_reference_any);
-  shortcuts.button(radiobutton_date_today);
-  shortcuts.button(radiobutton_date_range);
-  shortcuts.button(button_date_from);
-  shortcuts.button(button_date_to);
-  shortcuts.button(radiobutton_date_any);
-  shortcuts.label(label7);
-  shortcuts.button(radiobutton_project_current);
-  shortcuts.button(radiobutton_project_any);
-  shortcuts.button(checkbutton_show_title);
-  shortcuts.button(checkbutton_showproject);
-  shortcuts.button(checkbutton_show_category);
+  shortcuts.button(radiobutton_current_verse);
+  shortcuts.button(radiobutton_current_chapter);
+  shortcuts.button(radiobutton_current_book);
+  shortcuts.button(radiobutton_any_verse);
+  shortcuts.button(radiobutton_today);
+  shortcuts.button(radiobutton_between);
+  shortcuts.button(button_start);
+  shortcuts.button(button_end);
+  shortcuts.button(radiobutton_at_any_time);
+  shortcuts.label(label_category);
+  shortcuts.button(radiobutton_current_project);
+  shortcuts.button(radiobutton_any_project);
+  shortcuts.button(checkbutton_title);
+  shortcuts.button(checkbutton_project);
+  shortcuts.button(checkbutton_category);
   shortcuts.button(checkbutton_date_created);
-  shortcuts.button(checkbutton_show_created_by);
-  shortcuts.button(radiobutton_text_full);
-  shortcuts.button(radiobutton_text_summary);
-  shortcuts.button(checkbutton_show_versetext);
+  shortcuts.button(checkbutton_created_by);
+  shortcuts.button(radiobutton_full);
+  shortcuts.button(radiobutton_summary);
+  shortcuts.button(checkbutton_add_ref_text);
   // Temporal helpbutton for correct processing of the _H.  
   GtkWidget *helpbutton = gtk_button_new_from_stock("gtk-help");
   shortcuts.stockbutton(helpbutton);
-  shortcuts.stockbutton(cancelbutton1);
-  shortcuts.stockbutton(okbutton1);
+  shortcuts.stockbutton(cancelbutton);
+  shortcuts.stockbutton(okbutton);
   shortcuts.process();
   gtk_widget_destroy(helpbutton);
   on_checkbutton_show_title();
@@ -443,22 +346,22 @@ GtkToggleButton *ShowNotesDialog::reference_get_button(int selector)
   switch (ref_selection) {
   case nsrtCurrentVerse:
     {
-      button = GTK_TOGGLE_BUTTON(radiobutton_reference_verse);
+      button = GTK_TOGGLE_BUTTON(radiobutton_current_verse);
       break;
     }
   case nsrtCurrentChapter:
     {
-      button = GTK_TOGGLE_BUTTON(radiobutton_reference_chapter);
+      button = GTK_TOGGLE_BUTTON(radiobutton_current_chapter);
       break;
     }
   case nsrtCurrentBook:
     {
-      button = GTK_TOGGLE_BUTTON(radiobutton_reference_book);
+      button = GTK_TOGGLE_BUTTON(radiobutton_current_book);
       break;
     }
   case nsrtAny:
     {
-      button = GTK_TOGGLE_BUTTON(radiobutton_reference_any);
+      button = GTK_TOGGLE_BUTTON(radiobutton_any_verse);
       break;
     }
   }
@@ -473,17 +376,17 @@ GtkToggleButton *ShowNotesDialog::edited_get_button(int selector)
   switch (edit_selection) {
   case nsetToday:
     {
-      button = GTK_TOGGLE_BUTTON(radiobutton_date_today);
+      button = GTK_TOGGLE_BUTTON(radiobutton_today);
       break;
     }
   case nsetDateRange:
     {
-      button = GTK_TOGGLE_BUTTON(radiobutton_date_range);
+      button = GTK_TOGGLE_BUTTON(radiobutton_between);
       break;
     }
   case nsetAny:
     {
-      button = GTK_TOGGLE_BUTTON(radiobutton_date_any);
+      button = GTK_TOGGLE_BUTTON(radiobutton_at_any_time);
       break;
     }
   }
@@ -500,12 +403,66 @@ void ShowNotesDialog::on_checkbutton_show_title_toggled(GtkToggleButton * toggle
 void ShowNotesDialog::on_checkbutton_show_title()
 // Whether to show the title.
 {
-  bool active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_show_title));
-  gtk_widget_set_sensitive(checkbutton_showproject, active);
-  gtk_widget_set_sensitive(checkbutton_show_category, active);
+  bool active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_title));
+  gtk_widget_set_sensitive(checkbutton_project, active);
+  gtk_widget_set_sensitive(checkbutton_category, active);
   gtk_widget_set_sensitive(checkbutton_date_created, active);
-  gtk_widget_set_sensitive(checkbutton_show_created_by, active);
+  gtk_widget_set_sensitive(checkbutton_created_by, active);
 }
 
 
+void ShowNotesDialog::on_button_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ShowNotesDialog *) user_data)->restart_timeout();
+}
 
+
+void ShowNotesDialog::on_combobox_changed (GtkComboBox *combobox, gpointer user_data)
+{
+  ((ShowNotesDialog *) user_data)->restart_timeout();
+}
+
+
+void ShowNotesDialog::restart_timeout ()
+{
+  gw_destroy_source(event_id);
+  event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_timeout), gpointer(this), NULL);
+}
+
+
+bool ShowNotesDialog::on_timeout(gpointer user_data)
+{
+  ((ShowNotesDialog *) user_data)->timeout();
+  return false;
+}
+
+
+void ShowNotesDialog::timeout()
+{
+  event_id = 0;
+
+  extern Settings * settings;
+  ustring reference = books_id_to_english(settings->genconfig.book_get()) + " " + settings->genconfig.chapter_get() + ":" + settings->genconfig.verse_get();
+
+  
+  
+  
+}
+
+
+/*
+
+
+Todo
+
+
+In the notes selection window, give an indication about how many notes would be selected if OK were pressed.
+The notes selection window will give the number of notes which would display if that selection now in the window will be applied.
+This is useful for e.g. finding out the outstanding notes to the Bible Society.
+
+
+
+
+
+
+*/

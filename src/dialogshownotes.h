@@ -34,51 +34,38 @@ public:
   ~ShowNotesDialog ();
   int run();
 protected:
-  GtkWidget *shownotesdialog;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *label3;
-  GtkWidget *hbox6;
-  GtkWidget *label5;
-  GtkWidget *radiobutton_reference_verse;
-  GtkWidget *radiobutton_reference_chapter;
-  GtkWidget *radiobutton_reference_book;
-  GtkWidget *radiobutton_reference_any;
-  GtkWidget *hbox7;
-  GtkWidget *label6;
-  GtkWidget *radiobutton_date_today;
-  GtkWidget *hbox8;
-  GtkWidget *radiobutton_date_range;
-  GtkWidget *button_date_from;
-  GtkWidget *label4;
-  GtkWidget *button_date_to;
-  GtkWidget *radiobutton_date_any;
-  GtkWidget *hbox9;
-  GtkWidget *label7;
+  GtkBuilder *gtkbuilder;
+  GtkWidget *dialog;
+  GtkWidget *radiobutton_current_verse;
+  GtkWidget *radiobutton_current_chapter;
+  GtkWidget *radiobutton_current_book;
+  GtkWidget *radiobutton_any_verse;
+  GtkWidget *radiobutton_today;
+  GtkWidget *radiobutton_between;
+  GtkWidget *button_start;
+  GtkWidget *button_end;
+  GtkWidget *radiobutton_at_any_time;
+  GtkWidget *label_category;
+  GtkWidget *hbox_category;
   GtkWidget *combobox_category;
-  GtkWidget *hbox10;
-  GtkWidget *label8;
-  GtkWidget *radiobutton_project_current;
-  GtkWidget *radiobutton_project_any;
-  GtkWidget *hseparator1;
-  GtkWidget *label9;
-  GtkWidget *hbox12;
-  GtkWidget *checkbutton_show_title;
-  GtkWidget *checkbutton_showproject;
-  GtkWidget *checkbutton_show_category;
+  GtkWidget *radiobutton_current_project;
+  GtkWidget *radiobutton_any_project;
+  GtkWidget *checkbutton_title;
+  GtkWidget *checkbutton_project;
+  GtkWidget *checkbutton_category;
   GtkWidget *checkbutton_date_created;
-  GtkWidget *checkbutton_show_created_by;
-  GtkWidget *hbox13;
-  GtkWidget *label12;
-  GtkWidget *radiobutton_text_full;
-  GtkWidget *radiobutton_text_summary;
-  GtkWidget *checkbutton_show_versetext;
-  GtkWidget *dialog_action_area1;
-  GtkWidget *cancelbutton1;
-  GtkWidget *okbutton1;
+  GtkWidget *checkbutton_created_by;
+  GtkWidget *radiobutton_full;
+  GtkWidget *radiobutton_summary;
+  GtkWidget *checkbutton_add_ref_text;
+  GtkWidget *label_result;
+ 
+  GtkWidget *cancelbutton;
+  GtkWidget *okbutton;
 private:
   static void on_fromdatebutton_clicked (GtkButton *button, gpointer user_data);
   static void on_todatebutton_clicked (GtkButton *button, gpointer user_data);
-  static void on_okbutton1_clicked (GtkButton *button, gpointer user_data);
+  static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_from_date ();
   void on_to_date ();
   void on_ok ();
@@ -89,7 +76,16 @@ private:
   GtkToggleButton * reference_get_button (int selector);
   GtkToggleButton * edited_get_button (int selector);
   static void on_checkbutton_show_title_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  
+
+
+  static void on_button_clicked (GtkButton *button, gpointer user_data);
+  static void on_combobox_changed (GtkComboBox *combobox, gpointer user_data);
   void on_checkbutton_show_title();
+  void restart_timeout ();
+  guint event_id;
+  static bool on_timeout(gpointer user_data);
+  void timeout();
 };
 
 

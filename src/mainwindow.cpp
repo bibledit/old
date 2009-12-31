@@ -6962,102 +6962,249 @@ Todo tasks.
 
 
 
-.
-
-
-
-
 Let Bibledit run for a night or so to see whether the git operations no longer choke.
+This was done, and the following morning a vcs.log of 530k was found, and bibledit-vcs not running.
+It apparently had crashed.
+Next try: To start bibledit-vcs by hand, see what the exit code is when it crashes.
+Result: After an hour or so it gave a Segmentation fault.
+Next try: To run bibledit-vcs in the debugger.
+Segmentation fault in fgets
+sh: Too many open files, probably after 1024 iterations. We may have to gtk_main_quit after, say, 500 iterations, then restart.
+Needs a standard exit code, though, so the shell wrapper can catch it.
+Call wrapper instead of the binary.
+
+My program uses the Runtime.getProcess() method to get a process and then exec() an external script.  
+What I didn't know was that the API automatically opens three streams (stdout, stderr, stdin) each time the getProcess() is called.  
+It is the responsibility of the caller to close those streams when done.
 
 
 
 
-The php5-cli is not needed, but only php5. To update Ubuntu and other installation documents.
+Next try: To start bibledit-vcs by shell wrapper, which would be able to detect crash, and restart it again after a short delay.
 
 
 
 
-Do a task or 10, then the bugs. 
+task #9644: Right Margin too narrow
+The left margin of a translation text has a little space, but the right margin is very close. It seems harder to read.
+o increase the right margin for paragraph styles:
 
+change editor.cpp lines 1336 - 1343
 
-
-
-Think of sharing project notes, since these are required in the team. Private notes are not shared, but kept locally.
-
-
-
-
-
-Add to tasks:
-We can check the local server when bibledit starts, in two steps:
-1. Have the installer upload a known .html page, and see whether Apache serves this correctly.
-2. Have the installer upload a known .php page, and see whether Apaches serves this correctly.
-
-
-
-
-
-
-Add to tasks:
-The default server url should be as it is, and the default port 80. But within Bibledit one can change this.
-* It needs a warning, though, that the web server should be updated too to reflect this new setting.
-
-
-
-
-Add to tasks:
-The outpost also should listen to the apache server. We then need to download a new Delphi, and write a new outpost in that.
-It may better read the Online Bible stuff since it probably understands the character encoding used in the Online Bible.
-
-
-
-
-Add to tasks:
-We may think of slowly moving bibledit onto the web.
-It remains one package, but more and more functionality is rewritten for the web, and taken away from the local binary.
-A better strategy is to make a package that runs solely on the web. Bibledit will be a client to that, e.g. it uses its repository of files.
-Then people can either work on the web, or if they need more functionality, they can install the local client, and keep working with the data on the web.
-A persecution mode sets the site to look like another one, e.g. a news site. Logging in is hidden.
-
-
-
-
-
-Add to tasks:
-When using Apache, we should make a search PHP script that even highlights the words found.
+from:
+if (style->rightmargin > 0) { gint rightmargin = (gint) (4 * style->rightmargin); GValue gvalue = { 0, }; g_value_init(&gvalue, G_TYPE_INT); g_value_set_int(&gvalue, rightmargin); g_object_set_property(G_OBJECT(tag), "right-margin", &gvalue); g_value_unset(&gvalue); } to: 
+{
+      gint rightmargin = 4;
+      GValue gvalue = { 0, };
+      g_value_init(&gvalue, G_TYPE_INT);
+      g_value_set_int(&gvalue, rightmargin);
+      g_object_set_property(G_OBJECT(tag), "right-margin", &gvalue);
+      g_value_unset(&gvalue);
+    }
 
 
 
 
 
 
-Add to tasks:
-We think of a public review system, where the review area is on a public site, with comments on each verse.
-The editor is still offline, as bibledit, but the website syncs with the bibledit git repository to get the data.
-Notes marked Public also go to the website, and, actually, go in sync with bibledit and the site.
+
+
+
+
+task #9652: Revisit English versification
+Some communications that seem to require a revisit of the English versification:
+
+According to Bible Gateway, "Some translations put [Rv 12:18] either in [Rv 12:17] or [Rv 13:1]. "
+http://www.biblegateway.com/passage/?search=Revelation+12&version=HCSB has a note k to this effect.
+
+Not sure why Bibledit should complain when it's missing, as that would be the default for most Bibles.
+And BibleDesktop always gives an error dialog for versions that don't have such a missing verse.
+
+By trial and error on Bible Gateway, I found one Portuguese translation that has a verse 18.
+http://www.biblegateway.com/passage/?search=Revelation%2012&version=OL
+18. Então, ele pôs-se à beira do mar. 
+
+I know in the past that Paratext gives missing verse errors for both 3 Jn 1:15 and Rev 12:18. Bibledit also errors on these and includes them in the templates.
+
+KJV doesn't have either one
+NKJV doesn't have either one
+NIV doesn't have either one
+NASB has 3JN 15, but not Rev 12:18
+ESV has 3JN 15, but not Rev 12:18
+Reina-Velara 1960 has 3JN 15, but not Rev 12:18
+Louis-Segond some have 3JN 15, a printed version has Rev 12:18
+
+Could we do a "traditional" versification that doesn't include either of these? Flagging these verses has been a distraction to our translators on occasion.
 
 
 
 
 
 
-The notes selection window will give the number of notes which would display if that selection now in the window will be applied.
-This is useful for e.g. finding out the outstanding notes to the Bible Society.
 
 
 
 
 
-Add to tasks:
-We should not be writing our own web applications. At this stage this is _very_ complicated.
-Instead Bibledit will remain an offline application, BUT:
-* It can use external resources
-* It can work with existing web applications, such as Google Docs
-* In case of Google Docs, it can create documents for it that have the desired layout.
-* On the most it can provide one index.html with frames, and each frame has its own application.
-* When using frames, it can provide navigation controls, which are created offline by bibledit.
-* Frames, e.g. one window has sabdaweb, and another google docs, and so on, and another one the online bible, and so on.
-* Pootle for translation?
+
+
+task #9663: Find and Replace one-at-a-time option
+There are times when doing a find and replace that there are several instances of the find string in one verse, and where I only want to change one of the 2-3 instances in the verse. Currently there is no way to do this in BE. One must halt the search and change such a verse manually.
+
+But if this happens in multiple verses, the problem is compounded. Currently there is a bug where BE doesn't obey the instruction for which books are selected for search and replace. So if one starts the search-replace again, any past instances where a change is not desired will show up again.
+
+
+
+
+
+
+
+
+
+
+task #9702: new bwoutpost.exe
+Once bibledit 3.9 has been released the following becomes relevant:
+
+A new Bibledit Windows Outpost is available.
+
+The helpfile needs to tell that the .exe can be dragged to the startbutton if needed.
+
+To update the helpfile and leave the download locations out, and inform that the .exe is included with the package now.
+
+The bwoutpost.exe can be removed from the download location. 
+
+
+
+
+
+
+
+
+
+
+task #9703: Import Bibles etc from the Online bible
+The new bwoutpost has the capability to connect to the Online Bible and retrieve verses from it. Let's exploit this to get data into Bibledit.
+
+
+
+
+
+
+
+
+task #9708: paratext keyterms
+About importing Paratext's keyterms, permission would be needed.
+
+We may import part of the keyterms, such as realia, flora, fauna.
+We may integrate our own flora and fauna of the nt and ot into one and the same. 
+
+
+
+
+
+
+
+
+
+
+
+task #9709: Delete Assistant
+It needs a delete assistant, and this assistant can delete other things as well.
+
+To delete a source language. 
+
+
+
+
+
+
+
+
+
+task #9721: Leverage the Online Bible
+The newest beta versions of the Online Bible run on Linux through the wine emulator.
+
+It would be helpful if the power of the Online Bible could be used for the Bible translators.
+
+The following would be possible:
+
+- To let the Online Bible scroll together with Bibledit. It would go through bwoutpost.exe under wine, and calling the "ShowPassage" command of the Online Bible.
+
+- To use the Online Bible's internal tools to check Bible texts. Copying what Larry said: "Did you know that if they create a BibleText noteset they can do their whole translation in Online Bible plus compile and distribute it when finished? Our Edit check facilities catch a lot of erros no word processor ever would."
+
+- Compile modules from USFM text for use in the Online Bible. 
+
+
+
+
+
+
+
+
+task #9740: not to scan the dbus for bibletime
+Focus sharing between Bibledit and BibleTime now works.
+
+Reminder: When BibleTime 2.3 is generally available, adapt Bibledit so that it no longer scans all the targets on the DBus.
+
+
+
+
+
+
+
+
+
+task #9742: Option for one-line references
+
+I appreciate having the complete verse in the references MOST of the time. But when I am doing a lot of searches for small things, I often wish that BE had the option to show the verses in a one line display.
+
+If the References were shown in a wide window one could show the search string and some characters on either side, with the search string bolded. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sharing project notes.
+* Private notes are not shared, but kept locally.
+* Git repository for the notes.
+* How many files fit in a flat directory? There are 33743 notes now.
+* Perhaps to use an index database for speeding up navigation and searching.
+* The index database would double space requirements.|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

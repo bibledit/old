@@ -46,5 +46,5 @@ static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, g
 static void sigproc(int dummy);
 static void sigquit(int dummy);
 int main (int argc, char **argv);
-
-
+int controlled_exit_code;
+int shell_processes_count;

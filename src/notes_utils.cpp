@@ -222,16 +222,35 @@ void notes_sort(vector < unsigned int >&ids, const vector < ustring > &refs, con
 }
 
 
-void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const ustring & currentreference)
+void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const ustring& currentreference) // Todo
 /*
  This selects notes for display.
- It does this based on the current reference.
+ It does this by calling another function that does the real work.
  The resulting selection will be stored in ids.
  It gives "id_cursor" which contains the id the cursor has to be put at.
  */
 {
   // Configuration.
   extern Settings *settings;
+  // Category selection.
+  ustring category = settings->genconfig.notes_selection_category_get();
+  NotesSelectionReferenceType refselection = (NotesSelectionReferenceType) settings->genconfig.notes_selection_reference_get();
+  // Select notes.
+  notes_select (ids, id_cursor, currentreference, category, refselection);
+}
+
+
+void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const ustring& currentreference, 
+                  const ustring& category, NotesSelectionReferenceType refselection) // Todo
+/*
+ This selects notes for display.
+ It does this based on the variables passed, including the current reference.
+ The resulting selection will be stored in ids.
+ It gives "id_cursor" which contains the id the cursor has to be put at.
+ */
+{
+  // Configuration.
+  extern Settings *settings; // Todo goes out in the end.
   // Clear ids.
   ids.clear();
   // The average numerical equivalent of current reference.
@@ -249,8 +268,6 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
   }
   // Date selection.
   int currentdate = date_time_julian_day_get_current();
-  // Category selection.
-  ustring category = settings->genconfig.notes_selection_category_get();
   // Cursor focus calculation.
   int minimum_cursor_distance = G_MAXINT;
   // Database variables.
@@ -265,7 +282,7 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
     sqlite3_busy_timeout(db, 1000);
     SqliteReader sqlitereader(0);
     // See which notes to select.
-    switch ((NotesSelectionReferenceType) settings->genconfig.notes_selection_reference_get()) {
+    switch (refselection) { // Todo
     case nsrtCurrentVerse:
       {
         // This selects any notes which refer to the current verse.

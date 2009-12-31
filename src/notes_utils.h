@@ -25,6 +25,7 @@
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "reference.h"
+#include "types.h"
 
 
 #define TABLE_NOTES "notes"
@@ -36,6 +37,8 @@ gint notes_database_get_unique_id();
 void notes_delete_one(int id);
 void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const vector<ustring>& allrefs, const vector<int>& dates);
 void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustring& currentreference);
+void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustring& currentreference, 
+                  const ustring& category, NotesSelectionReferenceType refselection);
 void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop, unsigned int edited_note_id);
 void notes_get_references_from_editor(GtkTextBuffer *textbuffer, vector<Reference>& references, vector<ustring>& messages);
 ustring notes_categories_filename();
