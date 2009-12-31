@@ -183,29 +183,13 @@ int ReplaceDialog::run()
 
 void ReplaceDialog::on_checkbuttonbook_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ReplaceDialog *) user_data)->on_checkbutton_book();
-}
-
-
-void ReplaceDialog::on_checkbutton_book()
-{
-  if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonbook))) {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonchapter), false);
-  }
+  ((ReplaceDialog *) user_data)->set_gui();
 }
 
 
 void ReplaceDialog::on_checkbuttonchapter_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ReplaceDialog *) user_data)->on_checkbutton_chapter();
-}
-
-
-void ReplaceDialog::on_checkbutton_chapter()
-{
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonchapter))) {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonbook), true);
-  }
+  ((ReplaceDialog *) user_data)->set_gui();
 }
 
 
@@ -285,8 +269,23 @@ void ReplaceDialog::on_word_entry_changed(GtkEditable * editable, gpointer user_
 
 void ReplaceDialog::set_gui()
 {
+  // Search only works when there's a word to look for.
   ustring searchword = gtk_entry_get_text(GTK_ENTRY(entry2));
   gtk_widget_set_sensitive(buttonfind, !searchword.empty());
+  
+  // Current book and current chapter selectors.
+  bool current_book_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonbook));
+  if (!current_book_active) {
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonchapter), false);
+  }
+  bool current_chapter_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonchapter));
+  if (current_chapter_active) {
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonbook), true);
+  }
+  gtk_widget_set_sensitive (checkbuttonchapter, current_book_active);
+
+  // Sensitivity of book selection.
+  gtk_widget_set_sensitive (selectbutton, !(current_book_active || current_chapter_active));
 }
 
 

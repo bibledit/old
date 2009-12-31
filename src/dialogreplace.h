@@ -54,9 +54,7 @@ private:
   GtkWidget *buttonfind;
   GtkWidget *buttoncancel;
   static void on_checkbuttonbook_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void on_checkbutton_book ();
   static void on_checkbuttonchapter_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void on_checkbutton_chapter ();
   vector <unsigned int> selectable_books;
   static void replacedialog_on_buttonfind_clicked (GtkButton *button, gpointer user_data);
   void on_buttonfind_clicked ();

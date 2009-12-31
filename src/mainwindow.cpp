@@ -6984,53 +6984,34 @@ Next try: To start bibledit-vcs by shell wrapper, which would be able to detect 
 
 
 
-
-
-
-
-
-task #9652: Revisit English versification
-Some communications that seem to require a revisit of the English versification:
-
-According to Bible Gateway, "Some translations put [Rv 12:18] either in [Rv 12:17] or [Rv 13:1]. "
-http://www.biblegateway.com/passage/?search=Revelation+12&version=HCSB has a note k to this effect.
-
-Not sure why Bibledit should complain when it's missing, as that would be the default for most Bibles.
-And BibleDesktop always gives an error dialog for versions that don't have such a missing verse.
-
-By trial and error on Bible Gateway, I found one Portuguese translation that has a verse 18.
-http://www.biblegateway.com/passage/?search=Revelation%2012&version=OL
-18. Então, ele pôs-se à beira do mar. 
-
-I know in the past that Paratext gives missing verse errors for both 3 Jn 1:15 and Rev 12:18. 
-Bibledit also errors on these and includes them in the templates.
-
-KJV doesn't have either one
-NKJV doesn't have either one
-NIV doesn't have either one
-NASB has 3JN 15, but not Rev 12:18
-ESV has 3JN 15, but not Rev 12:18
-Reina-Velara 1960 has 3JN 15, but not Rev 12:18
-Louis-Segond some have 3JN 15, a printed version has Rev 12:18
-
-Could we do a "traditional" versification that doesn't include either of these? Flagging these verses has been a distraction to our translators on occasion.
-
-
-
-
-
-
-
-
-
-
-
-
-
 task #9663: Find and Replace one-at-a-time option
-There are times when doing a find and replace that there are several instances of the find string in one verse, and where I only want to change one of the 2-3 instances in the verse. Currently there is no way to do this in BE. One must halt the search and change such a verse manually.
+There are times when doing a find and replace that there are several instances of the find string in one verse, 
+and where I only want to change one of the 2-3 instances in the verse. 
+Currently there is no way to do this in BE. One must halt the search and change such a verse manually.
 
-But if this happens in multiple verses, the problem is compounded. Currently there is a bug where BE doesn't obey the instruction for which books are selected for search and replace. So if one starts the search-replace again, any past instances where a change is not desired will show up again.
+But if this happens in multiple verses, the problem is compounded. 
+Currently there is a bug where BE doesn't obey the instruction for which books are selected for search and replace. 
+So if one starts the search-replace again, any past instances where a change is not desired will show up again.
+
+Solution:
+* Fix the selection bug.
+Should disable "Book selection" if one of the other selection checkboxes has been ticked.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
