@@ -76,9 +76,10 @@ private:
   GtkToggleButton * reference_get_button (int selector);
   GtkToggleButton * edited_get_button (int selector);
   static void on_checkbutton_show_title_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  
+  NotesSelectionReferenceType get_reference_selection ();
+  NotesSelectionEditedType get_edited_selection ();
 
-
+  // Gui update if a setting was changed.
   static void on_button_clicked (GtkButton *button, gpointer user_data);
   static void on_combobox_changed (GtkComboBox *combobox, gpointer user_data);
   void on_checkbutton_show_title();

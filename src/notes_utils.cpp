@@ -222,7 +222,7 @@ void notes_sort(vector < unsigned int >&ids, const vector < ustring > &refs, con
 }
 
 
-void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const ustring& currentreference) // Todo
+void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const ustring& currentreference)
 /*
  This selects notes for display.
  It does this by calling another function that does the real work.
@@ -230,18 +230,22 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
  It gives "id_cursor" which contains the id the cursor has to be put at.
  */
 {
-  // Configuration.
+  // Get variables.
   extern Settings *settings;
-  // Category selection.
   ustring category = settings->genconfig.notes_selection_category_get();
   NotesSelectionReferenceType refselection = (NotesSelectionReferenceType) settings->genconfig.notes_selection_reference_get();
+  NotesSelectionEditedType editedselection = (NotesSelectionEditedType) settings->genconfig.notes_selection_edited_get();
+  bool currentprojectselection = settings->genconfig.notes_selection_current_project_get();
+  int date_from = settings->genconfig.notes_selection_date_from_get();
+  int date_to = settings->genconfig.notes_selection_date_to_get();
   // Select notes.
-  notes_select (ids, id_cursor, currentreference, category, refselection);
+  notes_select (ids, id_cursor, currentreference, category, refselection, editedselection, currentprojectselection, date_from, date_to);
 }
 
 
 void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const ustring& currentreference, 
-                  const ustring& category, NotesSelectionReferenceType refselection) // Todo
+                  const ustring& category, NotesSelectionReferenceType refselection, NotesSelectionEditedType editedselection,
+                  bool currentprojectselection, int date_from, int date_to) 
 /*
  This selects notes for display.
  It does this based on the variables passed, including the current reference.
@@ -249,8 +253,6 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
  It gives "id_cursor" which contains the id the cursor has to be put at.
  */
 {
-  // Configuration.
-  extern Settings *settings; // Todo goes out in the end.
   // Clear ids.
   ids.clear();
   // The average numerical equivalent of current reference.
@@ -282,8 +284,8 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
     sqlite3_busy_timeout(db, 1000);
     SqliteReader sqlitereader(0);
     // See which notes to select.
-    switch (refselection) { // Todo
-    case nsrtCurrentVerse:
+    switch (refselection) {
+      case nsrtCurrentVerse:
       {
         // This selects any notes which refer to the current verse.
         ustring book, chapter, verse;
@@ -303,7 +305,7 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
         }
         break;
       }
-    case nsrtCurrentChapter:
+      case nsrtCurrentChapter:
       {
         // This selects any notes which refer to the current chapter.
         ustring book, chapter, verse;
@@ -321,7 +323,7 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
         }
         break;
       }
-    case nsrtCurrentBook:
+      case nsrtCurrentBook:
       {
         // This selects any notes which refer to the current book.
         ustring book, chapter, verse;
@@ -339,7 +341,7 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
         }
         break;
       }
-    case nsrtAny:
+      case nsrtAny:
       {
         char *sql;
         sql = g_strdup_printf("select id, reference, modified, project, category from '%s';", TABLE_NOTES);
@@ -359,22 +361,22 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
     for (unsigned int rc = 0; rc < sqlitereader.ustring0.size(); rc++) {
       // Selection based on the date.
       int modified_date = convert_to_int(sqlitereader.ustring2[rc]);
-      switch ((NotesSelectionEditedType) settings->genconfig.notes_selection_edited_get()) {
-      case nsetToday:
+      switch (editedselection) {
+        case nsetToday:
         {
           if (modified_date != currentdate)
             continue;
           break;
         }
-      case nsetDateRange:
+        case nsetDateRange:
         {
-          if (modified_date < settings->genconfig.notes_selection_date_from_get())
+          if (modified_date < date_from);
             continue;
-          if (modified_date > settings->genconfig.notes_selection_date_to_get())
+          if (modified_date > date_to);
             continue;
           break;
         }
-      case nsetAny:
+        case nsetAny:
         {
           break;
         }
@@ -385,9 +387,10 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
           continue;
       }
       // Selection based on project.
-      if (settings->genconfig.notes_selection_current_project_get()) {
+      if (currentprojectselection) {
         bool project_ok = false;
         ustring project_in_db = sqlitereader.ustring3[rc];
+        extern Settings *settings;
         if (project_in_db == settings->genconfig.project_get())
           project_ok = true;
         // Current notes can use "All".

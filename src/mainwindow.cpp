@@ -6972,15 +6972,11 @@ Segmentation fault in fgets
 sh: Too many open files, probably after 1024 iterations. We may have to gtk_main_quit after, say, 500 iterations, then restart.
 Needs a standard exit code, though, so the shell wrapper can catch it.
 Call wrapper instead of the binary.
-
 My program uses the Runtime.getProcess() method to get a process and then exec() an external script.  
 What I didn't know was that the API automatically opens three streams (stdout, stderr, stdin) each time the getProcess() is called.  
 It is the responsibility of the caller to close those streams when done.
-
-
-
-
 Next try: To start bibledit-vcs by shell wrapper, which would be able to detect crash, and restart it again after a short delay.
+
 
 
 

@@ -248,27 +248,12 @@ void ShowNotesDialog::on_to_date()
 void ShowNotesDialog::on_ok()
 {
   extern Settings *settings;
-  int i;
 
-  // Referenfe selection.
-  if (gtk_toggle_button_get_active(reference_get_button(nsrtCurrentVerse)))
-    i = nsrtCurrentVerse;
-  if (gtk_toggle_button_get_active(reference_get_button(nsrtCurrentChapter)))
-    i = nsrtCurrentChapter;
-  if (gtk_toggle_button_get_active(reference_get_button(nsrtCurrentBook)))
-    i = nsrtCurrentBook;
-  if (gtk_toggle_button_get_active(reference_get_button(nsrtAny)))
-    i = nsrtAny;
-  settings->genconfig.notes_selection_reference_set(i);
+  // Reference selection.
+  settings->genconfig.notes_selection_reference_set(get_reference_selection ());
 
   // Edited selection.  
-  if (gtk_toggle_button_get_active(edited_get_button(nsetToday)))
-    i = nsetToday;
-  if (gtk_toggle_button_get_active(edited_get_button(nsetDateRange)))
-    i = nsetDateRange;
-  if (gtk_toggle_button_get_active(edited_get_button(nsetAny)))
-    i = nsetAny;
-  settings->genconfig.notes_selection_edited_set(i);
+  settings->genconfig.notes_selection_edited_set(get_edited_selection ());
   settings->genconfig.notes_selection_date_from_set(from_day);
   settings->genconfig.notes_selection_date_to_set(to_day);
 
@@ -411,6 +396,32 @@ void ShowNotesDialog::on_checkbutton_show_title()
 }
 
 
+NotesSelectionReferenceType ShowNotesDialog::get_reference_selection ()
+{
+  if (gtk_toggle_button_get_active(reference_get_button(nsrtCurrentVerse)))
+    return nsrtCurrentVerse;
+  if (gtk_toggle_button_get_active(reference_get_button(nsrtCurrentChapter)))
+    return nsrtCurrentChapter;
+  if (gtk_toggle_button_get_active(reference_get_button(nsrtCurrentBook)))
+    return nsrtCurrentBook;
+  if (gtk_toggle_button_get_active(reference_get_button(nsrtAny)))
+    return nsrtAny;
+  return nsrtCurrentVerse;  
+}
+
+
+NotesSelectionEditedType ShowNotesDialog::get_edited_selection ()
+{
+  if (gtk_toggle_button_get_active(edited_get_button(nsetToday)))
+    return nsetToday;
+  if (gtk_toggle_button_get_active(edited_get_button(nsetDateRange)))
+    return nsetDateRange;
+  if (gtk_toggle_button_get_active(edited_get_button(nsetAny)))
+    return nsetAny;
+  return nsetToday;
+}
+
+
 void ShowNotesDialog::on_button_clicked (GtkButton *button, gpointer user_data)
 {
   ((ShowNotesDialog *) user_data)->restart_timeout();
@@ -439,30 +450,30 @@ bool ShowNotesDialog::on_timeout(gpointer user_data)
 
 void ShowNotesDialog::timeout()
 {
+  // Clear the event id.
   event_id = 0;
 
+  // Get the parameters from the dialog, not from the Settings object, since these have not yet been stored.
   extern Settings * settings;
-  ustring reference = books_id_to_english(settings->genconfig.book_get()) + " " + settings->genconfig.chapter_get() + ":" + settings->genconfig.verse_get();
-
+  ustring currentreference = books_id_to_english(settings->genconfig.book_get()) + " " + settings->genconfig.chapter_get() + ":" + settings->genconfig.verse_get();
+  NotesSelectionReferenceType refselection = get_reference_selection ();
+  NotesSelectionEditedType editedselection = get_edited_selection ();
+  ustring category = combobox_get_active_string(combobox_category);
+  if (category == all_categories())
+    category.clear();
+  bool currentprojectselection = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_current_project));
   
+  // Get notes count.
+  vector <unsigned int> ids;
+  unsigned int id_cursor;
+  notes_select (ids, id_cursor, currentreference, category, refselection, editedselection, currentprojectselection, from_day, to_day);
   
-  
+  // Update GUI.
+  ustring message = "This selection would display " + convert_to_string (ids.size()) + " ";
+  if (ids.size() == 1)
+    message.append ("note");
+  else
+    message.append ("notes");
+  gtk_label_set_text (GTK_LABEL (label_result), message.c_str());
 }
 
-
-/*
-
-
-Todo
-
-
-In the notes selection window, give an indication about how many notes would be selected if OK were pressed.
-The notes selection window will give the number of notes which would display if that selection now in the window will be applied.
-This is useful for e.g. finding out the outstanding notes to the Bible Society.
-
-
-
-
-
-
-*/
