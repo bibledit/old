@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#
+# This script wraps bibledit-vcs
+#
+
+bibledit-vcs $@
+while [ $? -eq 100 ]
+do
+  sleep 1
+  bibledit-vcs $@
+done
