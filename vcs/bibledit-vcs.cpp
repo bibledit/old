@@ -106,58 +106,48 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
       if (lines.size() >= 2) {
         workingdirectory = lines[1];
       }
+      gchar * outputfile = NULL;
       // Only run when the working directory exists.
-      string output;
-      int exitcode = -1;
       if (workingdirectory.empty () || g_file_test (workingdirectory.c_str(), G_FILE_TEST_IS_DIR)) {
-        string shell_command = "cd '" + workingdirectory + "' ; " + command + " 2>&1";
+        // The name of the file to pipe the output to.
+        outputfile = g_build_filename (g_get_tmp_dir (), "bibledit-vcs.tmp", NULL);
+        // Store message headers in the output file.
+        string message;
+        // Subject: vcs
+        message.append ("vcs\n");
+        // Shell command.
+        message.append (command + "\n");
+        // Working directory (if any).
+        message.append (workingdirectory + "\n");
+        // Store it.
+        g_file_set_contents (outputfile, message.c_str(), -1, NULL);
+        // Assemble command to run.
+        string shell_command = "cd '" + workingdirectory + "' ; " + command + " > ";
+        shell_command.append (outputfile);
+        shell_command.append (" 2>&1");
         printf ("Run %s\n", shell_command.c_str());
         fflush (stdout);
         // Glib's spawn routines choke after some time when it is called often, as happens here.
-        // Therefore popen is used instead.
-        FILE *stream = popen(shell_command.c_str(), "r");
-        // Only read the output of the command if forking succeeded.
-        if (stream) {
-          char buf[1024];
-          while (fgets(buf, sizeof(buf), stream)) {
-            output.append(buf);
-          }
-          exitcode = pclose(stream);
-        } else {
-          printf ("Process failed to run with error %s\n", strerror(errno));
-        }
-        printf ("Output:\n%s", output.c_str());
+        // Then popen was tried, but this on leaves stdin, stdout and stderr opened, so that after some iterations,
+        // the maximum number of files the shell can open was reached. Therefore system() is used now.
+        int exitcode = system (shell_command.c_str());
+        printf ("Output:\n");
+        fflush (stdout);
+        shell_command = "cat ";
+        shell_command.append (outputfile);
+        if (system (shell_command.c_str()));
         printf ("Exit code %d\n", exitcode);
         fflush (stdout);
-        // Increate shell processes counter.
-        shell_processes_count++;
       } else {
         printf ("Directory %s does not exist\n", workingdirectory.c_str());
       }
-      fflush (stdout);
-      // Assemble the message to be returned to bibledit.
-      string message;
-      // Subject: vcs
-      message.append ("vcs\n");
-      // Shell command.
-      message.append (command + "\n");
-      // Working directory (if any).
-      message.append (workingdirectory + "\n");
-      // Output.
-      message.append (output);
-      // Store the message in a temporal file.
-      gchar * name_used;
-      g_file_open_tmp ("XXXXXX", &name_used, NULL);
-      if (name_used) {
-        g_file_set_contents (name_used, message.c_str(), -1, NULL);
-        // Upload the message through curl.
-        string command = "curl -F uploaded=@";
-        command.append (name_used);
-        command.append (" http://localhost/bibledit/ipc/uploadmessage.php");
-        if (system (command.c_str()));
-        // Remove the temporal file.
-        unlink (name_used);
-      }
+      // Upload the message through curl.
+      command = "curl -F uploaded=@";
+      command.append (outputfile);
+      command.append (" http://localhost/bibledit/ipc/uploadmessage.php");
+      if (system (command.c_str()));
+      // Remove the temporal file.
+      unlink (outputfile);
     }
   } else {
     // If the message was cancelled, do not start the listener again.
@@ -167,14 +157,6 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
     printf ("Shell web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
     fflush (stdout);
     g_usleep (1000000);
-  }
-  // The bash shell complains about too many open files after more than 1000 processes have been started.
-  // Probably it does not close the files. Therefore we quit here after so many processes.
-  // The surrounding shell script should catch this event, and restart the program.
-  if (shell_processes_count >= 100) {
-    controlled_exit_code = 100;
-    g_main_loop_quit (loop);
-    return;
   }
   // Wait shortly, the restart the listener.
   g_usleep (100000);
@@ -237,8 +219,6 @@ int main (int argc, char **argv)
   g_type_init ();
   
   run = true;
-  controlled_exit_code = 0;
-  shell_processes_count = 0;
 
   // If a logfile was passed, handle it.
   // This implies that if the program is started by hand from the terminal, we can see its output.
@@ -274,7 +254,7 @@ int main (int argc, char **argv)
   soup_session_abort (session);
 
   // Give the exit code.
-  return controlled_exit_code;
+  return 0;
 }
 
 

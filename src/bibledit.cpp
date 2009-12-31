@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
   if (!program_is_running ("bibledit-vcs")) {
     move_log_file (lftVCS);
     // Spawn wrapper around the bibledit-vcs, since this wrapper catches.
-    GwSpawn spawn ("bibledit-vcs-wrapper");
+    GwSpawn spawn ("bibledit-vcs");
     spawn.arg (log_file_name(lftVCS, false));
     spawn.async ();
     spawn.run ();

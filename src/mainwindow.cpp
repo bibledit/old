@@ -6962,18 +6962,6 @@ Todo tasks.
 
 
 
-task #9709: Delete Assistant
-It needs a delete assistant, and this assistant can delete other things as well.
-* delete project
-* delete style: give info how to do it
-* delete stylesheet: give info how to do it.
-* delete project note: give info how to do that.
-* delete resource
-* delete keyterms: see from current assistant how to do that.
-
-
-
-
 
 Install Vista again. 20 Gbyte hd.
 
@@ -6996,6 +6984,8 @@ What I didn't know was that the API automatically opens three streams (stdout, s
 It is the responsibility of the caller to close those streams when done.
 Next try: To start bibledit-vcs by shell wrapper, which would be able to detect crash, and restart it again after a short delay.
 Once bibledit-vcs has restarted, will it still quit on bibledit's message?
+It now opens all three files, stdin, stdout, stderr. Let's see how it goes.
+It now uses system (), try how it goes.
 
 
 
