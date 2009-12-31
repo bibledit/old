@@ -172,7 +172,7 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
   // Probably it does not close the files. Therefore we quit here after so many processes.
   // The surrounding shell script should catch this event, and restart the program.
   if (shell_processes_count >= 100) {
-    controlled_exit_code = 100; // Remember this number. Todo
+    controlled_exit_code = 100;
     g_main_loop_quit (loop);
     return;
   }
