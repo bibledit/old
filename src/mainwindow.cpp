@@ -6981,24 +6981,6 @@ Next try: To start bibledit-vcs by shell wrapper, which would be able to detect 
 
 
 
-task #9644: Right Margin too narrow
-The left margin of a translation text has a little space, but the right margin is very close. It seems harder to read.
-o increase the right margin for paragraph styles:
-
-change editor.cpp lines 1336 - 1343
-
-from:
-if (style->rightmargin > 0) { gint rightmargin = (gint) (4 * style->rightmargin); GValue gvalue = { 0, }; g_value_init(&gvalue, G_TYPE_INT); g_value_set_int(&gvalue, rightmargin); g_object_set_property(G_OBJECT(tag), "right-margin", &gvalue); g_value_unset(&gvalue); } to: 
-{
-      gint rightmargin = 4;
-      GValue gvalue = { 0, };
-      g_value_init(&gvalue, G_TYPE_INT);
-      g_value_set_int(&gvalue, rightmargin);
-      g_object_set_property(G_OBJECT(tag), "right-margin", &gvalue);
-      g_value_unset(&gvalue);
-    }
-
-
 
 
 
@@ -7020,7 +7002,8 @@ By trial and error on Bible Gateway, I found one Portuguese translation that has
 http://www.biblegateway.com/passage/?search=Revelation%2012&version=OL
 18. Então, ele pôs-se à beira do mar. 
 
-I know in the past that Paratext gives missing verse errors for both 3 Jn 1:15 and Rev 12:18. Bibledit also errors on these and includes them in the templates.
+I know in the past that Paratext gives missing verse errors for both 3 Jn 1:15 and Rev 12:18. 
+Bibledit also errors on these and includes them in the templates.
 
 KJV doesn't have either one
 NKJV doesn't have either one
