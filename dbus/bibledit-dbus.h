@@ -62,7 +62,6 @@ void send (const gchar * bus_name, const gchar * object, const gchar * interface
 vector <string> method_call_wait_reply (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, bool silent);
 void retrieve_message (DBusMessage *message);
 void retrieve_iter (DBusMessageIter *iter);
-bool check_if_bibletime_bus_name (const gchar * bus_name);
 void names_on_dbus_changed ();
 static bool on_rescan_bus_timeout(gpointer user_data);
 void on_rescan_bus();

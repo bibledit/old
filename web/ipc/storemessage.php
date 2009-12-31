@@ -11,7 +11,6 @@ $channel = stripslashes($_GET["channel"]);
 $subject = stripslashes($_GET["subject"]);
 $message = stripslashes($_GET["message"]);
 
-
 // Filename that contains the message identifier.
 $filename_id = "$messagesdir/identifier";
 // Get contents, suppress errors in case the file is not there.

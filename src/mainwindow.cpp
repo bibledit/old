@@ -6962,6 +6962,25 @@ Todo tasks.
 
 
 
+task #9709: Delete Assistant
+It needs a delete assistant, and this assistant can delete other things as well.
+* delete project
+* delete style: give info how to do it
+* delete stylesheet: give info how to do it.
+* delete project note: give info how to do that.
+* delete resource
+* delete keyterms: see from current assistant how to do that.
+
+
+
+
+
+Install Vista again. 20 Gbyte hd.
+
+
+
+
+
 Let Bibledit run for a night or so to see whether the git operations no longer choke.
 This was done, and the following morning a vcs.log of 530k was found, and bibledit-vcs not running.
 It apparently had crashed.
@@ -6976,63 +6995,7 @@ My program uses the Runtime.getProcess() method to get a process and then exec()
 What I didn't know was that the API automatically opens three streams (stdout, stderr, stdin) each time the getProcess() is called.  
 It is the responsibility of the caller to close those streams when done.
 Next try: To start bibledit-vcs by shell wrapper, which would be able to detect crash, and restart it again after a short delay.
-
-
-
-
-
-
-
-
-task #9663: Find and Replace one-at-a-time option
-There are times when doing a find and replace that there are several instances of the find string in one verse, 
-and where I only want to change one of the 2-3 instances in the verse. 
-Currently there is no way to do this in BE. One must halt the search and change such a verse manually.
-
-But if this happens in multiple verses, the problem is compounded. 
-Currently there is a bug where BE doesn't obey the instruction for which books are selected for search and replace. 
-So if one starts the search-replace again, any past instances where a change is not desired will show up again.
-
-Solution:
-* Fix the selection bug.
-Should disable "Book selection" if one of the other selection checkboxes has been ticked.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-task #9702: new bwoutpost.exe
-Once bibledit 3.9 has been released the following becomes relevant:
-
-A new Bibledit Windows Outpost is available.
-
-The helpfile needs to tell that the .exe can be dragged to the startbutton if needed.
-
-To update the helpfile and leave the download locations out, and inform that the .exe is included with the package now.
-
-The bwoutpost.exe can be removed from the download location. 
-
+Once bibledit-vcs has restarted, will it still quit on bibledit's message?
 
 
 
@@ -7044,34 +7007,17 @@ The bwoutpost.exe can be removed from the download location.
 
 task #9703: Import Bibles etc from the Online bible
 The new bwoutpost has the capability to connect to the Online Bible and retrieve verses from it. Let's exploit this to get data into Bibledit.
-
-
-
-
-
-
-
-
-task #9708: paratext keyterms
-About importing Paratext's keyterms, permission would be needed.
-
-We may import part of the keyterms, such as realia, flora, fauna.
-We may integrate our own flora and fauna of the nt and ot into one and the same. 
-
-
-
-
-
-
-
-
-
-
-
-task #9709: Delete Assistant
-It needs a delete assistant, and this assistant can delete other things as well.
-
-To delete a source language. 
+Since we're going to redo the outpost things, we might as well do it properly.
+Suggestions:
+* Newer Delphi, which can convert from the Online Bible's charset to UTF-8.
+* Outpost becomes a client to the server-based communications model.
+* It can get the base URL passed on its commandline, so it knows where to go.
+* If no URL is passed, it takes the default for use on Linux. That one points to the local host.
+* On import, Bibledit sends a bunch of commands to the Outpost that do the querying of book and chapter count.
+* On import, Bibledit sends a bunch of comamnds to the outpost for importing.
+* Bibledit's listener handles all requests coming back and then does the import.
+* Outpost normally is hidden, and tries to connect. If no connection gets established after say, 10 seconds, it shows and gives the error message.
+* Once it connects, it hides, and so forth.
 
 
 
@@ -7081,18 +7027,6 @@ To delete a source language.
 
 
 
-task #9721: Leverage the Online Bible
-The newest beta versions of the Online Bible run on Linux through the wine emulator.
-
-It would be helpful if the power of the Online Bible could be used for the Bible translators.
-
-The following would be possible:
-
-- To let the Online Bible scroll together with Bibledit. It would go through bwoutpost.exe under wine, and calling the "ShowPassage" command of the Online Bible.
-
-- To use the Online Bible's internal tools to check Bible texts. Copying what Larry said: "Did you know that if they create a BibleText noteset they can do their whole translation in Online Bible plus compile and distribute it when finished? Our Edit check facilities catch a lot of erros no word processor ever would."
-
-- Compile modules from USFM text for use in the Online Bible. 
 
 
 
@@ -7101,10 +7035,6 @@ The following would be possible:
 
 
 
-task #9740: not to scan the dbus for bibletime
-Focus sharing between Bibledit and BibleTime now works.
-
-Reminder: When BibleTime 2.3 is generally available, adapt Bibledit so that it no longer scans all the targets on the DBus.
 
 
 
@@ -7126,15 +7056,6 @@ If the References were shown in a wide window one could show the search string a
 
 
 
-
-
-
-
-
-
-
-
-
 Sharing project notes.
 * Private notes are not shared, but kept locally.
 * Git repository for the notes.
@@ -7144,6 +7065,219 @@ Sharing project notes.
 
 
 
+
+
+
+
+
+bug #27676: printing a selection fails
+To reproduce:
+
+Printing project, selecting one book, and e.g. 2:5 - 3:10 gives the wrong selection at printout.
+
+Selections within one chapter work fine.
+
+
+
+
+
+
+
+
+
+
+bug #27721: Junk in Compare pdfs
+The Compare routine adds several pages of unneeded information about books that are not within the range restriction requested.
+
+
+
+
+
+
+
+
+bug #27755: Bug in Check > Words > Inventory
+I set the inventory to only give me unique words, by checking the box and setting the number to 2.
+I get a blank window labeled Word Inventory in Firefox, and a line in the status bar at the bottom that says "Waiting for localhost."
+
+Changing the number to 3, and specifying no ordering, and Just for the New Testament, I get a blank window labeled Word Inventory, and in the status bar it says Done. However the window does seem to be waiting for something. BE looks like the process is done.
+
+It looks like the Word Inventory is just plain broken. 
+
+
+
+
+
+
+bug #27779: does not build against libgtkhtml3 version 3.8
+This function is called in libgtkhtml3...-, and the declaration will be in the libgtkhtml3...-dev version. There may be a 3.14 and a 3.8 version. If the one does not work then the other may. Could not find
+
+> info on that error on google, probably a very recent one. Hope you can
+> resolve it, would be interested in the resolution. Thanks. Teus.
+
+Removing 3.8 (which in Ubuntu at least does not contain the necessary
+headers) resolved my problem.
+
+
+
+
+
+
+
+
+
+
+
+bug #27786: osis codes
+To check the osis codes used. Some may not be right.
+
+http://www.crosswire.org/wiki/OSIS_Book_Abbreviations
+
+Old Testament* (39)
+Gen Genesis
+Exod Exodus
+Lev Leviticus
+Num Numbers
+Deut Deuteronomy
+Josh Joshua
+Judg Judges
+Ruth Ruth
+1Sam 1 Samuel
+2Sam 2 Samuel
+1Kgs 1 Kings
+2Kgs 2 Kings
+1Chr 1 Chronicles
+2Chr 2 Chronicles
+Ezra Ezra
+Neh Nehemiah
+Esth Esther[3]
+Job Job
+Ps Psalms
+Prov Proverbs
+Eccl Ecclesiastes Qohelet
+Song Song of Solomon Canticle of Canticles
+Isa Isaiah
+Jer Jeremiah
+Lam Lamentations
+Ezek Ezekiel
+Dan Daniel
+Hos Hosea
+Joel Joel
+Amos Amos
+Obad Obadiah
+Jonah Jonah
+Mic Micah
+Nah Nahum
+Hab Habakkuk
+Zeph Zephaniah
+Hag Haggai
+Zech Zechariah
+Mal Malachi
+
+New Testament* (27)
+Matt Matthew
+Mark Mark
+Luke Luke
+John John
+Acts Acts
+Rom Romans
+1Cor 1 Corinthians
+2Cor 2 Corinthians
+Gal Galatians
+Eph Ephesians
+Phil Philippians
+Col Colossians
+1Thess 1 Thessalonians
+2Thess 2 Thessalonians
+1Tim 1 Timothy
+2Tim 2 Timothy
+Titus Titus
+Phlm Philemon
+Heb Hebrews
+Jas James
+1Pet 1 Peter
+2Pet 2 Peter
+1John 1 John
+2John 2 John
+3John 3 John
+Jude Jude
+Rev Revelation
+
+Apocrypha* (18)
+Tob Tobit
+Jdt Judith
+AddEsth Additions to Esther
+Wis Wisdom Wisdom of Solomon
+Sir Sirach Ecclesiasticus
+Bar Baruch
+EpJer Letter of Jeremiah (= Bar.6)
+PrAzar Prayer of Azariah Song of the Three Children
+Sus Susanna
+Bel Bel and the Dragon
+1Macc 1 Maccabees
+2Macc 2 Maccabees
+3Macc 3 Maccabees
+4Macc 4 Maccabees
+PrMan Prayer of Manasseh (= Odes.14)
+1Esd 1 Esdras[4]
+2Esd 2 Esdras[4] 5 Ezra (= Bible.NRSVA:2Esd.1-2Esd.2)
+Ps151 Psalm 151 
+
+
+
+
+
+
+
+
+
+bug #27789: Word Inventory ignored character aren't found
+When you run a word inventory and ignore somthing like hyphens - the created web page correctly creates a list of words including the ones with hyphens. However when you click on the word with a hyphen, it is not found.
+
+To work around this, after you click the word, ctrl+f, turn off match start of word and match end of word options, and click find.
+
+
+
+
+
+
+
+
+
+bug #27796: Reference list switches to wrong window with 2 projects open
+If you have 2 projects open when you click a link in the reference window, the first link clicked will go to the right project, the second link to the wrong project, and the third link to the reference window itself. 
+
+
+
+
+
+
+
+
+
+bug #27949: Farsi Right-to-Left Cross Referencing and Printing
+1. When a printed pdf version of the text is made, whenever the footnotes and cross-references appear on the same page, they overlay on each other.
+
+2. Also page numbering and chapter numbering in the header part of the printed pages are still in Latin format and not Farsi.
+
+I have included 1John which has the references and footnotes on chapter 1. Also I have included a sample copy of the PDF output.
+
+
+
+
+
+bug #27978: related verses with two Strong's numbers not given
+Window related verses.
+E.g. Ezek 17.3
+There are two strong's numbers related to "longwinged". The related verses for these are not given.
+
+
+
+
+
+
+bug #27984: cloning empty git repo fails
+When git is new enough so that it should be able to clone an empty bible repository, if doing that through the GUI, it gives failures.
 
 
 

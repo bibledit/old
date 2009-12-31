@@ -344,18 +344,7 @@ void on_rescan_bus()
       break;
     }
   }
-  // If the BibleTime service was not found, inspect each name on the bus whether it represents BibleTime.
-  if (bibletime_bus_name.empty()) {
-    for (unsigned int i = 0; i < names_on_bus.size(); i++) {
-      if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
-        bibletime_bus_name = names_on_bus[i];
-        printf ("BibleTime on DBus represented by name %s\n", names_on_bus[i].c_str());
-        fflush (stdout);
-        break;
-      }
-    }
-  }
-  // If BibleTime is still not found, give a message.
+  // If BibleTime is not found, give a message.
   if (bibletime_bus_name.empty()) {
     printf ("BibleTime not on DBus\n");
     fflush (stdout);
@@ -436,21 +425,6 @@ void send(const gchar * bus_name, const gchar * object, const gchar * interface,
 
   // Clear memory.
   dbus_message_unref(message);
-}
-
-
-bool check_if_bibletime_bus_name (const gchar * bus_name)
-// Checks whether the "bus_name" belongs to BibleTime:
-// dbus-send --print-reply --dest=:1.502 / org.freedesktop.DBus.Introspectable.Introspect
-// (The ":1.502" is the bus_name.
-{
-  vector <string> reply = method_call_wait_reply (bus_name, "/", "org.freedesktop.DBus.Introspectable", "Introspect", true);
-  if (!reply.empty ()) {
-    if (reply[0].find ("BibleTime") != string::npos) {
-      return true;
-    }
-  }
-  return false;
 }
 
 
