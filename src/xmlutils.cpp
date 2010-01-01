@@ -49,10 +49,8 @@ void xml_sort_positions(vector < size_t > &positions, vector < size_t > &lengths
 
 
 void xml_combine_overlaps(vector < size_t > &positions, vector < size_t > &lengths)
-/*
-  If there are words in a line that are to be highlighted, and some of 
-  these words overlap, combine these words into one string to be highlighted.
-*/
+// If there are words in a line that are to be highlighted, and some of 
+// these words overlap, combine these words into one string to be highlighted.
 {
   // If there are less than 2 positions, there can not be any overlap. Return.
   if (positions.size() < 2)

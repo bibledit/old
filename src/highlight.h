@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include "editor_aids.h"
+#include "htmlwriter2.h"
 
 
 class Highlight
@@ -47,21 +48,19 @@ private:
   GtkTextView * maintextview;
   gint main_start_offset;
   gint main_end_offset;
-  vector <GtkTextBuffer *> searchbuffers;
-  vector <GtkTextView *> searchviews;
   vector <gint> highlightwordstarts;
   vector <gint> highlightwordends;
   vector <GtkTextBuffer *> highlightbuffers;
   vector <GtkTextView *> highlightviews;
   void searchwords (GtkTextBuffer * textbuffer, GtkTextView * textview, gint startoffset, gint endoffset);
+  void searchwords_find_fast (GtkTextBuffer * textbuffer, 
+                              GtkTextIter * beginbound, GtkTextIter * endbound,
+                              const ustring & searchword, bool casesensitive,
+                              vector <GtkTextIter>& wordstart, vector<GtkTextIter>& wordend);
   void searchwords_find_slow (GtkTextBuffer * textbuffer, 
                               GtkTextIter * beginbound, GtkTextIter * endbound,
                               const ustring & searchword,
                               bool casesensitive, bool globbing, bool matchbegin, bool matchend,
-                              vector <GtkTextIter>& wordstart, vector<GtkTextIter>& wordend);
-  void searchwords_find_fast (GtkTextBuffer * textbuffer, 
-                              GtkTextIter * beginbound, GtkTextIter * endbound,
-                              const ustring & searchword, bool casesensitive,
                               vector <GtkTextIter>& wordstart, vector<GtkTextIter>& wordend);
   void searchwords_in_area (GtkTextBuffer * textbuffer, 
                             vector <GtkTextIter>& start, vector<GtkTextIter>& end,
@@ -70,6 +69,10 @@ private:
   void remove_previous_highlights (GtkTextBuffer * textbuffer);
 };
 
+
+bool searchwords_find_fast (const ustring& text, 
+                            const vector <ustring>& searchwords, const vector <bool>& wholewords, const vector <bool>& casesensitives, 
+                            vector <size_t>& startpositions, vector <size_t>& lengths);
 
 
 #endif

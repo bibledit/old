@@ -28,6 +28,7 @@
 #include "screen.h"
 #include "settings.h"
 #include "date_time_utils.h"
+#include "xmlutils.h"
 
 
 Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring & project, GtkTextTag * tag, const ustring & verse)
@@ -79,11 +80,6 @@ Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring
     main_start_offset = gtk_text_iter_get_offset(&startiter);
     main_end_offset = gtk_text_iter_get_offset(&enditer);
   }
-
-  // Go through all the embedded editors that are within the verse, 
-  // and mark these for processing too.
-  //searchbuffers.push_back(editornotes[i].textbuffer);
-  //searchviews.push_back(GTK_TEXT_VIEW(editornotes[i].textview));
 }
 
 
@@ -134,6 +130,42 @@ be highlighted highlights based upon the word that was searched for.
       highlightwordends.push_back(gtk_text_iter_get_offset(&wordend[i]));
       highlightbuffers.push_back(textbuffer);
       highlightviews.push_back(textview);
+    }
+  }
+}
+
+
+void Highlight::searchwords_find_fast(GtkTextBuffer * textbuffer, GtkTextIter * beginbound, GtkTextIter * endbound, const ustring & searchword, bool casesensitive, vector < GtkTextIter > &wordstart, vector < GtkTextIter > &wordend)
+// Searches for words to highlight. For simple highligthing. 
+// Is much faster than the slow routine, see there fore more information.
+{
+  // Variable.
+  GtkTextIter begin;
+  GtkTextIter end;
+  // Extract the line.
+  ustring line = gtk_text_buffer_get_slice(textbuffer, beginbound, endbound, false);
+  // Deal with case sensitivity.
+  ustring case_considerate_search_word(searchword);
+  if (!casesensitive)
+    case_considerate_search_word = case_considerate_search_word.casefold();
+  // Go through the line looking for matches.
+  for (unsigned int i = 0; i < line.length(); i++) {
+    if (interrupt_thread)
+      continue;
+    ustring compareline(line.substr(i, searchword.length()));
+    // Deal with case sensitivity.
+    if (!casesensitive)
+      compareline = compareline.casefold();
+    // Now compare.
+    if (case_considerate_search_word == compareline) {
+      // Get the iterators in the textbuffer that belong to this possible match.
+      begin = *beginbound;
+      gtk_text_iter_forward_chars(&begin, i);
+      end = begin;
+      gtk_text_iter_forward_chars(&end, searchword.length());
+      // Add the boundaries of the word to highlight.
+      wordstart.push_back(begin);
+      wordend.push_back(end);
     }
   }
 }
@@ -242,42 +274,6 @@ to highlight, not from the casefolded searchword, but the original one.
 }
 
 
-void Highlight::searchwords_find_fast(GtkTextBuffer * textbuffer, GtkTextIter * beginbound, GtkTextIter * endbound, const ustring & searchword, bool casesensitive, vector < GtkTextIter > &wordstart, vector < GtkTextIter > &wordend)
-// Searches for words to highlight. For simple highligthing. 
-// Is much faster than the slow routine, see there fore more information.
-{
-  // Variable.
-  GtkTextIter begin;
-  GtkTextIter end;
-  // Extract the line.
-  ustring line = gtk_text_buffer_get_slice(textbuffer, beginbound, endbound, false);
-  // Deal with case sensitivity.
-  ustring case_considerate_search_word(searchword);
-  if (!casesensitive)
-    case_considerate_search_word = case_considerate_search_word.casefold();
-  // Go through the line looking for matches.
-  for (unsigned int i = 0; i < line.length(); i++) {
-    if (interrupt_thread)
-      continue;
-    ustring compareline(line.substr(i, searchword.length()));
-    // Deal with case sensitivity.
-    if (!casesensitive)
-      compareline = compareline.casefold();
-    // Now compare.
-    if (case_considerate_search_word == compareline) {
-      // Get the iterators in the textbuffer that belong to this possible match.
-      begin = *beginbound;
-      gtk_text_iter_forward_chars(&begin, i);
-      end = begin;
-      gtk_text_iter_forward_chars(&end, searchword.length());
-      // Add the boundaries of the word to highlight.
-      wordstart.push_back(begin);
-      wordend.push_back(end);
-    }
-  }
-}
-
-
 void Highlight::searchwords_in_area(GtkTextBuffer * textbuffer, vector < GtkTextIter > &start, vector < GtkTextIter > &end, bool area_id, bool area_intro, bool area_heading, bool area_chapter, bool area_study, bool area_notes, bool area_xref, bool area_verse)
 /*
 Finds out whether the text within the "start" and "end" iterators is inside
@@ -354,18 +350,8 @@ void Highlight::remove_previous_highlights(GtkTextBuffer * textbuffer)
 void Highlight::determine_locations()
 // Determine the locations where to highlight text.
 {
-  // Call the highlight routine for the main body of text.
+  // Call the highlight routine for the text.
   searchwords(maintextbuffer, maintextview, main_start_offset, main_end_offset);
-
-  // Call the routine for the relevant embedded editors.
-  for (unsigned int i = 0; i < searchbuffers.size(); i++) {
-    if (interrupt_thread)
-      continue;
-    GtkTextIter enditer;
-    gtk_text_buffer_get_end_iter(searchbuffers[i], &enditer);
-    gint endoffset = gtk_text_iter_get_offset(&enditer);
-    searchwords(searchbuffers[i], searchviews[i], 0, endoffset);
-  }
 
   // Set a flag informing the main thread that the locations are available.
   locations_ready = true;
@@ -392,3 +378,84 @@ void Highlight::highlight()
     }
   }
 }
+
+
+bool searchwords_find_fast (const ustring& text, 
+                            const vector <ustring>& searchwords, const vector <bool>& wholewords, const vector <bool>& casesensitives, 
+                            vector <size_t>& startpositions, vector <size_t>& lengths)
+// Finds occurrences of searchwords in the text.
+// text: Text to be looked through.
+// searchwords: Search words to look for.
+// wholewords / casesensitives: Attributes of the searchwords.
+// startpositions: If non-NULL, will be filled with the positions that each searchword starts at.
+// lengths: If non-NULL, will be filled with the lengths of the searchwords found.
+// Returns whether one or more searchwords were found in the text.
+{
+  // Clear output containers.
+  startpositions.clear();
+  lengths.clear();
+
+  // A textbuffer makes searching text easier in this case.
+  GtkTextBuffer * textbuffer = gtk_text_buffer_new (NULL);
+  gtk_text_buffer_set_text (textbuffer, text.c_str(), -1);
+  GtkTextIter startiter;
+  gtk_text_buffer_get_start_iter(textbuffer, &startiter);
+
+  bool found = false;
+
+  // Go through all words to look for.
+  for (unsigned int i2 = 0; i2 < searchwords.size(); i2++) {
+
+    // Define this search word and its parameters.
+    ustring searchword = searchwords[i2];
+    bool wholeword = wholewords[i2];
+    bool casesensitive = casesensitives[i2];
+
+    // Handle case sensitivity.
+    ustring mytext;
+    ustring mysearchword;
+    if (casesensitive) {
+      mytext = text;
+      mysearchword = searchword;
+    } else {
+      mytext = text.casefold();
+      mysearchword = searchword.casefold();
+    }
+    // Find all occurrences of the word.
+    size_t position = mytext.find(mysearchword);
+    while (position != string::npos) {
+      bool temporally_approved = true;
+      GtkTextIter approvedstart = startiter;
+      GtkTextIter approvedend;
+      gtk_text_iter_forward_chars(&approvedstart, position);
+      approvedend = approvedstart;
+      gtk_text_iter_forward_chars(&approvedend, searchword.length());
+      if (wholeword) {
+        if (!gtk_text_iter_starts_word(&approvedstart))
+          temporally_approved = false;
+        if (!gtk_text_iter_ends_word(&approvedend))
+          temporally_approved = false;
+      }
+      if (temporally_approved) {
+        found = true;
+        startpositions.push_back (position);
+        lengths.push_back (searchword.length());
+      }
+      position = mytext.find(mysearchword, ++position);
+    }
+  }
+ 
+  // Free textbuffer used.
+  g_object_unref (textbuffer);  
+
+  if (found) {
+    // Sort the output.
+    quick_sort (startpositions, lengths, 0, startpositions.size());
+    // Overlapping items need to be combined to avoid crashes.
+    xml_combine_overlaps (startpositions, lengths);
+  }
+
+  // Return true if anything was found.  
+  return found;
+}
+

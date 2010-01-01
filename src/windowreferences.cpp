@@ -39,6 +39,7 @@
 #include "usfmtools.h"
 #include "dialogeditlist.h"
 #include "kjv.h"
+#include "highlight.h"
 
 
 WindowReferences::WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, bool reference_management_enabled):
@@ -472,18 +473,46 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter) // Todo
   // Write action bar.
   html_write_action_bar (htmlwriter, true);
 
+  // Assemble searchwords for highlighting.
+  vector <ustring> searchwords;
+  vector <bool> wholewords;
+  vector <bool> casesensitives;
+  extern Settings * settings;
+  for (unsigned int i = 0; i < settings->session.highlights.size(); i++) {
+    searchwords.push_back (settings->session.highlights[i].word);
+    wholewords.push_back (settings->session.highlights[i].matchbegin && settings->session.highlights[i].matchend);
+    casesensitives.push_back (settings->session.highlights[i].casesensitive);
+  }
+  
   // The references.
   for (unsigned int i = lower_boundary; i < upper_boundary; i++) {
     htmlwriter.paragraph_open();
     ustring url = "goto " + convert_to_string (i);
     htmlwriter.hyperlink_add (url, references[i].human_readable (language));
     if (!comments[i].empty()) {
+      htmlwriter.italics_open ();
       htmlwriter.text_add (" [");
       htmlwriter.text_add (comments[i]);
       htmlwriter.text_add ("] ");
+      htmlwriter.italics_close();
     }
     ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
     text = usfm_get_verse_text_only (text);
+    // Search words highlighting.
+    vector <size_t> startpositions;
+    vector <size_t> lengths;
+    if (searchwords_find_fast (text, searchwords, wholewords, casesensitives, startpositions, lengths)) {
+      size_t processposition = 0;
+      for (unsigned int i = 0; i < startpositions.size(); i++) {
+        htmlwriter.text_add (text.substr (0, startpositions[i] - processposition));
+        htmlwriter.bold_open();
+        htmlwriter.text_add (text.substr (startpositions[i] - processposition, lengths[i]));
+        htmlwriter.bold_close();
+        text.erase (0, startpositions[i] - processposition + lengths[i]);
+        processposition = startpositions[i] + lengths[i];
+      }
+    }
+    // Add whatever is left over. This could be the full text in case it wasn't processed.
     htmlwriter.text_add (text);
     htmlwriter.paragraph_close();
   }
@@ -697,3 +726,27 @@ void WindowReferences::goto_next_previous_internal(bool next)
 }
 
 
+/*
+
+Todo task #9742
+
+* If a search or replace is done, or the references are loaded from file while there's a search string stored, 
+  to bold the search string in the html view.
+
+* A setting how much text to include, e.g. all text, or so many words. The bold word, if any, should then be in the middle - else take so man
+  words from the start. one could show the search string and some characters on either side, with the search string bolded. 
+
+* If there are more hits in one verse, each hits is given on its own line. This would increase the number of hits in one window.
+
+* When a second or later hit is chosen in the window, the editor would move the cursor to the second or later hit too.
+  Information could be stored in the html link that will be clicked.
+
+
+
+
+
+
+
+
+
+*/

@@ -307,10 +307,6 @@ void git_pull_push (const ustring& project)
   ustring datadirectory = project_data_directory_project(project);
   ustring url;
 
-  // Information about which Bible is being updated.  
-  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "echo Updating Bible " + project, datadirectory);
-  urltransport->send_message_in_sequence (url);
-
   // Add everything because things could have been added or changed.
   url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git add .", datadirectory);
   urltransport->send_message_in_sequence (url);

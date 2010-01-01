@@ -6963,53 +6963,7 @@ Todo tasks.
 
 
 
-task #9742: Option for one-line references
-
-I appreciate having the complete verse in the references MOST of the time. 
-* But when I am doing a lot of searches for small things, I often wish that BE had the option to show the verses in a one line display.
-If the References were shown in a wide window one could show the search string and some characters on either side, with the search string bolded. 
-Implentation:
-
-* A change in display: The verse text shows on the same line as the reference.
-
-* If a search or replace is done, or the references are loaded from file while there's a search string stored, to bold the search string in the html view.
-
-* A setting how much text to include, e.g. all text, or so many words. The bold word, if any, should then be in the middle - else take so man
-  words from the start.
-
-* If there are more hits in one verse, each hits is given on its own line. This would increase the number of hits in one window.
-
-* When a second or later hit is chosen in the window, the editor would move the cursor to the second or later hit too.
-  Information could be stored in the html link that will be clicked.
-
-
-
-
-
-Install Vista again. 20 Gbyte hd.
-
-
-
-
-
-Let Bibledit run for a night or so to see whether the git operations no longer choke.
-This was done, and the following morning a vcs.log of 530k was found, and bibledit-vcs not running.
-It apparently had crashed.
-Next try: To start bibledit-vcs by hand, see what the exit code is when it crashes.
-Result: After an hour or so it gave a Segmentation fault.
-Next try: To run bibledit-vcs in the debugger.
-Segmentation fault in fgets
-sh: Too many open files, probably after 1024 iterations. We may have to gtk_main_quit after, say, 500 iterations, then restart.
-Needs a standard exit code, though, so the shell wrapper can catch it.
-Call wrapper instead of the binary.
-My program uses the Runtime.getProcess() method to get a process and then exec() an external script.  
-What I didn't know was that the API automatically opens three streams (stdout, stderr, stdin) each time the getProcess() is called.  
-It is the responsibility of the caller to close those streams when done.
-Next try: To start bibledit-vcs by shell wrapper, which would be able to detect crash, and restart it again after a short delay.
-Once bibledit-vcs has restarted, will it still quit on bibledit's message?
-It now opens all three files, stdin, stdout, stderr. Let's see how it goes.
-It now uses system (), try how it goes.
-
+The vcs.log file gets very large. Can we suppress curl's  reports, and the "uploaded" message, and more?
 
 
 

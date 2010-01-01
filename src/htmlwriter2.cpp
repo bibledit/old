@@ -30,6 +30,7 @@ HtmlWriter2::HtmlWriter2(const ustring & title)
   heading_opened = false;
   paragraph_opened = false;
   bold_level = 0;
+  italics_level = 0;
 
   buffer = xmlBufferCreate();
   writer = xmlNewTextWriterMemory(buffer, 0);
@@ -184,6 +185,22 @@ void HtmlWriter2::bold_close()
   if (bold_level) {
     xmlTextWriterEndElement(writer);
     bold_level--;
+  }
+}
+
+
+void HtmlWriter2::italics_open()
+{
+  xmlTextWriterStartElement(writer, BAD_CAST "i");
+  italics_level++;
+}
+
+
+void HtmlWriter2::italics_close()
+{
+  if (italics_level) {
+    xmlTextWriterEndElement(writer);
+    italics_level--;
   }
 }
 
