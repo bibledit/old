@@ -40,6 +40,7 @@
 #include "dialogeditlist.h"
 #include "kjv.h"
 #include "highlight.h"
+#include "dialogreferencesettings.h"
 
 
 WindowReferences::WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, bool reference_management_enabled):
@@ -440,6 +441,13 @@ void WindowReferences::html_link_clicked (const gchar * url)
     html_write_references (htmlwriter);
   }
 
+  else if (active_url.find ("settings") == 0) {
+    // Make settings.
+    ReferenceSettingsDialog dialog (0);
+    dialog.run();
+    html_write_references (htmlwriter);
+  }
+
   else {
     // Load the references.
     html_write_references (htmlwriter);
@@ -496,24 +504,28 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter) // Todo
       htmlwriter.text_add ("] ");
       htmlwriter.italics_close();
     }
-    ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
-    text = usfm_get_verse_text_only (text);
-    // Search words highlighting.
-    vector <size_t> startpositions;
-    vector <size_t> lengths;
-    if (searchwords_find_fast (text, searchwords, wholewords, casesensitives, startpositions, lengths)) {
-      size_t processposition = 0;
-      for (unsigned int i = 0; i < startpositions.size(); i++) {
-        htmlwriter.text_add (text.substr (0, startpositions[i] - processposition));
-        htmlwriter.bold_open();
-        htmlwriter.text_add (text.substr (startpositions[i] - processposition, lengths[i]));
-        htmlwriter.bold_close();
-        text.erase (0, startpositions[i] - processposition + lengths[i]);
-        processposition = startpositions[i] + lengths[i];
+    
+    // If text is to be shown, do so.
+    if (settings->genconfig.reference_window_show_verse_text_get()) {
+      ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
+      text = usfm_get_verse_text_only (text);
+      // Search words highlighting.
+      vector <size_t> startpositions;
+      vector <size_t> lengths;
+      if (searchwords_find_fast (text, searchwords, wholewords, casesensitives, startpositions, lengths)) {
+        size_t processposition = 0;
+        for (unsigned int i = 0; i < startpositions.size(); i++) {
+          htmlwriter.text_add (text.substr (0, startpositions[i] - processposition));
+          htmlwriter.bold_open();
+          htmlwriter.text_add (text.substr (startpositions[i] - processposition, lengths[i]));
+          htmlwriter.bold_close();
+          text.erase (0, startpositions[i] - processposition + lengths[i]);
+          processposition = startpositions[i] + lengths[i];
+        }
       }
+      // Add whatever is left over. This could be the full text in case it wasn't processed.
+      htmlwriter.text_add (text);
     }
-    // Add whatever is left over. This could be the full text in case it wasn't processed.
-    htmlwriter.text_add (text);
     htmlwriter.paragraph_close();
   }
   
@@ -596,6 +608,12 @@ void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
   if (references_management_on) {
     htmlwriter.paragraph_open ();
     htmlwriter.hyperlink_add ("open", "Import a list of references");
+    htmlwriter.paragraph_close ();
+  }
+  // Settings.
+  {
+    htmlwriter.paragraph_open ();
+    htmlwriter.hyperlink_add ("settings", "Settings");
     htmlwriter.paragraph_close ();
   }
 }
@@ -730,10 +748,9 @@ void WindowReferences::goto_next_previous_internal(bool next)
 
 Todo task #9742
 
-* If a search or replace is done, or the references are loaded from file while there's a search string stored, 
-  to bold the search string in the html view.
+* A setting how much text to include, e.g. all text, or so many words. In a gtk dialog - easier.
 
-* A setting how much text to include, e.g. all text, or so many words. The bold word, if any, should then be in the middle - else take so man
+* The bold word, if any, should then be in the middle - else take so many
   words from the start. one could show the search string and some characters on either side, with the search string bolded. 
 
 * If there are more hits in one verse, each hits is given on its own line. This would increase the number of hits in one window.

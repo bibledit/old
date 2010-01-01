@@ -215,6 +215,8 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(projects_displaying_verses);
   INITIALIZE(compare_disregard_notes);
   INITIALIZE(source_language_names);
+  INITIALIZE(reference_window_show_verse_text);
+  INITIALIZE(reference_window_show_relevant_bits);
 }
 
 
@@ -374,9 +376,12 @@ void GeneralConfiguration::save()
   SAVE_VALUE(projects_displaying_verses);
   SAVE_VALUE(compare_disregard_notes);
   SAVE_VALUE(source_language_names);
+  SAVE_VALUE(reference_window_show_verse_text);
+  SAVE_VALUE(reference_window_show_relevant_bits);
 
   config_xml_values_set_execute(general_configuration_filename(), values);
 }
+
 
 bool GeneralConfiguration::bool_get(const gchar * key, bool & store, bool & loaded, bool standard)
 {
@@ -387,6 +392,7 @@ bool GeneralConfiguration::bool_get(const gchar * key, bool & store, bool & load
   return store;
 }
 
+
 int GeneralConfiguration::int_get(const gchar * key, int &store, bool & loaded, int standard)
 {
   if (!loaded) {
@@ -395,6 +401,7 @@ int GeneralConfiguration::int_get(const gchar * key, int &store, bool & loaded, 
   }
   return store;
 }
+
 
 ustring GeneralConfiguration::string_get(const gchar * key, ustring & store, bool & loaded, const ustring & standard)
 {
@@ -405,6 +412,7 @@ ustring GeneralConfiguration::string_get(const gchar * key, ustring & store, boo
   return store;
 }
 
+
 double GeneralConfiguration::double_get(const gchar * key, double &store, bool & loaded, double standard)
 {
   if (!loaded) {
@@ -413,6 +421,7 @@ double GeneralConfiguration::double_get(const gchar * key, double &store, bool &
   }
   return store;
 }
+
 
 vector < bool > GeneralConfiguration::vector_bool_get(const gchar * key, vector < bool > &store, bool & loaded, void *dummy)
 {
@@ -423,6 +432,7 @@ vector < bool > GeneralConfiguration::vector_bool_get(const gchar * key, vector 
   return store;
 }
 
+
 vector < ustring > GeneralConfiguration::vector_string_get(const gchar * key, vector < ustring > &store, bool & loaded, void *dummy)
 {
   if (!loaded) {
@@ -431,6 +441,7 @@ vector < ustring > GeneralConfiguration::vector_string_get(const gchar * key, ve
   }
   return store;
 }
+
 
 vector < int >GeneralConfiguration::vector_int_get(const gchar * key, vector < int >&store, bool & loaded, void *dummy)
 {
@@ -441,6 +452,7 @@ vector < int >GeneralConfiguration::vector_int_get(const gchar * key, vector < i
   return store;
 }
 
+
 vector < double >GeneralConfiguration::vector_double_get(const gchar * key, vector < double >&store, bool & loaded, void *dummy)
 {
   if (!loaded) {
@@ -449,6 +461,7 @@ vector < double >GeneralConfiguration::vector_double_get(const gchar * key, vect
   }
   return store;
 }
+
 
 // Definitions of the implementation of the code in the general configuration.
 #define IMPLEMENT(type, getter, store, defaultvalue) \
@@ -607,3 +620,5 @@ IMPLEMENT(int, int_get, print_job, 0)
 IMPLEMENT(vector < ustring >, vector_string_get, projects_displaying_verses, NULL)
 IMPLEMENT(bool, bool_get, compare_disregard_notes, false)
 IMPLEMENT(vector <ustring>, vector_string_get, source_language_names, NULL)
+IMPLEMENT(bool, bool_get, reference_window_show_verse_text, true)
+IMPLEMENT(bool, bool_get, reference_window_show_relevant_bits, false)

@@ -272,7 +272,8 @@ bibledit_SOURCES = \
 				nanohttp.cpp \
 				c_url.cpp \
 				urltransport.cpp \
-				ipc.cpp
+				ipc.cpp \
+				dialogreferencesettings.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 
