@@ -1476,6 +1476,7 @@ void Usfm2Text::set_new_book(unsigned int book_in)
   text2pdf->suppress_header_this_page();
 }
 
+
 void Usfm2Text::set_new_chapter(unsigned int chapter_in)
 {
   chapter = chapter_in;
@@ -1487,11 +1488,11 @@ void Usfm2Text::set_new_chapter(unsigned int chapter_in)
   if (chapter_number_in_running_header_at_right_pages) {
     right = chapter_in;
   }
-  set_new_verse("0");
   inrange.set_chapter(chapter);
   if (inrange.in_range())
     text2pdf->set_running_chapter_number(left, right);
 }
+
 
 void Usfm2Text::set_new_verse(const ustring & verse_in)
 {

@@ -6965,6 +6965,23 @@ Todo tasks.
 
 
 
+bug #27676: printing a selection fails
+To reproduce:
+
+Printing project, selecting one book, and e.g. 2:5 - 3:10 gives the wrong selection at printout.
+
+Selections within one chapter work fine.
+
+Try the parallel bible also with such selections.
+
+
+
+
+
+
+
+
+
 
 
 
@@ -7015,25 +7032,13 @@ Sharing project notes.
 * Private notes are not shared, but kept locally.
 * Git repository for the notes.
 * How many files fit in a flat directory? There are 33743 notes now. No worries, there can be many more of these before performance degrades.
-* Perhaps to use an index database for speeding up navigation and searching.
-* The index database would double space requirements.|
-
-
-
-
-
-
-
-
-bug #27676: printing a selection fails
-To reproduce:
-
-Printing project, selecting one book, and e.g. 2:5 - 3:10 gives the wrong selection at printout.
-
-Selections within one chapter work fine.
-
-
-
+* To use an index database for speeding up navigation and searching.
+* The current database can be kept as it is, but flat files are formed out of that. This is a verbatim process.
+* We cannot use xml files because of the merge system of git - it needs to be "x=y" ones or the [header] ones as created by glib.
+  but glib may not handle it since there are many new lines.
+* The flat files are to be stored in directory "data" of ~/.bibledit/notes, just like with the projects, so that the index database is not shared.
+* The id number becomes the name of the file.
+* Private notes are stored in subdirectory "private".
 
 
 

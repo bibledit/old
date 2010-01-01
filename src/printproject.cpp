@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "printproject.h"
@@ -41,6 +42,7 @@
 #include "text2pdf.h"
 #include "usfm2text.h"
 
+
 PrintProject::PrintProject(ProjectMemory * project)
 {
   myproject = project;
@@ -48,16 +50,19 @@ PrintProject::PrintProject(ProjectMemory * project)
   nobold = false;
 }
 
+
 PrintProject::~PrintProject()
 {
   if (scriptureportions)
     delete scriptureportions;
 }
 
+
 void PrintProject::portion_project(const ustring & project)
 {
   portionproject = project;
 }
+
 
 void PrintProject::comment(const ustring & text)
 // Adds a comment to be printed with the main text.
@@ -65,13 +70,15 @@ void PrintProject::comment(const ustring & text)
   comments.push_back(text);
 }
 
+
 void PrintProject::no_bold ()
 // No bold printing (except for the changes).
 {
   nobold = true;
 }
 
-void PrintProject::print()
+
+void PrintProject::print() // Todo
 // Formats the project and shows it in a pdf viewer.
 {
   // Scripture related data.
@@ -117,11 +124,14 @@ void PrintProject::print()
   if (settings->session.print_references_in_notes_in_full)
     usfm2text.set_include_full_references_with_notes();
 
-  // Portions.  
+  // Portions. Todo
   for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
-    vector < unsigned int >chapters_from, chapters_to;
-    vector < ustring > verses_from, verses_to;
+    vector <unsigned int> chapters_from, chapters_to;
+    vector <ustring> verses_from, verses_to;
     select_portion_get_values(portionproject, books_english_to_id(scriptureportions->books[i]), scriptureportions->portions[i], chapters_from, verses_from, chapters_to, verses_to);
+    for (unsigned int i2 = 0; i2 < chapters_from.size(); i2++) {
+      cout << scriptureportions->books[i] << " " << chapters_from[i2] << ":" << verses_from[i2] << " - " << chapters_to[i2] << ":" << verses_to[i2] << endl; // Todo
+    }
     usfm2text.add_print_portion(books_english_to_id(scriptureportions->books[i]), chapters_from, verses_from, chapters_to, verses_to);
   }
 

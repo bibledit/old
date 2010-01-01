@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_PRINTPROJECT_H
 #define INCLUDED_PRINTPROJECT_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
@@ -27,6 +29,7 @@
 #include "usfm-inline-markers.h"
 #include "scriptureportions.h"
 #include "project_memory.h"
+
 
 class PrintProject
 {
@@ -45,5 +48,6 @@ private:
   vector <ustring> comments;
   bool nobold;
 };
+
 
 #endif

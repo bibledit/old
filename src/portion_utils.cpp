@@ -17,12 +17,14 @@
 **  
 */
 
+
 #include "portion_utils.h"
 #include "constants.h"
 #include "utilities.h"
 #include "projectutils.h"
 #include "books.h"
 #include "tiny_utilities.h"
+
 
 void select_portion_get_values(const ustring & project, unsigned int book, const ustring & portion, vector < unsigned int >&chapters_from, vector < ustring > &verses_from, vector < unsigned int >&chapters_to, vector < ustring > &verses_to)
 // Takes "portion", and extracts the chapters and verses from it.
@@ -87,6 +89,7 @@ void select_portion_get_values(const ustring & project, unsigned int book, const
   }
 }
 
+
 ustring select_portion_get_label(const ustring & project, unsigned int book, unsigned int chapter_from, const ustring & verse_from, unsigned int chapter_to, const ustring & verse_to)
 {
   // Assemble the label, e.g.: "10.6-7 to 11.1,2a"
@@ -117,6 +120,7 @@ ustring select_portion_get_label(const ustring & project, unsigned int book, uns
   return label;
 }
 
+
 vector < ustring > select_portion_get_portions(const ustring & portion)
 // Extract the various possible portions from the one master-portion.
 {
@@ -126,6 +130,7 @@ vector < ustring > select_portion_get_portions(const ustring & portion)
   }
   return parse.words;
 }
+
 
 ustring select_portion_get_portion(const vector < ustring > &portions)
 // Assemble a master-portion from the various possible portions.
@@ -140,13 +145,16 @@ ustring select_portion_get_portion(const vector < ustring > &portions)
   return portion;
 }
 
+
 WithinReferencesRange::WithinReferencesRange()
 {
 }
 
+
 WithinReferencesRange::WithinReferencesRange(int dummy)
 {
 }
+
 
 void WithinReferencesRange::add_portion(unsigned int book_in, vector < unsigned int >chapters_from_in, const vector < ustring > &verses_from_in, vector < unsigned int >chapters_to_in, const vector < ustring > &verses_to_in)
 {
@@ -173,23 +181,30 @@ void WithinReferencesRange::add_portion(unsigned int book_in, vector < unsigned 
   mychapter = 0;
 }
 
+
 void WithinReferencesRange::set_book(unsigned int book)
 {
+  cout << "set book " << book << endl; // Todo
   mybook = book;
   set_chapter(0);
 }
 
+
 void WithinReferencesRange::set_chapter(unsigned int chapter)
 {
+  cout << "set chapter " << chapter << endl; // Todo
   mychapter = chapter;
   set_verse("0");
 }
 
+
 void WithinReferencesRange::set_verse(const ustring & verse)
 {
+  cout << "set verse " << verse << endl; // Todo
   myverse = verse;
   verify_range();
 }
+
 
 void WithinReferencesRange::verify_range()
 // Verify whether the current reference is within the various ranges.
@@ -221,7 +236,8 @@ void WithinReferencesRange::verify_range()
   }
 }
 
-bool WithinReferencesRange::in_range()
+
+bool WithinReferencesRange::in_range() // Todo
 // Return true if the current reference is within the various ranges.
 {
   // If no ranges are given, it is considered "in range".
@@ -236,3 +252,4 @@ bool WithinReferencesRange::in_range()
   // Out of range.
   return false;
 }
+
