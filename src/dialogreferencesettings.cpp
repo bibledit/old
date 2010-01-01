@@ -18,23 +18,15 @@
  */
 
 
-#include "utilities.h"
 #include "dialogreferencesettings.h"
-#include <glib.h>
-#include "notes_utils.h"
-#include "dialogdate.h"
-#include "date_time_utils.h"
-#include "combobox.h"
 #include "settings.h"
 #include "help.h"
 #include "shortcuts.h"
 #include "directories.h"
 #include "gwrappers.h"
-#include "tiny_utilities.h"
-#include "books.h"
 
 
-ReferenceSettingsDialog::ReferenceSettingsDialog(int dummy) // Todo
+ReferenceSettingsDialog::ReferenceSettingsDialog(int dummy)
 {
   extern Settings *settings;
   Shortcuts shortcuts(0);

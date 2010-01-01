@@ -465,7 +465,7 @@ void WindowReferences::html_link_clicked (const gchar * url)
 }
 
 
-void WindowReferences::html_write_references (HtmlWriter2& htmlwriter) // Todo
+void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
 {
   // If the upper boundary is too high, put it a page lower, if possible.
   if (upper_boundary > references.size()) {
@@ -512,8 +512,38 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter) // Todo
       // Search words highlighting.
       vector <size_t> startpositions;
       vector <size_t> lengths;
-      if (searchwords_find_fast (text, searchwords, wholewords, casesensitives, startpositions, lengths)) {
-        size_t processposition = 0;
+      searchwords_find_fast (text, searchwords, wholewords, casesensitives, startpositions, lengths);
+      size_t processposition = 0;
+      if (settings->genconfig.reference_window_show_relevant_bits_get()) {
+        // Show a few words before the search word, and a few after, not the whole text.
+        if (startpositions.empty()) {
+          startpositions.push_back (0);
+          lengths.push_back (0);
+        }
+        for (unsigned int i = 0; i < startpositions.size(); i++) {
+          if (i) {
+            htmlwriter.paragraph_close();
+            htmlwriter.paragraph_open();
+          }
+          ParseWords parsewords1 (text.substr (0, startpositions[i]));
+          unsigned int min = 0;
+          if (parsewords1.words.size() > 2) min = parsewords1.words.size() - 2;
+          for (unsigned int i2 = min; i2 < parsewords1.words.size(); i2++) {
+            htmlwriter.text_add (parsewords1.words[i2] + " ");
+          }
+          htmlwriter.bold_open ();
+          ustring bit2 = text.substr (startpositions[i], lengths[i]);
+          htmlwriter.text_add (bit2);
+          htmlwriter.bold_close ();
+          ParseWords parsewords2 (text.substr (startpositions[i] + lengths[i], 1000));
+          unsigned int max = parsewords2.words.size();
+          if (max > 2) max = 2;
+          for (unsigned int i2 = 0; i2 < max; i2++) {
+            htmlwriter.text_add (" " + parsewords2.words[i2]);
+          }
+        }
+      } else {
+        // Show the full text, and highlight the relevant words.
         for (unsigned int i = 0; i < startpositions.size(); i++) {
           htmlwriter.text_add (text.substr (0, startpositions[i] - processposition));
           htmlwriter.bold_open();
@@ -522,9 +552,9 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter) // Todo
           text.erase (0, startpositions[i] - processposition + lengths[i]);
           processposition = startpositions[i] + lengths[i];
         }
+        // Add whatever is left over. This could be the full text in case it wasn't processed.
+        htmlwriter.text_add (text);
       }
-      // Add whatever is left over. This could be the full text in case it wasn't processed.
-      htmlwriter.text_add (text);
     }
     htmlwriter.paragraph_close();
   }
@@ -744,26 +774,3 @@ void WindowReferences::goto_next_previous_internal(bool next)
 }
 
 
-/*
-
-Todo task #9742
-
-* A setting how much text to include, e.g. all text, or so many words. In a gtk dialog - easier.
-
-* The bold word, if any, should then be in the middle - else take so many
-  words from the start. one could show the search string and some characters on either side, with the search string bolded. 
-
-* If there are more hits in one verse, each hits is given on its own line. This would increase the number of hits in one window.
-
-* When a second or later hit is chosen in the window, the editor would move the cursor to the second or later hit too.
-  Information could be stored in the html link that will be clicked.
-
-
-
-
-
-
-
-
-
-*/
