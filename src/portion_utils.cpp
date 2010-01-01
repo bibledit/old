@@ -184,7 +184,6 @@ void WithinReferencesRange::add_portion(unsigned int book_in, vector < unsigned 
 
 void WithinReferencesRange::set_book(unsigned int book)
 {
-  cout << "set book " << book << endl; // Todo
   mybook = book;
   set_chapter(0);
 }
@@ -192,7 +191,6 @@ void WithinReferencesRange::set_book(unsigned int book)
 
 void WithinReferencesRange::set_chapter(unsigned int chapter)
 {
-  cout << "set chapter " << chapter << endl; // Todo
   mychapter = chapter;
   set_verse("0");
 }
@@ -200,7 +198,6 @@ void WithinReferencesRange::set_chapter(unsigned int chapter)
 
 void WithinReferencesRange::set_verse(const ustring & verse)
 {
-  cout << "set verse " << verse << endl; // Todo
   myverse = verse;
   verify_range();
 }
@@ -237,7 +234,7 @@ void WithinReferencesRange::verify_range()
 }
 
 
-bool WithinReferencesRange::in_range() // Todo
+bool WithinReferencesRange::in_range()
 // Return true if the current reference is within the various ranges.
 {
   // If no ranges are given, it is considered "in range".

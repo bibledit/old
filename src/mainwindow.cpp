@@ -6965,26 +6965,6 @@ Todo tasks.
 
 
 
-bug #27676: printing a selection fails
-To reproduce:
-
-Printing project, selecting one book, and e.g. 2:5 - 3:10 gives the wrong selection at printout.
-
-Selections within one chapter work fine.
-
-Try the parallel bible also with such selections.
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
