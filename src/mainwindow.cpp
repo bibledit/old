@@ -6955,14 +6955,7 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
 
 /*
 
-
-
 Todo tasks.
-
-
-
-
-
 
 
 
@@ -6990,24 +6983,6 @@ Suggestions:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Sharing project notes.
 * Private notes are not shared, but kept locally.
 * Git repository for the notes.
@@ -7019,149 +6994,6 @@ Sharing project notes.
 * The flat files are to be stored in directory "data" of ~/.bibledit/notes, just like with the projects, so that the index database is not shared.
 * The id number becomes the name of the file.
 * Private notes are stored in subdirectory "private".
-
-
-
-
-
-
-
-bug #27721: Junk in Compare pdfs
-The Compare routine adds several pages of unneeded information about books that are not within the range restriction requested.
-
-
-
-
-
-
-
-
-bug #27755: Bug in Check > Words > Inventory
-I set the inventory to only give me unique words, by checking the box and setting the number to 2.
-I get a blank window labeled Word Inventory in Firefox, and a line in the status bar at the bottom that says "Waiting for localhost."
-
-Changing the number to 3, and specifying no ordering, and Just for the New Testament, I get a blank window labeled Word Inventory, and in the status bar it says Done. However the window does seem to be waiting for something. BE looks like the process is done.
-
-It looks like the Word Inventory is just plain broken. 
-
-
-
-
-
-
-bug #27779: does not build against libgtkhtml3 version 3.8
-This function is called in libgtkhtml3...-, and the declaration will be in the libgtkhtml3...-dev version. There may be a 3.14 and a 3.8 version. If the one does not work then the other may. Could not find
-
-> info on that error on google, probably a very recent one. Hope you can
-> resolve it, would be interested in the resolution. Thanks. Teus.
-
-Removing 3.8 (which in Ubuntu at least does not contain the necessary
-headers) resolved my problem.
-
-
-
-
-
-
-
-
-
-
-
-bug #27786: osis codes
-To check the osis codes used. Some may not be right.
-
-http://www.crosswire.org/wiki/OSIS_Book_Abbreviations
-
-Old Testament* (39)
-Gen Genesis
-Exod Exodus
-Lev Leviticus
-Num Numbers
-Deut Deuteronomy
-Josh Joshua
-Judg Judges
-Ruth Ruth
-1Sam 1 Samuel
-2Sam 2 Samuel
-1Kgs 1 Kings
-2Kgs 2 Kings
-1Chr 1 Chronicles
-2Chr 2 Chronicles
-Ezra Ezra
-Neh Nehemiah
-Esth Esther[3]
-Job Job
-Ps Psalms
-Prov Proverbs
-Eccl Ecclesiastes Qohelet
-Song Song of Solomon Canticle of Canticles
-Isa Isaiah
-Jer Jeremiah
-Lam Lamentations
-Ezek Ezekiel
-Dan Daniel
-Hos Hosea
-Joel Joel
-Amos Amos
-Obad Obadiah
-Jonah Jonah
-Mic Micah
-Nah Nahum
-Hab Habakkuk
-Zeph Zephaniah
-Hag Haggai
-Zech Zechariah
-Mal Malachi
-
-New Testament* (27)
-Matt Matthew
-Mark Mark
-Luke Luke
-John John
-Acts Acts
-Rom Romans
-1Cor 1 Corinthians
-2Cor 2 Corinthians
-Gal Galatians
-Eph Ephesians
-Phil Philippians
-Col Colossians
-1Thess 1 Thessalonians
-2Thess 2 Thessalonians
-1Tim 1 Timothy
-2Tim 2 Timothy
-Titus Titus
-Phlm Philemon
-Heb Hebrews
-Jas James
-1Pet 1 Peter
-2Pet 2 Peter
-1John 1 John
-2John 2 John
-3John 3 John
-Jude Jude
-Rev Revelation
-
-Apocrypha* (18)
-Tob Tobit
-Jdt Judith
-AddEsth Additions to Esther
-Wis Wisdom Wisdom of Solomon
-Sir Sirach Ecclesiasticus
-Bar Baruch
-EpJer Letter of Jeremiah (= Bar.6)
-PrAzar Prayer of Azariah Song of the Three Children
-Sus Susanna
-Bel Bel and the Dragon
-1Macc 1 Maccabees
-2Macc 2 Maccabees
-3Macc 3 Maccabees
-4Macc 4 Maccabees
-PrMan Prayer of Manasseh (= Odes.14)
-1Esd 1 Esdras[4]
-2Esd 2 Esdras[4] 5 Ezra (= Bible.NRSVA:2Esd.1-2Esd.2)
-Ps151 Psalm 151 
 
 
 

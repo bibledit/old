@@ -103,7 +103,7 @@ typeof(book_record) books_table[] =
   "Revelation",                 "Rev",     "REV",  "Rev",  "Re",   66, btNewTestament,     false}, {
   "Back Matter",                "",        "BAK",  "",     "",     68, btFrontBackMatter,  false}, {
   "Other Material",             "",        "OTH",  "",     "",     69, btOtherMaterial,    false}, {
-  "Tobit",                      "Tobit",   "TOB",  "Tob",  "",     70, btApocrypha,        false}, {
+  "Tobit",                      "Tob",     "TOB",  "Tob",  "",     70, btApocrypha,        false}, {
   "Judith",                     "Jdt",     "JDT",  "Jdt",  "",     71, btApocrypha,        false}, {
   "Esther (Greek)",             "AddEsth", "ESG",  "EsG",  "",     72, btApocrypha,        false}, {
   "Wisdom of Solomon",          "Wis",     "WIS",  "Wis",  "",     73, btApocrypha,        false}, {
@@ -130,3 +130,6 @@ unsigned int bookdata_books_count()
   unsigned int count = sizeof(books_table) / sizeof(*books_table);
   return count;
 }
+
+
+// For OSIS abbreviations see http://www.crosswire.org/wiki/OSIS_Book_Abbreviations.
