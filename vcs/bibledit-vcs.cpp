@@ -144,7 +144,7 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
       // Upload the message through curl.
       command = "curl -F uploaded=@";
       command.append (outputfile);
-      command.append (" http://localhost/bibledit/ipc/uploadmessage.php");
+      command.append (" http://localhost/bibledit/ipc/uploadmessage.php -s");
       if (system (command.c_str()));
       // Remove the temporal file.
       unlink (outputfile);

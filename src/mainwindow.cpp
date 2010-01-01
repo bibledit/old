@@ -6963,7 +6963,7 @@ Todo tasks.
 
 
 
-The vcs.log file gets very large. Can we suppress curl's  reports, and the "uploaded" message, and more?
+
 
 
 

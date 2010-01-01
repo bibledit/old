@@ -23,7 +23,7 @@ $filename_message = "$messagesdir/"."$identifier"."."."bibledit";
 
 
 if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $filename_message)) {
-  echo "The message has been uploaded";
+  //echo "The message has been uploaded";
 } else {
   echo "There was a problem uploading the message";
 }

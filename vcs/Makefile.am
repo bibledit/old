@@ -1,4 +1,3 @@
-bin_SCRIPTS = bibledit-vcs-wrapper
 bin_PROGRAMS = bibledit-vcs
 
 bibledit_vcs_SOURCES = bibledit-vcs.cpp spawn.cpp
