@@ -4380,7 +4380,17 @@ void MainWindow::on_window_show_related_verses_item_button()
     }
     case ritStrongNumber:
     {
-      vector <Reference> references = kjv_get_strongs_verses (window_show_related_verses->item_id);
+      // There may be more than one strong's number.
+      Parse parse (window_show_related_verses->item_id);
+      vector <Reference> references;
+      for (unsigned int i = 0; i < parse.words.size(); i++) {
+        // Get references for this strong's number, and add them to the main store.
+        vector <Reference> refs = kjv_get_strongs_verses (parse.words[i]);
+        for (unsigned int i = 0; i < refs.size(); i++) {
+          references.push_back (refs[i]);
+        }
+      }
+      // Show results.
       show_references_window();
       extern Settings * settings;
       window_references->set (references, settings->genconfig.project_get(), NULL);
@@ -6962,6 +6972,43 @@ Todo tasks.
 
 
 
+
+
+
+
+
+
+task #8017: use/allow xetex as formatter
+
+We should use XeTeX. It can format flowing footnotes, see The TEXbook.
+
+Editors: lyx, kile, texmaker
+
+
+
+
+
+
+
+
+bug #27949: Farsi Right-to-Left Cross Referencing and Printing
+1. When a printed pdf version of the text is made, whenever the footnotes and cross-references appear on the same page, they overlay on each other.
+
+2. Also page numbering and chapter numbering in the header part of the printed pages are still in Latin format and not Farsi.
+
+I have included 1John which has the references and footnotes on chapter 1. Also I have included a sample copy of the PDF output.
+
+
+
+
+
+
+
+
+
+
+
+
 task #9703: Import Bibles etc from the Online bible
 The new bwoutpost has the capability to connect to the Online Bible and retrieve verses from it. Let's exploit this to get data into Bibledit.
 Since we're going to redo the outpost things, we might as well do it properly.
@@ -6997,27 +7044,6 @@ Sharing project notes.
 
 
 
-
-
-
-
-
-
-bug #27949: Farsi Right-to-Left Cross Referencing and Printing
-1. When a printed pdf version of the text is made, whenever the footnotes and cross-references appear on the same page, they overlay on each other.
-
-2. Also page numbering and chapter numbering in the header part of the printed pages are still in Latin format and not Farsi.
-
-I have included 1John which has the references and footnotes on chapter 1. Also I have included a sample copy of the PDF output.
-
-
-
-
-
-bug #27978: related verses with two Strong's numbers not given
-Window related verses.
-E.g. Ezek 17.3
-There are two strong's numbers related to "longwinged". The related verses for these are not given.
 
 
 
