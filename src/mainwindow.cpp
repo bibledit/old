@@ -6976,13 +6976,92 @@ Todo tasks.
 
 
 
-
-
 task #8017: use/allow xetex as formatter
 
 We should use XeTeX. It can format flowing footnotes, see The TEXbook.
 
 Editors: lyx, kile, texmaker
+
+
+I've flirted with TeX before, but the learning curve is a bit steep.  I've recently come back to it when I learned that XeTeX will use features that certain .att or opentype fonts may contain- and it's the only free program, besides TextEdit, that will, on Mac.  Hoefler Text, one of the fonts that comes with the Mac OS, has a lot of these features, such as "archaic" ligatures, and internal long Ss.
+Using XeLaTex, this is what I've come up with recently.
+
+XeTeX allows the use of unicode characters - though it took me a while to figure out that the file must be saved, at least in TeXShop, with "UTF-8" specified as the encoding - both for opening and closing.  It won't default to it.
+
+The drop caps are set with the "lettrine" package; the fonts set with "fontspec."
+To get the stars, versicle and response, and cross symbols, I used these macros:
+
+\font\Versiculus="Cardo:color=FF0000" % Cardo and Apple
+% Symbols are the only two fonts I
+% have with the Versicle and
+% Response symbols; TeX won't
+% substitute automatically.
+\def\⋆{$\star$\ } % TeX's star is only in math mode
+\def\V{ {\Versiculus ℣.}}
+\def\R{ {\Versiculus ℟.}}
+\def\cross {{\fontspec{Zapf Dingbats} ✠ }}
+
+
+So, using the packages fontspec, xunicode, xltxtra, and lettrine, the first bit is set like this:
+
+\setmainfont[UprightFeatures={Ligatures={Common,Rare},Swashes=Inner}, ItalicFeatures={Ligatures=Rare,Swashes=Inner,Colour=ff0000}]{Hoefler Text}
+
+\begin{document}
+\chapter*{Table Blessings}  % the * is to suppress numbering.
+\section*{Before Dinner \\ Throughout the Year}
+\V Bless ye.  \R The Lord.
+\subsection{Psalm 145. 15-16.}
+\lettrine[lines=3]{\fontspec{Goudy Initialen}T}{he} eyes of all wait upon thee, O Lord; \⋆ and thou givest them their meat in due season.
+% The first drop cap is a different font; the
+% successive ones will be \lettrine{T}{he}
+Thou openest thine hand, \⋆ and fillest all things living with plenteousness.
+
+Glory be \emph{\&c.}
+
+\V Lord have mercy upon us.  \R Christ, have mercy upon us.
+
+% ... and so on
+\end{document}
+
+Next up, I'm going to experiment with another documentclass I found, called memoir, to see if that doesn't make it easier to fix the margins, headings, and spacing to be more in line with liturgical norms.
+
+
+
+  3  vote down  star
+3
+	
+
+I want to find a way to produce drop caps (large initial letters several lines high) in pdfLaTeX. I know that there is a dropping package which works well when used with latex + dvips. However, when used with pdflatex the result looks ugly.
+
+My source file is:
+
+\documentclass[12pt]{article}
+
+% for pdflatex file.tex # dropping is ugly
+% \usepackage[pdftex]{graphicx}
+% \usepackage[pdftex]{dropping}
+
+% for latex file.tex ; dvips -T 12cm,8cm file.dvi # dropping is OK
+\usepackage[dvips]{graphicx}
+\usepackage{dropping}
+
+\usepackage[papersize={12cm,8cm},
+    left=0.5cm,right=0.5cm,
+    top=0.5cm,bottom=0.5cm]{geometry}
+
+\begin{document}
+\dropping[-3pt]{3}{W}ith a drop cap, the initial sits within the margins and
+runs several lines deep into the paragraph, pushing some normal-sized text off
+these lines. This keeps the left and top margins of the paragraph flush.
+In~modern browsers, this can be done with a combination of HTML and CSS
+by~using the float: left; setting.
+\end{document}
+
+When I compile it as
+
+latex drop.tex && dvips -T 12cm,8cm drop.dvi
+
+the result is OK:
 
 
 
@@ -7030,6 +7109,66 @@ Suggestions:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+task #9755: copy verse list to clipboard
+The verse list, or "References", it would help if there were an option to copy it to the clipboard, either only verse references, or the verses with all text included. 
+And not just the verse list but also the associate comments, e.g. after a check.
+
+
+
+
+
+
+
+
+
+
+
+task #9762: Three Windows Outposts
+Currently Bibledit only controls one Windows Outpost. However this is not sufficient. It is proposed to have three of these.
+
+One for programs that prefer to run under cxoffice (e.g. BibleWorks).
+One for programs that prefer wine, such as the Online Bible.
+One for programs that only run on real Windows, e.g. Paratext, Translators' Workplace, and son on.
+
+In the setup, each Outpost needs to know which appliance it communicates with.
+
+The port number may have to be passed on the command line since two different TCP/IP port numbers are required on Linux. 
+
+This requires a new outpost which no longer is being conteacted by bibledit, but an outpost that itself contacts the messages on Apache.
+
+
+
+
+
+
+
+
+
+
+
+
+task #9763: share the project notes through a repository
+There was an expressed desire to have the project notes shareable just like the text is sharable.
+
+If project notes are to be shared through a repository, then these notes go into a git repository with each note being one file,
+named by its id. We may decide to use subdirectories also.
+
+Since searching in the notes becomes slow now, we may use a database as an index. 
+
 Sharing project notes.
 * Private notes are not shared, but kept locally.
 * Git repository for the notes.
@@ -7050,8 +7189,13 @@ Sharing project notes.
 
 
 
-bug #27984: cloning empty git repo fails
-When git is new enough so that it should be able to clone an empty bible repository, if doing that through the GUI, it gives failures.
+
+
+
+task #9764: cannot move reference list scroll bar when using find/replace
+When Using Find/Replace, if the reference list starts out not at the top, it will remain not at the top when a Find/Replace is done. One cannot see the number of instances of the find string that have been found. 
+When doing a Find/Replace, I want to know how many have been found. So it would be helpful that the find/replace routine also move the scroll bar of the Reference window to the top,
+OR that the scroll bar be unfrozen so that the user can examine the references. 
 
 
 
@@ -7063,6 +7207,12 @@ When git is new enough so that it should be able to clone an empty bible reposit
 
 
 
+task #9765: Resources should not refresh when moving between projects
+I have really enjoyed being able to use the Resource window set to Alkitab.Sabda.org. This changes whenever I go to a new verse.
+
+In BE I have several project open and translations in BE. It is annoying that BE refreshes the Resource window when I click on THE SAME verse in another project. Could you make it so that BE checks first to see if a different verse is clicked when changing windows?
+
+Thanks for the powerful feature to use outside resources. 
 
 
 
@@ -7070,6 +7220,164 @@ When git is new enough so that it should be able to clone an empty bible reposit
 
 
 
+
+
+task #9769: Searches and replacing with Word sensitivity
+It would be nice if BE could have a check box for Finds and also Find/Replace that would be sensitive to words.
+That way I could find "ia" as a separate word, and not "setia". One can use spaces, of course, but words can also be next to punctuation or sfm markers.
+
+
+
+
+
+
+
+
+
+bug #27989: free reference navigation troubles
+When using free navigation through Ctrl-G, the parsing of the string entered there is not well done when double spaces are entered.
+
+
+
+
+
+
+
+bug #27991: Record separators
+From time to time we have encountered USFM files from other sources that contain several instances of U+001E RECORD SEPARATOR.
+
+As these would display badly in Go Bible, and they are probably present unintentionally due to passing through other editing programs, it would make sense for Bibledit to be enhanced to detect and report these as something needing attention.
+
+I suppose the same could be said for any control characters other than those used in EOL markers.
+
+
+
+
+
+
+
+
+
+
+bug #28053: Assistants keep going
+When using the Backup assistant, for example, it never finishes, but want to restart each time. Other ones may be affected too.
+
+
+
+
+
+
+bug #28057: Styles are applied to only the last paragraph in a selection
+If the selection spans multiple paragraphs and the user selects a paragraph style like Quote/poetry only the last paragraph is given the style. Users expect it to affect all selected paragraphs.
+
+
+
+
+
+
+
+
+
+bug #28079: window bugs
+There is also the Ctrl-W keyboard accelerator that works in each window and closes it.
+	Teus Benschop <teus>
+Project Administrator
+Fri 18 Dec 2009 07:09:27 PM CAT, comment #2:
+
+Probably better than a menu choice to Close and Reset all windows would be a menu choice to Tile and Cascade all windows. This would be like TW and Paratext.
+	Phil Fields <oreo>
+
+(Flag as spamFlag as spam)
+
+Mon 23 Nov 2009 12:27:05 PM CAT, comment #1:
+
+Thanks for the suggestions for improvements, and sorry for the trouble! The bugs are serious. The suggestions for improvement are good!
+	Teus Benschop <teus>
+Project Administrator
+Mon 23 Nov 2009 12:18:27 PM CAT, original submission:
+
+I was giving a presentation today and had a very frustrating experience using 3.9.50. This was caused partly because of using a projector with smaller resolution than my normal external monitor.
+
+If you grab one of the windows and happen to shove the title bar above the address bar, it is possible to shove it so that the whole title bar disappears. If you ever do this, DON'T RELEASE THE MOUSE BUTTON! If you do release that window, it will be impossible to move it, since the only handle for moving the window seems to be the title bar. THERE IS ALSO NO WAY TO CLOSE THE WINDOW. I was hoping that there would be a way to close a project window via the menus. Nope! Closing the whole program doesn't help. BE remembers the faulty window position and restores it to the unmovable place.
+
+Another frustrating thing about the BE windows currently is that they seem to remember and and prioritize themselves according to the order in which they were loaded. The first loaded window will always allow itself to be covered up by any other window. Highlighting and using a window will not bring it to the front over a partially overlapping window.
+
+It is also a minor frustration that the only handle for resizing BE project windows is in the lower right corner. If you happen to shove a window so that both the title window and the resize window are invisible, and if that was a recently opened window (covering other windows), you may have very little screen real estate left to work with.
+
+In the context of a presentation, I did not feel it was a good time to try deleting something to reset all the windows. Afterward I did find that deleting configuration.1.xml in the .bibledit/configuration folder will reset all window settings.
+
+So here is a list of suggested fixes:
+*Make it impossible to shove the title bar so that it disappears.
+*OR Make it possible to use a key like the Alt key, to grab and reposition a window that is all or partially off the program screen. Perhaps other window borders could be made sensitive to such a "grab" key.
+*Make it so that windows that are activated will move to the front. This will make it possible to work with many windows, where it is likely that some will be partially overlapping.
+*Make it possible to close a project from a menu.
+*OR Make it possible close all windows and reset window defaults from a menu.
+*Make it possible to resize windows from the lower left corner also.
+*Please make it possible to resize windows from all four sides, left, right, top, and bottom.
+*Make it so that when BE is restarted, it will not restore windows to an immovable location, or to a location that is totally off the screen and invisible.
+
+Thanks!
+Phil 
+
+
+
+
+
+
+
+
+bug #28154: Does not always show the references in the xref
+When clicking in a cross reference, it asks whether you'd like to load these into the reference window. When replying "Yes", and the references window is not visible, it is supposed to display this window, but it does not. If the window is already there, though, it works fine.
+
+
+
+
+
+bug #28211: Does Bibledit check for correct nesting of quotation marks?
+There's one check that does this. It is available from menu Checks / Punctuation / Matching pairs.
+	Teus Benschop <teus>
+Project Administrator
+Mon 07 Dec 2009 12:30:00 AM CAT, original submission:
+
+For translations that have quotation marks, double and single, does Bibledit check that these are correctly nested?
+
+Example: This part of verse from the ABN is incorrectly nested.
+
+“Agus abraigí: ‘Tá do shearbhónta Iacób féin ag teacht inár ndiaidh chomh maith.”’
+
+It should be:
+
+“Agus abraigí: ‘Tá do shearbhónta Iacób féin ag teacht inár ndiaidh chomh maith.’” 
+
+
+
+
+
+
+bug #28294: Remember verse/chapter is now broken
+One of the features I asked for was that BE be able to remember its chapter/verse position when moving from one book to another, or moving from one chapter to another. This feature can be activated under Preferences > User Interface.
+
+That feature is now broken in version 4.0.01. 
+
+
+
+
+
+
+
+bug #28295: find/replace misses many finds
+Today I noted that when doing a simple find/replace, many examples of the search string were missed. It seemed to me that they were missed when I specified to search in the whole New Testament. When I searched one book at a time, they were all found. 
+
+
+
+
+
+
+
+bug #28296: BE gets in a loop cycling through windows
+Sometimes BE 4.0.01 gets in a loop where it unceasingly cycles through the open windows. The title bar of the program flashes the names of the open projects. And the verse number in the address bar was shifting between verse 0 and verse 17.
+
+Another thing that is sort of broken is the clicking on footnote numbers. This often does not cause BE to show the footnote. 
 
 
 
