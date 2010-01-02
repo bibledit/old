@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "types.h"
-#include "editor2.h"
+#include "editor.h"
 
 
 class EditNoteDialog

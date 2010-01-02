@@ -174,9 +174,9 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) robinson.$(OBJEXT) \
 	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT) \
-	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) \
-	editor2.$(OBJEXT) editoractions.$(OBJEXT) nanohttp.$(OBJEXT) \
-	c_url.$(OBJEXT) urltransport.$(OBJEXT) ipc.$(OBJEXT) \
+	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) editor.$(OBJEXT) \
+	editoractions.$(OBJEXT) nanohttp.$(OBJEXT) c_url.$(OBJEXT) \
+	urltransport.$(OBJEXT) ipc.$(OBJEXT) \
 	dialogreferencesettings.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
@@ -627,7 +627,7 @@ bibledit_SOURCES = \
 				xiphos.cpp \
 				floatingwindow.cpp \
 				windowdata.cpp \
-				editor2.cpp \
+				editor.cpp \
 				editoractions.cpp \
 				nanohttp.cpp \
 				c_url.cpp \
@@ -841,7 +841,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogyesnoalways.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/directories.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/displayprojectnotes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor_aids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editoractions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_translation_notes.Po@am__quote@

@@ -267,7 +267,7 @@ bibledit_SOURCES = \
 				xiphos.cpp \
 				floatingwindow.cpp \
 				windowdata.cpp \
-				editor2.cpp \
+				editor.cpp \
 				editoractions.cpp \
 				nanohttp.cpp \
 				c_url.cpp \

@@ -26,7 +26,7 @@
 #include "ustring.h"
 #include "floatingwindow.h"
 #include "usfmview.h"
-#include "editor2.h"
+#include "editor.h"
 
 
 class WindowEditor : public FloatingWindow

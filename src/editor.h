@@ -109,6 +109,8 @@ public:
   GtkWidget * last_focused_widget;
   GtkTextBuffer * last_focused_textbuffer();
   EditorTextViewType last_focused_type();
+  bool has_focus ();
+  void give_focus (GtkWidget * widget);
 
   ustring character_style_on_start_typing;
 

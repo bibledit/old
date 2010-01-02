@@ -19,7 +19,7 @@
 
 #include "utilities.h"
 #include <glib.h>
-#include "editor2.h"
+#include "editor.h"
 #include "usfm.h"
 #include <gdk/gdkkeysyms.h>
 #include "projectutils.h"
@@ -303,7 +303,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
   // Place cursor at the start and scroll it onto the screen.
   vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
   if (textviews.empty()) {
-    gtk_widget_grab_focus (textviews[0]);
+    give_focus (textviews[0]);
     GtkTextIter iter;
     gtk_text_buffer_get_start_iter(focused_paragraph->textbuffer, &iter);
     gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
@@ -822,7 +822,7 @@ gboolean Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton
       // Focus the note paragraph that has this identifier.
       EditorActionCreateNoteParagraph * note_paragraph = note2paragraph_action (character_style);
       if (note_paragraph) {
-        gtk_widget_grab_focus (note_paragraph->textview);
+        give_focus (note_paragraph->textview);
       }
       // Do not propagate the button press event.
       return true;
@@ -1598,7 +1598,7 @@ void Editor2::apply_style(const ustring & marker)
   signal_if_styles_changed();
 
   // Focus editor.
-  gtk_widget_grab_focus(textview);
+  give_focus(textview);
 }
 
 
@@ -1836,7 +1836,7 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
           textview = editor_get_previous_textview (vbox_paragraphs, textview);
         }
         if (textview) {
-          gtk_widget_grab_focus (textview);
+          give_focus (textview);
           textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
           GtkTextIter iter;
           if (next) 
@@ -2071,7 +2071,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
   // This can only be done at the end when the whole object has been set up,
   // because the callback for grabbing the focus uses this object.
   if (widget_that_should_grab_focus) {
-    gtk_widget_grab_focus (widget_that_should_grab_focus);
+    give_focus (widget_that_should_grab_focus);
   }
 
   // Handle situation where the contents of the editor has been changed.
@@ -2580,7 +2580,7 @@ void Editor2::editor_start_note_raw (ustring raw_note, const ustring & marker_te
   text_load (raw_note, "", true);
 
   // Restore the focus to the standard paragraph that had focus before the note was created.
-  gtk_widget_grab_focus (focused_standard_paragraph->textview);
+  give_focus (focused_standard_paragraph->textview);
 }
 
 
@@ -2765,7 +2765,7 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
         // Remove the current paragraph.
         apply_editor_action (new EditorActionDeleteParagraph(current_paragraph));
         // Focus the preceding paragraph.
-        gtk_widget_grab_focus (preceding_paragraph->textview);
+        give_focus (preceding_paragraph->textview);
         // Insert the One Action boundary.
         apply_editor_action (new EditorAction (eatOneActionBoundary));
       }      
@@ -2869,7 +2869,7 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
     if (get_iterator_at_verse_number (number, style_get_verse_marker(project), vbox_paragraphs, iter, textview)) {
       if (focus) {
       }
-      gtk_widget_grab_focus (textview);
+      give_focus (textview);
       GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
       gtk_text_buffer_place_cursor(textbuffer, &iter);
     }
@@ -2951,7 +2951,7 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
       gtk_text_buffer_get_end_iter (textbuffer, &iter);
     }
     gtk_text_buffer_place_cursor (textbuffer, &iter);
-    gtk_widget_grab_focus (crossed_widget);
+    give_focus (crossed_widget);
   }
 }
 
@@ -2983,7 +2983,7 @@ gboolean Editor2::on_caller_button_press (GtkWidget *widget)
         get_styles_at_iterator(iter, paragraph_style, character_style);
         if (character_style == note_style) {
           gtk_text_buffer_place_cursor (textbuffer, &iter);
-          gtk_widget_grab_focus (textviews[i]);
+          give_focus (textviews[i]);
         }
       } while (gtk_text_iter_forward_char(&iter));
     }
@@ -2992,4 +2992,33 @@ gboolean Editor2::on_caller_button_press (GtkWidget *widget)
   return false;
 }
 
+
+bool Editor2::has_focus ()
+// Returns whether the editor has focus.
+{
+  vector <GtkWidget *> widgets = editor_get_widgets (vbox_paragraphs);
+  for (unsigned int i = 0; i < widgets.size(); i++) {
+    if (GTK_WIDGET_HAS_FOCUS (widgets[i]))
+      return true;
+  }
+  widgets = editor_get_widgets (vbox_notes);
+  for (unsigned int i = 0; i < widgets.size(); i++) {
+    if (GTK_WIDGET_HAS_FOCUS (widgets[i]))
+      return true;
+  }
+  return false;
+}
+
+
+void Editor2::give_focus (GtkWidget * widget)
+// Gives focus to a widget.
+{
+  if (has_focus ()) {
+    // If the editor has focus, then the widget is actually given focus.
+    gtk_widget_grab_focus (widget);
+  } else {
+    // If the editor does not have focus, only the internal focus system is called, without actually having the widget grab focus.
+    textview_grab_focus(widget);
+  }
+}
 

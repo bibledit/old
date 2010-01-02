@@ -7003,30 +7003,6 @@ Sharing project notes.
 
 
 
-bug #27789: Word Inventory ignored character aren't found
-When you run a word inventory and ignore somthing like hyphens - the created web page correctly creates a list of words including the ones with hyphens. However when you click on the word with a hyphen, it is not found.
-
-To work around this, after you click the word, ctrl+f, turn off match start of word and match end of word options, and click find.
-
-
-
-
-
-
-
-
-
-bug #27796: Reference list switches to wrong window with 2 projects open
-If you have 2 projects open when you click a link in the reference window, the first link clicked will go to the right project, the second link to the wrong project, and the third link to the reference window itself. 
-
-
-
-
-
-
-
-
-
 bug #27949: Farsi Right-to-Left Cross Referencing and Printing
 1. When a printed pdf version of the text is made, whenever the footnotes and cross-references appear on the same page, they overlay on each other.
 

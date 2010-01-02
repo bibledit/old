@@ -30,7 +30,7 @@ extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
 #include "htmlwriter2.h"
-#include "editor2.h"
+#include "editor.h"
 
 
 class WindowCheckKeyterms : public FloatingWindow
