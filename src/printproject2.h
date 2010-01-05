@@ -18,8 +18,8 @@
  */
 
 
-#ifndef INCLUDED_PRINTPROJECT_H
-#define INCLUDED_PRINTPROJECT_H
+#ifndef INCLUDED_PRINTPROJECT2_H
+#define INCLUDED_PRINTPROJECT2_H
 
 
 #include <gtk/gtk.h>
@@ -31,11 +31,11 @@
 #include "project_memory.h"
 
 
-class PrintProject
+class PrintProject2
 {
 public:
-  PrintProject(ProjectMemory * project);
-  ~PrintProject();
+  PrintProject2(ProjectMemory * project);
+  ~PrintProject2();
   void portion_project(const ustring& project);
   void comment(const ustring& text);
   void no_bold ();

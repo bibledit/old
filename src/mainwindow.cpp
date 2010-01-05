@@ -53,6 +53,7 @@
 #include "dialogprintprefs.h"
 #include "dialogprintproject.h"
 #include "printproject.h"
+#include "printproject2.h"
 #include "compareutils.h"
 #include "dialogshownotes.h"
 #include "dialogentry3.h"
@@ -127,6 +128,7 @@
 #include "xiphos.h"
 #include "dialogyesnoalways.h"
 #include "ipc.h"
+#include "dialogxetex.h"
 
 
 /*
@@ -5405,8 +5407,9 @@ void MainWindow::on_print()
   // Create the selection dialog using the saved selection.
   unsigned int selection;
   {
-    vector < ustring > labels;
-    labels.push_back("Project");
+    vector <ustring> labels;
+    labels.push_back("Project (through internal typesetter)");
+    labels.push_back("Project (through XeTeX - in progress)");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
     //labels.push_back("Test usfm2pdf");
@@ -5422,7 +5425,7 @@ void MainWindow::on_print()
   save_editors();
 
   switch (selection) {
-  case 0: // Project.
+    case 0: // Project through internal typesetter.
     {
       {
         PrintProjectDialog dialog(0);
@@ -5435,7 +5438,20 @@ void MainWindow::on_print()
       printproject.print();
       break;
     }
-  case 1: // Parallel Bible.
+    case 1: // Project through XeTeX
+    {
+      {
+        XeTeXDialog dialog(0);
+        if (dialog.run() != GTK_RESPONSE_OK)
+          return;
+      }
+      extern Settings *settings;
+      ProjectMemory projectmemory(settings->genconfig.project_get(), true);
+      PrintProject2 printproject2(&projectmemory);
+      printproject2.print();
+      break;
+    }
+    case 2: // Parallel Bible.
     {
       {
         ParallelBibleDialog dialog(0);
@@ -5445,7 +5461,7 @@ void MainWindow::on_print()
       view_parallel_bible_pdf();
       break;
     }
-  case 2: // References.
+    case 3: // References.
     {
       // Activate references.
       show_references_window();
@@ -5467,453 +5483,6 @@ void MainWindow::on_print()
         ProjectMemory projectmemory(settings->genconfig.project_get(), true);
         view_parallel_references_pdf(projectmemory, &extra_projects, refs, true, NULL, true);
       }
-      break;
-    }
-  case 3: // Test
-    {
-      extern Settings *settings;
-      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
-
-      text2pdf.page_size_set(21, 10);
-      text2pdf.page_margins_set(2, 1, 2, 2);
-      //text2pdf.print_date_in_header();
-      //text2pdf.set_right_to_left(0);
-      //text2pdf.suppress_header_this_page();
-      text2pdf.set_running_header_left_page("Izihlabelelo");
-      text2pdf.set_running_header_right_page("Izihlabelelo");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(16);
-      text2pdf.paragraph_set_italic(1);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("UGWALO ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(20);
-      text2pdf.paragraph_set_bold(1);
-      text2pdf.paragraph_set_space_before(8);
-      text2pdf.paragraph_set_space_after(4);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("LWEZIHLABELELO");
-      text2pdf.set_running_chapter_number(1, 1);
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(15);
-      text2pdf.paragraph_set_bold(1);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(1);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Isihlabelelo");
-      text2pdf.add_text(" ");
-      text2pdf.add_text("1");
-      text2pdf.close_paragraph();
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.inline_set_font_size_percentage(100);
-      text2pdf.inline_set_italic(0);
-      text2pdf.inline_set_bold(1);
-      text2pdf.inline_set_underline(0);
-      text2pdf.inline_set_small_caps(0);
-      text2pdf.add_text("1");
-      text2pdf.inline_clear_font_size_percentage();
-      text2pdf.inline_clear_italic();
-      text2pdf.inline_clear_bold();
-      text2pdf.inline_clear_underline();
-      text2pdf.inline_clear_small_caps();
-      text2pdf.inline_clear_superscript();
-      text2pdf.inline_clear_colour();
-      text2pdf.add_text(" Uyabusiswa umuntu ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Ongahambi ngalo ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Icebo labo ababi ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Lenhlanganwen' yabo. ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Ongem' endleleni yabo ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Abayizw' izoni, ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Engahlal' esihlalweni ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Esabagconayo. ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.inline_set_font_size_percentage(100);
-      text2pdf.inline_set_italic(0);
-      text2pdf.inline_set_bold(1);
-      text2pdf.inline_set_underline(0);
-      text2pdf.inline_set_small_caps(0);
-      text2pdf.add_text("2");
-      text2pdf.inline_clear_font_size_percentage();
-      text2pdf.inline_clear_italic();
-      text2pdf.inline_clear_bold();
-      text2pdf.inline_clear_underline();
-      text2pdf.inline_clear_small_caps();
-      text2pdf.inline_clear_superscript();
-      text2pdf.inline_clear_colour();
-      text2pdf.add_text(" Kodw' ukujabula kwakhe ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Kukuwo umthetho ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("WeNkosi ewukhumbula ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Emini leb'suku. ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.inline_set_font_size_percentage(100);
-      text2pdf.inline_set_italic(0);
-      text2pdf.inline_set_bold(1);
-      text2pdf.inline_set_underline(0);
-      text2pdf.inline_set_small_caps(0);
-      text2pdf.add_text("3");
-      text2pdf.inline_clear_font_size_percentage();
-      text2pdf.inline_clear_italic();
-      text2pdf.inline_clear_bold();
-      text2pdf.inline_clear_underline();
-      text2pdf.inline_clear_small_caps();
-      text2pdf.inline_clear_superscript();
-      text2pdf.inline_clear_colour();
-      text2pdf.add_text(" Uzaba njengesihlahla ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("'Simil' emfuleni ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("'Sithel' izithelo zaso ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Ngesikhathi saso. ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Amahlamvu aso wona ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Awayikubuna, ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Konke akwenzayo yena ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Kuzaphumelela. ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.inline_set_font_size_percentage(100);
-      text2pdf.inline_set_italic(0);
-      text2pdf.inline_set_bold(1);
-      text2pdf.inline_set_underline(0);
-      text2pdf.inline_set_small_caps(0);
-      text2pdf.add_text("4");
-      text2pdf.inline_clear_font_size_percentage();
-      text2pdf.inline_clear_italic();
-      text2pdf.inline_clear_bold();
-      text2pdf.inline_clear_underline();
-      text2pdf.inline_clear_small_caps();
-      text2pdf.inline_clear_superscript();
-      text2pdf.inline_clear_colour();
-      text2pdf.add_text(" AbangelaNkulunkulu ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Kabanjalo bona, ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Kodwa banjengamakhoba ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Amuka lomoya. ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.inline_set_font_size_percentage(100);
-      text2pdf.inline_set_italic(0);
-      text2pdf.inline_set_bold(1);
-      text2pdf.inline_set_underline(0);
-      text2pdf.inline_set_small_caps(0);
-      text2pdf.add_text("5");
-      text2pdf.inline_clear_font_size_percentage();
-      text2pdf.inline_clear_italic();
-      text2pdf.inline_clear_bold();
-      text2pdf.inline_clear_underline();
-      text2pdf.inline_clear_small_caps();
-      text2pdf.inline_clear_superscript();
-      text2pdf.inline_clear_colour();
-      text2pdf.add_text(" Kant' ababi kabasoze ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Bem' ekwahluleni, ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Lezoni emhlanganweni ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Wabalungileyo. ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.inline_set_font_size_percentage(100);
-      text2pdf.inline_set_italic(0);
-      text2pdf.inline_set_bold(1);
-      text2pdf.inline_set_underline(0);
-      text2pdf.inline_set_small_caps(0);
-      text2pdf.add_text("6");
-      text2pdf.inline_clear_font_size_percentage();
-      text2pdf.inline_clear_italic();
-      text2pdf.inline_clear_bold();
-      text2pdf.inline_clear_underline();
-      text2pdf.inline_clear_small_caps();
-      text2pdf.inline_clear_superscript();
-      text2pdf.inline_clear_colour();
-      text2pdf.add_text(" Ngob' iNkosi iyayazi ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Indlela yabo nje ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(0);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.paragraph_set_keep_with_next();
-      text2pdf.add_text("Abalungileyo kodwa ");
-      text2pdf.close_paragraph();
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(12);
-      text2pdf.paragraph_set_space_before(0);
-      text2pdf.paragraph_set_space_after(2);
-      text2pdf.paragraph_set_left_margin(0);
-      text2pdf.paragraph_set_right_margin(0);
-      text2pdf.paragraph_set_first_line_indent(0);
-      text2pdf.add_text("Eyababi yofa.");
-      text2pdf.close_paragraph();
-
-      text2pdf.run();
-      text2pdf.view();
       break;
     }
   }
@@ -6976,116 +6545,6 @@ Todo tasks.
 
 
 
-task #8017: use/allow xetex as formatter
-
-We should use XeTeX. It can format flowing footnotes, see The TEXbook.
-
-Editors: lyx, kile, texmaker
-
-
-I've flirted with TeX before, but the learning curve is a bit steep.  I've recently come back to it when I learned that XeTeX will use features that certain .att or opentype fonts may contain- and it's the only free program, besides TextEdit, that will, on Mac.  Hoefler Text, one of the fonts that comes with the Mac OS, has a lot of these features, such as "archaic" ligatures, and internal long Ss.
-Using XeLaTex, this is what I've come up with recently.
-
-XeTeX allows the use of unicode characters - though it took me a while to figure out that the file must be saved, at least in TeXShop, with "UTF-8" specified as the encoding - both for opening and closing.  It won't default to it.
-
-The drop caps are set with the "lettrine" package; the fonts set with "fontspec."
-To get the stars, versicle and response, and cross symbols, I used these macros:
-
-\font\Versiculus="Cardo:color=FF0000" % Cardo and Apple
-% Symbols are the only two fonts I
-% have with the Versicle and
-% Response symbols; TeX won't
-% substitute automatically.
-\def\⋆{$\star$\ } % TeX's star is only in math mode
-\def\V{ {\Versiculus ℣.}}
-\def\R{ {\Versiculus ℟.}}
-\def\cross {{\fontspec{Zapf Dingbats} ✠ }}
-
-
-So, using the packages fontspec, xunicode, xltxtra, and lettrine, the first bit is set like this:
-
-\setmainfont[UprightFeatures={Ligatures={Common,Rare},Swashes=Inner}, ItalicFeatures={Ligatures=Rare,Swashes=Inner,Colour=ff0000}]{Hoefler Text}
-
-\begin{document}
-\chapter*{Table Blessings}  % the * is to suppress numbering.
-\section*{Before Dinner \\ Throughout the Year}
-\V Bless ye.  \R The Lord.
-\subsection{Psalm 145. 15-16.}
-\lettrine[lines=3]{\fontspec{Goudy Initialen}T}{he} eyes of all wait upon thee, O Lord; \⋆ and thou givest them their meat in due season.
-% The first drop cap is a different font; the
-% successive ones will be \lettrine{T}{he}
-Thou openest thine hand, \⋆ and fillest all things living with plenteousness.
-
-Glory be \emph{\&c.}
-
-\V Lord have mercy upon us.  \R Christ, have mercy upon us.
-
-% ... and so on
-\end{document}
-
-Next up, I'm going to experiment with another documentclass I found, called memoir, to see if that doesn't make it easier to fix the margins, headings, and spacing to be more in line with liturgical norms.
-
-
-
-  3  vote down  star
-3
-	
-
-I want to find a way to produce drop caps (large initial letters several lines high) in pdfLaTeX. I know that there is a dropping package which works well when used with latex + dvips. However, when used with pdflatex the result looks ugly.
-
-My source file is:
-
-\documentclass[12pt]{article}
-
-% for pdflatex file.tex # dropping is ugly
-% \usepackage[pdftex]{graphicx}
-% \usepackage[pdftex]{dropping}
-
-% for latex file.tex ; dvips -T 12cm,8cm file.dvi # dropping is OK
-\usepackage[dvips]{graphicx}
-\usepackage{dropping}
-
-\usepackage[papersize={12cm,8cm},
-    left=0.5cm,right=0.5cm,
-    top=0.5cm,bottom=0.5cm]{geometry}
-
-\begin{document}
-\dropping[-3pt]{3}{W}ith a drop cap, the initial sits within the margins and
-runs several lines deep into the paragraph, pushing some normal-sized text off
-these lines. This keeps the left and top margins of the paragraph flush.
-In~modern browsers, this can be done with a combination of HTML and CSS
-by~using the float: left; setting.
-\end{document}
-
-When I compile it as
-
-latex drop.tex && dvips -T 12cm,8cm drop.dvi
-
-the result is OK:
-
-
-
-
-
-
-
-
-bug #27949: Farsi Right-to-Left Cross Referencing and Printing
-1. When a printed pdf version of the text is made, whenever the footnotes and cross-references appear on the same page, they overlay on each other.
-
-2. Also page numbering and chapter numbering in the header part of the printed pages are still in Latin format and not Farsi.
-
-I have included 1John which has the references and footnotes on chapter 1. Also I have included a sample copy of the PDF output.
-
-
-
-
-
-
-
-
-
-
 
 
 task #9703: Import Bibles etc from the Online bible
@@ -7380,6 +6839,27 @@ Sometimes BE 4.0.01 gets in a loop where it unceasingly cycles through the open 
 Another thing that is sort of broken is the clicking on footnote numbers. This often does not cause BE to show the footnote. 
 
 
+
+
+
+
+The website. The local one is identical to the remote one. Authentication if off by default, so that for local sites free access is possible.
+If authentication is on, then the site can host multiple users. Each site has only one translation on it, which is the translation being done.
+The translation being done is the purpose of the site, so that public input can be obtained.
+Bibledit can access many sites, the local one always, and one remote site can be set for each project.
+Better use PHP for it since this is well established even when looking for hosting.
+Another advantage is that since the bibledit programmer uses C++, and since PHP looks much the same, there's no learning curve.
+It is important to use object oriented programming, and code re-use.
+It is helpful if the databases are put sqlite, since this does not need credentials, and can be easily moved over if the server gets moved.
+See http://www.tuxradar.com/practicalphp
+
+
+
+
+
+
+When navigating through the chapter, going to the new chapter, it seems as if the right widget is not focused. 
+* As a result the wrong widget remains focused, and the verse jumps to another one.
 
 
 

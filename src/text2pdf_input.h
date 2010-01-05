@@ -17,15 +17,19 @@
  **  
  */
 
+
 #ifndef INCLUDED_TEXT2PDF_TEXT_H
 #define INCLUDED_TEXT2PDF_TEXT_H
 
+
 #include "libraries.h"
+
 
 enum T2PInputType {t2pitParagraph, t2pitOpenKeepTogether, t2pitCloseKeepTogether, t2pitNewPage, t2pitNewOddPage};
 enum T2PAlignmentType {t2patLeft, t2patCenter, t2patRight, t2patJustified};
 enum T2PMarkupType {t2pmtOff, t2pmtOn, t2pmtInherit, t2pmtToggle};
 enum T2PHeaderType {t2phtFixed};
+
 
 class T2PInput
 {
@@ -35,6 +39,7 @@ public:
   T2PInputType type;
 private:
 };
+
 
 class T2PInputParagraph : public T2PInput
 {
@@ -124,5 +129,6 @@ private:
   T2PInputParagraph * intrusion;
   void add_text_internal(const string& text);
 };
+
 
 #endif

@@ -177,7 +177,9 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) editor.$(OBJEXT) \
 	editoractions.$(OBJEXT) nanohttp.$(OBJEXT) c_url.$(OBJEXT) \
 	urltransport.$(OBJEXT) ipc.$(OBJEXT) \
-	dialogreferencesettings.$(OBJEXT)
+	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
+	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
+	xetex.$(OBJEXT) dialogxetex.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -633,7 +635,13 @@ bibledit_SOURCES = \
 				c_url.cpp \
 				urltransport.cpp \
 				ipc.cpp \
-				dialogreferencesettings.cpp
+				dialogreferencesettings.cpp \
+				printproject2.cpp \
+				usfm2xetex.cpp \
+				xetex2pdf.cpp \
+				runtime.cpp \
+				xetex.cpp \
+				dialogxetex.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -837,6 +845,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewplanning.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwait.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwordlist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogxetex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogxfernotes2text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogyesnoalways.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/directories.Po@am__quote@
@@ -909,6 +918,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_parallel_bible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/print_parallel_references.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/printproject.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/printproject2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/progresswindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/project_memory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/projectconfig.Po@am__quote@
@@ -924,6 +934,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/restore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/robinson.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/roman.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/runtime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/screen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scripts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scripturechecks.Po@am__quote@
@@ -968,6 +979,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2osis.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2text.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2xetex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2xslfo_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmstandard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmtools.Po@am__quote@
@@ -992,6 +1004,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowstyles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowtimednotifier.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wordlist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xetex.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xetex2pdf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xiphos.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlfo-utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlutils.Po@am__quote@

@@ -273,7 +273,13 @@ bibledit_SOURCES = \
 				c_url.cpp \
 				urltransport.cpp \
 				ipc.cpp \
-				dialogreferencesettings.cpp
+				dialogreferencesettings.cpp \
+				printproject2.cpp \
+				usfm2xetex.cpp \
+				xetex2pdf.cpp \
+				runtime.cpp \
+				xetex.cpp \
+				dialogxetex.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 

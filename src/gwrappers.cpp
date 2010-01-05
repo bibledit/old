@@ -105,6 +105,7 @@ ustring gw_path_get_dirname(const ustring & filename)
   return returnvalue;
 }
 
+
 bool gw_find_program_in_path(const ustring & program)
 /*
 Before we used the exit code of the unix which command, but as this does 

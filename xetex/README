@@ -1,0 +1,8 @@
+The ptx2pdf macros are held in a Subversion (version control) repository. You can access this in several ways:
+
+(a) With a web browser, go to http://scripts.sil.org/svn-view/sfscripture/TRUNK/ptx2pdf/ 
+
+(b) At that page, click the "Download tarball" link
+
+(c) Or check out a copy: svn co http://scripts.sil.org/svn-public/sfscripture/TRUNK/ptx2pdf
+

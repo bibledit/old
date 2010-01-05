@@ -42,6 +42,7 @@
 #include <libxml/nanohttp.h>
 #include "c_url.h"
 #include "urltransport.h"
+#include "runtime.h"
 
 
 Settings *settings;
@@ -108,6 +109,8 @@ int main(int argc, char *argv[])
     if (dup(1));
   }    
 
+  // Check on runtime requirements.
+  runtime_initialize ();
   // Initialize the xml library.
   xmlInitParser();
   // Initialize the http libraries.
