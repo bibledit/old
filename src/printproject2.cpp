@@ -77,7 +77,7 @@ void PrintProject2::no_bold ()
 }
 
 
-void PrintProject2::print()
+void PrintProject2::print() // Todo moving / implementing all code into the XeTeX object.
 // Runs the project through xetex and shows it in a pdf viewer.
 {
   // Scripture related data.
@@ -93,20 +93,20 @@ void PrintProject2::print()
   // Create the XeTeX object.
   XeTeX xetex (0);
 
+  // Settings.
+  extern Settings *settings;
+  //ProjectConfiguration *projectconfig = settings->projectconfig(myproject->name);
+
+  // Page.
+  xetex.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());
+  xetex.page_margins_set(settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
+
+
 
 /*
 
-
-  // Settings.
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(myproject->name);
-
   // Styles.
   usfm2xetex.add_styles(usfm2xslfo_read_stylesheet(stylesheet_get_actual ()));
-
-  // Page.
-  xetex2pdf.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());
-  xetex2pdf.page_margins_set(settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
 
   // Headers.
   if (settings->genconfig.printdate_get()) {
@@ -170,9 +170,15 @@ void PrintProject2::print()
   // Process the data.
   usfm2xetex.process();
   xetex2pdf.run();
-
-  // Display the pdf file.
-  xetex2pdf.view();
   */
+
+  // Process the data.
+  ustring pdf_file = xetex.run ();
+
+  // Display the pdf file if there was one.
+  // There would be none if the formatting process was cancelled.
+  if (!pdf_file.empty()) {
+    pdfviewer_view (pdf_file);
+  }
 }
 
