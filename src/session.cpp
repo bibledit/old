@@ -54,7 +54,11 @@ Session::Session(int dummy)
   area_verse = false;
   line_cutter_for_hebrew_text_characters = 80;
   special_character_selection = 0;
+
+  print_dialog_options_expanded = false;
   print_references_in_notes_in_full = false;
+  print_crop_marks = false;
+  
   bnmu_add_book = false;
   bnmu_add_chapter = false;
   bnmu_add_verse = true;

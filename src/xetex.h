@@ -23,6 +23,7 @@
 
 
 #include "libraries.h"
+#include "types.h"
 
 
 class XeTeX
@@ -43,13 +44,16 @@ private:
 
   // Configuration files.
 public:
-  void page_size_set(double width_centimeters, double height_centimeters);
-  void page_margins_set(double inside_margin_centimeters, double outside_margin_centimeters, double top_margin_centimeters, double bottom_margin_centimeters);
 private:
-  double page_width_centimeters, page_height_centimeters;
-  double inside_page_margin_centimeters, outside_page_margin_centimeters, top_page_margin_centimeters, bottom_page_margin_centimeters;
   vector <ustring> document_tex;
   void write_document_tex_file ();
+
+	// The USFM data.
+public:
+  void add_book (unsigned int id, const vector <ustring>& data);
+private:
+  vector <unsigned int> book_ids;
+  vector <VectorUstring> book_data;
   
   // Run xetex.
 public:

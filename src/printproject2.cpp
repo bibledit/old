@@ -93,17 +93,10 @@ void PrintProject2::print() // Todo moving / implementing all code into the XeTe
   // Create the XeTeX object.
   XeTeX xetex (0);
 
-  // Settings.
-  extern Settings *settings;
-  //ProjectConfiguration *projectconfig = settings->projectconfig(myproject->name);
-
-  // Page.
-  xetex.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());
-  xetex.page_margins_set(settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
-
-
-
 /*
+  // Settings.
+  //extern Settings *settings;
+  //ProjectConfiguration *projectconfig = settings->projectconfig(myproject->name);
 
   // Styles.
   usfm2xetex.add_styles(usfm2xslfo_read_stylesheet(stylesheet_get_actual ()));
@@ -149,11 +142,12 @@ void PrintProject2::print() // Todo moving / implementing all code into the XeTe
     xetex2pdf.add_text(comments[r]);
     xetex2pdf.close_paragraph();
   }
+  */
 
-  // Collect usfm code for all the books.
+  // Collect usfm code for all the books. // Todo let the smaller portions work as well.
   for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
     // Open the book.
-    vector < ustring > book_lines;
+    vector <ustring> book_lines;
     unsigned int id = books_english_to_id(scriptureportions->books[i]);
     for (unsigned int i2 = 0; i2 < myproject->data.size(); i2++) {
       if (myproject->data[i2].number == id) {
@@ -163,10 +157,11 @@ void PrintProject2::print() // Todo moving / implementing all code into the XeTe
 
     // Do text replacements on the lines.
     text_replacement(book_lines);
-    // Add the lines to the converter.
-    usfm2xetex.add_usfm_code(book_lines);
+    // Add the lines to the XeTeX object.
+    xetex.add_book (id, book_lines);
   }
 
+  /*
   // Process the data.
   usfm2xetex.process();
   xetex2pdf.run();
@@ -175,8 +170,8 @@ void PrintProject2::print() // Todo moving / implementing all code into the XeTe
   // Process the data.
   ustring pdf_file = xetex.run ();
 
-  // Display the pdf file if there was one.
-  // There would be none if the formatting process was cancelled.
+  // Display the pdf file if there is one.
+  // There would be none if the formatting process was cancelled by the user.
   if (!pdf_file.empty()) {
     pdfviewer_view (pdf_file);
   }

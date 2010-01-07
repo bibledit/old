@@ -44,8 +44,16 @@ protected:
   GtkWidget *expander;
   GtkWidget *label_expander;
 
+  GtkWidget *notebook;
+  static void on_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer user_data);
+  void on_notebook (guint page_num);
+
+  GtkWidget *label_tab_notes;
   GtkWidget *checkbutton_full_references;
 
+  GtkWidget *label_tab_page;
+  GtkWidget *checkbutton_cropmarks;
+  
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);

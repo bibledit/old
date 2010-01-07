@@ -71,7 +71,9 @@ public:
   bool area_verse;
   // Printing
   vector<ustring> additional_printing_projects;
+  bool print_dialog_options_expanded;
   bool print_references_in_notes_in_full;
+  bool print_crop_marks;
   // Tools
   int line_cutter_for_hebrew_text_characters;
   // Insert special character.

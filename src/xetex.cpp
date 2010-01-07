@@ -25,6 +25,8 @@
 #include "utilities.h"
 #include "runtime.h"
 #include "tiny_utilities.h"
+#include "settings.h"
+#include "books.h"
 
 
 // Tex editors: lyx, kile, texmaker
@@ -46,19 +48,6 @@ XeTeX::~XeTeX()
 
 void XeTeX::initialize_variables ()
 {
-  // The page size defaults to A4 = 210 x 297 millimeters (8.27 x 11.69 inches).
-  page_width_centimeters = 21;
-  page_height_centimeters = 29.7;
-  
-  // Page margins default in centimeters.
-  inside_page_margin_centimeters = 2.5;
-  outside_page_margin_centimeters = 1.5;
-  top_page_margin_centimeters = 2;
-  bottom_page_margin_centimeters = 2;
-  
-
-  
-
 }
 
 
@@ -95,32 +84,39 @@ void XeTeX::place_glw_sample ()
 	unlink (gw_build_filename (working_directory, "GLW.tex").c_str());
 	unlink (gw_build_filename (working_directory, "GLW-setup.txt").c_str());
 	unlink (gw_build_filename (working_directory, "README.txt").c_str());
+	unlink (gw_build_filename (working_directory, "43-JHN-GLW.sfm").c_str());
+	unlink (gw_build_filename (working_directory, "62-1JN-GLW.sfm").c_str());
+	unlink (gw_build_filename (working_directory, "63-2JN-GLW.sfm").c_str());
+	unlink (gw_build_filename (working_directory, "64-3JN-GLW.sfm").c_str());
 }
 
 
 void XeTeX::write_document_tex_file () // Todo writing this one
 {
+  extern Settings * settings;
+  
   // Include a bunch of ptx2pdf macros.
   document_tex.push_back ("\\input paratext2.tex");
 
   // Paper size.
-  document_tex.push_back ("\\PaperWidth=" + convert_to_string (page_width_centimeters) + "cm");
-  document_tex.push_back ("\\PaperHeight=" + convert_to_string (page_height_centimeters) + "cm");
+  document_tex.push_back ("\\PaperWidth=" + convert_to_string (settings->genconfig.paper_width_get()) + "cm");
+  document_tex.push_back ("\\PaperHeight=" + convert_to_string (settings->genconfig.paper_height_get()) + "cm");
 
-  document_tex.push_back ("\\CropMarkstrue");
+  if (settings->session.print_crop_marks)
+	  document_tex.push_back ("\\CropMarkstrue");
 
   // Basic unit for margins is 1 cm; changing this will alter them all.
   document_tex.push_back ("\\MarginUnit=1cm");
 
   // Relative sizes of margins, based on the unit above.
-  document_tex.push_back ("\\def\\TopMarginFactor{" + convert_to_string (top_page_margin_centimeters) + "}");
-  document_tex.push_back ("\\def\\BottomMarginFactor{" + convert_to_string (bottom_page_margin_centimeters) + "}");
-  document_tex.push_back ("\\def\\SideMarginFactor{" + convert_to_string (outside_page_margin_centimeters) + "}");
+  document_tex.push_back ("\\def\\TopMarginFactor{" + convert_to_string (settings->genconfig.paper_top_margin_get()) + "}");
+  document_tex.push_back ("\\def\\BottomMarginFactor{" + convert_to_string (settings->genconfig.paper_bottom_margin_get()) + "}");
+  document_tex.push_back ("\\def\\SideMarginFactor{" + convert_to_string (settings->genconfig.paper_outside_margin_get()) + "}");
 
 	// Optionally extra margin for the gutter on the binding side.
-	if (inside_page_margin_centimeters != outside_page_margin_centimeters) {
+	if (settings->genconfig.paper_inside_margin_get() != settings->genconfig.paper_outside_margin_get()) {
 	  document_tex.push_back ("\\BindingGuttertrue");
-    document_tex.push_back ("\\BindingGutter=" + convert_to_string (inside_page_margin_centimeters = outside_page_margin_centimeters) + "cm");
+    document_tex.push_back ("\\BindingGutter=" + convert_to_string (settings->genconfig.paper_inside_margin_get() - settings->genconfig.paper_outside_margin_get()) + "cm");
     document_tex.push_back ("\\DoubleSidedtrue");
 	}
  // Todo
@@ -192,11 +188,14 @@ void XeTeX::write_document_tex_file () // Todo writing this one
   document_tex.push_back ("\\stylesheet{usfm.sty}");
   document_tex.push_back ("\\stylesheet{GLW-custom.sty}");
 
-  document_tex.push_back ("\\ptxfile{Intro-GLW.sfm}");
-  document_tex.push_back ("\\ptxfile{43-JHN-GLW.sfm}");
-  document_tex.push_back ("\\ptxfile{62-1JN-GLW.sfm}");
-  document_tex.push_back ("\\ptxfile{63-2JN-GLW.sfm}");
-  document_tex.push_back ("\\ptxfile{64-3JN-GLW.sfm}");
+  // Write the data and add their filenames.
+  for (unsigned int i = 0; i < book_ids.size(); i++) {
+		ustring filename = convert_to_string (book_ids[i]) + " " + books_id_to_english(book_ids[i]) + ".usfm";
+    replace_text (filename, " ", "_");
+    write_lines (gw_build_filename (working_directory, filename), book_data[i]);
+    document_tex.push_back ("\\ptxfile{" + filename + "}");
+
+	}
 
   document_tex.push_back ("\\end");
 
@@ -244,19 +243,11 @@ ustring XeTeX::run ()
 }
 
 
-void XeTeX::page_size_set(double width_centimeters, double height_centimeters) // Todo
+void XeTeX::add_book (unsigned int id, const vector <ustring>& data)
+// Adds a book and its data to the object.
 {
-	page_width_centimeters = width_centimeters;
-	page_height_centimeters = height_centimeters;
-}
-
-
-void XeTeX::page_margins_set(double inside_margin_centimeters, double outside_margin_centimeters, double top_margin_centimeters, double bottom_margin_centimeters) // Todo
-{
-  inside_page_margin_centimeters = inside_margin_centimeters;
-  outside_page_margin_centimeters = outside_margin_centimeters;
-  top_page_margin_centimeters = top_margin_centimeters;
-  bottom_page_margin_centimeters = bottom_margin_centimeters;
+	book_ids.push_back (id);
+	book_data.push_back (data);
 }
 
 
@@ -278,7 +269,28 @@ date version from the SIL repo. (deb http://packages.sil.org/ubuntu karmic
 main).
 
 
+Our branch development is pretty informal. Martin Hosken is my TeX Guru here
+and we keep the code in our repository with the rest of our stuff. If you are
+interested, you can clone our Mercurial repo and use it just like you would
+the Paratext version.
 
+You should be able to clone it with:
+
+hg clone http://hg.palaso.org/ptxplus
+
+To find the macros go to: bin/tex and you will find them there. It is
+basically the same files as in the standard ptx2pdf package that you find on
+the sil.org site. We keep it the same because we hope we can merge the two
+some day so that others can benefit but no one is able/willing to take on that
+project. We may just have to rename it and go our separate way some day. :-(
+
+Our system will do a number of different high-end tricks that you wouldn't
+necessarily need in your implementation. Such as "Flying Verse Numbers", which
+are verse numbers parked out in the margin instead of in-line which is all the
+standard ptx2pdf does. It can also start a book on the ending page of the
+previous book. This saves space. That is not normally needed but on a recent
+project which this was implemented for, it will save over 3,000,000 pages when
+they print.
 
 
 

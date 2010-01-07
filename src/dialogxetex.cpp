@@ -38,8 +38,6 @@ XeTeXDialog::XeTeXDialog(int dummy)
 {
   extern Settings *settings;
 
-  Shortcuts shortcuts(0);
-
   gtkbuilder = gtk_builder_new ();
   gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.xetexdialog.xml").c_str(), NULL);
 
@@ -48,32 +46,30 @@ XeTeXDialog::XeTeXDialog(int dummy)
   label_portion = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_portion"));
 
   button_portion = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_portion"));
-  shortcuts.button (button_portion);
   g_signal_connect((gpointer) button_portion, "clicked", G_CALLBACK(on_button_portion_clicked), gpointer(this));
 
   expander = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "expander"));
-  bool expand = false;
-  if (settings->session.print_references_in_notes_in_full)
-    expand = true;
-  gtk_expander_set_expanded(GTK_EXPANDER(expander), expand);
+  gtk_expander_set_expanded(GTK_EXPANDER(expander), settings->session.print_dialog_options_expanded);
 
   label_expander = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_expander"));
-  shortcuts.label(label_expander);
 
+  notebook = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "notebook"));
+  g_signal_connect_after((gpointer) notebook, "switch_page", G_CALLBACK(on_notebook_switch_page), gpointer(this));
+
+  label_tab_notes = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_notes"));
   checkbutton_full_references = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_full_references"));
-  shortcuts.button(checkbutton_full_references);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_full_references), settings->session.print_references_in_notes_in_full);
 
-  InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, &shortcuts, "file/print/project");
+  label_tab_page = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_page"));
+  checkbutton_cropmarks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_cropmarks"));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_cropmarks), settings->session.print_crop_marks);
+
+  InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, NULL, "file/print/project");
   cancelbutton = indialoghelp->cancelbutton;
-  shortcuts.stockbutton(cancelbutton);
   okbutton = indialoghelp->okbutton;
   gtk_widget_grab_focus(okbutton);
   gtk_widget_grab_default(okbutton);
-  shortcuts.stockbutton(okbutton);
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
-
-  shortcuts.process();
 
   set_gui();
 }
@@ -100,7 +96,9 @@ void XeTeXDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 void XeTeXDialog::on_okbutton()
 {
   extern Settings *settings;
+  settings->session.print_dialog_options_expanded = gtk_expander_get_expanded(GTK_EXPANDER(expander));
   settings->session.print_references_in_notes_in_full = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_full_references));
+  settings->session.print_crop_marks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_cropmarks));
 }
 
 
@@ -121,12 +119,51 @@ void XeTeXDialog::on_button_portion()
 
 void XeTeXDialog::set_gui()
 {
+  // Portion indicator.
   extern Settings *settings;
   ScripturePortions scriptureportions(settings->genconfig.project_get());
   if (scriptureportions.reordering_portions_all())
     gtk_label_set_text(GTK_LABEL(label_portion), CHAPTER_VERSE_SELECTION_ALL);
   else
     gtk_label_set_text(GTK_LABEL(label_portion), "part");
+  // Keyboard accelerators.
+  Shortcuts shortcuts(0);
+  shortcuts.button (button_portion);
+  shortcuts.label(label_expander);
+  shortcuts.label (label_tab_notes);
+  shortcuts.label (label_tab_page);
+  shortcuts.stockbutton(cancelbutton);
+  shortcuts.stockbutton(okbutton);
+  GtkWidget * helpbutton = gtk_button_new_from_stock (GTK_STOCK_HELP);
+  shortcuts.stockbutton(helpbutton);
+  int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+  switch (page) {
+    case 0:
+    {
+      // Notes page.
+      shortcuts.button(checkbutton_full_references);
+      break;
+    }
+    case 1:
+    {
+      // Page settings.
+      shortcuts.button(checkbutton_cropmarks);
+      break;
+    }
+  }
+  shortcuts.process();
+  gtk_widget_destroy (helpbutton);
 }
 
+
+void XeTeXDialog::on_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer user_data)
+{
+  ((XeTeXDialog *) user_data)->on_notebook(page_num);
+}
+
+
+void XeTeXDialog::on_notebook (guint page_num)
+{
+  set_gui();
+}
 
