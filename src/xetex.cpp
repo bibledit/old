@@ -121,17 +121,20 @@ void XeTeX::write_document_tex_file () // Todo writing this one
     document_tex.push_back ("\\BindingGutter=" + convert_to_string (settings->genconfig.paper_inside_margin_get() - settings->genconfig.paper_outside_margin_get()) + "cm");
     document_tex.push_back ("\\DoubleSidedtrue");
   }
-  // Font.
-  //if (!projectconfig->editor_font_default_get())
-    //xetex2pdf.set_font(projectconfig->editor_font_name_get());
 
-  // Todo
   // Fonts to use for "plain", "bold", "italic", and "bold italic" from the Paratext stylesheet
   // (they need not really be italic, etc, of course)
-  //document_tex.push_back ("\\def\\regular{\"Charis SIL\"}");
-  //document_tex.push_back ("\\def\\bold{\"Charis SIL/B\"}");
-  //document_tex.push_back ("\\def\\italic{\"Charis SIL/I\"}");
-  //document_tex.push_back ("\\def\\bolditalic{\"Charis SIL/BI\"}");
+  if (!projectconfig->editor_font_default_get()) {
+    PangoFontDescription *font_desc = pango_font_description_from_string(projectconfig->editor_font_name_get().c_str());
+    if (font_desc){
+      ustring font_family = pango_font_description_get_family (font_desc);
+      document_tex.push_back ("\\def\\regular{\"" + font_family + "\"}");
+      document_tex.push_back ("\\def\\bold{\"" + font_family + "/B\"}");
+      document_tex.push_back ("\\def\\italic{\"" + font_family + "/I\"}");
+      document_tex.push_back ("\\def\\bolditalic{\"" + font_family + "/BI\"}");
+      pango_font_description_free(font_desc);
+    }
+  }
 
   // Right-to-left layout mode
   if (projectconfig->right_to_left_get()) {
@@ -142,8 +145,14 @@ void XeTeX::write_document_tex_file () // Todo writing this one
   document_tex.push_back ("\\FontSizeUnit=1pt");
 
   // Scaling factor used to adjust line spacing, relative to font size
-  document_tex.push_back ("\\def\\LineSpacingFactor{1.05}");
-  document_tex.push_back ("\\def\\VerticalSpaceFactor{1.0}");
+  double line_spacing_factor = 1.0;
+  double vertical_space_factor = 1.0;
+  if (!projectconfig->editor_font_default_get()){
+    line_spacing_factor = projectconfig->text_line_height_get() / 100;
+    vertical_space_factor = projectconfig->text_line_height_get() / 100;
+  }
+  document_tex.push_back ("\\def\\LineSpacingFactor{" + convert_to_string (line_spacing_factor) + "}");
+  document_tex.push_back ("\\def\\VerticalSpaceFactor{" + convert_to_string (vertical_space_factor) + "}");
 
   // Information to include in the running header (at top of pages, except first)
   // We set the items to print at left/center/right of odd and even pages separately
@@ -175,11 +184,11 @@ void XeTeX::write_document_tex_file () // Todo writing this one
   // whether to skip printing verse number 1 at start of chapter
   document_tex.push_back ("\\OmitVerseNumberOnetrue");
   // whether to use paragraph indent at drop-cap chapter numbers
-  //Sdocument_tex.push_back ("\\IndentAtChaptertrue");
+  //document_tex.push_back ("\\IndentAtChaptertrue");
 
-  document_tex.push_back ("\\AutoCallers{f}{*,†,‡,¶,§}");
-  document_tex.push_back ("\\PageResetCallers{f}");
-  //\NumericCallers{f}
+  document_tex.push_back ("\\AutoCallers{f}{*,†,‡,¶,§}"); // Todo set
+  document_tex.push_back ("\\PageResetCallers{f}"); // Todo set
+  //\NumericCallers{f} // Todo set
   //\OmitCallerInNote{f}
 
   // reformat \x notes as a single paragraph
@@ -202,9 +211,6 @@ void XeTeX::write_document_tex_file () // Todo writing this one
   // Styles.
   usfm2xetex.add_styles(usfm2xslfo_read_stylesheet(stylesheet_get_actual ()));
 
-  // Line spacing.
-  if (!projectconfig->editor_font_default_get())
-    xetex2pdf.set_line_spacing(projectconfig->text_line_height_get());
 
   // Language.
   usfm2xetex.set_language (projectconfig->language_get());
