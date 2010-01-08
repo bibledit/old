@@ -59,6 +59,7 @@ XeTeXDialog::XeTeXDialog(int dummy)
   label_tab_notes = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_notes"));
   checkbutton_full_references = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_full_references"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_full_references), settings->session.print_references_in_notes_in_full);
+  gtk_widget_set_sensitive (checkbutton_full_references, false);
 
   label_tab_page = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_page"));
   checkbutton_cropmarks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_cropmarks"));

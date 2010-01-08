@@ -93,7 +93,9 @@ void XeTeX::place_glw_sample ()
 
 void XeTeX::write_document_tex_file () // Todo writing this one
 {
+  // Settings.
   extern Settings * settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   
   // Include a bunch of ptx2pdf macros.
   document_tex.push_back ("\\input paratext2.tex");
@@ -103,7 +105,7 @@ void XeTeX::write_document_tex_file () // Todo writing this one
   document_tex.push_back ("\\PaperHeight=" + convert_to_string (settings->genconfig.paper_height_get()) + "cm");
 
   if (settings->session.print_crop_marks)
-	  document_tex.push_back ("\\CropMarkstrue");
+    document_tex.push_back ("\\CropMarkstrue");
 
   // Basic unit for margins is 1 cm; changing this will alter them all.
   document_tex.push_back ("\\MarginUnit=1cm");
@@ -113,25 +115,31 @@ void XeTeX::write_document_tex_file () // Todo writing this one
   document_tex.push_back ("\\def\\BottomMarginFactor{" + convert_to_string (settings->genconfig.paper_bottom_margin_get()) + "}");
   document_tex.push_back ("\\def\\SideMarginFactor{" + convert_to_string (settings->genconfig.paper_outside_margin_get()) + "}");
 
-	// Optionally extra margin for the gutter on the binding side.
-	if (settings->genconfig.paper_inside_margin_get() != settings->genconfig.paper_outside_margin_get()) {
-	  document_tex.push_back ("\\BindingGuttertrue");
+  // Optionally extra margin for the gutter on the binding side.
+  if (settings->genconfig.paper_inside_margin_get() != settings->genconfig.paper_outside_margin_get()) {
+    document_tex.push_back ("\\BindingGuttertrue");
     document_tex.push_back ("\\BindingGutter=" + convert_to_string (settings->genconfig.paper_inside_margin_get() - settings->genconfig.paper_outside_margin_get()) + "cm");
     document_tex.push_back ("\\DoubleSidedtrue");
-	}
- // Todo
+  }
+  // Font.
+  //if (!projectconfig->editor_font_default_get())
+    //xetex2pdf.set_font(projectconfig->editor_font_name_get());
+
+  // Todo
   // Fonts to use for "plain", "bold", "italic", and "bold italic" from the Paratext stylesheet
   // (they need not really be italic, etc, of course)
-  document_tex.push_back ("\\def\\regular{\"Charis SIL\"}");
-  document_tex.push_back ("\\def\\bold{\"Charis SIL/B\"}");
-  document_tex.push_back ("\\def\\italic{\"Charis SIL/I\"}");
-  document_tex.push_back ("\\def\\bolditalic{\"Charis SIL/BI\"}");
+  //document_tex.push_back ("\\def\\regular{\"Charis SIL\"}");
+  //document_tex.push_back ("\\def\\bold{\"Charis SIL/B\"}");
+  //document_tex.push_back ("\\def\\italic{\"Charis SIL/I\"}");
+  //document_tex.push_back ("\\def\\bolditalic{\"Charis SIL/BI\"}");
 
-  // Use right-to-left layout mode
-  //document_tex.push_back ("\\RTLtrue");
+  // Right-to-left layout mode
+  if (projectconfig->right_to_left_get()) {
+    document_tex.push_back ("\\RTLtrue");
+  }
 
   // Unit for font sizes in the stylesheet; changing this will scale all text proportionately
-  document_tex.push_back ("\\FontSizeUnit=0.8pt");
+  document_tex.push_back ("\\FontSizeUnit=1pt");
 
   // Scaling factor used to adjust line spacing, relative to font size
   document_tex.push_back ("\\def\\LineSpacingFactor{1.05}");
@@ -161,93 +169,110 @@ void XeTeX::write_document_tex_file () // Todo writing this one
   document_tex.push_back ("\\def\\RFevencenter{\\pagenumber}");
   document_tex.push_back ("\\def\\RFtitlecenter{\\pagenumber}");
 
-	// whether to include verse number in running head, or only chapter
+  // whether to include verse number in running head, or only chapter
   document_tex.push_back ("\\VerseRefstrue");
 
-	// whether to skip printing verse number 1 at start of chapter
+  // whether to skip printing verse number 1 at start of chapter
   document_tex.push_back ("\\OmitVerseNumberOnetrue");
-	// whether to use paragraph indent at drop-cap chapter numbers
-  //\IndentAtChaptertrue");
+  // whether to use paragraph indent at drop-cap chapter numbers
+  //Sdocument_tex.push_back ("\\IndentAtChaptertrue");
 
   document_tex.push_back ("\\AutoCallers{f}{*,†,‡,¶,§}");
   document_tex.push_back ("\\PageResetCallers{f}");
   //\NumericCallers{f}
   //\OmitCallerInNote{f}
 
-	// reformat \x notes as a single paragraph
+  // reformat \x notes as a single paragraph
   document_tex.push_back ("\\ParagraphedNotes{x}");
 
   document_tex.push_back ("\\TitleColumns=1");
   document_tex.push_back ("\\IntroColumns=1");
   document_tex.push_back ("\\BodyColumns=2");
 
-	// gutter between double cols, relative to font size
-	document_tex.push_back ("\\def\\ColumnGutterFactor{15}");
+  // gutter between double cols, relative to font size
+  document_tex.push_back ("\\def\\ColumnGutterFactor{15}");
 
   // Define the Paratext stylesheet to be used as a basis for formatting
   document_tex.push_back ("\\stylesheet{usfm.sty}");
   document_tex.push_back ("\\stylesheet{GLW-custom.sty}");
 
+/*
+
+// Todo do the below.
+  // Styles.
+  usfm2xetex.add_styles(usfm2xslfo_read_stylesheet(stylesheet_get_actual ()));
+
+  // Line spacing.
+  if (!projectconfig->editor_font_default_get())
+    xetex2pdf.set_line_spacing(projectconfig->text_line_height_get());
+
+  // Language.
+  usfm2xetex.set_language (projectconfig->language_get());
+
+
+*/
+
   // Write the data and add their filenames.
   for (unsigned int i = 0; i < book_ids.size(); i++) {
-		ustring filename = convert_to_string (book_ids[i]) + " " + books_id_to_english(book_ids[i]) + ".usfm";
+    ustring filename = convert_to_string (book_ids[i]) + " " + books_id_to_english(book_ids[i]) + ".usfm";
     replace_text (filename, " ", "_");
     write_lines (gw_build_filename (working_directory, filename), book_data[i]);
     document_tex.push_back ("\\ptxfile{" + filename + "}");
+  }
 
-	}
-
+  // End of document input.
   document_tex.push_back ("\\end");
 
-	write_lines (gw_build_filename (working_directory, "document.tex"), document_tex);
+  // Write document.text to file.
+  write_lines (gw_build_filename (working_directory, "document.tex"), document_tex);
 }
 
 
 ustring XeTeX::run ()
 {
   write_document_tex_file ();
-	ustring pdf_file;
-	if (runtime_check (rtXeTeX)) {
-		pdf_file = gw_build_filename (working_directory, "document.pdf");
-		bool re_run = false;
-		unsigned int run_count = 0;
-		do {
-			run_count++;
-			GwSpawn spawn (runtime_program (rtXeTeX));
-			spawn.workingdirectory (working_directory);
-			spawn.arg ("document.tex");
-			spawn.read ();
-			spawn.progress ("Formatting run " + convert_to_string (run_count), true);
-			spawn.run ();
-			re_run = false;
-			for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-				gw_message (spawn.standardout[i]);
-				if (spawn.standardout[i].find ("re-run") != string::npos) 
-				  re_run = true;
-			}
-			for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-				gw_critical (spawn.standarderr[i]);
-				if (spawn.standarderr[i].find ("re-run") != string::npos) 
-				  re_run = true;
-			}
+  ustring pdf_file;
+  if (runtime_check (rtXeTeX)) {
+    pdf_file = gw_build_filename (working_directory, "document.pdf");
+    bool re_run = false;
+    unsigned int run_count = 0;
+    do {
+      run_count++;
+      GwSpawn spawn (runtime_program (rtXeTeX));
+      spawn.workingdirectory (working_directory);
+      spawn.arg ("document.tex");
+      spawn.read ();
+      spawn.progress ("Formatting run " + convert_to_string (run_count), true);
+      spawn.run ();
+      re_run = false;
+      for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+	gw_message (spawn.standardout[i]);
+	if (spawn.standardout[i].find ("re-run") != string::npos) 
+	  re_run = true;
+      }
+      for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
+	gw_critical (spawn.standarderr[i]);
+	if (spawn.standarderr[i].find ("re-run") != string::npos) 
+	re_run = true;
+      }
       // If the formatting process was cancelled, bail out, with no pdf file.
-			if (spawn.cancelled) {
-				return "";
-			}
-		} while (re_run && (run_count < 10));
-	}
+      if (spawn.cancelled) {
+	return "";
+      }
+    } while (re_run && (run_count < 10));
+  }
   // Info for user in logfile.
   gw_message ("All the data for this document is available in temporal folder " + working_directory + ".");
   gw_message ("You can tune the files by hand, then run \"xetex document.tex\" in this folder to convert it into a PDF file.");
-	return pdf_file;
+  return pdf_file;
 }
 
 
 void XeTeX::add_book (unsigned int id, const vector <ustring>& data)
 // Adds a book and its data to the object.
 {
-	book_ids.push_back (id);
-	book_data.push_back (data);
+  book_ids.push_back (id);
+  book_data.push_back (data);
 }
 
 
@@ -259,6 +284,12 @@ Todo xetex
 One dialog that does the settings. Several tabs could be used.
 Information may be in the dialog that describe how to set certain things, such as font in the View menu, and
 other settings in the stylesheet.
+
+
+
+It needs a routine to export to a Paratext stylesheet.
+
+
 
 task #8017: use/allow xetex as formatter
 

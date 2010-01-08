@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "usfm2text.h"
 #include "gwrappers.h"
 #include <glib.h>
@@ -33,6 +34,7 @@
 #include "settings.h"
 #include "referenceutils.h"
 #include "projectutils.h"
+
 
 Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress)
 {

@@ -77,7 +77,7 @@ void PrintProject2::no_bold ()
 }
 
 
-void PrintProject2::print() // Todo moving / implementing all code into the XeTeX object.
+void PrintProject2::print()
 // Runs the project through xetex and shows it in a pdf viewer.
 {
   // Scripture related data.
@@ -93,79 +93,67 @@ void PrintProject2::print() // Todo moving / implementing all code into the XeTe
   // Create the XeTeX object.
   XeTeX xetex (0);
 
-/*
-  // Settings.
-  //extern Settings *settings;
-  //ProjectConfiguration *projectconfig = settings->projectconfig(myproject->name);
+  // Usfm style object.
+  Usfm usfm (stylesheet_get_actual ());
 
-  // Styles.
-  usfm2xetex.add_styles(usfm2xslfo_read_stylesheet(stylesheet_get_actual ()));
-
-  // Headers.
-  if (settings->genconfig.printdate_get()) {
-    xetex2pdf.print_date_in_header();
-  }
-  // Font.
-  if (!projectconfig->editor_font_default_get())
-    xetex2pdf.set_font(projectconfig->editor_font_name_get());
-
-  // Line spacing.
-  if (!projectconfig->editor_font_default_get())
-    xetex2pdf.set_line_spacing(projectconfig->text_line_height_get());
-
-  // Right-to-left.
-  xetex2pdf.set_right_to_left(projectconfig->right_to_left_get());
-
-  // Inclusion of full references with the notes.
-  if (settings->session.print_references_in_notes_in_full)
-    usfm2xetex.set_include_full_references_with_notes();
-
-  // Portions.
+  // Collect usfm code for all the books.
   for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
-    vector <unsigned int> chapters_from, chapters_to;
-    vector <ustring> verses_from, verses_to;
-    select_portion_get_values(portionproject, books_english_to_id(scriptureportions->books[i]), scriptureportions->portions[i], chapters_from, verses_from, chapters_to, verses_to);
-    usfm2xetex.add_print_portion(books_english_to_id(scriptureportions->books[i]), chapters_from, verses_from, chapters_to, verses_to);
-  }
 
-  // Language.
-  usfm2xetex.set_language (projectconfig->language_get());
+    // Book id.
+    unsigned int book_id = books_english_to_id(scriptureportions->books[i]);
 
-  // No bold.
-  if (nobold) {
-    usfm2xetex.no_bold();
-  }
-    
-  // Start off with inserting any remarks.
-  for (unsigned int r = 0; r < comments.size(); r++) {
-    xetex2pdf.open_paragraph();
-    xetex2pdf.add_text(comments[r]);
-    xetex2pdf.close_paragraph();
-  }
-  */
+    // Ranges to include.
+    WithinReferencesRange inrange;
+    {
+      vector <unsigned int> chapters_from, chapters_to;
+      vector <ustring> verses_from, verses_to;
+      select_portion_get_values(portionproject, book_id, scriptureportions->portions[i], chapters_from, verses_from, chapters_to, verses_to);
+      inrange.add_portion(book_id, chapters_from, verses_from, chapters_to, verses_to);
+    }
+    inrange.set_book (book_id);
+    inrange.set_chapter (0);
+    inrange.set_verse ("0");
 
-  // Collect usfm code for all the books. // Todo let the smaller portions work as well.
-  for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
     // Open the book.
-    vector <ustring> book_lines;
-    unsigned int id = books_english_to_id(scriptureportions->books[i]);
+    vector <ustring> full_book_lines;
     for (unsigned int i2 = 0; i2 < myproject->data.size(); i2++) {
-      if (myproject->data[i2].number == id) {
-        book_lines = myproject->data[i2].get_data();
+      if (myproject->data[i2].number == book_id) {
+        full_book_lines = myproject->data[i2].get_data();
+      }
+    }
+
+    // Take only those portions the user wishes to print.
+    vector <ustring> book_lines;
+    for (unsigned int i = 0; i < full_book_lines.size(); i++) {
+      ustring line = full_book_lines[i];
+      ustring marker = usfm_extract_marker(line);
+      if (usfm.is_chapter_number(marker)) {
+        inrange.set_chapter (convert_to_int(number_in_string(line)));
+        inrange.set_verse ("0");
+      }
+      if (usfm.is_verse_number(marker)) {
+        size_t position = line.find(" ");
+        position = CLAMP(position, 0, line.length());
+        ustring verse = line.substr(0, position);
+        inrange.set_verse (verse);
+      }
+      if (inrange.in_range()) {
+        book_lines.push_back (full_book_lines[i]);
+      } else {
+        if (marker == "id") {
+          ParseLine parseline (full_book_lines[i]);
+          if (!parseline.lines.empty ()) {
+            book_lines.push_back (parseline.lines[0]);
+          }
+        }
       }
     }
 
     // Do text replacements on the lines.
     text_replacement(book_lines);
     // Add the lines to the XeTeX object.
-    xetex.add_book (id, book_lines);
+    xetex.add_book (book_id, book_lines);
   }
-
-  /*
-  // Process the data.
-  usfm2xetex.process();
-  xetex2pdf.run();
-  */
 
   // Process the data.
   ustring pdf_file = xetex.run ();
