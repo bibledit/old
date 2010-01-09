@@ -26,6 +26,7 @@
 #include "ustring.h"
 #include "floatingwindow.h"
 #include "style.h"
+#include "stylesheetutils.h"
 
 
 class WindowStyles : public FloatingWindow
@@ -41,7 +42,7 @@ public:
   ustring get_focus();
   void use(const ustring& marker);
   ustring get_sheet();
-  void export_sheet(const ustring& filename);
+  void export_sheet(const ustring& filename, StylesheetExportFormatType format);
   void on_stylesheet_import();
 private:
   GtkWidget *vbox;

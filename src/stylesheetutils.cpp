@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include "stylesheetutils.h"
@@ -35,6 +36,7 @@
 #include <libxml/xmlwriter.h>
 #include <libxml/xmlreader.h>
 #include "styles.h"
+#include "paratext.h"
 
 
 #define STYLESHEET_XML_SUFFIX ".xml2"
@@ -161,8 +163,8 @@ ustring stylesheet_import(const ustring & filename)
 }
 
 
-void stylesheet_export(const ustring & name, const ustring & filename)
-// Exports a stylesheet.
+void stylesheet_export_bibledit(const ustring & name, const ustring & filename)
+// Exports a stylesheet in standard bibledit format.
 {
   ustring originalfile = stylesheet_xml_filename(name);
   ustring destinationfile(filename);
@@ -581,6 +583,15 @@ ustring stylesheet_get_actual ()
 
   // Return sheet.
   return sheet;
+}
+
+
+void stylesheet_export_paratext(const ustring & name, ustring filename)
+// Exports a stylesheet in Paratext format.
+{
+  ExportParatextStylesheet export_paratext_sheet (0);
+  export_paratext_sheet.convert (name);
+  export_paratext_sheet.save (filename);
 }
 
 

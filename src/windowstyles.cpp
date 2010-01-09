@@ -765,11 +765,22 @@ void WindowStyles::on_stylesheet_import()
 }
 
 
-void WindowStyles::export_sheet(const ustring& filename)
+void WindowStyles::export_sheet(const ustring& filename, StylesheetExportFormatType format)
 {
   if (filename.empty())
     return;
-  stylesheet_export(mystylesheet, filename);
+  switch (format) {
+    case seftBibledit: 
+    {
+      stylesheet_export_bibledit(mystylesheet, filename);
+      break;
+    }
+    case seftParatext:
+    {
+      stylesheet_export_paratext(mystylesheet, filename);
+      break;
+    }
+  }
 }
 
 

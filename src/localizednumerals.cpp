@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "localizednumerals.h"
 #include "utilities.h"
 #include "directories.h"
@@ -113,6 +114,12 @@ NumeralLocalization::NumeralLocalization(const ustring& language)
 }
 
 
+bool NumeralLocalization::available ()
+{
+  return !localizations.empty();
+}
+
+
 ustring NumeralLocalization::latin2localization (const ustring& latin)
 // Given "latin" it returns the localization.
 {
@@ -140,5 +147,57 @@ ustring NumeralLocalization::latin2localization (const ustring& latin)
     }   
   }
   return localization;
+}
+
+
+ustring NumeralLocalization::convert_usfm (ustring line)
+// Converts Latin numerals to their localized equivalents, 
+// and keeps Latin numerals that are part of a USFM code.
+// Also keeps the \c <latin numeral> and the \v <latin numeral>.
+{
+  ustring conversion;
+  ustring number = number_in_string(line);
+  while (!number.empty()) {
+    bool convert = true;
+    size_t number_pos = line.find (number);
+    // If the number is preceded by \v or \c, do not convert it, e.g. "\c 1".
+    if (number_pos >= 3) {
+      ustring preceding_bit = line.substr (number_pos - 3, 2);
+      if ((preceding_bit == "\\v") || (preceding_bit == "\\c")) {
+        convert = false;
+      }
+    }
+    // If the number belongs to an id line, e.g. \id 1JN, do not convert it.
+    if (convert && (number_pos >= 4)) {
+      ustring preceding_bit = line.substr (number_pos - 4, 3);
+      if (preceding_bit == "\\id") {
+        convert = false;
+      }
+    }
+    // Look back for a space. If it is found then the numeral does not belong to a USFM code, and the conversion can go ahead.
+    // If no space is found, but a backslash instead, then the conversion cannot go ahead since the numeral is part of a USFM code.
+    if (convert) {
+      for (int i = number_pos; i >= 0; i--) {
+        ustring preceding_character = line.substr (i, 1);
+        if (preceding_character == " ") {
+          break;
+        }
+        if (preceding_character == "\\") {
+          convert = false;
+          break;
+        }
+      }
+    }
+    // Do the text transfer and optionally the conversion.
+    conversion.append (line.substr (0, number_pos));
+    line.erase (0, number_pos + number.length());
+    if (convert) {
+      number = latin2localization (number);
+    }
+    conversion.append (number);
+    number = number_in_string(line);
+  }
+  conversion.append (line);
+  return conversion;
 }
 

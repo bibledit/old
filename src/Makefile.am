@@ -279,7 +279,8 @@ bibledit_SOURCES = \
 				xetex2pdf.cpp \
 				runtime.cpp \
 				xetex.cpp \
-				dialogxetex.cpp
+				dialogxetex.cpp \
+				paratext.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 

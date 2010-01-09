@@ -18,27 +18,26 @@
 */
 
 
-#ifndef INCLUDED_LOCALIZED_NUMERALS_H
-#define INCLUDED_LOCALIZED_NUMERALS_H
+#ifndef INCLUDED_PARATEXT_H
+#define INCLUDED_PARATEXT_H
 
 
 #include "libraries.h"
+#include "style.h"
 
 
-ustring numeral_localization_filename (const ustring& language);
-
-
-class NumeralLocalization
+class ExportParatextStylesheet
 {
 public:
-  NumeralLocalization (const ustring& language);
-  bool available ();
-  ustring latin2localization (const ustring& latin);
-  ustring convert_usfm (ustring line);
+  ExportParatextStylesheet (int dummy);
+  ~ExportParatextStylesheet ();
+  void convert (const ustring& name);
+  void save (ustring filename);
 private:
-  vector <ustring> latins;
-  vector <ustring> localizations;
+  vector <ustring> stylesheet_lines;
+  ustring marker;
 };
+
 
 
 #endif

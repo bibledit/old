@@ -27,6 +27,9 @@
 #include "types.h"
 
 
+enum StylesheetExportFormatType {seftBibledit, seftParatext};
+
+
 ustring stylesheet_xml_filename(const ustring & name);
 ustring stylesheet_xml_template_filename();
 void stylesheet_get_ones_available (vector<ustring>& names);
@@ -34,7 +37,7 @@ void stylesheet_create_new (const ustring& name, StylesheetType stylesheettype);
 void stylesheet_delete (const ustring& name);
 void stylesheet_copy (const ustring& from_name, const ustring& to_name);
 ustring stylesheet_import (const ustring& filename);
-void stylesheet_export (const ustring& name, const ustring& filename);
+void stylesheet_export_bibledit (const ustring& name, const ustring& filename);
 bool stylesheet_exists (const ustring& name);
 void stylesheet_get_styles (const ustring& stylesheet, vector<Style>& styles);
 vector<ustring> stylesheet_get_markers (const ustring& stylesheet, vector<ustring> * names);
@@ -62,6 +65,7 @@ void stylesheet_save_style (const ustring& stylesheet, const Style& style);
 void stylesheet_load_style (const ustring& stylesheet, Style& style);
 set <ustring> stylesheet_get_styles_of_type (StylesheetType stylesheettype);
 ustring stylesheet_get_actual ();
+void stylesheet_export_paratext (const ustring& name, ustring filename);
 
 
 #endif

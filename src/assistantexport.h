@@ -30,6 +30,7 @@
 #include "windowreferences.h"
 #include "windowstyles.h"
 #include "windowcheckkeyterms.h"
+#include "stylesheetutils.h"
 
 
 class ExportAssistant : public AssistantBase
@@ -122,7 +123,14 @@ private:
   static void on_entry_sword_changed (GtkEditable *editable, gpointer user_data);
   void on_entry_sword (GtkEditable *editable);
   void sword_values_set ();
-  
+
+  // Stylesheet format.
+  int page_number_stylesheet_format;
+  GtkWidget *vbox_stylesheet_format;
+  GtkWidget *radiobutton_stylesheet_format_bibledit;
+  GtkWidget *radiobutton_stylesheet_format_paratext;
+  StylesheetExportFormatType get_stylesheet_export_format ();
+    
   // Include keyterms without rendering?
   int page_number_keyterms_without_rendering;
   GtkWidget *checkbutton_keyterms_without_rendering;

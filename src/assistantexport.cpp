@@ -385,6 +385,36 @@ AssistantBase("Export", "export")
 
   sword_values_set ();
 
+  // Stylesheet format.
+  vbox_stylesheet_format = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_stylesheet_format);
+  page_number_stylesheet_format = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_stylesheet_format);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_stylesheet_format), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_stylesheet_format, "What type of export do you chooseS?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_stylesheet_format, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_stylesheet_format, true);
+
+  GSList *radiobutton_stylesheet_export_type_group = NULL;
+
+  radiobutton_stylesheet_format_bibledit = gtk_radio_button_new_with_mnemonic (NULL, "Standard Bibledit format");
+  gtk_widget_show (radiobutton_stylesheet_format_bibledit);
+  gtk_box_pack_start (GTK_BOX (vbox_stylesheet_format), radiobutton_stylesheet_format_bibledit, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_bibledit), radiobutton_stylesheet_export_type_group);
+  radiobutton_stylesheet_export_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_bibledit));
+
+  radiobutton_stylesheet_format_paratext = gtk_radio_button_new_with_mnemonic (NULL, "Paratext format");
+  gtk_widget_show (radiobutton_stylesheet_format_paratext);
+  gtk_box_pack_start (GTK_BOX (vbox_stylesheet_format), radiobutton_stylesheet_format_paratext, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_paratext), radiobutton_stylesheet_export_type_group);
+  radiobutton_stylesheet_export_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_paratext));
+
+  Shortcuts shortcuts_select_stylesheet_export_type (0);
+  shortcuts_select_stylesheet_export_type.button (radiobutton_stylesheet_format_bibledit);
+  shortcuts_select_stylesheet_export_type.button (radiobutton_stylesheet_format_paratext);
+  shortcuts_select_stylesheet_export_type.consider_assistant();
+  shortcuts_select_stylesheet_export_type.process();
+
   // Include keyterms without a rendering?
   checkbutton_keyterms_without_rendering = gtk_check_button_new_with_mnemonic ("Include keyterms without a rendering");
   gtk_widget_show (checkbutton_keyterms_without_rendering);
@@ -763,7 +793,7 @@ void ExportAssistant::on_assistant_apply ()
     case etStylesheet:
     {
       if (my_styles_window) {
-        my_styles_window->export_sheet(filename);
+        my_styles_window->export_sheet(filename, get_stylesheet_export_format ());
       }
       break;
     }
@@ -921,6 +951,7 @@ gint ExportAssistant::assistant_forward (gint current_page)
     case etStylesheet:
     {
       forward_sequence.insert (page_number_select_type);
+      forward_sequence.insert (page_number_stylesheet_format);
       forward_sequence.insert (page_number_file);
       break;
     }
@@ -1135,4 +1166,17 @@ bool ExportAssistant::get_include_keyterms_without_rendering ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_keyterms_without_rendering));
 }
+
+
+StylesheetExportFormatType ExportAssistant::get_stylesheet_export_format ()
+{
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_stylesheet_format_bibledit))) {
+    return seftBibledit;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_stylesheet_format_paratext))) {
+    return seftParatext;
+  }
+  return seftBibledit;
+}
+
 

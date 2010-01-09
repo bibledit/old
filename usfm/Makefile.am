@@ -1,3 +1,4 @@
+dist_pkgdata_DATA = usfm.sty
 EXTRA_DIST = *
 CLEANFILES = *~
 webroot = @WEBROOT@

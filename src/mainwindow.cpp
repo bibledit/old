@@ -5409,7 +5409,7 @@ void MainWindow::on_print()
   {
     vector <ustring> labels;
     labels.push_back("Project (through internal typesetter)");
-    labels.push_back("Project (through XeTeX - in progress)");
+    labels.push_back("Project (through ptx2pdf typesetter)");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
     //labels.push_back("Test usfm2pdf");
@@ -6543,10 +6543,6 @@ Todo tasks.
 
 
 
-
-
-
-
 task #9703: Import Bibles etc from the Online bible
 The new bwoutpost has the capability to connect to the Online Bible and retrieve verses from it. Let's exploit this to get data into Bibledit.
 Since we're going to redo the outpost things, we might as well do it properly.
@@ -6852,7 +6848,11 @@ Another advantage is that since the bibledit programmer uses C++, and since PHP 
 It is important to use object oriented programming, and code re-use.
 It is helpful if the databases are put sqlite, since this does not need credentials, and can be easily moved over if the server gets moved.
 See http://www.tuxradar.com/practicalphp
-
+There's one main site with an index pages and frames.
+Within the frames applications run. This can be our own applications, or foreign ones.
+Each application is independent and separate.
+Strong separation between database for storage, the interface for the user, and glue in between.
+Messaging between applications and server for e.g. verse reference, other things.
 
 
 

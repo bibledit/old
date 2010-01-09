@@ -40,13 +40,13 @@ private:
   void create_work_area ();
   ustring working_directory;
   void place_ptx2pdf_macros ();
-  void place_glw_sample ();
 
   // Configuration files.
 public:
 private:
   vector <ustring> document_tex;
   void write_document_tex_file ();
+  void write_stylesheet ();
 
 	// The USFM data.
 public:

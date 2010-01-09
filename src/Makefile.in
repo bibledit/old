@@ -179,7 +179,7 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	urltransport.$(OBJEXT) ipc.$(OBJEXT) \
 	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
 	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
-	xetex.$(OBJEXT) dialogxetex.$(OBJEXT)
+	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -641,7 +641,8 @@ bibledit_SOURCES = \
 				xetex2pdf.cpp \
 				runtime.cpp \
 				xetex.cpp \
-				dialogxetex.cpp
+				dialogxetex.cpp \
+				paratext.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -911,6 +912,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/outline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/paper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parallel_passages.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/paratext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfviewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/planning.Po@am__quote@

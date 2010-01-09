@@ -6,3 +6,7 @@ The ptx2pdf macros are held in a Subversion (version control) repository. You ca
 
 (c) Or check out a copy: svn co http://scripts.sil.org/svn-public/sfscripture/TRUNK/ptx2pdf
 
+(There is also ptxplus at "hg clone http://hg.palaso.org/ptxplus". It should do a little more than ptx2pdf).
+
+
+
