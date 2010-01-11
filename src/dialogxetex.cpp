@@ -114,6 +114,8 @@ void XeTeXDialog::on_okbutton()
   if (xetex_font_mapping_filename) {
     projectconfig->xetex_font_mapping_file_set(xetex_font_mapping_filename);
     g_free (xetex_font_mapping_filename);
+  } else {
+    projectconfig->xetex_font_mapping_file_set("");
   }
 }
 

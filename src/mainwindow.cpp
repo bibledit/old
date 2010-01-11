@@ -2683,7 +2683,7 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data)
 }
 
 
-void MainWindow::on_copy()
+void MainWindow::on_copy() // Todo
 {
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (editor_windows[i]->focused) {
@@ -2698,6 +2698,11 @@ void MainWindow::on_copy()
   if (window_notes) {
     if (window_notes->focused) {
       window_notes->copy();
+    }
+  }
+  if (window_references) {
+    if (window_references->focused) {
+      window_references->copy();
     }
   }
 }
@@ -6541,24 +6546,17 @@ Todo tasks.
 
 
 
-Farsi Digits are in /usr/share/texmf-texlive/fonts/misc/xetex/fontmapping/polyglossia
-In general it is good to do it the XeTeX way.
-Install package texlive-lang-arab and font package ttf-sil-scheherazade
-Put this in the helpfile, also the location where to put this file, and about the GUI.
-Close task.
-
-
-
-
-
 
 task #9755: copy verse list to clipboard
-The verse list, or "References", it would help if there were an option to copy it to the clipboard, either only verse references, or the verses with all text included. 
-And not just the verse list but also the associate comments, e.g. after a check.
 
+The verse list, or "References", it would help if there were an option to copy it to the clipboard, either only verse references, 
+or the verses with all text included. 
 
+And not just the verse list but also the associated comments, e.g. after a check.
 
+This means that the user should be able to select all text in the window, and then copy it to the clipboard.
 
+Add to helpfile, and add to change log, and close the task.
 
 
 
@@ -6579,22 +6577,6 @@ Suggestions:
 * Bibledit's listener handles all requests coming back and then does the import.
 * Outpost normally is hidden, and tries to connect. If no connection gets established after say, 10 seconds, it shows and gives the error message.
 * Once it connects, it hides, and so forth.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

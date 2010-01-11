@@ -774,3 +774,9 @@ void WindowReferences::goto_next_previous_internal(bool next)
 }
 
 
+void WindowReferences::copy ()
+{
+  gtk_html_copy (GTK_HTML (htmlview));
+}
+
+

@@ -44,6 +44,7 @@ public:
   void save(const ustring& filename);
   void goto_next ();
   void goto_previous ();
+  void copy ();
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;
