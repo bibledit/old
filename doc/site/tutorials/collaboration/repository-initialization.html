@@ -34,13 +34,13 @@ webspace.gadgets = {"isGadgetDirectoryEnabled":true,"baseUri":"/site/bibledit/sy
 
 webspace.user = {"uid":"","hasAdminAccess":false,"guest_":true,"domain":"","hasWriteAccess":false,"userName":"guest","dasherUser":false,"primaryEmail":"guest","displayNameOrEmail":"guest"};
 
-webspace.page = {"locale":"en","state":"","wuid":"wuid:gx:211d0d88d92c1de9","timeZone":"America/Los_Angeles","properties":{},"type":"text","canChangePath":true,"parentWuid":"wuid:gx:789409cebc62611f","revision":3,"title":"Repository initialization","isRtlLocale":false,"bidiEnabled":false,"siteLocale":"en","name":"repository-initialization","path":"/tutorials/collaboration/repository-initialization","isSiteRtlLocale":false,"parentPath":"/tutorials/collaboration"};
+webspace.page = {"locale":"en","state":"","wuid":"wuid:gx:211d0d88d92c1de9","timeZone":"America/Los_Angeles","properties":{},"type":"text","canChangePath":true,"parentWuid":"wuid:gx:789409cebc62611f","revision":4,"title":"Repository initialization","isRtlLocale":false,"bidiEnabled":false,"siteLocale":"en","name":"repository-initialization","path":"/tutorials/collaboration/repository-initialization","isSiteRtlLocale":false,"parentPath":"/tutorials/collaboration"};
 
 
 var editorResources = [
   'http://www.gstatic.com/sites/p/b46d27/system/js/trog_edit__en.js',
   'http://www.gstatic.com/sites/p/b46d27/system/app/css/trogedit.css',
-  '/site/bibledit/_/rsrc/1261190766481/system/app/css/editor.css'
+  '/site/bibledit/_/rsrc/1262893837497/system/app/css/editor.css'
 ];
 
 var JOT_clearDotPath = 'http://www.gstatic.com/sites/p/b46d27/system/app/images/cleardot.gif';
@@ -64,7 +64,7 @@ var JOT_siteRelTimeStrs = ["a minute ago", "{0} minutes ago", "an hour ago", "{0
               </script>
 <meta name="Description" content="bibledit" />
 <link rel="stylesheet" type="text/css" href="http://www.gstatic.com/sites/p/b46d27/system/app/themes/iceberg/standard-css-iceberg-ltr-ltr.css" />
-<link rel="stylesheet" type="text/css" href="../../_/rsrc/1261190766503/system/app/css/overlay.css%3Fcb=icebergundefineda150goog-ws-left" />
+<link rel="stylesheet" type="text/css" href="../../_/rsrc/1262893837567/system/app/css/overlay.css%3Fcb=icebergundefineda150goog-ws-left" />
 <title>Repository initialization (bibledit)</title>
 <script type="text/javascript">
                 window.jstiming.load.tick('cl');
@@ -233,7 +233,7 @@ var JOT_siteRelTimeStrs = ["a minute ago", "{0} minutes ago", "an hour ago", "{0
 </div></li>
 </ul>
 </li>
-<li class="topLevel"><div dir="ltr" style="padding-left: 19px;"><a href="../../system/app/pages/sitemap/hierarchy.html" jotId="wuid:gx:50ee5608e98f39e7" class="topLevel">Sitemap</a>
+<li class="topLevel"><div dir="ltr" style="padding-left: 19px;"><a href="../../system/app/pages/sitemap/hierarchy.html" jotId="wuid:gx:419e6f0f39c39667" class="topLevel">Sitemap</a>
 </div></li>
 </ul>
 
@@ -263,17 +263,9 @@ how it now goes.</p>
 up the repository</a>, the systems administrator had given the URL of the
 repository that was created. In the current tutorial we assume a URL of
 "file:///media/usbstick/repository". Of course others are possible, depending
-on what type of repository you have and where it resides.</p>
-<p>Now try to clone the repository:</p>
-<pre>git clone file:///media/usbstick/repository</pre>
-<p>If it says that an empty Git repository was created, and there is no fatal
-errors, then everything is fine. There is no need to proceed with anything that
-follows in this document.</p>
-<p>However, if it gives a fatal error, then some work is to be done for proper
-initialization of the repository. Please read on.</p>
-<p>You need to put something into the repository. It does not matter what,
+on what type of repository you have and where it resides.</p>You need to put something into the repository. It does not matter what,
 anything will do. Let's proceed and put an empty file into the repository.
-Issue the commands as given:</p>
+Issue the commands as given:
 <pre>cd</pre>
 <pre>mkdir repository</pre>
 <pre>cd repository</pre>
@@ -289,7 +281,7 @@ repository. No errors should occur.</p>
 <p>Clean out the temporal directory:</p>
 <pre>cd</pre>
 <pre>rm -rf repository</pre>
-<p>Now try to clone the repository again:</p>
+<p>Now try to clone the repository:</p>
 <pre>git clone file:///media/usbstick/repository</pre>
 <p>It should say that an empty Git repository was created, give some more
 information, and show that object were received. It is does this, and there are

@@ -54,6 +54,7 @@ public:
   DEFINE_PROJECTCONFIG_H (ustring, versification);
   DEFINE_PROJECTCONFIG_H (vector<ustring>, printing_fonts);
   DEFINE_PROJECTCONFIG_H (int, text_line_height);
+  DEFINE_PROJECTCONFIG_H (ustring, xetex_font_mapping_file);
   DEFINE_PROJECTCONFIG_H (ustring, sword_name);
   DEFINE_PROJECTCONFIG_H (ustring, sword_description);
   DEFINE_PROJECTCONFIG_H (ustring, sword_about);

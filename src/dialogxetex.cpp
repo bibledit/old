@@ -37,6 +37,7 @@
 XeTeXDialog::XeTeXDialog(int dummy)
 {
   extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
 
   gtkbuilder = gtk_builder_new ();
   gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.xetexdialog.xml").c_str(), NULL);
@@ -64,6 +65,14 @@ XeTeXDialog::XeTeXDialog(int dummy)
   label_tab_page = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_page"));
   checkbutton_cropmarks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_cropmarks"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_cropmarks), settings->session.print_crop_marks);
+
+  label_tab_mapping = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_mapping"));
+  button_font_mapping_clear = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_font_mapping_clear"));
+  filechooserbutton_font_mapping_file = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "filechooserbutton_font_mapping_file"));
+  g_signal_connect((gpointer) button_font_mapping_clear, "clicked", G_CALLBACK(on_button_font_mapping_clear_clicked), gpointer(filechooserbutton_font_mapping_file));
+  if (!projectconfig->xetex_font_mapping_file_get().empty()) {
+    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (filechooserbutton_font_mapping_file), projectconfig->xetex_font_mapping_file_get().c_str());
+  }
 
   InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, NULL, "file/print/project");
   cancelbutton = indialoghelp->cancelbutton;
@@ -97,9 +106,15 @@ void XeTeXDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 void XeTeXDialog::on_okbutton()
 {
   extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   settings->session.print_dialog_options_expanded = gtk_expander_get_expanded(GTK_EXPANDER(expander));
   settings->session.print_references_in_notes_in_full = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_full_references));
   settings->session.print_crop_marks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_cropmarks));
+  gchar * xetex_font_mapping_filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filechooserbutton_font_mapping_file));
+  if (xetex_font_mapping_filename) {
+    projectconfig->xetex_font_mapping_file_set(xetex_font_mapping_filename);
+    g_free (xetex_font_mapping_filename);
+  }
 }
 
 
@@ -133,6 +148,7 @@ void XeTeXDialog::set_gui()
   shortcuts.label(label_expander);
   shortcuts.label (label_tab_notes);
   shortcuts.label (label_tab_page);
+  shortcuts.label (label_tab_mapping);
   shortcuts.stockbutton(cancelbutton);
   shortcuts.stockbutton(okbutton);
   GtkWidget * helpbutton = gtk_button_new_from_stock (GTK_STOCK_HELP);
@@ -151,6 +167,12 @@ void XeTeXDialog::set_gui()
       shortcuts.button(checkbutton_cropmarks);
       break;
     }
+    case 2:
+    {
+      // Mapping page.
+      shortcuts.button(button_font_mapping_clear);
+      break;
+    }
   }
   shortcuts.process();
   gtk_widget_destroy (helpbutton);
@@ -167,4 +189,14 @@ void XeTeXDialog::on_notebook (guint page_num)
 {
   set_gui();
 }
+
+
+void XeTeXDialog::on_button_font_mapping_clear_clicked (GtkButton *button, gpointer user_data)
+{
+  GtkFileChooser * filechooser = GTK_FILE_CHOOSER (user_data);
+  gtk_file_chooser_unselect_all (filechooser);
+}
+
+
+
 

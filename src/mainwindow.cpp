@@ -6541,6 +6541,29 @@ Todo tasks.
 
 
 
+Farsi Digits are in /usr/share/texmf-texlive/fonts/misc/xetex/fontmapping/polyglossia
+In general it is good to do it the XeTeX way.
+Install package texlive-lang-arab and font package ttf-sil-scheherazade
+Put this in the helpfile, also the location where to put this file, and about the GUI.
+Close task.
+
+
+
+
+
+
+task #9755: copy verse list to clipboard
+The verse list, or "References", it would help if there were an option to copy it to the clipboard, either only verse references, or the verses with all text included. 
+And not just the verse list but also the associate comments, e.g. after a check.
+
+
+
+
+
+
+
+
+
 
 
 task #9703: Import Bibles etc from the Online bible
@@ -6567,20 +6590,6 @@ Suggestions:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-task #9755: copy verse list to clipboard
-The verse list, or "References", it would help if there were an option to copy it to the clipboard, either only verse references, or the verses with all text included. 
-And not just the verse list but also the associate comments, e.g. after a check.
 
 
 
@@ -6853,7 +6862,10 @@ Within the frames applications run. This can be our own applications, or foreign
 Each application is independent and separate.
 Strong separation between database for storage, the interface for the user, and glue in between.
 Messaging between applications and server for e.g. verse reference, other things.
-
+What about NetBeans + Symfony, the perfect couple? But Zend is more flexible.
+With Zend, we could make the basic Bibledit manually, which has frames to load the different applications in.
+We will then write a lot of separate applications that are more or less separate. Each applications could correspond to e.g. one Window as now in 
+Bibledit, and does one task.
 
 
 

@@ -53,6 +53,11 @@ protected:
 
   GtkWidget *label_tab_page;
   GtkWidget *checkbutton_cropmarks;
+
+  GtkWidget *label_tab_mapping;
+  GtkWidget *button_font_mapping_clear;
+  GtkWidget *filechooserbutton_font_mapping_file;
+  static void on_button_font_mapping_clear_clicked (GtkButton *button, gpointer user_data);
   
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;

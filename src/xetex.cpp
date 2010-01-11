@@ -29,7 +29,6 @@
 #include "books.h"
 #include "stylesheetutils.h"
 #include "styles.h"
-#include "localizednumerals.h"
 
 
 // Tex editors: lyx, kile, texmaker
@@ -132,14 +131,28 @@ void XeTeX::write_document_tex_file ()
   if (!projectconfig->editor_font_default_get()) {
     PangoFontDescription *font_desc = pango_font_description_from_string(projectconfig->editor_font_name_get().c_str());
     if (font_desc){
+      ustring font_mapping = projectconfig->xetex_font_mapping_file_get();
+      if (!font_mapping.empty()) {
+        if (g_str_has_suffix (font_mapping.c_str(), ".tec")) {
+          font_mapping = gw_path_get_basename (font_mapping);
+          // Remove the .tec suffix.
+          font_mapping.erase (font_mapping.length() - 4, 4);
+          // Insert the mapping command.
+          font_mapping.insert (0, ":mapping=");
+        } else {
+          gw_warning ("Font mapping file " + font_mapping +  " should have the .tec suffix - ignoring this file");
+          font_mapping.clear();
+        }
+      }
       ustring font_family = pango_font_description_get_family (font_desc);
       document_tex.push_back ("");
       document_tex.push_back ("% Fonts to use for \"plain\", \"bold\", \"italic\", and \"bold italic\" from the stylesheet");
       document_tex.push_back ("% (they need not really be italic, etc.)");
-      document_tex.push_back ("\\def\\regular{\"" + font_family + "\"}");
-      document_tex.push_back ("\\def\\bold{\"" + font_family + "/B\"}");
-      document_tex.push_back ("\\def\\italic{\"" + font_family + "/I\"}");
-      document_tex.push_back ("\\def\\bolditalic{\"" + font_family + "/BI\"}");
+      document_tex.push_back ("% Add e.g. \":mapping=farsidigits\" to get digits in Farsi, provided the farsidigits.tec TECkit mapping is available");
+      document_tex.push_back ("\\def\\regular{\"" + font_family + font_mapping + "\"}");
+      document_tex.push_back ("\\def\\bold{\"" + font_family + "/B" + font_mapping + "\"}");
+      document_tex.push_back ("\\def\\italic{\"" + font_family + "/I" + font_mapping +  "\"}");
+      document_tex.push_back ("\\def\\bolditalic{\"" + font_family + "/BI" + font_mapping +  + "\"}");
       pango_font_description_free(font_desc);
     }
   }
@@ -281,16 +294,6 @@ void XeTeX::write_document_tex_file ()
   // Define the Paratext stylesheet to be used as a basis for formatting
   write_stylesheet ();
 
-  // Numeral localization.
-  NumeralLocalization numeral_localization (projectconfig->language_get());
-  if (numeral_localization.available()) {
-    for (unsigned int i = 0; i < book_ids.size(); i++) {
-      for (unsigned int i2 = 0; i2 < book_data[i].size(); i2++) {
-        book_data[i][i2] = numeral_localization.convert_usfm (book_data[i][i2]);
-      }
-    }
-  }
-  
   // Write the data and add their filenames.
   for (unsigned int i = 0; i < book_ids.size(); i++) {
     ustring filename = convert_to_string (book_ids[i]) + " " + books_id_to_english(book_ids[i]) + ".usfm";

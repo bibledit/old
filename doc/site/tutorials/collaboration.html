@@ -34,13 +34,13 @@ webspace.gadgets = {"isGadgetDirectoryEnabled":true,"baseUri":"/site/bibledit/sy
 
 webspace.user = {"uid":"","hasAdminAccess":false,"guest_":true,"domain":"","hasWriteAccess":false,"userName":"guest","dasherUser":false,"primaryEmail":"guest","displayNameOrEmail":"guest"};
 
-webspace.page = {"locale":"en","state":"","wuid":"wuid:gx:789409cebc62611f","timeZone":"America/Los_Angeles","properties":{},"type":"text","canChangePath":true,"parentWuid":"wuid:gx:5e96ba01e07638fa","revision":10,"title":"Collaboration","isRtlLocale":false,"bidiEnabled":false,"siteLocale":"en","name":"collaboration","path":"/tutorials/collaboration","isSiteRtlLocale":false,"parentPath":"/tutorials"};
+webspace.page = {"locale":"en","state":"","wuid":"wuid:gx:789409cebc62611f","timeZone":"America/Los_Angeles","properties":{},"type":"text","canChangePath":true,"parentWuid":"wuid:gx:5e96ba01e07638fa","revision":12,"title":"Collaboration","isRtlLocale":false,"bidiEnabled":false,"siteLocale":"en","name":"collaboration","path":"/tutorials/collaboration","isSiteRtlLocale":false,"parentPath":"/tutorials"};
 
 
 var editorResources = [
   'http://www.gstatic.com/sites/p/b46d27/system/js/trog_edit__en.js',
   'http://www.gstatic.com/sites/p/b46d27/system/app/css/trogedit.css',
-  '/site/bibledit/_/rsrc/1261000394626/system/app/css/editor.css'
+  '/site/bibledit/_/rsrc/1262742169238/system/app/css/editor.css'
 ];
 
 var JOT_clearDotPath = 'http://www.gstatic.com/sites/p/b46d27/system/app/images/cleardot.gif';
@@ -64,7 +64,7 @@ var JOT_siteRelTimeStrs = ["a minute ago", "{0} minutes ago", "an hour ago", "{0
               </script>
 <meta name="Description" content="bibledit" />
 <link rel="stylesheet" type="text/css" href="http://www.gstatic.com/sites/p/b46d27/system/app/themes/iceberg/standard-css-iceberg-ltr-ltr.css" />
-<link rel="stylesheet" type="text/css" href="../_/rsrc/1261000394648/system/app/css/overlay.css%3Fcb=icebergundefineda150goog-ws-left" />
+<link rel="stylesheet" type="text/css" href="../_/rsrc/1262742169282/system/app/css/overlay.css%3Fcb=icebergundefineda150goog-ws-left" />
 <title>Collaboration (bibledit)</title>
 <script type="text/javascript">
                 window.jstiming.load.tick('cl');
@@ -233,7 +233,7 @@ var JOT_siteRelTimeStrs = ["a minute ago", "{0} minutes ago", "an hour ago", "{0
 </div></li>
 </ul>
 </li>
-<li class="topLevel"><div dir="ltr" style="padding-left: 19px;"><a href="../system/app/pages/sitemap/hierarchy.html" jotId="wuid:gx:52ab669c3da44e48" class="topLevel">Sitemap</a>
+<li class="topLevel"><div dir="ltr" style="padding-left: 19px;"><a href="../system/app/pages/sitemap/hierarchy.html" jotId="wuid:gx:4fea649971eb1c01" class="topLevel">Sitemap</a>
 </div></li>
 </ul>
 
@@ -282,7 +282,7 @@ destroy the project's data. If he makes serious mistakes in his own data, then
 the collaboration mechanism will propage his mistakes to the other members of
 the team. This is not a desirable situation.</p>
 <p>Bibledit has a solution for this situation. You can use two mechanisms of
-Bibledit simultanously.</p>
+Bibledit simultaneously.</p>
 <p>1. Collaboration through the network or the USB stick.</p>
 <p>2. <a href="merge-tutorial.html">Merging changes</a>. </p>
 <p>This is how to do it:</p>
@@ -324,7 +324,7 @@ merge while he waits. So just plugging in he stick, a quick automatic merge,
 and away he goes again. Then if the master person has some time in the days or
 weeks following, he can then carefully go through the messy project, and merge
 it with the master project, taking his time for it, and doing an accurate
-job.</p></div></td></tr></tbody></table>
+job.</p><p>- There is not much need to maintain the git repository since Bibledit does run maintenance on it at regular times. But if you really like to compress the repository well, you can run "git gc --aggressive" in the repository. Note that Bibledit already runs "git gc" at regular times.</p><p>- If two or more users were to work on the same chapter at the same time, this would pose a problem for Bibledit. This type of collaboration is not supported. People should work on different chapters, or on the same chapters, but not simultaneously. Then the merging of the changes will work well.<br /></p></div></td></tr></tbody></table>
 </div> 
 </div> 
 <div id="sites-canvas-bottom-panel">
