@@ -2683,7 +2683,7 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data)
 }
 
 
-void MainWindow::on_copy() // Todo
+void MainWindow::on_copy()
 {
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (editor_windows[i]->focused) {
@@ -6547,16 +6547,37 @@ Todo tasks.
 
 
 
-task #9755: copy verse list to clipboard
 
-The verse list, or "References", it would help if there were an option to copy it to the clipboard, either only verse references, 
-or the verses with all text included. 
 
-And not just the verse list but also the associated comments, e.g. after a check.
+task #9763: share the project notes through a repository
 
-This means that the user should be able to select all text in the window, and then copy it to the clipboard.
+There was an expressed desire to have the project notes shareable just like the text is sharable.
 
-Add to helpfile, and add to change log, and close the task.
+If project notes are to be shared through a repository, then these notes go into a git repository with each note being one file,
+named by its id. We may decide to use subdirectories also.
+
+If searching in the notes becomes slow, we may consider using a database as an index. 
+
+Sharing project notes.
+* Private notes are not shared, but kept locally.
+* Git repository for the notes.
+* How many files fit in a flat directory? There are 33743 notes now. No worries, there can be many more of these before performance degrades.
+* To use an index database for speeding up navigation and searching.
+* The current database can be kept as it is, but flat files are formed out of that. This is a verbatim process.
+* We cannot use xml files because of the merge system of git - it needs to be "x=y" ones or the [header] ones as created by glib.
+  but glib may not handle it since there are many new lines.
+* The flat files are to be stored in directory "data" of ~/.bibledit/notes, just like with the projects, so that the index database is not shared.
+* The id number becomes the name of the file.
+* Private notes are stored in subdirectory "private".
+* We may use the current remote repository setup dialog, but then to indicate whether is sets a project or the project notes.
+* On shutdown we may recreate the database.
+* When syncing we need to notice whether changes were pulled in, and then update the database accordingly.
+* The user should have a tool to re-create the index by hand, as normally this won't happen.
+* But we may not need an index at all, let's see what happens. let's first try without an index.
+
+
+
+
 
 
 
@@ -6595,37 +6616,6 @@ In the setup, each Outpost needs to know which appliance it communicates with.
 The port number may have to be passed on the command line since two different TCP/IP port numbers are required on Linux. 
 
 This requires a new outpost which no longer is being conteacted by bibledit, but an outpost that itself contacts the messages on Apache.
-
-
-
-
-
-
-
-
-
-
-
-
-task #9763: share the project notes through a repository
-There was an expressed desire to have the project notes shareable just like the text is sharable.
-
-If project notes are to be shared through a repository, then these notes go into a git repository with each note being one file,
-named by its id. We may decide to use subdirectories also.
-
-Since searching in the notes becomes slow now, we may use a database as an index. 
-
-Sharing project notes.
-* Private notes are not shared, but kept locally.
-* Git repository for the notes.
-* How many files fit in a flat directory? There are 33743 notes now. No worries, there can be many more of these before performance degrades.
-* To use an index database for speeding up navigation and searching.
-* The current database can be kept as it is, but flat files are formed out of that. This is a verbatim process.
-* We cannot use xml files because of the merge system of git - it needs to be "x=y" ones or the [header] ones as created by glib.
-  but glib may not handle it since there are many new lines.
-* The flat files are to be stored in directory "data" of ~/.bibledit/notes, just like with the projects, so that the index database is not shared.
-* The id number becomes the name of the file.
-* Private notes are stored in subdirectory "private".
 
 
 
@@ -6844,10 +6834,36 @@ Within the frames applications run. This can be our own applications, or foreign
 Each application is independent and separate.
 Strong separation between database for storage, the interface for the user, and glue in between.
 Messaging between applications and server for e.g. verse reference, other things.
-What about NetBeans + Symfony, the perfect couple? But Zend is more flexible.
 With Zend, we could make the basic Bibledit manually, which has frames to load the different applications in.
 We will then write a lot of separate applications that are more or less separate. Each applications could correspond to e.g. one Window as now in 
 Bibledit, and does one task.
+Not to use the zend framework that comes with a distribution, since these versions can change.
+* But to include our own components from the developer's zend distribution. This then goes into the library subdirectory of the application.
+
+Re: Enable .htaccess in Apache2
+Found the solution!! Apache2 in general, or it might be specifically to Ubuntu, is configured slightly differently than Apache1.x.. at least 
+* from what I've seen in the default installs in RH, FC, Mandrake, etc (I'm not Linux or Apache expert).
+
+I went to /etc/apache2/sites-available and edited the file default
+There you'll find:
+Default for AllowOverride is none, should be all
+/etc/init.d/apache2 restart to restart apache and your .htaccess files should now work!! How frustrating, but educational 
+
+
+It's as simple as running the following command in a terminal:
+Code:
+sudo a2enmod rewrite
+
+If it says: Fatal error: Cannot redeclare class Zend_Loader in /home/teus/work/zend/beginning-zend-example/loudbite/library/Zend/Loader.php on line 31
+then 
+In your config file (application.ini) comment out this line with a semicolon:
+;includePaths.library = APPLICATION_PATH "/../library"
+This will prevent Zend_Loader from being included twice.
+
+When running a local web server, as many will do, and syncing data files of projects and notes with bibledit's repository, 
+then to run "unison" from the web server. The web server would already have write permissions, perhaps unison will also have permission to
+access to bibledit's data.
+Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
 
 
 

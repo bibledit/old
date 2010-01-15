@@ -117,48 +117,62 @@ void FindNoteDialog::findnotedialog_on_buttonfind_clicked(GtkButton * button, gp
 void FindNoteDialog::on_buttonfind_clicked()
 {
   extern Settings *settings;
+
+  // Connect to database.
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
-    ustring searchword = gtk_entry_get_text(GTK_ENTRY(entry1));
-    settings->session.searchword = searchword;
-    settings->session.search_case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_case));
-    // Connect to database.
-    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    rc = sqlite3_open(notes_index_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
-    // Get the string to search for. Note any apostrophies need to be doubled for SQLite.
+
+    // Get the word to search for.
+    settings->session.searchword = gtk_entry_get_text(GTK_ENTRY(entry1));
+    settings->session.search_case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_case));
+
+    // Get the string to search for.
     // We need to normalize the search expression, as prescribed, when comparing strings.
-    ustring localsearchword;
-    localsearchword = searchword;
-    localsearchword = localsearchword.normalize();
-    if (!settings->session.search_case_sensitive)
-      localsearchword = localsearchword.casefold();
-    localsearchword = double_apostrophy(localsearchword);
-    // Execute the SQL statement, and read the results.
+    ustring searchword_verbatim = settings->session.searchword.normalize();
+    ustring searchword_casefold = searchword_verbatim.casefold();
+
+    // Go through the whole index database.
     SqliteReader reader(0);
     char *sql;
-    if (settings->session.search_case_sensitive) {
-      sql = g_strdup_printf("select id, reference, modified, note from '%s';", TABLE_NOTES);
-    } else {
-      sql = g_strdup_printf("select id, reference, modified, casefolded from '%s';", TABLE_NOTES);
-    }
+    sql = g_strdup_printf("select id, casefolded from notes;");
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc != SQLITE_OK) {
       throw runtime_error(error);
     }
     for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-      // See whether the word to search for is in this note.
-      ustring note;
-      note = reader.ustring3[i];
-      if (note.find(localsearchword) != string::npos) {
-        // Get id.
+
+      // See whether the case-insensitive word to search for is in this note.
+      ustring casefolded_note = reader.ustring1[i];
+      if (casefolded_note.find(searchword_casefold) != string::npos) {
+
+        // Read the note from disk.
         gint32 id = convert_to_int(reader.ustring0[i]);
+        ustring note;
+        ustring project;
+        ustring fullreference;
+        ustring category;
+        int date_created;
+        ustring user_created;
+        int date_modified;
+        ustring logbook;
+        notes_read_one_from_file (id, note, project, fullreference, category, date_created, user_created, date_modified, logbook);
+
+        // If case sensitive search, do an additional test.
+        if (settings->session.search_case_sensitive) {
+          if (note.find (searchword_verbatim) == string::npos) {
+            continue;
+          }
+        }
+
         // Get the numerical equivalent of the reference.
-        ustring reference = reader.ustring1[i];
+        ustring reference = fullreference;
         {
           // Parse the string into its possible several references.
           Parse parse(reference);
@@ -166,24 +180,25 @@ void FindNoteDialog::on_buttonfind_clicked()
           if (parse.words.size() > 0)
             reference = parse.words[0];
         }
-        // Get date modified.
-        int date;
-        date = convert_to_int(reader.ustring2[i]);
+
         // Store data.
         ids.push_back(id);
         references.push_back(reference);
-        allreferences.push_back(reader.ustring1[i]);
-        dates.push_back(date);
+        allreferences.push_back(fullreference);
+        dates.push_back(date_modified);
       }
     }
+
     // Sort the notes.
     notes_sort(ids, references, allreferences, dates);
   }
   catch(exception & ex) {
     gw_critical(ex.what());
   }
+
   // Close connection.  
   sqlite3_close(db);
+
   // Entry completion
   completion_finish(entry1, cpSearch);
 }

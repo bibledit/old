@@ -33,6 +33,7 @@
 #include "books.h"
 #include "tiny_utilities.h"
 
+
 NotesTransferDialog::NotesTransferDialog(int dummy)
 {
 
@@ -97,20 +98,24 @@ NotesTransferDialog::NotesTransferDialog(int dummy)
     combobox_set_string(combobox1, rt.lines[0]);
 }
 
+
 NotesTransferDialog::~NotesTransferDialog()
 {
   gtk_widget_destroy(notestransferdialog);
 }
+
 
 int NotesTransferDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(notestransferdialog));
 }
 
+
 void NotesTransferDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((NotesTransferDialog *) user_data)->on_okbutton();
 }
+
 
 void NotesTransferDialog::on_okbutton()
 {
@@ -153,6 +158,7 @@ void NotesTransferDialog::on_okbutton()
   }
 }
 
+
 void NotesTransferDialog::clean_note(ustring & note)
 // "Cleans" the note: removes unnecessary stuff.
 {
@@ -167,14 +173,13 @@ void NotesTransferDialog::clean_note(ustring & note)
   }
 }
 
+
 void NotesTransferDialog::transfer_note(const ustring & project, unsigned int book, unsigned int chapter, const ustring & verse, ustring & text, const ustring & category)
 {
   int id = notes_database_get_unique_id();
-  Reference reference(book, chapter, verse);
-  vector < Reference > references;
-  references.push_back(reference);
+  ustring references = books_id_to_osis (book) + "." + convert_to_string (chapter) + "." + verse;
   int date_created = date_time_julian_day_get_current();
   ustring user = g_get_real_name();
   ustring logbook;
-  notes_store_one(id, text, project, references, category, date_created, user, logbook);
+  notes_store_one_in_file(id, text, project, references, category, date_created, user, date_time_julian_day_get_current(), logbook);
 }

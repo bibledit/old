@@ -28,11 +28,10 @@
 #include "types.h"
 
 
-#define TABLE_NOTES "notes"
-
-
-void notes_database_verify(const ustring& alternate_directory = "");
-ustring notes_database_filename(const ustring& alternate_directory = "");
+ustring notes_shared_storage_folder ();
+void notes_storage_verify();
+ustring notes_index_filename ();
+ustring notes_file_name (gint32 id);
 gint notes_database_get_unique_id();
 void notes_delete_one(int id);
 void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const vector<ustring>& allrefs, const vector<int>& dates);
@@ -46,13 +45,16 @@ ustring notes_categories_filename();
 void notes_categories_check();
 void notes_categories_add_from_database(vector<ustring>& categories);
 void notes_projects_add_from_database(vector<ustring>& projects);
-void notes_store_one(int id, ustring& note, const ustring& project, vector<Reference>& references, const ustring& category, int date_created, const ustring& user_created, ustring& logbook);
 void notes_change_category(const ustring& from, const ustring& to);
 void notes_change_project(const ustring& from, const ustring& to);
 void notes_read(vector <unsigned int> ids, vector <ustring>& data);
-void notes_update_old_one(ustring& note);
 const gchar * notes_cursor_anchor ();
-unsigned int notes_count (const ustring& alternate_directory = "");
+unsigned int notes_count ();
+void notes_convert_database_to_plain_files ();
+void notes_store_one_in_file(int id, ustring& note, const ustring& project, const ustring& references, const ustring& category, int date_created, const ustring& user_created, int date_modified, ustring& logbook);
+void notes_read_one_from_file (int id, ustring& note, ustring& project, ustring& references, ustring& category, int& date_created, ustring& user_created, int& date_modified, ustring& logbook);
+ustring notes_logbook_line ();
+void notes_create_index ();
 
 
 #endif

@@ -17,18 +17,22 @@
  **  
  */
 
+
 #include "note_editor.h"
 #include "gwrappers.h"
 #include "tiny_utilities.h"
 #include "html.h"
 
+
 NoteEditor::NoteEditor(int dummy)
 {
 }
 
+
 NoteEditor::~NoteEditor()
 {
 }
+
 
 void NoteEditor::store_original_data(const ustring & data)
 // Stores the data before editing.
@@ -36,12 +40,14 @@ void NoteEditor::store_original_data(const ustring & data)
   original_data = data;
 }
 
+
 void NoteEditor::receive_data_from_html_editor(const char *data, unsigned int len)
 // Receive data from the html note editor.
 // This function will be called several times until all of the data has been saved.
 {
   edited_data.append(data);
 }
+
 
 ustring NoteEditor::clean_edited_data()
 /* Clean the data from the html note editor.
@@ -77,9 +83,8 @@ ustring NoteEditor::clean_edited_data()
   if (pos == string::npos)
     return "";
   edited_data.erase(pos, 1000);
-  // Trim off extra newlines at the end, and ensure it always has one.
+  // Trim off white space.
   edited_data = trim(edited_data);
-  edited_data.append("\n");
   // Libgtkhtml3 stores data in html entities. 
   // Transform these back to UTF8. It would have been fine to leave these as entities,
   // but because of the note search functionality, we need normal characters, not entities.
@@ -88,11 +93,13 @@ ustring NoteEditor::clean_edited_data()
   return edited_data;
 }
 
+
 bool NoteEditor::data_was_edited()
 // Returns whether the note data was edited.
 {
   return (edited_data != original_data);
 }
+
 
 vector < ustring > note_editor_font_size_names_list()
 // This gives a list of possible font sizes.
@@ -104,6 +111,7 @@ vector < ustring > note_editor_font_size_names_list()
   return list;
 }
 
+
 GtkHTMLFontStyle note_editor_font_size_name_to_enum(const ustring & style)
 // This accepts a name of a font size and returns the style enum.
 {
@@ -114,6 +122,7 @@ GtkHTMLFontStyle note_editor_font_size_name_to_enum(const ustring & style)
   }
   return enumeration;
 }
+
 
 ustring note_editor_font_size_enum_to_name(GtkHTMLFontStyle style)
 // Accepts a font size enumeration and returns the name of it.
@@ -138,6 +147,7 @@ ustring note_editor_font_size_enum_to_name(GtkHTMLFontStyle style)
   return "Unknown";
 }
 
+
 vector < ustring > note_editor_paragraph_style_names_list()
 // This gives a list of possible paragraph styles.
 {
@@ -147,6 +157,7 @@ vector < ustring > note_editor_paragraph_style_names_list()
   }
   return list;
 }
+
 
 GtkHTMLParagraphStyle note_editor_paragraph_style_name_to_enum(const ustring & style)
 // This accepts the name of a paragraph style, and returns the style enum.
@@ -158,6 +169,7 @@ GtkHTMLParagraphStyle note_editor_paragraph_style_name_to_enum(const ustring & s
   }
   return enumeration;
 }
+
 
 ustring note_editor_paragraph_style_enum_to_name(GtkHTMLParagraphStyle style)
 // Accepts a paragraph style enumeration and returns the name of it.
@@ -192,3 +204,4 @@ ustring note_editor_paragraph_style_enum_to_name(GtkHTMLParagraphStyle style)
   }
   return "";
 }
+

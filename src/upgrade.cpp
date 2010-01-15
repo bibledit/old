@@ -37,7 +37,7 @@ void upgrade()
 {
   stylesheets_upgrade();
   projects_initial_check();
-  notes_database_verify();
+  notes_storage_verify();
   notes_categories_check();
   upgrade_configuration();
   vector < ustring > projects = projects_get_all();

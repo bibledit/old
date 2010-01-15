@@ -587,54 +587,26 @@ When we encounter an element that ends data, this handler deals with that.
     // Deal with the user.
     createdby_content = trim(createdby_content);
 
-    // We've cleaned and verified all data. Store this note in the database.
-    sqlite3 *db;
-    int rc;
-    char *error = NULL;
-    try {
-      // Connect to database and start transaction
-      rc = sqlite3_open(notes_database_filename().c_str(), &db);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      sqlite3_busy_timeout(db, 1000);
-      rc = sqlite3_exec(db, "begin;", NULL, NULL, &error);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      // ID (integer)
-      gint unique_id;
-      unique_id = notes_database_get_unique_id();
-      // References (text)
-      // Project (text)
-      // Category (text)
-      // Note (text) Apostrophies need to be doubled before storing them.
-      notetext_content = double_apostrophy(notetext_content);
-      // Casefolded (text)
-      ustring casefolded = notetext_content.casefold();
-      // Date created.
-      // Date modified.
-      // Username.
-      // Logbook.
-      ustring logbook;
-      // Insert data in database.
-      char *sql;
-      sql = g_strdup_printf("insert into %s values (%d, '%s', '%s', '%s', '%s', '%s', '%s', %d, %d, '%s', '%s');", TABLE_NOTES, unique_id, reference_content.c_str(), osis_reference.c_str(), project_content.c_str(), category_content.c_str(), notetext_content.c_str(), casefolded.c_str(), julian_created, julian_modified, createdby_content.c_str(), logbook.c_str());
-      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-      g_free(sql);
-      if (rc != SQLITE_OK) {
-        throw runtime_error(error);
-      }
-      // Commit the transaction.
-      rc = sqlite3_exec(db, "commit;", NULL, NULL, &error);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-    }
-    catch(exception & ex) {
-      gw_critical(ex.what());
-    }
-    // Close connection.  
-    sqlite3_close(db);
+    // We've cleaned and verified all data. Store this note.
+
+    // ID (integer)
+    gint unique_id;
+    unique_id = notes_database_get_unique_id();
+    // References (text)
+    // Project (text)
+    // Category (text)
+    // Note (text) Apostrophies need to be doubled before storing them.
+    notetext_content = double_apostrophy(notetext_content);
+    // Casefolded (text)
+    ustring casefolded = notetext_content.casefold();
+    // Date created.
+    // Date modified.
+    // Username.
+    // Logbook.
+    ustring logbook;
+    // Store the note to file.
+    notes_store_one_in_file(unique_id, notetext_content, project_content, osis_reference, category_content, julian_created, createdby_content, julian_modified, logbook);
+
   }
   // Deal with depth of the elements.
   depth--;

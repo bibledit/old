@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include "export_utils.h"
@@ -29,6 +30,7 @@
 #include "gwrappers.h"
 #include "gtkwrappers.h"
 #include "tiny_utilities.h"
+#include "sqlite_reader.h"
 
 
 ExportTranslationNotes::ExportTranslationNotes(const ustring & filename, const vector < unsigned int >&ids_to_display, bool export_all)
@@ -76,19 +78,19 @@ This is subject to change as bibledit's notes system develop.
 
     // Connect to database.
     error = NULL;
-    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    rc = sqlite3_open(notes_index_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
 
     // Get the number of notes.
-    ustring sql;
-    sql = "select count(*) from '";
-    sql.append(TABLE_NOTES);
-    sql.append("';");
-    rc = sqlite3_exec(db, sql.c_str(), count_callback, this, &error);
+    SqliteReader sqlitereader(0);
+    rc = sqlite3_exec(db, "select count(*) from notes;", sqlitereader.callback, &sqlitereader, &error);
     if (rc != SQLITE_OK) {
       throw runtime_error(error);
+    }
+    if (!sqlitereader.ustring0.empty()) {
+      notes_count = convert_to_int (sqlitereader.ustring0[0]);
     }
     progresswindow.set_iterate(0, 1, notes_count);
 
@@ -98,10 +100,7 @@ This is subject to change as bibledit's notes system develop.
 
     // Go through all the notes.
     note_counter = 0;
-    sql = "select ref_osis, project, category, note, created, modified, user, id from '";
-    sql.append(TABLE_NOTES);
-    sql.append("';");
-    rc = sqlite3_exec(db, sql.c_str(), data_callback, this, &error);
+    rc = sqlite3_exec(db, "select ref_osis, project, category, note, created, modified, user, id from notes;", data_callback, this, &error);
     if (rc != SQLITE_OK) {
       throw runtime_error(error);
     }
@@ -117,27 +116,19 @@ This is subject to change as bibledit's notes system develop.
   }
 }
 
+
 ExportTranslationNotes::~ExportTranslationNotes()
 {
   // Close connection.  
   sqlite3_close(db);
 }
 
-int ExportTranslationNotes::count_callback(void *userdata, int argc, char **argv, char **column_names)
-{
-  ((ExportTranslationNotes *) userdata)->on_count(argc, argv);
-  return 0;
-}
-
-void ExportTranslationNotes::on_count(int argc, char **argv)
-{
-  notes_count = convert_to_int(argv[0]);
-}
 
 int ExportTranslationNotes::data_callback(void *userdata, int argc, char **argv, char **column_names)
 {
   return ((ExportTranslationNotes *) userdata)->on_data(argc, argv);
 }
+
 
 int ExportTranslationNotes::on_data(int argc, char **argv)
 {
@@ -211,3 +202,4 @@ int ExportTranslationNotes::on_data(int argc, char **argv)
 
   return 0;
 }
+

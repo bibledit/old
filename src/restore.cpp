@@ -57,17 +57,6 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
     return;
   }
 
-  // Run an upgrade on the unpacked directory.
-  notes_database_verify(unpack_directory);
-  
-  // Bail out if there's nothing to import.
-  unsigned int restore_count = notes_count (unpack_directory);
-  feedback.push_back ("Notes to restore: " + convert_to_string (restore_count));
-  if (restore_count == 0) {
-    feedback.push_back ("Nothing to restore");
-    return;
-  }
-
   // If there are notes in the current database, ask whether these should be overwritten.
   unsigned int current_count = notes_count ();
   feedback.push_back ("Notes available before restore: " + convert_to_string (current_count));
@@ -84,7 +73,10 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
   // If so, move everything into place.
   unix_rmdir (directories_get_notes ());
   unix_mv (unpack_directory, directories_get_notes ());
-  
+
+  // Run upgrade.
+  notes_storage_verify();
+    
   // Give feedback about what has happened.
   feedback.push_back ("Notes were restored");
 }

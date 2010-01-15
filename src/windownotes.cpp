@@ -400,137 +400,107 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
   combobox_set_strings(combobox_note_edit_paragraph_style, note_editor_paragraph_style_names_list());
   combobox_set_string(combobox_note_edit_paragraph_style, note_editor_paragraph_style_enum_to_name(GTK_HTML_PARAGRAPH_STYLE_NORMAL));
 
-  // Fetch the data for the note from the database. And fill comboboxes.
-  // Or in case of a new note, deal appropriately with that.
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    rc = sqlite3_open(notes_database_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    SqliteReader sqlitereader(0);
-    char *sql;
-    sql = g_strdup_printf("select ref_osis, project, category, note, created, modified, user, logbook from %s where id = %d;", TABLE_NOTES, id);
-    rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(error);
-    }
-    if ((sqlitereader.ustring0.size() > 0) || newnote) {
-      ustring reference;
-      gtk_text_buffer_set_text(note_editor->textbuffer_references, "", -1);
-      if (newnote) {
-        // New note, so get the current reference from the editor.
-        reference = books_id_to_english(settings->genconfig.book_get()) + " " + settings->genconfig.chapter_get() + ":" + settings->genconfig.verse_get();
-        gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, reference.c_str(), -1);
-        gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, "\n", -1);
-      } else {
-        // Existing note, so get the reference(s) from the database.
-        reference = sqlitereader.ustring0[0];
-        // Read the reference(s) and show them.
-        Parse parse(reference, false);
-        for (unsigned int i = 0; i < parse.words.size(); i++) {
-          Reference reference(0);
-          reference_discover(0, 0, "", parse.words[i], reference.book, reference.chapter, reference.verse);
-          ustring ref = reference.human_readable(language);
-          gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, ref.c_str(), -1);
-          gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, "\n", -1);
-        }
-      }
-      // Read the note.
-      ustring note;
-      if (!newnote) {
-        note = sqlitereader.ustring3[0];
-        notes_update_old_one(note);
-      }
-      GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_note_editor));
-      gtk_html_write(GTK_HTML(htmlview_note_editor), stream, note.c_str(), -1);
-      gtk_html_end(GTK_HTML(htmlview_note_editor), stream, GTK_HTML_STREAM_OK);
-      gtk_html_set_editable(GTK_HTML(htmlview_note_editor), project_notes_editable);
-
-      note_editor->store_original_data(note);
-      gtk_text_buffer_set_modified(note_editor->textbuffer_references, false);
-
-      /*
-         Fill the category combo.
-       */
-      {
-        ReadText rt(notes_categories_filename());
-        combobox_set_strings(combobox_note_category, rt.lines);
-        if (rt.lines.size() > 0)
-          combobox_set_string(combobox_note_category, rt.lines[0]);
-      }
-      // Read the "category" variable.
-
-      {
-        if (!newnote) {
-          ustring category = sqlitereader.ustring2[0];
-          combobox_set_string(combobox_note_category, category);
-        }
-      }
-      // Read the project. Fill the combo.
-
-      {
-        project.clear();
-        if (newnote) {
-          project = settings->genconfig.project_get();
-        } else {
-          project = sqlitereader.ustring1[0];
-        }
-        projects.clear();
-        if (project != "All")
-          projects.push_back(project);
-        if (settings->genconfig.project_get() != project)
-          projects.push_back(settings->genconfig.project_get());
-        projects.push_back("All");
-      }
-      // Read the date created.
-
-      {
-        // Fetch and store variable for display and later use.
-        if (newnote) {
-          note_editor->date_created = date_time_julian_day_get_current();
-        } else {
-          note_editor->date_created = convert_to_int(sqlitereader.ustring4[0]);
-        }
-        created_on = "Created on " + date_time_julian_human_readable(note_editor->date_created, true);
-      }
-      // Read the date modified.
-
-      {
-        if (newnote) {
-          note_editor->date_modified = date_time_julian_day_get_current();
-        } else {
-          note_editor->date_modified = convert_to_int(sqlitereader.ustring5[0]);
-        }
-        edited_on = "Edited on " + date_time_julian_human_readable(note_editor->date_modified, true);
-      }
-      // Read the user that created the note.
-
-      {
-        if (newnote) {
-          note_editor->created_by = g_get_real_name();
-        } else {
-          note_editor->created_by = sqlitereader.ustring6[0];
-        }
-        created_by = "Created by " + note_editor->created_by;
-      }
-      // Read the logbook.
-
-      {
-        logbook.clear();
-        if (!newnote)
-          logbook = sqlitereader.ustring7[0];
-      }
+  // Fetch the data for the note from the note file.
+  ustring note;
+  // Stored in object: ustring project;
+  ustring references;
+  ustring category;
+  int date_created;
+  ustring user_created;
+  int date_modified;
+  // Stored in object: ustring logbook;
+  notes_read_one_from_file (id, note, project, references, category, date_created, user_created, date_modified, logbook);
+  
+  // Deal with the references of the notes.  
+  gtk_text_buffer_set_text(note_editor->textbuffer_references, "", -1);
+  if (newnote) {
+    // New note: get the current reference from the editor.
+    references = books_id_to_english(settings->genconfig.book_get()) + " " + settings->genconfig.chapter_get() + ":" + settings->genconfig.verse_get();
+    gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, references.c_str(), -1);
+    gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, "\n", -1);
+  } else {
+    // Existing note: use the reference(s) from the note file.
+    // Read the reference(s) and show them.
+    Parse parse(references, false);
+    for (unsigned int i = 0; i < parse.words.size(); i++) {
+      Reference reference(0);
+      reference_discover(0, 0, "", parse.words[i], reference.book, reference.chapter, reference.verse);
+      ustring ref = reference.human_readable(language);
+      gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, ref.c_str(), -1);
+      gtk_text_buffer_insert_at_cursor(note_editor->textbuffer_references, "\n", -1);
     }
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
+  
+  // Display the note.
+  GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_note_editor));
+  gtk_html_write(GTK_HTML(htmlview_note_editor), stream, note.c_str(), -1);
+  gtk_html_end(GTK_HTML(htmlview_note_editor), stream, GTK_HTML_STREAM_OK);
+  gtk_html_set_editable(GTK_HTML(htmlview_note_editor), project_notes_editable);
+  
+  note_editor->store_original_data(note);
+  gtk_text_buffer_set_modified(note_editor->textbuffer_references, false);
+  
+  // Put all available categories into the category combo.
+  {
+    ReadText rt(notes_categories_filename());
+    combobox_set_strings(combobox_note_category, rt.lines);
+    if (rt.lines.size() > 0)
+      combobox_set_string(combobox_note_category, rt.lines[0]);
   }
-  // Close connection.  
-  sqlite3_close(db);
+
+  // Set the category.
+  if (!newnote) {
+    combobox_set_string(combobox_note_category, category);
+  }
+
+  // Handle the project(s).
+  {
+    if (newnote) {
+      project = settings->genconfig.project_get();
+    }
+    projects.clear();
+    if (project != "All")
+      projects.push_back(project);
+    if (settings->genconfig.project_get() != project)
+      projects.push_back(settings->genconfig.project_get());
+    projects.push_back("All");
+  }
+
+  // Fetch and store the creation date for display and later use.
+  {
+    if (newnote) {
+      note_editor->date_created = date_time_julian_day_get_current();
+    } else {
+      note_editor->date_created = date_created;
+    }
+    created_on = "Created on " + date_time_julian_human_readable(note_editor->date_created, true);
+  }
+
+  // The modification date.
+  {
+    if (newnote) {
+      note_editor->date_modified = date_time_julian_day_get_current();
+    } else {
+      note_editor->date_modified = date_modified;
+    }
+    edited_on = "Edited on " + date_time_julian_human_readable(note_editor->date_modified, true);
+  }
+
+  // The user who created the note.
+  {
+    if (newnote) {
+      note_editor->created_by = g_get_real_name();
+    } else {
+      note_editor->created_by = user_created;
+    }
+    created_by = "Created by " + note_editor->created_by;
+  }
+
+  // Read the logbook.
+  {
+    if (newnote)
+      logbook.clear();
+  }
 
   // Store category and project.
   note_editor->previous_category = combobox_get_active_string(combobox_note_category);
@@ -893,166 +863,113 @@ void WindowNotes::on_button_ok_clicked(GtkButton * button, gpointer user_data)
 
 void WindowNotes::on_notes_button_ok()
 {
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    /*
-       Validate and normalize the references.
-       Bad ones are removed and a message will be given.
-       If no valid references remain, stop the whole transaction and give a message.
-     */
-    ustring encoded_references;
-    ustring osis_references;
-    // Get and validate all references from the textview.
+  // Validate and normalize the references.
+  // Bad ones are removed and a message will be given.
+  // If no valid references remain, stop the whole transaction and give a message.
+  ustring osis_references;
+  // Get and validate all references from the textview.
+  {
+    // Store references.
+    vector <Reference> references;
+    // Store possible messages here for later display.
+    vector <ustring> messages;
+    // Get all references from the editor.
+    notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
+    // Store the references in OSIS format too.
+    for (unsigned int i = 0; i < references.size(); i++) {
+      ustring osis_book = books_id_to_osis(references[i].book);
+      ustring osis_reference = osis_book + "." + convert_to_string(references[i].chapter) + "." + references[i].verse;
+      if (!osis_references.empty())
+        osis_references.append(" ");
+      osis_references.append(osis_reference);
+    }
+    // See whether there are messages to display.
+    if (messages.size() > 0) {
+      ustring message;
+      for (unsigned int i = 0; i < messages.size(); i++) {
+        message.append(messages[i]);
+        message.append("\n");
+      }
+      gtkw_dialog_error(vbox_client, message);
+    }
+  }
+  // See whether any references are left. If not give a message and bail out.
+  if (osis_references.empty()) {
+    gtkw_dialog_error(vbox_client, "No valid references. Note was not stored");
+    return;
+  }
 
-    {
-      // Store references.
-      vector < Reference > references;
-      // Store possible messages here for later display.
-      vector < ustring > messages;
-      // Get all references from the editor.
-      notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
-      // Encode all references.
-      for (unsigned int i = 0; i < references.size(); i++) {
-        // Encode the reference.
-        vector < int >verses = verses_encode(references[i].verse);
-        Reference ref = references[i];
-        ref.verse = "0";
-        int book_chapter = reference_to_numerical_equivalent(ref);
-        for (unsigned int i2 = 0; i2 < verses.size(); i2++) {
-          encoded_references.append(" ");
-          encoded_references.append(convert_to_string(int (book_chapter + verses[i2])));
-        }
-        // Store the references in OSIS format too.
-        ustring osis_book = books_id_to_osis(references[i].book);
-        ustring osis_reference = osis_book + "." + convert_to_string(references[i].chapter) + "." + references[i].verse;
-        if (!osis_references.empty())
-          osis_references.append(" ");
-        osis_references.append(osis_reference);
+  // Store the data in the file.
+
+  // ID (integer),
+  // References (text), we take variable "encoded_references"
+  // Project (text) - done already.    
+  // Category (text)
+  ustring category = combobox_get_active_string(combobox_note_category);
+  // Note (text)
+  gtk_html_save(GTK_HTML(htmlview_note_editor), (GtkHTMLSaveReceiverFn) note_save_receiver, gpointer(note_editor));
+  ustring note = note_editor->clean_edited_data();
+  // Date created. Variabele note_info_date_created
+  // Date modified.
+  int date_modified;
+  date_modified = date_time_julian_day_get_current();
+  // Username. Use: note_info_user_created
+  // Logbook (text)
+  {
+    // Trim off extra newlines at the end.
+    logbook = trim(logbook);
+    // Now add new data to the logbook.
+    ustring date_user_text = date_time_julian_human_readable(date_modified, true);
+    date_user_text.append(", ");
+    date_user_text.append(g_get_real_name());
+    date_user_text.append(" ");
+    if (note_editor->newnote) {
+      if (!logbook.empty())
+        logbook.append("\n");
+      logbook.append(date_user_text);
+      logbook.append("created a new note, category \"");
+      logbook.append(category);
+      logbook.append("\", project \"");
+      logbook.append(project);
+      logbook.append("\".");
+    } else {
+      vector < ustring > actions;
+      if (gtk_text_buffer_get_modified(note_editor->textbuffer_references)) {
+        actions.push_back("modified the references");
       }
-      encoded_references.append(" ");
-      // See whether there are messages to display.
-      if (messages.size() > 0) {
-        ustring message;
-        for (unsigned int i = 0; i < messages.size(); i++) {
-          message.append(messages[i]);
-          message.append("\n");
-        }
-        gtkw_dialog_error(vbox_client, message);
+      if (note_editor->data_was_edited()) {
+        actions.push_back("modified the note");
       }
-    }
-    // See whether any references are left. If not give a message.
-    if (encoded_references.empty()) {
-      gtkw_dialog_error(vbox_client, "No valid references. Note was not stored");
-      return;
-    }
-    // Connect to database and start transaction.
-    rc = sqlite3_open(notes_database_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    rc = sqlite3_exec(db, "begin;", NULL, NULL, &error);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(error);
-    }
-    // Delete previous data with "id".
-    gchar *sql;
-    sql = g_strdup_printf("delete from %s where id = %d;", TABLE_NOTES, note_editor->id);
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(error);
-    }
-    // Put new data in the database.
-    // ID (integer),
-    // References (text), we take variable "encoded_references"
-    // Project (text) - done already.    
-    // Status (integer) This field is not used, and could be reused.
-    // Category (text)
-    ustring category = combobox_get_active_string(combobox_note_category);
-    // Note (text)
-    gtk_html_save(GTK_HTML(htmlview_note_editor), (GtkHTMLSaveReceiverFn) note_save_receiver, gpointer(note_editor));
-    ustring note = note_editor->clean_edited_data();
-    // Apostrophies need to be doubled before storing them.
-    note = double_apostrophy(note);
-    // Casefolded (text)
-    ustring casefolded = note.casefold();
-    // Date created. Variabele note_info_date_created
-    // Date modified.
-    int date_modified;
-    date_modified = date_time_julian_day_get_current();
-    // Username. Use: note_info_user_created
-    // Logbook (text)
-    {
-      // Trim off extra newlines at the end.
-      logbook = trim(logbook);
-      // Now add new data to the logbook.
-      ustring date_user_text = date_time_julian_human_readable(date_modified, true);
-      date_user_text.append(", ");
-      date_user_text.append(g_get_real_name());
-      date_user_text.append(" ");
-      if (note_editor->newnote) {
+      if (category != note_editor->previous_category) {
+        actions.push_back("changed the category to \"" + category + "\"");
+      }
+      if (project != note_editor->previous_project) {
+        actions.push_back("changed the project to \"" + project + "\"");
+      }
+      if (actions.size() > 0) {
         if (!logbook.empty())
           logbook.append("\n");
         logbook.append(date_user_text);
-        logbook.append("created a new note, category \"");
-        logbook.append(category);
-        logbook.append("\", project \"");
-        logbook.append(project);
-        logbook.append("\".");
-      } else {
-        vector < ustring > actions;
-        if (gtk_text_buffer_get_modified(note_editor->textbuffer_references)) {
-          actions.push_back("modified the references");
+        for (unsigned int i = 0; i < actions.size(); i++) {
+          if (i > 0)
+            logbook.append(", ");
+          logbook.append(actions[i]);
         }
-        if (note_editor->data_was_edited()) {
-          actions.push_back("modified the note");
-        }
-        if (category != note_editor->previous_category) {
-          actions.push_back("changed the category to \"" + category + "\"");
-        }
-        if (project != note_editor->previous_project) {
-          actions.push_back("changed the project to \"" + project + "\"");
-        }
-        if (actions.size() > 0) {
-          if (!logbook.empty())
-            logbook.append("\n");
-          logbook.append(date_user_text);
-          for (unsigned int i = 0; i < actions.size(); i++) {
-            if (i > 0)
-              logbook.append(", ");
-            logbook.append(actions[i]);
-          }
-          logbook.append(".");
-        }
+        logbook.append(".");
       }
-      // Apostrophies need to be doubled before storing them.
-      logbook = double_apostrophy(logbook);
     }
-    // Insert data in database.
-    sql = g_strdup_printf("insert into %s values (%d, '%s', '%s', '%s', '%s', '%s', '%s', %d, %d, '%s', '%s');", TABLE_NOTES, note_editor->id, encoded_references.c_str(), osis_references.c_str(), project.c_str(), category.c_str(), note.c_str(), casefolded.c_str(), note_editor->date_created, date_modified, note_editor->created_by.c_str(), logbook.c_str());
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(error);
-    }
-    // Commit the transaction.
-    rc = sqlite3_exec(db, "commit;", NULL, NULL, &error);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(error);
-    }
-    // Store the note's id, so that this note can be displayed even if it normally would not have displayed.
-    // The reason is that if a user edits a note, then clicks OK to store it, then it would disappear,
-    // then the user would wonder where that note went, whether he cancelled it by mistake. 
-    // For that reason the id of this note is stored, so that when displaying notes, this id should display as well.
-    edited_note_id = note_editor->id;
+    // Apostrophies need to be doubled before storing them.
+    logbook = double_apostrophy(logbook);
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.  
-  sqlite3_close(db);
+  // Store the data to file.
+  notes_store_one_in_file(note_editor->id, note, project, osis_references, category, note_editor->date_created, note_editor->created_by, date_modified, logbook);
+
+  // Store the note's id, so that this note can be displayed even if it normally would not have displayed.
+  // The reason is that if a user edits a note, then clicks OK to store it, then it would disappear,
+  // then the user would wonder where that note went, whether he cancelled it by mistake. 
+  // For that reason the id of this note is stored, so that when displaying notes, this id should display as well.
+  edited_note_id = note_editor->id;
+
   // Do standard functions for both ok and cancel.
   on_notes_button_ok_cancel();
 }
@@ -1175,40 +1092,23 @@ void WindowNotes::get_references_from_id(gint id)
 {
   // Clear references.
   available_references.clear();
-  // Fetch the references for the note from the database.
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    rc = sqlite3_open(notes_database_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    SqliteReader sqlitereader(0);
-    char *sql;
-    sql = g_strdup_printf("select ref_osis from %s where id = %d;", TABLE_NOTES, id);
-    rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK)
-      throw runtime_error(error);
-    if ((sqlitereader.ustring0.size() > 0)) {
-      ustring reference;
-      reference = sqlitereader.ustring0[0];
-      // Read the reference(s).
-      Parse parse(reference, false);
-      for (unsigned int i = 0; i < parse.words.size(); i++) {
-        Reference ref(0);
-        reference_discover(0, 0, "", parse.words[i], ref.book, ref.chapter, ref.verse);
-        available_references.push_back(ref);
-      }
-    }
+  // Fetch the references for the note from the file.
+  ustring note;
+  ustring project;
+  ustring references;
+  ustring category;
+  int date_created;
+  ustring user_created;
+  int date_modified;
+  ustring logbook;
+  notes_read_one_from_file (id, note, project, references, category, date_created, user_created, date_modified, logbook);
+  // Read the reference(s).
+  Parse parse(references, false);
+  for (unsigned int i = 0; i < parse.words.size(); i++) {
+    Reference ref(0);
+    reference_discover(0, 0, "", parse.words[i], ref.book, ref.chapter, ref.verse);
+    available_references.push_back(ref);
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.  
-  sqlite3_close(db);
-
   // Fire a signal indicating that references are available
   gtk_button_clicked(GTK_BUTTON(references_available_signal_button));
 }
@@ -1348,4 +1248,5 @@ void WindowNotes::on_button_more()
     project = dialog.project;
   }
 }
+
 

@@ -44,8 +44,6 @@ private:
   set<gint> * my_ids;
   WriteText * my_wt;
   ProgressWindow progresswindow;
-  static int count_callback (void *userdata, int argc, char **argv, char **column_names);
-  void on_count (int argc, char **argv);
   static int data_callback (void *userdata, int argc, char **argv, char **column_names);
   int on_data (int argc, char **argv);
 };
