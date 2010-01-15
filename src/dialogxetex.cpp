@@ -32,6 +32,7 @@
 #include "shortcuts.h"
 #include "gwrappers.h"
 #include "directories.h"
+#include "xetex.h"
 
 
 XeTeXDialog::XeTeXDialog(int dummy)
@@ -60,6 +61,7 @@ XeTeXDialog::XeTeXDialog(int dummy)
   label_tab_notes = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_notes"));
   checkbutton_full_references = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_full_references"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_full_references), settings->session.print_references_in_notes_in_full);
+  // Set widget insensitive since is has not yet been implemented.
   gtk_widget_set_sensitive (checkbutton_full_references, false);
 
   label_tab_page = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_page"));
@@ -73,6 +75,16 @@ XeTeXDialog::XeTeXDialog(int dummy)
   if (!projectconfig->xetex_font_mapping_file_get().empty()) {
     gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (filechooserbutton_font_mapping_file), projectconfig->xetex_font_mapping_file_get().c_str());
   }
+
+  label_tab_engine = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_tab_engine"));
+  GSList *shaping_engine_group = NULL;
+  radiobutton_shaping_engine_generic = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_shaping_engine_generic"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_shaping_engine_generic), shaping_engine_group);
+  shaping_engine_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_shaping_engine_generic));
+  radiobutton_shaping_engine_arab = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_shaping_engine_arab"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_shaping_engine_arab), shaping_engine_group);
+  shaping_engine_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_shaping_engine_arab));
+  shaping_engine_set (projectconfig->xetex_shaping_engine_get());
 
   InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, NULL, "file/print/project");
   cancelbutton = indialoghelp->cancelbutton;
@@ -117,6 +129,7 @@ void XeTeXDialog::on_okbutton()
   } else {
     projectconfig->xetex_font_mapping_file_set("");
   }
+  projectconfig->xetex_shaping_engine_set(shaping_engine_get ());
 }
 
 
@@ -151,6 +164,7 @@ void XeTeXDialog::set_gui()
   shortcuts.label (label_tab_notes);
   shortcuts.label (label_tab_page);
   shortcuts.label (label_tab_mapping);
+  shortcuts.label (label_tab_engine);
   shortcuts.stockbutton(cancelbutton);
   shortcuts.stockbutton(okbutton);
   GtkWidget * helpbutton = gtk_button_new_from_stock (GTK_STOCK_HELP);
@@ -173,6 +187,13 @@ void XeTeXDialog::set_gui()
     {
       // Mapping page.
       shortcuts.button(button_font_mapping_clear);
+      break;
+    }
+    case 3:
+    {
+      // Shaping engine page.
+      shortcuts.button(radiobutton_shaping_engine_generic);
+      shortcuts.button(radiobutton_shaping_engine_arab);
       break;
     }
   }
@@ -200,5 +221,26 @@ void XeTeXDialog::on_button_font_mapping_clear_clicked (GtkButton *button, gpoin
 }
 
 
+void XeTeXDialog::shaping_engine_set (int type)
+{
+  switch (XeTeXScriptingEngineType (type)) {
+    case xtxsetGeneric:
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_shaping_engine_generic), true);
+      break;
+    case xtxsetArab:
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_shaping_engine_arab), true);
+      break;
+  }    
+}
+
+
+int XeTeXDialog::shaping_engine_get ()
+{
+  if (gtk_toggle_button_get_active  (GTK_TOGGLE_BUTTON (radiobutton_shaping_engine_generic)))
+    return xtxsetGeneric;
+  if (gtk_toggle_button_get_active  (GTK_TOGGLE_BUTTON (radiobutton_shaping_engine_arab)))
+    return xtxsetArab;
+  return xtxsetGeneric;
+}
 
 

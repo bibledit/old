@@ -131,6 +131,8 @@ void XeTeX::write_document_tex_file ()
   if (!projectconfig->editor_font_default_get()) {
     PangoFontDescription *font_desc = pango_font_description_from_string(projectconfig->editor_font_name_get().c_str());
     if (font_desc){
+      
+      // Assemble the string for the font mapping.
       ustring font_mapping = projectconfig->xetex_font_mapping_file_get();
       if (!font_mapping.empty()) {
         if (g_str_has_suffix (font_mapping.c_str(), ".tec")) {
@@ -138,21 +140,47 @@ void XeTeX::write_document_tex_file ()
           // Remove the .tec suffix.
           font_mapping.erase (font_mapping.length() - 4, 4);
           // Insert the mapping command.
-          font_mapping.insert (0, ":mapping=");
+          font_mapping.insert (0, "mapping=");
         } else {
           gw_warning ("Font mapping file " + font_mapping +  " should have the .tec suffix - ignoring this file");
           font_mapping.clear();
         }
       }
+
+      // Assemble the string for the shaping engine.
+      ustring shaping_engine;
+      switch (XeTeXScriptingEngineType (projectconfig->xetex_shaping_engine_get())) {
+        case xtxsetGeneric:                                 break;
+        case xtxsetArab:    shaping_engine = "script=arab"; break;
+      }
+
+      // Assemble the addition to the font.
+      ustring font_addition;
+      if (!font_mapping.empty()) {
+        if (font_addition.empty())
+          font_addition.append (":");
+        else 
+          font_addition.append (";");
+        font_addition.append (font_mapping);
+      }
+      if (!shaping_engine.empty()) {
+        if (font_addition.empty())
+          font_addition.append (":");
+        else 
+          font_addition.append (";");
+        font_addition.append (shaping_engine);
+      }
+
       ustring font_family = pango_font_description_get_family (font_desc);
       document_tex.push_back ("");
       document_tex.push_back ("% Fonts to use for \"plain\", \"bold\", \"italic\", and \"bold italic\" from the stylesheet");
       document_tex.push_back ("% (they need not really be italic, etc.)");
       document_tex.push_back ("% Add e.g. \":mapping=farsidigits\" to get digits in Farsi, provided the farsidigits.tec TECkit mapping is available");
-      document_tex.push_back ("\\def\\regular{\"" + font_family + font_mapping + "\"}");
-      document_tex.push_back ("\\def\\bold{\"" + font_family + "/B" + font_mapping + "\"}");
-      document_tex.push_back ("\\def\\italic{\"" + font_family + "/I" + font_mapping +  "\"}");
-      document_tex.push_back ("\\def\\bolditalic{\"" + font_family + "/BI" + font_mapping +  + "\"}");
+      document_tex.push_back ("% Add e.g. \":script=arab\" to use the arab shaping engine instead of the generic one");
+      document_tex.push_back ("\\def\\regular{\"" + font_family + font_addition + "\"}");
+      document_tex.push_back ("\\def\\bold{\"" + font_family + "/B" + font_addition + "\"}");
+      document_tex.push_back ("\\def\\italic{\"" + font_family + "/I" + font_addition +  "\"}");
+      document_tex.push_back ("\\def\\bolditalic{\"" + font_family + "/BI" + font_addition +  + "\"}");
       pango_font_description_free(font_desc);
     }
   }

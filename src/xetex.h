@@ -26,6 +26,9 @@
 #include "types.h"
 
 
+enum XeTeXScriptingEngineType {xtxsetGeneric, xtxsetArab};
+
+
 class XeTeX
 {
 public:

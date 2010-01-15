@@ -59,6 +59,12 @@ protected:
   GtkWidget *filechooserbutton_font_mapping_file;
   static void on_button_font_mapping_clear_clicked (GtkButton *button, gpointer user_data);
   
+  GtkWidget *label_tab_engine;
+  GtkWidget *radiobutton_shaping_engine_generic;
+  GtkWidget *radiobutton_shaping_engine_arab;
+  void shaping_engine_set (int type);
+  int shaping_engine_get ();
+  
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);

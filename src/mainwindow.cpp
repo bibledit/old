@@ -6549,6 +6549,7 @@ Todo tasks.
 
 
 
+
 task #9763: share the project notes through a repository
 
 There was an expressed desire to have the project notes shareable just like the text is sharable.
