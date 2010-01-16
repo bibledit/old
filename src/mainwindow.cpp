@@ -6552,29 +6552,10 @@ Todo tasks.
 
 task #9763: share the project notes through a repository
 
-There was an expressed desire to have the project notes shareable just like the text is sharable.
-
-If project notes are to be shared through a repository, then these notes go into a git repository with each note being one file,
-named by its id. We may decide to use subdirectories also.
-
-If searching in the notes becomes slow, we may consider using a database as an index. 
-
 Sharing project notes.
-* Private notes are not shared, but kept locally.
-* Git repository for the notes.
-* How many files fit in a flat directory? There are 33743 notes now. No worries, there can be many more of these before performance degrades.
-* To use an index database for speeding up navigation and searching.
-* The current database can be kept as it is, but flat files are formed out of that. This is a verbatim process.
-* We cannot use xml files because of the merge system of git - it needs to be "x=y" ones or the [header] ones as created by glib.
-  but glib may not handle it since there are many new lines.
-* The flat files are to be stored in directory "data" of ~/.bibledit/notes, just like with the projects, so that the index database is not shared.
-* The id number becomes the name of the file.
-* Private notes are stored in subdirectory "private".
 * We may use the current remote repository setup dialog, but then to indicate whether is sets a project or the project notes.
-* On shutdown we may recreate the database.
 * When syncing we need to notice whether changes were pulled in, and then update the database accordingly.
 * The user should have a tool to re-create the index by hand, as normally this won't happen.
-* But we may not need an index at all, let's see what happens. let's first try without an index.
 
 
 
@@ -6865,6 +6846,20 @@ When running a local web server, as many will do, and syncing data files of proj
 then to run "unison" from the web server. The web server would already have write permissions, perhaps unison will also have permission to
 access to bibledit's data.
 Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
+
+The modules do not yet work well in Zend. We better make our own modular system, loosely coupled, so that
+we create a new applicaton for each module, and share the library for all, and any of our own classes.
+All these applications together for "bibledit", a loosely coupled modular lot of software&.
+
+To make out own ./zf routine, which comments out the offending bit, and after done, puts it back.
+
+First controller to make is for notes, but it also needs the project text.
+
+The ./configure script needs username and password of the mysql database, and access it to see if it works.
+The install script uses that and does the database upgrades required. It needs a clever algorithm that can see which upgrades are needed.
+* Therefore each database should store a version number as well.
+
+
 
 
 

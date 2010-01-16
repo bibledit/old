@@ -40,6 +40,13 @@ private:
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
   void on_assistant_prepare (GtkWidget *page);
 
+  // Bible / notes selection. // Todo
+  int page_number_bible_notes_selector;
+  GtkWidget *vbox_bible_notes_selector;
+  GtkWidget *radiobutton_bible_notes_selector_bible;
+  GtkWidget *radiobutton_bible_notes_selector_notes;
+  bool bible_notes_selector_bible ();
+
   // Use remote repository.
   int page_number_use_repository;
   GtkWidget *checkbutton_use_repository;
@@ -66,15 +73,6 @@ private:
   GtkWidget *radiobutton_task_selector_url;
   GtkWidget *radiobutton_task_selector_settings;
 
-  // Pending tasks.
-  int page_number_pending_tasks;
-  GtkWidget * label_pending_tasks;
-  guint event_id_pending_tasks;
-  static bool on_pending_tasks_timeout(gpointer user_data);
-  bool on_pending_tasks();
-  int project_pending_tasks_count;
-  int previous_project_pending_tasks_count;
-  
   // Repository path and accessibility check.
   int page_number_repository;
   GtkWidget *vbox_repository;
@@ -82,6 +80,7 @@ private:
   GtkWidget *label_repository;
   GtkWidget *entry_repository;
   GtkWidget *label_repository_accessible;
+  bool ignore_entry_repository_changed;
   static void on_entry_repository_changed (GtkEditable *editable, gpointer user_data);
   void on_entry_repository ();
   guint event_id_entry_repository;

@@ -85,6 +85,7 @@ void notes_storage_verify()
 
 
 ustring notes_file_name (gint32 id)
+// The filename for a note with "id".
 {
   return gw_build_filename (notes_shared_storage_folder (), convert_to_string (id));
 }
@@ -914,6 +915,8 @@ void notes_convert_database_to_plain_files ()
 
 
 void notes_store_one_in_file(int id, ustring & note, const ustring & project, const ustring& references, const ustring & category, int date_created, const ustring & user_created, int date_modified, ustring & logbook)
+// Stores a note in a file.
+// It should be flat files, not xml, because of the merging done by git.
 {
   // Store the note.
   vector <ustring> lines;

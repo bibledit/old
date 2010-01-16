@@ -61,7 +61,7 @@ AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_intro, true);
 
   // Help button.
-  button_help = gtk_toggle_button_new();
+  button_help = gtk_button_new();
   gtk_widget_show(button_help);
   gtk_assistant_add_action_widget (GTK_ASSISTANT (assistant), button_help);
 

@@ -32,38 +32,55 @@
 #include "projectutils.h"
 #include "snapshots.h"
 #include "progresswindow.h"
+#include "notes_utils.h"
 
 
 RemoteRepositoryAssistant::RemoteRepositoryAssistant(int dummy) :
-AssistantBase("Remote repository setup", "git_setup")
+AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-repository")
 // Assistant for managing the remote repository.
 {
+  // Configuration and initialization.
   extern Settings *settings;
   bible = settings->genconfig.project_get();
-  
+  event_id_entry_repository = 0;
+  persistent_clone_directory = git_testing_directory ("clone");
+  write_access_granted = false;
+  ignore_entry_repository_changed = false;
+    
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("Remote repository management for Bible " + bible);
+  introduction ("Remote repository management for Bible " + bible + " or the project notes");
 
-  // Configuration and initialization.
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(bible);
-  event_id_pending_tasks = 0;
-  project_pending_tasks_count = -1;
-  previous_project_pending_tasks_count = -1;
-  event_id_entry_repository = 0;
-  persistent_clone_directory = git_testing_directory ("clone");
-  write_access_granted = false;
+  // Build the GUI for the Bible or notes selector.
+  vbox_bible_notes_selector = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_bible_notes_selector);
+  page_number_bible_notes_selector = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_notes_selector);
+
+  GSList *radiobutton_bible_notes_selector_group = NULL;
+
+  radiobutton_bible_notes_selector_bible = gtk_radio_button_new_with_mnemonic (NULL, "B_ible repository");
+  gtk_widget_show (radiobutton_bible_notes_selector_bible);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_notes_selector), radiobutton_bible_notes_selector_bible, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_bible), radiobutton_bible_notes_selector_group);
+  radiobutton_bible_notes_selector_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_bible));
+
+  radiobutton_bible_notes_selector_notes = gtk_radio_button_new_with_mnemonic (NULL, "Project _notes repository");
+  gtk_widget_show (radiobutton_bible_notes_selector_notes);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_notes_selector), radiobutton_bible_notes_selector_notes, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_notes), radiobutton_bible_notes_selector_group);
+  radiobutton_bible_notes_selector_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_notes_selector_notes));
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_notes_selector, "What type of repository would you like to set?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_notes_selector, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_notes_selector, true);
   
   // Build the GUI for the setting whether to use a remote repository.
   checkbutton_use_repository = gtk_check_button_new_with_mnemonic ("_Use remote repository");
   gtk_widget_show (checkbutton_use_repository);
   page_number_use_repository = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_use_repository);
-
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_use_repository), projectconfig->git_use_remote_repository_get());
 
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_use_repository, "Would you like to use a remote repository?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_use_repository, GTK_ASSISTANT_PAGE_CONTENT);
@@ -103,15 +120,6 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_task_selector, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_task_selector, true);
   
-  // Build GUI for waiting till the pending tasks are over.
-  label_pending_tasks = gtk_label_new ("");
-  gtk_widget_show (label_pending_tasks);
-  page_number_pending_tasks = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_pending_tasks);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_pending_tasks, "Waiting till any pending tasks are over");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_pending_tasks, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_pending_tasks, false);
-
   // Build GUI for the repository URL.
   vbox_repository = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_repository);
@@ -141,9 +149,6 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_repository, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_repository, false);
 
-  // Set the repository location.
-  gtk_entry_set_text (GTK_ENTRY (entry_repository), projectconfig->git_remote_repository_url_get().c_str());
-  
   g_signal_connect ((gpointer) entry_repository, "changed", G_CALLBACK (on_entry_repository_changed), gpointer (this));
 
   // GUI for cloning the repository.
@@ -256,9 +261,6 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), hbox_interval, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), hbox_interval, true);
 
-  // Set the value.
-  gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_interval), double (projectconfig->git_remote_update_interval_get()));
-
   // Conflict resolution.
   vbox_conflict = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_conflict);
@@ -288,21 +290,6 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_conflict, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_conflict, true);
   
-  // Set conflict handling values.
-  GitConflictHandlingType conflicthandling = (GitConflictHandlingType) projectconfig->git_remote_repository_conflict_handling_get();
-  switch (conflicthandling) {
-  case gchtTakeMe:
-    {
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_local), true);
-      break;
-    }
-  case gchtTakeServer:
-    {
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote), true);
-      break;
-    }
-  }
-  
   // Build the confirmation stuff.
   label_confirm = gtk_label_new ("Settings are ready to be applied");
   gtk_widget_show (label_confirm);
@@ -331,17 +318,14 @@ AssistantBase("Remote repository setup", "git_setup")
   // Finish building assistant.
   gtk_widget_show_all (assistant);
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), 0);
-  
-  // Timers.
-  event_id_pending_tasks = g_timeout_add_full(G_PRIORITY_DEFAULT, 600, GSourceFunc(on_pending_tasks_timeout), gpointer(this), NULL);
 }
 
 
 RemoteRepositoryAssistant::~RemoteRepositoryAssistant()
 {
-  gw_destroy_source(event_id_pending_tasks);
   gw_destroy_source(event_id_entry_repository);
 }
+
 
 void RemoteRepositoryAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data)
 {
@@ -349,8 +333,61 @@ void RemoteRepositoryAssistant::on_assistant_prepare_signal (GtkAssistant *assis
 }
 
 
-void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
+void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page) // Todo
 {
+  extern Settings * settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(bible);
+  
+  if (page == checkbutton_use_repository) {
+    // Set all values in the GUI, according to the project configuration if it is a Bible, or the general configuration for project notes.
+
+    // Whether to use the remote repository.
+    bool use_remote_repository = false; // Todo
+    if (bible_notes_selector_bible ())
+      use_remote_repository = projectconfig->git_use_remote_repository_get();
+    else
+      use_remote_repository = settings->genconfig.git_use_remote_repository_get();
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_use_repository), use_remote_repository);
+
+    // Set the repository location.
+    ustring repository_url; // Todo
+    if (bible_notes_selector_bible ())
+      repository_url = projectconfig->git_remote_repository_url_get();
+    else
+      repository_url = settings->genconfig.git_remote_repository_url_get();
+    ignore_entry_repository_changed = true;
+    gtk_entry_set_text (GTK_ENTRY (entry_repository), repository_url.c_str());
+    ignore_entry_repository_changed = false;
+
+    // Set the update interval. // Todo
+    int update_interval = 0;
+    if (bible_notes_selector_bible ())
+      update_interval = projectconfig->git_remote_update_interval_get();
+    else
+      update_interval = settings->genconfig.git_remote_update_interval_get();
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_interval), double (update_interval));
+
+    // Set conflict handling values. // Todo
+    GitConflictHandlingType conflicthandling = gchtTakeMe;
+    if (bible_notes_selector_bible ())
+      conflicthandling = (GitConflictHandlingType) projectconfig->git_remote_repository_conflict_handling_get();
+    else
+      conflicthandling = (GitConflictHandlingType) settings->genconfig.git_remote_repository_conflict_handling_get();
+    switch (conflicthandling) {
+    case gchtTakeMe:
+      {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_local), true);
+        break;
+      }
+    case gchtTakeServer:
+      {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote), true);
+        break;
+      }
+    }
+   
+  }
+  
   if (page == label_try_git) {
     // Prepare for the page to try git.
     if (!git_tried_and_okay) {
@@ -393,7 +430,7 @@ void RemoteRepositoryAssistant::on_assistant_apply_signal (GtkAssistant *assista
 }
 
 
-void RemoteRepositoryAssistant::on_assistant_apply ()
+void RemoteRepositoryAssistant::on_assistant_apply () //  // Todo try out whether it is applied to the right place.
 {
   // Configurations.
   extern Settings *settings;
@@ -401,30 +438,47 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
 
   // Whether to use the remote repository.
   bool use_remote_repository = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_use_repository));
-  projectconfig->git_use_remote_repository_set(use_remote_repository);
+  if (bible_notes_selector_bible ())
+    projectconfig->git_use_remote_repository_set(use_remote_repository);
+  else
+    settings->genconfig.git_use_remote_repository_set(use_remote_repository);
 
   // The remote repository URL.
-  projectconfig->git_remote_repository_url_set(repository_url_get());
-
+  if (bible_notes_selector_bible ())
+    projectconfig->git_remote_repository_url_set(repository_url_get());
+  else
+    settings->genconfig.git_remote_repository_url_set(repository_url_get());
+  
   // Remote update interval.
   gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_interval));
-  projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
+  if (bible_notes_selector_bible ())
+    projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
+  else
+    settings->genconfig.git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
 
   // Save conflict handling system.
   GitConflictHandlingType conflicthandling = gchtTakeMe;
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote)))
     conflicthandling = gchtTakeServer;
-  projectconfig->git_remote_repository_conflict_handling_set(conflicthandling);
+  if (bible_notes_selector_bible ())
+    projectconfig->git_remote_repository_conflict_handling_set(conflicthandling);
+  else
+    settings->genconfig.git_remote_repository_conflict_handling_set(conflicthandling);
 
   // If the repository was cloned, move it into place.
   if (repository_was_cloned()) {
-    ustring project_data_directory = project_data_directory_project(bible);
-    unix_rmdir(project_data_directory);
-    unix_mv(persistent_clone_directory, project_data_directory);
+    ustring destination_data_directory;
+    if (bible_notes_selector_bible ())
+      destination_data_directory = project_data_directory_project(bible);
+    else
+      destination_data_directory = notes_shared_storage_folder ();
+    unix_rmdir(destination_data_directory);
+    unix_mv(persistent_clone_directory, destination_data_directory);
   }
 
   // Take a snapshot of the whole project.
-  snapshots_shoot_project (bible);
+  if (bible_notes_selector_bible ())
+    snapshots_shoot_project (bible);
 
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
@@ -799,22 +853,6 @@ bool RemoteRepositoryAssistant::try_git_push_repository (const ustring& name)
 }
 
 
-bool RemoteRepositoryAssistant::on_pending_tasks_timeout(gpointer user_data)
-{
-  return ((RemoteRepositoryAssistant *) user_data)->on_pending_tasks();
-}
-
-
-bool RemoteRepositoryAssistant::on_pending_tasks()
-// Sets the interface depending on whether there are any git tasks pending for the project.
-{
-  gtk_label_set_text (GTK_LABEL (label_pending_tasks), "No pending tasks, you can go forward");
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_pending_tasks, true);
-  previous_project_pending_tasks_count = project_pending_tasks_count;
-  return true;
-}
-
-
 void RemoteRepositoryAssistant::on_entry_repository_changed (GtkEditable *editable, gpointer user_data)
 {
   ((RemoteRepositoryAssistant *) user_data)->on_entry_repository();
@@ -823,6 +861,8 @@ void RemoteRepositoryAssistant::on_entry_repository_changed (GtkEditable *editab
 
 void RemoteRepositoryAssistant::on_entry_repository ()
 {
+  if (ignore_entry_repository_changed)
+    return;
   gw_destroy_source(event_id_entry_repository);
   event_id_entry_repository = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_entry_changed_timeout), gpointer(this), NULL);
 }
@@ -1047,11 +1087,13 @@ This makes the remote repository to have an exact copy of our data.
   progresswindow.set_fraction (0.2);
   
   // Copy our data into a temporal location.
-  ustring project_data_directory = project_data_directory_project(bible);
+  ustring my_data_directory = notes_shared_storage_folder (); // Todo see if the pushing goes well.
+  if (bible_notes_selector_bible ())
+    my_data_directory = project_data_directory_project(bible);
   ustring temporal_data_directory = git_testing_directory ("mydata");
-  unix_cp_r (project_data_directory, temporal_data_directory);
+  unix_cp_r (my_data_directory, temporal_data_directory);
 
-  // In rare cases there would be a .git directory in our data. Remove that.
+  // In rare cases a .git directory could have been copied along with our data. Remove that.
   unix_rmdir (gw_build_filename (temporal_data_directory, ".git"));
 
   // Remove all directories and all files from the persistent clone directory, but leave the .git directory
@@ -1120,3 +1162,7 @@ This makes the remote repository to have an exact copy of our data.
 }
 
 
+bool RemoteRepositoryAssistant::bible_notes_selector_bible ()
+{
+  return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_notes_selector_bible));
+}
