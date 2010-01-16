@@ -1,4 +1,4 @@
-SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc shutdown usfm kjv outpost gobible web dbus vcs xetex
+SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc shutdown usfm kjv outpost gobible web dbus vcs xetex zend
 # ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = bibledit*.gz *~
 # EXTRA_DIST = m4/*
