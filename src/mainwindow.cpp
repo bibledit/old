@@ -571,6 +571,7 @@ navigation(0), httpd(0)
   notes2 = NULL;
   new_note = NULL;
   delete_note = NULL;
+  consultation_notes_send_receive = NULL;
   if (guifeatures.project_notes_management()) {
 
     notes2 = gtk_image_menu_item_new_with_mnemonic("Project _notes");
@@ -596,6 +597,9 @@ navigation(0), httpd(0)
     gtk_widget_show(image963);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(delete_note), image963);
 
+    consultation_notes_send_receive = gtk_image_menu_item_new_with_mnemonic("_Send / Receive");
+    gtk_widget_show(consultation_notes_send_receive);
+    gtk_container_add(GTK_CONTAINER(notes2_menu), consultation_notes_send_receive);
   }
 
   file_resources = gtk_image_menu_item_new_with_mnemonic("R_esources");
@@ -1606,6 +1610,8 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) new_note, "activate", G_CALLBACK(on_new_note_activate), gpointer(this));
   if (delete_note)
     g_signal_connect((gpointer) delete_note, "activate", G_CALLBACK(on_delete_note_activate), gpointer(this));
+  if (consultation_notes_send_receive)
+    g_signal_connect((gpointer) consultation_notes_send_receive, "activate", G_CALLBACK(on_consultant_notes_send_receive_activate), gpointer(this));
   if (file_resources)
     g_signal_connect((gpointer) file_resources, "activate", G_CALLBACK(on_file_resources_activate), gpointer(this));
   if (file_resources_open)
@@ -3161,10 +3167,27 @@ void MainWindow::on_delete_note_activate(GtkMenuItem * menuitem, gpointer user_d
   gtkw_dialog_info(((MainWindow *) user_data)->window_main, "A note can be deleted by clicking on the [delete] link in the notes view");
 }
 
+
+void MainWindow::on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_consultant_notes_send_receive();
+}
+
+
+void MainWindow::on_consultant_notes_send_receive () // Todo
+{
+  extern Settings * settings;
+  if (settings->genconfig.consultation_notes_git_use_remote_repository_get()) {
+    git_pull_push_directory (notes_shared_storage_folder ());
+  }
+}
+
+
 void MainWindow::on_viewnotes_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_view_notes();
 }
+
 
 void MainWindow::on_view_notes()
 {
@@ -4548,9 +4571,10 @@ void MainWindow::git_update_intervals_initialize()
   for (unsigned int i = 0; i < projects.size(); i++) {
     ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
     if (projectconfig->git_use_remote_repository_get()) {
-      git_update_intervals[projects[i]] = 0;
+      git_update_intervals_bible[projects[i]] = 0;
     }
   }
+  git_update_intervals_notes = 0;
   // Start the timer.
   git_update_interval_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_git_update_timeout), gpointer(this), NULL);
 }
@@ -4572,7 +4596,7 @@ void MainWindow::git_update_timeout(bool force)
   for (unsigned int i = 0; i < projects.size(); i++) {
     ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
     if (projectconfig->git_use_remote_repository_get()) {
-      int interval = git_update_intervals[projects[i]];
+      int interval = git_update_intervals_bible[projects[i]];
       interval++;
       if ((interval >= projectconfig->git_remote_update_interval_get()) || force) {
         // Save chapter.
@@ -4585,8 +4609,14 @@ void MainWindow::git_update_timeout(bool force)
         git_pull_push (projects[i]);
         interval = 0;
       }
-      git_update_intervals[projects[i]] = interval;
+      git_update_intervals_bible[projects[i]] = interval;
     }
+  }
+  // Schedule push/pull task for the consultation notes. // Todo move it out of here, to the function called by menu, and call that function from here also.
+  git_update_intervals_notes++;
+  if ((git_update_intervals_notes >= settings->genconfig.consultation_notes_git_remote_update_interval_get()) || force) {
+    on_consultant_notes_send_receive ();
+    git_update_intervals_notes = 0;
   }
 }
 
@@ -6553,9 +6583,14 @@ Todo tasks.
 task #9763: share the project notes through a repository
 
 Sharing project notes.
-* We may use the current remote repository setup dialog, but then to indicate whether is sets a project or the project notes.
-* When syncing we need to notice whether changes were pulled in, and then update the database accordingly.
+* Make Send / Receive for notes as well.
+* To try remote repository setup dialog for Bibles, this dialog, and also for notes, whether both keep working well.
+* When syncing we need to notice whether changes were pulled in, and then update the index database accordingly.
 * The user should have a tool to re-create the index by hand, as normally this won't happen.
+* Let the Send/ Receive work for separate projects as well, e.g. "All" or "Focused Bible".
+* Fix the warning about "push.default".
+* Update the helpfile for the notes sharing, and refer to the project collaboration notes as the basis of all.
+  Only small changes in relation to that, really. Also to update the menu.
 
 
 
@@ -6859,8 +6894,21 @@ The ./configure script needs username and password of the mysql database, and ac
 The install script uses that and does the database upgrades required. It needs a clever algorithm that can see which upgrades are needed.
 * Therefore each database should store a version number as well.
 
+To use classes from phpclasses.org which has a lot of functionality built in.
+Not to use a framework.
 
+To have a Twitter module, that can send changes to twitter in a meaningful way.
 
+To have a module that creates a new GoBible each hour if there were changes. The user also can request to make a module "now", 
+which will be scheduled for the next minute. If there were no changes, it indicates this as well. There is also a very simple page for 
+access from cell phones.
+
+People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
+email preferences.
+
+When the site is in stealth mode, several feeds can be set up by the administrator which display on the front page.
+If an existing user logs in, he goes to the translation menu. But new users that create an account, they only can subscribe with their email
+address to the existing feed (s). This hides the site by faking some functionality.
 
 
 

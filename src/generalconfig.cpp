@@ -217,10 +217,10 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(source_language_names);
   INITIALIZE(reference_window_show_verse_text);
   INITIALIZE(reference_window_show_relevant_bits);
-  INITIALIZE(git_use_remote_repository);
-  INITIALIZE(git_remote_repository_url);
-  INITIALIZE(git_remote_update_interval);
-  INITIALIZE(git_remote_repository_conflict_handling);
+  INITIALIZE(consultation_notes_git_use_remote_repository);
+  INITIALIZE(consultation_notes_git_remote_repository_url);
+  INITIALIZE(consultation_notes_git_remote_update_interval);
+  INITIALIZE(consultation_notes_git_remote_repository_conflict_handling);
 }
 
 
@@ -382,10 +382,10 @@ void GeneralConfiguration::save()
   SAVE_VALUE(source_language_names);
   SAVE_VALUE(reference_window_show_verse_text);
   SAVE_VALUE(reference_window_show_relevant_bits);
-  SAVE_VALUE(git_use_remote_repository);
-  SAVE_VALUE(git_remote_repository_url);
-  SAVE_VALUE(git_remote_update_interval);
-  SAVE_VALUE(git_remote_repository_conflict_handling);
+  SAVE_VALUE(consultation_notes_git_use_remote_repository);
+  SAVE_VALUE(consultation_notes_git_remote_repository_url);
+  SAVE_VALUE(consultation_notes_git_remote_update_interval);
+  SAVE_VALUE(consultation_notes_git_remote_repository_conflict_handling);
 
   config_xml_values_set_execute(general_configuration_filename(), values);
 }
@@ -630,7 +630,7 @@ IMPLEMENT(bool, bool_get, compare_disregard_notes, false)
 IMPLEMENT(vector <ustring>, vector_string_get, source_language_names, NULL)
 IMPLEMENT(bool, bool_get, reference_window_show_verse_text, true)
 IMPLEMENT(bool, bool_get, reference_window_show_relevant_bits, false)
-IMPLEMENT(bool, bool_get, git_use_remote_repository, false) // Todo all these four need to have "notes" prefixed for clarity.
-IMPLEMENT(ustring, string_get, git_remote_repository_url, "")
-IMPLEMENT(int, int_get, git_remote_update_interval, 3600)
-IMPLEMENT(int, int_get, git_remote_repository_conflict_handling, 0)
+IMPLEMENT(bool, bool_get, consultation_notes_git_use_remote_repository, false)
+IMPLEMENT(ustring, string_get, consultation_notes_git_remote_repository_url, "")
+IMPLEMENT(int, int_get, consultation_notes_git_remote_update_interval, 3600)
+IMPLEMENT(int, int_get, consultation_notes_git_remote_repository_conflict_handling, 0)

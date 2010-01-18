@@ -40,7 +40,7 @@ private:
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
   void on_assistant_prepare (GtkWidget *page);
 
-  // Bible / notes selection. // Todo
+  // Bible / notes selection.
   int page_number_bible_notes_selector;
   GtkWidget *vbox_bible_notes_selector;
   GtkWidget *radiobutton_bible_notes_selector_bible;

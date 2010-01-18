@@ -333,7 +333,7 @@ void RemoteRepositoryAssistant::on_assistant_prepare_signal (GtkAssistant *assis
 }
 
 
-void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page) // Todo
+void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
 {
   extern Settings * settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(bible);
@@ -342,37 +342,37 @@ void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page) // Todo
     // Set all values in the GUI, according to the project configuration if it is a Bible, or the general configuration for project notes.
 
     // Whether to use the remote repository.
-    bool use_remote_repository = false; // Todo
+    bool use_remote_repository = false;
     if (bible_notes_selector_bible ())
       use_remote_repository = projectconfig->git_use_remote_repository_get();
     else
-      use_remote_repository = settings->genconfig.git_use_remote_repository_get();
+      use_remote_repository = settings->genconfig.consultation_notes_git_use_remote_repository_get();
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_use_repository), use_remote_repository);
 
     // Set the repository location.
-    ustring repository_url; // Todo
+    ustring repository_url;
     if (bible_notes_selector_bible ())
       repository_url = projectconfig->git_remote_repository_url_get();
     else
-      repository_url = settings->genconfig.git_remote_repository_url_get();
+      repository_url = settings->genconfig.consultation_notes_git_remote_repository_url_get();
     ignore_entry_repository_changed = true;
     gtk_entry_set_text (GTK_ENTRY (entry_repository), repository_url.c_str());
     ignore_entry_repository_changed = false;
 
-    // Set the update interval. // Todo
+    // Set the update interval.
     int update_interval = 0;
     if (bible_notes_selector_bible ())
       update_interval = projectconfig->git_remote_update_interval_get();
     else
-      update_interval = settings->genconfig.git_remote_update_interval_get();
+      update_interval = settings->genconfig.consultation_notes_git_remote_update_interval_get();
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_interval), double (update_interval));
 
-    // Set conflict handling values. // Todo
+    // Set conflict handling values.
     GitConflictHandlingType conflicthandling = gchtTakeMe;
     if (bible_notes_selector_bible ())
       conflicthandling = (GitConflictHandlingType) projectconfig->git_remote_repository_conflict_handling_get();
     else
-      conflicthandling = (GitConflictHandlingType) settings->genconfig.git_remote_repository_conflict_handling_get();
+      conflicthandling = (GitConflictHandlingType) settings->genconfig.consultation_notes_git_remote_repository_conflict_handling_get();
     switch (conflicthandling) {
     case gchtTakeMe:
       {
@@ -430,7 +430,7 @@ void RemoteRepositoryAssistant::on_assistant_apply_signal (GtkAssistant *assista
 }
 
 
-void RemoteRepositoryAssistant::on_assistant_apply () //  // Todo try out whether it is applied to the right place.
+void RemoteRepositoryAssistant::on_assistant_apply ()
 {
   // Configurations.
   extern Settings *settings;
@@ -441,20 +441,20 @@ void RemoteRepositoryAssistant::on_assistant_apply () //  // Todo try out whethe
   if (bible_notes_selector_bible ())
     projectconfig->git_use_remote_repository_set(use_remote_repository);
   else
-    settings->genconfig.git_use_remote_repository_set(use_remote_repository);
+    settings->genconfig.consultation_notes_git_use_remote_repository_set(use_remote_repository);
 
   // The remote repository URL.
   if (bible_notes_selector_bible ())
     projectconfig->git_remote_repository_url_set(repository_url_get());
   else
-    settings->genconfig.git_remote_repository_url_set(repository_url_get());
+    settings->genconfig.consultation_notes_git_remote_repository_url_set(repository_url_get());
   
   // Remote update interval.
   gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_interval));
   if (bible_notes_selector_bible ())
     projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
   else
-    settings->genconfig.git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
+    settings->genconfig.consultation_notes_git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
 
   // Save conflict handling system.
   GitConflictHandlingType conflicthandling = gchtTakeMe;
@@ -463,7 +463,7 @@ void RemoteRepositoryAssistant::on_assistant_apply () //  // Todo try out whethe
   if (bible_notes_selector_bible ())
     projectconfig->git_remote_repository_conflict_handling_set(conflicthandling);
   else
-    settings->genconfig.git_remote_repository_conflict_handling_set(conflicthandling);
+    settings->genconfig.consultation_notes_git_remote_repository_conflict_handling_set(conflicthandling);
 
   // If the repository was cloned, move it into place.
   if (repository_was_cloned()) {
@@ -1087,7 +1087,7 @@ This makes the remote repository to have an exact copy of our data.
   progresswindow.set_fraction (0.2);
   
   // Copy our data into a temporal location.
-  ustring my_data_directory = notes_shared_storage_folder (); // Todo see if the pushing goes well.
+  ustring my_data_directory = notes_shared_storage_folder ();
   if (bible_notes_selector_bible ())
     my_data_directory = project_data_directory_project(bible);
   ustring temporal_data_directory = git_testing_directory ("mydata");
@@ -1166,3 +1166,5 @@ bool RemoteRepositoryAssistant::bible_notes_selector_bible ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_notes_selector_bible));
 }
+
+

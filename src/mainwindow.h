@@ -112,6 +112,7 @@ protected:
   GtkWidget *new_note;
   GtkWidget *delete_note;
   GtkWidget *image963;
+  GtkWidget *consultation_notes_send_receive;
   GtkWidget *file_resources;
   GtkWidget *image27365;
   GtkWidget *file_resources_menu;
@@ -466,6 +467,8 @@ protected:
   static void on_new_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_new_note();
   static void on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem, gpointer user_data); // Todo
+  void on_consultant_notes_send_receive ();
   static void on_viewnotes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_notes();
   void notes_redisplay();
@@ -619,7 +622,8 @@ protected:
   static void on_edit_revert_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_edit_revert();
   void git_update_intervals_initialize();
-  map <ustring, unsigned int> git_update_intervals;
+  map <ustring, unsigned int> git_update_intervals_bible;
+  int git_update_intervals_notes;
   unsigned int git_update_interval_event_id;
   static bool on_git_update_timeout(gpointer user_data);
   void git_update_timeout(bool force);
