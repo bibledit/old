@@ -474,11 +474,24 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
       destination_data_directory = notes_shared_storage_folder ();
     unix_rmdir(destination_data_directory);
     unix_mv(persistent_clone_directory, destination_data_directory);
+    // Switch rename detection off. 
+    // This is necessary for the consultation notes, since git has been seen to detect spurious renames.
+    GwSpawn spawn ("git");
+    spawn.workingdirectory (destination_data_directory);
+    spawn.arg ("config");
+    spawn.arg ("--global");
+    spawn.arg ("diff.renamelimit");
+    spawn.arg ("0");
+    spawn.run ();
   }
 
-  // Take a snapshot of the whole project.
-  if (bible_notes_selector_bible ())
+  if (bible_notes_selector_bible ()) {
+    // Take a snapshot of the whole project.
     snapshots_shoot_project (bible);
+  } else{
+    // Create the index for the consultation notes.
+    notes_create_index ();
+  }
 
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);

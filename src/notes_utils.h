@@ -55,6 +55,7 @@ void notes_store_one_in_file(int id, ustring& note, const ustring& project, cons
 void notes_read_one_from_file (int id, ustring& note, ustring& project, ustring& references, ustring& category, int& date_created, ustring& user_created, int& date_modified, ustring& logbook);
 ustring notes_logbook_line ();
 void notes_create_index ();
+void notes_handle_vcs_feedback (const ustring& directory, const ustring& feedback);
 
 
 #endif

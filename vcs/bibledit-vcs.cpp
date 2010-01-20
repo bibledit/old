@@ -122,7 +122,8 @@ void on_vcs_worker_web_listener_ready_callback (SoupSession *session, SoupMessag
         // Store it.
         g_file_set_contents (outputfile, message.c_str(), -1, NULL);
         // Assemble command to run.
-        string shell_command = "cd '" + workingdirectory + "' ; " + command + " > ";
+        // The output gets added to the message file.
+        string shell_command = "cd '" + workingdirectory + "' ; " + command + " >> ";
         shell_command.append (outputfile);
         shell_command.append (" 2>&1");
         printf ("Run %s\n", shell_command.c_str());

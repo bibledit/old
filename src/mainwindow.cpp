@@ -3174,7 +3174,7 @@ void MainWindow::on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem
 }
 
 
-void MainWindow::on_consultant_notes_send_receive () // Todo
+void MainWindow::on_consultant_notes_send_receive ()
 {
   extern Settings * settings;
   if (settings->genconfig.consultation_notes_git_use_remote_repository_get()) {
@@ -4612,24 +4612,27 @@ void MainWindow::git_update_timeout(bool force)
       git_update_intervals_bible[projects[i]] = interval;
     }
   }
-  // Schedule push/pull task for the consultation notes. // Todo move it out of here, to the function called by menu, and call that function from here also.
+  // Schedule push/pull task for the consultation notes.
   git_update_intervals_notes++;
-  if ((git_update_intervals_notes >= settings->genconfig.consultation_notes_git_remote_update_interval_get()) || force) {
+  if (git_update_intervals_notes >= settings->genconfig.consultation_notes_git_remote_update_interval_get()) {
     on_consultant_notes_send_receive ();
     git_update_intervals_notes = 0;
   }
 }
+
 
 void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_projects_send_receive();
 }
 
+
 void MainWindow::on_projects_send_receive ()
 {
   git_update_timeout(true);
   new TimedNotifierWindow ("Sending and receiving Bibles");
 }
+
 
 /*
  |
@@ -6491,7 +6494,7 @@ void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButto
 }
 
 
-void MainWindow::on_interprocess_communications_listener_button(GtkButton *button)
+void MainWindow::on_interprocess_communications_listener_button(GtkButton *button) // Todo changes in notes should get indexed.
 {
   extern URLTransport * urltransport;
   // Process the message if it looks good.
@@ -6536,17 +6539,19 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
             if (parseline.lines[i].find ("insertions(+)") != string::npos) {
               display_change_lines = false;
             }
-            if (display_change_lines) {
-              gw_message (parseline.lines[i]);
-            }
             if (parseline.lines[i].find ("Fast forward") == 0) {
-              display_change_lines = true;
+              display_change_lines = false;
               ping_git_maintenance = true;
             }
             if (parseline.lines[i].find ("modified:") != string::npos) {
+              display_change_lines = false;
               gw_message (parseline.lines[i]);
               ping_git_maintenance = true;
             }
+            if (display_change_lines) {
+              gw_message (parseline.lines[i]);
+            }
+            notes_handle_vcs_feedback (vcs_git_directory, parseline.lines[i]); // Todo
           }
           if (ping_git_maintenance) {
             maintenance_register_git_repository (vcs_git_directory);
@@ -6583,14 +6588,20 @@ Todo tasks.
 task #9763: share the project notes through a repository
 
 Sharing project notes.
-* Make Send / Receive for notes as well.
-* To try remote repository setup dialog for Bibles, this dialog, and also for notes, whether both keep working well.
+* After setting up the remote repository, it must recreate the index, removing the old one. This would be a method to recreate it.
+  It is a bit of work to do that properly, can't we just leave the index out? It might get slower, but more accurate.
 * When syncing we need to notice whether changes were pulled in, and then update the index database accordingly.
 * The user should have a tool to re-create the index by hand, as normally this won't happen.
-* Let the Send/ Receive work for separate projects as well, e.g. "All" or "Focused Bible".
-* Fix the warning about "push.default".
 * Update the helpfile for the notes sharing, and refer to the project collaboration notes as the basis of all.
   Only small changes in relation to that, really. Also to update the menu.
+* Mention Send / Receive for notes in the helpfile.
+* To get information properly back to the main bibledit, we need to transfer xml information up and down.
+* Everybody can listen to the "focus" on his own channel. Channels are craeted on the fly.
+* Everybody can als send his "focus".
+* When bibledit quits, or when a command is given on a web page, then the table with the focus commands is dropped. 
+  Software should recreate it next time when reading the table fails.
+* When giving repository "git://198.168.0.1./" it hangs forever while testing read access. To create a cancel function for that.
+  Note the wrong server name.
 
 
 
@@ -6909,6 +6920,13 @@ email preferences.
 When the site is in stealth mode, several feeds can be set up by the administrator which display on the front page.
 If an existing user logs in, he goes to the translation menu. But new users that create an account, they only can subscribe with their email
 address to the existing feed (s). This hides the site by faking some functionality.
+
+If there is no good internationalization handling, we could write our own using a database with the english and the target language.
+A handler reads this database, and if the translation is found it returns it, else it returns the English input.
+
+JavaScript library jquery.com is recommended.
+
+
 
 
 

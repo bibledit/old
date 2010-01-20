@@ -1010,7 +1010,7 @@ ustring notes_logbook_line ()
 }
 
 
-void notes_store_index_entry (sqlite3 *db, gint32 id)
+void notes_store_index_entry (sqlite3 *db, gint32 id) // Todo
 {
   gchar *sql;
 
@@ -1029,6 +1029,11 @@ void notes_store_index_entry (sqlite3 *db, gint32 id)
   int date_modified;
   ustring logbook;
   notes_read_one_from_file (id, note, project, references, category, date_created, user_created, date_modified, logbook);
+  
+  // Bail out if there's no note.
+  if (note.empty()) {
+    return;
+  }
 
   // Attend to the id: use variable "id".
   
@@ -1078,6 +1083,9 @@ void notes_create_index ()
 // This creates an index for the notes stored in plain files.
 {
   ProgressWindow progresswindow ("Creating notes index", false);
+
+  // Remove any old index.
+  unlink (notes_index_filename ().c_str());
   
   // Create index database.
   sqlite3 *db;
@@ -1115,6 +1123,60 @@ void notes_create_index ()
 
   // Close connection.  
   sqlite3_close(db);
+}
+
+
+void notes_handle_vcs_feedback (const ustring& directory, const ustring& feedback) // Todo
+// This handles the feedback that comes from the version control system.
+{
+  if (directory == notes_shared_storage_folder ()) {
+
+    unsigned int note_id = 0;
+
+    // The following feedback indicates that somebody created a new note: 
+    // create mode 100644 27185458
+    if (feedback.find ("create mode") != string::npos) {
+      ustring s (feedback);
+      s.erase (12);
+      Parse parse (s);
+      if (parse.words.size () == 2) {
+        note_id = convert_to_int (parse.words[1]);
+      }
+    }
+
+    // The following feedback indicates that somebody modified a note:
+    // #	modified:   27185458
+    if (feedback.find ("modified:") != string::npos) {
+      ustring s (feedback);
+      s.erase (12);
+      note_id = convert_to_int (number_in_string (feedback));
+    }
+
+    // The following feedback indicates that somebody deleted a note:
+    // #	deleted:    46473236    
+    if (feedback.find ("deleted:") != string::npos) {
+      ustring s (feedback);
+      s.erase (11);
+      note_id = convert_to_int (number_in_string (feedback));
+    }
+  
+    // See the following:
+    // 95935882 |    9 +++++++++
+    // It means that this note was edited.
+    if (feedback.find (" |  ") != string::npos) {
+      note_id = convert_to_int (number_in_string (feedback));
+    }
+    
+    if (note_id != 0) {
+      gw_message ("Change detected for note " + convert_to_string (note_id));
+      // Update the index.
+      sqlite3 *db;
+      sqlite3_open(notes_index_filename ().c_str(), &db);
+      sqlite3_busy_timeout(db, 1000);
+      notes_store_index_entry (db, note_id);
+      sqlite3_close(db);
+    }    
+  }
 }
 
 
