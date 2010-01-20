@@ -467,7 +467,7 @@ protected:
   static void on_new_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_new_note();
   static void on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem, gpointer user_data); // Todo
+  static void on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_consultant_notes_send_receive ();
   static void on_viewnotes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_notes();

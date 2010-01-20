@@ -199,8 +199,8 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
 
 
 void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const ustring& currentreference,
-                  const ustring& category, NotesSelectionReferenceType refselection, NotesSelectionEditedType editedselection,
-                  bool currentprojectselection, int date_from, int date_to) 
+                   const ustring& category, NotesSelectionReferenceType refselection, NotesSelectionEditedType editedselection,
+                   bool currentprojectselection, int date_from, int date_to) 
 /*
  This selects notes for display.
  It does this based on the variables passed, including the current reference.
@@ -321,9 +321,9 @@ void notes_select(vector <unsigned int>& ids, unsigned int & id_cursor, const us
         }
         case nsetDateRange:
         {
-          if (modified_date < date_from);
+          if (modified_date < date_from)
             continue;
-          if (modified_date > date_to);
+          if (modified_date > date_to)
             continue;
           break;
         }
@@ -1010,7 +1010,7 @@ ustring notes_logbook_line ()
 }
 
 
-void notes_store_index_entry (sqlite3 *db, gint32 id) // Todo
+void notes_store_index_entry (sqlite3 *db, gint32 id)
 {
   gchar *sql;
 
@@ -1126,7 +1126,7 @@ void notes_create_index ()
 }
 
 
-void notes_handle_vcs_feedback (const ustring& directory, const ustring& feedback) // Todo
+void notes_handle_vcs_feedback (const ustring& directory, const ustring& feedback)
 // This handles the feedback that comes from the version control system.
 {
   if (directory == notes_shared_storage_folder ()) {

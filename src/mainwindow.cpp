@@ -6494,7 +6494,7 @@ void MainWindow::on_interprocess_communications_listener_button_clicked(GtkButto
 }
 
 
-void MainWindow::on_interprocess_communications_listener_button(GtkButton *button) // Todo changes in notes should get indexed.
+void MainWindow::on_interprocess_communications_listener_button(GtkButton *button)
 {
   extern URLTransport * urltransport;
   // Process the message if it looks good.
@@ -6551,7 +6551,7 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
             if (display_change_lines) {
               gw_message (parseline.lines[i]);
             }
-            notes_handle_vcs_feedback (vcs_git_directory, parseline.lines[i]); // Todo
+            notes_handle_vcs_feedback (vcs_git_directory, parseline.lines[i]);
           }
           if (ping_git_maintenance) {
             maintenance_register_git_repository (vcs_git_directory);
@@ -6587,7 +6587,7 @@ Todo tasks.
 
 task #9763: share the project notes through a repository
 
-Sharing project notes.
+SSharing project notes.
 * After setting up the remote repository, it must recreate the index, removing the old one. This would be a method to recreate it.
   It is a bit of work to do that properly, can't we just leave the index out? It might get slower, but more accurate.
 * When syncing we need to notice whether changes were pulled in, and then update the index database accordingly.
@@ -6602,6 +6602,7 @@ Sharing project notes.
   Software should recreate it next time when reading the table fails.
 * When giving repository "git://198.168.0.1./" it hangs forever while testing read access. To create a cancel function for that.
   Note the wrong server name.
+* The notes selection for dates does not seem to work, apart from 'today'. Is the index wrong?
 
 
 
