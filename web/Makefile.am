@@ -4,8 +4,8 @@ webroot = @WEBROOT@
 
 install-data-local:
 	mkdir -p $(WEBROOT)/bibledit
-	cp *.html $(WEBROOT)/bibledit
-	cp -r ipc $(WEBROOT)/bibledit
+	cp -r * $(WEBROOT)/bibledit
 	chmod 0777 $(WEBROOT)/bibledit/ipc/messages
+	chmod 0777 $(WEBROOT)/bibledit/templates_c
 
 

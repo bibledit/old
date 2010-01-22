@@ -3,6 +3,7 @@
 <head>
 <title>Messages</title>
 <meta http-equiv="refresh" content="1">
+<link rel="stylesheet" type="text/css" href="../css/stylesheet.css" />
 </head>
 
 <body>

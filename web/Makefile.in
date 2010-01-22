@@ -393,9 +393,9 @@ uninstall-am:
 
 install-data-local:
 	mkdir -p $(WEBROOT)/bibledit
-	cp *.html $(WEBROOT)/bibledit
-	cp -r ipc $(WEBROOT)/bibledit
+	cp -r * $(WEBROOT)/bibledit
 	chmod 0777 $(WEBROOT)/bibledit/ipc/messages
+	chmod 0777 $(WEBROOT)/bibledit/templates_c
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
