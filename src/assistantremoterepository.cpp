@@ -1003,7 +1003,9 @@ void RemoteRepositoryAssistant::test_write_access ()
 // Checks whether there is write access from the local clone to the remote repository.
 {
   // GUI update.
-  ProgressWindow progresswindow ("Testing write access", false);
+  // If a wrong host is entered as the git repository, the testing for the write access
+  // may "hang" for a long time. For that reason it can be cancelled by the user.
+  ProgressWindow progresswindow ("Testing write access", true);
   gtk_label_set_text (GTK_LABEL (label_write_test), "Testing write access to the remote repository");
 
   // Temporal file for trying write access.

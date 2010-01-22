@@ -6578,32 +6578,103 @@ Todo tasks.
 
 
 
+There is a need to mention on the installation document that the mysql root password if set to 'root' it would work out of the box.
+Else use the ./configure --with-mysql-root-password=<yourpassword> option.
+To also mention the ./configure --with-web-document-root=<root> option
+The pages in the web page, if run, and fail to connect to the database, should mention about this option, e.g. how to resolve it.
+This is put in the login script.
+Is there also a user to put data in the database without administering it? Yes, these can be created by the root user.
+The ./configure script also needs to "try" the database, just as other things, e.g. compilers, etc. are tried. to create a table, to drop it.
 
 
+The pecl/filter extension helps to sanitize user input: http://www.php.net/manual/en/intro.filter.php But is it good enough?
 
 
+The website. The local one is identical to the remote one. Authentication if off by default, so that for local sites free access is possible.
+If authentication is on, then the site can host multiple users. Each site has only one translation on it, which is the translation being done.
+The translation being done is the purpose of the site, so that public input can be obtained.
+Bibledit can access many sites, the local one always, and one remote site can be set for each project.
+Better use PHP for it since this is well established even when looking for hosting.
+Another advantage is that since the bibledit programmer uses C++, and since PHP looks much the same, there's no learning curve.
+It is important to use object oriented programming, and code re-use.
+It is helpful if the databases are put sqlite, since this does not need credentials, and can be easily moved over if the server gets moved.
+See http://www.tuxradar.com/practicalphp
+There's one main site with an index pages and frames.
+Within the frames applications run. This can be our own applications, or foreign ones.
+Each application is independent and separate.
+Strong separation between database for storage, the interface for the user, and glue in between.
+Messaging between applications and server for e.g. verse reference, other things.
+With Zend, we could make the basic Bibledit manually, which has frames to load the different applications in.
+We will then write a lot of separate applications that are more or less separate. Each applications could correspond to e.g. one Window as now in 
+Bibledit, and does one task.
+Not to use the zend framework that comes with a distribution, since these versions can change.
+* But to include our own components from the developer's zend distribution. This then goes into the library subdirectory of the application.
+
+Re: Enable .htaccess in Apache2
+Found the solution!! Apache2 in general, or it might be specifically to Ubuntu, is configured slightly differently than Apache1.x.. at least 
+* from what I've seen in the default installs in RH, FC, Mandrake, etc (I'm not Linux or Apache expert).
+
+I went to /etc/apache2/sites-available and edited the file default
+There you'll find:
+Default for AllowOverride is none, should be all
+/etc/init.d/apache2 restart to restart apache and your .htaccess files should now work!! How frustrating, but educational 
 
 
+It's as simple as running the following command in a terminal:
+Code:
+sudo a2enmod rewrite
 
-task #9763: share the project notes through a repository
+If it says: Fatal error: Cannot redeclare class Zend_Loader in /home/teus/work/zend/beginning-zend-example/loudbite/library/Zend/Loader.php on line 31
+then 
+In your config file (application.ini) comment out this line with a semicolon:
+;includePaths.library = APPLICATION_PATH "/../library"
+This will prevent Zend_Loader from being included twice.
 
-SSharing project notes.
-* After setting up the remote repository, it must recreate the index, removing the old one. This would be a method to recreate it.
-  It is a bit of work to do that properly, can't we just leave the index out? It might get slower, but more accurate.
-* When syncing we need to notice whether changes were pulled in, and then update the index database accordingly.
-* The user should have a tool to re-create the index by hand, as normally this won't happen.
-* Update the helpfile for the notes sharing, and refer to the project collaboration notes as the basis of all.
-  Only small changes in relation to that, really. Also to update the menu.
-* Mention Send / Receive for notes in the helpfile.
-* To get information properly back to the main bibledit, we need to transfer xml information up and down.
-* Everybody can listen to the "focus" on his own channel. Channels are craeted on the fly.
-* Everybody can als send his "focus".
-* When bibledit quits, or when a command is given on a web page, then the table with the focus commands is dropped. 
-  Software should recreate it next time when reading the table fails.
-* When giving repository "git://198.168.0.1./" it hangs forever while testing read access. To create a cancel function for that.
-  Note the wrong server name.
-* The notes selection for dates does not seem to work, apart from 'today'. Is the index wrong?
+When running a local web server, as many will do, and syncing data files of projects and notes with bibledit's repository, 
+then to run "unison" from the web server. The web server would already have write permissions, perhaps unison will also have permission to
+access to bibledit's data.
+Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
 
+The modules do not yet work well in Zend. We better make our own modular system, loosely coupled, so that
+we create a new applicaton for each module, and share the library for all, and any of our own classes.
+All these applications together for "bibledit", a loosely coupled modular lot of software&.
+
+To make out own ./zf routine, which comments out the offending bit, and after done, puts it back.
+
+First controller to make is for notes, but it also needs the project text.
+
+The ./configure script needs username and password of the mysql database, and access it to see if it works.
+The install script uses that and does the database upgrades required. It needs a clever algorithm that can see which upgrades are needed.
+* Therefore each database should store a version number as well.
+
+To use classes from phpclasses.org which has a lot of functionality built in.
+Not to use a framework.
+
+To have a Twitter module, that can send changes to twitter in a meaningful way.
+
+To have a module that creates a new GoBible each hour if there were changes. The user also can request to make a module "now", 
+which will be scheduled for the next minute. If there were no changes, it indicates this as well. There is also a very simple page for 
+access from cell phones.
+
+People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
+email preferences.
+
+When the site is in stealth mode, several feeds can be set up by the administrator which display on the front page.
+If an existing user logs in, he goes to the translation menu. But new users that create an account, they only can subscribe with their email
+address to the existing feed (s). This hides the site by faking some functionality.
+
+If there is no good internationalization handling, we could write our own using a database with the english and the target language.
+A handler reads this database, and if the translation is found it returns it, else it returns the English input.
+
+JavaScript library jquery.com is recommended.
+
+Files in the web root should be given such a mode that these cannot be read from outside, only from inside.
+This is: file permissions to -r--------.
+
+Change: If anybody from a country with persecution would like to contact the site, it should go through e.g. a ssh tunnel.
+
+The visitor to the site can see the default project, its text and comments. But to make comments, one has to get an account.
+Those with an account have vastly improved opportonities on the site.
 
 
 
@@ -6849,92 +6920,11 @@ Another thing that is sort of broken is the clicking on footnote numbers. This o
 
 
 
-The website. The local one is identical to the remote one. Authentication if off by default, so that for local sites free access is possible.
-If authentication is on, then the site can host multiple users. Each site has only one translation on it, which is the translation being done.
-The translation being done is the purpose of the site, so that public input can be obtained.
-Bibledit can access many sites, the local one always, and one remote site can be set for each project.
-Better use PHP for it since this is well established even when looking for hosting.
-Another advantage is that since the bibledit programmer uses C++, and since PHP looks much the same, there's no learning curve.
-It is important to use object oriented programming, and code re-use.
-It is helpful if the databases are put sqlite, since this does not need credentials, and can be easily moved over if the server gets moved.
-See http://www.tuxradar.com/practicalphp
-There's one main site with an index pages and frames.
-Within the frames applications run. This can be our own applications, or foreign ones.
-Each application is independent and separate.
-Strong separation between database for storage, the interface for the user, and glue in between.
-Messaging between applications and server for e.g. verse reference, other things.
-With Zend, we could make the basic Bibledit manually, which has frames to load the different applications in.
-We will then write a lot of separate applications that are more or less separate. Each applications could correspond to e.g. one Window as now in 
-Bibledit, and does one task.
-Not to use the zend framework that comes with a distribution, since these versions can change.
-* But to include our own components from the developer's zend distribution. This then goes into the library subdirectory of the application.
-
-Re: Enable .htaccess in Apache2
-Found the solution!! Apache2 in general, or it might be specifically to Ubuntu, is configured slightly differently than Apache1.x.. at least 
-* from what I've seen in the default installs in RH, FC, Mandrake, etc (I'm not Linux or Apache expert).
-
-I went to /etc/apache2/sites-available and edited the file default
-There you'll find:
-Default for AllowOverride is none, should be all
-/etc/init.d/apache2 restart to restart apache and your .htaccess files should now work!! How frustrating, but educational 
-
-
-It's as simple as running the following command in a terminal:
-Code:
-sudo a2enmod rewrite
-
-If it says: Fatal error: Cannot redeclare class Zend_Loader in /home/teus/work/zend/beginning-zend-example/loudbite/library/Zend/Loader.php on line 31
-then 
-In your config file (application.ini) comment out this line with a semicolon:
-;includePaths.library = APPLICATION_PATH "/../library"
-This will prevent Zend_Loader from being included twice.
-
-When running a local web server, as many will do, and syncing data files of projects and notes with bibledit's repository, 
-then to run "unison" from the web server. The web server would already have write permissions, perhaps unison will also have permission to
-access to bibledit's data.
-Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
-
-The modules do not yet work well in Zend. We better make our own modular system, loosely coupled, so that
-we create a new applicaton for each module, and share the library for all, and any of our own classes.
-All these applications together for "bibledit", a loosely coupled modular lot of software&.
-
-To make out own ./zf routine, which comments out the offending bit, and after done, puts it back.
-
-First controller to make is for notes, but it also needs the project text.
-
-The ./configure script needs username and password of the mysql database, and access it to see if it works.
-The install script uses that and does the database upgrades required. It needs a clever algorithm that can see which upgrades are needed.
-* Therefore each database should store a version number as well.
-
-To use classes from phpclasses.org which has a lot of functionality built in.
-Not to use a framework.
-
-To have a Twitter module, that can send changes to twitter in a meaningful way.
-
-To have a module that creates a new GoBible each hour if there were changes. The user also can request to make a module "now", 
-which will be scheduled for the next minute. If there were no changes, it indicates this as well. There is also a very simple page for 
-access from cell phones.
-
-People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
-email preferences.
-
-When the site is in stealth mode, several feeds can be set up by the administrator which display on the front page.
-If an existing user logs in, he goes to the translation menu. But new users that create an account, they only can subscribe with their email
-address to the existing feed (s). This hides the site by faking some functionality.
-
-If there is no good internationalization handling, we could write our own using a database with the english and the target language.
-A handler reads this database, and if the translation is found it returns it, else it returns the English input.
-
-JavaScript library jquery.com is recommended.
-
-
-
-
-
-When navigating through the chapter, going to the new chapter, it seems as if the right widget is not focused. 
-* As a result the wrong widget remains focused, and the verse jumps to another one.
-
-
+Independent and universal focus channels on the server.
+* Everybody can listen to the "focus" on his own channel. Channels are craeted on the fly.
+* Everybody can als send his "focus".
+* When bibledit quits, or when a command is given on a web page, then the table with the focus commands is dropped. 
+  Software should recreate it next time when reading the table fails.
 
 
 

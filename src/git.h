@@ -33,9 +33,9 @@ enum GitConflictHandlingType {gchtTakeMe, gchtTakeServer};
 
 void git_upgrade ();
 void git_revert_to_internal_repository (const ustring& project);
-void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter); // Todo make general so it also does the notes.
+void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 ustring git_mine_conflict_marker ();
-void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors); // Todo make general?
+void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
 void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated);
 void git_pull_push (const ustring& project);
 void git_pull_push_directory (const ustring& directory);

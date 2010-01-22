@@ -223,6 +223,9 @@
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
 
+/* Define the root password of the MySQL database */
+#undef MYSQL_ROOT_PASSWORD
+
 /* Name of package */
 #undef PACKAGE
 
@@ -264,6 +267,9 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Define the local web server document root */
+#undef WEBROOT
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const

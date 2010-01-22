@@ -2,13 +2,34 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.34],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.36],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.h])
+
+# MySQL database root password.
+MYSQL_ROOT_PASSWORD_DEFAULT="root"
+AC_ARG_WITH(mysql-root-password,
+        [  --with-mysql-root-password=password
+                          MySQL database root password],
+        [ MYSQL_ROOT_PASSWORD=$withval ],
+        [ MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD_DEFAULT ]
+)
+AC_DEFINE([MYSQL_ROOT_PASSWORD], [], [Define the root password of the MySQL database])
+AC_DEFINE_UNQUOTED(MYSQL_ROOT_PASSWORD, "$MYSQL_ROOT_PASSWORD")
+AC_SUBST(MYSQL_ROOT_PASSWORD)
+
+# Local web server document root. Todo
+WEBROOT_DEFAULT="/"
+AC_ARG_WITH(web-document-root,
+        [  --with-web--document-root=root
+                          Local web server document root],
+        [ WEBROOT=$withval ],
+        [ WEBROOT=$WEBROOT_DEFAULT ]
+)
 
 # Checks for programs.
 AC_SEARCH_LIBS([strerror],[cposix])
@@ -141,6 +162,11 @@ if test x$FIND_CURL = xno; then
   AC_MSG_ERROR(Program "curl" is needed. Install this first.)
 fi
 
+AC_PATH_PROG(FIND_MYSQL, mysql, no)
+if test x$FIND_MYSQL = xno; then
+  AC_MSG_ERROR(Program "mysql" is needed. Install this first.)
+fi
+
 # Checks for libraries.
 
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.16.0,,AC_MSG_ERROR(glib development version >= 2.16.0 is needed.))
@@ -263,48 +289,63 @@ AC_PROG_GCC_TRADITIONAL
 
 
 # Check for web server on localhost.
-curl localhost > /dev/null
+AC_MSG_CHECKING(local web server)
+curl -s http://localhost > /dev/null
 if test $? -ne 0
   then
+    AC_MSG_RESULT(no)
     AC_MSG_ERROR(A local web server such as Apache is required but it was not found or it is not running)
     exit 1
 fi
+AC_MSG_RESULT(yes)
 
 
-# Location of web root.
-WEBROOT=/
-test -d /var/www
-if [ [ $? -eq 0 ] ]
-then
-  WEBROOT=/var/www
+# Check access to local MySQL installation
+AC_MSG_CHECKING(access to local MySQL server)
+echo quit | mysql --user=root --pass=${MYSQL_ROOT_PASSWORD}
+if test $? -ne 0
+  then
+    AC_MSG_RESULT(no)
+    AC_MSG_ERROR(The local MySQL server could not be accessed or it is not running)
+    exit 1
 fi
-test -d /var/www/html
-if [ [ $? -eq 0 ] ]
-then
-  WEBROOT=/var/www/html
-fi
-test -d /srv/www/htdocs
-if [ [ $? -eq 0 ] ]
-then
-  WEBROOT=/srv/www/htdocs
-fi
-test -d /Library/WebServer/Documents
-if [ [ $? -eq 0 ] ]
-then
-  WEBROOT=/Library/WebServer/Documents
-fi
-echo Web document root at ${WEBROOT}
-AC_SUBST(WEBROOT)
+AC_MSG_RESULT(yes)
+
+
+# Location of web root to be automatically looked up if the user didn't give it. Todo
+AC_MSG_CHECKING(local web server document root)
 if [ [ $WEBROOT == "/" ] ]
   then
-    echo WARNING
-    echo WARNING
-    echo WARNING
-    echo WARNING Could not find local web server document root folder
-    echo WARNING
-    echo WARNING
-    echo WARNING
+    test -d /var/www
+    if [ [ $? -eq 0 ] ]
+    then
+      WEBROOT=/var/www
+    fi
+    test -d /var/www/html
+    if [ [ $? -eq 0 ] ]
+    then
+      WEBROOT=/var/www/html
+    fi
+    test -d /srv/www/htdocs
+    if [ [ $? -eq 0 ] ]
+    then
+      WEBROOT=/srv/www/htdocs
+    fi
+    test -d /Library/WebServer/Documents
+    if [ [ $? -eq 0 ] ]
+    then
+      WEBROOT=/Library/WebServer/Documents
+    fi
 fi
+if [ [ $WEBROOT == "/" ] ]
+  then
+    AC_MSG_RESULT(no)
+    AC_ERROR(Could not find local web server document root folder. Provide the information through: --with-web-document-root=<root>)
+fi
+AC_MSG_RESULT(${WEBROOT})
+AC_DEFINE([WEBROOT], [], [Define the local web server document root])
+AC_DEFINE_UNQUOTED(WEBROOT, "$WEBROOT")
+AC_SUBST(WEBROOT)
 
 
 # Checks for Additional stuffs.
