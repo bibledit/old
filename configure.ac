@@ -443,7 +443,6 @@ AC_CONFIG_FILES([Makefile
        dbus/Makefile
        vcs/Makefile
        xetex/Makefile
-       zend/Makefile
 		   ])
 AC_OUTPUT
 

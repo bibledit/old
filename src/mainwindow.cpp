@@ -6676,6 +6676,8 @@ Change: If anybody from a country with persecution would like to contact the sit
 The visitor to the site can see the default project, its text and comments. But to make comments, one has to get an account.
 Those with an account have vastly improved opportonities on the site.
 
+If a new version is installed, and routines are to be done, to be sure it always installs a file as a flag.
+When this flag is found, the site says that after maintenance by the administrator it runs again (or similar).
 
 
 
