@@ -6578,11 +6578,50 @@ Todo tasks.
 
 
 
-Pay attention to internationalization. Best is gettext. Look into smarty-gettext. Best is to include that code.
+Headers and footers. Use an instance of smarty for for each, called in a 'header' 
+and in a 'footer' function in similarly named files in similarly named directories.
+Passing 0 inserts a very minimal header, and 1 inserts the fully-fledged header.
+
+
+Pay attention to internationalization.
 We need to get gettext working, and so need to have accounts where the user can set his language.
-The administrator sets the default language for the site to be displayed in.
+The administrator sets the default language for the site to be displayed in for guests and before login.
 To use headers and footers, see Smarty demos.
-Apress Beginning PHP and MySQL page 628
+To find out how to extract a .pot file from smarty templates.
+
+On Ubuntu for extra locales, install packages like "language-pack-*". After installing a new pack, run "locale-gen" and restart Apache (sudo apache2ctl restart)
+to make this new locale to take effect. This should go in the installation manual.
+
+To go through the various php functions called and read the comments, and learn from it.
+setlocale(LC_ALL, ""); Takes the locale from the environment.
+Before setting the locale, the php page runs 'locale -a' to see the available locales on the system.
+Then, it needs to check whether bibledit provides this translation, and advise the user appropriately.
+
+A little function to test available locales on a sytem :
+<?php
+function list_system_locales(){
+    ob_start();
+    system('locale -a'); 
+    $str = ob_get_contents();
+    ob_end_clean();
+    return split("\\n", trim($str));
+}
+
+$locale = "fr_FR.UTF8";
+$locales = list_system_locales();
+
+if(in_array($locale, $locales)){
+        echo "yes yes yes....";
+}else{
+        echo "no no no.......";
+}
+?>
+
+When setting translation domains in the preferences, do a check on the functions' return values if it worked out well.
+
+The administrator can leave the locale empty, in which case the system locale will be taken. This should be the default for local installations.
+
+
 
 The autotools installation script should give ownership of the files to the http user, and do no more than that. 
 * Then the site installation script should set all permissions right and secure.
@@ -6591,7 +6630,7 @@ The autotools installation script should give ownership of the files to the http
 
 Web editors:
 * NVU (not maintained)
-* Quanta Plus (quanta)
+* Quanta Plus (quanta) <-- best
 * kdewebdev
 * kompozer
 
