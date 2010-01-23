@@ -1,8 +1,22 @@
 name: bibledit
+files: /home/teus/documents/dev/bibledit/web/templates/index.tpl
+files: /home/teus/documents/dev/bibledit/web/index.php
 basedir: /home/teus/documents/dev/bibledit/web/
 webdir: http://localhost/bibledit
 template: 
 word_wrap: 0
+recent_files: /home/teus/documents/dev/bibledit/web/templates/index.tpl
+recent_files: /home/teus/documents/dev/bibledit/web/index.php
+recent_files: /home/teus/documents/dev/bibledit/web/ipc/messages/README
+recent_files: /home/teus/documents/dev/bibledit/web/cache/README
+recent_files: /home/teus/documents/dev/bibledit/web/configs/README
+recent_files: /home/teus/documents/dev/bibledit/web/templates_c/README
+recent_files: /home/teus/documents/dev/bibledit/web/index.html
+recent_files: /home/teus/documents/dev/bibledit/web/index.tpl
+recent_files: /home/teus/documents/dev/bibledit/web/ipc/index.php
+recent_files: /home/teus/documents/dev/bibledit/web/smarty/Smarty.class.php
+opendir: /home/teus/documents/dev/bibledit/web/templates
+savedir: /home/teus/documents/dev/bibledit/web/templates
 view_html_toolbar: 1
 view_custom_menu: 1
 view_main_toolbar: 1

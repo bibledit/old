@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.36],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.37],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -22,7 +22,7 @@ AC_DEFINE([MYSQL_ROOT_PASSWORD], [], [Define the root password of the MySQL data
 AC_DEFINE_UNQUOTED(MYSQL_ROOT_PASSWORD, "$MYSQL_ROOT_PASSWORD")
 AC_SUBST(MYSQL_ROOT_PASSWORD)
 
-# Local web server document root. Todo
+# Local web server document root.
 WEBROOT_DEFAULT="/"
 AC_ARG_WITH(web-document-root,
         [  --with-web--document-root=root
@@ -300,19 +300,23 @@ fi
 AC_MSG_RESULT(yes)
 
 
-# Check access to local MySQL installation
+# Check access to local MySQL installation // Todo
 AC_MSG_CHECKING(access to local MySQL server)
 echo quit | mysql --user=root --pass=${MYSQL_ROOT_PASSWORD}
 if test $? -ne 0
   then
     AC_MSG_RESULT(no)
-    AC_MSG_ERROR(The local MySQL server could not be accessed or it is not running)
+    AC_MSG_WARN(The local MySQL server could not be accessed)
+    AC_MSG_WARN(Is the MySQL server running?)
+    AC_MSG_WARN(Is the password for the 'root' user correct?)
+    AC_MSG_WARN(Try ./configure --with-mysql-root-password=mysecret)
+    AC_MSG_ERROR(Fatal error)
     exit 1
 fi
 AC_MSG_RESULT(yes)
 
 
-# Location of web root to be automatically looked up if the user didn't give it. Todo
+# Location of web root to be automatically looked up if the user didn't give it.
 AC_MSG_CHECKING(local web server document root)
 if [ [ $WEBROOT == "/" ] ]
   then

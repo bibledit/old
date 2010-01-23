@@ -6578,77 +6578,50 @@ Todo tasks.
 
 
 
-There is a need to mention on the installation document that the mysql root password if set to 'root' it would work out of the box.
-Else use the ./configure --with-mysql-root-password=<yourpassword> option.
-To also mention the ./configure --with-web-document-root=<root> option
-The pages in the web page, if run, and fail to connect to the database, should mention about this option, e.g. how to resolve it.
-This is put in the login script.
-Is there also a user to put data in the database without administering it? Yes, these can be created by the root user.
-The ./configure script also needs to "try" the database, just as other things, e.g. compilers, etc. are tried. to create a table, to drop it.
+Pay attention to internationalization. Best is gettext. Look into smarty-gettext. Best is to include that code.
+We need to get gettext working, and so need to have accounts where the user can set his language.
+The administrator sets the default language for the site to be displayed in.
+To use headers and footers, see Smarty demos.
+Apress Beginning PHP and MySQL page 628
+
+The autotools installation script should give ownership of the files to the http user, and do no more than that. 
+* Then the site installation script should set all permissions right and secure.
+* The site installation script is presented to the user after a fresh installation since a flag will be there that requires that.
 
 
-The pecl/filter extension helps to sanitize user input: http://www.php.net/manual/en/intro.filter.php But is it good enough?
+Web editors:
+* NVU (not maintained)
+* Quanta Plus (quanta)
+* kdewebdev
+* kompozer
 
 
-The website. The local one is identical to the remote one. Authentication if off by default, so that for local sites free access is possible.
-If authentication is on, then the site can host multiple users. Each site has only one translation on it, which is the translation being done.
-The translation being done is the purpose of the site, so that public input can be obtained.
-Bibledit can access many sites, the local one always, and one remote site can be set for each project.
-Better use PHP for it since this is well established even when looking for hosting.
-Another advantage is that since the bibledit programmer uses C++, and since PHP looks much the same, there's no learning curve.
-It is important to use object oriented programming, and code re-use.
-It is helpful if the databases are put sqlite, since this does not need credentials, and can be easily moved over if the server gets moved.
-See http://www.tuxradar.com/practicalphp
+
+Users can open an account on the site. 
+
+The site has one default translation, set by the site administrator. Visitors get to see this default translation.
+
+The purpose of the site is to inform the public about a translation in progress and to sollicit their input.
+
 There's one main site with an index pages and frames.
 Within the frames applications run. This can be our own applications, or foreign ones.
 Each application is independent and separate.
-Strong separation between database for storage, the interface for the user, and glue in between.
-Messaging between applications and server for e.g. verse reference, other things.
-With Zend, we could make the basic Bibledit manually, which has frames to load the different applications in.
-We will then write a lot of separate applications that are more or less separate. Each applications could correspond to e.g. one Window as now in 
-Bibledit, and does one task.
-Not to use the zend framework that comes with a distribution, since these versions can change.
-* But to include our own components from the developer's zend distribution. This then goes into the library subdirectory of the application.
+Make our own modular system, loosely coupled, so that we create a new applicaton for each module, 
+* and share the library for all, and any of our own classes.
+All these applications together form "bibledit", a loosely coupled modular lot of software.
 
-Re: Enable .htaccess in Apache2
-Found the solution!! Apache2 in general, or it might be specifically to Ubuntu, is configured slightly differently than Apache1.x.. at least 
-* from what I've seen in the default installs in RH, FC, Mandrake, etc (I'm not Linux or Apache expert).
+Strong separation between the application logic and the presentation to the user.
 
-I went to /etc/apache2/sites-available and edited the file default
-There you'll find:
-Default for AllowOverride is none, should be all
-/etc/init.d/apache2 restart to restart apache and your .htaccess files should now work!! How frustrating, but educational 
-
-
-It's as simple as running the following command in a terminal:
-Code:
-sudo a2enmod rewrite
-
-If it says: Fatal error: Cannot redeclare class Zend_Loader in /home/teus/work/zend/beginning-zend-example/loudbite/library/Zend/Loader.php on line 31
-then 
-In your config file (application.ini) comment out this line with a semicolon:
-;includePaths.library = APPLICATION_PATH "/../library"
-This will prevent Zend_Loader from being included twice.
+Messaging between applications and server for e.g. verse reference, and many other things, e.g. lists of verses to be sent to the references window.
 
 When running a local web server, as many will do, and syncing data files of projects and notes with bibledit's repository, 
-then to run "unison" from the web server. The web server would already have write permissions, perhaps unison will also have permission to
-access to bibledit's data.
 Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
 
-The modules do not yet work well in Zend. We better make our own modular system, loosely coupled, so that
-we create a new applicaton for each module, and share the library for all, and any of our own classes.
-All these applications together for "bibledit", a loosely coupled modular lot of software&.
-
-To make out own ./zf routine, which comments out the offending bit, and after done, puts it back.
-
-First controller to make is for notes, but it also needs the project text.
-
-The ./configure script needs username and password of the mysql database, and access it to see if it works.
-The install script uses that and does the database upgrades required. It needs a clever algorithm that can see which upgrades are needed.
-* Therefore each database should store a version number as well.
+The install script uses the root db password and does the database upgrades required. 
+It needs a clever algorithm that can see which upgrades are needed.
+Therefore each database should store a version number as well.
 
 To use classes from phpclasses.org which has a lot of functionality built in.
-Not to use a framework.
 
 To have a Twitter module, that can send changes to twitter in a meaningful way.
 
@@ -6659,25 +6632,23 @@ access from cell phones.
 People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
 email preferences.
 
-When the site is in stealth mode, several feeds can be set up by the administrator which display on the front page.
-If an existing user logs in, he goes to the translation menu. But new users that create an account, they only can subscribe with their email
-address to the existing feed (s). This hides the site by faking some functionality.
-
-If there is no good internationalization handling, we could write our own using a database with the english and the target language.
-A handler reads this database, and if the translation is found it returns it, else it returns the English input.
-
 JavaScript library jquery.com is recommended.
 
 Files in the web root should be given such a mode that these cannot be read from outside, only from inside.
 This is: file permissions to -r--------.
-
-Change: If anybody from a country with persecution would like to contact the site, it should go through e.g. a ssh tunnel.
 
 The visitor to the site can see the default project, its text and comments. But to make comments, one has to get an account.
 Those with an account have vastly improved opportonities on the site.
 
 If a new version is installed, and routines are to be done, to be sure it always installs a file as a flag.
 When this flag is found, the site says that after maintenance by the administrator it runs again (or similar).
+
+The crontab needs to ping the local site every minute, so that the site gets some timed logic, e.g. for syncing data with the external repository.
+The 'make install' should install this line into the crontab if it was not already there. The PHP software should be able to handle multiple pings,
+e.g. such as can come from multiple sources, so that it throws away pings that come within the minute, and only takes those that are at or after
+the minute. curl can send such requests. To go to > / dev/null 2>&1
+
+
 
 
 

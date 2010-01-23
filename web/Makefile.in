@@ -208,8 +208,8 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = ipc *.html
-CLEANFILES = *~ ipc/*~
+EXTRA_DIST = *
+CLEANFILES = *~
 webroot = @WEBROOT@
 all: all-am
 
@@ -313,7 +313,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-generic clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
@@ -379,9 +379,9 @@ uninstall-am:
 
 .MAKE: install-am install-strip
 
-.PHONY: all all-am check check-am clean clean-generic distclean \
-	distclean-generic distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am \
+.PHONY: all all-am check check-am clean clean-generic clean-local \
+	distclean distclean-generic distdir dvi dvi-am html html-am \
+	info info-am install install-am install-data install-data-am \
 	install-data-local install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-pdf install-pdf-am \
@@ -396,6 +396,10 @@ install-data-local:
 	cp -r * $(WEBROOT)/bibledit
 	chmod 0777 $(WEBROOT)/bibledit/ipc/messages
 	chmod 0777 $(WEBROOT)/bibledit/templates_c
+	chmod 0777 $(WEBROOT)/bibledit/cache
+
+clean-local:
+	find . -iname *~ -delete
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
