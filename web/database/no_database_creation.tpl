@@ -3,18 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
-<title>{$pagetitle}</title>
+<title>{t}Database creation{/t}</title>
 <link rel="stylesheet" type="text/css" href="css/stylesheet.css"></link>
 </head>
 
 <body>
-<h1>{$pagetitle}</h1>
+<h1>{t}Cannot create database{/t}</h1>
 
-<p>{t}Welcome to Bibledit on the web{/t}</p>
+<p>{t}An error occurred while trying to create a database on the MySQL database server. This is the error:{/t}</p>
 
-<p><a href="site/home.html">View documentation</a></p>
+<p><strong>{$database_error}</strong></p>
 
-<p><a href="ipc">View interprocess communication messages</a></p>
+<p>{t}The error may help you find a solution for this problem when searching the internet or the Bibledit related discussion lists.{/t}</p> 
 
 </body>
 </html>

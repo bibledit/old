@@ -2,41 +2,17 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.37],[http://www.nongnu.org/bibledit])
-AC_CANONICAL_TARGET
+AC_INIT([bibledit],[4.0.44],[http://www.nongnu.org/bibledit])
+# AC_CANONICAL_TARGET
 ac_default_prefix=/usr
-AC_CONFIG_MACRO_DIR([m4])
+# AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.h])
 
-# MySQL database root password.
-MYSQL_ROOT_PASSWORD_DEFAULT="root"
-AC_ARG_WITH(mysql-root-password,
-        [  --with-mysql-root-password=password
-                          MySQL database root password],
-        [ MYSQL_ROOT_PASSWORD=$withval ],
-        [ MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD_DEFAULT ]
-)
-AC_DEFINE([MYSQL_ROOT_PASSWORD], [], [Define the root password of the MySQL database])
-AC_DEFINE_UNQUOTED(MYSQL_ROOT_PASSWORD, "$MYSQL_ROOT_PASSWORD")
-AC_SUBST(MYSQL_ROOT_PASSWORD)
-
-# Local web server document root.
-WEBROOT_DEFAULT="/"
-AC_ARG_WITH(web-document-root,
-        [  --with-web--document-root=root
-                          Local web server document root],
-        [ WEBROOT=$withval ],
-        [ WEBROOT=$WEBROOT_DEFAULT ]
-)
-
 # Checks for programs.
-AC_SEARCH_LIBS([strerror],[cposix])
 AC_PROG_CC
 AC_PROG_CC_STDC
-
-AC_PROG_RANLIB
 AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_CC
@@ -243,12 +219,6 @@ AC_SUBST(LIBSOUP_LIBS)
 
 
 # Checks for header files.
-AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h unistd.h sys/uio.h)
-AC_HEADER_DIRENT
-AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([arpa/inet.h limits.h locale.h netdb.h netinet/in.h stddef.h stdlib.h string.h sys/file.h sys/socket.h sys/time.h unistd.h])
-AC_CHECK_HEADERS([sys/ioctl.h])
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
 
 # This code is kept to learn from.
@@ -257,35 +227,6 @@ AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. 
 # AC_CHECK_HEADER(pspell/pspell.h, [AC_DEFINE(HAVE_PSPELL_H,1, 
 #    [Define to 1 if you have the <pspell/pspell.h> header file.] )] )
 # AC_SUBST(SPELLER_LIB)
-
-
-# Checks for typedefs, structures, and compiler characteristics.
-AC_HEADER_STDBOOL
-AC_C_CONST
-AC_TYPE_SIZE_T
-AC_C_INLINE
-AC_TYPE_PID_T
-AC_TYPE_SIZE_T
-AC_HEADER_TIME
-AC_C_VOLATILE
-
-# Checks for library functions.
-AC_CHECK_FUNCS([strdup strstr])
-AC_FUNC_CLOSEDIR_VOID
-AC_FUNC_FORK
-AC_FUNC_REALLOC
-AC_FUNC_SELECT_ARGTYPES
-AC_FUNC_STAT
-AC_FUNC_STRTOD
-AC_CHECK_FUNCS([atexit dup2 ftruncate inet_ntoa memchr memmove memset mkdir rint select setlocale socket strchr strcspn strpbrk strrchr strstr strtol])
-AC_CHECK_FUNCS([gethostbyname gethostbyaddr])
-AC_CHECK_FUNCS([endgrent endpwent getcwd gethostname strerror tzset mkfifo stpcpy])
-AC_CHECK_HEADERS([sys/param.h])
-AC_FUNC_CHOWN
-AC_FUNC_LSTAT
-AC_TYPE_UID_T
-AC_FUNC_ERROR_AT_LINE
-AC_PROG_GCC_TRADITIONAL
 
 
 # Check for web server on localhost.
@@ -300,7 +241,20 @@ fi
 AC_MSG_RESULT(yes)
 
 
-# Check access to local MySQL installation // Todo
+# MySQL database root password.
+MYSQL_ROOT_PASSWORD_DEFAULT="root"
+AC_ARG_WITH(mysql-root-password,
+        [  --with-mysql-root-password=password
+                          MySQL database root password],
+        [ MYSQL_ROOT_PASSWORD=$withval ],
+        [ MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD_DEFAULT ]
+)
+AC_DEFINE([MYSQL_ROOT_PASSWORD], [], [Define the root password of the MySQL database])
+AC_DEFINE_UNQUOTED(MYSQL_ROOT_PASSWORD, "$MYSQL_ROOT_PASSWORD")
+AC_SUBST(MYSQL_ROOT_PASSWORD)
+
+
+# Check access to local MySQL installation
 AC_MSG_CHECKING(access to local MySQL server)
 echo quit | mysql --user=root --pass=${MYSQL_ROOT_PASSWORD}
 if test $? -ne 0
@@ -317,6 +271,14 @@ AC_MSG_RESULT(yes)
 
 
 # Location of web root to be automatically looked up if the user didn't give it.
+# Local web server document root.
+WEBROOT_DEFAULT="/"
+AC_ARG_WITH(web-document-root,
+        [  --with-web-document-root=root
+                          Local web server document root],
+        [ WEBROOT=$withval ],
+        [ WEBROOT=$WEBROOT_DEFAULT ]
+)
 AC_MSG_CHECKING(local web server document root)
 if [ [ $WEBROOT == "/" ] ]
   then
@@ -350,6 +312,29 @@ AC_MSG_RESULT(${WEBROOT})
 AC_DEFINE([WEBROOT], [], [Define the local web server document root])
 AC_DEFINE_UNQUOTED(WEBROOT, "$WEBROOT")
 AC_SUBST(WEBROOT)
+
+
+# Web site administrator user name and password.
+SITE_ADMIN_USERNAME_DEFAULT="adminusername"
+AC_ARG_WITH(site-admin-username,
+        [  --with-site-admin-username=username
+                          Site Administrator username],
+        [ SITE_ADMIN_USERNAME=$withval ],
+        [ SITE_ADMIN_USERNAME=$SITE_ADMIN_USERNAME_DEFAULT ]
+)
+AC_DEFINE([SITE_ADMIN_USERNAME], [], [Define the username of the site administrator])
+AC_DEFINE_UNQUOTED(SITE_ADMIN_USERNAME, "$SITE_ADMIN_USERNAME")
+AC_SUBST(SITE_ADMIN_USERNAME)
+SITE_ADMIN_PASSWORD_DEFAULT="adminpassword"
+AC_ARG_WITH(site-admin-password,
+        [  --with-site-admin-password=password
+                          Site Administrator password],
+        [ SITE_ADMIN_PASSWORD=$withval ],
+        [ SITE_ADMIN_PASSWORD=$SITE_ADMIN_PASSWORD_DEFAULT ]
+)
+AC_DEFINE([SITE_ADMIN_PASSWORD], [], [Define the password of the site administrator])
+AC_DEFINE_UNQUOTED(SITE_ADMIN_PASSWORD, "$SITE_ADMIN_PASSWORD")
+AC_SUBST(SITE_ADMIN_PASSWORD)
 
 
 # Checks for Additional stuffs.
@@ -416,44 +401,89 @@ packagelocalstatedir=var/${PACKAGE}
 
 # Subst PACKAGE_DATA_DIR.
 if test "x${datarootdir}" = 'x${prefix}/share'; then
-	if test "x${prefix}" = "xNONE"; then
-    		AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${ac_default_prefix}/share/${PACKAGE}",[PACKAGE_DATA_DIR])
-  	else
-    		AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${prefix}/share/${PACKAGE}",[PACKAGE_DATA_DIR])
-  	fi
+  if test "x${prefix}" = "xNONE"; then
+    AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${ac_default_prefix}/share/${PACKAGE}",[PACKAGE_DATA_DIR])
+  else
+    AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${prefix}/share/${PACKAGE}",[PACKAGE_DATA_DIR])
+  fi
 else
-	AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${datarootdir}/${PACKAGE}",[PACKAGE_DATA_DIR])
+  AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${datarootdir}/${PACKAGE}",[PACKAGE_DATA_DIR])
 fi 
 
 # Create all the Makefiles.
 AC_CONFIG_FILES([Makefile 
-		 man/Makefile 
-		 pix/Makefile 
-		 doc/Makefile 
-		 src/Makefile 
-		 scripts/Makefile
-		 templates/Makefile
-		 olpc/Makefile
-		 desktop/Makefile
-       windows/Makefile
-       tests/Makefile
-       eeepc/Makefile
-       shutdown/Makefile
-       usfm/Makefile
-       kjv/Makefile
-       outpost/Makefile
-       gobible/Makefile
-       web/Makefile
-       dbus/Makefile
-       vcs/Makefile
-       xetex/Makefile
-		   ])
+		  man/Makefile 
+		  pix/Makefile 
+		  doc/Makefile 
+		  src/Makefile 
+		  scripts/Makefile
+		  templates/Makefile
+		  olpc/Makefile
+		  desktop/Makefile
+		  windows/Makefile
+		  tests/Makefile
+		  eeepc/Makefile
+		  shutdown/Makefile
+		  usfm/Makefile
+		  kjv/Makefile
+		  outpost/Makefile
+		  gobible/Makefile
+		  web/Makefile
+		  dbus/Makefile
+		  vcs/Makefile
+		  xetex/Makefile
+		])
 AC_OUTPUT
 
+# Create the file with the database credentials for the web installation.
+CREDENTIALS=web/database/credentials.php
+rm $CREDENTIALS
+echo '<?php'                                                       >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo // Credentials for accessing the MySQL database.              >> $CREDENTIALS
+echo // You can modify these to suit your installation.            >> $CREDENTIALS
+echo // Be sure to only change the text within the double quotes.  >> $CREDENTIALS
+echo // The double quotes themselves should remain in place.       >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo // Host: This is the server where the database runs.          >> $CREDENTIALS
+echo '$database_host = "localhost";'                               >> $CREDENTIALS
+echo // Name: This is the name of the database.                    >> $CREDENTIALS
+echo '$database_name = "bibledit";'                                >> $CREDENTIALS
+echo // User: This is the username of the database administrator.  >> $CREDENTIALS
+echo '$database_user = "root";'                                    >> $CREDENTIALS
+echo // Pass: This is the password of the database administrator.  >> $CREDENTIALS
+echo '$database_pass = "'$MYSQL_ROOT_PASSWORD'";'                  >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo '?>'                                                          >> $CREDENTIALS
+
+# Create the file with the login credentials for the site administrator.
+CREDENTIALS=web/admin/credentials.php
+rm $CREDENTIALS
+echo '<?php'                                                       >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo // Login credentials for the site administrator.              >> $CREDENTIALS
+echo // You can modify these to suit your installation.            >> $CREDENTIALS
+echo // Be sure to only change the text within the double quotes.  >> $CREDENTIALS
+echo // The double quotes themselves should remain in place.       >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo // Username.                                                  >> $CREDENTIALS
+echo '$site_admin_username = "'$SITE_ADMIN_USERNAME'";'            >> $CREDENTIALS
+echo // Password.                                                  >> $CREDENTIALS
+echo '$site_admin_password = "'$SITE_ADMIN_PASSWORD'";'            >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo '?>'                                                          >> $CREDENTIALS
+
+
+# Summary.
 echo "
 Bibledit $VERSION configuration summary:
 
-        Prefix                     : ${prefix}
-        Source code location       : ${srcdir}
-        Web server document root   : ${WEBROOT}
+        Installation prefix                   : ${prefix}
+        Web server document root              : ${WEBROOT}
+        MySQL database host                   : localhost
+        MySQL database name                   : bibledit
+        MySQL database administrator username : root
+        MySQL database administrator password : ${MYSQL_ROOT_PASSWORD}
+        Website administrator username        : ${SITE_ADMIN_USERNAME}
+        Website administrator password        : ${SITE_ADMIN_PASSWORD}
 "

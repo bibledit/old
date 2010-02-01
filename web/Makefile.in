@@ -31,9 +31,6 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = @build@
-host_triplet = @host@
-target_triplet = @target@
 subdir = web
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -135,10 +132,10 @@ PANGO_LIBS = @PANGO_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
-POW_LIB = @POW_LIB@
-RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SITE_ADMIN_PASSWORD = @SITE_ADMIN_PASSWORD@
+SITE_ADMIN_USERNAME = @SITE_ADMIN_USERNAME@
 SORT_PATH = @SORT_PATH@
 SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
@@ -165,22 +162,14 @@ am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
-build = @build@
 build_alias = @build_alias@
-build_cpu = @build_cpu@
-build_os = @build_os@
-build_vendor = @build_vendor@
 builddir = @builddir@
 datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
-host = @host@
 host_alias = @host_alias@
-host_cpu = @host_cpu@
-host_os = @host_os@
-host_vendor = @host_vendor@
 htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
@@ -200,11 +189,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
-target = @target@
 target_alias = @target_alias@
-target_cpu = @target_cpu@
-target_os = @target_os@
-target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
@@ -394,12 +379,21 @@ uninstall-am:
 install-data-local:
 	mkdir -p $(WEBROOT)/bibledit
 	cp -r * $(WEBROOT)/bibledit
-	chmod 0777 $(WEBROOT)/bibledit/ipc/messages
-	chmod 0777 $(WEBROOT)/bibledit/templates_c
-	chmod 0777 $(WEBROOT)/bibledit/cache
+	chmod -R 0777 $(WEBROOT)/bibledit
+	chmod -R 0777 $(WEBROOT)/bibledit/*
 
 clean-local:
 	find . -iname *~ -delete
+
+#	Permission Level
+# 0 None (the equivalent of a dash)
+# 1 Executable, but cannot read or write
+# 2 Write only, cannot read or execute
+# 3 Write and Execute
+# 4 Read-only
+# 5 Read-only and Execute
+# 6 Read, Write, but cannot execute
+# 7	Read, Write and Execute
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

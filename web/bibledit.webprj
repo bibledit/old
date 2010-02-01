@@ -3,10 +3,6 @@
   <project type="Local" name="bibledit" encoding="utf8" enableEvents="true" >
     <upload/>
     <defaultDTD>-//w3c//dtd xhtml 1.0 transitional//en</defaultDTD>
-    <item url="cache/" uploadstatus="1" />
-    <item modified_time="1264167936" url="cache/README" uploadstatus="1" />
-    <item url="configs/" uploadstatus="1" />
-    <item modified_time="1264167942" url="configs/README" uploadstatus="1" />
     <item url="css/" uploadstatus="1" />
     <item modified_time="1264163467" url="css/stylesheet.css" uploadstatus="1" />
     <item url="ipc/" uploadstatus="1" />
@@ -19,83 +15,6 @@
     <item modified_time="1262256765" url="ipc/storemessage.php" uploadstatus="1" />
     <item modified_time="1262358542" url="ipc/uploadmessage.php" uploadstatus="1" />
     <item url="smarty/" uploadstatus="1" />
-    <item url="smarty/internals/" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.assemble_plugin_filepath.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.assign_smarty_interface.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.create_dir_structure.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.display_debug_console.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.get_include_path.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.get_microtime.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.get_php_resource.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.is_secure.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.is_trusted.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.load_plugins.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.load_resource_plugin.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.process_cached_inserts.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.process_compiled_include.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.read_cache_file.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.rm_auto.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.rmdir.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.run_insert_handler.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.smarty_include_php.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.write_cache_file.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.write_compiled_include.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.write_compiled_resource.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/internals/core.write_file.php" uploadstatus="1" />
-    <item url="smarty/plugins/" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/block.textformat.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/compiler.assign.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.assign_debug_info.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.config_load.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.counter.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.cycle.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.debug.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.eval.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.fetch.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.html_checkboxes.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.html_image.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.html_options.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.html_radios.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.html_select_date.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.html_select_time.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.html_table.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.mailto.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.math.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.popup_init.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/function.popup.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.capitalize.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.cat.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.count_characters.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.count_paragraphs.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.count_sentences.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.count_words.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.date_format.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.debug_print_var.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.default.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.escape.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.indent.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.lower.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.nl2br.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.regex_replace.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.replace.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.spacify.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.string_format.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.strip.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.strip_tags.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.truncate.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.upper.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/modifier.wordwrap.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/outputfilter.trimwhitespace.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/shared.escape_special_chars.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/plugins/shared.make_timestamp.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/Config_File.class.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/debug.tpl" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/Smarty.class.php" uploadstatus="1" />
-    <item modified_time="1264165378" url="smarty/Smarty_Compiler.class.php" uploadstatus="1" />
-    <item url="templates/" uploadstatus="1" />
-    <item modified_time="1264226310" url="templates/index.tpl" uploadstatus="1" />
-    <item url="templates_c/" uploadstatus="1" />
-    <item modified_time="1264167957" url="templates_c/README" uploadstatus="1" />
     <item modified_time="1264166974" url="index.php" uploadstatus="1" />
     <item modified_time="1264203087" url="Makefile" uploadstatus="1" />
     <item modified_time="1264179513" url="Makefile.am" uploadstatus="1" />
@@ -115,5 +34,7 @@
     </teamdata>
     <events/>
     <annotations/>
+    <item url="session/loggedin.tpl" uploadstatus="1" />
+    <item url="session/" uploadstatus="1" />
   </project>
 </webproject>
