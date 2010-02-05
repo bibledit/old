@@ -7,6 +7,8 @@
     $smarty->display("index.tpl");
 
 /*
+
+
     // Specify the target language
     $language = "nl_NL.utf8";
     // Assign the appropriate locale

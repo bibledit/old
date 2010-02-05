@@ -1,8 +1,9 @@
 <?php
     
 
-@include_once ("../bootstrap/bootstrap.php");
-require_once ("bootstrap/bootstrap.php");
+require_once ("../bootstrap/bootstrap.php");
+page_access_level (GUEST_LEVEL);
+
 
 
 $smarty = new Smarty_Bibledit (__FILE__);
@@ -24,7 +25,7 @@ if (isset($_POST['submit'])) {
   if ($form_is_valid) {
     $session_logic = Session_Logic::getInstance ();
     if (!$session_logic->attemptLogin ($user, $pass)) {
-      $smarty->assign ('error_message', gettext ("Username or email address or password were not correct"));
+      $smarty->assign ('error_message', gettext ("Username or email address or password are not correct"));
       $session_logic->logout();
     }
   }
@@ -33,8 +34,9 @@ if (isset($_POST['submit'])) {
 
 $session_logic = Session_Logic::getInstance ();
 if ($session_logic->loggedIn ()) {
-  $smarty->assign ('user', $session_logic->currentUser());
-  //header('Location: ../index.php');  header('Refresh: 1; URL=../index.php');  $smarty->display("loggedin.tpl");
+  //header('Location: ../index.php');
+  //header('Refresh: 1; URL=../index.php');
+  $smarty->display("loggedin.tpl");
 } else {
   $smarty->assign ('logging_in', true);
   $smarty->display("login.tpl");

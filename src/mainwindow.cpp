@@ -6578,65 +6578,20 @@ Todo tasks.
 
 
 
-Newest strategy:
-* It als allows admin login using a credentials.php file if the database is not accessible.
-* To access the database, but not to create it. That should be a special task for the administrator.
-* Each page states its required access level as an integer or a named constant. 
-* Start on phpDocumentor, perhaps it can indicate where a certain function is called so we can refactor easily.
 
-Start on login system, and for just now use the standard admin values as described in this paragraph, the one made through ./configure.
-After some time, we're going to make it so that if there's any upgrade to be done, whoever is not administrator does not get to see these things,
-but just sees a page that the system has been upgraded and needs the site administrator's attention. Please check back later. If offers a login screen.
-It means that if the database with usernames is not there, there should be a default username given that logs in initially.
-We should specify default administrator's account with the ./configure options, so that everybody can have a default in case something happens
-with the databases.
+To email login system should be made to work as well. This requires emails to work and be assigned and changed
+and verified.
+Try Zend_Mail
 
+When installing the "site" data gets erased by the "web" data. To switch the order of execution in the root Makefile.am
 
-Databases are not created as now, on startup, but only when the ::getInstance() function is called to get a singleton.
-This means that errors are given if somebody tries to log in. But the administrator can log in as required and do his maintenance work.
-
-Each database is better encapsulated by an object, e.g. the database with users should be encapsulated with an object
-that creates, writes, reads, deletes, updates, etc.
-
-
-Use singleton object, page 148, for the database handler, so that errors are centrally registered.
-Use singleton object for the users table as well.
-Use singleton object for the session object as well.
-
-
-Each page starts with the Session object.
-This object stores the session id, the user name (if there), and whether logged in or a visitor.
-It also has the user's role. We can also give this as an enumerated value, e.g. 0 = Visitor.
-It goes in the "session" directory, and all scripts used for login go there too.
 The session also checks on the presence of a flag which indicates an update was done.
 If the flag is there, it asks the user to update the settings. Since db / host/ password, and what not, could have been changed.
 If the database number differs from the number as in the installation, it also performs an upgrade or creates tables in case there are none.
-If a database with usernames is created, since it was not there, then the name of the administator is entered, and displayed to the user.
 Steps: 
-* Connect to the table with usernames, if it does not exist, create it, and fill it with admin username and password, then inform user.
 * Then see if any updates are needed. There's one table that never changes, and it contains the current database schema version number, an integer.
 * Each object that encapsulates a table also gets stored the actual version number as a constant. It compares it with the stored version number,
   and if there are differences, it performs an upgrade.
-
-
-
-The cookie stores the session ID only, all extra information remains on the server for security reasons.
-We may attach the login to the IP number as well for extra security.
-WE may have to login using https and stay in https after for extra security.
-
-
-Users can open an account on the site. 
-Accounts creation is restricted through a question to be asked to the user which he or she should answer properly.
-There are several questions, all taken from the Bible, since the user is going to be involved in Bible translation he will know the answer.
-The question is asked in the language of the user. As an aid it gives the Bible book and chapter and verse, and as an extra aid, the verse
-can be displayed upon the user's request.
-There are several types of users:
-* Visitor
-* Team member
-* Team manager
-* Consultant
-* Administrator
-
 The install script uses the root db password and does the database upgrades required. 
 It needs a clever algorithm that can see which upgrades are needed.
 Therefore each database should store a version number as well.
@@ -6649,22 +6604,18 @@ Better to store one version number for all, so one central script can do the upg
 A Logger class, stores logs in the database. Old logs to be removed.
 
 
-Headers and footers. Use an instance of smarty for for each, called in a 'header' 
-and in a 'footer' function in similarly named files in similarly named directories.
-Passing 0 inserts a very minimal header, and 1 inserts the fully-fledged header.
-Or better still, to inherit our own Smarty object from smarty, and this can then have variables for header/footer.
-Actually, what we pass is whether the module runs in full screen, or in frames. If in frames it will have a goto bar, 
+Whether the module runs in full screen, or in frames. If in frames it will have a goto bar, 
 and in the full window it has the full header and footer.
 
 
 Pay attention to internationalization.
 We need to get gettext working, and so need to have accounts where the user can set his language.
 The administrator sets the default language for the site to be displayed in for guests and before login.
-To use headers and footers, see Smarty demos.
-To find out how to extract a .pot file from smarty templates.
+
 
 On Ubuntu for extra locales, install packages like "language-pack-*". After installing a new pack, run "locale-gen" and restart Apache (sudo apache2ctl restart)
 to make this new locale to take effect. This should go in the installation manual.
+
 
 To go through the various php functions called and read the comments, and learn from it.
 setlocale(LC_ALL, ""); Takes the locale from the environment.
@@ -6695,24 +6646,9 @@ if(in_array($locale, $locales)){
 It may use the available locales for dates and number representation as are on the system, and use our own locales as come with the application.
 These two catalogs are different.
 
-To use phpDocumentor.
-
 When setting translation domains in the preferences, do a check on the functions' return values if it worked out well.
 
 The administrator can leave the locale empty, in which case the system locale will be taken. This should be the default for local installations.
-
-
-
-The autotools installation script should give ownership of the files to the http user, and do no more than that. 
-* Then the site installation script should set all permissions right and secure.
-* The site installation script is presented to the user after a fresh installation since a flag will be there that requires that.
-
-
-Web editors:
-* NVU (not maintained)
-* Quanta Plus (quanta) <-- best
-* kdewebdev
-* kompozer
 
 
 
@@ -6739,9 +6675,7 @@ Make our own modular system, loosely coupled, so that we create a new applicaton
 * and share the library for all, and any of our own classes.
 All these applications together form "bibledit", a loosely coupled modular lot of software.
 
-Strong separation between the application logic and the presentation to the user.
 
-To put a blog as the front page of the application.
 
 Messaging between applications and server for e.g. verse reference, and many other things, e.g. lists of verses to be sent to the references window.
 
@@ -7044,5 +6978,15 @@ Windows: http://www.wampserver.com/
 
 The site needs to have the concept of Desktops. Users can create store and erase these. E.g. a desktop for editing, one for merging, etc.
 
+
+Being behind a shaking connection, the site should be operatable by email as well, in particular the consultations.
+
+
+Since email is not compulsory, there should be an inbox also where the user can see which messages are for him.
+Actually, all messages go into this inbox at first, and are then attempted to be sent from there.
+Once sent, they go in the Trash.
+
+
+Instead of using XeTeX, we could also look at CSS2 with paged media for printing, and screen media for the screen.
 
 */

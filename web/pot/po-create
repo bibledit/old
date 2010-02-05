@@ -1,5 +1,5 @@
 # Find all templates and extract the gettext strings from it.
-find .. -iname *.tpl -exec php ../smarty-gettext/tsmarty2c.php '{}' ";" >> smarty.c
+find .. -iname *.tpl -exec php ../smarty/smarty-gettext/tsmarty2c.php '{}' ";" >> smarty.c
 
 # Create a file containing all the php files to be processed.
 find .. -iname '*.php' >> gettextfiles

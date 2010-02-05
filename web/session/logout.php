@@ -1,6 +1,7 @@
 <?php
     
 require_once ("../bootstrap/bootstrap.php");
+page_access_level (GUEST_LEVEL);
 
 $session_logic = Session_Logic::getInstance ();
 $session_logic->logout ();

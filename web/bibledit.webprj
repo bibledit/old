@@ -36,5 +36,10 @@
     <annotations/>
     <item url="session/loggedin.tpl" uploadstatus="1" />
     <item url="session/" uploadstatus="1" />
+    <item url="session/signup.tpl" uploadstatus="1" />
+    <item url="admin/users.tpl" uploadstatus="1" />
+    <item url="admin/" uploadstatus="1" />
+    <item url="dialog/confirm.tpl" uploadstatus="1" />
+    <item url="dialog/" uploadstatus="1" />
   </project>
 </webproject>

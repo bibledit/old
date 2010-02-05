@@ -2,8 +2,8 @@
 <webprojectsession>
   <session usePreviewPrefix="0" previewPrefix="" usePersistentBookmarks="0" >
     <itemcursorpositions>
-      <item line="0" column="0" url="session/loggedin.tpl" />
-      <item line="2" column="2" url="css/stylesheet.css" />
+      <item column="0" line="0" url="session/signup.tpl" />
+      <item line="47" column="14" url="admin/users.tpl" />
     </itemcursorpositions>
     <uploadprofiles showtreeviews="true" defaultProfile="@" >
       <profile remote_host="" remote_port="" remote_path="" remote_protocol="ftp" user="" name="@" />

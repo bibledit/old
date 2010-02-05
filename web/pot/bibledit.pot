@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-23 20:50+0200\n"
+"POT-Creation-Date: 2010-02-02 19:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,14 +16,175 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "chapter"
-msgstr ""
-
-msgid "Bible"
-msgstr ""
-
 msgid "Bible editor"
 msgstr ""
 
 msgid "Welcome to Bibledit on the web"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "Cannot access the database"
+msgstr ""
+
+msgid ""
+"The site is not in operation at the moment. Site administrator: You can "
+"login through the credentials that were set at installation time, and then "
+"attend to the problem."
+msgstr ""
+
+msgid "Site Administrator"
+msgstr ""
+
+msgid "Guest"
+msgstr ""
+
+msgid "Username should be at least four characters long"
+msgstr ""
+
+msgid "Password should be at least four characters long"
+msgstr ""
+
+msgid "Username or email address or password are not correct"
+msgstr ""
+
+msgid ""
+"To which city was Paul travelling when a light from heaven shone round about "
+"him?"
+msgstr ""
+
+msgid "Damascus"
+msgstr ""
+
+msgid ""
+"And while he travelled, he came near Damascus; and suddenly a light from "
+"heaven shone round about him."
+msgstr ""
+
+msgid "What is the name of the brother of Aaron the high priest?"
+msgstr ""
+
+msgid "Moses"
+msgstr ""
+
+msgid ""
+"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
+"the Levite your brother?"
+msgstr ""
+
+msgid "What is the name of the city where Jesus was born?"
+msgstr ""
+
+msgid "Bethlehem"
+msgstr ""
+
+msgid ""
+"Now when Jesus was born in Bethlehem of Judaea in the days of Herod the "
+"king, behold, wise men from the east came to Jerusalem."
+msgstr ""
+
+msgid "What is the name of the island when John was sent to?"
+msgstr ""
+
+msgid "Patmos"
+msgstr ""
+
+msgid ""
+"I, John, your brother and companion in the persecution, and in the kingdom "
+"and endurance of Jesus Christ, was in the island which is called Patmos, "
+"because of the word of God, and because of the testimony of Jesus Christ."
+msgstr ""
+
+msgid "The answer to the question is not correct"
+msgstr ""
+
+msgid ""
+"The username that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid "You do not have sufficient privileges to access this page"
+msgstr ""
+
+msgid "User preferences"
+msgstr ""
+
+msgid "View documentation"
+msgstr ""
+
+msgid "View interprocess communication messages"
+msgstr ""
+
+msgid "Signup"
+msgstr ""
+
+msgid "Which username would you like to use?"
+msgstr ""
+
+msgid "Which password?"
+msgstr ""
+
+msgid "This quotation may help you answer the question:"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Goodbye"
+msgstr ""
+
+msgid "You have logged out"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "You have logged in"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Username or email address"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Forgot password? Request the administrator for help."
+msgstr ""
+
+msgid "Not registered?"
+msgstr ""
+
+msgid "Sign up!"
+msgstr ""
+
+msgid "You have signed up."
+msgstr ""
+
+msgid "You can now login."
+msgstr ""
+
+msgid "Administration"
+msgstr ""
+
+msgid "Bible Editor"
+msgstr ""
+
+msgid "Site administration"
+msgstr ""
+
+msgid "Site setup"
+msgstr ""
+
+msgid ""
+"Number of tables in the database before running the maintenance routine: "
+msgstr ""
+
+msgid "Running maintenance routine"
+msgstr ""
+
+msgid "Number of tables in the database after the routine: "
 msgstr ""

@@ -1,72 +1,61 @@
 body {
- font-family: helvetica, arial, sans-serif;
- #padding: 0.5em;
- #border: 1px solid #AAA;
 }
 
 h1 {
- font-weight: bold;
- font-style: italic;
- #color: #488B9B;
+  font-weight: bold;
+  font-style: italic;
+  color: olive;
 }
 
 h2 {
- font-style:italic;
- #color: #488B9B;
+  font-style:italic;
+  color: olive;
 }
 
-h3 {
- #color: #488B9B;
-}
-
-h4 {
- #color: #488B0B;
-}
-
-h5 {
- #color: #488B9B;
+h3, h4, h5 {
+  color: olive;
 }
 
 p {
- margin-top: 0;
- margin-bottom: 0em;
+  margin-top: 0;
+  margin-bottom: 0em;
 }
 
 div p, div ul, div ol {
- margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 div {
- margin-top: 0;
- margin-bottom: 0em;
- margin-right: 0em;
+  margin-top: 0;
+  margin-bottom: 0em;
+  margin-right: 0em;
 }
 
 div div {
- margin-top: 0;
- margin-right: 0;
+  margin-top: 0;
+  margin-right: 0;
 }
 
 strong {
- color: #488B9B
+  color: #488B9B
 }
 
 a {
- text-decoration: none;
- color: #002bb8;
- background: none;
+  text-decoration: none;
+  color: #002bb8;
+  background: none;
 }
 
 a:visited {
- color: #5a3696;
+  color: #5a3696;
 }
 
 a:active {
- color: #faa700;
+  color: #faa700;
 }
 
 a:hover {
- text-decoration: underline;
+  text-decoration: underline;
 }
 
 div.body {
@@ -114,5 +103,10 @@ dd {
 
 .level4 {
   margin-left: 9em;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }
 

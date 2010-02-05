@@ -3,7 +3,6 @@
 
 
 
-@include_once ("../bootstrap/bootstrap.php");
 require_once ("bootstrap/bootstrap.php");
 
 
@@ -12,16 +11,18 @@ require_once ("bootstrap/bootstrap.php");
 class Session_Logic
 {
 
-  public $check_browser = true;              // Include browser name in fingerprint?
-  public $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
-  public $secure_word = 'BIBLETRANSLATION';  // Control word - any word you want.
-  public $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
-  private static $instance;                  // Current singleton instance.
+  private $level = 0;                         // The level of the user.
+  private $check_browser = true;              // Include browser name in fingerprint?
+  private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
+  private $secure_word = 'BIBLETRANSLATION';  // Control word - any word you want.
+  private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
+  private static $instance;                   // Current singleton instance.
 
 
   // The class constructor is private, so no outsider can call it.    
   private function __construct() {
     session_start();
+    $this->Open ();
   } 
 
 
@@ -35,21 +36,24 @@ class Session_Logic
   }
 
 
-  // Call this when init session.  public function Open()
+  // Call this when init session.
+  public function Open()
   {
     $_SESSION['ss_fprint'] = $this->_Fingerprint();
     $this->_RegenerateId();
   }
 
 
-  // Call this to check session.  public function Check()
+  // Call this to check session.
+  public function Check()
   {
     $this->_RegenerateId();
     return (isset($_SESSION['ss_fprint']) && $_SESSION['ss_fprint'] == $this->_Fingerprint());
   }
 
 
-  // Returns MD5 from fingerprint.  private function _Fingerprint()
+  // Returns MD5 from fingerprint.
+  private function _Fingerprint()
   {
      $fingerprint = $this->secure_word;
      if ($this->check_browser) {
@@ -69,20 +73,46 @@ class Session_Logic
   }
 
 
-  // Regenerates session ID if possible.  private function _RegenerateId()
+  // Regenerates session ID if possible.
+  private function _RegenerateId()
   {
     if ($this->regenerate_id && function_exists('session_regenerate_id')) {
       if (version_compare('5.1.0', phpversion(), '>=')) {
-        session_regenerate_id(true);
+        @session_regenerate_id(true);
       } else {
-        session_regenerate_id();
+        @session_regenerate_id();
       }
     }
   }
 
-
+  /**
+  * Attempts to log into the system
+  * 
+  */
   public function attemptLogin ($user_or_email, $password) {
-    if ($user_or_email == 'User' && $password == 'password') {
+    $database = Session_Database::getInstance();
+    $login_okay = false;
+    if ($database->getAdministratorCount() == 0) {
+      // If there are no administrators listed in the databse, 
+      // then it uses the credentials set up during installation.
+      include ("admin/credentials.php");
+      if ($user_or_email == $site_admin_username && $password == $site_admin_password) {
+        // Remove any default administrator. If left in, it could lock the real administrator out.
+        include ("session/levels.php");
+        $database->removeUser($user_or_email);
+        $database->addNewUser($user_or_email, $password, ADMIN_LEVEL, "");
+      }
+    } 
+    // Match username and email.
+    if ($database->matchUsernamePassword ($user_or_email, $password)) {
+      $login_okay = true;
+    }
+    // Match password and email.
+    if ($database->matchEmailPassword ($user_or_email, $password)) {
+      $login_okay = true;
+    }
+
+    if ($login_okay) {
       $this->Open();
       $_SESSION['logged_in'] = true;
       $_SESSION['user'] = $user_or_email;
@@ -97,7 +127,6 @@ class Session_Logic
     if (!$this->Check() || !isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
       return false;
     } else {
-      //var_dump ($_SESSION);
       return true;
     }
   }
@@ -107,8 +136,27 @@ class Session_Logic
     return $_SESSION['user'];
   }
 
+
+  /**
+  * currentLevel - returns an integer with the current level of the session.
+  */
+  public function currentLevel ($force = false) {
+    if (($this->level == 0) || $force) {
+      if ($this->loggedIn()) {
+        $database = Session_Database::getInstance();
+        $this->level = $database->getUserLevel ($this->currentUser());
+      } else {
+        include ("session/levels.php");
+        $this->level = GUEST_LEVEL;
+      }
+    }
+    return $this->level;
+  }
+
+
   function logout () {
     $_SESSION['logged_in'] = false;
+    $_SESSION['user'] = "";
   }
 
 
