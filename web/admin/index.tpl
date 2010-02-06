@@ -9,16 +9,11 @@
     </link>
   </head>
   <body>
-     {include file=../assets/header_full.tpl} 
-    <h1>
-       {t}Administration{/t} 
-    </h1>
-    <p>
-      <a href="database">{t}Database{/t}</a>
-    </p>
-    <p>
-      <a href="../manage/users">{t}Users{/t}</a>
-    </p>
-     {include file=../assets/footer_full.tpl} 
+    {include file=../assets/header_full.tpl} 
+    <h1>{t}Administration{/t}</h1>
+    <p><a href="database">{t}Database{/t}</a></p>
+    <p><a href="../manage/users">{t}Users{/t}</a></p>
+    <p><a href="mail">{t}Mail{/t}</a></p>
+    {include file=../assets/footer_full.tpl} 
   </body>
 </html>

@@ -14,22 +14,8 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=220654;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/src/mainwindow.cpp;0
-FILE_NAME_1=848;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/session/levels.php;0
-FILE_NAME_2=85;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/users.php;0
-FILE_NAME_3=1278;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/users.tpl;0
-FILE_NAME_4=687;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/changerole.php;0
-FILE_NAME_5=584;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/dialog/list.php;0
-FILE_NAME_6=592;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/dialog/list.tpl;0
-FILE_NAME_7=509;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/runsql.php;0
-FILE_NAME_8=184;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/session/database.php;0
-FILE_NAME_9=3201;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/session/logic.php;0
-FILE_NAME_10=739;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/session/login.php;0
-FILE_NAME_11=574;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/index.tpl;0
-FILE_NAME_12=494;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/database.tpl;0
-FILE_NAME_13=5;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/session/users.php;0
-FILE_NAME_14=861;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/bootstrap/bootstrap.php;0
-FILE_NAME_15=251;CSS;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/css/stylesheet.css;0
-FILE_NAME_16=1021;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/session/login.tpl;0
-FILE_NAME_17=1059;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/session/signup.tpl;0
+current_page=2
+FILE_NAME_0=220439;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/src/mainwindow.cpp;0
+FILE_NAME_1=2471;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/mail.php;0
+FILE_NAME_2=3574;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/mail.tpl;0
+FILE_NAME_3=2826;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/config/general.php;0

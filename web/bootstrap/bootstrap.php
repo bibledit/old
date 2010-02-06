@@ -63,10 +63,15 @@ class Bootstrap
     // Automatically include the file that contains the $class_name.
     // E.g. class Database_Instance would require file database/instance.php.
     // Thus the name of the class determines which file gets required.
+    // The above implies that all classes translate to files and folders in lower case.
+    // An exception is made for the Zend_* classes.
     function __autoload($class_name)
     {
-        $path = str_replace("_", "/", strtolower ($class_name));
-        require_once $path.".php";
+      if (substr ($class_name, 0, 4) != "Zend") {
+        $class_name = strtolower ($class_name);
+      }
+      $path = str_replace("_", "/", $class_name);
+      require_once $path.".php";
     }
   } 
 

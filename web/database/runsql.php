@@ -11,7 +11,7 @@ $goto = $_GET['goto']; // The URL to go to after done.
 // Therefore these should be removed.
 $query = str_replace ("\\", "", $query);
 
-// Execute the SQL query.\
+// Execute the SQL query.
 $database = Database_Instance::getInstance ();
 $database->mysqli->query ($query);
 header ("Location: $goto");

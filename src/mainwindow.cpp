@@ -6579,23 +6579,19 @@ Todo tasks.
 
 
 
-To email login system should be made to work as well. This requires emails to work and be assigned and changed
-and verified.
-Try Zend_Mail
 
 When installing the "site" data gets erased by the "web" data. To switch the order of execution in the root Makefile.am
 
-The session also checks on the presence of a flag which indicates an update was done.
+
+
+
+The Administrator's setup page checks on the presence of a flag which indicates an update was done.
 If the flag is there, it asks the user to update the settings. Since db / host/ password, and what not, could have been changed.
 If the database number differs from the number as in the installation, it also performs an upgrade or creates tables in case there are none.
 Steps: 
 * Then see if any updates are needed. There's one table that never changes, and it contains the current database schema version number, an integer.
 * Each object that encapsulates a table also gets stored the actual version number as a constant. It compares it with the stored version number,
   and if there are differences, it performs an upgrade.
-The install script uses the root db password and does the database upgrades required. 
-It needs a clever algorithm that can see which upgrades are needed.
-Therefore each database should store a version number as well.
-Better to store one version number for all, so one central script can do the upgrade.
 
 
 

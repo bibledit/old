@@ -13,10 +13,8 @@
   </head>
 
   <body OnLoad="document.form.user.focus();">
-     {include file=../assets/header_full.tpl} 
-      <h1>
-         {t}Login{/t} 
-      </h1>
+    {include file=../assets/header_full.tpl} 
+    <h1>{t}Login{/t}</h1>
 
 <form action="login" name="form" method="post">
 

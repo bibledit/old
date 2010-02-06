@@ -11,9 +11,7 @@
   </head>
   <body>
      {include file=../assets/header_full.tpl} 
-      <h1>
-         {t}Signup{/t} 
-      </h1>
+      <h1>{t}Signup{/t}</h1>
 
 <form action="signup" method="post">
 

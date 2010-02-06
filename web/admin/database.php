@@ -10,11 +10,12 @@ $smarty = new Smarty_Bibledit (__FILE__);
 
 
 
-$result = $database_instance->mysqli->query ("show tables;");
+// Show number of tables.
+$result = $database_instance->mysqli->query ("SHOW TABLES;");
 $smarty->assign ("tables_count_before", $result->num_rows);
 
-// Create the table structures if these do not yet exist.
-    
+
+// The user table.
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS users (
 username varchar(30) primary key,
@@ -26,10 +27,27 @@ timestamp int(11) unsigned not null
 );
 EOD;
 $database_instance->mysqli->query ($str);
+$database_instance->mysqli->query ("OPTIMIZE TABLE users;");
 
 
-$result = $database_instance->mysqli->query ("show tables;");
+// The general configuration table.
+$str = <<<EOD
+CREATE TABLE IF NOT EXISTS config_general (
+ident VARCHAR(100) NOT NULL,
+value VARCHAR(1000),
+offset INT NOT NULL
+);
+EOD;
+$database_instance->mysqli->query ($str);
+$database_instance->mysqli->query ("OPTIMIZE TABLE config_general;");
+
+
+// Show number of tables again.
+$result = $database_instance->mysqli->query ("SHOW TABLES;");
 $smarty->assign ("tables_count_after", $result->num_rows);
+
+
+// Display page.
 $smarty->display("database.tpl");
 
 
