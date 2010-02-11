@@ -8,7 +8,7 @@ page_access_level (MANAGER_LEVEL);
 * Do that first, then proceed to the actual page.
 */
 if (isset ($_GET['delete'])) {
-  $database = Session_Database::getInstance();
+  $database = Database_Users::getInstance();
   $database->removeUser($_GET['delete']);
 }
 

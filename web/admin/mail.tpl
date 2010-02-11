@@ -37,11 +37,11 @@
 
     <h2>{t}Retrieving mail{/t}</h2>
     <form action="mail" name="retrieve" method="post">
-      <p>{t}Bibledit will retrieve email from the account specified below, and act on it. When you submit new values, Bibledit will attempt to contact this account and tell you how many messages there are. If something goes wrong, the message given may be cryptic at times. Please enter the correct details for this to work.{/t}</p>
+      <p>{t}Bibledit will retrieve email from the account specified below, and act on it. When you submit new values, Bibledit will attempt to contact this account and tell you how many messages there are. If something goes wrong, the message given may be cryptic at times. Please enter the correct details for this to work. Normally the "Port" can be left empty. The right port will be chosen automatically. To give an example, to retrieve mail from a gmail account, set the following: POP3 Host: pop.gmail.com; Username: yourusername@gmail.com; Password: yourpassword; Security: SSL.{/t}</p>
       <h4>{t}Enter the account details, and press Submit.{/t}</h4>
       <table>
         <tr>
-          <td align="right">{t}POP3 Host{/t}</td>
+          <td align="right">POP3 Host</td>
           <td><input type="text" name="storagehost" maxlength="50" value="{$storagehost}" /></td>
         </tr>
         <tr>
@@ -51,6 +51,19 @@
         <tr>
           <td align="right">{t}Password{/t}</td>
           <td><input type="text" name="storagepassword" maxlength="50" value="{$storagepassword}" /></td>
+        </tr>
+        <tr>
+          <td align="right">Security</td>
+          <td>
+            <select name="storagesecurity">
+            <option value="NONE" >None</option>
+            <option value="SSL" {if $storagesecurity == "SSL"} selected="selected" {/if}>SSL</option>
+            <option value="TLS" {if $storagesecurity == "TLS"} selected="selected" {/if}>TLS</option>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">Port</td>
+          <td><input type="text" name="storageport" maxlength="10" value="{$storageport}" /></td>
         </tr>
         <tr>
           <td></td>
@@ -63,14 +76,23 @@
 
     <h2>{t}Sending mail{/t}</h2>
     <form action="mail" name="send" method="post">
-      <p>{t}Bibledit will send out emails through the account specified below. When you submit new values, Bibledit will attempt to send an email the site's email address. If something goes wrong, the message given may be cryptic at times. Please enter the correct details for this to work. If the SMTP server does not need authenticaton, just leave the fields for the username and the password empty. If the SMTP Host is left empty, it will use the default sendmail transport.{/t}</p>
+      <p>{t}Bibledit will send out emails through the account specified below. When you submit new values, Bibledit will attempt to send an email the site's email address. If something goes wrong, the message given may be cryptic at times. Please enter the correct details for this to work. If the SMTP server does not need authenticaton, just leave the fields for the username and the password empty. If the SMTP Host is left empty, it will use the default sendmail transport. If you'd like to know the types of settings to make here, you can search the internet for the name of the module used (Zend_Mail) and the server. When searching for, e.g. "Zend_Mail" and "smtp.google.com" one would find how to to it: SMTP: smtp.gmail.com, auth => login, username => YOUR_USERNAME@gmail.com, password => YOUR_PASSWORD, ssl => ssl, port => 465.{/t}</p>
       <h4>{t}Enter the account details, and press Submit.{/t}</h4>
       <table>
         <tr>
-          <td align="right">{t}SMTP Host{/t}</td>
+          <td align="right">SMTP Host</td>
           <td><input type="text" name="sendhost" maxlength="50" value="{$sendhost}" /></td>
         </tr>
-        {* STMP username and password not yet implemented.  
+        <tr>
+          <td align="right">Authentication</td>
+          <td>
+            <select name="sendauthentication">
+            <option value="None" >None</option>
+            <option value="Plain" {if $sendauthentication == "Plain"} selected="selected" {/if}>PLAIN</option>
+            <option value="Login" {if $sendauthentication == "Login"} selected="selected" {/if}>LOGIN</option>
+            <option value="Crammd5" {if $sendauthentication == "Crammd5"} selected="selected" {/if}>CRAM-MD5</option>
+          </td>
+        </tr>
         <tr>
           <td align="right">{t}Username{/t}</td>
           <td><input type="text" name="sendusername" maxlength="50" value="{$sendusername}" /></td>
@@ -79,7 +101,19 @@
           <td align="right">{t}Password{/t}</td>
           <td><input type="text" name="sendpassword" maxlength="50" value="{$sendpassword}" /></td>
         </tr>
-        *}
+        <tr>
+          <td align="right">Security</td>
+          <td>
+            <select name="sendsecurity">
+            <option value="NONE" >None</option>
+            <option value="SSL" {if $sendsecurity == "SSL"} selected="selected" {/if}>SSL</option>
+            <option value="TLS" {if $sendsecurity == "TLS"} selected="selected" {/if}>TLS</option>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">Port</td>
+          <td><input type="text" name="sendport" maxlength="10" value="{$sendport}" /></td>
+        </tr>
         <tr>
           <td></td>
           <td><input type="submit" name="send" value={t}Submit{/t} onClick="this.value = '{t}Please wait{/t}'; return true;" /></td>

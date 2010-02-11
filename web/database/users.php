@@ -3,11 +3,7 @@
 
 
 
-require_once ("bootstrap/bootstrap.php");
-
-
-
-class Session_Database
+class Database_Users
 {
 
 
@@ -17,7 +13,7 @@ class Session_Database
 
 
 
-  // The class constructor.    
+  // The class constructor is private, so no outsider can call it.
   private function __construct() {
   } 
 
@@ -28,7 +24,7 @@ class Session_Database
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
-      self::$instance = new Session_Database();
+      self::$instance = new Database_Users();
     }
     return self::$instance;
   }
@@ -37,8 +33,8 @@ class Session_Database
   /**
   * getAdministratorCount - Returns how many administrators there are
   */
-  public function getAdministratorCount(){
-    include ("levels.php");
+  public function getAdministratorCount() {
+    include ("session/levels.php");
     $server = Database_Instance::getInstance ();
     $query = "SELECT * FROM users WHERE username = " . ADMIN_LEVEL;
     $result = $server->mysqli->query ($query);
@@ -49,7 +45,7 @@ class Session_Database
   /**
   * matchUsernamePassword - Returns true if the username and password match
   */
-  public function matchUsernamePassword($username, $password){
+  public function matchUsernamePassword($username, $password) {
     $server = Database_Instance::getInstance ();
     $username = Database_SQLInjection::no ($username);
     $password = md5 ($password);
@@ -62,7 +58,7 @@ class Session_Database
   /**
   * matchEmailPassword - Returns true if the email and password match
   */
-  public function matchEmailPassword($email, $password){
+  public function matchEmailPassword($email, $password) {
     $server = Database_Instance::getInstance ();
     $email = Database_SQLInjection::no ($email);
     $password = md5 ($password);
@@ -75,7 +71,7 @@ class Session_Database
   /**
   * addNewUser - Inserts the given (username, password, level) into the database.
   */
-  public function addNewUser($username, $password, $level, $email){
+  public function addNewUser($username, $password, $level, $email) {
     $username = Database_SQLInjection::no ($username);
     $password = md5 ($password);
     $email = Database_SQLInjection::no ($email);
@@ -102,7 +98,7 @@ class Session_Database
   /**
   * usernameExists - Returns true if the username exists in the database
   */
-  public function usernameExists($user){
+  public function usernameExists($user) {
     $server = Database_Instance::getInstance ();
     $user = Database_SQLInjection::no ($user);
     $query = "SELECT * FROM users WHERE username = '$user'";
@@ -142,7 +138,7 @@ class Session_Database
   /**
   * removeUser - Remove a user from the database.
   */
-  public function removeUser($user){
+  public function removeUser($user) {
     $server = Database_Instance::getInstance ();
     $user = Database_SQLInjection::no ($user);
     $query = "DELETE FROM users WHERE username = '$user'";
@@ -150,7 +146,24 @@ class Session_Database
   }
 
 
-
+  /**
+  * verify - Verifies the database table
+  */
+  public function verify () {
+    $database_instance = Database_Instance::getInstance(true);
+$str = <<<EOD
+CREATE TABLE IF NOT EXISTS users (
+username varchar(30) primary key,
+password varchar(32),
+id varchar(32),
+level tinyint(1) unsigned not null,
+email varchar(256),
+timestamp int(11) unsigned not null
+);
+EOD;
+    $database_instance->mysqli->query ($str);
+    $database_instance->mysqli->query ("OPTIMIZE TABLE users;");
+  }
 
 
 }

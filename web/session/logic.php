@@ -90,7 +90,7 @@ class Session_Logic
   * 
   */
   public function attemptLogin ($user_or_email, $password) {
-    $database = Session_Database::getInstance();
+    $database = Database_Users::getInstance();
     $login_okay = false;
     if ($database->getAdministratorCount() == 0) {
       // If there are no administrators listed in the databse, 
@@ -143,7 +143,7 @@ class Session_Logic
   public function currentLevel ($force = false) {
     if (($this->level == 0) || $force) {
       if ($this->loggedIn()) {
-        $database = Session_Database::getInstance();
+        $database = Database_Users::getInstance();
         $this->level = $database->getUserLevel ($this->currentUser());
       } else {
         include ("session/levels.php");

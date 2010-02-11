@@ -3,7 +3,7 @@
 
 
 
-class Config_General
+class Database_Config_General
 {
 
 
@@ -14,11 +14,26 @@ class Config_General
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
-      self::$instance = new Config_General();
+      self::$instance = new Database_Config_General();
     }
     return self::$instance;
   }
 
+  /**
+  * Verify database table, optionally creating and/or optimizing it
+  */
+  public function verify () {
+    $database_instance = Database_Instance::getInstance(true);
+$str = <<<EOD
+CREATE TABLE IF NOT EXISTS config_general (
+ident VARCHAR(100) NOT NULL,
+value VARCHAR(1000),
+offset INT NOT NULL
+);
+EOD;
+    $database_instance->mysqli->query ($str);
+    $database_instance->mysqli->query ("OPTIMIZE TABLE config_general;");
+  }
 
   // Functions that retrieve the value or list from the database.
   private function getValue ($key, $default) {
@@ -78,11 +93,32 @@ class Config_General
     $this->setValue ("mail-storage-password", $value);
   }   
 
+  public function getMailStorageSecurity() {
+    return $this->getValue ("mail-storage-security", "");
+  }
+  public function setMailStorageSecurity ($value) {
+    $this->setValue ("mail-storage-security", $value);
+  }   
+
+  public function getMailStoragePort() {
+    return $this->getValue ("mail-storage-port", "");
+  }
+  public function setMailStoragePort ($value) {
+    $this->setValue ("mail-storage-port", $value);
+  }   
+
   public function getMailSendHost() {
     return $this->getValue ("mail-send-host", "");
   }
   public function setMailSendHost ($value) {
     $this->setValue ("mail-send-host", $value);
+  }   
+
+  public function getMailSendAuthentication() {
+    return $this->getValue ("mail-send-authentication", "");
+  }
+  public function setMailSendAuthentication ($value) {
+    $this->setValue ("mail-send-authentication", $value);
   }   
 
   public function getMailSendUsername() {
@@ -97,6 +133,27 @@ class Config_General
   }
   public function setMailSendPassword ($value) {
     $this->setValue ("mail-send-password", $value);
+  }   
+
+  public function getMailSendSecurity() {
+    return $this->getValue ("mail-send-security", "");
+  }
+  public function setMailSendSecurity ($value) {
+    $this->setValue ("mail-send-security", $value);
+  }   
+
+  public function getMailSendPort() {
+    return $this->getValue ("mail-send-port", "");
+  }
+  public function setMailSendPort ($value) {
+    $this->setValue ("mail-send-port", $value);
+  }   
+
+  public function getPingTimeStamp() {
+    return $this->getValue ("ping-time-stamp", "");
+  }
+  public function setPingTimeStamp ($value) {
+    $this->setValue ("ping-time-stamp", $value);
   }   
 
 

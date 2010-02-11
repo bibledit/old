@@ -132,7 +132,8 @@ abstract class Zend_Mail_Protocol_Abstract
      */
     public function __construct($host = '127.0.0.1', $port = null)
     {
-        //$this->_validHost = new Zend_Validate();
+        // Bibledit modification here and below in this function. 
+        // $this->_validHost = new Zend_Validate();
         //$this->_validHost->addValidator(new Zend_Validate_Hostname(Zend_Validate_Hostname::ALLOW_ALL));
 
         //if (!$this->_validHost->isValid($host)) {

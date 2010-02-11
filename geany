@@ -14,8 +14,15 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=2
-FILE_NAME_0=220439;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/src/mainwindow.cpp;0
-FILE_NAME_1=2471;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/mail.php;0
-FILE_NAME_2=3574;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/mail.tpl;0
-FILE_NAME_3=2826;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/config/general.php;0
+current_page=3
+FILE_NAME_0=221295;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/src/mainwindow.cpp;0
+FILE_NAME_1=86;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/mail.php;0
+FILE_NAME_2=5539;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/mail.tpl;0
+FILE_NAME_3=1654;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/timer/index.php;0
+FILE_NAME_4=1104;CSS;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/css/stylesheet.css;0
+FILE_NAME_5=787;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/database.php;0
+FILE_NAME_6=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/instance.php;0
+FILE_NAME_7=554;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/versions.php;0
+FILE_NAME_8=4517;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/config/general.php;0
+FILE_NAME_9=2207;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/users.php;0
+FILE_NAME_10=1761;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/cron.php;0

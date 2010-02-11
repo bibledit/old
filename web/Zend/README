@@ -1,5 +1,8 @@
 This directory contains componented from ZendFramework-1.10.0.
 
-Zend/Mail/Protocol/Abstract.php requires Zend's validation class.
-This would bloat the package unnecessarily.
-For that reason the validation requirements were commented out.
+Validation requirements that would necessitate inclusion of the Validate class
+were commented out. See comments with "Bibledit" in them.
+
+When updating the Zend_Mail class from a newer framework, 
+these modification need to be made again and tried out.
+

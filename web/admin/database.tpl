@@ -14,7 +14,7 @@
     <h1>
        {t}Database{/t} 
     </h1>
-<p>Here you can see whether the database of the site is working well.</p>
+<p>{t}Here you can see whether the database of the site is working well.{/t}</p>
 
 <p>{t}Number of tables in the database before running the maintenance routine: {/t} {$tables_count_before}</p>
 

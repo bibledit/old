@@ -20,7 +20,7 @@ if (isset($_POST['email'])) {
     }
   }
   if ($form_is_valid) {
-    $config_general = Config_General::getInstance ();
+    $config_general = Database_Config_General::getInstance ();
     $config_general->setSiteMailName ($sitename);
     $config_general->setSiteMailAddress ($sitemail);
     $smarty->assign ("site_name_success", gettext ("The name and email address were saved"));
@@ -33,38 +33,44 @@ if (isset($_POST['retrieve'])) {
   $storagehost =     $_POST['storagehost'];
   $storageusername = $_POST['storageusername'];
   $storagepassword = $_POST['storagepassword'];
+  $storagesecurity = $_POST['storagesecurity'];
+  $storageport     = $_POST['storageport'];
   $storage_success;
   $storage_error;
-  $config_general = Config_General::getInstance ();
+  $config_general = Database_Config_General::getInstance ();
   $config_general->setMailStorageHost ($storagehost);
   $config_general->setMailStorageUsername ($storageusername);
   $config_general->setMailStoragePassword ($storagepassword);
-  $storage_success .= " " . gettext ("The host, the username and the password were saved.");
+  $config_general->setMailStorageSecurity ($storagesecurity);
+  $config_general->setMailStoragePort     ($storageport);
+  $storage_success .= " " . gettext ("The details were saved.");
   try {
-    $config = array('host' => $storagehost, 'user' => $storageusername, 'password' => $storagepassword);
-    $mail = new Zend_Mail_Storage_Pop3($config);
-    $storage_success .= " " . gettext ("The account was accessed successfully.") . " " . gettext ("Messages on server:") . " " . $mail->countMessages() . ".";
+    $mail = new Mail_Receive ();
+    $storage_success .= " " . gettext ("The account was accessed successfully.") . " " . gettext ("Messages on server:") . " " . $mail->storage->countMessages() . ".";
   } catch (Exception $e) {
     $storage_error .= " " . $e->getMessage ();
   }
   $smarty->assign ("storage_success", $storage_success);
   $smarty->assign ("storage_error", $storage_error);
-
 }
 
 
 // Mail sending form submission.
 if (isset($_POST['send'])) {
-  $sendhost =     $_POST['sendhost'];
-  $sendusername = $_POST['sendusername'];
-  $sendpassword = $_POST['sendpassword'];
-  $send_success;
-  $send_error;
-  $config_general = Config_General::getInstance ();
-  $config_general->setMailSendHost ($sendhost);
-  $config_general->setMailSendUsername ($sendusername);
-  $config_general->setMailSendPassword ($sendpassword);
-  $send_success .= " " . gettext ("The host was saved.");
+  $sendhost =           $_POST['sendhost'];
+  $sendauthentication = $_POST['sendauthentication'];
+  $sendusername =       $_POST['sendusername'];
+  $sendpassword =       $_POST['sendpassword'];
+  $sendsecurity =       $_POST['sendsecurity'];
+  $sendport     =       $_POST['sendport'];
+  $config_general = Database_Config_General::getInstance ();
+  $config_general->setMailSendHost           ($sendhost);
+  $config_general->setMailSendAuthentication ($sendauthentication);
+  $config_general->setMailSendUsername       ($sendusername);
+  $config_general->setMailSendPassword       ($sendpassword);
+  $config_general->setMailSendSecurity       ($sendsecurity);
+  $config_general->setMailSendPort           ($sendport);
+  $send_success .= " " . gettext ("The details were saved.");
   try {
     $mail = new Mail_Send($config_general->getSiteMailAddress(), $config_general->getSiteMailName(), "Test", "This is to try out whether Bibledit can send email.");
     $send_success .= " " . gettext ("For the purpose of trying whether Bibledit can send email, a test email was sent out to the account above:") . " " . $config_general->getSiteMailAddress();
@@ -80,23 +86,35 @@ if (isset($_POST['send'])) {
 /**
 * Normal page display.
 */
-$config_general = Config_General::getInstance ();
-$smarty->assign ("sitename", $config_general->getSiteMailName ());
-$smarty->assign ("sitemail", $config_general->getSiteMailAddress ());
-$smarty->assign ("storagehost", $config_general->getMailStorageHost ());
-$smarty->assign ("storageusername", $config_general->getMailStorageUsername ());
-$smarty->assign ("storagepassword", $config_general->getMailStoragePassword ());
-$smarty->assign ("sendhost", $config_general->getMailSendHost ());
-$smarty->assign ("sendusername", $config_general->getMailSendUsername ());
-$smarty->assign ("sendpassword", $config_general->getMailSendPassword ());
+$config_general = Database_Config_General::getInstance ();
+$smarty->assign ("sitename",           $config_general->getSiteMailName ());
+$smarty->assign ("sitemail",           $config_general->getSiteMailAddress ());
+$smarty->assign ("storagehost",        $config_general->getMailStorageHost ());
+$smarty->assign ("storageusername",    $config_general->getMailStorageUsername ());
+$smarty->assign ("storagepassword",    $config_general->getMailStoragePassword ());
+$smarty->assign ("storagesecurity",    $config_general->getMailStorageSecurity ());
+$smarty->assign ("storageport",        $config_general->getMailStoragePort ());
+$smarty->assign ("sendhost",           $config_general->getMailSendHost ());
+$smarty->assign ("sendauthentication", $config_general->getMailSendAuthentication ());
+$smarty->assign ("sendusername",       $config_general->getMailSendUsername ());
+$smarty->assign ("sendpassword",       $config_general->getMailSendPassword ());
+$smarty->assign ("sendsecurity",       $config_general->getMailSendSecurity ());
+$smarty->assign ("sendport",           $config_general->getMailSendPort ());
 $smarty->display("mail.tpl");
-
-
 
 /*
 
 Todo create site mailer.
 
+
+
+Users that sign up should provide a valid email address.
+A confirmation is then sent to that address.
+If the user replies to it, or clicks on the link it contains, the account is then confirmed.
+This means that the users table should have an 'active' field as well, or possibly 'status'.
+The unique id for that user comes from the md5 of the username, so we can see which user confirms himself.
+Once it all is set up we should also give the option to log in by email address.
+And the link for a forgotten password should be made to work as well.
 
 
 store incoming and outgoing mail.
@@ -108,12 +126,10 @@ Steps:
 - messages can be deleted.
 - new ones to other members of the site can be written.
 * The site mailer's errors go to the administrator's email box.
+* when a user logs in, it says how many messages there are for him / her.
+* when a user creates an account, it also creates the messages database.
+* when a user gets deleted, the associated databases gets deleted as well.
 
-
-There should be a page for setting up the crontab for the web server's user.
-The cron job should call a certain page every minute. 
-There's a lock in the server / php's memory so that if one task is still going on,
-others are not started.
 
 
 

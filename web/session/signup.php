@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
     $smarty->assign ('answer_invalid_message', gettext ("The answer to the question is not correct"));
   }
   if ($form_is_valid) {
-    $database = Session_Database::getInstance ();
+    $database = Database_Users::getInstance ();
     if ($database->usernameExists ($user)) {
       $smarty->assign ('error_message', gettext ("The username that you have chosen has already been taken. Please choose another one."));
     } else {

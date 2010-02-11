@@ -1,7 +1,5 @@
 <?php
 
-// Page bootstrapping.
-require_once ("bootstrap/bootstrap.php");
 require_once ("messages/messages.php");
 
 // The singleton Database_Instance.
