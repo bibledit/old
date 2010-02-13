@@ -28,14 +28,8 @@
 */
 class Database_Cron
 {
-  /**
-  * Singleton logic.
-  */
   private static $instance;
   private function __construct() {
-    $database_instance = Database_Instance::getInstance();
-    $query = "CREATE TABLE IF NOT EXISTS cron (flag int) ENGINE = MEMORY;";
-    $database_instance->mysqli->query ($query);
   } 
   public static function getInstance() 
   {
@@ -45,21 +39,48 @@ class Database_Cron
     return self::$instance;
   }
 
-  public function setFlag () {
-    $server = Database_Instance::getInstance ();
-    $pid = getmypid();
-    $server->mysqli->query ("INSERT INTO cron VALUES ($pid);");
+  public function verify () {
+    $database_instance = Database_Instance::getInstance();
+    $query = "CREATE TABLE IF NOT EXISTS cron (id varchar(10), value int) ENGINE = MEMORY;";
+    $database_instance->mysqli->query ($query);
+    $this->setShutdown();
   }
-  
-  public function clearFlag () {
+
+  public function clearFlags () {
     $server = Database_Instance::getInstance ();
     $server->mysqli->query ("DELETE FROM cron;");
   }
   
-  public function getFlag () {
+  public function setPID () {
+    $pid = getmypid ();
     $server = Database_Instance::getInstance ();
-    $result = $server->mysqli->query ("SELECT * FROM cron;");
-    return ($result->num_rows > 0);
+    $server->mysqli->query ("DELETE FROM cron WHERE id = 'pid';");
+    $server->mysqli->query ("INSERT INTO cron VALUES ('pid', $pid);");
+  }
+  
+  public function getPID () {
+    $server = Database_Instance::getInstance ();
+    $result = $server->mysqli->query ("SELECT value FROM cron WHERE id = 'pid';");
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $result_array = $result->fetch_array();
+    return $result_array['value'];
+  }
+
+  public function setShutdown () {
+    $server = Database_Instance::getInstance ();
+    $server->mysqli->query ("INSERT INTO cron VALUES ('shutdown', 1);");
+  }
+  
+  public function getShutdown () {
+    $server = Database_Instance::getInstance ();
+    $result = $server->mysqli->query ("SELECT value FROM cron WHERE id = 'shutdown';");
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $result_array = $result->fetch_array();
+    return $result_array['value'];
   }
 
 }

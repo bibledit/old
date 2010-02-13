@@ -39,6 +39,11 @@ $database_mail = Database_Mail::getInstance ();
 $database_mail->verify();
 
 
+// The cron table.
+$database_cron = Database_Cron::getInstance ();
+$database_cron->verify ();
+
+
 // Show number of tables again.
 $result = $database_instance->mysqli->query ("SHOW TABLES;");
 $smarty->assign ("tables_count_after", $result->num_rows);

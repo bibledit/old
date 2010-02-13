@@ -10147,11 +10147,11 @@ echo '$site_admin_password = "'$SITE_ADMIN_PASSWORD'";'            >> $CREDENTIA
 echo                                                               >> $CREDENTIALS
 echo '?>'                                                          >> $CREDENTIALS
 
-
 # Summary.
 echo "
 Bibledit $VERSION configuration summary:
 
+        Version                               : ${PACKAGE_VERSION}
         Installation prefix                   : ${prefix}
         Web server document root              : ${WEBROOT}
         MySQL database host                   : localhost

@@ -26,45 +26,51 @@ require_once ("../bootstrap/bootstrap.php");
 // No check on page level access because everybody should access this Poor Man's Crontab.
 
 
-
-/**
-* Flag stores the pid. 
-* Ensure that only one instance of the script runs at any time.
-*/
 $crontable = Database_Cron::getInstance ();
-if ($crontable->getFlag ()) die;
-$crontable->setFlag ();
 
 
+// If the cron database indicates that the timer script is running, bail out.
+$pid = $crontable->getPID ();
+if ($pid != 0) {
+  die;
+}
+
+
+// Ok, we're going to run: Set the stage.
 ignore_user_abort(true);
 set_time_limit(0);
 register_shutdown_function('shutdown');
-header ("Connection: Close");
-header ("Cache-Control: max-age=3600, must-revalidate");
-header ("Content-Length: 0");
-header ("Status: 404 Not Found"); 
-header ("HTTP/1.0 404 Not Found"); 
-
-
-/**
-* Run the loop
-*/
+$crontable->setPID ();
 $log = Database_Logs::getInstance();
+$log->log ("Timer start");
+
+
+// Run the loop.
 while(1)
 {
-  $log->log ("Minutely maintenance routine started");
-  $log->log ("Minutely maintenance routine finished");
+
+  $shutdown = $crontable->getShutdown ();
+  if ($shutdown > 0) {
+    $log->log ("Shutdown request: Timer stop");
+    die;
+  }  
 
   // Run once a minute.
-  sleep(60);
+  sleep(1); // Todo should be 60 seconds (or 10 seconds, then check from genconfig whether the 60 seconds have passed).
 }
 
 
 function shutdown()
 {
   $crontable = Database_Cron::getInstance ();
-  $crontable->clearFlag ();
+  $crontable->clearFlags ();
+  $log = Database_Logs::getInstance();
+  $log->log ("Timer shutdown");
 }
+
+
+
+
 
 
 /*
@@ -72,9 +78,9 @@ function shutdown()
 
 
 
+Todo admininistrator needs to view the logfiles.
 
-
-// 
+ 
 
 
 // Run once a minute only.
@@ -88,11 +94,9 @@ if ($current_timestamp < ($previous_timestamp + 60)) {
 $config_general->setPingTimeStamp ($current_timestamp);
 
 
-$log = Database_Logs::getInstance();
-$log->log ("Minutely maintenance routine started");
-$log->log ("Minutely maintenance routine finished");
-
 
 */
+
+
 
 ?>

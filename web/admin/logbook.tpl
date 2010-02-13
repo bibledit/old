@@ -3,14 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
-    <title>{t}Mail{/t}</title>
+    <title>{t}Logbook{/t}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
   </head>
   <body>
     {include file=../assets/header_full.tpl} 
-    <h1>{t}Mail{/t}</h1>
-
-    <p><a href="{$link_inbox}" {if $active_label == 'inbox'}class="active"{/if}>{t}Inbox{/t}</a> | <a href="{$link_trash}"{if $active_label == 'trash'}class="active"{/if}>{t}Trash{/t}</a></p>
+    <h1>{t}Logbook{/t}</h1>
 
     {if $body != ""}
     
@@ -25,9 +23,9 @@
       <table>
         <thead>
           <tr>
-            <td>{t}Subject{/t}</td>
+            <td>{t}Timestamp{/t}</td>
             <td></td>
-            <td>{t}Date{/t}</td>
+            <td>{t}Entry{/t}</td>
             <td></td>
             <td></td>
           </tr>

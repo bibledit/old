@@ -1,5 +1,11 @@
 <?php
-
+/**
+* Database_Mail
+* Handles mail sent from the translation environment to the users.
+* This is a translation environment, not a message board.
+* If users wish to communicate with one another about the translation, they can do so through the issues tracker.
+* The application does not provide for private messages between users. They can use their email for that.
+*/
 
 
 class Database_Mail
@@ -27,8 +33,6 @@ id int auto_increment primary key,
 username varchar(30),
 timestamp int,
 label varchar(30),
-source varchar(256),
-destination varchar(256),
 subject varchar(256),
 body text
 );
@@ -44,12 +48,6 @@ EOD;
   public function labelInbox () {
     return "inbox";
   }
-  public function labelEmailed () {
-    return "emailed";
-  }
-  public function labelSent () {
-    return "sent";
-  }
   public function labelTrash () {
     return "trash";
   }
@@ -61,21 +59,13 @@ EOD;
   */
   public function send ($to, $subject, $body) {
     $session = Session_Logic::getInstance ();
-    $from    = $session->currentUser ();
-    if ($from == "") {
-      $from = "system";
-    }
-    $from    = Database_SQLInjection::no ($from);
     $to      = Database_SQLInjection::no ($to);
     $subject = Database_SQLInjection::no ($subject);
     $body    = Database_SQLInjection::no ($body);
     $server  = Database_Instance::getInstance ();
     $label   = $this->labelInbox ();
     $time    = time();
-    $query   = "INSERT INTO mail VALUES (NULL, '$to',   $time, '$label', '$from', '$to', '$subject', '$body');";
-    $result  = $server->mysqli->query ($query);
-    $label   = $this->labelSent ();
-    $query   = "INSERT INTO mail VALUES (NULL, '$from', $time, '$label', '$from', '$to', '$subject', '$body');";
+    $query   = "INSERT INTO mail VALUES (NULL, '$to',   $time, '$label', '$subject', '$body');";
     $result  = $server->mysqli->query ($query);
   }
 
@@ -103,7 +93,7 @@ EOD;
     $session = Session_Logic::getInstance ();
     $user    = $session->currentUser();
     $server  = Database_Instance::getInstance ();
-    $query   = "SELECT id, timestamp, source, destination, subject FROM mail WHERE username = '$user' and label = '$label' ORDER BY timestamp DESC;";
+    $query   = "SELECT id, timestamp, subject FROM mail WHERE username = '$user' and label = '$label' ORDER BY timestamp DESC;";
     $result  = $server->mysqli->query ($query);
     return $result;
   }
@@ -119,18 +109,28 @@ EOD;
     $result  = $server->mysqli->query ($query);
     $row     = $result->fetch_assoc();
     $label   = $row['label'];
-    // Normally move the mail into the Trash, but if it is already in the Trash, delete it completely.
     if ($label == $this->labelTrash ()) {
+      // If the mail was in the Trash, delete it completely.
       $query  = "DELETE FROM mail WHERE id = $id;";
     } else {
+      // Move the mail into the Trash.
       $label = $this->labelTrash ();
       $query  = "UPDATE mail SET label = '$label' WHERE id = $id;";
     }
     $server->mysqli->query ($query);
-    
-
   }
 
+
+  /**
+  * get - get a mail.
+  */
+  public function get ($id) {
+    $id      = Database_SQLInjection::no ($id);
+    $server  = Database_Instance::getInstance ();
+    $query   = "SELECT subject, body FROM mail WHERE id = $id;";
+    $result  = $server->mysqli->query ($query);
+    return $result;
+  }
 
 
 }
