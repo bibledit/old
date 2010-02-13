@@ -4,9 +4,6 @@
 
 class Database_Mail
 {
-
-
-
   private static $instance;
   private function __construct() {
   } 
@@ -20,122 +17,6 @@ class Database_Mail
 
 
   /**
-  * getAdministratorCount - Returns how many administrators there are
-  */
-  public function getAdministratorCount() { // Todo goes out.
-    include ("session/levels.php");
-    $server = Database_Instance::getInstance ();
-    $query = "SELECT * FROM users WHERE username = " . ADMIN_LEVEL;
-    $result = $server->mysqli->query ($query);
-    return $result->num_rows; 
-  }
-
-
-  /**
-  * matchUsernamePassword - Returns true if the username and password match
-  */
-  public function matchUsernamePassword($username, $password) { // Todo goes out.
-    $server = Database_Instance::getInstance ();
-    $username = Database_SQLInjection::no ($username);
-    $password = md5 ($password);
-    $query = "SELECT * FROM users WHERE username = '$username' and password = '$password'";
-    $result = $server->mysqli->query ($query);
-    return $result->num_rows; 
-  }
-
-
-  /**
-  * matchEmailPassword - Returns true if the email and password match
-  */
-  public function matchEmailPassword($email, $password) { // Todo goes out.
-    $server = Database_Instance::getInstance ();
-    $email = Database_SQLInjection::no ($email);
-    $password = md5 ($password);
-    $query = "SELECT * FROM users WHERE email = '$email' and password = '$password'";
-    $result = $server->mysqli->query ($query);
-    return $result->num_rows; 
-  }
-
-
-  /**
-  * addNewUser - Inserts the given (username, password, level) into the database.
-  */
-  public function addNewUser($username, $password, $level, $email) { // Todo goes out.
-    $username = Database_SQLInjection::no ($username);
-    $password = md5 ($password);
-    $email = Database_SQLInjection::no ($email);
-    $time = time();
-    $query = "INSERT INTO users VALUES ('$username', '$password', '', $level, '$email', $time)";
-    $server = Database_Instance::getInstance ();
-    return $server->mysqli->query ($query);
-  }
-
-
-  /**
-  * getEmailToUser - Returns the username that belongs to the $email.
-  */
-  public function getEmailToUser ($email) { // Todo goes out.
-    $email = Database_SQLInjection::no ($email);
-    $query = "SELECT username FROM users WHERE email = '$email';";
-    if ($result->num_rows == 0)
-      return "";
-    $result_array = $result->fetch_array();
-    return $result_array['username'];
-  }   
-
-
-  /**
-  * usernameExists - Returns true if the username exists in the database
-  */
-  public function usernameExists($user) { // Todo goes out.
-    $server = Database_Instance::getInstance ();
-    $user = Database_SQLInjection::no ($user);
-    $query = "SELECT * FROM users WHERE username = '$user'";
-    $result = $server->mysqli->query ($query);
-    return ($result->num_rows > 0);
-  }
-
-
-  /**
-  * getUserLevel - Returns the level that belongs to the user.
-  */
-  public function getUserLevel ($user) { // Todo goes out.
-    $user = Database_SQLInjection::no ($user);
-    $server = Database_Instance::getInstance ();
-    $query = "SELECT level FROM users WHERE username = '$user';";
-    $result = $server->mysqli->query ($query);
-    if ($result->num_rows == 0) {
-      include ("session/levels.php");
-      return GUEST_LEVEL;
-    }
-    $result_array = $result->fetch_array();
-    return $result_array['level'];
-  }   
-
-
-  /**
-  * updateUserLevel - Returns the MySQL query that would update the level of a given user.
-  */
-  public function updateUserLevel ($user, $level) { // Todo goes out.
-    $user = Database_SQLInjection::no ($user);
-    $level = Database_SQLInjection::no ($level);
-    $query = "UPDATE users SET level = $level WHERE username = '$user';";
-    return $query;
-  }   
-
-
-  /**
-  * removeUser - Remove a user from the database.
-  */
-  public function removeUser($user) { // Todo goes out.
-    $server = Database_Instance::getInstance ();
-    $user = Database_SQLInjection::no ($user);
-    $query = "DELETE FROM users WHERE username = '$user'";
-    $result = $server->mysqli->query ($query);
-  }
-
-
-  /**
   * verify - Verifies the database table
   */
   public function verify () {
@@ -144,7 +25,7 @@ $str = <<<EOD
 CREATE TABLE IF NOT EXISTS mail (
 id int auto_increment primary key,
 username varchar(30),
-timestamp timestamp,
+timestamp int,
 label varchar(30),
 source varchar(256),
 destination varchar(256),
@@ -155,6 +36,101 @@ EOD;
     $database_instance->mysqli->query ($str);
     $database_instance->mysqli->query ("OPTIMIZE TABLE mail;");
   }
+
+
+  /**
+  * Mail labels
+  */
+  public function labelInbox () {
+    return "inbox";
+  }
+  public function labelEmailed () {
+    return "emailed";
+  }
+  public function labelSent () {
+    return "sent";
+  }
+  public function labelTrash () {
+    return "trash";
+  }
+  
+  
+
+  /**
+  * send - Send mail
+  */
+  public function send ($to, $subject, $body) {
+    $session = Session_Logic::getInstance ();
+    $from    = $session->currentUser ();
+    if ($from == "") {
+      $from = "system";
+    }
+    $from    = Database_SQLInjection::no ($from);
+    $to      = Database_SQLInjection::no ($to);
+    $subject = Database_SQLInjection::no ($subject);
+    $body    = Database_SQLInjection::no ($body);
+    $server  = Database_Instance::getInstance ();
+    $label   = $this->labelInbox ();
+    $time    = time();
+    $query   = "INSERT INTO mail VALUES (NULL, '$to',   $time, '$label', '$from', '$to', '$subject', '$body');";
+    $result  = $server->mysqli->query ($query);
+    $label   = $this->labelSent ();
+    $query   = "INSERT INTO mail VALUES (NULL, '$from', $time, '$label', '$from', '$to', '$subject', '$body');";
+    $result  = $server->mysqli->query ($query);
+  }
+
+
+  /**
+  * getMailCount - get number of mails in the inbox of the current user
+  */
+  public function getMailCount () {
+    $session = Session_Logic::getInstance ();
+    $user    = $session->currentUser();
+    $user    = Database_SQLInjection::no ($user);
+    $label   = $this->labelInbox ();
+    $query   = "SELECT id FROM mail WHERE username = '$user' and label = '$label';";
+    $server  = Database_Instance::getInstance ();
+    $result  = $server->mysqli->query ($query);
+    return $result->num_rows;
+  }
+
+
+  /**
+  * getMails - get the mails of the current user as specified through the parameters.
+  */
+  public function getMails ($label) {
+    $label = Database_SQLInjection::no ($label);
+    $session = Session_Logic::getInstance ();
+    $user    = $session->currentUser();
+    $server  = Database_Instance::getInstance ();
+    $query   = "SELECT id, timestamp, source, destination, subject FROM mail WHERE username = '$user' and label = '$label' ORDER BY timestamp DESC;";
+    $result  = $server->mysqli->query ($query);
+    return $result;
+  }
+
+
+  /**
+  * delete - delete a mail.
+  */
+  public function delete ($id) {
+    $id      = Database_SQLInjection::no ($id);
+    $server  = Database_Instance::getInstance ();
+    $query   = "SELECT label FROM mail WHERE id = $id;";
+    $result  = $server->mysqli->query ($query);
+    $row     = $result->fetch_assoc();
+    $label   = $row['label'];
+    // Normally move the mail into the Trash, but if it is already in the Trash, delete it completely.
+    if ($label == $this->labelTrash ()) {
+      $query  = "DELETE FROM mail WHERE id = $id;";
+    } else {
+      $label = $this->labelTrash ();
+      $query  = "UPDATE mail SET label = '$label' WHERE id = $id;";
+    }
+    $server->mysqli->query ($query);
+    
+
+  }
+
 
 
 }

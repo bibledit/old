@@ -24,9 +24,28 @@ if (isset($_POST['submit'])) {
   }
   if ($form_is_valid) {
     $session_logic = Session_Logic::getInstance ();
-    if (!$session_logic->attemptLogin ($user, $pass)) {
+    if ($session_logic->attemptLogin ($user, $pass)) {
+      // If a non-admin logs in, send admin mail.
+      $mail = Database_Mail::getInstance ();
+      $users = Database_Users::getInstance ();
+      $admin = $users->getAdministrator ();
+      $subject = $session_logic->currentUser () . " logged in";
+      // Admins should not be notified if admins login. If it would be done, then each time an admin logs in,
+      // he would be greeted with a message saying that there is mail for him. This one mail would be his own login notification.
+      include ("session/levels.php");
+      if ($session_logic->currentLevel (true) != ADMIN_LEVEL) {
+       $mail->send ($admin, $subject, "I logged in successfully");
+      }
+    } else {
       $smarty->assign ('error_message', gettext ("Username or email address or password are not correct"));
       $session_logic->logout();
+      // Inform administrator about the login failure.
+      $mail = Database_Mail::getInstance ();
+      $users = Database_Users::getInstance ();
+      $admin = $users->getAdministrator ();
+      $subject = "Failed login attempt";
+      $body = "Failed login attempt for user $user with password $pass";
+      $mail->send ($admin, $subject, $body);
     }
   }
 }
@@ -34,8 +53,9 @@ if (isset($_POST['submit'])) {
 
 $session_logic = Session_Logic::getInstance ();
 if ($session_logic->loggedIn ()) {
-  //header('Location: ../index.php');
-  //header('Refresh: 1; URL=../index.php');
+  $mail = Database_Mail::getInstance ();
+  $mailcount = $mail->getMailCount ();
+  $smarty->assign ('mailcount', $mailcount);
   $smarty->display("loggedin.tpl");
 } else {
   $smarty->assign ('logging_in', true);

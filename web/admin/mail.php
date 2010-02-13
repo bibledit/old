@@ -117,6 +117,15 @@ Once it all is set up we should also give the option to log in by email address.
 And the link for a forgotten password should be made to work as well.
 
 
+The system for signing up works thus:
+* User signs up.
+* Confirmation mail is sent out to the user's email address
+* The confirmation mail contains a md5 value generated from the input data.
+* A SQL query is stored in the database, with this unique value.
+* If any mail comes back with this unique value, the SQL query in the database is executed
+* But this may not be enough, since it needs to send a confirmation mail too.
+
+
 store incoming and outgoing mail.
 Steps: 
 - system in database for storing mails to be sent out.

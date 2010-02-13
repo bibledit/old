@@ -166,6 +166,23 @@ EOD;
   }
 
 
+  /**
+  * getAdministrator - Returns the site administrator's username.
+  * This function needs improvement since it only returns one admin, even if there are more.
+  */
+  public function getAdministrator () {
+    $server = Database_Instance::getInstance ();
+    include ("session/levels.php");
+    $query = "SELECT username FROM users WHERE level = " . ADMIN_LEVEL . ";";
+    $result = $server->mysqli->query ($query);
+    if ($result->num_rows == 0)
+      return "";
+    $result_array = $result->fetch_array();
+    return $result_array['username'];
+  }   
+
+
+
 }
 
 

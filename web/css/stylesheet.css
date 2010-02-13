@@ -114,3 +114,8 @@ dd {
   color: green;
   font-weight: bold;
 }
+
+.active {
+  font-weight: bold;
+  font-size: larger;
+}
