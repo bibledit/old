@@ -77,12 +77,7 @@ function shutdown()
 
 
 
-
-Todo admininistrator needs to view the logfiles.
-
- 
-
-
+Todo timer.
 // Run once a minute only.
 $config_general = Database_Config_General::getInstance ();
 $previous_timestamp = $config_general->getPingTimeStamp ();

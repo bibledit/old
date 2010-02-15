@@ -28,8 +28,8 @@ class Database_Logs
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS logs (
 id int auto_increment primary key,
-timestamp timestamp,
-description text
+timestamp int,
+event text
 );
 EOD;
     $database_instance->mysqli->query ($str);
@@ -43,9 +43,25 @@ EOD;
   public function log ($description) {
     $database_instance = Database_Instance::getInstance(true);
     $description = Database_SQLInjection::no ($description);
-    $query = "INSERT INTO logs VALUES (NULL, NULL, '$description');";
+    $time = time();
+    $query = "INSERT INTO logs VALUES (NULL, $time, '$description');";
+    $database_instance->mysqli->query ($query);
+    $time -= 86400;
+    $query = "DELETE FROM logs WHERE timestamp < $time;";
+    echo $query;
     $database_instance->mysqli->query ($query);
   }
+
+  /**
+  * get - get the logbook entries.
+  */
+  public function get () {
+    $server  = Database_Instance::getInstance ();
+    $query   = "SELECT timestamp, event FROM logs ORDER BY id DESC;";
+    $result  = $server->mysqli->query ($query);
+    return $result;
+  }
+
 
 }
 

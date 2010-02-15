@@ -10,40 +10,24 @@
     {include file=../assets/header_full.tpl} 
     <h1>{t}Logbook{/t}</h1>
 
-    {if $body != ""}
+    <table>
+      <thead>
+        <tr>
+          <td>{t}Timestamp{/t}</td>
+          <td>{t}Event{/t}</td>
+        </tr>
+      </thead>
+      <tbody>
+        {section name=offset loop=$timestamps} 
+        <tr>
+          <td>{$timestamps[offset]}</td>
+          <td>{$events[offset]}</td>
+        </tr>
+        {/section} 
+      </tbody>
+    </table>
     
-      {* Email contents display *}
-      <p>{$subject}</p>
-      <p>-</p>
-      <p>{$body}</p>
-    
-    {else}
-    
-      {* Email list display *}
-      <table>
-        <thead>
-          <tr>
-            <td>{t}Timestamp{/t}</td>
-            <td></td>
-            <td>{t}Entry{/t}</td>
-            <td></td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          {section name=offset loop=$ids} 
-          <tr>
-            <td><a href="{$views[offset]}">{$subjects[offset]}</a></td>
-            <td>|</td>
-            <td>{$timestamps[offset]}</td>
-            <td>|</td>
-            <td><a href="{$deletes[offset]}">[{t}delete{/t}]</a></td>
-          </tr>
-          {/section} 
-        </tbody>
-      </table>
-    
-    {/if}
+
 
     {include file=../assets/footer_full.tpl} 
   </body>
