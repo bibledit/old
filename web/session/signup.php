@@ -27,7 +27,7 @@ $questions[] = gettext ("What is the name of the city where Jesus was born?");
 $answers[]   = gettext ("Bethlehem");
 $passages[]  = gettext ('Now when Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, wise men from the east came to Jerusalem.');
 
-$questions[] = gettext ("What is the name of the island when John was sent to?");
+$questions[] = gettext ("What is the name of the island where John was sent to?");
 $answers[]   = gettext ("Patmos");
 $passages[]  = gettext ('I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.');
 
@@ -43,9 +43,10 @@ $smarty->assign ('standard', $answers[$question_number]);
 $signed_up = false;
 if (isset($_POST['submit'])) {
   $form_is_valid = true;
-  $user = $_POST['user'];
-  $pass = $_POST['pass'];
-  $answer = $_POST['answer'];
+  $user     = $_POST['user'];
+  $pass     = $_POST['pass'];
+  $mail     = $_POST['mail'];
+  $answer   = $_POST['answer'];
   $standard = $_POST['standard'];
   if (strlen ($user) < 4) {
     $form_is_valid = false;
@@ -54,6 +55,10 @@ if (isset($_POST['submit'])) {
   if (strlen ($pass) < 4) {
     $form_is_valid = false;
     $smarty->assign ('password_invalid_message', gettext ("Password should be at least four characters long"));
+  }
+  if (!Validate_Email::valid ($mail)) {
+    $form_is_valid = false;
+    $smarty->assign ('email_invalid_message', gettext ("The email address is not valid"));
   }
   if ($answer != $standard) {
     $form_is_valid = false;
@@ -65,7 +70,7 @@ if (isset($_POST['submit'])) {
       $smarty->assign ('error_message', gettext ("The username that you have chosen has already been taken. Please choose another one."));
     } else {
       include ("session/levels.php");
-      $database->addNewUser($user, $pass, MEMBER_LEVEL, "");
+      $database->addNewUser($user, $pass, MEMBER_LEVEL, $mail);
       $signed_up = true;
     }
   }

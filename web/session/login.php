@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
       // he would be greeted with a message saying that there is mail for him. This one mail would be his own login notification.
       include ("session/levels.php");
       if ($session_logic->currentLevel (true) != ADMIN_LEVEL) {
-       $mail->send ($admin, $subject, "I logged in successfully");
+        $mail->send ($admin, $subject, "");
       }
     } else {
       $smarty->assign ('error_message', gettext ("Username or email address or password are not correct"));

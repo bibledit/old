@@ -6597,9 +6597,6 @@ Steps:
 
 
 
-A Logger class, stores logs in the database. Old logs to be removed.
-
-
 Whether the module runs in full screen, or in frames. If in frames it will have a goto bar, 
 and in the full window it has the full header and footer.
 

@@ -46,7 +46,7 @@ if (isset($_POST['retrieve'])) {
   $storage_success .= " " . gettext ("The details were saved.");
   try {
     $mail = new Mail_Receive ();
-    $storage_success .= " " . gettext ("The account was accessed successfully.") . " " . gettext ("Messages on server:") . " " . $mail->storage->countMessages() . ".";
+    $storage_success .= " " . gettext ("The account was accessed successfully.") . " " . gettext ("Messages on server:") . " " . $mail->count . ".";
   } catch (Exception $e) {
     $storage_error .= " " . $e->getMessage ();
   }
@@ -104,18 +104,54 @@ $smarty->display("mail.tpl");
 
 /*
 
-Todo create site mailer.
+
+Todo site mailer.
 
 
 
-The adminusername should have an address like "adminusername@localhost"; To be put in the same file.
-Users that sign up should provide a valid email address.
+Users should be able to change their email address.
+It works like this:
+* The user enters a new email address.
+* The email is validated.
+* A table with confirmations is used which stores the md5 of the request.
+* Any email that comes back, or a confirmation page, looks at this md5.
+* It would then execute the SQL that is stored in this table
+* The same table also stores the emails to be sent or the pages to be displayed.
+* Each time the table is accessed, older requests are removed.
+* If a request has been handled, its request is removed.
+
+Table:
+* md5
+* timestamp
+* email to
+* email subject
+* html page content, with base URL set properly.
+
+
+<head>
+<base href="http://www.w3schools.com/images/" />
+</head>
+
+Users should be able to change their password as well.
+
+
+Don't use addslashes for entering content into the database, as it won't
+guarantee the data is safe for a database. Instead, use
+mysql_real_escape_string, which uses the character set of your current
+connection to fix the string.
+
+
+
+Signup procedure:
+* Users provide a valid email address.
+* Mail is sent to the internal table, which will eventually get forwarded to the user.
 A confirmation is then sent to that address.
 If the user replies to it, or clicks on the link it contains, the account is then confirmed.
 This means that the users table should have an 'active' field as well, or possibly 'status'.
 The unique id for that user comes from the md5 of the username, so we can see which user confirms himself.
 Once it all is set up we should also give the option to log in by email address.
 And the link for a forgotten password should be made to work as well.
+
 
 
 The system for signing up works thus:
@@ -127,19 +163,13 @@ The system for signing up works thus:
 * But this may not be enough, since it needs to send a confirmation mail too.
 
 
-store incoming and outgoing mail.
-Steps: 
-* the site also has a page, but differently, since it processes mail upon arrival - yes, it stores outgoing mail
-- upon login the number of messages in the inbox should be displayed, with a link to go there.
-- messages can be deleted.
-- new ones to other members of the site can be written.
-* The site mailer's errors go to the administrator's email box.
-* when a user logs in, it says how many messages there are for him / her.
-* when a user creates an account, it also creates the messages database.
-* when a user gets deleted, the associated databases gets deleted as well.
+
+
+
 
 
 
 
 */
+
 ?>

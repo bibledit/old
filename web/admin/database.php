@@ -44,6 +44,11 @@ $database_cron = Database_Cron::getInstance ();
 $database_cron->verify ();
 
 
+// The mailer table.
+$database_mailer = Database_Mailer::getInstance ();
+$database_mailer->verify ();
+
+
 // Show number of tables again.
 $result = $database_instance->mysqli->query ("SHOW TABLES;");
 $smarty->assign ("tables_count_after", $result->num_rows);

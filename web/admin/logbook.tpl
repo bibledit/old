@@ -13,7 +13,8 @@
     <table>
       <thead>
         <tr>
-          <td>{t}Timestamp{/t}</td>
+          <td><a href="logbook?delete=all">[{t}delete all{/t}]</a> {t}Timestamp{/t}</td>
+          <td></td>
           <td>{t}Event{/t}</td>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
         {section name=offset loop=$timestamps} 
         <tr>
           <td>{$timestamps[offset]}</td>
+          <td>|</td>
           <td>{$events[offset]}</td>
         </tr>
         {/section} 

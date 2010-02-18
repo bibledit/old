@@ -48,15 +48,46 @@ $log->log ("Timer start");
 // Run the loop.
 while(1)
 {
-
   $shutdown = $crontable->getShutdown ();
   if ($shutdown > 0) {
     $log->log ("Shutdown request: Timer stop");
     die;
   }  
 
-  // Run once a minute.
-  sleep(1); // Todo should be 60 seconds (or 10 seconds, then check from genconfig whether the 60 seconds have passed).
+
+  $config_general = Database_Config_General::getInstance ();
+  $current_timestamp = time ();
+
+
+  $previous_timestamp = $config_general->getTimerMinute ();
+  if ($current_timestamp >= ($previous_timestamp + 60)) {
+    $config_general->setTimerMinute ($current_timestamp);
+    
+    // Tasks to be done once a minute come here:
+    
+    // Mailer.
+    $timer_mailer = new Timer_Mailer ();
+    $timer_mailer->run ();
+    unset ($timer_mailer);
+    
+  }
+
+
+  $previous_timestamp = $config_general->getTimerFiveMinutes ();
+  if ($current_timestamp >= ($previous_timestamp + 300)) {
+    $config_general->setTimerFiveMinutes ($current_timestamp);
+    
+    // Tasks to be done each five minutes come here:
+
+    $timer_receiver = new Timer_Receiver ();
+    $timer_receiver->run ();
+    unset ($timer_receiver);
+    
+  }
+
+
+  // Wait a little for the next cycle.
+  sleep(5);
 }
 
 
@@ -67,31 +98,6 @@ function shutdown()
   $log = Database_Logs::getInstance();
   $log->log ("Timer shutdown");
 }
-
-
-
-
-
-
-/*
-
-
-
-Todo timer.
-// Run once a minute only.
-$config_general = Database_Config_General::getInstance ();
-$previous_timestamp = $config_general->getPingTimeStamp ();
-$current_timestamp = time ();
-
-if ($current_timestamp < ($previous_timestamp + 60)) {
-  die;
-}
-$config_general->setPingTimeStamp ($current_timestamp);
-
-
-
-*/
-
 
 
 ?>

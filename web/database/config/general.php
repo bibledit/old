@@ -149,13 +149,19 @@ EOD;
     $this->setValue ("mail-send-port", $value);
   }   
 
-  public function getPingTimeStamp() {
-    return $this->getValue ("ping-time-stamp", "");
+  public function getTimerMinute() {
+    return $this->getValue ("timer-minute", "");
   }
-  public function setPingTimeStamp ($value) {
-    $this->setValue ("ping-time-stamp", $value);
+  public function setTimerMinute ($value) {
+    $this->setValue ("timer-minute", $value);
   }   
 
+  public function getTimerFiveMinutes() {
+    return $this->getValue ("timer-five-minutes", "");
+  }
+  public function setTimerFiveMinutes ($value) {
+    $this->setValue ("timer-five-minutes", $value);
+  }   
 
 
 }

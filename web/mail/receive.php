@@ -25,10 +25,11 @@
 class Mail_Receive
 {
   public $storage; // Mail object.
+  public $count;   // Amount of messages on the server.
   public function __construct()
   {  
     $config_general = Database_Config_General::getInstance ();
-    $storagehost = $config_general->getMailStorageHost ();
+    $storagehost =     $config_general->getMailStorageHost ();
     $storageusername = $config_general->getMailStorageUsername ();
     $storagepassword = $config_general->getMailStoragePassword ();
     $storagesecurity = $config_general->getMailStorageSecurity ();
@@ -41,6 +42,7 @@ class Mail_Receive
       $config = array_merge ($config, array ('port' => $storageport));
     }
     $this->storage = new Zend_Mail_Storage_Pop3($config);
+    $this->count = $this->storage->countMessages();
   }
 }
 

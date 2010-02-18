@@ -36,7 +36,7 @@ class Database_Users
   public function getAdministratorCount() {
     include ("session/levels.php");
     $server = Database_Instance::getInstance ();
-    $query = "SELECT * FROM users WHERE username = " . ADMIN_LEVEL;
+    $query = "SELECT * FROM users WHERE level = " . ADMIN_LEVEL;
     $result = $server->mysqli->query ($query);
     return $result->num_rows; 
   }
@@ -73,12 +73,12 @@ class Database_Users
   */
   public function addNewUser($username, $password, $level, $email) {
     $username = Database_SQLInjection::no ($username);
-    $password = md5 ($password);
     $email = Database_SQLInjection::no ($email);
     $time = time();
-    $query = "INSERT INTO users VALUES ('$username', '$password', '', $level, '$email', $time)";
+    $query = "INSERT INTO users VALUES ('$username', '', '', $level, '$email', $time)";
     $server = Database_Instance::getInstance ();
-    return $server->mysqli->query ($query);
+    $server->mysqli->query ($query);
+    $this->updateUserPassword ($username, $password);
   }
 
 
@@ -88,10 +88,27 @@ class Database_Users
   public function getEmailToUser ($email) {
     $email = Database_SQLInjection::no ($email);
     $query = "SELECT username FROM users WHERE email = '$email';";
+    $server = Database_Instance::getInstance ();
+    $result = $server->mysqli->query ($query);
     if ($result->num_rows == 0)
       return "";
     $result_array = $result->fetch_array();
     return $result_array['username'];
+  }   
+
+
+  /**
+  * getUserToEmail - Returns the email address that belongs to $user.
+  */
+  public function getUserToEmail ($user) {
+    $user = Database_SQLInjection::no ($user);
+    $query = "SELECT email FROM users WHERE username = '$user';";
+    $server = Database_Instance::getInstance ();
+    $result = $server->mysqli->query ($query);
+    if ($result->num_rows == 0)
+      return "";
+    $result_array = $result->fetch_array();
+    return $result_array['email'];
   }   
 
 
@@ -180,6 +197,19 @@ EOD;
     $result_array = $result->fetch_array();
     return $result_array['username'];
   }   
+
+
+  /**
+  * updateUserPassword - Updates the $password for $user.
+  */
+  public function updateUserPassword ($user, $password) {
+    $user = Database_SQLInjection::no ($user);
+    $password = md5 ($password);
+    $query = "UPDATE users SET password = '$password' WHERE username = '$user';";
+    $server = Database_Instance::getInstance ();
+    $server->mysqli->query ($query);
+  }   
+
 
 
 

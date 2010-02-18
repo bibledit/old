@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.56],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[4.0.59],[http://www.nongnu.org/bibledit])
 # AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 # AC_CONFIG_MACRO_DIR([m4])
@@ -472,6 +472,13 @@ echo // Password.                                                  >> $CREDENTIA
 echo '$site_admin_password = "'$SITE_ADMIN_PASSWORD'";'            >> $CREDENTIALS
 echo                                                               >> $CREDENTIALS
 echo '?>'                                                          >> $CREDENTIALS
+
+# Create the file with the version information.
+VERSIONFILE=web/version.php
+rm $VERSIONFILE
+echo '<?php'                            >> $VERSIONFILE
+echo '$version = "'$PACKAGE_VERSION'";' >> $VERSIONFILE
+echo '?>'                               >> $VERSIONFILE
 
 # Summary.
 echo "

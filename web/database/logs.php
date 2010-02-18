@@ -48,7 +48,6 @@ EOD;
     $database_instance->mysqli->query ($query);
     $time -= 86400;
     $query = "DELETE FROM logs WHERE timestamp < $time;";
-    echo $query;
     $database_instance->mysqli->query ($query);
   }
 
@@ -60,6 +59,16 @@ EOD;
     $query   = "SELECT timestamp, event FROM logs ORDER BY id DESC;";
     $result  = $server->mysqli->query ($query);
     return $result;
+  }
+
+
+  /**
+  * clear - clears the logbook entries.
+  */
+  public function clear () {
+    $server  = Database_Instance::getInstance ();
+    $query   = "DELETE FROM logs;";
+    $server->mysqli->query ($query);
   }
 
 

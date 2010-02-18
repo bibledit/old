@@ -1,0 +1,122 @@
+<?php
+/**
+* @package bibledit
+*/
+/*
+ ** Copyright (©) 2003-2009 Teus Benschop.
+ **
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ **  
+ */
+
+
+/**
+* This database is for the mailer.
+*/
+class Database_Mailer
+{
+  private static $instance;
+  private function __construct() {
+  } 
+  public static function getInstance() 
+  {
+    if ( empty( self::$instance ) ) {
+      self::$instance = new Database_Mailer();
+    }
+    return self::$instance;
+  }
+
+  public function verify () {
+    $database_instance = Database_Instance::getInstance();
+    $query = "CREATE TABLE IF NOT EXISTS mailer (id int, retry int, delay int);";
+    $database_instance->mysqli->query ($query);
+    $database_instance->mysqli->query ("OPTIMIZE TABLE mailer;");
+  }
+
+  /**
+  * Returns true if mail $id has been postponed.
+  */
+  public function isPostponed ($id) {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT id FROM mailer WHERE id = $id;";
+    $result = $database_instance->mysqli->query ($query);
+    return ($result->num_rows > 0);
+  }
+
+  /**
+  * Postpone mail $id.
+  */
+  public function postpone ($id) {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $delay = $this->getDelay ($id);
+    if ($delay == 0) {
+      // First failure: delay 60 seconds.
+      $delay = 60;
+    } else {
+      // Subsequent failures: double the delay, but don't go beyond one day.
+      $delay = 2 * $delay;
+      if ($delay > 86400) 
+        $delay = 86400;
+    }
+    $retry = time () + $delay;
+    $query = "DELETE FROM mailer WHERE id = $id;";
+    $database_instance->mysqli->query ($query);
+    $query = "INSERT INTO mailer VALUES ($id, $retry, $delay);";
+    $database_instance->mysqli->query ($query);
+  }
+  
+  
+  private function getDelay ($id) {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT delay FROM mailer WHERE id = $id;";
+    $result = $database_instance->mysqli->query ($query);
+    $result_array = $result->fetch_row();
+    return $result_array[0];
+  }
+
+  /**
+  * getRetryMails.
+  */
+  public function getRetryMails ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $time = time ();
+    $query = "SELECT id FROM mailer WHERE $time >= retry;";    
+    $result = $database_instance->mysqli->query ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $result_array = $result->fetch_row();
+      $ids[] = $result_array [0];
+    }
+    return $ids;
+  }
+
+  /**
+  * delete - deletes $id from the database.
+  */
+  public function delete ($id) 
+  {
+    $database_instance = Database_Instance::getInstance();
+    $query = "DELETE FROM mailer WHERE id = $id;";
+    $database_instance->mysqli->query ($query);
+  }
+    
+}
+
+
+
+?>

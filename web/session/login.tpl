@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
   </head>
 
-  <body OnLoad="document.form.user.focus();">
+  <body onload="document.form.user.focus();">
     {include file=../assets/header_full.tpl} 
     <h1>{t}Login{/t}</h1>
 
