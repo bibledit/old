@@ -108,42 +108,8 @@ $smarty->display("mail.tpl");
 Todo site mailer.
 
 
-
-Users should be able to change their email address.
-It works like this:
-* The user enters a new email address.
-* The email is validated.
-* A table with confirmations is used which stores the md5 of the request.
-* Any email that comes back, or a confirmation page, looks at this md5.
-* It would then execute the SQL that is stored in this table
-* The same table also stores the emails to be sent or the pages to be displayed.
-* Each time the table is accessed, older requests are removed.
-* If a request has been handled, its request is removed.
-
-Table:
-* md5
-* timestamp
-* email to
-* email subject
-* html page content, with base URL set properly.
-
-
-<head>
-<base href="http://www.w3schools.com/images/" />
-</head>
-
-Users should be able to change their password as well.
-
-
-Don't use addslashes for entering content into the database, as it won't
-guarantee the data is safe for a database. Instead, use
-mysql_real_escape_string, which uses the character set of your current
-connection to fix the string.
-
-
-
 Signup procedure:
-* Users provide a valid email address.
+* User provides a valid email address.
 * Mail is sent to the internal table, which will eventually get forwarded to the user.
 A confirmation is then sent to that address.
 If the user replies to it, or clicks on the link it contains, the account is then confirmed.

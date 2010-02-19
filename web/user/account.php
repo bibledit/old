@@ -9,17 +9,18 @@ page_access_level (MEMBER_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
+$database_users  = Database_Users::getInstance ();
+$email = $database_users->getUserToEmail ($username);
+$actions_taken   = false;
 
 
 // Form submission handler.
 if (isset($_POST['submit'])) {
   $form_is_valid = true;
-  $actions_taken   = false;
   $currentpassword = $_POST['currentpassword'];
   $newpassword     = $_POST['newpassword'];
   $newpassword2    = $_POST['newpassword2'];
   $newemail        = $_POST['newemail'];
-  $database_users  = Database_Users::getInstance ();
 
   if (($newpassword != "") || ($newpassword2 != "")) {
     if (strlen ($newpassword) < 4) {
@@ -55,10 +56,13 @@ if (isset($_POST['submit'])) {
       $smarty->assign ('current_password_invalid_message', gettext ("Current password is not valid"));
     }
     if ($form_is_valid) {
-      $database_mail = Database_Mail::getInstance();
-      $subject = "Email address verification";
-      $body = "You have requested to change the email address that belongs to your account. Please confirm this new email address.";
-      $database_mail->send ($newemail, $subject, $body);
+      $confirm_worker = Confirm_Worker::getInstance ();
+      $initial_subject = gettext ("Email address verification");
+      $initial_body = gettext ("Somebody requested to change the email address that belongs to your account.");
+      $query = $database_users->updateEmailQuery ($username, $newemail);
+      $subsequent_subject = gettext ("Email address change");
+      $subsequent_body = gettext ("The email address that belongs to your account has been changed successfully.");
+      $confirm_worker->setup ($newemail, $initial_subject, $initial_body, $query, $subsequent_subject, $subsequent_body);
       $actions_taken = true;
       $success_messages[] = gettext ("A verification email was sent to $newemail");
     }
@@ -73,7 +77,9 @@ if (isset($_POST['submit'])) {
 
 
 $smarty->assign ('username', $username);
+$smarty->assign ('email', $email);
 $smarty->assign ('success_messages', $success_messages);
+$smarty->assign ('actions_taken', $actions_taken);
 $smarty->display("account.tpl");
 
 

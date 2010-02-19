@@ -50,7 +50,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 4.0.59"
+#define PACKAGE_STRING "bibledit 4.0.60"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -59,7 +59,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.0.59"
+#define PACKAGE_VERSION "4.0.60"
 
 /* Define the password of the site administrator */
 #define SITE_ADMIN_PASSWORD "adminpassword"
@@ -71,7 +71,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "4.0.59"
+#define VERSION "4.0.60"
 
 /* Define the local web server document root */
 #define WEBROOT "/var/www"

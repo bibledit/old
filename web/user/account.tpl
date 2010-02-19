@@ -19,10 +19,10 @@
     {section name=offset loop=$success_messages} 
     <p class="success">{$success_messages[offset]}</p>
     {/section} 
-
-
     
-    <p>{t}You can change your password or your email address.{/t}</p>
+    {if $actions_taken == false}
+
+    <p>{t}You can change your password or your email address. Your current email address is{/t} {$email}.</p>
     
     <tr>
     <td align="right">{t}Current password{/t}</td>
@@ -52,6 +52,8 @@
     <td align="right"></td>
     <td><input type="submit" name="submit" value={t}Submit{/t} /></td>
     </tr>
+    
+    {/if}
     
     </table>
     

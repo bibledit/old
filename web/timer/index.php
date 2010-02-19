@@ -86,6 +86,18 @@ while(1)
   }
 
 
+  $previous_timestamp = $config_general->getTimerDay ();
+  if ($current_timestamp >= ($previous_timestamp + 86400)) {
+    $config_general->setTimerDay ($current_timestamp);
+    
+    // Tasks to be done once a day come here:
+
+    $memory_usage = memory_get_usage();
+    $log->log ("Memory usage is $memory_usage bytes");
+    
+  }
+
+
   // Wait a little for the next cycle.
   sleep(5);
 }

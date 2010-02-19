@@ -211,6 +211,14 @@ EOD;
   }   
 
 
+  /**
+  * updateEmailQuery - Returns the query to update a user's email address.
+  * Single quotes are doubled, since this query will be stored in a database.
+  */
+  public function updateEmailQuery ($username, $email) {
+    $query = "UPDATE users SET email = ''$email'' WHERE username = ''$username'';";
+    return $query;
+  }   
 
 
 }

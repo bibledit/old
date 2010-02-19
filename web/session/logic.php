@@ -89,11 +89,10 @@ class Session_Logic
   * Attempts to log into the system
   * 
   */
-  public function attemptLogin ($user_or_email, $password) { // Todo this uses admin system even if there are admins listed.
+  public function attemptLogin ($user_or_email, $password) {
     $database = Database_Users::getInstance();
     $login_okay = false;
     if ($database->getAdministratorCount() == 0) {
-      echo "Admin count was zero<br>"; // Todo
       // If there are no administrators listed in the databse, 
       // then it uses the credentials set up during installation.
       include ("admin/credentials.php");

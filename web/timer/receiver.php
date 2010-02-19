@@ -22,7 +22,7 @@
  */
 
 
-//require_once ("../bootstrap/bootstrap.php");
+//require_once ("../bootstrap/bootstrap.php"); // comment out.
 //$timer_receiver = new Timer_Receiver ();
 //$timer_receiver->run ();
 
@@ -45,31 +45,18 @@ class Timer_Receiver
         $database_log->log ($log);
         $body = $message->getContent ();
         $body = strip_tags ($body);
-        $log = "Could not allocate email from $from, subject $subject";
-        $database_log->log ($log);
+        $confirm_worker = Confirm_Worker::getInstance ();
+        if (!$confirm_worker->handleEmail ($from, $subject, $body)) {
+          $log = "Could not allocate email from $from, subject $subject";
+          $database_log->log ($log);
+        }
         $mail_receiver->storage->removeMessage ($i);
       }
+      unset ($mail_receiver);
     } catch (Exception $e) {
       $message = $e->getMessage ();
       $database_log->log ($message);
     }
-        
-/*
-    $database_mail = Database_Mail::getInstance();
-    $database_mailer = Database_Mailer::getInstance();
-    $send_mails = $database_mail->getMailsInboxes ();
-    for ($i = 0; $i < count ($send_mails); $i++) {
-      $id = $send_mails[$i];
-      if (!$database_mailer->isPostponed ($id)) {
-        $this->send ($id);
-      }
-    }
-    $retry_mails = $database_mailer->getRetryMails ();
-    for ($i = 0; $i < count ($retry_mails); $i++) {
-      $id = $retry_mails[$i];
-      $this->send ($id);
-    }
-*/
   }
 
 

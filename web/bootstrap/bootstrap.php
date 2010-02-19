@@ -73,6 +73,10 @@ class Bootstrap
       $path = str_replace("_", "/", $class_name);
       require_once $path.".php";
     }
+    
+    // No magic quotes: We prefer our own system.
+    // No warnings to be given if this function no longer exists, such as in PHP 6.
+    @set_magic_quotes_runtime(false);
   } 
 
 

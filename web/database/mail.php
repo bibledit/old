@@ -58,7 +58,6 @@ EOD;
   * send - Send mail
   */
   public function send ($to, $subject, $body) {
-    $session = Session_Logic::getInstance ();
     $to      = Database_SQLInjection::no ($to);
     $subject = Database_SQLInjection::no ($subject);
     $body    = Database_SQLInjection::no ($body);

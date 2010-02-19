@@ -49,6 +49,11 @@ $database_mailer = Database_Mailer::getInstance ();
 $database_mailer->verify ();
 
 
+// The confirmations table.
+$database_confirm = Database_Confirm::getInstance ();
+$database_confirm->verify ();
+
+
 // Show number of tables again.
 $result = $database_instance->mysqli->query ("SHOW TABLES;");
 $smarty->assign ("tables_count_after", $result->num_rows);

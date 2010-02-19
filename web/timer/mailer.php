@@ -80,18 +80,19 @@ class Timer_Mailer
     // Send the email.
     try {
       $mail = new Mail_Send($email, $username, $subject, $body);
+      unset ($mail);
       $database_mail->delete ($id);
       if ($username == "") {
         // If the username does not exist, delete this mail from the Trash also.
         $database_mail->delete ($id);
       }
       $database_mailer->delete ($id);
-      $message = "Email with ID $id to $email was sent successfully";
+      $message = "Email to $email was sent successfully";
       $database_log->log ($message);
     } catch (Exception $e) {
       $database_mailer->postpone ($id);      
       $message = $e->getMessage ();
-      $message = "Email with ID $id to $email could not be sent - reason: $message";
+      $message = "Email to $email could not be sent - reason: $message";
       $database_log->log ($message);
     }
   }

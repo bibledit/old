@@ -163,6 +163,13 @@ EOD;
     $this->setValue ("timer-five-minutes", $value);
   }   
 
+  public function getTimerDay() {
+    return $this->getValue ("timer-day", "");
+  }
+  public function setTimerDay ($value) {
+    $this->setValue ("timer-day", $value);
+  }   
+
 
 }
 
