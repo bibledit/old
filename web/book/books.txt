@@ -1,0 +1,106 @@
+# This file contains book names as follows:
+# ID | English name | OSIS | USFM | BibleWorks | Online Bible | type | chapter
+# Clarifications:
+# ID: Bibledit's internal book ID.
+# English name: 
+# OSIS: The OSIS abbreviation.
+# USFM: The USFM ID.
+# BibleWorks: The BibleWorks abbreviation.
+# Online Bible: Online Bible abbreviation.
+# type: One of the following
+#       frontback - Frontmatter / Backmatter
+#       ot        - Old Testament
+#       nt        - New Testament
+#       other     - Other matter
+#       ap        - Apocrypha
+# One chapter: If true, this book has only one chapter.              
+# The order in which the books are presented is the standard order.
+
+67|Front Matter||FRT|||frontback|false
+1|Genesis|Gen|GEN|Gen|Ge|ot|false
+2|Exodus|Exod|EXO|Exo|Ex|ot|false
+3|Leviticus|Lev|LEV|Lev|Le|ot|false
+4|Numbers|Num|NUM|Num|Nu|ot|false
+5|Deuteronomy|Deut|DEU|Deu|De|ot|false
+6|Joshua|Josh|JOS|Jos|Jos|ot|false
+7|Judges|Judg|JDG|Jdg|Jud|ot|false
+8|Ruth|Ruth|RUT|Rut|Ru|ot|false
+9|1 Samuel|1Sam|1SA|1Sa|1Sa|ot|false
+10|2 Samuel|2Sam|2SA|2Sa|2Sa|ot|false
+11|1 Kings|1Kgs|1KI|1Ki|1Ki|ot|false
+12|2 Kings|2Kgs|2KI|2Ki|2Ki|ot|false
+13|1 Chronicles|1Chr|1CH|1Ch|1Ch|ot|false
+14|2 Chronicles|2Chr|2CH|2Ch|2Ch|ot|false
+15|Ezra|Ezra|EZR|Ezr|Ezr|ot|false
+16|Nehemiah|Neh|NEH|Neh|Ne|ot|false
+17|Esther|Esth|EST|Est|Es|ot|false
+18|Job|Job|JOB|Job|Job|ot|false
+19|Psalms|Ps|PSA|Psa|Ps|ot|false
+20|Proverbs|Prov|PRO|Pro|Pr|ot|false
+21|Ecclesiastes|Eccl|ECC|Ecc|Ec|ot|false
+22|Song of Solomon|Song|SNG|Sol|So|ot|false
+23|Isaiah|Isa|ISA|Isa|Isa|ot|false
+24|Jeremiah|Jer|JER|Jer|Jer|ot|false
+25|Lamentations|Lam|LAM|Lam|La|ot|false
+26|Ezekiel|Ezek|EZK|Eze|Eze|ot|false
+27|Daniel|Dan|DAN|Dan|Da|ot|false
+28|Hosea|Hos|HOS|Hos|Ho|ot|false
+29|Joel|Joel|JOL|Joe|Joe|ot|false
+30|Amos|Amos|AMO|Amo|Am|ot|false
+31|Obadiah|Obad|OBA|Oba|Ob|ot|true
+32|Jonah|Jonah|JON|Jon|Jon|ot|false
+33|Micah|Mic|MIC|Mic|Mic|ot|false
+34|Nahum|Nah|NAM|Nah|Na|ot|false
+35|Habakkuk|Hab|HAB|Hab|Hab|ot|false
+36|Zephaniah|Zeph|ZEP|Zep|Zep|ot|false
+37|Haggai|Hag|HAG|Hag|Hag|ot|false
+38|Zechariah|Zech|ZEC|Zec|Zec|ot|false
+39|Malachi|Mal|MAL|Mal|Mal|ot|false
+40|Matthew|Matt|MAT|Mat|Mt|nt|false
+41|Mark|Mark|MRK|Mar|Mr|nt|false
+42|Luke|Luke|LUK|Luk|Lu|nt|false
+43|John|John|JHN|Joh|Joh|nt|false
+44|Acts|Acts|ACT|Act|Ac|nt|false
+45|Romans|Rom|ROM|Rom|Ro|nt|false
+46|1 Corinthians|1Cor|1CO|1Co|1Co|nt|false
+47|2 Corinthians|2Cor|2CO|2Co|2Co|nt|false
+48|Galatians|Gal|GAL|Gal|Ga|nt|false
+49|Ephesians|Eph|EPH|Eph|Eph|nt|false
+50|Philippians|Phil|PHP|Phi|Php|nt|false
+51|Colossians|Col|COL|Col|Col|nt|false
+52|1 Thessalonians|1Thess|1TH|1Th|1Th|nt|false
+53|2 Thessalonians|2Thess|2TH|2Th|2Th|nt|false
+54|1 Timothy|1Tim|1TI|1Ti|1Ti|nt|false
+55|2 Timothy|2Tim|2TI|2Ti|2Ti|nt|false
+56|Titus|Titus|TIT|Tit|Tit|nt|false
+57|Philemon|Phlm|PHM|Phm|Phm|nt|true
+58|Hebrews|Heb|HEB|Heb|Heb|nt|false
+59|James|Jas|JAS|Jam|Jas|nt|false
+60|1 Peter|1Pet|1PE|1Pe|1Pe|nt|false
+61|2 Peter|2Pet|2PE|2Pe|2Pe|nt|false
+62|1 John|1John|1JN|1Jo|1Jo|nt|false
+63|2 John|2John|2JN|2Jo|2Jo|nt|false
+64|3 John|3John|3JN|3Jo|3Jo|nt|true
+65|Jude|Jude|JUD|Jud|Jude|nt|true
+66|Revelation|Rev|REV|Rev|Re|nt|false
+68|Back Matter||BAK|||frontback|false
+69|Other Material||OTH|||other|false
+70|Tobit|Tob|TOB|Tob||ap|false
+71|Judith|Jdt|JDT|Jdt||ap|false
+72|Esther (Greek)|AddEsth|ESG|EsG||ap|false
+73|Wisdom of Solomon|Wis|WIS|Wis||ap|false
+74|Sirach|Sir|SIR|Sir||ap|false
+75|Baruch|Bar|BAR|Bar||ap|false
+76|Letter of Jeremiah|EpJer|LJE|LJe||ap|true
+77|Song of the Three Children|PrAzar|S3Y|S3Y||ap|true
+78|Susanna|Sus|SUS|Sus||ap|true
+79|Bel and the Dragon|Bel|BEL|Bel||ap|true
+80|1 Maccabees|1Macc|1MA|1Ma||ap|false
+81|2 Maccabees|2Macc|2MA|2Ma||ap|false
+82|1 Esdras|1Esd|1ES|1Es||ap|false
+83|Prayer of Manasses|PrMan|MAN|Man||ap|true
+84|Psalm 151|Ps151|PS2|Ps2||ap|true
+85|3 Maccabees|3Macc|3MA|3Ma||ap|false
+86|2 Esdras|2Esd|2ES|2Es||ap|false
+87|4 Maccabees|4Macc|4MA|4Ma||ap|false
+88|Daniel (Greek)|AddDan|DNT|Dnt||ap|false

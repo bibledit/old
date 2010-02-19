@@ -3,16 +3,19 @@
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
+include_once ("messages/messages.php");
 
 
 $database_instance = Database_Instance::getInstance(true);
 $smarty = new Smarty_Bibledit (__FILE__);
+$smarty->display("database.tpl");
 
 
 // Show number of tables.
 $result = $database_instance->mysqli->query ("SHOW TABLES;");
 $smarty->assign ("tables_count_before", $result->num_rows);
-
+message_information ("Number of tables in the database before the maintenance: " . $result->num_rows);
+message_information ("Verifying lots of tables");
 
 // The versions table.
 $database_versions = Database_Versions::getInstance ();
@@ -54,13 +57,15 @@ $database_confirm = Database_Confirm::getInstance ();
 $database_confirm->verify ();
 
 
+// The books table.
+$database_books = Database_Books::getInstance ();
+$database_books->verify();
+$database_books->import();
+
+
 // Show number of tables again.
 $result = $database_instance->mysqli->query ("SHOW TABLES;");
-$smarty->assign ("tables_count_after", $result->num_rows);
-
-
-// Display page.
-$smarty->display("database.tpl");
+message_information ("Number of tables in the database after the maintenance: " . $result->num_rows);
 
 
 ?>

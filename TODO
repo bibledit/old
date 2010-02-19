@@ -1,4 +1,32 @@
-Todo tasks.
+Objective: To display project data.
+
+Requirements:
+- Manager can create new project, delete project, import, export, and so on.
+- Synchronisation with git repository.
+- Display projects online.
+
+Implications:
+- Stylesheets are needed.
+- Versification schemas are required.
+- Book names are required.
+
+Implementation:
+Versification:
+- Current standard files should be added.
+- Upon installation import these into database tables starting with "versification_".<name>.
+- Export to xml or php files.
+- Import from BibleWorks versification files into the database tables.
+- Create new versification, then import into it, or export it.
+- Each versification so created has a page that shows the contents.
+- It can import from Bibledit's offline format, to an online format, which is much clearer to the editor.
+  It has the bookname on one line, then chapter dot verse.
+  Will import it into the database.
+- In directory "versification".
+
+
+
+
+
 
 
 
@@ -11,13 +39,9 @@ When installing the "site" data gets erased by the "web" data. To switch the ord
 
 
 
-The Administrator's setup page checks on the presence of a flag which indicates an update was done.
-If the flag is there, it asks the user to update the settings. Since db / host/ password, and what not, could have been changed.
-If the database number differs from the number as in the installation, it also performs an upgrade or creates tables in case there are none.
-Steps: 
-* Then see if any updates are needed. There's one table that never changes, and it contains the current database schema version number, an integer.
-* Each object that encapsulates a table also gets stored the actual version number as a constant. It compares it with the stored version number,
-  and if there are differences, it performs an upgrade.
+* There's one table that never changes, and it contains the current database schema version number, an integer.
+* Each object that encapsulates a table also stores the actual version number as a constant. 
+* It compares it with the stored version number, and if there are differences, it performs an upgrade.
 
 
 
@@ -29,7 +53,7 @@ and in the full window it has the full header and footer.
 
 Pay attention to internationalization.
 We need to get gettext working, and so need to have accounts where the user can set his language.
-The administrator sets the default language for the site to be displayed in for guests and before login.
+The administrator sets the default language for the site for guests and before login.
 
 
 On Ubuntu for extra locales, install packages like "language-pack-*". After installing a new pack, run "locale-gen" and restart Apache (sudo apache2ctl restart)
@@ -62,10 +86,13 @@ if(in_array($locale, $locales)){
 ?>
 
 
-It may use the available locales for dates and number representation as are on the system, and use our own locales as come with the application.
+It may use the available locales for dates and number representation as are on the system, and use our own locales 
+as come with the application.
 These two catalogs are different.
 
+
 When setting translation domains in the preferences, do a check on the functions' return values if it worked out well.
+
 
 The administrator can leave the locale empty, in which case the system locale will be taken. This should be the default for local installations.
 
@@ -96,37 +123,42 @@ All these applications together form "bibledit", a loosely coupled modular lot o
 
 
 
-Messaging between applications and server for e.g. verse reference, and many other things, e.g. lists of verses to be sent to the references window.
+Messaging between applications and server for e.g. verse reference, and many other things, 
+e.g. lists of verses to be sent to the references window.
+
 
 When running a local web server, as many will do, and syncing data files of projects and notes with bibledit's repository, 
 Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
 
-To use classes from phpclasses.org which has a lot of functionality built in.
 
 To have a Twitter module, that can send changes to twitter in a meaningful way.
+
 
 To have a module that creates a new GoBible each hour if there were changes. The user also can request to make a module "now", 
 which will be scheduled for the next minute. If there were no changes, it indicates this as well. There is also a very simple page for 
 access from cell phones.
 
+
 People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
 email preferences.
 
+
 JavaScript library jquery.com is recommended.
+
 
 Files in the web root should be given such a mode that these cannot be read from outside, only from inside.
 This is: file permissions to -r--------.
 
+
 The visitor to the site can see the default project, its text and comments. But to make comments, one has to get an account.
 Those with an account have vastly improved opportonities on the site.
+
 
 If a new version is installed, and routines are to be done, to be sure it always installs a file as a flag.
 When this flag is found, the site says that after maintenance by the administrator it runs again (or similar).
 
-The crontab needs to ping the local site every minute, so that the site gets some timed logic, e.g. for syncing data with the external repository.
-The 'make install' should install this line into the crontab if it was not already there. The PHP software should be able to handle multiple pings,
-e.g. such as can come from multiple sources, so that it throws away pings that come within the minute, and only takes those that are at or after
-the minute. curl can send such requests. To go to > / dev/null 2>&1
+
+
 
 
 

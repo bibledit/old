@@ -43,6 +43,8 @@ class Database_Cron
     $database_instance = Database_Instance::getInstance();
     $query = "CREATE TABLE IF NOT EXISTS cron (id varchar(10), value int) ENGINE = MEMORY;";
     $database_instance->mysqli->query ($query);
+    include_once ("messages/messages.php");
+    message_information ("Stopping timer");
     $this->setShutdown();
   }
 
