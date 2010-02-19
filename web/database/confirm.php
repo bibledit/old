@@ -27,7 +27,7 @@ class Database_Confirm
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS confirm (
 id int primary key,
-query varchar(256),
+query text,
 timestamp int,
 mailto varchar(256),
 subject varchar(256),

@@ -102,40 +102,5 @@ $smarty->assign ("sendsecurity",       $config_general->getMailSendSecurity ());
 $smarty->assign ("sendport",           $config_general->getMailSendPort ());
 $smarty->display("mail.tpl");
 
-/*
-
-
-Todo site mailer.
-
-
-Signup procedure:
-* User provides a valid email address.
-* Mail is sent to the internal table, which will eventually get forwarded to the user.
-A confirmation is then sent to that address.
-If the user replies to it, or clicks on the link it contains, the account is then confirmed.
-This means that the users table should have an 'active' field as well, or possibly 'status'.
-The unique id for that user comes from the md5 of the username, so we can see which user confirms himself.
-Once it all is set up we should also give the option to log in by email address.
-And the link for a forgotten password should be made to work as well.
-
-
-
-The system for signing up works thus:
-* User signs up.
-* Confirmation mail is sent out to the user's email address
-* The confirmation mail contains a md5 value generated from the input data.
-* A SQL query is stored in the database, with this unique value.
-* If any mail comes back with this unique value, the SQL query in the database is executed
-* But this may not be enough, since it needs to send a confirmation mail too.
-
-
-
-
-
-
-
-
-
-*/
 
 ?>

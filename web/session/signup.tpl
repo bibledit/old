@@ -35,7 +35,7 @@
       </tr>
       
       <tr>
-      <td align="right">{$question}</td>
+      <td align="right">{t}Security question:{/t} {$question}</td>
       <td><input type="text" name="answer" maxlength="40" /></td>
       <td class="error">{$answer_invalid_message}</td>
       </tr>
@@ -49,7 +49,7 @@
       
       <input type="hidden" name="standard" maxlength="40" value={$standard} />
       
-      <p>{t}This quotation may help you answer the question:{/t} {$passage}</p>
+      <p>{t}Hint to answer the security question:{/t} {$passage}</p>
       
       
     </form>

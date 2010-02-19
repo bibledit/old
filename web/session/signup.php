@@ -13,7 +13,7 @@ $smarty = new Smarty_Bibledit (__FILE__);
 
 
 /**
-* Questions the user who signs up should be able to anwer.
+* Set of security questions.
 */
 $questions[] = gettext ("To which city was Paul travelling when a light from heaven shone round about him?");
 $answers[]   = gettext ("Damascus");
@@ -25,7 +25,7 @@ $passages[]  = gettext ('And the anger of Jehova was kindled against Moses, and 
 
 $questions[] = gettext ("What is the name of the city where Jesus was born?");
 $answers[]   = gettext ("Bethlehem");
-$passages[]  = gettext ('Now when Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, wise men from the east came to Jerusalem.');
+$passages[]  = gettext ('When Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, wise men from the east came to Jerusalem.');
 
 $questions[] = gettext ("What is the name of the island where John was sent to?");
 $answers[]   = gettext ("Patmos");
@@ -64,15 +64,29 @@ if (isset($_POST['submit'])) {
     $form_is_valid = false;
     $smarty->assign ('answer_invalid_message', gettext ("The answer to the question is not correct"));
   }
+  $database_users = Database_Users::getInstance ();
   if ($form_is_valid) {
-    $database = Database_Users::getInstance ();
-    if ($database->usernameExists ($user)) {
+    if ($database_users->usernameExists ($user)) {
       $smarty->assign ('error_message', gettext ("The username that you have chosen has already been taken. Please choose another one."));
-    } else {
-      include ("session/levels.php");
-      $database->addNewUser($user, $pass, MEMBER_LEVEL, $mail);
-      $signed_up = true;
+      $form_is_valid = false;
     }
+  }
+  if ($form_is_valid) {
+    if ($database_users->emailExists ($mail)) {
+      $smarty->assign ('error_message', gettext ("The email address that you have chosen has already been taken. Please choose another one."));
+      $form_is_valid = false;
+    }
+  }
+  if ($form_is_valid) {
+    $confirm_worker = Confirm_Worker::getInstance ();
+    $initial_subject = gettext ("Signup verification");
+    $initial_body = gettext ("Somebody requested to open an account with this email address.");
+    include ("session/levels.php");
+    $query = $database_users->addNewUserQuery ($user, $pass, MEMBER_LEVEL, $mail);
+    $subsequent_subject = gettext ("Account opened");
+    $subsequent_body = gettext ("Welcome! Your account is now active.");
+    $confirm_worker->setup ($mail, $initial_subject, $initial_body, $query, $subsequent_subject, $subsequent_body);
+    $signed_up = true;
   }
 }
 

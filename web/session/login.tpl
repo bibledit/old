@@ -36,7 +36,7 @@
 
 </table>
 
-<p>{t}Forgot password? Request the administrator for help.{/t}</p>
+<p><a href="password">{t}Forgot password?{/t}</a></p>
 
 <p>{t}Not registered?{/t} <a href="signup">{t}Sign up!{/t}</a></p>
 </form>

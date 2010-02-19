@@ -1,0 +1,410 @@
+Todo tasks.
+
+
+
+
+
+
+
+When installing the "site" data gets erased by the "web" data. To switch the order of execution in the root Makefile.am
+
+
+
+
+The Administrator's setup page checks on the presence of a flag which indicates an update was done.
+If the flag is there, it asks the user to update the settings. Since db / host/ password, and what not, could have been changed.
+If the database number differs from the number as in the installation, it also performs an upgrade or creates tables in case there are none.
+Steps: 
+* Then see if any updates are needed. There's one table that never changes, and it contains the current database schema version number, an integer.
+* Each object that encapsulates a table also gets stored the actual version number as a constant. It compares it with the stored version number,
+  and if there are differences, it performs an upgrade.
+
+
+
+
+
+Whether the module runs in full screen, or in frames. If in frames it will have a goto bar, 
+and in the full window it has the full header and footer.
+
+
+Pay attention to internationalization.
+We need to get gettext working, and so need to have accounts where the user can set his language.
+The administrator sets the default language for the site to be displayed in for guests and before login.
+
+
+On Ubuntu for extra locales, install packages like "language-pack-*". After installing a new pack, run "locale-gen" and restart Apache (sudo apache2ctl restart)
+to make this new locale to take effect. This should go in the installation manual.
+
+
+To go through the various php functions called and read the comments, and learn from it.
+setlocale(LC_ALL, ""); Takes the locale from the environment.
+Before setting the locale, the php page runs 'locale -a' to see the available locales on the system.
+Then, it needs to check whether bibledit provides this translation, and advise the user appropriately.
+
+A little function to test available locales on a sytem :
+<?php
+function list_system_locales(){
+    ob_start();
+    system('locale -a'); 
+    $str = ob_get_contents();
+    ob_end_clean();
+    return split("\\n", trim($str));
+}
+
+$locale = "fr_FR.UTF8";
+$locales = list_system_locales();
+
+if(in_array($locale, $locales)){
+        echo "yes yes yes....";
+}else{
+        echo "no no no.......";
+}
+?>
+
+
+It may use the available locales for dates and number representation as are on the system, and use our own locales as come with the application.
+These two catalogs are different.
+
+When setting translation domains in the preferences, do a check on the functions' return values if it worked out well.
+
+The administrator can leave the locale empty, in which case the system locale will be taken. This should be the default for local installations.
+
+
+
+The site has one default translation, set by the site administrator. Visitors get to see this default translation.
+
+The purpose of the site is to inform the public about a translation in progress and to sollicit their input.
+The 'consultation notes' on the site work in a special way. Contributors are invited to open an account on the site in order to contribute.
+Consultation notes can be assigned to one or more persons. If a note is assigned to a person, then this person gets emailed.
+But also, more importantly, the person will get reminders after e.g. a week, two weeks, a month. The person can set the frequency of
+the reminders but not less often than once a month or two months on the most. This is the result that persons get regularly reminded if their
+note has not been resolved. It is more a task than a note. Persons should also be able to click the 'resolved' button, which will 
+automatically unassign it to him, and re-assign it to the 'team'. Borrow reasonably from a tickets system that may already be there.
+There is also an array of users whose response is requested for this ticket, and reminders go to them till they respond by email or switch 
+this flag off: Don't bother me with this ticket. If this flag is switched off by them, then they are regarded to have responded without a vote.
+There is an external email account where email responses can go to, and this account is regularly checked by bibledit.
+The ticket / issues trackers differs in model to the current system. The current system shares the notes, but the new system has a ticket number, 
+with a variety of comments to it, and status. See the standard ticets systems. There should be a way to import the old system into the new.
+The new should be shared also.
+
+There's one main site with an index pages and frames.
+Within the frames applications run. This can be our own applications, or foreign ones.
+Each application is independent and separate.
+Make our own modular system, loosely coupled, so that we create a new applicaton for each module, 
+* and share the library for all, and any of our own classes.
+All these applications together form "bibledit", a loosely coupled modular lot of software.
+
+
+
+Messaging between applications and server for e.g. verse reference, and many other things, e.g. lists of verses to be sent to the references window.
+
+When running a local web server, as many will do, and syncing data files of projects and notes with bibledit's repository, 
+Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
+
+To use classes from phpclasses.org which has a lot of functionality built in.
+
+To have a Twitter module, that can send changes to twitter in a meaningful way.
+
+To have a module that creates a new GoBible each hour if there were changes. The user also can request to make a module "now", 
+which will be scheduled for the next minute. If there were no changes, it indicates this as well. There is also a very simple page for 
+access from cell phones.
+
+People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
+email preferences.
+
+JavaScript library jquery.com is recommended.
+
+Files in the web root should be given such a mode that these cannot be read from outside, only from inside.
+This is: file permissions to -r--------.
+
+The visitor to the site can see the default project, its text and comments. But to make comments, one has to get an account.
+Those with an account have vastly improved opportonities on the site.
+
+If a new version is installed, and routines are to be done, to be sure it always installs a file as a flag.
+When this flag is found, the site says that after maintenance by the administrator it runs again (or similar).
+
+The crontab needs to ping the local site every minute, so that the site gets some timed logic, e.g. for syncing data with the external repository.
+The 'make install' should install this line into the crontab if it was not already there. The PHP software should be able to handle multiple pings,
+e.g. such as can come from multiple sources, so that it throws away pings that come within the minute, and only takes those that are at or after
+the minute. curl can send such requests. To go to > / dev/null 2>&1
+
+
+
+
+
+
+
+
+
+
+
+task #9703: Import Bibles etc from the Online bible
+The new bwoutpost has the capability to connect to the Online Bible and retrieve verses from it. Let's exploit this to get data into Bibledit.
+Since we're going to redo the outpost things, we might as well do it properly.
+Suggestions:
+* Newer Delphi, which can convert from the Online Bible's charset to UTF-8.
+* Outpost becomes a client to the server-based communications model.
+* It can get the base URL passed on its commandline, so it knows where to go.
+* If no URL is passed, it takes the default for use on Linux. That one points to the local host.
+* On import, Bibledit sends a bunch of commands to the Outpost that do the querying of book and chapter count.
+* On import, Bibledit sends a bunch of comamnds to the outpost for importing.
+* Bibledit's listener handles all requests coming back and then does the import.
+* Outpost normally is hidden, and tries to connect. If no connection gets established after say, 10 seconds, it shows and gives the error message.
+* Once it connects, it hides, and so forth.
+
+
+
+
+
+
+task #9762: Three Windows Outposts
+Currently Bibledit only controls one Windows Outpost. However this is not sufficient. It is proposed to have three of these.
+
+One for programs that prefer to run under cxoffice (e.g. BibleWorks).
+One for programs that prefer wine, such as the Online Bible.
+One for programs that only run on real Windows, e.g. Paratext, Translators' Workplace, and son on.
+
+In the setup, each Outpost needs to know which appliance it communicates with.
+
+The port number may have to be passed on the command line since two different TCP/IP port numbers are required on Linux. 
+
+This requires a new outpost which no longer is being conteacted by bibledit, but an outpost that itself contacts the messages on Apache.
+
+
+
+
+
+
+
+
+
+
+
+
+task #9764: cannot move reference list scroll bar when using find/replace
+When Using Find/Replace, if the reference list starts out not at the top, it will remain not at the top when a Find/Replace is done. One cannot see the number of instances of the find string that have been found. 
+When doing a Find/Replace, I want to know how many have been found. So it would be helpful that the find/replace routine also move the scroll bar of the Reference window to the top,
+OR that the scroll bar be unfrozen so that the user can examine the references. 
+
+
+
+
+
+
+
+
+
+
+
+task #9765: Resources should not refresh when moving between projects
+I have really enjoyed being able to use the Resource window set to Alkitab.Sabda.org. This changes whenever I go to a new verse.
+
+In BE I have several project open and translations in BE. It is annoying that BE refreshes the Resource window when I click on THE SAME verse in another project. Could you make it so that BE checks first to see if a different verse is clicked when changing windows?
+
+Thanks for the powerful feature to use outside resources. 
+
+
+
+
+
+
+
+
+
+task #9769: Searches and replacing with Word sensitivity
+It would be nice if BE could have a check box for Finds and also Find/Replace that would be sensitive to words.
+That way I could find "ia" as a separate word, and not "setia". One can use spaces, of course, but words can also be next to punctuation or sfm markers.
+
+
+
+
+
+
+
+
+
+bug #27989: free reference navigation troubles
+When using free navigation through Ctrl-G, the parsing of the string entered there is not well done when double spaces are entered.
+
+
+
+
+
+
+
+bug #27991: Record separators
+From time to time we have encountered USFM files from other sources that contain several instances of U+001E RECORD SEPARATOR.
+
+As these would display badly in Go Bible, and they are probably present unintentionally due to passing through other editing programs, it would make sense for Bibledit to be enhanced to detect and report these as something needing attention.
+
+I suppose the same could be said for any control characters other than those used in EOL markers.
+
+
+
+
+
+
+
+
+
+
+bug #28053: Assistants keep going
+When using the Backup assistant, for example, it never finishes, but want to restart each time. Other ones may be affected too.
+
+
+
+
+
+
+bug #28057: Styles are applied to only the last paragraph in a selection
+If the selection spans multiple paragraphs and the user selects a paragraph style like Quote/poetry only the last paragraph is given the style. Users expect it to affect all selected paragraphs.
+
+
+
+
+
+
+
+
+
+bug #28079: window bugs
+There is also the Ctrl-W keyboard accelerator that works in each window and closes it.
+	Teus Benschop <teus>
+Project Administrator
+Fri 18 Dec 2009 07:09:27 PM CAT, comment #2:
+
+Probably better than a menu choice to Close and Reset all windows would be a menu choice to Tile and Cascade all windows. This would be like TW and Paratext.
+	Phil Fields <oreo>
+
+(Flag as spamFlag as spam)
+
+Mon 23 Nov 2009 12:27:05 PM CAT, comment #1:
+
+Thanks for the suggestions for improvements, and sorry for the trouble! The bugs are serious. The suggestions for improvement are good!
+	Teus Benschop <teus>
+Project Administrator
+Mon 23 Nov 2009 12:18:27 PM CAT, original submission:
+
+I was giving a presentation today and had a very frustrating experience using 3.9.50. This was caused partly because of using a projector with smaller resolution than my normal external monitor.
+
+If you grab one of the windows and happen to shove the title bar above the address bar, it is possible to shove it so that the whole title bar disappears. If you ever do this, DON'T RELEASE THE MOUSE BUTTON! If you do release that window, it will be impossible to move it, since the only handle for moving the window seems to be the title bar. THERE IS ALSO NO WAY TO CLOSE THE WINDOW. I was hoping that there would be a way to close a project window via the menus. Nope! Closing the whole program doesn't help. BE remembers the faulty window position and restores it to the unmovable place.
+
+Another frustrating thing about the BE windows currently is that they seem to remember and and prioritize themselves according to the order in which they were loaded. The first loaded window will always allow itself to be covered up by any other window. Highlighting and using a window will not bring it to the front over a partially overlapping window.
+
+It is also a minor frustration that the only handle for resizing BE project windows is in the lower right corner. If you happen to shove a window so that both the title window and the resize window are invisible, and if that was a recently opened window (covering other windows), you may have very little screen real estate left to work with.
+
+In the context of a presentation, I did not feel it was a good time to try deleting something to reset all the windows. Afterward I did find that deleting configuration.1.xml in the .bibledit/configuration folder will reset all window settings.
+
+So here is a list of suggested fixes:
+*Make it impossible to shove the title bar so that it disappears.
+*OR Make it possible to use a key like the Alt key, to grab and reposition a window that is all or partially off the program screen. Perhaps other window borders could be made sensitive to such a "grab" key.
+*Make it so that windows that are activated will move to the front. This will make it possible to work with many windows, where it is likely that some will be partially overlapping.
+*Make it possible to close a project from a menu.
+*OR Make it possible close all windows and reset window defaults from a menu.
+*Make it possible to resize windows from the lower left corner also.
+*Please make it possible to resize windows from all four sides, left, right, top, and bottom.
+*Make it so that when BE is restarted, it will not restore windows to an immovable location, or to a location that is totally off the screen and invisible.
+
+Thanks!
+Phil 
+
+
+
+
+
+
+
+
+bug #28154: Does not always show the references in the xref
+When clicking in a cross reference, it asks whether you'd like to load these into the reference window. When replying "Yes", and the references window is not visible, it is supposed to display this window, but it does not. If the window is already there, though, it works fine.
+
+
+
+
+
+bug #28211: Does Bibledit check for correct nesting of quotation marks?
+There's one check that does this. It is available from menu Checks / Punctuation / Matching pairs.
+	Teus Benschop <teus>
+Project Administrator
+Mon 07 Dec 2009 12:30:00 AM CAT, original submission:
+
+For translations that have quotation marks, double and single, does Bibledit check that these are correctly nested?
+
+Example: This part of verse from the ABN is incorrectly nested.
+
+“Agus abraigí: ‘Tá do shearbhónta Iacób féin ag teacht inár ndiaidh chomh maith.”’
+
+It should be:
+
+“Agus abraigí: ‘Tá do shearbhónta Iacób féin ag teacht inár ndiaidh chomh maith.’” 
+
+
+
+
+
+
+bug #28294: Remember verse/chapter is now broken
+One of the features I asked for was that BE be able to remember its chapter/verse position when moving from one book to another, or moving from one chapter to another. This feature can be activated under Preferences > User Interface.
+
+That feature is now broken in version 4.0.01. 
+
+
+
+
+
+
+
+bug #28295: find/replace misses many finds
+Today I noted that when doing a simple find/replace, many examples of the search string were missed. It seemed to me that they were missed when I specified to search in the whole New Testament. When I searched one book at a time, they were all found. 
+
+
+
+
+
+
+
+bug #28296: BE gets in a loop cycling through windows
+Sometimes BE 4.0.01 gets in a loop where it unceasingly cycles through the open windows. The title bar of the program flashes the names of the open projects. And the verse number in the address bar was shifting between verse 0 and verse 17.
+
+Another thing that is sort of broken is the clicking on footnote numbers. This often does not cause BE to show the footnote. 
+
+
+
+
+
+
+Independent and universal focus channels on the server.
+* Everybody can listen to the "focus" on his own channel. Channels are craeted on the fly.
+* Everybody can als send his "focus".
+* When bibledit quits, or when a command is given on a web page, then the table with the focus commands is dropped. 
+  Software should recreate it next time when reading the table fails.
+
+
+
+
+MySQL does not start on Ubuntu 9.10:
+This problem can be solved by removing some mysql-related components :
+
+sudo apt-get remove mysql-admin mysql-query-browser mysql-gui-tools-common mysql-client-5.0 libmysqlclient15off
+
+and installing mysql server
+
+sudo apt-get install mysql-server mysql-client mailutils
+
+
+
+Windows: http://www.wampserver.com/
+
+The site needs to have the concept of Desktops. Users can create store and erase these. E.g. a desktop for editing, one for merging, etc.
+
+
+Being behind a shaking connection, the site should be operatable by email as well, in particular the consultations.
+
+
+Since email is not compulsory, there should be an inbox also where the user can see which messages are for him.
+Actually, all messages go into this inbox at first, and are then attempted to be sent from there.
+Once sent, they go in the Trash.
+
+
+Instead of using XeTeX, we could also look at CSS2 with paged media for printing, and screen media for the screen.
+

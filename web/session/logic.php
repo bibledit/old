@@ -110,6 +110,8 @@ class Session_Logic
     // Match password and email.
     if ($database->matchEmailPassword ($user_or_email, $password)) {
       $login_okay = true;
+      // Fetch username that belongs to the email address that was used to login.
+      $user_or_email = $database->getEmailToUser ($user_or_email);
     }
 
     if ($login_okay) {

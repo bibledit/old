@@ -5,22 +5,9 @@
 
 class Database_Users
 {
-
-
-
-  private static $instance;    // Current object instance.
-
-
-
-
-  // The class constructor is private, so no outsider can call it.
+  private static $instance;
   private function __construct() {
   } 
-
-
-
-
-  // Gets or creates the object instance, making it a singleton.
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
@@ -83,6 +70,20 @@ class Database_Users
 
 
   /**
+  * addNewUserQuery - Returns the query to execute to add a new user.
+  * Quotes are repeated since this query is stored in the database for a while
+  */
+  public function addNewUserQuery($username, $password, $level, $email) {
+    $username = Database_SQLInjection::no ($username);
+    $password = md5 ($password);
+    $email = Database_SQLInjection::no ($email);
+    $time = time();
+    $query = "INSERT INTO users VALUES (''$username'', ''$password'', '''', $level, ''$email'', $time)";
+    return $query;
+  }
+
+
+  /**
   * getEmailToUser - Returns the username that belongs to the $email.
   */
   public function getEmailToUser ($email) {
@@ -119,6 +120,18 @@ class Database_Users
     $server = Database_Instance::getInstance ();
     $user = Database_SQLInjection::no ($user);
     $query = "SELECT * FROM users WHERE username = '$user'";
+    $result = $server->mysqli->query ($query);
+    return ($result->num_rows > 0);
+  }
+
+
+  /**
+  * emailExists - Returns true if the email address exists in the database
+  */
+  public function emailExists($email) {
+    $server = Database_Instance::getInstance ();
+    $email  = Database_SQLInjection::no ($email);
+    $query  = "SELECT * FROM users WHERE email = '$email'";
     $result = $server->mysqli->query ($query);
     return ($result->num_rows > 0);
   }

@@ -37,7 +37,7 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	THANKS config.guess config.sub depcomp install-sh missing \
+	THANKS TODO config.guess config.sub depcomp install-sh missing \
 	mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -267,6 +267,7 @@ top_srcdir = @top_srcdir@
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc shutdown usfm kjv outpost gobible web dbus vcs xetex
 # ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = bibledit*.gz *~
+EXTRA_DIST = TODO
 bumpversion_SOURCES = bumpversion.cpp
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 all: config.h
