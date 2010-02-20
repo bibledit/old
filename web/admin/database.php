@@ -63,6 +63,12 @@ $database_books->verify();
 $database_books->import();
 
 
+// The versifications table.
+$database_versifications = Database_Versifications::getInstance();
+$database_versifications->verify();
+$database_versifications->import();
+
+
 // Show number of tables again.
 $result = $database_instance->mysqli->query ("SHOW TABLES;");
 message_information ("Number of tables in the database after the maintenance: " . $result->num_rows);

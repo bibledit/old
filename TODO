@@ -8,21 +8,15 @@ Requirements:
 Implications:
 - Stylesheets are needed.
 - Versification schemas are required.
-- Book names are required.
 
 Implementation:
 Versification:
-- Current standard files should be added.
-- Upon installation import these into database tables starting with "versification_".<name>.
-- Export to xml or php files.
 - Import from BibleWorks versification files into the database tables.
 - Create new versification, then import into it, or export it.
 - Each versification so created has a page that shows the contents.
 - It can import from Bibledit's offline format, to an online format, which is much clearer to the editor.
   It has the bookname on one line, then chapter dot verse.
   Will import it into the database.
-- In directory "versification".
-
 
 
 
