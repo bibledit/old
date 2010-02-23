@@ -74,13 +74,13 @@ EOD;
         $file = "$directory/$file";
         message_information ("- $pieces[0]");
         flush ();
-        $this->importOldBibleditXmlFile ($file, $pieces[0]);
+        $this->importBibleditXmlFile ($file, $pieces[0]);
       }
     }
     closedir($handler);
   }
 
-  private function importOldBibleditXmlFile ($file, $name)
+  private function importBibleditXmlFile ($file, $name)
   {
     // Delete old system if it is there, and create new one.
     $this->delete ($name);
@@ -99,6 +99,32 @@ EOD;
   }
 
 
+  public function exportBibleditXmlFile ($name)
+  {
+    $database_books = Database_Books::getInstance();
+    $xml = new SimpleXMLElement ("<bibledit-versification-system></bibledit-versification-system>");
+    $versification_data = $this->getBooksChaptersVerses ($name);
+    while ($row = $versification_data->fetch_assoc()) {
+      $triad = $xml->addChild ("triad");
+      $book = $row["book"];
+      $book = $database_books->getEnglishFromId ($book);     
+      $triad->addChild ("book", $book);
+      $chapter = $row["chapter"];
+      $triad->addChild ("chapter", $chapter);
+      $verse = $row["verse"];
+      $triad->addChild ("verse", $verse);
+    }
+    $domnode = dom_import_simplexml ($xml);
+    $dom = new DOMDocument ("1.0", "UTF-8");
+    $domnode = $dom->importNode ($domnode, true);
+    $dom->appendChild ($domnode);
+    $dom->formatOutput = true;
+    $string = $dom->saveXML ();
+    $string = htmlentities ($string);
+    return $string;
+  }
+
+  
   /**
     * delete - Delete a versification system.
     */      
@@ -129,6 +155,7 @@ EOD;
     return $row[0];
   }
 
+
   /**
     * create - Creates a new empty versification system.
     * Returns the new ID.
@@ -157,6 +184,38 @@ EOD;
     // Return new ID.
     return $id;
   }
+
+
+  /**
+    * getSystems - Returns an array of the available versification systems.
+    */      
+  public function getSystems ()
+  {
+    $database_instance = Database_Instance::getInstance(true);
+    $name = Database_SQLInjection::no ($name);
+    $query = "SELECT name FROM versification_names ORDER BY name ASC;";
+    $result = $database_instance->mysqli->query ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $systems[] = $row[0];
+    }
+    return $systems;
+  }
+
+
+  /**
+    * getBooksChaptersVerses - Returns the books, chapters, verses for the given versification system.
+    */
+  public function getBooksChaptersVerses ($name)
+  {
+    $id = $this->getID ($name);
+    $query = "SELECT book, chapter, verse FROM versification_data WHERE system = $id ORDER BY book, chapter, verse ASC;";
+    $database_instance = Database_Instance::getInstance(true);
+    $result = $database_instance->mysqli->query ($query);
+    return $result;
+  }
+  
+
 
 }
 

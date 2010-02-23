@@ -63,6 +63,11 @@ $database_books->verify();
 $database_books->import();
 
 
+// The dialog table.
+$database_dialog = Database_Dialog::getInstance ();
+$database_dialog->verify ();
+
+
 // The versifications table.
 $database_versifications = Database_Versifications::getInstance();
 $database_versifications->verify();

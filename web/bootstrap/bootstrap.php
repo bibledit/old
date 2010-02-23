@@ -34,7 +34,8 @@ function page_access_level ($level)
 {
   $session_logic = Session_Logic::getInstance ();
   if ($level > $session_logic->currentLevel ()) {
-    echo "<h2>", gettext ("You do not have sufficient privileges to access this page"), "</h2>";
+    $smarty = new Smarty_Bibledit (__FILE__);
+    $smarty->display("bootstrap.tpl");
     die ();
   } 
 }

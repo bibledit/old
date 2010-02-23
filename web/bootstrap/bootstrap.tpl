@@ -4,15 +4,14 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     </meta>
-    <title>{t}Are you sure?{/t}</title>
+    <title>{t}Privileges{/t}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css">
     </link>
   </head>
   <body>
     {include file=../assets/header_full.tpl} 
-    <h2>{$question}</h2>
-    <h3><a href="{$no}">{t}No{/t}</a></h3>
-    <h3><a href="{$yes}">{t}Yes{/t}</a></h3>
+    <h1>{t}You do not have access to this page{/t}</h1>
+    <p>{t}You do not currently have access to the page you try to view. There can be a few reasons for this. One reason may be that your session has timed out. To resolve this, log in and try again.{/t}</p>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

@@ -26,7 +26,7 @@
         {section name=offset loop=$usernames} 
         <tr>
           <td>{$usernames[offset]}</td>
-          <td><a href="../dialog/confirm?question={t}Are you sure you would like to delete user{/t} {$usernames[offset]}?&yes=../manage/users?delete={$usernames[offset]}&no=../manage/users">[{t}delete{/t}]</a></td>
+          <td><a href="users?delete={$usernames[offset]}">[{t}delete{/t}]</a></td>
           <td>{$ids[offset]}</td>
           <td>{$levels[offset]}</td>
           <td><a href="changerole?user={$usernames[offset]}">[{t}change{/t}]</a></td>

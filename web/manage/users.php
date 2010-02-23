@@ -3,18 +3,22 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
-/**
-* If a user is to be deleted, this gets passed as a GET request to this page.
-* Do that first, then proceed to the actual page.
-*/
-if (isset ($_GET['delete'])) {
-  $database = Database_Users::getInstance();
-  $database->removeUser($_GET['delete']);
+
+if ($_GET['delete'] != "") {
+  $name = $_GET['delete'];
+  $confirm = $_GET['confirm'];
+  if ($confirm != "") {
+    $database = Database_Users::getInstance();
+    $database->removeUser($name);
+  } else {
+    $dialog_yes = new Dialog_Yes (gettext ("Would you like to delete") . " $name?");
+    die;
+  }
 }
 
-/**
-* Normal page display.
-*/
+
+
+
 $smarty = new Smarty_Bibledit (__FILE__);
 $users = Session_Users::getInstance ();
 for ($i = 0; $i < count ($users->levels); $i++) {

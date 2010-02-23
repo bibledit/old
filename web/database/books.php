@@ -98,6 +98,19 @@ EOD;
   }
       
 
+  public function getEnglishFromId($id)
+  {
+    $database_instance = Database_Instance::getInstance(true);
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT english FROM books WHERE id = $id;";
+    $result = $database_instance->mysqli->query ($query);
+    if ($result->num_rows == 0) {
+      return gettext ("Unknown");
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
 }
 
 
