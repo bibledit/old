@@ -11,7 +11,7 @@
     {include file=../assets/header_full.tpl} 
     <h1>{t}New password{/t}</h1>
 
-    <form action="password" name="form" method="post">
+    <form action="password.php" name="form" method="post">
     
     <table>
     

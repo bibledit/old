@@ -11,10 +11,10 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h1>{t}Administration{/t}</h1>
-    <p><a href="logbook">{t}Logbook{/t}</a></p>
-    <p><a href="../manage/users">{t}Users{/t}</a></p>
-    <p><a href="mail">{t}Mail{/t}</a></p>
-    <p><a href="database">{t}Database{/t}</a></p>
+    <p><a href="logbook.php">{t}Logbook{/t}</a></p>
+    <p><a href="mail.php">{t}Mail{/t}</a></p>
+    <p><a href="database.php">{t}Database{/t}</a></p>
+    <p><a href="phpinfo.php">PHP Info</a></p>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

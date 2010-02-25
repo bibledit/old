@@ -32,8 +32,13 @@ timestamp int,
 event text
 );
 EOD;
-    $database_instance->mysqli->query ($str);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE logs;");
+    $database_instance->runQuery ($str);
+  }
+
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE logs;");
   }
 
 
@@ -41,14 +46,14 @@ EOD;
   * log - Logs entry
   */
   public function log ($description) {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $description = Database_SQLInjection::no ($description);
     $time = time();
     $query = "INSERT INTO logs VALUES (NULL, $time, '$description');";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
     $time -= 86400;
     $query = "DELETE FROM logs WHERE timestamp < $time;";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
   }
 
   /**
@@ -57,7 +62,7 @@ EOD;
   public function get () {
     $server  = Database_Instance::getInstance ();
     $query   = "SELECT timestamp, event FROM logs ORDER BY id DESC;";
-    $result  = $server->mysqli->query ($query);
+    $result  = $server->runQuery ($query);
     return $result;
   }
 
@@ -68,7 +73,7 @@ EOD;
   public function clear () {
     $server  = Database_Instance::getInstance ();
     $query   = "DELETE FROM logs;";
-    $server->mysqli->query ($query);
+    $server->runQuery ($query);
   }
 
 

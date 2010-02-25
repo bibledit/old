@@ -23,7 +23,7 @@ class Database_Config_General
   * Verify database table, optionally creating and/or optimizing it
   */
   public function verify () {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS config_general (
 ident VARCHAR(100) NOT NULL,
@@ -31,15 +31,19 @@ value VARCHAR(1000),
 offset INT NOT NULL
 );
 EOD;
-    $database_instance->mysqli->query ($str);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE config_general;");
+    $database_instance->runQuery ($str);
+  }
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE config_general;");
   }
 
   // Functions that retrieve the value or list from the database.
   private function getValue ($key, $default) {
     $database = Database_Instance::getInstance ();
     $query = "SELECT value FROM config_general WHERE ident = '$key'";
-    $result = $database->mysqli->query ($query);
+    $result = $database->runQuery ($query);
     if ($result->num_rows == 0) {
       return $default;
     }
@@ -50,9 +54,9 @@ EOD;
     $database = Database_Instance::getInstance ();
     $value = Database_SQLInjection::no ($value);
     $query = "DELETE FROM config_general WHERE ident = '$key';";
-    $database->mysqli->query ($query);
+    $database->runQuery ($query);
     $query = "INSERT INTO config_general VALUES ('$key', '$value', 0);";    
-    $database->mysqli->query ($query);
+    $database->runQuery ($query);
   }
   private function getList ($key) {
   }

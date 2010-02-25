@@ -13,7 +13,7 @@
     <table>
       <thead>
         <tr>
-          <td><a href="logbook?delete=all">[{t}delete all{/t}]</a> {t}Timestamp{/t}</td>
+          <td><a href="logbook.php?delete=all">[{t}delete all{/t}]</a> {t}Timestamp{/t}</td>
           <td></td>
           <td>{t}Event{/t}</td>
         </tr>

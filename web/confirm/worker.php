@@ -74,8 +74,7 @@ class Confirm_Worker
     // An active ID was found: Execute the associated database query.
     $query = $database_confirm->getQuery ($id);
     $server = Database_Instance::getInstance ();
-    $query = Database_SQLInjection::no ($query);
-    $server->mysqli->query ($query);
+    $server->runQuery ($query);
     // Send confirmation mail.
     $mailto = $database_confirm->getMailTo ($id);
     $subject = $database_confirm->getSubject ($id);

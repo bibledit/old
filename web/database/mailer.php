@@ -39,10 +39,14 @@ class Database_Mailer
   }
 
   public function verify () {
-    $database_instance = Database_Instance::getInstance();
     $query = "CREATE TABLE IF NOT EXISTS mailer (id int, retry int, delay int);";
-    $database_instance->mysqli->query ($query);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE mailer;");
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ($query);
+  }
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE mailer;");
   }
 
   /**
@@ -52,7 +56,7 @@ class Database_Mailer
     $id = Database_SQLInjection::no ($id);
     $database_instance = Database_Instance::getInstance();
     $query = "SELECT id FROM mailer WHERE id = $id;";
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     return ($result->num_rows > 0);
   }
 
@@ -74,9 +78,9 @@ class Database_Mailer
     }
     $retry = time () + $delay;
     $query = "DELETE FROM mailer WHERE id = $id;";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
     $query = "INSERT INTO mailer VALUES ($id, $retry, $delay);";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
   }
   
   
@@ -84,7 +88,7 @@ class Database_Mailer
     $id = Database_SQLInjection::no ($id);
     $database_instance = Database_Instance::getInstance();
     $query = "SELECT delay FROM mailer WHERE id = $id;";
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     $result_array = $result->fetch_row();
     return $result_array[0];
   }
@@ -97,7 +101,7 @@ class Database_Mailer
     $database_instance = Database_Instance::getInstance();
     $time = time ();
     $query = "SELECT id FROM mailer WHERE $time >= retry;";    
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $result_array = $result->fetch_row();
       $ids[] = $result_array [0];
@@ -112,7 +116,7 @@ class Database_Mailer
   {
     $database_instance = Database_Instance::getInstance();
     $query = "DELETE FROM mailer WHERE id = $id;";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
   }
     
 }

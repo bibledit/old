@@ -9,6 +9,14 @@ $database_versifications = Database_Versifications::getInstance();
 $name = $_GET['name'];
 $smarty->assign ("name", $name);
 
+if (isset($_POST['submit'])) {
+  $data = $_POST['data'];
+  if ($data != "") {
+    $data = stripslashes ($data);
+    $database_versifications->importBibleditXml ($data, $name);
+  }
+}
+
 $database_books = Database_Books::getInstance();
 $data = $database_versifications->getBooksChaptersVerses ($name);
 while ($row = $data->fetch_assoc()) {

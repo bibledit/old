@@ -42,7 +42,14 @@ class Database_Cron
   public function verify () {
     $database_instance = Database_Instance::getInstance();
     $query = "CREATE TABLE IF NOT EXISTS cron (id varchar(10), value int) ENGINE = MEMORY;";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
+    $this->setShutdown();
+  }
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $query = "OPTIMIZE TABLE cron;";
+    $database_instance->runQuery ($query);
     include_once ("messages/messages.php");
     message_information ("Stopping timer");
     $this->setShutdown();
@@ -50,19 +57,19 @@ class Database_Cron
 
   public function clearFlags () {
     $server = Database_Instance::getInstance ();
-    $server->mysqli->query ("DELETE FROM cron;");
+    $server->runQuery ("DELETE FROM cron;");
   }
   
   public function setPID () {
     $pid = getmypid ();
     $server = Database_Instance::getInstance ();
-    $server->mysqli->query ("DELETE FROM cron WHERE id = 'pid';");
-    $server->mysqli->query ("INSERT INTO cron VALUES ('pid', $pid);");
+    $server->runQuery ("DELETE FROM cron WHERE id = 'pid';");
+    $server->runQuery ("INSERT INTO cron VALUES ('pid', $pid);");
   }
   
   public function getPID () {
     $server = Database_Instance::getInstance ();
-    $result = $server->mysqli->query ("SELECT value FROM cron WHERE id = 'pid';");
+    $result = $server->runQuery ("SELECT value FROM cron WHERE id = 'pid';");
     if ($result->num_rows == 0) {
       return 0;
     }
@@ -72,12 +79,12 @@ class Database_Cron
 
   public function setShutdown () {
     $server = Database_Instance::getInstance ();
-    $server->mysqli->query ("INSERT INTO cron VALUES ('shutdown', 1);");
+    $server->runQuery ("INSERT INTO cron VALUES ('shutdown', 1);");
   }
   
   public function getShutdown () {
     $server = Database_Instance::getInstance ();
-    $result = $server->mysqli->query ("SELECT value FROM cron WHERE id = 'shutdown';");
+    $result = $server->runQuery ("SELECT value FROM cron WHERE id = 'shutdown';");
     if ($result->num_rows == 0) {
       return 0;
     }

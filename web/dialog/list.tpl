@@ -9,12 +9,12 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h2>{$header}</h2>
-    <h3><a href="{$caller_url}">{t}Cancel{/t}</a></h3>
     <p>{$info_top}</p>
     {section name=offset loop=$text_lines} 
-    <p><a href="../database/runsql?sql={$sql_queries[offset]}&goto={$caller_url}">{$text_lines[offset]}</a></p>
+    <p><a href="{$caller_url}?{$get_parameters[offset]}">{$text_lines[offset]}</a></p>
     {/section} 
     <p>{$info_bottom}</p>
+    <h3><a href="{$caller_url}">{t}Cancel{/t}</a></h3>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

@@ -11,36 +11,36 @@
     {include file=../assets/header_full.tpl} 
     <h1>{t}Login{/t}</h1>
 
-<form action="login" name="form" method="post">
+    <form action="login.php" name="form" method="post">
+    
+    <table>
+    
+    <p class="error">{$error_message}</p>
+    
+    <tr>
+    <td align="right">{t}Username or email address{/t}</td>
+    <td><input type="text" name="user" maxlength="30" class="focus" /></td>
+    <td class="error">{$username_or_email_invalid_message}</td>
+    </tr>
+    
+    <tr>
+    <td align="right">{t}Password{/t}</td>
+    <td><input type="password" name="pass" maxlength="30" /></td>
+    <td class="error">{$password_invalid_message}</td>
+    </tr>
+    
+    <tr>
+    <td align="right"></td>
+    <td><input type="submit" name="submit" value={t}Login{/t} /></td>
+    </tr>
+    
+    </table>
+    
+    <p><a href="password.php">{t}Forgot password?{/t}</a></p>
+    
+    <p>{t}Not registered?{/t} <a href="signup.php">{t}Sign up!{/t}</a></p>
+    </form>
 
-<table>
-
-<p class="error">{$error_message}</p>
-
-<tr>
-<td align="right">{t}Username or email address{/t}</td>
-<td><input type="text" name="user" maxlength="30" class="focus" /></td>
-<td class="error">{$username_or_email_invalid_message}</td>
-</tr>
-
-<tr>
-<td align="right">{t}Password{/t}</td>
-<td><input type="password" name="pass" maxlength="30" /></td>
-<td class="error">{$password_invalid_message}</td>
-</tr>
-
-<tr>
-<td align="right"></td>
-<td><input type="submit" name="submit" value={t}Login{/t} /></td>
-</tr>
-
-</table>
-
-<p><a href="password">{t}Forgot password?{/t}</a></p>
-
-<p>{t}Not registered?{/t} <a href="signup">{t}Sign up!{/t}</a></p>
-</form>
-
-     {include file=../assets/footer_full.tpl} 
+    {include file=../assets/footer_full.tpl} 
   </body>
 </html>

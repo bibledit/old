@@ -25,7 +25,7 @@ class Session_Users
 
     $server = Database_Instance::getInstance ();
     $query = "SELECT * FROM users ORDER BY level DESC, username ASC;";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     while ($row = $result->fetch_assoc()) {
       $level = $row["level"];
       if ($level <= $mylevel) {

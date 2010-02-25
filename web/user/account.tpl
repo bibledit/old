@@ -11,7 +11,7 @@
     {include file=../assets/header_full.tpl} 
     <h1>{t}Account{/t} {$username}</h1>
 
-    <form action="account" name="form" method="post">
+    <form action="account.php" name="form" method="post">
     
     <table>
 

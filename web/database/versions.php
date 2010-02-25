@@ -21,21 +21,26 @@ class Database_Versions
   * verify - Verifies the database table, possibly creating it.
   */
   public function verify () {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS versions (
 name varchar(50) primary key,
 version int unsigned
 );
 EOD;
-    $database_instance->mysqli->query ($str);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE versions;");
+    $database_instance->runQuery ($str);
   }
 
+  public function optimize ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE versions;");
+  }
+  
   public function getVersion ($database) {
     $server = Database_Instance::getInstance ();
     $query = "SELECT version FROM versions WHERE name = '$database';";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     if ($result->num_rows == 0) {
       return 0;
     }
@@ -46,7 +51,7 @@ EOD;
   public function setVersion ($database, $version) {
     $server = Database_Instance::getInstance ();
     $query = "REPLACE INTO versions VALUES ('$database', $version);";
-    $server->mysqli->query ($query);
+    $server->runQuery ($query);
   }
   
 }

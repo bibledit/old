@@ -26,10 +26,10 @@
         {section name=offset loop=$usernames} 
         <tr>
           <td>{$usernames[offset]}</td>
-          <td><a href="users?delete={$usernames[offset]}">[{t}delete{/t}]</a></td>
+          <td><a href="users.php?delete={$usernames[offset]}">[{t}delete{/t}]</a></td>
           <td>{$ids[offset]}</td>
           <td>{$levels[offset]}</td>
-          <td><a href="changerole?user={$usernames[offset]}">[{t}change{/t}]</a></td>
+          <td><a href="changerole.php?user={$usernames[offset]}">[{t}change{/t}]</a></td>
           <td>{$emails[offset]}</td>
         </tr>
         {/section} 

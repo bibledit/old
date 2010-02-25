@@ -10,7 +10,7 @@
     {include file=../assets/header_full.tpl} 
      <h1>{t}Signup{/t}</h1>
 
-    <form action="signup" method="post">
+    <form action="signup.php" method="post">
     
       <table>
       

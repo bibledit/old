@@ -23,7 +23,7 @@ class Database_Confirm
   * verify - Verifies the database table
   */
   public function verify () {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS confirm (
 id int primary key,
@@ -34,8 +34,13 @@ subject varchar(256),
 body text
 );
 EOD;
-    $database_instance->mysqli->query ($str);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE confirm;");
+    $database_instance->runQuery ($str);
+  }
+
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE confirm;");
   }
 
 
@@ -60,7 +65,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT id FROM confirm WHERE id = $id;";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     return ($result->num_rows > 0);
   }
   
@@ -78,7 +83,7 @@ EOD;
     $subject   = Database_SQLInjection::no ($subject);
     $body      = Database_SQLInjection::no ($body);
     $query     = "INSERT INTO confirm VALUES ($id, '$query', $timestamp, '$to', '$subject', '$body');";
-    $server->mysqli->query ($query);
+    $server->runQuery ($query);
   }
 
 
@@ -90,7 +95,7 @@ EOD;
   {
     $server = Database_Instance::getInstance ();
     $query = "SELECT id FROM confirm;";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $result_array = $result->fetch_row();
       $id = $result_array [0];
@@ -110,7 +115,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT query FROM confirm WHERE id = $id;";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     $result_array = $result->fetch_row();
     return $result_array[0];
   }   
@@ -123,7 +128,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT mailto FROM confirm WHERE id = $id;";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     $result_array = $result->fetch_row();
     return $result_array[0];
   }   
@@ -136,7 +141,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT subject FROM confirm WHERE id = $id;";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     $result_array = $result->fetch_row();
     return $result_array[0];
   }   
@@ -149,7 +154,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT body FROM confirm WHERE id = $id;";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     $result_array = $result->fetch_row();
     return $result_array[0];
   }   
@@ -162,7 +167,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     $id = Database_SQLInjection::no ($id);
     $query = "DELETE FROM confirm WHERE id = $id;";
-    $server->mysqli->query ($query);
+    $server->runQuery ($query);
   }   
 
 

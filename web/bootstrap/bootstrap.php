@@ -78,6 +78,7 @@ class Bootstrap
     // No magic quotes: We prefer our own system.
     // No warnings to be given if this function no longer exists, such as in PHP 6.
     @set_magic_quotes_runtime(false);
+    ini_set ('magic_quotes_gpc', 0);
   } 
 
 

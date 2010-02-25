@@ -26,7 +26,7 @@ class Database_Mail
   * verify - Verifies the database table
   */
   public function verify () {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS mail (
 id int auto_increment primary key,
@@ -37,8 +37,13 @@ subject varchar(256),
 body text
 );
 EOD;
-    $database_instance->mysqli->query ($str);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE mail;");
+    $database_instance->runQuery ($str);
+  }
+
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE mail;");
   }
 
 
@@ -65,7 +70,7 @@ EOD;
     $label   = $this->labelInbox ();
     $time    = time();
     $query   = "INSERT INTO mail VALUES (NULL, '$to',   $time, '$label', '$subject', '$body');";
-    $result  = $server->mysqli->query ($query);
+    $result  = $server->runQuery ($query);
   }
 
 
@@ -79,7 +84,7 @@ EOD;
     $label   = $this->labelInbox ();
     $query   = "SELECT id FROM mail WHERE username = '$user' and label = '$label';";
     $server  = Database_Instance::getInstance ();
-    $result  = $server->mysqli->query ($query);
+    $result  = $server->runQuery ($query);
     return $result->num_rows;
   }
 
@@ -93,7 +98,7 @@ EOD;
     $user    = $session->currentUser();
     $server  = Database_Instance::getInstance ();
     $query   = "SELECT id, timestamp, subject FROM mail WHERE username = '$user' and label = '$label' ORDER BY timestamp DESC;";
-    $result  = $server->mysqli->query ($query);
+    $result  = $server->runQuery ($query);
     return $result;
   }
 
@@ -105,7 +110,7 @@ EOD;
     $id      = Database_SQLInjection::no ($id);
     $server  = Database_Instance::getInstance ();
     $query   = "SELECT label FROM mail WHERE id = $id;";
-    $result  = $server->mysqli->query ($query);
+    $result  = $server->runQuery ($query);
     $row     = $result->fetch_assoc();
     $label   = $row['label'];
     if ($label == $this->labelTrash ()) {
@@ -116,7 +121,7 @@ EOD;
       $label = $this->labelTrash ();
       $query  = "UPDATE mail SET label = '$label' WHERE id = $id;";
     }
-    $server->mysqli->query ($query);
+    $server->runQuery ($query);
   }
 
 
@@ -127,7 +132,7 @@ EOD;
     $id      = Database_SQLInjection::no ($id);
     $server  = Database_Instance::getInstance ();
     $query   = "SELECT username, subject, body FROM mail WHERE id = $id;";
-    $result  = $server->mysqli->query ($query);
+    $result  = $server->runQuery ($query);
     return $result;
   }
 
@@ -139,7 +144,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     $label  = $this->labelInbox();
     $query  = "SELECT id FROM mail WHERE label = '$label';";
-    $result = $server->mysqli->query ($query);
+    $result = $server->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $result_array = $result->fetch_row();
       $ids[] = $result_array [0];

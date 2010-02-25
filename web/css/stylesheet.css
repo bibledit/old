@@ -119,3 +119,9 @@ dd {
   font-weight: bold;
   font-size: larger;
 }
+
+textarea {
+  width: 95%;
+  height: 20em;
+	
+}

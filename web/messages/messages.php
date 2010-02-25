@@ -18,7 +18,7 @@ function message_information ($message) {
 function message_warning_header ($message) {
   $messages = func_get_args ();
   foreach ($messages as $msg) {
-    echo "<h1> ", gettext ("Warning"), ": $msg</h1><br>\n";
+    echo "<h1> ", gettext ("Warning"), ": $msg</h1>\n";
   }
   
 }

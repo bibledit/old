@@ -39,15 +39,15 @@ class Database_Versifications
   }
 
   public function verify () {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS versification_names (
 system int primary key,
 name varchar(256)
 );
 EOD;
-    $database_instance->mysqli->query ($str);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE versification_names;");
+    $database_instance->runQuery ($str);
+    $database_instance->runQuery ("OPTIMIZE TABLE versification_names;");
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS versification_data (
 id int auto_increment primary key,
@@ -57,8 +57,15 @@ chapter int,
 verse int
 );
 EOD;
-    $database_instance->mysqli->query ($str);
-    $database_instance->mysqli->query ("OPTIMIZE TABLE versification_data;");
+    $database_instance->runQuery ($str);
+    $database_instance->runQuery ("OPTIMIZE TABLE versification_data;");
+  }
+
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE versification_names;");
+    $database_instance->runQuery ("OPTIMIZE TABLE versification_data;");
   }
 
 
@@ -66,7 +73,7 @@ EOD;
   {
     include_once ("messages/messages.php");    
     message_information ("Importing versification systems:");
-    $directory = "../versification";
+    $directory = "versification";
     $handler = opendir($directory);
     while ($file = readdir($handler)) {
       $pieces = explode (".", $file);
@@ -74,27 +81,28 @@ EOD;
         $file = "$directory/$file";
         message_information ("- $pieces[0]");
         flush ();
-        $this->importBibleditXmlFile ($file, $pieces[0]);
+        $contents = file_get_contents ($file);
+        $this->importBibleditXml ($contents, $pieces[0]);
       }
     }
     closedir($handler);
   }
 
-  private function importBibleditXmlFile ($file, $name)
+  public function importBibleditXml ($contents, $name)
   {
     // Delete old system if it is there, and create new one.
     $this->delete ($name);
     $id = $this->create ($name);
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $database_books = Database_Books::getInstance();
-    $xml = simplexml_load_file ($file);
+    $xml = simplexml_load_string ($contents);
     foreach ($xml as $triad) {
       $book = $triad->book;
       $book = $database_books->getIdFromEnglish ($book);
       $chapter = $triad->chapter;
       $verse = $triad->verse;
       $query = "INSERT INTO versification_data VALUES (NULL, $id, $book, $chapter, $verse);";
-      $database_instance->mysqli->query ($query);
+      $database_instance->runQuery ($query);
     }
   }
 
@@ -130,12 +138,12 @@ EOD;
     */      
   public function delete ($name)
   {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $id = $this->getID ($name);
     $query = "DELETE FROM versification_names WHERE system = $id;";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
     $query = "DELETE FROM versification_data WHERE system = $id;";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
   }
 
   
@@ -144,10 +152,10 @@ EOD;
     */      
   public function getID ($name)
   {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $name = Database_SQLInjection::no ($name);
     $query = "SELECT system FROM versification_names WHERE name = '$name';";
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     if ($result->num_rows == 0) {
       return 0;
     }
@@ -168,9 +176,9 @@ EOD;
       return $id;
     }   
     // Get the first free ID.
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $query = "SELECT system FROM versification_names ORDER BY system DESC LIMIT 1;";
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     $id = 0;
     if ($result->num_rows > 0) {
       $row = $result->fetch_row();
@@ -180,7 +188,7 @@ EOD;
     // Create the empty system.
     $name = Database_SQLInjection::no ($name);
     $query = "INSERT INTO versification_names VALUES ($id, '$name');";
-    $database_instance->mysqli->query ($query);
+    $database_instance->runQuery ($query);
     // Return new ID.
     return $id;
   }
@@ -191,10 +199,10 @@ EOD;
     */      
   public function getSystems ()
   {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $name = Database_SQLInjection::no ($name);
     $query = "SELECT name FROM versification_names ORDER BY name ASC;";
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $row = $result->fetch_row();
       $systems[] = $row[0];
@@ -210,8 +218,8 @@ EOD;
   {
     $id = $this->getID ($name);
     $query = "SELECT book, chapter, verse FROM versification_data WHERE system = $id ORDER BY book, chapter, verse ASC;";
-    $database_instance = Database_Instance::getInstance(true);
-    $result = $database_instance->mysqli->query ($query);
+    $database_instance = Database_Instance::getInstance();
+    $result = $database_instance->runQuery ($query);
     return $result;
   }
   

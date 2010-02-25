@@ -17,6 +17,12 @@ if ($_GET['delete'] != "") {
 }
 
 
+$user =  $_GET['user'];
+$level = $_GET['level'];
+if (($user != "") && ($level != "")) {
+  $database = Database_Users::getInstance();
+  $database->updateUserLevel($user, $level);
+}
 
 
 $smarty = new Smarty_Bibledit (__FILE__);

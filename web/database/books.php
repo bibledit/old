@@ -39,8 +39,8 @@ class Database_Books
   }
 
   public function verify () {
-    $database_instance = Database_Instance::getInstance(true);
-    $database_instance->mysqli->query ("DROP TABLE books;");
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("DROP TABLE books;");
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS books (
 sequence int auto_increment primary key,
@@ -54,16 +54,22 @@ type varchar(20),
 onechapter int
 );
 EOD;
-    $database_instance->mysqli->query ($str);
+    $database_instance->runQuery ($str);
+  }
+
+
+  public function optimize () {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE books;");
   }
 
 
   public function import ()
   {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     include_once ("messages/messages.php");
     message_information ("Importing book names");
-    $filename = "../book/books.txt";
+    $filename = "book/books.txt";
     $data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES | FILE_TEXT);
     foreach ($data as $line) {
       $pos = strpos ($line, "#");
@@ -79,17 +85,17 @@ EOD;
       $onechapter  = 0;
       if ($record[7] == "true") $onechapter = 1;
       $query = "INSERT INTO books VALUES (NULL, $id, '$english', '$osis', '$usfm', '$bibleworks', '$onlinebible', '$type', $onechapter);";
-      $database_instance->mysqli->query ($query);
+      $database_instance->runQuery ($query);
     }
   }
 
 
   public function getIdFromEnglish($english)
   {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $english = Database_SQLInjection::no ($english);
     $query = "SELECT id FROM books WHERE english = '$english';";
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     if ($result->num_rows == 0) {
       return 0;
     }
@@ -100,10 +106,10 @@ EOD;
 
   public function getEnglishFromId($id)
   {
-    $database_instance = Database_Instance::getInstance(true);
+    $database_instance = Database_Instance::getInstance();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT english FROM books WHERE id = $id;";
-    $result = $database_instance->mysqli->query ($query);
+    $result = $database_instance->runQuery ($query);
     if ($result->num_rows == 0) {
       return gettext ("Unknown");
     }

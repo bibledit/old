@@ -11,8 +11,8 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h1>{t}Management{/t}</h1>
-    <p><a href="users">{t}Users{/t}</a></p>
-    <p><a href="../versification">{t}Versifications{/t}</a></p>
+    <p><a href="users.php">{t}Users{/t}</a></p>
+    <p><a href="../versification/index.php">{t}Versifications{/t}</a></p>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

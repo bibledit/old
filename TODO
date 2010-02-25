@@ -1,3 +1,13 @@
+p calls the database to make changes.
+- changerole.php is no longer needed.
+- It needs to store all data needed for list dialog into a special database:
+  * Title
+  * top text
+  * bottom text
+  * URL on cancel
+  * URL on success, there will be different ones, one for each of them.
+
+
 Objective: To display project data.
 
 Requirements:
@@ -7,12 +17,7 @@ Requirements:
 
 Implications:
 - Stylesheets are needed.
-- Versification schemas are required.
 
-Implementation:
-Versification:
-- Import from BibleWorks versification files into the database tables.
-- Create new versification, then select it and import into it.
 
 
 
@@ -434,4 +439,15 @@ Once sent, they go in the Trash.
 
 
 Instead of using XeTeX, we could also look at CSS2 with paged media for printing, and screen media for the screen.
+
+
+
+
+When starting bibledit it should kill bibledit-dbus / vcs
+
+
+
+
+
+
 
