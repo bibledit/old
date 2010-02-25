@@ -75,7 +75,8 @@ int main(int argc, char *argv[])
   // Move logfile for shutdown program.
   move_log_file (lftShutdown);
 
-  // Start the dbus helper program if it does not already run, and pass the names of the logfile.
+  // Kill possible previous dbus helper program, start it, and pass the names of the logfile.
+  if (system ("killall bibledit-dbus"));
   if (!program_is_running ("bibledit-dbus")) {
     move_log_file (lftDbus);
     GwSpawn spawn ("bibledit-dbus");
@@ -84,7 +85,8 @@ int main(int argc, char *argv[])
     spawn.run ();
   }
 
-  // Start the shell helper program if it does not already run, and pass the names of the logfile.
+  // Kill possible previous shell helper program, start it, and pass the names of the logfile.
+  if (system ("killall bibledit-vcs"));
   if (!program_is_running ("bibledit-vcs")) {
     move_log_file (lftVCS);
     // Spawn wrapper around the bibledit-vcs, since this wrapper catches.

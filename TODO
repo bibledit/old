@@ -1,13 +1,3 @@
-p calls the database to make changes.
-- changerole.php is no longer needed.
-- It needs to store all data needed for list dialog into a special database:
-  * Title
-  * top text
-  * bottom text
-  * URL on cancel
-  * URL on success, there will be different ones, one for each of them.
-
-
 Objective: To display project data.
 
 Requirements:
