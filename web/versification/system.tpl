@@ -37,7 +37,7 @@
 {$xml}
 </pre>    
 
-    <p>{t}You can modify this versification system. To do that, copy the existing xml data from this page into an editor, make the changes, and paste the data back into the textbow below, and then submit it. It will overwrite whatever was there before.{/t}.</p>
+    <p>{t}You can modify this versification system. To do that, copy the existing xml data from this page into an editor, make the changes, and paste the data back into the textbow below, and then submit it. It will overwrite whatever was there before.{/t}</p>
 
     <form action="{$php_self}?name={$name}" name="form" method="post">
       <p><textarea name="data"></textarea></p>

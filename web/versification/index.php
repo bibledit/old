@@ -26,7 +26,7 @@ if (isset($_POST['new'])) {
 
 
 if (isset ($_GET['new'])) {
-  $dialog_entry = new Dialog_Entry (gettext ("Please enter the name for the new versification system"), "new");
+  $dialog_entry = new Dialog_Entry ("", gettext ("Please enter the name for the new versification system"), "", "new", "");
   die;
 }
 

@@ -9,11 +9,12 @@
   <body onload="document.form.entry.focus();">
     {include file=../assets/header_full.tpl} 
     <h2>{$question}</h2>
-    <form action="{$php_self}" name="form" method="post">
-      <p><input type="text" name="entry" maxlength="300" /></p>
+    <form action="{$base_url}" name="form" method="post">
+      <p><input type="text" name="entry" maxlength="300" value="{$value}" /></p>
       <p><input type="submit" name="{$submit}" value={t}Submit{/t} /></p>
     </form>
-    <h3><a href="{$php_self}">{t}Cancel{/t}</a></h3>
+    <h3><a href="{$base_url}">{t}Cancel{/t}</a></h3>
+    <p>{$help}</p>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

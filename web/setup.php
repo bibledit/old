@@ -136,7 +136,15 @@
   $database_versifications = Database_Versifications::getInstance();
   $database_versifications->verify();
   $database_versifications->import();
-  
+
+  // The styles table.
+  $database_styles = Database_Styles::getInstance();
+  $database_styles->verify();
+    
+  // The user settings table.
+  $database_config_user = Database_Config_User::getInstance();
+  $database_config_user->verify();
+    
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

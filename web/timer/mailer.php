@@ -76,6 +76,15 @@ class Timer_Mailer
       $email = $username;
       $username = "";
     }
+    
+    // If the email address validates, ok, else remove this mail from the queue and log the action.
+    if (!Validate_Email::valid ($email)) {
+      $database_mail->delete ($id);
+      $database_mail->delete ($id);
+      $message = "Email to $email was deleted because of an invalid email address";
+      $database_log->log ($message);
+      return;
+    }
 
     // Send the email.
     try {

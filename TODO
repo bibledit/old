@@ -1,12 +1,11 @@
 Objective: To display project data.
+Note: Project -> Bible: It is a "Bible Editor", hence this name.
 
 Requirements:
 - Manager can create new project, delete project, import, export, and so on.
 - Synchronisation with git repository.
 - Display projects online.
 
-Implications:
-- Stylesheets are needed.
 
 
 
@@ -19,13 +18,19 @@ Implications:
 
 
 
-
+Current bibledit to be called "bibledit-linux", and the new bibledit will be called "bibledit".
+Packages to be separated. Bibledit-linux to receive a setting, to be entered by the user, where Bibledit's URL is, either
+local or remote. All helper programs, such as the dbus variant, the outpost, to be moved to separate packages 
+as well. Then the vcs drops out, and gets integrated into the main program, but only to operate it when doing
+send/receive. If File / SendReceive is done, the first one to be done should be the focused project, 
+and then the whole rest.
 
 
 
 
 When installing the "site" data gets erased by the "web" data. To switch the order of execution in the root Makefile.am
-
+It would be better to move it to local space again, not to be served by the web, but just from /usr/share.
+This is so as not to mix it up with the future bibledit package.
 
 
 
@@ -416,6 +421,8 @@ sudo apt-get install mysql-server mysql-client mailutils
 
 
 Windows: http://www.wampserver.com/
+Or: http://www.apachefriends.org/en/xampp-windows.html
+
 
 The site needs to have the concept of Desktops. Users can create store and erase these. E.g. a desktop for editing, one for merging, etc.
 
@@ -433,7 +440,6 @@ Instead of using XeTeX, we could also look at CSS2 with paged media for printing
 
 
 
-When starting bibledit it should kill bibledit-dbus / vcs
 
 
 

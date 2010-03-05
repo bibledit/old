@@ -4,16 +4,14 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     </meta>
-    <title>{t}Management{/t}</title>
+    <title>{t}Translation{/t}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css">
     </link>
   </head>
   <body>
     {include file=../assets/header_full.tpl} 
-    <h1>{t}Management{/t}</h1>
-    <p><a href="users.php">{t}Users{/t}</a></p>
-    <p><a href="../versification/index.php">{t}Versifications{/t}</a></p>
-    <p><a href="../styles/indexm.php">{t}Styles{/t}</a></p>
+    <h1>{t}Translation{/t}</h1>
+    <p><a href="../styles/indext.php">{t}Styles{/t}</a></p>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

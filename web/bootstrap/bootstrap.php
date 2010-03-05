@@ -75,10 +75,13 @@ class Bootstrap
       require_once $path.".php";
     }
     
-    // No magic quotes: We prefer our own system.
-    // No warnings to be given if this function no longer exists, such as in PHP 6.
-    @set_magic_quotes_runtime(false);
-    ini_set ('magic_quotes_gpc', 0);
+    // Disable magic quotes.
+    if ( (function_exists("get_magic_quotes_gpc")) && get_magic_quotes_gpc() ) {
+      foreach($_GET    as $k => $v) $_GET   [$k] = stripslashes($v);
+      foreach($_POST   as $k => $v) $_POST  [$k] = stripslashes($v);
+      foreach($_COOKIE as $k => $v) $_COOKIE[$k] = stripslashes($v);
+    }      
+      
   } 
 
 

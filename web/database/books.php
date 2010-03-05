@@ -40,7 +40,7 @@ class Database_Books
 
   public function verify () {
     $database_instance = Database_Instance::getInstance();
-    $database_instance->runQuery ("DROP TABLE books;");
+    $database_instance->runQuery ("DROP TABLE IF EXISTS books;");
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS books (
 sequence int auto_increment primary key,

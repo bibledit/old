@@ -9,6 +9,10 @@
     {if $level >= 5}
       <a href="{$header_path_modifier}manage/index.php">{t}Management{/t}</a>
     {/if}
+    {* Translation menu is only applicable to the translator and higher roles *}
+    {if $level >= 4}
+      <a href="{$header_path_modifier}translate/index.php">{t}Translation{/t}</a>
+    {/if}
     {* Poor Man's Crontab *}
     <img border="0" src="{$header_path_modifier}timer/index.php" width="0" height="0" />
     </td>

@@ -24,7 +24,7 @@ class Database_Dialog // Be aware that this one is not yet being used.
   */
   public function verify () {
     $database_instance = Database_Instance::getInstance();
-    $database_instance->runQuery ("DROP TABLE dialog;");
+    $database_instance->runQuery ("DROP TABLE IF EXISTS dialog;");
 $str = <<<EOD
 CREATE TABLE IF NOT EXISTS dialog (
 id int,

@@ -71,4 +71,14 @@ $database_versifications = Database_Versifications::getInstance();
 $database_versifications->optimize();
 
 
+// The styles table.
+$database_styles = Database_Styles::getInstance();
+$database_styles->optimize();
+
+
+// The user settings table.
+$database_config_user = Database_Config_User::getInstance();
+$database_config_user->optimize();
+
+
 ?>

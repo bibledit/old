@@ -11,7 +11,7 @@
     <h2>{$header}</h2>
     <p>{$info_top}</p>
     {section name=offset loop=$text_lines} 
-    <p><a href="{$caller_url}?{$get_parameters[offset]}">{$text_lines[offset]}</a></p>
+    <p><a href="{$caller_url}{$get_parameters[offset]}">{$text_lines[offset]}</a></p>
     {/section} 
     <p>{$info_bottom}</p>
     <h3><a href="{$caller_url}">{t}Cancel{/t}</a></h3>
