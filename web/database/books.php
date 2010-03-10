@@ -90,6 +90,20 @@ EOD;
   }
 
 
+  public function getIDs ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    // Excludes Apocrypha.
+    $query = "SELECT id FROM books WHERE id < 70 ORDER BY sequence;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i <$result->num_rows ; $i++) {
+      $row = $result->fetch_row ();
+      $ids[] = $row[0];
+    }
+    return $ids;
+  }
+  
+
   public function getIdFromEnglish($english)
   {
     $database_instance = Database_Instance::getInstance();
@@ -112,6 +126,34 @@ EOD;
     $result = $database_instance->runQuery ($query);
     if ($result->num_rows == 0) {
       return gettext ("Unknown");
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
+  public function getUsfmFromId($id)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT usfm FROM books WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return gettext ("XXX");
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
+  public function getSequenceFromId($id)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT sequence FROM books WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return 0;
     }
     $row = $result->fetch_row ();
     return $row[0];

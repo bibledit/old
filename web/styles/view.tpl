@@ -20,12 +20,12 @@
 
       <tr><td>{t}Description{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&info=">{$info}</a></td></tr>
 
-      <tr><td>{t}Category{/t}</td><td><a href="editcategory.php?sheet={$sheet}&style={$style}">{$category}</a></td></tr>
+      <tr><td>{t}Category{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&category=">{$category}</a></td></tr>
 
-      <tr><td>{t}This style{/t}</td><td><a href="edittype.php?sheet={$sheet}&style={$style}">{$type_text}</a></td></tr>
+      <tr><td>{t}This style{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&type=">{$type_text}</a></td></tr>
 
       {if $subtype_text != ""}
-      <tr><td>{t}This one{/t}</td><td><a href="editsubtype.php?sheet={$sheet}&style={$style}">{$subtype_text}</a></td></tr>
+      <tr><td>{t}This one{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&subtype=">{$subtype_text}</a></td></tr>
       {/if}
 
       {if $fontsize_relevant}
@@ -33,10 +33,10 @@
       {/if}
 
       {if $ibus_relevant}
-      <tr><td>{t}Italic{/t}</td><td><a href="edititalic.php?sheet={$sheet}&style={$style}">{$italic}</a></td></tr>
-      <tr><td>{t}Bold{/t}</td><td><a href="editbold.php?sheet={$sheet}&style={$style}">{$bold}</a></td></tr>
-      <tr><td>{t}Underline{/t}</td><td><a href="editunderline.php?sheet={$sheet}&style={$style}">{$underline}</a></td></tr>
-      <tr><td>{t}Small caps{/t}</td><td><a href="editsmallcaps.php?sheet={$sheet}&style={$style}">{$smallcaps}</a></td></tr>
+      <tr><td>{t}Italic{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&italic=">{$italic}</a></td></tr>
+      <tr><td>{t}Bold{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&bold=">{$bold}</a></td></tr>
+      <tr><td>{t}Underline{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&underline">{$underline}</a></td></tr>
+      <tr><td>{t}Small caps{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&smallcaps=">{$smallcaps}</a></td></tr>
       {/if}
 
       {if $superscript_relevant}
@@ -44,7 +44,7 @@
       {/if}
 
       {if $paragraph_treats_relevant}
-      <tr><td>{t}Text alignment{/t}</td><td><a href="editalignment.php?sheet={$sheet}&style={$style}">{$justification}</a></td></tr>
+      <tr><td>{t}Text alignment{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&alignment=">{$justification}</a></td></tr>
       <tr><td>{t}Space before{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&spacebefore=">{$spacebefore} {t}mm{/t}</a></td></tr>
       <tr><td>{t}Space after{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&spaceafter=">{$spaceafter} {t}mm{/t}</a></td></tr>
       <tr><td>{t}Left margin{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&leftmargin=">{$leftmargin} {t}mm{/t}</a></td></tr>
@@ -77,7 +77,7 @@
       {/if}
 
       {if $userint1_notenumbering}
-      <tr><td>{t}Note numbering{/t}</td><td><a href="editnotenumbering.php?sheet={$sheet}&style={$style}">{$userint1}</a></td></tr>
+      <tr><td>{t}Note numbering{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&notenumbering=">{$userint1}</a></td></tr>
       {/if}
 
       {if $userint1_columnnumber}
@@ -85,11 +85,11 @@
       {/if}
 
       {if $userint2_notenumberingrestart}
-      <tr><td>{t}Restart the note numbering{/t}</td><td><a href="editnotenumberingrestart.php?sheet={$sheet}&style={$style}">{$userint2}</a></td></tr>
+      <tr><td>{t}Restart the note numbering{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&notenumberingrestart=">{$userint2}</a></td></tr>
       {/if}
 
       {if $userint2_endnoteposition}
-      <tr><td>{t}Position of endnote{/t}</td><td><a href="editendnoteposition.php?sheet={$sheet}&style={$style}">{$userint2}</a></td></tr>
+      <tr><td>{t}Position of endnote{/t}</td><td><a href="view.php?sheet={$sheet}&style={$style}&endnoteposition=">{$userint2}</a></td></tr>
       {/if}
 
       {if $userstring1_numberingsequence}

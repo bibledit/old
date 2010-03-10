@@ -81,4 +81,15 @@ $database_config_user = Database_Config_User::getInstance();
 $database_config_user->optimize();
 
 
+// The Bibles table.
+$database_bibles = Database_Bibles::getInstance();
+$database_bibles->optimize();
+
+
+// The Snapshots table. Trim the number of snapshots as well.
+$database_snapshots = Database_Snapshots::getInstance();
+$database_snapshots->trim(true);
+$database_snapshots->optimize();
+
+
 ?>

@@ -1,10 +1,18 @@
-Objective: To display project data.
-Note: Project -> Bible: It is a "Bible Editor", hence this name.
+Objective: To display Bibles.
 
 Requirements:
-- Manager can create new project, delete project, import, export, and so on.
+- Manager can import USFM. When the \id does not exist yet as a book, it creates the book pasted in.
+- If on import several books are pasted, i.e. several \id lines, it will handle that properly.
+- Manager can export USFM.
 - Synchronisation with git repository.
-- Display projects online.
+- Display Bibles on screen.
+- Navigator integrated if needed, but when using frames, it is detached and occurs only once no matter how many Bibles
+  display.
+- Save snapshots.
+
+
+- Manager can delete a chapter, in order to do that, each book should be listed, so it shows the available chapters.
+  EAch chapter when listed can then be deleted if need be.
 
 
 
@@ -17,9 +25,40 @@ Requirements:
 
 
 
+Reading manual at:
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.variables.basics.php.html
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.operators.errorcontrol.php.html
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/control-structures.if.php.html
 
-Current bibledit to be called "bibledit-linux", and the new bibledit will be called "bibledit".
-Packages to be separated. Bibledit-linux to receive a setting, to be entered by the user, where Bibledit's URL is, either
+
+
+The book names are not localized as we do in bibledit-linux, but localization uses the existing mechanism.
+It works through gettext. For that reason a php file needs to be created that contains all existing English books.
+This file is to be generated somehow by the system admin, and this file can be stored among the source code.
+Thus the gettext system will be filled with that data, and can get translated.
+If somebody wants the localized Bible names, but does not translate the whole site, it suffices to only translate 
+the relevant bits in the po file.
+
+
+
+
+The timer had stopped running on bibledit.org/demo. Was caused by a stale table. 
+Needs a setting to remove that table.
+And needs a more robust handler, e.g. if the PID is no longer there it would remove the stale table contents.
+Perhaps we need a 'timer'  setting, and the option to use cron tables as well for servers and those that like it,
+but the poor man's crontab remains the default system.
+
+
+
+
+
+
+
+
+
+
+Current bibledit to remain so named, and the new bibledit will be called "bibledit-web".
+Packages to be separated. Bibledit to receive a setting, to be entered by the user, where Bibledit-web's URL is, either
 local or remote. All helper programs, such as the dbus variant, the outpost, to be moved to separate packages 
 as well. Then the vcs drops out, and gets integrated into the main program, but only to operate it when doing
 send/receive. If File / SendReceive is done, the first one to be done should be the focused project, 

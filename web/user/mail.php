@@ -20,8 +20,8 @@ if ($_GET['view'] != "") {
   $subject = strip_tags ($subject);
   $body    = $row['body'];
   $body    = strip_tags ($body, '<p>');
-  $smarty->assign ("subject", $subject);
-  $smarty->assign ("body",    $body);
+  $smarty->assign ("subject", Filter_Html::sanitize ($subject));
+  $smarty->assign ("body",    Filter_Html::sanitize ($body));
 }
 
 $active_label = $_GET['label'];
@@ -42,7 +42,7 @@ while ($row = $mails->fetch_assoc()) {
   $ids         [] = $id;
   $time           = date ('j F Y, g:i a', $row["timestamp"]);
   $timestamps  [] = $time;
-  $subjects    [] = $row["subject"];
+  $subjects    [] = Filter_Html::sanitize ($row["subject"]);
   $deletes     [] = "mail.php?label=$active_label&delete=$id";
   $views       [] = "mail.php?label=$active_label&view=$id";
 }

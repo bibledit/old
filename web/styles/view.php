@@ -8,10 +8,10 @@ $database_styles = Database_Styles::getInstance();
 $styles_logic = Styles_Logic::getInstance ();
 
 $sheet = $_GET['sheet'];
-$smarty->assign ("sheet", $sheet);
+$smarty->assign ("sheet", Filter_Html::sanitize ($sheet));
 
 $style = $_GET['style'];
-$smarty->assign ("style", $style);
+$smarty->assign ("style", Filter_Html::sanitize ($style));
 
 $standard_page_query = array ("sheet"=> $sheet, "style" => $style);
 
@@ -27,7 +27,7 @@ if (isset($_POST['name'])) {
   $name = $_POST['entry'];
   $database_styles->updateName ($sheet, $style, $name);
 }
-$smarty->assign ("name", $name);
+$smarty->assign ("name", Filter_Html::sanitize ($name));
 
 // The style's info.
 $info = $marker_data['info'];
@@ -39,13 +39,43 @@ if (isset($_POST['info'])) {
   $info = $_POST['entry'];
   $database_styles->updateInfo ($sheet, $style, $info);
 }
-$smarty->assign ("info", $info);
+$smarty->assign ("info", Filter_Html::sanitize ($info));
 
 // The style's category.
 $category = $marker_data['category'];
 if (isset ($_GET['category'])) {
   $category = $_GET['category'];
-  $database_styles->updateCategory ($sheet, $style, $category);
+  if ($category == "") {
+    $dialog_list = new Dialog_List (array ("sheet", "style"), 
+                                    gettext ("Would you like to change the category of this style?"), 
+                                    gettext ("Here are the various categories:"), 
+                                    gettext ("Please pick one."));
+    $styles_logic = Styles_Logic::getInstance ();
+    $dialog_list->add_row ($styles_logic->categoryText ("id"),   "&category=id");
+    $dialog_list->add_row ($styles_logic->categoryText ("ith"),  "&category=ith");
+    $dialog_list->add_row ($styles_logic->categoryText ("ipp"),  "&category=ipp");
+    $dialog_list->add_row ($styles_logic->categoryText ("ioe"),  "&category=ioe");
+    $dialog_list->add_row ($styles_logic->categoryText ("t"),    "&category=t");
+    $dialog_list->add_row ($styles_logic->categoryText ("h"),    "&category=h");
+    $dialog_list->add_row ($styles_logic->categoryText ("cv"),   "&category=cv");
+    $dialog_list->add_row ($styles_logic->categoryText ("p"),    "&category=p");
+    $dialog_list->add_row ($styles_logic->categoryText ("l"),    "&category=l");
+    $dialog_list->add_row ($styles_logic->categoryText ("pe"),   "&category=pe");
+    $dialog_list->add_row ($styles_logic->categoryText ("te"),   "&category=te");
+    $dialog_list->add_row ($styles_logic->categoryText ("f"),    "&category=f");
+    $dialog_list->add_row ($styles_logic->categoryText ("x"),    "&category=x");
+    $dialog_list->add_row ($styles_logic->categoryText ("xsn"),  "&category=xsn");
+    $dialog_list->add_row ($styles_logic->categoryText ("st"),   "&category=st");
+    $dialog_list->add_row ($styles_logic->categoryText ("cs"),   "&category=cs");
+    $dialog_list->add_row ($styles_logic->categoryText ("sb"),   "&category=sb");
+    $dialog_list->add_row ($styles_logic->categoryText ("sf"),   "&category=sf");
+    $dialog_list->add_row ($styles_logic->categoryText ("pm"),   "&category=pm");
+    $dialog_list->add_row ($styles_logic->categoryText (""),     "&category=");
+    $dialog_list->run ();
+    die;
+  } else {
+    $database_styles->updateCategory ($sheet, $style, $category);
+  }
 }
 $smarty->assign ("category", $styles_logic->categoryText($category));
 
@@ -53,18 +83,50 @@ $smarty->assign ("category", $styles_logic->categoryText($category));
 $type = $marker_data['type'];
 if (isset ($_GET['type'])) {
   $type = $_GET['type'];
-  $database_styles->updateType ($sheet, $style, $type);
+  if ($type == "") {
+    $dialog_list = new Dialog_List (array ("sheet", "style"), 
+                                    gettext ("Would you like to change the type of this style?"), 
+                                    gettext ("Here are the various types:"), 
+                                    gettext ("Please pick one."));
+    $styles_logic = Styles_Logic::getInstance ();
+    for ($i = 0; $i < 99; $i++) {
+      $text = $styles_logic->typeText ($i);
+      if (strlen ($text) > 2) {
+        $dialog_list->add_row ($text, "&type=$i");
+      }
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $database_styles->updateType ($sheet, $style, $type);
+  }
 }
-$smarty->assign ("type", $type);
+$smarty->assign ("type", Filter_Html::sanitize ($type));
 $smarty->assign ("type_text", $styles_logic->typeText($type));
 
 // The style's subtype.
 $subtype = $marker_data['subtype'];
 if (isset ($_GET['subtype'])) {
   $subtype = $_GET['subtype'];
-  $database_styles->updateSubType ($sheet, $style, $subtype);
+  if ($subtype == "") {
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change the sub type of this style?"), "", "");
+    $database_styles = Database_Styles::getInstance();
+    $styles_logic = Styles_Logic::getInstance ();
+    $marker_data = $database_styles->getMarkerData ($sheet, $style);
+    $type = $marker_data['type'];
+    for ($i = 0; $i < 99; $i++) {
+      $text = $styles_logic->subtypeText ($type, $i);
+      if (strlen ($text) > 2) {
+        $dialog_list->add_row ($text, "&subtype=$i");
+      }
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $database_styles->updateSubType ($sheet, $style, $subtype);
+  }
 }
-$smarty->assign ("subtype", $subtype);
+$smarty->assign ("subtype", Filter_Html::sanitize ($subtype));
 $smarty->assign ("subtype_text", $styles_logic->subtypeText($type, $subtype));
 
 // The fontsize.
@@ -82,7 +144,7 @@ if (isset($_POST['fontsize'])) {
     $database_styles->updateFontsize ($sheet, $style, $fontsize);
   }
 }
-$smarty->assign ("fontsize", $fontsize);
+$smarty->assign ("fontsize", Filter_Html::sanitize ($fontsize));
 
 // Italics, bold, underline, small caps relevance.
 $smarty->assign ("ibus_relevant", $styles_logic->italicBoldUnderLineSmallcapsAreRelevant ($type, $subtype));
@@ -91,7 +153,22 @@ $smarty->assign ("ibus_relevant", $styles_logic->italicBoldUnderLineSmallcapsAre
 $italic = $marker_data['italic'];
 if (isset ($_GET['italic'])) {
   $italic = $_GET['italic'];
-  $database_styles->updateItalic ($sheet, $style, $italic);
+  if ($italic == "") {
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change whether this style is in italics?"), "", "");
+    $database_styles = Database_Styles::getInstance();
+    $styles_logic = Styles_Logic::getInstance ();
+    $marker_data = $database_styles->getMarkerData ($sheet, $style);
+    $last_value = ooitOn;
+    if ($styles_logic->italicBoldUnderLineSmallcapsAreFull ($marker_data['type'], $marker_data['subtype']))
+      $last_value = ooitToggle;
+    for ($i = 0; $i <= $last_value; $i++) {
+      $dialog_list->add_row ($styles_logic->OffOnInheritToggleText ($i), "&italic=$i");
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $database_styles->updateItalic ($sheet, $style, $italic);
+  }
 }
 $smarty->assign ("italic", $styles_logic->OffOnInheritToggleText ($italic));
 
@@ -99,7 +176,22 @@ $smarty->assign ("italic", $styles_logic->OffOnInheritToggleText ($italic));
 $bold   = $marker_data['bold'];
 if (isset ($_GET['bold'])) {
   $bold = $_GET['bold'];
-  $database_styles->updateBold ($sheet, $style, $bold);
+  if ($bold == "") {
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change whether this style is in bold?"), "", "");
+    $database_styles = Database_Styles::getInstance();
+    $styles_logic = Styles_Logic::getInstance ();
+    $marker_data = $database_styles->getMarkerData ($sheet, $style);
+    $last_value = ooitOn;
+    if ($styles_logic->italicBoldUnderLineSmallcapsAreFull ($marker_data['type'], $marker_data['subtype']))
+      $last_value = ooitToggle;
+    for ($i = 0; $i <= $last_value; $i++) {
+      $dialog_list->add_row ($styles_logic->OffOnInheritToggleText ($i), "&bold=$i");
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $database_styles->updateBold ($sheet, $style, $bold);
+  }
 }
 $smarty->assign ("bold", $styles_logic->OffOnInheritToggleText ($bold));
 
@@ -107,7 +199,22 @@ $smarty->assign ("bold", $styles_logic->OffOnInheritToggleText ($bold));
 $underline = $marker_data['underline'];
 if (isset ($_GET['underline'])) {
   $underline = $_GET['underline'];
-  $database_styles->updateUnderline ($sheet, $style, $underline);
+  if ($underline == "") {
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change whether this style is underlined?"), "", "");
+    $database_styles = Database_Styles::getInstance();
+    $styles_logic = Styles_Logic::getInstance ();
+    $marker_data = $database_styles->getMarkerData ($sheet, $style);
+    $last_value = ooitOn;
+    if ($styles_logic->italicBoldUnderLineSmallcapsAreFull ($type, $subtype))
+      $last_value = ooitToggle;
+    for ($i = 0; $i <= $last_value; $i++) {
+      $dialog_list->add_row ($styles_logic->OffOnInheritToggleText ($i), "&underline=$i");
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $database_styles->updateUnderline ($sheet, $style, $underline);
+  }
 }
 $smarty->assign ("underline", $styles_logic->OffOnInheritToggleText ($underline));
 
@@ -115,7 +222,22 @@ $smarty->assign ("underline", $styles_logic->OffOnInheritToggleText ($underline)
 $smallcaps = $marker_data['smallcaps'];
 if (isset ($_GET['smallcaps'])) {
   $smallcaps = $_GET['smallcaps'];
-  $database_styles->updateSmallcaps ($sheet, $style, $smallcaps);
+  if ($smallcaps == "") {
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change whether this style is in small caps?"), "", "");
+    $database_styles = Database_Styles::getInstance();
+    $styles_logic = Styles_Logic::getInstance ();
+    $marker_data = $database_styles->getMarkerData ($sheet, $style);
+    $last_value = ooitOn;
+    if ($styles_logic->italicBoldUnderLineSmallcapsAreFull ($marker_data['type'], $marker_data['subtype']))
+      $last_value = ooitToggle;
+    for ($i = 0; $i <= $last_value; $i++) {
+      $dialog_list->add_row ($styles_logic->OffOnInheritToggleText ($i), "&smallcaps=$i");
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $database_styles->updateSmallcaps ($sheet, $style, $smallcaps);
+  }
 }
 $smarty->assign ("smallcaps", $styles_logic->OffOnInheritToggleText ($smallcaps));
 
@@ -134,6 +256,15 @@ $smarty->assign ("paragraph_treats_relevant", $styles_logic->paragraphTreatsAreR
 
 // Text alignment.
 $justification = $marker_data['justification'];
+if (isset ($_GET['alignment'])) {
+  $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change the text alignment of this style?"), "", "");
+  $styles_logic = Styles_Logic::getInstance();
+  for ($i = AlignmentLeft; $i <= AlignmentJustify; $i++) {
+    $dialog_list->add_row ($styles_logic->alignmentText ($i), "&justification=$i");
+  }
+  $dialog_list->run ();
+  die;  
+}
 if (isset ($_GET['justification'])) {
   $justification = $_GET['justification'];
   $database_styles->updateJustification ($sheet, $style, $justification);
@@ -154,7 +285,7 @@ if (isset($_POST['spacebefore'])) {
     $database_styles->updateSpaceBefore ($sheet, $style, $spacebefore);
   }
 }
-$smarty->assign ("spacebefore", $spacebefore);
+$smarty->assign ("spacebefore", Filter_Html::sanitize ($spacebefore));
 
 // Space after paragraph.
 $spaceafter = $marker_data['spaceafter'];
@@ -170,7 +301,7 @@ if (isset($_POST['spaceafter'])) {
     $database_styles->updateSpaceAfter ($sheet, $style, $spaceafter);
   }
 }
-$smarty->assign ("spaceafter", $spaceafter);
+$smarty->assign ("spaceafter", Filter_Html::sanitize ($spaceafter));
 
 // Left margin.
 $leftmargin = $marker_data['leftmargin'];
@@ -186,7 +317,7 @@ if (isset($_POST['leftmargin'])) {
     $database_styles->updateLeftMargin ($sheet, $style, $leftmargin);
   }
 }
-$smarty->assign ("leftmargin", $leftmargin);
+$smarty->assign ("leftmargin", Filter_Html::sanitize ($leftmargin));
 
 // Right margin.
 $rightmargin = $marker_data['rightmargin'];
@@ -202,7 +333,7 @@ if (isset($_POST['rightmargin'])) {
     $database_styles->updateRightMargin ($sheet, $style, $rightmargin);
   }
 }
-$smarty->assign ("rightmargin", $rightmargin);
+$smarty->assign ("rightmargin", Filter_Html::sanitize ($rightmargin));
 
 // First line indent.
 $firstlineindent = $marker_data['firstlineindent'];
@@ -218,7 +349,7 @@ if (isset($_POST['firstlineindent'])) {
     $database_styles->updateFirstLineIndent ($sheet, $style, $firstlineindent);
   }
 }
-$smarty->assign ("firstlineindent", $firstlineindent);
+$smarty->assign ("firstlineindent", Filter_Html::sanitize ($firstlineindent));
 
 // Columns spanning.
 $smarty->assign ("columns_relevant", $styles_logic->columnsAreRelevant ($type, $subtype));
@@ -243,7 +374,7 @@ if (isset ($_GET['color'])) {
     $database_styles->updateColor ($sheet, $style, $color);
   }
 }
-$smarty->assign ("color", $color);
+$smarty->assign ("color", Filter_Html::sanitize ($color));
 
 // Whether to print this style.
 $smarty->assign ("print_relevant", $styles_logic->printIsRelevant ($type, $subtype));
@@ -292,6 +423,15 @@ switch ($styles_logic->getUserInt1Function ($type, $subtype)) {
     break;
   case UserInt1NoteNumbering :
     $smarty->assign ("userint1_notenumbering", true);
+    if (isset ($_GET['notenumbering'])) {
+      $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change the numbering of the note?"), "", "");
+      $styles_logic = Styles_Logic::getInstance();
+      for ($i = NoteNumbering123; $i <= NoteNumberingUser; $i++) {
+        $dialog_list->add_row ($styles_logic->noteNumberingText ($i), "&userint1=$i");
+      }
+      $dialog_list->run ();
+      die;
+    }
     if (isset ($_GET['userint1'])) {
       $userint1 = $_GET['userint1'];
       $database_styles->updateUserint1 ($sheet, $style, $userint1);
@@ -323,6 +463,15 @@ switch ($styles_logic->getUserInt2Function ($type, $subtype)) {
     break;
   case UserInt2NoteNumberingRestart :
     $smarty->assign ("userint2_notenumberingrestart", true);
+    if (isset ($_GET['notenumberingrestart'])) {
+      $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change when the note numbering restarts?"), "", "");
+      $styles_logic = Styles_Logic::getInstance();
+      for ($i = NoteRestartNumberingNever; $i <= NoteRestartNumberingEveryChapter; $i++) {
+        $dialog_list->add_row ($styles_logic->noteRestartNumberingText ($i), "&userint2=$i");
+      }
+      $dialog_list->run ();
+      die;
+    }
     if (isset ($_GET['userint2'])) {
       $userint2 = $_GET['userint2'];
       $database_styles->updateUserint2 ($sheet, $style, $userint2);
@@ -331,6 +480,15 @@ switch ($styles_logic->getUserInt2Function ($type, $subtype)) {
     break;
   case UserInt2EndnotePosition :
     $smarty->assign ("userint2_endnoteposition", true);
+    if (isset ($_GET['endnoteposition'])) {
+      $dialog_list = new Dialog_List (array ("sheet", "style"), gettext ("Would you like to change the position where to dump the endnotes?"), "", "");
+      $styles_logic = Styles_Logic::getInstance();
+      for ($i = EndNotePositionAfterBook; $i <= EndNotePositionAtMarker; $i++) {
+        $dialog_list->add_row ($styles_logic->endNotePositionText ($i), "&userint2=$i");
+      }
+      $dialog_list->run ();
+      die;
+    }
     if (isset ($_GET['userint2'])) {
       $userint2 = $_GET['userint2'];
       $database_styles->updateUserint2 ($sheet, $style, $userint2);
@@ -368,7 +526,7 @@ if (isset($_POST['userstring1'])) {
   $database_styles->updateUserstring1 ($sheet, $style, $userstring1);
 }
 if ($userstring1 == "") $userstring1 = "--";
-$smarty->assign ("userstring1", $userstring1);
+$smarty->assign ("userstring1", Filter_Html::sanitize ($userstring1));
 
 // Userstring2
 $userstring2 = $marker_data['userstring2'];
@@ -392,7 +550,7 @@ if (isset($_POST['userstring2'])) {
   $database_styles->updateUserstring2 ($sheet, $style, $userstring2);
 }
 if ($userstring2 == "") $userstring2 = "--";
-$smarty->assign ("userstring2", $userstring2);
+$smarty->assign ("userstring2", Filter_Html::sanitize ($userstring2));
 
 // Userstring3 not yet used.
 

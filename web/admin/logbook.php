@@ -14,7 +14,7 @@ $entries = $database_logs->get ();
 while ($row = $entries->fetch_assoc()) {
   $time          = date ('j F Y, g:i:s a', $row["timestamp"]);
   $timestamps [] = $time;
-  $events     [] = htmlentities ($row["event"]);
+  $events     [] = Filter_Html::sanitize ($row["event"]);
 }
 $smarty->assign ("timestamps", $timestamps);
 $smarty->assign ("events",     $events);

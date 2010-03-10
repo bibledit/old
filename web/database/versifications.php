@@ -38,6 +38,7 @@ class Database_Versifications
     return self::$instance;
   }
 
+
   public function verify () {
     $database_instance = Database_Instance::getInstance();
 $str = <<<EOD

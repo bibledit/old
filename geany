@@ -14,13 +14,12 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=1
-FILE_NAME_0=541;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0
-FILE_NAME_1=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/styles.php;0
-FILE_NAME_2=10617;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/styles/view.php;0
-FILE_NAME_3=4240;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/styles/view.tpl;0
-FILE_NAME_4=823;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/styles/logic.php;0
-FILE_NAME_5=660;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/dialog/entry.php;0
-FILE_NAME_6=792;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/dialog/entry.tpl;0
-FILE_NAME_7=615;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/dialog/color.php;0
-FILE_NAME_8=25826;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/dialog/color.tpl;0
+current_page=0
+FILE_NAME_0=1544;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0
+FILE_NAME_1=4889;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/bibles.php;0
+FILE_NAME_2=1180;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/dialog/yes.php;0
+FILE_NAME_3=399;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/versification/index.php;0
+FILE_NAME_4=380;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/styles/indexm.php;0
+FILE_NAME_5=232;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/manage/users.php;0
+FILE_NAME_6=1843;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/bible/settings.php;0
+FILE_NAME_7=1227;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/bible/manage.php;0

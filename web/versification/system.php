@@ -7,7 +7,7 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $database_versifications = Database_Versifications::getInstance();
 
 $name = $_GET['name'];
-$smarty->assign ("name", $name);
+$smarty->assign ("name", Filter_Html::sanitize ($name));
 
 if (isset($_POST['submit'])) {
   $data = $_POST['data'];

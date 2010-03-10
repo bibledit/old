@@ -145,6 +145,14 @@
   $database_config_user = Database_Config_User::getInstance();
   $database_config_user->verify();
     
+  // The Bibles table.
+  $database_bibles = Database_Bibles::getInstance();
+  $database_bibles->verify();
+    
+  // The Snapshots table.
+  $database_snapshots = Database_Snapshots::getInstance();
+  $database_snapshots->verify();
+    
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

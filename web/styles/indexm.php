@@ -13,7 +13,7 @@ if ($_GET['delete'] != "") {
   if ($confirm != "") {
     $database_styles->deleteSheet ($name);
   } else {
-    $dialog_yes = new Dialog_Yes (gettext ("Would you like to delete this stylesheet?"));
+    $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete this stylesheet?"), "delete");
     die;
   }
 }

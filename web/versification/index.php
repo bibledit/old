@@ -13,7 +13,7 @@ if ($_GET['delete'] != "") {
   if ($confirm != "") {
     $database_versifications->delete ($name);
   } else {
-    $dialog_yes = new Dialog_Yes (gettext ("Would you like to delete this versification system?"));
+    $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete this versification system?"), "delete");
     die;
   }
 }

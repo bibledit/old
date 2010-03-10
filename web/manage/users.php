@@ -7,21 +7,32 @@ page_access_level (MANAGER_LEVEL);
 if ($_GET['delete'] != "") {
   $name = $_GET['delete'];
   $confirm = $_GET['confirm'];
-  if ($confirm != "") {
+  if ($confirm == "") {
+    $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete") . " $name?", "delete");
+    die;
+  } else {
     $database = Database_Users::getInstance();
     $database->removeUser($name);
-  } else {
-    $dialog_yes = new Dialog_Yes (gettext ("Would you like to delete") . " $name?");
-    die;
   }
 }
 
 
 $user =  $_GET['user'];
 $level = $_GET['level'];
-if (($user != "") && ($level != "")) {
-  $database = Database_Users::getInstance();
-  $database->updateUserLevel($user, $level);
+if (isset ($user) || isset ($level)) {
+  if (($user == "") || ($level == "")) {
+    $dialog_list = new Dialog_List (NULL, gettext ("Would you like to change the role given to user $user?"), "", "");
+    for ($i = GUEST_LEVEL; $i <= ADMIN_LEVEL; $i++) {
+      $database = Database_Users::getInstance ();
+      $parameter = "?user=$user&level=$i";
+      $dialog_list->add_row ($roles[$i], $parameter);
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $database = Database_Users::getInstance();
+    $database->updateUserLevel($user, $level);
+  }
 }
 
 

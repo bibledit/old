@@ -76,8 +76,8 @@ if (isset($_POST['submit'])) {
 }
 
 
-$smarty->assign ('username', $username);
-$smarty->assign ('email', $email);
+$smarty->assign ('username', Filter_Html::sanitize ($username));
+$smarty->assign ('email', Filter_Html::sanitize ($email));
 $smarty->assign ('success_messages', $success_messages);
 $smarty->assign ('actions_taken', $actions_taken);
 $smarty->display("account.tpl");

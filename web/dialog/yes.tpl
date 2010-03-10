@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
-    <title>{t}No / Yes{/t}</title>
+    <title>{t}Yes / No{/t}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
   </head>
   <body>
     {include file=../assets/header_full.tpl} 
     <h2>{$question}</h2>
-    <h3><a href="{$php_self}?{$query_string}&confirm=yes">{t}Yes{/t}</a></h3>
-    <h3><a href="{$php_self}">{t}Cancel{/t}</a></h3>
+    <h3><a href="{$caller_url}{$action}&confirm=yes">{t}Yes{/t}</a></h3>
+    <h3><a href="{$caller_url}">{t}Cancel{/t}</a></h3>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>
