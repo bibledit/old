@@ -25,9 +25,10 @@
 class Book_Create
 {
   /**
-  * Creates book template with ID $book in Bible $bible
+  * Creates book template with ID $book in Bible $bible.
+  * If a $chapter is given instead of NULL, it creates that chapter only.
   */
-  public function __construct($bible, $book)
+  public function __construct($bible, $book, $chapter)
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_snapshots = Database_Snapshots::getInstance();
@@ -45,11 +46,13 @@ class Book_Create
     }
 
     // Chapter 0.
-    $data  = "\\id "    . $database_books->getUsfmFromId($book)     . "\n";
-    $data .= "\\h "     . $database_books->getEnglishFromId ($book) . "\n";
-    $data .= "\\toc2 "  . $database_books->getEnglishFromId ($book) . "\n";
-    $database_bibles->storeChapter ($bible, $book, 0, $data);
-    $database_snapshots->snapChapter ($bible, $book, 0, $data, false);
+    if (!isset ($chapter) || ($chapter == 0)) {
+      $data  = "\\id "    . $database_books->getUsfmFromId($book)     . "\n";
+      $data .= "\\h "     . $database_books->getEnglishFromId ($book) . "\n";
+      $data .= "\\toc2 "  . $database_books->getEnglishFromId ($book) . "\n";
+      $database_bibles->storeChapter ($bible, $book, 0, $data);
+      $database_snapshots->snapChapter ($bible, $book, 0, $data, false);
+    }
 
 
     // Subsequent chapters.
@@ -57,15 +60,17 @@ class Book_Create
     $versification_data = $database_versifications->getBooksChaptersVerses ($versification);
     while ($row = $versification_data->fetch_assoc()) {
       if ($book == $row["book"]) {
-        $chapter = $row["chapter"];
+        $ch = $row["chapter"];
         $verse = $row["verse"];
-        $data  = "\\c $chapter\n";
-        $data .= "\\p\n";
-        for ($i = 1; $i <= $verse; $i++) {
-          $data .= "\\v $i\n";
+        if (!isset ($chapter) || ($chapter == $ch)) {
+          $data  = "\\c $ch\n";
+          $data .= "\\p\n";
+          for ($i = 1; $i <= $verse; $i++) {
+            $data .= "\\v $i\n";
+          }
+          $database_bibles->storeChapter ($bible, $book, $ch, $data);
+          $database_snapshots->snapChapter ($bible, $book, $ch, $data, false);
         }
-        $database_bibles->storeChapter ($bible, $book, $chapter, $data);
-        $database_snapshots->snapChapter ($bible, $book, $chapter, $data, false);
       }
     }
   }

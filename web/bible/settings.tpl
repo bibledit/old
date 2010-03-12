@@ -8,16 +8,16 @@
   </head>
   <body>
     {include file=../assets/header_full.tpl} 
-    <h1>{t}Bible{/t} {$name}</h1>
+    <h1>{t}Bible{/t} {$bible}</h1>
     <p>
       {t}Available books{/t}:
       {section name=offset loop=$book_ids}
-        <a href="book.php?bible={$name}&book={$book_ids[offset]}">{$book_names[offset]}</a>
+        <a href="book.php?bible={$bible}&book={$book_ids[offset]}">{$book_names[offset]}</a>
       {/section}
     </p>
-    <p>{t}Versification system{/t}: <a href="settings.php?name={$name}&versification=">{$versification}</a></p>
-    <p><a href="settings.php?name={$name}&createbook=">{t}Create book{/t}</a></p>
-    <p><a href="manage.php?delete={$name}">{t}Delete this Bible{/t}</a></p>
+    <p>{t}Versification system{/t}: <a href="settings.php?bible={$bible}&versification=">{$versification}</a></p>
+    <p><a href="settings.php?bible={$bible}&createbook=">{t}Create book{/t}</a></p>
+    <p><a href="manage.php?delete={$bible}">{t}Delete this Bible{/t}</a></p>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

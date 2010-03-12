@@ -43,6 +43,7 @@
 #include "c_url.h"
 #include "urltransport.h"
 #include "runtime.h"
+#include "vcs.h"
 
 
 Settings *settings;
@@ -52,6 +53,7 @@ Mappings *mappings;
 Styles *styles;
 GtkAccelGroup *accelerator_group;
 URLTransport * urltransport;
+VCS *vcs;
 
 
 int main(int argc, char *argv[])
@@ -134,6 +136,9 @@ int main(int argc, char *argv[])
   // Styles object.
   Styles mystyles(0);
   styles = &mystyles;
+  // Version control object.
+  VCS myvcs (0);
+  vcs = &myvcs;
   // URLTransport object.
   urltransport = new URLTransport (0);
   /*

@@ -153,6 +153,10 @@
   $database_snapshots = Database_Snapshots::getInstance();
   $database_snapshots->verify();
     
+  // The focus table.
+  $database_focus = Database_Focus::getInstance();
+  $database_focus->verify();
+    
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

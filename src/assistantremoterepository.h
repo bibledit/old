@@ -114,14 +114,6 @@ private:
   static void on_button_push_clicked (GtkButton *button, gpointer user_data);
   void on_button_push ();
 
-  // Synchronization interval.
-  int page_number_interval;
-  GtkWidget *hbox_interval;
-  GtkWidget *label_interval1;
-  GtkObject *spinbutton_interval_adj;
-  GtkWidget *spinbutton_interval;
-  GtkWidget *label_interval2;
-
   // Conflict resolution.
   int page_number_conflict;
   GtkWidget *vbox_conflict;

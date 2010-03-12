@@ -17,46 +17,38 @@ $smarty->assign ("book", Filter_Html::sanitize ($book));
 $book_name = $database_books->getEnglishFromId ($book);
 $smarty->assign ("book_name", Filter_Html::sanitize ($book_name));
 
-
-// Versification.
-$versification = $_GET['versification'];
-if (isset ($versification)) {
-  if ($versification == "") {
-    $dialog_versifications = new Dialog_List (array ("name"), gettext ("Would you like to change the versification system?"), gettext ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
-    $database_versifications = Database_Versifications::getInstance ();
-    $versification_names = $database_versifications->getSystems ();
-    foreach ($versification_names as $versification_name) {
-      $dialog_versifications->add_row ($versification_name, "&versification=$versification_name");
-    }
-    $dialog_versifications->run();
+// Delete chapter.
+$deletechapter = $_GET['deletechapter'];
+if ($deletechapter != "") {
+  if ($_GET['confirm'] != "yes") {
+    $dialog_yes = new Dialog_Yes (array ("bible", "book"), gettext ("Would you like to delete this chapter?"), "deletechapter");
     die;
   } else {
-    $database_bibles->setVersification ($name, $versification);
-  }
-}
-$versification = $database_bibles->getVersification ($name);
-$smarty->assign ("versification", $versification);
-
-// Book creation.
-$createbook = $_GET['createbook'];
-if (isset ($createbook)) {
-  if ($createbook == "") {
-    $dialog_books = new Dialog_Books (NULL, array ("name"), gettext ("Create book"), "", "", "createbook", NULL, $database_bibles->getBooks ($name));
-    die;
-  } else {
-    new Book_Create ($name, $createbook);
+    $database_bibles->deleteChapter ($bible, $book, $deletechapter);
   }
 }
 
-// Available books.
-$books = $database_bibles->getBooks ($name);
-foreach ($books as $book) {
-  $name = $database_books->getEnglishFromId ($book);
-  $name = gettext ($name);
-  $available_books .= " $name";
+// Add chapter.
+if (isset ($_GET['createchapter'])) {
+  $dialog_entry = new Dialog_Entry (array ("bible" => $bible, "book" => $book), gettext ("Please enter the number for the new chapter"), "", "createchapter", NULL);
+  die;
 }
-$smarty->assign ("available_books", $available_books);
+if (isset($_POST['createchapter'])) {
+  $createchapter = $_POST['entry'];
+  $chapters = $database_bibles->getChapters ($bible, $book);
+  // Only create the chapters if it does not yet exist.
+  if (array_search ($createchapter, $chapters) === false) {
+    new Book_Create ($bible, $book, $createchapter);
+  } else {
+    $error_message = gettext ("This chapter already exists");
+  }
+}
 
+// Available chapters.
+$chapters = $database_bibles->getChapters ($bible, $book);
+$smarty->assign ("chapters", $chapters);
+
+$smarty->assign ("error_message", $error_message);
 
 $smarty->display ("book.tpl");
 

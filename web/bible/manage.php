@@ -30,12 +30,12 @@ $database_bibles = Database_Bibles::getInstance();
 
 // Delete Bible handler.
 if ($_GET['delete'] != "") {
-  $name = $_GET['delete'];
+  $bible = $_GET['delete'];
   $confirm = $_GET['confirm'];
   if ($confirm != "") {
-    $database_bibles->deleteBible ($name);
+    $database_bibles->deleteBible ($bible);
   } else {
-    $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete Bible $name?"), "delete");
+    $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete Bible $bible?"), "delete");
     die;
   }
 }
@@ -47,8 +47,8 @@ if (isset ($_GET['new'])) {
   die;
 }
 if (isset($_POST['new'])) {
-  $name = $_POST['entry'];
-  $database_bibles->createBible ($name);
+  $bible = $_POST['entry'];
+  $database_bibles->createBible ($bible);
 }
 
 

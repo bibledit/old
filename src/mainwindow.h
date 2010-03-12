@@ -621,12 +621,6 @@ protected:
   ChangesAssistant * changes_assistant;
   static void on_edit_revert_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_edit_revert();
-  void git_update_intervals_initialize();
-  map <ustring, unsigned int> git_update_intervals_bible;
-  int git_update_intervals_notes;
-  unsigned int git_update_interval_event_id;
-  static bool on_git_update_timeout(gpointer user_data);
-  void git_update_timeout(bool force);
   static void on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_projects_send_receive ();
 

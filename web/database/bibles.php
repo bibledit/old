@@ -208,8 +208,35 @@ EOD;
   }
 
 
+  /**
+  * Returns an array with the available chapters in a books in a Bible.
+  */
+  public function getChapters ($bible, $book)
+  {
+    // Read the chapters from the database.
+    $database_instance = Database_Instance::getInstance();
+    $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $query = "SELECT DISTINCT chapter FROM bible_data WHERE bible = $bible AND book = $book ORDER BY chapter ASC;";
+    $result = $database_instance->runQuery ($query);
+    $chapters = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $chapters[] = $row[0];
+    }
+    return $chapters;
+  }
 
 
+  public function deleteChapter ($bible, $book, $chapter)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "DELETE FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $database_instance->runQuery ($query);
+  }
 
 
 

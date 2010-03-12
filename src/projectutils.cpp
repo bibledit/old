@@ -42,6 +42,7 @@
 #include "scripts.h"
 #include "statistics.h"
 #include "snapshots.h"
+#include "vcs.h"
 
 
 void project_store_sanitize_line(ustring & line)

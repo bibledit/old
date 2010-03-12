@@ -176,7 +176,8 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	urltransport.$(OBJEXT) ipc.$(OBJEXT) \
 	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
 	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
-	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT)
+	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT) \
+	vcs.$(OBJEXT) git-exec.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -629,7 +630,9 @@ bibledit_SOURCES = \
 				runtime.cpp \
 				xetex.cpp \
 				dialogxetex.cpp \
-				paratext.cpp
+				paratext.cpp \
+				vcs.cpp \
+				git-exec.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -846,6 +849,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixmarkers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/floatingwindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/generalconfig.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git-exec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/greek.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkwrappers.Po@am__quote@
@@ -975,6 +979,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ustring.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utilities.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vcs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/webkitbrowser.Po@am__quote@

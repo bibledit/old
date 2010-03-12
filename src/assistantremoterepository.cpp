@@ -237,30 +237,6 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
 
   g_signal_connect ((gpointer) button_push, "clicked", G_CALLBACK (on_button_push_clicked), gpointer (this));
 
-  // Synchronization interval.
-  hbox_interval = gtk_hbox_new (FALSE, 5);
-  gtk_widget_show (hbox_interval);
-  page_number_interval = gtk_assistant_append_page (GTK_ASSISTANT (assistant), hbox_interval);
-
-  label_interval1 = gtk_label_new_with_mnemonic ("_Synchronize the local data and the remote repository every");
-  gtk_widget_show (label_interval1);
-  gtk_box_pack_start (GTK_BOX (hbox_interval), label_interval1, FALSE, FALSE, 0);
-
-  spinbutton_interval_adj = gtk_adjustment_new (60, 5, 3600, 1, 10, 0);
-  spinbutton_interval = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_interval_adj), 1, 0);
-  gtk_widget_show (spinbutton_interval);
-  gtk_box_pack_start (GTK_BOX (hbox_interval), spinbutton_interval, FALSE, FALSE, 0);
-
-  label_interval2 = gtk_label_new ("seconds");
-  gtk_widget_show (label_interval2);
-  gtk_box_pack_start (GTK_BOX (hbox_interval), label_interval2, FALSE, FALSE, 0);
-
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label_interval1), spinbutton_interval);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), hbox_interval, "Synchronization interval");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), hbox_interval, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), hbox_interval, true);
-
   // Conflict resolution.
   vbox_conflict = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_conflict);
@@ -359,14 +335,6 @@ void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
     gtk_entry_set_text (GTK_ENTRY (entry_repository), repository_url.c_str());
     ignore_entry_repository_changed = false;
 
-    // Set the update interval.
-    int update_interval = 0;
-    if (bible_notes_selector_bible ())
-      update_interval = projectconfig->git_remote_update_interval_get();
-    else
-      update_interval = settings->genconfig.consultation_notes_git_remote_update_interval_get();
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_interval), double (update_interval));
-
     // Set conflict handling values.
     GitConflictHandlingType conflicthandling = gchtTakeMe;
     if (bible_notes_selector_bible ())
@@ -449,13 +417,6 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
   else
     settings->genconfig.consultation_notes_git_remote_repository_url_set(repository_url_get());
   
-  // Remote update interval.
-  gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_interval));
-  if (bible_notes_selector_bible ())
-    projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
-  else
-    settings->genconfig.consultation_notes_git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
-
   // Save conflict handling system.
   GitConflictHandlingType conflicthandling = gchtTakeMe;
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote)))
@@ -519,14 +480,14 @@ gint RemoteRepositoryAssistant::assistant_forward (gint current_page)
   if (current_page == page_number_task_selector) {
     // Go to the right page depending on which task is selected.
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_task_selector_settings))) {
-      new_page_number = page_number_interval;
+      new_page_number = page_number_conflict;
     }
   }
 
   if (current_page == page_number_clone) {
     if (!repository_was_cloned()) {
       // If we pushed data to the repository, skip the write access test is needed.
-      new_page_number = page_number_interval;
+      new_page_number = page_number_conflict;
     }
   }
 

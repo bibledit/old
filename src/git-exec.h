@@ -18,25 +18,15 @@
 */
 
 
-#ifndef INCLUDED_GIT_H
-#define INCLUDED_GIT_H
+#ifndef INCLUDED_GIT_EXEC_H
+#define INCLUDED_GIT_EXEC_H
 
 
 #include "libraries.h"
-#include "types.h"
-#include "reference.h"
-#include "urltransport.h"
 
 
-enum GitConflictHandlingType {gchtTakeMe, gchtTakeServer};
-
-
-void git_upgrade ();
-void git_revert_to_internal_repository (const ustring& project);
-void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter);
-ustring git_mine_conflict_marker ();
-void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
-void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated);
+vector <ustring> git_exec_update_folder (const ustring& folder);
+void git_exec_message (const ustring& message, bool eol);
 
 
 #endif

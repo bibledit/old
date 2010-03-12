@@ -219,7 +219,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(reference_window_show_relevant_bits);
   INITIALIZE(consultation_notes_git_use_remote_repository);
   INITIALIZE(consultation_notes_git_remote_repository_url);
-  INITIALIZE(consultation_notes_git_remote_update_interval);
   INITIALIZE(consultation_notes_git_remote_repository_conflict_handling);
 }
 
@@ -384,7 +383,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(reference_window_show_relevant_bits);
   SAVE_VALUE(consultation_notes_git_use_remote_repository);
   SAVE_VALUE(consultation_notes_git_remote_repository_url);
-  SAVE_VALUE(consultation_notes_git_remote_update_interval);
   SAVE_VALUE(consultation_notes_git_remote_repository_conflict_handling);
 
   config_xml_values_set_execute(general_configuration_filename(), values);
@@ -632,5 +630,4 @@ IMPLEMENT(bool, bool_get, reference_window_show_verse_text, true)
 IMPLEMENT(bool, bool_get, reference_window_show_relevant_bits, false)
 IMPLEMENT(bool, bool_get, consultation_notes_git_use_remote_repository, false)
 IMPLEMENT(ustring, string_get, consultation_notes_git_remote_repository_url, "")
-IMPLEMENT(int, int_get, consultation_notes_git_remote_update_interval, 3600)
 IMPLEMENT(int, int_get, consultation_notes_git_remote_repository_conflict_handling, 0)

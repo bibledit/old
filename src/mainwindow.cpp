@@ -129,6 +129,7 @@
 #include "dialogyesnoalways.h"
 #include "ipc.h"
 #include "dialogxetex.h"
+#include "vcs.h"
 
 
 /*
@@ -1827,9 +1828,6 @@ navigation(0), httpd(0)
   // Start bibledit http responder.
   g_timeout_add(300, GSourceFunc(on_check_httpd_timeout), gpointer(this));
 
-  // Initialize content manager subsystem.
-  git_update_intervals_initialize();
-
   // Show open windows.
   g_timeout_add(300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
   
@@ -1972,12 +1970,10 @@ void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::newproject()
 {
-  git_pause ();
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
     on_file_project_open(projectdialog.newprojectname, false);
   }
-  git_continue ();
 }
 
 
@@ -1989,7 +1985,6 @@ void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_d
 
 void MainWindow::editproject()
 {
-  git_pause ();
   save_editors();
   // Show project dialog.
   ProjectDialog projectdialog(false);
@@ -2003,7 +1998,6 @@ void MainWindow::editproject()
     // As anything could have been changed to the project, reopen it.
     reload_all_editors(false);
   }
-  git_continue ();
 }
 
 
@@ -2372,10 +2366,8 @@ void MainWindow::on_compare_with()
 {
   save_editors();
   show_references_window();
-  git_pause ();
   CompareDialog dialog(window_references);
   dialog.run();
-  git_continue ();
 }
 
 
@@ -3174,11 +3166,12 @@ void MainWindow::on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem
 }
 
 
-void MainWindow::on_consultant_notes_send_receive ()
+void MainWindow::on_consultant_notes_send_receive () // Todo try out.
 {
   extern Settings * settings;
   if (settings->genconfig.consultation_notes_git_use_remote_repository_get()) {
-    git_pull_push_directory (notes_shared_storage_folder ());
+    extern VCS * vcs;
+    vcs->schedule(notes_shared_storage_folder ());
   }
 }
 
@@ -4482,7 +4475,6 @@ void MainWindow::on_file_backup_activate(GtkMenuItem * menuitem, gpointer user_d
 void MainWindow::on_file_backup()
 {
   save_editors();
-  git_pause ();
   backup_assistant = new BackupAssistant (0);
   g_signal_connect ((gpointer) backup_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
@@ -4521,7 +4513,6 @@ void MainWindow::on_preferences_remote_repository_activate(GtkMenuItem * menuite
 
 void MainWindow::on_preferences_remote_repository()
 {
-  git_pause ();
   save_editors();
   remote_repository_assistant = new RemoteRepositoryAssistant (0);
   g_signal_connect ((gpointer) remote_repository_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
@@ -4538,8 +4529,6 @@ void MainWindow::on_project_changes()
 {
   // Save even the very latest changes.
   save_editors();
-  // The changes checker will generate git tasks. Pause git.
-  git_pause ();
   // Do the actual changes dialog. 
   show_references_window();
   changes_assistant = new ChangesAssistant (window_references);
@@ -4563,74 +4552,50 @@ void MainWindow::on_edit_revert()
 }
 
 
-void MainWindow::git_update_intervals_initialize()
-{
-  // Make containers with all projects to be updated, and their intervals.
-  extern Settings *settings;
-  vector < ustring > projects = projects_get_all();
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
-    if (projectconfig->git_use_remote_repository_get()) {
-      git_update_intervals_bible[projects[i]] = 0;
-    }
-  }
-  git_update_intervals_notes = 0;
-  // Start the timer.
-  git_update_interval_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_git_update_timeout), gpointer(this), NULL);
-}
-
-
-bool MainWindow::on_git_update_timeout(gpointer user_data)
-{
-  ((MainWindow *) user_data)->git_update_timeout(false);
-  return true;
-}
-
-
-void MainWindow::git_update_timeout(bool force)
-// Schedule project update tasks. Called every second.
-{
-  // Schedule a push and pull task for each relevant project.
-  extern Settings *settings;
-  vector < ustring > projects = projects_get_all();
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
-    if (projectconfig->git_use_remote_repository_get()) {
-      int interval = git_update_intervals_bible[projects[i]];
-      interval++;
-      if ((interval >= projectconfig->git_remote_update_interval_get()) || force) {
-        // Save chapter.
-        for (unsigned int i2 = 0; i2 < editor_windows.size(); i2++) {
-          if (editor_windows[i2]->project() == projects[i]) {
-            editor_windows[i2]->chapter_save ();
-          }
-        }
-        // Schedule an update.
-        git_pull_push (projects[i]);
-        interval = 0;
-      }
-      git_update_intervals_bible[projects[i]] = interval;
-    }
-  }
-  // Schedule push/pull task for the consultation notes.
-  git_update_intervals_notes++;
-  if (git_update_intervals_notes >= settings->genconfig.consultation_notes_git_remote_update_interval_get()) {
-    on_consultant_notes_send_receive ();
-    git_update_intervals_notes = 0;
-  }
-}
-
-
 void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_projects_send_receive();
 }
 
 
-void MainWindow::on_projects_send_receive ()
+void MainWindow::on_projects_send_receive () // Todo
 {
-  git_update_timeout(true);
+  // Feedback to user.
   new TimedNotifierWindow ("Sending and receiving Bibles");
+
+  // Save all editors.
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->chapter_save ();
+  }
+
+  extern Settings *settings;
+
+  // Schedule send/receive for the focused project first.
+  // The reason for this is so that the translators can decide which one to do first,
+  // since doing all of them could take time.
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (editor_window) {
+    ustring project = editor_window->project ();
+    ProjectConfiguration *projectconfig = settings->projectconfig(project);
+    if (projectconfig->git_use_remote_repository_get()) {
+      // Schedule an update.
+      extern VCS * vcs;
+      ustring folder = tiny_project_data_directory_project(project);
+      vcs->schedule(folder);
+    }
+  }
+
+  // Schedule a push and pull task for each relevant project.
+  vector < ustring > projects = projects_get_all();
+  for (unsigned int i = 0; i < projects.size(); i++) {
+    ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
+    if (projectconfig->git_use_remote_repository_get()) {
+      // Schedule an update.
+      extern VCS * vcs;
+      ustring folder = tiny_project_data_directory_project(projects[i]);
+      vcs->schedule(folder);
+    }
+  }
 }
 
 
@@ -6004,9 +5969,6 @@ void MainWindow::on_assistant_ready ()
       on_keyterms_import();
     }
   }
-
-  // The assistants may have paused version control operations. Resume these.
-  git_continue ();
 }
 
 
@@ -6572,3 +6534,6 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
 }
 
 
+// Todo move reference exchange through bibleditweb. Use appropriate settings for that.
+// Todo there are a few settings made in git based upon feedback. But we should now set these all the time,
+//      in particular the one that affects renaming in the notes.

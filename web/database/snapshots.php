@@ -96,6 +96,8 @@ EOD;
   /**
     * Trims the snapshots.
     * $vocal - boolean, whether messages should be given.
+    * Note: This function can be greatly optimized by first reading all relevant data into arrays,
+    * then using array_unique to find unique values, and then go through it all to sort the snapshots out.
     */
   public function trim ($vocal)
   {
@@ -183,17 +185,17 @@ EOD;
       $this->trim_by_group ($six_months_and_more, $bible, $book, $chapter, 2592000);
     }
 
-    // Optional information.
+    // Feedback.
+    $query = "SELECT id FROM snapshots;";
+    $result = $database_instance->runQuery ($query);
+    $record_count_end = $result->num_rows;
+    include_once ("messages/messages.php");
+    $message = "Trimming down snapshots from $record_count_start records to $record_count_end";
     if ($vocal) {
-      $query = "SELECT id FROM snapshots;";
-      $result = $database_instance->runQuery ($query);
-      $record_count_end = $result->num_rows;
-      include_once ("messages/messages.php");
-      $message = "Trimming down snapshots from $record_count_start records to $record_count_end";
       message_information ($message);
-      $database_logs = Database_Logs::getInstance();
-      $database_logs->log ($message);
     }
+    $database_logs = Database_Logs::getInstance();
+    $database_logs->log ($message);
   }
 
 
@@ -215,7 +217,8 @@ EOD;
     $previous_second = $group[0];
 
     // Go through the snapshots, but do not touch the first and last one.
-    for ($i = 1; $i < (count ($group) - 1); $i++) {
+    $maximum = count ($group) - 1;
+    for ($i = 1; $i < $maximum; $i++) {
 
       // Trim the snapshots.
       if ($group[$i] > ($previous_second - $spacing)) {

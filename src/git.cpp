@@ -37,6 +37,7 @@
 #include "maintenance.h"
 #include "snapshots.h"
 #include "ipc.h"
+#include "vcs.h"
 
 
 void git_upgrade ()
@@ -297,57 +298,6 @@ void git_process_feedback (const ustring& project, const vector <ustring>& feedb
       }
     }
   }
-}
-
-
-void git_pull_push (const ustring& project)
-// Sends messages to the server that should update the git repository for "project".
-{
-  git_pull_push_directory (project_data_directory_project(project));
-}
-
-
-void git_pull_push_directory (const ustring& directory)
-// Sends messages to the server that should update the git repository for "directory".
-{
-  extern URLTransport * urltransport;
-  ustring url;
-
-  // Add everything because things could have been added or changed.
-  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git add .", directory);
-  urltransport->send_message_in_sequence (url);
-
-  // Show status.
-  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git status -a", directory);
-  urltransport->send_message_in_sequence (url);
-
-  // Commit changes locally.
-  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git commit -a -m commit", directory);
-  urltransport->send_message_in_sequence (url);
-
-  // Pull changes from the remote repository.
-  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git pull", directory);
-  urltransport->send_message_in_sequence (url);
-
-  // Push changes to the remote repository.
-  url = interprocess_communication_message_url (icmtStoreMessage, icctVcsWorker, "git push", directory);
-  urltransport->send_message_in_sequence (url);
-}
-
-
-void git_pause ()
-{
-  extern URLTransport * urltransport;
-  ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstPause, "");
-  urltransport->send_message (url);
-}
-
-
-void git_continue ()
-{
-  extern URLTransport * urltransport;
-  ustring url = interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstContinue, "");
-  urltransport->send_message (url);
 }
 
 
