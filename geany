@@ -15,12 +15,4 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=2229;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0
-FILE_NAME_1=4163;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/bibles.php;0
-FILE_NAME_2=3180;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/snapshots.php;0
-FILE_NAME_3=2867;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/styles.php;0
-FILE_NAME_4=5027;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/setup.php;0
-FILE_NAME_5=2109;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/admin/database.php;0
-FILE_NAME_6=49;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/setfocus.php;0
-FILE_NAME_7=6926;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/versifications.php;0
-FILE_NAME_8=1102;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/database/focus.php;0
+FILE_NAME_0=82;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0

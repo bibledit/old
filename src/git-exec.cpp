@@ -34,6 +34,16 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
 
   vector <ustring> feedback;
 
+  // Tell git about the default method for pushing.
+  {
+    TinySpawn spawn ("git");
+    spawn.arg ("config");
+    spawn.arg ("push.default");
+    spawn.arg ("matching");
+    spawn.workingdirectory (folder);
+    spawn.run ();
+  }
+
   // Add everything because things could have been added or changed.
   {
     TinySpawn spawn ("git");

@@ -87,17 +87,6 @@ int main(int argc, char *argv[])
     spawn.run ();
   }
 
-  // Kill possible previous shell helper program, start it, and pass the names of the logfile.
-  if (system ("killall bibledit-vcs"));
-  if (!program_is_running ("bibledit-vcs")) {
-    move_log_file (lftVCS);
-    // Spawn wrapper around the bibledit-vcs, since this wrapper catches.
-    GwSpawn spawn ("bibledit-vcs");
-    spawn.arg (log_file_name(lftVCS, false));
-    spawn.async ();
-    spawn.run ();
-  }
-
   // Redirect stdout and stderr to file.
   {
     move_log_file (lftMain);

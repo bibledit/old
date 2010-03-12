@@ -430,7 +430,6 @@ AC_CONFIG_FILES([Makefile
 		  gobible/Makefile
 		  web/Makefile
 		  dbus/Makefile
-		  vcs/Makefile
 		  xetex/Makefile
 		])
 AC_OUTPUT

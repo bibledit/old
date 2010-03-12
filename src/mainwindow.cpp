@@ -3166,12 +3166,13 @@ void MainWindow::on_consultant_notes_send_receive_activate(GtkMenuItem *menuitem
 }
 
 
-void MainWindow::on_consultant_notes_send_receive () // Todo try out.
+void MainWindow::on_consultant_notes_send_receive ()
 {
   extern Settings * settings;
   if (settings->genconfig.consultation_notes_git_use_remote_repository_get()) {
     extern VCS * vcs;
     vcs->schedule(notes_shared_storage_folder ());
+    maintenance_register_git_repository (notes_shared_storage_folder ());
   }
 }
 
@@ -4558,7 +4559,7 @@ void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpoi
 }
 
 
-void MainWindow::on_projects_send_receive () // Todo
+void MainWindow::on_projects_send_receive ()
 {
   // Feedback to user.
   new TimedNotifierWindow ("Sending and receiving Bibles");
@@ -4594,6 +4595,7 @@ void MainWindow::on_projects_send_receive () // Todo
       extern VCS * vcs;
       ustring folder = tiny_project_data_directory_project(projects[i]);
       vcs->schedule(folder);
+      maintenance_register_git_repository (folder);
     }
   }
 }
@@ -6477,49 +6479,6 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
           }
         }
       }
-      
-      // Handle the "vcs" message. It has feedback from the version control system, handled by bibledit-vcs.
-      if (subject == "vcs") {
-        if (parseline.lines.size() > 5) {
-          ustring vcs_git_directory = parseline.lines[2];
-          // Whether to set the push.default value of the git repository.
-          // If a message to that effect is encountered, it sets the value.
-          for (unsigned int i = 0; i < parseline.lines.size(); i++) {
-            if (parseline.lines[i].find ("push.default") != string::npos) {
-              GwSpawn spawn ("git");
-              spawn.workingdirectory (vcs_git_directory);
-              spawn.arg ("config");
-              spawn.arg ("push.default");
-              spawn.arg ("matching");
-              spawn.run ();
-              break;
-            }
-          }
-          bool display_change_lines = false;
-          bool ping_git_maintenance = false;
-          for (unsigned int i = 0; i < parseline.lines.size(); i++) {
-            if (parseline.lines[i].find ("insertions(+)") != string::npos) {
-              display_change_lines = false;
-            }
-            if (parseline.lines[i].find ("Fast forward") == 0) {
-              display_change_lines = false;
-              ping_git_maintenance = true;
-            }
-            if (parseline.lines[i].find ("modified:") != string::npos) {
-              display_change_lines = false;
-              gw_message (parseline.lines[i]);
-              ping_git_maintenance = true;
-            }
-            if (display_change_lines) {
-              gw_message (parseline.lines[i]);
-            }
-            notes_handle_vcs_feedback (vcs_git_directory, parseline.lines[i]);
-          }
-          if (ping_git_maintenance) {
-            maintenance_register_git_repository (vcs_git_directory);
-          }
-        }
-      }
     }
   }
 
@@ -6534,6 +6493,3 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
 }
 
 
-// Todo move reference exchange through bibleditweb. Use appropriate settings for that.
-// Todo there are a few settings made in git based upon feedback. But we should now set these all the time,
-//      in particular the one that affects renaming in the notes.

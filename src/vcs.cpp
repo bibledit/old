@@ -31,6 +31,7 @@
 #include "settings.h"
 #include "tiny_utilities.h"
 #include "git-exec.h"
+#include "notes_utils.h"
 
 
 VCS::VCS(bool dummy)
@@ -74,6 +75,11 @@ void VCS::thread_main()
     if (!mypause) {
       if (!tasks.empty()) {
         vector <ustring> feedback = git_exec_update_folder(tasks[0]);
+        if (tasks[0] == notes_shared_storage_folder ()) {
+          for (unsigned int i = 0; i < feedback.size(); i++) {
+            notes_handle_vcs_feedback (notes_shared_storage_folder (), feedback[i]);
+          }
+        }
         erase (tasks[0]);
       }
     }
