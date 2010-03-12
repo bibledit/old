@@ -1,2 +1,0 @@
-bibledit-olpc-libraries.o bibledit-olpc-libraries.o:  \
- bibledit-olpc-libraries.cpp

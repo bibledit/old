@@ -1,13 +1,12 @@
-move reference exchange through bibleditweb. Use appropriate settings for that.
-
-
-
-
+All the help should no longer be stored on the server of bibleditweb, but just in /usr/share/bibledit, as it used to be.
+This applies to bibledit, of course, only.
 
 
 Independent and universal focus channels on the server.
 * Everybody can listen to the "focus" on his own channel. Channels are created on the fly.
 * Everybody can send his "focus".
+
+move reference exchange through bibleditweb. Use appropriate settings for that.
 
 Store: http://bibledit.org/demo/setfocus.php?book=1&chapter=2&verse=3&versification=english
 http://localhost/bibledit/setfocus.php?book=1&chapter=2&verse=4
@@ -20,13 +19,14 @@ On retrieving focus, there should be a stable focus for a second or so before it
 The channel is stored in the database, and acts like an independent focus provider.
 
 
-The vcs goes out from bibledit, and no longer goes through the ipc, nor is it called regularly, but only manually,
-and then the focused project goes first.
-
 
 Bibledit needs a preference where the web site is entered and tested, and where the versification is set.
 Once done, it then needs to send this reference through setfocus.php.
 The preferences dialog could be the current reference exchange one, since it already deals with that.
+
+
+
+
 
 
 
