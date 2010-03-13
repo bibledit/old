@@ -14,7 +14,4 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=1
-FILE_NAME_0=100;None;0;16;2;1;0;/home/teus/documents/dev/bibledit/bibleditgtk/TODO;0
-FILE_NAME_1=798;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/bibleditweb/configure.ac;0
-FILE_NAME_2=88;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/bibleditweb/Makefile.am;0
+current_page=-1
