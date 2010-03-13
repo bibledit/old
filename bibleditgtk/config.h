@@ -34,9 +34,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define the root password of the MySQL database */
-#define MYSQL_ROOT_PASSWORD "root"
-
 /* Name of package */
 #define PACKAGE "bibledit"
 
@@ -50,7 +47,7 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 4.0.78"
+#define PACKAGE_STRING "bibledit 4.0.81"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -59,19 +56,10 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.0.78"
-
-/* Define the password of the site administrator */
-#define SITE_ADMIN_PASSWORD "adminpassword"
-
-/* Define the username of the site administrator */
-#define SITE_ADMIN_USERNAME "adminusername"
+#define PACKAGE_VERSION "4.0.81"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "4.0.78"
-
-/* Define the local web server document root */
-#define WEBROOT "/var/www"
+#define VERSION "4.0.81"

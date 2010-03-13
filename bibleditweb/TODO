@@ -1,6 +1,3 @@
-MySQL and web stuff goes away from bibleditgtk/configure.ac, but remains in bibleditweb/configure.ac
-
-
 All the help should no longer be stored on the server of bibleditweb, but just in /usr/share/bibledit, as it used to be.
 This applies to bibledit, of course, only.
 

@@ -33,9 +33,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Define the root password of the MySQL database */
-#undef MYSQL_ROOT_PASSWORD
-
 /* Name of package */
 #undef PACKAGE
 
@@ -60,17 +57,8 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define the password of the site administrator */
-#undef SITE_ADMIN_PASSWORD
-
-/* Define the username of the site administrator */
-#undef SITE_ADMIN_USERNAME
-
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
 /* Version number of package */
 #undef VERSION
-
-/* Define the local web server document root */
-#undef WEBROOT
