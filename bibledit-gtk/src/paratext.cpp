@@ -34,7 +34,7 @@ ExportParatextStylesheet::ExportParatextStylesheet (int dummy)
   }
   // Indicate it was exported from bibledit.
   if (!stylesheet_lines.empty()) {
-    stylesheet_lines[0].append ("# Exported from Bibledit");
+    stylesheet_lines[0].append ("# Exported from Bibledit-Gtk");
   }
 }
 

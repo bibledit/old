@@ -67,7 +67,7 @@ void mechon_mamre_detailed_page (HtmlWriter2& htmlwriter)
   htmlwriter.text_add ("Hebrew Bible with cantillation marks from Mechon Mamre");
   htmlwriter.heading_close ();
   htmlwriter.paragraph_open();
-  htmlwriter.text_add ("The Hebrew Bible from Mechon Mamre provides a Hebrew text that can be useful for translating the Bible. Bibledit can import this text. This consists of two steps: downloading it and importing it.");
+  htmlwriter.text_add ("The Hebrew Bible from Mechon Mamre provides a Hebrew text that can be useful for translating the Bible. Bibledit-Gtk can import this text. This consists of two steps: downloading it and importing it.");
   htmlwriter.paragraph_close();
   htmlwriter.heading_open (4);
   htmlwriter.text_add ("1. Downloading the text");

@@ -51,7 +51,7 @@ void kjv_detailed_page (HtmlWriter2& htmlwriter)
   htmlwriter.text_add ("Sword King James Bible with Strong's lemmata");
   htmlwriter.heading_close ();
   htmlwriter.paragraph_open();
-  htmlwriter.text_add ("The King James Bible from the Sword project is useful for its Strong's numbers tagged in the text. Bibledit uses this to find related verses, among other things. Importing consists of two steps: exporting it from Sword and creating a database out of it.");
+  htmlwriter.text_add ("The King James Bible from the Sword project is useful for its Strong's numbers tagged in the text. Bibledit-Gtk uses this to find related verses, among other things. Importing consists of two steps: exporting it from Sword and creating a database out of it.");
   htmlwriter.paragraph_close();
   htmlwriter.heading_open (4);
   htmlwriter.text_add ("1. Exporting the text from Sword");
@@ -125,7 +125,7 @@ void kjv_action_page (HtmlWriter2& htmlwriter)
   htmlwriter.heading_close ();
   if (keep_going) {
     htmlwriter.paragraph_open ();
-    htmlwriter.text_add ("To use the database, copy the file kjv.sql into the Bibledit package and re-install.");
+    htmlwriter.text_add ("To use the database, copy the file kjv.sql into the Bibledit-Gtk package and re-install.");
     htmlwriter.paragraph_close ();
   }
   for (unsigned int i = 0; i < messages.size(); i++) {

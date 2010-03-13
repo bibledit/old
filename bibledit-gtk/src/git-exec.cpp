@@ -21,6 +21,7 @@
 #include "git-exec.h"
 #include "tiny_utilities.h"
 #include <glib.h>
+#include "gwrappers.h"
 
 
 vector <ustring> git_exec_update_folder(const ustring & folder)
@@ -36,7 +37,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
 
   // Tell git about the default method for pushing.
   {
-    TinySpawn spawn ("git");
+    GwSpawn spawn ("git");
     spawn.arg ("config");
     spawn.arg ("push.default");
     spawn.arg ("matching");
@@ -46,7 +47,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
 
   // Add everything because things could have been added or changed.
   {
-    TinySpawn spawn ("git");
+    GwSpawn spawn ("git");
     spawn.arg ("add");
     spawn.arg (".");
     spawn.workingdirectory (folder);
@@ -55,7 +56,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
 
   // Show status.
   {
-    TinySpawn spawn ("git");
+    GwSpawn spawn ("git");
     spawn.arg ("status");
     spawn.arg ("-a");
     spawn.workingdirectory (folder);
@@ -64,7 +65,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
 
   // Commit changes locally.
   {
-    TinySpawn spawn ("git");
+    GwSpawn spawn ("git");
     spawn.arg ("commit");
     spawn.arg ("-a");
     spawn.arg ("-m");
@@ -76,7 +77,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
   // Pull changes from the remote repository.
   bool pulled_ok = false;
   {
-    TinySpawn spawn ("git");
+    GwSpawn spawn ("git");
     spawn.arg ("pull");
     spawn.workingdirectory (folder);
     spawn.read ();
@@ -95,7 +96,7 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
 
   // Push changes to the remote repository.
   if (pulled_ok) {
-    TinySpawn spawn ("git");
+    GwSpawn spawn ("git");
     spawn.arg ("push");
     spawn.workingdirectory (folder);
     spawn.run ();

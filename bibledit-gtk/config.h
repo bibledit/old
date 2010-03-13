@@ -35,22 +35,22 @@
 #define HAVE_UNISTD_H 1
 
 /* Name of package */
-#define PACKAGE "bibledit"
+#define PACKAGE "bibledit-gtk"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 
 /* PACKAGE_DATA_DIR */
-#define PACKAGE_DATA_DIR "/usr/share/bibledit"
+#define PACKAGE_DATA_DIR "/usr/share/bibledit-gtk"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "bibledit"
+#define PACKAGE_NAME "bibledit-gtk"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 4.0.82"
+#define PACKAGE_STRING "bibledit-gtk 4.0.82"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "bibledit"
+#define PACKAGE_TARNAME "bibledit-gtk"
 
 /* Define to the home page for this package. */
 #define PACKAGE_URL ""

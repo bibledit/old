@@ -494,7 +494,7 @@ void OutpostDialog::set_gui()
         }
       }
       outpost_command.append(shell_quote_space(windowsoutpost_path()));
-      access_info = "To start the Outpost, Bibledit will issue command:\n";
+      access_info = "To start the Outpost, Bibledit-Gtk will issue command:\n";
       access_info.append(outpost_command);
     } else {
       access_info = "There is not enough information yet";

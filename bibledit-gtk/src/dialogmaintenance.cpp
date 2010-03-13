@@ -138,7 +138,7 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
     htmlwriter.text_add ("Maintenance");
     htmlwriter.heading_close ();
     htmlwriter.paragraph_open();
-    htmlwriter.text_add ("Some actions may have great impact on Bibledit. Use with care.");
+    htmlwriter.text_add ("Some actions may have great impact on Bibledit-Gtk. Use with care.");
     htmlwriter.paragraph_close();
 
     // Mechon Mamre Hebrew text link.

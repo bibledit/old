@@ -1128,7 +1128,7 @@ void CheckDialog::word_count_setup()
   gtk_widget_show(wordcount_label2);
   gtk_box_pack_start(GTK_BOX(wordcount_hbox1), wordcount_label2, FALSE, FALSE, 0);
 
-  wordcount_label1 = gtk_label_new_with_mnemonic("Bibledit normally knows the right word boundaries, but if this is not done satisfactorily, you can enter _extra characters that should be part of a word");
+  wordcount_label1 = gtk_label_new_with_mnemonic("Bibledit-Gtk normally knows the right word boundaries, but if this is not done satisfactorily, you can enter _extra characters that should be part of a word");
   gtk_widget_show(wordcount_label1);
   gtk_box_pack_start(GTK_BOX(vbox1), wordcount_label1, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(wordcount_label1), TRUE);
@@ -1176,7 +1176,7 @@ void CheckDialog::on_wordcount_entry1()
   ustring non_alphas = get_non_alphanumericals(chars);
   if (chars != non_alphas) {
     gtk_entry_set_text(GTK_ENTRY(wordcount_entry1), non_alphas.c_str());
-    gtkw_dialog_info(checkdialog, "Bibledit already recognizes this character as part of a word.\nIt has been removed as superfluous.\nThere is no need to enter your alphabet.\nEntering the special cases is enough.");
+    gtkw_dialog_info(checkdialog, "Bibledit-Gtk already recognizes this character as part of a word.\nIt has been removed as superfluous.\nThere is no need to enter your alphabet.\nEntering the special cases is enough.");
   }
 }
 

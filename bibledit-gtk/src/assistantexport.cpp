@@ -397,7 +397,7 @@ AssistantBase("Export", "export")
 
   GSList *radiobutton_stylesheet_export_type_group = NULL;
 
-  radiobutton_stylesheet_format_bibledit = gtk_radio_button_new_with_mnemonic (NULL, "Standard Bibledit format");
+  radiobutton_stylesheet_format_bibledit = gtk_radio_button_new_with_mnemonic (NULL, "Standard Bibledit-Gtk format");
   gtk_widget_show (radiobutton_stylesheet_format_bibledit);
   gtk_box_pack_start (GTK_BOX (vbox_stylesheet_format), radiobutton_stylesheet_format_bibledit, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_stylesheet_format_bibledit), radiobutton_stylesheet_export_type_group);

@@ -86,7 +86,7 @@ void XeTeX::write_document_tex_file ()
   extern Styles * styles;
   Stylesheet * sheet = styles->stylesheet (stylesheet_get_actual ());
   
-  document_tex.push_back ("% Configuration file created by Bibledit");
+  document_tex.push_back ("% Configuration file created by Bibledit-Gtk");
   document_tex.push_back ("% You can modify it to suit your needs");
   document_tex.push_back ("% After modification, run the following command in this directory:");
   document_tex.push_back ("%   xetex document.tex");

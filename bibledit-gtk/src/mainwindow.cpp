@@ -186,7 +186,7 @@ navigation(0), httpd(0)
   interprocess_communications_initiate_listener_event_id = 0;
   
   // Application name.
-  g_set_application_name("Bibledit");
+  g_set_application_name("Bibledit-Gtk");
 
   // Gui Features object.
   GuiFeatures guifeatures(0);
@@ -4561,8 +4561,6 @@ void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpoi
 
 void MainWindow::on_projects_send_receive ()
 {
-  // Feedback to user.
-  new TimedNotifierWindow ("Sending and receiving Bibles");
 
   // Save all editors.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
@@ -4571,6 +4569,9 @@ void MainWindow::on_projects_send_receive ()
 
   extern Settings *settings;
 
+  GwSpawn spawn ("bibledit-git");
+  spawn.async ();
+  
   // Schedule send/receive for the focused project first.
   // The reason for this is so that the translators can decide which one to do first,
   // since doing all of them could take time.
@@ -4580,9 +4581,10 @@ void MainWindow::on_projects_send_receive ()
     ProjectConfiguration *projectconfig = settings->projectconfig(project);
     if (projectconfig->git_use_remote_repository_get()) {
       // Schedule an update.
-      extern VCS * vcs;
-      ustring folder = tiny_project_data_directory_project(project);
-      vcs->schedule(folder);
+      ustring folder = project_data_directory_project(project);
+      // Todo extern VCS * vcs;
+      // vcs->schedule(folder);
+      spawn.arg (folder);
     }
   }
 
@@ -4592,12 +4594,16 @@ void MainWindow::on_projects_send_receive ()
     ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
     if (projectconfig->git_use_remote_repository_get()) {
       // Schedule an update.
-      extern VCS * vcs;
-      ustring folder = tiny_project_data_directory_project(projects[i]);
-      vcs->schedule(folder);
+      // Todo extern VCS * vcs;
+      ustring folder = project_data_directory_project(projects[i]);
+      //vcs->schedule(folder);
+      spawn.arg (folder);
       maintenance_register_git_repository (folder);
     }
   }
+  
+  // Run the lot.
+  spawn.run ();
 }
 
 
@@ -5108,7 +5114,7 @@ void MainWindow::handle_editor_focus()
   check_usfm_window_ping ();
   
   // Set the title of the main window to include the project.
-  ustring title = "Bibledit";
+  ustring title = "Bibledit-Gtk";
   if (!project.empty()) {
     title.append (" - ");
     title.append (project);

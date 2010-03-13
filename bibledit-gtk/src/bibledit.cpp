@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
   move_log_file (lftShutdown);
 
   // Kill possible previous dbus helper program, start it, and pass the names of the logfile.
-  if (system ("killall bibledit-dbus"));
-  if (!program_is_running ("bibledit-dbus")) {
+  if (system ("killall -q bibledit-dbus"));
+  {
     move_log_file (lftDbus);
     GwSpawn spawn ("bibledit-dbus");
     spawn.arg (log_file_name(lftDbus, false));

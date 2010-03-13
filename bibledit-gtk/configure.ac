@@ -2,10 +2,9 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[4.0.82],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-gtk],[4.0.82],[http://www.nongnu.org/bibledit])
 # AC_CANONICAL_TARGET
 ac_default_prefix=/usr
-# AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.h])
@@ -322,6 +321,7 @@ AC_CONFIG_FILES([Makefile
 		  gobible/Makefile
 		  dbus/Makefile
 		  xetex/Makefile
+		  git/Makefile
 		])
 AC_OUTPUT
 

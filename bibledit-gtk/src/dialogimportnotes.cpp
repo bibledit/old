@@ -313,7 +313,7 @@ void ImportNotesDialog::select_file_page()
     switch (import_format) {
     case ifUnknown:
       {
-        info_for_user = "Bibledit does not recognize the format of this file";
+        info_for_user = "Bibledit-Gtk does not recognize the format of this file";
         break;
       }
     case ifBibleditNotesVersion3:
@@ -326,7 +326,7 @@ void ImportNotesDialog::select_file_page()
         datemodified_element = "date-modified";
         datecreated_element = "date-created";
         createdby_element = "created-by";
-        info_for_user = "Found: Bibledit Notes Version 3";
+        info_for_user = "Found: Bibledit-Gtk Notes Version 3";
         break;
       }
     case ifScriptureNotesVersion20:

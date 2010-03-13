@@ -1,6 +1,6 @@
-bin_PROGRAMS = bibledit
+bin_PROGRAMS = bibledit-gtk
 
-bibledit_SOURCES = \
+bibledit_gtk_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
     	tiny_utilities.cpp \

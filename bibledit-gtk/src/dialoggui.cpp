@@ -139,7 +139,7 @@ void GuiDialog::on_okbutton()
 
   // Restart needed if there was a change in the features.
   if ((old_mode != new_mode) || (old_list != new_list)) {
-    gtkw_dialog_info(featuresdialog, "The changes will take effect after Bibledit has been restarted");
+    gtkw_dialog_info(featuresdialog, "The changes will take effect after Bibledit-Gtk has been restarted");
   }
 }
 

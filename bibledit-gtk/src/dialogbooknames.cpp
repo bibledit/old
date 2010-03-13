@@ -104,7 +104,7 @@ BooknamesDialog::BooknamesDialog(const map <unsigned int, ustring>& books, const
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview1), GTK_TREE_MODEL(model));
   g_object_unref(model);
   GtkCellRenderer *renderer1 = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, "Book in Bibledit", renderer1, "text", COLUMN_BIBLEDIT, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, "Book in Bibledit-Gtk", renderer1, "text", COLUMN_BIBLEDIT, NULL);
   GtkCellRenderer *renderer2 = gtk_cell_renderer_text_new();
   g_signal_connect(renderer2, "edited", G_CALLBACK(cell_edited), gpointer(this));
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, heading2, renderer2, "text", COLUMN_URL, "editable", COLUMN_EDITABLE, NULL);

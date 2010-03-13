@@ -1,4 +1,8 @@
-bibledit-gtk
+Git operations to be done through an external application?
+How do we then get the feedback needed for updating the notes index?
+Bibledit-Git does not close on its own, but instead it gives a message saying it is through and can be closed.
+
+
 
 All the help should no longer be stored on the server of bibleditweb, but just in /usr/share/bibledit, as it used to be.
 This applies to bibledit, of course, only.

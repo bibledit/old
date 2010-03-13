@@ -30,7 +30,7 @@ bool check_bibledit_startup_okay (int argc, char *argv[])
 #ifndef WIN32
   bool root = (getuid() == 0);
   if (root) {
-    gtkw_dialog_error(NULL, "Bibledit has not been designed to run as user root.\n" "Please run it as a standard user.");
+    gtkw_dialog_error(NULL, "Bibledit-Gtk has not been designed to run as user root.\n" "Please run it as a standard user.");
     return false;
   }
 #endif
@@ -44,18 +44,18 @@ bool check_bibledit_startup_okay (int argc, char *argv[])
   vector <ustring> processes = list_processes ();
   int count = 0;
   for (unsigned int i = 0; i < processes.size(); i++) {
-    if (g_str_has_suffix (processes[i].c_str(), "bibledit")) {
+    if (g_str_has_suffix (processes[i].c_str(), "bibledit-gtk")) {
       count++;
     }
   }
   if (count > 1) {
-    gtkw_dialog_error(NULL, "Bibledit is already running.");
+    gtkw_dialog_error(NULL, "Bibledit-Gtk is already running.");
     return false;
   }
   
   // See whether Bibledit is shutting down.
   if (program_is_running ("bibledit-shutdown")) {
-    gtkw_dialog_error(NULL, "The previous instance of Bibledit is still optimizing its data while shutting down.\nPlease wait till that has been done, and try again.");
+    gtkw_dialog_error(NULL, "The previous instance of Bibledit-Gtk is still optimizing its data while shutting down.\nPlease wait till that has been done, and try again.");
     return false;
   }
 
