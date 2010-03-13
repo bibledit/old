@@ -4,7 +4,7 @@ CLEANFILES = *~
 webroot = @WEBROOT@
 
 install-data-local:
-	mkdir -p $(WEBROOT)/bibledit/usfm
-	cp -r * $(WEBROOT)/bibledit/usfm
+	mkdir -p $(prefix)/$(packagedatadir)/usfm
+	cp -r * $(prefix)/$(packagedatadir)/usfm
 
 

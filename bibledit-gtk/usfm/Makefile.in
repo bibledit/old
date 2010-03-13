@@ -202,6 +202,7 @@ localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+packagedatadir = @packagedatadir@
 pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
@@ -423,8 +424,8 @@ uninstall-am: uninstall-dist_pkgdataDATA
 
 
 install-data-local:
-	mkdir -p $(WEBROOT)/bibledit/usfm
-	cp -r * $(WEBROOT)/bibledit/usfm
+	mkdir -p $(prefix)/$(packagedatadir)/usfm
+	cp -r * $(prefix)/$(packagedatadir)/usfm
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

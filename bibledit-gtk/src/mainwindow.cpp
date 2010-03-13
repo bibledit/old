@@ -2062,7 +2062,7 @@ void MainWindow::on_help_main_activate(GtkMenuItem * menuitem, gpointer user_dat
 
 void MainWindow::on_help_main()
 {
-  htmlbrowser(html_server_url ("site"), false, true);
+  htmlbrowser(html_server_url ("site/index.html"), false, true);
 }
 
 
@@ -4582,8 +4582,6 @@ void MainWindow::on_projects_send_receive ()
     if (projectconfig->git_use_remote_repository_get()) {
       // Schedule an update.
       ustring folder = project_data_directory_project(project);
-      // Todo extern VCS * vcs;
-      // vcs->schedule(folder);
       spawn.arg (folder);
     }
   }
@@ -4594,9 +4592,7 @@ void MainWindow::on_projects_send_receive ()
     ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
     if (projectconfig->git_use_remote_repository_get()) {
       // Schedule an update.
-      // Todo extern VCS * vcs;
       ustring folder = project_data_directory_project(projects[i]);
-      //vcs->schedule(folder);
       spawn.arg (folder);
       maintenance_register_git_repository (folder);
     }

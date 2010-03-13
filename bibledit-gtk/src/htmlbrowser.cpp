@@ -146,8 +146,7 @@ void htmlbrowser(const ustring & filename, bool network, bool no_tamper)
 
 ustring html_server_url (const ustring& url)
 {
-  ustring server_url = "http://localhost/bibledit/";
-  server_url.append (url);
+  ustring server_url = gw_build_filename (directories_get_package_data (), url);
   return server_url;
 }
 

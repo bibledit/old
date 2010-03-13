@@ -595,6 +595,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+packagedatadir
 WIN32_FALSE
 WIN32_TRUE
 DARWIN_FALSE
@@ -8439,6 +8440,8 @@ fi
 # Set PACKAGE DATA & DOC DIR
 packagedatadir=share/${PACKAGE}
 packagedocdir=doc/${PACKAGE}
+
+
 
 # Set PACKAGE DIRS in config.h.
 packagepixmapsdir=${packagedatadir}/pixmaps

@@ -283,6 +283,8 @@ AM_CONDITIONAL(WIN32, test x$win32 = xtrue)
 # Set PACKAGE DATA & DOC DIR
 packagedatadir=share/${PACKAGE}
 packagedocdir=doc/${PACKAGE}
+AC_SUBST(packagedatadir)
+
 
 # Set PACKAGE DIRS in config.h.
 packagepixmapsdir=${packagedatadir}/pixmaps
