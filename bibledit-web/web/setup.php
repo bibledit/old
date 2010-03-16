@@ -153,9 +153,9 @@
   $database_snapshots = Database_Snapshots::getInstance();
   $database_snapshots->verify();
     
-  // The focus table.
-  $database_focus = Database_Focus::getInstance();
-  $database_focus->verify();
+  // The ipc table.
+  $database_ipc = Database_Ipc::getInstance();
+  $database_ipc->verify();
     
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");

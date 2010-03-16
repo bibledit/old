@@ -260,7 +260,7 @@ echo '?>'                               >> $VERSIONFILE
 
 # Summary.
 echo "
-Bibleditweb $VERSION configuration summary:
+Bibledit-Web $VERSION configuration summary:
 
         Version                               : ${PACKAGE_VERSION}
         Installation prefix                   : ${prefix}

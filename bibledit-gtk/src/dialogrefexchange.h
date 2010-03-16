@@ -36,17 +36,19 @@ protected:
   GtkBuilder *gtkbuilder;
   GtkWidget *dialog;
 
+  GtkWidget *entry_url;
+  GtkWidget *button_url;
+  GtkWidget *label_url;
+
   GtkWidget *checkbutton_bibleworks;
   GtkWidget *checkbutton_bibletime;
   GtkWidget *checkbutton_santafe;
-  GtkWidget *checkbutton_xiphos;
   GtkWidget *checkbutton_onlinebible;
 
   GtkWidget *radiobutton_off;
   GtkWidget *radiobutton_bibleworks;
   GtkWidget *radiobutton_bibletime;
   GtkWidget *radiobutton_santafe;
-  GtkWidget *radiobutton_xiphos;
   GtkWidget *radiobutton_onlinebible;
 
   GtkWidget *vbox_outpost;
@@ -54,6 +56,8 @@ protected:
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
+  static void on_url_test_clicked(GtkButton * button, gpointer user_data);
+  void on_url_test();
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
   static void on_button_outpost_requirement_toggled (GtkToggleButton *togglebutton, gpointer user_data);

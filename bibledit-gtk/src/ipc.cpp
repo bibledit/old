@@ -19,6 +19,7 @@
 
 
 #include "ipc.h"
+#include "settings.h"
 
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message,
@@ -35,25 +36,27 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
     case icstGetref:   subject_string.append ("getref");   break;
     case icstPause:    subject_string.append ("pause");    break;
     case icstContinue: subject_string.append ("continue"); break;
+    case icstFocus:    subject_string.append ("focus");    break;
   }
   return interprocess_communication_message_url (message, channel, subject_string, payload);
 }
 
 
-ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message,
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, // Todo
                                                 InterprocessCommunicationChannelType channel, 
                                                 const ustring& subject, 
                                                 const ustring& payload)
 {
-  ustring url = "http://localhost/bibledit/ipc/";
+  extern Settings * settings;
+  ustring url = settings->genconfig.bibledit_web_url_get();
+  url.append ("/ipc/");
   switch (message) {
     case icmtClearMessages: url.append ("clearmessages.php"); break;
     case icmtStoreMessage:  url.append ("storemessage.php");  break;
     case icmtListen:        url.append ("getmessage.php");    break;
+    case icmtSetMessage:    url.append ("setmessage.php");    break;
   }
-  if (channel != icctNone) {
-    url.append ("?channel=");
-  }
+  url.append ("?channel=");
   switch (channel) {
     case icctNone:                                  break;
     case icctXiphos:     url.append ("xiphos");     break;
@@ -62,14 +65,10 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
     case icctVcsWorker:  url.append ("vcsworker");  break;
     case icctVcsControl: url.append ("vcscontrol"); break;
   }
-  if (!subject.empty()) {
-    url.append ("&subject=");
-    url.append (subject);
-  }
-  if (!payload.empty()) {
-    url.append ("&message=");
-    url.append (payload);
-  }
+  url.append ("&subject=");
+  url.append (subject);
+  url.append ("&message=");
+  url.append (payload);
   return url;  
 }
 

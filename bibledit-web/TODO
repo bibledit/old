@@ -1,6 +1,24 @@
+Reading manual at:
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.oop5.php.html
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.oop5.overloading.php.html
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.oop5.cloning.php.html
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.oop5.references.php.html
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.references.php.html
+file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/reserved.variables.php.html
+
+
+
+
+
 Independent and universal focus channels on the server.
 * Everybody can listen to the "focus" on his own channel. Channels are created on the fly.
 * Everybody can send his "focus".
+
+We use a more general "ipc" table, where all kinds of commands can be sent through.
+If a focus is received, recipient "all" or <none>, this command is not erased upon reading, but it is erased
+by the second focus sent out by anybody to 'all'.
+Then specific commands can be sent to specific recipients, which will be erased upon receipt.
+
 
 move reference exchange through bibleditweb. Use appropriate settings for that.
 
@@ -14,6 +32,7 @@ Versification correction to be implemented upon retrieval.
 On retrieving focus, there should be a stable focus for a second or so before it releases the new focus.
 The channel is stored in the database, and acts like an independent focus provider.
 
+getmessage2.php to be renamed to getmessage.php
 
 
 Bibledit needs a preference where the web site is entered and tested, and where the versification is set.
@@ -79,13 +98,6 @@ The desktops contain any number of screens or tools that the translator or consu
 
 
 
-
-
-
-Reading manual at:
-file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.oop5.php.html
-file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.oop5.overloading.php.html
-file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/language.oop5.cloning.php.html
 
 
 

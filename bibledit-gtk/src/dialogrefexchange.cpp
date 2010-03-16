@@ -39,6 +39,15 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
 
   dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
 
+  entry_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "entry_url"));
+  gtk_entry_set_text (GTK_ENTRY (entry_url), settings->genconfig.bibledit_web_url_get().c_str());
+
+  button_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_url"));
+  shortcuts.button (button_url);
+
+  label_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_url"));
+  gtk_label_set_text (GTK_LABEL (label_url), "");
+
   checkbutton_bibleworks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_bibleworks"));
   shortcuts.button (checkbutton_bibleworks);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks), settings->genconfig.reference_exchange_send_to_bibleworks_get());
@@ -50,10 +59,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   checkbutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_santafe"));
   shortcuts.button (checkbutton_santafe);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_santafe), settings->genconfig.reference_exchange_send_to_santafefocus_get());
-
-  checkbutton_xiphos = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_xiphos"));
-  shortcuts.button (checkbutton_xiphos);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_xiphos), settings->genconfig.reference_exchange_send_to_xiphos_get());
 
   checkbutton_onlinebible = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_onlinebible"));
   shortcuts.button (checkbutton_onlinebible);
@@ -84,12 +89,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   shortcuts.button (radiobutton_santafe);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_santafe), settings->genconfig.reference_exchange_receive_from_santafefocus_get());
 
-  radiobutton_xiphos = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_xiphos"));
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_xiphos), radiobutton_receive_group);
-  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_xiphos));
-  shortcuts.button (radiobutton_xiphos);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_xiphos), settings->genconfig.reference_exchange_receive_from_xiphos_get());
-
   radiobutton_onlinebible = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_onlinebible"));
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_onlinebible), radiobutton_receive_group);
   radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_onlinebible));
@@ -108,6 +107,7 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   
   shortcuts.process ();
 
+  g_signal_connect((gpointer) button_url, "clicked", G_CALLBACK(on_url_test_clicked), gpointer(this));
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
   g_signal_connect((gpointer) checkbutton_bibleworks, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
   g_signal_connect_after((gpointer) radiobutton_bibleworks, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
@@ -143,14 +143,13 @@ void ReferenceExchangeDialog::on_okbutton_clicked(GtkButton * button, gpointer u
 void ReferenceExchangeDialog::on_okbutton()
 {
   extern Settings *settings;
+  settings->genconfig.bibledit_web_url_set(gtk_entry_get_text (GTK_ENTRY (entry_url)));
   settings->genconfig.reference_exchange_send_to_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks)));
   settings->genconfig.reference_exchange_receive_from_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks)));
   settings->genconfig.reference_exchange_send_to_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibletime)));
   settings->genconfig.reference_exchange_receive_from_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibletime)));
   settings->genconfig.reference_exchange_send_to_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)));
   settings->genconfig.reference_exchange_receive_from_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)));
-  settings->genconfig.reference_exchange_send_to_xiphos_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_xiphos)));
-  settings->genconfig.reference_exchange_receive_from_xiphos_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_xiphos)));
   settings->genconfig.reference_exchange_send_to_onlinebible_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_onlinebible)));
   settings->genconfig.reference_exchange_receive_from_onlinebible_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_onlinebible)));
 }
@@ -186,3 +185,33 @@ void ReferenceExchangeDialog::on_outpost()
   }
 }
 
+
+void ReferenceExchangeDialog::on_url_test_clicked(GtkButton * button, gpointer user_data)
+{
+  ((ReferenceExchangeDialog *) user_data)->on_url_test();
+}
+
+
+void ReferenceExchangeDialog::on_url_test()
+{
+  GwSpawn spawn ("curl");
+  spawn.arg ("-sS"); // Make curl silent, but show errors.
+  ustring url = gtk_entry_get_text (GTK_ENTRY (entry_url));
+  url.append ("/ipc/setmessage.php");
+  spawn.arg (url);
+  spawn.read ();
+  spawn.run ();
+  ustring message;
+  for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+    message.append (spawn.standardout[i] + "\n");
+  }
+  for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
+    message.append (spawn.standarderr[i] + "\n");
+  }
+  if (message.empty()) {
+    if (spawn.exitstatus == 0) {
+      message = "Access okay";
+    }
+  }
+  gtk_label_set_text (GTK_LABEL (label_url), message.c_str());
+}

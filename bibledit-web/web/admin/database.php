@@ -86,9 +86,9 @@ $database_bibles = Database_Bibles::getInstance();
 $database_bibles->optimize();
 
 
-// The focus table.
-$database_focus = Database_Focus::getInstance();
-$database_focus->optimize();
+// The ipc table.
+$database_ipc = Database_Ipc::getInstance();
+$database_ipc->optimize();
 
 
 // The Snapshots table. Trim the number of snapshots as well.

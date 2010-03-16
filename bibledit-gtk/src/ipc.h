@@ -25,9 +25,9 @@
 #include "libraries.h"
 
 
-enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage, icmtListen};
+enum InterprocessCommunicationMessageType {icmtClearMessages, icmtStoreMessage, icmtListen, icmtSetMessage};
 enum InterprocessCommunicationChannelType {icctNone, icctXiphos, icctBibleTime, icctBibledit, icctVcsWorker, icctVcsControl};
-enum InterprocessCommunicationSubjectType {icstNone, icstGoto, icstQuit, icstReload, icstGetref, icstPause, icstContinue};
+enum InterprocessCommunicationSubjectType {icstNone, icstGoto, icstQuit, icstReload, icstGetref, icstPause, icstContinue, icstFocus};
 
 
 ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, 

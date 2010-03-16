@@ -264,7 +264,6 @@ bibledit_gtk_SOURCES = \
 				greek.cpp \
 				startup.cpp \
 				dialogyesnoalways.cpp \
-				xiphos.cpp \
 				floatingwindow.cpp \
 				windowdata.cpp \
 				editor.cpp \

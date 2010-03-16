@@ -1,4 +1,15 @@
-reference exchange to go through bibledit-web. Use appropriate settings for that.
+reference exchange to go through bibledit-web.
+Need to look at current system, and leave it intact for the time being.
+Need to look at current focus system.
+To assemble xml for new focus message.
+To store new focus message.
+To update recipients: dbus - BibleTime and Xiphos to split in two.
+To remove the old system for IPC.
+Some of the old settings in the Reference Exchange Dialog can go out as their systems are taken down.
+
+
+The threads are just a problem in Bibledit-Gtk. If we move all external programs such as outpost and bibledit-dbus
+away from bibledit-gtk, and make it independent, that saves a real host of trouble.
 
 
 Store: http://bibledit.org/demo/setfocus.php?book=1&chapter=2&verse=3&versification=english

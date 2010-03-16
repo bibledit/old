@@ -170,14 +170,14 @@ am_bibledit_gtk_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	kjv.$(OBJEXT) assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) robinson.$(OBJEXT) \
 	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
-	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT) \
-	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) editor.$(OBJEXT) \
-	editoractions.$(OBJEXT) nanohttp.$(OBJEXT) c_url.$(OBJEXT) \
-	urltransport.$(OBJEXT) ipc.$(OBJEXT) \
-	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
-	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
-	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT) \
-	vcs.$(OBJEXT) git-exec.$(OBJEXT)
+	dialogyesnoalways.$(OBJEXT) floatingwindow.$(OBJEXT) \
+	windowdata.$(OBJEXT) editor.$(OBJEXT) editoractions.$(OBJEXT) \
+	nanohttp.$(OBJEXT) c_url.$(OBJEXT) urltransport.$(OBJEXT) \
+	ipc.$(OBJEXT) dialogreferencesettings.$(OBJEXT) \
+	printproject2.$(OBJEXT) usfm2xetex.$(OBJEXT) \
+	xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) xetex.$(OBJEXT) \
+	dialogxetex.$(OBJEXT) paratext.$(OBJEXT) vcs.$(OBJEXT) \
+	git-exec.$(OBJEXT)
 bibledit_gtk_OBJECTS = $(am_bibledit_gtk_OBJECTS)
 bibledit_gtk_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -231,7 +231,6 @@ FIND_DIFF = @FIND_DIFF@
 FIND_GIT = @FIND_GIT@
 FIND_GPP = @FIND_GPP@
 FIND_MERGE = @FIND_MERGE@
-FIND_MYSQL = @FIND_MYSQL@
 FIND_PATCH = @FIND_PATCH@
 FIND_PATH = @FIND_PATH@
 FIND_PING = @FIND_PING@
@@ -611,7 +610,6 @@ bibledit_gtk_SOURCES = \
 				greek.cpp \
 				startup.cpp \
 				dialogyesnoalways.cpp \
-				xiphos.cpp \
 				floatingwindow.cpp \
 				windowdata.cpp \
 				editor.cpp \
@@ -997,7 +995,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wordlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xetex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xetex2pdf.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xiphos.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlfo-utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xslfofootnoteparagraph.Po@am__quote@

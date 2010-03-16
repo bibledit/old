@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit-gtk],[4.0.82],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-gtk],[4.0.84],[http://www.nongnu.org/bibledit])
 # AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_SRCDIR([src])
@@ -135,11 +135,6 @@ fi
 AC_PATH_PROG(FIND_CURL, curl, no)
 if test x$FIND_CURL = xno; then
   AC_MSG_ERROR(Program "curl" is needed. Install this first.)
-fi
-
-AC_PATH_PROG(FIND_MYSQL, mysql, no)
-if test x$FIND_MYSQL = xno; then
-  AC_MSG_ERROR(Program "mysql" is needed. Install this first.)
 fi
 
 # Checks for libraries.
@@ -329,7 +324,7 @@ AC_OUTPUT
 
 # Summary.
 echo "
-Bibledit $VERSION configuration summary:
+Bibledit-Gtk $VERSION configuration summary:
 
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}

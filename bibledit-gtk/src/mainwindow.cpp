@@ -125,7 +125,6 @@
 #include "dialogplanningedit.h"
 #include "dialogmaintenance.h"
 #include "kjv.h"
-#include "xiphos.h"
 #include "dialogyesnoalways.h"
 #include "ipc.h"
 #include "dialogxetex.h"
@@ -2445,12 +2444,8 @@ void MainWindow::on_navigation_new_reference()
   // Get last focused editor.
   WindowEditor *last_focused_editor = last_focused_editor_window();
 
-  // Send it to the external programs.
-  send_reference_to_bibleworks (navigation.reference);
-  send_reference_to_santa_fe (navigation.reference);
-  send_reference_to_onlinebible (navigation.reference);
-  bibletime_reference_send (navigation.reference);
-  xiphos_reference_send (navigation.reference);
+  // Send the focus to the interprocess communications focus system.
+  on_tool_send_reference ();
 
   // Send to resources.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -2954,13 +2949,22 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 }
 
 
-void MainWindow::on_tool_send_reference ()
+void MainWindow::on_tool_send_reference () // Todo
 {
+  // Send the focus to Bibledit-Web.
+  ustring payload = convert_to_string (navigation.reference.book);
+  payload.append (".");
+  payload.append (convert_to_string (navigation.reference.chapter));
+  payload.append (".");
+  payload.append (navigation.reference.verse);
+  extern URLTransport * urltransport;
+  ustring url = interprocess_communication_message_url (icmtSetMessage, icctNone, icstFocus, payload); // Todo
+  urltransport->send_message (url);
+  // Send individual foci. Can go out later.
   send_reference_to_bibleworks (navigation.reference);
   bibletime_reference_send (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
-  xiphos_reference_send (navigation.reference);
 }
 
 
@@ -3064,8 +3068,6 @@ void MainWindow::tools_receive_reference_timeout()
       received_reference.verse = parse.words[3];
       new_reference_received = true;
     }
-  }
-  if (settings->genconfig.reference_exchange_receive_from_xiphos_get()) {
   }
   if (settings->genconfig.reference_exchange_receive_from_onlinebible_get()) {
     ustring response = windowsoutpost->OnlineBibleReferenceGet ();
@@ -6413,17 +6415,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
  |
  |
  */
-
-
-void MainWindow::xiphos_reference_send (Reference reference)
-{
-  ustring payload = xiphos_reference_create (reference);
-  if (!payload.empty()) {
-    extern URLTransport * urltransport;
-    ustring url = interprocess_communication_message_url (icmtStoreMessage, icctXiphos, icstGoto, payload);
-    urltransport->send_message (url);
-  }
-}
 
 
 void MainWindow::bibletime_reference_send (Reference reference)
