@@ -727,6 +727,9 @@ void on_rescan_bus()
   // Clear event id.
   event_id_rescan_bus = 0;
   
+  // Flag whether Xiphos was available.
+  bool xiphos_was_available = !xiphos_bus_name.empty();
+  
   // Clear the relevant bus names.
   bibletime_bus_name.clear();
   xiphos_bus_name.clear();
@@ -759,9 +762,12 @@ void on_rescan_bus()
       }
     }
   }
-  // If Xiphos is not found, give a message.
+  // If Xiphos not found.
   if (xiphos_bus_name.empty()) {
     gtk_label_set_text (GTK_LABEL (label_xiphos_process), "Xiphos is not running");
+    if (xiphos_was_available) {
+      gtk_widget_show_all (window);
+    }
   }
 }
 
