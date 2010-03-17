@@ -32,7 +32,7 @@
 #include <signal.h>
 
 
-int main (int argc, char *argv[])
+int main (int argc, char *argv[]) // Todo
 {
   
 #ifndef WIN32
@@ -98,11 +98,14 @@ int main (int argc, char *argv[])
   button_hide = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_hide"));
   g_signal_connect((gpointer) button_hide, "clicked", G_CALLBACK(on_button_hide_clicked), NULL);
 
+
   g_key_file_free (keyfile);
 
   // We use asynchronous transport, so that we can send several messages simultanously.
 	session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-dbus/1.0", NULL);
   start_xiphos_web_listener ();
+//  start_bibletime_web_listener ();
+
 
 	// Obtain a connection to the Session Bus.
 	GError *error = NULL;
@@ -165,7 +168,7 @@ int main (int argc, char *argv[])
     g_object_unref(proxy);
   }
 
-  // Well done.
+  // Well done, my boy.
 	return 0;
 }
 
@@ -482,6 +485,64 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 }
 
 
+void start_bibletime_web_listener ()
+{
+	SoupMessage * listener_msg;
+	listener_msg = soup_message_new (SOUP_METHOD_GET, "http://localhost/bibledit/ipc/getmessage.php?channel=bibletime");
+  soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_bibletime_web_listener_ready_callback), NULL);
+}
+
+
+void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
+{
+	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
+		// Get the response body.
+		string body (msg->response_body->data);
+		body = trim (body);
+		// Log it.
+    printf ("%s\n", body.c_str());
+    fflush (stdout);
+    // Handle "quit" command.
+		if (body.find ("quit") == 0) {
+      gtk_main_quit ();
+		}
+		// Handle "goto" command.
+		if (body.find ("goto") == 0) {
+			body.erase (0, 4);
+			body = trim (body);
+      send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "syncAllVerseBasedModules", body);
+		}
+		// Handle "reload" command.
+		if (body.find ("reload") == 0) {
+      send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
+		}
+    // Handle "getref" command.
+    if (body.find ("getref") == 0) {
+      string message_identifier = get_extract_message_identifier (body);
+      vector <string> reply = receive_from_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "getCurrentReference");
+      string message;
+      for (unsigned int i = 0; i < reply.size(); i++) {
+        printf ("%s\n", reply[i].c_str());
+        fflush (stdout);
+        if (i) message.append (" ");
+        message.append (reply[i]);
+      }
+      send_response_to_bibledit ("bibletimeref", message_identifier, message);
+    }
+	} else {
+		// If the message was cancelled, do not start it again, just quit.
+		if (msg->status_code == 1) {
+		  return;
+		}
+		printf ("BibleTime web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
+    fflush (stdout);
+		g_usleep (1000000);
+	}
+	g_usleep (100000);
+	start_bibletime_web_listener ();
+}
+
+
 void on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data)
 {
 	//printf ("name acquired: %s\n", name);
@@ -669,13 +730,27 @@ void on_rescan_bus()
   // Flag whether Xiphos was available.
   bool xiphos_was_available = !xiphos_bus_name.empty();
   
-  // Clear the relevant bus name.
+  // Clear the relevant bus names.
+  bibletime_bus_name.clear();
   xiphos_bus_name.clear();
   
   // Check the names currently available on the bus:
   // dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
   vector <string> names_on_bus = method_call_wait_reply ("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames", false);
-
+  // Check whether the BibleTime name is visible on the bus.
+  for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+    if (names_on_bus[i].find ("BibleTime") != string::npos) {
+      bibletime_bus_name = names_on_bus[i];
+			printf ("BibleTime on DBus as service %s\n", names_on_bus[i].c_str());
+      fflush (stdout);
+      break;
+    }
+  }
+  // If BibleTime is not found, give a message.
+  if (bibletime_bus_name.empty()) {
+    printf ("BibleTime not on DBus\n");
+    fflush (stdout);
+  }
   // Look for the Xiphos name on the bus.
   for (unsigned int i = 0; i < names_on_bus.size(); i++) {
     if (names_on_bus[i].find ("xiphos") != string::npos) {
@@ -687,7 +762,7 @@ void on_rescan_bus()
       }
     }
   }
-  // Xiphos not found.
+  // If Xiphos not found.
   if (xiphos_bus_name.empty()) {
     gtk_label_set_text (GTK_LABEL (label_xiphos_process), "Xiphos is not running");
     if (xiphos_was_available) {
@@ -759,6 +834,36 @@ void send(const gchar * bus_name, const gchar * object, const gchar * interface,
 }
 
 
+void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const string& value)
+/*
+Sends a message to BibleTime over the DBus
+
+dbus-send --print-reply --dest=info.bibletime.BibleTime /BibleTime org.freedesktop.DBus.Introspectable.Introspect
+This gives BibleTime's methods.
+
+To synchronize all verse based modules, do this:
+dbus-send --print-reply --dest=info.bibletime.BibleTime /BibleTime info.bibletime.BibleTime.syncAllVerseBasedModules "string:Gen.2.2"
+
+*/
+{
+  // Bail out if BibleTime's name on the bus is not known.
+  if (bibletime_bus_name.empty()) 
+    return;
+  // Send the message.
+  send (bibletime_bus_name.c_str(), object, interface, method, value);
+}
+
+
+vector <string> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method)
+// Calls a method in BibleTime and wait for the reply.
+{
+  vector <string> reply;
+  if (!bibletime_bus_name.empty()) 
+    reply = method_call_wait_reply (bibletime_bus_name.c_str(), object, interface, method, false);
+  return reply;
+}
+
+
 void names_on_dbus_changed ()
 {
   destroy_source (event_id_rescan_bus);
@@ -778,9 +883,21 @@ const gchar * xiphos_dbus_interface ()
 }
 
 
+const gchar * bibletime_dbus_object ()
+{
+  return "/BibleTime";
+}
+
+
+const gchar * bibletime_dbus_interface ()
+{
+  return "info.bibletime.BibleTime";
+}
+
+
 void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const string& value)
 /*
-Sends a message to Xiphos over the DBus
+Sends a message to BibleTime over the DBus
 
 To let Xiphos scroll to a certain verse, do this:
 dbus-send --print-reply --dest=org.xiphos.remote /org/xiphos/remote/ipc org.xiphos.remote.navigate "string:sword://Genesis 2:3"
@@ -812,7 +929,7 @@ string get_extract_message_identifier (string& message)
 
 void send_response_to_bibledit (const string& subject, const string& identifier, const string& message)
 {
-  string url = "http://localhost/bibledit/ipc/storemessage.php?channel=bibledit&subject="; // This is no longer accurate.
+  string url = "http://localhost/bibledit/ipc/storemessage.php?channel=bibledit&subject=";
   url.append (subject);
   url.append ("&message=");
   url.append (identifier);
@@ -846,15 +963,22 @@ void sigquit(int dummy)
 
 void on_entry_url_changed(GtkEditable * editable, gpointer user_data)
 {
+
   GKeyFile *keyfile = g_key_file_new();
   gchar * key_file_name = registry_file_name ();
   g_key_file_load_from_file(keyfile, key_file_name, G_KEY_FILE_NONE, NULL);
+
   g_key_file_set_string (keyfile, "settings", "bibledit-web-url", gtk_entry_get_text (GTK_ENTRY (entry_url)));
+
   gchar *key_file_data = g_key_file_to_data(keyfile, NULL, NULL);
   g_file_set_contents(key_file_name, key_file_data, -1, NULL);
   g_free(key_file_data);
   g_key_file_free(keyfile);
   g_free (key_file_name);
+  
+
+  
+
 }
 
 

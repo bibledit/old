@@ -1,0 +1,88 @@
+The bibledit program is used editing work done during revising or
+translating a Bible.
+
+
+To install the bibledit program, read file INSTALL.
+
+
+
+
+General programming notes:
+
+At first gtkmm-2.0 was used because of its ease of use.
+But later gtk+2.x (and higher) was used, for these reasons:
+- A bug in gtkmm caused the default button in a dialog not to be activated 
+  when Enter was pressed. Gtk+ did not have this problem.
+- I gtkmm-2.4 signal_cursor_moved was suddenly removed. This was queries on 
+  the gtkmm discussionlist. The reply given made me to loose confidence
+  in gtkmm.
+- In Gtk+ the Glade interface designer could be used, and that makes
+  designing interfaces so much faster and simpler.
+
+
+
+Bibledit should be easily portable to other platforms, such as Mac OS X, 
+Windows, and other Unix likes. For this reasons it uses as few libraries
+as possible. This is the reason that the Gnome libraries are not used.
+It is also good to not use the very newest Gtk+ libraries, but wait a 
+while until most newer distributions have them in their stock distribution.
+
+
+
+A tool to measure cpu usage of the various functions.
+valgrind --tool=callgrind bibledit-bin
+Graphical tools to display the information that was collected:
+- alleyoop
+- kcachegrind
+
+
+
+Git repository notes.
+The git repository is in folder ".git".
+There is file .git/hooks/commit-msg, this is needed to send out commit messages. Here's the content:
+-----
+#!/bin/sh
+#
+# An example hook script to check the commit log message.
+# Called by git-commit with one argument, the name of the file
+# that has the commit message.  The hook should exit with non-zero
+# status after issuing an appropriate message if it wants to stop the
+# commit.  The hook is allowed to edit the commit message file.
+#
+# To enable this hook, make this file executable.
+
+
+# Store the commit message for later mailing out to the list.
+cat $1 >> /tmp/bibleditcommits
+-----
+
+Then, there's file .git/info/exclude:
+-----
+# git-ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+*.[oa]
+*~
+bibledit-bibletime
+bibledit-git
+bibledit-help
+bibledit-restart
+bibledit
+bibledit-olpc-librarian
+bibledit-one
+bibledit-shutdown
+bibledit-*.gz
+eeepc-install-menu
+*.cache
+*.Po
+allpages
+contents
+CVS
+bumpversion
+Makefile
+config.log
+config.status
+.deps
+.cvsignore
+-----

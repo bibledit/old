@@ -69,6 +69,10 @@ static void on_button_hide_clicked(GtkButton * button, gpointer user_data);
 
 gchar * registry_file_name ();
 
+
+
+
+
 class TinySpawn
 {
 public:
@@ -110,6 +114,7 @@ private:
 };
 
 
+
 int main (int argc, char *argv[]);
 void message (string message);
 string trim(const string & s);
@@ -125,6 +130,9 @@ static SoupSession *session;
 static void start_xiphos_web_listener ();
 static void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
 
+static void start_bibletime_web_listener ();
+static void on_bibletime_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data);
+
 static DBusConnection *con;
 static DBusGConnection *sigcon;
 static DBusGProxy *proxy;
@@ -135,9 +143,14 @@ static void on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_dat
 static guint event_id_rescan_bus;
 static int message_type;
 static vector <string> string_reply;
+static string bibletime_bus_name;
 static string xiphos_bus_name;
 static const gchar * xiphos_dbus_object ();
 static const gchar * xiphos_dbus_interface ();
+static const gchar * bibletime_dbus_object ();
+static const gchar * bibletime_dbus_interface ();
+void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const string& value);
+vector <string> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method);
 void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const string& value);
 void send (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, const string& payload);
 vector <string> method_call_wait_reply (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, bool silent);
@@ -155,9 +168,14 @@ static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, g
 
 static void sigproc(int dummy);
 static void sigquit(int dummy);
+int main (int argc, char **argv);
+
 
 int convert_to_int(const string & str);
 
+
 // Aids for dbus: dbus-monitor, d-feet
+
+
 
 #endif
