@@ -101,7 +101,7 @@ int main (int argc, char *argv[])
   g_key_file_free (keyfile);
 
   // We use asynchronous transport, so that we can send several messages simultanously.
-	session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-dbus/1.0", NULL);
+	session = soup_session_async_new_with_options (SOUP_SESSION_USER_AGENT, "bibledit-xiphos/1.0", NULL);
   start_xiphos_web_listener ();
 
 	// Obtain a connection to the Session Bus.
@@ -363,7 +363,7 @@ void start_xiphos_web_listener ()
 }
 
 
-void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data) // Todo
+void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *msg, gpointer user_data)
 {
 	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
 		// Get the response body.
@@ -386,7 +386,7 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
       if (command == "quit") {
         gtk_main_quit ();
       }
-      // Handle "focus" command. // Todo
+      // Handle "focus" command.
       if (command == "focus") {
         Parse parse (body, false, ".");
         if (parse.words.size() == 3) {
@@ -792,21 +792,6 @@ dbus-send --print-reply --dest=org.xiphos.remote /org/xiphos/remote/ipc org.xiph
     return;
   // Send the message.
   send (xiphos_bus_name.c_str(), object, interface, method, value);
-}
-
-
-string get_extract_message_identifier (string& message)
-// Gets and extracts the identifier from the message.
-// The identifier has a fixed length. It looks like, e.g.:
-//   message_identifier=1000000000
-{
-  string identifier;
-  size_t pos = message.find ("message_identifier=");
-  if (pos != string::npos) {
-    identifier = message.substr (pos, 29);
-    message.erase (pos, 29);
-  }
-  return identifier;
 }
 
 

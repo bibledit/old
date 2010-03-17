@@ -3,13 +3,13 @@
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="window">
-    <property name="title" translatable="yes">Bibledit-Xiphos</property>
+    <property name="title" translatable="yes">Bibledit-BibleTime</property>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="label_xiphos_process">
+          <object class="GtkLabel" id="label_bibletime_process">
             <property name="visible">True</property>
           </object>
           <packing>
@@ -126,14 +126,14 @@
         <child>
           <object class="GtkLabel" id="label7">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Message to Xiphos:</property>
+            <property name="label" translatable="yes">Message to BibleTime:</property>
           </object>
           <packing>
             <property name="position">5</property>
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_xiphos">
+          <object class="GtkLabel" id="label_bibletime">
             <property name="visible">True</property>
           </object>
           <packing>

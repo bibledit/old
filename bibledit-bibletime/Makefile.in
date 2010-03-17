@@ -33,7 +33,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = bibledit-xiphos$(EXEEXT)
+bin_PROGRAMS = bibledit-bibletime$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(dist_pkgdata_DATA) \
@@ -56,9 +56,9 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)" \
 	"$(DESTDIR)$(appicondir)" "$(DESTDIR)$(applicationdir)" \
 	"$(DESTDIR)$(pkgdatadir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_bibledit_xiphos_OBJECTS = bibledit-xiphos.$(OBJEXT)
-bibledit_xiphos_OBJECTS = $(am_bibledit_xiphos_OBJECTS)
-bibledit_xiphos_LDADD = $(LDADD)
+am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT)
+bibledit_bibletime_OBJECTS = $(am_bibledit_bibletime_OBJECTS)
+bibledit_bibletime_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -68,8 +68,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibledit_xiphos_SOURCES)
-DIST_SOURCES = $(bibledit_xiphos_SOURCES)
+SOURCES = $(bibledit_bibletime_SOURCES)
+DIST_SOURCES = $(bibledit_bibletime_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -219,11 +219,11 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 man_MANS = *.1
 appicondir = $(datadir)/pixmaps
-appicon_DATA = bibledit-xiphos.xpm
+appicon_DATA = bibledit-bibletime.xpm
 dist_pkgdata_DATA = *.xpm *.xml
 applicationdir = $(datadir)/applications
-application_DATA = bibledit-xiphos.desktop
-bibledit_xiphos_SOURCES = bibledit-xiphos.cpp
+application_DATA = bibledit-bibletime.desktop
+bibledit_bibletime_SOURCES = bibledit-bibletime.cpp
 AM_CXXFLAGS = -Wall $(GOBJECT_CFLAGS) $(GTHREAD_CFLAGS) $(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) $(DBUSGLIB_CFLAGS) $(LIBSOUP_CFLAGS)
 EXTRA_DIST = *.h *.1 TODO
@@ -321,9 +321,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-bibledit-xiphos$(EXEEXT): $(bibledit_xiphos_OBJECTS) $(bibledit_xiphos_DEPENDENCIES) 
-	@rm -f bibledit-xiphos$(EXEEXT)
-	$(CXXLINK) $(bibledit_xiphos_OBJECTS) $(bibledit_xiphos_LDADD) $(LIBS)
+bibledit-bibletime$(EXEEXT): $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_DEPENDENCIES) 
+	@rm -f bibledit-bibletime$(EXEEXT)
+	$(CXXLINK) $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -331,7 +331,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-xiphos.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-bibletime.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

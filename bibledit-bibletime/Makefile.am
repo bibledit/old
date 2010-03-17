@@ -1,14 +1,14 @@
 man_MANS = *.1
 
 appicondir = $(datadir)/pixmaps
-appicon_DATA = bibledit-xiphos.xpm
+appicon_DATA = bibledit-bibletime.xpm
 dist_pkgdata_DATA = *.xpm *.xml
 applicationdir = $(datadir)/applications
-application_DATA = bibledit-xiphos.desktop
+application_DATA = bibledit-bibletime.desktop
 
-bin_PROGRAMS = bibledit-xiphos
+bin_PROGRAMS = bibledit-bibletime
 
-bibledit_xiphos_SOURCES = bibledit-xiphos.cpp
+bibledit_bibletime_SOURCES = bibledit-bibletime.cpp
 
 AM_CXXFLAGS = -Wall 
 AM_CXXFLAGS += $(GOBJECT_CFLAGS)
