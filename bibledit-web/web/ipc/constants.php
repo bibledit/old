@@ -1,7 +1,0 @@
-<?php
-
-$messagesdir = "messages";
-
-?>
-
-

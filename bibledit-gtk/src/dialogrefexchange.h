@@ -41,13 +41,11 @@ protected:
   GtkWidget *label_url;
 
   GtkWidget *checkbutton_bibleworks;
-  GtkWidget *checkbutton_bibletime;
   GtkWidget *checkbutton_santafe;
   GtkWidget *checkbutton_onlinebible;
 
   GtkWidget *radiobutton_off;
   GtkWidget *radiobutton_bibleworks;
-  GtkWidget *radiobutton_bibletime;
   GtkWidget *radiobutton_santafe;
   GtkWidget *radiobutton_onlinebible;
 

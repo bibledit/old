@@ -1,38 +1,32 @@
 <?php
 
-require("constants.php");
+require_once ("../bootstrap/bootstrap.php");
 
-// GET the channel to listen on.
-$channel = stripslashes($_GET["channel"]);
+$channel = $_GET['channel'];
+$id = $_GET['id'];
+if (!isset ($id)) $id = 0;
 
-while(1) {
-  $handler = opendir($messagesdir);
-  $i = 0;
-  while ($file = readdir($handler)) {
-    if ($file != '.' && $file != '..') {
-      $parts=explode(".",$file);
-      $suffix = $parts[count($parts)-1];
-      if ("$suffix" == "$channel") {
-        $array[$i] = $file;
-        $i++;
-      }
-    }
-  }
-  closedir($handler);
+$database_ipc = Database_Ipc::getInstance();
 
-  // Sort the file, and suppress errors in case there are no files to sort.
-  @sort ($array);
-
-  for ($i = 0; $i < sizeof ($array); $i++) {
-    $filename = "$messagesdir/$array[$i]";
-    $fh = fopen("$filename", 'r');
-    $data = fread($fh, filesize ($filename));
-    fclose($fh);
-    echo "$data";
-    unlink ("$filename");
-    exit;
-  }
-
-  sleep(1);
+while (!is_array ($values)) {
+  sleep (1);
+  $values = $database_ipc->retrieveMessage ($id, $channel);
 }
+
+$id      = $values['id'];
+$channel = $values['channel'];
+$command = $values['command'];
+$message = $values['message'];
+
+if (is_int ($id)) {
+  if ($channel != "") {
+    $database_ipc->deleteMessage ($id);
+  }
+}
+
+echo "$id\n";
+echo "$command\n";
+echo "$message\n";
+
+
 ?>

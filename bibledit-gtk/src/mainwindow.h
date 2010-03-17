@@ -787,7 +787,6 @@ protected:
   void shutdown_windows();
   
   // Interprocess communications.
-  void bibletime_reference_send (Reference reference);
   guint interprocess_communications_initiate_listener_event_id;
   static bool on_interprocess_communications_initiate_listener_timeout(gpointer data);
   void interprocess_communications_initiate_listener ();

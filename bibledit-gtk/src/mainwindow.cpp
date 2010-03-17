@@ -2962,7 +2962,6 @@ void MainWindow::on_tool_send_reference () // Todo
   urltransport->send_message (url);
   // Send individual foci. Can go out later.
   send_reference_to_bibleworks (navigation.reference);
-  bibletime_reference_send (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
 }
@@ -3051,7 +3050,7 @@ void MainWindow::tools_receive_reference_timeout()
       new_reference_received = true;
     }
   }
-  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
+  if (false) { // Todo this was for bibletime but is no longer used and can go out later.
     // Send message requesting BibleTime's reference. Response will be handled in Bibledit's listener.
     extern URLTransport * urltransport;
     ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstGetref, "");
@@ -6415,17 +6414,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
  |
  |
  */
-
-
-void MainWindow::bibletime_reference_send (Reference reference)
-{
-  ustring payload = bibletime_reference_create (reference);
-  if (!payload.empty()) {
-    extern URLTransport * urltransport;
-    ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstGoto, payload);
-    urltransport->send_message (url);
-  }
-}
 
 
 bool MainWindow::on_interprocess_communications_initiate_listener_timeout(gpointer data)

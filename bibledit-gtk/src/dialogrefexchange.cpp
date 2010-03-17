@@ -52,10 +52,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   shortcuts.button (checkbutton_bibleworks);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks), settings->genconfig.reference_exchange_send_to_bibleworks_get());
 
-  checkbutton_bibletime = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_bibletime"));
-  shortcuts.button (checkbutton_bibletime);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_bibletime), settings->genconfig.reference_exchange_send_to_bibletime_get());
-
   checkbutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_santafe"));
   shortcuts.button (checkbutton_santafe);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_santafe), settings->genconfig.reference_exchange_send_to_santafefocus_get());
@@ -76,12 +72,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bibleworks));
   shortcuts.button (radiobutton_bibleworks);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks), settings->genconfig.reference_exchange_receive_from_bibleworks_get());
-
-  radiobutton_bibletime = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_bibletime"));
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bibletime), radiobutton_receive_group);
-  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bibletime));
-  shortcuts.button (radiobutton_bibletime);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bibletime), settings->genconfig.reference_exchange_receive_from_bibletime_get());
 
   radiobutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_santafe"));
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_santafe), radiobutton_receive_group);
@@ -146,8 +136,6 @@ void ReferenceExchangeDialog::on_okbutton()
   settings->genconfig.bibledit_web_url_set(gtk_entry_get_text (GTK_ENTRY (entry_url)));
   settings->genconfig.reference_exchange_send_to_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks)));
   settings->genconfig.reference_exchange_receive_from_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks)));
-  settings->genconfig.reference_exchange_send_to_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibletime)));
-  settings->genconfig.reference_exchange_receive_from_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibletime)));
   settings->genconfig.reference_exchange_send_to_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)));
   settings->genconfig.reference_exchange_receive_from_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)));
   settings->genconfig.reference_exchange_send_to_onlinebible_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_onlinebible)));

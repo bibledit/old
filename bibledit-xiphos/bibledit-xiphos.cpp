@@ -357,7 +357,7 @@ void start_xiphos_web_listener ()
 {
 	SoupMessage * listener_msg;
   string url = gtk_entry_get_text (GTK_ENTRY (entry_url));
-  url.append ("/ipc/getmessage2.php?channel=xiphos&id=" + last_message_id);
+  url.append ("/ipc/getmessage.php?channel=xiphos&id=" + last_message_id);
 	listener_msg = soup_message_new (SOUP_METHOD_GET, url.c_str());
   soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_xiphos_web_listener_ready_callback), NULL);
 }

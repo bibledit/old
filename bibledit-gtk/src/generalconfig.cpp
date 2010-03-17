@@ -127,8 +127,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(notes_display_reference_text);
   INITIALIZE(reference_exchange_send_to_bibleworks);
   INITIALIZE(reference_exchange_receive_from_bibleworks);
-  INITIALIZE(reference_exchange_send_to_bibletime);
-  INITIALIZE(reference_exchange_receive_from_bibletime);
   INITIALIZE(reference_exchange_send_to_santafefocus);
   INITIALIZE(reference_exchange_receive_from_santafefocus);
   INITIALIZE(reference_exchange_send_to_onlinebible);
@@ -290,8 +288,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(notes_display_reference_text);
   SAVE_VALUE(reference_exchange_send_to_bibleworks);
   SAVE_VALUE(reference_exchange_receive_from_bibleworks);
-  SAVE_VALUE(reference_exchange_send_to_bibletime);
-  SAVE_VALUE(reference_exchange_receive_from_bibletime);
   SAVE_VALUE(reference_exchange_send_to_santafefocus);
   SAVE_VALUE(reference_exchange_receive_from_santafefocus);
   SAVE_VALUE(reference_exchange_send_to_onlinebible);
@@ -536,8 +532,6 @@ IMPLEMENT(bool, bool_get, notes_display_summary, false)
 IMPLEMENT(bool, bool_get, notes_display_reference_text, false)
 IMPLEMENT(bool, bool_get, reference_exchange_send_to_bibleworks, false)
 IMPLEMENT(bool, bool_get, reference_exchange_receive_from_bibleworks, false)
-IMPLEMENT(bool, bool_get, reference_exchange_send_to_bibletime, true)
-IMPLEMENT(bool, bool_get, reference_exchange_receive_from_bibletime, false)
 IMPLEMENT(bool, bool_get, reference_exchange_send_to_santafefocus, true)
 IMPLEMENT(bool, bool_get, reference_exchange_receive_from_santafefocus, false)
 IMPLEMENT(bool, bool_get, reference_exchange_send_to_onlinebible, false)
