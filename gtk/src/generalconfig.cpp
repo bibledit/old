@@ -127,8 +127,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(notes_display_reference_text);
   INITIALIZE(reference_exchange_send_to_santafefocus);
   INITIALIZE(reference_exchange_receive_from_santafefocus);
-  INITIALIZE(reference_exchange_send_to_onlinebible);
-  INITIALIZE(reference_exchange_receive_from_onlinebible);
   INITIALIZE(check_markers_compare_project);
   INITIALIZE(check_markers_compare_all_markers);
   INITIALIZE(check_markers_compare_include_only);
@@ -286,8 +284,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(notes_display_reference_text);
   SAVE_VALUE(reference_exchange_send_to_santafefocus);
   SAVE_VALUE(reference_exchange_receive_from_santafefocus);
-  SAVE_VALUE(reference_exchange_send_to_onlinebible);
-  SAVE_VALUE(reference_exchange_receive_from_onlinebible);
   SAVE_VALUE(check_markers_compare_project);
   SAVE_VALUE(check_markers_compare_all_markers);
   SAVE_VALUE(check_markers_compare_include_only);
@@ -528,8 +524,6 @@ IMPLEMENT(bool, bool_get, notes_display_summary, false)
 IMPLEMENT(bool, bool_get, notes_display_reference_text, false)
 IMPLEMENT(bool, bool_get, reference_exchange_send_to_santafefocus, true)
 IMPLEMENT(bool, bool_get, reference_exchange_receive_from_santafefocus, false)
-IMPLEMENT(bool, bool_get, reference_exchange_send_to_onlinebible, false)
-IMPLEMENT(bool, bool_get, reference_exchange_receive_from_onlinebible, false)
 IMPLEMENT(ustring, string_get, check_markers_compare_project, "")
 IMPLEMENT(bool, bool_get, check_markers_compare_all_markers, true)
 IMPLEMENT(ustring, string_get, check_markers_compare_include_only, "")

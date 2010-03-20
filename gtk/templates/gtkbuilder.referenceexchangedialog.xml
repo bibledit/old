@@ -104,18 +104,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkCheckButton" id="checkbutton_onlinebible">
-            <property name="label" translatable="yes">Online Bible</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="use_underline">True</property>
-            <property name="draw_indicator">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="position">10</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
           <object class="GtkHSeparator" id="hseparator1">
@@ -137,6 +126,9 @@
           </packing>
         </child>
         <child>
+          <placeholder/>
+        </child>
+        <child>
           <object class="GtkRadioButton" id="radiobutton_off">
             <property name="label" translatable="yes">Do not receive</property>
             <property name="visible">True</property>
@@ -150,9 +142,6 @@
             <property name="expand">False</property>
             <property name="position">13</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
         <child>
           <placeholder/>
@@ -179,19 +168,7 @@
           <placeholder/>
         </child>
         <child>
-          <object class="GtkRadioButton" id="radiobutton_onlinebible">
-            <property name="label" translatable="yes">From Online Bible</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="use_underline">True</property>
-            <property name="active">True</property>
-            <property name="draw_indicator">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="position">18</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>

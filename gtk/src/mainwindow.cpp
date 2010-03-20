@@ -2962,7 +2962,6 @@ void MainWindow::on_tool_send_reference () // Todo
   urltransport->send_message (url);
   // Send individual foci. Can go out later.
   send_reference_to_santa_fe (navigation.reference);
-  send_reference_to_onlinebible (navigation.reference);
 }
 
 
@@ -2976,21 +2975,6 @@ void MainWindow::send_reference_to_santa_fe (Reference reference)
       // SantaFe probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
       reference.verse = number_in_string(reference.verse);
       windowsoutpost->SantaFeFocusReferenceSet(reference);
-    }
-  }
-}
-
-
-void MainWindow::send_reference_to_onlinebible (Reference reference)
-{
-  // Check whether the sending to the Online Bible has been enabled.
-  extern Settings * settings;
-  if (settings->genconfig.reference_exchange_send_to_onlinebible_get()) {
-    // Check whether the user does not receive referenes from the Online Bible at this moment.
-    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_onlinebible_get()) {
-      // Send the reference to the Online Bible. It takes plain verse numbers only.
-      reference.verse = number_in_string (reference.verse);
-      windowsoutpost->OnlineBibleReferenceSet (reference);
     }
   }
 }
@@ -3044,19 +3028,6 @@ void MainWindow::tools_receive_reference_timeout()
       received_reference.book = books_paratext_to_id (parse.words[1]);
       received_reference.chapter = convert_to_int (parse.words[2]);
       received_reference.verse = parse.words[3];
-      new_reference_received = true;
-    }
-  }
-  if (settings->genconfig.reference_exchange_receive_from_onlinebible_get()) {
-    ustring response = windowsoutpost->OnlineBibleReferenceGet ();
-    // The response could be, e.g.: "OK Reply: Jer 48:1" (without the quotes).
-    replace_text (response, ":", " ");
-    replace_text (response, "  ", " ");
-    Parse parse (response);
-    if (parse.words.size() == 5) {
-      received_reference.book = books_online_bible_to_id (parse.words[2]);
-      received_reference.chapter = convert_to_int (parse.words[3]);
-      received_reference.verse = parse.words[4];
       new_reference_received = true;
     }
   }

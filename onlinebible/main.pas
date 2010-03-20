@@ -61,11 +61,11 @@ implementation
 {$R *.dfm}
 
 uses
-  pollthread, Registry, BW800_TLB, books, utilities;
+  pollthread, Registry, books, utilities, CSRV_TLB;
 
 var
   thread : TPollThread = nil;
-  BibleWorks : IAutomation;
+  OnlineBible : IProcessOLBRequest;
 
 procedure TForm1.ButtonHideClick(Sender: TObject);
 begin
@@ -96,7 +96,7 @@ var
 begin
   registry := TRegistry.Create;
   registry.RootKey := HKEY_CURRENT_USER;
-  registry.OpenKey('\Software\Bibledit\BibleWorks', True);
+  registry.OpenKey('\Software\Bibledit\OnlineBible', True);
   registry.WriteString('url', EditURL.Text);
   registry.CloseKey;
   registry.Destroy;
@@ -109,7 +109,7 @@ var
 begin
   registry := TRegistry.Create;
   registry.RootKey := HKEY_CURRENT_USER;
-  registry.OpenKey('\Software\Bibledit\BibleWorks', True);
+  registry.OpenKey('\Software\Bibledit\OnlineBible', True);
   bibledit_web_url := registry.ReadString('url');
   registry.CloseKey;
   registry.Destroy;
@@ -124,6 +124,7 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 var
   reference : TStringList;
   book : string;
+  olb_reference : string;
 begin
   try
     if thread = nil then
@@ -140,11 +141,10 @@ begin
         Split ('.', thread.response_body, reference);
         if (reference.Count = 3) then
         begin
-          book := BookIdToBibleWorks (StrToInt (reference[0]));
-          BibleWorks.IgnoreErrors(true);
-          BibleWorks.GoToBookChapterVerse(book, StrToInt (reference[1]), StrToInt (reference[2]));
-          BibleWorks.IgnoreErrors(false);
-          LabelBibleWorks.Caption := 'GoToBookChapterVerse (' + book + ', ' + reference[1] + ', ' + reference[2] + ')';
+          book := BookIdToOnlineBible (StrToInt (reference[0]));
+          olb_reference := 'ShowPassage AV "' + book + ' ' + reference[1] + ':' + reference[2] + '"';
+          OnlineBible.ExecuteRequest (olb_reference);
+          LabelBibleWorks.Caption := olb_reference;
         end;
         reference.Free;
         thread := TPollThread.Create(false);
@@ -160,7 +160,7 @@ begin
 end;
 
 initialization
-  BibleWorks := CoAutomation.Create;
-  BibleWorks.ClipGoToVerse(false);
+  OnlineBible := CoProcessOLBRequest.Create;
+  OnlineBible.ExecuteRequest ('OpenServer');
 
 end.

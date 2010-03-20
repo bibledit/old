@@ -102,8 +102,6 @@ public:
   DEFINE_GENCONFIG_H (bool, notes_display_reference_text);
   DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_santafefocus);
   DEFINE_GENCONFIG_H (bool, reference_exchange_receive_from_santafefocus);
-  DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_onlinebible);
-  DEFINE_GENCONFIG_H (bool, reference_exchange_receive_from_onlinebible);
   DEFINE_GENCONFIG_H (ustring, check_markers_compare_project);
   DEFINE_GENCONFIG_H (bool, check_markers_compare_all_markers);
   DEFINE_GENCONFIG_H (ustring, check_markers_compare_include_only);
