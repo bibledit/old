@@ -2961,24 +2961,8 @@ void MainWindow::on_tool_send_reference () // Todo
   ustring url = interprocess_communication_message_url (icmtSetMessage, icctNone, icstFocus, payload); // Todo
   urltransport->send_message (url);
   // Send individual foci. Can go out later.
-  send_reference_to_bibleworks (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
-}
-
-
-void MainWindow::send_reference_to_bibleworks (Reference reference)
-{
-  // Check whether sending references to BibleWorks has been enabled by the user.
-  extern Settings * settings;
-  if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
-    // Check whether the user does not receive referenes from BibleWorks at this moment.
-    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
-      // BibleWorks does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-      reference.verse = number_in_string(reference.verse);
-      windowsoutpost->BibleWorksReferenceSet(reference);
-    }
-  }
 }
 
 
@@ -3045,11 +3029,6 @@ void MainWindow::tools_receive_reference_timeout()
   extern Settings * settings;
   Reference received_reference (0);
   bool new_reference_received = false;
-  if (settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
-    if (bibleworks_reference_get_decode (windowsoutpost->BibleWorksReferenceGet (), received_reference)) {
-      new_reference_received = true;
-    }
-  }
   if (false) { // Todo this was for bibletime but is no longer used and can go out later.
     // Send message requesting BibleTime's reference. Response will be handled in Bibledit's listener.
     extern URLTransport * urltransport;

@@ -100,8 +100,6 @@ public:
   DEFINE_GENCONFIG_H (bool, notes_display_created_by);
   DEFINE_GENCONFIG_H (bool, notes_display_summary);
   DEFINE_GENCONFIG_H (bool, notes_display_reference_text);
-  DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_bibleworks);
-  DEFINE_GENCONFIG_H (bool, reference_exchange_receive_from_bibleworks);
   DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_santafefocus);
   DEFINE_GENCONFIG_H (bool, reference_exchange_receive_from_santafefocus);
   DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_onlinebible);

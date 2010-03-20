@@ -604,8 +604,6 @@ LINUX_FALSE
 LINUX_TRUE
 LIBSOUP_LIBS
 LIBSOUP_CFLAGS
-DBUSGLIB_LIBS
-DBUSGLIB_CFLAGS
 WEBKIT_LIBS
 WEBKIT_CFLAGS
 GTKSOURCEVIEW_LIBS
@@ -784,8 +782,6 @@ GTKSOURCEVIEW_CFLAGS
 GTKSOURCEVIEW_LIBS
 WEBKIT_CFLAGS
 WEBKIT_LIBS
-DBUSGLIB_CFLAGS
-DBUSGLIB_LIBS
 LIBSOUP_CFLAGS
 LIBSOUP_LIBS'
 
@@ -1462,10 +1458,6 @@ Some influential environment variables:
   WEBKIT_CFLAGS
               C compiler flags for WEBKIT, overriding pkg-config
   WEBKIT_LIBS linker flags for WEBKIT, overriding pkg-config
-  DBUSGLIB_CFLAGS
-              C compiler flags for DBUSGLIB, overriding pkg-config
-  DBUSGLIB_LIBS
-              linker flags for DBUSGLIB, overriding pkg-config
   LIBSOUP_CFLAGS
               C compiler flags for LIBSOUP, overriding pkg-config
   LIBSOUP_LIBS
@@ -8126,80 +8118,6 @@ fi
 
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for DBUSGLIB" >&5
-$as_echo_n "checking for DBUSGLIB... " >&6; }
-
-if test -n "$PKG_CONFIG"; then
-    if test -n "$DBUSGLIB_CFLAGS"; then
-        pkg_cv_DBUSGLIB_CFLAGS="$DBUSGLIB_CFLAGS"
-    else
-        if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"dbus-glib-1 >= 0.7.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "dbus-glib-1 >= 0.7.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_DBUSGLIB_CFLAGS=`$PKG_CONFIG --cflags "dbus-glib-1 >= 0.7.0" 2>/dev/null`
-else
-  pkg_failed=yes
-fi
-    fi
-else
-	pkg_failed=untried
-fi
-if test -n "$PKG_CONFIG"; then
-    if test -n "$DBUSGLIB_LIBS"; then
-        pkg_cv_DBUSGLIB_LIBS="$DBUSGLIB_LIBS"
-    else
-        if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"dbus-glib-1 >= 0.7.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "dbus-glib-1 >= 0.7.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_DBUSGLIB_LIBS=`$PKG_CONFIG --libs "dbus-glib-1 >= 0.7.0" 2>/dev/null`
-else
-  pkg_failed=yes
-fi
-    fi
-else
-	pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        DBUSGLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "dbus-glib-1 >= 0.7.0"`
-        else
-	        DBUSGLIB_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "dbus-glib-1 >= 0.7.0"`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$DBUSGLIB_PKG_ERRORS" >&5
-
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-                as_fn_error "libdbus-glib-1 development version >= 0.7.0 is needed." "$LINENO" 5
-elif test $pkg_failed = untried; then
-	as_fn_error "libdbus-glib-1 development version >= 0.7.0 is needed." "$LINENO" 5
-else
-	DBUSGLIB_CFLAGS=$pkg_cv_DBUSGLIB_CFLAGS
-	DBUSGLIB_LIBS=$pkg_cv_DBUSGLIB_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-	:
-fi
-
-
-
-
-pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for LIBSOUP" >&5
 $as_echo_n "checking for LIBSOUP... " >&6; }
 
@@ -8427,7 +8345,7 @@ _ACEOF
 fi
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile outpost/Makefile gobible/Makefile dbus/Makefile xetex/Makefile git/Makefile"
+ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile outpost/Makefile gobible/Makefile xetex/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -9174,9 +9092,7 @@ do
     "kjv/Makefile") CONFIG_FILES="$CONFIG_FILES kjv/Makefile" ;;
     "outpost/Makefile") CONFIG_FILES="$CONFIG_FILES outpost/Makefile" ;;
     "gobible/Makefile") CONFIG_FILES="$CONFIG_FILES gobible/Makefile" ;;
-    "dbus/Makefile") CONFIG_FILES="$CONFIG_FILES dbus/Makefile" ;;
     "xetex/Makefile") CONFIG_FILES="$CONFIG_FILES xetex/Makefile" ;;
-    "git/Makefile") CONFIG_FILES="$CONFIG_FILES git/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

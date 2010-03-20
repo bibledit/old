@@ -203,10 +203,6 @@ PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,,AC_MSG_ERROR(libwebkit developmen
 AC_SUBST(WEBKIT_CFLAGS)
 AC_SUBST(WEBKIT_LIBS)
 
-PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1 >= 0.7.0,,AC_MSG_ERROR(libdbus-glib-1 development version >= 0.7.0 is needed.))
-AC_SUBST(DBUSGLIB_CFLAGS)
-AC_SUBST(DBUSGLIB_LIBS)
-
 PKG_CHECK_MODULES(LIBSOUP, libsoup-2.4 >= 2.4,,AC_MSG_ERROR(libsoup-2.4 development version >= 2.4 is needed.))
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
@@ -316,9 +312,7 @@ AC_CONFIG_FILES([Makefile
 		  kjv/Makefile
 		  outpost/Makefile
 		  gobible/Makefile
-		  dbus/Makefile
 		  xetex/Makefile
-		  git/Makefile
 		])
 AC_OUTPUT
 

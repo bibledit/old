@@ -9,26 +9,8 @@ Some of the old settings in the Reference Exchange Dialog can go out as their sy
 Remove bibledit-dbus completely, it should not start also. Also remove from log.
 Remove calls from bibledit to the old getmessage.php, and to the clearmessage.php, and possibly others by curl,
 also 'quit' messages.
+Make interface for Paratext, and for the Online Bible.
 
-The threads are just a problem in Bibledit-Gtk. If we move all external programs such as outpost and bibledit-dbus
-away from bibledit-gtk, and make it independent, that saves a real host of trouble.
-
-
-Store: http://bibledit.org/demo/setfocus.php?book=1&chapter=2&verse=3&versification=english
-http://localhost/bibledit/setfocus.php?book=1&chapter=2&verse=4
-
-Retrieve: http://bibledit.org/demo/getfocus.php?channel=bibledit&book=1&chapter=2&verse=3&versification=english
-Retrieve versifications: http://bibledit.org/demo/versifications.php
-Versification correction to be implemented upon storage, to it stores the 'original' versification.
-Versification correction to be implemented upon retrieval.
-On retrieving focus, there should be a stable focus for a second or so before it releases the new focus.
-The channel is stored in the database, and acts like an independent focus provider.
-
-
-
-Bibledit needs a preference where the web site is entered and tested, and where the versification is set.
-Once done, it then needs to send this reference through setfocus.php.
-The preferences dialog could be the current reference exchange one, since it already deals with that.
 
 
 

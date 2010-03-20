@@ -1,4 +1,4 @@
-SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc shutdown usfm kjv outpost gobible dbus xetex git
+SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc shutdown usfm kjv outpost gobible xetex
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = TODO
 

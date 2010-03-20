@@ -48,10 +48,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   label_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_url"));
   gtk_label_set_text (GTK_LABEL (label_url), "");
 
-  checkbutton_bibleworks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_bibleworks"));
-  shortcuts.button (checkbutton_bibleworks);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks), settings->genconfig.reference_exchange_send_to_bibleworks_get());
-
   checkbutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_santafe"));
   shortcuts.button (checkbutton_santafe);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_santafe), settings->genconfig.reference_exchange_send_to_santafefocus_get());
@@ -66,12 +62,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_off), radiobutton_receive_group);
   radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_off));
   shortcuts.button (radiobutton_off);
-
-  radiobutton_bibleworks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_bibleworks"));
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bibleworks), radiobutton_receive_group);
-  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bibleworks));
-  shortcuts.button (radiobutton_bibleworks);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks), settings->genconfig.reference_exchange_receive_from_bibleworks_get());
 
   radiobutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_santafe"));
   gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_santafe), radiobutton_receive_group);
@@ -99,8 +89,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
 
   g_signal_connect((gpointer) button_url, "clicked", G_CALLBACK(on_url_test_clicked), gpointer(this));
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
-  g_signal_connect((gpointer) checkbutton_bibleworks, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
-  g_signal_connect_after((gpointer) radiobutton_bibleworks, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
   g_signal_connect((gpointer) checkbutton_santafe, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
   g_signal_connect_after((gpointer) radiobutton_santafe, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
   g_signal_connect((gpointer) checkbutton_onlinebible, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
@@ -134,8 +122,6 @@ void ReferenceExchangeDialog::on_okbutton()
 {
   extern Settings *settings;
   settings->genconfig.bibledit_web_url_set(gtk_entry_get_text (GTK_ENTRY (entry_url)));
-  settings->genconfig.reference_exchange_send_to_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks)));
-  settings->genconfig.reference_exchange_receive_from_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks)));
   settings->genconfig.reference_exchange_send_to_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)));
   settings->genconfig.reference_exchange_receive_from_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)));
   settings->genconfig.reference_exchange_send_to_onlinebible_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_onlinebible)));
@@ -153,10 +139,6 @@ void ReferenceExchangeDialog::on_outpost()
 // Shows a warning if the Windows Outpost is needed but does not run presently.
 {
   bool outpost_needed = false;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks)))
-    outpost_needed = true;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks)))
-    outpost_needed = true;
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)))
     outpost_needed = true;
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)))
