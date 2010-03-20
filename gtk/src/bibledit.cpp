@@ -77,16 +77,6 @@ int main(int argc, char *argv[])
   // Move logfile for shutdown program.
   move_log_file (lftShutdown);
 
-  // Kill possible previous dbus helper program, start it, and pass the names of the logfile.
-  if (system ("killall -q bibledit-dbus"));
-  {
-    move_log_file (lftDbus);
-    GwSpawn spawn ("bibledit-dbus");
-    spawn.arg (log_file_name(lftDbus, false));
-    spawn.async ();
-    spawn.run ();
-  }
-
   // Redirect stdout and stderr to file.
   {
     move_log_file (lftMain);

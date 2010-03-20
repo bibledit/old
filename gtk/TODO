@@ -6,7 +6,9 @@ To store new focus message.
 To update recipients: dbus - BibleTime and Xiphos to split in two.
 To remove the old system for IPC.
 Some of the old settings in the Reference Exchange Dialog can go out as their systems are taken down.
-
+Remove bibledit-dbus completely, it should not start also. Also remove from log.
+Remove calls from bibledit to the old getmessage.php, and to the clearmessage.php, and possibly others by curl,
+also 'quit' messages.
 
 The threads are just a problem in Bibledit-Gtk. If we move all external programs such as outpost and bibledit-dbus
 away from bibledit-gtk, and make it independent, that saves a real host of trouble.
