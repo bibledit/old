@@ -85,18 +85,6 @@ SystemlogDialog::SystemlogDialog(int dummy)
   radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_main));
   g_signal_connect((gpointer) radiobutton_main, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
 
-  radiobutton_dbus = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_dbus"));
-  shortcuts.button (radiobutton_dbus);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_dbus), radiobuttongroup);
-  radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_dbus));
-  g_signal_connect((gpointer) radiobutton_dbus, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
-
-  radiobutton_shell = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_shell"));
-  shortcuts.button (radiobutton_shell);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_shell), radiobuttongroup);
-  radiobuttongroup = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_shell));
-  g_signal_connect((gpointer) radiobutton_shell, "toggled", G_CALLBACK(on_radiobutton_toggled), gpointer(this));
-
   radiobutton_shutdown = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_shutdown"));
   shortcuts.button (radiobutton_shutdown);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_shutdown), radiobuttongroup);
@@ -214,10 +202,6 @@ void SystemlogDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, gp
 ustring SystemlogDialog::logfilename()
 {
   LogFileType type = lftMain;
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_dbus))) 
-    type = lftDbus;
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_shell))) 
-    type = lftVCS;
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_shutdown))) 
     type = lftShutdown;
   return log_file_name (type, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_session)));
