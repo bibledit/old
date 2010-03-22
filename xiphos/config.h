@@ -41,7 +41,7 @@
 #define PACKAGE_NAME "bibledit-xiphos"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit-xiphos 4.0.83"
+#define PACKAGE_STRING "bibledit-xiphos 1.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit-xiphos"
@@ -50,10 +50,10 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.0.83"
+#define PACKAGE_VERSION "1.0"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "4.0.83"
+#define VERSION "1.0"

@@ -48,25 +48,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   label_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_url"));
   gtk_label_set_text (GTK_LABEL (label_url), "");
 
-  checkbutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_santafe"));
-  shortcuts.button (checkbutton_santafe);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_santafe), settings->genconfig.reference_exchange_send_to_santafefocus_get());
-
-  GSList *radiobutton_receive_group = NULL;
-
-  radiobutton_off = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_off"));
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_off), radiobutton_receive_group);
-  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_off));
-  shortcuts.button (radiobutton_off);
-
-  radiobutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_santafe"));
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_santafe), radiobutton_receive_group);
-  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_santafe));
-  shortcuts.button (radiobutton_santafe);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_santafe), settings->genconfig.reference_exchange_receive_from_santafefocus_get());
-
-  vbox_outpost = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "vbox_outpost"));
-
   InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, &shortcuts, NULL);
   cancelbutton = indialoghelp->cancelbutton;
   okbutton = indialoghelp->okbutton;
@@ -79,11 +60,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
 
   g_signal_connect((gpointer) button_url, "clicked", G_CALLBACK(on_url_test_clicked), gpointer(this));
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
-  g_signal_connect((gpointer) checkbutton_santafe, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
-  g_signal_connect_after((gpointer) radiobutton_santafe, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
-
-  // Set gui.
-  on_outpost();
 }
 
 
@@ -110,31 +86,6 @@ void ReferenceExchangeDialog::on_okbutton()
 {
   extern Settings *settings;
   settings->genconfig.bibledit_web_url_set(gtk_entry_get_text (GTK_ENTRY (entry_url)));
-  settings->genconfig.reference_exchange_send_to_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)));
-  settings->genconfig.reference_exchange_receive_from_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)));
-}
-
-
-void ReferenceExchangeDialog::on_button_outpost_requirement_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((ReferenceExchangeDialog *) user_data)->on_outpost();
-}
-
-
-void ReferenceExchangeDialog::on_outpost()
-// Shows a warning if the Windows Outpost is needed but does not run presently.
-{
-  bool outpost_needed = false;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)))
-    outpost_needed = true;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)))
-    outpost_needed = true;
-  bool outpost_running = program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE);
-  if (outpost_needed && (!outpost_running)) {
-    gtk_widget_show(vbox_outpost);
-  } else {
-    gtk_widget_hide(vbox_outpost);
-  }
 }
 
 
@@ -147,7 +98,7 @@ void ReferenceExchangeDialog::on_url_test_clicked(GtkButton * button, gpointer u
 void ReferenceExchangeDialog::on_url_test()
 {
   GwSpawn spawn ("curl");
-  spawn.arg ("-sS"); // Make curl silent, but show errors.
+  spawn.arg ("-sS"); // Makes curl silent, but still show errors.
   ustring url = gtk_entry_get_text (GTK_ENTRY (entry_url));
   url.append ("/ipc/setmessage.php");
   spawn.arg (url);

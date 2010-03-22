@@ -125,8 +125,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(notes_display_created_by);
   INITIALIZE(notes_display_summary);
   INITIALIZE(notes_display_reference_text);
-  INITIALIZE(reference_exchange_send_to_santafefocus);
-  INITIALIZE(reference_exchange_receive_from_santafefocus);
   INITIALIZE(check_markers_compare_project);
   INITIALIZE(check_markers_compare_all_markers);
   INITIALIZE(check_markers_compare_include_only);
@@ -153,11 +151,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(parallel_bible_projects);
   INITIALIZE(parallel_bible_enabled);
   INITIALIZE(use_outpost);
-  INITIALIZE(outpost_networked);
-  INITIALIZE(outpost_host);
-  INITIALIZE(wine_path);
-  INITIALIZE(wine_bottle);
-  INITIALIZE(outpost_command);
   INITIALIZE(mychecks);
   INITIALIZE(tidy_translate);
   INITIALIZE(tidy_books);
@@ -282,8 +275,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(notes_display_created_by);
   SAVE_VALUE(notes_display_summary);
   SAVE_VALUE(notes_display_reference_text);
-  SAVE_VALUE(reference_exchange_send_to_santafefocus);
-  SAVE_VALUE(reference_exchange_receive_from_santafefocus);
   SAVE_VALUE(check_markers_compare_project);
   SAVE_VALUE(check_markers_compare_all_markers);
   SAVE_VALUE(check_markers_compare_include_only);
@@ -309,12 +300,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(printing_fonts);
   SAVE_VALUE(parallel_bible_projects);
   SAVE_VALUE(parallel_bible_enabled);
-  SAVE_VALUE(use_outpost);
-  SAVE_VALUE(outpost_networked);
-  SAVE_VALUE(outpost_host);
-  SAVE_VALUE(wine_path);
-  SAVE_VALUE(wine_bottle);
-  SAVE_VALUE(outpost_command);
   SAVE_VALUE(mychecks);
   SAVE_VALUE(tidy_translate);
   SAVE_VALUE(tidy_books);
@@ -522,8 +507,6 @@ IMPLEMENT(bool, bool_get, notes_display_date_created, false)
 IMPLEMENT(bool, bool_get, notes_display_created_by, false)
 IMPLEMENT(bool, bool_get, notes_display_summary, false)
 IMPLEMENT(bool, bool_get, notes_display_reference_text, false)
-IMPLEMENT(bool, bool_get, reference_exchange_send_to_santafefocus, true)
-IMPLEMENT(bool, bool_get, reference_exchange_receive_from_santafefocus, false)
 IMPLEMENT(ustring, string_get, check_markers_compare_project, "")
 IMPLEMENT(bool, bool_get, check_markers_compare_all_markers, true)
 IMPLEMENT(ustring, string_get, check_markers_compare_include_only, "")
@@ -550,11 +533,6 @@ IMPLEMENT(vector < ustring >, vector_string_get, printing_fonts, NULL)
 IMPLEMENT(vector < ustring >, vector_string_get, parallel_bible_projects, NULL)
 IMPLEMENT(vector < bool >, vector_bool_get, parallel_bible_enabled, NULL)
 IMPLEMENT(bool, bool_get, use_outpost, false)
-IMPLEMENT(bool, bool_get, outpost_networked, false)
-IMPLEMENT(ustring, string_get, outpost_host, "")
-IMPLEMENT(ustring, string_get, wine_path, "wine")
-IMPLEMENT(ustring, string_get, wine_bottle, "")
-IMPLEMENT(ustring, string_get, outpost_command, wine_path_get() + shell_quote_space(windowsoutpost_path ()))
 IMPLEMENT(ustring, string_get, mychecks, "")
 IMPLEMENT(bool, bool_get, tidy_translate, false)
 IMPLEMENT(vector < int >, vector_int_get, tidy_books, NULL)

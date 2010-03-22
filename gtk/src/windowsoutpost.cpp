@@ -205,32 +205,13 @@ void WindowsOutpost::thread_main()
       }
     case STAGE_START:
       {
-        // If Outpost is networked, skip this step.
-        if (settings->genconfig.outpost_networked_get()) {
-          stage = STAGE_CONNECT;
-          break;
-        }
         // Start Outpost if it does not already run.
         if (!program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE)) {
-          // Windows? Or Unix?
-          if (uname_get() == untWindows) {
-            // We run in Windows: start Outpost and wait a few seconds till started. 
-            GwSpawn spawn(BIBLEDIT_WINDOWS_OUTPOST_EXE);
-            spawn.async();
-            spawn.run();
-            g_usleep(3000000);
-          } else {
-            // We run on Unix.
-            // Is wine there?
-            if (gw_find_program_in_path(settings->genconfig.wine_path_get())) {
-              ustring command = settings->genconfig.outpost_command_get() + " &";
-              if (system(command.c_str())) ; // This one is too unpredictable to use GwSpawn.
-              // Wait few seconds to give it a chance to start.
-              g_usleep(3000000);
-            } else {
-              log("Wine not installed");
-            }
-          }
+          // Start Outpost and wait a few seconds till it settles. 
+          GwSpawn spawn(BIBLEDIT_WINDOWS_OUTPOST_EXE);
+          spawn.async();
+          spawn.run();
+          g_usleep(3000000);
         }
         // Decide on next stage.
         if (program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE)) {
@@ -243,8 +224,6 @@ void WindowsOutpost::thread_main()
     case STAGE_CONNECT:
       {
         ustring hostname = "localhost";
-        if (settings->genconfig.outpost_networked_get())
-          hostname = settings->genconfig.outpost_host_get();
         telnet(hostname);
         if (connected) {
           stage = STAGE_COMMUNICATE;
@@ -265,7 +244,7 @@ void WindowsOutpost::thread_main()
           if (online_bible_server_requested_action) {
             // There is a request to connect to the Online Bible server.
             if (!online_bible_server_connected) {
-              if (online_bible_is_running () || settings->genconfig.outpost_networked_get()) {
+              if (online_bible_is_running ()) {
                 send_line("OLB Connect");
                 log (Readln ());
                 online_bible_server_connected = true;
@@ -274,7 +253,7 @@ void WindowsOutpost::thread_main()
           } else {
             // There is a request to disconnect from the Online Bible server.
             if (online_bible_server_connected) {
-              if (online_bible_is_running () || settings->genconfig.outpost_networked_get()) {
+              if (online_bible_is_running ()) {
                 send_line("OLB Disconnect");
               }
             }
@@ -292,7 +271,7 @@ void WindowsOutpost::thread_main()
           bibleworks_reference_set_value.clear();
           // If BibleWorks does not run, and Outpost tries to contact it, it 
           // crashes in Wine and becomes unusable. Therefore check whether BibleWorks runs.
-          if (bibleworks_is_running () || settings->genconfig.outpost_networked_get()) {
+          if (bibleworks_is_running ()) {
             send_line(value);
           }
           break;
@@ -312,7 +291,7 @@ void WindowsOutpost::thread_main()
         if (!onlinebible_reference_set_value.empty()) {
           ustring value (onlinebible_reference_set_value);
           onlinebible_reference_set_value.clear();
-          bool online_bible_runs = online_bible_is_running () || settings->genconfig.outpost_networked_get();
+          bool online_bible_runs = online_bible_is_running ();
           if (online_bible_runs) {
             if (online_bible_server_connected) {
               send_line (value);
@@ -355,13 +334,7 @@ void WindowsOutpost::disconnect()
 {
   if (sock) {
     // Send 'exit' command. This closes the socket and quits the program.
-    // In case the Outpost runs on another host, do not quit it, but instead
-    // make it visible again.
-    extern Settings *settings;
-    if (settings->genconfig.outpost_networked_get())
-      send_line("show");
-    else
-      send_line("exit");
+    send_line("exit");
 #ifdef WIN32
     closesocket(sock);
 #else

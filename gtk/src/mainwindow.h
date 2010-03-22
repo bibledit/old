@@ -447,7 +447,6 @@ protected:
   void on_preferences_windows_outpost();
   static void on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_send_reference ();
-  void send_reference_to_santa_fe (Reference reference);
   static void on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_tools_receive_reference ();
   guint event_id_receive_reference;

@@ -100,8 +100,6 @@ public:
   DEFINE_GENCONFIG_H (bool, notes_display_created_by);
   DEFINE_GENCONFIG_H (bool, notes_display_summary);
   DEFINE_GENCONFIG_H (bool, notes_display_reference_text);
-  DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_santafefocus);
-  DEFINE_GENCONFIG_H (bool, reference_exchange_receive_from_santafefocus);
   DEFINE_GENCONFIG_H (ustring, check_markers_compare_project);
   DEFINE_GENCONFIG_H (bool, check_markers_compare_all_markers);
   DEFINE_GENCONFIG_H (ustring, check_markers_compare_include_only);
@@ -128,11 +126,6 @@ public:
   DEFINE_GENCONFIG_H (vector<ustring>, parallel_bible_projects);
   DEFINE_GENCONFIG_H (vector<bool>, parallel_bible_enabled);
   DEFINE_GENCONFIG_H (bool, use_outpost);
-  DEFINE_GENCONFIG_H (bool, outpost_networked);
-  DEFINE_GENCONFIG_H (ustring, outpost_host);
-  DEFINE_GENCONFIG_H (ustring, wine_path);
-  DEFINE_GENCONFIG_H (ustring, wine_bottle);
-  DEFINE_GENCONFIG_H (ustring, outpost_command);
   DEFINE_GENCONFIG_H (ustring, mychecks);
   DEFINE_GENCONFIG_H (bool, tidy_translate);
   DEFINE_GENCONFIG_H (vector<int>, tidy_books);

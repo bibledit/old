@@ -1,25 +1,3 @@
-reference exchange to go through bibledit-web.
-Need to look at current system, and leave it intact for the time being.
-Need to look at current focus system.
-To assemble xml for new focus message.
-To store new focus message.
-To update recipients: dbus - BibleTime and Xiphos to split in two.
-To remove the old system for IPC.
-Some of the old settings in the Reference Exchange Dialog can go out as their systems are taken down.
-Remove bibledit-dbus completely, it should not start also. Also remove from log.
-Remove calls from bibledit to the old getmessage.php, and to the clearmessage.php, and possibly others by curl,
-also 'quit' messages.
-Make interface for Paratext, and for the Online Bible.
-
-
-
-
-
-
-
-
-
-
 
 
 

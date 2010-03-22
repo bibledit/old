@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Bibledit-OnlineBible 4.1'
+  Caption = 'Bibledit-OnlineBible 1.0'
   ClientHeight = 176
   ClientWidth = 418
   Color = clBtnFace

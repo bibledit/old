@@ -35,18 +35,9 @@ public:
 protected:
   GtkBuilder *gtkbuilder;
   GtkWidget *dialog;
-
   GtkWidget *entry_url;
   GtkWidget *button_url;
   GtkWidget *label_url;
-
-  GtkWidget *checkbutton_santafe;
-
-  GtkWidget *radiobutton_off;
-  GtkWidget *radiobutton_santafe;
-
-  GtkWidget *vbox_outpost;
-  
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
@@ -54,8 +45,6 @@ private:
   void on_url_test();
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  static void on_button_outpost_requirement_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void on_outpost ();
 };
 
 

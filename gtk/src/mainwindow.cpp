@@ -1797,8 +1797,10 @@ navigation(0), httpd(0)
 
   // Start Outpost.
   windowsoutpost = new WindowsOutpost(true);
+#ifdef WIN32  
   if (settings->genconfig.use_outpost_get())
     windowsoutpost->Start();
+#endif
 
   // Store project of last session because it gets affected when the editors build.
   focused_project_last_session = settings->genconfig.project_get();
@@ -1862,21 +1864,6 @@ MainWindow::~MainWindow()
   // Do shutdown actions.
   shutdown_actions();
   // Destroying the window is done by Gtk itself.
-  
-  // Send message to quit helper programs through curl, since the url transporter is no longer of any use at this stage.
-  // Even if it were functional, since it soon gets destroyed, it will remove all pending messages.
-  {
-    GwSpawn spawn ("curl");
-    spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icctXiphos, icstQuit, ""));
-    spawn.async ();
-    spawn.run ();
-  }
-  {
-    GwSpawn spawn ("curl");
-    spawn.arg (interprocess_communication_message_url (icmtStoreMessage, icctVcsControl, icstQuit, ""));
-    spawn.async ();
-    spawn.run ();
-  }
 }
 
 
@@ -2960,23 +2947,6 @@ void MainWindow::on_tool_send_reference () // Todo
   extern URLTransport * urltransport;
   ustring url = interprocess_communication_message_url (icmtSetMessage, icctNone, icstFocus, payload); // Todo
   urltransport->send_message (url);
-  // Send individual foci. Can go out later.
-  send_reference_to_santa_fe (navigation.reference);
-}
-
-
-void MainWindow::send_reference_to_santa_fe (Reference reference)
-{
-  // Check whether the user has enabled sending references to the SantaFe focus system.
-  extern Settings * settings;
-  if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
-    // Check whether the user does not receive referenes from the SantaFe focus system at this moment.
-    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
-      // SantaFe probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-      reference.verse = number_in_string(reference.verse);
-      windowsoutpost->SantaFeFocusReferenceSet(reference);
-    }
-  }
 }
 
 
@@ -3010,27 +2980,8 @@ bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 
 void MainWindow::tools_receive_reference_timeout()
 {
-  extern Settings * settings;
   Reference received_reference (0);
   bool new_reference_received = false;
-  if (false) { // Todo this was for bibletime but is no longer used and can go out later.
-    // Send message requesting BibleTime's reference. Response will be handled in Bibledit's listener.
-    extern URLTransport * urltransport;
-    ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstGetref, "");
-    urltransport->send_message (url);
-  }
-  if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
-    ustring response = windowsoutpost->SantaFeFocusReferenceGet ();    
-    // The response could be, e.g.: "OK GEN 1:4" (without the quotes).
-    replace_text (response, ":", " ");
-    Parse parse (response);
-    if (parse.words.size() == 4) {
-      received_reference.book = books_paratext_to_id (parse.words[1]);
-      received_reference.chapter = convert_to_int (parse.words[2]);
-      received_reference.verse = parse.words[3];
-      new_reference_received = true;
-    }
-  }
   if (new_reference_received) {
     if (!previously_received_reference->equals (received_reference)) {
       navigation.display (received_reference);

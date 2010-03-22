@@ -33,8 +33,6 @@ enum CheckSortType {cstSort0, cstSort1, cstSort2, cstSort3};
 
 enum AreaType {atRaw, atAll, atSelection};
 
-enum WineType {wtWine, wtCxoffice, wtUnknown};
-
 enum OriginReferencesActionType {oratNothing, oratRemoveReferences, oratAddReference, oratTextLabels };
 
 enum StylesheetType {stBasic, stBasicParagraph, stBasicParagraphWordNote, 
