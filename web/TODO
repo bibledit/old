@@ -1,4 +1,3 @@
-Is the cron database in memory in MySQL not volatile so it remains after server reboot?
 
 
 
@@ -74,12 +73,6 @@ the relevant bits in the po file.
 
 
 
-The timer had stopped running on bibledit.org/demo. Was caused by a stale table. 
-Needs a setting to remove that table.
-And needs a more robust handler, e.g. if the PID is no longer there it would remove the stale table contents.
-Perhaps we need a 'timer'  setting, and the option to use cron tables as well for servers and those that like it,
-but the poor man's crontab remains the default system.
-If the timer runs, and it finds that ids PID differs from the one in the database, it then quits.
 
 
 
@@ -241,8 +234,36 @@ Instead of using XeTeX, we could also look at CSS2 with paged media for printing
 
 
 
+It is very important to make Bibledit-Web extensible. This is key to attracting enthousiastic developers,
+and thus attracting more users when their needs are met through these extra developers.
+To do that successfully, it is necessary that there is a basic BibleWorks api,
+which is robust.
+The extension would display in the relevant menus, e.g. Administration, Manager, etc., if available. 
+It would also load in the setup.php and the Administrator/Databases optimizations routine, 
+but with an exception net around each inclusion. It would also include into the timer, 
+with an exception safety net around it.
 
 
 
 
 
+
+
+
+
+
+
+
+Where help is needed: 
+Would need to write his software for the project under the GPL, state in each source file.
+Could fully test current source on Windows, describe how to install it, 
+and create a Windows installer and describe how to do that through open source tools. 
+Same for Macintosh. 
+Would communicate through bibledit-development. 
+Would have Wiki space for writing documentation. 
+Could write manuals for how to work with Bibledit-Web. 
+Could make a start with an issues tracker that is compatible with Bibledit-Gtk's project notes. 
+He could enable internationalization and localization with a language setting in the user preferences, 
+and a language setting for the site administrator for the site's language if the user has not yet logged in.
+He could write unit tests as a safety net for catching regressions. These tests probably use PHPUnit.
+He could make the application extensible so that extensions are written first, then integrated when these are stable. 

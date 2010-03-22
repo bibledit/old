@@ -15,6 +15,7 @@ $result = $database_instance->runQuery ("SHOW TABLES;");
 $smarty->assign ("tables_count_before", $result->num_rows);
 message_information ("Number of tables in the database: " . $result->num_rows);
 message_information ("Optimizing tables");
+flush ();
 
 // The versions table.
 $database_versions = Database_Versions::getInstance ();
@@ -95,6 +96,10 @@ $database_ipc->optimize();
 $database_snapshots = Database_Snapshots::getInstance();
 $database_snapshots->trim(true);
 $database_snapshots->optimize();
+
+
+// Done.
+message_information ("Ready");
 
 
 ?>

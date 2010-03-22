@@ -14,15 +14,5 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=10
-FILE_NAME_0=942;None;0;16;1;1;0;/home/teus/documents/dev/bibledit/gtk/TODO;0
-FILE_NAME_1=5186;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogrefexchange.cpp;0
-FILE_NAME_2=1258;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogrefexchange.h;0
-FILE_NAME_3=120573;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.cpp;0
-FILE_NAME_4=15358;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.h;0
-FILE_NAME_5=8520;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/gtk/configure.ac;0
-FILE_NAME_6=6894;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogsystemlog.cpp;0
-FILE_NAME_7=1315;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogsystemlog.h;0
-FILE_NAME_8=2907;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogoutpost.cpp;0
-FILE_NAME_9=0;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogoutpost.h;0
-FILE_NAME_10=590;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=0
+FILE_NAME_0=88;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0

@@ -60,23 +60,6 @@ class Database_Cron
     $server->runQuery ("DELETE FROM cron;");
   }
   
-  public function setPID () {
-    $pid = getmypid ();
-    $server = Database_Instance::getInstance ();
-    $server->runQuery ("DELETE FROM cron WHERE id = 'pid';");
-    $server->runQuery ("INSERT INTO cron VALUES ('pid', $pid);");
-  }
-  
-  public function getPID () {
-    $server = Database_Instance::getInstance ();
-    $result = $server->runQuery ("SELECT value FROM cron WHERE id = 'pid';");
-    if ($result->num_rows == 0) {
-      return 0;
-    }
-    $result_array = $result->fetch_array();
-    return $result_array['value'];
-  }
-
   public function setShutdown () {
     $server = Database_Instance::getInstance ();
     $server->runQuery ("INSERT INTO cron VALUES ('shutdown', 1);");
@@ -90,6 +73,23 @@ class Database_Cron
     }
     $result_array = $result->fetch_array();
     return $result_array['value'];
+  }
+
+  public function setWatchdog () {
+    $second = time ();
+    $server = Database_Instance::getInstance ();
+    $server->runQuery ("DELETE FROM cron WHERE id = 'watchdog';");
+    $server->runQuery ("INSERT INTO cron VALUES ('watchdog', $second);");
+  }
+  
+  public function getWatchdog () {
+    $server = Database_Instance::getInstance ();
+    $result = $server->runQuery ("SELECT value FROM cron WHERE id = 'watchdog';");
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $result_array = $result->fetch_row();
+    return $result_array[0];
   }
 
 }

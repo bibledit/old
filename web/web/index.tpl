@@ -14,12 +14,6 @@
     <h1>
        {$pagetitle} 
     </h1>
-    <p>
-      <a href="site/home.html">{t}View documentation{/t}</a>
-    </p>
-    <p>
-      <a href="ipc">{t}View interprocess communication messages{/t}</a>
-    </p>
      {include file=assets/footer_full.tpl} 
   </body>
 </html>

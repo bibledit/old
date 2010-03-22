@@ -90,72 +90,89 @@
   // Creating tables.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database before table maintenance: " . $result->num_rows . "</p>";
+  flush ();
   
   // The versions table.
   $database_versions = Database_Versions::getInstance ();
   $database_versions->verify ();
+  flush ();
   
   // The user table.
   $database_users = Database_Users::getInstance();
   $database_users->verify ();
+  flush ();
   
   // The general configuration table.
   $database_config_general = Database_Config_General::getInstance ();
   $database_config_general->verify (); 
+  flush ();
   
   // The logs table.
   $database_logs = Database_Logs::getInstance ();
   $database_logs->verify();
+  flush ();
   
   // The mail table.
   $database_mail = Database_Mail::getInstance ();
   $database_mail->verify();
+  flush ();
   
   // The cron table.
   $database_cron = Database_Cron::getInstance ();
   $database_cron->verify ();
+  flush ();
   
   // The mailer table.
   $database_mailer = Database_Mailer::getInstance ();
   $database_mailer->verify ();
+  flush ();
   
   // The confirmations table.
   $database_confirm = Database_Confirm::getInstance ();
   $database_confirm->verify ();
+  flush ();
   
   // The books table.
   $database_books = Database_Books::getInstance ();
   $database_books->verify();
   $database_books->import();
+  flush ();
   
   // The dialog table.
   $database_dialog = Database_Dialog::getInstance ();
   $database_dialog->verify ();
+  flush ();
   
   // The versifications table.
   $database_versifications = Database_Versifications::getInstance();
   $database_versifications->verify();
   $database_versifications->import();
+  flush ();
 
   // The styles table.
   $database_styles = Database_Styles::getInstance();
   $database_styles->verify();
+  flush ();
     
   // The user settings table.
   $database_config_user = Database_Config_User::getInstance();
   $database_config_user->verify();
+  flush ();
     
   // The Bibles table.
   $database_bibles = Database_Bibles::getInstance();
   $database_bibles->verify();
+  flush ();
     
   // The Snapshots table.
   $database_snapshots = Database_Snapshots::getInstance();
   $database_snapshots->verify();
+  flush ();
     
   // The ipc table.
   $database_ipc = Database_Ipc::getInstance();
   $database_ipc->verify();
+  flush ();
     
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");

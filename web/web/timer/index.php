@@ -23,24 +23,23 @@
 
 
 require_once ("../bootstrap/bootstrap.php");
-// No check on page level access because everybody should access this Poor Man's Crontab.
+// No check on page level access because everybody should be able to start this Poor Man's Crontab.
 
 
 $crontable = Database_Cron::getInstance ();
 
 
-// If the cron database indicates that the timer script is running, bail out.
-$pid = $crontable->getPID ();
-if ($pid != 0) {
-  die;
-}
+// If the timer ran less than 15 minutes ago, we take it that it is still alive.
+$watchdog = $crontable->getWatchdog ();
+$time = time ();
+if ($time < ($watchdog + 900)) die;
+
 
 
 // Ok, we're going to run: Set the stage.
 ignore_user_abort(true);
 set_time_limit(0);
 register_shutdown_function('shutdown');
-$crontable->setPID ();
 $log = Database_Logs::getInstance();
 $log->log ("Timer start");
 
@@ -53,6 +52,9 @@ while(1)
     $log->log ("Shutdown request: Timer stop");
     die;
   }  
+
+
+  $crontable->setWatchdog ();
 
 
   $config_general = Database_Config_General::getInstance ();
