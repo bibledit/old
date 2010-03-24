@@ -44,6 +44,7 @@ EOD;
 
   /**
   * log - Logs entry
+  * It automatically deletes older entries.
   */
   public function log ($description) {
     $database_instance = Database_Instance::getInstance();
@@ -51,7 +52,7 @@ EOD;
     $time = time();
     $query = "INSERT INTO logs VALUES (NULL, $time, '$description');";
     $database_instance->runQuery ($query);
-    $time -= 86400;
+    $time -= 172800;
     $query = "DELETE FROM logs WHERE timestamp < $time;";
     $database_instance->runQuery ($query);
   }

@@ -12,6 +12,9 @@
     {include file=../assets/header_full.tpl} 
     <h1>{t}Translation{/t}</h1>
     <p><a href="../styles/indext.php">{t}Styles{/t}</a></p>
+    {foreach key=key item=item from=$plugins} 
+      <p><a href={$key}>{$item}</a></p>
+    {/foreach} 
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

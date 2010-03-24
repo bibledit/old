@@ -15,6 +15,9 @@
     <p><a href="../versification/index.php">{t}Versifications{/t}</a></p>
     <p><a href="../styles/indexm.php">{t}Styles{/t}</a></p>
     <p><a href="../bible/manage.php">{t}Bibles{/t}</a></p>
+    {foreach key=key item=item from=$plugins} 
+      <p><a href={$key}>{$item}</a></p>
+    {/foreach} 
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

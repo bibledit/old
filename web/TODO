@@ -1,3 +1,23 @@
+teps:
+Do the timer.php, with exception handling.
+
+
+It is very important to make Bibledit-Web extensible. This is key to attracting developers,
+and attracting more users if their needs are met through these extra developers.
+To do that successfully, it is necessary that there is a basic BibleWorks api,
+which is robust.
+The extension would display in the relevant menus, e.g. Administration, Manager, etc., if available. 
+It would also load in the setup.php and the Administrator/Databases optimizations routine, 
+but with an exception net around each inclusion. It would also include into the timer, 
+with an exception safety net around it.
+
+
+
+
+
+
+
+
 
 
 
@@ -153,9 +173,11 @@ The ticket / issues trackers differs in model to the current system. The current
 with a variety of comments to it, and status. See the standard ticets systems. There should be a way to import the old system into the new.
 The new should be shared also.
 
+
 Make our own modular system, loosely coupled, so that we create a new applicaton for each module, 
 * and share the library for all, and any of our own classes.
 All these applications together form "bibledit", a loosely coupled modular lot of software.
+
 
 
 
@@ -234,24 +256,6 @@ Instead of using XeTeX, we could also look at CSS2 with paged media for printing
 
 
 
-It is very important to make Bibledit-Web extensible. This is key to attracting enthousiastic developers,
-and thus attracting more users when their needs are met through these extra developers.
-To do that successfully, it is necessary that there is a basic BibleWorks api,
-which is robust.
-The extension would display in the relevant menus, e.g. Administration, Manager, etc., if available. 
-It would also load in the setup.php and the Administrator/Databases optimizations routine, 
-but with an exception net around each inclusion. It would also include into the timer, 
-with an exception safety net around it.
-
-
-
-
-
-
-
-
-
-
 
 
 Where help is needed: 
@@ -266,4 +270,4 @@ Could make a start with an issues tracker that is compatible with Bibledit-Gtk's
 He could enable internationalization and localization with a language setting in the user preferences, 
 and a language setting for the site administrator for the site's language if the user has not yet logged in.
 He could write unit tests as a safety net for catching regressions. These tests probably use PHPUnit.
-He could make the application extensible so that extensions are written first, then integrated when these are stable. 
+

@@ -178,6 +178,22 @@
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";
 
+  // Run the setup files for the plugins.
+  // The exception handler prevents a buggy plugin from crippling the whole system.
+  $plugin_enumerator = Plugins_Enumerator::getInstance();
+  $plugins = $plugin_enumerator->getSetupPlugins ();
+  foreach ($plugins as $plugin) {
+    try {
+      include ($plugin);
+      $file = dirname (__FILE__) . "/" . $plugin;
+      unlink ($file);
+      echo "<p>Ok: Setup has erased the plugin setup file $plugin</p>";
+    } catch (Exception $e) {
+      $message = $e->getMessage ();
+      $database_log->log ($message);
+    }
+  }
+
   // Script erases itself.
   unlink (__FILE__);
   echo "<p>Ok: Setup has erased itself</p>";
