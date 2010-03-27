@@ -3,6 +3,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
+$database_users = Database_Users::getInstance();
 
 if ($_GET['delete'] != "") {
   $name = $_GET['delete'];
@@ -11,8 +12,7 @@ if ($_GET['delete'] != "") {
     $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete") . " $name?", "delete");
     die;
   } else {
-    $database = Database_Users::getInstance();
-    $database->removeUser($name);
+    $database_users->removeUser($name);
   }
 }
 
@@ -23,15 +23,15 @@ if (isset ($user) || isset ($level)) {
   if (($user == "") || ($level == "")) {
     $dialog_list = new Dialog_List (NULL, gettext ("Would you like to change the role given to user $user?"), "", "");
     for ($i = GUEST_LEVEL; $i <= ADMIN_LEVEL; $i++) {
-      $database = Database_Users::getInstance ();
       $parameter = "?user=$user&level=$i";
       $dialog_list->add_row ($roles[$i], $parameter);
     }
     $dialog_list->run ();
     die;
   } else {
-    $database = Database_Users::getInstance();
-    $database->updateUserLevel($user, $level);
+    $database_users->updateUserLevel($user, $level);
+    $database_mail = Database_Mail::getInstance ();
+    $database_mail->send ($user, gettext ("Access level change"), gettext ("Your access level was updated"));
   }
 }
 
