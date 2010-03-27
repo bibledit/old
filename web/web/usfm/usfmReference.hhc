@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800025">
+</OBJECT>
+<UL>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Unified Standard Format Markers">
+	<param name="ImageNumber" value="22">
+	<param name="Local" value="usfm.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Introduction">
+	<param name="Local" value="usfm_introduction.htm">
+</OBJECT>
+<UL>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Release Notes">
+	<param name="Local" value="release_notes.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Syntax Notes">
+	<param name="Local" value="syntax_notes.htm">
+</OBJECT>
+</UL>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Identification">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="identification.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Introductions">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="introductions.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Titles, Headings, and Labels">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="titles_headings_and_labels.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Chapters and Verses">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="chapters_and_verses.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Paragraphs">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="paragraphs.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Poetry">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="poetry.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Tables">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="tables.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Footnotes">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="footnotes.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Cross References">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="cross_references.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Special Text and Character Styles">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="special_text_character_styles.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Peripherals">
+	<param name="ImageNumber" value="1">
+	<param name="Local" value="peripherals.htm">
+</OBJECT>
+<UL>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Front Matter">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="peripherals_front_matter.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Introductions">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="peripherals_introductions.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Back Matter">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="peripherals_back_matter.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Other">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="peripherals_other.htm">
+</OBJECT>
+</UL>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Study Bible Content">
+	<param name="ImageNumber" value="1">
+	<param name="Local" value="study_bible_content.htm">
+</OBJECT>
+<UL>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Notes Project">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="study_bible_notes.htm">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+	<param name="Name" value="Sidebars Project">
+	<param name="ImageNumber" value="11">
+	<param name="Local" value="study_bible_sidebars.htm">
+</OBJECT>
+</UL>
+</UL>
+</BODY></HTML>

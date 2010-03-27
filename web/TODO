@@ -1,15 +1,27 @@
-teps:
-Do the timer.php, with exception handling.
+UnitTests.
 
 
-It is very important to make Bibledit-Web extensible. This is key to attracting developers,
-and attracting more users if their needs are met through these extra developers.
-To do that successfully, it is necessary that there is a basic BibleWorks api,
-which is robust.
-The extension would display in the relevant menus, e.g. Administration, Manager, etc., if available. 
-It would also load in the setup.php and the Administrator/Databases optimizations routine, 
-but with an exception net around each inclusion. It would also include into the timer, 
-with an exception safety net around it.
+Import USFM. 
+
+If any \id is encountered, if the book does not yet exist, it creates it.
+
+It overwrites existing data.
+
+Once submitted, it displays the results, either ok (in green), or error (in red).
+
+It needs a routine to format the incoming text.
+
+It is cut on the \c lines, and so on.
+
+Formatting the imported text is best done through the stylesheet.
+It therefore needs a style sheet object that provides a lot of parameters for each style,
+e.g. whether it starts a new line in the editor, or whether it starts a new line in the raw USFM.
+Then there's one object, which can be used for anything related to styles we need, such as
+formatting in the editor, importing, exporting, you name it.
+We may use Database_Styles to obtain info about it, then Styles_Logic to obtain more information about a style.
+
+It needs a Filter_ that reads a USFM line, and returns USFM marker and text.
+The best for it is to return an array with this data, so that the Filter runs once.
 
 
 
@@ -17,22 +29,19 @@ with an exception safety net around it.
 
 
 
+If the level of a user is changed, mail it out to the user, and log it.
 
 
 
 
-
-
-
-
+Bibledit-Web should have an administrative possibility to set the text that displays on the site to 
+people not yet logged in, or logged out.
 
 
 
 Objective: To display or edit Bibles.
 
 Requirements:
-- Manager can import USFM. When the \id does not exist yet as a book, it creates the book pasted in.
-- If on import several books are pasted, i.e. several \id lines, it will handle that properly.
 - Manager can export USFM.
 - Synchronisation with git repository.
 - Display Bibles on screen.
@@ -41,15 +50,13 @@ Requirements:
 - Save snapshots.
 
 
-Trimming snapshots takes too much time. We need to load all data in arrays, and operate from there,
-so that only the delete operations affect the database, and since few will be deleted, this will go fast.
+
+
+
 
 
 Whether the module runs in full screen, or in frames. If in frames it will have a goto bar, 
 and in the full window it has the full header and footer.
-
-Alternative to frames would be better, think of ssi (Server Side Includes)
-
 
 There's one main site with an index pages and frames.
 Within the frames applications run. This can be our own applications, or foreign ones.
@@ -57,6 +64,11 @@ Each application is independent and separate.
 
 Messaging between applications and server for e.g. verse reference, and many other things, 
 e.g. lists of verses to be sent to the references window.
+
+
+
+
+
 
 
 

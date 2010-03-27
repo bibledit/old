@@ -96,8 +96,8 @@ EOD;
   /**
     * Trims the snapshots.
     * $vocal - boolean, whether messages should be given.
-    * Note: This function can be greatly optimized by first reading all relevant data into arrays,
-    * then using array_unique to find unique values, and then go through it all to sort the snapshots out.
+    * Note: It was tried to optimize this by reading all data into memory and sorting it out from there.
+    * But measurements showed that this did not speed up the process, rather it slowed it down.
     */
   public function trim ($vocal)
   {

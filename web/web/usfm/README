@@ -1,0 +1,46 @@
+USFM documentation
+
+Source:
+http://ubs-icap.org/usfm
+http://confluence.ubs-icap.org/display/USFM/Home
+
+The file usfmReference[version].chm.zip was downloaded from the above URL,
+unzipped and saved as usfmReference.chm.
+
+On 4 August 2009 Jeff Klassen of the Canadian Bible Society gave
+permission to distribute this file: 
+
+"Please feel free to distribute the current version of the CHM help file. 
+We're glad that the documentation can be of help."
+
+Since it does not come with a license, it is supposed that the file is
+in the public domain.
+
+The .chm file was extracted into its components.
+
+To extract, move the .chm file to the usfm subdirectory of this package,
+then unpack it:
+extract_chmLib usfmReference.chm .
+Then remove the folders that start with $ and the files starting with #.
+
+It produces .htm files and other files. 
+
+Teus Benschop
+3 November 2009
+
+----------------------------
+
+Stylesheet usfm.sty ships with Bibledit-Web.
+Updates are available from http://confluence.ubs-icap.org/display/USFM/Home
+
+On 30 January 2010 Jeff Klassen of the Canadian Bible Society gave
+permission to distribute this file: 
+
+"There is no problem with you making use of the usfm.sty file in this way."
+
+Since it does not come with a license, it is supposed that the file is
+in the public domain.
+
+Teus Benschop
+30 January 2010
+
