@@ -857,6 +857,90 @@ class Styles_Logic
   }
 
 
+  /**
+  * It returns true if the combination of $type and $subtype start a new line in well-formed USFM.
+  * Otherwise it returns false
+  */
+  public function startsNewLineInUsfm ($type, $subtype)
+  {
+    switch ($type) {
+      case StyleTypeIdentifier :
+      {
+        return true;
+        break;
+      }
+      case StyleTypeNotUsedComment :
+      {
+        return true;
+        break;
+      }
+      case StyleTypeNotUsedRunningHeader :
+      {
+        return true;
+        break;
+      }
+      case StyleTypeStartsParagraph :
+      {
+        return true;
+        break;
+      }
+      case StyleTypeInlineText :
+      {
+        return false;
+        break;
+      }
+      case StyleTypeChapterNumber :
+      {
+        return true;
+        break;
+      }
+      case StyleTypeVerseNumber :
+      {
+        return true;
+        break;
+      }
+      case StyleTypeFootEndNote :
+      {
+        return false;
+        break;
+      }
+      case StyleTypeCrossreference :
+      {
+        return false;
+        break;
+      }
+      case StyleTypePeripheral :
+      {
+        return true;
+        break;
+      }
+      case StyleTypePicture :
+      {
+        return true;
+        break;
+      }
+      case StyleTypePageBreak :
+      {
+        return true;
+        break;
+      }
+      case StyleTypeTableElement :
+      {
+        if ($subtype == TableElementSubtypeRow) return true;
+        return false;
+        break;
+      }
+      case StyleTypeWordlistElement :
+      {
+        return false;
+        break;
+      }
+    }
+    return true;    
+  }
+
+
+
 }
 
 

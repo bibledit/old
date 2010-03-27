@@ -57,15 +57,14 @@ class Filter_Usfm
   * Output would be:     array ("\id", "GEN", "\c", "10", ...)
   * If $usfm does not start with a marker, this becomes visible in the output too.
   */
-  public function getMarkersAndText ($usfm) // Todo
+  public function getMarkersAndText ($usfm)
   {
     $markers_and_text = array ();
-    mb_internal_encoding("UTF-8");
     $usfm = str_replace ("  ", " ", $usfm);
     $usfm = trim ($usfm);
     while ($usfm != "") {
       if ($usfm != "") {
-        $pos = mb_strpos ($usfm, "\\");
+        $pos = strpos ($usfm, "\\");
         if ($pos === 0) {
           // Marker found. 
           // The marker ends
@@ -75,25 +74,25 @@ class Filter_Usfm
           // - at the end of the string,
           // whichever comes first.
           $positions = array ();
-          $pos = mb_strpos ($usfm, " ");
+          $pos = strpos ($usfm, " ");
           if ($pos !== false) $positions [] = $pos + 1;
-          $pos = mb_strpos ($usfm, "*");
+          $pos = strpos ($usfm, "*");
           if ($pos !== false) $positions [] = $pos + 1;
-          $pos = mb_strpos ($usfm, "\\", 1);
+          $pos = strpos ($usfm, "\\", 1);
           if ($pos !== false) $positions [] = $pos;
-          $positions [] = mb_strlen ($usfm);
+          $positions [] = strlen ($usfm);
           sort ($positions, SORT_NUMERIC);
           $pos = $positions[0];
-          $marker = mb_substr ($usfm, 0, $pos);
+          $marker = substr ($usfm, 0, $pos);
           $markers_and_text [] = $marker;
-          $usfm = mb_substr ($usfm, $pos);
+          $usfm = substr ($usfm, $pos);
         } else {
           // Text found. It ends at the next backslash or at the end of the string.
-          $pos = mb_strpos ($usfm, "\\");
+          $pos = strpos ($usfm, "\\");
           if ($pos === false) $pos = strlen ($usfm);
-          $text = mb_substr ($usfm, 0, $pos);
+          $text = substr ($usfm, 0, $pos);
           $markers_and_text [] = $text;
-          $usfm = mb_substr ($usfm, $pos);
+          $usfm = substr ($usfm, $pos);
         }
       }
     }
@@ -102,20 +101,21 @@ class Filter_Usfm
     
 
   /**
-  * Gets the marker from $text if it is there, else returns an empty string.
+  * Gets the marker from $usfm if it is there, else returns an empty string.
   * Examples:
   * "\id"   -> "id"
   * "\id "  -> "id"
   * "\add*" -> "add"
   */
-  public function getMarker ($text) // Todo
+  public function getMarker ($usfm)
   {
-    mb_internal_encoding("UTF-8");
-    $pos = mb_strpos ($text, "\\");
+    if ($usfm == "")
+      return $usfm;
+    $pos = strpos ($usfm, "\\");
     if ($pos === 0) {
       // Marker found. 
       // Erase backslash.
-      $text = mb_substr ($text, 1);
+      $usfm = substr ($usfm, 1);
       // The marker ends
       // - at the first space, or
       // - at the first asterisk (*), or
@@ -123,22 +123,87 @@ class Filter_Usfm
       // - at the end of the string,
       // whichever comes first.
       $positions = array ();
-      $pos = mb_strpos ($usfm, " ");
+      $pos = strpos ($usfm, " ");
       if ($pos !== false) $positions [] = $pos;
-      $pos = mb_strpos ($usfm, "*");
+      $pos = strpos ($usfm, "*");
       if ($pos !== false) $positions [] = $pos;
-      $pos = mb_strpos ($usfm, "\\", 1);
+      $pos = strpos ($usfm, "\\");
       if ($pos !== false) $positions [] = $pos;
-      $positions [] = mb_strlen ($usfm);
+      $positions [] = strlen ($usfm);
       sort ($positions, SORT_NUMERIC);
       $pos = $positions[0];
-      $marker = mb_substr ($usfm, 0, $pos);
+      $marker = substr ($usfm, 0, $pos);
       return $marker;
     } else {
       // Text found. No marker.
       return "";
     }
   }
+
+  /**
+    * This imports USFM $input.
+    * It takes raw $input,
+    * and returns an array of an array [book_number, chapter_number, chapter_data].
+    */  
+  public function import ($input, $stylesheet)
+  {
+    $result = array ();
+
+    $book_number = 0;
+    $chapter_number = 0;
+    $chapter_data = "";
+
+    $input = Filter_Usfm::oneString ($input);
+    $markers_and_text = Filter_Usfm::getMarkersAndText ($input);
+
+    foreach ($markers_and_text as $marker_or_text) {
+      if ($retrieve_book_number_on_next_iteration) {
+        $database_books = Database_Books::getInstance ();
+        $book_number = $database_books->getIdFromUsfm (substr ($marker_or_text, 0, 3));
+        $chapter_number = 0;
+        $retrieve_book_number_on_next_iteration = false;
+      }
+      if ($retrieve_chapter_number_on_next_iteration) {
+        $retrieve_chapter_number_on_next_iteration = false;
+        $chapter_number = Filter_Numeric::integer_in_string ($marker_or_text);
+        if ($chapter_number == "") {
+          $chapter_number = 0;
+        }
+      }
+      $marker = Filter_Usfm::getMarker ($marker_or_text);
+      if ($marker != "") {
+        // USFM marker found.
+        if ($marker == "id") {
+          $retrieve_book_number_on_next_iteration = true;
+          $store_chapter_data = true;
+        }
+        if ($marker == "c") {
+          $retrieve_chapter_number_on_next_iteration = true;
+          $store_chapter_data = true;
+        }
+        if ($store_chapter_data) {
+          $chapter_data = trim ($chapter_data);
+          if ($chapter_data != "") $result [] = array ($book_number, $chapter_number, $chapter_data);
+          $chapter_number = 0;
+          $chapter_data = "";
+          $store_chapter_data = false;
+        }
+        $database_styles = Database_Styles::getInstance ();
+        $marker_data = $database_styles->getMarkerData ($stylesheet, $marker);
+        $type = $marker_data['type'];
+        $subtype = $marker_data['subtype'];
+        $styles_logic = Styles_Logic::getInstance();
+        if ($styles_logic->startsNewLineInUsfm ($type, $subtype)) {
+          $chapter_data .= "\n";
+        }
+      }
+      $chapter_data .= $marker_or_text;
+    }
+    $chapter_data = trim ($chapter_data);
+    if ($chapter_data != "") $result [] = array ($book_number, $chapter_number, $chapter_data);
+    return $result;    
+  }
+  
 
 }
 

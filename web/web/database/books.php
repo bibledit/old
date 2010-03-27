@@ -146,6 +146,20 @@ EOD;
   }
 
 
+  public function getIdFromUsfm($usfm)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $usfm = Database_SQLInjection::no ($usfm);
+    $query = "SELECT id FROM books WHERE usfm = '$usfm';";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
   public function getSequenceFromId($id)
   {
     $database_instance = Database_Instance::getInstance();

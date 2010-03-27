@@ -1,7 +1,5 @@
 <?php
 
-// Todo work on php and tpl file.
-
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
@@ -19,15 +17,33 @@ if (isset($_POST['submit'])) {
   $data = trim ($data);
   if ($data != "") {
     if (Validate_Utf8::valid ($data)) {
-      $data = Filter_Usfm::oneString ($data);
-      if (strpos ($data, "\\id ") === 0) {
-        $markers_and_text = Filter_Usfm::getMarkersAndText ($data);
-        foreach ($markers_and_text as $marker_or_text) {
-          echo "$marker_or_text<br>"; // Todo
+      $database_config_user = Database_Config_User::getInstance();
+      $stylesheet = $database_config_user->getStylesheet();
+      
+      $book_chapter_text = Filter_Usfm::import ($data, $stylesheet);
+      foreach ($book_chapter_text as $data) {
+        $book_number = $data[0];
+        $chapter_number = $data[1];
+        $chapter_data = $data[2];
+        if ($book_number > 0) {
+          $database_bibles = Database_Bibles::getInstance();
+          $database_bibles->storeChapter ($bible, $book_number, $chapter_number, $chapter_data);
+          $database_snapshots = Database_Snapshots::getInstance();
+          $database_snapshots->snapChapter ($bible, $book_number, $chapter_number, $chapter_data, 1);
+          $database_books = Database_Books::getInstance ();
+          $book_name = $database_books->getUsfmFromId ($book_number);
+          $success_message .= " $book_name $chapter_number"; 
+        } else {
+          $error_message .= " $chapter_data"; 
         }
-      } else {
-        $error_message = gettext ("The text should start with the \id markup, for example \"\id GEN\" for the book of Genesis.");
       }
+      if ($error_message != "") {
+        $error_message = gettext ("Could not import this data:") . $error_message;
+      }
+      if ($success_message != "") {
+        $success_message = gettext ("The following was imported:") . $success_message;
+      }
+
     } else {
       $error_message = gettext ("Please supply valid Unicode UTF-8 text.");
     }
@@ -35,9 +51,6 @@ if (isset($_POST['submit'])) {
     $success_message = gettext ("Nothing was imported.");
   }
 }
-
-
-
 
 $smarty->assign ("success_message", $success_message);
 $smarty->assign ("error_message", $error_message);

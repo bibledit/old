@@ -1,29 +1,3 @@
-UnitTests.
-
-
-Import USFM. 
-
-If any \id is encountered, if the book does not yet exist, it creates it.
-
-It overwrites existing data.
-
-Once submitted, it displays the results, either ok (in green), or error (in red).
-
-It needs a routine to format the incoming text.
-
-It is cut on the \c lines, and so on.
-
-Formatting the imported text is best done through the stylesheet.
-It therefore needs a style sheet object that provides a lot of parameters for each style,
-e.g. whether it starts a new line in the editor, or whether it starts a new line in the raw USFM.
-Then there's one object, which can be used for anything related to styles we need, such as
-formatting in the editor, importing, exporting, you name it.
-We may use Database_Styles to obtain info about it, then Styles_Logic to obtain more information about a style.
-
-It needs a Filter_ that reads a USFM line, and returns USFM marker and text.
-The best for it is to return an array with this data, so that the Filter runs once.
-
-
 
 
 

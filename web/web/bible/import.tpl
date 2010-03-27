@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
-    <title>{$book_name}</title>
+    <title>{t}Import{/t}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
   </head>
   <body>
@@ -21,7 +21,7 @@
       {t}It will not overwrite anything else.{/t}
       {t}If Genesis 1 was not yet there, it will be created.{/t}
       {t}You can import one chapter, or several chapters, or one book, or several books, all in one go.{/t}
-      {t}Bibledit will recognize books through the \\id markup, chapters through the \\c markup, and verses through the \\v markup.{/t}
+      {t}Bibledit will recognize books through the \\id markup and chapters through the \\c markup.{/t}
       {t}The text to be imported should be in Unicode UTF-8 format.{/t}
     </p>
 
