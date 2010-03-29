@@ -576,9 +576,11 @@ ustring stylesheet_get_actual ()
     sheet = STANDARDSHEET;
   }
 
-  // Else take first sheet in the list.
+  // Else take first sheet in the list, if it is there.
   else {
-    sheet = stylesheets[0];
+    if (!stylesheets.empty()) {
+      sheet = stylesheets[0];
+    }
   }
 
   // Return sheet.
