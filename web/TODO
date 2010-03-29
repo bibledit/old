@@ -1,17 +1,32 @@
-Bibledit-Web should have an administrative possibility to set the text that displays on the site to 
-people not yet logged in, or logged out.
+Create a navigator.
+The goto bar normally is small, and shows the current book, chapter, verse as normal links. 
+Plus next/previous book, next/previous chapter, and next/previous verse.
+When clicking on any of the links, this expands and offers the available books, or available chapters,
+or the available verses to go to. Then, if a book / chapter is chosen, or a verse, it becomes small again,
+but now updated with the new values.
+It would send the reference chosen to the ipc for focus.
+It should also respond to a new focus available from IPC, and then move to the new location.
+This requires AJAX, or whatever one would call it.
+But with the chapter text attached, although it would send the focus and try to receive, it is not required for proper
+operation, so that e.g. cell phones and other devices without JavaScript would still operate.
+Go to «Genesis» «chapter 1» «verse 2» (to add more space for clicking and to make it clearer.
 
 
 
-Objective: To display or edit Bibles.
+
+
+
+Objective: To display and edit Bibles.
 
 Requirements:
-- Manager can export USFM.
+- Manager can export USFM. Rather everybody, including members.
 - Synchronisation with git repository.
 - Display Bibles on screen.
 - Navigator integrated if needed, but when using frames, it is detached and occurs only once no matter how many Bibles
   display.
-- Save snapshots.
+- Save snapshots when saving changes.
+- Each user remembers the currently open book, chapter, and verse.
+- For a start, display the bibles in USFM code. Later it can be formatted.
 
 
 
@@ -19,7 +34,7 @@ Requirements:
 
 
 
-Whether the module runs in full screen, or in frames. If in frames it will have a goto bar, 
+Whether the module runs in full screen, or in frames. If in frames it will have a goto bar for the whole screen, 
 and in the full window it has the full header and footer.
 
 There's one main site with an index pages and frames.
@@ -28,6 +43,7 @@ Each application is independent and separate.
 
 Messaging between applications and server for e.g. verse reference, and many other things, 
 e.g. lists of verses to be sent to the references window.
+
 
 
 
@@ -235,15 +251,25 @@ Instead of using XeTeX, we could also look at CSS2 with paged media for printing
 
 
 Where help is needed: 
-Would need to write his software for the project under the GPL, state in each source file.
+Would need to write the software for the project under the GPL, stated in each source file.
 Could fully test current source on Windows, describe how to install it, 
 and create a Windows installer and describe how to do that through open source tools. 
 Same for Macintosh. 
 Would communicate through bibledit-development. 
-Would have Wiki space for writing documentation. 
+Would write documentation on the Wiki. 
 Could write manuals for how to work with Bibledit-Web. 
 Could make a start with an issues tracker that is compatible with Bibledit-Gtk's project notes. 
 He could enable internationalization and localization with a language setting in the user preferences, 
 and a language setting for the site administrator for the site's language if the user has not yet logged in.
-He could write unit tests as a safety net for catching regressions. These tests probably use PHPUnit.
+
+
+
+
+
+
+Bibledit-Web should have an administrative possibility to set the text that displays on the site to 
+people not yet logged in, or logged out.
+
+
+
 

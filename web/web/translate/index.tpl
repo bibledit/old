@@ -11,6 +11,7 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h1>{t}Translation{/t}</h1>
+    <p><a href="../text/index.php">{t}Text{/t}</a></p>
     <p><a href="../styles/indext.php">{t}Styles{/t}</a></p>
     {foreach key=key item=item from=$plugins} 
       <p><a href={$key}>{$item}</a></p>

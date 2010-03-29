@@ -554,7 +554,7 @@ void CheckDialog::on_button_unwanted_patterns_clicked(GtkButton * button, gpoint
 void CheckDialog::on_button_unwanted_patterns()
 {
   extern Settings *settings;
-  ReadText rt(checks_unwanted_patterns_get_filename(settings->genconfig.project_get()), true);
+  ReadText rt(checks_unwanted_patterns_get_filename(settings->genconfig.project_get()), true, false);
   EditListDialog dialog(&rt.lines, "Unwanted patterns", "of patterns that are not wanted", true, true, true, true, true, true, false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     write_lines(checks_unwanted_patterns_get_filename(settings->genconfig.project_get()), rt.lines);
