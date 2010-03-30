@@ -75,6 +75,18 @@ EOD;
     $query = "DELETE FROM ipc WHERE id = $id;";
     $database_instance->runQuery ($query);
   }
+
+  public function getFocus ()
+  {
+    $message = array ();
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT message FROM ipc WHERE command = 'focus' ORDER BY id DESC;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows > 0) {
+      $message = $result->fetch_row();
+    }
+    return $message[0];
+  }
   
 
 

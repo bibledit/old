@@ -26,7 +26,7 @@
     </p>
 
     <form action="import.php?bible={$bible}" name="form" method="post">
-      <p><textarea name="data">{$xml}</textarea></p>
+      <p><textarea name="data"></textarea></p>
       <p><input type="submit" name="submit" value={t}Submit{/t} /></p>
     </form>
 

@@ -238,6 +238,24 @@ EOD;
     $database_instance->runQuery ($query);
   }
 
+  /**
+  * gets the chapter data as a string.
+  */
+  public function getChapter ($bible, $book, $chapter)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "SELECT data FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      return $row[0];
+    }
+    return "";    
+  }
+  
 
 
 }

@@ -1,41 +1,45 @@
-Create a navigator.
-The goto bar normally is small, and shows the current book, chapter, verse as normal links. 
-Plus next/previous book, next/previous chapter, and next/previous verse.
-When clicking on any of the links, this expands and offers the available books, or available chapters,
-or the available verses to go to. Then, if a book / chapter is chosen, or a verse, it becomes small again,
-but now updated with the new values.
-It would send the reference chosen to the ipc for focus.
-It should also respond to a new focus available from IPC, and then move to the new location.
-This requires AJAX, or whatever one would call it.
-But with the chapter text attached, although it would send the focus and try to receive, it is not required for proper
-operation, so that e.g. cell phones and other devices without JavaScript would still operate.
-Go to «Genesis» «chapter 1» «verse 2» (to add more space for clicking and to make it clearer.
-
-
-
-
-
+When going to the Bible editor, and no chapter:verse is given, it takes the current reference from IPC's focus.
+If this focus is not there, it takes 1:1.
 
 Objective: To display and edit Bibles.
 
-Requirements:
+Navigator:
+
+When clicking on any of the links, this expands and offers the available books, or available chapters,
+or the available verses to go to. Then, if a book / chapter is chosen, or a verse, it becomes small again,
+but now updated with the new values.
+
+But with the chapter text attached, although it would send the focus and try to receive, it is not required for proper
+operation, so that e.g. cell phones and other devices without JavaScript would still operate.
+
+Display text:
 - Manager can export USFM. Rather everybody, including members.
 - Synchronisation with git repository.
 - Display Bibles on screen.
-- Navigator integrated if needed, but when using frames, it is detached and occurs only once no matter how many Bibles
-  display.
 - Save snapshots when saving changes.
 - Each user remembers the currently open book, chapter, and verse.
 - For a start, display the bibles in USFM code. Later it can be formatted.
 
+The currently opened Bible is stored for the user, and will open straight after going there.
+There is a [bible] link on the editor, showing which Bible it is, and the link can change it.
+
+If the Bible / book / chapter does not exist, the Save button is not displayed.
 
 
 
 
 
+
+
+
+The navigator should respond to a new focus available from IPC, and then move to the new location.
+This requires AJAX long polling.
 
 Whether the module runs in full screen, or in frames. If in frames it will have a goto bar for the whole screen, 
 and in the full window it has the full header and footer.
+
+Navigator integrated if needed, but when using frames, it is detached and occurs only once 
+no matter how many Bibles display.
 
 There's one main site with an index pages and frames.
 Within the frames applications run. This can be our own applications, or foreign ones.
@@ -43,6 +47,10 @@ Each application is independent and separate.
 
 Messaging between applications and server for e.g. verse reference, and many other things, 
 e.g. lists of verses to be sent to the references window.
+
+The text editor needs a link that sets the default / focused bible, so that the navigator takes that bible.
+But for as long as the navigator is not yet separated, then this is not needed, but we should prepare for it in the code.
+
 
 
 

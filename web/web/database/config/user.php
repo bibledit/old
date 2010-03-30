@@ -64,12 +64,41 @@ EOD;
   }
 
 
-  public function getStylesheet() {
-    return $this->getValue ("", "stylesheet", "Standard");
+  public function getStylesheet()
+  { 
+    $sheet = $this->getValue ("", "stylesheet", "Standard");
+    // If the stylesheet does not exist, take the first one available instead.
+    $database_styles = Database_Styles::getInstance();
+    $sheets = $database_styles->getSheets();
+    if (!in_array ($sheet, $sheets)) {
+      $sheet = $sheets[0];
+      $this->setStylesheet ($sheet);
+    }
+    return $sheet;
   }
-  public function setStylesheet ($value) {
-    $this->setValue ("", "stylesheet", $value);
+  public function setStylesheet ($sheet)
+  {
+    $this->setValue ("", "stylesheet", $sheet);
   }   
+  
+  
+  public function getBible ()
+  {
+    $bible = $this->getValue ("", "bible", "");
+    // If the Bible does not exist, take the first one available.
+    $database_bibles = Database_Bibles::getInstance();
+    $bibles = $database_bibles->getBibles ();
+    if (!in_array ($bible, $bibles)) {
+      $bible = $bibles[0];
+      $this->setBible ($bible);
+    }
+    return $bible;
+  }
+  public function setBible ($bible)
+  {
+    $this->setValue ("", "bible", $bible);
+  }   
+  
 
 
 
