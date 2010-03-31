@@ -42,7 +42,7 @@ ustring interprocess_communication_message_url (InterprocessCommunicationMessage
 }
 
 
-ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message, // Todo
+ustring interprocess_communication_message_url (InterprocessCommunicationMessageType message,
                                                 InterprocessCommunicationChannelType channel, 
                                                 const ustring& subject, 
                                                 const ustring& payload)

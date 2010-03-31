@@ -120,7 +120,9 @@ void URLTransport::on_message_with_reply_ready (SoupSession *session, SoupMessag
     if (msg == messages_awaiting_reply[i]) {
       // Make information about the reply available to the caller.
       reply_is_ok = SOUP_STATUS_IS_SUCCESSFUL (msg->status_code);
-      reply_body = msg->response_body->data;
+      // (retrieving msg->response_body->data on message failure crashes bibledit).
+      if (reply_is_ok) reply_body = msg->response_body->data;
+      else reply_body.clear();
       // Get signal button.
       GtkWidget * button = buttons_awaiting_reply[i];
       // Remove trap.

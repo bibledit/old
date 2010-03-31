@@ -2936,7 +2936,7 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 }
 
 
-void MainWindow::on_tool_send_reference () // Todo
+void MainWindow::on_tool_send_reference ()
 {
   // Send the focus to Bibledit-Web.
   ustring payload = convert_to_string (navigation.reference.book);
@@ -2945,7 +2945,7 @@ void MainWindow::on_tool_send_reference () // Todo
   payload.append (".");
   payload.append (navigation.reference.verse);
   extern URLTransport * urltransport;
-  ustring url = interprocess_communication_message_url (icmtSetMessage, icctNone, icstFocus, payload); // Todo
+  ustring url = interprocess_communication_message_url (icmtSetMessage, icctNone, icstFocus, payload);
   urltransport->send_message (url);
 }
 

@@ -1,6 +1,3 @@
-Bibledit-Gtk / Xiphos / Bibletime do not run when there's no local web server running.
-To fix this.
-
 When clicking on the Bible link, the user can change to another Bible.
 
 When clicking on any of the Navigator links, this expands and offers the available books, or available chapters,
