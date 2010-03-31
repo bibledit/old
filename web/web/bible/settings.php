@@ -34,7 +34,7 @@ $smarty->assign ("versification", $versification);
 $createbook = $_GET['createbook'];
 if (isset ($createbook)) {
   if ($createbook == "") {
-    $dialog_books = new Dialog_Books (NULL, array ("bible"), gettext ("Create book"), "", "", "createbook", NULL, $database_bibles->getBooks ($bible));
+    $dialog_books = new Dialog_Books (array ("bible"), gettext ("Create book"), "", "", "createbook", NULL, $database_bibles->getBooks ($bible));
     die;
   } else {
     new Book_Create ($bible, $createbook, NULL);

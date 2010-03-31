@@ -51,21 +51,63 @@ if (isset ($newbible)) {
 }
 
 
+// Book.
 $book = $_GET['book'];
+$newbook = $_GET['newbook'];
+if (isset ($newbook)) {
+  if ($newbook == "") {
+    $dialog_books = new Dialog_Books (array ("bible", "book", "chapter", "verse"), gettext ("Go to another book"), "", "", "newbook", $database_bibles->getBooks ($bible), NULL);
+    die;
+  } else {
+    $book = $newbook;
+  }
+}
 if (!isset ($book)) {
   $book = $ipc_focus->getBook ();
   if (!is_numeric ($book)) {
     $book = 1;
   }
 }
+
+// Chapter.
 $chapter = $_GET['chapter'];
+$newchapter = $_GET['newchapter'];
+if (isset ($newchapter)) {
+  if ($newchapter == "") {
+    $dialog_list = new Dialog_List (array ("bible", "book", "chapter", "verse"), gettext ("Go to another chapter"), "", "", true);
+    $all_chapters = $database_bibles->getChapters($bible, $book);
+    foreach ($all_chapters as $chapter) {
+      $dialog_list->add_row ($chapter, "&newchapter=$chapter");
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $chapter = $newchapter;
+  }
+}
 if (!isset ($chapter)) {
   $chapter = $ipc_focus->getChapter();
   if (!is_numeric ($chapter)) {
     $chapter = 1;
   }
 }
+
+// Verse.
 $verse = $_GET['verse'];
+$newverse = $_GET['newverse'];
+if (isset ($newverse)) {
+  if ($newverse == "") {
+    $dialog_list = new Dialog_List (array ("bible", "book", "chapter", "verse"), gettext ("Go to another verse"), "", "", true);
+    $all_verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+    foreach ($all_verses as $verse) {
+      $dialog_list->add_row ($verse, "&newverse=$verse");
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $verse = $newverse;
+  }
+}
 if (!isset ($verse)) {
   $verse = $ipc_focus->getVerse();
   if ($verse == "") {

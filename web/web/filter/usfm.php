@@ -203,6 +203,26 @@ class Filter_Usfm
     if ($chapter_data != "") $result [] = array ($book_number, $chapter_number, $chapter_data);
     return $result;    
   }
+
+  /**
+    * returns an array with the verse numbers found in $usfm.
+    */
+  public function getVerseNumbers ($usfm)
+  {
+    $verse_numbers = array (0);
+    $markers_and_text = Filter_Usfm::getMarkersAndText ($usfm);
+    $extract_verse = false;
+    foreach ($markers_and_text as $marker_or_text) {
+      if ($extract_verse) {
+        $verse_numbers [] = Filter_Numeric::integer_in_string ($marker_or_text);
+        $extract_verse = false;
+      }
+      if (substr ($marker_or_text, 1, 1) == "v") {
+        $extract_verse = true;
+      }
+    }
+    return $verse_numbers;
+  }
   
 
 }

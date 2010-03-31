@@ -209,7 +209,7 @@ EOD;
 
 
   /**
-  * Returns an array with the available chapters in a books in a Bible.
+  * Returns an array with the available chapters in a $book in a Bible.
   */
   public function getChapters ($bible, $book)
   {
@@ -256,7 +256,6 @@ EOD;
     return "";    
   }
   
-
 
 }
 

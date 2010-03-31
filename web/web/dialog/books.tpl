@@ -10,9 +10,11 @@
     {include file=../assets/header_full.tpl} 
     <h2>{$header}</h2>
     <p>{$info_top}</p>
+    <p>
     {section name=offset loop=$book_ids} 
-    <p><a href="{$caller}&{$action}={$book_ids[offset]}">{$book_names[offset]}</a></p>
+    <a href="{$caller}&{$action}={$book_ids[offset]}">{$book_names[offset]}</a>
     {/section} 
+    </p>
     <p>{$info_bottom}</p>
     <h3><a href="{$caller}">{t}Cancel{/t}</a></h3>
     {include file=../assets/footer_full.tpl} 

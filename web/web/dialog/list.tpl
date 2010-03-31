@@ -9,13 +9,22 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h2>{$header}</h2>
-    <p>{$info_top}</p>
-    <ul>
+    {if !$horizontal}
+      <p>{$info_top}</p>
+    {/if}
+    {if !$horizontal}
+      <ul>
+    {/if}
     {section name=offset loop=$text_lines} 
-    <li><a href="{$caller_url}{$get_parameters[offset]}">{$text_lines[offset]}</a></li>
+      {if !$horizontal}<li>{/if}<a href="{$caller_url}{$get_parameters[offset]}">{$text_lines[offset]}</a>{if !$horizontal}</li>{/if}
     {/section}
-    </ul> 
-    <p>{$info_bottom}</p>
+    {if !$horizontal}
+      <ul>
+    {/if}
+      </ul> 
+    {if !$horizontal}
+      <p>{$info_bottom}</p>
+    {/if}
     <h3><a href="{$caller_url}">{t}Cancel{/t}</a></h3>
     {include file=../assets/footer_full.tpl} 
   </body>

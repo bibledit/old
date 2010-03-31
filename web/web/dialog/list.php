@@ -12,9 +12,10 @@ class Dialog_List
   /**
   * Dialog that presents the user with a list of options and asks the user to pick one.
   * $query: Array with the basic query parameters for the page where to go on clicking Cancel or making a choice.
-  * $info_top, $info_bottom - If these are left empty, they take standard values. Else it is shown in the browser.
+  * $info_top, $info_bottom - If these are left empty, they take standard values.
+  * $horizontal - if true the list of options shows horizontally, rather than vertically, and the $info_ does not show.
   */
-  public function __construct ($query, $header, $info_top, $info_bottom)
+  public function __construct ($query, $header, $info_top, $info_bottom, $horizontal = false)
   {
     $this->smarty = new Smarty_Bibledit (__FILE__);
 
@@ -39,6 +40,8 @@ class Dialog_List
     if ($info_bottom == "") 
       $info_bottom = gettext ("Please pick one.");
     $this->smarty->assign ("info_bottom", $info_bottom);
+    
+    $this->smarty->assign ("horizontal", $horizontal);
   }
 
 

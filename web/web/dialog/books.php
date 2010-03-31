@@ -7,20 +7,15 @@ class Dialog_Books
     
   /**
   * Constructs a book dialog
-  * $caller - The url of the page that calls this dialog.
   * $query - The query values to keep. The remainder is removed from $caller.
   * $action - GET or POST action to take.
   * $inclusions - NULL (in which case it does nothing), or an array of book IDs to include.
   * $exclusions - NULL (in which case it does nothing), or an array of book IDs to exclude.
   */
-  public function __construct ($caller, $query, $header, $info_top, $info_bottom, $action, $inclusions, $exclusions)
+  public function __construct ($query, $header, $info_top, $info_bottom, $action, $inclusions, $exclusions)
   {
     $this->smarty = new Smarty_Bibledit (__FILE__);
-    // Get the caller, either as given as a parameters, or else retrieve it from the server.
-    if (!isset ($caller)) 
-      $caller = $_SERVER['HTTP_REFERER'];
-    // Remove query string and construct a new one from the elements passed in $query.
-    list($caller) = explode('?', $caller);
+    $caller = $_SERVER["PHP_SELF"];
     if (is_array ($query)) {
       $full_query = array ();
       foreach ($query as $value) {
