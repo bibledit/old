@@ -68,9 +68,6 @@ PKG_CHECK_MODULES(LIBSOUP, libsoup-2.4 >= 2.4,,AC_MSG_ERROR(libsoup-2.4 developm
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-# Checks for header files.
-AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
-
 # Checks for Additional stuffs.
 # Set PACKAGE PREFIX
 if test "x${prefix}" = "xNONE"; then

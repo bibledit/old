@@ -226,7 +226,7 @@ application_DATA = bibledit-bibletime.desktop
 bibledit_bibletime_SOURCES = bibledit-bibletime.cpp
 AM_CXXFLAGS = -Wall $(GOBJECT_CFLAGS) $(GTHREAD_CFLAGS) $(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) $(DBUSGLIB_CFLAGS) $(LIBSOUP_CFLAGS)
-EXTRA_DIST = *.h *.1 TODO
+EXTRA_DIST = *.h *.1 TODO *.desktop
 CLEANFILES = bibledit*.gz *~
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am

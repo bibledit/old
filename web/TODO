@@ -1,29 +1,26 @@
-When going to the Bible editor, and no chapter:verse is given, it takes the current reference from IPC's focus.
-If this focus is not there, it takes 1:1.
+Bibledit-Gtk / Xiphos / Bibletime do not run when there's no local web server running.
+To fix this.
 
-Objective: To display and edit Bibles.
+When clicking on the Bible link, the user can change to another Bible.
 
-Navigator:
-
-When clicking on any of the links, this expands and offers the available books, or available chapters,
+When clicking on any of the Navigator links, this expands and offers the available books, or available chapters,
 or the available verses to go to. Then, if a book / chapter is chosen, or a verse, it becomes small again,
 but now updated with the new values.
-
-But with the chapter text attached, although it would send the focus and try to receive, it is not required for proper
-operation, so that e.g. cell phones and other devices without JavaScript would still operate.
 
 Display text:
 - Manager can export USFM. Rather everybody, including members.
 - Synchronisation with git repository.
-- Display Bibles on screen.
-- Save snapshots when saving changes.
-- Each user remembers the currently open book, chapter, and verse.
+- Each user remembers the currently open book, chapter, and verse. It means that this is not taken from the focus,
+  though it it sent to the focus. The focus is the same for all users, hence it cannot be used for remembering
+  the current reference per user.
 - For a start, display the bibles in USFM code. Later it can be formatted.
 
 The currently opened Bible is stored for the user, and will open straight after going there.
 There is a [bible] link on the editor, showing which Bible it is, and the link can change it.
 
-If the Bible / book / chapter does not exist, the Save button is not displayed.
+
+
+
 
 
 
@@ -33,7 +30,7 @@ If the Bible / book / chapter does not exist, the Save button is not displayed.
 
 
 The navigator should respond to a new focus available from IPC, and then move to the new location.
-This requires AJAX long polling.
+This requires AJAX long polling. This will confuse multiple users working from the same site, hence is not the solution.
 
 Whether the module runs in full screen, or in frames. If in frames it will have a goto bar for the whole screen, 
 and in the full window it has the full header and footer.

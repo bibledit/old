@@ -34,6 +34,6 @@ if WIN32
 LIBS += -mwindows -lws2_32
 endif
 
-EXTRA_DIST = *.h *.1 TODO
+EXTRA_DIST = *.h *.1 TODO *.desktop
 
 CLEANFILES = bibledit*.gz *~

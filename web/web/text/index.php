@@ -32,7 +32,25 @@ $database_snapshots = Database_Snapshots::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $ipc_focus = Ipc_Focus::getInstance();
 
+
 $bible = $_GET['bible'];
+$newbible = $_GET['newbible'];
+if (isset ($newbible)) {
+  if ($newbible == "") {
+    $dialog_list = new Dialog_List (array ("bible", "book", "chapter", "verse"), gettext ("Would you like to change to another Bible?"), "", "");
+    $all_bibles = $database_bibles->getBibles();
+    foreach ($all_bibles as $value) {
+      $dialog_list->add_row ($value, "&newbible=$value");
+    }
+    $dialog_list->run ();
+    die;
+  } else {
+    $bible = $newbible;
+    $database_config_user->setBible ($bible);
+  }
+}
+
+
 $book = $_GET['book'];
 if (!isset ($book)) {
   $book = $ipc_focus->getBook ();

@@ -29,7 +29,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <sqlite3.h>
 #include <fstream>
 #include <sstream>
 #include <exception>

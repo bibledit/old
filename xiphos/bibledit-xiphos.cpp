@@ -55,6 +55,7 @@ int main (int argc, char *argv[])
   // Initialize variables.
   event_id_rescan_bus = 0;
   last_message_id = "0";
+  quit = false;
   
   // Read settings.
   GKeyFile *keyfile = g_key_file_new();
@@ -70,7 +71,7 @@ int main (int argc, char *argv[])
   g_free (filename);
 
   window = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "window"));
-  g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK (quit_program), NULL); // Todo
   gtk_widget_show_all (window);
 
   entry_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "entry_url"));
@@ -473,9 +474,15 @@ void on_xiphos_web_listener_ready_callback (SoupSession *session, SoupMessage *m
 		if (msg->status_code == 1) {
 		  return;
 		}
+    // If it needs to quit, just quit.
+    if (quit) return;
+    // Handle error.
 		printf ("Xiphos web listener failure, code: %d, reason: %s\n", msg->status_code, msg->reason_phrase);
     fflush (stdout);
-		g_usleep (1000000);
+    for (unsigned int i = 0; i < 10; i++) {
+      while (gtk_events_pending()) gtk_main_iteration();
+  		g_usleep (100000);
+    }
 	}
 	g_usleep (100000);
 	start_xiphos_web_listener ();
@@ -818,6 +825,7 @@ void sigproc(int dummy)
 	printf("\nCtrl-c trapped to quit\n");
   fflush (stdout);
   gtk_main_quit ();
+  quit = true;
 }
 
 
@@ -826,6 +834,7 @@ void sigquit(int dummy)
 	printf("\nCtrl-\\ trapped to quit\n");
   fflush (stdout);
   gtk_main_quit ();
+  quit = true;
 }
 
 
@@ -919,4 +928,11 @@ int convert_to_int(const string & str)
 void on_button_hide_clicked(GtkButton * button, gpointer user_data)
 {
   gtk_widget_hide_all (window);
+}
+
+
+void quit_program ()
+{
+  quit = true;
+  gtk_main_quit ();
 }

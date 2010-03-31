@@ -29,7 +29,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <sqlite3.h>
 #include <fstream>
 #include <sstream>
 #include <exception>
@@ -155,6 +154,8 @@ static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, g
 
 static void sigproc(int dummy);
 static void sigquit(int dummy);
+bool quit;
+static void quit_program ();
 
 int convert_to_int(const string & str);
 
