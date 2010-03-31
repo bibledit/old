@@ -157,6 +157,8 @@ static void on_message_ready_callback (SoupSession *session, SoupMessage *msg, g
 
 static void sigproc(int dummy);
 static void sigquit(int dummy);
+bool quit;
+static void program_quit ();
 int main (int argc, char **argv);
 
 
