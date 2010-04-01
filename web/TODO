@@ -1,4 +1,5 @@
-Manager can export USFM code either in one file per book, or one large combined file for the whole Bible.
+
+
 
 
 
@@ -16,7 +17,10 @@ Synchronisation with git repository.
 
 To display Bibles in formatted mode by default.
 Each paragraph becomes a link, and each verse. 
-Clicking it gives the raw USFM code, with a Save button.
+Perhaps the paragraph formatter, e.g. \p, to keep separate, 
+so that it is edited through another link, not the paragraph's text's link.
+Same, probably, for the verse number.
+Clicking a link gives the relevant raw USFM code, with a Save button.
 
 
 
