@@ -19,9 +19,8 @@
       {if !$horizontal}<li>{/if}<a href="{$caller_url}{$get_parameters[offset]}">{$text_lines[offset]}</a>{if !$horizontal}</li>{/if}
     {/section}
     {if !$horizontal}
-      <ul>
-    {/if}
       </ul> 
+    {/if}
     {if !$horizontal}
       <p>{$info_bottom}</p>
     {/if}

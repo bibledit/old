@@ -44,8 +44,10 @@ class Ipc_Focus
   */
   function set ($book, $chapter, $verse)
   {
+    $session_logic = Session_Logic::getInstance ();
+    $user = $session_logic->currentUser ();
     $database_ipc = Database_Ipc::getInstance();
-    $database_ipc->storeMessage ("", "focus", "$book.$chapter.$verse");
+    $database_ipc->storeMessage ($user, "", "focus", "$book.$chapter.$verse");
   }
 
 

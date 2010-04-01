@@ -1,17 +1,22 @@
-- Each user remembers the currently open book, chapter, and verse. It means that this is not taken from the focus,
-  though it it sent to the focus. The focus is the same for all users, hence it cannot be used for remembering
-  the current reference per user.
-This will confuse multiple users working from the same site, hence is not the solution.
+Manager can export USFM code either in one file per book, or one large combined file for the whole Bible.
 
 
 
 
 
-Display text:
-- Manager can export USFM. Rather everybody, including members.
-- Synchronisation with git repository.
-- For a start, display the bibles in USFM code. Later it can be formatted.
+Synchronisation with git repository.
 
+
+
+
+
+
+
+
+
+To display Bibles in formatted mode by default.
+Each paragraph becomes a link, and each verse. 
+Clicking it gives the raw USFM code, with a Save button.
 
 
 

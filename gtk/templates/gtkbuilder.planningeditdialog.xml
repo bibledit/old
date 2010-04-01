@@ -11,6 +11,7 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkTable" id="table1">
             <property name="visible">True</property>
@@ -23,6 +24,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image">image1</property>
+                <property name="use_underline">True</property>
               </object>
             </child>
             <child>
@@ -32,6 +34,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image">image2</property>
+                <property name="use_underline">True</property>
               </object>
               <packing>
                 <property name="top_attach">1</property>

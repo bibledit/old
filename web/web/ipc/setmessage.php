@@ -11,7 +11,7 @@ $message = $_GET['message'];
 if ($message == "") die;
 
 $database_ipc = Database_Ipc::getInstance();
-$database_ipc->storeMessage ($channel, $subject, $message);
+$database_ipc->storeMessage ('', $channel, $subject, $message);
 
 
 ?>
