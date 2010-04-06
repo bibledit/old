@@ -21,7 +21,8 @@
  **  
  */
 
-class Utils_Which
+
+class Filter_Which
 {
   public $available;
   public $path;

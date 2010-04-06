@@ -1,0 +1,91 @@
+<?php
+
+
+class Filter_Git
+{
+
+  /**
+  * This filter takes the Bible data as it is stored in a git repository, 
+  * using the layout in books and chapters such as is used in Bibledit-Gtk,
+  * and transfers this information into Bibledit-Web's Bible database.
+  * The $directory is where the file data resides.
+  * It overwrites whatever data was in the $bible in the database.
+  */
+  public function filedata2database ($directory, $bible)
+  {
+    // Maintain a list of chapters that were stored.
+    $stored_chapters = array ();
+    // Go through the Bible book names in $directory.
+    $book_names = scandir($directory);
+    $book_names = array_diff ($book_names, array ('.', '..'));
+    $book_names = array_values ($book_names);
+    $database_books = Database_Books::getInstance ();
+    $database_bibles = Database_Bibles::getInstance ();
+    $database_snapshots = Database_Snapshots::getInstance ();
+    foreach ($book_names as $book_name) {
+      $book_id = $database_books->getIdFromEnglish ($book_name);
+      if ($book_id > 0) {
+        $book_directory = "$directory/$book_name";
+        // Go through the chapters in the book.
+        $chapter_numbers = scandir($book_directory);
+        $chapter_numbers = array_diff ($chapter_numbers, array ('.', '..'));
+        $chapter_numbers = array_values ($chapter_numbers);
+        foreach ($chapter_numbers as $chapter_number) {
+          // Store data into database, but only when the new data differs from existing data.
+          // This reduces the number of snapshots created, and the time taken to complete the operation,
+          // assuming that in most cases the old does not differ from the new, which is a reasonable assumption.
+          $data = file_get_contents ("$directory/$book_name/$chapter_number/data");
+          $old_data = $database_bibles->getChapter ($bible, $book_id, $chapter_number);
+          if ($data != $old_data) {
+            $database_bibles->storeChapter ($bible, $book_id, $chapter_number, $data);
+            $database_snapshots->snapChapter ($bible, $book_id, $chapter_number, $data, false);
+          }
+          // List the chapter number.
+          $stored_chapters [] = array ($book_id, $chapter_number);
+        }
+      }
+    }
+    // Delete any chapters not stored above.
+    $books = $database_bibles->getBooks ($bible);
+    foreach ($books as $book) {
+      $chapters = $database_bibles->getChapters ($bible, $book);
+      foreach ($chapters as $chapter) {
+        $item = array ($book, $chapter);
+        if (!in_array ($item, $stored_chapters)) {
+          $database_bibles->deleteChapter ($bible, $book, $chapter);
+        }
+      }
+    }
+  }
+
+
+  /**
+  * This filter takes the Bible data as it is stored in Bibledit-Web's database, 
+  * and transfers this information into the layout in books and chapters
+  * such as is used in Bibledit-Gtk into $directory.
+  * The $directory is supposed to be completely empty.
+  */
+  public function database2filedata ($bible, $directory)
+  {
+    $database_bibles = Database_Bibles::getInstance ();
+    $database_books = Database_Books::getInstance ();
+    $books = $database_bibles->getBooks ($bible);
+    foreach ($books as $book) {
+      $book_name = $database_books->getEnglishFromId ($book);
+      mkdir ("$directory/$book_name");
+      $chapters = $database_bibles->getChapters ($bible, $book);
+      foreach ($chapters as $chapter) {
+        mkdir ("$directory/$book_name/$chapter");
+        $data = $database_bibles->getChapter ($bible, $book, $chapter);
+        file_put_contents ("$directory/$book_name/$chapter/data", $data);
+      }
+    }
+  }
+      
+
+  
+
+}
+
+
+?>

@@ -98,6 +98,11 @@ $database_snapshots->trim(true);
 $database_snapshots->optimize();
 
 
+// The repositories table.
+$database_repositories = Database_Repositories::getInstance();
+$database_repositories->optimize();
+
+
 // Done.
 message_information ("Ready");
 

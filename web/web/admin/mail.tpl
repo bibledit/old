@@ -13,8 +13,9 @@
     <h1>{t}Mail{/t}</h1>
     <p>{t}This page deals with setting up the email system.{/t}</p>
 
+    <a name="name"></a>
     <h2>{t}Site name and email address{/t}</h2>
-    <form action="mail.php" name="email" method="post">
+    <form action="mail.php#name" name="email" method="post">
       <p>{t}The name and the email address of the site will appear on any emails sent out from this site. If the Ndebele Bible, for example, is being translated on this site, then the name could be, e.g. "Ndebele Bible Translation", and the email address could be, e.g. "ndebeletranslation@gmail.com". Or anything that suits you. To switch the mailer off, make the fields empty.{/t}</p>
       <h4>{t}Enter the name and the email address, and press Submit.{/t}</h4>
       <table>
@@ -35,8 +36,9 @@
       </table>
     </form>
 
+    <a name="retrieve"></a>
     <h2>{t}Retrieving mail{/t}</h2>
-    <form action="mail.php" name="retrieve" method="post">
+    <form action="mail.php#retrieve" name="retrieve" method="post">
       <p>{t}Bibledit will retrieve email from the account specified below, and act on it. When you submit new values, Bibledit will attempt to contact this account and tell you how many messages there are. If something goes wrong, the message given may be cryptic at times. Please enter the correct details for this to work. Normally the "Port" can be left empty. The right port will be chosen automatically. To give an example, to retrieve mail from a gmail account, set the following: POP3 Host: pop.gmail.com; Username: yourusername@gmail.com; Password: yourpassword; Security: SSL.{/t}</p>
       <h4>{t}Enter the account details, and press Submit.{/t}</h4>
       <table>
@@ -74,8 +76,9 @@
       </table>
     </form>
 
+    <a name="send"></a>
     <h2>{t}Sending mail{/t}</h2>
-    <form action="mail.php" name="send" method="post">
+    <form action="mail.php#send" name="send" method="post">
       <p>{t}Bibledit will send out emails through the account specified below. When you submit new values, Bibledit will attempt to send an email the site's email address. If something goes wrong, the message given may be cryptic at times. Please enter the correct details for this to work. If the SMTP server does not need authenticaton, just leave the fields for the username and the password empty. If the SMTP Host is left empty, it will use the default sendmail transport. If you'd like to know the types of settings to make here, you can search the internet for the name of the module used (Zend_Mail) and the server. When searching for, e.g. "Zend_Mail" and "smtp.google.com" one would find how to to it: SMTP: smtp.gmail.com, auth => login, username => YOUR_USERNAME@gmail.com, password => YOUR_PASSWORD, ssl => ssl, port => 465.{/t}</p>
       <h4>{t}Enter the account details, and press Submit.{/t}</h4>
       <table>

@@ -123,5 +123,8 @@ dd {
 textarea {
   width: 100%;
   height: 20em;
-	
+}
+
+table {
+  width: 100%;
 }

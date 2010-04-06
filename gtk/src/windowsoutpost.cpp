@@ -193,7 +193,6 @@ void WindowsOutpost::thread_start(gpointer data)
 
 void WindowsOutpost::thread_main()
 {
-  extern Settings *settings;
   thread_running = true;
   while (thread_run) {
     switch (stage) {

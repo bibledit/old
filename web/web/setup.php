@@ -174,6 +174,11 @@
   $database_ipc->verify();
   flush ();
     
+  // The repositories table.
+  $database_repositories = Database_Repositories::getInstance();
+  $database_repositories->verify();
+  flush ();
+    
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

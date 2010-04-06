@@ -72,8 +72,8 @@ if (isset($_POST['send'])) {
   $config_general->setMailSendPort           ($sendport);
   $send_success .= " " . gettext ("The details were saved.");
   try {
-    $mail = new Mail_Send($config_general->getSiteMailAddress(), $config_general->getSiteMailName(), "Test", "This is to try out whether Bibledit can send email.");
-    $send_success .= " " . gettext ("For the purpose of trying whether Bibledit can send email, a test email was sent out to the account above:") . " " . $config_general->getSiteMailAddress();
+    $mail = new Mail_Send($config_general->getSiteMailAddress(), $config_general->getSiteMailName(), "Test", "This is to try out whether Bibledit-Web can send email.");
+    $send_success .= " " . gettext ("For the purpose of trying whether Bibledit-Web can send email, a test email was sent out to the account above:") . " " . $config_general->getSiteMailAddress();
   } catch (Exception $e) {
     $send_error .= " " . $e->getMessage ();
   }

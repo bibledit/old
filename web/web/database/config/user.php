@@ -42,6 +42,7 @@ EOD;
     $session_logic = Session_Logic::getInstance();
     $username = $session_logic->currentUser();
     $username = Database_SQLInjection::no ($username);
+    $bible = Database_SQLInjection::no ($bible);
     $database = Database_Instance::getInstance ();
     $query = "SELECT value FROM config_user WHERE username = '$username' AND bible = '$bible' AND ident = '$key';";
     $result = $database->runQuery ($query);
@@ -55,11 +56,34 @@ EOD;
     $session_logic = Session_Logic::getInstance();
     $username = $session_logic->currentUser();
     $username = Database_SQLInjection::no ($username);
-    $database = Database_Instance::getInstance ();
+    $bible = Database_SQLInjection::no ($bible);
     $value = Database_SQLInjection::no ($value);
+    $database = Database_Instance::getInstance ();
     $query = "DELETE FROM config_user WHERE username = '$username' AND bible = '$bible' AND ident = '$key';";
     $database->runQuery ($query);
     $query = "INSERT INTO config_user VALUES (NULL, '$username', '$bible', '$key', '$value', 0);";    
+    $database->runQuery ($query);
+  }
+
+
+  private function getValueForBible ($bible, $key, $default) {
+    $bible = Database_SQLInjection::no ($bible);
+    $database = Database_Instance::getInstance ();
+    $query = "SELECT value FROM config_user WHERE bible = '$bible' AND ident = '$key';";
+    $result = $database->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return $default;
+    }
+    $result_array = $result->fetch_row();
+    return $result_array [0];
+  }
+  private function setValueForBible ($bible, $key, $value) {
+    $bible = Database_SQLInjection::no ($bible);
+    $value = Database_SQLInjection::no ($value);
+    $database = Database_Instance::getInstance ();
+    $query = "DELETE FROM config_user WHERE bible = '$bible' AND ident = '$key';";
+    $database->runQuery ($query);
+    $query = "INSERT INTO config_user VALUES (NULL, '', '$bible', '$key', '$value', 0);";    
     $database->runQuery ($query);
   }
 
@@ -98,7 +122,17 @@ EOD;
   {
     $this->setValue ("", "bible", $bible);
   }   
-  
+ 
+ 
+  public function getRemoteRepositoryUrl ($bible)
+  {
+    return $this->getValueForBible ($bible, "remote-repo-url", "");
+  }
+  public function setRemoteRepositoryUrl ($bible, $url)
+  {
+    $this->setValueForBible ($bible, "remote-repo-url", $url);
+  }
+    
 
 
 

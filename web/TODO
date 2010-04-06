@@ -1,4 +1,330 @@
+To create repository database, with $bible and $data (binary);
+
+It needs a couple of "filters"
+Filter_Git
+: repository2database
+: database2repository
+
+To use PHPUnit extensively to test this.
+
+
+$data = addslashes(fread(fopen($form_data, "r"), filesize($form_data)));
+$result=MYSQL_QUERY("INSERT INTO binary_data (description,bin_data,filename,filesize,filetype) ".
+"VALUES ('$form_description','$data','$form_data_name','$form_data_size','$form_data_type')");
+
+$id= mysql_insert_id();
+
+
+
+There will be another one that detects merge conflicts,
+and another one that resolves merge conflicts.
+
+
+
+
+
+  // GUI for pushing our data into the remote repository.
+See below
+
+
+  // Conflict resolution = always : repository.
+  // But show conflicts on the page if there were any.
+
+At the end, apply the changes, that is, set URL and wrap up the checkout directory into the database in binary form.
+
+
+
+
+
+
+
+
+
+
+
+void RemoteRepositoryAssistant::on_button_push ()
+/*
+It copies the existing data, without the .git directory, into the persistent clone,
+replaces any data that was there, and then pushes this data to the remote repository.
+This makes the remote repository to have an exact copy of our data.
+*/
+{
+
+  
+  // Copy our data into a temporal location.
+  ustring my_data_directory = notes_shared_storage_folder ();
+  if (bible_notes_selector_bible ())
+    my_data_directory = project_data_directory_project(bible);
+  ustring temporal_data_directory = git_testing_directory ("mydata");
+  unix_cp_r (my_data_directory, temporal_data_directory);
+
+  // In rare cases a .git directory could have been copied along with our data. Remove that.
+  unix_rmdir (gw_build_filename (temporal_data_directory, ".git"));
+
+  // Remove all directories and all files from the persistent clone directory, but leave the .git directory
+  {
+    ReadDirectories rd (persistent_clone_directory, "", "");
+    for (unsigned int i = 0; i < rd.directories.size(); i++) {
+      if (rd.directories[i] != ".git") {
+        unix_rmdir (gw_build_filename (persistent_clone_directory, rd.directories[i]));
+      }
+    }
+    ReadFiles rf (persistent_clone_directory, "", "");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      unlink (gw_build_filename (persistent_clone_directory, rf.files[i]).c_str());
+    }
+  }
+  
+  // Move our data, from its temporal location, into the persistent clone directory.
+  progresswindow.set_fraction (0.4);
+  {
+    ReadDirectories rd (temporal_data_directory, "", "");
+    for (unsigned int i = 0; i < rd.directories.size(); i++) {
+      unix_mv (gw_build_filename (temporal_data_directory, rd.directories[i]), persistent_clone_directory);
+    }
+    ReadFiles rf (temporal_data_directory, "", "");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      unix_mv (gw_build_filename (temporal_data_directory, rf.files[i]), persistent_clone_directory);
+    }
+  }
+
+  // Commit the new data in the persistent clone directory.
+  progresswindow.set_fraction (0.55);
+  {
+    GwSpawn spawn ("git");
+    spawn.workingdirectory (persistent_clone_directory);
+    spawn.arg ("add");
+    spawn.arg (".");
+    spawn.run ();
+  }
+  progresswindow.set_fraction (0.65);
+  {
+    GwSpawn spawn ("git");
+    spawn.workingdirectory (persistent_clone_directory);
+    spawn.arg ("commit");
+    spawn.arg ("-a");
+    spawn.arg ("-m");
+    spawn.arg ("user data into repo");
+    spawn.run ();
+  }
+
+  // Push our data to the remote repository.
+  progresswindow.set_fraction (0.8);
+  GwSpawn spawn("git");
+  spawn.workingdirectory(persistent_clone_directory);
+  spawn.arg ("push");
+  spawn.run();
+
+  // Take action depending on the outcome of pushing to the remote repository.
+  if (spawn.exitstatus == 0) {
+    // Clone okay.
+    gtk_label_set_text (GTK_LABEL (label_push), "Your data has been pushed to the remote repository");
+  } else {
+    // Clone failed.
+    gtk_label_set_text (GTK_LABEL (label_push), "Your data could not be pushed to the remote repository,\nplease restart the assistant");
+    repository_unclone();
+  }  
+}
+
+
+
+
+
+
+
 Synchronisation with git repository.
+
+Since all data is stored in the database, even the .git directory, and whatever belongs to it, 
+is to be stored in a database. WE could tar the directory up, then store it as binary data in the database.
+So each time a send/receive is done, this needs to be extracted from the database, then stored in the .git directory,
+and then all real data files to be added as well, and then the git pull and push can run, and finally it 
+needs to wrap everything up and store it back into the database.
+
+Each setup page does as sync just to be sure.
+
+
+
+
+
+
+
+
+  {include file=../assets/install_ssh.tpl} 
+$which_ssh = new Filter_Which ("ssh");
+$smarty->assign ("ssh", $which_ssh->available);
+
+
+
+
+if (isset($_POST['keys'])) {
+  $database_config_general->setPrivateSshKey($_POST['privatevalue']);
+  $database_config_general->setPublicSshKey($_POST['publicvalue']);
+}
+$privatekey = $database_config_general->getPrivateSshKey();
+$publickey = $database_config_general->getPublicSshKey();
+if (($privatekey == "") || ($publickey == "") || (isset($_GET['newkeys']))) {
+  $filename = tempnam (sys_get_temp_dir(), '');
+  unlink ($filename);
+  ob_start ();
+  system ("ssh-keygen -t dsa -b 1024 -N '' -f $filename");
+  ob_end_clean();
+  /*
+  This generates a passphrase-less key pair with secure permissions:
+  -rw------- 1 www-data www-data 668 2010-04-02 14:25 key
+  -rw-r--r-- 1 www-data www-data 604 2010-04-02 14:25 key.pub
+  */
+  $privatekey = file_get_contents ($filename);
+  unlink ($filename); // Private key should not be lying around.
+  $publickey  = file_get_contents ("$filename.pub");
+  $database_config_general->setPrivateSshKey($privatekey);
+  $database_config_general->setPublicSshKey($publickey);
+}
+$smarty->assign ("privatekey", $privatekey);
+$smarty->assign ("publickey", $publickey);
+
+
+
+
+  <h2>2.2 {t}Open network repository setup{/t}</h2>
+  <p>{t}In this tutorial you are going to set up an open repository on the network.{/t}</p>
+  <p>{t}You need a server to run this repository. Any of your Linux computers attached to your network will do. In this tutorial we assume that the computer is accessible from the network through IP address 192.168.0.1. The user of this computer will be Jim.{/t}</p>
+  <p>{t}To create the repository, login as user jim. Then open a terminal. The repository is going to be in Jim's home directory. In the terminal type the following:{/t}</p>
+  <pre>
+cd
+mkdir -p git/repository
+cd git/repository
+git --bare init --shared
+  </pre>
+  <p>{t}The repository is now there, but it is not yet accessible from the network.{/t}</p>
+  <p>{t}To make the repository available to the network, type:{/t}</p>
+  <pre>git daemon --export-all --base-path=/home/jim/git --detach --enable=receive-pack</pre>
+  <p>{t}Each time that the server boots, it is necessary to execute the above command again. It would be easier to put the command in the boot script. Then it will automatically be started after boot.{/t}</p>
+  <p>{t}To test access to the new repository from another computer on the network, type:{/t}</p>
+  <pre>git ls-remote git://192.168.0.1/repository</pre>
+  <p>{t}If everything is fine, no errors will occur.{/t}</p>
+  <p>{t}The repository that was created in this tutorial has the following URL:{/t}</p>
+  <pre>git://192.168.0.1/repository</pre>
+  <p>{t}When you are going to use this repository, you need this URL.{/t}</p>
+
+  <h2>2.3 {t}Secure network repository setup{/t}</h2>
+  <p>{t}In this tutorial you are going to set up a secure network repository.{/t}</p>
+  <p>{t}It uses a git repository on sourceforge.net.{/t}</p>
+  <p>{t}Open an account on http://sourceforge.net. We will use the username "joe" in this tutorial.{/t}</p>
+  <p>{t}Register a new project on your personal account page on sourceforge.net. Let's call this project "repo2".{/t}</p>
+  <p>{t}Enable project feature "Git" on this project. This provides the repository.{/t}</p>
+  <p>{t}The next thing is to try whether you can read the repository properly. To try that, open a terminal and issue the following command:{/t}</p>
+  <pre>git ls-remote ssh://joe@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>
+  <p>{t}This command probably will ask for your password, and the first time it could ask you whether you want to continue connecting. But it should show no errors. If it completes without errors, then your secure repository works well.{/t}</p>
+  <p>{t}The repository that was created in this tutorial has the following URL:{/t}</p>
+  <pre>ssh://user@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>
+  <p>{t}Later, when you are going to use this repository you need this URL. Where it says "user", you would need to fill in the username that can access the account on sourceforge.net.{/t}</p>
+
+  <h2>2.3 {t}Secure shell keys setup{/t}</h2>
+  <p>{t}When your remote repository is a secure one, and you'd like Bibledit-Web to use it, then is is necessary to set up secure shell keys. These keys allow easy access to the secure repository. Please follow the tutorial exactly, as minor deviations may result in the system not working as expected.{/t}</p>
+
+  <a name="keys"></a>
+  <h3>{t}Generating the keys{/t}</h3>
+  <p>{t}Here are the keys that can be used. Bibledit has generated or kept them for you.{/t}</p>
+  <form action="collaboration.php#keys" name="keys" method="post">
+    <table>
+      <tr>
+        <td>{t}Private key{/t}</td>
+        <td>{t}Public key{/t}</td>
+      </tr>
+      <tr>
+        <td><textarea name="privatevalue">{$privatekey}</textarea></td>
+        <td><textarea name="publicvalue">{$publickey}</textarea></td>
+      </tr>
+    </table>
+    <input type="submit" name="keys" value={t}Update{/t} /></p>
+  </form>
+  <p>{t}Optionally, if you would like to use your own private and public keys, you can paste these above, and then press button Update above. Or if you empty the keys, and then press button Update, the keys will be regenerated.{/t}</p>
+
+  <h3>{t}Enter the public key{/t}</h3>
+  <p>{t}Open a personal account at sourceforge.net. Let's choose user name "repouser". Ask the project administrator whether he can add user "repouser" to the "repo2" project as a developer. Joining this project as a developer will give you the permissions to write to the repository.{/t}</p>
+  <p>{t}On your personal account page at sourceforge.net, choose Services, then choose "Edit SSH Keys for Shell/CVS". Select all the text of the public key and copy it to the clipboard. Be sure it is the public key, not the private one. In the screen titled "SSH Keys", there is a place where it says "Authorized keys:". Paste the text of the public key into that space on the web page. After checking that everything looks fine, press button "Update". Synchronizing the keys into the system has a 10 minute delay.{/t}</p>
+  <p>{t}The next step is to tell the secure shell where to find the private key when we connect to sourceforge.net, and to set a few other important options. To do that, open file ~/.ssh/config in gedit. Enter the entry for sourceforge.net, like so:{/t}</p>
+  <pre>
+Host *sourceforge.net
+     IdentityFile ~/.ssh/bibledit-ssh-key
+     BatchMode yes
+     StrictHostKeyChecking no
+  </pre>
+  <p>{t}Save the file.{/t}</p>
+  <p>{t}The above refers to a file called "bibledit-ssh-key". You have generated this key before.{/t}</p>
+  <p>{t}If the delay of 10 minutes has expired, we can now try whether the key pair works well. In the terminal, try to access the repository at sourceforge:{/t}</p>
+  <pre>git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>
+  <p>{t}If it works then it will give no errors, and list a few commits. If it does that, then the keys works well. If it asks for a password, or if there are errors, follow the tutorial again to get everything right.{/t}</p>
+  <p>{t}{/t}</p>
+  <p>{t}{/t}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+> Quoting r. Dennis Stosberg <dennis@stosberg.net>:
+> > Subject: Re: how to pass ssh options to git?
+> > 
+> > Michael S. Tsirkin wrote:
+> > 
+> > > I know, problem is I want to use different options at different times.
+> > > I could use -F configfile ssh option, but how to pass *that* to git?
+> >  
+> > You can set the path of the ssh executable to use with the GIT_SSH
+> > environment variable.  Create a shell script like
+> > 
+> > #!/bin/sh
+> > exec ssh --your-options-- $*
+> > 
+> > and make GIT_SSH point to it.
+> 
+> Thanks, I'll try that.
+
+It's really better to use a ".ssh/config" file instead.
+
+I realize that you want to use different options "dynamically", but what 
+you can do is to just have different "fake hostnames". For example, you 
+can do
+
+	Host private.host.com
+		User myname
+		Hostname host.com
+		IdentityFile /home/myname/.ssh/private-identity
+	Host public.host.com
+		User groupname
+		Hostname host.com
+		IdentityFile /home/myname/.ssh/public-identity
+
+and now you can ssh to "host.com" using different identities by just using 
+"private.host.com" and "public.host.com" respectively. You can do pretty 
+much any options that way.
+
+Very convenient, if you have just a couple of "standard" setups.
+
+Obviously we _could_ just add support for arbitrary ssh options, but it 
+gets pretty ugly pretty quickly, so I'd suggest trying to use the 
+.ssh/config approach with different hostnames if that is at all possible.
+
+		Linus
+-
+
+
+
+
+
+
+
+
+
+
 
 
 
