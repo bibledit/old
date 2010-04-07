@@ -1,36 +1,20 @@
-To create repository database, with $bible and $data (binary);
-
-It needs a couple of "filters"
-Filter_Git
-: repository2database
-: database2repository
-
-To use PHPUnit extensively to test this.
-
-
-$data = addslashes(fread(fopen($form_data, "r"), filesize($form_data)));
-$result=MYSQL_QUERY("INSERT INTO binary_data (description,bin_data,filename,filesize,filetype) ".
-"VALUES ('$form_description','$data','$form_data_name','$form_data_size','$form_data_type')");
-
-$id= mysql_insert_id();
-
-
-
-There will be another one that detects merge conflicts,
+There will be another Filter_Git method that detects merge conflicts,
 and another one that resolves merge conflicts.
+Use PHPUnit.
+Conflict resolution = always : repository.
+Show conflicts on the send/receive page if there were any.
 
 
 
+The Manage menu has Send/Receive, which opens a new window, and tells the user he can continue to work
+in the normal window, and leave the window going on its own, and at the end a "Close" button appears in that window.
 
 
-  // GUI for pushing our data into the remote repository.
-See below
+
+When saving data through Filter_Git, we need to ensure only numerical chapters are saved, not the 'status' files,
+and also, only if the chapter directory is a directory, and only if the "data" file exists.
 
 
-  // Conflict resolution = always : repository.
-  // But show conflicts on the page if there were any.
-
-At the end, apply the changes, that is, set URL and wrap up the checkout directory into the database in binary form.
 
 
 

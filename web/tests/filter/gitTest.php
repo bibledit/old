@@ -126,7 +126,6 @@ EOD;
     Filter_Git::database2filedata ($bible, $newdirectory);
 
     // Compare new directory with the standard one.
-    $exit_code;
     system ("diff -r $newdirectory $directory", &$exit_code);
     $this->assertEquals(0, $exit_code);
     
@@ -156,7 +155,6 @@ EOD;
     file_put_contents ("$directory/Song of Solomon/2/data", $this->song_of_solomon_2_data);
 
     // Create a git repository in the working directory.
-    $exit_code;
     system ("cd $directory; git init > /dev/null 2>&1", &$exit_code);
     $this->assertEquals(0, $exit_code);
     system ("cd $directory; git add .", &$exit_code);
@@ -164,10 +162,33 @@ EOD;
     system ("cd $directory; git commit -a -m test > /dev/null 2>&1", &$exit_code);
     $this->assertEquals(0, $exit_code);
 
-    // Todo
-    
-    echo $directory;
+    // Remove the data so the .git directory only is left.
+    unlink ("$directory/Psalms/0/data");
+    unlink ("$directory/Psalms/11/data");
+    unlink ("$directory/Song of Solomon/2/data");
+    rmdir ("$directory/Psalms/0");
+    rmdir ("$directory/Psalms/11");
+    rmdir ("$directory/Psalms");
+    rmdir ("$directory/Song of Solomon/2");
+    rmdir ("$directory/Song of Solomon");
 
+    // Run the filter.
+    $bible = "PHPUnit";
+    Filter_Git::repository2database ($directory, $bible);
+
+    // Copy the git repository from the database into a new directory.
+    $newdirectory = tempnam (sys_get_temp_dir(), '');
+    unlink ($newdirectory);
+    mkdir ($newdirectory);
+    Filter_Git::database2repository ($bible, $newdirectory);
+
+    // Compare new directory with the standard one.
+    system ("diff -r $newdirectory/.git $directory/.git", &$exit_code);
+    $this->assertEquals(0, $exit_code);
+    
+    // Tear down.
+    $database_repositories = Database_Repositories::getInstance();
+    $database_repositories->deleteRepository ($bible);
   }
 
 

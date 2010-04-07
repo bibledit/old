@@ -27,6 +27,8 @@ $url = $database_config_user->getRemoteRepositoryUrl ($bible);
 if (isset ($_GET ['disable'])) {
   $url = "";
   $database_config_user->setRemoteRepositoryUrl ($bible, $url);
+  $database_repositories = Database_Repositories::getInstance();
+  $database_repositories->deleteRepository ($bible);
 }
 $url = $database_config_user->getRemoteRepositoryUrl ($bible);
 $smarty->assign ("url", $url);

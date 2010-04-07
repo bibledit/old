@@ -63,7 +63,8 @@ class Filter_Git
   * This filter takes the Bible data as it is stored in Bibledit-Web's database, 
   * and transfers this information into the layout in books and chapters
   * such as is used in Bibledit-Gtk into $directory.
-  * The $directory is supposed to be completely empty.
+  * The $directory is supposed to be completely empty, 
+  * apart from a .git directory which may be there.
   */
   public function database2filedata ($bible, $directory)
   {
@@ -81,8 +82,40 @@ class Filter_Git
       }
     }
   }
-      
 
+
+  /**
+  * This filter takes a git repository as it is stored in .git
+  * in $directory, and transfers this information into Bibledit-Web's
+  * Repository database under name $bible.
+  */
+  public function repository2database ($directory, $bible)
+  {
+    // Put the .git directory in an uncompressed tar ball (-czf would compress it).
+    $filename = "git.tar";
+    system ("cd $directory; tar -cf $filename .git");
+    $data = fread(fopen("$directory/$filename", "r"), filesize("$directory/$filename"));
+    $database_repositories = Database_Repositories::getInstance();
+    $database_repositories->storeRepository ($bible, $data);    
+  }
+  
+
+  /**
+  * This filter takes the git repository for $bible
+  * as it is stored in Bibledit-Web's database, 
+  * and puts it in a .git directory in $directory.
+  * There should not be an existing .git directory in $directory,
+  * but other relevant data may be there.
+  */
+  public function database2repository ($bible, $directory)
+  {
+    $database_repositories = Database_Repositories::getInstance();
+    $data = $database_repositories->getRepository ($bible);
+    $filename = "git.tar";
+    file_put_contents ("$directory/$filename", $data);
+    system ("cd $directory; tar -xf $filename");
+    unlink ("$directory/$filename");
+  }
   
 
 }

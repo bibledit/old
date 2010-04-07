@@ -14,8 +14,8 @@
 
   <p>{t}There are two options:{/t}</p>
   <ol>
-    <li><em>{t}Take the data in the repository.{/t}</em> {t}Taking the data in the repository means that the Bible in the repository is left as it is, and that a copy of that Bible overwrites your own Bible in Bibledit-Web. This option is used most of the time.{/t} <a href="xxx.php?bible={$bible}&directory={$directory}">{t}Take the Bible in the repository.{/t}</a></li>
-    <li><em>{t}Take your own data.{/t}</em> {t}Taking your own data means that your Bible is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.{/t} <a href="xxx.php?bible={$bible}&directory={$directory}">{t}Take your Bible.{/t}</a></li>
+    <li><em>{t}Take the data in the repository.{/t}</em> {t}Taking the data in the repository means that the Bible in the repository is left as it is, and that a copy of that Bible overwrites your own Bible in Bibledit-Web. This option is used most of the time.{/t} <a href="collaboration_take_repo.php?bible={$bible}&directory={$directory}">{t}Take the Bible in the repository.{/t}</a></li>
+    <li><em>{t}Take your own data.{/t}</em> {t}Taking your own data means that your Bible is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.{/t} <a href="collaboration_take_bible.php?bible={$bible}&directory={$directory}">{t}Take your Bible.{/t}</a></li>
   </ol> 
   {include file=../assets/footer_full.tpl} 
   </body>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-02 19:47+0200\n"
+"POT-Creation-Date: 2010-04-06 19:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,4 +187,1665 @@ msgid "Running maintenance routine"
 msgstr ""
 
 msgid "Number of tables in the database after the routine: "
+msgstr ""
+
+msgid "Passwords do not match"
+msgstr ""
+
+msgid "Current password is not valid"
+msgstr ""
+
+msgid "The new password was saved"
+msgstr ""
+
+msgid "Email address is not valid"
+msgstr ""
+
+msgid "Email address verification"
+msgstr ""
+
+msgid ""
+"Somebody requested to change the email address that belongs to your account."
+msgstr ""
+
+msgid "Email address change"
+msgstr ""
+
+msgid ""
+"The email address that belongs to your account has been changed successfully."
+msgstr ""
+
+msgid "No changes were made"
+msgstr ""
+
+msgid "Demo plugin menu item 1"
+msgstr ""
+
+msgid "Demo plugin menu item 2"
+msgstr ""
+
+msgid "Demo plugin user menu item 1"
+msgstr ""
+
+msgid "Demo plugin user menu item 2"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "XXX"
+msgstr ""
+
+msgid "The site is not in operation at the moment."
+msgstr ""
+
+msgid "Member"
+msgstr ""
+
+msgid "Consultant"
+msgstr ""
+
+msgid "Translator"
+msgstr ""
+
+msgid "Manager"
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "Username or email address is too short"
+msgstr ""
+
+msgid "Account changed"
+msgstr ""
+
+msgid "Somebody requested a new password for your account."
+msgstr ""
+
+msgid "Here is the new password:"
+msgstr ""
+
+msgid ""
+"It is recommended to log into your account with this new password, and then "
+"change it."
+msgstr ""
+
+msgid ""
+"A message was sent to the email address belonging to this account to help "
+"you getting the password"
+msgstr ""
+
+msgid "Username or email address cannot be found"
+msgstr ""
+
+msgid ""
+"When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
+"behold, wise men from the east came to Jerusalem."
+msgstr ""
+
+msgid "What is the name of the island where John was sent to?"
+msgstr ""
+
+msgid "The email address is not valid"
+msgstr ""
+
+msgid ""
+"The email address that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid "Signup verification"
+msgstr ""
+
+msgid "Somebody requested to open an account with this email address."
+msgstr ""
+
+msgid "Account opened"
+msgstr ""
+
+msgid "Welcome! Your account is now active."
+msgstr ""
+
+msgid "Would you like to delete this versification system?"
+msgstr ""
+
+msgid "Please enter the name for the new versification system"
+msgstr ""
+
+msgid "Read access to the repository is successful."
+msgstr ""
+
+msgid "Read access failed. Please retry it, possibly with another URL."
+msgstr ""
+
+msgid "The email address does not appear to be valid"
+msgstr ""
+
+msgid "The name and email address were saved"
+msgstr ""
+
+msgid "The details were saved."
+msgstr ""
+
+msgid "The account was accessed successfully."
+msgstr ""
+
+msgid "Messages on server:"
+msgstr ""
+
+msgid ""
+"For the purpose of trying whether Bibledit-Web can send email, a test email "
+"was sent out to the account above:"
+msgstr ""
+
+msgid "Local addition was made successfully."
+msgstr ""
+
+msgid "Local addition failed."
+msgstr ""
+
+msgid "Local commit was made successfully."
+msgstr ""
+
+msgid "Local commit failed."
+msgstr ""
+
+msgid "Changes were pulled from the repository successfully."
+msgstr ""
+
+msgid "Pulling changes from the repository failed."
+msgstr ""
+
+msgid "Changes were pushed to the repository successfully."
+msgstr ""
+
+msgid "Pushing changes to the repository failed."
+msgstr ""
+
+msgid "Changes were committed to the repository successfully."
+msgstr ""
+
+msgid "Committing changes to the repository failed."
+msgstr ""
+
+msgid "Changes were pushed to the remote repository successfully."
+msgstr ""
+
+msgid "Pushing changes to the remote repository failed."
+msgstr ""
+
+msgid "The repository was cloned successfully."
+msgstr ""
+
+msgid "The repository could not be cloned."
+msgstr ""
+
+msgid "Which Bible are you going to use?"
+msgstr ""
+
+msgid "Would you like to change to another Bible?"
+msgstr ""
+
+msgid "Go to another book"
+msgstr ""
+
+msgid "Go to another chapter"
+msgstr ""
+
+msgid "Go to another verse"
+msgstr ""
+
+msgid "Chapter was saved."
+msgstr ""
+
+msgid "The following data could not be saved and was discarded:"
+msgstr ""
+
+msgid "The text was not valid Unicode UTF-8. The chapter could not saved."
+msgstr ""
+
+msgid ""
+"There was no text. Nothing was saved. The original text of the chapter was "
+"reloaded."
+msgstr ""
+
+msgid "This chapter does not exist or is empty"
+msgstr ""
+
+msgid ""
+"Please confirm this request by replying to this email. There is a "
+"confirmation number in the subject line. Your reply should have this same "
+"confirmation number in the subject line."
+msgstr ""
+
+msgid "Would you like to delete this stylesheet?"
+msgstr ""
+
+msgid "Please enter the name for the new stylesheet"
+msgstr ""
+
+msgid "Please enter the name for the style"
+msgstr ""
+
+msgid "Please enter the description for the style"
+msgstr ""
+
+msgid "Would you like to change the category of this style?"
+msgstr ""
+
+msgid "Here are the various categories:"
+msgstr ""
+
+msgid "Please pick one."
+msgstr ""
+
+msgid "Would you like to change the type of this style?"
+msgstr ""
+
+msgid "Here are the various types:"
+msgstr ""
+
+msgid "Would you like to change the sub type of this style?"
+msgstr ""
+
+msgid "Please enter a fontsize between 5 and 60 points"
+msgstr ""
+
+msgid "The value to enter is just a number, e.g. 12."
+msgstr ""
+
+msgid "Would you like to change whether this style is in italics?"
+msgstr ""
+
+msgid "Would you like to change whether this style is in bold?"
+msgstr ""
+
+msgid "Would you like to change whether this style is underlined?"
+msgstr ""
+
+msgid "Would you like to change whether this style is in small caps?"
+msgstr ""
+
+msgid "Would you like to change the text alignment of this style?"
+msgstr ""
+
+msgid "Please enter a space of between 0 and 100 mm before the paragraph"
+msgstr ""
+
+msgid ""
+"This is the space before, or in other words, above the paragraph. The value "
+"to enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a space of between 0 and 100 mm after the paragraph"
+msgstr ""
+
+msgid ""
+"This is the space after, or in other words, below the paragraph. The value "
+"to enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a left margin of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the left margin of the paragraph. The value to enter is just a "
+"number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a right margin of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the right margin of the paragraph. The value to enter is just a "
+"number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a first line indent of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the indent of the first line of the the paragraph. The value to "
+"enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please specify a new color"
+msgstr ""
+
+msgid "Would you like to change the numbering of the note?"
+msgstr ""
+
+msgid "Please enter a column number between 1 and 4"
+msgstr ""
+
+msgid "This is the column number for the style. The first columm is number 1."
+msgstr ""
+
+msgid "Would you like to change when the note numbering restarts?"
+msgstr ""
+
+msgid "Would you like to change the position where to dump the endnotes?"
+msgstr ""
+
+msgid "Please enter a new note numbering sequence"
+msgstr ""
+
+msgid ""
+"This gives a sequence for numbering the notes. When for example §†* is "
+"entered, the numbering goes like §, †, *, §, †, *, and so forth. Any "
+"sequence of characters can be used."
+msgstr ""
+
+msgid "Please enter a new addition to the word list entry"
+msgstr ""
+
+msgid ""
+"This given an optional string of character to be added after each definition "
+"for the word list. In some Bibles the unusual words may be marked with an "
+"asterisk and then explained in a glossary. If you would enter the asterisk "
+"here, or indeed any character, Bibledit would include this in the word "
+"definition."
+msgstr ""
+
+msgid "Please enter a marker at which the endnotes should be dumped"
+msgstr ""
+
+msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
+msgstr ""
+
+msgid "Would you like to switch to another stylesheet?"
+msgstr ""
+
+msgid "Identification information"
+msgstr ""
+
+msgid "Introduction titles and headings"
+msgstr ""
+
+msgid "Introduction paragraphs and poetry"
+msgstr ""
+
+msgid "Introduction other elements"
+msgstr ""
+
+msgid "Titles"
+msgstr ""
+
+msgid "Headings"
+msgstr ""
+
+msgid "Chapters and verses"
+msgstr ""
+
+msgid "Paragraphs"
+msgstr ""
+
+msgid "Lists"
+msgstr ""
+
+msgid "Poetry elements"
+msgstr ""
+
+msgid "Table elements"
+msgstr ""
+
+msgid "Footnotes"
+msgstr ""
+
+msgid "Crossreferences"
+msgstr ""
+
+msgid "Extended study notes"
+msgstr ""
+
+msgid "Special text"
+msgstr ""
+
+msgid "Character styles"
+msgstr ""
+
+msgid "Spacings and breaks"
+msgstr ""
+
+msgid "Special features"
+msgstr ""
+
+msgid "Peripheral materials"
+msgstr ""
+
+msgid "Extra styles"
+msgstr ""
+
+msgid "is an identifier"
+msgstr ""
+
+msgid "starts a new paragraph"
+msgstr ""
+
+msgid "is inline text with endmarker"
+msgstr ""
+
+msgid "is a chapter number"
+msgstr ""
+
+msgid "is a verse number"
+msgstr ""
+
+msgid "is a footnote or endnote"
+msgstr ""
+
+msgid "is a crossreference"
+msgstr ""
+
+msgid "is a peripheral element"
+msgstr ""
+
+msgid "is a picture"
+msgstr ""
+
+msgid "starts a new page"
+msgstr ""
+
+msgid "is a table element"
+msgstr ""
+
+msgid "is a word list element"
+msgstr ""
+
+msgid "identifies the book"
+msgstr ""
+
+msgid "identifies the encoding"
+msgstr ""
+
+msgid "is a comment"
+msgstr ""
+
+msgid "is a running header"
+msgstr ""
+
+msgid "is long table of contents text"
+msgstr ""
+
+msgid "is short table of contents text"
+msgstr ""
+
+msgid "is the book abbreviation"
+msgstr ""
+
+msgid "is the chapter label"
+msgstr ""
+
+msgid "is the published chapter marker"
+msgstr ""
+
+msgid "is a comment with an endmarker"
+msgstr ""
+
+msgid "is a main title"
+msgstr ""
+
+msgid "is a subtitle"
+msgstr ""
+
+msgid "is a section heading"
+msgstr ""
+
+msgid "is a normal paragraph"
+msgstr ""
+
+msgid "starts a footnote"
+msgstr ""
+
+msgid "starts an endnote"
+msgstr ""
+
+msgid "is standard content"
+msgstr ""
+
+msgid "is content"
+msgstr ""
+
+msgid "is content with endmarker"
+msgstr ""
+
+msgid "starts another paragraph"
+msgstr ""
+
+msgid "starts a crossreference"
+msgstr ""
+
+msgid "starts publication data"
+msgstr ""
+
+msgid "starts table of contents"
+msgstr ""
+
+msgid "starts preface"
+msgstr ""
+
+msgid "starts introduction"
+msgstr ""
+
+msgid "starts concordance"
+msgstr ""
+
+msgid "starts glossary"
+msgstr ""
+
+msgid "starts index"
+msgstr ""
+
+msgid "starts map index"
+msgstr ""
+
+msgid "starts cover"
+msgstr ""
+
+msgid "starts spine"
+msgstr ""
+
+msgid "starts a new row"
+msgstr ""
+
+msgid "is a column heading"
+msgstr ""
+
+msgid "is cell data"
+msgstr ""
+
+msgid "is a wordlist / glossary / dictionary entry"
+msgstr ""
+
+msgid "is a Hebrew wordlist entry"
+msgstr ""
+
+msgid "is a Greek wordlist entry"
+msgstr ""
+
+msgid "is a subject index entry"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Inherit"
+msgstr ""
+
+msgid "Toggle"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Center"
+msgstr ""
+
+msgid "Right"
+msgstr ""
+
+msgid "Justify"
+msgstr ""
+
+msgid "Print chapter number at first verse"
+msgstr ""
+
+msgid "Start on a new page"
+msgstr ""
+
+msgid "Refers to the Apocrypha"
+msgstr ""
+
+msgid "Restart paragraph"
+msgstr ""
+
+msgid "New page starts with an odd number"
+msgstr ""
+
+msgid "Print chapter number in the running header of the left page"
+msgstr ""
+
+msgid "Print this in the running header of the left page"
+msgstr ""
+
+msgid "Print chapter number in the running header of the right page"
+msgstr ""
+
+msgid "Print this in the running header of the right page"
+msgstr ""
+
+msgid "User defined sequence"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "Every book"
+msgstr ""
+
+msgid "Every chapter"
+msgstr ""
+
+msgid "After each book"
+msgstr ""
+
+msgid "After everything else"
+msgstr ""
+
+msgid "Upon encountering a certain marker"
+msgstr ""
+
+msgid "Would you like to delete"
+msgstr ""
+
+msgid "Access level change"
+msgstr ""
+
+msgid "Your access level was updated"
+msgstr ""
+
+msgid "Here are the various options:"
+msgstr ""
+
+msgid "Would you like to change the versification system?"
+msgstr ""
+
+msgid ""
+"A versification system determines how many chapters are in each book, and "
+"how many verses are in each chapter. Please make your choice below."
+msgstr ""
+
+msgid "Create book"
+msgstr ""
+
+msgid "Would you like to delete this book?"
+msgstr ""
+
+msgid "Would you like to delete this chapter?"
+msgstr ""
+
+msgid "Please enter the number for the new chapter"
+msgstr ""
+
+msgid "This chapter already exists"
+msgstr ""
+
+msgid "Could not import this data:"
+msgstr ""
+
+msgid "The following was imported:"
+msgstr ""
+
+msgid "Please supply valid Unicode UTF-8 text."
+msgstr ""
+
+msgid "Nothing was imported."
+msgstr ""
+
+msgid "Please enter a name for the new empty Bible"
+msgstr ""
+
+msgid "My area"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Inbox"
+msgstr ""
+
+msgid "Trash"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid ""
+"You can change your password or your email address. Your current email "
+"address is"
+msgstr ""
+
+msgid "Current password"
+msgstr ""
+
+msgid "New password"
+msgstr ""
+
+msgid "Again new password"
+msgstr ""
+
+msgid "New email address"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Styles"
+msgstr ""
+
+msgid "Demo plugin"
+msgstr ""
+
+msgid "Demo plugin for the Administration menu, page 2."
+msgstr ""
+
+msgid "Demo plugin for the Translation menu, page 2."
+msgstr ""
+
+msgid "Demo plugin for the Management menu, page 1."
+msgstr ""
+
+msgid "Plugin"
+msgstr ""
+
+msgid "Demo plugin for the User menu, page 1."
+msgstr ""
+
+msgid "Demo plugin for the Administration menu, page 1."
+msgstr ""
+
+msgid "Demo plugin for the Management menu, page 2."
+msgstr ""
+
+msgid "Demo plugin for the Translation menu, page 1."
+msgstr ""
+
+msgid "Demo plugin for the User menu, page 2."
+msgstr ""
+
+msgid ""
+"If you lost the password, submit your username or email address, and a new "
+"password will be emailed to you."
+msgstr ""
+
+msgid "Your email address?"
+msgstr ""
+
+msgid "Security question:"
+msgstr ""
+
+msgid "Hint to answer the security question:"
+msgstr ""
+
+msgid "You have logged in."
+msgstr ""
+
+msgid "There is mail for you."
+msgstr ""
+
+msgid "Forgot password?"
+msgstr ""
+
+msgid "A verification email has been sent."
+msgstr ""
+
+msgid "Versifications"
+msgstr ""
+
+msgid "This lists the currently available versification systems."
+msgstr ""
+
+msgid "You can create a new versification system."
+msgstr ""
+
+msgid "Versification system"
+msgstr ""
+
+msgid ""
+"This shows how many verses each chapter of the Bible has according to this "
+"versification system, and how many chapters each book has. The data is given "
+"in two formats. First in human readable form, and then in xml format if you "
+"scroll further down the page."
+msgstr ""
+
+msgid "Delete this versification"
+msgstr ""
+
+msgid "Book"
+msgstr ""
+
+msgid "Chapter"
+msgstr ""
+
+msgid "Verses"
+msgstr ""
+
+msgid ""
+"You can modify this versification system. To do that, copy the existing xml "
+"data from this page into an editor, make the changes, and paste the data "
+"back into the textbow below, and then submit it. It will overwrite whatever "
+"was there before."
+msgstr ""
+
+msgid "Program \"ssh\" cannot be found on this machine."
+msgstr ""
+
+msgid "To install this program, install a package called \"openssh-client\"."
+msgstr ""
+
+msgid "Management"
+msgstr ""
+
+msgid "Powered by"
+msgstr ""
+
+msgid "Program \"git\" is needed. But it cannot be found on this machine."
+msgstr ""
+
+msgid ""
+"To install this program, on Linux install a package called \"git-core\"."
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
+msgid "Please login to access this page"
+msgstr ""
+
+msgid ""
+"You do not currently have access to the page you try to view. There can be a "
+"few reasons for this. One reason may be that your session has timed out. To "
+"resolve this, log in and try again."
+msgstr ""
+
+msgid "Database"
+msgstr ""
+
+msgid "Database maintenance"
+msgstr ""
+
+msgid "Logbook"
+msgstr ""
+
+msgid "delete all"
+msgstr ""
+
+msgid "Timestamp"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Collaboration"
+msgstr ""
+
+msgid "Repository initialization"
+msgstr ""
+
+msgid ""
+"No URL has been given for the repository. Please go back to enter the URL."
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid ""
+"Newer versions of git can clone an empty repository, but older versions only "
+"clone repositories that have been initialized with some data."
+msgstr ""
+
+msgid ""
+"Just to be sure that everything will work well, in this tutorial you are "
+"going to put some data into the repository, then try to clone it to see how "
+"it now goes."
+msgstr ""
+
+msgid "Open a terminal, and issue the command as given:"
+msgstr ""
+
+msgid ""
+"In the tutorial about setting up the repository, the systems administrator "
+"had given the URL of the repository that was created. In the current "
+"tutorial we assume a URL of \"file:///media/usbstick/repository\". Of course "
+"others are possible, depending on what type of repository you have and where "
+"it resides."
+msgstr ""
+
+msgid ""
+"You need to put something into the repository. It does not matter what, "
+"anything will do. Let's proceed and put an empty file into the repository. "
+"Issue the commands as given:"
+msgstr ""
+
+msgid "It will say that an empty Git repository was initialized."
+msgstr ""
+
+msgid "It will say that an initial commit was created."
+msgstr ""
+
+msgid ""
+"It will give some information, which shows that data was written to the "
+"repository. No errors should occur."
+msgstr ""
+
+msgid "Clean out the temporal directory:"
+msgstr ""
+
+msgid "Now try to clone the repository:"
+msgstr ""
+
+msgid ""
+"It should say that an empty Git repository was created, give some more "
+"information, and show that objects were received. It is does this, and there "
+"are no errors, then everything is fine. Your repository has been initialized."
+msgstr ""
+
+msgid "Test read access"
+msgstr ""
+
+msgid "Bible"
+msgstr ""
+
+msgid "Repository URL"
+msgstr ""
+
+msgid ""
+"Bibledit-Web attempted to read data from this repository. This is the result:"
+msgstr ""
+
+msgid "The shell command that was used is:"
+msgstr ""
+
+msgid "If you'd like to retry, after updating the URL, press button Submit."
+msgstr ""
+
+msgid "Clone repository"
+msgstr ""
+
+msgid ""
+"Bibledit-Web attempts to clone the remote repository. The progress of this, "
+"and its results, are displayed below."
+msgstr ""
+
+msgid ""
+"You can only go to the next page after the cloning completed successfully."
+msgstr ""
+
+msgid ""
+"Bibledit-Web attempted to clone the remote repository. This is the result:"
+msgstr ""
+
+msgid "The shell command used:"
+msgstr ""
+
+msgid "The cloned git repository was optimized for your use."
+msgstr ""
+
+msgid "Web collaboration"
+msgstr ""
+
+msgid ""
+"With Bibledit-Web several translators can work on one Bible at the same time."
+msgstr ""
+
+msgid "There is nothing special needed to make this happen."
+msgstr ""
+
+msgid ""
+"The translators log into the site that runs Bibledit-Web, and translate "
+"there."
+msgstr ""
+
+msgid ""
+"All the data related to the Bible is saved on that website, and is available "
+"to all translators."
+msgstr ""
+
+msgid ""
+"When collaborating in this way, the information given below on the rest of "
+"the page is not relevant."
+msgstr ""
+
+msgid "Distributed collaboration"
+msgstr ""
+
+msgid ""
+"With distributed collaboration there are several copies of the Bible "
+"distributed all over the place or the globe."
+msgstr ""
+
+msgid ""
+"Translators that collaborate in this way do not need to be connected to the "
+"Internet all the time, or even not at all."
+msgstr ""
+
+msgid "The translators collaborate through the network or a USB drive."
+msgstr ""
+
+msgid ""
+"Once everything has been set up, it all goes automatic. The translator does "
+"not notice the mechanics of the collaboration. It all happens under the hood."
+msgstr ""
+
+msgid ""
+"There are a variety of methods for collaboration. The administrator who will "
+"set it all up needs to have sufficient knowledge of information technology."
+msgstr ""
+
+msgid ""
+"Bibledit-Web stores all data locally. When collaboration is enabled, it also "
+"connects to a central repository. Through that repository the data gets "
+"shared between the translators."
+msgstr ""
+
+msgid ""
+"Under the hood, Bibledit uses Git for collaboration. Git is a content "
+"manager. The translator does not notice that Git is used. He does not "
+"operate it directly. The only thing that the translator needs to do at "
+"regular times is to \"Send/Receive\" the Bible. After having done that, the "
+"changes in the Bible, made by the other translators, appear on his screen "
+"too. And the changes made by the translator get stored in the repository, "
+"and if the other translators do Send/Receive also, then these changes will "
+"reflect on their screens also."
+msgstr ""
+
+msgid "If distributed collaboration is used, it needs to be set up per Bible."
+msgstr ""
+
+msgid "Select which Bible to use."
+msgstr ""
+
+msgid "Distributed collaboration for this Bible is enabled."
+msgstr ""
+
+msgid "Disable it."
+msgstr ""
+
+msgid ""
+"There is a variety of repositories that can be used. Each of them has it own "
+"use, advantages and disadvantages."
+msgstr ""
+
+msgid "USB Flash Drive."
+msgstr ""
+
+msgid ""
+"First of all there is the repository that resides on a file system. A USB "
+"flash drive can be used in this case. This flash drive can be physically "
+"moved from one translator to the other, and so on, updating each translator, "
+"and getting updated by each translator."
+msgstr ""
+
+msgid "Set it up."
+msgstr ""
+
+msgid "Open Network Repository."
+msgstr ""
+
+msgid ""
+"Secondly there is the repository that resides on the network. For internal "
+"networks a simple open network repository can be used. Whoever knows where "
+"the repository resides can write to it."
+msgstr ""
+
+msgid "Secure Network Repository."
+msgstr ""
+
+msgid ""
+"For public networks such as the internet a secure network repository would "
+"be recommended. This type of repository is locked down. Only those who have "
+"the keys to such a repository can write to it."
+msgstr ""
+
+msgid "This page deals with setting up the email system."
+msgstr ""
+
+msgid "Site name and email address"
+msgstr ""
+
+msgid ""
+"The name and the email address of the site will appear on any emails sent "
+"out from this site. If the Ndebele Bible, for example, is being translated "
+"on this site, then the name could be, e.g. \"Ndebele Bible Translation\", "
+"and the email address could be, e.g. \"ndebeletranslation@gmail.com\". Or "
+"anything that suits you. To switch the mailer off, make the fields empty."
+msgstr ""
+
+msgid "Enter the name and the email address, and press Submit."
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Email address"
+msgstr ""
+
+msgid "Retrieving mail"
+msgstr ""
+
+msgid ""
+"Bibledit will retrieve email from the account specified below, and act on "
+"it. When you submit new values, Bibledit will attempt to contact this "
+"account and tell you how many messages there are. If something goes wrong, "
+"the message given may be cryptic at times. Please enter the correct details "
+"for this to work. Normally the \"Port\" can be left empty. The right port "
+"will be chosen automatically. To give an example, to retrieve mail from a "
+"gmail account, set the following: POP3 Host: pop.gmail.com; Username: "
+"yourusername@gmail.com; Password: yourpassword; Security: SSL."
+msgstr ""
+
+msgid "Enter the account details, and press Submit."
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Sending mail"
+msgstr ""
+
+msgid ""
+"Bibledit will send out emails through the account specified below. When you "
+"submit new values, Bibledit will attempt to send an email the site's email "
+"address. If something goes wrong, the message given may be cryptic at times. "
+"Please enter the correct details for this to work. If the SMTP server does "
+"not need authenticaton, just leave the fields for the username and the "
+"password empty. If the SMTP Host is left empty, it will use the default "
+"sendmail transport. If you'd like to know the types of settings to make "
+"here, you can search the internet for the name of the module used "
+"(Zend_Mail) and the server. When searching for, e.g. \"Zend_Mail\" and "
+"\"smtp.google.com\" one would find how to to it: SMTP: smtp.gmail.com, auth "
+"=> login, username => YOUR_USERNAME@gmail.com, password => YOUR_PASSWORD, "
+"ssl => ssl, port => 465."
+msgstr ""
+
+msgid "Repository data"
+msgstr ""
+
+msgid ""
+"You are now at a stage that the Bible data in Bibledit-Web, and the Bible "
+"data in the repository, needs to be synchronized. This means that some "
+"action needs to be taken to make these two sets of data the same. Not all "
+"the data in Bibledit-Web needs to be synchronized with the repository. It is "
+"only the data in the one Bible you are now dealing with."
+msgstr ""
+
+msgid "There are two options:"
+msgstr ""
+
+msgid "Take the data in the repository."
+msgstr ""
+
+msgid ""
+"Taking the data in the repository means that the Bible in the repository is "
+"left as it is, and that a copy of that Bible overwrites your own Bible in "
+"Bibledit-Web. This option is used most of the time."
+msgstr ""
+
+msgid "Take the Bible in the repository."
+msgstr ""
+
+msgid "Take your own data."
+msgstr ""
+
+msgid ""
+"Taking your own data means that your Bible is taken as it is, and that this "
+"is copied to the repository, overwriting whatever is there in the repository "
+"now."
+msgstr ""
+
+msgid "Take your Bible."
+msgstr ""
+
+msgid "Write to repository"
+msgstr ""
+
+msgid "A temporal file was added to the cloned repository:"
+msgstr ""
+
+msgid "The above changes were committed locally:"
+msgstr ""
+
+msgid "Changes were pulled from the remote repository:"
+msgstr ""
+
+msgid "Changes were pushed to the remote repository:"
+msgstr ""
+
+msgid "Changes were committed to the local repository:"
+msgstr ""
+
+msgid "USB flash drive repository setup"
+msgstr ""
+
+msgid ""
+"In this section you will set up a distributed repository on a USB flash "
+"drive."
+msgstr ""
+
+msgid "Formatting the flash drive"
+msgstr ""
+
+msgid ""
+"Normally a USB flash drive, as it comes out of the box, has been formatted "
+"with a FAT filesystem. Such a filesystem is not supported for collaboration. "
+"The stick needs to formatted to the ext3 or ext4 filesystem for "
+"collaboration to work. How this is done will be described here."
+msgstr ""
+
+msgid ""
+"Insert the flash drive into a computer running Linux, and wait a little till "
+"it gets mounted. It is supposed to mount automatically. If it does not mount "
+"on its own, then automatic mounting needs to be set up. Setting up automatic "
+"mounting goes beyond the scope of this tutorial."
+msgstr ""
+
+msgid "Open a terminal. In the terminal, give the command:"
+msgstr ""
+
+msgid "The output of this command can be something like:"
+msgstr ""
+
+msgid ""
+"Looking through the list of mounting points, we assume that the USB flash "
+"drive that was inserted mounts at /media/usbdisk. From there we can see that "
+"the device is /dev/sdd1. Once we have that information, we are ready for the "
+"next step."
+msgstr ""
+
+msgid ""
+"Before the stick can be formatted, it must be unmounted first. Issue the "
+"following command to unmount the stick:"
+msgstr ""
+
+msgid ""
+"The \"sudo\" in the command means that root privileges are needed to execute "
+"the command."
+msgstr ""
+
+msgid ""
+"To format the USB drive to the ext3 filesystem, issue the following command:"
+msgstr ""
+
+msgid ""
+"The formatting process will be visible and at the end some information about "
+"it will be given. At this point it is important to see if no errors occurred."
+msgstr ""
+
+msgid ""
+"The formatting command is very powerful. One could even format the main "
+"drive of the computer, wiping out all information. Extreme care should be "
+"used to ensure that the USB flash drive is going to be formatted, and "
+"nothing else."
+msgstr ""
+
+msgid "Labelling the flash drive"
+msgstr ""
+
+msgid ""
+"An internal label needs to be written to the USB drive. The reason of this "
+"is so as to make sure that this drive will always mount at the same mounting "
+"point. In this tutorial we write the label \"usbstick\" to it."
+msgstr ""
+
+msgid ""
+"We take it that the same device is being used as we used for formatting the "
+"drive. That is device /dev/sdd1. To write the label to the drive, issue the "
+"following two commands:"
+msgstr ""
+
+msgid ""
+"After the label has been written to it, remove the USB flash drive from the "
+"computer, and insert it again. It should now mount to the name of the label. "
+"In this case it should mount under /media/usbstick."
+msgstr ""
+
+msgid "This can be verified with command \"df\":"
+msgstr ""
+
+msgid "The output of this command:"
+msgstr ""
+
+msgid "This shows that it now mounts under the new name."
+msgstr ""
+
+msgid "Creating the repository on the flash drive"
+msgstr ""
+
+msgid "The USB flash drive will hold the data repository."
+msgstr ""
+
+msgid ""
+"To make this flash drive fit for collaboration, there are a few steps to be "
+"taken. These steps are:"
+msgstr ""
+
+msgid ""
+"1. The first step will be to create a directory for the repository, and to "
+"make that directory writable. If we assume that the flash drive mounts at /"
+"media/usbstick, then the command to create a directory called \"repository\" "
+"is:"
+msgstr ""
+
+msgid ""
+"Notice the \"sudo\" command, which means that this usually needs to be done "
+"by user root. If this is done by an ordinary user, permission would be "
+"denied."
+msgstr ""
+
+msgid ""
+"Once the directory for the repository is there, this directory needs to be "
+"made writable for ordinary users. This is the command:"
+msgstr ""
+
+msgid "Note the \"sudo\" again."
+msgstr ""
+
+msgid ""
+"Now it is time to check whether the USB drive is writable. We do this by "
+"trying to create a file in the repository. If this succeeds, then it is "
+"writable. Here's the command:"
+msgstr ""
+
+msgid ""
+"This command should complete without errors. After that the file needs to be "
+"removed again:"
+msgstr ""
+
+msgid ""
+"2. The second step is to make the USB stick the current working directory. "
+"Type:"
+msgstr ""
+
+msgid "3. The next step is to create a repository on the USB stick."
+msgstr ""
+
+msgid "To create a shared repository on the USB stick, type:"
+msgstr ""
+
+msgid ""
+"Git will respond saying that an empty shared Git repository has been created."
+msgstr ""
+
+msgid ""
+"4. The last step is to make the repository accessible to the web server's "
+"user. To do this, type the following two commands:"
+msgstr ""
+
+msgid ""
+"All steps have now been taken. Before removing the flash drive, ensure that "
+"the data gets written to it, by issuing the command:"
+msgstr ""
+
+msgid "This finishes setting up the repository on the USB flash drive."
+msgstr ""
+
+msgid "The repository that was created in this tutorial has the following URL:"
+msgstr ""
+
+msgid ""
+"Your own repository that you have created has a URL too, the one that will "
+"be used from now on. Please enter it below, and press the Submit button to "
+"save it."
+msgstr ""
+
+msgid "Go to"
+msgstr ""
+
+msgid "chapter"
+msgstr ""
+
+msgid "verse"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "The various styles for the Bible editor are contained in a stylesheet."
+msgstr ""
+
+msgid "The stylesheet you are currently using is:"
+msgstr ""
+
+msgid "switch"
+msgstr ""
+
+msgid "This lists the currently available stylesheets."
+msgstr ""
+
+msgid "You can create a new stylesheet."
+msgstr ""
+
+msgid "Style"
+msgstr ""
+
+msgid "Stylesheet"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "This style"
+msgstr ""
+
+msgid "This one"
+msgstr ""
+
+msgid "Font size"
+msgstr ""
+
+msgid "points"
+msgstr ""
+
+msgid "Italic"
+msgstr ""
+
+msgid "Bold"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "Small caps"
+msgstr ""
+
+msgid "Superscript"
+msgstr ""
+
+msgid "Text alignment"
+msgstr ""
+
+msgid "Space before"
+msgstr ""
+
+msgid "mm"
+msgstr ""
+
+msgid "Space after"
+msgstr ""
+
+msgid "Left margin"
+msgstr ""
+
+msgid "Right margin"
+msgstr ""
+
+msgid "First line indent"
+msgstr ""
+
+msgid "Span columns"
+msgstr ""
+
+msgid "Color"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "Print"
+msgstr ""
+
+msgid "Note numbering"
+msgstr ""
+
+msgid "Column number"
+msgstr ""
+
+msgid "Restart the note numbering"
+msgstr ""
+
+msgid "Position of endnote"
+msgstr ""
+
+msgid "User-defined note numbering sequence"
+msgstr ""
+
+msgid "Addition after word list entry"
+msgstr ""
+
+msgid "Dump endnotes when encountering marker"
+msgstr ""
+
+msgid "This shows the various styles contained in this stylesheet."
+msgstr ""
+
+msgid ""
+"You can modify this stylesheet. To do that, make changes to the existing xml "
+"data in the textbox below, and then submit it. It will overwrite whatever "
+"was there before."
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Bibles"
+msgstr ""
+
+msgid "ID"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "change"
+msgstr ""
+
+msgid "List"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Yes / No"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "Entry"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid ""
+"This shows the whole book exported into Unified Standard Format Markers data."
+msgstr ""
+
+msgid ""
+"See the Unified Standard Format Markers User Reference for more information "
+"about this format."
+msgstr ""
+
+msgid "Chapters:"
+msgstr ""
+
+msgid "Create chapter"
+msgstr ""
+
+msgid "Export whole book"
+msgstr ""
+
+msgid "Delete this book"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "This helps you with importing Unified Standard Format Markers data."
+msgstr ""
+
+msgid ""
+"To import the data, paste the data into the box below, and then press the "
+"Submit button."
+msgstr ""
+
+msgid "The data will overwrite similar data already in the Bible."
+msgstr ""
+
+msgid ""
+"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
+"that chapter already was in the Bible."
+msgstr ""
+
+msgid "It will not overwrite anything else."
+msgstr ""
+
+msgid "If Genesis 1 was not yet there, it will be created."
+msgstr ""
+
+msgid ""
+"You can import one chapter, or several chapters, or one book, or several "
+"books, all in one go."
+msgstr ""
+
+msgid ""
+"Bibledit will recognize books through the \\id markup and chapters through "
+"the \\c markup."
+msgstr ""
+
+msgid "The text to be imported should be in Unicode UTF-8 format."
+msgstr ""
+
+msgid "Available books"
+msgstr ""
+
+msgid "Import data"
+msgstr ""
+
+msgid "Export whole Bible"
+msgstr ""
+
+msgid "Delete this Bible"
+msgstr ""
+
+msgid "Delete this chapter"
+msgstr ""
+
+msgid ""
+"This shows the whole Bible exported into Unified Standard Format Markers "
+"data."
+msgstr ""
+
+msgid "Available Bibles:"
+msgstr ""
+
+msgid "Create a new empty Bible"
 msgstr ""

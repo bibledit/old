@@ -14,8 +14,8 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=300;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=12
+FILE_NAME_0=15688;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=166;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/collaboration_flash_drive_setup.php;0
 FILE_NAME_2=6585;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/collaboration_flash_drive_setup.tpl;0
 FILE_NAME_3=344;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/collaboration_repo_init.php;0
@@ -27,10 +27,8 @@ FILE_NAME_8=2549;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/
 FILE_NAME_9=647;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/collaboration_repo_read.php;0
 FILE_NAME_10=437;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/collaboration_repo_data.php;0
 FILE_NAME_11=1515;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/collaboration_repo_data.tpl;0
-FILE_NAME_12=3500;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
-FILE_NAME_13=7292;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/gitTest.php;0
-FILE_NAME_14=554;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/bibles.php;0
-FILE_NAME_15=3109;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0
-FILE_NAME_16=537;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/repositories.php;0
-FILE_NAME_17=5349;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/setup.php;0
-FILE_NAME_18=2478;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/database.php;0
+FILE_NAME_12=3588;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
+FILE_NAME_13=9850;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/gitTest.php;0
+FILE_NAME_14=4783;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/bibles.php;0
+FILE_NAME_15=3464;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0
+FILE_NAME_16=2478;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/admin/database.php;0
