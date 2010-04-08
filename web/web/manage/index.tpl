@@ -11,6 +11,7 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h1>{t}Management{/t}</h1>
+    <p><a href="sendreceive.php">{t}Send and Receive Bibles and Consultation Notes{/t}</a></p>
     <p><a href="users.php">{t}Users{/t}</a></p>
     <p><a href="../versification/index.php">{t}Versifications{/t}</a></p>
     <p><a href="../styles/indexm.php">{t}Styles{/t}</a></p>

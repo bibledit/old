@@ -9,6 +9,8 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h1>{t}Bibles{/t}</h1>
+    <p class="success">{$success_message}</p>
+    <p class="error">{$error_message}</p>
     <p>{t}Available Bibles:{/t}</p>
     <ul>
     {section name=offset loop=$bibles}

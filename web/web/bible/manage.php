@@ -52,6 +52,39 @@ if (isset($_POST['new'])) {
 }
 
 
+// Copy Bible handler. Todo
+$copy = $_GET['copy'];
+if (isset ($copy)) {
+  $dialog_entry = new Dialog_Entry (array ("origin" => $copy), gettext ("Please enter a name for where to copy the Bible to"), "", "", "");
+  die;
+}
+$origin = $_GET['origin'];
+if (isset ($origin)) {
+  $destination = $_POST['entry'];
+  if (isset($destination)) {
+    $bibles = $database_bibles->getBibles ();
+    if (in_array ($destination, $bibles)) {
+      $error_message = gettext ("Cannot copy Bible because the destination Bible already exists.");
+    } else {
+      $database_snapshots = Database_Snapshots::getInstance();
+      $database_bibles->createBible ($destination);
+      $books = $database_bibles->getBooks ($origin);
+      foreach ($books as $book) {
+        $chapters = $database_bibles->getChapters ($origin, $book);
+        foreach ($chapters as $chapter) {
+          $data = $database_bibles->getChapter ($origin, $book, $chapter);
+          $database_bibles->storeChapter ($destination, $book, $chapter, $data);
+          $database_snapshots->snapChapter ($destination, $book, $chapter, $data, false);
+        }
+      }
+      $success_message = gettext ("The Bible was copied.");
+    }
+  }
+}
+
+
+$smarty->assign ("success_message", $success_message);
+$smarty->assign ("error_message", $error_message);
 $bibles = $database_bibles->getBibles();
 $smarty->assign ("bibles", $bibles);
 $smarty->display ("manage.tpl");

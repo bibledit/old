@@ -19,7 +19,7 @@
   <p class="success">{$success_message}</p>
   {if $error_message == ""}
     <p>{t}Setting up collaboration is now ready.{/t}</p>
-    <p>{t}The Translator can now choose menu Send/Receive any time he wants to synchronize the Bible with the remote repository.{/t}</p>
+    <p>{t}The Manager can now choose menu Send/Receive any time he wants to synchronize Bibles with the remote repository.{/t}</p>
   {/if}
   {include file=../assets/footer_full.tpl} 
   </body>

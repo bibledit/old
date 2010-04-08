@@ -9,7 +9,6 @@ function message_information ($message) {
     echo $msg;
     echo "<br>\n";
   }
-  
 }
 
 
@@ -20,7 +19,6 @@ function message_warning_header ($message) {
   foreach ($messages as $msg) {
     echo "<h1> ", gettext ("Warning"), ": $msg</h1>\n";
   }
-  
 }
 
 
@@ -31,7 +29,16 @@ function message_warning ($message) {
   foreach ($messages as $msg) {
     echo gettext ("Warning"), ": $msg<br>\n";
   }
-  
+}
+
+
+// Outputs a message with code for the user.
+// It takes a string or an array of strings.
+function message_code ($message) {
+  $messages = func_get_args ();
+  foreach ($messages as $msg) {
+    echo "<p><code>$msg</code></p>\n";
+  }
 }
 
 

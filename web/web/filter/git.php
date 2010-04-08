@@ -31,17 +31,20 @@ class Filter_Git
         $chapter_numbers = array_diff ($chapter_numbers, array ('.', '..'));
         $chapter_numbers = array_values ($chapter_numbers);
         foreach ($chapter_numbers as $chapter_number) {
-          // Store data into database, but only when the new data differs from existing data.
-          // This reduces the number of snapshots created, and the time taken to complete the operation,
-          // assuming that in most cases the old does not differ from the new, which is a reasonable assumption.
-          $data = file_get_contents ("$directory/$book_name/$chapter_number/data");
-          $old_data = $database_bibles->getChapter ($bible, $book_id, $chapter_number);
-          if ($data != $old_data) {
-            $database_bibles->storeChapter ($bible, $book_id, $chapter_number, $data);
-            $database_snapshots->snapChapter ($bible, $book_id, $chapter_number, $data, false);
+          // Go ahead if $chapter_number is numerical.
+          if (is_numeric ($chapter_number)) {
+            // Store data into database, but only when the new data differs from existing data.
+            // This reduces the number of snapshots created, and the time taken to complete the operation,
+            // assuming that in most cases the old does not differ from the new, which is a reasonable assumption.
+            $data = file_get_contents ("$directory/$book_name/$chapter_number/data");
+            $old_data = $database_bibles->getChapter ($bible, $book_id, $chapter_number);
+            if ($data != $old_data) {
+              $database_bibles->storeChapter ($bible, $book_id, $chapter_number, $data);
+              $database_snapshots->snapChapter ($bible, $book_id, $chapter_number, $data, false);
+            }
+            // List the chapter number.
+            $stored_chapters [] = array ($book_id, $chapter_number);
           }
-          // List the chapter number.
-          $stored_chapters [] = array ($book_id, $chapter_number);
         }
       }
     }

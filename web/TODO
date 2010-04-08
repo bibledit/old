@@ -1,3 +1,14 @@
+Synchronisation with git repository.
+
+
+
+
+When syncing, the Bible the manager viewed last should be synced first, since other Bibles may take their time,
+thus blocking the sync of the Bible the manager viewed, and probably is most interested in.
+
+
+
+It needs to detect conflicts as well, and resolve these.
 There will be another Filter_Git method that detects merge conflicts,
 and another one that resolves merge conflicts.
 Use PHPUnit.
@@ -11,120 +22,13 @@ in the normal window, and leave the window going on its own, and at the end a "C
 
 
 
-When saving data through Filter_Git, we need to ensure only numerical chapters are saved, not the 'status' files,
-and also, only if the chapter directory is a directory, and only if the "data" file exists.
+Open repository setup to be implemented, and secure repository setup as well.
 
 
 
 
 
 
-
-
-
-
-
-
-
-void RemoteRepositoryAssistant::on_button_push ()
-/*
-It copies the existing data, without the .git directory, into the persistent clone,
-replaces any data that was there, and then pushes this data to the remote repository.
-This makes the remote repository to have an exact copy of our data.
-*/
-{
-
-  
-  // Copy our data into a temporal location.
-  ustring my_data_directory = notes_shared_storage_folder ();
-  if (bible_notes_selector_bible ())
-    my_data_directory = project_data_directory_project(bible);
-  ustring temporal_data_directory = git_testing_directory ("mydata");
-  unix_cp_r (my_data_directory, temporal_data_directory);
-
-  // In rare cases a .git directory could have been copied along with our data. Remove that.
-  unix_rmdir (gw_build_filename (temporal_data_directory, ".git"));
-
-  // Remove all directories and all files from the persistent clone directory, but leave the .git directory
-  {
-    ReadDirectories rd (persistent_clone_directory, "", "");
-    for (unsigned int i = 0; i < rd.directories.size(); i++) {
-      if (rd.directories[i] != ".git") {
-        unix_rmdir (gw_build_filename (persistent_clone_directory, rd.directories[i]));
-      }
-    }
-    ReadFiles rf (persistent_clone_directory, "", "");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      unlink (gw_build_filename (persistent_clone_directory, rf.files[i]).c_str());
-    }
-  }
-  
-  // Move our data, from its temporal location, into the persistent clone directory.
-  progresswindow.set_fraction (0.4);
-  {
-    ReadDirectories rd (temporal_data_directory, "", "");
-    for (unsigned int i = 0; i < rd.directories.size(); i++) {
-      unix_mv (gw_build_filename (temporal_data_directory, rd.directories[i]), persistent_clone_directory);
-    }
-    ReadFiles rf (temporal_data_directory, "", "");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      unix_mv (gw_build_filename (temporal_data_directory, rf.files[i]), persistent_clone_directory);
-    }
-  }
-
-  // Commit the new data in the persistent clone directory.
-  progresswindow.set_fraction (0.55);
-  {
-    GwSpawn spawn ("git");
-    spawn.workingdirectory (persistent_clone_directory);
-    spawn.arg ("add");
-    spawn.arg (".");
-    spawn.run ();
-  }
-  progresswindow.set_fraction (0.65);
-  {
-    GwSpawn spawn ("git");
-    spawn.workingdirectory (persistent_clone_directory);
-    spawn.arg ("commit");
-    spawn.arg ("-a");
-    spawn.arg ("-m");
-    spawn.arg ("user data into repo");
-    spawn.run ();
-  }
-
-  // Push our data to the remote repository.
-  progresswindow.set_fraction (0.8);
-  GwSpawn spawn("git");
-  spawn.workingdirectory(persistent_clone_directory);
-  spawn.arg ("push");
-  spawn.run();
-
-  // Take action depending on the outcome of pushing to the remote repository.
-  if (spawn.exitstatus == 0) {
-    // Clone okay.
-    gtk_label_set_text (GTK_LABEL (label_push), "Your data has been pushed to the remote repository");
-  } else {
-    // Clone failed.
-    gtk_label_set_text (GTK_LABEL (label_push), "Your data could not be pushed to the remote repository,\nplease restart the assistant");
-    repository_unclone();
-  }  
-}
-
-
-
-
-
-
-
-Synchronisation with git repository.
-
-Since all data is stored in the database, even the .git directory, and whatever belongs to it, 
-is to be stored in a database. WE could tar the directory up, then store it as binary data in the database.
-So each time a send/receive is done, this needs to be extracted from the database, then stored in the .git directory,
-and then all real data files to be added as well, and then the git pull and push can run, and finally it 
-needs to wrap everything up and store it back into the database.
-
-Each setup page does as sync just to be sure.
 
 
 

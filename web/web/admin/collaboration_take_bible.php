@@ -46,4 +46,7 @@ Filter_Git::repository2database ($newdirectory, $bible);
 // Display the page.
 $smarty->display("collaboration_take_bible.tpl");
 
+// Be sure to sync in case somebody unplugs the USB flash drive before data was fully written to it.
+exec ("sync");
+
 ?>
