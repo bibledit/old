@@ -11,6 +11,7 @@
   <body>
      {include file=../assets/header_full.tpl} 
     <h1>{t}Send and Receive Bibles and Consultation Notes{/t}</h1>
+    <p>{t}Please scroll down to the end of the page to see all messages in case there are many.{/t}</p>
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

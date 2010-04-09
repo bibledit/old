@@ -1,13 +1,7 @@
+
+
+
 Synchronisation with git repository.
-
-
-
-
-When syncing, the Bible the manager viewed last should be synced first, since other Bibles may take their time,
-thus blocking the sync of the Bible the manager viewed, and probably is most interested in.
-
-
-
 It needs to detect conflicts as well, and resolve these.
 There will be another Filter_Git method that detects merge conflicts,
 and another one that resolves merge conflicts.
@@ -17,82 +11,12 @@ Show conflicts on the send/receive page if there were any.
 
 
 
-The Manage menu has Send/Receive, which opens a new window, and tells the user he can continue to work
-in the normal window, and leave the window going on its own, and at the end a "Close" button appears in that window.
-
-
-
-Open repository setup to be implemented, and secure repository setup as well.
+Secure repository setup to be implemented.
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-  {include file=../assets/install_ssh.tpl} 
-$which_ssh = new Filter_Which ("ssh");
-$smarty->assign ("ssh", $which_ssh->available);
-
-
-
-
-if (isset($_POST['keys'])) {
-  $database_config_general->setPrivateSshKey($_POST['privatevalue']);
-  $database_config_general->setPublicSshKey($_POST['publicvalue']);
-}
-$privatekey = $database_config_general->getPrivateSshKey();
-$publickey = $database_config_general->getPublicSshKey();
-if (($privatekey == "") || ($publickey == "") || (isset($_GET['newkeys']))) {
-  $filename = tempnam (sys_get_temp_dir(), '');
-  unlink ($filename);
-  ob_start ();
-  system ("ssh-keygen -t dsa -b 1024 -N '' -f $filename");
-  ob_end_clean();
-  /*
-  This generates a passphrase-less key pair with secure permissions:
-  -rw------- 1 www-data www-data 668 2010-04-02 14:25 key
-  -rw-r--r-- 1 www-data www-data 604 2010-04-02 14:25 key.pub
-  */
-  $privatekey = file_get_contents ($filename);
-  unlink ($filename); // Private key should not be lying around.
-  $publickey  = file_get_contents ("$filename.pub");
-  $database_config_general->setPrivateSshKey($privatekey);
-  $database_config_general->setPublicSshKey($publickey);
-}
-$smarty->assign ("privatekey", $privatekey);
-$smarty->assign ("publickey", $publickey);
-
-
-
-
-  <h2>2.2 {t}Open network repository setup{/t}</h2>
-  <p>{t}In this tutorial you are going to set up an open repository on the network.{/t}</p>
-  <p>{t}You need a server to run this repository. Any of your Linux computers attached to your network will do. In this tutorial we assume that the computer is accessible from the network through IP address 192.168.0.1. The user of this computer will be Jim.{/t}</p>
-  <p>{t}To create the repository, login as user jim. Then open a terminal. The repository is going to be in Jim's home directory. In the terminal type the following:{/t}</p>
-  <pre>
-cd
-mkdir -p git/repository
-cd git/repository
-git --bare init --shared
-  </pre>
-  <p>{t}The repository is now there, but it is not yet accessible from the network.{/t}</p>
-  <p>{t}To make the repository available to the network, type:{/t}</p>
-  <pre>git daemon --export-all --base-path=/home/jim/git --detach --enable=receive-pack</pre>
-  <p>{t}Each time that the server boots, it is necessary to execute the above command again. It would be easier to put the command in the boot script. Then it will automatically be started after boot.{/t}</p>
-  <p>{t}To test access to the new repository from another computer on the network, type:{/t}</p>
-  <pre>git ls-remote git://192.168.0.1/repository</pre>
-  <p>{t}If everything is fine, no errors will occur.{/t}</p>
-  <p>{t}The repository that was created in this tutorial has the following URL:{/t}</p>
-  <pre>git://192.168.0.1/repository</pre>
-  <p>{t}When you are going to use this repository, you need this URL.{/t}</p>
 
   <h2>2.3 {t}Secure network repository setup{/t}</h2>
   <p>{t}In this tutorial you are going to set up a secure network repository.{/t}</p>
@@ -145,6 +69,48 @@ Host *sourceforge.net
   <p>{t}If it works then it will give no errors, and list a few commits. If it does that, then the keys works well. If it asks for a password, or if there are errors, follow the tutorial again to get everything right.{/t}</p>
   <p>{t}{/t}</p>
   <p>{t}{/t}</p>
+
+
+
+
+
+
+
+
+
+  {include file=../assets/install_ssh.tpl} 
+$which_ssh = new Filter_Which ("ssh");
+$smarty->assign ("ssh", $which_ssh->available);
+
+
+
+
+if (isset($_POST['keys'])) {
+  $database_config_general->setPrivateSshKey($_POST['privatevalue']);
+  $database_config_general->setPublicSshKey($_POST['publicvalue']);
+}
+$privatekey = $database_config_general->getPrivateSshKey();
+$publickey = $database_config_general->getPublicSshKey();
+if (($privatekey == "") || ($publickey == "") || (isset($_GET['newkeys']))) {
+  $filename = tempnam (sys_get_temp_dir(), '');
+  unlink ($filename);
+  ob_start ();
+  system ("ssh-keygen -t dsa -b 1024 -N '' -f $filename");
+  ob_end_clean();
+  /*
+  This generates a passphrase-less key pair with secure permissions:
+  -rw------- 1 www-data www-data 668 2010-04-02 14:25 key
+  -rw-r--r-- 1 www-data www-data 604 2010-04-02 14:25 key.pub
+  */
+  $privatekey = file_get_contents ($filename);
+  unlink ($filename); // Private key should not be lying around.
+  $publickey  = file_get_contents ("$filename.pub");
+  $database_config_general->setPrivateSshKey($privatekey);
+  $database_config_general->setPublicSshKey($publickey);
+}
+$smarty->assign ("privatekey", $privatekey);
+$smarty->assign ("publickey", $publickey);
+
 
 
 

@@ -34,6 +34,8 @@ if ($_GET['delete'] != "") {
   $confirm = $_GET['confirm'];
   if ($confirm != "") {
     $database_bibles->deleteBible ($bible);
+    $database_repositories = Database_Repositories::getInstance();
+    $database_repositories->deleteRepository ($bible);
   } else {
     $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete Bible $bible?"), "delete");
     die;

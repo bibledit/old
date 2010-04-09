@@ -11,7 +11,10 @@ flush ();
 $database_bibles = Database_Bibles::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $database_repositories = Database_Repositories::getInstance();
-$bibles = $database_bibles->getBibles();
+// The Bible that the user viewed last should be synced first, since other Bibles may take their time,
+// thus delaying the sync of the Bible the user viewed, and probably is most interested in.
+$bibles = array_merge (array ($database_config_user->getBible ()), $database_bibles->getBibles());
+$bibles = array_unique ($bibles);
 foreach ($bibles as $bible) {
   $remote_repository_url = $database_config_user->getRemoteRepositoryUrl ($bible);
   if ($remote_repository_url != "") {
@@ -34,24 +37,28 @@ foreach ($bibles as $bible) {
 
     $command = "cd $directory; git add . 2>&1";
     message_code ($command);
+    unset ($result);
     exec ($command, &$result, &$exit_code);
     foreach ($result as $line) message_code ($line);
     flush ();
     
     $command = "cd $directory; git commit -a -m sync 2>&1";
     message_code ($command);
+    unset ($result);
     exec ($command, &$result, &$exit_code);
     foreach ($result as $line) message_code ($line);
     flush ();
     
     $command = "cd $directory; git pull 2>&1";
     message_code ($command);
+    unset ($result);
     exec ($command, &$result, &$exit_code);
     foreach ($result as $line) message_code ($line);
     flush ();
 
     $command = "cd $directory; git push 2>&1";
     message_code ($command);
+    unset ($result);
     exec ($command, &$result, &$exit_code);
     foreach ($result as $line) message_code ($line);
     flush ();
