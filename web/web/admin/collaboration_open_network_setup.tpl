@@ -36,7 +36,7 @@ git --bare init --shared
   <p>{t}The repository that was created in this tutorial has the following URL:{/t}</p>
   <pre>git://192.168.0.1/repository</pre>
   <p>{t}Your own repository that you have created has a URL too, the one that will be used from now on. Please enter it below, and press the Submit button to save it.{/t}</p>
-  <form action="collaboration_flash_drive_setup.php?bible={$bible}#url" name="url" method="post">
+  <form action="collaboration_open_network_setup.php?bible={$bible}#url" name="url" method="post">
     <p><input type="text" name="urlvalue" value="{$url}" /></p>
     <p><input type="submit" name="url" value={t}Submit{/t} /></p>
   </form>

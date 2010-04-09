@@ -15,8 +15,6 @@
   <h2><a href="collaboration_repo_read.php?bible={$bible}">{t}Next page{/t}</a></h2>
   <p>{t}Newer versions of git can clone an empty repository, but older versions only clone repositories that have been initialized with some data.{/t}</p>  
   <p>{t}Just to be sure that everything will work well, in this tutorial you are going to put some data into the repository, then try to clone it to see how it now goes.{/t}</p>
-  <p>{t}Open a terminal, and issue the command as given:{/t}</p>  
-  <p>{t}In the tutorial about setting up the repository, the systems administrator had given the URL of the repository that was created. In the current tutorial we assume a URL of "file:///media/usbstick/repository". Of course others are possible, depending on what type of repository you have and where it resides.{/t}</p>  
   <p>{t}You need to put something into the repository. It does not matter what, anything will do. Let's proceed and put an empty file into the repository. Issue the commands as given:{/t}</p>  
   <pre>
 cd

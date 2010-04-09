@@ -42,4 +42,12 @@ function message_code ($message) {
 }
 
 
+function message_error ($message) {
+  $messages = func_get_args ();
+  foreach ($messages as $msg) {
+    echo "<p class=error>$msg</p>\n";
+  }
+}
+
+
 ?>

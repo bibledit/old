@@ -10,6 +10,9 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($bible);
 $smarty->assign ("url", $url);
 
+// In case the repository is secure, set up the secure keys.
+$secure_key_directory = Filter_Git::git_config ($url);
+
 $directory = tempnam (sys_get_temp_dir(), '');
 unlink ($directory);
 mkdir ($directory);
@@ -47,5 +50,8 @@ exec ("cd $directory; git config user.email \"$mail_address\"");
 $smarty->display("collaboration_repo_clone.tpl");
 
 exec ("sync");
+
+// For security reasons, remove the private ssh key.
+Filter_Git::git_un_config ($secure_key_directory);
 
 ?>

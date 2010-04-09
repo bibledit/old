@@ -26,6 +26,9 @@ foreach ($bibles as $bible) {
       message_warning (gettext ("Cannot send and receive this Bible because the git repository was not found in the database."));
       continue;
     }
+
+    $secure_key_directory = Filter_Git::git_config ($remote_repository_url);
+
     $directory = tempnam (sys_get_temp_dir(), '');
     unlink ($directory);
     mkdir ($directory);
@@ -53,7 +56,12 @@ foreach ($bibles as $bible) {
     message_code ($command);
     unset ($result);
     exec ($command, &$result, &$exit_code);
-    foreach ($result as $line) message_code ($line);
+    foreach ($result as $line) {
+      message_code ($line);
+      if (strstr ($line, "CONFLICT") !== false) {
+        message_error (gettext ("A conflict was found in the above book and chapter. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository."));
+      }
+    }
     flush ();
 
     $command = "cd $directory; git push 2>&1";
@@ -66,6 +74,8 @@ foreach ($bibles as $bible) {
     Filter_Git::filedata2database ($directory, $bible);
     Filter_Git::repository2database ($directory, $bible);
     flush ();
+
+    Filter_Git::git_un_config ($secure_key_directory);
 
     message_information (gettext ("This Bible has been done."));
     flush ();

@@ -10,6 +10,9 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($bible);
 $smarty->assign ("url", $url);
 
+// In case the repository is secure, set up the secure keys.
+$secure_key_directory = Filter_Git::git_config ($url);
+
 $directory = $_GET ['directory'];
 $smarty->assign ("directory", $directory);
 
@@ -23,5 +26,8 @@ Filter_Git::repository2database ($directory, $bible);
 
 // Display the page.
 $smarty->display("collaboration_take_repo.tpl");
+
+// For security reasons, remove the private ssh key.
+Filter_Git::git_un_config ($secure_key_directory);
 
 ?>

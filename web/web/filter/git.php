@@ -119,7 +119,58 @@ class Filter_Git
     system ("cd $directory; tar -xf $filename");
     unlink ("$directory/$filename");
   }
-  
+
+
+  /**
+  * Bibledit-Web accesses secure git repositories through ssh.
+  * This function sets up both git and ssh to use a configuration file
+  * and a private key.
+  * The $url is the URL of the secure git repository.
+  */
+  public function git_config ($url)
+  {
+    // Temporal directory where to put the config files.
+    $directory = tempnam (sys_get_temp_dir(), '');
+    unlink ($directory);
+    mkdir ($directory);
+
+    // Extract the host name from the $url.
+    $host = parse_url ($url, PHP_URL_HOST);
+
+$config_data = <<<EOD
+Host $host
+     IdentityFile $directory/key
+     BatchMode yes
+     StrictHostKeyChecking no
+EOD;
+    file_put_contents ("$directory/config", $config_data);
+    
+    $database_config_general = Database_Config_General::getInstance();
+    file_put_contents ("$directory/key", $database_config_general->getPrivateSshKey ());
+    chmod ("$directory/key", 0600);
+
+$git_ssh_data = <<<EOD
+#!/bin/sh
+exec ssh -F $directory/config $*
+EOD;
+    file_put_contents ("$directory/git_ssh", $git_ssh_data);
+    chmod ("$directory/git_ssh", 0777);
+    putenv ("GIT_SSH=$directory/git_ssh");
+
+    return $directory;    
+  }
+
+
+  /**
+  * Bibledit-Web accesses secure git repositories through ssh.
+  * This function remove the private key set up by git_config
+  */
+  public function git_un_config ($directory)
+  {
+    unlink ("$directory/key");
+  }
+      
+      
 
 }
 

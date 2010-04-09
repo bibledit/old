@@ -14,6 +14,9 @@ if (isset($_POST['url'])) {
 $url = $database_config_user->getRemoteRepositoryUrl ($bible);
 $smarty->assign ("url", $url);
 
+// In case the repository is secure, set up the secure keys.
+$secure_key_directory = Filter_Git::git_config ($url);
+
 $command = "git ls-remote $url 2>&1";
 $smarty->assign ("command", $command);
 ob_start ();
@@ -31,4 +34,8 @@ $smarty->assign ("success_message", $success_message);
 $smarty->assign ("error_message", $error_message);
 
 $smarty->display("collaboration_repo_read.tpl");
+
+// For security reasons, remove the private ssh key.
+Filter_Git::git_un_config ($secure_key_directory);
+
 ?>

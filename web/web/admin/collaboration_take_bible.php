@@ -10,6 +10,9 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($bible);
 $smarty->assign ("url", $url);
 
+// In case the repository is secure, set up the secure keys.
+$secure_key_directory = Filter_Git::git_config ($url);
+
 $directory = $_GET ['directory'];
 
 // Create new empty directory for the updated repository.
@@ -48,5 +51,8 @@ $smarty->display("collaboration_take_bible.tpl");
 
 // Be sure to sync in case somebody unplugs the USB flash drive before data was fully written to it.
 exec ("sync");
+
+// For security reasons, remove the private ssh key.
+Filter_Git::git_un_config ($secure_key_directory);
 
 ?>
