@@ -30,6 +30,18 @@ class Assets_Page
     $smarty->display ("xhtml_start.tpl");
     $smarty->display ("header_full.tpl");
   }
+  public function success ($message)
+  {
+    $smarty = new Smarty_Bibledit (__FILE__);
+    $smarty->assign ("message", $message);
+    $smarty->display ("success.tpl");
+  }
+  public function error ($message)
+  {
+    $smarty = new Smarty_Bibledit (__FILE__);
+    $smarty->assign ("message", $message);
+    $smarty->display ("error.tpl");
+  }
   public function footer ()
   {
     $smarty = new Smarty_Bibledit (__FILE__);

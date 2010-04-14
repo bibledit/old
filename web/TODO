@@ -1,39 +1,23 @@
-Assets_Navigator
-If necessary, this object obtains the data needed through the $_GET global, and acts upon it.
-It also adds to an array of query variables needed to be passed to the page.
-It also get the default php page to refer to when links are clicked.
-Some of the above can ony be done at the end, in particular display, when all data is known.
-Any $_GET variables are passed to the object, in case these needs to treat them, such as going to another book.
-Getting books / chapters / verses should not first come from the focus mechanism, 
-but first from the session, and only then from the focus.
-
-
+To automatically import translated templates from launchpad.
 bzr pull lp:~teusbenschop/bibledit/bibledit-pot
 bzr init
-
-The Dialog_* screens should not get all information in the constructor, but only the information used always.
-The rest is passed through separate calls.
-
-
-Directory desktop/index.php is the starting point for all desktops.
-Then passing ?desktop=text to it does the standard defined desktops.
-There are some standard desktops defined, which the user cannot modify.
-Objects are called that do the rendering.
-
-
-If uncommon variables are clicked, these need to be set fuller, 
-e.g. "<modulename><action>", e.g. "index.php?usfm_bible=test".
-The various objects handle the variables in order, and if one says  "die", 
-e.g. when user input is requested, then that has handled the request. 
-
-
 
 The site needs to have the concept of Desktops. Users can create store and erase these. 
 E.g. a desktop for editing, one for merging, etc.
 The desktops contain any number of screens or tools that the translator or consultant can use.
 There are standard Desktops included in the default application.
 When editing desktops the user can choose in which menu it will be displayed, and it will be displayed there.
-There is also a 'reset' to default in the desktop editor.
+
+Creating desktop "text".
+
+There are some standard desktops defined, which the user cannot modify.
+Objects are called that do the rendering.
+
+
+
+
+
+
 
 
 
@@ -53,12 +37,12 @@ But for as long as the navigator is not yet separated, then this is not needed, 
 
 
 When collaborating, or setting it up, we need to set the php time out to 0 (inifinite)
-Or better still would be to do as launchpad does, to start an independent process, and to monitor that through the page.
+Or better still would be to do as launchpad does, to start an independent process, and to monitor that through the page
+and ajax polling.
 This way there cannot be any timeouts, and the apache server remains free do continue serving other processes.
 
 
 
-To automatically import translation templates from launchpad.
 
 
 To add the bibledit-web concept to the wiki, or even Bibledit-Web's online help itself.

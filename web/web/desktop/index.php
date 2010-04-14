@@ -39,5 +39,12 @@ $assets_navigator->actions ();
 $assets_navigator->display ();
 
 
+if ($desktop == "text") {
+  $text_usfm = Text_Usfm::getInstance();
+  $text_usfm->actions ();
+  $text_usfm->display ();
+}
+
+
 Assets_Page::footer ();
 ?>
