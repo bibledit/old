@@ -54,7 +54,7 @@ if (isset($_POST['new'])) {
 }
 
 
-// Copy Bible handler. Todo
+// Copy Bible handler.
 $copy = $_GET['copy'];
 if (isset ($copy)) {
   $dialog_entry = new Dialog_Entry (array ("origin" => $copy), gettext ("Please enter a name for where to copy the Bible to"), "", "", "");

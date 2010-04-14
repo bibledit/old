@@ -40,6 +40,8 @@ class Assets_Navigator
   {
     $this->handle_switch_bible ();
     $this->handle_switch_book ();
+    $this->handle_switch_chapter ();
+    $this->handle_switch_verse ();
   }
 
   private function handle_switch_bible ()
@@ -90,7 +92,7 @@ class Assets_Navigator
     return $bible;
   }
 
-  private function handle_switch_book () // Todo
+  private function handle_switch_book ()
   {
     $switchbook = $_GET['switchbook'];
     if (isset ($switchbook)) {
@@ -121,15 +123,32 @@ class Assets_Navigator
   }
 
 
+  private function handle_switch_chapter ()
+  {
+    $switchchapter = $_GET['switchchapter'];
+    if (isset ($switchchapter)) {
+      if ($switchchapter == "") {
+        $dialog_list = new Dialog_List2 (gettext ("Go to another chapter"));
+        $dialog_list->horizontal ();
+        $database_bibles = Database_Bibles::getInstance();
+        $all_chapters = $database_bibles->getChapters($this->bible(), $this->book());
+        foreach ($all_chapters as $chapter) {
+          $dialog_list->add_row ($chapter, "&switchchapter=$chapter");
+        }
+        $dialog_list->run ();
+      } else {
+        $ipc_focus = Ipc_Focus::getInstance();
+        $ipc_focus->set ($this->book(), $switchchapter, 1);
+      }
+    }
+  }
+
+
   public function chapter () 
   {
-    // Take the book from the query.
-    $chapter = $_GET['chapter'];
-    // Else take the chapter from the user's focus.
-    if (!is_numeric ($chapter)) {
-      $ipc_focus = Ipc_Focus::getInstance();
-      $chapter = $ipc_focus->getChapter ();
-    }
+    // Take the chapter from the user's focus.
+    $ipc_focus = Ipc_Focus::getInstance();
+    $chapter = $ipc_focus->getChapter ();
     // Else take chapter number 1. This may not be in the active Bible.
     if (!is_numeric ($chapter)) {
       $chapter = 1;
@@ -139,15 +158,32 @@ class Assets_Navigator
   }
  
   
+  private function handle_switch_verse ()
+  {
+    $switchverse = $_GET['switchverse'];
+    if (isset ($switchverse)) {
+      if ($switchverse == "") {
+        $dialog_list = new Dialog_List2 (gettext ("Go to another verse"));
+        $dialog_list->horizontal ();
+        $database_bibles = Database_Bibles::getInstance();
+        $all_verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($this->bible(), $this->book(), $this->chapter()));
+        foreach ($all_verses as $verse) {
+          $dialog_list->add_row ($verse, "&switchverse=$verse");
+        }
+        $dialog_list->run ();
+      } else {
+        $ipc_focus = Ipc_Focus::getInstance();
+        $ipc_focus->set ($this->book(), $this->chapter(), $switchverse);
+      }
+    }
+  }
+  
+  
   public function verse () 
   {
-    // Take the verse from the query.
-    $verse = $_GET['verse'];
-    // Else take the verse from the user's focus.
-    if (!is_numeric ($verse)) {
-      $ipc_focus = Ipc_Focus::getInstance();
-      $verse = $ipc_focus->getVerse ();
-    }
+    // Take the verse from the user's focus.
+    $ipc_focus = Ipc_Focus::getInstance();
+    $verse = $ipc_focus->getVerse ();
     // Else take verse number 1. This may not be in the active Bible.
     if (!is_numeric ($verse)) {
       $verse = 1;
@@ -197,104 +233,5 @@ class Assets_Navigator
   
 }
 
-
-/*
-
-// Chapter.
-$chapter = $_GET['chapter'];
-$newchapter = $_GET['newchapter'];
-if (isset ($newchapter)) {
-  if ($newchapter == "") {
-    $dialog_list = new Dialog_List (array ("bible", "book", "chapter", "verse"), gettext ("Go to another chapter"), "", "", true);
-    $all_chapters = $database_bibles->getChapters($bible, $book);
-    foreach ($all_chapters as $chapter) {
-      $dialog_list->add_row ($chapter, "&newchapter=$chapter");
-    }
-    $dialog_list->run ();
-    die;
-  } else {
-    $chapter = $newchapter;
-  }
-}
-if (!isset ($chapter)) {
-  $chapter = $ipc_focus->getChapter();
-  if (!is_numeric ($chapter)) {
-    $chapter = 1;
-  }
-}
-
-// Verse.
-$verse = $_GET['verse'];
-$newverse = $_GET['newverse'];
-if (isset ($newverse)) {
-  if ($newverse == "") {
-    $dialog_list = new Dialog_List (array ("bible", "book", "chapter", "verse"), gettext ("Go to another verse"), "", "", true);
-    $all_verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
-    foreach ($all_verses as $verse) {
-      $dialog_list->add_row ($verse, "&newverse=$verse");
-    }
-    $dialog_list->run ();
-    die;
-  } else {
-    $verse = $newverse;
-  }
-}
-if (!isset ($verse)) {
-  $verse = $ipc_focus->getVerse();
-  if ($verse == "") {
-    $verse = 1;
-  }
-}
-
-
-
-
-
-
-$chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
-if (isset($_POST['submit'])) {
-  $data = $_POST['data'];
-  $data = trim ($data);
-  if ($data != "") {
-    if (Validate_Utf8::valid ($data)) {
-      $stylesheet = $database_config_user->getStylesheet();
-      $book_chapter_text = Filter_Usfm::import ($data, $stylesheet);
-      foreach ($book_chapter_text as $data) {
-        $book_number = $data[0];
-        $chapter_number = $data[1];
-        $chapter_data_to_save = $data[2];
-        if ((($book_number == $book) || ($book_number == 0)) && ($chapter_number == $chapter)) {
-          $database_bibles->storeChapter ($bible, $book, $chapter, $chapter_data_to_save);
-          $database_snapshots->snapChapter ($bible, $book, $chapter, $chapter_data_to_save, 0);
-          $success_message .= " " . gettext ("Chapter was saved."); 
-          $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
-        } else {
-          $error_message .= " $chapter_data_to_save"; 
-        }
-      }
-      if ($error_message != "") {
-        $error_message = gettext ("The following data could not be saved and was discarded:") . $error_message;
-      }
-    } else {
-      $error_message = gettext ("The text was not valid Unicode UTF-8. The chapter could not saved.");
-      $chapter_data = $data;
-    }
-  } else {
-    $error_message = gettext ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
-  }
-}
-$smarty->assign ("chapter_data", $chapter_data);
-if ($chapter_data == "") {
-  $error_message .= " " . gettext ("This chapter does not exist or is empty");
-}
-
-
-
-$ipc_focus->set ($book, $chapter, $verse);
-
-$smarty->assign ("success_message", $success_message);
-$smarty->assign ("error_message", $error_message);
-$smarty->display ("index.tpl");
-*/
 
 ?>
