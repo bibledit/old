@@ -196,8 +196,10 @@ class Assets_Navigator
   public function display ()
   {
     $database_books = Database_Books::getInstance();
-    $smarty = new Smarty_Bibledit (__FILE__);
+    $database_bibles = Database_Bibles::getInstance();
     $database_sessions = Database_Sessions::getInstance();
+
+    $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
 
     $bible = $this->bible();
@@ -206,25 +208,34 @@ class Assets_Navigator
     $book = $this->book();
     $smarty->assign ("book",  $book);
     $smarty->assign ("book_name", gettext ($database_books->getEnglishFromId ($book)));
-    if ($book > 1) $previous_book = $book - 1;
-    $next_book = $book + 1;
-    if (!in_array ($next_book, $database_books->getIDs())) unset ($next_book);
+    $books = $database_bibles->getBooks($bible);
+    $key = array_search ($book, $books);
+    if ($key !== false) {
+      $previous_book = $books [$key - 1];
+      $next_book = $books [$key + 1];
+    }
     $smarty->assign ("previous_book", $previous_book);
     $smarty->assign ("next_book", $next_book);
 
     $chapter = $this->chapter();
     $smarty->assign ("chapter", $chapter);
-    if ($chapter > 0) $previous_chapter = $chapter - 1;
-    $next_chapter = $chapter + 1;
-    if ($next_chapter > 150) unset ($next_chapter);
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    $key = array_search ($chapter, $chapters);
+    if ($key !== false) {
+      $previous_chapter = $chapters [$key - 1];
+      $next_chapter = $chapters [$key + 1];
+    }
     $smarty->assign ("previous_chapter", $previous_chapter);
     $smarty->assign ("next_chapter", $next_chapter);
 
     $verse = $this->verse();
     $smarty->assign ("verse", $verse);
-    if ($verse > 0) $previous_verse = $verse - 1;
-    $next_verse = $verse + 1;
-    if ($next_verse > 184) unset ($next_verse);
+    $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+    $key = array_search ($verse, $verses);
+    if ($key !== false) {
+      $previous_verse = $verses [$key - 1];
+      $next_verse = $verses [$key + 1];
+    }
     $smarty->assign ("previous_verse", $previous_verse);
     $smarty->assign ("next_verse", $next_verse);
 
