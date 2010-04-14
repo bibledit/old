@@ -57,7 +57,7 @@ class Plugins_Enumerator
     $allmenus = array ();
     foreach ($plugins as $plugin) {
       unset ($menus);
-      include ("$plugin/$menu.php");
+      @include ("$plugin/$menu.php");
       if (is_array ($menus)) {
         foreach ($menus as $url => $text) {
           $url = "../plugins/$plugin/$url";
