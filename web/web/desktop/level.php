@@ -30,7 +30,7 @@ class Desktop_Level
   public function access($desktop)
   {
     switch ($desktop) {
-      case "text": return TRANSLATOR_LEVEL;
+      case "editusfm": return TRANSLATOR_LEVEL;
       default: return ADMIN_LEVEL;
     }
   }

@@ -41,7 +41,6 @@ class Text_Usfm
       $database_config_user = Database_Config_User::getInstance();
       $database_snapshots = Database_Snapshots::getInstance();
       $database_bibles = Database_Bibles::getInstance();
-      $assets_navigator = Assets_Navigator::getInstance();
       if (isset($_POST['submit'])) {
         $data = $_POST['data'];
         $data = trim ($data);
@@ -53,9 +52,9 @@ class Text_Usfm
               $book_number = $data[0];
               $chapter_number = $data[1];
               $chapter_data_to_save = $data[2];
-              $bible = $assets_navigator->bible();
-              $book = $assets_navigator->book();
-              $chapter = $assets_navigator->chapter();
+              $bible = $_GET['bible'];
+              $book = $_GET['book'];
+              $chapter = $_GET['chapter'];
               if ((($book_number == $book) || ($book_number == 0)) && ($chapter_number == $chapter)) {
                 $database_bibles->storeChapter ($bible, $book, $chapter, $chapter_data_to_save);
                 $database_snapshots->snapChapter ($bible, $book, $chapter, $chapter_data_to_save, 0);
@@ -83,7 +82,17 @@ class Text_Usfm
     $caller = $_SERVER["PHP_SELF"];
     $smarty->assign ("caller", $caller);
     $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
-    $chapter_data = $database_bibles->getChapter ($assets_navigator->bible(), $assets_navigator->book(), $assets_navigator->chapter());
+    // Values for $bible, $book and $chapter are passed to the template and on to the Save button.
+    // This makes it more robust. Else what could happen is that a chapter got loaded, 
+    // then the navigator moved to somewhere else, then this chapter would be saved to the wrong place.
+    // But when these values are passed to the Save button, it will get it right always.
+    $bible = $assets_navigator->bible();
+    $smarty->assign ("bible", $bible);
+    $book = $assets_navigator->book();
+    $smarty->assign ("book", $book);
+    $chapter = $assets_navigator->chapter();
+    $smarty->assign ("chapter", $chapter);
+    $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
     if ($chapter_data == "") {
       Assets_Page::error (gettext ("This chapter does not exist or is empty"));
     }

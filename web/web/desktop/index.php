@@ -39,7 +39,7 @@ $assets_navigator->actions ();
 $assets_navigator->display ();
 
 
-if ($desktop == "text") {
+if ($desktop == "editusfm") {
   $text_usfm = Text_Usfm::getInstance();
   $text_usfm->actions ();
   $text_usfm->display ();

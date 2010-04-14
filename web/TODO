@@ -1,17 +1,21 @@
+
+
+
 To automatically import translated templates from launchpad.
-bzr pull lp:~teusbenschop/bibledit/bibledit-pot
 bzr init
+bzr pull lp:~teusbenschop/bibledit/bibledit-pot
+
+
+
+
+
 
 The site needs to have the concept of Desktops. Users can create store and erase these. 
 E.g. a desktop for editing, one for merging, etc.
 The desktops contain any number of screens or tools that the translator or consultant can use.
-There are standard Desktops included in the default application.
+There are standard Desktops included in the default application. The user cannot modify these.
 When editing desktops the user can choose in which menu it will be displayed, and it will be displayed there.
 
-Creating desktop "text".
-
-There are some standard desktops defined, which the user cannot modify.
-Objects are called that do the rendering.
 
 
 
@@ -26,8 +30,14 @@ Objects are called that do the rendering.
 The navigator should respond to a new focus available from IPC, and then move to the new location.
 This requires AJAX long polling. 
 
+
+
+
 Messaging between applications and server for e.g. verse reference, and many other things, 
 e.g. lists of verses to be sent to the references window.
+
+
+
 
 The text editor needs a link that sets the default / focused bible, so that the navigator takes that bible.
 But for as long as the navigator is not yet separated, then this is not needed, but we should prepare for it in the code.
@@ -39,7 +49,7 @@ But for as long as the navigator is not yet separated, then this is not needed, 
 When collaborating, or setting it up, we need to set the php time out to 0 (inifinite)
 Or better still would be to do as launchpad does, to start an independent process, and to monitor that through the page
 and ajax polling.
-This way there cannot be any timeouts, and the apache server remains free do continue serving other processes.
+This way there cannot be any timeouts, and the apache server remains free do continue serving other pages.
 
 
 
@@ -103,22 +113,6 @@ should also be updated to show this verse.
 
 
 
-
-
-
-The idea behind Bibledit-Web is that various users can log into the application, and that each user has a certain "level" within the application. This level will give him or her more or less rights.
-
-1. There's the most basic level, which is "Visitor". A visitor can be anybody, or search engines, who visit the site. Visitors should be able to see the Bibles being translated on the site. #
-
-2. The next level is a "Member". A member is somebody who has signed up to the site, and has confirmed this signup through his email. This is an independent process, which means whoever wants can become a "Member". Members will be able to do the same as Visitors, but in addition they will be able to raise Issues or "Consultation Notes" on the site. These notes presumably will be about how a certain passage has been translated. Members should be able to subscribe to changes in the Bible, and to changes in Consultation Notes, so that they are notified by email about this.
-
-3. Then, again the next level, there can be a "Consultant". Consultants are people who can be consulted because of there knowledge of the original language such as Hebrew or Greek, or because of their knowledge of their target language in case they are language scholars, or for any other knowledge they have. Nobody can become a Consultant by himself, this level is assigned to him by the Manager.
-
-4. The next level is "Translator". These are the ones that have all the rights of the Consultant, but in addition can actually change the Bible text.
-
-5. Then there's the "Manager". The manager has all the privileges of the previous levels, but in addition can add books to the Bible, delete books, add chapters, copy Bibles, and so on. The manager can assign privileges to the translators, consultants, and so on.
-
-6. Finally, there is the "Administrator". The administrator has all rights to do anything, and will do the technical setup and maintenance of the site.
 
 
 
