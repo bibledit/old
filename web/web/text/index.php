@@ -32,7 +32,6 @@ $database_snapshots = Database_Snapshots::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $ipc_focus = Ipc_Focus::getInstance();
 
-
 $bible = $_GET['bible'];
 $newbible = $_GET['newbible'];
 if (isset ($newbible)) {

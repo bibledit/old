@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.0.12],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.0.16],[http://www.nongnu.org/bibledit])
 # AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 # AC_CONFIG_MACRO_DIR([m4])
@@ -236,7 +236,7 @@ echo                                                               >> $CREDENTIA
 echo '?>'                                                          >> $CREDENTIALS
 
 # Create the file with the login credentials for the site administrator.
-CREDENTIALS=web/admin/credentials.php
+CREDENTIALS=web/administration/credentials.php
 rm $CREDENTIALS
 echo '<?php'                                                       >> $CREDENTIALS
 echo                                                               >> $CREDENTIALS

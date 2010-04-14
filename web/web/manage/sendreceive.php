@@ -57,6 +57,11 @@ foreach ($bibles as $bible) {
     unset ($result);
     exec ($command, &$result, &$exit_code);
     foreach ($result as $line) {
+      // Leave out messages like:
+      //   Could not create directory '/var/www/.ssh'.
+      //   Failed to add the host to the list of known hosts (/var/www/.ssh/known_hosts).
+      // Such messages could confuse the user, and these are not really errors.
+      if (strstr ($line, "/.ssh") != false) continue;
       message_code ($line);
       if (strstr ($line, "CONFLICT") !== false) {
         message_error (gettext ("A conflict was found in the above book and chapter. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository."));
@@ -68,7 +73,10 @@ foreach ($bibles as $bible) {
     message_code ($command);
     unset ($result);
     exec ($command, &$result, &$exit_code);
-    foreach ($result as $line) message_code ($line);
+    foreach ($result as $line) {
+      if (strstr ($line, "/.ssh") != false) continue;
+      message_code ($line);
+    }
     flush ();
 
     Filter_Git::filedata2database ($directory, $bible);

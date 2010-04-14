@@ -179,6 +179,11 @@
   $database_repositories->verify();
   flush ();
     
+  // The sessions table.
+  $database_sessions = Database_Sessions::getInstance();
+  $database_sessions->verify();
+  flush ();
+    
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

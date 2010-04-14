@@ -1,17 +1,39 @@
-To display Bibles in formatted mode by default.
-Each paragraph becomes a link, and each verse. 
-Perhaps the paragraph formatter, e.g. \p, to keep separate, 
-so that it is edited through another link, not the paragraph's text's link.
-Same, probably, for the verse number.
-Clicking a link gives the relevant raw USFM code, with a Save button.
+Assets_Navigator
+If necessary, this object obtains the data needed through the $_GET global, and acts upon it.
+It also adds to an array of query variables needed to be passed to the page.
+It also get the default php page to refer to when links are clicked.
+Some of the above can ony be done at the end, in particular display, when all data is known.
+Any $_GET variables are passed to the object, in case these needs to treat them, such as going to another book.
+Getting books / chapters / verses should not first come from the focus mechanism, 
+but first from the session, and only then from the focus.
+
+
+bzr pull lp:~teusbenschop/bibledit/bibledit-pot
+bzr init
+
+The Dialog_* screens should not get all information in the constructor, but only the information used always.
+The rest is passed through separate calls.
+
+
+Directory desktop/index.php is the starting point for all desktops.
+Then passing ?desktop=text to it does the standard defined desktops.
+There are some standard desktops defined, which the user cannot modify.
+Objects are called that do the rendering.
+
+
+If uncommon variables are clicked, these need to be set fuller, 
+e.g. "<modulename><action>", e.g. "index.php?usfm_bible=test".
+The various objects handle the variables in order, and if one says  "die", 
+e.g. when user input is requested, then that has handled the request. 
 
 
 
-
-
-
-
-
+The site needs to have the concept of Desktops. Users can create store and erase these. 
+E.g. a desktop for editing, one for merging, etc.
+The desktops contain any number of screens or tools that the translator or consultant can use.
+There are standard Desktops included in the default application.
+When editing desktops the user can choose in which menu it will be displayed, and it will be displayed there.
+There is also a 'reset' to default in the desktop editor.
 
 
 
@@ -19,16 +41,6 @@ Clicking a link gives the relevant raw USFM code, with a Save button.
 
 The navigator should respond to a new focus available from IPC, and then move to the new location.
 This requires AJAX long polling. 
-
-Whether the module runs in full screen, or in frames. If in frames it will have a goto bar for the whole screen, 
-and in the full window it has the full header and footer.
-
-Navigator integrated if needed, but when using frames, it is detached and occurs only once 
-no matter how many Bibles display.
-
-There's one main site with an index pages and frames.
-Within the frames applications run. This can be our own applications, or foreign ones.
-Each application is independent and separate.
 
 Messaging between applications and server for e.g. verse reference, and many other things, 
 e.g. lists of verses to be sent to the references window.
@@ -40,14 +52,21 @@ But for as long as the navigator is not yet separated, then this is not needed, 
 
 
 
+When collaborating, or setting it up, we need to set the php time out to 0 (inifinite)
+Or better still would be to do as launchpad does, to start an independent process, and to monitor that through the page.
+This way there cannot be any timeouts, and the apache server remains free do continue serving other processes.
+
+
+
+To automatically import translation templates from launchpad.
+
+
+To add the bibledit-web concept to the wiki, or even Bibledit-Web's online help itself.
 
 
 
 
 
-The site needs to have the concept of Desktops. Users can create store and erase these. 
-E.g. a desktop for editing, one for merging, etc.
-The desktops contain any number of screens or tools that the translator or consultant can use.
 
 
 
@@ -56,6 +75,82 @@ The desktops contain any number of screens or tools that the translator or consu
 
 
 
+
+
+
+
+
+
+
+
+
+Formatted mode, route for implementation.
+
+Each line, as in standard USFM display, becomes a link.
+
+If the link is clicked, it gives the relevant raw USFM code, with a Save button.
+
+Each link, when clicked, has a reference to the line number, so saving it knows where to insert this line
+in the existing chapter data.
+
+It needs a separate module for USFM view, and another module for formatted view.
+
+The navigator needs to be separated, or at least, to be made a proper object that can be included
+when only one module shows, such as it is now in usfm view.
+So there should be a separate smarty renderer for the navigator,
+first the smarty renders the top bit, then the navigator to be inserted, then finally the bottom bit.
+
+The various modules need to use AJAX long polling to find out where to move the cursor to.
+
+If the user clicks on a link in the editor, and this belongs to a certain verse, then the navigator 
+should also be updated to show this verse.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The idea behind Bibledit-Web is that various users can log into the application, and that each user has a certain "level" within the application. This level will give him or her more or less rights.
+
+1. There's the most basic level, which is "Visitor". A visitor can be anybody, or search engines, who visit the site. Visitors should be able to see the Bibles being translated on the site. #
+
+2. The next level is a "Member". A member is somebody who has signed up to the site, and has confirmed this signup through his email. This is an independent process, which means whoever wants can become a "Member". Members will be able to do the same as Visitors, but in addition they will be able to raise Issues or "Consultation Notes" on the site. These notes presumably will be about how a certain passage has been translated. Members should be able to subscribe to changes in the Bible, and to changes in Consultation Notes, so that they are notified by email about this.
+
+3. Then, again the next level, there can be a "Consultant". Consultants are people who can be consulted because of there knowledge of the original language such as Hebrew or Greek, or because of their knowledge of their target language in case they are language scholars, or for any other knowledge they have. Nobody can become a Consultant by himself, this level is assigned to him by the Manager.
+
+4. The next level is "Translator". These are the ones that have all the rights of the Consultant, but in addition can actually change the Bible text.
+
+5. Then there's the "Manager". The manager has all the privileges of the previous levels, but in addition can add books to the Bible, delete books, add chapters, copy Bibles, and so on. The manager can assign privileges to the translators, consultants, and so on.
+
+6. Finally, there is the "Administrator". The administrator has all rights to do anything, and will do the technical setup and maintenance of the site.
+
+
+
+If a Bible translation work is collaborated in public domain, it could be too hard come up with one
+translation for every verse. It  is too bad to split the team and make a copy of the web application 
+every time they can not come up with a common translation. So I am assuming that branching at verse level
+should be supported and the final outputs (like whole OSIS, let me call it "a distribution") should also be plural. 
+And for each distribution should choose branched verses to take which version.
+
+
+
+Just a thought here, but I think it might be good to have the option for administrators to chose which rights go to whom. 
+E.g. I'm not sure a new translation really should be immediately available to anyone ("visitor"). 
+It may invite premature comments or criticism that would slow the process down. 
+Or perhaps visitors could be prevented entirely until a certain phase when the administrator chooses
+to disclose translation content.
 
 
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-06 19:35+0200\n"
+"POT-Creation-Date: 2010-04-14 02:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1848,4 +1848,238 @@ msgid "Available Bibles:"
 msgstr ""
 
 msgid "Create a new empty Bible"
+msgstr ""
+
+msgid ""
+"Your Bible was pushed to the remote repository successfully, overwriting any "
+"data that was there before."
+msgstr ""
+
+msgid "Pushing your Bible to the remote repository failed."
+msgstr ""
+
+msgid "Starting to send and receive the relevant Bibles and Project Notes."
+msgstr ""
+
+msgid "Remote repository URL"
+msgstr ""
+
+msgid ""
+"Cannot send and receive this Bible because the git repository was not found "
+"in the database."
+msgstr ""
+
+msgid "Working directory"
+msgstr ""
+
+msgid ""
+"A conflict was found in the above book and chapter. Please resolve this "
+"conflict manually. Open the chapter in the editor in USFM view, and select "
+"which of the two conflicting lines of text should be retained, and remove "
+"the other line, and the conflict markup. After that it is recommended to "
+"send and receive the Bibles again. This will remove the conflict from the "
+"repository."
+msgstr ""
+
+msgid "This Bible has been done."
+msgstr ""
+
+msgid "Ready. All relevant Bibles have been done."
+msgstr ""
+
+msgid "Please enter a name for where to copy the Bible to"
+msgstr ""
+
+msgid "Cannot copy Bible because the destination Bible already exists."
+msgstr ""
+
+msgid "The Bible was copied."
+msgstr ""
+
+msgid "Open network repository setup"
+msgstr ""
+
+msgid ""
+"In this tutorial you are going to set up an open repository on the network."
+msgstr ""
+
+msgid ""
+"You need a server to run this repository. Any of your Linux computers "
+"attached to your network will do. In this tutorial we assume that the "
+"computer is accessible from the network through IP address 192.168.0.1. The "
+"user of this computer will be Jim."
+msgstr ""
+
+msgid ""
+"To create the repository, login as user jim. Then open a terminal. The "
+"repository is going to be in Jim's home directory. In the terminal type the "
+"following:"
+msgstr ""
+
+msgid ""
+"The repository is now there, but it is not yet accessible from the network."
+msgstr ""
+
+msgid "To make the repository available to the network, type:"
+msgstr ""
+
+msgid ""
+"Each time that the server boots, it is necessary to execute the above "
+"command again. It would be easier to put the command in the boot script. "
+"Then it will automatically be started after boot."
+msgstr ""
+
+msgid ""
+"To test access to the new repository from another computer on the network, "
+"type:"
+msgstr ""
+
+msgid "If everything is fine, no errors will occur."
+msgstr ""
+
+msgid "Take local Bible"
+msgstr ""
+
+msgid "Pushing your Bible to the remote repository:"
+msgstr ""
+
+msgid "Setting up collaboration is now ready."
+msgstr ""
+
+msgid ""
+"The Manager can now choose menu Send/Receive any time he wants to "
+"synchronize Bibles with the remote repository."
+msgstr ""
+
+msgid "Take Bible in repository"
+msgstr ""
+
+msgid ""
+"The Bible in the remote repository was copied over into Bibledit-Web's "
+"Bible, overwriting the Bible that was there before."
+msgstr ""
+
+msgid ""
+"The Translator can now choose menu Send/Receive any time he wants to "
+"synchronize the Bible with the remote repository."
+msgstr ""
+
+msgid "Secure network repository setup"
+msgstr ""
+
+msgid ""
+"In this tutorial you are going to set up an secure repository on the network."
+msgstr ""
+
+msgid "The tutorial uses a git repository on sourceforge.net."
+msgstr ""
+
+msgid ""
+"Open an account on http://sourceforge.net. We will use the username \"joe\" "
+"in this tutorial."
+msgstr ""
+
+msgid ""
+"Register a new project on your personal account page on sourceforge.net. "
+"Let's call this project \"repo\"."
+msgstr ""
+
+msgid ""
+"Enable project feature \"Git\" on this project. This provides the repository "
+"that we need."
+msgstr ""
+
+msgid ""
+"The next thing is to try whether you can read the repository properly. To "
+"try that, open a terminal and issue the following command:"
+msgstr ""
+
+msgid ""
+"This command probably will ask for your password, and the first time it "
+"could ask you whether you want to continue connecting. But it should show no "
+"errors. If it completes without errors, then your secure repository works "
+"well."
+msgstr ""
+
+msgid ""
+"Where it says \"joe\", you would need to fill in the username that can "
+"access the account on sourceforge.net. And where it has \"repo\" you would "
+"need to fill in the name of the project that you created on sourceforge.net."
+msgstr ""
+
+msgid "Secure shell keys"
+msgstr ""
+
+msgid ""
+"Once manual access to the secure repository works, the next step is to set "
+"up secure shell keys. These keys allow Bibledit-Web easy access to the "
+"secure repository, without the need to type the password each time."
+msgstr ""
+
+msgid "Generating the keys"
+msgstr ""
+
+msgid ""
+"Here are the keys that can be used. Bibledit has generated or kept them for "
+"you."
+msgstr ""
+
+msgid "Private key"
+msgstr ""
+
+msgid "Public key"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid ""
+"Optionally, if you would like to use your own private and public keys, you "
+"can paste these above, and then press button Update above. Or if you empty "
+"the keys, and then press button Update, the keys will be regenerated."
+msgstr ""
+
+msgid "Enter the public key"
+msgstr ""
+
+msgid ""
+"Go to your personal account at sourceforge.net. See above for this account."
+msgstr ""
+
+msgid ""
+"On your personal account page at sourceforge.net, choose Services, then "
+"choose \"Edit SSH Keys for Shell/CVS\". Select all the text of the public "
+"key, see above, and copy it to the clipboard. Be sure it is the public key, "
+"not the private one. In the screen titled \"SSH Keys\", there is a place "
+"where it says \"Authorized keys:\". Paste the text of the public key into "
+"that space on the web page. After checking that everything looks fine, press "
+"button \"Update\". Make sure to enter only the public key, not the private "
+"key. Synchronizing the keys into the system has a 10 minute delay."
+msgstr ""
+
+msgid ""
+"After the delay of 10 minutes has expired you can continue to the next page."
+msgstr ""
+
+msgid "Send and Receive Bibles and Consultation Notes"
+msgstr ""
+
+msgid "Send/Receive"
+msgstr ""
+
+msgid ""
+"Please scroll down to the end of the page to see all messages in case there "
+"are many."
+msgstr ""
+
+msgid "Copy this Bible"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "USFM Text"
+msgstr ""
+
+msgid "USFM Text (under development)"
 msgstr ""

@@ -103,6 +103,11 @@ $database_repositories = Database_Repositories::getInstance();
 $database_repositories->optimize();
 
 
+// The sessions table.
+$database_sessions = Database_Sessions::getInstance();
+$database_sessions->optimize();
+
+
 // Done.
 message_information ("Ready");
 

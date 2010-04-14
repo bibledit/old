@@ -1,4 +1,4 @@
-This directory contains componented from ZendFramework-1.10.0.
+This directory contains components from ZendFramework-1.10.0.
 
 Validation requirements that would necessitate inclusion of the Validate class
 were commented out. See comments with "Bibledit" in them.

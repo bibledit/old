@@ -3,7 +3,7 @@
     <td>
     {* Administration menu is only applicable to the site administrator *}
     {if $level >= 6}
-      <a href="{$header_path_modifier}admin/index.php">{t}Administration{/t}</a>
+      <a href="{$header_path_modifier}administration/index.php">{t}Administration{/t}</a>
     {/if}
     {* Management menu is only applicable to the manager and higher roles *}
     {if $level >= 5}
