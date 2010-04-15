@@ -1,3 +1,15 @@
+If the user clicks on a link in the editor, and this belongs to a certain verse, then the navigator 
+should also be updated to show this verse.
+
+It the user saves a line, after save it should jump to that line.
+
+
+
+
+
+
+
+
 
 
 
@@ -12,7 +24,7 @@ bzr pull lp:~teusbenschop/bibledit/bibledit-pot
 
 The site needs to have the concept of Desktops. Users can create store and erase these. 
 E.g. a desktop for editing, one for merging, etc.
-The desktops contain any number of screens or tools that the translator or consultant can use.
+The desktops contain any combination of screens or tools that the user can use.
 There are standard Desktops included in the default application. The user cannot modify these.
 When editing desktops the user can choose in which menu it will be displayed, and it will be displayed there.
 
@@ -50,56 +62,6 @@ When collaborating, or setting it up, we need to set the php time out to 0 (inif
 Or better still would be to do as launchpad does, to start an independent process, and to monitor that through the page
 and ajax polling.
 This way there cannot be any timeouts, and the apache server remains free do continue serving other pages.
-
-
-
-
-
-To add the bibledit-web concept to the wiki, or even Bibledit-Web's online help itself.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Formatted mode, route for implementation.
-
-Each line, as in standard USFM display, becomes a link.
-
-If the link is clicked, it gives the relevant raw USFM code, with a Save button.
-
-Each link, when clicked, has a reference to the line number, so saving it knows where to insert this line
-in the existing chapter data.
-
-It needs a separate module for USFM view, and another module for formatted view.
-
-The navigator needs to be separated, or at least, to be made a proper object that can be included
-when only one module shows, such as it is now in usfm view.
-So there should be a separate smarty renderer for the navigator,
-first the smarty renders the top bit, then the navigator to be inserted, then finally the bottom bit.
-
-The various modules need to use AJAX long polling to find out where to move the cursor to.
-
-If the user clicks on a link in the editor, and this belongs to a certain verse, then the navigator 
-should also be updated to show this verse.
-
-
 
 
 

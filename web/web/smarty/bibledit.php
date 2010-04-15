@@ -51,8 +51,6 @@ class Smarty_Bibledit extends Smarty {
       $header_path_modifier .= "../";
     } 
     $this->assign("header_path_modifier", $header_path_modifier);
-
-   
   }
  
   /**

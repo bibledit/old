@@ -44,6 +44,11 @@ if ($desktop == "editusfm") {
   $text_usfm->actions ();
   $text_usfm->display ();
 }
+if ($desktop == "edittext") {
+  $edit_text = Text_Editor::getInstance();
+  $edit_text->actions ();
+  $edit_text->display ();
+}
 
 
 Assets_Page::footer ();

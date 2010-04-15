@@ -7,7 +7,10 @@ find .. -iname '*.php' >> gettextfiles
 # Add the smarty.c file.
 echo smarty.c >> gettextfiles
 
-# In case the bibledit.pot does not exist, create it, so that xgettext does not complain.
+# Remove bibledit.pot in case there are some strings in it which are no longer in use.
+rm bibledit.pot
+
+# Recreate bibledit.pot so that xgettext does not complain.
 touch bibledit.pot
 
 # Create the .pot file and join it with an existing one.
