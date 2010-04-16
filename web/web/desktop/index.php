@@ -33,23 +33,25 @@ if (isset ($desktop)) {
 page_access_level (Desktop_Level::access ($desktop));
 Assets_Page::header (gettext ("Desktop") . " $desktop");
 
-
 $assets_navigator = Assets_Navigator::getInstance();
 $assets_navigator->actions ();
-$assets_navigator->display ();
-
 
 if ($desktop == "editusfm") {
   $text_usfm = Text_Usfm::getInstance();
   $text_usfm->actions ();
-  $text_usfm->display ();
 }
 if ($desktop == "edittext") {
   $edit_text = Text_Editor::getInstance();
   $edit_text->actions ();
-  $edit_text->display ();
 }
 
+$assets_navigator->display ();
+if ($desktop == "editusfm") {
+  $text_usfm->display ();
+}
+if ($desktop == "edittext") {
+  $edit_text->display ();
+}
 
 Assets_Page::footer ();
 ?>

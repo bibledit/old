@@ -25,6 +25,7 @@
 class Text_Editor
 {
   public $edit_usfm_line_number;
+  public $goto_line_number;
   private static $instance;
   private function __construct() {
   } 
@@ -38,14 +39,17 @@ class Text_Editor
 
   public function actions ()
   {
-    // Handle picking out which line to edit.
+    // Handle picking out which line to edit and to move the screen to.
     $this->edit_usfm_line_number = -1;
+    $this->goto_line_number = -1;
     $line_number = $_GET ['editusfmline'];
     if (isset ($line_number)) {
       if (is_numeric ($line_number)) {
         $this->edit_usfm_line_number = $line_number;
+        $this->goto_line_number = $line_number;
       }
     }
+    
     
     // Handle edited line submission.
     if (isset($_POST['submit'])) {
@@ -54,6 +58,7 @@ class Text_Editor
       $book = $_GET['book'];
       $chapter = $_GET['chapter'];
       $line_number = $_GET ['textsaveline'];
+      $this->goto_line_number = line_number; // Line to go to after saving.
       $data = $_POST['data'];
       $data = trim ($data);
       if (Validate_Utf8::valid ($data)) {
@@ -87,6 +92,23 @@ class Text_Editor
         Assets_Page::success (gettext ("The line was saved."));
       } else {
         Assets_Page::error (gettext ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version."));
+      }
+    } 
+
+    else 
+    
+    // Handle updating the navigator with the verse that the user clicked.
+    {
+      if ($this->goto_line_number >= 0) {
+        $assets_navigator = Assets_Navigator::getInstance();
+        $bible = $assets_navigator->bible();
+        $book = $assets_navigator->book();
+        $chapter = $assets_navigator->chapter();
+        $database_bibles = Database_Bibles::getInstance();
+        $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+        $verse = Filter_Usfm::lineNumber2VerseNumber ($chapter_data, $this->goto_line_number);
+        $ipc_focus = Ipc_Focus::getInstance();
+        $ipc_focus->set ($book, $chapter, $verse);
       }
     }
   }
@@ -135,6 +157,10 @@ class Text_Editor
     $smarty->assign ("line_data_after", $line_data_after);
     $smarty->assign ("line_numbers_after", $line_numbers_after); 
 
+    // Line number where to move the screen to.
+    $smarty->assign ("goto_line", $this->goto_line_number);
+    
+    //$smarty->debugging = true;    
     $smarty->display ("editor.tpl");
   }
 

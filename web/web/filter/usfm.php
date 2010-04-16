@@ -141,10 +141,10 @@ class Filter_Usfm
   }
 
   /**
-    * This imports USFM $input.
-    * It takes raw $input,
-    * and returns an array of an array [book_number, chapter_number, chapter_data].
-    */  
+  * This imports USFM $input.
+  * It takes raw $input,
+  * and returns an array of an array [book_number, chapter_number, chapter_data].
+  */  
   public function import ($input, $stylesheet)
   {
     $result = array ();
@@ -205,8 +205,8 @@ class Filter_Usfm
   }
 
   /**
-    * returns an array with the verse numbers found in $usfm.
-    */
+  * returns an array with the verse numbers found in $usfm.
+  */
   public function getVerseNumbers ($usfm)
   {
     $verse_numbers = array (0);
@@ -223,7 +223,25 @@ class Filter_Usfm
     }
     return $verse_numbers;
   }
-  
+
+  /**
+  * Returns the verse number in the string of $usfm code at line number $line_number.
+  */
+  public function lineNumber2VerseNumber ($usfm, $line_number)
+  {
+    $verse_number = 0; // Initial verse number.
+    $lines = explode ("\n", $usfm);
+    for ($i = 0; $i < count ($lines); $i++) {
+      if ($i <= $line_number) {
+        $verse_numbers = Filter_Usfm::getVerseNumbers ($lines[$i]);
+        if (count ($verse_numbers) >= 2) {
+          $verse_number = $verse_numbers[1];
+        }
+      }
+    }
+    return $verse_number;
+  }
+      
 
 }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-15 01:48+0200\n"
+"POT-Creation-Date: 2010-04-16 01:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,177 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Bible editor"
-msgstr ""
-
-msgid "Welcome to Bibledit on the web"
-msgstr ""
-
-msgid "Warning"
-msgstr ""
-
-msgid "Cannot access the database"
-msgstr ""
-
-msgid ""
-"The site is not in operation at the moment. Site administrator: You can "
-"login through the credentials that were set at installation time, and then "
-"attend to the problem."
-msgstr ""
-
-msgid "Site Administrator"
-msgstr ""
-
-msgid "Guest"
-msgstr ""
-
-msgid "Username should be at least four characters long"
-msgstr ""
-
 msgid "Password should be at least four characters long"
-msgstr ""
-
-msgid "Username or email address or password are not correct"
-msgstr ""
-
-msgid ""
-"To which city was Paul travelling when a light from heaven shone round about "
-"him?"
-msgstr ""
-
-msgid "Damascus"
-msgstr ""
-
-msgid ""
-"And while he travelled, he came near Damascus; and suddenly a light from "
-"heaven shone round about him."
-msgstr ""
-
-msgid "What is the name of the brother of Aaron the high priest?"
-msgstr ""
-
-msgid "Moses"
-msgstr ""
-
-msgid ""
-"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
-"the Levite your brother?"
-msgstr ""
-
-msgid "What is the name of the city where Jesus was born?"
-msgstr ""
-
-msgid "Bethlehem"
-msgstr ""
-
-msgid ""
-"Now when Jesus was born in Bethlehem of Judaea in the days of Herod the "
-"king, behold, wise men from the east came to Jerusalem."
-msgstr ""
-
-msgid "What is the name of the island when John was sent to?"
-msgstr ""
-
-msgid "Patmos"
-msgstr ""
-
-msgid ""
-"I, John, your brother and companion in the persecution, and in the kingdom "
-"and endurance of Jesus Christ, was in the island which is called Patmos, "
-"because of the word of God, and because of the testimony of Jesus Christ."
-msgstr ""
-
-msgid "The answer to the question is not correct"
-msgstr ""
-
-msgid ""
-"The username that you have chosen has already been taken. Please choose "
-"another one."
-msgstr ""
-
-msgid "You do not have sufficient privileges to access this page"
-msgstr ""
-
-msgid "User preferences"
-msgstr ""
-
-msgid "View documentation"
-msgstr ""
-
-msgid "View interprocess communication messages"
-msgstr ""
-
-msgid "Signup"
-msgstr ""
-
-msgid "Which username would you like to use?"
-msgstr ""
-
-msgid "Which password?"
-msgstr ""
-
-msgid "This quotation may help you answer the question:"
-msgstr ""
-
-msgid "Logout"
-msgstr ""
-
-msgid "Goodbye"
-msgstr ""
-
-msgid "You have logged out"
-msgstr ""
-
-msgid "Welcome"
-msgstr ""
-
-msgid "You have logged in"
-msgstr ""
-
-msgid "Login"
-msgstr ""
-
-msgid "Username or email address"
-msgstr ""
-
-msgid "Password"
-msgstr ""
-
-msgid "Forgot password? Request the administrator for help."
-msgstr ""
-
-msgid "Not registered?"
-msgstr ""
-
-msgid "Sign up!"
-msgstr ""
-
-msgid "You have signed up."
-msgstr ""
-
-msgid "You can now login."
-msgstr ""
-
-msgid "Administration"
-msgstr ""
-
-msgid "Bible Editor"
-msgstr ""
-
-msgid "Site administration"
-msgstr ""
-
-msgid "Site setup"
-msgstr ""
-
-msgid ""
-"Number of tables in the database before running the maintenance routine: "
-msgstr ""
-
-msgid "Running maintenance routine"
-msgstr ""
-
-msgid "Number of tables in the database after the routine: "
 msgstr ""
 
 msgid "Passwords do not match"
@@ -230,13 +60,31 @@ msgstr ""
 msgid "Demo plugin user menu item 2"
 msgstr ""
 
+msgid "Help"
+msgstr ""
+
+msgid "Introduction"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
 msgid "Unknown"
 msgstr ""
 
 msgid "XXX"
 msgstr ""
 
+msgid "Cannot access the database"
+msgstr ""
+
 msgid "The site is not in operation at the moment."
+msgstr ""
+
+msgid "Guest"
 msgstr ""
 
 msgid "Member"
@@ -252,6 +100,12 @@ msgid "Manager"
 msgstr ""
 
 msgid "Administrator"
+msgstr ""
+
+msgid "Username should be at least four characters long"
+msgstr ""
+
+msgid "Username or email address or password are not correct"
 msgstr ""
 
 msgid "Username or email address is too short"
@@ -280,6 +134,36 @@ msgid "Username or email address cannot be found"
 msgstr ""
 
 msgid ""
+"To which city was Paul travelling when a light from heaven shone round about "
+"him?"
+msgstr ""
+
+msgid "Damascus"
+msgstr ""
+
+msgid ""
+"And while he travelled, he came near Damascus; and suddenly a light from "
+"heaven shone round about him."
+msgstr ""
+
+msgid "What is the name of the brother of Aaron the high priest?"
+msgstr ""
+
+msgid "Moses"
+msgstr ""
+
+msgid ""
+"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
+"the Levite your brother?"
+msgstr ""
+
+msgid "What is the name of the city where Jesus was born?"
+msgstr ""
+
+msgid "Bethlehem"
+msgstr ""
+
+msgid ""
 "When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
 "behold, wise men from the east came to Jerusalem."
 msgstr ""
@@ -287,7 +171,24 @@ msgstr ""
 msgid "What is the name of the island where John was sent to?"
 msgstr ""
 
+msgid "Patmos"
+msgstr ""
+
+msgid ""
+"I, John, your brother and companion in the persecution, and in the kingdom "
+"and endurance of Jesus Christ, was in the island which is called Patmos, "
+"because of the word of God, and because of the testimony of Jesus Christ."
+msgstr ""
+
 msgid "The email address is not valid"
+msgstr ""
+
+msgid "The answer to the question is not correct"
+msgstr ""
+
+msgid ""
+"The username that you have chosen has already been taken. Please choose "
+"another one."
 msgstr ""
 
 msgid ""
@@ -311,6 +212,49 @@ msgid "Would you like to delete this versification system?"
 msgstr ""
 
 msgid "Please enter the name for the new versification system"
+msgstr ""
+
+msgid "Would you like to change to another Bible?"
+msgstr ""
+
+msgid "Go to another book"
+msgstr ""
+
+msgid "Go to another chapter"
+msgstr ""
+
+msgid "Go to another verse"
+msgstr ""
+
+msgid "Chapter was saved."
+msgstr ""
+
+msgid "The following data could not be saved and was discarded:"
+msgstr ""
+
+msgid ""
+"The text was not valid Unicode UTF-8. The chapter could not saved and has "
+"been reverted to the last good version."
+msgstr ""
+
+msgid ""
+"There was no text. Nothing was saved. The original text of the chapter was "
+"reloaded."
+msgstr ""
+
+msgid "This chapter does not exist or is empty"
+msgstr ""
+
+msgid "The line was saved."
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid ""
+"Please confirm this request by replying to this email. There is a "
+"confirmation number in the subject line. Your reply should have this same "
+"confirmation number in the subject line."
 msgstr ""
 
 msgid "Read access to the repository is successful."
@@ -375,6 +319,14 @@ msgstr ""
 msgid "Pushing changes to the remote repository failed."
 msgstr ""
 
+msgid ""
+"Your Bible was pushed to the remote repository successfully, overwriting any "
+"data that was there before."
+msgstr ""
+
+msgid "Pushing your Bible to the remote repository failed."
+msgstr ""
+
 msgid "The repository was cloned successfully."
 msgstr ""
 
@@ -382,41 +334,6 @@ msgid "The repository could not be cloned."
 msgstr ""
 
 msgid "Which Bible are you going to use?"
-msgstr ""
-
-msgid "Would you like to change to another Bible?"
-msgstr ""
-
-msgid "Go to another book"
-msgstr ""
-
-msgid "Go to another chapter"
-msgstr ""
-
-msgid "Go to another verse"
-msgstr ""
-
-msgid "Chapter was saved."
-msgstr ""
-
-msgid "The following data could not be saved and was discarded:"
-msgstr ""
-
-msgid "The text was not valid Unicode UTF-8. The chapter could not saved."
-msgstr ""
-
-msgid ""
-"There was no text. Nothing was saved. The original text of the chapter was "
-"reloaded."
-msgstr ""
-
-msgid "This chapter does not exist or is empty"
-msgstr ""
-
-msgid ""
-"Please confirm this request by replying to this email. There is a "
-"confirmation number in the subject line. Your reply should have this same "
-"confirmation number in the subject line."
 msgstr ""
 
 msgid "Would you like to delete this stylesheet?"
@@ -839,6 +756,38 @@ msgstr ""
 msgid "Upon encountering a certain marker"
 msgstr ""
 
+msgid "Starting to send and receive the relevant Bibles and Project Notes."
+msgstr ""
+
+msgid "Bible"
+msgstr ""
+
+msgid "Remote repository URL"
+msgstr ""
+
+msgid ""
+"Cannot send and receive this Bible because the git repository was not found "
+"in the database."
+msgstr ""
+
+msgid "Working directory"
+msgstr ""
+
+msgid ""
+"A conflict was found in the above book and chapter. Please resolve this "
+"conflict manually. Open the chapter in the editor in USFM view, and select "
+"which of the two conflicting lines of text should be retained, and remove "
+"the other line, and the conflict markup. After that it is recommended to "
+"send and receive the Bibles again. This will remove the conflict from the "
+"repository."
+msgstr ""
+
+msgid "This Bible has been done."
+msgstr ""
+
+msgid "Ready. All relevant Bibles have been done."
+msgstr ""
+
 msgid "Would you like to delete"
 msgstr ""
 
@@ -887,6 +836,15 @@ msgid "Nothing was imported."
 msgstr ""
 
 msgid "Please enter a name for the new empty Bible"
+msgstr ""
+
+msgid "Please enter a name for where to copy the Bible to"
+msgstr ""
+
+msgid "Cannot copy Bible because the destination Bible already exists."
+msgstr ""
+
+msgid "The Bible was copied."
 msgstr ""
 
 msgid "My area"
@@ -939,6 +897,9 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
+msgid "Unformatted text"
+msgstr ""
+
 msgid "Styles"
 msgstr ""
 
@@ -972,9 +933,106 @@ msgstr ""
 msgid "Demo plugin for the User menu, page 2."
 msgstr ""
 
+msgid "Installation"
+msgstr ""
+
+msgid ""
+"If you'd like to install your own version of Bibledit-Web, this is possible "
+"too."
+msgstr ""
+
+msgid ""
+"No installable packages have been created yet. But you can clone the source "
+"code from the git repository."
+msgstr ""
+
+msgid "See the Development page for more details."
+msgstr ""
+
+msgid ""
+"Once you have cloned the source code, and have a local repository for the "
+"bibledit code, you can then copy directory web/web into your local web "
+"server, and get it up and running there. A web server is needed, PHP, and "
+"MySQL. If you have copied the web/web directory to, for example, http://"
+"localhost/bibledit, then to install the program and create all the "
+"databases, you need to run http://localhost/bibledit/setup.php once."
+msgstr ""
+
+msgid ""
+"Bibledit is a web-based application for translating the Bible. It is part of "
+"the Bibledit suite."
+msgstr ""
+
+msgid ""
+"The idea behind Bibledit-Web is that various users can log into the "
+"application, and that each user has a certain \"level\" within the "
+"application. This level will give him or her more or less rights."
+msgstr ""
+
+msgid ""
+"There's the most basic level, which is \"Visitor\". A visitor can be anybody "
+"who visit the site. Visitors should be able to see the Bibles being "
+"translated on the site."
+msgstr ""
+
+msgid ""
+"The next level is a \"Member\". A member is somebody who has signed up to "
+"the site, and has confirmed this signup through his email. This is an "
+"independent process, which means whoever wants can become a \"Member\". "
+"Members will be able to do the same as Visitors, but in addition they will "
+"be able to raise Issues or \"Consultation Notes\" on the site. These notes "
+"presumably will be about how a certain passage has been translated. Members "
+"should be able to subscribe to changes in the Bible, and to changes in "
+"Consultation Notes, so that they are notified by email about this."
+msgstr ""
+
+msgid ""
+"Then, again the next level, there can be a \"Consultant\". Consultants are "
+"people who can be consulted because of their knowledge of the original "
+"language such as Hebrew or Greek, or because of their knowledge of their "
+"target language in case they are language scholars, or for any other "
+"knowledge they have. Nobody can become a Consultant by himself, this level "
+"is assigned to him by the Manager."
+msgstr ""
+
+msgid ""
+"The next level is \"Translator\". These are the ones that have all the "
+"rights of the Consultant, but in addition can actually change the Bible text."
+msgstr ""
+
+msgid ""
+"Then there's the \"Manager\". The manager has all the privileges of the "
+"previous levels, but in addition can add books to the Bible, delete books, "
+"add chapters, copy Bibles, and so on. The manager can assign privileges to "
+"the translators, consultants, and so on."
+msgstr ""
+
+msgid ""
+"Finally, there is the \"Administrator\". The administrator has all rights to "
+"do anything, and will do the technical setup and maintenance of the site."
+msgstr ""
+
+msgid "Bibledit-Web"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
 msgid ""
 "If you lost the password, submit your username or email address, and a new "
 "password will be emailed to you."
+msgstr ""
+
+msgid "Username or email address"
+msgstr ""
+
+msgid "Signup"
+msgstr ""
+
+msgid "Which username would you like to use?"
+msgstr ""
+
+msgid "Which password?"
 msgstr ""
 
 msgid "Your email address?"
@@ -986,13 +1044,34 @@ msgstr ""
 msgid "Hint to answer the security question:"
 msgstr ""
 
+msgid "Logout"
+msgstr ""
+
+msgid "Goodbye"
+msgstr ""
+
+msgid "You have logged out"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
 msgid "You have logged in."
 msgstr ""
 
 msgid "There is mail for you."
 msgstr ""
 
+msgid "Login"
+msgstr ""
+
 msgid "Forgot password?"
+msgstr ""
+
+msgid "Not registered?"
+msgstr ""
+
+msgid "Sign up!"
 msgstr ""
 
 msgid "A verification email has been sent."
@@ -1042,10 +1121,19 @@ msgstr ""
 msgid "To install this program, install a package called \"openssh-client\"."
 msgstr ""
 
+msgid "Administration"
+msgstr ""
+
 msgid "Management"
 msgstr ""
 
-msgid "Powered by"
+msgid "Go to"
+msgstr ""
+
+msgid "chapter"
+msgstr ""
+
+msgid "verse"
 msgstr ""
 
 msgid "Program \"git\" is needed. But it cannot be found on this machine."
@@ -1067,10 +1155,75 @@ msgid ""
 "resolve this, log in and try again."
 msgstr ""
 
+msgid "Save"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
 msgid "Database"
 msgstr ""
 
 msgid "Database maintenance"
+msgstr ""
+
+msgid "Collaboration"
+msgstr ""
+
+msgid "Open network repository setup"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid ""
+"In this tutorial you are going to set up an open repository on the network."
+msgstr ""
+
+msgid ""
+"You need a server to run this repository. Any of your Linux computers "
+"attached to your network will do. In this tutorial we assume that the "
+"computer is accessible from the network through IP address 192.168.0.1. The "
+"user of this computer will be Jim."
+msgstr ""
+
+msgid ""
+"To create the repository, login as user jim. Then open a terminal. The "
+"repository is going to be in Jim's home directory. In the terminal type the "
+"following:"
+msgstr ""
+
+msgid ""
+"The repository is now there, but it is not yet accessible from the network."
+msgstr ""
+
+msgid "To make the repository available to the network, type:"
+msgstr ""
+
+msgid ""
+"Each time that the server boots, it is necessary to execute the above "
+"command again. It would be easier to put the command in the boot script. "
+"Then it will automatically be started after boot."
+msgstr ""
+
+msgid ""
+"To test access to the new repository from another computer on the network, "
+"type:"
+msgstr ""
+
+msgid "If everything is fine, no errors will occur."
+msgstr ""
+
+msgid "Repository URL"
+msgstr ""
+
+msgid "The repository that was created in this tutorial has the following URL:"
+msgstr ""
+
+msgid ""
+"Your own repository that you have created has a URL too, the one that will "
+"be used from now on. Please enter it below, and press the Submit button to "
+"save it."
 msgstr ""
 
 msgid "Logbook"
@@ -1085,17 +1238,11 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-msgid "Collaboration"
-msgstr ""
-
 msgid "Repository initialization"
 msgstr ""
 
 msgid ""
 "No URL has been given for the repository. Please go back to enter the URL."
-msgstr ""
-
-msgid "Next page"
 msgstr ""
 
 msgid ""
@@ -1107,17 +1254,6 @@ msgid ""
 "Just to be sure that everything will work well, in this tutorial you are "
 "going to put some data into the repository, then try to clone it to see how "
 "it now goes."
-msgstr ""
-
-msgid "Open a terminal, and issue the command as given:"
-msgstr ""
-
-msgid ""
-"In the tutorial about setting up the repository, the systems administrator "
-"had given the URL of the repository that was created. In the current "
-"tutorial we assume a URL of \"file:///media/usbstick/repository\". Of course "
-"others are possible, depending on what type of repository you have and where "
-"it resides."
 msgstr ""
 
 msgid ""
@@ -1152,12 +1288,6 @@ msgstr ""
 msgid "Test read access"
 msgstr ""
 
-msgid "Bible"
-msgstr ""
-
-msgid "Repository URL"
-msgstr ""
-
 msgid ""
 "Bibledit-Web attempted to read data from this repository. This is the result:"
 msgstr ""
@@ -1166,6 +1296,20 @@ msgid "The shell command that was used is:"
 msgstr ""
 
 msgid "If you'd like to retry, after updating the URL, press button Submit."
+msgstr ""
+
+msgid "Take local Bible"
+msgstr ""
+
+msgid "Pushing your Bible to the remote repository:"
+msgstr ""
+
+msgid "Setting up collaboration is now ready."
+msgstr ""
+
+msgid ""
+"The Manager can now choose menu Send/Receive any time he wants to "
+"synchronize Bibles with the remote repository."
 msgstr ""
 
 msgid "Clone repository"
@@ -1408,6 +1552,116 @@ msgstr ""
 msgid "Take your Bible."
 msgstr ""
 
+msgid "Take Bible in repository"
+msgstr ""
+
+msgid ""
+"The Bible in the remote repository was copied over into Bibledit-Web's "
+"Bible, overwriting the Bible that was there before."
+msgstr ""
+
+msgid ""
+"The Translator can now choose menu Send/Receive any time he wants to "
+"synchronize the Bible with the remote repository."
+msgstr ""
+
+msgid "Secure network repository setup"
+msgstr ""
+
+msgid ""
+"In this tutorial you are going to set up an secure repository on the network."
+msgstr ""
+
+msgid "The tutorial uses a git repository on sourceforge.net."
+msgstr ""
+
+msgid ""
+"Open an account on http://sourceforge.net. We will use the username \"joe\" "
+"in this tutorial."
+msgstr ""
+
+msgid ""
+"Register a new project on your personal account page on sourceforge.net. "
+"Let's call this project \"repo\"."
+msgstr ""
+
+msgid ""
+"Enable project feature \"Git\" on this project. This provides the repository "
+"that we need."
+msgstr ""
+
+msgid ""
+"The next thing is to try whether you can read the repository properly. To "
+"try that, open a terminal and issue the following command:"
+msgstr ""
+
+msgid ""
+"This command probably will ask for your password, and the first time it "
+"could ask you whether you want to continue connecting. But it should show no "
+"errors. If it completes without errors, then your secure repository works "
+"well."
+msgstr ""
+
+msgid ""
+"Where it says \"joe\", you would need to fill in the username that can "
+"access the account on sourceforge.net. And where it has \"repo\" you would "
+"need to fill in the name of the project that you created on sourceforge.net."
+msgstr ""
+
+msgid "Secure shell keys"
+msgstr ""
+
+msgid ""
+"Once manual access to the secure repository works, the next step is to set "
+"up secure shell keys. These keys allow Bibledit-Web easy access to the "
+"secure repository, without the need to type the password each time."
+msgstr ""
+
+msgid "Generating the keys"
+msgstr ""
+
+msgid ""
+"Here are the keys that can be used. Bibledit has generated or kept them for "
+"you."
+msgstr ""
+
+msgid "Private key"
+msgstr ""
+
+msgid "Public key"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid ""
+"Optionally, if you would like to use your own private and public keys, you "
+"can paste these above, and then press button Update above. Or if you empty "
+"the keys, and then press button Update, the keys will be regenerated."
+msgstr ""
+
+msgid "Enter the public key"
+msgstr ""
+
+msgid ""
+"Go to your personal account at sourceforge.net. See above for this account."
+msgstr ""
+
+msgid ""
+"On your personal account page at sourceforge.net, choose Services, then "
+"choose \"Edit SSH Keys for Shell/CVS\". Select all the text of the public "
+"key, see above, and copy it to the clipboard. Be sure it is the public key, "
+"not the private one. In the screen titled \"SSH Keys\", there is a place "
+"where it says \"Authorized keys:\". Paste the text of the public key into "
+"that space on the web page. After checking that everything looks fine, press "
+"button \"Update\". Make sure to enter only the public key, not the private "
+"key. Synchronizing the keys into the system has a 10 minute delay."
+msgstr ""
+
+msgid ""
+"After the delay of 10 minutes has expired you can continue to the next page."
+msgstr ""
+
 msgid "Write to repository"
 msgstr ""
 
@@ -1591,27 +1845,6 @@ msgstr ""
 msgid "This finishes setting up the repository on the USB flash drive."
 msgstr ""
 
-msgid "The repository that was created in this tutorial has the following URL:"
-msgstr ""
-
-msgid ""
-"Your own repository that you have created has a URL too, the one that will "
-"be used from now on. Please enter it below, and press the Submit button to "
-"save it."
-msgstr ""
-
-msgid "Go to"
-msgstr ""
-
-msgid "chapter"
-msgstr ""
-
-msgid "verse"
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
 msgid "The various styles for the Bible editor are contained in a stylesheet."
 msgstr ""
 
@@ -1729,10 +1962,21 @@ msgid ""
 "was there before."
 msgstr ""
 
+msgid "Send and Receive Bibles and Consultation Notes"
+msgstr ""
+
 msgid "Users"
 msgstr ""
 
 msgid "Bibles"
+msgstr ""
+
+msgid "Send/Receive"
+msgstr ""
+
+msgid ""
+"Please scroll down to the end of the page to see all messages in case there "
+"are many."
 msgstr ""
 
 msgid "ID"
@@ -1748,9 +1992,6 @@ msgid "change"
 msgstr ""
 
 msgid "List"
-msgstr ""
-
-msgid "Cancel"
 msgstr ""
 
 msgid "Yes / No"
@@ -1833,6 +2074,9 @@ msgstr ""
 msgid "Export whole Bible"
 msgstr ""
 
+msgid "Copy this Bible"
+msgstr ""
+
 msgid "Delete this Bible"
 msgstr ""
 
@@ -1848,337 +2092,4 @@ msgid "Available Bibles:"
 msgstr ""
 
 msgid "Create a new empty Bible"
-msgstr ""
-
-msgid ""
-"Your Bible was pushed to the remote repository successfully, overwriting any "
-"data that was there before."
-msgstr ""
-
-msgid "Pushing your Bible to the remote repository failed."
-msgstr ""
-
-msgid "Starting to send and receive the relevant Bibles and Project Notes."
-msgstr ""
-
-msgid "Remote repository URL"
-msgstr ""
-
-msgid ""
-"Cannot send and receive this Bible because the git repository was not found "
-"in the database."
-msgstr ""
-
-msgid "Working directory"
-msgstr ""
-
-msgid ""
-"A conflict was found in the above book and chapter. Please resolve this "
-"conflict manually. Open the chapter in the editor in USFM view, and select "
-"which of the two conflicting lines of text should be retained, and remove "
-"the other line, and the conflict markup. After that it is recommended to "
-"send and receive the Bibles again. This will remove the conflict from the "
-"repository."
-msgstr ""
-
-msgid "This Bible has been done."
-msgstr ""
-
-msgid "Ready. All relevant Bibles have been done."
-msgstr ""
-
-msgid "Please enter a name for where to copy the Bible to"
-msgstr ""
-
-msgid "Cannot copy Bible because the destination Bible already exists."
-msgstr ""
-
-msgid "The Bible was copied."
-msgstr ""
-
-msgid "Open network repository setup"
-msgstr ""
-
-msgid ""
-"In this tutorial you are going to set up an open repository on the network."
-msgstr ""
-
-msgid ""
-"You need a server to run this repository. Any of your Linux computers "
-"attached to your network will do. In this tutorial we assume that the "
-"computer is accessible from the network through IP address 192.168.0.1. The "
-"user of this computer will be Jim."
-msgstr ""
-
-msgid ""
-"To create the repository, login as user jim. Then open a terminal. The "
-"repository is going to be in Jim's home directory. In the terminal type the "
-"following:"
-msgstr ""
-
-msgid ""
-"The repository is now there, but it is not yet accessible from the network."
-msgstr ""
-
-msgid "To make the repository available to the network, type:"
-msgstr ""
-
-msgid ""
-"Each time that the server boots, it is necessary to execute the above "
-"command again. It would be easier to put the command in the boot script. "
-"Then it will automatically be started after boot."
-msgstr ""
-
-msgid ""
-"To test access to the new repository from another computer on the network, "
-"type:"
-msgstr ""
-
-msgid "If everything is fine, no errors will occur."
-msgstr ""
-
-msgid "Take local Bible"
-msgstr ""
-
-msgid "Pushing your Bible to the remote repository:"
-msgstr ""
-
-msgid "Setting up collaboration is now ready."
-msgstr ""
-
-msgid ""
-"The Manager can now choose menu Send/Receive any time he wants to "
-"synchronize Bibles with the remote repository."
-msgstr ""
-
-msgid "Take Bible in repository"
-msgstr ""
-
-msgid ""
-"The Bible in the remote repository was copied over into Bibledit-Web's "
-"Bible, overwriting the Bible that was there before."
-msgstr ""
-
-msgid ""
-"The Translator can now choose menu Send/Receive any time he wants to "
-"synchronize the Bible with the remote repository."
-msgstr ""
-
-msgid "Secure network repository setup"
-msgstr ""
-
-msgid ""
-"In this tutorial you are going to set up an secure repository on the network."
-msgstr ""
-
-msgid "The tutorial uses a git repository on sourceforge.net."
-msgstr ""
-
-msgid ""
-"Open an account on http://sourceforge.net. We will use the username \"joe\" "
-"in this tutorial."
-msgstr ""
-
-msgid ""
-"Register a new project on your personal account page on sourceforge.net. "
-"Let's call this project \"repo\"."
-msgstr ""
-
-msgid ""
-"Enable project feature \"Git\" on this project. This provides the repository "
-"that we need."
-msgstr ""
-
-msgid ""
-"The next thing is to try whether you can read the repository properly. To "
-"try that, open a terminal and issue the following command:"
-msgstr ""
-
-msgid ""
-"This command probably will ask for your password, and the first time it "
-"could ask you whether you want to continue connecting. But it should show no "
-"errors. If it completes without errors, then your secure repository works "
-"well."
-msgstr ""
-
-msgid ""
-"Where it says \"joe\", you would need to fill in the username that can "
-"access the account on sourceforge.net. And where it has \"repo\" you would "
-"need to fill in the name of the project that you created on sourceforge.net."
-msgstr ""
-
-msgid "Secure shell keys"
-msgstr ""
-
-msgid ""
-"Once manual access to the secure repository works, the next step is to set "
-"up secure shell keys. These keys allow Bibledit-Web easy access to the "
-"secure repository, without the need to type the password each time."
-msgstr ""
-
-msgid "Generating the keys"
-msgstr ""
-
-msgid ""
-"Here are the keys that can be used. Bibledit has generated or kept them for "
-"you."
-msgstr ""
-
-msgid "Private key"
-msgstr ""
-
-msgid "Public key"
-msgstr ""
-
-msgid "Update"
-msgstr ""
-
-msgid ""
-"Optionally, if you would like to use your own private and public keys, you "
-"can paste these above, and then press button Update above. Or if you empty "
-"the keys, and then press button Update, the keys will be regenerated."
-msgstr ""
-
-msgid "Enter the public key"
-msgstr ""
-
-msgid ""
-"Go to your personal account at sourceforge.net. See above for this account."
-msgstr ""
-
-msgid ""
-"On your personal account page at sourceforge.net, choose Services, then "
-"choose \"Edit SSH Keys for Shell/CVS\". Select all the text of the public "
-"key, see above, and copy it to the clipboard. Be sure it is the public key, "
-"not the private one. In the screen titled \"SSH Keys\", there is a place "
-"where it says \"Authorized keys:\". Paste the text of the public key into "
-"that space on the web page. After checking that everything looks fine, press "
-"button \"Update\". Make sure to enter only the public key, not the private "
-"key. Synchronizing the keys into the system has a 10 minute delay."
-msgstr ""
-
-msgid ""
-"After the delay of 10 minutes has expired you can continue to the next page."
-msgstr ""
-
-msgid "Send and Receive Bibles and Consultation Notes"
-msgstr ""
-
-msgid "Send/Receive"
-msgstr ""
-
-msgid ""
-"Please scroll down to the end of the page to see all messages in case there "
-"are many."
-msgstr ""
-
-msgid "Copy this Bible"
-msgstr ""
-
-msgid "Desktop"
-msgstr ""
-
-msgid "USFM Text"
-msgstr ""
-
-msgid "USFM Text (under development)"
-msgstr ""
-
-msgid "Help"
-msgstr ""
-
-msgid "Introduction"
-msgstr ""
-
-msgid "About"
-msgstr ""
-
-msgid ""
-"The text was not valid Unicode UTF-8. The chapter could not saved and has "
-"been reverted to the last good version."
-msgstr ""
-
-msgid "Unformatted text"
-msgstr ""
-
-msgid "Installation"
-msgstr ""
-
-msgid ""
-"If you'd like to install your own version of Bibledit-Web, this is possible "
-"too."
-msgstr ""
-
-msgid ""
-"No installable packages have been created yet. But you can clone the source "
-"code from the git repository."
-msgstr ""
-
-msgid "See the Development page for more details."
-msgstr ""
-
-msgid ""
-"Once you have cloned the source code, and have a local repository for the "
-"bibledit code, you can then copy directory web/web into your local web "
-"server, and get it up and running there. A web server is needed, PHP, and "
-"MySQL. If you have copied the web/web directory to, for example, http://"
-"localhost/bibledit, then to install the program and create all the "
-"databases, you need to run http://localhost/bibledit/setup.php once."
-msgstr ""
-
-msgid ""
-"Bibledit is a web-based application for translating the Bible. It is part of "
-"the Bibledit suite."
-msgstr ""
-
-msgid ""
-"The idea behind Bibledit-Web is that various users can log into the "
-"application, and that each user has a certain \"level\" within the "
-"application. This level will give him or her more or less rights."
-msgstr ""
-
-msgid ""
-"There's the most basic level, which is \"Visitor\". A visitor can be anybody "
-"who visit the site. Visitors should be able to see the Bibles being "
-"translated on the site."
-msgstr ""
-
-msgid ""
-"The next level is a \"Member\". A member is somebody who has signed up to "
-"the site, and has confirmed this signup through his email. This is an "
-"independent process, which means whoever wants can become a \"Member\". "
-"Members will be able to do the same as Visitors, but in addition they will "
-"be able to raise Issues or \"Consultation Notes\" on the site. These notes "
-"presumably will be about how a certain passage has been translated. Members "
-"should be able to subscribe to changes in the Bible, and to changes in "
-"Consultation Notes, so that they are notified by email about this."
-msgstr ""
-
-msgid ""
-"Then, again the next level, there can be a \"Consultant\". Consultants are "
-"people who can be consulted because of their knowledge of the original "
-"language such as Hebrew or Greek, or because of their knowledge of their "
-"target language in case they are language scholars, or for any other "
-"knowledge they have. Nobody can become a Consultant by himself, this level "
-"is assigned to him by the Manager."
-msgstr ""
-
-msgid ""
-"The next level is \"Translator\". These are the ones that have all the "
-"rights of the Consultant, but in addition can actually change the Bible text."
-msgstr ""
-
-msgid ""
-"Then there's the \"Manager\". The manager has all the privileges of the "
-"previous levels, but in addition can add books to the Bible, delete books, "
-"add chapters, copy Bibles, and so on. The manager can assign privileges to "
-"the translators, consultants, and so on."
-msgstr ""
-
-msgid ""
-"Finally, there is the \"Administrator\". The administrator has all rights to "
-"do anything, and will do the technical setup and maintenance of the site."
-msgstr ""
-
-msgid "Bibledit-Web"
 msgstr ""
