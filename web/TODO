@@ -1,3 +1,49 @@
+Session management fails on bibledit/demo on the combined pages.
+Two options:
+- To have the singleton Session logic check on the session in the constructor, so that 
+  the session system is accessed once only. After that, subsequent requests for 'leve' 
+  and 'user' are just retrieved from the object, not from the session system.
+- To make a system of 'token', where the token is sent to the server with each click, and subsequently 
+  retrieved. It could be connected to IP address, browser string, and so on.
+
+
+
+A user can assign a note to somebody else or a group.
+A user can say "I am done with this note".
+Notes can be assigned to a verse, or to a whole chapter.
+A user can subscribe to a particular note.
+A user can decide to subscribe to any changes in any note.
+If a user assigns a note to somebody else, he will also automatically subscribe to that note.
+User can create a new note.
+Manager can delete notes, or close them.
+There is an easy filter to select which notes will be displayed.
+Notes can be imported from Bibledit-Gtk.
+Notes are synchronized through a git repository.
+
+-Gtk index database: 
+CREATE TABLE 'notes' (id integer, reference text, project text, category text, casefolded text, 
+created integer, modified integer);
+
+-Gtk note file format.
+filename : note id
+line 0: date created.
+line 1: user who created it.
+line 2: note references.
+line 3: note category.
+line 4: project.
+line 5: date modified.
+further lines: note text.
+last lines: "Logbook:" and logbook entries.
+
+The new format will no longer have a logbook, since the note cannot be changed once written.
+But it will instead have the person who added to the note, and the date of that addition or the change made to the note,
+which is converted to text as well.
+
+Import from Bibledit-Gtk can go through a zipped file to be uploaded to the site.
+Or better an export from Bibledit-Gtk, or backup.
+
+
+
 
 
 
@@ -24,6 +70,12 @@ When editing desktops the user can choose in which menu it will be displayed, an
 
 
 
+
+A user can subscribe to changes in a Bible.
+These changes preferably are given only once an hour or so and the 
+email will contain all changes assembled into one.
+There will be links with the changes that allow the user to go straight to the passage.
+Changes are given as in Bibledit-Gtk, where differences are shown till the character level.
 
 
 

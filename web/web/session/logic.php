@@ -14,9 +14,10 @@ class Session_Logic
   private $level = 0;                         // The level of the user.
   private $check_browser = true;              // Include browser name in fingerprint?
   private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
-  private $secure_word = 'BIBLETRANSLATION';  // Control word - any word you want.
+  private $secure_word = 'controlword';       // Control word - any word you want.
   private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
   private static $instance;                   // Current singleton instance.
+  private $logged_in;
 
 
   // The class constructor is private, so no outsider can call it.    
@@ -42,6 +43,11 @@ class Session_Logic
   {
     $_SESSION['ss_fprint'] = $this->_Fingerprint();
     $this->_RegenerateId();
+    if (!$this->Check() || !isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+      $this->logged_in = false;
+    } else {
+      $this->logged_in =  true;
+    }
   }
 
 
@@ -119,19 +125,22 @@ class Session_Logic
       $this->Open();
       $_SESSION['logged_in'] = true;
       $_SESSION['user'] = $user_or_email;
+      $this->logged_in = true;
       return true;
     } else {
       return false;
     }
   }
 
-
+  /**
+  * Returns true if the user has logged in.
+  */
   public function loggedIn () {
-    if (!$this->Check() || !isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
-      return false;
-    } else {
-      return true;
-    }
+    // The logged-in status is stored in the singleton object, so that if it is requested twice,
+    // the session system is queries only once. It has been seen on some sites that if the php session
+    // system was queried more than once, it did not behave consistently.
+    // Buffering the status in the object resolved this.
+    return $this->logged_in;
   }
 
 

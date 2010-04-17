@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-16 01:50+0200\n"
+"POT-Creation-Date: 2010-04-17 01:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -895,9 +895,6 @@ msgid "Translation"
 msgstr ""
 
 msgid "Text"
-msgstr ""
-
-msgid "Unformatted text"
 msgstr ""
 
 msgid "Styles"
@@ -1960,6 +1957,9 @@ msgid ""
 "You can modify this stylesheet. To do that, make changes to the existing xml "
 "data in the textbox below, and then submit it. It will overwrite whatever "
 "was there before."
+msgstr ""
+
+msgid "Edit Bible with raw USFM code"
 msgstr ""
 
 msgid "Send and Receive Bibles and Consultation Notes"
