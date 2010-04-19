@@ -52,6 +52,12 @@ class Notes_Editor
         }
       }
     }
+    
+    // Delete a note.
+    $deleteconsultationnote = $_GET['deleteconsultationnote'];
+    if (isset ($deleteconsultationnote)) {
+      $database_notes->delete ($deleteconsultationnote);
+    }
   }
   
   public function display () // Todo working here.
@@ -84,9 +90,10 @@ class Notes_Editor
     $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
     if (isset ($display_consultation_note_identifier)) {
       // Display one note.
+      $smarty->assign ("consultation_note_identifier", $display_consultation_note_identifier);
       $smarty->assign ("note_summary", $database_notes->getSummary($display_consultation_note_identifier));
       $contents = $database_notes->getContents($display_consultation_note_identifier);
-      $smarty->assign ("note_content", $contents); // Todo use real data. Use nl2br Make html safe.
+      $smarty->assign ("note_content", $contents);
       $smarty->display ("note.tpl");
     } else {
       // Display notes summaries.
