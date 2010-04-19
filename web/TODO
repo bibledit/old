@@ -1,23 +1,55 @@
-Session management fails on bibledit/demo on the combined pages.
-Two options:
-- To have the singleton Session logic check on the session in the constructor, so that 
-  the session system is accessed once only. After that, subsequent requests for 'leve' 
-  and 'user' are just retrieved from the object, not from the session system.
-- To make a system of 'token', where the token is sent to the server with each click, and subsequently 
-  retrieved. It could be connected to IP address, browser string, and so on.
 
 
 
-A user can assign a note to somebody else or a group.
-A user can say "I am done with this note".
-Notes can be assigned to a verse, or to a whole chapter.
+
+
+
+To automatically import translated templates from launchpad.
+bzr init
+bzr pull lp:~teusbenschop/bibledit/bibledit-pot
+To import the translation templates into the source.
+
+
+
+To create directory datetime
+Use date_default_timezone_set().
+See file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/timezones.php.html
+To make user setting that allows to choose this setting.
+See: file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/class.datetime.php.html
+
+
+
+Probably the creator should get subscribed to this note
+
+
+The edited note, if opened, and tied to a session, will always remain open,
+hence we need to store its identifier in the sessions database.
+If the edited note is saved, or cancelled, then this identifier is cancelled from the session database.
+
+Once the new note has been submitted, and is listed, the user can then change settings.
+
+A user can assign a note to somebody else or a group. 
+Members do not reflect in the group, but all users with higher levels do.
+
+A user can say "I am done with this note". This is the same as 'unsubscribe'.
+But if the user is subscribed to all notes, then this setting has no effect.
+
+Notes can be assigned to a verse or a range of verses.
+
 A user can subscribe to a particular note.
+
 A user can decide to subscribe to any changes in any note.
+
 If a user assigns a note to somebody else, he will also automatically subscribe to that note.
+
 User can create a new note.
+
 Manager can delete notes, or close them.
+
 There is an easy filter to select which notes will be displayed.
+
 Notes can be imported from Bibledit-Gtk.
+
 Notes are synchronized through a git repository.
 
 -Gtk index database: 
@@ -38,22 +70,57 @@ last lines: "Logbook:" and logbook entries.
 The new format will no longer have a logbook, since the note cannot be changed once written.
 But it will instead have the person who added to the note, and the date of that addition or the change made to the note,
 which is converted to text as well.
+So it all becomes one long note block, and this goes at the end of the note file or database field.
 
 Import from Bibledit-Gtk can go through a zipped file to be uploaded to the site.
 Or better an export from Bibledit-Gtk, or backup.
 
+Settings per note:
+submitted by: user
+submitted on: date / time
+link: close note / re-open note.
+summary: but this is the first line from the note body.
+assigned to: user or users.
+link: close discussion / allow discussion. If the status is set to 'Vote', then no discussion is possible, only votes.
+Then, if the note is closed, somebody may open it again to continue discussion.
+notify: user or users (it may be easier for user to subscribe themselves to a certain note through a link on the note)
+
+Category	Select Box	Generally high level modules or functionalities of the software (e.g. User interface, Configuration Manager, etc)
+
+Priority	Select Box	How quickly the item should be handled
+Privacy	Select Box	Determines whether the item can be seen by members of the project only or anybody.
+Votes	Text Field	How many votes this item received.
+Votes may always be done by everybody.
+
+Nobody can remove anyone's subscription to any note.
+
+If a note is moved into 'vote' mode, then people can only add one line of text as a vote.
+Somebody can only vote once, but if he'd like to change his vote, then he is presented with his original vote, 
+to be edited by him.
+Votes are anonymous by default. The system knows who voted what, but this information is not displayed.
+Votes are given as part of the text, like so: Vote: Username: <Vote text>
+
+Each notes is assigned to a Bible, or to any Bible, as in Bibledit-Gtk.
+
+Members can raise issues. If there are spammers, who made themselves a member,
+then the manager can update their status so that it seems they log in, but in reality their submissions are ignored
+and dropped.
+
+If there are more than so many notes, by default a paginator shows up.
+The user can, for once, disable this so that all notes show up.
+But next time it shows another note, the paginator comes up again.
+This is to prevent hanging when the user chooses all available notes.
+The advantage is that the number of notes would still be shown, and this is what is needed at times, to know the total
+notes count that would display if a certain option would be chosen.
+
+When synchronizing the notes, note ID's can clash in cases that two or more users have created 
+different notes but with the same identifier. When doing git commit, new note identifiers should be noted,
+and when goint git pull, if these exist, that should be noted. But this will not work since the git pull
+will already have merged the notes, thus leading to the loss of a note.
+For that reason a list of new notes should be maintained, so that after git pull, this note is found to clash,
+a new identifier is assigned to the note.
 
 
-
-
-
-
-
-
-
-To automatically import translated templates from launchpad.
-bzr init
-bzr pull lp:~teusbenschop/bibledit/bibledit-pot
 
 
 
@@ -345,3 +412,7 @@ people not yet logged in, or logged out.
 
 
 
+
+Importing USFM data should also be possible by file upload.
+The file to be uploaded can be a plain text usfm file, possibly several books in one file,
+or it could be compressed file, in which case Bibledit-Web will extract from that whatever it finds in that file.

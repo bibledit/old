@@ -184,6 +184,11 @@
   $database_sessions->verify();
   flush ();
     
+  // The consultations notes table.
+  $database_notes = Database_Notes::getInstance();
+  $database_notes->verify();
+  flush ();
+    
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

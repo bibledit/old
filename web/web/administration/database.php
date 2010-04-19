@@ -108,6 +108,11 @@ $database_sessions = Database_Sessions::getInstance();
 $database_sessions->optimize();
 
 
+// The consultation notes table.
+$database_notes = Database_Notes::getInstance();
+$database_notes->optimize();
+
+
 // Done.
 message_information ("Ready");
 

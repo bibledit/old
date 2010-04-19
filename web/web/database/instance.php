@@ -35,7 +35,7 @@ class Database_Instance {
         }
         // The database was not found. It needs to be created.
         // It should use utf8 unicode by default.
-        $this->mysqli->query ("CREATE DATABASE '$database_name' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
+        $this->mysqli->query ("CREATE DATABASE `$database_name` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
         if ($this->mysqli->errno) {
           $this->is_connected = false;
           if ($display_errors) {

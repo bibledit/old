@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-17 01:47+0200\n"
+"POT-Creation-Date: 2010-04-19 01:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -224,6 +224,9 @@ msgid "Go to another chapter"
 msgstr ""
 
 msgid "Go to another verse"
+msgstr ""
+
+msgid "Notes"
 msgstr ""
 
 msgid "Chapter was saved."
@@ -930,6 +933,18 @@ msgstr ""
 msgid "Demo plugin for the User menu, page 2."
 msgstr ""
 
+msgid "Create new note"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "New consultation note. The first bit of text will become the summary."
+msgstr ""
+
 msgid "Installation"
 msgstr ""
 
@@ -1124,6 +1139,9 @@ msgstr ""
 msgid "Management"
 msgstr ""
 
+msgid "Consultations"
+msgstr ""
+
 msgid "Go to"
 msgstr ""
 
@@ -1150,12 +1168,6 @@ msgid ""
 "You do not currently have access to the page you try to view. There can be a "
 "few reasons for this. One reason may be that your session has timed out. To "
 "resolve this, log in and try again."
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-msgid "Cancel"
 msgstr ""
 
 msgid "Database"

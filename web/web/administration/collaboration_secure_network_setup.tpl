@@ -42,7 +42,7 @@
   <h3>{t}Generating the keys{/t}</h3>
   <p>{t}Here are the keys that can be used. Bibledit has generated or kept them for you.{/t}</p>
   <form action="collaboration_secure_network_setup.php?bible={$bible}#keys" name="keys" method="post">
-    <table>
+    <table class="fullwidth">
       <tr>
         <td>{t}Private key{/t}</td>
         <td>{t}Public key{/t}</td>

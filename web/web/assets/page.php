@@ -42,6 +42,12 @@ class Assets_Page
     $smarty->assign ("message", $message);
     $smarty->display ("error.tpl");
   }
+  public function message ($message)
+  {
+    $smarty = new Smarty_Bibledit (__FILE__);
+    $smarty->assign ("message", $message);
+    $smarty->display ("message.tpl");
+  }
   public function footer ()
   {
     $smarty = new Smarty_Bibledit (__FILE__);

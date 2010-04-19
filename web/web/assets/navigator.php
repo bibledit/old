@@ -202,6 +202,8 @@ class Assets_Navigator
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
 
+    $smarty->assign ("caller", $_SERVER["PHP_SELF"]);
+
     $bible = $this->bible();
     $smarty->assign ("bible", $bible);
 
