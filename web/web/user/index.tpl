@@ -12,6 +12,7 @@
     <h1>{t}My area{/t}</h1>
     <p><a href="mail.php">{t}Mail{/t}</a></p>
     <p><a href="account.php">{t}Account{/t}</a></p>
+    <p><a href="timezone.php">{t}Timezone{/t}</a></p>
     {foreach key=key item=item from=$plugins} 
       <p><a href={$key}>{$item}</a></p>
     {/foreach} 

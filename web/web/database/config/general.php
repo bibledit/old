@@ -188,6 +188,12 @@ EOD;
     $this->setValue ("private-ssh-key", $value);
   }   
 
+  public function getTimezone() {
+    return $this->getValue ("timezone", "");
+  }
+  public function setTimezone ($value) {
+    $this->setValue ("timezone", $value);
+  }   
 }
 
 

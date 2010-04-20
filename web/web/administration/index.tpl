@@ -15,6 +15,7 @@
     <p><a href="mail.php">{t}Mail{/t}</a></p>
     <p><a href="collaboration.php">{t}Collaboration{/t}</a></p>
     <p><a href="database.php">{t}Database{/t}</a></p>
+    <p><a href="timezone.php">Timezone</a></p>
     <p><a href="phpinfo.php">PHP Info</a></p>
     {foreach key=key item=item from=$plugins} 
       <p><a href={$key}>{$item}</a></p>

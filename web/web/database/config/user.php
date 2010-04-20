@@ -133,6 +133,12 @@ EOD;
     $this->setValueForBible ($bible, "remote-repo-url", $url);
   }
     
+  public function getTimezone() {
+    return $this->getValue ("", "timezone", "");
+  }
+  public function setTimezone ($value) {
+    $this->setValue ("", "timezone", $value);
+  }   
 
 
 

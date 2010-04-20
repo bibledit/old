@@ -1,3 +1,13 @@
+To use the user's timezone, and in case that has not been set, to use the site's one.
+To create directory datetime
+Use date_default_timezone_set().
+See file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/timezones.php.html
+To make user setting that allows to choose this setting.
+See: file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/class.datetime.php.html
+
+
+
+
 To test Session_Logic, in particular function public function attemptLogin  and related.
 UnitTests.
 
@@ -11,22 +21,12 @@ To import the translation templates into the source.
 
 
 
-To create directory datetime
-Use date_default_timezone_set().
-See file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/timezones.php.html
-To make user setting that allows to choose this setting.
-See: file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/class.datetime.php.html
-
-
-
 Probably the creator should get subscribed to this note
+Subscription 'before' note is created, so that this note's notification goes out to him.
 
-
-The edited note, if opened, and tied to a session, will always remain open,
-hence we need to store its identifier in the sessions database.
-If the edited note is saved, or cancelled, then this identifier is cancelled from the session database.
 
 Once the new note has been submitted, and is listed, the user can then change settings.
+
 
 A user can assign a note to somebody else or a group. 
 Members do not reflect in the group, but all users with higher levels do.
