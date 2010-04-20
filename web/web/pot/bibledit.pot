@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-19 01:46+0200\n"
+"POT-Creation-Date: 2010-04-20 02:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,6 +60,15 @@ msgstr ""
 msgid "Demo plugin user menu item 2"
 msgstr ""
 
+msgid "There was nothing to save"
+msgstr ""
+
+msgid "The note was saved"
+msgstr ""
+
+msgid "This view does not display any notes."
+msgstr ""
+
 msgid "Help"
 msgstr ""
 
@@ -70,6 +79,12 @@ msgid "About"
 msgstr ""
 
 msgid "Warning"
+msgstr ""
+
+msgid "Created by:"
+msgstr ""
+
+msgid "Created on:"
 msgstr ""
 
 msgid "Unknown"
@@ -936,13 +951,28 @@ msgstr ""
 msgid "Create new note"
 msgstr ""
 
+msgid "Identifier"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "Create a new consultation note."
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
 msgid "Save"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "New consultation note. The first bit of text will become the summary."
+msgid "List notes"
+msgstr ""
+
+msgid "Delete this note"
 msgstr ""
 
 msgid "Installation"

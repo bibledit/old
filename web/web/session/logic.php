@@ -102,7 +102,7 @@ class Session_Logic
     if ($database->getAdministratorCount() == 0) {
       // If there are no administrators listed in the databse, 
       // then it uses the credentials set up during installation.
-      include ("admin/credentials.php");
+      include ("administration/credentials.php");
       if ($user_or_email == $site_admin_username && $password == $site_admin_password) {
         // Remove any default administrator. If left in, it could lock the real administrator out.
         include ("session/levels.php");
