@@ -52,7 +52,25 @@ class Notes_Editor
         }
       }
     }
-    
+
+    // Add comment to existing note.
+    if (isset ($_GET['saveconsultationnotecomment'])) {
+      $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
+      if (isset ($display_consultation_note_identifier)) {
+        if (isset($_POST['submit'])) {
+          $comment = trim ($_POST['comment']);
+          if ($comment == "") {
+            Assets_Page::error (gettext ("There was nothing to save"));
+          } else {
+            // Todo
+            $database_notes->addComment ($display_consultation_note_identifier, $comment);
+            Assets_Page::success (gettext ("The comment was added to the note"));
+          }
+
+        }
+      }
+    }
+   
     // Delete a note.
     $deleteconsultationnote = $_GET['deleteconsultationnote'];
     if (isset ($deleteconsultationnote)) {
@@ -94,6 +112,7 @@ class Notes_Editor
       $smarty->assign ("note_summary", $database_notes->getSummary($display_consultation_note_identifier));
       $contents = $database_notes->getContents($display_consultation_note_identifier);
       $smarty->assign ("note_content", $contents);
+      $smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
       $smarty->display ("note.tpl");
     } else {
       // Display notes summaries.

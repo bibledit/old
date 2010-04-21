@@ -1,13 +1,5 @@
-To test Session_Logic, in particular function public function attemptLogin  and related.
-UnitTests.
-
-
-
-
-To automatically import translated templates from launchpad.
-bzr init
-bzr pull lp:~teusbenschop/bibledit/bibledit-pot
-To import the translation templates into the source.
+User can add a comment to a note.
+He should get subscribed to this note, then.
 
 
 
@@ -32,8 +24,6 @@ A user can decide to subscribe to any changes in any note.
 
 If a user assigns a note to somebody else, he will also automatically subscribe to that note.
 
-User can create a new note.
-
 Manager can delete notes, or close them.
 
 There is an easy filter to select which notes will be displayed.
@@ -41,10 +31,6 @@ There is an easy filter to select which notes will be displayed.
 Notes can be imported from Bibledit-Gtk.
 
 Notes are synchronized through a git repository.
-
--Gtk index database: 
-CREATE TABLE 'notes' (id integer, reference text, project text, category text, casefolded text, 
-created integer, modified integer);
 
 -Gtk note file format.
 filename : note id
@@ -90,7 +76,7 @@ to be edited by him.
 Votes are anonymous by default. The system knows who voted what, but this information is not displayed.
 Votes are given as part of the text, like so: Vote: Username: <Vote text>
 
-Each notes is assigned to a Bible, or to any Bible, as in Bibledit-Gtk.
+Each note is assigned to a Bible, or to any Bible, as in Bibledit-Gtk.
 
 Members can raise issues. If there are spammers, who made themselves a member,
 then the manager can update their status so that it seems they log in, but in reality their submissions are ignored
@@ -109,6 +95,21 @@ and when goint git pull, if these exist, that should be noted. But this will not
 will already have merged the notes, thus leading to the loss of a note.
 For that reason a list of new notes should be maintained, so that after git pull, this note is found to clash,
 a new identifier is assigned to the note.
+
+
+
+
+
+
+
+
+
+
+
+To automatically import translated templates from launchpad.
+bzr init
+bzr pull lp:~teusbenschop/bibledit/bibledit-pot
+To import the translation templates into the source.
 
 
 

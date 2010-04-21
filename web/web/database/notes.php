@@ -80,13 +80,18 @@ EOD;
   }
 
 
-  private function assembleContents ($identifier, $header, $contents)
+  private function assembleContents ($identifier, $contents)
   {
     $new_contents = "";
     if (is_numeric ($identifier)) {
       $new_contents = $this->getContents ($identifier);
     }
-    $new_contents .= "<h4>$header</h4>\n";
+    $session_logic = Session_Logic::getInstance();
+    $datetime = new DateTime();
+    Filter_Datetime::user_zone ($datetime);
+    $datetime = $datetime->format(DATE_RSS);
+    $user = $session_logic->currentUser ();
+    $new_contents .= "<p>$user ($datetime):</p>\n";
     $lines = explode ("\n", $contents);
     foreach ($lines as $line) {
       $line = trim ($line);
@@ -113,11 +118,7 @@ EOD;
       $summary = $summary[0];
     }
     $summary = Database_SQLInjection::no ($summary);
-    $datetime = new DateTime();
-    Filter_Datetime::user_zone ($datetime);
-    $datetime = $datetime->format(DATE_RSS);
-    $header = gettext ("Created by:") . " " . $session_logic->currentUser () . ". " . gettext ("Created on:") . " " . $datetime;
-    $contents = $this->assembleContents ($identifier, $header, $contents);
+    $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
     $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '$assigned', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')";
@@ -187,6 +188,29 @@ EOD;
     $query = "DELETE FROM notes WHERE identifier = $identifier;";
     $result = $server->runQuery ($query);
   }
+
+  /**
+  * Add a $comment to an exiting note identified by $identifier.
+  */
+  public function addComment ($identifier, $comment)
+  {
+    $identifier = Database_SQLInjection::no ($identifier);
+    if ($comment == "") return;
+
+    $server = Database_Instance::getInstance ();
+    $session_logic = Session_Logic::getInstance();
+
+    $modified = time();
+    $query = "UPDATE notes SET modified = $modified WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+
+    $contents = $this->assembleContents ($identifier, $comment);
+    $contents = Database_SQLInjection::no ($contents);
+    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+
   
   
 
