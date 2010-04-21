@@ -47,6 +47,21 @@ class Filter_Datetime
     }
     return $zones;
   }
+  
+  
+  public function user_zone (&$datetime)
+  {
+    $database_config_user = Database_Config_User::getInstance();
+    $timezone = $database_config_user->getTimezone();
+    if ($timezone == "") {
+      $database_config_general = Database_Config_General::getInstance();
+      $timezone = $database_config_general->getTimezone();
+    }
+    if ($timezone != "") {
+      $datetimezone = new DateTimeZone ($timezone);
+      $datetime->setTimezone ($datetimezone);
+    }
+  }
 }
 
 ?>

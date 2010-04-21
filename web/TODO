@@ -1,13 +1,3 @@
-To use the user's timezone, and in case that has not been set, to use the site's one.
-To create directory datetime
-Use date_default_timezone_set().
-See file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/timezones.php.html
-To make user setting that allows to choose this setting.
-See: file:///home/teus/library/computing/lamp/www.php.net/www.php.net/www.php.net/manual/en/class.datetime.php.html
-
-
-
-
 To test Session_Logic, in particular function public function attemptLogin  and related.
 UnitTests.
 

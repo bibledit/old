@@ -113,11 +113,9 @@ EOD;
       $summary = $summary[0];
     }
     $summary = Database_SQLInjection::no ($summary);
-    //date_default_timezone_set('Europe/London'); 
-    // Todo this, and down, move to user preferences.
     $datetime = new DateTime();
-    //$datetime->setTimeZone ('Europe/London');
-    $datetime = $datetime->format(DATE_ATOM);
+    Filter_Datetime::user_zone ($datetime);
+    $datetime = $datetime->format(DATE_RSS);
     $header = gettext ("Created by:") . " " . $session_logic->currentUser () . ". " . gettext ("Created on:") . " " . $datetime;
     $contents = $this->assembleContents ($identifier, $header, $contents);
     $contents = Database_SQLInjection::no ($contents);
