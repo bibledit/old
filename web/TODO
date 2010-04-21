@@ -1,25 +1,5 @@
-Focus the right entry when creating a note.
-Focus the right entry when adding a comment.
 
-
-It needs a special form of Asset_Page, one that can add document.ready functions and so on.
-And whether to add jquery.js, as it should do always.
-
-<head> 
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta> 
-  <title>Notes</title> 
-  <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link> 
-  <script src="jquery.js"></script>
-  <script>
-    $(document).ready(function() {
-      document.form.comment.focus();
-    });
-  </script>
-</head> 
-
-
-
-
+User who creates a note should get subscribed to the note.
 User who adds a comment should get subscribed to the note.
 The 'assigned' field is not for note subscriptions, but for those who need to take action on it.
 

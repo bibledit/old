@@ -35,6 +35,17 @@ class Notes_Editor
     return self::$instance;
   }
 
+  public function scripts () // Todo work here.
+  {
+    if (isset ($_GET['createconsultationnote'])) {
+      $code = "document.form.summary.focus();"; 
+    }
+    if (isset ($_GET['addtoconsultationnote'])) {
+      $code = "document.form.comment.focus();"; 
+    }
+    return $code;
+  }
+  
   public function actions () // Todo working here.
   {
     $database_notes = Database_Notes::getInstance();
@@ -62,11 +73,9 @@ class Notes_Editor
           if ($comment == "") {
             Assets_Page::error (gettext ("There was nothing to save"));
           } else {
-            // Todo
             $database_notes->addComment ($display_consultation_note_identifier, $comment);
             Assets_Page::success (gettext ("The comment was added to the note"));
           }
-
         }
       }
     }

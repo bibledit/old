@@ -5,5 +5,19 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
     <title>{$title}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
+    {if isset ($document_ready_functions) }
+      <script type="text/javascript" src="../jquery/jquery.js"></script>
+      {section name=offset loop=$document_ready_functions} 
+        <script>
+        {literal}
+          $(document).ready(function() {
+          {/literal}
+            {$document_ready_functions[offset]}
+          {literal}
+          });
+        {/literal}
+        </script>
+      {/section} 
+    {/if}
   </head>
   <body>

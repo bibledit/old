@@ -24,10 +24,15 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (CONSULTANT_LEVEL);
 $database_sessions = Database_Sessions::getInstance ();
 $database_sessions->getCurrentSessionId ();
-Assets_Page::header (gettext ("Notes"));
-$assets_navigator = Assets_Navigator::getInstance();
-$assets_navigator->actions ();
+
+$assets_header = Assets_Header::getInstance(); // Todo
+$assets_header->jQueryHeader (gettext ("Notes"));
+$assets_navigator = Assets_Navigator::getInstance(); // Todo
 $notes_editor = Notes_Editor::getInstance();
+$assets_header->jQueryHeaderAddDocumentReadyFunction ($notes_editor->scripts ());
+$assets_header->run();
+
+$assets_navigator->actions ();
 $notes_editor->actions ();
 $assets_navigator->display ();
 $notes_editor->display();
