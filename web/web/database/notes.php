@@ -108,8 +108,6 @@ EOD;
     $server = Database_Instance::getInstance ();
     $identifier = $this->getNewUniqueIdentifier ();
     $modified = time();
-    $session_logic = Session_Logic::getInstance();
-    $assigned = Database_SQLInjection::no ($session_logic->currentUser ());
     $bible = Database_SQLInjection::no ($bible);
     $passage = Database_SQLInjection::no ($this->getPassageMarkup ($book, $chapter, $verse));
     // If the $summary is not given, take the first line of the $contents as the $summary.
@@ -121,7 +119,7 @@ EOD;
     $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '$assigned', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')";
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')";
     $server->runQuery ($query);
     // Return this new note´s identifier.
     return $identifier;
