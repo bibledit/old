@@ -1,16 +1,22 @@
-Mail notification upon change in note:
-change attributes
+. This has links, and gives information.
 
 
 
 
 
-User can subscribe and unsubscribe to a note. This has links, and gives information.
 
 
 
-Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
-with git repository. User may subscribe to any changes, or to changes per chapter.
+
+The reference(s) of the note should show, and should go out with the mailer, and should be editable.
+
+
+
+
+
+
+Mail notification upon change in note: change attributes
+
 
 
 
@@ -23,12 +29,6 @@ and then sent out in one mail.
 
 
 
-
-
-
-User who adds a comment should get subscribed to the note, 'before' the added comment.
-The names of the users subscribed to a note is stored in the 'subscriptions' text field (still to be created),
-with each username on a line of its own.
 
 The 'assigned' field is not for note subscriptions, but for those who need to take action on it.
 
@@ -246,9 +246,7 @@ the relevant bits in the po file.
 
 
 
-* There's one table that never changes, and it contains the current database schema version number, an integer.
-* Each object that encapsulates a table also stores the actual version number as a constant. 
-* It compares it with the stored version number, and if there are differences, it performs an upgrade.
+
 
 
 
@@ -297,11 +295,15 @@ These two catalogs are different.
 When setting translation domains in the preferences, do a check on the functions' return values if it worked out well.
 
 
-The administrator can leave the locale empty, in which case the system locale will be taken. This should be the default for local installations.
+The administrator can leave the locale empty, in which case the system locale will be taken. 
+This should be the default for local installations.
 
 
 
 The site has one default translation, set by the site administrator. Visitors get to see this default translation.
+
+
+
 
 The purpose of the site is to inform the public about a translation in progress and to sollicit their input.
 The 'consultation notes' on the site work in a special way. Contributors are invited to open an account on the site in order to contribute.
@@ -318,9 +320,6 @@ with a variety of comments to it, and status. See the standard ticets systems. T
 The new should be shared also.
 
 
-Make our own modular system, loosely coupled, so that we create a new applicaton for each module, 
-* and share the library for all, and any of our own classes.
-All these applications together form "bibledit", a loosely coupled modular lot of software.
 
 
 
@@ -341,8 +340,6 @@ access from cell phones.
 People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
 email preferences.
 
-
-JavaScript library jquery.com is recommended.
 
 
 Files in the web root should be given such a mode that these cannot be read from outside, only from inside.
@@ -440,4 +437,11 @@ This will result in better collaboration and less frustration if changes were no
 
 Mail received can accumulate in the Trash and get huge. There should be a link to empty the whole Trash 
 in one go.
+
+
+Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
+with git repository. User may subscribe to any changes, or to changes per chapter.
+
+
+
 

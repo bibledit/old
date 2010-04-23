@@ -91,6 +91,18 @@ class Notes_Editor
       $notes_logic->handlerDeleteNote ($deleteconsultationnote); // Todo
       $database_notes->delete ($deleteconsultationnote);
     }
+    
+    // Subscribe to the note.
+    if (isset ($_GET['consultationnoteunsubscribe'])) {
+      $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
+      $database_notes->unsubscribe ($display_consultation_note_identifier);
+    }
+
+    // Unsubscribe from the note.
+    if (isset ($_GET['consultationnotesubscribe'])) {
+      $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
+      $database_notes->subscribe ($display_consultation_note_identifier);
+    }
   }
   
   public function display () // Todo working here.
@@ -128,6 +140,11 @@ class Notes_Editor
       $contents = $database_notes->getContents($display_consultation_note_identifier);
       $smarty->assign ("note_content", $contents);
       $smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
+      $session_logic = Session_Logic::getInstance();
+      $user = $session_logic->currentUser ();
+      $subscribed = $database_notes->isSubscribed ($display_consultation_note_identifier, $user);
+      $smarty->assign ("subscribed", $subscribed);
+      // Todo
       $smarty->display ("note.tpl");
     } else {
       // Display notes summaries.
