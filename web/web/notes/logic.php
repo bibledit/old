@@ -37,13 +37,12 @@ class Notes_Logic
 
   public function handlerNewNote ($identifier)  // Todo subscription handler done here, then call mail handler.
   {
-    $database_config_user = Database_Config_User::getInstance ();
-    if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
-      // User automatically gets subscribed to the note.
-      $database_notes = Database_Notes::getInstance();
-      $database_notes->subscribe ($identifier);
-    }
     $this->notifierNote ($identifier, gettext ("New note"));
+  }
+
+  public function handlerCommentNote ($identifier)  // Todo subscription handler done here, then call mail handler.
+  {
+    $this->notifierNote ($identifier, gettext ("Comment added to"));
   }
 
   /**
@@ -52,6 +51,12 @@ class Notes_Logic
   */
   private function notifierNote ($identifier, $label)
   {
+    $database_config_user = Database_Config_User::getInstance ();
+    if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
+      // User automatically gets subscribed to the note.
+      $database_notes = Database_Notes::getInstance();
+      $database_notes->subscribe ($identifier);
+    }
     // Get note data.
     $database_notes = Database_Notes::getInstance();
     $summary = $database_notes->getSummary ($identifier);
@@ -59,7 +64,6 @@ class Notes_Logic
     // Get the subscribers to this note.
     $subscribers = $database_notes->getSubscribers ($identifier);
     // Get users who get notified of any change in any note.
-    $database_config_user = Database_Config_User::getInstance();
     $database_users = Database_Users::getInstance();
     $users = $database_users->getUsers ();
     // Add these users to the subscribers, ensure each username is unique.
@@ -72,7 +76,7 @@ class Notes_Logic
     // Send mail to all receipients.
     $database_mail = Database_Mail::getInstance();
     foreach ($subscribers as $subscriber) {
-      $database_mail->send ($subscriber, gettext ("New note") . ": " . $summary, $contents);
+      $database_mail->send ($subscriber, "$label: $summary", $contents);
     }  
   }
   

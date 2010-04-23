@@ -77,6 +77,8 @@ class Notes_Editor
           } else {
             $database_notes->addComment ($display_consultation_note_identifier, $comment);
             Assets_Page::success (gettext ("The comment was added to the note"));
+            $notes_logic = Notes_Logic::getInstance();
+            $notes_logic->handlerCommentNote ($display_consultation_note_identifier); // Todo
           }
         }
       }

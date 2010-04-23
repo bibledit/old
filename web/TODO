@@ -1,21 +1,8 @@
-
-
-
-
 Mail notification upon change in note:
-creation
-add comment.
 deletion
 change attributes
 
-At first emails are sent out immediately upon change.
 
-
-There may be need for a setting whereby a user does not receive emails because of changes he made himself.
-Setting: "Receive emails from changes I made in consultation notes", and this is off by default.
-Better setting: Subscribe to consultation notes I create or edit. This is off by default.
-To make a user setting: notifications. Here the user can set all notifications he likes.
-Another setting: Get notified of any changes made in any consultation note.
 
 
 
