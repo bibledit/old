@@ -238,7 +238,23 @@ EOD;
   public function updateEmailQuery ($username, $email) {
     $query = "UPDATE users SET email = '$email' WHERE username = '$username';";
     return $query;
-  }   
+  }
+  
+  /**
+  * Return an array with the available users.
+  */
+  public function getUsers ()
+  {
+    $server = Database_Instance::getInstance ();
+    $query = "SELECT username FROM users;";
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $users [] = $row[0];
+    }
+    return $users;
+  }
+        
 
 
 }

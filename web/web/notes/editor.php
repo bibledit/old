@@ -58,8 +58,10 @@ class Notes_Editor
         if (($contents == "") && ($summary == "")) {
           Assets_Page::error (gettext ("There was nothing to save"));
         } else {
-          $database_notes->storeNewNote ($_GET['createnotebible'], $_GET['createnotebook'], $_GET['createnotechapter'], $_GET['createnoteverse'], $summary, $contents);
+          $identifier = $database_notes->storeNewNote ($_GET['createnotebible'], $_GET['createnotebook'], $_GET['createnotechapter'], $_GET['createnoteverse'], $summary, $contents);
           Assets_Page::success (gettext ("The note was saved"));
+          $notes_logic = Notes_Logic::getInstance();
+          $notes_logic->handlerNewNote ($identifier);
         }
       }
     }

@@ -53,6 +53,8 @@ contents text             # Note contents.
 );
 EOD;
     $database_instance->runQuery ($query);
+    // Table update. Subscriptions: Contains users subscribed to this note.
+    $database_instance->runQuery ("ALTER TABLE notes ADD subscriptions text AFTER assigned;");
   }
 
   public function optimize () {
@@ -119,7 +121,7 @@ EOD;
     $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')";
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')"; // Todo current user to get subscribed immediately.
     $server->runQuery ($query);
     // Return this new note´s identifier.
     return $identifier;
@@ -207,7 +209,93 @@ EOD;
     $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
     $server->runQuery ($query);
   }
+  
+  
+  /**
+  * Subscribe the current user to the note identified by $identifier.
+  */
+  public function subscribe ($identifier) // Todo Take in account existing subscriptions. Todo PHPUnit.
+  {
+    $session_logic = Session_Logic::getInstance();
+    $user = $session_logic->currentUser ();
+    $this->subscribeUser ($identifier, $user);
+  }
 
+
+  /**
+  * Subscribe the $user to the note identified by $identifier.
+  */
+  public function subscribeUser ($identifier, $user) // Todo use
+  {
+    // If the user already is subscribed to the note, bail out.
+    $subscribers = $this->getSubscribers ($identifier);
+    if (in_array ($user, $subscribers)) return;
+    // Subscribe $user.
+    $subscribers[]= "$user";
+    $subscribers = implode ("\n", $subscribers);
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $subscribers = Database_SQLInjection::no ($subscribers);
+    $query = "UPDATE notes SET subscriptions = '$subscribers' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+  /**
+  * Returns an array with the subscribers to the note identified by $identifier.
+  */  
+  public function getSubscribers ($identifier) // Todo use.
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT subscriptions FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $row = $result->fetch_row();
+    $subscribers = explode ("\n", $row[0]);
+    $subscribers = array_diff ($subscribers, array (""));
+    return $subscribers;
+  }
+  
+
+
+  /**
+  * Returns true if $user is subscribed to the note identified by $identifier.
+  */
+  public function isSubscribed ($identifier, $user) // Todo use
+  {
+    $subscribers = $this->getSubscribers ($identifier);
+    return in_array ($user, $subscribers);
+  }
+  
+
+
+  /**
+  * Unsubscribes the currently logged in user from the note identified by $identifier.
+  */
+  public function unsubscribe ($identifier) // Todo use
+  {
+    $session_logic = Session_Logic::getInstance();
+    $user = $session_logic->currentUser ();
+    $this->unsubscribeUser ($identifier, $user);
+  }
+
+
+  /**
+  * Unsubscribes $user from the note identified by $identifier.
+  */
+  public function unsubscribeUser ($identifier, $user) // Todo use
+  {
+    // If the user is not subscribed to the note, bail out.
+    $subscribers = $this->getSubscribers ($identifier);
+    if (!in_array ($user, $subscribers)) return;
+    // Unsubscribe $user.
+    $subscribers = array_diff ($subscribers, array ($user));
+    $subscribers = implode ("\n", $subscribers);
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $subscribers = Database_SQLInjection::no ($subscribers);
+    $query = "UPDATE notes SET subscriptions = '$subscribers' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
 
   
   

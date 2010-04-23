@@ -1,16 +1,52 @@
 
-User who creates a note should get subscribed to the note.
-User who adds a comment should get subscribed to the note.
+
+
+
+Mail notification upon change in note:
+creation
+add comment.
+deletion
+change attributes
+
+At first emails are sent out immediately upon change.
+
+
+There may be need for a setting whereby a user does not receive emails because of changes he made himself.
+Setting: "Receive emails from changes I made in consultation notes", and this is off by default.
+Better setting: Subscribe to consultation notes I create or edit. This is off by default.
+To make a user setting: notifications. Here the user can set all notifications he likes.
+Another setting: Get notified of any changes made in any consultation note.
+
+
+
+User can subscribe and unsubscribe to a note. This has links, and gives information.
+
+
+
+Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
+with git repository. User may subscribe to any changes, or to changes per chapter.
+
+
+
+
+Later, subscribers to a note do not get mail immediately. 
+Rather changes to the notes are assembled into one message, and kept, 
+and then sent out in one mail.
+
+
+
+
+
+
+
+
+User who adds a comment should get subscribed to the note, 'before' the added comment.
+The names of the users subscribed to a note is stored in the 'subscriptions' text field (still to be created),
+with each username on a line of its own.
+
 The 'assigned' field is not for note subscriptions, but for those who need to take action on it.
 
-
-
-Probably the creator should get subscribed to this note
-Subscription 'before' note is created, so that this note's notification goes out to him.
-
-
 Once the new note has been submitted, and is listed, the user can then change settings.
-
 
 A user can assign a note to somebody else or a group. 
 Members do not reflect in the group, but all users with higher levels do.
@@ -46,9 +82,7 @@ further lines: note text.
 last lines: "Logbook:" and logbook entries.
 
 The new format will no longer have a logbook, since the note cannot be changed once written.
-But it will instead have the person who added to the note, and the date of that addition or the change made to the note,
-which is converted to text as well.
-So it all becomes one long note block, and this goes at the end of the note file or database field.
+It all becomes one long note block, and this goes at the end of the note file or database field.
 
 Import from Bibledit-Gtk can go through a zipped file to be uploaded to the site.
 Or better an export from Bibledit-Gtk, or backup.
@@ -409,3 +443,15 @@ people not yet logged in, or logged out.
 Importing USFM data should also be possible by file upload.
 The file to be uploaded can be a plain text usfm file, possibly several books in one file,
 or it could be compressed file, in which case Bibledit-Web will extract from that whatever it finds in that file.
+
+
+
+When sending and receiving changes manually, it often will be forgotten.
+It would be better to re-introduce the automatic version again.
+This will result in better collaboration and less frustration if changes were not synchronized.
+
+
+
+Mail received can accumulate in the Trash and get huge. There should be a link to empty the whole Trash 
+in one go.
+

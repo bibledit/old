@@ -88,6 +88,19 @@ EOD;
   }
 
 
+  private function getValueForUser ($username, $key, $default) {
+    $user = Database_SQLInjection::no ($user);
+    $database = Database_Instance::getInstance ();
+    $query = "SELECT value FROM config_user WHERE username = '$username' AND ident = '$key';";
+    $result = $database->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return $default;
+    }
+    $result_array = $result->fetch_row();
+    return $result_array [0];
+  }
+
+
   public function getStylesheet()
   { 
     $sheet = $this->getValue ("", "stylesheet", "Standard");
@@ -140,7 +153,22 @@ EOD;
     $this->setValue ("", "timezone", $value);
   }   
 
+  public function getSubscribeToConsultationNotesEditedByMe() {
+    return $this->getValue ("", "subscribe-to-consultation-notes-edited-by-me", "");
+  }
+  public function setSubscribeToConsultationNotesEditedByMe ($value) {
+    $this->setValue ("", "subscribe-to-consultation-notes-edited-by-me", $value);
+  }   
 
+  public function getNotifyMeOfAnyConsultationNotesEdits() {
+    return $this->getValue ("", "notify-me-of-any-consultation-notes-edits", "");
+  }
+  public function getNotifyUserOfAnyConsultationNotesEdits($username) {
+    return $this->getValueForUser ($username, "notify-me-of-any-consultation-notes-edits", "");
+  }
+  public function setNotifyMeOfAnyConsultationNotesEdits ($value) {
+    $this->setValue ("", "notify-me-of-any-consultation-notes-edits", $value);
+  }   
 
 }
 

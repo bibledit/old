@@ -12,6 +12,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     $this->assertLessThanOrEqual (999999999, $identifier);
     $this->assertFalse ($database_notes->identifierExists ($identifier));
   }
+
   public function testSummaryContents ()
   {
     $database_notes = Database_Notes::getInstance();
@@ -38,7 +39,38 @@ class notesTest extends PHPUnit_Framework_TestCase
     $this->assertEquals ("<p>Line two.</p>", $value);
     $database_notes->delete ($identifier);
   }
-  
+
+  public function testSubscriptions ()
+  {
+    $database_notes = Database_Notes::getInstance();
+
+    // Normally creating a new note would subscribe the current user to the note.
+    // But since this PHPUnit test runs without sessions, it would have subscribed an empty user.
+    unset ($_SESSION['user']);
+    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
+    $subscribers = $database_notes->getSubscribers ($identifier);
+    $this->assertEquals (array (), $subscribers);
+    $database_notes->delete ($identifier);
+
+    // Create a note again, but this time set the session variable to a certain user.
+    $_SESSION['user'] = 'phpunit';
+    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
+    $subscribers = $database_notes->getSubscribers ($identifier);
+    $this->assertEquals (array ("phpunit"), $subscribers);
+    $this->assertTrue ($database_notes->isSubscribed ($identifier, "phpunit"));
+    
+    // Test various other subscription related functions.
+    $this->assertFalse ($database_notes->isSubscribed ($identifier, "phpunit_phpunit"));
+    $database_notes->unsubscribe ($identifier);
+    $this->assertFalse ($database_notes->isSubscribed ($identifier, "phpunit"));
+    $database_notes->subscribeUser ($identifier, "phpunit_phpunit_phpunit");
+    $this->assertTrue ($database_notes->isSubscribed ($identifier, "phpunit_phpunit_phpunit"));
+    $database_notes->unsubscribeUser ($identifier, "phpunit_phpunit_phpunit");
+    $this->assertFalse ($database_notes->isSubscribed ($identifier, "phpunit_phpunit_phpunit"));
+    $database_notes->delete ($identifier);
+
+  }
+      
 }
 ?>
 
