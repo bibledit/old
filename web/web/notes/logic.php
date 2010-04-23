@@ -42,7 +42,12 @@ class Notes_Logic
 
   public function handlerCommentNote ($identifier)  // Todo subscription handler done here, then call mail handler.
   {
-    $this->notifierNote ($identifier, gettext ("Comment added to"));
+    $this->notifierNote ($identifier, gettext ("Comment added"));
+  }
+
+  public function handlerDeleteNote ($identifier)  // Todo subscription handler done here, then call mail handler.
+  {
+    $this->notifierNote ($identifier, gettext ("Note deleted"));
   }
 
   /**
@@ -76,7 +81,7 @@ class Notes_Logic
     // Send mail to all receipients.
     $database_mail = Database_Mail::getInstance();
     foreach ($subscribers as $subscriber) {
-      $database_mail->send ($subscriber, "$label: $summary", $contents);
+      $database_mail->send ($subscriber, "$label - $summary", $contents);
     }  
   }
   

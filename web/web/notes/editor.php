@@ -87,6 +87,8 @@ class Notes_Editor
     // Delete a note.
     $deleteconsultationnote = $_GET['deleteconsultationnote'];
     if (isset ($deleteconsultationnote)) {
+      $notes_logic = Notes_Logic::getInstance();
+      $notes_logic->handlerDeleteNote ($deleteconsultationnote); // Todo
       $database_notes->delete ($deleteconsultationnote);
     }
   }
