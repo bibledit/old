@@ -8,13 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-23 01:46+0200\n"
+"POT-Creation-Date: 2010-04-24 01:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "Notifications"
+msgstr ""
 
 msgid "Timezone"
 msgstr ""
@@ -67,6 +70,12 @@ msgid "Demo plugin user menu item 2"
 msgstr ""
 
 msgid "New note"
+msgstr ""
+
+msgid "Comment added"
+msgstr ""
+
+msgid "Note deleted"
 msgstr ""
 
 msgid "There was nothing to save"
@@ -871,6 +880,53 @@ msgstr ""
 msgid "The Bible was copied."
 msgstr ""
 
+msgid ""
+"Here you can set up whether you are notified by email about changes in the "
+"consultation notes."
+msgstr ""
+
+msgid ""
+"You automatically get subscribed to consultation notes that you create or "
+"edit, and therefore you will be notified of any changes made in these notes."
+msgstr ""
+
+msgid "Switch automatic subscription and notification off."
+msgstr ""
+
+msgid ""
+"You are not automatically subscribed to consultation notes that you create "
+"or edit, and therefore you will not be notified of any changes made in these "
+"notes."
+msgstr ""
+
+msgid "Switch automatic subscription and notification on."
+msgstr ""
+
+msgid ""
+"There are other ways as well of getting notified of such changes, such as "
+"when you manually subscribe to a certain consultation note, or when you have "
+"enabled the setting to get notified of any changes in any consultation note."
+msgstr ""
+
+msgid ""
+"You get notified of any changes made by anybody in the consultations notes."
+msgstr ""
+
+msgid "Switch these notifications off."
+msgstr ""
+
+msgid "You do not get notified of any changes made in the consultation notes."
+msgstr ""
+
+msgid "Switch these notifications on."
+msgstr ""
+
+msgid ""
+"There may be other reasons why you would still get notified of changes in "
+"consultations notes, such as when you are subscribed to one or more of these "
+"notes."
+msgstr ""
+
 msgid "My area"
 msgstr ""
 
@@ -990,7 +1046,16 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-msgid "List notes"
+msgid "Back to notes list"
+msgstr ""
+
+msgid "You are subscribed to this note"
+msgstr ""
+
+msgid "unsubscribe"
+msgstr ""
+
+msgid "Subscribe to this note"
 msgstr ""
 
 msgid "Delete this note"

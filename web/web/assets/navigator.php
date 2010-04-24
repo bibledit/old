@@ -60,7 +60,7 @@ class Assets_Navigator
         $database_config_user = Database_Config_User::getInstance();
         $database_config_user->setBible ($switchbible);
         $database_sessions = Database_Sessions::getInstance();
-        $database_sessions->setValue ('bible', $switchbible);
+        $database_sessions->setBible ($switchbible);
       }
     }
   }
@@ -72,7 +72,7 @@ class Assets_Navigator
   {
     // Take the Bible from the session.
     $database_sessions = Database_Sessions::getInstance();
-    $bible = $database_sessions->getValue ('bible');
+    $bible = $database_sessions->getBible ();
     // Else take the Bible from the user's settings.
     if ($bible == "") {
       $database_config_user = Database_Config_User::getInstance();

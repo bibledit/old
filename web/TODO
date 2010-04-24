@@ -1,15 +1,11 @@
-. This has links, and gives information.
-
-
-
-
-
+To try on Fedora 8 why creating consultation notes fails. Perhaps PHP dies.
+PHP 5.1.6 (cli) (built: Sep 18 2007 09:07:28) 
+Linux mpj.us 2.6.23.16-20080211a #1 SMP Mon Feb 11 09:47:46 CET 2008 x86_64 x86_64 x86_64 GNU/Linux
 
 
 
 
 The reference(s) of the note should show, and should go out with the mailer, and should be editable.
-
 
 
 
@@ -30,29 +26,34 @@ and then sent out in one mail.
 
 
 
-The 'assigned' field is not for note subscriptions, but for those who need to take action on it.
+The 'assigned' field is for those who need to take action on it.
+
 
 Once the new note has been submitted, and is listed, the user can then change settings.
+
 
 A user can assign a note to somebody else or a group. 
 Members do not reflect in the group, but all users with higher levels do.
 
-A user can say "I am done with this note". This is the same as 'unsubscribe'.
-But if the user is subscribed to all notes, then this setting has no effect.
+
+A user can say "I am done with this note". This will remove his assignment from the note.
+
+
 
 Notes can be assigned to a verse or a range of verses.
 
-A user can subscribe to a particular note.
-
-A user can decide to subscribe to any changes in any note.
 
 If a user assigns a note to somebody else, he will also automatically subscribe to that note.
 
+
 Manager can delete notes, or close them.
+
 
 There is an easy filter to select which notes will be displayed.
 
+
 Notes can be imported from Bibledit-Gtk.
+
 
 Notes are synchronized through a git repository.
 
@@ -441,6 +442,18 @@ in one go.
 
 Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
 with git repository. User may subscribe to any changes, or to changes per chapter.
+
+
+
+
+The book names should be translatable. So it needs a list of all bible books to be included for gettext translation,
+in .php format.
+
+
+
+
+We may have to use vr.org for virtual servers for Ndebele translation hosting.
+
 
 
 

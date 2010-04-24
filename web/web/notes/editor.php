@@ -49,37 +49,47 @@ class Notes_Editor
   public function actions () // Todo working here.
   {
     $database_notes = Database_Notes::getInstance();
+    $database_sessions = Database_Sessions::getInstance();
+    $consultationnote = $database_sessions->getConsultationNote ();
 
+    // Whether note to display.
+    if (isset ($_GET['consultationnote'])) {
+      $consultationnote = $_GET['consultationnote'];
+      $database_sessions->setConsultationNote ($consultationnote);
+    }
+    if (isset ($_GET['displaynoteslist'])) {
+      unset ($consultationnote);
+      $database_sessions->setConsultationNote ($consultationnote);
+    }
+    
     // Save new note.
-    if (isset ($_GET['savecreatedconsultationnote'])) {
+    if (isset ($_GET['savenewconsultationnote'])) {
       if (isset($_POST['submit'])) {
         $summary = trim ($_POST['summary']);
         $contents = trim ($_POST['contents']);
         if (($contents == "") && ($summary == "")) {
           Assets_Page::error (gettext ("There was nothing to save"));
         } else {
-          $identifier = $database_notes->storeNewNote ($_GET['createnotebible'], $_GET['createnotebook'], $_GET['createnotechapter'], $_GET['createnoteverse'], $summary, $contents);
+          $consultationnote = $database_notes->storeNewNote ($_GET['createnotebible'], $_GET['createnotebook'], $_GET['createnotechapter'], $_GET['createnoteverse'], $summary, $contents);
+          $database_sessions->setConsultationNote ($consultationnote);
           Assets_Page::success (gettext ("The note was saved"));
           $notes_logic = Notes_Logic::getInstance();
-          $notes_logic->handlerNewNote ($identifier);
+          $notes_logic->handlerNewNote ($consultationnote);
         }
       }
     }
 
     // Add comment to existing note.
     if (isset ($_GET['saveconsultationnotecomment'])) {
-      $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
-      if (isset ($display_consultation_note_identifier)) {
-        if (isset($_POST['submit'])) {
-          $comment = trim ($_POST['comment']);
-          if ($comment == "") {
-            Assets_Page::error (gettext ("There was nothing to save"));
-          } else {
-            $database_notes->addComment ($display_consultation_note_identifier, $comment);
-            Assets_Page::success (gettext ("The comment was added to the note"));
-            $notes_logic = Notes_Logic::getInstance();
-            $notes_logic->handlerCommentNote ($display_consultation_note_identifier); // Todo
-          }
+      if (isset($_POST['submit'])) {
+        $comment = trim ($_POST['comment']);
+        if ($comment == "") {
+          Assets_Page::error (gettext ("There was nothing to save"));
+        } else {
+          $database_notes->addComment ($consultationnote, $comment);
+          Assets_Page::success (gettext ("The comment was added to the note"));
+          $notes_logic = Notes_Logic::getInstance();
+          $notes_logic->handlerCommentNote ($consultationnote); // Todo
         }
       }
     }
@@ -90,28 +100,30 @@ class Notes_Editor
       $notes_logic = Notes_Logic::getInstance();
       $notes_logic->handlerDeleteNote ($deleteconsultationnote); // Todo
       $database_notes->delete ($deleteconsultationnote);
+      unset ($consultationnote);
+      $database_sessions->setConsultationNote ($consultationnote);
     }
     
     // Subscribe to the note.
     if (isset ($_GET['consultationnoteunsubscribe'])) {
-      $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
-      $database_notes->unsubscribe ($display_consultation_note_identifier);
+      $database_notes->unsubscribe ($consultationnote);
     }
 
     // Unsubscribe from the note.
     if (isset ($_GET['consultationnotesubscribe'])) {
-      $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
-      $database_notes->subscribe ($display_consultation_note_identifier);
+      $database_notes->subscribe ($consultationnote);
     }
   }
   
   public function display () // Todo working here.
   {
     $database_sessions = Database_Sessions::getInstance();
+    $consultationnote = $database_sessions->getConsultationNote ();
     $smarty = new Smarty_Bibledit (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
     $smarty->assign ("caller", $caller);
     $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
+    $smarty->assign ("consultationnote", $consultationnote);
     $assets_navigator = Assets_Navigator::getInstance();
     // Values for $bible, $book and $chapter are passed to the template and on to any Save button.
     // This makes it more robust, keeping these values even in case someone navigates to some other verse.
@@ -132,17 +144,15 @@ class Notes_Editor
 
     // Note or notes display.
     $database_notes = Database_Notes::getInstance();
-    $display_consultation_note_identifier = $_GET['displayconsultationnoteidentifier'];
-    if (isset ($display_consultation_note_identifier)) {
+    if ($consultationnote != "") {
       // Display one note.
-      $smarty->assign ("consultation_note_identifier", $display_consultation_note_identifier);
       $smarty->assign ("note_summary", $database_notes->getSummary($display_consultation_note_identifier));
-      $contents = $database_notes->getContents($display_consultation_note_identifier);
+      $contents = $database_notes->getContents($consultationnote);
       $smarty->assign ("note_content", $contents);
       $smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
       $session_logic = Session_Logic::getInstance();
       $user = $session_logic->currentUser ();
-      $subscribed = $database_notes->isSubscribed ($display_consultation_note_identifier, $user);
+      $subscribed = $database_notes->isSubscribed ($consultationnote, $user);
       $smarty->assign ("subscribed", $subscribed);
       // Todo
       $smarty->display ("note.tpl");

@@ -94,7 +94,7 @@ EOD;
   }
   
   
-  public function setValue ($key, $value)
+  private function setValue ($key, $value)
   {
     $server = Database_Instance::getInstance ();
     $value = Database_SQLInjection::no ($value);
@@ -107,7 +107,7 @@ EOD;
   }
   
 
-  public function getValue ($key)
+  private function getValue ($key)
   {
     $server = Database_Instance::getInstance ();
     $id = $this->getCurrentSessionId ();
@@ -120,7 +120,35 @@ EOD;
   }
   
   
+  public function setDesktop ($value)
+  {
+    $this->setValue ("desktop", $value);
+  }
+  public function getDesktop ()
+  {
+    return $this->getValue ("desktop");
+  }
 
+
+  public function setBible ($value)
+  {
+    $this->setValue ("bible", $value);
+  }
+  public function getBible ()
+  {
+    return $this->getValue ("bible");
+  }
+  
+
+  public function setConsultationNote ($value)
+  {
+    $this->setValue ("consultationnote", $value);
+  }
+  public function getConsultationNote ()
+  {
+    return $this->getValue ("consultationnote");
+  }
+  
 
 }
 

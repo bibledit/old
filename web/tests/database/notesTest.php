@@ -54,10 +54,15 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Create a note again, but this time set the session variable to a certain user.
     $_SESSION['user'] = 'phpunit';
+    $database_config_user = Database_Config_User::getInstance ();
+    $database_config_user->setSubscribeToConsultationNotesEditedByMe (true);
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
+    $notes_logic = Notes_Logic::getInstance();
+    $notes_logic->handlerNewNote ($identifier);
     $subscribers = $database_notes->getSubscribers ($identifier);
     $this->assertEquals (array ("phpunit"), $subscribers);
     $this->assertTrue ($database_notes->isSubscribed ($identifier, "phpunit"));
+    $database_config_user->setSubscribeToConsultationNotesEditedByMe (false);
     
     // Test various other subscription related functions.
     $this->assertFalse ($database_notes->isSubscribed ($identifier, "phpunit_phpunit"));
@@ -68,6 +73,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     $database_notes->unsubscribeUser ($identifier, "phpunit_phpunit_phpunit");
     $this->assertFalse ($database_notes->isSubscribed ($identifier, "phpunit_phpunit_phpunit"));
     $database_notes->delete ($identifier);
+    unset ($_SESSION['user']);
 
   }
       

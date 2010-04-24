@@ -26,9 +26,9 @@ $database_sessions = Database_Sessions::getInstance ();
 $database_sessions->getCurrentSessionId ();
 $desktop = $_GET ['desktop'];
 if (isset ($desktop)) {
-  $database_sessions->setValue ('desktop', $desktop);
+  $database_sessions->setDesktop ($desktop);
 } else {
-  $desktop = $database_sessions->getValue ('desktop');
+  $desktop = $database_sessions->getDesktop ();
 }
 page_access_level (Desktop_Level::access ($desktop));
 Assets_Page::header (gettext ("Desktop") . " $desktop");

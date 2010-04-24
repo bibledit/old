@@ -7,8 +7,8 @@
     {section name=offset loop=$identifiers}
       <a name="note{$identifiers[offset]}"></a>
       <tr>
-        <td><a href="{$caller}?session={$session}&displayconsultationnoteidentifier={$identifiers[offset]}">{$identifiers[offset]}</a></td>
-        <td><a href="{$caller}?session={$session}&displayconsultationnoteidentifier={$identifiers[offset]}">{$summaries[offset]}</a></td>
+        <td><a href="{$caller}?session={$session}&consultationnote={$identifiers[offset]}">{$identifiers[offset]}</a></td>
+        <td><a href="{$caller}?session={$session}&consultationnote={$identifiers[offset]}">{$summaries[offset]}</a></td>
       </tr>
     {/section}
   </tbody>
