@@ -1,21 +1,3 @@
-
-
-The 'assigned' field is for those who need to take action on it. To make this clear in the note actions.
-
-The manager, or higher, can assign a note to somebody else or several others. 
-
-Members do not reflect in the list, but all users with higher levels do.
-
-A user can say "I am done with this note". This will remove his assignment from the note.
-
-If a user has been assigned a note, he should also get emailed if the note changes, 
-i.e. he should be regarded as subscribed to the note.
-
-
-
-
-
-
 Database fields.
 bible
 passage

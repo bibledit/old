@@ -35,7 +35,7 @@ class Notes_Editor
     return self::$instance;
   }
 
-  public function scripts () // Todo work here.
+  public function scripts ()
   {
     if (isset ($_GET['createconsultationnote'])) {
       $code = "document.form.summary.focus();"; 
@@ -46,14 +46,14 @@ class Notes_Editor
     return $code;
   }
   
-  public function actions () // Todo working here.
+  public function actions ()
   {
     $database_notes = Database_Notes::getInstance();
     $database_sessions = Database_Sessions::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
 
-    // Whether to display the notes list, one note, or the note actions.
+    // Whether to display the notes list, one note, or the note's actions.
     if (isset ($_GET['consultationnote'])) {
       $consultationnote = $_GET['consultationnote'];
       $displayconsultationnoteactions = false;
@@ -96,7 +96,7 @@ class Notes_Editor
         } else {
           $database_notes->addComment ($consultationnote, $comment);
           $notes_logic = Notes_Logic::getInstance();
-          $notes_logic->handlerCommentNote ($consultationnote); // Todo
+          $notes_logic->handlerCommentNote ($consultationnote);
         }
       }
     }
@@ -105,7 +105,7 @@ class Notes_Editor
     $deleteconsultationnote = $_GET['deleteconsultationnote'];
     if (isset ($deleteconsultationnote)) {
       $notes_logic = Notes_Logic::getInstance();
-      $notes_logic->handlerDeleteNote ($deleteconsultationnote); // Todo
+      $notes_logic->handlerDeleteNote ($deleteconsultationnote);
       $database_notes->delete ($deleteconsultationnote);
       unset ($consultationnote);
       $database_sessions->setConsultationNote ($consultationnote);
@@ -122,9 +122,39 @@ class Notes_Editor
     if (isset ($_GET['consultationnotesubscribe'])) {
       $database_notes->subscribe ($consultationnote);
     }
+    
+    // Add assignee.
+    $addassignee = $_GET['consultationnoteaddassignee'];
+    if (isset ($addassignee)) {
+      $database_users = Database_Users::getInstance();
+      if ($addassignee == "") {
+        $dialog_list = new Dialog_List2 (gettext ("Would you like to assign this note to a user?"));
+        $users = $database_users->getUsers ();
+        foreach ($users as $user) {
+          $dialog_list->add_row ($user, "&consultationnoteaddassignee=$user");
+        }
+        $dialog_list->run();
+      } else {
+        if ($database_users->usernameExists ($addassignee)) {
+          $database_notes->assignUser ($consultationnote, $addassignee);
+        }
+      }
+    }
+    
+    // Un-assign note.
+    $removeassignee = $_GET['consultationnoteremoveassignee'];
+    if (isset ($removeassignee)) {
+      $database_notes->unassignUser ($consultationnote, $removeassignee);
+    }
+    $unassignme = $_GET['consultationnoteunassignme'];
+    if (isset ($unassignme)) {
+      $session_logic = Session_Logic::getInstance();
+      $database_notes->unassignUser ($consultationnote, $session_logic->currentUser ());
+    }
+    
   }
   
-  public function display () // Todo working here.
+  public function display ()
   {
     $database_sessions = Database_Sessions::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
@@ -162,6 +192,10 @@ class Notes_Editor
         $user = $session_logic->currentUser ();
         $subscribed = $database_notes->isSubscribed ($consultationnote, $user);
         $smarty->assign ("subscribed", $subscribed);
+        $assignees = $database_notes->getAssignees ($consultationnote);
+        $smarty->assign ("assignees", $assignees);
+        $assignee = $database_notes->isAssigned ($consultationnote, $user);
+        $smarty->assign ("assignee", $assignee);
         $smarty->display ("actions.tpl");
       } else {
         // Display one note.

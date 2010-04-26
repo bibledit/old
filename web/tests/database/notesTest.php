@@ -106,7 +106,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     $assignees = $database_notes->getAssignees ($identifier);
     $this->assertEquals (array ("PHPUnit2"), $assignees);
     $_SESSION['user'] = 'PHPUnit2';
-    $database_notes->unassign ($identifier, "PHPUnit2");
+    $database_notes->unassign ($identifier);
     $assignees = $database_notes->getAssignees ($identifier);
     $this->assertEquals (array (), $assignees);
     unset ($_SESSION['user']);

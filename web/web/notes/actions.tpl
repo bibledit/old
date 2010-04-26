@@ -11,5 +11,24 @@
   {* To delete a note, one should at least have the level of manager *}
   <p><a href="{$caller}?session={$session}&deleteconsultationnote={$consultationnote}">{t}Delete this note{/t}</a></p>
 {/if}
-
+<p>{t}The note has been assigned to{/t}:
+{section name=offset loop=$assignees}
+  {$assignees[offset]} 
+  {if $level >= 5}
+    {* To be able to assign a note to somebody, one should at least have the level of manager *}
+    <a href="{$caller}?session={$session}&consultationnoteremoveassignee={$assignees[offset]}">[{t}unassign{/t}]</a>
+    |
+  {/if}
+{/section}
+{if $level >= 5}
+  {* To be able to assign a note to somebody, one should at least have the level of manager *}
+  <a href="{$caller}?session={$session}&consultationnoteaddassignee=">[{t}add assignee{/t}]</a>
+{/if}
+</p>
+{if $assignee == true}
+  <p>
+  {t}This note has been specifically assigned to you for taking action on.{/t} 
+  <a href="{$caller}?session={$session}&consultationnoteunassignme=">{t}I have done my part on it.{/t}</a>
+  </p>
+{/if}
 <p>{t}Identifier{/t}: {$consultationnote}</p>

@@ -35,17 +35,17 @@ class Notes_Logic
     return self::$instance;
   }
 
-  public function handlerNewNote ($identifier)  // Todo subscription handler done here, then call mail handler.
+  public function handlerNewNote ($identifier)
   {
     $this->notifierNote ($identifier, gettext ("New note"));
   }
 
-  public function handlerCommentNote ($identifier)  // Todo subscription handler done here, then call mail handler.
+  public function handlerCommentNote ($identifier)
   {
     $this->notifierNote ($identifier, gettext ("Comment added"));
   }
 
-  public function handlerDeleteNote ($identifier)  // Todo subscription handler done here, then call mail handler.
+  public function handlerDeleteNote ($identifier)
   {
     $this->notifierNote ($identifier, gettext ("Note deleted"));
   }
@@ -68,15 +68,23 @@ class Notes_Logic
     $contents = $database_notes->getContents ($identifier);
     // Get the subscribers to this note.
     $subscribers = $database_notes->getSubscribers ($identifier);
-    // Get users who get notified of any change in any note.
+
+    // Also include users who get notified of any change in any note.
     $database_users = Database_Users::getInstance();
     $users = $database_users->getUsers ();
-    // Add these users to the subscribers, ensure each username is unique.
     foreach ($users as $user) {
       if ($database_config_user->getNotifyUserOfAnyConsultationNotesEdits ($user)) {
         $subscribers [] = $user;
       }
     }
+
+    // Also include assignees to the note.
+    $assignees = $database_notes->getAssignees ($identifier);
+    foreach ($assignees as $assignee) {
+      $subscribers [] = $assignee;
+    }
+
+    // Ensure the list consists of unique subscribers, so no subscriber is mailed twice about an issue.
     $subscribers = array_unique ($subscribers);
     // Send mail to all receipients.
     $database_mail = Database_Mail::getInstance();
