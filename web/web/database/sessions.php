@@ -148,6 +148,17 @@ EOD;
   {
     return $this->getValue ("consultationnote");
   }
+
+
+  public function setDisplayConsultationNoteActions ($value)
+  {
+    $this->setValue ("displayconsultationnoteactions", $value);
+  }
+  public function getDisplayConsultationNoteActions ()
+  {
+    return $this->getValue ("displayconsultationnoteactions");
+  }
+  
   
 
 }

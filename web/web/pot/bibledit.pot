@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-24 01:47+0200\n"
+"POT-Creation-Date: 2010-04-26 01:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,12 +79,6 @@ msgid "Note deleted"
 msgstr ""
 
 msgid "There was nothing to save"
-msgstr ""
-
-msgid "The note was saved"
-msgstr ""
-
-msgid "The comment was added to the note"
 msgstr ""
 
 msgid "This view does not display any notes."
@@ -1034,6 +1028,21 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
+msgid "Go back to the note"
+msgstr ""
+
+msgid "You are subscribed to this note"
+msgstr ""
+
+msgid "unsubscribe"
+msgstr ""
+
+msgid "Subscribe to this note"
+msgstr ""
+
+msgid "Delete this note"
+msgstr ""
+
 msgid "Create a new consultation note."
 msgstr ""
 
@@ -1049,16 +1058,7 @@ msgstr ""
 msgid "Back to notes list"
 msgstr ""
 
-msgid "You are subscribed to this note"
-msgstr ""
-
-msgid "unsubscribe"
-msgstr ""
-
-msgid "Subscribe to this note"
-msgstr ""
-
-msgid "Delete this note"
+msgid "Actions"
 msgstr ""
 
 msgid "Add a comment to this note:"

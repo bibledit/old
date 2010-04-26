@@ -51,16 +51,25 @@ class Notes_Editor
     $database_notes = Database_Notes::getInstance();
     $database_sessions = Database_Sessions::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
+    $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
 
-    // Whether note to display.
+    // Whether to display the notes list, one note, or the note actions.
     if (isset ($_GET['consultationnote'])) {
       $consultationnote = $_GET['consultationnote'];
-      $database_sessions->setConsultationNote ($consultationnote);
+      $displayconsultationnoteactions = false;
     }
     if (isset ($_GET['displaynoteslist'])) {
       unset ($consultationnote);
-      $database_sessions->setConsultationNote ($consultationnote);
+      $displayconsultationnoteactions = false;
     }
+    if (isset ($_GET['displaynotesactions'])) {
+      $displayconsultationnoteactions = true;
+    }
+    if (isset ($_GET['displaynotecontent'])) {
+      $displayconsultationnoteactions = false;
+    }
+    $database_sessions->setConsultationNote ($consultationnote);
+    $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
     
     // Save new note.
     if (isset ($_GET['savenewconsultationnote'])) {
@@ -72,7 +81,6 @@ class Notes_Editor
         } else {
           $consultationnote = $database_notes->storeNewNote ($_GET['createnotebible'], $_GET['createnotebook'], $_GET['createnotechapter'], $_GET['createnoteverse'], $summary, $contents);
           $database_sessions->setConsultationNote ($consultationnote);
-          Assets_Page::success (gettext ("The note was saved"));
           $notes_logic = Notes_Logic::getInstance();
           $notes_logic->handlerNewNote ($consultationnote);
         }
@@ -87,7 +95,6 @@ class Notes_Editor
           Assets_Page::error (gettext ("There was nothing to save"));
         } else {
           $database_notes->addComment ($consultationnote, $comment);
-          Assets_Page::success (gettext ("The comment was added to the note"));
           $notes_logic = Notes_Logic::getInstance();
           $notes_logic->handlerCommentNote ($consultationnote); // Todo
         }
@@ -102,6 +109,8 @@ class Notes_Editor
       $database_notes->delete ($deleteconsultationnote);
       unset ($consultationnote);
       $database_sessions->setConsultationNote ($consultationnote);
+      $displayconsultationnoteactions = false;
+      $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
     }
     
     // Subscribe to the note.
@@ -119,6 +128,7 @@ class Notes_Editor
   {
     $database_sessions = Database_Sessions::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
+    $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
     $smarty = new Smarty_Bibledit (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
     $smarty->assign ("caller", $caller);
@@ -136,26 +146,30 @@ class Notes_Editor
     $verse = $assets_navigator->verse();
     $smarty->assign ("verse", $verse);
 
-    // New note creation display.
-    if (isset ($_GET['createconsultationnote'])) {
-      $smarty->display ("create.tpl");
-      return;
-    }
-
-    // Note or notes display.
     $database_notes = Database_Notes::getInstance();
-    if ($consultationnote != "") {
-      // Display one note.
-      $smarty->assign ("note_summary", $database_notes->getSummary($display_consultation_note_identifier));
-      $contents = $database_notes->getContents($consultationnote);
-      $smarty->assign ("note_content", $contents);
-      $smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
-      $session_logic = Session_Logic::getInstance();
-      $user = $session_logic->currentUser ();
-      $subscribed = $database_notes->isSubscribed ($consultationnote, $user);
-      $smarty->assign ("subscribed", $subscribed);
-      // Todo
-      $smarty->display ("note.tpl");
+
+    if (isset ($_GET['createconsultationnote'])) {
+      // New note creation display.
+      $smarty->display ("create.tpl");
+    } 
+    else if ($consultationnote != "") {
+      // Note display.
+      $smarty->assign ("note_summary", $database_notes->getSummary($consultationnote));
+      $smarty->assign ("identifier", $consultationnote);
+      if ($displayconsultationnoteactions) {
+        // Display note actions.
+        $session_logic = Session_Logic::getInstance();
+        $user = $session_logic->currentUser ();
+        $subscribed = $database_notes->isSubscribed ($consultationnote, $user);
+        $smarty->assign ("subscribed", $subscribed);
+        $smarty->display ("actions.tpl");
+      } else {
+        // Display one note.
+        $contents = $database_notes->getContents($consultationnote);
+        $smarty->assign ("note_content", $contents);
+        $smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
+        $smarty->display ("note.tpl");
+      }
     } else {
       // Display notes summaries.
       $identifiers = $database_notes->selectNotes();

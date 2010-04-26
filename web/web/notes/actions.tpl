@@ -1,0 +1,15 @@
+<p><a href="{$caller}?session={$session}&displaynotecontent=">{t}Go back to the note contents{/t}</a></p>
+<p>{t}Summary{/t}: {$note_summary}</p>
+<p>
+{if $subscribed}
+{t}You are subscribed to this note{/t} <a href="{$caller}?session={$session}&consultationnoteunsubscribe=">[{t}unsubscribe{/t}]</a>
+{else}
+<a href="{$caller}?session={$session}&consultationnotesubscribe=">{t}Subscribe to this note{/t}</a>
+{/if}
+</p>
+{if $level >= 5}
+  {* To delete a note, one should at least have the level of manager *}
+  <p><a href="{$caller}?session={$session}&deleteconsultationnote={$consultationnote}">{t}Delete this note{/t}</a></p>
+{/if}
+
+<p>{t}Identifier{/t}: {$consultationnote}</p>

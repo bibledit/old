@@ -74,8 +74,48 @@ class notesTest extends PHPUnit_Framework_TestCase
     $this->assertFalse ($database_notes->isSubscribed ($identifier, "phpunit_phpunit_phpunit"));
     $database_notes->delete ($identifier);
     unset ($_SESSION['user']);
-
   }
+
+
+  public function testAssignments ()
+  {
+    $database_notes = Database_Notes::getInstance();
+
+    // Create a note and check that it was not assigned to anybody.
+    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
+    $assignees = $database_notes->getSubscribers ($identifier);
+    $this->assertEquals (array (), $assignees);
+
+    // Assign the note to a user, and check that this reflects in the list of assignees.
+    $database_notes->assignUser ($identifier, "PHPUnit");
+    $assignees = $database_notes->getAssignees ($identifier);
+    $this->assertEquals (array ("PHPUnit"), $assignees);
+    
+    // Assign note to second user, and check it reflects.
+    $database_notes->assignUser ($identifier, "PHPUnit2");
+    $assignees = $database_notes->getAssignees ($identifier);
+    $this->assertEquals (array ("PHPUnit", "PHPUnit2"), $assignees);
+
+    // Based on the above, check the isAssigned function.
+    $this->assertTrue ($database_notes->isAssigned ($identifier, "PHPUnit"));
+    $this->assertTrue ($database_notes->isAssigned ($identifier, "PHPUnit2"));
+    $this->assertFalse ($database_notes->isAssigned ($identifier, "PHPUnit3"));
+    
+    // Based on the above, test the unassign(User) function.
+    $database_notes->unassignUser ($identifier, "PHPUnit");
+    $assignees = $database_notes->getAssignees ($identifier);
+    $this->assertEquals (array ("PHPUnit2"), $assignees);
+    $_SESSION['user'] = 'PHPUnit2';
+    $database_notes->unassign ($identifier, "PHPUnit2");
+    $assignees = $database_notes->getAssignees ($identifier);
+    $this->assertEquals (array (), $assignees);
+    unset ($_SESSION['user']);
+
+    // Tear down.
+    $database_notes->delete ($identifier);
+  }
+
+
       
 }
 ?>

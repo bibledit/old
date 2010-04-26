@@ -1,15 +1,9 @@
 <p>
 <a href="{$caller}?session={$session}&displaynoteslist=">{t}Back to notes list{/t}</a>
 |
-{if $subscribed}
-{t}You are subscribed to this note{/t} <a href="{$caller}?session={$session}&consultationnoteunsubscribe=">[{t}unsubscribe{/t}]</a>
-{else}
-<a href="{$caller}?session={$session}&consultationnotesubscribe=">{t}Subscribe to this note{/t}</a>
-{/if}
-|
-<a href="{$caller}?session={$session}&deleteconsultationnote={$consultationnote}">{t}Delete this note{/t}</a>
+<a href="{$caller}?session={$session}&displaynotesactions=">{t}Actions{/t}</a>
 </p>
-<p>{t}Summary{/t}: {$note_summary}</h3>
+<p>{t}Summary{/t}: {$note_summary}</p>
 <div>{$note_content}</div>
 <hr>
 {if isset ($note_add_comment)}

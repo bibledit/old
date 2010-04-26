@@ -1,13 +1,57 @@
-To try on Fedora 8 why creating consultation notes fails. Perhaps PHP dies.
+
+
+The 'assigned' field is for those who need to take action on it. To make this clear in the note actions.
+
+The manager, or higher, can assign a note to somebody else or several others. 
+
+Members do not reflect in the list, but all users with higher levels do.
+
+A user can say "I am done with this note". This will remove his assignment from the note.
+
+If a user has been assigned a note, he should also get emailed if the note changes, 
+i.e. he should be regarded as subscribed to the note.
+
+
+
+
+
+
+Database fields.
+bible
+passage
+status
+severity
+private
+
+
+
+
+
+
+To try on Fedora 8 why creating consultation notes fails. Perhaps PHP silently dies.
+To switch debugging and tracing on to see where it dies.
 PHP 5.1.6 (cli) (built: Sep 18 2007 09:07:28) 
 Linux mpj.us 2.6.23.16-20080211a #1 SMP Mon Feb 11 09:47:46 CET 2008 x86_64 x86_64 x86_64 GNU/Linux
 
 
 
 
-The reference(s) of the note should show, and should go out with the mailer, and should be editable.
+The reference(s) of the note should show.
+This requires a verse list module to be inserted as an object and integrated into the page.
+It can go at the very end after all other things of the notes.
+There may be a show/hide toggle for the verse list object.
+If it hides, the list shows only as reference sequences, and if it shows there's the full object then, including list
+operations, and including verse text.
+To implement the above cleanly, the object can have a setting as to how to show the references.
 
 
+
+The reference(s) of the note should be editable.
+
+
+
+
+The reference(s) of the note should get mailed out with the notifications.
 
 
 
@@ -26,27 +70,12 @@ and then sent out in one mail.
 
 
 
-The 'assigned' field is for those who need to take action on it.
-
-
-Once the new note has been submitted, and is listed, the user can then change settings.
-
-
-A user can assign a note to somebody else or a group. 
-Members do not reflect in the group, but all users with higher levels do.
-
-
-A user can say "I am done with this note". This will remove his assignment from the note.
-
-
-
 Notes can be assigned to a verse or a range of verses.
+
 
 
 If a user assigns a note to somebody else, he will also automatically subscribe to that note.
 
-
-Manager can delete notes, or close them.
 
 
 There is an easy filter to select which notes will be displayed.
@@ -75,10 +104,7 @@ Import from Bibledit-Gtk can go through a zipped file to be uploaded to the site
 Or better an export from Bibledit-Gtk, or backup.
 
 Settings per note:
-submitted by: user
-submitted on: date / time
 link: close note / re-open note.
-summary: but this is the first line from the note body.
 assigned to: user or users.
 link: close discussion / allow discussion. If the status is set to 'Vote', then no discussion is possible, only votes.
 Then, if the note is closed, somebody may open it again to continue discussion.
@@ -91,7 +117,9 @@ Privacy	Select Box	Determines whether the item can be seen by members of the pro
 Votes	Text Field	How many votes this item received.
 Votes may always be done by everybody.
 
+
 Nobody can remove anyone's subscription to any note.
+
 
 If a note is moved into 'vote' mode, then people can only add one line of text as a vote.
 Somebody can only vote once, but if he'd like to change his vote, then he is presented with his original vote, 
@@ -456,5 +484,14 @@ We may have to use vr.org for virtual servers for Ndebele translation hosting.
 
 
 
+
+
+There can be a Notification setting that the user can set up which Bible or Bibles are included with the 
+notifications on a note.
+
+
+
+Installation documents for Bibledit-Web: Very often the installer has acces to the server through ssh only,
+no GUI. Or even through ftp only, no option to install programs.
 
 

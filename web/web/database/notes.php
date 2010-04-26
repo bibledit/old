@@ -240,6 +240,7 @@ EOD;
     $server->runQuery ($query);
   }
 
+
   /**
   * Returns an array with the subscribers to the note identified by $identifier.
   */  
@@ -254,7 +255,6 @@ EOD;
     $subscribers = array_diff ($subscribers, array (""));
     return $subscribers;
   }
-  
 
 
   /**
@@ -265,9 +265,8 @@ EOD;
     $subscribers = $this->getSubscribers ($identifier);
     return in_array ($user, $subscribers);
   }
+
   
-
-
   /**
   * Unsubscribes the currently logged in user from the note identified by $identifier.
   */
@@ -297,7 +296,86 @@ EOD;
     $server->runQuery ($query);
   }
 
+
+  /**
+  * Assign the note identified by $identifier to $user.
+  */
+  public function assignUser ($identifier, $user) // Todo implement / PHPUnit / Use.
+  {
+    // If the note already is assigned to the user, bail out.
+    $assignees = $this->getAssignees ($identifier);
+    if (in_array ($user, $assignees)) return;
+    // Assign the note to the user.
+    $assignees[]= "$user";
+    $assignees = implode ("\n", $assignees);
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $assignees = Database_SQLInjection::no ($assignees);
+    $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+
+  /**
+  * Returns an array with the assignees to the note identified by $identifier.
+  */  
+  public function getAssignees ($identifier) // Todo implement / PHPUnit / Use.
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT assigned FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $row = $result->fetch_row();
+    $assignees = explode ("\n", $row[0]);
+    $assignees = array_diff ($assignees, array (""));
+    return $assignees;
+  }
+
+
+  /**
+  * Returns true if the note identified by $identifier has been assigned to $user.
+  */
+  public function isAssigned ($identifier, $user)  // Todo implement / PHPUnit / Use.
+  {
+    $assignees = $this->getAssignees ($identifier);
+    return in_array ($user, $assignees);
+  }
+
   
+  /**
+  * Unassignes the currently logged in user from the note identified by $identifier.
+  */
+  public function unassign ($identifier)  // Todo implement / PHPUnit / Use.
+  {
+    $session_logic = Session_Logic::getInstance();
+    $user = $session_logic->currentUser ();
+    $this->unassignUser ($identifier, $user);
+  }
+
+
+  /**
+  * Unassigns $user from the note identified by $identifier.
+  */
+  public function unassignUser ($identifier, $user)  // Todo implement / PHPUnit / Use.
+  {
+    // If the notes is not assigned to the user, bail out.
+    $assignees = $this->getAssignees ($identifier);
+    if (!in_array ($user, $assignees)) return;
+    // Remove assigned $user.
+    $assignees = array_diff ($assignees, array ($user));
+    $assignees = implode ("\n", $assignees);
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $assignees = Database_SQLInjection::no ($assignees);
+    $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+  
+
+
+
+
   
 
 }
