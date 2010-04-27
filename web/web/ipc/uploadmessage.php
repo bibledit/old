@@ -1,6 +1,6 @@
 <?php
 
-// todo This file is no longer needed, just kept to see how uploading goes.
+// This file is no longer needed, just kept to see how uploading goes.
 
 require("constants.php");
 

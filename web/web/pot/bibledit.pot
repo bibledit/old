@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-26 01:47+0200\n"
+"POT-Creation-Date: 2010-04-27 01:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,6 +79,9 @@ msgid "Note deleted"
 msgstr ""
 
 msgid "There was nothing to save"
+msgstr ""
+
+msgid "Would you like to assign this note to a user?"
 msgstr ""
 
 msgid "This view does not display any notes."
@@ -1022,13 +1025,10 @@ msgstr ""
 msgid "Create new note"
 msgstr ""
 
-msgid "Identifier"
+msgid "Go back to the note contents"
 msgstr ""
 
 msgid "Summary"
-msgstr ""
-
-msgid "Go back to the note"
 msgstr ""
 
 msgid "You are subscribed to this note"
@@ -1041,6 +1041,24 @@ msgid "Subscribe to this note"
 msgstr ""
 
 msgid "Delete this note"
+msgstr ""
+
+msgid "The note has been assigned to"
+msgstr ""
+
+msgid "unassign"
+msgstr ""
+
+msgid "add assignee"
+msgstr ""
+
+msgid "This note has been specifically assigned to you for taking action on."
+msgstr ""
+
+msgid "I have done my part on it."
+msgstr ""
+
+msgid "Identifier"
 msgstr ""
 
 msgid "Create a new consultation note."

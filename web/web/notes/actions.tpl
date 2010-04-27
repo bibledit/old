@@ -31,4 +31,16 @@
   <a href="{$caller}?session={$session}&consultationnoteunassignme=">{t}I have done my part on it.{/t}</a>
   </p>
 {/if}
+<p>
+{t}Bible{/t}:
+{if $consultationnotebible != ""}
+  {$consultationnotebible}
+{else}
+  {t}This is a general note, it does not apply to any specific Bible{/t}
+{/if}
+{if $level >= 5}
+  {* To be able to change the note's Bible, one should at least have the level of manager *}
+  <a href="{$caller}?session={$session}&consultationnotechangebible=">[{t}change{/t}]</a>
+{/if}
+</p>
 <p>{t}Identifier{/t}: {$consultationnote}</p>

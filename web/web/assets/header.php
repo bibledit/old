@@ -38,7 +38,7 @@ class Assets_Header
   /**
   * This works on a live object, and writes a header with jQuery basics if needed.
   */
-  public function jQueryHeader ($title) // Todo
+  public function jQueryHeader ($title)
   {
     $this->smarty = new Smarty_Bibledit (__FILE__);
     $this->smarty->assign ("title", $title);
@@ -46,7 +46,7 @@ class Assets_Header
   /**
   * This works on a live object, and adds a document ready function for jQuery.
   */
-  public function jQueryHeaderAddDocumentReadyFunction ($code) // Todo
+  public function jQueryHeaderAddDocumentReadyFunction ($code)
   {
     if (isset ($code)) {
       $this->document_ready_functions[] = $code;
@@ -55,7 +55,7 @@ class Assets_Header
   /**
   * This works on a live object, and adds a document ready function for jQuery.
   */
-  public function run () // Todo
+  public function run ()
   {
     $this->smarty->assign ("document_ready_functions", $this->document_ready_functions);
     $this->smarty->display ("xhtml_start.tpl");

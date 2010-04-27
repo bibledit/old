@@ -151,7 +151,26 @@ class Notes_Editor
       $session_logic = Session_Logic::getInstance();
       $database_notes->unassignUser ($consultationnote, $session_logic->currentUser ());
     }
-    
+
+    // Assign to Bible.    
+    $consultationnotebible = $_GET['consultationnotechangebible'];
+    if (isset ($consultationnotebible)) {
+      $database_bibles = Database_Bibles::getInstance();
+      if ($consultationnotebible == "") {
+        $dialog_list = new Dialog_List2 (gettext ("Would you like to assign this note to another Bible?"));
+        $bibles = $database_bibles->getBibles ();
+        foreach ($bibles as $bible) {
+          $dialog_list->add_row ($bible, "&consultationnotechangebible=$bible");
+        }
+        $dialog_list->add_row (gettext ("Make it a general note which does not apply to any particular Bible"), "&consultationnotechangebible=0gen0bible0");
+        $dialog_list->run();
+      } else {
+        if ($consultationnotebible == "0gen0bible0") $consultationnotebible = "";
+        $database_notes->setBible ($consultationnote, $consultationnotebible);
+      }
+    }
+
+
   }
   
   public function display ()
@@ -196,6 +215,8 @@ class Notes_Editor
         $smarty->assign ("assignees", $assignees);
         $assignee = $database_notes->isAssigned ($consultationnote, $user);
         $smarty->assign ("assignee", $assignee);
+        $consultationnotebible = $database_notes->getBible ($consultationnote);
+        $smarty->assign ("consultationnotebible", $consultationnotebible);
         $smarty->display ("actions.tpl");
       } else {
         // Display one note.

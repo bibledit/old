@@ -92,18 +92,7 @@ class Notes_Logic
       $database_mail->send ($subscriber, "$label - $summary", $contents);
     }  
   }
-  
-
-/*
-
-
-
-
-*/
 // Todo this is too basic, the email also needs a link and other information, such as the passage.
-// Todo also needs to take in account the users who have subscribed to all the notes.
-// If the user already got an email because he was subscribed, this mail should not be sent for the second time.
-
 }  
 
 

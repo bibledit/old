@@ -1,5 +1,4 @@
 Database fields.
-bible
 passage
 status
 severity
@@ -56,8 +55,6 @@ Notes can be assigned to a verse or a range of verses.
 
 
 
-If a user assigns a note to somebody else, he will also automatically subscribe to that note.
-
 
 
 There is an easy filter to select which notes will be displayed.
@@ -109,11 +106,13 @@ to be edited by him.
 Votes are anonymous by default. The system knows who voted what, but this information is not displayed.
 Votes are given as part of the text, like so: Vote: Username: <Vote text>
 
-Each note is assigned to a Bible, or to any Bible, as in Bibledit-Gtk.
+
+
 
 Members can raise issues. If there are spammers, who made themselves a member,
 then the manager can update their status so that it seems they log in, but in reality their submissions are ignored
 and dropped.
+
 
 If there are more than so many notes, by default a paginator shows up.
 The user can, for once, disable this so that all notes show up.

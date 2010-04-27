@@ -47,7 +47,7 @@ bible varchar (256),      # The Bible, if any, the note refers to.
 passage text,             # The passage or verse the note refers to.
 status varchar (256),     # Note status: New / Need info / Confirmed / Invalid / In progress / Done
 severity int,             # Severity of note: Wish / Minor / Normal / Important / Major / Critical
-private bool,             # Whether note is private.
+private tinyint,          # Note privacy: (Public (0) / Consultants (1) / Translators (2) / Me only (3).
 summary varchar (256),    # Note summary.
 contents text             # Note contents.
 );
@@ -121,7 +121,7 @@ EOD;
     $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')"; // Todo current user to get subscribed immediately.
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')";
     $server->runQuery ($query);
     // Return this new note´s identifier.
     return $identifier;
@@ -214,7 +214,7 @@ EOD;
   /**
   * Subscribe the current user to the note identified by $identifier.
   */
-  public function subscribe ($identifier) // Todo Take in account existing subscriptions. Todo PHPUnit.
+  public function subscribe ($identifier)
   {
     $session_logic = Session_Logic::getInstance();
     $user = $session_logic->currentUser ();
@@ -225,7 +225,7 @@ EOD;
   /**
   * Subscribe the $user to the note identified by $identifier.
   */
-  public function subscribeUser ($identifier, $user) // Todo use
+  public function subscribeUser ($identifier, $user)
   {
     // If the user already is subscribed to the note, bail out.
     $subscribers = $this->getSubscribers ($identifier);
@@ -244,7 +244,7 @@ EOD;
   /**
   * Returns an array with the subscribers to the note identified by $identifier.
   */  
-  public function getSubscribers ($identifier) // Todo use.
+  public function getSubscribers ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -260,7 +260,7 @@ EOD;
   /**
   * Returns true if $user is subscribed to the note identified by $identifier.
   */
-  public function isSubscribed ($identifier, $user) // Todo use
+  public function isSubscribed ($identifier, $user)
   {
     $subscribers = $this->getSubscribers ($identifier);
     return in_array ($user, $subscribers);
@@ -270,7 +270,7 @@ EOD;
   /**
   * Unsubscribes the currently logged in user from the note identified by $identifier.
   */
-  public function unsubscribe ($identifier) // Todo use
+  public function unsubscribe ($identifier)
   {
     $session_logic = Session_Logic::getInstance();
     $user = $session_logic->currentUser ();
@@ -281,7 +281,7 @@ EOD;
   /**
   * Unsubscribes $user from the note identified by $identifier.
   */
-  public function unsubscribeUser ($identifier, $user) // Todo use
+  public function unsubscribeUser ($identifier, $user)
   {
     // If the user is not subscribed to the note, bail out.
     $subscribers = $this->getSubscribers ($identifier);
@@ -300,7 +300,7 @@ EOD;
   /**
   * Assign the note identified by $identifier to $user.
   */
-  public function assignUser ($identifier, $user) // Todo implement / PHPUnit / Use.
+  public function assignUser ($identifier, $user)
   {
     // If the note already is assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
@@ -319,7 +319,7 @@ EOD;
   /**
   * Returns an array with the assignees to the note identified by $identifier.
   */  
-  public function getAssignees ($identifier) // Todo implement / PHPUnit / Use.
+  public function getAssignees ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -335,7 +335,7 @@ EOD;
   /**
   * Returns true if the note identified by $identifier has been assigned to $user.
   */
-  public function isAssigned ($identifier, $user)  // Todo implement / PHPUnit / Use.
+  public function isAssigned ($identifier, $user)
   {
     $assignees = $this->getAssignees ($identifier);
     return in_array ($user, $assignees);
@@ -345,7 +345,7 @@ EOD;
   /**
   * Unassignes the currently logged in user from the note identified by $identifier.
   */
-  public function unassign ($identifier)  // Todo implement / PHPUnit / Use.
+  public function unassign ($identifier)
   {
     $session_logic = Session_Logic::getInstance();
     $user = $session_logic->currentUser ();
@@ -356,7 +356,7 @@ EOD;
   /**
   * Unassigns $user from the note identified by $identifier.
   */
-  public function unassignUser ($identifier, $user)  // Todo implement / PHPUnit / Use.
+  public function unassignUser ($identifier, $user)
   {
     // If the notes is not assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
@@ -373,7 +373,28 @@ EOD;
 
   
 
+  public function getBible ($identifier) // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT bible FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      return $row[0];
+    }
+    return "";
+  }
 
+
+  public function setBible ($identifier, $bible) // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $bible = Database_SQLInjection::no ($bible);
+    $query = "UPDATE notes SET bible = '$bible' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
 
 
   
