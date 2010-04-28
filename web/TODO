@@ -2,13 +2,33 @@
 
 
 
+
 The reference(s) of the note should show.
+
 This requires a verse list module to be inserted as an object and integrated into the page.
+
 It can go at the very end after all other things of the notes.
+
 There may be a show/hide toggle for the verse list object.
-If it hides, the list shows only as reference sequences, and if it shows there's the full object then, including list
+
+If it hides, the list only shows as reference sequences, and if it shows there's the full object then, including list
 operations, and including verse text.
+
 To implement the above cleanly, the object can have a setting as to how to show the references.
+
+No, this is doing too much in one object. It needs a separate verse list object.
+
+The only thing we have is a list of verses in plain text. This is an Asset.
+Then there is a link to transfer the verses to the verse list.
+Here is where the concept of "desktop" comes in.
+If the verse list does not show, clicking the link will open it up, and add it to the desktop for the duration of the 
+session. This implies that the desktop needs to have knowledge of this verse list, but does not show it all the time,
+only when needed.
+
+
+
+
+
 
 
 
