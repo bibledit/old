@@ -111,7 +111,7 @@ EOD;
     $identifier = $this->getNewUniqueIdentifier ();
     $modified = time();
     $bible = Database_SQLInjection::no ($bible);
-    $passage = Database_SQLInjection::no ($this->getPassageMarkup ($book, $chapter, $verse));
+    $passage = Database_SQLInjection::no ($this->encodePassage ($book, $chapter, $verse));
     // If the $summary is not given, take the first line of the $contents as the $summary.
     if ($summary == "") {
       $summary = explode ("\n", $contents);
@@ -125,13 +125,6 @@ EOD;
     $server->runQuery ($query);
     // Return this new note´s identifier.
     return $identifier;
-  }
-
-
-  public function getPassageMarkup ($book, $chapter, $verse)
-  {
-    $markup = " $book.$chapter.$verse ";
-    return $markup;
   }
 
 
@@ -373,7 +366,7 @@ EOD;
 
   
 
-  public function getBible ($identifier) // Todo
+  public function getBible ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -387,7 +380,7 @@ EOD;
   }
 
 
-  public function setBible ($identifier, $bible) // Todo
+  public function setBible ($identifier, $bible)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -397,7 +390,116 @@ EOD;
   }
 
 
+
+  /**
+  * Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
+  * and returns this as a string.
+  */  
+  private function encodePassage ($book, $chapter, $verse)
+  {
+    return "$book.$chapter.$verse";
+  }
   
+  
+  /**
+  * Takes the $passage as a string, and returns an array with book, chapter, and verse.
+  */
+  private function decodePassage ($passage)
+  {
+    return explode (".", $passage);
+  }
+
+
+  /**
+  * Returns an array with the passages that the note identified by $identifier refers to.
+  * Each passages is an array (book, chapter, verse).
+  */  
+  public function getPassages ($identifier)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT passage FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $row = $result->fetch_row();
+    $lines = explode ("\n", $row[0]);
+    $lines = array_diff ($lines, array (""));
+    $passages = array ();
+    foreach ($lines as $line) {
+      $passage = $this->decodePassage ($line);
+      $passages[] = $passage;
+    }
+    return $passages;
+  }
+
+
+  /**
+  * Assign the passages to the note $identifier.
+  * $passages is an array of an array (book, chapter, verse) passages.
+  */
+  public function setPassages ($identifier, $passages)
+  {
+    $server = Database_Instance::getInstance ();
+    foreach ($passages as $passage) {
+      $line .= $this->encodePassage ($passage[0], $passage[1], $passage[2]);
+      $line .= "\n";
+    }
+    $identifier = Database_SQLInjection::no ($identifier);
+    $passages = Database_SQLInjection::no ($passages);
+    $query = "UPDATE notes SET passage = '$line' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+
+  /**
+  * Add the passage of $book, $chapter, $verse to the note identified by $identifier.
+  */
+  public function addPassage ($identifier, $book, $chapter, $verse)
+  {
+    // If the passage is already in, bail out.
+    $passage = array ($book, $chapter, $verse);
+    $passages = $this->getPassages ($identifier);
+    if (in_array ($passage, $passages)) return;
+    // Add the passage to the note.
+    $passages[]= $passage;
+    $this->setPassages ($identifier, $passages);
+  }
+
+
+  /**
+  * Removes $passage from the note identified by $identifier.
+  */
+  public function removePassage ($identifier, $book, $chapter, $verse)
+  {
+    // A special method is used to remove the passage, because array_diff 
+    // does not operate properly on multi-dimensional arrays.
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT passage FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $row = $result->fetch_row();
+    $lines = explode ("\n", $row[0]);
+    $lines = array_diff ($lines, array (""));
+    $lines = array_diff ($lines, array ($this->encodePassage ($book, $chapter, $verse)));
+    $passages = array ();
+    foreach ($lines as $line) {
+      $passage = $this->decodePassage ($line);
+      $passages[] = $passage;
+    }
+    $this->setPassages ($identifier, $passages);
+  }
+
+
+  /**
+  * Returns true if the $passage is contained in the note identified by $identifier.
+  */
+  public function passageContained ($identifier, $book, $chapter, $verse)
+  {
+    $passages = $this->getPassages ($identifier);
+    $passage = array ($book, $chapter, $verse);
+    return in_array ($passage, $passages);
+  }
+  
+ 
 
 }
 

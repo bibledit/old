@@ -119,16 +119,60 @@ class notesTest extends PHPUnit_Framework_TestCase
   public function testBible ()
   {
     $database_notes = Database_Notes::getInstance();
-    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
-    $database_notes->setBible ($identifier, "PHPUnit");
+    @$identifier = $database_notes->storeNewNote ("PHPUnit", 0, 0, 0, "Summary", "Contents");
     $bible = $database_notes->getBible ($identifier);
     $this->assertEquals ("PHPUnit", $bible);
+    $database_notes->setBible ($identifier, "PHPUnit2");
+    $bible = $database_notes->getBible ($identifier);
+    $this->assertEquals ("PHPUnit2", $bible);
     $database_notes->setBible ($identifier, "");
     $bible = $database_notes->getBible ($identifier);
     $this->assertEquals ("", $bible);
     $database_notes->delete ($identifier);
   }
 
+
+  public function testPassage () // Todo implement.
+  {
+    // Create note for a certain passage.
+    $database_notes = Database_Notes::getInstance();
+    @$identifier = $database_notes->storeNewNote ("", 10, 9, 8, "Summary", "Contents");
+    
+    // Test the getPassages method.
+    $passages = $database_notes->getPassages ($identifier);
+    $this->assertEquals (array (array (10, 9, 8)), $passages);
+
+    // Test the setPassage method.
+    $database_notes->setPassages ($identifier, array (array (5, 6, 7)));
+    $passages = $database_notes->getPassages ($identifier);
+    $this->assertEquals (array (array (5, 6, 7)), $passages);
+
+    // Test the addPassages method.
+    $database_notes->setPassages ($identifier, array (array (5, 6, 7)));
+    $database_notes->addPassage ($identifier, 10, 11, 12);
+    $database_notes->addPassage ($identifier, 10, 11, 12);
+    $passages = $database_notes->getPassages ($identifier);
+    $this->assertEquals (array (array (5, 6, 7), array (10, 11, 12)), $passages);
+
+    // Test the removePassage method.
+    $database_notes->setPassages ($identifier, array (array (1, 2, 3)));
+    $database_notes->removePassage ($identifier, 1, 2, 3);
+    $passages = $database_notes->getPassages ($identifier);
+    $this->assertEquals (array (), $passages);
+    $database_notes->addPassage ($identifier, 10, 11, 12);
+    $database_notes->addPassage ($identifier, 13, 14, 15);
+    $database_notes->removePassage ($identifier, 10, 11, 12);
+    $passages = $database_notes->getPassages ($identifier);
+    $this->assertEquals (array (array (13, 14, 15)), $passages);
+
+    // Test the passageContained method.
+    $database_notes->setPassages ($identifier, array (array (5, 4, 3)));
+    $this->assertTrue ($database_notes->passageContained ($identifier, 5, 4, 3));
+    $this->assertFalse ($database_notes->passageContained ($identifier, 5, 44, 3));
+
+    // Tear down.
+    $database_notes->delete ($identifier);
+  }
       
 }
 ?>

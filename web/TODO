@@ -1,18 +1,3 @@
-Database fields.
-passage
-status
-severity
-private
-
-
-
-
-
-
-To try on Fedora 8 why creating consultation notes fails. Perhaps PHP silently dies.
-To switch debugging and tracing on to see where it dies.
-PHP 5.1.6 (cli) (built: Sep 18 2007 09:07:28) 
-Linux mpj.us 2.6.23.16-20080211a #1 SMP Mon Feb 11 09:47:46 CET 2008 x86_64 x86_64 x86_64 GNU/Linux
 
 
 
@@ -28,6 +13,38 @@ To implement the above cleanly, the object can have a setting as to how to show 
 
 
 The reference(s) of the note should be editable.
+
+
+Notes can be assigned to a verse or a range of verses.
+When editing the verses, the same system applies as in Bibledit-Gtk, where shortcuts can be used, based
+upon previously entered books and chapters.
+Reference discovery mechanisms should be created as a Filter.
+
+
+
+
+
+
+
+
+
+
+
+
+Database fields.
+status
+severity
+private
+
+
+
+
+
+
+To try on Fedora 8 why creating consultation notes fails. Perhaps PHP silently dies.
+To switch debugging and tracing on to see where it dies.
+PHP 5.1.6 (cli) (built: Sep 18 2007 09:07:28) 
+Linux mpj.us 2.6.23.16-20080211a #1 SMP Mon Feb 11 09:47:46 CET 2008 x86_64 x86_64 x86_64 GNU/Linux
 
 
 
@@ -46,12 +63,6 @@ Later, subscribers to a note do not get mail immediately.
 Rather changes to the notes are assembled into one message, and kept, 
 and then sent out in one mail.
 
-
-
-
-
-
-Notes can be assigned to a verse or a range of verses.
 
 
 
@@ -83,21 +94,19 @@ Import from Bibledit-Gtk can go through a zipped file to be uploaded to the site
 Or better an export from Bibledit-Gtk, or backup.
 
 Settings per note:
-link: close note / re-open note.
-assigned to: user or users.
-link: close discussion / allow discussion. If the status is set to 'Vote', then no discussion is possible, only votes.
-Then, if the note is closed, somebody may open it again to continue discussion.
-notify: user or users (it may be easier for user to subscribe themselves to a certain note through a link on the note)
 
 Category	Select Box	Generally high level modules or functionalities of the software (e.g. User interface, Configuration Manager, etc)
 
 Priority	Select Box	How quickly the item should be handled
 Privacy	Select Box	Determines whether the item can be seen by members of the project only or anybody.
-Votes	Text Field	How many votes this item received.
-Votes may always be done by everybody.
+
+
+
 
 
 Nobody can remove anyone's subscription to any note.
+
+
 
 
 If a note is moved into 'vote' mode, then people can only add one line of text as a vote.
@@ -114,12 +123,17 @@ then the manager can update their status so that it seems they log in, but in re
 and dropped.
 
 
+
 If there are more than so many notes, by default a paginator shows up.
 The user can, for once, disable this so that all notes show up.
 But next time it shows another note, the paginator comes up again.
 This is to prevent hanging when the user chooses all available notes.
 The advantage is that the number of notes would still be shown, and this is what is needed at times, to know the total
 notes count that would display if a certain option would be chosen.
+
+
+
+
 
 When synchronizing the notes, note ID's can clash in cases that two or more users have created 
 different notes but with the same identifier. When doing git commit, new note identifiers should be noted,
@@ -302,11 +316,18 @@ as come with the application.
 These two catalogs are different.
 
 
+
+
+
 When setting translation domains in the preferences, do a check on the functions' return values if it worked out well.
+
+
 
 
 The administrator can leave the locale empty, in which case the system locale will be taken. 
 This should be the default for local installations.
+
+
 
 
 
@@ -469,6 +490,7 @@ We may have to use vr.org for virtual servers for Ndebele translation hosting.
 
 There can be a Notification setting that the user can set up which Bible or Bibles are included with the 
 notifications on a note.
+
 
 
 

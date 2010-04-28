@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-27 01:47+0200\n"
+"POT-Creation-Date: 2010-04-28 01:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,6 +82,12 @@ msgid "There was nothing to save"
 msgstr ""
 
 msgid "Would you like to assign this note to a user?"
+msgstr ""
+
+msgid "Would you like to assign this note to another Bible?"
+msgstr ""
+
+msgid "Make it a general note which does not apply to any particular Bible"
 msgstr ""
 
 msgid "This view does not display any notes."
@@ -1056,6 +1062,12 @@ msgid "This note has been specifically assigned to you for taking action on."
 msgstr ""
 
 msgid "I have done my part on it."
+msgstr ""
+
+msgid "This is a general note, it does not apply to any specific Bible"
+msgstr ""
+
+msgid "change"
 msgstr ""
 
 msgid "Identifier"
@@ -2173,9 +2185,6 @@ msgid "Role"
 msgstr ""
 
 msgid "Email"
-msgstr ""
-
-msgid "change"
 msgstr ""
 
 msgid "List"
