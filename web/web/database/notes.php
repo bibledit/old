@@ -89,9 +89,13 @@ EOD;
       $new_contents = $this->getContents ($identifier);
     }
     $session_logic = Session_Logic::getInstance();
-    $datetime = new DateTime();
-    Filter_Datetime::user_zone ($datetime);
-    $datetime = $datetime->format(DATE_RSS);
+    if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
+      $datetime = new DateTime();
+      Filter_Datetime::user_zone ($datetime);
+      $datetime = $datetime->format(DATE_RSS);
+    } else {
+      $datetime = strftime ("%a, %e %b %G %H:%M:%S %z");
+    }
     $user = $session_logic->currentUser ();
     $new_contents .= "<p>$user ($datetime):</p>\n";
     $lines = explode ("\n", $contents);

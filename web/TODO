@@ -8,19 +8,14 @@ private
 
 
 
-To try on Fedora 8 why creating consultation notes fails. Perhaps PHP silently dies.
-To switch debugging and tracing on to see where it dies.
-PHP 5.1.6 (cli) (built: Sep 18 2007 09:07:28) 
-Linux mpj.us 2.6.23.16-20080211a #1 SMP Mon Feb 11 09:47:46 CET 2008 x86_64 x86_64 x86_64 GNU/Linux
 
-error_reporting()
-E_ALL
-php.ini: display_errors
-edit your php.ini to have display_errors=on. (I had this problem on OpenBSD 4.4)
 
-error_reporting(E_ALL);
-ini_set('error_reporting', E_ALL);
-Edit bootstrap.php and insert the above code, then see again.
+
+
+
+
+
+
 
 The reference(s) of the note should get mailed out with the notifications.
 

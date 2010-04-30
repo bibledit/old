@@ -28,7 +28,11 @@ class Filter_Datetime
   */
   public function timezones ()
   {
-    $identifiers = DateTimeZone::listIdentifiers();
+    if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
+      $identifiers = DateTimeZone::listIdentifiers();
+    } else {
+      $identifiers = array ();
+    }
     sort ($identifiers);
     foreach ($identifiers as $identifier) {
       // Keep the preferred identifiers, and drop the deprecated ones.

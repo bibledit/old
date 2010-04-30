@@ -52,6 +52,11 @@ class Bootstrap
 
   
   private function __construct() {
+    
+    // Error handling, for debugging.
+    //error_reporting(E_ALL);
+    //ini_set('error_reporting', E_ALL);
+
     // Set the include path, where to look for included files.
     // This is important so as to make pointing to the included files much easier,
     // and to avoid tortuous path references.
