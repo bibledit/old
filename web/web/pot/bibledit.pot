@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-28 01:47+0200\n"
+"POT-Creation-Date: 2010-04-30 01:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,6 +88,9 @@ msgid "Would you like to assign this note to another Bible?"
 msgstr ""
 
 msgid "Make it a general note which does not apply to any particular Bible"
+msgstr ""
+
+msgid "Would you like to edit the verses?"
 msgstr ""
 
 msgid "This view does not display any notes."
@@ -1037,6 +1040,15 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
+msgid "Verses"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "add"
+msgstr ""
+
 msgid "You are subscribed to this note"
 msgstr ""
 
@@ -1275,9 +1287,6 @@ msgid "Book"
 msgstr ""
 
 msgid "Chapter"
-msgstr ""
-
-msgid "Verses"
 msgstr ""
 
 msgid ""
@@ -2120,9 +2129,6 @@ msgid "Span columns"
 msgstr ""
 
 msgid "Color"
-msgstr ""
-
-msgid "edit"
 msgstr ""
 
 msgid "Print"

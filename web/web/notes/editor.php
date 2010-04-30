@@ -170,6 +170,20 @@ class Notes_Editor
       }
     }
 
+    // Add verses. Todo working here.
+    $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
+    if (isset ($consultationnoteeditverses)) {
+      if (!isset($_POST['submit'])) {
+        $text = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($consultationnote));
+        $dialog_text = new Dialog_Text (gettext ("Would you like to edit the verses?"), $text, "consultationnoteeditverses");
+        $dialog_text->run ();
+      } else {
+        $text = $_POST['contents'];
+        echo $text;
+      }
+    }
+    
+
 
   }
   
@@ -207,6 +221,8 @@ class Notes_Editor
       $smarty->assign ("identifier", $consultationnote);
       if ($displayconsultationnoteactions) {
         // Display note actions.
+        $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($consultationnote));
+        $smarty->assign ("verses", $verses);
         $session_logic = Session_Logic::getInstance();
         $user = $session_logic->currentUser ();
         $subscribed = $database_notes->isSubscribed ($consultationnote, $user);

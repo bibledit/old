@@ -160,6 +160,66 @@ EOD;
   }
 
 
+  public function getIdFromOsis($osis)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $osis = Database_SQLInjection::no ($osis);
+    $query = "SELECT id FROM books WHERE osis = '$osis';";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
+  public function getIdFromBibleworks($bibleworks)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bibleworks = Database_SQLInjection::no ($bibleworks);
+    $query = "SELECT id FROM books WHERE bibleworks = '$bibleworks';";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+  /**
+  * Tries to interprete $text as the name of a Bible book. 
+  * Returns the book's identifier if it succeeds.
+  * If it fails, it returns 0.
+  */
+  public function getIdLikeText($text)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bibleworks = Database_SQLInjection::no ($bibleworks);
+    $query = "SELECT id FROM books WHERE english LIKE '$text%' OR osis LIKE '$text%' OR usfm LIKE '$text%' or bibleworks LIKE '$text%';";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
+  public function getIdFromOnlinebible($onlinebible)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $onlinebible = Database_SQLInjection::no ($onlinebible);
+    $query = "SELECT id FROM books WHERE onlinebible = '$onlinebible';";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return 0;
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
   public function getSequenceFromId($id)
   {
     $database_instance = Database_Instance::getInstance();

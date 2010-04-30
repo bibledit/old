@@ -1,6 +1,15 @@
 <p><a href="{$caller}?session={$session}&displaynotecontent=">{t}Go back to the note contents{/t}</a></p>
 <p>{t}Summary{/t}: {$note_summary}</p>
 <p>
+{t}Verses{/t}: {$verses} |
+{if $level >= 3}
+  {* The level of Consultant and up can edit the verses list. Lower levels only can add a verse to the list *}
+  <a href="{$caller}?session={$session}&consultationnoteeditverses=">[{t}edit{/t}]</a>
+{else}
+  <a href="{$caller}?session={$session}&consultationnoteaddverse=">[{t}add{/t}]</a>
+{/if}
+</p>
+<p>
 {if $subscribed}
 {t}You are subscribed to this note{/t} <a href="{$caller}?session={$session}&consultationnoteunsubscribe=">[{t}unsubscribe{/t}]</a>
 {else}

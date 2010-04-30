@@ -1,29 +1,4 @@
-
-
-
-
-
-The reference(s) of the note should show.
-
-This requires a verse list module to be inserted as an object and integrated into the page.
-
-It can go at the very end after all other things of the notes.
-
-There may be a show/hide toggle for the verse list object.
-
-If it hides, the list only shows as reference sequences, and if it shows there's the full object then, including list
-operations, and including verse text.
-
-To implement the above cleanly, the object can have a setting as to how to show the references.
-
-No, this is doing too much in one object. It needs a separate verse list object.
-
-The only thing we have is a list of verses in plain text. This is an Asset.
-Then there is a link to transfer the verses to the verse list.
-Here is where the concept of "desktop" comes in.
-If the verse list does not show, clicking the link will open it up, and add it to the desktop for the duration of the 
-session. This implies that the desktop needs to have knowledge of this verse list, but does not show it all the time,
-only when needed.
+A filter to extract a full reference given some data such as old book/chapter/verse. PHPUnit.
 
 
 
@@ -31,17 +6,12 @@ only when needed.
 
 
 
-
-The reference(s) of the note should be editable.
-
+The reference(s) of the note should be editable by the consultants, and higher levels.
 
 Notes can be assigned to a verse or a range of verses.
 When editing the verses, the same system applies as in Bibledit-Gtk, where shortcuts can be used, based
 upon previously entered books and chapters.
 Reference discovery mechanisms should be created as a Filter.
-
-
-
 
 
 
@@ -66,8 +36,14 @@ To switch debugging and tracing on to see where it dies.
 PHP 5.1.6 (cli) (built: Sep 18 2007 09:07:28) 
 Linux mpj.us 2.6.23.16-20080211a #1 SMP Mon Feb 11 09:47:46 CET 2008 x86_64 x86_64 x86_64 GNU/Linux
 
+error_reporting()
+E_ALL
+php.ini: display_errors
+edit your php.ini to have display_errors=on. (I had this problem on OpenBSD 4.4)
 
-
+error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
+Edit bootstrap.php and insert the above code, then see again.
 
 The reference(s) of the note should get mailed out with the notifications.
 
@@ -518,3 +494,13 @@ Installation documents for Bibledit-Web: Very often the installer has acces to t
 no GUI. Or even through ftp only, no option to install programs.
 
 
+
+
+The Consultation Notes verse list, if the Verse List shows, then there is a link in the consultation notes [transfer to verses list],
+which does what it says. This link is only shown if the verse list shows. If it does not show, then the link is not there.
+
+
+
+
+Lower levels, such as member, only can 'add' a new verse to the existing verse list of the consultation note.
+This is so that the 'member' cannot destroy the existing notes system.
