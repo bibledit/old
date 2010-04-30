@@ -170,7 +170,7 @@ class Notes_Editor
       }
     }
 
-    // Add verses. Todo working here.
+    // Edit passages.
     $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
     if (isset ($consultationnoteeditverses)) {
       if (!isset($_POST['submit'])) {
@@ -178,8 +178,18 @@ class Notes_Editor
         $dialog_text = new Dialog_Text (gettext ("Would you like to edit the verses?"), $text, "consultationnoteeditverses");
         $dialog_text->run ();
       } else {
-        $text = $_POST['contents'];
-        echo $text;
+        $lines = explode ("\n", $_POST['contents']);
+        $passages = array ();
+        foreach ($lines as $line) {
+          $line = trim ($line);
+          if ($line != "") {
+            $passage = Filter_Books::explodePassage ($line);
+            if ($passage[0] != 0) {
+              $passages [] = $passage;
+            }
+          }
+        }
+        $database_notes->setPassages ($consultationnote, $passages);
       }
     }
     

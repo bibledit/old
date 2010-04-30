@@ -1,26 +1,3 @@
-A filter to extract a full reference given some data such as old book/chapter/verse. PHPUnit.
-
-
-
-
-
-
-
-The reference(s) of the note should be editable by the consultants, and higher levels.
-
-Notes can be assigned to a verse or a range of verses.
-When editing the verses, the same system applies as in Bibledit-Gtk, where shortcuts can be used, based
-upon previously entered books and chapters.
-Reference discovery mechanisms should be created as a Filter.
-
-
-
-
-
-
-
-
-
 Database fields.
 status
 severity

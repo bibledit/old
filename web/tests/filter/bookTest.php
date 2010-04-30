@@ -26,7 +26,7 @@ class bookTest extends PHPUnit_Framework_TestCase
     $this->assertEquals("Unknown 10:2\nExodus 777:777\n", Filter_Books::passagesDisplayMultiline (array (array (-1, 10, 2), array (2, 777, 777))));
   }
 
-  public function testInterpretBook() /// Todo write tester.
+  public function testInterpretBook()
   {
     // Test interpretation of full English names.
     $this->assertEquals(1, Filter_Books::interpretBook ("Genesis"));
@@ -63,7 +63,17 @@ class bookTest extends PHPUnit_Framework_TestCase
     $this->assertEquals(11, Filter_Books::interpretBook ("1ki"));
   }
 
+
+  public function testExplodePassage()
+  {
+    $this->assertEquals(array (1, 2, 2), Filter_Books::explodePassage ("Genesis 2:2"));
+    $this->assertEquals(array (46, 2, 2), Filter_Books::explodePassage ("1 Corinth. 2:2"));
+    $this->assertEquals(array (22, 2, 2), Filter_Books::explodePassage ("Song of Sol. 2:2"));
+    $this->assertEquals(array (66, 2, 2), Filter_Books::explodePassage ("Revelation 2:2"));
+  }
   
+  
+ 
 }
 ?>
 

@@ -132,7 +132,7 @@ class notesTest extends PHPUnit_Framework_TestCase
   }
 
 
-  public function testPassage () // Todo implement.
+  public function testPassage ()
   {
     // Create note for a certain passage.
     $database_notes = Database_Notes::getInstance();

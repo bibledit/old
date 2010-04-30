@@ -171,8 +171,43 @@ class Filter_Books
     */
 
     return 0;
-    
   }
+
+
+  /**
+  * Takes the passage in $text, and explodes it into book, chapter, verse.
+  * The book is the numerical identifier, not the string, e.g.,
+  * it would not return "Genesis", but identifier 1.
+  */
+  static public function explodePassage ($text) 
+  {
+    // Trim text.
+    $text = trim ($text);
+    // As references could be, e.g.: Genesis 10.2, or Genesis 10:2,
+    // it needs to make spaces of the full stop and the colon.
+    $text = str_replace (".", " ", $text);
+    $text = str_replace (":", " ", $text);
+    // Change double spaces into single ones.
+    $text = str_replace ("  ", " ", $text);
+    $text = str_replace ("  ", " ", $text);
+    // Cut the text in its parts.
+    $text = explode (" ", $text);
+    // Defaults to empty passage.
+    $passage = array (0, 0, 0);
+    // Take the bits.
+    $verse = array_pop ($text);
+    if (isset ($verse)) $passage[2] = $verse;
+    $chapter = array_pop ($text);
+    if (isset ($chapter)) $passage[1] = $chapter;
+    $book = implode (" ", $text);
+    if ($book != "") {
+      $book =  Filter_Books::interpretBook ($book);
+      $passage[0] = $book;
+    }
+    // Return the result.
+    return $passage;    
+  }
+ 
 
 
 }
