@@ -1,5 +1,22 @@
-Database fields.
 status
+Users should be able to create new status.
+They can do this when changing the status: An option is offered to create a new one.
+If a status is not used, then it automatically disappears from the list, since it is no longer in the database.
+When the list comes up to change status, it queries the database for possible status values.
+Standard values: New / Pending / In progress / Done
+PHPUnit tests.
+
+
+
+
+
+
+
+
+
+
+
+Database fields.
 severity
 private
 

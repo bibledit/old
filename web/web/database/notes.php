@@ -45,7 +45,7 @@ modified int NOT NULL,    # Date modified.
 assigned text,            # Note assigned to: lists users.
 bible varchar (256),      # The Bible, if any, the note refers to.
 passage text,             # The passage or verse the note refers to.
-status varchar (256),     # Note status: New / Need info / Confirmed / Invalid / In progress / Done
+status varchar (256),     # Note status: New / Pending / In progress / Done / etc.
 severity int,             # Severity of note: Wish / Minor / Normal / Important / Major / Critical
 private tinyint,          # Note privacy: (Public (0) / Consultants (1) / Translators (2) / Me only (3).
 summary varchar (256),    # Note summary.
