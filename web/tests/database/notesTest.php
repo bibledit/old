@@ -210,6 +210,34 @@ class notesTest extends PHPUnit_Framework_TestCase
   }
       
       
+  public function testSeverity ()
+  {
+    // Create note.
+    $database_notes = Database_Notes::getInstance();
+    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
+
+    // Test default severity = Normal.
+    $severity = $database_notes->getSeverity ($identifier);
+    $this->assertEquals ("Normal", $severity);
+
+    // Test setSeverity.
+    $database_notes->setSeverity ($identifier, 0);
+    $severity = $database_notes->getSeverity ($identifier);
+    $this->assertEquals ("Wish", $severity);
+    $database_notes->setSeverity ($identifier, 4);
+    $severity = $database_notes->getSeverity ($identifier);
+    $this->assertEquals ("Major", $severity);
+    
+    // Test getSeverities.
+    $severities = $database_notes->getPossibleSeverities ();
+    $this->assertEquals (array (array (0, "Wish"), array (1, "Minor"), 
+                                array (2, "Normal"), array (3, "Important"),
+                                array (4, "Major"), array (5, "Critical")), $severities);
+
+    // Tear down.
+    $database_notes->delete ($identifier);
+  }
+      
 }
 ?>
 

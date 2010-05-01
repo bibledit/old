@@ -26,6 +26,7 @@ class Database_Notes
 {
   private static $instance;
   private $standard_statuses = array ("New", "Pending", "In progress", "Done", "Reopened");
+  private $standard_severities = array (0 => "Wish", 1 => "Minor", 2 => "Normal", 3 => "Important", 4 => "Major", 5 => "Critical");
   private function __construct() {
   } 
   public static function getInstance() 
@@ -40,6 +41,15 @@ class Database_Notes
       gettext ("In progress");
       gettext ("Done");
       gettext ("Reopened");
+    }
+    // Enter the standard severities in the list of translatable strings.
+    if (false) {
+      gettext ("Wish");
+      gettext ("Minor");
+      gettext ("Normal");
+      gettext ("Important");
+      gettext ("Major");
+      gettext ("Critical");
     }
     return self::$instance;
   }
@@ -134,7 +144,7 @@ EOD;
     $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '', '$bible', '$passage', 'New', 'Normal', 0, '$summary', '$contents')";
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents')";
     $server->runQuery ($query);
     // Return this new note´s identifier.
     return $identifier;
@@ -593,6 +603,56 @@ EOD;
     return $localized_statuses;
   }
   
+
+  /**
+  * Returns the severity of a note as a localized string.
+  */
+  public function getSeverity ($identifier)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT severity FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $severity = 2;
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      $severity = $row[0];
+    }
+    $severity = $this->standard_severities[$severity];
+    if ($severity == "") $severity = "Normal";
+    $severity = gettext ($severity);
+    return $severity;
+  }
+
+
+  /**
+  * Sets the $severity of the note identified by $identifier.
+  * $severity is a  number.
+  */
+  public function setSeverity ($identifier, $severity)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $severity = Database_SQLInjection::no ($severity);
+    $query = "UPDATE notes SET severity = $severity WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+
+  /**
+  * Gets an array with the possible severities.
+  */
+  public function getPossibleSeverities ()
+  {
+    for ($i = 0; $i <= 5; $i++) {
+      $severities[] = array ($i, gettext ($this->standard_severities[$i]));
+    }
+    return $severities;
+  }
+  
+
+
+
 
  
  

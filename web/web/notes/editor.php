@@ -185,6 +185,21 @@ class Notes_Editor
       }
     }
 
+    // Edit severity.
+    $consultationnoteseverity = $_GET['consultationnoteseverity'];
+    if (isset ($consultationnoteseverity)) {
+      if ($consultationnoteseverity == "") {
+        $dialog_list = new Dialog_List2 (gettext ("Would you like to change the severity of this note?"));
+        $severities = $database_notes->getPossibleSeverities ();
+        foreach ($severities as $severity) {
+          $dialog_list->add_row ($severity[1], "&consultationnoteseverity=$severity[0]");
+        }
+        $dialog_list->run();
+      } else {
+         $database_notes->setSeverity ($consultationnote, $consultationnoteseverity);
+      }
+    }
+
     // Edit passages.
     $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
     if (isset ($consultationnoteeditverses)) {
@@ -258,6 +273,8 @@ class Notes_Editor
         $smarty->assign ("status", $status);
         $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($consultationnote));
         $smarty->assign ("verses", $verses);
+        $severity = $database_notes->getSeverity ($consultationnote);
+        $smarty->assign ("severity", $severity);
         $consultationnotebible = $database_notes->getBible ($consultationnote);
         $smarty->assign ("consultationnotebible", $consultationnotebible);
         $smarty->display ("actions.tpl");

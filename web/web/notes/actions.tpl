@@ -44,6 +44,7 @@
   <a href="{$caller}?session={$session}&consultationnoteaddverse=">[{t}add{/t}]</a>
 {/if}
 </p>
+<p>{t}Severity{/t}: <a href="{$caller}?session={$session}&consultationnoteseverity=">{$severity}</a></p>
 <p>
 {t}Bible{/t}:
 {if $consultationnotebible != ""}

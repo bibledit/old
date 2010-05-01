@@ -40,7 +40,7 @@ class Notes_Logic
     $this->notifierNote ($identifier, gettext ("New note"));
   }
 
-  public function handlerCommentNote ($identifier) // Todo
+  public function handlerCommentNote ($identifier)
   {
     $this->notifierNote ($identifier, gettext ("Comment added"));
     // If the note' status was Done, and a comment is added, mark it Reopened.

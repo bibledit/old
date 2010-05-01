@@ -8,15 +8,12 @@
 
 
 
-
-
-
-
 Database fields.
-severity
 private
-
-
+A time-based system works, where one can set a note to private within, say, one hour after creation
+or after setting a private note public.
+The field, therefore, must be changed, so that the user's name is put in the private field, that is,
+the only user who can see this note is this user whose names in there.
 
 
 
