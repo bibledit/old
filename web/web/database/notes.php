@@ -25,12 +25,21 @@
 class Database_Notes
 {
   private static $instance;
+  private $standard_statuses = array ("New", "Pending", "In progress", "Done", "Reopened");
   private function __construct() {
   } 
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
       self::$instance = new Database_Notes();
+    }
+    // Enter the standard statuses in the list of translatable strings.
+    if (false) {
+      gettext ("New");
+      gettext ("Pending");
+      gettext ("In progress");
+      gettext ("Done");
+      gettext ("Reopened");
     }
     return self::$instance;
   }
@@ -502,7 +511,90 @@ EOD;
     $passage = array ($book, $chapter, $verse);
     return in_array ($passage, $passages);
   }
+
+
+
+  /**
+  * Gets the raw status of a note.
+  * Returns it as a string.
+  */
+  public function getRawStatus ($identifier)
+  {
+    // Get status.
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT status FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $status = "";
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      $status = $row[0];
+    }
+    return $status;
+  }
+
+
+  /**
+  * Gets the localized status of a note.
+  * Returns it as a string.
+  */
+  public function getStatus ($identifier)
+  {
+     $status = $this->getRawStatus ($identifier);
+    // Localize status if it is a standard one.
+    if (in_array ($status, $this->standard_statuses)) $status = gettext ($status);
+    // Return status.
+    return $status;
+  }
+
+
+  /**
+  * Sets the $status of the note identified by $identifier.
+  * $status is a string.
+  */
+  public function setStatus ($identifier, $status)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $status = Database_SQLInjection::no ($status);
+    $query = "UPDATE notes SET status = '$status' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+
+  /**
+  * Gets an array with the possible statuses of consultation notes.
+  */
+  public function getPossibleStatuses ()
+  {
+    // Get an array with the statuses used in the database, ordered by occurrence, most often used ones first.
+    $statuses = array ();
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT status, COUNT(status) AS occurrences FROM notes GROUP BY status ORDER BY occurrences DESC;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i <$result->num_rows ; $i++) {
+      $row = $result->fetch_row ();
+      $statuses[] = $row[0];
+    }
+    // Ensure the standard statuses are there too.
+    foreach ($this->standard_statuses as $standard_status) {
+      if (!in_array ($standard_status, $statuses)) {
+        $statuses[] = $standard_status;
+      }
+    }
+    // Localize the results.
+    foreach ($statuses as $status) {
+      $localization = $status;
+      if (in_array ($status, $this->standard_statuses)) $localization = gettext ($status);
+      $localized_status = array ($status, $localization);
+      $localized_statuses [] = $localized_status;
+    }
+    // Return result.
+    return $localized_statuses;
+  }
   
+
+ 
  
 
 }

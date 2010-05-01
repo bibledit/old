@@ -170,6 +170,21 @@ class Notes_Editor
       }
     }
 
+    // Edit status.
+    $consultationnotestatus = $_GET['consultationnotestatus'];
+    if (isset ($consultationnotestatus)) {
+      if ($consultationnotestatus == "") {
+        $dialog_list = new Dialog_List2 (gettext ("Would you like to change the status of this note?"));
+        $statuses = $database_notes->getPossibleStatuses ();
+        foreach ($statuses as $status) {
+          $dialog_list->add_row ($status[0], "&consultationnotestatus=$status[1]");
+        }
+        $dialog_list->run();
+      } else {
+         $database_notes->setStatus ($consultationnote, $consultationnotestatus);
+      }
+    }
+
     // Edit passages.
     $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
     if (isset ($consultationnoteeditverses)) {
@@ -227,12 +242,10 @@ class Notes_Editor
     } 
     else if ($consultationnote != "") {
       // Note display.
-      $smarty->assign ("note_summary", $database_notes->getSummary($consultationnote));
+      $smarty->assign ("summary", $database_notes->getSummary($consultationnote));
       $smarty->assign ("identifier", $consultationnote);
       if ($displayconsultationnoteactions) {
         // Display note actions.
-        $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($consultationnote));
-        $smarty->assign ("verses", $verses);
         $session_logic = Session_Logic::getInstance();
         $user = $session_logic->currentUser ();
         $subscribed = $database_notes->isSubscribed ($consultationnote, $user);
@@ -241,6 +254,10 @@ class Notes_Editor
         $smarty->assign ("assignees", $assignees);
         $assignee = $database_notes->isAssigned ($consultationnote, $user);
         $smarty->assign ("assignee", $assignee);
+        $status = $database_notes->getStatus ($consultationnote);
+        $smarty->assign ("status", $status);
+        $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($consultationnote));
+        $smarty->assign ("verses", $verses);
         $consultationnotebible = $database_notes->getBible ($consultationnote);
         $smarty->assign ("consultationnotebible", $consultationnotebible);
         $smarty->display ("actions.tpl");

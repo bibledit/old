@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-30 01:47+0200\n"
+"POT-Creation-Date: 2010-05-01 01:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-msgid "Would you like to change the default timezone for the site?"
+msgid "Would you like to change your timezone?"
 msgstr ""
 
 msgid "Password should be at least four characters long"
@@ -294,6 +294,9 @@ msgid ""
 "Please confirm this request by replying to this email. There is a "
 "confirmation number in the subject line. Your reply should have this same "
 "confirmation number in the subject line."
+msgstr ""
+
+msgid "Would you like to change the default timezone for the site?"
 msgstr ""
 
 msgid "Read access to the repository is successful."
@@ -1040,15 +1043,6 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
-msgid "Verses"
-msgstr ""
-
-msgid "edit"
-msgstr ""
-
-msgid "add"
-msgstr ""
-
 msgid "You are subscribed to this note"
 msgstr ""
 
@@ -1056,9 +1050,6 @@ msgid "unsubscribe"
 msgstr ""
 
 msgid "Subscribe to this note"
-msgstr ""
-
-msgid "Delete this note"
 msgstr ""
 
 msgid "The note has been assigned to"
@@ -1076,6 +1067,18 @@ msgstr ""
 msgid "I have done my part on it."
 msgstr ""
 
+msgid "Status"
+msgstr ""
+
+msgid "Verses"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "add"
+msgstr ""
+
 msgid "This is a general note, it does not apply to any specific Bible"
 msgstr ""
 
@@ -1083,6 +1086,9 @@ msgid "change"
 msgstr ""
 
 msgid "Identifier"
+msgstr ""
+
+msgid "Delete this note"
 msgstr ""
 
 msgid "Create a new consultation note."

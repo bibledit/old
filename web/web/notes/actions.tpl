@@ -1,24 +1,10 @@
 <p><a href="{$caller}?session={$session}&displaynotecontent=">{t}Go back to the note contents{/t}</a></p>
-<p>{t}Summary{/t}: {$note_summary}</p>
-<p>
-{t}Verses{/t}: {$verses} |
-{if $level >= 3}
-  {* The level of Consultant and up can edit the verses list. Lower levels only can add a verse to the list *}
-  <a href="{$caller}?session={$session}&consultationnoteeditverses=">[{t}edit{/t}]</a>
-{else}
-  <a href="{$caller}?session={$session}&consultationnoteaddverse=">[{t}add{/t}]</a>
-{/if}
-</p>
+<p>{t}Summary{/t}: {$summary}</p>
 <p>
 {if $subscribed}
 {t}You are subscribed to this note{/t} <a href="{$caller}?session={$session}&consultationnoteunsubscribe=">[{t}unsubscribe{/t}]</a>
 {else}
 <a href="{$caller}?session={$session}&consultationnotesubscribe=">{t}Subscribe to this note{/t}</a>
-{/if}
-</p>
-{if $level >= 5}
-  {* To delete a note, one should at least have the level of manager *}
-  <p><a href="{$caller}?session={$session}&deleteconsultationnote={$consultationnote}">{t}Delete this note{/t}</a></p>
 {/if}
 <p>{t}The note has been assigned to{/t}:
 {section name=offset loop=$assignees}
@@ -41,6 +27,24 @@
   </p>
 {/if}
 <p>
+{t}Status{/t}:
+{if $level >= 4}
+  {* The level of Translator and up can change the status *}
+  <a href="{$caller}?session={$session}&consultationnotestatus=">{$status}</a>
+{else}
+  {$status}
+{/if}
+</p>
+<p>
+{t}Verses{/t}: {$verses} |
+{if $level >= 3}
+  {* The level of Consultant and up can edit the verses list. Lower levels only can add a verse to the list *}
+  <a href="{$caller}?session={$session}&consultationnoteeditverses=">[{t}edit{/t}]</a>
+{else}
+  <a href="{$caller}?session={$session}&consultationnoteaddverse=">[{t}add{/t}]</a>
+{/if}
+</p>
+<p>
 {t}Bible{/t}:
 {if $consultationnotebible != ""}
   {$consultationnotebible}
@@ -53,3 +57,8 @@
 {/if}
 </p>
 <p>{t}Identifier{/t}: {$consultationnote}</p>
+</p>
+{if $level >= 5}
+  {* To delete a note, one should at least have the level of manager *}
+  <p><a href="{$caller}?session={$session}&deleteconsultationnote={$consultationnote}">{t}Delete this note{/t}</a></p>
+{/if}

@@ -40,9 +40,15 @@ class Notes_Logic
     $this->notifierNote ($identifier, gettext ("New note"));
   }
 
-  public function handlerCommentNote ($identifier)
+  public function handlerCommentNote ($identifier) // Todo
   {
     $this->notifierNote ($identifier, gettext ("Comment added"));
+    // If the note' status was Done, and a comment is added, mark it Reopened.
+    $database_notes = Database_Notes::getInstance ();
+    $status = $database_notes->getRawStatus ($identifier);
+    if ($status == "Done") {
+      $database_notes->setStatus ($identifier, "Reopened");
+    }
   }
 
   public function handlerDeleteNote ($identifier)

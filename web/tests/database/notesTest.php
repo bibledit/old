@@ -173,6 +173,42 @@ class notesTest extends PHPUnit_Framework_TestCase
     // Tear down.
     $database_notes->delete ($identifier);
   }
+
+
+  public function testStatus ()
+  {
+    // Create note.
+    $database_notes = Database_Notes::getInstance();
+    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
+
+    // Test default status = New.
+    $status = $database_notes->getStatus ($identifier);
+    $this->assertEquals ("New", $status);
+    
+    // Test setStatus function.
+    $database_notes->setStatus ($identifier, "xxxxx");
+    $status = $database_notes->getStatus ($identifier);
+    $this->assertEquals ("xxxxx", $status);
+    
+    // Test the getStatuses function.
+    $statuses = $database_notes->getPossibleStatuses ();
+    foreach ($statuses as $status) {
+      $statuses2[] = $status[0];
+    }
+    $this->assertTrue (in_array ("xxxxx", $statuses2));
+    // The standard statuses should be there too.
+    $this->assertTrue (in_array ("New", $statuses2));
+    $this->assertTrue (in_array ("Pending", $statuses2));
+    $this->assertTrue (in_array ("In progress", $statuses2));
+    $this->assertTrue (in_array ("Done", $statuses2));
+    // Test that the array has unique values only.
+    $unique_statuses = array_unique ($statuses2);
+    $this->assertEquals (count ($unique_statuses), count ($statuses2));
+
+    // Tear down.
+    $database_notes->delete ($identifier);
+  }
+      
       
 }
 ?>
