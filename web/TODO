@@ -7,21 +7,8 @@
 
 
 
-
-Database fields.
-private
-A time-based system works, where one can set a note to private within, say, one hour after creation
-or after setting a private note public.
-The field, therefore, must be changed, so that the user's name is put in the private field, that is,
-the only user who can see this note is this user whose names in there.
-
-
-
-
-
-
-
-
+Note selection mechanism should take the privacy setting in account,
+so that the appropriate notes are shown to the appropriate user.
 
 
 
@@ -50,6 +37,11 @@ subscribed, and erases the entry from the shadow database.
 
 
 
+
+
+
+
+
 A system similar to the changes tracker for notes will work for changes in the text as well.
 Let say, one hour after the last change in a chapter it will send out this chapter, along with any other
 chapters, to the subscribed users.
@@ -62,10 +54,18 @@ chapters, to the subscribed users.
 There is an easy filter to select which notes will be displayed.
 
 
+
+
+
 Notes can be imported from Bibledit-Gtk.
 
 
+
+
+
 Notes are synchronized through a git repository.
+
+
 
 -Gtk note file format.
 filename : note id
@@ -81,16 +81,12 @@ last lines: "Logbook:" and logbook entries.
 The new format will no longer have a logbook, since the note cannot be changed once written.
 It all becomes one long note block, and this goes at the end of the note file or database field.
 
+
 Import from Bibledit-Gtk can go through a zipped file to be uploaded to the site.
 Or better an export from Bibledit-Gtk, or backup.
 
+
 Settings per note:
-
-Category	Select Box	Generally high level modules or functionalities of the software (e.g. User interface, Configuration Manager, etc)
-
-Priority	Select Box	How quickly the item should be handled
-Privacy	Select Box	Determines whether the item can be seen by members of the project only or anybody.
-
 
 
 

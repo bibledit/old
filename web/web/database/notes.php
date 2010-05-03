@@ -66,7 +66,7 @@ bible varchar (256),      # The Bible, if any, the note refers to.
 passage text,             # The passage or verse the note refers to.
 status varchar (256),     # Note status: New / Pending / In progress / Done / etc.
 severity int,             # Severity of note: Wish / Minor / Normal / Important / Major / Critical
-private tinyint,          # Note privacy: (Public (0) / Consultants (1) / Translators (2) / Me only (3).
+private tinyint,          # Note privacy: Same privacy levels as the user levels.
 summary varchar (256),    # Note summary.
 contents text             # Note contents.
 );
@@ -651,11 +651,50 @@ EOD;
   }
   
 
+  /**
+  * Returns the privacy of a note as a number.
+  */
+  public function getPrivacy ($identifier)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT private FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $privacy = 0;
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      $privacy = $row[0];
+    }
+    return $privacy;
+  }
 
 
+  /**
+  * Sets the $privacy of the note identified by $identifier.
+  * $privacy is a number.
+  */
+  public function setPrivacy ($identifier, $privacy)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $privacy = Database_SQLInjection::no ($privacy);
+    $query = "UPDATE notes SET private = $privacy WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
 
- 
- 
+
+  /**
+  * Gets an array with the possible privacy values.
+  */
+  public function getPossiblePrivacies ()
+  {
+    include ("session/levels.php");
+    for ($i = GUEST_LEVEL; $i <= ADMIN_LEVEL; $i++) {
+      $privacies[] = $i;
+    }
+    return $privacies;
+  }
+  
 
 }
 

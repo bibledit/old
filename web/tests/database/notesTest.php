@@ -237,6 +237,33 @@ class notesTest extends PHPUnit_Framework_TestCase
     // Tear down.
     $database_notes->delete ($identifier);
   }
+
+
+  public function testPrivacy ()
+  {
+    // Create note.
+    $database_notes = Database_Notes::getInstance();
+    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
+
+    // Test default privacy = 0.
+    $privacy = $database_notes->getPrivacy ($identifier);
+    $this->assertEquals (0, $privacy);
+
+    // Test setPrivacy.
+    $database_notes->setPrivacy ($identifier, 111);
+    $privacy = $database_notes->getPrivacy ($identifier);
+    $this->assertEquals (111, $privacy);
+
+    // Test getPossiblePrivacies.
+    $severities = $database_notes->getPossiblePrivacies ();
+    $this->assertEquals (array (array (1, "Guest"), array (2, "Member"), 
+                                array (3, "Consultant"), array (4, "Translator"),
+                                array (5, "Manager"), array (6, "Administrator")), $severities);
+
+    // Tear down.
+    $database_notes->delete ($identifier);
+  }
+
       
 }
 ?>

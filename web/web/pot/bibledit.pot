@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-01 01:47+0200\n"
+"POT-Creation-Date: 2010-05-03 01:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,6 +90,12 @@ msgstr ""
 msgid "Make it a general note which does not apply to any particular Bible"
 msgstr ""
 
+msgid "Would you like to change the status of this note?"
+msgstr ""
+
+msgid "Would you like to change the severity of this note?"
+msgstr ""
+
 msgid "Would you like to edit the verses?"
 msgstr ""
 
@@ -106,6 +112,39 @@ msgid "About"
 msgstr ""
 
 msgid "Warning"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Reopened"
+msgstr ""
+
+msgid "Wish"
+msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Important"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
 msgstr ""
 
 msgid "Unknown"
@@ -1077,6 +1116,9 @@ msgid "edit"
 msgstr ""
 
 msgid "add"
+msgstr ""
+
+msgid "Severity"
 msgstr ""
 
 msgid "This is a general note, it does not apply to any specific Bible"

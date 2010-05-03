@@ -46,6 +46,9 @@
 </p>
 <p>{t}Severity{/t}: <a href="{$caller}?session={$session}&consultationnoteseverity=">{$severity}</a></p>
 <p>
+</p>
+<p>{t}This note is visible to users with the following roles{/t}: <a href="{$caller}?session={$session}&consultationnoteprivacy=">{$privacy}</a></p>
+<p>
 {t}Bible{/t}:
 {if $consultationnotebible != ""}
   {$consultationnotebible}

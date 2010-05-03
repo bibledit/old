@@ -200,6 +200,22 @@ class Notes_Editor
       }
     }
 
+    // Edit privacy. 
+    $consultationnoteprivacy = $_GET['consultationnoteprivacy'];
+    if (isset ($consultationnoteprivacy)) {
+      if ($consultationnoteprivacy == "") {
+        $dialog_list = new Dialog_List2 (gettext ("Would you like to change the the visibility of this note?"));
+        $dialog_list->info_top (gettext ("The note will be visible to:"));
+        $privacies = $database_notes->getPossiblePrivacies ();
+        foreach ($privacies as $privacy) {
+          $dialog_list->add_row (Filter_Notes::privacy2text ($privacy), "&consultationnoteprivacy=$privacy");
+        }
+        $dialog_list->run();
+      } else {
+        $database_notes->setPrivacy ($consultationnote, $consultationnoteprivacy);
+      }
+    }
+
     // Edit passages.
     $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
     if (isset ($consultationnoteeditverses)) {
@@ -275,6 +291,9 @@ class Notes_Editor
         $smarty->assign ("verses", $verses);
         $severity = $database_notes->getSeverity ($consultationnote);
         $smarty->assign ("severity", $severity);
+        $privacy = $database_notes->getPrivacy ($consultationnote);
+        $privacy = Filter_Notes::privacy2text ($privacy);
+        $smarty->assign ("privacy", $privacy);
         $consultationnotebible = $database_notes->getBible ($consultationnote);
         $smarty->assign ("consultationnotebible", $consultationnotebible);
         $smarty->display ("actions.tpl");
