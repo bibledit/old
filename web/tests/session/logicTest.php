@@ -19,6 +19,8 @@ class logicTest extends PHPUnit_Framework_TestCase
     $adminusername_email = $database_users->getUserToEmail ($adminusername);
     $this->assertNotEquals ("", $adminusername_email);
     // Try login with this username and password.
+    $_SERVER['HTTP_USER_AGENT'] = "PHPUnit";
+    $_SERVER['REMOTE_ADDR'] = "127.0.0.1";
     $logged_in = $session_logic->attemptLogin ($adminusername, $adminpassword);
     $this->assertEquals (true, $logged_in);
     // Set adminuser's level lower, and attempt to login, and get the level.

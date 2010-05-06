@@ -89,7 +89,7 @@ EOD;
 
 
   private function getValueForUser ($username, $key, $default) {
-    $user = Database_SQLInjection::no ($user);
+    $username = Database_SQLInjection::no ($username);
     $database = Database_Instance::getInstance ();
     $query = "SELECT value FROM config_user WHERE username = '$username' AND ident = '$key';";
     $result = $database->runQuery ($query);

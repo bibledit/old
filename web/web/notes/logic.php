@@ -98,7 +98,6 @@ class Notes_Logic
       $database_mail->send ($subscriber, "$label - $summary", $contents);
     }  
   }
-// Todo this is too basic, the email also needs a link and other information, such as the passage.
 }  
 
 

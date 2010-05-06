@@ -27,6 +27,7 @@ class Filter_Notes
   public function privacy2text ($privacy)
   {
     include ("session/levels.php");
+    $text = "";
     for ($i = GUEST_LEVEL; $i <= ADMIN_LEVEL; $i++) {
       if ($i >= $privacy) {
         if ($text != "") $text .= " | ";
@@ -36,7 +37,55 @@ class Filter_Notes
     return $text;
   }
   
-
+  /**
+  * This imports one note from Bibledit-Gtk. 
+  * The note is available in $filename.
+  * It returns the identifier of the note if imported successfully.
+  * Else it returns NULL.
+  */
+  public function importFromBibleditGtkFile ($filename)
+  {
+    $note_identifier = NULL;
+    if (file_exists ($filename)) {
+      // The note is in the format as used by Bibledit-Gtk. 
+      // The filename represents the note ID in Bibledit-Gtk. 
+      // This ID is not relevant for import.
+      // Read the note.
+      $note = file ($filename);
+      // line 0: date created. 
+      // This information is not used here. The same information will be in the logbook entries, see later.
+      // line 1: user who created it.
+      // This information is not used here. The same information will be in the logbook entries, see later.
+      // line 2: note references.      
+      // Sample: Exod.29.23
+      // Sample: Lev.26.16 Deut.28.22
+      // It uses OSIS for book encoding.
+      $passages = array ();
+      foreach (explode (" ", trim ($note[2])) as $bibledit_gtk_reference) {
+        $passages [] = Filter_Books::explodePassage ($bibledit_gtk_reference);
+      }
+      // line 3: note category.
+      $category = trim ($note[3]);
+      // line 4: Bible.
+      $bible = trim ($note[4]);
+      // line 5: date modified.
+      // This information is list since the note will be modified upon import.
+      // line 6 and up: note text, "Logbook:", and logbook entries.
+      // Summary will be taken from the first line.
+      $summary = trim ($note[6]);
+      $contents = "";
+      for ($i = 6; $i < count ($note); $i++) {
+        $contents .= $note[$i] . "\n";
+      }
+      // Store note.
+      $database_notes = Database_Notes::getInstance();
+      $note_identifier = $database_notes->storeNewNote ($bible, 0, 0, 0, $summary, $contents);
+      $database_notes->setPassages ($note_identifier, $passages);
+      $database_notes->setStatus ($note_identifier, $category);
+    }
+    return $note_identifier;
+  }
+  
 
 
 }

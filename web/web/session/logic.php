@@ -23,7 +23,7 @@ class Session_Logic
   // The class constructor is private, so no outsider can call it.    
   private function __construct() {
     session_name ('bibledit');
-    session_start();
+    if (php_sapi_name () != "cli") session_start();
     $this->Open ();
   } 
 

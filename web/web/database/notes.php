@@ -85,7 +85,7 @@ EOD;
   public function identifierExists ($identifier)
   {
     $server = Database_Instance::getInstance ();
-    $id = Database_SQLInjection::no ($id);
+    $identifier = Database_SQLInjection::no ($identifier);
     $query = "SELECT identifier FROM notes WHERE identifier = $identifier;";
     $result = $server->runQuery ($query);
     return ($result->num_rows > 0);
@@ -107,7 +107,6 @@ EOD;
     if (is_numeric ($identifier)) {
       $new_contents = $this->getContents ($identifier);
     }
-    $session_logic = Session_Logic::getInstance();
     if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
       $datetime = new DateTime();
       Filter_Datetime::user_zone ($datetime);
@@ -115,6 +114,7 @@ EOD;
     } else {
       $datetime = strftime ("%a, %e %b %G %H:%M:%S %z");
     }
+    $session_logic = Session_Logic::getInstance();
     $user = $session_logic->currentUser ();
     $new_contents .= "<p>$user ($datetime):</p>\n";
     $lines = explode ("\n", $contents);
@@ -462,12 +462,13 @@ EOD;
   public function setPassages ($identifier, $passages)
   {
     $server = Database_Instance::getInstance ();
+    $line = "";
     foreach ($passages as $passage) {
       $line .= $this->encodePassage ($passage[0], $passage[1], $passage[2]);
       $line .= "\n";
     }
     $identifier = Database_SQLInjection::no ($identifier);
-    $passages = Database_SQLInjection::no ($passages);
+    $line = Database_SQLInjection::no ($line);
     $query = "UPDATE notes SET passage = '$line' WHERE identifier = $identifier;";
     $server->runQuery ($query);
   }

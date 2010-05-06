@@ -155,6 +155,8 @@ class Filter_Usfm
 
     $input = Filter_Usfm::oneString ($input);
     $markers_and_text = Filter_Usfm::getMarkersAndText ($input);
+    $retrieve_book_number_on_next_iteration = false;
+    $retrieve_chapter_number_on_next_iteration = false;
 
     foreach ($markers_and_text as $marker_or_text) {
       if ($retrieve_book_number_on_next_iteration) {

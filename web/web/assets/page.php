@@ -23,7 +23,7 @@
 
 class Assets_Page 
 {
-  public function header ($title) // Todo to replace this with the dynamic one.
+  public function header ($title)
   {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("title", $title);

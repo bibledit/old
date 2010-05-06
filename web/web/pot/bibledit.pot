@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-03 01:53+0200\n"
+"POT-Creation-Date: 2010-05-05 01:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,6 +69,12 @@ msgstr ""
 msgid "Demo plugin user menu item 2"
 msgstr ""
 
+msgid "Import"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
 msgid "New note"
 msgstr ""
 
@@ -94,6 +100,12 @@ msgid "Would you like to change the status of this note?"
 msgstr ""
 
 msgid "Would you like to change the severity of this note?"
+msgstr ""
+
+msgid "Would you like to change the the visibility of this note?"
+msgstr ""
+
+msgid "The note will be visible to:"
 msgstr ""
 
 msgid "Would you like to edit the verses?"
@@ -301,9 +313,6 @@ msgstr ""
 msgid "Go to another verse"
 msgstr ""
 
-msgid "Notes"
-msgstr ""
-
 msgid "Chapter was saved."
 msgstr ""
 
@@ -327,6 +336,9 @@ msgid "The line was saved."
 msgstr ""
 
 msgid "Desktop"
+msgstr ""
+
+msgid "Failed to compress file"
 msgstr ""
 
 msgid ""
@@ -837,6 +849,9 @@ msgstr ""
 msgid "Upon encountering a certain marker"
 msgstr ""
 
+msgid "Management"
+msgstr ""
+
 msgid "Starting to send and receive the relevant Bibles and Project Notes."
 msgstr ""
 
@@ -1121,6 +1136,9 @@ msgstr ""
 msgid "Severity"
 msgstr ""
 
+msgid "This note is visible to users with the following roles"
+msgstr ""
+
 msgid "This is a general note, it does not apply to any specific Bible"
 msgstr ""
 
@@ -1145,6 +1163,127 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+msgid "Importing notes, step 2"
+msgstr ""
+
+msgid "This is step 2 of importing the Consultation Notes."
+msgstr ""
+
+msgid "The notes file has been uploaded successfully."
+msgstr ""
+
+msgid "Filename"
+msgstr ""
+
+msgid "There was a problem uploading the file."
+msgstr ""
+
+msgid "Yo can go back to retry it."
+msgstr ""
+
+msgid "Importing notes"
+msgstr ""
+
+msgid "This page assists you with importing Consultation Notes."
+msgstr ""
+
+msgid ""
+"Bibledit-Gtk, part of the Bibledit Suite, has what it calls Project Notes. "
+"These can be imported into Bibledit-Web, and will appear there as "
+"Consultation Notes."
+msgstr ""
+
+msgid ""
+"When doing this import, it is important to know that this is a one-way "
+"operation. It means that, at the time of writing this, notes can be moved "
+"from Bibledit-Gtk to Bibledit-Web, but not the other way round."
+msgstr ""
+
+msgid ""
+"Importing the notes into Bibledit-Web, and using these there, has some "
+"advantages. For example, users can be notified of changes in the notes."
+msgstr ""
+
+msgid ""
+"Have you decided that you'd like to move your notes from Bibledit-Gtk to "
+"Bibledit-Web? Let's give it a go, then."
+msgstr ""
+
+msgid ""
+"The first thing to do is to get your notes out of Bibledit-Gtk and to save "
+"these to file."
+msgstr ""
+
+msgid "Start Bibledit-Gtk, and display the project notes window."
+msgstr ""
+
+msgid ""
+"In the menu, choose File, and then Backup. Note that at the time of writing "
+"this tutorial, the Export function does not work for Project Notes. Only "
+"Backup works."
+msgstr ""
+
+msgid ""
+"Go through the Backup assistant step by step, backup the \"Notes\", and save "
+"them as a file called \"notes\". Bibledit-Gtk will change this into a file "
+"called \"notes.tar.gz\". Complete the Backup procedure. It may take a while "
+"depending on the number of notes you have."
+msgstr ""
+
+msgid "Locate the file on disk, and see if it looks fine."
+msgstr ""
+
+msgid "The next thing is to prepare this notes.tar.gz file for uploading."
+msgstr ""
+
+msgid ""
+"The configuration of the server on which Bibledit-Web runs imposes some "
+"limits on the size of the file to be uploaded. The size of the file should "
+"not exceed either of the two limits given below:"
+msgstr ""
+
+msgid "Maximum size of a file to be posted:"
+msgstr ""
+
+msgid "Maximum size of a file to be uploaded:"
+msgstr ""
+
+msgid ""
+"The file to be uploaded is a compressed archive. If it is too large, you can "
+"remove parts from it. Files that can be removed are \"index.sql\", and the "
+"whole \".git\" folder that resides in the \"data\" folder."
+msgstr ""
+
+msgid ""
+"If it is still too large, you can remove some of the notes data files from "
+"it, keep these, and import these through a second upload. The note data "
+"files are the files that have numeric names, e.g. \"44166759\"."
+msgstr ""
+
+msgid "The next thing is to upload this file to Bibledit-Web."
+msgstr ""
+
+msgid ""
+"Choose the notes file to be uploaded. This tutorial assumes that the file is "
+"\"notes.tar.gz\"."
+msgstr ""
+
+msgid "Then press the Upload button."
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid ""
+"Uploading may take some time. It depends on the speed of your network, and "
+"on the size of the notes file."
+msgstr ""
+
+msgid ""
+"If uploading fails, it may be because the file is too large, or the network "
+"too slow."
+msgstr ""
+
 msgid "Back to notes list"
 msgstr ""
 
@@ -1155,6 +1294,12 @@ msgid "Add a comment to this note:"
 msgstr ""
 
 msgid "Add a comment to this note"
+msgstr ""
+
+msgid "Manage Consultation Notes"
+msgstr ""
+
+msgid "Import notes"
 msgstr ""
 
 msgid "Installation"
@@ -1351,9 +1496,6 @@ msgid "To install this program, install a package called \"openssh-client\"."
 msgstr ""
 
 msgid "Administration"
-msgstr ""
-
-msgid "Management"
 msgstr ""
 
 msgid "Consultations"
@@ -2224,6 +2366,9 @@ msgstr ""
 msgid "Bibles"
 msgstr ""
 
+msgid "Consultation Notes"
+msgstr ""
+
 msgid "Send/Receive"
 msgstr ""
 
@@ -2275,9 +2420,6 @@ msgid "Export whole book"
 msgstr ""
 
 msgid "Delete this book"
-msgstr ""
-
-msgid "Import"
 msgstr ""
 
 msgid "This helps you with importing Unified Standard Format Markers data."

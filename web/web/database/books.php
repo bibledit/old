@@ -195,7 +195,7 @@ EOD;
   public function getIdLikeText($text)
   {
     $database_instance = Database_Instance::getInstance();
-    $bibleworks = Database_SQLInjection::no ($bibleworks);
+    $text = Database_SQLInjection::no ($text);
     $query = "SELECT id FROM books WHERE english LIKE '$text%' OR osis LIKE '$text%' OR usfm LIKE '$text%' or bibleworks LIKE '$text%';";
     $result = $database_instance->runQuery ($query);
     if ($result->num_rows == 0) {

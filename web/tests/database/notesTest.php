@@ -46,7 +46,7 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Normally creating a new note would subscribe the current user to the note.
     // But since this PHPUnit test runs without sessions, it would have subscribed an empty user.
-    unset ($_SESSION['user']);
+    $_SESSION['user'] = "";
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents");
     $subscribers = $database_notes->getSubscribers ($identifier);
     $this->assertEquals (array (), $subscribers);
@@ -255,10 +255,8 @@ class notesTest extends PHPUnit_Framework_TestCase
     $this->assertEquals (111, $privacy);
 
     // Test getPossiblePrivacies.
-    $severities = $database_notes->getPossiblePrivacies ();
-    $this->assertEquals (array (array (1, "Guest"), array (2, "Member"), 
-                                array (3, "Consultant"), array (4, "Translator"),
-                                array (5, "Manager"), array (6, "Administrator")), $severities);
+    $privacies = $database_notes->getPossiblePrivacies ();
+    $this->assertEquals (array (1, 2, 3, 4, 5, 6), $privacies);
 
     // Tear down.
     $database_notes->delete ($identifier);
