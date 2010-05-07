@@ -52,6 +52,7 @@ class Notes_Editor
     $database_sessions = Database_Sessions::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
+    $displayconsultationnotestartinglimit = $database_sessions->getConsultationNoteStartingLimit (); // Todo
 
     // Whether to display the notes list, one note, or the note's actions.
     if (isset ($_GET['consultationnote'])) {
@@ -239,6 +240,17 @@ class Notes_Editor
       }
     }
     
+    // Note navigator.
+    if (isset ($_GET['shownextconsultationnotes'])) {
+      $startinglimit = $database_sessions->getConsultationNoteStartingLimit ();
+      $database_sessions->setConsultationNoteStartingLimit ($startinglimit + 50);
+    }    
+    if (isset ($_GET['showpreviousconsultationnotes'])) {
+      $startinglimit = $database_sessions->getConsultationNoteStartingLimit ();
+      $startinglimit -= 50;
+      if ($startinglimit < 0) $startinglimit = 0;
+      $database_sessions->setConsultationNoteStartingLimit ($startinglimit);
+    }    
 
 
   }
@@ -246,6 +258,7 @@ class Notes_Editor
   public function display ()
   {
     $database_sessions = Database_Sessions::getInstance();
+    $database_notes = Database_Notes::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
     $smarty = new Smarty_Bibledit (__FILE__);
@@ -264,8 +277,6 @@ class Notes_Editor
     $smarty->assign ("chapter", $chapter);
     $verse = $assets_navigator->verse();
     $smarty->assign ("verse", $verse);
-
-    $database_notes = Database_Notes::getInstance();
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
@@ -305,16 +316,37 @@ class Notes_Editor
         $smarty->display ("note.tpl");
       }
     } else {
-      // Display notes summaries.
+      // Display notes list. Todo
+      // Total notes count.
       $identifiers = $database_notes->selectNotes();
+      $totalcount = count ($identifiers);
+      $smarty->assign ("totalcount", $totalcount);
+      // First and last note to display.
+      $startinglimit = $database_sessions->getConsultationNoteStartingLimit ();
+      if (!is_numeric ($startinglimit)) $startinglimit = 0;
+      if ($startinglimit >= $totalcount) $startinglimit = $totalcount - 50;
+      if ($startinglimit < 0) $startinglimit = 0;
+      $smarty->assign ("firstnote", $startinglimit + 1);
+      $lastnote = $startinglimit + 50;
+      if ($lastnote > $totalcount) $lastnote = $totalcount;
+      $smarty->assign ("lastnote", $lastnote);
+      // Displaying notes count.
+      $displaycount = $totalcount;
+      if (!isset ($_GET['showallconsultationnotes']))  {
+        $identifiers = $database_notes->selectNotes($startinglimit);
+        $displaycount = count ($identifiers);
+      }
+      $smarty->assign ("displaycount", $displaycount);
+      // Note data.
       $smarty->assign ("identifiers", $identifiers);
       foreach ($identifiers as $identifier) {
         $summary = $database_notes->getSummary ($identifier);
         $summaries[] = $summary;
       }
       $smarty->assign ("summaries", $summaries);
+      // Display page.
       $smarty->display ("notes.tpl");
-      if (count ($identifiers) == 0) {
+      if ($displaycount == 0) {
         Assets_Page::message (gettext ("This view does not display any notes."));
       }
     }

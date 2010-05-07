@@ -1,3 +1,34 @@
+There is an easy filter to select which notes will be displayed.
+To learn from Bibledit-Gtk about the various selection methods.
+The selection variables get stored in the user configuration.
+
+
+Note selection mechanism should take the privacy setting in account,
+so that the appropriate notes are shown to the appropriate user.
+
+
+It needs a setting where the verse text is included.
+
+
+
+
+It needs a setting whether to display summaries only or the full note text.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -21,13 +52,6 @@ It needs a tool to remove identical notes. This may happen when import does not 
 
 
 
-
-
-
-
-
-Note selection mechanism should take the privacy setting in account,
-so that the appropriate notes are shown to the appropriate user.
 
 
 
@@ -73,14 +97,6 @@ chapters, to the subscribed users.
 
 
 
-There is an easy filter to select which notes will be displayed.
-
-
-
-
-
-
-
 Notes are synchronized through a git repository.
 
 
@@ -88,17 +104,6 @@ Notes are synchronized through a git repository.
 Members can raise issues. If there are spammers, who made themselves a member,
 then the manager can update their status so that it seems they log in, but in reality their submissions are ignored
 and dropped.
-
-
-
-
-
-If there are more than so many notes, by default a paginator shows up.
-The user can, for once, disable this so that all notes show up.
-But next time it shows another note, the paginator comes up again.
-This is to prevent hanging when the user chooses all available notes.
-The advantage is that the number of notes would still be shown, and this is what is needed at times, to know the total
-notes count that would display if a certain option would be chosen.
 
 
 
@@ -329,7 +334,8 @@ The new should be shared also.
 
 
 
-When running a local web server, as many will do, and syncing data files of projects and notes with bibledit's repository, 
+When running a local web server, as many will do, 
+and syncing data files of projects and notes with bibledit's repository, <missing>
 Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
 
 
@@ -395,16 +401,6 @@ When this flag is found, the site says that after maintenance by the administrat
 
 
 
-MySQL does not start on Ubuntu 9.10:
-This problem can be solved by removing some mysql-related components :
-
-sudo apt-get remove mysql-admin mysql-query-browser mysql-gui-tools-common mysql-client-5.0 libmysqlclient15off
-
-and installing mysql server
-
-sudo apt-get install mysql-server mysql-client mailutils
-
-
 
 Windows: http://www.wampserver.com/
 Or: http://www.apachefriends.org/en/xampp-windows.html
@@ -460,6 +456,9 @@ This will result in better collaboration and less frustration if changes were no
 
 Mail received can accumulate in the Trash and get huge. There should be a link to empty the whole Trash 
 in one go.
+By default it should discard messages older than 30 days. It should mention this on the Trash page.
+
+
 
 
 Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
@@ -492,8 +491,10 @@ no GUI. Or even through ftp only, no option to install programs.
 
 
 
-The Consultation Notes verse list, if the Verse List shows, then there is a link in the consultation notes [transfer to verses list],
+The Consultation Notes verse list, if the Verse List shows, 
+then there is a link in the consultation notes [transfer to verses list],
 which does what it says. This link is only shown if the verse list shows. If it does not show, then the link is not there.
+
 
 
 
@@ -522,3 +523,6 @@ To implement the PHPUnit::tearDown function for where notes are created.
 
 
 
+
+
+The notes need full text search using the advanced methods of MySQL, where spaces can be in the search string.

@@ -153,12 +153,21 @@ EOD;
 
   /**
   * Returns an array of note identifiers selected.
+  * If $limit is non-NULL, it indicates the starting limit for the selection.
   */
-  public function selectNotes ()
+  public function selectNotes ($limit) // Todo
   {
     $identifiers = array ();
     $server = Database_Instance::getInstance ();
-    $query = "SELECT identifier FROM notes;";
+    // Notes get ordered by the automatic increasing id. 
+    // That would sort the notes in the order of their entry.
+    $query = "SELECT identifier FROM notes ORDER BY id";
+    if (is_numeric ($limit)) {
+      $query .= " ";
+      $limit = Database_SQLInjection::no ($limit);
+      $query .= "LIMIT $limit, 50;";
+    }
+    $query .= ";";
     $result = $server->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $row = $result->fetch_row();

@@ -158,6 +158,18 @@ EOD;
   {
     return $this->getValue ("displayconsultationnoteactions");
   }
+
+
+  public function setConsultationNoteStartingLimit ($value) // Todo
+  {
+    $this->setValue ("consultationnotestartinglimit", $value);
+  }
+  public function getConsultationNoteStartingLimit ()
+  {
+    return $this->getValue ("consultationnotestartinglimit");
+  }
+
+
   
   
 
