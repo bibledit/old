@@ -101,7 +101,7 @@ EOD;
   }
 
 
-  private function assembleContents ($identifier, $contents)
+  private function assembleContents ($identifier, $contents) // Todo
   {
     $new_contents = "";
     if (is_numeric ($identifier)) {
@@ -126,8 +126,16 @@ EOD;
     return $new_contents;
   }
 
-  
-  public function storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents)
+
+  /**
+    * Store a new note into the database.
+    * $bible: The notes's Bible.
+    * $book, $chapter, $verse: The note's passage.
+    * $summary: The note's summary.
+    * $contents: The note's contents.
+    * $raw: Import $contents as it is. Useful for import from Bibledit-Gtk.
+    */  
+  public function storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents, $raw) // Todo
   {
     // Store new default note into the database.
     $server = Database_Instance::getInstance ();
@@ -141,7 +149,7 @@ EOD;
       $summary = $summary[0];
     }
     $summary = Database_SQLInjection::no ($summary);
-    $contents = $this->assembleContents ($identifier, $contents);
+    if (!$raw) $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
     $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents')";

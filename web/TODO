@@ -1,29 +1,40 @@
+The import should not sanitize it when importing from Bibledit-Gtk, though at present it can do it
+for saving new notes and adding comments.
+
+
+
+
 There is an easy filter to select which notes will be displayed.
-To learn from Bibledit-Gtk about the various selection methods.
+
 The selection variables get stored in the user configuration.
 
+
+
+Selection:
+Notes that refer to the: current verse | current chapter | current book | any verse
+Notes edited: today | between <date> and <date> | at any time
+Notes of category: (will be "status")
+Notes of project: current | any
 
 Note selection mechanism should take the privacy setting in account,
 so that the appropriate notes are shown to the appropriate user.
 
-
-It needs a setting where the verse text is included.
-
-
-
-
-It needs a setting whether to display summaries only or the full note text.
+Also to select on the assigned field, on the subscriptions field, on the severity field.
 
 
 
 
 
+Display:
+<tick> Title, including | project | category | date created | created by
+Text <either> full <or> summary <tick> add text of references
 
 
 
 
 
-
+There will also be a notes search, it can search either in the summaries, or in the contents.
+It employs a full text search through mysql.
 
 
 
