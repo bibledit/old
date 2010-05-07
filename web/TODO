@@ -1,7 +1,4 @@
 
-
-
-
 There is an easy filter to select which notes will be displayed.
 
 The selection variables get stored in the user configuration.
@@ -14,9 +11,6 @@ Notes edited: today | between <date> and <date> | at any time
 Notes of category: (will be "status")
 Notes of project: current | any
 
-
-Note selection mechanism should take the privacy setting in account,
-so that the appropriate notes are shown to the appropriate user.
 
 Also to select on the assigned field, on the subscriptions field, on the severity field.
 

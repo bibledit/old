@@ -165,15 +165,19 @@ EOD;
   */
   public function selectNotes ($limit) // Todo
   {
+    $session_logic = Session_Logic::getInstance ();
+    $userlevel = $session_logic->currentLevel ();
     $identifiers = array ();
     $server = Database_Instance::getInstance ();
+    // Consider privacy setting.
+    $query = "SELECT identifier FROM notes WHERE private <= $userlevel";
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.
-    $query = "SELECT identifier FROM notes ORDER BY id";
+    $query .= " ORDER BY id";
+    // Limit the selection if a limit is given.
     if (is_numeric ($limit)) {
-      $query .= " ";
       $limit = Database_SQLInjection::no ($limit);
-      $query .= "LIMIT $limit, 50;";
+      $query .= " LIMIT $limit, 50";
     }
     $query .= ";";
     $result = $server->runQuery ($query);
