@@ -1,12 +1,9 @@
 
-There is an easy filter to select which notes will be displayed.
 
-The selection variables get stored in the user configuration.
 
 
 
 Selection:
-Notes that refer to the: current verse | current chapter | current book | any verse
 Notes edited: today | between <date> and <date> | at any time
 Notes of category: (will be "status")
 Notes of project: current | any
@@ -27,6 +24,12 @@ Text <either> full <or> summary <tick> add text of references
 
 
 Show the notes | Show all notes for this once: <give number> (shows only if there are more than 50)
+
+
+
+The selection variables get stored in the user configuration.
+
+
 
 
 

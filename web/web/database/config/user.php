@@ -170,6 +170,15 @@ EOD;
     $this->setValue ("", "notify-me-of-any-consultation-notes-edits", $value);
   }   
 
+  // 0: current verse; 1: current chapter; 2: current book; 3: any passage.
+  public function getConsultationNotesPassageSelector() {
+    return $this->getValue ("", "consultation-notes-passage-selector", 0);
+  }
+  public function setConsultationNotesPassageSelector ($value) {
+    $this->setValue ("", "consultation-notes-passage-selector", $value);
+  }   
+
+
 }
 
 

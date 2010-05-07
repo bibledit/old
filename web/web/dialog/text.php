@@ -7,8 +7,6 @@
 class Dialog_Text
 {
   private $smarty;
-  private $text_lines;
-  private $get_parameters;
     
   /**
   * Text dialog constructor.
@@ -19,7 +17,7 @@ class Dialog_Text
   public function __construct ($header, $text, $parameter)
   {
     $this->smarty = new Smarty_Bibledit (__FILE__);
-    $this->smarty->assign ("caller", $$_SERVER["PHP_SELF"]);
+    $this->smarty->assign ("caller", $_SERVER["PHP_SELF"]);
     $database_sessions = Database_Sessions::getInstance ();
     $this->smarty->assign ("session", $database_sessions->getCurrentSessionId ());
     $this->smarty->assign ("header", $header);
@@ -40,17 +38,8 @@ class Dialog_Text
   }
 
 
-  public function add_row ($text_line, $get_parameter)
-  {
-    $this->text_lines[]     = $text_line;
-    $this->get_parameters[] = $get_parameter;
-  }
-
-  
   public function run ()
   {
-    $this->smarty->assign ("text_lines",     $this->text_lines);
-    $this->smarty->assign ("get_parameters", $this->get_parameters);
     $this->smarty->display("text.tpl");
     Assets_Page::footer ();
     die ();

@@ -170,7 +170,7 @@ EOD;
   }
 
 
-  public function setConsultationNoteStartingLimit ($value) // Todo
+  public function setConsultationNoteStartingLimit ($value)
   {
     $this->setValue ("consultationnotestartinglimit", $value);
   }

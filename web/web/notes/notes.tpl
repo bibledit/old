@@ -3,7 +3,7 @@
 {if $firstnote > 1}
   <a href="{$caller}?session={$session}&showpreviousconsultationnotes=">««</a>
 {/if}
-{t}Displaying notes{/t} {$firstnote}-{$lastnote} / {$totalcount}
+{t}Displaying notes{/t} {$firstnote} - {$lastnote} / {$totalcount}
 [<a href="{$caller}?session={$session}&consultationnoteseditview=">{t}edit{/t}</a>]
 {if $lastnote < $totalcount}
   <a href="{$caller}?session={$session}&shownextconsultationnotes=">»»</a>

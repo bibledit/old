@@ -101,7 +101,7 @@ EOD;
   }
 
 
-  private function assembleContents ($identifier, $contents) // Todo
+  private function assembleContents ($identifier, $contents)
   {
     $new_contents = "";
     if (is_numeric ($identifier)) {
@@ -135,7 +135,7 @@ EOD;
     * $contents: The note's contents.
     * $raw: Import $contents as it is. Useful for import from Bibledit-Gtk.
     */  
-  public function storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents, $raw) // Todo
+  public function storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents, $raw)
   {
     // Store new default note into the database.
     $server = Database_Instance::getInstance ();
@@ -163,21 +163,44 @@ EOD;
   * Returns an array of note identifiers selected.
   * If $limit is non-NULL, it indicates the starting limit for the selection.
   */
-  public function selectNotes ($limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $limit) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
     $identifiers = array ();
     $server = Database_Instance::getInstance ();
     // Consider privacy setting.
-    $query = "SELECT identifier FROM notes WHERE private <= $userlevel";
+    $query = "SELECT identifier FROM notes WHERE private <= $userlevel ";
+    switch ($passage_selector) {
+      case 0:
+        // Select notes that refer to the current verse.
+        // It means that the book, the chapter, and the verse, should match.
+        $passage = $this->encodePassage ($book, $chapter, $verse);
+        $query .= " AND passage LIKE '%$passage%' ";
+        break;
+      case 1:
+        // Select notes that refer to the current chapter.
+        // It means that the book and the chapter should match.
+        $passage = $this->encodePassage ($book, $chapter, NULL);
+        $query .= " AND passage LIKE '%$passage%' ";
+        break;
+      case 2:
+        // Select notes that refer to the current book.
+        // It means that the book should match.
+        $passage = $this->encodePassage ($book, NULL, NULL);
+        $query .= " AND passage LIKE '%$passage%' ";
+        break;
+      case 3:
+        // Select notes that refer to any passage: No constraint to apply here.
+        break;
+    }
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.
-    $query .= " ORDER BY id";
+    $query .= " ORDER BY id ";
     // Limit the selection if a limit is given.
     if (is_numeric ($limit)) {
       $limit = Database_SQLInjection::no ($limit);
-      $query .= " LIMIT $limit, 50";
+      $query .= " LIMIT $limit, 50 ";
     }
     $query .= ";";
     $result = $server->runQuery ($query);
@@ -441,7 +464,12 @@ EOD;
   */  
   private function encodePassage ($book, $chapter, $verse)
   {
-    return "$book.$chapter.$verse";
+    // Space before and after the passage enables notes selection on passage.
+    // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
+    $passage = " $book";
+    if (is_numeric ($chapter)) $passage .= ".$chapter";
+    if (is_numeric ($verse)) $passage .= ".$verse ";
+    return $passage;
   }
   
   
@@ -450,7 +478,7 @@ EOD;
   */
   private function decodePassage ($passage)
   {
-    return explode (".", $passage);
+    return explode (".", trim ($passage));
   }
 
 
