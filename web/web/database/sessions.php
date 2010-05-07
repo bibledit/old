@@ -160,6 +160,16 @@ EOD;
   }
 
 
+  public function setEditConsultationNoteView ($value)
+  {
+    $this->setValue ("editconsultationnoteview", $value);
+  }
+  public function getEditConsultationNoteView ()
+  {
+    return $this->getValue ("editconsultationnoteview");
+  }
+
+
   public function setConsultationNoteStartingLimit ($value) // Todo
   {
     $this->setValue ("consultationnotestartinglimit", $value);

@@ -1,5 +1,3 @@
-The import should not sanitize it when importing from Bibledit-Gtk, though at present it can do it
-for saving new notes and adding comments.
 
 
 
@@ -15,6 +13,7 @@ Notes that refer to the: current verse | current chapter | current book | any ve
 Notes edited: today | between <date> and <date> | at any time
 Notes of category: (will be "status")
 Notes of project: current | any
+
 
 Note selection mechanism should take the privacy setting in account,
 so that the appropriate notes are shown to the appropriate user.
@@ -33,6 +32,12 @@ Text <either> full <or> summary <tick> add text of references
 
 
 
+Show the notes | Show all notes for this once: <give number> (shows only if there are more than 50)
+
+
+
+
+
 There will also be a notes search, it can search either in the summaries, or in the contents.
 It employs a full text search through mysql.
 
@@ -42,6 +47,9 @@ It employs a full text search through mysql.
 
 
 
+
+
+When viewing one note, the summary does not show up.
 
 
 

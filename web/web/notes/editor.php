@@ -52,25 +52,40 @@ class Notes_Editor
     $database_sessions = Database_Sessions::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
-    $displayconsultationnotestartinglimit = $database_sessions->getConsultationNoteStartingLimit (); // Todo
+    $editconsultationnoteview = $database_sessions->getEditConsultationNoteView (); // Todo
+    $displayconsultationnotestartinglimit = $database_sessions->getConsultationNoteStartingLimit ();
 
     // Whether to display the notes list, one note, or the note's actions.
-    if (isset ($_GET['consultationnote'])) {
-      $consultationnote = $_GET['consultationnote'];
-      $displayconsultationnoteactions = false;
-    }
     if (isset ($_GET['displaynoteslist'])) {
       unset ($consultationnote);
       $displayconsultationnoteactions = false;
+      $editconsultationnoteview = false;
+    }
+    if (isset ($_GET['showallconsultationnotes']))  {
+      unset ($consultationnote);
+      $displayconsultationnoteactions = false;
+      $editconsultationnoteview = false;
+    }
+    if (isset ($_GET['consultationnote'])) {
+      $consultationnote = $_GET['consultationnote'];
+      $displayconsultationnoteactions = false;
+      $editconsultationnoteview = false;
     }
     if (isset ($_GET['displaynotesactions'])) {
       $displayconsultationnoteactions = true;
+      $editconsultationnoteview = false;
     }
     if (isset ($_GET['displaynotecontent'])) {
+      $displayconsultationnoteactions = false;
+      $editconsultationnoteview = false;
+    }
+    if (isset ($_GET['consultationnoteseditview'])) {
+      $editconsultationnoteview = true;
       $displayconsultationnoteactions = false;
     }
     $database_sessions->setConsultationNote ($consultationnote);
     $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
+    $database_sessions->setEditConsultationNoteView ($editconsultationnoteview);
     
     // Save new note.
     if (isset ($_GET['savenewconsultationnote'])) {
@@ -261,6 +276,7 @@ class Notes_Editor
     $database_notes = Database_Notes::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
+    $editconsultationnoteview = $database_sessions->getEditConsultationNoteView (); // Todo
     $smarty = new Smarty_Bibledit (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
     $smarty->assign ("caller", $caller);
@@ -315,28 +331,35 @@ class Notes_Editor
         $smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
         $smarty->display ("note.tpl");
       }
+    } else if ($editconsultationnoteview) {
+      // Display note view editor. Todo
+      $identifiers = $database_notes->selectNotes();
+      $totalcount = count ($identifiers);
+      $smarty->assign ("totalcount", $totalcount);
+      $smarty->display ("editview.tpl");
     } else {
       // Display notes list. Todo
       // Total notes count.
       $identifiers = $database_notes->selectNotes();
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
-      // First and last note to display.
-      $startinglimit = $database_sessions->getConsultationNoteStartingLimit ();
-      if (!is_numeric ($startinglimit)) $startinglimit = 0;
-      if ($startinglimit >= $totalcount) $startinglimit = $totalcount - 50;
-      if ($startinglimit < 0) $startinglimit = 0;
-      $smarty->assign ("firstnote", $startinglimit + 1);
-      $lastnote = $startinglimit + 50;
-      if ($lastnote > $totalcount) $lastnote = $totalcount;
-      $smarty->assign ("lastnote", $lastnote);
-      // Displaying notes count.
-      $displaycount = $totalcount;
-      if (!isset ($_GET['showallconsultationnotes']))  {
+      // First and last note to display, and notes count.
+      if (isset ($_GET['showallconsultationnotes'])) {
+        $startinglimit = 0;
+        $lastnote = $totalcount;
+        $displaycount = $totalcount;
+      } else {
+        $startinglimit = $database_sessions->getConsultationNoteStartingLimit ();
+        if (!is_numeric ($startinglimit)) $startinglimit = 0;
+        if ($startinglimit >= $totalcount) $startinglimit = $totalcount - 50;
+        if ($startinglimit < 0) $startinglimit = 0;
+        $lastnote = $startinglimit + 50;
+        if ($lastnote > $totalcount) $lastnote = $totalcount;
         $identifiers = $database_notes->selectNotes($startinglimit);
         $displaycount = count ($identifiers);
       }
-      $smarty->assign ("displaycount", $displaycount);
+      $smarty->assign ("firstnote", $startinglimit + 1);
+      $smarty->assign ("lastnote", $lastnote);
       // Note data.
       $smarty->assign ("identifiers", $identifiers);
       foreach ($identifiers as $identifier) {
