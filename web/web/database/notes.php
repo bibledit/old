@@ -162,8 +162,9 @@ EOD;
   /**
   * Returns an array of note identifiers selected.
   * If $limit is non-NULL, it indicates the starting limit for the selection.
+  * $book, $chapter, $verse, $passage_selector: These are related and can limit the selection.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $limit) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
@@ -171,6 +172,7 @@ EOD;
     $server = Database_Instance::getInstance ();
     // Consider privacy setting.
     $query = "SELECT identifier FROM notes WHERE private <= $userlevel ";
+    // Consider passage selector.
     switch ($passage_selector) {
       case 0:
         // Select notes that refer to the current verse.
@@ -194,6 +196,30 @@ EOD;
         // Select notes that refer to any passage: No constraint to apply here.
         break;
     }
+    // Consider edit selector.
+    switch ($edit_selector) {
+      case 0:
+        // Select notes that have been edited at any time. Apply no constraint.
+        $time = 0;
+        break;
+      case 1:
+        // Select notes that have been edited during the last 30 days.
+        $time = strtotime ("today -30 days");
+        break;
+      case 2:
+        // Select notes that have been edited during the last 7 days.
+        $time = strtotime ("today -7 days");
+        break;
+      case 3:
+        // Select notes that have been edited since yesterday.
+        $time = strtotime ("yesterday");
+        break;
+      case 4:
+        // Select notes that have been edited today.
+        $time = strtotime ("today");
+        break;
+    }
+    if ($time != 0) $query .= " AND modified >= $time ";
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.
     $query .= " ORDER BY id ";
@@ -466,9 +492,9 @@ EOD;
   {
     // Space before and after the passage enables notes selection on passage.
     // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
-    $passage = " $book";
-    if (is_numeric ($chapter)) $passage .= ".$chapter";
-    if (is_numeric ($verse)) $passage .= ".$verse ";
+    $passage = " $book.";
+    if ($chapter != "") $passage .= "$chapter.";
+    if ($verse != "") $passage .= "$verse";
     return $passage;
   }
   
@@ -478,7 +504,8 @@ EOD;
   */
   private function decodePassage ($passage)
   {
-    return explode (".", trim ($passage));
+    $passage = trim ($passage);
+    return explode (".", $passage);
   }
 
 

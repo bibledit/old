@@ -268,11 +268,16 @@ class Notes_Editor
       $database_sessions->setConsultationNoteStartingLimit ($startinglimit);
     }    
 
-    // Notes passage selector.
+    // Notes selector.
     $passages_selector = $_GET['consultationnotespassageselector'];
     if (isset ($passages_selector)) {
       if (($passages_selector < 0) || ($passages_selector > 3)) $passages_selector = 0;
       $database_config_user->setConsultationNotesPassageSelector($passages_selector);
+    }
+    $edit_selector = $_GET['consultationnoteseditselector'];
+    if (isset ($edit_selector)) {
+      if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
+      $database_config_user->setConsultationNotesEditSelector($edit_selector);
     }
 
 
@@ -303,6 +308,7 @@ class Notes_Editor
     $verse = $assets_navigator->verse();
     $smarty->assign ("verse", $verse);
     $passage_selector = $database_config_user->getConsultationNotesPassageSelector();
+    $edit_selector = $database_config_user->getConsultationNotesEditSelector(); // Todo
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
@@ -342,18 +348,17 @@ class Notes_Editor
         $smarty->display ("note.tpl");
       }
     } else if ($editconsultationnoteview) {
-      // Display note view editor. Todo
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, NULL);
+      // Display note view editor.
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
-      $passage_selector = $database_config_user->getConsultationNotesPassageSelector(); /// Todo
       $smarty->assign ("passageselector", $passage_selector);
+      $smarty->assign ("editselector", $edit_selector); // Todo
       $smarty->display ("editview.tpl");
     } else {
-      // Display notes list. Todo
-      $passage_selector = $database_config_user->getConsultationNotesPassageSelector(); /// Todo
+      // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -368,7 +373,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $startinglimit);
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $startinglimit); // Todo
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);

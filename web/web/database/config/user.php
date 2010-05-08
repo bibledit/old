@@ -178,6 +178,13 @@ EOD;
     $this->setValue ("", "consultation-notes-passage-selector", $value);
   }   
 
+  // 0: any time; 1: last 30 days; 2: last 7 days; 3: since yesterday; 4: today.
+  public function getConsultationNotesEditSelector() {
+    return $this->getValue ("", "consultation-notes-edit-selector", 0);
+  }
+  public function setConsultationNotesEditSelector ($value) {
+    $this->setValue ("", "consultation-notes-edit-selector", $value);
+  }   
 
 }
 
