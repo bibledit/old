@@ -163,8 +163,10 @@ EOD;
   * Returns an array of note identifiers selected.
   * If $limit is non-NULL, it indicates the starting limit for the selection.
   * $book, $chapter, $verse, $passage_selector: These are related and can limit the selection.
+  * $edit_selector: Optionally constrains selection based on modification time.
+  * $status_selector: Optionally constrains selection based on note status.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $limit) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
@@ -220,6 +222,10 @@ EOD;
         break;
     }
     if ($time != 0) $query .= " AND modified >= $time ";
+    // Consider status constraint.
+    if ($status_selector != "") {
+      $query .= " AND status = '$status_selector' ";
+    }
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.
     $query .= " ORDER BY id ";
@@ -650,7 +656,8 @@ EOD;
 
 
   /**
-  * Gets an array with the possible statuses of consultation notes.
+  * Gets an array of array with the possible statuses of consultation notes, 
+  * both raw and localized versions.
   */
   public function getPossibleStatuses ()
   {

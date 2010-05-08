@@ -1,9 +1,7 @@
-Selection:
-Notes of category: (will be "status")
 Notes of project: current | any
-
-
-Also to select on the assigned field, on the subscriptions field, on the severity field.
+Also to select on the assigned field, 
+on the subscriptions field, 
+on the severity field.
 
 
 
@@ -17,11 +15,7 @@ Text <either> full <or> summary <tick> add text of references
 
 
 
-Show the notes | Show all notes for this once: <give number> (shows only if there are more than 50)
 
-
-
-The selection variables get stored in the user configuration.
 
 
 
@@ -536,3 +530,19 @@ To implement the PHPUnit::tearDown function for where notes are created.
 
 
 The notes need full text search using the advanced methods of MySQL, where spaces can be in the search string.
+
+
+
+
+
+
+The changes of status should be added to the note text, just as if adding a comment.
+
+
+
+
+
+
+
+
+

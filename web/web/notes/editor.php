@@ -194,7 +194,7 @@ class Notes_Editor
         $dialog_list = new Dialog_List2 (gettext ("Would you like to change the status of this note?"));
         $statuses = $database_notes->getPossibleStatuses ();
         foreach ($statuses as $status) {
-          $dialog_list->add_row ($status[0], "&consultationnotestatus=$status[1]");
+          $dialog_list->add_row ($status[1], "&consultationnotestatus=$status[0]");
         }
         $dialog_list->run();
       } else {
@@ -279,6 +279,10 @@ class Notes_Editor
       if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
       $database_config_user->setConsultationNotesEditSelector($edit_selector);
     }
+    $status_selector = $_GET['consultationnotesstatusselector']; // Todo
+    if (isset ($status_selector)) {
+      $database_config_user->setConsultationNotesStatusSelector($status_selector);
+    }
 
 
   }
@@ -308,7 +312,8 @@ class Notes_Editor
     $verse = $assets_navigator->verse();
     $smarty->assign ("verse", $verse);
     $passage_selector = $database_config_user->getConsultationNotesPassageSelector();
-    $edit_selector = $database_config_user->getConsultationNotesEditSelector(); // Todo
+    $edit_selector = $database_config_user->getConsultationNotesEditSelector();
+    $status_selector = $database_config_user->getConsultationNotesStatusSelector(); // Todo
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
@@ -349,16 +354,26 @@ class Notes_Editor
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       $smarty->assign ("passageselector", $passage_selector);
-      $smarty->assign ("editselector", $edit_selector); // Todo
+      $smarty->assign ("editselector", $edit_selector);
+      $possible_statuses = $database_notes->getPossibleStatuses();
+      foreach ($possible_statuses as $possible_status) {
+        $status_ids [] = $possible_status[0];
+        $status_localizations [] = $possible_status[1];
+      }
+      $smarty->assign ("statusids", $status_ids);
+      $smarty->assign ("statuslocs", $status_localizations);
+      $smarty->assign ("statusselector", $status_selector); // Todo
+
+
       $smarty->display ("editview.tpl");
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -373,7 +388,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $startinglimit); // Todo
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $startinglimit); // Todo
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);

@@ -186,6 +186,14 @@ EOD;
     $this->setValue ("", "consultation-notes-edit-selector", $value);
   }   
 
+  // Status is a string; can be empty as well.
+  public function getConsultationNotesStatusSelector() {
+    return $this->getValue ("", "consultation-notes-status-selector", "");
+  }
+  public function setConsultationNotesStatusSelector ($value) {
+    $this->setValue ("", "consultation-notes-status-selector", $value);
+  }   
+
 }
 
 

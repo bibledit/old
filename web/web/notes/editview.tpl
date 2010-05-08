@@ -21,6 +21,14 @@
   |
   <a {if $editselector == 4}class="active"{/if} href="{$caller}?session={$session}&consultationnoteseditselector=4">{t}today{/t}</a>
 </p>
+{t}Select notes that have a certain status:{/t}
+  <a {if $statusselector == ""}class="active"{/if} href="{$caller}?session={$session}&consultationnotesstatusselector=">{t}Any status{/t}</a>
+  {section name=offset loop=$statusids}
+    |
+    <a {if $statusselector == $statusids[offset]}class="active"{/if} href="{$caller}?session={$session}&consultationnotesstatusselector={$statusids[offset]}">{$statuslocs[offset]}</a>
+  {/section}
+<p>
+</p>
 <p>{t}Number of notes selected:{/t} {$totalcount}</p>
 <h3>
 {t}Ok, I have finished{/t},
