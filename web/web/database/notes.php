@@ -165,11 +165,14 @@ EOD;
   * $book, $chapter, $verse, $passage_selector: These are related and can limit the selection.
   * $edit_selector: Optionally constrains selection based on modification time.
   * $status_selector: Optionally constrains selection based on note status.
+  * $bible_selector: Optionally constrains the selection, based on the note's Bible.
+  * $assignment_selector: Optionally constrains the selection based on a note being assigned to somebody.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $limit) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
+    $username = $session_logic->currentUser ();
     $identifiers = array ();
     $server = Database_Instance::getInstance ();
     // Consider privacy setting.
@@ -225,6 +228,26 @@ EOD;
     // Consider status constraint.
     if ($status_selector != "") {
       $query .= " AND status = '$status_selector' ";
+    }
+    // Consider Bible constraints. 
+    if ($bible_selector == 1) {
+      // A note can be a general one, not tied to any specific Bible.
+      // Such notes should be selected as well, despite the $bible_selector's constraints.
+      $query .= " AND (bible = '' OR bible = '$bible') ";
+    }
+    // Consider note assignment constraints. // Todo
+    switch ($assignment_selector) {
+      case 0:
+        // Do not care about note assignment.
+        break;
+      case 1:
+        // Select notes assigned to current user.
+        $query .= " AND assigned LIKE '% $username %' ";
+        break;
+      case 2:
+        // Select notes assigned to somebody else, not the current user.
+        $query .= " AND NOT assigned LIKE '% $username %' AND NOT assigned = '' ";
+        break;
     }
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.
@@ -397,8 +420,12 @@ EOD;
     // If the note already is assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
     if (in_array ($user, $assignees)) return;
-    // Assign the note to the user.
+    // Assign the note to the user. 
     $assignees[]= "$user";
+    // Add a space at both sides of the user to allow for easier note selection based on note assignment.
+    foreach ($assignees as &$assignee) {
+      $assignee = " $assignee ";
+    }
     $assignees = implode ("\n", $assignees);
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -420,6 +447,10 @@ EOD;
     $row = $result->fetch_row();
     $assignees = explode ("\n", $row[0]);
     $assignees = array_diff ($assignees, array (""));
+    // Remove a space that was added at both sides of the user.
+    foreach ($assignees as &$assignee) {
+      $assignee = trim ($assignee);
+    }
     return $assignees;
   }
 

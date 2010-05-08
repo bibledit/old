@@ -194,6 +194,22 @@ EOD;
     $this->setValue ("", "consultation-notes-status-selector", $value);
   }   
 
+  // 0: any Bible; 1: current Bible.
+  public function getConsultationNotesBibleSelector() {
+    return $this->getValue ("", "consultation-notes-bible-selector", 0);
+  }
+  public function setConsultationNotesBibleSelector ($value) {
+    $this->setValue ("", "consultation-notes-bible-selector", $value);
+  }   
+
+  // 0: don't care; 1: assigned to me; 2: assigned to somebody else.
+  public function getConsultationNotesAssignmentSelector() { // Todo
+    return $this->getValue ("", "consultation-notes-assignment-selector", 0);
+  }
+  public function setConsultationNotesAssignmentSelector ($value) {
+    $this->setValue ("", "consultation-notes-assignment-selector", $value);
+  }   
+
 }
 
 

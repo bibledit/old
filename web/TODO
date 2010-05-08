@@ -1,7 +1,18 @@
-Notes of project: current | any
-Also to select on the assigned field, 
-on the subscriptions field, 
-on the severity field.
+
+
+
+
+
+
+the subscriptions field
+
+
+
+
+
+the severity field
+
+
 
 
 
@@ -544,5 +555,5 @@ The changes of status should be added to the note text, just as if adding a comm
 
 
 
-
-
+When importing notes, we need to try out what happens if the notes.tar.gz has the .git directory still in.
+It is supposed to give an error, and then proceed.

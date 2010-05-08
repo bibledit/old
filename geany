@@ -14,12 +14,13 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=2
-FILE_NAME_0=5;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=16161;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
-FILE_NAME_2=14951;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
+current_page=5
+FILE_NAME_0=14;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=21980;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+FILE_NAME_2=16850;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
 FILE_NAME_3=247;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/notes.tpl;0
 FILE_NAME_4=4381;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/sessions.php;0
-FILE_NAME_5=86;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editview.tpl;0
+FILE_NAME_5=697;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editview.tpl;0
 FILE_NAME_6=4547;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logic.php;0
-FILE_NAME_7=5692;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/user.php;0
+FILE_NAME_7=6622;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/user.php;0
+FILE_NAME_8=2984;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/notes.php;0

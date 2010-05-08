@@ -279,9 +279,19 @@ class Notes_Editor
       if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
       $database_config_user->setConsultationNotesEditSelector($edit_selector);
     }
-    $status_selector = $_GET['consultationnotesstatusselector']; // Todo
+    $status_selector = $_GET['consultationnotesstatusselector'];
     if (isset ($status_selector)) {
       $database_config_user->setConsultationNotesStatusSelector($status_selector);
+    }
+    $bible_selector = $_GET['consultationnotesbibleselector'];
+    if (isset ($bible_selector)) {
+      if ($bible_selector == 1) $bible_selector = 1; else $bible_selector = 0;
+      $database_config_user->setConsultationNotesBibleSelector($bible_selector);
+    }
+    $assignment_selector = $_GET['consultationnotesassignmentselector']; // Todo
+    if (isset ($assignment_selector)) {
+      if (($assignment_selector < 0) || ($assignment_selector > 2)) $assignment_selector = 0;
+      $database_config_user->setConsultationNotesAssignmentSelector($assignment_selector);
     }
 
 
@@ -313,7 +323,9 @@ class Notes_Editor
     $smarty->assign ("verse", $verse);
     $passage_selector = $database_config_user->getConsultationNotesPassageSelector();
     $edit_selector = $database_config_user->getConsultationNotesEditSelector();
-    $status_selector = $database_config_user->getConsultationNotesStatusSelector(); // Todo
+    $status_selector = $database_config_user->getConsultationNotesStatusSelector();
+    $bible_selector = $database_config_user->getConsultationNotesBibleSelector();
+    $assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector(); // Todo
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
@@ -354,7 +366,7 @@ class Notes_Editor
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       $smarty->assign ("passageselector", $passage_selector);
@@ -366,14 +378,14 @@ class Notes_Editor
       }
       $smarty->assign ("statusids", $status_ids);
       $smarty->assign ("statuslocs", $status_localizations);
-      $smarty->assign ("statusselector", $status_selector); // Todo
-
-
+      $smarty->assign ("statusselector", $status_selector);
+      $smarty->assign ("bibleselector", $bible_selector);
+      $smarty->assign ("assignmentselector", $assignment_selector); // Todo
       $smarty->display ("editview.tpl");
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -388,7 +400,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $startinglimit); // Todo
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $startinglimit); // Todo
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);
