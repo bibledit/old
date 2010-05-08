@@ -203,11 +203,19 @@ EOD;
   }   
 
   // 0: don't care; 1: assigned to me; 2: assigned to somebody else.
-  public function getConsultationNotesAssignmentSelector() { // Todo
+  public function getConsultationNotesAssignmentSelector() {
     return $this->getValue ("", "consultation-notes-assignment-selector", 0);
   }
   public function setConsultationNotesAssignmentSelector ($value) {
     $this->setValue ("", "consultation-notes-assignment-selector", $value);
+  }   
+
+  // 0: don't care; 1: subscribed.
+  public function getConsultationNotesSubscriptionSelector() { // Todo
+    return $this->getValue ("", "consultation-notes-subscription-selector", 0);
+  }
+  public function setConsultationNotesSubscriptionSelector ($value) {
+    $this->setValue ("", "consultation-notes-subscription-selector", $value);
   }   
 
 }

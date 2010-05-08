@@ -3,7 +3,7 @@
 |
 <a href="{$caller}?session={$session}&displaynotesactions=">{t}Actions{/t}</a>
 </p>
-<p>{t}Summary{/t}: {$note_summary}</p>
+<p>{t}Summary{/t}: {$summary}</p>
 <div>{$note_content}</div>
 <hr>
 {if isset ($note_add_comment)}

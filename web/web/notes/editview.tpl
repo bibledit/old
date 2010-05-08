@@ -43,6 +43,12 @@
   |
   <a {if $assignmentselector == 2}class="active"{/if} href="{$caller}?session={$session}&consultationnotesassignmentselector=2">{t}assigned to somebody but not me{/t}</a>
 </p>
+<p>
+{t}Select notes by subscription:{/t}
+  <a {if $subscriptionselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotessubscriptionselector=0">{t}do not care about this{/t}</a>
+  |
+  <a {if $subscriptionselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotessubscriptionselector=1">{t}notes I am subscribed to{/t}</a>
+</p>
 <p>{t}Number of notes selected:{/t} {$totalcount}</p>
 <h3>
 {t}Ok, I have finished{/t},

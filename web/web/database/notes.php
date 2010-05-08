@@ -168,7 +168,7 @@ EOD;
   * $bible_selector: Optionally constrains the selection, based on the note's Bible.
   * $assignment_selector: Optionally constrains the selection based on a note being assigned to somebody.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $limit) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
@@ -235,7 +235,7 @@ EOD;
       // Such notes should be selected as well, despite the $bible_selector's constraints.
       $query .= " AND (bible = '' OR bible = '$bible') ";
     }
-    // Consider note assignment constraints. // Todo
+    // Consider note assignment constraints.
     switch ($assignment_selector) {
       case 0:
         // Do not care about note assignment.
@@ -248,6 +248,10 @@ EOD;
         // Select notes assigned to somebody else, not the current user.
         $query .= " AND NOT assigned LIKE '% $username %' AND NOT assigned = '' ";
         break;
+    }
+    // Consider note subscription constraints. Todo
+    if ($subscription_selector == 1) {
+      $query .= " AND subscriptions LIKE '% $username %' ";
     }
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.
@@ -345,8 +349,11 @@ EOD;
     // If the user already is subscribed to the note, bail out.
     $subscribers = $this->getSubscribers ($identifier);
     if (in_array ($user, $subscribers)) return;
-    // Subscribe $user.
-    $subscribers[]= "$user";
+    // Subscribe $user. Pad subscriber names with spaces to make selection upon it easier.
+    foreach ($subscribers as &$subscriber) {
+      $subscriber = " $subscriber ";
+    }
+    $subscribers[]= " $user ";
     $subscribers = implode ("\n", $subscribers);
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -368,6 +375,9 @@ EOD;
     $row = $result->fetch_row();
     $subscribers = explode ("\n", $row[0]);
     $subscribers = array_diff ($subscribers, array (""));
+    foreach ($subscribers as &$subscriber) {
+      $subscriber = trim ($subscriber);
+    }
     return $subscribers;
   }
 
@@ -403,6 +413,10 @@ EOD;
     if (!in_array ($user, $subscribers)) return;
     // Unsubscribe $user.
     $subscribers = array_diff ($subscribers, array ($user));
+    // Pad subscriber names with spaces to aid in notes selection based on it.
+    foreach ($subscribers as &$subscriber) {
+      $subscriber = " $subscriber ";
+    }
     $subscribers = implode ("\n", $subscribers);
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
