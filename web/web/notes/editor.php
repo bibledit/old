@@ -237,7 +237,7 @@ class Notes_Editor
     $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
     if (isset ($consultationnoteeditverses)) {
       if (!isset($_POST['submit'])) {
-        $text = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($consultationnote));
+        $text = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($consultationnote)); // Todo
         $dialog_text = new Dialog_Text (gettext ("Would you like to edit the verses?"), $text, "consultationnoteeditverses");
         $dialog_text->run ();
       } else {
@@ -422,8 +422,11 @@ class Notes_Editor
       // Note data.
       $smarty->assign ("identifiers", $identifiers);
       foreach ($identifiers as $identifier) {
+        // Show summary.
         $summary = $database_notes->getSummary ($identifier);
-        $summaries[] = $summary;
+        // Show passages as well.
+        $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
+        $summaries[] = $summary . " | " . $verses;
       }
       $smarty->assign ("summaries", $summaries);
       // Display page.

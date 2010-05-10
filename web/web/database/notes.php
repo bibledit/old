@@ -568,7 +568,7 @@ EOD;
   * Returns an array with the passages that the note identified by $identifier refers to.
   * Each passages is an array (book, chapter, verse).
   */  
-  public function getPassages ($identifier)
+  public function getPassages ($identifier) // Todo
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);

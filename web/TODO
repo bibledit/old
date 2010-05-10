@@ -1,11 +1,16 @@
-Display:
-<tick> Title, including | project | category | date created | created by
 Text <either> full <or> summary <tick> add text of references
 
 
 
 
 
+
+
+
+
+
+
+When changing the status of a note, severity, or anything else, the 'modified' flag should be updated as well.
 
 
 
@@ -32,8 +37,12 @@ When viewing one note, the summary does not show up.
 
 
 
+
+
 Notes should be exportable too, no: call  it 'backup' and 'restore'.
 So we've got 'import', and then the 'backup' and 'restore'.
+
+
 
 
 
@@ -537,3 +546,10 @@ The changes of status should be added to the note text, just as if adding a comm
 
 When importing notes, we need to try out what happens if the notes.tar.gz has the .git directory still in.
 It is supposed to give an error, and then proceed.
+
+
+
+
+
+The passages that are included with the note titles should be clickable so that if clicked,
+the passages are loaded in the passages window.
