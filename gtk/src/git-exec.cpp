@@ -58,7 +58,6 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
   {
     GwSpawn spawn ("git");
     spawn.arg ("status");
-    spawn.arg ("-a");
     spawn.workingdirectory (folder);
     spawn.run ();
   }
