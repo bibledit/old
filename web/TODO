@@ -1,5 +1,13 @@
-bibledit-git has disappeared from the source, to recover from the repository, and re-integrate it.
-Check tag 4.0.82.
+error: unknown switch `a'
+usage: git status [options] [--] <filepattern>...
+
+    -v, --verbose         be verbose
+    -s, --short           show status concisely
+    --porcelain           show porcelain output format
+    -z, --null            terminate entries with NUL
+    -u, --untracked-files[=<mode>]
+                          show untracked files, optional modes: all, normal, no. (Default: all)
+
 
 
 

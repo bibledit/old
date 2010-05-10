@@ -313,6 +313,7 @@ AC_CONFIG_FILES([Makefile
 		  outpost/Makefile
 		  gobible/Makefile
 		  xetex/Makefile
+		  git/Makefile
 		])
 AC_OUTPUT
 
