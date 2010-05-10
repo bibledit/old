@@ -112,7 +112,6 @@ bool on_timeout (gpointer data)
     {
       TinySpawn spawn ("git");
       spawn.arg ("status");
-      spawn.arg ("-a");
       spawn.workingdirectory (folder);
       spawn.read ();
       spawn.run ();
