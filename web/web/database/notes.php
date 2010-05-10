@@ -168,7 +168,7 @@ EOD;
   * $bible_selector: Optionally constrains the selection, based on the note's Bible.
   * $assignment_selector: Optionally constrains the selection based on a note being assigned to somebody.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $limit) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
@@ -249,9 +249,13 @@ EOD;
         $query .= " AND NOT assigned LIKE '% $username %' AND NOT assigned = '' ";
         break;
     }
-    // Consider note subscription constraints. Todo
+    // Consider note subscription constraints.
     if ($subscription_selector == 1) {
       $query .= " AND subscriptions LIKE '% $username %' ";
+    }
+    // Consider the note severity. // Todo
+    if ($severity_selector != -1) {
+      $query .= " AND severity = $severity_selector ";
     }
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.

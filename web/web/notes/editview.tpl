@@ -49,6 +49,13 @@
   |
   <a {if $subscriptionselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotessubscriptionselector=1">{t}notes I am subscribed to{/t}</a>
 </p>
+{t}Select notes that have a severity of:{/t}
+  <a {if $severityselector == -1}class="active"{/if} href="{$caller}?session={$session}&consultationnotesseverityselector=-1">{t}Any{/t}</a>
+  {section name=offset loop=$severities}
+    |
+    <a {if $severityselector == $severities[offset][0]}class="active"{/if} href="{$caller}?session={$session}&consultationnotesseverityselector={$severities[offset][0]}">{$severities[offset][1]}</a>
+  {/section}
+</p>
 <p>{t}Number of notes selected:{/t} {$totalcount}</p>
 <h3>
 {t}Ok, I have finished{/t},

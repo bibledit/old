@@ -293,10 +293,14 @@ class Notes_Editor
       if (($assignment_selector < 0) || ($assignment_selector > 2)) $assignment_selector = 0;
       $database_config_user->setConsultationNotesAssignmentSelector($assignment_selector);
     }
-    $subscription_selector = $_GET['consultationnotessubscriptionselector']; // Todo
+    $subscription_selector = $_GET['consultationnotessubscriptionselector'];
     if (isset ($subscription_selector)) {
       if ($subscription_selector == 1) $subscription_selector = 1; else $subscription_selector = 0;
       $database_config_user->setConsultationNotesSubscriptionSelector($subscription_selector);
+    }
+    $severity_selector = $_GET['consultationnotesseverityselector']; // Todo
+    if (isset ($severity_selector)) {
+      $database_config_user->setConsultationNotesSeveritySelector($severity_selector);
     }
 
   }
@@ -330,7 +334,8 @@ class Notes_Editor
     $status_selector = $database_config_user->getConsultationNotesStatusSelector();
     $bible_selector = $database_config_user->getConsultationNotesBibleSelector();
     $assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector();
-    $subscription_selector = $database_config_user->getConsultationNotesSubscriptionSelector(); // Todo
+    $subscription_selector = $database_config_user->getConsultationNotesSubscriptionSelector();
+    $severity_selector = $database_config_user->getConsultationNotesSeveritySelector(); // Todo
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
@@ -371,7 +376,7 @@ class Notes_Editor
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       $smarty->assign ("passageselector", $passage_selector);
@@ -386,12 +391,14 @@ class Notes_Editor
       $smarty->assign ("statusselector", $status_selector);
       $smarty->assign ("bibleselector", $bible_selector);
       $smarty->assign ("assignmentselector", $assignment_selector);
-      $smarty->assign ("subscriptionselector", $subscription_selector); // Todo
+      $smarty->assign ("subscriptionselector", $subscription_selector);
+      $smarty->assign ("severityselector", $severity_selector);
+      $smarty->assign ("severities", $database_notes->getPossibleSeverities()); // Todo
       $smarty->display ("editview.tpl");
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -406,7 +413,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $startinglimit); // Todo
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $startinglimit); // Todo
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);

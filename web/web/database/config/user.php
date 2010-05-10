@@ -211,11 +211,18 @@ EOD;
   }   
 
   // 0: don't care; 1: subscribed.
-  public function getConsultationNotesSubscriptionSelector() { // Todo
+  public function getConsultationNotesSubscriptionSelector() {
     return $this->getValue ("", "consultation-notes-subscription-selector", 0);
   }
   public function setConsultationNotesSubscriptionSelector ($value) {
     $this->setValue ("", "consultation-notes-subscription-selector", $value);
+  }   
+
+  public function getConsultationNotesSeveritySelector() { // Todo
+    return $this->getValue ("", "consultation-notes-severity-selector", -1);
+  }
+  public function setConsultationNotesSeveritySelector ($value) {
+    $this->setValue ("", "consultation-notes-severity-selector", $value);
   }   
 
 }
