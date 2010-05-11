@@ -140,7 +140,6 @@ EOD;
     // Store new default note into the database.
     $server = Database_Instance::getInstance ();
     $identifier = $this->getNewUniqueIdentifier ();
-    $modified = time();
     $bible = Database_SQLInjection::no ($bible);
     $passage = Database_SQLInjection::no ($this->encodePassage ($book, $chapter, $verse));
     // If the $summary is not given, take the first line of the $contents as the $summary.
@@ -152,8 +151,9 @@ EOD;
     if (!$raw) $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, $modified, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents')";
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents')";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
     // Return this new note´s identifier.
     return $identifier;
   }
@@ -319,18 +319,13 @@ EOD;
   {
     $identifier = Database_SQLInjection::no ($identifier);
     if ($comment == "") return;
-
     $server = Database_Instance::getInstance ();
     $session_logic = Session_Logic::getInstance();
-
-    $modified = time();
-    $query = "UPDATE notes SET modified = $modified WHERE identifier = $identifier;";
-    $server->runQuery ($query);
-
     $contents = $this->assembleContents ($identifier, $comment);
     $contents = Database_SQLInjection::no ($contents);
     $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
   }
   
   
@@ -433,7 +428,7 @@ EOD;
   /**
   * Assign the note identified by $identifier to $user.
   */
-  public function assignUser ($identifier, $user)
+  public function assignUser ($identifier, $user) // Todo needs to add a comment about the assignment.
   {
     // If the note already is assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
@@ -449,6 +444,7 @@ EOD;
     $identifier = Database_SQLInjection::no ($identifier);
     $assignees = Database_SQLInjection::no ($assignees);
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
+    $this->updateTimestamp ($identifier);
     $server->runQuery ($query);
   }
 
@@ -497,7 +493,7 @@ EOD;
   /**
   * Unassigns $user from the note identified by $identifier.
   */
-  public function unassignUser ($identifier, $user)
+  public function unassignUser ($identifier, $user) // Todo comment added - very polite.
   {
     // If the notes is not assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
@@ -510,6 +506,7 @@ EOD;
     $assignees = Database_SQLInjection::no ($assignees);
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
   }
 
   
@@ -528,13 +525,14 @@ EOD;
   }
 
 
-  public function setBible ($identifier, $bible)
+  public function setBible ($identifier, $bible) // Todo to add comment, etc.
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $bible = Database_SQLInjection::no ($bible);
     $query = "UPDATE notes SET bible = '$bible' WHERE identifier = $identifier;";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
   }
 
 
@@ -590,7 +588,7 @@ EOD;
   * Assign the passages to the note $identifier.
   * $passages is an array of an array (book, chapter, verse) passages.
   */
-  public function setPassages ($identifier, $passages)
+  public function setPassages ($identifier, $passages) // Todo comment  ; mail out.
   {
     $server = Database_Instance::getInstance ();
     $line = "";
@@ -602,6 +600,7 @@ EOD;
     $line = Database_SQLInjection::no ($line);
     $query = "UPDATE notes SET passage = '$line' WHERE identifier = $identifier;";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
   }
 
 
@@ -694,13 +693,14 @@ EOD;
   * Sets the $status of the note identified by $identifier.
   * $status is a string.
   */
-  public function setStatus ($identifier, $status)
+  public function setStatus ($identifier, $status) // Todo comment.
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $status = Database_SQLInjection::no ($status);
     $query = "UPDATE notes SET status = '$status' WHERE identifier = $identifier;";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
   }
 
 
@@ -762,13 +762,14 @@ EOD;
   * Sets the $severity of the note identified by $identifier.
   * $severity is a  number.
   */
-  public function setSeverity ($identifier, $severity)
+  public function setSeverity ($identifier, $severity) // Todo mail out/ comment.
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $severity = Database_SQLInjection::no ($severity);
     $query = "UPDATE notes SET severity = $severity WHERE identifier = $identifier;";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
   }
 
 
@@ -806,13 +807,14 @@ EOD;
   * Sets the $privacy of the note identified by $identifier.
   * $privacy is a number.
   */
-  public function setPrivacy ($identifier, $privacy)
+  public function setPrivacy ($identifier, $privacy) // Todo comment / mail.
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $privacy = Database_SQLInjection::no ($privacy);
     $query = "UPDATE notes SET private = $privacy WHERE identifier = $identifier;";
     $server->runQuery ($query);
+    $this->updateTimestamp ($identifier);
   }
 
 
@@ -827,6 +829,19 @@ EOD;
     }
     return $privacies;
   }
+
+  
+  /**
+  * Updates the 'modified' field of the note identified by $identifier.
+  */
+  private function updateTimestamp ($identifier) // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $modified = time();
+    $query = "UPDATE notes SET modified = $modified WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
   
 
 }

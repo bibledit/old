@@ -3,32 +3,9 @@
 
 
 
-
-
-
-
-
-When changing the status of a note, severity, or anything else, the 'modified' flag should be updated as well.
-
-
-
-
-
-
-
-
 There will also be a notes search, it can search either in the summaries, or in the contents.
 It employs a full text search through mysql.
 
-
-
-
-
-
-
-
-
-When viewing one note, the summary does not show up.
 
 
 
@@ -66,7 +43,12 @@ Plus a link to the site, if this is possible.
 
 
 
+
+
 Mail notification upon change in note: change attributes
+
+
+
 
 
 
@@ -100,6 +82,9 @@ chapters, to the subscribed users.
 
 
 Notes are synchronized through a git repository.
+
+
+
 
 
 
@@ -231,7 +216,7 @@ to disclose translation content.
 
 
 
-The book names are not localized as we do in bibledit-linux, but localization uses the existing mechanism.
+The book names are not localized as we do in bibledit-gtk, but localization uses the existing mechanism.
 It works through gettext. For that reason a php file needs to be created that contains all existing English books.
 This file is to be generated somehow by the system admin, and this file can be stored among the source code.
 Thus the gettext system will be filled with that data, and can get translated.
@@ -336,14 +321,6 @@ The new should be shared also.
 
 
 
-When running a local web server, as many will do, 
-and syncing data files of projects and notes with bibledit's repository, <missing>
-Or better could be even to have bibledit to sync its files through the web server, so permission will never be a problem.
-
-
-
-
-
 To have a Twitter module, that can send changes to twitter in a meaningful way.
 
 
@@ -408,7 +385,15 @@ Windows: http://www.wampserver.com/
 Or: http://www.apachefriends.org/en/xampp-windows.html
 
 
+
+
+
+
 Being behind a shaking connection, the site should be operatable by email as well, in particular the consultations.
+
+
+
+
 
 
 Instead of using XeTeX, we could also look at CSS2 with paged media for printing, and screen media for the screen.
