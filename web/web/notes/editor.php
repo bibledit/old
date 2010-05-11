@@ -237,7 +237,7 @@ class Notes_Editor
     $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
     if (isset ($consultationnoteeditverses)) {
       if (!isset($_POST['submit'])) {
-        $text = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($consultationnote)); // Todo
+        $text = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($consultationnote));
         $dialog_text = new Dialog_Text (gettext ("Would you like to edit the verses?"), $text, "consultationnoteeditverses");
         $dialog_text->run ();
       } else {
@@ -298,9 +298,17 @@ class Notes_Editor
       if ($subscription_selector == 1) $subscription_selector = 1; else $subscription_selector = 0;
       $database_config_user->setConsultationNotesSubscriptionSelector($subscription_selector);
     }
-    $severity_selector = $_GET['consultationnotesseverityselector']; // Todo
+    $severity_selector = $_GET['consultationnotesseverityselector'];
     if (isset ($severity_selector)) {
       $database_config_user->setConsultationNotesSeveritySelector($severity_selector);
+    }
+    $passage_inclusion_selector = $_GET['consultationnotespassageinclusionyselector'];
+    if (isset ($passage_inclusion_selector)) {
+      $database_config_user->setConsultationNotesPassageInclusionSelector($passage_inclusion_selector);
+    }
+    $text_inclusion_selector = $_GET['consultationnotestextinclusionyselector']; // Todo
+    if (isset ($text_inclusion_selector)) {
+      $database_config_user->setConsultationNotesTextInclusionSelector($text_inclusion_selector);
     }
 
   }
@@ -335,7 +343,9 @@ class Notes_Editor
     $bible_selector = $database_config_user->getConsultationNotesBibleSelector();
     $assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector();
     $subscription_selector = $database_config_user->getConsultationNotesSubscriptionSelector();
-    $severity_selector = $database_config_user->getConsultationNotesSeveritySelector(); // Todo
+    $severity_selector = $database_config_user->getConsultationNotesSeveritySelector();
+    $passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();
+    $text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector(); // Todo
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
@@ -376,7 +386,7 @@ class Notes_Editor
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL);
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       $smarty->assign ("passageselector", $passage_selector);
@@ -393,12 +403,14 @@ class Notes_Editor
       $smarty->assign ("assignmentselector", $assignment_selector);
       $smarty->assign ("subscriptionselector", $subscription_selector);
       $smarty->assign ("severityselector", $severity_selector);
-      $smarty->assign ("severities", $database_notes->getPossibleSeverities()); // Todo
+      $smarty->assign ("severities", $database_notes->getPossibleSeverities());
+      $smarty->assign ("passageinclusionselector", $passage_inclusion_selector);
+      $smarty->assign ("textinclusionselector", $text_inclusion_selector); // Todo
       $smarty->display ("editview.tpl");
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL); // Todo
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL);
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -413,7 +425,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $startinglimit); // Todo
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $startinglimit);
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);
@@ -425,10 +437,24 @@ class Notes_Editor
         // Show summary.
         $summary = $database_notes->getSummary ($identifier);
         // Show passages as well.
-        $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
+        $passages = $database_notes->getPassages ($identifier);
+        $verses = Filter_Books::passagesDisplayInline ($passages);
         $summaries[] = $summary . " | " . $verses;
+        if ($passage_inclusion_selector) {
+          
+        } else {
+          unset ($passage);
+        }
+        if ($text_inclusion_selector) {
+          $content = $database_notes->getContents($identifier);
+        } else {
+          $content = "";
+        }
+        $contents[] = $content;
       }
-      $smarty->assign ("summaries", $summaries);
+      $smarty->assign ("summaries", $summaries); // Todo
+//      $smarty->assign ("passages", $passages); // Todo
+      $smarty->assign ("contents", $contents); // Todo
       // Display page.
       $smarty->display ("notes.tpl");
       if ($displaycount == 0) {

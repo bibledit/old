@@ -65,6 +65,17 @@ EOD;
     $this->assertEquals (2, Filter_Usfm::lineNumber2VerseNumber ($usfm, 3));
   }
   
+  public function testGetVerseText()
+  {
+$usfm = <<<EOD
+\\p
+\\v 1 One
+EOD;
+    $this->assertEquals ("\\v 1 One", Filter_Usfm::getVerseText ($usfm, 1));
+    $this->assertEquals ("\\p", Filter_Usfm::getVerseText ($usfm, 0));
+    $this->assertEquals ("", Filter_Usfm::getVerseText ($usfm, 2));
+  }
+  
 }
 ?>
 

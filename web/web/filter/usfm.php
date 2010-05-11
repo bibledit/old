@@ -209,7 +209,7 @@ class Filter_Usfm
   /**
   * returns an array with the verse numbers found in $usfm.
   */
-  public function getVerseNumbers ($usfm)
+  public function getVerseNumbers ($usfm) // Todo
   {
     $verse_numbers = array (0);
     $markers_and_text = Filter_Usfm::getMarkersAndText ($usfm);
@@ -243,7 +243,30 @@ class Filter_Usfm
     }
     return $verse_number;
   }
-      
+
+  /**
+  * Returns the verse text given a $verse_number and $usfm code.
+  */
+  public function getVerseText ($usfm, $verse_number)
+  {
+    $verse_text = "";
+    $lines = explode ("\n", $usfm);
+    for ($i = 0; $i < count ($lines); $i++) {
+      $numbers = Filter_Usfm::getVerseNumbers ($lines[$i]);
+      if (count ($numbers) >= 2) {
+        $number = $numbers[1];
+      } else {
+        $number = $numbers[0];
+      }
+      if ($number == $verse_number) {
+        if ($verse_text != "") $verse_text .= " ";
+        $verse_text .= $lines[$i];
+      }
+    }
+    return $verse_text;    
+  }
+  
+
 
 }
 

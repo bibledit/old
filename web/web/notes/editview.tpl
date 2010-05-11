@@ -57,6 +57,14 @@
   {/section}
 </p>
 <p>{t}Number of notes selected:{/t} {$totalcount}</p>
+{t}Passage inclusion:{/t}
+  <a {if $passageinclusionselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageinclusionyselector=0">{t}Do not include the passage text{/t}</a>
+  <a {if $passageinclusionselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageinclusionyselector=1">{t}Include the passage text{/t}</a>
+</p>
+{t}Text inclusion:{/t}
+  <a {if $textinclusionselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotestextinclusionyselector=0">{t}Do not include the note text{/t}</a>
+  <a {if $textinclusionselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotestextinclusionyselector=1">{t}Include the note text{/t}</a>
+</p>
 <h3>
 {t}Ok, I have finished{/t},
 <a href="{$caller}?session={$session}&displaynoteslist=">{t}display the notes list{/t}</a>

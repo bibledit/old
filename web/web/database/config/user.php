@@ -218,13 +218,26 @@ EOD;
     $this->setValue ("", "consultation-notes-subscription-selector", $value);
   }   
 
-  public function getConsultationNotesSeveritySelector() { // Todo
+  public function getConsultationNotesSeveritySelector() {
     return $this->getValue ("", "consultation-notes-severity-selector", -1);
   }
   public function setConsultationNotesSeveritySelector ($value) {
     $this->setValue ("", "consultation-notes-severity-selector", $value);
   }   
 
+  public function getConsultationNotesPassageInclusionSelector() { // Todo
+    return $this->getValue ("", "consultation-notes-passage-inclusion-selector", 0);
+  }
+  public function setConsultationNotesPassageInclusionSelector ($value) {
+    $this->setValue ("", "consultation-notes-passage-inclusion-selector", $value);
+  }   
+
+  public function getConsultationNotesTextInclusionSelector() { // Todo
+    return $this->getValue ("", "consultation-notes-text-inclusion-selector", 0);
+  }
+  public function setConsultationNotesTextInclusionSelector ($value) {
+    $this->setValue ("", "consultation-notes-text-inclusion-selector", $value);
+  }   
 }
 
 

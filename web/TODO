@@ -1,6 +1,13 @@
-Text <either> full <or> summary <tick> add text of references
+Make Filter_Usfm that takes a verse number, chapter text, and returns the text of this verse.
+PHPUnit
 
 
+
+
+
+
+
+add text of references
 
 
 
