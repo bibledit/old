@@ -12,5 +12,6 @@
 {section name=offset loop=$identifiers}
   <a name="note{$identifiers[offset]}"></a>
   <p><a href="{$caller}?session={$session}&consultationnote={$identifiers[offset]}">{$summaries[offset]}</a></p>
+  <p>{$versetexts[offset]}</p>
   <p>{$contents[offset]}</p>
 {/section}

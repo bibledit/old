@@ -440,11 +440,18 @@ class Notes_Editor
         $passages = $database_notes->getPassages ($identifier);
         $verses = Filter_Books::passagesDisplayInline ($passages);
         $summaries[] = $summary . " | " . $verses;
-        if ($passage_inclusion_selector) {
-          
-        } else {
-          unset ($passage);
+        if ($passage_inclusion_selector) { // Todo
+          $database_bibles = Database_Bibles::getInstance();
+          $passages = $database_notes->getPassages ($identifier);
+          $verse_text = "";
+          foreach ($passages as $passage) {
+            $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
+            $text = Filter_Usfm::getVerseText ($usfm, $passage[2]);
+            $verse_text .= $text;
+            $verse_text .= "\n";
+          }
         }
+        $verse_texts [] = nl2br ($verse_text);
         if ($text_inclusion_selector) {
           $content = $database_notes->getContents($identifier);
         } else {
@@ -453,7 +460,7 @@ class Notes_Editor
         $contents[] = $content;
       }
       $smarty->assign ("summaries", $summaries); // Todo
-//      $smarty->assign ("passages", $passages); // Todo
+      $smarty->assign ("versetexts", $verse_texts); // Todo
       $smarty->assign ("contents", $contents); // Todo
       // Display page.
       $smarty->display ("notes.tpl");
