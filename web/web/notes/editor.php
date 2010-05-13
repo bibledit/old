@@ -37,6 +37,7 @@ class Notes_Editor
 
   public function scripts ()
   {
+    $code = "";
     if (isset ($_GET['createconsultationnote'])) {
       $code = "document.form.summary.focus();"; 
     }
@@ -44,6 +45,13 @@ class Notes_Editor
       $code = "document.form.comment.focus();"; 
     }
     return $code;
+  }
+  
+  public function use_wysiwyg_editor ()
+  {
+    if (isset ($_GET['createconsultationnote'])) return true;
+    if (isset ($_GET['addtoconsultationnote'])) return true;
+    return false;
   }
   
   public function actions ()
@@ -84,7 +92,7 @@ class Notes_Editor
       $editconsultationnoteview = true;
       $displayconsultationnoteactions = false;
     }
-    $database_sessions->setConsultationNote ($consultationnote);
+    @$database_sessions->setConsultationNote ($consultationnote);
     $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
     $database_sessions->setEditConsultationNoteView ($editconsultationnoteview);
     
@@ -119,12 +127,12 @@ class Notes_Editor
     }
    
     // Delete a note.
-    $deleteconsultationnote = $_GET['deleteconsultationnote'];
+    @$deleteconsultationnote = $_GET['deleteconsultationnote'];
     if (isset ($deleteconsultationnote)) {
       $notes_logic = Notes_Logic::getInstance();
       $notes_logic->handlerDeleteNote ($deleteconsultationnote);
       $database_notes->delete ($deleteconsultationnote);
-      unset ($consultationnote);
+      $consultationnote = "";
       $database_sessions->setConsultationNote ($consultationnote);
       $displayconsultationnoteactions = false;
       $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
@@ -141,7 +149,7 @@ class Notes_Editor
     }
     
     // Add assignee.
-    $addassignee = $_GET['consultationnoteaddassignee'];
+    @$addassignee = $_GET['consultationnoteaddassignee'];
     if (isset ($addassignee)) {
       $database_users = Database_Users::getInstance();
       if ($addassignee == "") {
@@ -159,18 +167,18 @@ class Notes_Editor
     }
     
     // Un-assign note.
-    $removeassignee = $_GET['consultationnoteremoveassignee'];
+    @$removeassignee = $_GET['consultationnoteremoveassignee'];
     if (isset ($removeassignee)) {
       $database_notes->unassignUser ($consultationnote, $removeassignee);
     }
-    $unassignme = $_GET['consultationnoteunassignme'];
+    @$unassignme = $_GET['consultationnoteunassignme'];
     if (isset ($unassignme)) {
       $session_logic = Session_Logic::getInstance();
       $database_notes->unassignUser ($consultationnote, $session_logic->currentUser ());
     }
 
     // Assign to Bible.    
-    $consultationnotebible = $_GET['consultationnotechangebible'];
+    @$consultationnotebible = $_GET['consultationnotechangebible'];
     if (isset ($consultationnotebible)) {
       $database_bibles = Database_Bibles::getInstance();
       if ($consultationnotebible == "") {
@@ -188,7 +196,7 @@ class Notes_Editor
     }
 
     // Edit status.
-    $consultationnotestatus = $_GET['consultationnotestatus'];
+    @$consultationnotestatus = $_GET['consultationnotestatus'];
     if (isset ($consultationnotestatus)) {
       if ($consultationnotestatus == "") {
         $dialog_list = new Dialog_List2 (gettext ("Would you like to change the status of this note?"));
@@ -203,7 +211,7 @@ class Notes_Editor
     }
 
     // Edit severity.
-    $consultationnoteseverity = $_GET['consultationnoteseverity'];
+    @$consultationnoteseverity = $_GET['consultationnoteseverity'];
     if (isset ($consultationnoteseverity)) {
       if ($consultationnoteseverity == "") {
         $dialog_list = new Dialog_List2 (gettext ("Would you like to change the severity of this note?"));
@@ -218,7 +226,7 @@ class Notes_Editor
     }
 
     // Edit privacy. 
-    $consultationnoteprivacy = $_GET['consultationnoteprivacy'];
+    @$consultationnoteprivacy = $_GET['consultationnoteprivacy'];
     if (isset ($consultationnoteprivacy)) {
       if ($consultationnoteprivacy == "") {
         $dialog_list = new Dialog_List2 (gettext ("Would you like to change the the visibility of this note?"));
@@ -234,7 +242,7 @@ class Notes_Editor
     }
 
     // Edit passages.
-    $consultationnoteeditverses = $_GET['consultationnoteeditverses'];
+    @$consultationnoteeditverses = $_GET['consultationnoteeditverses'];
     if (isset ($consultationnoteeditverses)) {
       if (!isset($_POST['submit'])) {
         $text = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($consultationnote));
@@ -269,44 +277,53 @@ class Notes_Editor
     }    
 
     // Notes selector.
-    $passages_selector = $_GET['consultationnotespassageselector'];
+    @$passages_selector = $_GET['consultationnotespassageselector'];
     if (isset ($passages_selector)) {
       if (($passages_selector < 0) || ($passages_selector > 3)) $passages_selector = 0;
       $database_config_user->setConsultationNotesPassageSelector($passages_selector);
     }
-    $edit_selector = $_GET['consultationnoteseditselector'];
+    @$edit_selector = $_GET['consultationnoteseditselector'];
     if (isset ($edit_selector)) {
       if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
       $database_config_user->setConsultationNotesEditSelector($edit_selector);
     }
-    $status_selector = $_GET['consultationnotesstatusselector'];
+    @$status_selector = $_GET['consultationnotesstatusselector'];
     if (isset ($status_selector)) {
       $database_config_user->setConsultationNotesStatusSelector($status_selector);
     }
-    $bible_selector = $_GET['consultationnotesbibleselector'];
+    @$bible_selector = $_GET['consultationnotesbibleselector'];
     if (isset ($bible_selector)) {
       if ($bible_selector == 1) $bible_selector = 1; else $bible_selector = 0;
       $database_config_user->setConsultationNotesBibleSelector($bible_selector);
     }
-    $assignment_selector = $_GET['consultationnotesassignmentselector'];
+    @$assignment_selector = $_GET['consultationnotesassignmentselector'];
     if (isset ($assignment_selector)) {
       if (($assignment_selector < 0) || ($assignment_selector > 2)) $assignment_selector = 0;
       $database_config_user->setConsultationNotesAssignmentSelector($assignment_selector);
     }
-    $subscription_selector = $_GET['consultationnotessubscriptionselector'];
+    @$subscription_selector = $_GET['consultationnotessubscriptionselector'];
     if (isset ($subscription_selector)) {
       if ($subscription_selector == 1) $subscription_selector = 1; else $subscription_selector = 0;
       $database_config_user->setConsultationNotesSubscriptionSelector($subscription_selector);
     }
-    $severity_selector = $_GET['consultationnotesseverityselector'];
+    @$severity_selector = $_GET['consultationnotesseverityselector'];
     if (isset ($severity_selector)) {
       $database_config_user->setConsultationNotesSeveritySelector($severity_selector);
     }
-    $passage_inclusion_selector = $_GET['consultationnotespassageinclusionyselector'];
+    @$text_selector = $_GET['consultationnotestextselector']; // Todo
+    if (isset ($text_selector)) {
+      $database_config_user->setConsultationNotesTextSelector($text_selector);
+      $search_text = $_POST['text'];
+      if (isset ($search_text)) {
+        $database_config_user->setConsultationNotesSearchText($search_text);
+        Assets_Page::success (gettext ("Search text saved"));
+      }
+    }
+    @$passage_inclusion_selector = $_GET['consultationnotespassageinclusionyselector'];
     if (isset ($passage_inclusion_selector)) {
       $database_config_user->setConsultationNotesPassageInclusionSelector($passage_inclusion_selector);
     }
-    $text_inclusion_selector = $_GET['consultationnotestextinclusionyselector']; // Todo
+    @$text_inclusion_selector = $_GET['consultationnotestextinclusionyselector'];
     if (isset ($text_inclusion_selector)) {
       $database_config_user->setConsultationNotesTextInclusionSelector($text_inclusion_selector);
     }
@@ -344,8 +361,10 @@ class Notes_Editor
     $assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector();
     $subscription_selector = $database_config_user->getConsultationNotesSubscriptionSelector();
     $severity_selector = $database_config_user->getConsultationNotesSeveritySelector();
+    $text_selector = $database_config_user->getConsultationNotesTextSelector();
+    $search_text = $database_config_user->getConsultationNotesSearchText(); // Todo
     $passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();
-    $text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector(); // Todo
+    $text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector();
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
@@ -381,12 +400,12 @@ class Notes_Editor
         // Display one note.
         $contents = $database_notes->getContents($consultationnote);
         $smarty->assign ("note_content", $contents);
-        $smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
+        @$smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
         $smarty->display ("note.tpl");
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       $smarty->assign ("passageselector", $passage_selector);
@@ -404,13 +423,15 @@ class Notes_Editor
       $smarty->assign ("subscriptionselector", $subscription_selector);
       $smarty->assign ("severityselector", $severity_selector);
       $smarty->assign ("severities", $database_notes->getPossibleSeverities());
+      $smarty->assign ("textselector", $text_selector); // Todo
+      $smarty->assign ("searchtext", Filter_Html::sanitize ($search_text)); // Todo
       $smarty->assign ("passageinclusionselector", $passage_inclusion_selector);
-      $smarty->assign ("textinclusionselector", $text_inclusion_selector); // Todo
+      $smarty->assign ("textinclusionselector", $text_inclusion_selector);
       $smarty->display ("editview.tpl");
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, NULL);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL); // Todo
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -425,7 +446,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $startinglimit);
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit); // Todo
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);
@@ -440,10 +461,10 @@ class Notes_Editor
         $passages = $database_notes->getPassages ($identifier);
         $verses = Filter_Books::passagesDisplayInline ($passages);
         $summaries[] = $summary . " | " . $verses;
+        $verse_text = "";
         if ($passage_inclusion_selector) { // Todo
           $database_bibles = Database_Bibles::getInstance();
           $passages = $database_notes->getPassages ($identifier);
-          $verse_text = "";
           foreach ($passages as $passage) {
             $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
             $text = Filter_Usfm::getVerseText ($usfm, $passage[2]);

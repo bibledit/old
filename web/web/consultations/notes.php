@@ -31,6 +31,9 @@ $notes_editor = Notes_Editor::getInstance();
 
 $assets_header->jQueryHeader (gettext ("Notes"));
 $assets_header->jQueryHeaderAddDocumentReadyFunction ($notes_editor->scripts ());
+if ($notes_editor->use_wysiwyg_editor ()) {
+  $assets_header->jQueryHeaderAddWysiwygHeaders ();
+}
 $assets_header->run();
 
 $assets_navigator->actions ();

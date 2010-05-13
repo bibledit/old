@@ -1,10 +1,14 @@
+Editor:
+The control does not get focused when adding comment to note.
+The summary take the whole contents. See how we can cut that short.
 
 
 
 
 
-There will also be a notes search, it can search either in the summaries, or in the contents.
-It employs a full text search through mysql.
+
+
+
 
 
 
@@ -507,13 +511,6 @@ a backup of the mysql table, zips these, and mails these out to an email address
 
 
 To implement the PHPUnit::tearDown function for where notes are created.
-
-
-
-
-
-The notes need full text search using the advanced methods of MySQL, where spaces can be in the search string.
-
 
 
 

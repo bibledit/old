@@ -36,7 +36,7 @@ class Assets_Header
     return self::$instance;
   }
   /**
-  * This works on a live object, and writes a header with jQuery basics if needed.
+  * Writes a header with jQuery basics if needed.
   */
   public function jQueryHeader ($title)
   {
@@ -44,16 +44,26 @@ class Assets_Header
     $this->smarty->assign ("title", $title);
   }
   /**
-  * This works on a live object, and adds a document ready function for jQuery.
+  * Adds a document ready function for jQuery.
   */
   public function jQueryHeaderAddDocumentReadyFunction ($code)
   {
+    if ($code != "") {
+      $this->document_ready_functions[] = $code;
+    }
+  }
+  /**
+  * Adds a document ready function for jQuery.
+  */
+  public function jQueryHeaderAddWysiwygHeaders ()
+  {
+    $this->smarty->assign ("wysiwyg_editor", true);
     if (isset ($code)) {
       $this->document_ready_functions[] = $code;
     }
   }
   /**
-  * This works on a live object, and adds a document ready function for jQuery.
+  * Runs the header.
   */
   public function run ()
   {

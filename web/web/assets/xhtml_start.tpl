@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
     <title>{$title}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
-    {if isset ($document_ready_functions) }
+    {if isset ($document_ready_functions) || isset ($wysiwyg_editor) }
       <script type="text/javascript" src="../jquery/jquery.js"></script>
       {section name=offset loop=$document_ready_functions} 
         <script>
@@ -18,6 +18,18 @@
         {/literal}
         </script>
       {/section} 
+    {/if}
+      <link rel="stylesheet" href="../jwysiwyg/jwysiwyg/jquery.wysiwyg.css" type="text/css" />
+      <script type="text/javascript" src="../jwysiwyg/jwysiwyg/jquery.wysiwyg.js"></script>
+      <script type="text/javascript">
+        {literal}
+          $(function()
+          {
+              $('#wysiwyg').wysiwyg();
+          });
+        {/literal}
+      </script>
+    {if isset ($wysiwyg_editor) }
     {/if}
   </head>
   <body>

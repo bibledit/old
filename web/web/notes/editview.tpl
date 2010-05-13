@@ -1,13 +1,13 @@
 <h1>{t}Edit Notes Display{/t}</h1>
 <p>
 {t}Select notes that refer to:{/t}
+  <a {if $passageselector == 3}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageselector=3">{t}any passage{/t}</a>
+  |
   <a {if $passageselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageselector=0">{t}the current verse{/t}</a>
   |
   <a {if $passageselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageselector=1">{t}the current chapter{/t}</a>
   |
   <a {if $passageselector == 2}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageselector=2">{t}the current book{/t}</a>
-  |
-  <a {if $passageselector == 3}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageselector=3">{t}any passage{/t}</a>
 </p>
 <p>
 {t}Select notes that have been edited:{/t}
@@ -23,7 +23,7 @@
 </p>
 <p>
 {t}Select notes that have a certain status:{/t}
-  <a {if $statusselector == ""}class="active"{/if} href="{$caller}?session={$session}&consultationnotesstatusselector=">{t}Any status{/t}</a>
+  <a {if $statusselector == ""}class="active"{/if} href="{$caller}?session={$session}&consultationnotesstatusselector=">{t}Any{/t}</a>
   {section name=offset loop=$statusids}
     |
     <a {if $statusselector == $statusids[offset]}class="active"{/if} href="{$caller}?session={$session}&consultationnotesstatusselector={$statusids[offset]}">{$statuslocs[offset]}</a>
@@ -56,7 +56,21 @@
     <a {if $severityselector == $severities[offset][0]}class="active"{/if} href="{$caller}?session={$session}&consultationnotesseverityselector={$severities[offset][0]}">{$severities[offset][1]}</a>
   {/section}
 </p>
+</p>
+<form action="{$caller}?session={$session}&consultationnotestextselector=1" name="text" method="post">
+{t}Select notes that contain text:{/t}
+  <a {if $textselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotestextselector=0">{t}Any{/t}</a>
+  |
+  <a {if $textselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotestextselector=1">{t}Specific text or words:{/t}</a>
+  {if $textselector == 1}
+      <input type="text" name="text" value="{$searchtext}" />
+      <input type="submit" name="save" value={t}Save{/t} />
+  {/if}
+</form>
+</p>
+<br>
 <p>{t}Number of notes selected:{/t} {$totalcount}</p>
+<br>
 {t}Passage inclusion:{/t}
   <a {if $passageinclusionselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageinclusionyselector=0">{t}Do not include the passage text{/t}</a>
   <a {if $passageinclusionselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotespassageinclusionyselector=1">{t}Include the passage text{/t}</a>

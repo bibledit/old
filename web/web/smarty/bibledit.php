@@ -45,7 +45,7 @@ class Smarty_Bibledit extends Smarty {
     $file_path = dirname ($calling_file_php);
     $header_path_modifier = "";
     $iterations_count = 0;
-    while (($file_path != $bibledit_root_folder) && (iterations_count < 10)) {
+    while (($file_path != $bibledit_root_folder) && ($iterations_count < 10)) {
       $file_path = dirname ($file_path);
       $iterations_count++;
       $header_path_modifier .= "../";

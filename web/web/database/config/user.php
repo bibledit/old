@@ -225,14 +225,28 @@ EOD;
     $this->setValue ("", "consultation-notes-severity-selector", $value);
   }   
 
-  public function getConsultationNotesPassageInclusionSelector() { // Todo
+  public function getConsultationNotesTextSelector() {
+    return $this->getValue ("", "consultation-notes-text-selector", 0);
+  }
+  public function setConsultationNotesTextSelector ($value) {
+    $this->setValue ("", "consultation-notes-text-selector", $value);
+  }   
+
+  public function getConsultationNotesSearchText() { // Todo
+    return $this->getValue ("", "consultation-notes-search-text", "");
+  }
+  public function setConsultationNotesSearchText ($value) {
+    $this->setValue ("", "consultation-notes-search-text", $value);
+  }   
+
+  public function getConsultationNotesPassageInclusionSelector() {
     return $this->getValue ("", "consultation-notes-passage-inclusion-selector", 0);
   }
   public function setConsultationNotesPassageInclusionSelector ($value) {
     $this->setValue ("", "consultation-notes-passage-inclusion-selector", $value);
   }   
 
-  public function getConsultationNotesTextInclusionSelector() { // Todo
+  public function getConsultationNotesTextInclusionSelector() {
     return $this->getValue ("", "consultation-notes-text-inclusion-selector", 0);
   }
   public function setConsultationNotesTextInclusionSelector ($value) {

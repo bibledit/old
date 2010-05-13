@@ -74,6 +74,8 @@ EOD;
     $database_instance->runQuery ($query);
     // Table update. Subscriptions: Contains users subscribed to this note.
     $database_instance->runQuery ("ALTER TABLE notes ADD subscriptions text AFTER assigned;");
+    // Table update. Allow full text search on summary and contents.
+    $database_instance->runQuery ("ALTER TABLE notes ADD FULLTEXT(summary, contents);");
   }
 
   public function optimize () {
@@ -120,7 +122,6 @@ EOD;
     $lines = explode ("\n", $contents);
     foreach ($lines as $line) {
       $line = trim ($line);
-      $line = Filter_Html::sanitize ($line);
       $new_contents .= "<p>$line</p>\n";
     }
     return $new_contents;
@@ -168,7 +169,7 @@ EOD;
   * $bible_selector: Optionally constrains the selection, based on the note's Bible.
   * $assignment_selector: Optionally constrains the selection based on a note being assigned to somebody.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
@@ -253,9 +254,13 @@ EOD;
     if ($subscription_selector == 1) {
       $query .= " AND subscriptions LIKE '% $username %' ";
     }
-    // Consider the note severity. // Todo
+    // Consider the note severity.
     if ($severity_selector != -1) {
       $query .= " AND severity = $severity_selector ";
+    }
+    // Consider text contained in notes. // Todo
+    if ($text_selector == 1) {
+      $query .= " AND (MATCH (summary, contents) AGAINST ('$search_text' IN BOOLEAN MODE) OR summary LIKE '%$search_text%' OR CONTENTS LIKE '%$search_text%') ";
     }
     // Notes get ordered by the automatic increasing id. 
     // That would sort the notes in the order of their entry.

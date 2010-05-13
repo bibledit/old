@@ -84,7 +84,7 @@ EOD;
   
   public function getCurrentSessionId ()
   {
-    $id = $_GET ['session'];
+    @$id = $_GET ['session'];
     if (!is_numeric ($id)) {
       $this->removeExpiredSessions();
       $id = $this->getNewUniqueSessionId ();

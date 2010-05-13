@@ -46,7 +46,7 @@ class Assets_Navigator
 
   private function handle_switch_bible ()
   {
-    $switchbible = $_GET['switchbible'];
+    @$switchbible = $_GET['switchbible'];
     if (isset ($switchbible)) {
       if ($switchbible == "") {
         $dialog_list = new Dialog_List2 (gettext ("Would you like to change to another Bible?"));
@@ -94,7 +94,7 @@ class Assets_Navigator
 
   private function handle_switch_book ()
   {
-    $switchbook = $_GET['switchbook'];
+    @$switchbook = $_GET['switchbook'];
     if (isset ($switchbook)) {
       if ($switchbook == "") {
         $database_bibles = Database_Bibles::getInstance ();
@@ -125,7 +125,7 @@ class Assets_Navigator
 
   private function handle_switch_chapter ()
   {
-    $switchchapter = $_GET['switchchapter'];
+    @$switchchapter = $_GET['switchchapter'];
     if (isset ($switchchapter)) {
       if ($switchchapter == "") {
         $dialog_list = new Dialog_List2 (gettext ("Go to another chapter"));
@@ -160,7 +160,7 @@ class Assets_Navigator
   
   private function handle_switch_verse ()
   {
-    $switchverse = $_GET['switchverse'];
+    @$switchverse = $_GET['switchverse'];
     if (isset ($switchverse)) {
       if ($switchverse == "") {
         $dialog_list = new Dialog_List2 (gettext ("Go to another verse"));
@@ -212,6 +212,8 @@ class Assets_Navigator
     $smarty->assign ("book_name", gettext ($database_books->getEnglishFromId ($book)));
     $books = $database_bibles->getBooks($bible);
     $key = array_search ($book, $books);
+    $previous_book = "";
+    $next_book = "";
     if ($key !== false) {
       $previous_book = $books [$key - 1];
       $next_book = $books [$key + 1];
@@ -223,6 +225,8 @@ class Assets_Navigator
     $smarty->assign ("chapter", $chapter);
     $chapters = $database_bibles->getChapters ($bible, $book);
     $key = array_search ($chapter, $chapters);
+    $previous_chapter = "";
+    $next_chapter = "";
     if ($key !== false) {
       $previous_chapter = $chapters [$key - 1];
       $next_chapter = $chapters [$key + 1];
@@ -234,6 +238,8 @@ class Assets_Navigator
     $smarty->assign ("verse", $verse);
     $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
     $key = array_search ($verse, $verses);
+    $previous_verse = "";
+    $next_verse = "";
     if ($key !== false) {
       $previous_verse = $verses [$key - 1];
       $next_verse = $verses [$key + 1];

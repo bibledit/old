@@ -9,7 +9,7 @@
 {if isset ($note_add_comment)}
   <form action="{$caller}?session={$session}&saveconsultationnotecomment=" name="form" method="post">
     <p>{t}Add a comment to this note:{/t}</p>
-    <p><textarea name="comment"></textarea></p>
+    <p><textarea name="comment" id="wysiwyg"></textarea></p>
     <p><input type="submit" name="submit" value={t}Save{/t} /><input type="submit" name="cancel" value={t}Cancel{/t} /></p>
   </form>
 {else}

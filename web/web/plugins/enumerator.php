@@ -56,13 +56,11 @@ class Plugins_Enumerator
     $plugins = $this->getPlugins ("../");
     $allmenus = array ();
     foreach ($plugins as $plugin) {
-      unset ($menus);
+      $menus = array ();
       @include ("$plugin/$menu.php");
-      if (is_array ($menus)) {
-        foreach ($menus as $url => $text) {
-          $url = "../plugins/$plugin/$url";
-          $allmenus [$url] = $text;
-        }
+      foreach ($menus as $url => $text) {
+        $url = "../plugins/$plugin/$url";
+        $allmenus [$url] = $text;
       }
     }
     return $allmenus;
