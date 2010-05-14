@@ -145,7 +145,10 @@ EOD;
     $passage = Database_SQLInjection::no ($this->encodePassage ($book, $chapter, $verse));
     // If the $summary is not given, take the first line of the $contents as the $summary.
     if ($summary == "") {
-      $summary = explode ("\n", $contents);
+      // The wysiwyg editor, jsysiwyg, does not put new lines at each line, but instead <div>s. Handle these also.
+      $summary = str_replace ("<", "\n", $contents);
+      $summary = explode ("\n", $summary);
+      echo Filter_Html::sanitize ($contents); // Todo
       $summary = $summary[0];
     }
     $summary = Database_SQLInjection::no ($summary);
