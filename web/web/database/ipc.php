@@ -66,6 +66,7 @@ EOD;
     $database_instance = Database_Instance::getInstance();
     $query = "SELECT id, channel, command, message FROM ipc WHERE id > $id AND (channel = '$channel' OR channel = '') ORDER BY id DESC;";
     $result = $database_instance->runQuery ($query);
+    $values = NULL;
     if ($result->num_rows > 0) {
       $values = $result->fetch_assoc();
     }

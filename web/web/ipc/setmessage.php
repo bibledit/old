@@ -2,9 +2,9 @@
 
 require_once ("../bootstrap/bootstrap.php");
 
-$channel = $_GET['channel'];
+@$channel = $_GET['channel'];
 
-$subject = $_GET['subject'];
+@$subject = $_GET['subject'];
 if ($subject == "") die;
 
 $message = $_GET['message'];

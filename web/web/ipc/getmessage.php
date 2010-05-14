@@ -8,6 +8,7 @@ if (!isset ($id)) $id = 0;
 
 $database_ipc = Database_Ipc::getInstance();
 
+@$values = "";
 while (!is_array ($values)) {
   sleep (1);
   $values = $database_ipc->retrieveMessage ($id, $channel);

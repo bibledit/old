@@ -5,12 +5,15 @@ page_access_level (MANAGER_LEVEL);
 
 $database_logs = Database_Logs::getInstance();
 
-if ($_GET['delete'] != "") {
+@$delete = $_GET['delete'];
+if ($delete != "") {
   $database_logs->clear();
 }
 
 $smarty = new Smarty_Bibledit (__FILE__);
 $entries = $database_logs->get ();
+$timestamps = array ();
+$events = array ();
 while ($row = $entries->fetch_assoc()) {
   $time          = date ('j F Y, g:i:s a', $row["timestamp"]);
   $timestamps [] = $time;

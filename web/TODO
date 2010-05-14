@@ -8,10 +8,11 @@ The summary take the whole contents. See how we can cut that short.
 
 
 
-
-
-
-
+Users can be mailed. What also should be possible is that users can also see on their screens, 
+when logged in, what changes there have been since last check. There will be an accumulating 
+log of changes, and each log entry can be cleared. Else there are too many emails coming through.
+So there will be two types of subscriptions: by email, and on the site as a collection of items.
+The database should accomodate that, then.
 
 
 
