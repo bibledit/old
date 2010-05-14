@@ -454,6 +454,9 @@ class Notes_Editor
       if ($lastnote == 0) $smarty->assign ("firstnote", 0);
       // Note data.
       $smarty->assign ("identifiers", $identifiers);
+      $summaries = array ();
+      $verse_texts = array ();
+      $contents = array ();
       foreach ($identifiers as $identifier) {
         // Show summary.
         $summary = $database_notes->getSummary ($identifier);
