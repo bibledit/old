@@ -1,8 +1,4 @@
-Editor:
-
-The summary take the whole contents. See how we can cut that short. 
-To cut on either \n or any first tag after, say, 10 characters.
-We should remove all tags also.
+Once the user unassigns himself, this actions should not assign him again!
 
 
 
@@ -10,11 +6,19 @@ We should remove all tags also.
 
 
 
-Users can be mailed. What also should be possible is that users can also see on their screens, 
-when logged in, what changes there have been since last check. There will be an accumulating 
-log of changes, and each log entry can be cleared. Else there are too many emails coming through.
-So there will be two types of subscriptions: by email, and on the site as a collection of items.
-The database should accomodate that, then.
+
+
+
+
+
+
+Include backup of mysql into normal backup routines.
+It should go as emailing it to localhost, then it is kept as email in Evolution.
+It could be emailed every day. This should be an option set by the administrator, e.g. every two days, or every week.
+
+
+
+
 
 
 
@@ -342,8 +346,8 @@ access from cell phones.
 
 
 
-People with an account can subscribe to changes in the text, and to changes in the project notes. This is done in their account, under their
-email preferences.
+People with an account can subscribe to changes in the text, and to changes in the project notes. 
+This is done in their account, under their email preferences.
 
 
 

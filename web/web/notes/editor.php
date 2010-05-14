@@ -121,7 +121,7 @@ class Notes_Editor
         } else {
           $database_notes->addComment ($consultationnote, $comment);
           $notes_logic = Notes_Logic::getInstance();
-          $notes_logic->handlerCommentNote ($consultationnote);
+          $notes_logic->handlerAddComment ($consultationnote);
         }
       }
     }

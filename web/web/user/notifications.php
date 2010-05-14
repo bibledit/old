@@ -18,6 +18,12 @@ if (isset ($_GET['anynotessubscriptiontoggle'])) {
 $any_notes_subscription = $database_config_user->getNotifyMeOfAnyConsultationNotesEdits();
 $smarty->assign ("any_notes_subscription", $any_notes_subscription);
 
+if (isset ($_GET['notesassignmenttoggle'])) {
+  $database_config_user->setGetAssignedToConsultationNotesChanges(!$database_config_user->getGetAssignedToConsultationNotesChanges());
+}
+$notes_assignment = $database_config_user->getGetAssignedToConsultationNotesChanges();
+$smarty->assign ("notes_assignment", $notes_assignment);
+
 $smarty->display("notifications.tpl");
 Assets_Page::footer ();
 ?>

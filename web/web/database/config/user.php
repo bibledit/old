@@ -170,6 +170,16 @@ EOD;
     $this->setValue ("", "notify-me-of-any-consultation-notes-edits", $value);
   }   
 
+  public function getGetAssignedToConsultationNotesChanges() {
+    return $this->getValue ("", "get-assigned-to-consultation-notes-changes", false);
+  }
+  public function getGetUserAssignedToConsultationNotesChanges($username) {
+    return $this->getValueForUser ($username, "get-assigned-to-consultation-notes-changes", false);
+  }
+  public function setGetAssignedToConsultationNotesChanges ($value) {
+    $this->setValue ("", "get-assigned-to-consultation-notes-changes", $value);
+  }   
+
   // 0: current verse; 1: current chapter; 2: current book; 3: any passage.
   public function getConsultationNotesPassageSelector() {
     return $this->getValue ("", "consultation-notes-passage-selector", 0);
@@ -232,7 +242,7 @@ EOD;
     $this->setValue ("", "consultation-notes-text-selector", $value);
   }   
 
-  public function getConsultationNotesSearchText() { // Todo
+  public function getConsultationNotesSearchText() {
     return $this->getValue ("", "consultation-notes-search-text", "");
   }
   public function setConsultationNotesSearchText ($value) {

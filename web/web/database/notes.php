@@ -148,7 +148,6 @@ EOD;
       // The wysiwyg editor, jsysiwyg, does not put new lines at each line, but instead <div>s. Handle these also.
       $summary = str_replace ("<", "\n", $contents);
       $summary = explode ("\n", $summary);
-      echo Filter_Html::sanitize ($contents); // Todo
       $summary = $summary[0];
     }
     $summary = Database_SQLInjection::no ($summary);
@@ -157,7 +156,7 @@ EOD;
     if (($contents == "") && ($summary == "")) return;
     $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents')";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 1);
     // Return this new note´s identifier.
     return $identifier;
   }
@@ -172,7 +171,7 @@ EOD;
   * $bible_selector: Optionally constrains the selection, based on the note's Bible.
   * $assignment_selector: Optionally constrains the selection based on a note being assigned to somebody.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit)
   {
     $session_logic = Session_Logic::getInstance ();
     $userlevel = $session_logic->currentLevel ();
@@ -261,7 +260,7 @@ EOD;
     if ($severity_selector != -1) {
       $query .= " AND severity = $severity_selector ";
     }
-    // Consider text contained in notes. // Todo
+    // Consider text contained in notes.
     if ($text_selector == 1) {
       $query .= " AND (MATCH (summary, contents) AGAINST ('$search_text' IN BOOLEAN MODE) OR summary LIKE '%$search_text%' OR CONTENTS LIKE '%$search_text%') ";
     }
@@ -312,8 +311,9 @@ EOD;
   }
   
   
-  public function delete ($identifier)
+  public function delete ($identifier) // Todo
   {
+    $this->noteEditedActions ($identifier, -1);
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $query = "DELETE FROM notes WHERE identifier = $identifier;";
@@ -333,7 +333,7 @@ EOD;
     $contents = Database_SQLInjection::no ($contents);
     $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 0);
   }
   
   
@@ -452,8 +452,8 @@ EOD;
     $identifier = Database_SQLInjection::no ($identifier);
     $assignees = Database_SQLInjection::no ($assignees);
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
-    $this->updateTimestamp ($identifier);
     $server->runQuery ($query);
+    $this->noteEditedActions ($identifier, 0);
   }
 
 
@@ -514,7 +514,7 @@ EOD;
     $assignees = Database_SQLInjection::no ($assignees);
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 0);
   }
 
   
@@ -540,7 +540,7 @@ EOD;
     $bible = Database_SQLInjection::no ($bible);
     $query = "UPDATE notes SET bible = '$bible' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 0);
   }
 
 
@@ -608,7 +608,7 @@ EOD;
     $line = Database_SQLInjection::no ($line);
     $query = "UPDATE notes SET passage = '$line' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 0);
   }
 
 
@@ -708,7 +708,7 @@ EOD;
     $status = Database_SQLInjection::no ($status);
     $query = "UPDATE notes SET status = '$status' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 0);
   }
 
 
@@ -777,7 +777,7 @@ EOD;
     $severity = Database_SQLInjection::no ($severity);
     $query = "UPDATE notes SET severity = $severity WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 0);
   }
 
 
@@ -822,7 +822,7 @@ EOD;
     $privacy = Database_SQLInjection::no ($privacy);
     $query = "UPDATE notes SET private = $privacy WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->updateTimestamp ($identifier);
+    $this->noteEditedActions ($identifier, 0);
   }
 
 
@@ -840,11 +840,14 @@ EOD;
 
   
   /**
-  * Updates the 'modified' field of the note identified by $identifier.
+  * Takes actions when a note has been edited.
+  * $identifier - the note.
+  * $action - what action was taken on this note: 1: created; 0: edited; -1: deleted.
   */
-  private function updateTimestamp ($identifier) // Todo
+  private function noteEditedActions ($identifier, $action) // Todo
   {
     $server = Database_Instance::getInstance ();
+    // Update 'modified' field.
     $modified = time();
     $query = "UPDATE notes SET modified = $modified WHERE identifier = $identifier;";
     $server->runQuery ($query);

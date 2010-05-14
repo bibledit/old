@@ -6,14 +6,14 @@ page_access_level (MEMBER_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 $database_mail = Database_Mail::getInstance();
 
-if ($_GET['delete'] != "") {
+if (isset ($_GET['delete'])) {
   $id = $_GET['delete'];
   $database_mail->delete ($id);
   $database_mailer = Database_Mailer::getInstance();
   $database_mailer->delete ($id);
 }
 
-if ($_GET['view'] != "") {
+if (isset ($_GET['view'])) {
   $result  = $database_mail->get ($_GET['view']);
   $row     = $result->fetch_assoc();
   $subject = $row['subject'];
@@ -24,7 +24,7 @@ if ($_GET['view'] != "") {
   $smarty->assign ("body",    Filter_Html::sanitize ($body));
 }
 
-$active_label = $_GET['label'];
+@$active_label = $_GET['label'];
 if ($active_label == "") $active_label = $database_mail->labelInbox ();
 $smarty->assign ("active_label", $active_label);
 
@@ -36,6 +36,11 @@ $label_trash   = $database_mail->labelTrash ();
 $link_trash    = "mail.php?label=$label_trash";
 $smarty->assign ("link_trash", $link_trash);
 
+$ids = array ();
+$timestamps = array ();
+$subjects = array ();
+$deletes = array ();
+$views = array ();
 $mails = $database_mail->getMails ($active_label);
 while ($row = $mails->fetch_assoc()) {
   $id             = $row["id"];

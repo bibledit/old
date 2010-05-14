@@ -40,7 +40,7 @@ class Notes_Logic
     $this->notifierNote ($identifier, gettext ("New note"));
   }
 
-  public function handlerCommentNote ($identifier)
+  public function handlerAddComment ($identifier)
   {
     $this->notifierNote ($identifier, gettext ("Comment added"));
     // If the note' status was Done, and a comment is added, mark it Reopened.
@@ -57,10 +57,11 @@ class Notes_Logic
   }
 
   /**
-  * This notifies subscribers to changes in note with $identifier.
-  * The $label is the prefix to the subject line of the email.
+  * This handles notifications for relevant receivers
+  * $identifier: the note.
+  * $label: prefix to the subject line of the email.
   */
-  private function notifierNote ($identifier, $label)
+  private function notifierNote ($identifier, $label) // Todo
   {
     $database_config_user = Database_Config_User::getInstance ();
     if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
@@ -75,12 +76,16 @@ class Notes_Logic
     // Get the subscribers to this note.
     $subscribers = $database_notes->getSubscribers ($identifier);
 
-    // Also include users who get notified of any change in any note.
+    // Handle notifications for all users.
     $database_users = Database_Users::getInstance();
     $users = $database_users->getUsers ();
     foreach ($users as $user) {
+      // Users who get notified of any change in any note.
       if ($database_config_user->getNotifyUserOfAnyConsultationNotesEdits ($user)) {
         $subscribers [] = $user;
+      }
+      if ($database_config_user->getGetUserAssignedToConsultationNotesChanges ($user)) {
+        $database_notes->assignUser ($identifier, $user);
       }
     }
 
