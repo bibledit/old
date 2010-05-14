@@ -1,6 +1,8 @@
 Editor:
-The control does not get focused when adding comment to note.
-The summary take the whole contents. See how we can cut that short.
+
+The summary take the whole contents. See how we can cut that short. 
+To cut on either \n or any first tag after, say, 10 characters.
+We should remove all tags also.
 
 
 
