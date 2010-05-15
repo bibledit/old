@@ -600,7 +600,7 @@ EOD;
   * Assign the passages to the note $identifier.
   * $passages is an array of an array (book, chapter, verse) passages.
   */
-  public function setPassages ($identifier, $passages) // Todo comment  ; mail out.
+  public function setPassages ($identifier, $passages)
   {
     $server = Database_Instance::getInstance ();
     $line = "";
@@ -714,6 +714,7 @@ EOD;
     $query = "UPDATE notes SET status = '$status' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
+    $this->addComment ($identifier, gettext ("The note's status was updated"));
   }
 
 

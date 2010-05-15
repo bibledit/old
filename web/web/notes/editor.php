@@ -209,7 +209,8 @@ class Notes_Editor
         }
         $dialog_list->run();
       } else {
-         $database_notes->setStatus ($consultationnote, $consultationnotestatus);
+        $database_notes->setStatus ($consultationnote, $consultationnotestatus);
+        $notes_logic->handlerUpdateNote ($consultationnote); // Todo
       }
     }
 
@@ -264,7 +265,7 @@ class Notes_Editor
           }
         }
         $database_notes->setPassages ($consultationnote, $passages);
-        $notes_logic->handlerUpdateNote ($consultationnote); // Todo
+        $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
     
