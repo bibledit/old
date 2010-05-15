@@ -194,7 +194,7 @@ class Notes_Editor
       } else {
         if ($consultationnotebible == "0gen0bible0") $consultationnotebible = "";
         $database_notes->setBible ($consultationnote, $consultationnotebible);
-        $notes_logic->handlerUpdateNote ($consultationnote); // Todo
+        $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
 
@@ -264,6 +264,7 @@ class Notes_Editor
           }
         }
         $database_notes->setPassages ($consultationnote, $passages);
+        $notes_logic->handlerUpdateNote ($consultationnote); // Todo
       }
     }
     

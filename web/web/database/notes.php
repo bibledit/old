@@ -534,7 +534,7 @@ EOD;
   }
 
 
-  public function setBible ($identifier, $bible) // Todo to add comment, etc.
+  public function setBible ($identifier, $bible)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -578,7 +578,7 @@ EOD;
   * Returns an array with the passages that the note identified by $identifier refers to.
   * Each passages is an array (book, chapter, verse).
   */  
-  public function getPassages ($identifier) // Todo
+  public function getPassages ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -613,6 +613,7 @@ EOD;
     $query = "UPDATE notes SET passage = '$line' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
+    $this->addComment ($identifier, gettext ("The note's passages were updated"));
   }
 
 
