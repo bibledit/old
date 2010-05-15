@@ -706,7 +706,7 @@ EOD;
   * Sets the $status of the note identified by $identifier.
   * $status is a string.
   */
-  public function setStatus ($identifier, $status) // Todo comment.
+  public function setStatus ($identifier, $status)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -784,6 +784,7 @@ EOD;
     $query = "UPDATE notes SET severity = $severity WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
+    $this->addComment ($identifier, gettext ("The note's severity was updated"));
   }
 
 
