@@ -1,21 +1,23 @@
-Once this setting is in, then to revisit 'delete' note again.
-
-
-
 All status changes should add logbook entry to note.
 
 
 
-Once the user unassigns himself, this actions should not assign him again!
 
 
 
 
-Aim is to release this first version, whereby the consultation notes are fully baked, and work together
-with a local installation of Bibledit-Gtk. Requirements:
+
+Aim is to release this first version, whereby the consultation notes are a worthy replacement for the 
+project notes in Bibledit-Gtk, and work together with a local installation of Bibledit-Gtk. 
+Requirements:
 - Notes can sync with git repository.
 - Bibledit-Web follows the focus automatically (can be switched off as well)
 - Bibledit-Gtk follows focus as well.
+
+Git operations should go to the manager's logbook, which is the same logbook, but with the level flag set
+so that the appropriate logs are shown. Even deleting logs, the manager can only delete nots of his own level and down,
+not the Administrator's notes.
+
 
 
 

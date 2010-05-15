@@ -435,7 +435,7 @@ EOD;
   /**
   * Assign the note identified by $identifier to $user.
   */
-  public function assignUser ($identifier, $user) // Todo needs to add a comment about the assignment.
+  public function assignUser ($identifier, $user)
   {
     // If the note already is assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
@@ -453,6 +453,7 @@ EOD;
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
+    $this->addComment ($identifier, gettext ("The note was assigned to") . " " . $user);
   }
 
 
@@ -500,7 +501,7 @@ EOD;
   /**
   * Unassigns $user from the note identified by $identifier.
   */
-  public function unassignUser ($identifier, $user) // Todo comment added - very polite.
+  public function unassignUser ($identifier, $user)
   {
     // If the notes is not assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
@@ -514,6 +515,7 @@ EOD;
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
+    $this->addComment ($identifier, gettext ("The note is no longer assigned to") . " " . $user);
   }
 
   

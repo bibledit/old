@@ -51,6 +51,11 @@ class Notes_Logic
     }
   }
 
+  public function handlerUpdateNote ($identifier)
+  {
+    $this->notifierNote ($identifier, gettext ("Note updated"));
+  }
+
   public function handlerDeleteNote ($identifier)
   {
     $this->notifierNote ($identifier, gettext ("Note deleted"));
@@ -61,7 +66,7 @@ class Notes_Logic
   * $identifier: the note.
   * $label: prefix to the subject line of the email.
   */
-  private function notifierNote ($identifier, $label) // Todo
+  private function notifierNote ($identifier, $label)
   {
     $database_config_user = Database_Config_User::getInstance ();
     if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
@@ -98,7 +103,7 @@ class Notes_Logic
       }
     }
 
-    // Ensure the list consists of unique subscribers, so no subscriber is mailed twice about an issue.
+    // Ensure the list consists of unique recipients, so nobody is mailed twice about an issue.
     $subscribers = array_unique ($subscribers);
     // Send mail to all receipients.
     $database_mail = Database_Mail::getInstance();

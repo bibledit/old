@@ -14,13 +14,13 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=527;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=15974;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
-FILE_NAME_2=12823;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
-FILE_NAME_3=4697;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editview.tpl;0
-FILE_NAME_4=8830;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/user.php;0
-FILE_NAME_5=7020;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/bibles.php;0
-FILE_NAME_6=118946;HTML;0;16;0;1;0;/home/teus/shona-grammar-online.html;0
-FILE_NAME_7=1387;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/consultations/notes.php;0
-FILE_NAME_8=1880;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
+current_page=2
+FILE_NAME_0=56;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=18149;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+FILE_NAME_2=6434;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
+FILE_NAME_3=6375;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/user.php;0
+FILE_NAME_4=118946;HTML;0;16;0;1;0;/home/teus/shona-grammar-online.html;0
+FILE_NAME_5=2057;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
+FILE_NAME_6=3112;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/user/account.php;0
+FILE_NAME_7=1621;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/user/notifications.php;0
+FILE_NAME_8=1925;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/user/notifications.tpl;0
