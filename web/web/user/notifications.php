@@ -19,10 +19,16 @@ $any_notes_subscription = $database_config_user->getNotifyMeOfAnyConsultationNot
 $smarty->assign ("any_notes_subscription", $any_notes_subscription);
 
 if (isset ($_GET['notesassignmenttoggle'])) {
-  $database_config_user->setGetAssignedToConsultationNotesChanges(!$database_config_user->getGetAssignedToConsultationNotesChanges());
+  $database_config_user->setAssignedToConsultationNotesChanges(!$database_config_user->getAssignedToConsultationNotesChanges());
 }
-$notes_assignment = $database_config_user->getGetAssignedToConsultationNotesChanges();
+$notes_assignment = $database_config_user->getAssignedToConsultationNotesChanges();
 $smarty->assign ("notes_assignment", $notes_assignment);
+
+if (isset ($_GET['assignednotenotificationtoggle'])) {
+  $database_config_user->setAssignedConsultationNoteNotification(!$database_config_user->getAssignedConsultationNoteNotification());
+}
+$assignment_notification = $database_config_user->getAssignedConsultationNoteNotification();
+$smarty->assign ("assignment_notification", $assignment_notification);
 
 $smarty->display("notifications.tpl");
 Assets_Page::footer ();

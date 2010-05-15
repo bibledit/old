@@ -170,14 +170,24 @@ EOD;
     $this->setValue ("", "notify-me-of-any-consultation-notes-edits", $value);
   }   
 
-  public function getGetAssignedToConsultationNotesChanges() {
+  public function getAssignedToConsultationNotesChanges() {
     return $this->getValue ("", "get-assigned-to-consultation-notes-changes", false);
   }
-  public function getGetUserAssignedToConsultationNotesChanges($username) {
+  public function getUserAssignedToConsultationNotesChanges($username) {
     return $this->getValueForUser ($username, "get-assigned-to-consultation-notes-changes", false);
   }
-  public function setGetAssignedToConsultationNotesChanges ($value) {
+  public function setAssignedToConsultationNotesChanges ($value) {
     $this->setValue ("", "get-assigned-to-consultation-notes-changes", $value);
+  }   
+
+  public function getAssignedConsultationNoteNotification() { // Todo
+    return $this->getValue ("", "assigned-consultation-note-notification", true);
+  }
+  public function getUserAssignedConsultationNoteNotification($username) {
+    return $this->getValueForUser ($username, "assigned-consultation-note-notification", true);
+  }
+  public function setAssignedConsultationNoteNotification ($value) {
+    $this->setValue ("", "assigned-consultation-note-notification", $value);
   }   
 
   // 0: current verse; 1: current chapter; 2: current book; 3: any passage.

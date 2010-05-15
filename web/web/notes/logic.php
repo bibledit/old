@@ -80,19 +80,22 @@ class Notes_Logic
     $database_users = Database_Users::getInstance();
     $users = $database_users->getUsers ();
     foreach ($users as $user) {
-      // Users who get notified of any change in any note.
+      // Users who get notified by email of any change in any note.
       if ($database_config_user->getNotifyUserOfAnyConsultationNotesEdits ($user)) {
         $subscribers [] = $user;
       }
-      if ($database_config_user->getGetUserAssignedToConsultationNotesChanges ($user)) {
+      // Users to whom the note gets assigned on change.
+      if ($database_config_user->getUserAssignedToConsultationNotesChanges ($user)) {
         $database_notes->assignUser ($identifier, $user);
       }
     }
 
-    // Also include assignees to the note.
+    // If assignees wish to receive email about changes, then include them too.
     $assignees = $database_notes->getAssignees ($identifier);
     foreach ($assignees as $assignee) {
-      $subscribers [] = $assignee;
+      if ($database_config_user->getUserAssignedConsultationNoteNotification ($assignee)) {
+        $subscribers [] = $assignee;
+      }
     }
 
     // Ensure the list consists of unique subscribers, so no subscriber is mailed twice about an issue.

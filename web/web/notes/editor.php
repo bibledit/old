@@ -59,6 +59,7 @@ class Notes_Editor
     $database_notes = Database_Notes::getInstance();
     $database_sessions = Database_Sessions::getInstance();
     $database_config_user = Database_Config_User::getInstance();
+    $notes_logic = Notes_Logic::getInstance();
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
     $editconsultationnoteview = $database_sessions->getEditConsultationNoteView ();
@@ -106,7 +107,6 @@ class Notes_Editor
         } else {
           $consultationnote = $database_notes->storeNewNote ($_GET['createnotebible'], $_GET['createnotebook'], $_GET['createnotechapter'], $_GET['createnoteverse'], $summary, $contents, false);
           $database_sessions->setConsultationNote ($consultationnote);
-          $notes_logic = Notes_Logic::getInstance();
           $notes_logic->handlerNewNote ($consultationnote);
         }
       }
@@ -120,7 +120,6 @@ class Notes_Editor
           Assets_Page::error (gettext ("There was nothing to save"));
         } else {
           $database_notes->addComment ($consultationnote, $comment);
-          $notes_logic = Notes_Logic::getInstance();
           $notes_logic->handlerAddComment ($consultationnote);
         }
       }
@@ -129,8 +128,7 @@ class Notes_Editor
     // Delete a note.
     @$deleteconsultationnote = $_GET['deleteconsultationnote'];
     if (isset ($deleteconsultationnote)) {
-      $notes_logic = Notes_Logic::getInstance();
-      $notes_logic->handlerDeleteNote ($deleteconsultationnote);
+      $notes_logic->handlerDeleteNote ($deleteconsultationnote); // Notifications handling.
       $database_notes->delete ($deleteconsultationnote);
       $consultationnote = "";
       $database_sessions->setConsultationNote ($consultationnote);

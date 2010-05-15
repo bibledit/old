@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit-gtk],[4.0.138],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-gtk],[4.0.139],[http://www.nongnu.org/bibledit])
 # AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_SRCDIR([src])

@@ -156,7 +156,7 @@ EOD;
     if (($contents == "") && ($summary == "")) return;
     $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents')";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 1);
+    $this->noteEditedActions ($identifier);
     // Return this new note´s identifier.
     return $identifier;
   }
@@ -311,9 +311,8 @@ EOD;
   }
   
   
-  public function delete ($identifier) // Todo
+  public function delete ($identifier)
   {
-    $this->noteEditedActions ($identifier, -1);
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $query = "DELETE FROM notes WHERE identifier = $identifier;";
@@ -333,7 +332,7 @@ EOD;
     $contents = Database_SQLInjection::no ($contents);
     $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
   
   
@@ -453,7 +452,7 @@ EOD;
     $assignees = Database_SQLInjection::no ($assignees);
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
 
 
@@ -514,7 +513,7 @@ EOD;
     $assignees = Database_SQLInjection::no ($assignees);
     $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
 
   
@@ -540,7 +539,7 @@ EOD;
     $bible = Database_SQLInjection::no ($bible);
     $query = "UPDATE notes SET bible = '$bible' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
 
 
@@ -608,7 +607,7 @@ EOD;
     $line = Database_SQLInjection::no ($line);
     $query = "UPDATE notes SET passage = '$line' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
 
 
@@ -708,7 +707,7 @@ EOD;
     $status = Database_SQLInjection::no ($status);
     $query = "UPDATE notes SET status = '$status' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
 
 
@@ -777,7 +776,7 @@ EOD;
     $severity = Database_SQLInjection::no ($severity);
     $query = "UPDATE notes SET severity = $severity WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
 
 
@@ -822,7 +821,7 @@ EOD;
     $privacy = Database_SQLInjection::no ($privacy);
     $query = "UPDATE notes SET private = $privacy WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier, 0);
+    $this->noteEditedActions ($identifier);
   }
 
 
@@ -842,9 +841,8 @@ EOD;
   /**
   * Takes actions when a note has been edited.
   * $identifier - the note.
-  * $action - what action was taken on this note: 1: created; 0: edited; -1: deleted.
   */
-  private function noteEditedActions ($identifier, $action) // Todo
+  private function noteEditedActions ($identifier)
   {
     $server = Database_Instance::getInstance ();
     // Update 'modified' field.

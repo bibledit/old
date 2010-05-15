@@ -1,13 +1,21 @@
+Once this setting is in, then to revisit 'delete' note again.
+
+
+
+All status changes should add logbook entry to note.
+
+
+
 Once the user unassigns himself, this actions should not assign him again!
 
 
 
 
-
-
-
-
-
+Aim is to release this first version, whereby the consultation notes are fully baked, and work together
+with a local installation of Bibledit-Gtk. Requirements:
+- Notes can sync with git repository.
+- Bibledit-Web follows the focus automatically (can be switched off as well)
+- Bibledit-Gtk follows focus as well.
 
 
 
