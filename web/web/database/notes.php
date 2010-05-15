@@ -542,6 +542,9 @@ EOD;
     $query = "UPDATE notes SET bible = '$bible' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
+    // Add a comment for the change of Bible.
+    if ($bible == "") $bible = gettext ("none");
+    $this->addComment ($identifier, gettext ("The note's Bible was changed to:") . " " . $bible);
   }
 
 
