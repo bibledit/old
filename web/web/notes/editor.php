@@ -226,7 +226,7 @@ class Notes_Editor
         $dialog_list->run();
       } else {
         $database_notes->setSeverity ($consultationnote, $consultationnoteseverity);
-        $notes_logic->handlerUpdateNote ($consultationnote); // Todo
+        $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
 
@@ -243,6 +243,7 @@ class Notes_Editor
         $dialog_list->run();
       } else {
         $database_notes->setPrivacy ($consultationnote, $consultationnoteprivacy);
+        $notes_logic->handlerUpdateNote ($consultationnote); // Todo
       }
     }
 

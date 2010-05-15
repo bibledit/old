@@ -776,7 +776,7 @@ EOD;
   * Sets the $severity of the note identified by $identifier.
   * $severity is a  number.
   */
-  public function setSeverity ($identifier, $severity) // Todo mail out/ comment.
+  public function setSeverity ($identifier, $severity)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -830,6 +830,7 @@ EOD;
     $query = "UPDATE notes SET private = $privacy WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
+    $this->addComment ($identifier, gettext ("The note's privacy was updated"));
   }
 
 
