@@ -822,7 +822,7 @@ EOD;
   * Sets the $privacy of the note identified by $identifier.
   * $privacy is a number.
   */
-  public function setPrivacy ($identifier, $privacy) // Todo comment / mail.
+  public function setPrivacy ($identifier, $privacy)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);

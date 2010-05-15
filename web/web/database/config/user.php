@@ -180,7 +180,7 @@ EOD;
     $this->setValue ("", "get-assigned-to-consultation-notes-changes", $value);
   }   
 
-  public function getAssignedConsultationNoteNotification() { // Todo
+  public function getAssignedConsultationNoteNotification() {
     return $this->getValue ("", "assigned-consultation-note-notification", true);
   }
   public function getUserAssignedConsultationNoteNotification($username) {

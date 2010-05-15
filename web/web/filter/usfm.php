@@ -209,7 +209,7 @@ class Filter_Usfm
   /**
   * returns an array with the verse numbers found in $usfm.
   */
-  public function getVerseNumbers ($usfm) // Todo
+  public function getVerseNumbers ($usfm)
   {
     $verse_numbers = array (0);
     $markers_and_text = Filter_Usfm::getMarkersAndText ($usfm);
