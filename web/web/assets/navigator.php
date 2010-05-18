@@ -215,8 +215,8 @@ class Assets_Navigator
     $previous_book = "";
     $next_book = "";
     if ($key !== false) {
-      $previous_book = $books [$key - 1];
-      $next_book = $books [$key + 1];
+      @$previous_book = $books [$key - 1];
+      @$next_book = $books [$key + 1];
     }
     $smarty->assign ("previous_book", $previous_book);
     $smarty->assign ("next_book", $next_book);
@@ -241,8 +241,8 @@ class Assets_Navigator
     $previous_verse = "";
     $next_verse = "";
     if ($key !== false) {
-      $previous_verse = $verses [$key - 1];
-      $next_verse = $verses [$key + 1];
+      @$previous_verse = $verses [$key - 1];
+      @$next_verse = $verses [$key + 1];
     }
     $smarty->assign ("previous_verse", $previous_verse);
     $smarty->assign ("next_verse", $next_verse);

@@ -55,6 +55,9 @@ $this->song_of_solomon_2_data = <<<EOD
 \\v 16 Isithandwa sami ngesami, lami ngingowaso\\x + 6.3. 7.10.\\x*, eselusa phakathi kwemiduze\\x + 2.1. 4.5. 6.3.\\x*.
 \\v 17 Kuze kube semadabukakusa, lamathunzi abaleke\\x + 4.6.\\x*, phenduka, sithandwa sami, ube njengomziki kumbe njengethole lendluzele\\x + 8.14. 2.9.\\x* phezu kwezintaba zeBhetheri\\x + 2 Sam. 2.29.\\x*.
 EOD;
+    $_SERVER['HTTP_USER_AGENT'] = "PHPUnit";
+    $_SERVER['REMOTE_ADDR'] = "127.0.0.1";
+    $_SESSION['user'] = "PHPUnit";
   }
   
 
@@ -68,10 +71,10 @@ EOD;
   }
 
   /**
-  * This tests round-tripping git data in the file system,
+  * This tests round-tripping git Bible data in the file system,
   * being transferred to the database, then back to the filesystem.
   */
-  public function testfiledata2database2filedata()
+  public function testFiledata2database2filedata()
   {
     // Working directory.
     $directory = tempnam (sys_get_temp_dir(), '');
@@ -97,7 +100,7 @@ EOD;
     $database_bibles->storeChapter ($bible, 5, 6, $this->song_of_solomon_2_data);
 
     // Call the filter.
-    Filter_Git::filedata2database ($directory, $bible);
+    Filter_Git::bibleFiledata2database ($directory, $bible);
 
     $database_bibles = Database_Bibles::getInstance();
     
@@ -123,7 +126,7 @@ EOD;
     mkdir ($newdirectory);
 
     // Call the filter.
-    Filter_Git::database2filedata ($bible, $newdirectory);
+    Filter_Git::bibleDatabase2filedata ($bible, $newdirectory);
 
     // Compare new directory with the standard one.
     system ("diff -r $newdirectory $directory", &$exit_code);
@@ -138,7 +141,7 @@ EOD;
   * This tests round-tripping a git repository in the file system,
   * being transferred to the database, then back to the filesystem.
   */
-  public function testrepository2database2repository()
+  public function testRepository2database2repository()
   {
     // Working directory.
     $directory = tempnam (sys_get_temp_dir(), '');
@@ -190,6 +193,93 @@ EOD;
     $database_repositories = Database_Repositories::getInstance();
     $database_repositories->deleteRepository ($bible);
   }
+
+
+  /**
+  * This tests round-tripping consultation notes to the file system.
+  * The notes are in the database, get copied to the file system, 
+  * then back into the database.
+  */
+  public function testNotesDatabaseToFileToDatabase()
+  {
+    $database_notes = Database_Notes::getInstance ();
+    $this->initialize_data ();
+    
+    // Working directory.
+    $directory = tempnam (sys_get_temp_dir(), '');
+    unlink ($directory);
+    mkdir ($directory);
+    echo "\n$directory\n";
+
+    // Create a few known notes to be used as testing data.
+    $identifier1 = $database_notes->storeNewNote ("PHPUnit", 1, 2, 3, "PHPUnit1", "PHPUnit2", false);
+    $identifier2 = $database_notes->storeNewNote ("PHPUnit", 4, 5, 6, "PHPUnit3", "PHPUnit4", false);
+    $identifier3 = $database_notes->storeNewNote ("PHPUnit", 7, 8, 9, "PHPUnit5", "PHPUnit6", false);
+    $database_notes->assignUser ($identifier2, "user1");
+    $database_notes->assignUser ($identifier2, "user2");
+    $database_notes->assignUser ($identifier2, "user3");
+    $database_notes->subscribeUser ($identifier1, "subscriber1");
+    $database_notes->subscribeUser ($identifier1, "subscriber2");
+    $database_notes->setPrivacy ($identifier3, 5);
+    
+    // Transfer these notes (and other ones that may be in the database) to the file system.
+    Filter_Git::notesDatabase2filedata ($directory);
+
+
+    /*
+
+    
+
+
+    // Create a temporal Bible in the database and store some data in it.
+    // Filter_Git is supposed to erase this data if it is not in the filesystem.
+    $database_bibles = Database_Bibles::getInstance();
+    $bible = "PHPUnit";
+    $database_bibles->createBible ($bible);
+    $database_bibles->storeChapter ($bible, 2, 1, $this->song_of_solomon_2_data);
+    $database_bibles->storeChapter ($bible, 3, 4, $this->song_of_solomon_2_data);
+    $database_bibles->storeChapter ($bible, 5, 6, $this->song_of_solomon_2_data);
+
+    // Call the filter.
+    Filter_Git::bibleFiledata2database ($directory, $bible);
+
+    $database_bibles = Database_Bibles::getInstance();
+    
+    // Assert database has certain books.
+    $books = $database_bibles->getBooks ($bible);
+    $this->assertEquals(array(19, 22), $books);
+    
+    // Assert Psalms has certain chapters.
+    $chapters = $database_bibles->getChapters ($bible, 19);
+    $this->assertEquals(array(0, 11), $chapters);
+
+    // Assert Song of Solomon has a certain chapter.
+    $chapters = $database_bibles->getChapters ($bible, 22);
+    $this->assertEquals(array(2), $chapters);
+
+    // Assert data in Psalm 11.
+    $data = $database_bibles->getChapter ($bible, 19, 11);
+    $this->assertEquals($this->psalms_11_data, $data);
+
+    // New working directory.
+    $newdirectory = tempnam (sys_get_temp_dir(), '');
+    unlink ($newdirectory);
+    mkdir ($newdirectory);
+
+    // Call the filter.
+    Filter_Git::bibleDatabase2filedata ($bible, $newdirectory);
+
+    // Compare new directory with the standard one.
+    system ("diff -r $newdirectory $directory", &$exit_code);
+    $this->assertEquals(0, $exit_code);
+    
+    */
+    // Tear down.
+    $database_notes->delete ($identifier1);
+    $database_notes->delete ($identifier2);
+  }
+
+
 
 
 }

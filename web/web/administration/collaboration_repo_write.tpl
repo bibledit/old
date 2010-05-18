@@ -11,11 +11,15 @@
   <h1>{t}Write to repository{/t}</h1>
   {if $error_message4 == ""}
     {if $error_message6 == ""}
-      <h2><a href="collaboration_repo_data.php?bible={$bible}&directory={$directory}">{t}Next page{/t}</a></h2>
+      <h2><a href="collaboration_repo_data.php?object={$object}&directory={$directory}">{t}Next page{/t}</a></h2>
     {/if}
   {/if}
 
-  <p>{t}Bible{/t}: {$bible}</p>
+  {if $object == "consultationnotes"}
+  <p>{t}Consultation Notes{/t}</p>
+  {else}
+  <p>{t}Bible{/t}: {$object}</p>
+  {/if}
   <p>{t}Repository URL{/t}: {$url}</p>
 
   <p>{t}A temporal file was added to the cloned repository:{/t} <code>{$command1}</code></p>
@@ -62,7 +66,7 @@
 
   {if $error_message4 == ""}
     {if $error_message6 == ""}
-      <h2><a href="collaboration_repo_data.php?bible={$bible}&directory={$directory}">{t}Next page{/t}</a></h2>
+      <h2><a href="collaboration_repo_data.php?object={$object}&directory={$directory}">{t}Next page{/t}</a></h2>
     {/if}
   {/if}
 

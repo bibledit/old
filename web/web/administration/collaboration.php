@@ -4,11 +4,11 @@ page_access_level (ADMIN_LEVEL);
 
 $smarty = new Smarty_Bibledit (__FILE__);
 
-$bible = $_GET ['bible'];
-$select = $_GET['select'];
+@$object = $_GET ['object'];
+@$select = $_GET['select'];
 if (isset ($select)) {
   if ($select == "") {
-    $dialog_list = new Dialog_List (array ("bible"), gettext ("Which Bible are you going to use?"), "", "");
+    $dialog_list = new Dialog_List (array ("object"), gettext ("Which Bible are you going to use?"), "", "");
     $database_bibles = Database_Bibles::getInstance();
     $bibles = $database_bibles->getBibles();
     foreach ($bibles as $value) {
@@ -17,20 +17,20 @@ if (isset ($select)) {
     $dialog_list->run ();
     die;
   } else {
-    $bible = $select;
+    $object = $select;
   }
 }
-$smarty->assign ("bible", $bible);
+$smarty->assign ("object", $object);
 
 $database_config_user = Database_Config_User::getInstance();
-$url = $database_config_user->getRemoteRepositoryUrl ($bible);
+$url = $database_config_user->getRemoteRepositoryUrl ($object);
 if (isset ($_GET ['disable'])) {
   $url = "";
-  $database_config_user->setRemoteRepositoryUrl ($bible, $url);
+  $database_config_user->setRemoteRepositoryUrl ($object, $url);
   $database_repositories = Database_Repositories::getInstance();
-  $database_repositories->deleteRepository ($bible);
+  $database_repositories->deleteRepository ($object);
 }
-$url = $database_config_user->getRemoteRepositoryUrl ($bible);
+$url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
 $smarty->display("collaboration.tpl");

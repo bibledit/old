@@ -8,12 +8,16 @@
   </head>
   <body>
   {include file=../assets/header_full.tpl} 
-  <h1>{t}Take Bible in repository{/t}</h1>
-  <p>{t}Bible{/t}: {$bible}</p>
+  <h1>{t}Take Bible in repository{/t}</h1> {* Todo *}
+  {if $object == "consultationnotes"}
+  <p>{t}Consultation Notes{/t}</p>
+  {else}
+  <p>{t}Bible{/t}: {$object}</p>
+  {/if}
   <p>{t}Repository URL{/t}: {$url}</p>
-  <p>{t}The Bible in the remote repository was copied over into Bibledit-Web's Bible, overwriting the Bible that was there before.{/t}</p>
+  <p>{t}The data in the remote repository was copied over into Bibledit-Web's data, overwriting the data that was there before.{/t}</p>
   <p>{t}Setting up collaboration is now ready.{/t}</p>
-  <p>{t}The Translator can now choose menu Send/Receive any time he wants to synchronize the Bible with the remote repository.{/t}</p>
+  <p>{t}The Translator can now choose menu Send/Receive any time he wants to synchronize the Bible and the Consultation Notes with the remote repository.{/t}</p>
   {include file=../assets/footer_full.tpl} 
   </body>
 </html>

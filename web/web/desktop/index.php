@@ -24,7 +24,7 @@
 require_once ("../bootstrap/bootstrap.php");
 $database_sessions = Database_Sessions::getInstance ();
 $database_sessions->getCurrentSessionId ();
-$desktop = $_GET ['desktop'];
+@$desktop = $_GET ['desktop'];
 if (isset ($desktop)) {
   $database_sessions->setDesktop ($desktop);
 } else {

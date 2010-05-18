@@ -412,7 +412,7 @@ class Notes_Editor
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       $smarty->assign ("passageselector", $passage_selector);
@@ -438,7 +438,7 @@ class Notes_Editor
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -453,7 +453,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit);
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit, 0);
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);

@@ -1,19 +1,30 @@
+Notes can sync with git repository.
 
-
+Filter_Git - To update all these methods.
+In particular the writing to the Bible / Notes, no longer overwrite what was in the database, 
+as this causes extra operations not necessary, but compare the chapter / note with the database,
+and only overwrite when there is a difference.
+It calls one internal routine for writing dealing with Bibles, and another method for dealing with Notes,
+since these are quite different.
+PHPUnit test all changes, and all new code.
 
 
 
 Aim is to release this first version, whereby the consultation notes are a worthy replacement for the 
 project notes in Bibledit-Gtk, and work together with a local installation of Bibledit-Gtk. 
 Requirements:
-- Notes can sync with git repository.
-- Bibledit-Web follows the focus automatically (can be switched off as well)
+- Bibledit-Web follows the focus upon clicking a link, not automatically.
 - Bibledit-Gtk follows focus as well.
 
 Git operations should go to the manager's logbook, which is the same logbook, but with the level flag set
-so that the appropriate logs are shown. Even deleting logs, the manager can only delete nots of his own level and down,
+so that the appropriate logs are shown. Even deleting logs, the manager can only delete notes of his own level and down,
 not the Administrator's notes.
+The git operations may run independently from PHP, it probably needs php-cli for that to work well.
+In particular synchronizing notes may take much time, though we can check on that, so that it needs to run independently
+from the apache server.
 
+If upon git sync the server on the internet notices that the note got changed,
+it needs to check whether there are any automatic subscription notifications for that, or automatic assignments, and act on that.
 
 
 
@@ -23,6 +34,10 @@ It should go as emailing it to localhost, then it is kept as email in Evolution.
 It could be emailed every day. This should be an option set by the administrator, e.g. every two days, or every week.
 
 
+
+
+When uploading notes, and the file is too big, the user should be given an opportunity to change the path to 
+the uploaded file, so this will enable huge files to be imported.
 
 
 
@@ -546,3 +561,7 @@ It is supposed to give an error, and then proceed.
 
 The passages that are included with the note titles should be clickable so that if clicked,
 the passages are loaded in the passages window.
+
+
+
+

@@ -13,8 +13,12 @@
   {include file=../assets/install_ssh.tpl} 
 
   <h1>{t}Secure network repository setup{/t}</h1>
-  <h2><a href="collaboration_repo_init.php?bible={$bible}">{t}Next page{/t}</a></h2>
-  <p>{t}Bible{/t}: {$bible}</p>
+  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
+  {if $object == "consultationnotes"}
+  <p>{t}Consultation Notes{/t}</p>
+  {else}
+  <p>{t}Bible{/t}: {$object}</p>
+  {/if}
   <p>{t}In this tutorial you are going to set up an secure repository on the network.{/t}</p>
   <p>{t}The tutorial uses a git repository on sourceforge.net.{/t}</p>
   <p>{t}Open an account on http://sourceforge.net. We will use the username "joe" in this tutorial.{/t}</p>
@@ -30,7 +34,7 @@
   <code>ssh://joe@repo.git.sourceforge.net/gitroot/repo/repo</code>
   <p>{t}Where it says "joe", you would need to fill in the username that can access the account on sourceforge.net. And where it has "repo" you would need to fill in the name of the project that you created on sourceforge.net.{/t}</p>
  <p>{t}Your own repository that you have created has a URL too, the one that will be used from now on. Please enter it below, and press the Submit button to save it.{/t}</p>
-  <form action="collaboration_secure_network_setup.php?bible={$bible}#url" name="url" method="post">
+  <form action="collaboration_secure_network_setup.php?object={$object}#url" name="url" method="post">
     <p><input type="text" name="urlvalue" value="{$url}" /></p>
     <p><input type="submit" name="url" value={t}Submit{/t} /></p>
   </form>
@@ -41,7 +45,7 @@
  
   <h3>{t}Generating the keys{/t}</h3>
   <p>{t}Here are the keys that can be used. Bibledit has generated or kept them for you.{/t}</p>
-  <form action="collaboration_secure_network_setup.php?bible={$bible}#keys" name="keys" method="post">
+  <form action="collaboration_secure_network_setup.php?object={$object}#keys" name="keys" method="post">
     <table class="fullwidth">
       <tr>
         <td>{t}Private key{/t}</td>
@@ -61,7 +65,7 @@
   <p>{t}On your personal account page at sourceforge.net, choose Services, then choose "Edit SSH Keys for Shell/CVS". Select all the text of the public key, see above, and copy it to the clipboard. Be sure it is the public key, not the private one. In the screen titled "SSH Keys", there is a place where it says "Authorized keys:". Paste the text of the public key into that space on the web page. After checking that everything looks fine, press button "Update". Make sure to enter only the public key, not the private key. Synchronizing the keys into the system has a 10 minute delay.{/t}</p>
   <p>{t}After the delay of 10 minutes has expired you can continue to the next page.{/t}</p>
 
-  <h2><a href="collaboration_repo_init.php?bible={$bible}">{t}Next page{/t}</a></h2>
+  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
 
   {include file=../assets/footer_full.tpl} 
   </body>

@@ -170,11 +170,16 @@ EOD;
   * $status_selector: Optionally constrains selection based on note status.
   * $bible_selector: Optionally constrains the selection, based on the note's Bible.
   * $assignment_selector: Optionally constrains the selection based on a note being assigned to somebody.
+  * $subscription_selector: Optionally limits the selection based on a note's subscription.
+  * $severity_selector: Optionally limits the selection, based on a note's severity.
+  * $text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
+  * $search_text: Works with $text_selector, contains the text to search for.
+  * $userlevel: if 0, it takes the user's level from the current user, else it takes the level passed in the variable $userlevel itself.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit)
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel) // Todo use this; also make a selector that it does select any notes, even those above the level of the user.
   {
     $session_logic = Session_Logic::getInstance ();
-    $userlevel = $session_logic->currentLevel ();
+    if ($userlevel == 0)  $userlevel = $session_logic->currentLevel ();
     $username = $session_logic->currentUser ();
     $identifiers = array ();
     $server = Database_Instance::getInstance ();
@@ -553,13 +558,13 @@ EOD;
   * Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
   * and returns this as a string.
   */  
-  private function encodePassage ($book, $chapter, $verse)
+  public function encodePassage ($book, $chapter, $verse)
   {
     // Space before and after the passage enables notes selection on passage.
     // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
     $passage = " $book.";
     if ($chapter != "") $passage .= "$chapter.";
-    if ($verse != "") $passage .= "$verse";
+    if ($verse != "") $passage .= "$verse ";
     return $passage;
   }
   
@@ -847,6 +852,30 @@ EOD;
   }
 
   
+  public function getModified ($identifier)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT modified FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      return $row[0];
+    }
+    return 0;
+  }
+
+
+  public function setModified ($identifier, $time) // Todo use for PHPTesting and Git methods so it sets the time right.
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $privacy = Database_SQLInjection::no ($privacy);
+    $query = "UPDATE notes SET modified = $time WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+  
+
   /**
   * Takes actions when a note has been edited.
   * $identifier - the note.
@@ -859,6 +888,9 @@ EOD;
     $query = "UPDATE notes SET modified = $modified WHERE identifier = $identifier;";
     $server->runQuery ($query);
   }
+
+
+
 
   
 

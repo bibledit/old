@@ -11,7 +11,7 @@ class Filter_Git
   * The $directory is where the file data resides.
   * It overwrites whatever data was in the $bible in the database.
   */
-  public function filedata2database ($directory, $bible)
+  public function bibleFiledata2database ($directory, $bible)
   {
     // Maintain a list of chapters that were stored.
     $stored_chapters = array ();
@@ -69,7 +69,7 @@ class Filter_Git
   * The $directory is supposed to be completely empty, 
   * apart from a .git directory which may be there.
   */
-  public function database2filedata ($bible, $directory)
+  public function bibleDatabase2filedata ($bible, $directory)
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
@@ -88,9 +88,63 @@ class Filter_Git
 
 
   /**
+  * This filter takes the Consultations Notes as these are stored in Bibledit-Web's database, 
+  * and transfers this information to the file system,
+  * each notes having a file.
+  * The $directory is supposed to be completely empty, 
+  * apart from a .git directory which may be there.
+  */
+  public function notesDatabase2filedata ($directory) // Todo
+  {
+    $database_notes = Database_Notes::getInstance ();
+    // Select all notes identifiers. Proper values should be passed to the selection routine, so it gives all notes.
+    // E.g. a sufficiently high $userlevel is given, so all notes are included.
+    $identifiers = $database_notes->selectNotes ('', 0, 0, 0, 3, 0, '', 0, 0, 0, -1, 0, '', NULL, 10); // Todo
+    foreach ($identifiers as $identifier) {
+      // The notes $identifier becomes the filename.
+      $filename = "$directory/$identifier";
+      // Assemble the file's data.
+      $data = array ();
+      $data [] = "Modified:";
+      $data [] = $database_notes->getModified ($identifier);
+      $data [] = "Assignees:";
+      $assignees = $database_notes->getAssignees ($identifier);
+      foreach ($assignees as $assignee) {
+        $data [] = $assignee;
+      }
+      $data [] = "Subscribers:";
+      $subscribers = $database_notes->getSubscribers ($identifier);
+      foreach ($subscribers as $subscriber) {
+        $data [] = $subscriber;
+      }
+      $data [] = "Bible:";
+      $data [] = $database_notes->getBible ($identifier);
+      $data [] = "Passages:";
+      $passages = $database_notes->getPassages ($identifier);
+      foreach ($passages as $passage) {
+        $data [] = trim ($database_notes->encodePassage ($passage[0], $passage[1], $passage[2]));
+      }
+      $data [] = "Status:";
+      $data [] = $database_notes->getStatus ($identifier);
+      $data [] = "Severity:";
+      $data [] = $database_notes->getSeverity ($identifier);
+      $data [] = "Privacy:";
+      $data [] = $database_notes->getPrivacy ($identifier);
+      $data [] = "Summary:";
+      $data [] = $database_notes->getSummary ($identifier);
+      $data [] = "Contents:";
+      $data [] = $database_notes->getContents ($identifier);
+      // Save the data to file.
+      file_put_contents ($filename, implode ("\n", $data));
+    }
+  }
+
+
+  /**
   * This filter takes a git repository as it is stored in .git
   * in $directory, and transfers this information into Bibledit-Web's
   * Repository database under name $bible.
+  * It also works with consultation notes.
   */
   public function repository2database ($directory, $bible)
   {
@@ -109,6 +163,7 @@ class Filter_Git
   * and puts it in a .git directory in $directory.
   * There should not be an existing .git directory in $directory,
   * but other relevant data may be there.
+  * It also works with consultation notes.
   */
   public function database2repository ($bible, $directory)
   {

@@ -10,10 +10,14 @@
   {include file=../assets/header_full.tpl} 
   <h1>{t}Clone repository{/t}</h1>
   {if $success_message != ""}
-    <h2><a href="collaboration_repo_write.php?bible={$bible}&directory={$directory}">{t}Next page{/t}</a></h2>
+    <h2><a href="collaboration_repo_write.php?object={$object}&directory={$directory}">{t}Next page{/t}</a></h2>
   {/if}
 
-  <p>{t}Bible{/t}: {$bible}</p>
+  {if $object == "consultationnotes"}
+  <p>{t}Consultation Notes{/t}</p>
+  {else}
+  <p>{t}Bible{/t}: {$object}</p>
+  {/if}
   <p>{t}Repository URL{/t}: {$url}</p>
     
   <p>{t}Bibledit-Web attempts to clone the remote repository. The progress of this, and its results, are displayed below.{/t}</p>  
@@ -33,7 +37,7 @@
   <p>{t}The cloned git repository was optimized for your use.{/t}</p>  
 
   {if $success_message != ""}
-    <h2><a href="collaboration_repo_write.php?bible={$bible}&directory={$directory}">{t}Next page{/t}</a></h2>
+    <h2><a href="collaboration_repo_write.php?object={$object}&directory={$directory}">{t}Next page{/t}</a></h2>
   {/if}
 
   {include file=../assets/footer_full.tpl} 

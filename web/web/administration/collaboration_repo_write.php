@@ -3,11 +3,11 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 
-$bible = $_GET ['bible'];
-$smarty->assign ("bible", $bible);
+$object = $_GET ['object'];
+$smarty->assign ("object", $object);
 
 $database_config_user = Database_Config_User::getInstance();
-$url = $database_config_user->getRemoteRepositoryUrl ($bible);
+$url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
 // In case the repository is secure, set up the secure keys.
@@ -30,8 +30,8 @@ if ($exit_code == 0) {
 } else {
   $error_message1 = gettext ("Local addition failed.");
 }
-$smarty->assign ("success_message1", $success_message1);
-$smarty->assign ("error_message1", $error_message1);
+@$smarty->assign ("success_message1", $success_message1);
+@$smarty->assign ("error_message1", $error_message1);
 
 // Commit the above locally.
 $command2 = "cd $directory; git commit -a -m write-test 2>&1";
@@ -44,8 +44,8 @@ if (($exit_code == 0) || ($exit_code == 1)) {
 } else {
   $error_message2 = gettext ("Local commit failed.");
 }
-$smarty->assign ("success_message2", $success_message2);
-$smarty->assign ("error_message2", $error_message2);
+@$smarty->assign ("success_message2", $success_message2);
+@$smarty->assign ("error_message2", $error_message2);
 
 // Pull changes.
 $command3 = "cd $directory; git pull 2>&1";
@@ -57,8 +57,8 @@ if ($exit_code == 0) {
 } else {
   $error_message3 = gettext ("Pulling changes from the repository failed.");
 }
-$smarty->assign ("success_message3", $success_message3);
-$smarty->assign ("error_message3", $error_message3);
+@$smarty->assign ("success_message3", $success_message3);
+@$smarty->assign ("error_message3", $error_message3);
 
 // Push the changes to see if there is write access.
 $command4 = "cd $directory; git push 2>&1";
@@ -70,8 +70,8 @@ if ($exit_code == 0) {
 } else {
   $error_message4 = gettext ("Pushing changes to the repository failed.");
 }
-$smarty->assign ("success_message4", $success_message4);
-$smarty->assign ("error_message4", $error_message4);
+@$smarty->assign ("success_message4", $success_message4);
+@$smarty->assign ("error_message4", $error_message4);
 
 // Remove the temporal file from the cloned repository.
 unlink ($temporal_file_name);
@@ -84,8 +84,8 @@ if ($exit_code == 0) {
 } else {
   $error_message5 = gettext ("Committing changes to the repository failed.");
 }
-$smarty->assign ("success_message5", $success_message5);
-$smarty->assign ("error_message5", $error_message5);
+@$smarty->assign ("success_message5", $success_message5);
+@$smarty->assign ("error_message5", $error_message5);
 
 // Push changes to the remote repository.
 $command6 = "cd $directory; git push 2>&1";
@@ -97,8 +97,8 @@ if ($exit_code == 0) {
 } else {
   $error_message6 = gettext ("Pushing changes to the remote repository failed.");
 }
-$smarty->assign ("success_message6", $success_message6);
-$smarty->assign ("error_message6", $error_message6);
+@$smarty->assign ("success_message6", $success_message6);
+@$smarty->assign ("error_message6", $error_message6);
 
 $smarty->display("collaboration_repo_write.tpl");
 

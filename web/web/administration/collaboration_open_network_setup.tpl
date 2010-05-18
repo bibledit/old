@@ -12,8 +12,8 @@
   {include file=../assets/install_git.tpl} 
 
   <h1>{t}Open network repository setup{/t}</h1>
-  <h2><a href="collaboration_repo_init.php?bible={$bible}">{t}Next page{/t}</a></h2>
-  <p>{t}Bible{/t}: {$bible}</p>
+  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
+  <p>{t}Bible{/t}: {$object}</p>
   <p>{t}In this tutorial you are going to set up an open repository on the network.{/t}</p>
   <p>{t}You need a server to run this repository. Any of your Linux computers attached to your network will do. In this tutorial we assume that the computer is accessible from the network through IP address 192.168.0.1. The user of this computer will be Jim.{/t}</p>
   <p>{t}To create the repository, login as user jim. Then open a terminal. The repository is going to be in Jim's home directory. In the terminal type the following:{/t}</p>
@@ -36,12 +36,12 @@ git --bare init --shared
   <p>{t}The repository that was created in this tutorial has the following URL:{/t}</p>
   <pre>git://192.168.0.1/repository</pre>
   <p>{t}Your own repository that you have created has a URL too, the one that will be used from now on. Please enter it below, and press the Submit button to save it.{/t}</p>
-  <form action="collaboration_open_network_setup.php?bible={$bible}#url" name="url" method="post">
+  <form action="collaboration_open_network_setup.php?object={$object}#url" name="url" method="post">
     <p><input type="text" name="urlvalue" value="{$url}" /></p>
     <p><input type="submit" name="url" value={t}Submit{/t} /></p>
   </form>
 
-  <h2><a href="collaboration_repo_init.php?bible={$bible}">{t}Next page{/t}</a></h2>
+  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
 
   {include file=../assets/footer_full.tpl} 
   </body>

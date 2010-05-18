@@ -12,8 +12,12 @@
   {include file=../assets/install_git.tpl} 
 
   <h1>{t}USB flash drive repository setup{/t}</h1>
-  <h2><a href="collaboration_repo_init.php?bible={$bible}">{t}Next page{/t}</a></h2>
-  <p>{t}Bible{/t}: {$bible}</p>
+  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
+  {if $object == "consultationnotes"}
+  <p>{t}Consultation Notes{/t}</p>
+  {else}
+  <p>{t}Bible{/t}: {$object}</p>
+  {/if}
   <p>{t}In this section you will set up a distributed repository on a USB flash drive.{/t}</p>
 
   <h1>{t}Formatting the flash drive{/t}</h1>
@@ -95,12 +99,12 @@ tmpfs        1038428         0   1038428   0% /dev/shm
   <p>{t}The repository that was created in this tutorial has the following URL:{/t}</p>
   <pre>file:///media/usbstick/repository</pre>
   <p>{t}Your own repository that you have created has a URL too, the one that will be used from now on. Please enter it below, and press the Submit button to save it.{/t}</p>
-  <form action="collaboration_flash_drive_setup.php?bible={$bible}#url" name="url" method="post">
+  <form action="collaboration_flash_drive_setup.php?object={$object}#url" name="url" method="post">
     <p><input type="text" name="urlvalue" value="{$url}" /></p>
     <p><input type="submit" name="url" value={t}Submit{/t} /></p>
   </form>
 
-  <h2><a href="collaboration_repo_init.php?bible={$bible}">{t}Next page{/t}</a></h2>
+  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
 
   {include file=../assets/footer_full.tpl} 
   </body>

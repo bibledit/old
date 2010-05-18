@@ -3,11 +3,11 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 
-$bible = $_GET ['bible'];
-$smarty->assign ("bible", $bible);
+$object = $_GET ['object'];
+$smarty->assign ("object", $object);
 
 $database_config_user = Database_Config_User::getInstance();
-$url = $database_config_user->getRemoteRepositoryUrl ($bible);
+$url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
 // In case the repository is secure, set up the secure keys.
@@ -29,8 +29,8 @@ if ($exit_code == 0) {
 } else {
   $error_message = gettext ("The repository could not be cloned.");
 }
-$smarty->assign ("success_message", $success_message);
-$smarty->assign ("error_message", $error_message);
+@$smarty->assign ("success_message", $success_message);
+@$smarty->assign ("error_message", $error_message);
 
 // Switch rename detection off. 
 // This is necessary for the consultation notes, since git has been seen to "detect" spurious renames.

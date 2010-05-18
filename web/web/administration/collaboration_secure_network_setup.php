@@ -12,14 +12,14 @@ $smarty->assign ("ssh", $which_ssh->available);
 $database_config_user = Database_Config_User::getInstance();
 $database_config_general = Database_Config_General::getInstance();
 
-$bible = $_GET ['bible'];
-$smarty->assign ("bible", $bible);
+$object = $_GET ['object'];
+$smarty->assign ("object", $object);
 
 if (isset($_POST['url'])) {
   $url = $_POST['urlvalue'];
-  $database_config_user->setRemoteRepositoryUrl ($bible, $url);
+  $database_config_user->setRemoteRepositoryUrl ($object, $url);
 }
-$url = $database_config_user->getRemoteRepositoryUrl ($bible);
+$url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
 if (isset($_POST['keys'])) {

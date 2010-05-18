@@ -29,9 +29,9 @@ $database_bibles = Database_Bibles::getInstance();
 
 
 // Delete Bible handler.
-if ($_GET['delete'] != "") {
+if (isset ($_GET['delete'])) {
   $bible = $_GET['delete'];
-  $confirm = $_GET['confirm'];
+  @$confirm = $_GET['confirm'];
   if ($confirm != "") {
     $database_bibles->deleteBible ($bible);
     $database_repositories = Database_Repositories::getInstance();
@@ -55,12 +55,12 @@ if (isset($_POST['new'])) {
 
 
 // Copy Bible handler.
-$copy = $_GET['copy'];
+@$copy = $_GET['copy'];
 if (isset ($copy)) {
   $dialog_entry = new Dialog_Entry (array ("origin" => $copy), gettext ("Please enter a name for where to copy the Bible to"), "", "", "");
   die;
 }
-$origin = $_GET['origin'];
+@$origin = $_GET['origin'];
 if (isset ($origin)) {
   $destination = $_POST['entry'];
   if (isset($destination)) {
@@ -85,8 +85,8 @@ if (isset ($origin)) {
 }
 
 
-$smarty->assign ("success_message", $success_message);
-$smarty->assign ("error_message", $error_message);
+@$smarty->assign ("success_message", $success_message);
+@$smarty->assign ("error_message", $error_message);
 $bibles = $database_bibles->getBibles();
 $smarty->assign ("bibles", $bibles);
 $smarty->display ("manage.tpl");

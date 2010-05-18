@@ -52,8 +52,8 @@ class Timer_Mailer
 
 
   /**
-    * Sends email $id
-    */  
+  * Sends email $id
+  */  
   private function send ($id)
   {
     // The databases involved.

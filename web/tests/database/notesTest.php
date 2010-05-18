@@ -79,6 +79,8 @@ class notesTest extends PHPUnit_Framework_TestCase
 
   public function testAssignments ()
   {
+    $_SESSION = array ();
+    $_SESSION['user'] = 'PHPUnit2';
     $database_notes = Database_Notes::getInstance();
 
     // Create a note and check that it was not assigned to anybody.
@@ -105,19 +107,20 @@ class notesTest extends PHPUnit_Framework_TestCase
     $database_notes->unassignUser ($identifier, "PHPUnit");
     $assignees = $database_notes->getAssignees ($identifier);
     $this->assertEquals (array ("PHPUnit2"), $assignees);
-    $_SESSION['user'] = 'PHPUnit2';
     $database_notes->unassign ($identifier);
     $assignees = $database_notes->getAssignees ($identifier);
     $this->assertEquals (array (), $assignees);
-    unset ($_SESSION['user']);
 
     // Tear down.
     $database_notes->delete ($identifier);
+    unset ($_SESSION);
   }
 
 
   public function testBible ()
   {
+    $_SESSION = array ();
+    $_SESSION['user'] = "PHPUnit";
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("PHPUnit", 0, 0, 0, "Summary", "Contents", false);
     $bible = $database_notes->getBible ($identifier);
@@ -129,11 +132,15 @@ class notesTest extends PHPUnit_Framework_TestCase
     $bible = $database_notes->getBible ($identifier);
     $this->assertEquals ("", $bible);
     $database_notes->delete ($identifier);
+    unset ($_SESSION);
   }
 
 
   public function testPassage ()
   {
+    $_SESSION = array ();
+    $_SESSION['user'] = "PHPUnit";
+
     // Create note for a certain passage.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 10, 9, 8, "Summary", "Contents", false);
@@ -172,11 +179,15 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Tear down.
     $database_notes->delete ($identifier);
+    unset ($_SESSION);
   }
 
 
   public function testStatus ()
   {
+    $_SESSION = array ();
+    $_SESSION['user'] = "PHPUnit";
+
     // Create note.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
@@ -207,11 +218,15 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Tear down.
     $database_notes->delete ($identifier);
+    unset ($_SESSION);
   }
       
       
   public function testSeverity ()
   {
+    $_SESSION = array ();
+    $_SESSION['user'] = "PHPUnit";
+
     // Create note.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
@@ -236,11 +251,15 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Tear down.
     $database_notes->delete ($identifier);
+    unset ($_SESSION);
   }
 
 
   public function testPrivacy ()
   {
+    $_SESSION = array ();
+    $_SESSION['user'] = "PHPUnit";
+    
     // Create note.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
@@ -260,6 +279,7 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Tear down.
     $database_notes->delete ($identifier);
+    unset ($_SESSION);
   }
 
       

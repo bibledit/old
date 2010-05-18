@@ -12,7 +12,7 @@ $bible = $_GET['bible'];
 $smarty->assign ("bible", Filter_Html::sanitize ($bible));
 
 // Versification.
-$versification = $_GET['versification'];
+@$versification = $_GET['versification'];
 if (isset ($versification)) {
   if ($versification == "") {
     $dialog_versifications = new Dialog_List (array ("bible"), gettext ("Would you like to change the versification system?"), gettext ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
@@ -31,7 +31,7 @@ $versification = $database_bibles->getVersification ($bible);
 $smarty->assign ("versification", $versification);
 
 // Book creation.
-$createbook = $_GET['createbook'];
+@$createbook = $_GET['createbook'];
 if (isset ($createbook)) {
   if ($createbook == "") {
     $dialog_books = new Dialog_Books (array ("bible"), gettext ("Create book"), "", "", "createbook", NULL, $database_bibles->getBooks ($bible));
@@ -42,7 +42,7 @@ if (isset ($createbook)) {
 }
 
 // Book deletion.
-$deletebook = $_GET['deletebook'];
+@$deletebook = $_GET['deletebook'];
 if ($deletebook != "") {
   $confirm = $_GET['confirm'];
   if ($confirm != "") {
@@ -61,8 +61,8 @@ foreach ($book_ids as $book) {
   $book_name = gettext ($book_name);
   $book_names [] = $book_name;
 }
-$smarty->assign ("book_ids", $book_ids);
-$smarty->assign ("book_names", $book_names);
+@$smarty->assign ("book_ids", $book_ids);
+@$smarty->assign ("book_names", $book_names);
 
 $smarty->display ("settings.tpl");
 

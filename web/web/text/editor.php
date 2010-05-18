@@ -42,7 +42,7 @@ class Text_Editor
     // Handle picking out which line to edit and to move the screen to.
     $this->edit_usfm_line_number = -1;
     $this->goto_line_number = -1;
-    $line_number = $_GET ['editusfmline'];
+    @$line_number = $_GET ['editusfmline'];
     if (isset ($line_number)) {
       if (is_numeric ($line_number)) {
         $this->edit_usfm_line_number = $line_number;
@@ -58,7 +58,7 @@ class Text_Editor
       $book = $_GET['book'];
       $chapter = $_GET['chapter'];
       $line_number = $_GET ['textsaveline'];
-      $this->goto_line_number = line_number; // Line to go to after saving.
+      $this->goto_line_number = $line_number; // Line to go to after saving.
       $data = $_POST['data'];
       $data = trim ($data);
       if (Validate_Utf8::valid ($data)) {
@@ -150,12 +150,12 @@ class Text_Editor
         $line_numbers_after[] = $i;
       }
     }
-    $smarty->assign ("line_data_before", $line_data_before);
-    $smarty->assign ("line_numbers_before", $line_numbers_before); 
-    $smarty->assign ("line_data_edit", $line_data_edit);
-    $smarty->assign ("line_number_edit", $this->edit_usfm_line_number); 
-    $smarty->assign ("line_data_after", $line_data_after);
-    $smarty->assign ("line_numbers_after", $line_numbers_after); 
+    @$smarty->assign ("line_data_before", $line_data_before);
+    @$smarty->assign ("line_numbers_before", $line_numbers_before); 
+    @$smarty->assign ("line_data_edit", $line_data_edit);
+    @$smarty->assign ("line_number_edit", $this->edit_usfm_line_number); 
+    @$smarty->assign ("line_data_after", $line_data_after);
+    @$smarty->assign ("line_numbers_after", $line_numbers_after); 
 
     // Line number where to move the screen to.
     $smarty->assign ("goto_line", $this->goto_line_number);

@@ -9,9 +9,9 @@
   <body>
   {include file=../assets/header_full.tpl} 
   <h1>{t}Take local Bible{/t}</h1>
-  <p>{t}Bible{/t}: {$bible}</p>
+  <p>{t}Bible{/t}: {$object}</p>
   <p>{t}Repository URL{/t}: {$url}</p>
-  <p>{t}Pushing your Bible to the remote repository:{/t} <code>{$command}</code></p>
+  <p>{t}Pushing your data to the remote repository:{/t} <code>{$command}</code></p>
   {section name=offset loop=$result}
     <p><code>{$result[offset]}</code></p>
   {/section}
@@ -19,7 +19,7 @@
   <p class="success">{$success_message}</p>
   {if $error_message == ""}
     <p>{t}Setting up collaboration is now ready.{/t}</p>
-    <p>{t}The Manager can now choose menu Send/Receive any time he wants to synchronize Bibles with the remote repository.{/t}</p>
+    <p>{t}The Manager can now choose menu Send/Receive any time he wants to synchronize Bibles and Consultation Notes with the remote repository.{/t}</p>
   {/if}
   {include file=../assets/footer_full.tpl} 
   </body>

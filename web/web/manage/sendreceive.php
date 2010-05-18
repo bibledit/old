@@ -34,11 +34,18 @@ foreach ($bibles as $bible) {
     mkdir ($directory);
     message_information (gettext ("Working directory") . ": " . $directory);
     flush ();
-    Filter_Git::database2filedata ($bible, $directory);
+    Filter_Git::bibleDatabase2filedata ($bible, $directory);
     Filter_Git::database2repository ($bible, $directory);
     flush ();
 
     $command = "cd $directory; git add . 2>&1";
+    message_code ($command);
+    unset ($result);
+    exec ($command, &$result, &$exit_code);
+    foreach ($result as $line) message_code ($line);
+    flush ();
+    
+    $command = "cd $directory; git status 2>&1";
     message_code ($command);
     unset ($result);
     exec ($command, &$result, &$exit_code);
@@ -79,7 +86,7 @@ foreach ($bibles as $bible) {
     }
     flush ();
 
-    Filter_Git::filedata2database ($directory, $bible);
+    Filter_Git::bibleFiledata2database ($directory, $bible);
     Filter_Git::repository2database ($directory, $bible);
     flush ();
 
@@ -91,7 +98,7 @@ foreach ($bibles as $bible) {
 }
 
 message_information ("");
-message_information (gettext ("Ready. All relevant Bibles have been done."));
+message_information (gettext ("Ready. All relevant Bibles, and Consultations Notes, have been done."));
 flush ();
 
 

@@ -3,15 +3,15 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 
-$bible = $_GET ['bible'];
-$smarty->assign ("bible", $bible);
+$object = $_GET ['object'];
+$smarty->assign ("object", $object);
 
 $database_config_user = Database_Config_User::getInstance();
 if (isset($_POST['url'])) {
   $url = $_POST['urlvalue'];
-  $database_config_user->setRemoteRepositoryUrl ($bible, $url);
+  $database_config_user->setRemoteRepositoryUrl ($object, $url);
 }
-$url = $database_config_user->getRemoteRepositoryUrl ($bible);
+$url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
 // In case the repository is secure, set up the secure keys.
@@ -30,8 +30,8 @@ if ($exit_code == 0) {
 } else {
   $error_message = gettext ("Read access failed. Please retry it, possibly with another URL.");
 }
-$smarty->assign ("success_message", $success_message);
-$smarty->assign ("error_message", $error_message);
+@$smarty->assign ("success_message", $success_message);
+@$smarty->assign ("error_message", $error_message);
 
 $smarty->display("collaboration_repo_read.tpl");
 
