@@ -1,7 +1,12 @@
-
-
-Call the note logic for each note so that suscribers get subscribed, or assignees get assigned,
+When updating notes through git, 
+call the note logic for each note so that suscribers get subscribed, or assignees get assigned,
 and whatever else is needed to be done.
+Look at the Actions page, and copy relevant action to the git filter.
+
+
+
+
+
 
 
 
@@ -10,12 +15,12 @@ and whatever else is needed to be done.
 Aim is to release this first version, whereby the consultation notes are a worthy replacement for the 
 project notes in Bibledit-Gtk, and work together with a local installation of Bibledit-Gtk as far as the focus concerns. 
 Requirements:
-- Bibledit-Web follows the focus upon clicking a link, not automatically.
+- Bibledit-Web follows the focus upon clicking a refresh link/icon, not automatically.
 - Bibledit-Gtk follows focus as well.
 
 Git operations should go to the manager's logbook, which is the same logbook, but with the level flag set
-so that the appropriate logs are shown. Even deleting logs, the manager can only delete notes of his own level and down,
-not the Administrator's notes.
+so that the appropriate logs are shown. Even deleting logs, the manager can only delete entries of his own level and down,
+not the Administrator's entries.
 The git operations may run independently from PHP, it probably needs php-cli for that to work well.
 In particular synchronizing notes may take much time, though we can check on that, so that it needs to run independently
 from the apache server.

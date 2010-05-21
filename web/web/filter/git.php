@@ -94,7 +94,7 @@ class Filter_Git
   * The $directory is supposed to be completely empty, 
   * apart from a .git directory which may be there.
   */
-  public function notesDatabase2filedata ($directory) // Todo
+  public function notesDatabase2filedata ($directory)
   {
     $database_notes = Database_Notes::getInstance ();
     // Select all notes identifiers. Proper values should be passed to the selection routine, so it gives all notes.
@@ -149,17 +149,20 @@ class Filter_Git
   public function notesFiledata2database ($directory) // Todo
   {
     $database_notes = Database_Notes::getInstance ();
+    $notes_logic = Notes_Logic::getInstance();
     $stored_identifiers = array (); // Maintain a list of note identifiers stored.
     foreach (new DirectoryIterator ($directory) as $fileInfo) {
       if($fileInfo->isDot()) continue;
-      if($fileInfo->isDir()) continue;
+      if($fileInfo->isDir()) continue;  // Exclude directories, e.g. the ".git" one.
       $identifier = $fileInfo->getFilename();
       $stored_identifiers [] = $identifier;
+      $note_updated = false;
       if (!$database_notes->identifierExists ($identifier)) {
         // Somebody may have created a new note in the git repository. 
         // In this case, that note should also be created in our notes database.
         // A dummy note is created here, and to be updated as we go along.
         $id = $database_notes->storeNewNote ("bible", 1, 2, 3, "summary", "contents", false);
+        $note_updated = true;
         // The dummy note that was created has its own identifier.
         // This identifier is to be updated to the one in the git repository.
         $database_notes->setIdentifier ($id, $identifier);
@@ -186,6 +189,7 @@ class Filter_Git
             $assignees = $database_notes->getAssignees ($identifier);
             if ($fielddata != $assignees) {
               $database_notes->setAssignees ($identifier, $fielddata);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -195,6 +199,7 @@ class Filter_Git
             $subscribers = $database_notes->getSubscribers ($identifier);
             if ($fielddata != $subscribers) {
               $database_notes->setSubscribers ($identifier, $fielddata);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -204,6 +209,7 @@ class Filter_Git
             @$bible = $fielddata[0];
             if ($bible != $database_notes->getBible ($identifier)) {
               $database_notes->setBible ($identifier, $bible);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -221,6 +227,7 @@ class Filter_Git
                 $passages [] = $database_notes->decodePassage ($data);
               }
               $database_notes->setPassages ($identifier, $passages);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -229,6 +236,7 @@ class Filter_Git
             @$status = $fielddata[0];
             if ($status != $database_notes->getStatus ($identifier)) {
               $database_notes->setStatus ($identifier, $status);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -237,6 +245,7 @@ class Filter_Git
             @$severity = $fielddata[0];
             if ($severity != $database_notes->getRawSeverity ($identifier)) {
               $database_notes->setRawSeverity ($identifier, $severity);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -245,6 +254,7 @@ class Filter_Git
             @$privacy = $fielddata[0];
             if ($privacy != $database_notes->getPrivacy ($identifier)) {
               $database_notes->setPrivacy ($identifier, $privacy);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -253,6 +263,7 @@ class Filter_Git
             @$summary = $fielddata[0];
             if ($summary != $database_notes->getSummary ($identifier)) {
               $database_notes->setSummary ($identifier, $summary);
+              $note_updated = true;
             }
             unset ($fielddata);
             break;
@@ -265,6 +276,7 @@ class Filter_Git
       $contents = implode ("\n", $fielddata);
       if ($contents != $database_notes->getContents ($identifier)) {
         $database_notes->setContents ($identifier, $contents);
+        $note_updated = true;
       }
       // At the end of all, since the note' modification time may have changed as a result
       // of updating the note's fields, the modification time should be (re)set here to the 
@@ -274,12 +286,17 @@ class Filter_Git
           $database_notes->setModified ($identifier, $modified);
         }
       }
+      // If needed, invoke the notifications system.
+      if ($note_updated) {
+        $notes_logic->handlerUpdateNote ($identifier);
+      }
     }
 
     // Delete any notes which were not in the git repository.
     $identifiers = $database_notes->getIdentifiers ();
     $differences = array_diff ($identifiers, $stored_identifiers);
     foreach ($differences as $identifier) {
+      $notes_logic->handlerDeleteNote ($identifier);
       $database_notes->delete ($identifier);
     }
   }

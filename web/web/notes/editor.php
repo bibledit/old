@@ -136,12 +136,12 @@ class Notes_Editor
       $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
     }
     
-    // Subscribe to the note.
+    // Unsubscribe from the note.
     if (isset ($_GET['consultationnoteunsubscribe'])) {
       $database_notes->unsubscribe ($consultationnote);
     }
 
-    // Unsubscribe from the note.
+    // Subscribe to the note.
     if (isset ($_GET['consultationnotesubscribe'])) {
       $database_notes->subscribe ($consultationnote);
     }

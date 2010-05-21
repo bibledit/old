@@ -40,7 +40,7 @@ foreach ($bibles as $bible) {
     mkdir ($directory);
     message_information (gettext ("Working directory") . ": " . $directory);
     flush ();
-    if ($bible == "consultationnotes") { // Todo
+    if ($bible == "consultationnotes") {
       Filter_Git::notesDatabase2filedata ($directory);
     } else {
       Filter_Git::bibleDatabase2filedata ($bible, $directory);
@@ -96,7 +96,7 @@ foreach ($bibles as $bible) {
     }
     flush ();
 
-    if ($bible == "consultationnotes") { // Todo
+    if ($bible == "consultationnotes") {
       Filter_Git::notesFiledata2database ($directory);
     } else {
       Filter_Git::bibleFiledata2database ($directory, $bible);
