@@ -225,7 +225,7 @@ class Notes_Editor
         }
         $dialog_list->run();
       } else {
-        $database_notes->setSeverity ($consultationnote, $consultationnoteseverity);
+        $database_notes->setRawSeverity ($consultationnote, $consultationnoteseverity);
         $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
@@ -320,7 +320,7 @@ class Notes_Editor
     @$text_selector = $_GET['consultationnotestextselector'];
     if (isset ($text_selector)) {
       $database_config_user->setConsultationNotesTextSelector($text_selector);
-      $search_text = $_POST['text'];
+      @$search_text = $_POST['text'];
       if (isset ($search_text)) {
         $database_config_user->setConsultationNotesSearchText($search_text);
         Assets_Page::success (gettext ("Search text saved"));

@@ -3,6 +3,8 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 
+// Todo update for consultation notes.
+
 $object = $_GET ['object'];
 $smarty->assign ("object", $object);
 
@@ -10,7 +12,7 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
-// In case the repository is secure, set up the secure keys.
+// Set up the secure keys just in case the repository happens to be secure.
 $secure_key_directory = Filter_Git::git_config ($url);
 
 $directory = $_GET ['directory'];
@@ -24,7 +26,11 @@ mkdir ($newdirectory);
 rename ("$directory/.git", "$newdirectory/.git");
 
 // Put our data into the repository staging area.
-Filter_Git::bibleDatabase2filedata ($object, $newdirectory);
+if ($object == "consultationnotes") {
+  Filter_Git::notesDatabase2filedata ($newdirectory);
+} else {
+  Filter_Git::bibleDatabase2filedata ($object, $newdirectory);
+}
 
 // Add and commit the data.
 exec ("cd $newdirectory; git add .");
@@ -47,7 +53,7 @@ if ($exit_code == 0) {
 Filter_Git::repository2database ($newdirectory, $object);
 
 // Display the page.
-$smarty->display("collaboration_take_bible.tpl");
+$smarty->display("collaboration_take_yourself.tpl");
 
 // Be sure to sync in case somebody unplugs the USB flash drive before data was fully written to it.
 exec ("sync");

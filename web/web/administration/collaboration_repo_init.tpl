@@ -12,7 +12,6 @@
   {if $url == ""}
   <p class="error">{t}No URL has been given for the repository. Please go back to enter the URL.{/t}</p>
   {else}
-  <h2><a href="collaboration_repo_read.php?object={$object}">{t}Next page{/t}</a></h2>
   <p>{t}Newer versions of git can clone an empty repository, but older versions only clone repositories that have been initialized with some data.{/t}</p>  
   <p>{t}Just to be sure that everything will work well, in this tutorial you are going to put some data into the repository, then try to clone it to see how it now goes.{/t}</p>
   <p>{t}You need to put something into the repository. It does not matter what, anything will do. Let's proceed and put an empty file into the repository. Issue the commands as given:{/t}</p>  

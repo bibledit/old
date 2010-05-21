@@ -1,17 +1,14 @@
-Notes can sync with git repository.
 
-Filter_Git - To update all these methods.
-In particular the writing to the Bible / Notes, no longer overwrite what was in the database, 
-as this causes extra operations not necessary, but compare the chapter / note with the database,
-and only overwrite when there is a difference.
-It calls one internal routine for writing dealing with Bibles, and another method for dealing with Notes,
-since these are quite different.
-PHPUnit test all changes, and all new code.
+
+Call the note logic for each note so that suscribers get subscribed, or assignees get assigned,
+and whatever else is needed to be done.
+
+
 
 
 
 Aim is to release this first version, whereby the consultation notes are a worthy replacement for the 
-project notes in Bibledit-Gtk, and work together with a local installation of Bibledit-Gtk. 
+project notes in Bibledit-Gtk, and work together with a local installation of Bibledit-Gtk as far as the focus concerns. 
 Requirements:
 - Bibledit-Web follows the focus upon clicking a link, not automatically.
 - Bibledit-Gtk follows focus as well.
@@ -26,6 +23,13 @@ from the apache server.
 If upon git sync the server on the internet notices that the note got changed,
 it needs to check whether there are any automatic subscription notifications for that, or automatic assignments, and act on that.
 
+The Administrator should be able to create new users on the fly. The password will always be equal to the username
+in these cases, and the email address will be empty, so that emails fail and are discarded. The reason for making
+usernames is to simulate users on local installations with easy, so notes can be assigned to them.
+
+It needs a full story of how consultation notes work,
+what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
+to 'critical' even if their note describers a 'wish' only, so that a standard policy is recommended to be followed.
 
 
 
@@ -61,6 +65,12 @@ It needs a tool to remove identical notes. This may happen when import does not 
 
 
 
+
+
+
+When reading the note git repository, it should note the notes marked NEW, their numbers, 
+then check whether this number exists in the notes database already. If so, it needs to do special handling
+to integrate this note: A new note is created, and the old one deleted.
 
 
 

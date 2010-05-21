@@ -201,7 +201,6 @@ EOD;
   public function getSystems ()
   {
     $database_instance = Database_Instance::getInstance();
-    $name = Database_SQLInjection::no ($name);
     $query = "SELECT name FROM versification_names ORDER BY name ASC;";
     $result = $database_instance->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {

@@ -9,11 +9,6 @@
   <body>
   {include file=../assets/header_full.tpl} 
   <h1>{t}Write to repository{/t}</h1>
-  {if $error_message4 == ""}
-    {if $error_message6 == ""}
-      <h2><a href="collaboration_repo_data.php?object={$object}&directory={$directory}">{t}Next page{/t}</a></h2>
-    {/if}
-  {/if}
 
   {if $object == "consultationnotes"}
   <p>{t}Consultation Notes{/t}</p>

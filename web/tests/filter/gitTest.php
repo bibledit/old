@@ -209,12 +209,13 @@ EOD;
     $directory = tempnam (sys_get_temp_dir(), '');
     unlink ($directory);
     mkdir ($directory);
-    echo "\n$directory\n";
 
     // Create a few known notes to be used as testing data.
     $identifier1 = $database_notes->storeNewNote ("PHPUnit", 1, 2, 3, "PHPUnit1", "PHPUnit2", false);
     $identifier2 = $database_notes->storeNewNote ("PHPUnit", 4, 5, 6, "PHPUnit3", "PHPUnit4", false);
     $identifier3 = $database_notes->storeNewNote ("PHPUnit", 7, 8, 9, "PHPUnit5", "PHPUnit6", false);
+    $identifier4 = $database_notes->storeNewNote ("bible4", 7, 8, 9, "summary4", "contents4", false);
+    $identifier5 = $database_notes->storeNewNote ("bible5", 7, 8, 9, "summary5", "contents5", false);
     $database_notes->assignUser ($identifier2, "user1");
     $database_notes->assignUser ($identifier2, "user2");
     $database_notes->assignUser ($identifier2, "user3");
@@ -225,58 +226,75 @@ EOD;
     // Transfer these notes (and other ones that may be in the database) to the file system.
     Filter_Git::notesDatabase2filedata ($directory);
 
-
-    /*
-
+    // Load the three notes files into an array.
+    $contents1 = explode ("\n", file_get_contents ("$directory/$identifier1"));
+    $contents2 = explode ("\n", file_get_contents ("$directory/$identifier2"));
+    $contents3 = explode ("\n", file_get_contents ("$directory/$identifier3"));
     
+    // Do some checks on the notes files.
+    $this->assertTrue (in_array ("subscriber1", $contents1));
+    $this->assertTrue (in_array ("subscriber2", $contents1));
+    $this->assertTrue (in_array ("user1", $contents2));
+    $this->assertFalse (in_array ("user0", $contents2));
+    $this->assertTrue (in_array ("4.5.6", $contents2));
+    $this->assertTrue (in_array ("7.8.9", $contents3));
+    $this->assertTrue (in_array ("PHPUnit5", $contents3));
 
-
-    // Create a temporal Bible in the database and store some data in it.
-    // Filter_Git is supposed to erase this data if it is not in the filesystem.
-    $database_bibles = Database_Bibles::getInstance();
-    $bible = "PHPUnit";
-    $database_bibles->createBible ($bible);
-    $database_bibles->storeChapter ($bible, 2, 1, $this->song_of_solomon_2_data);
-    $database_bibles->storeChapter ($bible, 3, 4, $this->song_of_solomon_2_data);
-    $database_bibles->storeChapter ($bible, 5, 6, $this->song_of_solomon_2_data);
-
-    // Call the filter.
-    Filter_Git::bibleFiledata2database ($directory, $bible);
-
-    $database_bibles = Database_Bibles::getInstance();
+    // Simulate the git repository changing the file contents.
+    $contents1[1] = 1234567890; // Change modification time.
+    $contents1[7] = "TestBible"; // Change Bible.
+    $contents1[11] = "Old"; // Change Status.
+    unset ($contents1[19]); // Change Contents.
+    unset ($contents1[20]);
+    unset ($contents1[21]);
+    $contents1 [] = "New Contents";
+    unset ($contents1[5]); // Remove subscriber2.
+    unset ($contents2[3]); // Remove assignee 'user1';
+    $contents2[10] = "40.50.60"; // Update passages.
+    $contents3[11] = 10; // Update severity.
+    $contents3[13] = 55; // Update privacy.
+    $contents3[15] = "-summary-"; // Update summary.
     
-    // Assert database has certain books.
-    $books = $database_bibles->getBooks ($bible);
-    $this->assertEquals(array(19, 22), $books);
-    
-    // Assert Psalms has certain chapters.
-    $chapters = $database_bibles->getChapters ($bible, 19);
-    $this->assertEquals(array(0, 11), $chapters);
+    // Store the new content to file; delete or rename notes.
+    file_put_contents ("$directory/$identifier1", implode ("\n", $contents1));
+    file_put_contents ("$directory/$identifier2", implode ("\n", $contents2));
+    file_put_contents ("$directory/$identifier3", implode ("\n", $contents3));
+    unlink ("$directory/$identifier4");
+    $identifier6 = $identifier5 + 1;
+    rename ("$directory/$identifier5", "$directory/$identifier6");
 
-    // Assert Song of Solomon has a certain chapter.
-    $chapters = $database_bibles->getChapters ($bible, 22);
-    $this->assertEquals(array(2), $chapters);
+    // Put the file contents back into the consultation notes database.
+    Filter_Git::notesFiledata2database ($directory);
 
-    // Assert data in Psalm 11.
-    $data = $database_bibles->getChapter ($bible, 19, 11);
-    $this->assertEquals($this->psalms_11_data, $data);
+    // Some notes should be there, and others should have been removed.    
+    $this->assertTrue ($database_notes->identifierExists ($identifier1));
+    $this->assertTrue ($database_notes->identifierExists ($identifier2));
+    $this->assertTrue ($database_notes->identifierExists ($identifier3));
+    $this->assertFalse ($database_notes->identifierExists ($identifier4));
+    $this->assertFalse ($database_notes->identifierExists ($identifier5));
+    $this->assertTrue ($database_notes->identifierExists ($identifier6));
 
-    // New working directory.
-    $newdirectory = tempnam (sys_get_temp_dir(), '');
-    unlink ($newdirectory);
-    mkdir ($newdirectory);
+    // See if all changed data made it.
+    $this->assertEquals (1234567890, $database_notes->getModified ($identifier1));
+    $this->assertEquals ("TestBible", $database_notes->getBible ($identifier1));
+    $this->assertEquals ("Old", $database_notes->getStatus ($identifier1));
+    $this->assertEquals ("New Contents", $database_notes->getContents ($identifier1));
+    $this->assertEquals (array ("subscriber1"), $database_notes->getSubscribers ($identifier1));
+    $this->assertEquals (array ("user2", "user3"), $database_notes->getAssignees ($identifier2));
+    $this->assertEquals (array (array (40, 50, 60)), $database_notes->getPassages ($identifier2));
+    $this->assertEquals (10, $database_notes->getRawSeverity ($identifier3));
+    $this->assertEquals (55, $database_notes->getPrivacy ($identifier3));
+    $this->assertEquals ("-summary-", $database_notes->getSummary ($identifier3));
+    $this->assertEquals ("bible5", $database_notes->getBible ($identifier6));
+    $this->assertEquals ("summary5", $database_notes->getSummary ($identifier6));
 
-    // Call the filter.
-    Filter_Git::bibleDatabase2filedata ($bible, $newdirectory);
-
-    // Compare new directory with the standard one.
-    system ("diff -r $newdirectory $directory", &$exit_code);
-    $this->assertEquals(0, $exit_code);
-    
-    */
     // Tear down.
     $database_notes->delete ($identifier1);
     $database_notes->delete ($identifier2);
+    $database_notes->delete ($identifier3);
+    $database_notes->delete ($identifier4);
+    $database_notes->delete ($identifier5);
+    $database_notes->delete ($identifier6);
   }
 
 

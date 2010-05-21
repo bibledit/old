@@ -9,9 +9,6 @@
   <body>
   {include file=../assets/header_full.tpl} 
   <h1>{t}Clone repository{/t}</h1>
-  {if $success_message != ""}
-    <h2><a href="collaboration_repo_write.php?object={$object}&directory={$directory}">{t}Next page{/t}</a></h2>
-  {/if}
 
   {if $object == "consultationnotes"}
   <p>{t}Consultation Notes{/t}</p>

@@ -7,7 +7,7 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $database_versifications = Database_Versifications::getInstance();
 
 
-if ($_GET['delete'] != "") {
+if (isset ($_GET['delete'])) {
   $name = $_GET['delete'];
   $confirm = $_GET['confirm'];
   if ($confirm != "") {

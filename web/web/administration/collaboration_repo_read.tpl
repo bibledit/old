@@ -9,7 +9,6 @@
   <body>
   {include file=../assets/header_full.tpl} 
   <h1>{t}Test read access{/t}</h1>
-  <h2><a href="collaboration_repo_clone.php?object={$object}">{t}Next page{/t}</a></h2>
 
   {if $object == "consultationnotes"}
   <p>{t}Consultation Notes{/t}</p>

@@ -15,11 +15,17 @@ $database_repositories = Database_Repositories::getInstance();
 // thus delaying the sync of the Bible the user viewed, and probably is most interested in.
 $bibles = array_merge (array ($database_config_user->getBible ()), $database_bibles->getBibles());
 $bibles = array_unique ($bibles);
+// Add the Consultation Notes as well.
+$bibles [] = "consultationnotes";
 foreach ($bibles as $bible) {
   $remote_repository_url = $database_config_user->getRemoteRepositoryUrl ($bible);
   if ($remote_repository_url != "") {
     message_information ("");
-    message_information (gettext ("Bible") . ": " . $bible);
+    if ($bible == "consultationnotes") {
+      message_information (gettext ("Consultation Notes"));
+    } else {
+      message_information (gettext ("Bible") . ": " . $bible);
+    }
     message_information (gettext ("Remote repository URL") . ": " . $remote_repository_url);
     $dot_git = $database_repositories->getRepository ($bible);
     if ($dot_git == "") {
@@ -34,7 +40,11 @@ foreach ($bibles as $bible) {
     mkdir ($directory);
     message_information (gettext ("Working directory") . ": " . $directory);
     flush ();
-    Filter_Git::bibleDatabase2filedata ($bible, $directory);
+    if ($bible == "consultationnotes") { // Todo
+      Filter_Git::notesDatabase2filedata ($directory);
+    } else {
+      Filter_Git::bibleDatabase2filedata ($bible, $directory);
+    }
     Filter_Git::database2repository ($bible, $directory);
     flush ();
 
@@ -71,7 +81,7 @@ foreach ($bibles as $bible) {
       if (strstr ($line, "/.ssh") != false) continue;
       message_code ($line);
       if (strstr ($line, "CONFLICT") !== false) {
-        message_error (gettext ("A conflict was found in the above book and chapter. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository."));
+        message_error (gettext ("A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository."));
       }
     }
     flush ();
@@ -86,13 +96,21 @@ foreach ($bibles as $bible) {
     }
     flush ();
 
-    Filter_Git::bibleFiledata2database ($directory, $bible);
+    if ($bible == "consultationnotes") { // Todo
+      Filter_Git::notesFiledata2database ($directory);
+    } else {
+      Filter_Git::bibleFiledata2database ($directory, $bible);
+    }
     Filter_Git::repository2database ($directory, $bible);
     flush ();
 
     Filter_Git::git_un_config ($secure_key_directory);
 
-    message_information (gettext ("This Bible has been done."));
+    if ($bible == "consultationnotes") {
+      message_information (gettext ("The Consultation Notes have been done."));
+    } else {
+      message_information (gettext ("This Bible has been done."));
+    }
     flush ();
   }
 }

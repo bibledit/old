@@ -5,7 +5,7 @@ page_access_level (MANAGER_LEVEL);
 
 $database_users = Database_Users::getInstance();
 
-if ($_GET['delete'] != "") {
+if (isset ($_GET['delete'])) {
   $name = $_GET['delete'];
   $confirm = $_GET['confirm'];
   if ($confirm == "") {
@@ -17,8 +17,8 @@ if ($_GET['delete'] != "") {
 }
 
 
-$user =  $_GET['user'];
-$level = $_GET['level'];
+@$user =  $_GET['user'];
+@$level = $_GET['level'];
 if (isset ($user) || isset ($level)) {
   if (($user == "") || ($level == "")) {
     $dialog_list = new Dialog_List (NULL, gettext ("Would you like to change the role given to user $user?"), "", "");

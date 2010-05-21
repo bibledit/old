@@ -8,7 +8,7 @@
   </head>
   <body>
   {include file=../assets/header_full.tpl} 
-  <h1>{t}Take Bible in repository{/t}</h1> {* Todo *}
+  <h1>{t}Take data in repository{/t}</h1>
   {if $object == "consultationnotes"}
   <p>{t}Consultation Notes{/t}</p>
   {else}

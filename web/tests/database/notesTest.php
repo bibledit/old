@@ -85,14 +85,19 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Create a note and check that it was not assigned to anybody.
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
-    $assignees = $database_notes->getSubscribers ($identifier);
+    $assignees = $database_notes->getAssignees ($identifier);
     $this->assertEquals (array (), $assignees);
 
     // Assign the note to a user, and check that this reflects in the list of assignees.
     $database_notes->assignUser ($identifier, "PHPUnit");
     $assignees = $database_notes->getAssignees ($identifier);
     $this->assertEquals (array ("PHPUnit"), $assignees);
-    
+
+    // Test the setAssignees function.
+    $database_notes->setAssignees ($identifier, array ("PHPUnit"));
+    $assignees = $database_notes->getAssignees ($identifier);
+    $this->assertEquals (array ("PHPUnit"), $assignees);
+        
     // Assign note to second user, and check it reflects.
     $database_notes->assignUser ($identifier, "PHPUnit2");
     $assignees = $database_notes->getAssignees ($identifier);
@@ -236,10 +241,10 @@ class notesTest extends PHPUnit_Framework_TestCase
     $this->assertEquals ("Normal", $severity);
 
     // Test setSeverity.
-    $database_notes->setSeverity ($identifier, 0);
+    $database_notes->setRawSeverity ($identifier, 0);
     $severity = $database_notes->getSeverity ($identifier);
     $this->assertEquals ("Wish", $severity);
-    $database_notes->setSeverity ($identifier, 4);
+    $database_notes->setRawSeverity ($identifier, 4);
     $severity = $database_notes->getSeverity ($identifier);
     $this->assertEquals ("Major", $severity);
     

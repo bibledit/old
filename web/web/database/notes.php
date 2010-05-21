@@ -84,13 +84,26 @@ EOD;
   }
 
 
-  public function identifierExists ($identifier)
+  public function identifierExists ($identifier) // Todo PHPUnit this, it gives a warning.
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $query = "SELECT identifier FROM notes WHERE identifier = $identifier;";
     $result = $server->runQuery ($query);
     return ($result->num_rows > 0);
+  }
+  
+  /**
+  * Update a note's $identifier.
+  * $new_identifier is the value given to the note identifier by $identifier.
+  */
+  public function setIdentifier ($identifier, $new_identifier) // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $new_identifier = Database_SQLInjection::no ($new_identifier);
+    $query = "UPDATE notes SET identifier = $new_identifier WHERE identifier = $identifier;";
+    $server->runQuery ($query);
   }
   
   
@@ -101,6 +114,21 @@ EOD;
     } while ($this->identifierExists ($identifier));
     return $identifier;
   }
+  
+  
+  public function getIdentifiers ()
+  {
+    $server = Database_Instance::getInstance ();
+    $identifiers = array ();
+    $query = "SELECT identifier FROM notes;";
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $identifiers [] = $row[0];
+    }
+    return $identifiers;
+  }
+  
 
 
   private function assembleContents ($identifier, $contents)
@@ -176,7 +204,7 @@ EOD;
   * $search_text: Works with $text_selector, contains the text to search for.
   * $userlevel: if 0, it takes the user's level from the current user, else it takes the level passed in the variable $userlevel itself.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel) // Todo use this; also make a selector that it does select any notes, even those above the level of the user.
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel)
   {
     $session_logic = Session_Logic::getInstance ();
     if ($userlevel == 0)  $userlevel = $session_logic->currentLevel ();
@@ -302,7 +330,16 @@ EOD;
   }
   
 
-  public function getContents ($identifier)
+  public function setSummary ($identifier, $summary)
+  {
+    $server = Database_Instance::getInstance ();
+    $summary = Database_SQLInjection::no ($summary);
+    $query = "UPDATE notes SET summary = '$summary' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
+
+  public function getContents ($identifier) // Todo PHPUnit, it gives a warning when sending/receiving.
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -314,6 +351,16 @@ EOD;
     }
     return "";
   }
+  
+  
+  public function setContents ($identifier, $contents)
+  {
+    $server = Database_Instance::getInstance ();
+    $contents = Database_SQLInjection::no ($contents);
+    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+  
   
   
   public function delete ($identifier)
@@ -360,17 +407,9 @@ EOD;
     // If the user already is subscribed to the note, bail out.
     $subscribers = $this->getSubscribers ($identifier);
     if (in_array ($user, $subscribers)) return;
-    // Subscribe $user. Pad subscriber names with spaces to make selection upon it easier.
-    foreach ($subscribers as &$subscriber) {
-      $subscriber = " $subscriber ";
-    }
-    $subscribers[]= " $user ";
-    $subscribers = implode ("\n", $subscribers);
-    $server = Database_Instance::getInstance ();
-    $identifier = Database_SQLInjection::no ($identifier);
-    $subscribers = Database_SQLInjection::no ($subscribers);
-    $query = "UPDATE notes SET subscriptions = '$subscribers' WHERE identifier = $identifier;";
-    $server->runQuery ($query);
+    // Subscribe $user.
+    $subscribers [] = $user;
+    $this->setSubscribers ($identifier, $subscribers);
   }
 
 
@@ -391,6 +430,22 @@ EOD;
     }
     return $subscribers;
   }
+
+
+  public function setSubscribers ($identifier, $subscribers)
+  {
+    // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
+    foreach ($subscribers as &$subscriber) {
+      $subscriber = " $subscriber ";
+   }
+    $subscribers = implode ("\n", $subscribers);
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $subscribers = Database_SQLInjection::no ($subscribers);
+    $query = "UPDATE notes SET subscriptions = '$subscribers' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+  }
+
 
 
   /**
@@ -424,41 +479,7 @@ EOD;
     if (!in_array ($user, $subscribers)) return;
     // Unsubscribe $user.
     $subscribers = array_diff ($subscribers, array ($user));
-    // Pad subscriber names with spaces to aid in notes selection based on it.
-    foreach ($subscribers as &$subscriber) {
-      $subscriber = " $subscriber ";
-    }
-    $subscribers = implode ("\n", $subscribers);
-    $server = Database_Instance::getInstance ();
-    $identifier = Database_SQLInjection::no ($identifier);
-    $subscribers = Database_SQLInjection::no ($subscribers);
-    $query = "UPDATE notes SET subscriptions = '$subscribers' WHERE identifier = $identifier;";
-    $server->runQuery ($query);
-  }
-
-
-  /**
-  * Assign the note identified by $identifier to $user.
-  */
-  public function assignUser ($identifier, $user)
-  {
-    // If the note already is assigned to the user, bail out.
-    $assignees = $this->getAssignees ($identifier);
-    if (in_array ($user, $assignees)) return;
-    // Assign the note to the user. 
-    $assignees[]= "$user";
-    // Add a space at both sides of the user to allow for easier note selection based on note assignment.
-    foreach ($assignees as &$assignee) {
-      $assignee = " $assignee ";
-    }
-    $assignees = implode ("\n", $assignees);
-    $server = Database_Instance::getInstance ();
-    $identifier = Database_SQLInjection::no ($identifier);
-    $assignees = Database_SQLInjection::no ($assignees);
-    $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
-    $server->runQuery ($query);
-    $this->noteEditedActions ($identifier);
-    $this->addComment ($identifier, gettext ("The note was assigned to") . " " . $user);
+    $this->setSubscribers ($identifier, $subscribers);
   }
 
 
@@ -474,11 +495,47 @@ EOD;
     $row = $result->fetch_row();
     $assignees = explode ("\n", $row[0]);
     $assignees = array_diff ($assignees, array (""));
-    // Remove a space that was added at both sides of the user.
+    // Remove the padding space at both sides of the assignee.
     foreach ($assignees as &$assignee) {
       $assignee = trim ($assignee);
     }
     return $assignees;
+  }
+  
+  /**
+  * Sets the note's assignees.
+  * $identifier : note identifier.
+  * $assignees: array of user names.
+  */
+  public function setAssignees ($identifier, $assignees)
+  {
+    // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
+    foreach ($assignees as &$assignee) {
+      $assignee = " $assignee ";
+   }
+    $assignees = implode ("\n", $assignees);
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $assignees = Database_SQLInjection::no ($assignees);
+    $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+    $this->noteEditedActions ($identifier);
+  }
+
+
+  /**
+  * Assign the note identified by $identifier to $user.
+  */
+  public function assignUser ($identifier, $user)
+  {
+    // If the note already is assigned to the user, bail out.
+    $assignees = $this->getAssignees ($identifier);
+    if (in_array ($user, $assignees)) return;
+    // Assign the note to the user. 
+    $assignees[]= "$user";
+    // Store the whole log.
+    $this->setAssignees ($identifier, $assignees);
+    $this->addComment ($identifier, gettext ("The note was assigned to") . " " . $user);
   }
 
 
@@ -513,13 +570,7 @@ EOD;
     if (!in_array ($user, $assignees)) return;
     // Remove assigned $user.
     $assignees = array_diff ($assignees, array ($user));
-    $assignees = implode ("\n", $assignees);
-    $server = Database_Instance::getInstance ();
-    $identifier = Database_SQLInjection::no ($identifier);
-    $assignees = Database_SQLInjection::no ($assignees);
-    $query = "UPDATE notes SET assigned = '$assignees' WHERE identifier = $identifier;";
-    $server->runQuery ($query);
-    $this->noteEditedActions ($identifier);
+    $this->setAssignees ($identifier, $assignees);
     $this->addComment ($identifier, gettext ("The note is no longer assigned to") . " " . $user);
   }
 
@@ -572,7 +623,7 @@ EOD;
   /**
   * Takes the $passage as a string, and returns an array with book, chapter, and verse.
   */
-  private function decodePassage ($passage)
+  public function decodePassage ($passage)
   {
     $passage = trim ($passage);
     return explode (".", $passage);
@@ -757,9 +808,9 @@ EOD;
   
 
   /**
-  * Returns the severity of a note as a localized string.
+  * Returns the severity of a note as a number.
   */
-  public function getSeverity ($identifier)
+  public function getRawSeverity ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -770,6 +821,16 @@ EOD;
       $row = $result->fetch_row();
       $severity = $row[0];
     }
+    return $severity;
+  }
+
+
+  /**
+  * Returns the severity of a note as a localized string.
+  */
+  public function getSeverity ($identifier)
+  {
+    $severity = $this->getRawSeverity ($identifier);
     $severity = $this->standard_severities[$severity];
     if ($severity == "") $severity = "Normal";
     $severity = gettext ($severity);
@@ -779,9 +840,9 @@ EOD;
 
   /**
   * Sets the $severity of the note identified by $identifier.
-  * $severity is a  number.
+  * $severity is a number.
   */
-  public function setSeverity ($identifier, $severity)
+  public function setRawSeverity ($identifier, $severity)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -866,11 +927,11 @@ EOD;
   }
 
 
-  public function setModified ($identifier, $time) // Todo use for PHPTesting and Git methods so it sets the time right.
+  public function setModified ($identifier, $time)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
-    $privacy = Database_SQLInjection::no ($privacy);
+    $time = Database_SQLInjection::no ($time);
     $query = "UPDATE notes SET modified = $time WHERE identifier = $identifier;";
     $server->runQuery ($query);
   }

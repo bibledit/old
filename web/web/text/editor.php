@@ -83,7 +83,7 @@ class Text_Editor
         $chapter_data = Filter_Usfm::import ($chapter_data, $stylesheet);
         // Convert the array to a string with new lines.
         foreach ($chapter_data as $data) {
-          $chapter_to_save .= "$data[2]\n";
+          @$chapter_to_save .= "$data[2]\n";
         }
         // Save data.
         $database_bibles->storeChapter ($bible, $book, $chapter, $chapter_to_save);

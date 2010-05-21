@@ -12,8 +12,11 @@
   {include file=../assets/install_git.tpl} 
 
   <h1>{t}Open network repository setup{/t}</h1>
-  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
+  {if $object == "consultationnotes"}
+  <p>{t}Consultation Notes{/t}</p>
+  {else}
   <p>{t}Bible{/t}: {$object}</p>
+  {/if}
   <p>{t}In this tutorial you are going to set up an open repository on the network.{/t}</p>
   <p>{t}You need a server to run this repository. Any of your Linux computers attached to your network will do. In this tutorial we assume that the computer is accessible from the network through IP address 192.168.0.1. The user of this computer will be Jim.{/t}</p>
   <p>{t}To create the repository, login as user jim. Then open a terminal. The repository is going to be in Jim's home directory. In the terminal type the following:{/t}</p>
