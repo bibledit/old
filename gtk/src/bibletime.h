@@ -29,7 +29,4 @@
 #include "gwrappers.h"
 
 
-bool bibletime_reference_receive (ustring text, Reference& reference);
-
-
 #endif

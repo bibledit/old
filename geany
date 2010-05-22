@@ -14,15 +14,10 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=3
-FILE_NAME_0=72;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=19123;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
-FILE_NAME_2=134657;HTML;0;16;0;1;0;/home/teus/shona-grammar-online.html;0
-FILE_NAME_3=13181;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
-FILE_NAME_4=14756;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/gitTest.php;0
-FILE_NAME_5=11606;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
-FILE_NAME_6=466;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_take_repo.php;0
-FILE_NAME_7=0;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_take_repo.tpl;0
-FILE_NAME_8=1807;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_take_yourself.php;0
-FILE_NAME_9=0;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_take_yourself.tpl;0
-FILE_NAME_10=1197;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
+current_page=4
+FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=134657;HTML;0;16;0;1;0;/home/teus/shona-grammar-online.html;0
+FILE_NAME_2=796;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gui_navigation.cpp;0
+FILE_NAME_3=779;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gui_navigation.h;0
+FILE_NAME_4=210343;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.cpp;0
+FILE_NAME_5=8335;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.h;0

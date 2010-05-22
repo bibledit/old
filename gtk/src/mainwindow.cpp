@@ -126,7 +126,6 @@
 #include "dialogmaintenance.h"
 #include "kjv.h"
 #include "dialogyesnoalways.h"
-#include "ipc.h"
 #include "dialogxetex.h"
 #include "vcs.h"
 
@@ -180,9 +179,8 @@ navigation(0), httpd(0)
   shutting_down = false;
   check_spelling_at_start = false;
   check_spelling_at_end = false;
-  event_id_receive_reference = 0;
-  previously_received_reference = NULL;
   interprocess_communications_initiate_listener_event_id = 0;
+  interprocess_communications_initiate_listener_message_id = 0;
   
   // Application name.
   g_set_application_name("Bibledit-Gtk");
@@ -1382,18 +1380,6 @@ navigation(0), httpd(0)
   gtk_widget_show (image36259);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tools_maintenance), image36259);
 
-  tool_send_reference = gtk_image_menu_item_new_with_mnemonic ("Send _reference");
-  gtk_widget_show (tool_send_reference);
-  gtk_container_add (GTK_CONTAINER (menutools_menu), tool_send_reference);
-
-  image37446 = gtk_image_new_from_stock ("gtk-connect", GTK_ICON_SIZE_MENU);
-  gtk_widget_show (image37446);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_send_reference), image37446);
-
-  tools_receive_reference = gtk_check_menu_item_new_with_mnemonic ("R_eceive reference");
-  gtk_widget_show (tools_receive_reference);
-  gtk_container_add (GTK_CONTAINER (menutools_menu), tools_receive_reference);
-
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
   // in use already: 
@@ -1755,8 +1741,6 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) tool_transfer_project_notes_to_text, "activate", G_CALLBACK(on_tool_transfer_project_notes_to_text_activate), gpointer(this));
   g_signal_connect ((gpointer) tool_go_to_reference, "activate", G_CALLBACK (on_tool_go_to_reference_activate), gpointer (this));
   g_signal_connect ((gpointer) tools_maintenance, "activate", G_CALLBACK (on_tools_maintenance_activate), gpointer (this));
-  g_signal_connect ((gpointer) tool_send_reference, "activate", G_CALLBACK (on_tool_send_reference_activate), gpointer (this));
-  g_signal_connect ((gpointer) tools_receive_reference, "activate", G_CALLBACK (on_tools_receive_reference_activate), gpointer (this));
   if (notes_preferences)
     g_signal_connect((gpointer) notes_preferences, "activate", G_CALLBACK(on_notes_preferences_activate), gpointer(this));
   if (printingprefs)
@@ -1834,20 +1818,11 @@ navigation(0), httpd(0)
   
   // Start listening to messages directed to us.
   interprocess_communications_initiate_listener ();
-  // Clear out old messages on shutdown.
-  // If this is not done we may have a situation where a "quit" message remains on the server,
-  // and when a helper starts next time, it immediately quits, thus rendering the system sub-optimal.
-  maintenance_register_shell_command ("", "curl " + interprocess_communication_message_url (icmtClearMessages, icctNone, icstNone, ""));
 }
 
 
 MainWindow::~MainWindow()
 {
-  // No receiving of references anymore.
-  gw_destroy_source (event_id_receive_reference);
-  if (previously_received_reference)
-    delete previously_received_reference;
-  
   // Destroy any pending listener restart.
   gw_destroy_source (interprocess_communications_initiate_listener_event_id);
 
@@ -2930,12 +2905,6 @@ void MainWindow::on_preferences_windows_outpost()
 }
 
 
-void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_tool_send_reference();
-}
-
-
 void MainWindow::on_tool_send_reference ()
 {
   // Send the focus to Bibledit-Web.
@@ -2944,50 +2913,12 @@ void MainWindow::on_tool_send_reference ()
   payload.append (convert_to_string (navigation.reference.chapter));
   payload.append (".");
   payload.append (navigation.reference.verse);
-  extern URLTransport * urltransport;
-  ustring url = interprocess_communication_message_url (icmtSetMessage, icctNone, icstFocus, payload);
-  urltransport->send_message (url);
-}
-
-
-void MainWindow::on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_tools_receive_reference();
-}
-
-
-void MainWindow::on_tools_receive_reference ()
-{
   extern Settings * settings;
-  settings->session.receiving_references = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (tools_receive_reference));
-  if (settings->session.receiving_references) {
-    previously_received_reference = new Reference (0);
-    tools_receive_reference_timeout ();
-    event_id_receive_reference = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this), NULL);
-  } else {
-    gw_destroy_source (event_id_receive_reference);
-    delete previously_received_reference;
-  }
-}
-
-
-bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
-{
-  ((MainWindow *) data)->tools_receive_reference_timeout();
-  return true;
-}
-
-
-void MainWindow::tools_receive_reference_timeout()
-{
-  Reference received_reference (0);
-  bool new_reference_received = false;
-  if (new_reference_received) {
-    if (!previously_received_reference->equals (received_reference)) {
-      navigation.display (received_reference);
-      previously_received_reference->assign (received_reference);
-    }
-  }
+  ustring url = settings->genconfig.bibledit_web_url_get();
+  url.append ("/ipc/setmessage.php?subject=focus&message=");
+  url.append (payload);
+  extern URLTransport * urltransport;
+  urltransport->send_message (url);
 }
 
 
@@ -5852,11 +5783,6 @@ void MainWindow::on_assistant_ready ()
 
   // Export.
   if (export_assistant) {
-    if (export_assistant->sword_module_created) {
-      extern URLTransport * urltransport;
-      ustring url = interprocess_communication_message_url (icmtStoreMessage, icctBibleTime, icstReload, "");
-      urltransport->send_message (url);
-    }
     delete export_assistant;
     export_assistant = NULL;
   }
@@ -6327,9 +6253,13 @@ bool MainWindow::on_interprocess_communications_initiate_listener_timeout(gpoint
 void MainWindow::interprocess_communications_initiate_listener ()
 {
   interprocess_communications_initiate_listener_event_id = 0;
-  GtkWidget * button;
+  extern Settings * settings;
+  ustring url = settings->genconfig.bibledit_web_url_get();
+  url.append ("/ipc/getmessage.php?channel=bibleditgtk&id=");
+  url.append (convert_to_string (interprocess_communications_initiate_listener_message_id));
   extern URLTransport * urltransport;
-  button = urltransport->send_message_expect_reply (interprocess_communication_message_url (icmtListen, icctBibledit, icstNone, ""));
+  GtkWidget * button;
+  button = urltransport->send_message_expect_reply (url);
   g_signal_connect((gpointer) button, "clicked", G_CALLBACK(on_interprocess_communications_listener_button_clicked), gpointer(this));
 }
 
@@ -6347,17 +6277,16 @@ void MainWindow::on_interprocess_communications_listener_button(GtkButton *butto
   if (urltransport->reply_is_ok) {
 		ParseLine parseline (trim (urltransport->reply_body));
     if (!parseline.lines.empty()) {
-      ustring subject = parseline.lines[0];
-
-      // Handle "bibletimeref" command.
-      if (subject.find ("bibletimeref") == 0) {
-        if (parseline.lines.size() > 1) {
-          Reference received_reference (0);
-          if (bibletime_reference_receive(parseline.lines[1], received_reference)) {
-            if (!previously_received_reference->equals (received_reference)) {
-              navigation.display (received_reference);
-              previously_received_reference->assign (received_reference);
-            }
+      interprocess_communications_initiate_listener_message_id = convert_to_int (parseline.lines[0]);
+      if (parseline.lines.size() > 2) {
+        ustring subject = parseline.lines[1];
+        // Handle "focus" command.
+        if (subject == "focus") {
+          ustring payload = parseline.lines[2];
+          Parse parse (payload, false, ".");
+          if (parse.words.size() >= 3) {
+            Reference received_reference (convert_to_int (parse.words[0]), convert_to_int (parse.words[1]), parse.words[2]);
+            navigation.display (received_reference);
           }
         }
       }

@@ -173,11 +173,10 @@ am_bibledit_gtk_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) floatingwindow.$(OBJEXT) \
 	windowdata.$(OBJEXT) editor.$(OBJEXT) editoractions.$(OBJEXT) \
 	nanohttp.$(OBJEXT) c_url.$(OBJEXT) urltransport.$(OBJEXT) \
-	ipc.$(OBJEXT) dialogreferencesettings.$(OBJEXT) \
-	printproject2.$(OBJEXT) usfm2xetex.$(OBJEXT) \
-	xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) xetex.$(OBJEXT) \
-	dialogxetex.$(OBJEXT) paratext.$(OBJEXT) vcs.$(OBJEXT) \
-	git-exec.$(OBJEXT)
+	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
+	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
+	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT) \
+	vcs.$(OBJEXT) git-exec.$(OBJEXT)
 bibledit_gtk_OBJECTS = $(am_bibledit_gtk_OBJECTS)
 bibledit_gtk_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -615,7 +614,6 @@ bibledit_gtk_SOURCES = \
 				nanohttp.cpp \
 				c_url.cpp \
 				urltransport.cpp \
-				ipc.cpp \
 				dialogreferencesettings.cpp \
 				printproject2.cpp \
 				usfm2xetex.cpp \
@@ -863,7 +861,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/httpd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/import.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/java.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@

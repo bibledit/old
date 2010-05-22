@@ -32,23 +32,6 @@
 #include "settings.h"
 
 
-bool bibletime_reference_receive (ustring text, Reference& reference)
-{
-  if (text.empty()) 
-    return false;
-  // The raw text should be something like: "[KJV] [BIBLE] Jer.48.13" (without the quotes).
-  replace_text (text, ".", " ");
-  Parse parse (text);
-  if (parse.words.size() == 5) {
-    reference.book = books_osis_to_id (parse.words[2]);
-    reference.chapter = convert_to_int (parse.words[3]);
-    reference.verse = parse.words[4];
-    return true;
-  }
-  return false;
-}
-
-
 /*
 
 To checkout bibletime:

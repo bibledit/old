@@ -287,9 +287,6 @@ protected:
   GtkWidget *image36137;
   GtkWidget *tools_maintenance;
   GtkWidget *image36259;
-  GtkWidget *tool_send_reference;
-  GtkWidget *image37446;
-  GtkWidget *tools_receive_reference;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -447,12 +444,6 @@ protected:
   void on_preferences_windows_outpost();
   static void on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_send_reference ();
-  static void on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_tools_receive_reference ();
-  guint event_id_receive_reference;
-  static bool on_tools_receive_reference_timeout(gpointer data);
-  void tools_receive_reference_timeout();
-  Reference * previously_received_reference;
 
   /* Project notes */
   bool project_notes_enabled;
@@ -785,6 +776,7 @@ protected:
   
   // Interprocess communications.
   guint interprocess_communications_initiate_listener_event_id;
+  guint interprocess_communications_initiate_listener_message_id;
   static bool on_interprocess_communications_initiate_listener_timeout(gpointer data);
   void interprocess_communications_initiate_listener ();
   static void on_interprocess_communications_listener_button_clicked(GtkButton *button, gpointer user_data);

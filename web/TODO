@@ -1,10 +1,13 @@
-
-
 Aim is to release this first version, whereby the consultation notes are an improved replacement for the 
 project notes in Bibledit-Gtk, and work together with a local installation of Bibledit-Gtk as far as the focus concerns. 
-Requirements:
-- Bibledit-Web follows the focus upon clicking a refresh link/icon, not automatically. 
-- Bibledit-Gtk follows focus as well.
+Requirement: Bibledit-Gtk follows focus as well.
+To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
+in particular the navigation aspect.
+
+
+
+
+
 
 Git operations should go to the manager's logbook, which is the same logbook, but with the level flag set
 so that the appropriate logs are shown. Even deleting logs, the manager can only delete entries of his own level and down,
@@ -44,6 +47,8 @@ the uploaded file, so this will enable huge files to be imported.
 
 
 
+
+Documentation should have diagrams (if these can be translated), .svg, inkscape or oodraw.
 
 
 

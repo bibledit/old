@@ -25,7 +25,6 @@
 #include "gwrappers.h"
 #include "tiny_utilities.h"
 #include <libsoup/soup.h>
-#include "ipc.h"
 
 
 URLTransport::URLTransport(int dummy)

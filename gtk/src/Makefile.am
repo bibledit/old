@@ -271,7 +271,6 @@ bibledit_gtk_SOURCES = \
 				nanohttp.cpp \
 				c_url.cpp \
 				urltransport.cpp \
-				ipc.cpp \
 				dialogreferencesettings.cpp \
 				printproject2.cpp \
 				usfm2xetex.cpp \

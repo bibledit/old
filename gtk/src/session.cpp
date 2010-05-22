@@ -68,7 +68,6 @@ Session::Session(int dummy)
   import_raw_text_chapter = -1;
   project_notes_show_title = true;
   merge_action = 0;
-  receiving_references = false;
 }
 
 
