@@ -249,7 +249,8 @@ class Assets_Navigator
 
     $smarty->display ("navigator.tpl");
   }
-  
+
+
 }
 
 

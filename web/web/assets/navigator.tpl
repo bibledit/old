@@ -36,4 +36,6 @@
   {else}
   »»
   {/if}
+  |
+  <a href="{$caller}?session={$session}">↻</a>
 </p>

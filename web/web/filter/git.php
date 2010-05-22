@@ -272,8 +272,21 @@ class Filter_Git
             break;
         }
       }
-      // Since the note's contents are last, store it here.
+      // Contents is last in the file. check whether to store it.
       $contents = implode ("\n", $fielddata);
+      if ($contents != $database_notes->getContents ($identifier)) {
+        $note_updated = true;
+      }
+      // If needed, invoke the notifications system.
+      if ($note_updated) {
+        $notes_logic->handlerUpdateNote ($identifier);
+      }
+      // Writing the note's contents is done after the notification system.
+      // This is necessary to avoid possible race conditions.
+      // A race condition could occur two installations of Bibledit-Web share their notes through a git repository,
+      // and each of these installations would apply its own notifications updates.
+      // Each of them would then add content each time, one after the other.
+      // Writing content after the notificatons prevents this.
       if ($contents != $database_notes->getContents ($identifier)) {
         $database_notes->setContents ($identifier, $contents);
         $note_updated = true;
@@ -285,10 +298,6 @@ class Filter_Git
         if ($modified != $database_notes->getModified ($identifier)) {
           $database_notes->setModified ($identifier, $modified);
         }
-      }
-      // If needed, invoke the notifications system.
-      if ($note_updated) {
-        $notes_logic->handlerUpdateNote ($identifier);
       }
     }
 

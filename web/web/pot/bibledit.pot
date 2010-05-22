@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-21 01:45+0200\n"
+"POT-Creation-Date: 2010-05-22 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,6 +31,9 @@ msgstr ""
 msgid "Starting to send and receive the relevant Bibles and Project Notes."
 msgstr ""
 
+msgid "Consultation Notes"
+msgstr ""
+
 msgid "Bible"
 msgstr ""
 
@@ -46,12 +49,15 @@ msgid "Working directory"
 msgstr ""
 
 msgid ""
-"A conflict was found in the above book and chapter. Please resolve this "
-"conflict manually. Open the chapter in the editor in USFM view, and select "
-"which of the two conflicting lines of text should be retained, and remove "
-"the other line, and the conflict markup. After that it is recommended to "
-"send and receive the Bibles again. This will remove the conflict from the "
-"repository."
+"A conflict was found in the above book and chapter or consultation note. "
+"Please resolve this conflict manually. Open the chapter in the editor in "
+"USFM view, and select which of the two conflicting lines of text should be "
+"retained, and remove the other line, and the conflict markup. After that it "
+"is recommended to send and receive the Bibles again. This will remove the "
+"conflict from the repository."
+msgstr ""
+
+msgid "The Consultation Notes have been done."
 msgstr ""
 
 msgid "This Bible has been done."
@@ -1041,9 +1047,6 @@ msgstr ""
 msgid "Bibles"
 msgstr ""
 
-msgid "Consultation Notes"
-msgstr ""
-
 msgid "Translation"
 msgstr ""
 
@@ -1476,23 +1479,6 @@ msgstr ""
 msgid "Collaboration"
 msgstr ""
 
-msgid "Take local Bible"
-msgstr ""
-
-msgid "Repository URL"
-msgstr ""
-
-msgid "Pushing your data to the remote repository:"
-msgstr ""
-
-msgid "Setting up collaboration is now ready."
-msgstr ""
-
-msgid ""
-"The Manager can now choose menu Send/Receive any time he wants to "
-"synchronize Bibles and Consultation Notes with the remote repository."
-msgstr ""
-
 msgid "Repository data"
 msgstr ""
 
@@ -1573,9 +1559,6 @@ msgid "Database"
 msgstr ""
 
 msgid "USB flash drive repository setup"
-msgstr ""
-
-msgid "Next page"
 msgstr ""
 
 msgid ""
@@ -1740,6 +1723,9 @@ msgstr ""
 msgid "This finishes setting up the repository on the USB flash drive."
 msgstr ""
 
+msgid "Repository URL"
+msgstr ""
+
 msgid "The repository that was created in this tutorial has the following URL:"
 msgstr ""
 
@@ -1747,6 +1733,9 @@ msgid ""
 "Your own repository that you have created has a URL too, the one that will "
 "be used from now on. Please enter it below, and press the Submit button to "
 "save it."
+msgstr ""
+
+msgid "Next page"
 msgstr ""
 
 msgid "Test read access"
@@ -1762,12 +1751,15 @@ msgstr ""
 msgid "If you'd like to retry, after updating the URL, press button Submit."
 msgstr ""
 
-msgid "Take Bible in repository"
+msgid "Take data in repository"
 msgstr ""
 
 msgid ""
 "The data in the remote repository was copied over into Bibledit-Web's data, "
 "overwriting the data that was there before."
+msgstr ""
+
+msgid "Setting up collaboration is now ready."
 msgstr ""
 
 msgid ""
@@ -1952,6 +1944,17 @@ msgid ""
 "For public networks such as the internet a secure network repository would "
 "be recommended. This type of repository is locked down. Only those who have "
 "the keys to such a repository can write to it."
+msgstr ""
+
+msgid "Take local Bible"
+msgstr ""
+
+msgid "Pushing your data to the remote repository:"
+msgstr ""
+
+msgid ""
+"The Manager can now choose menu Send/Receive any time he wants to "
+"synchronize Bibles and Consultation Notes with the remote repository."
 msgstr ""
 
 msgid "This page deals with setting up the email system."
