@@ -146,7 +146,7 @@ class Filter_Git
   * Each field, as it is in the file data, is compared with the corresponding field in the database.
   * When the fields are the same, no writes occur.
   */
-  public function notesFiledata2database ($directory) // Todo
+  public function notesFiledata2database ($directory)
   {
     $database_notes = Database_Notes::getInstance ();
     $notes_logic = Notes_Logic::getInstance();

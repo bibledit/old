@@ -6,6 +6,7 @@
 <p><a href="../styles/indexm.php">{t}Styles{/t}</a></p>
 <p><a href="../bible/manage.php">{t}Bibles{/t}</a></p>
 <p><a href="../notes/manage.php">{t}Consultation Notes{/t}</a></p>
+<p><a href="logbook.php">{t}Logbook{/t}</a></p>
 {foreach key=key item=item from=$plugins} 
   <p><a href={$key}>{$item}</a></p>
 {/foreach} 

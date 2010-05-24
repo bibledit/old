@@ -1,8 +1,21 @@
-Aim is to release this first version, whereby the consultation notes are an improved replacement for the 
-project notes in Bibledit-Gtk, and work together with a local installation of Bibledit-Gtk as far as the focus concerns. 
-Requirement: Bibledit-Gtk follows focus as well.
+
+
+
+
+Start all git operations through php-cli, then let it log to the logbook.
+In particular when the git operations are logged there, it is important for it to be readable normally.
+Each git operations should mark the Bible, since there can be a mix of them.
+
+
+
+
+
+Bibledit-Web first release should contain an improved replacement of Bibledit-Gtk for consultation notes.
 To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
 in particular the navigation aspect.
+
+What also should be possible is for everybody to select notes upon their assignement to a particular user.
+This is not possible right now, but is needed to see which queries go to church, to bible society, to panel, etc.
 
 
 
@@ -15,12 +28,6 @@ not the Administrator's entries.
 The git operations may run independently from PHP, it probably needs php-cli for that to work well.
 In particular synchronizing notes may take much time, though we can check on that, so that it needs to run independently
 from the apache server.
-
-The logbook, administrator's or manager's, should display their content in normal order, not bottom to top.
-In particular when the git operations are logged there, it is important for it to be readable normally.
-Each git operations should mark the Bible, since there can be a mix of them.
-The logbook should only show so many entries, and have a pager. E.g. 20 entries, or a screen full.
-
 
 If upon git sync the server on the internet notices that the note got changed,
 it needs to check whether there are any automatic subscription notifications for that, or automatic assignments, and act on that.

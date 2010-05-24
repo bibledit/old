@@ -228,8 +228,8 @@ class Assets_Navigator
     $previous_chapter = "";
     $next_chapter = "";
     if ($key !== false) {
-      $previous_chapter = $chapters [$key - 1];
-      $next_chapter = $chapters [$key + 1];
+      @$previous_chapter = $chapters [$key - 1];
+      @$next_chapter = $chapters [$key + 1];
     }
     $smarty->assign ("previous_chapter", $previous_chapter);
     $smarty->assign ("next_chapter", $next_chapter);

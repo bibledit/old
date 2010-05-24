@@ -11,7 +11,6 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h1>{t}Administration{/t}</h1>
-    <p><a href="logbook.php">{t}Logbook{/t}</a></p>
     <p><a href="mail.php">{t}Mail{/t}</a></p>
     <p><a href="collaboration.php">{t}Collaboration{/t}</a></p>
     <p><a href="database.php">{t}Database{/t}</a></p>

@@ -84,7 +84,7 @@ EOD;
   }
 
 
-  public function identifierExists ($identifier) // Todo PHPUnit this, it gives a warning.
+  public function identifierExists ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -97,7 +97,7 @@ EOD;
   * Update a note's $identifier.
   * $new_identifier is the value given to the note identifier by $identifier.
   */
-  public function setIdentifier ($identifier, $new_identifier) // Todo
+  public function setIdentifier ($identifier, $new_identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -339,7 +339,7 @@ EOD;
   }
 
 
-  public function getContents ($identifier) // Todo PHPUnit, it gives a warning when sending/receiving.
+  public function getContents ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);

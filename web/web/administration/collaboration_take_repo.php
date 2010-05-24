@@ -3,8 +3,6 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 
-// Todo update for consultation notes.
-
 $object = $_GET ['object'];
 $smarty->assign ("object", $object);
 
@@ -23,7 +21,7 @@ if ($object == "consultationnotes") {
 
   // Copy the data from the local cloned repository, and store it in Bibledit-Web's consultation notes,
   // overwriting the whole Bible that was there before.
-  Filter_Git::notesFiledata2database ($directory); // Todo try it.
+  Filter_Git::notesFiledata2database ($directory);
 
 } else {
 

@@ -33,6 +33,7 @@ event text
 );
 EOD;
     $database_instance->runQuery ($str);
+    $database_instance->runQuery ("ALTER TABLE logs ADD level int AFTER timestamp;");
   }
 
 
@@ -41,29 +42,37 @@ EOD;
     $database_instance->runQuery ("OPTIMIZE TABLE logs;");
   }
 
-
   /**
   * log - Logs entry
-  * It automatically deletes older entries.
+  * $manager - whether this logbook entry should be visible to the Manager as well.
+  * It deletes older entries.
   */
-  public function log ($description) {
+  public function log ($description, $manager = false) {
     $database_instance = Database_Instance::getInstance();
     $description = Database_SQLInjection::no ($description);
+    include ("session/levels.php");
+    if ($manager) $level = MANAGER_LEVEL;
+    else $level = ADMIN_LEVEL;
     $time = time();
-    $query = "INSERT INTO logs VALUES (NULL, $time, '$description');";
+    $query = "INSERT INTO logs VALUES (NULL, $time, $level, '$description');";
     $database_instance->runQuery ($query);
-    $time -= 172800;
+    $time -= 604800;
     $query = "DELETE FROM logs WHERE timestamp < $time;";
     $database_instance->runQuery ($query);
   }
 
   /**
   * get - get the logbook entries.
+  * $page is page number, where the last page would be 1, 
+  * the one-but last would be 2, and so on.
   */
-  public function get () {
+  public function get ($page) {
+    $session_logic = Session_Logic::getInstance ();
+    $level = $session_logic->currentLevel ();
     $server  = Database_Instance::getInstance ();
-    $query   = "SELECT timestamp, event FROM logs ORDER BY id DESC;";
-    $result  = $server->runQuery ($query);
+    $limits = $this->limits ($page);
+    $query = "SELECT timestamp, event FROM logs WHERE level <= $level ORDER BY id $limits;";
+    $result = $server->runQuery ($query);
     return $result;
   }
 
@@ -72,9 +81,37 @@ EOD;
   * clear - clears the logbook entries.
   */
   public function clear () {
+    $session_logic = Session_Logic::getInstance ();
+    $level = $session_logic->currentLevel ();
     $server  = Database_Instance::getInstance ();
-    $query   = "DELETE FROM logs;";
+    $query   = "DELETE FROM logs WHERE level <= $level;";
     $server->runQuery ($query);
+  }
+
+
+  /**
+  * Returns the LIMIT clause for the database query.
+  * $page: the page in the database, starting at 1.
+  * If the $page is 0, there will be no limit.
+  */
+  private function limits ($page)
+  {
+    $page = Database_SQLInjection::no ($page);
+    $server  = Database_Instance::getInstance ();
+    $query = "SELECT COUNT(*) FROM logs;";
+    $result  = $server->runQuery ($query);
+    $count = $result->fetch_row ();
+    $count = $count[0];
+    $amount = 20;
+    $limit = $count - ($page * $amount);
+    if ($limit < 0) {
+      $amount = $amount + $limit;
+      $limit = 0;
+    }
+    if ($amount < 0) $amount = 0;
+    $query = "LIMIT $limit,$amount";
+    if ($page == 0) $query = "";
+    return $query;
   }
 
 

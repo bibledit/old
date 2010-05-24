@@ -92,103 +92,123 @@
   echo "<p>Ok: Number of tables in the database before table maintenance: " . $result->num_rows . "</p>";
   flush ();
   
+  // The logs table.
+  $database_logs = Database_Logs::getInstance ();
+  $database_logs->verify();
+  unset ($database_logs);
+  flush ();
+  
   // The versions table.
   $database_versions = Database_Versions::getInstance ();
   $database_versions->verify ();
+  unset ($database_versions);
   flush ();
   
   // The user table.
   $database_users = Database_Users::getInstance();
   $database_users->verify ();
+  unset ($database_users);
   flush ();
   
   // The general configuration table.
   $database_config_general = Database_Config_General::getInstance ();
   $database_config_general->verify (); 
-  flush ();
-  
-  // The logs table.
-  $database_logs = Database_Logs::getInstance ();
-  $database_logs->verify();
+  unset ($database_config_general);
   flush ();
   
   // The mail table.
   $database_mail = Database_Mail::getInstance ();
   $database_mail->verify();
+  unset ($database_mail);
   flush ();
   
   // The cron table.
   $database_cron = Database_Cron::getInstance ();
   $database_cron->verify ();
+  unset ($database_cron);
   flush ();
   
   // The mailer table.
   $database_mailer = Database_Mailer::getInstance ();
   $database_mailer->verify ();
+  unset ($database_mailer);
   flush ();
   
   // The confirmations table.
   $database_confirm = Database_Confirm::getInstance ();
   $database_confirm->verify ();
+  unset ($database_confirm);
   flush ();
   
   // The books table.
   $database_books = Database_Books::getInstance ();
   $database_books->verify();
   $database_books->import();
+  unset ($database_books);
   flush ();
   
   // The dialog table.
   $database_dialog = Database_Dialog::getInstance ();
   $database_dialog->verify ();
+  unset ($database_dialog);
   flush ();
   
   // The versifications table.
   $database_versifications = Database_Versifications::getInstance();
   $database_versifications->verify();
   $database_versifications->import();
+  unset ($database_versifications);
   flush ();
 
   // The styles table.
   $database_styles = Database_Styles::getInstance();
   $database_styles->verify();
+  unset ($database_styles);
   flush ();
     
   // The user settings table.
   $database_config_user = Database_Config_User::getInstance();
   $database_config_user->verify();
+  unset ($database_config_user);
   flush ();
     
   // The Bibles table.
   $database_bibles = Database_Bibles::getInstance();
   $database_bibles->verify();
+  unset ($database_bibles);
   flush ();
     
   // The Snapshots table.
   $database_snapshots = Database_Snapshots::getInstance();
   $database_snapshots->verify();
+  unset ($database_snapshots);
   flush ();
     
   // The ipc table.
   $database_ipc = Database_Ipc::getInstance();
   $database_ipc->verify();
+  unset ($database_ipc);
   flush ();
     
   // The repositories table.
   $database_repositories = Database_Repositories::getInstance();
   $database_repositories->verify();
+  unset ($database_repositories);
   flush ();
     
   // The sessions table.
   $database_sessions = Database_Sessions::getInstance();
   $database_sessions->verify();
+  unset ($database_sessions);
   flush ();
     
   // The consultations notes table.
   $database_notes = Database_Notes::getInstance();
   $database_notes->verify();
+  unset ($database_notes);
   flush ();
-    
+
+
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

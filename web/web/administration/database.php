@@ -17,6 +17,11 @@ message_information ("Number of tables in the database: " . $result->num_rows);
 message_information ("Optimizing tables");
 flush ();
 
+// The logs table.
+$database_logs = Database_Logs::getInstance ();
+$database_logs->optimize();
+
+
 // The versions table.
 $database_versions = Database_Versions::getInstance ();
 $database_versions->optimize ();
@@ -30,11 +35,6 @@ $database_users->optimize ();
 // The general configuration table.
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_general->optimize ();
-
-
-// The logs table.
-$database_logs = Database_Logs::getInstance ();
-$database_logs->optimize();
 
 
 // The mail table.
