@@ -272,18 +272,9 @@ EOD;
       $query .= " AND (bible = '' OR bible = '$bible') ";
     }
     // Consider note assignment constraints.
-    switch ($assignment_selector) {
-      case 0:
-        // Do not care about note assignment.
-        break;
-      case 1:
-        // Select notes assigned to current user.
-        $query .= " AND assigned LIKE '% $username %' ";
-        break;
-      case 2:
-        // Select notes assigned to somebody else, not the current user.
-        $query .= " AND NOT assigned LIKE '% $username %' AND NOT assigned = '' ";
-        break;
+    if ($assignment_selector != "") {
+      $assignment_selector = Database_SQLInjection::no ($assignment_selector);
+      $query .= " AND assigned LIKE '% $assignment_selector %' ";
     }
     // Consider note subscription constraints.
     if ($subscription_selector == 1) {
@@ -482,6 +473,32 @@ EOD;
     $this->setSubscribers ($identifier, $subscribers);
   }
 
+
+  /**
+  * Returns an array with all assignees to the notes.
+  * These are the usernames to which one or more notes have been assigned.
+  * This means that if no notes have been assigned to anybody, it will return an empty array.
+  */
+  public function getAllAssignees ()
+  {
+    $assignees = array ();
+    $server = Database_Instance::getInstance ();
+    $query = "SELECT DISTINCT assigned FROM notes;";
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $names = explode ("\n", $row[0]);
+      $assignees = array_merge ($assignees, $names);
+    }
+    $assignees = array_unique ($assignees);
+    foreach ($assignees as &$assignee) {
+      $assignee = trim ($assignee);
+    }
+    $assignees = array_diff ($assignees, array (""));
+    $assignees = array_values ($assignees);
+    return $assignees;
+  }
+  
 
   /**
   * Returns an array with the assignees to the note identified by $identifier.

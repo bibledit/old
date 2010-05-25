@@ -37,11 +37,14 @@
 </p>
 <p>
 {t}Select notes that have been assigned to somebody:{/t}
-  <a {if $assignmentselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotesassignmentselector=0">{t}do not care about this{/t}</a>
-  |
-  <a {if $assignmentselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotesassignmentselector=1">{t}assigned to me{/t}</a>
-  |
-  <a {if $assignmentselector == 2}class="active"{/if} href="{$caller}?session={$session}&consultationnotesassignmentselector=2">{t}assigned to somebody but not me{/t}</a>
+  <a {if $assignmentselector == ""}class="active"{/if} href="{$caller}?session={$session}&consultationnotesassignmentselector=">{t}do not care about this{/t}</a>
+  {section name=offset loop=$assignees}
+    |
+    <a {if $assignmentselector == $assignees[offset]}class="active"{/if} href="{$caller}?session={$session}&consultationnotesassignmentselector={$assignees[offset]}">{$assignees[offset]}</a>
+  {/section}
+  {if $nonexistingassignee}
+    {t}Currently looking for notes assigned to:{/t} {$assignmentselector}
+  {/if}
 </p>
 <p>
 {t}Select notes by subscription:{/t}

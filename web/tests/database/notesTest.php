@@ -108,6 +108,12 @@ class notesTest extends PHPUnit_Framework_TestCase
     $this->assertTrue ($database_notes->isAssigned ($identifier, "PHPUnit2"));
     $this->assertFalse ($database_notes->isAssigned ($identifier, "PHPUnit3"));
     
+    // Based on the above, test getAllAssignees().
+    $assignees = $database_notes->getAllAssignees ();
+    $this->assertTrue (in_array ("PHPUnit", $assignees));
+    $this->assertTrue (in_array ("PHPUnit2", $assignees));
+    $this->assertFalse (in_array ("PHPUnit3", $assignees));
+    
     // Based on the above, test the unassign(User) function.
     $database_notes->unassignUser ($identifier, "PHPUnit");
     $assignees = $database_notes->getAssignees ($identifier);

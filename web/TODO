@@ -1,10 +1,22 @@
+One should be able to select notes upon assignment, and all currently assigned usernames should be used.
+It may happen that there are no such names, in that case this should be mentioned.
+E.g. if no notes have been assigned to the bible society, it should mention that this is the case.
+So that users don't get confused.
+Database to give all possible assignees, use unique selection of the variable, then to extract all,
+then to only get the unique names.
+
+
+
+
+
+
 
 
 
 
 Start all git operations through php-cli, then let it log to the logbook.
 In particular when the git operations are logged there, it is important for it to be readable normally.
-Each git operations should mark the Bible, since there can be a mix of them.
+Each git operations should mark the Bible, since there can be a mix of them when several processes run in parallel.
 
 
 
@@ -14,6 +26,7 @@ Bibledit-Web first release should contain an improved replacement of Bibledit-Gt
 To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
 in particular the navigation aspect.
 
+
 What also should be possible is for everybody to select notes upon their assignement to a particular user.
 This is not possible right now, but is needed to see which queries go to church, to bible society, to panel, etc.
 
@@ -21,16 +34,19 @@ This is not possible right now, but is needed to see which queries go to church,
 
 
 
+Setting up the git operations by the manager requires page refreshes every few seconds,
+so that this page tracks the progress made by that particular git operation or operations.
+It checks the logfiles that come out, and waits for a signal that the operation is ready, then
+displays the Next buttons.
+The ready-flag is a special flag in the log that comes out.
+The page contains the logfile to check for.
+This means that the operation cannot time out, but continues to go since it runs through php-cli.
 
-Git operations should go to the manager's logbook, which is the same logbook, but with the level flag set
-so that the appropriate logs are shown. Even deleting logs, the manager can only delete entries of his own level and down,
-not the Administrator's entries.
+
+
+Git operations should go to the manager's logbook.
 The git operations may run independently from PHP, it probably needs php-cli for that to work well.
-In particular synchronizing notes may take much time, though we can check on that, so that it needs to run independently
-from the apache server.
-
-If upon git sync the server on the internet notices that the note got changed,
-it needs to check whether there are any automatic subscription notifications for that, or automatic assignments, and act on that.
+In particular synchronizing notes may take much time so that it needs to run independently from the apache server.
 
 The Administrator should be able to create new users on the fly. The password will always be equal to the username
 in these cases, and the email address will be empty, so that emails fail and are discarded. The reason for making
@@ -42,9 +58,13 @@ to 'critical' even if their note describers a 'wish' only, so that a standard po
 
 
 
+
+
+
 Include backup of mysql into normal backup routines.
 It should go as emailing it to localhost, then it is kept as email in Evolution.
 It could be emailed every day. This should be an option set by the administrator, e.g. every two days, or every week.
+
 
 
 

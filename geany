@@ -14,8 +14,11 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=406;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=134657;HTML;0;16;0;1;0;/home/teus/shona-grammar-online.html;0
-FILE_NAME_2=7140;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/assets/navigator.php;0
-FILE_NAME_3=880;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/logs.php;0
+current_page=1
+FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=146991;HTML;0;16;0;1;0;/home/teus/shona-grammar-online.html;0
+FILE_NAME_2=2108;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/logs.php;0
+FILE_NAME_3=508;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/levels.php;0
+FILE_NAME_4=506;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/index.tpl;0
+FILE_NAME_5=4547;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logic.php;0
+FILE_NAME_6=474;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/logbook.php;0

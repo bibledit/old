@@ -305,7 +305,6 @@ class Notes_Editor
     }
     @$assignment_selector = $_GET['consultationnotesassignmentselector'];
     if (isset ($assignment_selector)) {
-      if (($assignment_selector < 0) || ($assignment_selector > 2)) $assignment_selector = 0;
       $database_config_user->setConsultationNotesAssignmentSelector($assignment_selector);
     }
     @$subscription_selector = $_GET['consultationnotessubscriptionselector'];
@@ -427,6 +426,13 @@ class Notes_Editor
       $smarty->assign ("statusselector", $status_selector);
       $smarty->assign ("bibleselector", $bible_selector);
       $smarty->assign ("assignmentselector", $assignment_selector);
+      $assignees = $database_notes->getAllAssignees();
+      $smarty->assign ("assignees", $assignees);
+      if ($assignment_selector != "") {
+        if (!in_array ($assignment_selector, $assignees)) {
+          $smarty->assign ("nonexistingassignee", true);
+        }
+      }
       $smarty->assign ("subscriptionselector", $subscription_selector);
       $smarty->assign ("severityselector", $severity_selector);
       $smarty->assign ("severities", $database_notes->getPossibleSeverities());

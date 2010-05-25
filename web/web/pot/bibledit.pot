@@ -8,13 +8,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-24 01:45+0200\n"
+"POT-Creation-Date: 2010-05-25 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "Logbook"
+msgstr ""
+
+msgid "Logbook was partially or fully cleared"
+msgstr ""
 
 msgid "Would you like to delete"
 msgstr ""
@@ -1024,6 +1030,18 @@ msgstr ""
 msgid "change"
 msgstr ""
 
+msgid "Page"
+msgstr ""
+
+msgid "clear"
+msgstr ""
+
+msgid "Timestamp"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
 msgid "Send/Receive"
 msgstr ""
 
@@ -1512,18 +1530,6 @@ msgid ""
 msgstr ""
 
 msgid "Take your data."
-msgstr ""
-
-msgid "Logbook"
-msgstr ""
-
-msgid "delete all"
-msgstr ""
-
-msgid "Timestamp"
-msgstr ""
-
-msgid "Event"
 msgstr ""
 
 msgid "Site timezone"

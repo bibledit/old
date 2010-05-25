@@ -222,9 +222,9 @@ EOD;
     $this->setValue ("", "consultation-notes-bible-selector", $value);
   }   
 
-  // 0: don't care; 1: assigned to me; 2: assigned to somebody else.
+  // "": don't care; "user": notes assigned to "user".
   public function getConsultationNotesAssignmentSelector() {
-    return $this->getValue ("", "consultation-notes-assignment-selector", 0);
+    return $this->getValue ("", "consultation-notes-assignment-selector", "");
   }
   public function setConsultationNotesAssignmentSelector ($value) {
     $this->setValue ("", "consultation-notes-assignment-selector", $value);
