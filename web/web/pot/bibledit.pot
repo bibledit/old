@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-25 01:45+0200\n"
+"POT-Creation-Date: 2010-05-27 01:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,18 +144,6 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-msgid "Checking folder"
-msgstr ""
-
-msgid "OK"
-msgstr ""
-
-msgid "Could not import the note"
-msgstr ""
-
-msgid "This is not a note"
-msgstr ""
-
 msgid "Could not find the folder with the consultation notes"
 msgstr ""
 
@@ -172,6 +160,27 @@ msgid "Note updated"
 msgstr ""
 
 msgid "Note deleted"
+msgstr ""
+
+msgid "Import consultation notes has started"
+msgstr ""
+
+msgid "Importing from folder:"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Imported"
+msgstr ""
+
+msgid "Could not import the note"
+msgstr ""
+
+msgid "This is not a note"
+msgstr ""
+
+msgid "Import consultation notes has finished"
 msgstr ""
 
 msgid "There was nothing to save"
@@ -1131,45 +1140,27 @@ msgstr ""
 msgid "Importing notes, step 2"
 msgstr ""
 
-msgid "This is step 2 of importing the Consultation Notes."
-msgstr ""
-
 msgid "The notes file has been uploaded successfully."
 msgstr ""
 
 msgid "Filename"
 msgstr ""
 
-msgid "The notes were uncompressed."
-msgstr ""
-
-msgid "Folder"
-msgstr ""
-
-msgid ""
-"You can now proceed to do the actual import of these consultation notes."
-msgstr ""
-
-msgid ""
-"It can take a good amount of the time, depending on the amount of notes to "
-"import."
-msgstr ""
-
-msgid "Do not interrupt the import. It will finish, though it may take time."
-msgstr ""
-
-msgid ""
-"After everything has been done, you can see the consultation notes in the "
-"normal place. They will be added to any existing ones."
-msgstr ""
-
-msgid "Do the actual import of the consultation notes."
+msgid "Next"
 msgstr ""
 
 msgid "There was a problem uploading the file."
 msgstr ""
 
 msgid "Yo can go back to retry it."
+msgstr ""
+
+msgid ""
+"Or you can manually specify the location of the file, e.g. /home/joe/notes."
+"tar.gz, and then press Submit."
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "Create a new consultation note."
@@ -1356,10 +1347,7 @@ msgstr ""
 msgid "do not care about this"
 msgstr ""
 
-msgid "assigned to me"
-msgstr ""
-
-msgid "assigned to somebody but not me"
+msgid "Currently looking for notes assigned to:"
 msgstr ""
 
 msgid "Select notes by subscription:"
@@ -1416,10 +1404,41 @@ msgstr ""
 msgid "Import notes"
 msgstr ""
 
+msgid "Importing notes, step 3"
+msgstr ""
+
+msgid "The notes were uncompressed."
+msgstr ""
+
+msgid "Folder"
+msgstr ""
+
 msgid "Create new note"
 msgstr ""
 
 msgid "Displaying notes"
+msgstr ""
+
+msgid "Importing notes, last step"
+msgstr ""
+
+msgid "The process for importing consultation notes has been started."
+msgstr ""
+
+msgid "The progress of this process is visible in the logbook."
+msgstr ""
+
+msgid ""
+"It can take a good amount of time, depending on the amount of notes to be "
+"imported."
+msgstr ""
+
+msgid ""
+"After everything has been done, you can see the consultation notes in the "
+"normal place. They will be added to any existing ones."
+msgstr ""
+
+msgid "View logbook."
 msgstr ""
 
 msgid "Color"
@@ -1429,9 +1448,6 @@ msgid "List"
 msgstr ""
 
 msgid "Entry"
-msgstr ""
-
-msgid "Submit"
 msgstr ""
 
 msgid "Yes / No"

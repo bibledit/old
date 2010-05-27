@@ -24,11 +24,16 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import"));
-$file = $_GET ['file'];
-$folder = Filter_Archive::uncompress ($file, true);
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->assign ("folder", $folder);
-$smarty->display ("import3.tpl");
+set_time_limit (0);
+$folder = $_GET ['folder'];
+if (file_exists ($folder)) {
+  $workingdirectory = dirname (__FILE__);
+  shell_exec ("cd $workingdirectory; php importcli.php $folder > /dev/null 2>&1 &");
+  $smarty = new Smarty_Bibledit (__FILE__);
+  $smarty->display ("import4.tpl");
+} else {
+  Assets_Page::error (gettext ("Could not find the folder with the consultation notes"));
+}
 Assets_Page::footer ();
 
 ?>

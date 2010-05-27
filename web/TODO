@@ -1,9 +1,23 @@
-One should be able to select notes upon assignment, and all currently assigned usernames should be used.
-It may happen that there are no such names, in that case this should be mentioned.
-E.g. if no notes have been assigned to the bible society, it should mention that this is the case.
-So that users don't get confused.
-Database to give all possible assignees, use unique selection of the variable, then to extract all,
-then to only get the unique names.
+The notes importer should be redone, so that it imports the note at once, without the logic, just write to the table.
+Right now it takes too much time.
+
+
+When uploading notes, and the file is too big, the user should be given an opportunity to change the path to 
+the uploaded file, so this will enable huge files to be imported.
+
+Each note imported should be logged.
+
+The pages that controls the shell process should note if a process is running.
+See shell_exec for examples of that.
+It acts accordingly.
+Flags for this go in a memory table, so these are volatile.
+
+
+
+
+When the logbook is 'clear'-ed, it keeps clearing it.
+In that case do not refresh the page, only refresh when not clearing.
+Instead do a page redirect to the normal viewing page.
 
 
 
@@ -12,12 +26,23 @@ then to only get the unique names.
 
 
 
+
+
+
+
+
+
+
+
+There should be a need to set the privacy of imported notes such that
+only members of a team can see these.
+This can be done by the notes selector, then to take actions on the selected set.
 
 
 Start all git operations through php-cli, then let it log to the logbook.
 In particular when the git operations are logged there, it is important for it to be readable normally.
 Each git operations should mark the Bible, since there can be a mix of them when several processes run in parallel.
-
+Perhaps we start with not running in parallel, as now.
 
 
 
@@ -27,8 +52,6 @@ To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, wh
 in particular the navigation aspect.
 
 
-What also should be possible is for everybody to select notes upon their assignement to a particular user.
-This is not possible right now, but is needed to see which queries go to church, to bible society, to panel, etc.
 
 
 
@@ -69,14 +92,12 @@ It could be emailed every day. This should be an option set by the administrator
 
 
 
-When uploading notes, and the file is too big, the user should be given an opportunity to change the path to 
-the uploaded file, so this will enable huge files to be imported.
-
-
-
-
 Documentation should have diagrams (if these can be translated), .svg, inkscape or oodraw.
 
+
+
+
+Once notes work well in -Web, the sharing of these should be disabled in -Gtk, since it does not work reliably.
 
 
 
