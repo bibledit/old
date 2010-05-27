@@ -1,16 +1,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
+Bibledit-Web first release should contain an improved replacement of Bibledit-Gtk for consultation notes.
+To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
+in particular the navigation aspect.
 
 
 
@@ -18,31 +11,29 @@
 There should be a need to set the privacy of imported notes such that
 only members of a team can see these.
 This can be done by the notes selector, then to take actions on the selected set.
+Not only the privacy should be settable, but more attributes as well, e.g. assigned, status, privacy, and what else.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Start all git operations through php-cli, then let it log to the logbook.
 In particular when the git operations are logged there, it is important for it to be readable normally.
-Each git operations should mark the Bible, since there can be a mix of them when several processes run in parallel.
-Perhaps we start with not running in parallel, as now.
 
 The pages that controls the shell process should note if a process is running.
 See shell_exec for examples of that.
 It acts accordingly.
 Flags for this go in a memory table, so these are volatile.
-
-
-
-
-
-
-
-
-Bibledit-Web first release should contain an improved replacement of Bibledit-Gtk for consultation notes.
-To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
-in particular the navigation aspect.
-
-
-
 
 
 
@@ -60,10 +51,6 @@ This means that the operation cannot time out, but continues to go since it runs
 Git operations should go to the manager's logbook.
 The git operations may run independently from PHP, it probably needs php-cli for that to work well.
 In particular synchronizing notes may take much time so that it needs to run independently from the apache server.
-
-The Administrator should be able to create new users on the fly. The password will always be equal to the username
-in these cases, and the email address will be empty, so that emails fail and are discarded. The reason for making
-usernames is to simulate users on local installations with easy, so notes can be assigned to them.
 
 It needs a full story of how consultation notes work,
 what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
@@ -102,11 +89,6 @@ So we've got 'import', and then the 'backup' and 'restore'.
 
 
 
-It needs a tool to remove identical notes. This may happen when import does not go well, and is done several times.
-
-
-
-
 
 
 
@@ -129,7 +111,6 @@ Plus a link to the site, if this is possible.
 
 
 
-Mail notification upon change in note: change attributes
 
 
 
@@ -165,7 +146,6 @@ chapters, to the subscribed users.
 
 
 
-Notes are synchronized through a git repository.
 
 
 
@@ -232,8 +212,7 @@ Changes are given as in Bibledit-Gtk, where differences are shown till the chara
 
 
 
-The navigator should respond to a new focus available from IPC, and then move to the new location.
-This requires AJAX long polling. 
+
 
 
 
@@ -604,8 +583,6 @@ The changes of status should be added to the note text, just as if adding a comm
 
 
 
-When importing notes, we need to try out what happens if the notes.tar.gz has the .git directory still in.
-It is supposed to give an error, and then proceed.
 
 
 
@@ -613,6 +590,12 @@ It is supposed to give an error, and then proceed.
 
 The passages that are included with the note titles should be clickable so that if clicked,
 the passages are loaded in the passages window.
+
+
+
+
+It would be helpful if there were an 'update' menu for the administrator.
+It would automatically update to, either the latest released version, or the development snapshot.
 
 
 

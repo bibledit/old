@@ -18,6 +18,32 @@ class Database_Users
 
 
   /**
+  * verify - Verifies the database table
+  */
+  public function verify () {
+    $database_instance = Database_Instance::getInstance();
+$str = <<<EOD
+CREATE TABLE IF NOT EXISTS users (
+username varchar(30) primary key,
+password varchar(32),
+id varchar(32),
+level tinyint(1) unsigned not null,
+email varchar(256),
+timestamp int(11) unsigned not null
+);
+EOD;
+    $database_instance->runQuery ($str);
+  }
+
+
+  public function optimize ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("OPTIMIZE TABLE users;");
+  }
+  
+
+  /**
   * getAdministratorCount - Returns how many administrators there are
   */
   public function getAdministratorCount() {
@@ -176,32 +202,6 @@ class Database_Users
     $result = $server->runQuery ($query);
   }
 
-
-  /**
-  * verify - Verifies the database table
-  */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS users (
-username varchar(30) primary key,
-password varchar(32),
-id varchar(32),
-level tinyint(1) unsigned not null,
-email varchar(256),
-timestamp int(11) unsigned not null
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
-
-  public function optimize ()
-  {
-    $database_instance = Database_Instance::getInstance();
-    $database_instance->runQuery ("OPTIMIZE TABLE users;");
-  }
-  
 
   /**
   * getAdministrator - Returns the site administrator's username.
