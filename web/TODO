@@ -1,15 +1,4 @@
 
-When the logbook is 'clear'-ed, it keeps clearing it.
-In that case do not refresh the page, only refresh when not clearing.
-Instead do a page redirect to the normal viewing page.
-
-
-
-The notes importer should be redone, so that it imports the note at once, without the logic, just write to the table.
-Right now it takes too much time.
-
-
-
 
 
 

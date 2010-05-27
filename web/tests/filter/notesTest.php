@@ -56,6 +56,8 @@ EOD;
     $this->note_identifiers [] = $identifier;
     $passages = $database_notes->getPassages ($identifier);
     $this->assertEquals (array (array (3, 26, 16), array (5, 28, 22)), $passages);
+    $contents = $database_notes->getContents ($identifier);
+    $this->assertEquals ("umdumisile: Text was changed from \"has given glory\" to \"has glorified\".\n\nLogbook:\n", $contents);
   }
   
 

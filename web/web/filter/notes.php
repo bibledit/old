@@ -80,8 +80,8 @@ class Filter_Notes
       // Store note.
       $database_notes = Database_Notes::getInstance();
       $note_identifier = $database_notes->storeNewNote ($bible, 0, 0, 0, $summary, $contents, true);
-      $database_notes->setPassages ($note_identifier, $passages);
-      $database_notes->setStatus ($note_identifier, $category);
+      $database_notes->setPassages ($note_identifier, $passages, true);
+      $database_notes->setStatus ($note_identifier, $category, true);
     }
     return $note_identifier;
   }

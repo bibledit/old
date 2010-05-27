@@ -672,8 +672,9 @@ EOD;
   /**
   * Assign the passages to the note $identifier.
   * $passages is an array of an array (book, chapter, verse) passages.
+  * $import: If true, just write passages, no further actions.
   */
-  public function setPassages ($identifier, $passages)
+  public function setPassages ($identifier, $passages, $import = false) // Todo
   {
     $server = Database_Instance::getInstance ();
     $line = "";
@@ -685,8 +686,10 @@ EOD;
     $line = Database_SQLInjection::no ($line);
     $query = "UPDATE notes SET passage = '$line' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier);
-    $this->addComment ($identifier, gettext ("The note's passages were updated"));
+    if (!$import) {
+      $this->noteEditedActions ($identifier);
+      $this->addComment ($identifier, gettext ("The note's passages were updated"));
+    }
   }
 
 
@@ -778,16 +781,19 @@ EOD;
   /**
   * Sets the $status of the note identified by $identifier.
   * $status is a string.
+  * $import: Just write status, skip any logic.
   */
-  public function setStatus ($identifier, $status)
+  public function setStatus ($identifier, $status, $import = false)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
     $status = Database_SQLInjection::no ($status);
     $query = "UPDATE notes SET status = '$status' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $this->noteEditedActions ($identifier);
-    $this->addComment ($identifier, gettext ("The note's status was updated"));
+    if (!$import) {
+      $this->noteEditedActions ($identifier);
+      $this->addComment ($identifier, gettext ("The note's status was updated"));
+    }
   }
 
 
