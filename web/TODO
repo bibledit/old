@@ -1,23 +1,15 @@
-The notes importer should be redone, so that it imports the note at once, without the logic, just write to the table.
-Right now it takes too much time.
-
-
-When uploading notes, and the file is too big, the user should be given an opportunity to change the path to 
-the uploaded file, so this will enable huge files to be imported.
-
-Each note imported should be logged.
-
-The pages that controls the shell process should note if a process is running.
-See shell_exec for examples of that.
-It acts accordingly.
-Flags for this go in a memory table, so these are volatile.
-
-
-
 
 When the logbook is 'clear'-ed, it keeps clearing it.
 In that case do not refresh the page, only refresh when not clearing.
 Instead do a page redirect to the normal viewing page.
+
+
+
+The notes importer should be redone, so that it imports the note at once, without the logic, just write to the table.
+Right now it takes too much time.
+
+
+
 
 
 
@@ -43,6 +35,15 @@ Start all git operations through php-cli, then let it log to the logbook.
 In particular when the git operations are logged there, it is important for it to be readable normally.
 Each git operations should mark the Bible, since there can be a mix of them when several processes run in parallel.
 Perhaps we start with not running in parallel, as now.
+
+The pages that controls the shell process should note if a process is running.
+See shell_exec for examples of that.
+It acts accordingly.
+Flags for this go in a memory table, so these are volatile.
+
+
+
+
 
 
 

@@ -2,21 +2,24 @@
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
-header ("Refresh: 2");
+$database_logs = Database_Logs::getInstance();
+
+if (isset ($_GET['delete'])) {
+  $database_logs->clear();
+  $database_logs->log (gettext ("Logbook was partially or fully cleared"), true);
+  header ("Location: logbook.php");
+} else {
+  header ("Refresh: 2");
+}
+
 Assets_Page::header (gettext ("Logbook"));
 $smarty = new Smarty_Bibledit (__FILE__);
-$database_logs = Database_Logs::getInstance();
 
 @$page = $_GET['page'];
 if (!isset ($page)) {
   $page = 1;
 }
 if ($page < 1) $page = 1;
-
-if (isset ($_GET['delete'])) {
-  $database_logs->clear();
-  $database_logs->log (gettext ("Logbook was partially or fully cleared"), true);
-}
 
 $entries = $database_logs->get ($page);
 $timestamps = array ();
