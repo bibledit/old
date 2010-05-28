@@ -300,7 +300,6 @@ class Notes_Editor
     }
     @$bible_selector = $_GET['consultationnotesbibleselector'];
     if (isset ($bible_selector)) {
-      if ($bible_selector == 1) $bible_selector = 1; else $bible_selector = 0;
       $database_config_user->setConsultationNotesBibleSelector($bible_selector);
     }
     @$assignment_selector = $_GET['consultationnotesassignmentselector'];
@@ -425,6 +424,8 @@ class Notes_Editor
       $smarty->assign ("statuslocs", $status_localizations);
       $smarty->assign ("statusselector", $status_selector);
       $smarty->assign ("bibleselector", $bible_selector);
+      $bibles = $database_notes->getAllBibles ();
+      $smarty->assign ("bibles", $bibles);
       $smarty->assign ("assignmentselector", $assignment_selector);
       $assignees = $database_notes->getAllAssignees();
       $smarty->assign ("assignees", $assignees);

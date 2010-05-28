@@ -266,10 +266,10 @@ EOD;
       $query .= " AND status = '$status_selector' ";
     }
     // Consider Bible constraints. 
-    if ($bible_selector == 1) {
+    if ($bible_selector != "") {
       // A note can be a general one, not tied to any specific Bible.
       // Such notes should be selected as well, despite the $bible_selector's constraints.
-      $query .= " AND (bible = '' OR bible = '$bible') ";
+      $query .= " AND (bible = '' OR bible = '$bible_selector') ";
     }
     // Consider note assignment constraints.
     if ($assignment_selector != "") {
@@ -621,6 +621,25 @@ EOD;
   }
 
 
+  /**
+  * Returns an array with all Bibles in the notes.
+  */
+  public function getAllBibles ()
+  {
+    $bibles = array ();
+    $server = Database_Instance::getInstance ();
+    $query = "SELECT DISTINCT bible FROM notes;";
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $bible = $row[0];
+      if ($bible != "") {
+        $bibles [] = $bible;
+      }
+    }
+    return $bibles;
+  }
+
 
   /**
   * Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
@@ -674,7 +693,7 @@ EOD;
   * $passages is an array of an array (book, chapter, verse) passages.
   * $import: If true, just write passages, no further actions.
   */
-  public function setPassages ($identifier, $passages, $import = false) // Todo
+  public function setPassages ($identifier, $passages, $import = false)
   {
     $server = Database_Instance::getInstance ();
     $line = "";

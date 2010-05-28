@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-27 01:48+0200\n"
+"POT-Creation-Date: 2010-05-28 01:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,10 +16,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Logbook was partially or fully cleared"
+msgstr ""
+
 msgid "Logbook"
 msgstr ""
 
-msgid "Logbook was partially or fully cleared"
+msgid "Please enter a name for the new user"
+msgstr ""
+
+msgid "User already exists"
+msgstr ""
+
+msgid "User created"
 msgstr ""
 
 msgid "Would you like to delete"
@@ -29,6 +38,9 @@ msgid "Access level change"
 msgstr ""
 
 msgid "Your access level was updated"
+msgstr ""
+
+msgid "Users"
 msgstr ""
 
 msgid "Management"
@@ -1018,13 +1030,11 @@ msgid ""
 "confirmation number in the subject line."
 msgstr ""
 
-msgid "Users"
+msgid ""
+"This shows all user accounts. You can delete users, or change users' roles."
 msgstr ""
 
 msgid "Username"
-msgstr ""
-
-msgid "ID"
 msgstr ""
 
 msgid "Role"
@@ -1037,6 +1047,16 @@ msgid "delete"
 msgstr ""
 
 msgid "change"
+msgstr ""
+
+msgid ""
+"Normally users create their own account. But you can also manually create "
+"new users on this site. The username that you assign will also be the "
+"password. For example, when you create username \"joe\", then the password "
+"will also be \"joe\"."
+msgstr ""
+
+msgid "Create a new user"
 msgstr ""
 
 msgid "Page"

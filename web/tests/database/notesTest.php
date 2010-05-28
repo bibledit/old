@@ -136,7 +136,10 @@ class notesTest extends PHPUnit_Framework_TestCase
     @$identifier = $database_notes->storeNewNote ("PHPUnit", 0, 0, 0, "Summary", "Contents", false);
     $bible = $database_notes->getBible ($identifier);
     $this->assertEquals ("PHPUnit", $bible);
+    $bibles = $database_notes->getAllBibles ();
+    $this->assertTrue (true, in_array ("PHPUnit", $bibles));
     $database_notes->setBible ($identifier, "PHPUnit2");
+    $this->assertTrue (true, in_array ("PHPUnit2", $bibles));
     $bible = $database_notes->getBible ($identifier);
     $this->assertEquals ("PHPUnit2", $bible);
     $database_notes->setBible ($identifier, "");

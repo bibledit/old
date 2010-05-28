@@ -214,9 +214,9 @@ EOD;
     $this->setValue ("", "consultation-notes-status-selector", $value);
   }   
 
-  // 0: any Bible; 1: current Bible.
+  // "": any Bible; <bible>: named Bible.
   public function getConsultationNotesBibleSelector() {
-    return $this->getValue ("", "consultation-notes-bible-selector", 0);
+    return $this->getValue ("", "consultation-notes-bible-selector", "");
   }
   public function setConsultationNotesBibleSelector ($value) {
     $this->setValue ("", "consultation-notes-bible-selector", $value);

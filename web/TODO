@@ -1,9 +1,6 @@
 
 
 
-Bibledit-Web first release should contain an improved replacement of Bibledit-Gtk for consultation notes.
-To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
-in particular the navigation aspect.
 
 
 
@@ -12,14 +9,10 @@ There should be a need to set the privacy of imported notes such that
 only members of a team can see these.
 This can be done by the notes selector, then to take actions on the selected set.
 Not only the privacy should be settable, but more attributes as well, e.g. assigned, status, privacy, and what else.
-
-
-
-
-
-
-
-
+Only the manager or the administrator can do such bulk actions.
+It comes besides the [edit] view where notes are selected, called [update] with sufficient user privileges.
+This screen allows to update all now showing notes, e.g. all notes selected with current settings.
+This will be a very powerful feature.
 
 
 
@@ -59,6 +52,18 @@ to 'critical' even if their note describers a 'wish' only, so that a standard po
 
 
 
+At this stage we can start to user Bibledit-Web for our consultation notes.
+It should contain an improved replacement of Bibledit-Gtk for consultation notes.
+To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
+in particular the navigation aspect.
+Once notes work well in -Web, the sharing of these should be disabled in -Gtk, since it does not work reliably.
+
+
+
+
+First release once we're satisfied that Bibledit-Web works as advertised.
+
+
 
 
 Include backup of mysql into normal backup routines.
@@ -74,7 +79,6 @@ Documentation should have diagrams (if these can be translated), .svg, inkscape 
 
 
 
-Once notes work well in -Web, the sharing of these should be disabled in -Gtk, since it does not work reliably.
 
 
 

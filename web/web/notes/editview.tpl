@@ -31,9 +31,11 @@
 </p>
 <p>
 {t}Select notes that belong to:{/t}
-  <a {if $bibleselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotesbibleselector=0">{t}any Bible{/t}</a>
-  |
-  <a {if $bibleselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotesbibleselector=1">{t}the current Bible{/t}</a>
+  <a {if $bibleselector == ""}class="active"{/if} href="{$caller}?session={$session}&consultationnotesbibleselector=">{t}any Bible{/t}</a>
+  {section name=offset loop=$bibles}
+    |
+    <a {if $bibleselector == $bibles[offset]}class="active"{/if} href="{$caller}?session={$session}&consultationnotesbibleselector={$bibles[offset]}">{$bibles[offset]}</a>
+  {/section}
 </p>
 <p>
 {t}Select notes that have been assigned to somebody:{/t}
