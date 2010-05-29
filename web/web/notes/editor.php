@@ -63,6 +63,7 @@ class Notes_Editor
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
     $editconsultationnoteview = $database_sessions->getEditConsultationNoteView ();
+    $bulkupdateconsultationnotes = $database_sessions->getBulkUpdateConsultationNotes ();
     $displayconsultationnotestartinglimit = $database_sessions->getConsultationNoteStartingLimit ();
 
     // Whether to display the notes list, one note, or the note's actions.
@@ -70,32 +71,44 @@ class Notes_Editor
       unset ($consultationnote);
       $displayconsultationnoteactions = false;
       $editconsultationnoteview = false;
+      $bulkupdateconsultationnotes = false;
     }
     if (isset ($_GET['showallconsultationnotes']))  {
       unset ($consultationnote);
       $displayconsultationnoteactions = false;
       $editconsultationnoteview = false;
+      $bulkupdateconsultationnotes = false;
     }
     if (isset ($_GET['consultationnote'])) {
       $consultationnote = $_GET['consultationnote'];
       $displayconsultationnoteactions = false;
       $editconsultationnoteview = false;
+      $bulkupdateconsultationnotes = false;
     }
     if (isset ($_GET['displaynotesactions'])) {
       $displayconsultationnoteactions = true;
       $editconsultationnoteview = false;
+      $bulkupdateconsultationnotes = false;
     }
     if (isset ($_GET['displaynotecontent'])) {
       $displayconsultationnoteactions = false;
       $editconsultationnoteview = false;
+      $bulkupdateconsultationnotes = false;
     }
     if (isset ($_GET['consultationnoteseditview'])) {
       $editconsultationnoteview = true;
       $displayconsultationnoteactions = false;
+      $bulkupdateconsultationnotes = false;
+    }
+    if (isset ($_GET['consultationnotesbulkupdate'])) {
+      $editconsultationnoteview = false;
+      $displayconsultationnoteactions = false;
+      $bulkupdateconsultationnotes = true;
     }
     @$database_sessions->setConsultationNote ($consultationnote);
     $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
     $database_sessions->setEditConsultationNoteView ($editconsultationnoteview);
+    $database_sessions->setBulkUpdateConsultationNotes ($bulkupdateconsultationnotes);
     
     // Save new note.
     if (isset ($_GET['savenewconsultationnote'])) {
@@ -332,7 +345,176 @@ class Notes_Editor
     if (isset ($text_inclusion_selector)) {
       $database_config_user->setConsultationNotesTextInclusionSelector($text_inclusion_selector);
     }
-
+    
+    // Bulk note actions.
+    @$bulk_update = $_GET['consultationnotesbulkupdate'];
+    if (isset ($bulk_update)) {
+      $assets_navigator = Assets_Navigator::getInstance();
+      $identifiers = $database_notes->selectNotes($assets_navigator->bible(), $assets_navigator->book(), $assets_navigator->chapter(), $assets_navigator->verse(), 
+                                                  $database_config_user->getConsultationNotesPassageSelector(), 
+                                                  $database_config_user->getConsultationNotesEditSelector(), 
+                                                  $database_config_user->getConsultationNotesStatusSelector(), 
+                                                  $database_config_user->getConsultationNotesBibleSelector(), 
+                                                  $database_config_user->getConsultationNotesAssignmentSelector(), 
+                                                  $database_config_user->getConsultationNotesSubscriptionSelector(), 
+                                                  $database_config_user->getConsultationNotesSeveritySelector(), 
+                                                  $database_config_user->getConsultationNotesTextSelector(), 
+                                                  $database_config_user->getConsultationNotesSearchText(), NULL, 0);
+      foreach ($identifiers as $identifier) {
+        @$identifierlist .= " $identifier";
+      }                                          
+      $database_logs = Database_Logs::getInstance ();
+      // Bulk subscriptions.
+      if ($bulk_update == "subscribe") {
+        foreach ($identifiers as $identifier) {
+          $database_notes->subscribe ($identifier);
+        }
+        Assets_Page::success (gettext ("You subscribed to these notes"));
+      }
+      // Bulk unsubscribe.
+      if ($bulk_update == "unsubscribe") {
+        foreach ($identifiers as $identifier) {
+          $database_notes->unsubscribe ($identifier);
+        }
+        Assets_Page::success (gettext ("You unsubscribed from these notes"));
+      }
+      // Bulk assignment.
+      if ($bulk_update == "assign") {
+        @$assignee = $_GET['assignee'];
+        $database_users = Database_Users::getInstance();
+        if ($assignee == "") {
+          $dialog_list = new Dialog_List2 (gettext ("Would you like to assign these notes to a user?"));
+          $users = $database_users->getUsers ();
+          foreach ($users as $user) {
+            $dialog_list->add_row ($user, "&consultationnotesbulkupdate=assign&assignee=$user");
+          }
+          $dialog_list->run();
+        } else {
+          if ($database_users->usernameExists ($assignee)) {
+            foreach ($identifiers as $identifier) {
+              if (!$database_notes->isAssigned ($identifier, $assignee)) {
+                $database_notes->assignUser ($identifier, $assignee);
+                $notes_logic->handlerUpdateNote ($identifier);
+              }
+            }
+          }
+          Assets_Page::success (gettext ("The notes were assigned to the user"));
+          $database_logs->log ("Notes assigned to user $assignee: $identifierlist", true);
+        }        
+      }
+      // Bulk unassignment.
+      if ($bulk_update == "unassign") {
+        @$assignee = $_GET['assignee'];
+        $database_users = Database_Users::getInstance();
+        if ($assignee == "") {
+          $dialog_list = new Dialog_List2 (gettext ("Would you like to remove the assignment of these notes to a user?"));
+          $users = $database_users->getUsers ();
+          foreach ($users as $user) {
+            $dialog_list->add_row ($user, "&consultationnotesbulkupdate=unassign&assignee=$user");
+          }
+          $dialog_list->run();
+        } else {
+          if ($database_users->usernameExists ($assignee)) {
+            foreach ($identifiers as $identifier) {
+              if ($database_notes->isAssigned ($identifier, $assignee)) {
+                $database_notes->unassignUser ($identifier, $assignee);
+                $notes_logic->handlerUpdateNote ($identifier);
+              }
+            }
+          }
+          Assets_Page::success (gettext ("The notes are no longer assigned to the user"));
+          $database_logs->log ("Notes unassigned from user $assignee: $identifierlist", true);
+        }        
+      }
+      // Bulk note status update.
+      if ($bulk_update == "status") {
+        @$status = $_GET['status'];
+        if ($status == "") {
+          $dialog_list = new Dialog_List2 (gettext ("Would you like to change the status of these notes?"));
+          $statuses = $database_notes->getPossibleStatuses ();
+          foreach ($statuses as $status) {
+            $dialog_list->add_row ($status[1], "&consultationnotesbulkupdate=status&status=$status[0]");
+          }
+          $dialog_list->run();
+        } else {
+          foreach ($identifiers as $identifier) {
+            if ($database_notes->getRawStatus ($identifier) != $status) {
+              $database_notes->setStatus ($identifier, $status);
+              $notes_logic->handlerUpdateNote ($identifier);
+            }
+          }
+          Assets_Page::success (gettext ("The status of the notes was updated"));
+          $database_logs->log ("Status update of notes: $identifierlist", true);
+        }
+      }
+      // Bulk note severity update.
+      if ($bulk_update == "severity") {
+        @$severity = $_GET['severity'];
+        if ($severity == "") {
+          $dialog_list = new Dialog_List2 (gettext ("Would you like to change the severity of these notes?"));
+          $severities = $database_notes->getPossibleSeverities ();
+          foreach ($severities as $severity) {
+            $dialog_list->add_row ($severity[1], "&consultationnotesbulkupdate=severity&severity=$severity[0]");
+          }
+          $dialog_list->run();
+        } else {
+          foreach ($identifiers as $identifier) {
+            if ($database_notes->getRawSeverity ($identifier) != $severity) {
+              $database_notes->setRawSeverity ($identifier, $severity);
+              $notes_logic->handlerUpdateNote ($identifier);
+            }
+          }
+          Assets_Page::success (gettext ("The severity of the notes was updated"));
+          $database_logs->log ("Severity update of notes: $identifierlist", true);
+        }
+      }
+      // Bulk note visibility update.
+      if ($bulk_update == "visibility") {
+        @$visibility = $_GET['visibility'];
+        if ($visibility == "") {
+          $dialog_list = new Dialog_List2 (gettext ("Would you like to change the visibility of these notes?"));
+          $dialog_list->info_top (gettext ("The notes should be visible to:"));
+          $privacies = $database_notes->getPossiblePrivacies ();
+          foreach ($privacies as $visibility) {
+            $dialog_list->add_row (Filter_Notes::privacy2text ($visibility), "&consultationnotesbulkupdate=visibility&visibility=$visibility");
+          }
+          $dialog_list->run();
+        } else {
+          foreach ($identifiers as $identifier) {
+            if ($database_notes->getPrivacy ($identifier) != $visibility) {
+              $database_notes->setPrivacy ($identifier, $visibility);
+              $notes_logic->handlerUpdateNote ($identifier);
+            }
+          }
+          Assets_Page::success (gettext ("The visibility of the notes was updated"));
+          $database_logs->log ("Visibility update of notes: $identifierlist", true);
+        }
+      }
+      // Bulk note Bible update.
+      if ($bulk_update == "bible") {
+        @$bible = $_GET['bible'];
+        if ($bible == "") {
+          $database_bibles = Database_Bibles::getInstance ();
+          $dialog_list = new Dialog_List2 (gettext ("Would you like to assign these notes to another Bible?"));
+          $bibles = $database_bibles->getBibles ();
+          foreach ($bibles as $bible) {
+            $dialog_list->add_row ($bible, "&consultationnotesbulkupdate=bible&bible=$bible");
+          }
+          $dialog_list->add_row (gettext ("Make it a general note which does not apply to any particular Bible"), "&consultationnotesbulkupdate=bible&bible=0gen0bible0");
+          $dialog_list->run();
+        } else {
+          if ($bible == "0gen0bible0") $bible = "";
+          foreach ($identifiers as $identifier) {
+            if ($database_notes->getBible ($identifier) != $bible) {
+              $database_notes->setBible ($identifier, $bible);
+              $notes_logic->handlerUpdateNote ($identifier);
+            }
+          }
+          Assets_Page::success (gettext ("The Bible of the notes was updated"));
+          $database_logs->log ("Bible update of notes: $identifierlist", true);
+        }
+      }
+    }
   }
   
   public function display ()
@@ -343,6 +525,7 @@ class Notes_Editor
     $consultationnote = $database_sessions->getConsultationNote ();
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
     $editconsultationnoteview = $database_sessions->getEditConsultationNoteView ();
+    $bulkupdateconsultationnotes = $database_sessions->getBulkUpdateConsultationNotes ();
     $smarty = new Smarty_Bibledit (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
     $smarty->assign ("caller", $caller);
@@ -442,6 +625,11 @@ class Notes_Editor
       $smarty->assign ("passageinclusionselector", $passage_inclusion_selector);
       $smarty->assign ("textinclusionselector", $text_inclusion_selector);
       $smarty->display ("editview.tpl");
+    } else if ($bulkupdateconsultationnotes) {
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
+      $notescount = count ($identifiers);
+      $smarty->assign ("notescount", $notescount);
+      $smarty->display ("bulkupdate.tpl");
     } else {
       // Display notes list.
       // Total notes count.

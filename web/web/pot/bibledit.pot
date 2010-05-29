@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-28 01:46+0200\n"
+"POT-Creation-Date: 2010-05-29 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1358,9 +1358,6 @@ msgstr ""
 msgid "any Bible"
 msgstr ""
 
-msgid "the current Bible"
-msgstr ""
-
 msgid "Select notes that have been assigned to somebody:"
 msgstr ""
 
@@ -1418,6 +1415,46 @@ msgstr ""
 msgid "display all selected notes for this once"
 msgstr ""
 
+msgid "Bulk Update Consultation Notes"
+msgstr ""
+
+msgid ""
+"This function is powerful. It can update many notes at once, with one click "
+"of the mouse. Changes made here are not easily reverted."
+msgstr ""
+
+msgid "Amount of notes to be updated in one go:"
+msgstr ""
+
+msgid "Subscribe to the notes"
+msgstr ""
+
+msgid "Unsubscribe from the notes"
+msgstr ""
+
+msgid "Assign the notes somebody"
+msgstr ""
+
+msgid "Unassign the note from somebody"
+msgstr ""
+
+msgid ""
+"In case any of these notes have been assigned to me to take action on, I "
+"have done my part on all of them"
+msgstr ""
+
+msgid "Change the status of the notes"
+msgstr ""
+
+msgid "Change the severity of the notes"
+msgstr ""
+
+msgid "Change the visibility of the notes"
+msgstr ""
+
+msgid "Change the Bible of the notes"
+msgstr ""
+
 msgid "Manage Consultation Notes"
 msgstr ""
 
@@ -1437,6 +1474,9 @@ msgid "Create new note"
 msgstr ""
 
 msgid "Displaying notes"
+msgstr ""
+
+msgid "update"
 msgstr ""
 
 msgid "Importing notes, last step"

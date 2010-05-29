@@ -170,6 +170,16 @@ EOD;
   }
 
 
+  public function setBulkUpdateConsultationNotes ($value)
+  {
+    $this->setValue ("bulkupdateconsultationnotes", $value);
+  }
+  public function getBulkUpdateConsultationNotes ()
+  {
+    return $this->getValue ("bulkupdateconsultationnotes");
+  }
+
+
   public function setConsultationNoteStartingLimit ($value)
   {
     $this->setValue ("consultationnotestartinglimit", $value);

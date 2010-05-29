@@ -5,18 +5,25 @@
 
 
 
-There should be a need to set the privacy of imported notes such that
-only members of a team can see these.
-This can be done by the notes selector, then to take actions on the selected set.
-Not only the privacy should be settable, but more attributes as well, e.g. assigned, status, privacy, and what else.
-Only the manager or the administrator can do such bulk actions.
-It comes besides the [edit] view where notes are selected, called [update] with sufficient user privileges.
-This screen allows to update all now showing notes, e.g. all notes selected with current settings.
-This will be a very powerful feature.
+
+Automatic (un)assignments should not be logged, because this gets messy. Only manual (un)assignments are logged.
 
 
 
+The timer hangs forever, see what causes that. Looks like trimming the snapshots does that.
 
+
+
+The timer starts long tasks in the background through php-cli, and then forgets about these.
+
+
+The setup.php should check on the presence of php-cli, since it starts to be vitally important.
+
+
+
+When writing to the logbook, and writing to other database tables,
+we should not remove the older entries upon write, since that takes too much time.
+It is done once a day through the timer.
 
 
 
@@ -27,6 +34,8 @@ The pages that controls the shell process should note if a process is running.
 See shell_exec for examples of that.
 It acts accordingly.
 Flags for this go in a memory table, so these are volatile.
+At the start of the process the flag, passed by the caller, is set, and at the end 
+of the cli process, it it cleared. The calling process can look at the flag to see how it fares.
 
 
 

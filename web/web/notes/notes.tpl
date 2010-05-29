@@ -8,6 +8,11 @@
 {if $lastnote < $totalcount}
   <a href="{$caller}?session={$session}&shownextconsultationnotes=">»»</a>
 {/if}
+{* Notes update menu is only applicable to the manager and higher roles *}
+{if $level >= 5}
+  |
+  [<a href="{$caller}?session={$session}&consultationnotesbulkupdate=">{t}update{/t}</a>]
+{/if}
 </p>
 {section name=offset loop=$identifiers}
   <a name="note{$identifiers[offset]}"></a>

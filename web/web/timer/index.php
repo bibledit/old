@@ -95,8 +95,8 @@ while(1)
     // Tasks to be done once a day come here:
 
     // Trim snapshots.
-    $database_snapshots = Database_Snapshots::getInstance();
-    $database_snapshots->trim(false);
+    // Todo $database_snapshots = Database_Snapshots::getInstance();
+    // Todo $database_snapshots->trim(false);
 
     // Log memory usage.    
     $memory_usage = memory_get_usage();
