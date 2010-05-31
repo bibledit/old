@@ -45,9 +45,8 @@ EOD;
   /**
   * log - Logs entry
   * $manager - whether this logbook entry should be visible to the Manager as well.
-  * It deletes older entries.
   */
-  public function log ($description, $manager = false) {
+  public function log ($description, $manager = false) { // Todo
     $database_instance = Database_Instance::getInstance();
     $description = Database_SQLInjection::no ($description);
     include ("session/levels.php");
@@ -55,9 +54,6 @@ EOD;
     else $level = ADMIN_LEVEL;
     $time = time();
     $query = "INSERT INTO logs VALUES (NULL, $time, $level, '$description');";
-    $database_instance->runQuery ($query);
-    $time -= 604800;
-    $query = "DELETE FROM logs WHERE timestamp < $time;";
     $database_instance->runQuery ($query);
   }
 
@@ -113,6 +109,18 @@ EOD;
     if ($page == 0) $query = "";
     return $query;
   }
+
+
+  /**
+  * Removes older entries.
+  */
+  public function trim ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $time = time () - 604800; // Remove entries after a week.
+    $query = "DELETE FROM logs WHERE timestamp < $time;";
+    $database_instance->runQuery ($query);
+  }   
 
 
 }

@@ -92,9 +92,8 @@ $database_ipc = Database_Ipc::getInstance();
 $database_ipc->optimize();
 
 
-// The Snapshots table. Trim the number of snapshots as well.
+// The Snapshots table.
 $database_snapshots = Database_Snapshots::getInstance();
-$database_snapshots->trim(true);
 $database_snapshots->optimize();
 
 

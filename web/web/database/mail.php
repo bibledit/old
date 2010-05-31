@@ -153,6 +153,18 @@ EOD;
   }
 
 
+  /**
+  * Removes older entries.
+  */
+  public function trim ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $time = time () - 7776000; // Remove entries after 90 days.
+    $query = "DELETE FROM mail WHERE timestamp < $time;";
+    $database_instance->runQuery ($query);
+  }   
+
+
 }
 
 

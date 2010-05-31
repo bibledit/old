@@ -23,7 +23,7 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Trimming snapshots has started");
+$database_logs->log ("Trimming databases has started");
 
 // Security: Page only runs from the cli SAPI.
 if (php_sapi_name () != "cli") {
@@ -31,9 +31,21 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
-$database_snapshots = Database_Snapshots::getInstance();
-$database_snapshots->trim(false);
+$database_confirm = Database_Confirm::getInstance ();
+$database_confirm->trim ();
 
-$database_logs->log ("Trimming snapshots has finished");
+$database_logs = Database_Logs::getInstance ();
+$database_logs->trim ();
+
+$database_mail = Database_Mail::getInstance ();
+$database_mail->trim ();
+
+$database_sessions = Database_Sessions::getInstance ();
+$database_sessions->trim ();
+
+$database_snapshots = Database_Snapshots::getInstance();
+$database_snapshots->trim();
+
+$database_logs->log ("Trimming databases has finished");
 
 ?>

@@ -73,7 +73,7 @@ EOD;
   }
   
   
-  private function removeExpiredSessions ()
+  public function trim ()
   {
     $server = Database_Instance::getInstance ();
     $time = time() - 86400;
@@ -86,7 +86,6 @@ EOD;
   {
     @$id = $_GET ['session'];
     if (!is_numeric ($id)) {
-      $this->removeExpiredSessions();
       $id = $this->getNewUniqueSessionId ();
       $_GET ['session'] = $id;
     }

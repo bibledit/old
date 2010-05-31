@@ -168,6 +168,18 @@ EOD;
     $id = Database_SQLInjection::no ($id);
     $query = "DELETE FROM confirm WHERE id = $id;";
     $server->runQuery ($query);
+  }
+  
+  
+  /**
+  * Removes expired entries.
+  */
+  public function trim ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $time = time() - 2592000; // Leave entries for 30 days.
+    $query = "DELETE FROM confirm WHERE timestamp < $time;";
+    $database_instance->runQuery ($query);
   }   
 
 

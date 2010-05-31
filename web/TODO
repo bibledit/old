@@ -1,6 +1,5 @@
-When writing to the logbook, and writing to other database tables,
-we should not remove the older entries upon write, since that takes too much time.
-It is done once a day through the timer.
+
+
 
 
 

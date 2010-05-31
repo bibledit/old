@@ -95,11 +95,10 @@ EOD;
 
   /**
     * Trims the snapshots.
-    * $vocal - boolean, whether messages should be given.
     * Note: It was tried to optimize this by reading all data into memory and sorting it out from there.
     * But measurements showed that this did not speed up the process, rather it slowed it down.
     */
-  public function trim ($vocal)
+  public function trim ()
   {
     $current_time = time ();
     $database_instance = Database_Instance::getInstance();
@@ -191,9 +190,6 @@ EOD;
     $record_count_end = $result->num_rows;
     include_once ("messages/messages.php");
     $message = "Trimming down snapshots from $record_count_start records to $record_count_end";
-    if ($vocal) {
-      message_information ($message);
-    }
     $database_logs = Database_Logs::getInstance();
     $database_logs->log ($message);
   }
