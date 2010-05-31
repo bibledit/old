@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-29 01:45+0200\n"
+"POT-Creation-Date: 2010-05-31 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -223,6 +223,51 @@ msgid "Would you like to edit the verses?"
 msgstr ""
 
 msgid "Search text saved"
+msgstr ""
+
+msgid "You subscribed to these notes"
+msgstr ""
+
+msgid "You unsubscribed from these notes"
+msgstr ""
+
+msgid "Would you like to assign these notes to a user?"
+msgstr ""
+
+msgid "The notes were assigned to the user"
+msgstr ""
+
+msgid "Would you like to remove the assignment of these notes to a user?"
+msgstr ""
+
+msgid "The notes are no longer assigned to the user"
+msgstr ""
+
+msgid "Would you like to change the status of these notes?"
+msgstr ""
+
+msgid "The status of the notes was updated"
+msgstr ""
+
+msgid "Would you like to change the severity of these notes?"
+msgstr ""
+
+msgid "The severity of the notes was updated"
+msgstr ""
+
+msgid "Would you like to change the visibility of these notes?"
+msgstr ""
+
+msgid "The notes should be visible to:"
+msgstr ""
+
+msgid "The visibility of the notes was updated"
+msgstr ""
+
+msgid "Would you like to assign these notes to another Bible?"
+msgstr ""
+
+msgid "The Bible of the notes was updated"
 msgstr ""
 
 msgid "This view does not display any notes."
@@ -1432,15 +1477,10 @@ msgstr ""
 msgid "Unsubscribe from the notes"
 msgstr ""
 
-msgid "Assign the notes somebody"
+msgid "Assign the notes to somebody"
 msgstr ""
 
 msgid "Unassign the note from somebody"
-msgstr ""
-
-msgid ""
-"In case any of these notes have been assigned to me to take action on, I "
-"have done my part on all of them"
 msgstr ""
 
 msgid "Change the status of the notes"
@@ -2303,8 +2343,7 @@ msgstr ""
 
 msgid ""
 "If you wish, you can automatically subscribe to consultation notes that you "
-"create or edit yourself. In that case you will be notified by email of any "
-"changes that you make in these notes."
+"create or edit yourself."
 msgstr ""
 
 msgid "This setting is now on."
@@ -2321,16 +2360,17 @@ msgstr ""
 
 msgid ""
 "If you wish, you can automatically subscribe to consultation notes that are "
-"created or edited by anybody. In that case you will be notified by email of "
-"any changes that are made in these notes."
+"created or edited by anybody."
+msgstr ""
+
+msgid ""
+"If you wish, you can be notified by email about any change in any "
+"consultation note that you are subscribed to."
 msgstr ""
 
 msgid ""
 "If you wish, any consultation note that gets changed by anybody will be "
-"automatically assigned to you. This enables you to quickly see which "
-"consultation notes got changed. To see the notes assigned to you, you can "
-"edit the consultation notes view so that it shows those notes which have "
-"been assigned to you."
+"automatically assigned to you."
 msgstr ""
 
 msgid ""

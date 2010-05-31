@@ -1,15 +1,4 @@
 
-
-
-
-
-
-
-
-Automatic (un)assignments should not be logged, because this gets messy. Only manual (un)assignments are logged.
-
-
-
 The timer hangs forever, see what causes that. Looks like trimming the snapshots does that.
 
 
@@ -67,6 +56,12 @@ To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, wh
 in particular the navigation aspect.
 Once notes work well in -Web, the sharing of these should be disabled in -Gtk, since it does not work reliably.
 
+
+
+When syncing notes with a git repository, when the number of notes becomes large, it takes a big time to compare all notes.
+For that reason, the fastest mechanism may be to export all notes to their files, in another directory,
+and then compare the whole directory with diff. But perhaps we can see if we do that one by one, how it works.
+Or just comparing each field of the note, though this may take time.
 
 
 

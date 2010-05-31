@@ -542,8 +542,9 @@ EOD;
 
   /**
   * Assign the note identified by $identifier to $user.
+  * $comment: Whether to add a comment to the notes upon assignment.
   */
-  public function assignUser ($identifier, $user)
+  public function assignUser ($identifier, $user, $comment = true)
   {
     // If the note already is assigned to the user, bail out.
     $assignees = $this->getAssignees ($identifier);
@@ -552,7 +553,9 @@ EOD;
     $assignees[]= "$user";
     // Store the whole log.
     $this->setAssignees ($identifier, $assignees);
-    $this->addComment ($identifier, gettext ("The note was assigned to") . " " . $user);
+    if ($comment) {
+      $this->addComment ($identifier, gettext ("The note was assigned to") . " " . $user);
+    }
   }
 
 

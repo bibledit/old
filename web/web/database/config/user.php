@@ -170,6 +170,16 @@ EOD;
     $this->setValue ("", "notify-me-of-any-consultation-notes-edits", $value);
   }   
 
+  public function getSubscribedConsultationNoteNotification() {
+    return $this->getValue ("", "subscribed-consultation-note-notification", true);
+  }
+  public function getUserSubscribedConsultationNoteNotification($username) {
+    return $this->getValueForUser ($username, "subscribed-consultation-note-notification", true);
+  }
+  public function setSubscribedConsultationNoteNotification ($value) {
+    $this->setValue ("", "subscribed-consultation-note-notification", $value);
+  }   
+
   public function getAssignedToConsultationNotesChanges() {
     return $this->getValue ("", "get-assigned-to-consultation-notes-changes", false);
   }

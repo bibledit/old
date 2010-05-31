@@ -18,6 +18,12 @@ if (isset ($_GET['anynotessubscriptiontoggle'])) {
 $any_notes_subscription = $database_config_user->getNotifyMeOfAnyConsultationNotesEdits();
 $smarty->assign ("any_notes_subscription", $any_notes_subscription);
 
+if (isset ($_GET['subscribednotenotificationtoggle'])) {
+  $database_config_user->setSubscribedConsultationNoteNotification(!$database_config_user->getSubscribedConsultationNoteNotification());
+}
+$subscription_notification = $database_config_user->getSubscribedConsultationNoteNotification();
+$smarty->assign ("subscription_notification", $subscription_notification);
+
 if (isset ($_GET['notesassignmenttoggle'])) {
   $database_config_user->setAssignedToConsultationNotesChanges(!$database_config_user->getAssignedToConsultationNotesChanges());
 }

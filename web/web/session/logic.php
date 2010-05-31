@@ -73,7 +73,7 @@ class Session_Logic
        }
        $blocks = explode('.', $_SERVER['REMOTE_ADDR']);
        for ($i = 0; $i < $num_blocks; $i++) {
-         $fingerprint .= $blocks[$i] . '.';
+         @$fingerprint .= $blocks[$i] . '.';
        }
      }
      return md5($fingerprint);

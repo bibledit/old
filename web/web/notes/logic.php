@@ -68,48 +68,58 @@ class Notes_Logic
   */
   private function notifierNote ($identifier, $label)
   {
+    // Databases.
+    $database_notes = Database_Notes::getInstance();
+    $session_logic = Session_Logic::getInstance ();
     $database_config_user = Database_Config_User::getInstance ();
+    $database_users = Database_Users::getInstance();
+    $database_mail = Database_Mail::getInstance();
+    
+    // Whether current user gets subscribed to the note.
     if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
-      // User automatically gets subscribed to the note.
       $database_notes = Database_Notes::getInstance();
       $database_notes->subscribe ($identifier);
     }
-    // Get note data.
-    $database_notes = Database_Notes::getInstance();
-    $summary = $database_notes->getSummary ($identifier);
-    $contents = $database_notes->getContents ($identifier);
-    // Get the subscribers to this note.
-    $subscribers = $database_notes->getSubscribers ($identifier);
-
-    // Handle notifications for all users.
-    $database_users = Database_Users::getInstance();
+    
+    // Users to get subscribed to the note, or to whom the note is to be assigned.
     $users = $database_users->getUsers ();
     foreach ($users as $user) {
-      // Users who get notified by email of any change in any note.
       if ($database_config_user->getNotifyUserOfAnyConsultationNotesEdits ($user)) {
-        $subscribers [] = $user;
+        $database_notes->subscribeUser ($identifier, $user);
       }
-      // Users to whom the note gets assigned on change.
       if ($database_config_user->getUserAssignedToConsultationNotesChanges ($user)) {
-        $database_notes->assignUser ($identifier, $user);
+        $database_notes->assignUser ($identifier, $user, false); // Do not add a comment for this automatic assignment.
       }
     }
 
-    // If assignees wish to receive email about changes, then include them too.
+    // Email notification recipients.
+    $recipients = array ();
+    
+    // Get the subscribers who receive an email notification.
+    $subscribers = $database_notes->getSubscribers ($identifier);
+    foreach ($subscribers as $subscriber) {
+      if ($database_config_user->getUserSubscribedConsultationNoteNotification ($subscriber)) {
+        $recipients [] = $subscriber;
+      }
+    }
+    
+    // Get the assignees who receive an email notification.
     $assignees = $database_notes->getAssignees ($identifier);
     foreach ($assignees as $assignee) {
       if ($database_config_user->getUserAssignedConsultationNoteNotification ($assignee)) {
-        $subscribers [] = $assignee;
+        $recipients [] = $assignee;
       }
     }
 
     // Ensure the list consists of unique recipients, so nobody is mailed twice about an issue.
-    $subscribers = array_unique ($subscribers);
-    // Send mail to all receipients.
-    $database_mail = Database_Mail::getInstance();
-    foreach ($subscribers as $subscriber) {
-      $database_mail->send ($subscriber, "$label - $summary", $contents);
-    }  
+    $recipients = array_unique ($recipients);
+
+    // Send mail to all recipients.
+    $summary = $database_notes->getSummary ($identifier);
+    $contents = $database_notes->getContents ($identifier);
+    foreach ($recipients as $recipient) {
+      $database_mail->send ($recipient, "$label - $summary", $contents);
+    }
   }
 }  
 
