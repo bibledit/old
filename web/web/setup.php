@@ -5,11 +5,13 @@
 
   echo "<h2>Site setup</h2>";
   echo "<h3>Please scroll down to see all messages</h3>";
+  flush ();
 
   // Info about the username of the web server.
   echo "<p>Ok: Web server username ";
   system ("whoami");
   echo "</p>";
+  flush ();
    
   // Set files writeable.
   system ("chmod -R 0777 *");
@@ -29,6 +31,7 @@
     echo "<p>Error: Could not make files writeable</p>";
     die;
   }
+  flush ();
 
   // Smarty template compile directory writeable.
   if (is_writable ("smarty/templates_c")) {
@@ -37,7 +40,19 @@
     echo "<p>Error: Smarty compile directory is not writeable</p>";
     die;
   }
+  flush ();
 
+  // Check on php-cli.
+  $php_cli = exec ("php -v", &$output, &$return_var);
+  foreach ($output as $line) echo "<p>$line</p>";
+  if ($return_var == 0) {
+    echo "<p>Ok: PHP-cli is present</p>";
+  } else {
+    echo "<p>Error: PHP-cli is not present</p>";
+    die;
+  }
+  flush ();
+   
   // If the user posted new values for accessing the database, write these to file.
   if (isset($_POST['submit'])) {
     $name   = $_POST['name'];
@@ -86,6 +101,7 @@
     die;
   }
   echo "<p>Ok: Database access</p>";
+  flush ();
 
   // Creating tables.
   $result = $database_instance->runQuery ("SHOW TABLES;");

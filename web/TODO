@@ -1,13 +1,11 @@
 
+
+
 The timer hangs forever, see what causes that. Looks like trimming the snapshots does that.
 
 
 
 The timer starts long tasks in the background through php-cli, and then forgets about these.
-
-
-The setup.php should check on the presence of php-cli, since it starts to be vitally important.
-
 
 
 When writing to the logbook, and writing to other database tables,
