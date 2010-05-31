@@ -94,9 +94,9 @@ while(1)
     
     // Tasks to be done once a day come here:
 
-    // Trim snapshots.
-    // Todo $database_snapshots = Database_Snapshots::getInstance();
-    // Todo $database_snapshots->trim(false);
+    // Trim snapshots. Todo
+    $workingdirectory = dirname (__FILE__);
+    shell_exec ("cd $workingdirectory; php trimsnapshots.php > /dev/null 2>&1 &");
 
     // Log memory usage.    
     $memory_usage = memory_get_usage();

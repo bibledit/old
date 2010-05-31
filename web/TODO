@@ -1,13 +1,3 @@
-
-
-
-The timer hangs forever, see what causes that. Looks like trimming the snapshots does that.
-
-
-
-The timer starts long tasks in the background through php-cli, and then forgets about these.
-
-
 When writing to the logbook, and writing to other database tables,
 we should not remove the older entries upon write, since that takes too much time.
 It is done once a day through the timer.
