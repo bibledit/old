@@ -224,6 +224,11 @@
   unset ($database_notes);
   flush ();
 
+  // The shell table.
+  $database_shell = Database_Shell::getInstance();
+  $database_shell->verify();
+  unset ($database_shell);
+  flush ();
 
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");

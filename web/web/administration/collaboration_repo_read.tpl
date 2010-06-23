@@ -32,7 +32,7 @@
     <p><input type="submit" name="url" value={t}Submit{/t} /></p>
   </form>
 
-  <h2><a href="collaboration_repo_clone.php?object={$object}">{t}Next page{/t}</a></h2>
+  <h2><a href="collaboration_repo_clone.php?object={$object}&directory={$directory}">{t}Next page{/t}</a></h2>
 
   {include file=../assets/footer_full.tpl} 
   </body>

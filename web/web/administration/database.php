@@ -112,6 +112,11 @@ $database_notes = Database_Notes::getInstance();
 $database_notes->optimize();
 
 
+// The shell table.
+$database_shell = Database_Shell::getInstance();
+$database_shell->optimize();
+
+
 // Done.
 message_information ("Ready");
 

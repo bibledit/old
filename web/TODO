@@ -1,34 +1,23 @@
 
 
 
-
-
-Start all git operations through php-cli, then let it log to the logbook.
-In particular when the git operations are logged there, it is important for it to be readable normally.
-
-The pages that controls the shell process should note if a process is running.
-See shell_exec for examples of that.
-It acts accordingly.
-Flags for this go in a memory table, so these are volatile.
-At the start of the process the flag, passed by the caller, is set, and at the end 
-of the cli process, it it cleared. The calling process can look at the flag to see how it fares.
+Send/Receive should go through php-cli also because it can take a long time to get the stuff synchronized.
 
 
 
 
-Setting up the git operations by the manager requires page refreshes every few seconds,
-so that this page tracks the progress made by that particular git operation or operations.
-It checks the logfiles that come out, and waits for a signal that the operation is ready, then
-displays the Next buttons.
-The ready-flag is a special flag in the log that comes out.
-The page contains the logfile to check for.
-This means that the operation cannot time out, but continues to go since it runs through php-cli.
+
+When syncing notes with a git repository, when the number of notes becomes large, 
+it takes a big time to compare all notes.
+For that reason, the fastest mechanism may be to export all notes to their files, in another directory,
+and then compare the whole directory with diff. But perhaps we can see if we do that one by one, how it works.
+Or just comparing each field of the note, though this may take time.
 
 
 
-Git operations should go to the manager's logbook.
-The git operations may run independently from PHP, it probably needs php-cli for that to work well.
-In particular synchronizing notes may take much time so that it needs to run independently from the apache server.
+
+
+
 
 It needs a full story of how consultation notes work,
 what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
@@ -42,13 +31,6 @@ It should contain an improved replacement of Bibledit-Gtk for consultation notes
 To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
 in particular the navigation aspect.
 Once notes work well in -Web, the sharing of these should be disabled in -Gtk, since it does not work reliably.
-
-
-
-When syncing notes with a git repository, when the number of notes becomes large, it takes a big time to compare all notes.
-For that reason, the fastest mechanism may be to export all notes to their files, in another directory,
-and then compare the whole directory with diff. But perhaps we can see if we do that one by one, how it works.
-Or just comparing each field of the note, though this may take time.
 
 
 
@@ -441,7 +423,7 @@ When this flag is found, the site says that after maintenance by the administrat
 
 Windows: http://www.wampserver.com/
 Or: http://www.apachefriends.org/en/xampp-windows.html
-
+Easiest: EasyPHP.
 
 
 
@@ -595,3 +577,19 @@ It would automatically update to, either the latest released version, or the dev
 
 
 
+Producing a sword module for Katana.
+Use usfm2osis.pl
+If all .usfm files are in subdirectory ndebele, do this:
+perl usfm2osis.pl Bible ndebele/*.usfm
+This produces a file Bible.osis.xml.
+Then make it a Sword module:
+osis2mod . Bible.osis.xml
+To write it to the proper place:
+osis2mod ~/.sword/modules/texts/bibledit/ndebele Bible.osis.xml
+Teus,
+osis2mod is conservative with file permissions.  Be sure the files have
+proper permissions before you deploy.
+I only mention this because I often forget to grant read access to files
+before deploying a module for testing and the result is only
+chapter/verse numbers.
+Troy

@@ -10,8 +10,9 @@ class Filter_Git
   * and transfers this information into Bibledit-Web's Bible database.
   * The $directory is where the file data resides.
   * It overwrites whatever data was in the $bible in the database.
+  * $progress: whether to show progress.
   */
-  public function bibleFiledata2database ($directory, $bible)
+  public function bibleFiledata2database ($directory, $bible, $progress = false)
   {
     // Maintain a list of chapters that were stored.
     $stored_chapters = array ();
@@ -25,6 +26,7 @@ class Filter_Git
     foreach ($book_names as $book_name) {
       $book_id = $database_books->getIdFromEnglish ($book_name);
       if ($book_id > 0) {
+        if ($progress) echo "$book_name\n";
         $book_directory = "$directory/$book_name";
         // Go through the chapters in the book.
         $chapter_numbers = scandir($book_directory);
@@ -69,13 +71,14 @@ class Filter_Git
   * The $directory is supposed to be completely empty, 
   * apart from a .git directory which may be there.
   */
-  public function bibleDatabase2filedata ($bible, $directory)
+  public function bibleDatabase2filedata ($bible, $directory, $progress = false)
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
     $books = $database_bibles->getBooks ($bible);
     foreach ($books as $book) {
       $book_name = $database_books->getEnglishFromId ($book);
+      if ($progress) echo "$book_name\n";
       mkdir ("$directory/$book_name");
       $chapters = $database_bibles->getChapters ($bible, $book);
       foreach ($chapters as $chapter) {
@@ -94,13 +97,17 @@ class Filter_Git
   * The $directory is supposed to be completely empty, 
   * apart from a .git directory which may be there.
   */
-  public function notesDatabase2filedata ($directory)
+  public function notesDatabase2filedata ($directory, $progress = false)
   {
+    $notescounter = 0; // For progress counter.
     $database_notes = Database_Notes::getInstance ();
     // Select all notes identifiers. Proper values should be passed to the selection routine, so it gives all notes.
     // E.g. a sufficiently high $userlevel is given, so all notes are included.
     $identifiers = $database_notes->getIdentifiers ();
     foreach ($identifiers as $identifier) {
+      if (($notescounter % 100) == 0) if ($progress) echo "\n";
+      $notescounter++;
+      if ($progress) echo ".";
       // The notes $identifier becomes the filename.
       $filename = "$directory/$identifier";
       // Assemble the file's data.
@@ -137,6 +144,7 @@ class Filter_Git
       // Save the data to file.
       file_put_contents ($filename, implode ("\n", $data));
     }
+    if ($progress) echo "\n";
   }
 
   /**
@@ -146,14 +154,18 @@ class Filter_Git
   * Each field, as it is in the file data, is compared with the corresponding field in the database.
   * When the fields are the same, no writes occur.
   */
-  public function notesFiledata2database ($directory)
+  public function notesFiledata2database ($directory, $progress = false)
   {
     $database_notes = Database_Notes::getInstance ();
     $notes_logic = Notes_Logic::getInstance();
     $stored_identifiers = array (); // Maintain a list of note identifiers stored.
+    $notescounter = 0; // For progress counter.
     foreach (new DirectoryIterator ($directory) as $fileInfo) {
       if($fileInfo->isDot()) continue;
-      if($fileInfo->isDir()) continue;  // Exclude directories, e.g. the ".git" one.
+      if($fileInfo->isDir()) continue; // Exclude directories, e.g. the ".git" one.
+      if (($notescounter % 100) == 0) if ($progress) echo "\n";
+      $notescounter++;
+      if ($progress) echo ".";
       $identifier = $fileInfo->getFilename();
       $stored_identifiers [] = $identifier;
       $note_updated = false;
@@ -300,6 +312,7 @@ class Filter_Git
         }
       }
     }
+    if ($progress) echo "\n";
 
     // Delete any notes which were not in the git repository.
     $identifiers = $database_notes->getIdentifiers ();
@@ -316,12 +329,16 @@ class Filter_Git
   * in $directory, and transfers this information into Bibledit-Web's
   * Repository database under name $bible.
   * It also works with consultation notes.
+  * $progress - whether to show progress.
   */
-  public function repository2database ($directory, $bible)
+  public function repository2database ($directory, $bible, $progress = false)
   {
     // Put the .git directory in an uncompressed tar ball (-czf would compress it).
     $filename = "git.tar";
-    system ("cd $directory; tar -cf $filename .git");
+    $command = "cd $directory; tar";
+    if ($progress) $command = $command . " -v ";
+    $command = $command . " -cf $filename .git";
+    passthru ($command);
     $data = fread(fopen("$directory/$filename", "r"), filesize("$directory/$filename"));
     $database_repositories = Database_Repositories::getInstance();
     $database_repositories->storeRepository ($bible, $data);    

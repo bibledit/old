@@ -1,6 +1,10 @@
 <?php
+
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
+
+Assets_Page::header (gettext ("Collaboration"));
+
 $smarty = new Smarty_Bibledit (__FILE__);
 
 $object = $_GET ['object'];
@@ -10,35 +14,33 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
-// Set up the secure keys just in case the repository happens to be secure.
-$secure_key_directory = Filter_Git::git_config ($url);
-
 $directory = $_GET ['directory'];
 $smarty->assign ("directory", $directory);
 
-// Take action based on whether it deals with a Bible or with the Consultation Notes.
-if ($object == "consultationnotes") {
-
-  // Copy the data from the local cloned repository, and store it in Bibledit-Web's consultation notes,
-  // overwriting the whole Bible that was there before.
-  Filter_Git::notesFiledata2database ($directory);
-
-} else {
-
-  // Copy the data from the local cloned repository, and store it in Bibledit-Web's Bible given in $object,
-  // overwriting the whole Bible that was there before.
-  Filter_Git::bibleFiledata2database ($directory, $object);
-  
+$ready = false;
+$database_shell = Database_Shell::getInstance ();
+$output = "";
+switch ($database_shell->logic ("collaboration_take_repo", 0, $output)) {
+  case 1: 
+    $workingdirectory = dirname (__FILE__);
+    $object = escapeshellarg ($object);
+    $directory = escapeshellarg ($directory);
+    shell_exec ("cd $workingdirectory; php collaboration_take_repo-cli.php $object $directory > $output 2>&1 &");
+    break;
+  case 0:
+    $contents = file ($output, FILE_IGNORE_NEW_LINES);
+    break;
+  case -1:
+    $contents = file ($output, FILE_IGNORE_NEW_LINES);
+    $ready = true;
+    break;
 }
+@$smarty->assign ("contents", $contents);
 
-// Store the git repository in the .git directory into Bibledit-Web's database,
-// keeping it there for the next Send/Receive action.
-Filter_Git::repository2database ($directory, $object);
+// Display the page(s).
+$smarty->display("collaboration_take_repo1.tpl");
+if ($ready) $smarty->display("collaboration_take_repo2.tpl");
 
-// Display the page.
-$smarty->display("collaboration_take_repo.tpl");
-
-// For security reasons, remove the private ssh key.
-Filter_Git::git_un_config ($secure_key_directory);
+Assets_Page::footer ();
 
 ?>

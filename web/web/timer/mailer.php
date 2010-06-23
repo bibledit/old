@@ -70,6 +70,9 @@ class Timer_Mailer
     $subject  = $row['subject'];
     $body     = $row['body'];
 
+    // Bail out when username was empty.
+    if ($username == "") return;
+
     // If this username was not found, it could be that the email was addressed to a non-user,
     // and that the To: address was actually contained in the $username.
     if ($email == "") {

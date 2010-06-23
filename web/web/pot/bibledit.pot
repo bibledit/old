@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-31 01:45+0200\n"
+"POT-Creation-Date: 2010-06-23 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -313,16 +313,49 @@ msgstr ""
 msgid "Please enter the name for the new versification system"
 msgstr ""
 
-msgid "The repository was cloned successfully."
+msgid "Step 1/3: Exporting the local data to the local repository"
 msgstr ""
 
-msgid "The repository could not be cloned."
+msgid "Step 2/3: Pushing the data to the remote repository"
+msgstr ""
+
+msgid ""
+"Your data was pushed to the remote repository successfully, overwriting any "
+"data that was there before."
+msgstr ""
+
+msgid "Pushing your data to the remote repository failed."
+msgstr ""
+
+msgid "Step 3/3: Storing the .git folder for next use"
+msgstr ""
+
+msgid "Collaboration"
+msgstr ""
+
+msgid "Ok: The repository was cloned successfully."
+msgstr ""
+
+msgid "Error: The repository could not be cloned."
 msgstr ""
 
 msgid "Read access to the repository is successful."
 msgstr ""
 
 msgid "Read access failed. Please retry it, possibly with another URL."
+msgstr ""
+
+msgid ""
+"Step 1/2: Copying the data from the local cloned repository, and storing it "
+"in the Consultation Notes"
+msgstr ""
+
+msgid ""
+"Step 1/2: Copying the data from the local cloned repository, and storing it "
+"in the Bible"
+msgstr ""
+
+msgid "Step 2/2: Storing the git repository for the next Send/Receive action"
 msgstr ""
 
 msgid "The email address does not appear to be valid"
@@ -348,48 +381,59 @@ msgstr ""
 msgid "Which Bible are you going to use?"
 msgstr ""
 
-msgid "Local addition was made successfully."
+msgid "Step: Adding a temporal file to the cloned repository"
 msgstr ""
 
-msgid "Local addition failed."
+msgid "Ok: Local addition was made successfully."
 msgstr ""
 
-msgid "Local commit was made successfully."
+msgid "Error: Local addition failed."
 msgstr ""
 
-msgid "Local commit failed."
+msgid "Step: Committing the above changes locally"
 msgstr ""
 
-msgid "Changes were pulled from the repository successfully."
+msgid "Ok: Local commit was made successfully."
 msgstr ""
 
-msgid "Pulling changes from the repository failed."
+msgid "Error: Local commit failed."
 msgstr ""
 
-msgid "Changes were pushed to the repository successfully."
+msgid "Step: Pulling changes from the remote repository"
 msgstr ""
 
-msgid "Pushing changes to the repository failed."
+msgid "Ok: Changes were pulled from the repository successfully."
 msgstr ""
 
-msgid "Changes were committed to the repository successfully."
+msgid "Error: Pulling changes from the repository failed."
 msgstr ""
 
-msgid "Committing changes to the repository failed."
+msgid "Step: Pushing changes to the remote repository"
 msgstr ""
 
-msgid "Changes were pushed to the remote repository successfully."
+msgid "Ok: Changes were pushed to the repository successfully."
 msgstr ""
 
-msgid "Pushing changes to the remote repository failed."
+msgid "Error: Pushing changes to the repository failed."
+msgstr ""
+
+msgid "Step: Removing the temporal file from the local repository"
 msgstr ""
 
 msgid ""
-"Your data was pushed to the remote repository successfully, overwriting any "
-"data that was there before."
+"Ok: The temporal file was removed from the local repository successfully."
 msgstr ""
 
-msgid "Pushing your data to the remote repository failed."
+msgid "Error: Removing the temporal file from the local repository failed."
+msgstr ""
+
+msgid "Step: Pushing the changes to the remote repository"
+msgstr ""
+
+msgid "Ok: Changes were pushed to the remote repository successfully."
+msgstr ""
+
+msgid "Error: Pushing changes to the remote repository failed."
 msgstr ""
 
 msgid "Timezone"
@@ -1610,9 +1654,6 @@ msgid ""
 "was there before."
 msgstr ""
 
-msgid "Collaboration"
-msgstr ""
-
 msgid "Repository data"
 msgstr ""
 
@@ -1646,6 +1687,52 @@ msgid ""
 msgstr ""
 
 msgid "Take your data."
+msgstr ""
+
+msgid "If there were no errors, then setting up the collaboration is ready."
+msgstr ""
+
+msgid ""
+"The Manager can now choose menu Send/Receive any time he wants to "
+"synchronize the Bible and the Consultation Notes with the remote repository."
+msgstr ""
+
+msgid "Take data in repository"
+msgstr ""
+
+msgid "Repository URL"
+msgstr ""
+
+msgid ""
+"The data in the remote repository is being copied over into Bibledit-Web's "
+"data, overwriting the data that was there before."
+msgstr ""
+
+msgid ""
+"You can go to the next page if the cloning completed successfully and there "
+"was no error."
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "Take local data"
+msgstr ""
+
+msgid "Your data is being pushed to the remote repository."
+msgstr ""
+
+msgid "Clone repository"
+msgstr ""
+
+msgid ""
+"Bibledit-Web clones the remote repository, and optimizes the clone for your "
+"use."
+msgstr ""
+
+msgid ""
+"You can go to the next page if all the steps completed successfully and "
+"there was no error."
 msgstr ""
 
 msgid "Site timezone"
@@ -1845,9 +1932,6 @@ msgstr ""
 msgid "This finishes setting up the repository on the USB flash drive."
 msgstr ""
 
-msgid "Repository URL"
-msgstr ""
-
 msgid "The repository that was created in this tutorial has the following URL:"
 msgstr ""
 
@@ -1855,9 +1939,6 @@ msgid ""
 "Your own repository that you have created has a URL too, the one that will "
 "be used from now on. Please enter it below, and press the Submit button to "
 "save it."
-msgstr ""
-
-msgid "Next page"
 msgstr ""
 
 msgid "Test read access"
@@ -1873,20 +1954,13 @@ msgstr ""
 msgid "If you'd like to retry, after updating the URL, press button Submit."
 msgstr ""
 
-msgid "Take data in repository"
-msgstr ""
-
 msgid ""
-"The data in the remote repository was copied over into Bibledit-Web's data, "
-"overwriting the data that was there before."
+"If there were no errors, then setting up collaboration is now ready, and the "
+"Manager can choose menu Send/Receive any time he wants to synchronize Bibles "
+"and Consultation Notes with the remote repository."
 msgstr ""
 
-msgid "Setting up collaboration is now ready."
-msgstr ""
-
-msgid ""
-"The Translator can now choose menu Send/Receive any time he wants to "
-"synchronize the Bible and the Consultation Notes with the remote repository."
+msgid "Write to repository"
 msgstr ""
 
 msgid "Repository initialization"
@@ -2068,17 +2142,6 @@ msgid ""
 "the keys to such a repository can write to it."
 msgstr ""
 
-msgid "Take local Bible"
-msgstr ""
-
-msgid "Pushing your data to the remote repository:"
-msgstr ""
-
-msgid ""
-"The Manager can now choose menu Send/Receive any time he wants to "
-"synchronize Bibles and Consultation Notes with the remote repository."
-msgstr ""
-
 msgid "This page deals with setting up the email system."
 msgstr ""
 
@@ -2141,28 +2204,6 @@ msgid ""
 "\"smtp.google.com\" one would find how to to it: SMTP: smtp.gmail.com, auth "
 "=> login, username => YOUR_USERNAME@gmail.com, password => YOUR_PASSWORD, "
 "ssl => ssl, port => 465."
-msgstr ""
-
-msgid "Clone repository"
-msgstr ""
-
-msgid ""
-"Bibledit-Web attempts to clone the remote repository. The progress of this, "
-"and its results, are displayed below."
-msgstr ""
-
-msgid ""
-"You can only go to the next page after the cloning completed successfully."
-msgstr ""
-
-msgid ""
-"Bibledit-Web attempted to clone the remote repository. This is the result:"
-msgstr ""
-
-msgid "The shell command used:"
-msgstr ""
-
-msgid "The cloned git repository was optimized for your use."
 msgstr ""
 
 msgid "Secure network repository setup"
@@ -2260,24 +2301,6 @@ msgstr ""
 
 msgid ""
 "After the delay of 10 minutes has expired you can continue to the next page."
-msgstr ""
-
-msgid "Write to repository"
-msgstr ""
-
-msgid "A temporal file was added to the cloned repository:"
-msgstr ""
-
-msgid "The above changes were committed locally:"
-msgstr ""
-
-msgid "Changes were pulled from the remote repository:"
-msgstr ""
-
-msgid "Changes were pushed to the remote repository:"
-msgstr ""
-
-msgid "Changes were committed to the local repository:"
 msgstr ""
 
 msgid "Open network repository setup"

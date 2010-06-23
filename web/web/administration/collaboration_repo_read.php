@@ -14,6 +14,12 @@ if (isset($_POST['url'])) {
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
+// Create the working directory now since this is the most convenient moment to do it.
+$directory = tempnam (sys_get_temp_dir(), '');
+unlink ($directory);
+mkdir ($directory);
+$smarty->assign ("directory", $directory);
+
 // In case the repository is secure, set up the secure keys.
 $secure_key_directory = Filter_Git::git_config ($url);
 

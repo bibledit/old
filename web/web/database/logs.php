@@ -46,7 +46,8 @@ EOD;
   * log - Logs entry
   * $manager - whether this logbook entry should be visible to the Manager as well.
   */
-  public function log ($description, $manager = false) { // Todo
+  public function log ($description, $manager = false) 
+  {
     $database_instance = Database_Instance::getInstance();
     $description = Database_SQLInjection::no ($description);
     include ("session/levels.php");
