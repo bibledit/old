@@ -162,9 +162,8 @@ class Filter_Git
     foreach (new DirectoryIterator ($directory) as $fileInfo) {
       if($fileInfo->isDot()) continue;
       if($fileInfo->isDir()) continue; // Exclude directories, e.g. the ".git" one.
-      if (($notescounter % 100) == 0) if ($progress) echo "\n";
+      if (($notescounter % 1000) == 0) if ($progress) echo "$notescounter\n";
       $notescounter++;
-      if ($progress) echo ".";
       $identifier = $fileInfo->getFilename();
       $stored_identifiers [] = $identifier;
       $note_updated = false;
@@ -311,7 +310,7 @@ class Filter_Git
         }
       }
     }
-    if ($progress) echo "\n";
+    if ($progress) echo "$notescounter\n";
 
     // Delete any notes which were not in the git repository.
     $identifiers = $database_notes->getIdentifiers ();
