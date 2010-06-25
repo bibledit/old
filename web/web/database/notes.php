@@ -75,7 +75,12 @@ EOD;
     // Table update. Subscriptions: Contains users subscribed to this note.
     $database_instance->runQuery ("ALTER TABLE notes ADD subscriptions text AFTER assigned;");
     // Table update. Allow full text search on summary and contents.
+    // First drop the fulltext index. If this were not done, it would create multiple indexes.
+    $database_instance->runQuery ("ALTER TABLE notes DROP INDEX summary;");
     $database_instance->runQuery ("ALTER TABLE notes ADD FULLTEXT(summary, contents);");
+    // Table update. Create index on identifier for much faster lookup.
+    // This makes a huge difference if the number of notes climbs above the, say, 1000.
+    $database_instance->runQuery ("CREATE INDEX id_index ON notes (identifier);");
   }
 
   public function optimize () {

@@ -18,7 +18,7 @@ $book_name = $database_books->getEnglishFromId ($book);
 $smarty->assign ("book_name", Filter_Html::sanitize ($book_name));
 
 // Delete chapter.
-$deletechapter = $_GET['deletechapter'];
+@$deletechapter = $_GET['deletechapter'];
 if ($deletechapter != "") {
   if ($_GET['confirm'] != "yes") {
     $dialog_yes = new Dialog_Yes (array ("bible", "book"), gettext ("Would you like to delete this chapter?"), "deletechapter");
@@ -48,7 +48,7 @@ if (isset($_POST['createchapter'])) {
 $chapters = $database_bibles->getChapters ($bible, $book);
 $smarty->assign ("chapters", $chapters);
 
-$smarty->assign ("error_message", $error_message);
+@$smarty->assign ("error_message", $error_message);
 
 $smarty->display ("book.tpl");
 

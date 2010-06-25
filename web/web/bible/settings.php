@@ -44,7 +44,7 @@ if (isset ($createbook)) {
 // Book deletion.
 @$deletebook = $_GET['deletebook'];
 if ($deletebook != "") {
-  $confirm = $_GET['confirm'];
+  @$confirm = $_GET['confirm'];
   if ($confirm != "") {
     $database_bibles->deleteBook ($bible, $deletebook);
   } else {

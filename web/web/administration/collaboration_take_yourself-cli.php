@@ -18,7 +18,8 @@ unlink ($newdirectory);
 mkdir ($newdirectory);
 
 // Move the .git directory to a new one.
-rename ("$directory/.git", "$newdirectory/.git");
+$renamed = rename ("$directory/.git", "$newdirectory/.git");
+if (!$renamed) echo gettext ("Failed to rename the .git directory") . "\n";
 
 // Put our data into the repository staging area.
 echo gettext ("Step 1/3: Exporting the local data to the local repository") . "\n";

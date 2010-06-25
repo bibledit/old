@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-23 01:45+0200\n"
+"POT-Creation-Date: 2010-06-25 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,6 +82,9 @@ msgid "This Bible has been done."
 msgstr ""
 
 msgid "Ready. All relevant Bibles, and Consultations Notes, have been done."
+msgstr ""
+
+msgid "Send/Receive"
 msgstr ""
 
 msgid "New"
@@ -1119,6 +1122,14 @@ msgid ""
 "confirmation number in the subject line."
 msgstr ""
 
+msgid "Sending and receiving Bibles and consultation notes."
+msgstr ""
+
+msgid ""
+"Progress shows up on this page. If you leave this page, the sending and "
+"receiving continues on its own."
+msgstr ""
+
 msgid ""
 "This shows all user accounts. You can delete users, or change users' roles."
 msgstr ""
@@ -1160,18 +1171,10 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-msgid "Send/Receive"
+msgid "Edit Bible with raw USFM code"
 msgstr ""
 
 msgid "Send and Receive Bibles and Consultation Notes"
-msgstr ""
-
-msgid ""
-"Please scroll down to the end of the page to see all messages in case there "
-"are many."
-msgstr ""
-
-msgid "Edit Bible with raw USFM code"
 msgstr ""
 
 msgid "Versifications"
@@ -1181,6 +1184,9 @@ msgid "Styles"
 msgstr ""
 
 msgid "Bibles"
+msgstr ""
+
+msgid "Ready sending and receiving."
 msgstr ""
 
 msgid "Translation"

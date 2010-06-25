@@ -105,9 +105,8 @@ class Filter_Git
     // E.g. a sufficiently high $userlevel is given, so all notes are included.
     $identifiers = $database_notes->getIdentifiers ();
     foreach ($identifiers as $identifier) {
-      if (($notescounter % 100) == 0) if ($progress) echo "\n";
+      if (($notescounter % 1000) == 0) if ($progress) echo "$notescounter\n";
       $notescounter++;
-      if ($progress) echo ".";
       // The notes $identifier becomes the filename.
       $filename = "$directory/$identifier";
       // Assemble the file's data.
@@ -144,7 +143,7 @@ class Filter_Git
       // Save the data to file.
       file_put_contents ($filename, implode ("\n", $data));
     }
-    if ($progress) echo "\n";
+    if ($progress) echo "$notescounter\n";
   }
 
   /**

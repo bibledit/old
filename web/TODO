@@ -1,24 +1,3 @@
-
-
-
-Send/Receive should go through php-cli also because it can take a long time to get the stuff synchronized.
-
-
-
-
-
-When syncing notes with a git repository, when the number of notes becomes large, 
-it takes a big time to compare all notes.
-For that reason, the fastest mechanism may be to export all notes to their files, in another directory,
-and then compare the whole directory with diff. But perhaps we can see if we do that one by one, how it works.
-Or just comparing each field of the note, though this may take time.
-
-
-
-
-
-
-
 It needs a full story of how consultation notes work,
 what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
 to 'critical' even if their note describers a 'wish' only, so that a standard policy is recommended to be followed.
