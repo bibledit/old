@@ -175,9 +175,14 @@ EOD;
     rmdir ("$directory/Song of Solomon/2");
     rmdir ("$directory/Song of Solomon");
 
-    // Run the filter.
+    // Store the repository through running the filter.
     $bible = "PHPUnit";
     Filter_Git::repository2database ($directory, $bible);
+
+    // Get the parts that make up this repository.
+    $database_repositories = Database_Repositories::getInstance();
+    $parts = $database_repositories->getParts ($bible);
+    $this->assertEquals(array (0), $parts);
 
     // Copy the git repository from the database into a new directory.
     $newdirectory = tempnam (sys_get_temp_dir(), '');

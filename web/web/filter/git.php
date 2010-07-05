@@ -26,7 +26,7 @@ class Filter_Git
     foreach ($book_names as $book_name) {
       $book_id = $database_books->getIdFromEnglish ($book_name);
       if ($book_id > 0) {
-        if ($progress) echo "$book_name\n";
+        if ($progress) echo "$book_name ";
         $book_directory = "$directory/$book_name";
         // Go through the chapters in the book.
         $chapter_numbers = scandir($book_directory);
@@ -50,6 +50,7 @@ class Filter_Git
         }
       }
     }
+    if ($progress) echo "\n";
     // Delete any chapters not stored above.
     $books = $database_bibles->getBooks ($bible);
     foreach ($books as $book) {
@@ -78,7 +79,7 @@ class Filter_Git
     $books = $database_bibles->getBooks ($bible);
     foreach ($books as $book) {
       $book_name = $database_books->getEnglishFromId ($book);
-      if ($progress) echo "$book_name\n";
+      if ($progress) echo "$book_name ";
       mkdir ("$directory/$book_name");
       $chapters = $database_bibles->getChapters ($bible, $book);
       foreach ($chapters as $chapter) {
@@ -87,6 +88,7 @@ class Filter_Git
         file_put_contents ("$directory/$book_name/$chapter/data", $data);
       }
     }
+    if ($progress) echo "\n";
   }
 
 
@@ -105,7 +107,7 @@ class Filter_Git
     // E.g. a sufficiently high $userlevel is given, so all notes are included.
     $identifiers = $database_notes->getIdentifiers ();
     foreach ($identifiers as $identifier) {
-      if (($notescounter % 1000) == 0) if ($progress) echo "$notescounter\n";
+      if (($notescounter % 1000) == 0) if ($progress) echo "$notescounter ";
       $notescounter++;
       // The notes $identifier becomes the filename.
       $filename = "$directory/$identifier";
@@ -162,7 +164,7 @@ class Filter_Git
     foreach (new DirectoryIterator ($directory) as $fileInfo) {
       if($fileInfo->isDot()) continue;
       if($fileInfo->isDir()) continue; // Exclude directories, e.g. the ".git" one.
-      if (($notescounter % 1000) == 0) if ($progress) echo "$notescounter\n";
+      if (($notescounter % 1000) == 0) if ($progress) echo "$notescounter ";
       $notescounter++;
       $identifier = $fileInfo->getFilename();
       $stored_identifiers [] = $identifier;
@@ -337,11 +339,19 @@ class Filter_Git
     if ($progress) $command = $command . " -v ";
     $command = $command . " -cf $filename .git";
     passthru ($command);
-    $data = fread(fopen("$directory/$filename", "r"), filesize("$directory/$filename"));
     $database_repositories = Database_Repositories::getInstance();
-    $database_repositories->storeRepository ($bible, $data);    
+    $database_repositories->deleteRepository ($bible);
+    $filename = "$directory/$filename";
+    $handle = fopen($filename, "rb");
+    $part = 0;
+    while (!feof ($handle)) {
+      $data = fread($handle, 65536);
+      $database_repositories->storeRepository ($bible, $part, $data);
+      $part++;
+    }
+    fclose ($handle);
   }
-  
+
 
   /**
   * This filter takes the git repository for $bible
@@ -354,9 +364,13 @@ class Filter_Git
   public function database2repository ($bible, $directory)
   {
     $database_repositories = Database_Repositories::getInstance();
-    $data = $database_repositories->getRepository ($bible);
     $filename = "git.tar";
-    file_put_contents ("$directory/$filename", $data);
+    $fp = fopen ("$directory/$filename", "w");
+    $parts = $database_repositories->getParts ($bible);
+    foreach ($parts as $part) {
+      $data = $database_repositories->getRepository ($bible, $part);
+      fwrite ($fp, $data);
+    }
     system ("cd $directory; tar -xf $filename");
     unlink ("$directory/$filename");
   }

@@ -4,6 +4,8 @@ if (php_sapi_name () != "cli") return;
 
 require_once ("../bootstrap/bootstrap.php");
 
+error_reporting (E_ERROR);
+
 $object = $argv[1];
 $directory = $argv[2];
 
@@ -33,7 +35,7 @@ if ($object == "consultationnotes") {
 // Store the git repository in the .git directory into Bibledit-Web's database,
 // keeping it there for the next Send/Receive action.
 echo gettext ("Step 2/2: Storing the git repository for the next Send/Receive action") . "\n";
-Filter_Git::repository2database ($directory, $object, true);
+Filter_Git::repository2database ($directory, $object, false);
 
 // For security reasons, remove the private ssh key.
 Filter_Git::git_un_config ($secure_key_directory);

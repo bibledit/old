@@ -41,16 +41,32 @@ passthru ($command);
 echo gettext ("Step 2/3: Pushing the data to the remote repository") . "\n";
 $command = "cd $newdirectory; git push 2>&1";
 echo "$command\n";
-passthru ($command, &$exit_code);
+exec ($command, &$output, &$exit_code);
 if ($exit_code == 0) {
   echo gettext ("Your data was pushed to the remote repository successfully, overwriting any data that was there before.") . "\n";
 } else {
+  echo "Exit code $exit_code\n";
+  foreach ($output as $line) {
+    //echo "$line\n";
+  }
   echo gettext ("Pushing your data to the remote repository failed.") . "\n";
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 // Store the .git repository for next use.
 echo gettext ("Step 3/3: Storing the .git folder for next use") . "\n";
-Filter_Git::repository2database ($newdirectory, $object, true);
+Filter_Git::repository2database ($newdirectory, $object, false);
 
 // Be sure to sync in case somebody unplugs the USB flash drive before data was fully written to it.
 exec ("sync");

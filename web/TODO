@@ -1,3 +1,31 @@
+Test git repositories again.
+Perhaps part of the git operations to throw away, since it gets too long in the file; so only to indicate
+the main actions to be done, no progress anymore.
+To use the repository parts in send_receive-cli.php
+
+
+
+The retrieval of reference information should be done by user, also the Gtk / other versions.
+Right now there's confusion only if two users mix up each other's reference.
+
+
+
+
+Working on installing production server. 
+* In updated version, let huge amounts of notes work. It now crashes on storing the .git repository.
+* Whole database backup.
+* Sync the notes with a git repository once storing .git works for big amounts of notes.
+
+
+
+
+
+
+While cloning the repository, and anything else with the cli interface, the page should display 
+information to the user that it is  'still working...'. In particular is this important on repo_clone.php page,
+since it might have less releavnt errors.
+
+
 It needs a full story of how consultation notes work,
 what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
 to 'critical' even if their note describers a 'wish' only, so that a standard policy is recommended to be followed.

@@ -22,7 +22,7 @@ foreach ($bibles as $bible) {
       echo gettext ("Bible") . ": " . $bible . "\n";
     }
     echo gettext ("Remote repository URL") . ": " . $remote_repository_url . "\n";
-    $dot_git = $database_repositories->getRepository ($bible);
+    $dot_git = $database_repositories->getRepository ($bible, 0);
     if ($dot_git == "") {
       echo gettext ("Cannot send and receive this Bible because the git repository was not found in the database.") . "\n";
       continue;
