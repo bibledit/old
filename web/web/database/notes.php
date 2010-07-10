@@ -559,7 +559,7 @@ EOD;
     // Store the whole log.
     $this->setAssignees ($identifier, $assignees);
     if ($comment) {
-      $this->addComment ($identifier, gettext ("The note was assigned to") . " " . $user);
+      // $this->addComment ($identifier, gettext ("The note was assigned to") . " " . $user);
     }
   }
 
@@ -596,7 +596,7 @@ EOD;
     // Remove assigned $user.
     $assignees = array_diff ($assignees, array ($user));
     $this->setAssignees ($identifier, $assignees);
-    $this->addComment ($identifier, gettext ("The note is no longer assigned to") . " " . $user);
+    // $this->addComment ($identifier, gettext ("The note is no longer assigned to") . " " . $user);
   }
 
   
@@ -624,8 +624,8 @@ EOD;
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
     // Add a comment for the change of Bible.
-    if ($bible == "") $bible = gettext ("none");
-    $this->addComment ($identifier, gettext ("The note's Bible was changed to:") . " " . $bible);
+    // if ($bible == "") $bible = gettext ("none");
+    // $this->addComment ($identifier, gettext ("The note's Bible was changed to:") . " " . $bible);
   }
 
 
@@ -715,7 +715,7 @@ EOD;
     $server->runQuery ($query);
     if (!$import) {
       $this->noteEditedActions ($identifier);
-      $this->addComment ($identifier, gettext ("The note's passages were updated"));
+      // $this->addComment ($identifier, gettext ("The note's passages were updated"));
     }
   }
 
@@ -819,7 +819,7 @@ EOD;
     $server->runQuery ($query);
     if (!$import) {
       $this->noteEditedActions ($identifier);
-      $this->addComment ($identifier, gettext ("The note's status was updated"));
+      // $this->addComment ($identifier, gettext ("The note's status was updated"));
     }
   }
 
@@ -900,7 +900,7 @@ EOD;
     $query = "UPDATE notes SET severity = $severity WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
-    $this->addComment ($identifier, gettext ("The note's severity was updated"));
+    // $this->addComment ($identifier, gettext ("The note's severity was updated"));
   }
 
 
@@ -946,7 +946,7 @@ EOD;
     $query = "UPDATE notes SET private = $privacy WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
-    $this->addComment ($identifier, gettext ("The note's privacy was updated"));
+    // $this->addComment ($identifier, gettext ("The note's privacy was updated"));
   }
 
 

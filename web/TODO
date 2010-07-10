@@ -1,20 +1,72 @@
-Test git repositories again.
-Perhaps part of the git operations to throw away, since it gets too long in the file; so only to indicate
-the main actions to be done, no progress anymore.
-To use the repository parts in send_receive-cli.php
+Status updates don't generate emails, neither should they generate any in the logbook at all - just update the database,
+and that's it. Neither do they subscribe anybody to the note. All the extra bits are just junk.
+To test all possible marginal changes to the notes.
+- Assign ok
+- Unassign ok
+- Status ok
+- Verses ok
+- Severity ok
+- Visibility / privacy ok
+To test notes being edited by another and then imported through Send/Receive.
 
 
 
-The retrieval of reference information should be done by user, also the Gtk / other versions.
-Right now there's confusion only if two users mix up each other's reference.
+Send/Receive blocks when many notes have been updated. Test this out.
+Solution is that the git actions no longer run through passthru, but through exec, and that the $output
+is fed into the logbook. It would be good if all output is fed into the logbook as well.
+This can be done at the end, when the function is through, then it can read the output file.
+Or the output file can be read, and only the difference with previous read will be put into the logbook.
+So then, the logbook will have a full record of all actions done.
+This also means that there is no need to display the output at all, it is sufficient to put a link to the logbook there.
 
 
 
 
-Working on installing production server. 
-* In updated version, let huge amounts of notes work. It now crashes on storing the .git repository.
-* Whole database backup.
-* Sync the notes with a git repository once storing .git works for big amounts of notes.
+Whole database backup.
+Mailing out is difficult, because the size can be tens of Megabytes. The last one was 54 Mbyte gzipped,
+and it was a very decent site.
+
+How to do it: The admin can enable the backup function. If enabled the site will regularly create backups.
+It puts these backups among its pages, on a location only known by and set by the administrator, perhaps also the
+filename to be set so it is stored in the root. Else it creates the directory to store it.
+Then a client can retrieve the backup automatically through wget in the crontab.
+
+
+script mail-backup.php aan.
+
+#!/bin/sh
+
+# db gegevens
+DBNAME=je_db_naam
+DBPASS=je_db_wachtwoord
+DBUSER=je_db_username
+
+# absoluut pad backupdir (bv 'backups'). Gebruik evt. phpinfo()
+BACKUPDIR=/pad/naar/jouw/webroot/backups
+
+# naam sql file, wordt na elke cronjob overschreven
+SQLGZFILE=$BACKUPDIR/$DBNAME.sql.gz
+
+# naam php file die mail verzorgt
+PHPBACKUPFILE=mail-backup.php
+
+# absoluut pad naar mysqldump (bv /usr/local/bin/mysqldump)
+MYSQLDUMP=/usr/local/bin/mysqldump
+
+# absoluut pad naar php (bv /usr/bin/php)
+PHP=/usr/bin/php
+
+
+# uitvoeren en pijpen (zucht) door gzip
+$MYSQLDUMP --opt -c -e -Q -u$DBUSER -p$DBPASS $DBNAME | gzip > $SQLGZFILE
+
+# php mailer proggel aanroepen
+$PHP $BACKUPDIR/$PHPBACKUPFILE
+
+Voor alle duidelijkheid: de opdracht 'mysqldump' creëert een volledige query als backup. 
+Als je deze query uitvoert (bijvoorbeeld in phpmyadmin bij 'sql', dan wordt de query uitgevoerd. 
+
+
 
 
 
@@ -22,26 +74,14 @@ Working on installing production server.
 
 
 While cloning the repository, and anything else with the cli interface, the page should display 
-information to the user that it is  'still working...'. In particular is this important on repo_clone.php page,
-since it might have less releavnt errors.
+information to the user that it is  'still working...'. 
+Important for repo_clone.php page, since it might have less releavant errors.
 
 
 It needs a full story of how consultation notes work,
 what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
 to 'critical' even if their note describers a 'wish' only, so that a standard policy is recommended to be followed.
 
-
-
-
-At this stage we can start to user Bibledit-Web for our consultation notes.
-It should contain an improved replacement of Bibledit-Gtk for consultation notes.
-To try out working with notes in Bibledit-Web, and with text in Bibledit-Gtk, whether that goes smoothly and easily,
-in particular the navigation aspect.
-Once notes work well in -Web, the sharing of these should be disabled in -Gtk, since it does not work reliably.
-
-
-
-First release once we're satisfied that Bibledit-Web works as advertised.
 
 
 

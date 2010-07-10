@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-05 01:51+0200\n"
+"POT-Creation-Date: 2010-07-10 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -138,12 +138,6 @@ msgstr ""
 msgid "Critical"
 msgstr ""
 
-msgid "The note was assigned to"
-msgstr ""
-
-msgid "The note is no longer assigned to"
-msgstr ""
-
 msgid "none"
 msgstr ""
 
@@ -151,9 +145,6 @@ msgid "The note's Bible was changed to:"
 msgstr ""
 
 msgid "The note's passages were updated"
-msgstr ""
-
-msgid "The note's status was updated"
 msgstr ""
 
 msgid "The note's severity was updated"
@@ -187,9 +178,6 @@ msgid "New note"
 msgstr ""
 
 msgid "Comment added"
-msgstr ""
-
-msgid "Note updated"
 msgstr ""
 
 msgid "Note deleted"

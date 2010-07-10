@@ -53,7 +53,7 @@ class Notes_Logic
 
   public function handlerUpdateNote ($identifier)
   {
-    $this->notifierNote ($identifier, gettext ("Note updated"));
+    //$this->notifierNote ($identifier, gettext ("Note updated"));
   }
 
   public function handlerDeleteNote ($identifier)
