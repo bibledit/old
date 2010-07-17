@@ -105,6 +105,21 @@ while(1)
   }
 
 
+  $backup_timestamp = $config_general->getTimerBackup ();
+  if ($current_timestamp >= $backup_timestamp) {
+    $backup_timestamp += 86400;
+    while ($current_timestamp >= $backup_timestamp) {
+      // This loop updates the backup timestamp to a value larger than the current time.
+      // This avoids calling many backup processes when backups have not been made for some time.
+      $backup_timestamp += 86400;
+    }
+    $config_general->setTimerBackup ($backup_timestamp);
+    $workingdirectory = dirname (__FILE__);
+    shell_exec ("cd $workingdirectory; php backup.php > /dev/null 2>&1 &");
+  }
+  unset ($backup_timestamp);
+
+
   // Wait a little for the next cycle.
   sleep(5);
 }

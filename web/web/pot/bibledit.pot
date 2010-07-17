@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-10 01:45+0200\n"
+"POT-Creation-Date: 2010-07-17 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,21 +136,6 @@ msgid "Major"
 msgstr ""
 
 msgid "Critical"
-msgstr ""
-
-msgid "none"
-msgstr ""
-
-msgid "The note's Bible was changed to:"
-msgstr ""
-
-msgid "The note's passages were updated"
-msgstr ""
-
-msgid "The note's severity was updated"
-msgstr ""
-
-msgid "The note's privacy was updated"
 msgstr ""
 
 msgid "Cannot access the database"
@@ -342,6 +327,15 @@ msgstr ""
 msgid "Step 3/3: Storing the .git folder for next use"
 msgstr ""
 
+msgid "Backup"
+msgstr ""
+
+msgid "Backups are disabled"
+msgstr ""
+
+msgid "The filename was saved and the backup will be created soon"
+msgstr ""
+
 msgid "Collaboration"
 msgstr ""
 
@@ -388,6 +382,9 @@ msgstr ""
 msgid ""
 "For the purpose of trying whether Bibledit-Web can send email, a test email "
 "was sent out to the account above:"
+msgstr ""
+
+msgid "Administration"
 msgstr ""
 
 msgid "Which Bible are you going to use?"
@@ -1776,9 +1773,6 @@ msgid ""
 "own preferred timezone."
 msgstr ""
 
-msgid "Administration"
-msgstr ""
-
 msgid "Mail"
 msgstr ""
 
@@ -1970,6 +1964,35 @@ msgid "The shell command that was used is:"
 msgstr ""
 
 msgid "If you'd like to retry, after updating the URL, press button Submit."
+msgstr ""
+
+msgid "This page deals with setting up the backup system."
+msgstr ""
+
+msgid ""
+"Bibledit-Web can create a backup of the database. This would backup all the "
+"data that is relevant to this site. It can do that every day."
+msgstr ""
+
+msgid ""
+"To enable this, enter a filename where the backup will be stored, and press "
+"Submit. Optionally you can enter a folder too."
+msgstr ""
+
+msgid "To disable it, remove any filename that is there, and press Submit."
+msgstr ""
+
+msgid ""
+"Once you press the Submit button, a backup will be created. Every day "
+"another backup will be created at the same time."
+msgstr ""
+
+msgid "The Logbook shows the backup progress."
+msgstr ""
+
+msgid ""
+"Once the backup has been created, it can be downloaded from the following "
+"location:"
 msgstr ""
 
 msgid ""

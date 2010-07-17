@@ -1,17 +1,13 @@
-Status updates don't generate emails, neither should they generate any in the logbook at all - just update the database,
-and that's it. Neither do they subscribe anybody to the note. All the extra bits are just junk.
-To test all possible marginal changes to the notes.
-- Assign ok
-- Unassign ok
-- Status ok
-- Verses ok
-- Severity ok
-- Visibility / privacy ok
-To test notes being edited by another and then imported through Send/Receive.
 
 
 
-Send/Receive blocks when many notes have been updated. Test this out.
+
+
+
+
+
+
+Send/Receive blocks when many notes have been updated. Try this.
 Solution is that the git actions no longer run through passthru, but through exec, and that the $output
 is fed into the logbook. It would be good if all output is fed into the logbook as well.
 This can be done at the end, when the function is through, then it can read the output file.
@@ -20,51 +16,6 @@ So then, the logbook will have a full record of all actions done.
 This also means that there is no need to display the output at all, it is sufficient to put a link to the logbook there.
 
 
-
-
-Whole database backup.
-Mailing out is difficult, because the size can be tens of Megabytes. The last one was 54 Mbyte gzipped,
-and it was a very decent site.
-
-How to do it: The admin can enable the backup function. If enabled the site will regularly create backups.
-It puts these backups among its pages, on a location only known by and set by the administrator, perhaps also the
-filename to be set so it is stored in the root. Else it creates the directory to store it.
-Then a client can retrieve the backup automatically through wget in the crontab.
-
-
-script mail-backup.php aan.
-
-#!/bin/sh
-
-# db gegevens
-DBNAME=je_db_naam
-DBPASS=je_db_wachtwoord
-DBUSER=je_db_username
-
-# absoluut pad backupdir (bv 'backups'). Gebruik evt. phpinfo()
-BACKUPDIR=/pad/naar/jouw/webroot/backups
-
-# naam sql file, wordt na elke cronjob overschreven
-SQLGZFILE=$BACKUPDIR/$DBNAME.sql.gz
-
-# naam php file die mail verzorgt
-PHPBACKUPFILE=mail-backup.php
-
-# absoluut pad naar mysqldump (bv /usr/local/bin/mysqldump)
-MYSQLDUMP=/usr/local/bin/mysqldump
-
-# absoluut pad naar php (bv /usr/bin/php)
-PHP=/usr/bin/php
-
-
-# uitvoeren en pijpen (zucht) door gzip
-$MYSQLDUMP --opt -c -e -Q -u$DBUSER -p$DBPASS $DBNAME | gzip > $SQLGZFILE
-
-# php mailer proggel aanroepen
-$PHP $BACKUPDIR/$PHPBACKUPFILE
-
-Voor alle duidelijkheid: de opdracht 'mysqldump' creëert een volledige query als backup. 
-Als je deze query uitvoert (bijvoorbeeld in phpmyadmin bij 'sql', dan wordt de query uitgevoerd. 
 
 
 
@@ -93,8 +44,13 @@ It could be emailed every day. This should be an option set by the administrator
 
 
 
+Emails about consultation notes should have the passage too.
+
+
 
 Documentation should have diagrams (if these can be translated), .svg, inkscape or oodraw.
+
+
 
 
 

@@ -194,6 +194,22 @@ EOD;
   public function setTimezone ($value) {
     $this->setValue ("timezone", $value);
   }   
+
+  public function getBackupFile() {
+    return $this->getValue ("backup-file", "");
+  }
+  public function setBackupFile ($value) {
+    $this->setValue ("backup-file", $value);
+  }   
+
+  public function getTimerBackup() {
+    return $this->getValue ("timer-backup", "");
+  }
+  public function setTimerBackup ($value) {
+    $this->setValue ("timer-backup", $value);
+  }   
+
+
 }
 
 

@@ -43,12 +43,12 @@
   flush ();
 
   // Check on php-cli.
-  $php_cli = exec ("php -v", &$output, &$return_var);
+  $php_cli = exec ("php -v 2>&1", &$output, &$return_var);
   foreach ($output as $line) echo "<p>$line</p>";
   if ($return_var == 0) {
-    echo "<p>Ok: PHP-cli is present</p>";
+    echo "<p>Ok: PHP-cli is okay</p>";
   } else {
-    echo "<p>Error: PHP-cli is not present</p>";
+    echo "<p>Error: PHP-cli is not present or does not run properly</p>";
     die;
   }
   flush ();

@@ -59,7 +59,8 @@ class Database_Instance {
     }
     return self::$instance;
   }
-  
+
+
   public function runQuery ($query)
   {
     $result = $this->mysqli->query ($query);
