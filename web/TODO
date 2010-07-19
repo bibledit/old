@@ -1,3 +1,11 @@
+.
+
+They should be in html as well.
+
+
+
+
+
 
 
 
@@ -11,7 +19,8 @@ This can be done at the end, when the function is through, then it can read the 
 Or the output file can be read, and only the difference with previous read will be put into the logbook.
 So then, the logbook will have a full record of all actions done.
 This also means that there is no need to display the output at all, it is sufficient to put a link to the logbook there.
-
+If during any git operation it exits with an error, the remainder of the operation should be skipped,
+so that no notes disappear or get maimed.
 
 
 
@@ -31,17 +40,6 @@ what the purpose of subscriptions is, and of assignments. Mention also that some
 to 'critical' even if their note describers a 'wish' only, so that a standard policy is recommended to be followed.
 
 
-
-
-
-Include backup of mysql into normal backup routines.
-It should go as emailing it to localhost, then it is kept as email in Evolution.
-It could be emailed every day. This should be an option set by the administrator, e.g. every two days, or every week.
-
-
-
-
-Emails about consultation notes should have the passage too.
 
 
 
