@@ -7,17 +7,25 @@ class Filter_Backup
   public function file ()
   {
     $config_general = Database_Config_General::getInstance ();
+    $value = $config_general->getBackupFile ();
+    if ($value == "") {
+      return $value;
+    }
     $file = dirname (dirname (__FILE__));
-    $file = $file . "/" . $config_general->getBackupFile () . ".sql.gz";
+    $file = $file . "/" . $value . ".sql.gz";
     return $file;
   }
   
   public function url ()
   {
     $config_general = Database_Config_General::getInstance ();
+    $value = $config_general->getBackupFile ();
+    if ($value == "") {
+      return $value;
+    }
     $url = $_SERVER["HTTP_REFERER"];
     $url = dirname (dirname ($url));
-    $url = $url . "/" . $config_general->getBackupFile () . ".sql.gz";
+    $url = $url . "/" . $value . ".sql.gz";
     return $url;
   }
   

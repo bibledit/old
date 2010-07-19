@@ -14,15 +14,14 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=6
-FILE_NAME_0=243;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=0
+FILE_NAME_0=42;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=2119;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
 FILE_NAME_2=449;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.php;0
-FILE_NAME_3=737;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.tpl;0
-FILE_NAME_4=5770;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/general.php;0
-FILE_NAME_5=245;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/backup.php;0
-FILE_NAME_6=2768;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0
-FILE_NAME_7=967;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/backup.php;0
-FILE_NAME_8=2149;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/instance.php;0
+FILE_NAME_3=330;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.tpl;0
+FILE_NAME_4=5581;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/general.php;0
+FILE_NAME_5=27;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/backup.php;0
+FILE_NAME_6=3318;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0
+FILE_NAME_7=1408;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/backup.php;0
+FILE_NAME_8=1021;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/instance.php;0
 FILE_NAME_9=292;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/credentials.php;0
-FILE_NAME_10=1612;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/trimdatabases.php;0

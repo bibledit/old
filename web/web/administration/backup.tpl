@@ -12,9 +12,9 @@
   <p><input type="submit" name="submit" value={t}Submit{/t} /></p>
 </form>
 <br>
-<p>{t}Once you press the Submit button, a backup will be created. Every day another backup will be created at the same time.{/t}</p
-<p>{t}The Logbook shows the backup progress.{/t}</p>
 {if $url != ""}
+  <p>{t}Once you press the Submit button, a backup will be created. Every day another backup will be created at the same time.{/t}</p
+  <p>{t}The Logbook shows the backup progress.{/t}</p>
   <p>{t}Once the backup has been created, it can be downloaded from the following location:{/t}</p>
   <p>{$url}</p>
 {/if}

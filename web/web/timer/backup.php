@@ -35,6 +35,11 @@ if (php_sapi_name () != "cli") {
 require ("database/credentials.php");
   
 $file = Filter_Backup::file ();
+if ($file == "") {
+  $database_logs->log ("Backups have not been enabled. It is recommended to backup the data, either through the Backup function, or through other means, and to store the data safely.", true);
+  die;
+}
+
 $command = "mysqldump -h $database_host --opt -c -e -Q -u$database_user -p$database_pass $database_name | gzip > $file";
 $database_logs->log ("Backup command: $command");
 exec ($command, $output, $exitcode);

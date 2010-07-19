@@ -4,9 +4,6 @@
 
 
 
-
-
-
 Send/Receive blocks when many notes have been updated. Try this.
 Solution is that the git actions no longer run through passthru, but through exec, and that the $output
 is fed into the logbook. It would be good if all output is fed into the logbook as well.
