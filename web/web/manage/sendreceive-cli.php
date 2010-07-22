@@ -37,19 +37,19 @@ foreach ($bibles as $bible) {
     echo gettext ("Working directory") . ": " . $directory . "\n";
     if ($bible == "consultationnotes") {
       echo gettext ("Transferring notes to file ...") . "\n";
-      Filter_Git::notesDatabase2filedata ($directory); // Todo
+      Filter_Git::notesDatabase2filedata ($directory);
     } else {
       echo gettext ("Transferring Bible text to file ...") . "\n";
-      Filter_Git::bibleDatabase2filedata ($bible, $directory); // Todo
+      Filter_Git::bibleDatabase2filedata ($bible, $directory);
     }
     echo gettext ("Restoring the previously saved git repository ...") . "\n";
-    Filter_Git::database2repository ($bible, $directory); // Todo
+    Filter_Git::database2repository ($bible, $directory);
 
     $command = "cd $directory; git add . 2>&1";
     echo "$command\n";
     $database_logs->log ($command);
     unset ($result);
-    exec ($command, &$result, &$exit_code); // Todo
+    exec ($command, &$result, &$exit_code);
     $message = "Exit code $exit_code";
     echo "$message\n";
     $database_logs->log ($message);
@@ -61,7 +61,7 @@ foreach ($bibles as $bible) {
     echo "$command\n";
     $database_logs->log ($command);
     unset ($result);
-    exec ($command, &$result, &$exit_code); // Todo
+    exec ($command, &$result, &$exit_code);
     $message = "Exit code $exit_code";
     echo "$message\n";
     $database_logs->log ($message);
@@ -73,7 +73,7 @@ foreach ($bibles as $bible) {
     echo "$command\n";
     $database_logs->log ($command);
     unset ($result);
-    exec ($command, &$result, &$exit_code); // Todo
+    exec ($command, &$result, &$exit_code);
     $message = "Exit code $exit_code";
     echo "$message\n";
     $database_logs->log ($message);
@@ -85,7 +85,7 @@ foreach ($bibles as $bible) {
     echo "$command\n";
     $database_logs->log ($command);
     unset ($result);
-    exec ($command, &$result, &$exit_code); // Todo
+    exec ($command, &$result, &$exit_code);
     $message = "Exit code $exit_code";
     echo "$message\n";
     $database_logs->log ($message);
@@ -108,7 +108,7 @@ foreach ($bibles as $bible) {
     echo "$command\n";
     $database_logs->log ($command);
     unset ($result);
-    exec ($command, &$result, &$exit_code); // Todo
+    exec ($command, &$result, &$exit_code);
     $message = "Exit code $exit_code";
     echo "$message\n";
     $database_logs->log ($message);
@@ -120,13 +120,13 @@ foreach ($bibles as $bible) {
 
     if ($bible == "consultationnotes") {
       echo gettext ("Moving the notes from file into the database ...") . "\n";
-      Filter_Git::notesFiledata2database ($directory); // Todo
+      Filter_Git::notesFiledata2database ($directory);
     } else {
       echo gettext ("Moving the Bible data from file into the database ...") . "\n";
-      Filter_Git::bibleFiledata2database ($directory, $bible); // Todo
+      Filter_Git::bibleFiledata2database ($directory, $bible);
     }
     echo gettext ("Saving the git repository for next use ...") . "\n";
-    Filter_Git::repository2database ($directory, $bible); // Todo
+    Filter_Git::repository2database ($directory, $bible);
 
     Filter_Git::git_un_config ($secure_key_directory);
 

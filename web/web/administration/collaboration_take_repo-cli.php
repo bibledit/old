@@ -1,6 +1,6 @@
 <?php
 
-if (php_sapi_name () != "cli") return; // Todo log to logbook.
+if (php_sapi_name () != "cli") return;
 
 require_once ("../bootstrap/bootstrap.php");
 
