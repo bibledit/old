@@ -9,6 +9,7 @@ echo (gettext ("Starting to send and receive the relevant Bibles and Project Not
 $database_bibles = Database_Bibles::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $database_repositories = Database_Repositories::getInstance();
+$database_logs = Database_Logs::getInstance();
 $bibles = $database_bibles->getBibles();
 // Add the Consultation Notes as well.
 $bibles [] = "consultationnotes";
@@ -36,33 +37,58 @@ foreach ($bibles as $bible) {
     echo gettext ("Working directory") . ": " . $directory . "\n";
     if ($bible == "consultationnotes") {
       echo gettext ("Transferring notes to file ...") . "\n";
-      Filter_Git::notesDatabase2filedata ($directory);
+      Filter_Git::notesDatabase2filedata ($directory); // Todo
     } else {
       echo gettext ("Transferring Bible text to file ...") . "\n";
-      Filter_Git::bibleDatabase2filedata ($bible, $directory);
+      Filter_Git::bibleDatabase2filedata ($bible, $directory); // Todo
     }
     echo gettext ("Restoring the previously saved git repository ...") . "\n";
-    Filter_Git::database2repository ($bible, $directory);
+    Filter_Git::database2repository ($bible, $directory); // Todo
 
     $command = "cd $directory; git add . 2>&1";
     echo "$command\n";
+    $database_logs->log ($command);
     unset ($result);
-    passthru ($command, &$exit_code);
+    exec ($command, &$result, &$exit_code); // Todo
+    $message = "Exit code $exit_code";
+    echo "$message\n";
+    $database_logs->log ($message);
+    foreach ($result as $line) {
+      $database_logs->log ($line);
+    }
     
     $command = "cd $directory; git status 2>&1";
     echo "$command\n";
+    $database_logs->log ($command);
     unset ($result);
-    passthru ($command, &$exit_code);
+    exec ($command, &$result, &$exit_code); // Todo
+    $message = "Exit code $exit_code";
+    echo "$message\n";
+    $database_logs->log ($message);
+    foreach ($result as $line) {
+      $database_logs->log ($line);
+    }
 
     $command = "cd $directory; git commit -a -m sync 2>&1";
     echo "$command\n";
+    $database_logs->log ($command);
     unset ($result);
-    passthru ($command, &$exit_code);
+    exec ($command, &$result, &$exit_code); // Todo
+    $message = "Exit code $exit_code";
+    echo "$message\n";
+    $database_logs->log ($message);
+    foreach ($result as $line) {
+      $database_logs->log ($line);
+    }
     
     $command = "cd $directory; git pull 2>&1";
     echo "$command\n";
+    $database_logs->log ($command);
     unset ($result);
-    exec ($command, &$result, &$exit_code);
+    exec ($command, &$result, &$exit_code); // Todo
+    $message = "Exit code $exit_code";
+    echo "$message\n";
+    $database_logs->log ($message);
     foreach ($result as $line) {
       // Leave out messages like:
       //   Could not create directory '/var/www/.ssh'.
@@ -70,29 +96,37 @@ foreach ($bibles as $bible) {
       // Such messages could confuse the user, and these are not really errors.
       if (strstr ($line, "/.ssh") != false) continue;
       echo "$line\n";
+      $database_logs->log ($line);
       if (strstr ($line, "CONFLICT") !== false) {
-        echo gettext ("A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.") . "\n";
+        $message = gettext ("A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.");
+        echo  "$message\n";
+        $database_logs->log ($message);
       }
     }
 
     $command = "cd $directory; git push 2>&1";
     echo "$command\n";
+    $database_logs->log ($command);
     unset ($result);
-    exec ($command, &$result, &$exit_code);
+    exec ($command, &$result, &$exit_code); // Todo
+    $message = "Exit code $exit_code";
+    echo "$message\n";
+    $database_logs->log ($message);
     foreach ($result as $line) {
       if (strstr ($line, "/.ssh") != false) continue;
       echo "$line\n";
+      $database_logs->log ($line);
     }
 
     if ($bible == "consultationnotes") {
       echo gettext ("Moving the notes from file into the database ...") . "\n";
-      Filter_Git::notesFiledata2database ($directory);
+      Filter_Git::notesFiledata2database ($directory); // Todo
     } else {
       echo gettext ("Moving the Bible data from file into the database ...") . "\n";
-      Filter_Git::bibleFiledata2database ($directory, $bible);
+      Filter_Git::bibleFiledata2database ($directory, $bible); // Todo
     }
     echo gettext ("Saving the git repository for next use ...") . "\n";
-    Filter_Git::repository2database ($directory, $bible);
+    Filter_Git::repository2database ($directory, $bible); // Todo
 
     Filter_Git::git_un_config ($secure_key_directory);
 

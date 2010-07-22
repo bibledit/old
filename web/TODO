@@ -7,26 +7,6 @@
 
 
 
-
-
-Send/Receive blocks when many notes have been updated. Try this.
-Solution is that the git actions no longer run through passthru, but through exec, and that the $output
-is fed into the logbook. It would be good if all output is fed into the logbook as well.
-This can be done at the end, when the function is through, then it can read the output file.
-Or the output file can be read, and only the difference with previous read will be put into the logbook.
-So then, the logbook will have a full record of all actions done.
-This also means that there is no need to display the output at all, it is sufficient to put a link to the logbook there.
-If during any git operation it exits with an error, the remainder of the operation should be skipped,
-so that no notes disappear or get maimed.
-
-
-
-
-
-
-
-
-
 While cloning the repository, and anything else with the cli interface, the page should display 
 information to the user that it is  'still working...'. 
 Important for repo_clone.php page, since it might have less releavant errors.
@@ -36,6 +16,10 @@ It needs a full story of how consultation notes work,
 what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
 to 'critical' even if their note describers a 'wish' only, so that a standard policy is recommended to be followed.
 
+
+
+NB I tried to save the notes on line. After creating a new note and saving, 
+I found out that when I try to go back to the note, its no-longer there.
 
 
 

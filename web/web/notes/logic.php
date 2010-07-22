@@ -114,7 +114,7 @@ class Notes_Logic
     // Ensure the list consists of unique recipients, so nobody is mailed twice about an issue.
     $recipients = array_unique ($recipients);
 
-    // Send mail to all recipients. Todo
+    // Send mail to all recipients.
     $summary = $database_notes->getSummary ($identifier);
     $passages = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
     $contents = $database_notes->getContents ($identifier);

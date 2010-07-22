@@ -1,6 +1,6 @@
 <?php
 
-if (php_sapi_name () != "cli") return;
+if (php_sapi_name () != "cli") return; // Todo log to logbook.
 
 require_once ("../bootstrap/bootstrap.php");
 
@@ -19,10 +19,14 @@ mkdir ($newdirectory);
 
 // Move the .git directory to a new one.
 $renamed = rename ("$directory/.git", "$newdirectory/.git");
-if (!$renamed) echo gettext ("Failed to rename the .git directory") . "\n";
+if (!$renamed) {
+  $message = gettext ("Failed to rename the .git directory");
+  echo "$message\n";
+}
 
 // Put our data into the repository staging area.
-echo gettext ("Step 1/3: Exporting the local data to the local repository") . "\n";
+$message = gettext ("Step 1/3: Exporting the local data to the local repository");
+echo "$message\n";
 if ($object == "consultationnotes") {
   Filter_Git::notesDatabase2filedata ($newdirectory, true);
 } else {
@@ -32,10 +36,23 @@ if ($object == "consultationnotes") {
 // Add and commit the data.
 $command = "cd $newdirectory; git add .";
 echo "$command\n";
-passthru ($command);
+exec ($command, &$output, &$exit_code);
+echo "Exit code $exit_code\n";
+if ($exit_code != 0) {
+  foreach ($output as $line) {
+    echo "$line\n";
+  }
+}
+
 $command = "cd $newdirectory; git commit -a -m admin-sync";
 echo "$command\n";
-passthru ($command);
+exec ($command, &$output, &$exit_code);
+echo "Exit code $exit_code\n";
+if ($exit_code != 0) {
+  foreach ($output as $line) {
+    echo "$line\n";
+  }
+}
 
 // Push data to remote repository.
 echo gettext ("Step 2/3: Pushing the data to the remote repository") . "\n";
@@ -51,18 +68,6 @@ if ($exit_code == 0) {
   }
   echo gettext ("Pushing your data to the remote repository failed.") . "\n";
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Store the .git repository for next use.
 echo gettext ("Step 3/3: Storing the .git folder for next use") . "\n";
