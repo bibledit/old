@@ -1,4 +1,5 @@
 <?php
+
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 

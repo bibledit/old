@@ -14,9 +14,6 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
-$directory = $_GET ['directory'];
-$smarty->assign ("directory", $directory);
-
 $ready = false;
 $database_shell = Database_Shell::getInstance ();
 $output = "";
@@ -24,8 +21,7 @@ switch ($database_shell->logic ("collaboration_take_yourself", 0, $output)) {
   case 1: 
     $workingdirectory = dirname (__FILE__);
     $object = escapeshellarg ($object);
-    $directory = escapeshellarg ($directory);
-    shell_exec ("cd $workingdirectory; php collaboration_take_yourself-cli.php $object $directory > $output 2>&1 &");
+    shell_exec ("cd $workingdirectory; php collaboration_take_yourself-cli.php $object > $output 2>&1 &");
     break;
   case 0:
     $contents = file ($output, FILE_IGNORE_NEW_LINES);

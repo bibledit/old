@@ -3,7 +3,6 @@ CLEANFILES = *~
 webroot = @WEBROOT@
 
 install-data-local:
-	rm -rf $(WEBROOT)/bibledit
 	mkdir -p $(WEBROOT)/bibledit
 	cp -r * $(WEBROOT)/bibledit
 	chmod -R 0777 $(WEBROOT)/bibledit

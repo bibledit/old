@@ -1,7 +1,7 @@
 <?php
 
 
-class Filter_Git
+class Filter_Git // Todo
 {
 
   /**
@@ -69,26 +69,30 @@ class Filter_Git
   * This filter takes the Bible data as it is stored in Bibledit-Web's database, 
   * and transfers this information into the layout in books and chapters
   * such as is used in Bibledit-Gtk into $directory.
-  * The $directory is supposed to be completely empty, 
-  * apart from a .git directory which may be there.
+  * The $directory may contain other data. This data will not normally be affected.
   */
   public function bibleDatabase2filedata ($bible, $directory, $progress = false)
   {
+    $success = true;
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
     $books = $database_bibles->getBooks ($bible);
     foreach ($books as $book) {
       $book_name = $database_books->getEnglishFromId ($book);
       if ($progress) echo "$book_name ";
-      mkdir ("$directory/$book_name");
+      $bookdir = "$directory/$book_name";
+      if (!is_dir ($bookdir)) mkdir ($bookdir);
       $chapters = $database_bibles->getChapters ($bible, $book);
       foreach ($chapters as $chapter) {
-        mkdir ("$directory/$book_name/$chapter");
+        $chapterdir = "$bookdir/$chapter";
+        if (!is_dir ($chapterdir)) mkdir ($chapterdir);
         $data = $database_bibles->getChapter ($bible, $book, $chapter);
-        file_put_contents ("$directory/$book_name/$chapter/data", $data);
+        if (file_put_contents ("$chapterdir/data", $data) === false)
+          $success = false;
       }
     }
     if ($progress) echo "\n";
+    return $success;
   }
 
 
@@ -101,6 +105,7 @@ class Filter_Git
   */
   public function notesDatabase2filedata ($directory, $progress = false)
   {
+    $success = true;
     $notescounter = 0; // For progress counter.
     $database_notes = Database_Notes::getInstance ();
     // Select all notes identifiers. Proper values should be passed to the selection routine, so it gives all notes.
@@ -143,9 +148,11 @@ class Filter_Git
       $data [] = "Contents:";
       $data [] = $database_notes->getContents ($identifier);
       // Save the data to file.
-      file_put_contents ($filename, implode ("\n", $data));
+      if (file_put_contents ($filename, implode ("\n", $data)) === false)
+        $success = false;
     }
     if ($progress) echo "$notescounter\n";
+    return $success;
   }
 
   /**
@@ -325,58 +332,6 @@ class Filter_Git
 
 
   /**
-  * This filter takes a git repository as it is stored in .git
-  * in $directory, and transfers this information into Bibledit-Web's
-  * Repository database under name $bible.
-  * It also works with consultation notes.
-  * $progress - whether to show progress.
-  */
-  public function repository2database ($directory, $bible, $progress = false)
-  {
-    // Put the .git directory in an uncompressed tar ball (-czf would compress it).
-    $filename = "git.tar";
-    $command = "cd $directory; tar";
-    if ($progress) $command = $command . " -v ";
-    $command = $command . " -cf $filename .git";
-    passthru ($command);
-    $database_repositories = Database_Repositories::getInstance();
-    $database_repositories->deleteRepository ($bible);
-    $filename = "$directory/$filename";
-    $handle = fopen($filename, "rb");
-    $part = 0;
-    while (!feof ($handle)) {
-      $data = fread($handle, 65536);
-      $database_repositories->storeRepository ($bible, $part, $data);
-      $part++;
-    }
-    fclose ($handle);
-  }
-
-
-  /**
-  * This filter takes the git repository for $bible
-  * as it is stored in Bibledit-Web's database, 
-  * and puts it in a .git directory in $directory.
-  * There should not be an existing .git directory in $directory,
-  * but other relevant data may be there.
-  * It also works with consultation notes.
-  */
-  public function database2repository ($bible, $directory)
-  {
-    $database_repositories = Database_Repositories::getInstance();
-    $filename = "git.tar";
-    $fp = fopen ("$directory/$filename", "w");
-    $parts = $database_repositories->getParts ($bible);
-    foreach ($parts as $part) {
-      $data = $database_repositories->getRepository ($bible, $part);
-      fwrite ($fp, $data);
-    }
-    system ("cd $directory; tar -xf $filename");
-    unlink ("$directory/$filename");
-  }
-
-
-  /**
   * Bibledit-Web accesses secure git repositories through ssh.
   * This function sets up both git and ssh to use a configuration file
   * and a private key.
@@ -423,6 +378,17 @@ EOD;
   public function git_un_config ($directory)
   {
     unlink ("$directory/key");
+  }
+
+
+  /**
+  * This function returns the directory of the git repository belonging to $object.
+  */
+  public function git_directory ($object)
+  {
+    $directory = dirname (dirname (__FILE__));
+    $directory = "$directory/git/$object";
+    return $directory;
   }
       
       

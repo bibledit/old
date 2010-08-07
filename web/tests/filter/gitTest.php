@@ -138,69 +138,6 @@ EOD;
 
 
   /**
-  * This tests round-tripping a git repository in the file system,
-  * being transferred to the database, then back to the filesystem.
-  */
-  public function testRepository2database2repository()
-  {
-    // Working directory.
-    $directory = tempnam (sys_get_temp_dir(), '');
-    unlink ($directory);
-    mkdir ($directory);
-
-    // Set up testing data.    
-    $this->initialize_data();
-    $this->initialize_directories ($directory);
-
-    // Simulate the presence of some chapters.
-    file_put_contents ("$directory/Psalms/0/data", $this->psalms_0_data);
-    file_put_contents ("$directory/Psalms/11/data", $this->psalms_11_data);
-    file_put_contents ("$directory/Song of Solomon/2/data", $this->song_of_solomon_2_data);
-
-    // Create a git repository in the working directory.
-    system ("cd $directory; git init > /dev/null 2>&1", &$exit_code);
-    $this->assertEquals(0, $exit_code);
-    system ("cd $directory; git add .", &$exit_code);
-    $this->assertEquals(0, $exit_code);
-    system ("cd $directory; git commit -a -m test > /dev/null 2>&1", &$exit_code);
-    $this->assertEquals(0, $exit_code);
-
-    // Remove the data so the .git directory only is left.
-    unlink ("$directory/Psalms/0/data");
-    unlink ("$directory/Psalms/11/data");
-    unlink ("$directory/Song of Solomon/2/data");
-    rmdir ("$directory/Psalms/0");
-    rmdir ("$directory/Psalms/11");
-    rmdir ("$directory/Psalms");
-    rmdir ("$directory/Song of Solomon/2");
-    rmdir ("$directory/Song of Solomon");
-
-    // Store the repository through running the filter.
-    $bible = "PHPUnit";
-    Filter_Git::repository2database ($directory, $bible);
-
-    // Get the parts that make up this repository.
-    $database_repositories = Database_Repositories::getInstance();
-    $parts = $database_repositories->getParts ($bible);
-    $this->assertEquals(array (0), $parts);
-
-    // Copy the git repository from the database into a new directory.
-    $newdirectory = tempnam (sys_get_temp_dir(), '');
-    unlink ($newdirectory);
-    mkdir ($newdirectory);
-    Filter_Git::database2repository ($bible, $newdirectory);
-
-    // Compare new directory with the standard one.
-    system ("diff -r $newdirectory/.git $directory/.git", &$exit_code);
-    $this->assertEquals(0, $exit_code);
-    
-    // Tear down.
-    $database_repositories = Database_Repositories::getInstance();
-    $database_repositories->deleteRepository ($bible);
-  }
-
-
-  /**
   * This tests round-tripping consultation notes to the file system.
   * The notes are in the database, get copied to the file system, 
   * then back into the database.

@@ -1,3 +1,17 @@
+The server's memory was exhausted. Better  to create shell processes to be run, so one note at a time,
+hoping that bash will be so clean so as to never exhaust memory. And to exit with exit-code of non-zero.
+Better to make a permanent git repository, and no longer to store it in the database.
+Then, when updating, git creates an output file that contains the updating results. This file is kept
+in the database, and updates are done afterwards, based on the output of the git command, either delete or
+added/changed.
+Implementation:
+- To capture git output so we know what to do with some data that got changed.
+  Probably to see from Bibledit-Gtk code how to interpret this git output.
+- If any of the steps of send/receive fail, any of the git operations or other operations, 
+  the whole rest should be skipped. Also to take the Filter_Git commands in account: these may also fail.
+- The note update actions are stored in a database. The script runs these straight afterwards.
+- When there are still pending note updates in the database, not yet processed,
+  a new send/receive will indicate this, and start to process these first, and only then do the update cycle.
 
 
 
@@ -6,94 +20,37 @@
 
 
 
+There should be an option to 'delete' the currently displaying notes. This is a dangerous operation.
+It is best done by having the user submit the word 'delete' in an entry.
+Once this is on, we could import the old notes again, the ones deleted.
 
-While cloning the repository, and anything else with the cli interface, the page should display 
-information to the user that it is  'still working...'. 
-Important for repo_clone.php page, since it might have less releavant errors.
 
 
-It needs a full story of how consultation notes work,
-what the purpose of subscriptions is, and of assignments. Mention also that some people always put severity
-to 'critical' even if their note describers a 'wish' only, so that a standard policy is recommended to be followed.
 
 
 
-NB I tried to save the notes on line. After creating a new note and saving, 
-I found out that when I try to go back to the note, its no-longer there.
+It would be helpful if there were an 'update' menu for the administrator.
+It would automatically update to, either the latest released version, or the development snapshot.
 
 
 
 
-Documentation should have diagrams (if these can be translated), .svg, inkscape or oodraw.
 
 
 
 
 
+PHPUnittests fail.
 
 
 
 
 
-Notes should be exportable too, no: call  it 'backup' and 'restore'.
-So we've got 'import', and then the 'backup' and 'restore'.
 
 
 
 
-
-
-
-
-
-
-
-When reading the note git repository, it should note the notes marked NEW, their numbers, 
-then check whether this number exists in the notes database already. If so, it needs to do special handling
-to integrate this note: A new note is created, and the old one deleted.
-
-
-
-
-
-
-
-The reference(s) of the note should get mailed out with the notifications.
-Plus a link to the site, if this is possible.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Later, subscribers to a note do not get mail immediately. 
-Rather changes to the notes are assembled into one message, and kept, 
-and then sent out in one mail.
-How this works is as follows:
-A shadow table stores a copy of the note just before it changes.
-Subsequent changes are not stored for as long as the initial copy is there.
-What gets stored too is the time stamp of the last change.
-The poor man's cron tab then check the changes every minute or so.
-If it finds a last change older than, say, 5 minutes, then it mails out the difference to the users
-subscribed, and erases the entry from the shadow database.
-
-
-
-
-
-
-
-
-A system similar to the changes tracker for notes will work for changes in the text as well.
+Sending out changes to the text.
 Let say, one hour after the last change in a chapter it will send out this chapter, along with any other
 chapters, to the subscribed users.
 
@@ -116,12 +73,6 @@ and dropped.
 
 
 
-When synchronizing the notes, note ID's can clash in cases that two or more users have created 
-different notes but with the same identifier. When doing git commit, new note identifiers should be noted,
-and when goint git pull, if these exist, that should be noted. But this will not work since the git pull
-will already have merged the notes, thus leading to the loss of a note.
-For that reason a list of new notes should be maintained, so that after git pull, this note is found to clash,
-a new identifier is assigned to the note.
 
 
 
@@ -181,21 +132,13 @@ e.g. lists of verses to be sent to the references window.
 
 
 
+
 The text editor needs a link that sets the default / focused bible, so that the navigator takes that bible.
 But for as long as the navigator is not yet separated, then this is not needed, but we should prepare for it in the code.
 
 
 
 
-
-When collaborating, or setting it up, we need to set the php time out to 0 (inifinite)
-Or better still would be to do as launchpad does, to start an independent process, and to monitor that through the page
-and ajax polling.
-This way there cannot be any timeouts, and the apache server remains free do continue serving other pages.
-This requires a system for monitoring running tasks, and a page to monitor the information.
-A database with task directories, outputs, and so on, deals with persistence.
-Synchronisation processes probably can be started in parallel, but we must take care that the 
-environmental variable for GIT is set each time rigth before a git application is called.
 
 
 
@@ -211,7 +154,7 @@ environmental variable for GIT is set each time rigth before a git application i
 
 
 If a Bible translation work is collaborated in public domain, it could be too hard come up with one
-translation for every verse. It  is too bad to split the team and make a copy of the web application 
+translation for every verse. It is too bad to split the team and make a copy of the web application 
 every time they can not come up with a common translation. So I am assuming that branching at verse level
 should be supported and the final outputs (like whole OSIS, let me call it "a distribution") should also be plural. 
 And for each distribution should choose branched verses to take which version.
@@ -354,22 +297,21 @@ access from cell phones.
 
 
 
-People with an account can subscribe to changes in the text, and to changes in the project notes. 
-This is done in their account, under their email preferences.
+People with an account can subscribe to changes in the text.
 
 
 
 
 
 
-Files in the web root should be given such a mode that these cannot be read from outside, only from inside.
-This is: file permissions to -r--------.
 
 
 
 
 
-The visitor to the site can see the default project, its text and comments. But to make comments, one has to get an account.
+
+The visitor to the site can see the default project, its text and comments. 
+But to make comments, one has to get an account.
 Those with an account have vastly improved opportonities on the site.
 
 
@@ -460,13 +402,6 @@ This will result in better collaboration and less frustration if changes were no
 
 
 
-Mail received can accumulate in the Trash and get huge. There should be a link to empty the whole Trash 
-in one go.
-By default it should discard messages older than 30 days. It should mention this on the Trash page.
-
-
-
-
 Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
 with git repository. User may subscribe to any changes, or to changes per chapter.
 
@@ -479,8 +414,6 @@ in .php format.
 
 
 
-We may have to use vr.org for virtual servers for Ndebele translation hosting.
-
 
 
 
@@ -491,8 +424,12 @@ notifications on a note.
 
 
 
+
 Installation documents for Bibledit-Web: Very often the installer has acces to the server through ssh only,
 no GUI. Or even through ftp only, no option to install programs.
+
+
+
 
 
 
@@ -510,28 +447,13 @@ This is so that the 'member' cannot destroy the existing notes system.
 
 
 
-Users should be able to create new status.
-They can do this when changing the status: An option is offered to create a new one.
+
 
 
 
 
 One of the last things that setup.php should do is to restart the poor man's crontab.
 
-
-
-Bibledit-Web needs a setting where by it makes at midnight (or any time after), so many times a week,
-a backup of the mysql table, zips these, and mails these out to an email address.
-
-
-
-To implement the PHPUnit::tearDown function for where notes are created.
-
-
-
-
-
-The changes of status should be added to the note text, just as if adding a comment.
 
 
 
@@ -546,12 +468,6 @@ The changes of status should be added to the note text, just as if adding a comm
 
 The passages that are included with the note titles should be clickable so that if clicked,
 the passages are loaded in the passages window.
-
-
-
-
-It would be helpful if there were an 'update' menu for the administrator.
-It would automatically update to, either the latest released version, or the development snapshot.
 
 
 

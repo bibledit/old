@@ -46,6 +46,7 @@
       </table>
     
     {/if}
+    <p>{t}Mail older than 90 days will automatically be deleted.{/t}</p>
 
     {include file=../assets/footer_full.tpl} 
   </body>

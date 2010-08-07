@@ -30,3 +30,7 @@
 <tr><td>*</td><td>{t}An asterisk is the wildcard operator. Unlike the other operators, it is appended to the word, or fragment, not prepended. This means that if there is a note with the word "house", and you search for "*ouse", this note won't be selected. Yes, this is unusual, but this is how the database search works. To minimize the pain of this, measures have been taken that if you type any part of the word, the expected result will still be found.{/t}</td></tr>
 <tr><td>"</td><td>{t}Double quotes at the beginning and end of a phrase, gives only the notes that contain the complete phrase, as it was typed.{/t}</td></tr>
 </table>
+
+<br>
+<p>{t}Each note can be assigned to somebody. The person to whom the note is assigned then knows that action should be taken on this note. Or the person can be automatically emailed if the note gets changed.{/t}</p>
+

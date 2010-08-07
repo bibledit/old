@@ -6,7 +6,6 @@ $object = $_GET ['object'];
 $smarty->assign ("object", $object);
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
-$directory = $_GET ['directory'];
-$smarty->assign ("directory", $directory);
+$directory = Filter_Git::git_directory ($object);
 $smarty->display("collaboration_repo_data.tpl");
 ?>

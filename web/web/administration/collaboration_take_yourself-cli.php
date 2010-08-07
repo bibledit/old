@@ -5,36 +5,48 @@ if (php_sapi_name () != "cli") return;
 require_once ("../bootstrap/bootstrap.php");
 
 $object = $argv[1];
-$directory = $argv[2];
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
+$directory = Filter_Git::git_directory ($object);
 
 // Set up the secure keys just in case the repository happens to be secure.
 $secure_key_directory = Filter_Git::git_config ($url);
 
-// Create new empty directory for the updated repository.
-$newdirectory = tempnam (sys_get_temp_dir(), '');
-unlink ($newdirectory);
-mkdir ($newdirectory);
-
-// Move the .git directory to a new one.
-$renamed = rename ("$directory/.git", "$newdirectory/.git");
+// Temporarily store the .git directory
+$tempdirectory = tempnam (sys_get_temp_dir(), '');
+unlink ($tempdirectory);
+mkdir ($tempdirectory);
+$renamed = rename ("$directory/.git", "$tempdirectory/.git");
 if (!$renamed) {
-  $message = gettext ("Failed to rename the .git directory");
+  $message = gettext ("Failed to temporarily store the .git directory");
+  echo "$message\n";
+}
+
+// Completely remove all data from the git directory.
+Filter_Rmdir::rmdir ($directory);
+mkdir ($directory);
+
+// Move the .git directory back into place.
+$renamed = rename ("$tempdirectory/.git", "$directory/.git");
+if (!$renamed) {
+  $message = gettext ("Failed to restore the .git directory");
   echo "$message\n";
 }
 
 // Put our data into the repository staging area.
-$message = gettext ("Step 1/3: Exporting the local data to the local repository");
+$message = gettext ("Step 1/2: Exporting the local data to the local repository");
 echo "$message\n";
 if ($object == "consultationnotes") {
-  Filter_Git::notesDatabase2filedata ($newdirectory, true);
+  Filter_Git::notesDatabase2filedata ($directory, true);
 } else {
-  Filter_Git::bibleDatabase2filedata ($object, $newdirectory, true);
+  Filter_Git::bibleDatabase2filedata ($object, $directory, true);
 }
 
+// Directory made fit for use by the shell.
+$shelldirectory = escapeshellarg ($directory);
+
 // Add and commit the data.
-$command = "cd $newdirectory; git add .";
+$command = "cd $shelldirectory; git add .";
 echo "$command\n";
 exec ($command, &$output, &$exit_code);
 echo "Exit code $exit_code\n";
@@ -43,8 +55,7 @@ if ($exit_code != 0) {
     echo "$line\n";
   }
 }
-
-$command = "cd $newdirectory; git commit -a -m admin-sync";
+$command = "cd $shelldirectory; git commit -a -m admin-sync";
 echo "$command\n";
 exec ($command, &$output, &$exit_code);
 echo "Exit code $exit_code\n";
@@ -55,8 +66,8 @@ if ($exit_code != 0) {
 }
 
 // Push data to remote repository.
-echo gettext ("Step 2/3: Pushing the data to the remote repository") . "\n";
-$command = "cd $newdirectory; git push 2>&1";
+echo gettext ("Step 2/2: Pushing the data to the remote repository") . "\n";
+$command = "cd $shelldirectory; git push 2>&1";
 echo "$command\n";
 exec ($command, &$output, &$exit_code);
 if ($exit_code == 0) {
@@ -64,14 +75,10 @@ if ($exit_code == 0) {
 } else {
   echo "Exit code $exit_code\n";
   foreach ($output as $line) {
-    //echo "$line\n";
+    echo "$line\n";
   }
   echo gettext ("Pushing your data to the remote repository failed.") . "\n";
 }
-
-// Store the .git repository for next use.
-echo gettext ("Step 3/3: Storing the .git folder for next use") . "\n";
-Filter_Git::repository2database ($newdirectory, $object, false);
 
 // Be sure to sync in case somebody unplugs the USB flash drive before data was fully written to it.
 exec ("sync");
