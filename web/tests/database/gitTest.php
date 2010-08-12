@@ -11,38 +11,29 @@ class databaseGitTest extends PHPUnit_Framework_TestCase
   {
   }
   
-  public function testGit() // Todo
+  public function testGit()
   {
-    /* 
-    $database_shell = Database_Shell::getInstance();
-    $process['name'] = "PHPUnit";
-    $process['pid'] = "10";
-    $processes [] = $process;
-    $output = "/path/to/file";
-    $database_shell->removeProcess ($process['name'], $process['pid']);
-    $this->assertFalse ($database_shell->processRuns ($process['name'], $process['pid']));
-    $this->assertFalse ($database_shell->processDone ($process['name'], $process['pid']));
-    $database_shell->enterProcess ($process['name'], $process['pid'], $output);
-    $this->assertEquals ($output, $database_shell->getOutput ($process['name'], $process['pid']));
-    $this->assertTrue ($database_shell->processRuns ($process['name'], $process['pid']));
-    $this->assertFalse ($database_shell->processDone ($process['name'], $process['pid']));
-    $database_shell->stopProcess ($process['name'], $process['pid']);
-    $this->assertFalse ($database_shell->processRuns ($process['name'], $process['pid']));
-    $this->assertTrue ($database_shell->processDone ($process['name'], $process['pid']));
-    $database_shell->removeProcess ($process['name'], $process['pid']);
-    $this->assertFalse ($database_shell->processRuns ($process['name'], $process['pid']));
-    $this->assertFalse ($database_shell->processDone ($process['name'], $process['pid']));
-    */
+    $database_git = Database_Git::getInstance();
+    $database_git->verify ();
+    $database_git->optimize ();
+    $directory = "/var/www/bibledit";
+    $output = "x/y/z";
+    $this->directories [] = $directory;
+    $this->outputs [] = $output;
+    $database_git->insert ($directory, $output);
+    $data = $database_git->get ();
+    $this->assertEquals ($data, array ("directory" => $directory, "output" => $output));
+    $database_git->delete ($directory, $output);
+    $data = $database_git->get ();
+    $this->assertEquals ($data, array ());
   }
 
   public function tearDown ()
   {
-    /*
-    $database_shell = Database_Shell::getInstance();
-    foreach ($this->processes as $process) {
-      $database_shell->stopProcess ($process['name'], $process['pid']);
+    $database_git = Database_Git::getInstance();
+    for ($i = 0; $i < count ($this->directories); $i++) {
+      $database_git->delete ($this->directories[$i], $this->outputs[$i]);
     }
-    */
   }
 
 }

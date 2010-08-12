@@ -40,52 +40,49 @@ class Database_Git
     return self::$instance;
   }
 
+
   public function verify () {
     $database_instance = Database_Instance::getInstance();
     $query = "CREATE TABLE IF NOT EXISTS git (directory varchar(1024), output varchar (1024));";
     $database_instance->runQuery ($query);
   }
 
+
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE git;");
   }
+
   
   public function insert ($directory, $output) // Todo
   {
-    /*
-    $this->removeProcess ($name, $pid); 
-    $name = Database_SQLInjection::no ($name);
-    $pid = Database_SQLInjection::no ($pid);
+    $directory = Database_SQLInjection::no ($directory);
     $output = Database_SQLInjection::no ($output);
     $server = Database_Instance::getInstance ();
-    $query = "INSERT INTO shell VALUES ('$name', '$pid', '$output', 1);";
-    $server->runQuery ($query);
-    */
+    $server->runQuery ("INSERT INTO git VALUES ('$directory', '$output');");
   }
+
 
   public function get ()
   {
-    /*
+    $data = array ();
     $server = Database_Instance::getInstance ();
-    $query = "SELECT output FROM shell WHERE name = '$name' AND pid = '$pid';";
-    $result = $server->runQuery ($query);
+    $result = $server->runQuery ("SELECT directory, output FROM git LIMIT 1;");
     if ($result->num_rows > 0) {
-      $row = $result->fetch_row ();
-      return $row[0];
+      $data = $result->fetch_assoc();
     }
-    return "";
-    */
+    return $data;
   }
+
 
   public function delete ($directory, $output)
   {
-    /*
+    $directory = Database_SQLInjection::no ($directory);
+    $output = Database_SQLInjection::no ($output);
     $server = Database_Instance::getInstance ();
-    $query = "DELETE FROM shell WHERE name = '$name' AND pid = '$pid';";
-    $result = $server->runQuery ($query);
-    */
+    $result = $server->runQuery ("DELETE FROM git WHERE directory = '$directory' AND output = '$output';");
   }
+
 
 }
 
