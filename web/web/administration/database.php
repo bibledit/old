@@ -117,6 +117,11 @@ $database_shell = Database_Shell::getInstance();
 $database_shell->optimize();
 
 
+// The git table.
+$database_git = Database_Git::getInstance();
+$database_git->optimize();
+
+
 // Done.
 message_information ("Ready");
 

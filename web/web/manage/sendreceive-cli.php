@@ -110,7 +110,7 @@ foreach ($bibles as $bible) {
       echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
-      exec ($command, &$result, &$exit_code); // Todo acts on the exit code.
+      exec ($command, &$result, &$exit_code);
       if (($exit_code != 0) && ($exit_code != 1)) $success = false;
       foreach ($result as $line) {
         $database_logs->log ($line);
@@ -126,7 +126,7 @@ foreach ($bibles as $bible) {
       echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
-      exec ($command, &$result, &$exit_code); // Todo acts on the exit code.
+      exec ($command, &$result, &$exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         // Leave out messages like:
@@ -153,7 +153,7 @@ foreach ($bibles as $bible) {
       echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
-      exec ($command, &$result, &$exit_code); // Todo acts on the exit code.
+      exec ($command, &$result, &$exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         if (strstr ($line, "/.ssh") != false) continue;

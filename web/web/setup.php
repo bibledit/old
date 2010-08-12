@@ -230,6 +230,12 @@
   unset ($database_shell);
   flush ();
 
+  // The git table.
+  $database_git = Database_Git::getInstance();
+  $database_git->verify();
+  unset ($database_git);
+  flush ();
+
   // Show number of tables again.
   $result = $database_instance->runQuery ("SHOW TABLES;");
   echo "<p>Ok: Number of tables in the database after maintenance: " . $result->num_rows . "</p>";

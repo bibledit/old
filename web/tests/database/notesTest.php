@@ -3,6 +3,19 @@ require_once 'PHPUnit/Framework.php';
  
 class notesTest extends PHPUnit_Framework_TestCase
 {
+  private $identifiers = array();
+
+  public function setUp ()
+  {
+  }
+  
+  public function tearDown ()
+  {
+    $database_notes = Database_Notes::getInstance();
+    foreach ($this->identifiers as $identifier) {
+      $database_notes->delete ($identifier);
+    }
+  }
 
   public function testIdentifier()
   {
@@ -20,6 +33,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     $summary = "Summary";
     $contents = "Contents";
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, $summary, $contents, false);
+    $this->identifiers [] = $identifier;
     $value = $database_notes->getSummary ($identifier);
     $this->assertEquals ($summary, $value);
     $value = $database_notes->getContents ($identifier);
@@ -31,6 +45,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     unset ($summary);
     $contents = "This is a note.\nLine two.";
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, $summary, $contents, false);
+    $this->identifiers [] = $identifier;
     $value = $database_notes->getSummary ($identifier);
     $this->assertEquals ("This is a note.", $value);
     $value = $database_notes->getContents ($identifier);
@@ -48,6 +63,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     // But since this PHPUnit test runs without sessions, it would have subscribed an empty user.
     $_SESSION['user'] = "";
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
     $subscribers = $database_notes->getSubscribers ($identifier);
     $this->assertEquals (array (), $subscribers);
     $database_notes->delete ($identifier);
@@ -56,7 +72,8 @@ class notesTest extends PHPUnit_Framework_TestCase
     $_SESSION['user'] = 'phpunit';
     $database_config_user = Database_Config_User::getInstance ();
     $database_config_user->setSubscribeToConsultationNotesEditedByMe (true);
-    @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    @$identifier = $database_notes->storeNewNote ("", 1, 1, 1, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
     $notes_logic = Notes_Logic::getInstance();
     $notes_logic->handlerNewNote ($identifier);
     $subscribers = $database_notes->getSubscribers ($identifier);
@@ -85,6 +102,7 @@ class notesTest extends PHPUnit_Framework_TestCase
 
     // Create a note and check that it was not assigned to anybody.
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
     $assignees = $database_notes->getAssignees ($identifier);
     $this->assertEquals (array (), $assignees);
 
@@ -134,6 +152,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     $_SESSION['user'] = "PHPUnit";
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("PHPUnit", 0, 0, 0, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
     $bible = $database_notes->getBible ($identifier);
     $this->assertEquals ("PHPUnit", $bible);
     $bibles = $database_notes->getAllBibles ();
@@ -158,6 +177,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     // Create note for a certain passage.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 10, 9, 8, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
     
     // Test the getPassages method.
     $passages = $database_notes->getPassages ($identifier);
@@ -205,6 +225,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     // Create note.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
 
     // Test default status = New.
     $status = $database_notes->getStatus ($identifier);
@@ -244,6 +265,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     // Create note.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
 
     // Test default severity = Normal.
     $severity = $database_notes->getSeverity ($identifier);
@@ -277,6 +299,7 @@ class notesTest extends PHPUnit_Framework_TestCase
     // Create note.
     $database_notes = Database_Notes::getInstance();
     @$identifier = $database_notes->storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    $this->identifiers [] = $identifier;
 
     // Test default privacy = 0.
     $privacy = $database_notes->getPrivacy ($identifier);
