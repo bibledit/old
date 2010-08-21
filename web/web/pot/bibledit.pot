@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-12 01:45+0200\n"
+"POT-Creation-Date: 2010-08-21 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,6 +49,9 @@ msgstr ""
 msgid "Starting to send and receive the relevant Bibles and Project Notes."
 msgstr ""
 
+msgid "Processing any data left over from previous actions."
+msgstr ""
+
 msgid "Consultation Notes"
 msgstr ""
 
@@ -87,10 +90,7 @@ msgid ""
 "conflict from the repository."
 msgstr ""
 
-msgid "Moving the notes from file into the database ..."
-msgstr ""
-
-msgid "Moving the Bible data from file into the database ..."
+msgid "Moving the data that was changed into the database ..."
 msgstr ""
 
 msgid "There was a failure"
@@ -1117,6 +1117,12 @@ msgid "Failed to compress folder"
 msgstr ""
 
 msgid "Failed to uncompress archive"
+msgstr ""
+
+msgid "The collaboration system deleted a chapter"
+msgstr ""
+
+msgid "The collaboration system updated a chapter"
 msgstr ""
 
 msgid ""

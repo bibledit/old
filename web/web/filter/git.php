@@ -1,67 +1,65 @@
 <?php
 
 
-class Filter_Git // Todo
+class Filter_Git
 {
 
   /**
-  * This filter takes the Bible data as it is stored in a git repository, 
+  * This filter moves one chapter of the Bible data as it is stored in a git repository, 
   * using the layout in books and chapters such as is used in Bibledit-Gtk,
-  * and transfers this information into Bibledit-Web's Bible database.
+  * and transfers this chapter into Bibledit-Web's Bible database.
   * The $directory is where the file data resides.
-  * It overwrites whatever data was in the $bible in the database.
-  * $progress: whether to show progress.
+  * The $bible is the Bible.
+  * The $output is an output line of by git pull.
   */
-  public function bibleFiledata2database ($directory, $bible, $progress = false)
+  public function bibleFiledata2database ($directory, $bible, $output)
   {
-    // Maintain a list of chapters that were stored.
-    $stored_chapters = array ();
-    // Go through the Bible book names in $directory.
-    $book_names = scandir($directory);
-    $book_names = array_diff ($book_names, array ('.', '..'));
-    $book_names = array_values ($book_names);
+    // The $output contains one line of the output of "git pull".
+    // A normal action is when a chapter of the Bible is updated as a result of "git pull". 
+    // Example:
+    // Updating 4807e84..0afa0e3
+    // Fast forward
+    // 3 John/1/data |    2 +-
+    // 1 files changed, 1 insertions(+), 1 deletions(-)
+
+    // Find out if the $output refers to a chapter.
+    if (strlen($output) <= 5) return;
+    $bits = explode (DIRECTORY_SEPARATOR, $output);
+    if (count ($bits) < 3) return;
     $database_books = Database_Books::getInstance ();
+    $bookname = trim ($bits[0]);
+    $bookid = $database_books->getIdFromEnglish ($bookname);
+    if ($bookid == 0) return;
+    $rawchapter = trim ($bits[1]);
+    if ($rawchapter == "") return;
+    $chapter = Filter_Numeric::integer_in_string ($rawchapter);
+    if ($chapter != $rawchapter) return;
+    $datafile = trim ($bits[2]);
+    $datafile = substr ($datafile, 0, 4);
+    if ($datafile != "data") return;
+    $datafile = "$directory/$bookname/$chapter/$datafile";
+
+    // Databases.
     $database_bibles = Database_Bibles::getInstance ();
     $database_snapshots = Database_Snapshots::getInstance ();
-    foreach ($book_names as $book_name) {
-      $book_id = $database_books->getIdFromEnglish ($book_name);
-      if ($book_id > 0) {
-        if ($progress) echo "$book_name ";
-        $book_directory = "$directory/$book_name";
-        // Go through the chapters in the book.
-        $chapter_numbers = scandir($book_directory);
-        $chapter_numbers = array_diff ($chapter_numbers, array ('.', '..'));
-        $chapter_numbers = array_values ($chapter_numbers);
-        foreach ($chapter_numbers as $chapter_number) {
-          // Go ahead if $chapter_number is numerical.
-          if (is_numeric ($chapter_number)) {
-            // Store data into database, but only when the new data differs from existing data.
-            // This reduces the number of snapshots created, and the time taken to complete the operation,
-            // assuming that in most cases the old does not differ from the new, which is a reasonable assumption.
-            $data = file_get_contents ("$directory/$book_name/$chapter_number/data");
-            $old_data = $database_bibles->getChapter ($bible, $book_id, $chapter_number);
-            if ($data != $old_data) {
-              $database_bibles->storeChapter ($bible, $book_id, $chapter_number, $data);
-              $database_snapshots->snapChapter ($bible, $book_id, $chapter_number, $data, false);
-            }
-            // List the chapter number.
-            $stored_chapters [] = array ($book_id, $chapter_number);
-          }
-        }
-      }
+    $database_logs = Database_Logs::getInstance();
+
+    // If the $datafile does not exist, it means that the chapter was deleted.
+    if (!file_exists ($datafile)) {
+      $database_bibles->deleteChapter ($bible, $bookid, $chapter);
+      $database_logs->log (gettext ("The collaboration system deleted a chapter") . ": $bible $bookname $chapter");
+      return;
     }
-    if ($progress) echo "\n";
-    // Delete any chapters not stored above.
-    $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      $chapters = $database_bibles->getChapters ($bible, $book);
-      foreach ($chapters as $chapter) {
-        $item = array ($book, $chapter);
-        if (!in_array ($item, $stored_chapters)) {
-          $database_bibles->deleteChapter ($bible, $book, $chapter);
-        }
-      }
-    }
+    
+    // At this point we are sure that the chapter exists, and has been changed. Read the file's contents.
+    $contents = file_get_contents ($datafile);
+
+    // Todo Check on a conflict, and resolve that automatically.
+
+    // Store data into database.
+    $database_bibles->storeChapter ($bible, $bookid, $chapter, $contents);
+    $database_snapshots->snapChapter ($bible, $bookid, $chapter, $contents, false);
+    $database_logs->log (gettext ("The collaboration system updated a chapter") . ": $bible $bookname $chapter");
   }
 
 
@@ -390,7 +388,44 @@ EOD;
     $directory = "$directory/git/$object";
     return $directory;
   }
-      
+  
+  
+  public function filedata2database () // Todo
+  {
+    $database_git = Database_Git::getInstance();
+    while ($database_git->get()) {
+      $entry = $database_git->get ();
+      $directory = $entry['directory'];
+      $output = $entry['output'];
+      $path = dirname (dirname (__FILE__));
+      $path = "$path/git/";
+      $object = substr ($directory, strlen ($path));
+      if ($object == "consultationnotes") {
+//        Filter_Git::notesFiledata2database ($directory); // Todo not all data, but whatever got changed only.
+      } else {
+        Filter_Git::bibleFiledata2database ($directory, $object, $output);
+      }
+      $database_git->delete ($directory, $output);
+    }
+
+
+
+    
+
+
+
+
+    /* Todo 
+
+
+
+
+    */
+
+
+
+  }
+          
       
 
 }

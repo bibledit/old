@@ -25,7 +25,7 @@ class databaseGitTest extends PHPUnit_Framework_TestCase
     $this->assertEquals ($data, array ("directory" => $directory, "output" => $output));
     $database_git->delete ($directory, $output);
     $data = $database_git->get ();
-    $this->assertEquals ($data, array ());
+    $this->assertEquals ($data, NULL);
   }
 
   public function tearDown ()

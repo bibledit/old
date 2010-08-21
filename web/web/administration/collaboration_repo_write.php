@@ -10,7 +10,7 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $object = $_GET ['object'];
 $smarty->assign ("object", $object);
 
-$directory = Filter_Git::git_directory ($object); // Todo
+$directory = Filter_Git::git_directory ($object);
 
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);

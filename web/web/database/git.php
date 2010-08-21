@@ -54,7 +54,7 @@ class Database_Git
   }
 
   
-  public function insert ($directory, $output) // Todo
+  public function insert ($directory, $output)
   {
     $directory = Database_SQLInjection::no ($directory);
     $output = Database_SQLInjection::no ($output);
@@ -65,7 +65,7 @@ class Database_Git
 
   public function get ()
   {
-    $data = array ();
+    $data = NULL;
     $server = Database_Instance::getInstance ();
     $result = $server->runQuery ("SELECT directory, output FROM git LIMIT 1;");
     if ($result->num_rows > 0) {

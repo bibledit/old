@@ -6,9 +6,13 @@ require_once ("../bootstrap/bootstrap.php");
 
 echo (gettext ("Starting to send and receive the relevant Bibles and Project Notes.") . "\n");
 
+echo (gettext ("Processing any data left over from previous actions.") . "\n");
+Filter_Git::filedata2database ();
+
 $database_bibles = Database_Bibles::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $database_logs = Database_Logs::getInstance();
+$database_git = Database_Git::getInstance();
 $bibles = $database_bibles->getBibles();
 // Add the Consultation Notes as well.
 $bibles [] = "consultationnotes";
@@ -119,8 +123,8 @@ foreach ($bibles as $bible) {
       echo "$message\n";
       $database_logs->log ($message);
     }  
-    
-    // Pull changes from the remote repository. Todo notice the output here, so we know what got changed.
+
+    // Pull changes from the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git pull 2>&1";
       echo "$command\n";
@@ -135,6 +139,7 @@ foreach ($bibles as $bible) {
         // Such messages could confuse the user, and these are not really errors.
         if (strstr ($line, "/.ssh") != false) continue;
         $database_logs->log ($line);
+        $database_git->insert ($directory, $line);
         if (strstr ($line, "CONFLICT") !== false) {
           echo "$line\n";
           $message = gettext ("A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.");
@@ -165,13 +170,8 @@ foreach ($bibles as $bible) {
     }  
 
     if ($success) {
-      if ($bible == "consultationnotes") {
-        echo gettext ("Moving the notes from file into the database ...") . "\n";
-        Filter_Git::notesFiledata2database ($directory); // Todo not all data, but whatever got changed only.
-      } else {
-        echo gettext ("Moving the Bible data from file into the database ...") . "\n";
-        Filter_Git::bibleFiledata2database ($directory, $bible); // Todo not all data, but whatever got changed only.
-      }
+      echo gettext ("Moving the data that was changed into the database ...") . "\n";
+      Filter_Git::filedata2database ();
     }
 
     // For security reasons, remove the secure shell keys.

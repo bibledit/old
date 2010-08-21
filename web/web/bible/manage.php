@@ -34,8 +34,10 @@ if (isset ($_GET['delete'])) {
   @$confirm = $_GET['confirm'];
   if ($confirm != "") {
     $database_bibles->deleteBible ($bible);
-    $database_repositories = Database_Repositories::getInstance(); // Todo delete the git directory instead, if it is there.
-    $database_repositories->deleteRepository ($bible);
+    $gitdirectory = Filter_Git::git_directory ($bible);
+    if (file_exists ($gitdirectory)) {
+      Filter_Rmdir::rmdir ($gitdirectory);
+    }
   } else {
     $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete Bible $bible?"), "delete");
     die;

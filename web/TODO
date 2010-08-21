@@ -5,15 +5,8 @@ Then, when updating, git creates an output file that contains the updating resul
 in the database, and updates are done afterwards, based on the output of the git command, either delete or
 added/changed.
 Implementation:
-- New table for containing the git actions to do. Field directory. Field output line.
-- To capture git output so we know what to do with some data that got changed.
-  Probably to see from Bibledit-Gtk code how to interpret this git output.
-- If any of the steps of send/receive fail, any of the git operations or other operations, 
-  the whole rest should be skipped. Also to take the Filter_Git commands in account: these may also fail.
-- The note update actions are stored in a database. The script runs these straight afterwards.
-- When there are still pending note updates in the database, not yet processed,
-  a new send/receive will indicate this, and start to process these first, and only then do the update cycle.
-
+- Implement data for notes as well.
+- Try conflict resulution. If there is a conflict, does it get resolved, and do the changes get pushed?
 
 
 
@@ -185,41 +178,6 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
   }
 }
 
-
-void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated)
-{
-  // Bail out if there's not enough feedback.
-  if (feedback.size() < 3) {
-    return;
-  }
-
-  // Examine the output and take appropriate actions.
-  // A normal action is when a chapter is updated as a result of a git pull. 
-  // Example:
-  // Updating 4807e84..0afa0e3
-  // Fast forward
-  // 3 John/1/data |    2 +-
-  // 1 files changed, 1 insertions(+), 1 deletions(-)
-  for (unsigned int i = 0; i < feedback.size(); i++) {
-    ustring line = feedback[i];
-    if (line.length() > 5) {
-      Parse parse(line, false, G_DIR_SEPARATOR_S);
-      if (parse.words.size() >= 2) {
-        unsigned int book = books_english_to_id(parse.words[0]);
-        if (book) {
-          unsigned int chapter = convert_to_int(parse.words[1]);
-          snapshots_shoot_chapter (project, book, chapter, 0, false);
-          // Update the watch.
-          if (book == watched_book) {
-            if (chapter == watched_chapter) {
-              watch_updated = true;
-            }
-          }
-        }
-      }
-    }
-  }
-}
 
 
 
