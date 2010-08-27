@@ -156,176 +156,183 @@ class Filter_Git
   /**
   * The function transfers the file data, as it is in the git repository, 
   * into the notes database.
-  * While transferring this information, care is taken to minimize the writes into the database.
-  * Each field, as it is in the file data, is compared with the corresponding field in the database.
-  * When the fields are the same, no writes occur.
+  * It transfers one note at a time, and then returns.
+  * $directory: the git directory.
+  * $output: one line of output of a 'git pull' command.
   */
-  public function notesFiledata2database ($directory, $progress = false)
+  public function notesFiledata2database ($directory, $output) // Todo
   {
+    // The $output contains one line of the output of "git pull".
+    // A normal action is when a note is updated as a result of "git pull". 
+    // Example:
+    // Updating e0997ff..4ac44e9
+    // Fast-forward
+    //  768238653 |    4 ++--
+    //  1 files changed, 2 insertions(+), 2 deletions(-)
+
+    // Find out if the $output refers to a note.
+    if (strlen($output) <= 5) return;
+    $bits = explode ("|", $output);
+    if (count ($bits) != 2) return;
+    $identifier = trim ($bits[0]);
+    if ($identifier == 0) return;
+    if ($identifier == "") return;
+    if ($identifier != Filter_Numeric::integer_in_string ($identifier)) return;
+    $datafile = "$directory/$identifier";
+
+    // Databases and logic.
     $database_notes = Database_Notes::getInstance ();
     $notes_logic = Notes_Logic::getInstance();
-    $stored_identifiers = array (); // Maintain a list of note identifiers stored.
-    $notescounter = 0; // For progress counter.
-    foreach (new DirectoryIterator ($directory) as $fileInfo) {
-      if($fileInfo->isDot()) continue;
-      if($fileInfo->isDir()) continue; // Exclude directories, e.g. the ".git" one.
-      if (($notescounter % 1000) == 0) if ($progress) echo "$notescounter ";
-      $notescounter++;
-      $identifier = $fileInfo->getFilename();
-      $stored_identifiers [] = $identifier;
-      $note_updated = false;
-      if (!$database_notes->identifierExists ($identifier)) {
-        // Somebody may have created a new note in the git repository. 
-        // In this case, that note should also be created in our notes database.
-        // A dummy note is created here, and to be updated as we go along.
-        $id = $database_notes->storeNewNote ("bible", 1, 2, 3, "summary", "contents", false);
-        $note_updated = true;
-        // The dummy note that was created has its own identifier.
-        // This identifier is to be updated to the one in the git repository.
-        $database_notes->setIdentifier ($id, $identifier);
-      }
-      $filename = "$directory/$identifier";
-      $filedata = explode ("\n", file_get_contents ($filename));
-      unset ($modified);
-      unset ($fielddata);
-      // While going through the file's data, the order of the heading is of critical importance.
-      foreach ($filedata as $fileline) {
-        switch ($fileline) {
-          case "Modified:":
-            // This heading is at the top of the file. There's nothing to be done here yet.
-            unset ($fielddata);
-            break;
-          case "Assignees:":
-            // This heading follows the Modified: heading, hence the note's $modified value gets cached here.
-            if (is_array ($fielddata)) $modified = $fielddata[0];
-            unset ($fielddata);
-            break;
-          case "Subscribers:":
-            // This heading follows the Assignees: heading, hence the note's assignees are stored here.
-            if (!isset ($fielddata)) $fielddata = array ();
-            $assignees = $database_notes->getAssignees ($identifier);
-            if ($fielddata != $assignees) {
-              $database_notes->setAssignees ($identifier, $fielddata);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          case "Bible:":
-            // This heading follows the Subscribers: heading, hence the note's subscribers are stored here.
-            if (!isset ($fielddata)) $fielddata = array ();
-            $subscribers = $database_notes->getSubscribers ($identifier);
-            if ($fielddata != $subscribers) {
-              $database_notes->setSubscribers ($identifier, $fielddata);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          case "Passages:":
-            // This heading follows the Bible: heading, hence the note's Bible is stored here.
-            if (!isset ($fielddata)) $fielddata = array ();
-            @$bible = $fielddata[0];
-            if ($bible != $database_notes->getBible ($identifier)) {
-              $database_notes->setBible ($identifier, $bible);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          case "Status:":
-            // This heading follows the Passages: heading, hence the note's passages are stored here.
-            if (!isset ($fielddata)) $fielddata = array ();
-            $passages = $database_notes->getPassages ($identifier);
-            foreach ($passages as &$passage) {
-              $passage = $database_notes->encodePassage ($passage[0], $passage[1], $passage[2]);
-              $passage = trim ($passage);
-            }
-            if ($passages != $fielddata) {
-              $passages = array ();
-              foreach ($fielddata as $data) {
-                $passages [] = $database_notes->decodePassage ($data);
-              }
-              $database_notes->setPassages ($identifier, $passages);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          case "Severity:":
-            // This heading follows the Status: heading, hence the note's status is stored here.
-            @$status = $fielddata[0];
-            if ($status != $database_notes->getStatus ($identifier)) {
-              $database_notes->setStatus ($identifier, $status);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          case "Privacy:":
-            // This heading follows the Severity: heading, hence the note's severity is stored here.
-            @$severity = $fielddata[0];
-            if ($severity != $database_notes->getRawSeverity ($identifier)) {
-              $database_notes->setRawSeverity ($identifier, $severity);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          case "Summary:":
-            // This heading follows the Privacy: heading, hence the note's privacy is stored here.
-            @$privacy = $fielddata[0];
-            if ($privacy != $database_notes->getPrivacy ($identifier)) {
-              $database_notes->setPrivacy ($identifier, $privacy);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          case "Contents:":
-            // This heading follows the Summary: heading, hence the note's summary is stored here.
-            @$summary = $fielddata[0];
-            if ($summary != $database_notes->getSummary ($identifier)) {
-              $database_notes->setSummary ($identifier, $summary);
-              $note_updated = true;
-            }
-            unset ($fielddata);
-            break;
-          default:
-            $fielddata [] = $fileline;
-            break;
-        }
-      }
-      // Contents is last in the file. check whether to store it.
-      $contents = implode ("\n", $fielddata);
-      if ($contents != $database_notes->getContents ($identifier)) {
-        $note_updated = true;
-      }
-      // If needed, invoke the notifications system.
-      if ($note_updated) {
-        $notes_logic->handlerUpdateNote ($identifier);
-      }
-      // Writing the note's contents is done after the notification system.
-      // This is necessary to avoid possible race conditions.
-      // A race condition could occur two installations of Bibledit-Web share their notes through a git repository,
-      // and each of these installations would apply its own notifications updates.
-      // Each of them would then add content each time, one after the other.
-      // Writing content after the notificatons prevents this.
-      if ($contents != $database_notes->getContents ($identifier)) {
-        $database_notes->setContents ($identifier, $contents);
-        $note_updated = true;
-      }
-      // At the end of all, since the note' modification time may have changed as a result
-      // of updating the note's fields, the modification time should be (re)set here to the 
-      // value that was read from the git repository's note file.
-      if (isset ($modified)) {
-        if ($modified != $database_notes->getModified ($identifier)) {
-          $database_notes->setModified ($identifier, $modified);
-        }
-      }
-    }
-    if ($progress) echo "$notescounter\n";
+    $database_logs = Database_Logs::getInstance();
 
-    // Delete any notes which were not in the git repository.
-    $identifiers = $database_notes->getIdentifiers ();
-    $differences = array_diff ($identifiers, $stored_identifiers);
-    foreach ($differences as $identifier) {
+    // If the $datafile does not exist, it means that the note was deleted by the collaboration system.
+    if (!file_exists ($datafile)) {
       $notes_logic->handlerDeleteNote ($identifier);
       $database_notes->delete ($identifier);
+      $database_logs->log (gettext ("The collaboration system deleted a note") . ": $identifier");
+      return;
     }
+    
+    // At this point we are sure that the note exists, and has been changed, or is new.
+
+    // Read the file's contents.
+    $contents = file_get_contents ($datafile);
+
+    // Todo Check on a conflict, and resolve that automatically.
+
+    // Start importing the note.
+
+    if (!$database_notes->identifierExists ($identifier)) {
+      // Somebody created a new note in the git repository. 
+      // That note should also be created in our notes database.
+      // A dummy note is created here, to be updated as we go along.
+      $id = $database_notes->storeNewNote ("bible", 1, 2, 3, "summary", "contents", false);
+      // The dummy note that was created has its own identifier.
+      // This identifier is to be updated to the one in the git repository.
+      $database_notes->setIdentifier ($id, $identifier);
+    }
+
+    $filedata = explode ("\n", $contents);
+
+    unset ($modified);
+    unset ($fielddata);
+    // While going through the file's data, the order of the headings is of critical importance.
+    foreach ($filedata as $fileline) {
+      switch ($fileline) {
+        case "Modified:":
+          // This heading is at the top of the file. There's nothing to be done here yet.
+          unset ($fielddata);
+          break;
+        case "Assignees:":
+          // This heading follows the Modified: heading, hence the note's $modified value gets cached here.
+          if (is_array ($fielddata)) $modified = $fielddata[0];
+          unset ($fielddata);
+          break;
+        case "Subscribers:":
+          // This heading follows the Assignees: heading, hence the note's assignees are stored here.
+          if (!isset ($fielddata)) $fielddata = array ();
+          $assignees = $database_notes->getAssignees ($identifier);
+          if ($fielddata != $assignees) {
+            $database_notes->setAssignees ($identifier, $fielddata);
+          }
+          unset ($fielddata);
+          break;
+        case "Bible:":
+          // This heading follows the Subscribers: heading, hence the note's subscribers are stored here.
+          if (!isset ($fielddata)) $fielddata = array ();
+          $subscribers = $database_notes->getSubscribers ($identifier);
+          if ($fielddata != $subscribers) {
+            $database_notes->setSubscribers ($identifier, $fielddata);
+          }
+          unset ($fielddata);
+          break;
+        case "Passages:":
+          // This heading follows the Bible: heading, hence the note's Bible is stored here.
+          if (!isset ($fielddata)) $fielddata = array ();
+          @$bible = $fielddata[0];
+          if ($bible != $database_notes->getBible ($identifier)) {
+            $database_notes->setBible ($identifier, $bible);
+          }
+          unset ($fielddata);
+          break;
+        case "Status:":
+          // This heading follows the Passages: heading, hence the note's passages are stored here.
+          if (!isset ($fielddata)) $fielddata = array ();
+          $passages = $database_notes->getPassages ($identifier);
+          foreach ($passages as &$passage) {
+            $passage = $database_notes->encodePassage ($passage[0], $passage[1], $passage[2]);
+            $passage = trim ($passage);
+          }
+          if ($passages != $fielddata) {
+            $passages = array ();
+            foreach ($fielddata as $data) {
+              $passages [] = $database_notes->decodePassage ($data);
+            }
+            $database_notes->setPassages ($identifier, $passages);
+          }
+          unset ($fielddata);
+          break;
+        case "Severity:":
+          // This heading follows the Status: heading, hence the note's status is stored here.
+          @$status = $fielddata[0];
+          if ($status != $database_notes->getStatus ($identifier)) {
+            $database_notes->setStatus ($identifier, $status);
+          }
+          unset ($fielddata);
+          break;
+        case "Privacy:":
+          // This heading follows the Severity: heading, hence the note's severity is stored here.
+          @$severity = $fielddata[0];
+          if ($severity != $database_notes->getRawSeverity ($identifier)) {
+            $database_notes->setRawSeverity ($identifier, $severity);
+          }
+          unset ($fielddata);
+          break;
+        case "Summary:":
+          // This heading follows the Privacy: heading, hence the note's privacy is stored here.
+          @$privacy = $fielddata[0];
+          if ($privacy != $database_notes->getPrivacy ($identifier)) {
+            $database_notes->setPrivacy ($identifier, $privacy);
+          }
+          unset ($fielddata);
+          break;
+        case "Contents:":
+          // This heading follows the Summary: heading, hence the note's summary is stored here.
+          @$summary = $fielddata[0];
+          if ($summary != $database_notes->getSummary ($identifier)) {
+            $database_notes->setSummary ($identifier, $summary);
+          }
+          unset ($fielddata);
+          break;
+        default:
+          $fielddata [] = $fileline;
+          break;
+      }
+    }
+    // Contents is last in the file to store.
+    $contents = implode ("\n", $fielddata);
+    // Invoke the notifications system.
+    $notes_logic->handlerUpdateNote ($identifier);
+    // Writing the note's contents is done after the notification system.
+    // This is necessary to avoid possible race conditions.
+    // A race condition could occur two installations of Bibledit-Web share their notes through a git repository,
+    // and each of these installations would apply its own notifications updates.
+    // Each of them would then add content each time, one after the other.
+    // Writing content after the notificatons prevents this.
+    if ($contents != $database_notes->getContents ($identifier)) {
+      $database_notes->setContents ($identifier, $contents);
+    }
+    // At the end of all, since the note' modification time may have changed as a result
+    // of updating the note's fields, the modification time should be (re)set here to the 
+    // value that was read from the git repository's note file.
+    if (isset ($modified)) {
+      if ($modified != $database_notes->getModified ($identifier)) {
+        $database_notes->setModified ($identifier, $modified);
+      }
+    }
+
+    // Log entry.
+    $database_logs->log (gettext ("The collaboration system created or updated a note") . ": $identifier");
   }
 
 
@@ -390,7 +397,7 @@ EOD;
   }
   
   
-  public function filedata2database () // Todo
+  public function filedata2database ()
   {
     $database_git = Database_Git::getInstance();
     while ($database_git->get()) {
@@ -401,29 +408,12 @@ EOD;
       $path = "$path/git/";
       $object = substr ($directory, strlen ($path));
       if ($object == "consultationnotes") {
-//        Filter_Git::notesFiledata2database ($directory); // Todo not all data, but whatever got changed only.
+        Filter_Git::notesFiledata2database ($directory, $output);
       } else {
         Filter_Git::bibleFiledata2database ($directory, $object, $output);
       }
       $database_git->delete ($directory, $output);
     }
-
-
-
-    
-
-
-
-
-    /* Todo 
-
-
-
-
-    */
-
-
-
   }
           
       

@@ -64,14 +64,14 @@ class Session_Logic
   {
      $fingerprint = $this->secure_word;
      if ($this->check_browser) {
-       $fingerprint .= $_SERVER['HTTP_USER_AGENT'];
+       @$fingerprint .= $_SERVER['HTTP_USER_AGENT'];
      }
      if ($this->check_ip_blocks) {
        $num_blocks = abs(intval($this->check_ip_blocks));
        if ($num_blocks > 4) {
          $num_blocks = 4;
        }
-       $blocks = explode('.', $_SERVER['REMOTE_ADDR']);
+       @$blocks = explode('.', $_SERVER['REMOTE_ADDR']);
        for ($i = 0; $i < $num_blocks; $i++) {
          @$fingerprint .= $blocks[$i] . '.';
        }
@@ -145,7 +145,8 @@ class Session_Logic
 
 
   public function currentUser () {
-    return $_SESSION['user'];
+    @$user = $_SESSION['user'];
+    return $user;
   }
 
 

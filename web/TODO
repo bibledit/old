@@ -5,9 +5,9 @@ Then, when updating, git creates an output file that contains the updating resul
 in the database, and updates are done afterwards, based on the output of the git command, either delete or
 added/changed.
 Implementation:
-- Implement data for notes as well.
-- Try conflict resulution. If there is a conflict, does it get resolved, and do the changes get pushed?
-
+- Implement data for notes as well. Done. Try it.
+- Implement conflict resolution.
+- Test conflict resolution. If there is a conflict, does it get resolved, and do the changes get pushed?
 
 
 
@@ -184,6 +184,14 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
 
 
 
+
+
+
+
+
+Mail that cannot be allocated should be sent to the Administrator.
+The reason is that some people repond to the emails from the site.
+This response would be lost if nobody reads it.
 
 
 
