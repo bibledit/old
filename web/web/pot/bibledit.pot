@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-30 02:05+0200\n"
+"POT-Creation-Date: 2010-09-08 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1140,9 +1140,7 @@ msgstr ""
 msgid "Sending and receiving Bibles and consultation notes."
 msgstr ""
 
-msgid ""
-"Progress shows up on this page. If you leave this page, the sending and "
-"receiving continues on its own."
+msgid "Progress shows up on this page or in the logbook."
 msgstr ""
 
 msgid ""
@@ -3031,6 +3029,9 @@ msgstr ""
 msgid "Here are some guidelines as to how to install Bibledit-Web."
 msgstr ""
 
+msgid "Version 0.1 on Ubuntu 10.10 Server."
+msgstr ""
+
 msgid "Version 0.1 on Ubuntu 10.04 Server."
 msgstr ""
 
@@ -3060,6 +3061,12 @@ msgid ""
 "exist on the system. It is recommended, therefore, to create an "
 "Administrator's account of your own choice, and then to remove the default "
 "adminusername account."
+msgstr ""
+
+msgid "Install Bibledit-Web version 0.1 on Ubuntu 10.10 Server"
+msgstr ""
+
+msgid "Reboot the server when through. This is to start the Apache web server."
 msgstr ""
 
 msgid "Plugin"
