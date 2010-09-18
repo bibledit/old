@@ -20,7 +20,16 @@ if ($object == "consultationnotes") {
   // Copy the data from the local cloned repository, and store it in Bibledit-Web's consultation notes,
   // overwriting anything that was there before.
   echo gettext ("Step 1/1: Copying the data from the local cloned repository, and storing it in the Consultation Notes") . "\n";
-  Filter_Git::notesFiledata2database ($directory, true); // Todo missing argument, this won't work.
+  $notescounter = 0; // For progress counter.
+  foreach (new DirectoryIterator ($directory) as $fileInfo) {
+    if($fileInfo->isDot()) continue;
+    if($fileInfo->isDir()) continue; // Exclude directories, e.g. the ".git" one.
+    if (($notescounter % 1000) == 0) echo "$notescounter\n";
+    $notescounter++;
+    $identifier = $fileInfo->getFilename();
+    // Simulate a line of output of command 'git pull'.
+    Filter_Git::notesFiledata2database ($directory, "$identifier |    4 ++--");
+  }
 
 } else {
 

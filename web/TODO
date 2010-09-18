@@ -1,3 +1,5 @@
+To fix the repository setup
+
 To implement conflict resolution. 
 Try with PHPUnit.
 If there is a conflict, does it get resolved, and do the changes get pushed?
