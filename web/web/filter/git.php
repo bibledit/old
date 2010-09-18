@@ -54,7 +54,8 @@ class Filter_Git
     // At this point we are sure that the chapter exists, and has been changed. Read the file's contents.
     $contents = file_get_contents ($datafile);
 
-    // Todo Check on a conflict, and resolve that automatically.
+    // Check on a conflict, and resolve that automatically.
+    Filter_Git::resolveConflict ($contents, $datafile);
 
     // Store data into database.
     $database_bibles->storeChapter ($bible, $bookid, $chapter, $contents);
@@ -153,6 +154,7 @@ class Filter_Git
     return $success;
   }
 
+
   /**
   * The function transfers the file data, as it is in the git repository, 
   * into the notes database.
@@ -160,7 +162,7 @@ class Filter_Git
   * $directory: the git directory.
   * $output: one line of output of a 'git pull' command.
   */
-  public function notesFiledata2database ($directory, $output) // Todo
+  public function notesFiledata2database ($directory, $output)
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a note is updated as a result of "git pull". 
@@ -198,12 +200,13 @@ class Filter_Git
     // Read the file's contents.
     $contents = file_get_contents ($datafile);
 
-    // Todo Check on a conflict, and resolve that automatically.
+    // Check on a conflict, and resolve that automatically.
+    Filter_Git::resolveConflict ($contents, $datafile);
 
     // Start importing the note.
 
     if (!$database_notes->identifierExists ($identifier)) {
-      // Somebody created a new note in the git repository. 
+      // Somebody created a new note in the git repository.
       // That note should also be created in our notes database.
       // A dummy note is created here, to be updated as we go along.
       $id = $database_notes->storeNewNote ("bible", 1, 2, 3, "summary", "contents", false);
@@ -414,6 +417,12 @@ EOD;
       }
       $database_git->delete ($directory, $output);
     }
+  }
+  
+  
+  
+  public function resolveConflict ($contents, $filename) // Todo
+  {
   }
           
       

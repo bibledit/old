@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
  
-class gitTest extends PHPUnit_Framework_TestCase
+class filterGitTest extends PHPUnit_Framework_TestCase
 {
   private $psalms_0_data;
   private $psalms_11_data;
@@ -74,7 +74,7 @@ EOD;
   * This tests round-tripping git Bible data in the file system,
   * being transferred to the database, then back to the filesystem.
   */
-  public function testFiledata2database2filedata()
+  public function testFiledata2database2filedata() // Todo
   {
     // Working directory.
     $directory = tempnam (sys_get_temp_dir(), '');
@@ -84,14 +84,14 @@ EOD;
     // Set up testing data.    
     $this->initialize_data();
     $this->initialize_directories ($directory);
-    
+
     // Simulate the presence of some chapters.
     file_put_contents ("$directory/Psalms/0/data", $this->psalms_0_data);
     file_put_contents ("$directory/Psalms/11/data", $this->psalms_11_data);
     file_put_contents ("$directory/Song of Solomon/2/data", $this->song_of_solomon_2_data);
 
     // Create a temporal Bible in the database and store some data in it.
-    // Filter_Git is supposed to erase this data if it is not in the filesystem.
+    // Filter_Git, when called with this data, is supposed to erase this data if it is not in the filesystem.
     $database_bibles = Database_Bibles::getInstance();
     $bible = "PHPUnit";
     $database_bibles->createBible ($bible);
@@ -99,15 +99,20 @@ EOD;
     $database_bibles->storeChapter ($bible, 3, 4, $this->song_of_solomon_2_data);
     $database_bibles->storeChapter ($bible, 5, 6, $this->song_of_solomon_2_data);
 
-    // Call the filter.
-    Filter_Git::bibleFiledata2database ($directory, $bible);
+    // Call the filter for each chapter.
+    Filter_Git::bibleFiledata2database ($directory, $bible, "Exodus/1/data |    2 +-");
+    Filter_Git::bibleFiledata2database ($directory, $bible, "Leviticus/4/data |    2 +-");
+    Filter_Git::bibleFiledata2database ($directory, $bible, "Deuteronomy/6/data |    2 +-");
+    Filter_Git::bibleFiledata2database ($directory, $bible, "Psalms/0/data |    2 +-");
+    Filter_Git::bibleFiledata2database ($directory, $bible, "Psalms/11/data |    2 +-");
+    Filter_Git::bibleFiledata2database ($directory, $bible, "Song of Solomon/2/data |    2 +-");
 
     $database_bibles = Database_Bibles::getInstance();
     
     // Assert database has certain books.
     $books = $database_bibles->getBooks ($bible);
     $this->assertEquals(array(19, 22), $books);
-    
+
     // Assert Psalms has certain chapters.
     $chapters = $database_bibles->getChapters ($bible, 19);
     $this->assertEquals(array(0, 11), $chapters);
@@ -206,7 +211,12 @@ EOD;
     rename ("$directory/$identifier5", "$directory/$identifier6");
 
     // Put the file contents back into the consultation notes database.
-    Filter_Git::notesFiledata2database ($directory);
+    Filter_Git::notesFiledata2database ($directory, "$identifier1 |    4 ++--");
+    Filter_Git::notesFiledata2database ($directory, "$identifier2 |    4 ++--");
+    Filter_Git::notesFiledata2database ($directory, "$identifier3 |    4 ++--");
+    Filter_Git::notesFiledata2database ($directory, "$identifier4 |    4 ++--");
+    Filter_Git::notesFiledata2database ($directory, "$identifier5 |    4 ++--");
+    Filter_Git::notesFiledata2database ($directory, "$identifier6 |    4 ++--");
 
     // Some notes should be there, and others should have been removed.    
     $this->assertTrue ($database_notes->identifierExists ($identifier1));

@@ -20,14 +20,14 @@ if ($object == "consultationnotes") {
   // Copy the data from the local cloned repository, and store it in Bibledit-Web's consultation notes,
   // overwriting anything that was there before.
   echo gettext ("Step 1/1: Copying the data from the local cloned repository, and storing it in the Consultation Notes") . "\n";
-  Filter_Git::notesFiledata2database ($directory, true);
+  Filter_Git::notesFiledata2database ($directory, true); // Todo missing argument, this won't work.
 
 } else {
 
   // Copy the data from the local cloned repository, and store it in Bibledit-Web's Bible given in $object,
   // overwriting the whole Bible that was there before.
   echo gettext ("Step 1/1: Copying the data from the local cloned repository, and storing it in the Bible") . "\n";
-  Filter_Git::bibleFiledata2database ($directory, $object, true);
+  Filter_Git::bibleFiledata2database ($directory, $object, true); // Todo this is not correct. - Take repository won't work properly. Needs a fix.
   
 }
 

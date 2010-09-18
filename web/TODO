@@ -1,22 +1,9 @@
+To implement conflict resolution. 
+Try with PHPUnit.
+If there is a conflict, does it get resolved, and do the changes get pushed?
+Try it on notes and on bible text.
 
-
-
-
-
-
-
-
-
-
-The server's memory was exhausted. Better  to create shell processes to be run, so one note at a time,
-hoping that bash will be so clean so as to never exhaust memory. And to exit with exit-code of non-zero.
-Better to make a permanent git repository, and no longer to store it in the database.
-Then, when updating, git creates an output file that contains the updating results. This file is kept
-in the database, and updates are done afterwards, based on the output of the git command, either delete or
-added/changed.
-Implementation:
-- Implement conflict resolution.
-- Test conflict resolution. If there is a conflict, does it get resolved, and do the changes get pushed?
+To create Bibledit-Paratext by cloning existing software. Should not be a huge lot of work.
 
 
 

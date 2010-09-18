@@ -47,7 +47,7 @@ class Timer_Receiver
         $body = strip_tags ($body);
         $confirm_worker = Confirm_Worker::getInstance ();
         if (!$confirm_worker->handleEmail ($from, $subject, $body)) {
-          $log = "Could not allocate email from $from, subject $subject"; // Todo
+          $log = "Could not allocate email from $from, subject $subject";
           $database_log->log ($log);
           $database_log->log ($body);
         }
