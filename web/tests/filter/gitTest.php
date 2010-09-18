@@ -74,7 +74,7 @@ EOD;
   * This tests round-tripping git Bible data in the file system,
   * being transferred to the database, then back to the filesystem.
   */
-  public function testFiledata2database2filedata() // Todo
+  public function testFiledata2database2filedata()
   {
     // Working directory.
     $directory = tempnam (sys_get_temp_dir(), '');

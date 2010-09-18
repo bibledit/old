@@ -36,7 +36,31 @@ if ($object == "consultationnotes") {
   // Copy the data from the local cloned repository, and store it in Bibledit-Web's Bible given in $object,
   // overwriting the whole Bible that was there before.
   echo gettext ("Step 1/1: Copying the data from the local cloned repository, and storing it in the Bible") . "\n";
-  Filter_Git::bibleFiledata2database ($directory, $object, true); // Todo this is not correct. - Take repository won't work properly. Needs a fix.
+  
+  // Go through the Bible book names in $directory.
+  $book_names = scandir($directory);
+  $book_names = array_diff ($book_names, array ('.', '..'));
+  $book_names = array_values ($book_names);
+  $database_books = Database_Books::getInstance ();
+  $database_bibles = Database_Bibles::getInstance ();
+  $database_snapshots = Database_Snapshots::getInstance ();
+  foreach ($book_names as $book_name) {
+    $book_id = $database_books->getIdFromEnglish ($book_name);
+    if ($book_id > 0) {
+      echo "$book_name\n";
+      $book_directory = "$directory/$book_name";
+      $chapter_numbers = scandir($book_directory);
+      $chapter_numbers = array_diff ($chapter_numbers, array ('.', '..'));
+      $chapter_numbers = array_values ($chapter_numbers);
+      // Go through the chapters in the book.
+      foreach ($chapter_numbers as $chapter_number) {
+        // Go ahead if $chapter_number is numerical.
+        if (is_numeric ($chapter_number)) {
+          Filter_Git::bibleFiledata2database ($directory, $object, "$book_name/$chapter_number/data |    2 +-");
+        }
+      }
+    }
+  }
   
 }
 
