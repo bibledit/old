@@ -55,7 +55,7 @@ class Filter_Git
     $contents = file_get_contents ($datafile);
 
     // Check on a conflict, and resolve that automatically.
-    Filter_Git::resolveConflict ($contents, $datafile);
+    // Todo Filter_Git::resolveConflict ($contents, $datafile);
 
     // Store data into database.
     $database_bibles->storeChapter ($bible, $bookid, $chapter, $contents);
@@ -201,7 +201,7 @@ class Filter_Git
     $contents = file_get_contents ($datafile);
 
     // Check on a conflict, and resolve that automatically.
-    Filter_Git::resolveConflict ($contents, $datafile);
+    // Todo Filter_Git::resolveConflict ($contents, $datafile);
 
     // Start importing the note.
 
@@ -420,9 +420,98 @@ EOD;
   }
   
   
-  
-  public function resolveConflict ($contents, $filename) // Todo
+  /*
+   * This resolves a git conflict in $contents.
+   * If there is a conflict, it modifies $contents.
+   * If $filename is given, it saves the modified $contents.  
+   */
+  public function resolveConflict (&$contents, $filename) // Todo
   {
+    /*
+    The first thing to do is to see whether there is a conflict.
+    In most cases all is fine. Then the function returns.
+    If there is a conflicting merge after doing a 'git pull', the $contents looks like this:
+    
+    <<<<<<< HEAD:3 John/1/data
+    \v 1 xFrom the church leader.
+    =======
+    \v 1 xxFrom the church leader.
+    >>>>>>> a62f843ce41ed2d0325c8a2767993df6acdbc933:3 John/1/data
+
+    or like this:
+
+    \c 1
+    <<<<<<< HEAD:3 John/1/data
+    \v 1 my text.
+    =======
+    \v 1 server's text.
+    >>>>>>> a62f843ce41ed2d0325c8a2767993df6acdbc933:3 John/1/data
+    \v 2
+
+    */
+    if (strpos ($contents, "<<<<<<< HEAD") === FALSE) return;
+
+    $database_logs = Database_Logs::getInstance ();
+    
+    // The $contents is a string, change it to an array.
+    $lines = explode ("\n", $contents);
+
+    // Set about to resolve the conflict.
+    $newdata = array ();
+    $withinmine = false;
+    $withinserver = false;
+    foreach ($lines as $line) {
+      // Find out when we've got a marker, no actual data.    
+      $minemarker = (strpos ($line, "<<<<<<< HEAD") !== FALSE);
+      $separatormarker = ($line == "=======");
+      $servermarker = (strpos ($line, ">>>>>>> ") !== FALSE);
+      // Do conflict management only if we've actual data.
+      $takeit = false;
+      if (!$minemarker && !$separatormarker && !$servermarker) {
+        if ($withinmine) {
+          $database_logs->log ("Merge conflict, my data: " . $line);
+          //if ($conflicthandling == $TakeMe)
+          if (false)
+            $takeit = true;
+        } else if ($withinserver) {
+          $database_logs->log ("Merge conflict, server data: " . $line);
+          //if ($conflicthandling == $TakeServer)
+          if (true)
+            $takeit = true;
+        } else {
+          $takeit = true;
+        }
+      }
+      if ($takeit) {
+        $newdata [] = $line;
+      } else {
+      }
+      // Set whether we're within a conflict, my data, or the server's data.
+      // This setting applies to the next line of data.
+      if ($minemarker) {
+        $withinmine = true;
+        $withinserver = false;
+      }
+      if ($separatormarker) {
+        $withinmine = false;
+        $withinserver = true;
+      }
+      if ($servermarker) {
+        $withinmine = false;
+        $withinserver = false;
+      }
+    }
+    $contents = implode ("\n", $newdata);
+
+
+
+
+/*
+    write_lines(datafile, newdata);
+    // Next time that a timed pull and push is done, the conflict will show up as resolved.
+
+*/
+
   }
           
       

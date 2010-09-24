@@ -1,3 +1,13 @@
+Als er een conflict is, dan moet het filter het bestand opslaan, en aangeven dat het gesaved is.
+Daarna moet er een commit plaatsvinden.
+Of we doen de commit gewoon altijd standaard, dat is ook mogelijk.
+
+
+
+
+
+
+
 
 
 To implement conflict resolution. 
@@ -6,180 +16,6 @@ If there is a conflict, does it get resolved, and do the changes get pushed?
 Try it on notes and on bible text.
 
 To create Bibledit-Paratext by cloning existing software. Should not be a huge lot of work.
-
-
-
-
-
-void git_resolve_conflict_chapter(const ustring & project, unsigned int book, unsigned int chapter)
-// This solves a conflicting chapter.
-{
-  // Log message
-  gw_message("Resolving conflict for project " + project + " book " + books_id_to_english(book) + " " + convert_to_string(chapter));
-
-  // Directory of the chapter in the data.
-  ustring directory = project_data_directory_chapter(project, book, chapter);
-
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(project);
-  GitConflictHandlingType conflicthandling = (GitConflictHandlingType) projectconfig->git_remote_repository_conflict_handling_get();
-
-  // Data filename.
-  ustring datafile = project_data_filename_chapter(project, book, chapter, false);
-
-  /* Read the datafile. If there is a conflict it will look like the example below:
-
-     \c 1
-     <<<<<<< HEAD:3 John/1/data
-     \v 1 my text.
-     =======
-     \v 1 server's text.
-     >>>>>>> a62f843ce41ed2d0325c8a2767993df6acdbc933:3 John/1/data
-     \v 2
-
-   */
-  ReadText rt(datafile, true);
-
-  // Set about to resolve the conflict.
-  vector < ustring > newdata;
-  bool withinmine = false;
-  bool withinserver = false;
-  for (unsigned int i = 0; i < rt.lines.size(); i++) {
-    // Find out when we've a marker, no actual data.    
-    bool minemarker = rt.lines[i].find(git_mine_conflict_marker()) != string::npos;
-    bool separatormarker = rt.lines[i] == "=======";
-    bool servermarker = rt.lines[i].find(">>>>>>> ") == 0;
-    // Do conflict management only if we've actual data.
-    bool takeit = false;
-    if (!minemarker && !separatormarker && !servermarker) {
-      if (withinmine) {
-        if (conflicthandling == gchtTakeMe)
-          takeit = true;
-      } else if (withinserver) {
-        if (conflicthandling == gchtTakeServer)
-          takeit = true;
-      } else {
-        takeit = true;
-      }
-    }
-    if (takeit) {
-      newdata.push_back(rt.lines[i]);
-    } else {
-    }
-    // Set whether we're within a conflict, my data, or the server's data.
-    // This setting applies to the next line of data.
-    if (minemarker) {
-      withinmine = true;
-      withinserver = false;
-    }
-    if (separatormarker) {
-      withinmine = false;
-      withinserver = true;
-    }
-    if (servermarker) {
-      withinmine = false;
-      withinserver = false;
-    }
-  }
-  write_lines(datafile, newdata);
-  // Next time that a timed pull and push is done, the conflict will show up as resolved.
-}
-
-
-ustring git_mine_conflict_marker()
-/*
- If there is a conflicting merge, we may have data like this:
-
- <<<<<<< HEAD:3 John/1/data
- \v 1 xFrom the church leader.
- =======
- \v 1 xxFrom the church leader.
- >>>>>>> a62f843ce41ed2d0325c8a2767993df6acdbc933:3 John/1/data
-
- */
-{
-  return "<<<<<<< HEAD";
-}
-
-
-void git_resolve_conflicts(const ustring & project, const vector < ustring > &errors)
-/*
- This function reads through the "errors" to see if any conflicting merge occurred.
- If that happened, it resolves the conflicts.
- */
-{
-  /*
-     See if the errors indicate a conflict. If not, bail out.
-
-     The first time that a "git pull" is done, and there is a conflict, it says this:
-
-     Auto-merged 3 John/1/data
-     CONFLICT (content): Merge conflict in 3 John/1/data
-     Automatic merge failed; fix conflicts and then commit the result.  
-
-     The second time that a "git pull" would be done, it would say this:
-
-     You are in the middle of a conflicted merge.
-
-   */
-  bool conflict = false;
-  for (unsigned int i = 0; i < errors.size(); i++) {
-    if (errors[i].find("conflict") != string::npos) {
-      conflict = true;
-    }
-  }
-  if (!conflict)
-    return;
-
-  // Get the working directory.
-  ustring directory = project_data_directory_project(project);
-
-  // Run a "git status" to find the books and chapters that have a merge conflict.
-  vector < Reference > conflicted_chapters;
-  {
-    GwSpawn spawn("git status");
-    spawn.workingdirectory(directory);
-    spawn.read();
-    spawn.run();
-    for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-      ustring line = spawn.standardout[i];
-      size_t pos = line.find("unmerged:");
-      if (pos != string::npos) {
-        line.erase(0, pos + 10);
-        line = trim(line);
-        Parse parse(line, false, G_DIR_SEPARATOR_S);
-        if (parse.words.size() >= 2) {
-          unsigned int book = books_english_to_id(parse.words[0]);
-          if (book) {
-            unsigned int chapter = convert_to_int(parse.words[1]);
-            Reference reference(book, chapter, "");
-            conflicted_chapters.push_back(reference);
-          }
-        }
-      }
-    }
-  }
-
-  // Resolve all conflicts according to the settings of the user.
-  for (unsigned int i = 0; i < conflicted_chapters.size(); i++) {
-    git_resolve_conflict_chapter(project, conflicted_chapters[i].book, conflicted_chapters[i].chapter);
-  }
-
-  // Commit the changes.
-  {
-    GwSpawn spawn("git commit");
-    spawn.workingdirectory(directory);
-    spawn.arg("-m");
-    spawn.arg("Resolved conflict");
-    spawn.arg("-a");
-    spawn.run();
-  }
-}
-
-
-
-
-
 
 
 
@@ -203,11 +39,6 @@ It would automatically update to, either the latest released version, or the dev
 
 
 
-
-
-
-
-PHPUnittests fail.
 
 
 

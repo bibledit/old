@@ -31,7 +31,7 @@
 #include "windowsoutpost.h"
 
 
-#define NUMBER_OF_BROWSERS 9
+#define NUMBER_OF_BROWSERS 10
 
 
 const gchar *helpcommand(int index)
@@ -57,30 +57,35 @@ const gchar *helpcommand(int index)
     }
   case 3:
     {
-      command = "mozilla";
+      command = "firefox3";
       break;
     }
   case 4:
     {
-      command = "galeon";
+      command = "mozilla";
       break;
     }
   case 5:
     {
-      command = "konqueror";
+      command = "galeon";
       break;
     }
   case 6:
     {
-      command = "epiphany";
+      command = "konqueror";
       break;
     }
   case 7:
     {
-      command = "opera";
+      command = "epiphany";
       break;
     }
   case 8:
+    {
+      command = "opera";
+      break;
+    }
+  case 9:
     {
       command = "open";
       break;
