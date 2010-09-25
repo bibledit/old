@@ -1,19 +1,12 @@
-Als er een conflict is, dan moet het filter het bestand opslaan, en aangeven dat het gesaved is.
-Daarna moet er een commit plaatsvinden.
-Of we doen de commit gewoon altijd standaard, dat is ook mogelijk.
-
-
-
-
-
-
-
+Caller always does a new commit after this filter has been called.
 
 
 To implement conflict resolution. 
-Try with PHPUnit.
 If there is a conflict, does it get resolved, and do the changes get pushed?
 Try it on notes and on bible text.
+
+
+
 
 To create Bibledit-Paratext by cloning existing software. Should not be a huge lot of work.
 
@@ -23,17 +16,9 @@ To create Bibledit-Paratext by cloning existing software. Should not be a huge l
 
 
 
-There should be an option to 'delete' the currently displaying notes. This is a dangerous operation.
-It is best done by having the user submit the word 'delete' in an entry.
-Once this is on, we could import the old notes again, the ones deleted.
-
-
-
-
-
 
 It would be helpful if there were an 'update' menu for the administrator.
-It would automatically update to, either the latest released version, or the development snapshot.
+It would automatically update to either the latest released version or the development snapshot.
 
 
 

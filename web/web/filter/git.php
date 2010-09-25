@@ -423,7 +423,7 @@ EOD;
   /*
    * This resolves a git conflict in $contents.
    * If there is a conflict, it modifies $contents.
-   * If $filename is given, it saves the modified $contents.  
+   * It saves the modified $contents to $filename.  
    */
   public function resolveConflict (&$contents, $filename) // Todo
   {
@@ -503,15 +503,7 @@ EOD;
     }
     $contents = implode ("\n", $newdata);
 
-
-
-
-/*
-    write_lines(datafile, newdata);
-    // Next time that a timed pull and push is done, the conflict will show up as resolved.
-
-*/
-
+    file_put_contents ($filename, $contents);
   }
           
       
