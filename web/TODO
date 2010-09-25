@@ -1,6 +1,3 @@
-Caller always does a new commit after this filter has been called.
-
-
 To implement conflict resolution. 
 If there is a conflict, does it get resolved, and do the changes get pushed?
 Try it on notes and on bible text.

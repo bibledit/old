@@ -12,7 +12,7 @@ class Filter_Git
   * The $bible is the Bible.
   * The $output is an output line of by git pull.
   */
-  public function bibleFiledata2database ($directory, $bible, $output)
+  public function bibleFiledata2database ($directory, $bible, $output) // Todo do commit after.
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a chapter of the Bible is updated as a result of "git pull". 
@@ -54,8 +54,8 @@ class Filter_Git
     // At this point we are sure that the chapter exists, and has been changed. Read the file's contents.
     $contents = file_get_contents ($datafile);
 
-    // Check on a conflict, and resolve that automatically.
-    // Todo Filter_Git::resolveConflict ($contents, $datafile);
+    // Check on a conflict, and resolve it.
+    Filter_Git::resolveConflict ($contents, $datafile);
 
     // Store data into database.
     $database_bibles->storeChapter ($bible, $bookid, $chapter, $contents);
@@ -162,7 +162,7 @@ class Filter_Git
   * $directory: the git directory.
   * $output: one line of output of a 'git pull' command.
   */
-  public function notesFiledata2database ($directory, $output)
+  public function notesFiledata2database ($directory, $output) // Todo do commit after.
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a note is updated as a result of "git pull". 
@@ -200,8 +200,8 @@ class Filter_Git
     // Read the file's contents.
     $contents = file_get_contents ($datafile);
 
-    // Check on a conflict, and resolve that automatically.
-    // Todo Filter_Git::resolveConflict ($contents, $datafile);
+    // Check on a conflict, and resolve it automatically.
+    Filter_Git::resolveConflict ($contents, $datafile);
 
     // Start importing the note.
 
@@ -425,7 +425,7 @@ EOD;
    * If there is a conflict, it modifies $contents.
    * It saves the modified $contents to $filename.  
    */
-  public function resolveConflict (&$contents, $filename) // Todo
+  public function resolveConflict (&$contents, $filename)
   {
     /*
     The first thing to do is to see whether there is a conflict.
