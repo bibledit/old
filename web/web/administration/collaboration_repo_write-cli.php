@@ -47,20 +47,19 @@ echo "\n";
 echo gettext ("Step: Pulling changes from the remote repository") . "\n";
 
 // Pull changes.
+// We cannot look at the exit code here in case the repository is empty,
+// because in such cases the exit code is undefined.
 $command = "cd $directory; git pull 2>&1";
 echo "$command\n";
 passthru ($command, &$exit_code);
-if ($exit_code == 0) {
-  echo gettext ("Ok: Changes were pulled from the repository successfully.");
-} else {
-  echo gettext ("Error: Pulling changes from the repository failed.");
-}
+echo gettext ("Ok: Changes were pulled from the repository successfully.");
 echo "\n";
 
 echo gettext ("Step: Pushing changes to the remote repository") . "\n";
 
 // Push the changes to see if there is write access.
-$command = "cd $directory; git push 2>&1";
+// Notice the --all switch needed when the remote repository is empty.
+$command = "cd $directory; git push --all 2>&1";
 echo "$command\n";
 passthru ($command, &$exit_code);
 if ($exit_code == 0) {
