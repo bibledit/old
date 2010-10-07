@@ -169,7 +169,7 @@ foreach ($bibles as $bible) {
       $database_logs->log ($message);
     }  
 
-    if ($success) { // Todo conflict resolution.
+    if ($success) {
       echo gettext ("Moving the data that was changed into the database ...") . "\n";
       Filter_Git::filedata2database ();
     }

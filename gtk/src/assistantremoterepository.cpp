@@ -960,7 +960,7 @@ void RemoteRepositoryAssistant::repository_unclone ()
 }
 
 
-void RemoteRepositoryAssistant::test_write_access ()
+void RemoteRepositoryAssistant::test_write_access () // Todo
 // Checks whether there is write access from the local clone to the remote repository.
 {
   // GUI update.
@@ -1001,14 +1001,18 @@ void RemoteRepositoryAssistant::test_write_access ()
     spawn.workingdirectory(persistent_clone_directory);
     spawn.arg ("pull");
     spawn.run();
-    write_access_granted = (spawn.exitstatus == 0);
+    // When pulling from an empty repository, the exit status is undefined.
+    // So we cannot test for it here.
+    // write_access_granted = (spawn.exitstatus == 0);
   }
-  // Push the changes to see if there is write access.
+  // Push the changes to see if there is write access. 
+  // Notice the --all switch to be used when pushing to an empty remote repository.
   progresswindow.set_fraction (0.6);
   if (write_access_granted) {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);
     spawn.arg ("push");
+    spawn.arg ("--all");
     spawn.run();
     write_access_granted = (spawn.exitstatus == 0);
   }

@@ -12,7 +12,7 @@ class Filter_Git
   * The $bible is the Bible.
   * The $output is an output line of by git pull.
   */
-  public function bibleFiledata2database ($directory, $bible, $output) // Todo do commit after.
+  public function bibleFiledata2database ($directory, $bible, $output)
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a chapter of the Bible is updated as a result of "git pull". 
@@ -162,7 +162,7 @@ class Filter_Git
   * $directory: the git directory.
   * $output: one line of output of a 'git pull' command.
   */
-  public function notesFiledata2database ($directory, $output) // Todo do commit after.
+  public function notesFiledata2database ($directory, $output)
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a note is updated as a result of "git pull". 

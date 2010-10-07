@@ -15,9 +15,11 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=131;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=216799;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
+FILE_NAME_0=8807;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=235196;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
 FILE_NAME_2=2034;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/git.php;0
-FILE_NAME_3=18008;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
-FILE_NAME_4=14968;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/gitTest.php;0
-FILE_NAME_5=2699;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_take_repo-cli.php;0
+FILE_NAME_3=6620;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
+FILE_NAME_4=14519;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/gitTest.php;0
+FILE_NAME_5=2587;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_take_repo-cli.php;0
+FILE_NAME_6=380;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_repo_write-cli.php;0
+FILE_NAME_7=6706;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/sendreceive-cli.php;0

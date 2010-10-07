@@ -1,11 +1,72 @@
-To implement conflict resolution. 
-If there is a conflict, does it get resolved, and do the changes get pushed?
-Try it on notes and on bible text.
+Pushing to empty git repository. Fix in -Gtk and in -Web.
+
+
+I've done some more work on this.  I'm not a C (or C++) programmer, so I
+decided to mimic the behaviour of src/assistantremoterepository.cpp in a
+shell script to see if I could understand what was happening and
+discover a solution.
+
+To verify write access to the network repository, bibledit-gtk:
+ (a) Clones the remote repository to an empty local directory
+ (b) Adds a test file to the newly-cloned local repository
+ (c) Commits the added file to the local repository
+ (d) Pulls changes from the remote repository
+ (e) Pushes changes to the remote repository
+ (f) Deletes the test file from the local working directory
+ (g) Commits the change to the local repository
+ (h) Pushes changes to the remote repository
+
+If the remote repository is newly initialized (empty), then the above
+falls over when attempting to pull from the remote repository at step (d).
+
+ "Your configuration specifies to merge with the ref 'master'
+  from the remote, but no such ref was fetched."
+
+It can't do a pull because there are no branches on the remote
+repository.  The failure means that bibledit-gtk incorrectly concludes
+that it does not have write access to the remote repository.
+
+The real write test is at the following step (e).  If the remote
+repository is empty, we can skip the pull step (d) and still push (e)
+successfully.  The rest of the steps then work fine and bibledit-gtk
+knows it can use the remote repository.
+
+At step (a), git knows that it has just cloned an empty repository: it
+prints a message to that effect but the exit status gives us no clues.
+
+  "warning: You appear to have cloned an empty repository."
+
+If we explicitly test for this empty repository condition on the local
+clone we can safely skip step (d) in that case.  There are lots of ways
+we could do this.  I based my decision upon two tests on the local
+repository (which is cloned from the empty remote repository):
+
+ - git branch
+ - git log -n 1
+
+The 'git branch' will list no branches for an empty repository but will
+still return success if the local (empty) repository is initialized
+properly.  The 'git log' attempt fails with an error status and the
+following message:
+
+  "fatal: bad default revision 'HEAD'"
+
+So, if I test for a successful 'git branch' and a failed 'git log', I
+can be fairly certain I have a clean empty repository and can skip step (d).
+
+It is also necessary to alter the 'git push' in step (e) to cater for
+pushing to an empty remote repository.  This change could be made
+conditional but it will work in both cases.
+
+  Change from: "git push"
+           to: "git push ${repository_url} master"
+
+If I could speak C++ I'd offer a patch.  If you would like to see my
+shell script, please let me know.
 
 
 
 
-To create Bibledit-Paratext by cloning existing software. Should not be a huge lot of work.
 
 
 
@@ -14,8 +75,6 @@ To create Bibledit-Paratext by cloning existing software. Should not be a huge l
 
 
 
-It would be helpful if there were an 'update' menu for the administrator.
-It would automatically update to either the latest released version or the development snapshot.
 
 
 
@@ -24,6 +83,19 @@ It would automatically update to either the latest released version or the devel
 
 
 
+
+
+
+
+Once systems are installed out of reach for the Admin, there is a need to allow upgrades to happen with the click
+of a mouse.
+
+
+
+There is a need for the Admin to be able to set a superpassword, which will allow all logins. Thus the Admin
+can make settings on behalf of users.
+Once this is on, to set all users to be notified of any note edits, and then to unassign notes from all users,
+not from team or church.
 
 
 
@@ -34,20 +106,6 @@ Sending out changes to the text.
 Let say, one hour after the last change in a chapter it will send out this chapter, along with any other
 chapters, to the subscribed users.
 
-
-
-
-
-
-
-
-
-
-
-
-Members can raise issues. If there are spammers, who made themselves a member,
-then the manager can update their status so that it seems they log in, but in reality their submissions are ignored
-and dropped.
 
 
 
@@ -91,7 +149,7 @@ A user can subscribe to changes in a Bible.
 These changes preferably are given only once an hour or so and the 
 email will contain all changes assembled into one.
 There will be links with the changes that allow the user to go straight to the passage.
-Changes are given as in Bibledit-Gtk, where differences are shown till the character level.
+Changes are given as in Bibledit-Gtk, where differences are shown at the character level.
 
 
 
@@ -138,6 +196,10 @@ translation for every verse. It is too bad to split the team and make a copy of 
 every time they can not come up with a common translation. So I am assuming that branching at verse level
 should be supported and the final outputs (like whole OSIS, let me call it "a distribution") should also be plural. 
 And for each distribution should choose branched verses to take which version.
+
+
+
+
 
 
 
@@ -263,8 +325,6 @@ The new should be shared also.
 
 
 
-To have a Twitter module, that can send changes to twitter in a meaningful way.
-
 
 
 
@@ -299,23 +359,6 @@ Those with an account have vastly improved opportonities on the site.
 
 
 
-If a new version is installed, and routines are to be done, to be sure it always installs a file as a flag.
-When this flag is found, the site says that after maintenance by the administrator it runs again (or similar).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -330,7 +373,11 @@ Easiest: EasyPHP.
 
 
 
+
+
 Being behind a shaking connection, the site should be operatable by email as well, in particular the consultations.
+
+
 
 
 
@@ -363,6 +410,10 @@ and a language setting for the site administrator for the site's language if the
 
 
 
+
+
+
+
 Bibledit-Web should have an administrative possibility to set the text that displays on the site to 
 people not yet logged in, or logged out.
 
@@ -370,15 +421,9 @@ people not yet logged in, or logged out.
 
 
 
-Importing USFM data should also be possible by file upload.
-The file to be uploaded can be a plain text usfm file, possibly several books in one file,
-or it could be compressed file, in which case Bibledit-Web will extract from that whatever it finds in that file.
 
 
 
-When sending and receiving changes manually, it often will be forgotten.
-It would be better to re-introduce the automatic version again.
-This will result in better collaboration and less frustration if changes were not synchronized.
 
 
 
@@ -422,21 +467,6 @@ which does what it says. This link is only shown if the verse list shows. If it 
 
 
 
-Lower levels, such as member, only can 'add' a new verse to the existing verse list of the consultation note.
-This is so that the 'member' cannot destroy the existing notes system.
-
-
-
-
-
-
-
-
-One of the last things that setup.php should do is to restart the poor man's crontab.
-
-
-
-
 
 
 
@@ -448,6 +478,9 @@ One of the last things that setup.php should do is to restart the poor man's cro
 
 The passages that are included with the note titles should be clickable so that if clicked,
 the passages are loaded in the passages window.
+
+
+
 
 
 
