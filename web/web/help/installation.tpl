@@ -1,7 +1,7 @@
 <h1>{t}Installation{/t}</h1>
 <p>{t}Here are some guidelines as to how to install Bibledit-Web.{/t}</p>
-<p><a href="001ubuntu1010server.php">{t}Version 0.1 on Ubuntu 10.10 Server.{/t}</a></p>
-<p><a href="001ubuntu1004server.php">{t}Version 0.1 on Ubuntu 10.04 Server.{/t}</a></p>
+<p><a href="002ubuntu1010.php">{t}Version 0.2 on Ubuntu 10.10 desktop and server.{/t}</a></p>
+<p><a href="002ubuntu1004.php">{t}Version 0.2 on Ubuntu 10.04 desktop and server.{/t}</a></p>
 <h2>{t}Version being developed{/t}</h2>
 <p>{t}In case you'd like to use the newest version, the one being developed, you can clone the source code from the git repository.{/t}</p>
 <p><a href="http://sites.google.com/site/bibledit/community/development">{t}See the Development page for more details.{/t}</a></p>
