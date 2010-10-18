@@ -4,7 +4,7 @@ CLEANFILES = *~
 webroot = @WEBROOT@
 
 install-data-local:
-	mkdir -p $(prefix)/$(packagedatadir)/usfm
-	cp -r * $(prefix)/$(packagedatadir)/usfm
+	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)/usfm
+	cp -r * $(DESTDIR)$(prefix)/$(packagedatadir)/usfm
 
 

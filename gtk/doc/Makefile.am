@@ -3,7 +3,7 @@ EXTRA_DIST = site
 CLEANFILES = *~
 
 install-data-local:
-	mkdir -p $(prefix)/$(packagedatadir)
-	cp -r site $(prefix)/$(packagedatadir)
+	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)
+	cp -r site $(DESTDIR)$(prefix)/$(packagedatadir)
 
 
