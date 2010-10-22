@@ -17,7 +17,7 @@ which is that part of Bibledit which was built using Gtk. It is a
 full-featured and mature desktop application.
 
 Copyright @copyright{} 2004-2011 Teus Benschop 
-(@email{teusjannette@gmail.com}) and Chris Bryant 
+(@email{teusjannette@gmail.com}) and 2010-2011 Chris Bryant 
 (@email{chrisbryant@@ucla.edu}).
 
 @quotation
@@ -49,7 +49,6 @@ Texts.  A copy of the license is included in the section entitled
 
 @contents
 
-
 @ifnottex
 @node Top, Introduction, (dir), (dir)
 @top Bibledit-Gtk
@@ -68,37 +67,4136 @@ This manual is for Bibledit-Gtk (version @value{VERSION}, @value{UPDATED}).
 * Reference::                   
 * About::                       
 * GNU Free Documentation::      
+* GNU General Public License::  
 * Index::                       
 
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Installation
+
+* ASUS Eee PC::                 
+* Debian::                      
+* Fedora::                      
+* Mandriva::                    
+* OLPC XO::                     
+* openSUSE::                    
+* Ubuntu::                      
+* Macintosh::                   
+* Windows::                     
+* Troubleshooting::             
+
+Tutorials
+
+* Bibledit for Windows Tutorial::  
+* Checking::                    
+* Collaboration::               
+* Editing::                     
+* Keyterms::                    
+* Merging::                     
+* Navigation::                  
+* Notes::                       
+* Planning::                    
+* Printing::                    
+* Project::                     
+* Questions   ::                
+* References  ::                
+* Related Verses  ::            
+* Revert  ::                    
+* Searching  ::                 
+* Spelling  ::                  
+* Styles::                      
+
+Management
+
+* Data::                        
+
+Resources
+
+* BART  ::                      
+* Internal Resource  ::         
+* Texts in USFM Format  ::      
+* Translator's Workplace::      
+
+Reference
+
+* Changes Log     ::            
+* Elastics    ::                
+* Internals    ::               
+* Keyboard Accelerators    ::   
+* Menu    ::                    
+* USFM  ::                      
+
+About
+
+* GNU Free Documentation License     ::  
+* GNU General Public License  ::  
+
+@end detailmenu
 @end menu
 
 @node Introduction, Installation, Top, Top
 @chapter Introduction
 
+People need a good translation of the Bible in their own language. Working towards having one is like the sunrise in the darkness.
+Bibledit is a cross platform Bible editor.
+
+Introduction
+Bibledit contains Bibledit-Gtk and Bibledit-Web, is a set of tools developed to aid in Bible editing and translation.  It is a full-featured and mature application for doing Bible translation on the desktop as well as on the web.
+
+Features
+
+    * Native USFM text editor, several can be opened at once
+    * Project notes editor
+    * Chapter and book outline view
+    * Resizable and moveable windows
+    * Easy application of styles
+    * Styles editor
+    * Selection and display of project notes by various parameters
+    * Online help
+    * Backup and restore
+    * Import and export
+    * Resources display
+    * Spelling check
+    * Simple or more advanced interface
+    * Merge projects.
+    * Collaboration through USB drive, or through the Internet
+    * Local or remote web application
+    * Interfaces to external programs including Xiphos and Bibletime.
+
+
+Bibledit was designed for a purpose: That God be glorified and all people be saved.
+
 @node Installation, Tutorials, Introduction, Top
 @chapter Installation
+
+Bibledit can be easily installed on Linux after you have installed a couple of libraries and tools.
+
+It can be installed on the Macintosh too. It is the same story as with Linux: A couple of libraries are needed to get it going.
+
+A Windows port is available.
+To help you with the installation procedure, some examples are given in the subpages.
+
+@menu
+* ASUS Eee PC::                 
+* Debian::                      
+* Fedora::                      
+* Mandriva::                    
+* OLPC XO::                     
+* openSUSE::                    
+* Ubuntu::                      
+* Macintosh::                   
+* Windows::                     
+* Troubleshooting::             
+@end menu
+
+@node Source Code
+@subsection Source Code
+
+Configure source
+Introduction
+When installing Bibledit from source, at one stage you run:
+./configure
+If your system has been prepared for bibledit installation, then all should go well. There should be no error messages.
+MySQL database
+If there is an error regarding the MySQL database, check whether this database has been installed and is running.
+If the above is the case, and there is still an error, then it could be related to the password to access the database.
+When Bibledit gets configured, it has a default password of "root" for the database root user. On your system the value is probably different.
+You can pass the root password of the database to the configure script:
+./configure --with-mysql-root-password=mysecret
+The above uses password "mysecret".
+Web server
+Bibledit has been tested with the Apache web server. The ./configure script is capable of finding the web server document root on several distributions. If you like to use a special location for the document root, you can pass that to the ./configure script:
+./configure --with-web-document-root=/home/joe/public
+The above changes the web server document root for Bibledit to /home/joe/public.
+
+
+Install bibledit from source
+
+Download package bibledit-gtk-x.x.tar.gz (x.x refers to the version number).
+
+Move it to the home directory
+
+In the terminal, to verify the package is there, type
+
+ls
+
+To unpack bibledit type
+
+tar zxf bibledit-gtk-x.x.tar.gz
+
+To enter the newly created directory, type
+
+cd bibledit-gtk-x.x
+
+To configure bibledit, type
+
+./configure
+
+Watch many messages, but no errors.
+
+To compile bibledit, type
+
+make
+
+Watch many messages, but no errors.
+
+To install it, type
+
+sudo make install
+
+Watch many messages, but no errors.
+
+To go back to the home directory, type
+
+cd
+
+@node ASUS Eee PC, Debian, Installation, Installation
+@subsection ASUS Eee PC
+
+Asus EeePC emulated under VMWare
+
+This describes how the Eee PC software was made to run within VMWare on Linux.
+
+ 
+
+The restore DVD that came with the PC is needed as the starting point. If you have lost your restore DVD, it has been seen in the bittorrent as EEEPC.iso.
+
+ 
+
+Further a working VMWare installation is needed. The description below was made using VMWare Server 1.05 running on Debian 4.0. Also qemu and parted should be installed in Debian. Some of the instructions given below should be run as the root user. If an error occurs on executing some of these instructions, try them again as the root user.
+
+ 
+
+Open a terminal, create a new directory, and cd into it. In this example directory ~/eee-pc was chosen.
+
+ 
+
+Copy the image tarball from the restore DVD (P701L.gz) into the ~/eee-pc directory.
+
+If the restore DVD is inserted into the drive, then the file P701L.gz should show up and it can be copied from there.
+
+Else if using an iso file, you can mount that iso file in Linux with "mount -o loop /path/to/file.iso /path/to/mount/point".
+
+ 
+
+Unzip the P701L.gz image.
+
+joe@debian:~/eee-pc$ gunzip P701L.gz
+
+ 
+
+Create a new disk image file called eeepc.img.
+
+joe@debian:~/eee-pc$ qemu-img create eeepc.img 4001M
+
+ 
+
+Copy the P701L image into the new image.
+
+joe@debian:~/eee-pc$ dd if=P701L of=eeepc.img bs=512 conv=nocreat,notrunc
+
+After this the file P701L is no longer needed.
+
+ 
+
+Look up the first unused loop device.
+
+joe@debian:~/eee-pc$ losetup -f
+
+/dev/loop0
+
+In this example the first unused loop device was /dev/loop0. Use this in the next steps.
+
+ 
+
+Get the image as a device.
+
+joe@debian:~/eee-pc$ losetup /dev/loop0 eeepc.img
+
+Verify that this was succesful.
+
+joe@debian:~/eee-pc$ echo $?
+
+0
+
+The above command verifies it and it should return 0.
+
+ 
+
+Partition the second drive on the image.
+
+joe@debian:~/eee-pc$ fdisk -C 486 /dev/loop0
+
+ 
+
+Create the partition. The text below shows what is on the screen, and what the user types. To summarize the below steps, the user has to type: n, p, 2, <Enter>, 484, w.
+
+Command (m for help): n
+
+Command action
+
+   e   extended
+
+   p   primary partition (1-4)
+
+p
+
+Partition number (1-4): 2
+
+First cylinder (301-510, default 301): <Enter>
+
+Using default value 301
+
+Last cylinder or +size or +sizeM or +sizeK (301-510, default 510): 484
+
+Command (m for help): w
+
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 22: Invalid argument.
+
+The kernel still uses the old table.
+
+The new table will be used at the next reboot.
+
+Syncing disks.
+
+joe@debian:~/eee-pc$
+
+ 
+
+Format the second partition.
+
+joe@debian:~/eee-pc$ parted /dev/loop0
+
+GNU Parted 1.7.1
+
+Using /dev/loop0
+
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+
+(parted) mkfs
+
+Partition number? 2
+
+File system?  [ext2]? <Enter>
+
+Error: Error informing the kernel about modifications to partition /dev/loop0p1
+
+-- Invalid argument.  This means Linux won't know about any changes you made to
+
+/dev/loop0p1 until you reboot -- so you shouldn't mount it or use it in any way
+
+before rebooting.
+
+Ignore/Cancel? Ignore
+
+Error: Error informing the kernel about modifications to partition /dev/loop0p2
+
+-- Invalid argument.  This means Linux won't know about any changes you made to
+
+/dev/loop0p2 until you reboot -- so you shouldn't mount it or use it in any way
+
+before rebooting.
+
+Ignore/Cancel? Ignore
+
+(parted) quit
+
+Information: Don't forget to update /etc/fstab, if necessary.
+
+joe@debian:~/eee-pc$
+
+ 
+
+Remove the loop device:
+
+joe@debian:~/eee-pc$ losetup -d /dev/loop0
+
+ 
+
+Create a mount point for the loopback:
+
+joe@debian:~/eee-pc$ mkdir loop
+
+ 
+
+Mount the first partition:
+
+joe@debian:~/eee-pc$ mount -o loop,offset=32256 eeepc.img loop
+
+ 
+
+Fix the the xorg.conf file:
+
+joe@debian:~/eee-pc$ gedit loop/etc/X11/xorg.conf
+
+Change "intel" to "vesa" and screen resolutions to 800x600.
+
+To make it easier, the whole file is available, see xorg.conf
+
+ 
+
+Download the networking kernel module for VMWare, see pcnet32.ko. Save it to the eee-pc directory.
+
+ 
+
+Install the kernel module in the image:
+
+joe@debian:~/eee-pc$ cp pcnet32.ko loop/lib/modules/2.6.21.4-eeepc/kernel/drivers/net
+
+Let the kernel module start on boot:
+
+joe@debian:~/eee-pc$ gedit loop/etc/modules
+
+Add the following line to the end of the list of modules:
+
+pcnet32
+
+Save the file.
+
+ 
+
+Umount the loopback file system:
+
+joe@debian:~/eee-pc$  umount loop
+
+ 
+
+Remove the mount point for the loopback:
+
+ 
+
+joe@debian:~/eee-pc$  rmdir loop
+
+ 
+
+Use the qemu-img function from Qemu to convert the image into a vmdk file fit for VMWare.
+
+joe@debian:~/eee-pc$ qemu-img convert eeepc.img -O vmdk eeepc.vmdk
+
+ 
+
+The image eeepc.vmdk is now ready to be used in VMWare Server. Create a new directory, for example ~/vmware/eeepc, and move the file eeepc.vmdk, created above, into it, and also the VMWare configuration file, available as  eee-pc.vmx. Then start VMWare Server, and open the eee-pc.vmx virtual machine. Start the virtual machine, and then you'll see the Asus EeePC software running, if all is well.
+
+ 
+
+Once the image runs, the networking module needs to be activated. This needs to be done only once.
+
+Within the Asus EEE PC software, running in VMWare, open a terminal ty pressing Ctrl-Alt-t
+
+/home/user>
+
+Become root:
+
+/home/user> sudo su -l
+
+eeepc-joe:/root> cd /
+
+eeepc-joe:/> depmod -a -v 2.6.21.4-eeepc
+
+eeepc-joe:/> modprobe pcnet32
+
+eeepc-joe:/> exit
+
+/home/user> exit
+
+In het Network tab of the EEE PC, there is a Network icon. Clicking that icon opens the Network Connections. It shows Local Area Connection 1. Click Propeties, and then the Hardware tab. Select the Advanced Micro Devices entry, and click the OK button. Then click the Connection button, and select the Connect option. The network will now connect. If all is well, then the network will start automatically next time.
+
+ 
+
+ 
+
+It has been noticed that if you don't shutdown nicely you sometimes have to clear all files from /tmp in the image for X to start, as an old lock file sits in there.
+
+It has been noticed that directory /var/log in the image has to be cleared out from time to time.
+
+ 
+
+The informatioin above was assembled with the help of trial and error and various sources on the internet:
+
+http://forum.eeeuser.com/viewtopic.php?id=3394
+
+http://www.blogeee.net/forum/viewtopic.php?f=2&t=200
+
+Create binary package for Asus Eee PC
+
+Install Bibledit on Debian 4.0.
+
+After that is done, in the terminal, go into the package. To do that, type
+
+cd
+cd bibledit-*
+
+Go into the eeepc subdirectory.
+
+cd eeepc
+
+Create the binary tarball. Type
+
+./make-binary-tarball
+
+The binary package will be available in this directory.
+
+
+
+
+
+Note that the following information may be out of date since Asus has changed their operating system over time.
+
+Installation procedures for getting Bibledit on the Asus Eee PC.
+
+Bibledit 3.3 on eee PC
+
+The instructions assume a working Eee PC.
+
+Open a terminal by pressing Ctrl-Alt-t.
+
+Add repositories to the list. To do that open an editor:
+
+sudo nano /etc/apt/sources.list
+
+Add this line to the list:
+
+deb ftp://ftp.us.debian.org/debian etch main contrib
+
+Save the file and quit the editor.
+
+Update aptitude, to do that, type
+
+sudo apt-get update
+
+Install software, to do that, type
+
+sudo apt-get install git-core
+sudo apt-get install libenchant1c2a
+sudo apt-get install gtkhtml3.8
+
+Download binary package bibledit-x.x-asus-eeepc-bin.tar.gz (x.x is to be replaced with the actual version number). (Note: if this package is out of date, create your own.)
+
+Store the package in the home directory, that is directory /home/user.
+
+In the terminal, to verify the bibledit package is there, type
+
+ls
+
+Move the package to the root directory. To do that, type
+
+sudo mv bibledit*bin.tar.gz /
+
+Go to the root directory. Type
+
+cd /
+
+Install the binary package. To do that, type
+
+sudo tar zxf bibledit*bin.tar.gz
+
+cd /eeepc
+
+sudo ./eeepc-install-menu
+
+After rebooting the machine, the Bibledit icon is in the Work tab.
+
+If the icon does not appear on the Work tab after a reboot, you probably have a newer Eee PC, so it is not looking at the file modified by the previous step. You will need to copy the file that was modified by eeepc-install-menu to a different location, like this:
+
+Start a terminal window, with Ctrl-Alt-t and type these commands:
+
+f=AsusLauncher/simpleui.rc
+
+sudo cp -b .$f /var/lib/$f
+
+Restart the computer.
+
+Run bibledit.
+
+Install the optional components.
+
+If collaboration is used, then git needs to be updated to version 1.5 or higher.
+
+@node Debian, Fedora, ASUS Eee PC, Installation
+@subsection Debian 
+
+Installing Bibledit on Debian. Installation from a package is the easiest way of installing Bibledit. If a package is not available, installation from source is another option. See the subpages for more information.
+
+Bibledit 4.0 on Debian 5.03
+Debian 5.03 (Lenny)
+
+The instructions assume that Debian was installed with all defaults, including the graphical Desktop.
+
+Run Desktop - Administration - Synaptic Package Manager.
+
+Install the following packages:
+
+g++ libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev libdbus-glib-1-dev
+
+Apply the changes.
+
+When through, open a terminal by clicking Applications, Accessories, Terminal.
+
+Install bibledit. (See troubleshooting - need another section?)
+
+Run bibledit. (See troubleshooting - need another section?)
+
+Install the optional components. (See troubleshooting - need another section?)
+
+Bibledit 4.1 on Debian 5.03 (Lenny)
+The instructions assume that Debian was installed with all defaults, including the graphical Desktop.
+Run Desktop - Administration - Synaptic Package Manager.
+Install the following packages:
+g++ libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev libdbus-glib-1-dev curl apache2 php5 libsoup2.4-dev
+Apply the changes.
+When through, open a terminal by clicking Applications, Accessories, Terminal.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit packages on Debian
+
+Bibledit can be installed from a Debian .deb package.
+Installing the Bibledit Debian package
+
+    * Start the Synaptic Package Manager through menu System / Administration.
+    * In the Package Manager, install package bibledit.
+
+That should be all that is needed.
+Obtaining a newer Bibledit package
+
+If the version of Bibledit that comes with your version of Debian is not the one you prefer, or not new enough, you can install a version from the Debian testing or Debian unstable repository.
+
+    Note: This is likely to be the case if you are using Debian Lenny, the current stable Debian release as of May 2009. The Bibledit packages in Debian testing (squeeze) and Debian unstable (sid) are much newer.
+
+To add the Debian testing repository:
+
+    * Select System -> Administration -> Software Sources .
+    * Select the "Third Party Applications" tab.
+    * Select the "Add" button.
+    * In the "Apt line:" field, enter
+      deb http://ftp.debian.org/debian/ testing main
+    * Select the "Add Source" button.
+    * Select the "Close" button.
+    * When a dialog about things being out of date appears, select the "Reload" button.
+
+If you prefer to use a package from the Debian unstable repository, then the "Apt line:" text should instead be
+
+    deb http://ftp.debian.org/debian/ unstable main
+
+Once your chosen repository is added to your system, you can add the Bibledit package from it using the Synaptic Package Manager as described above. It may require updated versions of some other packages too. If so, these will be automaticaly updated by Synaptic as part of the Bibledit package installation process.
+
+    Note: Unless you want to update your entire system to use everything in the repository just added, once you have installed Bibledit, you should use System -> Administration -> Software Sources and remove the repository that you just added. Advanced users can override this using the apt preferences file.
+
+Further Help and Information on Using Debian Packages
+
+Support for installing packages is not given by the Bibledit crew. See http://www.debian.org/support for a wide variety of Debian support resources.
+
+For more detailed information on Debian Package Management and using repositories, see:
+
+    * The Synaptic page of the Debian wiki.
+    * Synaptic: Point-n-Click Software Management.
+    * The man pages for apt, sources.list, and apt preferences (advanced use only).
+
+@node Fedora, Mandriva, Debian, Installation
+@subsection Fedora
+
+Install Fedora Packages
+Packages can be installed through a graphical program, or through a terminal.
+Graphical Program
+
+Click "System", then "Administration", then "Add/Remove Software".
+
+Search for, click, and install the first package given in the list of packages to be installed.
+
+If it asks for additional package to install, install these.
+
+Give the password for root if it asks for it.
+
+Updating the system takes a while to complete.
+
+Do the same for the rest of the packages given in the list of packages to be installed.
+
+After completion, close the window.
+Terminal
+Execute the following command from the terminal:
+su
+yum install <package list>
+
+
+Instructions for installing Bibledit on the various Fedora Linux distros.
+
+Bibledit 4.0 on Fedora 12
+
+These instructions assume a standard installation of the operating system.
+
+Make the installation medium available to the system..
+
+Click "System", then "Administration", then "Add/Remove Software".
+
+Search for, click, and install the following package gcc-c++.
+
+If it asks for additional package to install, install these.
+
+Give the password for root if it asks for it.
+
+Updating the system takes a while to complete.
+
+Do the same for the following packages: gtk2-devel, sqlite-devel, libxml2-devel, git, enchant-devel, gtkhtml3-devel, rcs, patch, gtksourceview2-devel, webkitgtk-devel, dbus-glib-devel.
+
+After completion, close the window.
+
+Open a terminal through Applications, System Tools, Terminal.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit 4.1 on Fedora 12
+
+These instructions assume a standard installation of the operating system.
+
+Make the installation medium available to the system.
+
+Install the following list of packages: gcc-c++ gtk2-devel sqlite-devel libxml2-devel git enchant-devel gtkhtml3-devel rcs patch gtksourceview2-devel webkitgtk-devel dbus-glib-devel libsoup-devel php httpd
+
+Open a terminal through Applications, System Tools, Terminal.
+
+Become root. To do that, type
+
+su
+
+and provide the password.
+
+Then set up the Apache server. To do that, type
+
+chkconfig httpd on
+service httpd start
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+@node Mandriva, OLPC XO, Fedora, Installation
+@subsection Mandriva
+
+Mandriva
+
+These installation instructions for Mandriva 2009.0 assume a standard installation of the operating system, though it was not tested on a clean installation. If you find additional dependencies, please edit this page.
+
+Open "Install and Remove Software."
+
+Search for, and tick the following packages: gcc-c++, gtk2-devel=libgtk+2.0_0-devel, sqlite-devel=libsqlite3-devel, libxml2-devel, git-core, libenchant-devel, libgtkhtml-3.14-devel, libcurl-devel, make, patch.
+
+Click Apply. Then click "yes."
+
+Updating the system takes a while to complete. Once all packages are installed, click Quit.
+
+To open a terminal, click "Menu", then "Tools" and then "Terminal."
+
+Install Bibledit from source
+
+Run Bibledit.
+
+Install the optional components.
+
+@node OLPC XO, openSUSE, Mandriva, Installation
+@subsection OLPC XO
+
+Installation instructions for getting Bibledit on the XO machine of the OLPC project.
+
+Bibledit 3.3 (or higher) on XO build 703
+
+Install Bibledit on a Fedora Core 7 system, see the instructions for how to do that.
+
+Ensure that Bibledit runs properly on this Fedora system.
+
+Collect all files and dependencies Bibledit needs. To do this, go into the package's olpc directory, and type
+
+make binary
+
+This will create a file called bibledit-x.x.-xo-bin.tar.gz. This file contains all files and dependencies you need to get Bibledit on the XO machine. At the time of writing the size of the file was about 13 Mbyte.
+
+At times such a tarball is available through the bibledit-x.x-xo-bin.tar.gz that can be downloaded.
+
+Start the XO machine, and connect it to the network.
+
+Start a Terminal by clicking the Terminal activity icon.
+
+Move the file bibledit-xo tarball to the XO machine's home directory.
+
+Open a terminal.
+
+In the terminal, login as user root. Type
+
+su -l
+
+No password should be asked.
+
+Move the bibledit-xo tarball, downloaded above, to the root directory:
+
+mv /home/olpc/bibledit-x.x.xo-bin.tar.gz /
+
+Unpack this tarball:
+
+cd /
+
+tar zxfP bibledit-xo-x.x.tar.gz
+
+Install the dependencies:
+
+yum install git-core
+yum install gtkhtml3
+
+Exit from user root.
+
+To run Bibledit, in the terminal type
+
+bibledit
+
+Next time, the only thing needed to start Bibledit, is to start the Terminal and type "bibledit" in it.
+
+Install Bibledit on XO from source
+
+Install Bibledit on a Fedora Core 7 system, see the instructions for how to do that.
+
+Ensure that Bibledit runs properly on this Fedora system.
+
+Collect all files and dependencies Bibledit needs. To do this, type
+
+bibledit-olpc-librarian bibledit-xo-x.x
+
+This will create a file called bibledit-xo-x.x.tar.gz. This file contains all files and dependencies you need to get Bibledit on the XO machine. At the time of writing this the size of the file was about 12 Mbyte.
+
+Otherwise this file can also be downloaded from the site but this may not be the newest version.
+
+Start the XO machine, and connect it to the network.
+
+Start a Terminal by clicking the Terminal activity icon.
+
+Move the file bibledit-xo tarball to the XO machine's home directory.
+
+Open a terminal.
+
+In the terminal, login as user root. Type
+
+sudo su -
+
+No password should be asked.
+
+Move the bibledit-xo tarball, downloaded above, to the root directory:
+
+mv /home/olpc/bibledit-xo-x.x.tar.gz /
+
+Unpack this tarball:
+
+cd /
+
+tar zxf bibledit-xo-x.x.tar.gz
+
+Exit from user root.
+
+To run Bibledit, in the terminal type
+
+bibledit
+
+Next time, the only thing needed to start Bibledit, is to start the Terminal and type "bibledit" in it.
+
+@node openSUSE, Ubuntu, OLPC XO, Installation
+@subsection openSUSE
+
+Install openSUSE packages
+Packages can be installed through a graphical program, or through a terminal.
+Graphical Program
+
+Click the Suse icon, at the bottom left, then Computer, then Install Software.
+
+Search for the first package given in the list of packages to install, and tick it.
+
+Click button Accept.
+
+In window "Changed Packages", click "Continue".
+
+The installer will take a while to update the system. Close the window when through.
+
+Do the same for the rest of the packages given in the list of packages to be installed.
+
+After completion, close the window.
+Terminal
+Execute the following command from the terminal:
+su
+zypper install <package list>
+
+
+
+How to install Bibledit on openSUSE Linux.
+
+Bibledit 4.0 on openSUSE 11.2
+
+Bibledit installation on standard openSUSE with KDE desktop.
+
+Insert the installation media.
+
+Click the Suse icon, at the bottom left, then Computer, then Install Software.
+
+Search for "gtk2-devel", and tick it.
+
+Click button Accept.
+
+In window "Changed Packages", click "Continue".
+
+The installer will take a while to update the system. Close the window when through.
+
+In the same way search for and install "sqlite3-devel", "gcc-c++", "libxml2-devel", "git-core", "enchant-devel", "gtkhtml2-devel", "rcs", "gtksourceview-devel", "libwebkit-devel", "dbus-1-glib-devel", "make", "patch"
+
+Open a terminal by clicking the Suse icon, then Terminal Program.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit 4.1 on openSUSE 11.2
+
+Bibledit installation on standard openSUSE with KDE desktop.
+
+Insert the installation media.
+
+Install the following list of packages: gtk2-devel sqlite3-devel gcc-c++ libxml2-devel git-core enchant-devel gtkhtml2-devel rcs gtksourceview-devel libwebkit-devel dbus-1-glib-devel make patch libsoup-devel apache2 curl php
+
+Open a terminal by clicking the Suse icon, then Terminal Program.
+
+Start Apache server. To do that, type the following in a terminal:
+
+su
+
+provide the password
+
+rcapache2 start
+chkconfig -a apache2
+
+exit
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+@node Ubuntu, Macintosh, openSUSE, Installation
+@subsection Ubuntu
+
+nstalling Bibledit on the various Ubuntu distros. Installation from a package is the easiest way of installing Bibledit. If a package is not available, installation from source is another option. See the subpages.
+
+Bibledit 3.2 on Kubuntu 8.04
+Kubuntu 8.04 (Hardy Heron)
+
+It is assumed that a standard installation of the operating system is used.
+
+Insert the installation media.
+
+Click the Start button, at the bottom, then System, then Adept Manager.
+
+Provide the user's password, if asked for it.
+
+In the Adept Manager, search for "build-essential". Click the package, then click button "Request Install".
+
+Do the same for the following packages:
+
+- libgtk2.0-dev
+
+- libsqlite3-dev
+
+- libxml2-dev
+
+- git-core
+
+- libxul-dev
+
+- libenchant-dev
+
+- rcs
+
+Apply the changes.
+
+The installer will download some packages from the installation media or the internet and take a while to update the system.
+
+Close the window when through.
+
+Open a terminal by clicking the Start button, System, Konsole.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit 3.9 on Ubuntu 9.04
+Ubuntu 9.04 Jaunty Jackalope
+
+It is assumed that a standard installation of the operating system is used.
+
+Connect to the installation media.
+
+Start the Synaptic Package Manager through menu System / Administration.
+
+In the Package Manager, install the following list of packages, with their additional required changes:
+
+build-essential libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev libdbus-glib-1-dev chmsee
+
+When through, open a terminal by clicking Applications, Accessories, Terminal.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit 4.0 on Ubuntu 9.10
+Ubuntu 9.10 Karmic Koala
+
+It is assumed that a standard installation of the operating system is used.
+
+Connect to the installation media.
+
+Start the Synaptic Package Manager through menu System / Administration.
+
+In the Package Manager, install the following list of packages, with their additional required changes:
+
+build-essential libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev libdbus-glib-1-dev
+
+When through, open a terminal by clicking Applications, Accessories, Terminal.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit 4.1 on Ubuntu 10.04
+
+It is assumed that a standard installation of the operating system is used.
+
+Connect to the installation media.
+
+Start the Synaptic Package Manager through menu System / Administration.
+
+In the Package Manager, install the following list of packages, with their additional required changes:
+
+libgtk2.0-dev git-core rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkit-dev texlive-xetex 
+
+When through, open a terminal by clicking Applications, Accessories, Terminal.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit 4.1 on Ubuntu 10.10
+
+It is assumed that a standard installation of the operating system is used.
+
+Connect to the installation media.
+
+Start the Synaptic Package Manager through menu System / Administration.
+
+In the Package Manager, install the following list of packages, with their additional required changes:
+
+libgtk2.0-dev git-core rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkit-dev texlive-xetex 
+
+When through, open a terminal by clicking Applications, Accessories, Terminal.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Bibledit 4.1 on Ubuntu 9.10
+
+It is assumed that a standard installation of the operating system is used.
+
+Connect to the installation media.
+
+Start the Synaptic Package Manager through menu System / Administration.
+
+In the Package Manager, install the following list of packages, with their additional required changes:
+
+build-essential libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev libdbus-glib-1-dev curl apache2 php5 libsoup2.4-dev texlive-xetex mysql-server php-gettext php-imap
+
+Installation of mysql-server asks for the password for the root database administrator. If you would enter 'root' for that, then Bibledit would work with that out of the box.
+
+When through, open a terminal by clicking Applications, Accessories, Terminal.
+
+Install bibledit.
+
+Run bibledit.
+
+Install the optional components.
+
+Install Bibledit on Ubuntu from a package
+
+Bibledit can be installed from a package.
+
+Connect to the installation media.
+
+Start the Synaptic Package Manager through menu System / Administration.
+
+In the Package Manager, install package bibledit.
+
+That should be all what's needed.
+
+In case that the version of bibledit that comes with your version of Ubuntu is not the one you prefer, or not new enough, you can install a version from the CrossWire repository. To do that, browse to https://launchpad.net/~pkgcrosswire/+archive/ppa and follow the instructions there. Support on installing packages is not given by the Bibledit crew. Help can be found on http://help.ubuntu.com, or http://ubuntuforums.org, or http://help.launchpad.net.
+
+@node Macintosh, Windows, Ubuntu, Installation
+@subsection Macintosh
+
+When installing packages through MacPorts, it downloads a lot of sources. All of these are places somewhere within /opt/local/var/macports/distfiles. Good to know this in case you want to preserve these sources.
+
+
+How to install Bibledit on the Macintosh.
+
+Version 4.0 on Mac OSX 10.4 Intel
+
+These instructions assume Bibledit is being installed on a standard installation of OSX.
+Install X11
+
+X11 is on the installation DVD that came with your OSX software. This DVD is marked "Mac OS X Install Disc 1". Insert this DVD into the drive. A window will open. In this window, double-click "Xcode Tools". A new window opens, and here double-click "Packages". Another window opens again, and here double-click "X11SDK.pkg". The installer will open, and follow the instructions on the screen to install it. In the same way, install Mac OS X Install Disc 1 / System / Installation / Packages / X11User.pkg.
+Install Xcode Tools
+
+Using the same DVD that was inserted above, double-click "Xcode Tools". A new window opens. Here double-click "XcodeTools.mpkg". Go through the whole installation procedure and let it finish. Xcode Tools needs to be upgraded to a newer version. The upgrade is available from http://connect.apple.com, file xcode25_8m2558_developerdvd.dmg available from the Downloads / Developer Tools section after free registration. It is called Xcode 2.5 Developer Tools (Disk Image). Download and install it. There are newer versions of Xcode tools, but these may not work on Tiger.
+X11 terminal
+
+Click the left icon at the bottom, called Finder. Click Applications. At the right side, scroll down and double-click Utilities. Scroll down again, and double-click X11. The terminal, called xterm, will open.
+
+Update the search path, so that programs, still to be installed, can be found. In the terminal, type
+
+cd
+
+and then type
+
+echo export PATH=$PATH:/opt/local/bin >> .bashrc
+
+Now close the X11 terminal through menu X11 - Quit X11.
+
+Then start a new X11 terminal.
+MacPorts
+
+MacPorts is available from http://www.macports.org. Follow the instructions on the site to install MacPorts. If through, continue with the next steps.
+
+If the port was installed a while ago, and you wish to update it, in xterm, type
+
+sudo port -v selfupdate
+
+and provide the password when asked. Let the update finish. It takes a while.
+Dependencies
+
+To install gtk2, in the terminal type
+
+sudo port install gtk2
+
+and provide the password when asked.
+
+Do the same for other software:
+
+sudo port install git-core
+sudo port install libgtkhtml3
+sudo port install gtksourceview2
+sudo port install webkit-gtk
+
+If anything fails to compile, try again, it probably will succeed then. If a problem persists, help is at www.macports.org.
+
+Then enable dbus to launch at startup:
+
+sudo launchctl load -w /Library/LaunchDaemons/org.freedesktop.dbus-system.plist
+
+sudo launchctl load -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist
+
+After these commands have been given it is necessary to reboot the computer.
+Bibledit
+
+Download package bibledit-4.0.tar.gz.
+Move it to the home directory.
+
+In the terminal, to verify the package is there, type
+
+ls
+
+To unpack bibledit type
+
+tar zxf bibledit-4.0.tar.gz
+
+To enter the newly created directory, type
+
+cd bibledit-4.0
+
+Provide the password if asked for.
+
+To configure bibledit, type
+
+./configure
+
+Watch many messages, but no errors.
+
+To compile bibledit, type
+
+make
+
+Watch many messages, but no errors.
+
+To install it, type
+
+sudo make install
+
+Watch many messages, but no errors.
+
+To go back to the home directory, type
+
+cd
+
+Run
+
+To run Bibledit, do the following every time you use it:
+
+Open an X11 terminal. Be sure this is not a normal Terminal, but the X11 terminal.
+
+Start bibledit: Type
+
+bibledit
+
+If you do not start Bibledit this way, it will run with errors, and it will not be fully functional.
+Notes
+
+You can create an Applescript that will open X11 and BIbledit in one operation from within Finder. This will give you an easy way to start Bibledit in one click. In Finder, click Applications, then double-click AppleScript and then double-click Script Editor. In Script Editor type:
+
+do shell script "/usr/bin/open-x11 /opt/local/bin/bibledit"
+
+Then click the Compile button, and in the menu click File, then Save. Call it Bibledit, and save it in Applications, and set the file format to "Application". Then save it.
+
+Version 4.1 on Mac OS 10.4
+
+These instructions assume Bibledit is being installed on a standard installation of OSX.
+Install X11
+
+X11 is on the installation DVD that came with your OSX software. This DVD is marked "Mac OS X Install Disc 1". Insert this DVD into the drive. A window will open. In this window, double-click "Xcode Tools". A new window opens, and here double-click "Packages". Another window opens again, and here double-click "X11SDK.pkg". The installer will open, and follow the instructions on the screen to install it. In the same way, install Mac OS X Install Disc 1 / System / Installation / Packages / X11User.pkg.
+Install Xcode Tools
+
+Using the same DVD that was inserted above, double-click "Xcode Tools". A new window opens. Here double-click "XcodeTools.mpkg". Go through the whole installation procedure and let it finish. Xcode Tools needs to be upgraded to a newer version. The upgrade is available from http://connect.apple.com, file xcode25_8m2558_developerdvd.dmg available from the Downloads / Developer Tools section after free registration. It is called Xcode 2.5 Developer Tools (Disk Image). Download and install it. There are newer versions of Xcode tools, but these may not work on Tiger.
+Start Apache
+
+To start Apache Web Server, you must go into the “System Preferences Control panel located on the “Apple Menu”. Click on the Icon labeled "Sharing". Then locate the service labeled  "Personal Web Sharing". Then click the button labeled “Start”. This starts up Web sharing which starts the Apache Web Server.
+X11 terminal
+
+Click the left icon at the bottom, called Finder. Click Applications. At the right side, scroll down and double-click Utilities. Scroll down again, and double-click X11. The terminal, called xterm, will open.
+
+Update the search path, so that programs, still to be installed, can be found. In the terminal, type
+
+cd
+
+and then type
+
+echo export PATH=$PATH:/opt/local/bin >> .bashrc
+
+Now close the X11 terminal through menu X11 - Quit X11.
+
+Then start a new X11 terminal.
+MacPorts
+
+MacPorts is available from http://www.macports.org. Follow the instructions on the site to install MacPorts. If through, continue with the next steps.
+
+If the port was installed a while ago, and you wish to update it, in xterm, type
+
+sudo port -v selfupdate
+
+and provide the password when asked. Let the update finish. It takes a while.
+Dependencies
+
+To install gtk2, in the terminal type
+
+sudo port install gtk2
+
+and provide the password when asked.
+
+Do the same for other software:
+
+sudo port install git-core
+sudo port install libgtkhtml3
+sudo port install gtksourceview2
+sudo port install webkit-gtk
+
+If anything fails to compile, try again, it probably will succeed then. If a problem persists, help is at www.macports.org.
+
+Then enable dbus to launch at startup:
+
+sudo launchctl load -w /Library/LaunchDaemons/org.freedesktop.dbus-system.plist
+
+sudo launchctl load -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist
+
+After these commands have been given it is necessary to reboot the computer.
+Bibledit
+
+Download package bibledit-4.0.tar.gz.
+Move it to the home directory.
+
+In the terminal, to verify the package is there, type
+
+ls
+
+To unpack bibledit type
+
+tar zxf bibledit-4.0.tar.gz
+
+To enter the newly created directory, type
+
+cd bibledit-4.0
+
+Provide the password if asked for.
+
+To configure bibledit, type
+
+./configure
+
+Watch many messages, but no errors.
+
+To compile bibledit, type
+
+make
+
+Watch many messages, but no errors.
+
+To install it, type
+
+sudo make install
+
+Watch many messages, but no errors.
+
+To go back to the home directory, type
+
+cd
+
+Run
+
+To run Bibledit, do the following every time you use it:
+
+Open an X11 terminal. Be sure this is not a normal Terminal, but the X11 terminal.
+
+Start bibledit: Type
+
+bibledit
+
+If you do not start Bibledit this way, it will run with errors, and it will not be fully functional.
+Notes
+
+You can create an Applescript that will open X11 and BIbledit in one operation from within Finder. This will give you an easy way to start Bibledit in one click. In Finder, click Applications, then double-click AppleScript and then double-click Script Editor. In Script Editor type:
+
+do shell script "/usr/bin/open-x11 /opt/local/bin/bibledit"
+
+Then click the Compile button, and in the menu click File, then Save. Call it Bibledit, and save it in Applications, and set the file format to "Application". Then save it.
+
+Version 4.1 on Mac OS X 10.6 Snow Leopard
+
+These instructions install Bibledit on OS X.
+Install Xcode
+
+Xcode is on the installation DVD that came with your OS X software. This DVD is marked "Mac OS X Snow Leopard Install DVD". Insert this DVD into the drive. A window will open. In this window, double-click "Optional Installs". A new window opens, and here double-click "Xcode.mpkg". The installer will open, and follow the instructions on the screen to install it.
+Install Web server and database
+
+(Installing a web server and database is no longer necessary for Bibledit-Gtk)
+
+To start the Apache Web Server, you must go into the “System Preferences" located on the “Apple Menu”. Click on the Icon labeled "Sharing". Then tick the service labeled  "Web Sharing". This starts up Web sharing which starts the Apache Web Server.
+
+Install MySQL through following the steps at http://dev.mysql.com/doc/refman/5.0/en/mac-os-x-installation.html.
+
+(To do the above in a single step, install the MAMP server from http://www.mamp.info).
+X11 terminal
+
+Click the "Applications" icon at the bottom. Scroll down a bit and click "Utilities". Scroll down to the bottom, and click X11. A terminal, called xterm, will open.
+
+Update the search path, so that programs, still to be installed, can be found. In the terminal, type
+
+cd
+
+and then type
+
+echo export PATH=$PATH:/opt/local/bin >> .bashrc
+
+Now close the X11 terminal through menu X11 - Quit X11..
+
+Then start a new X11 terminal.
+MacPorts
+
+MacPorts is available from http://www.macports.org. Follow the instructions on the site to install MacPorts. If through, continue with the next steps.
+
+If the port was installed a while ago, and you wish to update it, in xterm, type
+
+sudo port -v selfupdate
+
+and provide the password when asked. Let the update finish. It takes a while.
+Dependencies
+
+To install gtk2, in the terminal type
+
+sudo port install gtk2
+
+and provide the password when asked.
+
+Do the same for other software:
+
+sudo port install git-core
+sudo port install libgtkhtml3
+sudo port install gtksourceview2
+
+sudo port install webkit-gtk
+
+If anything fails to compile, try again, it probably will succeed then. If a problem persists, help is at www.macports.org.
+
+Then enable dbus to launch at startup:
+
+sudo launchctl load -w /Library/LaunchDaemons/org.freedesktop.dbus-system.plist
+
+sudo launchctl load -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist
+
+After these commands have been given it is necessary to reboot the computer.
+Bibledit
+
+Install Bibledit.
+Run
+
+To run Bibledit, do the following every time you use it:
+
+Open an X11 terminal. Be sure this is not a normal Terminal, but the X11 terminal.
+
+Start bibledit: Type
+
+bibledit-gtk
+
+If you do not start Bibledit this way, it will run with errors, and it will not be fully functional.
+Notes
+
+You can create an Applescript that will open X11 and BIbledit in one operation from within Finder. This will give you an easy way to start Bibledit in one click. In Finder, click Applications, then double-click AppleScript and then double-click Script Editor. In Script Editor type:
+
+do shell script "/usr/bin/open-x11 /opt/local/bin/bibledit"
+
+Then click the Compile button, and in the menu click File, then Save. Call it Bibledit, and save it in Applications, and set the file format to "Application". Then save it.
+
+@node Windows, Troubleshooting, Macintosh, Installation
+@subsection Windows
+
+Windows Installation
+
+   1.
+
+      Click here to download Windows Installer MSI package for Bibledit 3.7.48.
+   2.
+
+      Unzip the downloaded file.
+   3.
+
+      double click setup.vbs
+   4.
+
+      Follow the prompts - it is safest to stick with the defaults settings.
+
+
+See the subpages for more information.
+
+Very recent automatically created builds are available from the Buildbot at Bibles International. This autobuilder builds every 6 hours if something has changed in the interim. This means the Windows binaries are now available for the head of the master branch in the source repository.
+
+Build Instructions for MinGW
+
+My approach uses Debian's MinGW cross-compiler. If you use a different MinGW build environment, you should still be able to grok this. Some Linux distributions such as Fedora and OpenSUSE even have MinGW package repositories.
+
+ 
+
+An example, beta-quality release of Bibledit 3.7.48 using this technique can be found here.
+
+ 
+
+Click here to download Windows Installer MSI package for Bibledit 3.7.48.
+
+ 
+
+Release Notes:
+
+    * Requires Windows XP or later. Might work on 2000, but some functionality might not.
+    * You must install msysgit and place the Git tools in the system path. Git, a version control system, is required for proper function of Bibledit.
+    * You must install Bibledit to a NTFS partition. FAT type partitions are experimental. You must use PortableGit if you use FAT. This means that installing to a typical (FAT) USB stick is probably not going to work.
+    * Windows Outpost is required for printing, web browsing, and BibleWorks integration.
+    * BibleWorks integration requires version 7 or greater
+    * Printing requires a PDF reader (Acrobat 9 tested).
+    * SIL/Graphite (NRSI) fonts are supported using the Graphite backend to Pango (pango-graphite). If there is demand, future builds will include this by default.
+
+Known Issues:
+
+    * Context-sensitive help buttons are broken in this build. It might even crash Bibledit.
+    * The startup script has a bug that prevents proper startup sometimes when you restart the app.
+    * For a complete list of issues with the Windows port, see the support tracker on Savannah.
+
+ 
+
+This beta release is quite a bit more stable than previous. Give it a try! Backup early and often. Please use this on production projects, now that the git integration and USB/remote repositories is functional. As with all Free Software, it comes with no warranty for suitably for any purpose.
+
+ 
+
+Without fuirther ado, here's how to build this using Debian or Ubuntu: 
+
+   1. apt-get install mingw32
+   2. Get mingw-configure to make the configuration for cross-compiling much easier, however, for some reason, the Makefiles sometimes call pkg-config themselves, so they end up getting the build system's config and not the cross-config. You might need to temporarily make your pkg-config point to your win32 build root. (http://live.gnome.org/Cross%20compiling%20GTK%2B%20for%20Win32)
+   3. Create a cross-compile root directory and unpack all of the binaries listed below into it. Set the ROOT environment variable to it.
+   4. SQLite needs a pkg-config file. Copied mine and inserted into $ROOT/lib/pkgconfig
+   5. MinGW seems to have a broken realloc in their cstdlib. Based on some possibly bad advice, I commented it out ;)
+   6. OpenSUSE/MinGW WebKit comes with RPM files that are designed for the OpenSUSE MinGW build system. Either use OpenSUSE, or use the alien command to convert the RPMs to tar.gz, using the '-t' flag of alien. Once done, extract the relevant subtree into your ROOT. You will need to modify the OpenSUSE pkg-config files to work correctly.
+   7. You need to have a native pkg-config, but /usr/bin/pkg-config needs to report the cross-compiled pkg-config state. Suggestion: Point /usr/bin/pkg-config at the custom pkg-config script created by mingw-configure, and point that custom pkg-config script to /usr/bin/pkg-config.dist
+   8. The prebuilt MinGW libxml2 doesn't have a xml2-config. Took my system's copy and changed its prefix, placed it in the $ROOT/bin directory. Ran configure like so:
+          * XML2_CONFIG=$ROOT/bin/xml2-config ../mingw-configure --prefix=$ROOT
+          * Unfortunately, /usr/bin/xml2-config is still hardcoded in places, so I did a hack similar to the pkg-config one, where /usr/bin/xml2-config points to $ROOT/bin/xml2-config  ... In light of these 2 issues, it might make sense to add $ROOT/bin as a prefix in your $PATH.
+   9. Unless you want to cross-compile practically the entire known Gtk+ GNOME universe, grab the following binaries from http://ftp.gnome.org/pub/gnome/binaries/win32 (some of them are under the dependencies directory):
+
+      enchant-1.4.2-tml.zip
+
+      enchant-dev-1.4.2-tml.zip
+
+      fontconfig-2.4.2-tml-20071015.zip
+
+      fontconfig-dev-2.4.2-tml-20071015.zip
+
+      freetype-2.3.6.zip
+
+      freetype-dev-2.3.6.zip
+
+      GConf_2.22.0-2_win32.zip
+
+      GConf-dev_2.22.0-2_win32.zip
+
+      gettext-runtime-0.17-1.zip
+
+      gettext-runtime-dev-0.17-1.zip
+
+      gnome-vfs_2.24.0-1_win32.zip
+
+      gnome-vfs-dev_2.24.0-1_win32.zip
+
+      gtk+-bundle_2.14.7-20090110_win32.zip
+
+      gtkhtml-3.18.2.zip
+
+      gtkhtml-dev-3.18.2.zip
+
+      gtksourceview-2.4.1.zip
+
+      gtksourceview-dev-2.4.1.zip
+
+      libart_lgpl-2.3.20.zip
+
+      libart_lgpl-dev-2.3.20.zip
+
+      libbonobo_2.24.0-1_win32.zip
+
+      libbonobo-dev_2.24.0-1_win32.zip
+
+      libbonoboui_2.24.0-1_win32.zip
+
+      libbonoboui-dev_2.24.0-1_win32.zip
+
+      expat_2.0.1-1_win32.zip
+      libglade_2.6.3-1_win32.zip
+
+      libglade-dev_2.6.3-1_win32.zip
+
+      libgnome_2.24.1-1_win32.zip
+
+      libgnomecanvas-2.20.1.zip
+
+      libgnomecanvas-dev-2.20.1.zip
+
+      libgnome-dev_2.24.1-1_win32.zip
+
+      libgnomeui-2.22.1.zip
+
+      libgnomeui-dev-2.22.1.zip
+
+      libgnurx-2.5.zip
+
+      libiconv-1.9.1.bin.woe32.zip
+
+      libIDL_0.8.11-1_win32.zip
+
+      libxml2-2.6.27.zip
+
+      libxml2-dev-2.6.27.zip
+
+      ORBit2_2.14.16-1_win32.zip
+
+      ORBit2-dev_2.14.16-1_win32.zip
+
+      popt-1.10.2-tml-20050828.zip
+
+      popt-dev-1.10.2-tml-20050828.zip
+  10.
+
+      WebKit is required also, and our friends at OpenSUSE have built it for us:
+
+      http://download.opensuse.org/repositories/windows:/mingw:/win32/openSUSE_Factory/noarch/
+
+      From there, grab:
+
+      mingw32-libwebkit-1.1.7.noarch.rpm
+
+      mingw32-libwebkit-devel-1.1.7.noarch.rpm
+
+      mingw32-gnutls-2.6.6.noarch.rpm
+      mingw32-libgnutls-2.6.6.noarch.rpm
+
+      mingw32-libgnutls-devel-2.6.6.noarch.rpm
+
+      mingw32-libsoup-2.26.2.noarch.rpm
+
+      mingw32-libsoup-devel-2.26.2.noarch.rpm
+  11. Since GNOME and OpenSUSE together aren't quite the entire universe, grab these too from their respective locations, or have even more fun compiling:
+
+      sqlite-amalgamation-3_6_10.zip (just the headers) - from http://www.sqlite.org/download.html
+
+      sqlitedll-3_6_10.zip - from http://www.sqlite.org/download.html
+
+      aspell-w32-0.50.3.zip - from http://ftp.gnu.org/gnu/aspell/w32
+      Git-1.6.3.2-preview20090608.exe - from http://code.google.com/p/msysgit/
+
+      zip232xN.zip (zip.exe) - from http://www.info-zip.org/
+
+      unz552xN.exe (unzip.exe) - from http://www.info-zip.org/
+      diffutils-2.8.7-1-bin.zip - from http://gnuwin32.sourceforge.net
+
+      patch-2.5.9-7-bin.zip - from http://gnuwin32.sourceforge.net
+  12. Some debugging tools are included:
+
+      GDB for MinGW - gdb-6.8-mingw-3.tar.bz2 - http://mingw.org
+
+      Dependency Walker - depends22_x86.zip - http://dependencywalker.com/
+
+      Development builds include a copy of gprof from MinGW binutils.
+  13. Finally, it goes without saying that anything that isn't Bibledit is copyright its respective holder. Please check the README and COPYING files in the above packages for redistribution and licensing details.
+
+@node Add-ons,  , Windows, Installation
+@subsection Add-ons
+
+TECkit
+
+TECkit is a toolkit to help in converting character sets and scripts. Without TECkit Bibledit works fine, and with TECkit it gets extra capabilities to convert texts through scripts.
+
+To install TECkit, follow the below steps.
+
+Download the newest source package from the TECkit downloads page. At the time of writing the package was available at http://scripts.sil.org/svn-view/teckit/TAGS/TECkit_2_5_1.tar.gz, but as updates become available this may change.
+
+Move the package to the home directory
+
+Open a terminal.
+
+In the terminal, to verify the package is there, type
+
+ls
+
+To unpack TECkit type
+
+tar zxf TECkit_x_x_x.tar.gz
+
+The x_x_x above represents a version number.
+
+To enter the newly created directory, type
+
+cd TECkit_*
+
+To configure the package, type
+
+sh configure --prefix=/usr
+
+Watch many messages, but no errors.
+
+To compile the package, type
+
+make
+
+Watch many messages, but no errors.
+
+To install the package type
+
+sudo make install
+
+and provide the password. Watch many messages, but no errors.
+
+TECkit should be installed now and is ready for use.
+
 
 @node Tutorials, Management, Installation, Top
 @chapter Tutorials
 
+@menu
+* Bibledit for Windows Tutorial::  
+* Checking::                    
+* Collaboration::               
+* Editing::                     
+* Keyterms::                    
+* Merging::                     
+* Navigation::                  
+* Notes::                       
+* Planning::                    
+* Printing::                    
+* Project::                     
+* Questions   ::                
+* References  ::                
+* Related Verses  ::            
+* Revert  ::                    
+* Searching  ::                 
+* Spelling  ::                  
+* Styles::                      
+@end menu
+
+@node Getting Started
+@subsection Getting Started
+
+Run Bibledit
+
+Normally there will be a menu entry under Applications / Office / Bibledit-Gtk. Click it to start bibledit.
+
+On the Asus Eee PC there is an icon under tab Work.
+
+If there is no such menu entry, to start bibledit, in the terminal type
+
+bibledit-gtk
+
+@node Bibledit on Windows, Checking, Tutorials, Tutorials
+@subsection Bibledit on Windows
+
+Bibledit for Windows Tutorial
+
+(most of this tutorial applies to Linux but some things may be slightly different) 
+
+ 
+
+Lesson 1  - Open, Close, and Help
+
+ 
+
+To start using Bibledit: Click Start->All Programs->Bibledit->Bibledit
+
+ 
+
+ 
+
+You will see the Bibledit Menu window open up
+
+ 
+
+To get help using Bibledit: Click Help->Contents
+
+The help webpage will open: Click the Tasks or the Tools link
+
+ 
+
+Bibledit help has 2 main sections Tasks and Tools
+
+The Tasks section discusses general Bibledit tasks that a user will typically want to do. 
+
+The Tools section describes each Bibedit menu item.
+
+ 
+
+ 
+
+For example, if I click Tasks and then Import then the help page shows a variety of topics about importing texts and where to get some standard Bible to import. If I click Tools and then Import then the help page shows a description of the Import text dialog that appears when you choose the File->Project->Import menu item.
+
+ 
+
+ 
+
+To close Bibledit click the X in the upper right corner of the Menu window
+
+ 
+
+ 
+
+Lesson 2 - New Project, templates, navigation and goto
+
+ 
+
+ 
+
+Open Bibledit.
+
+Click File->Project->New: This will open the New Project Dialog
+
+ 
+
+Choose Books:
+
+ 
+
+ 
+
+Click OK: This will create the new project
+
+ 
+
+ 
+
+The book of Matthew will open in a window below the menu window.
+
+ 
+
+To go to a different chapter, choose the chapter number from the Menu window.
+
+ 
+
+The fastest way to jump to a new reference in a different book is to use the Goto command.
+
+Press CTRL+G: You will see the Goto reference dialog box.
+
+ 
+
+ 
+
+Practice typing in verses and jumping to a new verse and typing some more.
+
+ 
+
+ 
+
+To close a project simply close the text window.  A project is automatically saved as you work on it.
+
+ 
+
+To open a project click File->Project->Open and choose the project you want to open
+
+Printing
+
+To print a project in Bibledit click File->Print
+
+ 
+
+Lesson 3 - Editing (styles) /searching/footnotes
+
+Styles are used to format text in Bibledit.
+
+To open the styles window in Bibledit click File->Styles->Open
+
+ 
+
+Select the text that you want the style to be applied to and then double click the style name
+
+ 
+
+ 
+
+To add a footnote place the cursor at the end of the word to be footnoted and double click the footnote style
+
+Click ok
+
+ 
+
+ 
+
+Type the note after the footnote number
+
+ 
+
+To delete a footnote, delete the footnote number from the Bible text.
+
+ 
+
+ 
+
+To search go to Edit->Find or CTRL+F
+
+ 
+
+Type in the term you want to search for.
+
+The references window will open with a list of references where that word occurs.  Double click the reference to jump to that verse.
+
+ 
+
+ 
+
+ 
+
+ 
+
+Lesson 4 Multi views/project notes/import
+
+To open a second project, go to File->Project open and choose another project to open
+
+ 
+
+When 2 projects are open they both move to the same reference.
+
+ 
+
+ 
+
+.A project note is a note about the current passage.  These can be reviewed later for checking
+
+To create a project note press CTRL+N
+
+The project notes window will open.
+
+ 
+
+Type the note,
+
+ choose a category and click ok
+
+ 
+
+ 
+
+To review all the project notes click View->Project notes
+
+Choose the option: “any verse”,
+
+Click OK
+
+ 
+
+ 
+
+Lesson 5 checking/verse/keyterm/Export/Quotation marks
+
+To check if the chapter and verse numbers are correct click Check->Chapters and Verses.  A list of missing references will show in the references window
+
+ 
+
+ 
+
+Keyterm check
+
+To check keyterms click Check->Key terms.  This will show the keyterms window
+
+Select a keyterm
+
+Double click the correct word in the red verses
+
+ 
+
+ 
+
+Export for back translation
+
+File->Project->Export->Unified Standard Format markers
+
+Click your username in the left column, choose My Documents->Adapt It Unicode Work->Export. Then click Open
+
+ 
+
+ 
+
+Quotation marks
+
+Use < and > for single opening and closing quotes and << and >> for double opening and closing quotes. Bibledit will automatically replace these symbols with curved quotation marks when the text is printed or exported.
+
+ 
+Lesson 6 backup/merging/collab
+ 
+Lesson 7 prefs/tools?
+
+@node Checking, Collaboration, Bibledit for Windows Tutorial, Tutorials
+@subsection Checking
+
+Checking
+Introduction
+
+Bibledit contains a number of tools to check the text. Most of these are accessible through menu Check.
+
+Any undesired checking results can be hidden for the future, so that they don't appear again if the same check is ran again. To hide such a result, right-click in the References Area, and choose "Hide from now on".
+Character inventory
+
+This check, accessible through the menu, Check - Characters - Inventory, gives a list of all characters in the project, and the count of each character.
+
+Due to newline handling on Linux the character counter will only include U+000A but not U+000D. After importing the file the U+000D completely disappears and so will not be counted.
+
+A character can occur anywhere in the output html file, depending on how sorting is done.
+
+The file will be visible in the Internet browser, which will supply its own default font so as to ensure the character becomes visible. No particular font is enforced.
+
+The check does not handle legacy encoded data. This is because anything with such data will be converted to Unicode when imported in Bibledit, and so the character counting check will never encounter anything else but Unicode.
+Compare punctuation
+
+Paratext had a check called "Compare Punctuation". How do I compare punctuation in Bibledit?
+
+Comparing punctuation in Bibledit is done through the Advanced Find functions.
+
+Open the first project, and search for e.g. a question mark. The search results will be loaded in the References Area.
+
+Open the second project, and go to advanced search, and search for the question mark again. Remove the search results from the ones already in the References Area. The References Area will now contain the verses that do have the question mark in the first project, and not in the second.
+
+Next do it the other way round. Search in the second project, then with advanced search in the first. The References Area will now contain the verses that do have the question mark in the second project, but not in the first.
+Check matching pairs
+
+Checks whether punctuation that is part of a pair makes a complete pair. For example, the opening bracket [ also needs the closing bracket ].
+
+The check knows about 160 matching pairs of punctuation, and checks them all.
+
+Pairs that should not be checked can be ignored. No reports will be given on these characters.
+Check unwanted patterns
+
+This check looks for patterns that are unwanted. For example, when the pattern " ?", that is a question mark preceded by a space, is unwanted, enter this in the dialog box of the check, and from now on this unwanted pattern will be reported.
+Check unwanted words
+
+This looks for unwanted whole words in the text, and reports them when they have been found.
+
+In the dialog, you can enter a list of whole words to be looked for, one word per line.
+Repeating words
+
+This check aims to find repeating words, as sometimes, but not always, repeating words are a mistake. For example if the text has "Jesus said said: Whoever follows me ...", then the "said said" is a repeating word entered by mistake. This check will find these.
+
+This check will also find repeating words that are not a mistake. For example consider this USFM text:
+
+\x - \xo 1.6: \xt Matt. 10.2; 3 John 1:1.\x*
+
+This check will say that the word "1" repeats. It does so because the crossreference "3 John 1:1" has a repeating "1". Both chapter and verse are 1. To prevent these false hits enter an "Ignore" word of ":". If this colon is entered in the list, it no longer will find the "1" repeating.
+
+Some languages have words with reduplicated roots which could be separated with hyphens, e.g., manuk-manuk. The check will mark "manuk" as repeating. If the hyphen (-) is entered under the "Ignore" button, then this words will no longer be marked as repeating.
+Notes
+
+Some of the checks produce references in the reference area. The references so produced can be used to quickly go to the relevant places in the Bible. And the references can also be printed.
+
+@node Collaboration, Editing, Checking, Tutorials
+@subsection Collaboration
+
+Collaboration
+Setup
+
+It is recommended to read the brief introduction to the system.
+
+The central part to collaboration is the repository. The systems administrator will have set the repository up, will have initialized it, and issued its URL. If the repository is a secure one, set up the secure shell keys to access it.
+
+The repository is now ready for use. It remains to add users who make use of this repository and share their data through it.
+
+In this tutorial it will be user Jim. In Bibledit, Jim opens the project he wishes to share with others, or he creates a new project. He goes to menu Preferences / Remote repository. and sets everything up. Jim can now work on Bibledit as before, and his data will be automatically updated in the repository.
+Collaborating
+
+Now we come to the purpose of everything, which is working together on one project.
+
+This collaboration is very simple: Just work on your data as you did before. At times when you´d like to share your work with others, or when you'd like to see work done by others, choose menu File / Project / Send-Receive. Bibledit cares for everything, and everything will be updated and shared automatically.
+Safety
+
+Suppose that two or more people collaborate on one project. One of them is a bad typist. He makes many errors. The bad typist has the potential the harm or destroy the project's data. If he makes serious mistakes in his own data, then the collaboration mechanism will propage his mistakes to the other members of the team. This is not a desirable situation.
+
+Bibledit has a solution for this situation. You can use two mechanisms of Bibledit simultaneously.
+
+1. Collaboration through the network or the USB stick.
+
+2. Merging changes.
+
+This is how to do it:
+
+1. The experienced person has project "master" that has the master copy of the Bible. Collaboration of the master project is switched off so that no changes can enter that project by mistake.
+
+2. The experienced person has project "messy" that initially is a copy of the master project. Collaboration is switched on.
+
+3. The unexperienced typist has project "messy" too, with collaboration switched on.
+
+4. The unexperienced typist makes changes in project "messy", and through collaboration these changes go into project "messy" of the experienced typist too. This all goes automatic.
+
+5. Once in a while the experienced person goes to the Merge tool. He opens project "master" and project "messy", reviews the changes as proposed in project "messy", makes any edits he likes, takes out any mistakes he does not like, and then finally merges the changes from "messy" into "master". This is done chapter by chapter. Once the merge is done, project "master" and "messy" are identical again in that particular chapter.
+
+6. Any changes entered or not entered propagate to the unexperienced typist again through the collaboration. If the unexperienced typist made a big mess in a certain chapter, through the collaboration this mess is cleared up again on his computer.
+Notes
+
+- The collaboration system can conveniently be used for automatic backup.
+
+- Collaboration of two projects on the same computer is possible if those projects have the same ancestor, that is, one is created by importing all the Biblebooks exported of the other one. This can be helpful for demo purposes and to test and learn to use this tool if only one computer is available.
+
+- Sending and receiving the data of your Bible will happen automatically at intervals. Bibledit will receive any changes from the repository, and then send its own changes to that repository. To manually send and receive your Bible, use menu File / Send / receive.
+
+- Using collaboration with merging data has advantages in the following situation: Think of the situation that a bad typist is out in the bush, and comes to town with his stick, and has little time for the master person to merge while he waits. So just plugging in he stick, a quick automatic merge, and away he goes again. Then if the master person has some time in the days or weeks following, he can then carefully go through the messy project, and merge it with the master project, taking his time for it, and doing an accurate job.
+
+- There is not much need to maintain the git repository since Bibledit does run maintenance on it at regular times. But if you really like to compress the repository well, you can run "git gc --aggressive" in the repository. Note that Bibledit already runs "git gc" at regular times.
+
+- If two or more users were to work on the same chapter at the same time, this would pose a problem for Bibledit. This type of collaboration is not supported. People should work on different chapters, or on the same chapters, but not simultaneously. Then the merging of the changes will work well.
+
+
+Introduction to Collaboration
+
+With Bibledit several users can work on one Bible at the same time.
+
+The users collaborate through the network or a USB drive.
+
+Once everything has been set up, it all goes automatic. The user does not notice the mechanics of the collaboration, it all happens under the hood.
+
+There is a variety of methods for collaboration. The user who will set it all up needs to have sufficient knowledge of information technology.
+
+Bibledit stores all data locally. When collaboration is enabled, it also connects to a central repository. Through that repository the data gets shared between the users.
+
+Under the hood, Bibledit uses Git for collaboration. Git is a content manager. The user does not notice that Git is used. He does not operate it. Bibledit does it all for him. The only thing that the user notices is that the changes introduced by the other users appear on his screen too.
+
+There is a variety of repositories that can be used. Each of them has it own use, advantages and disadvantages. First of all there is the repository that resides on a file system. A USB flash drive can be used in this case. This flash drive can be physically moved from one user to the other, and so on, updating each user, and getting updated by each user. Secondly there is the repository that resides on the network. For internal networks a simple open network repository can be used. Whosoever knows where the repository resides can write to it. For public networks such as the internet a secure network repository would be recommended. This type of repository is locked down. Only those who have the keys to such a repository can write to it.
+
+
+Repository initialization
+
+Note: Newer versions of git, and Bibledit-Gtk version 4.2 and higher, no longer need what is written below.
+
+In this tutorial you are going to see whether the repository can be cloned, and if not, then to put some data into it, then try to clone it again to see how it now goes.
+
+Open a terminal, and issue the commands as given.
+
+cd
+
+In the tutorial about setting up the repository, the systems administrator had given the URL of the repository that was created. In the current tutorial we assume a URL of "file:///media/usbstick/repository". Of course others are possible, depending on what type of repository you have and where it resides. For example "ssh://user@repo2.git.sourceforge.net/gitroot/repo2/repo2".
+You need to put something into the repository. It does not matter what, anything will do. Let's proceed and put an empty file into the repository. Issue the commands as given:
+
+cd
+
+mkdir repository
+
+cd repository
+
+git init
+
+It will say that an empty Git repository was initialized.
+
+touch file
+
+git add file
+
+git commit -a -m init
+
+It will say that an initial commit was created.
+
+git push --all file:///media/usbstick/repository
+
+It will give some information, which shows that data was written to the repository. No errors should occur.
+
+Clean out the temporal directory:
+
+cd
+
+rm -rf repository
+
+Now try to clone the repository:
+
+git clone file:///media/usbstick/repository
+
+It should say that an empty Git repository was created, give some more information, and show that object were received. It is does this, and there are no errors, then everything is fine. Your repository has been initialized.
+
+
+Repository setup
+
+The repository is the heart or the central part of the collaboration system. In this tutorial you will learn how to set up a repository.
+
+There are several types of repositories. See the introduction. Each of them will be described separately in this tutorial.
+
+Depending on what system you use, you can either set up a USB flash drive, or set up an open network repository, or a secure network repository.
+
+
+Open network repository setup
+
+In this tutorial we are going to set up an open repository on the network.
+
+To create the repository on we need a server. Any of your Linux computers that is attached to your network will do. In this tutorial we assume that the computer is accessible from the network through IP address 192.168.0.1. The user of this computer will be Jim.
+
+To create the repository, login as user jim. Then open a terminal. The repository is going to be in Jim's home directory. In the terminal type the following:
+
+cd
+
+mkdir -p git/repository
+
+cd git/repository
+
+git --bare init --shared
+
+The repository is now there, but it is not yet accessible from the network.
+
+To make the repository available to the network, type
+
+git daemon --export-all --base-path=/home/jim/git --detach --enable=receive-pack
+
+Each time that the server boots, it is necessary to execute the above command again. It would be easier to put the command in the boot script. Then it will automatically be started after boot.
+
+To test access to the new repository from another computer on the network, type
+
+git ls-remote git://192.168.0.1/repository
+
+If everything is fine, no errors will occur.
+
+The repository that was created in this tutorial has the following URL:
+
+git://192.168.0.1/repository
+
+The users that are going to use this repository need this URL.
+
+
+Secure network repository setup
+Introduction
+
+In this tutorial we are going to set up a secure network repository.
+
+It uses a git repository on sourceforge.net.
+
+Open an account on sourceforge.net. We will use the username "joe" in this tutorial.
+
+Register a new project on your personal account page on sourceforge.net. Let's call this project "repo2".
+
+Enable project feature "Git" on this project. This provides the repository.
+
+The next thing is to try whether you can read the repository properly. To try that, open a terminal and issue the following command:
+
+git ls-remote ssh://joe@repo2.git.sourceforge.net/gitroot/repo2/repo2
+
+This command probably will ask for your password, and the first time it could ask you whether you want to continue connecting. But it should show no errors. If it completes without errors, then your secure repository works well.
+
+The repository that was created in this tutorial has the following URL:
+
+ssh://user@repo2.git.sourceforge.net/gitroot/repo2/repo2
+
+The users that are going to use this repository need this URL. Where it says "user", each user would need to fill in his own username. It is recommended that each user opens his or her own account on sourceforge.net. Each user needs to be registered as a developer for the project, in this example, project "repo2". This is so that the user can write to the repository.
+
+
+Secure shell keys setup
+
+When your remote repository is a secure one, and you'd like Bibledit to use it, then is is necessary to set up secure shell keys. These keys allow easy access to the secure repository. Please follow the tutorial exactly.
+Generate the keys
+
+The first thing to do is to generate the keys.
+
+On your Linux workstation, open a termial and enter the following:
+
+cd         (to make sure you are in your home directory)
+
+ls .ssh    (to check if there is an .ssh directory) 
+
+If there is no .ssh directory, create one: 
+
+mkdir .ssh
+
+then 
+
+cd .ssh
+
+ssh-keygen -t dsa -b 1024 -f bibledit-ssh-key
+
+It will respond as follows:
+
+Generating public/private dsa key pair.
+
+Enter passphrase (empty for no passphrase):
+
+At this stage press Enter. It will continue as follows:
+
+Enter same passphrase again:
+
+Press Enter again. It will continue as below:
+
+Your identification has been saved in bibledit-ssh-key.
+
+Your public key has been saved in bibledit-ssh-key.pub.
+
+It will print some more lines of text. This is not relevant for our purpose.
+
+This pair of keys is important. The pair is in the ".ssh" directory of your home directory. There is the private key, in a file called "bibledit-ssh-key", and the public key, in another file called "bibledit-ssh-key.pub". Store them safely.
+Enter the keys
+
+Open a personal account at sourceforge.net. Let's choose user name "repouser". Ask the project administrator whether he can add user "repouser" to the "repo2" project as a developer. Joining this project as a developer will give you the capability to write to the repository.
+
+On your personal account page at sourceforge.net, choose Services, then choose "Edit SSH Keys for Shell/CVS". You have generated a file "bibledit-ssh-key.pub". Open it in gedit. Select all the text and copy it to the clipboard. In the screen titled "SSH Keys", there is a place where it says "Authorized keys:". Paste the text from gedit into that space on the web page. After checking that everything looks fine, press button "Update". Synchronizing the keys into the system has a 10 minute delay.
+
+The next step is to tell the secure shell where to find the private key when we connect to sourceforge.net, and to set a few other important options. To do that, open file ~/.ssh/config in gedit. Enter the entry for sourceforge.net, like so:
+
+Host *sourceforge.net
+
+     IdentityFile ~/.ssh/bibledit-ssh-key
+
+     BatchMode yes
+
+     StrictHostKeyChecking no
+
+Save the file.
+
+The above refers to a file called "bibledit-ssh-key". You have generated this key before.
+
+If the delay of 10 minutes has expired, we can now try whether the key pair works well. In the terminal, try to access the repository at sourceforge:
+
+git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2
+
+If it works then it will give no errors, and list a few commits. If it does that, then the keys works well. If it asks for a password, or if there are errors, follow the tutorial again to get everything right.
+Reconfiguring Bibledit Collaboration after Changing Computers or Reinstalling Ubuntu
+
+In order to reconfigure Bibledit after changing computers or reinstalling an operating system, you cannot just copy and reuse a backup copy of your original .ssh directory and the config file. Also, it seems that just remaking the shell keys in the old .ssh director will not work. Make a new .ssh directory and follow the steps above to create secure shell keys. You can copy and reuse the backed-up config file. Then replace your old ...key.pub at sourceforge.net/Services with your new key, then click to Update. During the 10 minute wait, reboot your computer. (It is possible that copying the old .ssh directory will work if you reboot after copying it. That needs to be tested. But this method is sure to work.) After rebooting and waiting for the key to be updated, test if you get an error message with 
+
+git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2
+
+If not, everything is ready. If you have copied your .bibledit directory from a backup, the saved repository settings may work again without reconfiguring. To make sure you can follow the steps under the menu Preferences > Remote Repository.
+
+
+USB flash drive repository setup
+Introduction
+
+In this document we will set up a repository on a USB flash drive, also called a USB stick.
+Formatting the stick
+
+Normally a USB stick, as it comes out of the box, has been formatted with a FAT filesystem. Such a filesystem is not supported for collaboration. The stick needs to formatted to the ext3 filesystem for collaboration to work. How this is done will be described here.
+
+Insert the stick into the computer, and wait a little till it gets mounted. It is supposed to mount automatically. If it does not mount on its own, then automatic mounting needs to be set up. Setting up automatic mounting goes beyond the scope of this tutorial.
+
+In the terminal, give the command
+
+df
+
+The output of this command can be something like:
+
+Filesystem 1K-blocks      Used Available Use% Mounted on
+/dev/sda1   93539428  76882380  11905428  87% /
+tmpfs        1038428         0   1038428   0% /lib/init/rw
+udev           10240       104     10136   2% /dev
+tmpfs        1038428         0   1038428   0% /dev/shm
+/dev/hda      629742    629742         0 100% /media/cdrom0
+/dev/sdb5  306619956 189335920 101708620  66% /media/293gig
+/dev/sdc1  240362656  64350876 163801980  29% /media/250gb
+/dev/sdd1    1960684    660896   1200188  36% /media/usbdisk
+
+Looking through the list of mounting points, we assume that the USB stick that was inserted mounts at /media/usbdisk. From there we can see that the device is /dev/sdd1. Once we have that information, we are ready for the next step.
+
+Before the stick can be formatted, it must be unmounted first. Issue the following command to unmount the stick:
+
+sudo umount /media/usbdisk
+
+The "sudo" in the command means that root privileges are needed to execute the command.
+
+To format the USB stick to the ext3 filesystem, issue the following command:
+
+sudo mkfs.ext3 /dev/sdd1
+
+The formatting process will be visible and at the end some information about it will be given. At this point it is important to see if no errors occurred.
+
+The formatting command is very powerful. One could even format the main drive of the computer, wiping out all information. Extreme care should be used to ensure that the USB stick is going to be formatted, and nothing else.
+Labelling the stick
+
+A label needs to be written to the USB stick. The reason of this is so as to make sure that this stick will always mount at the same mounting point. In this tutorial we write the label "usbstick" to it.
+
+We take it that the same device is being used as we used for formatting the stick. That is device /dev/sdd1. To write the label to the stick, issue the following two commands:
+
+sudo e2label /dev/sdd1 usbstick
+
+sync
+
+After the label has been written to it, remove the stick from the computer, and insert it again. It should now mount to the name of the label. In this case it should mount under /media/usbstick.
+
+This can be verified with command "df":
+
+df
+
+The output of this command:
+
+Filesystem 1K-blocks      Used Available Use% Mounted on
+/dev/sda1   93539428  76882380  11905428  87% /
+tmpfs        1038428         0   1038428   0% /lib/init/rw
+udev           10240       104     10136   2% /dev
+tmpfs        1038428         0   1038428   0% /dev/shm
+/dev/hda      629742    629742         0 100% /media/cdrom0
+/dev/sdb5  306619956 189335920 101708620  66% /media/293gig
+/dev/sdc1  240362656  64350876 163801980  29% /media/250gb
+/dev/sdd1    1960684    660896   1200188  36% /media/usbstick
+
+This shows that it now mounts under the new name.
+Creating the repository on the stick
+
+The USB stick will hold the data repository.
+
+To make this stick fit for collaboration, there are a few steps to be taken. These steps are:
+
+1. The first step will be to create a directory for the repository, and to make that directory writable. If we assume that the stick mounts at /media/usbstick, then the command to create a directory called "repository" is:
+
+sudo mkdir /media/usbstick/repository
+
+Notice the "sudo" command, which means that this usually needs to be done by user root. If this is done by an ordinary user, permission would be denied.
+
+Once the directory for the repository is there, this directory needs to be made writable for ordinary users. This is the command:
+
+sudo chmod -R 0777 /media/usbstick/repository/
+
+Note the "sudo" again.
+
+Now it is time to check whether the USB stick is writable. We do this by trying to create a file in the repository. If this succeeds, then it is writable. Here's the command:
+
+touch /media/usbstick/repository/testfile
+
+This command should complete without errors. After that the file needs to be removed again:
+
+rm /media/usbstick/repository/testfile
+
+2. The second step is to make the USB stick the current working directory. Type:
+
+cd /media/usbstick/repository
+
+3. The next step is to create a repository on the USB stick, and to copy the data to it.
+
+To create a shared repository on the USB stick, type:
+
+git --bare init --shared
+
+Git will respond saying that an empty shared Git repository has been created.
+
+Before removing the stick, ensure that the data gets written to it, by issuing the command
+
+sync
+
+This finishes setting up the repository on the USB flash drive.
+Repository URL
+
+The repository that was created in this tutorial has the following URL:
+
+file:///media/usbstick/repository
+
+The users that are going to use this repository need this URL.
+
+
+@node Editing, Keyterms, Collaboration, Tutorials
+@subsection Editing
+
+Project
+
+Before any editing can be done, create a new project and add books to it. See also the Project Properties dialog. Or of there is an existing project, open it.
+Save
+
+There is no need to save the text, because Bibledit takes care of that.
+Text
+
+Standard Format Markers are markers that are put in the text to indicate the book, where a chapter starts, the verse, titles and so on.
+
+A marker always starts with a backslash (\) at the beginning of a line of text in the editor. The most commonly used Standard Format markers are:
+
+\id Identifies the book
+
+\mt major title (if only one level is used. If more than one used:)
+
+\mt1 major title, level 1
+
+\mt2 major title, level 2 (equal to secondary title \st, but \st is no longer in use)
+
+\c chapter
+
+\s section heading
+
+\p paragraph
+
+\v verse
+
+Here follows a part of the book of John.
+
+\id JHN
+
+\mt2 The Gospel according to
+
+\mt1 John
+
+\c 1
+
+\s The Word became flesh
+
+\v 1 In the beginning was the Word, and the Word was with God, and the Word was God.
+
+Explanation of markers used.
+
+\id JHN
+
+Identifies the book as John
+
+\mt2 The Gospel according to
+
+A major title, level 2. When printed it will have a font just a bit smaller than \mt
+
+\mt1 John
+
+A major title, level 1. When printed it will have a big font suitable for such a title.
+
+\c 1
+
+Indicates that chapter one starts here.
+
+\s The Word became flesh
+
+This is a section heading, and will be printed in the text as a heading, usually in bold.
+
+\v 1 In the beginning was the Word, and the Word was with God, and the Word was God.
+
+This is the text of verse one.
+
+More information on USFM is available.
+Data
+
+All project data is stored in the data directory.
+Undo and Redo
+
+As long as you stay in the same chapter, you can undo and redo any changes made. See menu Edit, or use the keyboard accelerators.
+Inserting Bible notes
+
+All Bible notes can be inserted by choosing the appropriate style.
+
+A new window will come up, where you can set what will be inserted.
+
+The numbering can be set to automatic, or no numbering at all, or a certain character.
+
+Further you can set whether to automatically insert the current reference in the footnote. If you do insert it, then you can set whether to include the chapter number, and the verse number, and what the separator between them will be. A suffix can be entered too. It will show how this is going to look in the text.
+
+The size of the text entry or entries can be set using the "Size" arrows.
+
+It is possible to save a certain footnote configuration in a template. The "New" button will make a new template, and the "Delete" button will delete the current one. If no template name is given, the default one will be used. Data is saved in a template only on pressing the "Ok" button.
+
+The same things apply to endnotes and crossreferences.
+Changing Bible notes
+
+A Bible note can be a footnote, an endnote, or a crossreference. This type can be changed. To do that, place the cursor somewhere in the note to be changed. Choose menu Edit / Bible note, and set the new type, and then press OK.
+
+The numbering of the note can be changed in the same way. One can for example change from automatic to manual numbering, and vice versa.
+Pictures
+
+Bibledit has good support for the \fig marker. Pictures are inserted manually, following the USFM standard.
+
+At printing time, Bibledit looks for the picture file in various ways. If an absolute path is given, then it will look for the file there. If a relative path is given, it first looks in <data directory>/pictures, then among Bibledit's template files.
+
+According to the USFM standard, the picture size can be set to "col" or to "span". In addition to that, if the picture size has not been set, Bibledit uses the intrinsic size of the picture. The "span" property is not yet supported at this time. All other properties are.
+View
+
+The text is displayed in formatted form. This means that the raw USFM code is hidden, and instead the code is formatted and is displayed in that form.
+
+If the user wishes to view or edit the raw USFM code, there is a setting for this in menu View / USFM code. If this menu entry is ticked, the raw USFM code can be edited. If the tick is removed it reverts to the normal formatted view.
+
+In the formatted view, the stylesheet will determine what part of the text is formatted and what is left unformatted. If the stylesheet contains all the styles in the document, then everything will be formatted. If a style is in the document, but not in the stylesheet, than that particular style will be shown unformatted, but the rest is still formatted. In this way, by using various stylesheets with more or less styles, Bibledit can be more or less formatted. In this way the user has a lot of flexibility to fine-tune the view. Some styles will always be unformatted.
+
+@node Keyterms, Merging, Editing, Tutorials
+@subsection Keyterms
+
+Keyterms
+
+To start checking terms in Bibledit, in the Checking menu choose Key terms.
+
+A new window will open. This is the "Check keyterms" window.
+
+At the top of the window you can choose which collection of words to check.
+
+The window will also display a list of keyterms in that collection.
+
+Let's check the translation you made for the word "lamb" in the New Testament.
+
+Choose the Flora and Fauna of the New Testament.
+
+In the list of keyterms, locate the first "lamb". Click on the link to activate this keyterm.
+
+Extra information about "lamb" will be displayed.
+
+Any references that have the word "lamb", or should have it, will be displayed as well.
+
+If you'd like to more closely examine or change a passage that has the word "lamb", you can click on the blue reference. For example, when you would click on John 1:36, the editor would then go to that references, and you can change if needed.
+
+Still further down a list of correct renderings for "lamb" becomes visible. Initially this list is empty.
+
+To add a rendering, click once on <Enter a new rendering here>, and then press Enter. Type the word, e.g. "wundlu", and press Enter. You'll find that, if this rendering, the word "wundlu", is found in the texts, it shows it as bold.
+
+A faster way of adding renderings is to select text and then press Ctrl-C as if copying that text to the clipboard. The rendering will be added as a whole word, and if there was any capital in the word, the case sensitive option will be set too.
+
+In the renderings you can set whether a rendering is supposed to be a whole word, and whether the word is case sensitive.
+
+To remove a rendering from the list, click once on the word to be removed, then press Enter, remove the word, and press Enter again.
+Notes
+
+- The keywords are divided into collections. If you select a particular collection, then the keyterms in the other collections are not displayed.
+
+- The renderings are stored with the project.
+
+- If the user clicks a verse, the editor will also display that verse.
+
+- It is possible to have the keyterms in the active verse show up while you are translating. The renderings, if any have been entered, will show up too. This will help the translator, so that he can choose the same rendering if the same keyterms occurs in that verse. To show the keyterms, choose menu View / Keyterms in verse.
+
+- New keyterms can be imported, existing keyterms can be exported, and collections of them can be deleted.
+
+- Some references have the keyterms only implied by their context. That means that the key terms does not occur in the verse literally, but only by implications. To mark such verses correct, select a reasonable part of the verse and add it to the renderings. Then, the verse will be marked correct. Or just leave it as marked incorrect.
+
+@node Merging, Navigation, Keyterms, Tutorials
+@subsection Merging
+
+Merging
+Introduction
+
+At times there may be a need to branch off a translation project, so that two translation projects exists, the main one and the branch. Various people then can work on the branch. After some changes have been made, there may be a need to merge the branched project back into the main project.
+
+Some teams have a main project and an edited project. The main project is maintained by one person. All the members of the team work on the edited project. At times the person that maintains the main project would wish to merge the data of the edited project into the main one.
+
+Bibledit provides the "Merge" tool for the above scenarios and for any other scenario the user can use it for.
+Setup
+
+In order for data of two projects to be merged succesfully, both of the projects need to have what is called a common ancestor. That means that going back in the history of the projects, there must be a moment in time that the data of the projects was the same. Usually this is accomplished by:
+
+1. Making a copy of the main project. The main project remains as it is, and the copy of that project becomes the "edited" project.
+
+2. Exporting a file of one project and importing it into the other one.
+
+So, the setup is simple. Just take one project, or export from one project and import it into the other one. The data of these two projects is now capable to be merged after some changes have been made in the text.
+Operation
+
+So, how does the merge work?
+
+The first step is to open two projects in the same window, so that both of these projects are visible at the same time.
+
+Then open the merge window.
+
+In the merge window, it asks for the master project, and the edited project. If both of these are selected, then the text of the projects will show up in the window.
+
+Any changes are visible in that window. Additions are marked in bold and deletions in strike-through. It is important to know at this stage that any footnotes, endnotes and crossreferences are not marked this way.
+
+If the editor goes to another chapter, the changes will be reloaded.
+
+There are also two buttons in the merge window, one labelled "Previous", and one "Next". These buttons, if clicked, will look for the next or previous chapter that has changes.
+
+Then there is the "Merge" button. Clicking this button starts the merge procedure.
+
+It shows various possible actions to take. These are described below.
+Merge chapter of edited project and master project
+
+Once the merge operation starts it looks through the history of both projects to find the common ancestor for this chapter. It then tries the merge operation. If all went fine, then that's it: The job has been done.
+
+Here follows a bit of a description of the merge process. It is not so that the last change that was made in any of the projects will be taken. It works slightly different. There is the master project, and the edited project. If the user merges these both, then the tool is going to look back in the history of all changes ever made in that chapter, till it finds the point that this particular chapter is the same in both master and edited project. It then looks at the changes made in the master project, and tries to keep these. It also looks at the changes made in the edited project, and tries to keep these too. It then puts both of these changes in a new chapter, and finally saves that chapter in both master and edited project, so that we can truly say that a merge has occurred. The goal is that this chapter is going to be merged, and will after merge be the same in both projects.
+
+If all did not go well, then that means that there were changes in both of the projects that would affect one and the same place. Bibledit does not know in such a case which of the two changes is the correct one, and needs the user to select the correct text. A window will then open showing one or more pairs of buttons. Each button has a label showing the possible text. Clicking on the one button inserts the one text, and clicking the other button inserts the other text. If you click a button, it means that you approve of the text that is in its label. When all places have been corrected, then the OK button at the bottom of the window becomes active. Clicking that saves the text, and ends the merge operation.
+Merge chapter of edited project and master project, and approve of each change as compared to master project
+
+This is an addition to the simple merge procedure as descibed above. The extra thing here is that changes are not automatically accepted. Each change must be approved of manually. A window becomes visible that allows to approve of change. If a button has a "+", then it means there is an addition to the master project. And if it has a "-", then that means that something was deleted from the master project. Approval of a change is made by just clicking the button. Once one or more changes have been approved, if the user clicks the "Save" button, then the changes will be saved in the master project. Change won't be saved to the edited project. If that is desired, as it usually is, then the merge operation should be repeated, with the option chosen to copy the chapter from the master project to the edited project.
+Copy chapter of master project to edited project
+
+This copies a chapter from the master project to the edited project. The chapter to be copied is the one that is visible in the editor.
+Copy everything of master project to edited project
+
+This copies everything from the master project to the edited project. Useful for ensuring that the edited project is the same as the master.
+
+@node Navigation, Notes, Merging, Tutorials
+@subsection Navigation
+
+Internal
+
+There are keyboard accelerators for moving to the next or previous verse, chapter or book. There is also a toolbar with controls for the same purpose.
+
+If going to a next verse, but Bibledit is already at the last verse of a chapter, it will then go to the first verse of the next chapter. Same for the next chapter, if Bibledit is at the last one of a book, it will go to the first one of the next book.
+
+Left on the toolbar there are two arrows. The left arrow takes you to the place in the Bible that you have recently viewed. The right arrow will take you back to where you came from. You can click an arrow several times, if you have viewed enough places.
+
+There is also a keyboard accelerator for going to any Bible reference. This is Ctrl-G. The "G" stands for "Go to". It accepts many different forms of a Bible reference. If the editor displays Matthew 1:10, for example, and the user enters "11", it will go to the next verse. If "2:3" is entered, or "2 3", then the editor will go to Matthew 2:3. If "Gen 1:10" is entered, it will go to Genesis 1:10. And so forth.
+
+Bibledit can remember the most recent verse per chapter, and the most recent chapter per book. This is supposed to assist with the navigation through the Bible and make it faster. It should be enabled in the User interface options.
+
+To move the keyboard focus to a text editor press F5.
+
+Shift+F5 takes you to one of the tools windows. Pressing it repeatedly focuses all open tool windows in sequence.
+
+Ctrl+F5 goes to the project notes window.
+
+Repeatedly pressing the Tab key moves between all windows counter-clockwise, and Shift+Tab moves the focus between the windows clockwise.
+
+Moving with the Up/Down arrow key to a certain verse and then use Alt-Left arrow key jumps back to the verse you started to move from. If you use the Up/Down arrow key several time you can use the Alt-Left arrow key also several times. The Alt-Right arrow key works too. It goes in the history to the next in a whole series of moves.
+
+@node Notes, Planning, Navigation, Tutorials
+@subsection Notes
+
+Bibledit supports a variety of notes that can be made during editing a Bible.
+
+* Project notes: Notes on the translation project.
+
+* Bible notes: Notes on the Bible text, such as footnotes, endnotes and crossreferences.
+
+
+Bible notes
+Introduction
+A Bible note is a note that goes in the Biblical text. It can be a footnote, or a cross reference, or an endnote.
+Inserting
+
+Bible notes can be inserted manually by applying an appropriate note style. For example, if the "f Footnote" style is applied, then a window comes up allowing insertion of this footnote. The same applies to endnotes and crossreferences.
+Editing
+
+Bible notes are marked by a asterisk or character in the editor. Its text is visible at the bottom of it.
+
+The asterisk corresponds to no caller (-), the characters to automatic callers or a given caller in the text.
+
+Removing a note works as you would remove any text.
+
+Notes can be cut and paste in a text (which is only useful in the same verse, if a verse-reference (\fr or \xo) is included.
+
+While editing a note, pressing Page Up takes you back to the main body of text, to the place where the footnote starts.
+Printing
+
+If a project is printed, it will show the footnotes, endnotes, and crossreferences. Printing a list of references does not.
+Placement
+
+Footnotes and crossreferences normally appear at the bottom of the page, inside the column they belong to.
+
+Endnotes normally are printed at the end of all other text. This can be changed in the stylesheet. Edit the style for \fe to change that. The other options are to print them at the end of each book, or upon encountering a certain marker in the text.
+
+Placing endnotes upon encountering a certain marker is the most flexible option. It allows endnotes to be placed exactly where you want them. If this option is switched on, it normally places them where marker \zendnotes is found in the text. You can insert the \zendnotes anywhere, and notes collected thus far will be dumped there. The \zendnotes marker can be repeated as often as you wish. The \zendnotes marker needs to be typed by hand because it is not in the stylesheet.
+Caller
+
+A Bible note has a caller. The style of the caller can be set in the markers, see USFM under marker \f. For crossreferences set it under marker \x.
+
+A "+" prints a caller with automatic numbering, a "-" prints no caller at all, and any other character prints that character as a caller.
+
+The automatic numbering can be influenced in the stylesheet, under marker f for footnotes and under marker x for crossreferences. The numbering 1, 2, 3 ... should be clear, and the numbering a, b, c ... follows the alphabet, and after reaching the z it starts all over again. A user defined numbering sequence can be given too. When for example §†* is given there, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used.
+
+Optionally the automatic numbering can be restarted every chapter or book.
+
+The automatic numbering of endnotes is restarted whenever the notes are printed, either at the end of the book, the end of everything, or upon encountering a certain marker. See the style \fe to set this.
+Paragraph
+
+For a footnote, the \ft style has a full paragraph setting in the stylesheet. Here you can set how the normal footnote paragraph is going to look. For a crossreference, set the style under marker \xt.
+
+For a new paragraph in the footnote, the style can be set under the \fp marker.
+
+
+Project notes
+General
+
+During the process of translation many notes will be made that related to the project.
+
+Project notes are stored in a database, and are independent of any Bible text. That is, whichever project is opened or closed, the notes remain the same.
+Creating and editing project notes
+
+To make a new project note press Ctrl+N.
+
+To edit an existing project note click on the blue reference(s) for that note.
+
+When creating a new note or editing an existing one, the project notes window splits up into two so as to make space for a couple of controls.
+
+Project notes can be deleted by clicking on the blue [delete] link.
+
+Some keyboard shortcuts help while editing notes. An example will show how: The user edits the text of a project. To make a new note, he presses Ctrl+N. He types some text in the note. If he wishes to change to category of the note, he presses Alt+A, then Enter to open the list of categories, then he makes a selection with Up Arrow or Down Arrow and presses Enter to confirm the selection. If he wishes to add some references, he pressed Alt+R and types some references. Alt+O saves the note, and takes the user back to where he was editing the text. Ctrl-I puts the text in italics, Ctrl-B makes it bold, and Ctrl-U underlines it.
+
+When a project note is being edited, the creator of the note can be retrieved through menu View / More information on current note. Other information about this note is visible there as well, like the date it was created, and when it was edited.
+
+Each note falls into a category. The various categories and the default category can be set in the preferences.
+Finding project notes
+
+Menu / Edit / Find in Project notes (Alt+E, N) allows to do Simple searches in the Project notes.
+
+This tool searches exacty (except case sensitive) for the sequence of characters entered into the "Search for" box, punctuation marks and spaces included. Case sensitive can be switched on or off.
+Navigating to the references of a note
+
+Project notes usually have one reference. This is the one for which the note was created. But additional references can be added as well.
+
+These references are shown attached to each note.
+
+There are two ways to get these notes into the references window.
+
+1. Open a note to edit it. In the menu choose Edit - Get references from project note.
+
+2. Click on the blue word [references] of a note.
+
+As a result the references will be loaded in the references window. Once there they can be activated and the text belonging to that reference will appear in the text editor.
+Transferring text from the text editor into the project notes
+
+Many people have one project with the actual text, and a separate project for their project notes. There is a historical reason for doing so. This separate project may have checking questions, answers from native helpers, a history of different renderings, commentary support, notes following consultant checks, and so on.
+
+It would be a lot of work to copy and paste these notes into the project notes one verse at a time.
+
+The tool "Transfer text to project", under the Tools menu, helps you with this.
+
+It transfers all text that is in the currently opened project into the project notes.
+
+It takes a good while to do this.
+Notes overlapping chapters
+
+If project notes need to overlap the chapter boundaries, the reference can be manually entered like, for example: Luke 2:2-3:3. Bibledit will divide this into two parts: Luke 2 verse 2 to the end of the chapter, and Luke 3 verse 1 to 3.
+Showing notes
+
+The settings for which notes to show and how are in the View menu.
+Exporting notes
+
+Project notes can be exported into some formats.
+
+* Bibledit Notes version 3. This is the format used by the current version of Bibledit. In other words, notes exported through this option can be imported in Bibledit.
+
+* ScriptureNotes version 2.0. Notes exported in this format can be imported by Translation Notes Editor 6.0.
+
+To see how these formats looks, just export some text and open the exported text in a text editor.
+Sharing notes
+
+The notes that you make on your computer can be shared with other members of the team. These notes you make will then also be available to the members of the team, and the notes made by any member of the team will also become available to you. 
+
+You can set the sharing up through the Remote Repository Assistant. Normally this assistant sets up project sharing. But it can also set up notes sharing. Just make the appropriate selection at the start of the assistant. It will be good to read the entire section about Collaboration if you need to set it up, since it fully explains the technical details.
+
+Notes are stored in flat files, but selected from an index. If the index for some reason gets corrupted or out of sync, then you can recreate it by either deleting the index manually from directory ~/.bibledit/notes and then restarting Bibledit, or by setting the sharing up again through the remote repository assistant.
+
+Menu File - Project notes - Send / Receive to a manual sync of your notes with the remote repository. Normally the sync is done automatically, though, by default it is done every hour, but you can change this in the remote repository assistant.
+
+@node Planning, Printing, Notes, Tutorials
+@subsection Planning
+
+Planning
+Introduction
+
+Bibledit can assist you in planning the work.
+
+There are three places in the Bibledit menu that are relevant to planning.
+
+1. Preferences / Planning. This is for setting it up.
+
+2. Edit / Planning. This is for editing the planning and status.
+
+3. View / Planning. This shows the planning and reports on progress made.
+
+How it works is going to be explained below by an example.
+Setting up
+
+Go to menu Preferences / Planning. The Planning Setup dialog shows.
+
+The first thing to do in that dialog is to indicate when the project was started.
+
+After that you can enter the tasks that the project consists of. Let's add two tasks, "First draft", and "Final draft".
+
+The last thing to do is to indicate how much time each task takes to complete one chapter. Let's enter three days per chapter for the first draft, and two days per chapter for the final draft.
+
+This sets you up for making a planning and for reporting the progress.
+Updating progress
+
+Once you have set up everything, the next thing to do is to update the progress of the work. This can be done through menu Edit / Planning. If this is chosen, a dialog, called "Planning Edit" shows.
+
+You can edit the project's status. This means that you can tick off which bits of work have been completed.
+
+For making a planning for the shorter term, you can enter which task are supposed to be done.
+Status report
+
+In order to view the status report, choose View / Planning. This should give a report of the progress you make, and the planning.
+
+@node Printing, Project, Planning, Tutorials
+@subsection Printing
+
+Printing
+Introduction
+
+Bibledit can print things like a list of references along with the text, or the whole project, or part of the project, and so on.
+
+Printing is done this way: Bibledit generates a .pdf file, and then opens this file in a pdf viewer. From there it can be printed.
+Font
+
+The font to be used can be set under menu View / Font & Colour / Text.
+
+Additional fonts could be looked for by searching the internet for "Free Unicode fonts" or at http://scripts.sil.org.
+Line height
+
+In the dialog where the font can be selected, there is also a setting for the line height, in percentages. Normally it is on 100%. Setting it to e.g. 200% gives the line a double height. This would for example allow for text and notes to be written between the lines on worksheets.
+Bible notes
+
+These are footnotes, endnotes, and crossreferences.
+Location of .pdf files
+
+The .pdf file for printing a project usually is temporary directory/document.pdf.
+Columns
+
+Normally text is laid out in two columns. The stylesheet editor allows the "span columns" property to be set. This means that a certain piece of content spans the two columns. Biblical content honours this setting, but content from the Front Matter and the Back Matter is laid out in one column.
+New pages
+
+Normally Bibledit prints all the books one after the other, without starting them on a new page. This behaviour is implemented so that normally not too much paper is used. Bibledit can be set to print each new book on a new page, or, going one step further, to have each book start on an odd page. Settings for this are in the stylesheet, under the \id marker.
+Not printing styles
+
+Some styles have the "print" property in the stylesheet editor. If "print" is unticked, then this style won't be printed. This comes in useful when there is some data in the text that you don't want to print this time. Footnotes, for example. The quickest way of doing this is to make two stylesheets. One full stylesheet that prints everything. And one adapted stylesheet that doesn't print footnotes. Just opening another stylesheet in the editor, and printing, makes it work.
+Hyphenation
+
+Normally words are not hyphenated. But if a word does not look well on the printout, and hyphenation is needed, the user can insert a soft hyphen in that word. The "Insert" menu caters for that.
+Layout engines
+
+Bibledit uses an internal engine to lay the text out on the pages. Under normal circumstances the commands that are sent to that engine during printing remain invisible. But there is a setting to make these commands visible, to review or edit them. The setting is under menu Preferences / Printing, tab "Formatter".
+
+Bibledit can also make use of the ptx2pdf macros together with the XeTeX typesetter. More information is provided by UBS. If you have printed something through the ptx2pdf macros, then the files that control this printout are available in /tmp/bibledit/xetex. If you run "xetex document.tex" within that directory, you can do the typesetting again. You can modify the control files there, so as to fine-tune it to what you need. To do complex non-Roman scripts like e.g., Farsi is, you will need the latest version of XeTeX. The one that gets install with the current version of Ubuntu (9.10) may not be good enough. You can pull the most up to date version from the SIL repo. (deb http://packages.sil.org/ubuntu karmic main). With XeTeX you can also print numerals in a different script. See the Questions for more information.
+Links
+
+See also:
+
+Questions
+
+Print portion
+
+
+@node Project, Questions   , Printing, Tutorials
+@subsection Project
+
+Project
+Creating a new project
+
+To create a new project, choose Menu / File / Project / New. The Project Properties dialog opens.
+
+Type the name of the project, optionally make settings and add some books, and click OK.
+Adding books to the project
+
+Adding books to the project can be done in two ways:
+
+1. Add templates for the books immediately when creating a project or later through menu File - Project - Properties. The templates contain some markers, chapter and verse numbers, and in some cases a bit of example text.
+
+2. Add existing books by importing them into the project.
+Deleting books from the project
+
+In menu File - Project - Properties, books can be removed.
+Opening a project
+
+In the editor, just press Ctrl+O, or do it through menu File - Project - Open, and you'll be presented with a list of projects that can be opened. Click the project that you wish to open, or otherwise type the first few characters of the name of that project, and then press Enter.
+Closing a project
+
+A project can be closed with Ctrl+W, or via the menu, File - Project - Close.
+Copying a project
+
+A project can be copied in its entirety to a new name. See menu File - Project - Copy to. This new name will then be an exactly copy of it and can from now on be dealt with as all other projects.
+Deleting a project
+
+Through menu File - Project - Delete a project can be deleted. The project that is currently open is not shown in the list of projects that can be deleted. Non-editable projects are not shown either.
+How to print a project?
+
+Printing a project goes via menu File - Print, then to select "Project".
+
+In that dialog you've the option to include or exclude certain books, and to set which portion of any book will be printed. Remove the tick to exclude it. Focus it, and then press the appropriate button to select the portion to be printed.
+
+Once printed it will open in a pdf viewer, and you can print the whole project or part of it from there.
+
+See also Printing.
+How to compare a project?
+
+A whole project can be compared to another one. Any differences are highlighted.
+
+Words that have been added are printed in bold. Words removed will appear stroked out.
+
+If only the changes are printed, then the references, that have a change, will be loaded in the Reference Area for easy review.
+How to print parallel versions?
+
+See the File menu, then menu Print, then Parallel Bible.
+
+The so called "Parallel Bible" contains parallel versions for only one book, and is intended for producing worksheets for use during translations sessions. The members of the team each get a pile of sheets with all relevant versions printed in parallel on it, verse by verse. Without these sheets each member might have a lot of Bibles strewn about him on the desk, but with these sheets things get more compact. And there will still be Bibles enough on the desk, as many Bibles are not available in electronic format, and hence cannot be printed on the worksheets.
+
+Commentaries can also be printed on the worksheets, provided they are available as projects in Bibledit.
+
+The Parallel Bible will be printed with the currently opened project at the top, and it will print the book that is currently opened. Therefore, to change the first project on the sheets, just open another project, and for changing the book to be printed, just go to another book.
+
+To add another project to your Parallel Bible, press the "Add project" button and select the project to be printed. Added projects can be removed with the Remove button.
+
+Normally all parallel verses are kept together on one page for greater readability. Depending on the number of Bibles printed in parallel, this may leave a lot of whitespace at the bottom of the page. To save paper you can uncheck the option in the dialog, so that the parallel verses no longer are kept together and the paper is filled with text to the bottom.
+
+You can set which portion of the text to print. There are two controls that influence this.
+
+The "Change" button for the portion. This selects which portion to print.
+
+The "Include verses 0" checkbox, whether to include the verses 0 from any of the chapters. Verse 0 is anything before verse 1.
+
+At the end press button Ok to get the Bible in .pdf format.
+How to modify the chapters in a book of the project?
+
+Add a new chapter to a book by inserting the "c" USFM marker, or by choosing Insert - Chapter.
+
+To remove a chapter from a book, choose Edit - Chapter number. In the dialog that comes up, choose "Delete the chapter" and press OK. The chapter that is currently visible will be deleted.
+
+To change the number of a chapter, choose Edit - Chapter number. In the dialog that comes up, choose a new chapter number from the list or enter it manually, and then press OK.
+How to make backups of a project?
+
+See Backup.
+How to view the changes made in a project?
+
+See Changes.
+
+@node Questions   , References  , Project, Tutorials
+@subsection Questions
+
+Questions
+How to get help from the Bibledit community?
+
+* Read all of the online help.
+
+* Search the mailing list archives to see if your problem has been discussed before.
+
+* Subscribe to the bibledit-general mailing list, and ask the question there.
+
+See the Community information for contacts to consult.
+How to run two versions of Bibledit simultaneously?
+
+As there are some drastic changes between versions, it would be helpful to have two different versions running of Bibledit.
+
+This is possible, but not recommended for production work, as they will be overwriting each other's configuration.
+
+Do it this way.
+
+Install the newer version according to the instructions.
+
+When installing the older version, do this:
+
+./configure --prefix=/home/joe/older
+make
+sudo make install
+
+Then to run the older version, type this:
+
+/home/joe/older/bin/bibledit
+
+Joe stands for the user's name.
+How to change the order of the books?
+
+You can fully configure in which order Bibledit displays and prints the books. This can be done in menu, Preferences, Books. Drag the books in the order you desire, and then click OK to save the settings.
+How to modify the place where Bibledit stores its data?
+
+Normally Bibledit stores its data in subdirectory ".bibledit" of the user's home directory, e.g. in
+
+/home/joe/.bibledit
+
+If it is desirable to have Bibledit store its data elsewhere, the solution is simple:
+
+1. Move the current .bibledit directory to the new directory.
+
+2. Create a symbolic link from .bibledit to that new directory.
+
+There is a different way of pointing Bibledit to another data directory.
+
+Changing is not done from within bibledit, but involves some manual work. This is done for the protection of your valuable data. To change the data directory to a new location, do the following:
+
+Quit bibledit.
+
+Open a terminal.
+
+Type command
+
+cd
+
+to go to your home directory. Let's say you prefer to store the data on /mnt/server/.bibledit
+
+Type command
+
+mv .bibledit /mnt/server/.bibledit
+
+to preserve and move existing data. (When there is no existing data, this step is not needed.)
+
+Type command
+
+touch .bibledit-datafolder-pointer
+
+to make a new file in the home directory, that will point to the new data directory.
+
+Open this hidden file in a text editor and put only this one line in it:
+
+/mnt/server/.bibledit
+
+That's it.
+
+Removing file .bibledit-datafolder-pointer will cause bibledit to use the standard datafolder again.
+
+See also information about the data.
+
+Note: It is not recommended to store the data on a Windows partition. In such cases problems have been observed when special characters are used in the project name.
+How to change the order of the books?
+
+You can fully configure in which order Bibledit displays and prints the books. This can be done in menu, Preferences, Books. Drag the books in the order you desire, and then click OK to save the settings.
+How to move about in Bibledit using the keyboard?
+
+Bibledit has several windows to work in.
+
+There are keyboard accelerators for moving between the windows.
+
+What works fine, is the
+How to print a table of contents?
+
+In the example below we're going to learn how to write a table of contents for a project consisting of several books.
+
+The table of contents comes in the book called Front Matter. Therefore, add this book to the project.
+
+Each book that should go into the table of contents should have a USFM indicating this. Therefore, go to chapter 0 of each book and add the \toc2 marker to it. For example, in the book of Genesis, chapter 0 might look like
+
+\id GEN
+\h Genesis
+\toc2 Genesis
+
+Do this for all the books.
+
+Then print the project, and be sure to include all the books, including Front Matter. The table of contents will be there.
+How to create a custom versification system or language?
+
+If the versification system or language you need does not come with Bibledit, then you can create your own language or versification system and add it to Bibledit yourself. To do that, take an existing versification textfile or language textfile from /usr/share/bibledit, edit it, and save it in the data directory, subdirectory templates.
+
+Notes.
+
+The versification files start with versification_, the mapping files with mapping_, and the language files with language_. It is important to keep that first bit, else Bibledit won't recognize the files.
+
+If the name of a template you added is the same as the name one of the templates that come with Bibledit, your template will be taken.
+
+It would be greatly appreciated if you were willing to share the files you have created with others. In that way others will benefit from the work that you have already done. A good way of sharing it with the community is to submit it for inclusion into Bibledit. That way it becomes available to others in the next release.
+How can I count the number of crossreferences in the project?
+
+This can be done through menu Tools, then Bible notes mass update. Tick "Crossreferences", and leave the action to take as "Make no changes but give statistics only". After clicking OK it will give the number of crossreferences in the project.
+Installation
+Commandline instructions give errors
+
+I ran the command line instructions, but got errors - can you help me understand what I did wrong?
+
+Microsoft Windows XP [Version 5.1.2600] (C) Copyright 1985-2001 Microsoft Corp.
+C:\Documents and Settings\User> cd "C:\Documents and Settings\User\My Documents\My Downloads\scricheck-0.2.9"
+C:\Documents and Settings\User\My Documents\My Downloads\bibledit-1.6>
+./configure '.' is not recognized as an internal or external command, operable program or batch file.
+
+Reply: When installing it on Windows, install Cygwin first. See Bibledit's Windows installation instructions. Then execute all commands from within the Cygwin terminal.
+There is no acceptable C compiler in $path
+
+This happens when you did not install a C compiler.Installing Bibledit from source requires a C compiler. This compiler is part of development tools. The installation instructions for Linux, or for Macintosh, or Windows, give instructions on how to install such development tools. If you follow these instructions, the problem will be gone. For example, on Windows, you need to install package "gcc" in Cygwin.
+Problem when Outpost runs on another host
+
+Q. When setting up the Outpost to run on another host, in the settings dialog, when I type in the name of the host, I get this error message: Host <name> cannot be contacted through the network.
+
+A. Points to check:
+
+1. Is the hostname you are entering the one set in Windows on the other host?
+
+2. Try finding out Windows' IP address, and then pinging it from Linux. If that works, enter that IP number in the Outpost Setup dialog.
+
+3. If the IP number changes continually, enter a static IP number in Windows.
+
+4. Is the Outpost installed and running in Windows? It has to be started manually, because Bibledit can't start it over the network.
+
+5. Be sure that the Windows firewall does not block port 51515 for incoming connections.
+
+6. Be sure that you have typed the right IP number. It can be checked by opening a Command Prompt in Windows, and typing "ipconfig". The IP number assigned to the network should correspond with the one you entered.
+General
+The log says: CRITICAL **: database disk image is malformed
+
+This message can be either from the text or the notes database. It has been seen in cases of malfunctioning hardware, such as unreliable memory. The solution is to solve the hardware problem first, and restore the text or the notes from a backup.
+The log says: CRITICAL**: unsupported file format
+
+This is caused by downgrading from a newer version of sqlite3 to an older version. This may occur when the data is moved from a newer version of Linux to an older version. A possible solution is to install the newest version of sqlite3 in your current system. It will then be able to read your data again.
+Bibledit won't start anymore
+
+Try starting it from a terminal, and see what happens. In the terminal type:
+
+bibledit
+
+If it gives a segmentation fault, then there is a problem in your configuration. A simple way to get Bibledit running again is to delete the file ./bibledit/settings and ./bibledit/configuration/configuration.xml. You will loose all your settings, but not your data, and Bibledit should start again after that.
+
+If you wish to have this problem solved, before deleting your configuration files, make a bug report, pack all your data in a gzipped tarball, and attach this file to the bug report.
+
+To go to the home directory, type
+
+cd
+
+To pack everything in a tarball, type
+
+tar -cvf bibledit.tar .bibledit
+
+Then compress the tarball:
+
+gzip bibledit.tar
+
+The resulting file is named bibledit.tar.gz and can be attached to the bug report.
+
+If the problem is not a segmentation fault, but it shows nothing at all, then the bibledit.log file might give a clue. It is in the temporary directory. View the logfile to see what went wrong.
+
+If you try to start bibledit, and a warning comes up that says that Bibledit is already running, then it means that Bibledit already runs somehow. Try switching to that instance of Bibledit that already runs. Or reboot. Or else open a terminal and type "killalll bibledit-bin".
+Bibledit is frozen. How to solve that?
+
+Question: I am completely stopped in my work. I opened a project, but the book of Philemon freezes Bibledit completely. When restarting it, the screen comes up, but none of the menus or buttons work. I cannot scroll. The only button that works is the one to exit the program (which brings up a box giving me the option to force-quit).
+
+Answer: You can change the project from the commandline. In a terminal, type this:
+
+bibledit --general-configuration --write --key project --value testproject
+
+Next time you start Bibledit, it will open project "testproject" - any name will do here.
+
+To change the whole configuration to default values type:
+
+bibledit --general-configuration --reset
+
+The online help does not display
+
+Bibledit's online help depends on Bibledit's internal webserver. The helpfiles only work while Bibledit is running. If you quit Bibledit, online help is not available.
+FieldWorks Language Explorer interferes with Cygwin/X
+
+When Bibledit is running on Windows, FLEx won't start. While FLEx runs, Bibledit will only start after a long delay due to a timeout. It won't have clipboard functionality. The problem is being looked into. The current workaround is to start FLEx first, and after that Bibledit. Alternatively you can start Cygwin's terminal through the Cygwin icon in the Bibledit menu, and in that terminal type "startx", and then "bibledit".
+Project
+When importing data in legacy encoding, can Bibledit use a TECkit map?
+
+Bibledit uses iconv, the standard utility on Linux to convert between various encodings.
+
+Iconv supports a huge amount of standard encodings. Iconv does the same functions as TECkit does.
+
+Bibledit does not at present support a TECkit map, but that is going to change in the future.
+
+At conversion time the user sees how the text is going to look, and can change encodings until the result looks right. If there are a couple of characters not right, the search/replace functionality quickly fixes that.
+Printing
+Bibledit produces .pdf output, but how do I get .html files?
+
+There are a couple of converters on the market, that convert .pdf files to .html. Use a search engine and look for "PDF to HTML", including the quotation marks. This will give you a number of programs to try out.
+Bold does not show up in a printout
+
+Question
+
+Printing a Bibledit project to pdf format, using ArialUnicode and SIL Doulos for it, I had the following problem:
+
+* Feature Bold does not show up,
+
+* Feature Italics shows up.
+
+Trying the same with Open Office Writer and those two fonts, I found out, that both do not show up neither in bold nor in italics.
+
+Answer
+
+SIL Doulos does not have bold.
+
+Try Charis SIL, that does have bold, and works fine with me.
+The footnote caller is detached from the word it belongs to
+
+If the USFM code is properly written, the footnote or crossreference caller is always connected to the word it belongs to.
+
+This is an example of proper code:
+
+Joseph was a good man\f + \ft Or “kind man”.\f*
+
+The following two examples of code will cause the footnote caller to detach from the word it belongs to:
+
+Example one:
+
+Joseph was a good man \f + \ft Or “kind man”.\f*
+
+Note the space between "man" and the "\f".
+
+Example two:
+
+Joseph was a good man
+\f + \ft Or “kind man”.\f*
+
+In USFM a new line is equal to a space, hence there is a space between "man" and the "\f" here also.
+
+Many older projects started a new line for each marker, also for the footnotes. This needs correction in the current system. All note markers (footnotes and cross-references) should not start on a new line, but follow immediately the word it belongs to (without even a space).
+
+Note that in newer versions of Bibledit the \f ... code for footnotes is no longer visible - only the note itself is visible.
+The footnote caller touches the next word
+
+If the caller at the bottom of the page touches the footnote text, then you can increase the left margin of the footnote text. In the stylesheet editor, edit the left margin of the Text, marker \ft, and if necessary also for the Paragraph Mark, marker \fp.
+
+Same applies to the Crossreferences. Make the setting under marker \xt.
+Adobe Reader does not load a printed document
+
+This may occur in case Adobe Reader has a document loaded already. A subsequent document, printed by Bibledit, may not load in the Reader. Newer versions of the Reader do not have this problem.
+Navigation
+BART does not scroll with Bibledit
+
+There can be various causes for this.
+
+Cause 1. Has Bibledit Windows Outpost been installed?
+
+Cause 2: Does it say "Windows Outpost: Connected" in the logfile?
+
+Cause 3. When BART runs under Wine, did you install Bibledit Windows Outpost in Wine too? Or when you installed BART in CrossOver Office, e.g. bottle "win98", did you install the Outpost in the same bottle too? The wine installation constitutes a separate Windows machine, and each bottle in CrossOver Office also constitute each their own Windows machines. The system BART uses for scrolling requires that it be accessed from the same Windows machine. This means that if you installed BART in a certain bottle in CrossOver Office, e.g. bottle "win98", then for scrolling to work, the Outpost needs to be installed in that same bottle too.
+
+Cause 4: Did you set BART to receive references?
+
+Cause 5: If you used CrossOver Office instead of Wine, then you need to start the Outpost manually through the CrossOver menu. It needs to be started each time before you start Bibledit.
+BibleTime does not scroll with Bibledit
+
+Read some more info on BibleTime.
+
+View the Logfile in the Help menu to ensure that there is a line that says "BibleTime: Connected", and that there are no "BibleTime: " lines saying anything wrong. If everything is right, then scrolling should occur.
+
+Bibledit uses "dcop" to send scrolling commands to BibleTime. This can be seen working by ticking menu Preferences / Debug. Then go to another verse, view the logfile, and see a "BibleTime: dcop ..." command there. If this command is there, then Bibledit's job has been done, and if there is still no scrolling, the problem lies with either dcop or BibleTime. You can verify this by executing the dcop command from a terminal and see whether BibleTime scrolls, e.g. by typing
+
+dcop bibletime BibleTimeInterface syncAllVerseBasedModules 3John.1.8
+
+Scrolling does not work when the Outpost runs on another host
+
+Some points to check:
+
+1. Ensure in the Windows Outpost preferences that Bibledit can contact the other host.
+
+2. Did you start the Outpost manually on the other host? Bibledit won't be able to start it over the network, hence Outpost needs to be started manually.
+
+3. Bibledit uses port 51515 to contact the Outpost. Ensure that this port is opened in your firewall on Windows. If this port is closed, Bibledit can't communicate with the Outpost.
+Export / Import
+It says that the SWORD compiler was not found
+
+The SWORD compiler is part of the SWORD API. Bibledit uses this compiler to export a project to SWORD format.
+
+The most likely problem is that you did not install SWORD from source, but from a binary package. Binary packages do not always install the compiler. If you install SWORD from source, or install the development version of libsword the compiler will be installed too.
+
+The compiler used is a program called osis2mod. If the compiler has been installed, but Bibledit still cannot find it, the problem might be that the compiler has not been installed in the program search path. Type
+
+echo $PATH
+
+in a terminal to see the program search path.
+While exporting to SWORD, all text within my speech markers disappears
+
+All text between the speech markers disappears when exporting to SWORD. E.g.
+
+And Jesus said: <<I am he>>.
+
+Everything between << and >> disappears.
+
+This is a bug in the current SWORD compiler. The bug has been reported.
+
+A workaround is to use the Unicode speech markers, e.g.
+
+And Jesus said: «I am he».
+
+Segmented verses like 1a do not show in SWORD export
+
+SWORD currently does not support segmented verses, like verse 1a. To prevent problems Bibledit just takes any "a" or "b" out from the verse. SWORD needs to be updated to support this.
+Marker <some marker> does not show properly in BibleTime
+
+Question: I have used the \mi formatting in the list of names in Acts 13:1. The output to BibleTime lists the \mi paragraphs on separate lines, but the font is changed from my default font for that language, and there is no indenting. Under the form for editing the style for \mi, I don't see a place to select the font. And the default indenting of each line at 6 mm from the left seems right. So is this a problem of what Bibletime can display? (That might explain the lack of indenting, but it seems that the font should not change.)
+
+Answer: For any marker, not only the \mi one, the output Bibledit generates for the Sword compiler can be seen in the temporary directory/sword_osis_input.txt. In this case, that of the \mi marker, it can be seen that no indenting information is passed to BibleTime, nor any font information.
+
+This implies that the font problem is a problem of BibleTime, and that the indenting is not done because it does not get the information needed. If somebody knows how to pass indenting information to BibleTime, pls. let the programmer of Bibledit know and he can put that information in.
+Logfile
+Pango-WARNING
+
+Question: When opening Bibledit and project NIV, the logfile says "(bibledit:7567): Pango-WARNING **: Error loading GSUB table 4097". I'm not sure what the warning means. The project goes ahead and opens.
+
+Reply: This is not an issue with Bibledit, but with the Pango library Bibledit is using. Most likely you are using a font that Pango has a problem with. Problems with Pango can be reported at www.pango.org.
+Webserver: Address already in use
+
+Remark: On starting Bibledit sometimes the logfile says "Webserver: Address already in use".
+
+Reply: This happens after Bibledit crashed and is restarted after that. The internal webserver cannot function properly because the previous one is still running. To solve the problem, quit and start Bibledit once more. It is hoped that as from Bibledit version 4.1 the internal webserver will have been replaced by a proper webserver such as Apache.
+Printing numerals in a different script
+
+Question: How can I print the digits in Farsi script?
+
+Answer: According to the USFM standard one can use the \cp marker to print a different number for the chapter number. And one can use the \vp markup to do the same for the verse. But this is not well supported by Bibledit. XeTeX has a "font mapping" option that allows a Unicode->Unicode TECkit mapping table to be associated with a font; by using such a mapping that converts Latindigits to Farsi ones, the \c numbers can be printed in the desired numeral system without any special preparation needed in the USFM file, and similarly for \v, page numbers, cross-references, anywhere you might want to apply it.
+
+To get this to work in Bibledit, the following is important. On Debian and derivatives such as Ubuntu, install package "texlive-lang-arab" and font "ttf-sil-scheherazade". The Arab package provides the TECkit mapping with the Farsi digits conversion, and the font package provides a font that has been proven to work with XeTeX. Other fonts might work as well. Once these two packages have been installed, open the Farsi text in Bibledit, and set the Arabic font in the View menu, so that the text in the editor is real Farsi. The press Ctrl-P to print, and choose the option to print via de pdf2ptx typesetter. In the Print Settings window, choose Options, and switch to the Mapping tab. Select file "farsidigits.tec". If the Arab package was installed properly, then this TECkit mapping will be available in folder /usr/share/texmf-texlive/fonts/misc/xetex/fontmapping/polyglossia. After pressing OK, everything should work out well, and after some time the Farsi document should show up. It is important to choose the "arab" shaping engine, so that the letters and words are properly spaced. On Ubuntu there is a package called ttf-farsiweb which may have good fonts. A font called Nazli gave good results.
+
+@node References  , Related Verses  , Questions   , Tutorials
+@subsection References
+
+References
+Introduction
+
+When speaking about references, we refer to the list of references available in the references window. It is a list of verses, e.g. Genesis 2:2.
+How to load references?
+
+References are loaded in the references window.
+
+References can be loaded as a result of:
+
+* A search operation.
+
+* Opening a list of references, through menu View / References, then click [actions] and then "Import a list of references".
+
+* Checking.
+
+* Getting them from a projectnote.
+
+When a list of references is opened, up to three words can be chosen to be highlighted in the text editor, when a reference is activated in the references window.
+How to go to a reference?
+
+The references list is used to quickly navigate to the verse referred to. Just click on the reference and Bibledit presents that verse in the text editor.
+
+Navigation aids:
+
+* Next Reference (F6): Actives the first reference, or if one is active already (except the last one), the next one.
+
+* Previous Reference (Shift+F6) Actives the first reference, or if one is active already (except the first one), the previous one.
+How to save references?
+
+A list of references can be saved through menu, File / Export. See information about exporting data.
+How to hide references?
+
+Any references that are at present in the references window can be hidden for the future. Click [actions], then "Hide ... from now on". It won't come back in the future.
+
+The list of references that has been hidden can be seen and edited via [actions], then "Manage the hidden references".
+How to print references?
+
+To print references, including the text they refer to, type Ctrl+P or choose menu File - Print. Follow the screen.
+How to go back to an original reference?
+
+When working in a text and going to another reference, it is important to have a way to go back to the original reference.
+
+The Previous/Next in the toolbar (green arrows to the left/right) can be used to go to the the original reference in the text editor. This is the text before any reference of the references window was activated.
+How to copy the references to the clipboard?
+
+Select the text to copy with the mouse, and press Ctrl-C. This will copy the selected text to the cliipboard.
+
+
+@node Related Verses  , Revert  , References  , Tutorials
+@subsection Related Verses
+
+Related verses
+
+All the verses in your translation have other verses related to it in some way. To see these related verses, choose menu View / Related verses. A new window will open. This is called the Related verses window.
+
+This tool may be very useful during translation. If you ever had to translate a difficult word, and can't remember how this word was translated before, then the Related verses window may show you the related verse. If you then click on that verse, you may be able to find out how again this word was translated.
+
+
+@node Revert  , Searching  , Related Verses  , Tutorials
+@subsection Revert
+
+Revert
+
+Bibledit stores every single change that has been made in the text of the Bible.
+
+You can go back to any date in history, when the text was edited, and view how the text looked at that date, or even revert the text to that state.
+
+This can be done through menu Edit / Revert.
+
+@node Searching  , Spelling  , Revert  , Tutorials
+@subsection Searching
+
+Searching
+Introduction
+
+Through menu Edit the Find menu can be opened. The same can be done through the keyboard shortcut Ctrl+F.
+
+A list of hits will show in the references window.
+Basic Find
+
+Menu / Edit / Find (Ctrl+F) searches exacty (except case sensitive) for the sequence of characters entered into the Search for box, punctuation marks and spaces included. Case sensitive can be switched on or off. Searching can be limited to the current book.
+
+Example: Searching for "ue. t" (without the quotation marks) shows all the references with the words: true. The.
+
+Note that for the text to actually display, you have to hit one of the search results.
+Advanced Find
+
+Menu / Edit / Find (Ctrl+F, Ctrl+F) allows more complex searches than the Basic Find:
+
+* Search box to enter text.
+
+* Case sensitive: on or off.
+
+* Search in curent book only: this limits searching to the current book.
+
+* Interprete * and ? as wildcards: on or off.
+
+* Match start of word: on or off.
+
+* Match end of word: on or off.
+
+* Select books: some books (all), for details see Select books.
+
+* Which area of the text to search in.
+
+* What to do with the search results. This gives the choice how the results will show up in the references window, see Loading results below.
+
+There are two wildcards. The ? and the *. The ? means "any single character". If one were to search for "p?t", and ticks the option for wildcards, then the search will hit results like "pit" and "put". The * works similar, but means "zero or more characters".
+
+Searches can be done in certain areas of the text. When searching in the raw USFM text, then one searches in the text as it is stored, e.g. one can search for markers too, like \add. When searching in all the text except the USFM codes, one searches in the text as it will appear on the paper when printed. This means that searching for markers is not possible, as these will be hidden on the paper. When searching in certain categories, one can limit searches to, let's say, only the introductions, or only the verse text, or only headings and identifiers, and so forth.
+Loading results
+
+Once an advanced or BibleTime search has been done, one can decide how they interact with what is already in the references window.
+
+* The search results can simply be loaded in the references window, and so replace anything that is already there.
+
+* Or the search results can be added to the references already there.
+
+* Or they can be removed from the references already loaded.
+
+* Sharing the search results with what is already in the references window means that only the references that are the same will be kept in the references window, and the other ones will be discarded.
+
+In the case that in a Special Find the option: 'Share them with the ones already in the references window' is chosen, and this special find with this option is repeated several times, several groups of characters can be highlighted in the text editor (as a result from the different searches) when a reference is activated in the references window.
+Find and Replace
+
+Menu / Edit / Find and Replace (Ctrl+R) searches for and replaces text. It goes like this:
+
+Press Ctrl+R to start the find & replace. Enter the word to search for, and the word to replace it with. Optionally make settings like case sensitive, searching in current book and/ or chapter, or select the books to operate on. Press Find to start the operation.
+
+A new dialog will open. It shows the verse to be affected, e.g. Esther 6:5. It also shows the original text as it is before changing. This is in the top half of the dialog. Below that it shows the suggested text as it would be after change. If you want to make changes to the suggested replacement, then you can edit this in the lower half of the dialog.
+
+Once you are satisfied that the change is going to be the one that you want, then you can press button Yes. Press No if you don't want to change this verse. Or press Cancel to stop changing. If you press button All, it would change this verse and all following relevant verses. Be careful with this option. It could change instances that you may not have wanted to change.
+Finding Project Notes
+
+See Project Notes for more information.
+
+@node Spelling  , Styles, Searching  , Tutorials
+@subsection Spelling
+
+Spelling
+
+Bibledit includes a spelling checker. If a word is misspelled, it will be underlined in red. If the user clicks on that word with the right button of the mouse, a menu appears that allows the user to handle this word.
+
+This is basically all what it involves. A more detailed description follows below.
+
+Spelling checking is switched on or off in the Project properties dialog. If "Check spelling" is ticked, then the spell checker is switched on, else it is off. When switching the spelling checker on, and if there are no dictionaries added yet to use, then naturally all words are considered misspelled.
+
+Adding dictionaries is done in the same dialog. Button "Dictionaries" gives access to all available dictionaries on the system. If that button is clicked, then a dialog "Dictionaries" opens. More help is available about this.
+
+If a word is misspelled, and the user clicks on it with the right button of the mouse, then a menu with Spelling suggestions opens. These give possible corrections for the word. If one such suggestion is chosen, then the word will be replaced with that suggestions. It also is possible to add the misspelled word to the dictionary. It will be added to the first editable dictionary in the list of dictionaries. Another option is to Ignore all. This means that for this session the misspelled word is ignored.
+
+Notes.
+
+1. There is some information about how apostrophes in e.g. "it's" are handled.
+
+2. The Check menu allows the user to go to the next or to the previous spelling error. If the user does this, the cursor will move to another spelling error. If there are no more spelling errors to go to, it will go to another chapter.
+
+3. It is possible to approve misspelled words in bulk. See menu Check / Spelling / Bulk.
+
+@node Styles,  , Spelling  , Tutorials
+@subsection Styles
+
+Styles
+Styles
+What is a style?
+
+Styles mark the parts of discourse that a block of text belongs to, and secondly determine how the text will look when printed.
+
+Styles are given in the text with markers, or more fully Unified Standard Format Markers, shortened USFM.
+
+Styles are bundled in a stylesheet.
+
+Each project has one stylesheet attached.
+How do I access the style functions?
+
+This will be discussed later on this page.
+How do I search for a particular style?
+
+If you know which category the style is in, expand that category and locate the style.
+
+Else expand all categories through function Expand all, then focus the Styles Area, and start typing the first couple of letters of the style marker (not the style name). The cursor will move to the style you look for. Pressing the up arrow or down arrow will take you to the previous or next category that starts with these letters.
+How to insert a style?
+
+Do it through function Insert.
+
+The style will be inserted at the cursor postion.
+
+There are styles that have a begin- and end marker, and if a word has been selected, and such a style is chosen, the selected word will be put in that style.
+What are categories?
+
+Styles have been divided into categories for better overview. See USFM.
+
+The categories can be expanded or collapsed.
+
+There is a category called "Other styles". Any styles Bibledit does not know where to put go into this category. If somebody defines his own styles, these styles will go into this category.
+How can I change something to the styles?
+
+To start editing a style, check the Edit mode.
+
+When there is a small tick at the left of the Edit mode, like so: √ Edit mode, then the mode is checked, else it is unchecked.
+
+Once the Edit mode is on you can start using the editing functions in the menu.
+How can I create a new style?
+
+Do it through function New.
+
+If the style is known in Bibledit's templates, it will fill all the values in for you. The values can be edited.
+
+Else, after you've created the new style, edit the style.
+How can I edit a style?
+
+Through function Properties.
+
+This will bring up a window where you can edit this style.
+
+The style determines how the text affected by it will look once printed.
+
+All styles should speak for themselves.
+
+Notes:
+
+* Where there is the choice to span two columns, this refers to the two-column layout normally used in a Bible. A major header normally spans these two columns, but a minor header does not.
+
+* A paragraph can be a main title, a subtitle, a section heading, a normal paragraph, and so on. At present these settings are used during exporting a project to SWORD.
+How to delete a style?
+
+In the Styles Area, select the style or the styles you wish to delete, and choose the Delete function.
+What are the recently used styles?
+
+When a style has been inserted in the text, it will then also be displayed in the category "Recently Used", and will be accessible from there too. A maximum of 30 styles will be displayed. The styles are sorted on usage count, and the most used styles appear at the top of the list.
+
+When a style has been inserted in the text, it will then also be displayed in the category "Recently Used", and will be accessible from there too.
+
+These recently used styles are attached to the stylesheet. This implies that if another stylesheet is opened, the recently used styles may change.
+
+These styles can be deleted. Just select the style or styles you wish to delete, and choose the Delete function. Or select the category itself, and delete it.
+
+If any style is deleted, and this style happens to be in the recently used category, it will be removed from there also.
+Stylesheet
+How do I switch to another stylesheet?
+
+A stylesheet can be opened through function Stylesheet - Switch.
+
+The new stylesheet will be attached to the project that is open.
+How do I create a new stylesheet?
+
+Choose function Stylesheet - New. More information is available.
+How do I rename a stylesheet?
+
+Choose function Stylesheet - Rename.
+How can I delete a stylesheet?
+
+Choose function Stylesheet - Delete. A list of available stylesheets comes up. The one currently opened is not shown so that it cannot be deleted by accident. Select a stylesheet and press Ok. The selected stylesheet will be deleted.
+How to export or import a stylesheet?
+
+That's done through function Stylesheet - Export or Stylesheet - Import.
+
+A stylesheet is exported as a database. This database contains all the individual styles that are in that stylesheet. It asks for a filename, adds the right extension to it, and then saves the file, for example, as "Standard.sql5".
+
+This same database can be imported in Bibledit.
+
+Thus stylesheets can be shared among users.
+
+
+
+Functions that work with styles are used in various ways.
+Working in the Stylesheet window
+
+To focus the Stylesheet window, do any of the following:
+
+* Choose menu File / Styles.
+
+* Or click in the Stylesheet window.
+
+* Or press Shift+F5 once or more until the Stylesheet window has focus.
+
+* Or press Ctrl+S.
+Working with styles
+
+The first thing to do when working with styles is to focus the Stylesheet window.
+
+If the categories are still collapsed you can expand them. Focus the category and expand it.
+
+Then you can use the up or down arrows to move the cursor to a particular style, or click on a style.
+
+* Then choose menu File / Styles, and then one of the functions.
+
+* Or right-click in the Stylesheet window and choose one of the functions from the Styles pop-up menu.
+
+* Or press Shift+F10 to open the Styles pop-up menu, and choose one of the functions.
+
+Double-click a style to insert it in the text, or when the Edit mode is on, to edit this style.
+
+If the focus is on a style you can press Enter to insert that style.
+
+You can press Insert to create a new style, and Delete to remove a style, provided the Edit mode is on.
+Working with stylesheets
+
+The first thing to do when working with stylesheets is to open the Stylesheet submenu. To do this:
+
+* Choose menu File / Styles / Stylesheets, and then one of the functions.
+
+* Or right-click in the Stylesheet window and choose function Stylesheets, and then one of the functions from the Stylesheets submenu.
+
+* Or in the Stylesheet window press Shift+F10 to open the Styles pop-up menu, choose function Stylesheets and choose one of the functions in that submenu.
+
+
 @node Management, Resources, Tutorials, Top
 @chapter Management
+
+@menu
+* Data::                        
+@end menu
+
+@node Data,  , Management, Management
+@subsection Data
+
+Data
+
+Your data is valuable.
+
+The directory where Bibledit normally stores all its data is
+
+.bibledit
+
+in the user's home directory, e.g.
+
+/home/joe/.bibledit
+
+On Windows it may be in C:\Documents and Settings\<user>\.bibledit or C:\Users\<user>.
+
+If your data consists of a Bible that you translate, many years of work may have gone into it. It deserves maximum safety.
+
+Bibledit offers a variety of mechanisms that deal with your data.
+
+First there is the mechanism of Backup. A backup makes an exact copy of your data and stores it onto some medium.
+
+A Restore is the opposite of a backup. It takes that backup that was made earlier, and restores it into your data.
+
+Then, there's Import. It takes data in another format, and adds it to your own data.
+
+Finally, there's Export. It is the opposite of an import. It takes your data and exports it into another format.
+
+
+Backup
+
+To keep your data safe, it is important to make regular backups of your work.
+
+To make it easy to create a backup, Bibledit provides the Backup Assistant.
+
+
+Export
+Bibledit can export its data into other formats. The Export Assistant helps with this process.
+
+
+Import
+Importing your data is an easy way of getting data into Bibledit. The Import Assistant helps you with this.
+
+
+Restore
+To keep your data safe, it is important to make regular backups of your work. These backups can be restored if there is a need for it. The Restore Assistant helps you with it.
 
 @node Resources, Reference, Management, Top
 @chapter Resources
 
+4 Resources
+Resources consist of data that can be imported into Bibledit, or external programs that can work together with Bibledit.
+
+@menu
+* BART  ::                      
+* Internal Resource  ::         
+* Texts in USFM Format  ::      
+* Translator's Workplace::      
+@end menu
+
+@node BART  , Internal Resource  , Resources, Resources
+@subsection BART
+
+BART
+Introduction
+
+BART provides Biblical resources.
+
+Bibledit can send references to BART. There is an option for this in Bibledit, menu Preferences - Reference exchange. It sends these references through Bibledit Windows Outpost. This implies that the Outpost should be set up too. BART needs to be set to receive references.
+Installation
+
+Ensure you've got Wine installed.
+
+Insert the CD of Translator's Workplace.
+
+Ensure the CD-ROM gets mounted, that is, you have access to its contents.
+
+In a terminal, type
+
+wine /media/cdrom/BART2_6/Bart26Install.EXE
+
+The version numbers 2 and 6 depend on the version you have and may have to be adjusted. Your cdrom location may be different too.
+
+Follow the instructions on the screen and finish the installation.
+Use
+
+To start BART, type
+
+wine "c:\Program Files\SIL\BART\Bart26.exe"
+
+Notes
+
+This information about BART is old. Anybody with access to newer versions of BART, and willing to update the page above?
+
+
+@node Internal Resource  , Texts in USFM Format  , BART  , Resources
+@subsection Internal Resource
+
+Internal Resource
+Introduction
+
+Bibledit allows you to view Resources that scroll in sync with Bibledit.
+
+If Bibledit shows a certain verse, the Resource will show the same verse.
+Operation
+
+A Resource can be opened through File / Resource / Open.
+
+A Resource that has the focus can be closed through File / Resource / Close.
+
+A new Resource can be created through File / Resource / New.
+
+A Resource that has the focus can be edited through File / Resource / Edit.
+
+A Resource can be deleted through File / Resource / Delete.
+
+To let the Resource scroll together with Bibledit, tick the appropriate box in menu Preferences / Reference exchange.
+
+@node Texts in USFM Format  , Translator's Workplace, Internal Resource  , Resources
+@subsection Texts in USFM Format
+
+Texts in USFM format
+Standard Bible texts for import
+
+Some standard texts have been provided by the community.
+
+These are listed below.
+
+UBS Greek Text. Comment: This server is in Jakarta, and extremely slow if you are not on that side of the globe. For use in Bibledit, I would recommend using the wonderful SIL Gentium font for the text display font.
+
+Word English Bible. Comment: World English Bible in USFM form.
+
+King James Bible. Comment: KJV in USFM form. Link at bottom of the left frame.
+
+Shortcuts to the above two, and other ones:
+
+http://eBible.org/asv/asvsf.zip
+
+http://eBible.org/hnv/hnvsf.zip
+
+http://eBible.org/kjv/kjvsf.zip
+
+http://eBible.org/web/websf.zip
+
+http://ebible.org/pdg/tokpisinsf.zip
+
+
+@node Translator's Workplace,  , Texts in USFM Format  , Resources
+@subsection Translator's Workplace
+
+Translator's Workplace
+Introduction
+
+Translators's Workplace provides Dictionaries, Commentaries and other useful reference works.
+
+If Translator's Workplace were to run properly on Linux through Wine, then Bibledit would be sending references to it. There is an option for this in menu Preferences - Reference exchange. It would be sending them through Bibledit Windows Outpost. But as Translator's Workplace does not run properly on Linux, none of this works.
+Installation
+
+Ensure you've got Wine installed.
+
+Insert the Translator's Workplace CD-ROM in the drive and mount the drive.
+
+In the terminal type
+
+wine /media/cdrom/SETUP.EXE
+
+Follow the instructions on the screen to install Translator's Workplace.
+
+To copy infobases to your harddrive, copy them from the CD-ROM to the directory where the infobases are supposes to be stored. Type
+
+cp /media/cdrom/NFO/* "/home/joe/.wine/drive_c/Program Files/SIL/TW4/nfo"
+
+where "joe" is your username.
+
+Unmount the CD-ROM, insert the Library CD and mount the CD drive, and copy all infobases on that CD also, using the same command.
+Use
+
+To run the program type
+
+wine "c:/Program Files/SIL/TW4/Views.exe"
+
+Once in Folio View, click the Open button and navigate to nfo, then open TWMenu4.nfo, and things will be ready for use.
+
+Clicking some links to open other infobases for some reason does not work, but if these infobases are opened manually, they can be viewed.
+
+Teus Benschop - Dec 20, 2009 11:00 PM
+
+The above information seems to be outdated. If you have got newer information, please update the pages.
+
+
 @node Reference, About, Resources, Top
 @chapter Reference
+
+
+
+@menu
+* Changes Log     ::            
+* Elastics    ::                
+* Internals    ::               
+* Keyboard Accelerators    ::   
+* Menu    ::                    
+* USFM  ::                      
+@end menu
+
+@node Changes Log     , Elastics    , Reference, Reference
+@subsection Changes Log
+
+(Do last - reccommend a formal ChangeLog file and a link to the latest noted here.)
+
+@node Elastics    , Internals    , Changes Log     , Reference
+@subsection Elastics
+
+Elastics
+
+In the example below we wish to print a cover with the word "Bible" in the middle.
+
+To do that, the following code is put in the book "Other Material":
+
+\zelastic
+\mt Bible
+\zelastic
+
+The picture below shows how the page looks like and how the elastics have been used to achieve the vertical outline of the word "Bible".
+
+elastic
+
+The first "\zelastic" line connects the first elastic to the top of the page. The other side of this elastic is connected to the sign "Bible". Then from this sign, another elastic goes to the bottom of the page. These two elastics will then be stretched, and thus pull the word "Bible" to the middle of the page.
+
+This it how it basically works. More elastics can be added, e.g. if another elastic would be added below the last, the result would be that the word "Bible" would move up.
+
+Consider the following code:
+
+\zelastic
+\mt Bible
+\zelastic
+\mt3 Bible Society
+
+(Image on web page - retrieve and embed.)
+
+This puts "Bible Society" at the bottom of the page, and "Bible" in the middle, using two elastics. This shows another property of elastics: whenever elastics are used on a page, the whole page is filled, either with text, as in this example, or with white space.
+
+Note. Elastics works in layouts with one column. A feature request for support in two-column layouts can be submitted, if this is needed.
+
+@node Internals    , Keyboard Accelerators    , Elastics    , Reference
+@subsection Internals
+
+Internals
+Introduction
+
+This page describes the internals of Bibledit. That is, it gives technical specifications and information about how Bibledit works internally.
+Temporary directory
+
+The directory where Bibledit stores all temporary working data is in directory
+
+/tmp/bibledit
+
+Stylesheets storage
+
+The stylesheets, as templates, are xml files, stored in <data directory>/stylesheets. Same for imported and exported stylesheets, except that they are zipped.
+Data storage
+
+Data, that means, the USFM files, are internally stored as flat files, one file per chapter. This gives faster access to the data. The files are stored in <data directory>/projects/<project name>, along with other files related to this project.
+Bibledit Windows Outpost
+
+The Outpost allows Bibledit to interact with Windows related stuff.
+
+The Outpost does not have any visible functionality of its own.
+
+For communication to take place, Windows Outpost needs to use the same emulator as the other Windows programs you use on Linux. This means that if you install BibleWorks using Wine, then Windows Outpost must also be installed on Wine. And if you use CrossOver Office, then you need to use CrossOver Office for both, and both need to be installed in the same bottle.
+
+Bibledit connects to the interface on the Outpost, and communicates through that channel. This TCP/IP interface listens on port 51515.
+
+For diagnostics or control you can connect to it. In a terminal type
+
+telnet localhost 51515
+
+The following commands are recognized.
+
+BibleWorksReferenceGet
+
+This returns the reference that BibleWorks now displays.
+
+BibleWorksReferenceSet Mat 1:1
+
+This causes BibleWorks to scroll to Matthew 1:1.
+
+SantaFeFocusReferenceGet
+
+This returns the reference that is displayed by programs that work with the SantaFeFocus system, such as Paratext.
+
+SantaFeFocusReferenceSet MAT 1:1
+
+This lets programs, that work with the SantaFeFocus system, display Matthew 1:1.
+
+SantaFeFocusWordSet Saviour
+
+This lets programs like Toolbox, that work with the SantaFeFocus system, jump to the word "Saviour".
+
+Version
+
+This gives the version number.
+
+Hide
+
+This hides Bibledit Windows Outpost.
+
+Show
+
+This shows Bibledit Windows Outpost.
+
+Quit
+
+This disconnects from Bibledit Windows Outpost.
+
+Exit
+
+This exist Bibledit Windows Outpost.
+
+Open http://domain.org
+
+This opens a html or pdf file. Works on Windows only.
+
+All this information is not really needed in normal cases. Bibledit takes care of it.
+
+Outpost version 1.7 and later have support for the Online Bible. See the examples below of what can be done with it.
+
+OLB Connect
+
+Connects to the Online Bible.
+
+OLB GetVersionList
+
+This gets the list of abbreviations of Bibles that the Online Bible provides, e.g. AV.
+
+OLB GetVersionTitleList
+
+This is like "GetVersionList", but it provides the full titles, e.g. AV - 1769 Authorized Version.
+
+OLB GetBookNamesForVersion
+
+This gets the list of names of the books that is in a certain version. The version is to be provided, e.g.: OLB GetBookNamesForVersion AV.
+
+OLB GetBookAbbreviationsForVersion
+
+This is like GetBookNamesForVersion, but it provides the abbreviations.
+
+OLB GetChapterCountForBook
+
+This gets the number of chapters in a book. The version has to be provided, and the book abbreviation, e.g.: OLB GetChapterCountForBook AV Ge.
+
+OLB GetVerseCountForChapter
+
+This gets the number of verses in a chapter. The version has to be provided, then the book abbreviation, then the chapter number, e.g. "OLB GetVerseCountForChapter AV Ge 1".
+
+OLB GetVerseText
+
+This gets the text of a verse, e.g.: OLB GetVerseText AV "Ge 1:1". Notice the use of quotes.
+
+OLB GetSearchList
+
+This searches a version in for some text. Sample:
+
+OLB GetSearchList AV "Noah"
+
+You can add a "T" at the end to make it a phrase search, and a "F" to make it a word search. A space should be before the T or the F.
+
+OLB ShowPassage
+
+Scrolls the Online Bible to the passage, e.g.: OLB ShowPassage AV "Ge 2:4". Quotes are needed.
+
+OLB GetPassage
+
+This receives the focused passage from the Online Bible.
+
+OLB Disconnect
+
+Disconnects from the Online Bible.
+Floating windows
+
+All the windows of Bibledit are floating and can be resized. If a new window is opened, then Bibledit will look for the largest available open space, and place the window there. It will also size the window so that it fills that open space. If there is no sufficient space available to place a window in, then Bibledit will look for the largest window, make it half the size, and place the new window in the open space so created.
+
+@node Keyboard Accelerators    , Menu    , Internals    , Reference
+@subsection Keyboard Accelerators
+
+Keyboard accelerators
+
+Accelerators are keystrokes that accelerate access to certain functions.
+
+Ctrl-X: Cut to clipboard.
+
+Ctrl-C: Copy to clipboard.
+
+Ctrl-V: Paste from clipboard.
+
+Ctrl-Z: Undo.
+
+Shift-Ctrl-Z: Redo.
+
+Ctrl-1, Ctrl-2, Ctrl-3, Ctrl-4: Insert standard text into project note.
+
+Ctrl-N: Create new project note.
+
+Alt-DownArrow: Go to next verse.
+
+Alt-UpArrow: Go to previous verse.
+
+Alt-PageDown: Go to next chapter.
+
+Alt-PageUp: Go to previous chapter.
+
+Ctrl-Alt-PageDown: Go to next book.
+
+Ctrl-Alt-PageUp: Go to previous book.
+
+Alt-RightArrow: Go to next reference in history.
+
+Alt-LeftArrow: Go to previous reference in history.
+
+Ctrl-G: Go to reference.
+
+Ctrl-W: Close window.
+
+Ctrl-S: Go to styles window.
+
+Ctrl-Q: Quit.
+
+Ctrl-F: Find.
+
+Ctrl-R: Replace.
+
+F5: Present text editor.
+
+Shift-F5: Present tools windows in sequence.
+
+Ctrl-F5: Present notes editor.
+
+F6: Go to next reference in reference window.
+
+Shift-F6: Go to previous reference in reference window.
+
+Ctrl-Alt-RightArrow: Go to next project.
+
+Ctrl-Alt-LeftArrow: Go to previous project.
+
+Ctrl-O: Open project.
+
+Ctrl-P: Print.
+
+F1: Main help.
+
+Ctrl-\: Toggle viewing USFM code.
+
+Ctrl-[: When editing a note, it increases the indentation.
+
+Ctrl-]: When editing a note, it decreases the indentation.
+
++ or - or Left-Arrow or Right-Arrow: When in a tree, to expand or collapse items.
+
+@node Menu    , USFM  , Keyboard Accelerators    , Reference
+@subsection Menu
+
+(Come back to this later - take the text from the web page, but also plan out the tutorials links to see if it can be condensed.)
+
+@node USFM  ,  , Menu    , Reference
+@subsection USFM
+
+USFM
+
+More information about Unified Standard Format Markers (USFM) is available from the official USFM information.
+
+Bibledit supports several of the markers.
+
+By editing the stylesheet of a project, the number of supported markers can be extended. Completely new markers can be added too, but this is not recommended. It is recommended to stick to the USFM standard. A style can be edited by opening a stylesheet, then switching the Edit mode on, and then editing that style.
 
 @node About, GNU Free Documentation, Reference, Top
 @chapter About
 
-@node GNU Free Documentation, Index, About, Top
+7 About
+Copyright and License
+
+This document and the bibledit program are free. These are copyrighted (©) 2004-2008 by Teus Benschop and Contributors as listed below. You can redistribute the document and the program and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version. A copy of this license has also been included in the bibledit package in file COPYING. Secondly, for the document, permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license has also been included in the bibledit package in the file doc/GFDL.
+Contributors
+
+These pages are can be edited. If you contribute to the document on these pages, or to the bibledit program, please add yourself to the list of contributors if you feel so inclined.
+Disclaimer
+
+No liability for the contents of this document can be accepted. Use the concepts, examples and information at your own risk. There may be errors and inaccuracies, that could be damaging to your system. Proceed with caution, and although problems are highly unlikely, the author(s) do not take any responsibility.
+
+All copyrights are held by their by their respective owners, unless specifically noted otherwise. Use of a term in this document should not be regarded as affecting the validity of any trademark or service mark. Naming of particular products or brands should not be seen as endorsements.
+Feedback
+
+Feedback is most certainly welcome for this document. Send your additions, comments and criticisms to any of the contacts.
+
+@menu
+* GNU Free Documentation License     ::  
+* GNU General Public License  ::  
+@end menu
+
+@node  GNU Free Documentation License     , GNU General Public License  , About, About
+@subsection GNU Free Documentation License
+
+@node GNU General Public License  ,  , GNU Free Documentation License     , About
+@subsection GNU General Public License
+
+@node GNU Free Documentation, GNU General Public License, About, Top
 @appendix GNU Free Documentation License
 
 @include fdl.texi
 
-@node Index,  , GNU Free Documentation, Top
+@node GNU General Public License, Index, GNU Free Documentation, Top
+@appendix GNU General Public License
+
+@include gpl-3.0.texi
+
+@node Index,  , GNU General Public License, Top
 @unnumbered Index
 
 @printindex cp
