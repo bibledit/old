@@ -31,6 +31,7 @@ class Desktop_Level
   {
     switch ($desktop) {
       case "editusfm": return TRANSLATOR_LEVEL;
+      case "edittext": return TRANSLATOR_LEVEL;
       default: return ADMIN_LEVEL;
     }
   }
