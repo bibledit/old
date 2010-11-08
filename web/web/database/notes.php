@@ -293,9 +293,8 @@ EOD;
     if ($text_selector == 1) {
       $query .= " AND (MATCH (summary, contents) AGAINST ('$search_text' IN BOOLEAN MODE) OR summary LIKE '%$search_text%' OR CONTENTS LIKE '%$search_text%') ";
     }
-    // Notes get ordered by the automatic increasing id. 
-    // That would sort the notes in the order of their entry.
-    $query .= " ORDER BY id ";
+    // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed. 
+    $query .= " ORDER BY passage ";
     // Limit the selection if a limit is given.
     if (is_numeric ($limit)) {
       $limit = Database_SQLInjection::no ($limit);

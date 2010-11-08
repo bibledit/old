@@ -15,12 +15,10 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=205;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_0=330;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=275142;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
-FILE_NAME_2=2034;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/git.php;0
+FILE_NAME_2=1878;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/git.php;0
 FILE_NAME_3=6620;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
 FILE_NAME_4=14519;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/gitTest.php;0
-FILE_NAME_5=6706;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/sendreceive-cli.php;0
-FILE_NAME_6=272;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/installation.tpl;0
-FILE_NAME_7=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/002ubuntu1004.tpl;0
-FILE_NAME_8=730;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/002ubuntu1010.tpl;0
+FILE_NAME_5=1150;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/desktop/index.php;0
+FILE_NAME_6=1059;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/desktop/level.php;0
