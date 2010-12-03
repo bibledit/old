@@ -2915,7 +2915,8 @@ void MainWindow::on_tool_send_reference ()
   payload.append (navigation.reference.verse);
   extern Settings * settings;
   ustring url = settings->genconfig.bibledit_web_url_get();
-  url.append ("/ipc/setmessage.php?subject=focus&message=");
+  ustring user = settings->genconfig.bibledit_web_user_get(); // Todo
+  url.append ("/ipc/setmessage.php?user=" + user + "&subject=focus&message=");
   url.append (payload);
   extern URLTransport * urltransport;
   urltransport->send_message (url);
@@ -6255,7 +6256,8 @@ void MainWindow::interprocess_communications_initiate_listener ()
   interprocess_communications_initiate_listener_event_id = 0;
   extern Settings * settings;
   ustring url = settings->genconfig.bibledit_web_url_get();
-  url.append ("/ipc/getmessage.php?channel=bibleditgtk&id=");
+  ustring user = settings->genconfig.bibledit_web_user_get(); // Todo
+  url.append ("/ipc/getmessage.php?user=" + user + "&channel=bibleditgtk&id=");
   url.append (convert_to_string (interprocess_communications_initiate_listener_message_id));
   extern URLTransport * urltransport;
   GtkWidget * button;

@@ -2,6 +2,7 @@
 
 require_once ("../bootstrap/bootstrap.php");
 
+$user = $_GET['user'];
 $channel = $_GET['channel'];
 $id = $_GET['id'];
 if (!isset ($id)) $id = 0;

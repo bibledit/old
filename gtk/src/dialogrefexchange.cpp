@@ -42,6 +42,9 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   entry_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "entry_url"));
   gtk_entry_set_text (GTK_ENTRY (entry_url), settings->genconfig.bibledit_web_url_get().c_str());
 
+  entry_user = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "entry_user"));
+  gtk_entry_set_text (GTK_ENTRY (entry_user), settings->genconfig.bibledit_web_user_get().c_str());
+
   button_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "button_url"));
   shortcuts.button (button_url);
 
@@ -86,6 +89,7 @@ void ReferenceExchangeDialog::on_okbutton()
 {
   extern Settings *settings;
   settings->genconfig.bibledit_web_url_set(gtk_entry_get_text (GTK_ENTRY (entry_url)));
+  settings->genconfig.bibledit_web_user_set(gtk_entry_get_text (GTK_ENTRY (entry_user)));
 }
 
 

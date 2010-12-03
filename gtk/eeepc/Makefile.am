@@ -7,7 +7,7 @@ AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 
 LIBS = -Wall `pkg-config glib-2.0 --libs`
 
-EXTRA_DIST = *
+EXTRA_DIST = *.png *.xpm eeepc-install-menu make-binary-tarball run-installer
 CLEANFILES = *~ *.tar.gz
 
 install-exec-hook:

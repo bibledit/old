@@ -960,7 +960,7 @@ void RemoteRepositoryAssistant::repository_unclone ()
 }
 
 
-void RemoteRepositoryAssistant::test_write_access () // Todo
+void RemoteRepositoryAssistant::test_write_access ()
 // Checks whether there is write access from the local clone to the remote repository.
 {
   // GUI update.

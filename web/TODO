@@ -1,16 +1,29 @@
+To update bibledit-gtk and other reference clients that work through bibledit-web to include the 'user' when sending
+references to bibledit-web.
+
+
+
+When the editor is non-editable, and one does backspace, it still erases unexpectedly. 
+To fix this by looking at the 'editable' property.
+
+
+
 Once systems are installed out of reach for the Admin, there is a need to allow upgrades to happen with the click
 of a mouse.
+
+
 
 
 When a note gets assigned to somebody, this person should then receive that note by email.
 
 
-There is a need for the Admin to be able to set a superpassword, which will allow all logins. Thus the Admin
-can make settings on behalf of users.
-Once this is on, to set all users to be notified of any note edits, and then to unassign notes from all users,
-not from team or church.
+
+The 'Create new note' link is not visible when working or editing a note. Perhaps the idea can be to have 
+that link visible always. It is easier to work as well.
 
 
+
+The sorting of the notes is not right yet. It should sort chapters and verses numerically.
 
 
 

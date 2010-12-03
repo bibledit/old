@@ -146,6 +146,7 @@ PANGO_CFLAGS = @PANGO_CFLAGS@
 PANGO_LIBS = @PANGO_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -209,7 +210,7 @@ top_srcdir = @top_srcdir@
 eeepc_install_menu_SOURCES = eeepc-install-menu.cpp
 noinst_SCRIPTS = run-installer
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
-EXTRA_DIST = *
+EXTRA_DIST = *.png *.xpm eeepc-install-menu make-binary-tarball run-installer
 CLEANFILES = *~ *.tar.gz
 all: all-am
 

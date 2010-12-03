@@ -206,6 +206,7 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(consultation_notes_git_remote_repository_url);
   INITIALIZE(consultation_notes_git_remote_repository_conflict_handling);
   INITIALIZE(bibledit_web_url);
+  INITIALIZE(bibledit_web_user);
 }
 
 
@@ -355,6 +356,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(consultation_notes_git_remote_repository_url);
   SAVE_VALUE(consultation_notes_git_remote_repository_conflict_handling);
   SAVE_VALUE(bibledit_web_url);
+  SAVE_VALUE(bibledit_web_user);
 
   config_xml_values_set_execute(general_configuration_filename(), values);
 }
@@ -588,3 +590,4 @@ IMPLEMENT(bool, bool_get, consultation_notes_git_use_remote_repository, false)
 IMPLEMENT(ustring, string_get, consultation_notes_git_remote_repository_url, "")
 IMPLEMENT(int, int_get, consultation_notes_git_remote_repository_conflict_handling, 0)
 IMPLEMENT(ustring, string_get, bibledit_web_url, "http://localhost/bibledit")
+IMPLEMENT(ustring, string_get, bibledit_web_user, "")

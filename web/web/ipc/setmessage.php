@@ -2,6 +2,8 @@
 
 require_once ("../bootstrap/bootstrap.php");
 
+@$user = $_GET['user'];
+
 @$channel = $_GET['channel'];
 
 @$subject = $_GET['subject'];
@@ -11,7 +13,7 @@ $message = $_GET['message'];
 if ($message == "") die;
 
 $database_ipc = Database_Ipc::getInstance();
-$database_ipc->storeMessage ('', $channel, $subject, $message);
+$database_ipc->storeMessage ($user, $channel, $subject, $message);
 
 
 ?>

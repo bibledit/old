@@ -36,6 +36,7 @@ protected:
   GtkBuilder *gtkbuilder;
   GtkWidget *dialog;
   GtkWidget *entry_url;
+  GtkWidget *entry_user;
   GtkWidget *button_url;
   GtkWidget *label_url;
   GtkWidget *cancelbutton;
