@@ -1,13 +1,3 @@
-To update bibledit-gtk and other reference clients that work through bibledit-web to include the 'user' when sending
-references to bibledit-web.
-
-
-
-When the editor is non-editable, and one does backspace, it still erases unexpectedly. 
-To fix this by looking at the 'editable' property.
-
-
-
 Once systems are installed out of reach for the Admin, there is a need to allow upgrades to happen with the click
 of a mouse.
 

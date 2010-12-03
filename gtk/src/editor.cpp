@@ -2731,7 +2731,8 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
   // Handle pressing the Backspace key.
   if (keyboard_backspace_pressed (event)) {
     // Handle the case that the backspace key didn't delete text.
-    if (!textbuffer_delete_range_was_fired) {
+    // Do this only when the Editor is editable.
+    if (!textbuffer_delete_range_was_fired && editable) {
       // Get the current and preceding paragraphs.
       // The preceding one may not be there.
       EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
@@ -2775,7 +2776,8 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
   // Handle pressing the Delete keys.
   if (keyboard_delete_pressed (event)) {
     // Handle the case that the delete keys didn't delete text.
-    if (!textbuffer_delete_range_was_fired) {
+    // Do this only when the Editor is editable.
+    if (!textbuffer_delete_range_was_fired && editable) {
       // Get the current and following paragraphs.
       // The following one may not be there.
       EditorActionCreateParagraph * current_paragraph = widget2paragraph_action (widget);
@@ -2922,7 +2924,7 @@ void Editor2::signal_if_verse_changed_timeout()
 
 void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
 {
-  // Bail out if there's no paragrap.
+  // Bail out if there's no paragraph.
   if (focused_paragraph == NULL) {
     return;
   }
