@@ -41,12 +41,15 @@ type
     Label2: TLabel;
     ButtonURL: TButton;
     LabelBibleWorks: TLabel;
+    EditUser: TEdit;
+    Label3: TLabel;
     procedure Timer1Timer(Sender: TObject);
     procedure TrayIcon1Click(Sender: TObject);
     procedure ButtonHideClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure EditURLChange(Sender: TObject);
     procedure ButtonURLClick(Sender: TObject);
+    procedure EditUserChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -103,6 +106,19 @@ begin
   bibledit_web_url := EditURL.Text;
 end;
 
+procedure TForm1.EditUserChange(Sender: TObject);
+var
+  registry : TRegistry;
+begin
+  registry := TRegistry.Create;
+  registry.RootKey := HKEY_CURRENT_USER;
+  registry.OpenKey('\Software\Bibledit\BibleWorks', True);
+  registry.WriteString('user', EditUser.Text);
+  registry.CloseKey;
+  registry.Destroy;
+  bibledit_web_user := EditUser.Text;
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 var
   registry : TRegistry;
@@ -111,13 +127,15 @@ begin
   registry.RootKey := HKEY_CURRENT_USER;
   registry.OpenKey('\Software\Bibledit\BibleWorks', True);
   bibledit_web_url := registry.ReadString('url');
-  registry.CloseKey;
-  registry.Destroy;
   if bibledit_web_url = '' then
   begin
     bibledit_web_url := 'http://localhost/bibledit';
   end;
   EditURL.Text := bibledit_web_url;
+  bibledit_web_user := registry.ReadString('user');
+  EditUser.Text := bibledit_web_user;
+  registry.CloseKey;
+  registry.Destroy;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Bibledit-BibleWorks 1.0'
-  ClientHeight = 176
+  ClientHeight = 219
   ClientWidth = 418
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -482,6 +482,13 @@ object Form1: TForm1
     Height = 13
     Caption = '<none>'
   end
+  object Label3: TLabel
+    Left = 8
+    Top = 171
+    Width = 245
+    Height = 13
+    Caption = 'Bibledit-Web local or remote username (e.g. joe):'
+  end
   object ButtonHide: TButton
     Left = 8
     Top = 94
@@ -509,6 +516,15 @@ object Form1: TForm1
     Caption = 'Test'
     TabOrder = 2
     OnClick = ButtonURLClick
+  end
+  object EditUser: TEdit
+    Left = 8
+    Top = 190
+    Width = 233
+    Height = 21
+    TabOrder = 3
+    Text = 'EditUser'
+    OnChange = EditUserChange
   end
   object Timer1: TTimer
     Interval = 500

@@ -26,6 +26,7 @@ uses
 var
   response_id : integer;
   bibledit_web_url : string;
+  bibledit_web_user : string;
 
 type
   TPollThread = class(TThread)
