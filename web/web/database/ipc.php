@@ -59,12 +59,12 @@ EOD;
   * Returns NULL if there was nothing, 
   * else an associated array with keys and values for "id", "channel", "command" and "message".
   */
-  public function retrieveMessage ($id, $channel)
+  public function retrieveMessage ($id, $user, $channel)
   {
     $id = Database_SQLInjection::no ($id);
     $channel = Database_SQLInjection::no ($channel);
     $database_instance = Database_Instance::getInstance();
-    $query = "SELECT id, channel, command, message FROM ipc WHERE id > $id AND (channel = '$channel' OR channel = '') ORDER BY id DESC;";
+    $query = "SELECT id, channel, command, message FROM ipc WHERE id > $id AND (channel = '$channel' OR channel = '') AND (user = '$user' OR user = '') ORDER BY id DESC;";
     $result = $database_instance->runQuery ($query);
     $values = NULL;
     if ($result->num_rows > 0) {

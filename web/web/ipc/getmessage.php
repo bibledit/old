@@ -12,7 +12,7 @@ $database_ipc = Database_Ipc::getInstance();
 @$values = "";
 while (!is_array ($values)) {
   sleep (1);
-  $values = $database_ipc->retrieveMessage ($id, $channel);
+  $values = $database_ipc->retrieveMessage ($id, $user, $channel);
 }
 
 $id      = $values['id'];

@@ -15,15 +15,9 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=1
-FILE_NAME_0=264;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=280219;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
-FILE_NAME_2=8892;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/generalconfig.h;0
-FILE_NAME_3=207358;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.cpp;0
-FILE_NAME_4=340;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/ipc/setmessage.php;0
-FILE_NAME_5=72;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/ipc/getmessage.php;0
-FILE_NAME_6=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/ipc/focus.php;0
-FILE_NAME_7=1538;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/ipc.php;0
-FILE_NAME_8=15314;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/xetex.cpp;0
+FILE_NAME_0=414;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=291692;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
+FILE_NAME_2=107136;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/editor.cpp;0
 
 [long line marker]
 long_line_behaviour=1

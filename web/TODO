@@ -1,10 +1,32 @@
+When Bibledit-Gtk requests the reference from Bibledit-Web, if another user changes the reference,
+it takes the wrong reference. Thus when more users work on Bibledit-Web, Bibledit-Gtk keeps moving
+to all sorts of unwanted references. The solution would be to include the username when requesting
+the references, and for Bibledit-Web to not give another's reference when asking for a specific 
+user's references.
+
+http://79.99.133.100/bibledit
+http://localhost/bibledit
+
+http://localhost/bibledit/ipc/getmessage.php?user=teus&channel=bibleditgtk&id=42233
+
+http://localhost/bibledit/ipc/setmessage.php?user=teus&subject=focus&message=1.18.3
+
+
+Een powerful function in Bibledit-Web maken die dubbele entries er uit haalt. 
+Gewoon onderdeel van de bestaande software laten zijn. 
+Tool voor de Administrator. 
+Is nuttig wanneer er een dubbele import is gedaan. 
+Alle IDs worden opgeslagen. 
+Dan wordt iedere ID apart bekeken, en duplicaten gezocht. 
+Als er duplicaten zijn, dan wordt de ID eruit gegooid, en de andere blijft staan. 
+Het is een shell script die langdurig door kan blijven draaien.
+
+
+
+
 Once systems are installed out of reach for the Admin, there is a need to allow upgrades to happen with the click
 of a mouse.
 
-
-
-
-When a note gets assigned to somebody, this person should then receive that note by email.
 
 
 
