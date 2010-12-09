@@ -1,11 +1,8 @@
-Update Bibledit-BibleWorks / OnlineBible / Xiphos / BibleTime
+Update Bibledit-Xiphos / BibleTime
 
 http://79.99.133.100/bibledit
-http://localhost/bibledit
 
-http://localhost/bibledit/ipc/getmessage.php?user=teus&channel=bibleditgtk&id=42233
 
-http://localhost/bibledit/ipc/setmessage.php?user=teus&subject=focus&message=1.18.3
 
 
 Een powerful function in Bibledit-Web maken die dubbele entries er uit haalt. 

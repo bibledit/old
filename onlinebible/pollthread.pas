@@ -26,6 +26,7 @@ uses
 var
   response_id : integer;
   bibledit_web_url : string;
+  bibledit_web_user : string;
 
 type
   TPollThread = class(TThread)
@@ -85,7 +86,7 @@ begin
   { Place thread code here }
   http := TIdHTTP.Create();
   try
-    request_url := bibledit_web_url + '/ipc/getmessage.php?channel=bibleworks&id=' + IntToStr (response_id);
+    request_url := bibledit_web_url + '/ipc/getmessage.php?user=' + bibledit_web_user + '&channel=bibleworks&id=' + IntToStr (response_id);
     response_raw :=  http.Get(request_url);
     strings := TStringList.Create;
     Split (#13, response_raw, strings);
