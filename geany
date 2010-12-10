@@ -14,9 +14,9 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
+current_page=1
 FILE_NAME_0=16;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=291692;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
+FILE_NAME_1=297491;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
 FILE_NAME_2=10811;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/xiphos/bibledit-xiphos.cpp;0
 FILE_NAME_3=1317;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/xiphos/bibledit-xiphos.h;0
 

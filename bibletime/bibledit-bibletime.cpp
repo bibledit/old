@@ -88,6 +88,15 @@ int main (int argc, char *argv[])
 
   label_url = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_url"));
 
+  entry_user = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "entry_user"));
+  gchar * user = g_key_file_get_string (keyfile, "settings", "bibledit-web-user", NULL);
+  if (!user) {
+    user = strdup ("");
+  }
+  gtk_entry_set_text (GTK_ENTRY (entry_user), user);
+  g_free (user);
+  g_signal_connect((gpointer) entry_user, "changed", G_CALLBACK(on_entry_user_changed), NULL);
+
   label_bibletime_process = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_bibletime_process"));
 
   label_id = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_id"));
@@ -358,7 +367,8 @@ void start_bibletime_web_listener ()
 {
 	SoupMessage * listener_msg;
   string url = gtk_entry_get_text (GTK_ENTRY (entry_url));
-  url.append ("/ipc/getmessage.php?channel=bibletime&id=" + last_message_id);
+  string user = gtk_entry_get_text (GTK_ENTRY (entry_user));
+  url.append ("/ipc/getmessage.php?user=" + user + "&channel=bibletime&id=" + last_message_id);
 	listener_msg = soup_message_new (SOUP_METHOD_GET, url.c_str());
   soup_session_queue_message (session, listener_msg, SoupSessionCallback (on_bibletime_web_listener_ready_callback), NULL);
 }
@@ -875,6 +885,20 @@ void on_entry_url_changed(GtkEditable * editable, gpointer user_data)
   gchar * key_file_name = registry_file_name ();
   g_key_file_load_from_file(keyfile, key_file_name, G_KEY_FILE_NONE, NULL);
   g_key_file_set_string (keyfile, "settings", "bibledit-web-url", gtk_entry_get_text (GTK_ENTRY (entry_url)));
+  gchar *key_file_data = g_key_file_to_data(keyfile, NULL, NULL);
+  g_file_set_contents(key_file_name, key_file_data, -1, NULL);
+  g_free(key_file_data);
+  g_key_file_free(keyfile);
+  g_free (key_file_name);
+}
+
+
+void on_entry_user_changed(GtkEditable * editable, gpointer user_data)
+{
+  GKeyFile *keyfile = g_key_file_new();
+  gchar * key_file_name = registry_file_name ();
+  g_key_file_load_from_file(keyfile, key_file_name, G_KEY_FILE_NONE, NULL);
+  g_key_file_set_string (keyfile, "settings", "bibledit-web-user", gtk_entry_get_text (GTK_ENTRY (entry_user)));
   gchar *key_file_data = g_key_file_to_data(keyfile, NULL, NULL);
   g_file_set_contents(key_file_name, key_file_data, -1, NULL);
   g_free(key_file_data);

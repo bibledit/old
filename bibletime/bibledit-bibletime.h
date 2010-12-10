@@ -54,6 +54,9 @@ static void on_button_url_clicked(GtkButton * button, gpointer user_data);
 
 GtkWidget * label_url;
 
+GtkWidget * entry_user;
+static void on_entry_user_changed(GtkEditable * editable, gpointer user_data);
+
 GtkWidget * label_bibletime_process;
 
 GtkWidget * label_id;
