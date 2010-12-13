@@ -1,18 +1,4 @@
-Update Bibledit-BibleTime
 
-http://79.99.133.100/bibledit
-
-
-
-
-Een powerful function in Bibledit-Web maken die dubbele entries er uit haalt. 
-Gewoon onderdeel van de bestaande software laten zijn. 
-Tool voor de Administrator. 
-Is nuttig wanneer er een dubbele import is gedaan. 
-Alle IDs worden gelezen en opgeslagen. 
-Dan wordt iedere ID apart bekeken, en duplicaten gezocht. 
-Als er duplicaten zijn, dan wordt de ene ID verwijderd, en de andere blijft staan. 
-Het is een shell script die langdurig door kan blijven draaien.
 
 
 

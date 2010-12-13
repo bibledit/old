@@ -771,6 +771,21 @@ EOD;
 
 
   /**
+  * Returns the raw passage text of the note identified by $identifier.
+  */  
+  public function getRawPassage ($identifier)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT passage FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    $row = $result->fetch_row();
+    $rawpassage = $row[0];
+    return $rawpassage;
+  }
+
+
+  /**
   * Gets the raw status of a note.
   * Returns it as a string.
   */
@@ -998,6 +1013,29 @@ EOD;
     $query = "UPDATE notes SET modified = $modified WHERE identifier = $identifier;";
     $server->runQuery ($query);
   }
+
+
+  /**
+  * Returns an array of duplicate note identifiers selected.
+  */
+  public function selectDuplicateNotes ($rawpassage, $summary, $contents)
+  {
+    $identifiers = array ();
+    $server = Database_Instance::getInstance ();
+    $rawpassage = Database_SQLInjection::no ($rawpassage);
+    $summary = Database_SQLInjection::no ($summary);
+    $contents = Database_SQLInjection::no ($contents);
+    $query = "SELECT identifier FROM notes WHERE passage = '$rawpassage' AND summary = '$summary' AND contents = '$contents';";
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $identifier = $row[0];
+      $identifiers []= $identifier;
+    }
+    return $identifiers;
+  }
+  
+  
 
 
 

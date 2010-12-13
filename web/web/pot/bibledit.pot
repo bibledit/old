@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-10 01:45+0100\n"
+"POT-Creation-Date: 2010-12-13 01:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -163,6 +163,21 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
+msgid "Removal of duplicate consultation notes has started"
+msgstr ""
+
+msgid "Looking into note"
+msgstr ""
+
+msgid "Deleting duplicate note"
+msgstr ""
+
+msgid "This note no longer exists"
+msgstr ""
+
+msgid "Removal of duplicate consultation notes has finished"
+msgstr ""
+
 msgid "New note"
 msgstr ""
 
@@ -269,6 +284,9 @@ msgid "The Bible of the notes was updated"
 msgstr ""
 
 msgid "This view does not display any notes."
+msgstr ""
+
+msgid "Removing duplicate consultation notes"
 msgstr ""
 
 msgid "Desktop"
@@ -1275,6 +1293,29 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+msgid "The process for removing duplicate consultation notes has started."
+msgstr ""
+
+msgid "The progress of this process is visible in the logbook."
+msgstr ""
+
+msgid ""
+"It can take a good amount of time, depending on the amount of notes to be "
+"sorted out."
+msgstr ""
+
+msgid "View logbook."
+msgstr ""
+
+msgid ""
+"Notes are duplicates when their summary, contents, and verses are the same."
+msgstr ""
+
+msgid ""
+"Duplicates may occur for various reasons. One reason could be that a set of "
+"notes has been imported more than once."
+msgstr ""
+
 msgid "There was a problem uploading the file."
 msgstr ""
 
@@ -1562,6 +1603,9 @@ msgstr ""
 msgid "Import notes"
 msgstr ""
 
+msgid "Remove duplicates"
+msgstr ""
+
 msgid "Importing notes, step 3"
 msgstr ""
 
@@ -1586,9 +1630,6 @@ msgstr ""
 msgid "The process for importing consultation notes has been started."
 msgstr ""
 
-msgid "The progress of this process is visible in the logbook."
-msgstr ""
-
 msgid ""
 "It can take a good amount of time, depending on the amount of notes to be "
 "imported."
@@ -1597,9 +1638,6 @@ msgstr ""
 msgid ""
 "After everything has been done, you can see the consultation notes in the "
 "normal place. They will be added to any existing ones."
-msgstr ""
-
-msgid "View logbook."
 msgstr ""
 
 msgid "Color"
