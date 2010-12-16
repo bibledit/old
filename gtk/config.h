@@ -47,7 +47,7 @@
 #define PACKAGE_NAME "bibledit-gtk"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit-gtk 4.1.102"
+#define PACKAGE_STRING "bibledit-gtk 4.1.105"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit-gtk"
@@ -56,10 +56,10 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.1.102"
+#define PACKAGE_VERSION "4.1.105"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "4.1.102"
+#define VERSION "4.1.105"

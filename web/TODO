@@ -1,10 +1,7 @@
-
-
-
-
-
 Once systems are installed out of reach for the Admin, there is a need to allow upgrades to happen with the click
-of a mouse.
+of a mouse. The system is very basic. It allows the user to upload a .tar.gz file. It installs from that file.
+Information given to the user shows the user where to download the released tarball, 
+or how to create a tarball from the repository.
 
 
 
@@ -26,6 +23,8 @@ chapters, to the subscribed users.
 
 
 
+Export the USFM data to the .exp file for the Online Bible.
+See OLB Help/Table Of Contents/How To/Create Your Own Bible.
 
 
 
