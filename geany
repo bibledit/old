@@ -14,13 +14,16 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=1
-FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=321298;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
-FILE_NAME_2=1099;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/duplicates.php;0
-FILE_NAME_3=594;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/duplicates.tpl;0
-FILE_NAME_4=1506;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/duplicatescli.php;0
-FILE_NAME_5=35100;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+current_page=4
+FILE_NAME_0=189;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=269874;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
+FILE_NAME_2=202;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update.php;0
+FILE_NAME_3=1084;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update.tpl;0
+FILE_NAME_4=1389;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update2.php;0
+FILE_NAME_5=499;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update2.tpl;0
+FILE_NAME_6=907;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update3.php;0
+FILE_NAME_7=135;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update3.tpl;0
+FILE_NAME_8=875;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_repo_data.tpl;0
 
 [long line marker]
 long_line_behaviour=1

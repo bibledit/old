@@ -4,7 +4,7 @@ if (php_sapi_name () != "cli") return;
 
 require_once ("../bootstrap/bootstrap.php");
 
-echo (gettext ("Starting to send and receive the relevant Bibles and Project Notes.") . "\n");
+echo (gettext ("Starting to send and receive the relevant Bibles and Consultation Notes.") . "\n");
 
 echo (gettext ("Processing any data left over from previous actions.") . "\n");
 Filter_Git::filedata2database ();

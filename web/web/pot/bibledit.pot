@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-16 01:45+0100\n"
+"POT-Creation-Date: 2010-12-28 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,8 @@ msgstr ""
 msgid "Management"
 msgstr ""
 
-msgid "Starting to send and receive the relevant Bibles and Project Notes."
+msgid ""
+"Starting to send and receive the relevant Bibles and Consultation Notes."
 msgstr ""
 
 msgid "Processing any data left over from previous actions."
@@ -359,6 +360,27 @@ msgid "Ok: The repository was cloned successfully."
 msgstr ""
 
 msgid "Error: The repository could not be cloned."
+msgstr ""
+
+msgid "Software update"
+msgstr ""
+
+msgid "The URL is too short."
+msgstr ""
+
+msgid "The filename does not look like Bibledit-Web software."
+msgstr ""
+
+msgid "The filename does not look like a Bibledit-Web tarball."
+msgstr ""
+
+msgid "It does not downgrade Bibledit-Web to an older version."
+msgstr ""
+
+msgid "Could not get the file at the URL."
+msgstr ""
+
+msgid "The file is too short."
 msgstr ""
 
 msgid "Read access to the repository is successful."
@@ -1709,6 +1731,44 @@ msgid ""
 "was there before."
 msgstr ""
 
+msgid ""
+"You can update the Bibledit-Web software here. To do it successfully, follow "
+"the steps carefully. Be sure to end up with a web site that keeps working "
+"after this update."
+msgstr ""
+
+msgid "The current version of the Bibledit-Web software is:"
+msgstr ""
+
+msgid ""
+"You only can install newer software. This is because there is an upgrade "
+"path from older to newer versions, but not the other way around."
+msgstr ""
+
+msgid "The Bibledit-Web software is available from:"
+msgstr ""
+
+msgid "The software is stored in a file that looks like this:"
+msgstr ""
+
+msgid "The x.x is a version number."
+msgstr ""
+
+msgid "The next thing to do is to get this file. Enter the URL and click Get."
+msgstr ""
+
+msgid "Get"
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Getting the file may take some time."
+msgstr ""
+
+msgid "Sample URLs:"
+msgstr ""
+
 msgid "Repository data"
 msgstr ""
 
@@ -1790,6 +1850,30 @@ msgid ""
 "there was no error."
 msgstr ""
 
+msgid "Updating software, step 2"
+msgstr ""
+
+msgid "An attempt was made to get the file."
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Length"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "The file looks good."
+msgstr ""
+
+msgid "There is a problem with the file."
+msgstr ""
+
+msgid "Try again"
+msgstr ""
+
 msgid "Site timezone"
 msgstr ""
 
@@ -1811,6 +1895,9 @@ msgstr ""
 msgid ""
 "Those who have an account on this site can override this by setting their "
 "own preferred timezone."
+msgstr ""
+
+msgid "Update"
 msgstr ""
 
 msgid "Mail"
@@ -2223,6 +2310,12 @@ msgid ""
 "the keys to such a repository can write to it."
 msgstr ""
 
+msgid "Software update, step 3"
+msgstr ""
+
+msgid "The tarball was uncompressed."
+msgstr ""
+
 msgid "This page deals with setting up the email system."
 msgstr ""
 
@@ -2264,9 +2357,6 @@ msgid "Enter the account details, and press Submit."
 msgstr ""
 
 msgid "Password"
-msgstr ""
-
-msgid "Please wait"
 msgstr ""
 
 msgid "Sending mail"
@@ -2351,9 +2441,6 @@ msgid "Private key"
 msgstr ""
 
 msgid "Public key"
-msgstr ""
-
-msgid "Update"
 msgstr ""
 
 msgid ""

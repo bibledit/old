@@ -1,4 +1,5 @@
 <h1>{t}Administration{/t}</h1>
+<p><a href="update.php">{t}Update{/t}</a></p>
 <p><a href="mail.php">{t}Mail{/t}</a></p>
 <p><a href="backup.php">{t}Backup{/t}</a></p>
 <p><a href="collaboration.php">{t}Collaboration{/t}</a></p>

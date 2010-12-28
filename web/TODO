@@ -1,8 +1,29 @@
-Once systems are installed out of reach for the Admin, there is a need to allow upgrades to happen with the click
-of a mouse. The system is very basic. It allows the user to upload a .tar.gz file. It installs from that file.
-Information given to the user shows the user where to download the released tarball, 
-or how to create a tarball from the repository.
+Upgrade Bibledit-Web through the web. 
+Download tarball. 
+It installs from that file.
 
+Information: how to create a tarball from the repository. This may link to the developer help pages.
+
+
+
+
+
+
+
+Bibledit-Xiphos does not seem to remember the username.
+
+
+
+
+When a note is deleted from the system, it still it in the git repository. It should be deleted from there as well.
+Same applies to a chapter of the Bible. It works thus: Once the data is send/received, then it goes through the whole
+git file system, and checks all notes or all chapters. Whichever is not in the database will get deleted. Thus
+the git repository gets updated.
+
+
+
+When a note is updated through send/receive, are any emails sent out? Does not look like it happens.
+Perhaps this is by design. But it is not a good design.
 
 
 
