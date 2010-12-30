@@ -438,3 +438,235 @@ I only mention this because I often forget to grant read access to files
 before deploying a module for testing and the result is only
 chapter/verse numbers.
 Troy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> Is there any news about packing bibledit-web? 
+
+I started on this today.  I soon encountered something I am not sure how
+to handle -- bibledit-web seems to expect a working and configured mysql
+server at *build* time.
+
+This seems unusual; I can understand needing a MySQL server at run time,
+but not at build time.  I should be able to compile and install (and
+package) bibletime-web without a MySQL server, shouldn't I?
+
+The Debian and Ubuntu builder machines do not provide MySQL servers
+during the build process.  Even if they did, those might well be
+different (and configured differently) from the mysql server seen by the
+app when the package is installed on a user's machine at some later point.
+
+I would expect that the build process just builds and installs the
+application; there would usually also be a default configuration file
+which can be edited to specify where the database server is, username
+and password, etc.  In the Debian/Ubuntu packaging world, initial
+settings for these would be done using debconf, so the user gets a
+dialog asking for them at install time.
+
+I hope the database server/name/username/password information is not
+being hardcoded into the application itself during the build?  Surely
+the right place for that kind of info is a separate configuration file?
+
+I could try to patch out the checks for the MySQL server done by your
+configure script... but then I feel I'm basically working 'against' the
+developers intentions instead of with them!  You (presumably) put those
+checks in there at build time for a reason... I just don't know what the
+reason is.
+
+phpmysqladmin (your suggested example existing packaged web app) does
+not do this kind of thing during its build process.
+
+Incidentally, longer term, you might want to consider using a database
+abstraction layer (PEAR MDB2 for example) so that bibledit-web can use
+Postgresql or other database back ends, not just MySQL.
+
+Thoughts, ideas and suggestions welcomed :)
+
+More comments and ideas related to packaging bibledit-web:
+
+CONFIGURING TOO EARLY:
+
+Looking further at the autotools configuration done in bibletime-web
+0.2, other things that need to be settable per-installation, not at
+build time, are apparently also being configured and defined at build
+time.  These include the database server location, database admin user,
+database admin password, database name, database user, database
+password, bibledit admin user and password, and the location of the
+webroot of the web server.  Some of these seem to be handled in
+database/credentials.php and this is created by setup.php, but in that
+case, why is the checking of MySQL at build time being done?
+
+Why the code needs the mysql admin username and pw is a question in
+itself -- wouldn't it be more secure to prompt for these when needed,
+which hopefully is just for a one-time initial database setup, done at
+(package) install time, not build time?
+
+Since (at least in theory) one could set up multiple instances of
+bibledit-web on a single server, each with their own database and each
+with their own apache virtualhost, doing too much at build time seems to
+me to reduce overall flexibility and capability.
+
+Unless I am misunderstanding what the code does, I don't see how this
+software can readily be packaged until many or all of these things are
+moved from being defined and checked at build time to being settable in
+a configuration file accessed (and checked, if appropriate) at run time.
+
+DATABASE CREATION:
+
+I think the setup.php code that creates the bibledit-web database
+probably will need to be made usable as a script to be run at package
+installation time, or maybe at first web login to bibledit-web.  Asking
+users to point a browser at a URL just to do something non-interactive
+seems unfriendly.  The web server needing to be able to delete the
+bibledit-web php files (auto-deleting setup.php after running it) looks
+like a security weakness; only the server admin should be able to edit
+or delete those files, once installed.
+
+LACK OF $(DESTDIR):
+
+I've also found what seems to be the same kind of issue I found earlier
+in the bibledit-gtk Makefiles, where an install-data-local target does
+not use $(DESTDIR).  This time the issue is in web/Makefile.am where the
+four lines under the install-data-local: target need $(DESTDIR) before
+$(WEBROOT).
+
+Fixing that still leaves it installing directly into the root of the
+default host, /var/www/, which is not allowed, but that's a different
+issue, more related to the "configuring too early" problem noted above.
+
+SECURITY:
+
+There is too much chmod -R 0777 going on (both in the Makefiles and then
+also in some PHP code) than can be considered safe or secure for an
+Internet-facing web server.  World writable files and directories are
+almost never needed, and almost always a security risk.  Why would every
+user on the web server machine need full access to all of these
+bibledit-web files and directories?  Installed on a shared web hosting
+server, this could quite easily allow other customers on that server to
+do anything they like with your site, including add their own code, run
+spambots as you, hand out malware to every unsuspecting user who uses
+the bibledit-web site, etc.
+
+I'm not sure that suggesting or assuming a MySQL root pw of "root" is
+wise, either :)  If you are going to do setup from PHP, why not have
+setup.php prompt for all the database info (host, dbname, adminuser,
+adminpw, username, pw) and write some of it (hopefully not the
+adminuser/adminpw!) to a config file?  It can do some of that already.
+
+All uses of system() and exec() should probably specify a full path, so
+users can't persuade your code to execute *their* chmod instead of the
+system one, for instance.
+
+I'd suggest you try to do a detailed security review as soon as
+practical.  It seems odd to be using 1024bit ssh keypairs, but also
+doing things like "chmod 0777" and assuming a dba password of "root".
+
+INSTALLATION HELP:
+
+The help button points to help/001ubuntu1004server.php but this is
+specifically for 0.1, and the codebase is 0.2.  Are there any
+differences?  Also, this file says in part:
+
+  If the site is "site.com", then this will be something like:
+  http://site.org/bibledit/setup.php
+
+You can use either site.org or site.com, but they need to match :)
+Using example.com is common for this kind of text, incidentally.
+
+EMBEDDED LIBRARIES:
+
+bibledit-web seems to have included a copy of the smarty library within
+its codebase.  This is not allowed when packaging.  I'll need to change
+it to use the system-supplied already-packaged version(s) of smarty and
+smarty-gettext (does it actually use smarty-gettext, or just smarty?).
+
+SUMMARY:
+
+As far as I can see, the bibledit-web 0.2 codebase pretty much requires
+that it be built from source, locally for each individual installation.
+ That is the exact opposite of what packaged software does (build it
+once, then distribute the resulting compiled binary package around the
+world) :)  Since bibledit-gtk doesn't require this
+unique-per-installation build, I'm not sure why bibledit-web does, or
+what the benefit of this approach is.  I rather suspect that in trying
+to make things "friendly" for people installing it from source, the
+software has been made hard or impossible to install as a package.
+
+Hoping we can find a good approach to packaging bibledit-web,
+
+
+
+
+I now have a hacked-up bibledit-web 0.2 package that more-or-less does
+what the source install does, and installs on a test virtual server.
+But it's much too rough to release, it breaks many rules, and won't even
+build in a PPA, never mind in the official builders.
+
+A few more comments and questions arising from this:
+
+DATABASE CREATION vs DATABASE USE:
+
+I am rather alarmed to find that the bibledit-web code seems to make no
+distinction between the database user/pw needed to create the bibledit
+database and its tables, at install time, and the one used at runtime to
+work with those tables.  Am I understanding this correctly?
+
+By default, this leads to the bibledit-web database code using the
+all-powerful DBA user (root) at run-time, and storing that username and
+*password* in plain text in a configuration file.  Worse still, the
+default password is "root", and (even worse!) that configuration file is
+set to mode 0777, so absolutely any user on the server can read it, and
+then use it to do absolutely anything they want with any MySQL database
+on that database server.
+
+I believe this is a significant security issue.  On my web servers
+(servers I admin, not servers I own!), a single MySQL server instance
+can contain databases for 100-200 independently owned web sites... the
+bibledit-web 0.2 installation in effect gives *every* user on the server
+full access to *every* *single* *one* of those databases! (I didn't
+install bibledit-web on a production server, so no harm done, I'm just
+pointing out how bad this would be in production use!).
+
+I think the right solution is for the code to distinguish very clearly
+between (a) the DBA username and pw, and (b) the runtime
+bibletime-specific user and pw.  (a) is prompted for and used only once,
+at install time, to create the bibledit database and the runtime user
+and pw. It is never stored anywhere on disk.  (b) is then used to create
+the tables, and then to access the information in database, by
+bibledit-web at runtime.  It is stored in a config file (readable only
+by the user running the bibledit virtualhost, but not by others!).
+
+I have not checked whether this issue is fixed in the latest git
+development code; I probably should :)
+
+LIBRARIES:
+
+Is there a list somewhere of what libraries are needed by bibledit-web,
+or are incorporated as copies (or modified copies) within it?  So far I
+have found:
+
+ * jquery
+ * jwysiwyg (a plugin for jquery)
+ * smarty
+ * a modified copy of part of zendframework
+
+Are there any more?  At least the non-modified ones have to be packaged
+separately, if packaged versions of them don't already exist.  And I'll
+have to look at the modified ZendFramework code and see how best to
+proceed there.  The INSTALL file might be a reasonable place to put this
+kind of information.
+
+
+
+

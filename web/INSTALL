@@ -247,10 +247,3 @@ operates.
 `configure --help' for more details.
 
 
-A bibledit .rpm file can be built easily from the source tarball.
-Type: rpmbuild -tb bibledit-x.x.tar.gz
-
-Bibledit depends on package sqlite3.
-An .rpm binary file can be produced from a source .rpm file.
-
-rpmbuild --rebuild sqlite3-3.x.x.src.rpm
