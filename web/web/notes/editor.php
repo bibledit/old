@@ -137,7 +137,20 @@ class Notes_Editor
         }
       }
     }
-   
+
+    // Edit summary.
+    @$consultationnoteeditsummary = $_GET['consultationnoteeditsummary'];
+    if (isset ($consultationnoteeditsummary)) {
+      $dialog_entry = new Dialog_Entry (array ("session" => $database_sessions->getCurrentSessionId ()), gettext ("Please enter the summary"), $database_notes->getSummary ($consultationnote), "consultationnoteeditsummary", "");
+      die;
+    }
+    @$consultationnoteeditsummary = $_POST['consultationnoteeditsummary'];
+    if (isset ($consultationnoteeditsummary)) {
+      $summary = $_POST['entry'];
+      $database_notes->setSummary ($consultationnote, $summary);
+      $notes_logic->handlerUpdateNote ($consultationnote);
+    }
+
     // Delete a note.
     @$deleteconsultationnote = $_GET['deleteconsultationnote'];
     if (isset ($deleteconsultationnote)) {

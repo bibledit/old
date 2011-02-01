@@ -3,7 +3,13 @@
 |
 <a href="{$caller}?session={$session}&displaynotesactions=">{t}Actions{/t}</a>
 </p>
-<p>{t}Summary{/t}: {$summary}</p>
+<p>
+{t}Summary{/t}: {$summary}
+{* Summary edit link is only applicable to the Manager and higher roles *}
+{if $level >= 5}
+  [<a href="{$caller}?session={$session}&consultationnoteeditsummary=">{t}edit{/t}</a>]
+{/if}
+</p>
 <div>{$note_content}</div>
 <hr>
 {if isset ($note_add_comment)}
