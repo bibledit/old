@@ -1,3 +1,14 @@
+Het moet mogelijk worden dat de Manager (en hoger) de Summary van een note aan kan passen.
+
+
+
+
+Import notes from Bibledit-Gtk: Logbook entries not to be imported, since this generates a lot of clutter in Bibledit-Web.
+
+
+
+
+
 Upgrade Bibledit-Web through the web. 
 Download tarball. 
 It installs from that file.
@@ -10,8 +21,7 @@ Information: how to create a tarball from the repository. This may link to the d
 
 
 
-Bibledit-Xiphos does not seem to remember the username.
-
+The emails that are being sent out should contain a link that points to that note on that site.
 
 
 
@@ -668,5 +678,79 @@ proceed there.  The INSTALL file might be a reasonable place to put this
 kind of information.
 
 
+
+
+> When starting on Bibledit-Web I had in mind that the tarball would
+> be installable on Linux systems, but would also be uploadable to a
+> server through ftp and install itself there. But these seem to be two
+> different things. For example, inclusion of smarty(-gettext) is
+> necessary when uploading through ftp to a server the user only has
+> access to that way.
+
+Well, logically installing to a shared account on a remote web server
+could be done by obtaining each of the tarballs for bibledit-web and for
+each library that it needs (which is are not already installed on that
+remote web server), untarring and configuring each of these, and then
+uploading the resulting set of files using FTP (or, preferably, using
+SFTP so you are not passing your database and admin passwords around
+over the Internet in the clear; no-one who cares about security should
+be using FTP any more).
+
+You could perhaps look at creating a "just bibledit-web" tarball which
+includes an installation script that downloads the libraries it needs
+(using wget or similar) and untars and configures them for bibledit-web
+use.  Then the person doing this kind of install does:
+
+ * Download bibledit-web tarball to a local Linux PC
+ * Unpack bibledit-web tarball locally
+ * Run installer script which downloads/configures libraries
+ * Upload the resulting tree of files to the web server
+
+Those installing to a machine they have full control over would instead
+install the necessary libraries as packages, and configure bibledit-web
+to use those copies of the libraries (or, one day, install a
+bibledit-web package which would depend on the library packages and
+configure itself to use them!).
+
+> There is a clash between this practice and packaging things. When I 
+> asked for a bibledit-web package, I had not realized the implications
+> of that.
+
+Yes, bundling everything into one tree of files is convenient for FTP
+uploads, but unhelpful for packaging.  Doing work to avoid using
+included "convenience copies" of libraries when packaging is fairly common.
+
+Also, if this is the design goal, then I think checking for MySQL and
+needing the root pw at configure time is unhelpful -- the local Linux PC
+may not even have MySQL at all.
+
+Incidentally, I'm a bit surprised that your users are successfully
+running PHP code that uses system() and exec() to run Unix commands such
+as git and ssh-keygen on machines they only have a shared web hosting
+account on.  Good shared web hosting providers tend to use the
+disable_functions entry in php.ini to disable "dangerous" PHP functions,
+often including system() and exec().
+
+> The tarball as it is now tries to make it easy to install the
+> software from source. Whether it succeeds in that is a different
+> matter.
+
+I think it depends greatly on the server setup; it seems it is fairly
+easy to install bibledit-web 0.2 from source if it is the ONLY web
+software and ONLY MySQL-using software on the machine, and if Apache
+ONLY serves up one (default) web site.  So for a quick test install on a
+freshly installed Ubuntu desktop, it's relatively easy.  But for
+installing on a production Ubuntu server that already uses MySQL for
+other things and has multiple apache virtualhosts in place, it's not
+going to be easy at all.
+
+> The problems that you mention still need to be addressed. I will do so
+> when time permits. Clearly, the software as it is, is not yet fit for
+> packaging.
+
+I think that's probably true, unfortunately.  I'd suggest dealing with
+the "chmod 0777" and "root MySQL password stored in config file" issues
+quickly if you can, since they are not packaging specific, and seem to
+me to be exploitable security issues.  The rest... can wait :)
 
 

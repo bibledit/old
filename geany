@@ -14,9 +14,9 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=1
-FILE_NAME_0=189;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=357864;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
+current_page=0
+FILE_NAME_0=109;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=412347;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
 FILE_NAME_2=202;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update.php;0
 FILE_NAME_3=1084;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update.tpl;0
 FILE_NAME_4=1389;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/update2.php;0

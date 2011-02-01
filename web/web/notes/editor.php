@@ -514,6 +514,19 @@ class Notes_Editor
           $database_logs->log ("Bible update of notes: $identifierlist", true);
         }
       }
+      // Bulk note delete.
+      if ($bulk_update == "delete") {
+        if ($_GET['confirm'] != "yes") {
+          $dialog_yes = new Dialog_Yes2 (gettext ("Would you like to delete the notes?"), "&consultationnotesbulkupdate=delete");
+        } else {
+          foreach ($identifiers as $identifier) {
+            $notes_logic->handlerDeleteNote ($identifier); // Notifications handling.
+            $database_notes->delete ($identifier);
+          }
+          Assets_Page::success (gettext ("The notes were deleted"));
+          $database_logs->log ("Notes deleted: $identifierlist", true);
+        }
+      }
     }
   }
   

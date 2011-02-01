@@ -11,5 +11,6 @@
 <p><a href="{$caller}?session={$session}&consultationnotesbulkupdate=severity">{t}Change the severity of the notes{/t}</a></p>
 <p><a href="{$caller}?session={$session}&consultationnotesbulkupdate=visibility">{t}Change the visibility of the notes{/t}</a></p>
 <p><a href="{$caller}?session={$session}&consultationnotesbulkupdate=bible">{t}Change the Bible of the notes{/t}</a></p>
+<p><a href="{$caller}?session={$session}&consultationnotesbulkupdate=delete">{t}Delete the notes{/t}</a></p>
 <br>
 <p><a href="{$caller}?session={$session}&displaynoteslist=">{t}Back to notes list{/t}</a></p>
