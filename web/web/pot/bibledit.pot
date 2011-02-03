@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-01 01:45+0100\n"
+"POT-Creation-Date: 2011-02-03 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,6 +212,9 @@ msgstr ""
 msgid "There was nothing to save"
 msgstr ""
 
+msgid "Please enter the summary"
+msgstr ""
+
 msgid "Would you like to assign this note to a user?"
 msgstr ""
 
@@ -282,6 +285,12 @@ msgid "Would you like to assign these notes to another Bible?"
 msgstr ""
 
 msgid "The Bible of the notes was updated"
+msgstr ""
+
+msgid "Would you like to delete the notes?"
+msgstr ""
+
+msgid "The notes were deleted"
 msgstr ""
 
 msgid "This view does not display any notes."
@@ -1619,6 +1628,9 @@ msgstr ""
 msgid "Change the Bible of the notes"
 msgstr ""
 
+msgid "Delete the notes"
+msgstr ""
+
 msgid "Manage Consultation Notes"
 msgstr ""
 
@@ -1671,10 +1683,10 @@ msgstr ""
 msgid "Entry"
 msgstr ""
 
-msgid "Yes / No"
+msgid "Yes"
 msgstr ""
 
-msgid "Yes"
+msgid "Yes / No"
 msgstr ""
 
 msgid "Privileges"

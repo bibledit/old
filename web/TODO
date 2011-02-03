@@ -1,5 +1,5 @@
-Import notes from Bibledit-Gtk: Logbook entries not to be imported, since this generates a lot of clutter in Bibledit-Web.
-
+To edit the note contents, for the Manager.
+Import from Bibledit-Gtk: Do not import logbook entries.
 
 
 
@@ -28,7 +28,14 @@ the git repository gets updated.
 
 
 When a note is updated through send/receive, are any emails sent out? Does not look like it happens.
-Perhaps this is by design. But it is not a good design.
+Perhaps this is by design. But it is not a good design. Even subscriptions and assignments should work.
+
+
+
+
+We perhaps should convert Bibledit-Web to a Drupal 7 module. This could save a huge amount of work.
+Anything that does not fit into the drupal harness can still be done externally by calling a hard-core Bibledit-Web
+stanalone URL. But does Drupal really offer sufficient functionality???
 
 
 

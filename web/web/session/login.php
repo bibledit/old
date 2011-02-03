@@ -14,9 +14,9 @@ if (isset($_POST['submit'])) {
   $form_is_valid = true;
   $user = $_POST['user'];
   $pass = $_POST['pass'];
-  if (strlen ($user) < 4) {
+  if (strlen ($user) < 2) {
     $form_is_valid = false;
-    $smarty->assign ('username_or_email_invalid_message', gettext ("Username should be at least four characters long"));
+    $smarty->assign ('username_or_email_invalid_message', gettext ("Username should be at least two characters long"));
   }
   if (strlen ($pass) < 4) {
     $form_is_valid = false;
