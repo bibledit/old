@@ -139,6 +139,7 @@ protected:
   GtkWidget *image34724;
   GtkWidget *file_restore;
   GtkWidget *image34980;
+  GtkWidget *close1;
   GtkWidget *quit1;
   GtkWidget *menuitem_edit;
   GtkWidget *menuitem_edit_menu;
@@ -343,6 +344,7 @@ protected:
   void editproject();
   static void on_delete1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void deleteproject();
+  static void on_close1_activate(GtkMenuItem * menuitem, gpointer user_data);
   static void on_quit1_activate(GtkMenuItem * menuitem, gpointer user_data);
   static void on_system_log1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void viewlog();
