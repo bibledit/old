@@ -94,6 +94,13 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(word_entry);
   gtk_box_pack_start(GTK_BOX(hbox1), word_entry, TRUE, TRUE, 0);
 
+  if (!settings->genconfig.text_editor_font_default_get()) {
+    PangoFontDescription *font_desc = NULL;
+    font_desc = pango_font_description_from_string(settings->genconfig.text_editor_font_name_get().c_str());
+    gtk_widget_modify_font(word_entry, font_desc);
+    pango_font_description_free(font_desc);
+  }
+
   // Set search text.
   gtk_entry_set_text(GTK_ENTRY(word_entry), settings->session.searchword.c_str());
 

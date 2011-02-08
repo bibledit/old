@@ -80,6 +80,14 @@ ReplaceDialog::ReplaceDialog(int dummy)
   gtk_table_attach(GTK_TABLE(table1), entry3, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 2);
   gtk_entry_set_activates_default(GTK_ENTRY(entry3), TRUE);
 
+  if (!settings->genconfig.text_editor_font_default_get()) {
+    PangoFontDescription *font_desc = NULL;
+    font_desc = pango_font_description_from_string(settings->genconfig.text_editor_font_name_get().c_str());
+    gtk_widget_modify_font(entry2, font_desc);
+    gtk_widget_modify_font(entry3, font_desc);
+    pango_font_description_free(font_desc);
+  }
+
   checkbuttoncase = gtk_check_button_new_with_mnemonic("Case sensitive");
   gtk_widget_show(checkbuttoncase);
   gtk_table_attach(GTK_TABLE(table1), checkbuttoncase, 0, 2, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);

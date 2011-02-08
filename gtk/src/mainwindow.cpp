@@ -4529,6 +4529,14 @@ void MainWindow::set_fonts()
     editor_windows[i]->set_font();
     editor_windows[i]->create_or_update_formatting_data();
   }
+  // Set fonts in the project notes window.
+  if (window_notes) {
+    window_notes->set_fonts();
+  }
+  // Set fonts in the references window.
+  if (window_references) {
+    window_references->set_fonts();
+  }
 }
 
 

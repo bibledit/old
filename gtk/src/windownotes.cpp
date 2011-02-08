@@ -337,6 +337,9 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   // Main focused widget.
   last_focused_widget = htmlview_notes;
   gtk_widget_grab_focus (last_focused_widget);
+  
+  // Set fonts.
+  set_fonts ();
 }
 
 
@@ -1248,5 +1251,29 @@ void WindowNotes::on_button_more()
     project = dialog.project;
   }
 }
+
+
+void WindowNotes::set_fonts()
+{
+  extern Settings *settings;
+  if (!settings->genconfig.text_editor_font_default_get()) {
+    PangoFontDescription *desired_font_description = pango_font_description_from_string(settings->genconfig.text_editor_font_name_get().c_str());
+    const char * desired_font_family = pango_font_description_get_family (desired_font_description);
+
+    PangoContext * pango_context = NULL;
+    PangoFontDescription *font_desc = NULL;
+    
+    pango_context = gtk_widget_get_pango_context (htmlview_notes);
+    font_desc = pango_context_get_font_description (pango_context);
+    pango_font_description_set_family (font_desc, desired_font_family);
+
+    pango_context = gtk_widget_get_pango_context (htmlview_note_editor);
+    font_desc = pango_context_get_font_description (pango_context);
+    pango_font_description_set_family (font_desc, desired_font_family);
+
+    pango_font_description_free(desired_font_description);
+  }
+}
+
 
 
