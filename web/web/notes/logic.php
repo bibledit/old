@@ -111,13 +111,20 @@ class Notes_Logic
       }
     }
 
-    // Ensure the list consists of unique recipients, so nobody is mailed twice about an issue.
+    // Unique recipients, nobody gets duplicate email.
     $recipients = array_unique ($recipients);
 
     // Send mail to all recipients.
     $summary = $database_notes->getSummary ($identifier);
     $passages = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
     $contents = $database_notes->getContents ($identifier);
+    // Include link to the note on the site. Saves the user searching for the note.
+    $contents .= "<br>\n";
+    $referer = $_SERVER["HTTP_REFERER"];
+    $caller = explode ("?", $referer);
+    $caller = $caller[0];
+    $link = "$caller?consultationnote=$identifier";
+    $contents .= "<p><a href=\"$link\">$link</a></p>\n";
     foreach ($recipients as $recipient) {
       $database_mail->send ($recipient, "$label | $passages | $summary", $contents);
     }
