@@ -75,7 +75,7 @@ if ($success) {
   $contents = file_get_contents ($url);
   if ($contents === false) {
     $success = false;
-    $error = error_get_last (); // Todo
+    $error = error_get_last ();
     $errormessage = nl2br (gettext ("Could not get the file at the URL.") . "\n" . $error[message]);
   }
 }
@@ -104,6 +104,5 @@ $smarty->assign ("success", $success);
 $smarty->assign ("errormessage", $errormessage);
 $smarty->display ("update2.tpl");
 Assets_Page::footer ();
-// Todo working here. 
 
 ?>

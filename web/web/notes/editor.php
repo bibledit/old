@@ -148,7 +148,7 @@ class Notes_Editor
     if (isset ($consultationnoteeditsummary)) {
       $summary = $_POST['entry'];
       $database_notes->setSummary ($consultationnote, $summary);
-      $notes_logic->handlerUpdateNote ($consultationnote);
+      // $notes_logic->handlerUpdateNote ($consultationnote);
     }
 
     // Delete a note.
@@ -195,13 +195,13 @@ class Notes_Editor
     @$removeassignee = $_GET['consultationnoteremoveassignee'];
     if (isset ($removeassignee)) {
       $database_notes->unassignUser ($consultationnote, $removeassignee);
-      $notes_logic->handlerUpdateNote ($consultationnote);
+      // $notes_logic->handlerUpdateNote ($consultationnote);
     }
     @$unassignme = $_GET['consultationnoteunassignme'];
     if (isset ($unassignme)) {
       // If a user unassigns himself, the automatic assignment setting should not assign him again.
       // For that reason the assignment logic is done before the user is unasssigned.
-      $notes_logic->handlerUpdateNote ($consultationnote);
+      // $notes_logic->handlerUpdateNote ($consultationnote);
       $database_notes->unassign ($consultationnote);
     }
 
@@ -220,7 +220,7 @@ class Notes_Editor
       } else {
         if ($consultationnotebible == "0gen0bible0") $consultationnotebible = "";
         $database_notes->setBible ($consultationnote, $consultationnotebible);
-        $notes_logic->handlerUpdateNote ($consultationnote);
+        // $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
 
@@ -236,7 +236,7 @@ class Notes_Editor
         $dialog_list->run();
       } else {
         $database_notes->setStatus ($consultationnote, $consultationnotestatus);
-        $notes_logic->handlerUpdateNote ($consultationnote);
+        // $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
 
@@ -252,7 +252,7 @@ class Notes_Editor
         $dialog_list->run();
       } else {
         $database_notes->setRawSeverity ($consultationnote, $consultationnoteseverity);
-        $notes_logic->handlerUpdateNote ($consultationnote);
+        // $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
 
@@ -269,7 +269,7 @@ class Notes_Editor
         $dialog_list->run();
       } else {
         $database_notes->setPrivacy ($consultationnote, $consultationnoteprivacy);
-        $notes_logic->handlerUpdateNote ($consultationnote);
+        // $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
 
@@ -293,7 +293,7 @@ class Notes_Editor
           }
         }
         $database_notes->setPassages ($consultationnote, $passages);
-        $notes_logic->handlerUpdateNote ($consultationnote);
+        // $notes_logic->handlerUpdateNote ($consultationnote);
       }
     }
     
@@ -431,7 +431,7 @@ class Notes_Editor
             foreach ($identifiers as $identifier) {
               if ($database_notes->isAssigned ($identifier, $assignee)) {
                 $database_notes->unassignUser ($identifier, $assignee);
-                $notes_logic->handlerUpdateNote ($identifier);
+                // $notes_logic->handlerUpdateNote ($identifier);
               }
             }
           }
@@ -453,7 +453,7 @@ class Notes_Editor
           foreach ($identifiers as $identifier) {
             if ($database_notes->getRawStatus ($identifier) != $status) {
               $database_notes->setStatus ($identifier, $status);
-              $notes_logic->handlerUpdateNote ($identifier);
+              // $notes_logic->handlerUpdateNote ($identifier);
             }
           }
           Assets_Page::success (gettext ("The status of the notes was updated"));
@@ -474,7 +474,7 @@ class Notes_Editor
           foreach ($identifiers as $identifier) {
             if ($database_notes->getRawSeverity ($identifier) != $severity) {
               $database_notes->setRawSeverity ($identifier, $severity);
-              $notes_logic->handlerUpdateNote ($identifier);
+              // $notes_logic->handlerUpdateNote ($identifier);
             }
           }
           Assets_Page::success (gettext ("The severity of the notes was updated"));
@@ -496,7 +496,7 @@ class Notes_Editor
           foreach ($identifiers as $identifier) {
             if ($database_notes->getPrivacy ($identifier) != $visibility) {
               $database_notes->setPrivacy ($identifier, $visibility);
-              $notes_logic->handlerUpdateNote ($identifier);
+              // $notes_logic->handlerUpdateNote ($identifier);
             }
           }
           Assets_Page::success (gettext ("The visibility of the notes was updated"));
@@ -520,7 +520,7 @@ class Notes_Editor
           foreach ($identifiers as $identifier) {
             if ($database_notes->getBible ($identifier) != $bible) {
               $database_notes->setBible ($identifier, $bible);
-              $notes_logic->handlerUpdateNote ($identifier);
+              // $notes_logic->handlerUpdateNote ($identifier);
             }
           }
           Assets_Page::success (gettext ("The Bible of the notes was updated"));

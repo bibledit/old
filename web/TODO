@@ -1,5 +1,23 @@
+Email heeft een link nodig waar men mee op de site kan komen.
+
+
+
+
+
+
 To edit the note contents, for the Manager.
 Import from Bibledit-Gtk: Do not import logbook entries.
+
+
+
+
+De online notes worden niet langer meer gesynchroniseerd. Die blijven gewoon online.
+Bibledit-Gtk blijft gewoon werken zoals het is, en de notes gaan niet naar de site.
+
+
+De dictionary van Bibledit-Gtk verdwijnt als er gesynchroniseerd wordt met Bibledit-Web. 
+Bibledit-Web moet hierin voorzien dat dit in ieder geval niet verdwijnt.
+Dit geldt niet voor normaal send-receive, maar wel voor het instellen van de collaboration voor de eerste keer.
 
 
 
@@ -254,19 +272,7 @@ The site has one default translation, set by the site administrator. Visitors ge
 
 
 
-The purpose of the site is to inform the public about a translation in progress and to sollicit their input.
-The 'consultation notes' on the site work in a special way. Contributors are invited to open an account on the site in order to contribute.
-Consultation notes can be assigned to one or more persons. If a note is assigned to a person, then this person gets emailed.
-But also, more importantly, the person will get reminders after e.g. a week, two weeks, a month. The person can set the frequency of
-the reminders but not less often than once a month or two months on the most. This is the result that persons get regularly reminded if their
-note has not been resolved. It is more a task than a note. Persons should also be able to click the 'resolved' button, which will 
-automatically unassign it to him, and re-assign it to the 'team'. Borrow reasonably from a tickets system that may already be there.
-There is also an array of users whose response is requested for this ticket, and reminders go to them till they respond by email or switch 
-this flag off: Don't bother me with this ticket. If this flag is switched off by them, then they are regarded to have responded without a vote.
-There is an external email account where email responses can go to, and this account is regularly checked by bibledit.
-The ticket / issues trackers differs in model to the current system. The current system shares the notes, but the new system has a ticket number, 
-with a variety of comments to it, and status. See the standard ticets systems. There should be a way to import the old system into the new.
-The new should be shared also.
+
 
 
 

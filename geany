@@ -14,14 +14,22 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=5
-FILE_NAME_0=103;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=449701;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
-FILE_NAME_2=746;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/user/account.php;0
-FILE_NAME_3=329;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/login.php;0
-FILE_NAME_4=2221;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/signup.php;0
-FILE_NAME_5=207893;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.cpp;0
-FILE_NAME_6=10135;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.h;0
+current_page=0
+FILE_NAME_0=467;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=464426;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
+FILE_NAME_2=160350;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.cpp;0
+FILE_NAME_3=14185;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.h;0
+FILE_NAME_4=20365;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/generalconfig.cpp;0
+FILE_NAME_5=7116;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/generalconfig.h;0
+FILE_NAME_6=25297;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/editor.cpp;0
+FILE_NAME_7=48019;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windownotes.cpp;0
+FILE_NAME_8=3367;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windownotes.h;0
+FILE_NAME_9=27089;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowreferences.cpp;0
+FILE_NAME_10=1618;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowreferences.h;0
+FILE_NAME_11=3747;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogsearchspecial.cpp;0
+FILE_NAME_12=1314;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogsearchspecial.h;0
+FILE_NAME_13=3028;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogreplace.cpp;0
+FILE_NAME_14=779;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogreplace.h;0
 
 [long line marker]
 long_line_behaviour=1
