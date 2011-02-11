@@ -186,7 +186,7 @@ class Notes_Editor
       } else {
         if ($database_users->usernameExists ($addassignee)) {
           $database_notes->assignUser ($consultationnote, $addassignee);
-          $notes_logic->handlerUpdateNote ($consultationnote);
+          $notes_logic->handlerAssignNote ($consultationnote, $addassignee); // Todo
         }
       }
     }
@@ -407,7 +407,7 @@ class Notes_Editor
             foreach ($identifiers as $identifier) {
               if (!$database_notes->isAssigned ($identifier, $assignee)) {
                 $database_notes->assignUser ($identifier, $assignee);
-                $notes_logic->handlerUpdateNote ($identifier);
+                $notes_logic->handlerAssignNote ($identifier, $assignee); // Todo
               }
             }
           }
