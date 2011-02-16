@@ -37,12 +37,12 @@ class Notes_Logic
 
   public function handlerNewNote ($identifier)
   {
-    $this->notifierNote ($identifier, gettext ("New note"));
+    $this->notifyUsers ($identifier, gettext ("New note"));
   }
 
   public function handlerAddComment ($identifier)
   {
-    $this->notifierNote ($identifier, gettext ("Comment added"));
+    $this->notifyUsers ($identifier, gettext ("Comment added"));
     // If the note' status was Done, and a comment is added, mark it Reopened.
     $database_notes = Database_Notes::getInstance ();
     $status = $database_notes->getRawStatus ($identifier);
@@ -51,34 +51,35 @@ class Notes_Logic
     }
   }
 
-  public function handlerUpdateNote ($identifier) // Todo
+  public function handlerUpdateNote ($identifier)
   {
-    $this->notifierNote ($identifier, gettext ("Note updated"));
+    $this->notifyUsers ($identifier, gettext ("Note updated"));
   }
 
-  public function handlerAssignNote ($identifier, $user) // Todo
+  public function handlerAssignNote ($identifier, $user)
   {
-    // $this->notifierNote ($identifier, gettext ("Note assigned"), $user);
+    $database_config_user = Database_Config_User::getInstance ();
+    if ($database_config_user->getUserAssignedConsultationNoteNotification ($user)) {
+      $this->emailUsers ($identifier, gettext ("Note assigned"), array ($user));
+    }
   }
 
   public function handlerDeleteNote ($identifier)
   {
-    $this->notifierNote ($identifier, gettext ("Note deleted"));
+    $this->notifyUsers ($identifier, gettext ("Note deleted"));
   }
 
   /**
-  * This handles notifications for relevant receivers
-  * $identifier: the note.
+  * This handles notifications for the users
+  * $identifier: the note that is being handled.
   * $label: prefix to the subject line of the email.
   */
-  private function notifierNote ($identifier, $label) // Todo
+  private function notifyUsers ($identifier, $label)
   {
     // Databases.
     $database_notes = Database_Notes::getInstance();
-    $session_logic = Session_Logic::getInstance ();
     $database_config_user = Database_Config_User::getInstance ();
     $database_users = Database_Users::getInstance();
-    $database_mail = Database_Mail::getInstance();
     
     // Whether current user gets subscribed to the note.
     if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
@@ -119,15 +120,26 @@ class Notes_Logic
     // Unique recipients, nobody gets duplicate email.
     $recipients = array_unique ($recipients);
     
-    // In case that a consultation note was assigned to the $assignee, 
-    // only the $assignee gets an email. // Todo
-    /*
-    if ($assignee != "") {
-      $recipients = array ($assignee);
-    }
-    */
-
     // Send mail to all recipients.
+    $this->emailUsers ($identifier, $label, $recipients);
+  }
+
+
+  /**
+  * This handles emails for the users
+  * $identifier: the note that is being handled.
+  * $label: prefix to the subject line of the email.
+  * $users: array of users to be mailed.
+  */
+  private function emailUsers ($identifier, $label, $users)
+  {
+    // Databases.
+    $database_notes = Database_Notes::getInstance();
+    $database_config_user = Database_Config_User::getInstance ();
+    $database_users = Database_Users::getInstance();
+    $database_mail = Database_Mail::getInstance();
+    
+    // Send mail to all users.
     $summary = $database_notes->getSummary ($identifier);
     $passages = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
     $contents = $database_notes->getContents ($identifier);
@@ -138,10 +150,11 @@ class Notes_Logic
     $caller = $caller[0];
     $link = "$caller?consultationnote=$identifier";
     $contents .= "<p><a href=\"$link\">$link</a></p>\n";
-    foreach ($recipients as $recipient) {
-      $database_mail->send ($recipient, "$label | $passages | $summary", $contents);
+    foreach ($users as $user) {
+      $database_mail->send ($user, "$label | $passages | $summary", $contents);
     }
   }
+
 }  
 
 
