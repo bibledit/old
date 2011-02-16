@@ -1,6 +1,26 @@
-Assigning notes to somebody should not subscribe and email others, as it does not. 
-The routines should be split out. 
-PHPUnit tests to run and update.
+Clicking on a note immediately moves the navigator to the first verse.
+
+
+
+De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
+Een knop voor 'send now', net als bij backup, en dan elke dag daarna.
+
+
+
+Notes afhandeling per email. 
+Nieuwe note via een speciale subject line, met tekst in de eerste regel, 
+en onderwerp in de subject, na aftrek van de special subject line. 
+Reageren op note gaat nog makkelijker: 
+Gewoon reply doen, tekst tikken, en klaar. Alles wat begint met > wordt eruit gegooid.
+
+
+
+
+
+Gtk The backup routines keeps going many times.
+
+
+
 
 
 

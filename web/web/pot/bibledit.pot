@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 01:45+0100\n"
+"POT-Creation-Date: 2011-02-16 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -186,6 +186,9 @@ msgid "Comment added"
 msgstr ""
 
 msgid "Note updated"
+msgstr ""
+
+msgid "Note assigned"
 msgstr ""
 
 msgid "Note deleted"

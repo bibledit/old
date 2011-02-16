@@ -12,10 +12,14 @@ class Session_Logic
 {
 
   private $level = 0;                         // The level of the user.
-  private $check_browser = true;              // Include browser name in fingerprint?
-  private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
-  private $secure_word = 'controlword';       // Control word - any word you want.
-  private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
+  //private $check_browser = true;              // Include browser name in fingerprint?
+  private $check_browser = false;              // Include browser name in fingerprint?
+  //private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
+  private $check_ip_blocks = 0;               // How many numbers from IP use in fingerprint?
+  //private $secure_word = 'controlword';       // Control word - any word you want.
+  private $secure_word = '';       // Control word - any word you want.
+  //private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
+  private $regenerate_id = false;              // Regenerate session ID to prevent fixation attacks?
   private static $instance;                   // Current singleton instance.
   private $logged_in;
 
