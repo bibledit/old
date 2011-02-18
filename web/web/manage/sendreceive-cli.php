@@ -78,6 +78,24 @@ foreach ($bibles as $bible) {
       Filter_Rmdir::rmdir ("$directory/.git");
     }
 
+    // Add the shared_dictionary as used by Bibledit-Gtk.
+    // If this were not done, then send/receive in Bibledit-Web would remove 
+    // Bibledit-Gtk's word list used for spelling checking.
+    if ($success) {
+      $command = "cd $shelldirectory; touch shared_dictionary 2>&1";
+      echo "$command\n";
+      $database_logs->log ($command);
+      unset ($result);
+      exec ($command, &$result, &$exit_code);
+      if ($exit_code != 0) $success = false;
+      foreach ($result as $line) {
+        $database_logs->log ($line);
+      }
+      $message = "Exit code $exit_code";
+      echo "$message\n";
+      $database_logs->log ($message);
+    }
+
     // Commit the new data to the repository.
     if ($success) {
       $command = "cd $shelldirectory; git add . 2>&1";

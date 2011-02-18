@@ -1,3 +1,13 @@
+De dictionary van Bibledit-Gtk verdwijnt als er gesynchroniseerd wordt met Bibledit-Web. 
+Bibledit-Web moet hierin voorzien dat dit in ieder geval niet verdwijnt.
+Dit geldt niet voor normaal send-receive, maar wel voor het instellen van de collaboration voor de eerste keer.
+Op de site geeft hij nu een fout als gevolg van de dictionary.
+Deze fout moet opgelost worden door eerst te doen: touch shared_dictionary
+
+
+
+
+
 
 
 Clicking on a note immediately moves the navigator to the first verse.
@@ -32,13 +42,6 @@ To edit the note contents, for the Manager.
 Import from Bibledit-Gtk: Do not import logbook entries.
 
 
-
-
-
-De dictionary van Bibledit-Gtk verdwijnt als er gesynchroniseerd wordt met Bibledit-Web. 
-Bibledit-Web moet hierin voorzien dat dit in ieder geval niet verdwijnt.
-Dit geldt niet voor normaal send-receive, maar wel voor het instellen van de collaboration voor de eerste keer.
-Op de site geeft hij nu een fout als gevolg van de dictionary.
 
 
 
