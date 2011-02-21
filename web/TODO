@@ -1,11 +1,5 @@
-
-
-Clicking on a note immediately moves the navigator to the first verse.
-But perhaps all verses should be clickable, so that clicking a verse does not open the note, only goes to the verse.
-
-
 De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
-Een knop voor 'send now', net als bij backup, en dan elke dag daarna.
+Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde tijd.
 
 
 
@@ -19,7 +13,7 @@ Gewoon reply doen, tekst tikken, en klaar. Alles wat begint met > wordt eruit ge
 
 
 
-Gtk The backup routines keeps going many times.
+Gtk The backup routine keeps going many times.
 
 
 
@@ -59,15 +53,10 @@ the git repository gets updated.
 
 
 
-When a note is updated through send/receive, are any emails sent out? Does not look like it happens.
-Perhaps this is by design. But it is not a good design. Even subscriptions and assignments should work.
 
 
 
 
-We perhaps should convert Bibledit-Web to a Drupal 7 module. This could save a huge amount of work.
-Anything that does not fit into the drupal harness can still be done externally by calling a hard-core Bibledit-Web
-stanalone URL. But does Drupal really offer sufficient functionality???
 
 
 

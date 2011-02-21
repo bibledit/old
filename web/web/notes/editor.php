@@ -110,6 +110,18 @@ class Notes_Editor
     $database_sessions->setEditConsultationNoteView ($editconsultationnoteview);
     $database_sessions->setBulkUpdateConsultationNotes ($bulkupdateconsultationnotes);
     
+    // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
+    if (isset ($_GET['consultationnote'])) {
+      // Variable $consultationnote has been set above. It contains the note identifier.
+      $passages = $database_notes->getPassages ($consultationnote);
+      if (is_array ($passages)) {
+        if (!empty ($passages)) {
+          $ipc_focus = Ipc_Focus::getInstance();
+          $ipc_focus->set ($passages[0][0], $passages[0][1], $passages[0][24]);
+        }
+      }
+    }
+    
     // Save new note.
     if (isset ($_GET['savenewconsultationnote'])) {
       if (isset($_POST['submit'])) {
