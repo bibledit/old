@@ -117,7 +117,7 @@ class Notes_Editor
       if (is_array ($passages)) {
         if (!empty ($passages)) {
           $ipc_focus = Ipc_Focus::getInstance();
-          $ipc_focus->set ($passages[0][0], $passages[0][1], $passages[0][24]);
+          $ipc_focus->set ($passages[0][0], $passages[0][1], $passages[0][2]);
         }
       }
     }

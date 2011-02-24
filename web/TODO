@@ -1,3 +1,15 @@
+Cannot send and receive the data because the git repository was not found in the database.
+This text is not accurate because it is not stored in the database but on disk.
+
+
+
+Notes die al toegekend zijn aan iemand, als die opnieuw toegekend worden aan deze persoon,
+moeten er geen nieuwe emails gegenereerd worden. Anders zou iemand dubbele emails krijgen.
+Dit geldt vooral voor bulk updates.
+
+
+
+
 De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
 Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde tijd.
 
@@ -18,6 +30,9 @@ Gtk The backup routine keeps going many times.
 
 
 
+the Ubuntu package git-daemon-run may be a useful way for
+you to set up a git server that is permanent and restarts itself
+appropriately after server reboots.  
 
 
 
