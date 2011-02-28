@@ -37,8 +37,21 @@ appropriately after server reboots.
 
 
 
+The Bibledit-Gtk notes become personal after the site can be operated by email.
+Then everybody has his own corner where to store the notes.
+
+
 To edit the note contents, for the Manager.
 Import from Bibledit-Gtk: Do not import logbook entries.
+
+
+
+Git operations as follows: No longer just deleting all stuff as we do now.
+But we only delete data when a chapter gets deleted.
+To add this 'delete' operation for all database operations.
+Thus the shared dictionary remains.
+Thus the status data remains too.
+If a book gets deleted, then the whole directory gets delete for that book.
 
 
 
