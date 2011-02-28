@@ -61,31 +61,31 @@ AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_intro, true);
 
   // Help button.
-  button_help = gtk_button_new();
-  gtk_widget_show(button_help);
-  gtk_assistant_add_action_widget (GTK_ASSISTANT (assistant), button_help);
+  // button_help = gtk_button_new();
+  // gtk_widget_show(button_help);
+  // gtk_assistant_add_action_widget (GTK_ASSISTANT (assistant), button_help);
 
-  GtkWidget *alignment = gtk_alignment_new(0.5, 0.5, 0, 0);
-  gtk_widget_show(alignment);
-  gtk_container_add(GTK_CONTAINER(button_help), alignment);
+  // GtkWidget *alignment = gtk_alignment_new(0.5, 0.5, 0, 0);
+  // gtk_widget_show(alignment);
+  // gtk_container_add(GTK_CONTAINER(button_help), alignment);
 
-  GtkWidget *hbox = gtk_hbox_new(FALSE, 2);
-  gtk_widget_show(hbox);
-  gtk_container_add(GTK_CONTAINER(alignment), hbox);
+  // GtkWidget *hbox = gtk_hbox_new(FALSE, 2);
+  // gtk_widget_show(hbox);
+  // gtk_container_add(GTK_CONTAINER(alignment), hbox);
 
-  GtkWidget *image = gtk_image_new_from_stock("gtk-help", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image);
-  gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
+  // GtkWidget *image = gtk_image_new_from_stock("gtk-help", GTK_ICON_SIZE_BUTTON);
+  // gtk_widget_show(image);
+  // gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
 
-  GtkWidget *label = gtk_label_new_with_mnemonic("_Help");
-  gtk_widget_show(label);
-  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  // GtkWidget *label = gtk_label_new_with_mnemonic("_Help");
+  // gtk_widget_show(label);
+  // gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   
   // Signal handlers.
-  g_signal_connect((gpointer) button_help, "clicked", G_CALLBACK(on_button_help_activated), gpointer(this));
+  // g_signal_connect((gpointer) button_help, "clicked", G_CALLBACK(on_button_help_activated), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "cancel", G_CALLBACK (on_assistant_cancel_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "close", G_CALLBACK (on_assistant_close_signal), gpointer(this));
-  g_signal_connect (G_OBJECT (assistant), "delete_event", G_CALLBACK(on_assistant_delete_event), gpointer(this));
+  // g_signal_connect (G_OBJECT (assistant), "delete_event", G_CALLBACK(on_assistant_delete_event), gpointer(this));
 }
 
 
