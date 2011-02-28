@@ -1,4 +1,4 @@
-dist_pkgdata_DATA = *.html
+dist_pkgdata_DATA = *.html *.css
 EXTRA_DIST = site
 CLEANFILES = *~
 

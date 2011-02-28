@@ -14,7 +14,7 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
+current_page=14
 FILE_NAME_0=1655;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=499260;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
 FILE_NAME_2=4599;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
@@ -23,6 +23,15 @@ FILE_NAME_4=3442;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage
 FILE_NAME_5=4453;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/assets/navigator.php;0
 FILE_NAME_6=1128;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/ipc/focus.php;0
 FILE_NAME_7=23998;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+FILE_NAME_8=1491;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/help.cpp;0
+FILE_NAME_9=901;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/help.h;0
+FILE_NAME_10=4745;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/assistants.cpp;0
+FILE_NAME_11=0;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/assistants.h;0
+FILE_NAME_12=307;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/maintenance.cpp;0
+FILE_NAME_13=0;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/maintenance.h;0
+FILE_NAME_14=185;HTML;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/doc/index.html;0
+FILE_NAME_15=32;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/gtk/doc/Makefile.am;0
+FILE_NAME_16=90873;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.cpp;0
 
 [long line marker]
 long_line_behaviour=1

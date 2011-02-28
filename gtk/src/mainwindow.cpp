@@ -2034,7 +2034,7 @@ void MainWindow::on_help_main_activate(GtkMenuItem * menuitem, gpointer user_dat
 
 void MainWindow::on_help_main()
 {
-  htmlbrowser(html_server_url ("site/index.html"), false, true);
+  htmlbrowser(html_server_url ("index.html"), false, true);
 }
 
 
