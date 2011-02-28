@@ -1,0 +1,835 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type="text/javascript">/* Copyright 2008 Google. */ (function() { var a=window;var b="start";function d(f){this.t={};this.tick=function(g,h,c){c=c!=undefined?c:(new Date).getTime();this.t[g]=[c,h]};this.tick(b,null,f)}var e=new d;a.jstiming={Timer:d,load:e};try{var i=null;if(a.chrome&&a.chrome.csi)i=Math.floor(a.chrome.csi().pageT);if(i==null)if(a.gtbExternal)i=a.gtbExternal.pageT();if(i==null)if(a.external)i=a.external.pageT;if(i)a.jstiming.pt=i}catch(j){}; })()
+</script>
+<link rel="shortcut icon" type="image/x-icon" href="http://www.google.com/images/icons/product/sites-16.ico" />
+<link rel="apple-touch-icon" href="http://www.gstatic.com/sites/p/9ef40f/system/app/images/apple-touch-icon.png" type="image/png" />
+<script type="text/javascript">/* Copyright 2008 Google. */ (function() { var e=parseInt,h=window,i="length";function j(c){return document.getElementById(c)}h.byId=j;var k="";function l(c){return c.replace(/^\s+|\s+$/g,k)}h.trim=l;
+var m="MSIE",n="6.0",o="string",p='id="',q='" ',r='class="',s='title="',t="display:inline-block;",u="left",v="float:left;",w="right",x="float:right;",y="cursor:hand;",z="<span ",A=' style="width:',B="px; height:",C="px;",D=";padding: 0;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",E="', sizingMethod='scale');\"></span><span style=\"padding: ",F=" ",G=";",H="float:",I='"></span>';
+h.ie6ImgFix=function(c){var b=h.navigator?navigator.userAgent:k;if(b.indexOf(m)!=-1&&typeof opera=="undefined"){var d=/MSIE\s+([^\);]+)(\)|;)/;d.test(b);b=RegExp.$1;if(b==n){var a=typeof c==o?j(c):c;c=a.id?p+a.id+q:k;b=a.className?r+a.className+q:k;d=a.title?s+a.title+q:s+a.alt+q;var f=t+a.style.cssText;if(a.align==u)f=v+f;if(a.align==w)f=x+f;if(a.parentElement.href)f=y+f;var g=a.currentStyle,L=a.width-e(g.paddingLeft,10)-e(g.paddingRight,10),M=a.height-e(g.paddingTop,10)-e(g.paddingBottom,10),N=
+z+c+b+d+A+L+B+M+C+f+D+a.src+E+g.paddingTop+F+g.paddingRight+F+g.paddingBottom+F+g.paddingLeft+G+(g.styleFloat?H+g.styleFloat+G:k)+I;h.setTimeout(function(){a.outerHTML=N},1)}}};var J=[],K=0;h.JOT_addListener=function(c,b,d){var a=new String(K++);c={eventName:c,handler:b,compId:d,key:a};J.push(c);return a};h.JOT_removeListenerByKey=function(c){for(var b=0;b<J[i];b++)if(J[b].key==c){J.splice(b,1);break}};
+h.JOT_removeAllListenersForName=function(c){for(var b=0;b<J[i];b++)J[b].eventName==c&&J.splice(b,1)};var O="function";h.JOT_postEvent=function(c,b,d){var a={eventName:c,eventSrc:b||{},payload:d||{}};if(h.JOT_fullyLoaded){b=J[i];for(d=0;d<b&&d<J[i];d++){var f=J[d];if(f&&f.eventName==c){a.listenerCompId=f.compId||k;(f=typeof f.handler==O?f.handler:h[f.handler])&&f(a)}}}else h.JOT_delayedEvents.push({eventName:c,eventSrc:b,payload:d})};h.JOT_delayedEvents=[];h.JOT_fullyLoaded=false;var P="__duration__";
+h.JOT_formatRelativeToNow=function(c,b){var d=((new Date).getTime()-c)/6E4;if(d>=1440||d<0)return null;var a=0;if(d>=60){d/=60;a=2}d>=2&&a++;return b?h.JOT_siteRelTimeStrs[a].replace(P,Math.floor(d)):h.JOT_userRelTimeStrs[a].replace(P,Math.floor(d))}; })()
+</script>
+<script>
+
+
+var webspace = {"pageSharingId":"jotspot_page","isConsumer":true,"termsUrl":"http://www.google.com/sites/help/intl/en/terms.html","enableAnalytics":false,"canPublishScriptToAnyone":true,"homePath":"/","sharingId":"jotspot","sharingPolicy":"OPENED","isAdsenseEnabled":true,"analyticsAccountId":"","baseUri":"/site/bibledit","name":"bibledit","domain":"defaultdomain","features":{"structuredDataGviz":false,"horizontalNavigationDropdownMenus":true,"subpageNav":false,"kixEditorPageType":false,"maestroIntegration":true,"maestroEmbed":false,"pdfEmbedSupport":false,"experimental":{"displayEditorLockExceptions":false,"commonSharingExperiment":false},"useStandardEmbedsInSidebar":false,"allowQuotesInLinks":true,"pageLevelPermissions":false,"adminInfo":true,"autoFillSidebarNavTree":true,"dragDropHierarchy":true,"headerAlignmentOptions":true,"horizontalNavigationBar":true,"keyboardShortcuts":true,"commonSharing":true,"spreadsheetsEmbedLoadRedirect":true,"structuredDataSchemas":false,"webfonts":false,"footerCustomOptions":true},"adsensePublisherId":null,"isStartPageEnabled":false,"domainAnalyticsAccountId":"","siteTitle":"bibledit"};
+
+
+webspace.gadgets = {"isGadgetDirectoryEnabled":true,"baseUri":"/site/bibledit/system/app/pages/gadgets","isGgsRenderingEnabled":true};
+
+
+webspace.user = {"uid":"","hasAdminAccess":false,"guest_":true,"keyboardShortcuts":true,"domain":"","hasWriteAccess":false,"userName":"guest","dasherUser":false,"primaryEmail":"guest","sessionIndex":"","namespaceUser":false,"displayNameOrEmail":"guest"};
+
+webspace.page = {"canDeleteWebspace":null,"locale":"en","state":"","wuid":"wuid:gx:407d65b1cd999649","timeZone":"America/Los_Angeles","properties":{},"type":"text","canChangePath":true,"parentWuid":"wuid:gx:5e96ba01e07638fa","revision":5,"title":"Keyterms","isRtlLocale":false,"bidiEnabled":false,"siteLocale":"en","name":"keyterms-tutorial","path":"/gtk/tutorials/keyterms-tutorial","isSiteRtlLocale":false,"parentPath":"/gtk/tutorials"};
+webspace.page.breadcrumbs = [{"title":"2 Gtk","dir":"ltr","path":"/site/bibledit/gtk","deleted":false},{"title":"2 Tutorials","dir":"ltr","path":"/site/bibledit/gtk/tutorials","deleted":false},{"title":"Keyterms","dir":"ltr","path":"/site/bibledit/gtk/tutorials/keyterms-tutorial","deleted":false}];
+
+
+var editorResources = [
+  'http://www.gstatic.com/sites/p/9ef40f/system/js/trog_edit__en.js',
+  'http://www.gstatic.com/sites/p/9ef40f/system/app/css/trogedit.css',
+  '/site/bibledit/_/rsrc/1296609110000/system/app/css/editor.css'
+];
+
+var JOT_clearDotPath = 'http://www.gstatic.com/sites/p/9ef40f/system/app/images/cleardot.gif';
+
+
+var JOT_userRelTimeStrs = ["a minute ago","__duration__ minutes ago","an hour ago","__duration__ hours ago"];
+
+
+webspace.page.currentTemplate = {"title":"Web Page","path":"/system/app/pagetemplates/text"};
+
+
+
+
+
+var JOT_siteRelTimeStrs = ["a minute ago","__duration__ minutes ago","an hour ago","__duration__ hours ago"];
+
+</script>
+<script type="text/javascript">
+                window.jstiming.load.tick('scl');
+              </script>
+<meta name="Description" content="bibledit" />
+<link rel="stylesheet" type="text/css" href="http://www.gstatic.com/sites/p/9ef40f/system/app/themes/iceberg/standard-css-iceberg-ltr-ltr.css" />
+<link rel="stylesheet" type="text/css" href="../../_/rsrc/1296609110000/system/app/css/overlay.css%3Fcb=iceberg200goog-ws-left.css" />
+<title>Keyterms - bibledit</title>
+<script type="text/javascript">
+                window.jstiming.load.tick('cl');
+              </script>
+</head>
+
+<body xmlns="http://www.google.com/ns/jotspot" id="body" class=" en">
+<div id="sites-page-toolbar">
+<div id="sites-status" class="sites-status" style="display:none;">
+<div id="sites-notice" class="sites-notice"> </div>
+</div>
+</div>
+<div id="sites-chrome-everything">
+<div id="sites-chrome-page-wrapper" style="direction: ltr">
+<div id="sites-chrome-page-wrapper-inside">
+<div xmlns="http://www.w3.org/1999/xhtml" id="sites-chrome-header-wrapper">
+<table id="sites-chrome-header" class="sites-layout-hbox" cellspacing="0">
+<tr class="sites-header-primary-row">
+<td id="sites-header-title">
+<div class="sites-header-cell-buffer-wrapper">
+<h2>
+<a href="../../index.html" dir="ltr">bibledit</a>
+</h2>
+</div>
+</td>
+<td class="sites-layout-searchbox">
+<div class="sites-header-cell-buffer-wrapper">
+<div>
+<form id="sites-searchbox-form" action="http://sites.google.com/site/bibledit/system/app/pages/search">
+<input type="text" onpropertychange="JOT_setTextDir(this)" oninput="JOT_setTextDir(this)" dir="" id="jot-ui-searchInput" name="q" size="20" />
+<input type="hidden" id="sites-searchbox-scope" name="scope" value="search-site" />
+<div class="goog-inline-block goog-button goog-button-base   "><div class="goog-inline-block goog-button-base-outer-box TOP"><div class="goog-inline-block goog-button-base-inner-box"><div class="goog-button-base-pos"><div class="goog-button-base-top-shadow"> </div><div id="sites-searchbox-search-button" class="goog-button-base-content " style="" onclick=""><span id="sites-searchbox-search-button-label">Search this site</span></div></div></div></div></div>
+</form>
+</div>
+</div>
+</td>
+</tr>
+<tr class="sites-header-secondary-row">
+<td colspan="2">
+</td>
+</tr>
+</table> 
+</div> 
+<div id="sites-chrome-main-wrapper">
+<div id="sites-chrome-main-wrapper-inside">
+<table id="sites-chrome-main" class="sites-layout-hbox" cellspacing="0">
+<tr>
+<td id="sites-chrome-sidebar-left" class="sites-layout-sidebar-left">
+<div xmlns="http://www.w3.org/1999/xhtml" id="COMP_36117816110642753" class="sites-embed">
+<h4 class="sites-embed-title">Navigation</h4>
+<div class="sites-embed-content sites-sidebar-nav ">
+<ul jotId="navList">
+<li class="topLevel nav-first"><div dir="ltr" style="padding-left: 19px;"><a href="../../home.html" jotId="wuid:gx:6e856b0d56b16d24" class="sites-navigation-link topLevel">1 Bibledit</a>
+</div></li>
+<li class="topLevel parent" wuid="gx:48f10a5ff212730c"><div dir="ltr" style="padding-left: 0px;"><div class="expander"></div><a href="../../gtk.html" jotId="wuid:gx:48f10a5ff212730c" class="sites-navigation-link topLevel">2 Gtk</a>
+</div><ul>
+<li class="parent closed" wuid="gx:352a7d62f875dd06"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../installation.html" jotId="wuid:gx:352a7d62f875dd06" class="sites-navigation-link">1 Installation</a>
+</div><ul>
+<li class="parent closed" wuid="gx:6dfd869fd8fff56f"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/asus-eee-pc.html" jotId="wuid:gx:6dfd869fd8fff56f" class="sites-navigation-link">Asus Eee PC</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/asus-eee-pc/bibledit-3-3-on-eee-pc.html" jotId="wuid:gx:5aae895a5ed51566" class="sites-navigation-link">Bibledit 3.3 on eee PC</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:2aaeb4121f691d3b"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/debian.html" jotId="wuid:gx:2aaeb4121f691d3b" class="sites-navigation-link">Debian</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/debian/bibledit-4-0-on-debian-5-03.html" jotId="wuid:gx:7fa23f157127b034" class="sites-navigation-link">Bibledit 4.0 on Debian 5.03</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/debian/bibledit-4-1-on-debian-5-0.html" jotId="wuid:gx:3bef3f1ae42452ac" class="sites-navigation-link">Bibledit 4.1 on Debian 5.03 (Lenny)</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/debian/bibledit-packages-on-debian.html" jotId="wuid:gx:17e827189b034723" class="sites-navigation-link">Bibledit packages on Debian</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:7d7e684ad24f565d"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/fedora.html" jotId="wuid:gx:7d7e684ad24f565d" class="sites-navigation-link">Fedora</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/fedora/bibledit-4-0-on-fedora-12.html" jotId="wuid:gx:4abe5b3fb355c7ef" class="sites-navigation-link">Bibledit 4.0 on Fedora 12</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/fedora/bibledit-4-1-on-fedora-12.html" jotId="wuid:gx:811c3b7aebc2d4b" class="sites-navigation-link">Bibledit 4.1 on Fedora 12</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:7288aaa6480cfa47"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/macintosh.html" jotId="wuid:gx:7288aaa6480cfa47" class="sites-navigation-link">Macintosh</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/macintosh/version-4-0-on-mac-osx-10-4-intel.html" jotId="wuid:gx:427c76b3033aa66e" class="sites-navigation-link">Version 4.0 on Mac OSX 10.4 Intel</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/macintosh/version-4-1-on-mac-os-10-4.html" jotId="wuid:gx:397803c7ad0e565" class="sites-navigation-link">Version 4.1 on Mac OS 10.4</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/macintosh/version-4-1-on-mac-os-x-10-6.html" jotId="wuid:gx:7ea1db120dbb0a2e" class="sites-navigation-link">Version 4.1 on Mac OS X 10.6 Snow Leopard</a>
+</div></li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../installation/mandriva.html" jotId="wuid:gx:6a8b866a4d42b896" class="sites-navigation-link">Mandriva</a>
+</div></li>
+<li class="parent closed" wuid="gx:4d6576c67ae420f9"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/olpc-xo.html" jotId="wuid:gx:4d6576c67ae420f9" class="sites-navigation-link">OLPC XO</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/olpc-xo/bibledit-3-3-or-higher-on-xo-build-703.html" jotId="wuid:gx:78d6b1daa915e1ac" class="sites-navigation-link">Bibledit 3.3 (or higher) on XO build 703</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/olpc-xo/install-bibledit-on-xo-from-source.html" jotId="wuid:gx:7a89d4e0f717c60d" class="sites-navigation-link">Install Bibledit on XO from source</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:a17e9665de5b7e"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/opensuse.html" jotId="wuid:gx:a17e9665de5b7e" class="sites-navigation-link">openSUSE</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/opensuse/bibledit-4-0-on-opensuse-11-2.html" jotId="wuid:gx:6d4b394f409b6e45" class="sites-navigation-link">Bibledit 4.0 on openSUSE 11.2</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/opensuse/bibledit-4-1-on-opensuse-11-2.html" jotId="wuid:gx:5127508c7fd66360" class="sites-navigation-link">Bibledit 4.1 on openSUSE 11.2</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:7e554dd72ccca7d9"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/technicalities.html" jotId="wuid:gx:7e554dd72ccca7d9" class="sites-navigation-link">Technicalities</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/asus-eeepc-emulated-under-vmware.html" jotId="wuid:gx:3fab630f1c41be6c" class="sites-navigation-link">Asus EeePC emulated under VMWare</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/configure-source.html" jotId="wuid:gx:79338dc6f96ef817" class="sites-navigation-link">Configure source</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/create-binary-package-for-asus-eee-pc.html" jotId="wuid:gx:7f341779c6886887" class="sites-navigation-link">Create binary package for Asus Eee PC</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/compile-from-source.html" jotId="wuid:gx:54b1a8df42f26769" class="sites-navigation-link">Install bibledit from source</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/install-fedora-packages.html" jotId="wuid:gx:40ac6f858fc154c2" class="sites-navigation-link">Install Fedora Packages</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/install-opensuse-packages.html" jotId="wuid:gx:6448fe007b7142ff" class="sites-navigation-link">Install openSUSE packages</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/install-optional-components.html" jotId="wuid:gx:61023aa60b2ebf8d" class="sites-navigation-link">Install optional components</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/macintosh.html" jotId="wuid:gx:512c1c2c583ac3c1" class="sites-navigation-link">Macintosh</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/technicalities/run-bibledit.html" jotId="wuid:gx:252d3f96d439658b" class="sites-navigation-link">Run Bibledit</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:28a101b277bffcac"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/ubuntu.html" jotId="wuid:gx:28a101b277bffcac" class="sites-navigation-link">Ubuntu</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/ubuntu/bibledit-3-2-on-kubuntu-8-04.html" jotId="wuid:gx:768c098a7fc8184d" class="sites-navigation-link">Bibledit 3.2 on Kubuntu 8.04</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/ubuntu/bibledit-3-9-on-ubuntu-9-04.html" jotId="wuid:gx:31f7ed46600d78c5" class="sites-navigation-link">Bibledit 3.9 on Ubuntu 9.04</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/ubuntu/bibledit-4-0-on-ubuntu-9-10.html" jotId="wuid:gx:6db9b3aef0ef0e17" class="sites-navigation-link">Bibledit 4.0 on Ubuntu 9.10</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/ubuntu/41ubuntu1004.html" jotId="wuid:gx:4e569b2756d258a8" class="sites-navigation-link">Bibledit 4.1 on Ubuntu 10.04</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/ubuntu/41ubuntu1010.html" jotId="wuid:gx:682adb2d3706d0dd" class="sites-navigation-link">Bibledit 4.1 on Ubuntu 10.10</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/ubuntu/bibledit-4-1-on-ubuntu-9-10.html" jotId="wuid:gx:6ca3d794e31a82c8" class="sites-navigation-link">Bibledit 4.1 on Ubuntu 9.10</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/ubuntu/install-bibledit-on-ubuntu-from-a-package.html" jotId="wuid:gx:6eb7af7b05ca2a46" class="sites-navigation-link">Install Bibledit on Ubuntu from a package</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:6d4d61b83fe84158"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../installation/windows.html" jotId="wuid:gx:6d4d61b83fe84158" class="sites-navigation-link">Windows</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../installation/windows/build-instructions-for-mingw.html" jotId="wuid:gx:5aa49f39c86da026" class="sites-navigation-link">Build Instructions for MinGW</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="parent" wuid="gx:5e96ba01e07638fa"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../tutorials.html" jotId="wuid:gx:5e96ba01e07638fa" class="sites-navigation-link">2 Tutorials</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="bibledit-for-windows-tutorial.html" jotId="wuid:gx:ebaea7bb338b574" class="sites-navigation-link">Bibledit for Windows Tutorial</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="checking.html" jotId="wuid:gx:6738f3a30e555420" class="sites-navigation-link">Checking</a>
+</div></li>
+<li class="parent closed" wuid="gx:789409cebc62611f"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="collaboration.html" jotId="wuid:gx:789409cebc62611f" class="sites-navigation-link">Collaboration</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="collaboration/introduction-to-collaboration.html" jotId="wuid:gx:594c0c41c293d64a" class="sites-navigation-link">Introduction to Collaboration</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="collaboration/repository-initialization.html" jotId="wuid:gx:211d0d88d92c1de9" class="sites-navigation-link">Repository initialization</a>
+</div></li>
+<li class="parent closed" wuid="gx:2edd9c7dbdf11c0d"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="collaboration/reposetup.html" jotId="wuid:gx:2edd9c7dbdf11c0d" class="sites-navigation-link">Repository setup</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="collaboration/reposetup/open-network-repository-setup.html" jotId="wuid:gx:6a8fea717190efe4" class="sites-navigation-link">Open network repository setup</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="collaboration/reposetup/secure-network-repository-setup.html" jotId="wuid:gx:231b8ea48c21c171" class="sites-navigation-link">Secure network repository setup</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="collaboration/reposetup/secure-shell-keys-setup.html" jotId="wuid:gx:1ab3710aabf0e420" class="sites-navigation-link">Secure shell keys setup</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="collaboration/reposetup/usb-flash-drive-repository-setup.html" jotId="wuid:gx:7ed8c836442a7d33" class="sites-navigation-link">USB flash drive repository setup</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="3-editing.html" jotId="wuid:gx:7fe0f18bf82805c3" class="sites-navigation-link">Editing</a>
+</div></li>
+<li class=""><div class="current-bg" jotId="wuid:gx:407d65b1cd999649" dir="ltr" style="padding-left: 57px;">Keyterms
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="merge-tutorial.html" jotId="wuid:gx:1b9f75b6ba757b20" class="sites-navigation-link">Merging</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="navigation.html" jotId="wuid:gx:7765a138b28c0ddc" class="sites-navigation-link">Navigation</a>
+</div></li>
+<li class="parent closed" wuid="gx:8b235ac50a8ee82"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="notes.html" jotId="wuid:gx:8b235ac50a8ee82" class="sites-navigation-link">Notes</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="notes/bible-notes.html" jotId="wuid:gx:778b1b627b5a9ca9" class="sites-navigation-link">Bible notes</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="notes/project-notes.html" jotId="wuid:gx:2013532fe6402dcc" class="sites-navigation-link">Project notes</a>
+</div></li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="planning.html" jotId="wuid:gx:21266175e6583429" class="sites-navigation-link">Planning</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="printing.html" jotId="wuid:gx:7f3c4ec952e339fd" class="sites-navigation-link">Printing</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="project.html" jotId="wuid:gx:7a5170afa9fb0c72" class="sites-navigation-link">Project</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="questions.html" jotId="wuid:gx:391be3d9c0812c49" class="sites-navigation-link">Questions</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="references.html" jotId="wuid:gx:22ce4a1e64c8fc7" class="sites-navigation-link">References</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="related-verses.html" jotId="wuid:gx:37d4ae0f21b40015" class="sites-navigation-link">Related verses</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="revert.html" jotId="wuid:gx:356ad079b6aec90f" class="sites-navigation-link">Revert</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="searching.html" jotId="wuid:gx:3a2f62d6ee4403e8" class="sites-navigation-link">Searching</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="spelling.html" jotId="wuid:gx:3b9d5c7ae41967b6" class="sites-navigation-link">Spelling</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="styles.html" jotId="wuid:gx:74daa2d26e493cc9" class="sites-navigation-link">Styles</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:131cd938cd026b5b"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../4-management.html" jotId="wuid:gx:131cd938cd026b5b" class="sites-navigation-link">3 Management</a>
+</div><ul>
+<li class="parent closed" wuid="gx:57f1f42a34392225"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../4-management/data.html" jotId="wuid:gx:57f1f42a34392225" class="sites-navigation-link">Data</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../4-management/data/backup.html" jotId="wuid:gx:10e5deeba9d9adcf" class="sites-navigation-link">Backup</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../4-management/data/export.html" jotId="wuid:gx:3c6377620b4362ec" class="sites-navigation-link">Export</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../4-management/data/import.html" jotId="wuid:gx:441c4f146726349d" class="sites-navigation-link">Import</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 76px;"><a href="../4-management/data/restore.html" jotId="wuid:gx:70ec0d3a492f2f9" class="sites-navigation-link">Restore</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:281e6628b3f58dc1"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../resources.html" jotId="wuid:gx:281e6628b3f58dc1" class="sites-navigation-link">4 Resources</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../resources/bart.html" jotId="wuid:gx:1d43df4eb6fb4f3f" class="sites-navigation-link">BART</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../resources/internal-resource.html" jotId="wuid:gx:4ca9bf8cfc6b38dc" class="sites-navigation-link">Internal Resource</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../resources/t.html" jotId="wuid:gx:7b626157709f3299" class="sites-navigation-link">Texts in USFM format</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../resources/translator-s-workplace.html" jotId="wuid:gx:2983ff91aa088e87" class="sites-navigation-link">Translator's Workplace</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:7037389625434404"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../reference.html" jotId="wuid:gx:7037389625434404" class="sites-navigation-link">6 Reference</a>
+</div><ul>
+<li class="parent closed" wuid="gx:341117e94dbf33e7"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../reference/changes-log.html" jotId="wuid:gx:341117e94dbf33e7" class="sites-navigation-link">Changes Log</a>
+</div><ul>
+<li class="parent closed" wuid="gx:6c6f1c351937d0"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/changes-log/version-0-x.html" jotId="wuid:gx:6c6f1c351937d0" class="sites-navigation-link">Version 0.x</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-1.html" jotId="wuid:gx:6aa910463341257c" class="sites-navigation-link">Version 0.1</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-2.html" jotId="wuid:gx:6341ff8a211f023c" class="sites-navigation-link">Version 0.2</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-3.html" jotId="wuid:gx:71c7fd5da612b784" class="sites-navigation-link">Version 0.3</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-4.html" jotId="wuid:gx:19e9ef57c8a763c5" class="sites-navigation-link">Version 0.4</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-5.html" jotId="wuid:gx:694e8815d56b386e" class="sites-navigation-link">Version 0.5</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-6.html" jotId="wuid:gx:64c82e13b2b3e3a6" class="sites-navigation-link">Version 0.6</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-7.html" jotId="wuid:gx:6ea2fc8114d25da5" class="sites-navigation-link">Version 0.7</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-8.html" jotId="wuid:gx:6d8b88ed277a77c9" class="sites-navigation-link">Version 0.8</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-0-x/version-0-9.html" jotId="wuid:gx:62b014e781bb6ff9" class="sites-navigation-link">Version 0.9</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:5a248573e7e4239a"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/changes-log/version-1-x.html" jotId="wuid:gx:5a248573e7e4239a" class="sites-navigation-link">Version 1.x</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-0.html" jotId="wuid:gx:17d332c81d25e145" class="sites-navigation-link">Version 1.0</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-1.html" jotId="wuid:gx:3de046289054bf21" class="sites-navigation-link">Version 1.1</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-2.html" jotId="wuid:gx:2c3745035360a127" class="sites-navigation-link">Version 1.2</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-3.html" jotId="wuid:gx:3efee376d6db12" class="sites-navigation-link">Version 1.3</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-4.html" jotId="wuid:gx:229570015d3799ac" class="sites-navigation-link">Version 1.4</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-5.html" jotId="wuid:gx:1ecfb29aee25600e" class="sites-navigation-link">Version 1.5</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-6.html" jotId="wuid:gx:231bb16635b741fc" class="sites-navigation-link">Version 1.6</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-7.html" jotId="wuid:gx:54d6100a473b6823" class="sites-navigation-link">Version 1.7</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-8.html" jotId="wuid:gx:15dad40bb8461cb1" class="sites-navigation-link">Version 1.8</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-1-x/version-1-9.html" jotId="wuid:gx:694b3abbe6ad6c34" class="sites-navigation-link">Version 1.9</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:234c66263cb6a4ed"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/changes-log/version-2-x.html" jotId="wuid:gx:234c66263cb6a4ed" class="sites-navigation-link">Version 2.x</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-0.html" jotId="wuid:gx:dccbd87e2345397" class="sites-navigation-link">Version 2.0</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-1.html" jotId="wuid:gx:64e39a9a170855a2" class="sites-navigation-link">Version 2.1</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-2.html" jotId="wuid:gx:5b53c765bb9c1f4c" class="sites-navigation-link">Version 2.2</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-3.html" jotId="wuid:gx:dd4cd0361b2f25e" class="sites-navigation-link">Version 2.3</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-4.html" jotId="wuid:gx:4d4eb14ad25d3d5f" class="sites-navigation-link">Version 2.4</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-5.html" jotId="wuid:gx:2940afbf065bb110" class="sites-navigation-link">Version 2.5</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-6.html" jotId="wuid:gx:28c451bb43a1a83c" class="sites-navigation-link">Version 2.6</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-7.html" jotId="wuid:gx:338e979e3cad3ad9" class="sites-navigation-link">Version 2.7</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-8.html" jotId="wuid:gx:96f4a6f9b69e309" class="sites-navigation-link">Version 2.8</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-2-x/version-2-9.html" jotId="wuid:gx:7596cd46649478a7" class="sites-navigation-link">Version 2.9</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:2577fbd21b8a3fbe"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/changes-log/version-3-x.html" jotId="wuid:gx:2577fbd21b8a3fbe" class="sites-navigation-link">Version 3.x</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-0.html" jotId="wuid:gx:7fe3df6f2d8935d4" class="sites-navigation-link">Version 3.0</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-1.html" jotId="wuid:gx:4ab48280e1146443" class="sites-navigation-link">Version 3.1</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-2.html" jotId="wuid:gx:3c8e266014fbc9b2" class="sites-navigation-link">Version 3.2</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-3.html" jotId="wuid:gx:4d2d98e24952a0a1" class="sites-navigation-link">Version 3.3</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-4.html" jotId="wuid:gx:1ce66da06de87b4e" class="sites-navigation-link">Version 3.4</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-5.html" jotId="wuid:gx:30e5d8546e6e405f" class="sites-navigation-link">Version 3.5</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-6.html" jotId="wuid:gx:3284608e3b548a66" class="sites-navigation-link">Version 3.6</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-7.html" jotId="wuid:gx:52cd8e66787df118" class="sites-navigation-link">Version 3.7</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-8.html" jotId="wuid:gx:646dcd452a16dc41" class="sites-navigation-link">Version 3.8</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-3-x/version-3-9.html" jotId="wuid:gx:3bd23bd208abfed9" class="sites-navigation-link">Version 3.9</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:726a20761afaf03e"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/changes-log/version-4-x.html" jotId="wuid:gx:726a20761afaf03e" class="sites-navigation-link">Version 4.x</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-4-x/version-4-0.html" jotId="wuid:gx:104cac5626fe1dea" class="sites-navigation-link">Version 4.0</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-4-x/version-4-1.html" jotId="wuid:gx:556ae4842a5c1cfc" class="sites-navigation-link">Version 4.1</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-4-x/version-4-2.html" jotId="wuid:gx:3722c98014ce3343" class="sites-navigation-link">Version 4.2</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/changes-log/version-4-x/version-in-source-repository.html" jotId="wuid:gx:798c3cba7dde915f" class="sites-navigation-link">Version in source repository</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../reference/elastics.html" jotId="wuid:gx:7da3b35db216ce32" class="sites-navigation-link">Elastics</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../reference/internals.html" jotId="wuid:gx:302f8382cb9ee809" class="sites-navigation-link">Internals</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../reference/keyboard-accelerators.html" jotId="wuid:gx:6016a4e8726b860" class="sites-navigation-link">Keyboard accelerators</a>
+</div></li>
+<li class="parent closed" wuid="gx:3b68fc5524971d2c"><div dir="ltr" style="padding-left: 38px;"><div class="expander"></div><a href="../reference/menu.html" jotId="wuid:gx:3b68fc5524971d2c" class="sites-navigation-link">Menu</a>
+</div><ul>
+<li class="parent closed" wuid="gx:384c79f89886fecb"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/menu/edit.html" jotId="wuid:gx:384c79f89886fecb" class="sites-navigation-link">Edit</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/edit/revert.html" jotId="wuid:gx:6723f492d83eebb9" class="sites-navigation-link">Revert</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/edit/status.html" jotId="wuid:gx:23ae3a3c5eafa518" class="sites-navigation-link">Status</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:339b62f37cff56a2"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/menu/file.html" jotId="wuid:gx:339b62f37cff56a2" class="sites-navigation-link">File</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/file/backup-assistant.html" jotId="wuid:gx:1e89d695f15d8511" class="sites-navigation-link">Backup</a>
+</div></li>
+<li class="parent closed" wuid="gx:660153517ee094a4"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/file/export-assistant.html" jotId="wuid:gx:660153517ee094a4" class="sites-navigation-link">Export</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/export-assistant/sword-module.html" jotId="wuid:gx:458c1a3027b628c1" class="sites-navigation-link">Sword module</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:3bbbd7ef1658750a"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/file/import-assistant.html" jotId="wuid:gx:3bbbd7ef1658750a" class="sites-navigation-link">Import</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/import-assistant/keyterms.html" jotId="wuid:gx:3cfe51ff3bdfb2ab" class="sites-navigation-link">Keyterms</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:54c722d093f290c9"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/file/menu-keyterms.html" jotId="wuid:gx:54c722d093f290c9" class="sites-navigation-link">Keyterms</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/menu-keyterms/delete.html" jotId="wuid:gx:6545b0abe47e1c21" class="sites-navigation-link">Delete</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:7dfa64e68e269319"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/file/print.html" jotId="wuid:gx:7dfa64e68e269319" class="sites-navigation-link">Print</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/print/portion.html" jotId="wuid:gx:43c2006cf8f01013" class="sites-navigation-link">Portion</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/print/project.html" jotId="wuid:gx:5452675e230d6b2c" class="sites-navigation-link">Project</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/print/selection.html" jotId="wuid:gx:3d0838a4f9cc8cea" class="sites-navigation-link">Selection</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:3e3aac53f7434ed9"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/file/project.html" jotId="wuid:gx:3e3aac53f7434ed9" class="sites-navigation-link">Project</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/project/changes.html" jotId="wuid:gx:55c7662fb7fe5f66" class="sites-navigation-link">Changes</a>
+</div></li>
+<li class="parent closed" wuid="gx:25876101e441cd70"><div dir="ltr" style="padding-left: 95px;"><div class="expander"></div><a href="../reference/menu/file/project/project-properties.html" jotId="wuid:gx:25876101e441cd70" class="sites-navigation-link">Properties</a>
+</div><ul>
+<li class="parent closed" wuid="gx:4437cb5d1de61c40"><div dir="ltr" style="padding-left: 114px;"><div class="expander"></div><a href="../reference/menu/file/project/project-properties/dictionaries.html" jotId="wuid:gx:4437cb5d1de61c40" class="sites-navigation-link">Dictionaries</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 152px;"><a href="../reference/menu/file/project/project-properties/dictionaries/edit.html" jotId="wuid:gx:7dd41aad5341ea68" class="sites-navigation-link">Edit</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/project/send-receive.html" jotId="wuid:gx:3aa3c8ac8c631575" class="sites-navigation-link">Send / receive</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:34bcdd40472598e5"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/file/resource.html" jotId="wuid:gx:34bcdd40472598e5" class="sites-navigation-link">Resource</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/resource/converter.html" jotId="wuid:gx:6ae684ce40f701e9" class="sites-navigation-link">Converter</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/resource/edit.html" jotId="wuid:gx:3d52fe8b08b1e775" class="sites-navigation-link">Edit</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/resource/new.html" jotId="wuid:gx:72cf582c317a5f5e" class="sites-navigation-link">New</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/resource/new-edit.html" jotId="wuid:gx:7127756c68e70d9e" class="sites-navigation-link">New / Edit</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/file/resource/tw-folio.html" jotId="wuid:gx:118227ff5975e55c" class="sites-navigation-link">TW/folio</a>
+</div></li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/file/restore.html" jotId="wuid:gx:2b211e1e31543b50" class="sites-navigation-link">Restore</a>
+</div></li>
+<li class="parent closed" wuid="gx:49593c5f9596460d"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/file/styles.html" jotId="wuid:gx:49593c5f9596460d" class="sites-navigation-link">Styles</a>
+</div><ul>
+<li class="parent closed" wuid="gx:1d87550071a8d1ae"><div dir="ltr" style="padding-left: 95px;"><div class="expander"></div><a href="../reference/menu/file/styles/stylesheet.html" jotId="wuid:gx:1d87550071a8d1ae" class="sites-navigation-link">Stylesheet</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 133px;"><a href="../reference/menu/file/styles/stylesheet/new.html" jotId="wuid:gx:78d9ea073d3a9ac4" class="sites-navigation-link">New</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:576ea3bfc6f07b8f"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/menu/help.html" jotId="wuid:gx:576ea3bfc6f07b8f" class="sites-navigation-link">Help</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/help/none.html" jotId="wuid:gx:667cac2d8336051e" class="sites-navigation-link">None</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:7c3e4911d8d2a080"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/menu/menu-none.html" jotId="wuid:gx:7c3e4911d8d2a080" class="sites-navigation-link">None</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-none/insert-footnote-endnote-crossreference.html" jotId="wuid:gx:5b58eba059bacad5" class="sites-navigation-link">Insert Footnote, Endnote, Crossreference</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-none/no-help-available.html" jotId="wuid:gx:121183f2f32e7356" class="sites-navigation-link">No help available</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:75fbbb051d09b949"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/menu/menu-preferences.html" jotId="wuid:gx:75fbbb051d09b949" class="sites-navigation-link">Preferences</a>
+</div><ul>
+<li class="parent closed" wuid="gx:1f113ccfac967cdd"><div dir="ltr" style="padding-left: 76px;"><div class="expander"></div><a href="../reference/menu/menu-preferences/filters.html" jotId="wuid:gx:1f113ccfac967cdd" class="sites-navigation-link">Filters</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/menu-preferences/filters/regex.html" jotId="wuid:gx:82b964450f99df8" class="sites-navigation-link">regex</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/menu-preferences/filters/sed.html" jotId="wuid:gx:52cd52b80c2ed40e" class="sites-navigation-link">sed</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 114px;"><a href="../reference/menu/menu-preferences/filters/tec.html" jotId="wuid:gx:72a858aabff466c9" class="sites-navigation-link">TECkit</a>
+</div></li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-preferences/planning-setup.html" jotId="wuid:gx:192c2b690ff04fc7" class="sites-navigation-link">Planning</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-preferences/project-notes.html" jotId="wuid:gx:35748ee2f26fe4e" class="sites-navigation-link">Project notes</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-preferences/dialog-remote-repository.html" jotId="wuid:gx:1138a6fd2c094468" class="sites-navigation-link">Remote Repository</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-preferences/text-replacement.html" jotId="wuid:gx:17c975c872968268" class="sites-navigation-link">Text replacement</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-preferences/tidy-text.html" jotId="wuid:gx:14afecd53769117d" class="sites-navigation-link">Tidy Text</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-preferences/user-interface.html" jotId="wuid:gx:7bb2b78ec46c0c26" class="sites-navigation-link">User interface</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/menu-preferences/windows-outpost.html" jotId="wuid:gx:547e9488bbeb291e" class="sites-navigation-link">Windows Outpost</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:74e356da6f270320"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/menu/tools.html" jotId="wuid:gx:74e356da6f270320" class="sites-navigation-link">Tools</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/tools/bible-notes-mass-update.html" jotId="wuid:gx:6ea046b429f76dfa" class="sites-navigation-link">Bible notes mass update</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/tools/generate-word-lists.html" jotId="wuid:gx:1906c517381fdcfd" class="sites-navigation-link">Generate Word lists</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/tools/transfer-project-notes-to-text.html" jotId="wuid:gx:40a8e2a6653b914b" class="sites-navigation-link">Transfer Project Notes to text</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:438c9bb346d07b41"><div dir="ltr" style="padding-left: 57px;"><div class="expander"></div><a href="../reference/menu/view.html" jotId="wuid:gx:438c9bb346d07b41" class="sites-navigation-link">View</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/view/outline.html" jotId="wuid:gx:3aad47f6d1fc2c4d" class="sites-navigation-link">Outline</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 95px;"><a href="../reference/menu/view/project-notes.html" jotId="wuid:gx:7fc352fc0efe9366" class="sites-navigation-link">Project notes</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../reference/usfm.html" jotId="wuid:gx:16cc8d9a94654792" class="sites-navigation-link">USFM</a>
+</div></li>
+</ul>
+</li>
+<li class="parent closed" wuid="gx:4fe043481273045b"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../8-about.html" jotId="wuid:gx:4fe043481273045b" class="sites-navigation-link">7 About</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../8-about/gnu-free-documentation-license.html" jotId="wuid:gx:3535478411cb1104" class="sites-navigation-link">GNU Free Documentation License</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../8-about/gnu-general-public-license.html" jotId="wuid:gx:3c220f47e53453ac" class="sites-navigation-link">GNU General Public License</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="topLevel"><div dir="ltr" style="padding-left: 19px;"><a href="../../web.html" jotId="wuid:gx:7116f98b02b351a" class="sites-navigation-link topLevel">3 Web</a>
+</div></li>
+<li class="topLevel parent" wuid="gx:33aaa9de59c4433c"><div dir="ltr" style="padding-left: 0px;"><div class="expander"></div><a href="../../extra.html" jotId="wuid:gx:33aaa9de59c4433c" class="sites-navigation-link topLevel">4 Extra</a>
+</div><ul>
+<li class="parent closed" wuid="gx:257769fc6d0ad15d"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../../extra/bibletime.html" jotId="wuid:gx:257769fc6d0ad15d" class="sites-navigation-link">BibleTime</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../../extra/bibletime/installation.html" jotId="wuid:gx:40a5f89d80a454b4" class="sites-navigation-link">Installation</a>
+</div></li>
+</ul>
+</li>
+<li class=""><div dir="ltr" style="padding-left: 38px;"><a href="../../extra/bibleworks.html" jotId="wuid:gx:6efa7a3fc4dd8418" class="sites-navigation-link">BibleWorks</a>
+</div></li>
+<li class=""><div dir="ltr" style="padding-left: 38px;"><a href="../../extra/online-bible.html" jotId="wuid:gx:47401972cb0d4415" class="sites-navigation-link">Online Bible</a>
+</div></li>
+<li class="parent closed" wuid="gx:234358e8dbbeafd6"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../../extra/xiphos.html" jotId="wuid:gx:234358e8dbbeafd6" class="sites-navigation-link">Xiphos</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../../extra/xiphos/installation.html" jotId="wuid:gx:6cf8c33909beae3a" class="sites-navigation-link">Installation</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="topLevel parent" wuid="gx:7ac9b819ff9c662e"><div dir="ltr" style="padding-left: 0px;"><div class="expander"></div><a href="../../community.html" jotId="wuid:gx:7ac9b819ff9c662e" class="sites-navigation-link topLevel">5 Community</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 38px;"><a href="../../community/contacts.html" jotId="wuid:gx:62718eebb1c640bc" class="sites-navigation-link">Contacts</a>
+</div></li>
+<li class="parent closed" wuid="gx:5f25cd057ac19722"><div dir="ltr" style="padding-left: 19px;"><div class="expander"></div><a href="../../community/development.html" jotId="wuid:gx:5f25cd057ac19722" class="sites-navigation-link">Development</a>
+</div><ul>
+<li class=""><div dir="ltr" style="padding-left: 57px;"><a href="../../community/development/diagnostics.html" jotId="wuid:gx:1ad91b761bbe8ee" class="sites-navigation-link">Diagnostics</a>
+</div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="topLevel"><div dir="ltr" style="padding-left: 19px;"><a href="../../system/app/pages/sitemap/hierarchy.html" jotId="wuid:gx:256661690914864f" class="sites-navigation-link topLevel">Sitemap</a>
+</div></li>
+</ul>
+
+</div>
+</div>
+</td>
+<td id="sites-canvas-wrapper">
+<div id="sites-canvas">
+<div id="goog-ws-editor-toolbar-container"> </div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="title-crumbs" style="">
+<A dir="ltr" href="../../gtk.html">2 Gtk</A>‎ &gt; ‎<A dir="ltr" href="../tutorials.html">2 Tutorials</A>‎ &gt; ‎
+  </div>
+<h3 xmlns="http://www.w3.org/1999/xhtml" id="sites-page-title-header" style="" align="left">
+<span id="sites-page-title" dir="ltr">Keyterms</span>
+</h3>
+
+<div id="sites-canvas-main" class="sites-canvas-main">
+<div id="sites-canvas-main-content">
+<table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" class="sites-layout-name-one-column sites-layout-hbox"><tbody><tr><td class="sites-layout-tile sites-tile-name-content-1"><div dir="ltr"><p>To start checking terms in Bibledit, in the Checking menu choose Key
+terms.</p>
+<p>A new window will open. This is the "Check keyterms" window.</p>
+<p>At the top of the window you can choose which collection of words to
+check.</p>
+<p>The window will also display a list of keyterms in that collection.</p>
+<p>Let's check the translation you made for the word "lamb" in the New
+Testament.</p>
+<p>Choose the Flora and Fauna of the New Testament.</p>
+<p>In the list of keyterms, locate the first "lamb". Click on the link to
+activate this keyterm.</p>
+<p>Extra information about "lamb" will be displayed.</p>
+<p>Any references that have the word "lamb", or should have it, will be
+displayed as well.</p>
+<p>If you'd like to more closely examine or change a passage that has the word
+"lamb", you can click on the blue reference. For example, when you would click
+on John 1:36, the editor would then go to that references, and you can change
+if needed.</p>
+<p>Still further down a list of correct renderings for "lamb" becomes visible.
+Initially this list is empty.</p>
+<p>To add a rendering, click once on &lt;Enter a new rendering here&gt;, and
+then press Enter. Type the word, e.g. "wundlu", and press Enter. You'll find
+that, if this rendering, the word "wundlu", is found in the texts, it shows it
+as bold.</p>
+<p>A faster way of adding renderings is to select text and then press Ctrl-C as
+if copying that text to the clipboard. The rendering will be added as a whole
+word, and if there was any capital in the word, the case sensitive option will
+be set too.</p>
+<p>In the renderings you can set whether a rendering is supposed to be a whole
+word, and whether the word is case sensitive.</p>
+<p>To remove a rendering from the list, click once on the word to be removed,
+then press Enter, remove the word, and press Enter again.</p>
+<h3><a name="notes"></a>Notes</h3>
+<p>- The keywords are divided into collections. If you select a particular
+collection, then the keyterms in the other collections are not displayed.</p>
+<p>- The renderings are stored with the project.</p>
+<p>- If the user clicks a verse, the editor will also display that verse.</p>
+<p>- It is possible to have the keyterms in the active verse show up while you
+are translating. The renderings, if any have been entered, will show up too.
+This will help the translator, so that he can choose the same rendering if the
+same keyterms occurs in that verse. To show the keyterms, choose menu View /
+Keyterms in verse.</p>
+<p>- New keyterms can be <a href="../4-management/data/import.html">imported</a>,
+existing keyterms can be <a href="../4-management/data/export.html">exported</a>, and
+collections of them can be <a href="../reference/menu/file/menu-keyterms.html">deleted</a>.</p>
+<p>- Some references have the keyterms only implied by their context. That
+means that the key terms does not occur in the verse literally, but only by
+implications. To mark such verses correct, select a reasonable part of the
+verse and add it to the renderings. Then, the verse will be marked correct. Or
+just leave it as marked incorrect.</p></div></td></tr></tbody></table>
+</div> 
+</div> 
+<div id="sites-canvas-bottom-panel">
+<div xmlns="http://www.w3.org/1999/xhtml" id="COMP_page-subpages"> </div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="COMP_page-attachments" style="display:none" class="sites-canvas-bottom-no-items">
+<div id="sites-attachment-wrapper" class="sites-canvas-bottom-panel-wrapper">
+<div jotId="sites-attachment-inner" style="display:none;" class="sites-attachment-inner">
+<ul id="JOT_ATTACH_container">
+</ul>
+</div>
+</div>
+</div>
+<a xmlns="http://www.w3.org/1999/xhtml" name="page-comments"></a>
+<div xmlns="http://www.w3.org/1999/xhtml" id="COMP_page-comments" style="display:none;" class="sites-canvas-bottom-no-items">
+<div id="sites-comment-wrapper" class="sites-canvas-bottom-panel-wrapper">
+<div jotId="sites-comment-inner" style="display:none;" class="sites-comment-inner">
+<div jotId="comments" class="sites-comments">
+<div id="_wuid_" jotId="template" class="sites-comment" style="display:none">
+<div><strong>_displayNameOrEmail_</strong> - _time_ - <a href="javascript:;" onClick="JOT_postEvent('removeComment', this, {wuid:'_wuid_'});">Remove</a></div>
+<p dir="_dir_">_text_</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div> 
+</td> 
+</tr>
+</table> 
+</div> 
+</div> 
+<div id="sites-chrome-footer-wrapper">
+<div id="sites-chrome-footer-wrapper-inside">
+<div id="sites-chrome-footer">
+</div>
+</div>
+</div>
+</div> 
+</div> 
+<div xmlns="http://www.w3.org/1999/xhtml" class="sites-adminfooter">
+<p>
+           
+              
+                   
+                  <a href="https://www.google.com/a/UniversalLogin?service=jotspot&amp;continue=http://sites.google.com/site/bibledit/gtk/tutorials/keyterms-tutorial" class="sites-system-link">Sign in</a>
+                
+              
+                   
+                  <a href="../../system/app/pages/recentChanges.html" rel="nofollow" class="sites-system-link">Recent Site Activity</a>
+                
+              
+               
+              <a href="javascript:void(window.open('http://www.google.com/sites/help/intl/en/terms.html'))" class="sites-system-link">Terms</a>
+               
+              <a href="../../system/app/pages/reportAbuse%3Fsrc=%252Fgtk%252Ftutorials%252Fkeyterms-tutorial.html" rel="nofollow" target="_blank" class="sites-system-link">Report Abuse</a>
+              
+                   
+                  <a href="javascript:;" onclick="window.open(webspace.printUrl)" class="sites-system-link">Print page</a>
+                
+              
+               | 
+                
+              <b class="powered-by">Powered by <a href="../../../../index.html">Google Sites</a></b>
+</p>
+</div>
+</div> 
+
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+    window.jstiming.load.tick('sjl');
+  </script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="http://www.gstatic.com/sites/p/9ef40f/system/js/jot_min_view__en.js"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+    window.jstiming.load.tick('jl');
+  </script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+          var searchBox = new gsites.Searchbox('sites-searchbox-search-button');
+          searchBox.initListeners();
+          searchBox.setScopesMenu(webspace.page.isSiteRtlLocale);
+        </script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+      gsites.HoverPopupMenu.createHoverPopupMenu('sites-header-nav-dropdown');
+    </script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" defer="true">
+            JOT_setupNav("36117816110642753", "Navigation", true);
+            JOT_addListener('titleChange', 'JOT_NAVIGATION_titleChange', 'COMP_36117816110642753');
+          </script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+  setTimeout(function() {
+    var fingerprint = gsites.date.TimeZone.getFingerprint([1109635200000, 1128902400000, 1130657000000, 1143333000000, 1143806400000, 1145000000000, 1146380000000, 1152489600000, 1159800000000, 1159500000000, 1162095000000, 1162075000000, 1162105500000]);
+    gsites.Xhr.send('http://sites.google.com/site/bibledit/_/tz', null, null, 'GET', null, null, { afjstz: fingerprint });
+  }, 500);
+</script>
+<script xmlns="http://www.w3.org/1999/xhtml">
+                    window.onload = function() {
+                      var loadTimer = window.jstiming.load;
+                      loadTimer.tick("ol");
+                      loadTimer["name"] = "load," + webspace.page.type;
+                      
+                      window.jstiming.report(loadTimer, {}, 'http://csi.gstatic.com/csi');
+                    }
+                  </script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+        JOT_insertAnalyticsCode(false);
+      </script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+        var maestroRunner = new gsites.pages.view.SitesMaestroRunner(
+            webspace, "en");
+        maestroRunner.initListeners();
+        maestroRunner.installEditRender();
+      </script>
+
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript">
+        window['ri240jef82'] =
+          {'domain': 'defaultdomain',
+           'site': 'bibledit',
+           'pageId': 0};
+      </script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" defer="true">
+  //<![CDATA[
+    // Fires delayed events.
+    (function() {
+      JOT_fullyLoaded = true;
+      var delayedEvents = JOT_delayedEvents;
+      for (var x = 0; x < delayedEvents.length; x++) {
+        var event = delayedEvents[x];
+        JOT_postEvent(event.eventName, event.eventSrc, event.payload);
+      }
+      JOT_delayedEvents = null;
+      JOT_postEvent('pageLoaded');
+    })();
+
+    // Decorate any fastUI buttons on the page with a class of 'goog-button'.
+    if (webspace.user.hasWriteAccess) {
+      JOT_decorateButtons();
+    }
+ //]]>
+</script>
+<div id="server-timer-div" style="display:none"> </div>
+<script>
+          window.jstiming.load.tick('render');
+        </script>
+</body>
+</html>
