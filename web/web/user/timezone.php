@@ -3,7 +3,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MEMBER_LEVEL);
 Assets_Page::header (gettext ("Timezone"));
 $database_config_user = Database_Config_User::getInstance ();
-$timezone =  $_GET['timezone'];
+@$timezone =  $_GET['timezone'];
 if (isset ($timezone)) {
   if ($timezone == "") {
     $dialog_list = new Dialog_List2 (gettext ("Would you like to change your timezone?"));
