@@ -60,7 +60,12 @@ class Notes_Logic
   {
     $database_config_user = Database_Config_User::getInstance ();
     if ($database_config_user->getUserAssignedConsultationNoteNotification ($user)) {
-      $this->emailUsers ($identifier, gettext ("Note assigned"), array ($user));
+      // Only email the user if the user was not yet assigned this note.
+      $database_notes = Database_Notes::getInstance();
+      $assignees = $database_notes->getAssignees ($identifier);
+      if (!in_array ($user, $assignees)) {
+        $this->emailUsers ($identifier, gettext ("Note assigned"), array ($user));
+      }
     }
   }
 

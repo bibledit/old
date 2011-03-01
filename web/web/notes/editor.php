@@ -197,8 +197,9 @@ class Notes_Editor
         $dialog_list->run();
       } else {
         if ($database_users->usernameExists ($addassignee)) {
-          $database_notes->assignUser ($consultationnote, $addassignee);
+          // Assign logic comes first.
           $notes_logic->handlerAssignNote ($consultationnote, $addassignee);
+          $database_notes->assignUser ($consultationnote, $addassignee);
         }
       }
     }
@@ -418,8 +419,9 @@ class Notes_Editor
           if ($database_users->usernameExists ($assignee)) {
             foreach ($identifiers as $identifier) {
               if (!$database_notes->isAssigned ($identifier, $assignee)) {
-                $database_notes->assignUser ($identifier, $assignee);
+                // Assign logic comes first.
                 $notes_logic->handlerAssignNote ($identifier, $assignee);
+                $database_notes->assignUser ($identifier, $assignee);
               }
             }
           }

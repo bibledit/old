@@ -1,11 +1,4 @@
 
-Notes die al toegekend zijn aan iemand, als die opnieuw toegekend worden aan deze persoon,
-moeten er geen nieuwe emails gegenereerd worden. Anders zou iemand dubbele emails krijgen.
-Dit geldt vooral voor bulk updates.
-
-
-
-
 De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
 Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde tijd.
 
