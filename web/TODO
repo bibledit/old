@@ -1,7 +1,3 @@
-Cannot send and receive the data because the git repository was not found in the database.
-This text is not accurate because it is not stored in the database but on disk.
-
-
 
 Notes die al toegekend zijn aan iemand, als die opnieuw toegekend worden aan deze persoon,
 moeten er geen nieuwe emails gegenereerd worden. Anders zou iemand dubbele emails krijgen.

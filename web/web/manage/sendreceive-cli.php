@@ -35,7 +35,7 @@ foreach ($bibles as $bible) {
     
     // Continue to the next Bible if the repository directory is not there.
     if (!is_dir ($directory)) {
-      echo gettext ("Cannot send and receive the data because the git repository was not found in the database.") . "\n";
+      echo gettext ("Cannot send and receive the data because the git repository was not found in the filesystem.") . "\n";
       continue;
     }
 
