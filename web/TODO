@@ -1,20 +1,71 @@
 
+Nieuwe note via een speciale subject line, met tekst in de eerste regel, 
+en onderwerp in de subject, na aftrek van de special subject line. 
+
+
+
+
+
+
+
+
+Write clear online help about the email operations methods for consultation notes.
+
+
+
+
+
+
+
+The Bibledit-Gtk notes become personal after the consultation notes on Bibleditg-Web can be operated by email.
+To break the link.
+To see what to import still.
+To look for an easy way to import these notes, 
+but better is to leave this and do it by hand since it should not occur often.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
 Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde tijd.
 
-
-
-Notes afhandeling per email. 
-Nieuwe note via een speciale subject line, met tekst in de eerste regel, 
-en onderwerp in de subject, na aftrek van de special subject line. 
-Reageren op note gaat nog makkelijker: 
-Gewoon reply doen, tekst tikken, en klaar. Alles wat begint met > wordt eruit gegooid.
 
 
 
 
 
 Gtk The backup routine keeps going many times.
+
+
+
 
 
 
@@ -26,12 +77,15 @@ appropriately after server reboots.
 
 
 
-The Bibledit-Gtk notes become personal after the site can be operated by email.
-Then everybody has his own corner where to store the notes.
+
 
 
 To edit the note contents, for the Manager.
 Import from Bibledit-Gtk: Do not import logbook entries.
+
+
+
+
 
 
 
@@ -51,11 +105,18 @@ Those which have not had any activity on them for, e.g., a week or more, or a mo
 
 
 
+
+
+
+
 Upgrade Bibledit-Web through the web. 
 Download tarball. 
 It installs from that file.
-
 Information: how to create a tarball from the repository. This may link to the developer help pages.
+I believe that this is too much of the good, and should not be allowed to be done.
+To remove all code for it.
+
+
 
 
 
@@ -82,7 +143,15 @@ that link visible always. It is easier to work as well.
 
 
 
+
+
+
+
 The sorting of the notes is not right yet. It should sort chapters and verses numerically.
+
+
+
+
 
 
 
@@ -90,6 +159,9 @@ The sorting of the notes is not right yet. It should sort chapters and verses nu
 Sending out changes to the text.
 Let say, one hour after the last change in a chapter it will send out this chapter, along with any other
 chapters, to the subscribed users.
+
+
+
 
 
 
@@ -152,6 +224,11 @@ Changes are given as in Bibledit-Gtk, where differences are shown at the charact
 
 Messaging between applications and server for e.g. verse reference, and many other things, 
 e.g. lists of verses to be sent to the references window.
+
+
+
+
+
 
 
 
@@ -350,15 +427,6 @@ Easiest: EasyPHP.
 
 
 
-Being behind a shaking connection, the site should be operatable by email as well, in particular the consultations.
-
-
-
-
-
-
-
-
 Instead of using XeTeX, we could also look at CSS2 with paged media for printing, and screen media for the screen.
 
 
@@ -389,21 +457,14 @@ and a language setting for the site administrator for the site's language if the
 
 
 
-Bibledit-Web should have an administrative possibility to set the text that displays on the site to 
-people not yet logged in, or logged out.
-
-
-
-
-
-
-
-
-
 
 
 Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
 with git repository. User may subscribe to any changes, or to changes per chapter.
+
+
+
+
 
 
 
@@ -425,8 +486,8 @@ notifications on a note.
 
 
 
-Installation documents for Bibledit-Web: Very often the installer has acces to the server through ssh only,
-no GUI. Or even through ftp only, no option to install programs.
+
+
 
 
 
@@ -451,8 +512,6 @@ which does what it says. This link is only shown if the verse list shows. If it 
 
 
 
-The passages that are included with the note titles should be clickable so that if clicked,
-the passages are loaded in the passages window.
 
 
 
@@ -475,7 +534,7 @@ proper permissions before you deploy.
 I only mention this because I often forget to grant read access to files
 before deploying a module for testing and the result is only
 chapter/verse numbers.
-Troy
+
 
 
 

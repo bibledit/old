@@ -37,12 +37,12 @@ class Notes_Logic
 
   public function handlerNewNote ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("New note"));
+    $this->notifyUsers ($identifier, gettext ("New"));
   }
 
   public function handlerAddComment ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("Comment added"));
+    $this->notifyUsers ($identifier, gettext ("Comment"));
     // If the note' status was Done, and a comment is added, mark it Reopened.
     $database_notes = Database_Notes::getInstance ();
     $status = $database_notes->getRawStatus ($identifier);
@@ -53,7 +53,7 @@ class Notes_Logic
 
   public function handlerUpdateNote ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("Note updated"));
+    $this->notifyUsers ($identifier, gettext ("Updated"));
   }
 
   public function handlerAssignNote ($identifier, $user)
@@ -64,14 +64,14 @@ class Notes_Logic
       $database_notes = Database_Notes::getInstance();
       $assignees = $database_notes->getAssignees ($identifier);
       if (!in_array ($user, $assignees)) {
-        $this->emailUsers ($identifier, gettext ("Note assigned"), array ($user));
+        $this->emailUsers ($identifier, gettext ("Assigned"), array ($user));
       }
     }
   }
 
   public function handlerDeleteNote ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("Note deleted"));
+    $this->notifyUsers ($identifier, gettext ("Deleted"));
   }
 
   /**
@@ -131,7 +131,7 @@ class Notes_Logic
 
 
   /**
-  * This handles emails for the users
+  * This handles emails to the users
   * $identifier: the note that is being handled.
   * $label: prefix to the subject line of the email.
   * $users: array of users to be mailed.
@@ -156,9 +156,95 @@ class Notes_Logic
     $link = "$caller?consultationnote=$identifier";
     $contents .= "<p><a href=\"$link\">$link</a></p>\n";
     foreach ($users as $user) {
-      $database_mail->send ($user, "$label | $passages | $summary", $contents);
+      $database_mail->send ($user, "$label | $passages | $summary | (CNID$identifier)", $contents);
     }
   }
+  
+  
+
+  /**
+  * handleEmailComment - handles an email received from $from with subject $subject and body $body.
+  * Returns true if the mail was processed, else false.
+  * The email is considered to have been processed if it gave a comment on an existing Consultation Note.
+  */
+  public function handleEmailComment ($from, $subject, $body) // Todo
+  {
+    // Check whether the Consultation Notes Identifier in the $subject exists in the notes database.
+    // The CNID looks like: (CNID123456789)
+    $pos = strpos ($subject, "(CNID");
+    if ($pos === false) return false;
+    $subject = substr ($subject, $pos + 5);
+    $pos = strpos ($subject, ")");
+    if ($pos === false) return false;
+    $subject = substr ($subject, 0, $pos);
+    // At this stage, the $subject contains an identifier. Check that the $identifier is an existing Consultation Note.
+    $identifier = $subject;
+    unset ($subject);
+    $database_notes = Database_Notes::getInstance();
+    if (!$database_notes->identifierExists ($identifier)) return false;
+    // Check that the $from address of the email belongs to an existing user.
+    $from = Filter_Email::extractEmail ($from);
+    $database_users = Database_Users::getInstance ();
+    if (!$database_users->emailExists ($from)) return false;
+    $username = $database_users->getEmailToUser ($from);
+    // Clean the email's body.
+    $body = Filter_Email::extractBody ($body);
+    // Make comment on the consultation note.
+    @$sessionuser = $_SESSION['user'];
+    @$_SESSION['user'] = $username;
+    $database_notes->addComment ($identifier, $body);
+    $this->handlerAddComment ($identifier);
+    $_SESSION['user'] = $sessionuser;
+    // Mail confirmation to the $username.
+    $database_mail = Database_Mail::getInstance();
+    $subject = gettext ("Your comment was posted");
+    $database_mail->send ($username, "$subject [CNID$identifier]", $body);
+    // Log operation.
+    $database_logs = Database_Logs::getInstance ();
+    $database_logs->log ("Comment posted" . ":" . " " . $body);
+    // Job done.
+    return true;
+  }
+
+
+
+  /**
+  * handleEmailNew - handles an email received from $from with subject $subject and body $body.
+  * Returns true if the mail was processed, else false.
+  * The email is considered to have been processed if it created a new Consultation Note.
+  */
+  public function handleEmailNew ($from, $subject, $body)
+  {
+    // Look if the Consultation Notes Identifier in the $subject exists
+    /*
+    // Find out in the confirmation database whether the $subject line contains an active ID.
+    // If not, bail out.
+    $database_confirm = Database_Confirm::getInstance();
+    $id = $database_confirm->searchID ($subject);
+    if ($id == 0) {
+      return false;
+    }
+    // An active ID was found: Execute the associated database query.
+    $query = $database_confirm->getQuery ($id);
+    $server = Database_Instance::getInstance ();
+    $server->runQuery ($query);
+    // Send confirmation mail.
+    $mailto = $database_confirm->getMailTo ($id);
+    $subject = $database_confirm->getSubject ($id);
+    $body = $database_confirm->getBody ($id);
+    $database_mail = Database_Mail::getInstance();
+    $database_mail->send ($mailto, $subject, $body);
+    // Delete the confirmation record.
+    $database_confirm->delete ($id);
+    */
+    // Job done.
+    return false;
+  }
+
+
+
+
+  
 
 }  
 

@@ -22,7 +22,7 @@
  */
 
 
-//require_once ("../bootstrap/bootstrap.php"); // comment out.
+//require_once ("../bootstrap/bootstrap.php"); // Todo comment out.
 //$timer_receiver = new Timer_Receiver ();
 //$timer_receiver->run ();
 
@@ -46,7 +46,14 @@ class Timer_Receiver
         $body = $message->getContent ();
         $body = strip_tags ($body);
         $confirm_worker = Confirm_Worker::getInstance ();
-        if (!$confirm_worker->handleEmail ($from, $subject, $body)) {
+        $notes_logic = Notes_Logic::getInstance ();
+        if ($confirm_worker->handleEmail ($from, $subject, $body)) {
+        } 
+        else if ($notes_logic->handleEmailComment ($from, $subject, $body)) {
+        }
+        else if ($notes_logic->handleEmailNew ($from, $subject, $body)) {
+        }
+        else {
           $log = "Could not allocate email from $from, subject $subject";
           $database_log->log ($log);
           $database_log->log ($body);

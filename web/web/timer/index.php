@@ -65,7 +65,7 @@ while(1)
   if ($current_timestamp >= ($previous_timestamp + 60)) {
     $config_general->setTimerMinute ($current_timestamp);
     
-    // Tasks to be done once a minute come here:
+    // Tasks to be done once a minute:
     
     // Mailer.
     $timer_mailer = new Timer_Mailer ();
@@ -79,10 +79,13 @@ while(1)
   if ($current_timestamp >= ($previous_timestamp + 300)) {
     $config_general->setTimerFiveMinutes ($current_timestamp);
     
-    // Tasks to be done each five minutes come here:
+    // Tasks to be done each five minutes:
 
-    $timer_receiver = new Timer_Receiver ();
+    // Todo 
+    timer_receiver = new Timer_Receiver ();
+    // Todo 
     $timer_receiver->run ();
+    // Todo 
     unset ($timer_receiver);
     
   }
@@ -92,7 +95,7 @@ while(1)
   if ($current_timestamp >= ($previous_timestamp + 86400)) {
     $config_general->setTimerDay ($current_timestamp);
     
-    // Tasks to be done once a day come here:
+    // Tasks to be done once a day:
 
     // Trim databases.
     $workingdirectory = dirname (__FILE__);
