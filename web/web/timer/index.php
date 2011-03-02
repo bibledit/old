@@ -82,10 +82,10 @@ while(1)
     // Tasks to be done each five minutes:
 
     // Todo 
-    timer_receiver = new Timer_Receiver ();
-    // Todo 
+    $timer_receiver = new Timer_Receiver ();
+    // Todo
     $timer_receiver->run ();
-    // Todo 
+    // Todo
     unset ($timer_receiver);
     
   }
