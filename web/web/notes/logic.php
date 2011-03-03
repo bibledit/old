@@ -218,6 +218,8 @@ class Notes_Logic
   */
   public function handleEmailNew ($from, $subject, $body)
   {
+    // Store the original subject.
+    $originalSubject = $subject;
     // Check that the subject indicates that a new consultation note is to be created.
     $pos = strpos (strtolower ($subject), "new note");
     if ($pos === false) return false;
@@ -266,7 +268,7 @@ class Notes_Logic
     $database_mail = Database_Mail::getInstance();
     if ($noteCheck != "") {
       $subject = gettext ("Your new note could not be posted");
-      $database_mail->send ($username, $subject, $noteCheck);
+      $database_mail->send ($username, $subject  . ": " . $originalSubject, $noteCheck);
       return false;
     }
     // Clean the email's body.
@@ -280,7 +282,7 @@ class Notes_Logic
     $_SESSION['user'] = $sessionuser;
     // Mail confirmation to the $username.
     $subject = gettext ("Your new note was posted");
-    $database_mail->send ($username, $subject, $body);
+    $database_mail->send ($username, $subject . ": " . $originalSubject, $body);
     // Log operation.
     $database_logs = Database_Logs::getInstance ();
     $database_logs->log ("New note posted" . ":" . " " . $body);

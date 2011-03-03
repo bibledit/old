@@ -5,6 +5,9 @@ This applies to refused notes too, so that somebody can see which note has a pro
 
 
 
+Mention in the help that only comments that precede the quoted email gets posted. The rest is skipped.
+
+
 
 
 The Bibledit-Gtk notes become personal after the consultation notes on Bibleditg-Web can be operated by email.
