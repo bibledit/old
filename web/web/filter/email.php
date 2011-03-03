@@ -84,7 +84,7 @@ class Filter_Email
   * $message: Zend_Mail message.
   * Returns: text/plain Zend_Mail message.
   */
-  public function extractPlainTextMessage ($message) // Todo
+  public function extractPlainTextMessage ($message)
   {
     // If the message is not a MIME multipart message, 
     // then the text/plain body part is the message itself.

@@ -1,18 +1,6 @@
-
-
-
-
-Nieuwe note via een speciale subject line, met tekst in de eerste regel, 
-en onderwerp in de subject, na aftrek van de special subject line. 
-
-
-
-
-
-
-
-
 Write clear online help about the email operations methods for consultation notes.
+
+
 
 
 
@@ -766,6 +754,8 @@ separately, if packaged versions of them don't already exist.  And I'll
 have to look at the modified ZendFramework code and see how best to
 proceed there.  The INSTALL file might be a reasonable place to put this
 kind of information.
+Ubuntu has libzend-framework-php
+
 
 
 

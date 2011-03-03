@@ -34,3 +34,7 @@
 <br>
 <p>{t}Each note can be assigned to somebody. The person to whom the note is assigned then knows that action should be taken on this note. Or the person can be automatically emailed if the note gets changed.{/t}</p>
 
+<br>
+<p>{t}The Consultation Notes can be operated by email.{/t}</p>
+<p>{t}When you receive an email from Bibledit-Web, and this email contains a Consultation Note, then you can reply to this email. Your reply will be added as a comment to this particular Consultation Note.{/t}</p>
+<p>{t}The reply should come from the email address which you registered with Bibledit-Web when you created your  account. The reply should also have (CSID123456789) in the subject line. The number 123456789 is a Consultation Note Identifier. It is different for every Note. When replying to a Consultation Note you received, all these things will be right.{/t}</p>

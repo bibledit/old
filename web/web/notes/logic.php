@@ -167,7 +167,7 @@ class Notes_Logic
   * Returns true if the mail was processed, else false.
   * The email is considered to have been processed if it gave a comment on an existing Consultation Note.
   */
-  public function handleEmailComment ($from, $subject, $body) // Todo
+  public function handleEmailComment ($from, $subject, $body)
   {
     // Check whether the Consultation Notes Identifier in the $subject exists in the notes database.
     // The CNID looks like: (CNID123456789)
@@ -218,35 +218,75 @@ class Notes_Logic
   */
   public function handleEmailNew ($from, $subject, $body)
   {
-    // Look if the Consultation Notes Identifier in the $subject exists
-    /*
-    // Find out in the confirmation database whether the $subject line contains an active ID.
-    // If not, bail out.
-    $database_confirm = Database_Confirm::getInstance();
-    $id = $database_confirm->searchID ($subject);
-    if ($id == 0) {
+    // Check that the subject indicates that a new consultation note is to be created.
+    $pos = strpos (strtolower ($subject), "new note");
+    if ($pos === false) return false;
+    // There is a new note. Remove that bit from the $subject.
+    $subject = substr ($subject, 0, $pos) . substr ($subject, $pos + 8);
+    // Clean the subject line.
+    $subject = trim ($subject);
+    $subject = str_replace (".", " ", $subject);
+    $subject = str_replace (":", " ", $subject);
+    $subject = str_replace ("  ", " ", $subject);
+    $subject = str_replace ("  ", " ", $subject);
+    $subject = str_replace ("  ", " ", $subject);
+    $subject = str_replace ("  ", " ", $subject);
+    // Check that the $from address of the email belongs to an existing user.
+    $from = Filter_Email::extractEmail ($from);
+    $database_users = Database_Users::getInstance ();
+    if (!$database_users->emailExists ($from)) return false;
+    $username = $database_users->getEmailToUser ($from);
+    // Extract book, chapter, verse, and note summary from the $subject
+    $book = NULL;
+    $chapter = NULL;
+    $verse = NULL;
+    $summary = NULL;
+    $subject = explode (" ", $subject);
+    if (count ($subject) > 0) {
+      $book = Filter_Books::interpretBook ($subject[0]);
+    }
+    if (count ($subject) > 1) {
+      $chapter = Filter_Numeric::integer_in_string ($subject[1]);
+    }
+    if (count ($subject) > 2) {
+      $verse = Filter_Numeric::integer_in_string ($subject[2]);
+    }
+    unset ($subject[0]);
+    unset ($subject[1]);
+    unset ($subject[2]);
+    $summary = implode (" ", $subject);
+    unset ($subject);
+    // Check book, chapter, verse, and summary. Give feedback if there's anything wrong.
+    $noteCheck = "";
+    if (!((is_numeric ($book) && ($book > 0)))) $noteCheck .= gettext ("Unknown book");
+    if (!is_numeric ($chapter)) $noteCheck .= " " . gettext ("Unknown chapter");
+    if (!is_numeric ($verse)) $noteCheck .= " " . gettext ("Unknown verse");
+    if (($summary == NULL) || ($summary == "")) $noteCheck .= " " . gettext ("Unknown summary");
+    // Mail user if the note could not be posted.
+    $database_mail = Database_Mail::getInstance();
+    if ($noteCheck != "") {
+      $subject = gettext ("Your new note could not be posted");
+      $database_mail->send ($username, $subject, $noteCheck);
       return false;
     }
-    // An active ID was found: Execute the associated database query.
-    $query = $database_confirm->getQuery ($id);
-    $server = Database_Instance::getInstance ();
-    $server->runQuery ($query);
-    // Send confirmation mail.
-    $mailto = $database_confirm->getMailTo ($id);
-    $subject = $database_confirm->getSubject ($id);
-    $body = $database_confirm->getBody ($id);
-    $database_mail = Database_Mail::getInstance();
-    $database_mail->send ($mailto, $subject, $body);
-    // Delete the confirmation record.
-    $database_confirm->delete ($id);
-    */
+    // Clean the email's body.
+    $body = Filter_Email::extractBody ($body);
+    // Post the note.
+    @$sessionuser = $_SESSION['user'];
+    @$_SESSION['user'] = $username;
+    $database_notes = Database_Notes::getInstance();
+    $identifier = $database_notes->storeNewNote ("", $book, $chapter, $verse, $summary, $body, false);
+    $this->handlerNewNote ($identifier);
+    $_SESSION['user'] = $sessionuser;
+    // Mail confirmation to the $username.
+    $subject = gettext ("Your new note was posted");
+    $database_mail->send ($username, $subject, $body);
+    // Log operation.
+    $database_logs = Database_Logs::getInstance ();
+    $database_logs->log ("New note posted" . ":" . " " . $body);
     // Job done.
-    return false;
+    return true;
   }
-
-
-
-
   
 
 }  

@@ -22,7 +22,7 @@
  */
 
 
-//require_once ("../bootstrap/bootstrap.php"); // Todo comment out.
+//require_once ("../bootstrap/bootstrap.php"); // comment out.
 //$timer_receiver = new Timer_Receiver ();
 //$timer_receiver->run ();
 
