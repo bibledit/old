@@ -18,9 +18,6 @@ body
 EOD;
     $this->assertEquals("body", Filter_Email::extractBody ($body));
 $body = <<<EOD
---=-UOQYLarilR4Ely+MRlEe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
 test
 
@@ -38,7 +35,7 @@ On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
 
     test notes three 
 EOD;
-    $this->assertEquals("test\nOn Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:", Filter_Email::extractBody ($body));
+    $this->assertEquals("test", Filter_Email::extractBody ($body, "2011", "Bibledit-Web"));
 
   }
 

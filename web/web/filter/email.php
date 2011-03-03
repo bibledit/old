@@ -49,10 +49,13 @@ class Filter_Email
 
 
   /**
-  * Extracts a clean string from the email body.
+  * Extracts a clean string from the email body given in $input.
   * It leaves out the bit that was quoted. 
+  * If $year and $sender are given, it also removes lines that contain both strings.
+  * This is used to remove lines like:
+  * On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
   */
-  public function extractBody ($input)
+  public function extractBody ($input, $year = "", $sender = "")
   {
     $input = explode ("\n", $input);
     if ($input === false) return "";
@@ -60,13 +63,44 @@ class Filter_Email
     foreach ($input as $line) {
       $trimmed = trim ($line);
       if ($trimmed == "") continue;
-      if (strpos ($trimmed, "--=-") === 0) continue;
-      if (strpos ($trimmed, "Content-") === 0) continue;
-      if (strpos ($trimmed, "> ") === 0) break;
+      if (strpos ($trimmed, ">") === 0) break;
+      if (($year != "") && ($sender != "")) {
+        if (strpos ($trimmed, $year) !== false) {
+          if (strpos ($trimmed, $sender) !== false) {
+            continue;
+          }
+        }
+      }
       $body [] = $line;
     }
     $body = implode ("\n", $body);
+    $body = trim ($body);
     return $body;
+  }
+
+
+  /**
+  * Extracts the first text/plain message from a normal or a multipart email message.
+  * $message: Zend_Mail message.
+  * Returns: text/plain Zend_Mail message.
+  */
+  public function extractPlainTextMessage ($message) // Todo
+  {
+    // If the message is not a MIME multipart message, 
+    // then the text/plain body part is the message itself.
+    if (!$message->isMultipart ()) return $message;
+    // This is a multipart message. Look for the plain text part.
+    $foundPart = $message;
+    foreach (new RecursiveIteratorIterator($message) as $part) {
+      try {
+        if (strtok($part->contentType, ';') == 'text/plain') {
+          $foundPart = $part;
+          break;
+        }
+      } catch (Zend_Mail_Exception $e) {
+      }
+    }
+    return $foundPart;
   }
 
 

@@ -188,7 +188,10 @@ class Notes_Logic
     if (!$database_users->emailExists ($from)) return false;
     $username = $database_users->getEmailToUser ($from);
     // Clean the email's body.
-    $body = Filter_Email::extractBody ($body);
+    $config_general = Database_Config_General::getInstance ();
+    $year = strftime ("%Y");
+    $sender = $config_general->getSiteMailName();
+    $body = Filter_Email::extractBody ($body, $year, $sender);
     // Make comment on the consultation note.
     @$sessionuser = $_SESSION['user'];
     @$_SESSION['user'] = $username;

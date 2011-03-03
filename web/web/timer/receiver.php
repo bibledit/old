@@ -43,7 +43,8 @@ class Timer_Receiver
         $subject = $message->subject;
         $log = "Processing email from $from with subject $subject";
         $database_log->log ($log);
-        $body = $message->getContent ();
+        $body = Filter_Email::extractPlainTextMessage ($message);
+        $body = $body->__toString ();
         $body = strip_tags ($body);
         $confirm_worker = Confirm_Worker::getInstance ();
         $notes_logic = Notes_Logic::getInstance ();

@@ -15,14 +15,18 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=302;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_0=215;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=499260;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
-FILE_NAME_2=18885;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
-FILE_NAME_3=1788;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
-FILE_NAME_4=1319;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/sendreceive-cli.php;0
-FILE_NAME_5=4453;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/assets/navigator.php;0
-FILE_NAME_6=1128;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/ipc/focus.php;0
-FILE_NAME_7=20348;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+FILE_NAME_2=5750;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
+FILE_NAME_3=7681;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
+FILE_NAME_4=4453;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/assets/navigator.php;0
+FILE_NAME_5=14325;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+FILE_NAME_6=2264;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0
+FILE_NAME_7=830;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/receiver.php;0
+FILE_NAME_8=2018;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/email.php;0
+FILE_NAME_9=3251;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/users.php;0
+FILE_NAME_10=741;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/emailTest.php;0
+FILE_NAME_11=874;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/duplicatescli.php;0
 
 [long line marker]
 long_line_behaviour=1
