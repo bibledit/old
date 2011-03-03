@@ -15,18 +15,20 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=215;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=499260;HTML;0;16;0;1;0;/home/teus/work/shona-grammar-online.html;0
-FILE_NAME_2=5750;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
-FILE_NAME_3=7681;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
-FILE_NAME_4=4453;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/assets/navigator.php;0
-FILE_NAME_5=14325;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
-FILE_NAME_6=2264;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0
-FILE_NAME_7=830;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/receiver.php;0
-FILE_NAME_8=2018;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/email.php;0
-FILE_NAME_9=3251;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/users.php;0
-FILE_NAME_10=741;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/emailTest.php;0
-FILE_NAME_11=874;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/duplicatescli.php;0
+FILE_NAME_2=5301;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
+FILE_NAME_3=11235;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
+FILE_NAME_4=6090;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+FILE_NAME_5=2333;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0
+FILE_NAME_6=2347;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/receiver.php;0
+FILE_NAME_7=2578;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/email.php;0
+FILE_NAME_8=580;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/emailTest.php;0
+FILE_NAME_9=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/consultations.php;0
+FILE_NAME_10=6397;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/consultations.tpl;0
+FILE_NAME_11=2160;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/books.php;0
+FILE_NAME_12=1014;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/numeric.php;0
+FILE_NAME_13=2828;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/notes.php;0
 
 [long line marker]
 long_line_behaviour=1
