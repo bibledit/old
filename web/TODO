@@ -1,36 +1,18 @@
-
-
-
-The Bibledit-Gtk notes become personal after the consultation notes on Bibleditg-Web can be operated by email.
-To break the link.
-To see what to import still.
-To look for an easy way to import these notes, 
-but better is to leave this and do it by hand since it should not occur often.
-
-
-
-
+Git operations as follows: No longer just deleting all stuff as we do now.
+But we only delete data when a chapter gets deleted.
+To add this 'delete' operation for all database operations.
+Thus the shared dictionary remains.
+Thus the status data remains too.
+If a book gets deleted, then the whole directory gets delete for that book.
+But better is to save the shared_dictionary, just like the .git directory. That is all what is needed.
+Test it well in various scenarios.
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Emails sent to create a new consultation note go to the default Bible of that user.
 
 
 
@@ -68,17 +50,6 @@ To edit the note contents, for the Manager.
 Import from Bibledit-Gtk: Do not import logbook entries.
 
 
-
-
-
-
-
-Git operations as follows: No longer just deleting all stuff as we do now.
-But we only delete data when a chapter gets deleted.
-To add this 'delete' operation for all database operations.
-Thus the shared dictionary remains.
-Thus the status data remains too.
-If a book gets deleted, then the whole directory gets delete for that book.
 
 
 
