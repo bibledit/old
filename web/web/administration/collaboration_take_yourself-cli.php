@@ -12,7 +12,7 @@ $directory = Filter_Git::git_directory ($object);
 // Set up the secure keys just in case the repository happens to be secure.
 $secure_key_directory = Filter_Git::git_config ($url);
 
-// Temporarily store the .git directory Todo
+// Temporarily store the .git directory.
 $tempdirectory = tempnam (sys_get_temp_dir(), '');
 unlink ($tempdirectory);
 mkdir ($tempdirectory);
@@ -26,7 +26,7 @@ if (!$renamed) {
 Filter_Rmdir::rmdir ($directory);
 mkdir ($directory);
 
-// Move the .git directory back into place. Todo
+// Move the .git directory back into place.
 $renamed = rename ("$tempdirectory/.git", "$directory/.git");
 if (!$renamed) {
   $message = gettext ("Failed to restore the .git directory");

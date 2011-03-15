@@ -42,7 +42,7 @@ foreach ($bibles as $bible) {
     // Set up the secure shell keys in case these are needed.    
     $secure_key_directory = Filter_Git::git_config ($remote_repository_url);
 
-    // Temporarily store the .git directory. Todo
+    // Temporarily store the .git directory.
     $tempdirectory = tempnam (sys_get_temp_dir(), '');
     unlink ($tempdirectory);
     mkdir ($tempdirectory);
@@ -59,7 +59,7 @@ foreach ($bibles as $bible) {
     Filter_Rmdir::rmdir ($directory);
     mkdir ($directory);
 
-    // Move the .git directory back into place. Todo
+    // Move the .git directory back into place.
     $success = rename ("$tempdirectory/.git", "$directory/.git");
     if (!$success) {
       echo gettext ("Failed to restore the .git directory") . "\n";
@@ -183,6 +183,22 @@ foreach ($bibles as $bible) {
 
     // For security reasons, remove the secure shell keys.
     Filter_Git::git_un_config ($secure_key_directory);
+
+    // Do a "git log" to provide information about the most recent commits.
+    {
+      echo gettext ("Listing the last few commits ...") . "\n";
+      $command = "cd $shelldirectory; git log | head -n 24 2>&1";
+      echo "$command\n";
+      $database_logs->log ($command);
+      unset ($result);
+      exec ($command, &$result, &$exit_code);
+      foreach ($result as $line) {
+        $database_logs->log ($line);
+      }
+      $message = "Exit code $exit_code";
+      echo "$message\n";
+      $database_logs->log ($message);
+    }  
 
     // Done.
     if (!$success) {
