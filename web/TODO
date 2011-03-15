@@ -45,20 +45,6 @@ Those which have not had any activity on them for, e.g., a week or more, or a mo
 
 
 
-Upgrade Bibledit-Web through the web. 
-Download tarball. 
-It installs from that file.
-Information: how to create a tarball from the repository. This may link to the developer help pages.
-I believe that this is too much of the good, and should not be allowed to be done.
-To remove all code for it.
-
-
-
-
-
-
-
-
 
 When a note is deleted from the system, it still it in the git repository. It should be deleted from there as well.
 Same applies to a chapter of the Bible. It works thus: Once the data is send/received, then it goes through the whole
