@@ -148,7 +148,7 @@ class Notes_Logic
     $summary = $database_notes->getSummary ($identifier);
     $passages = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
     $contents = $database_notes->getContents ($identifier);
-    // Include link to the note on the site. Saves the user searching for the note.
+    // Include a link to the note on the site.
     $contents .= "<br>\n";
     @$referer = $_SERVER["HTTP_REFERER"];
     $caller = explode ("?", $referer);
