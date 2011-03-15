@@ -42,7 +42,7 @@ foreach ($bibles as $bible) {
     // Set up the secure shell keys in case these are needed.    
     $secure_key_directory = Filter_Git::git_config ($remote_repository_url);
 
-    // Temporarily store the .git directory
+    // Temporarily store the .git directory. Todo
     $tempdirectory = tempnam (sys_get_temp_dir(), '');
     unlink ($tempdirectory);
     mkdir ($tempdirectory);
@@ -50,16 +50,23 @@ foreach ($bibles as $bible) {
     if (!$success) {
       echo gettext ("Failed to temporarily store the .git directory") . "\n";
     }
+    
+    // Temporarily store the shared_dictionary. 
+    // Do not check on errors, because it may not exist.
+    $success = rename ("$directory/shared_dictionary", "$tempdirectory/shared_dictionary");
 
     // Completely remove all data from the git directory.
     Filter_Rmdir::rmdir ($directory);
     mkdir ($directory);
 
-    // Move the .git directory back into place.
+    // Move the .git directory back into place. Todo
     $success = rename ("$tempdirectory/.git", "$directory/.git");
     if (!$success) {
       echo gettext ("Failed to restore the .git directory") . "\n";
     }
+    
+    // Move the shared_dictionary back into place. It may not exist.
+    $success = rename ("$tempdirectory/shared_dictionary", "$directory/shared_dictionary");
 
     // Store the data into the repository. Data that no longer exists will have been removed above.
     if ($bible == "consultationnotes") {
@@ -76,24 +83,6 @@ foreach ($bibles as $bible) {
     // Send / Receive would only work again after it has been set up from scratch.
     if (!$success) {
       Filter_Rmdir::rmdir ("$directory/.git");
-    }
-
-    // Add the shared_dictionary as used by Bibledit-Gtk.
-    // If this were not done, then send/receive in Bibledit-Web would remove 
-    // Bibledit-Gtk's word list used for spelling checking.
-    if ($success) {
-      $command = "cd $shelldirectory; touch shared_dictionary 2>&1";
-      echo "$command\n";
-      $database_logs->log ($command);
-      unset ($result);
-      exec ($command, &$result, &$exit_code);
-      if ($exit_code != 0) $success = false;
-      foreach ($result as $line) {
-        $database_logs->log ($line);
-      }
-      $message = "Exit code $exit_code";
-      echo "$message\n";
-      $database_logs->log ($message);
     }
 
     // Commit the new data to the repository.

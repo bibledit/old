@@ -1,14 +1,7 @@
-Git operations as follows: No longer just deleting all stuff as we do now.
-But we only delete data when a chapter gets deleted.
-To add this 'delete' operation for all database operations.
-Thus the shared dictionary remains.
-Thus the status data remains too.
-If a book gets deleted, then the whole directory gets delete for that book.
-But better is to save the shared_dictionary, just like the .git directory. That is all what is needed.
-Test it well in various scenarios.
 
 
 
+At the end of send/receive on Bibledit-Web, do a git log of the last few entries. This gives information.
 
 
 
