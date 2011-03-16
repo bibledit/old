@@ -14,14 +14,19 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=619;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=11235;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
-FILE_NAME_2=6090;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
-FILE_NAME_3=580;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/emailTest.php;0
-FILE_NAME_4=2828;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/notes.php;0
-FILE_NAME_5=7483;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/sendreceive-cli.php;0
-FILE_NAME_6=4070;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
+current_page=11
+FILE_NAME_0=733;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=6090;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
+FILE_NAME_2=580;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/emailTest.php;0
+FILE_NAME_3=2828;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/notes.php;0
+FILE_NAME_4=4070;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0
+FILE_NAME_5=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/mailer.php;0
+FILE_NAME_6=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0
+FILE_NAME_7=938;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/receiver.php;0
+FILE_NAME_8=8183;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
+FILE_NAME_9=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/mail.php;0
+FILE_NAME_10=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.tpl;0
+FILE_NAME_11=31;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/index.tpl;0
 
 [long line marker]
 long_line_behaviour=1

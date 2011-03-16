@@ -38,6 +38,16 @@ data text
 );
 EOD;
     $database_instance->runQuery ($str);
+$str = <<<EOD
+CREATE TABLE IF NOT EXISTS bible_diff (
+id int auto_increment primary key,
+bible int,
+book int,
+chapter int,
+data text
+);
+EOD;
+    $database_instance->runQuery ($str);
   }
 
 
@@ -45,6 +55,7 @@ EOD;
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE bible_names;");
     $database_instance->runQuery ("OPTIMIZE TABLE bible_data;");
+    $database_instance->runQuery ("OPTIMIZE TABLE bible_diff;");
   }
 
 
@@ -116,6 +127,9 @@ EOD;
     */      
   public function deleteBible ($name)
   {
+    // Store diff data prior to deletion.
+    $this->storeDiffBible ($name);
+    // Delete it.
     $database_instance = Database_Instance::getInstance();
     $id = $this->getID ($name);
     $query = "DELETE FROM bible_names WHERE bible = $id;";
@@ -150,16 +164,20 @@ EOD;
 
 
   /**
-  * Stores a chapter in Bible $bible.
+  * Stores data of one chapter in Bible $name.
   */
   public function storeChapter ($name, $book, $chapter_number, $chapter_text)
   {
+    // Return if the Bible $name does not exist.
     $bible_id = $this->getID ($name);
     if ($bible_id == 0) {
       $database_logs = Database_Logs::getInstance();
       $database_logs->log ("Bible $name does not exist: Failed to store a chapter");
       return;
     }
+    // Store the data of the current chapter in the diff table prior to storing the new data.
+    $this->storeDiff ($name, $book, $chapter_number);
+    // Store the chapter.
     $database_instance = Database_Instance::getInstance();
     $book = Database_SQLInjection::no ($book);
     $chapter_number = Database_SQLInjection::no ($chapter_number);
@@ -200,6 +218,9 @@ EOD;
 
   public function deleteBook ($bible, $book)
   {
+    // Store diff data prior to deleting the book.
+    $this->storeDiffBook ($bible, $book);
+    // Delete the book.
     $database_instance = Database_Instance::getInstance();
     $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
@@ -230,6 +251,9 @@ EOD;
 
   public function deleteChapter ($bible, $book, $chapter)
   {
+    // Store diff data prior to deletion.
+    $this->storeDiff ($bible, $book, $chapter);
+    // Delete the chapter.
     $database_instance = Database_Instance::getInstance();
     $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
@@ -239,7 +263,7 @@ EOD;
   }
 
   /**
-  * gets the chapter data as a string.
+  * Gets the chapter data as a string.
   */
   public function getChapter ($bible, $book, $chapter)
   {
@@ -256,6 +280,102 @@ EOD;
     return "";    
   }
       
+
+  /**
+  * Returns true if diff data exists for the chapter.
+  * Else it returns false.
+  * The "diff" data helps producing the daily differences.
+  */
+  public function diffExists ($bible, $book, $chapter)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "SELECT data FROM bible_diff WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $result = $database_instance->runQuery ($query);
+    return ($result->num_rows > 0);
+  }
+
+
+  /**
+  * Stores diff data for a "bible" (string) and $book (int) and $chapter (int).
+  */
+  private function storeDiff ($bible, $book, $chapter)
+  {
+    // Return when the diff exists.
+    if ($this->diffExists ($bible, $book, $chapter)) {
+      return;
+    }
+    // Return when the $bible does not exist.
+    $bible = $this->getID ($bible);
+    if ($bible == 0) {
+      return;
+    }
+    // Store.
+    $database_instance = Database_Instance::getInstance();
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "INSERT INTO bible_diff SELECT * FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $database_instance->runQuery ($query);
+  }
+
+
+  /**
+  * Gets the diff data as a string.
+  */
+  public function getDiff ($bible, $book, $chapter)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "SELECT data FROM bible_diff WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      return $row[0];
+    }
+    return "";    
+  }
+      
+
+  /**
+  * Stores diff data for all chapters in a "bible" (string) and $book (int).
+  */
+  public function storeDiffBook ($bible, $book)
+  {
+    $chapters = $this->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $this->storeDiff ($bible, $book, $chapter);
+    }
+  }
+
+
+  /**
+  * Stores diff data for all books in a "bible" (string).
+  */
+  public function storeDiffBible ($bible)
+  {
+    $books = $this->getBooks ($bible);
+    foreach ($books as $book) {
+      $this->storeDiffBook ($bible, $book);
+    }
+  }
+
+
+  /**
+  * Truncates all diff data.
+  */
+  public function truncateDiffs ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $result = $database_instance->runQuery ("TRUNCATE TABLE bible_diff;");
+  }
+
+
+  
+
 
 }
 

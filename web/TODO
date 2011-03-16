@@ -1,8 +1,42 @@
-
-
-
 De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
+Maar niet als het zondag is. Dan slaat hij het gewoon over.
 Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde tijd.
+People with an account can subscribe to this.
+Dit help onnodig werk voorkomen bij het versturen van de wijzigingen.
+
+daisydiff
+http://code.google.com/p/daisydiff
+
+To send emails with the actual differences in them. Created by DaisyDiff in tag mode, and the css file
+inserted in the html output.
+
+The emails are sent per book. Only different chapters are compared, the others are just left.
+
+Each mail contain a link to the site, where a fuller version of the diff is stored in the downloads sections.
+
+The downloads section does have the index.html in the top directory, so that nobody can go up in the document tree.
+Bibledit-Web also needs to store the .htaccess files there.
+
+Implementation details.
+- Make a page in the Management section, so manager can make a diff now.
+- The page in the manage section has a link to the download section where the diff pages are stored.
+- The user gets a setting whether he wants to be notified of these changes.
+- The timer section calls "php file.php", so it runs independently, and does not hold up others.
+- The download section gets numbered files to store there, and these are removed after some time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -10,7 +44,8 @@ Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde
 
 
 Gtk The backup routine keeps going many times.
-
+When backing up, the backup box does not disappear when the task is completed. 
+This leaves the user wondering whether the backup was successful or not.
 
 
 
@@ -46,41 +81,12 @@ Those which have not had any activity on them for, e.g., a week or more, or a mo
 
 
 
-When a note is deleted from the system, it still it in the git repository. It should be deleted from there as well.
-Same applies to a chapter of the Bible. It works thus: Once the data is send/received, then it goes through the whole
-git file system, and checks all notes or all chapters. Whichever is not in the database will get deleted. Thus
-the git repository gets updated.
-
-
-
-
-
-
-
-
-
-
-The 'Create new note' link is not visible when working or editing a note. Perhaps the idea can be to have 
-that link visible always. It is easier to work as well.
-
-
-
 
 
 
 
 The sorting of the notes is not right yet. It should sort chapters and verses numerically.
 
-
-
-
-
-
-
-
-Sending out changes to the text.
-Let say, one hour after the last change in a chapter it will send out this chapter, along with any other
-chapters, to the subscribed users.
 
 
 
@@ -311,22 +317,9 @@ access from cell phones.
 
 
 
-People with an account can subscribe to changes in the text.
 
 
 
-
-
-
-
-
-
-
-
-
-The visitor to the site can see the default project, its text and comments. 
-But to make comments, one has to get an account.
-Those with an account have vastly improved opportonities on the site.
 
 
 
@@ -381,45 +374,11 @@ and a language setting for the site administrator for the site's language if the
 
 
 
-Mails to be sent out upon change in text. Can work now already, since there can be synchronisation 
-with git repository. User may subscribe to any changes, or to changes per chapter.
-
-
-
-
-
-
-
-
 The book names should be translatable. So it needs a list of all bible books to be included for gettext translation,
 in .php format.
 
 
 
-
-
-
-
-
-There can be a Notification setting that the user can set up which Bible or Bibles are included with the 
-notifications on a note.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-The Consultation Notes verse list, if the Verse List shows, 
-then there is a link in the consultation notes [transfer to verses list],
-which does what it says. This link is only shown if the verse list shows. If it does not show, then the link is not there.
 
 
 
