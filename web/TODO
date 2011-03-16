@@ -1,8 +1,11 @@
+
+
+
 De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
 Maar niet als het zondag is. Dan slaat hij het gewoon over.
 Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde tijd.
 People with an account can subscribe to this.
-Dit help onnodig werk voorkomen bij het versturen van de wijzigingen.
+Dit voorkomt onnodig werk van het versturen van de wijzigingen.
 
 daisydiff
 http://code.google.com/p/daisydiff
@@ -13,9 +16,6 @@ inserted in the html output.
 The emails are sent per book. Only different chapters are compared, the others are just left.
 
 Each mail contain a link to the site, where a fuller version of the diff is stored in the downloads sections.
-
-The downloads section does have the index.html in the top directory, so that nobody can go up in the document tree.
-Bibledit-Web also needs to store the .htaccess files there.
 
 Implementation details.
 - Make a page in the Management section, so manager can make a diff now.
