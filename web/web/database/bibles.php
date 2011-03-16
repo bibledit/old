@@ -93,6 +93,23 @@ EOD;
 
 
   /**
+    * Returns the Bible name for a Bible ID.
+    */      
+  public function getName ($id)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT name FROM bible_names WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return "Unknown";
+    }
+    $row = $result->fetch_row();
+    return $row[0];
+  }
+
+
+  /**
   * Creates a new empty Bible. Returns its ID.
   */
   public function createBible ($name)
@@ -361,6 +378,61 @@ EOD;
     foreach ($books as $book) {
       $this->storeDiffBook ($bible, $book);
     }
+  }
+
+
+  /**
+  * Returns an array with the available chapters that have diff data in a $book in a Bible.
+  */
+  public function getDiffChapters ($bible, $book)
+  {
+    $database_instance = Database_Instance::getInstance();
+    if (!is_numeric ($bible)) $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $query = "SELECT DISTINCT chapter FROM bible_diff WHERE bible = $bible AND book = $book ORDER BY chapter ASC;";
+    $result = $database_instance->runQuery ($query);
+    $chapters = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $chapters[] = $row[0];
+    }
+    return $chapters;
+  }
+
+
+  /**
+  * Returns an array with the available books that have diff data in a Bible.
+  * The $bible can be a name, or an identifier. This is because the $bible identifier may no longer exist.
+  */
+  public function getDiffBooks ($bible)
+  {
+    $database_instance = Database_Instance::getInstance();
+    if (!is_numeric ($bible)) $bible = $this->getID ($bible);
+    $query = "SELECT DISTINCT book FROM bible_diff WHERE bible = $bible ORDER BY book ASC;";
+    $result = $database_instance->runQuery ($query);
+    $books = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $books[] = $row[0];
+    }
+    return $books;
+  }
+
+
+  /**
+  * Returns an array with the available Bibles that have diff data.
+  */
+  public function getDiffBibles ()
+  {
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT DISTINCT bible FROM bible_diff ORDER BY bible ASC;";
+    $result = $database_instance->runQuery ($query);
+    $bibles = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $bibles[] = $row[0];
+    }
+    return $bibles;
   }
 
 

@@ -6,6 +6,7 @@ class databaseNotesTest extends PHPUnit_Framework_TestCase
 
   public function setUp ()
   {
+    $this->tearDown ();
     $database_bibles = Database_Bibles::getInstance ();
     $database_bibles->createBible ("none");
   }
@@ -70,6 +71,13 @@ class databaseNotesTest extends PHPUnit_Framework_TestCase
     $this->assertEquals ($database_bibles->getDiff ("none", 1, 1), "");
     $this->assertEquals ($database_bibles->getDiff ("none", 1, 2), "chapter text one");
     $this->assertEquals ($database_bibles->getDiff ("none", 3, 1), "chapter text");
+    
+    // Test function to retrieve the chapters that have diff data.
+    $this->assertEquals ($database_bibles->getDiffChapters ("none", 1), array (2));
+    $this->assertEquals ($database_bibles->getDiffChapters ("none", 2), array (1, 2, 3));
+    $this->assertEquals ($database_bibles->getDiffBooks ("none"), array (1, 2, 3, 4, 5));
+    $this->assertGreaterThanOrEqual ($database_bibles->getDiffBibles (), array ("none"));
+    $this->assertLessThanOrEqual (array ("none"), $database_bibles->getDiffBibles ());
     
     // Test some other code just to be sure that it is valid.
     $database_bibles->deleteBook ("none", 4);

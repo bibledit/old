@@ -1,11 +1,18 @@
+Move daisydiff into the package, and a README file as well. Perhaps a index.html file as well
+To remove the examples and other superfluous stuff. Mention nall in the README.
 
+Create a filter that produces two files:
+1. The html diff for on the site online
+2. The tag diff for emailing to the user.
+The filter takes an old file, a new file, a html output file and a tag output file.
+It also takes a directory where the files are stored, and moves the necessary libraries into that directory.
 
+The user gets a setting whether he wants to be notified of these changes.
+
+The download section gets files to store there, and these are removed after some time.
+Each set of changes gets stored in its own folder. The folders may be deleted based on their creation time.
 
 De site zendt elke dag emails met veranderingen in de Bijbeltekst. 
-Maar niet als het zondag is. Dan slaat hij het gewoon over.
-Een knop voor 'send now', net als bij backup, en dan elke dag daarna om dezelfde tijd.
-People with an account can subscribe to this.
-Dit voorkomt onnodig werk van het versturen van de wijzigingen.
 
 daisydiff
 http://code.google.com/p/daisydiff
@@ -15,14 +22,7 @@ inserted in the html output.
 
 The emails are sent per book. Only different chapters are compared, the others are just left.
 
-Each mail contain a link to the site, where a fuller version of the diff is stored in the downloads sections.
-
-Implementation details.
-- Make a page in the Management section, so manager can make a diff now.
-- The page in the manage section has a link to the download section where the diff pages are stored.
-- The user gets a setting whether he wants to be notified of these changes.
-- The timer section calls "php file.php", so it runs independently, and does not hold up others.
-- The download section gets numbered files to store there, and these are removed after some time.
+Each mail contains a link to the site, where a fuller version of the diff is stored in the downloads sections.
 
 
 

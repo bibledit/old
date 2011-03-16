@@ -120,6 +120,21 @@ while(1)
   unset ($backup_timestamp);
 
 
+  $diff_timestamp = $config_general->getTimerDiff ();
+  if ($current_timestamp >= $diff_timestamp) {
+    $diff_timestamp += 86400;
+    while ($current_timestamp >= $diff_timestamp) {
+      // This loop updates the timestamp to a value larger than the current time.
+      // This avoids calling many processes when the task has not been done for a while.
+      $diff_timestamp += 86400;
+    }
+    $config_general->setTimerDiff ($diff_timestamp);
+    $workingdirectory = dirname (__FILE__);
+    shell_exec ("cd $workingdirectory; php changes.php > /dev/null 2>&1 &");
+  }
+  unset ($diff_timestamp);
+
+
   // Wait a little for the next cycle.
   sleep(5);
 }

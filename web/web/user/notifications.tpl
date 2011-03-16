@@ -1,5 +1,5 @@
 <h1>{t}Notifications{/t}</h1>
-<p>{t}Here you can set up whether and how you are notified about changes in the consultation notes.{/t}</p>
+<p>{t}Here you can set up whether and how you are notified about changes in the consultation notes and the text of the Bibles.{/t}</p>
 <br>
 <p>{t}If you wish, you can automatically subscribe to consultation notes that you create or edit yourself.{/t}</p>
 {if $edited_notes_subscription == true}

@@ -209,6 +209,13 @@ EOD;
     $this->setValue ("timer-backup", $value);
   }   
 
+  public function getTimerDiff() {
+    return $this->getValue ("timer-diff", "");
+  }
+  public function setTimerDiff ($value) {
+    $this->setValue ("timer-diff", $value);
+  }   
+
 
 }
 
