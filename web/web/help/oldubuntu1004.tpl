@@ -1,11 +1,11 @@
-<h1>{t}Install Bibledit-Web version 0.2 on Ubuntu 10.10 desktop and server{/t}</h1>
+<h1>{t}Install Bibledit-Web version 0.3 on Ubuntu 10.04 desktop and server{/t}</h1>
 <p>{t}This assumes a standard installation of the operating system.{/t}</p>
 <p>{t}Connect to a terminal on the server.{/t}</p>
 <p>{t}Install the software Bibledit-Web relies on. To do that, type the following command, and press Enter:{/t}</p>
 <code>sudo apt-get install mysql-server phpmyadmin php5-cli git-core curl</code>
 <p>{t}While installing mysql-server, set the administrative password. These guidelines assume that it will be set to root.{/t}</p>
+<p>{t}When it asks to choose the web server that should be configured to run phpMyAdmin, choose apache2.{/t}</p>
 <p>{t}Anything else to be set up, choose the default settings and enter the correct passwords.{/t}</p>
-<p>{t}Reboot when through. This is to start the Apache web server.{/t}</p>
 <p>{t}Download Bibledit-Web. To do that, type the following command, and press Enter:{/t} </p>
 <code>wget http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-0.2.tar.gz</code>
 <p>{t}Unpack Bibledit-Web. To do that, type the following command, and press Enter:{/t}</p>

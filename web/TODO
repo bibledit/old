@@ -1,3 +1,7 @@
+Update helpfiles. Easier Ubuntu installation: New and old.
+Mention jave installation.
+
+
 To start, create a filter that runs Daisy Diff in a rudimentary manner.
 Then expand on that adding functions.
 This filter updates the title, and the description.
