@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-16 01:54+0100\n"
+"POT-Creation-Date: 2011-03-17 01:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,12 @@ msgid "Logbook was partially or fully cleared"
 msgstr ""
 
 msgid "Logbook"
+msgstr ""
+
+msgid "Changes"
+msgstr ""
+
+msgid "The lists of changes will be generated soon."
 msgstr ""
 
 msgid "Please enter a name for the new user"
@@ -672,6 +678,9 @@ msgstr ""
 msgid "Welcome! Your account is now active."
 msgstr ""
 
+msgid "Downloads"
+msgstr ""
+
 msgid "Would you like to switch to another stylesheet?"
 msgstr ""
 
@@ -1136,6 +1145,15 @@ msgstr ""
 msgid "Nothing was imported."
 msgstr ""
 
+msgid "Generating lists of changes in the Bibles"
+msgstr ""
+
+msgid "Changes in"
+msgstr ""
+
+msgid "The lists of changes in the Bibles have been generated"
+msgstr ""
+
 msgid "About"
 msgstr ""
 
@@ -1250,6 +1268,26 @@ msgid "Styles"
 msgstr ""
 
 msgid "Bibles"
+msgstr ""
+
+msgid "Bibledit-Web tracks the changes in the Bibles that it stores."
+msgstr ""
+
+msgid ""
+"If there have been any changes in any Bible, it will generate lists of these "
+"changes every day."
+msgstr ""
+
+msgid "Generate fresh lists now, and every day at this same time."
+msgstr ""
+
+msgid "View the lists in the downloads section."
+msgstr ""
+
+msgid "Bibledit-Web can email new lists to you."
+msgstr ""
+
+msgid "Manage your notifications."
 msgstr ""
 
 msgid "Ready sending and receiving."
@@ -2482,7 +2520,7 @@ msgstr ""
 
 msgid ""
 "Here you can set up whether and how you are notified about changes in the "
-"consultation notes."
+"consultation notes and the text of the Bibles."
 msgstr ""
 
 msgid ""
@@ -2633,6 +2671,9 @@ msgid "You have logged in."
 msgstr ""
 
 msgid "There is mail for you."
+msgstr ""
+
+msgid "Lists of recent changes in the Bibles."
 msgstr ""
 
 msgid "Style"

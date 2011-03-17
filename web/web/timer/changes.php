@@ -32,23 +32,29 @@ if (php_sapi_name () != "cli") {
 }
 
 $database_bibles = Database_Bibles::getInstance ();
-$database_books = Database_Books::getInstance ();
-
-// Go through all Bibles that have diffs.
 $bibles = $database_bibles->getDiffBibles ();
 foreach ($bibles as $bible) {
-  // Go through all books in this $bible that have diffs.
+
+  // Files get stored in http://site.org/bibledit/downloads/changes/<Bible>/<date>
+  // The user can access the files through the browser.
   $biblename = $database_bibles->getName ($bible);
-  $books = $database_bibles->getDiffBooks ($bible);
-  foreach ($books as $book) {
-    // Go through all chapters in this $bible and $book that have diffs.
-    $bookname = $database_books->getEnglishFromId ($book);
-    $chapters = $database_bibles->getDiffChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
-      $log = gettext ("Changes in");
-      $database_logs->log ("$log $biblename $bookname $chapter", true);
-    }
-  }
+  $directory = dirname (dirname (__FILE__)) . "/downloads/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
+  mkdir ($directory, 0777, true);
+  
+  // Create symbolic link for easy references.
+  $link = dirname ($directory) . "/0_most_recent_changes";
+  @unlink ($link);
+  symlink ($directory, $link);
+  
+  // Produce the USFM files.
+  Filter_Diff::produceUsfmChapterLevel ($bible, $directory);
+  Filter_Diff::produceUsfmVerseLevel ($bible, $directory);
+  
+  // Run Daisy Diff.
+  Filter_Diff::copyDaisyDiffLibraries ($directory);
+  Filter_Diff::runDaisyDiff ("$directory/verses_old.usfm", "$directory/verses_new.usfm", "$directory/changed_verses.html"); // Todo
+  Filter_Diff::runDaisyDiff ("$directory/chapters_old.usfm", "$directory/chapters_new.usfm", "$directory/changed_chapters.html"); // Todo
+  
 }
 
 /*

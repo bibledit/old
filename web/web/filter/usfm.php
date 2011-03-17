@@ -207,7 +207,7 @@ class Filter_Usfm
   }
 
   /**
-  * returns an array with the verse numbers found in $usfm.
+  * Returns an array with the verse numbers found in $usfm.
   */
   public function getVerseNumbers ($usfm)
   {
