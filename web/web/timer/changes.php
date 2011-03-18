@@ -105,6 +105,25 @@ foreach ($bibles as $bible) {
       $database_mail->send ($user, $subject, $emailBody);
     }
   }
+  
+  // If there are more then 100 sets of changes, delete the oldest ones.
+  $changes_directory = dirname (dirname (__FILE__)) . "/downloads/changes/" . $biblename;
+  $filenames = array ();
+  $modificationtimes = array ();
+  foreach (new DirectoryIterator ($changes_directory) as $fileInfo) {
+    if($fileInfo->isDot()) continue;
+    if($fileInfo->isDir()) {
+      $filenames[] = $fileInfo->getFilename();
+      $modificationtimes[] = $fileInfo->getMTime();
+    }
+  }
+  array_multisort ($modificationtimes, SORT_DESC, SORT_NUMERIC, $filenames);
+  for ($i = 100; $i < count ($filenames); $i++) {
+    Filter_Rmdir::rmdir ($changes_directory . "/" . $filenames[$i]);
+    $database_logs->log (gettext ("Deleting older set of changes") . " " . $filenames[$i], true);
+  }
+ 
+  
  
 }
 
