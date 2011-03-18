@@ -36,6 +36,12 @@ if (isset ($_GET['assignednotenotificationtoggle'])) {
 $assignment_notification = $database_config_user->getAssignedConsultationNoteNotification();
 $smarty->assign ("assignment_notification", $assignment_notification);
 
+if (isset ($_GET['biblechangesnotificationtoggle'])) { // Todo
+  $database_config_user->setBibleChangesNotification(!$database_config_user->getBibleChangesNotification());
+}
+$bible_changes_notification = $database_config_user->getBibleChangesNotification();
+$smarty->assign ("bible_changes_notification", $bible_changes_notification);
+
 $smarty->display("notifications.tpl");
 Assets_Page::footer ();
 ?>
