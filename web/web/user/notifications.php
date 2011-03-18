@@ -36,7 +36,7 @@ if (isset ($_GET['assignednotenotificationtoggle'])) {
 $assignment_notification = $database_config_user->getAssignedConsultationNoteNotification();
 $smarty->assign ("assignment_notification", $assignment_notification);
 
-if (isset ($_GET['biblechangesnotificationtoggle'])) { // Todo
+if (isset ($_GET['biblechangesnotificationtoggle'])) {
   $database_config_user->setBibleChangesNotification(!$database_config_user->getBibleChangesNotification());
 }
 $bible_changes_notification = $database_config_user->getBibleChangesNotification();

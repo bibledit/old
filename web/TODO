@@ -1,29 +1,17 @@
 
 
 
-We email a special file. Bibledit-Web looks for the changes per verse, and includes only the verses with changes.
-This file is emailed. It has bold and strikeout in the css file.
-Secondly, a number of other versiona are produced, and put online. So the user can then choose which to view.
-The email contains a link to the files online for that day. This is a special directory.
+
 
 The download section gets files to store there, and these are removed after some time.
 Each set of changes gets stored in its own folder. The folders may be deleted based on their creation time.
 
-To send emails with the actual differences in them. Created by DaisyDiff in tag mode, and the css file
-inserted in the html output.
-
-The emails are sent per book. Only different chapters are compared, the others are just left.
-
-Each mail contains a link to the site, where a fuller version of the diff is stored in the downloads sections.
 
 The site needs a link to the downloads area, so that non-managers can view these online,
 not only through the link on the email, but also through the site itself.
 So it needs a Members area.
 
 The setup.php must check for whether java has been installed.
-
-At the end of creating the files, but before procssing them, truncate the diff table in changes.php.
-No, delete each diff as soon as it has been read.
 
 
 

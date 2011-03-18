@@ -31,14 +31,22 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
+$database_config_general = Database_Config_General::getInstance ();
+$database_config_user = Database_Config_User::getInstance ();
+$database_users = Database_Users::getInstance();
+$database_mail = Database_Mail::getInstance();
 $database_bibles = Database_Bibles::getInstance ();
+
+$siteUrl = $database_config_general->getSiteURL ();
+
 $bibles = $database_bibles->getDiffBibles ();
 foreach ($bibles as $bible) {
 
   // Files get stored in http://site.org/bibledit/downloads/changes/<Bible>/<date>
   // The user can access the files through the browser.
   $biblename = $database_bibles->getName ($bible);
-  $directory = dirname (dirname (__FILE__)) . "/downloads/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
+  $baseUrl = "/downloads/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
+  $directory = dirname (dirname (__FILE__)) . $baseUrl;
   mkdir ($directory, 0777, true);
   
   // Create symbolic link for easy references.
@@ -50,23 +58,54 @@ foreach ($bibles as $bible) {
   Filter_Diff::produceUsfmChapterLevel ($bible, $directory);
   Filter_Diff::produceUsfmVerseLevel ($bible, $directory);
   
-  // Run Daisy Diff.
-  Filter_Diff::copyDaisyDiffLibraries ($directory);
-  $outputfile = "$directory/changed_verses.html";
-  Filter_Diff::runDaisyDiff ("$directory/verses_old.usfm", "$directory/verses_new.usfm", $outputfile); // Todo
-  Filter_Diff::setDaisyDiffTitle ($outputfile, $biblename, gettext ("recent changes"));
-  Filter_Diff::integrateDaisyDiffStylesheet ($outputfile, true);
-  $outputfile = "$directory/changed_chapters.html";
-  Filter_Diff::runDaisyDiff ("$directory/chapters_old.usfm", "$directory/chapters_new.usfm", $outputfile); // Todo
-  Filter_Diff::setDaisyDiffTitle ($outputfile, $biblename, gettext ("recent changes"));
-  Filter_Diff::integrateDaisyDiffStylesheet ($outputfile, true);
+  // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
+  $database_bibles->deleteDiffBible ($bible);
+
+  // Insert links to all the online versions. Todo
+  $links [] = array ("", "View this online:");
+  $links [] = array ("$siteUrl$baseUrl/changed_verses.html", "changed verses");
+  $links [] = array ("", "|");
+  $links [] = array ("$siteUrl$baseUrl/changed_chapters.html", "changed chapters");
+  $links [] = array ("", "|");
+  $links [] = array ("$siteUrl$baseUrl/changed_verses_email.html", "emailed version");
+  Filter_Diff::insertLinks ("$directory/verses_old.usfm", $links);
+  Filter_Diff::insertLinks ("$directory/verses_new.usfm", $links);
+  Filter_Diff::insertLinks ("$directory/chapters_old.usfm", $links);
+  Filter_Diff::insertLinks ("$directory/chapters_new.usfm", $links);
   
+  // Prepare for Daisy Diff.
+  Filter_Diff::copyDaisyDiffLibraries ($directory);
+
+  // Create online page showing the changed verses.
+  $outputfile = "$directory/changed_verses.html";
+  Filter_Diff::runDaisyDiff ("$directory/verses_old.usfm", "$directory/verses_new.usfm", $outputfile);
+  Filter_Diff::setDaisyDiffTitle ($outputfile, $biblename, gettext ("recent changes"));
+
+  // Create online page showing the changed chapters.
+  $outputfile = "$directory/changed_chapters.html";
+  Filter_Diff::runDaisyDiff ("$directory/chapters_old.usfm", "$directory/chapters_new.usfm", $outputfile);
+  Filter_Diff::setDaisyDiffTitle ($outputfile, $biblename, gettext ("recent changes"));
+  
+  // Create email page showing the changed verses.
+  $emailfile = "$directory/changed_verses_email.html";
+  Filter_Diff::runDaisyDiff ("$directory/verses_old.usfm", "$directory/verses_new.usfm", $emailfile);
+  Filter_Diff::setDaisyDiffTitle ($emailfile, $biblename, gettext ("recent changes"));
+  Filter_Diff::setDaisyDiffSubtitle ($emailfile, gettext ("Added text shows in bold and light green. Removed text is stroked out and light red."));
+  Filter_Diff::integrateDaisyDiffStylesheet ($emailfile, true);
+  Filter_Diff::removeDaisyDiffJavascript ($emailfile);
+  Filter_Diff::removeDaisyDiffArrows ($emailfile);
+
+  // Email users.
+  $subject = gettext ("Recent changes") . " " . $biblename;
+  $emailBody = file_get_contents ($emailfile);
+  $users = $database_users->getUsers ();
+  foreach ($users as $user) {
+    if ($database_config_user->getUserBibleChangesNotification ($user)) {
+      $database_mail->send ($user, $subject, $emailBody);
+    }
+  }
+ 
 }
-
-/*
-Todo working here.
-
-*/
 
 $database_logs->log (gettext ("The lists of changes in the Bibles have been generated"), true);
 

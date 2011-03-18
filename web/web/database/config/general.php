@@ -216,6 +216,13 @@ EOD;
     $this->setValue ("timer-diff", $value);
   }   
 
+  public function getSiteURL() { // Todo
+    return $this->getValue ("site-url", "");
+  }
+  public function setSiteURL ($value) {
+    $this->setValue ("site-url", $value);
+  }   
+
 
 }
 

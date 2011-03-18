@@ -1,13 +1,9 @@
 <?php
     
-
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (GUEST_LEVEL);
 
-
-
 $smarty = new Smarty_Bibledit (__FILE__);
-
 
 // Form submission handler.
 if (isset($_POST['submit'])) {
@@ -36,6 +32,10 @@ if (isset($_POST['submit'])) {
       if ($session_logic->currentLevel (true) != ADMIN_LEVEL) {
         $mail->send ($admin, $subject, "");
       }
+      // Store web site's base URL.
+      $database_config_general = Database_Config_General::getInstance ();
+      @$siteUrl = dirname (dirname ($_SERVER["HTTP_REFERER"]));
+      $database_config_general->setSiteURL ($siteUrl);
     } else {
       $smarty->assign ('error_message', gettext ("Username or email address or password are not correct"));
       $session_logic->logout();
@@ -50,7 +50,6 @@ if (isset($_POST['submit'])) {
   }
 }
 
-
 $session_logic = Session_Logic::getInstance ();
 if ($session_logic->loggedIn ()) {
   $mail = Database_Mail::getInstance ();
@@ -61,6 +60,5 @@ if ($session_logic->loggedIn ()) {
   $smarty->assign ('logging_in', true);
   $smarty->display("login.tpl");
 }
-
 
 ?>

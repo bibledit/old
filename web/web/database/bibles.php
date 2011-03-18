@@ -285,6 +285,7 @@ EOD;
   public function getChapter ($bible, $book, $chapter)
   {
     $database_instance = Database_Instance::getInstance();
+    $bible = Database_SQLInjection::no ($bible);
     if (!is_numeric ($bible)) $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
@@ -344,6 +345,7 @@ EOD;
   public function getDiff ($bible, $book, $chapter)
   {
     $database_instance = Database_Instance::getInstance();
+    $bible = Database_SQLInjection::no ($bible);
     if (!is_numeric ($bible)) $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
@@ -382,11 +384,25 @@ EOD;
 
 
   /**
+  * Deletes the diffs for a whole Bible. Todo
+  */
+  public function deleteDiffBible ($bible)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bible = Database_SQLInjection::no ($bible);
+    if (!is_numeric ($bible)) $bible = $this->getID ($bible);
+    $query = "DELETE FROM bible_diff WHERE bible = $bible;";
+    $result = $database_instance->runQuery ($query);
+  }
+      
+
+  /**
   * Returns an array with the available chapters that have diff data in a $book in a Bible.
   */
   public function getDiffChapters ($bible, $book)
   {
     $database_instance = Database_Instance::getInstance();
+    $bible = Database_SQLInjection::no ($bible);
     if (!is_numeric ($bible)) $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
     $query = "SELECT DISTINCT chapter FROM bible_diff WHERE bible = $bible AND book = $book ORDER BY chapter ASC;";
@@ -407,6 +423,7 @@ EOD;
   public function getDiffBooks ($bible)
   {
     $database_instance = Database_Instance::getInstance();
+    $bible = Database_SQLInjection::no ($bible);
     if (!is_numeric ($bible)) $bible = $this->getID ($bible);
     $query = "SELECT DISTINCT book FROM bible_diff WHERE bible = $bible ORDER BY book ASC;";
     $result = $database_instance->runQuery ($query);
@@ -444,9 +461,6 @@ EOD;
     $database_instance = Database_Instance::getInstance();
     $result = $database_instance->runQuery ("TRUNCATE TABLE bible_diff;");
   }
-
-
-  
 
 
 }

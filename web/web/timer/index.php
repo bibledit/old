@@ -129,7 +129,7 @@ while(1)
       $diff_timestamp += 86400;
     }
     $config_general->setTimerDiff ($diff_timestamp);
-    $workingdirectory = dirname (__FILE__);
+    $workingdirectory = escapeshellarg (dirname (__FILE__));
     shell_exec ("cd $workingdirectory; php changes.php > /dev/null 2>&1 &");
   }
   unset ($diff_timestamp);

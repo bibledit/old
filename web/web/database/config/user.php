@@ -283,7 +283,7 @@ EOD;
     $this->setValue ("", "consultation-notes-text-inclusion-selector", $value);
   }
 
-  public function getBibleChangesNotification() { // Todo
+  public function getBibleChangesNotification() {
     return $this->getValue ("", "bible-changes-notification", false);
   }
   public function getUserBibleChangesNotification($username) {
