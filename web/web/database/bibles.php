@@ -384,7 +384,7 @@ EOD;
 
 
   /**
-  * Deletes the diffs for a whole Bible. Todo
+  * Deletes the diffs for a whole Bible.
   */
   public function deleteDiffBible ($bible)
   {

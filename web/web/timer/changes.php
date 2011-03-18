@@ -61,7 +61,8 @@ foreach ($bibles as $bible) {
   // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
   $database_bibles->deleteDiffBible ($bible);
 
-  // Insert links to all the online versions. Todo
+  // Insert links to all the online versions.
+  $links = array ();
   $links [] = array ("", "View this online:");
   $links [] = array ("$siteUrl$baseUrl/changed_verses.html", "changed verses");
   $links [] = array ("", "|");

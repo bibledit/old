@@ -222,7 +222,7 @@ class Filter_Diff
   * $htmlfile: The html to operate on.
   * $links: array of array of links and texts.
   */
-  public function insertLinks ($htmlfile, $links) // Todo
+  public function insertLinks ($htmlfile, $links)
   {
     $contents = file_get_contents ($htmlfile);
     if ($contents !== false) {

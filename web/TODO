@@ -6,7 +6,6 @@
 The download section gets files to store there, and these are removed after some time.
 Each set of changes gets stored in its own folder. The folders may be deleted based on their creation time.
 
-
 The site needs a link to the downloads area, so that non-managers can view these online,
 not only through the link on the email, but also through the site itself.
 So it needs a Members area.
