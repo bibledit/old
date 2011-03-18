@@ -1,34 +1,12 @@
-Update helpfiles. Easier Ubuntu installation: New and old.
-Mention jave installation.
-
-
-To start, create a filter that runs Daisy Diff in a rudimentary manner.
-Then expand on that adding functions.
-This filter updates the title, and the description.
+The user gets a setting whether he wants to be notified of these changes.
 
 
 
-
-
-Create a filter that produces two files:
-1. The html diff for on the site online
-2. The tag diff for emailing to the user.
-The filter takes an old file, a new file, a html output file and a tag output file.
-
-It also takes a directory where the files are stored, and moves the necessary libraries into that directory.
-One special filter does this copying, so that we do not need to do that multiple times, once for each book.
-
-But we may consider using the standard directory for that.
-Test this filter.
-Include the css file in the html file produced in tag mode, and also in the one produced in html mode.
-We may try emailing the html output, and skipping the tag file altogether. But then we loose the accuracy. Better keep 2.
 
 We email a special file. Bibledit-Web looks for the changes per verse, and includes only the verses with changes.
 This file is emailed. It has bold and strikeout in the css file.
 Secondly, a number of other versiona are produced, and put online. So the user can then choose which to view.
 The email contains a link to the files online for that day. This is a special directory.
-
-The user gets a setting whether he wants to be notified of these changes.
 
 The download section gets files to store there, and these are removed after some time.
 Each set of changes gets stored in its own folder. The folders may be deleted based on their creation time.
@@ -47,7 +25,7 @@ So it needs a Members area.
 The setup.php must check for whether java has been installed.
 
 At the end of creating the files, but before procssing them, truncate the diff table in changes.php.
-
+No, delete each diff as soon as it has been read.
 
 
 

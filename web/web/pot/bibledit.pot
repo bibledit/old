@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-17 01:46+0100\n"
+"POT-Creation-Date: 2011-03-18 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1148,16 +1148,16 @@ msgstr ""
 msgid "Generating lists of changes in the Bibles"
 msgstr ""
 
-msgid "Changes in"
+msgid "recent changes"
 msgstr ""
 
 msgid "The lists of changes in the Bibles have been generated"
 msgstr ""
 
-msgid "About"
+msgid "Installation"
 msgstr ""
 
-msgid "Installation"
+msgid "About"
 msgstr ""
 
 msgid "Introduction"
@@ -2875,80 +2875,6 @@ msgid ""
 "This shows the whole book exported into Unified Standard Format Markers data."
 msgstr ""
 
-msgid "Install Bibledit-Web version 0.2 on Ubuntu 10.04 desktop and server"
-msgstr ""
-
-msgid "This assumes a standard installation of the operating system."
-msgstr ""
-
-msgid "Connect to a terminal on the server."
-msgstr ""
-
-msgid ""
-"Install the software Bibledit-Web relies on. To do that, type the following "
-"command, and press Enter:"
-msgstr ""
-
-msgid ""
-"While installing mysql-server, set the administrative password. These "
-"guidelines assume that it will be set to root."
-msgstr ""
-
-msgid ""
-"When it asks to choose the web server that should be configured to run "
-"phpMyAdmin, choose apache2."
-msgstr ""
-
-msgid ""
-"Anything else to be set up, choose the default settings and enter the "
-"correct passwords."
-msgstr ""
-
-msgid ""
-"Download Bibledit-Web. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Unpack Bibledit-Web. To do that, type the following command, and press Enter:"
-msgstr ""
-
-msgid ""
-"Enter Bibledit-Web's code. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Configure Bibledit-Web. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Install Bibledit-Web. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Test the web server. Open the site in the browser. It should say something "
-"like"
-msgstr ""
-
-msgid ""
-"Setup Bibledit-Web. Open the setup url in the browser. If the site is \"site."
-"org\", then this will be something like:"
-msgstr ""
-
-msgid "Bibledit-Web should now be ready, and accessible through:"
-msgstr ""
-
-msgid ""
-"You can initially login through default username \"adminusername\" and "
-"password \"adminpassword\". These only work if no Administrator's account "
-"exist on the system. It is recommended, therefore, to create an "
-"Administrator's account of your own choice, and then to remove the default "
-"adminusername account."
-msgstr ""
-
 msgid "The Notes are an important part of Consultations."
 msgstr ""
 
@@ -3133,10 +3059,94 @@ msgstr ""
 msgid "The body of the email will be the first comment on that note."
 msgstr ""
 
-msgid "Install Bibledit-Web version 0.2 on Ubuntu 10.10 desktop and server"
+msgid "Install Bibledit-Web version 0.3 on Ubuntu 10.04 desktop and server"
+msgstr ""
+
+msgid "This assumes a standard installation of the operating system."
+msgstr ""
+
+msgid "Connect to a terminal on the server."
+msgstr ""
+
+msgid ""
+"Install the software Bibledit-Web relies on. To do that, type the following "
+"command, and press Enter:"
+msgstr ""
+
+msgid ""
+"While installing mysql-server, set the administrative password. These "
+"guidelines assume that it will be set to root."
+msgstr ""
+
+msgid ""
+"When it asks to choose the web server that should be configured to run "
+"phpMyAdmin, choose apache2."
+msgstr ""
+
+msgid ""
+"Anything else to be set up, choose the default settings and enter the "
+"correct passwords."
+msgstr ""
+
+msgid ""
+"Download Bibledit-Web. To do that, type the following command, and press "
+"Enter:"
+msgstr ""
+
+msgid ""
+"Unpack Bibledit-Web. To do that, type the following command, and press Enter:"
+msgstr ""
+
+msgid ""
+"Enter Bibledit-Web's code. To do that, type the following command, and press "
+"Enter:"
+msgstr ""
+
+msgid ""
+"Configure Bibledit-Web. To do that, type the following command, and press "
+"Enter:"
+msgstr ""
+
+msgid ""
+"Install Bibledit-Web. To do that, type the following command, and press "
+"Enter:"
+msgstr ""
+
+msgid ""
+"Test the web server. Open the site in the browser. It should say something "
+"like"
+msgstr ""
+
+msgid ""
+"Setup Bibledit-Web. Open the setup url in the browser. If the site is \"site."
+"org\", then this will be something like:"
+msgstr ""
+
+msgid "Bibledit-Web should now be ready, and accessible through:"
+msgstr ""
+
+msgid ""
+"You can initially login through default username \"adminusername\" and "
+"password \"adminpassword\". These only work if no Administrator's account "
+"exist on the system. It is recommended, therefore, to create an "
+"Administrator's account of your own choice, and then to remove the default "
+"adminusername account."
+msgstr ""
+
+msgid ""
+"Install Bibledit-Web version 0.4 and higher on Ubuntu 10.10 desktop and "
+"server"
+msgstr ""
+
+msgid ""
+"Install the software Bibledit-Web relies on. To do that, type the following "
+"commands, and press Enter after each:"
 msgstr ""
 
 msgid "Reboot when through. This is to start the Apache web server."
+msgstr ""
+
+msgid "The x.x refers to the version number"
 msgstr ""
 
 msgid "Bibledit-Web"
@@ -3199,10 +3209,10 @@ msgstr ""
 msgid "Here are some guidelines as to how to install Bibledit-Web."
 msgstr ""
 
-msgid "Version 0.2 on Ubuntu 10.10 desktop and server."
+msgid "Version 0.4 and higher on Ubuntu 10.10 desktop and server."
 msgstr ""
 
-msgid "Version 0.2 on Ubuntu 10.04 desktop and server."
+msgid "Version 0.3 on Ubuntu 10.04 desktop and server."
 msgstr ""
 
 msgid "Version being developed"
@@ -3228,9 +3238,8 @@ msgstr ""
 msgid ""
 "To log into the application, use the default username \"adminusername\" and "
 "password \"adminpassword\". These only work if no Administrator's  account "
-"exist on the system. It is recommended, therefore, to create an "
-"Administrator's account of your own choice, and then to remove the default "
-"adminusername account."
+"exist on the system. It is recommended to create an Administrator's account "
+"of your own choice. This will disable the default adminusername account."
 msgstr ""
 
 msgid "Plugin"

@@ -52,8 +52,14 @@ foreach ($bibles as $bible) {
   
   // Run Daisy Diff.
   Filter_Diff::copyDaisyDiffLibraries ($directory);
-  Filter_Diff::runDaisyDiff ("$directory/verses_old.usfm", "$directory/verses_new.usfm", "$directory/changed_verses.html"); // Todo
-  Filter_Diff::runDaisyDiff ("$directory/chapters_old.usfm", "$directory/chapters_new.usfm", "$directory/changed_chapters.html"); // Todo
+  $outputfile = "$directory/changed_verses.html";
+  Filter_Diff::runDaisyDiff ("$directory/verses_old.usfm", "$directory/verses_new.usfm", $outputfile); // Todo
+  Filter_Diff::setDaisyDiffTitle ($outputfile, $biblename, gettext ("recent changes"));
+  Filter_Diff::integrateDaisyDiffStylesheet ($outputfile, true);
+  $outputfile = "$directory/changed_chapters.html";
+  Filter_Diff::runDaisyDiff ("$directory/chapters_old.usfm", "$directory/chapters_new.usfm", $outputfile); // Todo
+  Filter_Diff::setDaisyDiffTitle ($outputfile, $biblename, gettext ("recent changes"));
+  Filter_Diff::integrateDaisyDiffStylesheet ($outputfile, true);
   
 }
 
