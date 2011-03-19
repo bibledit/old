@@ -1,6 +1,7 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in source repository</h2>
+<p>Requires a Java Runtime Environment for full functionality.</p>
 <p>Pages detailing recent changes in the Bible texts are generated daily.</p>
 <p>The users can opt to receive emails detailing recent changes in the Bible texts.</p>
 <p>ChangeLogs have been moved from http://sites.google.com/site/bibledit to here.</p>

@@ -1,17 +1,20 @@
 
 
 
+
+
+
+
+
+
+
+
 The site needs a link to the downloads area, so that non-managers can view these online,
 not only through the link on the email, but also through the site itself.
 So it needs a Members area.
 
-The setup.php must check whether java has been installed.
 
 
-
-
-bibledit.org/demo no longer will work, because java has not been installed there.
-move it to bibleconsultants.dyndns.org instead, and update the pages on Google.
 
 
 

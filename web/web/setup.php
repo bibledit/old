@@ -53,6 +53,17 @@
   }
   flush ();
    
+  // Check on a Java Runtime Environment.
+  $jre = exec ("java -version 2>&1", &$output, &$return_var);
+  foreach ($output as $line) echo "<p>$line</p>";
+  if ($return_var == 0) {
+    echo "<p>Ok: The Java Runtime Environment looks okay</p>";
+  } else {
+    echo "<p>Error: The Java Runtime Environment is not present or does not run properly</p>";
+    die;
+  }
+  flush ();
+   
   // If the user posted new values for accessing the database, write these to file.
   if (isset($_POST['submit'])) {
     $name   = $_POST['name'];
