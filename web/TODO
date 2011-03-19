@@ -10,7 +10,11 @@ The setup.php must check whether java has been installed.
 
 
 
+bibledit.org/demo no longer will work, because java has not been installed there.
+move it to bibleconsultants.dyndns.org instead, and update the pages on Google.
 
+
+Make a ChangeLog html file in Bibledit-Web, and remove it from Google Sites.
 
 
 
@@ -28,6 +32,10 @@ When backing up, the backup box does not disappear when the task is completed.
 This leaves the user wondering whether the backup was successful or not.
 
 
+
+When the mysql daemon is shut down, then the backup routines keep running.
+WE need to check on this, so that this does not happen.
+We could check on this by checking on the time that would normally be obtained from the database, but not now.
 
 
 
