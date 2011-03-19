@@ -16,6 +16,9 @@
     {if $level >= 3}
       <a href="{$header_path_modifier}consultations/index.php">{t}Consultations{/t}</a>
     {/if}
+    {if $level >= 2}
+      <a href="{$header_path_modifier}members/index.php">{t}Members{/t}</a>
+    {/if}
     <a href="{$header_path_modifier}help/index.php">{t}Help{/t}</a>
     {* Poor Man's Crontab *}
     <img border="0" src="{$header_path_modifier}timer/index.php" width="0" height="0" />
