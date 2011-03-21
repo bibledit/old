@@ -5,7 +5,7 @@ class Filter_Diff
 
   /**
   * This filter produces two USFM files to be used for showing the differences between them.
-  * The files contain all chapters that differ.
+  * The files contain the chapters that differ.
   * $bibleIdentifier: The Bible identifier to go through.
   * $directory: The existing directory where to put the files.
   * Two files are created: chapters_old.usfm and chapters_new.usfm.
