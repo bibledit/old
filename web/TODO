@@ -2,6 +2,8 @@
 
 
 
+
+
 Gtk: The crash in the editor occurs when one has switched to the USFM view, and then back to the formatted view.
 
 
@@ -11,16 +13,6 @@ To use the PHP-Java bridge.
 Then to call OpenOffice API in order to create a OpenDocument
 The first document contains the main verse text, including superscripted letters for the notes.
 The second document contains the notes as flowing text.
-
-
-
-
-
-Gtk The backup routine keeps going many times.
-When backing up, the backup box does not disappear when the task is completed. 
-This leaves the user wondering whether the backup was successful or not.
-
-
 
 
 

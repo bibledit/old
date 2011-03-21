@@ -275,7 +275,7 @@ void BackupAssistant::on_assistant_prepare (GtkWidget *page)
   }
 
   if (page == vbox_resource_name) {
-    // Prepare for the page to confirm or change the Bible.
+    // Prepare for the page to confirm or change the Resource.
     gtk_label_set_text (GTK_LABEL (label_resource_name), resource_name.c_str());
     if (resource_name.empty()) {
       gtk_label_set_text (GTK_LABEL (label_resource_name), "No Resource selected");
@@ -377,7 +377,9 @@ gint BackupAssistant::assistant_forward (gint current_page)
   // Take the next page in the forward sequence.
   do {
     current_page++;
+    if (current_page > (gint) summary_page_number) break;
   } while (forward_sequence.find (current_page) == forward_sequence.end());
+    if (current_page > (gint) summary_page_number) current_page = summary_page_number;
   return current_page;
 }
 
