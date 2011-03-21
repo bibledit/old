@@ -62,6 +62,9 @@ while(1)
 
 
   $previous_timestamp = $config_general->getTimerMinute ();
+  // Notice when the mysql database is down. 
+  // Without this it will spawn many shell processes that effectively hang the system.
+  $database_down = $previous_timestamp === "";
   if ($current_timestamp >= ($previous_timestamp + 60)) {
     $config_general->setTimerMinute ($current_timestamp);
     
@@ -96,7 +99,7 @@ while(1)
 
     // Trim databases.
     $workingdirectory = dirname (__FILE__);
-    shell_exec ("cd $workingdirectory; php trimdatabases.php > /dev/null 2>&1 &");
+    if (!$database_down) shell_exec ("cd $workingdirectory; php trimdatabases.php > /dev/null 2>&1 &");
 
     // Log memory usage.    
     $memory_usage = memory_get_usage();
@@ -115,7 +118,7 @@ while(1)
     }
     $config_general->setTimerBackup ($backup_timestamp);
     $workingdirectory = dirname (__FILE__);
-    shell_exec ("cd $workingdirectory; php backup.php > /dev/null 2>&1 &");
+    if (!$database_down) shell_exec ("cd $workingdirectory; php backup.php > /dev/null 2>&1 &");
   }
   unset ($backup_timestamp);
 
@@ -130,7 +133,7 @@ while(1)
     }
     $config_general->setTimerDiff ($diff_timestamp);
     $workingdirectory = escapeshellarg (dirname (__FILE__));
-    shell_exec ("cd $workingdirectory; php changes.php > /dev/null 2>&1 &");
+    if (!$database_down) shell_exec ("cd $workingdirectory; php changes.php > /dev/null 2>&1 &");
   }
   unset ($diff_timestamp);
 

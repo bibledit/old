@@ -1,26 +1,19 @@
 
 
-
-
-
-
-Gtk: The crash in the editor occurs when one has switched to the USFM view, and then back to the formatted view.
-
-
-
-
-To use the PHP-Java bridge.
-Then to call OpenOffice API in order to create a OpenDocument
-The first document contains the main verse text, including superscripted letters for the notes.
-The second document contains the notes as flowing text.
-
-
-
-
-
 When the mysql daemon is shut down, then the backup routines keep running.
 WE need to check on this, so that this does not happen.
 We could check on this by checking on the time that would normally be obtained from the database, but not now.
+
+
+
+
+
+
+
+To use the PHP-Java bridge for creating OpenDocument documents.
+Then to call OpenOffice API in order to create a OpenDocument
+The first document contains the main verse text, including superscripted letters for the notes.
+The second document contains the notes as flowing text.
 
 
 
@@ -33,10 +26,6 @@ appropriately after server reboots.
 
 
 
-
-
-To edit the note contents, for the Manager.
-Import from Bibledit-Gtk: Do not import logbook entries.
 
 
 
@@ -161,7 +150,8 @@ translation for every verse. It is too bad to split the team and make a copy of 
 every time they can not come up with a common translation. So I am assuming that branching at verse level
 should be supported and the final outputs (like whole OSIS, let me call it "a distribution") should also be plural. 
 And for each distribution should choose branched verses to take which version.
-
+Perhaps this can be implemented by storing another Bible as an overlay, which only has a few verses, namely
+the verses that differ. The base Bible is used, then the overlay is applied to it, and then the output is generated.
 
 
 
