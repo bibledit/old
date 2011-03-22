@@ -1,6 +1,7 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in source repository</h2>
+<p>Requires a Java Development Kit for compiling Java programs to produce OpenDocument files from PHP.</p>
 <p>Requires a Java Runtime Environment for generating the daily changes.</p>
 <p>Pages detailing recent changes in the Bible texts are generated daily.</p>
 <p>The users can opt to receive emails detailing recent changes in the Bible texts.</p>

@@ -1,26 +1,70 @@
-
-
-When the mysql daemon is shut down, then the backup routines keep running.
-WE need to check on this, so that this does not happen.
-We could check on this by checking on the time that would normally be obtained from the database, but not now.
-
-
-
-
-
-
-
-To use the PHP-Java bridge for creating OpenDocument documents.
-Then to call OpenOffice API in order to create a OpenDocument
+To create OpenDocument documents through the OpenOffice API.
 The first document contains the main verse text, including superscripted letters for the notes.
 The second document contains the notes as flowing text.
+This is in preparation for the typesetting phase.
+
+
+Option 1: PHP-Java bridge 
+Install package php5-cgi
+Start the servlet like this: java -jar ext/JavaBridge.jar SERVLET_LOCAL:8080
+Help: java -jar ext/JavaBridge.jar --help
+
+
+Option 2: docbook2odf
+This is a package to be installed.
+Can it produce footnotes? But this is not yet important at this stage. It does not produce footnotes.
+It is very weak in formatting options, I've seen none.
+Cannot be used for our purposes.
+
+
+Option 3: Write a Java program in PHP, then compile it, then execute it.
+Write HelloWorldApp.java
+Compile: javac HelloWorldApp.java 
+This produces HelloWorldApp.class
+Run it: java HelloWorldApp
+
+The OpenOffice API.
+See http://langintro.com/odfdom_tutorials/ for a lighter version.
+The original API is at: http://wiki.services.openoffice.org/wiki/Documentation/DevGuide/OpenOffice.org_Developers_Guide
+But better not use this since it requires OpenOffice installed.
+
+Quickstart.
+cd /home/teus/work/javawrite/quick_odt/quick_odt
+javac -cp lib/odfdom.jar QuickOdt.java
+java -cp lib/odfdom.jar:lib/xercesImpl.jar:. QuickOdt
+Or: java -cp lib/odfdom.jar:/usr/share/java/xercesImpl.jar:. QuickOdt
+
+ODFDOM is independent from OpenOffice.org, and thus preferable.
+See http://odftoolkit.org/
+Now called ODF Toolkit
+
+Where is xercesImpl.jar? See sudo dpkg -L  libxerces2-java
+It is in /usr/share/java
 
 
 
 
-the Ubuntu package git-daemon-run may be a useful way for
-you to set up a git server that is permanent and restarts itself
-appropriately after server reboots.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -83,60 +127,6 @@ To import the translation templates into the source.
 
 
 
-The site needs to have the concept of Desktops. Users can create store and erase these. 
-E.g. a desktop for editing, one for merging, etc.
-The desktops contain any combination of screens or tools that the user can use.
-There are standard Desktops included in the default application. The user cannot modify these.
-When editing desktops the user can choose in which menu it will be displayed, and it will be displayed there.
-
-
-
-
-
-
-A user can subscribe to changes in a Bible.
-These changes preferably are given only once an hour or so and the 
-email will contain all changes assembled into one.
-There will be links with the changes that allow the user to go straight to the passage.
-Changes are given as in Bibledit-Gtk, where differences are shown at the character level.
-
-
-
-
-
-
-
-
-
-
-
-
-
-Messaging between applications and server for e.g. verse reference, and many other things, 
-e.g. lists of verses to be sent to the references window.
-
-
-
-
-
-
-
-
-
-
-
-The text editor needs a link that sets the default / focused bible, so that the navigator takes that bible.
-But for as long as the navigator is not yet separated, then this is not needed, but we should prepare for it in the code.
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -156,13 +146,6 @@ the verses that differ. The base Bible is used, then the overlay is applied to i
 
 
 
-
-
-Just a thought here, but I think it might be good to have the option for administrators to chose which rights go to whom. 
-E.g. I'm not sure a new translation really should be immediately available to anyone ("visitor"). 
-It may invite premature comments or criticism that would slow the process down. 
-Or perhaps visitors could be prevented entirely until a certain phase when the administrator chooses
-to disclose translation content.
 
 
 
@@ -525,13 +508,6 @@ differences?  Also, this file says in part:
 You can use either site.org or site.com, but they need to match :)
 Using example.com is common for this kind of text, incidentally.
 
-EMBEDDED LIBRARIES:
-
-bibledit-web seems to have included a copy of the smarty library within
-its codebase.  This is not allowed when packaging.  I'll need to change
-it to use the system-supplied already-packaged version(s) of smarty and
-smarty-gettext (does it actually use smarty-gettext, or just smarty?).
-
 SUMMARY:
 
 As far as I can see, the bibledit-web 0.2 codebase pretty much requires
@@ -599,7 +575,6 @@ have found:
 
  * jquery
  * jwysiwyg (a plugin for jquery)
- * smarty
  * a modified copy of part of zendframework
 
 Are there any more?  At least the non-modified ones have to be packaged
@@ -613,31 +588,8 @@ Ubuntu has libzend-framework-php
 
 
 
-> When starting on Bibledit-Web I had in mind that the tarball would
-> be installable on Linux systems, but would also be uploadable to a
-> server through ftp and install itself there. But these seem to be two
-> different things. For example, inclusion of smarty(-gettext) is
-> necessary when uploading through ftp to a server the user only has
-> access to that way.
 
-Well, logically installing to a shared account on a remote web server
-could be done by obtaining each of the tarballs for bibledit-web and for
-each library that it needs (which is are not already installed on that
-remote web server), untarring and configuring each of these, and then
-uploading the resulting set of files using FTP (or, preferably, using
-SFTP so you are not passing your database and admin passwords around
-over the Internet in the clear; no-one who cares about security should
-be using FTP any more).
 
-You could perhaps look at creating a "just bibledit-web" tarball which
-includes an installation script that downloads the libraries it needs
-(using wget or similar) and untars and configures them for bibledit-web
-use.  Then the person doing this kind of install does:
-
- * Download bibledit-web tarball to a local Linux PC
- * Unpack bibledit-web tarball locally
- * Run installer script which downloads/configures libraries
- * Upload the resulting tree of files to the web server
 
 Those installing to a machine they have full control over would instead
 install the necessary libraries as packages, and configure bibledit-web

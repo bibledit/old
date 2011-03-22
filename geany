@@ -15,17 +15,10 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=144;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=11512;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/bibles.php;0
-FILE_NAME_2=265;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/diffTest.php;0
-FILE_NAME_3=1408;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/setup.php;0
-FILE_NAME_4=126;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_5=820;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/assets/header_full.tpl;0
-FILE_NAME_6=379;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/members/index.php;0
-FILE_NAME_7=62;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/members/index.tpl;0
-FILE_NAME_8=372;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/index.php;0
-FILE_NAME_9=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/index.tpl;0
-FILE_NAME_10=582;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/usfmTest.php;0
+FILE_NAME_0=1493;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=172;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
+FILE_NAME_2=6;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.php;0
+FILE_NAME_3=506;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/newubuntu1010.tpl;0
 
 [long line marker]
 long_line_behaviour=1

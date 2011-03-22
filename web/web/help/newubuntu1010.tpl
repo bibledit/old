@@ -3,7 +3,7 @@
 <p>{t}Connect to a terminal on the server.{/t}</p>
 <p>{t}Install the software Bibledit-Web relies on. To do that, type the following commands, and press Enter after each:{/t}</p>
 <p><code>sudo apt-get update</code></p>
-<p><code>sudo apt-get install mysql-server phpmyadmin php5-cli git-core curl default-jre</code></p>
+<p><code>sudo apt-get install mysql-server phpmyadmin php5-cli git-core curl default-jre default-jdk libxerces2-java</code></p>
 <p>{t}While installing mysql-server, set the administrative password. These guidelines assume that it will be set to root.{/t}</p>
 <p>{t}Anything else to be set up, choose the default settings and enter the correct passwords.{/t}</p>
 <p>{t}Reboot when through. This is to start the Apache web server.{/t}</p>
