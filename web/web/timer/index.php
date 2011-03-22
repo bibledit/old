@@ -138,6 +138,21 @@ while(1)
   unset ($diff_timestamp);
 
 
+  $exports_timestamp = $config_general->getTimerExports ();
+  if ($current_timestamp >= $exports_timestamp) {
+    $exports_timestamp += 86400;
+    while ($current_timestamp >= $exports_timestamp) {
+      // This loop updates the timestamp to a value larger than the current time.
+      // This avoids calling many processes when the task has not been done for a while.
+      $exports_timestamp += 86400;
+    }
+    $config_general->setTimerExports ($exports_timestamp);
+    $workingdirectory = escapeshellarg (dirname (__FILE__));
+    if (!$database_down) shell_exec ("cd $workingdirectory; php exports.php > /dev/null 2>&1 &");
+  }
+  unset ($exports_timestamp);
+
+
   // Wait a little for the next cycle.
   sleep(5);
 }

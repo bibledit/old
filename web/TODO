@@ -1,3 +1,8 @@
+Secondly, this exports all Bibles to OpenOffice, and puts it in the various formats.
+
+
+
+
 To create OpenDocument documents through the OpenOffice API.
 The first document contains the main verse text, including superscripted letters for the notes.
 The second document contains the notes as flowing text.

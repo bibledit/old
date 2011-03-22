@@ -216,6 +216,13 @@ EOD;
     $this->setValue ("timer-diff", $value);
   }   
 
+  public function getTimerExports() {
+    return $this->getValue ("timer-exports", "");
+  }
+  public function setTimerExports ($value) {
+    $this->setValue ("timer-exports", $value);
+  }   
+
   public function getSiteURL() {
     return $this->getValue ("site-url", "");
   }
