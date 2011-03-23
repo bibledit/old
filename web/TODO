@@ -1,6 +1,6 @@
 Steps:
-Add the odfdom.jar to a subdirectory with README and empty index.php.
-Write Filter_s that do a lot of the job.
+setup.php tests for javac
+Write Filter_OpenDocument that does a lot of the job.
 Test all filters.
 
 
@@ -15,6 +15,12 @@ One with notes only.
 
 
 
+
+
+There is an array of paths that could lead to finding the xerxesIpl.jar.
+The setup.php includes this for looking it up.
+It gives an error if this .jar is not found.
+The program eventually will also use this path.
 
 
 
@@ -70,6 +76,8 @@ It is in /usr/share/java
 
 
 
+Web: Sending/receiving goes once a day. If there are conflicts, the Administrator(s) are emailed with the data.
+All output goes into the logbook. No longer on the screen.
 
 
 
