@@ -1,5 +1,5 @@
 Steps:
-setup.php tests for javac
+
 Write Filter_OpenDocument that does a lot of the job.
 Test all filters.
 

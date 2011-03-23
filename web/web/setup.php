@@ -26,7 +26,7 @@
   }
   closedir($handler);
   if ($files_writable) {
-    echo "<p>Ok: Files are writeable</p>";
+    echo "<p>Ok: Files writeable</p>";
   } else {
     echo "<p>Error: Could not make files writeable</p>";
     die;
@@ -35,7 +35,7 @@
 
   // Smarty template compile directory writeable.
   if (is_writable ("smarty/templates_c")) {
-    echo "<p>Ok: Smarty compile directory is writeable</p>";
+    echo "<p>Ok: Smarty compile directory writeable</p>";
   } else {
     echo "<p>Error: Smarty compile directory is not writeable</p>";
     die;
@@ -43,23 +43,40 @@
   flush ();
 
   // Check on php-cli.
+  unset ($output);
+  unset ($return_var);
   $php_cli = exec ("php -v 2>&1", &$output, &$return_var);
-  foreach ($output as $line) echo "<p>$line</p>";
   if ($return_var == 0) {
-    echo "<p>Ok: PHP-cli is okay</p>";
+    echo "<p>Ok: PHP-cli</p>";
   } else {
+    foreach ($output as $line) echo "<p>$line</p>";
     echo "<p>Error: PHP-cli is not present or does not run properly</p>";
     die;
   }
   flush ();
    
-  // Check on a Java Runtime Environment.
+  // Java Runtime Environment present?
+  unset ($output);
+  unset ($return_var);
   $jre = exec ("java -version 2>&1", &$output, &$return_var);
-  foreach ($output as $line) echo "<p>$line</p>";
   if ($return_var == 0) {
-    echo "<p>Ok: The Java Runtime Environment looks okay</p>";
+    echo "<p>Ok: Java Runtime Environment</p>";
   } else {
+    foreach ($output as $line) echo "<p>$line</p>";
     echo "<p>Error: The Java Runtime Environment is not present or does not run properly</p>";
+    die;
+  }
+  flush ();
+   
+  // Java Development Kit's compiler present?
+  unset ($output);
+  unset ($return_var);
+  $jdk = exec ("javac -version 2>&1", &$output, &$return_var);
+  if ($return_var == 0) {
+    echo "<p>Ok: Java Development Kit</p>";
+  } else {
+    foreach ($output as $line) echo "<p>$line</p>";
+    echo "<p>Error: The Java Development Kit is not present or does not work properly</p>";
     die;
   }
   flush ();
