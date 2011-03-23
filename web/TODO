@@ -1,37 +1,31 @@
-Secondly, this exports all Bibles to OpenOffice, and puts it in the various formats.
+Steps:
+Add the odfdom.jar to a subdirectory with README and empty index.php.
+Write Filter_s that do a lot of the job.
+Test all filters.
+
+
+Preparation for the typesetting phase of the Bible.
+Export all Bibles to OpenDocument format. 
+A variety of editions: 
+One with text and notes in one document. 
+One with text only, 
+One with the text plus superscripted letters for the notes. 
+One with notes only.
 
 
 
 
-To create OpenDocument documents through the OpenOffice API.
-The first document contains the main verse text, including superscripted letters for the notes.
-The second document contains the notes as flowing text.
-This is in preparation for the typesetting phase.
 
 
-Option 1: PHP-Java bridge 
-Install package php5-cgi
-Start the servlet like this: java -jar ext/JavaBridge.jar SERVLET_LOCAL:8080
-Help: java -jar ext/JavaBridge.jar --help
 
 
-Option 2: docbook2odf
-This is a package to be installed.
-Can it produce footnotes? But this is not yet important at this stage. It does not produce footnotes.
-It is very weak in formatting options, I've seen none.
-Cannot be used for our purposes.
-
-
-Option 3: Write a Java program in PHP, then compile it, then execute it.
+Write a Java program in PHP, then compile it, then execute it.
 Write HelloWorldApp.java
 Compile: javac HelloWorldApp.java 
 This produces HelloWorldApp.class
 Run it: java HelloWorldApp
 
-The OpenOffice API.
-See http://langintro.com/odfdom_tutorials/ for a lighter version.
-The original API is at: http://wiki.services.openoffice.org/wiki/Documentation/DevGuide/OpenOffice.org_Developers_Guide
-But better not use this since it requires OpenOffice installed.
+See http://langintro.com/odfdom_tutorials/
 
 Quickstart.
 cd /home/teus/work/javawrite/quick_odt/quick_odt
@@ -39,7 +33,6 @@ javac -cp lib/odfdom.jar QuickOdt.java
 java -cp lib/odfdom.jar:lib/xercesImpl.jar:. QuickOdt
 Or: java -cp lib/odfdom.jar:/usr/share/java/xercesImpl.jar:. QuickOdt
 
-ODFDOM is independent from OpenOffice.org, and thus preferable.
 See http://odftoolkit.org/
 Now called ODF Toolkit
 

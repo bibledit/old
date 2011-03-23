@@ -101,6 +101,8 @@ vector < ustring > config_xml_vector_string_get(const ustring & file, const ustr
             xmlChar *element_name = xmlTextReaderName(reader);
             if (!xmlStrcmp(element_name, BAD_CAST myelement))
               keyfound = true;
+            if (element_name)
+              xmlFree(element_name); // Todo
             break;
           }
         case XML_READER_TYPE_TEXT:
@@ -119,6 +121,8 @@ vector < ustring > config_xml_vector_string_get(const ustring & file, const ustr
             xmlChar *element_name = xmlTextReaderName(reader);
             if (!xmlStrcmp(element_name, BAD_CAST myelement))
               keyfound = false;
+            if (element_name)
+              xmlFree(element_name); // Todo
             break;
           }
         }
@@ -241,6 +245,8 @@ void config_xml_values_set_execute(const ustring & file, const vector < ConfigXm
                 pair.key = element_name;
                 pair.value.clear();
               }
+              if (element_name) // Todo
+                xmlFree(element_name);
             }
             firstelementfound = true;
             break;
@@ -263,6 +269,8 @@ void config_xml_values_set_execute(const ustring & file, const vector < ConfigXm
               pair.key.clear();
               pair.value.clear();
             }
+            if (element_name) // Todo
+              xmlFree(element_name);
             break;
           }
         }
