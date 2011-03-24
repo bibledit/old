@@ -42,45 +42,6 @@
   }
   flush ();
 
-  // Check on php-cli.
-  unset ($output);
-  unset ($return_var);
-  $php_cli = exec ("php -v 2>&1", &$output, &$return_var);
-  if ($return_var == 0) {
-    echo "<p>Ok: PHP-cli</p>";
-  } else {
-    foreach ($output as $line) echo "<p>$line</p>";
-    echo "<p>Error: PHP-cli is not present or does not run properly</p>";
-    die;
-  }
-  flush ();
-   
-  // Java Runtime Environment present?
-  unset ($output);
-  unset ($return_var);
-  $jre = exec ("java -version 2>&1", &$output, &$return_var);
-  if ($return_var == 0) {
-    echo "<p>Ok: Java Runtime Environment</p>";
-  } else {
-    foreach ($output as $line) echo "<p>$line</p>";
-    echo "<p>Error: The Java Runtime Environment is not present or does not run properly</p>";
-    die;
-  }
-  flush ();
-   
-  // Java Development Kit's compiler present?
-  unset ($output);
-  unset ($return_var);
-  $jdk = exec ("javac -version 2>&1", &$output, &$return_var);
-  if ($return_var == 0) {
-    echo "<p>Ok: Java Development Kit</p>";
-  } else {
-    foreach ($output as $line) echo "<p>$line</p>";
-    echo "<p>Error: The Java Development Kit is not present or does not work properly</p>";
-    die;
-  }
-  flush ();
-   
   // If the user posted new values for accessing the database, write these to file.
   if (isset($_POST['submit'])) {
     $name   = $_POST['name'];

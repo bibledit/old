@@ -1,4 +1,5 @@
 Steps:
+The tests for binaries as in setup.php should go into configure.ac
 Write Filter_OpenDocument that does a lot of the job.
 Test all filters.
 

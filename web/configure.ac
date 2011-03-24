@@ -2,10 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.3.9],[http://www.nongnu.org/bibledit])
-# AC_CANONICAL_TARGET
+AC_INIT([bibledit-web],[0.3.10],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
-# AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
 
@@ -26,16 +24,41 @@ if test x$FIND_MYSQL = xno; then
   AC_MSG_ERROR(Program "mysql" is needed. Install this first.)
 fi
 
-# Check for web server on localhost.
-AC_MSG_CHECKING(local web server)
-curl -s http://localhost > /dev/null
-if test $? -ne 0
-  then
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR(A local web server such as Apache is required but it was not found or it is not running)
-    exit 1
+AC_PATH_PROG(FIND_MYSQLDUMP, mysqldump, no)
+if test x$FIND_MYSQLDUMP = xno; then
+  AC_MSG_ERROR(Program "mysqldump" is needed. Install this first.)
 fi
-AC_MSG_RESULT(yes)
+
+AC_PATH_PROG(FIND_APACHE2, apache2, no)
+if test x$FIND_APACHE2 = xno; then
+  AC_MSG_ERROR(Program "apache2" is needed. Install this first.)
+fi
+
+AC_PATH_PROG(FIND_PHP, php, no)
+if test x$FIND_PHP = xno; then
+  AC_MSG_ERROR(Program "php" is needed. Install this first.)
+fi
+
+AC_PATH_PROG(FIND_JAVA, java, no)
+if test x$FIND_JAVA = xno; then
+  AC_MSG_ERROR(Program "java" is needed. Install the Java Runtime Environment.)
+fi
+
+AC_PATH_PROG(FIND_JAVAC, javac, no)
+if test x$FIND_JAVAC = xno; then
+  AC_MSG_ERROR(Program "javac" is needed. Install the Java Development Kit.)
+fi
+
+# Check for web server on localhost.
+# AC_MSG_CHECKING(local web server)
+# curl -s http://localhost > /dev/null
+# if test $? -ne 0
+#   then
+#     AC_MSG_RESULT(no)
+#     AC_MSG_ERROR(A local web server such as Apache is required but it was not found or it is not running)
+#     exit 1
+# fi
+# AC_MSG_RESULT(yes)
 
 
 # MySQL database root password.
@@ -52,19 +75,19 @@ AC_SUBST(MYSQL_ROOT_PASSWORD)
 
 
 # Check access to local MySQL installation
-AC_MSG_CHECKING(access to local MySQL server)
-echo quit | mysql --user=root --pass=${MYSQL_ROOT_PASSWORD}
-if test $? -ne 0
-  then
-    AC_MSG_RESULT(no)
-    AC_MSG_WARN(The local MySQL server could not be accessed)
-    AC_MSG_WARN(Is the MySQL server running?)
-    AC_MSG_WARN(Is the password for the 'root' user correct?)
-    AC_MSG_WARN(Try ./configure --with-mysql-root-password=mysecret)
-    AC_MSG_ERROR(Fatal error)
-    exit 1
-fi
-AC_MSG_RESULT(yes)
+# AC_MSG_CHECKING(access to local MySQL server)
+# echo quit | mysql --user=root --pass=${MYSQL_ROOT_PASSWORD}
+# if test $? -ne 0
+#   then
+#     AC_MSG_RESULT(no)
+#     AC_MSG_WARN(The local MySQL server could not be accessed)
+#     AC_MSG_WARN(Is the MySQL server running?)
+#     AC_MSG_WARN(Is the password for the 'root' user correct?)
+#     AC_MSG_WARN(Try ./configure --with-mysql-root-password=mysecret)
+#     AC_MSG_ERROR(Fatal error)
+#     exit 1
+# fi
+# AC_MSG_RESULT(yes)
 
 
 # Location of web root to be automatically looked up if the user didn't give it.
