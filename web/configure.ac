@@ -157,6 +157,34 @@ AC_DEFINE_UNQUOTED(SITE_ADMIN_PASSWORD, "$SITE_ADMIN_PASSWORD")
 AC_SUBST(SITE_ADMIN_PASSWORD)
 
 
+# Location of xercesImpl.jar.
+XERCESPATH_DEFAULT="."
+AC_ARG_WITH(xerces-path,
+        [  --with-xerces-path=path
+                          xercesImpl.jar path],
+        [ XERCESPATH=$withval ],
+        [ XERCESPATH=$XERCESPATH_DEFAULT ]
+)
+AC_MSG_CHECKING(xercesImpl.jar path)
+if [ [ $XERCESPATH == "." ] ]
+  then
+    test -f /usr/share/java/xercesImpl.jar
+    if [ [ $? -eq 0 ] ]
+    then
+      XERCESPATH=/usr/share/java/xercesImpl.jar
+    fi
+fi
+if [ [ $XERCESPATH == "." ] ]
+  then
+    AC_MSG_RESULT(no)
+    AC_MSG_ERROR(Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>)
+fi
+AC_MSG_RESULT(${XERCESPATH})
+AC_DEFINE([XERCESPATH], [], [Define the path to xercesImpl.jar])
+AC_DEFINE_UNQUOTED(XERCESPATH, "$XERCESPATH")
+AC_SUBST(XERCESPATH)
+
+
 # Checks for Additional stuffs.
 # Set PACKAGE PREFIX
 if test "x${prefix}" = "xNONE"; then
@@ -281,6 +309,13 @@ rm $VERSIONFILE
 echo '<?php'                            >> $VERSIONFILE
 echo '$version = "'$PACKAGE_VERSION'";' >> $VERSIONFILE
 echo '?>'                               >> $VERSIONFILE
+
+# Create the file with the paths to the system libraries.
+PATHSFILE=web/paths/paths.php
+rm $PATHSFILE
+echo '<?php'                            >> $PATHSFILE
+echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
+echo '?>'                               >> $PATHSFILE
 
 # Summary.
 echo "

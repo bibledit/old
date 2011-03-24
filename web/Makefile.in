@@ -146,6 +146,7 @@ SITE_ADMIN_USERNAME = @SITE_ADMIN_USERNAME@
 STRIP = @STRIP@
 VERSION = @VERSION@
 WEBROOT = @WEBROOT@
+XERCESPATH = @XERCESPATH@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@

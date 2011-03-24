@@ -39,3 +39,6 @@
 
 /* Define the local web server document root */
 #define WEBROOT "/var/www"
+
+/* Define the path to xercesImpl.jar */
+#define XERCESPATH "/usr/share/java/xercesImpl.jar"

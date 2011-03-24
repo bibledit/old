@@ -564,6 +564,7 @@ DARWIN_FALSE
 DARWIN_TRUE
 LINUX_FALSE
 LINUX_TRUE
+XERCESPATH
 SITE_ADMIN_PASSWORD
 SITE_ADMIN_USERNAME
 WEBROOT
@@ -644,6 +645,7 @@ with_mysql_root_password
 with_web_document_root
 with_site_admin_username
 with_site_admin_password
+with_xerces_path
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1271,6 +1273,8 @@ Optional Packages:
                           Site Administrator username
   --with-site-admin-password=password
                           Site Administrator password
+  --with-xerces-path=path
+                          xercesImpl.jar path
 
 Report bugs to <http://www.nongnu.org/bibledit>.
 _ACEOF
@@ -2797,6 +2801,45 @@ _ACEOF
 
 
 
+# Location of xercesImpl.jar.
+XERCESPATH_DEFAULT="."
+
+# Check whether --with-xerces-path was given.
+if test "${with_xerces_path+set}" = set; then :
+  withval=$with_xerces_path;  XERCESPATH=$withval
+else
+   XERCESPATH=$XERCESPATH_DEFAULT
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking xercesImpl.jar path" >&5
+$as_echo_n "checking xercesImpl.jar path... " >&6; }
+if  [ $XERCESPATH == "." ]
+  then
+    test -f /usr/share/java/xercesImpl.jar
+    if  [ $? -eq 0 ]
+    then
+      XERCESPATH=/usr/share/java/xercesImpl.jar
+    fi
+fi
+if  [ $XERCESPATH == "." ]
+  then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+    as_fn_error $? "Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>" "$LINENO" 5
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${XERCESPATH}" >&5
+$as_echo "${XERCESPATH}" >&6; }
+
+$as_echo "#define XERCESPATH /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define XERCESPATH "$XERCESPATH"
+_ACEOF
+
+
+
+
 # Checks for Additional stuffs.
 # Set PACKAGE PREFIX
 if test "x${prefix}" = "xNONE"; then
@@ -4292,6 +4335,13 @@ rm $VERSIONFILE
 echo '<?php'                            >> $VERSIONFILE
 echo '$version = "'$PACKAGE_VERSION'";' >> $VERSIONFILE
 echo '?>'                               >> $VERSIONFILE
+
+# Create the file with the paths to the system libraries.
+PATHSFILE=web/paths/paths.php
+rm $PATHSFILE
+echo '<?php'                            >> $PATHSFILE
+echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
+echo '?>'                               >> $PATHSFILE
 
 # Summary.
 echo "
