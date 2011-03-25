@@ -39,12 +39,7 @@ private $temporary_folder;
 
     Filter_Diff::runDaisyDiff ($this->temporary_folder . "/verses_old.usfm", $this->temporary_folder . "/verses_new.usfm", $this->temporary_folder . "/changed_verses.html");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/changed_verses.html", $this->temporary_folder . "/changed_verses.html");
-
-
-
-
   }
-
 
 
 }

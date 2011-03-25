@@ -49,35 +49,46 @@ foreach ($bibles as $bible) {
   // USFM files go into the USFM folder.
   $usfmDirectory = $bibleDirectory . "/USFM";
   @mkdir ($usfmDirectory, 0777, true);
+  
+  // There is also a file that holds the USFM code of the entire Bible.
   $bibleUsfmData = "";
 
+  // Go through the Bible books.
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
+    
+    // Empty the USFM data for the current book.
     $bookUsfmData = "";
 
+    // Go through the chapters in this book.
     $chapters = $database_bibles->getChapters ($bible, $book);
     foreach ($chapters as $chapter) {
+      
+      // Get the USFM code for the current chapter.
       $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
       $chapter_data = trim ($chapter_data);
 
+      // Add the chapter USFM code to the book's USFM code.
       $bookUsfmData .= $chapter_data;
       $bookUsfmData .= "\n";
     }
 
+    // Store the USFM code for the book to disk.
     $baseBookFileName = sprintf("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book);
     file_put_contents ("$usfmDirectory/$baseBookFileName.usfm", $bookUsfmData);
 
+    // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
     
   }
 
+  // Store the USFM code for the whole Bible to disk.
   file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
 
 /* Todo
 
 */
   
- 
 }
 $database_logs->log (gettext ("The Bibles have been exported"), true);
 

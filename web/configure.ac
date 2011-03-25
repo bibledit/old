@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.3.10],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.3.11],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
@@ -27,11 +27,6 @@ fi
 AC_PATH_PROG(FIND_MYSQLDUMP, mysqldump, no)
 if test x$FIND_MYSQLDUMP = xno; then
   AC_MSG_ERROR(Program "mysqldump" is needed. Install this first.)
-fi
-
-AC_PATH_PROG(FIND_APACHE2, apache2, no)
-if test x$FIND_APACHE2 = xno; then
-  AC_MSG_ERROR(Program "apache2" is needed. Install this first.)
 fi
 
 AC_PATH_PROG(FIND_PHP, php, no)
@@ -158,6 +153,7 @@ AC_SUBST(SITE_ADMIN_PASSWORD)
 
 
 # Location of xercesImpl.jar.
+# Obtain it through dpkg -L  libxerces2-java
 XERCESPATH_DEFAULT="."
 AC_ARG_WITH(xerces-path,
         [  --with-xerces-path=path
