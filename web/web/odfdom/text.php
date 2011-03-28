@@ -25,17 +25,6 @@
 
 class Odfdom_Text
 {
-  private static $instance;
-  private function __construct() {
-  } 
-  public static function getInstance() 
-  {
-    if ( empty( self::$instance ) ) {
-      self::$instance = new Odfdom_Text();
-    }
-    return self::$instance;
-  }
-
   public $javaCode;
   
   public function initialize () 
@@ -108,7 +97,7 @@ class odt {
       }
 
 EOD;
-    $this->javaCode = array_merge ($this->javaCode, explode ("\n", $code)); // Todo
+    $this->javaCode = array_merge ($this->javaCode, explode ("\n", $code));
   }
   
   public function newParagraph ()

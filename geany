@@ -14,16 +14,20 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=6
-FILE_NAME_0=1277;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=5
+FILE_NAME_0=104;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=476;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=473;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/newubuntu1010.tpl;0
-FILE_NAME_3=3090;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
-FILE_NAME_4=913;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/java.php;0
-FILE_NAME_5=404;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/javaTest.php;0
-FILE_NAME_6=1797;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odfdom/text.php;0
-FILE_NAME_7=400;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/odfdom/textTest.php;0
-FILE_NAME_8=831;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odfdom/class.php;0
+FILE_NAME_2=3467;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
+FILE_NAME_3=2209;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/java.php;0
+FILE_NAME_4=474;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/javaTest.php;0
+FILE_NAME_5=11256;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
+FILE_NAME_6=2656;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/textTest.php;0
+FILE_NAME_7=8901;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/usfm.php;0
+FILE_NAME_8=10390;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/styles.php;0
+FILE_NAME_9=1122;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/styles/logic.php;0
+FILE_NAME_10=3880;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/usfmTest.php;0
+FILE_NAME_11=4279;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0
+FILE_NAME_12=3018;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odfdom/text.php;0
 
 [long line marker]
 long_line_behaviour=1

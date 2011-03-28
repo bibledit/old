@@ -75,6 +75,29 @@ EOD;
     $this->assertEquals ("", Filter_Usfm::getVerseText ($usfm, 2));
   }
   
+  public function testIsUsfmMarker()
+  {
+    $this->assertTrue (Filter_Usfm::isUsfmMarker ("\\id"));
+    $this->assertTrue (Filter_Usfm::isUsfmMarker ("\\c "));
+    $this->assertFalse (Filter_Usfm::isUsfmMarker ("c"));
+  }
+  
+  public function testIsOpeningMarker()
+  {
+    $this->assertTrue (Filter_Usfm::isOpeningMarker ("\\id"));
+    $this->assertTrue (Filter_Usfm::isOpeningMarker ("\\c "));
+    $this->assertFalse (Filter_Usfm::isOpeningMarker ("\\c*"));
+  }
+  
+  public function testGetBookIdentifier()
+  {
+    $this->assertEquals ("GEN", Filter_Usfm::getBookIdentifier (array ("\\id", "GEN"), 0));
+    $this->assertEquals ("XXX", Filter_Usfm::getBookIdentifier (array ("\\id", "GEN"), 1));
+    $this->assertEquals ("GE", Filter_Usfm::getBookIdentifier (array ("\\id", "GE"), 0));
+    $this->assertEquals ("GEN", Filter_Usfm::getBookIdentifier (array ("\\id", "GENxxx"), 0));
+    $this->assertEquals ("GEN", Filter_Usfm::getBookIdentifier (array ("", "GENxxx"), 0));
+  }
+  
 }
 ?>
 

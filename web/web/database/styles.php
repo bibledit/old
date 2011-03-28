@@ -328,7 +328,7 @@ EOD;
     if ($result->num_rows > 0) {
       $data = $result->fetch_assoc();
     }
-    // Pad the color with preceding zeroes so the color shows properly in the html page..
+    // Pad the color with preceding zeroes so the color shows properly in the html page.
     $data['color'] = str_pad ($data['color'], 6, "0", STR_PAD_LEFT);
     return $data;
   }

@@ -265,7 +265,57 @@ class Filter_Usfm
     }
     return $verse_text;    
   }
+
+
+  /**
+  * Returns true if the $code contains an USFM marker.
+  */
+  public function isUsfmMarker ($code)
+  {
+    if (strlen ($code) < 2) return false;
+    if (substr ($code, 0, 1) == "\\") return true;
+    return false;
+  }
+
+
+  /**
+  * Returns true if the marker in $usfm is an opening marker. 
+  * Else it returns false.
+  */
+  public function isOpeningMarker ($usfm)
+  {
+    return (strpos ($usfm, "*") === false);
+  }
   
+
+  /**
+  * Returns the USFM book identifier. 
+  * $usfm: array of strings alternating between USFM code and subsequent text.
+  * $pointer: should point to the \id in $usfm.
+  */
+  public function getBookIdentifier ($usfm, $pointer)
+  {
+    $identifier = "XXX"; // Fallback value.
+    if (++$pointer < count ($usfm)) {
+      $identifier = substr ($usfm[$pointer], 0, 3);
+    }
+    return $identifier;
+  }
+
+
+  /**
+  * Returns the text that follows a USFM marker. 
+  * $usfm: array of strings alternating between USFM code and subsequent text.
+  * $pointer: should point to the marker in $usfm.
+  */
+  public function getTextFollowingMarker ($usfm, $pointer)
+  {
+    $text = ""; // Fallback value.
+    if (++$pointer < count ($usfm)) {
+      $text = $usfm[$pointer];
+    }
+    return $text;
+  }
 
 
 }

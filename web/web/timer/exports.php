@@ -49,6 +49,10 @@ foreach ($bibles as $bible) {
   // USFM files go into the USFM folder.
   $usfmDirectory = $bibleDirectory . "/USFM";
   @mkdir ($usfmDirectory, 0777, true);
+
+  // OpenDocument files to into the OpenDocument folder.
+  $odtDirectory = $bibleDirectory . "/OpenDocument";
+  @mkdir ($odtDirectory, 0777, true);
   
   // There is also a file that holds the USFM code of the entire Bible.
   $bibleUsfmData = "";
@@ -85,10 +89,14 @@ foreach ($bibles as $bible) {
   // Store the USFM code for the whole Bible to disk.
   file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
 
-/* Todo
+  // Create OpenDocument files related to the whole Bible. Todo
+  $filter_text_bible = new Filter_Text;
+  $filter_text_bible->addUsfmCode ($bibleUsfmData);
+  $filter_text_bible->run ();
+  $javaCode = $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
+  $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+  Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
 
-*/
-  
 }
 $database_logs->log (gettext ("The Bibles have been exported"), true);
 
