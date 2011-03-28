@@ -1,8 +1,3 @@
-Each Bible should have a box to tick, whether it will be exported. Will be off by default.
-No, the Exports page is where all settings are made.
-When a Bible is removed from the Exports, then the actual files are removed as well.
-
-
 To produce a file called '00_Info.odt', which contains information collected in the preprocessing phase.
 
 

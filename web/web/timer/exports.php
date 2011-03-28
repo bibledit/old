@@ -36,10 +36,14 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 $siteUrl = $database_config_general->getSiteURL ();
+$exportedBibles = $database_config_general->getExportedBibles ();
 
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
 
+  // Skip the $bible if it should not be exported.
+  if (!in_array ($bible, $exportedBibles)) continue;
+  
   // Files get stored in http://site.org/bibledit/downloads/exports/<Bible>
   // The user can access the files through the browser.
   $baseUrl = "/downloads/exports/" . $bible;

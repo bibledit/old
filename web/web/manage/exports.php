@@ -39,6 +39,9 @@ if (isset ($removebible)) {
   $bibles = array_diff ($bibles, array ($removebible));
   $bibles = array_values ($bibles);
   $config_general->setExportedBibles ($bibles);
+  // Remove the Bible's exported data.
+  $bibleDirectory = dirname (dirname (__FILE__)) . "/downloads/exports/" . $removebible;
+  Filter_Rmdir::rmdir ($bibleDirectory);
 }
 
 
