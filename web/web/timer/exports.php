@@ -38,6 +38,10 @@ $database_books = Database_Books::getInstance ();
 $siteUrl = $database_config_general->getSiteURL ();
 $exportedBibles = $database_config_general->getExportedBibles ();
 
+// Files get stored in http://site.org/bibledit/downloads/exports/
+$exportsDirectory = dirname (dirname (__FILE__)) . "/downloads/exports";
+@mkdir ($bibleDirectory, 0777, true);
+
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
 
@@ -46,8 +50,7 @@ foreach ($bibles as $bible) {
   
   // Files get stored in http://site.org/bibledit/downloads/exports/<Bible>
   // The user can access the files through the browser.
-  $baseUrl = "/downloads/exports/" . $bible;
-  $bibleDirectory = dirname (dirname (__FILE__)) . $baseUrl;
+  $bibleDirectory = "$exportsDirectory/$bible";
   @mkdir ($bibleDirectory, 0777, true);
   
   // USFM files go into the USFM folder.
@@ -60,6 +63,9 @@ foreach ($bibles as $bible) {
   
   // There is also a file that holds the USFM code of the entire Bible.
   $bibleUsfmData = "";
+
+  // OpenDocument files related to the whole Bible.
+  $filter_text_bible = new Filter_Text;
 
   // Go through the Bible books.
   $books = $database_bibles->getBooks ($bible);
@@ -79,6 +85,10 @@ foreach ($bibles as $bible) {
       // Add the chapter USFM code to the book's USFM code.
       $bookUsfmData .= $chapter_data;
       $bookUsfmData .= "\n";
+      
+      // Add the chapter's USFM code to the OpenDocument files filter for the whole Bible.
+      // Small chunks of USFM optimize speed.
+      $filter_text_bible->addUsfmCode ($chapter_data);
     }
 
     // Store the USFM code for the book to disk.
@@ -87,15 +97,13 @@ foreach ($bibles as $bible) {
 
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
-    
+        
   }
 
   // Store the USFM code for the whole Bible to disk.
   file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
 
   // Create OpenDocument files related to the whole Bible. Todo
-  $filter_text_bible = new Filter_Text;
-  $filter_text_bible->addUsfmCode ($bibleUsfmData);
   $filter_text_bible->run ();
   $javaCode = $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
   $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));

@@ -29,7 +29,6 @@
 class Filter_Text // Todo implement and test.
 {
   
-  private $inputUsfm; // Input USFM as a string.
   private $usfmMarkersAndText; // Array of strings alternating between USFM and text.
   private $usfmMarkersAndTextPointer;
 
@@ -74,13 +73,16 @@ class Filter_Text // Todo implement and test.
   */
   public function addUsfmCode($code)
   {
+    // Get the USFM $code as a string.
     if (is_array ($code)) {
-      $this->inputUsfm .= implode ("\n", $code);
+      $code = implode ("\n", $code);
     }
-    if (is_string ($code)) {
-      $this->inputUsfm .= $code;
+    $code .= "\n";
+    // Sort the USFM $code out and separate it into markers and text.
+    $markersAndText = Filter_Usfm::getMarkersAndText ($code);
+    foreach ($markersAndText as $item) {
+      $this->usfmMarkersAndText [] = $item;
     }
-    $this->inputUsfm .= "\n";
   }
   
   
@@ -89,10 +91,6 @@ class Filter_Text // Todo implement and test.
   */
   public function run ()
   {
-    // Sort the USFM code out and separate it into markers and text.
-    $this->usfmMarkersAndText = Filter_Usfm::getMarkersAndText ($this->inputUsfm);
-    unset ($this->inputUsfm);
-    
     // Get the styles.
     $this->getStyles ();
 
