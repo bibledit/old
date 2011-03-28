@@ -27,7 +27,7 @@ class Odfdom_Text
 {
   public $javaCode;
   
-  public function initialize () 
+  public function __construct () 
   {
     $this->javaCode = array ();
 
@@ -70,8 +70,15 @@ import org.odftoolkit.odfdom.pkg.OdfFileDom;
 class odt {
   public static void main(String[] args) {
 
-    // The document to build.
-    OdfTextDocument document;
+    OdfTextDocument document; // The document to build.
+    OdfFileDom contentDom; // The document object model for content.xml
+    OdfFileDom stylesDom; // The document object model for styles.xml
+
+    // The office:automatic-styles element in content.xml.
+    OdfOfficeAutomaticStyles contentAutoStyles;
+    
+    // The office:styles element in styles.xml
+    OdfOfficeStyles stylesOfficeStyles;
 
     // the office:text element in the content.xml file
     OfficeTextElement officeText;
@@ -79,6 +86,10 @@ class odt {
     try
     {
       document = OdfTextDocument.newTextDocument();
+      contentDom = document.getContentDom();
+      stylesDom = document.getStylesDom();
+      contentAutoStyles = contentDom.getOrCreateAutomaticStyles();
+      stylesOfficeStyles = document.getOrCreateDocumentStyles();
       officeText = document.getContentRoot();
 
       // The templates included in the ODFDOM toolkit have content in them; 
@@ -110,6 +121,31 @@ EOD;
     $text = addslashes ($text);
     $this->javaCode[] = "document.addText(\"$text\");";
   }
+
+  /**
+  * This adds a heading with named contents.
+  * $style: An existing Style name.
+  * $text: Contents.
+  */
+  private function addNamedHeading ($style, $text) // Todo
+  {
+    $style = $this->convertStyleName ($style);
+    $this->javaCode[] = "{";
+    $this->javaCode[] = "  OdfTextHeading heading;";
+    $this->javaCode[] = "  heading = new OdfTextHeading(contentDom);";
+    $this->javaCode[] = "  heading.addStyledContent(\"$style\", \"$text\");";
+    $this->javaCode[] = "  officeText.appendChild(heading);";
+    $this->javaCode[] = "}";
+  }
+  
+  /**
+  * This adds a heading styled "Heading 1" with contents.
+  * $text: Contents.
+  */
+  public function addHeading1($text)
+  {
+    $this->addNamedHeading ("Heading 1", $text);
+  }
   
   public function finalize ($filename)
   {
@@ -123,6 +159,20 @@ EOD;
     $this->javaCode[] = "  }";
     $this->javaCode[] = "}";
   }
+  
+
+  /**
+  * This converts the name of a style so that it is fit for use in OpenDocument files.
+  * E.g. 'Heading 1' becomes 'Heading_20_1'
+  * $style: Input
+  * It returns the converted style name.
+  */
+  private function convertStyleName ($style)
+  {
+    $style = str_replace (" ", "_20_", $style);
+    return $style;
+  }
+  
 
 
 }

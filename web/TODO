@@ -1,16 +1,14 @@
 
 
-To produce a file called '00_Info.odt', which contains information collected in the preprocessing phase.
-
+To produce a file called '00_Info.odt', which contains information collected in the various passes.
 
 
 Whatever is not processed properly, is collected, and then put in a file.
 The file is an OpenOffice file, with headings and contents.
-
-
-We also need to collect 'fallout', which also goed in one of the files or a file of its own called fallout.odt
+It is called '00_Fallout.odt'.
 This fallout must be marked by book chapter.verse. The user can the fix the various things if it needs fixing, 
 or just leave it.
+
 
 Collect glossary items, word lists, and all sorts of information. Put this info somewhere.
 

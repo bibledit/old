@@ -21,18 +21,18 @@ private $temporary_folder;
   public function testOne()
   {
     $odfdom_text = new Odfdom_Text;
-    $odfdom_text->initialize ();
     $odfdom_text->newParagraph ();
     $odfdom_text->addText ("Paragraph One");
     $odfdom_text->newParagraph ();
     $odfdom_text->addText ("Paragraph Two");
+    $odfdom_text->addHeading1 ("Heading One");
     $odfdom_text->finalize ("/tmp/odt.odt");
-    unlink ("/tmp/odt.odt");
+    @unlink ("/tmp/odt.odt");
     $directory = Filter_Java::compile ($odfdom_text->javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
     $return_var = Filter_Java::run ($directory, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
     $this->assertEquals (0, $return_var);
     exec ("odt2txt /tmp/odt.odt", $output, &$return_var);
-    $this->assertEquals (array ("", "Paragraph One", "", "Paragraph Two", ""), $output);
+    $this->assertEquals (array ("", "Paragraph One", "", "Paragraph Two", "", "Heading One", "-----------", ""), $output);
   }
 
 

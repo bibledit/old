@@ -269,11 +269,9 @@ class Filter_Text // Todo implement and test.
     $database_books = Database_Books::getInstance ();
 
     $odfdom_text = new Odfdom_Text;
-    $odfdom_text->initialize ();
     
     // Indicate the number of chapters per book.
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addText (gettext ("Number of chapters per book"));
+    $odfdom_text->addHeading1 (gettext ("Number of chapters per book"));
     foreach ($this->numberOfChaptersPerBook as $book => $chapterCount) {
       $line = $database_books->getEnglishFromId ($book) . " => " . $chapterCount;
       $odfdom_text->newParagraph ();
@@ -282,8 +280,7 @@ class Filter_Text // Todo implement and test.
     $odfdom_text->newParagraph ();
     
     // Indicate the running headers.
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addText (gettext ("Running headers"));
+    $odfdom_text->addHeading1 (gettext ("Running headers"));
     foreach ($this->runningHeaders as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
@@ -292,16 +289,14 @@ class Filter_Text // Todo implement and test.
     $odfdom_text->newParagraph ();
     
     // Indicate the Table of Contents entries.
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addText (gettext ("Long table of contents entries"));
+    $odfdom_text->addHeading1 (gettext ("Long table of contents entries"));
     foreach ($this->longTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
     $odfdom_text->newParagraph ();
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addText (gettext ("Short table of contents entries"));
+    $odfdom_text->addHeading1 (gettext ("Short table of contents entries"));
     foreach ($this->shortTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
@@ -310,8 +305,7 @@ class Filter_Text // Todo implement and test.
     $odfdom_text->newParagraph ();
 
     // Indicate book abbreviations.
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addText (gettext ("Book abbreviations"));
+    $odfdom_text->addHeading1 (gettext ("Book abbreviations"));
     foreach ($this->bookAbbreviations as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
@@ -320,16 +314,14 @@ class Filter_Text // Todo implement and test.
     $odfdom_text->newParagraph ();
         
     // Indicate the chapter specials.
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addText (gettext ("Publishing chapter labels"));
+    $odfdom_text->addHeading1 (gettext ("Publishing chapter labels"));
     foreach ($this->chapterLabels as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
     $odfdom_text->newParagraph ();
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addText (gettext ("Publishing alternate chapter numbers"));
+    $odfdom_text->addHeading1 (gettext ("Publishing alternate chapter numbers"));
     foreach ($this->publishedChapterMarkers as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
