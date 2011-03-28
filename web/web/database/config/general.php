@@ -59,6 +59,26 @@ EOD;
     $database->runQuery ($query);
   }
   private function getList ($key) {
+    $database = Database_Instance::getInstance ();
+    $query = "SELECT value FROM config_general WHERE ident = '$key' ORDER BY offset";
+    $result = $database->runQuery ($query);
+    $list = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $result_array = $result->fetch_row();
+      $list [] = $result_array [0];
+    }
+    return $list;
+  }
+  private function setList ($key, $values) {
+    $database = Database_Instance::getInstance ();
+    $query = "DELETE FROM config_general WHERE ident = '$key';";
+    $database->runQuery ($query);
+    foreach ($values as $offset => $value) {
+      $offset = Database_SQLInjection::no ($offset);
+      $value = Database_SQLInjection::no ($value);
+      $query = "INSERT INTO config_general VALUES ('$key', '$value', $offset);";    
+      $database->runQuery ($query);
+    }
   }
 
 
@@ -228,6 +248,13 @@ EOD;
   }
   public function setSiteURL ($value) {
     $this->setValue ("site-url", $value);
+  }   
+
+  public function getExportedBibles() {
+    return $this->getList ("exported-bibles", "");
+  }
+  public function setExportedBibles ($value) {
+    $this->setList ("exported-bibles", $value);
   }   
 
 
