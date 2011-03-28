@@ -127,7 +127,7 @@ EOD;
   * $style: An existing Style name.
   * $text: Contents.
   */
-  private function addNamedHeading ($style, $text) // Todo
+  private function addNamedHeading ($style, $text)
   {
     $style = $this->convertStyleName ($style);
     $this->javaCode[] = "{";

@@ -133,10 +133,9 @@ class Filter_Text // Todo implement and test.
     }
 
     while ($this->unprocessedUsfmCodeAvailable ()) {
-      // Trim white space for various purposes.
-      $item = trim ($this->usfmMarkersAndText[$this->usfmMarkersAndTextPointer]);
+      $item = $this->usfmMarkersAndText[$this->usfmMarkersAndTextPointer];
       if (!$firstLine) {
-        if ($item == ("\\" . $this->chapterMarker)) {
+        if (trim ($item) == ("\\" . $this->chapterMarker)) {
           return;
         }
       }
@@ -177,8 +176,9 @@ class Filter_Text // Todo implement and test.
       for ($this->chapterUsfmMarkersAndTextPointer = 0; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) {
         $currentItem = $this->chapterUsfmMarkersAndText[$this->chapterUsfmMarkersAndTextPointer];
         if (Filter_Usfm::isUsfmMarker ($currentItem)) {
+          $marker = trim ($currentItem); // Change, e.g. '\id ' to '\id'.
+          $marker = substr ($marker, 1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
           if (Filter_Usfm::isOpeningMarker ($currentItem)) {
-            $marker = substr ($currentItem, 1); // Remove the initial backslash, e.g. \id becomes 'id'.
             if (array_key_exists ($marker, $this->styles)) {
               switch ($this->styles[$marker]['type']) {
                 case StyleTypeIdentifier:

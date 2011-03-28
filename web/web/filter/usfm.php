@@ -54,12 +54,14 @@ class Filter_Usfm
   * Example, input is:   \id GEN
   *                      \c 10
   *             ...
-  * Output would be:     array ("\id", "GEN", "\c", "10", ...)
+  * Output would be:     array ("\id ", "GEN", "\c ", "10", ...)
   * If $usfm does not start with a marker, this becomes visible in the output too.
   */
   public function getMarkersAndText ($usfm)
   {
     $markers_and_text = array ();
+    $usfm = str_replace ("\n\\", "\\", $usfm); // New line followed by backslash: leave new line out.
+    $usfm = str_replace ("\n", " ", $usfm); // New line only: change to space, according to the USFM specification.
     $usfm = str_replace ("  ", " ", $usfm);
     $usfm = trim ($usfm);
     while ($usfm != "") {
