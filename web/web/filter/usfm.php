@@ -293,7 +293,7 @@ class Filter_Usfm
   /**
   * Returns the USFM book identifier. 
   * $usfm: array of strings alternating between USFM code and subsequent text.
-  * $pointer: should point to the \id in $usfm.
+  * $pointer: should point to the \id in $usfm. Gets increased by one.
   */
   public function getBookIdentifier ($usfm, $pointer)
   {
@@ -306,11 +306,11 @@ class Filter_Usfm
 
 
   /**
-  * Returns the text that follows a USFM marker. 
+  * Returns the text that follows a USFM marker.
   * $usfm: array of strings alternating between USFM code and subsequent text.
-  * $pointer: should point to the marker in $usfm.
+  * $pointer: should point to the marker in $usfm. Is increased by one.
   */
-  public function getTextFollowingMarker ($usfm, $pointer)
+  public function getTextFollowingMarker ($usfm, &$pointer)
   {
     $text = ""; // Fallback value.
     if (++$pointer < count ($usfm)) {

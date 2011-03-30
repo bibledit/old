@@ -22,7 +22,6 @@
  */
 
 
-
 class Odfdom_Text
 {
   public $javaCode;
@@ -68,6 +67,29 @@ import org.odftoolkit.odfdom.pkg.OdfFileDom;
 
 // The class.
 class odt {
+
+  static void setFontWeight(OdfStyleBase style, String value)
+  {
+    style.setProperty(StyleTextPropertiesElement.FontWeight, value);
+    style.setProperty(StyleTextPropertiesElement.FontWeightAsian, value);
+    style.setProperty(StyleTextPropertiesElement.FontWeightComplex, value);
+  }
+  
+  static void setFontStyle(OdfStyleBase style, String value)
+  {
+    style.setProperty(StyleTextPropertiesElement.FontStyle, value);
+    style.setProperty(StyleTextPropertiesElement.FontStyleAsian, value);
+    style.setProperty(StyleTextPropertiesElement.FontStyleComplex, value);
+  }
+  
+  static void setFontSize(OdfStyleBase style, String value)
+  {
+    style.setProperty(StyleTextPropertiesElement.FontSize, value);
+    style.setProperty(StyleTextPropertiesElement.FontSizeAsian, value);
+    style.setProperty(StyleTextPropertiesElement.FontSizeComplex, value);
+  }
+
+
   public static void main(String[] args) {
 
     OdfTextDocument document; // The document to build.
@@ -80,8 +102,11 @@ class odt {
     // The office:styles element in styles.xml
     OdfOfficeStyles stylesOfficeStyles;
 
-    // the office:text element in the content.xml file
+    // The office:text element in the content.xml file
     OfficeTextElement officeText;
+    
+    // The paragraph being built in the content.xml file.
+    OdfTextParagraph paragraph;
 
     try
     {
@@ -91,9 +116,10 @@ class odt {
       contentAutoStyles = contentDom.getOrCreateAutomaticStyles();
       stylesOfficeStyles = document.getOrCreateDocumentStyles();
       officeText = document.getContentRoot();
+      paragraph = null;
 
-      // The templates included in the ODFDOM toolkit have content in them; 
-      // a newly-created text document has a paragraph that contains no text.
+      // The templates included in the ODFDOM toolkit have content in them;
+      // a newly-created text document has a paragraph that contains no text:
       // <text:p>.
       // Get rid of this paragraph, by repeatedly removing the first child of the officeText node
       // until there are no more.
@@ -111,40 +137,51 @@ EOD;
     $this->javaCode = array_merge ($this->javaCode, explode ("\n", $code));
   }
   
-  public function newParagraph ()
+  public function newParagraph ($style = "Standard")
   {
-    $this->javaCode[] = "document.newParagraph();";
+    $this->javaCode[] = "";
+    $this->javaCode[] = "paragraph = new OdfTextParagraph(contentDom, \"$style\");";
+    $this->javaCode[] = "officeText.appendChild(paragraph);";
   }
   
   public function addText ($text)
   {
+    $this->javaCode[] = "if (paragraph == null)";
+    $this->javaCode[] = "{";
+    $this->javaCode[] = "  paragraph = new OdfTextParagraph(contentDom, \"Standard\");";
+    $this->javaCode[] = "  officeText.appendChild(paragraph);";
+    $this->javaCode[] = "}";
     $text = addslashes ($text);
-    $this->javaCode[] = "document.addText(\"$text\");";
+    $this->javaCode[] = "paragraph.addContent(\"$text\");";
   }
 
   /**
-  * This adds a heading with named contents.
-  * $style: An existing Style name.
+  * This creates a heading with named contents.
+  * $style: An existing style name.
   * $text: Contents.
   */
-  private function addNamedHeading ($style, $text)
+  private function newNamedHeading ($style, $text)
   {
     $style = $this->convertStyleName ($style);
+    $this->javaCode[] = "";
+    // Make paragraph null, so any next subsequent text would create a new paragraph.
+    $this->javaCode[] = "paragraph = null;";
     $this->javaCode[] = "{";
     $this->javaCode[] = "  OdfTextHeading heading;";
     $this->javaCode[] = "  heading = new OdfTextHeading(contentDom);";
     $this->javaCode[] = "  heading.addStyledContent(\"$style\", \"$text\");";
     $this->javaCode[] = "  officeText.appendChild(heading);";
     $this->javaCode[] = "}";
+    $this->javaCode[] = "";
   }
   
   /**
-  * This adds a heading styled "Heading 1" with contents.
+  * This creates a heading with contents styled "Heading 1".
   * $text: Contents.
   */
-  public function addHeading1($text)
+  public function newHeading1($text)
   {
-    $this->addNamedHeading ("Heading 1", $text);
+    $this->newNamedHeading ("Heading 1", $text);
   }
   
   public function finalize ($filename)
@@ -174,6 +211,37 @@ EOD;
   }
   
 
+  /**
+  * This creates the page break style in the automatic styles.
+  */
+  public function createPageBreakStyle ()
+  {
+    $this->javaCode[] = "{";
+    $this->javaCode[] = "  OdfStyle style;";
+    $this->javaCode[] = "  style = stylesOfficeStyles.newStyle(\"Page_20_Break\", OdfStyleFamily.Paragraph);";
+    $this->javaCode[] = "  style.setStyleDisplayNameAttribute(\"Page Break\");";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.MarginTop, \"0cm\");";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.MarginBottom, \"0cm\");";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.LineHeight, \"0.05cm\");";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.BreakAfter, \"page\");";
+    $this->javaCode[] = "  setFontSize (style, \"2pt\");";
+    $this->javaCode[] = "}";
+  }
+
+
+  /**
+  * This applies a page break.
+  */
+  public function newPageBreak ()
+  {
+    $this->javaCode[] = "";
+    $this->javaCode[] = "paragraph = new OdfTextParagraph(contentDom, \"Page_20_Break\");";
+    $this->javaCode[] = "officeText.appendChild(paragraph);";
+    // Always make the paragraph null, because we don't want subsequent text to be added to this page break,
+    // since it would be nearly invisible, and thus text would mysteriously get lost.
+    $this->javaCode[] = "paragraph = null;";
+    $this->javaCode[] = "";
+  }
 
 }
 

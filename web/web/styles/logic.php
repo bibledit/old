@@ -113,7 +113,7 @@ define('UserBool1VerseRestartsParagraph',   4);
 
 
 define('UserBool2None',                       0);
-define('UserBool2IdStartsOddPage',            1); // \id: whether to start an odd page number.
+define('UserBool2IdStartsOddPage',            1); // \id: whether to start an odd page number. Not implemented due to limitations in OpenDocument.
 define('UserBool2ChapterInLeftRunningHeader', 2); // Chapter number (\c): Whether to include it in the left running header.
 define('UserBool2RunningHeaderLeft',          3); // Running header (\h(#): Whether to include it in the left running header.
 
@@ -639,8 +639,10 @@ class Styles_Logic
   public function getUserBool2Function ($type, $subtype)
   {
     if ($type == StyleTypeIdentifier) {
+      /*
       if ($subtype == IdentifierSubtypeBook)
         return UserBool2IdStartsOddPage;
+      */
       if ($subtype == IdentifierSubtypeRunningHeader)
         return UserBool2RunningHeaderLeft;
     }
@@ -659,7 +661,7 @@ class Styles_Logic
   public function getUserBool2Text ($function)
   {
     switch ($function) {
-      case UserBool2IdStartsOddPage            : return gettext ("New page starts with an odd number");
+      case UserBool2IdStartsOddPage            : return gettext ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
       case UserBool2ChapterInLeftRunningHeader : return gettext ("Print chapter number in the running header of the left page");
       case UserBool2RunningHeaderLeft          : return gettext ("Print this in the running header of the left page");
     }

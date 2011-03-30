@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-28 01:45+0200\n"
+"POT-Creation-Date: 2011-03-30 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,10 @@ msgid "Exports"
 msgstr ""
 
 msgid "The Bibles will be exported soon."
+msgstr ""
+
+msgid ""
+"Would you like to add a Bible to the list of Bibles that will be exported?"
 msgstr ""
 
 msgid "Logbook was partially or fully cleared"
@@ -936,7 +940,9 @@ msgstr ""
 msgid "Restart paragraph"
 msgstr ""
 
-msgid "New page starts with an odd number"
+msgid ""
+"New page starts with an odd number (not implemented due to limitations in "
+"OpenDocument)"
 msgstr ""
 
 msgid "Print chapter number in the running header of the left page"
@@ -1210,6 +1216,30 @@ msgstr ""
 msgid "Demo plugin user menu item 2"
 msgstr ""
 
+msgid "Number of chapters per book"
+msgstr ""
+
+msgid "Running headers"
+msgstr ""
+
+msgid "Long table of contents entries"
+msgstr ""
+
+msgid "Short table of contents entries"
+msgstr ""
+
+msgid "Book abbreviations"
+msgstr ""
+
+msgid "Publishing chapter labels"
+msgstr ""
+
+msgid "Publishing alternate chapter numbers"
+msgstr ""
+
+msgid "Fallout"
+msgstr ""
+
 msgid "Failed to compress file"
 msgstr ""
 
@@ -1300,6 +1330,15 @@ msgid "Styles"
 msgstr ""
 
 msgid "Bibledit-Web exports the Bibles on a daily basis."
+msgstr ""
+
+msgid "The following Bibles will be exported"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+msgid "add Bible"
 msgstr ""
 
 msgid "Do a fresh export now, and every day at this same time."

@@ -9,9 +9,6 @@ private $temporary_folder;
   public function setUp ()
   {
     $this->tearDown ();
-    $this->temporary_folder = tempnam (sys_get_temp_dir(), '');
-    unlink ($this->temporary_folder);
-    mkdir ($this->temporary_folder);
   }
   
   public function tearDown ()
@@ -19,9 +16,13 @@ private $temporary_folder;
 
   }
 
+  
+  /**
+  * Test extraction of all sorts of information from USFM code
+  * Test basic formatting into OpenDocument.
+  */
   public function testOne()
   {
-    $tmp = $this->temporary_folder;
 $usfm = <<<'EOD'
 \id GEN
 \h Header
@@ -42,7 +43,7 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ();
+    $filter_text->run ("/tmp/TextTest1.odt");
     // Check that it finds the running headers.
     $this->assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h', 'value' => 'Header'),  $filter_text->runningHeaders[0]);
     $this->assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h1', 'value' => 'Header1'), $filter_text->runningHeaders[1]);
@@ -59,8 +60,46 @@ EOD;
     $this->assertEquals (array ('book' => 1, 'chapter' => 1, 'verse' => 0, 'marker' => 'cp', 'value' => 'Ⅰ'), $filter_text->publishedChapterMarkers[0]);
     $this->assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '①'), $filter_text->publishedChapterMarkers[1]);
     $this->assertEquals (array (1 => 2), $filter_text->numberOfChaptersPerBook);
+    $javaCode = $filter_text->odfdom_text_standard->javaCode;
+    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+    $this->assertEquals (0, $return_var);
+    exec ("odt2txt /tmp/TextTest1.odt", $output, &$return_var);
+    $this->assertEquals (array ("", "Text chapter 1", "", "Text chapter 2", ""), $output);
   }
 
+  /**
+  * There are two books here. This normally gives one new page between these two books.
+  * Test that basic USFM code gets transformed correctly.
+  */
+  public function testTwo()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\ide XYZ
+\c 1
+\p Text Genesis 1
+\c 2
+\p Text Genesis 2
+\id MAT
+\c 1
+\p Text Matthew 1
+\c 2
+\p Text Matthew 2
+\rem Comment
+EOD;
+    $filter_text = new Filter_Text;
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("/tmp/TextTest2.odt");
+    $javaCode = $filter_text->odfdom_text_standard->javaCode;
+    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+    $this->assertEquals (0, $return_var);
+    exec ("odt2txt /tmp/TextTest2.odt", $output, &$return_var);
+    $this->assertEquals (array ("", "Text Genesis 1", "", "Text Genesis 2", "", "Text Matthew 1", "", "Text Matthew 2", ""), $output);
+    $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ'), $filter_text->fallout);
+    $this->assertEquals (array ('Matthew 2:0 Comment: \rem Comment'), $filter_text->info);
+  }
 
 
 

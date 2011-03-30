@@ -64,7 +64,7 @@ foreach ($bibles as $bible) {
   // There is also a file that holds the USFM code of the entire Bible.
   $bibleUsfmData = "";
 
-  // OpenDocument files related to the whole Bible.
+  // OpenDocument file for the whole Bible.
   $filter_text_bible = new Filter_Text;
 
   // Go through the Bible books.
@@ -73,6 +73,9 @@ foreach ($bibles as $bible) {
     
     // Empty the USFM data for the current book.
     $bookUsfmData = "";
+
+    // OpenDocument file for one Bible book.
+    $filter_text_book = new Filter_Text;
 
     // Go through the chapters in this book.
     $chapters = $database_bibles->getChapters ($bible, $book);
@@ -86,26 +89,44 @@ foreach ($bibles as $bible) {
       $bookUsfmData .= $chapter_data;
       $bookUsfmData .= "\n";
       
-      // Add the chapter's USFM code to the OpenDocument files filter for the whole Bible.
+      // Add the chapter's USFM code to the OpenDocument files filter for the whole Bible, and for this book.
       // Small chunks of USFM optimize speed.
       $filter_text_bible->addUsfmCode ($chapter_data);
+      $filter_text_book->addUsfmCode ($chapter_data);
     }
 
     // Store the USFM code for the book to disk.
     $baseBookFileName = sprintf("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book);
     file_put_contents ("$usfmDirectory/$baseBookFileName.usfm", $bookUsfmData);
 
+    // Create standard OpenDocument containing the Bible book.
+    $filter_text_book->run ("$odtDirectory/$baseBookFileName" . "_standard.odt");
+    $javaCode = $filter_text_book->odfdom_text_standard->javaCode;
+    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+    Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
         
   }
 
-  // Store the USFM code for the whole Bible to disk.
+  // Save the USFM code for the whole Bible.
   file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
 
-  // Create OpenDocument files related to the whole Bible. Todo
-  $filter_text_bible->run ();
+  // Create standard OpenDocument containing the whole Bible.
+  $filter_text_bible->run ("$odtDirectory/00_Bible_standard.odt");
+  $javaCode = $filter_text_bible->odfdom_text_standard->javaCode;
+  $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+  Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+  var_dump ($dir); // Todo
+
+  // Create the info OpenDocument for the whole Bible.
   $javaCode = $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
+  $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+  Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+  
+  // Create the fallout document.
+  $javaCode = $filter_text_bible->produceFalloutDocument ("$odtDirectory/00_Fallout.odt");
   $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
   Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
 

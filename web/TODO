@@ -1,6 +1,21 @@
 
 
 
+
+          if (Filter_Usfm::isOpeningMarker ($marker))
+          {
+          }
+
+
+
+Steps:
+- To move some content into each file.
+- To move remaining content into Fallout file.
+- To add styles to the various documents.
+- To add more and more content to the right files, and less content into Fallout.
+- To harvest other information from the USFM files, and put this into the Info document.
+
+
 To produce a file called '00_Info.odt', which contains information collected in the various passes.
 
 

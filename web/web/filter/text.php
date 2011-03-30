@@ -26,7 +26,7 @@
 /**
 * This class filters USFM text, converting it into other formats.
 */
-class Filter_Text // Todo implement and test.
+class Filter_Text // Todo implement / test.
 {
   
   private $usfmMarkersAndText; // Array of strings alternating between USFM and text.
@@ -51,6 +51,10 @@ class Filter_Text // Todo implement and test.
   public $chapterLabels; // Array with numerical keys, and values like array (book, chapter, verse, marker, label value).
   public $publishedChapterMarkers; // Array with numerical keys, and values like array (book, chapter, verse, marker, marker value).
 
+  public $odfdom_text_standard; // Object for creating OpenDocument with main text in standard form.
+
+  public $info; // Array with strings.
+  public $fallout; // Array with strings.
   
   /**
   * Class constructor.
@@ -64,6 +68,9 @@ class Filter_Text // Todo implement and test.
     $this->bookAbbreviations = array ();
     $this->chapterLabels = array ();
     $this->publishedChapterMarkers = array ();
+    $this->odfdom_text_standard = new Odfdom_Text;
+    $this->info = array ();
+    $this->fallout = array ();
   }
   
 
@@ -88,15 +95,21 @@ class Filter_Text // Todo implement and test.
   
   /**
   * This function runs the filter.
+  * $standardFilename - The filename for the standard OpenDocument text.
   */
-  public function run ()
+  public function run ($standardFilenameOdt)
   {
     // Get the styles.
     $this->getStyles ();
 
     // Preprocess.
     $this->preprocessingStage ();
+
+    // Process data.
+    $this->process ();
     
+    // Finalize the documents.
+    $this->odfdom_text_standard->finalize ($standardFilenameOdt);
   }
 
 
@@ -153,7 +166,8 @@ class Filter_Text // Todo implement and test.
   private function getStyles ()
   {
     $this->styles = array ();
-    $styles_logic = Styles_Logic::getInstance (); // This is to get the relevant styles information include.
+    $styles_logic = Styles_Logic::getInstance (); // This is to get the relevant styles information included.
+    $this->odfdom_text_standard->createPageBreakStyle ();
     $database_styles = Database_Styles::getInstance ();
     $database_config_user = Database_Config_User::getInstance ();
     $stylesheet = $database_config_user->getStylesheet ();
@@ -166,7 +180,7 @@ class Filter_Text // Todo implement and test.
 
   /**
   * This function does the preprocessing of the USFM code 
-  * extracting a variety of information from it
+  * extracting a variety of information.
   */
   private function preprocessingStage ()
   {
@@ -178,11 +192,12 @@ class Filter_Text // Todo implement and test.
         if (Filter_Usfm::isUsfmMarker ($currentItem)) {
           $marker = trim ($currentItem); // Change, e.g. '\id ' to '\id'.
           $marker = substr ($marker, 1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
-          if (Filter_Usfm::isOpeningMarker ($currentItem)) {
+          $style = $this->styles[$marker];
+          if (Filter_Usfm::isOpeningMarker ($marker)) {
             if (array_key_exists ($marker, $this->styles)) {
-              switch ($this->styles[$marker]['type']) {
+              switch ($style['type']) {
                 case StyleTypeIdentifier:
-                  switch ($this->styles[$marker]['subtype']) {
+                  switch ($style['subtype']) {
                     case IdentifierSubtypeBook:
                     {
                       // Get book number.
@@ -259,7 +274,494 @@ class Filter_Text // Todo implement and test.
 
 
   /**
-  * This function produces the Java program that can produce the Info Document.
+  * This function does the processing of the USFM code,
+  * formatting the document and extracting other useful information.
+  */
+  private function process ()
+  {
+    $processedBooksCount = 0;
+    $this->usfmMarkersAndTextPointer = 0;
+    while ($this->unprocessedUsfmCodeAvailable ()) {
+      $this->getUsfmNextChapter ();
+      for ($this->chapterUsfmMarkersAndTextPointer = 0; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) {
+        $currentItem = $this->chapterUsfmMarkersAndText[$this->chapterUsfmMarkersAndTextPointer];
+        if (Filter_Usfm::isUsfmMarker ($currentItem)) 
+        {
+          $marker = trim ($currentItem); // Change, e.g. '\id ' to '\id'.
+          $marker = substr ($marker, 1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
+          $style = $this->styles[$marker];
+          if (array_key_exists ($marker, $this->styles)) 
+          {
+            switch ($style['type']) 
+            {
+              case StyleTypeIdentifier:
+              {
+                switch ($style['subtype']) 
+                {
+                  case IdentifierSubtypeBook:
+                  {
+                    // Get book number.
+                    $s = Filter_Usfm::getBookIdentifier ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    $database_books = Database_Books::getInstance ();
+                    $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
+                    // Reset chapter and verse numbers.
+                    $this->currentChapterNumber = 0;
+                    $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = 0;
+                    $this->currentVerseNumber = "0";
+                    // Throw away whatever follows the \id, e.g. 'GEN xxx xxx'.
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    // Whether to insert a new page before the book. But never before the first book.
+                    if ($style['userbool1']) {
+                      if ($processedBooksCount) {
+                        $this->odfdom_text_standard->newPageBreak ();
+                      }
+                    }
+                    $processedBooksCount++;
+                    break;
+                  }
+                  case IdentifierSubtypeEncoding:
+                  {
+                    $this->addToFallout ("Text encoding indicator not supported. Encoding is always in UTF8: \\$marker", true);
+                    break;
+                  }
+                  case IdentifierSubtypeComment:
+                  {
+                    $this->addToInfo ("Comment: \\$marker", true);
+                    break;
+                  }
+                  case IdentifierSubtypeRunningHeader:
+                  {
+                    // This information already went into the Info document during the preprocessing stage.
+                    // Remove it from the USFM input stream.
+                    // Ideally this information should be inserted in the headers of the standard text document.
+                    // UserBool2RunningHeaderLeft:
+                    // UserBool3RunningHeaderRight:
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    break;
+                  }
+                  case IdentifierSubtypeLongTOC:
+                  {
+                    // This information already went into the Info document. Remove it from the USFM stream.
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    break;
+                  }
+                  case IdentifierSubtypeShortTOC:
+                  {
+                    // This information already went into the Info document. Remove it from the USFM stream.
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    break;
+                  }
+                  case IdentifierSubtypeBookAbbrev:
+                  {
+                    // This information already went into the Info document. Remove it from the USFM stream.
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    break;
+                  }
+                  case IdentifierSubtypeChapterLabel: // Todo this information is used when creating the chapter text.
+                  {
+                    // This information is already in the object. Remove it from the USFM stream.
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    break;
+                  }
+                  case IdentifierSubtypePublishedChapterMarker: // Todo this info is used when creating the chapter text.
+                  {
+                    // This information is already in the object. Remove it from the USFM stream.
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    break;
+                  }
+                  case IdentifierSubtypeCommentWithEndmarker: // Todo it goes into the Info document.
+                  {
+                    break;
+                  }
+                  default:
+                  {
+                    break;
+                  }
+                }
+                break;
+              }
+              case StyleTypeNotUsedComment: // Todo move into fallout.
+              {
+                break;
+              }
+              case StyleTypeNotUsedRunningHeader: // Todo: fallout.
+              {
+                break;
+              }
+              case StyleTypeStartsParagraph: // Todo make paragraph.
+              {
+                $this->odfdom_text_standard->newParagraph ();
+/*
+case ooitOff:
+{
+break;
+}
+case ooitOn:
+{
+break;
+}
+case ooitInherit:
+{
+break;
+}
+case ooitToggle:
+{
+break;
+}
+*/
+/*
+case AlignmentLeft:
+{
+break;
+}
+case AlignmentCenter:
+{
+break;
+}
+case AlignmentRight:
+{
+break;
+}
+case AlignmentJustify:
+{
+break;
+}
+*/
+                switch ($style['subtype']) 
+                {
+                  case ParagraphSubtypeMainTitle:
+                  {
+                    break;
+                  }
+                  case ParagraphSubtypeSubTitle:
+                  {
+                    break;
+                  }
+                  case ParagraphSubtypeSectionHeading:
+                  {
+                    break;
+                  }
+                  case ParagraphSubtypeNormalParagraph:
+                  {
+                    break;
+                  }
+                  default:
+                  {
+                    break;
+                  }
+                }
+                break;
+              }
+              case StyleTypeInlineText: // Todo local styles, e.g. italics.
+              {
+/*
+case ooitOff:
+{
+break;
+}
+case ooitOn:
+{
+break;
+}
+case ooitInherit:
+{
+break;
+}
+case ooitToggle:
+{
+break;
+}
+*/
+                break;
+              }
+              case StyleTypeChapterNumber: // Todo output to document.
+              {
+                $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                $number = Filter_Numeric::integer_in_string ($number);
+                $this->currentChapterNumber = $number;
+                $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = $number;
+                $this->currentVerseNumber = "0";
+                // UserBool1PrintChapterAtFirstVerse:
+                // UserBool2ChapterInLeftRunningHeader:
+                // UserBool3ChapterInRightRunningHeader:
+                break;
+              }
+              case StyleTypeVerseNumber: // Todo output to document.
+              {
+                $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                $number = Filter_Numeric::integer_in_string ($number);
+                $this->currentVerseNumber = $number;
+                // UserBool1VerseRestartsParagraph: - important at times.
+                break;
+              }
+              case StyleTypeFootEndNote: // Todo handle notes including subtypes.
+              {
+                switch ($style['subtype']) 
+                {
+                  case FootEndNoteSubtypeFootnote:
+                  {
+                    break;
+                  }
+                  case FootEndNoteSubtypeEndnote:
+                  {
+                    break;
+                  }
+                  case FootEndNoteSubtypeStandardContent:
+                  {
+                    break;
+                  }
+                  case FootEndNoteSubtypeContent:
+                  {
+                    break;
+                  }
+                  case FootEndNoteSubtypeContentWithEndmarker:
+                  {
+                    break;
+                  }
+                  case FootEndNoteSubtypeParagraph:
+                  {
+                    break;
+                  }
+                  default:
+                  {
+                    break;
+                  }
+                }
+                // UserBool1NoteAppliesToApocrypha: For xref too?
+                // UserInt1NoteNumbering:
+                // UserInt2NoteNumberingRestart:
+                // UserInt2EndnotePosition:
+                // UserString1NoteNumberingSequence:
+                // UserString2DumpEndnotesHere: But this one should go out.
+/*
+case NoteNumbering123:
+{
+break;
+}
+case NoteNumberingAbc:
+{
+break;
+}
+case NoteNumberingUser:
+{
+break;
+}
+
+case NoteRestartNumberingNever:
+{
+break;
+}
+case NoteRestartNumberingEveryBook:
+{
+break;
+}
+case NoteRestartNumberingEveryChapter:
+{
+break;
+}
+
+case EndNotePositionAfterBook:
+{
+break;
+}
+case EndNotePositionVeryEnd:
+{
+break;
+}
+case EndNotePositionAtMarker:
+{
+break;
+}
+*/                  
+                break;
+              }
+              case StyleTypeCrossreference: // Todo handle xref.
+              {
+                switch ($style['subtype']) 
+                {
+                  case CrossreferenceSubtypeCrossreference:
+                  {
+                    break;
+                  }
+                  case CrossreferenceSubtypeStandardContent:
+                  {
+                    break;
+                  }
+                  case CrossreferenceSubtypeContent:
+                  {
+                    break;
+                  }
+                  case CrossreferenceSubtypeContentWithEndmarker:
+                  {
+                    break;
+                  }
+                  default:
+                  {
+                    break;
+                  }
+                }
+                // UserInt1NoteNumbering:
+                // UserInt2NoteNumberingRestart:
+                // UserString1NoteNumberingSequence:
+/*
+case NoteNumbering123:
+{
+break;
+}
+case NoteNumberingAbc:
+{
+break;
+}
+case NoteNumberingUser:
+{
+break;
+}
+
+case NoteRestartNumberingNever:
+{
+break;
+}
+case NoteRestartNumberingEveryBook:
+{
+break;
+}
+case NoteRestartNumberingEveryChapter:
+{
+break;
+}
+*/                  
+                break;
+              }
+              case StyleTypePeripheral: // Todo handle this one, let's see how exactly. Fallout? Info?
+              {
+                switch ($style['subtype']) 
+                {
+                  case PeripheralSubtypePublication:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeTableOfContents:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypePreface:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeIntroduction:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeGlossary:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeConcordance:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeIndex:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeMapIndex:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeCover:
+                  {
+                    break;
+                  }
+                  case PeripheralSubtypeSpine:
+                  {
+                    break;
+                  }
+                  default:
+                  {
+                    break;
+                  }
+                }
+                break;
+              }
+              case StyleTypePicture: // Todo Insert pictures.
+              {
+                break;
+              }
+              case StyleTypePageBreak: // Todo see how to get this in OpenDocument.
+              {
+                break;
+              }
+              case StyleTypeTableElement: // Todo create table.
+              {
+                switch ($style['subtype']) 
+                {
+                  case TableElementSubtypeRow:
+                  {
+                    break;
+                  }
+                  case TableElementSubtypeHeading:
+                  {
+                    break;
+                  }
+                  case TableElementSubtypeCell:
+                  {
+                    break;
+                  }
+                  default:
+                  {
+                    break;
+                  }
+                }
+                // UserInt1TableColumnNumber:
+                break;
+              }
+              case StyleTypeWordlistElement: // Todo see to this one.
+              {
+                switch ($style['subtype']) 
+                {
+                  case WorListElementSubtypeWordlistGlossaryDictionary:
+                  {
+                    break;
+                  }
+                  case WorListElementSubtypeHebrewWordlistEntry:
+                  {
+                    break;
+                  }
+                  case WorListElementSubtypeGreekWordlistEntry:
+                  {
+                    break;
+                  }
+                  case WorListElementSubtypeSubjectIndexEntry:
+                  {
+                    break;
+                  }
+                  default:
+                  {
+                    break;
+                  }
+                }
+                // UserString1WordListEntryAddition:
+                break;
+              }
+              default: // Todo
+              {
+                break;
+              }
+            }
+          } else {
+            // Here is an unknown marker. Todo: Add to fallout, plus the text that follows.
+          }
+        } else {
+          // Here is no marker. Treat it as text.
+          $this->odfdom_text_standard->addText ($currentItem);
+        }
+      }
+    }
+  }
+
+
+  /**
+  * This function produces the Java code that produces the Info Document.
   * The Info Document contains formatting information, collected from the USFM code.
   * $path: Path to the document.
   * Returns: The Java code
@@ -271,77 +773,131 @@ class Filter_Text // Todo implement and test.
     $odfdom_text = new Odfdom_Text;
     
     // Indicate the number of chapters per book.
-    $odfdom_text->addHeading1 (gettext ("Number of chapters per book"));
+    $odfdom_text->newHeading1 (gettext ("Number of chapters per book"));
     foreach ($this->numberOfChaptersPerBook as $book => $chapterCount) {
       $line = $database_books->getEnglishFromId ($book) . " => " . $chapterCount;
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
-    $odfdom_text->newParagraph ();
     
     // Indicate the running headers.
-    $odfdom_text->addHeading1 (gettext ("Running headers"));
+    $odfdom_text->newHeading1 (gettext ("Running headers"));
     foreach ($this->runningHeaders as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
-    $odfdom_text->newParagraph ();
     
     // Indicate the Table of Contents entries.
-    $odfdom_text->addHeading1 (gettext ("Long table of contents entries"));
+    $odfdom_text->newHeading1 (gettext ("Long table of contents entries"));
     foreach ($this->longTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addHeading1 (gettext ("Short table of contents entries"));
+    $odfdom_text->newHeading1 (gettext ("Short table of contents entries"));
     foreach ($this->shortTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
-    $odfdom_text->newParagraph ();
 
     // Indicate book abbreviations.
-    $odfdom_text->addHeading1 (gettext ("Book abbreviations"));
+    $odfdom_text->newHeading1 (gettext ("Book abbreviations"));
     foreach ($this->bookAbbreviations as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
-    $odfdom_text->newParagraph ();
         
     // Indicate the chapter specials.
-    $odfdom_text->addHeading1 (gettext ("Publishing chapter labels"));
+    $odfdom_text->newHeading1 (gettext ("Publishing chapter labels"));
     foreach ($this->chapterLabels as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
-    $odfdom_text->newParagraph ();
-    $odfdom_text->addHeading1 (gettext ("Publishing alternate chapter numbers"));
+    $odfdom_text->newHeading1 (gettext ("Publishing alternate chapter numbers"));
     foreach ($this->publishedChapterMarkers as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
       $odfdom_text->newParagraph ();
       $odfdom_text->addText ($line);
     }
-    $odfdom_text->newParagraph ();
+
+    // Indicate the Other info.
+    $odfdom_text->newHeading1 (gettext ("Other information"));
+    foreach ($this->info as $line) {
+      $odfdom_text->newParagraph ();
+      $odfdom_text->addText ($line);
+    }
     
     $odfdom_text->finalize ($path);
-/*
-
-  
-
-  
-  public $; // Array with numerical keys, and values like array (book, chapter, verse, marker, label value).
-  public $; // Array with numerical keys, and values like array (book, chapter, verse, marker, marker value).
-*/
     return $odfdom_text->javaCode;
+  }
+  
+  
+  /**
+  * This function produces the text of the current passage, e.g.: Genesis 1:1.
+  * Returns: The passage text
+  */
+  private function getCurrentPassageText()
+  {
+    return Filter_Books::passageDisplay ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);
+  }
+  
+
+  /**
+  * This function adds a string to the Info array, prefixed by the current passage.
+  * $text: String to add to the Info array.
+  * $next: If true, it also adds the text following the marker to the info, 
+  * and removes this text from the USFM input stream.
+  */
+  private function addToInfo($text, $next = false)
+  {
+    $text = $this->getCurrentPassageText() . " " . $text;
+    if ($next) {
+      $text .= " " . Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+    }
+    $this->info[] = $text;
   }
 
 
+
+  /**
+  * This function adds a string to the Fallout array, prefixed by the current passage.
+  * $text: String to add to the Fallout array.
+  * $next: If true, it also adds the text following the marker to the fallout, 
+  * and removes this text from the USFM input stream.
+  */
+  private function addToFallout($text, $next = false)
+  {
+    $text = $this->getCurrentPassageText() . " " . $text;
+    if ($next) {
+      $text .= " " . Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+    }
+    $this->fallout[] = $text;
+  }
+
+
+
+  /**
+  * This function produces the Java code that produces the Fallout document.
+  * $path: Path to the document.
+  * Returns: The Java code
+  */
+  public function produceFalloutDocument ($path)
+  {
+    $odfdom_text = new Odfdom_Text;
+    $odfdom_text->newHeading1 (gettext ("Fallout"));
+    foreach ($this->fallout as $line) {
+      $odfdom_text->newParagraph ();
+      $odfdom_text->addText ($line);
+    }
+    $odfdom_text->finalize ($path);
+    return $odfdom_text->javaCode;
+  }
+  
+  
   
   
 }

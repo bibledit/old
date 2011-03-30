@@ -17,9 +17,9 @@ if (isset($_POST['submit'])) {
   }
 }
 
-if ($_GET['delete'] != "") {
-  $marker = $_GET['delete'];
-  $database_styles->deleteMarker ($name, $marker);
+@$delete = $_GET['delete'];
+if ($delete != "") {
+  $database_styles->deleteMarker ($name, $delete);
 }
 
 
