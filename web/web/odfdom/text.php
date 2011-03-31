@@ -89,6 +89,13 @@ class odt {
     style.setProperty(StyleTextPropertiesElement.FontSizeComplex, value);
   }
 
+  static void setTextUnderline(OdfStyleBase style)
+  {
+    style.setProperty(StyleTextPropertiesElement.TextUnderlineStyle, "solid");
+    style.setProperty(StyleTextPropertiesElement.TextUnderlineWidth, "auto");
+    style.setProperty(StyleTextPropertiesElement.TextUnderlineColor, "font-color");
+  }
+
 
   public static void main(String[] args) {
 
@@ -132,6 +139,11 @@ class odt {
           childNode = officeText.getFirstChild();
         }
       }
+      
+      // Default font size is 12 points.
+      OdfDefaultStyle defaultStyle;
+      defaultStyle = stylesOfficeStyles.getDefaultStyle(OdfStyleFamily.Paragraph);
+      setFontSize(defaultStyle, "12pt");
 
 EOD;
     $this->javaCode = array_merge ($this->javaCode, explode ("\n", $code));
@@ -243,7 +255,144 @@ EOD;
     $this->javaCode[] = "";
   }
 
+
+  /**
+  * This creates a paragraph style.
+  * $name: the name of the style, e.g. 'p'.
+  */
+  public function createParagraphStyle ($name, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext)
+  {
+    $this->javaCode[] = "{";
+
+    $stylename = $this->convertStyleName ($name);
+    $this->javaCode[] = "  OdfStyle style;";
+    $this->javaCode[] = "  style = stylesOfficeStyles.newStyle(\"$stylename\", OdfStyleFamily.Paragraph);";
+    $this->javaCode[] = "  style.setStyleDisplayNameAttribute(\"$name\");";
+
+    $fontsize .= "pt";
+    $this->javaCode[] = "  setFontSize(style, \"$fontsize\");";
+
+    // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
+    if ($italic != ooitOff) {
+      $this->javaCode[] = "  setFontStyle(style, \"italic\");";
+    }
+    if ($bold != ooitOff) {
+      $this->javaCode[] = "  setFontWeight(style, \"bold\");";
+    }
+    if ($underline != ooitOff) {
+      $this->javaCode[] = "  setTextUnderline(style);";
+    }
+    if ($smallcaps != ooitOff) { 
+      $this->javaCode[] = "  style.setProperty(StyleTextPropertiesElement.FontVariant, \"small-caps\");";
+    }
+
+    // Text alignment can be: AlignmentLeft, AlignmentCenter, AlignmentRight, AlignmentJustify.
+    switch ($alignment) {
+      case AlignmentLeft:    $alignment = "start"; break;
+      case AlignmentCenter:  $alignment = "center"; break;
+      case AlignmentRight:   $alignment = "end"; break;
+      case AlignmentJustify: $alignment = "justify"; break;
+    }
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.TextAlign, \"$alignment\");";
+
+    // Paragraph measurements; given in mm.
+    $spacebefore .= "mm";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.MarginTop, \"$spacebefore\");";
+    $spaceafter .= "mm";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.MarginBottom, \"$spaceafter\");";
+    $leftmargin .= "mm";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.MarginLeft, \"$leftmargin\");";
+    $rightmargin .= "mm";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.MarginRight, \"$rightmargin\");";
+    $firstlineindent .= "mm";
+    $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.TextIndent, \"$firstlineindent\");";
+
+    if ($keepWithNext) {
+      $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.KeepTogether, \"always\");";
+      $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.KeepWithNext, \"always\");";
+    }
+
+    $this->javaCode[] = "}";
+  }
+
+
 }
+
+/*
+
+Example code is kept here to learn from, as far as it has not yet been put into the object and used there.
+
+void addOfficeStyles()
+{
+  OdfStyleParagraphProperties pProperties;
+  OdfStyleTabStops tabStops;
+  OdfStyleTabStop tabStop;
+
+  // Paragraph with tab stop at 7.5cm with a
+  // leader of "."
+  style = stylesOfficeStyles.newStyle("Cast_20_Para", OdfStyleFamily.Paragraph);
+  style.setStyleDisplayNameAttribute("Cast Para");
+  style.setStyleFamilyAttribute(OdfStyleFamily.Paragraph.toString());
+
+  // build hierarchy from "inside out"
+  tabStop = new OdfStyleTabStop(stylesDom);
+  tabStop.setStylePositionAttribute("7.5cm");
+  tabStop.setStyleLeaderStyleAttribute("dotted");
+  tabStop.setStyleLeaderTextAttribute(".");
+  tabStop.setStyleTypeAttribute("right");
+
+  tabStops = new OdfStyleTabStops(stylesDom);
+  tabStops.appendChild(tabStop);
+
+  pProperties = new OdfStyleParagraphProperties(stylesDom);
+  pProperties.appendChild(tabStops);
+
+  style.appendChild(pProperties);
+}
+
+
+void processTitle(Node movieNode) throws XPathExpressionException
+{
+  String title;
+  String rating;
+  OdfTextHeading heading;
+  OdfTextSpan stars;
+  
+  heading = new OdfTextHeading(contentDom);
+  heading.addStyledContent("Movie_20_Heading", title + " ");
+  
+  stars = new OdfTextSpan(contentDom);
+  heading.addStyledSpan("Star_20_Span", rating);
+  
+  officeText.appendChild(heading);
+}
+
+
+void processCast(Node movieNode) throws XPathExpressionException
+{
+  NodeList actors;
+  OdfTextParagraph actor;
+  String name;
+  String role;
+
+  OdfTextHeading heading;
+
+  heading = new OdfTextHeading(contentDom, "Cast_20_Heading");
+  heading.appendChild(contentDom.createTextNode("The Cast"));
+  officeText.appendChild(heading);
+  
+    actor = new OdfTextParagraph(contentDom, "Cast_20_Para");
+    actor.addContent(name);
+    if (role != null && !role.equals(""))
+    {
+                  actor.addContentWhitespace("\t" + role);
+    }
+    officeText.appendChild(actor);
+  }
+}
+
+
+*/
 
 
 ?>

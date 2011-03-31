@@ -504,9 +504,9 @@ class Styles_Logic
   public function alignmentText ($value)
   {
     $texts = array (
-      AlignmentLeft     => gettext ("Left"),
+      AlignmentLeft     => gettext ("Start (Left in left-to-right script)"),
       AlignmentCenter   => gettext ("Center"),
-      AlignmentRight    => gettext ("Right"),
+      AlignmentRight    => gettext ("End (Right in left-to-right script)"),
       AlignmentJustify  => gettext ("Justify")
     );
     $text = $texts[$value];

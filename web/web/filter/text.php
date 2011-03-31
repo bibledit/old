@@ -37,6 +37,7 @@ class Filter_Text // Todo implement / test.
   
   private $styles; // An array holding arrays of style information.
   private $chapterMarker; // Usually this is: \c
+  private $createdOdfStyles; // Array holding styles created in Odfdom.
   
   private $currentBookIdentifier; // Book identifier, e.g. 1, 2, 3, and so on.
   private $currentChapterNumber; // Chapter number, e.g. 1, 2, 3, etc.
@@ -61,6 +62,7 @@ class Filter_Text // Todo implement / test.
   */
   public function __construct ()
   {
+    $this->createdOdfStyles = array ();
     $this->numberOfChaptersPerBook = array ();
     $this->runningHeaders = array ();
     $this->longTOCs = array ();
@@ -192,9 +194,9 @@ class Filter_Text // Todo implement / test.
         if (Filter_Usfm::isUsfmMarker ($currentItem)) {
           $marker = trim ($currentItem); // Change, e.g. '\id ' to '\id'.
           $marker = substr ($marker, 1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
-          $style = $this->styles[$marker];
           if (Filter_Usfm::isOpeningMarker ($marker)) {
             if (array_key_exists ($marker, $this->styles)) {
+              $style = $this->styles[$marker];
               switch ($style['type']) {
                 case StyleTypeIdentifier:
                   switch ($style['subtype']) {
@@ -287,11 +289,13 @@ class Filter_Text // Todo implement / test.
         $currentItem = $this->chapterUsfmMarkersAndText[$this->chapterUsfmMarkersAndTextPointer];
         if (Filter_Usfm::isUsfmMarker ($currentItem)) 
         {
-          $marker = trim ($currentItem); // Change, e.g. '\id ' to '\id'.
-          $marker = substr ($marker, 1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
-          $style = $this->styles[$marker];
+          // Store indicator whether the marker is an opening marker. This information will be lost later on.
+          $isOpeningMarker = Filter_Usfm::isOpeningMarker ($currentItem);
+          // Clean up the marker, so we remain with the basic version, e.g. 'id'.
+          $marker = Filter_Usfm::getMarker ($currentItem);
           if (array_key_exists ($marker, $this->styles)) 
           {
+            $style = $this->styles[$marker];
             switch ($style['type']) 
             {
               case StyleTypeIdentifier:
@@ -333,10 +337,10 @@ class Filter_Text // Todo implement / test.
                   {
                     // This information already went into the Info document during the preprocessing stage.
                     // Remove it from the USFM input stream.
+                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                     // Ideally this information should be inserted in the headers of the standard text document.
                     // UserBool2RunningHeaderLeft:
                     // UserBool3RunningHeaderRight:
-                    Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                     break;
                   }
                   case IdentifierSubtypeLongTOC:
@@ -369,84 +373,46 @@ class Filter_Text // Todo implement / test.
                     Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                     break;
                   }
-                  case IdentifierSubtypeCommentWithEndmarker: // Todo it goes into the Info document.
+                  case IdentifierSubtypeCommentWithEndmarker:
                   {
+                    if ($isOpeningMarker) {
+                      $this->addToInfo ("Comment: \\$marker", true);
+                    }
                     break;
                   }
                   default:
                   {
+                    $this->addToFallout ("Unknown markup: \\$marker", true);
                     break;
                   }
                 }
                 break;
               }
-              case StyleTypeNotUsedComment: // Todo move into fallout.
+              case StyleTypeNotUsedComment:
               {
+                $this->addToFallout ("Unknown markup: \\$marker", true);
                 break;
               }
-              case StyleTypeNotUsedRunningHeader: // Todo: fallout.
+              case StyleTypeNotUsedRunningHeader:
               {
+                $this->addToFallout ("Unknown markup: \\$marker", true);
                 break;
               }
-              case StyleTypeStartsParagraph: // Todo make paragraph.
+              case StyleTypeStartsParagraph:
               {
-                $this->odfdom_text_standard->newParagraph ();
-/*
-case ooitOff:
-{
-break;
-}
-case ooitOn:
-{
-break;
-}
-case ooitInherit:
-{
-break;
-}
-case ooitToggle:
-{
-break;
-}
-*/
-/*
-case AlignmentLeft:
-{
-break;
-}
-case AlignmentCenter:
-{
-break;
-}
-case AlignmentRight:
-{
-break;
-}
-case AlignmentJustify:
-{
-break;
-}
-*/
                 switch ($style['subtype']) 
                 {
                   case ParagraphSubtypeMainTitle:
-                  {
-                    break;
-                  }
                   case ParagraphSubtypeSubTitle:
-                  {
-                    break;
-                  }
                   case ParagraphSubtypeSectionHeading:
                   {
+                    $this->newParagraph ($style, true);
                     break;
                   }
                   case ParagraphSubtypeNormalParagraph:
-                  {
-                    break;
-                  }
                   default:
                   {
+                    $this->newParagraph ($style, false);
                     break;
                   }
                 }
@@ -454,24 +420,6 @@ break;
               }
               case StyleTypeInlineText: // Todo local styles, e.g. italics.
               {
-/*
-case ooitOff:
-{
-break;
-}
-case ooitOn:
-{
-break;
-}
-case ooitInherit:
-{
-break;
-}
-case ooitToggle:
-{
-break;
-}
-*/
                 break;
               }
               case StyleTypeChapterNumber: // Todo output to document.
@@ -749,7 +697,8 @@ break;
               }
             }
           } else {
-            // Here is an unknown marker. Todo: Add to fallout, plus the text that follows.
+            // Here is an unknown marker. Add to fallout, plus any text that follows.
+            $this->addToFallout ("Unknown marker \\$marker", true);
           }
         } else {
           // Here is no marker. Treat it as text.
@@ -897,6 +846,41 @@ break;
     return $odfdom_text->javaCode;
   }
   
+  
+
+  /**
+  * This function produces ensures that a certain paragraph style is in the OpenDocument, 
+  * and then opens a paragraph with this style
+  * $style: The style to use.
+  * $keepWithNext: Whether to keep this paragraph with the next one.
+  */
+  private function newParagraph ($style, $keepWithNext)
+  {
+    $marker = $style["marker"];
+    if (!in_array ($marker, $this->createdOdfStyles)) {
+      $type = $style["type"];
+      $subtype = $style["subtype"];
+      $fontsize = $style["fontsize"]; // E.g.: 12 (means: 12 points).
+      $italic = $style["italic"];
+      $bold = $style["bold"];
+      $underline = $style["underline"];
+      $smallcaps = $style["smallcaps"];
+      $alignment = $style["justification"];
+      $spacebefore = $style["spacebefore"];
+      $spaceafter = $style["spaceafter"];
+      $leftmargin = $style["leftmargin"];
+      $rightmargin = $style["rightmargin"];
+      $firstlineindent = $style["firstlineindent"];
+      // Columns are not implemented at present. Reason:
+      // I failed to copy and paste sections with columns between documents in LibreOffice.
+      // So why implement something that does not work.
+      // If it gets implemented, then sections are used in the OpenDocument format.
+      $spancolumns = $style["spancolumns"];
+      $this->odfdom_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext);
+      $this->createdOdfStyles [] = $marker;
+    }
+    $this->odfdom_text_standard->newParagraph ($marker);
+  }
   
   
   

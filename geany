@@ -14,19 +14,20 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=636;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=9
+FILE_NAME_0=47;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=530;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=4458;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
+FILE_NAME_2=4790;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
 FILE_NAME_3=2608;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/java.php;0
-FILE_NAME_4=14865;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
-FILE_NAME_5=3430;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/textTest.php;0
-FILE_NAME_6=9468;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/usfm.php;0
+FILE_NAME_4=33904;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
+FILE_NAME_5=4310;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/textTest.php;0
+FILE_NAME_6=9159;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/usfm.php;0
 FILE_NAME_7=3414;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/usfmTest.php;0
 FILE_NAME_8=4279;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0
-FILE_NAME_9=5110;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odfdom/text.php;0
-FILE_NAME_10=1375;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/odfdom/textTest.php;0
+FILE_NAME_9=11580;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odfdom/text.php;0
+FILE_NAME_10=2056;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/odfdom/textTest.php;0
 FILE_NAME_11=890;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/books.php;0
+FILE_NAME_12=18144;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/styles/logic.php;0
 
 [long line marker]
 long_line_behaviour=1

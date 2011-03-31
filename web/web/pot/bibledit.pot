@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-30 01:45+0200\n"
+"POT-Creation-Date: 2011-03-31 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -916,13 +916,13 @@ msgstr ""
 msgid "Toggle"
 msgstr ""
 
-msgid "Left"
+msgid "Start (Left in left-to-right script)"
 msgstr ""
 
 msgid "Center"
 msgstr ""
 
-msgid "Right"
+msgid "End (Right in left-to-right script)"
 msgstr ""
 
 msgid "Justify"
@@ -1235,6 +1235,9 @@ msgid "Publishing chapter labels"
 msgstr ""
 
 msgid "Publishing alternate chapter numbers"
+msgstr ""
+
+msgid "Other information"
 msgstr ""
 
 msgid "Fallout"

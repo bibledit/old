@@ -2,38 +2,12 @@
 
 
 
-          if (Filter_Usfm::isOpeningMarker ($marker))
-          {
-          }
-
-
-
-Steps:
-- To move some content into each file.
-- To move remaining content into Fallout file.
-- To add styles to the various documents.
-- To add more and more content to the right files, and less content into Fallout.
-- To harvest other information from the USFM files, and put this into the Info document.
-
-
-To produce a file called '00_Info.odt', which contains information collected in the various passes.
-
-
-Whatever is not processed properly, is collected, and then put in a file.
-The file is an OpenOffice file, with headings and contents.
-It is called '00_Fallout.odt'.
-This fallout must be marked by book chapter.verse. The user can the fix the various things if it needs fixing, 
-or just leave it.
 
 
 Collect glossary items, word lists, and all sorts of information. Put this info somewhere.
 
 
-To take the best formatting loop from Bibledit-Gtk. This probably is the one for producing the PDF document.
-To move this loop into php code.
-To first let it output all text as it comes in.
-Then next to implement each marker as it comes.
-To adapt this loop to the Filter_Usfm's methods already existing.
+
 
 
 

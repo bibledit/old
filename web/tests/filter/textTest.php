@@ -87,6 +87,7 @@ $usfm = <<<'EOD'
 \c 2
 \p Text Matthew 2
 \rem Comment
+\xxx Unknown markup
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
@@ -97,7 +98,8 @@ EOD;
     $this->assertEquals (0, $return_var);
     exec ("odt2txt /tmp/TextTest2.odt", $output, &$return_var);
     $this->assertEquals (array ("", "Text Genesis 1", "", "Text Genesis 2", "", "Text Matthew 1", "", "Text Matthew 2", ""), $output);
-    $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ'), $filter_text->fallout);
+    $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ',
+                                'Matthew 2:0 Unknown marker \xxx Unknown markup'), $filter_text->fallout);
     $this->assertEquals (array ('Matthew 2:0 Comment: \rem Comment'), $filter_text->info);
   }
 

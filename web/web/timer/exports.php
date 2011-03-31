@@ -104,6 +104,7 @@ foreach ($bibles as $bible) {
     $javaCode = $filter_text_book->odfdom_text_standard->javaCode;
     $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
     Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+    // Todo echo "Bible $baseBookFileName dir $dir \n"; // Todo
 
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
@@ -118,7 +119,7 @@ foreach ($bibles as $bible) {
   $javaCode = $filter_text_bible->odfdom_text_standard->javaCode;
   $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
   Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
-  var_dump ($dir); // Todo
+  echo "full Bible dir $dir \n"; // Todo
 
   // Create the info OpenDocument for the whole Bible.
   $javaCode = $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
