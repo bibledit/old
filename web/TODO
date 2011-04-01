@@ -1,11 +1,20 @@
+footnotes and xrefs.
+At start marker, determine the end marker.
+A routine looks for this end marker.
+Within this routine there is another loop that does the job of formatting.
+It always opens the note, then closes the note at the end.
+It needs to know the type of note, indicated by its marker.
+There is another routine that handles the callers to be used.
+This object is kept alive throughout the formatting cycle.
 
 
 
 
 
 
-Collect glossary items, word lists, and all sorts of information. Put this info somewhere.
 
+Collect glossary items, word lists, and so on, and put this into the Info document.
+Or at the end of a chapter, or at the end of the book, or else in the Info document.
 
 
 

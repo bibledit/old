@@ -109,7 +109,7 @@ class Filter_Text // Todo implement / test.
     $this->preprocessingStage ();
 
     // Process data.
-    $this->process ();
+    $this->processUsfm ();
     
     // Finalize the documents.
     $this->odfdom_text_standard->finalize ($standardFilenameOdt);
@@ -280,7 +280,7 @@ class Filter_Text // Todo implement / test.
   * This function does the processing of the USFM code,
   * formatting the document and extracting other useful information.
   */
-  private function process ()
+  private function processUsfm ()
   {
     $processedBooksCount = 0;
     $this->usfmMarkersAndTextPointer = 0;
@@ -518,6 +518,7 @@ class Filter_Text // Todo implement / test.
               }
               case StyleTypeFootEndNote: // Todo handle notes including subtypes.
               {
+                //var_dump ($marker); // Todo
                 switch ($style['subtype']) 
                 {
                   case FootEndNoteSubtypeFootnote:
@@ -597,7 +598,7 @@ break;
 */                  
                 break;
               }
-              case StyleTypeCrossreference: // Todo handle xref.
+              case StyleTypeCrossreference: // Todo work here handle xref.
               {
                 switch ($style['subtype']) 
                 {
@@ -778,6 +779,188 @@ break;
           // Here is no marker. Treat it as text.
           $this->odfdom_text_standard->addText ($currentItem);
         }
+      }
+    }
+  }
+
+
+  /**
+  * This function does the processing of the USFM code for one note,
+  * formatting the document and extracting information.
+  */
+  private function processNote () // Todo working here.
+  {
+
+
+    for ($this->chapterUsfmMarkersAndTextPointer = 0; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) 
+    {
+      $currentItem = $this->chapterUsfmMarkersAndText[$this->chapterUsfmMarkersAndTextPointer];
+      if (Filter_Usfm::isUsfmMarker ($currentItem)) 
+      {
+        // Store indicator whether the marker is an opening marker. This information will be lost later on.
+        $isOpeningMarker = Filter_Usfm::isOpeningMarker ($currentItem);
+        // Clean up the marker, so we remain with the basic version, e.g. 'id'.
+        $marker = Filter_Usfm::getMarker ($currentItem);
+        if (array_key_exists ($marker, $this->styles)) 
+        {
+          $style = $this->styles[$marker];
+          switch ($style['type']) 
+          {
+            case StyleTypeVerseNumber: // Todo once it encounters a verb, then the note really should stop there, and something is really wrong there, perhaps it must go into the fallout.
+            {
+              break;
+            }
+            case StyleTypeFootEndNote: // Todo handle notes including subtypes.
+            {
+              //var_dump ($marker); // Todo
+              switch ($style['subtype']) 
+              {
+                case FootEndNoteSubtypeFootnote:
+                {
+                  break;
+                }
+                case FootEndNoteSubtypeEndnote:
+                {
+                  break;
+                }
+                case FootEndNoteSubtypeStandardContent:
+                {
+                  break;
+                }
+                case FootEndNoteSubtypeContent:
+                {
+                  break;
+                }
+                case FootEndNoteSubtypeContentWithEndmarker:
+                {
+                  break;
+                }
+                case FootEndNoteSubtypeParagraph:
+                {
+                  break;
+                }
+                default:
+                {
+                  break;
+                }
+              }
+              // UserBool1NoteAppliesToApocrypha: For xref too?
+              // UserInt1NoteNumbering:
+              // UserInt2NoteNumberingRestart:
+              // UserInt2EndnotePosition:
+              // UserString1NoteNumberingSequence:
+              // UserString2DumpEndnotesHere: But this one should go out.
+/*
+case NoteNumbering123:
+{
+break;
+}
+case NoteNumberingAbc:
+{
+break;
+}
+case NoteNumberingUser:
+{
+break;
+}
+
+case NoteRestartNumberingNever:
+{
+break;
+}
+case NoteRestartNumberingEveryBook:
+{
+break;
+}
+case NoteRestartNumberingEveryChapter:
+{
+break;
+}
+
+case EndNotePositionAfterBook:
+{
+break;
+}
+case EndNotePositionVeryEnd:
+{
+break;
+}
+case EndNotePositionAtMarker:
+{
+break;
+}
+*/                  
+              break;
+            }
+            case StyleTypeCrossreference: // Todo work here handle xref.
+            {
+              switch ($style['subtype']) 
+              {
+                case CrossreferenceSubtypeCrossreference:
+                {
+                  break;
+                }
+                case CrossreferenceSubtypeStandardContent:
+                {
+                  break;
+                }
+                case CrossreferenceSubtypeContent:
+                {
+                  break;
+                }
+                case CrossreferenceSubtypeContentWithEndmarker:
+                {
+                  break;
+                }
+                default:
+                {
+                  break;
+                }
+              }
+              // UserInt1NoteNumbering:
+              // UserInt2NoteNumberingRestart:
+              // UserString1NoteNumberingSequence:
+/*
+case NoteNumbering123:
+{
+break;
+}
+case NoteNumberingAbc:
+{
+break;
+}
+case NoteNumberingUser:
+{
+break;
+}
+
+case NoteRestartNumberingNever:
+{
+break;
+}
+case NoteRestartNumberingEveryBook:
+{
+break;
+}
+case NoteRestartNumberingEveryChapter:
+{
+break;
+}
+*/                  
+              break;
+            }
+            default: // Todo
+            {
+              break;
+            }
+          }
+        } else {
+          // Here is an unknown marker. Add to fallout, plus any text that follows.
+          $this->addToFallout ("Unknown marker \\$marker", true);
+        }
+      } else {
+        // Here is no marker. Treat it as text.
+        $this->odfdom_text_standard->addText ($currentItem);
       }
     }
   }

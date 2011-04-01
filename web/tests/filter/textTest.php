@@ -18,6 +18,27 @@ private $temporary_folder;
 
   
   /**
+  * Test footnotes and cross references.
+  */
+  public function testFour()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\v 1 Text 1\x + \xt Isa. 1.1.\x*\x + \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
+EOD;
+    $filter_text = new Filter_Text;
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("/tmp/TextTest4.odt");
+    $javaCode = $filter_text->odfdom_text_standard->javaCode;
+    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+    $this->assertEquals (0, $return_var);
+    exec ("odt2txt /tmp/TextTest4.odt", $output, &$return_var);
+    // Todo $this->assertEquals (array ("", "1 Text 1", "", "Paragraph One. 2 Verse Two.", "", "3 Verse Three. 4 Verse Four. 5 Verse Five.", ""), $output);
+  }
+
+
+  /**
   * Test extraction of all sorts of information from USFM code
   * Test basic formatting into OpenDocument.
   */
