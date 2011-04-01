@@ -35,11 +35,13 @@ $usfm = <<<'EOD'
 \cl Chapter
 \c 1
 \cp Ⅰ
-\p Text chapter 1
+\p
+\v 1 Text chapter 1
 \c 2
-\cp ①
+\cp ②
 \h Header4
-\p Text chapter 2
+\p
+\v 2 Text chapter 2
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
@@ -58,15 +60,16 @@ EOD;
     // Check chapter specials.
     $this->assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'cl', 'value' => 'Chapter'), $filter_text->chapterLabels[0]);
     $this->assertEquals (array ('book' => 1, 'chapter' => 1, 'verse' => 0, 'marker' => 'cp', 'value' => 'Ⅰ'), $filter_text->publishedChapterMarkers[0]);
-    $this->assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '①'), $filter_text->publishedChapterMarkers[1]);
+    $this->assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '②'), $filter_text->publishedChapterMarkers[1]);
     $this->assertEquals (array (1 => 2), $filter_text->numberOfChaptersPerBook);
     $javaCode = $filter_text->odfdom_text_standard->javaCode;
     $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
     $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
     $this->assertEquals (0, $return_var);
     exec ("odt2txt /tmp/TextTest1.odt", $output, &$return_var);
-    $this->assertEquals (array ("", "Text chapter 1", "", "Text chapter 2", ""), $output);
+    $this->assertEquals (array ("", "ⅠText chapter 1", "", "②Text chapter 2", ""), $output);
   }
+
 
   /**
   * There are two books here. This normally gives one new page between these two books.
@@ -102,6 +105,34 @@ EOD;
                                 'Matthew 2:0 Unknown marker \xxx Unknown markup'), $filter_text->fallout);
     $this->assertEquals (array ('Matthew 2:0 Comment: \rem Comment'), $filter_text->info);
   }
+
+
+  /**
+  * Test transformation of verse numbers and text following.
+  */
+  public function testThree()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\v 1 Verse One.
+\p Paragraph One.
+\v 2 Verse Two.
+\p
+\v 3 Verse Three.
+\v 4 Verse Four.
+\v 5 Verse Five.
+EOD;
+    $filter_text = new Filter_Text;
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("/tmp/TextTest3.odt");
+    $javaCode = $filter_text->odfdom_text_standard->javaCode;
+    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
+    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
+    $this->assertEquals (0, $return_var);
+    exec ("odt2txt /tmp/TextTest3.odt", $output, &$return_var);
+    $this->assertEquals (array ("", "1 Verse One.", "", "Paragraph One. 2 Verse Two.", "", "3 Verse Three. 4 Verse Four. 5 Verse Five.", ""), $output);
+  }
+
 
 
 

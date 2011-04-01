@@ -36,7 +36,7 @@ class Filter_Text // Todo implement / test.
   private $chapterUsfmMarkersAndTextPointer;
   
   private $styles; // An array holding arrays of style information.
-  private $chapterMarker; // Usually this is: \c
+  private $chapterMarker; // Usually this is: c
   private $createdOdfStyles; // Array holding styles created in Odfdom.
   
   private $currentBookIdentifier; // Book identifier, e.g. 1, 2, 3, and so on.
@@ -48,7 +48,8 @@ class Filter_Text // Todo implement / test.
   public $longTOCs; // Array with numerical keys, and values like array (book, chapter, verse, marker, TOC value).
   public $shortTOCs; // Array with numerical keys, and values like array (book, chapter, verse, marker, TOC value).
   public $bookAbbreviations; // Array with numerical keys, and values like array (book, chapter, verse, marker, abbreviation value).
-  
+
+  private $outputChapterTextAtFirstVerse; // String holding the chapter number or text to output at the first verse.
   public $chapterLabels; // Array with numerical keys, and values like array (book, chapter, verse, marker, label value).
   public $publishedChapterMarkers; // Array with numerical keys, and values like array (book, chapter, verse, marker, marker value).
 
@@ -310,7 +311,6 @@ class Filter_Text // Todo implement / test.
                     $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
                     // Reset chapter and verse numbers.
                     $this->currentChapterNumber = 0;
-                    $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = 0;
                     $this->currentVerseNumber = "0";
                     // Throw away whatever follows the \id, e.g. 'GEN xxx xxx'.
                     Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
@@ -361,13 +361,13 @@ class Filter_Text // Todo implement / test.
                     Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                     break;
                   }
-                  case IdentifierSubtypeChapterLabel: // Todo this information is used when creating the chapter text.
+                  case IdentifierSubtypeChapterLabel:
                   {
                     // This information is already in the object. Remove it from the USFM stream.
                     Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                     break;
                   }
-                  case IdentifierSubtypePublishedChapterMarker: // Todo this info is used when creating the chapter text.
+                  case IdentifierSubtypePublishedChapterMarker:
                   {
                     // This information is already in the object. Remove it from the USFM stream.
                     Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
@@ -422,24 +422,98 @@ class Filter_Text // Todo implement / test.
               {
                 break;
               }
-              case StyleTypeChapterNumber: // Todo output to document.
+              case StyleTypeChapterNumber:
               {
+                // Get the chapter number.
                 $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                 $number = Filter_Numeric::integer_in_string ($number);
+                // Update this object.
                 $this->currentChapterNumber = $number;
-                $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = $number;
                 $this->currentVerseNumber = "0";
-                // UserBool1PrintChapterAtFirstVerse:
-                // UserBool2ChapterInLeftRunningHeader:
-                // UserBool3ChapterInRightRunningHeader:
+                // If there is a published chapter character, the chapter number takes that value.
+                foreach ($this->publishedChapterMarkers as $publishedChapterMarker) {
+                  if ($publishedChapterMarker['book'] == $this->currentBookIdentifier) {
+                    if ($publishedChapterMarker['chapter'] == $this->currentChapterNumber) {
+                      $number = $publishedChapterMarker['value'];
+                    }
+                  }
+                }
+                // Handle UserBool1PrintChapterAtFirstVerse. 
+                if ($style['userbool1']) {
+                  // Output the chapter number at the first verse, not here.
+                  // Store it for later processing.
+                  $this->outputChapterTextAtFirstVerse = $number;
+                } else {
+                  // Output the chapter in a new paragraph.
+                  // If the chapter label \cl is entered once before chapter 1 (\c 1) 
+                  // it represents the text for "chapter" to be used throughout the current book. 
+                  // If \cl is used after each individual chapter marker, it represents the particular text 
+                  // to be used for the display of the current chapter heading 
+                  // (usually done if numbers are being presented as words, not numerals).
+                  $labelEntireBook = "";
+                  $labelCurrentChapter = "";
+                  foreach ($this->chapterLabels as $pchapterLabel) {
+                    if ($pchapterLabel['book'] == $this->currentBookIdentifier) {
+                      if ($pchapterLabel['chapter'] == 0) {
+                        $labelEntireBook = $pchapterLabel['value'];
+                      }
+                      if ($pchapterLabel['chapter'] == $this->currentChapterNumber) {
+                        $labelCurrentChapter = $pchapterLabel['value'];
+                      }
+                    }
+                  }
+                  if ($labelEntireBook != "") {
+                    $number = "$labelEntireBook $number";
+                  } 
+                  if ($labelCurrentChapter != "") {
+                    $number = $labelCurrentChapter;
+                  }
+                  // The chapter number shows in a new paragraph. 
+                  // Keep it together with the next paragraph.
+                  $this->newParagraph ($style, true);
+                  $this->odfdom_text_standard->addText ($number);
+                }
+                // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
+                // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
                 break;
               }
-              case StyleTypeVerseNumber: // Todo output to document.
+              case StyleTypeVerseNumber:
               {
-                $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                $number = Filter_Numeric::integer_in_string ($number);
+                // Deal with the case of a pending chapter number.
+                if (isset ($this->outputChapterTextAtFirstVerse)) {
+                  $dropCapsLength = mb_strlen ($this->outputChapterTextAtFirstVerse);
+                  $this->applyDropCapsToCurrentParagraph ($dropCapsLength);
+                  $this->odfdom_text_standard->addText ($this->outputChapterTextAtFirstVerse);
+                }
+                // Temporarily retrieve the text that follows the \v verse marker.
+                $textFollowingMarker = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                // Extract the verse number, and store it in the object.
+                $number = Filter_Numeric::integer_in_string ($textFollowingMarker);
                 $this->currentVerseNumber = $number;
-                // UserBool1VerseRestartsParagraph: - important at times.
+                // Output the verse number. But only if no chapter number was put here.
+                if (!isset ($this->outputChapterTextAtFirstVerse)) {
+                  // Todo still to put the verse in the right style.
+                  if ($this->odfdom_text_standard->currentParagraphContent != "") {
+                    // If the current paragraph has text already, then insert a space.
+                    $this->odfdom_text_standard->addText (" ");
+                  }
+                  $this->odfdom_text_standard->addText ($number);
+                }
+                // If there was any text following the \v marker, remove the verse number, 
+                // put the remainder back into the object, and update the pointer.
+                if ($textFollowingMarker != "") {
+                  $pos = strpos ($textFollowingMarker, $number);
+                  if ($pos !== false) {
+                    $textFollowingMarker = substr ($textFollowingMarker, $pos + strlen ($number));
+                  }
+                  // If a chapter number was put, remove any whitespace from the start of the following text.
+                  if (isset ($this->outputChapterTextAtFirstVerse)) $textFollowingMarker = ltrim ($textFollowingMarker);
+                  $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer] = $textFollowingMarker; 
+                  $this->chapterUsfmMarkersAndTextPointer--;
+                }
+                // Chapter variable may not have been used, but unset it anyway, so it is ready for subsequent use. 
+                unset ($this->outputChapterTextAtFirstVerse);
+                // UserBool1VerseRestartsParagraph: - important at times. Todo still to implement.
                 break;
               }
               case StyleTypeFootEndNote: // Todo handle notes including subtypes.
@@ -858,9 +932,7 @@ break;
   {
     $marker = $style["marker"];
     if (!in_array ($marker, $this->createdOdfStyles)) {
-      $type = $style["type"];
-      $subtype = $style["subtype"];
-      $fontsize = $style["fontsize"]; // E.g.: 12 (means: 12 points).
+      $fontsize = $style["fontsize"];
       $italic = $style["italic"];
       $bold = $style["bold"];
       $underline = $style["underline"];
@@ -876,10 +948,44 @@ break;
       // So why implement something that does not work.
       // If it gets implemented, then sections are used in the OpenDocument format.
       $spancolumns = $style["spancolumns"];
-      $this->odfdom_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext);
+      $dropcaps = 0;
+      $this->odfdom_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->createdOdfStyles [] = $marker;
     }
     $this->odfdom_text_standard->newParagraph ($marker);
+  }
+  
+  
+  
+  /**
+  * This applies the drop caps setting to the current paragraph style.
+  * This is for the chapter number to appear in drop caps in the OpenDocument.
+  * $dropCapsLength: Number of characters to put in drop caps.
+  */
+  private function applyDropCapsToCurrentParagraph ($dropCapsLength)
+  {
+    // To name a style according to the number of characters to put in drop caps,
+    // e.g. a style name like p_c1 or p_c2 or p_c3.
+    $combined_style = $this->odfdom_text_standard->currentParagraphStyle . "_" . $this->chapterMarker . $dropCapsLength;
+    if (!in_array ($combined_style, $this->createdOdfStyles)) {
+      $style = $this->styles[$this->odfdom_text_standard->currentParagraphStyle];
+      $fontsize = $style["fontsize"];
+      $italic = $style["italic"];
+      $bold = $style["bold"];
+      $underline = $style["underline"];
+      $smallcaps = $style["smallcaps"];
+      $alignment = $style["justification"];
+      $spacebefore = $style["spacebefore"];
+      $spaceafter = $style["spaceafter"];
+      $leftmargin = $style["leftmargin"];
+      $rightmargin = $style["rightmargin"];
+      $firstlineindent = 0; // First line that contains the chapter number in drop caps is not indented.
+      $spancolumns = $style["spancolumns"];
+      $keepWithNext = false;
+      $this->odfdom_text_standard->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
+      $this->createdOdfStyles [] = $combined_style;
+    }
+    $this->odfdom_text_standard->updateCurrentParagraphStyle ($combined_style);
   }
   
   

@@ -61,7 +61,8 @@ Glossary Items.
 
 
 
-
+While exporting the data, the option must be set to use a certain stylesheet for this.
+The manager can set this.
 
 
 
@@ -79,6 +80,9 @@ Larger text has a line spacing that is an exact multiple of the fixed base grid.
 But the standard way to create a grid is to enable Register-True on Page and Paragraphs
 We could place the text as normal starting from above.
 We could place the footnotes in a text frame at the bottom, or just as normal text.
+Headings can automatically be created, if we insert a field in the heading that refers to the chapter number,
+and then the Heading 1 style should do it, so that text gets copied.
+
 
 Bibledit-Web should generate a database with text fragments and formatting parameters, and indicate which
 blocks should always be treated as one unit. E.g. footnotes belong to a certain word.
@@ -669,3 +673,12 @@ Crash in Bibledit-Gtk when doing a merge, then clicking in an Editor.
 
 The logbook page.
 Refresh less often.
+
+
+
+Bibledit-Gtk should have an option to "export" the whole of its project to Bibledit-Web. 
+It does that by zipped file exporting all the USFM files. Then to upload this ZIP file,
+and Bibledit-Web has an option to unpack the zip file locally, then to imnport it.
+Thus people can harness option on the demo server, such options as are not available in Bibledit-Gtk.
+
+

@@ -25,10 +25,14 @@
 class Odfdom_Text
 {
   public $javaCode;
+  public $currentParagraphStyle;
+  public $currentParagraphContent;
   
   public function __construct () 
   {
     $this->javaCode = array ();
+    $this->currentParagraphStyle = "";
+    $this->currentParagraphContent = "";
 
 $code = <<<EOD
 // Imports.
@@ -55,6 +59,7 @@ import org.odftoolkit.odfdom.dom.element.style.StyleParagraphPropertiesElement;
 import org.odftoolkit.odfdom.dom.element.style.StyleTabStopElement;
 import org.odftoolkit.odfdom.dom.element.style.StyleTabStopsElement;
 import org.odftoolkit.odfdom.dom.element.style.StyleTextPropertiesElement;
+import org.odftoolkit.odfdom.dom.element.style.StyleDropCapElement;
 import org.odftoolkit.odfdom.dom.style.OdfStyleFamily;
 import org.odftoolkit.odfdom.incubator.doc.office.OdfOfficeAutomaticStyles;
 import org.odftoolkit.odfdom.incubator.doc.office.OdfOfficeStyles;
@@ -154,6 +159,8 @@ EOD;
     $this->javaCode[] = "";
     $this->javaCode[] = "paragraph = new OdfTextParagraph(contentDom, \"$style\");";
     $this->javaCode[] = "officeText.appendChild(paragraph);";
+    $this->currentParagraphStyle = $style;
+    $this->currentParagraphContent = "";
   }
   
   public function addText ($text)
@@ -165,6 +172,7 @@ EOD;
     $this->javaCode[] = "}";
     $text = addslashes ($text);
     $this->javaCode[] = "paragraph.addContent(\"$text\");";
+    $this->currentParagraphContent .= $text;
   }
 
   /**
@@ -185,6 +193,8 @@ EOD;
     $this->javaCode[] = "  officeText.appendChild(heading);";
     $this->javaCode[] = "}";
     $this->javaCode[] = "";
+    $this->currentParagraphStyle = "";
+    $this->currentParagraphContent = "";
   }
   
   /**
@@ -253,14 +263,18 @@ EOD;
     // since it would be nearly invisible, and thus text would mysteriously get lost.
     $this->javaCode[] = "paragraph = null;";
     $this->javaCode[] = "";
+    $this->currentParagraphStyle = "";
+    $this->currentParagraphContent = "";
   }
 
 
   /**
   * This creates a paragraph style.
   * $name: the name of the style, e.g. 'p'.
+  * $dropcaps: If 0, there are no drop caps. 
+  *            If greater than 0, it the number of characters in drop caps style.
   */
-  public function createParagraphStyle ($name, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext)
+  public function createParagraphStyle ($name, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps)
   {
     $this->javaCode[] = "{";
 
@@ -311,9 +325,37 @@ EOD;
       $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.KeepTogether, \"always\");";
       $this->javaCode[] = "  style.setProperty(StyleParagraphPropertiesElement.KeepWithNext, \"always\");";
     }
+    
+    if ($dropcaps > 0) {
+      $this->javaCode[] = "  StyleDropCapElement dropcapselement;";
+      $this->javaCode[] = "  dropcapselement = new StyleDropCapElement (stylesDom);";
+      $this->javaCode[] = "  dropcapselement.setStyleLinesAttribute (2);";
+      $this->javaCode[] = "  dropcapselement.setStyleLengthAttribute ($dropcaps);";
+      $this->javaCode[] = "  dropcapselement.setStyleDistanceAttribute (\"0.15cm\");";
+      $this->javaCode[] = "  StyleParagraphPropertiesElement pProperties;";
+      $this->javaCode[] = "  pProperties = new StyleParagraphPropertiesElement(stylesDom);";
+      $this->javaCode[] = "  pProperties.appendChild(dropcapselement);";
+      $this->javaCode[] = "  style.appendChild(pProperties);";
+    }
 
     $this->javaCode[] = "}";
   }
+
+
+  /**
+  * This updates the style name of the current paragraph.
+  * $name: the name of the style, e.g. 'p'.
+  */
+  public function updateCurrentParagraphStyle ($name)
+  {
+    $this->javaCode[] = "if (paragraph == null)";
+    $this->javaCode[] = "{";
+    $this->javaCode[] = "  paragraph = new OdfTextParagraph(contentDom, \"Standard\");";
+    $this->javaCode[] = "  officeText.appendChild(paragraph);";
+    $this->javaCode[] = "}";
+    $this->javaCode[] = "paragraph.addStyledContent(\"$name\", \"\");";
+  }
+
 
 
 }
@@ -385,7 +427,7 @@ void processCast(Node movieNode) throws XPathExpressionException
     actor.addContent(name);
     if (role != null && !role.equals(""))
     {
-                  actor.addContentWhitespace("\t" + role);
+      actor.addContentWhitespace("\t" + role);
     }
     officeText.appendChild(actor);
   }

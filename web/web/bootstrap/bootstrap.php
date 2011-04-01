@@ -64,6 +64,10 @@ class Bootstrap
     $include_path = get_include_path () . ":" . $this->bibledit_root_folder;
     set_include_path ($include_path);
     ini_set('include_path', $include_path); 
+    
+    // Default encoding.
+    mb_internal_encoding("UTF-8");
+
 
     // Autoloader.
     // Automatically include the file that contains the $class_name.
