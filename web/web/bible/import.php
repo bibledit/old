@@ -2,6 +2,7 @@
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
+Assets_Page::header (gettext ("Import"));
 
 $smarty = new Smarty_Bibledit (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
@@ -52,8 +53,9 @@ if (isset($_POST['submit'])) {
   }
 }
 
-$smarty->assign ("success_message", $success_message);
-$smarty->assign ("error_message", $error_message);
+@$smarty->assign ("success_message", $success_message);
+@$smarty->assign ("error_message", $error_message);
 $smarty->display ("import.tpl");
+Assets_Page::footer ();
 
 ?>
