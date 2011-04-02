@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-01 01:45+0200\n"
+"POT-Creation-Date: 2011-04-02 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1146,6 +1146,9 @@ msgid "Please enter the number for the new chapter"
 msgstr ""
 
 msgid "This chapter already exists"
+msgstr ""
+
+msgid "Import Bible data has started"
 msgstr ""
 
 msgid "Could not import this data:"
@@ -2871,6 +2874,36 @@ msgstr ""
 msgid "Delete this book"
 msgstr ""
 
+msgid "Importing Bible data, step 2"
+msgstr ""
+
+msgid "The file has been uploaded successfully."
+msgstr ""
+
+msgid ""
+"Or you can manually specify the location of the file, e.g. /home/joe/USFM."
+"zip, and then press Submit."
+msgstr ""
+
+msgid "Importing Bible data"
+msgstr ""
+
+msgid "This page assists you with importing USFM data into the Bible."
+msgstr ""
+
+msgid ""
+"The file to be uploaded can be a USFM file, or a compressed archive with "
+"USFM files."
+msgstr ""
+
+msgid "Choose the USFM file to be uploaded."
+msgstr ""
+
+msgid ""
+"Uploading may take some time. It depends on the speed of your network, and "
+"on the size of the file."
+msgstr ""
+
 msgid "This helps you with importing Unified Standard Format Markers data."
 msgstr ""
 
@@ -2880,11 +2913,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"To import the data, paste the data into the box below, and then press the "
-"Submit button."
-msgstr ""
-
-msgid "The data will overwrite similar data already in the Bible."
+"The data to be imported will overwrite similar data already in the Bible."
 msgstr ""
 
 msgid ""
@@ -2911,10 +2940,27 @@ msgstr ""
 msgid "The text to be imported should be in Unicode UTF-8 format."
 msgstr ""
 
+msgid ""
+"To import the data, paste the data into the box below, and then press the "
+"Submit button."
+msgstr ""
+
+msgid "Or upload a file."
+msgstr ""
+
 msgid "Available Bibles:"
 msgstr ""
 
 msgid "Create a new empty Bible"
+msgstr ""
+
+msgid "Importing Bible data, step 3"
+msgstr ""
+
+msgid "The or files files were unpacked."
+msgstr ""
+
+msgid "Location"
 msgstr ""
 
 msgid "Available books"
@@ -2927,6 +2973,22 @@ msgid "Copy this Bible"
 msgstr ""
 
 msgid "Delete this Bible"
+msgstr ""
+
+msgid "Importing Bible data, last step"
+msgstr ""
+
+msgid "The process for importing Bible data has been started."
+msgstr ""
+
+msgid "The progress is visible in the logbook."
+msgstr ""
+
+msgid "It can take some time, depending on the amount of data to be imported."
+msgstr ""
+
+msgid ""
+"After everything has been done, you can see the Bible in the normal place."
 msgstr ""
 
 msgid "The Notes are an important part of Consultations."
