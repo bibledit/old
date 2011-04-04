@@ -15,21 +15,12 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=253;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=621;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=1961;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import.php;0
-FILE_NAME_3=156;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import.tpl;0
-FILE_NAME_4=1104;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import1.php;0
-FILE_NAME_5=114;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import1.tpl;0
-FILE_NAME_6=1104;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import2.php;0
-FILE_NAME_7=292;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import2.tpl;0
-FILE_NAME_8=307;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import2error.tpl;0
-FILE_NAME_9=1078;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import3.php;0
-FILE_NAME_10=117;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import3.tpl;0
-FILE_NAME_11=5753;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/archive.php;0
-FILE_NAME_12=1353;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import4.php;0
-FILE_NAME_13=392;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import4.tpl;0
-FILE_NAME_14=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/importcli.php;0
+FILE_NAME_0=151;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=425;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
+FILE_NAME_2=1377;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/odf/textTest.php;0
+FILE_NAME_3=1059;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/archive.php;0
+FILE_NAME_4=4137;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/versifications.php;0
+FILE_NAME_5=11450;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odf/text.php;0
 
 [long line marker]
 long_line_behaviour=1

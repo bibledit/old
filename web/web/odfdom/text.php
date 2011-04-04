@@ -25,12 +25,14 @@
 class Odfdom_Text
 {
   public $javaCode;
+  private $paragraphOpened;
   public $currentParagraphStyle;
   public $currentParagraphContent;
   
   public function __construct () 
   {
     $this->javaCode = array ();
+    $this->paragraphOpened = false;
     $this->currentParagraphStyle = "";
     $this->currentParagraphContent = "";
 
@@ -100,9 +102,9 @@ class odt {
     style.setProperty(StyleTextPropertiesElement.TextUnderlineWidth, "auto");
     style.setProperty(StyleTextPropertiesElement.TextUnderlineColor, "font-color");
   }
-
-
-  public static void main(String[] args) {
+  
+  public static void main(String[] args) throws Exception
+  {
 
     OdfTextDocument document; // The document to build.
     OdfFileDom contentDom; // The document object model for content.xml
@@ -120,35 +122,33 @@ class odt {
     // The paragraph being built in the content.xml file.
     OdfTextParagraph paragraph;
 
-    try
-    {
-      document = OdfTextDocument.newTextDocument();
-      contentDom = document.getContentDom();
-      stylesDom = document.getStylesDom();
-      contentAutoStyles = contentDom.getOrCreateAutomaticStyles();
-      stylesOfficeStyles = document.getOrCreateDocumentStyles();
-      officeText = document.getContentRoot();
-      paragraph = null;
+    document = OdfTextDocument.newTextDocument();
+    contentDom = document.getContentDom();
+    stylesDom = document.getStylesDom();
+    contentAutoStyles = contentDom.getOrCreateAutomaticStyles();
+    stylesOfficeStyles = document.getOrCreateDocumentStyles();
+    officeText = document.getContentRoot();
+    paragraph = null;
 
-      // The templates included in the ODFDOM toolkit have content in them;
-      // a newly-created text document has a paragraph that contains no text:
-      // <text:p>.
-      // Get rid of this paragraph, by repeatedly removing the first child of the officeText node
-      // until there are no more.
+    // The templates included in the ODFDOM toolkit have content in them;
+    // a newly-created text document has a paragraph that contains no text:
+    // <text:p>.
+    // Get rid of this paragraph, by repeatedly removing the first child of the officeText node
+    // until there are no more.
+    {
+      Node childNode;
+      childNode = officeText.getFirstChild();
+      while (childNode != null)
       {
-        Node childNode;
+        officeText.removeChild(childNode);
         childNode = officeText.getFirstChild();
-        while (childNode != null)
-        {
-          officeText.removeChild(childNode);
-          childNode = officeText.getFirstChild();
-        }
       }
-      
-      // Default font size is 12 points.
-      OdfDefaultStyle defaultStyle;
-      defaultStyle = stylesOfficeStyles.getDefaultStyle(OdfStyleFamily.Paragraph);
-      setFontSize(defaultStyle, "12pt");
+    }
+    
+    // Default font size is 12 points.
+    OdfDefaultStyle defaultStyle;
+    defaultStyle = stylesOfficeStyles.getDefaultStyle(OdfStyleFamily.Paragraph);
+    setFontSize(defaultStyle, "12pt");
 
 EOD;
     $this->javaCode = array_merge ($this->javaCode, explode ("\n", $code));
@@ -159,20 +159,23 @@ EOD;
     $this->javaCode[] = "";
     $this->javaCode[] = "paragraph = new OdfTextParagraph(contentDom, \"$style\");";
     $this->javaCode[] = "officeText.appendChild(paragraph);";
+    $this->paragraphOpened = true;
     $this->currentParagraphStyle = $style;
     $this->currentParagraphContent = "";
   }
   
-  public function addText ($text)
+  public function addText ($text) // Todo
   {
-    $this->javaCode[] = "if (paragraph == null)";
-    $this->javaCode[] = "{";
-    $this->javaCode[] = "  paragraph = new OdfTextParagraph(contentDom, \"Standard\");";
-    $this->javaCode[] = "  officeText.appendChild(paragraph);";
-    $this->javaCode[] = "}";
-    $text = addslashes ($text);
-    $this->javaCode[] = "paragraph.addContent(\"$text\");";
-    $this->currentParagraphContent .= $text;
+    if ($text != "") {
+      if (!$this->paragraphOpened) {
+        $this->javaCode[] = "  paragraph = new OdfTextParagraph(contentDom, \"Standard\");";
+        $this->javaCode[] = "  officeText.appendChild(paragraph);";
+        $this->paragraphOpened = true;
+      }
+      $text = addslashes ($text);
+      $this->javaCode[] = "paragraph.addContent(\"$text\");";
+      $this->currentParagraphContent .= $text;
+    }
   }
 
   /**
@@ -182,10 +185,10 @@ EOD;
   */
   private function newNamedHeading ($style, $text)
   {
+    // Make paragraph null, so any next subsequent text would create a new paragraph.
+    $this->paragraphOpened = false;
     $style = $this->convertStyleName ($style);
     $this->javaCode[] = "";
-    // Make paragraph null, so any next subsequent text would create a new paragraph.
-    $this->javaCode[] = "paragraph = null;";
     $this->javaCode[] = "{";
     $this->javaCode[] = "  OdfTextHeading heading;";
     $this->javaCode[] = "  heading = new OdfTextHeading(contentDom);";
@@ -209,12 +212,7 @@ EOD;
   public function finalize ($filename)
   {
     $this->javaCode[] = "";
-    $this->javaCode[] = "      document.save(\"$filename\");";
-    $this->javaCode[] = "    }";
-    $this->javaCode[] = "    catch (Exception e)";
-    $this->javaCode[] = "    {";
-    $this->javaCode[] = "      System.err.println(e.getMessage());";
-    $this->javaCode[] = "    }";
+    $this->javaCode[] = "    document.save(\"$filename\");";
     $this->javaCode[] = "  }";
     $this->javaCode[] = "}";
   }
@@ -259,10 +257,10 @@ EOD;
     $this->javaCode[] = "";
     $this->javaCode[] = "paragraph = new OdfTextParagraph(contentDom, \"Page_20_Break\");";
     $this->javaCode[] = "officeText.appendChild(paragraph);";
+    $this->javaCode[] = "";
     // Always make the paragraph null, because we don't want subsequent text to be added to this page break,
     // since it would be nearly invisible, and thus text would mysteriously get lost.
-    $this->javaCode[] = "paragraph = null;";
-    $this->javaCode[] = "";
+    $this->paragraphOpened = false;
     $this->currentParagraphStyle = "";
     $this->currentParagraphContent = "";
   }
@@ -348,11 +346,11 @@ EOD;
   */
   public function updateCurrentParagraphStyle ($name)
   {
-    $this->javaCode[] = "if (paragraph == null)";
-    $this->javaCode[] = "{";
-    $this->javaCode[] = "  paragraph = new OdfTextParagraph(contentDom, \"Standard\");";
-    $this->javaCode[] = "  officeText.appendChild(paragraph);";
-    $this->javaCode[] = "}";
+    if (!$this->paragraphOpened) {
+      $this->javaCode[] = "  paragraph = new OdfTextParagraph(contentDom, \"Standard\");";
+      $this->javaCode[] = "  officeText.appendChild(paragraph);";
+      $this->paragraphOpened = true;
+    }
     $this->javaCode[] = "paragraph.addStyledContent(\"$name\", \"\");";
   }
 

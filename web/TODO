@@ -1,3 +1,30 @@
+To try the new ODF converter.
+If it works, then:
+- To archive old code, including ODFDOM.jar.
+- To update installation documents since Java Development Kit goes out, and the Xerces parser also.
+
+
+
+Java code too large
+Solutions: Make a loop in Java, and this loop reads data from some place, e.g. text file, and processes that.
+Perhaps to call Java routines while reading a control file.
+So that every Java routine has a known number of lines in that control file.
+A switch statement in Java will go through the whole file.
+The control file is loaded in memory, and accessible to the switch statement.
+Thus we go as we go.
+
+
+To compile the code into a jar file, so that the Java Development Kit is not needed.
+Creating a .JAR file is easy. Simple go to the directory your classes are stored in and type :-
+jar -cf myfile.jar *.class
+
+
+
+Java gives problems about UTF-8 text in ASCII code.
+
+
+
+
 footnotes and xrefs.
 At start marker, determine the end marker.
 A routine looks for this end marker.
