@@ -45,8 +45,25 @@ if (isset ($removebible)) {
 }
 
 
-$bibles = $config_general->getExportedBibles ();
-$smarty->assign ("bibles", $bibles);
+if (isset ($_GET['sheet'])) {
+  $sheet = $_GET['sheet'];
+  if ($sheet == "") {
+    $dialog_list = new Dialog_List2 (gettext ("Would you like to use another stylesheet for all exports?"));
+    $database_styles = Database_Styles::getInstance();
+    $sheets = $database_styles->getSheets();
+    foreach ($sheets as $sheet) {
+      $parameter = "&sheet=$sheet";
+      $dialog_list->add_row ($sheet, $parameter);
+    }
+    $dialog_list->run ();
+  } else {
+    $config_general->setExportStylesheet ($sheet);
+  }
+}
+
+
+$smarty->assign ("bibles", $config_general->getExportedBibles ());
+$smarty->assign ("stylesheet", Filter_Html::sanitize ($config_general->getExportStylesheet ()));
 $smarty->display("exports.tpl");
 Assets_Page::footer ();
 ?>

@@ -15,3 +15,5 @@
 <p class="success">{$success}</p>
 <br>
 <p><a href="../downloads/exports">{t}View the exported data in the downloads section.{/t}</a></p>
+<br>
+<p>{t}The exports use the following stylesheet:{/t} {$stylesheet} [<a href="exports.php?sheet=">{t}switch{/t}</a>].</p>

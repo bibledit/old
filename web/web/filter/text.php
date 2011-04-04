@@ -98,12 +98,13 @@ class Filter_Text // Todo implement / test.
   
   /**
   * This function runs the filter.
+  * $stylesheet - The stylesheet to use.
   * $standardFilename - The filename for the standard OpenDocument text.
   */
-  public function run ($standardFilenameOdt)
+  public function run ($stylesheet, $standardFilenameOdt) // Todo working here.
   {
     // Get the styles.
-    $this->getStyles ();
+    $this->getStyles ($stylesheet);
 
     // Preprocess.
     $this->preprocessingStage ();
@@ -166,14 +167,12 @@ class Filter_Text // Todo implement / test.
   * This function gets the styles from the database, 
   * and stores them in the object for quicker access.
   */
-  private function getStyles ()
+  private function getStyles ($stylesheet)
   {
     $this->styles = array ();
     $styles_logic = Styles_Logic::getInstance (); // This is to get the relevant styles information included.
     $this->odf_text_standard->createPageBreakStyle ();
     $database_styles = Database_Styles::getInstance ();
-    $database_config_user = Database_Config_User::getInstance ();
-    $stylesheet = $database_config_user->getStylesheet ();
     $markers = $database_styles->getMarkers ($stylesheet);
     foreach ($markers as $marker) {
       $this->styles [$marker] = $database_styles->getMarkerData ($stylesheet, $marker);

@@ -37,6 +37,7 @@ $database_books = Database_Books::getInstance ();
 
 $siteUrl = $database_config_general->getSiteURL ();
 $exportedBibles = $database_config_general->getExportedBibles ();
+$stylesheet = $database_config_general->getExportStylesheet ();
 
 // Files get stored in http://site.org/bibledit/downloads/exports/
 $exportsDirectory = dirname (dirname (__FILE__)) . "/downloads/exports";
@@ -100,7 +101,7 @@ foreach ($bibles as $bible) {
     file_put_contents ("$usfmDirectory/$baseBookFileName.usfm", $bookUsfmData);
 
     // Create standard OpenDocument containing the Bible book.
-    $filter_text_book->run ("$odtDirectory/$baseBookFileName" . "_standard.odt");
+    $filter_text_book->run ($stylesheet, "$odtDirectory/$baseBookFileName" . "_standard.odt");
     // Todo $javaCode = $filter_text_book->odfdom_text_standard->javaCode;
     // Todo $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
     // Todo Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
@@ -115,7 +116,7 @@ foreach ($bibles as $bible) {
   file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
 
   // Create standard OpenDocument containing the whole Bible.
-  $filter_text_bible->run ("$odtDirectory/00_Bible_standard.odt");
+  $filter_text_bible->run ($stylesheet, "$odtDirectory/00_Bible_standard.odt");
   // Todo $javaCode = $filter_text_bible->odfdom_text_standard->javaCode;
   // Todo $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
   // Todo Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");

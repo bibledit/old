@@ -28,7 +28,7 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("/tmp/TextTest4.odt");
+    $filter_text->run ("Standard", "/tmp/TextTest4.odt");
     $javaCode = $filter_text->odfdom_text_standard->javaCode;
     $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
     $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
@@ -66,7 +66,7 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("/tmp/TextTest1.odt");
+    $filter_text->run ("Standard", "/tmp/TextTest1.odt");
     // Check that it finds the running headers.
     $this->assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h', 'value' => 'Header'),  $filter_text->runningHeaders[0]);
     $this->assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h1', 'value' => 'Header1'), $filter_text->runningHeaders[1]);
@@ -115,7 +115,7 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("/tmp/TextTest2.odt");
+    $filter_text->run ("Standard", "/tmp/TextTest2.odt");
     $javaCode = $filter_text->odfdom_text_standard->javaCode;
     $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
     $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
@@ -145,7 +145,7 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("/tmp/TextTest3.odt");
+    $filter_text->run ("Standard", "/tmp/TextTest3.odt");
     $javaCode = $filter_text->odfdom_text_standard->javaCode;
     $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
     $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");

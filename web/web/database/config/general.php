@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 class Database_Config_General
 {
 
@@ -256,6 +254,14 @@ EOD;
   public function setExportedBibles ($value) {
     $this->setList ("exported-bibles", $value);
   }   
+
+  public function getExportStylesheet() {
+    return $this->getValue ("export-stylesheet", "Standard");
+  }
+  public function setExportStylesheet ($value) {
+    $this->setValue ("export-stylesheet", $value);
+  }   
+
 
 
 }
