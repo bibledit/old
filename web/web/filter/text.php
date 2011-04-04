@@ -37,7 +37,7 @@ class Filter_Text // Todo implement / test.
   
   private $styles; // An array holding arrays of style information.
   private $chapterMarker; // Usually this is: c
-  private $createdOdfStyles; // Array holding styles created in Odfdom.
+  private $createdOdfStyles; // Array holding styles created in Odf_Text class.
   
   private $currentBookIdentifier; // Book identifier, e.g. 1, 2, 3, and so on.
   private $currentChapterNumber; // Chapter number, e.g. 1, 2, 3, etc.
@@ -53,7 +53,7 @@ class Filter_Text // Todo implement / test.
   public $chapterLabels; // Array with numerical keys, and values like array (book, chapter, verse, marker, label value).
   public $publishedChapterMarkers; // Array with numerical keys, and values like array (book, chapter, verse, marker, marker value).
 
-  public $odfdom_text_standard; // Object for creating OpenDocument with main text in standard form.
+  public $odf_text_standard; // Object for creating OpenDocument with main text in standard form.
 
   public $info; // Array with strings.
   public $fallout; // Array with strings.
@@ -71,7 +71,7 @@ class Filter_Text // Todo implement / test.
     $this->bookAbbreviations = array ();
     $this->chapterLabels = array ();
     $this->publishedChapterMarkers = array ();
-    $this->odfdom_text_standard = new Odfdom_Text;
+    $this->odf_text_standard = new Odf_Text;
     $this->info = array ();
     $this->fallout = array ();
   }
@@ -112,7 +112,7 @@ class Filter_Text // Todo implement / test.
     $this->processUsfm ();
     
     // Finalize the documents.
-    $this->odfdom_text_standard->finalize ($standardFilenameOdt);
+    $this->odf_text_standard->save ($standardFilenameOdt);
   }
 
 
@@ -170,7 +170,7 @@ class Filter_Text // Todo implement / test.
   {
     $this->styles = array ();
     $styles_logic = Styles_Logic::getInstance (); // This is to get the relevant styles information included.
-    $this->odfdom_text_standard->createPageBreakStyle ();
+    $this->odf_text_standard->createPageBreakStyle ();
     $database_styles = Database_Styles::getInstance ();
     $database_config_user = Database_Config_User::getInstance ();
     $stylesheet = $database_config_user->getStylesheet ();
@@ -317,7 +317,7 @@ class Filter_Text // Todo implement / test.
                     // Whether to insert a new page before the book. But never before the first book.
                     if ($style['userbool1']) {
                       if ($processedBooksCount) {
-                        $this->odfdom_text_standard->newPageBreak ();
+                        $this->odf_text_standard->newPageBreak ();
                       }
                     }
                     $processedBooksCount++;
@@ -471,7 +471,7 @@ class Filter_Text // Todo implement / test.
                   // The chapter number shows in a new paragraph. 
                   // Keep it together with the next paragraph.
                   $this->newParagraph ($style, true);
-                  $this->odfdom_text_standard->addText ($number);
+                  $this->odf_text_standard->addText ($number);
                 }
                 // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
                 // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
@@ -483,7 +483,7 @@ class Filter_Text // Todo implement / test.
                 if (isset ($this->outputChapterTextAtFirstVerse)) {
                   $dropCapsLength = mb_strlen ($this->outputChapterTextAtFirstVerse);
                   $this->applyDropCapsToCurrentParagraph ($dropCapsLength);
-                  $this->odfdom_text_standard->addText ($this->outputChapterTextAtFirstVerse);
+                  $this->odf_text_standard->addText ($this->outputChapterTextAtFirstVerse);
                 }
                 // Temporarily retrieve the text that follows the \v verse marker.
                 $textFollowingMarker = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
@@ -493,11 +493,11 @@ class Filter_Text // Todo implement / test.
                 // Output the verse number. But only if no chapter number was put here.
                 if (!isset ($this->outputChapterTextAtFirstVerse)) {
                   // Todo still to put the verse in the right style.
-                  if ($this->odfdom_text_standard->currentParagraphContent != "") {
+                  if ($this->odf_text_standard->currentParagraphContent != "") {
                     // If the current paragraph has text already, then insert a space.
-                    $this->odfdom_text_standard->addText (" ");
+                    $this->odf_text_standard->addText (" ");
                   }
-                  $this->odfdom_text_standard->addText ($number);
+                  $this->odf_text_standard->addText ($number);
                 }
                 // If there was any text following the \v marker, remove the verse number, 
                 // put the remainder back into the object, and update the pointer.
@@ -777,7 +777,7 @@ break;
           }
         } else {
           // Here is no marker. Treat it as text.
-          $this->odfdom_text_standard->addText ($currentItem);
+          $this->odf_text_standard->addText ($currentItem);
         }
       }
     }
@@ -960,7 +960,7 @@ break;
         }
       } else {
         // Here is no marker. Treat it as text.
-        $this->odfdom_text_standard->addText ($currentItem);
+        $this->odf_text_standard->addText ($currentItem);
       }
     }
   }
@@ -970,75 +970,75 @@ break;
   * This function produces the Java code that produces the Info Document.
   * The Info Document contains formatting information, collected from the USFM code.
   * $path: Path to the document.
-  * Returns: The Java code
+  * // Todo Returns: The Java code
   */
   public function produceInfoDocument ($path)
   {
     $database_books = Database_Books::getInstance ();
 
-    $odfdom_text = new Odfdom_Text;
+    $odf_text = new Odf_Text;
     
     // Indicate the number of chapters per book.
-    $odfdom_text->newHeading1 (gettext ("Number of chapters per book"));
+    $odf_text->newHeading1 (gettext ("Number of chapters per book"));
     foreach ($this->numberOfChaptersPerBook as $book => $chapterCount) {
       $line = $database_books->getEnglishFromId ($book) . " => " . $chapterCount;
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
     
     // Indicate the running headers.
-    $odfdom_text->newHeading1 (gettext ("Running headers"));
+    $odf_text->newHeading1 (gettext ("Running headers"));
     foreach ($this->runningHeaders as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
     
     // Indicate the Table of Contents entries.
-    $odfdom_text->newHeading1 (gettext ("Long table of contents entries"));
+    $odf_text->newHeading1 (gettext ("Long table of contents entries"));
     foreach ($this->longTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
-    $odfdom_text->newHeading1 (gettext ("Short table of contents entries"));
+    $odf_text->newHeading1 (gettext ("Short table of contents entries"));
     foreach ($this->shortTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
 
     // Indicate book abbreviations.
-    $odfdom_text->newHeading1 (gettext ("Book abbreviations"));
+    $odf_text->newHeading1 (gettext ("Book abbreviations"));
     foreach ($this->bookAbbreviations as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
         
     // Indicate the chapter specials.
-    $odfdom_text->newHeading1 (gettext ("Publishing chapter labels"));
+    $odf_text->newHeading1 (gettext ("Publishing chapter labels"));
     foreach ($this->chapterLabels as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
-    $odfdom_text->newHeading1 (gettext ("Publishing alternate chapter numbers"));
+    $odf_text->newHeading1 (gettext ("Publishing alternate chapter numbers"));
     foreach ($this->publishedChapterMarkers as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
 
     // Indicate the Other info.
-    $odfdom_text->newHeading1 (gettext ("Other information"));
+    $odf_text->newHeading1 (gettext ("Other information"));
     foreach ($this->info as $line) {
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
     
-    $odfdom_text->finalize ($path);
-    return $odfdom_text->javaCode;
+    $odf_text->save ($path);
+    // Todo return $odfdom_text->javaCode;
   }
   
   
@@ -1089,18 +1089,18 @@ break;
   /**
   * This function produces the Java code that produces the Fallout document.
   * $path: Path to the document.
-  * Returns: The Java code
+  * Todo Returns: The Java code
   */
   public function produceFalloutDocument ($path)
   {
-    $odfdom_text = new Odfdom_Text;
-    $odfdom_text->newHeading1 (gettext ("Fallout"));
+    $odf_text = new Odf_Text;
+    $odf_text->newHeading1 (gettext ("Fallout"));
     foreach ($this->fallout as $line) {
-      $odfdom_text->newParagraph ();
-      $odfdom_text->addText ($line);
+      $odf_text->newParagraph ();
+      $odf_text->addText ($line);
     }
-    $odfdom_text->finalize ($path);
-    return $odfdom_text->javaCode;
+    $odf_text->save ($path);
+    // Todo return $odfdom_text->javaCode;
   }
   
   
@@ -1132,10 +1132,10 @@ break;
       // If it gets implemented, then sections are used in the OpenDocument format.
       $spancolumns = $style["spancolumns"];
       $dropcaps = 0;
-      $this->odfdom_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+      $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->createdOdfStyles [] = $marker;
     }
-    $this->odfdom_text_standard->newParagraph ($marker);
+    $this->odf_text_standard->newParagraph ($marker);
   }
   
   
@@ -1149,9 +1149,9 @@ break;
   {
     // To name a style according to the number of characters to put in drop caps,
     // e.g. a style name like p_c1 or p_c2 or p_c3.
-    $combined_style = $this->odfdom_text_standard->currentParagraphStyle . "_" . $this->chapterMarker . $dropCapsLength;
+    $combined_style = $this->odf_text_standard->currentParagraphStyle . "_" . $this->chapterMarker . $dropCapsLength;
     if (!in_array ($combined_style, $this->createdOdfStyles)) {
-      $style = $this->styles[$this->odfdom_text_standard->currentParagraphStyle];
+      $style = $this->styles[$this->odf_text_standard->currentParagraphStyle];
       $fontsize = $style["fontsize"];
       $italic = $style["italic"];
       $bold = $style["bold"];
@@ -1165,10 +1165,10 @@ break;
       $firstlineindent = 0; // First line that contains the chapter number in drop caps is not indented.
       $spancolumns = $style["spancolumns"];
       $keepWithNext = false;
-      $this->odfdom_text_standard->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
+      $this->odf_text_standard->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
       $this->createdOdfStyles [] = $combined_style;
     }
-    $this->odfdom_text_standard->updateCurrentParagraphStyle ($combined_style);
+    $this->odf_text_standard->updateCurrentParagraphStyle ($combined_style);
   }
   
   

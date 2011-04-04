@@ -34,6 +34,7 @@ class Odf_Text // Todo working here.
   private $contentDom; // The content.xml DOMDocument.
   private $officeTextDomNode; // The office:text DOMNode.
   private $currentTextPDomElement; // The current text:p DOMElement.
+  private $currentTextPDomElementNameNode; // Todo The DOMAttr of the name of the style of the current text:p element.
 
   private $stylesDom; // The styles.xml DOMDocument.
   private $createdStyles; // An array with styles already created in the $stylesDom.
@@ -52,6 +53,7 @@ class Odf_Text // Todo working here.
 
     $template = dirname (__FILE__) . "/template.odt";
     $this->unpackedOdtFolder = Filter_Archive::unzip ($template, false);
+    Filter_Rmdir::rmdir ($this->unpackedOdtFolder . "/Configurations2");
 
     $this->contentDom = new DOMDocument;
     $this->contentDom->load($this->unpackedOdtFolder . "/content.xml");
@@ -98,7 +100,7 @@ class Odf_Text // Todo working here.
   public function newParagraph ($style = "Standard")
   {
     $this->currentTextPDomElement = $this->contentDom->createElement ("text:p");
-    $this->currentTextPDomElement->setAttribute ("text:style-name", $style);
+    $this->currentTextPDomElementNameNode = $this->currentTextPDomElement->setAttribute ("text:style-name", $style); // Todo
     $this->officeTextDomNode->appendChild ($this->currentTextPDomElement);
     $this->currentParagraphStyle = $style;
     $this->currentParagraphContent = "";
@@ -315,7 +317,7 @@ class Odf_Text // Todo working here.
       $styleDropCapDomElement = $this->stylesDom->createElement ("style:drop-cap");
       $styleParagraphPropertiesDomElement->appendChild ($styleDropCapDomElement);
       $styleDropCapDomElement->setAttribute ("style:lines", 2);
-      $styleDropCapDomElement->setAttribute ("style:length", 2);
+      $styleDropCapDomElement->setAttribute ("style:length", $dropcaps);
       $styleDropCapDomElement->setAttribute ("style:distance", "0.15cm");
     }
 
@@ -331,7 +333,8 @@ class Odf_Text // Todo working here.
     if (!isset ($this->currentTextPDomElement)) {
       $this->newParagraph ();
     }
-    $this->currentTextPDomElement->setAttribute ("text:style-name", $this->convertStyleName ($name));
+    $this->currentTextPDomElement->removeAttributeNode ($this->currentTextPDomElementNameNode);
+    $this->currentTextPDomElementNameNode = $this->currentTextPDomElement->setAttribute ("text:style-name", $this->convertStyleName ($name));
   }
 
 

@@ -6,8 +6,6 @@
 <p>Pages detailing recent changes in the Bible texts are generated daily.</p>
 <p>The users can opt to receive emails detailing recent changes in the Bible texts.</p>
 <p>Exports all Bibles to USFM on a daily basis.</p>
-<p>Requires a Java Development Kit.</p>
-<p>Requires the Apache Xerces 2 XML Parser for Java.</p>
 <p>Can export extra information for each Bible: word lists, abbreviations, table of contents, and more.</p>
 <p>Import USFM data into a Bible through file upload.</p>
 
