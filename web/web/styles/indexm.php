@@ -7,11 +7,11 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $database_styles = Database_Styles::getInstance();
 
 
-if ($_GET['delete'] != "") {
-  $name = $_GET['delete'];
-  $confirm = $_GET['confirm'];
+@$delete = $_GET['delete'];
+if ($delete != "") {
+  @$confirm = $_GET['confirm'];
   if ($confirm != "") {
-    $database_styles->deleteSheet ($name);
+    $database_styles->deleteSheet ($delete);
   } else {
     $dialog_yes = new Dialog_Yes (NULL, gettext ("Would you like to delete this stylesheet?"), "delete");
     die;

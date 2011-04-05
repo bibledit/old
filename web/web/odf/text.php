@@ -43,6 +43,7 @@ class Odf_Text
   private $paragraphOpened;
   public $currentParagraphStyle;
   public $currentParagraphContent;
+  public $currentTextStyle;
   
   
   public function __construct () 
@@ -50,6 +51,7 @@ class Odf_Text
     $this->paragraphOpened = false;
     $this->currentParagraphStyle = "";
     $this->currentParagraphContent = "";
+    $this->currentTextStyle = "";
 
     $template = dirname (__FILE__) . "/template.odt";
     $this->unpackedOdtFolder = Filter_Archive::unzip ($template, false);
@@ -109,10 +111,8 @@ class Odf_Text
   /**
   * This function adds text to the current paragraph.
   * $text: The text to add.
-  * $style: The style for the text. 
-  * The $style can be omitted in which case no style is applied.
   */
-  public function addText ($text, $style = "")
+  public function addText ($text)
   {
     if ($text != "") {
       if (!isset ($this->currentTextPDomElement)) {
@@ -121,8 +121,9 @@ class Odf_Text
       $textSpanDomElement = $this->contentDom->createElement ("text:span");
       $textSpanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
       $this->currentTextPDomElement->appendChild ($textSpanDomElement);
-      if ($style != "") {
-        $styleDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
+      if ($this->currentTextStyle != "") {
+        // Take character style as specified in this object.
+        $textSpanDomElement->setAttribute ("text:style-name", $this->convertStyleName ($this->currentTextStyle));
       }
       $this->currentParagraphContent .= $text;
     }
@@ -218,6 +219,8 @@ class Odf_Text
     // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
     if ($italic != ooitOff) {
       $styleTextPropertiesDomElement->setAttribute ("fo:font-style", "italic");
+      $styleTextPropertiesDomElement->setAttribute ("fo:font-style-asian", "italic");
+      $styleTextPropertiesDomElement->setAttribute ("fo:font-style-complex", "italic");
     }
     if ($bold != ooitOff) {
       $styleTextPropertiesDomElement->setAttribute ("fo:font-weight", "bold");
@@ -286,6 +289,85 @@ class Odf_Text
   }
 
 
+  /**
+  * This opens a text style.
+  * $style: the array containing the style variables.
+  */
+  public function openTextStyle ($style)
+  {
+    $marker = $style["marker"];
+    if (!in_array ($marker, $this->createdStyles)) {
+      $italic = $style["italic"];
+      $bold = $style["bold"];
+      $underline = $style["underline"];
+      $smallcaps = $style["smallcaps"];
+      $superscript = $style["superscript"];
+      $color = $style["color"];
+      $this->createdStyles [] = $marker;
+
+      // The style entry looks like this in styles.xml, e.g., for italic:
+      // <style:style style:name="T1" style:family="text">
+      // <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
+      // </style:style>
+      $styleDomElement = $this->stylesDom->createElement ("style:style");
+      $styleDomElement->setAttribute ("style:name", $this->convertStyleName ($marker));
+      $styleDomElement->setAttribute ("style:display-name", $marker);
+      $styleDomElement->setAttribute ("style:family", "text");
+      $this->officeStylesDomNode->appendChild ($styleDomElement);
+
+      $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
+      $styleDomElement->appendChild ($styleTextPropertiesDomElement);
+
+      // Italics, bold, underline, small caps can be ooitOff or ooitOn or ooitInherit or ooitToggle.
+      // Not all features are implemented.
+      if (($italic == ooitOn) || ($italic == ooitToggle)) {
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-style", "italic");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-style-asian", "italic");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-style-complex", "italic");
+      }
+      if (($bold == ooitOn) || ($bold == ooitToggle)) {
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight", "bold");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-asian", "bold");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-complex", "bold");
+      }
+      if (($underline == ooitOn) || ($underline == ooitToggle)) {
+        $styleTextPropertiesDomElement->setAttribute ("style:text-underline-style", "solid");
+        $styleTextPropertiesDomElement->setAttribute ("style:text-underline-width", "auto");
+        $styleTextPropertiesDomElement->setAttribute ("style:text-underline-color", "font-color");
+      }
+      if (($smallcaps == ooitOn) || ($smallcaps == ooitToggle)) { 
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-variant", "small-caps");
+      }
+      
+      if ($superscript) {
+        //$styleTextPropertiesDomElement->setAttribute ("style:text-position", "super 58%");
+        // If the percentage is not specified, an appropriate font height is used.
+        $styleTextPropertiesDomElement->setAttribute ("style:text-position", "super");
+        // The mere setting of the superscript value makes the font smaller. No need to set it manually.
+        //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%");
+        //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%");
+        //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
+      }
+      
+      if ($color != "000000") {
+        $styleTextPropertiesDomElement->setAttribute ("fo:color", "#$color");
+      }
+
+    }
+    $this->currentTextStyle = $marker;
+  }
+
+
+  /**
+  * This closes any open text style.
+  */
+  public function closeTextStyle ()
+  {
+    $this->currentTextStyle = "";
+  }
+  
+  
+  
   /**
   * This saves the OpenDocument to file
   * $name: the name of the file to save to.

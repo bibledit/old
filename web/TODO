@@ -1,7 +1,6 @@
 
 
 
-
 Writing inline styles styles. 
 - Create style in odf_text
 - Keep style name in filter_text object, so it can go with the plain text that is in the fallback routine.

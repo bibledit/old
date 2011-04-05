@@ -499,7 +499,9 @@ class Filter_Text // Todo implement / test.
                     // If the current paragraph has text already, then insert a space.
                     $this->odf_text_standard->addText (" ");
                   }
+                  $this->odf_text_standard->openTextStyle ($style);
                   $this->odf_text_standard->addText ($number);
+                  $this->odf_text_standard->closeTextStyle ();
                 }
                 // If there was any text following the \v marker, remove the verse number, 
                 // put the remainder back into the object, and update the pointer.
@@ -513,7 +515,7 @@ class Filter_Text // Todo implement / test.
                   $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer] = $textFollowingMarker; 
                   $this->chapterUsfmMarkersAndTextPointer--;
                 }
-                // Chapter variable may not have been used, but unset it anyway, so it is ready for subsequent use. 
+                // Chapter variable may not have been used, but unset it anyway, making it ready for subsequent use. 
                 unset ($this->outputChapterTextAtFirstVerse);
                 // UserBool1VerseRestartsParagraph: - important at times. Todo still to implement.
                 break;
