@@ -437,40 +437,43 @@ class Filter_Text // Todo implement / test.
                     }
                   }
                 }
-                // Handle UserBool1PrintChapterAtFirstVerse. 
-                if ($style['userbool1']) {
-                  // Output the chapter number at the first verse, not here.
-                  // Store it for later processing.
-                  $this->outputChapterTextAtFirstVerse = $number;
-                } else {
-                  // Output the chapter in a new paragraph.
-                  // If the chapter label \cl is entered once before chapter 1 (\c 1) 
-                  // it represents the text for "chapter" to be used throughout the current book. 
-                  // If \cl is used after each individual chapter marker, it represents the particular text 
-                  // to be used for the display of the current chapter heading 
-                  // (usually done if numbers are being presented as words, not numerals).
-                  $labelEntireBook = "";
-                  $labelCurrentChapter = "";
-                  foreach ($this->chapterLabels as $pchapterLabel) {
-                    if ($pchapterLabel['book'] == $this->currentBookIdentifier) {
-                      if ($pchapterLabel['chapter'] == 0) {
-                        $labelEntireBook = $pchapterLabel['value'];
-                      }
-                      if ($pchapterLabel['chapter'] == $this->currentChapterNumber) {
-                        $labelCurrentChapter = $pchapterLabel['value'];
+                // This is the phase of outputting the chapter number. 
+                // The chapter number is only output when there are more than one chapter in a book.
+                if ($this->numberOfChaptersPerBook[$this->currentBookIdentifier] > 1) {
+                  if ($style['userbool1']) {
+                    // Output the chapter number at the first verse, not here.
+                    // Store it for later processing.
+                    $this->outputChapterTextAtFirstVerse = $number;
+                  } else {
+                    // Output the chapter in a new paragraph.
+                    // If the chapter label \cl is entered once before chapter 1 (\c 1) 
+                    // it represents the text for "chapter" to be used throughout the current book. 
+                    // If \cl is used after each individual chapter marker, it represents the particular text 
+                    // to be used for the display of the current chapter heading 
+                    // (usually done if numbers are being presented as words, not numerals).
+                    $labelEntireBook = "";
+                    $labelCurrentChapter = "";
+                    foreach ($this->chapterLabels as $pchapterLabel) {
+                      if ($pchapterLabel['book'] == $this->currentBookIdentifier) {
+                        if ($pchapterLabel['chapter'] == 0) {
+                          $labelEntireBook = $pchapterLabel['value'];
+                        }
+                        if ($pchapterLabel['chapter'] == $this->currentChapterNumber) {
+                          $labelCurrentChapter = $pchapterLabel['value'];
+                        }
                       }
                     }
+                    if ($labelEntireBook != "") {
+                      $number = "$labelEntireBook $number";
+                    } 
+                    if ($labelCurrentChapter != "") {
+                      $number = $labelCurrentChapter;
+                    }
+                    // The chapter number shows in a new paragraph. 
+                    // Keep it together with the next paragraph.
+                    $this->newParagraph ($style, true);
+                    $this->odf_text_standard->addText ($number);
                   }
-                  if ($labelEntireBook != "") {
-                    $number = "$labelEntireBook $number";
-                  } 
-                  if ($labelCurrentChapter != "") {
-                    $number = $labelCurrentChapter;
-                  }
-                  // The chapter number shows in a new paragraph. 
-                  // Keep it together with the next paragraph.
-                  $this->newParagraph ($style, true);
-                  $this->odf_text_standard->addText ($number);
                 }
                 // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
                 // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
