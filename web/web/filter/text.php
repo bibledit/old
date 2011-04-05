@@ -518,12 +518,12 @@ class Filter_Text // Todo implement / test.
                 // UserBool1VerseRestartsParagraph: - important at times. Todo still to implement.
                 break;
               }
-              case StyleTypeFootEndNote: // Todo work here handle notes including subtypes.
+              case StyleTypeFootEndNote:
               {
                 $this->processNote ();
                 break;
               }
-              case StyleTypeCrossreference: // Todo work here handle xref.
+              case StyleTypeCrossreference:
               {
                 $this->processNote ();
                 break;
@@ -832,7 +832,7 @@ break;
 */                  
               break;
             }
-            default: // Todo work here.
+            default:
             {
               $this->addToFallout ("Marker not suitable in note context \\$marker", false);
               break;
