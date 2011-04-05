@@ -5,9 +5,10 @@
 <p>Requires a Java Runtime Environment.</p>
 <p>Pages detailing recent changes in the Bible texts are generated daily.</p>
 <p>The users can opt to receive emails detailing recent changes in the Bible texts.</p>
-<p>Exports all Bibles to USFM on a daily basis.</p>
+<p>Exports selected Bibles to USFM on a daily basis.</p>
 <p>Can export extra information for each Bible: word lists, abbreviations, table of contents, and more.</p>
 <p>Import USFM data into a Bible through file upload.</p>
+<p>Daily export of selected Bibles to OpenDocument files.</p>
 
 <h2>Version 0.3</h2>
 <p>4 March 2011</p>

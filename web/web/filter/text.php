@@ -101,7 +101,7 @@ class Filter_Text // Todo implement / test.
   * $stylesheet - The stylesheet to use.
   * $standardFilename - The filename for the standard OpenDocument text.
   */
-  public function run ($stylesheet, $standardFilenameOdt) // Todo working here.
+  public function run ($stylesheet, $standardFilenameOdt)
   {
     // Get the styles.
     $this->getStyles ($stylesheet);
@@ -289,7 +289,7 @@ class Filter_Text // Todo implement / test.
         $currentItem = $this->chapterUsfmMarkersAndText[$this->chapterUsfmMarkersAndTextPointer];
         if (Filter_Usfm::isUsfmMarker ($currentItem)) 
         {
-          // Store indicator whether the marker is an opening marker. This information will be lost later on.
+          // Store indicator whether the marker is an opening marker.
           $isOpeningMarker = Filter_Usfm::isOpeningMarker ($currentItem);
           // Clean up the marker, so we remain with the basic version, e.g. 'id'.
           $marker = Filter_Usfm::getMarker ($currentItem);
@@ -518,143 +518,14 @@ class Filter_Text // Todo implement / test.
                 // UserBool1VerseRestartsParagraph: - important at times. Todo still to implement.
                 break;
               }
-              case StyleTypeFootEndNote: // Todo handle notes including subtypes.
+              case StyleTypeFootEndNote: // Todo work here handle notes including subtypes.
               {
-                //var_dump ($marker); // Todo
-                switch ($style['subtype']) 
-                {
-                  case FootEndNoteSubtypeFootnote:
-                  {
-                    break;
-                  }
-                  case FootEndNoteSubtypeEndnote:
-                  {
-                    break;
-                  }
-                  case FootEndNoteSubtypeStandardContent:
-                  {
-                    break;
-                  }
-                  case FootEndNoteSubtypeContent:
-                  {
-                    break;
-                  }
-                  case FootEndNoteSubtypeContentWithEndmarker:
-                  {
-                    break;
-                  }
-                  case FootEndNoteSubtypeParagraph:
-                  {
-                    break;
-                  }
-                  default:
-                  {
-                    break;
-                  }
-                }
-                // UserBool1NoteAppliesToApocrypha: For xref too?
-                // UserInt1NoteNumbering:
-                // UserInt2NoteNumberingRestart:
-                // UserInt2EndnotePosition:
-                // UserString1NoteNumberingSequence:
-                // UserString2DumpEndnotesHere: But this one should go out.
-/*
-case NoteNumbering123:
-{
-break;
-}
-case NoteNumberingAbc:
-{
-break;
-}
-case NoteNumberingUser:
-{
-break;
-}
-
-case NoteRestartNumberingNever:
-{
-break;
-}
-case NoteRestartNumberingEveryBook:
-{
-break;
-}
-case NoteRestartNumberingEveryChapter:
-{
-break;
-}
-
-case EndNotePositionAfterBook:
-{
-break;
-}
-case EndNotePositionVeryEnd:
-{
-break;
-}
-case EndNotePositionAtMarker:
-{
-break;
-}
-*/                  
+                $this->processNote ();
                 break;
               }
               case StyleTypeCrossreference: // Todo work here handle xref.
               {
-                switch ($style['subtype']) 
-                {
-                  case CrossreferenceSubtypeCrossreference:
-                  {
-                    break;
-                  }
-                  case CrossreferenceSubtypeStandardContent:
-                  {
-                    break;
-                  }
-                  case CrossreferenceSubtypeContent:
-                  {
-                    break;
-                  }
-                  case CrossreferenceSubtypeContentWithEndmarker:
-                  {
-                    break;
-                  }
-                  default:
-                  {
-                    break;
-                  }
-                }
-                // UserInt1NoteNumbering:
-                // UserInt2NoteNumberingRestart:
-                // UserString1NoteNumberingSequence:
-/*
-case NoteNumbering123:
-{
-break;
-}
-case NoteNumberingAbc:
-{
-break;
-}
-case NoteNumberingUser:
-{
-break;
-}
-
-case NoteRestartNumberingNever:
-{
-break;
-}
-case NoteRestartNumberingEveryBook:
-{
-break;
-}
-case NoteRestartNumberingEveryChapter:
-{
-break;
-}
-*/                  
+                $this->processNote ();
                 break;
               }
               case StyleTypePeripheral: // Todo handle this one, let's see how exactly. Fallout? Info?
@@ -790,35 +661,40 @@ break;
   * This function does the processing of the USFM code for one note,
   * formatting the document and extracting information.
   */
-  private function processNote () // Todo working here.
+  private function processNote () // Todo still to format notes.
   {
-
-
-    for ($this->chapterUsfmMarkersAndTextPointer = 0; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) 
+    for ( ; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) 
     {
       $currentItem = $this->chapterUsfmMarkersAndText[$this->chapterUsfmMarkersAndTextPointer];
-      if (Filter_Usfm::isUsfmMarker ($currentItem)) 
+      if (Filter_Usfm::isUsfmMarker ($currentItem))
       {
-        // Store indicator whether the marker is an opening marker. This information will be lost later on.
+        // Store indicator whether the marker is an opening marker.
         $isOpeningMarker = Filter_Usfm::isOpeningMarker ($currentItem);
-        // Clean up the marker, so we remain with the basic version, e.g. 'id'.
+        // Clean up the marker, so we remain with the basic version, e.g. 'f'.
         $marker = Filter_Usfm::getMarker ($currentItem);
         if (array_key_exists ($marker, $this->styles)) 
         {
           $style = $this->styles[$marker];
           switch ($style['type']) 
           {
-            case StyleTypeVerseNumber: // Todo once it encounters a verb, then the note really should stop there, and something is really wrong there, perhaps it must go into the fallout.
+            case StyleTypeVerseNumber:
             {
+              // Verse found. The note should have stopped here. Incorrect note markup.
+              $this->addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
+              return;
               break;
             }
             case StyleTypeFootEndNote: // Todo handle notes including subtypes.
             {
-              //var_dump ($marker); // Todo
               switch ($style['subtype']) 
               {
                 case FootEndNoteSubtypeFootnote:
                 {
+                  if ($isOpeningMarker) {
+                    $this->addToFallout ("Note was not formatted", false);
+                  } else {
+                    break 3;
+                  }
                   break;
                 }
                 case FootEndNoteSubtypeEndnote:
@@ -894,12 +770,17 @@ break;
 */                  
               break;
             }
-            case StyleTypeCrossreference: // Todo work here handle xref.
+            case StyleTypeCrossreference:
             {
               switch ($style['subtype']) 
               {
                 case CrossreferenceSubtypeCrossreference:
                 {
+                  if ($isOpeningMarker) {
+                    $this->addToFallout ("Note was not formatted", false);
+                  } else {
+                    break 3;
+                  }
                   break;
                 }
                 case CrossreferenceSubtypeStandardContent:
@@ -951,18 +832,19 @@ break;
 */                  
               break;
             }
-            default: // Todo
+            default: // Todo work here.
             {
+              $this->addToFallout ("Marker not suitable in note context \\$marker", false);
               break;
             }
           }
         } else {
-          // Here is an unknown marker. Add to fallout, plus any text that follows.
+          // Here is an unknown marker. Add the marker to fallout, plus any text that follows.
           $this->addToFallout ("Unknown marker \\$marker", true);
         }
       } else {
         // Here is no marker. Treat it as text.
-        $this->odf_text_standard->addText ($currentItem);
+        // Todo off for now. $this->odf_text_standard->addText ($currentItem);
       }
     }
   }

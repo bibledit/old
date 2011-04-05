@@ -18,7 +18,7 @@ private $temporary_folder;
   {
   }
 
-  public function testOne() // Todo working here.
+  public function testOne()
   {
     $odf_text = new Odf_Text;
     $odf_text->createPageBreakStyle ();

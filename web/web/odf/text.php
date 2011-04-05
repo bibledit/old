@@ -27,14 +27,14 @@
 * At first the ODF Toolkit was used. But the Java code to generate this became too big for the compiler.
 * The other thing is that Java is slow as compared to this method employed here.
 */
-class Odf_Text // Todo working here.
+class Odf_Text
 {
   private $unpackedOdtFolder;
 
   private $contentDom; // The content.xml DOMDocument.
   private $officeTextDomNode; // The office:text DOMNode.
   private $currentTextPDomElement; // The current text:p DOMElement.
-  private $currentTextPDomElementNameNode; // Todo The DOMAttr of the name of the style of the current text:p element.
+  private $currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
 
   private $stylesDom; // The styles.xml DOMDocument.
   private $createdStyles; // An array with styles already created in the $stylesDom.
@@ -100,73 +100,34 @@ class Odf_Text // Todo working here.
   public function newParagraph ($style = "Standard")
   {
     $this->currentTextPDomElement = $this->contentDom->createElement ("text:p");
-    $this->currentTextPDomElementNameNode = $this->currentTextPDomElement->setAttribute ("text:style-name", $style); // Todo
+    $this->currentTextPDomElementNameNode = $this->currentTextPDomElement->setAttribute ("text:style-name", $style);
     $this->officeTextDomNode->appendChild ($this->currentTextPDomElement);
     $this->currentParagraphStyle = $style;
     $this->currentParagraphContent = "";
   }
   
-  public function addText ($text)
+  /**
+  * This function adds text to the current paragraph.
+  * $text: The text to add.
+  * $style: The style for the text. 
+  * The $style can be omitted in which case no style is applied.
+  */
+  public function addText ($text, $style = "")
   {
     if ($text != "") {
       if (!isset ($this->currentTextPDomElement)) {
         $this->newParagraph ();
       }
-      $text = htmlentities ($text, ENT_COMPAT, "UTF-8");
-      $this->currentTextPDomElement->nodeValue .= $text;
+      $textSpanDomElement = $this->contentDom->createElement ("text:span");
+      $textSpanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
+      $this->currentTextPDomElement->appendChild ($textSpanDomElement);
+      if ($style != "") {
+        $styleDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
+      }
       $this->currentParagraphContent .= $text;
     }
   }
 
-  /**
-  * This creates a heading with styled content.
-  * $style: A style name.
-  * $text: Content.
-  */
-  private function newNamedHeading ($style, $text)
-  {
-    // Heading looks like this in content.xml:
-    // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>
-    $textHDomElement = $this->contentDom->createElement ("text:h");
-    $textHDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
-    $textHDomElement->setAttribute ("text:outline-level", 1);
-    $this->officeTextDomNode->appendChild ($textHDomElement);
-    $textHDomElement->nodeValue = htmlentities ($text, ENT_COMPAT, "UTF-8");
-    
-    // Heading style looks like this in styles.xml:
-    // <style:style style:name="Heading_20_1" style:display-name="Heading 1" style:family="paragraph" style:parent-style-name="Heading" style:next-style-name="Text_20_body" style:default-outline-level="1" style:class="text">
-    // <style:text-properties fo:font-size="115%" fo:font-weight="bold" style:font-size-asian="115%" style:font-weight-asian="bold" style:font-size-complex="115%" style:font-weight-complex="bold"/>
-    // </style:style>
-    // Create the style if it does not yet exist.
-    if (!in_array ($style, $this->createdStyles)) {
-      $styleDomElement = $this->stylesDom->createElement ("style:style");
-      $styleDomElement->setAttribute ("style:name", $this->convertStyleName ($style));
-      $styleDomElement->setAttribute ("style:display-name", $style);
-      $styleDomElement->setAttribute ("style:family", "paragraph");
-      $styleDomElement->setAttribute ("style:parent-style-name", "Heading");
-      $styleDomElement->setAttribute ("style:next-style-name", "Text_20_body");
-      $styleDomElement->setAttribute ("style:default-outline-level", 1);
-      $styleDomElement->setAttribute ("style:class", "text");
-      $this->officeStylesDomNode->appendChild ($styleDomElement);
-      {
-        $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
-        $styleTextPropertiesDomElement->setAttribute ("fo:font-size", "115%");
-        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight", "bold");
-        $styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "115%");
-        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-asian", "bold");
-        $styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "115%");
-        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-complex", "bold");
-        $styleDomElement->appendChild ($styleTextPropertiesDomElement);
-      }
-    }
-
-    // Make paragraph null, so that adding subsequent text creates a new paragraph.
-    unset ($this->currentTextPDomElement);
-    $this->currentParagraphStyle = "";
-    $this->currentParagraphContent = "";
-  }
-
-  
   /**
   * This creates a heading with contents styled "Heading 1".
   * $text: Contents.
@@ -174,19 +135,6 @@ class Odf_Text // Todo working here.
   public function newHeading1($text)
   {
     $this->newNamedHeading ("Heading 1", $text);
-  }
-  
-
-  /**
-  * This converts the name of a style so that it is fit for use in OpenDocument files.
-  * E.g. 'Heading 1' becomes 'Heading_20_1'
-  * $style: Input
-  * It returns the converted style name.
-  */
-  private function convertStyleName ($style)
-  {
-    $style = str_replace (" ", "_20_", $style);
-    return $style;
   }
   
 
@@ -345,11 +293,11 @@ class Odf_Text // Todo working here.
   public function save ($name)
   {
     // Create the content.xml file.
-    $this->contentDom->formatOutput = true;
+    // No formatting because some white space is processed. $this->contentDom->formatOutput = true;
     $string = $this->contentDom->save ($this->unpackedOdtFolder . "/content.xml");
 
     // Create the styles.xml file.
-    $this->stylesDom->formatOutput = true;
+    // No formatting because some white space is processed. $this->stylesDom->formatOutput = true;
     $string = $this->stylesDom->save ($this->unpackedOdtFolder . "/styles.xml");
 
     // Save the OpenDocument file.    
@@ -357,6 +305,69 @@ class Odf_Text // Todo working here.
     file_put_contents ($name, file_get_contents ($zippedfile));
   }
 
+
+  /**
+  * This creates a heading with styled content.
+  * $style: A style name.
+  * $text: Content.
+  */
+  private function newNamedHeading ($style, $text)
+  {
+    // Heading looks like this in content.xml:
+    // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>
+    $textHDomElement = $this->contentDom->createElement ("text:h");
+    $textHDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
+    $textHDomElement->setAttribute ("text:outline-level", 1);
+    $this->officeTextDomNode->appendChild ($textHDomElement);
+    $textHDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
+    
+    // Heading style looks like this in styles.xml:
+    // <style:style style:name="Heading_20_1" style:display-name="Heading 1" style:family="paragraph" style:parent-style-name="Heading" style:next-style-name="Text_20_body" style:default-outline-level="1" style:class="text">
+    // <style:text-properties fo:font-size="115%" fo:font-weight="bold" style:font-size-asian="115%" style:font-weight-asian="bold" style:font-size-complex="115%" style:font-weight-complex="bold"/>
+    // </style:style>
+    // Create the style if it does not yet exist.
+    if (!in_array ($style, $this->createdStyles)) {
+      $styleDomElement = $this->stylesDom->createElement ("style:style");
+      $styleDomElement->setAttribute ("style:name", $this->convertStyleName ($style));
+      $styleDomElement->setAttribute ("style:display-name", $style);
+      $styleDomElement->setAttribute ("style:family", "paragraph");
+      $styleDomElement->setAttribute ("style:parent-style-name", "Heading");
+      $styleDomElement->setAttribute ("style:next-style-name", "Text_20_body");
+      $styleDomElement->setAttribute ("style:default-outline-level", 1);
+      $styleDomElement->setAttribute ("style:class", "text");
+      $this->officeStylesDomNode->appendChild ($styleDomElement);
+      {
+        $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-size", "115%");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight", "bold");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "115%");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-asian", "bold");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "115%");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-complex", "bold");
+        $styleDomElement->appendChild ($styleTextPropertiesDomElement);
+      }
+      $this->createdStyles [] = $style;
+    }
+
+    // Make paragraph null, so that adding subsequent text creates a new paragraph.
+    unset ($this->currentTextPDomElement);
+    $this->currentParagraphStyle = "";
+    $this->currentParagraphContent = "";
+  }
+
+  
+  /**
+  * This converts the name of a style so that it is fit for use in OpenDocument files.
+  * E.g. 'Heading 1' becomes 'Heading_20_1'
+  * $style: Input
+  * It returns the converted style name.
+  */
+  private function convertStyleName ($style)
+  {
+    $style = str_replace (" ", "_20_", $style);
+    return $style;
+  }
+  
 
 }
 
