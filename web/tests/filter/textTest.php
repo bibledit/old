@@ -18,27 +18,6 @@ private $temporary_folder;
 
   
   /**
-  * Test footnotes and cross references.
-  */
-  public function testFour()
-  {
-$usfm = <<<'EOD'
-\id GEN
-\v 1 Text 1\x + \xt Isa. 1.1.\x*\x + \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
-EOD;
-    $filter_text = new Filter_Text;
-    $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("Standard", "/tmp/TextTest4.odt");
-    $javaCode = $filter_text->odfdom_text_standard->javaCode;
-    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
-    $this->assertEquals (0, $return_var);
-    exec ("odt2txt /tmp/TextTest4.odt", $output, &$return_var);
-    // Todo $this->assertEquals (array ("", "1 Text 1", "", "Paragraph One. 2 Verse Two.", "", "3 Verse Three. 4 Verse Four. 5 Verse Five.", ""), $output);
-  }
-
-
-  /**
   * Test extraction of all sorts of information from USFM code
   * Test basic formatting into OpenDocument.
   */
@@ -83,10 +62,6 @@ EOD;
     $this->assertEquals (array ('book' => 1, 'chapter' => 1, 'verse' => 0, 'marker' => 'cp', 'value' => 'Ⅰ'), $filter_text->publishedChapterMarkers[0]);
     $this->assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '②'), $filter_text->publishedChapterMarkers[1]);
     $this->assertEquals (array (1 => 2), $filter_text->numberOfChaptersPerBook);
-    $javaCode = $filter_text->odfdom_text_standard->javaCode;
-    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
-    $this->assertEquals (0, $return_var);
     exec ("odt2txt /tmp/TextTest1.odt", $output, &$return_var);
     $this->assertEquals (array ("", "ⅠText chapter 1", "", "②Text chapter 2", ""), $output);
   }
@@ -116,10 +91,6 @@ EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard", "/tmp/TextTest2.odt");
-    $javaCode = $filter_text->odfdom_text_standard->javaCode;
-    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
-    $this->assertEquals (0, $return_var);
     exec ("odt2txt /tmp/TextTest2.odt", $output, &$return_var);
     $this->assertEquals (array ("", "Text Genesis 1", "", "Text Genesis 2", "", "Text Matthew 1", "", "Text Matthew 2", ""), $output);
     $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ',
@@ -146,12 +117,25 @@ EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard", "/tmp/TextTest3.odt");
-    $javaCode = $filter_text->odfdom_text_standard->javaCode;
-    $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-    $return_var = Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
-    $this->assertEquals (0, $return_var);
     exec ("odt2txt /tmp/TextTest3.odt", $output, &$return_var);
     $this->assertEquals (array ("", "1 Verse One.", "", "Paragraph One. 2 Verse Two.", "", "3 Verse Three. 4 Verse Four. 5 Verse Five.", ""), $output);
+  }
+
+
+  /**
+  * Test footnotes and cross references.
+  */
+  public function testFour()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\v 1 Text 1\x + \xt Isa. 1.1.\x*\x + \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
+EOD;
+    $filter_text = new Filter_Text;
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("Standard", "/tmp/TextTest4.odt");
+    exec ("odt2txt /tmp/TextTest4.odt", $output, &$return_var);
+    // Todo $this->assertEquals (array ("", "1 Text 1", "", "Paragraph One. 2 Verse Two.", "", "3 Verse Three. 4 Verse Four. 5 Verse Five.", ""), $output);
   }
 
 
