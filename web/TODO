@@ -1,5 +1,3 @@
-Remove check for xercesjar from configure.ac, but leave the code commented, just in case we need it later.
-
 
 
 
