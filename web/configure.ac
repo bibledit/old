@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.3.19],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.3.20],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
@@ -39,10 +39,10 @@ if test x$FIND_JAVA = xno; then
   AC_MSG_ERROR(Program "java" is needed. Install the Java Runtime Environment.)
 fi
 
-AC_PATH_PROG(FIND_JAVAC, javac, no)
-if test x$FIND_JAVAC = xno; then
-  AC_MSG_ERROR(Program "javac" is needed. Install the Java Development Kit.)
-fi
+# AC_PATH_PROG(FIND_JAVAC, javac, no)
+# if test x$FIND_JAVAC = xno; then
+#   AC_MSG_ERROR(Program "javac" is needed. Install the Java Development Kit.)
+# fi
 
 # Check for web server on localhost.
 # AC_MSG_CHECKING(local web server)
@@ -153,7 +153,7 @@ AC_SUBST(SITE_ADMIN_PASSWORD)
 
 
 # Location of xercesImpl.jar.
-# Obtain it through dpkg -L  libxerces2-java
+# Obtain it through dpkg -L libxerces2-java
 XERCESPATH_DEFAULT="."
 AC_ARG_WITH(xerces-path,
         [  --with-xerces-path=path
@@ -162,19 +162,19 @@ AC_ARG_WITH(xerces-path,
         [ XERCESPATH=$XERCESPATH_DEFAULT ]
 )
 AC_MSG_CHECKING(xercesImpl.jar path)
-if [ [ $XERCESPATH == "." ] ]
-  then
-    test -f /usr/share/java/xercesImpl.jar
-    if [ [ $? -eq 0 ] ]
-    then
-      XERCESPATH=/usr/share/java/xercesImpl.jar
-    fi
-fi
-if [ [ $XERCESPATH == "." ] ]
-  then
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR(Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>)
-fi
+# if [ [ $XERCESPATH == "." ] ]
+#   then
+#     test -f /usr/share/java/xercesImpl.jar
+#     if [ [ $? -eq 0 ] ]
+#     then
+#       XERCESPATH=/usr/share/java/xercesImpl.jar
+#     fi
+# fi
+# if [ [ $XERCESPATH == "." ] ]
+#   then
+#     AC_MSG_RESULT(no)
+#     AC_MSG_ERROR(Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>)
+# fi
 AC_MSG_RESULT(${XERCESPATH})
 AC_DEFINE([XERCESPATH], [], [Define the path to xercesImpl.jar])
 AC_DEFINE_UNQUOTED(XERCESPATH, "$XERCESPATH")

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-04 01:45+0200\n"
+"POT-Creation-Date: 2011-04-05 01:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,9 @@ msgstr ""
 
 msgid ""
 "Would you like to add a Bible to the list of Bibles that will be exported?"
+msgstr ""
+
+msgid "Would you like to use another stylesheet for all exports?"
 msgstr ""
 
 msgid "Logbook was partially or fully cleared"
@@ -691,6 +694,9 @@ msgstr ""
 msgid "Downloads"
 msgstr ""
 
+msgid "Styles"
+msgstr ""
+
 msgid "Would you like to switch to another stylesheet?"
 msgstr ""
 
@@ -1332,9 +1338,6 @@ msgstr ""
 msgid "Versifications"
 msgstr ""
 
-msgid "Styles"
-msgstr ""
-
 msgid "Bibledit-Web exports the Bibles on a daily basis."
 msgstr ""
 
@@ -1351,6 +1354,12 @@ msgid "Do a fresh export now, and every day at this same time."
 msgstr ""
 
 msgid "View the exported data in the downloads section."
+msgstr ""
+
+msgid "The exports use the following stylesheet:"
+msgstr ""
+
+msgid "switch"
 msgstr ""
 
 msgid "Bibledit-Web tracks the changes in the Bibles that it stores."
@@ -2848,9 +2857,6 @@ msgid "The various styles for the Bible editor are contained in a stylesheet."
 msgstr ""
 
 msgid "The stylesheet you are currently using is:"
-msgstr ""
-
-msgid "switch"
 msgstr ""
 
 msgid "This shows the various styles contained in this stylesheet."
