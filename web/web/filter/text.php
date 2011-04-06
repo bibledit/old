@@ -300,6 +300,7 @@ class Filter_Text // Todo implement / test.
             {
               case StyleTypeIdentifier:
               {
+                $this->odf_text_standard->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case IdentifierSubtypeBook:
@@ -399,6 +400,7 @@ class Filter_Text // Todo implement / test.
               }
               case StyleTypeStartsParagraph:
               {
+                $this->odf_text_standard->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case ParagraphSubtypeMainTitle:
@@ -417,12 +419,18 @@ class Filter_Text // Todo implement / test.
                 }
                 break;
               }
-              case StyleTypeInlineText: // Todo local styles, e.g. italics.
+              case StyleTypeInlineText:
               {
+                if ($isOpeningMarker) {
+                  $this->odf_text_standard->openTextStyle ($style);
+                } else {
+                  $this->odf_text_standard->closeTextStyle ();
+                }
                 break;
               }
               case StyleTypeChapterNumber:
               {
+                $this->odf_text_standard->closeTextStyle ();
                 // Get the chapter number.
                 $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                 $number = Filter_Numeric::integer_in_string ($number);
@@ -481,6 +489,7 @@ class Filter_Text // Todo implement / test.
               }
               case StyleTypeVerseNumber:
               {
+                $this->odf_text_standard->closeTextStyle ();
                 // Deal with the case of a pending chapter number.
                 if (isset ($this->outputChapterTextAtFirstVerse)) {
                   $dropCapsLength = mb_strlen ($this->outputChapterTextAtFirstVerse);
@@ -532,6 +541,7 @@ class Filter_Text // Todo implement / test.
               }
               case StyleTypePeripheral: // Todo handle this one, let's see how exactly. Fallout? Info?
               {
+                $this->odf_text_standard->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case PeripheralSubtypePublication:
@@ -583,14 +593,17 @@ class Filter_Text // Todo implement / test.
               }
               case StyleTypePicture: // Todo Insert pictures.
               {
+                $this->odf_text_standard->closeTextStyle ();
                 break;
               }
               case StyleTypePageBreak: // Todo see how to get this in OpenDocument.
               {
+                $this->odf_text_standard->closeTextStyle ();
                 break;
               }
               case StyleTypeTableElement: // Todo create table.
               {
+                $this->odf_text_standard->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case TableElementSubtypeRow:

@@ -1,17 +1,19 @@
 
 
 
-Writing inline styles styles. 
-- Create style in odf_text
-- Keep style name in filter_text object, so it can go with the plain text that is in the fallback routine.
-- Set style name when encountering opening marker
-- clear style when encountering closing marker.
-- clear style on verse marker, and on new paragraph marker, and many other markers,
- 
 
 
 
-
+Chapter number in drop caps does not work when the paragraph exists of only one line.
+An option is to put it in this way in content.xml, as an item in the text:p element:
+<draw:frame draw:style-name="fr1" draw:name="Frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
+  <draw:text-box fo:min-height="0.34cm">
+    <text:p text:style-name="P1">11</text:p>
+  </draw:text-box>
+</draw:frame>
+This option should be settable in the Exports settings.4
+It also has a style name.
+See if this gets copied.
 
 
 
