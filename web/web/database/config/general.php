@@ -262,6 +262,13 @@ EOD;
     $this->setValue ("export-stylesheet", $value);
   }   
 
+  public function getExportChapterDropCaps() {
+    return $this->getValue ("export-chapter-drop-caps", 0);
+  }
+  public function setExportChapterDropCaps ($value) {
+    $this->setValue ("export-chapter-drop-caps", $value);
+  }   
+
 
 
 }

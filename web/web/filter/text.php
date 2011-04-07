@@ -492,9 +492,14 @@ class Filter_Text // Todo implement / test.
                 $this->odf_text_standard->closeTextStyle ();
                 // Deal with the case of a pending chapter number.
                 if (isset ($this->outputChapterTextAtFirstVerse)) {
-                  $dropCapsLength = mb_strlen ($this->outputChapterTextAtFirstVerse);
-                  $this->applyDropCapsToCurrentParagraph ($dropCapsLength);
-                  $this->odf_text_standard->addText ($this->outputChapterTextAtFirstVerse);
+                  $database_config_general = Database_Config_General::getInstance ();
+                  if ($database_config_general->getExportChapterDropCaps ()) {
+                    $dropCapsLength = mb_strlen ($this->outputChapterTextAtFirstVerse);
+                    $this->applyDropCapsToCurrentParagraph ($dropCapsLength);
+                    $this->odf_text_standard->addText ($this->outputChapterTextAtFirstVerse);
+                  } else {
+                    $this->putChapterNumberInFrame ($this->outputChapterTextAtFirstVerse);
+                  }
                 }
                 // Temporarily retrieve the text that follows the \v verse marker.
                 $textFollowingMarker = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
@@ -503,7 +508,6 @@ class Filter_Text // Todo implement / test.
                 $this->currentVerseNumber = $number;
                 // Output the verse number. But only if no chapter number was put here.
                 if (!isset ($this->outputChapterTextAtFirstVerse)) {
-                  // Todo still to put the verse in the right style.
                   if ($this->odf_text_standard->currentParagraphContent != "") {
                     // If the current paragraph has text already, then insert a space.
                     $this->odf_text_standard->addText (" ");
@@ -1068,6 +1072,19 @@ break;
       $this->createdOdfStyles [] = $combined_style;
     }
     $this->odf_text_standard->updateCurrentParagraphStyle ($combined_style);
+  }
+  
+
+  
+  /**
+  * This puts the chapter number in a frame in the current paragraph.
+  * This is to put the chapter number in a frame so it looks like drop caps in the OpenDocument.
+  * $chapterText: The text of the chapter indicator to put.
+  */
+  private function putChapterNumberInFrame ($chapterText)
+  {
+    $style = $this->styles[$this->chapterMarker];
+    $this->odf_text_standard->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]);
   }
   
   

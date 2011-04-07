@@ -5,12 +5,12 @@ Assets_Page::header (gettext ("Exports"));
 $smarty = new Smarty_Bibledit (__FILE__);
 
 
-$config_general = Database_Config_General::getInstance ();
+$database_config_general = Database_Config_General::getInstance ();
 $database_bibles = Database_Bibles::getInstance();
 
 
 if (isset($_GET['generate'])) {
-  $config_general->setTimerExports (time ());
+  $database_config_general->setTimerExports (time ());
   $smarty->assign ("success", gettext ("The Bibles will be exported soon."));
 }
 
@@ -25,20 +25,20 @@ if (isset ($addbible)) {
     }
     $dialog_list->run();
   } else {
-    $bibles = $config_general->getExportedBibles ();
+    $bibles = $database_config_general->getExportedBibles ();
     $bibles [] = $addbible;
     $bibles = array_unique ($bibles, SORT_STRING);
-    $config_general->setExportedBibles ($bibles);
+    $database_config_general->setExportedBibles ($bibles);
   }
 }
 
 
 @$removebible = $_GET['removebible'];
 if (isset ($removebible)) {
-  $bibles = $config_general->getExportedBibles ();
+  $bibles = $database_config_general->getExportedBibles ();
   $bibles = array_diff ($bibles, array ($removebible));
   $bibles = array_values ($bibles);
-  $config_general->setExportedBibles ($bibles);
+  $database_config_general->setExportedBibles ($bibles);
   // Remove the Bible's exported data.
   $bibleDirectory = dirname (dirname (__FILE__)) . "/downloads/exports/" . $removebible;
   Filter_Rmdir::rmdir ($bibleDirectory);
@@ -57,13 +57,20 @@ if (isset ($_GET['sheet'])) {
     }
     $dialog_list->run ();
   } else {
-    $config_general->setExportStylesheet ($sheet);
+    $database_config_general->setExportStylesheet ($sheet);
   }
 }
 
 
-$smarty->assign ("bibles", $config_general->getExportedBibles ());
-$smarty->assign ("stylesheet", Filter_Html::sanitize ($config_general->getExportStylesheet ()));
+if (isset ($_GET['dropcapstoggle'])) {
+  $database_config_general->setExportChapterDropCaps(Filter_Bool::not ($database_config_general->getExportChapterDropCaps()));
+}
+
+
+$smarty->assign ("bibles", $database_config_general->getExportedBibles ());
+$smarty->assign ("stylesheet", Filter_Html::sanitize ($database_config_general->getExportStylesheet ()));
+$smarty->assign ("dropcaps", $database_config_general->getExportChapterDropCaps());
 $smarty->display("exports.tpl");
+
 Assets_Page::footer ();
 ?>

@@ -313,7 +313,8 @@ class Styles_Logic
         WorListElementSubtypeSubjectIndexEntry          => gettext ("is a subject index entry")
       )
     );
-    return $texts[$type][$subtype];
+    @$text = $texts[$type][$subtype];
+    return $text;
   }
 
 

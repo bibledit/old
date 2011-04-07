@@ -4,22 +4,6 @@
 
 
 
-Chapter number in drop caps does not work when the paragraph exists of only one line.
-An option is to put it in this way in content.xml, as an item in the text:p element:
-<draw:frame draw:style-name="fr1" draw:name="Frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
-  <draw:text-box fo:min-height="0.34cm">
-    <text:p text:style-name="P1">11</text:p>
-  </draw:text-box>
-</draw:frame>
-This option should be settable in the Exports settings.4
-It also has a style name.
-See if this gets copied.
-
-
-
-
-
-
 
 
 
@@ -718,4 +702,16 @@ It does that by zipped file exporting all the USFM files. Then to upload this ZI
 and Bibledit-Web has an option to unpack the zip file locally, then to imnport it.
 Thus people can harness option on the demo server, such options as are not available in Bibledit-Gtk.
 
+
+
+
+
+Rather than getting the commits to the repository in the logbook,
+we may have a function to get the last 100 or so on the screen.
+
+
+
+
+It would be good if the export also exported to html.
+The differences would then show clearer and less messy.
 

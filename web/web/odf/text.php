@@ -45,6 +45,8 @@ class Odf_Text
   public $currentParagraphContent;
   public $currentTextStyle;
   
+  private $frameCount;
+  
   
   public function __construct () 
   {
@@ -52,6 +54,7 @@ class Odf_Text
     $this->currentParagraphStyle = "";
     $this->currentParagraphContent = "";
     $this->currentTextStyle = "";
+    $this->frameCount = 0;
 
     $template = dirname (__FILE__) . "/template.odt";
     $this->unpackedOdtFolder = Filter_Archive::unzip ($template, false);
@@ -368,6 +371,118 @@ class Odf_Text
   
   
   
+  /**
+  * This places text in a frame in OpenDocument.
+  * It does all the housekeeping to get it display properly.
+  * $text - the text to place in the frame.
+  * $style - the name of the style of the $text.
+  * $fontsize - given in points.
+  * $italic, $bold - boolean values.
+  */
+  public function placeTextInFrame ($text, $style, $fontsize, $italic, $bold)
+  {
+    // Empty text is discarded.
+    if ($text == "") return;
+
+    // The frame goes in an existing paragraph (text:p) element, just like a 'text:span' element.
+    // Ensure that a paragraph is open.
+    if (!isset ($this->currentTextPDomElement)) {
+      $this->newParagraph ();
+    }
+
+    // The frame looks like this, in content.xml:
+    // <draw:frame draw:style-name="fr1" draw:name="frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
+    //   <draw:text-box fo:min-height="0.34cm">
+    //     <text:p text:style-name="c">1</text:p>
+    //   </draw:text-box>
+    // </draw:frame>
+    $drawFrameDomElement = $this->contentDom->createElement ("draw:frame");
+    $this->currentTextPDomElement->appendChild ($drawFrameDomElement);
+    $drawFrameDomElement->setAttribute ("draw:style-name", "chapterframe");
+    $this->frameCount++;
+    $drawFrameDomElement->setAttribute ("draw:name", "frame" . $this->frameCount);
+    $drawFrameDomElement->setAttribute ("text:anchor-type", "paragraph");
+    $drawFrameDomElement->setAttribute ("svg:y", "0cm");
+    $drawFrameDomElement->setAttribute ("fo:min-width", "0.34cm");
+    $drawFrameDomElement->setAttribute ("draw:z-index", "0");
+
+    $drawTextBoxDomElement = $this->contentDom->createElement ("draw:text-box");
+    $drawFrameDomElement->appendChild ($drawTextBoxDomElement);
+    $drawTextBoxDomElement->setAttribute ("fo:min-height", "0.34cm");
+
+    $textPDomElement = $this->contentDom->createElement ("text:p");
+    $drawTextBoxDomElement->appendChild ($textPDomElement);
+    $textPDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
+    $textPDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
+    
+    // File styles.xml contains the appropriate styles for this frame and text box and paragraph.
+    // Create the styles once for the whole document.
+    if (!in_array ($style, $this->createdStyles)) {
+
+      // The style for the text:p element looks like this:
+      // <style:style style:name="c" style:family="paragraph">
+      //   <style:paragraph-properties fo:text-align="justify" style:justify-single-word="false"/>
+      //   <style:text-properties fo:font-size="24pt" fo:font-weight="bold" style:font-size-asian="24pt" style:font-weight-asian="bold" style:font-size-complex="24pt" style:font-weight-complex="bold"/>
+      // </style:style>
+      $styleDomElement = $this->stylesDom->createElement ("style:style");
+      $this->officeStylesDomNode->appendChild ($styleDomElement);
+      $styleDomElement->setAttribute ("style:name", $this->convertStyleName ($style));
+      $styleDomElement->setAttribute ("style:family", "paragraph");
+
+      $styleParagraphPropertiesDomElement = $this->stylesDom->createElement ("style:paragraph-properties");
+      $styleDomElement->appendChild ($styleParagraphPropertiesDomElement);
+      $styleParagraphPropertiesDomElement->setAttribute ("fo:text-align", "justify");
+      $styleParagraphPropertiesDomElement->setAttribute ("style:justify-single-word", "false");
+
+      $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
+      $styleDomElement->appendChild ($styleTextPropertiesDomElement);
+      $fontsize .= "pt";
+      $styleTextPropertiesDomElement->setAttribute ("fo:font-size", $fontsize);
+      $styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", $fontsize);
+      $styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", $fontsize);
+      if ($italic != ooitOff) {
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-style", "italic");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-style-asian", "italic");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-style-complex", "italic");
+      }
+      if ($bold != ooitOff) {
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight", "bold");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-asian", "bold");
+        $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-complex", "bold");
+      }
+
+      // The style for the draw:frame element looks like this:
+      // <style:style style:name="chapterframe" style:family="graphic" style:parent-style-name="ChapterFrameParent">
+      //   <style:graphic-properties fo:margin-left="0cm" fo:margin-right="0.199cm" fo:margin-top="0cm" fo:margin-bottom="0cm" style:vertical-pos="from-top" style:vertical-rel="paragraph-content" style:horizontal-pos="left" style:horizontal-rel="paragraph" fo:background-color="transparent" style:background-transparency="100%" fo:padding="0cm" fo:border="none" style:shadow="none" style:flow-with-text="true">
+      //   <style:background-image/>
+      //   </style:graphic-properties>
+      // </style:style>
+      $styleDomElement = $this->stylesDom->createElement ("style:style");
+      $this->officeStylesDomNode->appendChild ($styleDomElement);
+      $styleDomElement->setAttribute ("style:name", "chapterframe");
+      $styleDomElement->setAttribute ("style:family", "graphic");
+
+      $styleGraphicPropertiesDomElement = $this->stylesDom->createElement ("style:graphic-properties");
+      $styleDomElement->appendChild ($styleGraphicPropertiesDomElement);
+      $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-left", "0cm");
+      $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-right", "0.2cm");
+      $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-top", "0cm");
+      $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-bottom", "0cm");
+      $styleGraphicPropertiesDomElement->setAttribute ("style:vertical-pos", "from-top");
+      $styleGraphicPropertiesDomElement->setAttribute ("style:vertical-rel", "paragraph-content");
+      $styleGraphicPropertiesDomElement->setAttribute ("style:horizontal-pos", "left");
+      $styleGraphicPropertiesDomElement->setAttribute ("style:horizontal-rel", "paragraph");
+      $styleGraphicPropertiesDomElement->setAttribute ("fo:background-color", "transparent");
+      $styleGraphicPropertiesDomElement->setAttribute ("style:background-transparency", "100%");
+      $styleGraphicPropertiesDomElement->setAttribute ("fo:padding", "0cm");
+      $styleGraphicPropertiesDomElement->setAttribute ("fo:border", "none");
+      $styleGraphicPropertiesDomElement->setAttribute ("style:shadow", "none");
+      $styleGraphicPropertiesDomElement->setAttribute ("style:flow-with-text", "true");
+    }
+
+  }
+  
+
   /**
   * This saves the OpenDocument to file
   * $name: the name of the file to save to.
