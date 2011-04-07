@@ -39,6 +39,16 @@ if test x$FIND_JAVA = xno; then
   AC_MSG_ERROR(Program "java" is needed. Install the Java Runtime Environment.)
 fi
 
+AC_PATH_PROG(FIND_ZIP, zip, no)
+if test x$FIND_ZIP = xno; then
+  AC_MSG_ERROR(Program "zip" is needed. Install this first.)
+fi
+
+AC_PATH_PROG(FIND_UNZIP, unzip, no)
+if test x$FIND_UNZIP = xno; then
+  AC_MSG_ERROR(Program "unzip" is needed. Install this first.)
+fi
+
 # AC_PATH_PROG(FIND_JAVAC, javac, no)
 # if test x$FIND_JAVAC = xno; then
 #   AC_MSG_ERROR(Program "javac" is needed. Install the Java Development Kit.)

@@ -8,6 +8,7 @@
 <p>Exports selected Bibles to USFM on a daily basis.</p>
 <p>Can export extra information for each Bible: word lists, abbreviations, table of contents, and more.</p>
 <p>Import USFM data into a Bible through file upload.</p>
+<p>Requires zip and unzip.</p>
 <p>Daily export of selected Bibles to OpenDocument files.</p>
 
 <h2>Version 0.3</h2>
