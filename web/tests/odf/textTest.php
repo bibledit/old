@@ -53,6 +53,21 @@ private $temporary_folder;
   }
 
 
+  public function testThree() // Todo work here.
+  {
+    $odf_text = new Odf_Text;
+    $odf_text->newParagraph ();
+    $odf_text->addText ("Text1");
+    $odf_text->addNote ("†");
+    $odf_text->addNoteText ("Note1.");
+    $odf_text->addText (".");
+    @unlink ("/tmp/OdfTextTest3.odt");
+    $odf_text->save ("/tmp/OdfTextTest3.odt");
+    exec ("odt2txt /tmp/OdfTextTest3.odt", $output, &$return_var);
+    $this->assertEquals (array ("", "Text1†", "", "Note1.", "", ".", ""), $output);
+  }
+
+
 }
 ?>
 

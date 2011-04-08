@@ -33,28 +33,30 @@ class Odf_Text
 
   private $contentDom; // The content.xml DOMDocument.
   private $officeTextDomNode; // The office:text DOMNode.
-  private $currentTextPDomElement; // The current text:p DOMElement.
-  private $currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
 
   private $stylesDom; // The styles.xml DOMDocument.
   private $createdStyles; // An array with styles already created in the $stylesDom.
   private $officeStylesDomNode; // The office:styles DOMNode.
 
-  private $paragraphOpened;
+  private $currentTextPDomElement; // The current text:p DOMElement.
+  private $currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
   public $currentParagraphStyle;
   public $currentParagraphContent;
   public $currentTextStyle;
   
   private $frameCount;
   
+  private $noteCount;
+  private $noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
+  
   
   public function __construct () 
   {
-    $this->paragraphOpened = false;
     $this->currentParagraphStyle = "";
     $this->currentParagraphContent = "";
     $this->currentTextStyle = "";
     $this->frameCount = 0;
+    $this->noteCount = 0;
 
     $template = dirname (__FILE__) . "/template.odt";
     $this->unpackedOdtFolder = Filter_Archive::unzip ($template, false);
@@ -110,6 +112,7 @@ class Odf_Text
     $this->currentParagraphStyle = $style;
     $this->currentParagraphContent = "";
   }
+
   
   /**
   * This function adds text to the current paragraph.
@@ -131,6 +134,7 @@ class Odf_Text
       $this->currentParagraphContent .= $text;
     }
   }
+
 
   /**
   * This creates a heading with contents styled "Heading 1".
@@ -482,6 +486,63 @@ class Odf_Text
 
   }
   
+
+  /**
+  * This function adds a note to the current paragraph.
+  * $caller: The text of the note caller, that is, the note citation.
+  */
+  public function addNote ($caller) // Todo working here.
+  {
+    // Ensure that a paragraph is open, so that the note can be added to it.
+    if (!isset ($this->currentTextPDomElement)) {
+      $this->newParagraph ();
+    }
+
+    $textNoteDomElement = $this->contentDom->createElement ("text:note");
+    $this->currentTextPDomElement->appendChild ($textNoteDomElement);
+    $textNoteDomElement->setAttribute ("text:id", "ftn" . $this->noteCount);
+    $this->noteCount++;
+    $textNoteDomElement->setAttribute ("text:note-class", "footnote");
+    
+    $textNoteCitationDomElement = $this->contentDom->createElement ("text:note-citation");
+    $textNoteDomElement->appendChild ($textNoteCitationDomElement);
+    $textNoteCitationDomElement->setAttribute ("text:label", htmlspecialchars ($caller, ENT_QUOTES, "UTF-8"));
+    $textNoteCitationDomElement->nodeValue = htmlspecialchars ($caller, ENT_QUOTES, "UTF-8");
+    
+    $textNoteBodyDomElement = $this->contentDom->createElement ("text:note-body");
+    $textNoteDomElement->appendChild ($textNoteBodyDomElement);
+    
+    $this->noteTextPDomElement = $this->contentDom->createElement ("text:p");
+    $textNoteBodyDomElement->appendChild ($this->noteTextPDomElement);
+    $this->noteTextPDomElement->setAttribute ("text:style-name", "Footnote"); // Todo work, real style to be used.
+  }
+
+
+
+  /**
+  * This function adds text to the current footnote.
+  * $text: The text to add.
+  */
+  public function addNoteText ($text)  // Todo working here.
+  {
+    if ($text != "") {
+      if (!isset ($this->noteTextPDomElement)) {
+        $this->addNote ("?");
+      }
+      $textSpanDomElement = $this->contentDom->createElement ("text:span");
+      $textSpanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
+      $this->noteTextPDomElement->appendChild ($textSpanDomElement);
+      /*
+    $this->noteTextPDomElement->nodeValue = htmlspecialchars ("Note", ENT_QUOTES, "UTF-8"); // Todo work here, move elsewhere.
+      if ($this->currentTextStyle != "") {
+        // Take character style as specified in this object.
+        $textSpanDomElement->setAttribute ("text:style-name", $this->convertStyleName ($this->currentTextStyle));
+      }
+      */
+    }
+  }
+
+
 
   /**
   * This saves the OpenDocument to file

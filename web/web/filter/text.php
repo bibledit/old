@@ -58,6 +58,8 @@ class Filter_Text // Todo implement / test.
   public $info; // Array with strings.
   public $fallout; // Array with strings.
   
+  private $notecallers; // Array with information about the callers for the various notes.
+  
   /**
   * Class constructor.
   */
@@ -74,6 +76,7 @@ class Filter_Text // Todo implement / test.
     $this->odf_text_standard = new Odf_Text;
     $this->info = array ();
     $this->fallout = array ();
+    $this->notecallers = array ();
   }
   
 
@@ -182,7 +185,7 @@ class Filter_Text // Todo implement / test.
 
   /**
   * This function does the preprocessing of the USFM code 
-  * extracting a variety of information.
+  * extracting a variety of information, creating notes callers, etc.
   */
   private function preprocessingStage ()
   {
@@ -264,6 +267,44 @@ class Filter_Text // Todo implement / test.
                   $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                   $number = Filter_Numeric::integer_in_string ($number);
                   $this->currentVerseNumber = $number;
+                  break;
+                }
+                case StyleTypeFootEndNote: 
+                {
+                  switch ($style['subtype']) 
+                  {
+                    case FootEndNoteSubtypeFootnote:
+                    case FootEndNoteSubtypeEndnote:
+                    {
+                      $this->createNoteCaller ($style);
+                      break;
+                    }
+                    case FootEndNoteSubtypeStandardContent:
+                    case FootEndNoteSubtypeContent:
+                    case FootEndNoteSubtypeContentWithEndmarker:
+                    case FootEndNoteSubtypeParagraph:
+                    {
+                      break;
+                    }
+                  }
+                  break;
+                }
+                case StyleTypeCrossreference:
+                {
+                  switch ($style['subtype']) 
+                  {
+                    case CrossreferenceSubtypeCrossreference:
+                    {
+                      $this->createNoteCaller ($style);
+                      break;
+                    }
+                    case CrossreferenceSubtypeStandardContent:
+                    case CrossreferenceSubtypeContent:
+                    case CrossreferenceSubtypeContentWithEndmarker:
+                    {
+                      break;
+                    }
+                  }
                   break;
                 }
               }
@@ -700,26 +741,26 @@ class Filter_Text // Todo implement / test.
             {
               // Verse found. The note should have stopped here. Incorrect note markup.
               $this->addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
-              return;
-              break;
+              break 2;
             }
             case StyleTypeFootEndNote: // Todo handle notes including subtypes.
             {
               switch ($style['subtype']) 
               {
-                case FootEndNoteSubtypeFootnote:
+                case FootEndNoteSubtypeFootnote: // Todo working here.
                 {
                   if ($isOpeningMarker) {
-                    $this->addToFallout ("Footnote was not formatted", false);
+                    $caller = $this->getNoteCaller ($style);
+                    $this->odf_text_standard->addNote ($caller);
                   } else {
                     break 3;
                   }
                   break;
                 }
-                case FootEndNoteSubtypeEndnote:
+                case FootEndNoteSubtypeEndnote: // Todo working here.
                 {
                   if ($isOpeningMarker) {
-                    $this->addToFallout ("Endnote was not formatted", false);
+                    $this->getNoteCaller ($style);
                   } else {
                     break 3;
                   }
@@ -747,25 +788,11 @@ class Filter_Text // Todo implement / test.
                 }
               }
               // UserBool1NoteAppliesToApocrypha: For xref too?
-              // UserInt1NoteNumbering:
               // UserInt2NoteNumberingRestart:
               // UserInt2EndnotePosition:
               // UserString1NoteNumberingSequence:
               // UserString2DumpEndnotesHere: But this one should go out.
 /*
-case NoteNumbering123:
-{
-break;
-}
-case NoteNumberingAbc:
-{
-break;
-}
-case NoteNumberingUser:
-{
-break;
-}
-
 case NoteRestartNumberingNever:
 {
 break;
@@ -798,10 +825,11 @@ break;
             {
               switch ($style['subtype']) 
               {
-                case CrossreferenceSubtypeCrossreference:
+                case CrossreferenceSubtypeCrossreference: // Todo working here.
                 {
                   if ($isOpeningMarker) {
-                    $this->addToFallout ("Crossreference was not formatted", false);
+                    $caller = $this->getNoteCaller ($style);
+                    $this->odf_text_standard->addNote ($caller);
                   } else {
                     break 3;
                   }
@@ -824,23 +852,9 @@ break;
                   break;
                 }
               }
-              // UserInt1NoteNumbering:
               // UserInt2NoteNumberingRestart:
               // UserString1NoteNumberingSequence:
 /*
-case NoteNumbering123:
-{
-break;
-}
-case NoteNumberingAbc:
-{
-break;
-}
-case NoteNumberingUser:
-{
-break;
-}
-
 case NoteRestartNumberingNever:
 {
 break;
@@ -868,7 +882,7 @@ break;
         }
       } else {
         // Here is no marker. Treat it as text.
-        // Todo off for now. $this->odf_text_standard->addText ($currentItem);
+        $this->odf_text_standard->addNoteText ($currentItem);
       }
     }
   }
@@ -1078,7 +1092,7 @@ break;
     }
     $this->odf_text_standard->updateCurrentParagraphStyle ($combined_style);
   }
-  
+
 
   
   /**
@@ -1091,6 +1105,169 @@ break;
     $style = $this->styles[$this->chapterMarker];
     $this->odf_text_standard->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]);
   }
+  
+  
+  
+  /**
+  * This creates an entry in the $this->notecallers array.
+  * $style: the style: an array of key => value.
+  */
+  private function createNoteCaller ($style) // Todo working here.
+  {
+    // Create an entry in the notecallers array in this object, if it does not yet exist.
+    if (!array_key_exists ($style['marker'], $this->notecallers)) {
+      $numbering = $style['userint1'];
+      $sequence = "1 2 3 4 5 6 7 8 9"; // Fallback sequence.
+      if ($numbering == NoteNumbering123) $sequence = "";
+      if ($numbering == NoteNumberingAbc) $sequence = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
+      if ($numbering == NoteNumberingUser) $sequence = $style['userstring1'];
+      if ($sequence == "") $sequence = array ();
+      else $sequence = explode (" ", $sequence);
+      // Use of the above information:
+      // The note will be numbered as follows:
+      // If a $sequence is given, then this sequence is followed for the callers.
+      // If no $sequence is given, then the note gets numerical callers.
+
+      $restart = "chapter";
+      $userint2 = $style['userint2'];
+      if ($userint2 == NoteRestartNumberingNever) $restart = "never";
+      if ($userint2 == NoteRestartNumberingEveryBook) $restart = "book";
+      if ($userint2 == NoteRestartNumberingEveryChapter) $restart = "chapter";
+
+      $this->notecallers[$style['marker']] = array ('sequence'  => $sequence, 'restart' => $restart, 'pointer' => 0);
+    }
+
+
+
+
+/*
+Todo   reset();
+
+*/
+                      // Create entry if it does not yet exist,
+                      // e.g. notecallers['f'] for a footnote. This is an array also.
+                      // Add variables, numbering type, where to restart the numbering, and the numbering sequence.
+
+
+    
+  }
+  
+  
+  
+  /**
+  * This gets the note caller.
+  * The first time that a xref is encountered, this function would return, e.g. 'a'.
+  * The second time, it would return 'b'. Then 'c', 'd', 'e', and so on, up to 'z'.
+  * Then it would restart with 'a'. And so on.
+  * The note caller is the character that is put in superscript in the main body of Bible text.
+  * $style: array with values for the note opening marker.
+  * Returns: The character for the note caller.
+  */
+  private function getNoteCaller ($style)
+  {
+    // Get the raw note caller from the USFM. This could be, e.g. '+'.
+    $nextText = $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer + 1];
+    $caller = substr ($nextText, 0, 1);
+    $nextText = ltrim (substr ($nextText, 1));
+    $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer + 1] = $nextText;
+    $caller = trim ($caller);
+    if ($caller == "+") {
+      $marker = $style['marker']; // Todo assemble caller.
+      $sequence = $this->notecallers[$marker]['sequence'];
+      $pointer = $this->notecallers[$marker]['pointer'];
+      if (count ($sequence) == 0) {
+        $caller = ++$pointer;
+      } else {
+        $caller = $sequence [$pointer];
+        $pointer++;
+        if ($pointer >= count ($sequence)) $pointer = 0;
+      }
+      $this->notecallers[$marker]['pointer'] = $pointer;
+    } else if ($caller == "-") {
+      $caller = "";
+    }
+
+
+/*
+ // Todo working here.
+
+
+  // Write the footnote caller in the text. 
+  // The stylesheet is not consulted, it is just put in superscript, as is common for notes.
+  text2pdf->inline_set_superscript();
+  text2pdf->add_text(caller_in_text);
+  text2pdf->inline_clear_superscript();
+
+  // Open the footnote.
+  text2pdf->open_note();
+
+  // Set the paragraph to the default paragraph style for this note.
+  Usfm2XslFoStyle *default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
+  set_paragraph(default_paragraph_style, false);
+  Usfm2XslFoStyle *blockstyle = default_paragraph_style;
+
+  // Get the caller in the note.
+  ustring caller_in_note = caller_in_text;
+
+  // Insert the caller in the footnote body, in the note's style.
+  if (!caller_in_note.empty()) {
+    Usfm2XslFoStyle *inlinestyle = stylepointer;
+    open_inline(inlinestyle, default_paragraph_style);
+    text2pdf->add_text(caller_in_note);
+    close_possible_inline(inlinestyle);
+    text2pdf->add_text(" ");
+  }
+  // Optionally add the full text of any references in this note.
+  optionally_add_full_references(rawnote, stylepointer);
+
+  // Write the footnote.
+  Usfm2XslFoStyle *inlinestyle = NULL;
+  unsigned int iteration = 0;
+  while (!rawnote.empty()) {
+    ustring marker;
+    size_t marker_position;
+    size_t marker_length;
+    bool is_opener;
+    bool processed = false;
+    bool marker_found = usfm_search_marker(rawnote, marker,
+                                           marker_position, marker_length, is_opener);
+    if (marker_found) {
+      if (marker_position == 0) {
+        Usfm2XslFoStyle *stylepointer = marker_get_pointer_to_style(marker);
+        if (stylepointer) {
+          if ((stylepointer->type == u2xtFootEndNoteStandardContent) || (stylepointer->type == u2xtCrossreferenceStandardContent)) {
+            close_possible_inline(inlinestyle);
+          } else if ((stylepointer->type == u2xtFootEndNoteContent) || (stylepointer->type == u2xtFootEndNoteContentWithEndmarker) || (stylepointer->type == u2xtCrossreferenceContent) || (stylepointer->type == u2xtCrossreferenceContentWithEndmarker)) {
+            close_possible_inline(inlinestyle);
+            if (is_opener) {
+              inlinestyle = stylepointer;
+              open_inline(inlinestyle, blockstyle);
+            }
+          } else if (stylepointer->type == u2xtFootEndNoteParagraph) {
+            close_possible_inline(inlinestyle);
+            text2pdf->close_paragraph();
+            blockstyle = stylepointer;
+            open_paragraph(blockstyle, false);
+          }
+          rawnote.erase(0, marker_length);
+          processed = true;
+        }
+      }
+    }
+    iteration++;
+    if (!processed) {
+      output_text_fallback(rawnote);
+    }
+  }
+
+  // Close note.
+  text2pdf->close_note();
+    
+
+*/
+    return $caller;    
+  }
+  
   
   
   

@@ -1,8 +1,25 @@
 notes (footnote, endnote, crossreference)
 
-There is an object that handles the callers to be used. This object is kept alive throughout the formatting cycle.
+The odf_text object:
+- Function to reset the note callers.
+- Function to open and to close a character style for the note.
+- Function to 'close' a note. It just clears the pointer, so that any next note will be a new one, not the existing one.
+- Try some text to see.
+- Add a function to get all styles right: The standard paragraph style for the note, and then the text styles.
+- Any inline styles in the notes that are closing markers clear the text style. 
+- Else the 'standard' content also clears the text styles.
+- And any new opening marker clears the previous text styles, and sets its own.
 
-Update stylesheet in -Web for xt, since it should give complete paragraph information as well, see -Gtk.
+
+Test a variety of note callers, e.g. '-' or empty (which is -), or any character.
+
+Output this caller in superscript in the main text. Note in source that the stylesheet is not consulted.
+This needs a style specifically created for this superscript for this note.
+
+To dump the endnotes well formatted in the info document. 
+The note caller goes in the main text, and the well formatted endnotes in the info, so that it can be copied easily.
+
+
 
 
 

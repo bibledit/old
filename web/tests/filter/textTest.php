@@ -125,7 +125,7 @@ EOD;
   /**
   * Test footnotes and cross references.
   */
-  public function testFour()
+  public function testFour() // Todo working here; 
   {
 $usfm = <<<'EOD'
 \id GEN

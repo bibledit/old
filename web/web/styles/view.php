@@ -508,7 +508,7 @@ switch ($styles_logic->getUserString1Function ($type, $subtype)) {
     if ($userint1 == NoteNumberingUser) {
       $smarty->assign ("userstring1_numberingsequence", true);
       $userstring_question = gettext ("Please enter a new note numbering sequence");
-      $userstring1_help = gettext ("This gives a sequence for numbering the notes. When for example §†* is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used.");
+      $userstring1_help = gettext ("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters");
     }
     break;
   case UserString1WordListEntryAddition :
