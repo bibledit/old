@@ -680,7 +680,7 @@ class Filter_Text // Todo implement / test.
   * This function does the processing of the USFM code for one note,
   * formatting the document and extracting information.
   */
-  private function processNote () // Todo still to format notes.
+  private function processNote () // Todo work still to format notes.
   {
     for ( ; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) 
     {
@@ -710,7 +710,7 @@ class Filter_Text // Todo implement / test.
                 case FootEndNoteSubtypeFootnote:
                 {
                   if ($isOpeningMarker) {
-                    $this->addToFallout ("Note was not formatted", false);
+                    $this->addToFallout ("Footnote was not formatted", false);
                   } else {
                     break 3;
                   }
@@ -718,6 +718,11 @@ class Filter_Text // Todo implement / test.
                 }
                 case FootEndNoteSubtypeEndnote:
                 {
+                  if ($isOpeningMarker) {
+                    $this->addToFallout ("Endnote was not formatted", false);
+                  } else {
+                    break 3;
+                  }
                   break;
                 }
                 case FootEndNoteSubtypeStandardContent:
@@ -796,7 +801,7 @@ break;
                 case CrossreferenceSubtypeCrossreference:
                 {
                   if ($isOpeningMarker) {
-                    $this->addToFallout ("Note was not formatted", false);
+                    $this->addToFallout ("Crossreference was not formatted", false);
                   } else {
                     break 3;
                   }

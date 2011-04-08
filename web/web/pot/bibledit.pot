@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-07 01:45+0200\n"
+"POT-Creation-Date: 2011-04-08 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1362,6 +1362,22 @@ msgstr ""
 msgid "switch"
 msgstr ""
 
+msgid ""
+"When exporting a Bible to OpenDocument format, when the chapter number gets "
+"put just before the first verse in bigger font, frames are used for this. It "
+"is to achieve better appearance. When this is problematic, Bibledit-Web can "
+"also output the chapter number in drop caps."
+msgstr ""
+
+msgid "This setting is on."
+msgstr ""
+
+msgid "This setting is off."
+msgstr ""
+
+msgid "toggle"
+msgstr ""
+
 msgid "Bibledit-Web tracks the changes in the Bibles that it stores."
 msgstr ""
 
@@ -2611,15 +2627,6 @@ msgid "Account"
 msgstr ""
 
 msgid "Subscribe to consultation notes that you create or edit yourself."
-msgstr ""
-
-msgid "This setting is on."
-msgstr ""
-
-msgid "This setting is off."
-msgstr ""
-
-msgid "toggle"
 msgstr ""
 
 msgid "Subscribe to consultation notes that are created or edited by anybody."

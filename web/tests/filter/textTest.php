@@ -63,7 +63,7 @@ EOD;
     $this->assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '②'), $filter_text->publishedChapterMarkers[1]);
     $this->assertEquals (array (1 => 2), $filter_text->numberOfChaptersPerBook);
     exec ("odt2txt /tmp/TextTest1.odt", $output, &$return_var);
-    $this->assertEquals (array ("", "ⅠText chapter 1", "", "②Text chapter 2", ""), $output);
+    $this->assertEquals (array ("", "[-- Image: frame1 --]", "", "Ⅰ", "", "Text chapter 1", "", "[-- Image: frame2 --]", "", "②", "", "Text chapter 2", ""), $output);
   }
 
 

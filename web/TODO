@@ -1,25 +1,13 @@
-A full Bible is not exported yet for some reason. It seems to crash.
+notes (footnote, endnote, crossreference)
+
+There is an object that handles the callers to be used. This object is kept alive throughout the formatting cycle.
+
+Update stylesheet in -Web for xt, since it should give complete paragraph information as well, see -Gtk.
 
 
 
 
 
-
-
-
-
-
-
-
-
-footnotes and xrefs.
-At start marker, determine the end marker.
-A routine looks for this end marker.
-Within this routine there is another loop that does the job of formatting.
-It always opens the note, then closes the note at the end.
-It needs to know the type of note, indicated by its marker.
-There is another routine that handles the callers to be used.
-This object is kept alive throughout the formatting cycle.
 
 
 
@@ -35,11 +23,7 @@ Or at the end of a chapter, or at the end of the book, or else in the Info docum
 
 
 
-See http://langintro.com/odfdom_tutorials/
-Add this information to the Odfdom_Text class, in each function where part of this is executed,
-e.g. when creating styles, when inserting headings, and so on.
-cd work/odfdom/MySimpleOdt
-javac -cp '.:/home/teus/documents/dev/bibledit/web/web/odfdom/odfdom.jar:/usr/share/java/xercesImpl.jar' SimpleOdt.java > errors.txt 2>&1
+
 
 
 
@@ -52,8 +36,7 @@ One with text and notes in one document.
 One with text only, 
 One with the text plus superscripted letters for the notes. 
 One with notes only.
-Table of Contents
-Glossary Items.
+
 
 
 
