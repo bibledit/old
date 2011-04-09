@@ -58,7 +58,9 @@ class Filter_Text // Todo implement / test.
   public $info; // Array with strings.
   public $fallout; // Array with strings.
   
-  private $notecallers; // Array with information about the callers for the various notes.
+  private $notecallers; // Array with information for the callers for the notes.
+  private $standardContentMarkerFootEndNote;
+  private $standardContentMarkerCrossReference;
   
   /**
   * Class constructor.
@@ -77,6 +79,8 @@ class Filter_Text // Todo implement / test.
     $this->info = array ();
     $this->fallout = array ();
     $this->notecallers = array ();
+    $this->standardContentMarkerFootEndNote = "";
+    $this->standardContentMarkerCrossReference = "";
   }
   
 
@@ -178,9 +182,21 @@ class Filter_Text // Todo implement / test.
     $database_styles = Database_Styles::getInstance ();
     $markers = $database_styles->getMarkers ($stylesheet);
     foreach ($markers as $marker) {
-      $this->styles [$marker] = $database_styles->getMarkerData ($stylesheet, $marker);
+      $style = $database_styles->getMarkerData ($stylesheet, $marker);
+      $this->styles [$marker] = $style;
+      if ($style['type'] == StyleTypeFootEndNote) {
+        if ($style['subtype'] == FootEndNoteSubtypeStandardContent) {
+          $this->standardContentMarkerFootEndNote = $style['marker'];
+        }
+      }
+      if ($style['type'] == StyleTypeCrossreference) {
+        if ($style['subtype'] == CrossreferenceSubtypeStandardContent) {
+          $this->standardContentMarkerCrossReference = $style['marker'];
+        }
+      }
     }
   }
+
 
 
   /**
@@ -362,6 +378,8 @@ class Filter_Text // Todo implement / test.
                       }
                     }
                     $processedBooksCount++;
+                    // Reset.
+                    $this->resetNoteCallers ('book');
                     break;
                   }
                   case IdentifierSubtypeEncoding:
@@ -526,6 +544,8 @@ class Filter_Text // Todo implement / test.
                 }
                 // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
                 // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
+                // Reset.
+                $this->resetNoteCallers ('chapter');
                 break;
               }
               case StyleTypeVerseNumber:
@@ -747,19 +767,21 @@ class Filter_Text // Todo implement / test.
             {
               switch ($style['subtype']) 
               {
-                case FootEndNoteSubtypeFootnote: // Todo working here.
+                case FootEndNoteSubtypeFootnote:
                 {
                   if ($isOpeningMarker) {
+                    $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
                     $caller = $this->getNoteCaller ($style);
-                    $this->odf_text_standard->addNote ($caller);
+                    $this->odf_text_standard->addNote ($caller, $marker);
                   } else {
                     break 3;
                   }
                   break;
                 }
-                case FootEndNoteSubtypeEndnote: // Todo working here.
+                case FootEndNoteSubtypeEndnote: // Todo output somewhere.
                 {
                   if ($isOpeningMarker) {
+                    $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
                     $this->getNoteCaller ($style);
                   } else {
                     break 3;
@@ -825,11 +847,12 @@ break;
             {
               switch ($style['subtype']) 
               {
-                case CrossreferenceSubtypeCrossreference: // Todo working here.
+                case CrossreferenceSubtypeCrossreference:
                 {
                   if ($isOpeningMarker) {
+                    $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerCrossReference]);
                     $caller = $this->getNoteCaller ($style);
-                    $this->odf_text_standard->addNote ($caller);
+                    $this->odf_text_standard->addNote ($caller, $marker);
                   } else {
                     break 3;
                   }
@@ -885,6 +908,10 @@ break;
         $this->odf_text_standard->addNoteText ($currentItem);
       }
     }
+    
+    // "Close" the current note, so that any following note text, if malformed, 
+    // will be added to a new note, not to the last one created.
+    $this->odf_text_standard->closeCurrentNote ();
   }
 
 
@@ -1051,7 +1078,7 @@ break;
       // Columns are not implemented at present. Reason:
       // I failed to copy and paste sections with columns between documents in LibreOffice.
       // So why implement something that does not work.
-      // If it gets implemented, then sections are used in the OpenDocument format.
+      // If it gets implemented, then sections are to be used in OpenDocument.
       $spancolumns = $style["spancolumns"];
       $dropcaps = 0;
       $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
@@ -1112,7 +1139,7 @@ break;
   * This creates an entry in the $this->notecallers array.
   * $style: the style: an array of key => value.
   */
-  private function createNoteCaller ($style) // Todo working here.
+  private function createNoteCaller ($style)
   {
     // Create an entry in the notecallers array in this object, if it does not yet exist.
     if (!array_key_exists ($style['marker'], $this->notecallers)) {
@@ -1136,19 +1163,6 @@ break;
 
       $this->notecallers[$style['marker']] = array ('sequence'  => $sequence, 'restart' => $restart, 'pointer' => 0);
     }
-
-
-
-
-/*
-Todo   reset();
-
-*/
-                      // Create entry if it does not yet exist,
-                      // e.g. notecallers['f'] for a footnote. This is an array also.
-                      // Add variables, numbering type, where to restart the numbering, and the numbering sequence.
-
-
     
   }
   
@@ -1186,87 +1200,55 @@ Todo   reset();
     } else if ($caller == "-") {
       $caller = "";
     }
-
-
-/*
- // Todo working here.
-
-
-  // Write the footnote caller in the text. 
-  // The stylesheet is not consulted, it is just put in superscript, as is common for notes.
-  text2pdf->inline_set_superscript();
-  text2pdf->add_text(caller_in_text);
-  text2pdf->inline_clear_superscript();
-
-  // Open the footnote.
-  text2pdf->open_note();
-
-  // Set the paragraph to the default paragraph style for this note.
-  Usfm2XslFoStyle *default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
-  set_paragraph(default_paragraph_style, false);
-  Usfm2XslFoStyle *blockstyle = default_paragraph_style;
-
-  // Get the caller in the note.
-  ustring caller_in_note = caller_in_text;
-
-  // Insert the caller in the footnote body, in the note's style.
-  if (!caller_in_note.empty()) {
-    Usfm2XslFoStyle *inlinestyle = stylepointer;
-    open_inline(inlinestyle, default_paragraph_style);
-    text2pdf->add_text(caller_in_note);
-    close_possible_inline(inlinestyle);
-    text2pdf->add_text(" ");
-  }
-  // Optionally add the full text of any references in this note.
-  optionally_add_full_references(rawnote, stylepointer);
-
-  // Write the footnote.
-  Usfm2XslFoStyle *inlinestyle = NULL;
-  unsigned int iteration = 0;
-  while (!rawnote.empty()) {
-    ustring marker;
-    size_t marker_position;
-    size_t marker_length;
-    bool is_opener;
-    bool processed = false;
-    bool marker_found = usfm_search_marker(rawnote, marker,
-                                           marker_position, marker_length, is_opener);
-    if (marker_found) {
-      if (marker_position == 0) {
-        Usfm2XslFoStyle *stylepointer = marker_get_pointer_to_style(marker);
-        if (stylepointer) {
-          if ((stylepointer->type == u2xtFootEndNoteStandardContent) || (stylepointer->type == u2xtCrossreferenceStandardContent)) {
-            close_possible_inline(inlinestyle);
-          } else if ((stylepointer->type == u2xtFootEndNoteContent) || (stylepointer->type == u2xtFootEndNoteContentWithEndmarker) || (stylepointer->type == u2xtCrossreferenceContent) || (stylepointer->type == u2xtCrossreferenceContentWithEndmarker)) {
-            close_possible_inline(inlinestyle);
-            if (is_opener) {
-              inlinestyle = stylepointer;
-              open_inline(inlinestyle, blockstyle);
-            }
-          } else if (stylepointer->type == u2xtFootEndNoteParagraph) {
-            close_possible_inline(inlinestyle);
-            text2pdf->close_paragraph();
-            blockstyle = stylepointer;
-            open_paragraph(blockstyle, false);
-          }
-          rawnote.erase(0, marker_length);
-          processed = true;
-        }
-      }
-    }
-    iteration++;
-    if (!processed) {
-      output_text_fallback(rawnote);
-    }
-  }
-
-  // Close note.
-  text2pdf->close_note();
-    
-
-*/
     return $caller;    
   }
+
+
+  /**
+  * This resets selected note caller data.
+  * Resetting means that the note callers start to count afresh.
+  * $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
+  */
+  private function resetNoteCallers ($moment)
+  {
+    foreach ($this->notecallers as &$notecaller) {
+      if ($notecaller['restart'] == $moment) {
+        $notecaller['pointer'] = 0;
+      }
+    }
+  }
+
+
+
+  /**
+  * This function ensures that a certain paragraph style for a note is present in the OpenDocument.
+  * $marker: Which note, e.g. 'f' or 'x' or 'fe'.
+  * $style: The style to use.
+  */
+  private function ensureNoteParagraphStyle ($marker, $style) // Todo working here.
+  {
+    if (!in_array ($marker, $this->createdOdfStyles)) {
+      $fontsize = $style["fontsize"];
+      $italic = $style["italic"];
+      $bold = $style["bold"];
+      $underline = $style["underline"];
+      $smallcaps = $style["smallcaps"];
+      $alignment = $style["justification"];
+      $spacebefore = $style["spacebefore"];
+      $spaceafter = $style["spaceafter"];
+      $leftmargin = $style["leftmargin"];
+      $rightmargin = $style["rightmargin"];
+      $firstlineindent = $style["firstlineindent"];
+      $spancolumns = false;
+      $keepWithNext = false;
+      $dropcaps = 0;
+      $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+      $this->createdOdfStyles [] = $marker;
+    }
+  }
+  
+  
+  
   
   
   

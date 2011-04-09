@@ -53,12 +53,12 @@ private $temporary_folder;
   }
 
 
-  public function testThree() // Todo work here.
+  public function testThree()
   {
     $odf_text = new Odf_Text;
     $odf_text->newParagraph ();
     $odf_text->addText ("Text1");
-    $odf_text->addNote ("†");
+    $odf_text->addNote ("†", "");
     $odf_text->addNoteText ("Note1.");
     $odf_text->addText (".");
     @unlink ("/tmp/OdfTextTest3.odt");

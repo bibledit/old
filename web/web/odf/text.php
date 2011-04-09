@@ -490,8 +490,9 @@ class Odf_Text
   /**
   * This function adds a note to the current paragraph.
   * $caller: The text of the note caller, that is, the note citation.
+  * $style: Style name for the paragraph in the footnote body.
   */
-  public function addNote ($caller) // Todo working here.
+  public function addNote ($caller, $style)
   {
     // Ensure that a paragraph is open, so that the note can be added to it.
     if (!isset ($this->currentTextPDomElement)) {
@@ -514,7 +515,7 @@ class Odf_Text
     
     $this->noteTextPDomElement = $this->contentDom->createElement ("text:p");
     $textNoteBodyDomElement->appendChild ($this->noteTextPDomElement);
-    $this->noteTextPDomElement->setAttribute ("text:style-name", "Footnote"); // Todo work, real style to be used.
+    $this->noteTextPDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
   }
 
 
@@ -523,23 +524,32 @@ class Odf_Text
   * This function adds text to the current footnote.
   * $text: The text to add.
   */
-  public function addNoteText ($text)  // Todo working here.
+  public function addNoteText ($text)  // Todo working here on the style.
   {
     if ($text != "") {
       if (!isset ($this->noteTextPDomElement)) {
-        $this->addNote ("?");
+        $this->addNote ("?", "");
       }
       $textSpanDomElement = $this->contentDom->createElement ("text:span");
       $textSpanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
       $this->noteTextPDomElement->appendChild ($textSpanDomElement);
       /*
-    $this->noteTextPDomElement->nodeValue = htmlspecialchars ("Note", ENT_QUOTES, "UTF-8"); // Todo work here, move elsewhere.
       if ($this->currentTextStyle != "") {
         // Take character style as specified in this object.
         $textSpanDomElement->setAttribute ("text:style-name", $this->convertStyleName ($this->currentTextStyle));
       }
       */
     }
+  }
+
+
+
+  /**
+  * This function closes the current footnote.
+  */
+  public function closeCurrentNote ()
+  {
+    $this->noteTextPDomElement = NULL;
   }
 
 

@@ -125,17 +125,17 @@ EOD;
   /**
   * Test footnotes and cross references.
   */
-  public function testFour() // Todo working here; 
+  public function testFour()
   {
 $usfm = <<<'EOD'
 \id GEN
-\v 1 Text 1\x + \xt Isa. 1.1.\x*\x + \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
+\v 1 Text 1\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard", "/tmp/TextTest4.odt");
     exec ("odt2txt /tmp/TextTest4.odt", $output, &$return_var);
-    // Todo $this->assertEquals (array ("", "1 Text 1", "", "Paragraph One. 2 Verse Two.", "", "3 Verse Three. 4 Verse Four. 5 Verse Five.", ""), $output);
+    $this->assertEquals (array ("", "1 Text 1a", "", "Isa. 1.1.", "", "Isa. 2.2.", "", "b", "", "Isa. 3.3.", "", ", text 21", "", "Word1: Heb. Explanation1.", "", "2", "", "Word2: Heb. Explanation2.", "", ", text3.3", "", "Test: Heb. Note at the very end.", ""), $output);
   }
 
 
