@@ -782,7 +782,8 @@ class Filter_Text // Todo implement / test.
                 {
                   if ($isOpeningMarker) {
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
-                    $this->getNoteCaller ($style);
+                    $caller = $this->getNoteCaller ($style);
+                    $this->odf_text_standard->addNote ($caller, $marker, true);
                   } else {
                     break 3;
                   }
@@ -790,18 +791,27 @@ class Filter_Text // Todo implement / test.
                 }
                 case FootEndNoteSubtypeStandardContent:
                 {
+                  // The style of the standard content is already used in the note's body.
+                  // If means that the text style should be cleared 
+                  // in order to return to the correct style for the paragraph.
+                  var_dump ("standard content"); // Todo
+                  $this->odf_text_standard->closeTextStyle (true);
                   break;
                 }
                 case FootEndNoteSubtypeContent:
-                {
-                  break;
-                }
                 case FootEndNoteSubtypeContentWithEndmarker:
                 {
+                  if ($isOpeningMarker) {
+                    $this->odf_text_standard->openTextStyle ($style, true);
+                  } else {
+                    $this->odf_text_standard->closeTextStyle (true);
+                  }
                   break;
                 }
                 case FootEndNoteSubtypeParagraph:
                 {
+                  // The style of this is not yet implemented.
+                  $this->odf_text_standard->closeTextStyle (true);
                   break;
                 }
                 default:
@@ -810,37 +820,6 @@ class Filter_Text // Todo implement / test.
                 }
               }
               // UserBool1NoteAppliesToApocrypha: For xref too?
-              // UserInt2NoteNumberingRestart:
-              // UserInt2EndnotePosition:
-              // UserString1NoteNumberingSequence:
-              // UserString2DumpEndnotesHere: But this one should go out.
-/*
-case NoteRestartNumberingNever:
-{
-break;
-}
-case NoteRestartNumberingEveryBook:
-{
-break;
-}
-case NoteRestartNumberingEveryChapter:
-{
-break;
-}
-
-case EndNotePositionAfterBook:
-{
-break;
-}
-case EndNotePositionVeryEnd:
-{
-break;
-}
-case EndNotePositionAtMarker:
-{
-break;
-}
-*/                  
               break;
             }
             case StyleTypeCrossreference:
@@ -860,14 +839,20 @@ break;
                 }
                 case CrossreferenceSubtypeStandardContent:
                 {
+                  // The style of the standard content is already used in the note's body.
+                  // If means that the text style should be cleared
+                  // in order to return to the correct style for the paragraph.
+                  $this->odf_text_standard->closeTextStyle (true);
                   break;
                 }
                 case CrossreferenceSubtypeContent:
-                {
-                  break;
-                }
                 case CrossreferenceSubtypeContentWithEndmarker:
                 {
+                  if ($isOpeningMarker) {
+                    $this->odf_text_standard->openTextStyle ($style, true);
+                  } else {
+                    $this->odf_text_standard->closeTextStyle (true);
+                  }
                   break;
                 }
                 default:
@@ -875,22 +860,6 @@ break;
                   break;
                 }
               }
-              // UserInt2NoteNumberingRestart:
-              // UserString1NoteNumberingSequence:
-/*
-case NoteRestartNumberingNever:
-{
-break;
-}
-case NoteRestartNumberingEveryBook:
-{
-break;
-}
-case NoteRestartNumberingEveryChapter:
-{
-break;
-}
-*/                  
               break;
             }
             default:
@@ -1225,7 +1194,7 @@ break;
   * $marker: Which note, e.g. 'f' or 'x' or 'fe'.
   * $style: The style to use.
   */
-  private function ensureNoteParagraphStyle ($marker, $style) // Todo working here.
+  private function ensureNoteParagraphStyle ($marker, $style)
   {
     if (!in_array ($marker, $this->createdOdfStyles)) {
       $fontsize = $style["fontsize"];

@@ -48,6 +48,7 @@ class Odf_Text
   
   private $noteCount;
   private $noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
+  private $currentNoteTextStyle;
   
   
   public function __construct () 
@@ -57,6 +58,7 @@ class Odf_Text
     $this->currentTextStyle = "";
     $this->frameCount = 0;
     $this->noteCount = 0;
+    $this->currentNoteTextStyle = "";
 
     $template = dirname (__FILE__) . "/template.odt";
     $this->unpackedOdtFolder = Filter_Archive::unzip ($template, false);
@@ -299,8 +301,9 @@ class Odf_Text
   /**
   * This opens a text style.
   * $style: the array containing the style variables.
+  * $note: Whether this refers to notes.
   */
-  public function openTextStyle ($style)
+  public function openTextStyle ($style, $note = false) // Todo work here.
   {
     $marker = $style["marker"];
     if (!in_array ($marker, $this->createdStyles)) {
@@ -361,16 +364,21 @@ class Odf_Text
       }
 
     }
-    $this->currentTextStyle = $marker;
+
+    if ($note) $this->currentNoteTextStyle = $marker;
+    else $this->currentTextStyle = $marker;
   }
+
 
 
   /**
   * This closes any open text style.
+  * $note: Whether this refers to notes.
   */
-  public function closeTextStyle ()
+  public function closeTextStyle ($note = false) // Todo work here.
   {
-    $this->currentTextStyle = "";
+    if ($note) $this->currentNoteTextStyle = "";
+    else $this->currentTextStyle = "";
   }
   
   
@@ -491,8 +499,9 @@ class Odf_Text
   * This function adds a note to the current paragraph.
   * $caller: The text of the note caller, that is, the note citation.
   * $style: Style name for the paragraph in the footnote body.
+  * $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
   */
-  public function addNote ($caller, $style)
+  public function addNote ($caller, $style, $endnote = false) // Todo work here.
   {
     // Ensure that a paragraph is open, so that the note can be added to it.
     if (!isset ($this->currentTextPDomElement)) {
@@ -503,8 +512,12 @@ class Odf_Text
     $this->currentTextPDomElement->appendChild ($textNoteDomElement);
     $textNoteDomElement->setAttribute ("text:id", "ftn" . $this->noteCount);
     $this->noteCount++;
-    $textNoteDomElement->setAttribute ("text:note-class", "footnote");
+    if ($endnote) $noteclass = "endnote";
+    else $noteclass = "footnote";
+    $textNoteDomElement->setAttribute ("text:note-class", $noteclass);
     
+    // The note citation, the 'caller' is normally in superscript in the OpenDocument.
+    // The default values of the application are used. The Bibledit-Web stylesheet is not consulted.
     $textNoteCitationDomElement = $this->contentDom->createElement ("text:note-citation");
     $textNoteDomElement->appendChild ($textNoteCitationDomElement);
     $textNoteCitationDomElement->setAttribute ("text:label", htmlspecialchars ($caller, ENT_QUOTES, "UTF-8"));
@@ -516,6 +529,8 @@ class Odf_Text
     $this->noteTextPDomElement = $this->contentDom->createElement ("text:p");
     $textNoteBodyDomElement->appendChild ($this->noteTextPDomElement);
     $this->noteTextPDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
+
+    $this->closeTextStyle (true);
   }
 
 
@@ -533,12 +548,10 @@ class Odf_Text
       $textSpanDomElement = $this->contentDom->createElement ("text:span");
       $textSpanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
       $this->noteTextPDomElement->appendChild ($textSpanDomElement);
-      /*
-      if ($this->currentTextStyle != "") {
+      if ($this->currentNoteTextStyle != "") {
         // Take character style as specified in this object.
-        $textSpanDomElement->setAttribute ("text:style-name", $this->convertStyleName ($this->currentTextStyle));
+        $textSpanDomElement->setAttribute ("text:style-name", $this->convertStyleName ($this->currentNoteTextStyle));
       }
-      */
     }
   }
 
@@ -547,8 +560,9 @@ class Odf_Text
   /**
   * This function closes the current footnote.
   */
-  public function closeCurrentNote ()
+  public function closeCurrentNote () // Todo work
   {
+    $this->closeTextStyle (true);
     $this->noteTextPDomElement = NULL;
   }
 
