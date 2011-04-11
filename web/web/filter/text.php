@@ -54,7 +54,7 @@ class Filter_Text
   public $chapterLabels; // Array with numerical keys, and values like array (book, chapter, verse, marker, label value).
   public $publishedChapterMarkers; // Array with numerical keys, and values like array (book, chapter, verse, marker, marker value).
 
-  public $odf_text_standard; // Object for creating OpenDocument with main text in standard form.
+  public $odf_text_standard; // Object for creating OpenDocument with main text in standard form. Todo
 
   public $info; // Array with strings.
   public $fallout; // Array with strings.
@@ -116,9 +116,8 @@ class Filter_Text
   /**
   * This function runs the filter.
   * $stylesheet - The stylesheet to use.
-  * $standardFilename - The filename for the standard OpenDocument text.
   */
-  public function run ($stylesheet, $standardFilenameOdt)
+  public function run ($stylesheet)
   {
     // Get the styles.
     $this->getStyles ($stylesheet);
@@ -128,9 +127,6 @@ class Filter_Text
 
     // Process data.
     $this->processUsfm ();
-    
-    // Finalize the documents.
-    $this->odf_text_standard->save ($standardFilenameOdt);
   }
 
 

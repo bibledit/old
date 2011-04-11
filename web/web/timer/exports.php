@@ -101,7 +101,8 @@ foreach ($bibles as $bible) {
     file_put_contents ("$usfmDirectory/$baseBookFileName.usfm", $bookUsfmData);
 
     // Create standard OpenDocument containing the Bible book.
-    $filter_text_book->run ($stylesheet, "$odtDirectory/$baseBookFileName" . "_standard.odt");
+    $filter_text_book->run ($stylesheet);
+    $filter_text_book->odf_text_standard->save ("$odtDirectory/$baseBookFileName" . "_standard.odt");
 
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
@@ -112,7 +113,8 @@ foreach ($bibles as $bible) {
   file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
 
   // Create standard OpenDocument containing the whole Bible.
-  $filter_text_bible->run ($stylesheet, "$odtDirectory/00_Bible_standard.odt");
+  $filter_text_bible->run ($stylesheet);
+  $filter_text_bible->odf_text_standard->save ("$odtDirectory/00_Bible_standard.odt");
 
   // Create the info OpenDocument for the whole Bible.
   $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");

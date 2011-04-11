@@ -45,7 +45,7 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("Standard", "/tmp/TextTest1.odt");
+    $filter_text->run ("Standard");
     // Check that it finds the running headers.
     $this->assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h', 'value' => 'Header'),  $filter_text->runningHeaders[0]);
     $this->assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h1', 'value' => 'Header1'), $filter_text->runningHeaders[1]);
@@ -62,6 +62,8 @@ EOD;
     $this->assertEquals (array ('book' => 1, 'chapter' => 1, 'verse' => 0, 'marker' => 'cp', 'value' => 'Ⅰ'), $filter_text->publishedChapterMarkers[0]);
     $this->assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '②'), $filter_text->publishedChapterMarkers[1]);
     $this->assertEquals (array (1 => 2), $filter_text->numberOfChaptersPerBook);
+    @unlink ("/tmp/TextTest1.odt");
+    $filter_text->odf_text_standard->save ("/tmp/TextTest1.odt");
     exec ("odt2txt /tmp/TextTest1.odt", $output, &$return_var);
     $this->assertEquals (array ("", "[-- Image: frame1 --]", "", "Ⅰ", "", "Text chapter 1", "", "[-- Image: frame2 --]", "", "②", "", "Text chapter 2", ""), $output);
   }
@@ -90,11 +92,13 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("Standard", "/tmp/TextTest2.odt");
+    $filter_text->run ("Standard");
+    @unlink ("/tmp/TextTest2.odt");
+    $filter_text->odf_text_standard->save("/tmp/TextTest2.odt");
     exec ("odt2txt /tmp/TextTest2.odt", $output, &$return_var);
     $this->assertEquals (array ("", "Text Genesis 1", "", "Text Genesis 2", "", "Text Matthew 1", "", "Text Matthew 2", ""), $output);
     $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ',
-                                'Matthew 2:0 Unknown marker \xxx Unknown markup'), $filter_text->fallout);
+                                'Matthew 2:0 Unknown marker \xxx, formatting error: Unknown markup'), $filter_text->fallout);
     $this->assertEquals (array ('Matthew 2:0 Comment: \rem Comment'), $filter_text->info);
   }
 
@@ -116,7 +120,9 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("Standard", "/tmp/TextTest3.odt");
+    $filter_text->run ("Standard");
+    @unlink ("/tmp/TextTest3.odt");
+    $filter_text->odf_text_standard->save ("/tmp/TextTest3.odt");
     exec ("odt2txt /tmp/TextTest3.odt", $output, &$return_var);
     $this->assertEquals (array ("", "1 Verse One.", "", "Paragraph One. 2 Verse Two.", "", "3 Verse Three. 4 Verse Four. 5 Verse Five.", ""), $output);
   }
@@ -133,7 +139,9 @@ $usfm = <<<'EOD'
 EOD;
     $filter_text = new Filter_Text;
     $filter_text->addUsfmCode ($usfm);
-    $filter_text->run ("Standard", "/tmp/TextTest4.odt");
+    $filter_text->run ("Standard");
+    @unlink ("/tmp/TextTest4.odt");
+    $filter_text->odf_text_standard->save ("/tmp/TextTest4.odt");
     exec ("odt2txt /tmp/TextTest4.odt", $output, &$return_var);
     $this->assertEquals (array ("", "1 Text 1a", "", "Isa. 1.1.", "", "Isa. 2.2.", "", "b", "", "Isa. 3.3.", "", ", text 21", "", "Word1: Heb. Explanation1.", "", "2", "", "Word2: Heb. Explanation2.", "", ", text3.3", "", "Test: Heb. Note at the very end.", ""), $output);
   }
