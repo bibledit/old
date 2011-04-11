@@ -303,7 +303,7 @@ class Odf_Text
   * $style: the array containing the style variables.
   * $note: Whether this refers to notes.
   */
-  public function openTextStyle ($style, $note = false) // Todo work here.
+  public function openTextStyle ($style, $note = false)
   {
     $marker = $style["marker"];
     if (!in_array ($marker, $this->createdStyles)) {
@@ -375,7 +375,7 @@ class Odf_Text
   * This closes any open text style.
   * $note: Whether this refers to notes.
   */
-  public function closeTextStyle ($note = false) // Todo work here.
+  public function closeTextStyle ($note = false)
   {
     if ($note) $this->currentNoteTextStyle = "";
     else $this->currentTextStyle = "";
@@ -501,7 +501,7 @@ class Odf_Text
   * $style: Style name for the paragraph in the footnote body.
   * $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
   */
-  public function addNote ($caller, $style, $endnote = false) // Todo work here.
+  public function addNote ($caller, $style, $endnote = false)
   {
     // Ensure that a paragraph is open, so that the note can be added to it.
     if (!isset ($this->currentTextPDomElement)) {
@@ -539,7 +539,7 @@ class Odf_Text
   * This function adds text to the current footnote.
   * $text: The text to add.
   */
-  public function addNoteText ($text)  // Todo working here on the style.
+  public function addNoteText ($text)
   {
     if ($text != "") {
       if (!isset ($this->noteTextPDomElement)) {
@@ -560,7 +560,7 @@ class Odf_Text
   /**
   * This function closes the current footnote.
   */
-  public function closeCurrentNote () // Todo work
+  public function closeCurrentNote ()
   {
     $this->closeTextStyle (true);
     $this->noteTextPDomElement = NULL;

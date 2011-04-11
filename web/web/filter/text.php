@@ -741,7 +741,7 @@ class Filter_Text // Todo implement / test.
   * This function does the processing of the USFM code for one note,
   * formatting the document and extracting information.
   */
-  private function processNote () // Todo work still to format notes.
+  private function processNote ()
   {
     for ( ; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) 
     {
@@ -763,7 +763,7 @@ class Filter_Text // Todo implement / test.
               $this->addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
               break 2;
             }
-            case StyleTypeFootEndNote: // Todo handle notes including subtypes.
+            case StyleTypeFootEndNote:
             {
               switch ($style['subtype']) 
               {
@@ -778,7 +778,7 @@ class Filter_Text // Todo implement / test.
                   }
                   break;
                 }
-                case FootEndNoteSubtypeEndnote: // Todo output somewhere.
+                case FootEndNoteSubtypeEndnote:
                 {
                   if ($isOpeningMarker) {
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
@@ -794,7 +794,6 @@ class Filter_Text // Todo implement / test.
                   // The style of the standard content is already used in the note's body.
                   // If means that the text style should be cleared 
                   // in order to return to the correct style for the paragraph.
-                  var_dump ("standard content"); // Todo
                   $this->odf_text_standard->closeTextStyle (true);
                   break;
                 }
@@ -885,10 +884,9 @@ class Filter_Text // Todo implement / test.
 
 
   /**
-  * This function produces the Java code that produces the Info Document.
+  * This creates and saves the Info Document.
   * The Info Document contains formatting information, collected from the USFM code.
   * $path: Path to the document.
-  * // Todo Returns: The Java code
   */
   public function produceInfoDocument ($path)
   {
@@ -956,7 +954,6 @@ class Filter_Text // Todo implement / test.
     }
     
     $odf_text->save ($path);
-    // Todo return $odfdom_text->javaCode;
   }
   
   
@@ -1005,9 +1002,8 @@ class Filter_Text // Todo implement / test.
 
 
   /**
-  * This function produces the Java code that produces the Fallout document.
+  * This produces and saves the Fallout document.
   * $path: Path to the document.
-  * Todo Returns: The Java code
   */
   public function produceFalloutDocument ($path)
   {
@@ -1018,7 +1014,6 @@ class Filter_Text // Todo implement / test.
       $odf_text->addText ($line);
     }
     $odf_text->save ($path);
-    // Todo return $odfdom_text->javaCode;
   }
   
   
@@ -1155,7 +1150,7 @@ class Filter_Text // Todo implement / test.
     $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer + 1] = $nextText;
     $caller = trim ($caller);
     if ($caller == "+") {
-      $marker = $style['marker']; // Todo assemble caller.
+      $marker = $style['marker'];
       $sequence = $this->notecallers[$marker]['sequence'];
       $pointer = $this->notecallers[$marker]['pointer'];
       if (count ($sequence) == 0) {

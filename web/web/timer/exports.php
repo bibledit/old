@@ -102,10 +102,6 @@ foreach ($bibles as $bible) {
 
     // Create standard OpenDocument containing the Bible book.
     $filter_text_book->run ($stylesheet, "$odtDirectory/$baseBookFileName" . "_standard.odt");
-    // Todo $javaCode = $filter_text_book->odfdom_text_standard->javaCode;
-    // Todo $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-    // Todo Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
-    // Todo echo "Bible $baseBookFileName dir $dir \n"; // Todo
 
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
@@ -117,22 +113,12 @@ foreach ($bibles as $bible) {
 
   // Create standard OpenDocument containing the whole Bible.
   $filter_text_bible->run ($stylesheet, "$odtDirectory/00_Bible_standard.odt");
-  // Todo $javaCode = $filter_text_bible->odfdom_text_standard->javaCode;
-  // Todo $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-  // Todo Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
-  // Todo echo "full Bible dir $dir \n"; // Todo
 
   // Create the info OpenDocument for the whole Bible.
-  // Todo $javaCode = 
   $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
-  // Todo $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-  // Todo Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
   
   // Create the fallout document.
-  // Todo $javaCode = 
   $filter_text_bible->produceFalloutDocument ("$odtDirectory/00_Fallout.odt");
-  // Todo $dir = Filter_Java::compile ($javaCode, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()));
-  // Todo Filter_Java::run ($dir, array (Odfdom_Class::path (), Filter_Java::xercesClassPath()), "odt");
 
 }
 $database_logs->log (gettext ("The Bibles have been exported"), true);
