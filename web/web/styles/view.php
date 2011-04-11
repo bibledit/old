@@ -514,7 +514,7 @@ switch ($styles_logic->getUserString1Function ($type, $subtype)) {
   case UserString1WordListEntryAddition :
     $smarty->assign ("userstring1_wordlistaddition", true);
     $userstring1_question = gettext ("Please enter a new addition to the word list entry");
-    $userstring1_help = gettext ("This given an optional string of character to be added after each definition for the word list. In some Bibles the unusual words may be marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any character, Bibledit would include this in the word definition.");
+    $userstring1_help = gettext ("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit-Web would include this in the exported documents.");
     break;
 }
 if (isset ($_GET['userstring1'])) {

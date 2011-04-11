@@ -1,5 +1,6 @@
 <?php
 
+
 /**
 * @package bibledit
 */
@@ -57,10 +58,15 @@ class Filter_Text // Todo implement / test.
 
   public $info; // Array with strings.
   public $fallout; // Array with strings.
+  private $wordListGlossaryDictionary; // Array with strings.
+  private $hebrewWordList; // Array with strings.
+  private $greekWordList; // Array with strings.
+  private $subjectIndex; // Array with strings.
   
   private $notecallers; // Array with information for the callers for the notes.
   private $standardContentMarkerFootEndNote;
   private $standardContentMarkerCrossReference;
+  
   
   /**
   * Class constructor.
@@ -78,6 +84,10 @@ class Filter_Text // Todo implement / test.
     $this->odf_text_standard = new Odf_Text;
     $this->info = array ();
     $this->fallout = array ();
+    $this->wordListGlossaryDictionary = array ();
+    $this->hebrewWordList = array ();
+    $this->greekWordList = array ();
+    $this->subjectIndex = array ();
     $this->notecallers = array ();
     $this->standardContentMarkerFootEndNote = "";
     $this->standardContentMarkerCrossReference = "";
@@ -691,42 +701,59 @@ class Filter_Text // Todo implement / test.
                 // UserInt1TableColumnNumber:
                 break;
               }
-              case StyleTypeWordlistElement: // Todo see to this one.
+              case StyleTypeWordlistElement:
               {
                 switch ($style['subtype']) 
                 {
                   case WorListElementSubtypeWordlistGlossaryDictionary:
                   {
+                    if ($isOpeningMarker) {
+                      $this->addToWordList ($this->wordListGlossaryDictionary);
+                    }
                     break;
                   }
                   case WorListElementSubtypeHebrewWordlistEntry:
                   {
+                    if ($isOpeningMarker) {
+                      $this->addToWordList ($this->hebrewWordList);
+                    }
                     break;
                   }
                   case WorListElementSubtypeGreekWordlistEntry:
                   {
+                    if ($isOpeningMarker) {
+                      $this->addToWordList ($this->greekWordList);
+                    }
                     break;
                   }
                   case WorListElementSubtypeSubjectIndexEntry:
                   {
+                    if ($isOpeningMarker) {
+                      $this->addToWordList ($this->subjectIndex);
+                    }
                     break;
                   }
                   default:
                   {
+                    if ($isOpeningMarker) {
+                      $this->addToFallout ("Unknown word list marker \\$marker", false);
+                    }
                     break;
                   }
                 }
                 // UserString1WordListEntryAddition:
                 break;
               }
-              default: // Todo
+              default:
               {
+                // This marker is not yet implemented. Add to fallout, plus any text that follows.
+                $this->addToFallout ("Marker not yet implemented \\$marker, possible formatting error:", true);
                 break;
               }
             }
           } else {
             // Here is an unknown marker. Add to fallout, plus any text that follows.
-            $this->addToFallout ("Unknown marker \\$marker", true);
+            $this->addToFallout ("Unknown marker \\$marker, formatting error:", true);
           }
         } else {
           // Here is no marker. Treat it as text.
@@ -894,7 +921,7 @@ class Filter_Text // Todo implement / test.
 
     $odf_text = new Odf_Text;
     
-    // Indicate the number of chapters per book.
+    // Number of chapters per book.
     $odf_text->newHeading1 (gettext ("Number of chapters per book"));
     foreach ($this->numberOfChaptersPerBook as $book => $chapterCount) {
       $line = $database_books->getEnglishFromId ($book) . " => " . $chapterCount;
@@ -902,7 +929,7 @@ class Filter_Text // Todo implement / test.
       $odf_text->addText ($line);
     }
     
-    // Indicate the running headers.
+    // Running headers.
     $odf_text->newHeading1 (gettext ("Running headers"));
     foreach ($this->runningHeaders as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
@@ -910,7 +937,7 @@ class Filter_Text // Todo implement / test.
       $odf_text->addText ($line);
     }
     
-    // Indicate the Table of Contents entries.
+    // Table of Contents entries.
     $odf_text->newHeading1 (gettext ("Long table of contents entries"));
     foreach ($this->longTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
@@ -924,7 +951,7 @@ class Filter_Text // Todo implement / test.
       $odf_text->addText ($line);
     }
 
-    // Indicate book abbreviations.
+    // Book abbreviations.
     $odf_text->newHeading1 (gettext ("Book abbreviations"));
     foreach ($this->bookAbbreviations as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
@@ -932,7 +959,7 @@ class Filter_Text // Todo implement / test.
       $odf_text->addText ($line);
     }
         
-    // Indicate the chapter specials.
+    // Chapter specials.
     $odf_text->newHeading1 (gettext ("Publishing chapter labels"));
     foreach ($this->chapterLabels as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
@@ -946,7 +973,29 @@ class Filter_Text // Todo implement / test.
       $odf_text->addText ($line);
     }
 
-    // Indicate the Other info.
+    // Word lists.
+    $odf_text->newHeading1 (gettext ("Word list, glossary, dictionary entries"));
+    foreach ($this->wordListGlossaryDictionary as $item) {
+      $odf_text->newParagraph ();
+      $odf_text->addText ($item);
+    }
+    $odf_text->newHeading1 (gettext ("Hebrew word list entries"));
+    foreach ($this->hebrewWordList as $item) {
+      $odf_text->newParagraph ();
+      $odf_text->addText ($item);
+    }
+    $odf_text->newHeading1 (gettext ("Greek word list entries"));
+    foreach ($this->greekWordList as $item) {
+      $odf_text->newParagraph ();
+      $odf_text->addText ($item);
+    }
+    $odf_text->newHeading1 (gettext ("Subject index entries"));
+    foreach ($this->subjectIndex as $item) {
+      $odf_text->newParagraph ();
+      $odf_text->addText ($item);
+    }
+    
+    // Other info.
     $odf_text->newHeading1 (gettext ("Other information"));
     foreach ($this->info as $line) {
       $odf_text->newParagraph ();
@@ -997,6 +1046,23 @@ class Filter_Text // Todo implement / test.
       $text .= " " . Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
     }
     $this->fallout[] = $text;
+  }
+
+
+
+  /**
+  * This function adds something to a word list array, prefixed by the current passage.
+  * $list: which list to add the text to.
+  * The word is extracted from the input USFM. The Usfm pointer points to the current marker,
+  * and the text following that marker is added to the word list array.
+  */
+  private function addToWordList(&$list)
+  {
+    $text = Filter_Usfm::peekTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+    $text .= " (";
+    $text .= $this->getCurrentPassageText();
+    $text .= ")";
+    $list[] = $text;
   }
 
 

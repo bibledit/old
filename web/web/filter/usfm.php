@@ -21,6 +21,7 @@
  **  
  */
 
+
 class Filter_Usfm
 {
 
@@ -302,6 +303,17 @@ class Filter_Usfm
       $identifier = substr ($usfm[$pointer], 0, 3);
     }
     return $identifier;
+  }
+
+
+  /**
+  * Returns the text that follows a USFM marker.
+  * $usfm: array of strings alternating between USFM code and subsequent text.
+  * $pointer: should point to the marker in $usfm. Pointer is left as it is.
+  */
+  public function peekTextFollowingMarker ($usfm, $pointer)
+  {
+    return Filter_Usfm::getTextFollowingMarker ($usfm, $pointer);
   }
 
 
