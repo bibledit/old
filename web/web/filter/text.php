@@ -561,6 +561,12 @@ class Filter_Text
               case StyleTypeVerseNumber:
               {
                 $this->odf_text_standard->closeTextStyle ();
+                // Care for the situation that a new verse starts a new paragraph.
+                if ($style['userbool1']) {
+                  if ($this->odf_text_standard->currentParagraphContent != "") {
+                    $this->newParagraph ($this->odf_text_standard->currentParagraphStyle, false);
+                  }
+                }
                 // Deal with the case of a pending chapter number.
                 if (isset ($this->outputChapterTextAtFirstVerse)) {
                   $database_config_general = Database_Config_General::getInstance ();
@@ -601,7 +607,7 @@ class Filter_Text
                 }
                 // Chapter variable may not have been used, but unset it anyway, making it ready for subsequent use. 
                 unset ($this->outputChapterTextAtFirstVerse);
-                // UserBool1VerseRestartsParagraph: - important at times. Todo still to implement.
+                // Done.
                 break;
               }
               case StyleTypeFootEndNote:
