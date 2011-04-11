@@ -1,7 +1,9 @@
+
+
+
+
 Export all Bibles to OpenDocument format. 
 A variety of editions: 
-One with text and notes in one document. 
-One with text only, 
 One with the text plus superscripted letters for the notes. 
 One with notes only.
 
@@ -668,3 +670,7 @@ we may have a function to get the last 100 or so on the screen.
 It would be good if the export also exported to html.
 The differences would then show clearer and less messy.
 
+
+
+
+OpenOffice may export to PDF, probably, see unoconv.
