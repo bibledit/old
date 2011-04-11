@@ -496,6 +496,32 @@ class Odf_Text
   
 
   /**
+  * This creates the superscript style.
+  */
+  public function createSuperscriptStyle () // Todo work
+  {
+    // The style entry looks like this in styles.xml:
+    // <style:style style:name="superscript" style:family="text">
+    //   <style:text-properties style:text-position="super 58%"/>
+    // </style:style>
+    $styleDomElement = $this->stylesDom->createElement ("style:style");
+    $styleDomElement->setAttribute ("style:name", "superscript");
+    $styleDomElement->setAttribute ("style:family", "text");
+    $this->officeStylesDomNode->appendChild ($styleDomElement);
+
+    $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
+    $styleDomElement->appendChild ($styleTextPropertiesDomElement);
+    //$styleTextPropertiesDomElement->setAttribute ("style:text-position", "super 58%");
+    // If the percentage is not specified, an appropriate font height is used.
+    $styleTextPropertiesDomElement->setAttribute ("style:text-position", "super");
+    // The mere setting of the superscript value makes the font smaller. No need to set it manually.
+    //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%");
+    //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%");
+    //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
+  }
+
+
+  /**
   * This function adds a note to the current paragraph.
   * $caller: The text of the note caller, that is, the note citation.
   * $style: Style name for the paragraph in the footnote body.

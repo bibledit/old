@@ -55,7 +55,8 @@ class Filter_Text
   public $publishedChapterMarkers; // Array with numerical keys, and values like array (book, chapter, verse, marker, marker value).
 
   public $odf_text_standard; // Object for creating OpenDocument with text in standard form. Todo
-  public $odf_text_text_only; // Object for creating OpenDocument with text only. Todo
+  public $odf_text_text_only; // Object for creating OpenDocument with text only.
+  public $odf_text_text_and_note_citations; // Object for creating OpenDocument with text and note citations.
 
   public $info; // Array with strings.
   public $fallout; // Array with strings.
@@ -83,7 +84,8 @@ class Filter_Text
     $this->chapterLabels = array ();
     $this->publishedChapterMarkers = array ();
     $this->odf_text_standard = new Odf_Text; // Todo
-    $this->odf_text_text_only = new Odf_Text; // Todo
+    $this->odf_text_text_only = new Odf_Text;
+    $this->odf_text_text_and_note_citations = new Odf_Text;
     $this->info = array ();
     $this->fallout = array ();
     $this->wordListGlossaryDictionary = array ();
@@ -187,7 +189,9 @@ class Filter_Text
     $this->styles = array ();
     $styles_logic = Styles_Logic::getInstance (); // This is to get the relevant styles information included.
     $this->odf_text_standard->createPageBreakStyle (); // Todo
-    $this->odf_text_text_only->createPageBreakStyle (); // Todo
+    $this->odf_text_text_only->createPageBreakStyle ();
+    $this->odf_text_text_and_note_citations->createPageBreakStyle ();
+    $this->odf_text_text_and_note_citations->createSuperscriptStyle ();
     $database_styles = Database_Styles::getInstance ();
     $markers = $database_styles->getMarkers ($stylesheet);
     foreach ($markers as $marker) {
@@ -367,7 +371,8 @@ class Filter_Text
               case StyleTypeIdentifier:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case IdentifierSubtypeBook:
@@ -385,7 +390,8 @@ class Filter_Text
                     if ($style['userbool1']) {
                       if ($processedBooksCount) {
                         $this->odf_text_standard->newPageBreak (); // Todo
-                        $this->odf_text_text_only->newPageBreak (); // Todo
+                        $this->odf_text_text_only->newPageBreak ();
+                        $this->odf_text_text_and_note_citations->newPageBreak ();
                       }
                     }
                     $processedBooksCount++;
@@ -471,7 +477,8 @@ class Filter_Text
               case StyleTypeStartsParagraph:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case ParagraphSubtypeMainTitle:
@@ -494,17 +501,20 @@ class Filter_Text
               {
                 if ($isOpeningMarker) {
                   $this->odf_text_standard->openTextStyle ($style); // Todo
-                  $this->odf_text_text_only->openTextStyle ($style); // Todo
+                  $this->odf_text_text_only->openTextStyle ($style);
+                  $this->odf_text_text_and_note_citations->openTextStyle ($style);
                 } else {
                   $this->odf_text_standard->closeTextStyle (); // Todo
-                  $this->odf_text_text_only->closeTextStyle (); // Todo
+                  $this->odf_text_text_only->closeTextStyle ();
+                  $this->odf_text_text_and_note_citations->closeTextStyle ();
                 }
                 break;
               }
               case StyleTypeChapterNumber:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 // Get the chapter number.
                 $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                 $number = Filter_Numeric::integer_in_string ($number);
@@ -555,7 +565,8 @@ class Filter_Text
                     // Keep it together with the next paragraph.
                     $this->newParagraph ($style, true);
                     $this->odf_text_standard->addText ($number); // Todo
-                    $this->odf_text_text_only->addText ($number); // Todo
+                    $this->odf_text_text_only->addText ($number);
+                    $this->odf_text_text_and_note_citations->addText ($number);
                   }
                 }
                 // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
@@ -567,14 +578,18 @@ class Filter_Text
               case StyleTypeVerseNumber:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 // Care for the situation that a new verse starts a new paragraph.
                 if ($style['userbool1']) {
                   if ($this->odf_text_standard->currentParagraphContent != "") { // Todo
                     $this->odf_text_standard->newParagraph ($this->odf_text_standard->currentParagraphStyle); // Todo
                   }
-                  if ($this->odf_text_text_only->currentParagraphContent != "") { // Todo
-                    $this->odf_text_text_only->newParagraph ($this->odf_text_text_only->currentParagraphStyle); // Todo
+                  if ($this->odf_text_text_only->currentParagraphContent != "") {
+                    $this->odf_text_text_only->newParagraph ($this->odf_text_text_only->currentParagraphStyle);
+                  }
+                  if ($this->odf_text_text_and_note_citations->currentParagraphContent != "") {
+                    $this->odf_text_text_and_note_citations->newParagraph ($this->odf_text_text_and_note_citations->currentParagraphStyle);
                   }
                 }
                 // Deal with the case of a pending chapter number.
@@ -584,7 +599,8 @@ class Filter_Text
                     $dropCapsLength = mb_strlen ($this->outputChapterTextAtFirstVerse);
                     $this->applyDropCapsToCurrentParagraph ($dropCapsLength);
                     $this->odf_text_standard->addText ($this->outputChapterTextAtFirstVerse); // Todo
-                    $this->odf_text_text_only->addText ($this->outputChapterTextAtFirstVerse); // Todo
+                    $this->odf_text_text_only->addText ($this->outputChapterTextAtFirstVerse);
+                    $this->odf_text_text_and_note_citations->addText ($this->outputChapterTextAtFirstVerse);
                   } else {
                     $this->putChapterNumberInFrame ($this->outputChapterTextAtFirstVerse);
                   }
@@ -596,20 +612,25 @@ class Filter_Text
                 $this->currentVerseNumber = $number;
                 // Output the verse number. But only if no chapter number was put here.
                 if (!isset ($this->outputChapterTextAtFirstVerse)) {
+                  // If the current paragraph has text already, then insert a space.
                   if ($this->odf_text_standard->currentParagraphContent != "") { // Todo
-                    // If the current paragraph has text already, then insert a space.
                     $this->odf_text_standard->addText (" "); // Todo
                   }
-                  if ($this->odf_text_text_only->currentParagraphContent != "") { // Todo
-                    // If the current paragraph has text already, then insert a space.
-                    $this->odf_text_text_only->addText (" "); // Todo
+                  if ($this->odf_text_text_only->currentParagraphContent != "") {
+                    $this->odf_text_text_only->addText (" ");
+                  }
+                  if ($this->odf_text_text_and_note_citations->currentParagraphContent != "") {
+                    $this->odf_text_text_and_note_citations->addText (" ");
                   }
                   $this->odf_text_standard->openTextStyle ($style); // Todo
-                  $this->odf_text_text_only->openTextStyle ($style); // Todo
+                  $this->odf_text_text_only->openTextStyle ($style);
+                  $this->odf_text_text_and_note_citations->openTextStyle ($style);
                   $this->odf_text_standard->addText ($number); // Todo
-                  $this->odf_text_text_only->addText ($number); // Todo
+                  $this->odf_text_text_only->addText ($number);
+                  $this->odf_text_text_and_note_citations->addText ($number);
                   $this->odf_text_standard->closeTextStyle (); // Todo
-                  $this->odf_text_text_only->closeTextStyle (); // Todo
+                  $this->odf_text_text_only->closeTextStyle ();
+                  $this->odf_text_text_and_note_citations->closeTextStyle ();
                 }
                 // If there was any text following the \v marker, remove the verse number, 
                 // put the remainder back into the object, and update the pointer.
@@ -641,7 +662,8 @@ class Filter_Text
               case StyleTypePeripheral:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case PeripheralSubtypePublication:
@@ -665,22 +687,26 @@ class Filter_Text
               case StyleTypePicture:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->addToFallout ("Picture formatting not yet implemented", true);
                 break;
               }
               case StyleTypePageBreak:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_standard->newPageBreak (); // Todo
-                $this->odf_text_text_only->newPageBreak (); // Todo
+                $this->odf_text_text_only->newPageBreak ();
+                $this->odf_text_text_and_note_citations->newPageBreak ();
                 break;
               }
               case StyleTypeTableElement:
               {
                 $this->odf_text_standard->closeTextStyle (); // Todo
-                $this->odf_text_text_only->closeTextStyle (); // Todo
+                $this->odf_text_text_only->closeTextStyle ();
+                $this->odf_text_text_and_note_citations->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case TableElementSubtypeRow:
@@ -759,7 +785,8 @@ class Filter_Text
         } else {
           // Here is no marker. Treat it as text.
           $this->odf_text_standard->addText ($currentItem); // Todo
-          $this->odf_text_text_only->addText ($currentItem); // Todo
+          $this->odf_text_text_only->addText ($currentItem);
+          $this->odf_text_text_and_note_citations->addText ($currentItem);
         }
       }
     }
@@ -770,7 +797,7 @@ class Filter_Text
   * This function does the processing of the USFM code for one note,
   * formatting the document and extracting information.
   */
-  private function processNote ()
+  private function processNote () // Todo work.
   {
     for ( ; $this->chapterUsfmMarkersAndTextPointer < count ($this->chapterUsfmMarkersAndText); $this->chapterUsfmMarkersAndTextPointer++) 
     {
@@ -796,23 +823,33 @@ class Filter_Text
             {
               switch ($style['subtype']) 
               {
-                case FootEndNoteSubtypeFootnote:
+                case FootEndNoteSubtypeFootnote: // Todo
                 {
                   if ($isOpeningMarker) {
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
                     $caller = $this->getNoteCaller ($style);
                     $this->odf_text_standard->addNote ($caller, $marker); // Todo
+                    // Note citation in superscript in the document with text and note citations.
+                    $currentTextStyle = $this->odf_text_text_and_note_citations->currentTextStyle;
+                    $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
+                    $this->odf_text_text_and_note_citations->addText ($caller);
+                    $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
                   } else {
                     break 3;
                   }
                   break;
                 }
-                case FootEndNoteSubtypeEndnote:
+                case FootEndNoteSubtypeEndnote: // Todo
                 {
                   if ($isOpeningMarker) {
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
                     $caller = $this->getNoteCaller ($style);
                     $this->odf_text_standard->addNote ($caller, $marker, true); // Todo
+                    // Note citation in superscript in the document with text and note citations.
+                    $currentTextStyle = $this->odf_text_text_and_note_citations->currentTextStyle;
+                    $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
+                    $this->odf_text_text_and_note_citations->addText ($caller);
+                    $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
                   } else {
                     break 3;
                   }
@@ -860,6 +897,11 @@ class Filter_Text
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerCrossReference]);
                     $caller = $this->getNoteCaller ($style);
                     $this->odf_text_standard->addNote ($caller, $marker); // Todo
+                    // Note citation in superscript in the document with text and note citations.
+                    $currentTextStyle = $this->odf_text_text_and_note_citations->currentTextStyle;
+                    $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
+                    $this->odf_text_text_and_note_citations->addText ($caller);
+                    $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
                   } else {
                     break 3;
                   }
@@ -1114,11 +1156,13 @@ class Filter_Text
       $spancolumns = $style["spancolumns"];
       $dropcaps = 0;
       $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps); // Todo
-      $this->odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps); // Todo
+      $this->odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+      $this->odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->createdOdfStyles [] = $marker;
     }
     $this->odf_text_standard->newParagraph ($marker); // Todo
-    $this->odf_text_text_only->newParagraph ($marker); // Todo
+    $this->odf_text_text_only->newParagraph ($marker);
+    $this->odf_text_text_and_note_citations->newParagraph ($marker);
   }
   
   
@@ -1132,9 +1176,9 @@ class Filter_Text
   {
     // To name a style according to the number of characters to put in drop caps,
     // e.g. a style name like p_c1 or p_c2 or p_c3.
-    $combined_style = $this->odf_text_standard->currentParagraphStyle . "_" . $this->chapterMarker . $dropCapsLength; // Todo
+    $combined_style = $this->odf_text_standard->currentParagraphStyle . "_" . $this->chapterMarker . $dropCapsLength;
     if (!in_array ($combined_style, $this->createdOdfStyles)) {
-      $style = $this->styles[$this->odf_text_standard->currentParagraphStyle]; // Todo
+      $style = $this->styles[$this->odf_text_standard->currentParagraphStyle];
       $fontsize = $style["fontsize"];
       $italic = $style["italic"];
       $bold = $style["bold"];
@@ -1149,11 +1193,13 @@ class Filter_Text
       $spancolumns = $style["spancolumns"];
       $keepWithNext = false;
       $this->odf_text_standard->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength); // Todo
-      $this->odf_text_text_only->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength); // Todo
+      $this->odf_text_text_only->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
+      $this->odf_text_text_and_note_citations->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
       $this->createdOdfStyles [] = $combined_style;
     }
     $this->odf_text_standard->updateCurrentParagraphStyle ($combined_style); // Todo
-    $this->odf_text_text_only->updateCurrentParagraphStyle ($combined_style); // Todo
+    $this->odf_text_text_only->updateCurrentParagraphStyle ($combined_style);
+    $this->odf_text_text_and_note_citations->updateCurrentParagraphStyle ($combined_style);
   }
 
 
@@ -1166,8 +1212,9 @@ class Filter_Text
   private function putChapterNumberInFrame ($chapterText)
   {
     $style = $this->styles[$this->chapterMarker];
-    $this->odf_text_standard->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]); // Todo work
-    $this->odf_text_text_only->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]); // Todo work
+    $this->odf_text_standard->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]); // Todo
+    $this->odf_text_text_only->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]);
+    $this->odf_text_text_and_note_citations->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]);
   }
   
   
@@ -1280,14 +1327,11 @@ class Filter_Text
       $keepWithNext = false;
       $dropcaps = 0;
       $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps); // Todo
-      $this->odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps); // Todo
+      $this->odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+      $this->odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->createdOdfStyles [] = $marker;
     }
   }
-  
-  
-  
-  
   
   
   
