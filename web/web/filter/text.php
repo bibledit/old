@@ -27,7 +27,7 @@
 /**
 * This class filters USFM text, converting it into other formats.
 */
-class Filter_Text // Todo implement / test.
+class Filter_Text
 {
   
   private $usfmMarkersAndText; // Array of strings alternating between USFM and text.
@@ -614,83 +614,55 @@ class Filter_Text // Todo implement / test.
                 $this->processNote ();
                 break;
               }
-              case StyleTypePeripheral: // Todo handle this one, let's see how exactly. Fallout? Info?
+              case StyleTypePeripheral:
               {
                 $this->odf_text_standard->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case PeripheralSubtypePublication:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeTableOfContents:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypePreface:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeIntroduction:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeGlossary:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeConcordance:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeIndex:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeMapIndex:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeCover:
-                  {
-                    break;
-                  }
                   case PeripheralSubtypeSpine:
-                  {
-                    break;
-                  }
                   default:
                   {
+                    $this->addToFallout ("Unknown pheripheral marker \\$marker", false);
                     break;
                   }
                 }
                 break;
               }
-              case StyleTypePicture: // Todo Insert pictures.
+              case StyleTypePicture:
               {
                 $this->odf_text_standard->closeTextStyle ();
+                $this->addToFallout ("Picture formatting not yet implemented", true);
                 break;
               }
-              case StyleTypePageBreak: // Todo see how to get this in OpenDocument.
+              case StyleTypePageBreak:
               {
                 $this->odf_text_standard->closeTextStyle ();
+                $this->odf_text_standard->newPageBreak ();
                 break;
               }
-              case StyleTypeTableElement: // Todo create table.
+              case StyleTypeTableElement:
               {
                 $this->odf_text_standard->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
                   case TableElementSubtypeRow:
                   {
+                    $this->addToFallout ("Table elements not yet implemented", false);
                     break;
                   }
                   case TableElementSubtypeHeading:
-                  {
-                    break;
-                  }
                   case TableElementSubtypeCell:
                   {
+                    $this->newParagraph ($style, false);
                     break;
                   }
                   default:

@@ -51,22 +51,17 @@ One with notes only.
 
 
 
-While exporting the data, the option must be set to use a certain stylesheet for this.
-The manager can set this.
 
 
 
 
 
 
-Scribus. We may write a script in Scribus to typeset a Bible.
-This script runs from within Scribus, and may, e.g. typeset one page.
-It flows the text into Scribus.
+
+LibreOffice. We may write a script for LibreOffice to typeset a Bible.
+This script runs from within LibreOffice, and may, e.g. typeset one page.
+It flows the text into LibreOffice.
 The user then should optimize each page manually.
-But it is likely that OpenOffice is a better candidate for typesetting a Bible.
-It has better font support, and better internationalization.
-We could use fixed linespacing so as to get the effect of a text grid.
-Larger text has a line spacing that is an exact multiple of the fixed base grid.
 But the standard way to create a grid is to enable Register-True on Page and Paragraphs
 We could place the text as normal starting from above.
 We could place the footnotes in a text frame at the bottom, or just as normal text.
@@ -82,8 +77,13 @@ No headings needed, as these do not belong to the core of DTP programs, though t
 
 
 
+
+
+
 Web: Sending/receiving goes once a day. If there are conflicts, the Administrator(s) are emailed with the data.
 All output goes into the logbook. No longer on the screen.
+
+
 
 
 
