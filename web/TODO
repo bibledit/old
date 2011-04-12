@@ -1,9 +1,3 @@
-Export all Bibles to OpenDocument format. 
-A variety of editions: 
-One with notes only.
-Notes not to be indented, so no left margin, and no right margin, and no firstlineindent for that.
-Character styles do not work.
-Insert non-breaking space after note citation in notes document, so it does not break there.
 
 
 

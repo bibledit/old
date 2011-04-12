@@ -849,11 +849,12 @@ class Filter_Text
                     $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
                     $this->odf_text_text_and_note_citations->addText ($citation);
                     $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
-                    // Add the note citation. Add space if the paragraph has text already.
+                    // Add space if the paragraph has text already.
                     if ($this->odf_text_notes->currentParagraphContent != "") {
                       $this->odf_text_notes->addText (" ");
                     }
-                    $this->odf_text_notes->addText ($citation . " ");
+                    // Add the note citation. And a no-break space (NBSP) after it.
+                    $this->odf_text_notes->addText ($citation . " ");
                   } else {
                     break 3;
                   }
@@ -926,11 +927,12 @@ class Filter_Text
                     $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
                     $this->odf_text_text_and_note_citations->addText ($citation);
                     $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
-                    // Add the note citation. Add space if the paragraph has text already.
+                    // Add a space if the paragraph has text already.
                     if ($this->odf_text_notes->currentParagraphContent != "") {
                       $this->odf_text_notes->addText (" ");
                     }
-                    $this->odf_text_notes->addText ($citation . " ");
+                    // Add the note citation. And a no-break space (NBSP) after it.
+                    $this->odf_text_notes->addText ($citation . " ");
                   } else {
                     break 3;
                   }
