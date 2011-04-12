@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-11 01:45+0200\n"
+"POT-Creation-Date: 2011-04-12 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1103,11 +1103,10 @@ msgid "Please enter a new addition to the word list entry"
 msgstr ""
 
 msgid ""
-"This given an optional string of character to be added after each definition "
-"for the word list. In some Bibles the unusual words may be marked with an "
-"asterisk and then explained in a glossary. If you would enter the asterisk "
-"here, or indeed any character, Bibledit would include this in the word "
-"definition."
+"This given an optional string to be added after each definition in the body "
+"of text. In some Bibles the unusual words are marked with an asterisk and "
+"then explained in a glossary. If you would enter the asterisk here, or "
+"indeed any string, Bibledit-Web would include this in the exported documents."
 msgstr ""
 
 msgid "Please enter a marker at which the endnotes should be dumped"
@@ -1244,6 +1243,18 @@ msgid "Publishing chapter labels"
 msgstr ""
 
 msgid "Publishing alternate chapter numbers"
+msgstr ""
+
+msgid "Word list, glossary, dictionary entries"
+msgstr ""
+
+msgid "Hebrew word list entries"
+msgstr ""
+
+msgid "Greek word list entries"
+msgstr ""
+
+msgid "Subject index entries"
 msgstr ""
 
 msgid "Other information"

@@ -46,12 +46,15 @@ $exportsDirectory = dirname (dirname (__FILE__)) . "/downloads/exports";
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
 
+  // Files get stored in http://site.org/bibledit/downloads/exports/<Bible>
+  // Clear this directory of old exports. Just in case something has changed in data or settings.
+  $bibleDirectory = "$exportsDirectory/$bible";
+  Filter_Rmdir::rmdir ($bibleDirectory);
+
   // Skip the $bible if it should not be exported.
   if (!in_array ($bible, $exportedBibles)) continue;
   
-  // Files get stored in http://site.org/bibledit/downloads/exports/<Bible>
-  // The user can access the files through the browser.
-  $bibleDirectory = "$exportsDirectory/$bible";
+  // The user can access the files through the browser at the directory.
   @mkdir ($bibleDirectory, 0777, true);
   
   // USFM files go into the USFM folder.
