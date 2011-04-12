@@ -498,7 +498,7 @@ class Odf_Text
   /**
   * This creates the superscript style.
   */
-  public function createSuperscriptStyle () // Todo work
+  public function createSuperscriptStyle ()
   {
     // The style entry looks like this in styles.xml:
     // <style:style style:name="superscript" style:family="text">
