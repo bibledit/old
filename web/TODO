@@ -11,13 +11,11 @@
 
 
 
-
-
-
 Help file about typesetting and proofprints.
-
-
-
+Write this file from notes about how to do it as we go along.
+Gives step-by-step scenarios.
+Putting a vertical line between the columns improves readability since
+the gap can be smaller without trouble.
 
 
 
@@ -55,8 +53,14 @@ No headings needed, as these do not belong to the core of DTP programs, though t
 
 
 
+
+
+
+
 Web: Sending/receiving goes once a day. If there are conflicts, the Administrator(s) are emailed with the data.
 All output goes into the logbook. No longer on the screen.
+
+
 
 
 
@@ -365,46 +369,6 @@ chapter/verse numbers.
 
 > Is there any news about packing bibledit-web? 
 
-I started on this today.  I soon encountered something I am not sure how
-to handle -- bibledit-web seems to expect a working and configured mysql
-server at *build* time.
-
-This seems unusual; I can understand needing a MySQL server at run time,
-but not at build time.  I should be able to compile and install (and
-package) bibletime-web without a MySQL server, shouldn't I?
-
-The Debian and Ubuntu builder machines do not provide MySQL servers
-during the build process.  Even if they did, those might well be
-different (and configured differently) from the mysql server seen by the
-app when the package is installed on a user's machine at some later point.
-
-I would expect that the build process just builds and installs the
-application; there would usually also be a default configuration file
-which can be edited to specify where the database server is, username
-and password, etc.  In the Debian/Ubuntu packaging world, initial
-settings for these would be done using debconf, so the user gets a
-dialog asking for them at install time.
-
-I hope the database server/name/username/password information is not
-being hardcoded into the application itself during the build?  Surely
-the right place for that kind of info is a separate configuration file?
-
-I could try to patch out the checks for the MySQL server done by your
-configure script... but then I feel I'm basically working 'against' the
-developers intentions instead of with them!  You (presumably) put those
-checks in there at build time for a reason... I just don't know what the
-reason is.
-
-phpmysqladmin (your suggested example existing packaged web app) does
-not do this kind of thing during its build process.
-
-Incidentally, longer term, you might want to consider using a database
-abstraction layer (PEAR MDB2 for example) so that bibledit-web can use
-Postgresql or other database back ends, not just MySQL.
-
-Thoughts, ideas and suggestions welcomed :)
-
-More comments and ideas related to packaging bibledit-web:
 
 CONFIGURING TOO EARLY:
 
@@ -578,52 +542,15 @@ Ubuntu has libzend-framework-php
 
 
 
-Those installing to a machine they have full control over would instead
-install the necessary libraries as packages, and configure bibledit-web
-to use those copies of the libraries (or, one day, install a
-bibledit-web package which would depend on the library packages and
-configure itself to use them!).
-
-> There is a clash between this practice and packaging things. When I 
-> asked for a bibledit-web package, I had not realized the implications
-> of that.
-
-Yes, bundling everything into one tree of files is convenient for FTP
-uploads, but unhelpful for packaging.  Doing work to avoid using
-included "convenience copies" of libraries when packaging is fairly common.
 
 Also, if this is the design goal, then I think checking for MySQL and
 needing the root pw at configure time is unhelpful -- the local Linux PC
 may not even have MySQL at all.
 
-Incidentally, I'm a bit surprised that your users are successfully
-running PHP code that uses system() and exec() to run Unix commands such
-as git and ssh-keygen on machines they only have a shared web hosting
-account on.  Good shared web hosting providers tend to use the
-disable_functions entry in php.ini to disable "dangerous" PHP functions,
-often including system() and exec().
 
-> The tarball as it is now tries to make it easy to install the
-> software from source. Whether it succeeds in that is a different
-> matter.
 
-I think it depends greatly on the server setup; it seems it is fairly
-easy to install bibledit-web 0.2 from source if it is the ONLY web
-software and ONLY MySQL-using software on the machine, and if Apache
-ONLY serves up one (default) web site.  So for a quick test install on a
-freshly installed Ubuntu desktop, it's relatively easy.  But for
-installing on a production Ubuntu server that already uses MySQL for
-other things and has multiple apache virtualhosts in place, it's not
-going to be easy at all.
 
-> The problems that you mention still need to be addressed. I will do so
-> when time permits. Clearly, the software as it is, is not yet fit for
-> packaging.
 
-I think that's probably true, unfortunately.  I'd suggest dealing with
-the "chmod 0777" and "root MySQL password stored in config file" issues
-quickly if you can, since they are not packaging specific, and seem to
-me to be exploitable security issues.  The rest... can wait :)
 
 
 
@@ -641,10 +568,10 @@ Refresh less often.
 
 
 
-Bibledit-Gtk should have an option to "export" the whole of its project to Bibledit-Web. 
-It does that by zipped file exporting all the USFM files. Then to upload this ZIP file,
-and Bibledit-Web has an option to unpack the zip file locally, then to imnport it.
-Thus people can harness option on the demo server, such options as are not available in Bibledit-Gtk.
+
+
+
+
 
 
 
@@ -656,10 +583,25 @@ we may have a function to get the last 100 or so on the screen.
 
 
 
+
+
+
+
 It would be good if the export also exported to html.
 The differences would then show clearer and less messy.
+A very easy way of doing this is through letting LibreOffice save to html.
+But a better way is to let the Filter_Text routine create very clean html that uses internal css stylesheet.
+This really is the way to go.
+
+
+
+
 
 
 
 
 OpenOffice may export to PDF, probably, see unoconv.
+This PDF looks better than the one made through cups-pdf.
+
+
+

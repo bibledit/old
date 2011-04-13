@@ -269,6 +269,20 @@ EOD;
     $this->setValue ("export-chapter-drop-caps", $value);
   }   
 
+  public function getHyphenationFirstSet() {
+    return $this->getValue ("hyphenation-first-set", "");
+  }
+  public function setHyphenationFirstSet ($value) {
+    $this->setValue ("hyphenation-first-set", $value);
+  }   
+
+  public function getHyphenationSecondSet() {
+    return $this->getValue ("hyphenation-second-set", "");
+  }
+  public function setHyphenationSecondSet ($value) {
+    $this->setValue ("hyphenation-second-set", $value);
+  }   
+
 
 
 }

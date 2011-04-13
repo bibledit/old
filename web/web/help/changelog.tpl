@@ -10,6 +10,7 @@
 <p>Import USFM data into a Bible through file upload.</p>
 <p>Requires zip and unzip.</p>
 <p>Daily export of selected Bibles to OpenDocument files in various editions: standard, text only, text with note citations, and notes only.</p>
+<p>Hyphenator can insert soft hyphens into Bibles at defined locations.</p>
 
 <h2>Version 0.3</h2>
 <p>4 March 2011</p>

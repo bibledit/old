@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-12 01:45+0200\n"
+"POT-Creation-Date: 2011-04-13 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,6 +130,27 @@ msgid "Ready. All relevant Bibles, and Consultations Notes, have been done."
 msgstr ""
 
 msgid "Send/Receive"
+msgstr ""
+
+msgid "Hyphenation"
+msgstr ""
+
+msgid "The two sets of characters were saved"
+msgstr ""
+
+msgid "Which Bible would you like to take the data from?"
+msgstr ""
+
+msgid "No Bible given"
+msgstr ""
+
+msgid "No first set of characters given"
+msgstr ""
+
+msgid "No second set of characters given"
+msgstr ""
+
+msgid "The Bible is being hyphenated. See the logbook for details."
 msgstr ""
 
 msgid "New"
@@ -1409,6 +1430,78 @@ msgstr ""
 msgid "Manage your notifications."
 msgstr ""
 
+msgid "Hyphenation can be used when preparing a Bible for printing."
+msgstr ""
+
+msgid ""
+"It allows for more efficient usage of paper, and for more regular appearance "
+"of margins at the end of the lines without requiring spacing adjustments."
+msgstr ""
+
+msgid ""
+"The details of hyphenating properly are complex and dependent on the "
+"language, and can interact with other orthographic and typesetting practices."
+msgstr ""
+
+msgid ""
+"Hyphenation may not be so important when preparing a Bible for proofreading. "
+"It is usually regarded important for production quality Bibles."
+msgstr ""
+
+msgid ""
+"When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the "
+"wordprocessor itself provides hyphenation algorithms for many languages."
+msgstr ""
+
+msgid ""
+"If no suitable hyphenation algorithm can be used, perhaps Bibledit-Web can "
+"assist to a limited degree."
+msgstr ""
+
+msgid ""
+"Bibledit-Web can take the data from a Bible, insert soft hyphens in the "
+"words according to a certain algorithm, and then save this data as a new "
+"Bible."
+msgstr ""
+
+msgid ""
+"This new Bible can then be exported to OpenDocument format, and opened in a "
+"wordprocessor."
+msgstr ""
+
+msgid ""
+"The wordprocessor sees these soft hyphens. When a soft hyphen occurs near "
+"the end of the line, it breaks the word there."
+msgstr ""
+
+msgid ""
+"Bibledit-Web has one hyphenating algorithm. When there is a transition in "
+"the text from any character of a first set of characters, to any character "
+"of a second set of characters, then the soft hyphen will be inserted at that "
+"location in the text."
+msgstr ""
+
+msgid "First set of characters"
+msgstr ""
+
+msgid "Second set of characters"
+msgstr ""
+
+msgid "Enter the sets of characters, and press Save."
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "The Bible where the data will be taken from is:"
+msgstr ""
+
+msgid "The Bible where the hyphenated data will be written to is:"
+msgstr ""
+
+msgid "Insert the soft hyphens according to the settings."
+msgstr ""
+
 msgid "Ready sending and receiving."
 msgstr ""
 
@@ -1528,9 +1621,6 @@ msgid "Create a new consultation note."
 msgstr ""
 
 msgid "Body"
-msgstr ""
-
-msgid "Save"
 msgstr ""
 
 msgid "Cancel"
