@@ -17,6 +17,7 @@ class Database_Config_General
     return self::$instance;
   }
 
+
   /**
   * Verify database table, optionally creating and/or optimizing it
   */
@@ -283,6 +284,47 @@ EOD;
     $this->setValue ("hyphenation-second-set", $value);
   }   
 
+  public function getPageWidth () {
+    return $this->getValue ("page-width", 210);
+  }
+  public function setPageWidth  ($value) {
+    $this->setValue ("page-width", $value);
+  }
+
+  public function getPageHeight () {
+    return $this->getValue ("page-height", 297);
+  }
+  public function setPageHeight  ($value) {
+    $this->setValue ("page-height", $value);
+  }
+
+  public function getInnerMargin () {
+    return $this->getValue ("inner-margin", 20);
+  }
+  public function setInnerMargin  ($value) {
+    $this->setValue ("inner-margin", $value);
+  }
+
+  public function getOuterMargin () {
+    return $this->getValue ("outer-margin", 10);
+  }
+  public function setOuterMargin  ($value) {
+    $this->setValue ("outer-margin", $value);
+  }
+
+  public function getTopMargin () {
+    return $this->getValue ("top-margin", 10);
+  }
+  public function setTopMargin  ($value) {
+    $this->setValue ("top-margin", $value);
+  }
+
+  public function getBottomMargin () {
+    return $this->getValue ("bottom-margin", 10);
+  }
+  public function setBottomMargin  ($value) {
+    $this->setValue ("bottom-margin", $value);
+  }
 
 
 }

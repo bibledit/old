@@ -4,4 +4,7 @@ Two folders were removed from this template:
 Configuration2
 Thumbnails
 
-
+The software that uses this template assumes a style name "Mpm1" for the style:page-layout element,
+such as LibreOffice creates by default.
+The software uses this style:page-layout element to set page size and margins.
+It assumes that there is only one style:page-layout element.

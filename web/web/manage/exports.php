@@ -67,9 +67,93 @@ if (isset ($_GET['dropcapstoggle'])) {
 }
 
 
+if (isset ($_GET['pagewidth'])) {
+  $dialog_entry = new Dialog_Entry ("", gettext ("Please enter a page width in millimeters"), $database_config_general->getPageWidth (), "pagewidth", gettext ("The width of A4 is 210 mm. The width of Letter is 216 mm."));
+  die;
+}
+if (isset($_POST['pagewidth'])) {
+  $value = $_POST['entry'];
+  $value = Filter_Numeric::integer_in_string ($value);
+  if (($value >= 30) && ($value <= 500)) {
+    $database_config_general->setPageWidth ($value);
+  }
+}
+
+
+if (isset ($_GET['pageheight'])) {
+  $dialog_entry = new Dialog_Entry ("", gettext ("Please enter a page height in millimeters"), $database_config_general->getPageHeight (), "pageheight", gettext ("The height of A4 is 297 mm. The width of Letter is 279 mm."));
+  die;
+}
+if (isset($_POST['pageheight'])) {
+  $value = $_POST['entry'];
+  $value = Filter_Numeric::integer_in_string ($value);
+  if (($value >= 40) && ($value <= 600)) {
+    $database_config_general->setPageHeight ($value);
+  }
+}
+
+
+if (isset ($_GET['innermargin'])) {
+  $dialog_entry = new Dialog_Entry ("", gettext ("Please enter an inner margin size in millimeters"), $database_config_general->getInnerMargin (), "innermargin", "");
+  die;
+}
+if (isset($_POST['innermargin'])) {
+  $value = $_POST['entry'];
+  $value = Filter_Numeric::integer_in_string ($value);
+  if (($value >= 0) && ($value <= 100)) {
+    $database_config_general->setInnerMargin ($value);
+  }
+}
+
+
+if (isset ($_GET['outermargin'])) {
+  $dialog_entry = new Dialog_Entry ("", gettext ("Please enter an outer margin size in millimeters"), $database_config_general->getOuterMargin (), "outermargin", "");
+  die;
+}
+if (isset($_POST['outermargin'])) {
+  $value = $_POST['entry'];
+  $value = Filter_Numeric::integer_in_string ($value);
+  if (($value >= 0) && ($value <= 100)) {
+    $database_config_general->setOuterMargin ($value);
+  }
+}
+
+
+if (isset ($_GET['topmargin'])) {
+  $dialog_entry = new Dialog_Entry ("", gettext ("Please enter an top margin size in millimeters"), $database_config_general->getTopMargin (), "topmargin", "");
+  die;
+}
+if (isset($_POST['topmargin'])) {
+  $value = $_POST['entry'];
+  $value = Filter_Numeric::integer_in_string ($value);
+  if (($value >= 0) && ($value <= 100)) {
+    $database_config_general->setTopMargin ($value);
+  }
+}
+
+
+if (isset ($_GET['bottommargin'])) {
+  $dialog_entry = new Dialog_Entry ("", gettext ("Please enter an bottom margin size in millimeters"), $database_config_general->getBottomMargin (), "bottommargin", "");
+  die;
+}
+if (isset($_POST['bottommargin'])) {
+  $value = $_POST['entry'];
+  $value = Filter_Numeric::integer_in_string ($value);
+  if (($value >= 0) && ($value <= 100)) {
+    $database_config_general->setBottomMargin ($value);
+  }
+}
+
+
 $smarty->assign ("bibles", $database_config_general->getExportedBibles ());
 $smarty->assign ("stylesheet", Filter_Html::sanitize ($database_config_general->getExportStylesheet ()));
 $smarty->assign ("dropcaps", $database_config_general->getExportChapterDropCaps());
+$smarty->assign ("pagewidth", Filter_Html::sanitize ($database_config_general->getPageWidth ()));
+$smarty->assign ("pageheight", Filter_Html::sanitize ($database_config_general->getPageHeight ()));
+$smarty->assign ("innermargin", Filter_Html::sanitize ($database_config_general->getInnerMargin ()));
+$smarty->assign ("outermargin", Filter_Html::sanitize ($database_config_general->getOuterMargin ()));
+$smarty->assign ("topmargin", Filter_Html::sanitize ($database_config_general->getTopMargin ()));
+$smarty->assign ("bottommargin", Filter_Html::sanitize ($database_config_general->getBottomMargin ()));
 $smarty->display("exports.tpl");
 
 Assets_Page::footer ();

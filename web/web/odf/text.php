@@ -37,6 +37,7 @@ class Odf_Text
   private $stylesDom; // The styles.xml DOMDocument.
   private $createdStyles; // An array with styles already created in the $stylesDom.
   private $officeStylesDomNode; // The office:styles DOMNode.
+  private $officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode. 
 
   private $currentTextPDomElement; // The current text:p DOMElement.
   private $currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
@@ -59,6 +60,8 @@ class Odf_Text
     $this->frameCount = 0;
     $this->noteCount = 0;
     $this->currentNoteTextStyle = "";
+    
+    $database_config_general = Database_Config_General::getInstance ();
 
     $template = dirname (__FILE__) . "/template.odt";
     $this->unpackedOdtFolder = Filter_Archive::unzip ($template, false);
@@ -99,10 +102,28 @@ class Odf_Text
     // The office:document-styles DOM.
     $officeDocumentStyles = $this->stylesDom->childNodes->item (0);
 
-    // The office:styles DOMNode.
+    // The office:styles and office:automatic-styles DOMNodes.
     foreach ($officeDocumentStyles->childNodes as $node) {
       if ($node->nodeName == "office:styles") $this->officeStylesDomNode = $node;
+      if ($node->nodeName == "office:automatic-styles") $this->officeAutomaticStylesDomNode = $node;
     }
+    
+    // Set the page sizes and margins. Todo
+    $stylePageLayoutDomNode = NULL;
+    foreach ($this->officeAutomaticStylesDomNode->childNodes as $node) {
+      if ($node->nodeName == "style:page-layout") $stylePageLayoutDomNode = $node;
+    }
+    foreach ($stylePageLayoutDomNode->childNodes as $node) {
+      if ($node->nodeName == "style:page-layout-properties") {
+        $node->setAttribute ("fo:page-width", $database_config_general->getPageWidth () . "mm");
+        $node->setAttribute ("fo:page-height", $database_config_general->getPageHeight () . "mm");
+        $node->setAttribute ("fo:margin-left", $database_config_general->getInnerMargin () . "mm");
+        $node->setAttribute ("fo:margin-right", $database_config_general->getOuterMargin () . "mm");
+        $node->setAttribute ("fo:margin-top", $database_config_general->getTopMargin () . "mm");
+        $node->setAttribute ("fo:margin-bottom", $database_config_general->getBottomMargin () . "mm");
+      }
+    }
+
 
   }
   
