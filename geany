@@ -15,14 +15,14 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=730;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_0=1;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=764;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=6051;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/exports.php;0
 FILE_NAME_3=2029;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/exports.tpl;0
 FILE_NAME_4=943;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odf/README;0
-FILE_NAME_5=6646;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odf/text.php;0
+FILE_NAME_5=30162;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odf/text.php;0
 FILE_NAME_6=1727;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/odf/textTest.php;0
-FILE_NAME_7=25288;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
+FILE_NAME_7=23208;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
 
 [long line marker]
 long_line_behaviour=1

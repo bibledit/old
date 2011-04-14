@@ -164,7 +164,7 @@ class Odf_Text
   * This creates a heading with contents styled "Heading 1".
   * $text: Contents.
   */
-  public function newHeading1($text, $hide = false) // Todo
+  public function newHeading1($text, $hide = false)
   {
     $this->newNamedHeading ("Heading 1", $text, $hide);
   }
@@ -641,7 +641,7 @@ class Odf_Text
   * $style: A style name.
   * $text: Content.
   */
-  private function newNamedHeading ($style, $text, $hide = false) // Todo
+  private function newNamedHeading ($style, $text, $hide = false)
   {
     // Heading looks like this in content.xml:
     // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>

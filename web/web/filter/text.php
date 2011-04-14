@@ -186,7 +186,7 @@ class Filter_Text
   * This function gets the styles from the database, 
   * and stores them in the object for quicker access.
   */
-  private function getStyles ($stylesheet) // Todo
+  private function getStyles ($stylesheet)
   {
     $this->styles = array ();
     $styles_logic = Styles_Logic::getInstance (); // This is to get the relevant styles information included.
@@ -514,7 +514,7 @@ class Filter_Text
                 }
                 break;
               }
-              case StyleTypeChapterNumber: // Todo $this->runningHeaders
+              case StyleTypeChapterNumber:
               {
                 $this->odf_text_standard->closeTextStyle ();
                 $this->odf_text_text_only->closeTextStyle ();
