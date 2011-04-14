@@ -65,7 +65,7 @@ EOD;
     @unlink ("/tmp/TextTest1.odt");
     $filter_text->odf_text_standard->save ("/tmp/TextTest1.odt");
     exec ("odt2txt /tmp/TextTest1.odt", $output, &$return_var);
-    $this->assertEquals (array ("", "[-- Image: frame1 --]", "", "Ⅰ", "", "Text chapter 1", "", "[-- Image: frame2 --]", "", "②", "", "Text chapter 2", ""), $output);
+    $this->assertEquals (array ("", "Header4 Ⅰ", "=========", "", "[-- Image: frame1 --]", "", "Ⅰ", "", "Text chapter 1", "", "Header4 ②", "=========", "", "[-- Image: frame2 --]", "", "②", "", "Text chapter 2", ""), $output);
   }
 
 
@@ -96,7 +96,7 @@ EOD;
     @unlink ("/tmp/TextTest2.odt");
     $filter_text->odf_text_standard->save("/tmp/TextTest2.odt");
     exec ("odt2txt /tmp/TextTest2.odt", $output, &$return_var);
-    $this->assertEquals (array ("", "Text Genesis 1", "", "Text Genesis 2", "", "Text Matthew 1", "", "Text Matthew 2", ""), $output);
+    $this->assertEquals (array ("", "Genesis 1", "=========", "", "Text Genesis 1", "", "Genesis 2", "=========", "", "Text Genesis 2", "", "Matthew 1", "=========", "", "Text Matthew 1", "", "Matthew 2", "=========", "", "Text Matthew 2", ""), $output);
     $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ',
                                 'Matthew 2:0 Unknown marker \xxx, formatting error: Unknown markup'), $filter_text->fallout);
     $this->assertEquals (array ('Matthew 2:0 Comment: \rem Comment'), $filter_text->info);
