@@ -1,3 +1,6 @@
+Use a hidden paragraph for putting text in the headers, e.g. chapter number.
+This honours the USFM settings, but if no book name is given, then the English ones can be used instead.
+
 
 
 
@@ -6,16 +9,13 @@
 
 
 The column property should be honoured too.
-It uses section.
+It uses sections.
 Let the default section, or default  "something" have two columns.
 Then anything spanning the column goes into a section that has only one column.
 So any paragraph that is opened, and it spans the columns, that paragraph goes into a section with one column.
 So it opens a section element. Each paragraph that spans the columns opens its own section element.
 
 
-
-Use a hidden paragraph for putting text in the headers, e.g. chapter number.
-This honours the USFM settings but if no book name is given, then the English ones can be used instead.
 
 
 
@@ -609,7 +609,7 @@ The differences would then show clearer and less messy.
 A very easy way of doing this is through letting LibreOffice save to html.
 But a better way is to let the Filter_Text routine create very clean html that uses internal css stylesheet.
 This really is the way to go.
-
+In particular when the notes go to the bottom, there is less clutter.
 
 
 

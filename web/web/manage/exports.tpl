@@ -25,7 +25,7 @@
 {else}
   {t}This setting is off.{/t}
 {/if}
-  <a href="exports.php?dropcapstoggle={$dropcaps}">[{t}toggle{/t}]</a></p>
+  <a href="exports.php?dropcapstoggle=">[{t}toggle{/t}]</a></p>
 </p>
 <br>
 <p>{t}Page size and margins are relevant for export to a format that supports those.{/t}</p>
@@ -37,3 +37,13 @@
   <tr><td>{t}Top margin{/t}</td><td><a href="exports.php?topmargin=">{$topmargin} {t}mm{/t}</a></td></tr>
   <tr><td>{t}Bottom margin{/t}</td><td><a href="exports.php?bottommargin=">{$bottommargin} {t}mm{/t}</a></td></tr>
 </table>
+<br>
+<p>
+{t}Display the current date in the running headers.{/t}
+{if $dateinheader}
+  {t}This setting is on.{/t}
+{else}
+  {t}This setting is off.{/t}
+{/if}
+  <a href="exports.php?dateinheadertoggle=">[{t}toggle{/t}]</a></p>
+</p>

@@ -6,17 +6,17 @@ class odfdomTextTest extends PHPUnit_Framework_TestCase
 
 private $temporary_folder;
 
+
   public function setUp ()
   {
     $this->tearDown ();
-    //$this->temporary_folder = tempnam (sys_get_temp_dir(), '');
-    //unlink ($this->temporary_folder);
-    //mkdir ($this->temporary_folder);
   }
+
   
   public function tearDown ()
   {
   }
+
 
   public function testOne()
   {

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-13 01:45+0200\n"
+"POT-Creation-Date: 2011-04-14 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,30 @@ msgid ""
 msgstr ""
 
 msgid "Would you like to use another stylesheet for all exports?"
+msgstr ""
+
+msgid "Please enter a page width in millimeters"
+msgstr ""
+
+msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
+msgstr ""
+
+msgid "Please enter a page height in millimeters"
+msgstr ""
+
+msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
+msgstr ""
+
+msgid "Please enter an inner margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an outer margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an top margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an bottom margin size in millimeters"
 msgstr ""
 
 msgid "Logbook was partially or fully cleared"
@@ -1395,7 +1419,7 @@ msgid "switch"
 msgstr ""
 
 msgid ""
-"When exporting a Bible to OpenDocument format, when the chapter number gets "
+"When exporting Bibles to OpenDocument format, when the chapter number gets "
 "put just before the first verse in bigger font, frames are used for this. It "
 "is to achieve better appearance. When this is problematic, Bibledit-Web can "
 "also output the chapter number in drop caps."
@@ -1408,6 +1432,32 @@ msgid "This setting is off."
 msgstr ""
 
 msgid "toggle"
+msgstr ""
+
+msgid ""
+"Page size and margins are relevant for export to a format that supports "
+"those."
+msgstr ""
+
+msgid "Page width"
+msgstr ""
+
+msgid "mm"
+msgstr ""
+
+msgid "Page height"
+msgstr ""
+
+msgid "Inner margin"
+msgstr ""
+
+msgid "Outer margin"
+msgstr ""
+
+msgid "Top margin"
+msgstr ""
+
+msgid "Bottom margin"
 msgstr ""
 
 msgid "Bibledit-Web tracks the changes in the Bibles that it stores."
@@ -2911,9 +2961,6 @@ msgid "Text alignment"
 msgstr ""
 
 msgid "Space before"
-msgstr ""
-
-msgid "mm"
 msgstr ""
 
 msgid "Space after"

@@ -145,6 +145,11 @@ if (isset($_POST['bottommargin'])) {
 }
 
 
+if (isset ($_GET['dateinheadertoggle'])) {
+  $database_config_general->setDateInHeader(Filter_Bool::not ($database_config_general->getDateInHeader()));
+}
+
+
 $smarty->assign ("bibles", $database_config_general->getExportedBibles ());
 $smarty->assign ("stylesheet", Filter_Html::sanitize ($database_config_general->getExportStylesheet ()));
 $smarty->assign ("dropcaps", $database_config_general->getExportChapterDropCaps());
@@ -154,6 +159,7 @@ $smarty->assign ("innermargin", Filter_Html::sanitize ($database_config_general-
 $smarty->assign ("outermargin", Filter_Html::sanitize ($database_config_general->getOuterMargin ()));
 $smarty->assign ("topmargin", Filter_Html::sanitize ($database_config_general->getTopMargin ()));
 $smarty->assign ("bottommargin", Filter_Html::sanitize ($database_config_general->getBottomMargin ()));
+$smarty->assign ("dateinheader", $database_config_general->getDateInHeader());
 $smarty->display("exports.tpl");
 
 Assets_Page::footer ();

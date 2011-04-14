@@ -326,6 +326,13 @@ EOD;
     $this->setValue ("bottom-margin", $value);
   }
 
+  public function getDateInHeader () {
+    return $this->getValue ("date-in-header", false);
+  }
+  public function setDateInHeader  ($value) {
+    $this->setValue ("date-in-header", $value);
+  }
+
 
 }
 

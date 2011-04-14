@@ -69,60 +69,61 @@ class Odf_Text
 
     $this->contentDom = new DOMDocument;
     $this->contentDom->load($this->unpackedOdtFolder . "/content.xml");
-
-    // The office:document-content DOM.
-    $officeDocumentContent = $this->contentDom->childNodes->item (0);
-
-    // The office:body DOM.
-    $officeBody = NULL;
-    foreach ($officeDocumentContent->childNodes as $node) {
-      if ($node->nodeName == "office:body") $officeBody = $node;
-    }
-
-    // Get the office:text DOM.
-    $this->officeTextDomNode = NULL;
-    foreach ($officeBody->childNodes as $node) {
-      if ($node->nodeName == "office:text") $this->officeTextDomNode = $node;
-    }
     
-    // Remove the default content from the template. 
-    // This is: <text:p text:style-name="Standard"/>
-    foreach ($this->officeTextDomNode->childNodes as $node) {
-      if ($node->nodeName == "text:p") {
-        $this->officeTextDomNode->removeChild ($node);
-        break;
-      }
-    }
-    
+    $contentXpath = new DOMXpath ($this->contentDom);
+
+    $this->officeTextDomNode = $contentXpath->query ("office:body/office:text")->item (0);
+
+    // Remove the default content from the template. This is a text:p element.
+    $node = $contentXpath->query ("text:p", $this->officeTextDomNode)->item (0);
+    $this->officeTextDomNode->removeChild ($node);
+
     $this->createdStyles = array ();
 
     $this->stylesDom = new DOMDocument;
     $this->stylesDom->load($this->unpackedOdtFolder . "/styles.xml");
-    
-    // The office:document-styles DOM.
-    $officeDocumentStyles = $this->stylesDom->childNodes->item (0);
 
-    // The office:styles and office:automatic-styles DOMNodes.
-    foreach ($officeDocumentStyles->childNodes as $node) {
-      if ($node->nodeName == "office:styles") $this->officeStylesDomNode = $node;
-      if ($node->nodeName == "office:automatic-styles") $this->officeAutomaticStylesDomNode = $node;
-    }
+    $stylesXpath = new DOMXpath ($this->stylesDom);
+
+    $this->officeStylesDomNode = $stylesXpath->query ("office:styles")->item (0);
     
-    // Set the page sizes and margins. Todo
-    $stylePageLayoutDomNode = NULL;
-    foreach ($this->officeAutomaticStylesDomNode->childNodes as $node) {
-      if ($node->nodeName == "style:page-layout") $stylePageLayoutDomNode = $node;
+    // Set the page size and margins.
+    $pageLayoutProperties = $stylesXpath->query ("descendant::style:page-layout-properties")->item (0);
+    $pageLayoutProperties->setAttribute ("fo:page-width", $database_config_general->getPageWidth () . "mm");
+    $pageLayoutProperties->setAttribute ("fo:page-height", $database_config_general->getPageHeight () . "mm");
+    $pageLayoutProperties->setAttribute ("fo:margin-left", $database_config_general->getInnerMargin () . "mm");
+    $pageLayoutProperties->setAttribute ("fo:margin-right", $database_config_general->getOuterMargin () . "mm");
+    $pageLayoutProperties->setAttribute ("fo:margin-top", $database_config_general->getTopMargin () . "mm");
+    $pageLayoutProperties->setAttribute ("fo:margin-bottom", $database_config_general->getBottomMargin () . "mm");
+
+    // Update the tab-stops in the relevant header styles. The tab stops depend on page and margin dimensions.
+    $nodeList = $stylesXpath->query ("descendant::style:style[contains(attribute::style:parent-style-name,'Header')]//descendant::style:tab-stop");
+    $centerPosition = $database_config_general->getPageWidth () - $database_config_general->getInnerMargin () - $database_config_general->getOuterMargin ();
+    $centerPosition /= 2;
+    $counter = 0;
+    foreach ($nodeList as $node) {
+      $modulus = $counter % 2; 
+      $node->setAttribute ("style:position", ($centerPosition * ($modulus + 1)) . "mm");
+      $counter++;
     }
-    foreach ($stylePageLayoutDomNode->childNodes as $node) {
-      if ($node->nodeName == "style:page-layout-properties") {
-        $node->setAttribute ("fo:page-width", $database_config_general->getPageWidth () . "mm");
-        $node->setAttribute ("fo:page-height", $database_config_general->getPageHeight () . "mm");
-        $node->setAttribute ("fo:margin-left", $database_config_general->getInnerMargin () . "mm");
-        $node->setAttribute ("fo:margin-right", $database_config_general->getOuterMargin () . "mm");
-        $node->setAttribute ("fo:margin-top", $database_config_general->getTopMargin () . "mm");
-        $node->setAttribute ("fo:margin-bottom", $database_config_general->getBottomMargin () . "mm");
+
+    // Remove the date style for the running headers, so that it takes the default style.
+    $numberDateStyleNode = $stylesXpath->query ("descendant::number:date-style")->item (0);
+    $numberDateStyleNode->parentNode->removeChild ($numberDateStyleNode);
+
+    // Whether and how to put the date in the running headers.
+    $nodeList = $stylesXpath->query ("descendant::text:date");
+    foreach ($nodeList as $node) {
+      if ($database_config_general->getDateInHeader ()) {
+        $node->removeAttribute ("text:date-value");
+        $node->nodeValue = "";
+      } else {
+        $node->parentNode->removeChild ($node);
       }
     }
+
+
+
 
 
   }
