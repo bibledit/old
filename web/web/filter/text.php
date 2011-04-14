@@ -186,7 +186,7 @@ class Filter_Text
   * This function gets the styles from the database, 
   * and stores them in the object for quicker access.
   */
-  private function getStyles ($stylesheet)
+  private function getStyles ($stylesheet) // Todo
   {
     $this->styles = array ();
     $styles_logic = Styles_Logic::getInstance (); // This is to get the relevant styles information included.
@@ -514,7 +514,7 @@ class Filter_Text
                 }
                 break;
               }
-              case StyleTypeChapterNumber:
+              case StyleTypeChapterNumber: // Todo $this->runningHeaders
               {
                 $this->odf_text_standard->closeTextStyle ();
                 $this->odf_text_text_only->closeTextStyle ();
@@ -534,7 +534,20 @@ class Filter_Text
                     }
                   }
                 }
-                // This is the phase of outputting the chapter number. 
+                // Enter text for the running headers.
+                $database_books = Database_Books::getInstance ();
+                $runningHeader = $database_books->getEnglishFromId ($this->currentBookIdentifier);
+                foreach ($this->runningHeaders as $item) {
+                  if ($item['book'] == $this->currentBookIdentifier) {
+                    $runningHeader = $item['value'];
+                  }
+                }
+                $runningHeader = "$runningHeader $number";
+                $this->odf_text_standard->newHeading1 ($runningHeader, true);
+                $this->odf_text_text_only->newHeading1 ($runningHeader, true);
+                $this->odf_text_text_and_note_citations->newHeading1 ($runningHeader, true);
+                $this->odf_text_notes->newHeading1 ($runningHeader, true);
+                // This is the phase of outputting the chapter number in the text body. 
                 // The chapter number is only output when there are more than one chapter in a book.
                 if ($this->numberOfChaptersPerBook[$this->currentBookIdentifier] > 1) {
                   if ($style['userbool1']) {
