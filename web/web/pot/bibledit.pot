@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-14 01:45+0200\n"
+"POT-Creation-Date: 2011-04-15 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1458,6 +1458,9 @@ msgid "Top margin"
 msgstr ""
 
 msgid "Bottom margin"
+msgstr ""
+
+msgid "Display the current date in the running headers."
 msgstr ""
 
 msgid "Bibledit-Web tracks the changes in the Bibles that it stores."

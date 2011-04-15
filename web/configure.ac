@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.3.28],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.3.29],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
