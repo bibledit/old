@@ -7,6 +7,44 @@
 
 
 
+Rather than getting the commits to the repository in the logbook,
+we may have a function to get the last 100 or so on the screen.
+
+
+
+
+
+
+
+
+
+
+It would be good if the export also exported to html.
+The differences would then show clearer and less messy.
+A very easy way of doing this is through letting LibreOffice save to html.
+But a better way is to let the Filter_Text routine create very clean html that uses internal css stylesheet.
+This really is the way to go.
+In particular when the notes go to the bottom, there is less clutter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Write help file about typesetting a Bible.
 
 
@@ -239,7 +277,6 @@ Easiest: EasyPHP.
 
 
 
-Instead of using XeTeX, we could also look at CSS2 with paged media for printing, and screen media for the screen.
 
 
 
@@ -523,36 +560,6 @@ Crash in Bibledit-Gtk when doing a merge, then clicking in an Editor.
 
 
 
-The logbook page.
-Refresh less often.
-
-
-
-
-
-
-
-
-
-
-
-
-Rather than getting the commits to the repository in the logbook,
-we may have a function to get the last 100 or so on the screen.
-
-
-
-
-
-
-
-
-It would be good if the export also exported to html.
-The differences would then show clearer and less messy.
-A very easy way of doing this is through letting LibreOffice save to html.
-But a better way is to let the Filter_Text routine create very clean html that uses internal css stylesheet.
-This really is the way to go.
-In particular when the notes go to the bottom, there is less clutter.
 
 
 

@@ -9,7 +9,7 @@ if (isset ($_GET['delete'])) {
   $database_logs->log (gettext ("Logbook was partially or fully cleared"), true);
   header ("Location: logbook.php");
 } else {
-  header ("Refresh: 2");
+  header ("Refresh: 5");
 }
 
 Assets_Page::header (gettext ("Logbook"));

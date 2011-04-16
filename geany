@@ -14,11 +14,16 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=3
-FILE_NAME_0=116;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=0
+FILE_NAME_0=1;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=764;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=126;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.php;0
-FILE_NAME_3=9448;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
+FILE_NAME_3=6071;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
+FILE_NAME_4=7161;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/general.php;0
+FILE_NAME_5=7392;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/sendreceive.php;0
+FILE_NAME_6=6223;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/users.php;0
+FILE_NAME_7=2994;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logic.php;0
+FILE_NAME_8=2128;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/login.php;0
 
 [long line marker]
 long_line_behaviour=1
