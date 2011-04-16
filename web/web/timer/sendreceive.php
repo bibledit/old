@@ -1,12 +1,41 @@
 <?php
+/**
+* @package bibledit
+*/
+/*
+ ** Copyright (©) 2003-2009 Teus Benschop.
+ **
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ **  
+ */
 
-if (php_sapi_name () != "cli") return;
 
 require_once ("../bootstrap/bootstrap.php");
+$database_logs = Database_Logs::getInstance ();
+$database_logs->log (gettext ("Starting to send and receive the relevant Bibles and Consultation Notes."));
 
-echo (gettext ("Starting to send and receive the relevant Bibles and Consultation Notes.") . "\n");
 
-echo (gettext ("Processing any data left over from previous actions.") . "\n");
+// Security: The script runs from the cli SAPI only.
+if (php_sapi_name () != "cli") {
+  $database_logs->log ("Fatal: This only runs through the cli Server API", true);
+  die;
+}
+
+
+
+$database_logs->log (gettext ("Processing any data left over from previous actions."));
 Filter_Git::filedata2database ();
 
 $database_bibles = Database_Bibles::getInstance();
@@ -20,22 +49,22 @@ foreach ($bibles as $bible) {
   $remote_repository_url = $database_config_user->getRemoteRepositoryUrl ($bible);
   if ($remote_repository_url != "") {
 
-    echo "**********\n";
+    $database_logs->log ("**********");
     if ($bible == "consultationnotes") {
-      echo gettext ("Consultation Notes") . "\n";
+      $database_logs->log (gettext ("Consultation Notes"));
     } else {
-      echo gettext ("Bible") . ": " . $bible . "\n";
+      $database_logs->log (gettext ("Bible") . ": " . $bible);
     }
-    echo gettext ("Remote repository URL") . ": " . $remote_repository_url . "\n";
+    $database_logs->log (gettext ("Remote repository URL") . ": " . $remote_repository_url);
 
     // The git directory for this object.
     $directory = Filter_Git::git_directory ($bible);
-    echo gettext ("Git repository directory") . ": " . $directory . "\n";
+    $database_logs->log (gettext ("Git repository directory") . ": " . $directory);
     $shelldirectory = escapeshellarg ($directory);
     
     // Continue to the next Bible if the repository directory is not there.
     if (!is_dir ($directory)) {
-      echo gettext ("Cannot send and receive the data because the git repository was not found in the filesystem.") . "\n";
+      $database_logs->log (gettext ("Cannot send and receive the data because the git repository was not found in the filesystem."));
       continue;
     }
 
@@ -48,7 +77,7 @@ foreach ($bibles as $bible) {
     mkdir ($tempdirectory);
     $success = rename ("$directory/.git", "$tempdirectory/.git");
     if (!$success) {
-      echo gettext ("Failed to temporarily store the .git directory") . "\n";
+      $database_logs->log(gettext ("Failed to temporarily store the .git directory"));
     }
     
     // Temporarily store the shared_dictionary. 
@@ -62,7 +91,7 @@ foreach ($bibles as $bible) {
     // Move the .git directory back into place.
     $success = rename ("$tempdirectory/.git", "$directory/.git");
     if (!$success) {
-      echo gettext ("Failed to restore the .git directory") . "\n";
+      $database_logs->log(gettext ("Failed to restore the .git directory"));
     }
     
     // Move the shared_dictionary back into place. It may not exist.
@@ -70,10 +99,10 @@ foreach ($bibles as $bible) {
 
     // Store the data into the repository. Data that no longer exists will have been removed above.
     if ($bible == "consultationnotes") {
-      echo gettext ("Transferring notes to file ...") . "\n";
+      $database_logs->log (gettext ("Transferring notes to file ..."));
       $success = Filter_Git::notesDatabase2filedata ($directory);
     } else {
-      echo gettext ("Transferring Bible text to file ...") . "\n";
+      $database_logs->log (gettext ("Transferring Bible text to file ..."));
       $success = Filter_Git::bibleDatabase2filedata ($bible, $directory);
     }
     // If the above does not succeed, then there is a serious problem. 
@@ -88,7 +117,6 @@ foreach ($bibles as $bible) {
     // Commit the new data to the repository.
     if ($success) {
       $command = "cd $shelldirectory; git add . 2>&1";
-      echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
       exec ($command, &$result, &$exit_code);
@@ -97,13 +125,11 @@ foreach ($bibles as $bible) {
         $database_logs->log ($line);
       }
       $message = "Exit code $exit_code";
-      echo "$message\n";
       $database_logs->log ($message);
     }
 
     if ($success) {
       $command = "cd $shelldirectory; git status 2>&1";
-      echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
       exec ($command, &$result, &$exit_code);
@@ -112,13 +138,11 @@ foreach ($bibles as $bible) {
         $database_logs->log ($line);
       }
       $message = "Exit code $exit_code";
-      echo "$message\n";
       $database_logs->log ($message);
     }  
 
     if ($success) {
       $command = "cd $shelldirectory; git commit -a -m sync 2>&1";
-      echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
       exec ($command, &$result, &$exit_code);
@@ -127,14 +151,12 @@ foreach ($bibles as $bible) {
         $database_logs->log ($line);
       }
       $message = "Exit code $exit_code";
-      echo "$message\n";
       $database_logs->log ($message);
     }  
 
     // Pull changes from the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git pull 2>&1";
-      echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
       exec ($command, &$result, &$exit_code);
@@ -148,21 +170,26 @@ foreach ($bibles as $bible) {
         $database_logs->log ($line);
         $database_git->insert ($directory, $line);
         if (strstr ($line, "CONFLICT") !== false) {
-          echo "$line\n";
+          $database_logs->log ($line);
           $message = gettext ("A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.");
-          echo  "$message\n";
           $database_logs->log ($message);
+          // Inform administrator about the conflict.
+          $database_mail = Database_Mail::getInstance ();
+          $database_users = Database_Users::getInstance ();
+          $adminusername = $database_users->getAdministrator ();
+          $subject = "Send/Receive conflict";
+          $body = $line;
+          $body .= $message;
+          $database_mail->send ($adminusername, $subject, $body);
         }
       }
       $message = "Exit code $exit_code";
-      echo "$message\n";
       $database_logs->log ($message);
     }  
 
     // Push our changes into the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git push 2>&1";
-      echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
       exec ($command, &$result, &$exit_code);
@@ -172,12 +199,11 @@ foreach ($bibles as $bible) {
         $database_logs->log ($line);
       }
       $message = "Exit code $exit_code";
-      echo "$message\n";
       $database_logs->log ($message);
     }  
 
     if ($success) {
-      echo gettext ("Moving the data that was changed into the database ...") . "\n";
+      $database_logs->log (gettext ("Moving the data that was changed into the database ..."));
       Filter_Git::filedata2database ();
     }
 
@@ -186,9 +212,8 @@ foreach ($bibles as $bible) {
 
     // Do a "git log" to provide information about the most recent commits.
     {
-      echo gettext ("Listing the last few commits ...") . "\n";
+      $database_logs->log (gettext ("Listing the last few commits ..."));
       $command = "cd $shelldirectory; git log | head -n 24 2>&1";
-      echo "$command\n";
       $database_logs->log ($command);
       unset ($result);
       exec ($command, &$result, &$exit_code);
@@ -196,26 +221,22 @@ foreach ($bibles as $bible) {
         $database_logs->log ($line);
       }
       $message = "Exit code $exit_code";
-      echo "$message\n";
       $database_logs->log ($message);
     }  
 
     // Done.
     if (!$success) {
-      echo gettext ("There was a failure") . "\n";
+      $database_logs->log (gettext ("There was a failure"));
     }
     if ($bible == "consultationnotes") {
-      echo gettext ("The Consultation Notes have been done.") . "\n";
+      $database_logs->log (gettext ("The Consultation Notes have been done."));
     } else {
-      echo gettext ("This Bible has been done.") . "\n";
+      $database_logs->log(gettext ("This Bible has been done."));
     }
   }
 }
 
-echo "**********\n";
-echo gettext ("Ready. All relevant Bibles, and Consultations Notes, have been done.") . "\n";
-
-$database_shell = Database_Shell::getInstance ();
-$database_shell->stopProcess ("sendreceive", 0);
+$database_logs->log ("**********");
+$database_logs->log (gettext ("Ready. All relevant Bibles, and Consultations Notes, have been sent and received."));
 
 ?>

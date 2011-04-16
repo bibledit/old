@@ -153,6 +153,21 @@ while(1)
   unset ($exports_timestamp);
 
 
+  $sendreceive_timestamp = $config_general->getTimerSendReceive ();
+  if ($current_timestamp >= $sendreceive_timestamp) {
+    $sendreceive_timestamp += 86400;
+    while ($current_timestamp >= $sendreceive_timestamp) {
+      // This loop updates the timestamp to a value larger than the current time.
+      // This avoids calling many processes when the task has not been done for a while.
+      $sendreceive_timestamp += 86400;
+    }
+    $config_general->setTimerSendReceive ($sendreceive_timestamp);
+    $workingdirectory = escapeshellarg (dirname (__FILE__));
+    if (!$database_down) shell_exec ("cd $workingdirectory; php sendreceive.php > /dev/null 2>&1 &");
+  }
+  unset ($sendreceive_timestamp);
+
+
   // Wait a little for the next cycle.
   sleep(5);
 }

@@ -242,6 +242,13 @@ EOD;
     $this->setValue ("timer-exports", $value);
   }   
 
+  public function getTimerSendReceive() {
+    return $this->getValue ("timer-send-receive", "");
+  }
+  public function setTimerSendReceive ($value) {
+    $this->setValue ("timer-send-receive", $value);
+  }   
+
   public function getSiteURL() {
     return $this->getValue ("site-url", "");
   }
