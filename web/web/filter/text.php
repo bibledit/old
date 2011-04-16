@@ -238,6 +238,7 @@ class Filter_Text
                     {
                       // Get book number.
                       $s = Filter_Usfm::getBookIdentifier ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                      $s = str_replace (Filter_Character::softHyphen (), "", $s); // Remove possible soft hyphen.
                       $database_books = Database_Books::getInstance ();
                       $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
                       // Reset chapter and verse numbers.
@@ -382,6 +383,7 @@ class Filter_Text
                   {
                     // Get book number.
                     $s = Filter_Usfm::getBookIdentifier ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+                    $s = str_replace (Filter_Character::softHyphen (), "", $s); // Remove possible soft hyphen.
                     $database_books = Database_Books::getInstance ();
                     $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
                     // Reset chapter and verse numbers.
@@ -546,7 +548,7 @@ class Filter_Text
                 $this->odf_text_standard->newHeading1 ($runningHeader, true);
                 $this->odf_text_text_only->newHeading1 ($runningHeader, true);
                 $this->odf_text_text_and_note_citations->newHeading1 ($runningHeader, true);
-                $this->odf_text_notes->newHeading1 ($runningHeader, true);
+                $this->odf_text_notes->newHeading1 ($runningHeader, false);
                 // This is the phase of outputting the chapter number in the text body. 
                 // The chapter number is only output when there are more than one chapter in a book.
                 if ($this->numberOfChaptersPerBook[$this->currentBookIdentifier] > 1) {
@@ -587,8 +589,6 @@ class Filter_Text
                     $this->odf_text_text_and_note_citations->addText ($number);
                   }
                 }
-                // Output book and chapter in the edition with the notes.
-                $this->odf_text_notes->newHeading1 (Filter_Books::passageDisplay ($this->currentBookIdentifier, $this->currentChapterNumber, " Notes"));
                 // Open a paragraph for the notes. It takes the style of the footnote content marker, usually 'ft'.
                 $this->ensureNoteParagraphStyle ($this->standardContentMarkerFootEndNote, $this->styles[$this->standardContentMarkerFootEndNote]);
                 $this->odf_text_notes->newParagraph ($this->standardContentMarkerFootEndNote);

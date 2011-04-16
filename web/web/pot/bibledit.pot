@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 01:45+0200\n"
+"POT-Creation-Date: 2011-04-16 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1240,6 +1240,9 @@ msgid "The lists of changes in the Bibles have been generated"
 msgstr ""
 
 msgid "Installation"
+msgstr ""
+
+msgid "Typesetting"
 msgstr ""
 
 msgid "About"
@@ -3411,6 +3414,389 @@ msgid ""
 "exist on the system. It is recommended, therefore, to create an "
 "Administrator's account of your own choice, and then to remove the default "
 "adminusername account."
+msgstr ""
+
+msgid "Typesetting Bibles"
+msgstr ""
+
+msgid "The Bible has been translated. It is time to publish it."
+msgstr ""
+
+msgid "This article gives some hints about how to typeset a Bible."
+msgstr ""
+
+msgid ""
+"At the end of all, you will have a PDF file with the whole Bible, typeset, "
+"ready for publishing."
+msgstr ""
+
+msgid "Basic assumptions"
+msgstr ""
+
+msgid ""
+"The Bible is available in USFM code. The USFM code is clean and adheres to "
+"the standards."
+msgstr ""
+
+msgid ""
+"You have access to your own copy of Bibledit-Web, or to the Bibledit-Web "
+"demo on the internet."
+msgstr ""
+
+msgid "You have access to a copy of LibreOffice or OpenOffice."
+msgstr ""
+
+msgid "Exporting the USFM files to OpenDocument files"
+msgstr ""
+
+msgid ""
+"This section writes about a specific Bible that was to be prepared for "
+"publication. It gives the steps I took to convert the USFM code to "
+"OpenDocument files."
+msgstr ""
+
+msgid ""
+"The OpenDocument files are used as a starting point for typesetting. "
+"Typesetting itself is done in LibreOffice."
+msgstr ""
+
+msgid ""
+"The Bible is available in USFM files. Each Bible book is stored as one USFM "
+"file."
+msgstr ""
+
+msgid ""
+"Create a new Bible in Bibledit-Web through menu Management / Bibles. Give "
+"the Bible a name. I call it \"Ndebele\"."
+msgstr ""
+
+msgid "Click the \"Ndebele\" Bible."
+msgstr ""
+
+msgid "Import data into it."
+msgstr ""
+
+msgid "Choose the option to upload a file."
+msgstr ""
+
+msgid ""
+"You can upload 66 separate files, or you can put all the 66 files into one "
+"zipped file, and then upload that zipped file. I chose the second option, as "
+"being easier and quicker than the first. Importing took about a minute. The "
+"logbook shows the progress."
+msgstr ""
+
+msgid ""
+"Create a new stylesheet in menu Management / Styles. Give it a name. I call "
+"it \"Ndebele\"."
+msgstr ""
+
+msgid ""
+"All the data is now in Bibledit-Web. Everthing is ready for export to "
+"OpenDocument files."
+msgstr ""
+
+msgid "Let us now make the first export and see how the files look."
+msgstr ""
+
+msgid "Go to menu Management / Exports."
+msgstr ""
+
+msgid "Add Bible \"Ndebele\" to the ones that will be exported."
+msgstr ""
+
+msgid "Use stylesheet \"Ndebele\"."
+msgstr ""
+
+msgid "Output the chapter number in drop caps. Switch that setting on."
+msgstr ""
+
+msgid "Set the page size. I've used a width of 138 mm and a height of 210 mm."
+msgstr ""
+
+msgid ""
+"Set the margins. I've used 10 mm for top, bottom, and outer margins, and 12 "
+"mm for the inner margins."
+msgstr ""
+
+msgid ""
+"Do not display the date in the running headers. Switch that setting off."
+msgstr ""
+
+msgid "Do a fresh export. Give it some time to finish."
+msgstr ""
+
+msgid ""
+"Go to menu Members / Downloads / Exported Bibles, and choose your Bible "
+"there. Then go to the OpenDocument folder."
+msgstr ""
+
+msgid "You will see the Bible exported into several format."
+msgstr ""
+
+msgid "View them and see if you like them."
+msgstr ""
+
+msgid ""
+"I noticed that the Divine name was underlined in the OpenDocument files. The "
+"Divine name is within nd_...nd* markup in USFM. I prefer this in small "
+"capitals, not underlined."
+msgstr ""
+
+msgid "An update in the stylesheet is needed."
+msgstr ""
+
+msgid "Go to menu Management / Styles, and choose the \"Ndebele\" stylesheet."
+msgstr ""
+
+msgid "Click the \"nd\" style."
+msgstr ""
+
+msgid "Switch \"Underline\" off."
+msgstr ""
+
+msgid "Switch \"Small caps\" on."
+msgstr ""
+
+msgid "Do a new export, wait a while, and review the OpenDocument files again."
+msgstr ""
+
+msgid ""
+"I notice that the verse numbers are in superscript. The verse numbers are "
+"small and difficult to read."
+msgstr ""
+
+msgid "The intended audience prefers the verse numbers in bigger print."
+msgstr ""
+
+msgid "Go to the relevant stylesheet and choose the \"v\" style."
+msgstr ""
+
+msgid "Switch \"Superscript\" off."
+msgstr ""
+
+msgid "Do a new export and review the OpenDocument files."
+msgstr ""
+
+msgid ""
+"The text in the OpenDocument files has been divided into paragraphs. New "
+"paragraphs start when appropriate in the context. This is how the USFM files "
+"have been marked up."
+msgstr ""
+
+msgid ""
+"The people who are going to read this Bible prefer each verse to start a new "
+"paragraph."
+msgstr ""
+
+msgid "Go to the stylesheet, and choose the \"v\" style."
+msgstr ""
+
+msgid "Switch \"Restart paragraph\" on."
+msgstr ""
+
+msgid "Export again."
+msgstr ""
+
+msgid ""
+"Since each verse starts a new paragraph, there is no longer any need to "
+"indent the first line of that paragraph."
+msgstr ""
+
+msgid "In the stylesheet, edit the \"p\" style."
+msgstr ""
+
+msgid "Set the \"First line indent\" to 0 mm."
+msgstr ""
+
+msgid ""
+"Some verses are short. Chapters that start with short verses no longer have "
+"the chapter number in drop caps in LibreOffice."
+msgstr ""
+
+msgid ""
+"This is because this verse is all on one line, and thus there is no space "
+"for drop caps, as these need two lines of text."
+msgstr ""
+
+msgid ""
+"Setting the text in two columns in LibreOffice solves the problem. The drop "
+"caps are back."
+msgstr ""
+
+msgid ""
+"The letters of the Bible text are too big. This would take up too much "
+"space. The Bible would get too many pages."
+msgstr ""
+
+msgid ""
+"Find out which styles start paragraphs. In the Ndebele Bible, these are the "
+"styles p, s, nb, d."
+msgstr ""
+
+msgid "Set these styles to have a font size of 10 points."
+msgstr ""
+
+msgid "The letters of the notes and crossreferences are too big."
+msgstr ""
+
+msgid "Set the fontsize of the styles ft and xt to 6 points."
+msgstr ""
+
+msgid ""
+"Parts of the footnotes are in bold or italics or both. I prefer it all in "
+"normal script."
+msgstr ""
+
+msgid ""
+"Update the relevant footnote styles and switch bold and italics off. The "
+"styles are fk, fl, fq, fqa."
+msgstr ""
+
+msgid ""
+"Some of the word in the OpenDocument files are long. This results in too "
+"much space between some words."
+msgstr ""
+
+msgid ""
+"The words need to get hyphens so that part of the word goes on the next line."
+msgstr ""
+
+msgid ""
+"LibreOffice has hyphenation algorithms for many languages. That would solve "
+"the problem."
+msgstr ""
+
+msgid "LibreOffice does not have a hyphenation algorithm for our language."
+msgstr ""
+
+msgid "Bibledit-Web has a hyphenater that could assist."
+msgstr ""
+
+msgid "In Bibledit-Web, go to menu Management / Hyphenation."
+msgstr ""
+
+msgid "Enter the first set of characters, and the second set, and save it."
+msgstr ""
+
+msgid ""
+"Set the Bible where to take the data from. In this case it is \"Ndebele\"."
+msgstr ""
+
+msgid ""
+"Insert the soft hyphens according to the setting. It takes a while to "
+"complete."
+msgstr ""
+
+msgid "The output Bible is called \"Ndebele-hyphenated\"."
+msgstr ""
+
+msgid "Use this Bible in the Exports options. Export it."
+msgstr ""
+
+msgid "Page count"
+msgstr ""
+
+msgid ""
+"The publisher may set limits to the number of pages the typeset Bible may "
+"contain."
+msgstr ""
+
+msgid ""
+"In this example, we expect an entire Bible, with singable Psalms added as an "
+"appendix, to contain no more than 2000 pages. Normal range is 1500 to 1800 "
+"pages."
+msgstr ""
+
+msgid "We suppose that the singable Psalms take up no more than 200 pages."
+msgstr ""
+
+msgid ""
+"The Bible will have footnotes and crossreferences, all lumped together into "
+"a single textframe at the bottom of each page."
+msgstr ""
+
+msgid "Let us now measure how many pages the notes are likely to take up."
+msgstr ""
+
+msgid ""
+"Download the file with notes. It was exported above. It is called "
+"00_Bible_notes.odt."
+msgstr ""
+
+msgid "Open the file in LibreOffice."
+msgstr ""
+
+msgid ""
+"Let it repaginate. A good way of doing this is to press Ctrl-P as if going "
+"to print the document. Then it will repaginate. Cancel the print dialog."
+msgstr ""
+
+msgid "It will now give the page count that the notes are likely to take up."
+msgstr ""
+
+msgid "In our case, this is about 300 pages."
+msgstr ""
+
+msgid ""
+"Each chapter has headings. These headings do not belong to the notes. Thus "
+"the page count is too high."
+msgstr ""
+
+msgid ""
+"Notice that the paragraph style for these headings is called \"Heading 1\". "
+msgstr ""
+
+msgid ""
+"Hide the headings. This can be done like this. Right-click on a heading. "
+"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font Effects"
+"\". Tick option \"Hidden\"."
+msgstr ""
+
+msgid ""
+"Repaginate, and notice the page count. In our case it is down to about 125."
+msgstr ""
+
+msgid ""
+"Let us now find out how many pages the main text body is likely to take up."
+msgstr ""
+
+msgid ""
+"Download the OpenDocument file with text and note citations. It was exported "
+"above. It is called 00_Bible_text_and_note_citations.odt."
+msgstr ""
+
+msgid "The document has only one column."
+msgstr ""
+
+msgid "Repaginate and notice the page count. In our case this is 1750."
+msgstr ""
+
+msgid "This figure is not accurate since it applies to a column count of one."
+msgstr ""
+
+msgid "Set the whole document to have two columns."
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page. Choose the Columns tab. Choose two columns. Set "
+"the spacing to 0.2 cm. Set a thin separator line. Click Ok."
+msgstr ""
+
+msgid "Repaginate and notice the page count. It is down to 1520."
+msgstr ""
+
+msgid ""
+"The font is of particular influence on the page count. This is not dealt "
+"with here."
+msgstr ""
+
+msgid "We are now able to estimate the page count for the entire Bible:"
+msgstr ""
+
+msgid ""
+"Text body 1520 pages. Notes 125 pages. Singable Psalms 200 pages. Estimated "
+"total is 1845."
 msgstr ""
 
 msgid ""

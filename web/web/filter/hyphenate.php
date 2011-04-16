@@ -72,7 +72,7 @@ class Filter_Hyphenate
           // Check whether to insert the soft hyphen here.
           $thisCharacterIsRelevant = in_array ($character, $secondset);
           if (($thisCharacterIsRelevant) && ($previousCharacterWasRelevant)) {
-            $character = "­" . $character; // The "­" is not an empty string, but the soft hyphen U+00AD.
+            $character = Filter_Character::softHyphen () . $character;
           }
 
           // Flag for next iteration.

@@ -3,20 +3,7 @@
 
 
 
-
-
-
-
-
-
-
-Help file about typesetting and proofprints.
-Write this file from notes about how to do it as we go along.
-Gives step-by-step scenarios.
-Give how the exported Bible looks in LibreOffice, what was wrong, how it was corrected.
-And thus every thing is shown step by step.
-Putting a vertical line between the columns improves readability since
-the gap can be smaller without trouble.
+Write help file about typesetting a Bible.
 
 
 
@@ -25,29 +12,6 @@ the gap can be smaller without trouble.
 
 
 
-
-
-
-
-
-
-
-LibreOffice. We may write a script for LibreOffice to typeset a Bible.
-This script runs from within LibreOffice, and may, e.g. typeset one page.
-It flows the text into LibreOffice.
-The user then should optimize each page manually.
-But the standard way to create a grid is to enable Register-True on Page and Paragraphs
-We could place the text as normal starting from above.
-We could place the footnotes in a text frame at the bottom, or just as normal text.
-Headings can automatically be created, if we insert a field in the heading that refers to the chapter number,
-and then the Heading 1 style should do it, so that text gets copied.
-
-
-Bibledit-Web should generate a database with text fragments and formatting parameters, and indicate which
-blocks should always be treated as one unit. E.g. footnotes belong to a certain word.
-Headings are just put as a text frame in the document.
-Page numbers the same.
-No headings needed, as these do not belong to the core of DTP programs, though these might have master pages.
 
 
 
