@@ -31,6 +31,7 @@ class Html_Text
   private $headDomNode;
   private $bodyDomNode;
   private $styleDomNode;
+  private $notesDivDomNode;
 
   private $createdStyles; // An array with styles already created in the $stylesDom.
 
@@ -75,6 +76,8 @@ class Html_Text
         $this->styleDomNode = $node;
       }
     }
+    
+    $this->notesDivDomNode = $this->htmlDom->createElement ("div");
 
     $this->createdStyles = array ();
   }
@@ -267,40 +270,40 @@ class Html_Text
   
   /**
   * This function adds a note to the current paragraph.
-  * $caller: The text of the note caller, that is, the note citation.
-  * $style: Style name for the paragraph in the footnote body.
+  * $citation: The text of the note citation.
+  * $style: Style name for the paragraph in the note body.
   * $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
   */
-  public function addNote ($caller, $style, $endnote = false) // Todo
+  public function addNote ($citation, $style, $endnote = false)
   {
     // Ensure that a paragraph is open, so that the note can be added to it.
     if (!isset ($this->currentPDomElement)) {
       $this->newParagraph ();
     }
-
-    $textNoteDomElement = $this->htmlDom->createElement ("text:note");
-    $this->currentPDomElement->appendChild ($textNoteDomElement);
-    $textNoteDomElement->setAttribute ("text:id", "ftn" . $this->noteCount);
+    
     $this->noteCount++;
-    if ($endnote) $noteclass = "endnote";
-    else $noteclass = "footnote";
-    $textNoteDomElement->setAttribute ("text:note-class", $noteclass);
-    
-    // The note citation, the 'caller' is normally in superscript in the OpenDocument.
-    // The default values of the application are used. The Bibledit-Web stylesheet is not consulted.
-    $textNoteCitationDomElement = $this->htmlDom->createElement ("text:note-citation");
-    $textNoteDomElement->appendChild ($textNoteCitationDomElement);
-    $textNoteCitationDomElement->setAttribute ("text:label", htmlspecialchars ($caller, ENT_QUOTES, "UTF-8"));
-    $textNoteCitationDomElement->nodeValue = htmlspecialchars ($caller, ENT_QUOTES, "UTF-8");
-    
-    $textNoteBodyDomElement = $this->htmlDom->createElement ("text:note-body");
-    $textNoteDomElement->appendChild ($textNoteBodyDomElement);
-    
-    $this->notePDomElement = $this->htmlDom->createElement ("text:p");
-    $textNoteBodyDomElement->appendChild ($this->notePDomElement);
-    $this->notePDomElement->setAttribute ("text:style-name", $style);
+
+    // Add the link with all relevant data for the note citation.
+    $reference = "#note" . $this->noteCount;
+    $identifier = "citation" . $this->noteCount;
+    $title = gettext ("See footnote");
+    $this->addLink ($this->currentPDomElement, $reference, $identifier, $title, "superscript", $citation);
+
+    // Open a paragraph element for the note body.
+    $this->notePDomElement = $this->htmlDom->createElement ("p");
+    $this->notesDivDomNode->appendChild ($this->notePDomElement);
+    $this->notePDomElement->setAttribute ("class", $style);
 
     $this->closeTextStyle (true);
+
+    // Add the link with all relevant data for the note body.
+    $reference = "#citation" . $this->noteCount;
+    $identifier = "note" . $this->noteCount;
+    $title = gettext ("Return to text");
+    $this->addLink ($this->notePDomElement, $reference, $identifier, $title, "", $citation);
+
+    // Add a space.
+    $this->addNoteText (" ");
   }
 
 
@@ -309,18 +312,18 @@ class Html_Text
   * This function adds text to the current footnote.
   * $text: The text to add.
   */
-  public function addNoteText ($text) // Todo
+  public function addNoteText ($text)
   {
     if ($text != "") {
       if (!isset ($this->notePDomElement)) {
         $this->addNote ("?", "");
       }
-      $spanDomElement = $this->htmlDom->createElement ("text:span");
+      $spanDomElement = $this->htmlDom->createElement ("span");
       $spanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
       $this->notePDomElement->appendChild ($spanDomElement);
       if ($this->currentNoteTextStyle != "") {
         // Take character style as specified in this object.
-        $spanDomElement->setAttribute ("text:style-name", $this->currentNoteTextStyle);
+        $spanDomElement->setAttribute ("class", $this->currentNoteTextStyle);
       }
     }
   }
@@ -338,12 +341,40 @@ class Html_Text
 
 
 
+ /**
+  * This adds a link.
+  * $domNode: The DOM node where to add the link to.
+  * $reference: The link's href, e.g. where it links to.
+  * $identifier: The link's identifier. Others can link to it.
+  * $title: The link's title, to make it accessible, e.g. for screenreaders.
+  * $style: The link text's style.
+  * $text: The link's text.
+  */
+  public function addLink ($domNode, $reference, $identifier, $title, $style, $text)
+  {
+    $aDomElement = $this->htmlDom->createElement ("a");
+    $domNode->appendChild ($aDomElement);
+    $aDomElement->setAttribute ("href", $reference);
+    $aDomElement->setAttribute ("id", $identifier);
+    $aDomElement->setAttribute ("title", $title);
+    if ($style != "") $aDomElement->setAttribute ("class", $style);
+    $aDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
+  }
+
+
+
   /**
-  * This saves the OpenDocument to file
+  * This saves the web page to file
   * $name: the name of the file to save to.
   */
   public function save ($name)
   {
+    // Add possible notes.
+    if (isset ($this->notesDivDomNode)) {
+      $this->bodyDomNode->appendChild ($this->notesDivDomNode);
+      unset ($this->notesDivDomNode);
+    }
+    // Save.
     $this->htmlDom->formatOutput = true;
     $string = $this->htmlDom->saveHTMLFile ($name);
   }

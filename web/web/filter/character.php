@@ -35,6 +35,16 @@ class Filter_Character
   }
 
 
+  /**
+  * Returns a no-break space (NBSP).
+  */
+  public function noBreakSpace ()
+  {
+    // The " " below is not a normal space, but a no-break space.
+    return " ";
+  }
+
+
 }
 
 ?>

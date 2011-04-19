@@ -886,7 +886,7 @@ class Filter_Text
                   if ($isOpeningMarker) {
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
                     $citation = $this->getNoteCitation ($style);
-                    $this->odf_text_standard->addNote ($citation, $marker); // Todo implement in html
+                    $this->odf_text_standard->addNote ($citation, $marker);
                     // Note citation in superscript in the document with text and note citations.
                     $currentTextStyle = $this->odf_text_text_and_note_citations->currentTextStyle;
                     $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
@@ -896,8 +896,10 @@ class Filter_Text
                     if ($this->odf_text_notes->currentParagraphContent != "") {
                       $this->odf_text_notes->addText (" ");
                     }
-                    // Add the note citation. And a no-break space (NBSP) after it.
-                    $this->odf_text_notes->addText ($citation . " ");
+                    // Add the note citation. And a no-break space after it.
+                    $this->odf_text_notes->addText ($citation . Filter_Character::noBreakSpace());
+                    // Open note in the web page.
+                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote);
                   } else {
                     break 3;
                   }
@@ -908,12 +910,14 @@ class Filter_Text
                   if ($isOpeningMarker) {
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
                     $citation = $this->getNoteCitation ($style);
-                    $this->odf_text_standard->addNote ($citation, $marker, true); // Todo implement in html
+                    $this->odf_text_standard->addNote ($citation, $marker, true);
                     // Note citation in superscript in the document with text and note citations.
                     $currentTextStyle = $this->odf_text_text_and_note_citations->currentTextStyle;
                     $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
                     $this->odf_text_text_and_note_citations->addText ($citation);
                     $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
+                    // Open note in the web page.
+                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
                   } else {
                     break 3;
                   }
@@ -924,27 +928,31 @@ class Filter_Text
                   // The style of the standard content is already used in the note's body.
                   // If means that the text style should be cleared 
                   // in order to return to the correct style for the paragraph.
-                  $this->odf_text_standard->closeTextStyle (true); // Todo implement in html
+                  $this->odf_text_standard->closeTextStyle (true);
                   $this->odf_text_notes->closeTextStyle ();
+                  $this->html_text_standard->closeTextStyle (true);
                   break;
                 }
                 case FootEndNoteSubtypeContent:
                 case FootEndNoteSubtypeContentWithEndmarker:
                 {
                   if ($isOpeningMarker) {
-                    $this->odf_text_standard->openTextStyle ($style, true); // Todo implement in html
+                    $this->odf_text_standard->openTextStyle ($style, true);
                     $this->odf_text_notes->openTextStyle ($style);
+                    $this->html_text_standard->openTextStyle ($style, true);
                   } else {
-                    $this->odf_text_standard->closeTextStyle (true); // Todo implement in html
+                    $this->odf_text_standard->closeTextStyle (true);
                     $this->odf_text_notes->closeTextStyle ();
+                    $this->html_text_standard->closeTextStyle (true);
                   }
                   break;
                 }
                 case FootEndNoteSubtypeParagraph:
                 {
                   // The style of this is not yet implemented.
-                  $this->odf_text_standard->closeTextStyle (true); // Todo implement in html
+                  $this->odf_text_standard->closeTextStyle (true);
                   $this->odf_text_notes->closeTextStyle ();
+                  $this->html_text_standard->closeTextStyle (true);
                   break;
                 }
                 default:
@@ -964,7 +972,7 @@ class Filter_Text
                   if ($isOpeningMarker) {
                     $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerCrossReference]);
                     $citation = $this->getNoteCitation ($style);
-                    $this->odf_text_standard->addNote ($citation, $marker); // Todo implement in html
+                    $this->odf_text_standard->addNote ($citation, $marker);
                     // Note citation in superscript in the document with text and note citations.
                     $currentTextStyle = $this->odf_text_text_and_note_citations->currentTextStyle;
                     $this->odf_text_text_and_note_citations->currentTextStyle = "superscript";
@@ -975,7 +983,10 @@ class Filter_Text
                       $this->odf_text_notes->addText (" ");
                     }
                     // Add the note citation. And a no-break space (NBSP) after it.
-                    $this->odf_text_notes->addText ($citation . " ");
+                    $this->odf_text_notes->addText ($citation . Filter_Character::noBreakSpace());
+                    // Open note in the web page.
+                    $this->ensureNoteParagraphStyle ($this->standardContentMarkerCrossReference, $this->styles[$this->standardContentMarkerCrossReference]);
+                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference);
                   } else {
                     break 3;
                   }
@@ -986,19 +997,22 @@ class Filter_Text
                   // The style of the standard content is already used in the note's body.
                   // If means that the text style should be cleared
                   // in order to return to the correct style for the paragraph.
-                  $this->odf_text_standard->closeTextStyle (true); // Todo implement in html
+                  $this->odf_text_standard->closeTextStyle (true);
                   $this->odf_text_notes->closeTextStyle ();
+                  $this->html_text_standard->closeTextStyle (true);
                   break;
                 }
                 case CrossreferenceSubtypeContent:
                 case CrossreferenceSubtypeContentWithEndmarker:
                 {
                   if ($isOpeningMarker) {
-                    $this->odf_text_standard->openTextStyle ($style, true); // Todo implement in html
+                    $this->odf_text_standard->openTextStyle ($style, true);
                     $this->odf_text_notes->openTextStyle ($style);
+                    $this->html_text_standard->openTextStyle ($style, true);
                   } else {
-                    $this->odf_text_standard->closeTextStyle (true); // Todo implement in html
+                    $this->odf_text_standard->closeTextStyle (true);
                     $this->odf_text_notes->closeTextStyle ();
+                    $this->html_text_standard->closeTextStyle (true);
                   }
                   break;
                 }
@@ -1021,15 +1035,17 @@ class Filter_Text
         }
       } else {
         // Here is no marker. Treat it as text.
-        $this->odf_text_standard->addNoteText ($currentItem); // Todo implement in html
+        $this->odf_text_standard->addNoteText ($currentItem);
         $this->odf_text_notes->addText ($currentItem);
+        $this->html_text_standard->addNoteText ($currentItem);
       }
     }
     
     // "Close" the current note, so that any following note text, if malformed, 
     // will be added to a new note, not to the last one created.
-    $this->odf_text_standard->closeCurrentNote (); // Todo implement in html
+    $this->odf_text_standard->closeCurrentNote ();
     $this->odf_text_notes->closeTextStyle ();
+    $this->html_text_standard->closeCurrentNote ();
   }
 
 
@@ -1407,10 +1423,11 @@ class Filter_Text
       $spancolumns = false;
       $keepWithNext = false;
       $dropcaps = 0;
-      $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps); // Todo implement in html
+      $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->odf_text_notes->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, 0, 0, 0, 0, 0, $keepWithNext, $dropcaps);
+      $this->html_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->createdOdfStyles [] = $marker;
     }
   }

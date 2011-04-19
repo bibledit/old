@@ -1,12 +1,3 @@
-Export to html
-
-Notes are clickable so it jumps from the citation to the note body and vice versa.
-
-This is some text<sup><a href="#32066" id="fn1" title="see footnote">1</a></sup>
-
-<div id="footnote">
-	<li id="32066">This is a footnote <a href="#fn1" title="return to article">↑</a></li>
-</div>
 
 
 
