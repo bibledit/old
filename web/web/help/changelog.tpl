@@ -1,6 +1,6 @@
 <h1>{t}ChangeLog{/t}</h1>
 
-<h2>Version in source repository</h2>
+<h2>Version in repository</h2>
 <p>ChangeLogs have been moved from http://sites.google.com/site/bibledit to here.</p>
 <p>Requires a Java Runtime Environment.</p>
 <p>Pages detailing recent changes in the Bible texts are generated daily.</p>
@@ -15,6 +15,7 @@
 <p>Logbook refreshes the page less often.</p>
 <p>Updated helpfiles, including one about Bible typesetting.</p>
 <p>Export Bibles to web pages.</p>
+<p>Older changes sets are archived instead of deleted.</p>
 
 <h2>Version 0.3</h2>
 <p>4 March 2011</p>

@@ -49,17 +49,17 @@ foreach ($bibles as $bible) {
   $directory = dirname (dirname (__FILE__)) . $baseUrl;
   mkdir ($directory, 0777, true);
   
-  // Create symbolic link for easy references.
+  // Remove possible old symbolic link.
   $link = dirname ($directory) . "/0_most_recent_changes";
   @unlink ($link);
-  symlink ($directory, $link);
+  //symlink ($directory, $link);
   
   // Produce the USFM files.
   Filter_Diff::produceUsfmChapterLevel ($bible, $directory);
   Filter_Diff::produceUsfmVerseLevel ($bible, $directory);
   
   // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
-  $database_bibles->deleteDiffBible ($bible);
+  // Todo $database_bibles->deleteDiffBible ($bible);
 
   // Insert links to all the online versions.
   $links = array ();
@@ -69,10 +69,10 @@ foreach ($bibles as $bible) {
   $links [] = array ("$siteUrl$baseUrl/changed_chapters.html", "changed chapters");
   $links [] = array ("", "|");
   $links [] = array ("$siteUrl$baseUrl/changed_verses_email.html", "emailed version");
-  Filter_Diff::insertLinks ("$directory/verses_old.usfm", $links);
-  Filter_Diff::insertLinks ("$directory/verses_new.usfm", $links);
-  Filter_Diff::insertLinks ("$directory/chapters_old.usfm", $links);
-  Filter_Diff::insertLinks ("$directory/chapters_new.usfm", $links);
+  // Todo Filter_Diff::insertLinks ("$directory/verses_old.usfm", $links); // Todo update so it inserts the links after the <body> tag.
+  // Todo Filter_Diff::insertLinks ("$directory/verses_new.usfm", $links); 
+  // Todo Filter_Diff::insertLinks ("$directory/chapters_old.usfm", $links);
+  // Todo Filter_Diff::insertLinks ("$directory/chapters_new.usfm", $links);
   
   // Prepare for Daisy Diff.
   Filter_Diff::copyDaisyDiffLibraries ($directory);
@@ -106,8 +106,10 @@ foreach ($bibles as $bible) {
     }
   }
   
-  // If there are more then 100 sets of changes, delete the oldest ones.
+  // If there are too many sets of changes, archive the oldest ones.
   $changes_directory = dirname (dirname (__FILE__)) . "/downloads/changes/" . $biblename;
+  $archive_directory = "$changes_directory/archive";
+  @mkdir ($archive_directory, 0777, true);
   $filenames = array ();
   $modificationtimes = array ();
   foreach (new DirectoryIterator ($changes_directory) as $fileInfo) {
@@ -118,9 +120,9 @@ foreach ($bibles as $bible) {
     }
   }
   array_multisort ($modificationtimes, SORT_DESC, SORT_NUMERIC, $filenames);
-  for ($i = 100; $i < count ($filenames); $i++) {
-    Filter_Rmdir::rmdir ($changes_directory . "/" . $filenames[$i]);
-    $database_logs->log (gettext ("Deleting older set of changes") . " " . $filenames[$i], true);
+  for ($i = 7; $i < count ($filenames); $i++) {
+    rename ($changes_directory . "/" . $filenames[$i], $changes_directory . "/archive/" . $filenames[$i]);
+    $database_logs->log (gettext ("Archiving older set of changes") . " " . $filenames[$i], true);
   }
  
   
