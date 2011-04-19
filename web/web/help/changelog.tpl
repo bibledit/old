@@ -11,6 +11,9 @@
 <p>Requires zip and unzip.</p>
 <p>Daily export of selected Bibles to OpenDocument files in various editions: standard, text only, text with note citations, and notes only.</p>
 <p>Hyphenator can insert soft hyphens into Bibles at defined locations.</p>
+<p>Automatic Send/Receive once a day.</p>
+<p>Logbook refreshes the page less often.</p>
+<p>Updated helpfiles, including one about Bible typesetting.</p>
 
 <h2>Version 0.3</h2>
 <p>4 March 2011</p>

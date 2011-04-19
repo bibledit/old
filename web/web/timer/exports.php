@@ -75,6 +75,8 @@ foreach ($bibles as $bible) {
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
     
+    $database_logs->log ($bible . " " . $database_books->getEnglishFromId ($book), true);
+
     // Empty the USFM data for the current book.
     $bookUsfmData = "";
 

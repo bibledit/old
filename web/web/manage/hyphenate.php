@@ -24,6 +24,7 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
+$database_books = Database_Books::getInstance ();
 
 
 $inputBible = $argv[1];
@@ -59,6 +60,7 @@ $database_bibles->createBible ($outputBible);
 // Go through the input Bible's books and chapters.
 $books = $database_bibles->getBooks ($inputBible);
 foreach ($books as $book) {
+  $database_logs->log ($database_books->getEnglishFromId ($book), true);
   $chapters = $database_bibles->getChapters ($inputBible, $book);
   foreach ($chapters as $chapter) {
     $data = $database_bibles->getChapter ($inputBible, $book, $chapter);

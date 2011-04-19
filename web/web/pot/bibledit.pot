@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-16 01:45+0200\n"
+"POT-Creation-Date: 2011-04-19 01:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,70 +90,10 @@ msgstr ""
 msgid "Management"
 msgstr ""
 
-msgid ""
-"Starting to send and receive the relevant Bibles and Consultation Notes."
-msgstr ""
-
-msgid "Processing any data left over from previous actions."
-msgstr ""
-
-msgid "Consultation Notes"
-msgstr ""
-
-msgid "Bible"
-msgstr ""
-
-msgid "Remote repository URL"
-msgstr ""
-
-msgid "Git repository directory"
-msgstr ""
-
-msgid ""
-"Cannot send and receive the data because the git repository was not found in "
-"the filesystem."
-msgstr ""
-
-msgid "Failed to temporarily store the .git directory"
-msgstr ""
-
-msgid "Failed to restore the .git directory"
-msgstr ""
-
-msgid "Transferring notes to file ..."
-msgstr ""
-
-msgid "Transferring Bible text to file ..."
-msgstr ""
-
-msgid ""
-"A conflict was found in the above book and chapter or consultation note. "
-"Please resolve this conflict manually. Open the chapter in the editor in "
-"USFM view, and select which of the two conflicting lines of text should be "
-"retained, and remove the other line, and the conflict markup. After that it "
-"is recommended to send and receive the Bibles again. This will remove the "
-"conflict from the repository."
-msgstr ""
-
-msgid "Moving the data that was changed into the database ..."
-msgstr ""
-
-msgid "Listing the last few commits ..."
-msgstr ""
-
-msgid "There was a failure"
-msgstr ""
-
-msgid "The Consultation Notes have been done."
-msgstr ""
-
-msgid "This Bible has been done."
-msgstr ""
-
-msgid "Ready. All relevant Bibles, and Consultations Notes, have been done."
-msgstr ""
-
 msgid "Send/Receive"
+msgstr ""
+
+msgid "Will send and receive Bibles soon. See the logbook for progress."
 msgstr ""
 
 msgid "Hyphenation"
@@ -428,6 +368,12 @@ msgid "Would you like to delete this versification system?"
 msgstr ""
 
 msgid "Please enter the name for the new versification system"
+msgstr ""
+
+msgid "Failed to temporarily store the .git directory"
+msgstr ""
+
+msgid "Failed to restore the .git directory"
 msgstr ""
 
 msgid "Step 1/2: Exporting the local data to the local repository"
@@ -1239,6 +1185,65 @@ msgstr ""
 msgid "The lists of changes in the Bibles have been generated"
 msgstr ""
 
+msgid ""
+"Starting to send and receive the relevant Bibles and Consultation Notes."
+msgstr ""
+
+msgid "Processing any data left over from previous actions."
+msgstr ""
+
+msgid "Consultation Notes"
+msgstr ""
+
+msgid "Bible"
+msgstr ""
+
+msgid "Remote repository URL"
+msgstr ""
+
+msgid "Git repository directory"
+msgstr ""
+
+msgid ""
+"Cannot send and receive the data because the git repository was not found in "
+"the filesystem."
+msgstr ""
+
+msgid "Transferring notes to file ..."
+msgstr ""
+
+msgid "Transferring Bible text to file ..."
+msgstr ""
+
+msgid ""
+"A conflict was found in the above book and chapter or consultation note. "
+"Please resolve this conflict manually. Open the chapter in the editor in "
+"USFM view, and select which of the two conflicting lines of text should be "
+"retained, and remove the other line, and the conflict markup. After that it "
+"is recommended to send and receive the Bibles again. This will remove the "
+"conflict from the repository."
+msgstr ""
+
+msgid "Moving the data that was changed into the database ..."
+msgstr ""
+
+msgid "Listing the last few commits ..."
+msgstr ""
+
+msgid "There was a failure"
+msgstr ""
+
+msgid "The Consultation Notes have been done."
+msgstr ""
+
+msgid "This Bible has been done."
+msgstr ""
+
+msgid ""
+"Ready. All relevant Bibles, and Consultations Notes, have been sent and "
+"received."
+msgstr ""
+
 msgid "Installation"
 msgstr ""
 
@@ -1338,12 +1343,6 @@ msgid ""
 "confirmation number in the subject line."
 msgstr ""
 
-msgid "Sending and receiving Bibles and consultation notes."
-msgstr ""
-
-msgid "Progress shows up on this page or in the logbook."
-msgstr ""
-
 msgid ""
 "This shows all user accounts. You can delete users, or change users' roles."
 msgstr ""
@@ -1385,10 +1384,21 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
+msgid "Bibledit-Web sends and receives the Bibles on a daily basis."
+msgstr ""
+
+msgid ""
+"It receives changes made by others, and it sends changes made here to the "
+"server for collaboration."
+msgstr ""
+
+msgid "Send and receive Bibles now, and every day at this same time."
+msgstr ""
+
 msgid "Edit Bible with raw USFM code"
 msgstr ""
 
-msgid "Send and Receive Bibles and Consultation Notes"
+msgid "Send and Receive"
 msgstr ""
 
 msgid "Bibles"
@@ -1556,9 +1566,6 @@ msgid "The Bible where the hyphenated data will be written to is:"
 msgstr ""
 
 msgid "Insert the soft hyphens according to the settings."
-msgstr ""
-
-msgid "Ready sending and receiving."
 msgstr ""
 
 msgid "Translation"
@@ -3711,6 +3718,12 @@ msgstr ""
 msgid "We suppose that the singable Psalms take up no more than 200 pages."
 msgstr ""
 
+#, c-format
+msgid ""
+"Usually the inclusion of the singable Psalms in a Bible will add about "
+"10% to the number of pages."
+msgstr ""
+
 msgid ""
 "The Bible will have footnotes and crossreferences, all lumped together into "
 "a single textframe at the bottom of each page."
@@ -3796,7 +3809,184 @@ msgstr ""
 
 msgid ""
 "Text body 1520 pages. Notes 125 pages. Singable Psalms 200 pages. Estimated "
-"total is 1845."
+"total is 1845 pages."
+msgstr ""
+
+msgid "Typesetting guidelines"
+msgstr ""
+
+msgid ""
+"Line spacing should be consistent throughout and should be placed line on "
+"line across all pages. It means that they should all line up with each other "
+"all the way down the page and across all pages. Then when the Bible is "
+"printed, the printed text will be back to back and not show through from one "
+"side of the page to the other."
+msgstr ""
+
+msgid ""
+"The space after the verse numbers would be nearly the same and consistent."
+msgstr ""
+
+msgid ""
+"The alignment of the drop caps chapter numbers to the text is to be "
+"consistent. The chapter divisions would also benefit from some more space "
+"between them and the text of the preceding chapter."
+msgstr ""
+
+msgid ""
+"The amount of space given to the Bible book headings should not be too great."
+msgstr ""
+
+msgid ""
+"Subheadings should not appear squashed amongst the rest of the text and "
+"would benefit from some space."
+msgstr ""
+
+msgid ""
+"The space between the text and footnotes should not be too tight neither "
+"unnecessarily large."
+msgstr ""
+
+msgid ""
+"In the crossreferences it is pleasing to have the chapter and verse number "
+"kept together with the book name, especially as the small font on long lines "
+"gives scope for this."
+msgstr ""
+
+msgid ""
+"The columns should start at the same height and should be balanced at the "
+"ends."
+msgstr ""
+
+msgid ""
+"The Psalm headers need consistent spaces before and after and should be "
+"positioned closer to the Psalm that follows than to the Psalm before."
+msgstr ""
+
+msgid ""
+"A 10 mm margin is okay for the outer margin. The inner margin needs slightly "
+"more, e.g. 12 mm."
+msgstr ""
+
+msgid ""
+"Readability would be helped by distinguishing the verse numbers visually. "
+"Others may prefer these to to be less visible."
+msgstr ""
+
+msgid ""
+"It would be helpful to distinguish the running head, perhaps by using a semi-"
+"bold version of the same font."
+msgstr ""
+
+msgid ""
+"One way in which the number of pages in a volume could be reduced without "
+"loss of readability would be to choose a font with slightly shorter "
+"ascenders and descenders and then tighten the leading (line spacing) "
+"slightly."
+msgstr ""
+
+msgid "Using LibreOffice for typesetting"
+msgstr ""
+
+msgid ""
+"Having used LibreOffice for typesetting for some time, my experience is that "
+"the program is suitable for typesetting Bibles."
+msgstr ""
+
+msgid ""
+"I'd like to give some hints about how to do typographic work in LibreOffice."
+msgstr ""
+
+msgid ""
+"To meet the requirement that line spacing be consistent throughout and be "
+"placed line on line across all pages, do the following:"
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page, and enable Register-true. Set the reference style "
+"to \"Text Body\". Press OK."
+msgstr ""
+
+msgid ""
+"Select all the text, and go to menu Format / Paragraph, and activate "
+"Register-true. Press OK."
+msgstr ""
+
+msgid ""
+"The line spacing specified by the paragraph style \"Text Body\" is now used "
+"as the reference line spacing for all paragraphs that have the register-true "
+"feature enabled."
+msgstr ""
+
+msgid ""
+"The line spacing in the document is going to be consistent. It will be equal "
+"to the line spacing of the reference style \"Text Body\", or a multiple of "
+"it."
+msgstr ""
+
+msgid "Changing the line spacing."
+msgstr ""
+
+msgid "Change the line spacing in paragraph style \"Text Body\"."
+msgstr ""
+
+msgid "Press F11 to get the Styles and Formatting dialog."
+msgstr ""
+
+msgid "Locate style \"Text Body\"."
+msgstr ""
+
+msgid "Right-click it with the mouse, and choose menu Modify."
+msgstr ""
+
+msgid "Go to tab Indents & Spacing."
+msgstr ""
+
+msgid ""
+"Adjust the spacing above the paragraph, the spacing below the paragrap, and "
+"the line spacing. Press OK."
+msgstr ""
+
+msgid ""
+"It may happen that some paragraphs in the text used to have a line spacing "
+"equal to the line spacing of style \"Text Body\", but now suddenly take up a "
+"multiple of it. This may happen when you have tightened the line spacing a "
+"bit."
+msgstr ""
+
+msgid ""
+"To resolve this, make the line spacing of those paragraphs smaller than the "
+"line spacing of style \"Text body\"."
+msgstr ""
+
+msgid "Updating a paragraph style."
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, the paragraph styles of the USFM "
+"document appear in LibreOffice."
+msgstr ""
+
+msgid ""
+"For example, normal paragraphs usually have style \"p\", and section heading "
+"\"s\"."
+msgstr ""
+
+msgid ""
+"If you like to update a paragraph style, you may update each section heading "
+"individually, but this is a lot of work. It is faster to update the style "
+"for \"s\", so that this updates all paragraphs that have this style."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, right-click the text of this paragraph, and "
+"choose menu Edit Paragraph Style..., and make the desired settings."
+msgstr ""
+
+msgid "Exporting to PDF."
+msgstr ""
+
+msgid "See menu File / Export as PDF."
 msgstr ""
 
 msgid ""

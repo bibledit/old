@@ -134,16 +134,31 @@
 <li>{t}It would be helpful to distinguish the running head, perhaps by using a semi-bold version of the same font.{/t}</li>
 <li>{t}One way in which the number of pages in a volume could be reduced without loss of readability would be to choose a font with slightly shorter ascenders and descenders and then tighten the leading (line spacing) slightly.{/t}</li>
 </ol>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
+<h2>{t}Using LibreOffice for typesetting{/t}</h2>
+<p>{t}Having used LibreOffice for typesetting for some time, my experience is that the program is suitable for typesetting Bibles.{/t}</p>
+<p>{t}I'd like to give some hints about how to do typographic work in LibreOffice.{/t}</p>
 <br>
+<p>{t}To meet the requirement that line spacing be consistent throughout and be placed line on line across all pages, do the following:{/t}</p>
+<p>{t}Go to menu Format / Page, and enable Register-true. Set the reference style to "Text Body". Press OK.{/t}</p>
+<p>{t}Select all the text, and go to menu Format / Paragraph, and activate Register-true. Press OK.{/t}</p>
+<p>{t}The line spacing specified by the paragraph style "Text Body" is now used as the reference line spacing for all paragraphs that have the register-true feature enabled.{/t}</p>
+<p>{t}The line spacing in the document is going to be consistent. It will be equal to the line spacing of the reference style "Text Body", or a multiple of it.{/t}</p>
+<br>
+<p>{t}Changing the line spacing.{/t}</p>
+<p>{t}Change the line spacing in paragraph style "Text Body".{/t}</p>
+<p>{t}Press F11 to get the Styles and Formatting dialog.{/t}</p>
+<p>{t}Locate style "Text Body".{/t}</p>
+<p>{t}Right-click it with the mouse, and choose menu Modify.{/t}</p>
+<p>{t}Go to tab Indents & Spacing.{/t}</p>
+<p>{t}Adjust the spacing above the paragraph, the spacing below the paragrap, and the line spacing. Press OK.{/t}</p>
+<p>{t}It may happen that some paragraphs in the text used to have a line spacing equal to the line spacing of style "Text Body", but now suddenly take up a multiple of it. This may happen when you have tightened the line spacing a bit.{/t}</p>
+<p>{t}To resolve this, make the line spacing of those paragraphs smaller than the line spacing of style "Text body".{/t}</p>
+<br>
+<p>{t}Updating a paragraph style.{/t}</p>
+<p>{t}After exporting USFM text to OpenDocument, the paragraph styles of the USFM document appear in LibreOffice.{/t}</p>
+<p>{t}For example, normal paragraphs usually have style "p", and section heading "s".{/t}</p>
+<p>{t}If you like to update a paragraph style, you may update each section heading individually, but this is a lot of work. It is faster to update the style for "s", so that this updates all paragraphs that have this style.{/t}</p>
+<p>{t}To update a paragraph style, right-click the text of this paragraph, and choose menu Edit Paragraph Style..., and make the desired settings.{/t}</p>
+<br>
+<p>{t}Exporting to PDF.{/t}</p>
+<p>{t}See menu File / Export as PDF.{/t}</p>

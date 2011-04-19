@@ -1,30 +1,7 @@
-
-
-
-
-
-
-
-
-
-Rather than getting the commits to the repository in the logbook,
-we may have a function to get the last 100 or so on the screen.
-
-
-
-
-
-
-
-
-
-
-It would be good if the export also exported to html.
-The differences would then show clearer and less messy.
-A very easy way of doing this is through letting LibreOffice save to html.
-But a better way is to let the Filter_Text routine create very clean html that uses internal css stylesheet.
-This really is the way to go.
-In particular when the notes go to the bottom, there is less clutter.
+Export to html
+Filter_Text creates very clean html with an internal css stylesheet.
+When the notes go to the end of the page, there is less clutter.
+Notes are clickable so it jumps from the citation to the note body and vice versa.
 
 
 
@@ -41,11 +18,14 @@ In particular when the notes go to the bottom, there is less clutter.
 
 
 
+The differences show clearer and less messy when this html is used for the DaisyDiff routines.
+Look for the limit for the DaisyDiff routine.
+If the size limit is reached, cut the input data up, and repeat the routine for each chunk.
+There is no need for a soft link with the most recent versions, since the data normally is mailed out.
+The soft link becomes difficult when there is -part-1, part2, etc., if there are huge chunks of changes.
 
 
 
-
-Write help file about typesetting a Bible.
 
 
 
@@ -571,4 +551,12 @@ OpenOffice may export to PDF, probably, see unoconv.
 This PDF looks better than the one made through cups-pdf.
 
 
+
+
+
+
+
+We may consider creating the headers and footers just to assist those who need to typeset.
+Could be created from a template just by updating some sizes manually, e.g. 
+styles.xml with str_replace.
 
