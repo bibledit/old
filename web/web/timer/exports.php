@@ -61,14 +61,18 @@ foreach ($bibles as $bible) {
   $usfmDirectory = $bibleDirectory . "/USFM";
   @mkdir ($usfmDirectory, 0777, true);
 
-  // OpenDocument files to into the OpenDocument folder.
+  // OpenDocument files go into the OpenDocument folder.
   $odtDirectory = $bibleDirectory . "/OpenDocument";
   @mkdir ($odtDirectory, 0777, true);
   
-  // There is also a file that holds the USFM code of the entire Bible.
+  // Web pages go into the Web folder.
+  $webDirectory = $bibleDirectory . "/Web";
+  @mkdir ($webDirectory, 0777, true);
+  
+  // USFM code of the entire Bible.
   $bibleUsfmData = "";
 
-  // OpenDocument file for the whole Bible.
+  // OpenDocument and Web data for the whole Bible.
   $filter_text_bible = new Filter_Text;
 
   // Go through the Bible books.
@@ -80,7 +84,7 @@ foreach ($bibles as $bible) {
     // Empty the USFM data for the current book.
     $bookUsfmData = "";
 
-    // OpenDocument file for one Bible book.
+    // OpenDocument and Web data for one Bible book.
     $filter_text_book = new Filter_Text;
 
     // Go through the chapters in this book.
@@ -95,8 +99,8 @@ foreach ($bibles as $bible) {
       $bookUsfmData .= $chapter_data;
       $bookUsfmData .= "\n";
       
-      // Add the chapter's USFM code to the OpenDocument files filter for the whole Bible, and for this book.
-      // Small chunks of USFM optimize speed.
+      // Add the chapter's USFM code to the Text_* filter for the whole Bible, and for this book.
+      // Use small chunks of USFM at a time. This gives much better speed.
       $filter_text_bible->addUsfmCode ($chapter_data);
       $filter_text_book->addUsfmCode ($chapter_data);
     }
@@ -105,12 +109,13 @@ foreach ($bibles as $bible) {
     $baseBookFileName = sprintf("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book);
     file_put_contents ("$usfmDirectory/$baseBookFileName.usfm", $bookUsfmData);
 
-    // Create standard OpenDocument containing the Bible book.
+    // Create OpenDocument and Web files for the Bible book.
     $filter_text_book->run ($stylesheet);
     $filter_text_book->odf_text_standard->save ("$odtDirectory/$baseBookFileName" . "_standard.odt");
     $filter_text_book->odf_text_text_only->save ("$odtDirectory/$baseBookFileName" . "_text_only.odt");
     $filter_text_book->odf_text_text_and_note_citations->save ("$odtDirectory/$baseBookFileName" . "_text_and_note_citations.odt");
     $filter_text_book->odf_text_notes->save ("$odtDirectory/$baseBookFileName" . "_notes.odt");
+    $filter_text_book->html_text_standard->save ("$webDirectory/$baseBookFileName" . ".html");
 
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
@@ -126,6 +131,7 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
+  $filter_text_bible->html_text_standard->save ("$webDirectory/00_Bible.html");
 
   // Create the info OpenDocument for the whole Bible.
   $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");

@@ -14,6 +14,7 @@
 <p>Automatic Send/Receive once a day.</p>
 <p>Logbook refreshes the page less often.</p>
 <p>Updated helpfiles, including one about Bible typesetting.</p>
+<p>Export Bibles to web pages.</p>
 
 <h2>Version 0.3</h2>
 <p>4 March 2011</p>

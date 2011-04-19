@@ -1,8 +1,12 @@
 Export to html
-Filter_Text creates very clean html with an internal css stylesheet.
-When the notes go to the end of the page, there is less clutter.
+
 Notes are clickable so it jumps from the citation to the note body and vice versa.
 
+This is some text<sup><a href="#32066" id="fn1" title="see footnote">1</a></sup>
+
+<div id="footnote">
+	<li id="32066">This is a footnote <a href="#fn1" title="return to article">↑</a></li>
+</div>
 
 
 
@@ -15,15 +19,14 @@ Notes are clickable so it jumps from the citation to the note body and vice vers
 
 
 
-
-
-
+When the notes go to the end of the page, there is less clutter when indicating daily changes.
 The differences show clearer and less messy when this html is used for the DaisyDiff routines.
 Look for the limit for the DaisyDiff routine.
 If the size limit is reached, cut the input data up, and repeat the routine for each chunk.
 There is no need for a soft link with the most recent versions, since the data normally is mailed out.
 The soft link becomes difficult when there is -part-1, part2, etc., if there are huge chunks of changes.
-
+We can keep fewer change-sets stored, so the last one becomes more obivous. No need to keep 50 copies.
+Or better: To archive the copies in a subdirectory, yes, that's it!
 
 
 
