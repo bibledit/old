@@ -120,6 +120,9 @@ EOD;
 
   public function getEnglishFromId($id)
   {
+    // Care for empty input.
+    if ($id == "") return "Unknown";
+    // Get the English name of the book.
     $database_instance = Database_Instance::getInstance();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT english FROM books WHERE id = $id;";

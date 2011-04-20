@@ -1,30 +1,3 @@
-There is no need for a soft link with the most recent versions, since the data normally is mailed out.
-The soft link becomes difficult when there is -part-1, part2, etc., if there are huge chunks of changes.
-
-We can keep fewer change-sets stored, so the last one becomes more obivous. No need to keep 50 copies.
-Or better: To archive the copies in a subdirectory, yes, that's it!
-
-
-DaisyDiff.
-
-- to remove the links before conversion, else the links get lost.
-- convert the usfm to html.
-- Use temporal new file names for all.
-
-
-
-
-
-
-
-When the notes go to the end of the page, there is less clutter when indicating daily changes.
-The differences show clearer and less messy when this html is used for the DaisyDiff routines.
-Look for the limit for the DaisyDiff routine.
-If the size limit is reached, cut the input data up, and repeat the routine for each chunk.
-
-
-
-
 At times, e.g. on localhost with bible test2, the Bible is given a name of Unknown with the changes.
 This looks like a bug.
 

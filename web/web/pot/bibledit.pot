@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-19 01:49+0200\n"
+"POT-Creation-Date: 2011-04-20 01:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,6 +115,12 @@ msgid "No second set of characters given"
 msgstr ""
 
 msgid "The Bible is being hyphenated. See the logbook for details."
+msgstr ""
+
+msgid "See footnote"
+msgstr ""
+
+msgid "Return to text"
 msgstr ""
 
 msgid "New"
@@ -1179,7 +1185,7 @@ msgstr ""
 msgid "Recent changes"
 msgstr ""
 
-msgid "Deleting older set of changes"
+msgid "Archiving older set of changes"
 msgstr ""
 
 msgid "The lists of changes in the Bibles have been generated"

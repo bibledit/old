@@ -16,49 +16,67 @@ class Filter_Diff
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
+    $database_config_general = Database_Config_General::getInstance ();
+    $stylesheet = $database_config_general->getExportStylesheet ();
     
     $old_ch_usfm = array ();
     $new_ch_usfm = array ();
 
+    $filter_text_old = new Filter_Text;
+    $filter_text_new = new Filter_Text;
+    
     $books = $database_bibles->getDiffBooks ($bibleIdentifier);
     foreach ($books as $book) {
       $bookname = $database_books->getEnglishFromId ($book);
       $chapters = $database_bibles->getDiffChapters ($bibleIdentifier, $book);
       foreach ($chapters as $chapter) {
-        $old_ch_usfm [] = "<h2>$bookname $chapter</h2>";
+        $usfmCode = "\\mt2 $bookname $chapter";
+        $old_ch_usfm [] = $usfmCode;
+        $new_ch_usfm [] = $usfmCode;
+        $filter_text_old->addUsfmCode ($usfmCode);
+        $filter_text_new->addUsfmCode ($usfmCode);
         $old_chapter_text = explode ("\n", $database_bibles->getDiff ($bibleIdentifier, $book, $chapter));
         foreach ($old_chapter_text as $line) {
-          $old_ch_usfm [] = "<p>$line</p>";
+          $old_ch_usfm [] = $line;
+          $filter_text_old->addUsfmCode ($line);
         }
-        $new_ch_usfm [] = "<h2>$bookname $chapter</h2>";
         $new_chapter_text = explode ("\n", $database_bibles->getChapter ($bibleIdentifier, $book, $chapter));
         foreach ($new_chapter_text as $line) {
-          $new_ch_usfm [] = "<p>$line</p>";
+          $new_ch_usfm [] = $line;
+          $filter_text_new->addUsfmCode ($line);
         }
       }
     }
     
     file_put_contents ("$directory/chapters_old.usfm", implode ("\n", $old_ch_usfm));
     file_put_contents ("$directory/chapters_new.usfm", implode ("\n", $new_ch_usfm));
+    $filter_text_old->run ($stylesheet);
+    $filter_text_new->run ($stylesheet);
+    $filter_text_old->html_text_standard->save ("$directory/chapters_old.html");
+    $filter_text_new->html_text_standard->save ("$directory/chapters_new.html");
   }
   
 
   /**
-  * This filter produces two USFM files to be used for showing the differences between them.
+  * This filter produces USFM and html files to be used for showing the differences between them.
   * The files contain all verses that differ.
   * $bibleIdentifier: The Bible identifier to go through.
   * $directory: The existing directory where to put the files.
   * Two files are created: verses_old.usfm and verses_new.usfm.
-  * The name of the Bible is stated at the top of the files.
-  * The name of the book and the chapter number and verse number precede each verse.
+  * The book chapter.verse precede each verse.
   */
-  public function produceUsfmVerseLevel ($bibleIdentifier, $directory)
+  public function produceVerseLevel ($bibleIdentifier, $directory)
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
-    
+    $database_config_general = Database_Config_General::getInstance ();
+    $stylesheet = $database_config_general->getExportStylesheet ();
+
     $old_vs_usfm = array ();
     $new_vs_usfm = array ();
+    
+    $filter_text_old = new Filter_Text;
+    $filter_text_new = new Filter_Text;
     
     $books = $database_bibles->getDiffBooks ($bibleIdentifier);
     foreach ($books as $book) {
@@ -77,8 +95,12 @@ class Filter_Diff
           $old_verse_text = Filter_Usfm::getVerseText ($old_chapter_usfm, $verse);
           $new_verse_text = Filter_Usfm::getVerseText ($new_chapter_usfm, $verse);
           if ($old_verse_text != $new_verse_text) {
-            $old_vs_usfm [] = "<p>$bookname $chapter.$verse $old_verse_text</p>";
-            $new_vs_usfm [] = "<p>$bookname $chapter.$verse $new_verse_text</p>";
+            $usfmCode = "\\p $bookname $chapter.$verse $old_verse_text";
+            $old_vs_usfm [] = $usfmCode;
+            $filter_text_old->addUsfmCode ($usfmCode);
+            $usfmCode = "\\p $bookname $chapter.$verse $new_verse_text";
+            $new_vs_usfm [] = $usfmCode;
+            $filter_text_new->addUsfmCode ($usfmCode);
           }
         }
       }
@@ -86,6 +108,10 @@ class Filter_Diff
     
     file_put_contents ("$directory/verses_old.usfm", implode ("\n", $old_vs_usfm));
     file_put_contents ("$directory/verses_new.usfm", implode ("\n", $new_vs_usfm));
+    $filter_text_old->run ($stylesheet);
+    $filter_text_new->run ($stylesheet);
+    $filter_text_old->html_text_standard->save ("$directory/verses_old.html");
+    $filter_text_new->html_text_standard->save ("$directory/verses_new.html");
   }
 
 
@@ -233,8 +259,9 @@ class Filter_Diff
         if ($url != "") $htmlcode .= " <a href=\"$url\">$txt</a> ";
         else $htmlcode .= " $txt ";
       }
-      $contents = "$htmlcode</p>\n$contents";
-      file_put_contents ($htmlfile, $contents);
+      $htmlcode .= "</p>\n";
+      $htmlcode .= $contents;
+      file_put_contents ($htmlfile, $htmlcode);
     }
   }
 

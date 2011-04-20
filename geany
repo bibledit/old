@@ -14,12 +14,12 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=3
-FILE_NAME_0=206;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=1018;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=510;HTML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/html/template.html;0
-FILE_NAME_3=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/html/text.php;0
-FILE_NAME_4=43041;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
+current_page=4
+FILE_NAME_0=208;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=1076;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
+FILE_NAME_2=2004;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/changes.php;0
+FILE_NAME_3=3092;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
+FILE_NAME_4=3976;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/diff.php;0
 
 [long line marker]
 long_line_behaviour=1
