@@ -200,6 +200,7 @@ EOD;
   * If $limit is non-NULL, it indicates the starting limit for the selection.
   * $book, $chapter, $verse, $passage_selector: These are related and can limit the selection.
   * $edit_selector: Optionally constrains selection based on modification time.
+  * $non_edit_selector: Optionally constrains selection based on modification time.
   * $status_selector: Optionally constrains selection based on note status.
   * $bible_selector: Optionally constrains the selection, based on the note's Bible.
   * $assignment_selector: Optionally constrains the selection based on a note being assigned to somebody.
@@ -209,7 +210,7 @@ EOD;
   * $search_text: Works with $text_selector, contains the text to search for.
   * $userlevel: if 0, it takes the user's level from the current user, else it takes the level passed in the variable $userlevel itself.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel)
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel)
   {
     $session_logic = Session_Logic::getInstance ();
     if ($userlevel == 0)  $userlevel = $session_logic->currentLevel ();
@@ -266,6 +267,30 @@ EOD;
         break;
     }
     if ($time != 0) $query .= " AND modified >= $time ";
+    // Consider non-edit selector.
+    switch ($non_edit_selector) {
+      case 0:
+        // Select notes that have not been edited: Do not care. Apply no constraint.
+        $nonedit = 0;
+        break;
+      case 1:
+        // Select notes that have not been edited for the last 30 days.
+        $nonedit = strtotime ("today -30 days");
+        break;
+      case 2:
+        // Select notes that have not been edited for the last 7 days.
+        $nonedit = strtotime ("today -7 days");
+        break;
+      case 3:
+        // Select notes that have not been edited since yesterday.
+        $nonedit = strtotime ("yesterday");
+        break;
+      case 4:
+        // Select notes that have not been edited today.
+        $nonedit = strtotime ("today");
+        break;
+    }
+    if ($nonedit != 0) $query .= " AND modified <= $nonedit ";
     // Consider status constraint.
     if ($status_selector != "") {
       $query .= " AND status = '$status_selector' ";

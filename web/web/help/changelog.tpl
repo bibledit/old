@@ -1,6 +1,9 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+
+<h2>Version 0.4</h2>
+<p>20 April 2011</p>
 <p>ChangeLogs have been moved from http://sites.google.com/site/bibledit to here.</p>
 <p>Requires a Java Runtime Environment.</p>
 <p>Pages detailing recent changes in the Bible texts are generated daily.</p>

@@ -216,6 +216,14 @@ EOD;
     $this->setValue ("", "consultation-notes-edit-selector", $value);
   }   
 
+  // 0: don't care; 1: for last 30 days; 2: for last 7 days; 3: since yesterday; 4: today.
+  public function getConsultationNotesNonEditSelector() {
+    return $this->getValue ("", "consultation-notes-non-edit-selector", 0);
+  }
+  public function setConsultationNotesNonEditSelector ($value) {
+    $this->setValue ("", "consultation-notes-non-edit-selector", $value);
+  }   
+
   // Status is a string; can be empty as well.
   public function getConsultationNotesStatusSelector() {
     return $this->getValue ("", "consultation-notes-status-selector", "");

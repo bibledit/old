@@ -6,33 +6,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Notes date selection mechanism: 
-Those which have not had any activity on them for, e.g., a week or more, or a month or more.
-
-
-
-
-
-
-
-
-
-
-
-
 The sorting of the notes is not right yet. It should sort chapters and verses numerically.
+
+
+
+
 
 
 
@@ -196,9 +174,12 @@ The site has one default translation, set by the site administrator. Visitors ge
 
 
 
-To have a module that creates a new GoBible each hour if there were changes. The user also can request to make a module "now", 
-which will be scheduled for the next minute. If there were no changes, it indicates this as well. There is also a very simple page for 
-access from cell phones.
+
+
+
+
+To have a module to daily export a GoBible each. 
+
 
 
 
@@ -245,8 +226,7 @@ Same for Macintosh.
 Would communicate through bibledit-development. 
 Would write documentation on the Wiki. 
 Could write manuals for how to work with Bibledit-Web. 
-Could make a start with an issues tracker that is compatible with Bibledit-Gtk's project notes. 
-He could enable internationalization and localization with a language setting in the user preferences, 
+Could enable internationalization and localization with a language setting in the user preferences, 
 and a language setting for the site administrator for the site's language if the user has not yet logged in.
 
 
@@ -317,7 +297,6 @@ chapter/verse numbers.
 
 
 > Is there any news about packing bibledit-web? 
-
 
 CONFIGURING TOO EARLY:
 
@@ -492,9 +471,6 @@ Ubuntu has libzend-framework-php
 
 
 
-Also, if this is the design goal, then I think checking for MySQL and
-needing the root pw at configure time is unhelpful -- the local Linux PC
-may not even have MySQL at all.
 
 
 
@@ -527,8 +503,4 @@ This PDF looks better than the one made through cups-pdf.
 
 
 
-
-We may consider creating the headers and footers just to assist those who need to typeset.
-Could be created from a template just by updating some sizes manually, e.g. 
-styles.xml with str_replace.
 

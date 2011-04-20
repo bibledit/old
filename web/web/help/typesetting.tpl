@@ -162,3 +162,10 @@
 <br>
 <p>{t}Exporting to PDF.{/t}</p>
 <p>{t}See menu File / Export as PDF.{/t}</p>
+<br>
+<p>{t}Hiding the soft hyphens and non-breaking spaces.{/t}</p>
+<p>{t}The soft hyphens and the non-breaking spaces are visible as grey fields that clutter the page. To hide them, do this:{/t}</p>
+<p>{t}Go to menu Tools / Options.{/t}</p>
+<p>{t}Go to LibreOffice Writer / Formatting Aids.{/t}</p>
+<p>{t}Untick display of custom hyphens.{/t}</p>
+<p>{t}Untick display of non-breaking spaces.{/t}</p>

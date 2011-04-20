@@ -333,6 +333,11 @@ class Notes_Editor
       if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
       $database_config_user->setConsultationNotesEditSelector($edit_selector);
     }
+    @$non_edit_selector = $_GET['consultationnotesnoneditselector'];
+    if (isset ($non_edit_selector)) {
+      if (($non_edit_selector < 0) || ($non_edit_selector > 4)) $non_edit_selector = 0;
+      $database_config_user->setConsultationNotesNonEditSelector($non_edit_selector);
+    }
     @$status_selector = $_GET['consultationnotesstatusselector'];
     if (isset ($status_selector)) {
       $database_config_user->setConsultationNotesStatusSelector($status_selector);
@@ -378,7 +383,8 @@ class Notes_Editor
       $assets_navigator = Assets_Navigator::getInstance();
       $identifiers = $database_notes->selectNotes($assets_navigator->bible(), $assets_navigator->book(), $assets_navigator->chapter(), $assets_navigator->verse(), 
                                                   $database_config_user->getConsultationNotesPassageSelector(), 
-                                                  $database_config_user->getConsultationNotesEditSelector(), 
+                                                  $database_config_user->getConsultationNotesEditSelector(),
+                                                  $database_config_user->getConsultationNotesNonEditSelector(),
                                                   $database_config_user->getConsultationNotesStatusSelector(), 
                                                   $database_config_user->getConsultationNotesBibleSelector(), 
                                                   $database_config_user->getConsultationNotesAssignmentSelector(), 
@@ -584,6 +590,7 @@ class Notes_Editor
     $smarty->assign ("verse", $verse);
     $passage_selector = $database_config_user->getConsultationNotesPassageSelector();
     $edit_selector = $database_config_user->getConsultationNotesEditSelector();
+    $non_edit_selector = $database_config_user->getConsultationNotesNonEditSelector();
     $status_selector = $database_config_user->getConsultationNotesStatusSelector();
     $bible_selector = $database_config_user->getConsultationNotesBibleSelector();
     $assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector();
@@ -633,11 +640,12 @@ class Notes_Editor
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       $smarty->assign ("passageselector", $passage_selector);
       $smarty->assign ("editselector", $edit_selector);
+      $smarty->assign ("noneditselector", $non_edit_selector);
       $possible_statuses = $database_notes->getPossibleStatuses();
       foreach ($possible_statuses as $possible_status) {
         $status_ids [] = $possible_status[0];
@@ -666,14 +674,14 @@ class Notes_Editor
       $smarty->assign ("textinclusionselector", $text_inclusion_selector);
       $smarty->display ("editview.tpl");
     } else if ($bulkupdateconsultationnotes) {
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $notescount = count ($identifiers);
       $smarty->assign ("notescount", $notescount);
       $smarty->display ("bulkupdate.tpl");
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $totalcount = count ($identifiers);
       $smarty->assign ("totalcount", $totalcount);
       // First and last note to display, and notes count.
@@ -688,7 +696,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit, 0);
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit, 0);
         $displaycount = count ($identifiers);
       }
       $smarty->assign ("firstnote", $startinglimit + 1);
