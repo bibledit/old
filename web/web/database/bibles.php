@@ -99,7 +99,7 @@ EOD;
   {
     $database_instance = Database_Instance::getInstance();
     $id = Database_SQLInjection::no ($id);
-    $query = "SELECT name FROM bible_names WHERE id = $id;";
+    $query = "SELECT name FROM bible_names WHERE bible = $id;";
     $result = $database_instance->runQuery ($query);
     if ($result->num_rows == 0) {
       return "Unknown";

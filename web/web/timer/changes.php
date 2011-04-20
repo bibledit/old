@@ -59,7 +59,7 @@ foreach ($bibles as $bible) {
   Filter_Diff::produceVerseLevel ($bible, $directory);
   
   // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
-  // Todo $database_bibles->deleteDiffBible ($bible);
+  $database_bibles->deleteDiffBible ($bible);
 
   // Prepare for Daisy Diff.
   Filter_Diff::copyDaisyDiffLibraries ($directory);
