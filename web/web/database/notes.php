@@ -27,8 +27,11 @@ class Database_Notes
   private static $instance;
   private $standard_statuses = array ("New", "Pending", "In progress", "Done", "Reopened");
   private $standard_severities = array (0 => "Wish", 1 => "Minor", 2 => "Normal", 3 => "Important", 4 => "Major", 5 => "Critical");
-  private function __construct() {
+
+  private function __construct() 
+  {
   } 
+
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
@@ -319,7 +322,7 @@ EOD;
       $query .= " AND (MATCH (summary, contents) AGAINST ('$search_text' IN BOOLEAN MODE) OR summary LIKE '%$search_text%' OR CONTENTS LIKE '%$search_text%') ";
     }
     // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed. 
-    $query .= " ORDER BY passage ";
+    $query .= " ORDER BY ABS(passage) ";
     // Limit the selection if a limit is given.
     if (is_numeric ($limit)) {
       $limit = Database_SQLInjection::no ($limit);

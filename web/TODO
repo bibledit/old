@@ -6,7 +6,7 @@
 
 
 
-The sorting of the notes is not right yet. It should sort chapters and verses numerically.
+
 
 
 
@@ -464,39 +464,6 @@ kind of information.
 Ubuntu has libzend-framework-php
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Crash in Bibledit-Gtk when doing a merge, then clicking in an Editor.
-
-
-
-
-
-
-
-
-
-
-
-
-OpenOffice may export to PDF, probably, see unoconv.
-This PDF looks better than the one made through cups-pdf.
 
 
 

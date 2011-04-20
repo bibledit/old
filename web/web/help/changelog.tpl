@@ -1,6 +1,8 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+<p>Select consultation notes that have not been edited for a given time.</p>
+<p>Better sorting of the consultation notes on passage.</p>
 
 <h2>Version 0.4</h2>
 <p>20 April 2011</p>
