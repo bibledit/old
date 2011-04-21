@@ -63,7 +63,7 @@ class Filter_Email
     foreach ($input as $line) {
       $trimmed = trim ($line);
       if ($trimmed == "") continue;
-      if (strpos ($trimmed, ">") === 0) break;
+      if (strpos ($trimmed, ">") === 0) continue;
       if (($year != "") && ($sender != "")) {
         if (strpos ($trimmed, $year) !== false) {
           if (strpos ($trimmed, $sender) !== false) {

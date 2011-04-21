@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-20 01:46+0200\n"
+"POT-Creation-Date: 2011-04-21 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1846,6 +1846,18 @@ msgstr ""
 msgid "today"
 msgstr ""
 
+msgid "Select notes that have not been edited:"
+msgstr ""
+
+msgid "do not care about this"
+msgstr ""
+
+msgid "for the last 30 days"
+msgstr ""
+
+msgid "for the last 7 days"
+msgstr ""
+
 msgid "Select notes that have a certain status:"
 msgstr ""
 
@@ -1859,9 +1871,6 @@ msgid "any Bible"
 msgstr ""
 
 msgid "Select notes that have been assigned to somebody:"
-msgstr ""
-
-msgid "do not care about this"
 msgstr ""
 
 msgid "Currently looking for notes assigned to:"
@@ -3993,6 +4002,26 @@ msgid "Exporting to PDF."
 msgstr ""
 
 msgid "See menu File / Export as PDF."
+msgstr ""
+
+msgid "Hiding the soft hyphens and non-breaking spaces."
+msgstr ""
+
+msgid ""
+"The soft hyphens and the non-breaking spaces are visible as grey fields that "
+"clutter the page. To hide them, do this:"
+msgstr ""
+
+msgid "Go to menu Tools / Options."
+msgstr ""
+
+msgid "Go to LibreOffice Writer / Formatting Aids."
+msgstr ""
+
+msgid "Untick display of custom hyphens."
+msgstr ""
+
+msgid "Untick display of non-breaking spaces."
 msgstr ""
 
 msgid ""
