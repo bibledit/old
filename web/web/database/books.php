@@ -190,6 +190,7 @@ EOD;
     return $row[0];
   }
 
+
   /**
   * Tries to interprete $text as the name of a Bible book. 
   * Returns the book's identifier if it succeeds.
@@ -223,6 +224,20 @@ EOD;
   }
 
 
+  public function getOnlinebibleFromId($id)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT onlinebible FROM books WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return "";
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
   public function getSequenceFromId($id)
   {
     $database_instance = Database_Instance::getInstance();
@@ -235,6 +250,7 @@ EOD;
     $row = $result->fetch_row ();
     return $row[0];
   }
+
 
 }
 

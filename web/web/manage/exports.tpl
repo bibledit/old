@@ -47,3 +47,5 @@
 {/if}
   <a href="exports.php?dateinheadertoggle=">[{t}toggle{/t}]</a></p>
 </p>
+<br>
+{t}It also exports to a file suitable for the Online Bible module creation process. For more information about how to create a module, see Online Bible, menu Help - Table Of Contents - How To - Create Your Own Bible Version.{/t}

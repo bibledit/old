@@ -25,15 +25,12 @@ On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
 
 > test notes three
 
---=-UOQYLarilR4Ely+MRlEe
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
 
-test
+> test
 
 On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
 
-    test notes three 
+>    test notes three 
 EOD;
     $this->assertEquals("test", Filter_Email::extractBody ($body, "2011", "Bibledit-Web"));
 

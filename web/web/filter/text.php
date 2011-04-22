@@ -72,6 +72,7 @@ class Filter_Text
   
   public $html_text_standard; // Object for creating Web document with text in standard form.
   
+  public $onlinebible_text; // Object for creating the input file for the Online Bible compiler.
   
   /**
   * Class constructor.
@@ -100,6 +101,7 @@ class Filter_Text
     $this->standardContentMarkerFootEndNote = "";
     $this->standardContentMarkerCrossReference = "";
     $this->html_text_standard = new Html_Text (gettext ("Bible"));
+    $this->onlinebible_text = new Onlinebible_Text ();
   }
   
 
@@ -405,8 +407,10 @@ class Filter_Text
                       }
                     }
                     $processedBooksCount++;
-                    // Reset.
+                    // Reset notes.
                     $this->resetNoteCitations ('book');
+                    // Online Bible.
+                    $this->onlinebible_text->storeData ();
                     break;
                   }
                   case IdentifierSubtypeEncoding:
@@ -531,6 +535,7 @@ class Filter_Text
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
                 $this->html_text_standard->closeTextStyle ();
+                $this->onlinebible_text->storeData ();
                 // Get the chapter number.
                 $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                 $number = Filter_Numeric::integer_in_string ($number);
@@ -616,6 +621,7 @@ class Filter_Text
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
                 $this->html_text_standard->closeTextStyle ();
+                $this->onlinebible_text->storeData ();
                 // Care for the situation that a new verse starts a new paragraph.
                 if ($style['userbool1']) {
                   if ($this->odf_text_standard->currentParagraphContent != "") {
@@ -694,6 +700,8 @@ class Filter_Text
                 }
                 // Chapter variable may not have been used, but unset it anyway, making it ready for subsequent use. 
                 unset ($this->outputChapterTextAtFirstVerse);
+                // Online Bible.
+                $this->onlinebible_text->newVerse ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);
                 // Done.
                 break;
               }
@@ -845,6 +853,7 @@ class Filter_Text
           $this->odf_text_text_only->addText ($currentItem);
           $this->odf_text_text_and_note_citations->addText ($currentItem);
           $this->html_text_standard->addText ($currentItem);
+          $this->onlinebible_text->addText ($currentItem);
         }
       }
     }
@@ -900,6 +909,9 @@ class Filter_Text
                     $this->odf_text_notes->addText ($citation . Filter_Character::noBreakSpace());
                     // Open note in the web page.
                     $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote);
+                    // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler.
+                    // Just take them out, then.
+                    //$this->onlinebible_text->addNote ();
                   } else {
                     break 3;
                   }
@@ -918,6 +930,8 @@ class Filter_Text
                     $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
                     // Open note in the web page.
                     $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
+                    // Online Bible.
+                    //$this->onlinebible_text->addNote ();
                   } else {
                     break 3;
                   }
@@ -987,6 +1001,8 @@ class Filter_Text
                     // Open note in the web page.
                     $this->ensureNoteParagraphStyle ($this->standardContentMarkerCrossReference, $this->styles[$this->standardContentMarkerCrossReference]);
                     $this->html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference);
+                    // Online Bible.
+                    //$this->onlinebible_text->addNote ();
                   } else {
                     break 3;
                   }
@@ -1038,6 +1054,7 @@ class Filter_Text
         $this->odf_text_standard->addNoteText ($currentItem);
         $this->odf_text_notes->addText ($currentItem);
         $this->html_text_standard->addNoteText ($currentItem);
+        //$this->onlinebible_text->addText ($currentItem);
       }
     }
     
@@ -1046,6 +1063,7 @@ class Filter_Text
     $this->odf_text_standard->closeCurrentNote ();
     $this->odf_text_notes->closeTextStyle ();
     $this->html_text_standard->closeCurrentNote ();
+    //$this->onlinebible_text->closeCurrentNote ();
   }
 
 

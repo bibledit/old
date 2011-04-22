@@ -69,6 +69,10 @@ foreach ($bibles as $bible) {
   $webDirectory = $bibleDirectory . "/Web";
   @mkdir ($webDirectory, 0777, true);
   
+  // Online Bible files go into the OnlineBible folder.
+  $onlineBibleDirectory = $bibleDirectory . "/OnlineBible";
+  @mkdir ($onlineBibleDirectory, 0777, true);
+  
   // USFM code of the entire Bible.
   $bibleUsfmData = "";
 
@@ -132,6 +136,7 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
   $filter_text_bible->html_text_standard->save ("$webDirectory/00_Bible.html");
+  $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
 
   // Create the info OpenDocument for the whole Bible.
   $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");

@@ -4,6 +4,7 @@
 <p>Select consultation notes that have not been edited for a given time.</p>
 <p>Consultation notes: Improved sorting on passage.</p>
 <p>Consultation notes: Post comment by email: Both top and bottom posting work.</p>
+<p>Exports Bibles to files suitable for the Online Bible module creation process.</p>
 
 <h2>Version 0.4</h2>
 <p>20 April 2011</p>
