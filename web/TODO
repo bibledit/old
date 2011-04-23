@@ -68,8 +68,10 @@ We need to get gettext working, and so need to have accounts where the user can 
 The administrator sets the default language for the site for guests and before login.
 
 
-On Ubuntu for extra locales, install packages like "language-pack-*". After installing a new pack, run "locale-gen" and restart Apache (sudo apache2ctl restart)
-to make this new locale to take effect. This should go in the installation manual.
+On Ubuntu for extra locales, install packages like "language-pack-*". 
+After installing a new pack, run "locale-gen" and restart Apache (sudo apache2ctl restart)
+to make this new locale to take effect. 
+This should go in the installation manual.
 
 
 To go through the various php functions called and read the comments, and learn from it.
@@ -126,6 +128,7 @@ bzr pull lp:~teusbenschop/bibledit/bibledit-pot
 To import the translation templates into the source.
 Important when localization is implemented.
 
+On Ubuntu, install packages language-support-xx
 
 
 
