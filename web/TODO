@@ -10,102 +10,12 @@
 
 
 
+internationalization and localization
 
 
 
-
-
-
-
-
-
-
-If a Bible translation work is collaborated in public domain, it could be too hard come up with one
-translation for every verse. It is too bad to split the team and make a copy of the web application 
-every time they can not come up with a common translation. So I am assuming that branching at verse level
-should be supported and the final outputs (like whole OSIS, let me call it "a distribution") should also be plural. 
-And for each distribution should choose branched verses to take which version.
-Perhaps this can be implemented by storing another Bible as an overlay, which only has a few verses, 
-i.e. the verses that differ. 
-The base Bible is used, then the overlay is applied to it, and then the output is generated.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pay attention to internationalization.
-We need to get gettext working, and so need to have accounts where the user can set his language.
+Need to have accounts where the user can set his language.
 The administrator sets the default language for the site for guests and before login.
-
-
-On Ubuntu for extra locales, install packages like "language-pack-*". 
-After installing a new pack, run "locale-gen" and restart Apache (sudo apache2ctl restart)
-to make this new locale to take effect. 
-This should go in the installation manual.
-
-
-To go through the various php functions called and read the comments, and learn from it.
-setlocale(LC_ALL, ""); Takes the locale from the environment.
-Before setting the locale, the php page runs 'locale -a' to see the available locales on the system.
-Then, it needs to check whether bibledit provides this translation, and advise the user appropriately.
-
-A little function to test available locales on a sytem :
-<?php
-function list_system_locales(){
-    ob_start();
-    system('locale -a'); 
-    $str = ob_get_contents();
-    ob_end_clean();
-    return split("\\n", trim($str));
-}
-
-$locale = "fr_FR.UTF8";
-$locales = list_system_locales();
-
-if(in_array($locale, $locales)){
-        echo "yes yes yes....";
-}else{
-        echo "no no no.......";
-}
-?>
-
-
-It may use the available locales for dates and number representation as are on the system, and use our own locales 
-as come with the application.
-These two catalogs are different.
-
-
-When setting translation domains in the preferences, do a check on the functions' return values if it worked out well.
 
 
 The administrator can leave the locale empty, in which case the system locale will be taken. 
@@ -113,6 +23,14 @@ This should be the default for local installations.
 
 
 The site has one default translation, set by the site administrator. Visitors get to see this default translation.
+
+
+
+
+
+
+
+
 
 The book names are not localized as we do in bibledit-gtk, but localization uses the existing mechanism.
 It works through gettext. For that reason a php file needs to be created that contains all existing English books.
@@ -122,13 +40,7 @@ If somebody wants the localized Bible names, but does not translate the whole si
 the relevant bits in the po file.
 
 
-To automatically import translated templates from launchpad.
-bzr init
-bzr pull lp:~teusbenschop/bibledit/bibledit-pot
-To import the translation templates into the source.
-Important when localization is implemented.
 
-On Ubuntu, install packages language-support-xx
 
 
 

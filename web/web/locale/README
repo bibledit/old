@@ -1,0 +1,33 @@
+Script to update translations from Launchpad.
+
+#!/bin/bash
+
+# Download and integrate translation strings into Bibledit-Web.
+# Download translations in MO format from launchpad.net, 
+# and store these in ~/documents/dev/bibledit/web/web/locale
+# The script will unpack and integrate these. 
+
+cd
+cd documents/dev/bibledit-pot
+# bzr init
+bzr pull lp:~teusbenschop/bibledit/bibledit-pot
+cp web/web/pot/*.po ~/documents/dev/bibledit/web/web/locale
+cd
+cd documents/dev/bibledit/web/web/locale
+tar zxf launchpad-export.tar.gz
+rm templates/*.pot
+rmdir templates
+cd
+
+# End.
+
+
+How to test the gettext system:
+
+cd into the bibledit/web/web/locale folder.
+Run these lines in bash: 
+
+export LANGUAGE=nl
+export TEXTDOMAINDIR=.
+gettext -d bibledit Bible
+

@@ -68,7 +68,6 @@ class Bootstrap
     // Default encoding.
     mb_internal_encoding("UTF-8");
 
-
     // Autoloader.
     // Automatically include the file that contains the $class_name.
     // E.g. class Database_Instance would require file database/instance.php.

@@ -1,88 +1,84 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Teus Benschop
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Dutch translation for bibledit
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the bibledit package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-26 01:46+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: bibledit\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-04-23 01:45+0200\n"
+"PO-Revision-Date: 2011-04-25 16:46+0000\n"
+"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
+"Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Bijbel"
-msgstr ""
-
-msgid "Login"
-msgstr ""
+"X-Launchpad-Export-Date: 2011-04-26 04:34+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 
 msgid "Exports"
-msgstr ""
+msgstr "Uitvoer"
 
 msgid "The Bibles will be exported soon."
-msgstr ""
+msgstr "De Bijbels zullen spoedig uitgevoerd worden."
 
 msgid ""
 "Would you like to add a Bible to the list of Bibles that will be exported?"
 msgstr ""
+"Wilt u een Bijbel toevoegen aan de lijst van Bijbels die uitgevoerd zullen "
+"worden?"
 
 msgid "Would you like to use another stylesheet for all exports?"
-msgstr ""
+msgstr "Wilt u een andere stijlenlijst gebruiken voor alle uitvoer?"
 
 msgid "Please enter a page width in millimeters"
-msgstr ""
+msgstr "Voert u de breedte van de pagina in in millimeters"
 
 msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
-msgstr ""
+msgstr "De breedte van A4 is 210 mm. De breedte van Letter is 216 mm."
 
 msgid "Please enter a page height in millimeters"
-msgstr ""
+msgstr "Voert u de hoogte van de pagina in in millimeters."
 
 msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
-msgstr ""
+msgstr "De hoogte van A4 is 297 mm. De breedte van Letter is 279 mm."
 
 msgid "Please enter an inner margin size in millimeters"
-msgstr ""
+msgstr "Voert u een binnenste marge in in millimeters"
 
 msgid "Please enter an outer margin size in millimeters"
-msgstr ""
+msgstr "Voert u een buitenste marge in in millimeters"
 
 msgid "Please enter an top margin size in millimeters"
-msgstr ""
+msgstr "Voert u een bovenmarge in in millimeters"
 
 msgid "Please enter an bottom margin size in millimeters"
-msgstr ""
+msgstr "Voert u een ondermarge in in millimeters."
 
 msgid "Logbook was partially or fully cleared"
-msgstr ""
+msgstr "Het logboek was gedeeltelijk of helemaal geleegd"
 
 msgid "Logbook"
-msgstr ""
+msgstr "Logboek"
 
 msgid "Changes"
-msgstr ""
+msgstr "Wijzingen"
 
 msgid "The lists of changes will be generated soon."
-msgstr ""
+msgstr "De lijst met wijzigingen zal spoedig gemaakt worden."
 
 msgid "Please enter a name for the new user"
-msgstr ""
+msgstr "Voert u een naam in voor de nieuwe gebruiker"
 
 msgid "User already exists"
-msgstr ""
+msgstr "Gebruiker bestaat al"
 
 msgid "User created"
-msgstr ""
+msgstr "Gebruiker aangemaakt"
 
 msgid "Would you like to delete"
-msgstr ""
+msgstr "Wilt u verwijderen"
 
 msgid "Access level change"
 msgstr ""
@@ -91,13 +87,13 @@ msgid "Your access level was updated"
 msgstr ""
 
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 msgid "Management"
-msgstr ""
+msgstr "Beheer"
 
 msgid "Send/Receive"
-msgstr ""
+msgstr "Versturen/ontvangen"
 
 msgid "Will send and receive Bibles soon. See the logbook for progress."
 msgstr ""
@@ -130,16 +126,16 @@ msgid "Return to text"
 msgstr ""
 
 msgid "New"
-msgstr ""
+msgstr "Nieuw"
 
 msgid "Pending"
-msgstr ""
+msgstr "In afwachting"
 
 msgid "In progress"
-msgstr ""
+msgstr "Bezig"
 
 msgid "Done"
-msgstr ""
+msgstr "Klaar"
 
 msgid "Reopened"
 msgstr ""
@@ -148,13 +144,13 @@ msgid "Wish"
 msgstr ""
 
 msgid "Minor"
-msgstr ""
+msgstr "Klein"
 
 msgid "Normal"
-msgstr ""
+msgstr "Standaard"
 
 msgid "Important"
-msgstr ""
+msgstr "Belangrijk"
 
 msgid "Major"
 msgstr ""
@@ -163,16 +159,16 @@ msgid "Critical"
 msgstr ""
 
 msgid "Cannot access the database"
-msgstr ""
+msgstr "Kan geen toegang verkrijgen tot de database"
 
 msgid "The site is not in operation at the moment."
-msgstr ""
+msgstr "De site werkt momenteel niet."
 
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 msgid "XXX"
-msgstr ""
+msgstr "XXX"
 
 msgid "Import"
 msgstr ""
@@ -374,7 +370,7 @@ msgid "The line was saved."
 msgstr ""
 
 msgid "Warning"
-msgstr ""
+msgstr "Waarschuwing"
 
 msgid "Would you like to delete this versification system?"
 msgstr ""
@@ -457,7 +453,7 @@ msgid ""
 msgstr ""
 
 msgid "Administration"
-msgstr ""
+msgstr "Beheer"
 
 msgid "Which Bible are you going to use?"
 msgstr ""
@@ -524,36 +520,36 @@ msgid "Notifications"
 msgstr ""
 
 msgid "Password should be at least four characters long"
-msgstr ""
+msgstr "Het wachtwoord moet tenminste vier tekens lang zijn"
 
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Wachtwoorden komen niet overeen"
 
 msgid "Current password is not valid"
-msgstr ""
+msgstr "Huidig password is niet juist"
 
 msgid "The new password was saved"
-msgstr ""
+msgstr "Het nieuwe wachtwoord is opgeslagen"
 
 msgid "Email address is not valid"
-msgstr ""
+msgstr "Email adres is niet juist"
 
 msgid "Email address verification"
-msgstr ""
+msgstr "Verificatie email adres"
 
 msgid ""
 "Somebody requested to change the email address that belongs to your account."
-msgstr ""
+msgstr "Iemand verzocht om het email adres van uw account te veranderen."
 
 msgid "Email address change"
-msgstr ""
+msgstr "Email adres wijziging"
 
 msgid ""
 "The email address that belongs to your account has been changed successfully."
-msgstr ""
+msgstr "Het email adres dat bij uw account hoort is met succes gewijzigd."
 
 msgid "No changes were made"
-msgstr ""
+msgstr "Er zijn geen wijzigingen aangebracht"
 
 msgid "Would you like to change your timezone?"
 msgstr ""
@@ -571,128 +567,147 @@ msgid "Go to another verse"
 msgstr ""
 
 msgid "Guest"
-msgstr ""
+msgstr "Gast"
 
 msgid "Member"
-msgstr ""
+msgstr "Lid"
 
 msgid "Consultant"
-msgstr ""
+msgstr "Consultant"
 
 msgid "Translator"
-msgstr ""
+msgstr "Vertaler"
 
 msgid "Manager"
-msgstr ""
+msgstr "Manager"
 
 msgid "Administrator"
-msgstr ""
+msgstr "Systeembeheerder"
 
 msgid "Username should be at least two characters long"
 msgstr ""
 
 msgid "Username or email address or password are not correct"
-msgstr ""
+msgstr "Gebruikersnaam of email adres of wachtwoord is niet correct"
 
 msgid "Username or email address is too short"
-msgstr ""
+msgstr "Gebruikersnaam of email adres is te kort"
 
 msgid "Account changed"
-msgstr ""
+msgstr "Account aangepast"
 
 msgid "Somebody requested a new password for your account."
-msgstr ""
+msgstr "Iemand vroeg om een nieuw wachtwoord voor uw account"
 
 msgid "Here is the new password:"
-msgstr ""
+msgstr "Hier is het nieuwe wachtwoord:"
 
 msgid ""
 "It is recommended to log into your account with this new password, and then "
 "change it."
 msgstr ""
+"Het wordt aangevolen om in te loggen in uw account met dit nieuwe "
+"wachtwoord, en om het dan te veranderen."
 
 msgid ""
 "A message was sent to the email address belonging to this account to help "
 "you getting the password"
 msgstr ""
+"Een bericht is naar het email adres van dit acccount gestuurd om u te helpen "
+"om het wachtwoord te verkrijgen"
 
 msgid "Username or email address cannot be found"
-msgstr ""
+msgstr "Gebruikersnaam of email adres niet gevonden"
 
 msgid ""
 "To which city was Paul travelling when a light from heaven shone round about "
 "him?"
 msgstr ""
+"Naar welke stad was Paulus op reis toen een licht van de hemel hem rondom "
+"bescheen?"
 
 msgid "Damascus"
-msgstr ""
+msgstr "Damascus"
 
 msgid ""
 "And while he travelled, he came near Damascus; and suddenly a light from "
 "heaven shone round about him."
 msgstr ""
+"En terwijl hij reisde kwam hij in de buurt van Damascus; en plotseling "
+"bescheen een licht van de hemel hem rondom."
 
 msgid "What is the name of the brother of Aaron the high priest?"
-msgstr ""
+msgstr "Wat is de naam van de broer van Aaron de hogepriester?"
 
 msgid "Moses"
-msgstr ""
+msgstr "Mozes"
 
 msgid ""
 "And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
 "the Levite your brother?"
 msgstr ""
+"En de toorn van Jehova ontstak tegen Mozes, en hij zei: Is Aaron de Leviet "
+"niet uw broer?"
 
 msgid "What is the name of the city where Jesus was born?"
-msgstr ""
+msgstr "Wat is de naam van de stad waar Jezus geboren is?"
 
 msgid "Bethlehem"
-msgstr ""
+msgstr "Bethlehem"
 
 msgid ""
 "When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
 "behold, wise men from the east came to Jerusalem."
 msgstr ""
+"Toen Jezus geboren was in Bethlehem van Judea in de dagen van Herodes de "
+"koning, zie, er kwamen wijzen uit het oosten naar Jeruzalem"
 
 msgid "What is the name of the island where John was sent to?"
-msgstr ""
+msgstr "Hoe heet het eiland waar Johannes heen was gestuurd?"
 
 msgid "Patmos"
-msgstr ""
+msgstr "Patmos"
 
 msgid ""
 "I, John, your brother and companion in the persecution, and in the kingdom "
 "and endurance of Jesus Christ, was in the island which is called Patmos, "
 "because of the word of God, and because of the testimony of Jesus Christ."
 msgstr ""
+"Ik, Johanes, je broer en metgezel in de verdrukking en in het koninkrijk en "
+"de volharding van Jezus Christus, was in het eiland genaamd Patmos, vanwege "
+"het woord van God, en vanwege het getuigenis van Jezus Christus."
 
 msgid "The email address is not valid"
-msgstr ""
+msgstr "Het email adres is niet juist"
 
 msgid "The answer to the question is not correct"
-msgstr ""
+msgstr "Het antwoord op de vraag is niet juist"
 
 msgid ""
 "The username that you have chosen has already been taken. Please choose "
 "another one."
 msgstr ""
+"De gebruikersnaam die u heeft gekozen is al in gebruik. U kunt een andere "
+"kiezen."
 
 msgid ""
 "The email address that you have chosen has already been taken. Please choose "
 "another one."
 msgstr ""
+"Het email adres dat u gekozen heeft is al in gebruik. Kiest u een ander "
+"adres."
 
 msgid "Signup verification"
-msgstr ""
+msgstr "Verificatie inschrijving"
 
 msgid "Somebody requested to open an account with this email address."
-msgstr ""
+msgstr "Iemand heeft verzocht een account te openen met dit email adres."
 
 msgid "Account opened"
-msgstr ""
+msgstr "Account geopend"
 
 msgid "Welcome! Your account is now active."
-msgstr ""
+msgstr "Welkom! Uw account is nu geactiveerd."
 
 msgid "Downloads"
 msgstr ""
@@ -1084,7 +1099,8 @@ msgstr ""
 msgid "Please enter a column number between 1 and 4"
 msgstr ""
 
-msgid "This is the column number for the style. The first columm is number 1."
+msgid ""
+"This is the column number for the style. The first columm is number 1."
 msgstr ""
 
 msgid "Would you like to change when the note numbering restarts?"
@@ -1208,7 +1224,7 @@ msgid "Consultation Notes"
 msgstr ""
 
 msgid "Bible"
-msgstr ""
+msgstr "Bijbel"
 
 msgid "Remote repository URL"
 msgstr ""
@@ -1263,13 +1279,13 @@ msgid "Typesetting"
 msgstr ""
 
 msgid "About"
-msgstr ""
+msgstr "Info over"
 
 msgid "Introduction"
-msgstr ""
+msgstr "Inleiding"
 
 msgid "Help"
-msgstr ""
+msgstr "Hulp"
 
 msgid "ChangeLog"
 msgstr ""
@@ -1278,16 +1294,16 @@ msgid "Consultations"
 msgstr ""
 
 msgid "Demo plugin menu item 1"
-msgstr ""
+msgstr "Demonstratie invoegtoepassing menu item 1"
 
 msgid "Demo plugin menu item 2"
-msgstr ""
+msgstr "Demonstratie invoegtoepassing menu item 2"
 
 msgid "Demo plugin user menu item 1"
-msgstr ""
+msgstr "Demonstratie invoegtoepassing gebruikersmenu item 1"
 
 msgid "Demo plugin user menu item 2"
-msgstr ""
+msgstr "Demonstratie invoegtoepassing gebruikersmenu item 2"
 
 msgid "Number of chapters per book"
 msgstr ""
@@ -1692,8 +1708,8 @@ msgid "Yo can go back to retry it."
 msgstr ""
 
 msgid ""
-"Or you can manually specify the location of the file, e.g. /home/joe/notes."
-"tar.gz, and then press Submit."
+"Or you can manually specify the location of the file, e.g. "
+"/home/joe/notes.tar.gz, and then press Submit."
 msgstr ""
 
 msgid "Submit"
@@ -2304,9 +2320,9 @@ msgstr ""
 
 msgid ""
 "1. The first step will be to create a directory for the repository, and to "
-"make that directory writable. If we assume that the flash drive mounts at /"
-"media/usbstick, then the command to create a directory called \"repository\" "
-"is:"
+"make that directory writable. If we assume that the flash drive mounts at "
+"/media/usbstick, then the command to create a directory called "
+"\"repository\" is:"
 msgstr ""
 
 msgid ""
@@ -2362,7 +2378,8 @@ msgstr ""
 msgid "This finishes setting up the repository on the USB flash drive."
 msgstr ""
 
-msgid "The repository that was created in this tutorial has the following URL:"
+msgid ""
+"The repository that was created in this tutorial has the following URL:"
 msgstr ""
 
 msgid ""
@@ -2821,7 +2838,8 @@ msgstr ""
 msgid "Subscribe to consultation notes that you create or edit yourself."
 msgstr ""
 
-msgid "Subscribe to consultation notes that are created or edited by anybody."
+msgid ""
+"Subscribe to consultation notes that are created or edited by anybody."
 msgstr ""
 
 msgid ""
@@ -2879,6 +2897,9 @@ msgid ""
 "To install this program, on Linux install a package called \"git-core\"."
 msgstr ""
 
+msgid "Login"
+msgstr ""
+
 msgid "Logout"
 msgstr ""
 
@@ -2904,16 +2925,16 @@ msgid "You have logged out"
 msgstr ""
 
 msgid "Signup"
-msgstr ""
+msgstr "Schrijf in"
 
 msgid "A verification email has been sent."
 msgstr ""
 
 msgid "Which username would you like to use?"
-msgstr ""
+msgstr "Welke gebruikersnaam wilt u gebruiken?"
 
 msgid "Which password?"
-msgstr ""
+msgstr "Welk wachtwoord?"
 
 msgid "Your email address?"
 msgstr ""
@@ -2931,10 +2952,10 @@ msgid "Forgot password?"
 msgstr ""
 
 msgid "Not registered?"
-msgstr ""
+msgstr "Niet geregistreerd?"
 
 msgid "Sign up!"
-msgstr ""
+msgstr "Registreer!"
 
 msgid ""
 "If you lost the password, submit your username or email address, and a new "
@@ -3046,7 +3067,8 @@ msgstr ""
 msgid "You can create a new stylesheet."
 msgstr ""
 
-msgid "The various styles for the Bible editor are contained in a stylesheet."
+msgid ""
+"The various styles for the Bible editor are contained in a stylesheet."
 msgstr ""
 
 msgid "The stylesheet you are currently using is:"
@@ -3080,8 +3102,8 @@ msgid "The file has been uploaded successfully."
 msgstr ""
 
 msgid ""
-"Or you can manually specify the location of the file, e.g. /home/joe/USFM."
-"zip, and then press Submit."
+"Or you can manually specify the location of the file, e.g. "
+"/home/joe/USFM.zip, and then press Submit."
 msgstr ""
 
 msgid "Importing Bible data"
@@ -3183,7 +3205,8 @@ msgstr ""
 msgid "The progress is visible in the logbook."
 msgstr ""
 
-msgid "It can take some time, depending on the amount of data to be imported."
+msgid ""
+"It can take some time, depending on the amount of data to be imported."
 msgstr ""
 
 msgid ""
@@ -3433,8 +3456,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Setup Bibledit-Web. Open the setup url in the browser. If the site is \"site."
-"org\", then this will be something like:"
+"Setup Bibledit-Web. Open the setup url in the browser. If the site is "
+"\"site.org\", then this will be something like:"
 msgstr ""
 
 msgid "Bibledit-Web should now be ready, and accessible through:"
@@ -3543,7 +3566,8 @@ msgstr ""
 msgid "Output the chapter number in drop caps. Switch that setting on."
 msgstr ""
 
-msgid "Set the page size. I've used a width of 138 mm and a height of 210 mm."
+msgid ""
+"Set the page size. I've used a width of 138 mm and a height of 210 mm."
 msgstr ""
 
 msgid ""
@@ -3578,7 +3602,8 @@ msgstr ""
 msgid "An update in the stylesheet is needed."
 msgstr ""
 
-msgid "Go to menu Management / Styles, and choose the \"Ndebele\" stylesheet."
+msgid ""
+"Go to menu Management / Styles, and choose the \"Ndebele\" stylesheet."
 msgstr ""
 
 msgid "Click the \"nd\" style."
@@ -3590,7 +3615,8 @@ msgstr ""
 msgid "Switch \"Small caps\" on."
 msgstr ""
 
-msgid "Do a new export, wait a while, and review the OpenDocument files again."
+msgid ""
+"Do a new export, wait a while, and review the OpenDocument files again."
 msgstr ""
 
 msgid ""
@@ -3745,8 +3771,8 @@ msgstr ""
 
 #, c-format
 msgid ""
-"Usually the inclusion of the singable Psalms in a Bible will add about "
-"10% to the number of pages."
+"Usually the inclusion of the singable Psalms in a Bible will add about 10% "
+"to the number of pages."
 msgstr ""
 
 msgid ""
@@ -3787,8 +3813,8 @@ msgstr ""
 
 msgid ""
 "Hide the headings. This can be done like this. Right-click on a heading. "
-"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font Effects"
-"\". Tick option \"Hidden\"."
+"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font "
+"Effects\". Tick option \"Hidden\"."
 msgstr ""
 
 msgid ""
@@ -3810,7 +3836,8 @@ msgstr ""
 msgid "Repaginate and notice the page count. In our case this is 1750."
 msgstr ""
 
-msgid "This figure is not accurate since it applies to a column count of one."
+msgid ""
+"This figure is not accurate since it applies to a column count of one."
 msgstr ""
 
 msgid "Set the whole document to have two columns."
@@ -4131,8 +4158,8 @@ msgid ""
 "Once you have cloned the source code, and have a local repository for the "
 "bibledit code, you can then copy directory web/web into your local web "
 "server, and get it up and running there. A web server is needed, PHP, and "
-"MySQL. If you have copied the web/web directory to, for example, http://"
-"localhost/bibledit, then to install the program and create all the "
+"MySQL. If you have copied the web/web directory to, for example, "
+"http://localhost/bibledit, then to install the program and create all the "
 "databases, you need to run http://localhost/bibledit/setup.php once."
 msgstr ""
 
@@ -4172,3 +4199,72 @@ msgstr ""
 
 msgid "Demo plugin for the Administration menu, page 2."
 msgstr ""
+
+#~ msgid "Bible editor"
+#~ msgstr "Bijbel editor"
+
+#~ msgid ""
+#~ "The site is not in operation at the moment. Site administrator: You can "
+#~ "login through the credentials that were set at installation time, and then "
+#~ "attend to the problem."
+#~ msgstr ""
+#~ "De site werkt momenteel niet. Site beheerder: U kunt inloggen via de "
+#~ "toegangscodes die ingesteld waren tijdens de installatie, en vervolgens aan "
+#~ "het probleem werken."
+
+#~ msgid "Site Administrator"
+#~ msgstr "Site Beheerder"
+
+#~ msgid "Username should be at least four characters long"
+#~ msgstr "De gebruikersnaam moet tenminste vier tekens lang zijn"
+
+#~ msgid "Welcome to Bibledit on the web"
+#~ msgstr "Welkom bij Bibledit op het web"
+
+#~ msgid "What is the name of the island when John was sent to?"
+#~ msgstr "Wat is de naam van het eiland waar Johannes heen was gestuurd?"
+
+#~ msgid ""
+#~ "Now when Jesus was born in Bethlehem of Judaea in the days of Herod the "
+#~ "king, behold, wise men from the east came to Jerusalem."
+#~ msgstr ""
+#~ "Toen Jezus geboren was in Bethlehem van Judea in de dagen van Herodus de "
+#~ "koning, zie, er kwamen wijze mannen van het oosten naar Jeruzalem."
+
+#~ msgid "View interprocess communication messages"
+#~ msgstr "Bekijk interproces communicatie berichten"
+
+#~ msgid "View documentation"
+#~ msgstr "Bekijk documentatie"
+
+#~ msgid "You do not have sufficient privileges to access this page"
+#~ msgstr "U heeft niet voldoende rechten om toegang te krijgen tot deze pagina"
+
+#~ msgid "User preferences"
+#~ msgstr "Gebruikersinstellingen"
+
+#~ msgid "Site setup"
+#~ msgstr "Website instellen"
+
+#~ msgid "Forgot password? Request the administrator for help."
+#~ msgstr "Wachtwoord veregten? Vraag de beheerder om assistentie."
+
+#~ msgid "You have signed up."
+#~ msgstr "U heeft zich geregistreerd."
+
+#~ msgid "You can now login."
+#~ msgstr "U kunt nu inloggen."
+
+#~ msgid "Bible Editor"
+#~ msgstr "Bijbel-bewerker"
+
+#~ msgid "Site administration"
+#~ msgstr "Beheer website"
+
+#~ msgid ""
+#~ "Number of tables in the database before running the maintenance routine: "
+#~ msgstr ""
+#~ "Aantal tabellen in de database voor het draaien van het onderhoudsprogramma: "
+
+#~ msgid "Working directory"
+#~ msgstr "Werkmap"

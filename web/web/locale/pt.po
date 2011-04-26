@@ -1,27 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Teus Benschop
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Portuguese translation for bibledit
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the bibledit package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-26 01:46+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: bibledit\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-04-23 01:45+0200\n"
+"PO-Revision-Date: 2010-07-03 15:11+0000\n"
+"Last-Translator: Tiago Silva <Unknown>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Bijbel"
-msgstr ""
-
-msgid "Login"
-msgstr ""
+"X-Launchpad-Export-Date: 2011-04-26 04:34+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 
 msgid "Exports"
 msgstr ""
@@ -79,7 +73,7 @@ msgid "User already exists"
 msgstr ""
 
 msgid "User created"
-msgstr ""
+msgstr "Utilizador criado"
 
 msgid "Would you like to delete"
 msgstr ""
@@ -91,13 +85,13 @@ msgid "Your access level was updated"
 msgstr ""
 
 msgid "Users"
-msgstr ""
+msgstr "Utilizadores"
 
 msgid "Management"
-msgstr ""
+msgstr "Gestão"
 
 msgid "Send/Receive"
-msgstr ""
+msgstr "Enviar/Receber"
 
 msgid "Will send and receive Bibles soon. See the logbook for progress."
 msgstr ""
@@ -172,7 +166,7 @@ msgid "Unknown"
 msgstr ""
 
 msgid "XXX"
-msgstr ""
+msgstr "XXX"
 
 msgid "Import"
 msgstr ""
@@ -181,7 +175,7 @@ msgid "Could not find the folder with the consultation notes"
 msgstr ""
 
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 msgid "Removal of duplicate consultation notes has started"
 msgstr ""
@@ -235,7 +229,7 @@ msgid "Import consultation notes has started"
 msgstr ""
 
 msgid "Importing from folder:"
-msgstr ""
+msgstr "A importar da pasta:"
 
 msgid "Note"
 msgstr ""
@@ -521,7 +515,7 @@ msgid "Would you like to change the default timezone for the site?"
 msgstr ""
 
 msgid "Notifications"
-msgstr ""
+msgstr "Notificações"
 
 msgid "Password should be at least four characters long"
 msgstr ""
@@ -580,13 +574,13 @@ msgid "Consultant"
 msgstr ""
 
 msgid "Translator"
-msgstr ""
+msgstr "Tradutor"
 
 msgid "Manager"
 msgstr ""
 
 msgid "Administrator"
-msgstr ""
+msgstr "Administrador"
 
 msgid "Username should be at least two characters long"
 msgstr ""
@@ -636,7 +630,7 @@ msgid "What is the name of the brother of Aaron the high priest?"
 msgstr ""
 
 msgid "Moses"
-msgstr ""
+msgstr "Moisés"
 
 msgid ""
 "And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
@@ -1084,7 +1078,8 @@ msgstr ""
 msgid "Please enter a column number between 1 and 4"
 msgstr ""
 
-msgid "This is the column number for the style. The first columm is number 1."
+msgid ""
+"This is the column number for the style. The first columm is number 1."
 msgstr ""
 
 msgid "Would you like to change when the note numbering restarts?"
@@ -1208,7 +1203,7 @@ msgid "Consultation Notes"
 msgstr ""
 
 msgid "Bible"
-msgstr ""
+msgstr "Bíblia"
 
 msgid "Remote repository URL"
 msgstr ""
@@ -1269,7 +1264,7 @@ msgid "Introduction"
 msgstr ""
 
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 msgid "ChangeLog"
 msgstr ""
@@ -1414,7 +1409,7 @@ msgid "Send and Receive"
 msgstr ""
 
 msgid "Bibles"
-msgstr ""
+msgstr "Bíblias"
 
 msgid "Versifications"
 msgstr ""
@@ -1468,7 +1463,7 @@ msgid "Page width"
 msgstr ""
 
 msgid "mm"
-msgstr ""
+msgstr "mm"
 
 msgid "Page height"
 msgstr ""
@@ -1692,8 +1687,8 @@ msgid "Yo can go back to retry it."
 msgstr ""
 
 msgid ""
-"Or you can manually specify the location of the file, e.g. /home/joe/notes."
-"tar.gz, and then press Submit."
+"Or you can manually specify the location of the file, e.g. "
+"/home/joe/notes.tar.gz, and then press Submit."
 msgstr ""
 
 msgid "Submit"
@@ -2019,7 +2014,7 @@ msgid ""
 msgstr ""
 
 msgid "Color"
-msgstr ""
+msgstr "Cor"
 
 msgid "List"
 msgstr ""
@@ -2028,10 +2023,10 @@ msgid "Entry"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 msgid "Yes / No"
-msgstr ""
+msgstr "Sim / Não"
 
 msgid "Privileges"
 msgstr ""
@@ -2304,9 +2299,9 @@ msgstr ""
 
 msgid ""
 "1. The first step will be to create a directory for the repository, and to "
-"make that directory writable. If we assume that the flash drive mounts at /"
-"media/usbstick, then the command to create a directory called \"repository\" "
-"is:"
+"make that directory writable. If we assume that the flash drive mounts at "
+"/media/usbstick, then the command to create a directory called "
+"\"repository\" is:"
 msgstr ""
 
 msgid ""
@@ -2362,7 +2357,8 @@ msgstr ""
 msgid "This finishes setting up the repository on the USB flash drive."
 msgstr ""
 
-msgid "The repository that was created in this tutorial has the following URL:"
+msgid ""
+"The repository that was created in this tutorial has the following URL:"
 msgstr ""
 
 msgid ""
@@ -2718,7 +2714,7 @@ msgid ""
 msgstr ""
 
 msgid "Generating the keys"
-msgstr ""
+msgstr "A gerar as chaves"
 
 msgid ""
 "Here are the keys that can be used. Bibledit has generated or kept them for "
@@ -2726,13 +2722,13 @@ msgid ""
 msgstr ""
 
 msgid "Private key"
-msgstr ""
+msgstr "Chave privada"
 
 msgid "Public key"
-msgstr ""
+msgstr "Chave pública"
 
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 msgid ""
 "Optionally, if you would like to use your own private and public keys, you "
@@ -2741,7 +2737,7 @@ msgid ""
 msgstr ""
 
 msgid "Enter the public key"
-msgstr ""
+msgstr "Introduza a chave pública"
 
 msgid ""
 "Go to your personal account at sourceforge.net. See above for this account."
@@ -2821,7 +2817,8 @@ msgstr ""
 msgid "Subscribe to consultation notes that you create or edit yourself."
 msgstr ""
 
-msgid "Subscribe to consultation notes that are created or edited by anybody."
+msgid ""
+"Subscribe to consultation notes that are created or edited by anybody."
 msgstr ""
 
 msgid ""
@@ -2879,6 +2876,9 @@ msgid ""
 "To install this program, on Linux install a package called \"git-core\"."
 msgstr ""
 
+msgid "Login"
+msgstr ""
+
 msgid "Logout"
 msgstr ""
 
@@ -2892,7 +2892,7 @@ msgid "Go to"
 msgstr ""
 
 msgid "chapter"
-msgstr ""
+msgstr "capítulo"
 
 msgid "verse"
 msgstr ""
@@ -2957,19 +2957,19 @@ msgid "Exported Bibles"
 msgstr ""
 
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 msgid "Stylesheet"
-msgstr ""
+msgstr "Folha de Estilo"
 
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 msgid "This style"
-msgstr ""
+msgstr "Este estilo"
 
 msgid "This one"
 msgstr ""
@@ -2978,13 +2978,13 @@ msgid "Font size"
 msgstr ""
 
 msgid "points"
-msgstr ""
+msgstr "pontos"
 
 msgid "Italic"
-msgstr ""
+msgstr "Itálico"
 
 msgid "Bold"
-msgstr ""
+msgstr "Negrito"
 
 msgid "Underline"
 msgstr ""
@@ -3005,10 +3005,10 @@ msgid "Space after"
 msgstr ""
 
 msgid "Left margin"
-msgstr ""
+msgstr "Margem esquerda"
 
 msgid "Right margin"
-msgstr ""
+msgstr "Margem direita"
 
 msgid "First line indent"
 msgstr ""
@@ -3023,7 +3023,7 @@ msgid "Note numbering"
 msgstr ""
 
 msgid "Column number"
-msgstr ""
+msgstr "Número de coluna"
 
 msgid "Restart the note numbering"
 msgstr ""
@@ -3046,7 +3046,8 @@ msgstr ""
 msgid "You can create a new stylesheet."
 msgstr ""
 
-msgid "The various styles for the Bible editor are contained in a stylesheet."
+msgid ""
+"The various styles for the Bible editor are contained in a stylesheet."
 msgstr ""
 
 msgid "The stylesheet you are currently using is:"
@@ -3065,10 +3066,10 @@ msgid "Delete this chapter"
 msgstr ""
 
 msgid "Chapters:"
-msgstr ""
+msgstr "Capítulos:"
 
 msgid "Create chapter"
-msgstr ""
+msgstr "Criar capítulo"
 
 msgid "Delete this book"
 msgstr ""
@@ -3080,8 +3081,8 @@ msgid "The file has been uploaded successfully."
 msgstr ""
 
 msgid ""
-"Or you can manually specify the location of the file, e.g. /home/joe/USFM."
-"zip, and then press Submit."
+"Or you can manually specify the location of the file, e.g. "
+"/home/joe/USFM.zip, and then press Submit."
 msgstr ""
 
 msgid "Importing Bible data"
@@ -3148,10 +3149,10 @@ msgid "Or upload a file."
 msgstr ""
 
 msgid "Available Bibles:"
-msgstr ""
+msgstr "Bíblias Disponíveis:"
 
 msgid "Create a new empty Bible"
-msgstr ""
+msgstr "Criar una nova Bíblia vazia"
 
 msgid "Importing Bible data, step 3"
 msgstr ""
@@ -3163,13 +3164,13 @@ msgid "Location"
 msgstr ""
 
 msgid "Available books"
-msgstr ""
+msgstr "Livros disponíveis"
 
 msgid "Import data"
 msgstr ""
 
 msgid "Copy this Bible"
-msgstr ""
+msgstr "Copiar esta Bíblia"
 
 msgid "Delete this Bible"
 msgstr ""
@@ -3183,7 +3184,8 @@ msgstr ""
 msgid "The progress is visible in the logbook."
 msgstr ""
 
-msgid "It can take some time, depending on the amount of data to be imported."
+msgid ""
+"It can take some time, depending on the amount of data to be imported."
 msgstr ""
 
 msgid ""
@@ -3433,8 +3435,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Setup Bibledit-Web. Open the setup url in the browser. If the site is \"site."
-"org\", then this will be something like:"
+"Setup Bibledit-Web. Open the setup url in the browser. If the site is "
+"\"site.org\", then this will be something like:"
 msgstr ""
 
 msgid "Bibledit-Web should now be ready, and accessible through:"
@@ -3543,7 +3545,8 @@ msgstr ""
 msgid "Output the chapter number in drop caps. Switch that setting on."
 msgstr ""
 
-msgid "Set the page size. I've used a width of 138 mm and a height of 210 mm."
+msgid ""
+"Set the page size. I've used a width of 138 mm and a height of 210 mm."
 msgstr ""
 
 msgid ""
@@ -3578,7 +3581,8 @@ msgstr ""
 msgid "An update in the stylesheet is needed."
 msgstr ""
 
-msgid "Go to menu Management / Styles, and choose the \"Ndebele\" stylesheet."
+msgid ""
+"Go to menu Management / Styles, and choose the \"Ndebele\" stylesheet."
 msgstr ""
 
 msgid "Click the \"nd\" style."
@@ -3590,7 +3594,8 @@ msgstr ""
 msgid "Switch \"Small caps\" on."
 msgstr ""
 
-msgid "Do a new export, wait a while, and review the OpenDocument files again."
+msgid ""
+"Do a new export, wait a while, and review the OpenDocument files again."
 msgstr ""
 
 msgid ""
@@ -3745,8 +3750,8 @@ msgstr ""
 
 #, c-format
 msgid ""
-"Usually the inclusion of the singable Psalms in a Bible will add about "
-"10% to the number of pages."
+"Usually the inclusion of the singable Psalms in a Bible will add about 10% "
+"to the number of pages."
 msgstr ""
 
 msgid ""
@@ -3787,8 +3792,8 @@ msgstr ""
 
 msgid ""
 "Hide the headings. This can be done like this. Right-click on a heading. "
-"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font Effects"
-"\". Tick option \"Hidden\"."
+"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font "
+"Effects\". Tick option \"Hidden\"."
 msgstr ""
 
 msgid ""
@@ -3810,7 +3815,8 @@ msgstr ""
 msgid "Repaginate and notice the page count. In our case this is 1750."
 msgstr ""
 
-msgid "This figure is not accurate since it applies to a column count of one."
+msgid ""
+"This figure is not accurate since it applies to a column count of one."
 msgstr ""
 
 msgid "Set the whole document to have two columns."
@@ -4131,8 +4137,8 @@ msgid ""
 "Once you have cloned the source code, and have a local repository for the "
 "bibledit code, you can then copy directory web/web into your local web "
 "server, and get it up and running there. A web server is needed, PHP, and "
-"MySQL. If you have copied the web/web directory to, for example, http://"
-"localhost/bibledit, then to install the program and create all the "
+"MySQL. If you have copied the web/web directory to, for example, "
+"http://localhost/bibledit, then to install the program and create all the "
 "databases, you need to run http://localhost/bibledit/setup.php once."
 msgstr ""
 
@@ -4172,3 +4178,24 @@ msgstr ""
 
 msgid "Demo plugin for the Administration menu, page 2."
 msgstr ""
+
+#~ msgid "Bible editor"
+#~ msgstr "Editor da Bíblia"
+
+#~ msgid "New note"
+#~ msgstr "Nova nota"
+
+#~ msgid "The note's status was updated"
+#~ msgstr "O estado da nota foi actualizado"
+
+#~ msgid "The note's passages were updated"
+#~ msgstr "As passagens da nota foram actualizadas"
+
+#~ msgid "The note's privacy was updated"
+#~ msgstr "A privacidade da nota foi actualizada"
+
+#~ msgid "The note's Bible was changed to:"
+#~ msgstr "A Bíblia da nota foi alterada para:"
+
+#~ msgid "Comment added"
+#~ msgstr "Comentário adicionado"

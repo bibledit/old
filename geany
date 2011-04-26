@@ -14,14 +14,16 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=4335;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=8
+FILE_NAME_0=63;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=355;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=2475;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/onlinebible/text.php;0
 FILE_NAME_3=44711;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
-FILE_NAME_4=787;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/onlinebible/textTest.php;0
-FILE_NAME_5=5841;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
-FILE_NAME_6=2433;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/exports.tpl;0
+FILE_NAME_4=6;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
+FILE_NAME_5=2433;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/exports.tpl;0
+FILE_NAME_6=1340;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/html/textTest.php;0
+FILE_NAME_7=88;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/locale/test.php;0
+FILE_NAME_8=702;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/locale/README;0
 
 [long line marker]
 long_line_behaviour=1
