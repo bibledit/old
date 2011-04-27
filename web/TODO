@@ -11,9 +11,7 @@
 
 
 
-- User can set his own default language.
-- The user gets information about creating his own language on launchpad.
-- To implement all and let it all work.
+
 
 
 
@@ -329,7 +327,4 @@ separately, if packaged versions of them don't already exist.  And I'll
 have to look at the modified ZendFramework code and see how best to
 proceed there.  The INSTALL file might be a reasonable place to put this
 kind of information.
-
-Ubuntu has libzend-framework-php
-
 

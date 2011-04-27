@@ -15,15 +15,13 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=446;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=429;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=183;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/locale/test.php;0
-FILE_NAME_3=733;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/locale/README;0
-FILE_NAME_4=2062;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/locale/logic.php;0
-FILE_NAME_5=308;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/language.tpl;0
-FILE_NAME_6=896;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/language.php;0
-FILE_NAME_7=9917;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/general.php;0
-FILE_NAME_8=2996;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bootstrap/bootstrap.php;0
+FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=423;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
+FILE_NAME_2=2062;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/locale/logic.php;0
+FILE_NAME_3=209;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/language.tpl;0
+FILE_NAME_4=896;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/language.php;0
+FILE_NAME_5=9917;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/general.php;0
+FILE_NAME_6=2890;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bootstrap/bootstrap.php;0
 
 [long line marker]
 long_line_behaviour=1

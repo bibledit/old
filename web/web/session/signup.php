@@ -56,7 +56,8 @@ if (isset($_POST['submit'])) {
     $form_is_valid = false;
     $smarty->assign ('password_invalid_message', gettext ("Password should be at least four characters long"));
   }
-  if (!Validate_Email::valid ($mail)) {
+  $validator = new Zend_Validate_EmailAddress ();
+  if (!$validator->isValid ($mail)) {
     $form_is_valid = false;
     $smarty->assign ('email_invalid_message', gettext ("The email address is not valid"));
   }

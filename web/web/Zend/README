@@ -1,8 +1,0 @@
-This directory contains components from ZendFramework-1.10.0.
-
-Validation requirements that would necessitate inclusion of the Validate class
-were commented out. See comments with "Bibledit" in them.
-
-When updating the Zend_Mail class from a newer framework, 
-these modification need to be made again and tried out.
-

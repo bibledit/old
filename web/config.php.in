@@ -39,5 +39,5 @@
 /* Define the local web server document root */
 #undef WEBROOT
 
-/* Define the path to xercesImpl.jar */
-#undef XERCESPATH
+/* Define the path to zendImpl.jar */
+#undef ZENDPATH

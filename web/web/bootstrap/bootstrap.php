@@ -60,7 +60,8 @@ class Bootstrap
 
     // Set the include path, where to look for included files.
     $this->bibledit_root_folder = dirname (dirname(__FILE__));
-    $include_path = get_include_path () . ":" . $this->bibledit_root_folder;
+    include $this->bibledit_root_folder . "/paths/paths.php";
+    $include_path = get_include_path () . ":" . $this->bibledit_root_folder . ":" . $zendPath;
     set_include_path ($include_path);
     ini_set('include_path', $include_path); 
     

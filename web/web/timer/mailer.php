@@ -81,7 +81,8 @@ class Timer_Mailer
     }
     
     // If the email address validates, ok, else remove this mail from the queue and log the action.
-    if (!Validate_Email::valid ($email)) {
+    $validator = new Zend_Validate_EmailAddress ();
+    if (!$validator->isValid ($email)) {
       $database_mail->delete ($id);
       $database_mail->delete ($id);
       $message = "Email to $email was deleted because of an invalid email address";

@@ -564,7 +564,7 @@ DARWIN_FALSE
 DARWIN_TRUE
 LINUX_FALSE
 LINUX_TRUE
-XERCESPATH
+ZENDPATH
 SITE_ADMIN_PASSWORD
 SITE_ADMIN_USERNAME
 WEBROOT
@@ -645,7 +645,7 @@ with_mysql_root_password
 with_web_document_root
 with_site_admin_username
 with_site_admin_password
-with_xerces_path
+with_zend_path
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1273,8 +1273,7 @@ Optional Packages:
                           Site Administrator username
   --with-site-admin-password=password
                           Site Administrator password
-  --with-xerces-path=path
-                          xercesImpl.jar path
+  --with-zend-path=path   Zend Framework path
 
 Report bugs to <http://www.nongnu.org/bibledit>.
 _ACEOF
@@ -2808,18 +2807,14 @@ _ACEOF
 
 # Location of xercesImpl.jar.
 # Obtain it through dpkg -L libxerces2-java
-XERCESPATH_DEFAULT="."
-
-# Check whether --with-xerces-path was given.
-if test "${with_xerces_path+set}" = set; then :
-  withval=$with_xerces_path;  XERCESPATH=$withval
-else
-   XERCESPATH=$XERCESPATH_DEFAULT
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking xercesImpl.jar path" >&5
-$as_echo_n "checking xercesImpl.jar path... " >&6; }
+# XERCESPATH_DEFAULT="."
+# AC_ARG_WITH(xerces-path,
+#         [  --with-xerces-path=path
+#                           xercesImpl.jar path],
+#         [ XERCESPATH=$withval ],
+#         [ XERCESPATH=$XERCESPATH_DEFAULT ]
+# )
+# AC_MSG_CHECKING(xercesImpl.jar path)
 # if [ [ $XERCESPATH == "." ] ]
 #   then
 #     test -f /usr/share/java/xercesImpl.jar
@@ -2833,13 +2828,47 @@ $as_echo_n "checking xercesImpl.jar path... " >&6; }
 #     AC_MSG_RESULT(no)
 #     AC_MSG_ERROR(Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>)
 # fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${XERCESPATH}" >&5
-$as_echo "${XERCESPATH}" >&6; }
+# AC_MSG_RESULT(${XERCESPATH})
+# AC_DEFINE([XERCESPATH], [], [Define the path to xercesImpl.jar])
+# AC_DEFINE_UNQUOTED(XERCESPATH, "$XERCESPATH")
+# AC_SUBST(XERCESPATH)
 
-$as_echo "#define XERCESPATH /**/" >>confdefs.h
+
+# Location of the Zend Framework.
+# Obtain it through dpkg -L libzend-framework-php on Debian and derivatives.
+ZENDPATH_DEFAULT="."
+
+# Check whether --with-zend-path was given.
+if test "${with_zend_path+set}" = set; then :
+  withval=$with_zend_path;  ZENDPATH=$withval
+else
+   ZENDPATH=$ZENDPATH_DEFAULT
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking Zend Framework path" >&5
+$as_echo_n "checking Zend Framework path... " >&6; }
+if  [ $ZENDPATH == "." ]
+  then
+    test -d /usr/share/php/libzend-framework-php
+    if  [ $? -eq 0 ]
+    then
+      ZENDPATH=/usr/share/php/libzend-framework-php
+    fi
+fi
+if  [ $ZENDPATH == "." ]
+  then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+    as_fn_error $? "Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>" "$LINENO" 5
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${ZENDPATH}" >&5
+$as_echo "${ZENDPATH}" >&6; }
+
+$as_echo "#define ZENDPATH /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
-#define XERCESPATH "$XERCESPATH"
+#define ZENDPATH "$ZENDPATH"
 _ACEOF
 
 
@@ -4345,21 +4374,23 @@ echo '?>'                               >> $VERSIONFILE
 PATHSFILE=web/paths/paths.php
 rm $PATHSFILE
 echo '<?php'                            >> $PATHSFILE
-echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
+# echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
+echo '$zendPath = "'$ZENDPATH'";'       >> $PATHSFILE
 echo '?>'                               >> $PATHSFILE
 
 # Summary.
 echo "
 Bibledit-Web $VERSION configuration summary:
 
-        Version                               : ${PACKAGE_VERSION}
-        Installation prefix                   : ${prefix}
-        Web server document root              : ${WEBROOT}
-        MySQL database host                   : localhost
-        MySQL database name                   : bibledit
-        MySQL database administrator username : root
-        MySQL database administrator password : ${MYSQL_ROOT_PASSWORD}
-        Website administrator username        : ${SITE_ADMIN_USERNAME}
-        Website administrator password        : ${SITE_ADMIN_PASSWORD}
+Version                               : ${PACKAGE_VERSION}
+Installation prefix                   : ${prefix}
+Web server document root              : ${WEBROOT}
+MySQL database host                   : localhost
+MySQL database name                   : bibledit
+MySQL database administrator username : root
+MySQL database administrator password : ${MYSQL_ROOT_PASSWORD}
+Website administrator username        : ${SITE_ADMIN_USERNAME}
+Website administrator password        : ${SITE_ADMIN_PASSWORD}
+Zend Framework path                   : ${ZENDPATH}
 "
 

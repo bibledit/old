@@ -1,3 +1,3 @@
 <?php
-$xercesPath = ".";
+$zendPath = "/usr/share/php/libzend-framework-php";
 ?>

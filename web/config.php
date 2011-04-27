@@ -40,5 +40,5 @@
 /* Define the local web server document root */
 #define WEBROOT "/var/www"
 
-/* Define the path to xercesImpl.jar */
-#define XERCESPATH "."
+/* Define the path to zendImpl.jar */
+#define ZENDPATH "/usr/share/php/libzend-framework-php"

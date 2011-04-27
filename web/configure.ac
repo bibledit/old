@@ -164,14 +164,14 @@ AC_SUBST(SITE_ADMIN_PASSWORD)
 
 # Location of xercesImpl.jar.
 # Obtain it through dpkg -L libxerces2-java
-XERCESPATH_DEFAULT="."
-AC_ARG_WITH(xerces-path,
-        [  --with-xerces-path=path
-                          xercesImpl.jar path],
-        [ XERCESPATH=$withval ],
-        [ XERCESPATH=$XERCESPATH_DEFAULT ]
-)
-AC_MSG_CHECKING(xercesImpl.jar path)
+# XERCESPATH_DEFAULT="."
+# AC_ARG_WITH(xerces-path,
+#         [  --with-xerces-path=path
+#                           xercesImpl.jar path],
+#         [ XERCESPATH=$withval ],
+#         [ XERCESPATH=$XERCESPATH_DEFAULT ]
+# )
+# AC_MSG_CHECKING(xercesImpl.jar path)
 # if [ [ $XERCESPATH == "." ] ]
 #   then
 #     test -f /usr/share/java/xercesImpl.jar
@@ -185,10 +185,38 @@ AC_MSG_CHECKING(xercesImpl.jar path)
 #     AC_MSG_RESULT(no)
 #     AC_MSG_ERROR(Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>)
 # fi
-AC_MSG_RESULT(${XERCESPATH})
-AC_DEFINE([XERCESPATH], [], [Define the path to xercesImpl.jar])
-AC_DEFINE_UNQUOTED(XERCESPATH, "$XERCESPATH")
-AC_SUBST(XERCESPATH)
+# AC_MSG_RESULT(${XERCESPATH})
+# AC_DEFINE([XERCESPATH], [], [Define the path to xercesImpl.jar])
+# AC_DEFINE_UNQUOTED(XERCESPATH, "$XERCESPATH")
+# AC_SUBST(XERCESPATH)
+
+
+# Location of the Zend Framework.
+# Obtain it through dpkg -L libzend-framework-php on Debian and derivatives.
+ZENDPATH_DEFAULT="."
+AC_ARG_WITH(zend-path,
+        [  --with-zend-path=path   Zend Framework path],
+        [ ZENDPATH=$withval ],
+        [ ZENDPATH=$ZENDPATH_DEFAULT ]
+)
+AC_MSG_CHECKING(Zend Framework path)
+if [ [ $ZENDPATH == "." ] ]
+  then
+    test -d /usr/share/php/libzend-framework-php
+    if [ [ $? -eq 0 ] ]
+    then
+      ZENDPATH=/usr/share/php/libzend-framework-php
+    fi
+fi
+if [ [ $ZENDPATH == "." ] ]
+  then
+    AC_MSG_RESULT(no)
+    AC_MSG_ERROR(Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>)
+fi
+AC_MSG_RESULT(${ZENDPATH})
+AC_DEFINE([ZENDPATH], [], [Define the path to zendImpl.jar])
+AC_DEFINE_UNQUOTED(ZENDPATH, "$ZENDPATH")
+AC_SUBST(ZENDPATH)
 
 
 # Checks for Additional stuffs.
@@ -320,21 +348,23 @@ echo '?>'                               >> $VERSIONFILE
 PATHSFILE=web/paths/paths.php
 rm $PATHSFILE
 echo '<?php'                            >> $PATHSFILE
-echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
+# echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
+echo '$zendPath = "'$ZENDPATH'";'       >> $PATHSFILE
 echo '?>'                               >> $PATHSFILE
 
 # Summary.
 echo "
 Bibledit-Web $VERSION configuration summary:
 
-        Version                               : ${PACKAGE_VERSION}
-        Installation prefix                   : ${prefix}
-        Web server document root              : ${WEBROOT}
-        MySQL database host                   : localhost
-        MySQL database name                   : bibledit
-        MySQL database administrator username : root
-        MySQL database administrator password : ${MYSQL_ROOT_PASSWORD}
-        Website administrator username        : ${SITE_ADMIN_USERNAME}
-        Website administrator password        : ${SITE_ADMIN_PASSWORD}
+Version                               : ${PACKAGE_VERSION}
+Installation prefix                   : ${prefix}
+Web server document root              : ${WEBROOT}
+MySQL database host                   : localhost
+MySQL database name                   : bibledit
+MySQL database administrator username : root
+MySQL database administrator password : ${MYSQL_ROOT_PASSWORD}
+Website administrator username        : ${SITE_ADMIN_USERNAME}
+Website administrator password        : ${SITE_ADMIN_PASSWORD}
+Zend Framework path                   : ${ZENDPATH}
 "
 

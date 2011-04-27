@@ -14,7 +14,8 @@ if (isset($_POST['email'])) {
   $sitename = $_POST['sitename'];
   $sitemail = $_POST['sitemail'];
   if (strlen ($sitemail) > 0) {
-    if (!Validate_Email::valid ($sitemail)) {
+    $validator = new Zend_Validate_EmailAddress ();
+    if (!$validator->isValid ($sitemail)) {
       $form_is_valid = false;
       $smarty->assign ('site_name_error', gettext ("The email address does not appear to be valid"));
     }
@@ -35,8 +36,8 @@ if (isset($_POST['retrieve'])) {
   $storagepassword = $_POST['storagepassword'];
   $storagesecurity = $_POST['storagesecurity'];
   $storageport     = $_POST['storageport'];
-  $storage_success;
-  $storage_error;
+  $storage_success = "";
+  $storage_error = "";
   $config_general = Database_Config_General::getInstance ();
   $config_general->setMailStorageHost ($storagehost);
   $config_general->setMailStorageUsername ($storageusername);
@@ -70,15 +71,15 @@ if (isset($_POST['send'])) {
   $config_general->setMailSendPassword       ($sendpassword);
   $config_general->setMailSendSecurity       ($sendsecurity);
   $config_general->setMailSendPort           ($sendport);
-  $send_success .= " " . gettext ("The details were saved.");
+  @$send_success .= " " . gettext ("The details were saved.");
   try {
     $mail = new Mail_Send($config_general->getSiteMailAddress(), $config_general->getSiteMailName(), "Test", "This is to try out whether Bibledit-Web can send email.");
     $send_success .= " " . gettext ("For the purpose of trying whether Bibledit-Web can send email, a test email was sent out to the account above:") . " " . $config_general->getSiteMailAddress();
   } catch (Exception $e) {
     $send_error .= " " . $e->getMessage ();
   }
-  $smarty->assign ("send_success", $send_success);
-  $smarty->assign ("send_error", $send_error);
+  @$smarty->assign ("send_success", $send_success);
+  @$smarty->assign ("send_error", $send_error);
 
 }
 

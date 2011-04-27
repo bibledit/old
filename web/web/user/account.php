@@ -47,7 +47,8 @@ if (isset($_POST['submit'])) {
   }
   
   if ($newemail != "") {
-    if (!Validate_Email::valid ($newemail)) {
+    $validator = new Zend_Validate_EmailAddress ();
+    if (!$validator->isValid ($newemail)) {
       $form_is_valid = false;
       $smarty->assign ('new_email_invalid_message', gettext ("Email address is not valid"));
     }
