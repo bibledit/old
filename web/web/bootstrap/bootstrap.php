@@ -22,8 +22,6 @@
  */
 
 
-
-
 Bootstrap::getInstance ();
 
 
@@ -54,20 +52,18 @@ class Bootstrap
   private function __construct() {
     
     // Error handling, for debugging.
-    //error_reporting(E_ALL);
-    //ini_set('error_reporting', E_ALL);
+    // error_reporting(E_ALL);
+    // ini_set('error_reporting', E_ALL);
+
+    // Default encoding.
+    mb_internal_encoding("UTF-8");
 
     // Set the include path, where to look for included files.
-    // This is important so as to make pointing to the included files much easier,
-    // and to avoid tortuous path references.
     $this->bibledit_root_folder = dirname (dirname(__FILE__));
     $include_path = get_include_path () . ":" . $this->bibledit_root_folder;
     set_include_path ($include_path);
     ini_set('include_path', $include_path); 
     
-    // Default encoding.
-    mb_internal_encoding("UTF-8");
-
     // Autoloader.
     // Automatically include the file that contains the $class_name.
     // E.g. class Database_Instance would require file database/instance.php.
@@ -88,7 +84,18 @@ class Bootstrap
       foreach($_GET    as $k => $v) $_GET   [$k] = stripslashes($v);
       foreach($_POST   as $k => $v) $_POST  [$k] = stripslashes($v);
       foreach($_COOKIE as $k => $v) $_COOKIE[$k] = stripslashes($v);
-    }      
+    }
+    
+    // The localization.
+    $database_config_general = Database_Config_General::getInstance();
+    $language = $database_config_general->getSiteLanguage ();
+    if ($language != "") {
+      putenv("LANGUAGE=$language");
+      setlocale(LC_MESSAGES, "en_US.utf8"); // I am puzzled as to why this is needed to make gettext work.
+      $textdomain = dirname (dirname (__FILE__)) . "/locale";
+      bindtextdomain("bibledit", $textdomain); 
+      textdomain("bibledit");
+    }
       
   } 
 

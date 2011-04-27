@@ -10,22 +10,10 @@
 
 
 
-internationalization and localization
 
-
-
-Need to have accounts where the user can set his language.
-The administrator sets the default language for the site for guests and before login.
-
-
-The administrator can leave the locale empty, in which case the system locale will be taken. 
-This should be the default for local installations.
-
-
-The site has one default translation, set by the site administrator. Visitors get to see this default translation.
-
-
-
+- User can set his own default language.
+- The user gets information about creating his own language on launchpad.
+- To implement all and let it all work.
 
 
 

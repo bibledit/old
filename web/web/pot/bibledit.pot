@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-26 01:46+0200\n"
+"POT-Creation-Date: 2011-04-27 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Bijbel"
-msgstr ""
-
-msgid "Login"
+msgid "Bible"
 msgstr ""
 
 msgid "Exports"
@@ -434,6 +431,12 @@ msgstr ""
 msgid ""
 "Step 1/1: Copying the data from the local cloned repository, and storing it "
 "in the Bible"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Set the default language for the site"
 msgstr ""
 
 msgid "The email address does not appear to be valid"
@@ -1205,9 +1208,6 @@ msgid "Processing any data left over from previous actions."
 msgstr ""
 
 msgid "Consultation Notes"
-msgstr ""
-
-msgid "Bible"
 msgstr ""
 
 msgid "Remote repository URL"
@@ -2601,6 +2601,22 @@ msgid ""
 "the keys to such a repository can write to it."
 msgstr ""
 
+msgid "Site language"
+msgstr ""
+
+msgid "This page deals with the default language for the site."
+msgstr ""
+
+msgid "Current language:"
+msgstr ""
+
+msgid "Change the language."
+msgstr ""
+
+msgid ""
+"Those who have an account on this site can set their own preferred language."
+msgstr ""
+
 msgid "This page deals with setting up the email system."
 msgstr ""
 
@@ -2877,6 +2893,9 @@ msgstr ""
 
 msgid ""
 "To install this program, on Linux install a package called \"git-core\"."
+msgstr ""
+
+msgid "Login"
 msgstr ""
 
 msgid "Logout"

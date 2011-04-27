@@ -340,6 +340,14 @@ EOD;
     $this->setValue ("date-in-header", $value);
   }
 
+  public function getSiteLanguage() {
+    return $this->getValue ("site-language", "");
+  }
+  public function setSiteLanguage ($value) {
+    $this->setValue ("site-language", $value);
+  }   
+
+
 
 }
 

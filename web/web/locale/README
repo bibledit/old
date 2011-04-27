@@ -22,12 +22,11 @@ cd
 # End.
 
 
-How to test the gettext system:
-
-cd into the bibledit/web/web/locale folder.
-Run these lines in bash: 
+Testing the gettext system.
+Presuming that Bibledit-Web is installed in /var/www/bibledit,
+run these few lines in the shell: 
 
 export LANGUAGE=nl
-export TEXTDOMAINDIR=.
+export TEXTDOMAINDIR=/var/www/bibledit/locale
 gettext -d bibledit Bible
 
