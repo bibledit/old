@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-27 01:45+0200\n"
+"POT-Creation-Date: 2011-04-28 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,9 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Bible"
-msgstr ""
 
 msgid "Exports"
 msgstr ""
@@ -1208,6 +1205,9 @@ msgid "Processing any data left over from previous actions."
 msgstr ""
 
 msgid "Consultation Notes"
+msgstr ""
+
+msgid "Bible"
 msgstr ""
 
 msgid "Remote repository URL"
@@ -2604,17 +2604,13 @@ msgstr ""
 msgid "Site language"
 msgstr ""
 
-msgid "This page deals with the default language for the site."
+msgid "This page deals with the language for the site."
 msgstr ""
 
 msgid "Current language:"
 msgstr ""
 
 msgid "Change the language."
-msgstr ""
-
-msgid ""
-"Those who have an account on this site can set their own preferred language."
 msgstr ""
 
 msgid "This page deals with setting up the email system."

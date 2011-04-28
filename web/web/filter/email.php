@@ -43,7 +43,8 @@ class Filter_Email
     }
     $email = $input;
     unset ($input);
-    if (!Validate_Email::valid ($email)) return false;
+    $validator = new Zend_Validate_EmailAddress ();
+    if (!$validator->isValid ($email)) return false;
     return $email;
   }
 

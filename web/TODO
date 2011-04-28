@@ -24,6 +24,8 @@ This file is to be generated somehow by the system admin, and this file can be s
 Thus the gettext system will be filled with that data, and can get translated.
 If somebody wants the localized Bible names, but does not translate the whole site, it suffices to only translate 
 the relevant bits in the po file.
+The book names should be translatable. So it needs a list of all bible books to be included for gettext translation,
+in .php format.
 
 
 
@@ -85,6 +87,9 @@ Easiest: EasyPHP.
 
 
 
+
+
+
 Where help is needed: 
 Would need to write the software for the project under the GPL, stated in each source file.
 Could fully adapt the software to run on Windows, and describe how to install it, 
@@ -92,8 +97,6 @@ and create a Windows installer and describe how to do that through open source t
 Same for Macintosh. 
 Would communicate through bibledit-development.
 Could write manuals for how to work with Bibledit-Web. 
-Could enable internationalization and localization with a language setting in the user preferences, 
-and a language setting for the site administrator for the site's language if the user has not yet logged in.
 
 
 
@@ -106,8 +109,6 @@ and a language setting for the site administrator for the site's language if the
 
 
 
-The book names should be translatable. So it needs a list of all bible books to be included for gettext translation,
-in .php format.
 
 
 
@@ -320,11 +321,6 @@ have found:
 
  * jquery
  * jwysiwyg (a plugin for jquery)
- * a modified copy of part of zendframework
 
 Are there any more?  At least the non-modified ones have to be packaged
-separately, if packaged versions of them don't already exist.  And I'll
-have to look at the modified ZendFramework code and see how best to
-proceed there.  The INSTALL file might be a reasonable place to put this
-kind of information.
-
+separately, if packaged versions of them don't already exist.  
