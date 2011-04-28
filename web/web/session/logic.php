@@ -12,14 +12,10 @@ class Session_Logic
 {
 
   private $level = 0;                         // The level of the user.
-  //private $check_browser = true;              // Include browser name in fingerprint?
-  private $check_browser = false;              // Include browser name in fingerprint?
-  //private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
-  private $check_ip_blocks = 0;               // How many numbers from IP use in fingerprint?
-  //private $secure_word = 'controlword';       // Control word - any word you want.
-  private $secure_word = '';       // Control word - any word you want.
-  //private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
-  private $regenerate_id = false;              // Regenerate session ID to prevent fixation attacks?
+  private $check_browser = true;              // Include browser name in fingerprint?
+  private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
+  private $secure_word = 'controlword';       // Control word - any word you want.
+  private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
   private static $instance;                   // Current singleton instance.
   private $logged_in;
 
@@ -27,7 +23,10 @@ class Session_Logic
   // The class constructor is private, so no outsider can call it.    
   private function __construct() {
     session_name ('bibledit');
-    if (php_sapi_name () != "cli") session_start();
+    if (php_sapi_name () != "cli") {
+      session_set_cookie_params (86400);
+      session_start();
+    }
     $this->Open ();
   } 
 
@@ -104,7 +103,7 @@ class Session_Logic
     $database = Database_Users::getInstance();
     $login_okay = false;
     if ($database->getAdministratorCount() == 0) {
-      // If there are no administrators listed in the databse, 
+      // If there are no administrators listed in the database, 
       // then it uses the credentials set up during installation.
       include ("administration/credentials.php");
       if ($user_or_email == $site_admin_username && $password == $site_admin_password) {
@@ -178,7 +177,6 @@ class Session_Logic
 
 
 }
-
 
 
 ?>

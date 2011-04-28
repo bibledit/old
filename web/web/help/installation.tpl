@@ -1,6 +1,6 @@
 <h1>{t}Installation{/t}</h1>
 <p>{t}Here are some guidelines as to how to install Bibledit-Web.{/t}</p>
-<p><a href="newubuntu1010.php">{t}Version 0.4 and higher on Ubuntu 10.10 desktop and server.{/t}</a></p>
+<p><a href="newubuntu1010.php">{t}Version 0.5 and higher on Ubuntu 10.10 desktop and server.{/t}</a></p>
 <p><a href="oldubuntu1004.php">{t}Version 0.3 on Ubuntu 10.04 desktop and server.{/t}</a></p>
 <h2>{t}Version being developed{/t}</h2>
 <p>{t}In case you'd like to use the newest version, the one being developed, you can clone the source code from the git repository.{/t}</p>
