@@ -14,18 +14,16 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=120;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=423;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=209;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/language.tpl;0
-FILE_NAME_3=896;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/language.php;0
-FILE_NAME_4=15;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/paths/paths.php;0
-FILE_NAME_5=547;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/mail.php;0
-FILE_NAME_6=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/validate/utf8.php;0
-FILE_NAME_7=1908;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/user/account.php;0
-FILE_NAME_8=2659;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/signup.php;0
-FILE_NAME_9=2876;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/mailer.php;0
-FILE_NAME_10=1433;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/email.php;0
+current_page=8
+FILE_NAME_0=1;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=602;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
+FILE_NAME_2=2659;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/signup.php;0
+FILE_NAME_3=0;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logout.tpl;0
+FILE_NAME_4=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logout.php;0
+FILE_NAME_5=1083;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bootstrap/bootstrap.php;0
+FILE_NAME_6=414;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logic.php;0
+FILE_NAME_7=0;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/xslfofootnoteparagraph.cpp;0
+FILE_NAME_8=5561;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowshowrelatedverses.cpp;0
 
 [long line marker]
 long_line_behaviour=1

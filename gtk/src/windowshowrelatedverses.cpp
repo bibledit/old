@@ -172,7 +172,7 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
 
     // Terms derived from the Strong's numbers in this verse.
     htmlwriter.heading_open (3);
-    htmlwriter.text_add ("Similiar words in other verses");
+    htmlwriter.text_add ("Similar words in other verses");
     htmlwriter.heading_close ();
 
     // Get the data.
