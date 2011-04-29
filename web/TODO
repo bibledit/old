@@ -9,48 +9,6 @@
 
 
 
-User can opt for receiving reminders that he is subscribed to so many notes, and that so many notes are assigned to him.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-The book names are not localized as we do in bibledit-gtk, but localization uses the existing mechanism.
-It works through gettext. For that reason a php file needs to be created that contains all existing English books.
-This file is to be generated somehow by the system admin, and this file can be stored among the source code.
-Thus the gettext system will be filled with that data, and can get translated.
-If somebody wants the localized Bible names, but does not translate the whole site, it suffices to only translate 
-the relevant bits in the po file.
-The book names should be translatable. So it needs a list of all bible books to be included for gettext translation,
-in .php format.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
