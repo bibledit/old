@@ -6,7 +6,7 @@
 <p>Consultation notes: Post comment by email: Both top and bottom posting work.</p>
 <p>Exports Bibles to files suitable for the Online Bible module creation process.</p>
 <p>The Administrator can set the default language for the site.</p>
-<p>Uses the system's Zend Framework libraries. The partial Zend library is no longer included with Bibledit-Web.</p>
+<p>Uses the system's Zend Framework instead of the partial one that was included.</p>
 <p>User sessions persist for 12 hours.</p>
 
 <h2>Version 0.4</h2>
