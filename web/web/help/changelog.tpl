@@ -7,7 +7,7 @@
 <p>Exports Bibles to files suitable for the Online Bible module creation process.</p>
 <p>The Administrator can set the default language for the site.</p>
 <p>Uses the system's Zend Framework libraries. The partial Zend library is no longer included with Bibledit-Web.</p>
-<p>User sessions persist for one day after last activity.</p>
+<p>User sessions persist for 12 hours.</p>
 
 <h2>Version 0.4</h2>
 <p>20 April 2011</p>

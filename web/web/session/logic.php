@@ -24,7 +24,7 @@ class Session_Logic
   private function __construct() {
     session_name ('bibledit');
     if (php_sapi_name () != "cli") {
-      session_set_cookie_params (86400);
+      session_set_cookie_params (43200);
       session_start();
     }
     $this->Open ();
