@@ -22,8 +22,14 @@ if (isset($_POST['submit'])) {
   }
 }
 
+
+include ("database/credentials.php");
 $smarty->assign ("name", $config_general->getBackupFile ());
 $smarty->assign ("url", Filter_Backup::url ());
+$smarty->assign ("database_host", $database_host);
+$smarty->assign ("database_name", $database_name);
+$smarty->assign ("database_user", $database_user);
+$smarty->assign ("database_pass", $database_pass);
 $smarty->display("backup.tpl");
 
 Assets_Page::footer ();

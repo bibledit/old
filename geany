@@ -16,12 +16,13 @@ run_cmd=sh /home/teus/bin/be
 [files]
 current_page=0
 FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=509;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=2659;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/signup.php;0
-FILE_NAME_3=0;XML;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logout.tpl;0
-FILE_NAME_4=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logout.php;0
-FILE_NAME_5=1083;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bootstrap/bootstrap.php;0
-FILE_NAME_6=827;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logic.php;0
+FILE_NAME_1=558;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
+FILE_NAME_2=3515;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0
+FILE_NAME_3=2055;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.tpl;0
+FILE_NAME_4=971;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.php;0
+FILE_NAME_5=475;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/versions.php;0
+FILE_NAME_6=430;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/instance.php;0
+FILE_NAME_7=551;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/credentials.php;0
 
 [long line marker]
 long_line_behaviour=1

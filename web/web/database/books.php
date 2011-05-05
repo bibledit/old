@@ -224,7 +224,7 @@ EOD;
   }
 
 
-  public function getOnlinebibleFromId($id)
+  public function getOnlinebibleFromId($id) // Todo
   {
     $database_instance = Database_Instance::getInstance();
     $id = Database_SQLInjection::no ($id);
