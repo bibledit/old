@@ -224,8 +224,9 @@ EOD;
   }
 
 
-  public function getOnlinebibleFromId($id) // Todo
+  public function getOnlinebibleFromId($id)
   {
+    if ($id == "") return "";
     $database_instance = Database_Instance::getInstance();
     $id = Database_SQLInjection::no ($id);
     $query = "SELECT onlinebible FROM books WHERE id = $id;";

@@ -979,6 +979,7 @@ navigation(0), httpd(0)
     gtk_widget_show(image3797);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(current_reference1), image3797);
 
+    GtkWidget *separator20;
     separator20 = gtk_separator_menu_item_new();
     gtk_widget_show(separator20);
     gtk_container_add(GTK_CONTAINER(insert1_menu), separator20);
@@ -990,9 +991,26 @@ navigation(0), httpd(0)
   gtk_widget_show(insert_special_character);
   gtk_container_add(GTK_CONTAINER(insert1_menu), insert_special_character);
 
+  GtkWidget *image25281;
   image25281 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image25281);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(insert_special_character), image25281);
+
+  insert_footnote = gtk_image_menu_item_new_with_mnemonic("_Footnote");
+  gtk_widget_show(insert_footnote);
+  gtk_container_add(GTK_CONTAINER(insert1_menu), insert_footnote);
+
+  GtkWidget *imagefn = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
+  gtk_widget_show(imagefn);
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(insert_footnote), imagefn);
+
+  insert_xref = gtk_image_menu_item_new_with_mnemonic("_Crossreference");
+  gtk_widget_show(insert_xref);
+  gtk_container_add(GTK_CONTAINER(insert1_menu), insert_xref);
+
+  GtkWidget *imagexref = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
+  gtk_widget_show(imagexref);
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(insert_xref), imagexref);
 
   check1 = NULL;
   chapters_and_verses1 = NULL;
@@ -1683,6 +1701,10 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) current_reference1, "activate", G_CALLBACK(on_current_reference1_activate), gpointer(this));
   if (insert_special_character)
     g_signal_connect((gpointer) insert_special_character, "activate", G_CALLBACK(on_insert_special_character_activate), gpointer(this));
+  if (insert_footnote)
+    g_signal_connect((gpointer) insert_footnote, "activate", G_CALLBACK(on_insert_footnote_activate), gpointer(this));
+  if (insert_xref)
+    g_signal_connect((gpointer) insert_xref, "activate", G_CALLBACK(on_insert_xref_activate), gpointer(this));
   if (validate_usfms1)
     g_signal_connect((gpointer) validate_usfms1, "activate", G_CALLBACK(on_validate_usfms1_activate), gpointer(this));
   if (count_usfms1)
@@ -2202,6 +2224,7 @@ void MainWindow::on_insert1_activate(GtkMenuItem * menuitem, gpointer user_data)
   ((MainWindow *) user_data)->on_menu_insert();
 }
 
+
 void MainWindow::on_menu_insert()
 // Sets the labels of the underlying menu items right.
 {
@@ -2267,6 +2290,10 @@ void MainWindow::on_menu_insert()
 
   // Inserting special character.
   gtk_widget_set_sensitive(insert_special_character, (editor_window && (editor_window->focused)));
+  
+  // Inserting footnote and xref.
+  gtk_widget_set_sensitive(insert_footnote, (editor_window && (editor_window->focused)));
+  gtk_widget_set_sensitive(insert_xref, (editor_window && (editor_window->focused)));
 }
 
 void MainWindow::on_menuitem_view_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3726,8 +3753,10 @@ void MainWindow::on_style_button_apply_clicked(GtkButton * button, gpointer user
 }
 
 
-void MainWindow::on_style_apply()
+void MainWindow::on_style_apply (ustring marker)
 {
+  // Variable 'marker' may be empty, in which case it is called from the Styles window.
+  
   // Get the last focused Editor. If none, bail out.
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
@@ -3741,11 +3770,14 @@ void MainWindow::on_style_apply()
     return;
 
   // Bail out if there's no styles window.
-  if (!window_styles)
-    return;
+  if (marker == "")
+    if (!window_styles)
+      return;
 
   // Get the focused style(s).
-  ustring selected_style = window_styles->get_focus();
+  ustring selected_style;
+  if (marker == "") selected_style = window_styles->get_focus();
+  else selected_style = marker;
 
   // Only proceed when a style has been selected.
   if (selected_style.empty())
@@ -3830,8 +3862,10 @@ void MainWindow::on_style_apply()
     editor_window->apply_style(selected_style);
   }
   // Take some actions if the style was used.
-  if (style_was_used) {
-    window_styles->use(selected_style);
+  if (marker == "") {
+    if (style_was_used) {
+      window_styles->use(selected_style);
+    }
   }
 }
 
@@ -3876,10 +3910,12 @@ void MainWindow::reload_styles()
  |
  */
 
+
 void MainWindow::on_edit_bible_note_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_edit_bible_note();
 }
+
 
 void MainWindow::on_edit_bible_note()
 {
@@ -3892,6 +3928,19 @@ void MainWindow::on_edit_bible_note()
     }
   }
 }
+
+
+void MainWindow::on_insert_footnote_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_style_apply("f");
+}
+
+
+void MainWindow::on_insert_xref_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_style_apply("x");
+}
+
 
 /*
  |

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-05 01:45+0200\n"
+"POT-Creation-Date: 2011-05-09 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2591,9 +2591,6 @@ msgstr ""
 msgid "If you'd like to retry, after updating the URL, press button Submit."
 msgstr ""
 
-msgid "This page deals with setting up the backup system."
-msgstr ""
-
 msgid ""
 "Bibledit-Web can create a backup of the database. This would backup all the "
 "data that is relevant to this site. It can do that every day."
@@ -2618,6 +2615,49 @@ msgstr ""
 msgid ""
 "Once the backup has been created, it can be downloaded from the following "
 "location:"
+msgstr ""
+
+msgid "Restore"
+msgstr ""
+
+msgid ""
+"Make sure you work with an existing an operational system. If this is not "
+"the case, then follow all installation procedures before proceeding to the "
+"next steps."
+msgstr ""
+
+msgid "Login to the server or open a terminal."
+msgstr ""
+
+msgid "Go to a directory on the server. Copy the backup file there."
+msgstr ""
+
+msgid ""
+"Assuming that the backup is called backup.tar.gz, enter this to unpack it:"
+msgstr ""
+
+msgid "This should give a file called backup.sql."
+msgstr ""
+
+msgid "Start the mysql client:"
+msgstr ""
+
+msgid "It will welcome you to the MySQL monitor."
+msgstr ""
+
+msgid "Use the correct table:"
+msgstr ""
+
+msgid "Restore the backup:"
+msgstr ""
+
+msgid ""
+"Press enter after the above command, and then let it run till it is through."
+msgstr ""
+
+msgid ""
+"If there were no projects that use collaboration through Send/Receive, then "
+"all is fine. If there were such projects, set these up again."
 msgstr ""
 
 msgid ""

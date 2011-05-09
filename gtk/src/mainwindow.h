@@ -198,9 +198,9 @@ protected:
   GtkWidget *separator9;
   GtkWidget *current_reference1;
   GtkWidget *image3797;
-  GtkWidget *separator20;
   GtkWidget *insert_special_character;
-  GtkWidget *image25281;
+  GtkWidget *insert_footnote;
+  GtkWidget *insert_xref;
   GtkWidget *check1;
   GtkWidget *check1_menu;
   GtkWidget *chapters_and_verses1;
@@ -546,7 +546,7 @@ protected:
   static void on_style_button_open_clicked(GtkButton *button, gpointer user_data);
   void on_style_button_open();
   static void on_style_button_apply_clicked(GtkButton *button, gpointer user_data);
-  void on_style_apply();
+  void on_style_apply (ustring marker = "");
   static void on_editor_style_changed(GtkButton *button, gpointer user_data);
   void editor_style_changed();
   static void on_style_edited(GtkButton *button, gpointer user_data);
@@ -556,6 +556,8 @@ protected:
   /* Footnotes, endnotes, crossreferences */
   static void on_edit_bible_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_edit_bible_note();
+  static void on_insert_footnote_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_insert_xref_activate(GtkMenuItem *menuitem, gpointer user_data);
 
   /* Tools */
   static void on_menutools_activate(GtkMenuItem *menuitem, gpointer user_data);
