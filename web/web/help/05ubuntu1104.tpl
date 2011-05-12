@@ -1,4 +1,4 @@
-<h1>{t}Install Bibledit-Web version 0.5 on Ubuntu 11.04 desktop and server 64 bits{/t}</h1>
+<h1>{t}Install Bibledit-Web version 0.5 on Ubuntu 11.04{/t}</h1>
 <p>{t}This assumes a standard installation of the operating system.{/t}</p>
 <p>{t}Connect to or open a terminal.{/t}</p>
 <p>{t}Update the software sources. Type the following command, and then press Enter.{/t}</p>
