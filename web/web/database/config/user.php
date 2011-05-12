@@ -131,7 +131,7 @@ EOD;
     }
     return $bible;
   }
-  public function setBible ($bible) // Todo
+  public function setBible ($bible)
   {
     $this->setValue ("", "bible", $bible);
   }   

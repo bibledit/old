@@ -1,6 +1,7 @@
 <?php
 
   // Page bootstrapping.
+  $GLOBALS["no_database_access_yet"] = true;
   require_once ("bootstrap/bootstrap.php");
 
   echo "<h2>Site setup</h2>";

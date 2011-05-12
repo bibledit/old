@@ -110,12 +110,15 @@ EOD;
   */
   public function getSheets ()
   {
+    $sheets = array ();
     $database_instance = Database_Instance::getInstance();
     $query = "SELECT DISTINCT sheet FROM styles ORDER BY sheet ASC;";
     $result = $database_instance->runQuery ($query);
-    for ($i = 0; $i < $result->num_rows; $i++) {
-      $row = $result->fetch_row();
-      $sheets[] = $row[0];
+    if ($result !== false) {
+      for ($i = 0; $i < $result->num_rows; $i++) {
+        $row = $result->fetch_row();
+        $sheets[] = $row[0];
+      }
     }
     return $sheets;
   }

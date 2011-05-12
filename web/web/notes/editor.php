@@ -342,7 +342,7 @@ class Notes_Editor
     if (isset ($status_selector)) {
       $database_config_user->setConsultationNotesStatusSelector($status_selector);
     }
-    @$bible_selector = $_GET['consultationnotesbibleselector']; // Todo
+    @$bible_selector = $_GET['consultationnotesbibleselector'];
     if (isset ($bible_selector)) {
       $database_config_user->setConsultationNotesBibleSelector($bible_selector);
       // Also set the Bible.

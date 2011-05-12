@@ -1,12 +1,15 @@
-<h1>{t}Install Bibledit-Web version 0.5 and higher on Ubuntu 10.10 desktop and server{/t}</h1>
+<h1>{t}Install Bibledit-Web version 0.5 on Ubuntu 11.04 desktop and server 64 bits{/t}</h1>
 <p>{t}This assumes a standard installation of the operating system.{/t}</p>
-<p>{t}Connect to a terminal on the server.{/t}</p>
-<p>{t}Install the software Bibledit-Web relies on. To do that, type the following commands, and press Enter after each:{/t}</p>
+<p>{t}Connect to or open a terminal.{/t}</p>
+<p>{t}Update the software sources. Type the following command, and then press Enter.{/t}</p>
 <p><code>sudo apt-get update</code></p>
-<p><code>sudo apt-get install mysql-server phpmyadmin php5-cli git-core curl default-jre zip unzip libzend-framework-php</code></p>
-<p>{t}While installing mysql-server, set the administrative password. These guidelines assume that it will be set to root.{/t}</p>
+<p>{t}Install the LAMP server.{/t}</p>
+<p><code>sudo tasksel</code></p>
+<p>{t}Tick the LAMP server, and press Enter. Installation takes a while.{/t}</p>
+<p>{t}While installing mysql-server, set the administrative password. These guidelines assume that it will be set to "root".{/t}</p>
+<p>{t}Install the software Bibledit-Web relies on.{/t}</p>
+<p><code>sudo apt-get install make git-core curl default-jre zip unzip libzend-framework-php</code></p>
 <p>{t}Anything else to be set up, choose the default settings and enter the correct passwords.{/t}</p>
-<p>{t}Reboot when through. This is to start the Apache web server.{/t}</p>
 <p>{t}Download Bibledit-Web. To do that, type the following command, and press Enter:{/t}</p>
 <code>wget http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-x.x.tar.gz</code>
 <p>{t}The x.x refers to the version number{/t}</p>
