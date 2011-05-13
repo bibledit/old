@@ -49,8 +49,8 @@ DisplayChangesGui::DisplayChangesGui(GtkWidget * box)
 
   // Create tags.
   textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
-  heavy_weight_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "weight", PANGO_WEIGHT_HEAVY, "background", "khaki", NULL);
-  strike_through_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "strikethrough", TRUE, "background", "khaki", NULL);
+  heavy_weight_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "weight", PANGO_WEIGHT_HEAVY, "background", "hot pink", NULL);
+  strike_through_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "strikethrough", TRUE, "background", "hot pink", NULL);
 }
 
 
