@@ -14,7 +14,7 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
+current_page=12
 FILE_NAME_0=1489;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=645;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=313;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/installation.tpl;0
@@ -25,6 +25,10 @@ FILE_NAME_6=121;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/setup.p
 FILE_NAME_7=4389;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/user.php;0
 FILE_NAME_8=14504;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/editor.php;0
 FILE_NAME_9=3274;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/styles.php;0
+FILE_NAME_10=4198;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowmerge.h;0
+FILE_NAME_11=5815;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowmerge.cpp;0
+FILE_NAME_12=2243;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gui_display_changes.cpp;0
+FILE_NAME_13=904;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gui_display_changes.h;0
 
 [long line marker]
 long_line_behaviour=1
