@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-12 01:47+0200\n"
+"POT-Creation-Date: 2011-05-13 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3710,6 +3710,34 @@ msgid ""
 "adminusername account."
 msgstr ""
 
+msgid "Install Bibledit-Web version 0.5 on Ubuntu 11.04"
+msgstr ""
+
+msgid "Connect to or open a terminal."
+msgstr ""
+
+msgid ""
+"Update the software sources. Type the following command, and then press "
+"Enter."
+msgstr ""
+
+msgid "Install the LAMP server."
+msgstr ""
+
+msgid "Tick the LAMP server, and press Enter. Installation takes a while."
+msgstr ""
+
+msgid ""
+"While installing mysql-server, set the administrative password. These "
+"guidelines assume that it will be set to \"root\"."
+msgstr ""
+
+msgid "Install the software Bibledit-Web relies on."
+msgstr ""
+
+msgid "The x.x refers to the version number"
+msgstr ""
+
 msgid "Typesetting Bibles"
 msgstr ""
 
@@ -4297,7 +4325,7 @@ msgid "Untick display of non-breaking spaces."
 msgstr ""
 
 msgid ""
-"Install Bibledit-Web version 0.4 and higher on Ubuntu 10.10 desktop and "
+"Install Bibledit-Web version 0.5 and higher on Ubuntu 10.10 desktop and "
 "server"
 msgstr ""
 
@@ -4307,9 +4335,6 @@ msgid ""
 msgstr ""
 
 msgid "Reboot when through. This is to start the Apache web server."
-msgstr ""
-
-msgid "The x.x refers to the version number"
 msgstr ""
 
 msgid "Bibledit-Web"
@@ -4372,10 +4397,13 @@ msgstr ""
 msgid "Here are some guidelines as to how to install Bibledit-Web."
 msgstr ""
 
-msgid "Version 0.5 and higher on Ubuntu 10.10 desktop and server."
+msgid "Version 0.5 on Ubuntu 11.04."
 msgstr ""
 
-msgid "Version 0.3 on Ubuntu 10.04 desktop and server."
+msgid "Version 0.5 on Ubuntu 10.10."
+msgstr ""
+
+msgid "Version 0.3 on Ubuntu 10.04."
 msgstr ""
 
 msgid "Version being developed"
