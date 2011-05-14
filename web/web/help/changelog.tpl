@@ -9,6 +9,7 @@
 <p>Uses the system's Zend Framework instead of the partial one that was included.</p>
 <p>User sessions persist for 12 hours.</p>
 <p>When selecting Consultation Notes by Bible, the actual Bible switches along with it.</p>
+<p>Provides help with typesetting through Adobe InDesign.</p>
 
 <h2>Version 0.4</h2>
 <p>20 April 2011</p>
@@ -24,7 +25,7 @@
 <p>Hyphenator can insert soft hyphens into Bibles at defined locations.</p>
 <p>Automatic Send/Receive once a day.</p>
 <p>Logbook refreshes the page less often.</p>
-<p>Updated helpfiles, including one about Bible typesetting.</p>
+<p>Updated helpfiles, including one about Bible typesetting through LibreOffice.</p>
 <p>Export Bibles to web pages.</p>
 <p>Older changes sets are archived instead of deleted.</p>
 
