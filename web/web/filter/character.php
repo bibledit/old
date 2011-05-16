@@ -40,8 +40,28 @@ class Filter_Character
   */
   public function noBreakSpace ()
   {
-    // The " " below is not a normal space, but a no-break space.
+    // The space below is a no-break space.
     return " ";
+  }
+
+
+  /**
+  * Returns an "en space", this is a nut, half an em space.
+  */
+  public function enSpace ()
+  {
+    // The space below is U+2002.
+    return " ";
+  }
+
+
+  /**
+  * Returns an "em space", this is a mutton, nominally a space equal to the height of the font.
+  */
+  public function emSpace ()
+  {
+    // The space below is U+2003.
+    return " ";
   }
 
 

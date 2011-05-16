@@ -694,11 +694,17 @@ class Filter_Text
                     $textFollowingMarker = substr ($textFollowingMarker, $pos + strlen ($number));
                   }
                   // If a chapter number was put, remove any whitespace from the start of the following text.
-                  if (isset ($this->outputChapterTextAtFirstVerse)) $textFollowingMarker = ltrim ($textFollowingMarker);
+                  // Remove whitespace from the start of the following text, and replace it with the en space.
+                  // This en space is a fixed width space. Having this after the verse number makes things tidier.
+                  // But if a chapter number was put, than do not put any space at the start of the following verse.
+                  $textFollowingMarker = ltrim ($textFollowingMarker);
+                  if (!isset ($this->outputChapterTextAtFirstVerse)) {
+                    $textFollowingMarker = Filter_Character::enSpace () . $textFollowingMarker;
+                  }
                   $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer] = $textFollowingMarker; 
                   $this->chapterUsfmMarkersAndTextPointer--;
                 }
-                // Chapter variable may not have been used, but unset it anyway, making it ready for subsequent use. 
+                // Unset the chapter variable, whether it was used or not. This makes it ready for subsequent use. 
                 unset ($this->outputChapterTextAtFirstVerse);
                 // Online Bible.
                 $this->onlinebible_text->newVerse ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);

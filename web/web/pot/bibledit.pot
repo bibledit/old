@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-14 01:46+0200\n"
+"POT-Creation-Date: 2011-05-16 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1472,6 +1472,9 @@ msgstr ""
 msgid "About"
 msgstr ""
 
+msgid "Typesetting in InDesign"
+msgstr ""
+
 msgid "Introduction"
 msgstr ""
 
@@ -1482,6 +1485,9 @@ msgid "ChangeLog"
 msgstr ""
 
 msgid "Consultations"
+msgstr ""
+
+msgid "Typesetting in LibreOffice"
 msgstr ""
 
 msgid "Demo plugin menu item 1"
@@ -3452,6 +3458,290 @@ msgid ""
 "After everything has been done, you can see the Bible in the normal place."
 msgstr ""
 
+msgid ""
+"See the online help about typesetting for more information about some "
+"general principles."
+msgstr ""
+
+msgid "You have access to a copy of LibreOffice."
+msgstr ""
+
+msgid ""
+"Some of the word in the OpenDocument files are long. This results in too "
+"much space between some words."
+msgstr ""
+
+msgid ""
+"The words need to get hyphens so that part of the word goes on the next line."
+msgstr ""
+
+msgid ""
+"LibreOffice has hyphenation algorithms for many languages. That would solve "
+"the problem."
+msgstr ""
+
+msgid "LibreOffice does not have a hyphenation algorithm for our language."
+msgstr ""
+
+msgid "Bibledit-Web has a hyphenater that could assist."
+msgstr ""
+
+msgid "In Bibledit-Web, go to menu Management / Hyphenation."
+msgstr ""
+
+msgid "Enter the first set of characters, and the second set, and save it."
+msgstr ""
+
+msgid ""
+"Set the Bible where to take the data from. In this case it is \"Ndebele\"."
+msgstr ""
+
+msgid ""
+"Insert the soft hyphens according to the setting. It takes a while to "
+"complete."
+msgstr ""
+
+msgid "The output Bible is called \"Ndebele-hyphenated\"."
+msgstr ""
+
+msgid "Use this Bible in the Exports options. Export it."
+msgstr ""
+
+msgid "Page count"
+msgstr ""
+
+msgid ""
+"The publisher may set limits to the number of pages the typeset Bible may "
+"contain."
+msgstr ""
+
+msgid ""
+"In this example, we expect an entire Bible, with singable Psalms added as an "
+"appendix, to contain no more than 2000 pages. Normal range is 1500 to 1800 "
+"pages."
+msgstr ""
+
+msgid "We suppose that the singable Psalms take up no more than 200 pages."
+msgstr ""
+
+#, c-format
+msgid ""
+"Usually the inclusion of the singable Psalms in a Bible will add about "
+"10% to the number of pages."
+msgstr ""
+
+msgid ""
+"The Bible will have footnotes and crossreferences, all lumped together into "
+"a single textframe at the bottom of each page."
+msgstr ""
+
+msgid "Let us now measure how many pages the notes are likely to take up."
+msgstr ""
+
+msgid ""
+"Download the file with notes. It was exported above. It is called "
+"00_Bible_notes.odt."
+msgstr ""
+
+msgid "Open the file in LibreOffice."
+msgstr ""
+
+msgid ""
+"Let it repaginate. A good way of doing this is to press Ctrl-P as if going "
+"to print the document. Then it will repaginate. Cancel the print dialog."
+msgstr ""
+
+msgid "It will now give the page count that the notes are likely to take up."
+msgstr ""
+
+msgid "In our case, this is about 300 pages."
+msgstr ""
+
+msgid ""
+"Each chapter has headings. These headings do not belong to the notes. Thus "
+"the page count is too high."
+msgstr ""
+
+msgid ""
+"Notice that the paragraph style for these headings is called \"Heading 1\". "
+msgstr ""
+
+msgid ""
+"Hide the headings. This can be done like this. Right-click on a heading. "
+"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font Effects"
+"\". Tick option \"Hidden\"."
+msgstr ""
+
+msgid ""
+"Repaginate, and notice the page count. In our case it is down to about 125."
+msgstr ""
+
+msgid ""
+"Let us now find out how many pages the main text body is likely to take up."
+msgstr ""
+
+msgid ""
+"Download the OpenDocument file with text and note citations. It was exported "
+"above. It is called 00_Bible_text_and_note_citations.odt."
+msgstr ""
+
+msgid "The document has only one column."
+msgstr ""
+
+msgid "Repaginate and notice the page count. In our case this is 1750."
+msgstr ""
+
+msgid "This figure is not accurate since it applies to a column count of one."
+msgstr ""
+
+msgid "Set the whole document to have two columns."
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page. Choose the Columns tab. Choose two columns. Set "
+"the spacing to 0.2 cm. Set a thin separator line. Click Ok."
+msgstr ""
+
+msgid "Repaginate and notice the page count. It is down to 1520."
+msgstr ""
+
+msgid ""
+"The font is of particular influence on the page count. This is not dealt "
+"with here."
+msgstr ""
+
+msgid "We are now able to estimate the page count for the entire Bible:"
+msgstr ""
+
+msgid ""
+"Text body 1520 pages. Notes 125 pages. Singable Psalms 200 pages. Estimated "
+"total is 1845 pages."
+msgstr ""
+
+msgid "Using LibreOffice for typesetting"
+msgstr ""
+
+msgid ""
+"Having used LibreOffice for typesetting for some time, my experience is that "
+"the program is suitable for typesetting Bibles."
+msgstr ""
+
+msgid ""
+"I'd like to give some hints about how to do typographic work in LibreOffice."
+msgstr ""
+
+msgid ""
+"To meet the requirement that line spacing be consistent throughout and be "
+"placed line on line across all pages, do the following:"
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page, and enable Register-true. Set the reference style "
+"to \"Text Body\". Press OK."
+msgstr ""
+
+msgid ""
+"Select all the text, and go to menu Format / Paragraph, and activate "
+"Register-true. Press OK."
+msgstr ""
+
+msgid ""
+"The line spacing specified by the paragraph style \"Text Body\" is now used "
+"as the reference line spacing for all paragraphs that have the register-true "
+"feature enabled."
+msgstr ""
+
+msgid ""
+"The line spacing in the document is going to be consistent. It will be equal "
+"to the line spacing of the reference style \"Text Body\", or a multiple of "
+"it."
+msgstr ""
+
+msgid "Changing the line spacing."
+msgstr ""
+
+msgid "Change the line spacing in paragraph style \"Text Body\"."
+msgstr ""
+
+msgid "Press F11 to get the Styles and Formatting dialog."
+msgstr ""
+
+msgid "Locate style \"Text Body\"."
+msgstr ""
+
+msgid "Right-click it with the mouse, and choose menu Modify."
+msgstr ""
+
+msgid "Go to tab Indents & Spacing."
+msgstr ""
+
+msgid ""
+"Adjust the spacing above the paragraph, the spacing below the paragrap, and "
+"the line spacing. Press OK."
+msgstr ""
+
+msgid ""
+"It may happen that some paragraphs in the text used to have a line spacing "
+"equal to the line spacing of style \"Text Body\", but now suddenly take up a "
+"multiple of it. This may happen when you have tightened the line spacing a "
+"bit."
+msgstr ""
+
+msgid ""
+"To resolve this, make the line spacing of those paragraphs smaller than the "
+"line spacing of style \"Text body\"."
+msgstr ""
+
+msgid "Updating a paragraph style."
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, the paragraph styles of the USFM "
+"document appear in LibreOffice."
+msgstr ""
+
+msgid ""
+"For example, normal paragraphs usually have style \"p\", and section heading "
+"\"s\"."
+msgstr ""
+
+msgid ""
+"If you like to update a paragraph style, you may update each section heading "
+"individually, but this is a lot of work. It is faster to update the style "
+"for \"s\", so that this updates all paragraphs that have this style."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, right-click the text of this paragraph, and "
+"choose menu Edit Paragraph Style..., and make the desired settings."
+msgstr ""
+
+msgid "Exporting to PDF."
+msgstr ""
+
+msgid "See menu File / Export as PDF."
+msgstr ""
+
+msgid "Hiding the soft hyphens and non-breaking spaces."
+msgstr ""
+
+msgid ""
+"The soft hyphens and the non-breaking spaces are visible as grey fields that "
+"clutter the page. To hide them, do this:"
+msgstr ""
+
+msgid "Go to menu Tools / Options."
+msgstr ""
+
+msgid "Go to LibreOffice Writer / Formatting Aids."
+msgstr ""
+
+msgid "Untick display of custom hyphens."
+msgstr ""
+
+msgid "Untick display of non-breaking spaces."
+msgstr ""
+
 msgid "The Notes are an important part of Consultations."
 msgstr ""
 
@@ -3744,12 +4034,12 @@ msgstr ""
 msgid "The Bible has been translated. It is time to publish it."
 msgstr ""
 
-msgid "This article gives some hints about how to typeset a Bible."
+msgid "This article assists with typesetting the Bible."
 msgstr ""
 
 msgid ""
-"At the end of all, you will have a PDF file with the whole Bible, typeset, "
-"ready for publishing."
+"At the end of all, you will have a PDF file with part of the Bible, or the "
+"whole Bible, typeset, ready for publishing."
 msgstr ""
 
 msgid "Basic assumptions"
@@ -3765,21 +4055,12 @@ msgid ""
 "demo on the internet."
 msgstr ""
 
-msgid "You have access to a copy of LibreOffice or OpenOffice."
-msgstr ""
-
-msgid "Exporting the USFM files to OpenDocument files"
+msgid "Importing the USFM files"
 msgstr ""
 
 msgid ""
-"This section writes about a specific Bible that was to be prepared for "
-"publication. It gives the steps I took to convert the USFM code to "
-"OpenDocument files."
-msgstr ""
-
-msgid ""
-"The OpenDocument files are used as a starting point for typesetting. "
-"Typesetting itself is done in LibreOffice."
+"This section is about a specific Bible that I prepare for publication. It "
+"describes the steps I take to prepare the USFM code for export."
 msgstr ""
 
 msgid ""
@@ -3818,10 +4099,18 @@ msgid ""
 "OpenDocument files."
 msgstr ""
 
-msgid "Let us now make the first export and see how the files look."
+msgid ""
+"The OpenDocument files are used as a starting point for typesetting. "
+"Typesetting itself is done in another program."
 msgstr ""
 
-msgid "Go to menu Management / Exports."
+msgid "Exporting to OpenDocument files"
+msgstr ""
+
+msgid "We are going to make the initial export just to see how the text looks."
+msgstr ""
+
+msgid "In Bibledit-Web, go to menu Management / Exports."
 msgstr ""
 
 msgid "Add Bible \"Ndebele\" to the ones that will be exported."
@@ -3833,19 +4122,23 @@ msgstr ""
 msgid "Output the chapter number in drop caps. Switch that setting on."
 msgstr ""
 
-msgid "Set the page size. I've used a width of 138 mm and a height of 210 mm."
+msgid "Set the page size. I use this: width: 138 mm; height: 210 mm."
 msgstr ""
 
 msgid ""
-"Set the margins. I've used 10 mm for top, bottom, and outer margins, and 12 "
-"mm for the inner margins."
+"Set the margins. I use this: 10 mm for top, bottom, and outer margins, and "
+"12 mm for the inner margins."
 msgstr ""
 
 msgid ""
 "Do not display the date in the running headers. Switch that setting off."
 msgstr ""
 
-msgid "Do a fresh export. Give it some time to finish."
+msgid "Do a fresh export."
+msgstr ""
+
+msgid ""
+"The Logbook, in menu Management, shows the progress and when it is ready."
 msgstr ""
 
 msgid ""
@@ -3856,16 +4149,17 @@ msgstr ""
 msgid "You will see the Bible exported into several format."
 msgstr ""
 
-msgid "View them and see if you like them."
+msgid "Open them in LibreOffice and see how they look."
 msgstr ""
 
 msgid ""
-"I noticed that the Divine name was underlined in the OpenDocument files. The "
-"Divine name is within nd_...nd* markup in USFM. I prefer this in small "
-"capitals, not underlined."
+"I notice that the Divine name is underlined in the OpenDocument files. The "
+"Divine name is within \n"
+"d_...\n"
+"d* markup in USFM. I prefer this in small capitals, not underlined."
 msgstr ""
 
-msgid "An update in the stylesheet is needed."
+msgid "This can be changed in the stylesheet."
 msgstr ""
 
 msgid "Go to menu Management / Styles, and choose the \"Ndebele\" stylesheet."
@@ -3947,8 +4241,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The letters of the Bible text are too big. This would take up too much "
-"space. The Bible would get too many pages."
+"The letters of the Bible text are too big. This takes up a lot of space. The "
+"Bible would get too many pages."
 msgstr ""
 
 msgid ""
@@ -3973,158 +4267,6 @@ msgstr ""
 msgid ""
 "Update the relevant footnote styles and switch bold and italics off. The "
 "styles are fk, fl, fq, fqa."
-msgstr ""
-
-msgid ""
-"Some of the word in the OpenDocument files are long. This results in too "
-"much space between some words."
-msgstr ""
-
-msgid ""
-"The words need to get hyphens so that part of the word goes on the next line."
-msgstr ""
-
-msgid ""
-"LibreOffice has hyphenation algorithms for many languages. That would solve "
-"the problem."
-msgstr ""
-
-msgid "LibreOffice does not have a hyphenation algorithm for our language."
-msgstr ""
-
-msgid "Bibledit-Web has a hyphenater that could assist."
-msgstr ""
-
-msgid "In Bibledit-Web, go to menu Management / Hyphenation."
-msgstr ""
-
-msgid "Enter the first set of characters, and the second set, and save it."
-msgstr ""
-
-msgid ""
-"Set the Bible where to take the data from. In this case it is \"Ndebele\"."
-msgstr ""
-
-msgid ""
-"Insert the soft hyphens according to the setting. It takes a while to "
-"complete."
-msgstr ""
-
-msgid "The output Bible is called \"Ndebele-hyphenated\"."
-msgstr ""
-
-msgid "Use this Bible in the Exports options. Export it."
-msgstr ""
-
-msgid "Page count"
-msgstr ""
-
-msgid ""
-"The publisher may set limits to the number of pages the typeset Bible may "
-"contain."
-msgstr ""
-
-msgid ""
-"In this example, we expect an entire Bible, with singable Psalms added as an "
-"appendix, to contain no more than 2000 pages. Normal range is 1500 to 1800 "
-"pages."
-msgstr ""
-
-msgid "We suppose that the singable Psalms take up no more than 200 pages."
-msgstr ""
-
-#, c-format
-msgid ""
-"Usually the inclusion of the singable Psalms in a Bible will add about "
-"10% to the number of pages."
-msgstr ""
-
-msgid ""
-"The Bible will have footnotes and crossreferences, all lumped together into "
-"a single textframe at the bottom of each page."
-msgstr ""
-
-msgid "Let us now measure how many pages the notes are likely to take up."
-msgstr ""
-
-msgid ""
-"Download the file with notes. It was exported above. It is called "
-"00_Bible_notes.odt."
-msgstr ""
-
-msgid "Open the file in LibreOffice."
-msgstr ""
-
-msgid ""
-"Let it repaginate. A good way of doing this is to press Ctrl-P as if going "
-"to print the document. Then it will repaginate. Cancel the print dialog."
-msgstr ""
-
-msgid "It will now give the page count that the notes are likely to take up."
-msgstr ""
-
-msgid "In our case, this is about 300 pages."
-msgstr ""
-
-msgid ""
-"Each chapter has headings. These headings do not belong to the notes. Thus "
-"the page count is too high."
-msgstr ""
-
-msgid ""
-"Notice that the paragraph style for these headings is called \"Heading 1\". "
-msgstr ""
-
-msgid ""
-"Hide the headings. This can be done like this. Right-click on a heading. "
-"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font Effects"
-"\". Tick option \"Hidden\"."
-msgstr ""
-
-msgid ""
-"Repaginate, and notice the page count. In our case it is down to about 125."
-msgstr ""
-
-msgid ""
-"Let us now find out how many pages the main text body is likely to take up."
-msgstr ""
-
-msgid ""
-"Download the OpenDocument file with text and note citations. It was exported "
-"above. It is called 00_Bible_text_and_note_citations.odt."
-msgstr ""
-
-msgid "The document has only one column."
-msgstr ""
-
-msgid "Repaginate and notice the page count. In our case this is 1750."
-msgstr ""
-
-msgid "This figure is not accurate since it applies to a column count of one."
-msgstr ""
-
-msgid "Set the whole document to have two columns."
-msgstr ""
-
-msgid ""
-"Go to menu Format / Page. Choose the Columns tab. Choose two columns. Set "
-"the spacing to 0.2 cm. Set a thin separator line. Click Ok."
-msgstr ""
-
-msgid "Repaginate and notice the page count. It is down to 1520."
-msgstr ""
-
-msgid ""
-"The font is of particular influence on the page count. This is not dealt "
-"with here."
-msgstr ""
-
-msgid "We are now able to estimate the page count for the entire Bible:"
-msgstr ""
-
-msgid ""
-"Text body 1520 pages. Notes 125 pages. Singable Psalms 200 pages. Estimated "
-"total is 1845 pages."
 msgstr ""
 
 msgid "Typesetting guidelines"
@@ -4200,128 +4342,22 @@ msgid ""
 "slightly."
 msgstr ""
 
-msgid "Using LibreOffice for typesetting"
+msgid "The typesetting"
 msgstr ""
 
 msgid ""
-"Having used LibreOffice for typesetting for some time, my experience is that "
-"the program is suitable for typesetting Bibles."
+"I can do the typesetting work in LibreOffice. I then work with free software."
 msgstr ""
 
 msgid ""
-"I'd like to give some hints about how to do typographic work in LibreOffice."
+"My organisation may want me to use professional typesetting software, such "
+"as Adobe InDesign."
 msgstr ""
 
-msgid ""
-"To meet the requirement that line spacing be consistent throughout and be "
-"placed line on line across all pages, do the following:"
+msgid "LibreOffice"
 msgstr ""
 
-msgid ""
-"Go to menu Format / Page, and enable Register-true. Set the reference style "
-"to \"Text Body\". Press OK."
-msgstr ""
-
-msgid ""
-"Select all the text, and go to menu Format / Paragraph, and activate "
-"Register-true. Press OK."
-msgstr ""
-
-msgid ""
-"The line spacing specified by the paragraph style \"Text Body\" is now used "
-"as the reference line spacing for all paragraphs that have the register-true "
-"feature enabled."
-msgstr ""
-
-msgid ""
-"The line spacing in the document is going to be consistent. It will be equal "
-"to the line spacing of the reference style \"Text Body\", or a multiple of "
-"it."
-msgstr ""
-
-msgid "Changing the line spacing."
-msgstr ""
-
-msgid "Change the line spacing in paragraph style \"Text Body\"."
-msgstr ""
-
-msgid "Press F11 to get the Styles and Formatting dialog."
-msgstr ""
-
-msgid "Locate style \"Text Body\"."
-msgstr ""
-
-msgid "Right-click it with the mouse, and choose menu Modify."
-msgstr ""
-
-msgid "Go to tab Indents & Spacing."
-msgstr ""
-
-msgid ""
-"Adjust the spacing above the paragraph, the spacing below the paragrap, and "
-"the line spacing. Press OK."
-msgstr ""
-
-msgid ""
-"It may happen that some paragraphs in the text used to have a line spacing "
-"equal to the line spacing of style \"Text Body\", but now suddenly take up a "
-"multiple of it. This may happen when you have tightened the line spacing a "
-"bit."
-msgstr ""
-
-msgid ""
-"To resolve this, make the line spacing of those paragraphs smaller than the "
-"line spacing of style \"Text body\"."
-msgstr ""
-
-msgid "Updating a paragraph style."
-msgstr ""
-
-msgid ""
-"After exporting USFM text to OpenDocument, the paragraph styles of the USFM "
-"document appear in LibreOffice."
-msgstr ""
-
-msgid ""
-"For example, normal paragraphs usually have style \"p\", and section heading "
-"\"s\"."
-msgstr ""
-
-msgid ""
-"If you like to update a paragraph style, you may update each section heading "
-"individually, but this is a lot of work. It is faster to update the style "
-"for \"s\", so that this updates all paragraphs that have this style."
-msgstr ""
-
-msgid ""
-"To update a paragraph style, right-click the text of this paragraph, and "
-"choose menu Edit Paragraph Style..., and make the desired settings."
-msgstr ""
-
-msgid "Exporting to PDF."
-msgstr ""
-
-msgid "See menu File / Export as PDF."
-msgstr ""
-
-msgid "Hiding the soft hyphens and non-breaking spaces."
-msgstr ""
-
-msgid ""
-"The soft hyphens and the non-breaking spaces are visible as grey fields that "
-"clutter the page. To hide them, do this:"
-msgstr ""
-
-msgid "Go to menu Tools / Options."
-msgstr ""
-
-msgid "Go to LibreOffice Writer / Formatting Aids."
-msgstr ""
-
-msgid "Untick display of custom hyphens."
-msgstr ""
-
-msgid "Untick display of non-breaking spaces."
+msgid "Adobe InDesign"
 msgstr ""
 
 msgid ""
@@ -4431,6 +4467,362 @@ msgid ""
 "password \"adminpassword\". These only work if no Administrator's  account "
 "exist on the system. It is recommended to create an Administrator's account "
 "of your own choice. This will disable the default adminusername account."
+msgstr ""
+
+msgid "Typesetting in Adobe InDesign"
+msgstr ""
+
+msgid "I use LibreOffice and Adobe InDesign."
+msgstr ""
+
+msgid "Chapter numbers in drop caps"
+msgstr ""
+
+msgid ""
+"Bibledit-Web normally exports chapter numbers in bigger font in a text frame."
+msgstr ""
+
+msgid "In InDesign it is helpful to have these in drop caps."
+msgstr ""
+
+msgid "Go to Bibledit-Web, menu Management / Export."
+msgstr ""
+
+msgid "There is a setting for output in drop caps. Switch it on."
+msgstr ""
+
+msgid "Creating a new document"
+msgstr ""
+
+msgid "Typesetting in InDesign starts with creating a new document."
+msgstr ""
+
+msgid "Choose menu File / New / Document, or press Ctrl-N."
+msgstr ""
+
+msgid "In the New Document dialog, make some settings."
+msgstr ""
+
+msgid "Facing Pages: on."
+msgstr ""
+
+msgid "Page width: 138 mm."
+msgstr ""
+
+msgid "Page height: 210 mm."
+msgstr ""
+
+msgid "Number of columns: 2."
+msgstr ""
+
+msgid "Gutter: 4.2 mm."
+msgstr ""
+
+msgid "Top, Bottom and Outside margins: 10 mm."
+msgstr ""
+
+msgid "Untick the option to set all margins the same."
+msgstr ""
+
+msgid "Inside margin: 12 mm."
+msgstr ""
+
+msgid ""
+"Click Save Preset, and save the settings as \"Ndebele\". Next time, use this "
+"preset to quickly make another new document with the same settings as this "
+"one."
+msgstr ""
+
+msgid "Click OK to create the new document."
+msgstr ""
+
+msgid "Setting up the baseline grid"
+msgstr ""
+
+msgid "All our text will stick to the baseline grid."
+msgstr ""
+
+msgid "This is a key factor to good typography."
+msgstr ""
+
+msgid "My leading is 12 points, and I will set up a grid to reflect this."
+msgstr ""
+
+msgid "Go to menu Edit / Preferences / Grids."
+msgstr ""
+
+msgid "Start the baseline grid at 0 mm relative to the top margin."
+msgstr ""
+
+msgid "Increment it every 12 points."
+msgstr ""
+
+msgid "Press OK. The grid is now set up."
+msgstr ""
+
+msgid ""
+"Optionally, to make it visible, go to menu View / Grids & Guides / Show "
+"Baseline Grid."
+msgstr ""
+
+msgid "Placing text"
+msgstr ""
+
+msgid "I am going to show how to place Bible text in InDesign."
+msgstr ""
+
+msgid "The text is available from Bibledit-Web as OpenDocument files."
+msgstr ""
+
+msgid ""
+"Open the book of Genesis, the version with text and note citations, in "
+"OpenOffice."
+msgstr ""
+
+msgid "Save it as a Microsoft Word 97 / 2000 / XP (.doc) document."
+msgstr ""
+
+msgid "Create a new document in InDesign."
+msgstr ""
+
+msgid "Go to menu File / Place, or press Ctrl-D."
+msgstr ""
+
+msgid "Select the document in MS Word (.doc) format."
+msgstr ""
+
+msgid ""
+"Move the cursor through the document in InDesign. Notice that the cursor "
+"shows some of the text to be placed."
+msgstr ""
+
+msgid ""
+"Move the cursor to the corner of the first column where the text will start. "
+"Click there. Notice that the first bit of the text will be placed in the "
+"first column."
+msgstr ""
+
+msgid ""
+"There is much more text than what fits in just one column. This extra text "
+"is not visible. What is visible, though, is a red plus near the end of the "
+"first column. This shows that more text is available."
+msgstr ""
+
+msgid "I would like to place this extra text in the second column."
+msgstr ""
+
+msgid ""
+"Click the Selection Tool or press V. The cursor changes to a selection arrow."
+msgstr ""
+
+msgid ""
+"Select the first column, and then click the red plus near the end of the "
+"first column. Notice that the cursor will now show some text."
+msgstr ""
+
+msgid ""
+"Place this text in the second column, in the same way as it was placed in "
+"the first column."
+msgstr ""
+
+msgid ""
+"There is still more text than fits in the second column. I estimate that "
+"there is enough text to fill many pages."
+msgstr ""
+
+msgid ""
+"I am going to insert an extra page, so that we get more space to place the "
+"text."
+msgstr ""
+
+msgid ""
+"To add blank pages, I need to have the Pages palette visible. If the Pages "
+"palette is not visible, choose Window > Pages to open the palette."
+msgstr ""
+
+msgid ""
+"In the Pages palette, click Create new page. A new page will be added. This "
+"is page 2. Press F12 to close the palette."
+msgstr ""
+
+msgid ""
+"Page 2 shows guides for two columns. I can fill these with text in the "
+"manner as described above."
+msgstr ""
+
+msgid ""
+"I can then add as many pages as are needed, and fill each page with text."
+msgstr ""
+
+msgid "Span headlines across columns"
+msgstr ""
+
+msgid ""
+"The headline I have in this example is \"The first book of Moses called "
+"Genesis\". I'd like it to span across the two columns."
+msgstr ""
+
+msgid ""
+"Select the left column, and drag the top to make it shorter, so creating "
+"space above it."
+msgstr ""
+
+msgid "Do the same with the right column."
+msgstr ""
+
+msgid ""
+"Select the text \"The first book of Moses called Genesis\". Cut it to the "
+"clipboard."
+msgstr ""
+
+msgid "Click the Type tool or type Escape T."
+msgstr ""
+
+msgid ""
+"Create a new text box above the two columns. Let it span across the two "
+"columns. Estimate the size it needs to be."
+msgstr ""
+
+msgid "Paste the text into that text box."
+msgstr ""
+
+msgid ""
+"Resize the text box so it looks smart. Then resize both columns so that all "
+"looks good."
+msgstr ""
+
+msgid "Making text align to the grid"
+msgstr ""
+
+msgid "Text aligned to the grid is key to good typesetting."
+msgstr ""
+
+msgid "Select all text you would like to stick to the baseline grid."
+msgstr ""
+
+msgid "Go to menu Type / Paragraph, or press Alt-Ctrl-T."
+msgstr ""
+
+msgid ""
+"Press the Align to baseline grid button in the bottom right hand corner."
+msgstr ""
+
+msgid ""
+"The leading of the text should be equal to the baseline grid. If the leading "
+"of the text is bigger, then it is like as if you have double line spacing."
+msgstr ""
+
+msgid "Total page count"
+msgstr ""
+
+msgid ""
+"Open the file with all notes in LibreOffice. It is 00_Bible_notes.odt. Save "
+"it in the correct format for InDesign."
+msgstr ""
+
+msgid ""
+"Place the text as described above. But I am going to use Autoflow this time. "
+"Autoflow will automatically create new text boxes and new page till all text "
+"has been placed. This allows us quickly to see how many pages the notes will "
+"take up."
+msgstr ""
+
+msgid "This is how to use Autoflow."
+msgstr ""
+
+msgid ""
+"When you are about the click where you want the text to go, keep the Shift "
+"key down."
+msgstr ""
+
+msgid ""
+"I can now roughly see the total number of pages that the notes will take up."
+msgstr ""
+
+msgid "This is sufficient for an estimate."
+msgstr ""
+
+msgid "The text is in the file called 00_Bible_text_and_note_citations.odt."
+msgstr ""
+
+msgid "Place this text and use Autoflow."
+msgstr ""
+
+msgid ""
+"It appears that, on my system, all text cannot be placed at once. It will "
+"cut off after some point."
+msgstr ""
+
+msgid "I will place 01_Genesis_text_and_note_citations.odt instead."
+msgstr ""
+
+msgid ""
+"I can now roughly see the total number of pages that the text of Genesis "
+"will take up."
+msgstr ""
+
+msgid ""
+"The size of the whole Bible is about 22 times more than the size of Genesis."
+msgstr ""
+
+msgid "Editing a paragraph style"
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, and placing this text into "
+"InDesign, the USFM styles appear in InDesign."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, place the cursor in it, and on the palette "
+"choose Paragraph Styles. Right-click the style you want and choose Edit."
+msgstr ""
+
+msgid ""
+"The Bible will have running headers. The headers contain the page number "
+"near the inside margin. At the right margin it shows book and chapters "
+"numbers on that page."
+msgstr ""
+
+msgid "Enter the page numbers on the master pages."
+msgstr ""
+
+msgid "On the Pages palette, double-click the master pages."
+msgstr ""
+
+msgid ""
+"On the left master page, create a text frame, and enter the page number at "
+"the inside margin."
+msgstr ""
+
+msgid ""
+"Page numbers can be found in menu Type / Insert Special Character / Marker / "
+"Current Page Number."
+msgstr ""
+
+msgid ""
+"On the right master page, create a text frame, and enter the page number at "
+"the inside margin too."
+msgstr ""
+
+msgid ""
+"On page 1, create a new text frame at the top, and put the book and chapter "
+"at the outside margin."
+msgstr ""
+
+msgid "This text frame can be copied to each odd page as it is generated."
+msgstr ""
+
+msgid "The same applies for page 2, and any subsequent even pages."
+msgstr ""
+
+msgid "The page where a book starts normally does not display a page number."
+msgstr ""
+
+msgid "In order to do that, apply master page [None] to that particular page."
+msgstr ""
+
+msgid "Work in progress..."
 msgstr ""
 
 msgid "Plugin"

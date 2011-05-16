@@ -19,11 +19,11 @@
 <p>{t}The exports use the following stylesheet:{/t} {$stylesheet} [<a href="exports.php?sheet=">{t}switch{/t}</a>].</p>
 <br>
 <p>
-{t}When exporting Bibles to OpenDocument format, when the chapter number gets put just before the first verse in bigger font, frames are used for this. It is to achieve better appearance. When this is problematic, Bibledit-Web can also output the chapter number in drop caps.{/t}
+{t}When exporting Bibles to OpenDocument format, when the chapter number gets put just before the first verse in bigger font, frames may be used for this.{/t}
 {if $dropcaps}
-  {t}This setting is on.{/t}
+  {t}Frames are off.{/t}
 {else}
-  {t}This setting is off.{/t}
+  {t}Frames are on.{/t}
 {/if}
   <a href="exports.php?dropcapstoggle=">[{t}toggle{/t}]</a></p>
 </p>
