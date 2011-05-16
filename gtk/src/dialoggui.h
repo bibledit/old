@@ -51,6 +51,7 @@ protected:
   GtkWidget *checkbutton_tools;
   GtkWidget *checkbutton_preferences;
   GtkWidget *checkbutton_remember_verse_chapter;
+  GtkWidget *checkbutton_start_maximized;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:

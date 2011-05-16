@@ -159,6 +159,7 @@ public:
   DEFINE_GENCONFIG_H (int, features_mode);
   DEFINE_GENCONFIG_H (ustring, features_list);
   DEFINE_GENCONFIG_H (bool, remember_verse_per_chapter);
+  DEFINE_GENCONFIG_H (bool, start_program_maximized);
   DEFINE_GENCONFIG_H (ustring, administration_password);
   DEFINE_GENCONFIG_H (vector<ustring>, print_references_projects);
   DEFINE_GENCONFIG_H (vector<int>, dialogpositions_x);

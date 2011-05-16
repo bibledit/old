@@ -67,6 +67,8 @@ GuiDialog::GuiDialog(int dummy)
   shortcuts.button(checkbutton_preferences);
   checkbutton_remember_verse_chapter = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_remember_verse_chapter"));
   shortcuts.button(checkbutton_remember_verse_chapter);
+  checkbutton_start_maximized = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_start_maximized"));
+  shortcuts.button(checkbutton_start_maximized);
   InDialogHelp * indialoghelp = new InDialogHelp(featuresdialog, gtkbuilder, &shortcuts, "menu-preferences/user-interface");
   cancelbutton = indialoghelp->cancelbutton;
   okbutton = indialoghelp->okbutton;
@@ -98,6 +100,7 @@ GuiDialog::GuiDialog(int dummy)
   list_set(settings->genconfig.features_list_get());
   on_togglebutton();
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_remember_verse_chapter), settings->genconfig.remember_verse_per_chapter_get());
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_start_maximized), settings->genconfig.start_program_maximized_get());
 }
 
 
@@ -136,6 +139,7 @@ void GuiDialog::on_okbutton()
   settings->genconfig.features_mode_set(new_mode);
   settings->genconfig.features_list_set(new_list);
   settings->genconfig.remember_verse_per_chapter_set(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_remember_verse_chapter))); 
+  settings->genconfig.start_program_maximized_set(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_start_maximized))); 
 
   // Restart needed if there was a change in the features.
   if ((old_mode != new_mode) || (old_list != new_list)) {

@@ -134,7 +134,7 @@ void ScreenLayoutDimensions::timeout()
   gint y = settings->genconfig.window_y_position_get ();
   gtk_window_resize (mywindow, width, height);
   gtk_window_move (mywindow, x, y);
-  if (settings->genconfig.window_maximized_get ()) {
+  if (settings->genconfig.window_maximized_get () || settings->genconfig.start_program_maximized_get ()) {
     gtk_window_maximize(GTK_WINDOW (mywindow));
   }
   delete this;
