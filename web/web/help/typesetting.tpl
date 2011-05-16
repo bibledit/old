@@ -100,7 +100,7 @@
 <li>{t}In the crossreferences it is pleasing to have the chapter and verse number kept together with the book name, especially as the small font on long lines gives scope for this.{/t}</li>
 <li>{t}The columns should start at the same height and should be balanced at the ends.{/t}</li>
 <li>{t}The gap between the columns should be between 4 and 5 mm.{/t}</li>
-<li>{t}The centre line dividing the two columns should start about level or very slightly above the top of the highest ascenders on the first line of text in a column and finish about level with the bottom of the lowest descenders on the bottom line.{/t}</li>
+<li>{t}The centre line dividing the two columns should start about level or very slightly above the top of the highest ascenders on the first line of text in a column and finish about level with the bottom of the lowest descenders on the bottom line. The centre line may also be omitted, as most modern Bibles do. The pages looks cleaner.{/t}</li>
 <li>{t}The Psalm headers need consistent spaces before and after and should be positioned closer to the Psalm that follows than to the Psalm before.{/t}</li>
 <li>{t}A 10 mm margin is okay for the outer margin, and for the top and bottom margin. The inner margin needs slightly more, e.g. 12 mm.{/t}</li>
 <li>{t}For singable Psalms, readability would be helped by distinguishing the verse numbers visually.{/t}</li>
