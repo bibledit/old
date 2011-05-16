@@ -22,6 +22,19 @@
 <p>{t}All the data is now in Bibledit-Web. Everthing is ready for export to OpenDocument files.{/t}</p>
 <p>{t}The OpenDocument files are used as a starting point for typesetting. Typesetting itself is done in another program.{/t}</p>
 
+<h2>{t}Hyphenation{/t}</h2>
+<p>{t}Some of the word in the OpenDocument files are long. This results in too much space between some words.{/t}</p>
+<p>{t}The words need to get hyphens so that part of the word goes on the next line.{/t}</p>
+<p>{t}LibreOffice and Adobe InDesign have hyphenation algorithms for many languages. That would solve the problem.{/t}</p>
+<p>{t}But the programs do not have a hyphenation algorithm for our language.{/t}</p>
+<p>{t}Bibledit-Web has a hyphenater that could assist.{/t}</p>
+<p>{t}In Bibledit-Web, go to menu Management / Hyphenation.{/t}</p>
+<p>{t}Enter the first set of characters, and the second set, and save it.{/t}</p>
+<p>{t}Set the Bible where to take the data from. In this case it is "Ndebele".{/t}</p>
+<p>{t}Insert the soft hyphens according to the setting. It takes a while to complete.{/t}</p>
+<p>{t}The output Bible is called "Ndebele-hyphenated".{/t}</p>
+<p>{t}Use this Bible from now on.{/t}</p>
+
 <h2>{t}Exporting to OpenDocument files{/t}</h2>
 <p>{t}We are going to make the initial export just to see how the text looks.{/t}</p>
 <p>{t}In Bibledit-Web, go to menu Management / Exports.{/t}</p>
@@ -77,19 +90,25 @@
 
 <h2>{t}Typesetting guidelines{/t}</h2>
 <ol>
-<li>{t}Line spacing should be consistent throughout and should be placed line on line across all pages. It means that they should all line up with each other all the way down the page and across all pages. Then when the Bible is printed, the printed text will be back to back and not show through from one side of the page to the other.{/t}</li>
-<li>{t}The space after the verse numbers would be nearly the same and consistent.{/t}</li>
-<li>{t}The alignment of the drop caps chapter numbers to the text is to be consistent. The chapter divisions would also benefit from some more space between them and the text of the preceding chapter.{/t}</li>
+<li>{t}Line spacing should be consistent throughout and should be placed line on line across all pages. It means that they should all line up with each other all the way down the page and across all pages. Then when the Bible is printed, the printed text will be back to back and not show through from one side of the page to the other. In the typesetting software, this can be implemented by setting up a grid in the document, and then aligning all text to this grid.{/t}</li>
+<li>{t}The space after the verse numbers would be the same and consistent. Bibledit-Web exports the text to OpenDocument format using 'en spaces' after each verse. This ensures a consistent width of the spaces after the verse numbers. If this for some reason does not work, then the verse numbers could be distinguished from the text if they had a tab after them instead of a flexible space. The tab does not need to be set far from the character. At a guess 2 mm would be more than enough. Different tab distances would need to be set for single, double and triple digit verse numbers. Superscript numerals could also be considered, though larger than any note citations in the text. The size of the superscript would be between 70 and 80% of the size of the main text.{/t}</li>
+<li>{t}The alignment of the drop caps chapter numbers to the text is to be consistent. Drop cap characters should not be too large and not rise too far above the height of the other letters on the first line. The top of the highest letters should reach to about the same height.{/t}</li>
+<li>{t}The chapter divisions would also benefit from some more space between them and the text of the preceding chapter.{/t}</li>
 <li>{t}The amount of space given to the Bible book headings should not be too great.{/t}</li>
 <li>{t}Subheadings should not appear squashed amongst the rest of the text and would benefit from some space.{/t}</li>
-<li>{t}The space between the text and footnotes should not be too tight neither unnecessarily large.{/t}</li>
+<li>{t}The space between the text and footnotes should not be too tight neither unnecessarily large. Keep the gap between the references in the footer and the main bock of text as consistent as possible.{/t}</li>
 <li>{t}In the crossreferences it is pleasing to have the chapter and verse number kept together with the book name, especially as the small font on long lines gives scope for this.{/t}</li>
 <li>{t}The columns should start at the same height and should be balanced at the ends.{/t}</li>
+<li>{t}The gap between the columns should be between 4 and 5 mm.{/t}</li>
+<li>{t}The centre line dividing the two columns should start about level or very slightly above the top of the highest ascenders on the first line of text in a column and finish about level with the bottom of the lowest descenders on the bottom line.{/t}</li>
 <li>{t}The Psalm headers need consistent spaces before and after and should be positioned closer to the Psalm that follows than to the Psalm before.{/t}</li>
-<li>{t}A 10 mm margin is okay for the outer margin. The inner margin needs slightly more, e.g. 12 mm.{/t}</li>
-<li>{t}Readability would be helped by distinguishing the verse numbers visually. Others may prefer these to to be less visible.{/t}</li>
+<li>{t}A 10 mm margin is okay for the outer margin, and for the top and bottom margin. The inner margin needs slightly more, e.g. 12 mm.{/t}</li>
+<li>{t}For singable Psalms, readability would be helped by distinguishing the verse numbers visually.{/t}</li>
 <li>{t}It would be helpful to distinguish the running head, perhaps by using a semi-bold version of the same font.{/t}</li>
 <li>{t}One way in which the number of pages in a volume could be reduced without loss of readability would be to choose a font with slightly shorter ascenders and descenders and then tighten the leading (line spacing) slightly.{/t}</li>
+<li>{t}When producing PDF output, the text needs to be monochrome black, not black consisting of three or four colours.{/t}</li>
+<li>{t}Single lines at the top of columns need to be avoided.{/t}</li>
+<li>{t}Avoid hyphenations in the headings.{/t}</li>
 </ol>
 
 <h2>{t}The typesetting{/t}</h2>

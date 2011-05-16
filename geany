@@ -14,21 +14,23 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=9
-FILE_NAME_0=1489;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+current_page=0
+FILE_NAME_0=252;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=706;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=4389;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/config/user.php;0
 FILE_NAME_3=3274;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/styles.php;0
-FILE_NAME_4=4198;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowmerge.h;0
-FILE_NAME_5=5815;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowmerge.cpp;0
-FILE_NAME_6=2243;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gui_display_changes.cpp;0
-FILE_NAME_7=904;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gui_display_changes.h;0
-FILE_NAME_8=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0
-FILE_NAME_9=9322;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0
-FILE_NAME_10=7897;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
-FILE_NAME_11=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.php;0
-FILE_NAME_12=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/index.php;0
-FILE_NAME_13=79;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/index.tpl;0
+FILE_NAME_4=234;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0
+FILE_NAME_5=9322;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0
+FILE_NAME_6=2723;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
+FILE_NAME_7=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.php;0
+FILE_NAME_8=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/index.php;0
+FILE_NAME_9=79;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/index.tpl;0
+FILE_NAME_10=783;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/exports.tpl;0
+FILE_NAME_11=1279;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/character.php;0
+FILE_NAME_12=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
+FILE_NAME_13=29556;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
+FILE_NAME_14=2830;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibledit.cpp;0
+FILE_NAME_15=1768;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/shell.cpp;0
 
 [long line marker]
 long_line_behaviour=1

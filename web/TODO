@@ -1,3 +1,11 @@
+bibledit-gtk
+Parameter in the commandline to force it to open maximized.
+There is menu Preferences / User interface. 
+A setting could be added to that.
+To ask whether this is okay too.
+This option can be protected by the Administrator's Password.
+
+
 
 
 

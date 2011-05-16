@@ -4,19 +4,6 @@
 <p>{t}See the online help about typesetting for more information about some general principles.{/t}</p>
 <p>{t}You have access to a copy of LibreOffice.{/t}</p>
 
-<h2>{t}Hyphenation{/t}</h2>
-<p>{t}Some of the word in the OpenDocument files are long. This results in too much space between some words.{/t}</p>
-<p>{t}The words need to get hyphens so that part of the word goes on the next line.{/t}</p>
-<p>{t}LibreOffice has hyphenation algorithms for many languages. That would solve the problem.{/t}</p>
-<p>{t}LibreOffice does not have a hyphenation algorithm for our language.{/t}</p>
-<p>{t}Bibledit-Web has a hyphenater that could assist.{/t}</p>
-<p>{t}In Bibledit-Web, go to menu Management / Hyphenation.{/t}</p>
-<p>{t}Enter the first set of characters, and the second set, and save it.{/t}</p>
-<p>{t}Set the Bible where to take the data from. In this case it is "Ndebele".{/t}</p>
-<p>{t}Insert the soft hyphens according to the setting. It takes a while to complete.{/t}</p>
-<p>{t}The output Bible is called "Ndebele-hyphenated".{/t}</p>
-<p>{t}Use this Bible in the Exports options. Export it.{/t}</p>
-
 <h2>{t}Page count{/t}</h2>
 <p>{t}The publisher may set limits to the number of pages the typeset Bible may contain.{/t}</p>
 <p>{t}In this example, we expect an entire Bible, with singable Psalms added as an appendix, to contain no more than 2000 pages. Normal range is 1500 to 1800 pages.{/t}</p>
