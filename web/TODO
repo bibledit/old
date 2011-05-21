@@ -128,9 +128,9 @@ Then make it a Sword module:
 osis2mod . Bible.osis.xml
 To write it to the proper place:
 osis2mod ~/.sword/modules/texts/bibledit/ndebele Bible.osis.xml
-Teus,
-osis2mod is conservative with file permissions.  Be sure the files have
-proper permissions before you deploy.
+
+osis2mod is conservative with file permissions.  
+Be sure the files have proper permissions before you deploy.
 I only mention this because I often forget to grant read access to files
 before deploying a module for testing and the result is only
 chapter/verse numbers.
@@ -148,8 +148,6 @@ chapter/verse numbers.
 
 
 
-
-> Is there any news about packing bibledit-web? 
 
 CONFIGURING TOO EARLY:
 

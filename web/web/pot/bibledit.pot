@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 01:45+0200\n"
+"POT-Creation-Date: 2011-05-21 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1658,15 +1658,13 @@ msgstr ""
 
 msgid ""
 "When exporting Bibles to OpenDocument format, when the chapter number gets "
-"put just before the first verse in bigger font, frames are used for this. It "
-"is to achieve better appearance. When this is problematic, Bibledit-Web can "
-"also output the chapter number in drop caps."
+"put just before the first verse in bigger font, frames may be used for this."
 msgstr ""
 
-msgid "This setting is on."
+msgid "Frames are off."
 msgstr ""
 
-msgid "This setting is off."
+msgid "Frames are on."
 msgstr ""
 
 msgid "toggle"
@@ -1699,6 +1697,12 @@ msgid "Bottom margin"
 msgstr ""
 
 msgid "Display the current date in the running headers."
+msgstr ""
+
+msgid "This setting is on."
+msgstr ""
+
+msgid "This setting is off."
 msgstr ""
 
 msgid ""
@@ -3466,47 +3470,6 @@ msgstr ""
 msgid "You have access to a copy of LibreOffice."
 msgstr ""
 
-msgid ""
-"Some of the word in the OpenDocument files are long. This results in too "
-"much space between some words."
-msgstr ""
-
-msgid ""
-"The words need to get hyphens so that part of the word goes on the next line."
-msgstr ""
-
-msgid ""
-"LibreOffice has hyphenation algorithms for many languages. That would solve "
-"the problem."
-msgstr ""
-
-msgid "LibreOffice does not have a hyphenation algorithm for our language."
-msgstr ""
-
-msgid "Bibledit-Web has a hyphenater that could assist."
-msgstr ""
-
-msgid "In Bibledit-Web, go to menu Management / Hyphenation."
-msgstr ""
-
-msgid "Enter the first set of characters, and the second set, and save it."
-msgstr ""
-
-msgid ""
-"Set the Bible where to take the data from. In this case it is \"Ndebele\"."
-msgstr ""
-
-msgid ""
-"Insert the soft hyphens according to the setting. It takes a while to "
-"complete."
-msgstr ""
-
-msgid "The output Bible is called \"Ndebele-hyphenated\"."
-msgstr ""
-
-msgid "Use this Bible in the Exports options. Export it."
-msgstr ""
-
 msgid "Page count"
 msgstr ""
 
@@ -4104,6 +4067,47 @@ msgid ""
 "Typesetting itself is done in another program."
 msgstr ""
 
+msgid ""
+"Some of the word in the OpenDocument files are long. This results in too "
+"much space between some words."
+msgstr ""
+
+msgid ""
+"The words need to get hyphens so that part of the word goes on the next line."
+msgstr ""
+
+msgid ""
+"LibreOffice and Adobe InDesign have hyphenation algorithms for many "
+"languages. That would solve the problem."
+msgstr ""
+
+msgid "But the programs do not have a hyphenation algorithm for our language."
+msgstr ""
+
+msgid "Bibledit-Web has a hyphenater that could assist."
+msgstr ""
+
+msgid "In Bibledit-Web, go to menu Management / Hyphenation."
+msgstr ""
+
+msgid "Enter the first set of characters, and the second set, and save it."
+msgstr ""
+
+msgid ""
+"Set the Bible where to take the data from. In this case it is \"Ndebele\"."
+msgstr ""
+
+msgid ""
+"Insert the soft hyphens according to the setting. It takes a while to "
+"complete."
+msgstr ""
+
+msgid "The output Bible is called \"Ndebele-hyphenated\"."
+msgstr ""
+
+msgid "Use this Bible from now on."
+msgstr ""
+
 msgid "Exporting to OpenDocument files"
 msgstr ""
 
@@ -4277,17 +4281,36 @@ msgid ""
 "line across all pages. It means that they should all line up with each other "
 "all the way down the page and across all pages. Then when the Bible is "
 "printed, the printed text will be back to back and not show through from one "
-"side of the page to the other."
+"side of the page to the other. In the typesetting software, this can be "
+"implemented by setting up a grid in the document, and then aligning all text "
+"to this grid."
 msgstr ""
 
+#, c-format
 msgid ""
-"The space after the verse numbers would be nearly the same and consistent."
+"The space after the verse numbers would be the same and consistent. Bibledit-"
+"Web exports the text to OpenDocument format using 'en spaces' after each "
+"verse. This ensures a consistent width of the spaces after the verse "
+"numbers. If this for some reason does not work, then the verse numbers could "
+"be distinguished from the text if they had a tab after them instead of a "
+"flexible space. The tab does not need to be set far from the character. At a "
+"guess 2 mm would be more than enough. Different tab distances would need to "
+"be set for single, double and triple digit verse numbers. Superscript "
+"numerals could also be considered, though larger than any note citations in "
+"the text. The size of the superscript would be between 70 and 80% of the "
+"size of the main text."
 msgstr ""
 
 msgid ""
 "The alignment of the drop caps chapter numbers to the text is to be "
-"consistent. The chapter divisions would also benefit from some more space "
-"between them and the text of the preceding chapter."
+"consistent. Drop cap characters should not be too large and not rise too far "
+"above the height of the other letters on the first line. The top of the "
+"highest letters should reach to about the same height."
+msgstr ""
+
+msgid ""
+"The chapter divisions would also benefit from some more space between them "
+"and the text of the preceding chapter."
 msgstr ""
 
 msgid ""
@@ -4301,7 +4324,8 @@ msgstr ""
 
 msgid ""
 "The space between the text and footnotes should not be too tight neither "
-"unnecessarily large."
+"unnecessarily large. Keep the gap between the references in the footer and "
+"the main bock of text as consistent as possible."
 msgstr ""
 
 msgid ""
@@ -4315,19 +4339,30 @@ msgid ""
 "ends."
 msgstr ""
 
+msgid "The gap between the columns should be between 4 and 5 mm."
+msgstr ""
+
+msgid ""
+"The centre line dividing the two columns should start about level or very "
+"slightly above the top of the highest ascenders on the first line of text in "
+"a column and finish about level with the bottom of the lowest descenders on "
+"the bottom line. The centre line may also be omitted, as most modern Bibles "
+"do. The pages looks cleaner."
+msgstr ""
+
 msgid ""
 "The Psalm headers need consistent spaces before and after and should be "
 "positioned closer to the Psalm that follows than to the Psalm before."
 msgstr ""
 
 msgid ""
-"A 10 mm margin is okay for the outer margin. The inner margin needs slightly "
-"more, e.g. 12 mm."
+"A 10 mm margin is okay for the outer margin, and for the top and bottom "
+"margin. The inner margin needs slightly more, e.g. 12 mm."
 msgstr ""
 
 msgid ""
-"Readability would be helped by distinguishing the verse numbers visually. "
-"Others may prefer these to to be less visible."
+"For singable Psalms, readability would be helped by distinguishing the verse "
+"numbers visually."
 msgstr ""
 
 msgid ""
@@ -4340,6 +4375,17 @@ msgid ""
 "loss of readability would be to choose a font with slightly shorter "
 "ascenders and descenders and then tighten the leading (line spacing) "
 "slightly."
+msgstr ""
+
+msgid ""
+"When producing PDF output, the text needs to be monochrome black, not black "
+"consisting of three or four colours."
+msgstr ""
+
+msgid "Single lines at the top of columns need to be avoided."
+msgstr ""
+
+msgid "Avoid hyphenations in the headings."
 msgstr ""
 
 msgid "The typesetting"

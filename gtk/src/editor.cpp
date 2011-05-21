@@ -299,7 +299,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
 
   // Insert the chapter load boundary.
   apply_editor_action (new EditorAction (eatLoadChapterBoundary));
-      
+
   // Place cursor at the start and scroll it onto the screen.
   vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
   if (textviews.empty()) {
@@ -1905,7 +1905,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
       insertion_point_offset += rectangle.y;
     }
 
-    // Set the adjustment to move the insertion point into the middle of the visible part of the window.
+    // Set the adjustment to move the insertion point into 1/3th of the visible part of the window.
     /*
     If the insertion point is at 800, and the height of the visible window is 500,
     and the total window height is 1000, then the calculation of the offset is as follows:
@@ -1914,7 +1914,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
     Therefore the adjustment should move to 550.
     The adjustment value should stay within its limits. If it exceeds these, the viewport draws double lines.
     */
-    gdouble adjustment_value = insertion_point_offset - (visible_window_height / 2);
+    gdouble adjustment_value = insertion_point_offset - (visible_window_height * 0.33);
     if (adjustment_value < 0) {
       adjustment_value = 0;
     }
