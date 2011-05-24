@@ -192,6 +192,10 @@ class Notes_Logic
     $year = strftime ("%Y");
     $sender = $config_general->getSiteMailName();
     $body = Filter_Email::extractBody ($body, $year, $sender);
+    // Remove any new lines from the body. This cleans up the email considerably,
+    // because some emails that get posted would otherwise look untidy,
+    // when the many new lines take up a lot of space.
+    $body = str_replace ("\n", " ", $body);
     // Make comment on the consultation note.
     @$sessionuser = $_SESSION['user'];
     @$_SESSION['user'] = $username;
