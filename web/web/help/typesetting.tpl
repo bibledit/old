@@ -92,10 +92,11 @@
 <ol>
 <li>{t}Line spacing should be consistent throughout and should be placed line on line across all pages. It means that they should all line up with each other all the way down the page and across all pages. Then when the Bible is printed, the printed text will be back to back and not show through from one side of the page to the other. In the typesetting software, this can be implemented by setting up a grid in the document, and then aligning all text to this grid.{/t}</li>
 <li>{t}The space after the verse numbers would be the same and consistent. Bibledit-Web exports the text to OpenDocument format using 'en spaces' after each verse. This ensures a consistent width of the spaces after the verse numbers. If this for some reason does not work, then the verse numbers could be distinguished from the text if they had a tab after them instead of a flexible space. The tab does not need to be set far from the character. At a guess 2 mm would be more than enough. Different tab distances would need to be set for single, double and triple digit verse numbers. Superscript numerals could also be considered, though larger than any note citations in the text. The size of the superscript would be between 70 and 80% of the size of the main text.{/t}</li>
-<li>{t}The alignment of the drop caps chapter numbers to the text is to be consistent. Drop cap characters should not be too large and not rise too far above the height of the other letters on the first line. The top of the highest letters should reach to about the same height.{/t}</li>
-<li>{t}The chapter divisions would also benefit from some more space between them and the text of the preceding chapter.{/t}</li>
+<li>{t}The alignment of the drop caps chapter numbers to the text beside it is to be consistent. There should be some space between the numbers and the text. Drop cap characters should not be too large and not rise too far above the height of the other letters on the first line. The top of the highest letters should reach to about the same height.{/t}</li>
+<li>{t}The chapter divisions would also benefit from some more space between them and the text of the preceding chapter. When there is no heading above a chapter, it may be visually better to start the chapter number with a line space before it.{/t}</li>
 <li>{t}The amount of space given to the Bible book headings should not be too great.{/t}</li>
 <li>{t}Subheadings should not appear squashed amongst the rest of the text and would benefit from some space.{/t}</li>
+<li>{t}Subheadings are an addition and not Scripture, so it is appropriate to put these in italics.{/t}</li>
 <li>{t}The space between the text and footnotes should not be too tight neither unnecessarily large. Keep the gap between the references in the footer and the main bock of text as consistent as possible.{/t}</li>
 <li>{t}In the crossreferences it is pleasing to have the chapter and verse number kept together with the book name, especially as the small font on long lines gives scope for this.{/t}</li>
 <li>{t}The columns should start at the same height and should be balanced at the ends.{/t}</li>
@@ -107,8 +108,10 @@
 <li>{t}It would be helpful to distinguish the running head, perhaps by using a semi-bold version of the same font.{/t}</li>
 <li>{t}One way in which the number of pages in a volume could be reduced without loss of readability would be to choose a font with slightly shorter ascenders and descenders and then tighten the leading (line spacing) slightly.{/t}</li>
 <li>{t}When producing PDF output, the text needs to be monochrome black, not black consisting of three or four colours.{/t}</li>
-<li>{t}Single lines at the top of columns need to be avoided.{/t}</li>
+<li>{t}The last line of a verse or paragraph should not appear on its own at the top of a column.{/t}</li>
 <li>{t}Avoid hyphenations in the headings.{/t}</li>
+<li>{t}Many book titles consist of a main title and a subtitle, like "The gospel of Matthew". "Matthew" is the main title, and the rest is the subtitle. It is good if there is a clear contrast on size between these two. Say 24 points bold for the main title, and 14 points regular for the subtitle.{/t}</li>
+<li>{t}The number of hyphens used in a row should be few for enhanced readability. At times a word that is now hyphenated could be forced down onto the next line without opening up the gaps between the words too much on the line above. Hyphenation should be set to the optimum result for the column width but then it is usually necessary to go over every page and make corrections manually.{/t}</li>
 </ol>
 
 <h2>{t}The typesetting{/t}</h2>
