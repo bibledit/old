@@ -125,30 +125,7 @@
 <p>{t}The page where a book starts normally does not display a page number.{/t}</p>
 <p>{t}In order to do that, apply master page [None] to that particular page.{/t}</p>
 
-
-
-<h2>{t}Work in progress...{/t}</h2>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-<p>{t}{/t}</p>
-
-
-
-
-
+<h2>{t}Space between drop caps and text{/t}</h2>
+<p>{t}It may be visually pleasant to have some space between the drop caps chapter numbers and the text beside it.{/t}</p>
+<p>{t}All that is needed is a fixed space after the chapter numbers. Pick any one from a hair space to an em space. The number of characters in drop caps is now increased by one. Set this value in the drop cap settings. All lines after the first will automatically line up.{/t}</p>
 

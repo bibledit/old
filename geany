@@ -14,16 +14,15 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
+current_page=5
 FILE_NAME_0=1;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=803;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=3274;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/styles.php;0
 FILE_NAME_3=234;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0
-FILE_NAME_4=9322;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0
-FILE_NAME_5=9211;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
+FILE_NAME_4=9777;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0
+FILE_NAME_5=7160;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
 FILE_NAME_6=6674;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/notes.php;0
 FILE_NAME_7=7424;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/notes/logic.php;0
-FILE_NAME_8=41506;Javascript;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/daisydiff/js/dojo/dojo.js;0
 
 [long line marker]
 long_line_behaviour=1
