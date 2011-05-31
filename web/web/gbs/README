@@ -1,0 +1,33 @@
+The following is in the Dutch language.
+It deals with a Dutch Bible, Psalms, and religious texts.
+
+
+Het programma gbs.php helpt u met het importeren van gegevens uit de 
+database van GBS Digitaal 2.2, en het omzetten van de gegevens naar USFM.
+
+GBS Digitaal is te downloaden van http://www.2g-it.nl/GBS/
+
+Voordat het importeren en het omzetten werkt is het belangrijk om de 
+databases vanuit GBS Digitaal 2.2 over te zetten naar uw eigen mysql 
+server op Linux.
+
+Onderneem de volgende stappen:
+
+- Installeer GBS Digitaal 2.2 op Windows XP.
+
+- Lees de gebruikerslicentie.
+  Wat we hier gaan doen dat is toegestaan met deze licentie.
+
+- Kopieer folder C:\Program Files\2G\GBS Digitaal\mysql\data\gbs
+  met alles wat erin zit van Windows naar Linux.
+  Plaats het in /var/lib/mysql.
+  Bovenstaand was getest op Ubuntu 10.10.
+
+De mysql installatie op Linux heeft er nu een database bij gekregen.
+De database heet "gbs".
+De database is te benaderen op de gewone manier.
+Alle teksten van de GBS staan in deze database.
+Via bijvoorbeeld phpMyAdmin zijn deze teksten eenvoudig te bekijken.
+
+U draait gbs.php in een terminal $ php gbs.php
+
