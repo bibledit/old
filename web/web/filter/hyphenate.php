@@ -29,8 +29,8 @@ class Filter_Hyphenate
   /**
   * This filter inserts soft hyphens in $text.
   * It goes through $text character by character.
-  * At the transition from any character in $firstset to any character
-  * in $secondset, it inserts a soft hyphen.
+  * At the transition from any character in $firstset 
+  * to any character in $secondset, it inserts a soft hyphen.
   * $firstset: array of characters.
   * $secondset: array of characters.
   * $text: A string of text to operate on.
@@ -62,7 +62,7 @@ class Filter_Hyphenate
       $isUsfm = false;
       
       // Process each character.
-      foreach ($characters as &$character) {
+      foreach ($characters as $key => &$character) {
 
         // Skip USFM marker.
         if ($character == "\\") $isUsfm = true;
@@ -72,7 +72,9 @@ class Filter_Hyphenate
           // Check whether to insert the soft hyphen here.
           $thisCharacterIsRelevant = in_array ($character, $secondset);
           if (($thisCharacterIsRelevant) && ($previousCharacterWasRelevant)) {
-            $character = Filter_Character::softHyphen () . $character;
+            if (!Filter_Hyphenate::nearWhiteSpace ($characters, $key)) {
+              $character = Filter_Character::softHyphen () . $character;
+            }
           }
 
           // Flag for next iteration.
@@ -97,6 +99,24 @@ class Filter_Hyphenate
   }
 
   
+  /**
+  * This filter looks whether the $offset is near whitespace
+  * in the array of $characters.
+  * Returns: true or false.
+  */
+  private function nearWhiteSpace ($characters, $offset)
+  {
+    $start = $offset - 2; // The constant for the nearness to the start of the word.
+    $end = $offset + 2; // The constant for the nearness to the end of the word.
+    if ($start < 0) $start = 0;
+    if ($end > count ($characters)) $end = count ($characters);
+    for ($i = $start; $i < $end; $i++) {
+      if (ctype_space ($characters[$i])) return true;
+    }
+    return false;
+  }
+
+
 // Another method for hyphenation could be to rely on the routines as used by TeX.
 // TeX has hyphenation patters. Perhaps these can be read or somehow used. 
 // The 'soul' package can show possible word breaks.
