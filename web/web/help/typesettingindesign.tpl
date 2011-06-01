@@ -8,7 +8,7 @@
 <p>{t}Bibledit-Web normally exports chapter numbers in bigger font in a text frame.{/t}</p>
 <p>{t}In InDesign it is helpful to have these in drop caps.{/t}</p>
 <p>{t}Go to Bibledit-Web, menu Management / Export.{/t}</p>
-<p>{t}There is a setting for output in drop caps. Switch it on.{/t}</p>
+<p>{t}There is a setting for using frames in the drop caps. Switch it off.{/t}</p>
 <p>{t}Do a fresh export.{/t}</p>
 
 <h2>{t}Creating a new document{/t}</h2>
