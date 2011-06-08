@@ -1,0 +1,312 @@
+Info: Smith and Van Dyke Arabic Translation. Thanks to Maria El-Ghazaly for additional translation.
+Source-Text: Arabic/asvd_shaped.xml
+MIDP: MIDP-1.0
+Align: Right
+UI-Goto: ﺍﻟﺬﻫﺎﺏ ﺇﻟﻰ
+UI-Cancel: ﺇﻟﻐﺎء
+UI-Preferences: ﺍﻹﺧﺘﻴﺎﺭﺍﺕ
+UI-History: ﺍﻟﺬﺍﻛﺮﺓ
+UI-OK: ﻣﻮﺍﻓﻖ
+UI-Search: ﺑﺤﺚ
+UI-Search-Results: ﻧﺘﺎﺋﺞ ﺍﻟﺒﺤﺚ
+UI-Exit: ﺧﺮﻭﺝ
+UI-Send: ﺇﺭﺳﺎﻝ
+UI-Send-SMS: SMS ﺇﺭﺳﺎﻝ
+UI-About: ﻋﻦ ﺍﻟﺒﺮﻧﺎﻣﺞ
+UI-Loading: ﺟﺎﺭﻯ ﺍﻟﺘﺤﻤﻴﻞ
+UI-Save: ﺣﻔﻆ
+UI-Font-Size: ﺣﺠﻢ ﺍﻟﺨﻂ
+UI-Small: ﺻﻐﻴﺮ
+UI-Medium: ﻣﺘﻮﺳﻂ
+UI-Large: ﻛﺒﻴﺮ
+UI-Full-Screen: ﺷﺎﺷﺔ ﻛﺎﻣﻠﺔ
+UI-On: ﻣﻨﺸﻂ
+UI-Off: ﻏﻴﺮ ﻣﻨﺸﻂ
+UI-Reverse-Characters: ﻋﻜﺲ ﺍﻟﺤﺮﻭﻑ
+UI-Book: ﻛﺘﺎﺏ
+UI-All: ﺍﻟﻜﻞ
+UI-Chapter: ﺃﺻﺤﺎﺡ
+UI-Search-Text: ﻧﺺ ﺍﻟﺒﺤﺚ
+UI-Stop: ﺗﻮﻗﻒ
+UI-Searching: ﺟﺎﺭﻯ ﺍﻟﺒﺤﺚ
+UI-Found: ﻭﺟﺪ
+UI-Please-Wait: ﺍﻧﺘﻈﺮ ﻣﻦ ﻓﻀﻠﻚ
+UI-Results: ﺍﻟﻨﺘﺎﺋﺞ
+UI-Send-Verses: ﺍﺭﺳﺎﻝ ﺁﻳﺎﺕ
+UI-Back: ﺍﻟﺮﺟﻮﻉ
+UI-To: ﺇﻟﻰ
+UI-Select-Verses-To-Send: ﺗﺤﺪﻳﺪ ﺁﻳﺎﺕ ﻟﻺﺭﺳﺎﻝ
+UI-Error: ﺧﻄﺄ
+UI-Message-Too-Large-To-Be-Sent: ﺍﻟﺮﺳﺎﻟﺔ ﻻ ﻳﻤﻜﻦ ﺍﺭﺳﺎﻟﻬﺎ ﻟﻜﺒﺮ ﺣﺠﻤﻬﺎ
+UI-Verse-Does-Not-Exist: ﺍﻵﻳﺔ ﻻ ﺗﻮﺟﺪ
+UI-Phone-Number: ﺭﻗﻢ ﺍﻟﺘﻠﻴﻔﻮﻥ
+Book-Name-Map: Gen, ﺍﻟﺘﻜﻮﻳﻦ
+Book-Name-Map: Exod, ﺍﻟﺨﺮﻭﺝ
+Book-Name-Map: Lev, ﺍﻟﻼﻭﻳﻴﻦ
+Book-Name-Map: Num, ﺍﻟﻌﺪﺩ
+Book-Name-Map: Deut, ﺍﻟﺘﺜﻨﻴﺔ
+Book-Name-Map: Josh, ﻳﺸﻮﻉ
+Book-Name-Map: Judg, ﻗﻀﺎﺓ
+Book-Name-Map: Ruth, ﺭﺍﻋﻮﺙ
+Book-Name-Map: 1Sam, ﺻﻤﻮﺋﻴﻞ ﺍﻷﻭﻝ
+Book-Name-Map: 2Sam, ﺻﻤﻮﺋﻴﻞ ﺍﻟﺜﺎﻧﻰ
+Book-Name-Map: 1Kgs, ﺍﻟﻤﻠﻮﻙ ﺍﻷﻭﻝ
+Book-Name-Map: 2Kgs, ﺍﻟﻤﻠﻮﻙ ﺍﻟﺜﺎﻧﻰ
+Book-Name-Map: 1Chr, ﺃﺧﺒﺎﺭ ﺍﻷﻳﺎﻡ ﺍﻷﻭﻝ
+Book-Name-Map: 2Chr, ﺃﺧﺒﺎﺭ ﺍﻷﻳﺎﻡ ﺍﻟﺜﺎﻧﻰ
+Book-Name-Map: Ezra, ﻋﺰﺭﺍ
+Book-Name-Map: Neh, ﻧﺤﻤﻴﺎ
+Book-Name-Map: Esth, ﺍﺳﺘﻴﺮ
+Book-Name-Map: Job, ﺍﻳﻮﺏ
+Book-Name-Map: Ps, ﺍﻟﻤﺰﺍﻣﻴﺮ
+Book-Name-Map: Prov, ﺍﻷﻣﺜﺎﻝ
+Book-Name-Map: Eccl, ﺍﻟﺠﺎﻣﻌﺔ
+Book-Name-Map: Song, ﻧﺸﻴﺪ ﺍﻷﻧﺸﺎﺩ
+Book-Name-Map: Isa, ﺇﺷﻌﻴﺎء
+Book-Name-Map: Jer, ﺇﺭﻣﻴﺎء
+Book-Name-Map: Lam, ﻣﺮﺍﺛﻰ ﺇﺭﻣﻴﺎء
+Book-Name-Map: Ezek, ﺣﺰﻗﻴﺎﻝ
+Book-Name-Map: Dan, ﺩﺍﻧﻴﺎﻝ
+Book-Name-Map: Hos, ﻫﻮﺷﻊ
+Book-Name-Map: Joel, ﻳﻮﺋﻴﻞ
+Book-Name-Map: Amos, ﻋﺎﻣﻮﺱ
+Book-Name-Map: Obad, ﻋﻮﺑﺪﻳﺎ
+Book-Name-Map: Jonah, ﻳﻮﻧﺎﻥ
+Book-Name-Map: Mic, ﻣﻴﺨﺎ
+Book-Name-Map: Nah, ﻧﺎﺣﻮﻡ
+Book-Name-Map: Hab, ﺣﺒﻘﻮﻕ
+Book-Name-Map: Zeph, ﺻﻔﻨﻴﺎ
+Book-Name-Map: Hag, ﺣﺠﻲ
+Book-Name-Map: Zech, ﺯﻛﺮﻳﺎ
+Book-Name-Map: Mal, ﻣﻼﺧﻰ
+Book-Name-Map: Matt, ﻣﺘﻰ
+Book-Name-Map: Mark, ﻣﺮﻗﺲ
+Book-Name-Map: Luke, ﻟﻮﻗﺎ
+Book-Name-Map: John, ﻳﻮﺣﻨﺎ
+Book-Name-Map: Acts, ﺃﻋﻤﺎﻝ ﺍﻟﺮﺳﻞ
+Book-Name-Map: Rom, ﺭﻭﻣﻴﺔ
+Book-Name-Map: 1Cor, ﻛﻮﺭﻧﺜﻮﺱ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Cor, ﻛﻮﺭﻧﺜﻮﺱ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: Gal, ﻏﻼﻃﻴﺔ
+Book-Name-Map: Eph, ﺃﻓﺴﺲ
+Book-Name-Map: Phil, ﻓﻴﻠﺒﻲ
+Book-Name-Map: Col, ﻛﻮﻟﻮﺳﻰ
+Book-Name-Map: 1Thess, ﺗﺴﺎﻟﻮﻧﻴﻜﻲ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Thess, ﺗﺴﺎﻟﻮﻧﻴﻜﻲ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: 1Tim, ﺗﻴﻤﻮﺛﺎﻭﺱ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Tim, ﺗﻴﻤﻮﺛﺎﻭﺱ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: Titus, ﺗﻴﻄﺲ
+Book-Name-Map: Phlm, ﻓﻠﻴﻤﻮﻥ
+Book-Name-Map: Heb, ﺍﻟﻌﺒﺮﺍﻧﻴﻴﻦ
+Book-Name-Map: Jas, ﻳﻌﻘﻮﺏ
+Book-Name-Map: 1Pet, ﺑﻄﺮﺱ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Pet, ﺑﻄﺮﺱ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: 1John, ﻳﻮﺣﻨﺎ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2John, ﻳﻮﺣﻨﺎ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: 3John, ﻳﻮﺣﻨﺎ ﺍﻟﺜﺎﻟﺜﺔ
+Book-Name-Map: Jude, ﻳﻬﻮﺫﺍ
+Book-Name-Map: Rev, ﺭﺅﻳﺎ ﻳﻮﺣﻨﺎ
+Collection: Matthew, ﻣﺘﻰ
+Book: Matt
+Collection: Mark, ﻣﺮﻗﺲ
+Book: Mark
+Collection: Luke, ﻟﻮﻗﺎ
+Book: Luke
+Collection: John, ﻳﻮﺣﻨﺎ
+Book: John
+Collection: Acts, ﺃﻋﻤﺎﻝ ﺍﻟﺮﺳﻞ
+Book: Acts
+Collection: Romans, ﺭﻭﻣﻴﺔ
+Book: Rom
+Collection: Corinthians, ﻛﻮﺭﻧﺜﻮﺱ
+Book: 1Cor
+Book: 2Cor
+Collection: Gal Eph Phili Col, ﻏﻼﻃﻴﺔ ﺃﻓﺴﺲ ﻓﻴﻠﺒﻰ ﻛﻮﻟﻮﺳﻰ
+Book: Gal
+Book: Eph
+Book: Phil
+Book: Col
+Collection: Thess Timothy, ﺗﺴﺎﻟﻮﻧﻴﻜﻰ ﺗﻴﻤﻮﺛﺎﻭﺱ
+Book: 1Thess
+Book: 2Thess
+Book: 1Tim
+Book: 2Tim
+Collection: Titus Philemon, ﺗﻴﻄﺲ ﻓﻠﻴﻤﻮﻥ
+Book: Titus
+Book: Phlm
+Collection: Hebrews James, ﺍﻟﻌﺒﺮﺍﻧﻴﻴﻦ ﻳﻌﻘﻮﺏ
+Book: Heb
+Book: Jas
+Collection: Peter John Jude, ﺑﻄﺮﺱ ﻳﻮﺣﻨﺎ ﻳﻬﻮﺫﺍ
+Book: 1Pet
+Book: 2Pet
+Book: 1John
+Book: 2John
+Book: 3John
+Book: Jude
+Collection: Revelation, ﺍﻟﺮﺅﻳﺎ
+Book: Rev
+Collection: Genesis, ﺍﻟﺘﻜﻮﻳﻦ
+Book: Gen
+Collection: Genesis 1-25, ﺍﻟﺘﻜﻮﻳﻦ 1-25
+Book: Gen, 1, 25
+Collection: Genesis 26-50, ﺍﻟﺘﻜﻮﻳﻦ 26-50
+Book: Gen, 26, 50
+Collection: Exodus, ﺍﻟﺨﺮﻭﺝ
+Book: Exod
+Collection: Leviticus, ﺍﻟﻼﻭﻳﻴﻦ
+Book: Lev
+Collection: Numbers, ﺍﻟﻌﺪﺩ
+Book: Num
+Collection: Deuteronomy, ﺍﻟﺘﺜﻨﻴﺔ
+Book: Deut
+Collection: Joshua, ﻳﺸﻮﻉ
+Book: Josh
+Collection: Judges, ﺍﻟﻘﻀﺎﺓ
+Book: Judg
+Collection: Ruth, ﺭﺍﻋﻮﺙ
+Book: Ruth
+Collection: 1 Samuel, ﺻﻤﻮﺋﻴﻞ ﺍﻷﻭﻝ
+Book: 1Sam
+Collection: 2 Samuel, ﺻﻤﻮﺋﻴﻞ ﺍﻟﺜﺎﻧﻰ
+Book: 2Sam
+Collection: 1 Kings, ﺍﻟﻤﻠﻮﻙ ﺍﻷﻭﻝ
+Book: 1Kgs
+Collection: 2 Kings, ﺍﻟﻤﻠﻮﻙ ﺍﻟﺜﺎﻧﻰ
+Book: 2Kgs
+Collection: 1 Chronicles, ﺃﺧﺒﺎﺭ ﺍﻷﻳﺎﻡ ﺍﻷﻭﻝ
+Book: 1Chr
+Collection: 2 Chronicles, ﺃﺧﺒﺎﺭ ﺍﻷﻳﺎﻡ ﺍﻟﺜﺎﻧﻰ
+Book: 2Chr
+Collection: Ezra Nehemiah, ﻋﺰﺭﺍ ﻧﺤﻤﻴﺎ
+Book: Ezra
+Book: Neh
+Collection: Esther, ﺃﺳﺘﻴﺮ
+Book: Esth
+Collection: Job, ﺃﻳﻮﺏ
+Book: Job
+Collection: Psalms, ﺍﻟﻤﺰﺍﻣﻴﺮ
+Book: Ps
+Collection: Psalms I, ﺍﻟﻤﺰﺍﻣﻴﺮ 1
+Book: Ps, 1, 41
+Collection: Psalms II, ﺍﻟﻤﺰﺍﻣﻴﺮ 2
+Book: Ps, 42, 72
+Collection: Psalms III, ﺍﻟﻤﺰﺍﻣﻴﺮ 3
+Book: Ps, 73, 89
+Collection: Psalms IV, ﺍﻟﻤﺰﺍﻣﻴﺮ 4
+Book: Ps, 90, 106
+Collection: Psalms V, ﺍﻟﻤﺰﺍﻣﻴﺮ 5
+Book: Ps, 107, 150
+Collection: Proverbs, ﺍﻷﻣﺜﺎﻝ
+Book: Prov
+Collection: Eccl + Songs, ﺍﻟﺠﺎﻣﻌﺔ+ﻧﺸﻴﺪ ﺍﻷﻧﺸﺎﺩ
+Book: Eccl
+Book: Song
+Collection: Isaiah, ﺍﺷﻌﻴﺎء
+Book: Isa
+Collection: Isaiah 1-35, ﺍﺷﻌﻴﺎء 1-35
+Book: Isa, 1, 35
+Collection: Isaiah 36-66, ﺍﺷﻌﻴﺎء 36-66
+Book: Isa, 36, 66
+Collection: Jeremiah, ﺍﺭﻣﻴﺎء
+Book: Jer
+Collection: Jeremiah 1-19, ﺍﺭﻣﻴﺎء1-19
+Book: Jer, 1, 19
+Collection: Jeremiah 20-36, ﺍﺭﻣﻴﺎء20-36
+Book: Jer, 20, 36
+Collection: Jeremiah 37-52, ﺍﺭﻣﻴﺎء 37-52
+Book: Jer, 37, 52
+Collection: Lamentations, ﻣﺮﺍﺛﻰ ﺍﺭﻣﻴﺎء
+Book: Lam
+Collection: Ezekiel, ﺣﺰﻗﻴﺎﻝ
+Book: Ezek
+Collection: Ezekiel 1-25, ﺣﺰﻗﻴﺎﻝ 1-25
+Book: Ezek, 1,25
+Collection: Ezekiel 26-48, ﺣﺰﻗﻴﺎﻝ 26-48
+Book: Ezek, 26, 48
+Collection: Daniel, ﺩﺍﻧﻴﺎﻝ
+Book: Dan
+Collection: Hosea, ﻫﻮﺷﻊ
+Book: Hos
+Collection: Joel Amos Obad Jonah, ﻳﻮﺋﻴﻞ ﻋﺎﻣﻮﺱ ﻋﻮﺑﺪﻳﺎ ﻳﻮﻧﺎﻥ
+Book: Joel
+Book: Amos
+Book: Obad
+Book: Jonah
+Collection: Mic Nah Hab Zeph Haggai, ﻣﻴﺨﺎ ﻧﺎﺣﻮﻡ ﺣﺒﻘﻮﻕ ﺻﻔﻨﻴﺎ ﺣﺠﻰ
+Book: Mic
+Book: Nah
+Book: Hab
+Book: Zeph
+Book: Hag
+Collection: Zech Malachi, ﺯﻛﺮﻳﺎ ﻣﻼﺧﻰ
+Book: Zech
+Book: Mal
+Collection: New Testament, ﺍﻟﻌﻬﺪ ﺍﻟﺠﺪﻳﺪ
+Book: Matt
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Rom
+Book: 1Cor
+Book: 2Cor
+Book: Gal
+Book: Eph
+Book: Phil
+Book: Col
+Book: 1Thess
+Book: 2Thess
+Book: 1Tim
+Book: 2Tim
+Book: Titus
+Book: Phlm
+Book: Heb
+Book: Jas
+Book: 1Pet
+Book: 2Pet
+Book: 1John
+Book: 2John
+Book: 3John
+Book: Jude
+Book: Rev
+Collection: Old Testament, ﺍﻟﻌﻬﺪ ﺍﻟﻘﺪﻳﻢ
+Book: Gen
+Book: Exod
+Book: Lev
+Book: Num
+Book: Deut
+Book: Josh
+Book: Judg
+Book: Ruth
+Book: 1Sam
+Book: 2Sam
+Book: 1Kgs
+Book: 2Kgs
+Book: 1Chr
+Book: 2Chr
+Book: Ezra
+Book: Neh
+Book: Esth
+Book: Job
+Book: Ps
+Book: Prov
+Book: Eccl
+Book: Song
+Book: Isa
+Book: Jer
+Book: Lam
+Book: Ezek
+Book: Dan
+Book: Hos
+Book: Joel
+Book: Amos
+Book: Obad
+Book: Jonah
+Book: Mic
+Book: Nah
+Book: Hab
+Book: Zeph
+Book: Hag
+Book: Zech
+Book: Mal

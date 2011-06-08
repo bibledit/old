@@ -1,0 +1,220 @@
+Info: 1917 Swedish Bible, using OSIS text from ccel.org. Book and Collection name translation by Olov Ennerstam and additional testing by Kim Westberg.
+Source-Text: Swedish/swe1917.xml
+Book-Name-Map: Gen, 1 Moseboken
+Book-Name-Map: Exod, 2 Moseboken
+Book-Name-Map: Lev, 3 Moseboken
+Book-Name-Map: Num, 4 Moseboken
+Book-Name-Map: Deut, 5 Moseboken
+Book-Name-Map: Josh, Josua
+Book-Name-Map: Judg, Domarboken
+Book-Name-Map: Ruth, Rut
+Book-Name-Map: 1Sam, 1 Samuelsboken
+Book-Name-Map: 2Sam, 2 Samuelsboken
+Book-Name-Map: 1Kgs, 1 Kungaboken
+Book-Name-Map: 2Kgs, 2 Kungaboken
+Book-Name-Map: 1Chr, 1 Krönikeboken
+Book-Name-Map: 2Chr, 2 Krönikeboken
+Book-Name-Map: Ezra, Esra
+Book-Name-Map: Neh, Nehemja
+Book-Name-Map: Esth, Ester
+Book-Name-Map: Job, Job
+Book-Name-Map: Ps, Psaltaren
+Book-Name-Map: Prov, Ordspråksboken
+Book-Name-Map: Eccl, Predikaren
+Book-Name-Map: Song, Höga Visan
+Book-Name-Map: Isa, Jesaja
+Book-Name-Map: Jer, Jeremia
+Book-Name-Map: Lam, Klagovisorna
+Book-Name-Map: Ezek, Hesekiel
+Book-Name-Map: Dan, Daniel
+Book-Name-Map: Hos, Hosea
+Book-Name-Map: Joel, Joel
+Book-Name-Map: Amos, Amos
+Book-Name-Map: Obad, Obadja
+Book-Name-Map: Jonah, Jona
+Book-Name-Map: Mic, Mika
+Book-Name-Map: Nah, Nahum
+Book-Name-Map: Hab, Habackuk
+Book-Name-Map: Zeph, Sefanja
+Book-Name-Map: Hag, Haggai
+Book-Name-Map: Zech, Sakarja
+Book-Name-Map: Mal, Malaki
+Book-Name-Map: Matt, Matteus
+Book-Name-Map: Mark, Markus
+Book-Name-Map: Luke, Lukas
+Book-Name-Map: John, Johannes
+Book-Name-Map: Acts, Apostlagärningarna
+Book-Name-Map: Rom, Romarbrevet
+Book-Name-Map: 1Cor, 1 Korinthierbrevet
+Book-Name-Map: 2Cor, 2 Korinthierbrevet
+Book-Name-Map: Gal, Galaterbrevet
+Book-Name-Map: Eph, Efesierbrevet
+Book-Name-Map: Phil, Filipperbrevet
+Book-Name-Map: Col, Kolosserbrevet
+Book-Name-Map: 1Thess, 1 Thessalonikerbrevet
+Book-Name-Map: 2Thess, 2 Thessalonikerbrevet
+Book-Name-Map: 1Tim, 1 Timoteusbrevet
+Book-Name-Map: 2Tim, 2 Timoteusbrevet
+Book-Name-Map: Titus, Titusbrevet
+Book-Name-Map: Phlm, Filemonbrevet
+Book-Name-Map: Heb, Hebreerbrevet
+Book-Name-Map: Jas, Jakobsbrevet
+Book-Name-Map: 1Pet, 1 Petrusbrevet
+Book-Name-Map: 2Pet, 2 Petrusbrevet
+Book-Name-Map: 1John, 1 Johannesbrevet
+Book-Name-Map: 2John, 2 Johannesbrevet
+Book-Name-Map: 3John, 3 Johannesbrevet
+Book-Name-Map: Jude, Judasbrevet
+Book-Name-Map: Rev, Uppenbarelseboken
+Collection: Svenska Bibeln 1917
+Book: Gen
+Book: Exod
+Book: Lev
+Book: Num
+Book: Deut
+Book: Josh
+Book: Judg
+Book: Ruth
+Book: 1Sam
+Book: 2Sam
+Book: 1Kgs
+Book: 2Kgs
+Book: 1Chr
+Book: 2Chr
+Book: Ezra
+Book: Neh
+Book: Esth
+Book: Job
+Book: Ps
+Book: Prov
+Book: Eccl
+Book: Song
+Book: Isa
+Book: Jer
+Book: Lam
+Book: Ezek
+Book: Dan
+Book: Hos
+Book: Joel
+Book: Amos
+Book: Obad
+Book: Jonah
+Book: Mic
+Book: Nah
+Book: Hab
+Book: Zeph
+Book: Hag
+Book: Zech
+Book: Mal
+Book: Matt
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Rom
+Book: 1Cor
+Book: 2Cor
+Book: Gal
+Book: Eph
+Book: Phil
+Book: Col
+Book: 1Thess
+Book: 2Thess
+Book: 1Tim
+Book: 2Tim
+Book: Titus
+Book: Phlm
+Book: Heb
+Book: Jas
+Book: 1Pet
+Book: 2Pet
+Book: 1John
+Book: 2John
+Book: 3John
+Book: Jude
+Book: Rev
+Collection: 1 Mos
+Book: Gen
+Collection: 2-3 Mos
+Book: Exod
+Book: Lev
+Collection: 4-5 Mos
+Book: Num
+Book: Deut
+Collection: Jos Dom Rut
+Book: Josh
+Book: Judg
+Book: Ruth
+Collection: 1-2 Sam
+Book: 1Sam
+Book: 2Sam
+Collection: 1-2 Kung
+Book: 1Kgs
+Book: 2Kgs
+Collection: 1-2 Kron
+Book: 1Chr
+Book: 2Chr
+Collection: Esr Neh Est Job
+Book: Ezra
+Book: Neh
+Book: Esth
+Book: Job
+Collection: Ps
+Book: Ps
+Collection: Ords Pred Hoga V
+Book: Prov
+Book: Eccl
+Book: Song
+Collection: Jes
+Book: Isa
+Collection: Jer Klag
+Book: Jer
+Book: Lam
+Collection: Hes
+Book: Ezek
+Collection: Profeterna
+Book: Dan
+Book: Hos
+Book: Joel
+Book: Amos
+Book: Obad
+Book: Jonah
+Book: Mic
+Book: Nah
+Book: Hab
+Book: Zeph
+Book: Hag
+Book: Zech
+Book: Mal
+Collection: Matt Mark
+Book: Matt
+Book: Mark
+Collection: Luk Joh
+Book: Luke
+Book: John
+Collection: Apg
+Book: Acts
+Collection: Paulus brev
+Book: Rom
+Book: 1Cor
+Book: 2Cor
+Book: Gal
+Book: Eph
+Book: Phil
+Book: Col
+Book: 1Thess
+Book: 2Thess
+Book: 1Tim
+Book: 2Tim
+Book: Titus
+Book: Phlm
+Collection: Heb till Upp
+Book: Heb
+Book: Jas
+Book: 1Pet
+Book: 2Pet
+Book: 1John
+Book: 2John
+Book: 3John
+Book: Jude
+Book: Rev

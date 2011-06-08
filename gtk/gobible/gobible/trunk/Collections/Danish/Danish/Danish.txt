@@ -1,0 +1,70 @@
+Info: Danish Bible. Thanks to Søren Noer for helping with the translation.
+Source-Text: Danish/Danish Bible.thml
+Collection: New Testament
+Book: Mattæus-evangeliet
+Book: Markus-evangeliet
+Book: Lukas-evangeliet
+Book: Johannes-evangeliet
+Book: Apostlenes gerninger
+Book: Romerbrevet
+Book: 1. Korinterbrev
+Book: 2. Korinterbrev
+Book: Galaterbrevet
+Book: Efeserbrevet
+Book: Filipperbrevet
+Book: Kolossenserbrevet
+Book: 1. Tessalonikerbrev
+Book: 2. Tessalonikerbrev
+Book: 1. Timoteus brev
+Book: 2. Timoteus brev
+Book: Titus brev
+Book: Filemon brev
+Book: Hebræerbrevet
+Book: Jakobs brev
+Book: 1. Peters brev
+Book: 2. Peters brev
+Book: 1. Johannes' brev
+Book: 2. Johannes' brev
+Book: 3. Johannes' brev
+Book: Judas' brev
+Book: Johannes' åbenbaring
+Collection: Old Testament
+Book: 1. Mosebog
+Book: 2. Mosebog
+Book: 3. Mosebog
+Book: 4. Mosebog
+Book: 5. Mosebog
+Book: Josvabogen
+Book: Dommerbogen
+Book: Ruts bog
+Book: 1. Samuelsbog
+Book: 2. Samuelsbog
+Book: 1. Kongebog
+Book: 2. Kongebog
+Book: 1. Krønikebog
+Book: 2. Krønikebog
+Book: Ezras bog
+Book: Nehemias' bog
+Book: Esters bog
+Book: Jobs bog
+Book: Salmernes bog
+Book: Ordsprogenes bog
+Book: Prædikerens bog
+Book: Højsangen
+Book: Esajas' bog
+Book: Jeremias' bog
+Book: Klagesangene
+Book: Ezekiels bog
+Book: Daniels bog
+Book: Hoseas' bog
+Book: Joels bog
+Book: Amos' bog
+Book: Obadias' bog
+Book: Jonas' bog
+Book: Mikas bog
+Book: Nahums bog
+Book: Habakkuks bog
+Book: Zefanias' bog
+Book: Haggajs bog
+Book: Zakarias' bog
+Book: Malakias' bog

@@ -1,0 +1,44 @@
+<project name="GoBibleCore" default="build" basedir=".">
+
+	<taskdef resource="antenna.properties" classpath="lib/antenna-bin-0.9.13.jar"/>
+	
+	<property name="wtk.home" value="/Developer/J2ME/mpp-sdk"/>
+
+	<!-- Note the following line can probably be omitted on PCs with WTK installed -->
+		<property name="wtk.midpapi" value="/Developer/J2ME/mpp-sdk/stubs/midp-2.0.jar:/Developer/J2ME/mpp-sdk/stubs/cldc-1.0.jar:/Developer/J2ME/microemulator-2.0.1/lib/microemu-jsr-120.jar"/>
+
+	<property name="wtk.cldc.version" value="1.0"/>
+		
+    <target name="build">
+
+	    	<property name="wtk.midp.version" value="2.0"/>
+
+        <delete dir="build"/>
+	    	<delete dir="build/classes"/>
+		<mkdir dir="build/classes"/>	
+		
+		<wtkjad jadfile="build/GoBibleCore.jad" 
+				jarfile="build/GoBibleCore.jar" 
+				manifest="build/Manifest.txt" 
+				name="GoBibleCore" 
+				vendor="Jolon Faichney" 
+				version="1.0.0">
+				
+				<midlet name="GoBibleCore" icon="icon.png" class="GoBible"/>
+			
+		</wtkjad>
+		
+		<wtkbuild srcdir="src" destdir="build/classes" preverify="false"/>
+		
+		<wtkpackage jarfile="build/GoBibleCore.jar" 
+			jadfile="build/GoBibleCore.jad"
+					preverify="true"
+					cldc="no" 
+					obfuscate="yes">
+					
+			<fileset dir="build/classes"/>
+			<fileset dir="icon"/>
+			
+		</wtkpackage>
+	</target>
+</project>

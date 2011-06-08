@@ -1,0 +1,154 @@
+Info: Almeida Revista e Atualizada, 2005. Desenvolvido e adaptado para o portugues por Frank de Melo Penha com um arquivo ThML provido por http://www.ccel.org.
+Source-Text: Portuguese/pt.thml
+Book-Name-Map: Genesis, Genesis
+Book-Name-Map: Exodus, Exodo
+Book-Name-Map: Leviticus, Levitico
+Book-Name-Map: Numbers, Numeros
+Book-Name-Map: Deuteronomy, Deuteronomio
+Book-Name-Map: Joshua, Josue
+Book-Name-Map: Judges, Juizes
+Book-Name-Map: Ruth, Rute
+Book-Name-Map: 1 Samuel, 1 Samuel
+Book-Name-Map: 2 Samuel, 2 Samuel
+Book-Name-Map: 1 Kings, 1 Reis
+Book-Name-Map: 2 Kings, 2 Reis
+Book-Name-Map: 1 Chronicles, 1 Cronicas
+Book-Name-Map: 2 Chronicles,Cronicas
+Book-Name-Map: Ezra, Esdras
+Book-Name-Map: Nehemiah, Neemias
+Book-Name-Map: Esther, Ester
+Book-Name-Map: Job, Jo
+Book-Name-Map: Psalms, Salmos
+Book-Name-Map: Proverbs, Proverbios
+Book-Name-Map: Ecclesiastes, Eclesiastes
+Book-Name-Map: Song of Solomon, Cantares
+Book-Name-Map: Isaiah, Isaias
+Book-Name-Map: Jeremiah, Jeremias
+Book-Name-Map: Lamentations, Lamentacoes
+Book-Name-Map: Ezekiel, Ezequiel
+Book-Name-Map: Daniel, Daniel
+Book-Name-Map: Hosea, Oseias
+Book-Name-Map: Joel, Joel
+Book-Name-Map: Amos, Amos
+Book-Name-Map: Obadiah, Obadias
+Book-Name-Map: Jonah, Jonas
+Book-Name-Map: Micah, Miqueias
+Book-Name-Map: Nahum, Naum
+Book-Name-Map: Habakkuk, Habacuque
+Book-Name-Map: Zephaniah, Sofonias
+Book-Name-Map: Haggai, Ageu
+Book-Name-Map: Zechariah, Zacarias
+Book-Name-Map: Malachi, Malaquias
+Book-Name-Map: Matthew, Mateus
+Book-Name-Map: Mark, Marcos
+Book-Name-Map: Luke, Lucas
+Book-Name-Map: John, Joao
+Book-Name-Map: Acts, Atos
+Book-Name-Map: Romans, Romanos
+Book-Name-Map: 1 Corinthians, 1 Corintios
+Book-Name-Map: 2 Corinthians, 2 Corintios
+Book-Name-Map: Galatians, Galatas
+Book-Name-Map: Ephesians, Efesios
+Book-Name-Map: Philippians, Filipenses
+Book-Name-Map: Colossians, Colossenses
+Book-Name-Map: 1 Thessalonians, 1 Tessalonicenses
+Book-Name-Map: 2 Thessalonians, 2 Tessalonicenses
+Book-Name-Map: 1 Timothy, 1 Timotio
+Book-Name-Map: 2 Timothy, 2 Timotio
+Book-Name-Map: Titus, Tito
+Book-Name-Map: Philemon, Filemon
+Book-Name-Map: Hebrews, Hebreus
+Book-Name-Map: James, Tiago
+Book-Name-Map: 1 Peter, 1 Pedro
+Book-Name-Map: 2 Peter, 2 Pedro
+Book-Name-Map: 1 John, 1 Joao
+Book-Name-Map: 2 John, 2 Joao
+Book-Name-Map: 3 John, 3 Joao
+Book-Name-Map: Jude, Judas
+Book-Name-Map: Revelation, Apocalipse
+
+Collection: Matt Mark
+Book: Matthew
+Book: Mark
+Collection: Luke John
+Book: Luke
+Book: John
+Collection: Acts
+Book: Acts
+Collection: Pauls Letters
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Collection: Heb to Revelation
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation
+Collection: Genesis
+Book: Genesis
+Collection: Exodus Levi
+Book: Exodus
+Book: Leviticus
+Collection: Numbers Deuteronomy
+Book: Numbers
+Book: Deuteronomy
+Collection: Josh Judges Ruth
+Book: Joshua
+Book: Judges
+Book: Ruth
+Collection: Samuel
+Book: 1 Samuel
+Book: 2 Samuel
+Collection: Kings
+Book: 1 Kings
+Book: 2 Kings
+Collection: Chronicles
+Book: 1 Chronicles
+Book: 2 Chronicles
+Collection: Ezra Neh Esther Job
+Book: Ezra
+Book: Nehemiah
+Book: Esther
+Book: Job
+Collection: Psalms
+Book: Psalms
+Collection: Solomon
+Book: Proverbs
+Book: Ecclesiastes
+Book: Song of Solomon
+Collection: Isaiah
+Book: Isaiah
+Collection: Jeremiah Lament
+Book: Jeremiah
+Book: Lamentations
+Collection: Ezekiel
+Book: Ezekiel
+Collection: Prophets
+Book: Daniel
+Book: Hosea
+Book: Joel
+Book: Amos
+Book: Obadiah
+Book: Jonah
+Book: Micah
+Book: Nahum
+Book: Habakkuk
+Book: Zephaniah
+Book: Haggai
+Book: Zechariah
+Book: Malachi

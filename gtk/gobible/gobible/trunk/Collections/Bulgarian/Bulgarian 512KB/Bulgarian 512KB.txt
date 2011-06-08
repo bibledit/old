@@ -1,0 +1,139 @@
+Info: Bulgarian Translation. Produced from ThML file provided by http://www.ccel.org.
+Source-Text: Bulgarian/bu.thm
+Book-Name-Map: Genesis, Битие
+Book-Name-Map: Exodus, Изход
+Book-Name-Map: Leviticus, Левит
+Book-Name-Map: Numbers, Числа
+Book-Name-Map: Deuteronomy, Второзаконие
+Book-Name-Map: Joshua, Исус Навиев
+Book-Name-Map: Judges, Съдии
+Book-Name-Map: Ruth, Рут
+Book-Name-Map: 1 Samuel, 1 Царе
+Book-Name-Map: 2 Samuel, 2 Царе
+Book-Name-Map: 1 Kings, 3 Царе
+Book-Name-Map: 2 Kings, 4 Царе
+Book-Name-Map: 1 Chronicles, 1 Летописи
+Book-Name-Map: 2 Chronicles, 2 Летописи
+Book-Name-Map: Ezra, Ездра
+Book-Name-Map: Nehemiah, Неемия
+Book-Name-Map: Esther, Естир
+Book-Name-Map: Job, Йов
+Book-Name-Map: Psalms, Псалми
+Book-Name-Map: Proverbs, Притчи
+Book-Name-Map: Ecclesiastes, Еклесиаст
+Book-Name-Map: Song of Solomon, Песен на песните
+Book-Name-Map: Isaiah, Исая
+Book-Name-Map: Jeremiah, Еремия
+Book-Name-Map: Lamentations, Плач Еремиев
+Book-Name-Map: Ezekiel, Езекил
+Book-Name-Map: Daniel, Данаил
+Book-Name-Map: Hosea, Осия
+Book-Name-Map: Joel, Йоил
+Book-Name-Map: Amos, Амос
+Book-Name-Map: Obadiah, Авдий
+Book-Name-Map: Jonah, Йон
+Book-Name-Map: Micah, Михей
+Book-Name-Map: Nahum, Наум
+Book-Name-Map: Habakkuk, Авакум
+Book-Name-Map: Zephaniah, Софоний
+Book-Name-Map: Haggai, Агей
+Book-Name-Map: Zechariah, Захария
+Book-Name-Map: Malachi, Малахия
+Book-Name-Map: Matthew, Матей
+Book-Name-Map: Mark, Марко
+Book-Name-Map: Luke, Лука
+Book-Name-Map: John, Йоан
+Book-Name-Map: Acts, Деяния
+Book-Name-Map: James, Яков
+Book-Name-Map: 1 Peter, 1 Петрово
+Book-Name-Map: 2 Peter, 2 Петрово
+Book-Name-Map: 1 John, 1 Йоаново
+Book-Name-Map: 2 John, 2 Йоаново
+Book-Name-Map: 3 John, 3 Йоаново
+Book-Name-Map: Jude, Юда
+Book-Name-Map: Romans, Римляни
+Book-Name-Map: 1 Corinthians, 1 Коринтяни
+Book-Name-Map: 2 Corinthians, 2 Коринтяни
+Book-Name-Map: Galatians, Галатяни
+Book-Name-Map: Ephesians, Ефесяни
+Book-Name-Map: Philippians, Филипяни
+Book-Name-Map: Colossians, Колосяни
+Book-Name-Map: 1 Thessalonians, 1 Солунци
+Book-Name-Map: 2 Thessalonians, 2 Солунци
+Book-Name-Map: 1 Timothy, 1 Тимотей
+Book-Name-Map: 2 Timothy, 2 Тимотей
+Book-Name-Map: Titus, Тит
+Book-Name-Map: Philemon, Филимон
+Book-Name-Map: Hebrews, Евреи
+Book-Name-Map: Revelation, Откровение
+
+Collection: Old Testament 1
+Book: Genesis
+Book: Exodus
+Book: Leviticus
+Book: Numbers
+Book: Deuteronomy
+Book: Joshua
+Book: Judges
+Book: Ruth
+Book: 1 Samuel
+Book: 2 Samuel
+Collection: Old Testament 2
+Book: 1 Kings
+Book: 2 Kings
+Book: 1 Chronicles
+Book: 2 Chronicles
+Book: Ezra
+Book: Nehemiah
+Book: Esther
+Book: Job
+Book: Psalms
+Book: Proverbs
+Book: Ecclesiastes
+Book: Song of Solomon
+Collection: Old Testament 3
+Book: Isaiah
+Book: Jeremiah
+Book: Lamentations
+Book: Ezekiel
+Book: Daniel
+Book: Hosea
+Book: Joel
+Book: Amos
+Book: Obadiah
+Book: Jonah
+Book: Micah
+Book: Nahum
+Book: Habakkuk
+Book: Zephaniah
+Book: Haggai
+Book: Zechariah
+Book: Malachi
+Collection: New Testament
+Book: Matthew
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation

@@ -1,0 +1,144 @@
+Source-Text: Afrikaans/AFK.thml
+Info: Afrikaans Bybel, door Paul (www.maheke.com) Koppelvlak in Afrikaans deur Nico nico@vddi.co.za
+UI-Goto:Gaan na
+UI-Cancel:Staak
+UI-Preferences:Voorkeure
+UI-History:Geskiedenis
+UI-OK:Ok
+UI-Search:Soek
+UI-Search-Results:Soekresultate
+UI-Add-Bookmark:Nuwe Boekmerk
+UI-Bookmarks:Boekmerke
+UI-Exit:Uitgaan
+UI-Send:Stuur
+UI-Send-SMS:Stuur SMS
+UI-Send-MMS:Stuur MMS
+UI-About:Betreffende
+UI-Loading:Laai tans
+UI-Save:Berg
+UI-Font-Size:Lettergrootte
+UI-Small:Klein
+UI-Medium:Medium
+UI-Large:Groot
+UI-Font-Style:Letterstyl
+UI-Plain:Gewoon
+UI-Bold:Donker
+UI-Full-Screen:Volskerm
+UI-On:Aan
+UI-Off:Af
+UI-Theme:Tema
+UI-Themes:Temas
+UI-Theme-Paper:Papier
+UI-Theme-Computer:Rekenaar
+UI-Theme-Floral:Blomme
+UI-Theme-Natural:Natuurlik
+UI-Theme-Blue:Blou
+UI-Theme-Sunshine:Sonskyn
+UI-Change:Verander
+UI-Select:Kies
+UI-Reverse-Colours:Omgekeerde Kleure
+UI-Reverse-Characters:Omgekeerde Karakters
+UI-Book:Boek
+UI-All:Alles
+UI-Chapter:Hoofstuk
+UI-Search-Text:Soek Teks
+UI-From-Book:Vanaf Boek
+UI-To-Book:Tot Boek
+UI-Stop:Stop
+UI-Searching:Soek tans
+UI-Found:Gevind
+UI-Please-Wait:Net 'n Oomblik!
+UI-Results:Resultate
+UI-View:Kyk
+UI-Delete-Bookmark:Vee boekmerk uit
+UI-Delete-Bookmark-Alert:Vee die gekose boekmerk uit?
+UI-Delete:Vee uit
+UI-Send-Verses:Stuur verse
+UI-Back:Terug
+UI-To:tot Boek
+UI-Select-Verses-To-Send:Kies verse om te stuur
+UI-Error:Fout
+UI-Message-Too-Large-To-Be-Sent:Boodskap te lank om te stuur
+UI-Verse-Does-Not-Exist:Verse bestaan nie
+UI-Phone-Number:Telefoonnommer
+
+Collection: AFK OT1
+Book: Genesis
+Book: Eksodus
+Book: Levitikus
+Book: Numeri
+Book: Deuteronomium
+Book: info
+
+Collection: AFK OT2
+Book: Joshua
+Book: Rigters
+Book: Rut
+Book: 1 Samuel
+Book: 2 Samuel
+Book: 1 Konings
+Book: 2 Konings
+Book: 1 Kronieke
+Book: 2 Kronieke
+Book: Esra
+Book: Nehemia
+Book: Ester
+Book: info
+
+Collection: AFK OT3
+Book: Job
+Book: Psalms
+Book: Spreuke
+Book: Prediker
+Book: Hooglied
+Book: info
+
+Collection: AFK OT4
+Book: Jesaja
+Book: Jeremia
+Book: Klaagliedere
+Book: Esegiel
+Book: Daniel
+Book: Hosea
+Book: Joel
+Book: Amos
+Book: Obadja
+Book: Jona
+Book: Miga
+Book: Nahum
+Book: Habakuk
+Book: Sefanja
+Book: Haggai
+Book: Sagaria
+Book: Maleagi
+Book: info
+
+Collection: AFK NT
+Book: Mattheus
+Book: Markus
+Book: Lukas
+Book: Johannes
+Book: Handelinge
+Book: Romeine
+Book: 1 Korintiers
+Book: 2 Korintiers
+Book: Galasiers
+Book: Efesiers
+Book: Filippense
+Book: Kolossense
+Book: 1 Tessalonisense
+Book: 2 Tessalonisense
+Book: 1 Timoteus
+Book: 2 Timoteus
+Book: Titus
+Book: Filemon
+Book: Hebreers
+Book: Jakobus
+Book: 1 Petrus
+Book: 2 Petrus
+Book: 1 Johannes
+Book: 2 Johannes
+Book: 3 Johannes
+Book: Judas
+Book: Openbaring
+Book: info

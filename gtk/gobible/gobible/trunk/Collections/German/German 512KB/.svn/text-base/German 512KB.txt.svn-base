@@ -1,0 +1,198 @@
+Info: Original Luther Translation. Produced from ThML file provided by http://www.ccel.org. Thanks to Julian Becker for additional translation.
+Source-Text: German/Luther.thml
+UI-Goto: Gehe zu
+UI-Cancel: Abbruch
+UI-Preferences: Einstellungen
+UI-History: Verlauf
+UI-OK: OK
+UI-Search: Suchen
+UI-Search-Results: Suchergebnisse
+UI-Exit: Ende
+UI-Send: Senden
+UI-Send-SMS: Sende SMS
+UI-About: Über
+UI-Loading: Laden
+UI-Save: Speichern
+UI-Font-Size: Schriftgröße
+UI-Small: Klein
+UI-Medium: Mittel
+UI-Large: Groß
+UI-Full-Screen: Vollbild
+UI-On: An
+UI-Off: Aus
+UI-Reverse-Characters: Umgekehrte Zeichen
+UI-Book: Buch
+UI-All: Alle
+UI-Chapter: Kapitel
+UI-Search-Text: Suche Text
+UI-Stop: Stop
+UI-Searching: Suche
+UI-Found: Gefunden
+UI-Please-Wait: Bitte warten
+UI-Results: Ergebnisse
+UI-Send-Verses: Sende Verse
+UI-Back: Zurück
+UI-To: an
+UI-Select-Verses-To-Send: Wähle Verse zum Versenden
+UI-Error: Fehler
+UI-Message-Too-Large-To-Be-Sent: Nachricht zu lang zum Versenden
+UI-Verse-Does-Not-Exist: Vers existiert nicht
+UI-Phone-Number: Telefonnummer
+UI-Add-Bookmark: Neues Lesezeichen
+UI-Bookmarks: Lesezeichen
+UI-From-Book: Von
+UI-To-Book: Bis
+UI-View: Anzeigen
+UI-Delete-Bookmark: Löschen
+UI-Delete: Löschen
+UI-Font-Style: Schriftstil
+UI-Plain: Normal
+UI-Bold: Fett
+UI-Theme: Theme
+UI-Themes: Themen
+UI-Theme-Paper: Papier
+UI-Theme-Computer: Computer
+UI-Theme-Floral: Pflanzen
+UI-Theme-Natural: Natur
+UI-Theme-Blue: Blau
+UI-Theme-Sunshine: Sonnenschein
+UI-Change: Ändern
+UI-Select: Auswählen
+UI-Reverse-Colours: Farben invertieren
+UI-Delete-Bookmark-Alert: Wollen Sie das ausgewählte Lesezeichen wirklich löschen?
+Book-Name-Map: Genesis, Genesis
+Book-Name-Map: Exodus, Exodus
+Book-Name-Map: Leviticus, Leviticus
+Book-Name-Map: Numbers, Numeri
+Book-Name-Map: Deuteronomy, Deuteronomium
+Book-Name-Map: Joshua, Josua
+Book-Name-Map: Judges, Richter
+Book-Name-Map: Ruth, Ruth
+Book-Name-Map: 1 Samuel, 1 Samuel
+Book-Name-Map: 2 Samuel, 2 Samuel
+Book-Name-Map: 1 Kings, 1 Könige
+Book-Name-Map: 2 Kings, 2 Könige
+Book-Name-Map: 1 Chronicles, 1 Chronik
+Book-Name-Map: 2 Chronicles, 2 Chronik
+Book-Name-Map: Ezra, Esra
+Book-Name-Map: Nehemiah, Nehemia
+Book-Name-Map: Esther, Esther
+Book-Name-Map: Job, Hiob
+Book-Name-Map: Psalms, Psalter
+Book-Name-Map: Proverbs, Sprichwörter
+Book-Name-Map: Ecclesiastes, Kohelet
+Book-Name-Map: Song of Solomon, Hohelied Salomos
+Book-Name-Map: Isaiah, Jesaja
+Book-Name-Map: Jeremiah, Jeremia
+Book-Name-Map: Lamentations, Klagelieder
+Book-Name-Map: Ezekiel, Ezechiel
+Book-Name-Map: Daniel, Daniel
+Book-Name-Map: Hosea, Hosea
+Book-Name-Map: Joel, Joel
+Book-Name-Map: Amos, Amos
+Book-Name-Map: Obadiah, Obadja
+Book-Name-Map: Jonah, Jona
+Book-Name-Map: Micah, Micha
+Book-Name-Map: Nahum, Nahum
+Book-Name-Map: Habakkuk, Habakkuk
+Book-Name-Map: Zephaniah, Zephania
+Book-Name-Map: Haggai, Haggai
+Book-Name-Map: Zechariah, Sacharja
+Book-Name-Map: Malachi, Maleachi
+Book-Name-Map: Matthew, Matthäus
+Book-Name-Map: Mark, Markus
+Book-Name-Map: Luke, Lukas
+Book-Name-Map: John, Johannes
+Book-Name-Map: Acts, Apostelgeschichte
+Book-Name-Map: Romans, Römer
+Book-Name-Map: 1 Corinthians, 1 Korinther
+Book-Name-Map: 2 Corinthians, 2 Korinther
+Book-Name-Map: Galatians, Galater
+Book-Name-Map: Ephesians, Epheser
+Book-Name-Map: Philippians, Philipper
+Book-Name-Map: Colossians, Kolosser
+Book-Name-Map: 1 Thessalonians, 1 Thessalonicher
+Book-Name-Map: 2 Thessalonians, 2 Thessalonicher
+Book-Name-Map: 1 Timothy, 1 Timotheus
+Book-Name-Map: 2 Timothy, 2 Timotheus
+Book-Name-Map: Titus, Titus
+Book-Name-Map: Philemon, Philemon
+Book-Name-Map: Hebrews, Hebräer
+Book-Name-Map: James, Jakobus
+Book-Name-Map: 1 Peter, 1 Petrus
+Book-Name-Map: 2 Peter, 2 Petrus
+Book-Name-Map: 1 John, 1 Johannes
+Book-Name-Map: 2 John, 2 Johannes
+Book-Name-Map: 3 John, 3 Johannes
+Book-Name-Map: Jude, Judas
+Book-Name-Map: Revelation, Offenbarung
+Collection: Old Testament 1
+Book: Genesis
+Book: Exodus
+Book: Leviticus
+Book: Numbers
+Book: Deuteronomy
+Book: Joshua
+Book: Judges
+Book: Ruth
+Book: 1 Samuel
+Book: 2 Samuel
+Collection: Old Testament 2
+Book: 1 Kings
+Book: 2 Kings
+Book: 1 Chronicles
+Book: 2 Chronicles
+Book: Ezra
+Book: Nehemiah
+Book: Esther
+Book: Job
+Book: Psalms
+Book: Proverbs
+Book: Ecclesiastes
+Book: Song of Solomon
+Collection: Old Testament 3
+Book: Isaiah
+Book: Jeremiah
+Book: Lamentations
+Book: Ezekiel
+Book: Daniel
+Book: Hosea
+Book: Joel
+Book: Amos
+Book: Obadiah
+Book: Jonah
+Book: Micah
+Book: Nahum
+Book: Habakkuk
+Book: Zephaniah
+Book: Haggai
+Book: Zechariah
+Book: Malachi
+Collection: New Testament
+Book: Matthew
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation

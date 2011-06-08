@@ -1,0 +1,195 @@
+Info: Smith and Van Dyke Arabic Translation. Thanks to Magdi Haiman Nakhla, Emad Haiman Nakhla, and Maria El-Ghazaly for extra help with the translation.
+Source-Text: Arabic/asvd_shaped.xml
+Align: Right
+UI-Goto: الذهاب إلى
+UI-Cancel: إلغاء
+UI-Preferences: الإختيارات
+UI-History: الذاكرة
+UI-OK: موافق
+UI-Search: بحث
+UI-Search-Results: نتائج البحث
+UI-Add-Bookmark: أضف شارة رجوع
+UI-Bookmarks: شارات الرجوع
+UI-Delete-Bookmark: حذف
+UI-Delete-Bookmark-Alert: تأكيد الحذف
+UI-Delete: حذف
+UI-Exit: خروج
+UI-Send: إرسال
+UI-Send-SMS: SMS إرسال
+UI-About: عن البرنامج
+UI-Loading: جارى التحميل
+UI-Save: حفظ
+UI-Font-Size: حجم الخط
+UI-Small: صغير
+UI-Medium: متوسط
+UI-Large: كبير
+UI-Font-Style: نمط الخط
+UI-Plain: عادي
+UI-Bold: عريض
+UI-Full-Screen: شاشة كاملة
+UI-On: منشط
+UI-Off: غير منشط
+UI-Theme: نوع الخلفية
+UI-Theme-Paper: ورقية
+UI-Theme-Computer: كمبيوتر
+UI-Theme-Floral: زهرية
+UI-Theme-Natural: طبيعة
+UI-Theme-Blue: زرقاء
+UI-Theme-Sunshine: صفراء
+UI-Select: اختيار
+UI-Change: تغيير
+UI-Reverse-Colours: عكس الألوان
+UI-Reverse-Characters: عكس الحروف
+UI-Book: كتاب
+UI-All: الكل
+UI-Chapter: أصحاح
+UI-Search-Text: نص البحث
+UI-From-Book: من سفر
+UI-To-Book: الى سفر
+UI-Stop: توقف
+UI-View: عرض
+UI-Searching: جارى البحث
+UI-Found: وجد
+UI-Please-Wait: انتظر من فضلك
+UI-Results: النتائج
+UI-Send-Verses: ارسال آيات
+UI-Back: الرجوع
+UI-To: إلى
+UI-Select-Verses-To-Send: تحديد آيات للإرسال
+UI-Error: خطأ
+UI-Message-Too-Large-To-Be-Sent: الرسالة لا يمكن ارسالها لكبر حجمها
+UI-Verse-Does-Not-Exist: الآية لا توجد
+UI-Phone-Number: رقم التليفون
+Book-Name-Map: Gen, ﺍﻟﺘﻜﻮﻳﻦ
+Book-Name-Map: Exod, ﺍﻟﺨﺮﻭﺝ
+Book-Name-Map: Lev, ﺍﻟﻼﻭﻳﻴﻦ
+Book-Name-Map: Num, ﺍﻟﻌﺪﺩ
+Book-Name-Map: Deut, ﺍﻟﺘﺜﻨﻴﺔ
+Book-Name-Map: Josh, ﻳﺸﻮﻉ
+Book-Name-Map: Judg, ﻗﻀﺎﺓ
+Book-Name-Map: Ruth, ﺭﺍﻋﻮﺙ
+Book-Name-Map: 1Sam, ﺻﻤﻮﺋﻴﻞ ﺍﻷﻭﻝ
+Book-Name-Map: 2Sam, ﺻﻤﻮﺋﻴﻞ ﺍﻟﺜﺎﻧﻰ
+Book-Name-Map: 1Kgs, ﺍﻟﻤﻠﻮﻙ ﺍﻷﻭﻝ
+Book-Name-Map: 2Kgs, ﺍﻟﻤﻠﻮﻙ ﺍﻟﺜﺎﻧﻰ
+Book-Name-Map: 1Chr, ﺃﺧﺒﺎﺭ ﺍﻷﻳﺎﻡ ﺍﻷﻭﻝ
+Book-Name-Map: 2Chr, ﺃﺧﺒﺎﺭ ﺍﻷﻳﺎﻡ ﺍﻟﺜﺎﻧﻰ
+Book-Name-Map: Ezra, ﻋﺰﺭﺍ
+Book-Name-Map: Neh, ﻧﺤﻤﻴﺎ
+Book-Name-Map: Esth, ﺍﺳﺘﻴﺮ
+Book-Name-Map: Job, ﺍﻳﻮﺏ
+Book-Name-Map: Ps, ﺍﻟﻤﺰﺍﻣﻴﺮ
+Book-Name-Map: Prov, ﺍﻷﻣﺜﺎﻝ
+Book-Name-Map: Eccl, ﺍﻟﺠﺎﻣﻌﺔ
+Book-Name-Map: Song, ﻧﺸﻴﺪ ﺍﻷﻧﺸﺎﺩ
+Book-Name-Map: Isa, ﺇﺷﻌﻴﺎء
+Book-Name-Map: Jer, ﺇﺭﻣﻴﺎء
+Book-Name-Map: Lam, ﻣﺮﺍﺛﻰ ﺇﺭﻣﻴﺎء
+Book-Name-Map: Ezek, ﺣﺰﻗﻴﺎﻝ
+Book-Name-Map: Dan, ﺩﺍﻧﻴﺎﻝ
+Book-Name-Map: Hos, ﻫﻮﺷﻊ
+Book-Name-Map: Joel, ﻳﻮﺋﻴﻞ
+Book-Name-Map: Amos, ﻋﺎﻣﻮﺱ
+Book-Name-Map: Obad, ﻋﻮﺑﺪﻳﺎ
+Book-Name-Map: Jonah, ﻳﻮﻧﺎﻥ
+Book-Name-Map: Mic, ﻣﻴﺨﺎ
+Book-Name-Map: Nah, ﻧﺎﺣﻮﻡ
+Book-Name-Map: Hab, ﺣﺒﻘﻮﻕ
+Book-Name-Map: Zeph, ﺻﻔﻨﻴﺎ
+Book-Name-Map: Hag, ﺣﺠﻲ
+Book-Name-Map: Zech, ﺯﻛﺮﻳﺎ
+Book-Name-Map: Mal, ﻣﻼﺧﻰ
+Book-Name-Map: Matt, ﻣﺘﻰ
+Book-Name-Map: Mark, ﻣﺮﻗﺲ
+Book-Name-Map: Luke, ﻟﻮﻗﺎ
+Book-Name-Map: John, ﻳﻮﺣﻨﺎ
+Book-Name-Map: Acts, ﺃﻋﻤﺎﻝ ﺍﻟﺮﺳﻞ
+Book-Name-Map: Rom, ﺭﻭﻣﻴﺔ
+Book-Name-Map: 1Cor, ﻛﻮﺭﻧﺜﻮﺱ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Cor, ﻛﻮﺭﻧﺜﻮﺱ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: Gal, ﻏﻼﻃﻴﺔ
+Book-Name-Map: Eph, ﺃﻓﺴﺲ
+Book-Name-Map: Phil, ﻓﻴﻠﺒﻲ
+Book-Name-Map: Col, ﻛﻮﻟﻮﺳﻰ
+Book-Name-Map: 1Thess, ﺗﺴﺎﻟﻮﻧﻴﻜﻲ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Thess, ﺗﺴﺎﻟﻮﻧﻴﻜﻲ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: 1Tim, ﺗﻴﻤﻮﺛﺎﻭﺱ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Tim, ﺗﻴﻤﻮﺛﺎﻭﺱ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: Titus, ﺗﻴﻄﺲ
+Book-Name-Map: Phlm, ﻓﻠﻴﻤﻮﻥ
+Book-Name-Map: Heb, ﺍﻟﻌﺒﺮﺍﻧﻴﻴﻦ
+Book-Name-Map: Jas, ﻳﻌﻘﻮﺏ
+Book-Name-Map: 1Pet, ﺑﻄﺮﺱ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2Pet, ﺑﻄﺮﺱ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: 1John, ﻳﻮﺣﻨﺎ ﺍﻷﻭﻟﻰ
+Book-Name-Map: 2John, ﻳﻮﺣﻨﺎ ﺍﻟﺜﺎﻧﻴﺔ
+Book-Name-Map: 3John, ﻳﻮﺣﻨﺎ ﺍﻟﺜﺎﻟﺜﺔ
+Book-Name-Map: Jude, ﻳﻬﻮﺫﺍ
+Book-Name-Map: Rev, ﺭﺅﻳﺎ ﻳﻮﺣﻨﺎ
+Collection: Arabic
+Book: Gen
+Book: Exod
+Book: Lev
+Book: Num
+Book: Deut
+Book: Josh
+Book: Judg
+Book: Ruth
+Book: 1Sam
+Book: 2Sam
+Book: 1Kgs
+Book: 2Kgs
+Book: 1Chr
+Book: 2Chr
+Book: Ezra
+Book: Neh
+Book: Esth
+Book: Job
+Book: Ps
+Book: Prov
+Book: Eccl
+Book: Song
+Book: Isa
+Book: Jer
+Book: Lam
+Book: Ezek
+Book: Dan
+Book: Hos
+Book: Joel
+Book: Amos
+Book: Obad
+Book: Jonah
+Book: Mic
+Book: Nah
+Book: Hab
+Book: Zeph
+Book: Hag
+Book: Zech
+Book: Mal
+Book: Matt
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Rom
+Book: 1Cor
+Book: 2Cor
+Book: Gal
+Book: Eph
+Book: Phil
+Book: Col
+Book: 1Thess
+Book: 2Thess
+Book: 1Tim
+Book: 2Tim
+Book: Titus
+Book: Phlm
+Book: Heb
+Book: Jas
+Book: 1Pet
+Book: 2Pet
+Book: 1John
+Book: 2John
+Book: 3John
+Book: Jude
+Book: Rev

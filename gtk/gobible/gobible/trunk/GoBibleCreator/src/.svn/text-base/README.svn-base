@@ -1,0 +1,5 @@
+1. Checkout source from googlecode
+2. Change to 'src' directory
+3. Type 'make'
+4. Produces GoBibleCreator.jar
+5. Run with java -jar GoBibleCreator.jar

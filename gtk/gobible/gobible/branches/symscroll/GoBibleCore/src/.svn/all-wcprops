@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src
+END
+SearchingCanvas.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/gobible/!svn/ver/40/branches/symscroll/GoBibleCore/src/SearchingCanvas.java
+END
+SendSMSForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gobible/!svn/ver/39/branches/symscroll/GoBibleCore/src/SendSMSForm.java
+END
+GBCToolkit.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/gobible/!svn/ver/29/branches/symscroll/GoBibleCore/src/GBCToolkit.java
+END
+PrefsForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src/PrefsForm.java
+END
+GoBible.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src/GoBible.java
+END
+TextStyle.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src/TextStyle.java
+END
+CombinedChapterBibleSource.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src/CombinedChapterBibleSource.java
+END
+MultiFileBibleSource.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/gobible/!svn/ver/18/branches/symscroll/GoBibleCore/src/MultiFileBibleSource.java
+END
+BibleCanvas.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src/BibleCanvas.java
+END
+SearchOptions.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/gobible/!svn/ver/40/branches/symscroll/GoBibleCore/src/SearchOptions.java
+END
+ColourItem.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/gobible/!svn/ver/9/branches/symscroll/GoBibleCore/src/ColourItem.java
+END
+SearchResultsList.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/gobible/!svn/ver/40/branches/symscroll/GoBibleCore/src/SearchResultsList.java
+END
+BookmarksList.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/gobible/!svn/ver/39/branches/symscroll/GoBibleCore/src/BookmarksList.java
+END
+BookmarkEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/gobible/!svn/ver/9/branches/symscroll/GoBibleCore/src/BookmarkEntry.java
+END
+ui.properties
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src/ui.properties
+END
+SearchForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/gobible/!svn/ver/40/branches/symscroll/GoBibleCore/src/SearchForm.java
+END
+SuperCanvas.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gobible/!svn/ver/34/branches/symscroll/GoBibleCore/src/SuperCanvas.java
+END
+GotoForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gobible/!svn/ver/39/branches/symscroll/GoBibleCore/src/GotoForm.java
+END
+KeySettingsForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/gobible/!svn/ver/41/branches/symscroll/GoBibleCore/src/KeySettingsForm.java
+END
+HistoryList.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gobible/!svn/ver/39/branches/symscroll/GoBibleCore/src/HistoryList.java
+END
+BibleSource.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gobible/!svn/ver/23/branches/symscroll/GoBibleCore/src/BibleSource.java
+END
+manifest.entries
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gobible/!svn/ver/34/branches/symscroll/GoBibleCore/src/manifest.entries
+END

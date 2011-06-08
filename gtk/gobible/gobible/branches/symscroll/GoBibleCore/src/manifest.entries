@@ -1,0 +1,11 @@
+These are some Manifest entries that you could consider including in your project
+
+==============================
+Go-Bible-Extended-UI: true|false
+Go-Bible-Line-Height: 1.1
+Go-Bible-Align: Right|Left
+Go-Bible-Render-Faux-Bold: no|yes
+Go-Bible-Render-Faux-Italic: no|yes
+Go-Bible-Render-Faux-Underline: no|yes
+Nokia-MIDlet-On-Screen-Keypad: no|yes
+

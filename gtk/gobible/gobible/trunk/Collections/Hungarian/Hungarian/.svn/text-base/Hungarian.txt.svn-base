@@ -1,0 +1,137 @@
+Info: Hungarian Bible. Compiled by octavian_lupu@yahoo.com Produced from ThML file provided by http://www.ccel.org.
+Source-Text: Hungarian/hu.xml
+MIDP: MIDP-2.0
+Book-Name-Map:  Genesis, 1 Mozes
+Book-Name-Map:  Exodus, 2 Mozes
+Book-Name-Map:  Leviticus, 3 Mozes
+Book-Name-Map:  Numbers, 4 Mozes
+Book-Name-Map:  Deuteronomy, 5 Mozes
+Book-Name-Map:  Joshua, Jozsue
+Book-Name-Map:  Judges, Birak
+Book-Name-Map:  Ruth, Ruth
+Book-Name-Map:  1 Samuel, 1 Samuel
+Book-Name-Map:  2 Samuel, 2 Samuel
+Book-Name-Map:  1 Kings, 1 Kiralyok
+Book-Name-Map:  2 Kings, 2 Kiralyok
+Book-Name-Map:  1 Chronicles, 1 Kronika
+Book-Name-Map:  2 Chronicles, 2 Kronika
+Book-Name-Map:  Ezra, Ezsdras
+Book-Name-Map:  Nehemiah, Nehemias
+Book-Name-Map:  Esther, Eszter
+Book-Name-Map:  Job, Job
+Book-Name-Map:  Psalms, Zsoltarok
+Book-Name-Map:  Proverbs, Peldabeszedek
+Book-Name-Map:  Ecclesiastes, Predikator
+Book-Name-Map:  Song of Solomon, Enekek Eneke
+Book-Name-Map:  Isaiah, Ezsaias
+Book-Name-Map:  Jeremiah, Jeremias
+Book-Name-Map:  Lamentations, Jeremias sir
+Book-Name-Map:  Ezekiel, Ezekiel
+Book-Name-Map:  Daniel, Daniel
+Book-Name-Map:  Hosea, Hoseas
+Book-Name-Map:  Joel, Joel
+Book-Name-Map:  Amos, Amos
+Book-Name-Map:  Obadiah, Abdias
+Book-Name-Map:  Jonah, Jonas
+Book-Name-Map:  Micah, Mikeas
+Book-Name-Map:  Nahum, Nahum
+Book-Name-Map:  Habakkuk, Habakuk
+Book-Name-Map:  Zephaniah, Sofonias
+Book-Name-Map:  Haggai, Aggeus
+Book-Name-Map:  Zechariah, Zakarias
+Book-Name-Map:  Malachi, Malakias
+Book-Name-Map:  Matthew, Mate
+Book-Name-Map:  Mark, Mark
+Book-Name-Map:  Luke, Lukacs
+Book-Name-Map:  John, Janos
+Book-Name-Map:  Acts, Apostolok
+Book-Name-Map:  Romans, Romaiakhoz
+Book-Name-Map:  1 Corinthians, 1 Korintusi
+Book-Name-Map:  2 Corinthians, 2 Korintusi
+Book-Name-Map:  Galatians, Galatakhoz
+Book-Name-Map:  Ephesians, Efezusiakhoz
+Book-Name-Map:  Philippians, Filippiekhez
+Book-Name-Map:  Colossians, Kolosseiakhoz
+Book-Name-Map:  1 Thessalonians, 1 Tesszalonika
+Book-Name-Map:  2 Thessalonians, 2 Tesszalonika
+Book-Name-Map:  1 Timothy, 1 Timoteushoz
+Book-Name-Map:  2 Timothy, 2 Timoteushoz
+Book-Name-Map:  Titus, Titushoz
+Book-Name-Map:  Philemon, Filemonhoz
+Book-Name-Map:  Hebrews, Zsidokhoz
+Book-Name-Map:  James, Jakab
+Book-Name-Map:  1 Peter, 1 Peter
+Book-Name-Map:  2 Peter, 2 Peter
+Book-Name-Map:  1 John, 1 Janos
+Book-Name-Map:  2 John, 2 Janos
+Book-Name-Map:  3 John, 3 Janos
+Book-Name-Map:  Jude, Judas
+Book-Name-Map:  Revelation, Jelenesek
+Collection: Hungarian
+Book: Genesis
+Book: Exodus
+Book: Leviticus
+Book: Numbers
+Book: Deuteronomy
+Book: Joshua
+Book: Judges
+Book: Ruth
+Book: 1 Samuel
+Book: 2 Samuel
+Book: 1 Kings
+Book: 2 Kings
+Book: 1 Chronicles
+Book: 2 Chronicles
+Book: Ezra
+Book: Nehemiah
+Book: Esther
+Book: Job
+Book: Psalms
+Book: Proverbs
+Book: Ecclesiastes
+Book: Song of Solomon
+Book: Isaiah
+Book: Jeremiah
+Book: Lamentations
+Book: Ezekiel
+Book: Daniel
+Book: Hosea
+Book: Joel
+Book: Amos
+Book: Obadiah
+Book: Jonah
+Book: Micah
+Book: Nahum
+Book: Habakkuk
+Book: Zephaniah
+Book: Haggai
+Book: Zechariah
+Book: Malachi
+Book: Matthew
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation
+

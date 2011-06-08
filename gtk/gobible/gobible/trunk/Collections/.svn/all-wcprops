@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/gobible/!svn/ver/1/trunk/Collections
+END
+MakeAll.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/gobible/!svn/ver/1/trunk/Collections/MakeAll.sh
+END
+MakeCollection.sh
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/gobible/!svn/ver/1/trunk/Collections/MakeCollection.sh
+END
+MakeWap.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/gobible/!svn/ver/1/trunk/Collections/MakeWap.sh
+END

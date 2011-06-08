@@ -1,0 +1,153 @@
+Info: Slovensky evanjelicky preklad, Tranoscius. Source: Theophilos and http://www.ecav.sk, by RS Software.
+Source-Text: Slovak/Biblia.thml
+Book-Name-Map: Genesis, Genesis
+Book-Name-Map: Exodus, Exodus
+Book-Name-Map: Leviticus, Leviticus
+Book-Name-Map: Numbers, Numeri
+Book-Name-Map: Deuteronomy, Deuteronomium
+Book-Name-Map: Joshua, Jozua
+Book-Name-Map: Judges, Sudcov
+Book-Name-Map: Ruth, Rut
+Book-Name-Map: 1 Samuel, 1 Samuelova
+Book-Name-Map: 2 Samuel, 2 Samuelova
+Book-Name-Map: 1 Kings, 1 Kralov
+Book-Name-Map: 2 Kings, 2 Kralov
+Book-Name-Map: 1 Chronicles, 1 Kronicka
+Book-Name-Map: 2 Chronicles, 2 Kronicka
+Book-Name-Map: Ezra, Ezdras
+Book-Name-Map: Nehemiah, Nehemias
+Book-Name-Map: Esther, Ester
+Book-Name-Map: Job, Job
+Book-Name-Map: Psalm, Zalmy
+Book-Name-Map: Proverbs, Prislovia
+Book-Name-Map: Ecclesiastes, Kazatel
+Book-Name-Map: Song of Songs, Velpiesen
+Book-Name-Map: Isaiah, Izaias
+Book-Name-Map: Jeremiah, Jeremias
+Book-Name-Map: Lamentations, Zalospevy
+Book-Name-Map: Ezekiel, Ezechiel
+Book-Name-Map: Daniel, Daniel
+Book-Name-Map: Hosea, Ozeas
+Book-Name-Map: Joel, Joel
+Book-Name-Map: Amos, Amos
+Book-Name-Map: Obadiah, Abdias
+Book-Name-Map: Jonah, Jonas
+Book-Name-Map: Micah, Micheas
+Book-Name-Map: Nahum, Nahum
+Book-Name-Map: Habakkuk, Abakuk
+Book-Name-Map: Zephaniah, Sofonias
+Book-Name-Map: Haggai, Ageus
+Book-Name-Map: Zechariah, Zacharias
+Book-Name-Map: Malachi, Malachias
+Book-Name-Map: Matthew, Matus
+Book-Name-Map: Mark, Marek
+Book-Name-Map: Luke, Lukas
+Book-Name-Map: John, Jan
+Book-Name-Map: Acts, Skutky
+Book-Name-Map: Romans, Rimanom
+Book-Name-Map: 1 Corinthians, 1 Korintanom
+Book-Name-Map: 2 Corinthians, 2 Korintanom
+Book-Name-Map: Galatians, Galatanom
+Book-Name-Map: Ephesians, Efezanom
+Book-Name-Map: Philippians, Filipanom
+Book-Name-Map: Colossians, Kolosanom
+Book-Name-Map: 1 Thessalonians, 1 Tesalonicanom
+Book-Name-Map: 2 Thessalonians, 2 Tesalonicanom
+Book-Name-Map: 1 Timothy, 1 Timoteovi
+Book-Name-Map: 2 Timothy, 2 Timoteovi
+Book-Name-Map: Titus, Titovi
+Book-Name-Map: Philemon, Filemonovi
+Book-Name-Map: Hebrews, Zidom
+Book-Name-Map: James, Jakuba
+Book-Name-Map: 1 Peter, 1 Petra
+Book-Name-Map: 2 Peter, 2 Petra
+Book-Name-Map: 1 John, 1 Jana
+Book-Name-Map: 2 John, 2 Jana
+Book-Name-Map: 3 John, 3 Jana
+Book-Name-Map: Jude, Judu
+Book-Name-Map: Revelation, Zjavenie Jana
+Collection: Matus Marek
+Book: Matthew
+Book: Mark
+Collection: Lukas Jan
+Book: Luke
+Book: John
+Collection: Skutky
+Book: Acts
+Collection: Pavlove Listy
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Collection: Zidom-Zjavenie
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation
+Collection: Genesis
+Book: Genesis
+Collection: Exodus Levi
+Book: Exodus
+Book: Leviticus
+Collection: Numeri Deut
+Book: Numbers
+Book: Deuteronomy
+Collection: Jozue Sudcov Rut
+Book: Joshua
+Book: Judges
+Book: Ruth
+Collection: Samuel
+Book: 1 Samuel
+Book: 2 Samuel
+Collection: Kralov
+Book: 1 Kings
+Book: 2 Kings
+Collection: Kronicka
+Book: 1 Chronicles
+Book: 2 Chronicles
+Collection: Ezd Neh Ester Job
+Book: Ezra
+Book: Nehemiah
+Book: Esther
+Book: Job
+Collection: Zalmy
+Book: Psalm
+Collection: Salamun
+Book: Proverbs
+Book: Ecclesiastes
+Book: Song of Songs
+Collection: Izaias
+Book: Isaiah
+Collection: Jeremias Zalospev
+Book: Jeremiah
+Book: Lamentations
+Collection: Ezechiel
+Book: Ezekiel
+Collection: Proroci
+Book: Daniel
+Book: Hosea
+Book: Joel
+Book: Amos
+Book: Obadiah
+Book: Jonah
+Book: Micah
+Book: Nahum
+Book: Habakkuk
+Book: Zephaniah
+Book: Haggai
+Book: Zechariah
+Book: Malachi

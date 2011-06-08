@@ -1,0 +1,208 @@
+Info: Smith and Van Dyke Arabic Translation.  Thanks to Magdi Haiman Nakhla, Emad Haiman Nakhla for their help in fixing the Arabic Version, and to Maria El-Ghazaly for extra help with the translation.
+Source-Text: Arabic/asvd.xml
+Align: Right
+UI-Goto: الذهاب إلى
+UI-Cancel: إلغاء
+UI-Preferences: الإختيارات
+UI-History: الذاكرة
+UI-OK: موافق
+UI-Search: بحث
+UI-Search-Results: نتائج البحث
+UI-Add-Bookmark: أضف شارة رجوع
+UI-Bookmarks: شارات الرجوع
+UI-Delete-Bookmark: حذف
+UI-Delete-Bookmark-Alert: تأكيد الحذف
+UI-Delete: حذف
+UI-Exit: خروج
+UI-Send: إرسال
+UI-Send-SMS: SMS إرسال
+UI-About: عن البرنامج
+UI-Loading: جارى التحميل
+UI-Save: حفظ
+UI-Font-Size: حجم الخط
+UI-Small: صغير
+UI-Medium: متوسط
+UI-Large: كبير
+UI-Font-Style: نمط الخط
+UI-Plain: عادي
+UI-Bold: عريض
+UI-Full-Screen: شاشة كاملة
+UI-On: منشط
+UI-Off: غير منشط
+UI-Theme: نوع الخلفية
+UI-Theme-Paper: ورقية
+UI-Theme-Computer: كمبيوتر
+UI-Theme-Floral: زهرية
+UI-Theme-Natural: طبيعة
+UI-Theme-Blue: زرقاء
+UI-Theme-Sunshine: صفراء
+UI-Select: اختيار
+UI-Change: تغيير
+UI-Reverse-Colours: عكس الألوان
+UI-Reverse-Characters: عكس الحروف
+UI-Book: كتاب
+UI-All: الكل
+UI-Books: أسفار البحث
+UI-New-Testament: العهد الجديد
+UI-Old-Testament: العهد القديم
+UI-Gospels: الأناجيل الأربعة
+UI-Pauls-Letters: رسائل بولس الرسول
+UI-Other-Letters: الرسائل الأخرى
+UI-Books-Of-Moses: الأسفار الموساوية
+UI-Historical: الأسفار التاريخية
+UI-Poetic: الأسفار الشعرية
+UI-Major-Prophets: أسفار الأنبياء الكبار
+UI-Minor-Prophets: أسفار الأنبياء الصغار
+UI-Chapter: اصحاح
+UI-Search-Text: نص البحث
+UI-From-Book: من سفر
+UI-To-Book: الى سفر
+UI-Stop: توقف
+UI-View: عرض
+UI-Searching: جارى البحث
+UI-Found: وجد
+UI-Please-Wait: انتظر من فضلك
+UI-Results: النتائج
+UI-Send-Verses: ارسال آيات
+UI-Back: الرجوع
+UI-To: إلى
+UI-Select-Verses-To-Send: تحديد آيات للإرسال
+UI-Error: خطأ
+UI-Message-Too-Large-To-Be-Sent: الرسالة لا يمكن ارسالها لكبر حجمها
+UI-Verse-Does-Not-Exist: الآية لا توجد
+UI-Phone-Number: رقم التليفون
+Book-Name-Map: Gen, التكوين
+Book-Name-Map: Exod, الخروج
+Book-Name-Map: Lev, اللاويين
+Book-Name-Map: Num, العدد
+Book-Name-Map: Deut, التثنية
+Book-Name-Map: Josh, يشوع
+Book-Name-Map: Judg, قضاة
+Book-Name-Map: Ruth, راعوث
+Book-Name-Map: 1Sam, صموئيل الأول
+Book-Name-Map: 2Sam, صموئيل الثانى
+Book-Name-Map: 1Kgs, الملوك الأول
+Book-Name-Map: 2Kgs, الملوك الثانى
+Book-Name-Map: 1Chr, أخبار الأيام الأول
+Book-Name-Map: 2Chr, أخبار الأيام الثانى
+Book-Name-Map: Ezra, عزرا
+Book-Name-Map: Neh, نحميا
+Book-Name-Map: Esth, استير
+Book-Name-Map: Job, ايوب
+Book-Name-Map: Ps, المزامير
+Book-Name-Map: Prov, الأمثال
+Book-Name-Map: Eccl, الجامعة
+Book-Name-Map: Song, نشيد الأنشاد
+Book-Name-Map: Isa, إشعياء
+Book-Name-Map: Jer, إرمياء
+Book-Name-Map: Lam, مراثى إرمياء
+Book-Name-Map: Ezek, حزقيال
+Book-Name-Map: Dan, دانيال
+Book-Name-Map: Hos, هوشع
+Book-Name-Map: Joel, يوئيل
+Book-Name-Map: Amos, عاموس
+Book-Name-Map: Obad, عوبديا
+Book-Name-Map: Jonah, يونان
+Book-Name-Map: Mic, ميخا
+Book-Name-Map: Nah, ناحوم
+Book-Name-Map: Hab, حبقوق
+Book-Name-Map: Zeph, صفنيا
+Book-Name-Map: Hag, حجي
+Book-Name-Map: Zech, زكريا
+Book-Name-Map: Mal, ملاخى
+Book-Name-Map: Matt, متى
+Book-Name-Map: Mark, مرقس
+Book-Name-Map: Luke, لوقا
+Book-Name-Map: John, يوحنا
+Book-Name-Map: Acts, أعمال الرسل
+Book-Name-Map: Rom, رومية
+Book-Name-Map: 1Cor, كورنثوس الأولى
+Book-Name-Map: 2Cor, كورنثوس الثانية
+Book-Name-Map: Gal, غلاطية
+Book-Name-Map: Eph, أفسس
+Book-Name-Map: Phil, فيلبي
+Book-Name-Map: Col, كولوسى
+Book-Name-Map: 1Thess, تسالونيكي الأولى
+Book-Name-Map: 2Thess, تسالونيكي الثانية
+Book-Name-Map: 1Tim, تيموثاوس الأولى
+Book-Name-Map: 2Tim, تيموثاوس الثانية
+Book-Name-Map: Titus, تيطس
+Book-Name-Map: Phlm, فليمون
+Book-Name-Map: Heb, العبرانيين
+Book-Name-Map: Jas, يعقوب
+Book-Name-Map: 1Pet, بطرس الأولى
+Book-Name-Map: 2Pet, بطرس الثانية
+Book-Name-Map: 1John, يوحنا الأولى
+Book-Name-Map: 2John, يوحنا الثانية
+Book-Name-Map: 3John, يوحنا الثالثة
+Book-Name-Map: Jude, يهوذا
+Book-Name-Map: Rev, رؤيا يوحنا
+Collection: Old Testament 1, العهد القديم 1
+Book: Gen
+Book: Exod
+Book: Lev
+Book: Num
+Book: Deut
+Book: Josh
+Book: Judg
+Book: Ruth
+Book: 1Sam
+Book: 2Sam
+Book: 1Kgs
+Book: 2Kgs
+Book: 1Chr
+Collection: Old Testament 2, العهد القديم 2
+Book: 2Chr
+Book: Ezra
+Book: Neh
+Book: Esth
+Book: Job
+Book: Ps
+Book: Prov
+Book: Eccl
+Book: Song
+Book: Isa
+Book: Jer
+Book: Lam
+Book: Ezek
+Book: Dan
+Book: Hos
+Book: Joel
+Book: Amos
+Book: Obad
+Book: Jonah
+Book: Mic
+Book: Nah
+Book: Hab
+Book: Zeph
+Book: Hag
+Book: Zech
+Book: Mal
+Collection: New Testament, العهد الجديد
+Book: Matt
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Rom
+Book: 1Cor
+Book: 2Cor
+Book: Gal
+Book: Eph
+Book: Phil
+Book: Col
+Book: 1Thess
+Book: 2Thess
+Book: 1Tim
+Book: 2Tim
+Book: Titus
+Book: Phlm
+Book: Heb
+Book: Jas
+Book: 1Pet
+Book: 2Pet
+Book: 1John
+Book: 2John
+Book: 3John
+Book: Jude
+Book: Rev

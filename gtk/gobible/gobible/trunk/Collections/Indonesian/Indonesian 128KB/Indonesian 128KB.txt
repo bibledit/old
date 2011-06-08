@@ -1,0 +1,87 @@
+Info: Terjemahan Baru (New Translation)
+Source-Text: Indonesian/idbar_gobible.thm
+Collection: Matius Markus
+Book: Matius
+Book: Markus
+Collection: Lukas Yohanes
+Book: Lukas
+Book: Yohanes
+Collection: Kisah para rasul
+Book: Kisah para rasul
+Collection: Surat Paulus
+Book: Roma
+Book: 1 Korintus
+Book: 2 Korintus
+Book: Galatia
+Book: Efesus
+Book: Filipi
+Book: Kolose
+Book: 1 Tesalonika
+Book: 2 Tesalonika
+Book: 1 Timotius
+Book: 2 Timotius
+Book: Titus
+Book: Filemon
+Collection: Ibr sampai Wahyu
+Book: Ibrani
+Book: Yakobus
+Book: 1 Petrus
+Book: 2 Petrus
+Book: 1 Yohanes
+Book: 2 Yohanes
+Book: 3 Yohanes
+Book: Yudas
+Book: Wahyu
+Collection: Kejadian
+Book: Kejadian
+Collection: Keluaran Imamat
+Book: Keluaran
+Book: Imamat
+Collection: Bilangan Ulangan
+Book: Bilangan
+Book: Ulangan
+Collection: Yosua Hakim2 Rut
+Book: Yosua
+Book: Hakim-hakim
+Book: Rut
+Collection: Samuel
+Book: 1 Samuel
+Book: 2 Samuel
+Collection: Raja-raja
+Book: 1 Raja-raja
+Book: 2 Raja-raja
+Collection: Tawarikh
+Book: 1 Tawarikh
+Book: 2 Tawarikh
+Collection: Ezra Neh Ester Ayub
+Book: Ezra
+Book: Nehemia
+Book: Ester
+Book: Ayub
+Collection: Mazmur
+Book: Mazmur
+Collection: Salomo
+Book: Amsal
+Book: Pengkhotbah
+Book: Kidung Agung
+Collection: Yesaya
+Book: Yesaya
+Collection: Yeremia Ratapan
+Book: Yeremia
+Book: Ratapan
+Collection: Yehezkiel
+Book: Yehezkiel
+Collection: Nabi lainnya
+Book: Daniel
+Book: Hosea
+Book: Yoel
+Book: Amos
+Book: Obaja
+Book: Yunus
+Book: Mikha
+Book: Nahum
+Book: Habakuk
+Book: Zefanya
+Book: Hagai
+Book: Zakharia
+Book: Maleakhi

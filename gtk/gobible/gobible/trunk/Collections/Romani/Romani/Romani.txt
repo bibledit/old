@@ -1,0 +1,90 @@
+Info: E Lashi Viasta Ruth Modrow; Compiled by octavian_lupu@yahoo.com Produced from file provided by http://www.unboundbible.org
+Source-Text: Romani/RomaniBible.thml
+MIDP: MIDP-2.0
+Book-Name-Map:  Matthew, Mate
+Book-Name-Map:  Mark, Markos
+Book-Name-Map:  Luke, Luk
+Book-Name-Map:  John, Yovano
+Book-Name-Map:  Acts, Apostlonge
+Book-Name-Map:  Romans, Romanuria
+Book-Name-Map:  1 Corinthians, 1 Korintiana
+Book-Name-Map:  2 Corinthians, 2 Korintiana
+Book-Name-Map:  Galatians, Galatians
+Book-Name-Map:  Ephesians, Efesiana
+Book-Name-Map:  Philippians, Philipiana
+Book-Name-Map:  Colossians, Colossae
+Book-Name-Map:  1 Thessalonians, 1 Thesalonika
+Book-Name-Map:  2 Thessalonians, 2 Thesalonika
+Book-Name-Map:  1 Timothy, 1 Timothy
+Book-Name-Map:  2 Timothy, 2 Timothy
+Book-Name-Map:  Titus, Titus
+Book-Name-Map:  Philemon, Philemon
+Book-Name-Map:  Hebrews, Zhidovongo
+Book-Name-Map:  James, Iakov
+Book-Name-Map:  1 Peter, 1 Petri
+Book-Name-Map:  2 Peter, 2 Petri
+Book-Name-Map:  1 John, 1 Ioanos
+Book-Name-Map:  2 John, 2 Ioanos
+Book-Name-Map:  3 John, 3 Ioanos
+Book-Name-Map:  Jude, Judah
+Book-Name-Map:  Revelation, Apokalipsos
+Collection: Mate Makos
+Book: Matthew
+Book: Mark
+Collection: Luk Yovano
+Book: Luke
+Book: John
+Collection: Apostlonge
+Book: Acts
+Collection: Pavlo
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Collection: Zhidovongo - Apokalipsos
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation
+Collection: E Lashi Viasta
+Book: Matthew
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation

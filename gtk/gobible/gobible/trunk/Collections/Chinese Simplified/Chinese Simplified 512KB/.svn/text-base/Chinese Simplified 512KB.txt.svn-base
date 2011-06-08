@@ -1,0 +1,138 @@
+Info: Chinese Simplified Version.
+Source-Text: Chinese/Simplified/cnt-simple.thm
+Book-Name-Map: Genesis, 创世记
+Book-Name-Map: Exodus, 出埃及记
+Book-Name-Map: Leviticus, 利未记
+Book-Name-Map: Numbers, 民数记
+Book-Name-Map: Deuteronomy, 申命记
+Book-Name-Map: Joshua, 约书亚记
+Book-Name-Map: Judges, 士师记
+Book-Name-Map: Ruth, 路得记
+Book-Name-Map: 1 Samuel, 撒母耳记上
+Book-Name-Map: 2 Samuel, 撒母耳记下
+Book-Name-Map: 1 Kings, 列王纪上
+Book-Name-Map: 2 Kings, 列王纪下
+Book-Name-Map: 1 Chronicles, 历代志上
+Book-Name-Map: 2 Chronicles, 历代志下
+Book-Name-Map: Ezra, 以斯拉记
+Book-Name-Map: Nehemiah, 尼希米记
+Book-Name-Map: Esther, 以斯帖记
+Book-Name-Map: Job, 约伯记
+Book-Name-Map: Psalms, 诗篇
+Book-Name-Map: Proverbs, 箴言
+Book-Name-Map: Ecclesiastes, 传道书
+Book-Name-Map: Song of Solomon, 雅歌
+Book-Name-Map: Isaiah, 以赛亚书
+Book-Name-Map: Jeremiah, 耶利米书
+Book-Name-Map: Lamentations, 耶利米哀歌
+Book-Name-Map: Ezekiel, 以西结书
+Book-Name-Map: Daniel, 但以理书
+Book-Name-Map: Hosea, 何西阿书
+Book-Name-Map: Joel, 约珥书
+Book-Name-Map: Amos, 阿摩司书
+Book-Name-Map: Obadiah, 俄巴底亚书
+Book-Name-Map: Jonah, 约拿书
+Book-Name-Map: Micah, 弥迦书
+Book-Name-Map: Nahum, 那鸿书
+Book-Name-Map: Habakkuk, 哈巴谷书
+Book-Name-Map: Zephaniah, 西番雅书
+Book-Name-Map: Haggai, 哈该书
+Book-Name-Map: Zechariah, 撒迦利亚书
+Book-Name-Map: Malachi, 玛拉基书
+Book-Name-Map: Matthew, 马太福音
+Book-Name-Map: Mark, 马可福音
+Book-Name-Map: Luke, 路加福音
+Book-Name-Map: John, 约翰福音
+Book-Name-Map: Acts, 使徒行传
+Book-Name-Map: Romans, 罗马书
+Book-Name-Map: 1 Corinthians, 哥林多前书
+Book-Name-Map: 2 Corinthians, 哥林多后书
+Book-Name-Map: Galatians, 加拉太书
+Book-Name-Map: Ephesians, 以弗所书
+Book-Name-Map: Philippians, 腓立比书
+Book-Name-Map: Colossians, 歌罗西书
+Book-Name-Map: 1 Thessalonians, 帖撒罗尼迦前书
+Book-Name-Map: 2 Thessalonians, 帖撒罗尼迦后书
+Book-Name-Map: 1 Timothy, 提摩太前书
+Book-Name-Map: 2 Timothy, 提摩太后书
+Book-Name-Map: Titus, 提多书
+Book-Name-Map: Philemon, 腓利门书
+Book-Name-Map: Hebrews, 希伯来书
+Book-Name-Map: James, 雅各书
+Book-Name-Map: 1 Peter, 彼得前书
+Book-Name-Map: 2 Peter, 彼得后书
+Book-Name-Map: 1 John, 约翰壹书
+Book-Name-Map: 2 John, 约翰二书
+Book-Name-Map: 3 John, 约翰三书
+Book-Name-Map: Jude, 犹大书
+Book-Name-Map: Revelation, 启示录
+Collection: Old Testament 1
+Book: Genesis
+Book: Exodus
+Book: Leviticus
+Book: Numbers
+Book: Deuteronomy
+Book: Joshua
+Book: Judges
+Book: Ruth
+Book: 1 Samuel
+Book: 2 Samuel
+Collection: Old Testament 2
+Book: 1 Kings
+Book: 2 Kings
+Book: 1 Chronicles
+Book: 2 Chronicles
+Book: Ezra
+Book: Nehemiah
+Book: Esther
+Book: Job
+Book: Psalms
+Book: Proverbs
+Book: Ecclesiastes
+Book: Song of Solomon
+Collection: Old Testament 3
+Book: Isaiah
+Book: Jeremiah
+Book: Lamentations
+Book: Ezekiel
+Book: Daniel
+Book: Hosea
+Book: Joel
+Book: Amos
+Book: Obadiah
+Book: Jonah
+Book: Micah
+Book: Nahum
+Book: Habakkuk
+Book: Zephaniah
+Book: Haggai
+Book: Zechariah
+Book: Malachi
+Collection: New Testament
+Book: Matthew
+Book: Mark
+Book: Luke
+Book: John
+Book: Acts
+Book: Romans
+Book: 1 Corinthians
+Book: 2 Corinthians
+Book: Galatians
+Book: Ephesians
+Book: Philippians
+Book: Colossians
+Book: 1 Thessalonians
+Book: 2 Thessalonians
+Book: 1 Timothy
+Book: 2 Timothy
+Book: Titus
+Book: Philemon
+Book: Hebrews
+Book: James
+Book: 1 Peter
+Book: 2 Peter
+Book: 1 John
+Book: 2 John
+Book: 3 John
+Book: Jude
+Book: Revelation
