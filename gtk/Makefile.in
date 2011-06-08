@@ -261,7 +261,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc shutdown usfm kjv outpost gobible xetex git
 CLEANFILES = bibledit*.gz *~
-EXTRA_DIST = TODO
+EXTRA_DIST = TODO FDL
 bumpversion_SOURCES = bumpversion.cpp
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 all: config.h

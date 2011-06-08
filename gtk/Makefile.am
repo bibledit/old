@@ -1,6 +1,6 @@
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc shutdown usfm kjv outpost gobible xetex git
 CLEANFILES = bibledit*.gz *~
-EXTRA_DIST = TODO
+EXTRA_DIST = TODO FDL
 
 noinst_PROGRAMS = bumpversion
 bumpversion_SOURCES = bumpversion.cpp

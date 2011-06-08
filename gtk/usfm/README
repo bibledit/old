@@ -28,12 +28,10 @@ For that reason the .chm file was extracted into its components.
 To extract, move the .chm file to the usfm subdirectory of this package,
 then unpack it:
 extract_chmLib usfmReference.chm .
-Then remove the folders that start with $ and the files starting with #.
+Then remove the files that start with $ or #.
 
 It produces .htm files and other files. Since the suffix of the files is .htm, 
 these files shouldn't interfere with Bibledit's online help, which uses .html.
-Later on the usfm documents were moved to the local web server in their own directory.
-Hence there's not going to be interference with anything else at all.
 
 Teus Benschop
 3 November 2009
@@ -54,3 +52,44 @@ in the public domain.
 Teus Benschop
 30 January 2010
 
+----------------------------
+
+The Debian FTPmasters rejected the package for inclusion with Debian.
+
+This were their concerns:
+
+bibledit-gtk-4.2/usfm/{$FIftiMain,$OBJINST}
+Don't know what these files are
+
+bibledit-gtk-4.2/usfm
+====
+On 4 August 2009 Jeff Klassen of the Canadian Bible Society gave
+permission to distribute this file:
+"Please feel free to distribute the current version of the CHM help
+file.  We're glad that the documentation can be of help."
+
+Since it does not come with a license, it is supposed that the file is
+in the public domain.
+=====
+
+Uhm... No.  The author statement doesn't grant all rights required by
+the DFSG, and "supposing" it's public domain is not enough. Beside:
+That's not mentioned in your debian/copyright either.
+
+bibledit-gtk-4.2/usfm/helpman_topicinit.js:
+"It is designed for use in combination with the output of Help & Manual
+and must not be used outside this context."
+What is this file?  May I edit it?  May it be distributed?  Who's the
+copyright holder?
+
+Best regards,
+
+Alexander
+
+
+Because of this, all files that were of concern have been removed
+for the time being, till such time that all concerns have been 
+addressed.
+
+Teus Benschop
+8 June 2011
