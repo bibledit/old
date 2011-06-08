@@ -21,15 +21,20 @@ GoBibleCore2.jar
 GoBibleCreator.jar
 ui.properties
 
-December 2010
 Teus Benschop
+December 2010
 
 
-The source code is available from https://crosswire.org/svn/gobible
-To check it out, do this: svn checkout http://crosswire.org/svn/gobible
-The checkout was done, and the code is included in this directory.
-To keep this updated, do this:
+The source code is available from http://crosswire.org/svn/gobible
+To get the source code do this:
 
-cd gobible
-svn update
+First throw away any subdirectory 'gobible' that may have been created
+earlier.
+Then export the repository, so it retrieves all files without the .svn
+folder:
 
+svn export http://crosswire.org/svn/gobible
+
+
+Teus Benschop
+June 2011

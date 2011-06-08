@@ -33,8 +33,20 @@ Name: OnlineBibleAutomation
 The support for the Online Bible was implemented after looking at the example at
 http://www.answersingenesis.org/OnlineBible/other/com.zip
 
-
-
-
 Teus Benschop
 September 2009
+
+
+
+
+All the files are licensed under the GNU General Public License.
+This license has been included in the *.pas source files.
+
+All other files that do not include a license are either binary files
+produced from the source files (*.exe, *.dcu),
+or are project files that describe the outpost project.
+
+Teus Benschop
+June 2011
+
+
