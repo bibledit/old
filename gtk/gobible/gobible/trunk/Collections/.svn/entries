@@ -1,199 +1,0 @@
-10
-
-dir
-41
-http://crosswire.org/svn/gobible/trunk/Collections
-http://crosswire.org/svn/gobible
-
-
-
-2009-02-27T17:51:13.020048Z
-1
-scribe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-83046439-9643-4201-b4f3-a5262020342f
-
-MakeAll.sh
-file
-
-
-
-
-2011-06-08T17:43:22.827354Z
-9d257e5154c47247466b2e798858b005
-2009-02-27T17:51:13.020048Z
-1
-scribe
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-501
-
-Arabic
-dir
-
-Ukrainian
-dir
-
-Chinese Simplified
-dir
-
-Russian
-dir
-
-Romani
-dir
-
-Indonesian
-dir
-
-English
-dir
-
-Norwegian
-dir
-
-Finnish
-dir
-
-MakeWap.sh
-file
-
-
-
-
-2011-06-08T17:43:22.827354Z
-e7e4fc3e461031b02096dd30b121815e
-2009-02-27T17:51:13.020048Z
-1
-scribe
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2845
-
-Afrikaans
-dir
-
-Vietnamese
-dir
-
-Portuguese
-dir
-
-MakeCollection.sh
-file
-
-
-
-
-2011-06-08T17:43:22.831354Z
-9108ea1b9bb46a378bb0fa86f1baf266
-2009-02-27T17:51:13.020048Z
-1
-scribe
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-530
-
-Romanian
-dir
-
-Bulgarian
-dir
-
-French
-dir
-
-Spanish
-dir
-
-Danish
-dir
-
-Swedish
-dir
-
-Dutch
-dir
-
-German
-dir
-
-Chinese Traditional
-dir
-
-Hungarian
-dir
-
-Tagalog
-dir
-

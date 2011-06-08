@@ -214,7 +214,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 dist_pkgdata_DATA = *.jar ui.properties
-EXTRA_DIST = *
+EXTRA_DIST = * gobible
 CLEANFILES = *~
 all: all-am
 
