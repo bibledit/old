@@ -33,8 +33,8 @@ $input = <<<'EOD'
 EOD;
     $output = Filter_Hyphenate::atTransition ($this->firstset, $this->secondset, $input);
 $standard = <<<'EOD'
-\s \nd UNku­lu­nku­lu\nd* u\add ­ba\add*­xwa­yi­sa ngo­ku­lu­nga o­ku­ngo­kwa­ba­ntu 文字a­b化け
-\s Uku­lu­nga o­ku­ku\nd Kri­stu\nd* אבa­bגד ku­yi­nzu­zo אבגד a­b
+\s \nd UNku­lu­nku­lu\nd* u\add ba\add*­xwa­yi­sa ngo­ku­lu­nga oku­ngo­kwa­ba­ntu 文字a­b化け
+\s Uku­lu­nga oku­ku\nd Kri­stu\nd* אבa­bגד ku­yi­nzu­zo אבגד ab
 EOD;
     $this->assertEquals ($standard, $output);
   }
