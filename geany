@@ -14,7 +14,7 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=16
+current_page=17
 FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
 FILE_NAME_1=803;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=234;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0
@@ -32,6 +32,7 @@ FILE_NAME_13=62;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/gtk/gobible/Ma
 FILE_NAME_14=0;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/xslfofootnoteparagraph.h;0
 FILE_NAME_15=31441;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/export_utils.cpp;0
 FILE_NAME_16=1087;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/gobible/README;0
+FILE_NAME_17=1042;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/hyphenateTest.php;0
 
 [long line marker]
 long_line_behaviour=1

@@ -1,0 +1,14 @@
+The help that comes with Bibledit-Gtk is a copy of the content of the
+wiki at http://sites.google.com/site/bibledit.
+
+Before releasing a new version of Bibledit-Gtk, it is important
+that this help content is updated since the wiki may have been changed.
+
+To update the online help, do the following:
+
+In a terminal, change to the current directory. 
+This is the directory where this README file is located.
+Then run the retrieval file, like so: ./retrievel.pl
+This retrieves all content from the wiki.
+Then create the menus: ./menus.pl
+
