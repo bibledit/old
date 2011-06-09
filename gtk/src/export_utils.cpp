@@ -837,7 +837,6 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
   // Create a working copy of the GoBibleCreator.
   ustring go_bible_core_directory = gw_build_filename (workingdirectory, "GoBibleCore");
   gw_mkdir_with_parents (go_bible_core_directory);
-  unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCore1.jar"), go_bible_core_directory);
   unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCore2.jar"), go_bible_core_directory);
   unix_cp (gw_build_filename (directories_get_package_data (), "ui.properties"), go_bible_core_directory);
   unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCreator.jar"), workingdirectory);
