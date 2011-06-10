@@ -280,7 +280,8 @@ bibledit_gtk_SOURCES = \
 				dialogxetex.cpp \
 				paratext.cpp \
 				vcs.cpp \
-				git-exec.cpp
+				git-exec.cpp \
+				readwrite.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 

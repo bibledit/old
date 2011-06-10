@@ -176,7 +176,7 @@ am_bibledit_gtk_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
 	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
 	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT) \
-	vcs.$(OBJEXT) git-exec.$(OBJEXT)
+	vcs.$(OBJEXT) git-exec.$(OBJEXT) readwrite.$(OBJEXT)
 bibledit_gtk_OBJECTS = $(am_bibledit_gtk_OBJECTS)
 bibledit_gtk_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -624,7 +624,8 @@ bibledit_gtk_SOURCES = \
 				dialogxetex.cpp \
 				paratext.cpp \
 				vcs.cpp \
-				git-exec.cpp
+				git-exec.cpp \
+				readwrite.cpp
 
 EXTRA_DIST = *.h .indent.pro update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -908,6 +909,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/projectconfig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/projectutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rc4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/readwrite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/referencememory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/referenceutils.Po@am__quote@

@@ -44,6 +44,7 @@
 #include "urltransport.h"
 #include "runtime.h"
 #include "vcs.h"
+#include "readwrite.h"
 
 
 Settings *settings;
@@ -132,7 +133,7 @@ int main(int argc, char *argv[])
   You can then quit Bibledit from the File menu, and the activity goes away, 
   or you can Stop the activity and Bibledit goes away.
   I changed Bibledit to accept a --xembed argument with a window ID. 
-  It that argument is present, it then creates a plug for its main window instead of a normal top-level window.   
+  If that argument is present, it then creates a plug for its main window instead of a normal top-level window.   
   */
   // Accelerators.
   accelerator_group = gtk_accel_group_new();
@@ -149,9 +150,22 @@ int main(int argc, char *argv[])
   upgrade();
   // Window icon fallback.
   gtk_window_set_default_icon_from_file(gw_build_filename(directories_get_package_data(), "bibledit.xpm").c_str(), NULL);
-  // Start the gui.
-  MainWindow mainwindow(xembed, accelerator_group);
-  gtk_main();
+  // Bibledit-gtk can read from or write to Bible data.
+  // Syntax: bibledit-gtk -r|-w ...
+  bool readdata = false;
+  bool writedata = false;
+  if (argc > 2) {
+    readdata = (strcmp(argv[1], "-r") == 0);
+    writedata = (strcmp(argv[1], "-w") == 0);
+  }
+  if (readdata ^ writedata) {
+    // Do the reading or the writing.
+    read_write_data (argc, argv, readdata, writedata);
+  } else {
+    // Start the gui if there are no scripting calls.
+    MainWindow mainwindow(xembed, accelerator_group);
+    gtk_main();
+  }
   // Destroy the accelerator group.
   g_object_unref(G_OBJECT(accelerator_group));
   // Clean up XML library.
