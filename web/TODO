@@ -1,15 +1,9 @@
-Working on the index.html
-Each book should have a variable for its book title, or book name, or what, else the English name,
-so that the index.html can refer to that.
-A separate object for creating the index.html.
-There are going to be two index.html files, completely the same.
-One is index.html and the other is 00_index.html.
 
 
 
 LinkedWeb
 
-Each book starts with chapter 0 content.
+Book starts with chapter 0 content.
 Next are links to chapter 1-10, 11-21, and so on.
 Next we come to the chapters.
 Each chapter starts with a link back to the start.

@@ -104,6 +104,10 @@ class Filter_Text
     $this->html_text_standard = new Html_Text (gettext ("Bible"));
     $this->html_text_linked = new Html_Text (gettext ("Bible"));
     $this->onlinebible_text = new Onlinebible_Text ();
+    
+    // The linked web file starts with a link back to the index.
+    $this->html_text_linked->newParagraph ();
+    $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement,  "index.html", "", gettext ("Index"), "", gettext ("Index"));
   }
   
 
