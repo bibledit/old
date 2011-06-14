@@ -69,6 +69,10 @@ foreach ($bibles as $bible) {
   $webDirectory = $bibleDirectory . "/Web";
   @mkdir ($webDirectory, 0777, true);
   
+  // Linked web pages go into the LinkedWeb folder.
+  $linkedWebDirectory = $bibleDirectory . "/LinkedWeb";
+  @mkdir ($linkedWebDirectory, 0777, true);
+  
   // Online Bible files go into the OnlineBible folder.
   $onlineBibleDirectory = $bibleDirectory . "/OnlineBible";
   @mkdir ($onlineBibleDirectory, 0777, true);
@@ -76,8 +80,14 @@ foreach ($bibles as $bible) {
   // USFM code of the entire Bible.
   $bibleUsfmData = "";
 
-  // OpenDocument and Web data for the whole Bible.
+  // OpenDocument / Web / Online Bible data for the whole Bible.
   $filter_text_bible = new Filter_Text;
+  
+  // LinkedWeb index file.
+  $html_text_linked_index = new Html_Text ($bible);
+  $html_text_linked_index->newParagraph ();
+  $html_text_linked_index->addText ($bible);
+
 
   // Go through the Bible books.
   $books = $database_bibles->getBooks ($bible);
@@ -120,10 +130,14 @@ foreach ($bibles as $bible) {
     $filter_text_book->odf_text_text_and_note_citations->save ("$odtDirectory/$baseBookFileName" . "_text_and_note_citations.odt");
     $filter_text_book->odf_text_notes->save ("$odtDirectory/$baseBookFileName" . "_notes.odt");
     $filter_text_book->html_text_standard->save ("$webDirectory/$baseBookFileName" . ".html");
+    $filter_text_book->html_text_linked->save ("$linkedWebDirectory/$baseBookFileName" . ".html");
 
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
-        
+    
+    // Add this book to the index for the linked web.
+    $html_text_linked_index->newParagraph ();
+    $html_text_linked_index->addLink ($html_text_linked_index->currentPDomElement,  $baseBookFileName . ".html", "", $database_books->getEnglishFromId ($book), "", $database_books->getEnglishFromId ($book));
   }
 
   // Save the USFM code for the whole Bible.
@@ -136,6 +150,8 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
   $filter_text_bible->html_text_standard->save ("$webDirectory/00_Bible.html");
+  $html_text_linked_index->save ("$linkedWebDirectory/00_index.html");
+  $html_text_linked_index->save ("$linkedWebDirectory/index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
 
   // Create the info OpenDocument for the whole Bible.

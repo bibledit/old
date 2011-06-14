@@ -1,5 +1,5 @@
 The following is in the Dutch language.
-It deals with a Dutch Bible, Psalms, and religious texts.
+It deals with a Bible, Psalms, and religious texts, in the Dutch language.
 
 
 Het programma gbs.php helpt u met het importeren van gegevens uit de 
@@ -11,7 +11,7 @@ server op Linux.
 
 Onderneem de volgende stappen:
 
-- Installeer GBS Digitaal op Windows XP.
+- Installeer GBS Digitaal op Windows.
 
 - Lees de gebruikerslicentie.
   Wat we hier gaan doen dat is toegestaan met deze licentie.
@@ -27,5 +27,5 @@ De database is te benaderen op de gewone manier.
 Alle teksten van de GBS staan in deze database.
 Via bijvoorbeeld phpMyAdmin zijn deze teksten eenvoudig te bekijken.
 
-U draait gbs.php in een terminal $ php gbs.php
+U draait gbs.php in een terminal: $ php gbs.php
 

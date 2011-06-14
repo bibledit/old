@@ -10,7 +10,7 @@
 <p>User sessions persist for 12 hours.</p>
 <p>When selecting Consultation Notes by Bible, the actual Bible switches along with it.</p>
 <p>Provides help with typesetting through Adobe InDesign.</p>
-<p>New lines are replaced with spaces in comments that get posted by email. Cleans clutter.</p>
+<p>New lines are replaced with spaces in comments that get posted by email. Less clutter.</p>
 
 <h2>Version 0.4</h2>
 <p>20 April 2011</p>

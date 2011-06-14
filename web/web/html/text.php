@@ -35,7 +35,7 @@ class Html_Text
 
   private $createdStyles; // An array with styles already created in the $stylesDom.
 
-  private $currentPDomElement; // The current text:p DOMElement.
+  public $currentPDomElement; // The current text:p DOMElement.
   private $currentPDomElementNameNode; // The DOMAttr of the name of the style of the current p element.
   public $currentParagraphStyle;
   public $currentParagraphContent;
