@@ -129,3 +129,12 @@
 <p>{t}It may be visually pleasant to have some space between the drop caps chapter numbers and the text beside it.{/t}</p>
 <p>{t}All that is needed is a fixed space after the chapter numbers. Pick any one from a hair space to an em space. The number of characters in drop caps is now increased by one. Set this value in the drop cap settings. All lines after the first will automatically line up.{/t}</p>
 
+<h2>{t}Managing widows or orphans{/t}</h2>
+<p>{t}Widows and orphans are words or short lines at the beginning or end of a paragraph, which are left dangling at the top or bottom of a column, separated from the rest of the paragraph.{/t}</p>
+<p>{t}There is some disagreement about the definitions of widow and orphan; what one calls a widow the other calls an orphan.{/t}</p>
+<p>{t}There are some ways to avoid widows or orphans.{/t}</p>
+<p>{t}- Adjusting the spacing between words to produce tighter or looser paragraphs.{/t}</p>
+<p>{t}- Adjusting the tracking of the text. This is the overall spacing of the letters in a paragraph or on a line. With a good font in justified paragraphs this can usually be adjusted by up to -25 or +15 without it looking too out of place.{/t}</p>
+<p>{t}- Adjusting the hyphenation of words within the paragraph.{/t}</p>
+<p>{t}- Forcing a word down onto the next line using a soft return.{/t}</p>
+
