@@ -1,19 +1,13 @@
 
 
 
+
 LinkedWeb
 
-Book starts with chapter 0 content.
-Next are links to chapter 1-10, 11-21, and so on.
-Next we come to the chapters.
-Each chapter starts with a link back to the start.
-Then a link to verse 1-10, 11-21, and so on.
+Then a link to all the verses, like 1 | 2 | 3 | etc.
 Each verse links back to the start of the chapter.
-The start links back to the index.
 
-At the end there is going to be an index.html that links to everything,
-e.g. to the full Bible, and to the individual files.
-Perhaps the full Bible can be left out altogether in the LinkedWeb.
+
 
 
 

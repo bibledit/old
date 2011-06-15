@@ -104,10 +104,6 @@ class Filter_Text
     $this->html_text_standard = new Html_Text (gettext ("Bible"));
     $this->html_text_linked = new Html_Text (gettext ("Bible"));
     $this->onlinebible_text = new Onlinebible_Text ();
-    
-    // The linked web file starts with a link back to the index.
-    $this->html_text_linked->newParagraph ();
-    $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement,  "index.html", "", gettext ("Index"), "", gettext ("Index"));
   }
   
 
@@ -365,6 +361,11 @@ class Filter_Text
   */
   private function processUsfm ()
   {
+    // The linked web file starts with a link back to the index.
+    $this->html_text_linked->newParagraph ();
+    $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement,  "index.html", "", gettext ("Index"), "", gettext ("Index"));
+
+    // Go through the USFM code.
     $processedBooksCount = 0;
     $this->usfmMarkersAndTextPointer = 0;
     while ($this->unprocessedUsfmCodeAvailable ()) {
@@ -419,6 +420,14 @@ class Filter_Text
                     $this->resetNoteCitations ('book');
                     // Online Bible.
                     $this->onlinebible_text->storeData ();
+                    // Linked web: Links to all the chapters, and back to the start. Todo
+                    $this->html_text_linked->newParagraph ();
+                    $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "", "start", "", "", "");
+                    $this->html_text_linked->addText (gettext ("Chapter") . " |");
+                    for ($i = 1; $i <= $this->numberOfChaptersPerBook[$this->currentBookIdentifier]; $i++) {
+                      $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "#chapter$i", "", "Chapter $i", "", " $i |");
+                    }
+                    // Done.
                     break;
                   }
                   case IdentifierSubtypeEncoding:
@@ -539,7 +548,7 @@ class Filter_Text
                 }
                 break;
               }
-              case StyleTypeChapterNumber:
+              case StyleTypeChapterNumber: // Todo
               {
                 $this->odf_text_standard->closeTextStyle ();
                 $this->odf_text_text_only->closeTextStyle ();
@@ -547,13 +556,17 @@ class Filter_Text
                 $this->odf_text_notes->closeTextStyle ();
                 $this->html_text_standard->closeTextStyle ();
                 $this->html_text_linked->closeTextStyle ();
+                
                 $this->onlinebible_text->storeData ();
+
                 // Get the chapter number.
                 $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                 $number = Filter_Numeric::integer_in_string ($number);
+
                 // Update this object.
                 $this->currentChapterNumber = $number;
                 $this->currentVerseNumber = "0";
+
                 // If there is a published chapter character, the chapter number takes that value.
                 foreach ($this->publishedChapterMarkers as $publishedChapterMarker) {
                   if ($publishedChapterMarker['book'] == $this->currentBookIdentifier) {
@@ -562,6 +575,7 @@ class Filter_Text
                     }
                   }
                 }
+
                 // Enter text for the running headers.
                 $database_books = Database_Books::getInstance ();
                 $runningHeader = $database_books->getEnglishFromId ($this->currentBookIdentifier);
@@ -575,6 +589,12 @@ class Filter_Text
                 $this->odf_text_text_only->newHeading1 ($runningHeader, true);
                 $this->odf_text_text_and_note_citations->newHeading1 ($runningHeader, true);
                 $this->odf_text_notes->newHeading1 ($runningHeader, false);
+                
+                // In the linked web version, each chapter number gets linked to, and links to, the start of the book. Todo
+                $this->html_text_linked->newParagraph ();
+                $hrefId = "chapter" . $this->currentChapterNumber;
+                $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "#start", $hrefId, gettext ("Go to start"), "", gettext ("Go to start"));
+
                 // This is the phase of outputting the chapter number in the text body. 
                 // The chapter number is only output when there is more than one chapter in a book.
                 if ($this->numberOfChaptersPerBook[$this->currentBookIdentifier] > 1) {
@@ -617,14 +637,18 @@ class Filter_Text
                     $this->html_text_linked->addText ($number);
                   }
                 }
+
                 // Open a paragraph for the notes. It takes the style of the footnote content marker, usually 'ft'. 
                 // This is done specifically for the version that has the notes only.
                 $this->ensureNoteParagraphStyle ($this->standardContentMarkerFootEndNote, $this->styles[$this->standardContentMarkerFootEndNote]);
                 $this->odf_text_notes->newParagraph ($this->standardContentMarkerFootEndNote);
                 // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
                 // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
+
                 // Reset.
                 $this->resetNoteCitations ('chapter');
+                
+                // Done.
                 break;
               }
               case StyleTypeVerseNumber:
