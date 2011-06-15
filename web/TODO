@@ -2,9 +2,14 @@
 
 
 
-LinkedWeb
 
-Then a link to all the verses, like 1 | 2 | 3 | etc.
+
+
+
+
+LinkedWeb.
+To count the verses in each chapter in the preprocessing phase.
+Each chapter links to all the verses.
 Each verse links back to the start of the chapter.
 
 

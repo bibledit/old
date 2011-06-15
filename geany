@@ -14,31 +14,17 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=15
-FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=803;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
+current_page=0
+FILE_NAME_0=84;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
+FILE_NAME_1=793;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
 FILE_NAME_2=234;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0
 FILE_NAME_3=571;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0
 FILE_NAME_4=10582;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
-FILE_NAME_5=1062;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/README;0
-FILE_NAME_6=4189;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/gbs.php;0
-FILE_NAME_7=2491;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/hyphenate.php;0
-FILE_NAME_8=818;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/hyphenate.php;0
-FILE_NAME_9=58;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/gtk/outpost/Makefile.am;0
-FILE_NAME_10=208;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/gtk/usfm/Makefile.am;0
-FILE_NAME_11=2821;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/usfm/README;0
-FILE_NAME_12=62;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/gtk/gobible/Makefile.am;0
-FILE_NAME_13=1087;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/gobible/README;0
-FILE_NAME_14=537;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/doc/README;0
-FILE_NAME_15=1180;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/readwrite.cpp;0
-FILE_NAME_16=1405;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gwrappers.h;0
-FILE_NAME_17=1868;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/projectutils.h;0
-FILE_NAME_18=1344;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/books.h;0
-FILE_NAME_19=3716;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/utilities.h;0
-FILE_NAME_20=0;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/import.h;0
-FILE_NAME_21=3756;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/import.cpp;0
-FILE_NAME_22=7695;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/projectutils.cpp;0
-FILE_NAME_23=4721;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibledit.cpp;0
+FILE_NAME_5=1061;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/README;0
+FILE_NAME_6=2832;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/gbs.php;0
+FILE_NAME_7=19303;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
+FILE_NAME_8=10910;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/html/text.php;0
+FILE_NAME_9=5824;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
 
 [long line marker]
 long_line_behaviour=1
