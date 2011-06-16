@@ -114,6 +114,7 @@
 <li>{t}Many book titles consist of a main title and a subtitle, like "The gospel of Matthew". "Matthew" is the main title, and the rest is the subtitle. It is good if there is a clear contrast on size between these two. Say 24 points bold for the main title, and 14 points regular for the subtitle.{/t}</li>
 <li>{t}The number of hyphens used in a row should be few for enhanced readability. At times a word that is now hyphenated could be forced down onto the next line without opening up the gaps between the words too much on the line above. Hyphenation should be set to the optimum result for the column width but then it is usually necessary to go over every page and make corrections manually.{/t}</li>
 <li>{t}The main page numbering should start at the first page of Genesis, or Matthew in case of New Testaments.{/t}</li>
+<li>{t}To avoid what are sometimes referred to as 'rivers' in the text. This is where large spaces between words cause rivers of white space to be seen running through the text. The use of hyphenation or tracking adjustments are tools that can be used to minimise the problem. But as always they need to be used with discretion.{/t}</li>
 </ol>
 
 <h2>{t}The typesetting{/t}</h2>
