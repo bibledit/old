@@ -14,17 +14,17 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=4
-FILE_NAME_0=84;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0
-FILE_NAME_1=865;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0
-FILE_NAME_2=234;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0
-FILE_NAME_3=10719;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0
-FILE_NAME_4=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0
-FILE_NAME_5=1061;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/README;0
-FILE_NAME_6=2832;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/gbs.php;0
-FILE_NAME_7=19303;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0
-FILE_NAME_8=10910;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/html/text.php;0
-FILE_NAME_9=5824;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0
+current_page=0
+FILE_NAME_0=84;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+FILE_NAME_1=865;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+FILE_NAME_2=234;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0;2
+FILE_NAME_3=10719;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0;2
+FILE_NAME_4=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0;2
+FILE_NAME_5=1061;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/README;0;2
+FILE_NAME_6=2832;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/gbs.php;0;2
+FILE_NAME_7=19303;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0;2
+FILE_NAME_8=10910;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/html/text.php;0;2
+FILE_NAME_9=5824;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0;2
 
 [long line marker]
 long_line_behaviour=1
