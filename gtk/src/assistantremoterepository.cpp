@@ -644,6 +644,9 @@ bool RemoteRepositoryAssistant::check_git_version ()
     versiontext.append(", but should be 1.5.0 or higher");
     gtk_label_set_text(GTK_LABEL(label_try_git), versiontext.c_str());
   }
+  if (!spawn.result) {
+    gtk_label_set_text(GTK_LABEL(label_try_git), "Program git failed to run. Has git been installed?");
+  }
   return okay;
 }
 

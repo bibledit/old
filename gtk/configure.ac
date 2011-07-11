@@ -102,11 +102,6 @@ if test x$FIND_XARGS = xno; then
   AC_MSG_ERROR(Program "xargs" is needed. Install this first.)
 fi
 
-AC_PATH_PROG(FIND_GIT, git, no)
-if test x$FIND_GIT = xno; then
-  AC_MSG_ERROR(Program "git" (usually called git-core) is needed. Install this first.)
-fi
-
 AC_PATH_PROG(FIND_GPP, g++, no)
 if test x$FIND_GPP = xno; then
   AC_MSG_ERROR(Program "g++" is needed. Install this first.)
