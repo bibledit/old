@@ -700,7 +700,7 @@ class Filter_Text
                 // Temporarily retrieve the text that follows the \v verse marker.
                 $textFollowingMarker = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
                 // Extract the verse number, and store it in the object.
-                $number = Filter_Numeric::integer_in_string ($textFollowingMarker);
+                $number = Filter_Usfm::peekVerseNumber ($textFollowingMarker);
                 $this->currentVerseNumber = $number;
                 // Output the verse number. But only if no chapter number was put here.
                 if (!isset ($this->outputChapterTextAtFirstVerse)) {

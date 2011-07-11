@@ -4,6 +4,7 @@
 <p>{t}Update the software sources. Type the following command, and then press Enter.{/t}</p>
 <p><code>sudo apt-get update</code></p>
 <p>{t}Install the LAMP server.{/t}</p>
+<p><code>sudo apt-get install tasksel</code></p>
 <p><code>sudo tasksel</code></p>
 <p>{t}Tick the LAMP server, and press Enter. Installation takes a while.{/t}</p>
 <p>{t}While installing mysql-server, set the administrative password. These guidelines assume that it will be set to "root".{/t}</p>

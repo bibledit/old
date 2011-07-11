@@ -332,6 +332,41 @@ class Filter_Usfm
   }
 
 
+  /**
+  * Returns the verse number in the $usfm code.
+  */
+  public function peekVerseNumber ($usfm)
+  {
+    // Make it robust, even handling cases like \v 1-2“Moi - No space after verse number.
+    $verseNumber = "";
+    $usfmStringLength = strlen ($usfm);
+    for ($i = 0; $i < $usfmStringLength; $i++) {
+      $character = substr ($usfm, $i, 1);
+      switch ($character) {
+        case "0":
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+        case ",":
+        case "-":
+        case "a":
+        case "b":
+          break;
+        default:
+          break 2;
+      }
+    }
+    $verseNumber = substr ($usfm, 0, $i);
+    $verseNumber = trim ($verseNumber);
+    return $verseNumber;
+  }
+
 }
 
 ?>

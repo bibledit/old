@@ -98,6 +98,17 @@ EOD;
     $this->assertEquals ("GEN", Filter_Usfm::getBookIdentifier (array ("", "GENxxx"), 0));
   }
   
+  public function testPeekVerseNumber()
+  {
+    $this->assertEquals ("1", Filter_Usfm::peekVerseNumber ("1"));
+    $this->assertEquals ("1", Filter_Usfm::peekVerseNumber ("1 "));
+    $this->assertEquals ("1a", Filter_Usfm::peekVerseNumber ("1a"));
+    $this->assertEquals ("2-3", Filter_Usfm::peekVerseNumber ("2-3"));
+    $this->assertEquals ("2b,3", Filter_Usfm::peekVerseNumber ("2b,3"));
+    $this->assertEquals ("2b,3,", Filter_Usfm::peekVerseNumber ("2b,3, 4"));
+    $this->assertEquals ("2a-3b", Filter_Usfm::peekVerseNumber ("2a-3b And he said"));
+  }
+  
 }
 ?>
 
