@@ -356,7 +356,7 @@ void GuiNavigation::nextbook()
     return;
   }
   reference.book = books_name_to_id(language, strings[++index]);
-  // Consult database for most recent verse and chapter.
+  // Consult database for most recent verse and chapter. Todo
   if (!references_memory_retrieve (reference, false)) {
     reference.chapter = 1;
     // Try to get to verse one.

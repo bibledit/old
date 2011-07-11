@@ -149,7 +149,7 @@ gboolean FloatingWindow::on_title_bar_motion_notify_event (GtkWidget *widget, Gd
 }
 
 
-gboolean FloatingWindow::on_title_bar_motion_notify (GdkEventMotion *event) // Todo
+gboolean FloatingWindow::on_title_bar_motion_notify (GdkEventMotion *event)
 {
   if (dragging_window) {
     gint event_x = event->x_root;
@@ -590,7 +590,7 @@ GdkRectangle FloatingWindow::rectangle_get ()
 }
 
 
-void FloatingWindow::rectangle_set (const GdkRectangle& rectangle) // Todo
+void FloatingWindow::rectangle_set (const GdkRectangle& rectangle)
 {
   my_gdk_rectangle = rectangle;
   gtk_layout_move (GTK_LAYOUT (layout), vbox_window, my_gdk_rectangle.x, my_gdk_rectangle.y);
