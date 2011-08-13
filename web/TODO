@@ -11,7 +11,9 @@ LinkedWeb.
 To count the verses in each chapter in the preprocessing phase.
 Each chapter links to all the verses.
 Each verse links back to the start of the chapter.
-
+Very important for the cell phone.
+More important is that each chapter needs to go into its own file,
+so that there is less memory on the cell phone.
 
 
 
@@ -38,14 +40,49 @@ Each verse links back to the start of the chapter.
 To have a module to daily export a GoBible. 
 
 
+I am wondering if you would be willing to add Sword and GoBible exports from the GTK version to the exports that are in the Web version. 
+Also, how about PDF book exports as well?
 
 
 
 
+Also, I was pleased to see that I would be able to edit in the Web version using my Nook that has been rooted to become an Android 3.0 tablet. 
+By enlarging the font with a gesture and turning the unit to the side, I was able to get the pages (both editable and the HTML exports) to reformat to fit the screen. 
+However the verse editing window would not reformat. 
+I wonder if you might be willing to make that window also variable in size. 
+I think a tablet would make a good device for an MTT. 
+I am using the MessageEase keyboard, and find that I am accurate at entering text with that, more than other keyboards.
+
+
+
+It would be nice to put the log-in window directly on the front page, so one does not have to do the extra click just to log in.
 
 
 
 
+Where your instructions say:
+Test the web server. Open the site in the browser. It should say something like
+
+It works!
+
+I suggest that you change it to
+
+Test the web server by opening a browser and typing in this address:
+
+http://localhost/
+
+ It should say something like
+
+It works!
+
+Where it mentions this link: http://site.org/bibledit/setup.php
+There should be the option given that if they are doing this on their local computer that the address will be
+http://localhost/bibledit/setup.php
+
+
+
+
+To add to the problem, when I try to sign up for a new account, and I put in my e-mail address, no e-mail gets sent.
 
 
 
