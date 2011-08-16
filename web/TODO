@@ -1,8 +1,24 @@
+Produce tarball of bibledit-Xiphos/BibleTime, etc.
+Perhaps have a subdir?
+Perhaps make tarball on older version of Ubuntu? Perhaps on Debian?
+
 
  
 
 
 
+Virtual Ubuntu 64 bits.
+Move .cxoffice to it
+Uninstall BibleWorks.
+Reinstall BibleWorks.
+Update it through internet.
+Move it back to main Ubuntu 64 bits.
+Thus it will be installed properly.
+
+
+
+See whether Bibledit-BibleWorks works well on Vista.
+Possibly recompile it, and create version 1.2, mentioning the issues, keeping the older versions.
 
 
 

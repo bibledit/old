@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-13 01:43+0200\n"
+"POT-Creation-Date: 2011-08-16 01:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3042,7 +3042,10 @@ msgid ""
 "Enter."
 msgstr ""
 
-msgid "Install the LAMP server."
+msgid "Install the web server"
+msgstr ""
+
+msgid "In the terminal issue these commands:"
 msgstr ""
 
 msgid "Tick the LAMP server, and press Enter. Installation takes a while."
@@ -3053,7 +3056,37 @@ msgid ""
 "guidelines assume that it will be set to \"root\"."
 msgstr ""
 
+msgid ""
+"Test the web server. Open the site in the browser. Where the site exactly is "
+"depends on your situation. Examples are:"
+msgstr ""
+
+msgid "http://localhost"
+msgstr ""
+
+msgid "http://yoursite.org"
+msgstr ""
+
 msgid "Install the software Bibledit-Web relies on."
+msgstr ""
+
+msgid "Install Bibledit-Web"
+msgstr ""
+
+msgid "Setup Bibledit-Web"
+msgstr ""
+
+msgid "Open the setup url in the browser."
+msgstr ""
+
+msgid "If the site is \"localhost\", then this will be:"
+msgstr ""
+
+msgid ""
+"If the site is for example \"yoursite.org\", then this will be for example:"
+msgstr ""
+
+msgid "Or through for example:"
 msgstr ""
 
 msgid "Typesetting in Adobe InDesign"
