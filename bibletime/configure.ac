@@ -144,7 +144,7 @@ else
 fi 
 
 # Create all the Makefiles.
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile man/Makefile])
 AC_OUTPUT
 
 # Summary.

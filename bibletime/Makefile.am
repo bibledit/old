@@ -1,4 +1,4 @@
-man_MANS = *.1
+SUBDIRS = man
 
 appicondir = $(datadir)/pixmaps
 appicon_DATA = bibledit-bibletime.xpm
@@ -34,6 +34,6 @@ if WIN32
 LIBS += -mwindows -lws2_32
 endif
 
-EXTRA_DIST = *.h *.1 TODO *.desktop
+EXTRA_DIST = *.h TODO *.desktop
 
 CLEANFILES = bibledit*.gz *~
