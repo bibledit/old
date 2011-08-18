@@ -31,9 +31,9 @@ void read_write_data (int argc, char *argv[], bool read, bool write)
 /*
 Read or writes data to or from a Bible / project.
 
-Bibledit-gtk can read from or write to Bible data.
+Bibledit-rdwrt can read from or write to Bible data.
 
-Syntax: bibledit-gtk -r|-w project book chapter|0 fileName
+Syntax: bibledit-rdwrt -r|-w project book chapter|0 fileName
 
 Breaking the syntax down we have:
 
@@ -54,19 +54,19 @@ This can be either a chapter number or 0 (zero) for reading/writing either an in
 or reading/writing a whole book (when the parameter is 0). 
 
 Fifth parameter: fileName
-This is a temporary file name that we assign for our use with bibledit-gtk. 
-For a read (-r) operation this fileName argument is the name of the file that will be created by bibledit-gtk
+This is a temporary file name that we assign for our use with bibledit-rdwrt. 
+For a read (-r) operation this fileName argument is the name of the file that will be created by bibledit-rdwrt
 containing a copy of the whole book (corresponding to the 3-letter code), 
 or that contains the individual chapter contents (of a designated chapter) of an existing Bibledit-Gtk book file
 in the Bible / project. It should be prefixed with a path us. 
-Since bibledit-gtk, if so called, is a console operation, after AdaptIt calls it using ::wxExecute, 
+Since bibledit-rdwrt is a console operation, after AdaptIt calls it using ::wxExecute, 
 it would need to read the resulting temporary file to grab the contents for its use. 
-For a write (-w) operation this fileName argument is the name of the temporary file that bibledit-gtk reads 
+For a write (-w) operation this fileName argument is the name of the temporary file that bibledit-rdwrt reads 
 to get the text which it then writes to the appropriate Bible / project file. 
 The temporary file can contain the text of a whole book, or just the text of a single chapter 
 for the book specified by the book 3-letter code and the chapter (number) argument. 
 
-bibledit-gtk may exit with 0 on success, or -1 on failure, as it sees fit.
+bibledit-rdwrt may exit with 0 on success, or -1 on failure, as it sees fit.
 It may write to stdout or stderr, as it sees fit.
 */
 
