@@ -14,31 +14,10 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=23
-FILE_NAME_0=141;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+current_page=0
+FILE_NAME_0=63;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=940;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
-FILE_NAME_2=234;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettinglibreoffice.tpl;0;2
-FILE_NAME_3=10719;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesettingindesign.tpl;0;2
-FILE_NAME_4=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/typesetting.tpl;0;2
-FILE_NAME_5=1061;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/README;0;2
-FILE_NAME_6=2832;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/gbs.php;0;2
-FILE_NAME_7=35111;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/text.php;0;2
-FILE_NAME_8=10910;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/html/text.php;0;2
-FILE_NAME_9=5824;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0;2
-FILE_NAME_10=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/newubuntu1010.tpl;0;2
-FILE_NAME_11=2842;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/05ubuntu1104.tpl;0;2
-FILE_NAME_12=2487;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bootstrap/bootstrap.php;0;2
-FILE_NAME_13=10514;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/usfm.php;0;2
-FILE_NAME_14=4412;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/usfmTest.php;0;2
-FILE_NAME_15=13818;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gui_navigation.cpp;0;2
-FILE_NAME_16=2289;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/referencememory.cpp;0;2
-FILE_NAME_17=22585;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/floatingwindow.cpp;0;2
-FILE_NAME_18=5597;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/gtk/configure.ac;0;2
-FILE_NAME_19=25957;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/assistantremoterepository.cpp;0;2
-FILE_NAME_20=13405;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gwrappers.cpp;0;2
-FILE_NAME_21=2067;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/gwrappers.h;0;2
-FILE_NAME_22=0;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/xiphos/configure.ac;0;2
-FILE_NAME_23=736;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/xiphos/Makefile.am;0;2
+FILE_NAME_2=2842;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/05ubuntu1104.tpl;0;2
 
 [long line marker]
 long_line_behaviour=1
