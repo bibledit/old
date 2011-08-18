@@ -101,6 +101,9 @@ vector <ustring> git_exec_update_folder(const ustring & folder)
     spawn.run ();
   }
   
+  // Indicate ready in logbook.
+  gw_message ("Ready");
+  
   return feedback;
 }
 
