@@ -32,7 +32,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = bibledit-gtk$(EXEEXT)
+bin_PROGRAMS = bibledit-gtk$(EXEEXT) bibledit-rdwrt$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -176,9 +176,103 @@ am_bibledit_gtk_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
 	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
 	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT) \
-	vcs.$(OBJEXT) git-exec.$(OBJEXT) readwrite.$(OBJEXT)
+	vcs.$(OBJEXT) git-exec.$(OBJEXT)
 bibledit_gtk_OBJECTS = $(am_bibledit_gtk_OBJECTS)
 bibledit_gtk_LDADD = $(LDADD)
+am_bibledit_rdwrt_OBJECTS = bibledit-rdwrt.$(OBJEXT) \
+	utilities.$(OBJEXT) tiny_utilities.$(OBJEXT) bible.$(OBJEXT) \
+	usfmtools.$(OBJEXT) dialoglistview.$(OBJEXT) \
+	dialogsystemlog.$(OBJEXT) htmlbrowser.$(OBJEXT) \
+	track.$(OBJEXT) windowsoutpost.$(OBJEXT) \
+	projectutils.$(OBJEXT) usfm.$(OBJEXT) dialogwait.$(OBJEXT) \
+	directories.$(OBJEXT) ustring.$(OBJEXT) \
+	referenceutils.$(OBJEXT) pdfviewer.$(OBJEXT) \
+	notes_utils.$(OBJEXT) date_time_utils.$(OBJEXT) \
+	dialogentry.$(OBJEXT) export_utils.$(OBJEXT) paper.$(OBJEXT) \
+	xmlutils.$(OBJEXT) stylesheetutils.$(OBJEXT) \
+	dialogstylesheet.$(OBJEXT) style.$(OBJEXT) \
+	dialogentry3.$(OBJEXT) printproject.$(OBJEXT) \
+	xmlfo-utils.$(OBJEXT) dialogdate.$(OBJEXT) gwrappers.$(OBJEXT) \
+	gtkwrappers.$(OBJEXT) usfm-inline-markers.$(OBJEXT) \
+	completion.$(OBJEXT) combobox.$(OBJEXT) keyboard.$(OBJEXT) \
+	listview.$(OBJEXT) scripturechecks.$(OBJEXT) \
+	versification.$(OBJEXT) dialogcheck.$(OBJEXT) \
+	dialogeditlist.$(OBJEXT) shell.$(OBJEXT) \
+	export_translation_notes.$(OBJEXT) sqlite_reader.$(OBJEXT) \
+	dialogarea.$(OBJEXT) unixwrappers.$(OBJEXT) \
+	highlight.$(OBJEXT) dialogopenstylesheet.$(OBJEXT) \
+	note_editor.$(OBJEXT) notecaller.$(OBJEXT) \
+	xslfofootnoteparagraph.$(OBJEXT) notetemplate.$(OBJEXT) \
+	print_parallel_bible.$(OBJEXT) mapping.$(OBJEXT) \
+	swordnote.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
+	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
+	uname.$(OBJEXT) import.$(OBJEXT) clean.$(OBJEXT) \
+	categorize.$(OBJEXT) progresswindow.$(OBJEXT) books.$(OBJEXT) \
+	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
+	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
+	check_count_words.$(OBJEXT) httpd.$(OBJEXT) \
+	opendocument.$(OBJEXT) odtutils.$(OBJEXT) odtnotes.$(OBJEXT) \
+	help.$(OBJEXT) color.$(OBJEXT) check_count_usfms.$(OBJEXT) \
+	check_count_characters.$(OBJEXT) \
+	check_chapters_verses.$(OBJEXT) check_compare_usfm.$(OBJEXT) \
+	check_unwanted_patterns.$(OBJEXT) \
+	check_unwanted_words.$(OBJEXT) check_repetition.$(OBJEXT) \
+	check_capitalization.$(OBJEXT) check_matching_pairs.$(OBJEXT) \
+	originreferences.$(OBJEXT) tidy.$(OBJEXT) shortcuts.$(OBJEXT) \
+	reference.$(OBJEXT) keyterms.$(OBJEXT) \
+	guiselectproject.$(OBJEXT) check_markers_spacing.$(OBJEXT) \
+	myfnmatch.$(OBJEXT) statistics.$(OBJEXT) backup.$(OBJEXT) \
+	dialogselectbooks.$(OBJEXT) resource_utils.$(OBJEXT) \
+	html.$(OBJEXT) dialogeditnote.$(OBJEXT) biblenotes.$(OBJEXT) \
+	wordlist.$(OBJEXT) dialognewstylesheet.$(OBJEXT) \
+	outline.$(OBJEXT) settings.$(OBJEXT) session.$(OBJEXT) \
+	session_highlights.$(OBJEXT) bookdata.$(OBJEXT) \
+	config.xml.$(OBJEXT) localizedbooks.$(OBJEXT) \
+	versifications.$(OBJEXT) mappings.$(OBJEXT) password.$(OBJEXT) \
+	gui_features.$(OBJEXT) print_parallel_references.$(OBJEXT) \
+	fixmarkers.$(OBJEXT) check_ref_inventory.$(OBJEXT) \
+	check_validate_refs.$(OBJEXT) textreplacement.$(OBJEXT) \
+	temporal.$(OBJEXT) ot-quotations.$(OBJEXT) \
+	parallel_passages.$(OBJEXT) ot-nt-parallels.$(OBJEXT) \
+	check_parallel_passages.$(OBJEXT) \
+	displayprojectnotes.$(OBJEXT) styles.$(OBJEXT) \
+	editor_aids.$(OBJEXT) git.$(OBJEXT) usfm2xslfo_utils.$(OBJEXT) \
+	hyphenate.$(OBJEXT) reporting.$(OBJEXT) planning.$(OBJEXT) \
+	dialogeditstatus.$(OBJEXT) htmlwriter.$(OBJEXT) \
+	resource.$(OBJEXT) dialogbooknames.$(OBJEXT) \
+	dialogradiobutton.$(OBJEXT) dialogresourceconverter.$(OBJEXT) \
+	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
+	roman.$(OBJEXT) project_memory.$(OBJEXT) dialogmerge.$(OBJEXT) \
+	merge_utils.$(OBJEXT) maintenance.$(OBJEXT) scripts.$(OBJEXT) \
+	spelling.$(OBJEXT) check_sentence_structure.$(OBJEXT) \
+	dialogcheckbutton.$(OBJEXT) htmlcolor.$(OBJEXT) \
+	text2pdf.$(OBJEXT) text2pdf_utils.$(OBJEXT) \
+	text2pdf_area.$(OBJEXT) text2pdf_ref_area.$(OBJEXT) \
+	text2pdf_block.$(OBJEXT) text2pdf_page.$(OBJEXT) \
+	text2pdf_input.$(OBJEXT) text2pdf_layout.$(OBJEXT) \
+	text2pdf_big_block.$(OBJEXT) text2pdf_intermediate.$(OBJEXT) \
+	usfm2text.$(OBJEXT) dialogtext2pdf.$(OBJEXT) \
+	windowreferences.$(OBJEXT) compress.$(OBJEXT) \
+	localizednumerals.$(OBJEXT) widgetdate.$(OBJEXT) \
+	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
+	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
+	snapshots.$(OBJEXT) windowtimednotifier.$(OBJEXT) \
+	restore.$(OBJEXT) guiselectbibles.$(OBJEXT) java.$(OBJEXT) \
+	dialoglistviewm.$(OBJEXT) htmlwriter2.$(OBJEXT) kjv.$(OBJEXT) \
+	mechonmamre.$(OBJEXT) bibleworks.$(OBJEXT) \
+	onlinebible.$(OBJEXT) robinson.$(OBJEXT) morphology.$(OBJEXT) \
+	greek.$(OBJEXT) startup.$(OBJEXT) dialogyesnoalways.$(OBJEXT) \
+	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) editor.$(OBJEXT) \
+	editoractions.$(OBJEXT) nanohttp.$(OBJEXT) c_url.$(OBJEXT) \
+	urltransport.$(OBJEXT) dialogreferencesettings.$(OBJEXT) \
+	printproject2.$(OBJEXT) usfm2xetex.$(OBJEXT) \
+	xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) xetex.$(OBJEXT) \
+	paratext.$(OBJEXT) vcs.$(OBJEXT) git-exec.$(OBJEXT) \
+	readwrite.$(OBJEXT)
+bibledit_rdwrt_OBJECTS = $(am_bibledit_rdwrt_OBJECTS)
+bibledit_rdwrt_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -192,8 +286,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibledit_gtk_SOURCES)
-DIST_SOURCES = $(bibledit_gtk_SOURCES)
+SOURCES = $(bibledit_gtk_SOURCES) $(bibledit_rdwrt_SOURCES)
+DIST_SOURCES = $(bibledit_gtk_SOURCES) $(bibledit_rdwrt_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -623,6 +717,214 @@ bibledit_gtk_SOURCES = \
   dialogxetex.cpp \
   paratext.cpp \
   vcs.cpp \
+  git-exec.cpp
+
+bibledit_rdwrt_SOURCES = \
+  bibledit-rdwrt.cpp \
+  utilities.cpp \
+  tiny_utilities.cpp \
+  bible.cpp \
+  usfmtools.cpp \
+  dialoglistview.cpp \
+  dialogsystemlog.cpp \
+  htmlbrowser.cpp \
+  track.cpp \
+  windowsoutpost.cpp \
+  projectutils.cpp \
+  usfm.cpp \
+  dialogwait.cpp \
+  directories.cpp \
+  ustring.cpp \
+  referenceutils.cpp \
+  pdfviewer.cpp \
+  notes_utils.cpp \
+  date_time_utils.cpp \
+  dialogentry.cpp \
+  export_utils.cpp \
+  paper.cpp \
+  xmlutils.cpp \
+  stylesheetutils.cpp \
+  dialogstylesheet.cpp \
+  style.cpp \
+  dialogentry3.cpp \
+  printproject.cpp \
+  xmlfo-utils.cpp \
+  dialogdate.cpp \
+  gwrappers.cpp \
+  gtkwrappers.cpp \
+  usfm-inline-markers.cpp \
+  completion.cpp \
+  combobox.cpp \
+  keyboard.cpp \
+  listview.cpp \
+  scripturechecks.cpp \
+  versification.cpp \
+  dialogcheck.cpp \
+  dialogeditlist.cpp \
+  shell.cpp \
+  export_translation_notes.cpp \
+  sqlite_reader.cpp \
+  dialogarea.cpp \
+  unixwrappers.cpp \
+  highlight.cpp \
+  dialogopenstylesheet.cpp \
+  note_editor.cpp \
+  notecaller.cpp \
+  xslfofootnoteparagraph.cpp \
+  notetemplate.cpp \
+  print_parallel_bible.cpp \
+  mapping.cpp \
+  swordnote.cpp \
+  dialogselectchapters.cpp \
+  portion_utils.cpp \
+  scriptureportions.cpp \
+  uname.cpp \
+  import.cpp \
+  clean.cpp \
+  categorize.cpp \
+  progresswindow.cpp \
+  books.cpp \
+  dialogbook.cpp \
+  generalconfig.cpp \
+  screen.cpp \
+  projectconfig.cpp \
+  gui.cpp \
+  check_validate_usfm.cpp \
+  checks.cpp \
+  check_count_words.cpp \
+  httpd.cpp \
+  opendocument.cpp \
+  odtutils.cpp \
+  odtnotes.cpp \
+  help.cpp \
+  color.cpp \
+  check_count_usfms.cpp \
+  check_count_characters.cpp \
+  check_chapters_verses.cpp \
+  check_compare_usfm.cpp \
+  check_unwanted_patterns.cpp \
+  check_unwanted_words.cpp \
+  check_repetition.cpp \
+  check_capitalization.cpp \
+  check_matching_pairs.cpp \
+  originreferences.cpp \
+  tidy.cpp \
+  shortcuts.cpp \
+  reference.cpp \
+  keyterms.cpp \
+  guiselectproject.cpp \
+  check_markers_spacing.cpp \
+  myfnmatch.c \
+  statistics.cpp \
+  backup.cpp \
+  dialogselectbooks.cpp \
+  resource_utils.cpp \
+  html.cpp \
+  dialogeditnote.cpp \
+  biblenotes.cpp \
+  wordlist.cpp \
+  dialognewstylesheet.cpp \
+  outline.cpp \
+  settings.cpp \
+  session.cpp \
+  session_highlights.cpp \
+  bookdata.cpp \
+  config.xml.cpp \
+  localizedbooks.cpp \
+  versifications.cpp \
+  mappings.cpp \
+  password.cpp \
+  gui_features.cpp \
+  print_parallel_references.cpp \
+  fixmarkers.cpp \
+  check_ref_inventory.cpp \
+  check_validate_refs.cpp \
+  textreplacement.cpp \
+  temporal.cpp \
+  ot-quotations.cpp \
+  parallel_passages.cpp \
+  ot-nt-parallels.cpp \
+  check_parallel_passages.cpp \
+  displayprojectnotes.cpp \
+  styles.cpp \
+  editor_aids.cpp \
+  git.cpp \
+  usfm2xslfo_utils.cpp \
+  hyphenate.cpp \
+  reporting.cpp \
+  planning.cpp \
+  dialogeditstatus.cpp \
+  htmlwriter.cpp \
+  resource.cpp \
+  dialogbooknames.cpp \
+  dialogradiobutton.cpp \
+  dialogresourceconverter.cpp \
+  resource_conversion_utils.cpp \
+  convert.cpp \
+  roman.cpp \
+  project_memory.cpp \
+  dialogmerge.cpp \
+  merge_utils.cpp \
+  maintenance.cpp \
+  scripts.cpp \
+  spelling.cpp \
+  check_sentence_structure.cpp \
+  dialogcheckbutton.cpp \
+  htmlcolor.cpp \
+  text2pdf.cpp \
+  text2pdf_utils.cpp \
+  text2pdf_area.cpp \
+  text2pdf_ref_area.cpp \
+  text2pdf_block.cpp \
+  text2pdf_page.cpp \
+  text2pdf_input.cpp \
+  text2pdf_layout.cpp \
+  text2pdf_big_block.cpp \
+  text2pdf_intermediate.cpp \
+  usfm2text.cpp \
+  dialogtext2pdf.cpp \
+  windowreferences.cpp \
+  compress.cpp \
+  localizednumerals.cpp \
+  widgetdate.cpp \
+  usfm2osis.cpp \
+  usfmstandard.cpp \
+  osis.cpp \
+  gui_display_changes.cpp \
+  stylesheet.cpp \
+  referencememory.cpp \
+  webkitbrowser.cpp \
+  snapshots.cpp \
+  windowtimednotifier.cpp \
+  restore.cpp \
+  guiselectbibles.cpp \
+  java.cpp \
+  dialoglistviewm.cpp \
+  htmlwriter2.cpp \
+  kjv.cpp \
+  mechonmamre.cpp \
+  bibleworks.cpp \
+  onlinebible.cpp \
+  robinson.cpp \
+  morphology.cpp \
+  greek.cpp \
+  startup.cpp \
+  dialogyesnoalways.cpp \
+  floatingwindow.cpp \
+  windowdata.cpp \
+  editor.cpp \
+  editoractions.cpp \
+  nanohttp.cpp \
+  c_url.cpp \
+  urltransport.cpp \
+  dialogreferencesettings.cpp \
+  printproject2.cpp \
+  usfm2xetex.cpp \
+  xetex2pdf.cpp \
+  runtime.cpp \
+  xetex.cpp \
+  paratext.cpp \
+  vcs.cpp \
   git-exec.cpp \
   readwrite.cpp
 
@@ -707,6 +1009,9 @@ clean-binPROGRAMS:
 bibledit-gtk$(EXEEXT): $(bibledit_gtk_OBJECTS) $(bibledit_gtk_DEPENDENCIES) 
 	@rm -f bibledit-gtk$(EXEEXT)
 	$(CXXLINK) $(bibledit_gtk_OBJECTS) $(bibledit_gtk_LDADD) $(LIBS)
+bibledit-rdwrt$(EXEEXT): $(bibledit_rdwrt_OBJECTS) $(bibledit_rdwrt_DEPENDENCIES) 
+	@rm -f bibledit-rdwrt$(EXEEXT)
+	$(CXXLINK) $(bibledit_rdwrt_OBJECTS) $(bibledit_rdwrt_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -726,6 +1031,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistants.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/backup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bible.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-rdwrt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/biblenotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibletime.Po@am__quote@
