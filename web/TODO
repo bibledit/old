@@ -1,9 +1,25 @@
-
-
-
-
 In Administration / Mail, give an explaination of what the email address is for, and that this mailbox is dedicated for Bibledit-Web, 
 and is read every five minutes, and that all three acccounts should refer to the same email address.
+
+
+
+
+
+In the introduction in the help, give an exhaustive list of things that Bibledit-Web does.
+Not what the users can do with it, as this depends on the users, but just the hard things that Bibledit-web does.
+
+
+
+
+See whether Bibledit-BibleWorks works well on Vista.
+Possibly recompile it on Vista against BW9, and create version 1.2, mentioning the issues, keeping the older versions.
+
+
+
+
+
+
+
 
 
 
@@ -22,8 +38,86 @@ Thus it will be installed properly.
 
 
 
-See whether Bibledit-BibleWorks works well on Vista.
-Possibly recompile it on Vista against BW9, and create version 1.2, mentioning the issues, keeping the older versions.
+
+
+
+
+
+
+
+
+Since there is nothing at http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-0.5.tar.gz
+why not tell people to use the Savanah repostitory? Won't that be a rather permanent way of getting the newest version.
+
+
+Using the brand new install of Ubuntu 11, and doing everything right from top to bottom, I still get an error message about installing Java following
+apt-get install make git-core curl default-jre zip unzip libzend-framework-php!!!!
+
+
+Now using Ubuntu 10 longterm support.
+Used 
+sh /usr/sbin/quickinstall.sh
+to install #1 Apache, PHP, Mysql
+did 
+sh /usr/sbin/quickinstall.sh
+and #3 for updates, but I think they were already installed in #1.
+
+Did apt-get install default-jre right away to see if it will install.
+It installed! Ubuntu 11 was the problem. It works with Ubuntu 10! OR perhaps the difference could be that I used the quickinstall.sh to install the same three that are part of Linux Apache Mysql PHP (LAMP).
+
+
+Here are a few more of my notes:
+
+
+Get the latest version of BE-web by doing this in the server terminal:
+git clone git://git.savannah.nongnu.org/bibledit.git
+
+Tried to ./configure in /bibledit/web/
+but it says PHP is not installed. Used tasksel, and it says LAMP is installed.
+Tried various things, and finally:
+apt-get install php5-common libapache2-mod-php5 php5-cli
+(Perhaps I should have used tasksel initially instead of quickinstall!)
+
+Using apt-get worked THEN it ./configured!
+You haven’t told how to get a backup into a VPS server.
+I had to apt-get install wget.
+But then where to put it so that I can wget it!
+Could not download it from box.net or eyeos, but downloading it from bahasakita.net worked. Remove the ?attredirects=0&d=1 from the end of the file name and use http: not https:
+The mysql commands worked fine.
+There is just a file that is left over from a bad download, and it has a weird name that can’t seem to be deleted from the ssh terminal. Aha!
+Delete it by using a wild card and then you are asked for each one:
+rm bahasakita.bak.*
+
+
+Contrary to the note in the Administration > Backup/Restore  page the send/receive parameters seem to have been restored when I restored the database.
+By the way, I would change the name of Admin > Backup to Backup and Restore.
+
+
+Mail now works! How often does mail with changes get sent? Is there a setting for this? The mail makes it sound like I will see the changes in colors within the text of the e-mail itself. My email did not show the changes. But I DO see them when I click on the links at the top of the e-mail. Please tell me if I am seeing things as intended within my e-mail. 
+
+
+This is terrific. I am going to have my partner enroll in these e-mails!
+
+
+I have two small suggestions, one was mentioned before:
+*How about making it so that the Translation top line link went directly to the editing page? The Styles link can be moved to Management. 
+*It would be nice if the initial screen gave the log-in blanks as well as the Help link. It would save moving the mouse and clicking. And because BE seems to time out quickly, this would save effort multiple times per day. (How long is the time out delay? I use Lastpass and have it set to automatically log me on. )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

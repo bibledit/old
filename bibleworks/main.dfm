@@ -485,7 +485,7 @@ object Form1: TForm1
   object Label3: TLabel
     Left = 8
     Top = 171
-    Width = 245
+    Width = 237
     Height = 13
     Caption = 'Bibledit-Web local or remote username (e.g. joe):'
   end

@@ -14,16 +14,17 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=6
-FILE_NAME_0=1;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+current_page=0
+FILE_NAME_0=179;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=940;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 FILE_NAME_2=2842;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/05ubuntu1104.tpl;0;2
 FILE_NAME_3=6145;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/gtk/src/Makefile.am;0;2
-FILE_NAME_4=1791;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibledit-rdwrt.cpp;0;2
+FILE_NAME_4=1390;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibledit-rdwrt.cpp;0;2
 FILE_NAME_5=906;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/readwrite.h;0;2
-FILE_NAME_6=3921;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/readwrite.cpp;0;2
-FILE_NAME_7=871;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibledit.cpp;0;2
-FILE_NAME_8=2323;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/man/bibledit-rdwrt.1;0;2
+FILE_NAME_6=4054;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/readwrite.cpp;0;2
+FILE_NAME_7=3239;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibledit.cpp;0;2
+FILE_NAME_8=0;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/projectutils.cpp;0;2
+FILE_NAME_9=0;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/projectutils.h;0;2
 
 [long line marker]
 long_line_behaviour=1
