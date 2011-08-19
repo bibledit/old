@@ -45,6 +45,10 @@ int main(int argc, char *argv[])
   // Initialize g types.
   g_type_init();
 
+  // Settings object. 
+  Settings mysettings(true);
+  settings = &mysettings;
+
   // Bibledit can read from or write to Bible data.
   // Syntax: bibledit-rdwrt -r|-w ...
   bool readdata = false;
