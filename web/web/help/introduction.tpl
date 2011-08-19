@@ -1,9 +1,14 @@
 <h1>{t}Introduction{/t}</h1>
 <p>{t}Bibledit is a web-based application for translating the Bible. It is part of the Bibledit suite.{/t}</p>
-<p>{t}The idea behind Bibledit-Web is that various users can log into the application, and that each user has a certain "level" within the application. This level will give him or her more or less rights.{/t}</p>
-<p>{t}There's the most basic level, which is "Visitor". A visitor can be anybody who visit the site. Visitors should be able to see the Bibles being translated on the site.{/t}</p>
-<p>{t}The next level is a "Member". A member is somebody who has signed up to the site, and has confirmed this signup through his email. This is an independent process, which means whoever wants can become a "Member". Members will be able to do the same as Visitors, but in addition they will be able to raise Issues or "Consultation Notes" on the site. These notes presumably will be about how a certain passage has been translated. Members should be able to subscribe to changes in the Bible, and to changes in Consultation Notes, so that they are notified by email about this.{/t}</p>
-<p>{t}Then, again the next level, there can be a "Consultant". Consultants are people who can be consulted because of their knowledge of the original language such as Hebrew or Greek, or because of their knowledge of their target language in case they are language scholars, or for any other knowledge they have. Nobody can become a Consultant by himself, this level is assigned to him by the Manager.{/t}</p>
-<p>{t}The next level is "Translator". These are the ones that have all the rights of the Consultant, but in addition can actually change the Bible text.{/t}</p>
+<br>
+<p>{t}People can sign up for an account and log in.{/t}</p>
+<p>{t}Each user has a certain role within the application.{/t}</p>
+<p>{t}The first role is "Member". A member is somebody who has signed up to the site, and has confirmed this signup through his email.{/t}</p>
+<p>{t}The second role is "Consultant". Consultants are people who can be consulted because of their knowledge of the original language such as Hebrew or Greek, or because of their knowledge of their target language in case they are language scholars, or for any other knowledge they have.{/t}</p>
+<p>{t}The next role is "Translator". These are the ones that have all the rights of the Consultant, but in addition can change the Bible text.{/t}</p>
 <p>{t}Then there's the "Manager". The manager has all the privileges of the previous levels, but in addition can add books to the Bible, delete books, add chapters, copy Bibles, and so on. The manager can assign privileges to the translators, consultants, and so on.{/t}</p>
 <p>{t}Finally, there is the "Administrator". The administrator has all rights to do anything, and will do the technical setup and maintenance of the site.{/t}</p>
+<br>
+<p>{t}Everybody who has an account can enable the personal notifications. Those who have switched the relevant notifications on can receive emails from Bibledit-Web. They receive an email when new consultation notes get created, or when consultation notes get changed, or when consultation notes get assigned to them. They can also get an automatic daily email that contains all changes that have been made in the Bible since the previous email.{/t}</p>
+<br>
+<p>{t}Members can log in and view or download all exported Bibles and lists with recent changes in the Bibles.{/t}</p>
