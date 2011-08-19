@@ -13,6 +13,8 @@
 <p>New lines are replaced with spaces in comments that get posted by email. Less clutter.</p>
 <p>Can export to web pages with links for easier navigation.</p>
 <p>Properly exports combined verses such as 3-4, 2b-4, 5,6, and so on.</p>
+<p>Email setup was clarified.</p>
+<p>Installation help was extended.</p>
 
 <h2>Version 0.4</h2>
 <p>20 April 2011</p>
