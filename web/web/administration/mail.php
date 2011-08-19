@@ -3,6 +3,7 @@
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
+Assets_Page::header (gettext ("Mail"));
 
 
 $smarty = new Smarty_Bibledit (__FILE__);
@@ -103,5 +104,7 @@ $smarty->assign ("sendsecurity",       $config_general->getMailSendSecurity ());
 $smarty->assign ("sendport",           $config_general->getMailSendPort ());
 $smarty->display("mail.tpl");
 
+
+Assets_Page::footer ();
 
 ?>
