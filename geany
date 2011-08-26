@@ -15,7 +15,7 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=95;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=1013;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 FILE_NAME_2=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/05ubuntu1104.tpl;0;2
 FILE_NAME_3=3691;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/introduction.tpl;0;2
