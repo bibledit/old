@@ -1,6 +1,9 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+
+<h2>Version 0.5</h2>
+<p>26 August 2011</p>
 <p>Select consultation notes that have not been edited for a given time.</p>
 <p>Consultation notes: Improved sorting on passage.</p>
 <p>Consultation notes: Post comment by email: Both top and bottom posting work.</p>

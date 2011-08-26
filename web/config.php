@@ -17,7 +17,7 @@
 #define PACKAGE_NAME "bibledit-web"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit-web 0.4.106"
+#define PACKAGE_STRING "bibledit-web 0.5"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit-web"
@@ -26,7 +26,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.4.106"
+#define PACKAGE_VERSION "0.5"
 
 /* Define the password of the site administrator */
 #define SITE_ADMIN_PASSWORD "adminpassword"
@@ -35,7 +35,7 @@
 #define SITE_ADMIN_USERNAME "adminusername"
 
 /* Version number of package */
-#define VERSION "0.4.106"
+#define VERSION "0.5"
 
 /* Define the local web server document root */
 #define WEBROOT "/var/www"
