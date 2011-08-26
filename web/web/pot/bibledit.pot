@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-20 01:43+0200\n"
+"POT-Creation-Date: 2011-08-26 01:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2727,16 +2727,102 @@ msgstr ""
 
 msgid ""
 "Everybody who has an account can enable the personal notifications. Those "
-"who have switched the relevant notifications on can receive emails from "
-"Bibledit-Web. They receive an email when new consultation notes get created, "
-"or when consultation notes get changed, or when consultation notes get "
-"assigned to them. They can also get an automatic daily email that contains "
-"all changes that have been made in the Bible since the previous email."
+"who have switched the relevant notifications on can receive email from "
+"Bibledit-Web. They receive email when new consultation notes get created, or "
+"when consultation notes get changed, or when consultation notes get assigned "
+"to them. They can also get automatic daily email detailing the changes that "
+"have been made in the Bible since the previous email."
 msgstr ""
 
 msgid ""
-"Members can log in and view or download all exported Bibles and lists with "
-"recent changes in the Bibles."
+"Everybody who has an account can create consultation notes by email, and "
+"respond to these by email."
+msgstr ""
+
+msgid ""
+"Members can view and download all exported Bibles and lists with recent "
+"changes in the Bibles."
+msgstr ""
+
+msgid ""
+"Consultants can create consultation notes online, view these, set parameters "
+"for these, assign the notes to people, and delete notes."
+msgstr ""
+
+msgid "Translators can edit the Bible text."
+msgstr ""
+
+msgid "Managers can do several things."
+msgstr ""
+
+msgid "They can edit the Bible in raw USFM format."
+msgstr ""
+
+msgid ""
+"They can send and receive the Bible text. This means that they can "
+"synchronize the Bible text with a remote git repository. In this way they "
+"can collaborate with people who use Bibledit-Gtk."
+msgstr ""
+
+msgid "They can view and clear the logbook."
+msgstr ""
+
+msgid ""
+"They can process the changes, so that lists are created, and email is sent "
+"out."
+msgstr ""
+
+msgid ""
+"They can view and edit people who have an account, and create new accounts."
+msgstr ""
+
+msgid ""
+"They can create and delete Bibles, books, chapters, and import USFM data."
+msgstr ""
+
+msgid ""
+"They can initiate the daily export of selected Bibles to OpenDocument, USFM, "
+"html, Online Bible."
+msgstr ""
+
+msgid "They can create and edit versification systems."
+msgstr ""
+
+msgid "They can create and edit stylesheets."
+msgstr ""
+
+msgid ""
+"They can import consultation notes from Bibledit-Gtk and remove duplicates."
+msgstr ""
+
+msgid ""
+"They can deal with automatic hyphenation when exporting to OpenDocument."
+msgstr ""
+
+msgid "Administrator can do several things."
+msgstr ""
+
+msgid "They can setup Bibledit-Web's email account."
+msgstr ""
+
+msgid "They can create backups and restore them."
+msgstr ""
+
+msgid ""
+"They can set up collaboration through setting up a connection with a remote "
+"git repository."
+msgstr ""
+
+msgid "They can maintain the database."
+msgstr ""
+
+msgid "They can set the site's timezone."
+msgstr ""
+
+msgid "They can set the site's language."
+msgstr ""
+
+msgid "They can view the PHP Info."
 msgstr ""
 
 msgid ""
