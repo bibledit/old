@@ -1,31 +1,32 @@
-The following is in the Dutch language.
-It deals with a Bible, Psalms, and religious texts, in the Dutch language.
 
 
-Het programma gbs.php helpt u met het importeren van gegevens uit de 
-database van GBS Digitaal 2.9, en het omzetten van de gegevens naar USFM.
+The PHP scripts import data from the database of GBS Digitaal 2.9,
+and stores it in USFM.
 
-Voordat het importeren en het omzetten werkt is het belangrijk om de 
-databases vanuit GBS Digitaal over te zetten naar uw eigen mysql 
-server op Linux.
+Condition is that the database is copied from GBS Digitaal to your own
+mysql server on Linux.
 
-Onderneem de volgende stappen:
+To copy this database, do the following:
 
-- Installeer GBS Digitaal op Windows.
+- Install GBS Digitaal on Windows.
 
-- Lees de gebruikerslicentie.
-  Wat we hier gaan doen dat is toegestaan met deze licentie.
+- Read the license. What we are going to do here is not forbidden
+  by the license.
 
-- Kopieer folder C:\Program Files\2G\GBS Digitaal\mysql\data\gbs
-  met alles wat erin zit van Windows naar Linux.
-  Plaats het in /var/lib/mysql.
-  Bovenstaand was getest op Ubuntu 10.10.
+- Copy folder C:\Program Files\2G\GBS Digitaal\mysql\data\gbs
+  and whatever it contains from Windows to Linux.
+  Put it in /var/lib/mysql.
+  The above has been tested on Ubuntu 11.04.
 
-De mysql installatie op Linux heeft er nu een database bij gekregen.
-De database heet "gbs".
-De database is te benaderen op de gewone manier.
-Alle teksten van de GBS staan in deze database.
-Via bijvoorbeeld phpMyAdmin zijn deze teksten eenvoudig te bekijken.
+The mysql server on Linux now has an added database.
+The database is called 'gbs'.
+The database is accessible as usual.
+All texts of GBS are in this database.
+Through phpMyAdmin these text can be viewed easily.
 
-U draait gbs.php in een terminal: $ php gbs.php
+There are several scripts.
+All of these run in a terminal: $ php script.php
+
+datheen.php reads the 'Psalmen van Datheen', converts the data to USFM, 
+and stores it in Bibledit-Web as a Bible called 'Psalmen van Datheen'.
 
