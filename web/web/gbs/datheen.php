@@ -34,7 +34,7 @@ if (php_sapi_name () != "cli") {
 }
 
 
-$database_logs->log ("Start importing GBS data", true);
+$database_logs->log ("Start importing Psalmen van Datheen", true);
 
 
 // The relevant databases.
@@ -146,6 +146,6 @@ for ($chapter = 1; $chapter <= 150; $chapter++) {
 }
 
 
-$database_logs->log ("Ready importing GBS data", true);
+$database_logs->log ("Ready importing Psalmen van Datheen", true);
 
 ?>
