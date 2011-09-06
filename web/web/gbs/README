@@ -30,3 +30,7 @@ All of these run in a terminal: $ php script.php
 datheen.php reads the 'Psalmen van Datheen', converts the data to USFM, 
 and stores it in Bibledit-Web as a Bible called 'Psalmen van Datheen'.
 
+bijbel.php reads the Statenbijbel, converts the data to USFM,
+and stores it in Bibledit-Wewb as a Bible called 'Statenbijbel'.
+The data needs to be polished up, e.g. searching for '<' yields
+some places that can do with a facelift.

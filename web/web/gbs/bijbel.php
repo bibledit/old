@@ -259,6 +259,7 @@ for ($book = 1; $book <= 66; $book++) {
       }
       $text = implode ("", $lines);
       $text = markup ($text);
+      $text = str_replace ("<br />", "\n\\p ", $text);
       $usfm .= "\\p\n";
       $usfm .= "\\v $text\n";
      
