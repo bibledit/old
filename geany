@@ -14,13 +14,13 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=4
+current_page=6
 FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=1084;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 FILE_NAME_2=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/05ubuntu1104.tpl;0;2
 FILE_NAME_3=177;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/installation.tpl;0;2
 FILE_NAME_4=1248;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/README;0;2
-FILE_NAME_5=7144;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/bijbel.php;0;2
+FILE_NAME_5=8932;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/gbs/bijbel.php;0;2
 FILE_NAME_6=4005;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0;2
 
 [long line marker]

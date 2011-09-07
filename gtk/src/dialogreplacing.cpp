@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogreplacing.h"
@@ -30,6 +31,7 @@
 #include "books.h"
 #include "settings.h"
 #include "tiny_utilities.h"
+
 
 ReplacingDialog::ReplacingDialog(const vector < Reference > &references_in)
 {
@@ -159,20 +161,24 @@ ReplacingDialog::ReplacingDialog(const vector < Reference > &references_in)
   set_gui();
 }
 
+
 ReplacingDialog::~ReplacingDialog()
 {
   gtk_widget_destroy(replacedialog);
 }
+
 
 int ReplacingDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(replacedialog));
 }
 
+
 void ReplacingDialog::replacedialog_on_yesbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReplacingDialog *) user_data)->on_yesbutton_clicked();
 }
+
 
 void ReplacingDialog::on_yesbutton_clicked()
 {
@@ -183,10 +189,12 @@ void ReplacingDialog::on_yesbutton_clicked()
     on_cancelbutton_clicked();
 }
 
+
 void ReplacingDialog::replacedialog_on_nobutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReplacingDialog *) user_data)->on_nobutton_clicked();
 }
+
 
 void ReplacingDialog::on_nobutton_clicked()
 {
@@ -196,10 +204,12 @@ void ReplacingDialog::on_nobutton_clicked()
     on_cancelbutton_clicked();
 }
 
+
 void ReplacingDialog::replacedialog_on_allbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReplacingDialog *) user_data)->on_allbutton_clicked();
 }
+
 
 void ReplacingDialog::on_allbutton_clicked()
 {
@@ -211,15 +221,18 @@ void ReplacingDialog::on_allbutton_clicked()
   }
 }
 
+
 void ReplacingDialog::replacedialog_on_cancelbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReplacingDialog *) user_data)->on_cancelbutton_clicked();
 }
 
+
 void ReplacingDialog::on_cancelbutton_clicked()
 {
   gtk_dialog_response(GTK_DIALOG(replacedialog), GTK_RESPONSE_NONE);
 }
+
 
 void ReplacingDialog::set_gui()
 // The GUI is filled with all data needed.
@@ -267,7 +280,9 @@ void ReplacingDialog::set_gui()
           verse2 = verse.casefold();
         // Colour words in the original window.
         size_t offposition = verse2.find(searchword);
-        while (offposition != string::npos) {
+        unsigned int infinite_loop_counter = 0;
+        while ((offposition != string::npos) && (infinite_loop_counter < 10)) {
+          infinite_loop_counter++;
           // Handle differences in length between normal text and casefold.
           if (!mycasesensitive) {
             ustring normal_text = verse.substr(0, offposition);
@@ -322,6 +337,7 @@ void ReplacingDialog::set_gui()
   }
 }
 
+
 void ReplacingDialog::accept_change()
 /*
  * This function accepts the change from the second textview
@@ -357,3 +373,4 @@ void ReplacingDialog::accept_change()
     project_store_verse(myproject, references[referencepointer].book, references[referencepointer].chapter, references[referencepointer].verse, data);
   }
 }
+
