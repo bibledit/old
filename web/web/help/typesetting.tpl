@@ -90,9 +90,10 @@
 
 <h2>{t}Typesetting guidelines{/t}</h2>
 <ol>
+<li>{t}The following needs consideration if the Bible includes more than one book. Does the next book follow on the same page on which the previous book finished, or do the books follow on from one another in a different way? Whatever method is chosen, it needs to be applied consistently throughout the Bible.{/t}</li>
 <li>{t}Line spacing should be consistent throughout and should be placed line on line across all pages. It means that they should all line up with each other all the way down the page and across all pages. Then when the Bible is printed, the printed text will be back to back and not show through from one side of the page to the other. In the typesetting software, this can be implemented by setting up a grid in the document, and then aligning all text to this grid.{/t}</li>
 <li>{t}The space after the verse numbers would be the same and consistent. Bibledit-Web exports the text to OpenDocument format using 'en spaces' after each verse. This ensures a consistent width of the spaces after the verse numbers. Superscript numerals could also be considered, though larger than any note citations in the text. The size of the superscript would be between 70 and 80% of the size of the main text.{/t}</li>
-<li>{t}The alignment of the drop caps chapter numbers to the text beside it is to be consistent. There should be some space between the numbers and the text. Drop cap characters should not be too large and not rise too far above the height of the other letters on the first line. The top of the highest letters should reach to about the same height.{/t}</li>
+<li>{t}The alignment of the drop caps chapter numbers to the text beside it is to be consistent. There should be some space between the numbers and the text. Drop cap characters should not be too large and not rise too far above the height of the other letters on the first line. The top of the highest letters should reach to about the same height. The drop cap characters in the body of the text should not be indented.{/t}</li>
 <li>{t}The chapter divisions would also benefit from some more space between them and the text of the preceding chapter. When there is no heading above a chapter, it may be visually better to start the chapter number with a line space before it.{/t}</li>
 <li>{t}The amount of space given to the Bible book headings should not be too great.{/t}</li>
 <li>{t}Subheadings should not appear squashed amongst the rest of the text and would benefit from some space.{/t}</li>
@@ -106,15 +107,18 @@
 <li>{t}The Psalm headers need consistent spaces before and after and should be positioned closer to the Psalm that follows than to the Psalm before.{/t}</li>
 <li>{t}A 10 mm margin is okay for the outer margin, and for the top and bottom margin. The inner margin needs slightly more, e.g. 12 mm.{/t}</li>
 <li>{t}For singable Psalms, readability would be helped by distinguishing the verse numbers visually.{/t}</li>
-<li>{t}It would be helpful to distinguish the running head, perhaps by using a semi-bold version of the same font.{/t}</li>
+<li>{t}It is helpful to distinguish the running head, perhaps by using a semi-bold version of the same font.{/t}</li>
 <li>{t}One way in which the number of pages in a volume could be reduced without loss of readability would be to choose a font with slightly shorter ascenders and descenders and then tighten the leading (line spacing) slightly.{/t}</li>
 <li>{t}When producing PDF output, the text needs to be monochrome black, not black consisting of three or four colours.{/t}</li>
-<li>{t}The last line of a verse or paragraph should not appear on its own at the top of a column. The typesetting software will have a setting for 'Orphans' to control this. An elegant way of avoiding orphans is to increase or decrease the tracking of the text. This is the overall spacing of the letters in a paragraph or on a line.{/t}</li>
+<li>{t}The last line of a verse or paragraph should not appear on its own at the top of a column. The typesetting software will have a setting for 'orphans' to control this. An elegant way of avoiding orphans is to increase or decrease the tracking of the text. This is the overall spacing of the letters in a paragraph or on a line.{/t}</li>
 <li>{t}Avoid hyphenations in the headings.{/t}</li>
 <li>{t}Many book titles consist of a main title and a subtitle, like "The gospel of Matthew". "Matthew" is the main title, and the rest is the subtitle. It is good if there is a clear contrast on size between these two. Say 24 points bold for the main title, and 14 points regular for the subtitle.{/t}</li>
-<li>{t}The number of hyphens used in a row should be few for enhanced readability. At times a word that is now hyphenated could be forced down onto the next line without opening up the gaps between the words too much on the line above. Hyphenation should be set to the optimum result for the column width but then it is usually necessary to go over every page and make corrections manually.{/t}</li>
+<li>{t}The number of hyphens used in a row should be few for enhanced readability. The number of hyphens used in a row should not amount to more than three consecutive hyphenated lines. At times a word that is now hyphenated could be forced down onto the next line without opening up the gaps between the words too much on the line above. Hyphenation should be set to the optimum result for the column width but then it is usually necessary to go over every page and make corrections manually.{/t}</li>
 <li>{t}The main page numbering should start at the first page of Genesis, or Matthew in case of New Testaments.{/t}</li>
 <li>{t}To avoid what are sometimes referred to as 'rivers' in the text. This is where large spaces between words cause rivers of white space to be seen running through the text. The use of hyphenation or tracking adjustments are tools that can be used to minimise the problem. But as always they need to be used with discretion.{/t}</li>
+<li>{t}As a general rule text will be justified on the left and the right.{/t}</li>
+<li>{t}A word, part of a word, or very short line should not appear by itself at the end of a paragraph. This result in less much white space between paragraphs or at the bottom of a page.{/t}</li>
+<li>{t}The main page numbering starts at the first page of the text of the Scripture. This first page of Scripture starts on the recto (right side of a two page spread) for left to right reading scripts and the verso (left side of a two page spread) for right to left scripts.{/t}</li>
 </ol>
 
 <h2>{t}The typesetting{/t}</h2>
