@@ -181,6 +181,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 man_MANS = *.1
 CLEANFILES = *~ 
+EXTRA_DIST = *.1
 all: all-am
 
 .SUFFIXES:
