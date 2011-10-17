@@ -31,9 +31,6 @@ Free Documentation License" in the file FDL.
         <li>
           <a href="changes-log.html">Changes Log</a>
         </li>
-        <li>
-          <a href="elastics.html">Elastics</a>
-        </li>
         <li>Internals
         </li>
         <li>
@@ -51,14 +48,17 @@ Free Documentation License" in the file FDL.
       <h1>
         Internals
       </h1>
-      <h3>
+      <h2>
         <a name="TOC-Introduction" href="" id="TOC-Introduction"></a>Introduction
-      </h3>
+      </h2>
       <p>
         This page describes the internals of Bibledit. That is, it gives technical specifications and information about how Bibledit works internally.
       </p>
+      <h2>
+        <a name="TOC-Temporary-directory" href="" id="TOC-Temporary-directory"></a>Temporary directory
+      </h2>
       <h3>
-        <a name="temporarydirectory" href="" id="temporarydirectory"></a>Temporary directory
+        <a name="temporarydirectory" href="" id="temporarydirectory"></a>
       </h3>
       <p>
         The directory where Bibledit stores all temporary working data is in directory
@@ -66,14 +66,20 @@ Free Documentation License" in the file FDL.
       <pre>
 /tmp/bibledit
 </pre>
+      <h2>
+        <a name="TOC-Stylesheets-storage" href="" id="TOC-Stylesheets-storage"></a>Stylesheets storage
+      </h2>
       <h3>
-        <a name="stylesheetsstorage" href="" id="stylesheetsstorage"></a>Stylesheets storage
+        <a name="stylesheetsstorage" href="" id="stylesheetsstorage"></a>
       </h3>
       <p>
         The stylesheets, as templates, are xml files, stored in <a href="../../gtk/4-management/data.html">&lt;data directory&gt;</a>/stylesheets. Same for imported and exported stylesheets, except that they are zipped.
       </p>
+      <h2>
+        <a name="TOC-Data-storage" href="" id="TOC-Data-storage"></a>Data storage
+      </h2>
       <h3>
-        <a name="datastorage" href="" id="datastorage"></a>Data storage
+        <a name="datastorage" href="" id="datastorage"></a>
       </h3>
       <p>
         Data, that means, the USFM files, are internally stored as flat files, one file per chapter. This gives faster access to the data. The files are stored in <a href="../../gtk/4-management/data.html">&lt;data directory&gt;</a>/projects/&lt;project name&gt;, along with other files related to this project.
@@ -255,11 +261,26 @@ OLB Disconnect
       <p>
         Disconnects from the Online Bible.
       </p>
+      <h2>
+        <a name="TOC-Floating-windows" href="" id="TOC-Floating-windows"></a>Floating windows
+      </h2>
       <h3>
-        <a name="floatingwindows" href="" id="floatingwindows"></a>Floating windows
+        <a name="floatingwindows" href="" id="floatingwindows"></a>
       </h3>
       <p>
         All the windows of Bibledit are floating and can be resized. If a new window is opened, then Bibledit will look for the largest available open space, and place the window there. It will also size the window so that it fills that open space. If there is no sufficient space available to place a window in, then Bibledit will look for the largest window, make it half the size, and place the new window in the open space so created.
+      </p>
+      <h2>
+        <a name="TOC-Commandline-parameters" href="" id="TOC-Commandline-parameters"></a>Commandline parameters
+      </h2>
+      <p>
+        --debug. For debugging in gdb.
+      </p>
+      <p>
+        --xembed &lt;window identifier&gt;.&nbsp;If that argument is present, it creates a plug for its main window instead of a normal top-level window.
+      </p>
+      <p>
+        -r|-w &lt;project&gt; &lt;book&gt; chapter|0 fileName. For reading from or writing to Bibledit USFM data. See source file readwrite.cpp for more information.
       </p>
     </div>
   </body>
