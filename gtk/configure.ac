@@ -301,7 +301,6 @@ AC_CONFIG_FILES([Makefile
 		  desktop/Makefile
 		  windows/Makefile
 		  tests/Makefile
-		  eeepc/Makefile
 		  shutdown/Makefile
 		  usfm/Makefile
 		  kjv/Makefile
