@@ -304,7 +304,6 @@ AC_CONFIG_FILES([Makefile
 		  shutdown/Makefile
 		  usfm/Makefile
 		  kjv/Makefile
-		  gobible/Makefile
 		  xetex/Makefile
 		  git/Makefile
 		])
