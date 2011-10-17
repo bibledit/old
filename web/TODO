@@ -1,4 +1,13 @@
 
+
+
+
+
+
+
+
+About the GoBiblecreator, simplest is to create a package that downloads and installs it. 
+Or easier yet, let Bibledit-Gtk do it.
  
 
 
@@ -15,20 +24,7 @@ Since there is nothing at http://download.savannah.nongnu.org/releases/bibledit/
 why not tell people to use the Savanah repostitory? Won't that be a rather permanent way of getting the newest version.
 
 
-Using the brand new install of Ubuntu 11, and doing everything right from top to bottom, I still get an error message about installing Java following
-apt-get install make git-core curl default-jre zip unzip libzend-framework-php!!!!
 
-
-Now using Ubuntu 10 longterm support.
-Used 
-sh /usr/sbin/quickinstall.sh
-to install #1 Apache, PHP, Mysql
-did 
-sh /usr/sbin/quickinstall.sh
-and #3 for updates, but I think they were already installed in #1.
-
-Did apt-get install default-jre right away to see if it will install.
-It installed! Ubuntu 11 was the problem. It works with Ubuntu 10! OR perhaps the difference could be that I used the quickinstall.sh to install the same three that are part of Linux Apache Mysql PHP (LAMP).
 
 
 Here are a few more of my notes:
