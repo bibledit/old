@@ -1,6 +1,10 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+<p>The online help about typesetting procedures was updated.</p>
+<p>Improvements in importing the GBS Statenbijbel.</p>
+<p>Outdated installation information was removed.</p>
+<p></p>
 
 <h2>Version 0.5</h2>
 <p>26 August 2011</p>
