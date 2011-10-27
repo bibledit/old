@@ -8,7 +8,7 @@ To update the online help, do the following:
 
 In a terminal, change to the current directory. 
 This is the directory where this README file is located.
-Then run the retrieval file, like so: ./retrievel.pl
+Then run the retrieval file, like so: perl retrieve.pl
 This retrieves all content from the wiki.
-Then create the menus: ./menus.pl
+Then create the menus: perl menus.pl
 

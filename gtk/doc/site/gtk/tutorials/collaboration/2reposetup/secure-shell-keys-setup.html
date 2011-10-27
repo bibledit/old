@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link href="../../../../bibledit.css" rel="stylesheet" type="text/css" /><!-- 
+
+Copyright (©) 2003-2011 Teus Benschop and Contributors to the Wiki.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+
+-->
+    <title></title>
+  </head>
+  <body>
+    <div id="menu">
+      <ul>
+        <li>
+          <a href="../../../../home.html">1 Bibledit</a>
+        </li>
+        <li>
+          <a href="../2reposetup.html">2reposetup</a>
+        </li>
+        <li style="list-style: none; display: inline">
+          <hr />
+        </li>
+        <li>
+          <a href="open-network-repository-setup.html">Open network repository setup</a>
+        </li>
+        <li>
+          <a href="secure-network-repository-setup.html">Secure network repository setup</a>
+        </li>
+        <li>Secure shell keys setup
+        </li>
+        <li>
+          <a href="usb-flash-drive-repository-setup.html">USB flash drive repository setup</a>
+        </li>
+      </ul>
+    </div>
+    <div id="content">
+      <h1>
+        Secure shell keys setup
+      </h1>
+      <p>
+        When your remote repository is a secure one, and you'd like Bibledit to use it, then is is necessary to set up secure shell keys. These keys allow easy access to the secure repository. Please follow the tutorial exactly.
+      </p>
+      <h3>
+        <a name="generatethekeys" href="" id="generatethekeys"></a>Generate the keys
+      </h3>
+      <p>
+        The first thing to do is to generate the keys.
+      </p>
+      <p>
+        On your Linux workstation, open a termial and enter the following:
+      </p>
+      <pre>
+cd         <font face="arial, sans-serif">(to make sure you are in your home directory)</font>
+</pre>
+      <pre>
+ls .ssh    <font face="arial, sans-serif">(to check if there is an .ssh directory)</font> 
+</pre>
+      <pre>
+<font face="arial, sans-serif">If there is no .ssh directory, create one:</font> 
+</pre>
+      <pre>
+mkdir .ssh
+</pre>
+      <pre>
+<font face="arial, sans-serif">then </font>
+</pre>
+      <pre>
+cd .ssh
+</pre>
+      <pre>
+ssh-keygen -t dsa -b 1024 -f bibledit-ssh-key
+</pre>
+      <p>
+        It will respond as follows:
+      </p>
+      <pre>
+Generating public/private dsa key pair.
+</pre>
+      <pre>
+Enter passphrase (empty for no passphrase):
+</pre>
+      <p>
+        At this stage press Enter. It will continue as follows:
+      </p>
+      <pre>
+Enter same passphrase again:
+</pre>
+      <p>
+        Press Enter again. It will continue as below:
+      </p>
+      <pre>
+Your identification has been saved in bibledit-ssh-key.
+</pre>
+      <pre>
+Your public key has been saved in bibledit-ssh-key.pub.
+</pre>
+      <p>
+        It will print some more lines of text. This is not relevant for our purpose.
+      </p>
+      <p>
+        This pair of keys is important. The pair is in the ".ssh" directory of your home directory. There is the private key, in a file called "bibledit-ssh-key", and the public key, in another file called "bibledit-ssh-key.pub". Store them safely.
+      </p>
+      <h3>
+        <a name="enterthekeys" href="" id="enterthekeys"></a>Enter the keys
+      </h3>
+      <p>
+        Open a personal account at <a href="http://www.sourceforge.net/" rel="nofollow">sourceforge.net</a>. Let's choose user name "repouser". Ask the project administrator whether he can add user "repouser" to the "repo2" project as a member. Joining this project will give you the capability to write to the repository.
+      </p>
+      <p>
+        After logging onto sourceforge.net, click “account” in the upper right, and choose the Services tab, then choose “Edit SSH Keys for Shell/CVS.” (If the moderator of the project has not yet added you as a member, this page will not have a link to “Edit SSH...”) In the section above, you generated a file "bibledit-ssh-key.pub". Open it in gedit. Select all the text and copy it to the clipboard. In the screen titled "SSH Keys", there is a place where it says "Authorized keys:". Paste the text from gedit into that space on the web page. After checking that everything looks fine, press button "Update". Synchronizing the keys into the system has a 10 minute delay.
+      </p>
+      <p>
+        The next step is to tell the secure shell where to find the private key when we connect to sourceforge.net, and to set a few other important options. To do that, open file ~/.ssh/config in gedit. Enter the entry for sourceforge.net, like so:
+      </p>
+      <pre>
+Host *sourceforge.net
+</pre>
+      <pre>
+     IdentityFile ~/.ssh/bibledit-ssh-key
+</pre>
+      <pre>
+     BatchMode yes
+</pre>
+      <pre>
+     StrictHostKeyChecking no
+</pre>
+      <p>
+        Save the file.
+      </p>
+      <p>
+        The above refers to a file called "bibledit-ssh-key". You have generated this key before.
+      </p>
+      <p>
+        If the delay of 10 minutes has expired, we can now try whether the key pair works well. In the terminal, try to access the repository at sourceforge:
+      </p>
+      <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+        <pre>
+<span style="font-style:normal">git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</span>
+</pre>
+      </blockquote>
+      <p>
+        If it works then it will give no errors, and list a few commits. If it does that, then the keys works well. If it asks for a password, or if there are errors, follow the tutorial again to get everything right.
+      </p>
+      <h3>
+        <a name="TOC-Reconfiguring-Bibledit-Collaboratio" href="" id="TOC-Reconfiguring-Bibledit-Collaboratio"></a>Reconfiguring Bibledit Collaboration after Changing Computers or Reinstalling Ubuntu
+      </h3>
+      <p>
+        After reinstalling Bibledit on your computer and copying your backed-up .bibledit directory, be sure you have copied the back-up of your .ssh directory.
+      </p>
+      <p>
+        IMPORTANT: If after reinstalling Bibledit on your computer you have started Bibledit and edited your project since the remote repository was active, make an extra backup of the project now! When you reinitialize remote backup/sharing via&nbsp;Preferences &gt; Remote Repository, the Clone the Remote Repository will erase all your recent edits!
+      </p>
+      <p>
+        Then reboot. Following reboot (or if you have already rebooted multiple times since reinstalling the above), test this:
+      </p>
+      <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+        <pre>
+<span style="font-style:normal">git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</span>
+</pre>
+      </blockquote>
+      <p>
+        This should yield no errors but something like this:
+      </p>
+      <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+        <p>
+          <span style="font-family:courier new, monospace;font-style:normal">8dc8c3e57a42654f5b4cbc938811c6f0b3c2a1ec HEAD</span><br />
+          <span style="font-family:courier new, monospace;font-style:normal">8dc8c3e57a42654f5b4cbc938811c6f0b3c2a1ec refs/heads/master</span>
+        </p>
+      </blockquote><b>If you get something like that (no errors),</b> then you ready to reinitialize remote backup/sharing via&nbsp;Preferences &gt; Remote Repository. Second screen, choose the top option, Bible Repository. Choose all the defaults. You will be forced to clone the remote repository. (Did you make the backup above?!) Once that process completes, you will be sharing via the repository again. You can always check that changes are being written by logging into your sourceforge account, and check out the What's Happening page (visible when you click on your name at the upper right).<br />
+      <b>If you got an error message,</b> follow the steps below.
+      <p>
+        In order to reconfigure Bibledit after changing computers or reinstalling an operating system, you might not be able to just copy and reuse a backup copy of your original .ssh directory and the config file. Also, it seems that just remaking the shell keys in the old .ssh directory will not work. Make a new .ssh directory and follow the steps above to create secure shell keys. You can copy and reuse the backed-up config file. Then replace your old ...key.pub at sourceforge.net/Services with your new key, then click to Update. During the 10 minute wait, reboot your computer. After rebooting and waiting for the key to be updated, test if you get an error message with&nbsp;
+      </p>
+      <pre>
+git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2
+</pre>If not, everything is ready. Follow the steps under the menu Preferences &gt; Remote Repository.&nbsp;&nbsp;Second screen, choose the top option, Bible Repository. Choose all the defaults.&nbsp;You will be forced to clone the remote repository. (Did you make the backup above?!) Once that process completes, you will be sharing via the repository again. You can always check that changes are being written by logging into your sourceforge account, and check out the What's Happening page (visible when you click on your name at the upper right).
+    </div>
+  </body>
+</html>

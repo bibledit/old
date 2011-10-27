@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link href="../../../bibledit.css" rel="stylesheet" type="text/css" /><!-- 
+
+Copyright (©) 2003-2011 Teus Benschop and Contributors to the Wiki.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+
+-->
+    <title></title>
+  </head>
+  <body>
+    <div id="menu">
+      <ul>
+        <li>
+          <a href="../../../home.html">1 Bibledit</a>
+        </li>
+        <li>
+          <a href="../collaboration.html">Collaboration</a>
+        </li>
+        <li style="list-style: none; display: inline">
+          <hr />
+        </li>
+        <li>
+          <a href="1intro.html">1. Introduction</a>
+        </li>
+        <li>
+          <a href="2reposetup.html">2. Repository setup</a>
+        </li>
+        <li>3. Repository initialization
+        </li>
+        <li>
+          <a href="4conflictres.html">4. Conflict resolution</a>
+        </li>
+      </ul>
+    </div>
+    <div id="content">
+      <h1>
+        3. Repository initialization
+      </h1>
+      <p>
+        Note: Newer versions of git, and Bibledit-Gtk version 4.2 and higher, no longer need what is written below.
+      </p>
+      <p>
+        In this tutorial you are going to see whether the repository can be cloned, and if not, then to put some data into it, then try to clone it again to see how it now goes.
+      </p>
+      <p>
+        Open a terminal, and issue the commands as given.
+      </p>
+      <pre>
+cd
+</pre>
+      <p>
+        In the tutorial about <a href="../../../gtk/tutorials/collaboration/2reposetup.html">setting up the repository</a>, the systems administrator had given the URL of the repository that was created. In the current tutorial we assume a URL of "file:///media/usbstick/repository". Of course others are possible, depending on what type of repository you have and where it resides. For example "ssh://user@repo2.git.sourceforge.net/gitroot/repo2/repo2".
+      </p>You need to put something into the repository. It does not matter what, anything will do. Let's proceed and put an empty file into the repository. Issue the commands as given:
+      <pre>
+cd
+</pre>
+      <pre>
+mkdir repository
+</pre>
+      <pre>
+cd repository
+</pre>
+      <pre>
+git init
+</pre>
+      <p>
+        It will say that an empty Git repository was initialized.
+      </p>
+      <pre>
+touch file
+</pre>
+      <pre>
+git add file
+</pre>
+      <pre>
+git commit -a -m init
+</pre>
+      <p>
+        It will say that an initial commit was created.
+      </p>
+      <pre>
+git push --all file:///media/usbstick/repository
+</pre>
+      <pre>
+<span>    </span>or for secure network repository:
+</pre>
+      <pre>
+<span>    </span>git push --all ssh://sforgeuser@.repo2.git.sourceforge.net/gitroot/repo2/repo2
+</pre>
+      <p>
+        It will give some information, which shows that data was written to the repository. No errors should occur. Example:
+      </p>
+      <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+        <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+          <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+            <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+              <p>
+                <span style="font-style:normal">Counting objects: 3, done.<br />
+                Writing objects: 100% (3/3), 198 bytes, done.<br />
+                Total 3 (delta 0), reused 0 (delta 0)<br />
+                To ssh://warpok@tsederhana.git.sourceforge.net/gitroot/tsederhana/tsederhana<br />
+                &nbsp;* [new branch] &nbsp; &nbsp; &nbsp;master -&gt; master</span>
+              </p>
+            </blockquote>
+          </blockquote>
+        </blockquote>
+      </blockquote><br />
+      <p>
+        Clean out the temporal directory:
+      </p>
+      <pre>
+cd
+</pre>
+      <pre>
+rm -rf repository
+</pre>
+      <p>
+        Now try to clone the repository:
+      </p>
+      <pre>
+git clone file:///media/usbstick/repository
+</pre>
+      <pre>
+<span>    </span>or for secure network repostory:
+</pre>
+      <pre>
+<span>    </span>git clone ssh://sforgeuser@repo2.git.sourceforge.net/gitroot/repo2/repo2
+</pre>
+      <p>
+        It should say that an empty Git repository was created, give some more information, and show that object were received. It is does this, and there are no errors, then everything is fine. Your repository has been initialized. Example:
+      </p>
+      <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+        <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+          <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+            <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+              <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+                <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+                  <blockquote style="margin:0 0 0 40px;border:none;padding:0px">
+                    <p>
+                      <span style="font-style:normal">Initialized empty Git repository in /home/oreo/tsederhana/.git/<br />
+                      remote: Counting objects: 3, done.<br />
+                      remote: Total 3 (delta 0), reused 0 (delta 0)<br />
+                      Receiving objects: 100% (3/3), done.</span>
+                    </p>
+                  </blockquote>
+                </blockquote>
+              </blockquote>
+            </blockquote>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+    </div>
+  </body>
+</html>
