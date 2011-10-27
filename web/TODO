@@ -5,51 +5,6 @@
 
 
 
-I have two small suggestions, one was mentioned before:
-*How about making it so that the Translation top line link went directly to the editing page? The Styles link can be moved to Management. 
-*It would be nice if the initial screen gave the log-in blanks as well as the Help link. It would save moving the mouse and clicking. And because BE seems to time out quickly, this would save effort multiple times per day. (How long is the time out delay? I use Lastpass and have it set to automatically log me on. )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-LinkedWeb.
-To count the verses in each chapter in the preprocessing phase.
-Each chapter links to all the verses.
-Each verse links back to the start of the chapter.
-Very important for the cell phone.
-More important is that each chapter needs to go into its own file,
-so that there is less memory on the cell phone.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -76,34 +31,14 @@ I am using the MessageEase keyboard, and find that I am accurate at entering tex
 
 
 
-It would be nice to put the log-in window directly on the front page, so one does not have to do the extra click just to log in.
 
 
-
-
-Where your instructions say:
-Test the web server. Open the site in the browser. It should say something like
-
-It works!
-
-I suggest that you change it to
-
-Test the web server by opening a browser and typing in this address:
-
-http://localhost/
-
- It should say something like
-
-It works!
 
 Where it mentions this link: http://site.org/bibledit/setup.php
 There should be the option given that if they are doing this on their local computer that the address will be
 http://localhost/bibledit/setup.php
 
 
-
-
-To add to the problem, when I try to sign up for a new account, and I put in my e-mail address, no e-mail gets sent.
 
 
 
