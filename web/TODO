@@ -1,5 +1,6 @@
 Resize the translation window and lose the bottom right corner, I can't resize it anymore.
-
+the window can be shifted off screen at the right, and at the bottom.
+the window can be resized too much, it needs to be restricted.
 
 
 
@@ -156,16 +157,6 @@ To add to the problem, when I try to sign up for a new account, and I put in my 
 
 
 
-
-
-
-
-
-
-
-Windows: http://www.wampserver.com/
-Or: http://www.apachefriends.org/en/xampp-windows.html
-Easiest: EasyPHP.
 
 
 
