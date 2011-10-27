@@ -35,4 +35,5 @@
 <code>source backup.sql</code>
 <p>{t}Press enter after the above command, and then let it run till it is through.{/t}</p>
 <br>
-<p>{t}If there were no projects that use collaboration through Send/Receive, then all is fine. If there were such projects, set these up again.{/t}</p>
+<p>{t}If there are projects that use collaboration through Send/Receive, then their parameters will have been restored, but their internal git repositories will not have been restored.{/t}</p>
+<p>{t}Such project will not operate correctly. For correct operation these project need to be set up again.{/t}</p>

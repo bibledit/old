@@ -11,8 +11,6 @@
 
 
 
-Since there is nothing at http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-0.5.tar.gz
-why not tell people to use the Savanah repostitory? Won't that be a rather permanent way of getting the newest version.
 
 
 
@@ -21,28 +19,8 @@ why not tell people to use the Savanah repostitory? Won't that be a rather perma
 Here are a few more of my notes:
 
 
-Get the latest version of BE-web by doing this in the server terminal:
-git clone git://git.savannah.nongnu.org/bibledit.git
-
-Tried to ./configure in /bibledit/web/
-but it says PHP is not installed. Used tasksel, and it says LAMP is installed.
-Tried various things, and finally:
-apt-get install php5-common libapache2-mod-php5 php5-cli
-(Perhaps I should have used tasksel initially instead of quickinstall!)
-
-Using apt-get worked THEN it ./configured!
-You haven’t told how to get a backup into a VPS server.
-I had to apt-get install wget.
-But then where to put it so that I can wget it!
-Could not download it from box.net or eyeos, but downloading it from bahasakita.net worked. Remove the ?attredirects=0&d=1 from the end of the file name and use http: not https:
-The mysql commands worked fine.
-There is just a file that is left over from a bad download, and it has a weird name that can’t seem to be deleted from the ssh terminal. Aha!
-Delete it by using a wild card and then you are asked for each one:
-rm bahasakita.bak.*
 
 
-Contrary to the note in the Administration > Backup/Restore  page the send/receive parameters seem to have been restored when I restored the database.
-By the way, I would change the name of Admin > Backup to Backup and Restore.
 
 
 Mail now works! How often does mail with changes get sent? Is there a setting for this? The mail makes it sound like I will see the changes in colors within the text of the e-mail itself. My email did not show the changes. But I DO see them when I click on the links at the top of the e-mail. Please tell me if I am seeing things as intended within my e-mail. 
