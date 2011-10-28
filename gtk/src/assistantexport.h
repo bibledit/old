@@ -80,7 +80,7 @@ private:
   GtkWidget *radiobutton_bible_osis;
   GtkWidget *radiobutton_bible_sword;
   GtkWidget *radiobutton_bible_opendocument;
-  //GtkWidget *radiobutton_bible_gobible;
+  GtkWidget *radiobutton_bible_gobible;
   ExportBibleType get_bible_type ();
 
   // USFM export type.

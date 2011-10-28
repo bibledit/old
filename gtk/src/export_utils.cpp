@@ -833,16 +833,7 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
   if (!java_runtime_present (true)) {
     return;
   }
-  
-  // Create a working copy of the GoBibleCreator.
-  ustring go_bible_core_directory = gw_build_filename (workingdirectory, "GoBibleCore");
-  gw_mkdir_with_parents (go_bible_core_directory);
-  unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCore2.jar"), go_bible_core_directory);
-  unix_cp (gw_build_filename (directories_get_package_data (), "ui.properties"), go_bible_core_directory);
-  unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCreator.jar"), workingdirectory);
-  ustring go_bible_creator_jar_name = gw_build_filename (workingdirectory, "GoBibleCreator.jar");
-  gw_message ("Using Go Bible Creator " + go_bible_creator_jar_name);
-  
+
   // For some reason spaces in the project name confuse the GoBibleCreator.
   ustring no_space_project (project);
   replace_text (no_space_project, " ", "_");
@@ -854,10 +845,8 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
   // Create a Collections.txt file.
   ustring collections_txt_file = gw_build_filename (workingdirectory, "Collections.txt");
   {
-    GwSpawn spawn ("java");
+    GwSpawn spawn ("gobiblecreator");
     spawn.workingdirectory (workingdirectory);
-    spawn.arg ("-jar");
-    spawn.arg (go_bible_creator_jar_name);
     spawn.arg (xmlfile);
     spawn.describe();
     spawn.run ();
@@ -872,10 +861,8 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
 
   // Create the Go Bible.
   {
-    GwSpawn spawn ("java");
+    GwSpawn spawn ("gobiblecreator");
     spawn.workingdirectory (workingdirectory);
-    spawn.arg ("-jar");
-    spawn.arg (go_bible_creator_jar_name);
     spawn.arg (collections_txt_file);
     spawn.describe ();
     spawn.run ();  
