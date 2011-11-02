@@ -171,12 +171,6 @@ FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring & 
   gtk_color_button_set_color(GTK_COLOR_BUTTON(colorbutton_selected_text), &gdkcolor);
   color_decimal_to_gdk(initial_selection_color, &gdkcolor);
   gtk_color_button_set_color(GTK_COLOR_BUTTON(colorbutton_selection), &gdkcolor);
-
-  // Hide the font selection's style list. 
-  // Note: This is a hack and is not guaranteed to work in the future.
-  GtkFontSelection *fontselection_struct = GTK_FONT_SELECTION(fontselection);
-  gtk_widget_destroy(fontselection_struct->face_list);
-  fontselection_struct->face_list = NULL;
 }
 
 
