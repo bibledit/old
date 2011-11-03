@@ -173,11 +173,35 @@ bool on_timeout (gpointer data)
         spawn.workingdirectory (folder);
         spawn.read ();
         spawn.run ();
+        // Normal operation: Exit status = 0.
+        // Merge conflict: Exit status = 256.
+        // Remote repository unavailable: Exit status = 256.
+        // Conclusion: The exit status cannot be used for finding out about a merge conflict.
+        bool merge_conflict = false;
         for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+          if (spawn.standardout[i].find ("CONFLICT") != string::npos) {
+            message ("Hey! There is a conflict between our data and their data");
+          }
           message (spawn.standardout[i]);
         }
         for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
           message (spawn.standarderr[i]);
+        }
+        if (merge_conflict) {
+          // Resolve merge conflict.
+          TinySpawn mergetool ("xterm") ;
+          mergetool.arg ("-e");
+          mergetool.arg ("git");
+          mergetool.arg ("mergetool");
+          mergetool.workingdirectory (folder);
+          mergetool.read ();
+          mergetool.run ();
+          for (unsigned int i = 0; i < mergetool.standardout.size(); i++) {
+            message (mergetool.standardout[i]);
+          }
+          for (unsigned int i = 0; i < mergetool.standarderr.size(); i++) {
+            message (mergetool.standarderr[i]);
+          }
         }
       }
     
