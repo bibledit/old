@@ -1,5 +1,6 @@
 /*
 ** Copyright (©) 2003-2008 Teus Benschop.
+** Copyright (©) 2011 David Gardner.
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -45,9 +46,12 @@ int main (int argc, char *argv[])
   g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK (gtk_main_quit), NULL);
 
   GtkWidget * scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
-  gtk_container_add (GTK_CONTAINER (window), scrolledwindow);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  
+
+  GtkWidget * vbox = gtk_vbox_new(FALSE,1);
+  gtk_container_add (GTK_CONTAINER (window), vbox);
+  gtk_container_add (GTK_CONTAINER (vbox), scrolledwindow);
+
   textview = gtk_text_view_new ();
   gtk_container_add (GTK_CONTAINER (scrolledwindow), textview);
   gtk_widget_set_size_request (textview, 640, 480);
@@ -57,6 +61,11 @@ int main (int argc, char *argv[])
 
   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
 
+  GtkWidget * checkbutton = gtk_check_button_new_with_mnemonic ("_Repeat at end");
+  g_signal_connect ((gpointer) checkbutton, "toggled", G_CALLBACK (on_checkbutton_loop_toggled), NULL);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(checkbutton), true);
+  gtk_container_add(GTK_CONTAINER (vbox), checkbutton);
+
   message ("Sending and receiving Bibles.");
   
   gtk_widget_show_all (window);
@@ -65,6 +74,7 @@ int main (int argc, char *argv[])
   for (int i = 1; i < argc; i++) {
     folders.push_back (argv[i]);
   }
+  folders.push_back ("");
 
   // Wait shortly, then process the data.
   g_timeout_add(2000, GSourceFunc(on_timeout), NULL);
@@ -86,93 +96,111 @@ bool on_timeout (gpointer data)
   } else {
     string folder = folders[0];
     folders.pop_front ();
-    message (folder);
 
+    // Keep going round and round in circles ...
+    folders.push_back(folder);
 
-    // Tell git about the default method for pushing.
-    {
-      TinySpawn spawn ("git");
-      spawn.arg ("config");
-      spawn.arg ("push.default");
-      spawn.arg ("matching");
-      spawn.workingdirectory (folder);
-      spawn.run ();
-    }
+    if (folder.empty() ) {
+      if (we_loop) {
+        message ("Will send and receive again after 5 minutes.");
+        message ("Or close the window to not send an receive again.");
+        g_timeout_add(300000, GSourceFunc(on_timeout), NULL);
+      } else {
+      	message("Finished");
+        message("You can close the window.");
+      }
+
+    } else { 
+
+      message (folder);
+
+      // Tell git about the default method for pushing.
+      {
+        TinySpawn spawn ("git");
+        spawn.arg ("config");
+        spawn.arg ("push.default");
+        spawn.arg ("matching");
+        spawn.workingdirectory (folder);
+        spawn.run ();
+      }
+    
+      // Add everything because things could have been added or changed.
+      {
+        TinySpawn spawn ("git");
+        spawn.arg ("add");
+        spawn.arg (".");
+        spawn.workingdirectory (folder);
+        spawn.run ();
+      }
+    
+      // Show status.
+      {
+        TinySpawn spawn ("git");
+        spawn.arg ("status");
+        spawn.workingdirectory (folder);
+        spawn.read ();
+        spawn.run ();
+        for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+          message (spawn.standardout[i]);
+        }
+        for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
+          message (spawn.standarderr[i]);
+        }
+      }
+    
+      // Commit changes locally.
+      {
+        TinySpawn spawn ("git");
+        spawn.arg ("commit");
+        spawn.arg ("-a");
+        spawn.arg ("-m");
+        spawn.arg ("Send and receive");
+        spawn.workingdirectory (folder);
+        spawn.read ();
+        spawn.run ();
+        for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+          message (spawn.standardout[i]);
+        }
+        for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
+          message (spawn.standarderr[i]);
+        }
+      }
+    
+      // Pull changes from the remote repository.
+      {
+        TinySpawn spawn ("git");
+        spawn.arg ("pull");
+        spawn.workingdirectory (folder);
+        spawn.read ();
+        spawn.run ();
+        for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+          message (spawn.standardout[i]);
+        }
+        for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
+          message (spawn.standarderr[i]);
+        }
+      }
+    
+      // Push changes to the remote repository.
+      {
+        TinySpawn spawn ("git");
+        spawn.arg ("push");
+        spawn.workingdirectory (folder);
+        spawn.read ();
+        spawn.run ();
+        for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+          message (spawn.standardout[i]);
+        }
+        for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
+          message (spawn.standarderr[i]);
+        }
+      }
   
-    // Add everything because things could have been added or changed.
-    {
-      TinySpawn spawn ("git");
-      spawn.arg ("add");
-      spawn.arg (".");
-      spawn.workingdirectory (folder);
-      spawn.run ();
-    }
-  
-    // Show status.
-    {
-      TinySpawn spawn ("git");
-      spawn.arg ("status");
-      spawn.workingdirectory (folder);
-      spawn.read ();
-      spawn.run ();
-      for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-        message (spawn.standardout[i]);
-      }
-      for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-        message (spawn.standarderr[i]);
-      }
-    }
-  
-    // Commit changes locally.
-    {
-      TinySpawn spawn ("git");
-      spawn.arg ("commit");
-      spawn.arg ("-a");
-      spawn.arg ("-m");
-      spawn.arg ("commit");
-      spawn.workingdirectory (folder);
-      spawn.read ();
-      spawn.run ();
-      for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-        message (spawn.standardout[i]);
-      }
-      for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-        message (spawn.standarderr[i]);
-      }
-    }
-  
-    // Pull changes from the remote repository.
-    {
-      TinySpawn spawn ("git");
-      spawn.arg ("pull");
-      spawn.workingdirectory (folder);
-      spawn.read ();
-      spawn.run ();
-      for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-        message (spawn.standardout[i]);
-      }
-      for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-        message (spawn.standarderr[i]);
-      }
-    }
-  
-    // Push changes to the remote repository.
-    {
-      TinySpawn spawn ("git");
-      spawn.arg ("push");
-      spawn.workingdirectory (folder);
-      spawn.read ();
-      spawn.run ();
-      for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-        message (spawn.standardout[i]);
-      }
-      for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-        message (spawn.standarderr[i]);
-      }
+      // Next folder.
+      g_timeout_add(500, GSourceFunc(on_timeout), NULL);
+    
     }
 
-    // Next folder.
-    g_timeout_add(500, GSourceFunc(on_timeout), NULL);
   }
 
   return false;
@@ -373,4 +401,9 @@ string convert_to_string(long unsigned int i)
   return r.str();
 }
 
+
+void on_checkbutton_loop_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  we_loop = gtk_toggle_button_get_active (togglebutton);
+}
 

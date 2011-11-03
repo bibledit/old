@@ -1,5 +1,6 @@
 /*
 ** Copyright (©) 2003-2008 Teus Benschop.
+** Copyright (©) 2011 David Gardner.
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -43,7 +44,9 @@ using namespace std;
 
 GtkTextBuffer * buffer = NULL;
 GtkWidget * textview = NULL;
+GtkWidget * checkbutton = NULL;
 deque <string> folders;
+bool we_loop;
 
 
 class TinySpawn
@@ -86,6 +89,7 @@ string convert_to_string(unsigned int i);
 string convert_to_string(bool b);
 string convert_to_string(double d);
 string convert_to_string(long unsigned int i);
+static void on_checkbutton_loop_toggled (GtkToggleButton *togglebutton, gpointer user_data);
 
 
 #endif

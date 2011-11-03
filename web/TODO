@@ -1,3 +1,31 @@
+Add patch for send/receive repetition.
+
+Set this default value for repetition in the GUI.
+Pass this to bibledit-git.
+
+Then do the second patch.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 To create a Debian package of Bibledit-Web.
 See other similar packages for a starting point, the quality ones.
 Perhaps chmod's should no longer be done by the installer.
