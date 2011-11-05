@@ -4,6 +4,8 @@
 <p>The online help about typesetting procedures was updated.</p>
 <p>Improvements in importing the GBS Statenbijbel.</p>
 <p>Outdated installation information was removed.</p>
+<p>Installs into /usr/share/bibledit-web/www.</p>
+<p>Configures Apache for http://localhost/bibledit-web.</p>
 <p></p>
 
 <h2>Version 0.5</h2>
