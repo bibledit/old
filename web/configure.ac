@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.5.7],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.5.1],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
@@ -273,13 +273,23 @@ AM_CONDITIONAL(WIN32, test x$win32 = xtrue)
 
 # Set PACKAGE DATA & DOC DIR
 packagedatadir=share/${PACKAGE}
+AC_SUBST(packagedatadir)
 packagedocdir=doc/${PACKAGE}
+AC_SUBST(packagedocdir)
 
 # Set PACKAGE DIRS in config.h.
 packagepixmapsdir=${packagedatadir}/pixmaps
+AC_SUBST(packagepixmapsdir)
 packagehelpdir=${packagedatadir}/help
+AC_SUBST(packagehelpdir)
 packagemenudir=${packagedatadir}
+AC_SUBST(packagemenudir)
 packagelocalstatedir=var/${PACKAGE}
+AC_SUBST(packagelocalstatedir)
+
+# System configuration.
+systemconfigdir=etc/${PACKAGE}
+AC_SUBST(systemconfigdir)
 
 # Subst PACKAGE_DATA_DIR.
 if test "x${datarootdir}" = 'x${prefix}/share'; then
@@ -296,6 +306,7 @@ fi
 AC_CONFIG_FILES([Makefile 
 		  web/Makefile
 		  tests/Makefile
+		  apache/Makefile
 		])
 AC_OUTPUT
 

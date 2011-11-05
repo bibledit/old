@@ -118,6 +118,12 @@ localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+packagedatadir = @packagedatadir@
+packagedocdir = @packagedocdir@
+packagehelpdir = @packagehelpdir@
+packagelocalstatedir = @packagelocalstatedir@
+packagemenudir = @packagemenudir@
+packagepixmapsdir = @packagepixmapsdir@
 pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
@@ -126,6 +132,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
+systemconfigdir = @systemconfigdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
@@ -314,10 +321,10 @@ uninstall-am:
 
 
 install-data-local:
-	mkdir -p $(WEBROOT)/bibledit
-	cp -r * $(WEBROOT)/bibledit
-	chmod -R 0777 $(WEBROOT)/bibledit
-	chmod -R 0777 $(WEBROOT)/bibledit/*
+	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)/www
+	cp -r * $(DESTDIR)$(prefix)/$(packagedatadir)/www
+	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www
+	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www/*
 
 clean-local:
 	find . -iname *~ -delete

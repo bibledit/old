@@ -3,10 +3,10 @@ CLEANFILES = *~
 webroot = @WEBROOT@
 
 install-data-local:
-	mkdir -p $(WEBROOT)/bibledit
-	cp -r * $(WEBROOT)/bibledit
-	chmod -R 0777 $(WEBROOT)/bibledit
-	chmod -R 0777 $(WEBROOT)/bibledit/*
+	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)/www
+	cp -r * $(DESTDIR)$(prefix)/$(packagedatadir)/www
+	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www
+	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www/*
 
 clean-local:
 	find . -iname *~ -delete
