@@ -3,37 +3,22 @@
 
 
 
-Steps:
-- Save in /usr/lib
-- Add to apache's config.
-- Install / uninstall
 
-Copy apache.conf to /etc/bibledit-web/
-Symlink /etc/apache2/conf.d/bibledit-web.conf to the former.
+Members area is forbidden.
 
-/etc/init.d/apache2 force-reload (needed?) This does not work for conf.
-Do this: service apache2 restart
-
-
-
-
-
-Let the bibledit-web tarball use external resources.
-Let it use db-config (or how it is called)
-Let is use sed etc for installing and removing the apache configuration.
 The tarball does everything on its own, so that the debian system does little extra.
-http://www.control-escape.com/web/configuring-apache2-debian.html
 
-Also edit root's crontab so we can drop the poor man's crontab.
-Drop the table only after it appears to work when editing root's crontab.
-Uninstallation should also remove these entries.
-Re-installation should take existing entries into account, 
-remove these, and add new ones.
-crontab can be run in script to automate this.
+Let the bibledit-web tarball use external resources instead of bundling its own.
+Any missing sources should be put into Debian as well before disbundling them.
+
+Let it use dbconfig-common
 
 Use Dwoo instead of smarty? Switch to Zend views?
+Pay attention to localization through Zend.
 
 The download location in apache should point to, I think, /var/cache. Check it out. Use it.
+
+Eventually chmod should be removed if possible.
 
 
 

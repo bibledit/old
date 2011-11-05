@@ -14,3 +14,4 @@ uninstall-local:
 	service apache2 restart
 
 # http://webapps-common.alioth.debian.org/draft/html/
+# http://www.control-escape.com/web/configuring-apache2-debian.html

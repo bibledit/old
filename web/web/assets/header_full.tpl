@@ -20,8 +20,6 @@
       <a href="{$header_path_modifier}members/index.php">{t}Members{/t}</a>
     {/if}
     <a href="{$header_path_modifier}help/index.php">{t}Help{/t}</a>
-    {* Poor Man's Crontab *}
-    <img border="0" src="{$header_path_modifier}timer/index.php" width="0" height="0" />
     </td>
     <td align="right">
     {if $user == ""}

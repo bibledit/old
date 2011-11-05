@@ -5,8 +5,8 @@
 <p>Improvements in importing the GBS Statenbijbel.</p>
 <p>Outdated installation information was removed.</p>
 <p>Installs into /usr/share/bibledit-web/www.</p>
-<p>Configures Apache for http://localhost/bibledit-web.</p>
-<p></p>
+<p>Configures Apache for accessing Bibledit-Web at http://localhost/bibledit-web.</p>
+<p>No longer uses a poor man's crontab, but sets up the proper Linux one.</p>
 
 <h2>Version 0.5</h2>
 <p>26 August 2011</p>

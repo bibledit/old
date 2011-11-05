@@ -3007,7 +3007,7 @@ _ACEOF
 fi
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile web/Makefile tests/Makefile apache/Makefile"
+ac_config_files="$ac_config_files Makefile web/Makefile tests/Makefile apache/Makefile crontab/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3719,6 +3719,7 @@ do
     "web/Makefile") CONFIG_FILES="$CONFIG_FILES web/Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
     "apache/Makefile") CONFIG_FILES="$CONFIG_FILES apache/Makefile" ;;
+    "crontab/Makefile") CONFIG_FILES="$CONFIG_FILES crontab/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5 ;;
   esac
