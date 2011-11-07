@@ -141,6 +141,7 @@ EOD;
   * getMailsInboxes - get ids of all mails in all inboxes.
   */
   public function getMailsInboxes () {
+    $ids = array ();
     $server = Database_Instance::getInstance ();
     $label  = $this->labelInbox();
     $query  = "SELECT id FROM mail WHERE label = '$label';";

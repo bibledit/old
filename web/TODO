@@ -1,12 +1,31 @@
+.
 
 
 
 
 
 
-Members area is forbidden.
 
-The tarball does everything on its own, so that the debian system does little extra.
+
+
+
+Working on creating the various directories in /var/lib/bibledit-web.
+Also to reference them in apache.conf.
+
+
+
+Members area is still forbidden.
+The download location in apache should point to, I think, /var/cache. Check it out. Use it.
+After than chmod's should be removed where possible.
+
+User uploaded content: A unique subdirectory of /var/lib/PACKAGE
+Git directory is there too.
+
+
+
+
+
+The tarball does everything on its own, so that the debian package does little extra.
 
 Let the bibledit-web tarball use external resources instead of bundling its own.
 Any missing sources should be put into Debian as well before disbundling them.
@@ -16,9 +35,6 @@ Let it use dbconfig-common
 Use Dwoo instead of smarty? Switch to Zend views?
 Pay attention to localization through Zend.
 
-The download location in apache should point to, I think, /var/cache. Check it out. Use it.
-
-Eventually chmod should be removed if possible.
 
 
 
@@ -208,8 +224,7 @@ Looking further at the autotools configuration done in bibletime-web
 build time, are apparently also being configured and defined at build
 time.  These include the database server location, database admin user,
 database admin password, database name, database user, database
-password, bibledit admin user and password, and the location of the
-webroot of the web server.  Some of these seem to be handled in
+password, bibledit admin user and password. Some of these seem to be handled in
 database/credentials.php and this is created by setup.php, but in that
 case, why is the checking of MySQL at build time being done?
 
@@ -239,17 +254,6 @@ bibledit-web php files (auto-deleting setup.php after running it) looks
 like a security weakness; only the server admin should be able to edit
 or delete those files, once installed.
 
-LACK OF $(DESTDIR):
-
-I've also found what seems to be the same kind of issue I found earlier
-in the bibledit-gtk Makefiles, where an install-data-local target does
-not use $(DESTDIR).  This time the issue is in web/Makefile.am where the
-four lines under the install-data-local: target need $(DESTDIR) before
-$(WEBROOT).
-
-Fixing that still leaves it installing directly into the root of the
-default host, /var/www/, which is not allowed, but that's a different
-issue, more related to the "configuring too early" problem noted above.
 
 SECURITY:
 

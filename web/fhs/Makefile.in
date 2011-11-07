@@ -31,7 +31,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-subdir = apache
+subdir = fhs
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -146,9 +146,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu apache/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu fhs/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu apache/Makefile
+	  $(AUTOMAKE) --gnu fhs/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -315,19 +315,10 @@ uninstall-am: uninstall-local
 
 
 install-data-local:
-	mkdir -p $(DESTDIR)/$(systemconfigdir)
-	cp apache.conf $(DESTDIR)/$(systemconfigdir)
-	rm -f $(DESTDIR)/etc/apache2/conf.d/bibledit-web.conf
-	ln -s $(DESTDIR)/$(systemconfigdir)/apache.conf $(DESTDIR)/etc/apache2/conf.d/bibledit-web.conf
-	service apache2 restart
+	mkdir -p $(DESTDIR)/$(packagelocalstatedir)
 
 uninstall-local:
-	rm -f $(DESTDIR)/etc/apache2/conf.d/bibledit-web.conf
-	rm -rf $(DESTDIR)/$(systemconfigdir)
-	service apache2 restart
-
-# http://webapps-common.alioth.debian.org/draft/html/
-# http://www.control-escape.com/web/configuring-apache2-debian.html
+	rm -rf $(DESTDIR)/$(packagelocalstatedir)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -15,11 +15,13 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=253;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
-FILE_NAME_1=6693;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogfontcolor.cpp;0;2
-FILE_NAME_2=2489;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogfontcolor.h;0;2
-FILE_NAME_3=5843;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/git/bibledit-git.cpp;0;2
-FILE_NAME_4=1980;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/git/bibledit-git.h;0;2
+FILE_NAME_0=143;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+FILE_NAME_1=6598;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
+FILE_NAME_2=38;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/Makefile.am;0;2
+FILE_NAME_3=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+FILE_NAME_4=159;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
+FILE_NAME_5=0;Conf;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/apache.conf;0;2
+FILE_NAME_6=0;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
 
 [long line marker]
 long_line_behaviour=1

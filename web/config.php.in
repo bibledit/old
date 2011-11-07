@@ -9,9 +9,6 @@
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
-/* PACKAGE_DATA_DIR */
-#undef PACKAGE_DATA_DIR
-
 /* Define to the full name of this package. */
 #undef PACKAGE_NAME
 
@@ -35,9 +32,6 @@
 
 /* Version number of package */
 #undef VERSION
-
-/* Define the local web server document root */
-#undef WEBROOT
 
 /* Define the path to zendImpl.jar */
 #undef ZENDPATH

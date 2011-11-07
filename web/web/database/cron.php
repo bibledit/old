@@ -23,7 +23,7 @@
 
 
 /**
-* This is a database in memory for use by the Poor Man's Crontab.
+* This is a database in memory for the crontab.
 * Memory is chosen since the information in it is volatile, which is what is needed.
 */
 class Database_Cron
@@ -43,7 +43,6 @@ class Database_Cron
     $database_instance = Database_Instance::getInstance();
     $query = "CREATE TABLE IF NOT EXISTS cron (id varchar(10), value int) ENGINE = MEMORY;";
     $database_instance->runQuery ($query);
-    $this->setShutdown();
   }
 
   public function optimize () {
@@ -51,45 +50,6 @@ class Database_Cron
     $query = "OPTIMIZE TABLE cron;";
     $database_instance->runQuery ($query);
     include_once ("messages/messages.php");
-    message_information ("Stopping timer");
-    $this->setShutdown();
-  }
-
-  public function clearFlags () {
-    $server = Database_Instance::getInstance ();
-    $server->runQuery ("DELETE FROM cron;");
-  }
-  
-  public function setShutdown () {
-    $server = Database_Instance::getInstance ();
-    $server->runQuery ("INSERT INTO cron VALUES ('shutdown', 1);");
-  }
-  
-  public function getShutdown () {
-    $server = Database_Instance::getInstance ();
-    $result = $server->runQuery ("SELECT value FROM cron WHERE id = 'shutdown';");
-    if ($result->num_rows == 0) {
-      return 0;
-    }
-    $result_array = $result->fetch_array();
-    return $result_array['value'];
-  }
-
-  public function setWatchdog () {
-    $second = time ();
-    $server = Database_Instance::getInstance ();
-    $server->runQuery ("DELETE FROM cron WHERE id = 'watchdog';");
-    $server->runQuery ("INSERT INTO cron VALUES ('watchdog', $second);");
-  }
-  
-  public function getWatchdog () {
-    $server = Database_Instance::getInstance ();
-    $result = $server->runQuery ("SELECT value FROM cron WHERE id = 'watchdog';");
-    if ($result->num_rows == 0) {
-      return 0;
-    }
-    $result_array = $result->fetch_row();
-    return $result_array[0];
   }
 
 }

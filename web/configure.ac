@@ -95,50 +95,6 @@ AC_SUBST(MYSQL_ROOT_PASSWORD)
 # AC_MSG_RESULT(yes)
 
 
-# Location of web root to be automatically looked up if the user didn't give it.
-# Local web server document root.
-WEBROOT_DEFAULT="/"
-AC_ARG_WITH(web-document-root,
-        [  --with-web-document-root=root
-                          Local web server document root],
-        [ WEBROOT=$withval ],
-        [ WEBROOT=$WEBROOT_DEFAULT ]
-)
-AC_MSG_CHECKING(local web server document root)
-if [ [ $WEBROOT == "/" ] ]
-  then
-    test -d /var/www
-    if [ [ $? -eq 0 ] ]
-    then
-      WEBROOT=/var/www
-    fi
-    test -d /var/www/html
-    if [ [ $? -eq 0 ] ]
-    then
-      WEBROOT=/var/www/html
-    fi
-    test -d /srv/www/htdocs
-    if [ [ $? -eq 0 ] ]
-    then
-      WEBROOT=/srv/www/htdocs
-    fi
-    test -d /Library/WebServer/Documents
-    if [ [ $? -eq 0 ] ]
-    then
-      WEBROOT=/Library/WebServer/Documents
-    fi
-fi
-if [ [ $WEBROOT == "/" ] ]
-  then
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR(Could not find local web server document root folder. Provide the information through: --with-web-document-root=<root>)
-fi
-AC_MSG_RESULT(${WEBROOT})
-AC_DEFINE([WEBROOT], [], [Define the local web server document root])
-AC_DEFINE_UNQUOTED(WEBROOT, "$WEBROOT")
-AC_SUBST(WEBROOT)
-
-
 # Web site administrator user name and password.
 SITE_ADMIN_USERNAME_DEFAULT="adminusername"
 AC_ARG_WITH(site-admin-username,
@@ -271,45 +227,28 @@ esac
 AM_CONDITIONAL(WIN32, test x$win32 = xtrue)
 
 
-# Set PACKAGE DATA & DOC DIR
+# Set directories
 packagedatadir=share/${PACKAGE}
 AC_SUBST(packagedatadir)
-packagedocdir=doc/${PACKAGE}
-AC_SUBST(packagedocdir)
 
-# Set PACKAGE DIRS in config.h.
-packagepixmapsdir=${packagedatadir}/pixmaps
-AC_SUBST(packagepixmapsdir)
-packagehelpdir=${packagedatadir}/help
-AC_SUBST(packagehelpdir)
-packagemenudir=${packagedatadir}
-AC_SUBST(packagemenudir)
-packagelocalstatedir=var/${PACKAGE}
+packagelocalstatedir=var/lib/${PACKAGE}
 AC_SUBST(packagelocalstatedir)
 
-# System configuration.
 systemconfigdir=etc/${PACKAGE}
 AC_SUBST(systemconfigdir)
 
-# Subst PACKAGE_DATA_DIR.
-if test "x${datarootdir}" = 'x${prefix}/share'; then
-  if test "x${prefix}" = "xNONE"; then
-    AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${ac_default_prefix}/share/${PACKAGE}",[PACKAGE_DATA_DIR])
-  else
-    AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${prefix}/share/${PACKAGE}",[PACKAGE_DATA_DIR])
-  fi
-else
-  AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${datarootdir}/${PACKAGE}",[PACKAGE_DATA_DIR])
-fi 
 
 # Create all the Makefiles.
-AC_CONFIG_FILES([Makefile 
-		  web/Makefile
-		  tests/Makefile
-		  apache/Makefile
-		  crontab/Makefile
-		])
+AC_CONFIG_FILES([
+  Makefile 
+  web/Makefile
+  tests/Makefile
+  apache/Makefile
+  crontab/Makefile
+  fhs/Makefile
+])
 AC_OUTPUT
+
 
 # Create the file with the database credentials for the web installation.
 CREDENTIALS=web/database/credentials.php
@@ -370,7 +309,6 @@ Bibledit-Web $VERSION configuration summary:
 
 Version                               : ${PACKAGE_VERSION}
 Installation prefix                   : ${prefix}
-Web server document root              : ${WEBROOT}
 MySQL database host                   : localhost
 MySQL database name                   : bibledit
 MySQL database administrator username : root

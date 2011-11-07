@@ -560,10 +560,6 @@ ac_subst_vars='LTLIBOBJS
 LIBOBJS
 systemconfigdir
 packagelocalstatedir
-packagemenudir
-packagehelpdir
-packagepixmapsdir
-packagedocdir
 packagedatadir
 WIN32_FALSE
 WIN32_TRUE
@@ -574,7 +570,6 @@ LINUX_TRUE
 ZENDPATH
 SITE_ADMIN_PASSWORD
 SITE_ADMIN_USERNAME
-WEBROOT
 MYSQL_ROOT_PASSWORD
 FIND_UNZIP
 FIND_ZIP
@@ -649,7 +644,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 with_mysql_root_password
-with_web_document_root
 with_site_admin_username
 with_site_admin_password
 with_zend_path
@@ -1274,8 +1268,6 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-mysql-root-password=password
                           MySQL database root password
-  --with-web-document-root=root
-                          Local web server document root
   --with-site-admin-username=username
                           Site Administrator username
   --with-site-admin-password=password
@@ -2718,61 +2710,6 @@ _ACEOF
 # AC_MSG_RESULT(yes)
 
 
-# Location of web root to be automatically looked up if the user didn't give it.
-# Local web server document root.
-WEBROOT_DEFAULT="/"
-
-# Check whether --with-web-document-root was given.
-if test "${with_web_document_root+set}" = set; then :
-  withval=$with_web_document_root;  WEBROOT=$withval
-else
-   WEBROOT=$WEBROOT_DEFAULT
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking local web server document root" >&5
-$as_echo_n "checking local web server document root... " >&6; }
-if  [ $WEBROOT == "/" ]
-  then
-    test -d /var/www
-    if  [ $? -eq 0 ]
-    then
-      WEBROOT=/var/www
-    fi
-    test -d /var/www/html
-    if  [ $? -eq 0 ]
-    then
-      WEBROOT=/var/www/html
-    fi
-    test -d /srv/www/htdocs
-    if  [ $? -eq 0 ]
-    then
-      WEBROOT=/srv/www/htdocs
-    fi
-    test -d /Library/WebServer/Documents
-    if  [ $? -eq 0 ]
-    then
-      WEBROOT=/Library/WebServer/Documents
-    fi
-fi
-if  [ $WEBROOT == "/" ]
-  then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-    as_fn_error $? "Could not find local web server document root folder. Provide the information through: --with-web-document-root=<root>" "$LINENO" 5
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${WEBROOT}" >&5
-$as_echo "${WEBROOT}" >&6; }
-
-$as_echo "#define WEBROOT /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define WEBROOT "$WEBROOT"
-_ACEOF
-
-
-
-
 # Web site administrator user name and password.
 SITE_ADMIN_USERNAME_DEFAULT="adminusername"
 
@@ -2963,51 +2900,19 @@ fi
 
 
 
-# Set PACKAGE DATA & DOC DIR
+# Set directories
 packagedatadir=share/${PACKAGE}
 
-packagedocdir=doc/${PACKAGE}
+
+packagelocalstatedir=var/lib/${PACKAGE}
 
 
-# Set PACKAGE DIRS in config.h.
-packagepixmapsdir=${packagedatadir}/pixmaps
-
-packagehelpdir=${packagedatadir}/help
-
-packagemenudir=${packagedatadir}
-
-packagelocalstatedir=var/${PACKAGE}
-
-
-# System configuration.
 systemconfigdir=etc/${PACKAGE}
 
 
-# Subst PACKAGE_DATA_DIR.
-if test "x${datarootdir}" = 'x${prefix}/share'; then
-  if test "x${prefix}" = "xNONE"; then
-
-cat >>confdefs.h <<_ACEOF
-#define PACKAGE_DATA_DIR "${ac_default_prefix}/share/${PACKAGE}"
-_ACEOF
-
-  else
-
-cat >>confdefs.h <<_ACEOF
-#define PACKAGE_DATA_DIR "${prefix}/share/${PACKAGE}"
-_ACEOF
-
-  fi
-else
-
-cat >>confdefs.h <<_ACEOF
-#define PACKAGE_DATA_DIR "${datarootdir}/${PACKAGE}"
-_ACEOF
-
-fi
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile web/Makefile tests/Makefile apache/Makefile crontab/Makefile"
+ac_config_files="$ac_config_files Makefile web/Makefile tests/Makefile apache/Makefile crontab/Makefile fhs/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3720,6 +3625,7 @@ do
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
     "apache/Makefile") CONFIG_FILES="$CONFIG_FILES apache/Makefile" ;;
     "crontab/Makefile") CONFIG_FILES="$CONFIG_FILES crontab/Makefile" ;;
+    "fhs/Makefile") CONFIG_FILES="$CONFIG_FILES fhs/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5 ;;
   esac
@@ -4344,6 +4250,7 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
+
 # Create the file with the database credentials for the web installation.
 CREDENTIALS=web/database/credentials.php
 rm $CREDENTIALS
@@ -4403,7 +4310,6 @@ Bibledit-Web $VERSION configuration summary:
 
 Version                               : ${PACKAGE_VERSION}
 Installation prefix                   : ${prefix}
-Web server document root              : ${WEBROOT}
 MySQL database host                   : localhost
 MySQL database name                   : bibledit
 MySQL database administrator username : root

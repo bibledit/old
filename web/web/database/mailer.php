@@ -98,6 +98,7 @@ class Database_Mailer
   */
   public function getRetryMails ()
   {
+    $ids = array ();
     $database_instance = Database_Instance::getInstance();
     $time = time ();
     $query = "SELECT id FROM mailer WHERE $time >= retry;";    

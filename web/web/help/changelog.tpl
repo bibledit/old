@@ -7,6 +7,9 @@
 <p>Installs into /usr/share/bibledit-web/www.</p>
 <p>Configures Apache for accessing Bibledit-Web at http://localhost/bibledit-web.</p>
 <p>No longer uses a poor man's crontab, but sets up the proper Linux one.</p>
+<p>Warnings in timer/index.php send email to the admin every minute. These were eliminated.</p>
+<p></p>
+<p></p>
 
 <h2>Version 0.5</h2>
 <p>26 August 2011</p>
