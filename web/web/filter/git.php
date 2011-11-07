@@ -394,7 +394,8 @@ EOD;
   */
   public function git_directory ($object)
   {
-    $directory = dirname (dirname (__FILE__));
+    include ("paths/paths.php");
+    $directory = $localStatePath;
     $directory = "$directory/git/$object";
     return $directory;
   }

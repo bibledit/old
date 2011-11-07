@@ -15,13 +15,17 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=143;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=6598;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
 FILE_NAME_2=38;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/Makefile.am;0;2
-FILE_NAME_3=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+FILE_NAME_3=536;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 FILE_NAME_4=159;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
 FILE_NAME_5=0;Conf;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/apache.conf;0;2
-FILE_NAME_6=0;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
+FILE_NAME_6=137;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
+FILE_NAME_7=1454;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0;2
+FILE_NAME_8=1314;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/hyphenate.php;0;2
+FILE_NAME_9=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/mail.php;0;2
+FILE_NAME_10=2977;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/mailer.php;0;2
 
 [long line marker]
 long_line_behaviour=1

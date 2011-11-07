@@ -16,7 +16,7 @@ fi
 
 AC_PATH_PROG(FIND_GIT, git, no)
 if test x$FIND_GIT = xno; then
-  AC_MSG_ERROR(Program "git" (usually called git-core) is needed. Install this first.)
+  AC_MSG_ERROR(Program "git" is needed. Install this first.)
 fi
 
 AC_PATH_PROG(FIND_MYSQL, mysql, no)
@@ -295,13 +295,14 @@ echo '<?php'                            >> $VERSIONFILE
 echo '$version = "'$PACKAGE_VERSION'";' >> $VERSIONFILE
 echo '?>'                               >> $VERSIONFILE
 
-# Create the file with the paths to the system libraries.
+# Create the file with the various system paths.
 PATHSFILE=web/paths/paths.php
 rm $PATHSFILE
-echo '<?php'                            >> $PATHSFILE
+echo '<?php' >> $PATHSFILE
 # echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
-echo '$zendPath = "'$ZENDPATH'";'       >> $PATHSFILE
-echo '?>'                               >> $PATHSFILE
+echo '$zendPath = "'$ZENDPATH'";' >> $PATHSFILE
+echo '$localStatePath = "'$DESTDIR'/'$packagelocalstatedir'";' >> $PATHSFILE
+echo '?>' >> $PATHSFILE
 
 # Summary.
 echo "
@@ -316,5 +317,6 @@ MySQL database administrator password : ${MYSQL_ROOT_PASSWORD}
 Website administrator username        : ${SITE_ADMIN_USERNAME}
 Website administrator password        : ${SITE_ADMIN_PASSWORD}
 Zend Framework path                   : ${ZENDPATH}
+Local State Directory                 : $DESTDIR/${packagelocalstatedir}
 "
 

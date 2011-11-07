@@ -420,7 +420,7 @@ class Filter_Text
                     $this->resetNoteCitations ('book');
                     // Online Bible.
                     $this->onlinebible_text->storeData ();
-                    // Linked web: Links to all the chapters, and back to the start. Todo
+                    // Linked web: Links to all the chapters, and back to the start.
                     $this->html_text_linked->newParagraph ();
                     $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "", "start", "", "", "");
                     $this->html_text_linked->addText (gettext ("Chapter") . " |");
@@ -548,7 +548,7 @@ class Filter_Text
                 }
                 break;
               }
-              case StyleTypeChapterNumber: // Todo
+              case StyleTypeChapterNumber:
               {
                 $this->odf_text_standard->closeTextStyle ();
                 $this->odf_text_text_only->closeTextStyle ();
@@ -590,7 +590,7 @@ class Filter_Text
                 $this->odf_text_text_and_note_citations->newHeading1 ($runningHeader, true);
                 $this->odf_text_notes->newHeading1 ($runningHeader, false);
                 
-                // In the linked web version, each chapter number gets linked to, and links to, the start of the book. Todo
+                // In the linked web version, each chapter number gets linked to, and links to, the start of the book.
                 $this->html_text_linked->newParagraph ();
                 $hrefId = "chapter" . $this->currentChapterNumber;
                 $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "#start", $hrefId, gettext ("Go to start"), "", gettext ("Go to start"));
