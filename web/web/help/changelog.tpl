@@ -8,7 +8,7 @@
 <p>Configures Apache for accessing Bibledit-Web at http://localhost/bibledit-web.</p>
 <p>No longer uses a poor man's crontab, but sets up the proper Linux one.</p>
 <p>Warnings in timer/index.php send email to the admin every minute. These were eliminated.</p>
-<p>The git folders are no longer among the web pages, but separately in /var/lib/bibledit-web/git.</p>
+<p>The git folders are no longer among the web pages, but separated into /var/lib/bibledit-web/git.</p>
 <p></p>
 <p></p>
 <p></p>

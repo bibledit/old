@@ -6,8 +6,6 @@
 
 
 
-
-
 Working on creating the various directories in /var/lib/bibledit-web.
 Also to reference them in apache.conf.
 

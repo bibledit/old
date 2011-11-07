@@ -236,6 +236,19 @@ foreach ($bibles as $bible) {
   }
 }
 
+
+// Make the git directory writable for the web process, because
+// the web process needs to add and remove data from it.
+// If this is not done, then one of the symptoms wil be this:
+// Set up collaboration for a Bible, disable collaboration, and
+// set it up for the same Bible again -> it would fail.
+$gitDirectory = Filter_Git::git_directory ();
+$command = "chmod -R 0777 $gitDirectory 2>&1";
+$database_logs->log ($command);
+unset ($result);
+exec ($command, &$result, &$exit_code);
+
+
 $database_logs->log ("**********");
 $database_logs->log (gettext ("Ready. All relevant Bibles, and Consultations Notes, have been sent and received."));
 
