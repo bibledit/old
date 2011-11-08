@@ -37,22 +37,24 @@ $database_users = Database_Users::getInstance();
 $database_mail = Database_Mail::getInstance();
 $database_bibles = Database_Bibles::getInstance ();
 
+include ("paths/paths.php");
+
 $siteUrl = $database_config_general->getSiteURL ();
 
 $bibles = $database_bibles->getDiffBibles ();
 foreach ($bibles as $bible) {
 
   // Files get stored in http://site.org/bibledit/downloads/changes/<Bible>/<date>
-  // The user can access the files through the browser.
+  // The files are accessible through the browser.
   $biblename = $database_bibles->getName ($bible);
-  $baseUrl = "/downloads/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
-  $directory = dirname (dirname (__FILE__)) . $baseUrl;
+  $basePath  = "/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
+  $baseUrl = "/downloads" . $basePath;
+  $directory = $localStatePath . $basePath;
   mkdir ($directory, 0777, true);
   
   // Remove possible old symbolic link.
   $link = dirname ($directory) . "/0_most_recent_changes";
   @unlink ($link);
-  //symlink ($directory, $link);
   
   // Produce the USFM and html files.
   Filter_Diff::produceUsfmChapterLevel ($bible, $directory);
@@ -127,6 +129,10 @@ foreach ($bibles as $bible) {
  
 }
 
+$command = "chmod -R 0777 $localStatePath/changes 2>&1";
+$database_logs->log ($command);
+unset ($result);
+exec ($command, &$result, &$exit_code);
 $database_logs->log (gettext ("The lists of changes in the Bibles have been generated"), true);
 
 ?>

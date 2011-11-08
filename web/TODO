@@ -5,7 +5,7 @@
 
 
 
-Daily changes go into /var/lib as well.
+
 
 The tarball does everything on its own, so that the debian package does little extra.
 
