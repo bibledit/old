@@ -39,14 +39,15 @@ $siteUrl = $database_config_general->getSiteURL ();
 $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 
-// Files get stored in http://site.org/bibledit/downloads/exports/
-$exportsDirectory = dirname (dirname (__FILE__)) . "/downloads/exports";
+// Files get stored in $localStatePath/exports/
+include ("paths/paths.php");
+$exportsDirectory = $localStatePath . "/exports";
 @mkdir ($bibleDirectory, 0777, true);
 
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
 
-  // Files get stored in http://site.org/bibledit/downloads/exports/<Bible>
+  // Files get stored in $localStatePath/exports/<Bible>
   // Clear this directory of old exports. Just in case something has changed in data or settings.
   $bibleDirectory = "$exportsDirectory/$bible";
   Filter_Rmdir::rmdir ($bibleDirectory);
@@ -161,6 +162,10 @@ foreach ($bibles as $bible) {
   $filter_text_bible->produceFalloutDocument ("$odtDirectory/00_Fallout.odt");
 
 }
+$command = "chmod -R 0777 $exportsDirectory 2>&1";
+$database_logs->log ($command);
+unset ($result);
+exec ($command, &$result, &$exit_code);
 $database_logs->log (gettext ("The Bibles have been exported"), true);
 
 ?>

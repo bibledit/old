@@ -1,12 +1,11 @@
 Exported Bibles go into /var/lib
+
+
+
+
+
+
 Daily changes go into /var/lib as well.
-
-
-
-
-
-
-
 
 The tarball does everything on its own, so that the debian package does little extra.
 
@@ -18,6 +17,14 @@ Let it use dbconfig-common
 Use Dwoo instead of smarty? Switch to Zend views?
 Pay attention to localization through Zend.
 
+Move the backup tarball so it goes into /var/lib/bibledit-web.
+Let this backu tarball also include all downloadable files in /var/lib/bibledit-web,
+so that a restore can be made complete.
+
+To separate the diff engine now bundled with Bibledit-Web. 
+We may look whether an existing diff engine is already in Debian.
+Search for diff in the packages manager.
+
 
 
 
@@ -28,9 +35,7 @@ Chmod's can be done by the debian package, for www-data.
 We may have to modify the source simultanously.
 Notice remarks made at end document at review time.
 
-Perhaps no downloadable files, but to store everything in the database.
-The database will be huge, though, in particular for the daily changes 
-files.
+
 
 
 
