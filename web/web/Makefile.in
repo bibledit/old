@@ -315,10 +315,16 @@ uninstall-am:
 
 
 install-data-local:
+	rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/changes
+	rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/exports
 	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)/www
 	cp -r * $(DESTDIR)$(prefix)/$(packagedatadir)/www
 	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www
 	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www/*
+	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/changes
+	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/exports
+	ln -s $(DESTDIR)/$(packagelocalstatedir)/changes $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/changes
+	ln -s $(DESTDIR)/$(packagelocalstatedir)/exports $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/exports
 
 clean-local:
 	find . -iname *~ -delete

@@ -170,7 +170,7 @@ if [ [ $ZENDPATH == "." ] ]
     AC_MSG_ERROR(Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>)
 fi
 AC_MSG_RESULT(${ZENDPATH})
-AC_DEFINE([ZENDPATH], [], [Define the path to zendImpl.jar])
+AC_DEFINE([ZENDPATH], [], [Define the path to the Zend framework])
 AC_DEFINE_UNQUOTED(ZENDPATH, "$ZENDPATH")
 AC_SUBST(ZENDPATH)
 

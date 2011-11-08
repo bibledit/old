@@ -33,5 +33,5 @@
 /* Version number of package */
 #undef VERSION
 
-/* Define the path to zendImpl.jar */
+/* Define the path to the Zend framework */
 #undef ZENDPATH

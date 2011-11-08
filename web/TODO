@@ -1,21 +1,8 @@
+Exported Bibles go into /var/lib
+Daily changes go into /var/lib as well.
 
 
 
-
-
-
-
-
-Working on creating the various directories in /var/lib/bibledit-web.
-Also to reference them in apache.conf.
-
-
-
-Members area is still forbidden.
-The download location in apache should point to, I think, /var/cache. Check it out. Use it.
-After than chmod's should be removed where possible.
-
-User uploaded content: A unique subdirectory of /var/lib/PACKAGE
 
 
 

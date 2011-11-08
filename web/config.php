@@ -34,5 +34,5 @@
 /* Version number of package */
 #define VERSION "0.5.1"
 
-/* Define the path to zendImpl.jar */
+/* Define the path to the Zend framework */
 #define ZENDPATH "/usr/share/php/libzend-framework-php"
