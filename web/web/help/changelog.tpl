@@ -10,7 +10,7 @@
 <p>Warnings in timer/index.php send email to the admin every minute. These were eliminated.</p>
 <p>The git folders moved from among the web pages to /var/lib/bibledit-web/git.</p>
 <p>The daily changes moved from among the web pages to /var/lib/bibledit-web/changes.</p>
-<p>The exported Bibles and daily changes moved from among the web pages to /var/lib/bibledit-web/exports.</p>
+<p>The exported Bibles moved from among the web pages to /var/lib/bibledit-web/exports.</p>
 <p></p>
 <p></p>
 <p></p>
