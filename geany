@@ -15,15 +15,22 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=90;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
-FILE_NAME_1=10791;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
-FILE_NAME_2=38;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/Makefile.am;0;2
-FILE_NAME_3=568;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
-FILE_NAME_4=0;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
-FILE_NAME_5=0;Conf;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/apache.conf;0;2
-FILE_NAME_6=211;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
-FILE_NAME_7=9742;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/sendreceive.php;0;2
-FILE_NAME_8=15361;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0;2
+FILE_NAME_0=6;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+FILE_NAME_1=738;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+FILE_NAME_2=292;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
+FILE_NAME_3=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/members/index.tpl;0;2
+FILE_NAME_4=7080;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0;2
+FILE_NAME_5=15823;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0;2
+FILE_NAME_6=9867;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/sendreceive.php;0;2
+FILE_NAME_7=5816;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/changes.php;0;2
+FILE_NAME_8=0;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/xslfofootnoteparagraph.cpp;0;2
+FILE_NAME_9=7198;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/tiny_utilities.cpp;0;2
+FILE_NAME_10=18648;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/utilities.cpp;0;2
+FILE_NAME_11=121587;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/mainwindow.cpp;0;2
+FILE_NAME_12=12116;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogimportnotes.cpp;0;2
+FILE_NAME_13=4417;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/screen.cpp;0;2
+FILE_NAME_14=14740;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/odtnotes.cpp;0;2
+FILE_NAME_15=2977;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windownotes.cpp;0;2
 
 [long line marker]
 long_line_behaviour=1

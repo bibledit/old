@@ -129,7 +129,7 @@ void dialog_position_reset_all()
 void window_position_get_left_space(GtkWidget * widget, gint & width, gint & height, gint & x, gint & y)
 // Get the space on the screen left of the widget.
 {
-  gint screen_width, screen_height;
+  gint screen_width, screen_height; // Todo
   GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(widget));
   screen_width = gdk_screen_get_width(screen);
   screen_height = gdk_screen_get_height(screen);

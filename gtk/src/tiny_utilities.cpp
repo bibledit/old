@@ -305,8 +305,8 @@ void TinySpawn::run()
   // Possible pipes.
   gint standard_output_filedescriptor;
   gint standard_error_filedescriptor;
-  gint *standard_output_filedescriptor_pointer = NULL;
-  gint *standard_error_filedescriptor_pointer = NULL;
+  gint *standard_output_filedescriptor_pointer = NULL; // Todo
+  gint *standard_error_filedescriptor_pointer = NULL; // Todo
   gchar *standard_output = NULL;
   gchar *standard_error = NULL;
   gchar **standard_output_pointer = NULL;

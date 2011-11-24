@@ -773,7 +773,7 @@ ParseWords::ParseWords(const ustring & text)
   while (gtk_text_iter_forward_word_end(&enditer)) {
     startiter = enditer;
     gtk_text_iter_backward_word_start(&startiter);
-    GtkTextIter iter = startiter;
+    GtkTextIter iter = startiter; // Todo
     ustring word = gtk_text_iter_get_text(&startiter, &enditer);
     words.push_back(word);
   }

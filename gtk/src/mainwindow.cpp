@@ -3122,8 +3122,8 @@ void MainWindow::on_insert_standard_text(GtkMenuItem * menuitem)
   extern Settings *settings;
   ustring standardtext;
   unsigned int selector = 0;
-  bool addspace = false;
-  bool gtkhtml = false;
+  bool addspace = false; // Todo
+  bool gtkhtml = false; // Todo
   if (menuitem == GTK_MENU_ITEM(standard_text_1)) {
     standardtext = settings->genconfig.edit_note_standard_text_one_get();
     selector = 0;

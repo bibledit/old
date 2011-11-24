@@ -7,23 +7,45 @@
 
 
 
+
+
+Steps:
+Store backup tarball in localstatedir, into /var/lib/bibledit-web.
+Create symlink. Probably a symlink is needed again to we can reach the backup tarball from the site.
+Test download.
+Add downloadable files. Let this backup tarball also include all downloadable files in /var/lib/bibledit-web, so that a restore can be made complete.
+Test download.
+
+
+
+
+
+
+
+
+
+
+
+
+
+To create the daisydiff Java package for Debian, taking it from a tarball or from svn.
+
+
 The tarball does everything on its own, so that the debian package does little extra.
 
 Let the bibledit-web tarball use external resources instead of bundling its own.
-Any missing sources should be put into Debian as well before disbundling them.
+Any missing sources should be put into Debian before disbundling them.
 
 Let it use dbconfig-common
 
 Use Dwoo instead of smarty? Switch to Zend views?
 Pay attention to localization through Zend.
 
-Move the backup tarball so it goes into /var/lib/bibledit-web.
-Let this backu tarball also include all downloadable files in /var/lib/bibledit-web,
-so that a restore can be made complete.
-
 To separate the diff engine now bundled with Bibledit-Web. 
 We may look whether an existing diff engine is already in Debian.
 Search for diff in the packages manager.
+There is source in the daisydiff svn, also for PHP, perhaps this can do the job.
+
 
 
 

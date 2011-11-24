@@ -92,11 +92,6 @@ if test x$FIND_PATH = xno; then
   AC_MSG_ERROR(Program "find" is needed. Install this first.)
 fi
 
-AC_PATH_PROG(FIND_PING, ping, no)
-if test x$FIND_PING = xno; then
-  AC_MSG_ERROR(Program "ping" is needed. Install this first.)
-fi
-
 AC_PATH_PROG(FIND_XARGS, xargs, no)
 if test x$FIND_XARGS = xno; then
   AC_MSG_ERROR(Program "xargs" is needed. Install this first.)
