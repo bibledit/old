@@ -215,13 +215,13 @@ ustring OdtFootnote::transform_main_parts(const ustring & line)
   // Deal with each paragraph.
   for (unsigned int i = 0; i < paragraphs.size(); i++) {
     // Choose the right paragraph.
-    XslFoFootnoteParagraph *paragraph; // Todo
+    XslFoFootnoteParagraph *paragraph;
     if (i == 0)
       paragraph = standardparagraph;
     else
       paragraph = extraparagraph;
     // Format actual text, and comply with footnote nesting, see USFM standard.
-    paragraphs[i] = usfm_notes_handle_nesting(paragraphs[i], standardparagraph->marker_open, standardparagraph->marker_close, note_markers);
+    paragraphs[i] = usfm_notes_handle_nesting(paragraphs[i], paragraph->marker_open, paragraph->marker_close, note_markers);
 
     // Insert the paragraph
     odtcode.append(paragraphs[i]);
@@ -414,13 +414,13 @@ ustring OdtEndnote::transform_main_parts(const ustring & line)
   // Deal with each paragraph.
   for (unsigned int i = 0; i < paragraphs.size(); i++) {
     // Choose the right paragraph.
-    XslFoFootnoteParagraph *paragraph; // Todo
+    XslFoFootnoteParagraph *paragraph;
     if (i == 0)
       paragraph = standardparagraph;
     else
       paragraph = extraparagraph;
     // Format actual text, and comply with footnote nesting, see USFM standard.
-    paragraphs[i] = usfm_notes_handle_nesting(paragraphs[i], standardparagraph->marker_open, standardparagraph->marker_close, note_markers);
+    paragraphs[i] = usfm_notes_handle_nesting(paragraphs[i], paragraph->marker_open, paragraph->marker_close, note_markers);
 
     // Insert the paragraph
     odtcode.append(paragraphs[i]);

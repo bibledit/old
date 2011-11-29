@@ -3122,35 +3122,23 @@ void MainWindow::on_insert_standard_text(GtkMenuItem * menuitem)
   extern Settings *settings;
   ustring standardtext;
   unsigned int selector = 0;
-  bool addspace = false; // Todo
-  bool gtkhtml = false; // Todo
   if (menuitem == GTK_MENU_ITEM(standard_text_1)) {
     standardtext = settings->genconfig.edit_note_standard_text_one_get();
     selector = 0;
-    addspace = true;
-    gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM(standard_text_2)) {
     standardtext = settings->genconfig.edit_note_standard_text_two_get();
     selector = 1;
-    addspace = true;
-    gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM(standard_text_3)) {
     standardtext = settings->genconfig.edit_note_standard_text_three_get();
     selector = 2;
-    addspace = true;
-    gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM(standard_text_4)) {
     standardtext = settings->genconfig.edit_note_standard_text_four_get();
     selector = 3;
-    addspace = true;
-    gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM(current_reference1)) {
     WindowEditor *editor_window = last_focused_editor_window();
     if (editor_window) {
       standardtext = books_id_to_english(editor_window->current_reference().book) + " " + convert_to_string(editor_window->current_reference().chapter) + ":" + editor_window->current_reference().verse;
       selector = 4;
-      addspace = false;
-      gtkhtml = false;
     }
   }
   // Insert the text.

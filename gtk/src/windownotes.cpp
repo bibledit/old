@@ -83,8 +83,6 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_widget_show(toolbar_note_editor);
   gtk_box_pack_start(GTK_BOX(vbox_note_editor), toolbar_note_editor, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar_note_editor), GTK_TOOLBAR_BOTH);
-  GtkIconSize tmp_toolbar_icon_size; // Todo
-  tmp_toolbar_icon_size = gtk_toolbar_get_icon_size(GTK_TOOLBAR(toolbar_note_editor));
 
   toolitem_note_edit_font_size = (GtkWidget *) gtk_tool_item_new();
   gtk_widget_show(toolitem_note_edit_font_size);

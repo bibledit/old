@@ -303,17 +303,11 @@ void TinySpawn::run()
   // Spawn flags.
   int flags = G_SPAWN_SEARCH_PATH;
   // Possible pipes.
-  gint standard_output_filedescriptor;
-  gint standard_error_filedescriptor;
-  gint *standard_output_filedescriptor_pointer = NULL; // Todo
-  gint *standard_error_filedescriptor_pointer = NULL; // Todo
   gchar *standard_output = NULL;
   gchar *standard_error = NULL;
   gchar **standard_output_pointer = NULL;
   gchar **standard_error_pointer = NULL;
   if (myread) {
-    standard_output_filedescriptor_pointer = &standard_output_filedescriptor;
-    standard_error_filedescriptor_pointer = &standard_error_filedescriptor;
     standard_output_pointer = &standard_output;
     standard_error_pointer = &standard_error;
   }

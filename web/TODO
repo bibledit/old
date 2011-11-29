@@ -8,7 +8,6 @@
 
 
 
-
 Steps:
 Store backup tarball in localstatedir, into /var/lib/bibledit-web.
 Create symlink. Probably a symlink is needed again to we can reach the backup tarball from the site.
@@ -44,7 +43,8 @@ Pay attention to localization through Zend.
 To separate the diff engine now bundled with Bibledit-Web. 
 We may look whether an existing diff engine is already in Debian.
 Search for diff in the packages manager.
-There is source in the daisydiff svn, also for PHP, perhaps this can do the job.
+There is source in the daisydiff svn, also for PHP, perhaps this can do the job, since PHP is less bulky.
+
 
 
 

@@ -360,14 +360,10 @@ void ImportNotesDialog::unicode_page()
   ustring path = temporary_file(TEMP_FILE);
   // See whether the file contents is proper Unicode
   ustring file_contents;
-  bool unicode_valid = true; // Todo
-  {
-    gchar *s;
-    if (!g_file_get_contents(path.c_str(), &s, NULL, NULL))
-      unicode_valid = false;
-    file_contents = s;
-    g_free(s);
-  }
+  gchar *s;
+  g_file_get_contents(path.c_str(), &s, NULL, NULL);
+  file_contents = s;
+  g_free(s);
 }
 
 
