@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
 
 include ("database/credentials.php");
 $smarty->assign ("name", $config_general->getBackupFile ());
-$smarty->assign ("url", Filter_Backup::url ());
+$smarty->assign ("file", Filter_Backup::file ());
 $smarty->assign ("database_host", $database_host);
 $smarty->assign ("database_name", $database_name);
 $smarty->assign ("database_user", $database_user);

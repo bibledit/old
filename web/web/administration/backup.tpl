@@ -10,11 +10,11 @@
   <p><input type="submit" name="submit" value={t}Submit{/t} /></p>
 </form>
 <br>
-{if $url != ""}
+{if $file != ""}
   <p>{t}Once you press the Submit button, a backup will be created. Every day another backup will be created at the same time.{/t}</p
   <p>{t}The Logbook shows the backup progress.{/t}</p>
-  <p>{t}Once the backup has been created, it can be downloaded from the following location:{/t}</p>
-  <p>{$url}</p>
+  <p>{t}The backup will be stored at the following location:{/t}</p>
+  <p>{$file}</p>
 {/if}
 <h2>{t}Restore{/t}</h2>
 <p>{t}Make sure you work with an existing an operational system. If this is not the case, then follow all installation procedures before proceeding to the next steps.{/t}</p>

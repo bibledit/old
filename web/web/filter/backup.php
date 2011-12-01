@@ -4,15 +4,15 @@
 class Filter_Backup
 {
 
-  public function file ()
+  public function file () // Todo
   {
     $config_general = Database_Config_General::getInstance ();
     $value = $config_general->getBackupFile ();
     if ($value == "") {
       return $value;
     }
-    $file = dirname (dirname (__FILE__));
-    $file = $file . "/" . $value . ".sql.gz";
+    include ("paths/paths.php");
+    $file = $localStatePath . "/" . $value . ".sql.gz";
     return $file;
   }
   
@@ -28,10 +28,6 @@ class Filter_Backup
     $url = $url . "/" . $value . ".sql.gz";
     return $url;
   }
-  
-  
-  
-  
     
 
 }

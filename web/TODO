@@ -8,11 +8,9 @@
 
 
 
-Steps:
-Store backup tarball in localstatedir, into /var/lib/bibledit-web.
-Create symlink. Probably a symlink is needed again to we can reach the backup tarball from the site.
-Test download.
+
 Add downloadable files. Let this backup tarball also include all downloadable files in /var/lib/bibledit-web, so that a restore can be made complete.
+Also add the git repository on the web server. So that a restore makes this complete as well.
 Test download.
 
 
@@ -23,6 +21,9 @@ Test download.
 
 
 
+
+To upgrade the installation instruction for on Ubuntu 11.10. It needs some extra php and apache modules.
+Without these the server given an error.
 
 
 
