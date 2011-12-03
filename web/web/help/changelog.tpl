@@ -11,6 +11,7 @@
 <p>The git folders moved from among the web pages to /var/lib/bibledit-web/git.</p>
 <p>The daily changes moved from among the web pages to /var/lib/bibledit-web/changes.</p>
 <p>The exported Bibles moved from among the web pages to /var/lib/bibledit-web/exports.</p>
+<p>The backup moved from among the web pages to /var/lib/bibledit-web.</p>
 <p></p>
 <p></p>
 <p></p>

@@ -9,6 +9,8 @@
 
 
 
+
+
 Add downloadable files. Let this backup tarball also include all downloadable files in /var/lib/bibledit-web, so that a restore can be made complete.
 Also add the git repository on the web server. So that a restore makes this complete as well.
 Test download.
@@ -22,8 +24,6 @@ Test download.
 
 
 
-To upgrade the installation instruction for on Ubuntu 11.10. It needs some extra php and apache modules.
-Without these the server given an error.
 
 
 
@@ -155,13 +155,6 @@ http://localhost/bibledit/setup.php
 
 
 
-Where help is needed: 
-Would need to write the software for the project under the GPL, stated in each source file.
-Could fully adapt the software to run on Windows, and describe how to install it, 
-and create a Windows installer and describe how to do that through open source tools. 
-Same for Macintosh. 
-Would communicate through bibledit-development.
-Could write manuals for how to work with Bibledit-Web. 
 
 
 
@@ -169,39 +162,10 @@ Could write manuals for how to work with Bibledit-Web.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Producing a sword module for Katana.
+Producing a sword module.
 Use usfm2osis.pl
-If all .usfm files are in subdirectory ndebele, do this:
-perl usfm2osis.pl Bible ndebele/*.usfm
+If all .usfm files are in one folder data, do this:
+perl usfm2osis.pl Bible data/*.usfm
 This produces a file Bible.osis.xml.
 Then make it a Sword module:
 osis2mod . Bible.osis.xml
