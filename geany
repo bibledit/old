@@ -15,21 +15,12 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=280;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
-FILE_NAME_1=877;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
-FILE_NAME_2=292;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
-FILE_NAME_3=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/members/index.tpl;0;2
-FILE_NAME_4=1517;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0;2
-FILE_NAME_5=15823;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0;2
-FILE_NAME_6=9867;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/sendreceive.php;0;2
-FILE_NAME_7=1492;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/changes.php;0;2
-FILE_NAME_8=64;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
-FILE_NAME_9=1256;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/backup.php;0;2
-FILE_NAME_10=320;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/backup.php;0;2
-FILE_NAME_11=73;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/paths/paths.php;0;2
-FILE_NAME_12=0;Conf;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/apache.conf;0;2
-FILE_NAME_13=761;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.php;0;2
-FILE_NAME_14=918;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/backup.tpl;0;2
+FILE_NAME_0=253;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+FILE_NAME_1=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+FILE_NAME_2=492;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
+FILE_NAME_3=64;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
+FILE_NAME_4=0;Conf;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/apache.conf;0;2
+FILE_NAME_5=694;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
 
 [long line marker]
 long_line_behaviour=1

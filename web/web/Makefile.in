@@ -321,6 +321,7 @@ install-data-local:
 	cp -r * $(DESTDIR)$(prefix)/$(packagedatadir)/www
 	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www
 	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www/*
+	find $(DESTDIR)$(prefix)/$(packagedatadir)/www -type f -print0 | xargs -0 chmod 0666
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/changes
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/exports
 	ln -s $(DESTDIR)/$(packagelocalstatedir)/changes $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/changes
