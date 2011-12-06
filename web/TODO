@@ -8,12 +8,7 @@ P: bibledit-xiphos source: unneeded-build-dep-on-quilt
 P: bibledit-xiphos: copyright-refers-to-symlink-license
 usr/share/common-licenses/LGPL
 
-gcc complains:
-
-> bibledit-xiphos.cpp: In member function 'void TinySpawn::run()':
-> bibledit-xiphos.cpp:249:9: warning: variable 'standard_output_filedescriptor_pointer' set but not used [-Wunused-but-set-variable]
-> bibledit-xiphos.cpp:250:9: warning: variable 'standard_error_filedescriptor_pointer' set but not used [-Wunused-but-set-variable]
-and dpkg-shlibdeps emits numerous warnings about useless linking. Can
+dpkg-shlibdeps emits numerous warnings about useless linking. Can
 you investigate these with your upstream?
 
 In debian/control:
