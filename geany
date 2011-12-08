@@ -15,12 +15,16 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=253;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+FILE_NAME_0=823;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 FILE_NAME_2=492;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
 FILE_NAME_3=64;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
 FILE_NAME_4=0;Conf;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/apache.conf;0;2
 FILE_NAME_5=694;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
+FILE_NAME_6=7776;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/xiphos/bibledit-xiphos.cpp;0;2
+FILE_NAME_7=7814;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/bibletime/bibledit-bibletime.cpp;0;2
+FILE_NAME_8=182;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/bibletime/configure.ac;0;2
+FILE_NAME_9=181;Sh;0;16;2;1;0;/home/teus/documents/dev/bibledit/xiphos/configure.ac;0;2
 
 [long line marker]
 long_line_behaviour=1
