@@ -47,6 +47,8 @@ GtkWidget * textview = NULL;
 GtkWidget * checkbutton = NULL;
 deque <string> folders;
 bool we_loop;
+gint mergestrategy = 0; // Recursive with mergetool
+string strategies[] = {"", "ours", "theirs", ""};
 
 
 class TinySpawn
@@ -90,6 +92,7 @@ string convert_to_string(bool b);
 string convert_to_string(double d);
 string convert_to_string(long unsigned int i);
 static void on_checkbutton_loop_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+bool exit_timeout (gpointer data);
 
 
 #endif

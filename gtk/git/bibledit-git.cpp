@@ -70,9 +70,32 @@ int main (int argc, char *argv[])
   
   gtk_widget_show_all (window);
 
-  // Get folders to run git on.
+  // Read the folders to run git on.
+  // Optionally read the desired merge strategy.
   for (int i = 1; i < argc; i++) {
-    folders.push_back (argv[i]);
+    if (argv[i][0]=='-') {
+      char *p;
+      int idx = 1; // Skip mergetool possibility
+      int done = 0;
+      while (!done && (strategies[idx].size()!=0 )) {
+        p=argv[1]+1;
+        if (strategies[idx].compare(p)==0) {
+          mergestrategy=idx;
+          done=1;
+        }
+        ++idx;
+      }
+      if (!done) {
+        cout << "Bibledit-Git accepts the following options:" << endl;
+        for (idx=1;strategies[idx].size()!=0;idx++) {
+          cout << "-" << strategies[idx] <<endl;
+        }
+        cout << "The default is to use mergetool on conflict, the options specify -X options for git merge conflict resolution" << endl;
+        return 0;
+      }
+    } else {
+      folders.push_back (argv[i]);
+    }
   }
   folders.push_back ("");
 
@@ -92,7 +115,8 @@ bool on_timeout (gpointer data)
   if (folders.empty()) {
     message ("");
     message ("Ready.");
-    message ("You can close the window.");
+    message ("You can close the window, or it will close itself in 5 minutes.");
+    g_timeout_add (300000, GSourceFunc(exit_timeout), NULL);
   } else {
     string folder = folders[0];
     folders.pop_front ();
@@ -103,11 +127,12 @@ bool on_timeout (gpointer data)
     if (folder.empty() ) {
       if (we_loop) {
         message ("Will send and receive again after 5 minutes.");
-        message ("Or close the window to not send an receive again.");
+        message ("Or close the window to not send and receive again.");
         g_timeout_add(300000, GSourceFunc(on_timeout), NULL);
       } else {
-      	message("Finished");
-        message("You can close the window.");
+      	message ("Finished");
+        message ("You can close the window, or it will close itself in 5 minutes.");
+        g_timeout_add (300000, GSourceFunc(exit_timeout), NULL);
       }
 
     } else { 
@@ -171,16 +196,25 @@ bool on_timeout (gpointer data)
         TinySpawn spawn ("git");
         spawn.arg ("pull");
         spawn.workingdirectory (folder);
+        if (mergestrategy != 0) {
+          spawn.arg("-s");
+          spawn.arg("recursive");
+          spawn.arg("-X");
+          spawn.arg(strategies[mergestrategy]);
+        }
         spawn.read ();
         spawn.run ();
         // Normal operation: Exit status = 0.
         // Merge conflict: Exit status = 256.
         // Remote repository unavailable: Exit status = 256.
-        // Conclusion: The exit status cannot be used for finding out about a merge conflict.
+        // Conclusion: The exit status cannot be used conclusively for finding out about a merge conflict.
         bool merge_conflict = false;
         for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
           if (spawn.standardout[i].find ("CONFLICT") != string::npos) {
             message ("Hey! There is a conflict between our data and their data");
+            if (mergestrategy == 0) {
+              merge_conflict = true;
+            }
           }
           message (spawn.standardout[i]);
         }
@@ -307,17 +341,11 @@ void TinySpawn::run()
   // Spawn flags.
   int flags = G_SPAWN_SEARCH_PATH;
   // Possible pipes.
-  gint standard_output_filedescriptor;
-  gint standard_error_filedescriptor;
-  gint *standard_output_filedescriptor_pointer = NULL;
-  gint *standard_error_filedescriptor_pointer = NULL;
   gchar *standard_output = NULL;
   gchar *standard_error = NULL;
   gchar **standard_output_pointer = NULL;
   gchar **standard_error_pointer = NULL;
   if (myread) {
-    standard_output_filedescriptor_pointer = &standard_output_filedescriptor;
-    standard_error_filedescriptor_pointer = &standard_error_filedescriptor;
     standard_output_pointer = &standard_output;
     standard_error_pointer = &standard_error;
   }
@@ -431,3 +459,9 @@ void on_checkbutton_loop_toggled (GtkToggleButton *togglebutton, gpointer user_d
   we_loop = gtk_toggle_button_get_active (togglebutton);
 }
 
+
+bool exit_timeout (gpointer data) // Todo
+{
+  gtk_main_quit ();
+  return false;
+}
