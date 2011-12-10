@@ -1,3 +1,3 @@
-SUBDIRS = web tests apache crontab fhs
+SUBDIRS = web tests apache cron fhs
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = TODO

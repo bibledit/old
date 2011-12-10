@@ -244,7 +244,7 @@ AC_CONFIG_FILES([
   web/Makefile
   tests/Makefile
   apache/Makefile
-  crontab/Makefile
+  cron/Makefile
   fhs/Makefile
 ])
 AC_OUTPUT

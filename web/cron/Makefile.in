@@ -31,7 +31,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-subdir = crontab
+subdir = cron
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -146,9 +146,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu crontab/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu cron/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu crontab/Makefile
+	  $(AUTOMAKE) --gnu cron/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -315,13 +315,19 @@ uninstall-am: uninstall-local
 
 
 install-data-local:
-	crontab -l | sed '/bibledit-web/d' > cron.txt
-	echo "* * * * * cd $(DESTDIR)$(prefix)/$(packagedatadir)/www/timer; nice -n 30 php index.php; cd"  >> cron.txt
-	crontab cron.txt
-	rm -f cron.txt
+	echo "* * * * * root cd $(DESTDIR)$(prefix)/$(packagedatadir)/www/timer; nice -n 30 php index.php; cd"  > bibledit-web
+	ps ax > processes
+	if [ `grep -c debuild processes` -eq 0 ]; then cp bibledit-web /etc/cron.d/ ; fi
+	rm -f bibledit-web
+	rm -f processes
 
 uninstall-local:
-	crontab -l | sed '/bibledit-web/d' | crontab
+	rm -f /etc/cron.d/bibledit-web
+
+# The installer checks whether debuild runs.
+# If it runs, it won't install anything into cron.d
+# This prevents the host system from being affected
+# in case of building the package through debuild.
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
