@@ -14,12 +14,18 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=645;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+current_page=9
+FILE_NAME_0=129;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 FILE_NAME_2=492;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
-FILE_NAME_3=273;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/cron/Makefile.am;0;2
+FILE_NAME_3=561;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/cron/Makefile.am;0;2
 FILE_NAME_4=1214;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0;2
+FILE_NAME_5=4196;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/git.cpp;0;2
+FILE_NAME_6=3852;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogmerge.cpp;0;2
+FILE_NAME_7=25068;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/windowmerge.cpp;0;2
+FILE_NAME_8=1845;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/dialogmerge.h;0;2
+FILE_NAME_9=14911;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/projectutils.cpp;0;2
+FILE_NAME_10=3381;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/projectconfig.h;0;2
 
 [long line marker]
 long_line_behaviour=1
