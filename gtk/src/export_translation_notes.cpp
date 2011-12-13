@@ -58,7 +58,7 @@ The exported xml file will look so:
   </note>
 </bibledit-notes>
 
-This is subject to change as bibledit's notes system develop.
+This is subject to change as bibledit's notes system develops.
 */
 :progresswindow("Exporting notes", true)
 {
@@ -74,14 +74,20 @@ This is subject to change as bibledit's notes system develop.
 
     // Opening lines.
     wt.text("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    wt.text("<bibledit-notes version=\"3\">\n");
+    wt.text("<bibledit-notes version=\"4\">\n");
 
-    // Connect to database.
+    // Connect to index database.
+    // Note: The index is not the source of the notes.
+    // This implies that, if the index is not up-to-date, 
+    // then the export will not be correct.
     error = NULL;
     rc = sqlite3_open(notes_index_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
+    
+    // Currently this is the notes table schema:
+    // id integer, reference text, project text, category text, casefolded text, created integer, modified integer
 
     // Get the number of notes.
     SqliteReader sqlitereader(0);
@@ -100,7 +106,7 @@ This is subject to change as bibledit's notes system develop.
 
     // Go through all the notes.
     note_counter = 0;
-    rc = sqlite3_exec(db, "select ref_osis, project, category, note, created, modified, user, id from notes;", data_callback, this, &error);
+    rc = sqlite3_exec(db, "select reference, project, category, casefolded, created, modified from notes;", data_callback, this, &error);
     if (rc != SQLITE_OK) {
       throw runtime_error(error);
     }
@@ -138,6 +144,7 @@ int ExportTranslationNotes::on_data(int argc, char **argv)
   if (progresswindow.cancel) {
     return 1;
   }
+
   // See whether to display this particular id.
   if (!my_export_all) {
     gint id;
@@ -145,6 +152,7 @@ int ExportTranslationNotes::on_data(int argc, char **argv)
     if (my_ids->find(id) == my_ids->end())
       return 0;
   }
+
   // Start note.
   my_wt->text("  <note>\n");
 
@@ -165,37 +173,27 @@ int ExportTranslationNotes::on_data(int argc, char **argv)
   my_wt->text("</references>\n");
 
   // Deal with the project name.
-  ustring project;
-  project = argv[1];
+  ustring project = argv[1];
   my_wt->text("    <project>" + project + "</project>\n");
 
   // Deal with the status of the note.
-  ustring category;
-  category = argv[2];
+  ustring category = argv[2];
   my_wt->text("    <category>" + category + "</category>\n");
 
-  // The note text.
-  ustring note;
-  note = argv[3];
+  // The casefolded note text.
+  ustring note = argv[3];
   my_wt->text("    <text>" + note + "</text>\n");
 
   // The date it was created.
-  int created;
-  created = convert_to_int(argv[4]);
+  int created = convert_to_int(argv[4]);
   ustring date;
   date = trim(date_time_julian_human_readable(created, false));
   my_wt->text("    <date-created>" + date + "</date-created>\n");
 
   // Deal with the modification date.
-  int modified;
-  modified = convert_to_int(argv[5]);
+  int modified = convert_to_int(argv[5]);
   date = trim(date_time_julian_human_readable(modified, false));
   my_wt->text("    <date-modified>" + date + "</date-modified>\n");
-
-  // Mention the one who created the note.
-  ustring user;
-  user = argv[6];
-  my_wt->text("    <created-by>" + user + "</created-by>\n");
 
   // Finish note.
   my_wt->text("  </note>\n");
