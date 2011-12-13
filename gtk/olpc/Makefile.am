@@ -1,6 +1,4 @@
-noinst_SCRIPTS = makebinary
-CLEANFILES = *~ *.tar.gz
-EXTRA_DIST = *.xo *.py olpc* makebinary
+# noinst_SCRIPTS = makebinary
+CLEANFILES = *~
+EXTRA_DIST = *.xo *.py
 
-binary:
-	./makebinary $(GECKO_HOME)
