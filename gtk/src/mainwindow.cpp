@@ -1,5 +1,5 @@
 /*
- ** Copyright (©) 2003-2009 Teus Benschop.
+ ** Copyright (©) 2003-2012 Teus Benschop.
  **  
  ** This program is free software; you can redistribute it and/or modify
  ** it under the terms of the GNU General Public License as published by
@@ -2070,7 +2070,7 @@ void MainWindow::showabout()
   gtk_show_about_dialog(GTK_WINDOW(window_main),
                         "version", PACKAGE_VERSION,
                         "website", PACKAGE_BUGREPORT,
-                        "copyright", "Copyright (©) 2003-2009 Teus Benschop",
+                        "copyright", "Copyright (©) 2003-2012 Teus Benschop",
                         "license", "This program is free software; you can redistribute it and/or modify\n"
                         "it under the terms of the GNU General Public License as published by\n"
                         "the Free Software Foundation; either version 3 of the License, or\n"
