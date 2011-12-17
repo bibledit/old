@@ -3,15 +3,13 @@ CLEANFILES = *~
 
 install-data-local:
 	echo "* * * * * root cd $(DESTDIR)$(prefix)/$(packagedatadir)/www/timer; nice -n 30 php index.php; cd"  > bibledit-web
-	ps ax > processes
-	if [ `grep -c debuild processes` -eq 0 ]; then cp bibledit-web /etc/cron.d/ ; fi
+	mkdir -p $(DESTDIR)/etc/cron.d/
+	ls $(DESTDIR)
+	ls $(DESTDIR)/etc/
+	ls $(DESTDIR)/etc/cron.d/
+	cp bibledit-web $(DESTDIR)/etc/cron.d/bibledit-web
 	rm -f bibledit-web
-	rm -f processes
 
 uninstall-local:
-	rm -f /etc/cron.d/bibledit-web
+	rm -f $(DESTDIR)/etc/cron.d/bibledit-web
 
-# The installer checks whether debuild runs.
-# If it runs, it won't install anything into cron.d
-# This prevents the host system from being affected
-# in case of building the package through debuild.

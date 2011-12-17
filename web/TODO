@@ -1,5 +1,4 @@
-Let it not check whether dbuild runs, but rather install it in DESTDIR,
-so there's no mixup when building the package by debuild.
+
 
 
 
