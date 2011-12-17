@@ -1,4 +1,7 @@
 
+Check whether the package installs any non-sensible symbolic links.
+
+Let the package restart apache2 or lighthttpd
 
 
 
