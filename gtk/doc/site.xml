@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       
-        <url><loc>https://sites.google.com/site/bibledit/community</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>5 Community</h1><br/></div></body></html><name>site/community.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>4 Extra</h1><br/></div></body></html><name>site/extra.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>2 Gtk</h1>Bibledit-Gtk is that part of Bibledit which was built using Gtk. It is a full-featured and mature desktop application.<h2 style="font-weight:normal;color:rgb(68, 68, 68);font-size:1.6em"><a name="TOC-Features"/>Features<br/></h2>Native USFM text editor, several can be opened at once<br/>Project notes editor<br/>Chapter and book outline view<br/>Resizeable and moveable windows<br/>Easy application of styles<br/>Styles editor<br/>Selection and display of project notes by various parameters<br/>Online help<br/>Backup and restore<br/>Import and export<br/>Resources display<br/>Spelling check<br/>Simple or more advanced interface<br/>Merge projects.<br/>Collaboration through USB drive, or through the Internet<br/>And so on, and so on.<br/></div></body></html><name>site/gtk.html</name></url><url><loc>https://sites.google.com/site/bibledit/home</loc><priority>0.8</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>1 Bibledit</h1>
+        <url><loc>https://sites.google.com/site/bibledit/community</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>5 Community</h1><br/></div></body></html><name>site/community.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>4 Extra</h1><br/></div></body></html><name>site/extra.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>2 Gtk</h1>Bibledit-Gtk is that part of Bibledit which was built using Gtk. It is a full-featured and mature desktop application.<h2 style="font-weight:normal;color:rgb(68,68,68);font-size:1.6em"><a name="TOC-Features"/>Features<br/></h2>Native USFM text editor, several can be opened at once<br/>Project notes editor<br/>Chapter and book outline view<br/>Resizeable and moveable windows<br/>Easy application of styles<br/>Styles editor<br/>Selection and display of project notes by various parameters<br/>Online help<br/>Backup and restore<br/>Import and export<br/>Resources display<br/>Spelling check<br/>Simple or more advanced interface<br/>Merge projects.<br/>Collaboration through USB drive, or through the Internet<br/>And so on, and so on.<br/></div></body></html><name>site/gtk.html</name></url><url><loc>https://sites.google.com/site/bibledit/home</loc><priority>0.8</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>1 Bibledit</h1>
 
 
 
-<h2><a name="TOC-Introduction"/>Introduction</h2>Bibledit contains Bibledit-Gtk and Bibledit-Web, a set of tools developed to aid in Bible editing and translation.  It is a full-featured and mature application for doing Bible translation on the desktop as well as on the web.<br/><br/><b>Features</b><br/><ul><li>Native USFM text editor, several can be opened at once</li><li>Project notes editor</li><li>Chapter and book outline view</li><li>Resizable and moveable windows</li><li>Easy application of styles</li><li>Styles editor</li><li>Selection and display of project notes by various parameters</li><li>Online help</li><li>Backup and restore</li><li>Import and export</li><li>Resources display</li><li>Spelling check</li><li>Simple or more advanced interface</li><li>Merge projects.</li><li>Collaboration through USB drive, or through the Internet</li><li>Local or remote web application<br/></li><li>Interfaces to <a href="SELFREFERENCEextra.html">external programs</a> including Xiphos and Bibletime.<br/></li></ul><br/>Bibledit was designed for a purpose: To give honour to God, and that people get access to the Word of God, and get saved through Jesus Christ.<br/><br/>You are invited to contribute to these pages. For obtaining write access, write to teusjannette@gmail.com.<br/></div></body></html><name>site/home.html</name></url><url><loc>https://sites.google.com/site/bibledit/links</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>6 Links</h1>Bibledit-Lite is a fork of Bibledit-Gtk. It is optimized for running on Windows. See <a href="http://buildbot.biblesint.org/waterfall" rel="nofollow">http://buildbot.biblesint.org/waterfall</a>.</div></body></html><name>site/links.html</name></url><url><loc>https://sites.google.com/site/bibledit/web</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>3 Web</h1>Bibledit-Web is a web application for translating the Bible. It is part of the Bibledit suite.<br/>A demo is available at <a href="http://bibleconsultants.dyndns.org/bibledit-web-demo" rel="nofollow">http://bibleconsultants.dyndns.org/bibledit-web-demo</a>. You can login there. Use username "manager" and password "manager", or username "translator" and password "translator", or username "consultant" and password "consultant", or username "member" and password "member".You can also create your own account, then temporarily login as "manager" and upgrade your account to the level you desire, then use your own account from then on.<br/>More information is available at <a href="http://bibleconsultants.dyndns.org/bibledit-web-demo/help/index.php" rel="nofollow">http://bibleconsultants.dyndns.org/bibledit-web-demo/help/index.php</a>.<br/>Translations are being done on <a href="https://launchpad.net/bibledit" rel="nofollow">https://launchpad.net/bibledit</a>, your help is welcomed.</div></body></html><name>site/web.html</name></url><url><loc>https://sites.google.com/site/bibledit/community/contacts</loc><priority>0.5</priority><dir>site/community</dir><html><head/><body><div id="menu"/><div id="content"><h1>Contacts</h1><p>There are various people who are involved in Bibledit. </p>
+<h2><a name="TOC-Introduction"/>Introduction</h2>Bibledit contains Bibledit-Gtk and Bibledit-Web, a set of tools developed to aid in Bible editing and translation.  It is a full-featured and mature application for doing Bible translation on the desktop as well as on the web.<br/><br/><b>Features</b><br/><ul><li>Native USFM text editor, several can be opened at once</li><li>Project notes editor</li><li>Chapter and book outline view</li><li>Resizable and moveable windows</li><li>Easy application of styles</li><li>Styles editor</li><li>Selection and display of project notes by various parameters</li><li>Online help</li><li>Backup and restore</li><li>Import and export</li><li>Resources display</li><li>Spelling check</li><li>Simple or more advanced interface</li><li>Merge projects.</li><li>Collaboration through USB drive, or through the Internet</li><li>Local or remote web application<br/></li><li>Interfaces to <a href="https://sites.google.com/site/bibledit/extra">external programs</a> including Xiphos and Bibletime.<br/></li></ul><br/>Bibledit was designed for a purpose: To give honour to God, and that people get access to the Word of God, and get saved through Jesus Christ.<br/><br/>You are invited to contribute to these pages. For obtaining write access, write to teusjannette@gmail.com.<br/></div></body></html><name>site/home.html</name></url><url><loc>https://sites.google.com/site/bibledit/links</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>6 Links</h1>Bibledit-Lite is a fork of Bibledit-Gtk. It is optimized for running on Windows. See <a href="http://buildbot.biblesint.org/waterfall" rel="nofollow">http://buildbot.biblesint.org/waterfall</a>.</div></body></html><name>site/links.html</name></url><url><loc>https://sites.google.com/site/bibledit/web</loc><priority>0.5</priority><dir>site</dir><html><head/><body><div id="menu"/><div id="content"><h1>3 Web</h1>Bibledit-Web is a web application for translating the Bible. It is part of the Bibledit suite.<br/>A demo is available at <a href="http://bibleconsultants.dyndns.org/bibledit-web-demo" rel="nofollow">http://bibleconsultants.dyndns.org/bibledit-web-demo</a>. You can login there. Use username "manager" and password "manager", or username "translator" and password "translator", or username "consultant" and password "consultant", or username "member" and password "member".You can also create your own account, then temporarily login as "manager" and upgrade your account to the level you desire, then use your own account from then on.<br/>More information is available at <a href="http://bibleconsultants.dyndns.org/bibledit-web-demo/help/index.php" rel="nofollow">http://bibleconsultants.dyndns.org/bibledit-web-demo/help/index.php</a>.<br/>Translations are being done on <a href="https://launchpad.net/bibledit" rel="nofollow">https://launchpad.net/bibledit</a>, your help is welcomed.</div></body></html><name>site/web.html</name></url><url><loc>https://sites.google.com/site/bibledit/community/contacts</loc><priority>0.5</priority><dir>site/community</dir><html><head/><body><div id="menu"/><div id="content"><h1>Contacts</h1><p>There are various people who are involved in Bibledit. </p>
 
 <p>You can communicate with them through the <a href="http://lists.nongnu.org/mailman/listinfo/bibledit-general" rel="nofollow">bibledit-general
 mailing list. There</a> you can subscribe, unsubscribe, change your options,
@@ -18,7 +18,7 @@ to the same address</a>. To post a message to all the list members, write to <a 
 
 <p>Bugs can be submitted to <a href="http://savannah.nongnu.org/bugs/?group=bibledit" rel="nofollow">http://savannah.nongnu.org/bugs/?group=bibledit</a>.</p>
 
-<p>Read more about bugs and feature requests on the <a href="SELFREFERENCEcommunity/development.html">Development</a> page.</p>
+<p>Read more about bugs and feature requests on the <a href="https://sites.google.com/site/bibledit/community/development">Development</a> page.</p>
 
 <p>Whoever is bold enough to contact the programmer directly, his name will be
 subscribed to the bibledit-general mailing list and his message will be
@@ -56,12 +56,12 @@ developments in Bibledit.</p>
 <pre>git clone git://git.savannah.nongnu.org/bibledit</pre>
 <p>The above command clones the code repository to your local disk. It will
 create a directory called "bibledit". Go into that directory, and do the normal
-"./configure", "make", "sudo make install" sequence, as is described in the <a href="SELFREFERENCEgtk/installation.html">installation</a> documentation.</p>
+"./configure", "make", "sudo make install" sequence, as is described in the <a href="https://sites.google.com/site/bibledit/gtk/installation">installation</a> documentation.</p>
 <p>Note 1. To save bandwidth, it is recommended to leave the directory
 "bibledit", created above, as it is. If that directory is left there, then next
 time there is no need to clone the whole repository. Just pulling the changes
 is enough:</p>
-<pre><span style="font-family:Arial, Verdana, sans-serif;white-space:normal"><pre>cd bibledit</pre><pre>git reset --hard
+<pre><span style="font-family:Arial,Verdana,sans-serif;white-space:normal"><pre>cd bibledit</pre><pre>git reset --hard
 git pull
 cd gtk
 ./configure
@@ -160,14 +160,14 @@ the stack:</p>
 when it happened.</p>
 <p>Notes:</p>
 <p>On Cygwin, gdb might get stopped and return you to the terminal. Enter "fg"
-to get the debugger back.</p></div></body></html><name>site/community/development.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/bibletime</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>BibleTime</h1>BibleTime is a front-end for the Sword library. <br/>Bibledit-BibleTime can retrieve the focused reference through Bibledit-Web, and then forward it to Xiphos.<br/>To make this work, do the following:<br/>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.<a href="SELFREFERENCEextra/bibletime/installation.html">Install Bibledit-BibleTime on your local computer</a>.Point Bibledit-BibleTime to Bibledit-Web. Entries can be made under Settings.<br/>Once the above has been done, sharing of focused references should work. </div></body></html><name>site/extra/bibletime.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/bibleworks</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>BibleWorks</h1><p>BibleWorks, installed on Windows or Linux, can receive the focused reference from Bibledit-Gtk or Bibledit-Web. To make this work, do the following:</p>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.Install Bibledit-BibleWorks on your local computer. The installer is at <a href="http://download.savannah.gnu.org/releases/bibledit/binaries/" rel="nofollow">http://download.savannah.gnu.org/releases/bibledit/binaries/</a>, and is called bibledit-paratext-setup-1.0.exe.Point Bibledit-BibleWorks to Bibledit-Web.<br/>Once this has been done, it should work.</div></body></html><name>site/extra/bibleworks.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/online-bible</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>Online Bible</h1><p>Online Bible versions 4.0, installed on Windows or Linux, can receive the focused reference from Bibledit-Gtk or Bibledit-Web. To make this work, do the following:</p>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.Install Bibledit-OnlineBible on your local computer. The installer is at <a href="http://download.savannah.gnu.org/releases/bibledit/binaries/" rel="nofollow">http://download.savannah.gnu.org/releases/bibledit/binaries/</a>, and is called bibledit-onlinebible-setup-1.1.exe.Point Bibledit-OnlineBible to Bibledit-Web.<br/>Once this has been done, it should work.<p>When if you change a reference, you will notice that the Online Bible starts, and that its desktop is empty. In the Online Bible, Open a Bible or press F6 to open a desktop, move Bibledit to another verse, and notice that the Online Bible scrolls along with Bibledit.</p><p>If Bibledit starts, stops, starts again, then the Online Bible desktop no longer can be restored through F6. The solution to this is not to use the standard "Online Bible Desktop", but to create and use your own.</p></div></body></html><name>site/extra/online-bible.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/paratext</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>Paratext</h1><p>Paratext, or programs compatible with it such as BART, when installed on Windows or Linux, can receive the focused passage from Bibledit-Gtk or Bibledit-Web. To make this work, do the following:</p>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.Install Bibledit-Paratext on your local computer. The installer is at <a href="http://download.savannah.gnu.org/releases/bibledit/binaries/" rel="nofollow">http://download.savannah.gnu.org/releases/bibledit/binaries/</a>, and is called bibledit-paratext-setup-1.0.exe.Point Bibledit-Paratext to Bibledit-Web.<br/>Once this has been done, it will work.</div></body></html><name>site/extra/paratext.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/xiphos</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>Xiphos</h1>Xiphos is a front-end for the Sword library. <br/>Bibledit-Xiphos can retrieve the focused reference through Bibledit-Web, and then forward it to Xiphos.<br/>To make this work, do the following:<br/>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.<a href="SELFREFERENCEextra/xiphos/installation.html">Install Bibledit-Xiphos on your local computer</a>.Point Bibledit-Xiphos to Bibledit-Web. Entries can be made under Settings.<br/>Once the above has been done, sharing of focused references should work. </div></body></html><name>site/extra/xiphos.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management</loc><priority>0.5</priority><dir>site/gtk</dir><html><head/><body><div id="menu"/><div id="content"><h1>3 Management</h1><br/></div></body></html><name>site/gtk/4-management.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/about</loc><priority>0.5</priority><dir>site/gtk</dir><html><head/><body><div id="menu"/><div id="content"><h1>7 About</h1><h2><a name="TOC-Copyright-and-License"/>Copyright and License</h2>
+to get the debugger back.</p></div></body></html><name>site/community/development.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/bibletime</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>BibleTime</h1>BibleTime is a front-end for the Sword library. <br/>Bibledit-BibleTime can retrieve the focused reference through Bibledit-Web, and then forward it to Xiphos.<br/>To make this work, do the following:<br/>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.<a href="https://sites.google.com/site/bibledit/extra/bibletime/installation">Install Bibledit-BibleTime on your local computer</a>.Point Bibledit-BibleTime to Bibledit-Web. Entries can be made under Settings.<br/>Once the above has been done, sharing of focused references should work. </div></body></html><name>site/extra/bibletime.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/bibleworks</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>BibleWorks</h1><p>BibleWorks, installed on Windows or Linux, can receive the focused reference from Bibledit-Gtk or Bibledit-Web. To make this work, do the following:</p>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.Install Bibledit-BibleWorks on your local computer. The installer is at <a href="http://download.savannah.gnu.org/releases/bibledit/binaries/" rel="nofollow">http://download.savannah.gnu.org/releases/bibledit/binaries/</a>, and is called bibledit-paratext-setup-1.0.exe.Point Bibledit-BibleWorks to Bibledit-Web.<br/>Once this has been done, it should work.</div></body></html><name>site/extra/bibleworks.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/gobible</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>GoBible</h1>When Bibledit-Gtk finds a GoBibleCreator on the system, it will use this, and is then able to export the Bible text to GoBible format.For more information about the GoBible, and how to install it on your system, see the following links:<a href="http://crosswire.org/wiki/Projects:Go_Bible/Go_Bible_Creator" rel="nofollow">http://crosswire.org/wiki/Projects:Go_Bible/Go_Bible_Creator</a><a href="http://code.google.com/p/gobible/">http://code.google.com/p/gobible/</a><br/></div></body></html><name>site/extra/gobible.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/online-bible</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>Online Bible</h1><p>Online Bible versions 4.0, installed on Windows or Linux, can receive the focused reference from Bibledit-Gtk or Bibledit-Web. To make this work, do the following:</p>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.Install Bibledit-OnlineBible on your local computer. The installer is at <a href="http://download.savannah.gnu.org/releases/bibledit/binaries/" rel="nofollow">http://download.savannah.gnu.org/releases/bibledit/binaries/</a>, and is called bibledit-onlinebible-setup-1.1.exe.Point Bibledit-OnlineBible to Bibledit-Web.<br/>Once this has been done, it should work.<p>When if you change a reference, you will notice that the Online Bible starts, and that its desktop is empty. In the Online Bible, Open a Bible or press F6 to open a desktop, move Bibledit to another verse, and notice that the Online Bible scrolls along with Bibledit.</p><p>If Bibledit starts, stops, starts again, then the Online Bible desktop no longer can be restored through F6. The solution to this is not to use the standard "Online Bible Desktop", but to create and use your own.</p></div></body></html><name>site/extra/online-bible.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/paratext</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>Paratext</h1><p>Paratext, or programs compatible with it such as BART, when installed on Windows or Linux, can receive the focused passage from Bibledit-Gtk or Bibledit-Web. To make this work, do the following:</p>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.Install Bibledit-Paratext on your local computer. The installer is at <a href="http://download.savannah.gnu.org/releases/bibledit/binaries/" rel="nofollow">http://download.savannah.gnu.org/releases/bibledit/binaries/</a>, and is called bibledit-paratext-setup-1.0.exe.Point Bibledit-Paratext to Bibledit-Web.<br/>Once this has been done, it will work.</div></body></html><name>site/extra/paratext.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/xiphos</loc><priority>0.5</priority><dir>site/extra</dir><html><head/><body><div id="menu"/><div id="content"><h1>Xiphos</h1>Xiphos is a front-end for the Sword library. <br/>Bibledit-Xiphos can retrieve the focused reference through Bibledit-Web, and then forward it to Xiphos.<br/>To make this work, do the following:<br/>Install Bibledit-Web on your local computer or on the web.Point Bibledit-Gtk to Bibledit-Web, so that it knows where to send its focused reference. The location of Bibledit-Web can be entered in Bibledit-Gtk under menu Preferences - Reference exchange. If Bibledit-Web would be installed locally, one could enter the local website, e.g. http://localhost/bibledit.<a href="https://sites.google.com/site/bibledit/extra/xiphos/installation">Install Bibledit-Xiphos on your local computer</a>.Point Bibledit-Xiphos to Bibledit-Web. Entries can be made under Settings.<br/>Once the above has been done, sharing of focused references should work. </div></body></html><name>site/extra/xiphos.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management</loc><priority>0.5</priority><dir>site/gtk</dir><html><head/><body><div id="menu"/><div id="content"><h1>3 Management</h1><br/></div></body></html><name>site/gtk/4-management.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/about</loc><priority>0.5</priority><dir>site/gtk</dir><html><head/><body><div id="menu"/><div id="content"><h1>7 About</h1><h2><a name="TOC-Copyright-and-License"/>Copyright and License</h2>
 <p>This document and the bibledit suite of programs are free. These are copyrighted (©) 2004-2011 by Teus Benschop and Contributors as listed below. You can redistribute the document and the program and/or
-modify it under the terms of the <a href="SELFREFERENCEgtk/about/gnu-general-public-license.html">GNU General Public
+modify it under the terms of the <a href="https://sites.google.com/site/bibledit/gtk/about/gnu-general-public-license">GNU General Public
 License</a> as published by the Free Software Foundation; either version 3 of
 the License, or (at your option) any later version. A copy of this license
 has also been included in the bibledit package in file COPYING. Secondly, for
 the document, permission is granted to copy, distribute and/or modify this
-document under the terms of the <a href="SELFREFERENCEgtk/about/gnu-free-documentation-license.html">GNU Free Documentation
+document under the terms of the <a href="https://sites.google.com/site/bibledit/gtk/about/gnu-free-documentation-license">GNU Free Documentation
 License, Version 1.2</a> or any later version published by the Free Software
 Foundation; with no Invariant Sections, no Front-Cover Texts, and no
 Back-Cover Texts. A copy of the license has also been included in the
@@ -184,7 +184,7 @@ regarded as affecting the validity of any trademark or service mark. Naming
 of particular products or brands should not be seen as endorsements.</p>
 <h2><a name="feedback"/>Feedback</h2>
 <p>Feedback is most certainly welcome for this document. Send your additions,
-comments and criticisms to any of the <a href="SELFREFERENCEcommunity/contacts.html">contacts</a>.</p></div></body></html><name>site/gtk/about.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation</loc><priority>0.5</priority><dir>site/gtk</dir><html><head/><body><div id="menu"/><div id="content"><h1>1 Installation</h1><p>Bibledit can be easily installed on Linux after you have installed a couple
+comments and criticisms to any of the <a href="https://sites.google.com/site/bibledit/community/contacts">contacts</a>.</p></div></body></html><name>site/gtk/about.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation</loc><priority>0.5</priority><dir>site/gtk</dir><html><head/><body><div id="menu"/><div id="content"><h1>1 Installation</h1><p>Bibledit can be easily installed on Linux after you have installed a couple
 of libraries and tools.</p>
 <p>It can be installed on the Macintosh too. It is the same story as with
 Linux: A couple of libraries are needed to get it going.</p>
@@ -199,7 +199,7 @@ expected.</p>
 OK.</p>
 <p>In the text window, press Ctrl-A to select everything, then Ctrl-C to copy
 it to the clipboard.</p>
-<p>Past the text from the clipboard into an email and send it.</p></div></body></html><name>site/community/development/diagnostics.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/bibletime/installation</loc><priority>0.5</priority><dir>site/extra/bibletime</dir><html><head/><body><div id="menu"/><div id="content"><h1>Installation</h1>This page describes how to install Bibledit-BibleTime on your Linux computer.If your Linux distribution has a package for Bibledit-BibleTime, installing that is all what is needed.If there is no such package available, then installation should be done from source.To install from source, you need to have some packages installed on a standard Linux distribution.The packages needed are listed below. When installing these, their dependencies need to be installed as well.<ul><li style="list-style-position:outside;list-style-type:square">Ubuntu 10.04. In System / Administration / Synaptic Package Manager install these: libgtk2.0-dev curl libdbus-glib-1-dev libsoup2.4-dev</li></ul>Download package <a href="http://download.savannah.nongnu.org/releases/bibledit/source/bibletime" rel="nofollow" style="color:rgb(0, 51, 204);text-decoration:underline">bibledit-bibletime-x.x.tar.gz</a> (x.x refers to a version number).<br/>Move it to the home directory<br/>In the terminal, to verify the package is there, type<code style="color:rgb(0, 96, 0)">ls</code><br/>To unpack bibledit-bibletime type<code style="color:rgb(0, 96, 0)">tar zxf bibledit-bibletime-x.x.tar.gz</code><br/>To enter the newly created directory, type<code style="color:rgb(0, 96, 0)">cd bibledit-bibletime-x.x</code><br/>To configure bibledit-bibletime, type<code style="color:rgb(0, 96, 0)">./configure</code><br/>Watch many messages, but no errors.<br/>To compile bibledit-bibletime, type<code style="color:rgb(0, 96, 0)">make</code><br/>Watch many messages, but no errors.<br/>To install it, type<code style="color:rgb(0, 96, 0)">sudo make install</code><br/>Watch many messages, but no errors.<br/><h2 style="font-weight:normal;color:rgb(68, 68, 68);font-size:1.6em"><a name="TOC-Running-Bibledit-Xiphos" style="color:rgb(0, 51, 204);text-decoration:underline"/>Running Bibledit-BibleTime</h2>An icon will have been installed in Applications / Office / Bibledit-BibleTime. Click the icon to start the program.Alternatively it can be started from the terminal by typing "bibledit-bibletime".</div></body></html><name>site/extra/bibletime/installation.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/xiphos/installation</loc><priority>0.5</priority><dir>site/extra/xiphos</dir><html><head/><body><div id="menu"/><div id="content"><h1>Installation</h1>This page describes how to install Bibledit-Xiphos on your Linux computer.If your Linux distribution has a package for Bibledit-Xiphos, installing that is all what is needed.If there is no such package available, then installation should be done from source.To install from source, you need to have some packages installed on a standard Linux distribution.The packages needed are listed below. When installing these, their dependencies need to be installed as well.<ul><li>Ubuntu 10.04. In System / Administration / Synaptic Package Manager install these: libgtk2.0-dev curl libdbus-glib-1-dev libsoup2.4-dev</li></ul>Download package <a href="http://download.savannah.nongnu.org/releases/bibledit/source/xiphos" rel="nofollow">bibledit-xiphos-x.x.tar.gz</a> (x.x refers to a version number).<br/>Move it to the home directory<br/>In the terminal, to verify the package is there, type<code>ls</code><br/>To unpack bibledit-xiphos type<code>tar zxf bibledit-xiphos-x.x.tar.gz</code><br/>To enter the newly created directory, type<code>cd bibledit-xiphos-x.x</code><br/>To configure bibledit-xiphos, type<code>./configure</code><br/>Watch many messages, but no errors.<br/>To compile bibledit-xiphos, type<code>make</code><br/>Watch many messages, but no errors.<br/>To install it, type<code>sudo make install</code><br/>Watch many messages, but no errors.<br/><h2><a name="TOC-Running-Bibledit-Xiphos"/>Running Bibledit-Xiphos</h2>An icon will have been installed in Applications / Office / Bibledit-Xiphos. Click the icon to start the program.Alternatively it can be started from the terminal by typing "bibledit-xiphos".</div></body></html><name>site/extra/xiphos/installation.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data</loc><priority>0.5</priority><dir>site/gtk/4-management</dir><html><head/><body><div id="menu"/><div id="content"><h1>Data</h1><p>Your data is valuable. <br/></p><p>The directory where Bibledit normally stores all its data is</p>
+<p>Past the text from the clipboard into an email and send it.</p></div></body></html><name>site/community/development/diagnostics.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/bibletime/installation</loc><priority>0.5</priority><dir>site/extra/bibletime</dir><html><head/><body><div id="menu"/><div id="content"><h1>Installation</h1>This page describes how to install Bibledit-BibleTime on your Linux computer.If your Linux distribution has a package for Bibledit-BibleTime, installing that is all what is needed.If there is no such package available, then installation should be done from source.To install from source, you need to have some packages installed on a standard Linux distribution.The packages needed are listed below. When installing these, their dependencies need to be installed as well.<ul><li style="list-style-position:outside;list-style-type:square">Ubuntu 10.04. In System / Administration / Synaptic Package Manager install these: libgtk2.0-dev curl libdbus-glib-1-dev libsoup2.4-dev</li></ul>Download package <a href="http://download.savannah.nongnu.org/releases/bibledit/source/bibletime" rel="nofollow" style="color:rgb(0,51,204);text-decoration:underline">bibledit-bibletime-x.x.tar.gz</a> (x.x refers to a version number).<br/>Move it to the home directory<br/>In the terminal, to verify the package is there, type<code style="color:rgb(0,96,0)">ls</code><br/>To unpack bibledit-bibletime type<code style="color:rgb(0,96,0)">tar zxf bibledit-bibletime-x.x.tar.gz</code><br/>To enter the newly created directory, type<code style="color:rgb(0,96,0)">cd bibledit-bibletime-x.x</code><br/>To configure bibledit-bibletime, type<code style="color:rgb(0,96,0)">./configure</code><br/>Watch many messages, but no errors.<br/>To compile bibledit-bibletime, type<code style="color:rgb(0,96,0)">make</code><br/>Watch many messages, but no errors.<br/>To install it, type<code style="color:rgb(0,96,0)">sudo make install</code><br/>Watch many messages, but no errors.<br/><h2 style="font-weight:normal;color:rgb(68,68,68);font-size:1.6em"><a name="TOC-Running-Bibledit-Xiphos" style="color:rgb(0,51,204);text-decoration:underline"/>Running Bibledit-BibleTime</h2>An icon will have been installed in Applications / Office / Bibledit-BibleTime. Click the icon to start the program.Alternatively it can be started from the terminal by typing "bibledit-bibletime".</div></body></html><name>site/extra/bibletime/installation.html</name></url><url><loc>https://sites.google.com/site/bibledit/extra/xiphos/installation</loc><priority>0.5</priority><dir>site/extra/xiphos</dir><html><head/><body><div id="menu"/><div id="content"><h1>Installation</h1>This page describes how to install Bibledit-Xiphos on your Linux computer.If your Linux distribution has a package for Bibledit-Xiphos, installing that is all what is needed.If there is no such package available, then installation should be done from source.To install from source, you need to have some packages installed on a standard Linux distribution.The packages needed are listed below. When installing these, their dependencies need to be installed as well.<ul><li>Ubuntu 10.04. In System / Administration / Synaptic Package Manager install these: libgtk2.0-dev curl libdbus-glib-1-dev libsoup2.4-dev</li></ul>Download package <a href="http://download.savannah.nongnu.org/releases/bibledit/source/xiphos" rel="nofollow">bibledit-xiphos-x.x.tar.gz</a> (x.x refers to a version number).<br/>Move it to the home directory<br/>In the terminal, to verify the package is there, type<code>ls</code><br/>To unpack bibledit-xiphos type<code>tar zxf bibledit-xiphos-x.x.tar.gz</code><br/>To enter the newly created directory, type<code>cd bibledit-xiphos-x.x</code><br/>To configure bibledit-xiphos, type<code>./configure</code><br/>Watch many messages, but no errors.<br/>To compile bibledit-xiphos, type<code>make</code><br/>Watch many messages, but no errors.<br/>To install it, type<code>sudo make install</code><br/>Watch many messages, but no errors.<br/><h2><a name="TOC-Running-Bibledit-Xiphos"/>Running Bibledit-Xiphos</h2>An icon will have been installed in Applications / Office / Bibledit-Xiphos. Click the icon to start the program.Alternatively it can be started from the terminal by typing "bibledit-xiphos".</div></body></html><name>site/extra/xiphos/installation.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data</loc><priority>0.5</priority><dir>site/gtk/4-management</dir><html><head/><body><div id="menu"/><div id="content"><h1>Data</h1><p>Your data is valuable. <br/></p><p>The directory where Bibledit normally stores all its data is</p>
 <pre>.bibledit</pre>
 
 <p>in the user's home directory, e.g.</p>
@@ -215,16 +215,16 @@ have gone into it. It deserves maximum safety.</p>
 
 <p>Bibledit offers a variety of mechanisms that deal with your data.</p>
 
-<p>First there is the mechanism of <a href="SELFREFERENCEgtk/4-management/data/backup.html">Backup</a>. A backup makes an exact copy of
+<p>First there is the mechanism of <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/backup">Backup</a>. A backup makes an exact copy of
 your data and stores it onto some medium.</p>
 
-<p>A <a href="SELFREFERENCEgtk/4-management/data/restore.html">Restore</a> is the opposite of a backup. It takes that backup that was made
+<p>A <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/restore">Restore</a> is the opposite of a backup. It takes that backup that was made
 earlier, and restores it into your data.</p>
 
-<p>Then, there's <a href="SELFREFERENCEgtk/4-management/data/import.html">Import</a>. It takes data in another format, and adds it to your
+<p>Then, there's <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/import">Import</a>. It takes data in another format, and adds it to your
 own data.</p>
 
-<p>Finally, there's <a href="SELFREFERENCEgtk/4-management/data/export.html">Export</a>. It is the opposite of an import. It takes your
+<p>Finally, there's <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/export">Export</a>. It is the opposite of an import. It takes your
 data and exports it into another format.</p>
 
 </div></body></html><name>site/gtk/4-management/data.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/about/gnu-free-documentation-license</loc><priority>0.5</priority><dir>site/gtk/about</dir><html><head/><body><div id="menu"/><div id="content"><h1>GNU Free Documentation License</h1><p>
@@ -1170,7 +1170,7 @@ libxml2-devel, git-core, libenchant-devel, libgtkhtml-3.14-devel,
 libcurl-devel, make, patch.</p>
 <p>Click Apply. Then click "yes."</p>
 <p>Updating the system takes a while to complete. Once all packages are installed, click Quit.</p>
-<p>To open a terminal, click "Menu", then "Tools" and then "Terminal."</p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install Bibledit from source</a><br/></p>
+<p>To open a terminal, click "Menu", then "Tools" and then "Terminal."</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install Bibledit from source</a><br/></p>
 
 <p><a href="http://www.nongnu.org/bibledit/run.html" rel="nofollow">Run Bibledit.</a></p>
 <p><a href="http://www.nongnu.org/bibledit/optional_components.html" rel="nofollow">Install the optional components.</a></p></div></body></html><name>site/gtk/installation/mandriva.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/olpc-xo</loc><priority>0.5</priority><dir>site/gtk/installation</dir><html><head/><body><div id="menu"/><div id="content"><h1>OLPC XO</h1>Installation instructions for getting Bibledit on the XO machine of the OLPC
@@ -1188,13 +1188,13 @@ specifications and information about how Bibledit works internally.</p>
 directory</p>
 <pre>/tmp/bibledit</pre>
 <h2><a name="TOC-Stylesheets-storage"/>Stylesheets storage</h2><h3><a name="stylesheetsstorage"/></h3>
-<p>The stylesheets, as templates, are xml files, stored in <a href="SELFREFERENCEgtk/4-management/data.html">&lt;data
+<p>The stylesheets, as templates, are xml files, stored in <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">&lt;data
 directory&gt;</a>/stylesheets. Same for imported and exported
 stylesheets, except that they are zipped.</p>
 
 <h2><a name="TOC-Data-storage"/>Data storage</h2><h3><a name="datastorage"/></h3>
 <p>Data, that means, the USFM files, are internally stored as flat files, one
-file per chapter. This gives faster access to the data. The files are stored in <a href="SELFREFERENCEgtk/4-management/data.html">&lt;data
+file per chapter. This gives faster access to the data. The files are stored in <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">&lt;data
 directory&gt;</a>/projects/&lt;project
 name&gt;, along with other files related to this project.</p>
 <h3><a name="gittasks"/></h3><h2><a name="TOC-Bibledit-Windows-Outpost"/>Bibledit Windows Outpost</h2>
@@ -1392,8 +1392,8 @@ be adjusted. Your cdrom location may be different too.</p>
 <p>A Resource can be opened through File / Resource / Open.</p>
 <p>A Resource that has the focus can be closed through File / Resource / Close.
 </p>
-<p>A new Resource can be created through <a href="SELFREFERENCEgtk/reference/menu/file/resource/new.html">File / Resource / New</a>.</p>
-<p>A Resource that has the focus can be edited through <a href="SELFREFERENCEgtk/reference/menu/file/resource/edit.html">File / Resource / Edit</a>.</p>
+<p>A new Resource can be created through <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/new">File / Resource / New</a>.</p>
+<p>A Resource that has the focus can be edited through <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/edit">File / Resource / Edit</a>.</p>
 <p>A Resource can be deleted through File / Resource / Delete.</p>
 <p>To let the Resource scroll together with Bibledit, tick the appropriate box
 in menu Preferences / Reference exchange.</p></div></body></html><name>site/gtk/resources/internal-resource.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/resources/t</loc><priority>0.5</priority><dir>site/gtk/resources</dir><html><head/><body><div id="menu"/><div id="content"><h1>Texts in USFM format</h1><h2><a name="TOC-Standard-Bible-texts-for-import"/>Standard Bible texts for import</h2><br/>
@@ -1417,7 +1417,7 @@ the wonderful SIL Gentium font for the text display font.</p>
 <p>Translators's Workplace provides Dictionaries, Commentaries and other useful
 reference works.</p>
 <p>Bibledit used to send references to it through the Bibledit Windows Outpost. Bibledit-Gtk no longer uses Bibledit Windows Outpost for reference exchange. It does it through Bibledit-Web. If somebody were to write a Windows program that would fetch the references from Bibledit-Web, then this program could send these on to Translator's Workplace.</p></div></body></html><name>site/gtk/resources/translator-s-workplace.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/3-editing</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Editing</h1><h3><a name="TOC-Project"/>Project</h3>
-<p>Before any editing can be done, create a new <a href="SELFREFERENCEgtk/tutorials/project.html">project</a> and add books to it. See also the <a href="SELFREFERENCEgtk/reference/menu/file/project/project-properties.html">Project Properties</a> dialog. Or of there
+<p>Before any editing can be done, create a new <a href="https://sites.google.com/site/bibledit/gtk/tutorials/project">project</a> and add books to it. See also the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/project-properties">Project Properties</a> dialog. Or of there
 is an existing project, open it.</p>
 <h3><a name="save"/>Save</h3>
 <p>There is no need to save the text, because Bibledit takes care of that.</p>
@@ -1457,16 +1457,16 @@ such a title.</p>
 usually in bold.</p>
 <pre>\v 1 In the beginning was the Word, and the Word was with God, and the Word was God.</pre>
 <p>This is the text of verse one.</p>
-<p>More information on <a href="SELFREFERENCEgtk/reference/usfm.html">USFM</a> is available.</p>
+<p>More information on <a href="https://sites.google.com/site/bibledit/gtk/reference/usfm">USFM</a> is available.</p>
 <h3><a name="data"/>Data</h3>
-<p>All project data is stored in the <a href="SELFREFERENCEgtk/4-management/data.html">data
+<p>All project data is stored in the <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">data
 directory.</a></p>
 <h3><a name="undo"/>Undo and Redo<br/></h3>
 <p>As long as you stay in the same chapter, you can undo and redo any changes made.
-See menu Edit, or use the <a href="SELFREFERENCEgtk/reference/keyboard-accelerators.html">keyboard accelerators</a>.<br/></p>
+See menu Edit, or use the <a href="https://sites.google.com/site/bibledit/gtk/reference/keyboard-accelerators">keyboard accelerators</a>.<br/></p>
 <h3><a name="insertingbiblenotes"/>Inserting Bible notes</h3>
 <p>All Bible notes can be inserted by choosing the appropriate style.</p>
-<p>A <a href="SELFREFERENCEgtk/reference/menu/menu-none/insert-footnote-endnote-crossreference.html">new window</a> will come up, where you can set what will be inserted.</p>
+<p>A <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-none/insert-footnote-endnote-crossreference">new window</a> will come up, where you can set what will be inserted.</p>
 <p>The numbering can be set to automatic, or no numbering at all, or a
 certain character.</p>
 <p>Further you can set whether to automatically insert the current reference
@@ -1494,7 +1494,7 @@ example change from automatic to manual numbering, and vice versa.</p>
 manually, following the USFM standard.</p>
 <p>At printing time, Bibledit looks for the picture file in various ways. If
 an absolute path is given, then it will look for the file there. If a
-relative path is given, it first looks in &lt;<a href="SELFREFERENCEgtk/4-management/data.html">data directory</a>&gt;/pictures, then among
+relative path is given, it first looks in &lt;<a href="https://sites.google.com/site/bibledit/gtk/4-management/data">data directory</a>&gt;/pictures, then among
 Bibledit's template files.</p>
 <p>According to the USFM standard, the picture size can be set to "col" or to
 "span". In addition to that, if the picture size has not been set, Bibledit
@@ -1710,16 +1710,16 @@ longer be marked as repeating.</p>
 <p>Some of the checks produce references in the reference area. The references
 so produced can be used to quickly go to the relevant places in the Bible. And
 the references can also be printed.</p></div></body></html><name>site/gtk/tutorials/checking.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Collaboration</h1><h3><a name="TOC-Setup"/>Setup</h3>
-<p>It is recommended to read the <a href="SELFREFERENCEgtk/tutorials/collaboration/1intro.html">brief introduction</a> to the system.</p>
+<p>It is recommended to read the <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/1intro">brief introduction</a> to the system.</p>
 <p>The central part to collaboration is the repository. The systems
-administrator will have <a href="SELFREFERENCEgtk/tutorials/collaboration/2reposetup.html">set the
-repository up</a>, will have <a href="SELFREFERENCEgtk/tutorials/collaboration/3reposinit.html">initialized it</a>, and
-issued its URL. If the repository is a secure one, <a href="SELFREFERENCEgtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup.html">set up the secure shell keys</a> to
+administrator will have <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup">set the
+repository up</a>, will have <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/3reposinit">initialized it</a>, and
+issued its URL. If the repository is a secure one, <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup">set up the secure shell keys</a> to
 access it.</p>
 <p>The repository is now ready for use. It remains to add users who make use of
 this repository and share their data through it.</p>
 <p>In this tutorial it will be user Jim. In Bibledit, Jim opens the project he
-wishes to share with others, or he creates a new project. He goes to menu <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/dialog-remote-repository.html">Preferences / Remote repository</a>. and sets everything
+wishes to share with others, or he creates a new project. He goes to menu <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/dialog-remote-repository">Preferences / Remote repository</a>. and sets everything
 up. Jim can now work on Bibledit as before, and his data will be automatically
 updated in the repository.</p>
 <h3><a name="collaborating"/>Collaborating</h3>
@@ -1737,7 +1737,7 @@ the team. This is not a desirable situation.</p>
 <p>Bibledit has a solution for this situation. You can use two mechanisms of
 Bibledit simultaneously.</p>
 <p>1. Collaboration through the network or the USB stick.</p>
-<p>2. <a href="SELFREFERENCEgtk/tutorials/merge-tutorial.html">Merging changes</a>. </p>
+<p>2. <a href="https://sites.google.com/site/bibledit/gtk/tutorials/merge-tutorial">Merging changes</a>. </p>
 <p>This is how to do it:</p>
 <p>1. The experienced person has project "master" that has the master copy of
 the Bible. Collaboration of the master project is switched off so that no
@@ -1839,9 +1839,9 @@ This will help the translator, so that he can choose the same rendering if the
 same keyterms occurs in that verse. To show the keyterms, choose menu View /
 Keyterms in verse.</p>
 
-<p>- New keyterms can be <a href="SELFREFERENCEgtk/4-management/data/import.html">imported</a>,
-existing keyterms can be <a href="SELFREFERENCEgtk/4-management/data/export.html">exported</a>, and
-collections of them can be <a href="SELFREFERENCEgtk/reference/menu/file/menu-keyterms.html">deleted</a>.</p>
+<p>- New keyterms can be <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/import">imported</a>,
+existing keyterms can be <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/export">exported</a>, and
+collections of them can be <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/menu-keyterms">deleted</a>.</p>
 
 <p>- Some references have the keyterms only implied by their context. That
 means that the key terms does not occur in the verse literally, but only by
@@ -1932,7 +1932,7 @@ chapter to be copied is the one that is visible in the editor.</p>
 <p>This copies everything from the master project to the edited project. Useful
 for ensuring that the edited project is the same as the master.</p></div></body></html><name>site/gtk/tutorials/merge-tutorial.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/navigation</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Navigation</h1><h3><a name="TOC-Internal"/>Internal</h3>
 
-<p>There are <a href="SELFREFERENCEgtk/reference/keyboard-accelerators.html">keyboard accelerators</a> for moving
+<p>There are <a href="https://sites.google.com/site/bibledit/gtk/reference/keyboard-accelerators">keyboard accelerators</a> for moving
 to the next or previous verse, chapter or book. There is also a toolbar with
 controls for the same purpose.</p>
 
@@ -1955,7 +1955,7 @@ Genesis 1:10. And so forth.</p>
 
 <p>Bibledit can remember the most recent verse per chapter, and the most recent
 chapter per book. This is supposed to assist with the navigation through the
-Bible and make it faster. It should be enabled <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/user-interface.html">in the User interface options</a>.</p>
+Bible and make it faster. It should be enabled <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/user-interface">in the User interface options</a>.</p>
 
 <p>To move the keyboard focus to a text editor press F5.</p>
 
@@ -1973,9 +1973,9 @@ Up/Down arrow key several time you can use the Alt-Left arrow key also several
 times. The Alt-Right arrow key works too. It goes in the history to the next in
 a whole series of moves.</p></div></body></html><name>site/gtk/tutorials/navigation.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/notes</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Notes</h1><p>Bibledit supports a variety of notes that can be made during
 editing a Bible.</p>
-<p>* <a href="SELFREFERENCEgtk/tutorials/notes/project-notes.html">Project notes</a>: Notes on the
+<p>* <a href="https://sites.google.com/site/bibledit/gtk/tutorials/notes/project-notes">Project notes</a>: Notes on the
 translation project.</p>
-<p>* <a href="SELFREFERENCEgtk/tutorials/notes/bible-notes.html">Bible notes</a>: Notes on the Bible
+<p>* <a href="https://sites.google.com/site/bibledit/gtk/tutorials/notes/bible-notes">Bible notes</a>: Notes on the Bible
 text, such as footnotes, endnotes and crossreferences.</p></div></body></html><name>site/gtk/tutorials/notes.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/planning</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Planning</h1><h3><a name="TOC-Introduction"/>Introduction</h3>
 <p>Bibledit can assist you in planning the work.</p>
 <p>There are three places in the Bibledit menu that are relevant to
@@ -1998,7 +1998,7 @@ and two days per chapter for the final draft.</p>
 <p>Once you have set up everything, the next thing to do is to update the
 progress of the work. This can be done through menu Edit / Planning. If this is
 chosen, a dialog, called "Planning Edit" shows.</p>
-<p>You can <a href="SELFREFERENCEgtk/reference/menu/edit/status.html">edit the project's status</a>. This
+<p>You can <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/edit/status">edit the project's status</a>. This
 means that you can tick off which bits of work have been completed.</p>
 <p>For making a planning for the shorter term, you can enter which task are
 supposed to be done.</p>
@@ -2020,10 +2020,10 @@ the line height, in percentages. Normally it is on 100%. Setting it to e.g.
 200% gives the line a double height. This would for example allow for text
 and notes to be written between the lines on worksheets.</p>
 <h2><a name="biblenotes"/>Bible notes</h2>
-<p>These are <a href="SELFREFERENCEgtk/tutorials/notes/bible-notes.html">footnotes, endnotes, and
+<p>These are <a href="https://sites.google.com/site/bibledit/gtk/tutorials/notes/bible-notes">footnotes, endnotes, and
 crossreferences.</a></p>
 <h2><a name="locationofpdffiles"/>Location of .pdf files</h2>
-<p>The .pdf file for printing a project usually is <a href="SELFREFERENCEgtk/4-management/data.html">temporary
+<p>The .pdf file for printing a project usually is <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">temporary
 directory</a>/document.pdf.</p>
 <h2><a name="columns"/>Columns</h2>
 <p>Normally text is laid out in two columns. The stylesheet editor allows the
@@ -2054,13 +2054,13 @@ normal circumstances the commands that are sent to that engine during
 printing remain invisible. But there is a setting to make these commands
 visible, to review or edit them. The setting is under menu Preferences /
 Printing, tab "Formatter".</p><p>Bibledit can also make use of the  <a href="http://scripts.sil.org/svn-view/sfscripture/TRUNK/ptx2pdf/" rel="nofollow">ptx2pdf</a> macros together with the XeTeX typesetter. <a href="http://confluence.ubs-icap.org/display/TTT/Home" rel="nofollow">More information is
-provided by UBS</a>. If you have printed something through the ptx2pdf macros, then the files that control this printout are available in /tmp/bibledit/xetex. If you run "xetex document.tex" within that directory, you can do the typesetting again. You can modify the control files there, so as to fine-tune it to what you need. To do complex non-Roman scripts like e.g., Farsi is, you will need the latest version of XeTeX. The one that gets install with the current version of Ubuntu (9.10) may not be good enough. You can pull the most up to date version from the SIL repo. (deb http://packages.sil.org/ubuntu karmic main). With XeTeX you can also print numerals in a different script. See the <a href="SELFREFERENCEgtk/tutorials/questions.html">Questions</a> for more information.<br/></p>
+provided by UBS</a>. If you have printed something through the ptx2pdf macros, then the files that control this printout are available in /tmp/bibledit/xetex. If you run "xetex document.tex" within that directory, you can do the typesetting again. You can modify the control files there, so as to fine-tune it to what you need. To do complex non-Roman scripts like e.g., Farsi is, you will need the latest version of XeTeX. The one that gets install with the current version of Ubuntu (9.10) may not be good enough. You can pull the most up to date version from the SIL repo. (deb http://packages.sil.org/ubuntu karmic main). With XeTeX you can also print numerals in a different script. See the <a href="https://sites.google.com/site/bibledit/gtk/tutorials/questions">Questions</a> for more information.<br/></p>
 <h2><a name="links"/>Links</h2>
 <p>See also:</p>
-<p><a href="SELFREFERENCEgtk/tutorials/questions.html">Questions</a></p>
-<p><a href="SELFREFERENCEgtk/reference/menu/file/print/portion.html">Print portion</a></p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/tutorials/questions">Questions</a></p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/print/portion">Print portion</a></p>
 </div></body></html><name>site/gtk/tutorials/printing.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/project</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Project</h1><h3><a name="TOC-Creating-a-new-project"/>Creating a new project</h3>
-<p>To create a new project, choose Menu / File / Project / New. The <a href="SELFREFERENCEgtk/reference/menu/file/project/project-properties.html">Project Properties</a> dialog opens.</p>
+<p>To create a new project, choose Menu / File / Project / New. The <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/project-properties">Project Properties</a> dialog opens.</p>
 <p>Type the name of the project, optionally make settings and add some books,
 and click OK.</p>
 
@@ -2070,7 +2070,7 @@ and click OK.</p>
 later through menu File - Project - Properties. The templates contain some
 markers, chapter and verse numbers, and in some cases a bit of example
 text.</p>
-<p>2. Add existing books by <a href="SELFREFERENCEgtk/4-management/data/import.html">importing</a> them into the
+<p>2. Add existing books by <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/import">importing</a> them into the
 project.</p>
 <h3><a name="deletingbooksfromtheproject"/>Deleting books from the project</h3>
 <p>In menu File - Project - Properties, books can be removed.</p>
@@ -2098,7 +2098,7 @@ it. Focus it, and then press the appropriate button to select the portion to
 be printed.</p>
 <p>Once printed it will open in a pdf viewer, and you can print the whole
 project or part of it from there.</p>
-<p>See also <a href="SELFREFERENCEgtk/tutorials/printing.html">Printing.</a></p>
+<p>See also <a href="https://sites.google.com/site/bibledit/gtk/tutorials/printing">Printing.</a></p>
 <h3><a name="howtocompareaproject"/>How to compare a project?</h3>
 <p>A whole project can be compared to another one. Any differences are
 highlighted.</p>
@@ -2147,14 +2147,14 @@ that is currently visible will be deleted.</p>
 dialog that comes up, choose a new chapter number from the list or enter it
 manually, and then press OK.</p>
 <h3><a name="howtomakebackupsofaproject"/>How to make backups of a project?</h3>
-<p>See <a href="SELFREFERENCEgtk/4-management/data/backup.html">Backup</a>.</p>
+<p>See <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/backup">Backup</a>.</p>
 <h3><a name="howtoviewthechangesmadeinaproject"/>How to view the changes made in a project?</h3>
-<p>See <a href="SELFREFERENCEgtk/reference/menu/file/project/changes.html">Changes</a>.</p></div></body></html><name>site/gtk/tutorials/project.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/questions</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Questions</h1><h4><a name="TOC-How-to-get-help-from-the-Bibledit-c"/>How to get help from the Bibledit community?</h4>
+<p>See <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/changes">Changes</a>.</p></div></body></html><name>site/gtk/tutorials/project.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/questions</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Questions</h1><h4><a name="TOC-How-to-get-help-from-the-Bibledit-c"/>How to get help from the Bibledit community?</h4>
 <p>* Read all of the online help.</p>
 <p>* Search the mailing list archives to see if
 your problem has been discussed before.</p>
 <p>* Subscribe to the bibledit-general mailing
-list, and ask the question there.</p><p>See the <a href="SELFREFERENCEcommunity.html">Community</a> information for contacts to consult.<br/></p>
+list, and ask the question there.</p><p>See the <a href="https://sites.google.com/site/bibledit/community">Community</a> information for contacts to consult.<br/></p>
 <h4><a name="howtoruntwoversionsofbibleditsimultanously"/>How to run two versions of Bibledit simultaneously?</h4>
 <p>As there are some drastic changes between versions, it would be helpful to
 have two different versions running of Bibledit.</p>
@@ -2203,7 +2203,7 @@ directory.</p>
 <p>That's it.</p>
 <p>Removing file .bibledit-datafolder-pointer will cause bibledit to use the
 standard datafolder again.</p>
-<p>See also information about the <a href="SELFREFERENCEgtk/4-management/data.html">data</a>.</p>
+<p>See also information about the <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">data</a>.</p>
 <p>Note: It is not recommended to store the data on a Windows partition. In
 such cases problems have been observed when special characters are used in the
 project name.</p>
@@ -2213,7 +2213,7 @@ books. This can be done in menu, Preferences, Books. Drag the books in the
 order you desire, and then click OK to save the settings.</p>
 <h4><a name="howtomoveaboutinbibleditusingthekeyboard"/>How to move about in Bibledit using the keyboard?</h4>
 <p>Bibledit has several windows to work in.</p>
-<p>There are keyboard <a href="SELFREFERENCEgtk/reference/keyboard-accelerators.html">accelerators</a> for moving
+<p>There are keyboard <a href="https://sites.google.com/site/bibledit/gtk/reference/keyboard-accelerators">accelerators</a> for moving
 between the windows.</p>
 <p>What works fine, is the</p><h2><a name="TOC-How-to-print-a-table-of-contents-"/>How to print a table of contents?</h2>
 <p>In the example below we're going to learn how to write a table of contents
@@ -2231,7 +2231,7 @@ Front Matter. The table of contents will be there.</p>
 <p>If the versification system or language you need does not come with
 Bibledit, then you can create your own language or versification system and add
 it to Bibledit yourself. To do that, take an existing versification textfile or
-language textfile from /usr/share/bibledit, edit it, and save it in the <a href="SELFREFERENCEgtk/4-management/data.html">data directory</a>, subdirectory templates.</p>
+language textfile from /usr/share/bibledit, edit it, and save it in the <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">data directory</a>, subdirectory templates.</p>
 <p>Notes.</p>
 <p>The versification files start with versification_, the mapping files with
 mapping_, and the language files with language_. It is important to keep that
@@ -2252,7 +2252,7 @@ in the project.<br/></p><h3><a name="TOC-Installation"/>Installation</h3>
 <p>I ran the command line instructions, but got errors - can you help me
 understand what I did wrong?</p>
 <pre>Microsoft Windows XP [Version 5.1.2600] (C) Copyright 1985-2001 Microsoft Corp.<br/>C:\Documents and Settings\User&gt; cd "C:\Documents and Settings\User\My Documents\My Downloads\scricheck-0.2.9"<br/>C:\Documents and Settings\User\My Documents\My Downloads\bibledit-1.6&gt;<br/>./configure '.' is not recognized as an internal or external command, operable program or batch file.</pre>
-<p>Reply: When installing it on Windows, install Cygwin first. See <a href="SELFREFERENCEgtk/installation/windows.html">Bibledit's Windows installation
+<p>Reply: When installing it on Windows, install Cygwin first. See <a href="https://sites.google.com/site/bibledit/gtk/installation/windows">Bibledit's Windows installation
 instructions</a>. Then execute all commands from within the Cygwin terminal.</p>
 <h4><a name="thereisnoacceptableccompilerinpath"/>There is no acceptable C compiler in $path</h4>
 <p>This happens when you did not install a C compiler.Installing Bibledit from
@@ -2302,7 +2302,7 @@ loose all your settings, but not your data, and Bibledit should start again
 after that.</p>
 <p>If you wish to have this problem solved, before deleting your configuration
 files, make a bug report, pack all your data in a gzipped tarball, and attach
-this file to the <a href="SELFREFERENCEcommunity/development.html">bug report</a>.</p>
+this file to the <a href="https://sites.google.com/site/bibledit/community/development">bug report</a>.</p>
 <p>To go to the home directory, type</p>
 <pre>cd</pre>
 <p>To pack everything in a tarball, type</p>
@@ -2312,7 +2312,7 @@ this file to the <a href="SELFREFERENCEcommunity/development.html">bug report</a
 <p>The resulting file is named bibledit.tar.gz and can be attached to the bug
 report.</p>
 <p>If the problem is not a segmentation fault, but it shows nothing at all,
-then the bibledit.log file might give a clue. It is in the <a href="SELFREFERENCEgtk/4-management/data.html">temporary directory</a>. View the
+then the bibledit.log file might give a clue. It is in the <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">temporary directory</a>. View the
 logfile to see what went wrong.</p>
 <p>If you try to start bibledit, and a warning comes up that says that Bibledit
 is already running, then it means that Bibledit already runs somehow. Try
@@ -2418,7 +2418,7 @@ be installed in that same bottle too.</p>
 start the Outpost manually through the CrossOver menu. It needs to be started
 each time before you start Bibledit.</p>
 <h4><a name="bibletimedoesnotscrollwithbibledit"/>BibleTime does not scroll with Bibledit</h4>
-<p>Read some more info on <a href="SELFREFERENCEsystem/errors/NodeNotFound?suri=wuid:gx:4e51bd63b0b3ac6.html" class="disabled">BibleTime</a>.</p>
+<p>Read some more info on <a href="https://sites.google.com/site/bibledit/system/errors/NodeNotFound?suri=wuid:gx:4e51bd63b0b3ac6" class="disabled">BibleTime</a>.</p>
 <p>View the Logfile in the Help menu to ensure that there is a line that says
 "BibleTime: Connected", and that there are no "BibleTime: " lines saying
 anything wrong. If everything is right, then scrolling should occur.</p>
@@ -2475,7 +2475,7 @@ seems right. So is this a problem of what Bibletime can display? (That might
 explain the lack of indenting, but it seems that the font should not
 change.)</p>
 <p>Answer: For any marker, not only the \mi one, the output Bibledit generates
-for the Sword compiler can be seen in the <a href="SELFREFERENCEgtk/4-management/data.html">temporary
+for the Sword compiler can be seen in the <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">temporary
 directory</a>/sword_osis_input.txt. In this case, that of the \mi marker, it
 can be seen that no indenting information is passed to BibleTime, nor any font
 information.</p>
@@ -2502,7 +2502,7 @@ window. It is a list of verses, e.g. Genesis 2:2.<br/></p>
 <h3><a name="howtoloadreferences"/>How to load references?</h3>
 <p>References are loaded in the references window.</p>
 <p>References can be loaded as a result of:</p>
-<p>* A <a href="SELFREFERENCEgtk/tutorials/searching.html">search</a> operation.</p>
+<p>* A <a href="https://sites.google.com/site/bibledit/gtk/tutorials/searching">search</a> operation.</p>
 <p>* Opening a list of references, through menu View / References, then click
 [actions] and then "Import a list of references".</p>
 <p>* Checking.</p>
@@ -2520,7 +2520,7 @@ already (except the last one), the next one.</p>
 <p>* Previous Reference (Shift+F6) Actives the first reference, or if one is
 active already (except the first one), the previous one.</p>
 <h3><a name="howtosavereferences"/>How to save references?</h3>
-<p>A list of references can be saved through menu, File / Export. See <a href="SELFREFERENCEgtk/4-management/data/export.html">information about exporting data</a>.</p>
+<p>A list of references can be saved through menu, File / Export. See <a href="https://sites.google.com/site/bibledit/gtk/4-management/data/export">information about exporting data</a>.</p>
 <h3><a name="howtohidereferences"/>How to hide references?</h3>
 <p>Any references that are at present in the references window can be hidden
 for the future. Click [actions], then "Hide ... from now on". It won't come
@@ -2548,7 +2548,7 @@ Bible.</p>
 <p>You can go back to any date in history, when the text was edited, and view
 how the text looked at that date, or even revert the text to that state.</p>
 
-<p>This can be done through menu <a href="SELFREFERENCEgtk/reference/menu/edit/revert.html">Edit /
+<p>This can be done through menu <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/edit/revert">Edit /
 Revert</a>.</p></div></body></html><name>site/gtk/tutorials/revert.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/searching</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Searching</h1><h2><a name="TOC-Introduction"/>Introduction</h2>
 <p>Through menu Edit the Find menu can be opened. The same can be done through
 the keyboard shortcut Ctrl+F.</p>
@@ -2571,7 +2571,7 @@ Basic Find:</p>
 <p>* Interprete * and ? as wildcards: on or off.</p>
 <p>* Match start of word: on or off.</p>
 <p>* Match end of word: on or off.</p>
-<p>* Select books: some books (all), for details see <a href="SELFREFERENCEgtk/reference/menu/file/print/portion.html">Select books.</a></p>
+<p>* Select books: some books (all), for details see <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/print/portion">Select books.</a></p>
 <p>* Which area of the text to search in.</p>
 <p>* What to do with the search results. This gives the choice how the results
 will show up in the references window, see Loading results below.</p>
@@ -2603,29 +2603,29 @@ option is repeated several times, several groups of characters can be
 highlighted in the text editor (as a result from the different searches) when a
 reference is activated in the references window.</p>
 <h2><a name="findandreplace"/>Find and Replace</h2>
-<p>Menu / Edit / Find and Replace (Ctrl+R) searches for and replaces text. It goes like this:</p><p>Press Ctrl+R to start the find &amp; replace. Enter the word to search for, and the word to replace it with. Optionally make settings like case sensitive, searching in current book and/ or chapter, or <a href="SELFREFERENCEgtk/reference/menu/file/print/portion.html">select the books</a> to operate on. Press Find to start the operation.<br/></p><p>A new dialog will open. It shows the verse to be affected, e.g. Esther 6:5. It also shows the original text as it is before changing. This is in the top half of the dialog. Below that it shows the suggested text as it would be after change. If you want to make changes to the suggested replacement, then you can edit this in the lower half of the dialog.</p><p>Once you are satisfied that the change is going to be the one that you want, then you can press button Yes. Press No if you don't want to change this verse. Or press Cancel to stop changing. If you press button All, it would change this verse and all following relevant verses. Be careful with this option. It could change instances that you may not have wanted to change.<br/></p><h2><a name="TOC-Finding-Project-Notes"/>Finding Project Notes</h2>
-<p>See <a href="SELFREFERENCEgtk/tutorials/notes/project-notes.html">Project Notes</a> for more information.</p></div></body></html><name>site/gtk/tutorials/searching.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/spelling</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Spelling</h1><p>Bibledit includes a spelling checker. If a word is misspelled, it will be
+<p>Menu / Edit / Find and Replace (Ctrl+R) searches for and replaces text. It goes like this:</p><p>Press Ctrl+R to start the find &amp; replace. Enter the word to search for, and the word to replace it with. Optionally make settings like case sensitive, searching in current book and/ or chapter, or <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/print/portion">select the books</a> to operate on. Press Find to start the operation.<br/></p><p>A new dialog will open. It shows the verse to be affected, e.g. Esther 6:5. It also shows the original text as it is before changing. This is in the top half of the dialog. Below that it shows the suggested text as it would be after change. If you want to make changes to the suggested replacement, then you can edit this in the lower half of the dialog.</p><p>Once you are satisfied that the change is going to be the one that you want, then you can press button Yes. Press No if you don't want to change this verse. Or press Cancel to stop changing. If you press button All, it would change this verse and all following relevant verses. Be careful with this option. It could change instances that you may not have wanted to change.<br/></p><h2><a name="TOC-Finding-Project-Notes"/>Finding Project Notes</h2>
+<p>See <a href="https://sites.google.com/site/bibledit/gtk/tutorials/notes/project-notes">Project Notes</a> for more information.</p></div></body></html><name>site/gtk/tutorials/searching.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/spelling</loc><priority>0.5</priority><dir>site/gtk/tutorials</dir><html><head/><body><div id="menu"/><div id="content"><h1>Spelling</h1><p>Bibledit includes a spelling checker. If a word is misspelled, it will be
 underlined in red. If the user clicks on that word with the right button of the
 mouse, a menu appears that allows the user to handle this word. </p>
 
 <p>This is basically all what it involves. A more detailed description follows
 below.</p>
 
-<p>Spelling checking is switched on or off in the <a href="SELFREFERENCEgtk/reference/menu/file/project/project-properties.html">Project properties dialog</a>. If "Check
+<p>Spelling checking is switched on or off in the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/project-properties">Project properties dialog</a>. If "Check
 spelling" is ticked, then the spell checker is switched on, else it is off.
 When switching the spelling checker on, and if there are no dictionaries added
 yet to use, then naturally all words are considered misspelled.</p>
 
 <p>Adding dictionaries is done in the same dialog. Button "Dictionaries" gives
 access to all available dictionaries on the system. If that button is clicked,
-then a dialog "Dictionaries" opens. <a href="SELFREFERENCEgtk/reference/menu/file/project/project-properties/dictionaries.html">More help
+then a dialog "Dictionaries" opens. <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/project-properties/dictionaries">More help
 is available about this</a>.</p>
 
 <p>If a word is misspelled, and the user clicks on it with the right button of
 the mouse, then a menu with Spelling suggestions opens. These give possible
 corrections for the word. If one such suggestion is chosen, then the word will
 be replaced with that suggestions. It also is possible to add the misspelled
-word to the dictionary. It will be added to the first editable <a href="SELFREFERENCEgtk/reference/menu/file/project/project-properties/dictionaries.html">dictionary in the list of dictionaries</a>.
+word to the dictionary. It will be added to the first editable <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/project-properties/dictionaries">dictionary in the list of dictionaries</a>.
 Another option is to Ignore all. This means that for this session the
 misspelled word is ignored.</p>
 
@@ -2645,7 +2645,7 @@ Spelling / Bulk.</p></div></body></html><name>site/gtk/tutorials/spelling.html</
 <p>Styles mark the parts of discourse that a block of text belongs to, and
 secondly determine how the text will look when printed.</p>
 <p>Styles are given in the text with markers, or more fully Unified Standard
-Format Markers, shortened <a href="SELFREFERENCEgtk/reference/usfm.html">USFM.</a></p>
+Format Markers, shortened <a href="https://sites.google.com/site/bibledit/gtk/reference/usfm">USFM.</a></p>
 <p>Styles are bundled in a stylesheet.</p>
 <p>Each project has one stylesheet attached.</p>
 <h4><a name="howdoiaccessthestylefunctions"/>How do I access the style functions?</h4>
@@ -2665,8 +2665,8 @@ category that starts with these letters.</p>
 selected, and such a style is chosen, the selected word will be put in that
 style.</p>
 <h4><a name="whatarecategories"/>What are categories?</h4>
-<p>Styles have been divided into categories for better overview. See <a href="SELFREFERENCEgtk/reference/usfm.html">USFM.</a></p>
-<p>The categories can be <a href="SELFREFERENCEgtk/reference/keyboard-accelerators.html">expanded or
+<p>Styles have been divided into categories for better overview. See <a href="https://sites.google.com/site/bibledit/gtk/reference/usfm">USFM.</a></p>
+<p>The categories can be <a href="https://sites.google.com/site/bibledit/gtk/reference/keyboard-accelerators">expanded or
 collapsed.</a></p>
 <p>There is a category called "Other styles". Any styles Bibledit does not
 know where to put go into this category. If somebody defines his own styles,
@@ -2717,7 +2717,7 @@ category, it will be removed from there also.</p>
 <p>A stylesheet can be opened through function Stylesheet - Switch.</p>
 <p>The new stylesheet will be attached to the project that is open.</p>
 <h4><a name="howdoicreateanewstylesheet"/>How do I create a new stylesheet?</h4>
-<p>Choose function Stylesheet - New. <a href="SELFREFERENCEgtk/reference/menu/file/styles/stylesheet.html">More information is available</a>.</p>
+<p>Choose function Stylesheet - New. <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/styles/stylesheet">More information is available</a>.</p>
 <h4><a name="howdoirenameastylesheet"/>How do I rename a stylesheet?</h4>
 <p>Choose function Stylesheet - Rename.</p>
 <h4><a name="howcanideleteastylesheet"/>How can I delete a stylesheet?</h4>
@@ -2744,7 +2744,7 @@ the right extension to it, and then saves the file, for example, as
 <p>The first thing to do when working with styles is to focus the Stylesheet
 window.</p>
 <p>If the categories are still collapsed you can expand them. Focus the
-category and <a href="SELFREFERENCEgtk/reference/keyboard-accelerators.html">expand</a> it.</p>
+category and <a href="https://sites.google.com/site/bibledit/gtk/reference/keyboard-accelerators">expand</a> it.</p>
 <p>Then you can use the up or down arrows to move the cursor to a particular
 style, or click on a style.</p>
 <p>* Then choose menu File / Styles, and then one of the functions.</p>
@@ -2768,8 +2768,8 @@ menu, choose function Stylesheets and choose one of the functions in that
 submenu.</p></div></body></html><name>site/gtk/tutorials/styles.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data/backup</loc><priority>0.5</priority><dir>site/gtk/4-management/data</dir><html><head/><body><div id="menu"/><div id="content"><h1>Backup</h1><p>To keep your data safe, it is important to make regular backups of your
 work. </p>
 
-<p>To make it easy to create a backup, Bibledit provides the <a href="javascript:void(0);">Backup Assistant</a>.</p></div></body></html><name>site/gtk/4-management/data/backup.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data/export</loc><priority>0.5</priority><dir>site/gtk/4-management/data</dir><html><head/><body><div id="menu"/><div id="content"><h1>Export</h1>Bibledit can export its data into other formats. The <a href="SELFREFERENCEgtk/reference/menu/file/export-assistant.html">Export Assistant</a> helps with this process.</div></body></html><name>site/gtk/4-management/data/export.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data/import</loc><priority>0.5</priority><dir>site/gtk/4-management/data</dir><html><head/><body><div id="menu"/><div id="content"><h1>Import</h1>Importing your data is an easy way of getting data into Bibledit. The <a href="SELFREFERENCEgtk/reference/menu/file/import-assistant.html">Import Assistant</a> helps you with this.</div></body></html><name>site/gtk/4-management/data/import.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data/restore</loc><priority>0.5</priority><dir>site/gtk/4-management/data</dir><html><head/><body><div id="menu"/><div id="content"><h1>Restore</h1>To keep your data safe, it is important to make regular backups of your
-work. These backups can be restored if there is a need for it. The <a href="SELFREFERENCEgtk/reference/menu/file/restore.html">Restore Assistant</a> helps you with it.</div></body></html><name>site/gtk/4-management/data/restore.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-4-0-on-debian-5-03</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.0 on Debian 5.03</h1><h2><a name="TOC-Debian-5.03-Lenny-"/>Debian 5.03 (Lenny)</h2>
+<p>To make it easy to create a backup, Bibledit provides the <a href="javascript:void(0);">Backup Assistant</a>.</p></div></body></html><name>site/gtk/4-management/data/backup.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data/export</loc><priority>0.5</priority><dir>site/gtk/4-management/data</dir><html><head/><body><div id="menu"/><div id="content"><h1>Export</h1>Bibledit can export its data into other formats. The <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/export-assistant">Export Assistant</a> helps with this process.</div></body></html><name>site/gtk/4-management/data/export.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data/import</loc><priority>0.5</priority><dir>site/gtk/4-management/data</dir><html><head/><body><div id="menu"/><div id="content"><h1>Import</h1>Importing your data is an easy way of getting data into Bibledit. The <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/import-assistant">Import Assistant</a> helps you with this.</div></body></html><name>site/gtk/4-management/data/import.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/4-management/data/restore</loc><priority>0.5</priority><dir>site/gtk/4-management/data</dir><html><head/><body><div id="menu"/><div id="content"><h1>Restore</h1>To keep your data safe, it is important to make regular backups of your
+work. These backups can be restored if there is a need for it. The <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/restore">Restore Assistant</a> helps you with it.</div></body></html><name>site/gtk/4-management/data/restore.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-4-0-on-debian-5-03</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.0 on Debian 5.03</h1><h2><a name="TOC-Debian-5.03-Lenny-"/>Debian 5.03 (Lenny)</h2>
 <p>The instructions assume that Debian was installed with all defaults,
 including the graphical Desktop.</p>
 <p>Run Desktop - Administration - Synaptic Package Manager.</p>
@@ -2780,13 +2780,13 @@ libdbus-glib-1-dev</p>
 <p>Apply the changes.</p>
 <p>When through, open a terminal by clicking Applications, Accessories,
 Terminal.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/debian/bibledit-4-0-on-debian-5-03.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-4-1-on-debian-5-0</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Debian 5.03 (Lenny)</h1>The instructions assume that Debian was installed with all defaults, including the graphical Desktop.<br/>Run Desktop - Administration - Synaptic Package Manager.<br/>Install the following packages:<br/>g++ libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev libdbus-glib-1-dev curl apache2 php5 libsoup2.4-dev<br/>Apply the changes.<br/>When through, open a terminal by clicking Applications, Accessories,
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/debian/bibledit-4-0-on-debian-5-03.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-4-1-on-debian-5-0</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Debian 5.03 (Lenny)</h1>The instructions assume that Debian was installed with all defaults, including the graphical Desktop.<br/>Run Desktop - Administration - Synaptic Package Manager.<br/>Install the following packages:<br/>g++ libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev libdbus-glib-1-dev curl apache2 php5 libsoup2.4-dev<br/>Apply the changes.<br/>When through, open a terminal by clicking Applications, Accessories,
 Terminal.
-<p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/debian/bibledit-4-1-on-debian-5-0.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-4-3-on-debian-7-0</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.3 on Debian 7.0</h1><p>It is assumed that a standard installation of the operating system is used.</p><p>Connect to the installation media.</p><p>Start the Synaptic Package Manager through menu System / Administration.</p><p>In the Package Manager, install the following list of packages, with their additional required changes:</p><p>libgtk2.0-dev git-core rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkitgtk-dev texlive-xetex </p><p>When through, open a terminal by clicking Applications, Accessories, Terminal.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/debian/bibledit-4-3-on-debian-7-0.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-packages-on-debian</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit packages on Debian</h1><p>Bibledit can be installed from a Debian .deb package.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/debian/bibledit-4-1-on-debian-5-0.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-4-3-on-debian-7-0</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.3 on Debian 7.0</h1><p>It is assumed that a standard installation of the operating system is used.</p><p>Connect to the installation media.</p><p>Start the Synaptic Package Manager through menu System / Administration.</p><p>In the Package Manager, install the following list of packages, with their additional required changes:</p><p>libgtk2.0-dev git rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkitgtk-dev texlive-xetex </p><p>When through, open a terminal by clicking Applications, Accessories, Terminal.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/debian/bibledit-4-3-on-debian-7-0.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/debian/bibledit-packages-on-debian</loc><priority>0.5</priority><dir>site/gtk/installation/debian</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit packages on Debian</h1><p>Bibledit can be installed from a Debian .deb package.</p>
 <h3><a name="installingthebibleditdebianpackage"/>Installing the Bibledit Debian package</h3>
 <ul><li>Start the Synaptic Package Manager through menu System / Administration.</li><li>In the Package Manager, install package <tt>bibledit</tt>.</li></ul>
 <p>That should be all that is needed.</p>
@@ -2839,18 +2839,18 @@ libxml2-devel, git, enchant-devel, gtkhtml3-devel, rcs, patch,
 gtksourceview2-devel, webkitgtk-devel, dbus-glib-devel.</p>
 <p>After completion, close the window.</p>
 <p>Open a terminal through Applications, System Tools, Terminal.</p><p>
-</p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/fedora/bibledit-4-0-on-fedora-12.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/fedora/bibledit-4-1-on-fedora-12</loc><priority>0.5</priority><dir>site/gtk/installation/fedora</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Fedora 12</h1><p>These instructions assume a standard installation of the operating
+</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/fedora/bibledit-4-0-on-fedora-12.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/fedora/bibledit-4-1-on-fedora-12</loc><priority>0.5</priority><dir>site/gtk/installation/fedora</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Fedora 12</h1><p>These instructions assume a standard installation of the operating
 system.</p>
-<p>Make the installation medium available to the system.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/install-fedora-packages.html">Install the following list of packages</a>: gcc-c++ gtk2-devel sqlite-devel
+<p>Make the installation medium available to the system.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-fedora-packages">Install the following list of packages</a>: gcc-c++ gtk2-devel sqlite-devel
 libxml2-devel git enchant-devel gtkhtml3-devel rcs patch
 gtksourceview2-devel webkitgtk-devel dbus-glib-devel libsoup-devel php httpd<br/></p>
 
 <p>Open a terminal through Applications, System Tools, Terminal.</p><p>Become root. To do that, type</p><p><code>su</code></p><p>and provide the password.</p><p>Then set up the Apache server. To do that, type</p><pre>chkconfig httpd on<br/>service httpd start<br/></pre><p>
-</p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/fedora/bibledit-4-1-on-fedora-12.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/macintosh/version-4-0-on-mac-osx-10-4-intel</loc><priority>0.5</priority><dir>site/gtk/installation/macintosh</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.0 on Mac OSX 10.4 Intel</h1><p>These instructions assume Bibledit is being installed on a standard
+</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/fedora/bibledit-4-1-on-fedora-12.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/macintosh/version-4-0-on-mac-osx-10-4-intel</loc><priority>0.5</priority><dir>site/gtk/installation/macintosh</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.0 on Mac OSX 10.4 Intel</h1><p>These instructions assume Bibledit is being installed on a standard
 installation of OSX.</p>
 <h3><a name="installx11"/>Install X11</h3>
 <p>X11 is on the installation DVD that came
@@ -3070,8 +3070,7 @@ problem persists, help is at <a href="http://www.macports.org/" rel="nofollow">w
 <pre>sudo launchctl load -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist</pre>
 <p>After these commands have been given it is necessary to reboot the
 computer.</p>
-<h2><a name="bibledit"/>Bibledit</h2>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install Bibledit</a>.</p><h2><a name="TOC-Run"/>Run</h2>
+<h2><a name="bibledit"/>Bibledit</h2>The easiest way is to just install it with MacPorts: 'port install bibledit'.Else you may install it from source, see <a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install Bibledit</a>.<h2><a name="TOC-Run"/>Run</h2>
 <p>To run Bibledit, do the following every time you use it:</p>
 <p>Open an X11 terminal. Be sure this is not a normal Terminal, but the X11
 terminal.</p>
@@ -3155,15 +3154,15 @@ through.</p>
 "gtksourceview-devel", "libwebkit-devel", "dbus-1-glib-devel", "make",
 "patch"</p>
 <p>Open a terminal by clicking the Suse icon, then Terminal Program.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/opensuse/bibledit-4-0-on-opensuse-11-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/opensuse/bibledit-4-1-on-opensuse-11-2</loc><priority>0.5</priority><dir>site/gtk/installation/opensuse</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on openSUSE 11.2</h1><p>Bibledit installation on standard openSUSE with KDE desktop.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/opensuse/bibledit-4-0-on-opensuse-11-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/opensuse/bibledit-4-1-on-opensuse-11-2</loc><priority>0.5</priority><dir>site/gtk/installation/opensuse</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on openSUSE 11.2</h1><p>Bibledit installation on standard openSUSE with KDE desktop.</p>
 <p>Insert the installation media.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-opensuse-packages.html">Install the following list of packages</a>: gtk2-devel sqlite3-devel gcc-c++ libxml2-devel git-core enchant-devel gtkhtml2-devel rcs gtksourceview-devel libwebkit-devel dbus-1-glib-devel make patch libsoup-devel apache2 curl php<br/></p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-opensuse-packages">Install the following list of packages</a>: gtk2-devel sqlite3-devel gcc-c++ libxml2-devel git-core enchant-devel gtkhtml2-devel rcs gtksourceview-devel libwebkit-devel dbus-1-glib-devel make patch libsoup-devel apache2 curl php<br/></p>
 <p>Open a terminal by clicking the Suse icon, then Terminal Program.</p><p>Start Apache server. To do that, type the following in a terminal:</p><p><code>su</code></p><p>provide the password</p><p><code>rcapache2 start</code><br/><code>chkconfig -a apache2 </code><br/></p><p><code>exit</code><br/></p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/opensuse/bibledit-4-1-on-opensuse-11-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source</loc><priority>0.5</priority><dir>site/gtk/installation/technicalities</dir><html><head/><body><div id="menu"/><div id="content"><h1>Install bibledit from source</h1><p>Download package <a href="http://download.savannah.nongnu.org/releases/bibledit/source/gtk" rel="nofollow">bibledit-gtk-x.x.tar.gz</a>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/opensuse/bibledit-4-1-on-opensuse-11-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source</loc><priority>0.5</priority><dir>site/gtk/installation/technicalities</dir><html><head/><body><div id="menu"/><div id="content"><h1>Install bibledit from source</h1><p>Download package <a href="http://download.savannah.nongnu.org/releases/bibledit/source/gtk" rel="nofollow">bibledit-gtk-x.x.tar.gz</a>
 (x.x refers to the version number).</p>
 
 <p>Move it to the home directory</p>
@@ -3180,7 +3179,7 @@ through.</p>
 <p>To configure bibledit, type</p>
 <pre>./configure</pre>
 
-<p>Watch many messages, <a href="SELFREFERENCEgtk/installation/technicalities/configure-source.html">but no errors</a>.</p>
+<p>Watch many messages, <a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/configure-source">but no errors</a>.</p>
 
 <p>To compile bibledit, type</p>
 <pre>make</pre>
@@ -3253,7 +3252,7 @@ but as updates become available this may change.</p>
 Bibledit-Gtk. Click it to start bibledit.</p>
 
 <p>If there is no such menu entry, to start bibledit, in the terminal type</p>
-<pre>bibledit-gtk</pre></div></body></html><name>site/gtk/installation/technicalities/run-bibledit.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/41ubuntu1004</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Ubuntu 10.04</h1><p>It is assumed that a standard installation of the operating system is used.</p><p>Connect to the installation media.</p><p>Start the Synaptic Package Manager through menu System / Administration.</p><p>In the Package Manager, install the following list of packages, with their additional required changes:</p><p>libgtk2.0-dev git-core rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkit-dev texlive-xetex </p><p>When through, open a terminal by clicking Applications, Accessories, Terminal.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html" style="color:rgb(0, 51, 204);text-decoration:underline">Install bibledit</a>.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html" style="color:rgb(0, 51, 204);text-decoration:underline">Run bibledit</a>.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html" style="color:rgb(0, 51, 204);text-decoration:underline">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/41ubuntu1004.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/41ubuntu1010</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Ubuntu 10.10</h1><p>It is assumed that a standard installation of the operating system is used.</p><p>Connect to the installation media.</p><p>Start the Synaptic Package Manager through menu System / Administration.</p><p>In the Package Manager, install the following list of packages, with their additional required changes:</p><p>libgtk2.0-dev git-core rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkit-dev texlive-xetex </p><p>When through, open a terminal by clicking Applications, Accessories, Terminal.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html" style="color:rgb(0, 51, 204);text-decoration:underline">Install bibledit</a>.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html" style="color:rgb(0, 51, 204);text-decoration:underline">Run bibledit</a>.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html" style="color:rgb(0, 51, 204);text-decoration:underline">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/41ubuntu1010.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/bibledit-3-2-on-kubuntu-8-04</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 3.2 on Kubuntu 8.04</h1><h2><a name="TOC-Kubuntu-8.04-Hardy-Heron-"/>Kubuntu 8.04 (Hardy Heron)</h2>
+<pre>bibledit-gtk</pre></div></body></html><name>site/gtk/installation/technicalities/run-bibledit.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/41ubuntu1004</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Ubuntu 10.04</h1><p>It is assumed that a standard installation of the operating system is used.</p><p>Connect to the installation media.</p><p>Start the Synaptic Package Manager through menu System / Administration.</p><p>In the Package Manager, install the following list of packages, with their additional required changes:</p><p>libgtk2.0-dev git-core rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkit-dev texlive-xetex </p><p>When through, open a terminal by clicking Applications, Accessories, Terminal.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source" style="color:rgb(0,51,204);text-decoration:underline">Install bibledit</a>.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit" style="color:rgb(0,51,204);text-decoration:underline">Run bibledit</a>.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components" style="color:rgb(0,51,204);text-decoration:underline">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/41ubuntu1004.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/41ubuntu1010</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Ubuntu 10.10</h1><p>It is assumed that a standard installation of the operating system is used.</p><p>Connect to the installation media.</p><p>Start the Synaptic Package Manager through menu System / Administration.</p><p>In the Package Manager, install the following list of packages, with their additional required changes:</p><p>libgtk2.0-dev git rcs curl libsqlite3-dev libenchant-dev libgtkhtml3.14-dev libgtksourceview2.0-dev libwebkit-dev texlive-xetex </p><p>When through, open a terminal by clicking Applications, Accessories, Terminal.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source" style="color:rgb(0,51,204);text-decoration:underline">Install bibledit</a>.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit" style="color:rgb(0,51,204);text-decoration:underline">Run bibledit</a>.</p><p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components" style="color:rgb(0,51,204);text-decoration:underline">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/41ubuntu1010.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/bibledit-3-2-on-kubuntu-8-04</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 3.2 on Kubuntu 8.04</h1><h2><a name="TOC-Kubuntu-8.04-Hardy-Heron-"/>Kubuntu 8.04 (Hardy Heron)</h2>
 
 <p>It is assumed that a standard installation of the operating system is
 used.</p>
@@ -3292,58 +3291,9 @@ the internet and take a while to update the system.</p>
 
 <p>Open a terminal by clicking the Start button, System, Konsole.</p>
 
-<p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/bibledit-3-2-on-kubuntu-8-04.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/bibledit-3-9-on-ubuntu-9-04</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 3.9 on Ubuntu 9.04</h1><h2><a name="TOC-Ubuntu-9.04-Jaunty-Jackalope"/>Ubuntu 9.04 Jaunty Jackalope</h2>
-
-<p>It is assumed that a standard installation of the operating system is
-used.</p>
-
-<p>Connect to the installation media.</p>
-
-<p>Start the Synaptic Package Manager through menu System / Administration.</p>
-
-<p>In the Package Manager, install the following list of packages, with their
-additional required changes:</p>
-
-<p>build-essential libgtk2.0-dev libsqlite3-dev libxml2-dev git-core
-libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev
-libdbus-glib-1-dev chmsee</p>
-
-<p>When through, open a terminal by clicking Applications, Accessories,
-Terminal.<br/></p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/bibledit-3-9-on-ubuntu-9-04.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/bibledit-4-0-on-ubuntu-9-10</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.0 on Ubuntu 9.10</h1><h2><a name="TOC-Ubuntu-9.10-Karmic-Koala"/>Ubuntu 9.10 Karmic Koala</h2>
-<p>It is assumed that a standard installation of the operating system is
-used.</p>
-<p>Connect to the installation media.</p>
-<p>Start the Synaptic Package Manager through menu System / Administration.</p>
-<p>In the Package Manager, install the following list of packages, with their
-additional required changes:</p>
-<p>build-essential libgtk2.0-dev libsqlite3-dev libxml2-dev git-core
-libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev
-libdbus-glib-1-dev</p>
-<p>When through, open a terminal by clicking Applications, Accessories,
-Terminal.</p><br/><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/bibledit-4-0-on-ubuntu-9-10.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/bibledit-4-1-on-ubuntu-9-10</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bibledit 4.1 on Ubuntu 9.10</h1><p>It is assumed that a standard installation of the operating system is
-used.</p>
-
-<p>Connect to the installation media.</p>
-
-<p>Start the Synaptic Package Manager through menu System / Administration.</p>
-
-<p>In the Package Manager, install the following list of packages, with their
-additional required changes:</p>
-
-<p>build-essential libgtk2.0-dev libsqlite3-dev libxml2-dev git-core
-libenchant-dev libgtkhtml3.14-dev rcs libgtksourceview2.0-dev libwebkit-dev
-libdbus-glib-1-dev curl apache2 php5 libsoup2.4-dev texlive-xetex mysql-server php-gettext php-imap</p><p>Installation of mysql-server asks for the password for the root database administrator. If you would enter 'root' for that, then Bibledit would work with that out of the box.</p>
-
-<p>When through, open a terminal by clicking Applications, Accessories,
-Terminal.</p><p><a href="SELFREFERENCEgtk/installation/technicalities/compile-from-source.html">Install bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/run-bibledit.html">Run bibledit</a>.</p>
-<p><a href="SELFREFERENCEgtk/installation/technicalities/install-optional-components.html">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/bibledit-4-1-on-ubuntu-9-10.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/install-bibledit-on-ubuntu-from-a-package</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Install Bibledit on Ubuntu from a package</h1><p>Bibledit can be installed from a package.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.</p>
+<p><a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/install-optional-components">Install the optional components</a>.</p></div></body></html><name>site/gtk/installation/ubuntu/bibledit-3-2-on-kubuntu-8-04.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/installation/ubuntu/install-bibledit-on-ubuntu-from-a-package</loc><priority>0.5</priority><dir>site/gtk/installation/ubuntu</dir><html><head/><body><div id="menu"/><div id="content"><h1>Install Bibledit on Ubuntu from a package</h1><p>Bibledit can be installed from a package.</p>
 
 <p>Connect to the installation media.</p>
 
@@ -3509,10 +3459,10 @@ write to it. For public networks such as the internet a <span style="font-weight
 recommended. This type of repository is locked down. Only those who have the
 keys to such a repository can write to it.</p></div></body></html><name>site/gtk/tutorials/collaboration/1intro.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup</loc><priority>0.5</priority><dir>site/gtk/tutorials/collaboration</dir><html><head/><body><div id="menu"/><div id="content"><h1>2. Repository setup</h1><p>The repository is the heart or the central part of the collaboration system.
 In this tutorial you will learn how to set up a repository.</p>
-<p>There are several types of repositories. See the <a href="SELFREFERENCEgtk/tutorials/collaboration/1intro.html">introduction</a>. Each of them will be
+<p>There are several types of repositories. See the <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/1intro">introduction</a>. Each of them will be
 described separately in this tutorial.</p>
-<p>Depending on what system you use, you can either <a href="SELFREFERENCEgtk/tutorials/collaboration/2reposetup/usb-flash-drive-repository-setup.html">set up a USB flash drive</a>, or <a href="SELFREFERENCEgtk/tutorials/collaboration/2reposetup/open-network-repository-setup.html">set up an open network
-repository</a>, or a <a href="SELFREFERENCEgtk/tutorials/collaboration/2reposetup/secure-network-repository-setup.html">secure network
+<p>Depending on what system you use, you can either <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/usb-flash-drive-repository-setup">set up a USB flash drive</a>, or <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/open-network-repository-setup">set up an open network
+repository</a>, or a <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/secure-network-repository-setup">secure network
 repository</a>.</p></div></body></html><name>site/gtk/tutorials/collaboration/2reposetup.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/3reposinit</loc><priority>0.5</priority><dir>site/gtk/tutorials/collaboration</dir><html><head/><body><div id="menu"/><div id="content"><h1>3. Repository initialization</h1><p>Note: Newer versions of git, and Bibledit-Gtk version 4.2 and higher, no longer need what is written below.</p><p>In this tutorial you are going to see whether the repository can be cloned,
 and if not, then to put some data into it, then try to clone it again to see
 how it now goes.</p>
@@ -3520,7 +3470,7 @@ how it now goes.</p>
 <p>Open a terminal, and issue the commands as given.</p>
 <pre>cd</pre>
 
-<p>In the tutorial about <a href="SELFREFERENCEgtk/tutorials/collaboration/2reposetup.html">setting
+<p>In the tutorial about <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup">setting
 up the repository</a>, the systems administrator had given the URL of the
 repository that was created. In the current tutorial we assume a URL of
 "file:///media/usbstick/repository". Of course others are possible, depending
@@ -3554,7 +3504,7 @@ repository. No errors should occur. Example:</p><blockquote style="margin:0 0 0 
 information, and show that object were received. It is does this, and there are
 no errors, then everything is fine. Your repository has been initialized. Example:</p><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><p><span style="font-style:normal">Initialized empty Git repository in /home/oreo/tsederhana/.git/<br/>remote: Counting objects: 3, done.<br/>remote: Total 3 (delta 0), reused 0 (delta 0)<br/>Receiving objects: 100% (3/3), done.</span></p></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote></div></body></html><name>site/gtk/tutorials/collaboration/3reposinit.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/4conflictres</loc><priority>0.5</priority><dir>site/gtk/tutorials/collaboration</dir><html><head/><body><div id="menu"/><div id="content"><h1>4. Conflict resolution</h1><h2><a name="TOC-Introduction"/>Introduction</h2>Under normal circumstances, the users collaborate in one project. They send and receive their changes regularly. At times it may occur that two users make changes in the same chapter of text, or in the same project notes. After doing Send/Receive, a conflict may arise. Bibledit-Gtk does not know which of the two edits to take, either the edit of the first user or the edit of the second user. This is called a conflict. For Bible text, Bibledit-Gtk tries to resolve this conflict automatically, keeping one edit, and throwing away the other. But for project notes, this does not always work. Manual intervention is required to resolve this conflict.The rest of this page describes how to notice that a conflict has occurred in a project note, and how to manually resolve it.<h2><a name="TOC-Symptoms"/>Symptoms</h2>The first symptom of a conflict is that the users get the impression that the collaboration system has stopped to work properly. The users make their edits. But these edits and changes do not propagate to the other users.If a conflict is suspected, then it is good to find out about it, whether this is indeed the case. A simple way of finding out is this:1. Shut down Bibledit, and start it again. This clears the system log.2. Send and receive the project notes. Do this through menu File / Project notes / Send-Receive.3. View the system log to see whether a conflict has occurred. Do this through menu Help / System log.If there is a conflict, then the log shows something along those lines:<code>Auto-merging 78294313</code><code>CONFLICT (content): Merge conflict in 78294313</code><code>Automatic merge failed; fix conflicts and then commit the result.</code>The log shows that there is a conflict. Notice the number: 78294313. This is the number of the project note that has the conflict.<h2><a name="TOC-Resolution"/>Resolution</h2>There are several ways to resolve the conflict. A simple one is described below. It just throws away the edits that one user made, and takes the edits that the other users made. In other words, it takes the version that is already on the server, in the remote repository.The user who has the conflict does the following:Opens a terminal, and types the following series of commands, one by one, and presses Enter after each command:<code>cd</code><code>cd .bibledit</code><code>cd notes</code><code>cd data</code><code>git checkout --theirs 78294313</code>Notice that the number of the note that has the conflict is 78294313. This only works in this example. Your note number will be different. The note number was found above.Close the terminal.Start doing the sending and receiving in Bibledit-Gtk as usual. Collaboration should work again. You may view the system log, as described above, to ascertain that everything works well again.</div></body></html><name>site/gtk/tutorials/collaboration/4conflictres.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/notes/bible-notes</loc><priority>0.5</priority><dir>site/gtk/tutorials/notes</dir><html><head/><body><div id="menu"/><div id="content"><h1>Bible notes</h1><h2><a name="TOC-Introduction"/>Introduction</h2>A Bible note is a note that goes in the Biblical text. It can be a footnote, or a cross reference, or an endnote.<br/><h2><a name="TOC-Inserting"/>Inserting</h2>
 <p>Bible notes can be inserted manually by applying an appropriate note style.
-For example, if the "f Footnote" style is applied, then a <a href="SELFREFERENCEgtk/reference/menu/menu-none/insert-footnote-endnote-crossreference.html">window</a> comes up allowing insertion of
+For example, if the "f Footnote" style is applied, then a <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-none/insert-footnote-endnote-crossreference">window</a> comes up allowing insertion of
 this footnote. The same applies to endnotes and crossreferences.</p>
 <h3><a name="editing"/>Editing</h3>
 <p>Bible notes are marked by a asterisk or character in the editor. Its text is
@@ -3585,7 +3535,7 @@ wish. The \zendnotes marker needs to be typed by hand because it is not in the
 stylesheet.</p>
 <h4><a name="caller"/>Caller</h4>
 <p>A Bible note has a caller. The style of the caller can be set in the
-markers, see <a href="SELFREFERENCEgtk/reference/usfm.html">USFM</a> under marker \f. For crossreferences
+markers, see <a href="https://sites.google.com/site/bibledit/gtk/reference/usfm">USFM</a> under marker \f. For crossreferences
 set it under marker \x.</p>
 <p>A "+" prints a caller with automatic numbering, a "-" prints no caller at
 all, and any other character prints that character as a caller.</p>
@@ -3633,7 +3583,7 @@ retrieved through menu View / More information on current note. Other
 information about this note is visible there as well, like the date it was
 created, and when it was edited.</p>
 <p>Each note falls into a category. The various categories and the default
-category can be set in the <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/project-notes.html">preferences</a>.</p>
+category can be set in the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/project-notes">preferences</a>.</p>
 <h2><a name="TOC-Finding-project-notes"/>Finding project notes</h2><h3><a name="findingprojectnotes"/></h3>
 <p>Menu / Edit / Find in Project notes (Alt+E, N) allows to do Simple searches
 in the Project notes.</p>
@@ -3670,7 +3620,7 @@ be manually entered like, for example: Luke 2:2-3:3. Bibledit will divide this
 into two parts: Luke 2 verse 2 to the end of the chapter, and Luke 3 verse 1 to
 3.</p>
 <h2><a name="TOC-Showing-notes"/>Showing notes</h2><h3><a name="showingnotes"/></h3>
-<p>The <a href="SELFREFERENCEgtk/reference/menu/view/project-notes.html">settings for which notes to show
+<p>The <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/view/project-notes">settings for which notes to show
 and how</a> are in the View menu.</p>
 <h2><a name="TOC-Exporting-notes"/>Exporting notes</h2><h3><a name="exportingnotes"/></h3>
 <p>Project notes can be exported into some formats.</p>
@@ -3680,7 +3630,7 @@ in Bibledit.</p>
 <p>* ScriptureNotes version 2.0. Notes exported in this format can be imported
 by Translation Notes Editor 6.0.</p>
 <p>To see how these formats looks, just export some text and open the exported
-text in a text editor.</p><h2><a name="TOC-Sharing-notes"/>Sharing notes</h2><p>The notes that you make on your computer can be shared with other members of the team. These notes you make will then also be available to the members of the team, and the notes made by any member of the team will also become available to you. </p><p>You can set the sharing up through the <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/dialog-remote-repository.html">Remote Repository Assistant</a>. Normally this assistant sets up project sharing. But it can also set up notes sharing. Just make the appropriate selection at the start of the assistant. It will be good to read the entire section about <a href="SELFREFERENCEgtk/tutorials/collaboration.html">Collaboration</a> if you need to set it up, since it fully explains the technical details.</p><p>Notes are stored in flat files, but selected from an index. If the index for some reason gets corrupted or out of sync, then you can recreate it by either deleting the index manually from directory ~/.bibledit/notes and then restarting Bibledit, or by setting the sharing up again through the remote repository assistant.</p><p>Menu File - Project notes - Send / Receive to a manual sync of your notes with the remote repository. Normally the sync is done automatically, though, by default it is done every hour, but you can change this in the remote repository assistant.</p></div></body></html><name>site/gtk/tutorials/notes/project-notes.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-1</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.1</h1>Initial release.</div></body></html><name>site/gtk/reference/changes-log/version-0-x/version-0-1.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-2</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.2</h1>Editing capabilities and synchronization.</div></body></html><name>site/gtk/reference/changes-log/version-0-x/version-0-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-3</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.3</h1>5 October 2004.<br/>UTF-8 capabilities.</div></body></html><name>site/gtk/reference/changes-log/version-0-x/version-0-3.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-4</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.4</h1><p>15 December 2004.</p>
+text in a text editor.</p><h2><a name="TOC-Sharing-notes"/>Sharing notes</h2><p>The notes that you make on your computer can be shared with other members of the team. These notes you make will then also be available to the members of the team, and the notes made by any member of the team will also become available to you. </p><p>You can set the sharing up through the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/dialog-remote-repository">Remote Repository Assistant</a>. Normally this assistant sets up project sharing. But it can also set up notes sharing. Just make the appropriate selection at the start of the assistant. It will be good to read the entire section about <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration">Collaboration</a> if you need to set it up, since it fully explains the technical details.</p><p>Notes are stored in flat files, but selected from an index. If the index for some reason gets corrupted or out of sync, then you can recreate it by either deleting the index manually from directory ~/.bibledit/notes and then restarting Bibledit, or by setting the sharing up again through the remote repository assistant.</p><p>Menu File - Project notes - Send / Receive to a manual sync of your notes with the remote repository. Normally the sync is done automatically, though, by default it is done every hour, but you can change this in the remote repository assistant.</p></div></body></html><name>site/gtk/tutorials/notes/project-notes.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-1</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.1</h1>Initial release.</div></body></html><name>site/gtk/reference/changes-log/version-0-x/version-0-1.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-2</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.2</h1>Editing capabilities and synchronization.</div></body></html><name>site/gtk/reference/changes-log/version-0-x/version-0-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-3</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.3</h1>5 October 2004.<br/>UTF-8 capabilities.</div></body></html><name>site/gtk/reference/changes-log/version-0-x/version-0-3.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-4</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.4</h1><p>15 December 2004.</p>
 
 <p>Improved searching.</p></div></body></html><name>site/gtk/reference/changes-log/version-0-x/version-0-4.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-0-x/version-0-5</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-0-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 0.5</h1><p>18 February 2005.</p>
 
@@ -5181,7 +5131,7 @@ displayed, it will display on that single occasion. This avoids a situation
 that a user creates or edits a note, then saves it, then it disappears.</p>
 
 <p>Next-generation Bible text editor replaces the current one. Expect perfect
-undo and redo operations, and other goodies.</p></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-0.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-1</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.1</h1><p>30 August 2010</p><p>It is easier to delete a row of project notes since the remaining notes redisplay immediately.</p><p>Accessing the references history also goes through Ctrl-G.</p><p>Spelling checker in the USFM view.</p><p>Imports Bibles from the Online Bible.</p><p>Requires a local web server such as Apache.</p><p>Requires libsoup.</p><p>Runs again on the Mac.</p><p>Reference exchange with Xiphos and BibleTime goes through the local web server.</p><p>The one snapshots database per project was split into databases for each chapter. Note that the one-time automatic conversion will take a good while to complete.</p><p>On shutdown, maintenance on the git repositories and the sqlite databases and other things may be done, depending on the usage of these items.</p><p>Collaboration through git now runs through external programs, greatly enhancing the responsiveness of Bibledit.<br/></p><p>The show project notes dialog shows how many notes would be displayed if the current selection would be applied.</p><p>The English versification system was corrected in 3 John 15 and Rev. 12:18. Both verses were omitted so it conforms to the majority of English translations.</p><p>Improvements to clarity and brevity in the references window.</p><p>Includes the ptx2pdf package and can use xetex.</p><p>Exports the stylesheet to Paratext format.</p><p>Can use XeTeX's font mapping technology so that e.g. Farsi numerals are printed in all Farsi instead of in Latin numerals.</p><p>Can copy the contents of the References Window to the clipboard.</p><p>Project notes are no longer stored in a database but in flat files.</p><p>Can set XeTeX shaping engine options, e.g. "arab" for Farsi printing.<br/></p><p>The project notes, also known as consultation notes, can be shared in a team.</p><p>The name "Bibledit" now covers a suite of programs, no longer one program.</p><p>Foundations are being laid for a web-based version of Bibledit, called Bibledit-Web, as part of the Bibledit suite.</p><p>The former "Bibledit" has been renamed "Bibledit-Gtk", and has become part of the Bibledit suite.</p><p>Bibledit-Gtk always shares focus with Bibledit-Web.</p></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-1.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-2</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.2</h1>28 February 2011<br/>Firefox3 was added to the known browsersCan connect to empty remote repositorySupport for DESTDIR in Makefile.amHonours a username when sharing focusFixed: When the editor is non-editable, and one does backspace, it still erases unexpectedlyFixed: When Bibledit-Gtk requests the reference from Bibledit-Web, if another user changes the reference, it takes the wrong referenceGoBible Creator updated to 2.4.0Indonesian language updatedREADME / INSTALL cleanupFile / Close menu item was addedFonts can be set for the notes window, the references window, and the entries in the search and replace dialogs</div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-3</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.3</h1>26 August 2011<br/>Menu entry for inserting a footnote, and one for inserting a cross reference.Clearer colour, hot pink, for showing the differences between texts.Menu Preferences / User interface has setting to start the program maximized.Online help is extracted from the Wiki through its API, and menus are created.Source was included for the GoBible java modules.The USFM documentation was removed since its license was unclear.bibledit-rdwrt can read from or write to Bible data; syntax: bibledit-gtk -r|-w project book chapter|0 fileNameBibledit Windows Outpost was removed, since Bibledit-Paratext takes over this functionality.</div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-3.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-4</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.4</h1>17 October 2011<br/>The GoBibleCreator was dropped because it was not free according to the Debian FTPMastersOnline help updateRemoval of EeePC installer because it was outdated.<br/></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-4.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-in-source-repository</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version in source repository</h1><br/></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-in-source-repository.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/edit/revert</loc><priority>0.5</priority><dir>site/gtk/reference/menu/edit</dir><html><head/><body><div id="menu"/><div id="content"><h1>Revert</h1><h2><a name="TOC-Revert-dialog"/>Revert dialog</h2>
+undo and redo operations, and other goodies.</p></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-0.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-1</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.1</h1><p>30 August 2010</p><p>It is easier to delete a row of project notes since the remaining notes redisplay immediately.</p><p>Accessing the references history also goes through Ctrl-G.</p><p>Spelling checker in the USFM view.</p><p>Imports Bibles from the Online Bible.</p><p>Requires a local web server such as Apache.</p><p>Requires libsoup.</p><p>Runs again on the Mac.</p><p>Reference exchange with Xiphos and BibleTime goes through the local web server.</p><p>The one snapshots database per project was split into databases for each chapter. Note that the one-time automatic conversion will take a good while to complete.</p><p>On shutdown, maintenance on the git repositories and the sqlite databases and other things may be done, depending on the usage of these items.</p><p>Collaboration through git now runs through external programs, greatly enhancing the responsiveness of Bibledit.<br/></p><p>The show project notes dialog shows how many notes would be displayed if the current selection would be applied.</p><p>The English versification system was corrected in 3 John 15 and Rev. 12:18. Both verses were omitted so it conforms to the majority of English translations.</p><p>Improvements to clarity and brevity in the references window.</p><p>Includes the ptx2pdf package and can use xetex.</p><p>Exports the stylesheet to Paratext format.</p><p>Can use XeTeX's font mapping technology so that e.g. Farsi numerals are printed in all Farsi instead of in Latin numerals.</p><p>Can copy the contents of the References Window to the clipboard.</p><p>Project notes are no longer stored in a database but in flat files.</p><p>Can set XeTeX shaping engine options, e.g. "arab" for Farsi printing.<br/></p><p>The project notes, also known as consultation notes, can be shared in a team.</p><p>The name "Bibledit" now covers a suite of programs, no longer one program.</p><p>Foundations are being laid for a web-based version of Bibledit, called Bibledit-Web, as part of the Bibledit suite.</p><p>The former "Bibledit" has been renamed "Bibledit-Gtk", and has become part of the Bibledit suite.</p><p>Bibledit-Gtk always shares focus with Bibledit-Web.</p></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-1.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-2</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.2</h1>28 February 2011<br/>Firefox3 was added to the known browsersCan connect to empty remote repositorySupport for DESTDIR in Makefile.amHonours a username when sharing focusFixed: When the editor is non-editable, and one does backspace, it still erases unexpectedlyFixed: When Bibledit-Gtk requests the reference from Bibledit-Web, if another user changes the reference, it takes the wrong referenceGoBible Creator updated to 2.4.0Indonesian language updatedREADME / INSTALL cleanupFile / Close menu item was addedFonts can be set for the notes window, the references window, and the entries in the search and replace dialogs</div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-2.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-3</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.3</h1>26 August 2011<br/>Menu entry for inserting a footnote, and one for inserting a cross reference.Clearer colour, hot pink, for showing the differences between texts.Menu Preferences / User interface has setting to start the program maximized.Online help is extracted from the Wiki through its API, and menus are created.Source was included for the GoBible java modules.The USFM documentation was removed since its license was unclear.bibledit-rdwrt can read from or write to Bible data; syntax: bibledit-gtk -r|-w project book chapter|0 fileNameBibledit Windows Outpost was removed, since Bibledit-Paratext takes over this functionality.</div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-3.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-4</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.4</h1>17 October 2011<br/>The GoBibleCreator was dropped because it was not free according to the Debian FTPMastersOnline help updateRemoval of EeePC installer because it was outdated.<br/></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-4.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-4-5</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version 4.5</h1>19 December 2011<br/>The floating windows do not move off the screen, beyond the left or the right side.The floating windows do not resize to a size larger than the screen, and do not resize to a value smaller than 100 by 100 pixels.No longer includes the GoBibleCreator, but uses the gobiblecreator that is on the Linux system, if it finds one.No longer hides the styles pane in the font selection dialog, allowing for selection of more fonts of a family.Optionally repeats sending and receiving Bible data each five minutes.When sending and receiving Bible data, and there is a merge conflict, Bibledit-Gtk will run git mergetool.No longer needs and checks for program ping.Compiler warnings on set but unused variables were attended to.bibledit-git accepts command line options for whether to use 'ours' or 'theirs' when there is a merge conflict.</div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-4-5.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/changes-log/version-4-x/version-in-source-repository</loc><priority>0.5</priority><dir>site/gtk/reference/changes-log/version-4-x</dir><html><head/><body><div id="menu"/><div id="content"><h1>Version in source repository</h1><br/></div></body></html><name>site/gtk/reference/changes-log/version-4-x/version-in-source-repository.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/edit/revert</loc><priority>0.5</priority><dir>site/gtk/reference/menu/edit</dir><html><head/><body><div id="menu"/><div id="content"><h1>Revert</h1><h2><a name="TOC-Revert-dialog"/>Revert dialog</h2>
 
 <p>This dialog is accessible through menu Edit / Revert.</p>
 
@@ -5207,7 +5157,7 @@ status of a project or part of the project can be set.</p>
 <p>The dialog consists of four columns. The first one shows all the books,
 the second one shows all the chapters in a particular book, and the third one
 displays all the verse in a particular chapter. Finally the last column shows
-all the tasks that <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/planning-setup.html">have been defined
+all the tasks that <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/planning-setup">have been defined
 for the project</a>.</p>
 <p>To mark a particular task as being done for a whole book, just select that
 book in the list, and put a tick in the task.</p>
@@ -5272,7 +5222,7 @@ straightaway. Normally Bibledit will install the SWORD module to subdirectory
 .sword in the home directory, but this can be changed. Provide a name for the
 module and export it. After restarting the Sword enabled Bible reader, the
 module should be visible in the program.</p>
-<p>While creating a Sword module, <a href="SELFREFERENCEgtk/reference/menu/file/export-assistant/sword-module.html">some settings
+<p>While creating a Sword module, <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/export-assistant/sword-module">some settings
 need to be made.</a></p>
 <p>Module path is the directory where a zipped module will be stored. This
 module is fit for immediate distribution.</p>
@@ -5319,7 +5269,7 @@ a variety of data into Bibledit. The various options are described below.</p>
 <p>Bibledit can import existing Biblical text. It imports various formats of
 the texts. These formats are described below.</p>
 <h4><a name="bibleunifiedstandardformatmarkers"/>Bible - Unified Standard Format Markers</h4>
-<p>Bibledit can import <a href="SELFREFERENCEgtk/reference/usfm.html">USFM</a> text.</p>
+<p>Bibledit can import <a href="https://sites.google.com/site/bibledit/gtk/reference/usfm">USFM</a> text.</p>
 <p>If it says that a file is not in Unicode, it is recommended to open this
 file in gedit, and then save it in UTF-8 format. The program "gedit" is an
 editor that comes with Linux. Other editors will work well too.</p>
@@ -5361,7 +5311,7 @@ imported text. Setting chapter 0 is usually done by simply applying the "c"
 marker in the editor, choosing chapter 0, and pressing OK.</p>
 <p>Note. At any stage in the text import process, the user can filter the text.
 Select the filter to apply, then click button "Filter text". Filters can be
-created through menu <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/filters.html">Preferences /
+created through menu <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/filters">Preferences /
 Filters</a>.</p>
 <p>Note. There is an option "Verses are at line start". if this one is ticked,
 when discovering the markup, the engine only considers verses that are at the
@@ -5395,7 +5345,7 @@ into the References Window.</p>
 <p>The Restore Assistant is available through menu File / Restore. You can
 restore a Bible, or the Notes, of Everything. When restoring everything, the
 data will be available after restarting Bibledit. More information is available
-with the <a href="SELFREFERENCEgtk/reference/menu/file/backup-assistant.html">Backup Assistant</a>, as Restore and Backup
+with the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/backup-assistant">Backup Assistant</a>, as Restore and Backup
 complement each other.</p></div></body></html><name>site/gtk/reference/menu/file/restore.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/styles</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file</dir><html><head/><body><div id="menu"/><div id="content"><h1>Styles</h1><br/></div></body></html><name>site/gtk/reference/menu/file/styles.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/help/none</loc><priority>0.5</priority><dir>site/gtk/reference/menu/help</dir><html><head/><body><div id="menu"/><div id="content"><h1>None</h1><p>There is no specific help available for this topic.</p></div></body></html><name>site/gtk/reference/menu/help/none.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/menu-none/insert-footnote-endnote-crossreference</loc><priority>0.5</priority><dir>site/gtk/reference/menu/menu-none</dir><html><head/><body><div id="menu"/><div id="content"><h1>Insert Footnote, Endnote, Crossreference</h1><h4><a name="TOC-Introduction"/>Introduction</h4>
 <p>This dialog comes up when choosing menu Insert / Footnote or Endnote or
 Crossreference.</p>
@@ -5420,7 +5370,7 @@ next time you insert a Bible note.</p>
 <p>To get rid of this content area, press the "Remove" button.</p>
 <h4><a name="tidying"/>Tidying</h4>
 <p>Tick this function to tidy the references you insert. You can influence
-the process in the <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/tidy-text.html">settings</a>.</p>
+the process in the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/tidy-text">settings</a>.</p>
 <h4><a name="templates"/>Templates</h4>
 <p>It is possible to save a certain configuration in a template. The "New"
 button will make a new template, and the "Delete" button will delete the
@@ -5433,7 +5383,7 @@ efficiency and speed.</p>
 there. On pressing Enter the next entry focuses, and so on, until the Ok
 button gets focused. Pressing Enter again inserts the note.</p></div></body></html><name>site/gtk/reference/menu/menu-none/insert-footnote-endnote-crossreference.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/menu-none/no-help-available</loc><priority>0.5</priority><dir>site/gtk/reference/menu/menu-none</dir><html><head/><body><div id="menu"/><div id="content"><h1>No help available</h1>There is no help available specifically for this topic.<br/><br/>Try the navigation menu. Perhaps there is something that could give the help you need.<br/></div></body></html><name>site/gtk/reference/menu/menu-none/no-help-available.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/dialog-remote-repository</loc><priority>0.5</priority><dir>site/gtk/reference/menu/menu-preferences</dir><html><head/><body><div id="menu"/><div id="content"><h1>Remote Repository</h1><p>The Remote Repository Setup Assistant can be reached through menu Preferences / Remote
 repository.</p>
-<p>See <a href="SELFREFERENCEgtk/tutorials/collaboration.html">Collaboration</a> for information about
+<p>See <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration">Collaboration</a> for information about
 what this repository is used for.</p>
 <h3><a name="useremoterepository"/>Use remote repository</h3>
 <p>This setting allows several people to work together on one project.</p>
@@ -5498,14 +5448,14 @@ the rules.</p>
 EDitor. It takes the input text, passes it through one or more rules, and
 then outputs it, modifying it on the fly. The modifications are done
 according to the rules that have been given.</p>
-<p>More help about creating rules is in the <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/filters/sed.html">sed rules</a> reference, and in the <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/filters/regex.html">regular expressions</a> reference.
+<p>More help about creating rules is in the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/filters/sed">sed rules</a> reference, and in the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/filters/regex">regular expressions</a> reference.
 A wealth of information about sed, and the rules to write, is available at <a href="http://sed.sourceforge.net/" rel="nofollow">sed.sourceforge.net</a>.</p>
 <h4><a name="teckitmapping"/>TECkit mapping</h4>
 <p>The TECkit package is used for running the filter. TECkit is a toolkit for
 conversion of data to Unicode. Bibledit uses it only for converting Unicode
 to Unicode. The package takes the input text, passes it through a set of
 mapping rules, and then outputs it, modifying it on the fly.</p>
-<p>More help about creating the mapping rules is in the <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/filters/tec.html">TECkit mapping rules</a>
+<p>More help about creating the mapping rules is in the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/filters/tec">TECkit mapping rules</a>
 reference. More information is available from SIL through the <a href="http://www.sil.org/computing/index.html" rel="nofollow">computing index</a>, or more
 specifically at the <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;cat_id=TECkit" rel="nofollow">TECkit
 home page</a>.</p>
@@ -5670,7 +5620,7 @@ references are just clutter and that the information is clearer without
 them.</p>
 <p>A tool is available that can add or remove the origin references of all
 the Bible Notes in one go.</p>
-<p>See the <a href="SELFREFERENCEgtk/reference/usfm.html">USFM</a> documentation for footnotes,
+<p>See the <a href="https://sites.google.com/site/bibledit/gtk/reference/usfm">USFM</a> documentation for footnotes,
 endnotes and crossreferences for a
 description of what the origin references are.</p>
 <p>In the dialog, tick what type of notes to affect: footnotes, endnotes,
@@ -5874,7 +5824,7 @@ well.</p>
 <p>The repository that was created in this tutorial has the following URL:</p>
 <pre>ssh://user@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>
 <p>The users that are going to use this repository need this URL. Where it says
-"user", each user would need to fill in his own username. </p><p>Each user will need to open his or her own account on sourceforge.net. After that, they need to open an e-mail from sourceforge.net and click the link to activate their account. Each user needs to be registered as a member of the project, in this example, project "repo2". This is so that the user can write to the repository. </p><p>So the moderator (or the person to first set up the repository) will need to log onto to his account at sourceforge.net,</p><ul><li>click on “account” in the upper right, </li><li>choose the projects tab, </li><li>click on the project name, </li><li>then click View all files.</li><li>Now there will be a series of tabs at the top which expand if your mouse cursor hovers above them. Go to the last one, Project Admin, and click Members.</li><li>Finally! From there you will be add any members who have activated their accounts by clicking in the e-mail that was sent to them.</li><ul><li>After this, each project member will be able to do the steps in <a href="SELFREFERENCEgtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup.html">Secure shell keys setup</a>.</li></ul></ul><p><br/></p></div></body></html><name>site/gtk/tutorials/collaboration/2reposetup/secure-network-repository-setup.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup</loc><priority>0.5</priority><dir>site/gtk/tutorials/collaboration/2reposetup</dir><html><head/><body><div id="menu"/><div id="content"><h1>Secure shell keys setup</h1><p>When your remote repository is a secure one, and you'd like Bibledit to use
+"user", each user would need to fill in his own username. </p><p>Each user will need to open his or her own account on sourceforge.net. After that, they need to open an e-mail from sourceforge.net and click the link to activate their account. Each user needs to be registered as a member of the project, in this example, project "repo2". This is so that the user can write to the repository. </p><p>So the moderator (or the person to first set up the repository) will need to log onto to his account at sourceforge.net,</p><ul><li>click on “account” in the upper right, </li><li>choose the projects tab, </li><li>click on the project name, </li><li>then click View all files.</li><li>Now there will be a series of tabs at the top which expand if your mouse cursor hovers above them. Go to the last one, Project Admin, and click Members.</li><li>Finally! From there you will be add any members who have activated their accounts by clicking in the e-mail that was sent to them.</li><ul><li>After this, each project member will be able to do the steps in <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup">Secure shell keys setup</a>.</li></ul></ul><p><br/></p></div></body></html><name>site/gtk/tutorials/collaboration/2reposetup/secure-network-repository-setup.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup</loc><priority>0.5</priority><dir>site/gtk/tutorials/collaboration/2reposetup</dir><html><head/><body><div id="menu"/><div id="content"><h1>Secure shell keys setup</h1><p>When your remote repository is a secure one, and you'd like Bibledit to use
 it, then is is necessary to set up secure shell keys. These keys allow easy
 access to the secure repository. Please follow the tutorial exactly.</p>
 <h3><a name="generatethekeys"/>Generate the keys</h3>
@@ -5925,7 +5875,7 @@ works well. In the terminal, try to access the repository at sourceforge:</p>
 <blockquote style="margin:0 0 0 40px;border:none;padding:0px"><pre><span style="font-style:normal">git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</span></pre></blockquote>
 <p>If it works then it will give no errors, and list a few commits. If it does
 that, then the keys works well. If it asks for a password, or if there are
-errors, follow the tutorial again to get everything right.</p><h3><a name="TOC-Reconfiguring-Bibledit-Collaboratio"/>Reconfiguring Bibledit Collaboration after Changing Computers or Reinstalling Ubuntu</h3><p>After reinstalling Bibledit on your computer and copying your backed-up .bibledit directory, be sure you have copied the back-up of your .ssh directory.</p><p>IMPORTANT: If after reinstalling Bibledit on your computer you have started Bibledit and edited your project since the remote repository was active, make an extra backup of the project now! When you reinitialize remote backup/sharing via Preferences &gt; Remote Repository, the Clone the Remote Repository will erase all your recent edits!</p><p>Then reboot. Following reboot (or if you have already rebooted multiple times since reinstalling the above), test this:</p><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><pre><span style="font-style:normal">git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</span></pre></blockquote><p>This should yield no errors but something like this:</p><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><p><span style="font-family:courier new, monospace;font-style:normal">8dc8c3e57a42654f5b4cbc938811c6f0b3c2a1ec<span style="white-space:pre">	</span>HEAD</span><br/><span style="font-family:courier new, monospace;font-style:normal">8dc8c3e57a42654f5b4cbc938811c6f0b3c2a1ec<span style="white-space:pre">	</span>refs/heads/master</span></p></blockquote><b>If you get something like that (no errors), </b>then you ready to reinitialize remote backup/sharing via Preferences &gt; Remote Repository. Second screen, choose the top option, Bible Repository. Choose all the defaults. You will be forced to clone the remote repository. (Did you make the backup above?!) Once that process completes, you will be sharing via the repository again. You can always check that changes are being written by logging into your sourceforge account, and check out the What's Happening page (visible when you click on your name at the upper right).<br/><b>If you got an error message, </b>follow the steps below.<p>In order to reconfigure Bibledit after changing computers or reinstalling an operating system, you might not be able to just copy and reuse a backup copy of your original .ssh directory and the config file. Also, it seems that just remaking the shell keys in the old .ssh directory will not work. Make a new .ssh directory and follow the steps above to create secure shell keys. You can copy and reuse the backed-up config file. Then replace your old ...key.pub at sourceforge.net/Services with your new key, then click to Update. During the 10 minute wait, reboot your computer. After rebooting and waiting for the key to be updated, test if you get an error message with </p><pre>git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>If not, everything is ready. Follow the steps under the menu Preferences &gt; Remote Repository.  Second screen, choose the top option, Bible Repository. Choose all the defaults. You will be forced to clone the remote repository. (Did you make the backup above?!) Once that process completes, you will be sharing via the repository again. You can always check that changes are being written by logging into your sourceforge account, and check out the What's Happening page (visible when you click on your name at the upper right).</div></body></html><name>site/gtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/usb-flash-drive-repository-setup</loc><priority>0.5</priority><dir>site/gtk/tutorials/collaboration/2reposetup</dir><html><head/><body><div id="menu"/><div id="content"><h1>USB flash drive repository setup</h1><h3><a name="TOC-Introduction"/>Introduction</h3>
+errors, follow the tutorial again to get everything right.</p><h3><a name="TOC-Reconfiguring-Bibledit-Collaboratio"/>Reconfiguring Bibledit Collaboration after Changing Computers or Reinstalling Ubuntu</h3><p>After reinstalling Bibledit on your computer and copying your backed-up .bibledit directory, be sure you have copied the back-up of your .ssh directory.</p><p>IMPORTANT: If after reinstalling Bibledit on your computer you have started Bibledit and edited your project since the remote repository was active, make an extra backup of the project now! When you reinitialize remote backup/sharing via Preferences &gt; Remote Repository, the Clone the Remote Repository will erase all your recent edits!</p><p>Then reboot. Following reboot (or if you have already rebooted multiple times since reinstalling the above), test this:</p><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><pre><span style="font-style:normal">git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</span></pre></blockquote><p>This should yield no errors but something like this:</p><blockquote style="margin:0 0 0 40px;border:none;padding:0px"><p><span style="font-family:courier new,monospace;font-style:normal">8dc8c3e57a42654f5b4cbc938811c6f0b3c2a1ec<span style="white-space:pre">	</span>HEAD</span><br/><span style="font-family:courier new,monospace;font-style:normal">8dc8c3e57a42654f5b4cbc938811c6f0b3c2a1ec<span style="white-space:pre">	</span>refs/heads/master</span></p></blockquote><b>If you get something like that (no errors), </b>then you ready to reinitialize remote backup/sharing via Preferences &gt; Remote Repository. Second screen, choose the top option, Bible Repository. Choose all the defaults. You will be forced to clone the remote repository. (Did you make the backup above?!) Once that process completes, you will be sharing via the repository again. You can always check that changes are being written by logging into your sourceforge account, and check out the What's Happening page (visible when you click on your name at the upper right).<br/><b>If you got an error message, </b>follow the steps below.<p>In order to reconfigure Bibledit after changing computers or reinstalling an operating system, you might not be able to just copy and reuse a backup copy of your original .ssh directory and the config file. Also, it seems that just remaking the shell keys in the old .ssh directory will not work. Make a new .ssh directory and follow the steps above to create secure shell keys. You can copy and reuse the backed-up config file. Then replace your old ...key.pub at sourceforge.net/Services with your new key, then click to Update. During the 10 minute wait, reboot your computer. After rebooting and waiting for the key to be updated, test if you get an error message with </p><pre>git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>If not, everything is ready. Follow the steps under the menu Preferences &gt; Remote Repository.  Second screen, choose the top option, Bible Repository. Choose all the defaults. You will be forced to clone the remote repository. (Did you make the backup above?!) Once that process completes, you will be sharing via the repository again. You can always check that changes are being written by logging into your sourceforge account, and check out the What's Happening page (visible when you click on your name at the upper right).</div></body></html><name>site/gtk/tutorials/collaboration/2reposetup/secure-shell-keys-setup.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/tutorials/collaboration/2reposetup/usb-flash-drive-repository-setup</loc><priority>0.5</priority><dir>site/gtk/tutorials/collaboration/2reposetup</dir><html><head/><body><div id="menu"/><div id="content"><h1>USB flash drive repository setup</h1><h3><a name="TOC-Introduction"/>Introduction</h3>
 <p>In this document we will set up a repository on a USB flash drive, also
 called a USB stick.</p>
 <h3><a name="formattingthestick"/>Formatting the stick</h3>
@@ -6084,7 +6034,7 @@ needed.</p>
 collection, one that does not yet exist.</p>
 
 <p>If you have messed up the keyterms by importing garbage, the collection that
-was imported can be <a href="SELFREFERENCEgtk/reference/menu/file/menu-keyterms/delete.html">deleted</a> again.</p>
+was imported can be <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/menu-keyterms/delete">deleted</a> again.</p>
 
 <p>Any keyterms that have been added become available after Bibledit has been
 restarted.</p>
@@ -6103,7 +6053,7 @@ standard set of keyterms that came with the program.</p></div></body></html><nam
 <p>It allows you to select which portion of the project is going to be
 printed.</p>
 
-<p>For help on the books selection part, see <a href="SELFREFERENCEgtk/reference/menu/file/print/selection.html">Selecting books</a>.</p>
+<p>For help on the books selection part, see <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/print/selection">Selecting books</a>.</p>
 
 <p>To print only a portion of a certain book, double click on the portion at
 the right of that book. Then you can choose to print from a chapter.verse
@@ -6206,13 +6156,13 @@ project is taken, runs through a filter that changes the text, and then comes
 in the current project in the new form. This can be useful for creating a
 diglot. The filters can be managed in menu Preferences / Filters.</p>
 
-<p>There is also a setting for whether to <a href="SELFREFERENCEgtk/tutorials/spelling.html">check the
+<p>There is also a setting for whether to <a href="https://sites.google.com/site/bibledit/gtk/tutorials/spelling">check the
 spelling</a> in the projects. If this option is ticked, then one or more
-dictionaries should be selected through the "Dictionaries" button.</p></div></body></html><name>site/gtk/reference/menu/file/project/project-properties.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/send-receive</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/project</dir><html><head/><body><div id="menu"/><div id="content"><h1>Send / receive</h1>This sends and receives your Bibles. It works when you have enabled <a href="SELFREFERENCEgtk/tutorials/collaboration.html">collaboration</a> for one or more Bibles. Normally
+dictionaries should be selected through the "Dictionaries" button.</p></div></body></html><name>site/gtk/reference/menu/file/project/project-properties.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/send-receive</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/project</dir><html><head/><body><div id="menu"/><div id="content"><h1>Send / receive</h1>This sends and receives your Bibles. It works when you have enabled <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration">collaboration</a> for one or more Bibles. Normally
 the collaboration system send and receives the changes made in Bibles. It does
 that at intervals as set up by the user. When choosing "Send / receive" through
 the menu, sending and receiving Bibles is done immediately, regardless of the
-interval that was specified by the user.</div></body></html><name>site/gtk/reference/menu/file/project/send-receive.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/converter</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>Converter</h1><h2><a name="TOC-Resource-Converter"/>Resource Converter</h2><br/><p>Bibledit provides a tool that makes a web page fit as a <a href="SELFREFERENCEgtk/resources/internal-resource.html">Resource</a>.</p>
+interval that was specified by the user.</div></body></html><name>site/gtk/reference/menu/file/project/send-receive.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/converter</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>Converter</h1><h2><a name="TOC-Resource-Converter"/>Resource Converter</h2><br/><p>Bibledit provides a tool that makes a web page fit as a <a href="https://sites.google.com/site/bibledit/gtk/resources/internal-resource">Resource</a>.</p>
 <p>The tool will add the appropriate anchors at the appropriate locations in
 that web page.</p>
 <p>Various buttons and settings will enable the user to write the right
@@ -6252,7 +6202,7 @@ described above.</p>
 <p>If the "Write" button is pressed, then any old anchors ever added by
 Bibledit will be removed from the file that was opened, new anchors will be
 written using the chapter and verse detection mechanisms, and the file will
-be written to disk.</p><br/></div></body></html><name>site/gtk/reference/menu/file/resource/converter.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/edit</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>Edit</h1>See <a href="SELFREFERENCEgtk/reference/menu/file/resource/new-edit.html">New / Edit</a><br/></div></body></html><name>site/gtk/reference/menu/file/resource/edit.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/new</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>New</h1>See <a href="SELFREFERENCEgtk/reference/menu/file/resource/new-edit.html">New / Edit</a><br/></div></body></html><name>site/gtk/reference/menu/file/resource/new.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/new-edit</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>New / Edit</h1><h3><a name="TOC-Introduction"/>Introduction</h3>
+be written to disk.</p><br/></div></body></html><name>site/gtk/reference/menu/file/resource/converter.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/edit</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>Edit</h1>See <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/new-edit">New / Edit</a><br/></div></body></html><name>site/gtk/reference/menu/file/resource/edit.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/new</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>New</h1>See <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/new-edit">New / Edit</a><br/></div></body></html><name>site/gtk/reference/menu/file/resource/new.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/new-edit</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>New / Edit</h1><h3><a name="TOC-Introduction"/>Introduction</h3>
 <p>Creating a new resource can be done through menu File / Resources / New. </p>
 <p>Editing an existing resource goes through menu File / Resources / Edit.</p>
 <h3><a name="creatingaresource"/>Creating a resource</h3>
@@ -6305,7 +6255,7 @@ existing, resource. See button "Import".</p>
 <p>The second set of book abbreviations work similar to the first set, as
 described above. How to differentiate between these will be described below.</p>
 <h4><a name="writinganchors"/>Writing anchors</h4>
-<p>This button allows the user to go to the <a href="SELFREFERENCEgtk/reference/menu/file/resource/converter.html">Resource Converter</a> dialog where the
+<p>This button allows the user to go to the <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/converter">Resource Converter</a> dialog where the
 required anchors can be written to the files. This is only needed when the
 anchors are not yet in the file.</p>
 <h4><a name="urlconstructor"/>URL constructor</h4>
@@ -6396,7 +6346,7 @@ is.</p>
 <p>The USFM can be imported into a Bibledit project. From the Bibledit project
 resources can be made, as described above.</p>
 <h4><a name="datafromtwfolio"/>Data from TW/folio</h4>
-<p>There is a <a href="SELFREFERENCEgtk/reference/menu/file/resource/tw-folio.html">transcript of a conversation
+<p>There is a <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/tw-folio">transcript of a conversation
 between two people how they managed to create a resource out of data exported
 from TW/folio</a>. This transcript is given in full and might help you gain
 understanding in how to create the same or a similar resource.</p></div></body></html><name>site/gtk/reference/menu/file/resource/new-edit.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/menu/file/resource/tw-folio</loc><priority>0.5</priority><dir>site/gtk/reference/menu/file/resource</dir><html><head/><body><div id="menu"/><div id="content"><h1>TW/folio</h1><h4><a name="TOC-Person-A:"/>Person A:</h4>
@@ -6755,7 +6705,7 @@ expression into another value. A simple example changes "day" to "night":</p>
 <p>This substitute command consists of four parts.<br/>
 </p>
 <pre>s         substitute command<br/>/../../   delimiters<br/>day       regular expression pattern string<br/>night     replacement string</pre>
-<p>The <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/filters/regex.html">regular expressions</a>
+<p>The <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/filters/regex">regular expressions</a>
 are covered in detail in another reference. </p>
 <h3><a name="theslashasadelimiter"/>The slash as a delimiter</h3>
 <p>The character after the <i>s</i> is the delimiter. Conventionally it is a
@@ -6795,7 +6745,7 @@ number: </p>
 <pre>s/[0-9][0-9]*/&amp; &amp;/</pre>
 <p>The input of "123 abc" becomes "123 123 abc".</p>
 <h3><a name="using1tokeeppartofthepattern"/>Using \1 to keep part of the pattern</h3>
-<p>The use of "(" ")" and "1" has been described in the reference on <a href="SELFREFERENCEgtk/reference/menu/menu-preferences/filters/regex.html">regular expressions.</a> To review,
+<p>The use of "(" ")" and "1" has been described in the reference on <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/menu-preferences/filters/regex">regular expressions.</a> To review,
 the escaped parenthesis (that is, parenthesis with backslashes before them)
 remember portions of the regular expression. The "\1" is the first remembered
 pattern, and the "\2" is the second remembered pattern. If you wanted to keep
@@ -7568,7 +7518,7 @@ the text of the project.</p>
 <p>Press button "Connect" to connect to a dictionary and add it to the list.</p>
 <p>There are various types of dictionaries that can be added.</p>
 <p>- "Project &lt;project name&gt; Shared Dictionary. This dictionary belongs
-to a project. It is called "shared", because if <a href="SELFREFERENCEgtk/tutorials/collaboration.html">collaboration</a> is used, the dictionary is shared
+to a project. It is called "shared", because if <a href="https://sites.google.com/site/bibledit/gtk/tutorials/collaboration">collaboration</a> is used, the dictionary is shared
 with other workstations.</p>
 <p>- Dictionaries that have two-letter names, such as "en", "he", "en_ZW", and
 so forth. These are dictionaries that are installed on your system. Bibledit
@@ -7581,7 +7531,7 @@ Bibledit.</p>
 <p>If a dictionary is "disconnected", it remains on disk. This dictionary is no
 longer used to check the text of the project.</p>
 <h3><a name="editing"/>Editing</h3>
-<p>Some <a href="SELFREFERENCEgtk/reference/menu/file/project/project-properties/dictionaries/edit.html">dictionaries can be edited</a>, and
+<p>Some <a href="https://sites.google.com/site/bibledit/gtk/reference/menu/file/project/project-properties/dictionaries/edit">dictionaries can be edited</a>, and
 others cannot. If a dictionary can be edited, then the "Edit" button is
 sensitive. If this button is clicked, all the words in the dictionary become
 visible. These can be edited, and if Ok is pressed, these are saved to disk.</p>
