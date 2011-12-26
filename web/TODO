@@ -1,21 +1,14 @@
-Next packages / releases.
-- bibledit-xiphos: Remove build-depends on dh-autoreconf so it builds on older Debian and Ubuntu version.
-- bibledit-xiphos: Lower debhelper version. debhelper (>= 6.0.0~)
-
-
-
-Next packages / releases.
-- bibledit-gtk: Build-Depends on libwebkitgtk-dev | libwebkit-dev so that source package builds on older Debian and Ubuntu versions.
-- bibledit-gtk: Remove build-depends on dh-autoreconf so it builds on older Debian and Ubuntu version.
-- bibledit-bibletime: Remove build-depends on dh-autoreconf so it builds on older Debian and Ubuntu version.
-- bibledit-bibletime: Lower debhelper debhelper (>= 6.0.0~)
-
-
-
-
-
-
-
+Cannot find zend frame work on Debian:
+Installed here:
+/usr/share/php/Zend
+On Ubuntu, it is installed here:
+/usr/share/php/libzend-framework-php/Zend
+Steps:
+- Update code:
+  * configure.ac
+  * php code consuming the zend $path.
+- Try on Ubuntu.
+- Try on Debian.
 
 
 
@@ -24,6 +17,12 @@ Next packages / releases.
 
 
 To create a Debian package of Bibledit-Web.
+
+- Let the package use libzend-framework-php and see what to use on Debian: zendframework
+- Let the package use the distro's smarty library and smarty-gettext.
+- Perhaps to use ckeditor and drop jquery?
+
+
 
 
 

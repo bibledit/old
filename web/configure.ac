@@ -148,7 +148,8 @@ AC_SUBST(SITE_ADMIN_PASSWORD)
 
 
 # Location of the Zend Framework.
-# Obtain it through dpkg -L libzend-framework-php on Debian and derivatives.
+# Ubuntu: dpkg -L libzend-framework-php: /usr/share/php/libzend-framework-php/Zend
+# Debian: dpkg -L zendframework: /usr/share/php/Zend
 ZENDPATH_DEFAULT="."
 AC_ARG_WITH(zend-path,
         [  --with-zend-path=path   Zend Framework path],
@@ -158,10 +159,18 @@ AC_ARG_WITH(zend-path,
 AC_MSG_CHECKING(Zend Framework path)
 if [ [ $ZENDPATH == "." ] ]
   then
-    test -d /usr/share/php/libzend-framework-php
+    test -d /usr/share/php/Zend
     if [ [ $? -eq 0 ] ]
     then
-      ZENDPATH=/usr/share/php/libzend-framework-php
+      ZENDPATH=/usr/share/php/Zend
+    fi
+fi
+if [ [ $ZENDPATH == "." ] ]
+  then
+    test -d /usr/share/php/libzend-framework-php/Zend
+    if [ [ $? -eq 0 ] ]
+    then
+      ZENDPATH=/usr/share/php/libzend-framework-php/Zend
     fi
 fi
 if [ [ $ZENDPATH == "." ] ]
@@ -308,15 +317,14 @@ echo '?>' >> $PATHSFILE
 echo "
 Bibledit-Web $VERSION configuration summary:
 
-Version                               : ${PACKAGE_VERSION}
-Installation prefix                   : ${prefix}
-MySQL database host                   : localhost
-MySQL database name                   : bibledit
-MySQL database administrator username : root
-MySQL database administrator password : ${MYSQL_ROOT_PASSWORD}
-Website administrator username        : ${SITE_ADMIN_USERNAME}
-Website administrator password        : ${SITE_ADMIN_PASSWORD}
-Zend Framework path                   : ${ZENDPATH}
-Local State Directory                 : $DESTDIR/${packagelocalstatedir}
+Installation prefix: ${prefix}
+MySQL database host: localhost
+MySQL database name: bibledit
+MySQL database administrator username: root
+MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
+Website administrator username: ${SITE_ADMIN_USERNAME}
+Website administrator password: ${SITE_ADMIN_PASSWORD}
+Zend Framework path: ${ZENDPATH}
+Local State Directory: $DESTDIR/${packagelocalstatedir}
 "
 

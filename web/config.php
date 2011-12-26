@@ -35,4 +35,4 @@
 #define VERSION "0.6"
 
 /* Define the path to the Zend framework */
-#define ZENDPATH "/usr/share/php/libzend-framework-php"
+#define ZENDPATH "/usr/share/php/libzend-framework-php/Zend"
