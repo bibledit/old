@@ -1,17 +1,14 @@
+Next packages / releases.
+- bibledit-xiphos: Remove build-depends on dh-autoreconf so it builds on older Debian and Ubuntu version.
+- bibledit-xiphos: Lower debhelper version. debhelper (>= 6.0.0~)
 
 
 
-
-
-
-
-
-Check whether the package installs any non-sensible symbolic links.
-
-Let the package restart apache2 or lighthttpd
-
-
-
+Next packages / releases.
+- bibledit-gtk: Build-Depends on libwebkitgtk-dev | libwebkit-dev so that source package builds on older Debian and Ubuntu versions.
+- bibledit-gtk: Remove build-depends on dh-autoreconf so it builds on older Debian and Ubuntu version.
+- bibledit-bibletime: Remove build-depends on dh-autoreconf so it builds on older Debian and Ubuntu version.
+- bibledit-bibletime: Lower debhelper debhelper (>= 6.0.0~)
 
 
 
@@ -27,11 +24,7 @@ Let the package restart apache2 or lighthttpd
 
 
 To create a Debian package of Bibledit-Web.
-See other similar packages for a starting point, the quality ones.
-Perhaps chmod's should no longer be done by the installer.
-Chmod's can be done by the debian package, for www-data.
-We may have to modify the source simultanously.
-Notice remarks made at end document at review time.
+
 
 
 

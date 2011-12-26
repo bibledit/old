@@ -14,14 +14,17 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=6
-FILE_NAME_0=50;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
+current_page=0
+FILE_NAME_0=370;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
-FILE_NAME_2=316;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
-FILE_NAME_3=205;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/cron/Makefile.am;0;2
-FILE_NAME_4=346;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0;2
-FILE_NAME_5=0;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
-FILE_NAME_6=348;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
+FILE_NAME_2=281;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
+FILE_NAME_3=346;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0;2
+FILE_NAME_4=361;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
+FILE_NAME_5=730;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/setup.php;0;2
+FILE_NAME_6=2259;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0;2
+FILE_NAME_7=3902;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/versifications.php;0;2
+FILE_NAME_8=6031;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/styles.php;0;2
+FILE_NAME_9=4076;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odf/text.php;0;2
 
 [long line marker]
 long_line_behaviour=1

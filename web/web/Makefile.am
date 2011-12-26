@@ -11,8 +11,8 @@ install-data-local:
 	find $(DESTDIR)$(prefix)/$(packagedatadir)/www -type f -print0 | xargs -0 chmod 0666
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/changes
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/exports
-	ln -s $(DESTDIR)/$(packagelocalstatedir)/changes $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/changes
-	ln -s $(DESTDIR)/$(packagelocalstatedir)/exports $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/exports
+	- ln -s /$(packagelocalstatedir)/changes $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/changes
+	- ln -s /$(packagelocalstatedir)/exports $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/exports
 
 clean-local:
 	find . -iname *~ -delete

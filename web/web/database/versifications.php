@@ -89,6 +89,7 @@ EOD;
     closedir($handler);
   }
 
+
   public function importBibleditXml ($contents, $name)
   {
     // Delete old system if it is there, and create new one.
