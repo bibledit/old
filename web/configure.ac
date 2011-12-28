@@ -49,6 +49,11 @@ if test x$FIND_UNZIP = xno; then
   AC_MSG_ERROR(Program "unzip" is needed. Install this first.)
 fi
 
+AC_PATH_PROG(FIND_WDIFF, wdiff, no)
+if test x$FIND_WDIFF = xno; then
+  AC_MSG_ERROR(Program "wdiff" is needed. Install this first.)
+fi
+
 # AC_PATH_PROG(FIND_JAVAC, javac, no)
 # if test x$FIND_JAVAC = xno; then
 #   AC_MSG_ERROR(Program "javac" is needed. Install the Java Development Kit.)

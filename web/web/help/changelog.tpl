@@ -12,9 +12,9 @@
 <p>The daily changes moved from among the web pages to /var/lib/bibledit-web/changes.</p>
 <p>The exported Bibles moved from among the web pages to /var/lib/bibledit-web/exports.</p>
 <p>The backup moved from among the web pages to /var/lib/bibledit-web.</p>
-<p></p>
-<p></p>
-<p></p>
+<p>Reshuffling of data in preparation of creating a Debian package.</p>
+<p>The configure script also locates the Zend library on Debian systems.</p>
+<p>Drops java and daisydiff and requires wdiff.</p>
 <p></p>
 
 <h2>Version 0.5</h2>

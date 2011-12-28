@@ -1,14 +1,24 @@
-Cannot find zend frame work on Debian:
-Installed here:
-/usr/share/php/Zend
-On Ubuntu, it is installed here:
-/usr/share/php/libzend-framework-php/Zend
-Steps:
-- Update code:
-  * configure.ac
-  * php code consuming the zend $path.
-- Try on Ubuntu.
-- Try on Debian.
+
+
+GNU wdiff - word based comparison.
+http://www.gnu.org/software/wdiff/
+This one is still being maintained.
+Perhaps we can do something similar to what htmldiff did,
+and then have a perfect difference engine.
+wdiff verses_new.html verses_old.html > wdiffoutput.html
+
+<span style="text-decoration: line-through;">akanganwe</span>
+<span style="font-weight: bold;">akangamwe</span>
+
+wdiff --start-insert='<span style="font-weight: bold;">' --end-insert='</span>' --start-delete='<span style="text-decoration: line-through;">' --end-delete='</span>'  verses_new.html verses_old.html > wdiffoutput.html
+
+
+Add wdiff to requirements in debian package.
+Add wdiff to configure.ac
+Add wdiff to google wiki pages.
+Once it works through wdiff, then to drop the java requirements and all included daisydfiff stuff.
+
+
 
 
 
@@ -18,9 +28,16 @@ Steps:
 
 To create a Debian package of Bibledit-Web.
 
-- Let the package use libzend-framework-php and see what to use on Debian: zendframework
-- Let the package use the distro's smarty library and smarty-gettext.
-- Perhaps to use ckeditor and drop jquery?
+
+
+
+Let the package use the distro's smarty library and smarty-gettext.
+
+
+
+
+
+Perhaps to use ckeditor and drop jwysiwyg/jquery - ckeditor is packaged in Debian, jwysiwyg is not.
 
 
 
@@ -370,3 +387,23 @@ separately, if packaged versions of them don't already exist.
 It would be helpful if bibledit-xiphos and bibledit-bibletime
 show their version number somehow. Perhaps on the main window.
 Or under the settings window.
+
+
+
+
+
+
+
+Once the bibledit-web package is ready for deployment, we need to find 
+a way to run both the production environment and the demo site on 
+bibleconsultants.dyndns.org.
+
+
+
+
+
+
+Should we upgrade bibledit-gtk to libgtkhtml-4.0-0 and libgtkhtml-editor-4.0-0? 
+These might have better quality than the current library.
+
+
