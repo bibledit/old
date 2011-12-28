@@ -1,22 +1,7 @@
+Update the diffTests for the new situation with wdiff.
 
 
-GNU wdiff - word based comparison.
-http://www.gnu.org/software/wdiff/
-This one is still being maintained.
-Perhaps we can do something similar to what htmldiff did,
-and then have a perfect difference engine.
-wdiff verses_new.html verses_old.html > wdiffoutput.html
 
-<span style="text-decoration: line-through;">akanganwe</span>
-<span style="font-weight: bold;">akangamwe</span>
-
-wdiff --start-insert='<span style="font-weight: bold;">' --end-insert='</span>' --start-delete='<span style="text-decoration: line-through;">' --end-delete='</span>'  verses_new.html verses_old.html > wdiffoutput.html
-
-
-Add wdiff to requirements in debian package.
-Add wdiff to configure.ac
-Add wdiff to google wiki pages.
-Once it works through wdiff, then to drop the java requirements and all included daisydfiff stuff.
 
 
 

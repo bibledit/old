@@ -14,7 +14,9 @@
 <p>The backup moved from among the web pages to /var/lib/bibledit-web.</p>
 <p>Reshuffling of data in preparation of creating a Debian package.</p>
 <p>The configure script also locates the Zend library on Debian systems.</p>
-<p>Drops java and daisydiff and requires wdiff.</p>
+<p>No longer requires java.</p>
+<p>No longer needs or includes a copy of the daisydiff library.</p>
+<p>Requires wdiff.</p>
 <p></p>
 
 <h2>Version 0.5</h2>

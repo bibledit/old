@@ -1,4 +1,0 @@
-This directory contains the code from daisydiff-1.1.tar.gz.
-The subdirectory "examples" was removed.
-The other subdirectories contain supporting files: javascript, a stylesheet, and images.
-Each directory and subdirectory received a "index.php" file for security reasons.

@@ -34,11 +34,6 @@ if test x$FIND_PHP = xno; then
   AC_MSG_ERROR(Program "php" is needed. Install this first.)
 fi
 
-AC_PATH_PROG(FIND_JAVA, java, no)
-if test x$FIND_JAVA = xno; then
-  AC_MSG_ERROR(Program "java" is needed. Install the Java Runtime Environment.)
-fi
-
 AC_PATH_PROG(FIND_ZIP, zip, no)
 if test x$FIND_ZIP = xno; then
   AC_MSG_ERROR(Program "zip" is needed. Install this first.)
@@ -53,11 +48,6 @@ AC_PATH_PROG(FIND_WDIFF, wdiff, no)
 if test x$FIND_WDIFF = xno; then
   AC_MSG_ERROR(Program "wdiff" is needed. Install this first.)
 fi
-
-# AC_PATH_PROG(FIND_JAVAC, javac, no)
-# if test x$FIND_JAVAC = xno; then
-#   AC_MSG_ERROR(Program "javac" is needed. Install the Java Development Kit.)
-# fi
 
 # Check for web server on localhost.
 # AC_MSG_CHECKING(local web server)
@@ -121,35 +111,6 @@ AC_ARG_WITH(site-admin-password,
 AC_DEFINE([SITE_ADMIN_PASSWORD], [], [Define the password of the site administrator])
 AC_DEFINE_UNQUOTED(SITE_ADMIN_PASSWORD, "$SITE_ADMIN_PASSWORD")
 AC_SUBST(SITE_ADMIN_PASSWORD)
-
-
-# Location of xercesImpl.jar.
-# Obtain it through dpkg -L libxerces2-java
-# XERCESPATH_DEFAULT="."
-# AC_ARG_WITH(xerces-path,
-#         [  --with-xerces-path=path
-#                           xercesImpl.jar path],
-#         [ XERCESPATH=$withval ],
-#         [ XERCESPATH=$XERCESPATH_DEFAULT ]
-# )
-# AC_MSG_CHECKING(xercesImpl.jar path)
-# if [ [ $XERCESPATH == "." ] ]
-#   then
-#     test -f /usr/share/java/xercesImpl.jar
-#     if [ [ $? -eq 0 ] ]
-#     then
-#       XERCESPATH=/usr/share/java/xercesImpl.jar
-#     fi
-# fi
-# if [ [ $XERCESPATH == "." ] ]
-#   then
-#     AC_MSG_RESULT(no)
-#     AC_MSG_ERROR(Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>)
-# fi
-# AC_MSG_RESULT(${XERCESPATH})
-# AC_DEFINE([XERCESPATH], [], [Define the path to xercesImpl.jar])
-# AC_DEFINE_UNQUOTED(XERCESPATH, "$XERCESPATH")
-# AC_SUBST(XERCESPATH)
 
 
 # Location of the Zend Framework.

@@ -582,7 +582,6 @@ MYSQL_ROOT_PASSWORD
 FIND_WDIFF
 FIND_UNZIP
 FIND_ZIP
-FIND_JAVA
 FIND_PHP
 FIND_MYSQLDUMP
 FIND_MYSQL
@@ -2530,51 +2529,6 @@ if test x$FIND_PHP = xno; then
   as_fn_error $? "Program \"php\" is needed. Install this first." "$LINENO" 5
 fi
 
-# Extract the first word of "java", so it can be a program name with args.
-set dummy java; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_FIND_JAVA+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $FIND_JAVA in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_FIND_JAVA="$FIND_JAVA" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_FIND_JAVA="$as_dir/$ac_word$ac_exec_ext"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_path_FIND_JAVA" && ac_cv_path_FIND_JAVA="no"
-  ;;
-esac
-fi
-FIND_JAVA=$ac_cv_path_FIND_JAVA
-if test -n "$FIND_JAVA"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $FIND_JAVA" >&5
-$as_echo "$FIND_JAVA" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-if test x$FIND_JAVA = xno; then
-  as_fn_error $? "Program \"java\" is needed. Install the Java Runtime Environment." "$LINENO" 5
-fi
-
 # Extract the first word of "zip", so it can be a program name with args.
 set dummy zip; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2710,11 +2664,6 @@ if test x$FIND_WDIFF = xno; then
   as_fn_error $? "Program \"wdiff\" is needed. Install this first." "$LINENO" 5
 fi
 
-# AC_PATH_PROG(FIND_JAVAC, javac, no)
-# if test x$FIND_JAVAC = xno; then
-#   AC_MSG_ERROR(Program "javac" is needed. Install the Java Development Kit.)
-# fi
-
 # Check for web server on localhost.
 # AC_MSG_CHECKING(local web server)
 # curl -s http://localhost > /dev/null
@@ -2801,35 +2750,6 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-
-
-# Location of xercesImpl.jar.
-# Obtain it through dpkg -L libxerces2-java
-# XERCESPATH_DEFAULT="."
-# AC_ARG_WITH(xerces-path,
-#         [  --with-xerces-path=path
-#                           xercesImpl.jar path],
-#         [ XERCESPATH=$withval ],
-#         [ XERCESPATH=$XERCESPATH_DEFAULT ]
-# )
-# AC_MSG_CHECKING(xercesImpl.jar path)
-# if [ [ $XERCESPATH == "." ] ]
-#   then
-#     test -f /usr/share/java/xercesImpl.jar
-#     if [ [ $? -eq 0 ] ]
-#     then
-#       XERCESPATH=/usr/share/java/xercesImpl.jar
-#     fi
-# fi
-# if [ [ $XERCESPATH == "." ] ]
-#   then
-#     AC_MSG_RESULT(no)
-#     AC_MSG_ERROR(Could not find path to xercesImpl.jar. Provide the information through: --with-xerces-path=<path>)
-# fi
-# AC_MSG_RESULT(${XERCESPATH})
-# AC_DEFINE([XERCESPATH], [], [Define the path to xercesImpl.jar])
-# AC_DEFINE_UNQUOTED(XERCESPATH, "$XERCESPATH")
-# AC_SUBST(XERCESPATH)
 
 
 # Location of the Zend Framework.
