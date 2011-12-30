@@ -124,25 +124,25 @@ AC_ARG_WITH(zend-path,
 )
 AC_MSG_CHECKING(Zend Framework path)
 if [ [ $ZENDPATH == "." ] ]
+then
+  test -d /usr/share/php/Zend
+  if [ [ $? -eq 0 ] ]
   then
-    test -d /usr/share/php/Zend
-    if [ [ $? -eq 0 ] ]
-    then
-      ZENDPATH=/usr/share/php/Zend
-    fi
+    ZENDPATH=/usr/share/php/Zend
+  fi
 fi
 if [ [ $ZENDPATH == "." ] ]
+then
+  test -d /usr/share/php/libzend-framework-php/Zend
+  if [ [ $? -eq 0 ] ]
   then
-    test -d /usr/share/php/libzend-framework-php/Zend
-    if [ [ $? -eq 0 ] ]
-    then
-      ZENDPATH=/usr/share/php/libzend-framework-php/Zend
-    fi
+    ZENDPATH=/usr/share/php/libzend-framework-php/Zend
+  fi
 fi
 if [ [ $ZENDPATH == "." ] ]
-  then
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR(Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>)
+then
+  AC_MSG_RESULT(no)
+  AC_MSG_ERROR(Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>)
 fi
 AC_MSG_RESULT(${ZENDPATH})
 AC_DEFINE([ZENDPATH], [], [Define the path to the Zend framework])

@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPUnit/Framework.php';
- 
+
 class diffTest extends PHPUnit_Framework_TestCase
 {
 
@@ -38,7 +38,7 @@ private $temporary_folder;
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_old.usfm", $this->temporary_folder . "/verses_old.usfm");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_new.usfm", $this->temporary_folder . "/verses_new.usfm");
 
-    Filter_Diff::runDaisyDiff ($this->temporary_folder . "/verses_old.usfm", $this->temporary_folder . "/verses_new.usfm", $this->temporary_folder . "/changed_verses.html");
+    Filter_Diff::runWDiff ($this->temporary_folder . "/verses_old.usfm", $this->temporary_folder . "/verses_new.usfm", $this->temporary_folder . "/changed_verses.html");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/changed_verses.html", $this->temporary_folder . "/changed_verses.html");
   }
 

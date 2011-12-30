@@ -52,7 +52,7 @@ foreach ($bibles as $bible) {
   $directory = $localStatePath . $basePath;
   mkdir ($directory, 0777, true);
   
-  // Remove possible old symbolic link.
+  // Remove old symbolic link if it's there.
   $link = dirname ($directory) . "/0_most_recent_changes";
   @unlink ($link);
   
@@ -63,18 +63,13 @@ foreach ($bibles as $bible) {
   // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
   $database_bibles->deleteDiffBible ($bible);
 
-  // Prepare for Daisy Diff.
-  Filter_Diff::copyDaisyDiffLibraries ($directory);
-
   // Create online page showing changed verses.
   $versesoutputfile = "$directory/changed_verses.html";
-  Filter_Diff::runDaisyDiff ("$directory/verses_old.html", "$directory/verses_new.html", $versesoutputfile);
-  Filter_Diff::setDaisyDiffTitle ($versesoutputfile, $biblename, gettext ("recent changes"));
+  Filter_Diff::runWDiff ("$directory/verses_old.html", "$directory/verses_new.html", $versesoutputfile);
 
   // Create online page showing changed chapters.
   $chaptersoutputfile = "$directory/changed_chapters.html";
-  Filter_Diff::runDaisyDiff ("$directory/chapters_old.html", "$directory/chapters_new.html", $chaptersoutputfile);
-  Filter_Diff::setDaisyDiffTitle ($chaptersoutputfile, $biblename, gettext ("recent changes"));
+  Filter_Diff::runWDiff ("$directory/chapters_old.html", "$directory/chapters_new.html", $chaptersoutputfile);
   
   // Insert links to the online versions.
   $links = array ();
@@ -90,11 +85,6 @@ foreach ($bibles as $bible) {
   // Copy the changed verses to the email file.
   $emailoutputfile = "$directory/changed_verses_email.html";
   file_put_contents ($emailoutputfile, file_get_contents ($versesoutputfile));
-  Filter_Diff::setDaisyDiffTitle ($emailoutputfile, $biblename, gettext ("recent changes"));
-  Filter_Diff::setDaisyDiffSubtitle ($emailoutputfile, gettext ("Added text shows in bold and light green. Removed text is stroked out and light red."));
-  Filter_Diff::integrateDaisyDiffStylesheet ($emailoutputfile, true);
-  Filter_Diff::removeDaisyDiffJavascript ($emailoutputfile);
-  Filter_Diff::removeDaisyDiffArrows ($emailoutputfile);
 
   // Email users.
   $subject = gettext ("Recent changes") . " " . $biblename;

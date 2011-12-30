@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-28 01:43+0100\n"
+"POT-Creation-Date: 2011-12-30 01:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -635,6 +635,9 @@ msgstr ""
 msgid "Typesetting"
 msgstr ""
 
+msgid "Installation"
+msgstr ""
+
 msgid "Typesetting in InDesign"
 msgstr ""
 
@@ -645,9 +648,6 @@ msgid "Help"
 msgstr ""
 
 msgid "Consultations"
-msgstr ""
-
-msgid "Installation"
 msgstr ""
 
 msgid "About"
@@ -3036,6 +3036,9 @@ msgstr ""
 msgid "Version 0.5 on Ubuntu 11.04."
 msgstr ""
 
+msgid "Version 0.6 (still under development) on Ubuntu 11.10."
+msgstr ""
+
 msgid "Version being developed"
 msgstr ""
 
@@ -3063,7 +3066,7 @@ msgid ""
 "of your own choice. This will disable the default adminusername account."
 msgstr ""
 
-msgid "Install Bibledit-Web version 0.5 on Ubuntu 11.04"
+msgid "Install Bibledit-Web version 0.6 on Ubuntu 11.10"
 msgstr ""
 
 msgid "This assumes a standard installation of the operating system."
@@ -3162,6 +3165,9 @@ msgid ""
 "exist on the system. It is recommended, therefore, to create an "
 "Administrator's account of your own choice, and then to remove the default "
 "adminusername account."
+msgstr ""
+
+msgid "Install Bibledit-Web version 0.5 on Ubuntu 11.04"
 msgstr ""
 
 msgid "Typesetting in Adobe InDesign"

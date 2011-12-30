@@ -2768,26 +2768,26 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking Zend Framework path" >&5
 $as_echo_n "checking Zend Framework path... " >&6; }
 if  [ $ZENDPATH == "." ]
+then
+  test -d /usr/share/php/Zend
+  if  [ $? -eq 0 ]
   then
-    test -d /usr/share/php/Zend
-    if  [ $? -eq 0 ]
-    then
-      ZENDPATH=/usr/share/php/Zend
-    fi
+    ZENDPATH=/usr/share/php/Zend
+  fi
 fi
 if  [ $ZENDPATH == "." ]
+then
+  test -d /usr/share/php/libzend-framework-php/Zend
+  if  [ $? -eq 0 ]
   then
-    test -d /usr/share/php/libzend-framework-php/Zend
-    if  [ $? -eq 0 ]
-    then
-      ZENDPATH=/usr/share/php/libzend-framework-php/Zend
-    fi
+    ZENDPATH=/usr/share/php/libzend-framework-php/Zend
+  fi
 fi
 if  [ $ZENDPATH == "." ]
-  then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-    as_fn_error $? "Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>" "$LINENO" 5
+  as_fn_error $? "Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>" "$LINENO" 5
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${ZENDPATH}" >&5
 $as_echo "${ZENDPATH}" >&6; }

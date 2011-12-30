@@ -4,7 +4,7 @@
 class Filter_Backup
 {
 
-  public function file () // Todo
+  public function file ()
   {
     $config_general = Database_Config_General::getInstance ();
     $value = $config_general->getBackupFile ();
