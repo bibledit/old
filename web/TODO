@@ -1,12 +1,6 @@
 
 
 
-Let the package use the distro's smarty library and smarty-gettext.
-Packages: smarty smarty-gettext
-See if it works: dpkg --contents *smarty*
-It installs these files:
-/usr/share/php/smarty/Smarty.class.php
-The gettext plugin should be right automatically since it installs itself in the plugin directory of Smarty.
 
 
 

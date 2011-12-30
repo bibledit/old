@@ -7,11 +7,8 @@
 /**
 * Needs to include the parent Smarty class.
 */
-//require_once ("smarty/Smarty.class.php"); // Todo this goes out.
-include dirname (dirname(__FILE__)) . "/paths/paths.php"; // Todo perhaps in bootstrap.php, not here.
 require_once ("Smarty.class.php");
-// Todo try out whether the new smarty is used.
-// Todo move smarty's included folder to a temporal location, e.g. /tmp/bibledit-web or similar.
+// Todo move smarty's included folder to a writable location, e.g. /tmp/bibledit-web or similar.
 
 
 /**
@@ -33,7 +30,7 @@ class Smarty_Bibledit extends Smarty {
     $this->clear_all_cache ();
     
     // Register the {t}Text{/t} gettext blocks.
-    require_once('smarty-gettext/smarty-gettext.php');
+    require_once('plugins/block.t.php');
     $this->register_block('t', 'smarty_translate');
 
     // Four important directories for Smarty.
