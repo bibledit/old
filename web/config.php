@@ -31,8 +31,11 @@
 /* Define the username of the site administrator */
 #define SITE_ADMIN_USERNAME "adminusername"
 
+/* Define the path to the smarty template engine */
+#define SMARTYPATH "/usr/share/php/smarty/libs"
+
 /* Version number of package */
 #define VERSION "0.6"
 
-/* Define the path to the Zend framework */
+/* Define the path to the zend framework */
 #define ZENDPATH "/usr/share/php/libzend-framework-php/Zend"

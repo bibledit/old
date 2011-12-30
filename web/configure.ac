@@ -113,16 +113,16 @@ AC_DEFINE_UNQUOTED(SITE_ADMIN_PASSWORD, "$SITE_ADMIN_PASSWORD")
 AC_SUBST(SITE_ADMIN_PASSWORD)
 
 
-# Location of the Zend Framework.
-# Ubuntu: dpkg -L libzend-framework-php: /usr/share/php/libzend-framework-php/Zend
+# Location of the zend framework.
 # Debian: dpkg -L zendframework: /usr/share/php/Zend
+# Ubuntu: dpkg -L libzend-framework-php: /usr/share/php/libzend-framework-php/Zend
 ZENDPATH_DEFAULT="."
 AC_ARG_WITH(zend-path,
         [  --with-zend-path=path   Zend Framework path],
         [ ZENDPATH=$withval ],
         [ ZENDPATH=$ZENDPATH_DEFAULT ]
 )
-AC_MSG_CHECKING(Zend Framework path)
+AC_MSG_CHECKING(zend framework path)
 if [ [ $ZENDPATH == "." ] ]
 then
   test -d /usr/share/php/Zend
@@ -142,12 +142,49 @@ fi
 if [ [ $ZENDPATH == "." ] ]
 then
   AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Could not find path to the Zend Framework. Provide the information through: --with-zend-path=<path>)
+  AC_MSG_ERROR(Could not find path to the zend framework. Provide the information through: --with-zend-path=<path>)
 fi
 AC_MSG_RESULT(${ZENDPATH})
-AC_DEFINE([ZENDPATH], [], [Define the path to the Zend framework])
+AC_DEFINE([ZENDPATH], [], [Define the path to the zend framework])
 AC_DEFINE_UNQUOTED(ZENDPATH, "$ZENDPATH")
 AC_SUBST(ZENDPATH)
+
+
+# Location of the smarty template engine.
+# Debian: dpkg -L smarty: /usr/share/php/smarty/libs/Smarty.class.php
+# Ubuntu: dpkg -L smarty: /usr/share/php/smarty/Smarty.class.php
+SMARTYPATH_DEFAULT="."
+AC_ARG_WITH(smarty-path,
+        [  --with-smarty-path=path   smarty path],
+        [ SMARTYPATH=$withval ],
+        [ SMARTYPATH=$SMARTYPATH_DEFAULT ]
+)
+AC_MSG_CHECKING(smarty path)
+if [ [ $SMARTYPATH == "." ] ]
+then
+  test -f /usr/share/php/smarty/libs/Smarty.class.php
+  if [ [ $? -eq 0 ] ]
+  then
+    SMARTYPATH=/usr/share/php/smarty/libs
+  fi
+fi
+if [ [ $SMARTYPATH == "." ] ]
+then
+  test -f /usr/share/php/smarty/Smarty.class.php
+  if [ [ $? -eq 0 ] ]
+  then
+    SMARTYPATH=/usr/share/php/smarty
+  fi
+fi
+if [ [ $SMARTYPATH == "." ] ]
+then
+  AC_MSG_RESULT(no)
+  AC_MSG_ERROR(Could not find path to the smarty template engine. Provide the information through: --with-smarty-path=<path>)
+fi
+AC_MSG_RESULT(${SMARTYPATH})
+AC_DEFINE([SMARTYPATH], [], [Define the path to the smarty template engine])
+AC_DEFINE_UNQUOTED(SMARTYPATH, "$SMARTYPATH")
+AC_SUBST(SMARTYPATH)
 
 
 # Checks for Additional stuffs.
@@ -274,9 +311,9 @@ echo '?>'                               >> $VERSIONFILE
 PATHSFILE=web/paths/paths.php
 rm $PATHSFILE
 echo '<?php' >> $PATHSFILE
-# echo '$xercesPath = "'$XERCESPATH'";'   >> $PATHSFILE
 echo '$zendPath = "'$ZENDPATH'";' >> $PATHSFILE
 echo '$localStatePath = "'$DESTDIR'/'$packagelocalstatedir'";' >> $PATHSFILE
+echo '$smartyPath = "'$SMARTYPATH'";' >> $PATHSFILE
 echo '?>' >> $PATHSFILE
 
 # Summary.
@@ -290,7 +327,8 @@ MySQL database administrator username: root
 MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
 Website administrator username: ${SITE_ADMIN_USERNAME}
 Website administrator password: ${SITE_ADMIN_PASSWORD}
-Zend Framework path: ${ZENDPATH}
-Local State Directory: $DESTDIR/${packagelocalstatedir}
+Zend framework path: ${ZENDPATH}
+Local state directory: $DESTDIR/${packagelocalstatedir}
+Smarty template engine path: ${SMARTYPATH}
 "
 

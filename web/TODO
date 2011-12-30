@@ -1,6 +1,46 @@
 
 
 
+Let the package use the distro's smarty library and smarty-gettext.
+Packages: smarty smarty-gettext
+See if it works: dpkg --contents *smarty*
+It installs these files:
+/usr/share/php/smarty/Smarty.class.php
+The gettext plugin should be right automatically since it installs itself in the plugin directory of Smarty.
+
+
+
+You will need four directories setup for Smarty to work. These files are for
+templates, compiled templates, cached templates and config files. You may or
+may not use caching or config files, but it is a good idea to set them up
+anyways. It is also recommended to place them outside of the web server
+document root. The web server PHP user will need write access to the cache and
+compile directories as well.
+
+In our example, the document root is /web/www.domain.com/docs and the
+web server username is "nobody". We will keep our Smarty files under
+/web/www.domain.com/smarty
+
+$> cd /web/www.domain.com
+$> mkdir smarty
+$> mkdir smarty/templates
+$> mkdir smarty/templates_c
+$> mkdir smarty/cache
+$> mkdir smarty/configs
+$> chown nobody:nobody smarty/templates_c
+$> chown nobody:nobody smarty/cache
+$> chmod 775 smarty/templates_c
+$> chmod 775 smarty/cache
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -17,7 +57,6 @@ To create a Debian package of Bibledit-Web.
 
 
 
-Let the package use the distro's smarty library and smarty-gettext.
 
 
 
@@ -125,16 +164,7 @@ Pay attention to localization through Zend.
 
 
 
-To have a module to daily export a GoBible. 
-
-
-I am wondering if you would be willing to add Sword and GoBible exports from the GTK version to the exports that are in the Web version. 
-Also, how about PDF book exports as well?
-
-
-
-
-Also, I was pleased to see that I would be able to edit in the Web version using my Nook that has been rooted to become an Android 3.0 tablet. 
+I was pleased to see that I would be able to edit in the Web version using my Nook that has been rooted to become an Android 3.0 tablet. 
 By enlarging the font with a gesture and turning the unit to the side, I was able to get the pages (both editable and the HTML exports) to reformat to fit the screen. 
 However the verse editing window would not reformat. 
 I wonder if you might be willing to make that window also variable in size. 
@@ -275,17 +305,6 @@ I'd suggest you try to do a detailed security review as soon as
 practical.  It seems odd to be using 1024bit ssh keypairs, but also
 doing things like "chmod 0777" and assuming a dba password of "root".
 
-INSTALLATION HELP:
-
-The help button points to help/001ubuntu1004server.php but this is
-specifically for 0.1, and the codebase is 0.2.  Are there any
-differences?  Also, this file says in part:
-
-  If the site is "site.com", then this will be something like:
-  http://site.org/bibledit/setup.php
-
-You can use either site.org or site.com, but they need to match :)
-Using example.com is common for this kind of text, incidentally.
 
 SUMMARY:
 
@@ -299,17 +318,8 @@ what the benefit of this approach is.  I rather suspect that in trying
 to make things "friendly" for people installing it from source, the
 software has been made hard or impossible to install as a package.
 
-Hoping we can find a good approach to packaging bibledit-web,
 
 
-
-
-I now have a hacked-up bibledit-web 0.2 package that more-or-less does
-what the source install does, and installs on a test virtual server.
-But it's much too rough to release, it breaks many rules, and won't even
-build in a PPA, never mind in the official builders.
-
-A few more comments and questions arising from this:
 
 DATABASE CREATION vs DATABASE USE:
 
