@@ -4,27 +4,6 @@
 
 
 
-You will need four directories setup for Smarty to work. These files are for
-templates, compiled templates, cached templates and config files. You may or
-may not use caching or config files, but it is a good idea to set them up
-anyways. It is also recommended to place them outside of the web server
-document root. The web server PHP user will need write access to the cache and
-compile directories as well.
-
-In our example, the document root is /web/www.domain.com/docs and the
-web server username is "nobody". We will keep our Smarty files under
-/web/www.domain.com/smarty
-
-$> cd /web/www.domain.com
-$> mkdir smarty
-$> mkdir smarty/templates
-$> mkdir smarty/templates_c
-$> mkdir smarty/cache
-$> mkdir smarty/configs
-$> chown nobody:nobody smarty/templates_c
-$> chown nobody:nobody smarty/cache
-$> chmod 775 smarty/templates_c
-$> chmod 775 smarty/cache
 
 
 

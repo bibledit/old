@@ -17,6 +17,7 @@
 <p>No longer requires java.</p>
 <p>No longer needs or includes a copy of the daisydiff library.</p>
 <p>Requires wdiff.</p>
+<p>Sheds the included smarty library and instead requires the smarty and smarty-gettext libraries the distro provides.</p>
 <p></p>
 
 <h2>Version 0.5</h2>

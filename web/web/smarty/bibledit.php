@@ -8,7 +8,6 @@
 * Needs to include the parent Smarty class.
 */
 require_once ("Smarty.class.php");
-// Todo move smarty's included folder to a writable location, e.g. /tmp/bibledit-web or similar.
 
 
 /**
@@ -35,9 +34,9 @@ class Smarty_Bibledit extends Smarty {
 
     // Four important directories for Smarty.
     $this->template_dir = dirname($calling_file_php);
-    $this->compile_dir = dirname(__FILE__) . '/templates_c';
-    $this->config_dir = dirname(__FILE__) . '/configs';
-    $this->cache_dir = dirname(__FILE__) . '/cache';
+    $this->compile_dir = sys_get_temp_dir();
+    $this->config_dir = sys_get_temp_dir();
+    $this->cache_dir = sys_get_temp_dir();
 
     // Modifier for the links in the headers.
     $bibledit_root_folder = Bootstrap::getInstance ()->bibledit_root_folder;    
