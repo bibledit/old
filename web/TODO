@@ -19,6 +19,9 @@
 
 
 
+/var/log/apache2/err...
+in create.tpl line 7]: syntax error: block function 't' is not implemented (Smarty_Compiler.class.php
+
 
 
 
@@ -26,6 +29,8 @@
 
 
 To create a Debian package of Bibledit-Web.
+Let the bibledit-web tarball use external resources instead of bundling its own.
+Any missing sources should be put into Debian before disbundling them.
 
 
 
@@ -33,9 +38,11 @@ To create a Debian package of Bibledit-Web.
 
 
 
+To run the cron job as user www-data, if possible?
 
 
-Perhaps to use ckeditor and drop jwysiwyg/jquery - ckeditor is packaged in Debian, jwysiwyg is not.
+
+
 
 
 
@@ -75,13 +82,9 @@ Test download.
 
 The tarball does everything on its own, so that the debian package does little extra.
 
-Let the bibledit-web tarball use external resources instead of bundling its own.
-Any missing sources should be put into Debian before disbundling them.
 
 Let it use dbconfig-common
 
-Use Dwoo instead of smarty? Switch to Zend views?
-Pay attention to localization through Zend.
 
 
 
@@ -149,9 +152,6 @@ I am using the MessageEase keyboard, and find that I am accurate at entering tex
 
 
 
-Where it mentions this link: http://site.org/bibledit/setup.php
-There should be the option given that if they are doing this on their local computer that the address will be
-http://localhost/bibledit/setup.php
 
 
 
@@ -329,17 +329,11 @@ by the user running the bibledit virtualhost, but not by others!).
 I have not checked whether this issue is fixed in the latest git
 development code; I probably should :)
 
-LIBRARIES:
 
-Is there a list somewhere of what libraries are needed by bibledit-web,
-or are incorporated as copies (or modified copies) within it?  So far I
-have found:
 
- * jquery
- * jwysiwyg (a plugin for jquery)
 
-Are there any more?  At least the non-modified ones have to be packaged
-separately, if packaged versions of them don't already exist.  
+
+  
 
 
 
@@ -358,9 +352,14 @@ Or under the settings window.
 
 
 
+
+
 Once the bibledit-web package is ready for deployment, we need to find 
 a way to run both the production environment and the demo site on 
 bibleconsultants.dyndns.org.
+
+
+
 
 
 

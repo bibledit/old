@@ -6,7 +6,7 @@
     <title>{$title}</title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
     {if isset ($document_ready_functions) || isset ($wysiwyg_editor) }
-      <script type="text/javascript" src="../jquery/jquery.js"></script>
+      <script type="text/javascript" src="../jwysiwyg/jslib.js"></script>
     {/if}
     {if isset ($wysiwyg_editor) }
       <link rel="stylesheet" href="../jwysiwyg/jwysiwyg/jquery.wysiwyg.css" type="text/css" />

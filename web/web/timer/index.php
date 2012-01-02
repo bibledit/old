@@ -39,6 +39,7 @@ register_shutdown_function('shutdown');
 $crontable = Database_Cron::getInstance ();
 $log = Database_Logs::getInstance();
 $config_general = Database_Config_General::getInstance ();
+$log->log ("run", false); // Todo
 
 
 $current_timestamp = time ();
