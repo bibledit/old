@@ -1,3 +1,16 @@
+Bibledit-Web online no longer generates a list of changes.
+This is a permission problem. To fix this: Set owner of all relevant folders to www-data.
+Same applies to the backup.
+
+
+
+
+
+
+
+gobiblecreator: To ensure that all sources for the classes in the core is included in the package.
+
+Probably to include all available source from subversion, so that we're sure that everything has been included.
 
 
 
@@ -10,9 +23,23 @@
 
 
 
+The current version of Bibledit-Web does not allow one to set up
+distributed collaboration.
+cd /var/lib/bibledit-web/git/NdebeleTeam; git clone git://bibleconsultants.dyndns.org/ndebele .
+cd: 1: can't cd to /var/lib/bibledit-web/git/NdebeleTeam
 
 
 
+
+
+
+
+
+
+
+Clean installation from .deb file:
+Error: Files not writeable
+Error: Smarty compile directory is not writeable
 
 
 
@@ -35,10 +62,6 @@ Any missing sources should be put into Debian before disbundling them.
 
 
 
-
-
-
-To run the cron job as user www-data, if possible?
 
 
 
@@ -368,5 +391,7 @@ bibleconsultants.dyndns.org.
 
 Should we upgrade bibledit-gtk to libgtkhtml-4.0-0 and libgtkhtml-editor-4.0-0? 
 These might have better quality than the current library.
+
+
 
 

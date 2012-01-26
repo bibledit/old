@@ -1,12 +1,9 @@
-The ptx2pdf macros are held in a Subversion (version control) repository. You can access this in several ways:
+The ptx2pdf package is described at https://sites.google.com/a/icapmail.org/ptx2pdf/
 
-(a) With a web browser, go to http://scripts.sil.org/svn-view/sfscripture/TRUNK/ptx2pdf/ 
+The software is kept in a Subversion (version control) repository. You can access this in several ways:
 
-(b) At that page, click the "Download tarball" link
-
-(c) Or check out a copy: svn co http://scripts.sil.org/svn-public/sfscripture/TRUNK/ptx2pdf
+- http://scripts.sil.org/svn-view/sfscripture/TRUNK/ptx2pdf/ 
+- svn co http://scripts.sil.org/svn-public/sfscripture/TRUNK/ptx2pdf
 
 (There is also ptxplus at "hg clone http://hg.palaso.org/ptxplus". It should do a little more than ptx2pdf).
-
-
 
