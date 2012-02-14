@@ -22,6 +22,11 @@
 <p>Security: All files owned by user www-data, rather than root.</p>
 <p>Locally installed files have been moved from /usr/share/bibledit-web/www to /usr/share/bibledit-web.</p>
 <p>Automatic backups work again without first setting permissions and ownership.</p>
+<p>Automatic daily generation of lists of changes in the Bibles work again without first setting permissions and ownership.</p>
+<p>Daily generated emails detailing changes in the Bible text no longer contain links to the online version.</p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 <p></p>
 

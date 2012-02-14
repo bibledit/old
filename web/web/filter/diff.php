@@ -136,29 +136,6 @@ class Filter_Diff
   }
 
 
-  /**
-  * This filter inserts links at the top of the html file.
-  * $htmlfile: The html to operate on.
-  * $links: array of array of links and texts.
-  */
-  public function insertLinks ($htmlfile, $links)
-  {
-    $contents = file_get_contents ($htmlfile);
-    if ($contents !== false) {
-      $htmlcode = "<p>";
-      foreach ($links as $link) {
-        $url = $link[0];
-        $txt = $link[1];
-        if ($url != "") $htmlcode .= " <a href=\"$url\">$txt</a> ";
-        else $htmlcode .= " $txt ";
-      }
-      $htmlcode .= "</p>\n";
-      $htmlcode .= $contents;
-      file_put_contents ($htmlfile, $htmlcode);
-    }
-  }
-
-
 }
 
 ?>

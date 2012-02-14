@@ -39,8 +39,6 @@ $database_bibles = Database_Bibles::getInstance ();
 
 include ("paths/paths.php");
 
-$siteUrl = $database_config_general->getSiteURL ();
-
 $bibles = $database_bibles->getDiffBibles ();
 foreach ($bibles as $bible) {
 
@@ -48,7 +46,6 @@ foreach ($bibles as $bible) {
   // The files are accessible through the browser.
   $biblename = $database_bibles->getName ($bible);
   $basePath  = "/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
-  $baseUrl = "/downloads" . $basePath;
   $directory = $localStatePath . $basePath;
   mkdir ($directory, 0777, true);
   
@@ -70,17 +67,6 @@ foreach ($bibles as $bible) {
   // Create online page showing changed chapters.
   $chaptersoutputfile = "$directory/changed_chapters.html";
   Filter_Diff::runWDiff ("$directory/chapters_old.html", "$directory/chapters_new.html", $chaptersoutputfile);
-  
-  // Insert links to the online versions.
-  $links = array ();
-  $links [] = array ("", "View this online:");
-  $links [] = array ("$siteUrl$baseUrl/changed_verses.html", "changed verses");
-  $links [] = array ("", "|");
-  $links [] = array ("$siteUrl$baseUrl/changed_chapters.html", "changed chapters");
-  $links [] = array ("", "|");
-  $links [] = array ("$siteUrl$baseUrl/changed_verses_email.html", "emailed version");
-  Filter_Diff::insertLinks ("$directory/changed_verses.html", $links);
-  Filter_Diff::insertLinks ("$directory/changed_chapters.html", $links);
   
   // Copy the changed verses to the email file.
   $emailoutputfile = "$directory/changed_verses_email.html";
