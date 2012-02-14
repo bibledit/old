@@ -30,10 +30,6 @@ private $temporary_folder;
 
   public function testFilter()
   {
-    Filter_Diff::produceUsfmChapterLevel ($this->bible_id, $this->temporary_folder);
-    $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/chapters_old.usfm", $this->temporary_folder . "/chapters_old.usfm");
-    $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/chapters_new.usfm", $this->temporary_folder . "/chapters_new.usfm");
-
     Filter_Diff::produceVerseLevel ($this->bible_id, $this->temporary_folder);
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_old.usfm", $this->temporary_folder . "/verses_old.usfm");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_new.usfm", $this->temporary_folder . "/verses_new.usfm");

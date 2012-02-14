@@ -24,7 +24,7 @@
 <p>Automatic backups work again without first setting permissions and ownership.</p>
 <p>Automatic daily generation of lists of changes in the Bibles work again without first setting permissions and ownership.</p>
 <p>Daily generated emails detailing changes in the Bible text no longer contain links to the online version.</p>
-<p></p>
+<p>No longer includes the changed chapters in the set of daily changes.</p>
 <p></p>
 <p></p>
 <p></p>

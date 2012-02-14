@@ -42,8 +42,7 @@ include ("paths/paths.php");
 $bibles = $database_bibles->getDiffBibles ();
 foreach ($bibles as $bible) {
 
-  // Files get stored in http://site.org/bibledit/downloads/changes/<Bible>/<date>
-  // The files are accessible through the browser.
+  // The files get stored at http://site.org/bibledit-web/downloads/changes/<Bible>/<date>
   $biblename = $database_bibles->getName ($bible);
   $basePath  = "/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
   $directory = $localStatePath . $basePath;
@@ -54,27 +53,18 @@ foreach ($bibles as $bible) {
   @unlink ($link);
   
   // Produce the USFM and html files.
-  Filter_Diff::produceUsfmChapterLevel ($bible, $directory);
   Filter_Diff::produceVerseLevel ($bible, $directory);
   
   // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
   $database_bibles->deleteDiffBible ($bible);
 
-  // Create online page showing changed verses.
+  // Create online page with changed verses.
   $versesoutputfile = "$directory/changed_verses.html";
   Filter_Diff::runWDiff ("$directory/verses_old.html", "$directory/verses_new.html", $versesoutputfile);
 
-  // Create online page showing changed chapters.
-  $chaptersoutputfile = "$directory/changed_chapters.html";
-  Filter_Diff::runWDiff ("$directory/chapters_old.html", "$directory/chapters_new.html", $chaptersoutputfile);
-  
-  // Copy the changed verses to the email file.
-  $emailoutputfile = "$directory/changed_verses_email.html";
-  file_put_contents ($emailoutputfile, file_get_contents ($versesoutputfile));
-
   // Email users.
   $subject = gettext ("Recent changes") . " " . $biblename;
-  $emailBody = file_get_contents ($emailoutputfile);
+  $emailBody = file_get_contents ($versesoutputfile);
   $users = $database_users->getUsers ();
   foreach ($users as $user) {
     if ($database_config_user->getUserBibleChangesNotification ($user)) {
