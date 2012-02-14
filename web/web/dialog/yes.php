@@ -6,9 +6,8 @@ class Dialog_Yes
   private $smarty;
 
   /**
-  * Dialog that asks the user for confirmation to perform an action
-  * $query: Array with the basic query parameters for the page where to go
-  * on clicking Cancel or Yes.
+  * Dialog that asks the user for confirmation to perform an action.
+  * $query: Array with the basic query parameters for the page where to go on clicking Cancel or Yes.
   * $question: The question to ask.
   * $action: String with the query parameter to add to the basic query in order to perform the desired action.
   */

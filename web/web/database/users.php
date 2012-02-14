@@ -240,6 +240,19 @@ EOD;
     return $query;
   }
   
+
+  /**
+  * updateUserEmail - Updates the $email for $user.
+  */
+  public function updateUserEmail ($user, $email) {
+    $user = Database_SQLInjection::no ($user);
+    $email = Database_SQLInjection::no ($email);
+    $query = $this->updateEmailQuery ($user, $email);
+    $server = Database_Instance::getInstance ();
+    $server->runQuery ($query);
+  }   
+
+
   /**
   * Return an array with the available users.
   */

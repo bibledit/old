@@ -136,7 +136,7 @@ class Notes_Logic
   * $label: prefix to the subject line of the email.
   * $users: array of users to be mailed.
   */
-  private function emailUsers ($identifier, $label, $users) // Todo
+  private function emailUsers ($identifier, $label, $users)
   {
     // Databases.
     $database_notes = Database_Notes::getInstance();
@@ -151,7 +151,7 @@ class Notes_Logic
     $contents = $database_notes->getContents ($identifier);
     // Include a link to the note on the site.
     $contents .= "<br>\n";
-    $siteUrl = $database_config_general->getSiteURL (); // Todo
+    $siteUrl = $database_config_general->getSiteURL ();
     $link = "$siteUrl/consultations/notes.php?consultationnote=$identifier";
     $contents .= "<p><a href=\"$link\">$link</a></p>\n";
     foreach ($users as $user) {
@@ -166,7 +166,7 @@ class Notes_Logic
   * Returns true if the mail was processed, else false.
   * The email is considered to have been processed if it comments on an existing Consultation Note.
   */
-  public function handleEmailComment ($from, $subject, $body) // Todo
+  public function handleEmailComment ($from, $subject, $body)
   {
     // Check whether the Consultation Notes Identifier in the $subject exists in the notes database.
     // The CNID looks like: (CNID123456789)
@@ -219,7 +219,7 @@ class Notes_Logic
   * Returns true if the mail was processed, else false.
   * The email is considered to have been processed if it created a new Consultation Note.
   */
-  public function handleEmailNew ($from, $subject, $body) // Todo
+  public function handleEmailNew ($from, $subject, $body)
   {
     // Store the original subject.
     $originalSubject = $subject;

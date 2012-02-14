@@ -1,9 +1,12 @@
 <?php
 
+
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
+
 $database_users = Database_Users::getInstance();
+
 
 // New user creation.
 if (isset ($_GET['new'])) {
@@ -21,6 +24,8 @@ if (isset($_POST['new'])) {
   }
 }
 
+
+// Whether to delete a user.
 if (isset ($_GET['delete'])) {
   $name = $_GET['delete'];
   @$confirm = $_GET['confirm'];
@@ -32,6 +37,8 @@ if (isset ($_GET['delete'])) {
   }
 }
 
+
+// The user's role.
 @$user =  $_GET['user'];
 @$level = $_GET['level'];
 if (isset ($user) || isset ($level)) {
@@ -49,6 +56,24 @@ if (isset ($user) || isset ($level)) {
     $database_mail->send ($user, gettext ("Access level change"), gettext ("Your access level was updated"));
   }
 }
+
+
+// User's email address.
+if (isset ($_GET['username'])) {
+  $dialog_entry = new Dialog_Entry (array ("usernamemail" => $_GET['username']), gettext ("Please enter an email address for the user"), $database_users->getUserToEmail ($_GET['username']), "email", "");
+  die;
+}
+if (isset($_POST['email'])) {
+  $email = $_POST['entry'];
+  $validator = new Zend_Validate_EmailAddress ();
+  if ($validator->isValid ($email)) {
+    Assets_Page::success (gettext ("Email address was updated"));
+    $database_users->updateUserEmail ($_GET['usernamemail'], $email);
+  } else {
+    Assets_Page::error (gettext ("The email address is not valid"));
+  }
+}
+
 
 Assets_Page::header (gettext ("Users"));
 $smarty = new Smarty_Bibledit (__FILE__);
