@@ -8,7 +8,7 @@ if (isset($_GET['run'])) {
   $database_config_general->setTimerSendReceive (time ());
   $smarty->assign ("success", gettext ("Will send and receive Bibles within a minute. See the logbook for progress."));
   $database_logs = Database_Logs::getInstance ();
-  $database_logs->log (gettext ("Will send and receive Bibles soon"));
+  $database_logs->log (gettext ("Will send and receive Bibles within a minute"));
 }
 $smarty->display("sendreceive.tpl");
 Assets_Page::footer ();

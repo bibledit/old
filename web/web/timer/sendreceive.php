@@ -81,7 +81,7 @@ foreach ($bibles as $bible) {
     }
     
     // Temporarily store the shared_dictionary. 
-    // Do not check on errors, because it may not exist.
+    // Disable error checking because it may not exist.
     @rename ("$directory/shared_dictionary", "$tempdirectory/shared_dictionary");
 
     // Completely remove all data from the git directory.
@@ -94,7 +94,8 @@ foreach ($bibles as $bible) {
       $database_logs->log(gettext ("Failed to restore the .git directory"));
     }
     
-    // Move the shared_dictionary back into place. No error checking, because it may not exist.
+    // Move the shared_dictionary back into place. 
+    // Disable error checking because it may not exist.
     @rename ("$tempdirectory/shared_dictionary", "$directory/shared_dictionary");
 
     // Store the data into the repository. Data that no longer exists will have been removed above.
@@ -107,9 +108,10 @@ foreach ($bibles as $bible) {
     }
     // If the above does not succeed, then there is a serious problem. 
     // It means that the repository does no longer reflect the data in the database.
-    // This can lead to data loss. Through the repository this would then be propagated to other system.
-    // The best thing to do is to remove the .git directory, so that it cannot propagate damaged data.
-    // Send / Receive would only work again after it has been set up from scratch.
+    // This can lead to data loss. Through the repository this would then be propagated to other systems.
+    // The best thing to do is to remove the .git directory altogether, 
+    // so that it cannot propagate damaged data.
+    // In that case Send / Receive would work again after it has been set up from scratch.
     if (!$success) {
       Filter_Rmdir::rmdir ("$directory/.git");
     }

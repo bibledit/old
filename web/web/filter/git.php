@@ -12,7 +12,7 @@ class Filter_Git
   * The $bible is the Bible.
   * The $output is an output line of by git pull.
   */
-  public function bibleFiledata2database ($directory, $bible, $output) // Todo
+  public function bibleFiledata2database ($directory, $bible, $output)
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a chapter of the Bible is updated as a result of "git pull". 
@@ -392,7 +392,7 @@ EOD;
   /**
   * This function returns the directory of the git repository belonging to $object.
   */
-  public function git_directory ($object) // Todo
+  public function git_directory ($object)
   {
     include ("paths/paths.php");
     $directory = $localStatePath;
@@ -401,17 +401,14 @@ EOD;
   }
   
   
-  public function filedata2database () // Todo
+  public function filedata2database ()
   {
     $database_git = Database_Git::getInstance();
     while ($database_git->get()) {
       $entry = $database_git->get ();
-      var_dump ($entry); // Todo
       $directory = $entry['directory'];
       $output = $entry['output'];
-      $path = dirname (dirname (__FILE__));
-      $path = "$path/git/";
-      $object = substr ($directory, strlen ($path));
+      $object = basename ($directory);
       if ($object == "consultationnotes") {
         Filter_Git::notesFiledata2database ($directory, $output);
       } else {

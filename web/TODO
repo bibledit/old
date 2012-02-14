@@ -2,10 +2,6 @@
 
 
 
-The current version of Bibledit-Web does not allow one to set up
-distributed collaboration.
-cd /var/lib/bibledit-web/git/NdebeleTeam; git clone git://bibleconsultants.dyndns.org/ndebele .
-cd: 1: can't cd to /var/lib/bibledit-web/git/NdebeleTeam
 
 
 
@@ -16,8 +12,6 @@ This is a permission problem. To fix this: Set owner of all relevant folders to 
 Same applies to the backup.
 
 
-
-It looks like the site keeps reverting to the data it had when the last repository setup was made.
 
 
 
