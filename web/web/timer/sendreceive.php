@@ -82,7 +82,7 @@ foreach ($bibles as $bible) {
     
     // Temporarily store the shared_dictionary. 
     // Do not check on errors, because it may not exist.
-    $success = rename ("$directory/shared_dictionary", "$tempdirectory/shared_dictionary");
+    @rename ("$directory/shared_dictionary", "$tempdirectory/shared_dictionary");
 
     // Completely remove all data from the git directory.
     Filter_Rmdir::rmdir ($directory);
@@ -94,8 +94,8 @@ foreach ($bibles as $bible) {
       $database_logs->log(gettext ("Failed to restore the .git directory"));
     }
     
-    // Move the shared_dictionary back into place. It may not exist.
-    $success = rename ("$tempdirectory/shared_dictionary", "$directory/shared_dictionary");
+    // Move the shared_dictionary back into place. No error checking, because it may not exist.
+    @rename ("$tempdirectory/shared_dictionary", "$directory/shared_dictionary");
 
     // Store the data into the repository. Data that no longer exists will have been removed above.
     if ($bible == "consultationnotes") {
@@ -235,18 +235,6 @@ foreach ($bibles as $bible) {
     }
   }
 }
-
-
-// Make the git directory writable for the web process, because
-// the web process needs to add and remove data from it.
-// If this is not done, then one of the symptoms wil be this:
-// Set up collaboration for a Bible, disable collaboration, and
-// set it up for the same Bible again -> it would fail.
-$gitDirectory = Filter_Git::git_directory ();
-$command = "chmod -R 0777 $gitDirectory 2>&1";
-$database_logs->log ($command);
-unset ($result);
-exec ($command, &$result, &$exit_code);
 
 
 $database_logs->log ("**********");
