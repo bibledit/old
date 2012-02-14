@@ -1,4 +1,5 @@
 <?php
+
 /**
 * @package bibledit
 */
@@ -21,9 +22,11 @@
  **  
  */
 
+
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
 $database_logs->log ("Backup has started");
+
 
 // Security: Page only runs from the cli SAPI.
 if (php_sapi_name () != "cli") {
@@ -31,14 +34,17 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
+
 // Database credentials.
 require ("database/credentials.php");
+
   
 $file = Filter_Backup::file ();
 if ($file == "") {
   $database_logs->log ("Backups have not been enabled. It is recommended to backup the data, either through the Backup function, or through other means, and to store the data safely.", true);
   die;
 }
+
 
 $command = "mysqldump -h $database_host --opt -c -e -Q -u$database_user -p$database_pass $database_name | gzip > $file";
 $database_logs->log ("Backup command: $command");

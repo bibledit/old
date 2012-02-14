@@ -21,7 +21,7 @@
 <p>Security: Cron jobs run as user and group www-data rather than root.</p>
 <p>Security: All files owned by user www-data, rather than root.</p>
 <p>Locally installed files have been moved from /usr/share/bibledit-web/www to /usr/share/bibledit-web.</p>
-<p></p>
+<p>Automatic backups work again without first setting permissions and ownership.</p>
 <p></p>
 <p></p>
 
