@@ -50,7 +50,7 @@ $config_general = Database_Config_General::getInstance ();
 //$processUser = posix_getpwuid(posix_geteuid());
 //$processUser = $processUser['name'];
 //$log->log ("cron run by user $processUser", false);
-$log->log ("Minutely timer", false);
+//$log->log ("Minutely timer", false);
 
 
 $current_timestamp = time ();

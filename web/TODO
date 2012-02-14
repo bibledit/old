@@ -6,16 +6,6 @@
 
 
 
-
-Bibledit-Web online no longer generates a list of changes.
-This is a permission problem. To fix this: Set owner of all relevant folders to www-data.
-Same applies to the backup.
-
-
-
-
-
-
 When mailing notes to the receivers, fix the link at the bottom of it.
 
 
