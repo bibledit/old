@@ -36,7 +36,7 @@ class Timer_Receiver
     $database_log = Database_Logs::getInstance();
     try {
       $mail_receiver = new Mail_Receive ();
-      // Messages start at number 1 instead of at 0.
+      // Messages start at number 1 instead of 0.
       for ($i = 1; $i <= $mail_receiver->count; $i++) {
         $message = $mail_receiver->storage->getMessage ($i);
         $from = $message->from;

@@ -131,18 +131,19 @@ class Notes_Logic
 
 
   /**
-  * This handles emails to the users
+  * This handles email to users.
   * $identifier: the note that is being handled.
   * $label: prefix to the subject line of the email.
   * $users: array of users to be mailed.
   */
-  private function emailUsers ($identifier, $label, $users)
+  private function emailUsers ($identifier, $label, $users) // Todo
   {
     // Databases.
     $database_notes = Database_Notes::getInstance();
     $database_config_user = Database_Config_User::getInstance ();
     $database_users = Database_Users::getInstance();
     $database_mail = Database_Mail::getInstance();
+    $database_config_general = Database_Config_General::getInstance ();
     
     // Send mail to all users.
     $summary = $database_notes->getSummary ($identifier);
@@ -150,10 +151,8 @@ class Notes_Logic
     $contents = $database_notes->getContents ($identifier);
     // Include a link to the note on the site.
     $contents .= "<br>\n";
-    @$referer = $_SERVER["HTTP_REFERER"];
-    $caller = explode ("?", $referer);
-    $caller = $caller[0];
-    $link = "$caller?consultationnote=$identifier";
+    $siteUrl = $database_config_general->getSiteURL (); // Todo
+    $link = "$siteUrl/consultations/notes.php?consultationnote=$identifier";
     $contents .= "<p><a href=\"$link\">$link</a></p>\n";
     foreach ($users as $user) {
       $database_mail->send ($user, "$label | $passages | $summary | (CNID$identifier)", $contents);
@@ -165,9 +164,9 @@ class Notes_Logic
   /**
   * handleEmailComment - handles an email received from $from with subject $subject and body $body.
   * Returns true if the mail was processed, else false.
-  * The email is considered to have been processed if it gave a comment on an existing Consultation Note.
+  * The email is considered to have been processed if it comments on an existing Consultation Note.
   */
-  public function handleEmailComment ($from, $subject, $body)
+  public function handleEmailComment ($from, $subject, $body) // Todo
   {
     // Check whether the Consultation Notes Identifier in the $subject exists in the notes database.
     // The CNID looks like: (CNID123456789)
@@ -220,7 +219,7 @@ class Notes_Logic
   * Returns true if the mail was processed, else false.
   * The email is considered to have been processed if it created a new Consultation Note.
   */
-  public function handleEmailNew ($from, $subject, $body)
+  public function handleEmailNew ($from, $subject, $body) // Todo
   {
     // Store the original subject.
     $originalSubject = $subject;
