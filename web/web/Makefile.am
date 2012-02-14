@@ -2,27 +2,20 @@ EXTRA_DIST = *
 CLEANFILES = *~
 
 install-data-local:
-	rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/changes
-	rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/exports
-	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)/www
-	cp -r * $(DESTDIR)$(prefix)/$(packagedatadir)/www
-	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www
-	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www/*
-	find $(DESTDIR)$(prefix)/$(packagedatadir)/www -type f -print0 | xargs -0 chmod 0666
+	rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/downloads/changes
+	rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/downloads/exports
+	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)
+	cp -r * $(DESTDIR)$(prefix)/$(packagedatadir)
+	chown -R www-data:www-data $(DESTDIR)$(prefix)/$(packagedatadir)
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/changes
+	- ln -s /$(packagelocalstatedir)/changes $(DESTDIR)$(prefix)/$(packagedatadir)/downloads/changes
+	chown www-data:www-data $(DESTDIR)/$(packagelocalstatedir)/changes
+	chown www-data:www-data $(DESTDIR)$(prefix)/$(packagedatadir)/downloads/changes
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/exports
-	- ln -s /$(packagelocalstatedir)/changes $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/changes
-	- ln -s /$(packagelocalstatedir)/exports $(DESTDIR)$(prefix)/$(packagedatadir)/www/downloads/exports
+	- ln -s /$(packagelocalstatedir)/exports $(DESTDIR)$(prefix)/$(packagedatadir)/downloads/exports
+	chown www-data:www-data $(DESTDIR)/$(packagelocalstatedir)/exports
+	chown www-data:www-data $(DESTDIR)$(prefix)/$(packagedatadir)/downloads/exports
 
 clean-local:
 	find . -iname *~ -delete
 
-#	Permission Level
-# 0 None (the equivalent of a dash)
-# 1 Executable, but cannot read or write
-# 2 Write only, cannot read or execute
-# 3 Write and Execute
-# 4 Read-only
-# 5 Read-only and Execute
-# 6 Read, Write, but cannot execute
-# 7	Read, Write and Execute

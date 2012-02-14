@@ -1,3 +1,30 @@
+Change user:group of everything installed to www-data:www-data.
+See which permissions to apply to the installed files so www-data can write to it, and e.g. root can see them, but not write to them.
+	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www
+	chmod -R 0777 $(DESTDIR)$(prefix)/$(packagedatadir)/www/*
+	find $(DESTDIR)$(prefix)/$(packagedatadir)/www -type f -print0 | xargs -0 chmod 0666
+
+
+
+
+
+
+
+Bibledit-Web online no longer generates a list of changes.
+This is a permission problem. To fix this: Set owner of all relevant folders to www-data.
+Same applies to the backup.
+It looks like the site keeps reverting to the data it had when the last repository setup was made.
+
+
+
+
+The current version of Bibledit-Web does not allow one to set up
+distributed collaboration.
+cd /var/lib/bibledit-web/git/NdebeleTeam; git clone git://bibleconsultants.dyndns.org/ndebele .
+cd: 1: can't cd to /var/lib/bibledit-web/git/NdebeleTeam
+
+
+
 
 
 
@@ -48,12 +75,6 @@ Daniel
 
 
 
-Bibledit-Web online no longer generates a list of changes.
-This is a permission problem. To fix this: Set owner of all relevant folders to www-data.
-Same applies to the backup.
-It looks like the site keeps reverting to the data it had when the last repository setup was made.
-
-
 I wonder whether it is better that the site stores no data at all in a file system,
 but only in a database. When generating the changes, we could just mail them out, and store nothing.
 When storing the exported Bibles, we could just store them in a temporal directory, and link to that, no more.
@@ -67,13 +88,6 @@ And the git repository could be stored again in the database before and after us
 
 
 
-
-
-
-The current version of Bibledit-Web does not allow one to set up
-distributed collaboration.
-cd /var/lib/bibledit-web/git/NdebeleTeam; git clone git://bibleconsultants.dyndns.org/ndebele .
-cd: 1: can't cd to /var/lib/bibledit-web/git/NdebeleTeam
 
 
 

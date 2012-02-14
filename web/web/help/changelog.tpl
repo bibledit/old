@@ -18,7 +18,11 @@
 <p>No longer needs or includes a copy of the daisydiff library.</p>
 <p>Requires wdiff.</p>
 <p>Sheds the included smarty library and instead requires the smarty and smarty-gettext libraries the distro provides.</p>
-<p>Cron jobs run as user www-data.</p>
+<p>Security: Cron jobs run as user and group www-data rather than root.</p>
+<p>Security: All files owned by user www-data, rather than root.</p>
+<p>Locally installed files have been moved from /usr/share/bibledit-web/www to /usr/share/bibledit-web.</p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 0.5</h2>

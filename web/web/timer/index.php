@@ -31,7 +31,7 @@ if (php_sapi_name () != "cli") {
 }
 
 
-// Change user Id of process that runs this script.
+// Change user Id of process running this script.
 $pwnam = posix_getpwnam ("www-data");
 posix_setuid ($pwnam['uid']);
 posix_setgid ($pwnam['gid']);
