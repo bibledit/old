@@ -31,6 +31,14 @@ if (php_sapi_name () != "cli") {
 }
 
 
+// Change user Id of process that runs this script.
+$pwnam = posix_getpwnam ("www-data");
+posix_setuid ($pwnam['uid']);
+posix_setgid ($pwnam['gid']);
+posix_seteuid ($pwnam['uid']);
+posix_setegid ($pwnam['gid']);
+
+
 ignore_user_abort(true);
 set_time_limit(0);
 register_shutdown_function('shutdown');
@@ -39,7 +47,9 @@ register_shutdown_function('shutdown');
 $crontable = Database_Cron::getInstance ();
 $log = Database_Logs::getInstance();
 $config_general = Database_Config_General::getInstance ();
-//$log->log ("run", false);
+$processUser = posix_getpwuid(posix_geteuid());
+$processUser = $processUser['name'];
+$log->log ("cron run by user $processUser", false);
 
 
 $current_timestamp = time ();

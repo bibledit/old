@@ -1,6 +1,15 @@
-Bibledit-Web online no longer generates a list of changes.
-This is a permission problem. To fix this: Set owner of all relevant folders to www-data.
-Same applies to the backup.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -11,6 +20,44 @@ Same applies to the backup.
 gobiblecreator: To ensure that all sources for the classes in the core is included in the package.
 
 Probably to include all available source from subversion, so that we're sure that everything has been included.
+
+Hi Teus,
+I'm sorry the Readme file was not updated. 
+To build GoBibleCore, you only need the Java ME SDK, which you can download from the Oracle Java website. 
+For Linux platforms (such as I am using) you can use the Wireless toolkit (a.k.a. WTK), also from that website.
+You then load the sources into Wireless toolkit / Java ME SDK by creating a new project (preferably on a separate directory, to avoid polluting the SVN directory structure).
+If you prefer (and I found it more useful), you can create a new Mobile Java application in NetBeans (which I use -- but you must first install the Netbeans Mobility plugins. 
+This plugin has a dependency on Java ME SDK/WTK.) or Eclipse.
+Finally, after having created the project, you must add the GoBible midlet and other GoBible properties to the manifest file. 
+If you want to test GoBibleCore from the IDE, you can copy a "Bible Data/" folder from one of the prepackaged Jar files into your "src/" folder. 
+This way, the IDE will automatically package the bible text into the files. 
+However, when using it with GoBibleCreator, please delete the "Bible Data/" folder from the Jar file. 
+GoBibleCreator will also create a new manifest file.
+I guess the original intention of Antenna and Microemulator were to make the builds more standardized without having to muck around Manifests and Bible Data. 
+But I have found that using the IDEs had been easier for development than mucking around with Antenna and Microemulator.
+I hope this helps.
+Daniel
+
+
+
+
+
+
+
+
+
+
+
+Bibledit-Web online no longer generates a list of changes.
+This is a permission problem. To fix this: Set owner of all relevant folders to www-data.
+Same applies to the backup.
+It looks like the site keeps reverting to the data it had when the last repository setup was made.
+
+
+I wonder whether it is better that the site stores no data at all in a file system,
+but only in a database. When generating the changes, we could just mail them out, and store nothing.
+When storing the exported Bibles, we could just store them in a temporal directory, and link to that, no more.
+And the git repository could be stored again in the database before and after use. The directory it uses would be in /tmp.
 
 
 
@@ -390,8 +437,15 @@ bibleconsultants.dyndns.org.
 
 
 Should we upgrade bibledit-gtk to libgtkhtml-4.0-0 and libgtkhtml-editor-4.0-0? 
-These might have better quality than the current library.
+These might be of a better quality than the current library.
 
 
 
 
+
+
+We may probably better use WebKit(2) in editing mode, and then even set parts non-editable,
+or set everything editable.
+Does navigation still work then? That is, are there sufficient signals available from the WebKit API to update our navigation controls in Bibledit?
+We could even use this in Bibledit-Web, when we set parts of html5 editable.
+We could even phase Bibledit-Gtk out completely.
