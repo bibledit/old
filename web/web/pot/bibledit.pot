@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 01:43+0100\n"
+"POT-Creation-Date: 2012-02-15 01:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgid ""
 "Will send and receive Bibles within a minute. See the logbook for progress."
 msgstr ""
 
-msgid "Will send and receive Bibles soon"
+msgid "Will send and receive Bibles within a minute"
 msgstr ""
 
 msgid "Please enter a name for the new user"
@@ -43,6 +43,15 @@ msgid "Access level change"
 msgstr ""
 
 msgid "Your access level was updated"
+msgstr ""
+
+msgid "Please enter an email address for the user"
+msgstr ""
+
+msgid "Email address was updated"
+msgstr ""
+
+msgid "The email address is not valid"
 msgstr ""
 
 msgid "Users"
@@ -756,9 +765,6 @@ msgid ""
 "I, John, your brother and companion in the persecution, and in the kingdom "
 "and endurance of Jesus Christ, was in the island which is called Patmos, "
 "because of the word of God, and because of the testimony of Jesus Christ."
-msgstr ""
-
-msgid "The email address is not valid"
 msgstr ""
 
 msgid "The answer to the question is not correct"
