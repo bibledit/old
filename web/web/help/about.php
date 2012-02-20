@@ -8,8 +8,3 @@ $smarty->assign ("version", $version);
 $smarty->display("about.tpl");
 Assets_Page::footer ();
 ?>
-
-
-
-
-

@@ -17,13 +17,6 @@ run_cmd=sh /home/teus/bin/be
 current_page=0
 FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/TODO;0;2
 FILE_NAME_1=2138;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
-FILE_NAME_2=1188;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/06ubuntu1110.tpl;0;2
-FILE_NAME_3=1673;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/users.php;0;2
-FILE_NAME_4=634;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/manage/users.tpl;0;2
-FILE_NAME_5=49;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/dialog/entry.php;0;2
-FILE_NAME_6=2629;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/signup.php;0;2
-FILE_NAME_7=3637;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/users.php;0;2
-FILE_NAME_8=2387;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/user/account.php;0;2
 
 [long line marker]
 long_line_behaviour=1
