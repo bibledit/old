@@ -94,10 +94,6 @@ if ($current_timestamp >= ($previous_timestamp + 86400)) {
   // Trim databases.
   $workingdirectory = dirname (__FILE__);
   if (!$database_down) shell_exec ("cd $workingdirectory; php trimdatabases.php > /dev/null 2>&1 &");
-
-  // Log memory usage.    
-  $memory_usage = memory_get_usage();
-  $log->log ("Memory usage is $memory_usage bytes");
   
 }
 

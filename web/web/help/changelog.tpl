@@ -1,7 +1,15 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+<p>Removed: Logging of memory usage once a day.</p>
 <p></p>
+<p></p>
+<p></p>
+<p></p>
+
+<h2>Version 0.6.1</h2>
+<p>22 February 2012</p>
+<p>Fixed: setup.php: Error: Smarty compile directory is not writeable.</p>
 
 <h2>Version 0.6</h2>
 <p>20 February 2012</p>

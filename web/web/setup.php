@@ -14,8 +14,8 @@
   echo "</p>";
   flush ();
    
-  // Set files writeable.
-  system ("chmod -R 0777 *");
+  // Check that files are writeable.
+  // Todo system ("chmod -R 0777 *");
   $files_writable = true;
   $handler = opendir(".");
   while ($file = readdir($handler)) {
@@ -34,11 +34,11 @@
   }
   flush ();
 
-  // Smarty template compile directory writeable.
-  if (is_writable ("smarty/templates_c")) {
-    echo "<p>Ok: Smarty compile directory writeable</p>";
+  // Temporary directory writeable.
+  if (is_writable (sys_get_temp_dir())) {
+    echo "<p>Ok: Temporary directory writeable</p>";
   } else {
-    echo "<p>Error: Smarty compile directory is not writeable</p>";
+    echo "<p>Error: Temporary directory is not writeable</p>";
     die;
   }
   flush ();
