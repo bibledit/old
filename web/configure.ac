@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.6.1],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.6.2],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
@@ -185,6 +185,20 @@ AC_MSG_RESULT(${SMARTYPATH})
 AC_DEFINE([SMARTYPATH], [], [Define the path to the smarty template engine])
 AC_DEFINE_UNQUOTED(SMARTYPATH, "$SMARTYPATH")
 AC_SUBST(SMARTYPATH)
+
+
+# Check whether library gettext-smarty is installed.
+AC_MSG_CHECKING(smarty-gettext)
+SMARTYGETTEXT=$SMARTYPATH/plugins/block.t.php
+test -f $SMARTYGETTEXT
+if [ [ $? -eq 0 ] ]
+then
+  AC_MSG_RESULT(${SMARTYGETTEXT})
+else
+  AC_MSG_RESULT(no)
+  AC_MSG_ERROR(Could not find the smarty-gettext plugin.)
+fi
+
 
 
 # Checks for Additional stuffs.
