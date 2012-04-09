@@ -21,7 +21,7 @@
 #include "libraries.h"
 #include "utilities.h"
 #include "urltransport.h"
-#include <glib/gthread.h>
+#include <glib.h>
 #include "gwrappers.h"
 #include "tiny_utilities.h"
 #include <libsoup/soup.h>

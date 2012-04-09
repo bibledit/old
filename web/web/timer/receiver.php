@@ -34,6 +34,11 @@ class Timer_Receiver
   public function run () 
   {
     $database_log = Database_Logs::getInstance();
+
+    // Bail out when the mail storage host has not been defined, rather than giving an error message.
+    $config_general = Database_Config_General::getInstance ();
+    if ($config_general->getMailStorageHost () == "") return;
+
     try {
       $mail_receiver = new Mail_Receive ();
       // Messages start at number 1 instead of 0.

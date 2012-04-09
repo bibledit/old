@@ -2,8 +2,8 @@
 
 <h2>Version in repository</h2>
 <p>Removed: Logging of memory usage once a day.</p>
-<p></p>
-<p></p>
+<p>The configure script checks whether the smarty-gettext plugin is present.</p>
+<p>Fixed: Errors get logged every five minutes when the email storage host has not been defined.</p>
 <p></p>
 <p></p>
 

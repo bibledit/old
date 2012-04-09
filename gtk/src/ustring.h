@@ -23,8 +23,7 @@
 #ifndef INCLUDED_USTRING_H
 #define INCLUDED_USTRING_H
 
-#include <glib/gmacros.h>
-#include <glib/gunicode.h>
+#include <glib.h>
 #include "ustring-glib.h"
 #include <iosfwd>
 #include <iterator>

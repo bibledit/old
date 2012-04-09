@@ -23,7 +23,6 @@
 #ifndef INCLUDED_USTRING_UTILITY_H
 #define INCLUDED_USTRING_UTILITY_H
 
-#include <glib/gmacros.h>
 #include "ustring.h"
 #include <glib.h>
 

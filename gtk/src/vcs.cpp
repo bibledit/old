@@ -21,7 +21,7 @@
 #include "libraries.h"
 #include "utilities.h"
 #include "vcs.h"
-#include <glib/gthread.h>
+#include <glib.h>
 #include "bible.h"
 #include "gwrappers.h"
 #include "shell.h"
