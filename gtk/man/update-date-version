@@ -1,5 +1,5 @@
 for i in *.1 ;
   do
-  sed -i -e 's/January 31 2009/June 1 2009/' -e s/3.6/3.8/ $i ;
+  sed -i -e 's/December 28 2009/April 10 2012/' -e s/4.1/4.6/ $i ;
 done
 

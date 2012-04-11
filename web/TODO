@@ -1,4 +1,27 @@
+Move the bibledit-shutdown man page from the debian folder into the source package for the next version of bibledit-gtk.
 
+- lintian checks
+$ lintian -I -E --pedantic bibledit*.changes
+I: bibledit-gtk-data: conflicts-with-version bibledit-data (<< 4.2-1~)
+I: bibledit-gtk: conflicts-with-version bibledit (<< 4.2-1~)
+I: bibledit-gtk: hyphen-used-as-minus-sign usr/share/man/man1/bibledit-rdwrt.1.gz:7
+I: bibledit-gtk: hyphen-used-as-minus-sign usr/share/man/man1/bibledit-rdwrt.1.gz:11
+I: bibledit-gtk: hyphen-used-as-minus-sign usr/share/man/man1/bibledit-rdwrt.1.gz:12
+I: bibledit-gtk: hyphen-used-as-minus-sign usr/share/man/man1/bibledit-rdwrt.1.gz:29
+I: bibledit-gtk: hyphen-used-as-minus-sign usr/share/man/man1/bibledit-rdwrt.1.gz:35
+I: bibledit-gtk: hyphen-used-as-minus-sign usr/share/man/man1/bibledit-rdwrt.1.gz:40
+X: bibledit-gtk: package-contains-broken-symlink usr/share/man/man1/bibleditgui.1.gz bibledit.1.gz
+
+I don't quite agree with conflicts-with-version, because this is due to transitional dummy package.
+The others seem quite plausible.
+please check if they are valid and please fix as many as possible
+
+
+- `--parallel'
+if you add --parallel you will enable parallel builds if DEB_BUILD_OPTIONS have parallel parameter set in the environmnet.
+Completely optional, but if your machine is multicore you will speed up your own local builds 
+I export DEB_BUILD_OPTIONS=parallel=4 on my machine to have faster builds =)
+I wonder whether this may have a few bugs, because there is a lot of stuff in the debian folder that should not be there at all.
 
 
 
