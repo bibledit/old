@@ -29,8 +29,8 @@ class Smarty_Bibledit extends Smarty {
     $this->clear_all_cache ();
     
     // Register the {t}Text{/t} gettext blocks.
-    require_once('plugins/block.t.php');
-    $this->register_block('t', 'smarty_translate');
+    //require_once('plugins/block.t.php');
+    //$this->register_block('t', 'smarty_translate');
 
     // Four important directories for Smarty.
     $this->template_dir = dirname($calling_file_php);
