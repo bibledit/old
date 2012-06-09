@@ -2,6 +2,8 @@
 /**
 * @package bibledit
 */
+
+
 /*
  ** Copyright (©) 2003-2012 Teus Benschop.
  **

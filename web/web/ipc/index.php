@@ -1,46 +1,20 @@
-<html>
-
-<head>
-<title>Messages</title>
-<meta http-equiv="refresh" content="1">
-<link rel="stylesheet" type="text/css" href="../css/stylesheet.css" />
-</head>
-
-<body>
-
-<h2>Messages in the interprocess communication queue</h2>
-
 <?php
-
-require("constants.php");
-$handler = opendir($messagesdir);
-$i = 0;
-while ($file = readdir($handler)) {
-  if ($file != '.' && $file != '..' && $file != 'identifier') {
-    $array[$i] = $file;
-    $i++;
-  }
-}
-closedir($handler);
-
-// Sort the file, and suppress errors in case there are no files to sort.
-@sort ($array);
-
-for ($i = 0; $i < sizeof ($array); $i++) {
-  echo "Message $array[$i]<br>\n";
-  $filename = "$messagesdir/$array[$i]";
-  $fh = fopen("$filename", 'r');
-  $data = fread($fh, filesize ($filename));
-  fclose($fh);
-  echo "$data<br>\n";
-  echo "<br>\n";
-}
-
+/*
+ ** Copyright (©) 2003-2012 Teus Benschop.
+ **
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ **  
+ */
 ?>
-
-</body>
-
-</html>
-
-
-
