@@ -190,7 +190,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = web tests apache cron fhs
 CLEANFILES = bibledit*.gz *~
-EXTRA_DIST = TODO update_copyright
+EXTRA_DIST = updatecopyright
 all: config.php
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
