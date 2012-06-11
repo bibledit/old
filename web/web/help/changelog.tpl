@@ -4,7 +4,7 @@
 <p>Removed: Logging of memory usage once a day.</p>
 <p>The configure script checks whether the smarty-gettext plugin is present.</p>
 <p>Fixed: Errors get logged every five minutes when the email storage host has not been defined.</p>
-<p></p>
+<p>Passage focus clients like Bibledit-Bibleworks and others no longer time out after a few hours of non-use.</p>
 <p></p>
 
 <h2>Version 0.6.1</h2>
