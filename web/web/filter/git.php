@@ -348,7 +348,7 @@ class Filter_Git
   public function git_config ($url)
   {
     // Temporal directory where to put the config files.
-    $directory = tempnam (sys_get_temp_dir(), '');
+    $directory = tempnam (sys_get_temp_dir(), ''); // Todo
     unlink ($directory);
     mkdir ($directory);
 

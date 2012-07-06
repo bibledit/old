@@ -13,7 +13,7 @@ $directory = Filter_Git::git_directory ($object);
 $secure_key_directory = Filter_Git::git_config ($url);
 
 // Temporarily store the .git directory.
-$tempdirectory = tempnam (sys_get_temp_dir(), '');
+$tempdirectory = tempnam (sys_get_temp_dir(), ''); // Todo
 unlink ($tempdirectory);
 mkdir ($tempdirectory);
 $renamed = rename ("$directory/.git", "$tempdirectory/.git");

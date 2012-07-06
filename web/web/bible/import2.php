@@ -31,7 +31,7 @@ $bible = $_GET['bible'];
 $smarty->assign ("bible", Filter_Html::sanitize ($bible));
 
 // Move the uploaded file to a temporary name.
-$datafile = tempnam (sys_get_temp_dir(), '');
+$datafile = tempnam (sys_get_temp_dir(), ''); // Todo
 unlink ($datafile);
 @$datafile .= $_FILES['data']['name'];
 @$tmpfile = $_FILES['data']['tmp_name'];

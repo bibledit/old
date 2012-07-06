@@ -45,7 +45,7 @@ class Filter_Java
   public function compile ($program, $classpath)
   {
     // Output folder where the data goes.
-    $outputFolder = tempnam (sys_get_temp_dir(), '');
+    $outputFolder = tempnam (sys_get_temp_dir(), ''); // Todo
     unlink ($outputFolder);
     mkdir ($outputFolder);
     

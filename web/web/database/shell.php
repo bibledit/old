@@ -175,7 +175,7 @@ class Database_Shell
     }
     
     // Handling at the start of the shell process.
-    $output = tempnam (sys_get_temp_dir(), '');
+    $output = tempnam (sys_get_temp_dir(), ''); // Todo
     $this->enterProcess ($name, $pid, $output);
     return 1;
   }

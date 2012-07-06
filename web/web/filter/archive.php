@@ -15,6 +15,7 @@ class Filter_Archive
     $basename = escapeshellarg (basename ($filename));
     exec ("cd $dirname && zip $zippedfile $basename 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      if (file_exists ($zippedfile)) unlink ($zippedfile);
       $zippedfile = NULL;
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to compress file"));
@@ -35,7 +36,7 @@ class Filter_Archive
   */
   public function zipFolder ($folder, $show_errors)
   {
-    $zippedfile = tempnam (sys_get_temp_dir(), '') . ".zip";
+    $zippedfile = tempnam (sys_get_temp_dir(), '') . ".zip"; // Todo
     $folder = escapeshellarg ($folder);
     exec ("cd $folder && zip -r $zippedfile * 2>&1", $output, &$return_var);
     if ($return_var != 0) {
@@ -60,7 +61,7 @@ class Filter_Archive
   public function unzip ($file, $show_errors)
   {
     $file = escapeshellarg ($file);
-    $folder = tempnam (sys_get_temp_dir(), '');
+    $folder = tempnam (sys_get_temp_dir(), ''); // Todo
     unlink ($folder);
     mkdir ($folder);
     exec ("unzip -o -d $folder $file 2>&1", $output, &$return_var);
@@ -88,6 +89,7 @@ class Filter_Archive
     $basename = escapeshellarg (basename ($filename));
     exec ("cd $dirname && tar -czf $tarball $basename 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      if (file_exists ($tarball)) unlink ($tarball);
       unset ($tarball);
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to compress file"));
@@ -108,7 +110,7 @@ class Filter_Archive
   */
   public function tarGzipFolder ($folder, $show_errors)
   {
-    $tarball = tempnam (sys_get_temp_dir(), '') . ".tar.gz";
+    $tarball = tempnam (sys_get_temp_dir(), '') . ".tar.gz"; // Todo
     $folder = escapeshellarg ($folder);
     exec ("cd $folder && tar -czf $tarball . 2>&1", $output, &$return_var);
     if ($return_var != 0) {
@@ -133,7 +135,7 @@ class Filter_Archive
   public function untargz ($file, $show_errors)
   {
     $file = escapeshellarg ($file);
-    $folder = tempnam (sys_get_temp_dir(), '');
+    $folder = tempnam (sys_get_temp_dir(), ''); // Todo
     unlink ($folder);
     mkdir ($folder);
     exec ("cd $folder && tar zxf $file 2>&1", $output, &$return_var);

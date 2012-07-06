@@ -29,7 +29,7 @@ if (isset($_POST['keys'])) {
 $privatekey = $database_config_general->getPrivateSshKey();
 $publickey = $database_config_general->getPublicSshKey();
 if (($privatekey == "") || ($publickey == "") || (isset($_GET['newkeys']))) {
-  $filename = tempnam (sys_get_temp_dir(), '');
+  $filename = tempnam (sys_get_temp_dir(), ''); // Todo
   unlink ($filename);
   ob_start ();
   system ("ssh-keygen -t dsa -b 1024 -N '' -f $filename");
