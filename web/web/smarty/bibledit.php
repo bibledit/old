@@ -34,9 +34,9 @@ class Smarty_Bibledit extends Smarty {
 
     // Four important directories for Smarty.
     $this->template_dir = dirname($calling_file_php);
-    $this->compile_dir = sys_get_temp_dir(); // Todo
-    $this->config_dir = sys_get_temp_dir(); // Todo
-    $this->cache_dir = sys_get_temp_dir(); // Todo
+    $this->compile_dir = sys_get_temp_dir();
+    $this->config_dir = sys_get_temp_dir();
+    $this->cache_dir = sys_get_temp_dir();
 
     // Modifier for the links in the headers.
     $bibledit_root_folder = Bootstrap::getInstance ()->bibledit_root_folder;    

@@ -1,7 +1,9 @@
 <?php
 
+
 class Filter_Diff
 {
+
 
   /**
   * This filter produces USFM and html files to be used for showing the differences between them.

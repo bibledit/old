@@ -1,15 +1,21 @@
 <?php
+
+
 require_once 'PHPUnit/Framework.php';
+
  
 class filterTextTest extends PHPUnit_Framework_TestCase
 {
 
+
 private $temporary_folder;
+
 
   public function setUp ()
   {
     $this->tearDown ();
   }
+
   
   public function tearDown ()
   {
@@ -151,9 +157,9 @@ EOD;
   }
 
 
-
-
 }
+
+
 ?>
 
 

@@ -26,7 +26,7 @@ page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import"));
 
 // Move the uploaded file to a temporary name.
-$notesfile = tempnam (sys_get_temp_dir(), ''); // Todo
+$notesfile = tempnam (sys_get_temp_dir(), '');
 unlink ($notesfile);
 @$notesfile .= $_FILES['notes']['name'];
 @$tmpfile = $_FILES['notes']['tmp_name'];

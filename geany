@@ -14,8 +14,12 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/TODO;0;2
+current_page=3
+FILE_NAME_0=477;None;0;16;0;1;0;/home/teus/documents/dev/TODO;0;2
+FILE_NAME_1=235;Sh;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
+FILE_NAME_2=5397;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/odf/text.php;0;2
+FILE_NAME_3=956;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/diffTest.php;0;2
+FILE_NAME_4=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/diff.php;0;2
 
 [long line marker]
 long_line_behaviour=2

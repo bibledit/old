@@ -11,7 +11,7 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 
 // In case the repository is secure, set up the secure keys.
-$secure_key_directory = Filter_Git::git_config ($url); // Todo corresponding git_un_config
+$secure_key_directory = Filter_Git::git_config ($url);
 
 echo gettext ("Step: Adding a temporal file to the cloned repository") . "\n";
 

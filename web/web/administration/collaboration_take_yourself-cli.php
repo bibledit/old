@@ -10,10 +10,10 @@ $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $directory = Filter_Git::git_directory ($object);
 
 // Set up the secure keys just in case the repository happens to be secure.
-$secure_key_directory = Filter_Git::git_config ($url); // Todo corresponding git_un_config
+$secure_key_directory = Filter_Git::git_config ($url);
 
 // Temporarily store the .git directory.
-$tempdirectory = tempnam (sys_get_temp_dir(), ''); // Todo
+$tempdirectory = tempnam (sys_get_temp_dir(), '');
 unlink ($tempdirectory);
 mkdir ($tempdirectory);
 $renamed = rename ("$directory/.git", "$tempdirectory/.git");

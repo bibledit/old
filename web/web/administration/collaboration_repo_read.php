@@ -20,7 +20,7 @@ Filter_Rmdir::rmdir ($directory);
 mkdir ($directory, 0777, true);
 
 // In case the repository is secure, set up the secure keys.
-$secure_key_directory = Filter_Git::git_config ($url); // Todo corresponding git_un_config
+$secure_key_directory = Filter_Git::git_config ($url);
 
 $command = "git ls-remote $url 2>&1";
 $smarty->assign ("command", $command);

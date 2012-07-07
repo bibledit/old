@@ -1,11 +1,17 @@
 <?php
+
+
 require_once 'PHPUnit/Framework.php';
+
  
 class filterGitTest extends PHPUnit_Framework_TestCase
 {
+
+
   private $psalms_0_data;
   private $psalms_11_data;
   private $song_of_solomon_2_data;
+
 
   private function initialize_data () 
   {
@@ -70,6 +76,12 @@ EOD;
     mkdir ("$directory/Song of Solomon/2");
   }
 
+
+  protected function tearDown ()
+  {
+  }
+
+
   /**
   * This tests round-tripping git Bible data in the file system,
   * being transferred to the database, then back to the filesystem.
@@ -77,8 +89,7 @@ EOD;
   public function testFiledata2database2filedata()
   {
     // Working directory.
-    $directory = tempnam (sys_get_temp_dir(), '');
-    unlink ($directory);
+    $directory = uniqid (sys_get_temp_dir() . "/");
     mkdir ($directory);
 
     // Set up testing data.    
@@ -126,8 +137,7 @@ EOD;
     $this->assertEquals($this->psalms_11_data, $data);
 
     // New working directory.
-    $newdirectory = tempnam (sys_get_temp_dir(), '');
-    unlink ($newdirectory);
+    $newdirectory = uniqid (sys_get_temp_dir(). '/');
     mkdir ($newdirectory);
 
     // Call the filter.
@@ -139,6 +149,8 @@ EOD;
     
     // Tear down.
     $database_bibles->deleteBible ($bible);
+    Filter_Rmdir::rmdir ($directory);
+    Filter_Rmdir::rmdir ($newdirectory);
   }
 
 
@@ -153,8 +165,7 @@ EOD;
     $this->initialize_data ();
     
     // Working directory.
-    $directory = tempnam (sys_get_temp_dir(), '');
-    unlink ($directory);
+    $directory = uniqid (sys_get_temp_dir() . '/');
     mkdir ($directory);
 
     // Create a few known notes to be used as testing data.
@@ -248,6 +259,7 @@ EOD;
     $database_notes->delete ($identifier4);
     $database_notes->delete ($identifier5);
     $database_notes->delete ($identifier6);
+    Filter_Rmdir::rmdir ($directory);
   }
 
 
@@ -263,7 +275,7 @@ $contents = <<<'EOD'
 \v 1 xxFrom the church leader.
 >>>>>>> a62f843ce41ed2d0325c8a2767993df6acdbc933:3 John/1/data
 EOD;
-    $filename = tempnam (sys_get_temp_dir(), '');
+    $filename = uniqid (sys_get_temp_dir() . '/');
     file_put_contents ($filename, $contents);
     Filter_Git::resolveConflict ($contents, $filename);
 $reference = <<<'EOD'
@@ -284,6 +296,8 @@ EOD;
     $this->assertEquals ($reference, $contents);
     $contents = file_get_contents ($filename);
     $this->assertEquals ($reference, $contents);
+    
+    unlink ($filename);
   }
 
 
