@@ -386,7 +386,7 @@ EOD;
   */
   public function git_un_config ($directory)
   {
-    Rmdir:rmdir ($directory);
+    Filter_Rmdir::rmdir ($directory);
   }
 
 
