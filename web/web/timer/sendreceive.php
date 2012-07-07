@@ -69,7 +69,7 @@ foreach ($bibles as $bible) {
     }
 
     // Set up the secure shell keys in case these are needed.    
-    $secure_key_directory = Filter_Git::git_config ($remote_repository_url);
+    $secure_key_directory = Filter_Git::git_config ($remote_repository_url); // Todo corresponding git_un_config
 
     // Temporarily store the .git directory.
     $tempdirectory = tempnam (sys_get_temp_dir(), ''); // Todo

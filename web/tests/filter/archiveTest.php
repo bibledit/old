@@ -47,6 +47,9 @@ class archiveTest extends PHPUnit_Framework_TestCase
     $zipfile = Filter_Archive::zipFolder ($folder, false);
     $this->assertTrue(file_exists ($zipfile));
     $this->assertEquals(396, filesize ($zipfile));
+    // Clean up the mess.
+    unlink ($zipfile);
+    Filter_Rmdir::rmdir ($folder);
     // Test that compressing a non-existing folder returns NULL.
     //$zipfile = Filter_Archive::zipFolder ("$folder/x", false);
     //$this->assertEquals(NULL, $zipfile);
@@ -66,6 +69,7 @@ class archiveTest extends PHPUnit_Framework_TestCase
       $this->assertEquals(9000, filesize ($path));
     }
     unlink ($zipfile);
+    Filter_Rmdir::rmdir ($folder);
     // Test that unzipping garbage returns NULL.
     $folder = Filter_Archive::unzip ("xxxxx", false);
     $this->assertEquals(NULL, $folder);

@@ -39,6 +39,7 @@ private $temporary_folder;
     $odf_text->save ("/tmp/OdfTextTest1.odt");
     exec ("odt2txt /tmp/OdfTextTest1.odt", $output, &$return_var);
     $this->assertEquals (array ("", "Paragraph One", "", "Paragraph Two", "", "Heading One", "===========", "", "Paragraph Three", ""), $output);
+    @unlink ("/tmp/OdfTextTest1.odt");
   }
 
 
@@ -50,6 +51,7 @@ private $temporary_folder;
     $odf_text->save ("/tmp/OdfTextTest2.odt");
     exec ("odt2txt /tmp/OdfTextTest2.odt", $output, &$return_var);
     $this->assertEquals (array ("", "Should create new paragraph automatically", ""), $output);
+    @unlink ("/tmp/OdfTextTest2.odt");
   }
 
 
@@ -65,6 +67,7 @@ private $temporary_folder;
     $odf_text->save ("/tmp/OdfTextTest3.odt");
     exec ("odt2txt /tmp/OdfTextTest3.odt", $output, &$return_var);
     $this->assertEquals (array ("", "Text1†", "", "Note1.", "", ".", ""), $output);
+    @unlink ("/tmp/OdfTextTest3.odt");
   }
 
 

@@ -348,7 +348,7 @@ class Filter_Git
   public function git_config ($url)
   {
     // Temporal directory where to put the config files.
-    $directory = tempnam (sys_get_temp_dir(), ''); // Todo
+    $directory = tempnam (sys_get_temp_dir(), '');
     unlink ($directory);
     mkdir ($directory);
 
@@ -381,11 +381,11 @@ EOD;
 
   /**
   * Bibledit-Web accesses secure git repositories through ssh.
-  * This function remove the private key set up by git_config
+  * This function remove the folder set up by git_config
   */
-  public function git_un_config ($directory)
+  public function git_un_config ($directory) // Todo
   {
-    unlink ("$directory/key");
+    Rmdir:rmdir ($directory);
   }
 
 

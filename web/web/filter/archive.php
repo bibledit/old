@@ -8,7 +8,7 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function zipFile ($filename, $show_errors)
+  public function zipFile ($filename, $show_errors) // Todo wherever this function is called, check it.
   {
     $zippedfile = tempnam (sys_get_temp_dir(), '') . ".zip";
     $dirname = escapeshellarg (dirname ($filename));
@@ -34,9 +34,9 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function zipFolder ($folder, $show_errors)
+  public function zipFolder ($folder, $show_errors) // Todo check wherever this is called.
   {
-    $zippedfile = tempnam (sys_get_temp_dir(), '') . ".zip"; // Todo
+    $zippedfile = tempnam (sys_get_temp_dir(), '') . ".zip";
     $folder = escapeshellarg ($folder);
     exec ("cd $folder && zip -r $zippedfile * 2>&1", $output, &$return_var);
     if ($return_var != 0) {
@@ -58,10 +58,10 @@ class Filter_Archive
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function unzip ($file, $show_errors)
+  public function unzip ($file, $show_errors) // Todo wherever this function is called, check it.
   {
     $file = escapeshellarg ($file);
-    $folder = tempnam (sys_get_temp_dir(), ''); // Todo
+    $folder = tempnam (sys_get_temp_dir(), '');
     unlink ($folder);
     mkdir ($folder);
     exec ("unzip -o -d $folder $file 2>&1", $output, &$return_var);
@@ -82,7 +82,7 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function tarGzipFile ($filename, $show_errors)
+  public function tarGzipFile ($filename, $show_errors) // Todo wherever this function is called, check it.
   {
     $tarball = tempnam (sys_get_temp_dir(), '') . ".tar.gz";
     $dirname = escapeshellarg (dirname ($filename));
@@ -108,9 +108,9 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function tarGzipFolder ($folder, $show_errors)
+  public function tarGzipFolder ($folder, $show_errors) // Todo wherever this function is called, check it.
   {
-    $tarball = tempnam (sys_get_temp_dir(), '') . ".tar.gz"; // Todo
+    $tarball = tempnam (sys_get_temp_dir(), '') . ".tar.gz";
     $folder = escapeshellarg ($folder);
     exec ("cd $folder && tar -czf $tarball . 2>&1", $output, &$return_var);
     if ($return_var != 0) {
@@ -132,10 +132,10 @@ class Filter_Archive
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function untargz ($file, $show_errors)
+  public function untargz ($file, $show_errors) // Todo wherever this function is called, check it.
   {
     $file = escapeshellarg ($file);
-    $folder = tempnam (sys_get_temp_dir(), ''); // Todo
+    $folder = tempnam (sys_get_temp_dir(), '');
     unlink ($folder);
     mkdir ($folder);
     exec ("cd $folder && tar zxf $file 2>&1", $output, &$return_var);
@@ -157,7 +157,7 @@ class Filter_Archive
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function uncompress ($file, $show_errors)
+  public function uncompress ($file, $show_errors) // Todo wherever this function is called, check it.
   {
     // Tar (.tar) archives, including those compressed with gzip (.tar.gz, .tgz), bzip (.tar.bz, .tbz), bzip2 (.tar.bz2, .tbz2), compress (.tar.Z, .taz), lzop (.tar.lzo, .tzo) and lzma (.tar.lzma)
     // Zip archives (.zip)
@@ -168,7 +168,7 @@ class Filter_Archive
     // Single files compressed with gzip (.gz), bzip (.bz), bzip2 (.bz2), compress (.Z), lzop (.lzo) and lzma (.lzma)
     $suffix = pathinfo ($file, PATHINFO_EXTENSION);
     switch ($suffix) {
-      case "tar.gz": // Never called because pathinfo would give the 'gz' only.
+      case "tar.gz": // Never called because pathinfo would give the 'gz' suffix only.
       case "gz":
       case "tgz":
         return Filter_Archive::untargz ($file, $show_errors);

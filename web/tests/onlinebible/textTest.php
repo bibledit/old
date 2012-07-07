@@ -25,6 +25,7 @@ class onlineBibleTextTest extends PHPUnit_Framework_TestCase
     $onlinebible_text->addText ("Verse was stored, no new verse given, so discard this.");
     $onlinebible_text->save ("/tmp/OLBTextTest1.exp");
     $this->assertFileEquals (dirname (__FILE__) . "/test1.exp", "/tmp/OLBTextTest1.exp");
+    unlink ("/tmp/OLBTextTest1.exp");
   }
 
 
@@ -40,6 +41,7 @@ class onlineBibleTextTest extends PHPUnit_Framework_TestCase
     $onlinebible_text->closeCurrentNote ();
     $onlinebible_text->save ("/tmp/OLBTextTest2.exp");
     $this->assertFileEquals (dirname (__FILE__) . "/test2.exp", "/tmp/OLBTextTest2.exp");
+    unlink ("/tmp/OLBTextTest2.exp");
   }
 
 

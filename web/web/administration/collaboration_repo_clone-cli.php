@@ -11,7 +11,7 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 
 // In case the repository is secure, set up the secure keys.
-$secure_key_directory = Filter_Git::git_config ($url);
+$secure_key_directory = Filter_Git::git_config ($url); // Todo corresponding git_un_config
 
 $command = "cd $directory; git clone $url .";
 echo "$command\n";
