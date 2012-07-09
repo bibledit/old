@@ -1,0 +1,29 @@
+In the web version, when it writes to /tmp, after done, remove the temporal data.
+Else the harddisk gets full.
+Whether it works can be tested by leaving it overnight, and then to see
+the files it leaves in /tmp. There should be really none.
+Folder /tmp/ on bibleconsultants was empties on Sat 7 July 8:30 PM.
+Okay, on Monday 9 July there's a lot of stuff in /tmp again.
+Probably the daily conversion routines cause this.
+To try it out on a local version and to see what happens.
+
+
+
+
+
+Phase the smarty library out, and use Zend forms instead.
+
+
+
+
+
+
+Test installing it in a user-defined location via the ./configure script.
+It needs to really install everything somewhere else.
+
+
+
+
+
+git pull teus@git.sv.gnu.org:/srv/git/bibledit.git
+git push --tags teus@git.sv.gnu.org:/srv/git/bibledit.git master:master
