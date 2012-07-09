@@ -1,4 +1,6 @@
 <?php
+
+
 /**
 * @package bibledit
 */
@@ -29,6 +31,7 @@
 */
 class Odf_Text
 {
+
   private $unpackedOdtFolder;
 
   private $contentDom; // The content.xml DOMDocument.
@@ -122,12 +125,15 @@ class Odf_Text
       }
     }
 
+  }
 
 
-
-
+  public function __destruct ()
+  {
+    Filter_Rmdir::rmdir ($this->unpackedOdtFolder);
   }
   
+    
   public function newParagraph ($style = "Standard")
   {
     $this->currentTextPDomElement = $this->contentDom->createElement ("text:p");
@@ -633,6 +639,7 @@ class Odf_Text
     // Save the OpenDocument file.    
     $zippedfile = Filter_Archive::zipFolder ($this->unpackedOdtFolder, false);
     file_put_contents ($name, file_get_contents ($zippedfile));
+    unlink ($zippedfile);
   }
 
 

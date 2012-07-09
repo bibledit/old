@@ -4,6 +4,7 @@
 class Filter_Git
 {
 
+
   /**
   * This filter moves one chapter of the Bible data as it is stored in a git repository, 
   * using the layout in books and chapters such as is used in Bibledit-Gtk,
@@ -381,11 +382,11 @@ EOD;
 
   /**
   * Bibledit-Web accesses secure git repositories through ssh.
-  * This function remove the private key set up by git_config
+  * This function remove the folder set up by git_config
   */
   public function git_un_config ($directory)
   {
-    unlink ("$directory/key");
+    Filter_Rmdir::rmdir ($directory);
   }
 
 

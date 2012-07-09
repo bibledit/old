@@ -1,7 +1,9 @@
 <?php
 
+
 class Filter_Archive
 {
+
 
   /**
   * Compresses a file identified by $filename into zip format.
@@ -10,11 +12,12 @@ class Filter_Archive
   */
   public function zipFile ($filename, $show_errors)
   {
-    $zippedfile = tempnam (sys_get_temp_dir(), '') . ".zip";
+    $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $dirname = escapeshellarg (dirname ($filename));
     $basename = escapeshellarg (basename ($filename));
     exec ("cd $dirname && zip $zippedfile $basename 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      @unlink ($zippedfile);
       $zippedfile = NULL;
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to compress file"));
@@ -35,10 +38,11 @@ class Filter_Archive
   */
   public function zipFolder ($folder, $show_errors)
   {
-    $zippedfile = tempnam (sys_get_temp_dir(), '') . ".zip";
+    $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $folder = escapeshellarg ($folder);
     exec ("cd $folder && zip -r $zippedfile * 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      @unlink ($zippedfile);
       unset ($zippedfile);
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to compress folder"));
@@ -57,14 +61,14 @@ class Filter_Archive
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function unzip ($file, $show_errors)
+  public function unzip ($file, $show_errors) 
   {
     $file = escapeshellarg ($file);
-    $folder = tempnam (sys_get_temp_dir(), '');
-    unlink ($folder);
+    $folder = uniqid (sys_get_temp_dir() . "/");
     mkdir ($folder);
     exec ("unzip -o -d $folder $file 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      Filter_Rmdir::rmdir ($folder);
       $folder = NULL;
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to uncompress archive"));
@@ -83,11 +87,12 @@ class Filter_Archive
   */
   public function tarGzipFile ($filename, $show_errors)
   {
-    $tarball = tempnam (sys_get_temp_dir(), '') . ".tar.gz";
+    $tarball = uniqid (sys_get_temp_dir() . "/") . ".tar.gz";
     $dirname = escapeshellarg (dirname ($filename));
     $basename = escapeshellarg (basename ($filename));
     exec ("cd $dirname && tar -czf $tarball $basename 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      @unlink ($tarball);
       unset ($tarball);
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to compress file"));
@@ -108,10 +113,11 @@ class Filter_Archive
   */
   public function tarGzipFolder ($folder, $show_errors)
   {
-    $tarball = tempnam (sys_get_temp_dir(), '') . ".tar.gz";
+    $tarball = uniqid (sys_get_temp_dir() . "/") . ".tar.gz";
     $folder = escapeshellarg ($folder);
     exec ("cd $folder && tar -czf $tarball . 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      @unlink ($tarball);
       unset ($tarball);
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to compress folder"));
@@ -133,11 +139,11 @@ class Filter_Archive
   public function untargz ($file, $show_errors)
   {
     $file = escapeshellarg ($file);
-    $folder = tempnam (sys_get_temp_dir(), '');
-    unlink ($folder);
+    $folder = uniqid (sys_get_temp_dir() . "/");
     mkdir ($folder);
     exec ("cd $folder && tar zxf $file 2>&1", $output, &$return_var);
     if ($return_var != 0) {
+      Filter_Rmdir::rmdir ($folder);
       $folder = NULL;
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to uncompress archive"));
@@ -166,7 +172,7 @@ class Filter_Archive
     // Single files compressed with gzip (.gz), bzip (.bz), bzip2 (.bz2), compress (.Z), lzop (.lzo) and lzma (.lzma)
     $suffix = pathinfo ($file, PATHINFO_EXTENSION);
     switch ($suffix) {
-      case "tar.gz": // Never called because pathinfo would give the 'gz' only.
+      case "tar.gz": // Never called because pathinfo would give the 'gz' suffix only.
       case "gz":
       case "tgz":
         return Filter_Archive::untargz ($file, $show_errors);

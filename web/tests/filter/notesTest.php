@@ -1,9 +1,15 @@
 <?php
+
+
 require_once 'PHPUnit/Framework.php';
+
  
 class filterNotesTest extends PHPUnit_Framework_TestCase
 {
+
+
   protected $note_identifiers = array ();
+
 
   public function testPrivacy2text()
   {
@@ -11,6 +17,7 @@ class filterNotesTest extends PHPUnit_Framework_TestCase
     $this->assertEquals("Guest | Member | Consultant | Translator | Manager | Administrator", Filter_Notes::privacy2text (0));
     $this->assertEquals("", Filter_Notes::privacy2text (1000));
   }
+
 
   public function testFilterNotesImportFromBibleditGtkFile()
   {
@@ -58,6 +65,9 @@ EOD;
     $this->assertEquals (array (array (3, 26, 16), array (5, 28, 22)), $passages);
     $contents = $database_notes->getContents ($identifier);
     $this->assertEquals ("umdumisile: Text was changed from \"has given glory\" to \"has glorified\".\n\nLogbook:\n", $contents);
+    
+    // Tear down.
+    unlink ($filename);
   }
   
 

@@ -15,7 +15,6 @@
   flush ();
    
   // Check that files are writeable.
-  // Todo system ("chmod -R 0777 *");
   $files_writable = true;
   $handler = opendir(".");
   while ($file = readdir($handler)) {

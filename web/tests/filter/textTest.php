@@ -1,15 +1,21 @@
 <?php
+
+
 require_once 'PHPUnit/Framework.php';
+
  
 class filterTextTest extends PHPUnit_Framework_TestCase
 {
 
+
 private $temporary_folder;
+
 
   public function setUp ()
   {
     $this->tearDown ();
   }
+
   
   public function tearDown ()
   {
@@ -66,6 +72,7 @@ EOD;
     $filter_text->odf_text_standard->save ("/tmp/TextTest1.odt");
     exec ("odt2txt /tmp/TextTest1.odt", $output, &$return_var);
     $this->assertEquals (array ("", "Header4 Ⅰ", "=========", "", "[-- Image: frame1 --]", "", "Ⅰ", "", "Text chapter 1", "", "Header4 ②", "=========", "", "[-- Image: frame2 --]", "", "②", "", "Text chapter 2", ""), $output);
+    @unlink ("/tmp/TextTest1.odt");
   }
 
 
@@ -100,6 +107,7 @@ EOD;
     $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ',
                                 'Matthew 2:0 Unknown marker \xxx, formatting error: Unknown markup'), $filter_text->fallout);
     $this->assertEquals (array ('Matthew 2:0 Comment: \rem Comment'), $filter_text->info);
+    @unlink ("/tmp/TextTest2.odt");
   }
 
 
@@ -125,6 +133,7 @@ EOD;
     $filter_text->odf_text_standard->save ("/tmp/TextTest3.odt");
     exec ("odt2txt /tmp/TextTest3.odt", $output, &$return_var);
     $this->assertEquals (array ("", "1" . Filter_Character::enSpace () . "Verse One.", "", "Paragraph One. 2" . Filter_Character::enSpace () . "Verse Two.", "", "3" . Filter_Character::enSpace () . "Verse Three. 4" . Filter_Character::enSpace () . "Verse Four. 5" . Filter_Character::enSpace () . "Verse Five.", ""), $output);
+    @unlink ("/tmp/TextTest3.odt");
   }
 
 
@@ -144,12 +153,13 @@ EOD;
     $filter_text->odf_text_standard->save ("/tmp/TextTest4.odt");
     exec ("odt2txt /tmp/TextTest4.odt", $output, &$return_var);
     $this->assertEquals (array ("", "1" . Filter_Character::enSpace () . "Text 1a", "", "Isa. 1.1.", "", "Isa. 2.2.", "", "b", "", "Isa. 3.3.", "", ", text 21", "", "Word1: Heb. Explanation1.", "", "2", "", "Word2: Heb. Explanation2.", "", ", text3.3", "", "Test: Heb. Note at the very end.", ""), $output);
+    @unlink ("/tmp/TextTest4.odt");
   }
 
 
-
-
 }
+
+
 ?>
 
 

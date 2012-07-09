@@ -34,6 +34,7 @@ class htmlTextTest extends PHPUnit_Framework_TestCase
     @unlink ("/tmp/HtmlTextTest1.html");
     $html_text->save ("/tmp/HtmlTextTest1.html");
     $this->assertFileEquals (dirname (__FILE__) . "/test1.html", "/tmp/HtmlTextTest1.html");
+    @unlink ("/tmp/HtmlTextTest1.html");
   }
 
 
@@ -41,9 +42,10 @@ class htmlTextTest extends PHPUnit_Framework_TestCase
   {
     $html_text = new Html_Text ("TestTwo");
     $html_text->addText ("Should create new paragraph automatically");
-    @unlink ("/tmp/HtmlTextTest2");
+    @unlink ("/tmp/HtmlTextTest2.html");
     $html_text->save ("/tmp/HtmlTextTest2.html");
     $this->assertFileEquals (dirname (__FILE__) . "/test2.html", "/tmp/HtmlTextTest2.html");
+    @unlink ("/tmp/HtmlTextTest2.html");
   }
 
 
@@ -58,6 +60,7 @@ class htmlTextTest extends PHPUnit_Framework_TestCase
     @unlink ("/tmp/HtmlTextTest3.html");
     $html_text->save ("/tmp/HtmlTextTest3.html");
     $this->assertFileEquals (dirname (__FILE__) . "/test3.html", "/tmp/HtmlTextTest3.html");
+    @unlink ("/tmp/HtmlTextTest3.html");
   }
 
 
