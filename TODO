@@ -26,4 +26,4 @@ It needs to really install everything somewhere else.
 
 
 git pull teus@git.sv.gnu.org:/srv/git/bibledit.git
-git push --tags teus@git.sv.gnu.org:/srv/git/bibledit.git master:master
+git push teus@git.sv.gnu.org:/srv/git/bibledit.git master:master
