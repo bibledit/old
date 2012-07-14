@@ -44,7 +44,6 @@ set_time_limit(0);
 register_shutdown_function('shutdown');
 
 
-$crontable = Database_Cron::getInstance ();
 $log = Database_Logs::getInstance();
 $config_general = Database_Config_General::getInstance ();
 //$processUser = posix_getpwuid(posix_geteuid());
@@ -56,20 +55,10 @@ $config_general = Database_Config_General::getInstance ();
 $current_timestamp = time ();
 
 
-$previous_timestamp = $config_general->getTimerMinute ();
-// Notice when the mysql database is down. 
-// Without this it will spawn many shell processes that effectively hang the system.
-$database_down = $previous_timestamp === "";
-
-  
-// Tasks to be done once a minute:
-
-// Mailer.
+// Mailer is done once a minute.
 $timer_mailer = new Timer_Mailer ();
 $timer_mailer->run ();
 unset ($timer_mailer);
-  
-
 
 
 $previous_timestamp = $config_general->getTimerFiveMinutes ();
@@ -93,7 +82,7 @@ if ($current_timestamp >= ($previous_timestamp + 86400)) {
 
   // Trim databases.
   $workingdirectory = dirname (__FILE__);
-  if (!$database_down) shell_exec ("cd $workingdirectory; php trimdatabases.php > /dev/null 2>&1 &");
+  shell_exec ("cd $workingdirectory; php trimdatabases.php > /dev/null 2>&1 &");
   
 }
 
@@ -108,7 +97,7 @@ if ($current_timestamp >= $backup_timestamp) {
   }
   $config_general->setTimerBackup ($backup_timestamp);
   $workingdirectory = dirname (__FILE__);
-  if (!$database_down) shell_exec ("cd $workingdirectory; php backup.php > /dev/null 2>&1 &");
+  shell_exec ("cd $workingdirectory; php backup.php > /dev/null 2>&1 &");
 }
 unset ($backup_timestamp);
 
@@ -123,7 +112,7 @@ if ($current_timestamp >= $diff_timestamp) {
   }
   $config_general->setTimerDiff ($diff_timestamp);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
-  if (!$database_down) shell_exec ("cd $workingdirectory; php changes.php > /dev/null 2>&1 &");
+  shell_exec ("cd $workingdirectory; php changes.php > /dev/null 2>&1 &");
 }
 unset ($diff_timestamp);
 
@@ -138,7 +127,7 @@ if ($current_timestamp >= $exports_timestamp) {
   }
   $config_general->setTimerExports ($exports_timestamp);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
-  if (!$database_down) shell_exec ("cd $workingdirectory; php exports.php > /dev/null 2>&1 &");
+  shell_exec ("cd $workingdirectory; php exports.php > /dev/null 2>&1 &");
 }
 unset ($exports_timestamp);
 
@@ -153,7 +142,7 @@ if ($current_timestamp >= $sendreceive_timestamp) {
   }
   $config_general->setTimerSendReceive ($sendreceive_timestamp);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
-  if (!$database_down) shell_exec ("cd $workingdirectory; php sendreceive.php > /dev/null 2>&1 &");
+  shell_exec ("cd $workingdirectory; php sendreceive.php > /dev/null 2>&1 &");
 }
 unset ($sendreceive_timestamp);
 
