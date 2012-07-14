@@ -5,6 +5,7 @@ indent_type=0
 indent_hard_tab_width=8
 detect_indent=false
 indent_mode=3
+detect_indent_width=false
 
 [project]
 name=Bibledit
@@ -18,7 +19,7 @@ current_page=3
 FILE_NAME_0=0;Sh;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
 FILE_NAME_1=0;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/collaboration_repo_read.php;0;2
 FILE_NAME_2=15576;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/git.php;0;2
-FILE_NAME_3=797;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
+FILE_NAME_3=133;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
 
 [long line marker]
 long_line_behaviour=2
@@ -28,3 +29,6 @@ long_line_column=80
 EX_00_LB=_Execute
 EX_00_CM=sh /home/teus/bin/be
 EX_00_WD=/home/teus/documents/dev/bibledit
+
+[VTE]
+last_dir=/home/teus

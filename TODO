@@ -1,11 +1,21 @@
+Test installing it in a user-defined location via the ./configure script.
+It needs to really install everything somewhere else.
+
+
+
+
+
 In the web version, when it writes to /tmp, after done, remove the temporal data.
 Else the harddisk gets full.
 Whether it works can be tested by leaving it overnight, and then to see
 the files it leaves in /tmp. There should be really none.
-Folder /tmp/ on bibleconsultants was empties on Sat 7 July 8:30 PM.
+Folder /tmp/ on bibleconsultants was emptied on Sat 7 July 8:30 PM.
 Okay, on Monday 9 July there's a lot of stuff in /tmp again.
 Probably the daily conversion routines cause this.
 To try it out on a local version and to see what happens.
+It has been tried, and nothing gets written to /tmp.
+So it must be the demo version that needs upgrade.
+First try installing bibledit-web in a user-defined location, and fix this option.
 
 
 
@@ -13,13 +23,6 @@ To try it out on a local version and to see what happens.
 
 Phase the smarty library out, and use Zend forms instead.
 
-
-
-
-
-
-Test installing it in a user-defined location via the ./configure script.
-It needs to really install everything somewhere else.
 
 
 
