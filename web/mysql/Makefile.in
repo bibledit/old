@@ -31,7 +31,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-subdir = apache
+subdir = mysql
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -148,9 +148,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu apache/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu mysql/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu apache/Makefile
+	  $(AUTOMAKE) --gnu mysql/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -322,23 +322,15 @@ uninstall-am: uninstall-local
 
 
 install-data-local:
-	mkdir -p $(DESTDIR)/$(systemconfigdir)
-	cp bibledit-web.conf $(DESTDIR)/$(systemconfigdir)
-	mkdir -p $(DESTDIR)/etc/apache2/conf.d
-	rm -f $(DESTDIR)/etc/apache2/conf.d/bibledit-web.conf
-	- ln -s /$(systemconfigdir)/bibledit-web.conf $(DESTDIR)/etc/apache2/conf.d/bibledit-web.conf
-	- service apache2 restart
+	cp setup.sql /tmp/setup.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/setup.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/setup.sql
+	rm /tmp/setup.sql
 
 uninstall-local:
 	rm -f $(DESTDIR)/etc/apache2/conf.d/bibledit-web.conf
 	rm -rf $(DESTDIR)/$(systemconfigdir)
 	service apache2 restart
-
-# http://webapps-common.alioth.debian.org/draft/html/
-# http://www.control-escape.com/web/configuring-apache2-debian.html
-# The shell line (-) tells 'make' to ignore the exit status of the 
-# shell command. This is useful during debuild
-# in case apache2 cannot be restarted due to lack of privileges.
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

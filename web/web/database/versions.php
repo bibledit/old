@@ -1,5 +1,6 @@
 <?php
 
+
 class Database_Versions
 {
   private static $instance;
@@ -18,19 +19,8 @@ class Database_Versions
   }
 
   /**
-  * verify - Verifies the database table, possibly creating it.
+  * Optimizes the database table.
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS versions (
-name varchar(50) primary key,
-version int unsigned
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
   public function optimize ()
   {
     $database_instance = Database_Instance::getInstance();

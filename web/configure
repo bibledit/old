@@ -575,6 +575,7 @@ DARWIN_FALSE
 DARWIN_TRUE
 LINUX_FALSE
 LINUX_TRUE
+LOCATION
 SMARTYPATH
 ZENDPATH
 SITE_ADMIN_PASSWORD
@@ -657,6 +658,7 @@ with_site_admin_username
 with_site_admin_password
 with_zend_path
 with_smarty_path
+with_location
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1284,6 +1286,7 @@ Optional Packages:
                           Site Administrator password
   --with-zend-path=path   Zend Framework path
   --with-smarty-path=path   smarty path
+  --with-location=location  Location on the web and internal
 
 Report bugs to <http://www.nongnu.org/bibledit>.
 _ACEOF
@@ -2211,9 +2214,9 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 
 # We need awk for the "check" target.  The system "awk" is bad on
 # some platforms.
-# Always define AMTAR for backward compatibility.
-
-AMTAR=${AMTAR-"${am_missing_run}tar"}
+# Always define AMTAR for backward compatibility.  Yes, it's still used
+# in the wild :-(  We should find a proper way to deprecate it ...
+AMTAR='$${TAR-tar}'
 
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking how to create a ustar tar archive" >&5
@@ -2305,7 +2308,6 @@ $as_echo "$am_cv_prog_tar_ustar" >&6; }
 ac_config_headers="$ac_config_headers config.php"
 
 
-# Checks for programs.
 
 # Extract the first word of "make", so it can be a program name with args.
 set dummy make; ac_word=$2
@@ -2352,6 +2354,7 @@ if test x$MAKE_PATH = xno; then
   as_fn_error $? "Program \"make\" is needed. Install this first." "$LINENO" 5
 fi
 
+
 # Extract the first word of "git", so it can be a program name with args.
 set dummy git; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2397,6 +2400,7 @@ if test x$FIND_GIT = xno; then
   as_fn_error $? "Program \"git\" is needed. Install this first." "$LINENO" 5
 fi
 
+
 # Extract the first word of "mysql", so it can be a program name with args.
 set dummy mysql; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2441,7 +2445,6 @@ fi
 if test x$FIND_MYSQL = xno; then
   as_fn_error $? "Program \"mysql\" is needed. Install this first." "$LINENO" 5
 fi
-
 # Extract the first word of "mysqldump", so it can be a program name with args.
 set dummy mysqldump; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2486,6 +2489,7 @@ fi
 if test x$FIND_MYSQLDUMP = xno; then
   as_fn_error $? "Program \"mysqldump\" is needed. Install this first." "$LINENO" 5
 fi
+
 
 # Extract the first word of "php", so it can be a program name with args.
 set dummy php; ac_word=$2
@@ -2532,6 +2536,7 @@ if test x$FIND_PHP = xno; then
   as_fn_error $? "Program \"php\" is needed. Install this first." "$LINENO" 5
 fi
 
+
 # Extract the first word of "zip", so it can be a program name with args.
 set dummy zip; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2576,6 +2581,7 @@ fi
 if test x$FIND_ZIP = xno; then
   as_fn_error $? "Program \"zip\" is needed. Install this first." "$LINENO" 5
 fi
+
 
 # Extract the first word of "unzip", so it can be a program name with args.
 set dummy unzip; ac_word=$2
@@ -2622,6 +2628,7 @@ if test x$FIND_UNZIP = xno; then
   as_fn_error $? "Program \"unzip\" is needed. Install this first." "$LINENO" 5
 fi
 
+
 # Extract the first word of "wdiff", so it can be a program name with args.
 set dummy wdiff; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -2666,6 +2673,7 @@ fi
 if test x$FIND_WDIFF = xno; then
   as_fn_error $? "Program \"wdiff\" is needed. Install this first." "$LINENO" 5
 fi
+
 
 # Check for web server on localhost.
 # AC_MSG_CHECKING(local web server)
@@ -2853,6 +2861,27 @@ _ACEOF
 
 
 
+# Location on the web and internal.
+LOCATION_DEFAULT="bibledit-web"
+
+# Check whether --with-location was given.
+if test "${with_location+set}" = set; then :
+  withval=$with_location;  LOCATION=$withval
+else
+   LOCATION=$LOCATION_DEFAULT
+
+fi
+
+
+$as_echo "#define LOCATION /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define LOCATION "$LOCATION"
+_ACEOF
+
+
+
+
 # Check whether library gettext-smarty is installed.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking smarty-gettext" >&5
 $as_echo_n "checking smarty-gettext... " >&6; }
@@ -2867,7 +2896,6 @@ else
 $as_echo "no" >&6; }
   as_fn_error $? "Could not find the smarty-gettext plugin." "$LINENO" 5
 fi
-
 
 
 # Checks for Additional stuffs.
@@ -2903,6 +2931,7 @@ else
 fi
 
 
+
 # DARWIN build checks
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable DARWIN specific flags" >&5
 $as_echo_n "checking whether to enable DARWIN specific flags... " >&6; }
@@ -2925,6 +2954,7 @@ else
   DARWIN_TRUE='#'
   DARWIN_FALSE=
 fi
+
 
 
 # WIN32 build checks
@@ -2964,7 +2994,7 @@ systemconfigdir=etc/${PACKAGE}
 
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile web/Makefile tests/Makefile apache/Makefile cron/Makefile fhs/Makefile"
+ac_config_files="$ac_config_files Makefile web/Makefile tests/Makefile apache/Makefile cron/Makefile fhs/Makefile mysql/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3690,6 +3720,7 @@ do
     "apache/Makefile") CONFIG_FILES="$CONFIG_FILES apache/Makefile" ;;
     "cron/Makefile") CONFIG_FILES="$CONFIG_FILES cron/Makefile" ;;
     "fhs/Makefile") CONFIG_FILES="$CONFIG_FILES fhs/Makefile" ;;
+    "mysql/Makefile") CONFIG_FILES="$CONFIG_FILES mysql/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -4318,7 +4349,7 @@ fi
 
 
 
-# Create the file with the database credentials for the web installation.
+# Create the file with the database credentials.
 CREDENTIALS=web/database/credentials.php
 rm $CREDENTIALS
 echo '<?php'                                                       >> $CREDENTIALS
@@ -4331,13 +4362,14 @@ echo                                                               >> $CREDENTIA
 echo // Host: This is the server where the database runs.          >> $CREDENTIALS
 echo '$database_host = "localhost";'                               >> $CREDENTIALS
 echo // Name: This is the name of the database.                    >> $CREDENTIALS
-echo '$database_name = "bibledit";'                                >> $CREDENTIALS
+echo '$database_name = "'$LOCATION'";'                             >> $CREDENTIALS
 echo // User: This is the username of the database administrator.  >> $CREDENTIALS
 echo '$database_user = "root";'                                    >> $CREDENTIALS
 echo // Pass: This is the password of the database administrator.  >> $CREDENTIALS
 echo '$database_pass = "'$MYSQL_ROOT_PASSWORD'";'                  >> $CREDENTIALS
 echo                                                               >> $CREDENTIALS
 echo '?>'                                                          >> $CREDENTIALS
+
 
 # Create the file with the login credentials for the site administrator.
 CREDENTIALS=web/administration/credentials.php
@@ -4356,12 +4388,14 @@ echo '$site_admin_password = "'$SITE_ADMIN_PASSWORD'";'            >> $CREDENTIA
 echo                                                               >> $CREDENTIALS
 echo '?>'                                                          >> $CREDENTIALS
 
+
 # Create the file with the version information.
 VERSIONFILE=web/version.php
 rm $VERSIONFILE
 echo '<?php'                            >> $VERSIONFILE
 echo '$version = "'$PACKAGE_VERSION'";' >> $VERSIONFILE
 echo '?>'                               >> $VERSIONFILE
+
 
 # Create the file with the various system paths.
 PATHSFILE=web/paths/paths.php
@@ -4372,13 +4406,15 @@ echo '$localStatePath = "'$DESTDIR'/'$packagelocalstatedir'";' >> $PATHSFILE
 echo '$smartyPath = "'$SMARTYPATH'";' >> $PATHSFILE
 echo '?>' >> $PATHSFILE
 
+
 # Summary.
 echo "
 Bibledit-Web $VERSION configuration summary:
 
 Installation prefix: ${prefix}
+Location on web and internal: ${LOCATION}
 MySQL database host: localhost
-MySQL database name: bibledit
+MySQL database name: ${LOCATION}
 MySQL database administrator username: root
 MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
 Website administrator username: ${SITE_ADMIN_USERNAME}

@@ -38,12 +38,6 @@ class Database_Mailer
     return self::$instance;
   }
 
-  public function verify () {
-    $query = "CREATE TABLE IF NOT EXISTS mailer (id int, retry int, delay int);";
-    $database_instance = Database_Instance::getInstance();
-    $database_instance->runQuery ($query);
-  }
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE mailer;");

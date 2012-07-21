@@ -1,53 +1,59 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
+
 AC_PREREQ(2.64)
 AC_INIT([bibledit-web],[0.6.4],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
 
-# Checks for programs.
 
 AC_PATH_PROG(MAKE_PATH, make, no)
 if test x$MAKE_PATH = xno; then
   AC_MSG_ERROR(Program "make" is needed. Install this first.)
 fi
 
+
 AC_PATH_PROG(FIND_GIT, git, no)
 if test x$FIND_GIT = xno; then
   AC_MSG_ERROR(Program "git" is needed. Install this first.)
 fi
 
+
 AC_PATH_PROG(FIND_MYSQL, mysql, no)
 if test x$FIND_MYSQL = xno; then
   AC_MSG_ERROR(Program "mysql" is needed. Install this first.)
 fi
-
 AC_PATH_PROG(FIND_MYSQLDUMP, mysqldump, no)
 if test x$FIND_MYSQLDUMP = xno; then
   AC_MSG_ERROR(Program "mysqldump" is needed. Install this first.)
 fi
+
 
 AC_PATH_PROG(FIND_PHP, php, no)
 if test x$FIND_PHP = xno; then
   AC_MSG_ERROR(Program "php" is needed. Install this first.)
 fi
 
+
 AC_PATH_PROG(FIND_ZIP, zip, no)
 if test x$FIND_ZIP = xno; then
   AC_MSG_ERROR(Program "zip" is needed. Install this first.)
 fi
+
 
 AC_PATH_PROG(FIND_UNZIP, unzip, no)
 if test x$FIND_UNZIP = xno; then
   AC_MSG_ERROR(Program "unzip" is needed. Install this first.)
 fi
 
+
 AC_PATH_PROG(FIND_WDIFF, wdiff, no)
 if test x$FIND_WDIFF = xno; then
   AC_MSG_ERROR(Program "wdiff" is needed. Install this first.)
 fi
+
 
 # Check for web server on localhost.
 # AC_MSG_CHECKING(local web server)
@@ -187,6 +193,18 @@ AC_DEFINE_UNQUOTED(SMARTYPATH, "$SMARTYPATH")
 AC_SUBST(SMARTYPATH)
 
 
+# Location on the web and internal.
+LOCATION_DEFAULT="bibledit-web"
+AC_ARG_WITH(location,
+        [  --with-location=location  Location on the web and internal],
+        [ LOCATION=$withval ],
+        [ LOCATION=$LOCATION_DEFAULT ]
+)
+AC_DEFINE([LOCATION], [], [Define the location on the web and internal])
+AC_DEFINE_UNQUOTED(LOCATION, "$LOCATION")
+AC_SUBST(LOCATION)
+
+
 # Check whether library gettext-smarty is installed.
 AC_MSG_CHECKING(smarty-gettext)
 SMARTYGETTEXT=$SMARTYPATH/plugins/block.t.php
@@ -198,7 +216,6 @@ else
   AC_MSG_RESULT(no)
   AC_MSG_ERROR(Could not find the smarty-gettext plugin.)
 fi
-
 
 
 # Checks for Additional stuffs.
@@ -224,6 +241,7 @@ case "$host_os" in
 esac
 AM_CONDITIONAL(LINUX, test x$linux = xtrue)
 
+
 # DARWIN build checks
 AC_MSG_CHECKING([whether to enable DARWIN specific flags])
 case "$host_os" in
@@ -237,6 +255,7 @@ case "$host_os" in
 	;;
 esac
 AM_CONDITIONAL(DARWIN, test x$darwin = xtrue)
+
 
 # WIN32 build checks
 AC_MSG_CHECKING([whether to enable WIN32 specific flags])
@@ -272,11 +291,12 @@ AC_CONFIG_FILES([
   apache/Makefile
   cron/Makefile
   fhs/Makefile
+  mysql/Makefile
 ])
 AC_OUTPUT
 
 
-# Create the file with the database credentials for the web installation.
+# Create the file with the database credentials.
 CREDENTIALS=web/database/credentials.php
 rm $CREDENTIALS
 echo '<?php'                                                       >> $CREDENTIALS
@@ -289,13 +309,14 @@ echo                                                               >> $CREDENTIA
 echo // Host: This is the server where the database runs.          >> $CREDENTIALS
 echo '$database_host = "localhost";'                               >> $CREDENTIALS
 echo // Name: This is the name of the database.                    >> $CREDENTIALS
-echo '$database_name = "bibledit";'                                >> $CREDENTIALS
+echo '$database_name = "'$LOCATION'";'                             >> $CREDENTIALS
 echo // User: This is the username of the database administrator.  >> $CREDENTIALS
 echo '$database_user = "root";'                                    >> $CREDENTIALS
 echo // Pass: This is the password of the database administrator.  >> $CREDENTIALS
 echo '$database_pass = "'$MYSQL_ROOT_PASSWORD'";'                  >> $CREDENTIALS
 echo                                                               >> $CREDENTIALS
 echo '?>'                                                          >> $CREDENTIALS
+
 
 # Create the file with the login credentials for the site administrator.
 CREDENTIALS=web/administration/credentials.php
@@ -314,12 +335,14 @@ echo '$site_admin_password = "'$SITE_ADMIN_PASSWORD'";'            >> $CREDENTIA
 echo                                                               >> $CREDENTIALS
 echo '?>'                                                          >> $CREDENTIALS
 
+
 # Create the file with the version information.
 VERSIONFILE=web/version.php
 rm $VERSIONFILE
 echo '<?php'                            >> $VERSIONFILE
 echo '$version = "'$PACKAGE_VERSION'";' >> $VERSIONFILE
 echo '?>'                               >> $VERSIONFILE
+
 
 # Create the file with the various system paths.
 PATHSFILE=web/paths/paths.php
@@ -330,13 +353,15 @@ echo '$localStatePath = "'$DESTDIR'/'$packagelocalstatedir'";' >> $PATHSFILE
 echo '$smartyPath = "'$SMARTYPATH'";' >> $PATHSFILE
 echo '?>' >> $PATHSFILE
 
+
 # Summary.
 echo "
 Bibledit-Web $VERSION configuration summary:
 
 Installation prefix: ${prefix}
+Location on web and internal: ${LOCATION}
 MySQL database host: localhost
-MySQL database name: bibledit
+MySQL database name: ${LOCATION}
 MySQL database administrator username: root
 MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
 Website administrator username: ${SITE_ADMIN_USERNAME}

@@ -38,55 +38,10 @@ class Database_Books
     return self::$instance;
   }
 
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-    $database_instance->runQuery ("DROP TABLE IF EXISTS books;");
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS books (
-sequence int auto_increment primary key,
-id int,
-english varchar(256),
-osis varchar(10),
-usfm varchar(3),
-bibleworks varchar(10),
-onlinebible varchar(10),
-type varchar(20),
-onechapter int
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE books;");
-  }
-
-
-  public function import ()
-  {
-    $database_instance = Database_Instance::getInstance();
-    include_once ("messages/messages.php");
-    message_information ("Importing book names");
-    $filename = "book/books.txt";
-    $data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES | FILE_TEXT);
-    foreach ($data as $line) {
-      $pos = strpos ($line, "#");
-      if ($pos !== false) continue;
-      $record = explode ("|", $line);
-      $id          = $record[0];
-      $english     = $record[1];
-      $osis        = $record[2];
-      $usfm        = $record[3];
-      $bibleworks  = $record[4];
-      $onlinebible = $record[5];
-      $type        = $record[6];
-      $onechapter  = 0;
-      if ($record[7] == "true") $onechapter = 1;
-      $query = "INSERT INTO books VALUES (NULL, $id, '$english', '$osis', '$usfm', '$bibleworks', '$onlinebible', '$type', $onechapter);";
-      $database_instance->runQuery ($query);
-    }
   }
 
 

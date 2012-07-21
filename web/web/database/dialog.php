@@ -20,24 +20,8 @@ class Database_Dialog // Be aware that this one is not yet being used.
 
 
   /**
-  * verify - Verifies the database table
+  * Optimizes the database table
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-    $database_instance->runQuery ("DROP TABLE IF EXISTS dialog;");
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS dialog (
-id int,
-timestamp int,
-object varchar(256),
-method varchar(256),
-argument varchar(256)
-);
-EOD;
-    // Not used yet. $database_instance->runQuery ($str);
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     // Not used yet.$database_instance->runQuery ("OPTIMIZE TABLE dialog;");

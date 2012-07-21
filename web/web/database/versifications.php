@@ -39,30 +39,6 @@ class Database_Versifications
   }
 
 
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS versification_names (
-system int primary key,
-name varchar(256)
-);
-EOD;
-    $database_instance->runQuery ($str);
-    $database_instance->runQuery ("OPTIMIZE TABLE versification_names;");
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS versification_data (
-id int auto_increment primary key,
-system int,
-book int,
-chapter int,
-verse int
-);
-EOD;
-    $database_instance->runQuery ($str);
-    $database_instance->runQuery ("OPTIMIZE TABLE versification_data;");
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE versification_names;");
@@ -104,6 +80,7 @@ EOD;
       $chapter = $triad->chapter;
       $verse = $triad->verse;
       $query = "INSERT INTO versification_data VALUES (NULL, $id, $book, $chapter, $verse);";
+    echo "$query\n";
       $database_instance->runQuery ($query);
     }
   }
@@ -143,8 +120,10 @@ EOD;
     $database_instance = Database_Instance::getInstance();
     $id = $this->getID ($name);
     $query = "DELETE FROM versification_names WHERE system = $id;";
+    echo "$query\n";
     $database_instance->runQuery ($query);
     $query = "DELETE FROM versification_data WHERE system = $id;";
+    echo "$query\n";
     $database_instance->runQuery ($query);
   }
 

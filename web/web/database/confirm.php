@@ -20,24 +20,8 @@ class Database_Confirm
 
 
   /**
-  * verify - Verifies the database table
+  * Optimizes the database table
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS confirm (
-id int primary key,
-query text,
-timestamp int,
-mailto varchar(256),
-subject varchar(256),
-body text
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE confirm;");

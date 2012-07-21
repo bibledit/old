@@ -18,24 +18,8 @@ class Database_Users
 
 
   /**
-  * verify - Verifies the database table
+  * Optimizes the database table.
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS users (
-username varchar(30) primary key,
-password varchar(32),
-id varchar(32),
-level tinyint(1) unsigned not null,
-email varchar(256),
-timestamp int(11) unsigned not null
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
-
   public function optimize ()
   {
     $database_instance = Database_Instance::getInstance();

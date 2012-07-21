@@ -1,16 +1,88 @@
+Working on versification.php. 
+To probably call the php file after the sql scripts, so that some intelligence can be used to update the versifications.
+
+
+
+
+timer/index.php: To find out what to do if the database is not found.
+No: Rather ensure that ' make install'  installs the database, and if not, it fails.
+Steps:
+- Break down setup.php
+- Move stuff one by one to Makefile.am
+- Repeat until ready.
+- Remove setup.php.
+- Install stuff - test it.
+- Run Database optimization from web page Admin section - test it.
 
 
 
 
 
+Database name.
+To write the $LOCATON to the php variables, and to use it from there.
+To update the database object so it uses the correct databasename.
+To throw away old database.
+To test it through setup.php.
+To test it through the web interface.
 
 
 
 
 
+make[1]: Entering directory `/home/teus/documents/dev/bibledit/web/web'
+rm -rf /usr/share/bibledit-web/downloads/changes
+rm -rf /usr/share/bibledit-web/downloads/exports
+mkdir -p /usr/share/bibledit-web
+cp -r * /usr/share/bibledit-web
+chown -R www-data:www-data /usr/share/bibledit-web
+mkdir -p /var/lib/bibledit-web/changes
+ln -s /var/lib/bibledit-web/changes /usr/share/bibledit-web/downloads/changes
+chown www-data:www-data /var/lib/bibledit-web/changes
+chown www-data:www-data /usr/share/bibledit-web/downloads/changes
+mkdir -p /var/lib/bibledit-web/exports
+ln -s /var/lib/bibledit-web/exports /usr/share/bibledit-web/downloads/exports
+chown www-data:www-data /var/lib/bibledit-web/exports
+chown www-data:www-data /usr/share/bibledit-web/downloads/exports
 
+
+Making install in apache
+mkdir -p /etc/bibledit-web
+cp bibledit-web.conf /etc/bibledit-web
+mkdir -p /etc/apache2/conf.d
+rm -f /etc/apache2/conf.d/bibledit-web.conf
+ln -s /etc/bibledit-web/bibledit-web.conf /etc/apache2/conf.d/bibledit-web.conf
+
+
+Making install in cron
+echo "* * * * * root cd /usr/share/bibledit-web/timer; nice -n 30 php index.php; cd"  > bibledit-web
+mkdir -p /etc/cron.d/
+cp bibledit-web /etc/cron.d/bibledit-web
+rm -f bibledit-web
+
+Making install in fhs
+mkdir -p /var/lib/bibledit-web
+chown www-data:www-data /var/lib/bibledit-web
+
+
+
+
+
+Bibledit-Web.
 Test installing it in a user-defined location via the ./configure script.
 It needs to really install everything somewhere else.
+It also needs to install the apache configurations with a different name, not bibledit-web.
+Install the crontab entry with a different name, not bibledit-web.
+The naming of everything depends on the suffix given in the configure script.
+Adapt database name, so: no longer bibledit, or bibledit-web.
+Update Local state directory.
+
+
+
+
+
+
+
+
 
 
 

@@ -47,7 +47,6 @@ class Bootstrap
 {
   private static $instance;
   public $bibledit_root_folder;
-  private $no_database_access_yet;
 
   
   private function __construct() {
@@ -89,16 +88,14 @@ class Bootstrap
     }
     
     // The localization.
-    if (!isset ($GLOBALS["no_database_access_yet"])) {
-      $database_config_general = Database_Config_General::getInstance();
-      $language = $database_config_general->getSiteLanguage ();
-      if ($language != "") {
-        putenv("LANGUAGE=$language");
-        setlocale(LC_MESSAGES, "en_US.utf8"); // I am puzzled as to why this is needed to make gettext work.
-        $textdomain = dirname (dirname (__FILE__)) . "/locale";
-        bindtextdomain("bibledit", $textdomain); 
-        textdomain("bibledit");
-      }
+    $database_config_general = Database_Config_General::getInstance();
+    $language = $database_config_general->getSiteLanguage ();
+    if ($language != "") {
+      putenv("LANGUAGE=$language");
+      setlocale(LC_MESSAGES, "en_US.utf8"); // I am puzzled as to why this is needed to make gettext work.
+      $textdomain = dirname (dirname (__FILE__)) . "/locale";
+      bindtextdomain("bibledit", $textdomain); 
+      textdomain("bibledit");
     }
       
   } 

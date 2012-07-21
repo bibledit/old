@@ -1,5 +1,8 @@
 /* config.php.in.  Generated from configure.ac by autoheader.  */
 
+/* Define the location on the web and internal */
+#undef LOCATION
+
 /* Define the root password of the MySQL database */
 #undef MYSQL_ROOT_PASSWORD
 

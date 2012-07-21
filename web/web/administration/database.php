@@ -42,11 +42,6 @@ $database_mail = Database_Mail::getInstance ();
 $database_mail->optimize();
 
 
-// The cron table.
-$database_cron = Database_Cron::getInstance ();
-$database_cron->optimize ();
-
-
 // The mailer table.
 $database_mailer = Database_Mailer::getInstance ();
 $database_mailer->optimize ();

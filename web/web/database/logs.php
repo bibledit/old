@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 class Database_Logs
 {
   /**
@@ -21,26 +19,13 @@ class Database_Logs
 
 
   /**
-  * verify - Verifies the database table
+  * Optimizes the table.
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS logs (
-id int auto_increment primary key,
-timestamp int,
-event text
-);
-EOD;
-    $database_instance->runQuery ($str);
-    $database_instance->runQuery ("ALTER TABLE logs ADD level int AFTER timestamp;");
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE logs;");
   }
+
 
   /**
   * log - Logs entry
