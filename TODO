@@ -1,9 +1,6 @@
-date_time_utils.cpp: In function ‘int date_time_julian_day_get_current()’:
-date_time_utils.cpp:85:3: warning: ‘void g_date_set_time(GDate*, GTime)’ is deprecated (declared at /usr/include/glib-2.0/glib/gdate.h:179): Use 'g_date_set_time_t' instead [-Wdeprecated-declarations]
-date_time_utils.cpp:85:56: warning: ‘void g_date_set_time(GDate*, GTime)’ is deprecated (declared at /usr/include/glib-2.0/glib/gdate.h:179): Use 'g_date_set_time_t' instead [-Wdeprecated-declarations]
-date_time_utils.cpp: In function ‘int date_time_seconds_to_julian(int)’:
-date_time_utils.cpp:233:3: warning: ‘void g_date_set_time(GDate*, GTime)’ is deprecated (declared at /usr/include/glib-2.0/glib/gdate.h:179): Use 'g_date_set_time_t' instead [-Wdeprecated-declarations]
-date_time_utils.cpp:233:29: warning: ‘void g_date_set_time(GDate*, GTime)’ is deprecated (declared at /usr/include/glib-2.0/glib/gdate.h:179): Use 'g_date_set_time_t' instead [-Wdeprecated-declarations]
+
+
+
 
 
 

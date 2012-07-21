@@ -17,11 +17,13 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
 #include "date_time_utils.h"
 #include "tiny_utilities.h"
+
 
 int date_time_seconds_get_current()
 // Get the seconds since the Epoch, modified with the timezone information.
@@ -77,12 +79,13 @@ int date_time_seconds_get_current()
   return gtimeval.tv_sec;
 }
 
+
 int date_time_julian_day_get_current()
 // Returns the julian day for today.
 {
   // New GDate using the current date.
   GDate *date = g_date_new();
-  g_date_set_time(date, date_time_seconds_get_current());
+  g_date_set_time_t (date, date_time_seconds_get_current ());
   // Get the Julian day out of it.
   int julian_day = g_date_get_julian(date);
   // Free memory.
@@ -90,6 +93,7 @@ int date_time_julian_day_get_current()
   // Return Julian day.
   return julian_day;
 }
+
 
 ustring date_time_julian_human_readable(int julian_day, bool weekday)
 // Returns a Julian day in human readable form.
@@ -107,6 +111,7 @@ ustring date_time_julian_human_readable(int julian_day, bool weekday)
   return returnvalue;
 }
 
+
 ustring date_time_julian_get_month_and_year(int julian_day)
 // Returns the month of a Julian day in human readable form.
 {
@@ -119,6 +124,7 @@ ustring date_time_julian_get_month_and_year(int julian_day)
   g_date_free(date);
   return returnvalue;
 }
+
 
 ustring date_time_seconds_human_readable(int seconds, bool weekday)
 // Returns the seconds in human readable format.
@@ -141,6 +147,7 @@ ustring date_time_seconds_human_readable(int seconds, bool weekday)
   returnvalue.append(", " + uhour + ":" + uminute + ":" + usecond);
   return returnvalue;
 }
+
 
 int date_time_julian_day_get_parse(const ustring & date)
 // This takes a human readable date, and tries to get the Julian day out of it.
@@ -176,6 +183,7 @@ int date_time_julian_day_get_parse(const ustring & date)
   return julian_day;
 }
 
+
 int date_time_julian_day_get_parse(guint year, guint month, guint day)
 {
   // New GDate object.
@@ -200,6 +208,7 @@ int date_time_julian_day_get_parse(guint year, guint month, guint day)
   return julian_day;
 }
 
+
 void date_time_normal_get_year_month_day(guint32 julian_day, guint & year, guint & month, guint & day)
 {
   // New GDate object.
@@ -215,6 +224,7 @@ void date_time_normal_get_year_month_day(guint32 julian_day, guint & year, guint
   g_date_free(gdate);
 }
 
+
 void date_time_normal_get_hour_minute_second(guint32 seconds, int &hour, int &minute, int &second)
 {
   unsigned int seconds_in_day = seconds % 86400;
@@ -224,17 +234,19 @@ void date_time_normal_get_hour_minute_second(guint32 seconds, int &hour, int &mi
   second = remaining_seconds % 60;
 }
 
+
 int date_time_seconds_to_julian(int seconds)
 // Converts seconds since Epoch to a Julian day.
 {
   GTime time = seconds;
   GDate *date;
   date = g_date_new();
-  g_date_set_time(date, time);
+  g_date_set_time_t (date, time);
   int julian_day = g_date_get_julian(date);
   g_date_free(date);
   return julian_day;
 }
+
 
 int date_time_julian_to_seconds(int day)
 // Converts a Julian day to seconds since Epoch.
@@ -254,3 +266,4 @@ int date_time_julian_to_seconds(int day)
   int seconds = days * 86400;
   return seconds;
 }
+
