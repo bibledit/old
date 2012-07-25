@@ -16,10 +16,14 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=153;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
-FILE_NAME_1=1724;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/setup.php;0;2
-FILE_NAME_2=10164;SQL;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/mysql/setup.sql;0;2
-FILE_NAME_3=2623;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/versifications.php;0;2
+FILE_NAME_0=471;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
+FILE_NAME_1=10363;SQL;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/mysql/setup.sql;0;2
+FILE_NAME_2=177;Sh;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
+FILE_NAME_3=767;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+FILE_NAME_4=253;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/apache/Makefile.am;0;2
+FILE_NAME_5=982;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/web/Makefile.am;0;2
+FILE_NAME_6=334;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/cron/Makefile.am;0;2
+FILE_NAME_7=219;Make;0;16;1;1;0;/home/teus/documents/dev/bibledit/web/fhs/Makefile.am;0;2
 
 [long line marker]
 long_line_behaviour=2

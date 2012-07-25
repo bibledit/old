@@ -46,26 +46,6 @@ class Database_Versifications
   }
 
 
-  public function import ()
-  {
-    include_once ("messages/messages.php");    
-    message_information ("Importing versification systems:");
-    $directory = "versification";
-    $handler = opendir($directory);
-    while ($file = readdir($handler)) {
-      $pieces = explode (".", $file);
-      if ($pieces[1] == "xml") {
-        $file = "$directory/$file";
-        message_information ("- $pieces[0]");
-        flush ();
-        $contents = file_get_contents ($file);
-        $this->importBibleditXml ($contents, $pieces[0]);
-      }
-    }
-    closedir($handler);
-  }
-
-
   public function importBibleditXml ($contents, $name)
   {
     // Delete old system if it is there, and create new one.
@@ -80,7 +60,6 @@ class Database_Versifications
       $chapter = $triad->chapter;
       $verse = $triad->verse;
       $query = "INSERT INTO versification_data VALUES (NULL, $id, $book, $chapter, $verse);";
-    echo "$query\n";
       $database_instance->runQuery ($query);
     }
   }
@@ -120,10 +99,8 @@ class Database_Versifications
     $database_instance = Database_Instance::getInstance();
     $id = $this->getID ($name);
     $query = "DELETE FROM versification_names WHERE system = $id;";
-    echo "$query\n";
     $database_instance->runQuery ($query);
     $query = "DELETE FROM versification_data WHERE system = $id;";
-    echo "$query\n";
     $database_instance->runQuery ($query);
   }
 
@@ -156,7 +133,7 @@ class Database_Versifications
     if ($id > 0) {
       return $id;
     }   
-    // Get the first free ID.
+    // Get the first free ID starting from 1000.
     $database_instance = Database_Instance::getInstance();
     $query = "SELECT system FROM versification_names ORDER BY system DESC LIMIT 1;";
     $result = $database_instance->runQuery ($query);
@@ -166,6 +143,7 @@ class Database_Versifications
       $id = $row[0];
     }
     $id++;
+    if ($id < 1000) $id = 1000;
     // Create the empty system.
     $name = Database_SQLInjection::no ($name);
     $query = "INSERT INTO versification_names VALUES ($id, '$name');";

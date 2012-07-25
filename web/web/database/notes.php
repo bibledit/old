@@ -57,35 +57,6 @@ class Database_Notes
     return self::$instance;
   }
 
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$query = <<<EOD
-CREATE TABLE IF NOT EXISTS notes (
-id int auto_increment primary key,
-identifier int NOT NULL,  # Note identifier.
-modified int NOT NULL,    # Date modified.
-assigned text,            # Note assigned to: lists users.
-bible varchar (256),      # The Bible, if any, the note refers to.
-passage text,             # The passage or verse the note refers to.
-status varchar (256),     # Note status: New / Pending / In progress / Done / etc.
-severity int,             # Severity of note: Wish / Minor / Normal / Important / Major / Critical
-private tinyint,          # Note privacy: Same privacy levels as the user levels.
-summary varchar (256),    # Note summary.
-contents text             # Note contents.
-);
-EOD;
-    $database_instance->runQuery ($query);
-    // Table update. Subscriptions: Contains users subscribed to this note.
-    $database_instance->runQuery ("ALTER TABLE notes ADD subscriptions text AFTER assigned;");
-    // Table update. Allow full text search on summary and contents.
-    // First drop the fulltext index. If this were not done, it would create multiple indexes.
-    $database_instance->runQuery ("ALTER TABLE notes DROP INDEX summary;");
-    $database_instance->runQuery ("ALTER TABLE notes ADD FULLTEXT(summary, contents);");
-    // Table update. Create index on identifier for much faster lookup.
-    // This makes a huge difference if the number of notes climbs above the, say, 1000.
-    $database_instance->runQuery ("CREATE INDEX id_index ON notes (identifier);");
-  }
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE notes;");

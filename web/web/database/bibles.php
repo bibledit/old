@@ -15,42 +15,8 @@ class Database_Bibles
   }
 
   /**
-  * Verify database table, optionally creating and/or optimizing it
+    * Optimize database table.
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS bible_names (
-id int auto_increment primary key,
-bible int,
-name varchar(256),
-versification varchar(256)
-);
-EOD;
-    $database_instance->runQuery ($str);
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS bible_data (
-id int auto_increment primary key,
-bible int,
-book int,
-chapter int,
-data text
-);
-EOD;
-    $database_instance->runQuery ($str);
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS bible_diff (
-id int auto_increment primary key,
-bible int,
-book int,
-chapter int,
-data text
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE bible_names;");

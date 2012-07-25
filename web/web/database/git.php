@@ -41,13 +41,6 @@ class Database_Git
   }
 
 
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-    $query = "CREATE TABLE IF NOT EXISTS git (directory varchar(1024), output varchar (1024));";
-    $database_instance->runQuery ($query);
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE git;");

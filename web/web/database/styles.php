@@ -40,50 +40,6 @@ class Database_Styles
     return self::$instance;
   }
 
-  public function verify () {
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS styles (
-id int auto_increment primary key,
-sheet varchar(256),
-marker varchar(10),
-name varchar(256),
-info text,
-category varchar(10),
-type int,
-subtype int,
-fontsize float,
-italic int,
-bold int,
-underline int,
-smallcaps int,
-superscript int,
-justification int,
-spacebefore float,
-spaceafter float,
-leftmargin float,
-rightmargin float,
-firstlineindent float,
-spancolumns int,
-color varchar(6),
-print int,
-userbool1 int,
-userbool2 int,
-userbool3 int,
-userint1 int,
-userint2 int,
-userint3 int,
-userstring1 varchar (512),
-userstring2 varchar (512),
-userstring3 varchar (512)
-);
-EOD;
-    $database_instance = Database_Instance::getInstance();
-    $database_instance->runQuery ($str);
-    // Update the left margin and the first line indent for the standard note contents styles.
-    $database_instance->runQuery ("UPDATE styles SET leftmargin = 5 WHERE (marker = 'ft' OR marker = 'xt') AND leftmargin = 0;");
-    $database_instance->runQuery ("UPDATE styles SET firstlineindent = -5 WHERE (marker = 'ft' OR marker = 'xt') AND firstlineindent = 0;");
-  }
-
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();

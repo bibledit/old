@@ -15,23 +15,8 @@ class Database_Config_User
   }
 
   /**
-  * Verify database table, optionally creating and/or optimizing it
+  * Optimize database table.
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS config_user (
-id int auto_increment primary key,
-username varchar(30),
-bible varchar(256),
-ident varchar(100) not null,
-value varchar(1000),
-offset int not null
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE config_user;");

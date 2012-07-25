@@ -42,12 +42,6 @@ class Database_Shell
     return self::$instance;
   }
 
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-    $query = "CREATE TABLE IF NOT EXISTS shell (name varchar(256), pid varchar (256), output varchar (1024), run boolean) ENGINE = MEMORY;";
-    $database_instance->runQuery ($query);
-  }
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $query = "TRUNCATE TABLE shell;";

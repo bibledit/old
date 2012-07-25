@@ -3,12 +3,13 @@
 <h2>Version in repository</h2>
 <p>Removed: Logging of memory usage once a day.</p>
 <p>The configure script checks whether the smarty-gettext plugin is present.</p>
-<p>Fixed: Errors get logged every five minutes when the email storage host has not been defined.</p>
+<p>No longer logs errors every five minutes when the email storage host has not been defined.</p>
 <p>Passage focus clients like Bibledit-Bibleworks and others no longer time out after a few hours of non-use.</p>
 <p>Fixed: When the database has not been initialized, the timer won't run repeating tasks, as it thinks that the database server is down.</p>
 <p>Fixed: PHP Warning: rmdir(): Directory not empty.</p>
 <p>The unit tests clean up their temporal data after finish.</p>
 <p>Copyright notices were updated from 2009 to 2012.</p>
+<p>The setup.php script is no longer there. Its functions get executed during 'make install'.</p>
 <p></p>
 <p></p>
 

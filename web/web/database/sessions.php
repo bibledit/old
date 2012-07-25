@@ -35,19 +35,6 @@ class Database_Sessions
     return self::$instance;
   }
 
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$query = <<<EOD
-CREATE TABLE IF NOT EXISTS sessions (
-id int,
-timestamp int,
-identifier varchar(256),
-value varchar(256)
-);
-EOD;
-    $database_instance->runQuery ($query);
-  }
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE sessions;");

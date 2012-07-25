@@ -8,7 +8,7 @@
 // Host: This is the server where the database runs.
 $database_host = "localhost";
 // Name: This is the name of the database.
-$database_name = "bibledit-web";
+$database_name = "testtt";
 // User: This is the username of the database administrator.
 $database_user = "root";
 // Pass: This is the password of the database administrator.

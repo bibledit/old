@@ -15,23 +15,6 @@ class Database_Ipc
   }
 
 
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS ipc (
-id int auto_increment primary key,
-channel varchar(256),
-command varchar(30),
-message text
-);
-EOD;
-    $database_instance->runQuery ($str);
-    // Subsequent table updates.
-    $database_instance->runQuery ("ALTER TABLE ipc ADD user varchar(30) AFTER id;");
-    $database_instance->runQuery ("UPDATE ipc SET user = '';");
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE ipc;");

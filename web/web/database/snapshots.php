@@ -44,25 +44,8 @@ class Database_Snapshots
   }
 
   /**
-  * Verify database table, optionally creating and/or optimizing it
+  * Optimize database table.
   */
-  public function verify () {
-    $database_instance = Database_Instance::getInstance();
-$str = <<<EOD
-CREATE TABLE IF NOT EXISTS snapshots (
-id int auto_increment primary key,
-bible int,
-book int,
-chapter int,
-data text,
-seconds int,
-persistent int
-);
-EOD;
-    $database_instance->runQuery ($str);
-  }
-
-
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE snapshots;");

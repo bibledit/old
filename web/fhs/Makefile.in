@@ -322,11 +322,11 @@ uninstall-am: uninstall-local
 
 
 install-data-local:
-	mkdir -p $(DESTDIR)/$(packagelocalstatedir)
-	chown www-data:www-data $(DESTDIR)/$(packagelocalstatedir)
+	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/$(LOCATION)
+	chown www-data:www-data $(DESTDIR)/$(packagelocalstatedir)/$(LOCATION)
 
 uninstall-local:
-	rm -rf $(DESTDIR)/$(packagelocalstatedir)
+	rm -rf $(DESTDIR)/$(packagelocalstatedir)/$(LOCATION)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
