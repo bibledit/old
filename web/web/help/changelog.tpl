@@ -10,7 +10,7 @@
 <p>The unit tests clean up their temporal data after finish.</p>
 <p>Copyright notices were updated from 2009 to 2012.</p>
 <p>The setup.php script is no longer there. Its functions get executed during 'make install'.</p>
-<p></p>
+<p>Installation in a user-defined location through ./configure --with-location=location.</p>
 <p></p>
 
 <h2>Version 0.6.1</h2>
