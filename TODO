@@ -1,11 +1,7 @@
-Bibledit-Web.
-Test installing it in a user-defined location via the ./configure script.
-It needs to really install everything somewhere else.
-It also needs to install the apache configurations with a different name, not bibledit-web.
-Install the crontab entry with a different name, not bibledit-web.
-The naming of everything depends on the suffix given in the configure script.
 Adapt database name, so: no longer bibledit, or bibledit-web.
-Update Local state directory.
+Test export of bibles.
+Test daily changes.
+Test backup.
 
 
 
