@@ -21,9 +21,11 @@
  **  
  */
 
+
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
 $database_logs->log (gettext ("Exporting the Bibles"), true);
+
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
@@ -31,58 +33,72 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
+
 $database_config_general = Database_Config_General::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
-$siteUrl = $database_config_general->getSiteURL ();
+
 $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 
-// Files get stored in $localStatePath/exports/
+
+// Files get stored in $localStatePath/$location/exports/
 include ("paths/paths.php");
-$exportsDirectory = $localStatePath . "/exports";
-@mkdir ($bibleDirectory, 0777, true);
+$exportsDirectory = "$localStatePath/$location/exports";
+@mkdir ($exportsDirectory, 0777, true);
+
 
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
 
-  // Files get stored in $localStatePath/exports/<Bible>
+
+  // Files get stored in $localStatePath/$location/exports/<Bible>
   // Clear this directory of old exports. Just in case something has changed in data or settings.
   $bibleDirectory = "$exportsDirectory/$bible";
   Filter_Rmdir::rmdir ($bibleDirectory);
 
+
   // Skip the $bible if it should not be exported.
   if (!in_array ($bible, $exportedBibles)) continue;
+
   
   // The user can access the files through the browser at the directory.
   @mkdir ($bibleDirectory, 0777, true);
+
   
   // USFM files go into the USFM folder.
   $usfmDirectory = $bibleDirectory . "/USFM";
   @mkdir ($usfmDirectory, 0777, true);
 
+
   // OpenDocument files go into the OpenDocument folder.
   $odtDirectory = $bibleDirectory . "/OpenDocument";
   @mkdir ($odtDirectory, 0777, true);
+
   
   // Web pages go into the Web folder.
   $webDirectory = $bibleDirectory . "/Web";
   @mkdir ($webDirectory, 0777, true);
+
   
   // Linked web pages go into the LinkedWeb folder.
   $linkedWebDirectory = $bibleDirectory . "/LinkedWeb";
   @mkdir ($linkedWebDirectory, 0777, true);
+
   
   // Online Bible files go into the OnlineBible folder.
   $onlineBibleDirectory = $bibleDirectory . "/OnlineBible";
   @mkdir ($onlineBibleDirectory, 0777, true);
+
   
   // USFM code of the entire Bible.
   $bibleUsfmData = "";
 
+
   // OpenDocument / Web / Online Bible data for the whole Bible.
   $filter_text_bible = new Filter_Text;
+
   
   // LinkedWeb index file.
   $html_text_linked_index = new Html_Text ($bible);
@@ -162,10 +178,13 @@ foreach ($bibles as $bible) {
   $filter_text_bible->produceFalloutDocument ("$odtDirectory/00_Fallout.odt");
 
 }
+
+
 $command = "chmod -R 0777 $exportsDirectory 2>&1";
 $database_logs->log ($command);
 unset ($result);
 exec ($command, &$result, &$exit_code);
 $database_logs->log (gettext ("The Bibles have been exported"), true);
+
 
 ?>

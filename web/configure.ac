@@ -351,6 +351,7 @@ echo '<?php' >> $PATHSFILE
 echo '$zendPath = "'$ZENDPATH'";' >> $PATHSFILE
 echo '$localStatePath = "'$DESTDIR'/'$packagelocalstatedir'";' >> $PATHSFILE
 echo '$smartyPath = "'$SMARTYPATH'";' >> $PATHSFILE
+echo '$location = "'$LOCATION'";' >> $PATHSFILE
 echo '?>' >> $PATHSFILE
 
 
