@@ -1,8 +1,10 @@
 <?php
 
+
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 $database_logs = Database_Logs::getInstance();
+
 
 if (isset ($_GET['delete'])) {
   $database_logs->clear();
@@ -12,8 +14,10 @@ if (isset ($_GET['delete'])) {
   header ("Refresh: 5");
 }
 
+
 Assets_Page::header (gettext ("Logbook"));
 $smarty = new Smarty_Bibledit (__FILE__);
+
 
 @$page = $_GET['page'];
 if (!isset ($page)) {
@@ -35,5 +39,6 @@ $smarty->assign ("timestamps", $timestamps);
 $smarty->assign ("events",     $events);
 $smarty->display ("logbook.tpl");
 Assets_Page::footer ();
+
 
 ?>
