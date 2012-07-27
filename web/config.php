@@ -2,7 +2,7 @@
 /* config.php.in.  Generated from configure.ac by autoheader.  */
 
 /* Define the location on the web and internal */
-#define LOCATION "xxx"
+#define LOCATION "bibledit-web"
 
 /* Define the root password of the MySQL database */
 #define MYSQL_ROOT_PASSWORD "root"

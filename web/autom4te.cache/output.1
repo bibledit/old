@@ -2994,7 +2994,7 @@ systemconfigdir=etc/${PACKAGE}
 
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile web/Makefile tests/Makefile apache/Makefile cron/Makefile fhs/Makefile mysql/Makefile"
+ac_config_files="$ac_config_files Makefile fhs/Makefile web/Makefile tests/Makefile apache/Makefile cron/Makefile mysql/Makefile secure/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3715,12 +3715,13 @@ do
   case $ac_config_target in
     "config.php") CONFIG_HEADERS="$CONFIG_HEADERS config.php" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "fhs/Makefile") CONFIG_FILES="$CONFIG_FILES fhs/Makefile" ;;
     "web/Makefile") CONFIG_FILES="$CONFIG_FILES web/Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
     "apache/Makefile") CONFIG_FILES="$CONFIG_FILES apache/Makefile" ;;
     "cron/Makefile") CONFIG_FILES="$CONFIG_FILES cron/Makefile" ;;
-    "fhs/Makefile") CONFIG_FILES="$CONFIG_FILES fhs/Makefile" ;;
     "mysql/Makefile") CONFIG_FILES="$CONFIG_FILES mysql/Makefile" ;;
+    "secure/Makefile") CONFIG_FILES="$CONFIG_FILES secure/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

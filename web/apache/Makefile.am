@@ -2,7 +2,6 @@ EXTRA_DIST = *
 CLEANFILES = *~
 
 install-data-local:
-	mkdir -p $(DESTDIR)/etc/apache2/conf.d
 	echo  > $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	echo Alias /$(LOCATION) /usr/share/bibledit-web/$(LOCATION) >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	echo "<Directory /usr/share/bibledit-web/$(LOCATION)>" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
@@ -12,7 +11,6 @@ install-data-local:
 	- service apache2 restart
 
 uninstall-local:
-	- rm -f $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	- service apache2 restart
 
 # http://webapps-common.alioth.debian.org/draft/html/

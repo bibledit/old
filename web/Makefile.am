@@ -1,3 +1,3 @@
-SUBDIRS = web tests apache cron fhs mysql
+SUBDIRS = fhs web tests apache cron mysql secure
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = updatecopyright

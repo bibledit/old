@@ -70,7 +70,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LIBOBJS = 
 LIBS = 
-LOCATION = xxx
+LOCATION = bibledit-web
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/web/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -322,7 +322,6 @@ uninstall-am: uninstall-local
 
 
 install-data-local:
-	mkdir -p $(DESTDIR)/etc/apache2/conf.d
 	echo  > $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	echo Alias /$(LOCATION) /usr/share/bibledit-web/$(LOCATION) >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	echo "<Directory /usr/share/bibledit-web/$(LOCATION)>" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
@@ -332,7 +331,6 @@ install-data-local:
 	- service apache2 restart
 
 uninstall-local:
-	- rm -f $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	- service apache2 restart
 
 # http://webapps-common.alioth.debian.org/draft/html/

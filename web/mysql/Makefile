@@ -70,7 +70,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LIBOBJS = 
 LIBS = 
-LOCATION = xxx
+LOCATION = bibledit-web
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/web/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -305,7 +305,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-local
+uninstall-am:
 
 .MAKE: install-am install-strip
 
@@ -318,7 +318,7 @@ uninstall-am: uninstall-local
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am uninstall uninstall-am uninstall-local
+	pdf-am ps ps-am uninstall uninstall-am
 
 
 install-data-local:
@@ -326,11 +326,6 @@ install-data-local:
 	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/setup.sql
 	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/setup.sql
 	rm /tmp/setup.sql
-
-uninstall-local:
-	rm -f $(DESTDIR)/etc/apache2/conf.d/bibledit-web.conf
-	rm -rf $(DESTDIR)/$(systemconfigdir)
-	service apache2 restart
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

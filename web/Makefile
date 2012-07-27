@@ -129,7 +129,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LIBOBJS = 
 LIBS = 
-LOCATION = xxx
+LOCATION = bibledit-web
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/web/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -193,7 +193,7 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-SUBDIRS = web tests apache cron fhs mysql
+SUBDIRS = fhs web tests apache cron mysql secure
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = updatecopyright
 all: config.php

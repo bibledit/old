@@ -286,12 +286,13 @@ AC_SUBST(systemconfigdir)
 # Create all the Makefiles.
 AC_CONFIG_FILES([
   Makefile 
+  fhs/Makefile
   web/Makefile
   tests/Makefile
   apache/Makefile
   cron/Makefile
-  fhs/Makefile
   mysql/Makefile
+  secure/Makefile
 ])
 AC_OUTPUT
 

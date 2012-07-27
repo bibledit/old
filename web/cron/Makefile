@@ -70,7 +70,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LIBOBJS = 
 LIBS = 
-LOCATION = xxx
+LOCATION = bibledit-web
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/web/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -322,10 +322,7 @@ uninstall-am: uninstall-local
 
 
 install-data-local:
-	echo "* * * * * root cd $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/timer; nice -n 30 php index.php; cd"  > bibledit-web-$(LOCATION)
-	mkdir -p $(DESTDIR)/etc/cron.d/
-	cp bibledit-web-$(LOCATION) $(DESTDIR)/etc/cron.d/bibledit-web-$(LOCATION)
-	rm -f bibledit-web-$(LOCATION)
+	echo "* * * * * root cd $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/timer; nice -n 30 php index.php; cd" > $(DESTDIR)/etc/cron.d/bibledit-web-$(LOCATION)
 
 uninstall-local:
 	rm -f $(DESTDIR)/etc/cron.d/bibledit-web-$(LOCATION)
