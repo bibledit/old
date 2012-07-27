@@ -460,7 +460,7 @@ void on_checkbutton_loop_toggled (GtkToggleButton *togglebutton, gpointer user_d
 }
 
 
-bool exit_timeout (gpointer data) // Todo
+bool exit_timeout (gpointer data)
 {
   gtk_main_quit ();
   return false;

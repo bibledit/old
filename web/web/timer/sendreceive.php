@@ -34,9 +34,9 @@ if (php_sapi_name () != "cli") {
 }
 
 
-
 $database_logs->log (gettext ("Processing any data left over from previous actions."));
 Filter_Git::filedata2database ();
+
 
 $database_bibles = Database_Bibles::getInstance();
 $database_config_user = Database_Config_User::getInstance();
@@ -49,6 +49,7 @@ foreach ($bibles as $bible) {
   $remote_repository_url = $database_config_user->getRemoteRepositoryUrl ($bible);
   if ($remote_repository_url != "") {
 
+
     $database_logs->log ("**********");
     if ($bible == "consultationnotes") {
       $database_logs->log (gettext ("Consultation Notes"));
@@ -57,10 +58,12 @@ foreach ($bibles as $bible) {
     }
     $database_logs->log (gettext ("Remote repository URL") . ": " . $remote_repository_url);
 
+
     // The git directory for this object.
     $directory = Filter_Git::git_directory ($bible);
     $database_logs->log (gettext ("Git repository directory") . ": " . $directory);
     $shelldirectory = escapeshellarg ($directory);
+
     
     // Continue to the next Bible if the repository directory is not there.
     if (!is_dir ($directory)) {
@@ -68,35 +71,46 @@ foreach ($bibles as $bible) {
       continue;
     }
 
+
     // Set up the secure shell keys in case these are needed.    
     $secure_key_directory = Filter_Git::git_config ($remote_repository_url);
 
+
     // Temporarily store the .git directory.
-    $tempdirectory = tempnam (sys_get_temp_dir(), '');
+    $tempdirectory = tempnam (sys_get_temp_dir(), ''); // Todo - Is this being removed at the end?
     unlink ($tempdirectory);
     mkdir ($tempdirectory);
     $success = rename ("$directory/.git", "$tempdirectory/.git");
     if (!$success) {
       $database_logs->log(gettext ("Failed to temporarily store the .git directory"));
     }
+
     
     // Temporarily store the shared_dictionary. 
     // Disable error checking because it may not exist.
     @rename ("$directory/shared_dictionary", "$tempdirectory/shared_dictionary");
 
+
     // Completely remove all data from the git directory.
     Filter_Rmdir::rmdir ($directory);
     mkdir ($directory);
+
 
     // Move the .git directory back into place.
     $success = rename ("$tempdirectory/.git", "$directory/.git");
     if (!$success) {
       $database_logs->log(gettext ("Failed to restore the .git directory"));
     }
+
     
     // Move the shared_dictionary back into place. 
     // Disable error checking because it may not exist.
     @rename ("$tempdirectory/shared_dictionary", "$directory/shared_dictionary");
+    
+    
+    // The temporal directory is no longer needed: Remove it.
+    rmdir ($tempdirectory);
+
 
     // Store the data into the repository. Data that no longer exists will have been removed above.
     if ($bible == "consultationnotes") {
@@ -116,6 +130,7 @@ foreach ($bibles as $bible) {
       Filter_Rmdir::rmdir ("$directory/.git");
     }
 
+
     // Commit the new data to the repository.
     if ($success) {
       $command = "cd $shelldirectory; git add . 2>&1";
@@ -130,6 +145,7 @@ foreach ($bibles as $bible) {
       $database_logs->log ($message);
     }
 
+
     if ($success) {
       $command = "cd $shelldirectory; git status 2>&1";
       $database_logs->log ($command);
@@ -142,6 +158,7 @@ foreach ($bibles as $bible) {
       $message = "Exit code $exit_code";
       $database_logs->log ($message);
     }  
+
 
     if ($success) {
       $command = "cd $shelldirectory; git commit -a -m sync 2>&1";
@@ -156,6 +173,7 @@ foreach ($bibles as $bible) {
       $database_logs->log ($message);
     }  
 
+
     // Pull changes from the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git pull 2>&1";
@@ -167,7 +185,7 @@ foreach ($bibles as $bible) {
         // Leave out messages like:
         //   Could not create directory '/var/www/.ssh'.
         //   Failed to add the host to the list of known hosts (/var/www/.ssh/known_hosts).
-        // Such messages could confuse the user, and these are not really errors.
+        // Such messages confuse the user, and are not real errors.
         if (strstr ($line, "/.ssh") != false) continue;
         $database_logs->log ($line);
         $database_git->insert ($directory, $line);
@@ -189,6 +207,7 @@ foreach ($bibles as $bible) {
       $database_logs->log ($message);
     }  
 
+
     // Push our changes into the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git push 2>&1";
@@ -204,13 +223,16 @@ foreach ($bibles as $bible) {
       $database_logs->log ($message);
     }  
 
+
     if ($success) {
       $database_logs->log (gettext ("Moving the data that was changed into the database ..."));
       Filter_Git::filedata2database ();
     }
 
+
     // For security reasons, remove the secure shell keys.
     Filter_Git::git_un_config ($secure_key_directory);
+
 
     // Do a "git log" to provide information about the most recent commits.
     {
@@ -225,6 +247,7 @@ foreach ($bibles as $bible) {
       $message = "Exit code $exit_code";
       $database_logs->log ($message);
     }  
+
 
     // Done.
     if (!$success) {
@@ -241,5 +264,6 @@ foreach ($bibles as $bible) {
 
 $database_logs->log ("**********");
 $database_logs->log (gettext ("Ready. All relevant Bibles, and Consultations Notes, have been sent and received."));
+
 
 ?>

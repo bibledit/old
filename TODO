@@ -1,10 +1,6 @@
-Test send/receive.
-It does not have the path right.
-To fix this:
-- Send/receive routines.
-- Repository setup routines:
-** Take me
-** Take repo.
+When sending and receiving, everything written to /tmp should be removed after the operation.
+
+
 
 
 
