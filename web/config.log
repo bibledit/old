@@ -129,7 +129,6 @@ config.status:858: creating cron/Makefile
 config.status:858: creating fhs/Makefile
 config.status:858: creating mysql/Makefile
 config.status:858: creating config.php
-config.status:1039: config.php is unchanged
 
 ## ---------------- ##
 ## Cache variables. ##

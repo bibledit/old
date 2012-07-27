@@ -2,21 +2,17 @@ EXTRA_DIST = *
 CLEANFILES = *~
 
 install-data-local:
-	mkdir -p $(DESTDIR)/$(systemconfigdir)
-	echo  > $(DESTDIR)/$(systemconfigdir)/$(LOCATION).conf
-	echo Alias /$(LOCATION) /usr/share/bibledit-web/$(LOCATION) >> $(DESTDIR)/$(systemconfigdir)/$(LOCATION).conf
-	echo "<Directory /usr/share/bibledit-web/$(LOCATION)>" >> $(DESTDIR)/$(systemconfigdir)/$(LOCATION).conf
-	echo "	Options FollowSymLinks Indexes" >> $(DESTDIR)/$(systemconfigdir)/$(LOCATION).conf
-	echo "	DirectoryIndex index.php" >> $(DESTDIR)/$(systemconfigdir)/$(LOCATION).conf
-	echo "</Directory>" >> $(DESTDIR)/$(systemconfigdir)/$(LOCATION).conf
 	mkdir -p $(DESTDIR)/etc/apache2/conf.d
-	- rm -f $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
-	- ln -s /$(systemconfigdir)/$(LOCATION).conf $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
+	echo  > $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
+	echo Alias /$(LOCATION) /usr/share/bibledit-web/$(LOCATION) >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
+	echo "<Directory /usr/share/bibledit-web/$(LOCATION)>" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
+	echo "	Options FollowSymLinks Indexes" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
+	echo "	DirectoryIndex index.php" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
+	echo "</Directory>" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	- service apache2 restart
 
 uninstall-local:
 	- rm -f $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
-	- rm -rf $(DESTDIR)/$(systemconfigdir)/$(LOCATION).conf
 	- service apache2 restart
 
 # http://webapps-common.alioth.debian.org/draft/html/

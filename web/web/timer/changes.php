@@ -21,9 +21,11 @@
  **  
  */
 
+
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
 $database_logs->log (gettext ("Generating lists of changes in the Bibles"), true);
+
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
@@ -31,36 +33,45 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
+
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_users = Database_Users::getInstance();
 $database_mail = Database_Mail::getInstance();
 $database_bibles = Database_Bibles::getInstance ();
 
+
 include ("paths/paths.php");
+
 
 $bibles = $database_bibles->getDiffBibles ();
 foreach ($bibles as $bible) {
 
+
   // The files get stored at http://site.org/bibledit-web/downloads/changes/<Bible>/<date>
   $biblename = $database_bibles->getName ($bible);
-  $basePath  = "/changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
-  $directory = $localStatePath . $basePath;
+  $basePath  = "changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
+  $directory = "$localStatePath/$location/$basePath";
   mkdir ($directory, 0777, true);
+
   
   // Remove old symbolic link if it's there.
   $link = dirname ($directory) . "/0_most_recent_changes";
   @unlink ($link);
+
   
   // Produce the USFM and html files.
   Filter_Diff::produceVerseLevel ($bible, $directory);
+
   
   // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
   $database_bibles->deleteDiffBible ($bible);
 
+
   // Create online page with changed verses.
   $versesoutputfile = "$directory/changed_verses.html";
   Filter_Diff::runWDiff ("$directory/verses_old.html", "$directory/verses_new.html", $versesoutputfile);
+
 
   // Email users.
   $subject = gettext ("Recent changes") . " " . $biblename;
@@ -71,6 +82,7 @@ foreach ($bibles as $bible) {
       $database_mail->send ($user, $subject, $emailBody);
     }
   }
+
   
   // If there are too many sets of changes, archive the oldest ones.
   $changes_directory = dirname (dirname (__FILE__)) . "/downloads/changes/" . $biblename;
@@ -95,6 +107,8 @@ foreach ($bibles as $bible) {
  
 }
 
+
 $database_logs->log (gettext ("The lists of changes in the Bibles have been generated"), true);
+
 
 ?>

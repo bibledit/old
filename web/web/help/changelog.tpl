@@ -12,7 +12,15 @@
 <p>The setup.php script is gone. Its functions have been moved to the 'make install' stage.</p>
 <p>Installation in a user-defined location is possible through ./configure --with-location=location.</p>
 <p>The logbook displays 60 entries per page instead of 20.</p>
+<p>No symbolic linking for the bibledit configuration for apache, but store it in the apache conf.d directory.</p>
 <p></p>
+<p></p>
+<p></p>
+<p></p>
+
+
+
+
 
 <h2>Version 0.6.1</h2>
 <p>22 February 2012</p>

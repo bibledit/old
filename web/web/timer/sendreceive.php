@@ -77,7 +77,7 @@ foreach ($bibles as $bible) {
 
 
     // Temporarily store the .git directory.
-    $tempdirectory = tempnam (sys_get_temp_dir(), ''); // Todo - Is this being removed at the end?
+    $tempdirectory = tempnam (sys_get_temp_dir(), '');
     unlink ($tempdirectory);
     mkdir ($tempdirectory);
     $success = rename ("$directory/.git", "$tempdirectory/.git");

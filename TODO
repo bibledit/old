@@ -1,11 +1,21 @@
-When sending and receiving, everything written to /tmp should be removed after the operation.
+.
 
 
 
 
 
+Installing bibledit-web in a customized location does not work.
+Also try default location.
 
-Test daily changes.
+
+
+Uninstalling bibledit-web from a customized location does not work.
+Also try default locations.
+
+
+
+
+
 
 
 
