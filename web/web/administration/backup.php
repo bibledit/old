@@ -9,6 +9,7 @@ Assets_Page::header (gettext ("Backup"));
 $smarty = new Smarty_Bibledit (__FILE__);
 
 $config_general = Database_Config_General::getInstance ();
+$database_logs = Database_Logs::getInstance ();
 
 if (isset($_POST['submit'])) {
   $name = $_POST['name'];
@@ -19,6 +20,7 @@ if (isset($_POST['submit'])) {
     $smarty->assign ("success", gettext ("Backups are disabled"));
   } else {
     $smarty->assign ("success", gettext ("The filename was saved and the backup will be created soon"));
+    $database_logs->log (gettext ("Will create a backup within a minute"));
   }
 }
 

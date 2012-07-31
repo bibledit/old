@@ -13,8 +13,9 @@
 <p>Installation in a user-defined location is possible through ./configure --with-location=location.</p>
 <p>The logbook displays 60 entries per page instead of 20.</p>
 <p>No symbolic linking for the bibledit configuration for apache, but store it in the apache conf.d directory.</p>
-<p>Creating of Filesystem Hierarchy Standard directories, and securing them, has been centralized in the build system and installer.</p>
-<p></p>
+<p>Creating of Filesystem Hierarchy Standard directories has been centralized in the installer.</p>
+<p>The installer secures the created directories.</p>
+<p>The backup folder is /var/lib/bibledit-web/bibledit-web so that parallel instances of Bibledit-Web keep separate backups.</p>
 <p></p>
 <p></p>
 

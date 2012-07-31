@@ -1,3 +1,6 @@
+The backup folder is /var/lib/bibledit-web/bibledit-web so that parallel instances of Bibledit-Web keep separate backups.
+Install the software on bibleconsultants.
+Update the scr/copy script so it gets the correct backup.
 
 
 
@@ -5,7 +8,18 @@
 
 
 
+Backup the demo site.
+Note the database and URL it uses, as these currently differ.
+Upgrade the demo site.
+Test whether it works.
 
+
+
+
+
+
+It produces, in 'members', and from outside, a searchable version, very much like the StabiCAD manuals.
+That is, it uses sphinxsearch, and it uses parent links and children.
 
 
 
@@ -40,3 +54,12 @@ Phase the smarty library out, and use Zend forms instead.
 
 git pull teus@git.sv.gnu.org:/srv/git/bibledit.git
 git push teus@git.sv.gnu.org:/srv/git/bibledit.git master:master
+
+
+
+
+Perhaps we can find a way to remove the internal mailing software, and instead
+use the linux postfix or similar, and then we also can every minute check the local mailbox on Linux.
+It implies that a user needs to be created similar to the $location, so it can 
+check that email.
+
