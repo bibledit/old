@@ -6,6 +6,7 @@ install-data-local:
 	mkdir -p $(DESTDIR)/etc/cron.d/
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/$(LOCATION)
 	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)
+	mkdir -p $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/downloads
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/$(LOCATION)/changes
 	mkdir -p $(DESTDIR)/$(packagelocalstatedir)/$(LOCATION)/exports
 	rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/downloads/changes

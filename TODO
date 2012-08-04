@@ -4,18 +4,6 @@
 
 
 
-
-Backup the demo site.
-Note the database and URL it uses, as these currently differ.
-Upgrade the demo site.
-Test whether it works.
-Update the scr/copy script so it gets the correct backup.
-
-
-
-
-
-
 It produces, in 'members', and from outside, a searchable version, very much like the StabiCAD manuals.
 That is, it uses sphinxsearch, and it uses parent links and children.
 
