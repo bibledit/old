@@ -15,17 +15,9 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=1876;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
-FILE_NAME_1=1118;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
-FILE_NAME_2=1833;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/backup.php;0;2
-FILE_NAME_3=3806;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/changes.php;0;2
-FILE_NAME_4=7151;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/exports.php;0;2
-FILE_NAME_5=4874;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0;2
-FILE_NAME_6=3561;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/mailer.php;0;2
-FILE_NAME_7=2581;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/receiver.php;0;2
-FILE_NAME_8=9748;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/sendreceive.php;0;2
-FILE_NAME_9=1615;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/trimdatabases.php;0;2
+current_page=1
+FILE_NAME_0=49;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
+FILE_NAME_1=1380;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 
 [long line marker]
 long_line_behaviour=2

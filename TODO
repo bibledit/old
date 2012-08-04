@@ -1,8 +1,14 @@
-The backup folder is /var/lib/bibledit-web/bibledit-web so that parallel instances of Bibledit-Web keep separate backups.
-Install the software on bibleconsultants.
-Update the scr/copy script so it gets the correct backup.
 
 
+
+
+
+
+
+
+If an incoming email is processed, then there is output from timer/index.php.
+This triggers an email to be sent by the cron scheduler.
+To fix this extra space which is at the end of some PHP file.
 
 
 
@@ -12,6 +18,7 @@ Backup the demo site.
 Note the database and URL it uses, as these currently differ.
 Upgrade the demo site.
 Test whether it works.
+Update the scr/copy script so it gets the correct backup.
 
 
 
