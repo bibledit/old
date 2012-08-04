@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 It produces, in 'members', and from outside, a searchable version, very much like the SC manuals.
 That is, it uses sphinxsearch, and it uses parent links and children.
 A lot of the SC code can be re-used, in particular because it is open source already.
@@ -20,15 +10,7 @@ It means to create a nice web version of the Bible, and make it searchable.
 
 
 
-Phase the smarty library out, and use Zend forms instead.
-
-
-
-
-
-
 Perhaps we can find a way to remove the internal mailing software, and instead
 use the linux postfix or similar, and then we also can every minute check the local mailbox on Linux.
 It implies that a user needs to be created similar to the $location, so it can 
 check that email.
-
