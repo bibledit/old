@@ -1,5 +1,5 @@
 <h1>{t}Exports{/t}</h1>
-<p>{t}Bibledit-Web exports the Bibles on a daily basis.{/t}</p>
+<p>{t}Bibledit-Web exports the Bibles every day at midnight.{/t}</p>
 <br>
 <p>{t}The following Bibles will be exported{/t}:
 {section name=offset loop=$bibles}
@@ -10,7 +10,7 @@
 <a href="exports.php?addbible=">[{t}add Bible{/t}]</a>
 </p>
 <br>
-<p><a href="exports.php?generate=">{t}Do a fresh export now, and every day at this same time.{/t}</a></p>
+<p><a href="exports.php?generate=">{t}Do a fresh export now.{/t}</a></p>
 <p class="error">{$error}</p>
 <p class="success">{$success}</p>
 <br>

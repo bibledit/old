@@ -11,7 +11,7 @@ $database_bibles = Database_Bibles::getInstance();
 
 if (isset($_GET['generate'])) {
   $database_config_general->setTimerExports (time ());
-  $smarty->assign ("success", gettext ("The Bibles will be exported soon."));
+  $smarty->assign ("success", gettext ("The Bibles will be exported within a minute."));
 }
 
 

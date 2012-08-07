@@ -180,10 +180,6 @@ foreach ($bibles as $bible) {
 }
 
 
-$command = "chmod -R 0777 $exportsDirectory 2>&1";
-$database_logs->log ($command);
-unset ($result);
-exec ($command, &$result, &$exit_code);
 $database_logs->log (gettext ("The Bibles have been exported"), true);
 
 
