@@ -53,9 +53,9 @@ $config_general = Database_Config_General::getInstance ();
 $current_timestamp = time ();
 
 
-// Some CPU-hungry actions are to be done at mid-night.
-// The advantage of doing it this way is that while the site is in use 
-// during the day, CPU-intensive actions do not slow down the site.
+// CPU-intensive actions run at midnight.
+// The advantage of this is that while the site is in use during the day, 
+// CPU-intensive actions do not slow down the site.
 // There have been cases that somebody submitted a comment to a consultation note, 
 // but since the site didn't respond fast enough, 
 // the person kept pressing the submit button,

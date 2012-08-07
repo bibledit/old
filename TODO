@@ -1,9 +1,5 @@
-Create a system that doing daily tasks happens at midnight.
-The advantage of this is two-fold:
-1. A manual trigger  no longer upsets the desired time that it happens.
-2. Heavy processing is done during the night, when the site is not used by the users.
-Steps to implement:
-- Update the uses interfaces for the manual triggers, so they accurately inform the user about how it works.
+Update user interfaces for 'Export Bibles', 'Daily changes'.
+
 
 
 
@@ -13,6 +9,10 @@ Steps to implement:
 
 
 Make NDB and SHN Bibles searchable on the site. Version to TBS, and revised version.
+
+
+
+
 
 
 It produces, in 'members', and from outside, a searchable version, very much like the SC manuals.
@@ -31,7 +31,7 @@ Perhaps we can find a way to remove the internal mailing software, and instead
 use the linux postfix or similar, and then we also can every minute check the local mailbox on Linux.
 It implies that a user needs to be created similar to the $location, so it can 
 check that email.
-
-
+Mail reading through bibledit-web can then be removed.
+Mail queueing also.
 
 

@@ -1,2 +1,2 @@
 <p>{t}If there were no errors, then setting up the collaboration is ready.{/t}</p>
-<p>{t}The Manager can now choose menu Send/Receive any time he wants to synchronize the Bible and the Consultation Notes with the remote repository.{/t}</p>
+<p>{t}At midnight every day the Bible will be synchronized with the remote repository. Or choose menu Management - Send/Receive to do it manually.{/t}</p>

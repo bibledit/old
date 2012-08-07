@@ -19,7 +19,7 @@ if ($object == "consultationnotes") {
 
   // Copy the data from the local cloned repository, and store it in Bibledit-Web's consultation notes,
   // overwriting anything that was there before.
-  echo gettext ("Step 1/1: Copying the data from the local cloned repository, and storing it in the Consultation Notes") . "\n";
+  echo gettext ("Copying the data from the local cloned repository, and storing it in the Consultation Notes") . "\n";
   $notescounter = 0; // For progress counter.
   foreach (new DirectoryIterator ($directory) as $fileInfo) {
     if($fileInfo->isDot()) continue;
@@ -35,7 +35,7 @@ if ($object == "consultationnotes") {
 
   // Copy the data from the local cloned repository, and store it in Bibledit-Web's Bible given in $object,
   // overwriting the whole Bible that was there before.
-  echo gettext ("Step 1/1: Copying the data from the local cloned repository, and storing it in the Bible") . "\n";
+  echo gettext ("Copying the data from the local cloned repository, and storing it in the Bible") . "\n";
   
   // Go through the Bible book names in $directory.
   $book_names = scandir($directory);

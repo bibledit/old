@@ -16,7 +16,7 @@
 <p>Creating of Filesystem Hierarchy Standard directories has been centralized in the installer.</p>
 <p>The installer secures the created directories.</p>
 <p>The backup folder is /var/lib/bibledit-web/bibledit-web so that parallel instances of Bibledit-Web keep separate backups.</p>
-<p>CPU-hungry operations like 'Send/receive', 'Export Bibles', and 'Daily changes' are done at midnight each day.</p>
+<p>CPU-intensive operations like 'Send/receive', 'Export Bibles', and 'Daily changes' run at midnight each day.</p>
 <p></p>
 
 <h2>Version 0.6.1</h2>
