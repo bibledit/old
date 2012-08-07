@@ -48,11 +48,20 @@ $log = Database_Logs::getInstance();
 $config_general = Database_Config_General::getInstance ();
 //$processUser = posix_getpwuid(posix_geteuid());
 //$processUser = $processUser['name'];
-//$log->log ("cron run by user $processUser", false);
-//$log->log ("Minutely timer", false);
 
 
 $current_timestamp = time ();
+
+
+// Some CPU-hungry actions are to be done at mid-night.
+// The advantage of doing it this way is that while the site is in use 
+// during the day, CPU-intensive actions do not slow down the site.
+// There have been cases that somebody submitted a comment to a consultation note, 
+// but since the site didn't respond fast enough, 
+// the person kept pressing the submit button,
+// with the result that the comment was added multiple times to the note.
+$midnight = (date ('Gi') == 0);
+
 
 
 // Mailer is done once a minute.
@@ -103,7 +112,7 @@ unset ($backup_timestamp);
 
 
 $diff_timestamp = $config_general->getTimerDiff ();
-if ($current_timestamp >= $diff_timestamp) {
+if (($current_timestamp >= $diff_timestamp) || $midnight) {
   $diff_timestamp += 86400;
   while ($current_timestamp >= $diff_timestamp) {
     // This loop updates the timestamp to a value larger than the current time.
@@ -118,7 +127,7 @@ unset ($diff_timestamp);
 
 
 $exports_timestamp = $config_general->getTimerExports ();
-if ($current_timestamp >= $exports_timestamp) {
+if (($current_timestamp >= $exports_timestamp) || $midnight) {
   $exports_timestamp += 86400;
   while ($current_timestamp >= $exports_timestamp) {
     // This loop updates the timestamp to a value larger than the current time.
@@ -133,7 +142,7 @@ unset ($exports_timestamp);
 
 
 $sendreceive_timestamp = $config_general->getTimerSendReceive ();
-if ($current_timestamp >= $sendreceive_timestamp) {
+if (($current_timestamp >= $sendreceive_timestamp) || $midnight) {
   $sendreceive_timestamp += 86400;
   while ($current_timestamp >= $sendreceive_timestamp) {
     // This loop updates the timestamp to a value larger than the current time.
