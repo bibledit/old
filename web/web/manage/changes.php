@@ -11,7 +11,7 @@ $smarty = new Smarty_Bibledit (__FILE__);
 if (isset($_GET['generate'])) {
   $config_general = Database_Config_General::getInstance ();
   $config_general->setTimerDiff (time ());
-  $smarty->assign ("success", gettext ("The lists of changes will be generated soon."));
+  $smarty->assign ("success", gettext ("The lists of changes will be generated within a minute."));
 }
 
 $smarty->display("changes.tpl");

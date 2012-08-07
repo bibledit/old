@@ -1,7 +1,7 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
-<p>Removed: Logging of memory usage once a day.</p>
+<p>No longer logs memory usage once a day.</p>
 <p>The configure script checks whether the smarty-gettext plugin is present.</p>
 <p>No longer logs errors every five minutes when the email storage host has not been defined.</p>
 <p>Passage focus clients like Bibledit-Bibleworks and others no longer time out after a few hours of non-use.</p>
@@ -16,7 +16,9 @@
 <p>Creating of Filesystem Hierarchy Standard directories has been centralized in the installer.</p>
 <p>The installer secures the created directories.</p>
 <p>The backup folder is /var/lib/bibledit-web/bibledit-web so that parallel instances of Bibledit-Web keep separate backups.</p>
-<p>CPU-intensive operations like 'Send/receive', 'Export Bibles', and 'Daily changes' run at midnight each day.</p>
+<p>CPU-intensive operations like 'Send/receive', 'Export Bibles', and 'Daily changes' run at midnight each day rather than at the time of their most recent manual operation.</p>
+<p>It no longer changes the permissions of the exported Bibles.</p>
+<p></p>
 <p></p>
 
 <h2>Version 0.6.1</h2>
