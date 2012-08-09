@@ -97,7 +97,7 @@ if ($current_timestamp >= ($previous_timestamp + 86400)) {
 
 
 $backup_timestamp = $config_general->getTimerBackup ();
-if ($current_timestamp >= $backup_timestamp) {
+if (($current_timestamp >= $backup_timestamp) || $midnight) {
   $backup_timestamp += 86400;
   while ($current_timestamp >= $backup_timestamp) {
     // This loop updates the backup timestamp to a value larger than the current time.

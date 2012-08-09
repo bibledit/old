@@ -18,7 +18,7 @@
 <p>The backup folder is /var/lib/bibledit-web/bibledit-web so that parallel instances of Bibledit-Web keep separate backups.</p>
 <p>CPU-intensive operations like 'Send/receive', 'Export Bibles', and 'Daily changes' run at midnight each day rather than at the time of their most recent manual operation.</p>
 <p>It no longer changes the permissions of the exported Bibles.</p>
-<p></p>
+<p>Backups are created at midnight each day rather than at the time of their most recent manual trigger.</p>
 <p></p>
 
 <h2>Version 0.6.1</h2>

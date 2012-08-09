@@ -46,7 +46,6 @@ $stylesheet = $database_config_general->getExportStylesheet ();
 // Files get stored in $localStatePath/$location/exports/
 include ("paths/paths.php");
 $exportsDirectory = "$localStatePath/$location/exports";
-@mkdir ($exportsDirectory, 0777, true);
 
 
 $bibles = $database_bibles->getBibles ();
@@ -64,32 +63,32 @@ foreach ($bibles as $bible) {
 
   
   // The user can access the files through the browser at the directory.
-  @mkdir ($bibleDirectory, 0777, true);
+  mkdir ($bibleDirectory);
 
   
   // USFM files go into the USFM folder.
   $usfmDirectory = $bibleDirectory . "/USFM";
-  @mkdir ($usfmDirectory, 0777, true);
+  mkdir ($usfmDirectory);
 
 
   // OpenDocument files go into the OpenDocument folder.
   $odtDirectory = $bibleDirectory . "/OpenDocument";
-  @mkdir ($odtDirectory, 0777, true);
+  mkdir ($odtDirectory);
 
   
   // Web pages go into the Web folder.
   $webDirectory = $bibleDirectory . "/Web";
-  @mkdir ($webDirectory, 0777, true);
+  mkdir ($webDirectory);
 
   
   // Linked web pages go into the LinkedWeb folder.
   $linkedWebDirectory = $bibleDirectory . "/LinkedWeb";
-  @mkdir ($linkedWebDirectory, 0777, true);
+  mkdir ($linkedWebDirectory);
 
   
   // Online Bible files go into the OnlineBible folder.
   $onlineBibleDirectory = $bibleDirectory . "/OnlineBible";
-  @mkdir ($onlineBibleDirectory, 0777, true);
+  mkdir ($onlineBibleDirectory);
 
   
   // USFM code of the entire Bible.

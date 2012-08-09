@@ -1,5 +1,5 @@
 <h1>{t}Backup{/t}</h1>
-<p>{t}Bibledit-Web can create a backup of the database. This would backup all the data that is relevant to this site. It can do that every day.{/t}</p>
+<p>{t}Bibledit-Web can create a backup of the database. This would backup all the relevant data.{/t}</p>
 <p>{t}To enable this, enter a filename where the backup will be stored, and press Submit.{/t}</p>
 <p>{t}To disable it, remove any filename that is there, and press Submit.{/t}</p>
 <br>
@@ -11,7 +11,7 @@
 </form>
 <br>
 {if $file != ""}
-  <p>{t}Once you press the Submit button, a backup will be created. Every day another backup will be created at the same time.{/t}</p
+  <p>{t}Once you press the Submit button, a backup will be created. Every day another backup will be created at midnight.{/t}</p
   <p>{t}The Logbook shows the backup progress.{/t}</p>
   <p>{t}The backup will be stored at the following location:{/t}</p>
   <p>{$file}</p>

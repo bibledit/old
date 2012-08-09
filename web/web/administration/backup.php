@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
   if ($name == "") {
     $smarty->assign ("success", gettext ("Backups are disabled"));
   } else {
-    $smarty->assign ("success", gettext ("The filename was saved and the backup will be created soon"));
+    $smarty->assign ("success", gettext ("The filename was saved and the backup will be created within a minute"));
     $database_logs->log (gettext ("Will create a backup within a minute"));
   }
 }
