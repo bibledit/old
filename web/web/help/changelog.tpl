@@ -19,7 +19,16 @@
 <p>CPU-intensive operations like 'Send/receive', 'Export Bibles', and 'Daily changes' run at midnight each day rather than at the time of their most recent manual operation.</p>
 <p>It no longer changes the permissions of the exported Bibles.</p>
 <p>Backups are created at midnight each day rather than at the time of their most recent manual trigger.</p>
+<p>The trimming of the databases now happens at midnight.</p>
 <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+
+
 
 <h2>Version 0.6.1</h2>
 <p>22 February 2012</p>

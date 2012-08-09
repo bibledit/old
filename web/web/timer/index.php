@@ -83,16 +83,10 @@ if ($current_timestamp >= ($previous_timestamp + 300)) {
 }
 
 
-$previous_timestamp = $config_general->getTimerDay ();
-if ($current_timestamp >= ($previous_timestamp + 86400)) {
-  $config_general->setTimerDay ($current_timestamp);
-  
-  // Tasks to be done once a day:
-
-  // Trim databases.
+// Trim databases at midnight.
+if ($midnight) {
   $workingdirectory = dirname (__FILE__);
   shell_exec ("cd $workingdirectory; php trimdatabases.php > /dev/null 2>&1 &");
-  
 }
 
 
