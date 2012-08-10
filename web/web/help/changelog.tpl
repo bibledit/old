@@ -20,7 +20,7 @@
 <p>It no longer changes the permissions of the exported Bibles.</p>
 <p>Backups are created at midnight each day rather than at the time of their most recent manual trigger.</p>
 <p>Trimming the databases now happens at midnight.</p>
-<p>The operations that run at midnight indicate their identify through a prefix in the logbook.</p>
+<p>The operations that run at midnight indicate their identify in the logbook through a prefix.</p>
 <p></p>
 <p></p>
 <p></p>

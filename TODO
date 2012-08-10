@@ -26,4 +26,4 @@ The Bible gets a list of Bible books, clickable.
 Each book gets a list of clickable chapters.
 Each chapter gets a list of clickable verses.
 Every page gets a few anchors: Clickable Logo, Bible name, search entry.
-
+Perhaps to have a switch on the site whether to enable / disable the search functions.
