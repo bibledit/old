@@ -24,12 +24,12 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Backup has started");
+$database_logs->log ("backup: Starting");
 
 
 // Security: Page only runs from the cli SAPI.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("backup: Fatal: This only runs through the cli Server API", true);
   die;
 }
 
@@ -40,18 +40,19 @@ require ("database/credentials.php");
   
 $file = Filter_Backup::file ();
 if ($file == "") {
-  $database_logs->log ("Backups have not been enabled. It is recommended to backup the data, either through the Backup function, or through other means, and to store the data safely.", true);
+  $database_logs->log ("backup: Backups have not been enabled. It is recommended to backup the data, either through the Backup function, or through other means, and to store the data safely.", true);
   die;
 }
 
 
 $command = "mysqldump -h $database_host --opt -c -e -Q -u$database_user -p$database_pass $database_name | gzip > $file";
-$database_logs->log ("Backup command: $command");
+$database_logs->log ("backup: $command");
 exec ($command, $output, $exitcode);
-foreach ($output as $line)
-$database_logs->log ($line);
-$database_logs->log ("Backup exit code: $exitcode");
+foreach ($output as $line) $database_logs->log ("backup: $line");
+$database_logs->log ("backup: Exit code: $exitcode");
 
-$database_logs->log ("Backup has been created");
+
+$database_logs->log ("backup: Completed");
+
 
 ?>

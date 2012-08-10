@@ -172,7 +172,7 @@ class Database_Snapshots
     $result = $database_instance->runQuery ($query);
     $record_count_end = $result->num_rows;
     include_once ("messages/messages.php");
-    $message = "Trimming down snapshots from $record_count_start records to $record_count_end";
+    $message = "trim: Trimming down snapshots from $record_count_start records to $record_count_end";
     $database_logs = Database_Logs::getInstance();
     $database_logs->log ($message);
   }

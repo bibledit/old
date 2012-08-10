@@ -24,12 +24,12 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (gettext ("Generating lists of changes in the Bibles"), true);
+$database_logs->log (gettext ("changes: Generating lists of changes in the Bibles"), true);
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("changes: Fatal: This only runs through the cli Server API", true);
   die;
 }
 
@@ -100,7 +100,7 @@ foreach ($bibles as $bible) {
   array_multisort ($modificationtimes, SORT_DESC, SORT_NUMERIC, $filenames);
   for ($i = 7; $i < count ($filenames); $i++) {
     rename ($changes_directory . "/" . $filenames[$i], $changes_directory . "/archive/" . $filenames[$i]);
-    $database_logs->log (gettext ("Archiving older set of changes") . " " . $filenames[$i], true);
+    $database_logs->log (gettext ("changes: Archiving older set of changes") . " " . $filenames[$i], true);
   }
  
   
@@ -108,7 +108,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$database_logs->log (gettext ("The lists of changes in the Bibles have been generated"), true);
+$database_logs->log (gettext ("changes: Completed"), true);
 
 
 ?>

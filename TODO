@@ -1,4 +1,9 @@
-Install two instances on bibleconsultants.
+All operations at midnight have their prefix in the logbook.
+
+
+
+
+
 
 
 
@@ -12,9 +17,14 @@ That is, it uses sphinxsearch, and it uses parent links and children.
 A lot of the SC code can be re-used, in particular because it is open source already.
 It means to create a nice web version of the Bible, and make it searchable.
 Make NDB and SHN Bibles searchable on the site. Version to TBS, and revised version.
-
-
-
-
-
+Crontab should actually start the search daemon, or ensure that it runs.
+Steps:
+Remove the web version that is created.
+Focus on the linked web version that is created.
+Rename the linked web version to the standard web version.
+Each chapter gets a list of clickable parents at the top.
+The Bible gets a list of Bible books, clickable.
+Each book gets a list of clickable chapters.
+Each chapter gets a list of clickable verses.
+Every page gets a few anchors: Clickable Logo, Bible name, search entry.
 

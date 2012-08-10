@@ -26,12 +26,12 @@ require_once ("../bootstrap/bootstrap.php");
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Trimming databases has started");
+$database_logs->log ("trim: Trimming databases has started");
 
 
 // Security: Page only runs from the cli SAPI.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("trim: Fatal: This only runs through the cli Server API", true);
   die;
 }
 
@@ -56,7 +56,7 @@ $database_snapshots = Database_Snapshots::getInstance();
 $database_snapshots->trim();
 
 
-$database_logs->log ("Trimming databases has finished");
+$database_logs->log ("trim: Completed");
 
 
 ?>
