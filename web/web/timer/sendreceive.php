@@ -24,17 +24,17 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (gettext ("Starting to send and receive the relevant Bibles and Consultation Notes."));
+$database_logs->log ("send/receive: Starting to send and receive Bibles");
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("send/receive: Fatal: This only runs through the cli Server API", true);
   die;
 }
 
 
-$database_logs->log (gettext ("Processing any data left over from previous actions."));
+$database_logs->log ("send/receive: Processing any data left over from previous actions");
 Filter_Git::filedata2database ();
 
 
@@ -50,24 +50,24 @@ foreach ($bibles as $bible) {
   if ($remote_repository_url != "") {
 
 
-    $database_logs->log ("**********");
+    $database_logs->log ("send/receive: **********");
     if ($bible == "consultationnotes") {
-      $database_logs->log (gettext ("Consultation Notes"));
+      $database_logs->log ("send/receive: Consultation Notes");
     } else {
-      $database_logs->log (gettext ("Bible") . ": " . $bible);
+      $database_logs->log ("send/receive: Bible" . ": " . $bible);
     }
-    $database_logs->log (gettext ("Remote repository URL") . ": " . $remote_repository_url);
+    $database_logs->log ("send/receive: Remote repository URL: " . $remote_repository_url);
 
 
     // The git directory for this object.
     $directory = Filter_Git::git_directory ($bible);
-    $database_logs->log (gettext ("Git repository directory") . ": " . $directory);
+    $database_logs->log ("send/receive: Git repository directory: " . $directory);
     $shelldirectory = escapeshellarg ($directory);
 
     
     // Continue to the next Bible if the repository directory is not there.
     if (!is_dir ($directory)) {
-      $database_logs->log (gettext ("Cannot send and receive the data because the git repository was not found in the filesystem."));
+      $database_logs->log ("send/receive: Cannot send and receive the data because the git repository was not found in the filesystem.");
       continue;
     }
 
@@ -82,7 +82,7 @@ foreach ($bibles as $bible) {
     mkdir ($tempdirectory);
     $success = rename ("$directory/.git", "$tempdirectory/.git");
     if (!$success) {
-      $database_logs->log(gettext ("Failed to temporarily store the .git directory"));
+      $database_logs->log("send/receive: Failed to temporarily store the .git directory");
     }
 
     
@@ -99,7 +99,7 @@ foreach ($bibles as $bible) {
     // Move the .git directory back into place.
     $success = rename ("$tempdirectory/.git", "$directory/.git");
     if (!$success) {
-      $database_logs->log(gettext ("Failed to restore the .git directory"));
+      $database_logs->log("send/receive: Failed to restore the .git directory");
     }
 
     
@@ -114,10 +114,10 @@ foreach ($bibles as $bible) {
 
     // Store the data into the repository. Data that no longer exists will have been removed above.
     if ($bible == "consultationnotes") {
-      $database_logs->log (gettext ("Transferring notes to file ..."));
+      $database_logs->log ("send/receive: Transferring notes to file ...");
       $success = Filter_Git::notesDatabase2filedata ($directory);
     } else {
-      $database_logs->log (gettext ("Transferring Bible text to file ..."));
+      $database_logs->log ("send/receive: Transferring Bible text to file ...");
       $success = Filter_Git::bibleDatabase2filedata ($bible, $directory);
     }
     // If the above does not succeed, then there is a serious problem. 
@@ -134,50 +134,50 @@ foreach ($bibles as $bible) {
     // Commit the new data to the repository.
     if ($success) {
       $command = "cd $shelldirectory; git add . 2>&1";
-      $database_logs->log ($command);
+      $database_logs->log ("send/receive: $command");
       unset ($result);
       exec ($command, &$result, &$exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
-        $database_logs->log ($line);
+        $database_logs->log ("send/receive: $line");
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ($message);
+      $database_logs->log ("send/receive: $message");
     }
 
 
     if ($success) {
       $command = "cd $shelldirectory; git status 2>&1";
-      $database_logs->log ($command);
+      $database_logs->log ("send/receive: $command");
       unset ($result);
       exec ($command, &$result, &$exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
-        $database_logs->log ($line);
+        $database_logs->log ("send/receive: $line");
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ($message);
+      $database_logs->log ("send/receive: $message");
     }  
 
 
     if ($success) {
       $command = "cd $shelldirectory; git commit -a -m sync 2>&1";
-      $database_logs->log ($command);
+      $database_logs->log ("send/receive: $command");
       unset ($result);
       exec ($command, &$result, &$exit_code);
       if (($exit_code != 0) && ($exit_code != 1)) $success = false;
       foreach ($result as $line) {
-        $database_logs->log ($line);
+        $database_logs->log ("send/receive: $line");
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ($message);
+      $database_logs->log ("send/receive: $message");
     }  
 
 
     // Pull changes from the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git pull 2>&1";
-      $database_logs->log ($command);
+      $database_logs->log ("send/receive: $command");
       unset ($result);
       exec ($command, &$result, &$exit_code);
       if ($exit_code != 0) $success = false;
@@ -187,12 +187,12 @@ foreach ($bibles as $bible) {
         //   Failed to add the host to the list of known hosts (/var/www/.ssh/known_hosts).
         // Such messages confuse the user, and are not real errors.
         if (strstr ($line, "/.ssh") != false) continue;
-        $database_logs->log ($line);
+        $database_logs->log ("send/receive: $line");
         $database_git->insert ($directory, $line);
         if (strstr ($line, "CONFLICT") !== false) {
-          $database_logs->log ($line);
-          $message = gettext ("A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.");
-          $database_logs->log ($message);
+          $database_logs->log ("send/receive: $line");
+          $message = "A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.";
+          $database_logs->log ("send/receive: $message");
           // Inform administrator about the conflict.
           $database_mail = Database_Mail::getInstance ();
           $database_users = Database_Users::getInstance ();
@@ -204,28 +204,28 @@ foreach ($bibles as $bible) {
         }
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ($message);
+      $database_logs->log ("send/receive: $message");
     }  
 
 
     // Push our changes into the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git push 2>&1";
-      $database_logs->log ($command);
+      $database_logs->log ("send/receive: $command");
       unset ($result);
       exec ($command, &$result, &$exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         if (strstr ($line, "/.ssh") != false) continue;
-        $database_logs->log ($line);
+        $database_logs->log ("send/receive: $line");
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ($message);
+      $database_logs->log ("send/receive: $message");
     }  
 
 
     if ($success) {
-      $database_logs->log (gettext ("Moving the data that was changed into the database ..."));
+      $database_logs->log ("send/receive: Moving the data that was changed into the database ...");
       Filter_Git::filedata2database ();
     }
 
@@ -236,34 +236,34 @@ foreach ($bibles as $bible) {
 
     // Do a "git log" to provide information about the most recent commits.
     {
-      $database_logs->log (gettext ("Listing the last few commits ..."));
+      $database_logs->log ("send/receive: Listing the last few commits ...");
       $command = "cd $shelldirectory; git log | head -n 24 2>&1";
-      $database_logs->log ($command);
+      $database_logs->log ("send/receive: $command");
       unset ($result);
       exec ($command, &$result, &$exit_code);
       foreach ($result as $line) {
-        $database_logs->log ($line);
+        $database_logs->log ("send/receive: $line");
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ($message);
+      $database_logs->log ("send/receive: $message");
     }  
 
 
     // Done.
     if (!$success) {
-      $database_logs->log (gettext ("There was a failure"));
+      $database_logs->log ("send/receive: There was a failure");
     }
     if ($bible == "consultationnotes") {
-      $database_logs->log (gettext ("The Consultation Notes have been done."));
+      $database_logs->log ("send/receive: The Consultation Notes have been done.");
     } else {
-      $database_logs->log(gettext ("This Bible has been done."));
+      $database_logs->log("send/receive: This Bible has been done.");
     }
   }
 }
 
 
-$database_logs->log ("**********");
-$database_logs->log (gettext ("Ready. All relevant Bibles, and Consultations Notes, have been sent and received."));
+$database_logs->log ("send/receive: **********");
+$database_logs->log ("send/receive: Ready");
 
 
 ?>

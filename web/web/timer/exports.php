@@ -24,12 +24,12 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (gettext ("Exporting the Bibles"), true);
+$database_logs->log ("exports: Exporting the Bibles", true);
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("exports: Fatal: This only runs through the cli Server API", true);
   die;
 }
 
@@ -109,7 +109,7 @@ foreach ($bibles as $bible) {
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
     
-    $database_logs->log ($bible . " " . $database_books->getEnglishFromId ($book), true);
+    $database_logs->log ("exports: " . $bible . " " . $database_books->getEnglishFromId ($book), true);
 
     // Empty the USFM data for the current book.
     $bookUsfmData = "";
@@ -179,7 +179,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$database_logs->log (gettext ("The Bibles have been exported"), true);
+$database_logs->log ("exports: Completed", true);
 
 
 ?>

@@ -130,7 +130,7 @@ if (($current_timestamp >= $exports_timestamp) || $midnight) {
   }
   $config_general->setTimerExports ($exports_timestamp);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
-  shell_exec ("cd $workingdirectory; php exports.php > /dev/null 2>&1 &"); // Todo
+  shell_exec ("cd $workingdirectory; php exports.php > /dev/null 2>&1 &");
 }
 unset ($exports_timestamp);
 
