@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-10 01:43+0200\n"
+"POT-Creation-Date: 2012-08-11 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -792,84 +792,16 @@ msgstr ""
 msgid "Welcome! Your account is now active."
 msgstr ""
 
-msgid ""
-"Starting to send and receive the relevant Bibles and Consultation Notes."
-msgstr ""
-
-msgid "Processing any data left over from previous actions."
-msgstr ""
-
-msgid "Consultation Notes"
-msgstr ""
-
-msgid "Remote repository URL"
-msgstr ""
-
-msgid "Git repository directory"
-msgstr ""
-
-msgid ""
-"Cannot send and receive the data because the git repository was not found in "
-"the filesystem."
-msgstr ""
-
-msgid "Failed to temporarily store the .git directory"
-msgstr ""
-
-msgid "Failed to restore the .git directory"
-msgstr ""
-
-msgid "Transferring notes to file ..."
-msgstr ""
-
-msgid "Transferring Bible text to file ..."
-msgstr ""
-
-msgid ""
-"A conflict was found in the above book and chapter or consultation note. "
-"Please resolve this conflict manually. Open the chapter in the editor in "
-"USFM view, and select which of the two conflicting lines of text should be "
-"retained, and remove the other line, and the conflict markup. After that it "
-"is recommended to send and receive the Bibles again. This will remove the "
-"conflict from the repository."
-msgstr ""
-
-msgid "Moving the data that was changed into the database ..."
-msgstr ""
-
-msgid "Listing the last few commits ..."
-msgstr ""
-
-msgid "There was a failure"
-msgstr ""
-
-msgid "The Consultation Notes have been done."
-msgstr ""
-
-msgid "This Bible has been done."
-msgstr ""
-
-msgid ""
-"Ready. All relevant Bibles, and Consultations Notes, have been sent and "
-"received."
-msgstr ""
-
-msgid "Exporting the Bibles"
-msgstr ""
-
-msgid "The Bibles have been exported"
-msgstr ""
-
-msgid "Generating lists of changes in the Bibles"
+msgid "changes: Generating lists of changes in the Bibles"
 msgstr ""
 
 msgid "Recent changes"
 msgstr ""
 
-msgid "Archiving older set of changes"
+msgid "changes: Archiving older set of changes"
 msgstr ""
 
-msgid "The lists of changes in the Bibles have been generated"
+msgid "changes: Completed"
 msgstr ""
 
 msgid "See footnote"
@@ -1219,6 +1151,12 @@ msgstr ""
 msgid ""
 "For the purpose of trying whether Bibledit-Web can send email, a test email "
 "was sent out to the account above:"
+msgstr ""
+
+msgid "Failed to temporarily store the .git directory"
+msgstr ""
+
+msgid "Failed to restore the .git directory"
 msgstr ""
 
 msgid "Step 1/2: Exporting the local data to the local repository"

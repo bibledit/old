@@ -43,7 +43,7 @@ $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 
 
-// Files get stored in $localStatePath/$location/exports/
+// Where to store the exported Bibles.
 include ("paths/paths.php");
 $exportsDirectory = "$localStatePath/$location/exports";
 
@@ -52,8 +52,8 @@ $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
 
 
-  // Files get stored in $localStatePath/$location/exports/<Bible>
-  // Clear this directory of old exports. Just in case something has changed in data or settings.
+  // Where to store this Bible to be exported.
+  // Remove this directory just case something has changed in the data or the settings.
   $bibleDirectory = "$exportsDirectory/$bible";
   Filter_Rmdir::rmdir ($bibleDirectory);
 
@@ -76,13 +76,13 @@ foreach ($bibles as $bible) {
   mkdir ($odtDirectory);
 
   
-  // Web pages go into the Web folder.
-  $webDirectory = $bibleDirectory . "/Web";
-  mkdir ($webDirectory);
+  // Folder where the plain web files go.
+  $plainWebDirectory = $bibleDirectory . "/PlainWeb";
+  mkdir ($plainWebDirectory);
 
   
-  // Linked web pages go into the LinkedWeb folder.
-  $linkedWebDirectory = $bibleDirectory . "/LinkedWeb";
+  // Folder for the linked web data.
+  $linkedWebDirectory = $bibleDirectory . "/Web";
   mkdir ($linkedWebDirectory);
 
   
@@ -145,7 +145,7 @@ foreach ($bibles as $bible) {
     $filter_text_book->odf_text_text_only->save ("$odtDirectory/$baseBookFileName" . "_text_only.odt");
     $filter_text_book->odf_text_text_and_note_citations->save ("$odtDirectory/$baseBookFileName" . "_text_and_note_citations.odt");
     $filter_text_book->odf_text_notes->save ("$odtDirectory/$baseBookFileName" . "_notes.odt");
-    $filter_text_book->html_text_standard->save ("$webDirectory/$baseBookFileName" . ".html");
+    $filter_text_book->html_text_standard->save ("$plainWebDirectory/$baseBookFileName" . ".html");
     $filter_text_book->html_text_linked->save ("$linkedWebDirectory/$baseBookFileName" . ".html");
 
     // Add the book's USFM code to the whole Bible's USFM code.
@@ -165,7 +165,7 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
-  $filter_text_bible->html_text_standard->save ("$webDirectory/00_Bible.html");
+  $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00_Bible.html");
   $html_text_linked_index->save ("$linkedWebDirectory/00_index.html");
   $html_text_linked_index->save ("$linkedWebDirectory/index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");

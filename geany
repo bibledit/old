@@ -15,12 +15,11 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
-FILE_NAME_1=1891;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+current_page=3
+FILE_NAME_0=92;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
+FILE_NAME_1=1894;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
 FILE_NAME_2=177;Sh;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
-FILE_NAME_3=5098;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/index.php;0;2
-FILE_NAME_4=10045;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/timer/sendreceive.php;0;2
+FILE_NAME_3=168;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/about.tpl;0;2
 
 [long line marker]
 long_line_behaviour=2
