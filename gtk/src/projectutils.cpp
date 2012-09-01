@@ -506,7 +506,7 @@ bool project_select(ustring & newproject)
   }
   ListviewDialog dialog("Open project", editable_projects, focusedproject, true, NULL);
   dialog.two_pages("Editable", "Non-editable", non_editable_projects, true);
-  dialog.tab_switcher(GDK_O, GDK_CONTROL_MASK, "Ctrl-O", "to display the editable projects", "to display the non-editable projects");
+  dialog.tab_switcher(GDK_KEY_O, GDK_CONTROL_MASK, "Ctrl-O", "to display the editable projects", "to display the non-editable projects");
   if (dialog.run() == GTK_RESPONSE_OK) {
     newproject = dialog.focus;
     return true;

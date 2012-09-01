@@ -165,7 +165,7 @@ bool ReviewAnchorsDialog::treeview_key_press_handler(GdkEventKey * event)
 // Handles pressing keys in the treeview.
 {
   // Take action.
-  if (event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete) {
+  if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_KP_Delete) {
     // Delete each selected row.
     vector < GtkTreeIter > iters;
     gtk_tree_selection_selected_foreach(select, ReviewAnchorsDialog::on_collect_iters, gpointer(&iters));

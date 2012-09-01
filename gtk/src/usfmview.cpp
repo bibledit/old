@@ -635,9 +635,9 @@ gboolean USFMView::textview_key_press_event(GtkWidget *widget, GdkEventKey *even
   // The default bindings for cutting to clipboard are Ctrl-x and Shift-Delete.
   // The default bindings for pasting from clipboard are Ctrl-v and Shift-Insert.
   if (keyboard_control_state(event)) {
-    if (event->keyval == GDK_c) return true;
-    if (event->keyval == GDK_x) return true;
-    if (event->keyval == GDK_v) return true;
+    if (event->keyval == GDK_KEY_c) return true;
+    if (event->keyval == GDK_KEY_x) return true;
+    if (event->keyval == GDK_KEY_v) return true;
     if (keyboard_insert_pressed(event)) return true;
   }
   if (keyboard_shift_state(event)) {

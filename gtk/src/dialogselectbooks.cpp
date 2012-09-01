@@ -394,7 +394,7 @@ gboolean SelectBooksDialog::on_treeviewbooks_key_press_event(GtkWidget * widget,
 gboolean SelectBooksDialog::on_treeviewbooks_key_press(GdkEventKey * event)
 {
   // Take special action on Enter: OK button.
-  if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) {
+  if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
     on_okbutton();
     gtk_dialog_response(GTK_DIALOG(selectbooksdialog), GTK_RESPONSE_OK);
     return true;

@@ -193,58 +193,58 @@ navigation(0), httpd(0)
 
   // Accelerators.
   extern GtkAccelGroup *accelerator_group;
-  gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_1, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_1_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_2, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_2_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_3, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_3_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_4, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_4_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_N, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_new_project_note_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Down, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_verse_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Up, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_verse_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Page_Down, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_chapter_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Page_Up, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_chapter_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Page_Down, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_book_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Page_Up, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_book_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Right, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_reference_in_history_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Left, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_reference_in_history_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_G, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_go_to_reference_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_W, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_close_window_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_1, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_1_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_2, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_2_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_3, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_3_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_4, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_4_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_N, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_new_project_note_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Down, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_verse_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Up, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_verse_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Page_Down, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_chapter_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Page_Up, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_chapter_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Page_Down, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_book_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Page_Up, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_book_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Right, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_reference_in_history_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Left, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_reference_in_history_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_G, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_go_to_reference_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_W, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_close_window_callback), gpointer(this), NULL));
   if (guifeatures.styles()) {
-    gtk_accel_group_connect(accelerator_group, GDK_S, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_goto_styles_area_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_KEY_S, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_goto_styles_area_callback), gpointer(this), NULL));
   }
-  gtk_accel_group_connect(accelerator_group, GDK_Q, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_quit_program_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_F5, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_text_area_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_F5, GDK_SHIFT_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_tools_area_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Q, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_quit_program_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_F5, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_text_area_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_F5, GDK_SHIFT_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_tools_area_callback), gpointer(this), NULL));
   if (guifeatures.project_notes()) {
-    gtk_accel_group_connect(accelerator_group, GDK_F5, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_notes_area_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_KEY_F5, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_notes_area_callback), gpointer(this), NULL));
   }
   if (guifeatures.references_and_find()) {
-    gtk_accel_group_connect(accelerator_group, GDK_F6, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_reference_in_reference_area_callback), gpointer(this), NULL));
-    gtk_accel_group_connect(accelerator_group, GDK_F6, GDK_SHIFT_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_reference_in_reference_area_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_KEY_F6, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_reference_in_reference_area_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_KEY_F6, GDK_SHIFT_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_reference_in_reference_area_callback), gpointer(this), NULL));
   }
-  gtk_accel_group_connect(accelerator_group, GDK_Right, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_project_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_Left, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_project_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_O, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_open_project_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Right, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_project_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_Left, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_project_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_O, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_open_project_callback), gpointer(this), NULL));
   if (guifeatures.printing()) {
-    gtk_accel_group_connect(accelerator_group, GDK_P, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_print_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_KEY_P, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_print_callback), gpointer(this), NULL));
   }
   if (guifeatures.references_and_find()) {
-    gtk_accel_group_connect(accelerator_group, GDK_F, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_find_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_KEY_F, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_find_callback), gpointer(this), NULL));
   }
   if (guifeatures.replace()) {
-    gtk_accel_group_connect(accelerator_group, GDK_R, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_replace_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_KEY_R, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_replace_callback), gpointer(this), NULL));
   }
-  gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
   // For USFM view, we first had defined the Ctrl-U for that. The U is the first letter of USFM,
   // and also in for example Firefox, the Ctrl-U views the source code.
   // But since the Ctrl-U clashed with the Ctrl-U for underline in the note editor,
   // the accelerator key for viewing USFM code was changed to Ctrl-\.
   // The backslash is the first character of the USFM code.
-  gtk_accel_group_connect(accelerator_group, GDK_backslash, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_view_usfm_code), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_KEY_backslash, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_view_usfm_code), gpointer(this), NULL));
   // For notes editor.
   gtk_accel_group_connect(accelerator_group, '[', GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_left_square_bracket), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, ']', GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_right_square_bracket), gpointer(this), NULL));

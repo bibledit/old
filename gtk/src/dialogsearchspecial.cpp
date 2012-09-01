@@ -46,7 +46,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   accel_group = gtk_accel_group_new();
 
   searchspecialdialog = gtk_dialog_new();
-  gtk_widget_add_accelerator(searchspecialdialog, "activate_focus", accel_group, GDK_F, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(searchspecialdialog, "activate_focus", accel_group, GDK_KEY_F, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
   gtk_window_set_title(GTK_WINDOW(searchspecialdialog), "Find");
   gtk_window_set_position(GTK_WINDOW(searchspecialdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(searchspecialdialog), TRUE);
