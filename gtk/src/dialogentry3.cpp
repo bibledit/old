@@ -32,7 +32,7 @@ Entry3Dialog::Entry3Dialog(const string & title, bool allow_empty_values, const 
   gtk_window_set_position(GTK_WINDOW(entry3dialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(entry3dialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(entry3dialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(entry3dialog));
   gtk_widget_show(dialog_vbox1);
 
   vbox1 = gtk_vbox_new(FALSE, 2);
@@ -70,7 +70,7 @@ Entry3Dialog::Entry3Dialog(const string & title, bool allow_empty_values, const 
   gtk_box_pack_start(GTK_BOX(vbox1), entry3, FALSE, FALSE, 0);
   gtk_entry_set_activates_default(GTK_ENTRY(entry3), TRUE);
 
-  dialog_action_area1 = GTK_DIALOG(entry3dialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(entry3dialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -79,12 +79,12 @@ Entry3Dialog::Entry3Dialog(const string & title, bool allow_empty_values, const 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(entry3dialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton), true);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(entry3dialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
 
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
   g_signal_connect((gpointer) entry1, "changed", G_CALLBACK(on_entry_changed), gpointer(this));

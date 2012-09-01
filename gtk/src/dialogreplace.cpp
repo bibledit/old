@@ -45,7 +45,7 @@ ReplaceDialog::ReplaceDialog(int dummy)
   gtk_window_set_modal(GTK_WINDOW(replacedialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(replacedialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(replacedialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(replacedialog));
   gtk_widget_show(dialog_vbox1);
 
   table1 = gtk_table_new(6, 2, FALSE);
@@ -134,7 +134,7 @@ ReplaceDialog::ReplaceDialog(int dummy)
 
   shortcuts.label(label9);
 
-  dialog_action_area1 = GTK_DIALOG(replacedialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(replacedialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -143,12 +143,12 @@ ReplaceDialog::ReplaceDialog(int dummy)
   buttonfind = gtk_button_new_from_stock("gtk-find");
   gtk_widget_show(buttonfind);
   gtk_dialog_add_action_widget(GTK_DIALOG(replacedialog), buttonfind, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(buttonfind, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (buttonfind), true);
 
   buttoncancel = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(buttoncancel);
   gtk_dialog_add_action_widget(GTK_DIALOG(replacedialog), buttoncancel, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(buttoncancel, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (buttoncancel), true);
 
   shortcuts.stockbutton(buttonfind);
   shortcuts.stockbutton(buttoncancel);

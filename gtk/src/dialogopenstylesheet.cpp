@@ -57,7 +57,7 @@ OpenStylesheetDialog::OpenStylesheetDialog(OpenStylesheetDialogType dialogtype, 
   gtk_window_set_position(GTK_WINDOW(openstyledialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(openstyledialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(openstyledialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(openstyledialog));
   gtk_widget_show(dialog_vbox1);
 
   vbox1 = gtk_vbox_new(FALSE, 0);
@@ -100,7 +100,7 @@ OpenStylesheetDialog::OpenStylesheetDialog(OpenStylesheetDialogType dialogtype, 
     listview_focus_string(treeview1, currentstylesheet);
   }
 
-  dialog_action_area1 = GTK_DIALOG(openstyledialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(openstyledialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -109,12 +109,12 @@ OpenStylesheetDialog::OpenStylesheetDialog(OpenStylesheetDialogType dialogtype, 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(openstyledialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton), true);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(openstyledialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
 
   // Disable the OK button if there are no projects.
   if (stylesheets.size() == 0)

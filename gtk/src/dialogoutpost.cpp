@@ -46,7 +46,7 @@ OutpostDialog::OutpostDialog(int dummy)
   gtk_window_set_title(GTK_WINDOW(outpostdialog), "Windows Outpost Setup");
   gtk_window_set_position(GTK_WINDOW(outpostdialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
-  dialog_vbox1 = GTK_DIALOG(outpostdialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(outpostdialog));
   gtk_widget_show(dialog_vbox1);
   gtk_box_set_spacing (GTK_BOX (dialog_vbox1), 5);
 
@@ -58,7 +58,7 @@ OutpostDialog::OutpostDialog(int dummy)
   extern Settings *settings;
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_use), settings->genconfig.use_outpost_get());
 
-  dialog_action_area1 = GTK_DIALOG(outpostdialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(outpostdialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -67,12 +67,12 @@ OutpostDialog::OutpostDialog(int dummy)
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(outpostdialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton), true);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(outpostdialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
 
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
 

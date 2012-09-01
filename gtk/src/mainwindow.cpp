@@ -1591,8 +1591,10 @@ navigation(0), httpd(0)
   gtk_container_add (GTK_CONTAINER (scrolledwindow_layout), layout);
   // The real size of the layout will be set once space has been allocated to the parent scrolled window
   gtk_layout_set_size (GTK_LAYOUT (layout), 10, 10);
-  GTK_ADJUSTMENT (GTK_LAYOUT (layout)->hadjustment)->step_increment = 10;
-  GTK_ADJUSTMENT (GTK_LAYOUT (layout)->vadjustment)->step_increment = 10;
+  GtkAdjustment * hadjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (layout));
+  gtk_adjustment_set_step_increment (hadjustment, 10);
+  GtkAdjustment * vadjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (layout));
+  gtk_adjustment_set_step_increment (vadjustment, 10);
 
   // Menu callbacks.
   if (new1)

@@ -45,7 +45,7 @@ NotesDialog::NotesDialog(int dummy)
   gtk_window_set_modal(GTK_WINDOW(notesdialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(notesdialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(notesdialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(notesdialog));
   gtk_widget_show(dialog_vbox1);
 
   notebook1 = gtk_notebook_new();
@@ -182,7 +182,7 @@ NotesDialog::NotesDialog(int dummy)
   gtk_widget_show(label9);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 1), label9);
 
-  dialog_action_area1 = GTK_DIALOG(notesdialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(notesdialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -191,12 +191,12 @@ NotesDialog::NotesDialog(int dummy)
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(notesdialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(notesdialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton1_clicked), gpointer(this));
   g_signal_connect((gpointer) buttondelete, "clicked", G_CALLBACK(on_buttondelete_clicked), gpointer(this));

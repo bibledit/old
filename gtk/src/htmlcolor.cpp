@@ -17,10 +17,10 @@
  **  
  */
 
-#include <config.h>
-#include <gdk/gdk.h>
 
+#include <config.h>
 #include "htmlcolor.h"
+
 
 HTMLColor *html_color_new(void)
 {
@@ -31,6 +31,7 @@ HTMLColor *html_color_new(void)
   return nc;
 }
 
+
 HTMLColor *html_color_new_from_gdk_color(const GdkColor * color)
 {
   HTMLColor *nc = html_color_new();
@@ -39,6 +40,7 @@ HTMLColor *html_color_new_from_gdk_color(const GdkColor * color)
 
   return nc;
 }
+
 
 HTMLColor *html_color_new_from_rgb(gushort red, gushort green, gushort blue)
 {
@@ -51,12 +53,14 @@ HTMLColor *html_color_new_from_rgb(gushort red, gushort green, gushort blue)
   return nc;
 }
 
+
 void html_color_ref(HTMLColor * color)
 {
   g_assert(color);
 
   color->refcount++;
 }
+
 
 void html_color_unref(HTMLColor * color)
 {
@@ -72,3 +76,4 @@ void html_color_unref(HTMLColor * color)
     g_free(color);
   }
 }
+

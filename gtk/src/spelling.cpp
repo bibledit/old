@@ -583,7 +583,7 @@ void SpellingChecker::replace_word(GtkWidget * menuitem)
 
   // Get the old and the new word.
   char *oldword = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-  const char *newword = gtk_label_get_text(GTK_LABEL(GTK_BIN(menuitem)->child));
+  const char *newword = gtk_label_get_text (GTK_LABEL (gtk_bin_get_child (GTK_BIN (menuitem))));
 
   // Get a list of the styles applied to the old word.
   vector < ustring > paragraph_styles;

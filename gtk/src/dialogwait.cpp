@@ -32,7 +32,7 @@ WaitDialog::WaitDialog(int milliseconds, int width, int height)
   if (width && height)
     gtk_window_set_default_size(GTK_WINDOW(waitdialog), width, height);
 
-  dialog_vbox1 = GTK_DIALOG(waitdialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(waitdialog));
   gtk_widget_show(dialog_vbox1);
 
   vbox1 = gtk_vbox_new(FALSE, 0);
@@ -43,7 +43,7 @@ WaitDialog::WaitDialog(int milliseconds, int width, int height)
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 0);
 
-  dialog_action_area1 = GTK_DIALOG(waitdialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(waitdialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 

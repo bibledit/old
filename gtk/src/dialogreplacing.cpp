@@ -47,7 +47,7 @@ ReplacingDialog::ReplacingDialog(const vector < Reference > &references_in)
   gtk_window_set_title(GTK_WINDOW(replacedialog), "Replace");
   gtk_window_set_destroy_with_parent(GTK_WINDOW(replacedialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(replacedialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(replacedialog));
   gtk_widget_show(dialog_vbox1);
 
   referencelabel = gtk_label_new("referencelabel");
@@ -97,7 +97,7 @@ ReplacingDialog::ReplacingDialog(const vector < Reference > &references_in)
   gtk_widget_show(yesbutton);
   gtk_box_pack_start(GTK_BOX(hbox3), yesbutton, FALSE, FALSE, 4);
   gtk_widget_set_size_request(yesbutton, 80, -1);
-  GTK_WIDGET_SET_FLAGS(yesbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (yesbutton), true);
 
   nobutton = gtk_button_new_from_stock("gtk-no");
   gtk_widget_show(nobutton);
@@ -130,7 +130,7 @@ ReplacingDialog::ReplacingDialog(const vector < Reference > &references_in)
   gtk_box_pack_start(GTK_BOX(hbox3), cancelbutton, FALSE, FALSE, 4);
   gtk_widget_set_size_request(cancelbutton, 80, -1);
 
-  dialog_action_area1 = GTK_DIALOG(replacedialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(replacedialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 

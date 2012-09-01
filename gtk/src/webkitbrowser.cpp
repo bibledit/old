@@ -185,7 +185,7 @@ void WebkitBrowser::focus()
 
 bool WebkitBrowser::focused()
 {
-  return GTK_WIDGET_HAS_FOCUS(webview);
+  return gtk_widget_has_focus (webview);
 }
 
 

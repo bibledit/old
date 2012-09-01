@@ -278,7 +278,7 @@ gboolean FloatingWindow::on_titlebar_enter_notify (GdkEventCrossing *event)
 {
   // Set the cursor to a shape that shows that the title bar can be moved around.
   GtkWidget *toplevel_widget = gtk_widget_get_toplevel(label_title);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
   gdk_window_set_cursor(gdk_window, cursor);
   gdk_cursor_unref (cursor);
@@ -296,7 +296,7 @@ gboolean FloatingWindow::on_titlebar_leave_notify (GdkEventCrossing *event)
 {
   // Restore the original cursor.
   GtkWidget * toplevel_widget = gtk_widget_get_toplevel(label_title);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   gdk_window_set_cursor(gdk_window, NULL);
   return false;
 }
@@ -312,7 +312,7 @@ gboolean FloatingWindow::on_statusbar_enter_notify (GdkEventCrossing *event)
 {
   // Set the cursor to a shape that shows that the status bar can be used to resize the window.
   GtkWidget *toplevel_widget = gtk_widget_get_toplevel(hscrollbar_status);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   GdkCursor *cursor = gdk_cursor_new(GDK_BOTTOM_RIGHT_CORNER);
   gdk_window_set_cursor(gdk_window, cursor);
   gdk_cursor_unref (cursor);
@@ -330,7 +330,7 @@ gboolean FloatingWindow::on_statusbar_leave_notify (GdkEventCrossing *event)
 {
   // Restore the original cursor.
   GtkWidget * toplevel_widget = gtk_widget_get_toplevel(hscrollbar_status);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   gdk_window_set_cursor(gdk_window, NULL);
   return false;
 }
@@ -353,7 +353,7 @@ gboolean FloatingWindow::on_label_close_enter_notify (GdkEventCrossing *event)
 {
   // Set the cursor to a shape that shows that the action label can be clicked.
   GtkWidget *toplevel_widget = gtk_widget_get_toplevel(label_close);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   GdkCursor *cursor = gdk_cursor_new(GDK_HAND2);
   gdk_window_set_cursor(gdk_window, cursor);
   gdk_cursor_unref (cursor);
@@ -371,7 +371,7 @@ gboolean FloatingWindow::on_label_close_leave_notify (GdkEventCrossing *event)
 {
   // Restore the original cursor.
   GtkWidget * toplevel_widget = gtk_widget_get_toplevel(label_close);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   gdk_window_set_cursor(gdk_window, NULL);
   return false;
 }

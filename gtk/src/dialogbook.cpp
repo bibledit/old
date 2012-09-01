@@ -46,7 +46,7 @@ BookDialog::BookDialog(const ustring & project)
   gtk_window_set_modal(GTK_WINDOW(bookdialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(bookdialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(bookdialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(bookdialog));
   gtk_widget_show(dialog_vbox1);
 
   vbox1 = gtk_vbox_new(FALSE, 2);
@@ -93,7 +93,7 @@ BookDialog::BookDialog(const ustring & project)
   gtk_widget_show(label9);
   gtk_box_pack_start(GTK_BOX(hbox10), label9, FALSE, FALSE, 0);
 
-  dialog_action_area1 = GTK_DIALOG(bookdialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(bookdialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -102,12 +102,12 @@ BookDialog::BookDialog(const ustring & project)
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(bookdialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(bookdialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   g_signal_connect((gpointer) button_standard_order, "clicked", G_CALLBACK(on_button_standard_order_clicked), gpointer(this));
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton1_clicked), gpointer(this));

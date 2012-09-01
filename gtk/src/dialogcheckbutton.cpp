@@ -34,7 +34,7 @@ CheckbuttonDialog::CheckbuttonDialog(const ustring & title, const ustring & info
   gtk_window_set_position(GTK_WINDOW(checkbuttondialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(checkbuttondialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(checkbuttondialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(checkbuttondialog));
   gtk_widget_show(dialog_vbox1);
 
   label = gtk_label_new(info.c_str());
@@ -60,7 +60,7 @@ CheckbuttonDialog::CheckbuttonDialog(const ustring & title, const ustring & info
 
   }
 
-  dialog_action_area1 = GTK_DIALOG(checkbuttondialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(checkbuttondialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -69,12 +69,12 @@ CheckbuttonDialog::CheckbuttonDialog(const ustring & title, const ustring & info
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(checkbuttondialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton), true);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(checkbuttondialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
 
   shortcuts.stockbutton(cancelbutton);
   shortcuts.stockbutton(okbutton);

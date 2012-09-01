@@ -67,7 +67,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   button_list_back = gtk_button_new ();
   gtk_widget_show (button_list_back);
   gtk_container_add (GTK_CONTAINER (toolitem_list_back), button_list_back);
-  GTK_WIDGET_UNSET_FLAGS (button_list_back, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (button_list_back, false);
 
   image_list_back = gtk_image_new_from_stock ("gtk-go-down", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image_list_back);
@@ -80,7 +80,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   button_back = gtk_button_new();
   gtk_widget_show(button_back);
   gtk_container_add(GTK_CONTAINER(toolitem1), button_back);
-  GTK_WIDGET_UNSET_FLAGS (button_back, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (button_back, false);
 
   image1 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show(image1);
@@ -93,7 +93,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   button_forward = gtk_button_new();
   gtk_widget_show(button_forward);
   gtk_container_add(GTK_CONTAINER(toolitem2), button_forward);
-  GTK_WIDGET_UNSET_FLAGS (button_forward, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (button_forward, false);
 
   image2 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show(image2);
@@ -106,7 +106,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   button_list_forward = gtk_button_new ();
   gtk_widget_show (button_list_forward);
   gtk_container_add (GTK_CONTAINER (toolitem_list_forward), button_list_forward);
-  GTK_WIDGET_UNSET_FLAGS (button_list_forward, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (button_list_forward, false);
 
   image_list_forward = gtk_image_new_from_stock ("gtk-go-down", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image_list_forward);
@@ -119,7 +119,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   combo_book = gtk_combo_box_new_text();
   gtk_widget_show(combo_book);
   gtk_container_add(GTK_CONTAINER(toolitem3), combo_book);
-  GTK_WIDGET_UNSET_FLAGS (combo_book, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (combo_book, false);
 
   GtkToolItem *toolitem4 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem4));
@@ -134,7 +134,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   gtk_entry_set_visibility(GTK_ENTRY(spinbutton_book), false);
   gtk_entry_set_invisible_char(GTK_ENTRY(spinbutton_book), 0);
   gtk_entry_set_width_chars(GTK_ENTRY(spinbutton_book), 0);
-  GTK_WIDGET_UNSET_FLAGS(spinbutton_book, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (spinbutton_book, false);
 
   GtkToolItem *toolitem6 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem6));
@@ -143,7 +143,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   combo_chapter = gtk_combo_box_new_text();
   gtk_widget_show(combo_chapter);
   gtk_container_add(GTK_CONTAINER(toolitem6), combo_chapter);
-  GTK_WIDGET_UNSET_FLAGS (combo_chapter, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (combo_chapter, false);
 
   GtkToolItem *toolitem5 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem5));
@@ -158,7 +158,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   gtk_entry_set_visibility(GTK_ENTRY(spinbutton_chapter), false);
   gtk_entry_set_invisible_char(GTK_ENTRY(spinbutton_chapter), 0);
   gtk_entry_set_width_chars(GTK_ENTRY(spinbutton_chapter), 0);
-  GTK_WIDGET_UNSET_FLAGS(spinbutton_chapter, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (spinbutton_chapter, false);
 
   GtkToolItem *toolitem8 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem8));
@@ -167,7 +167,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   combo_verse = gtk_combo_box_new_text();
   gtk_widget_show(combo_verse);
   gtk_container_add(GTK_CONTAINER(toolitem8), combo_verse);
-  GTK_WIDGET_UNSET_FLAGS (combo_verse, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (combo_verse, false);
 
   GtkToolItem *toolitem7 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem7));
@@ -182,7 +182,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   gtk_entry_set_visibility(GTK_ENTRY(spinbutton_verse), false);
   gtk_entry_set_invisible_char(GTK_ENTRY(spinbutton_verse), 0);
   gtk_entry_set_width_chars(GTK_ENTRY(spinbutton_verse), 0);
-  GTK_WIDGET_UNSET_FLAGS(spinbutton_verse, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (spinbutton_verse, false);
 
   // Resize the spinbuttons.
   gint defaultheight;

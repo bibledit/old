@@ -87,7 +87,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_window_set_destroy_with_parent(GTK_WINDOW(stylesheetdialog), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(stylesheetdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-  dialog_vbox1 = GTK_DIALOG(stylesheetdialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(stylesheetdialog));
   gtk_widget_show(dialog_vbox1);
 
   scrolledwindow_main = gtk_scrolled_window_new (NULL, NULL);
@@ -251,7 +251,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   gtk_widget_show(notebook_subtype);
   gtk_box_pack_start(GTK_BOX(hbox8), notebook_subtype, TRUE, TRUE, 0);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook_subtype), FALSE);
-  GTK_WIDGET_UNSET_FLAGS(notebook_subtype, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (notebook_subtype, false);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook_subtype), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook_subtype), FALSE);
 
@@ -652,7 +652,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   hbox16 = NULL;
   checkbutton_restarts_paragraph = NULL;
 
-  dialog_action_area1 = GTK_DIALOG(stylesheetdialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(stylesheetdialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -661,12 +661,12 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(stylesheetdialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(stylesheetdialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
 
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
   g_signal_connect((gpointer) radiobutton_id, "toggled", G_CALLBACK(on_style_type_toggled), gpointer(this));

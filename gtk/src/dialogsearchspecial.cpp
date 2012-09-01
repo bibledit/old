@@ -52,7 +52,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_window_set_modal(GTK_WINDOW(searchspecialdialog), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(searchspecialdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-  dialog_vbox1 = GTK_DIALOG(searchspecialdialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(searchspecialdialog));
   gtk_widget_show(dialog_vbox1);
 
   vbox3 = gtk_vbox_new(FALSE, 4);
@@ -110,7 +110,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   notebook_case_current = gtk_notebook_new();
   gtk_widget_show(notebook_case_current);
   gtk_box_pack_start(GTK_BOX(vbox3), notebook_case_current, TRUE, TRUE, 0);
-  GTK_WIDGET_UNSET_FLAGS(notebook_case_current, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (notebook_case_current, false);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook_case_current), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook_case_current), FALSE);
 
@@ -265,7 +265,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   notebook_results = gtk_notebook_new();
   gtk_widget_show(notebook_results);
   gtk_box_pack_start(GTK_BOX(vbox3), notebook_results, TRUE, TRUE, 0);
-  GTK_WIDGET_UNSET_FLAGS(notebook_results, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (notebook_results, false);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook_results), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook_results), FALSE);
 
@@ -332,7 +332,7 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   gtk_widget_show(label38);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_results), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_results), 3), label38);
 
-  dialog_action_area1 = GTK_DIALOG(searchspecialdialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(searchspecialdialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -341,13 +341,13 @@ SearchSpecialDialog::SearchSpecialDialog(int dummy)
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(searchspecialdialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton), true);
 
   findbutton = gtk_button_new_from_stock("gtk-find");
   gtk_widget_show(findbutton);
   gtk_dialog_add_action_widget(GTK_DIALOG(searchspecialdialog), findbutton, GTK_RESPONSE_OK);
   gtk_widget_set_sensitive(findbutton, FALSE);
-  GTK_WIDGET_SET_FLAGS(findbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (findbutton), true);
 
   g_signal_connect((gpointer) searchspecialdialog, "activate_focus", G_CALLBACK(on_searchspecialdialog_activate_focus), gpointer(this));
   g_signal_connect((gpointer) word_entry, "changed", G_CALLBACK(on_word_entry_changed), gpointer(this));
@@ -564,7 +564,7 @@ void SearchSpecialDialog::on_word_entry_activate(GtkEntry * entry, gpointer user
 void SearchSpecialDialog::on_activate()
 {
   // If the find button is disabled, bail out.
-  if (!GTK_WIDGET_SENSITIVE(findbutton))
+  if (!gtk_widget_get_sensitive (findbutton))
     return;
   if (allow_activate) {
     on_find();

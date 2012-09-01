@@ -608,7 +608,7 @@ gboolean EditorActionCreateNoteParagraph::on_caller_enter_notify (GdkEventCrossi
 {
   // Set the cursor to a shape that shows that the caller can be clicked.
   GtkWidget *toplevel_widget = gtk_widget_get_toplevel(label);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   GdkCursor *cursor = gdk_cursor_new(GDK_HAND2);
   gdk_window_set_cursor(gdk_window, cursor);
   gdk_cursor_unref (cursor);
@@ -626,7 +626,7 @@ gboolean EditorActionCreateNoteParagraph::on_caller_leave_notify (GdkEventCrossi
 {
   // Restore the original cursor.
   GtkWidget * toplevel_widget = gtk_widget_get_toplevel(label);
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   gdk_window_set_cursor(gdk_window, NULL);
   return false;
 }

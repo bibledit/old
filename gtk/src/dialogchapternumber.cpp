@@ -38,7 +38,7 @@ ChapterNumberDialog::ChapterNumberDialog(int dummy)
   gtk_window_set_position(GTK_WINDOW(dialogchapternumber), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(dialogchapternumber), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-  dialog_vbox1 = GTK_DIALOG(dialogchapternumber)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(dialogchapternumber));
   gtk_widget_show(dialog_vbox1);
 
   label_purpose = gtk_label_new("Insert a new chapter");
@@ -66,7 +66,7 @@ ChapterNumberDialog::ChapterNumberDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label_info, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_info), 0, 0.5);
 
-  dialog_action_area1 = GTK_DIALOG(dialogchapternumber)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(dialogchapternumber));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -75,12 +75,12 @@ ChapterNumberDialog::ChapterNumberDialog(int dummy)
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dialogchapternumber), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dialogchapternumber), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   g_signal_connect((gpointer) entry1, "changed", G_CALLBACK(on_entry1_changed), gpointer(this));
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton1_clicked), gpointer(this));

@@ -31,7 +31,7 @@ ProjectNoteDialog::ProjectNoteDialog(GtkWidget * parent, const vector < ustring 
   gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
   gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
 
-  dialog_vbox1 = GTK_DIALOG(dialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
   gtk_widget_show(dialog_vbox1);
 
   vbox1 = gtk_vbox_new(FALSE, 0);
@@ -75,7 +75,7 @@ ProjectNoteDialog::ProjectNoteDialog(GtkWidget * parent, const vector < ustring 
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview_note_logbook), GTK_WRAP_WORD);
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview_note_logbook), FALSE);
 
-  dialog_action_area1 = GTK_DIALOG(dialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(dialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -84,12 +84,12 @@ ProjectNoteDialog::ProjectNoteDialog(GtkWidget * parent, const vector < ustring 
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_note_project), combobox_note_project);
 

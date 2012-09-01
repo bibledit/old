@@ -795,7 +795,7 @@ gboolean Editor2::motion_notify_event(GtkWidget * textview, GdkEventMotion * eve
     gdk_cursor_unref (cursor);
   }
   previous_hand_cursor = hand_cursor;
-  gdk_window_get_pointer(textview->window, NULL, NULL, NULL);
+  gdk_window_get_pointer (gtk_widget_get_window (textview), NULL, NULL, NULL);
   return false;
 }
 
@@ -1879,10 +1879,10 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
     GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport));
 
     // Visible window height.
-    gdouble visible_window_height = adjustment->page_size;
+    gdouble visible_window_height = gtk_adjustment_get_page_size (adjustment);
 
     // Total window height.
-    gdouble total_window_height = adjustment->upper;
+    gdouble total_window_height = gtk_adjustment_get_upper (adjustment);
 
     // Get all the textviews.
     vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
@@ -1894,7 +1894,9 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
         if (focused_paragraph->textview == textviews[i]) {
           break;
         }
-        insertion_point_offset += textviews[i]->allocation.height;
+        GtkAllocation allocation;
+        gtk_widget_get_allocation (textviews[i], &allocation);
+        insertion_point_offset += allocation.height;
       }
       GtkTextIter iter;
       gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert (focused_paragraph->textbuffer));
@@ -3000,12 +3002,12 @@ bool Editor2::has_focus ()
 {
   vector <GtkWidget *> widgets = editor_get_widgets (vbox_paragraphs);
   for (unsigned int i = 0; i < widgets.size(); i++) {
-    if (GTK_WIDGET_HAS_FOCUS (widgets[i]))
+    if (gtk_widget_has_focus (widgets[i]))
       return true;
   }
   widgets = editor_get_widgets (vbox_notes);
   for (unsigned int i = 0; i < widgets.size(); i++) {
-    if (GTK_WIDGET_HAS_FOCUS (widgets[i]))
+    if (gtk_widget_has_focus (widgets[i]))
       return true;
   }
   return false;

@@ -34,7 +34,7 @@ MaintenanceDialog::MaintenanceDialog(int dummy)
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_default_size (GTK_WINDOW (dialog), 800, 600);
 
-  dialog_vbox1 = GTK_DIALOG (dialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_widget_show (dialog_vbox1);
 
   scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
@@ -51,7 +51,7 @@ MaintenanceDialog::MaintenanceDialog(int dummy)
   g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
   g_signal_connect((gpointer) htmlview, "submit", G_CALLBACK(on_html_submit), gpointer(this));
 
-  dialog_action_area1 = GTK_DIALOG (dialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(dialog));
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
  
@@ -60,12 +60,12 @@ MaintenanceDialog::MaintenanceDialog(int dummy)
   cancelbutton = gtk_button_new_from_stock ("gtk-cancel");
   gtk_widget_show (cancelbutton);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS (cancelbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton), true);
 
   okbutton = gtk_button_new_from_stock ("gtk-ok");
   gtk_widget_show (okbutton);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS (okbutton, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
 
   gtk_widget_grab_focus(htmlview);
   gtk_widget_grab_default(okbutton);

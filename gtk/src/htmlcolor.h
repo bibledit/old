@@ -17,14 +17,16 @@
  **  
  */
 
+
 #ifndef _HTML_COLOR_H_
 #define _HTML_COLOR_H_
 
-#include <gdk/gdktypes.h>
-#include <gdk/gdkcolor.h>
+
+#include <gdk/gdk.h>
 extern "C" {
 #include <gtkhtml/htmltypes.h>
 }
+
 
 struct _HTMLColor
 {
@@ -32,6 +34,7 @@ struct _HTMLColor
   gboolean allocated;
   guint refcount;
 };
+
 
 HTMLColor * html_color_new(void);
 HTMLColor * html_color_new_from_gdk_color(const GdkColor *color);
@@ -46,5 +49,6 @@ void html_color_free(HTMLColor *color, HTMLPainter *painter);
 gboolean html_color_equal(HTMLColor *color1, HTMLColor *color2);
 
 void html_color_set(HTMLColor *color, GdkColor *c);
+
 
 #endif

@@ -46,7 +46,7 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   gtk_window_set_title(GTK_WINDOW(editnotedialog), "Edit note");
   gtk_window_set_position(GTK_WINDOW(editnotedialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
-  dialog_vbox1 = GTK_DIALOG(editnotedialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(editnotedialog));
   gtk_widget_show(dialog_vbox1);
 
   hbox1 = gtk_hbox_new(FALSE, 10);
@@ -107,7 +107,7 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   gtk_widget_show(combobox1);
   gtk_box_pack_start(GTK_BOX(hbox7), combobox1, TRUE, TRUE, 0);
 
-  dialog_action_area1 = GTK_DIALOG(editnotedialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(editnotedialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -116,12 +116,12 @@ EditNoteDialog::EditNoteDialog(Editor2 * editor)
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(editnotedialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(editnotedialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   shortcuts.stockbutton(cancelbutton1);
   shortcuts.stockbutton(okbutton1);

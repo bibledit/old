@@ -43,7 +43,7 @@ FindNoteDialog::FindNoteDialog(int dummy)
   // Next one added to Glade's code.
   gtk_window_set_destroy_with_parent(GTK_WINDOW(findnotedialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(findnotedialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(findnotedialog));
   gtk_widget_show(dialog_vbox1);
 
   hbox2 = gtk_hbox_new(FALSE, 0);
@@ -66,7 +66,7 @@ FindNoteDialog::FindNoteDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_case, FALSE, FALSE, 0);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_case), settings->session.search_case_sensitive);
 
-  dialog_action_area1 = GTK_DIALOG(findnotedialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(findnotedialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -75,12 +75,12 @@ FindNoteDialog::FindNoteDialog(int dummy)
   buttonfind = gtk_button_new_from_stock("gtk-find");
   gtk_widget_show(buttonfind);
   gtk_dialog_add_action_widget(GTK_DIALOG(findnotedialog), buttonfind, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(buttonfind, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (buttonfind), true);
 
   buttoncancel = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(buttoncancel);
   gtk_dialog_add_action_widget(GTK_DIALOG(findnotedialog), buttoncancel, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(buttoncancel, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (buttoncancel), true);
 
   // The next one modified from Glade's code.
   g_signal_connect((gpointer) buttonfind, "clicked", G_CALLBACK(findnotedialog_on_buttonfind_clicked), gpointer(this));

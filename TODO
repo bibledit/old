@@ -1,14 +1,30 @@
+Gtk3.
+http://developer.gnome.org/gtk3/stable/gtk-migrating-2-to-3.html
+http://developer.gnome.org/gtk/2.24/
+
+Do not include individual headers: Done.
+Do not use deprecated symbols: Done.
+Use accessor functions instead of direct access: Done.
 
 
 
+->vbox;
+gtk_dialog_get_content_area (
+
+GTK_CAN_FOCUS
+gtk_widget_set_can_focus (GtkWidget *widget,  gboolean can_focus);
 
 
+GTK_WIDGET_SENSITIVE
+gboolean            gtk_widget_get_sensitive            (GtkWidget *widget);
 
 
+GdkWindow *gdk_window = toplevel_widget->window;
+GdkWindow *         gtk_widget_get_window               (GtkWidget *widget);
 
 
-
-
+GTK_WIDGET_HAS_FOCUS
+gtk_widget_has_focus()
 
 
 

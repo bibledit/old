@@ -49,7 +49,7 @@ DictionaryDialog::DictionaryDialog(const ustring & project)
   gtk_window_set_modal(GTK_WINDOW(dictionarydialog), TRUE);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dictionarydialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG(dictionarydialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (dictionarydialog));
   gtk_widget_show(dialog_vbox1);
 
   label_info = gtk_label_new_with_mnemonic("To change the order in which a dictionary is consulted, drag it to another location.");
@@ -80,7 +80,7 @@ DictionaryDialog::DictionaryDialog(const ustring & project)
   gtk_widget_show(button_edit);
   gtk_box_pack_start(GTK_BOX(hbox_buttons), button_edit, FALSE, FALSE, 0);
 
-  dialog_action_area1 = GTK_DIALOG(dictionarydialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(dictionarydialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -89,12 +89,12 @@ DictionaryDialog::DictionaryDialog(const ustring & project)
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dictionarydialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dictionarydialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   g_signal_connect((gpointer) treeview_dictionaries, "cursor_changed", G_CALLBACK(on_treeview_dictionaries_cursor_changed), gpointer(this));
   g_signal_connect((gpointer) button_add, "clicked", G_CALLBACK(on_button_add_clicked), gpointer(this));

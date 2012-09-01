@@ -64,7 +64,7 @@ InsertNoteDialog::InsertNoteDialog(NoteType dialogtype)
   gtk_window_set_destroy_with_parent(GTK_WINDOW(insertnotedialog), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(insertnotedialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-  dialog_vbox1 = GTK_DIALOG(insertnotedialog)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(insertnotedialog));
   gtk_widget_show(dialog_vbox1);
 
   vbox1 = gtk_vbox_new(FALSE, 0);
@@ -196,7 +196,7 @@ InsertNoteDialog::InsertNoteDialog(NoteType dialogtype)
   combobox_templates = gtk_combo_box_new_text();
   gtk_widget_show(combobox_templates);
   gtk_box_pack_start(GTK_BOX(hbox3), combobox_templates, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(combobox_templates, GTK_CAN_FOCUS);
+  gtk_widget_set_can_default (GTK_WIDGET (combobox_templates), true);
 
   button_template_new = gtk_button_new_from_stock("gtk-new");
   gtk_widget_show(button_template_new);
@@ -206,7 +206,7 @@ InsertNoteDialog::InsertNoteDialog(NoteType dialogtype)
   gtk_widget_show(button_template_delete);
   gtk_box_pack_start(GTK_BOX(hbox3), button_template_delete, FALSE, FALSE, 0);
 
-  dialog_action_area1 = GTK_DIALOG(insertnotedialog)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(insertnotedialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -215,12 +215,12 @@ InsertNoteDialog::InsertNoteDialog(NoteType dialogtype)
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(insertnotedialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(insertnotedialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   g_signal_connect((gpointer) radiobutton_numbering_automatic, "toggled", G_CALLBACK(on_radiobutton_numbering_toggled), gpointer(this));
   g_signal_connect((gpointer) radiobutton_numbering_none, "toggled", G_CALLBACK(on_radiobutton_numbering_toggled), gpointer(this));
@@ -464,7 +464,7 @@ ustring InsertNoteDialog::reference_get()
   // Configuration
   extern Settings *settings;
   // If the separator widget is sensitive, get the chapter and verse.
-  if (GTK_WIDGET_SENSITIVE(entry_reference_separator)) {
+  if (gtk_widget_get_sensitive (entry_reference_separator)) {
     result = settings->genconfig.chapter_get()
         + gtk_entry_get_text(GTK_ENTRY(entry_reference_separator))
         + settings->genconfig.verse_get();
@@ -819,27 +819,27 @@ At the end the Ok button should be focused.
     current_entry = 3;
   else {
     for (unsigned int i = 0; i < textview_contents.size(); i++)
-      if (GTK_WIDGET_HAS_FOCUS(textview_contents[i]))
+      if (gtk_widget_has_focus (textview_contents[i]))
         current_entry = 4;
   }
   switch (current_entry) {
   case 0:
     {
-      if (GTK_WIDGET_SENSITIVE(entry_numbering)) {
+      if (gtk_widget_get_sensitive (entry_numbering)) {
         gtk_widget_grab_focus(entry_numbering);
         break;
       }
     }
   case 1:
     {
-      if (GTK_WIDGET_SENSITIVE(entry_reference_separator)) {
+      if (gtk_widget_get_sensitive (entry_reference_separator)) {
         gtk_widget_grab_focus(entry_reference_separator);
         break;
       }
     }
   case 2:
     {
-      if (GTK_WIDGET_SENSITIVE(entry_reference_suffix)) {
+      if (gtk_widget_get_sensitive (entry_reference_suffix)) {
         gtk_widget_grab_focus(entry_reference_suffix);
         break;
       }
@@ -855,7 +855,7 @@ At the end the Ok button should be focused.
     {
       unsigned int focused_entry = 0;
       for (unsigned int i = 0; i < textview_contents.size(); i++) {
-        if (GTK_WIDGET_HAS_FOCUS(textview_contents[i]))
+        if (gtk_widget_has_focus (textview_contents[i]))
           focused_entry = i;
       }
       focused_entry++;

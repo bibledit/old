@@ -149,7 +149,7 @@ void WindowCheckKeyterms::go_to_term(unsigned int id)
 
 void WindowCheckKeyterms::copy_clipboard()
 {
-  if (GTK_WIDGET_HAS_FOCUS(htmlview_terms)) {
+  if (gtk_widget_has_focus (htmlview_terms)) {
     // Copy text to the clipboard.
     gtk_html_copy (GTK_HTML (htmlview_terms));
 

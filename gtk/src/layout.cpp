@@ -101,7 +101,7 @@ void ScreenLayoutDimensions::save()
   
   // Maximized state.
   GtkWidget * toplevel_widget = gtk_widget_get_toplevel(GTK_WIDGET (mywindow));
-  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   GdkWindowState window_state = gdk_window_get_state (gdk_window);  
   bool maximized = window_state & GDK_WINDOW_STATE_MAXIMIZED;
   settings->genconfig.window_maximized_set (maximized);

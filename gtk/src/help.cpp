@@ -48,7 +48,9 @@ InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts *
   //helpbutton = gtk_button_new();
   //gtk_widget_show(helpbutton);
   //gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), helpbutton, FALSE, FALSE, 0);
-  //GTK_WIDGET_SET_FLAGS(helpbutton, GTK_CAN_DEFAULT);
+  // dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(dialog));
+
+  //gtk_widget_set_can_default (GTK_WIDGET (helpbutton), true);
 
   //alignment = gtk_alignment_new(0.5, 0.5, 0, 0);
   //gtk_widget_show(alignment);
@@ -75,12 +77,12 @@ InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts *
     cancelbutton = gtk_button_new_from_stock("gtk-cancel");
     gtk_widget_show(cancelbutton);
     gtk_dialog_add_action_widget(GTK_DIALOG(dialog), cancelbutton, GTK_RESPONSE_CANCEL);
-    GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
+    gtk_widget_set_can_default (GTK_WIDGET (cancelbutton), true);
 
     okbutton = gtk_button_new_from_stock("gtk-ok");
     gtk_widget_show(okbutton);
     gtk_dialog_add_action_widget(GTK_DIALOG(dialog), okbutton, GTK_RESPONSE_OK);
-    GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
+    gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
     
     if (shortcuts) {
       shortcuts->stockbutton(cancelbutton);

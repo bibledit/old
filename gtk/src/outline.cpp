@@ -42,7 +42,7 @@ Outline::Outline(GtkWidget * vbox)
   // Build GUI.
   reference_changed_signal = gtk_button_new_with_mnemonic("");
   gtk_box_pack_start(GTK_BOX(vbox), reference_changed_signal, FALSE, FALSE, 0);
-  GTK_WIDGET_UNSET_FLAGS(reference_changed_signal, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (reference_changed_signal, false);
   gtk_button_set_focus_on_click(GTK_BUTTON(reference_changed_signal), FALSE);
 
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -83,7 +83,7 @@ void Outline::focus()
 
 bool Outline::focused()
 {
-  return GTK_WIDGET_HAS_FOCUS(treeview);
+  return gtk_widget_has_focus (treeview);
 }
 
 void Outline::goto_reference(const ustring & project, Reference & reference)

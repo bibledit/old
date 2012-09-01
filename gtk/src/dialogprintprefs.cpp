@@ -37,7 +37,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dialogprintpreferences), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(dialogprintpreferences), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-  dialog_vbox1 = GTK_DIALOG(dialogprintpreferences)->vbox;
+  dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(dialogprintpreferences));
   gtk_widget_show(dialog_vbox1);
 
   notebook1 = gtk_notebook_new();
@@ -227,7 +227,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 1), label11);
 
   // Dialog action area.
-  dialog_action_area1 = GTK_DIALOG(dialogprintpreferences)->action_area;
+  dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(dialogprintpreferences));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -236,12 +236,12 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy)
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dialogprintpreferences), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (cancelbutton1), true);
 
   okbutton1 = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton1);
   gtk_dialog_add_action_widget(GTK_DIALOG(dialogprintpreferences), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (GTK_WIDGET (okbutton1), true);
 
   g_signal_connect((gpointer) spinbutton_height, "changed", G_CALLBACK(on_spinbutton_height_changed), gpointer(this));
   g_signal_connect((gpointer) spinbutton_width, "changed", G_CALLBACK(on_spinbutton_width_changed), gpointer(this));
