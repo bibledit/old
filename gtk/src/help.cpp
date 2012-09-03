@@ -19,7 +19,7 @@
 
 
 #include "libraries.h"
-#include "htmlbrowser.h"
+#include "htmlbrowser.h" // Todo
 #include "help.h"
 #include "directories.h"
 #include "gwrappers.h"
@@ -119,7 +119,7 @@ void InDialogHelp::on_helpbutton()
   url.append(mytopic);
   url.append(".html");
   
-  htmlbrowser (url, false, true);
+  htmlbrowser (url, false, true); // Todo
   
   // Present the window.
   g_usleep(500000);

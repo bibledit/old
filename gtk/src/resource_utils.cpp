@@ -25,7 +25,6 @@
 #include "utilities.h"
 #include "books.h"
 #include "settings.h"
-#include "htmlbrowser.h"
 #include "html.h"
 #include "tiny_utilities.h"
 #include "dialoglistview.h"

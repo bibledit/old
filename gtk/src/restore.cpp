@@ -28,7 +28,6 @@
 #include "directories.h"
 #include "shell.h"
 #include "gtkwrappers.h"
-#include "htmlbrowser.h"
 #include "tiny_utilities.h"
 #include "snapshots.h"
 #include "export_utils.h"

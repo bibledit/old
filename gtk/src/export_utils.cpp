@@ -52,11 +52,10 @@
 #include <libxml/xmlwriter.h>
 #include "categorize.h"
 #include "snapshots.h"
-#include "htmlbrowser.h"
 #include "java.h"
 
 
-void export_to_usfm(const ustring & project, ustring location, bool zip)
+void export_to_usfm (const ustring& project, ustring location, bool zip)
 {
   // (Temporal) output directory.
   ustring tempdir = gw_build_filename(directories_get_temp(), "usfm-export");
@@ -817,7 +816,7 @@ void export_to_usfm_changes (const ustring& project, int time_from, ustring comm
   ustring htmlfile = gw_build_filename(workingdirectory, "backup.html");
   write_lines(htmlfile, rt.lines);
   unix_cp(gw_build_filename(directories_get_package_data(), "bibledit.css"), gw_build_filename(workingdirectory, "bibledit.css"));
-  htmlbrowser(htmlfile, false);
+  gtkw_show_uri (htmlfile, false);
 }
 
 

@@ -38,7 +38,7 @@
 #include "gwrappers.h"
 #include "directories.h"
 #include "screen.h"
-#include "htmlbrowser.h"
+#include "gtkwrappers.h"
 #include "roman.h"
 #include "combobox.h"
 
@@ -601,7 +601,7 @@ void ResourceConverterDialog::on_view_file_button()
 {
   ustring tempfile = gw_build_filename(directories_get_temp(), "resource-converter-view-file");
   write_lines(tempfile, lines);
-  htmlbrowser(tempfile, false);
+  gtkw_show_uri (tempfile, false);
 }
 
 
