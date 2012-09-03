@@ -1,14 +1,22 @@
-Gtk3.
+
+
+
+
+
+Gtk3
 http://developer.gnome.org/gtk3/stable/gtk-migrating-2-to-3.html
 http://developer.gnome.org/gtk/2.24/
 
 Do not include individual headers: Done.
 Do not use deprecated symbols: Done.
 Use accessor functions instead of direct access: Done.
-Replace GDK_<keyname> with GDK_KEY_<keyname>
+Replace GDK_<keyname> with GDK_KEY_<keyname>: Done.
 
 
-KEY_
+
+
+
+
 
 
 

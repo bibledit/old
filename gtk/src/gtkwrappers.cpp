@@ -194,3 +194,28 @@ ustring gtkw_file_chooser_save(GtkWidget * parent, const ustring & title, const 
   gtk_widget_destroy(dialog);
   return selection;
 }
+
+
+void gtkw_show_uri (ustring uri, bool internet)
+{
+  ustring prefix;
+  if (internet) prefix = "http://";
+  else prefix = "file://";
+  uri = prefix + uri;
+
+  // Handle if Windows.
+#ifdef WIN32
+  windowsoutpost_open_url (uri);
+  return;
+#endif
+
+  // Handle Unix.
+  GError *error = NULL;
+  if (!gtk_show_uri (NULL, uri.c_str(), GDK_CURRENT_TIME, &error)) {
+    ustring message = "Trying to opening " + uri + ": " + error->message;
+    cerr << message << endl;
+    gtkw_dialog_error(NULL, message);
+    g_error_free(error);
+  }
+}
+

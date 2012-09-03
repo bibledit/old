@@ -34,6 +34,7 @@ ustring gtkw_file_chooser_select_folder (GtkWidget * parent, const ustring& titl
 ustring gtkw_file_chooser_open (GtkWidget * parent, const ustring& title, const ustring& file);
 vector <ustring> gtkw_file_chooser_open_multiple (GtkWidget * parent, const ustring& title, ustring directory);
 ustring gtkw_file_chooser_save (GtkWidget * parent, const ustring& title, const ustring& file);
+void gtkw_show_uri (ustring uri, bool internet = false);
 
 
 #endif
