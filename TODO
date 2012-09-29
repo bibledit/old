@@ -1,3 +1,7 @@
+bibledit-web: Since send/receive occurs at 12:00, perhaps the 'change'  occur 15 minutes later or so?
+
+
+
 
 
 
@@ -37,6 +41,8 @@ Every page gets a few anchors: Clickable Logo, Bible name, search entry.
 Perhaps to have a switch on the site whether to enable / disable the search functions.
 Use sphinxsearch
 Crontab starts the search daemon, or ensures that it runs.
+
+
 
 
 
