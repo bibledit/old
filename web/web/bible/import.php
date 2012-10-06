@@ -8,6 +8,9 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
 $database_books = Database_Books::getInstance();
 
+$success_message = "";
+$error_message = "";
+
 // The name of the Bible.
 $bible = $_GET['bible'];
 $smarty->assign ("bible", Filter_Html::sanitize ($bible));
