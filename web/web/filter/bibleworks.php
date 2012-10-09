@@ -89,6 +89,7 @@ class Filter_Bibleworks
 
       // Convert markup for italics and footnotes.
       $line = Filter_Bibleworks::italics ($line);
+      $line = Filter_Bibleworks::notes ($line);
 
 
       // Output the verse.            
@@ -105,7 +106,7 @@ class Filter_Bibleworks
   * Converts the italics in BibleWorks format to italics in USFM format.
   * It returns the converted $line.
   */
-  public function italics ($line) // Todo
+  public function italics ($line)
   {
     $startPosition = strpos ($line, '[');
     while ($startPosition !== false) {
@@ -115,6 +116,25 @@ class Filter_Bibleworks
         $line = substr_replace ($line, '\add ', $startPosition, 1);
       }
       $startPosition = strpos ($line, '[', $startPosition + 1);
+    }
+    return $line;
+  }
+
+
+  /**
+  * Converts the notes in BibleWorks format to footnotes in USFM format.
+  * It returns the converted $line.
+  */
+  public function notes ($line) // Todo
+  {
+    $startPosition = strpos ($line, '{');
+    while ($startPosition !== false) {
+      $endPosition = strpos ($line, '}', $startPosition);
+      if ($endPosition !== false) {
+        $line = substr_replace ($line, '\f*', $endPosition, 1);
+        $line = substr_replace ($line, '\f + ', $startPosition, 1);
+      }
+      $startPosition = strpos ($line, '{', $startPosition + 1);
     }
     return $line;
   }
