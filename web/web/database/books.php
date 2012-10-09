@@ -104,6 +104,20 @@ class Database_Books
   }
 
 
+  public function getBibleworksFromId($id)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT bibleworks FROM books WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows == 0) {
+      return gettext ("Xxx");
+    }
+    $row = $result->fetch_row ();
+    return $row[0];
+  }
+
+
   public function getIdFromUsfm($usfm)
   {
     $database_instance = Database_Instance::getInstance();

@@ -17,7 +17,8 @@
     </p>
     <p>{t}Versification system{/t}: <a href="settings.php?bible={$bible}&versification=">{$versification}</a></p>
     <p><a href="settings.php?bible={$bible}&createbook=">{t}Create book{/t}</a></p>
-    <p><a href="import.php?bible={$bible}">{t}Import USFM{/t}</a></p>
+    <p><a href="import_usfm.php?bible={$bible}">{t}Import USFM{/t}</a></p>
+    <p><a href="import_bibleworks.php?bible={$bible}">{t}Import BibleWorks{/t}</a></p>
     <p><a href="manage.php?copy={$bible}">{t}Copy this Bible{/t}</a></p>
     <p><a href="manage.php?delete={$bible}">{t}Delete this Bible{/t}</a></p>
     {include file=../assets/footer_full.tpl} 

@@ -1,3 +1,16 @@
+The import filter for BibleWorks works as follows:
+Determine the verse.
+Insert the \v code.
+Go through the remaining line, and extract italics [] and notes {}. amd put it in appropriate usfm code.
+Excercise the above with various sorts of input data, large, small, alternating, whatever.
+
+
+
+
+
+
+
+
 BibleWorks -> eSword
 Steps: 
 * Import BibleWorks into USFM in Bibledit-Web - see Bibledit-Gtk for code.
