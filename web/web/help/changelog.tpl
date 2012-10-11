@@ -22,7 +22,7 @@
 <p>Trimming the databases now happens at midnight.</p>
 <p>The operations that run at midnight indicate their identify in the logbook through a prefix.</p>
 <p>New export web folder names: Web and PlainWeb.</p>
-<p></p>
+<p>Imports BibleWorks Bible text.</p>
 <p></p>
 <p></p>
 <p></p>
