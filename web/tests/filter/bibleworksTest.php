@@ -8,7 +8,7 @@ class bibleworksTest extends PHPUnit_Framework_TestCase
 {
 
 
-  public function testImport1() // Todo
+  public function testImport1()
   {
 $bwdata = <<<EOD
 Hab 1:1  La sentència ... profeta <05030> Habacuc <02265>.
@@ -24,7 +24,6 @@ $usfmdata = <<<EOD
 \\v 3 ¿Per què ... i la controvèrsia <04066>.
 EOD;
     $data = Filter_Bibleworks::import ($bwdata);
-    $data = implode ("\n", $data);
     $this->assertEquals ($usfmdata, $data);
   }
 

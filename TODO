@@ -1,8 +1,13 @@
-The import filter for BibleWorks works as follows:
-Determine the verse.
-Insert the \v code.
-Go through the remaining line, and extract italics [] and notes {}. amd put it in appropriate usfm code.
-Excercise the above with various sorts of input data, large, small, alternating, whatever.
+A site intended for demonstration may have a 'always logged in' option.
+Thus the site opens up for search engines, and everybody can operate on it.
+To do it through the ./configure option - no, better through the Administrator option.
+The Administrator option is not opened up, by the way.
+
+
+
+
+
+
 
 
 
@@ -110,5 +115,3 @@ Make NDB and SHN Bibles searchable on the site. Version to TBS, and revised vers
 
 
 
-A site intended for demonstration may have a 'always logged in' option.
-Thus the site opens up for search engines, and everybody can operate on it.

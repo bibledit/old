@@ -29,9 +29,9 @@ class Filter_Bibleworks
   /**
   * Imports BibleWorks $data as USFM code.
   * This is $data fit for the BibleWorks Version Database Compiler.
-  * It returns an array of USFM code.
+  * It a string of USFM code.
   */
-  public function import ($data) // Todo
+  public function import ($data)
   {
     // Databases.
     $database_books = Database_Books::getInstance ();
@@ -97,6 +97,7 @@ class Filter_Bibleworks
     }
 
 
+    $usfm = implode ("\n", $usfm);
     return $usfm;
   }
 
@@ -104,6 +105,7 @@ class Filter_Bibleworks
 
   /**
   * Converts the italics in BibleWorks format to italics in USFM format.
+  * BibleWorks gives the italics between square brackets, like so: [italics].
   * It returns the converted $line.
   */
   public function italics ($line)
@@ -123,9 +125,10 @@ class Filter_Bibleworks
 
   /**
   * Converts the notes in BibleWorks format to footnotes in USFM format.
+  * BibleWorks gives the notes between curly brackets, like so: [italics].
   * It returns the converted $line.
   */
-  public function notes ($line) // Todo
+  public function notes ($line)
   {
     $startPosition = strpos ($line, '{');
     while ($startPosition !== false) {
