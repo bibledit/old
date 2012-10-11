@@ -17,7 +17,7 @@
 #define PACKAGE_NAME "bibledit-web"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit-web 0.6.9"
+#define PACKAGE_STRING "bibledit-web 0.7"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit-web"
@@ -26,7 +26,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.6.9"
+#define PACKAGE_VERSION "0.7"
 
 /* Define the password of the site administrator */
 #define SITE_ADMIN_PASSWORD "adminpassword"
@@ -38,7 +38,7 @@
 #define SMARTYPATH "/usr/share/php/smarty/libs"
 
 /* Version number of package */
-#define VERSION "0.6.9"
+#define VERSION "0.7"
 
 /* Define the path to the zend framework */
 #define ZENDPATH "/usr/share/php/libzend-framework-php/Zend"

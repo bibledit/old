@@ -1,6 +1,12 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+<p></p>
+<p></p>
+<p></p>
+
+<h2>Version 0.7</h2>
+<p>11 October 2012</p>
 <p>No longer logs memory usage once a day.</p>
 <p>The configure script checks whether the smarty-gettext plugin is present.</p>
 <p>No longer logs errors every five minutes when the email storage host has not been defined.</p>
@@ -23,12 +29,6 @@
 <p>The operations that run at midnight indicate their identify in the logbook through a prefix.</p>
 <p>New export web folder names: Web and PlainWeb.</p>
 <p>Imports BibleWorks Bible text.</p>
-<p></p>
-<p></p>
-<p></p>
-
-
-
 
 <h2>Version 0.6.1</h2>
 <p>22 February 2012</p>

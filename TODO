@@ -1,3 +1,7 @@
+
+
+
+
 A site intended for demonstration may have a 'always logged in' option.
 Thus the site opens up for search engines, and everybody can operate on it.
 To do it through the ./configure option - no, better through the Administrator option.

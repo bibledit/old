@@ -4,7 +4,7 @@
 require_once ("../bootstrap/bootstrap.php");
 
 
-function import_usfm ($bible, $data, &$success_message, &$error_message) { // Todo Use this in two cases, so far.
+function import_usfm ($bible, $data, &$success_message, &$error_message) {
   $database_config_user = Database_Config_User::getInstance();
   $stylesheet = $database_config_user->getStylesheet();
   $book_chapter_text = Filter_Usfm::import ($data, $stylesheet);
