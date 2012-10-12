@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.7],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.7.1],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
@@ -205,6 +205,19 @@ AC_DEFINE_UNQUOTED(LOCATION, "$LOCATION")
 AC_SUBST(LOCATION)
 
 
+# Whether to have the default password protected installation, or an open installation.
+OPEN_INSTALLATION_DEFAULT="false"
+AC_ARG_WITH(open-installation,
+        [  --with-open-installation=true
+                          Open installation],
+        [ OPEN_INSTALLATION=$withval ],
+        [ OPEN_INSTALLATION=$OPEN_INSTALLATION_DEFAULT ]
+)
+AC_DEFINE([OPEN_INSTALLATION], [], [Whether to have an open installation])
+AC_DEFINE_UNQUOTED(OPEN_INSTALLATION, "$OPEN_INSTALLATION")
+AC_SUBST(OPEN_INSTALLATION)
+
+
 # Check whether library gettext-smarty is installed.
 AC_MSG_CHECKING(smarty-gettext)
 SMARTYGETTEXT=$SMARTYPATH/plugins/block.t.php
@@ -319,7 +332,8 @@ echo                                                               >> $CREDENTIA
 echo '?>'                                                          >> $CREDENTIALS
 
 
-# Create the file with the login credentials for the site administrator.
+# Create the file with the login credentials for the site administrator,
+# and whether this is an open installation, or the default password protected one.
 CREDENTIALS=web/administration/credentials.php
 rm $CREDENTIALS
 echo '<?php'                                                       >> $CREDENTIALS
@@ -333,6 +347,13 @@ echo // Username.                                                  >> $CREDENTIA
 echo '$site_admin_username = "'$SITE_ADMIN_USERNAME'";'            >> $CREDENTIALS
 echo // Password.                                                  >> $CREDENTIALS
 echo '$site_admin_password = "'$SITE_ADMIN_PASSWORD'";'            >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo // Whether this is an open installation.                      >> $CREDENTIALS
+echo // false: It is the standard password protected installation. >> $CREDENTIALS
+echo // true: It is an open installation.                          >> $CREDENTIALS
+echo                                                               >> $CREDENTIALS
+echo // Open installation.                                         >> $CREDENTIALS
+echo '$open_installation = '$OPEN_INSTALLATION';'                  >> $CREDENTIALS
 echo                                                               >> $CREDENTIALS
 echo '?>'                                                          >> $CREDENTIALS
 

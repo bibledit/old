@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-11 03:56+0200\n"
+"POT-Creation-Date: 2012-10-12 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1463,12 +1463,6 @@ msgstr ""
 msgid "Import USFM"
 msgstr ""
 
-msgid "Could not import this data:"
-msgstr ""
-
-msgid "The following was imported:"
-msgstr ""
-
 msgid "Please supply valid Unicode UTF-8 text."
 msgstr ""
 
@@ -1491,6 +1485,12 @@ msgid "Cannot copy Bible because the destination Bible already exists."
 msgstr ""
 
 msgid "The Bible was copied."
+msgstr ""
+
+msgid "Could not import this data:"
+msgstr ""
+
+msgid "The following was imported:"
 msgstr ""
 
 msgid "Would you like to change the versification system?"

@@ -46,6 +46,7 @@ class Session_Logic
   {
     $_SESSION['ss_fprint'] = $this->_Fingerprint();
     $this->_RegenerateId();
+    if ($this->openAccess ()) return;
     if (!$this->Check() || !isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
       $this->logged_in = false;
     } else {
@@ -135,6 +136,7 @@ class Session_Logic
     }
   }
 
+
   /**
   * Returns true if the user has logged in.
   */
@@ -143,6 +145,7 @@ class Session_Logic
     // the session system is queries only once. It has been seen on some sites that if the php session
     // system was queried more than once, it did not behave consistently.
     // Buffering the status in the object resolved this.
+    if ($this->openAccess ()) return true;
     return $this->logged_in;
   }
 
@@ -157,6 +160,7 @@ class Session_Logic
   * currentLevel - returns an integer with the current level of the session.
   */
   public function currentLevel ($force = false) {
+    if ($this->openAccess ()) return  $this->level;
     if (($this->level == 0) || $force) {
       if ($this->loggedIn()) {
         $database = Database_Users::getInstance();
@@ -173,6 +177,20 @@ class Session_Logic
   function logout () {
     $_SESSION['logged_in'] = false;
     $_SESSION['user'] = "";
+  }
+  
+  
+  function openAccess () {
+    include ("administration/credentials.php");
+    if ($open_installation) {
+      $_SESSION['logged_in'] = true;
+      $_SESSION['user'] = "admin";
+      include ("session/levels.php");
+      $this->level = ADMIN_LEVEL;
+      $this->logged_in = true;
+      return true;
+    }
+    return false;
   }
 
 

@@ -15,16 +15,14 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=4
-FILE_NAME_0=51;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
-FILE_NAME_1=177;Sh;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
-FILE_NAME_2=669;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import_bibleworks.php;0;2
-FILE_NAME_3=1383;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/bible/import_bibleworks.tpl;0;2
-FILE_NAME_4=737;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/tests/filter/bibleworksTest.php;0;2
-FILE_NAME_5=2882;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/bibleworks.php;0;2
-FILE_NAME_6=6285;C++;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibleworks.cpp;0;2
-FILE_NAME_7=959;C;0;16;0;1;0;/home/teus/documents/dev/bibledit/gtk/src/bibleworks.h;0;2
-FILE_NAME_8=3355;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0;2
+current_page=6
+FILE_NAME_0=0;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/TODO;0;2
+FILE_NAME_1=11219;Sh;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/configure.ac;0;2
+FILE_NAME_2=2972;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/filter/bibleworks.php;0;2
+FILE_NAME_3=3355;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/database/books.php;0;2
+FILE_NAME_4=152;None;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/help/changelog.tpl;0;2
+FILE_NAME_5=513;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/administration/credentials.php;0;2
+FILE_NAME_6=1302;PHP;0;16;0;1;0;/home/teus/documents/dev/bibledit/web/web/session/logic.php;0;2
 
 [long line marker]
 long_line_behaviour=2

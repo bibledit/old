@@ -6,6 +6,9 @@
 /* Define the root password of the MySQL database */
 #undef MYSQL_ROOT_PASSWORD
 
+/* Whether to have an open installation */
+#undef OPEN_INSTALLATION
+
 /* Name of package */
 #undef PACKAGE
 
