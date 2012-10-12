@@ -1,15 +1,9 @@
-A site intended for demonstration may have a 'always logged in' option.
-Thus the site opens up for search engines, and everybody can operate on it.
-To do it through the ./configure option.
-To mention this option, and what it does, and how to set the flag manually, in the online help.
 
 
 
 
 
-
-
-
+                          
 
 
 

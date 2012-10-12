@@ -1,9 +1,12 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
-<p>The ./configure script has an option to change the Bibledit-Web installation from password protected to open.</p>
+<p>Run ./configure --with-open-installation=true to configure the Bibledit-Web installation from password protected to open.</p>
 <p></p>
 <p></p>
+
+
+Open installation 
 
 <h2>Version 0.7</h2>
 <p>11 October 2012</p>
