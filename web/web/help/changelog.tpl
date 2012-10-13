@@ -3,7 +3,7 @@
 <h2>Version in repository</h2>
 <p>Run ./configure --with-open-installation=true to configure the Bibledit-Web installation from password protected to open.</p>
 <p>Processing the changes in a Bible occurs at 0:15 AM.</p>
-<p></p>
+<p>The import BibleWorks page has a checkbox whether to keep the grammatical tags.</p>
 <p></p>
 <p></p>
 
