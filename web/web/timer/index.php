@@ -25,13 +25,13 @@
 require_once ("../bootstrap/bootstrap.php");
 
 
-// Only runs through the cli Server API.
+// The script runs through the cli Server API only.
 if (php_sapi_name () != "cli") {
   die;
 }
 
 
-// Change user Id of process running this script.
+// Change the user id for running this script.
 $pwnam = posix_getpwnam ("www-data");
 posix_setuid ($pwnam['uid']);
 posix_setgid ($pwnam['gid']);
@@ -61,7 +61,7 @@ $current_timestamp = time ();
 // the person kept pressing the submit button,
 // with the result that the comment was added multiple times to the note.
 $midnight = (date ('Gi') == 0);
-
+$fifteenPastMidnight = (date ('Gi') == 15);
 
 
 // Mailer is done once a minute.
@@ -106,7 +106,7 @@ unset ($backup_timestamp);
 
 
 $diff_timestamp = $config_general->getTimerDiff ();
-if (($current_timestamp >= $diff_timestamp) || $midnight) {
+if (($current_timestamp >= $diff_timestamp) || $fifteenPastMidnight) {
   $diff_timestamp += 86400;
   while ($current_timestamp >= $diff_timestamp) {
     // This loop updates the timestamp to a value larger than the current time.

@@ -3,6 +3,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
                           
 
 
@@ -51,7 +60,26 @@ Or Ramon can ask around on forums of BibleWorks, eSword, OnlineBible.
 
 
 
-bibledit-web: Since send/receive occurs at 12:00, perhaps the 'change'  occur 15 minutes later or so?
+
+
+
+
+
+
+On top of the site put a search bar.
+It searches really everything: Bibles, notes, menus, help: everything.
+
+Settings for sphinxsearch are stored in the database, including the port number, and collapsing data.
+The advantage is that the text-based files will not be overwritten after installation.
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,11 +2,10 @@
 
 <h2>Version in repository</h2>
 <p>Run ./configure --with-open-installation=true to configure the Bibledit-Web installation from password protected to open.</p>
+<p>Processing the changes in a Bible occurs at 0:15 AM.</p>
 <p></p>
 <p></p>
-
-
-Open installation 
+<p></p>
 
 <h2>Version 0.7</h2>
 <p>11 October 2012</p>
