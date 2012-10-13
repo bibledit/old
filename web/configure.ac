@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.7.1],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.7.2],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
@@ -383,6 +383,7 @@ Bibledit-Web $VERSION configuration summary:
 
 Installation prefix: ${prefix}
 Location on web and internal: ${LOCATION}
+Open installation: ${OPEN_INSTALLATION}
 MySQL database host: localhost
 MySQL database name: ${LOCATION}
 MySQL database administrator username: root

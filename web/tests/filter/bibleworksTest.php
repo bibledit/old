@@ -23,7 +23,7 @@ $usfmdata = <<<EOD
 \\v 2 ¿Fins <05704> quan <0575>, Jahveh ... no \add em\add* salvaràs <03467>(08686)?
 \\v 3 ¿Per què ... i la controvèrsia <04066>.
 EOD;
-    $data = Filter_Bibleworks::import ($bwdata);
+    $data = Filter_Bibleworks::import ($bwdata, false);
     $this->assertEquals ($usfmdata, $data);
   }
 
@@ -98,7 +98,82 @@ EOD;
   }
   
   
+  public function testParenthesis1()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::parenthesis ("Normal text.", $malformed);
+    $this->assertEquals($data, 'Normal text.');
+  }
+  
+  
+  public function testParenthesis2()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08804).", $malformed);
+    $this->assertEquals($data, 'Text in parenthesis.');
+  }
+  
+  
+  public function testParenthesis3()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08804a).", $malformed);
+    $this->assertEquals($data, 'Text in parenthesis(08804a).');
+    $this->assertEquals($malformed, array ('(08804a)'));
+  }
+  
+  
+  public function testParenthesis4()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::parenthesis ("Text in parenthesis(08(804).", $malformed);
+    $this->assertEquals($data, 'Text in parenthesis(08.');
+    $this->assertEquals($malformed, array ('(08(804)'));
+  }
+  
+  
+  public function testChevrons1()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::chevrons ("Normal text.", $malformed);
+    $this->assertEquals($data, 'Normal text.');
+  }
+  
+  
+  public function testChevrons2()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::chevrons ("Text in chevrons<01004>.", $malformed);
+    $this->assertEquals($data, 'Text in chevrons.');
+  }
+  
+  
+  public function testChevrons3()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::chevrons ("Text in chevrons<01004b>.", $malformed);
+    $this->assertEquals($data, 'Text in chevrons.');
+  }
+
+
+  public function testChevrons4()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::chevrons ("Text in chevrons<06030, 06031>.", $malformed);
+    $this->assertEquals($data, 'Text in chevrons.');
+  }
+
+
+  public function testChevrons5()
+  {
+    $malformed = array ();
+    $data = Filter_Bibleworks::chevrons ("Text in chevrons<06030; abc>.", $malformed);
+    $this->assertEquals($data, 'Text in chevrons<06030; abc>.');
+    $this->assertEquals($malformed, array ('<06030; abc>'));
+  }
+
+  
 }
+
+
 ?>
-
-

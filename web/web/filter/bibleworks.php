@@ -30,8 +30,10 @@ class Filter_Bibleworks
   * Imports BibleWorks $data as USFM code.
   * This is $data fit for the BibleWorks Version Database Compiler.
   * It a string of USFM code.
+  * $tags is true or false. It indicates whether to keep the grammatical tags
+  * in the BibleWorks text. These are the tags between () or <>.
   */
-  public function import ($data)
+  public function import ($data, $tags)
   {
     // Databases.
     $database_books = Database_Books::getInstance ();
@@ -92,6 +94,14 @@ class Filter_Bibleworks
       $line = Filter_Bibleworks::notes ($line);
 
 
+      // By default remove the tags, or optionally keep them.
+      if (!$tags) {
+        $malformed = array ();
+        $line = Filter_Bibleworks::parenthesis ($line, &$malformed);
+        $line = Filter_Bibleworks::chevrons ($line, &$malformed);
+      }
+      
+
       // Output the verse.            
       $usfm [] = '\v ' . $verse . ' ' . $line;
     }
@@ -142,6 +152,66 @@ class Filter_Bibleworks
     return $line;
   }
 
+
+
+  /**
+  * Removes numericals in parenthesis.
+  * The numericals in BibleWorks text contain grammatical tags.
+  * Example: (08804)
+  * It will only remove well-formed tags. 
+  * The malformed tags are not removed, and added to array $malformed.
+  * It returns the $line without the grammatical tags in parenthesis.
+  */
+  public function parenthesis ($line, &$malformed)
+  {
+    $startPosition = strpos ($line, '(');
+    while ($startPosition !== false) {
+      $endPosition = strpos ($line, ')', $startPosition);
+      if ($endPosition !== false) {
+        $text = substr ($line, $startPosition + 1, $endPosition - $startPosition - 1);
+        if (is_numeric ($text)) {
+          $line = substr_replace ($line, '', $startPosition, $endPosition - $startPosition + 1);
+        } else {
+          $malformed [] = substr ($line, $startPosition, $endPosition - $startPosition + 1);
+        }
+      }
+      $startPosition = strpos ($line, '(', $startPosition + 1);
+    }
+    return $line;
+  }
+
+
+  /**
+  * Removes grammatical tags between chevrons.
+  * Example: <06030a>
+  * It will only remove well-formed tags. 
+  * The malformed tags are not removed, and added to array $malformed.
+  * It returns the $line without the grammatical tags between chevrons.
+  */
+  public function chevrons ($line, &$malformed)
+  {
+    $startPosition = strpos ($line, '<');
+    while ($startPosition !== false) {
+      $endPosition = strpos ($line, '>', $startPosition);
+      if ($endPosition !== false) {
+        $text = substr ($line, $startPosition + 1, $endPosition - $startPosition - 1);
+        // Tags may contgain an 'a' or a 'b', e.g.: <06030a>. Remove them.
+        $text = str_replace ("a", "", $text);
+        $text = str_replace ("b", "", $text);
+        // Tags may also contain commas (,) or spaces ( ), e.g. <06030, 06031>
+        $text = str_replace (",", "", $text);
+        $text = str_replace (" ", "", $text);
+        // Remove numerical tags, e.g.: <06030>
+        if (is_numeric ($text)) {
+          $line = substr_replace ($line, '', $startPosition, $endPosition - $startPosition + 1);
+        } else {
+          $malformed [] = substr ($line, $startPosition, $endPosition - $startPosition + 1);
+        }
+      }
+      $startPosition = strpos ($line, '<', $startPosition + 1);
+    }
+    return $line;
+  }
 
 
 }

@@ -22,12 +22,15 @@ $smarty->assign ("bible", Filter_Html::sanitize ($bible));
 
 // Data submission.
 if (isset($_POST['submit'])) {
+  // Whether to keep the grammatical tags.
+  $tags = isset($_POST['tags']);
+  // The BibleWorks text.
   $data = $_POST['data'];
   $data = trim ($data);
   if ($data != "") {
     if (Validate_Utf8::valid ($data)) {
       // Convert the BibleWorks text to USFM.
-      $usfm = Filter_Bibleworks::import ($data);
+      $usfm = Filter_Bibleworks::import ($data, $tags);
       // Import the USFM.
       include_once ("import_usfm_lib.php");
       import_usfm ($bible, $usfm, $success_message, $error_message);

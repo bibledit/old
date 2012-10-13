@@ -9,6 +9,41 @@
 
 
 
+BibleWorks -> eSword
+Export to .bblx format.
+
+http://www.biblesupport.com/topic/2240-computer-science-e-sword-and-databases-part-1/
+
+format for the BLOB_TEXT field? 
+I have determined that if one were to use SQL to insert data into a blob field, you simply encode it like this:
+insert into table_name (id,blobfield) values (1,X'AAABBCCDDF')
+If the RTF of the scripture were straight hex encoded, would this properly encode this field?
+
+http://e-sword-users.org/users/node/3969
+
+Obvious facts:
+1. The BBLX etc files of e-Sword 9 modules are SQLite3 data bases.
+2. It is therefore possible to get an SQLite3 source file that will exactly recreate the module issuing a command like
+sqlite3 localize.lanx ".dump"
+3. However, the interesting data (of type BLOB_TEXT) are encoded in a non-obvious way, e.g.:
+INSERT INTO "English" VALUES(1,X'68249C3775AB1E47FC54FBABDAC4DE82');
+4. If the encoding algorithm were known, one could make a new BBLX file from a text file (such as used by TheWord) by a simple Perl or Python script.
+Questions:
+1. Is that encoding documented everywhere (i.e. elsewhere than a web site that is "under construction")?
+2. Is there more to getting another bible into e-Sword 9 than putting its BBLX file in Program Files\e-Sword?
+
+write your text as cleartext into the blob and e-sword will show it :) It's as simple as that.
+Hint: if you create own modules do not create the table "sqliteplus_license" in the module.
+
+Non-licensed files have data in the clear, and in place of the BLOB, you can have clear text, or RTF type data. 
+
+Steps:
+- Create all of the SQL data needed - use the current .dump as an example, and use a TEXT field, no BLOB_TEXT
+- Call sqlite3 through the shell to convert it to a bblx file.
+
+
+
+
 
 
 
@@ -19,12 +54,6 @@
 
 
 
-
-BibleWorks -> eSword
-Steps: 
-* Import BibleWorks into USFM in Bibledit-Web - see Bibledit-Gtk for code.
-* Enable or disable the Strong's numbers and other non-USFM code.
-* Export to .vpl format - perhaps to map the Bible names.
 
 
 
@@ -51,9 +80,9 @@ Simple_Bible_Reader_vx.xx.exe converts USFX to BBLX format
 This loses the Strong's numbers, unless these are left in the 'USFM' somehow.
 
 
-Or to ask the programmer of Simple_Bible_Reader for support of BibleWorks files.
 
-Or Ramon can ask around on forums of BibleWorks, eSword, OnlineBible.
+
+
 
 
 
@@ -72,6 +101,9 @@ It searches really everything: Bibles, notes, menus, help: everything.
 Settings for sphinxsearch are stored in the database, including the port number, and collapsing data.
 The advantage is that the text-based files will not be overwritten after installation.
 
+The search results should be made extremely clear to see:
+New lines are displayed as such.
+Bible / Book / Chapter / Verse number in green.
 
 
 
