@@ -55,7 +55,6 @@ class Database_Styles
     $sheets = $this->getSheets ();
     $sheetcount = count ($sheets);
     if ($sheetcount == 0) {
-      $this->verify();
       $this->createSheet ("Standard");
     }
   }
