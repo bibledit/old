@@ -75,6 +75,8 @@ class Filter_Text
   
   public $onlinebible_text; // Object for creating the input file for the Online Bible compiler.
   
+  public $esword_text; // Object for creating the Bible module for eSword. Todo
+  
   /**
   * Class constructor.
   */
@@ -104,6 +106,7 @@ class Filter_Text
     $this->html_text_standard = new Html_Text (gettext ("Bible"));
     $this->html_text_linked = new Html_Text (gettext ("Bible"));
     $this->onlinebible_text = new Onlinebible_Text ();
+    $this->esword_text = new Esword_Text ();
   }
   
 

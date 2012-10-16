@@ -1,3 +1,13 @@
+Working on going through text.php and putting Todo items wherever eSword output is needed.
+
+Install the phpunit software, so tests run successfully.
+
+Create the Esword_* objects in a rough format.
+Add the objects to the text filter, so that it creates some output.
+Convert the stuff to .bblx through sqlite3 shell command.
+Put some rough data in them, to see how they behave.
+Iterate through a cycle of refining the objects, defining tests, running tests.
+
 
 
 
@@ -18,11 +28,12 @@ http://e-sword-users.org/users/node/3969
 
 Obvious facts:
 1. The BBLX etc files of e-Sword 9 modules are SQLite3 data bases.
-2. It is therefore possible to get an SQLite3 source file that will exactly recreate the module issuing a command like
-sqlite3 localize.lanx ".dump"
+2. It is therefore possible to get an SQLite3 source file that will exactly 
+recreate the module issuing a command like sqlite3 localize.lanx ".dump"
 3. However, the interesting data (of type BLOB_TEXT) are encoded in a non-obvious way, e.g.:
 INSERT INTO "English" VALUES(1,X'68249C3775AB1E47FC54FBABDAC4DE82');
-4. If the encoding algorithm were known, one could make a new BBLX file from a text file (such as used by TheWord) by a simple Perl or Python script.
+4. If the encoding algorithm were known, one could make a new BBLX file from a text file (such as used by TheWord) 
+by a simple Perl or Python script.
 Questions:
 1. Is that encoding documented everywhere (i.e. elsewhere than a web site that is "under construction")?
 2. Is there more to getting another bible into e-Sword 9 than putting its BBLX file in Program Files\e-Sword?
@@ -30,7 +41,8 @@ Questions:
 write your text as cleartext into the blob and e-sword will show it :) It's as simple as that.
 Hint: if you create own modules do not create the table "sqliteplus_license" in the module.
 
-Non-licensed files have data in the clear, and in place of the BLOB, you can have clear text, or RTF type data. 
+Non-licensed files have data in the clear, and in place of the BLOB, you can have clear text, 
+or RTF type data. 
 
 Steps:
 - Create all of the SQL data needed - use the current .dump as an example, and use a TEXT field, no BLOB_TEXT
