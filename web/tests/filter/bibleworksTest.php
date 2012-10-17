@@ -23,6 +23,26 @@ $usfmdata = <<<EOD
 \\v 2 ¿Fins <05704> quan <0575>, Jahveh ... no \add em\add* salvaràs <03467>(08686)?
 \\v 3 ¿Per què ... i la controvèrsia <04066>.
 EOD;
+    $data = Filter_Bibleworks::import ($bwdata, true);
+    $this->assertEquals ($usfmdata, $data);
+  }
+
+
+  public function testImport2()
+  {
+$bwdata = <<<EOD
+Hab 1:1  La sentència ... profeta <05030> Habacuc <02265>.
+Hab 1:2 ¿Fins <05704> quan <0575>, Jahveh ... no [em] salvaràs <03467>(08686)? 
+Hab 1:3 ¿Per què ... i la controvèrsia <04066>.
+EOD;
+$usfmdata = <<<EOD
+\\id HAB
+\\c 1
+\\p
+\\v 1 La sentència ... profeta  Habacuc .
+\\v 2 ¿Fins  quan , Jahveh ... no \add em\add* salvaràs ?
+\\v 3 ¿Per què ... i la controvèrsia .
+EOD;
     $data = Filter_Bibleworks::import ($bwdata, false);
     $this->assertEquals ($usfmdata, $data);
   }

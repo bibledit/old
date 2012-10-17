@@ -30,10 +30,10 @@ class Filter_Bibleworks
   * Imports BibleWorks $data as USFM code.
   * This is $data fit for the BibleWorks Version Database Compiler.
   * It a string of USFM code.
-  * $tags is true or false. It indicates whether to keep the grammatical tags
-  * in the BibleWorks text. These are the tags between () or <>.
+  * $keepTags: Whether to keep the grammatical tags in the BibleWorks text. 
+  * These are the tags between () or <>.
   */
-  public function import ($data, $tags)
+  public function import ($data, $keepTags)
   {
     // Databases.
     $database_books = Database_Books::getInstance ();
@@ -94,8 +94,8 @@ class Filter_Bibleworks
       $line = Filter_Bibleworks::notes ($line);
 
 
-      // By default remove the tags, or optionally keep them.
-      if (!$tags) {
+      // Deal with the grammatical tags.
+      if (!$keepTags) {
         $malformed = array ();
         $line = Filter_Bibleworks::parenthesis ($line, &$malformed);
         $line = Filter_Bibleworks::chevrons ($line, &$malformed);

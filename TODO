@@ -1,6 +1,8 @@
-Working on going through text.php and putting Todo items wherever eSword output is needed.
-
 Install the phpunit software, so tests run successfully.
+Fix the tests.
+
+
+Working on going through text.php and putting Todo items wherever eSword output is needed.
 
 Create the Esword_* objects in a rough format.
 Add the objects to the text filter, so that it creates some output.
