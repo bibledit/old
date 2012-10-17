@@ -14,7 +14,6 @@ class databaseGitTest extends PHPUnit_Framework_TestCase
   public function testGit()
   {
     $database_git = Database_Git::getInstance();
-    $database_git->verify ();
     $database_git->optimize ();
     $directory = "/var/www/bibledit";
     $output = "x/y/z";
