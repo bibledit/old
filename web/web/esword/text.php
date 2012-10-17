@@ -46,7 +46,7 @@ class Esword_Text
   private $currentNoteTextStyle;
   
   
-  public function __construct ($title)
+  public function __construct ()
   {
     $this->currentParagraphStyle = "";
     $this->currentParagraphContent = "";
@@ -66,7 +66,7 @@ class Esword_Text
     $this->headDomNode = $nodeList->item (0);
     $element = $this->htmlDom->createElement ("title");
     $this->headDomNode->appendChild ($element);
-    $element->nodeValue = htmlspecialchars ($title, ENT_QUOTES, "UTF-8");
+    $element->nodeValue = htmlspecialchars ("Bible", ENT_QUOTES, "UTF-8");
     
     $this->bodyDomNode = $nodeList->item (1);
 
