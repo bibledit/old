@@ -1,14 +1,21 @@
-Install the phpunit software, so tests run successfully.
-Fix the tests.
+Now working on eSword class: 
+Store book, chapter, verse, etc.
+Store the verse text separately, so that it won't get lost, or corrupt SQL is generated.
 
 
-Working on going through text.php and putting Todo items wherever eSword output is needed.
-
+Ensure that the last verse text is also added to the SQL statements upon finalize()
+Create unittests for Esword_Text.
+Create one simple unittest for Filter_Text just to see if it produces anything that looks like a .bblx file.
+The conversion to .bblx file is done through a call to the Esword_text object.
+The esword_text object first creates an array of SQL statements.
+Let the constructor of the eSword objects create a basic SQL script just for a start to work on.
 Create the Esword_* objects in a rough format.
 Add the objects to the text filter, so that it creates some output.
 Convert the stuff to .bblx through sqlite3 shell command.
 Put some rough data in them, to see how they behave.
 Iterate through a cycle of refining the objects, defining tests, running tests.
+Start with plain text
+Expand with html or rtf formatting and notes - this is done per line, not per chapter.
 
 
 
@@ -114,6 +121,9 @@ The search results should be made extremely clear to see:
 New lines are displayed as such.
 Bible / Book / Chapter / Verse number in green.
 
+Indexing is done in near-realtime. It means that whenever a note changes on the site,
+or Bible text, that everything is indexed again.
+And when nothing changes, then it indexes the stuff at midnight.
 
 
 

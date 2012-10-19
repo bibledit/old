@@ -80,7 +80,7 @@ class Filter_Text
   /**
   * Class constructor.
   */
-  public function __construct ()
+  public function __construct ($bible)
   {
     $this->createdOdfStyles = array ();
     $this->numberOfChaptersPerBook = array ();
@@ -106,7 +106,7 @@ class Filter_Text
     $this->html_text_standard = new Html_Text (gettext ("Bible"));
     $this->html_text_linked = new Html_Text (gettext ("Bible"));
     $this->onlinebible_text = new Onlinebible_Text ();
-    $this->esword_text = new Esword_Text ();
+    $this->esword_text = new Esword_Text ($bible);
   }
   
 
@@ -392,7 +392,7 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
@@ -414,7 +414,7 @@ class Filter_Text
                         $this->odf_text_standard->newPageBreak ();
                         $this->odf_text_text_only->newPageBreak ();
                         $this->odf_text_text_and_note_citations->newPageBreak ();
-                        $this->html_text_standard->newPageBreak ();
+                        $this->html_text_standard->newPageBreak (); // Todo
                         $this->html_text_linked->newPageBreak ();
                       }
                     }
@@ -514,7 +514,7 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
@@ -540,13 +540,13 @@ class Filter_Text
                   $this->odf_text_standard->openTextStyle ($style);
                   $this->odf_text_text_only->openTextStyle ($style);
                   $this->odf_text_text_and_note_citations->openTextStyle ($style);
-                  $this->html_text_standard->openTextStyle ($style);
+                  $this->html_text_standard->openTextStyle ($style); // Todo
                   $this->html_text_linked->openTextStyle ($style);
                 } else {
                   $this->odf_text_standard->closeTextStyle ();
                   $this->odf_text_text_only->closeTextStyle ();
                   $this->odf_text_text_and_note_citations->closeTextStyle ();
-                  $this->html_text_standard->closeTextStyle ();
+                  $this->html_text_standard->closeTextStyle (); // Todo
                   $this->html_text_linked->closeTextStyle ();
                 }
                 break;
@@ -557,7 +557,7 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 
                 $this->onlinebible_text->storeData ();
@@ -636,7 +636,7 @@ class Filter_Text
                     $this->odf_text_standard->addText ($number);
                     $this->odf_text_text_only->addText ($number);
                     $this->odf_text_text_and_note_citations->addText ($number);
-                    $this->html_text_standard->addText ($number);
+                    $this->html_text_standard->addText ($number); // Todo
                     $this->html_text_linked->addText ($number);
                   }
                 }
@@ -660,7 +660,7 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 $this->onlinebible_text->storeData ();
                 // Care for the situation that a new verse starts a new paragraph.
@@ -674,8 +674,8 @@ class Filter_Text
                   if ($this->odf_text_text_and_note_citations->currentParagraphContent != "") {
                     $this->odf_text_text_and_note_citations->newParagraph ($this->odf_text_text_and_note_citations->currentParagraphStyle);
                   }
-                  if ($this->html_text_standard->currentParagraphContent != "") {
-                    $this->html_text_standard->newParagraph ($this->html_text_standard->currentParagraphStyle);
+                  if ($this->html_text_standard->currentParagraphContent != "") { // Todo
+                    $this->html_text_standard->newParagraph ($this->html_text_standard->currentParagraphStyle); // Todo
                   }
                   if ($this->html_text_linked->currentParagraphContent != "") {
                     $this->html_text_linked->newParagraph ($this->html_text_linked->currentParagraphStyle);
@@ -693,9 +693,9 @@ class Filter_Text
                   } else {
                     $this->putChapterNumberInFrame ($this->outputChapterTextAtFirstVerse);
                   }
-                  $this->html_text_standard->openTextStyle (array ("marker" => "dropcaps"), false);
-                  $this->html_text_standard->addText ($this->outputChapterTextAtFirstVerse);
-                  $this->html_text_standard->closeTextStyle ();
+                  $this->html_text_standard->openTextStyle (array ("marker" => "dropcaps"), false); // Todo
+                  $this->html_text_standard->addText ($this->outputChapterTextAtFirstVerse); // Todo
+                  $this->html_text_standard->closeTextStyle (); // Todo
                   $this->html_text_linked->openTextStyle (array ("marker" => "dropcaps"), false);
                   $this->html_text_linked->addText ($this->outputChapterTextAtFirstVerse);
                   $this->html_text_linked->closeTextStyle ();
@@ -717,8 +717,8 @@ class Filter_Text
                   if ($this->odf_text_text_and_note_citations->currentParagraphContent != "") {
                     $this->odf_text_text_and_note_citations->addText (" ");
                   }
-                  if ($this->html_text_standard->currentParagraphContent != "") {
-                    $this->html_text_standard->addText (" ");
+                  if ($this->html_text_standard->currentParagraphContent != "") { // Todo
+                    $this->html_text_standard->addText (" "); // Todo
                   }
                   if ($this->html_text_linked->currentParagraphContent != "") {
                     $this->html_text_linked->addText (" ");
@@ -726,17 +726,17 @@ class Filter_Text
                   $this->odf_text_standard->openTextStyle ($style);
                   $this->odf_text_text_only->openTextStyle ($style);
                   $this->odf_text_text_and_note_citations->openTextStyle ($style);
-                  $this->html_text_standard->openTextStyle ($style);
+                  $this->html_text_standard->openTextStyle ($style); // Todo
                   $this->html_text_linked->openTextStyle ($style);
                   $this->odf_text_standard->addText ($number);
                   $this->odf_text_text_only->addText ($number);
                   $this->odf_text_text_and_note_citations->addText ($number);
-                  $this->html_text_standard->addText ($number);
+                  $this->html_text_standard->addText ($number); // Todo
                   $this->html_text_linked->addText ($number);
                   $this->odf_text_standard->closeTextStyle ();
                   $this->odf_text_text_only->closeTextStyle ();
                   $this->odf_text_text_and_note_citations->closeTextStyle ();
-                  $this->html_text_standard->closeTextStyle ();
+                  $this->html_text_standard->closeTextStyle (); // Todo
                   $this->html_text_linked->closeTextStyle ();
                 }
                 // If there was any text following the \v marker, remove the verse number, 
@@ -780,7 +780,7 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
@@ -808,7 +808,7 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 $this->addToFallout ("Picture formatting not yet implemented", true);
                 break;
@@ -819,12 +819,12 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 $this->odf_text_standard->newPageBreak ();
                 $this->odf_text_text_only->newPageBreak ();
                 $this->odf_text_text_and_note_citations->newPageBreak ();
-                $this->html_text_standard->newPageBreak ();
+                $this->html_text_standard->newPageBreak (); // Todo
                 $this->html_text_linked->newPageBreak ();
                 break;
               }
@@ -834,7 +834,7 @@ class Filter_Text
                 $this->odf_text_text_only->closeTextStyle ();
                 $this->odf_text_text_and_note_citations->closeTextStyle ();
                 $this->odf_text_notes->closeTextStyle ();
-                $this->html_text_standard->closeTextStyle ();
+                $this->html_text_standard->closeTextStyle (); // Todo
                 $this->html_text_linked->closeTextStyle ();
                 switch ($style['subtype']) 
                 {
@@ -916,7 +916,7 @@ class Filter_Text
           $this->odf_text_standard->addText ($currentItem);
           $this->odf_text_text_only->addText ($currentItem);
           $this->odf_text_text_and_note_citations->addText ($currentItem);
-          $this->html_text_standard->addText ($currentItem);
+          $this->html_text_standard->addText ($currentItem); // Todo
           $this->html_text_linked->addText ($currentItem);
           $this->onlinebible_text->addText ($currentItem);
         }
@@ -973,7 +973,7 @@ class Filter_Text
                     // Add the note citation. And a no-break space after it.
                     $this->odf_text_notes->addText ($citation . Filter_Character::noBreakSpace());
                     // Open note in the web pages.
-                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote);
+                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote); // Todo
                     $this->html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote);
                     // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler.
                     // Just take them out, then.
@@ -995,7 +995,7 @@ class Filter_Text
                     $this->odf_text_text_and_note_citations->addText ($citation);
                     $this->odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
                     // Open note in the web page.
-                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
+                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote, true); // Todo
                     $this->html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
                     // Online Bible.
                     //$this->onlinebible_text->addNote ();
@@ -1011,7 +1011,7 @@ class Filter_Text
                   // in order to return to the correct style for the paragraph.
                   $this->odf_text_standard->closeTextStyle (true);
                   $this->odf_text_notes->closeTextStyle ();
-                  $this->html_text_standard->closeTextStyle (true);
+                  $this->html_text_standard->closeTextStyle (true); // Todo
                   $this->html_text_linked->closeTextStyle (true);
                   break;
                 }
@@ -1021,12 +1021,12 @@ class Filter_Text
                   if ($isOpeningMarker) {
                     $this->odf_text_standard->openTextStyle ($style, true);
                     $this->odf_text_notes->openTextStyle ($style);
-                    $this->html_text_standard->openTextStyle ($style, true);
+                    $this->html_text_standard->openTextStyle ($style, true); // Todo
                     $this->html_text_linked->openTextStyle ($style, true);
                   } else {
                     $this->odf_text_standard->closeTextStyle (true);
                     $this->odf_text_notes->closeTextStyle ();
-                    $this->html_text_standard->closeTextStyle (true);
+                    $this->html_text_standard->closeTextStyle (true); // Todo
                     $this->html_text_linked->closeTextStyle (true);
                   }
                   break;
@@ -1036,7 +1036,7 @@ class Filter_Text
                   // The style of this is not yet implemented.
                   $this->odf_text_standard->closeTextStyle (true);
                   $this->odf_text_notes->closeTextStyle ();
-                  $this->html_text_standard->closeTextStyle (true);
+                  $this->html_text_standard->closeTextStyle (true); // Todo
                   $this->html_text_linked->closeTextStyle (true);
                   break;
                 }
@@ -1071,7 +1071,7 @@ class Filter_Text
                     $this->odf_text_notes->addText ($citation . Filter_Character::noBreakSpace());
                     // Open note in the web page.
                     $this->ensureNoteParagraphStyle ($this->standardContentMarkerCrossReference, $this->styles[$this->standardContentMarkerCrossReference]);
-                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference);
+                    $this->html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference); // Todo
                     $this->html_text_linked->addNote ($citation, $this->standardContentMarkerCrossReference);
                     // Online Bible.
                     //$this->onlinebible_text->addNote ();
@@ -1087,7 +1087,7 @@ class Filter_Text
                   // in order to return to the correct style for the paragraph.
                   $this->odf_text_standard->closeTextStyle (true);
                   $this->odf_text_notes->closeTextStyle ();
-                  $this->html_text_standard->closeTextStyle (true);
+                  $this->html_text_standard->closeTextStyle (true); // Todo
                   $this->html_text_linked->closeTextStyle (true);
                   break;
                 }
@@ -1097,12 +1097,12 @@ class Filter_Text
                   if ($isOpeningMarker) {
                     $this->odf_text_standard->openTextStyle ($style, true);
                     $this->odf_text_notes->openTextStyle ($style);
-                    $this->html_text_standard->openTextStyle ($style, true);
+                    $this->html_text_standard->openTextStyle ($style, true); // Todo
                     $this->html_text_linked->openTextStyle ($style, true);
                   } else {
                     $this->odf_text_standard->closeTextStyle (true);
                     $this->odf_text_notes->closeTextStyle ();
-                    $this->html_text_standard->closeTextStyle (true);
+                    $this->html_text_standard->closeTextStyle (true); // Todo
                     $this->html_text_linked->closeTextStyle (true);
                   }
                   break;
@@ -1128,7 +1128,7 @@ class Filter_Text
         // Here is no marker. Treat it as text.
         $this->odf_text_standard->addNoteText ($currentItem);
         $this->odf_text_notes->addText ($currentItem);
-        $this->html_text_standard->addNoteText ($currentItem);
+        $this->html_text_standard->addNoteText ($currentItem); // Todo
         $this->html_text_linked->addNoteText ($currentItem);
         //$this->onlinebible_text->addText ($currentItem);
       }
@@ -1138,7 +1138,7 @@ class Filter_Text
     // will be added to a new note, not to the last one created.
     $this->odf_text_standard->closeCurrentNote ();
     $this->odf_text_notes->closeTextStyle ();
-    $this->html_text_standard->closeCurrentNote ();
+    $this->html_text_standard->closeCurrentNote (); // Todo
     $this->html_text_linked->closeCurrentNote ();
     //$this->onlinebible_text->closeCurrentNote ();
   }
@@ -1348,14 +1348,14 @@ class Filter_Text
       $this->odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
-      $this->html_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+      $this->html_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps); // Todo
       $this->html_text_linked->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->createdOdfStyles [] = $marker;
     }
     $this->odf_text_standard->newParagraph ($marker);
     $this->odf_text_text_only->newParagraph ($marker);
     $this->odf_text_text_and_note_citations->newParagraph ($marker);
-    $this->html_text_standard->newParagraph ($marker);
+    $this->html_text_standard->newParagraph ($marker); // Todo
     $this->html_text_linked->newParagraph ($marker);
   }
   
@@ -1524,7 +1524,7 @@ class Filter_Text
       $this->odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->odf_text_notes->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, 0, 0, 0, 0, 0, $keepWithNext, $dropcaps);
-      $this->html_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+      $this->html_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps); // Todo
       $this->html_text_linked->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       $this->createdOdfStyles [] = $marker;
     }

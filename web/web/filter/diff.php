@@ -23,8 +23,8 @@ class Filter_Diff
     $old_vs_usfm = array ();
     $new_vs_usfm = array ();
     
-    $filter_text_old = new Filter_Text;
-    $filter_text_new = new Filter_Text;
+    $filter_text_old = new Filter_Text ("");
+    $filter_text_new = new Filter_Text ("");
     
     $books = $database_bibles->getDiffBooks ($bibleIdentifier);
     foreach ($books as $book) {

@@ -79,9 +79,6 @@ class Onlinebible_Text
 
   /**
   * This function adds a note to the current paragraph.
-  * $citation: The text of the note citation.
-  * $style: Style name for the paragraph in the note body.
-  * $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
   */
   public function addNote ()
   {

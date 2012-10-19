@@ -96,7 +96,7 @@ foreach ($bibles as $bible) {
 
 
   // OpenDocument / Web / Online Bible data for the whole Bible.
-  $filter_text_bible = new Filter_Text;
+  $filter_text_bible = new Filter_Text ($bible);
 
   
   // LinkedWeb index file.
@@ -115,7 +115,7 @@ foreach ($bibles as $bible) {
     $bookUsfmData = "";
 
     // OpenDocument and Web data for one Bible book.
-    $filter_text_book = new Filter_Text;
+    $filter_text_book = new Filter_Text ($bible);
 
     // Go through the chapters in this book.
     $chapters = $database_bibles->getChapters ($bible, $book);
