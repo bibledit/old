@@ -40,8 +40,89 @@ PRAGMA foreign_keys=OFF;
 CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
 INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
 CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+INSERT INTO Bible VALUES (0, 0, 0, 'The Word of God');
+CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);
 EOD;
     $this->assertEquals ($esword_text->sql, explode ("\n", $sql));
+  }
+
+
+  public function testZeroJohnTwoVerseThree()
+  {
+    $esword_text = new Esword_Text ("");
+    $esword_text->newBook (43);
+    $esword_text->newChapter (2);
+    $esword_text->newVerse (3);
+    $esword_text->addText ("In the beginning was the Word, and the Word was with God, and the Word was God.");
+    $esword_text->finalize ();
+$sql = <<<'EOD'
+PRAGMA foreign_keys=OFF;
+CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
+INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+INSERT INTO Bible VALUES (43, 2, 3, 'In the beginning was the Word, and the Word was with God, and the Word was God.');
+CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);
+EOD;
+    $this->assertEquals ($esword_text->sql, explode ("\n", $sql));
+  }
+
+
+  public function testFragmentedText()
+  {
+    $esword_text = new Esword_Text ("");
+    $esword_text->newBook (43);
+    $esword_text->newChapter (1);
+    $esword_text->newVerse (1);
+    $esword_text->addText ("In the beginning was the Word");
+    $esword_text->addText (", and the Word was with God");
+    $esword_text->addText (", and the Word was God.");
+    $esword_text->finalize ();
+$sql = <<<'EOD'
+PRAGMA foreign_keys=OFF;
+CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
+INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+INSERT INTO Bible VALUES (43, 1, 1, 'In the beginning was the Word, and the Word was with God, and the Word was God.');
+CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);
+EOD;
+    $this->assertEquals ($esword_text->sql, explode ("\n", $sql));
+  }
+
+
+  public function testSwitchReference()
+  {
+    $esword_text = new Esword_Text ("");
+    $esword_text->newBook (1);
+    $esword_text->newChapter (2);
+    $esword_text->newVerse (3);
+    $esword_text->addText ("But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.");
+    $esword_text->newBook (4);
+    $esword_text->newChapter (5);
+    $esword_text->newVerse (6);
+    $esword_text->addText ("Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.");
+    $esword_text->finalize ();
+$sql = <<<'EOD'
+PRAGMA foreign_keys=OFF;
+CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
+INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+INSERT INTO Bible VALUES (1, 2, 3, 'But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.');
+INSERT INTO Bible VALUES (4, 5, 6, 'Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.');
+CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);
+EOD;
+    $this->assertEquals ($esword_text->sql, explode ("\n", $sql));
+  }
+
+
+  public function testCreateModule()
+  {
+    $esword_text = new Esword_Text ("");
+    $esword_text->addText ("In the beginning was the Word, and the Word was with God, and the Word was God.");
+    $esword_text->finalize ();
+    $filename = "/tmp/module.bblx";
+    $esword_text->createModule ($filename);
+    $this->assertFileExists ($filename, "The eSword module was not created");
+    unlink ($filename);
   }
 
 

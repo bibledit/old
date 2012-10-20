@@ -55,10 +55,10 @@ class Esword_Text
   {
     $text = trim ($this->currentText);
     if ($text != "") {
-      $text = Database_SQLInjection::no ($text);
-      $book = Database_SQLInjection::no ($this->currentBook);
-      $chapter = Database_SQLInjection::no ($this->currentChapter);
-      $verse = Database_SQLInjection::no ($this->currentVerse);
+      $text = str_replace ("'", "''", $text);
+      $book = $this->currentBook;
+      $chapter = $this->currentChapter;
+      $verse = $this->currentVerse;
       $statement = "INSERT INTO Bible VALUES ($book, $chapter, $verse, '$text');";
       $this->sql [] = $statement;
     }
@@ -69,7 +69,7 @@ class Esword_Text
   public function newBook ($book)
   {
     $this->flushCache ();
-    $this->$currentBook = $book;
+    $this->currentBook = $book;
     $this->newChapter (0);
   }
 
@@ -77,26 +77,22 @@ class Esword_Text
   public function newChapter ($chapter)
   {
     $this->flushCache ();
-    $this->$currentChapter = $chapter;
-    $this->$currentVerse = 0;
+    $this->currentChapter = $chapter;
+    $this->currentVerse = 0;
   }
 
   
   public function newVerse ($verse)
   {
     $this->flushCache ();
-    $this->$currentVerse = $verse;
+    $this->currentVerse = $verse;
   }
 
   
-  /**
-  * This function adds text to the current paragraph.
-  * $text: The text to add.
-  */
   public function addText ($text)
   {
     if ($text != "") {
-      $this->currentVerseContent .= $text;
+      $this->currentText .= $text;
     }
   }
 
@@ -114,11 +110,22 @@ class Esword_Text
 
   /**
   * This creates the eSword module.
-  * $name: the name of the file to create.
+  * $filename: the name of the file to create.
   */
-  public function createModule ($name)
+  public function createModule ($filename)
   {
     $this->flushCache ();
+    $sqlfile =  tempnam (sys_get_temp_dir (), '');
+    $sql = implode ("\n", $this->sql);
+    file_put_contents ($sqlfile, $sql);
+    $database_logs = Database_Logs::getInstance ();
+    $command = "sqlite3 $filename < $sqlfile 2>&1";
+    exec ($command, &$output, &$exit_code);
+    $database_logs->log ($command);
+    foreach ($output as $line) {
+      $database_logs->log ($line);
+    }
+    //unlink ($sqlfile);
   }
 
 

@@ -90,6 +90,11 @@ foreach ($bibles as $bible) {
   $onlineBibleDirectory = $bibleDirectory . "/OnlineBible";
   mkdir ($onlineBibleDirectory);
 
+
+  // Folder for the eSword module.
+  $eSwordDirectory = $bibleDirectory . "/eSword";
+  mkdir ($eSwordDirectory);
+  
   
   // USFM code of the entire Bible.
   $bibleUsfmData = "";
@@ -165,11 +170,14 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
+  
+  // Save to other formats.
   $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00_Bible.html");
   $html_text_linked_index->save ("$linkedWebDirectory/00_index.html");
   $html_text_linked_index->save ("$linkedWebDirectory/index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
-
+  $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx"); // Todo
+  
   // Create the info OpenDocument for the whole Bible.
   $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
   

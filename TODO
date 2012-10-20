@@ -1,10 +1,7 @@
-Now working on eSword class: 
-Store book, chapter, verse, etc.
-Store the verse text separately, so that it won't get lost, or corrupt SQL is generated.
+Create unittest for Esword_Text to see if it creates a .bblx database.
 
 
 Ensure that the last verse text is also added to the SQL statements upon finalize()
-Create unittests for Esword_Text.
 Create one simple unittest for Filter_Text just to see if it produces anything that looks like a .bblx file.
 The conversion to .bblx file is done through a call to the Esword_text object.
 The esword_text object first creates an array of SQL statements.
