@@ -47,7 +47,7 @@ class Esword_Text
     $this->sql [] = 'PRAGMA foreign_keys=OFF;';
     $this->sql [] = 'CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);';
     $this->sql [] = "INSERT INTO Details VALUES ('$bible', '$bible', '$bible', 1, 'DEFAULT', 0, 1, 1, 0, 0);";
-    $this->sql [] = 'CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);';
+    $this->sql [] = 'CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);';
   }
 
   

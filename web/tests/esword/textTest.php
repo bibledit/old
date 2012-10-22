@@ -24,7 +24,7 @@ $sql = <<<'EOD'
 PRAGMA foreign_keys=OFF;
 CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
 INSERT INTO Details VALUES ('The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 1, 'DEFAULT', 0, 1, 1, 0, 0);
-CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);
 EOD;
     $this->assertEquals ($esword_text->sql, explode ("\n", $sql));
   }
@@ -39,7 +39,7 @@ $sql = <<<'EOD'
 PRAGMA foreign_keys=OFF;
 CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
 INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
-CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);
 INSERT INTO Bible VALUES (0, 0, 0, 'The Word of God');
 CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);
 EOD;
@@ -59,7 +59,7 @@ $sql = <<<'EOD'
 PRAGMA foreign_keys=OFF;
 CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
 INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
-CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);
 INSERT INTO Bible VALUES (43, 2, 3, 'In the beginning was the Word, and the Word was with God, and the Word was God.');
 CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);
 EOD;
@@ -81,7 +81,7 @@ $sql = <<<'EOD'
 PRAGMA foreign_keys=OFF;
 CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
 INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
-CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);
 INSERT INTO Bible VALUES (43, 1, 1, 'In the beginning was the Word, and the Word was with God, and the Word was God.');
 CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);
 EOD;
@@ -105,7 +105,7 @@ $sql = <<<'EOD'
 PRAGMA foreign_keys=OFF;
 CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);
 INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);
-CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture BLOB_TEXT);
+CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);
 INSERT INTO Bible VALUES (1, 2, 3, 'But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.');
 INSERT INTO Bible VALUES (4, 5, 6, 'Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.');
 CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);

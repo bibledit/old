@@ -176,6 +176,7 @@ foreach ($bibles as $bible) {
   $html_text_linked_index->save ("$linkedWebDirectory/00_index.html");
   $html_text_linked_index->save ("$linkedWebDirectory/index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
+  $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx"); // Todo
   
   // Create the info OpenDocument for the whole Bible.

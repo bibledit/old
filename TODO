@@ -1,66 +1,18 @@
-Create unittest for Esword_Text to see if it creates a .bblx database.
-
-
-Ensure that the last verse text is also added to the SQL statements upon finalize()
-Create one simple unittest for Filter_Text just to see if it produces anything that looks like a .bblx file.
-The conversion to .bblx file is done through a call to the Esword_text object.
-The esword_text object first creates an array of SQL statements.
-Let the constructor of the eSword objects create a basic SQL script just for a start to work on.
-Create the Esword_* objects in a rough format.
-Add the objects to the text filter, so that it creates some output.
-Convert the stuff to .bblx through sqlite3 shell command.
-Put some rough data in them, to see how they behave.
-Iterate through a cycle of refining the objects, defining tests, running tests.
-Start with plain text
-Expand with html or rtf formatting and notes - this is done per line, not per chapter.
-
-
-
 
 
 
 
 BibleWorks -> eSword
-Export to .bblx format.
 
-http://www.biblesupport.com/topic/2240-computer-science-e-sword-and-databases-part-1/
+Expand with html or rtf formatting and notes - this is done per line, not per chapter.
 
-format for the BLOB_TEXT field? 
-I have determined that if one were to use SQL to insert data into a blob field, you simply encode it like this:
-insert into table_name (id,blobfield) values (1,X'AAABBCCDDF')
-If the RTF of the scripture were straight hex encoded, would this properly encode this field?
-
-http://e-sword-users.org/users/node/3969
-
-Obvious facts:
-1. The BBLX etc files of e-Sword 9 modules are SQLite3 data bases.
-2. It is therefore possible to get an SQLite3 source file that will exactly 
-recreate the module issuing a command like sqlite3 localize.lanx ".dump"
-3. However, the interesting data (of type BLOB_TEXT) are encoded in a non-obvious way, e.g.:
+The interesting data (of type BLOB_TEXT) are encoded in a non-obvious way, e.g.:
 INSERT INTO "English" VALUES(1,X'68249C3775AB1E47FC54FBABDAC4DE82');
-4. If the encoding algorithm were known, one could make a new BBLX file from a text file (such as used by TheWord) 
-by a simple Perl or Python script.
-Questions:
-1. Is that encoding documented everywhere (i.e. elsewhere than a web site that is "under construction")?
-2. Is there more to getting another bible into e-Sword 9 than putting its BBLX file in Program Files\e-Sword?
-
-write your text as cleartext into the blob and e-sword will show it :) It's as simple as that.
-Hint: if you create own modules do not create the table "sqliteplus_license" in the module.
-
-Non-licensed files have data in the clear, and in place of the BLOB, you can have clear text, 
-or RTF type data. 
-
-Steps:
-- Create all of the SQL data needed - use the current .dump as an example, and use a TEXT field, no BLOB_TEXT
-- Call sqlite3 through the shell to convert it to a bblx file.
 
 
 
 
-
-
-
-                          
+                
 
 
 
@@ -72,25 +24,13 @@ Steps:
 
 
 
-http://www.churchsw.org/
-Simple Bible Reader
-Run the Simple_Bible_Reader_vx.xx.exe
-If the system says that it is unable to load mscoree.dll, install a recent version of the .NET framework.
 
 
-http://www.biblesupport.com/e-sword-downloads/file/7367-e-sword-tooltip-tool-nt/
-e-Sword ToolTip Tool NT
-Module Installer
-
-
-The steps are thus:
-Convert BibleWorks to USFM
 Convert USFM to USFX:
 Download and unzip http://haiola.org/haiola.zip
 Install mono-complete 
 Run mono usfm2usfx.exe -o output.xml *.usfm
-Simple_Bible_Reader_vx.xx.exe converts USFX to BBLX format
-This loses the Strong's numbers, unless these are left in the 'USFM' somehow.
+
 
 
 
