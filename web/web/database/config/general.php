@@ -190,7 +190,7 @@ class Database_Config_General
   }   
 
   public function getTimezone() {
-    return $this->getValue ("timezone", "");
+    return $this->getValue ("timezone", "UTC");
   }
   public function setTimezone ($value) {
     $this->setValue ("timezone", $value);

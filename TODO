@@ -1,3 +1,19 @@
+Fix the timezone warnings.
+
+
+Fix the smarty gettext plugin warnings.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -9,7 +25,7 @@ Expand with html or rtf formatting and notes - this is done per line, not per ch
 The interesting data (of type BLOB_TEXT) are encoded in a non-obvious way, e.g.:
 INSERT INTO "English" VALUES(1,X'68249C3775AB1E47FC54FBABDAC4DE82');
 
-
+Add some online help about how it works.
 
 
                 
@@ -61,6 +77,7 @@ Bible / Book / Chapter / Verse number in green.
 Indexing is done in near-realtime. It means that whenever a note changes on the site,
 or Bible text, that everything is indexed again.
 And when nothing changes, then it indexes the stuff at midnight.
+It could use partial indexing if that's available, so that only one chapter or one note needs to be re-indexed.
 
 
 
@@ -69,6 +86,10 @@ And when nothing changes, then it indexes the stuff at midnight.
 
 
 
+
+
+
+Provide information about how to create a searchable site, and how to separate the logic from the bibledit-web software.
 
 
 
@@ -126,3 +147,10 @@ Make NDB and SHN Bibles searchable on the site. Version to TBS, and revised vers
 
 
 
+
+
+Link the notes in Bibledit-Gtk to the notes in Bibledit-Web:
+- No changes to Bibledit-Gtk
+- Bibledit-Web accesses the git repository of Bibledit-Gtk's notes.
+- bibledit-web gets logic that link the repository to the notes database.
+- When doing send/receive on those notes, the output is taken, and processed, and actions taken.

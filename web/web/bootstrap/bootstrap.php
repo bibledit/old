@@ -86,9 +86,15 @@ class Bootstrap
       foreach($_POST   as $k => $v) $_POST  [$k] = stripslashes($v);
       foreach($_COOKIE as $k => $v) $_COOKIE[$k] = stripslashes($v);
     }
+
+    // General configuration database.    
+    $database_config_general = Database_Config_General::getInstance();
+
+    // The site's timezone.
+    $timezone = $database_config_general->getTimezone ();
+    date_default_timezone_set ($timezone);
     
     // The localization.
-    $database_config_general = Database_Config_General::getInstance();
     $language = $database_config_general->getSiteLanguage ();
     if ($language != "") {
       putenv("LANGUAGE=$language");
