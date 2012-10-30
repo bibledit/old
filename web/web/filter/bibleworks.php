@@ -33,7 +33,7 @@ class Filter_Bibleworks
   * $keepTags: Whether to keep the grammatical tags in the BibleWorks text. 
   * These are the tags between () or <>.
   */
-  public function import ($data, $keepTags)
+  public static function import ($data, $keepTags)
   {
     // Databases.
     $database_books = Database_Books::getInstance ();
@@ -118,7 +118,7 @@ class Filter_Bibleworks
   * BibleWorks gives the italics between square brackets, like so: [italics].
   * It returns the converted $line.
   */
-  public function italics ($line)
+  public static function italics ($line)
   {
     $startPosition = strpos ($line, '[');
     while ($startPosition !== false) {
@@ -138,7 +138,7 @@ class Filter_Bibleworks
   * BibleWorks gives the notes between curly brackets, like so: [italics].
   * It returns the converted $line.
   */
-  public function notes ($line)
+  public static function notes ($line)
   {
     $startPosition = strpos ($line, '{');
     while ($startPosition !== false) {
@@ -162,7 +162,7 @@ class Filter_Bibleworks
   * The malformed tags are not removed, and added to array $malformed.
   * It returns the $line without the grammatical tags in parenthesis.
   */
-  public function parenthesis ($line, &$malformed)
+  public static function parenthesis ($line, &$malformed)
   {
     $startPosition = strpos ($line, '(');
     while ($startPosition !== false) {
@@ -188,7 +188,7 @@ class Filter_Bibleworks
   * The malformed tags are not removed, and added to array $malformed.
   * It returns the $line without the grammatical tags between chevrons.
   */
-  public function chevrons ($line, &$malformed)
+  public static function chevrons ($line, &$malformed)
   {
     $startPosition = strpos ($line, '<');
     while ($startPosition !== false) {

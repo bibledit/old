@@ -13,7 +13,7 @@ class Filter_Git
   * The $bible is the Bible.
   * The $output is an output line of by git pull.
   */
-  public function bibleFiledata2database ($directory, $bible, $output)
+  public static function bibleFiledata2database ($directory, $bible, $output)
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a chapter of the Bible is updated as a result of "git pull". 
@@ -71,7 +71,7 @@ class Filter_Git
   * such as is used in Bibledit-Gtk into $directory.
   * The $directory may contain other data. This data will not normally be affected.
   */
-  public function bibleDatabase2filedata ($bible, $directory, $progress = false)
+  public static function bibleDatabase2filedata ($bible, $directory, $progress = false)
   {
     $success = true;
     $database_bibles = Database_Bibles::getInstance ();
@@ -103,7 +103,7 @@ class Filter_Git
   * The $directory is supposed to be completely empty, 
   * apart from a .git directory which may be there.
   */
-  public function notesDatabase2filedata ($directory, $progress = false)
+  public static function notesDatabase2filedata ($directory, $progress = false)
   {
     $success = true;
     $notescounter = 0; // For progress counter.
@@ -163,7 +163,7 @@ class Filter_Git
   * $directory: the git directory.
   * $output: one line of output of a 'git pull' command.
   */
-  public function notesFiledata2database ($directory, $output)
+  public static function notesFiledata2database ($directory, $output)
   {
     // The $output contains one line of the output of "git pull".
     // A normal action is when a note is updated as a result of "git pull". 
@@ -346,7 +346,7 @@ class Filter_Git
   * and a private key.
   * The $url is the URL of the secure git repository.
   */
-  public function git_config ($url)
+  public static function git_config ($url)
   {
     // Temporal directory where to put the config files.
     $directory = tempnam (sys_get_temp_dir(), '');
@@ -384,7 +384,7 @@ EOD;
   * Bibledit-Web accesses secure git repositories through ssh.
   * This function remove the folder set up by git_config
   */
-  public function git_un_config ($directory)
+  public static function git_un_config ($directory)
   {
     Filter_Rmdir::rmdir ($directory);
   }
@@ -401,7 +401,7 @@ EOD;
   }
   
   
-  public function filedata2database ()
+  public static function filedata2database ()
   {
     $database_git = Database_Git::getInstance();
     while ($database_git->get()) {
@@ -424,7 +424,7 @@ EOD;
    * If there is a conflict, it modifies $contents.
    * It saves the modified $contents to $filename.  
    */
-  public function resolveConflict (&$contents, $filename)
+  public static function resolveConflict (&$contents, $filename)
   {
     /*
     The first thing to do is to see whether there is a conflict.

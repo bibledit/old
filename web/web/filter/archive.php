@@ -10,7 +10,7 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function zipFile ($filename, $show_errors)
+  public static function zipFile ($filename, $show_errors)
   {
     $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $dirname = escapeshellarg (dirname ($filename));
@@ -36,7 +36,7 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function zipFolder ($folder, $show_errors)
+  public static function zipFolder ($folder, $show_errors)
   {
     $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $folder = escapeshellarg ($folder);
@@ -61,7 +61,7 @@ class Filter_Archive
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function unzip ($file, $show_errors) 
+  public static function unzip ($file, $show_errors) 
   {
     $file = escapeshellarg ($file);
     $folder = uniqid (sys_get_temp_dir() . "/");
@@ -85,7 +85,7 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function tarGzipFile ($filename, $show_errors)
+  public static function tarGzipFile ($filename, $show_errors)
   {
     $tarball = uniqid (sys_get_temp_dir() . "/") . ".tar.gz";
     $dirname = escapeshellarg (dirname ($filename));
@@ -111,7 +111,7 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function tarGzipFolder ($folder, $show_errors)
+  public static function tarGzipFolder ($folder, $show_errors)
   {
     $tarball = uniqid (sys_get_temp_dir() . "/") . ".tar.gz";
     $folder = escapeshellarg ($folder);
@@ -136,7 +136,7 @@ class Filter_Archive
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function untargz ($file, $show_errors)
+  public static function untargz ($file, $show_errors)
   {
     $file = escapeshellarg ($file);
     $folder = uniqid (sys_get_temp_dir() . "/");
@@ -161,7 +161,7 @@ class Filter_Archive
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public function uncompress ($file, $show_errors)
+  public static function uncompress ($file, $show_errors)
   {
     // Tar (.tar) archives, including those compressed with gzip (.tar.gz, .tgz), bzip (.tar.bz, .tbz), bzip2 (.tar.bz2, .tbz2), compress (.tar.Z, .taz), lzop (.tar.lzo, .tzo) and lzma (.tar.lzma)
     // Zip archives (.zip)

@@ -27,7 +27,7 @@ class Filter_Bool
   /**
   * Returns !$bool in a robust way.
   */
-  public function not ($bool)
+  public static function not ($bool)
   {
     if ($bool) return false;
     else return true;
@@ -37,7 +37,7 @@ class Filter_Bool
   /**
   * Returns $bool as an int, i.e. 1 or 0.
   */
-  public function int ($bool)
+  public static function int ($bool)
   {
     if ($bool) return 1;
     else return 0;

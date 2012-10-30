@@ -36,7 +36,7 @@ class Filter_Hyphenate
   * $text: A string of text to operate on.
   * Returns: The hyphenated $text.
   */
-  public function atTransition ($firstset, $secondset, $text)
+  public static function atTransition ($firstset, $secondset, $text)
   {
     // Verify the input.
     if (!is_array ($firstset)) return $text;
@@ -104,7 +104,7 @@ class Filter_Hyphenate
   * in the array of $characters.
   * Returns: true or false.
   */
-  private function nearWhiteSpace ($characters, $offset)
+  private static function nearWhiteSpace ($characters, $offset)
   {
     $start = $offset - 2; // The constant for the nearness to the start of the word.
     $end = $offset + 2; // The constant for the nearness to the end of the word.

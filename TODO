@@ -1,14 +1,16 @@
-Fix the timezone warnings.
+Fix all the errors that come from the strict standards.
+There are a great plenty of them.
+
+
+
+
+
 
 
 Fix the smarty gettext plugin warnings.
-
-
-
-
-
-
-
+Make a note for the installer about copying 
+sudo cp /usr/share/php/smarty3/plugins/block.t.php /usr/share/php/smarty/plugins
+Move to smarty3, that's easier.
 
 
 
@@ -154,3 +156,8 @@ Link the notes in Bibledit-Gtk to the notes in Bibledit-Web:
 - Bibledit-Web accesses the git repository of Bibledit-Gtk's notes.
 - bibledit-web gets logic that link the repository to the notes database.
 - When doing send/receive on those notes, the output is taken, and processed, and actions taken.
+
+
+
+
+

@@ -26,7 +26,7 @@ class Filter_Datetime
   /**
   * Returns an array of possible timezones.
   */
-  public function timezones ()
+  public static function timezones ()
   {
     if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
       $identifiers = DateTimeZone::listIdentifiers();
@@ -53,7 +53,7 @@ class Filter_Datetime
   }
   
   
-  public function user_zone (&$datetime)
+  public static function user_zone (&$datetime)
   {
     $database_config_user = Database_Config_User::getInstance();
     $timezone = $database_config_user->getTimezone();

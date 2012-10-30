@@ -31,7 +31,7 @@ class Filter_Email
   * Returns: foo@bar.nl
   * If there is no valid email, it returns false.
   */
-  public function extractEmail ($input)
+  public static function extractEmail ($input)
   {
     $pos = strpos ($input, "<");
     if ($pos !== false) {
@@ -56,7 +56,7 @@ class Filter_Email
   * This is used to remove lines like:
   * On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
   */
-  public function extractBody ($input, $year = "", $sender = "")
+  public static function extractBody ($input, $year = "", $sender = "")
   {
     $input = explode ("\n", $input);
     if ($input === false) return "";
@@ -85,7 +85,7 @@ class Filter_Email
   * $message: Zend_Mail message.
   * Returns: text/plain Zend_Mail message.
   */
-  public function extractPlainTextMessage ($message)
+  public static function extractPlainTextMessage ($message)
   {
     // If the message is not a MIME multipart message, 
     // then the text/plain body part is the message itself.

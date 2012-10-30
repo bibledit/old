@@ -13,7 +13,7 @@ class Filter_Diff
   * Two files are created: verses_old.usfm and verses_new.usfm.
   * The book chapter.verse precede each verse.
   */
-  public function produceVerseLevel ($bibleIdentifier, $directory)
+  public static function produceVerseLevel ($bibleIdentifier, $directory)
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
@@ -69,7 +69,7 @@ class Filter_Diff
   * $newfile: The name of the new file for input.
   * $outputfile: The name of the output file
   */
-  public function runWDiff ($oldfile, $newfile, $outputfile)
+  public static function runWDiff ($oldfile, $newfile, $outputfile)
   {
     $database_logs = Database_Logs::getInstance ();
     $oldfile = escapeshellarg ($oldfile);

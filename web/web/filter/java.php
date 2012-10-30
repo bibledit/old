@@ -28,7 +28,7 @@ class Filter_Java
   /**
   * This filter returns the path to the xercesImpl.jar.
   */
-  public function xercesClassPath ()
+  public static function xercesClassPath ()
   {
     $filename = dirname (dirname (__FILE__)) . "/paths/paths.php";
     include ($filename);
@@ -42,7 +42,7 @@ class Filter_Java
   * $classpath: An array holding class paths.
   * Returns: path to the folder containing the compiled classes.
   */
-  public function compile ($program, $classpath)
+  public static function compile ($program, $classpath)
   {
     // Output folder where the data goes.
     $outputFolder = tempnam (sys_get_temp_dir(), '');
@@ -86,7 +86,7 @@ class Filter_Java
   * $runclass: The name of the class to run.
   * It returns the exid code of the program.
   */
-  public function run ($directory, $classpath, $runclass)
+  public static function run ($directory, $classpath, $runclass)
   {
     // Assemble the class path.
     $cp = ".";

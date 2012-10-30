@@ -28,7 +28,7 @@ class Filter_Character
   /**
   * Returns a soft hyphen.
   */
-  public function softHyphen ()
+  public static function softHyphen ()
   {
     // The "­" below is not an empty string, but the soft hyphen U+00AD.
     return "­";
@@ -38,7 +38,7 @@ class Filter_Character
   /**
   * Returns a no-break space (NBSP).
   */
-  public function noBreakSpace ()
+  public static function noBreakSpace ()
   {
     // The space below is a no-break space.
     return " ";
@@ -48,7 +48,7 @@ class Filter_Character
   /**
   * Returns an "en space", this is a nut, half an em space.
   */
-  public function enSpace ()
+  public static function enSpace ()
   {
     // The space below is U+2002.
     return " ";
@@ -58,7 +58,7 @@ class Filter_Character
   /**
   * Returns an "em space", this is a mutton, nominally a space equal to the height of the font.
   */
-  public function emSpace ()
+  public static function emSpace ()
   {
     // The space below is U+2003.
     return " ";

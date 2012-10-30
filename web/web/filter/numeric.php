@@ -29,7 +29,7 @@ class Filter_Numeric
   * Looks for and returns a positive integer in a string.
   * If no integer exists, it returns an empty string.
   */
-  public function integer_in_string ($string)
+  public static function integer_in_string ($string)
   {
     // Get the string where the integer starts, if there is any.
     $string = strpbrk ($string, "0123456789");
@@ -49,7 +49,7 @@ class Filter_Numeric
   * Looks for and returns a float in a string.
   * If no float exists, it returns an empty string.
   */
-  public function float_in_string ($string)
+  public static function float_in_string ($string)
   {
     // Get the string where the float starts, if there is any.
     $string = strpbrk ($string, "0123456789.-");

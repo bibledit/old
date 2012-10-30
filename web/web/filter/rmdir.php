@@ -25,7 +25,7 @@
 class Filter_Rmdir
 {
 
-  public function rmdir ($dir) 
+  public static function rmdir ($dir) 
   {
     if (is_dir($dir)) { 
       $objects = scandir($dir); 

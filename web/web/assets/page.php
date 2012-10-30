@@ -23,32 +23,32 @@
 
 class Assets_Page 
 {
-  public function header ($title)
+  public static function header ($title)
   {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("title", $title);
     $smarty->display ("xhtml_start.tpl");
     $smarty->display ("header_full.tpl");
   }
-  public function success ($message)
+  public static function success ($message)
   {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("message", $message);
     $smarty->display ("success.tpl");
   }
-  public function error ($message)
+  public static function error ($message)
   {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("message", $message);
     $smarty->display ("error.tpl");
   }
-  public function message ($message)
+  public static function message ($message)
   {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("message", $message);
     $smarty->display ("message.tpl");
   }
-  public function footer ()
+  public static function footer ()
   {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->display ("footer_full.tpl");

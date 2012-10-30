@@ -24,7 +24,7 @@
 class Filter_Notes
 {
 
-  public function privacy2text ($privacy)
+  public static function privacy2text ($privacy)
   {
     include ("session/levels.php");
     $text = "";
@@ -43,7 +43,7 @@ class Filter_Notes
   * It returns the identifier of the note if imported successfully.
   * Else it returns NULL.
   */
-  public function importFromBibleditGtkFile ($filename)
+  public static function importFromBibleditGtkFile ($filename)
   {
     $note_identifier = NULL;
     if (file_exists ($filename)) {

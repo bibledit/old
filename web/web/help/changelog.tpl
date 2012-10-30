@@ -5,6 +5,11 @@
 <p>Processing the changes in a Bible occurs at 0:15 AM.</p>
 <p>The import BibleWorks page has a checkbox whether to keep the grammatical tags.</p>
 <p>Exports to eSword module.</p>
+<p>A lot of PHP 5.4 E_STRICT warnings were fixed.</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 0.7</h2>

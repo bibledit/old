@@ -29,7 +29,7 @@ class Filter_Usfm
   * Returns the string $usfm as one long string.
   * $usfm may contain new lines, but the resulting long string won't.
   */
-  public function oneString ($usfm)
+  public static function oneString ($usfm)
   {
     $long_string = "";
     $usfm = explode ("\n", $usfm);
@@ -58,7 +58,7 @@ class Filter_Usfm
   * Output would be:     array ("\id ", "GEN", "\c ", "10", ...)
   * If $usfm does not start with a marker, this becomes visible in the output too.
   */
-  public function getMarkersAndText ($usfm)
+  public static function getMarkersAndText ($usfm)
   {
     $markers_and_text = array ();
     $usfm = str_replace ("\n\\", "\\", $usfm); // New line followed by backslash: leave new line out.
@@ -110,7 +110,7 @@ class Filter_Usfm
   * "\id "  -> "id"
   * "\add*" -> "add"
   */
-  public function getMarker ($usfm)
+  public static function getMarker ($usfm)
   {
     if ($usfm == "")
       return $usfm;
@@ -148,7 +148,7 @@ class Filter_Usfm
   * It takes raw $input,
   * and returns an array of an array [book_number, chapter_number, chapter_data].
   */  
-  public function import ($input, $stylesheet)
+  public static function import ($input, $stylesheet)
   {
     $result = array ();
 
@@ -212,7 +212,7 @@ class Filter_Usfm
   /**
   * Returns an array with the verse numbers found in $usfm.
   */
-  public function getVerseNumbers ($usfm)
+  public static function getVerseNumbers ($usfm)
   {
     $verse_numbers = array (0);
     $markers_and_text = Filter_Usfm::getMarkersAndText ($usfm);
@@ -232,7 +232,7 @@ class Filter_Usfm
   /**
   * Returns the verse number in the string of $usfm code at line number $line_number.
   */
-  public function lineNumber2VerseNumber ($usfm, $line_number)
+  public static function lineNumber2VerseNumber ($usfm, $line_number)
   {
     $verse_number = 0; // Initial verse number.
     $lines = explode ("\n", $usfm);
@@ -250,7 +250,7 @@ class Filter_Usfm
   /**
   * Returns the verse text given a $verse_number and $usfm code.
   */
-  public function getVerseText ($usfm, $verse_number)
+  public static function getVerseText ($usfm, $verse_number)
   {
     $verse_text = "";
     $lines = explode ("\n", $usfm);
@@ -273,7 +273,7 @@ class Filter_Usfm
   /**
   * Returns true if the $code contains an USFM marker.
   */
-  public function isUsfmMarker ($code)
+  public static function isUsfmMarker ($code)
   {
     if (strlen ($code) < 2) return false;
     if (substr ($code, 0, 1) == "\\") return true;
@@ -285,7 +285,7 @@ class Filter_Usfm
   * Returns true if the marker in $usfm is an opening marker. 
   * Else it returns false.
   */
-  public function isOpeningMarker ($usfm)
+  public static function isOpeningMarker ($usfm)
   {
     return (strpos ($usfm, "*") === false);
   }
@@ -296,7 +296,7 @@ class Filter_Usfm
   * $usfm: array of strings alternating between USFM code and subsequent text.
   * $pointer: should point to the \id in $usfm. Gets increased by one.
   */
-  public function getBookIdentifier ($usfm, $pointer)
+  public static function getBookIdentifier ($usfm, $pointer)
   {
     $identifier = "XXX"; // Fallback value.
     if (++$pointer < count ($usfm)) {
@@ -311,7 +311,7 @@ class Filter_Usfm
   * $usfm: array of strings alternating between USFM code and subsequent text.
   * $pointer: should point to the marker in $usfm. Pointer is left as it is.
   */
-  public function peekTextFollowingMarker ($usfm, $pointer)
+  public static function peekTextFollowingMarker ($usfm, $pointer)
   {
     return Filter_Usfm::getTextFollowingMarker ($usfm, $pointer);
   }
@@ -322,7 +322,7 @@ class Filter_Usfm
   * $usfm: array of strings alternating between USFM code and subsequent text.
   * $pointer: should point to the marker in $usfm. Is increased by one.
   */
-  public function getTextFollowingMarker ($usfm, &$pointer)
+  public static function getTextFollowingMarker ($usfm, &$pointer)
   {
     $text = ""; // Fallback value.
     if (++$pointer < count ($usfm)) {
@@ -335,7 +335,7 @@ class Filter_Usfm
   /**
   * Returns the verse number in the $usfm code.
   */
-  public function peekVerseNumber ($usfm)
+  public static function peekVerseNumber ($usfm)
   {
     // Make it robust, even handling cases like \v 1-2“Moi - No space after verse number.
     $verseNumber = "";

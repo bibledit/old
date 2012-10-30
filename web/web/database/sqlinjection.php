@@ -6,7 +6,7 @@
 */
 class Database_SQLInjection
 {
-  public function no ($value) {
+  public static function no ($value) {
     // Slashes that may have been added by the "magic quotes" system will have been removed in bootstrap.php.
     // If we use mysql_real_escape_string, it says, e.g.:
     // Warning: mysql_real_escape_string() [function.mysql-real-escape-string]: Access denied for user 'www-data'@'localhost' (using password: NO)
