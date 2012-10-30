@@ -22,11 +22,12 @@ class Smarty_Bibledit extends Smarty {
     // Construct the Smarty object.
     parent::__construct();
 
-    // No caching at all. It has been seen to confuse Smarty at times.
+    // No caching at all. It has confused Smarty at times.
     $this->caching = 0;
     $this->compile_check = true;
     $this->force_compile = true;
-    $this->clear_all_cache ();
+    if (method_exists ($this, 'clear_all_cache')) $this->clear_all_cache ();
+    if (method_exists ($this, 'clearAllCache')) $this->clearAllCache ();
     
     // Register the {t}Text{/t} gettext blocks.
     //require_once('plugins/block.t.php');
@@ -56,14 +57,22 @@ class Smarty_Bibledit extends Smarty {
   * Setting the session variables in Smarty is postponed to the very last moment, since 
   * these could change within the course of the calling .php file.
   */ 
-  public function display($resource_name, $cache_id = null, $compile_id = null)
+  public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
   {
     $session_logic = Session_Logic::getInstance ();
     if ($session_logic->loggedIn ()) {
       $this->assign ("user", $session_logic->currentUser()); 
       $this->assign ("level", $session_logic->currentLevel(true)); 
     }
-    parent::display($resource_name, $cache_id, $compile_id);
+/*
+    include ("paths/paths.php");
+    include_once ("$smartyPath/sysplugins/smarty_internal_templatecompilerbase.php");
+    include_once ("$smartyPath/sysplugins/smarty_internal_templatelexer.php");
+    include_once ("$smartyPath/sysplugins/smarty_internal_templateparser.php");
+    include_once ("$smartyPath/sysplugins/smarty_internal_compilebase.php");
+    include_once ("$smartyPath/sysplugins/smarty_internal_write_file.php");
+*/
+    parent::display($template, $cache_id, $compile_id);
   }
  
 }

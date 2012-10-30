@@ -1,8 +1,3 @@
-Fix all the errors that come from the strict standards.
-There are a great plenty of them.
-
-
-
 
 
 
@@ -10,7 +5,7 @@ There are a great plenty of them.
 Fix the smarty gettext plugin warnings.
 Make a note for the installer about copying 
 sudo cp /usr/share/php/smarty3/plugins/block.t.php /usr/share/php/smarty/plugins
-Move to smarty3, that's easier.
+
 
 
 

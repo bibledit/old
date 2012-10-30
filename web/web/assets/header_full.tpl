@@ -27,9 +27,9 @@
         <a href="{$header_path_modifier}session/login.php">{t}Login{/t}</a>
       {/if}
     {else}
-        <a href="{$header_path_modifier}user/index.php">{$user}</a>
-        |
-        <a href="{$header_path_modifier}session/logout.php">{t}Logout{/t}</a>
+      <a href="{$header_path_modifier}user/index.php">{$user}</a>
+      |
+      <a href="{$header_path_modifier}session/logout.php">{t}Logout{/t}</a>
     {/if}
     </td>
   </tr>
