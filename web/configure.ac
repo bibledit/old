@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.7.3],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-web],[0.7.4],[http://www.nongnu.org/bibledit])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])
@@ -218,19 +218,6 @@ AC_DEFINE_UNQUOTED(OPEN_INSTALLATION, "$OPEN_INSTALLATION")
 AC_SUBST(OPEN_INSTALLATION)
 
 
-# Check whether library gettext-smarty is installed.
-AC_MSG_CHECKING(smarty-gettext)
-SMARTYGETTEXT=$SMARTYPATH/plugins/block.t.php
-test -f $SMARTYGETTEXT
-if [ [ $? -eq 0 ] ]
-then
-  AC_MSG_RESULT(${SMARTYGETTEXT})
-else
-  AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Could not find the smarty-gettext plugin.)
-fi
-
-
 # Checks for Additional stuffs.
 # Set PACKAGE PREFIX
 if test "x${prefix}" = "xNONE"; then
@@ -306,6 +293,7 @@ AC_CONFIG_FILES([
   cron/Makefile
   mysql/Makefile
   secure/Makefile
+  smarty/Makefile
 ])
 AC_OUTPUT
 

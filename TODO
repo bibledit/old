@@ -2,17 +2,6 @@
 
 
 
-Fix the smarty gettext plugin warnings.
-Make a note for the installer about copying 
-sudo cp /usr/share/php/smarty3/plugins/block.t.php /usr/share/php/smarty/plugins
-
-
-
-
-
-
-
-
 
 
 BibleWorks -> eSword
@@ -30,6 +19,10 @@ Add some online help about how it works.
 
 
 
+
+
+
+There are several compiler warnings for Bibledit-Gtk.
 
 
 

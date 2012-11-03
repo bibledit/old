@@ -216,7 +216,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = fhs mysql web apache cron secure tests
+SUBDIRS = fhs smarty mysql web apache cron secure tests
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = updatecopyright
 all: config.php
