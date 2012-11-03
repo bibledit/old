@@ -15,14 +15,9 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=283;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
-FILE_NAME_1=5781;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
-FILE_NAME_2=415;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
-FILE_NAME_3=2565;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsmarty%2Fbibledit.php;0;2
-FILE_NAME_4=2482;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbootstrap%2Fbootstrap.php;0;2
-FILE_NAME_5=264;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fbackup.php;0;2
-FILE_NAME_6=117;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fpaths%2Fpaths.php;0;2
-FILE_NAME_7=1093;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fassets%2Fheader_full.tpl;0;2
+FILE_NAME_0=7;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
+FILE_NAME_1=510;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
+FILE_NAME_2=436;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
 
 [long line marker]
 long_line_behaviour=2

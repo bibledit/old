@@ -1,6 +1,5 @@
 Steps:
-- Update installation help about new requirements.
-- Create default sphinx.conf .
+- Create default sphinx.conf.
 - Install it in a default location.
   Install a default index. This default index has a bit of the site. 
 - Start the daemon, probably through the crontab on reboot, or better by the web process. 
