@@ -7,22 +7,6 @@
 
 
 
-There are several compiler warnings for Bibledit-Gtk.
-
-
-
-
-
-
-
-
-
-Convert USFM to USFX:
-Download and unzip http://haiola.org/haiola.zip
-Install mono-complete 
-Run mono usfm2usfx.exe -o output.xml *.usfm
-
-
 
 
 
@@ -139,4 +123,10 @@ Link the notes in Bibledit-Gtk to the notes in Bibledit-Web:
 BibleWorks -> eSword options: 
 - Expand with html or rtf formatting and notes - this is done per line, not per chapter.
 - Add some online help about how it works.
+
+
+Convert USFM to USFX:
+- Download and unzip http://haiola.org/haiola.zip
+- Install mono-complete 
+- Run mono usfm2usfx.exe -o output.xml *.usfm
 

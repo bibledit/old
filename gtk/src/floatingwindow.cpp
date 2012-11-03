@@ -159,7 +159,7 @@ gboolean FloatingWindow::on_title_bar_motion_notify (GdkEventMotion *event)
     if (previous_root_x >= 0) {
       bool move_box = false;
       if (event_x != previous_root_x) {
-        gint new_x = my_gdk_rectangle.x + event_x - previous_root_x;
+        guint new_x = my_gdk_rectangle.x + event_x - previous_root_x;
         // The window does not move beyond the left or right side 
         if (new_x >= 0) {
           if ((new_x + my_gdk_rectangle.width) <= layout_width) {
@@ -169,7 +169,7 @@ gboolean FloatingWindow::on_title_bar_motion_notify (GdkEventMotion *event)
         }
       }
       if (event_y != previous_root_y) {
-        gint new_y = my_gdk_rectangle.y + event_y - previous_root_y;
+        guint new_y = my_gdk_rectangle.y + event_y - previous_root_y;
         // The window does not move beyond the top or bottom.
         if (new_y >= 0) {
           if ((new_y + my_gdk_rectangle.height) <= layout_height) {
@@ -238,7 +238,7 @@ gboolean FloatingWindow::on_status_bar_motion_notify (GdkEventMotion *event)
     if (previous_root_x >= 0) {
       bool resize_box = false;
       if (event_x != previous_root_x) {
-        gint new_width = my_gdk_rectangle.width + event_x - previous_root_x;
+        guint new_width = my_gdk_rectangle.width + event_x - previous_root_x;
         // Window should not become too narrow, or too wide for the screen.
         if (new_width >= 100) {
           if ((my_gdk_rectangle.x + new_width) <= layout_width) {
@@ -248,7 +248,7 @@ gboolean FloatingWindow::on_status_bar_motion_notify (GdkEventMotion *event)
         }
       }
       if (event_y != previous_root_y) {
-        gint new_height = my_gdk_rectangle.height + event_y - previous_root_y;
+        guint new_height = my_gdk_rectangle.height + event_y - previous_root_y;
         // Window should not become too short, or too tall for the screen.
         if (new_height >= 100) {
           if ((my_gdk_rectangle.y + new_height) <= layout_height) {
