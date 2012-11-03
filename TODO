@@ -4,21 +4,6 @@
 
 
 
-BibleWorks -> eSword
-
-Expand with html or rtf formatting and notes - this is done per line, not per chapter.
-
-The interesting data (of type BLOB_TEXT) are encoded in a non-obvious way, e.g.:
-INSERT INTO "English" VALUES(1,X'68249C3775AB1E47FC54FBABDAC4DE82');
-
-Add some online help about how it works.
-
-
-                
-
-
-
-
 
 
 
@@ -148,4 +133,10 @@ Link the notes in Bibledit-Gtk to the notes in Bibledit-Web:
 
 
 
+
+
+
+BibleWorks -> eSword options: 
+- Expand with html or rtf formatting and notes - this is done per line, not per chapter.
+- Add some online help about how it works.
 
