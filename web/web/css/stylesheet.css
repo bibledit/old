@@ -128,3 +128,7 @@ textarea {
 .fullwidth {
   width: 100%;
 }
+
+#search {
+  display: inline;
+}

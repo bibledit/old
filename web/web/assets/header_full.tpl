@@ -27,6 +27,10 @@
         <a href="{$header_path_modifier}session/login.php">{t}Login{/t}</a>
       {/if}
     {else}
+      <form action="{$header_path_modifier}search/search.php" method="get" name="search" id="search">
+        <input name="q" type="text" value=""/>
+        <input type="submit" value="Search"/>
+      </form>
       <a href="{$header_path_modifier}user/index.php">{$user}</a>
       |
       <a href="{$header_path_modifier}session/logout.php">{t}Logout{/t}</a>

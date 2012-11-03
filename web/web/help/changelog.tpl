@@ -6,7 +6,7 @@
 <p>The import BibleWorks page has a checkbox whether to keep the grammatical tags.</p>
 <p>Exports to eSword module.</p>
 <p>A lot of php 5.4 strict warnings were fixed.</p>
-<p>Copies the smarty-gettext plugin for systems that don't have it.</p>
+<p>Copies the smarty-gettext plugin just in case it was not installed.</p>
 <p></p>
 <p></p>
 <p></p>

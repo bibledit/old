@@ -1,3 +1,17 @@
+Steps:
+- Update installation help about new requirements.
+- Create default sphinx.conf .
+- Install it in a default location.
+  Install a default index. This default index has a bit of the site. 
+- Start the daemon, probably through the crontab on reboot, or better by the web process. 
+- Do a small indexing operation on some dummy text.
+- Do log rotation.
+- Create the search.php.
+- Present the search results.
+- Make the links clickable correctly.
+- Expand by indexing the notes.
+- Expand by indexing the Bible text.
+- Expand by indexing all the menu files.
 
 
 
@@ -5,38 +19,25 @@
 
 
 
+Search really everything: Bibles, notes, menus, webpages.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-On top of the site put a search bar.
-It searches really everything: Bibles, notes, menus, help: everything.
+Use the information gathered during the trips in the train.
 
 Settings for sphinxsearch are stored in the database, including the port number, and collapsing data.
 The advantage is that the text-based files will not be overwritten after installation.
+The sphinx configuration is saved just before the indexer starts.
 
 The search results should be made extremely clear to see:
 New lines are displayed as such.
 Bible / Book / Chapter / Verse number in green.
 
-Indexing is done in near-realtime. It means that whenever a note changes on the site,
-or Bible text, that everything is indexed again.
-And when nothing changes, then it indexes the stuff at midnight.
-It could use partial indexing if that's available, so that only one chapter or one note needs to be re-indexed.
+It uses the main+delta indexing scheme for nearly realtime indexing.
+Indexes the stuff at midnight into the main index.
+Whenever something changes, a note or text, it indexes that in the delta index.
+
+It indexes the notes from the database.
+It indexes the text from the database, but this needs to be converted to html, or just to take the usfm out.
+It indexes the standard pages of the website.
 
 
 

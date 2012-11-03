@@ -55,6 +55,18 @@ if test x$FIND_WDIFF = xno; then
 fi
 
 
+AC_PATH_PROG(FIND_INDEXER, indexer, no)
+if test x$FIND_INDEXER = xno; then
+  AC_MSG_ERROR(Install program "indexer". It is part of sphinxsearch.)
+fi
+
+
+AC_PATH_PROG(FIND_SEARCHD, searchd, no)
+if test x$FIND_SEARCHD = xno; then
+  AC_MSG_ERROR(Install program "searchd". It is part of sphinxsearch.)
+fi
+
+
 # Check for web server on localhost.
 # AC_MSG_CHECKING(local web server)
 # curl -s http://localhost > /dev/null
