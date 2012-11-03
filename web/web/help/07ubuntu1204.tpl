@@ -17,7 +17,7 @@
 
 <h2>{t}Install the software Bibledit-Web relies on{/t}</h2>
 <p>{t}In the terminal issue these commands:{/t}</p>
-<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff smarty smarty-gettext</code></p>
+<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff smarty smarty-gettext sphinxsearch</code></p>
 <p>{t}Anything to be set up, choose the default settings and enter the correct passwords.{/t}</p>
 
 <h2>{t}Install Bibledit-Web{/t}</h2>

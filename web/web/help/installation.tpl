@@ -1,6 +1,6 @@
 <h1>{t}Installation{/t}</h1>
 <p>{t}Here are some guidelines as to how to install Bibledit-Web.{/t}</p>
-<p><a href="07ubuntu1204.php">{t}Version 0.7 (not yet released) on Ubuntu 12.04.{/t}</a></p>
+<p><a href="07ubuntu1204.php">{t}Version 0.7 on Ubuntu 12.04.{/t}</a></p>
 <p><a href="06ubuntu1110.php">{t}Version 0.6.1 on Ubuntu 11.10.{/t}</a></p>
 <p><a href="05ubuntu1104.php">{t}Version 0.5 on Ubuntu 11.04.{/t}</a></p>
 <h2>{t}Version being developed{/t}</h2>

@@ -7,7 +7,7 @@
 <p>Exports to eSword module.</p>
 <p>A lot of php 5.4 strict warnings were fixed.</p>
 <p>Copies the smarty-gettext plugin just in case it was not installed.</p>
-<p></p>
+<p>Requires package sphinxsearch.</p>
 <p></p>
 <p></p>
 <p></p>
