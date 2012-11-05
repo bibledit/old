@@ -1,0 +1,62 @@
+#!/bin/bash
+
+
+# Check the availability of the html2text filter.
+html2text -version > /dev/null 2>&1 || { echo >&2 "WARNING: Requires program html2text. Aborting."; exit 1; }
+
+
+# Change directory to the script's folder.
+pushd `dirname $0` > /dev/null
+
+
+# Include variables.
+source ../variables/variables
+
+
+# Create a PHP array that contains the relevant variables.
+echo '<?php' > /tmp/variables.php
+echo >> /tmp/variables.php
+echo '$manuals = array (' >> /tmp/variables.php
+for manual in "${manuals[@]}"
+do
+  echo ' ' \"$manual\", >> /tmp/variables.php
+done
+echo 'NULL);' >> /tmp/variables.php
+echo >> /tmp/variables.php
+echo '$htmlcache = "'$htmlcache'";' >> /tmp/variables.php
+echo >> /tmp/variables.php
+echo '?>' >> /tmp/variables.php
+
+
+# Create the index store for Sphinx.
+sudo mkdir --parents /var/cache/sphinxsearch
+sudo chown -R $USER:$USER /var/cache/sphinxsearch
+sudo chmod +rw /var/cache/sphinxsearch
+
+
+# Let Sphinxsearch index the data through the configuration file.
+/usr/local/bin/indexer --rotate --config sphinx.conf sphinxsearch
+
+
+# The search daemon is started on boot already
+# If there not yet an index at boot time, start it manually:
+# /usr/local/bin/searchd --config /home/dima/tfs/searchhtml/sphinx.conf
+
+
+# Do a test search
+# search -c sphinx.conf -a "StabiCAD"
+
+
+# Copy and modify the required php search code.
+manualIdentifier=0;
+for manual in "${manuals[@]}"
+do
+  cp sphinxapi.php $htmlcache/$manual
+  cp search.php $htmlcache/$manual
+  manualIdentifier=$[manualIdentifier+1]
+  sed -i "s/MANUALIDENTIFIER/$manualIdentifier/g" $htmlcache/$manual/search.php
+done
+
+
+# Return to the calling folder.
+popd > /dev/null
