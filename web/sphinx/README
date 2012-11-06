@@ -1,4 +1,0 @@
-If certain characters do not get indexed, or cannot be searched on, 
-then the solution is to add these characters to sphinx.conf 
-under the heading 'charset_table'.
-

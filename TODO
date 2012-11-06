@@ -1,7 +1,7 @@
 Steps:
 - Create default sphinx.conf.
-- Install it in a default location.
-  Install a default index. This default index has a bit of the site. 
+- Install it in a default location. That's in the web space.
+  Install a default index. This default index has a bit of the site. That's in the local state folder.
 - Start the daemon, probably through the crontab on reboot, or better by the web process. 
 - Do a small indexing operation on some dummy text.
 - Do log rotation.
@@ -11,7 +11,7 @@ Steps:
 - Expand by indexing the notes.
 - Expand by indexing the Bible text.
 - Expand by indexing all the menu files.
-
+- Can charset_table in sphinx.conf be automatically generated, or be left out?
 
 
 
