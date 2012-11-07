@@ -12,6 +12,9 @@ Steps:
 - Expand by indexing the Bible text.
 - Expand by indexing all the menu files.
 - Can charset_table in sphinx.conf be automatically generated, or be left out?
+  Perhaps that's a unicode library (ICU) that finds case-folding characters,
+  and lower and upper case characters. Case folding differs from the mapping we need,
+  because we want e.g. á to map to a, and A to map to a, and à to map to a, and so on.
 
 
 

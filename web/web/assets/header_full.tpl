@@ -32,8 +32,6 @@
         <input type="submit" value="Search"/>
       </form>
       <a href="{$header_path_modifier}user/index.php">{$user}</a>
-      |
-      <a href="{$header_path_modifier}session/logout.php">{t}Logout{/t}</a>
     {/if}
     </td>
   </tr>

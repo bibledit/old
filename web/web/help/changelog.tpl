@@ -8,7 +8,7 @@
 <p>A lot of php 5.4 strict warnings were fixed.</p>
 <p>Copies the smarty-gettext plugin just in case the package does not install it corrrectly.</p>
 <p>Requires package sphinxsearch.</p>
-<p></p>
+<p>The link to logout has been moved from the header to the user's page.</p>
 <p></p>
 <p></p>
 
