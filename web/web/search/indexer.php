@@ -3,7 +3,7 @@
 
 /*
 
-This script goes through all html files in all StabiCAD manuals.
+This script goes through all html files in all manuals.
 It prepares the html files for the indexer.
 It echoes the content to stdout as an xml file fit for Sphinx.
 It adds the URLs of the individual web pages,

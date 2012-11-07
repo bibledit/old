@@ -1,9 +1,12 @@
 Steps:
-- Create default sphinx.conf.
-- Install it in a default location. That's in the web space.
-  Install a default index. This default index has a bit of the site. That's in the local state folder.
-- Start the daemon, probably through the crontab on reboot, or better by the web process. 
+- Create php code in the timer that runs once a day at midnight, or better, shortly after.
+- Create a manual link to start the indexer.
+- The web process starts the indexing operation.
+- When the web process starts indexing, it first updates the sphinx.conf with the correct paths.
 - Do a small indexing operation on some dummy text.
+- Do a test search using the search binary.
+- Start the daemon by the web process. 
+- Every once and a while there's some check on whether the daemon runs.
 - Do log rotation.
 - Create the search.php.
 - Present the search results.
