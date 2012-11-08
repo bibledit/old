@@ -150,6 +150,21 @@ if (($current_timestamp >= $sendreceive_timestamp) || $midnight) {
 unset ($sendreceive_timestamp);
 
 
+$search_timestamp = $config_general->getTimerSearch ();
+if (($current_timestamp >= $search_timestamp) || $fifteenPastMidnight) {
+  $search_timestamp += 86400;
+  while ($current_timestamp >= $search_timestamp) {
+    // This loop updates the search timestamp to a value larger than the current time.
+    // This avoids calling many search index operations when indexing has not been done for some time.
+    $search_timestamp += 86400;
+  }
+  $config_general->setTimerSearch ($search_timestamp);
+  $workingdirectory = dirname (__FILE__);
+  shell_exec ("cd $workingdirectory; php search.php > /dev/null 2>&1 &");
+}
+unset ($search_timestamp);
+
+
 function shutdown()
 {
 }

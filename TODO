@@ -1,6 +1,7 @@
 Steps:
-- Create php code in the timer that runs once a day at midnight, or better, shortly after.
-- Create a manual link to start the indexer.
+- Create a manual link to start the indexer. It's on a page that mentions that the indexer runs 
+  shortly after mignight, and can also be started manually by clicking this link.
+  See other examples that look well, optionally mention to look in the logbook.
 - The web process starts the indexing operation.
 - When the web process starts indexing, it first updates the sphinx.conf with the correct paths.
 - Do a small indexing operation on some dummy text.
@@ -18,7 +19,21 @@ Steps:
   Perhaps that's a unicode library (ICU) that finds case-folding characters,
   and lower and upper case characters. Case folding differs from the mapping we need,
   because we want e.g. á to map to a, and A to map to a, and à to map to a, and so on.
-
+- Indexing everything also takes the access level in account. This is how it works
+  for the web pages? Each .tpl files is searched, and then it searches which php
+  file calls that template. Then the access level of that php file is taken
+  in consideration and stored when indexing that particular template.
+  So a person with a certain access level only gets to see the permitted 
+  search results.
+  Indexing the notes and the bible text is easier: A known access level is added
+  in the index for the notes, and for the Bible text.
+- When creating the search.php try to use the Zend Framework view helpers,
+  including the localization helpers, but they can be done slightly later.
+- Perhaps the current login level should be supplied to the search.php,
+  but not as search.php?level=x, because this is easy to fake. Better to POST
+  it to the search.php. Then the search.php can use this access level to set
+  this level for the current page. Or perhaps it's not needed, and the access
+  level can be requested from the user who is logged in.
 
 
 
@@ -136,3 +151,11 @@ Convert USFM to USFX:
 - Install mono-complete 
 - Run mono usfm2usfx.exe -o output.xml *.usfm
 
+
+
+
+
+Update the online help for the git repository to use a github https repository
+due to firewall issues.
+See 
+http://stackoverflow.com/questions/5343068/is-there-a-way-to-skip-password-typing-when-using-https-github

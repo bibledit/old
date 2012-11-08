@@ -329,6 +329,12 @@ class Database_Config_General
     $this->setValue ("site-language", $value);
   }   
 
+  public function getTimerSearch() {
+    return $this->getValue ("timer-search", "");
+  }
+  public function setTimerSearch ($value) { // Todo implement in GUI.
+    $this->setValue ("timer-search", $value);
+  }   
 
 
 }

@@ -15,7 +15,7 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=143;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
+FILE_NAME_0=7;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
 FILE_NAME_1=625;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
 FILE_NAME_2=7937;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
 FILE_NAME_3=82;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fpaths%2Fpaths.php;0;2
@@ -26,6 +26,9 @@ FILE_NAME_7=407;Conf;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fwe
 FILE_NAME_8=15341;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinxapi.php;0;2
 FILE_NAME_9=804;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findex.php;0;2
 FILE_NAME_10=956;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Freadme.php;0;2
+FILE_NAME_11=5791;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ftimer%2Findex.php;0;2
+FILE_NAME_12=1108;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ftimer%2Fsearch.php;0;2
+FILE_NAME_13=9767;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fdatabase%2Fconfig%2Fgeneral.php;0;2
 
 [long line marker]
 long_line_behaviour=2
