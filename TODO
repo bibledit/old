@@ -1,7 +1,4 @@
 Steps:
-- Create a manual link to start the indexer. It's on a page that mentions that the indexer runs 
-  shortly after mignight, and can also be started manually by clicking this link.
-  See other examples that look well, optionally mention to look in the logbook.
 - The web process starts the indexing operation.
 - When the web process starts indexing, it first updates the sphinx.conf with the correct paths.
 - Do a small indexing operation on some dummy text.
