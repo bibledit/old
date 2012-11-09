@@ -332,7 +332,7 @@ class Database_Config_General
   public function getTimerSearch() {
     return $this->getValue ("timer-search", "");
   }
-  public function setTimerSearch ($value) { // Todo implement in GUI.
+  public function setTimerSearch ($value) {
     $this->setValue ("timer-search", $value);
   }   
 

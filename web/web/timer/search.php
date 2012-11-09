@@ -36,7 +36,25 @@ if (php_sapi_name () != "cli") {
 }
 
 
+// Update the paths in the Sphinx configuration file.
 include ("paths/paths.php");
+$filename = "../search/sphinx.conf";
+$sphinxConfiguration = file ($filename, FILE_IGNORE_NEW_LINES);
+foreach ($sphinxConfiguration as &$line) {
+  if (strpos ($line, "path =") !== false) {
+    $line = "  path = $localStatePath/$location/sphinxsearch";
+  }
+  if (strpos ($line, "log =") !== false) {
+    $line = "  log = " . sys_get_temp_dir () . "/" . $location . "-sphinx.log";
+  }
+  if (strpos ($line, "pid_file =") !== false) {
+    $line = "  pid_file = " . sys_get_temp_dir () . "/" . $location . "-sphinx.pid";
+  }
+}
+$sphinxConfiguration = implode ("\n", $sphinxConfiguration);
+file_put_contents ($filename, $sphinxConfiguration);
+unset ($filename);
+unset ($sphinxConfiguration);
 
 
 $database_logs->log ("search: Completed", true);

@@ -1,6 +1,5 @@
 Steps:
 - The web process starts the indexing operation.
-- When the web process starts indexing, it first updates the sphinx.conf with the correct paths.
 - Do a small indexing operation on some dummy text.
 - Do a test search using the search binary.
 - Start the daemon by the web process. 
