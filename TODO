@@ -1,3 +1,4 @@
+
 Steps:
 - Start the daemon by the web process. 
 - Every once and a while there's some check on whether the daemon runs.
@@ -154,10 +155,5 @@ See
 http://stackoverflow.com/questions/5343068/is-there-a-way-to-skip-password-typing-when-using-https-github
 
 
-
-
-See to improving unittesting.
-Integrate with the classes?
-SimpleTest
 
 

@@ -71,14 +71,17 @@ class Bootstrap
     // Thus the name of the class determines which file gets required.
     // The above implies that all classes translate to files and folders in lower case.
     // An exception is made for the Zend_* classes.
-    function __autoload($class_name)
+    function __autoload ($class_name)
     {
       if (substr ($class_name, 0, 4) != "Zend") {
         $class_name = strtolower ($class_name);
       }
-      $path = str_replace("_", "/", $class_name);
+      $path = str_replace ("_", "/", $class_name);
       require_once $path.".php";
     }
+    // Register the function.
+    spl_autoload_register ('__autoload');
+    
     
     // Disable magic quotes.
     if ( (function_exists("get_magic_quotes_gpc")) && get_magic_quotes_gpc() ) {
