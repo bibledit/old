@@ -1,5 +1,5 @@
 <?php
-require_once 'PHPUnit/Framework.php';
+
  
 class filterHyphenateTest extends PHPUnit_Framework_TestCase
 {

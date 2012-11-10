@@ -1,9 +1,6 @@
 <?php
 
 
-require_once 'PHPUnit/Framework.php';
-
- 
 class filterNotesTest extends PHPUnit_Framework_TestCase
 {
 

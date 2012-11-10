@@ -1,9 +1,6 @@
 <?php
 
 
-require_once 'PHPUnit/Framework.php';
-
- 
 class bibleworksTest extends PHPUnit_Framework_TestCase
 {
 

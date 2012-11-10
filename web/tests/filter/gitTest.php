@@ -1,9 +1,6 @@
 <?php
 
 
-require_once 'PHPUnit/Framework.php';
-
- 
 class filterGitTest extends PHPUnit_Framework_TestCase
 {
 
@@ -144,7 +141,7 @@ EOD;
     Filter_Git::bibleDatabase2filedata ($bible, $newdirectory);
 
     // Compare new directory with the standard one.
-    system ("diff -r $newdirectory $directory", &$exit_code);
+    system ("diff -r $newdirectory $directory", $exit_code);
     $this->assertEquals(0, $exit_code);
     
     // Tear down.

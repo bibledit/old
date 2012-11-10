@@ -97,8 +97,8 @@ class Filter_Bibleworks
       // Deal with the grammatical tags.
       if (!$keepTags) {
         $malformed = array ();
-        $line = Filter_Bibleworks::parenthesis ($line, &$malformed);
-        $line = Filter_Bibleworks::chevrons ($line, &$malformed);
+        $line = Filter_Bibleworks::parenthesis ($line, $malformed);
+        $line = Filter_Bibleworks::chevrons ($line, $malformed);
       }
       
 
