@@ -36,10 +36,11 @@ if (php_sapi_name () != "cli") {
 }
 
 
-// Update the paths in the Sphinx configuration file.
+// Update paths in the Sphinx configuration file.
 include ("paths/paths.php");
-$filename = "../search/sphinx.conf";
-$sphinxConfiguration = file ($filename, FILE_IGNORE_NEW_LINES);
+$sphinxPidFilename = sys_get_temp_dir () . "/" . $location . "-sphinx.pid";
+$configurationFilename = "../search/sphinx.conf";
+$sphinxConfiguration = file ($configurationFilename, FILE_IGNORE_NEW_LINES);
 foreach ($sphinxConfiguration as &$line) {
   if (strpos ($line, "path =") !== false) {
     $line = "  path = $localStatePath/$location/sphinxsearch";
@@ -48,18 +49,18 @@ foreach ($sphinxConfiguration as &$line) {
     $line = "  log = " . sys_get_temp_dir () . "/" . $location . "-sphinx.log";
   }
   if (strpos ($line, "pid_file =") !== false) {
-    $line = "  pid_file = " . sys_get_temp_dir () . "/" . $location . "-sphinx.pid";
+    $line = "  pid_file = $sphinxPidFilename";
   }
 }
 $sphinxConfiguration = implode ("\n", $sphinxConfiguration);
-file_put_contents ($filename, $sphinxConfiguration);
-unset ($filename);
+file_put_contents ($configurationFilename, $sphinxConfiguration);
+unset ($configurationFilename);
 unset ($sphinxConfiguration);
 
 
-// Start the Sphinx indexer.
+// Run the Sphinx indexer.
 $success = true;
-$command = "cd ../search; indexer --rotate --all --quiet --config sphinx.conf 2>&1";
+$command = "cd ../search; indexer --rotate --all --config sphinx.conf 2>&1";
 $database_logs->log ("search: $command");
 unset ($result);
 exec ($command, $result, $exit_code);
@@ -69,6 +70,20 @@ foreach ($result as $line) {
   $database_logs->log ("search: $line");
 }
 $database_logs->log ("search: Exit code $exit_code");
+
+
+// Start the Sphinx daemon if it does not yet run.
+if (!file_exists ($sphinxPidFilename)) {
+  $command = "cd ../search; searchd --config sphinx.conf 2>&1";
+  $database_logs->log ("search: $command");
+  unset ($result);
+  exec ($command, $result, $exit_code);
+  foreach ($result as $line) {
+    if ($line == "") continue;
+    $database_logs->log ("search: $line");
+  }
+  $database_logs->log ("search: Exit code $exit_code");
+}
 
 
 $database_logs->log ("search: Completed", true);

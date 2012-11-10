@@ -1,9 +1,4 @@
-
-
-
-
 Steps:
-- Start the daemon by the web process. 
 - Every once and a while there's some check on whether the daemon runs.
 - Do log rotation.
 - Create the search.php.
