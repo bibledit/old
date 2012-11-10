@@ -23,10 +23,11 @@
 
 class Assets_Page 
 {
-  public static function header ($title)
+  public static function header ($title, $query = "")
   {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->assign ("title", $title);
+    $smarty->assign ("query", $query);
     $smarty->display ("xhtml_start.tpl");
     $smarty->display ("header_full.tpl");
   }

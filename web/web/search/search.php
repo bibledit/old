@@ -2,7 +2,7 @@
 
 /*
 
-Copyright (©) 2012 Teus Benschop.
+Copyright (©) 2012-2012 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,44 +19,36 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 */
-?>
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-<head>
-  <meta content="text/html; charset=utf-8" http-equiv="content-type" />
-  <title>Search</title>
-  <link href="stylesheet.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-
-<?php
+require_once ("../bootstrap/bootstrap.php");
+page_access_level (GUEST_LEVEL);
 
 
-require ("sphinxapi.php");
-
-
-// The word to search for.
+// The query: The word or string to search for.
 $queryString = isset($_GET['q'])?$_GET['q']:'';
 
 
-// Display the header inclusing the search form
-?>
-<table class="navigation">
-<tr>
-<td><a href="http://www.stabiplan.com"><img src="stabiplanlogo.png"></a></td>
-<td><a href="index.htm">_title_</a></td>
-<td>
-<form action="?" method="get" style="margin-left:12px;margin-top:6px;border-style: none;">
-  <input type="text" name="q" id="q" size="40" value="<?php echo $queryString; ?>">	
-  <input type="submit" value="Search">
-</form>
-</td>
-<td><!--links--></td>
-</tr>
-</table>
-<?php
+// Put the query string into the search box.
+Assets_Page::header (gettext ("Search"), $queryString);
+
+
+$smarty = new Smarty_Bibledit (__FILE__);
+
+
+$smarty->assign ("title", "Search");
+
+
+// Add wildcards to the query string.
+$queryString = trim ($queryString);
+$queryString = explode (" ", $queryString);
+foreach ($queryString as &$line) {
+  $line = "*" . $line . "*";
+}
+$queryString = implode (" ", $queryString);
+
+
+require ("sphinxapi.php");
 
 
 $sphinxClient = new SphinxClient ();
@@ -64,18 +56,11 @@ $sphinxClient->SetServer ("localhost", 9312);
 $sphinxClient->SetConnectTimeout (1);
 $sphinxClient->SetArrayResult (true);
 $sphinxClient->SetMatchMode (SPH_MATCH_EXTENDED2);
-// The filter is used to search in one manual only.
-$sphinxClient->SetFilter ("manual", array (MANUALIDENTIFIER));
+// $sphinxClient->SetFilter ("manual", array (MANUALIDENTIFIER));
 $sphinxClient->SetLimits (0, 10000);
 
 
-// Add wildcards if the query string is one word.
-// If there is more than one word, just leave the query string as it is.
-$updatedQueryString = trim ($queryString);
-if (strpos ($updatedQueryString, " ") === false) $updatedQueryString = "*" . $updatedQueryString . "*";
-
-
-$queryResult = $sphinxClient->Query ($updatedQueryString, "sphinxsearch");
+$queryResult = $sphinxClient->Query ($queryString, "sphinxsearch");
 if ($queryResult === false) {
   echo "<p>Query failed: " . $sphinxClient->GetLastError() . "</p>\n";
 } else {
@@ -85,6 +70,8 @@ if ($queryResult === false) {
     echo "<p>Warning: " . $sphinxClient->GetLastWarning() . "</p>\n";
   }
 
+
+/*
 
   // Display the number of results found, and the query time.
   // It is put in a small grey font, so that it does not stand out.
@@ -112,7 +99,7 @@ if ($queryResult === false) {
 				"around" => 3,
 				"exact_phrase" => 0
 			);
-      $excerpt = $sphinxClient->BuildExcerpts (array ($documentText), "sphinxsearch", $updatedQueryString, $options);
+      $excerpt = $sphinxClient->BuildExcerpts (array ($documentText), "sphinxsearch", $queryString, $options);
       $excerpt = $excerpt [0];
       echo "<p style=\"margin-top: 0em\">$excerpt</p>\n";
     }
@@ -141,8 +128,10 @@ if ($queryResult === false) {
 }
 
 
+$smarty->display ("search.tpl");
+
+
+Assets_Page::footer ();
+
 
 ?>
-
-</body>
-</html>
