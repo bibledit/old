@@ -23,11 +23,11 @@
 
 If certain characters do not get indexed, or cannot be searched on, 
 then the solution is to add these characters to sphinx.conf 
-under the heading 'charset_table'.
+to the 'charset_table'.
 
 
 # Sphinxsearch indexes the data through the configuration file.
-indexer --rotate --config sphinx.conf sphinxsearch
+indexer --rotate --all --config sphinx.conf
 
 
 # The search daemon is is started like this:
@@ -39,5 +39,4 @@ search -c /path/to/sphinx.conf -a "Bible"
 
 
 */
-
 ?>

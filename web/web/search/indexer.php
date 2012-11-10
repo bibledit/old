@@ -1,8 +1,24 @@
 <?php
-
+/*
+** Copyright (©) 2003-2012 Teus Benschop.
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+**  
+*/
 
 /*
-
 This script goes through all html files in all manuals.
 It prepares the html files for the indexer.
 It echoes the content to stdout as an xml file fit for Sphinx.
@@ -14,7 +30,7 @@ Sphinx will index this xml file.
 
 
 // Basic variables.
-include ("/tmp/variables.php");
+//include ("/tmp/variables.php");
 $document_identifier = 0;
 $manualIdentifier = 0;
 
@@ -25,21 +41,21 @@ echo '<sphinx:docset>' . "\n";
 
 
 // Go through all the manuals in the included array.
+$manuals = array ("NL", "EN", "FR", "RO", "DE");
 foreach ($manuals as $manual) {
   
 
-  // Because it was easier in bash, the last manual is NULL: Skip it.  
-  if ($manual == NULL) continue;
-  
   
   // Path of this manual.
-  $manualPath = "$htmlcache/$manual";
+  $manualPath = "/path/to/$manual";
   
   
   // Use next manual identifier: Use to limit searching to one particular manual.
   $manualIdentifier++;
   
 
+
+/*
   // Go through all the files in the $manualPath.
   foreach (new DirectoryIterator ($manualPath) as $fileInfo) {
 
@@ -81,7 +97,7 @@ foreach ($manuals as $manual) {
     $text = "";
     unset ($output);
     $command = "html2text $filepath 2>&1";
-    exec ($command, &$output, &$return_var);
+    exec ($command, $output, $return_var);
     if ($return_var == 0) {
       $text = implode (" ", $output);
       $text = str_replace ("  ", " ", $text);
@@ -122,6 +138,33 @@ foreach ($manuals as $manual) {
 
 
   }
+*/
+
+
+  $document_identifier++;
+  $filename = $manualPath;
+  $title = "Title of manual $manual";
+  $text = "The text of manual $manual";
+  echo "<sphinx:document id=\"$document_identifier\">\n";
+  echo "<manual>$manualIdentifier</manual>\n";
+  echo "<url>$filename</url>\n";
+  echo "<title>$title</title>\n";
+  echo "<text>$text</text>\n";
+  echo "<content>\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo $text;
+  echo "</content>\n";
+  echo "</sphinx:document>\n";
+
 
 
 }

@@ -15,7 +15,7 @@ class Filter_Archive
     $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $dirname = escapeshellarg (dirname ($filename));
     $basename = escapeshellarg (basename ($filename));
-    exec ("cd $dirname && zip $zippedfile $basename 2>&1", $output, &$return_var);
+    exec ("cd $dirname && zip $zippedfile $basename 2>&1", $output, $return_var);
     if ($return_var != 0) {
       @unlink ($zippedfile);
       $zippedfile = NULL;
@@ -40,7 +40,7 @@ class Filter_Archive
   {
     $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $folder = escapeshellarg ($folder);
-    exec ("cd $folder && zip -r $zippedfile * 2>&1", $output, &$return_var);
+    exec ("cd $folder && zip -r $zippedfile * 2>&1", $output, $return_var);
     if ($return_var != 0) {
       @unlink ($zippedfile);
       unset ($zippedfile);
@@ -66,7 +66,7 @@ class Filter_Archive
     $file = escapeshellarg ($file);
     $folder = uniqid (sys_get_temp_dir() . "/");
     mkdir ($folder);
-    exec ("unzip -o -d $folder $file 2>&1", $output, &$return_var);
+    exec ("unzip -o -d $folder $file 2>&1", $output, $return_var);
     if ($return_var != 0) {
       Filter_Rmdir::rmdir ($folder);
       $folder = NULL;
@@ -90,7 +90,7 @@ class Filter_Archive
     $tarball = uniqid (sys_get_temp_dir() . "/") . ".tar.gz";
     $dirname = escapeshellarg (dirname ($filename));
     $basename = escapeshellarg (basename ($filename));
-    exec ("cd $dirname && tar -czf $tarball $basename 2>&1", $output, &$return_var);
+    exec ("cd $dirname && tar -czf $tarball $basename 2>&1", $output, $return_var);
     if ($return_var != 0) {
       @unlink ($tarball);
       unset ($tarball);
@@ -115,7 +115,7 @@ class Filter_Archive
   {
     $tarball = uniqid (sys_get_temp_dir() . "/") . ".tar.gz";
     $folder = escapeshellarg ($folder);
-    exec ("cd $folder && tar -czf $tarball . 2>&1", $output, &$return_var);
+    exec ("cd $folder && tar -czf $tarball . 2>&1", $output, $return_var);
     if ($return_var != 0) {
       @unlink ($tarball);
       unset ($tarball);
@@ -141,7 +141,7 @@ class Filter_Archive
     $file = escapeshellarg ($file);
     $folder = uniqid (sys_get_temp_dir() . "/");
     mkdir ($folder);
-    exec ("cd $folder && tar zxf $file 2>&1", $output, &$return_var);
+    exec ("cd $folder && tar zxf $file 2>&1", $output, $return_var);
     if ($return_var != 0) {
       Filter_Rmdir::rmdir ($folder);
       $folder = NULL;

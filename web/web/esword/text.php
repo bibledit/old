@@ -120,7 +120,7 @@ class Esword_Text
     file_put_contents ($sqlfile, $sql);
     $database_logs = Database_Logs::getInstance ();
     $command = "sqlite3 $filename < $sqlfile 2>&1";
-    exec ($command, &$output, &$exit_code);
+    exec ($command, $output, $exit_code);
     $database_logs->log ($command);
     foreach ($output as $line) {
       $database_logs->log ($line);

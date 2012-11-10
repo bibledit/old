@@ -77,7 +77,7 @@ class Filter_Diff
     $outputfile = escapeshellarg ($outputfile);
     $command = "wdiff --start-insert='<span style=\"font-weight: bold;\">' --end-insert='</span>' --start-delete='<span style=\"text-decoration: line-through;\">' --end-delete='</span>' $oldfile $newfile > $outputfile 2>&1";
     $database_logs->log ("changes: $command", true);
-    exec ($command, $output, &$return_var);
+    exec ($command, $output, $return_var);
     foreach ($output as $line) {
       $database_logs->log ("changes: $line", true);
     }

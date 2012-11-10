@@ -48,7 +48,7 @@ $shelldirectory = escapeshellarg ($directory);
 // Add and commit the data.
 $command = "cd $shelldirectory; git add .";
 echo "$command\n";
-exec ($command, &$output, &$exit_code);
+exec ($command, $output, $exit_code);
 echo "Exit code $exit_code\n";
 if ($exit_code != 0) {
   foreach ($output as $line) {
@@ -57,7 +57,7 @@ if ($exit_code != 0) {
 }
 $command = "cd $shelldirectory; git commit -a -m admin-sync";
 echo "$command\n";
-exec ($command, &$output, &$exit_code);
+exec ($command, $output, $exit_code);
 echo "Exit code $exit_code\n";
 if ($exit_code != 0) {
   foreach ($output as $line) {
@@ -69,7 +69,7 @@ if ($exit_code != 0) {
 echo gettext ("Step 2/2: Pushing the data to the remote repository") . "\n";
 $command = "cd $shelldirectory; git push 2>&1";
 echo "$command\n";
-exec ($command, &$output, &$exit_code);
+exec ($command, $output, $exit_code);
 if ($exit_code == 0) {
   echo gettext ("Your data was pushed to the remote repository successfully, overwriting any data that was there before.") . "\n";
 } else {

@@ -1,7 +1,4 @@
 Steps:
-- The web process starts the indexing operation.
-- Do a small indexing operation on some dummy text.
-- Do a test search using the search binary.
 - Start the daemon by the web process. 
 - Every once and a while there's some check on whether the daemon runs.
 - Do log rotation.
@@ -155,3 +152,12 @@ Update the online help for the git repository to use a github https repository
 due to firewall issues.
 See 
 http://stackoverflow.com/questions/5343068/is-there-a-way-to-skip-password-typing-when-using-https-github
+
+
+
+
+See to improving unittesting.
+Integrate with the classes?
+SimpleTest
+
+

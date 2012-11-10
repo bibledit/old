@@ -57,6 +57,20 @@ unset ($filename);
 unset ($sphinxConfiguration);
 
 
+// Start the Sphinx indexer.
+$success = true;
+$command = "cd ../search; indexer --rotate --all --quiet --config sphinx.conf 2>&1";
+$database_logs->log ("search: $command");
+unset ($result);
+exec ($command, $result, $exit_code);
+if ($exit_code != 0) $success = false;
+foreach ($result as $line) {
+  if ($line == "") continue;
+  $database_logs->log ("search: $line");
+}
+$database_logs->log ("search: Exit code $exit_code");
+
+
 $database_logs->log ("search: Completed", true);
 
 

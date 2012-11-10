@@ -69,7 +69,7 @@ class Filter_Java
     $javafile = escapeshellarg ("$outputFolder/program.java");
     $command = "cd $workingdirectory && javac -cp $cp $javafile 2>&1";
     $database_logs->log ($command, true);
-    exec ($command, $output, &$return_var);
+    exec ($command, $output, $return_var);
     foreach ($output as $line) {
       $database_logs->log ($line, true);
     }
@@ -104,7 +104,7 @@ class Filter_Java
     $runclass = escapeshellarg ($runclass);
     $command = "cd $workingdirectory && java -cp $cp $runclass 2>&1";
     $database_logs->log ($command, true);
-    exec ($command, $output, &$return_var);
+    exec ($command, $output, $return_var);
     foreach ($output as $line) {
       $database_logs->log ($line, true);
     }

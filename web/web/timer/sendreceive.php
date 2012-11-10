@@ -136,7 +136,7 @@ foreach ($bibles as $bible) {
       $command = "cd $shelldirectory; git add . 2>&1";
       $database_logs->log ("send/receive: $command");
       unset ($result);
-      exec ($command, &$result, &$exit_code);
+      exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         $database_logs->log ("send/receive: $line");
@@ -150,7 +150,7 @@ foreach ($bibles as $bible) {
       $command = "cd $shelldirectory; git status 2>&1";
       $database_logs->log ("send/receive: $command");
       unset ($result);
-      exec ($command, &$result, &$exit_code);
+      exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         $database_logs->log ("send/receive: $line");
@@ -164,7 +164,7 @@ foreach ($bibles as $bible) {
       $command = "cd $shelldirectory; git commit -a -m sync 2>&1";
       $database_logs->log ("send/receive: $command");
       unset ($result);
-      exec ($command, &$result, &$exit_code);
+      exec ($command, $result, $exit_code);
       if (($exit_code != 0) && ($exit_code != 1)) $success = false;
       foreach ($result as $line) {
         $database_logs->log ("send/receive: $line");
@@ -179,7 +179,7 @@ foreach ($bibles as $bible) {
       $command = "cd $shelldirectory; git pull 2>&1";
       $database_logs->log ("send/receive: $command");
       unset ($result);
-      exec ($command, &$result, &$exit_code);
+      exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         // Leave out messages like:
@@ -213,7 +213,7 @@ foreach ($bibles as $bible) {
       $command = "cd $shelldirectory; git push 2>&1";
       $database_logs->log ("send/receive: $command");
       unset ($result);
-      exec ($command, &$result, &$exit_code);
+      exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         if (strstr ($line, "/.ssh") != false) continue;
@@ -240,7 +240,7 @@ foreach ($bibles as $bible) {
       $command = "cd $shelldirectory; git log | head -n 24 2>&1";
       $database_logs->log ("send/receive: $command");
       unset ($result);
-      exec ($command, &$result, &$exit_code);
+      exec ($command, $result, $exit_code);
       foreach ($result as $line) {
         $database_logs->log ("send/receive: $line");
       }
