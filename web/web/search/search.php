@@ -29,20 +29,24 @@ page_access_level (GUEST_LEVEL);
 $queryString = isset($_GET['q'])?$_GET['q']:'';
 
 
+$smarty = new Smarty_Bibledit (__FILE__);
+
+
 // Put the query string into the search box.
 Assets_Page::header (gettext ("Search"), $queryString);
 
 
-$smarty = new Smarty_Bibledit (__FILE__);
-
-
-$smarty->assign ("title", "Search");
-
-
-// Add wildcards to the query string.
+// Clean the query string up.
 $queryString = trim ($queryString);
+while (strpos ($queryString, "  ") !== false) {
+  $queryString = str_replace ("  ", " ", $queryString);
+}
+
+
+// Add wildcards to the words in the query string.
 $queryString = explode (" ", $queryString);
 foreach ($queryString as &$line) {
+  if ($line == "") continue;
   $line = "*" . $line . "*";
 }
 $queryString = implode (" ", $queryString);
@@ -62,34 +66,38 @@ $sphinxClient->SetLimits (0, 10000);
 
 $queryResult = $sphinxClient->Query ($queryString, "sphinxsearch");
 if ($queryResult === false) {
-  echo "<p>Query failed: " . $sphinxClient->GetLastError() . "</p>\n";
+  echo "<p>Search failed: " . $sphinxClient->GetLastError () . "</p>\n";
 } else {
   
 
   if ($sphinxClient->GetLastWarning()) {
-    echo "<p>Warning: " . $sphinxClient->GetLastWarning() . "</p>\n";
+    echo "<p>Warning: " . $sphinxClient->GetLastWarning () . "</p>\n";
   }
 
 
-/*
-
-  // Display the number of results found, and the query time.
-  // It is put in a small grey font, so that it does not stand out.
+  // Number of search results.
   $totalFound = $queryResult['total_found'];
-  echo "<p><font size=\"-1\" color=\"grey\">$totalFound results</font></p>\n";
+  if ($queryString == "") $totalFound = 0;
+  $smarty->assign ("totalFound", $totalFound);
 
 
-  // Display the search results, and accompanying information.
+  // Assemble the search results.
+  $titles = array ();
+  $urls = array ();
+  $excerpts = array ();
   if ($totalFound > 0) {
     foreach ($queryResult["matches"] as $docinfo) {
-			$documentID = $docinfo['id'];
-			$documentWeight = $docinfo['weight'];
-			$documentUrl = $docinfo['attrs']['url'];
-			$documentTitle = $docinfo['attrs']['title'];
-			$documentText = $docinfo['attrs']['text'];
-      echo "<p style=\"margin-bottom: 0em\"><a href=\"$documentUrl\" title=\"$documentTitle\">$documentTitle</a></p>\n";
-      $cleanUrl = str_replace('http://','', $documentUrl);
-      echo "<p style=\"margin-top: 0em; margin-bottom: 0em\"><font size=\"-1\" color=\"green\">$cleanUrl</font></p>\n";
+      $title = $docinfo['attrs']['title'];
+      $url = $docinfo['attrs']['url'];
+      $text = $docinfo['attrs']['text'];
+      $excerpt = $text;
+      
+      
+      $titles [] = $title;
+      $urls [] = $url;
+      $excerpts [] = $excerpt;
+    }
+/*
 			$options = array
 			(
 				"before_match" => "<b>",
@@ -102,29 +110,13 @@ if ($queryResult === false) {
       $excerpt = $sphinxClient->BuildExcerpts (array ($documentText), "sphinxsearch", $queryString, $options);
       $excerpt = $excerpt [0];
       echo "<p style=\"margin-top: 0em\">$excerpt</p>\n";
-    }
-  }
-
-
-  // Display the query statistics.
-  // It is put in a small grey font, so that it does not stand out.
-  // The query statistics is no longer displayed, because it displays the number of times a word was found in all manuals,
-  // not just the current manual. This is confusing.
-  /*
-  if ($totalFound > 0) {
-    echo "<p><font size=\"-1\" color=\"grey\">";
-    foreach ($queryResult['words'] as $word => $info) {
-      echo " Word '$word' was found in " . $info['docs'] . " documents.";
-    }
-    echo "</font></p>\n";
-  }
+ 
   */
-  // Display a small line to indicate the end of the list.
-  echo "<font size=\"-1\" color=\"grey\">";
-  echo "<hr />";
-  echo "</font>\n";
-
-
+  }
+  // Display the search results.
+  $smarty->assign ("urls", $urls);
+  $smarty->assign ("titles", $titles);
+  $smarty->assign ("excerpts", $excerpts);
 }
 
 

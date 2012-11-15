@@ -1,8 +1,7 @@
-- Present the search results.
-See in e.g. the user manager how to display multi-dimensional arrays in smarty.
 
 
 Steps:
+- display the excerpts properly.
 - Make the links clickable correctly.
 - Expand by indexing the notes.
 - Expand by indexing the Bible text.
@@ -27,6 +26,9 @@ Steps:
   this level for the current page. Or perhaps it's not needed, and the access
   level can be requested from the user who is logged in.
 - Every once and a while there's some check on whether the daemon runs. Needed?
+- As to the daemon running, we may do it like this: When the query fails because 
+  it cannot connect to the host, then start the searchd daemon. Or give a message 
+  that the manager should start the daemon, with a link or description for clarity.
 
 
 
