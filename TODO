@@ -1,15 +1,15 @@
 
 
+
 Steps:
-- display the excerpts properly.
 - Make the links clickable correctly.
 - Expand by indexing the notes.
 - Expand by indexing the Bible text.
 - Expand by indexing all the menu files.
 - Can charset_table in sphinx.conf be automatically generated, or be left out?
-  Perhaps that's a unicode library (ICU) that finds case-folding characters,
-  and lower and upper case characters. Case folding differs from the mapping we need,
-  because we want e.g. á to map to a, and A to map to a, and à to map to a, and so on.
+  Perhaps there's a unicode library (ICU) that finds case-folding characters,
+  and lower and upper case characters. 
+- We also want e.g. á to map to a, and A to map to a, and à to map to a, and so on.
 - Indexing everything also takes the access level in account. This is how it works
   for the web pages? Each .tpl files is searched, and then it searches which php
   file calls that template. Then the access level of that php file is taken

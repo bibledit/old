@@ -144,7 +144,7 @@ foreach ($manuals as $manual) {
   $document_identifier++;
   $filename = $manualPath;
   $title = "Title of manual $manual";
-  $text = "The text of manual $manual";
+  $text = "The text of manual $manual\nYes, of the manual indeed\nYes, indeed, abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc Yes, indeed!";
   echo "<sphinx:document id=\"$document_identifier\">\n";
   echo "<manual>$manualIdentifier</manual>\n";
   echo "<url>$filename</url>\n";

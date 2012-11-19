@@ -87,31 +87,39 @@ if ($queryResult === false) {
   $excerpts = array ();
   if ($totalFound > 0) {
     foreach ($queryResult["matches"] as $docinfo) {
+
+      // The title.
       $title = $docinfo['attrs']['title'];
-      $url = $docinfo['attrs']['url'];
-      $text = $docinfo['attrs']['text'];
-      $excerpt = $text;
-      
-      
       $titles [] = $title;
+
+      // The url.
+      $url = $docinfo['attrs']['url'];
       $urls [] = $url;
+
+      // The excerpt with the hits in bold.
+      $text = $docinfo['attrs']['text'];
+      $options = array
+      (
+        "before_match" => "<b>",
+        "after_match" => "</b>",
+        "chunk_separator" => " ... ",
+        "limit" => 60,
+        "around" => 3,
+        "exact_phrase" => 0
+      );
+      // Go through each line of text separately.
+      $text = explode ("\n", $text);
+      $excerpt = "";
+      foreach ($text as $textLine) {
+        $partialExcerpt = $sphinxClient->BuildExcerpts (array ($textLine), "sphinxsearch", $queryString, $options);
+        $partialExcerpt = $partialExcerpt [0];
+        // If this line of text has no hit, skip it.
+        if (strpos ($partialExcerpt, "<b>") === false) continue;
+        // Store this bit of the excerpt.
+        $excerpt .= "<p style=\"margin-top: 0em\">$partialExcerpt</p>\n";
+      }
       $excerpts [] = $excerpt;
     }
-/*
-			$options = array
-			(
-				"before_match" => "<b>",
-				"after_match"	=> "</b>",
-				"chunk_separator"	=> " ... ",
-				"limit"	=> 60,
-				"around" => 3,
-				"exact_phrase" => 0
-			);
-      $excerpt = $sphinxClient->BuildExcerpts (array ($documentText), "sphinxsearch", $queryString, $options);
-      $excerpt = $excerpt [0];
-      echo "<p style=\"margin-top: 0em\">$excerpt</p>\n";
- 
-  */
   }
   // Display the search results.
   $smarty->assign ("urls", $urls);
