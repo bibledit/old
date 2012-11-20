@@ -1,12 +1,23 @@
+Create filter that converts html to plain text, and puts proper new lines.
+
+<p>adminusername (Thu, 15 Nov 2012 15:30:34 +0000):</p>
+<p>This is the second note.<div>It describes the second matter.</div><div>A second round of voting is needed. No need for a third, because the second vote is clear.</div></p>
+
+To create a test for this.
+To write the code.
+
+
+
+Index the notes:
+- Convert the note text to html - probably needs a standard cleanup filter for that: create it.
+
+- Index the note text.
 
 
 
 Steps:
-- Make the links clickable correctly.
-- Expand by indexing the notes.
 - Expand by indexing the Bible text.
-- Expand by indexing all the menu files.
-- Can charset_table in sphinx.conf be automatically generated, or be left out?
+- Can charset_table in sphinx.conf be automatically generated?
   Perhaps there's a unicode library (ICU) that finds case-folding characters,
   and lower and upper case characters. 
 - We also want e.g. á to map to a, and A to map to a, and à to map to a, and so on.

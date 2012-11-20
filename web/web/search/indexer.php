@@ -29,6 +29,9 @@ Sphinx will index this xml file.
 */
 
 
+require_once ("../bootstrap/bootstrap.php");
+
+
 // Basic variables.
 //include ("/tmp/variables.php");
 $document_identifier = 0;
@@ -40,57 +43,71 @@ echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
 echo '<sphinx:docset>' . "\n";
 
 
+$database_config_general = Database_Config_General::getInstance ();
+$database_notes = Database_Notes::getInstance ();
+
+
+$siteUrl = $database_config_general->getSiteURL ();
+
+
+// Go through the identifiers of all consultation notes.
+$identifiers = $database_notes->getIdentifiers ();
+foreach ($identifiers as $noteIdentifier) {
+
+
+  // Assemble the title.
+  $summary = $database_notes->getSummary ($noteIdentifier);
+  $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($noteIdentifier));
+  $title = "$summary | $verses";
+
+
+  // Assemble the text.
+  $text = $database_notes->getContents ($noteIdentifier);
+  $text = html_entity_decode ($text);
+  var_dump ($text);
+
+
+  $document_identifier++;
+  echo "<sphinx:document id=\"$document_identifier\">\n";
+
+  echo "<manual>$manualIdentifier</manual>\n";
+
+  $url = "$siteUrl/consultations/notes.php?consultationnote=$noteIdentifier";
+  echo "<url>$url</url>\n";
+
+  echo "<title>$title</title>\n";
+
+  echo "<text>$text</text>\n";
+
+  // Output the content.
+  echo "<content>\n";
+  // The title is repeated in the context to give it a higher weight.
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo $text;
+  echo "</content>\n";
+
+  echo "</sphinx:document>\n";
+
+}
+
+
 // Go through all the manuals in the included array.
-$manuals = array ("NL", "EN", "FR", "RO", "DE");
+$manuals = array ();
 foreach ($manuals as $manual) {
   
 
   
-  // Path of this manual.
-  $manualPath = "/path/to/$manual";
-  
-  
-  // Use next manual identifier: Use to limit searching to one particular manual.
-  $manualIdentifier++;
   
 
 
 /*
-  // Go through all the files in the $manualPath.
-  foreach (new DirectoryIterator ($manualPath) as $fileInfo) {
-
-
-    // Skip folders and non-html files.
-    if ($fileInfo->isDot()) continue;
-    if ($fileInfo->isDir()) continue;
-    $extension = $fileInfo->getExtension();
-    if ($extension != "htm") continue;
-
-
-    // The indexer needs a unique document identifier.
-    $document_identifier++;
-    echo "<sphinx:document id=\"$document_identifier\">\n";
-
-
-    // Get the filename.
-    $filename = $fileInfo->getFilename();
-    $basename = substr ($filename, 0, -4);
-    $filepath = "$manualPath/$filename";
-
-  
     // Get the html code.
     $contents = file_get_contents ($filepath);
 
 
-    // Extract the title from the <title> tags in the html code.
-    // Deal with possible empty titles.
-    $title = "";
-    $pattern = "/<title>(.*?)<\/title>/";
-    preg_match($pattern, $contents, $matches);
-    if ($matches != NULL) $title = trim ($matches[1]);
-    if ($title == "") $title = "Untitled";
-    $title = html_entity_decode ($title);
-    $title = htmlspecialchars ($title);
 
 
     // Convert the html file to clean text.
@@ -139,31 +156,6 @@ foreach ($manuals as $manual) {
 
   }
 */
-
-
-  $document_identifier++;
-  $filename = $manualPath;
-  $title = "Title of manual $manual";
-  $text = "The text of manual $manual\nYes, of the manual indeed\nYes, indeed, abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc Yes, indeed!";
-  echo "<sphinx:document id=\"$document_identifier\">\n";
-  echo "<manual>$manualIdentifier</manual>\n";
-  echo "<url>$filename</url>\n";
-  echo "<title>$title</title>\n";
-  echo "<text>$text</text>\n";
-  echo "<content>\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo $text;
-  echo "</content>\n";
-  echo "</sphinx:document>\n";
 
 
 

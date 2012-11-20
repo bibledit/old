@@ -90,6 +90,7 @@ if ($queryResult === false) {
 
       // The title.
       $title = $docinfo['attrs']['title'];
+      $title = Filter_Html::sanitize ($title);
       $titles [] = $title;
 
       // The url.
@@ -115,6 +116,7 @@ if ($queryResult === false) {
         $partialExcerpt = $partialExcerpt [0];
         // If this line of text has no hit, skip it.
         if (strpos ($partialExcerpt, "<b>") === false) continue;
+        $partialExcerpt = Filter_Html::sanitize ($partialExcerpt);
         // Store this bit of the excerpt.
         $excerpt .= "<p style=\"margin-top: 0em\">$partialExcerpt</p>\n";
       }
