@@ -23,11 +23,26 @@
 
 class Filter_Html
 {
+
   public static function sanitize ($html)
   {
     $html = htmlspecialchars ($html, ENT_QUOTES, "UTF-8");
     return $html;
   }
+
+
+  public static function html2text ($html)
+  {
+    $html = html_entity_decode ($html);
+    $html = str_replace ("\n", "", $html);
+    $html = str_replace ("<p>", "\n", $html);
+    $html = str_replace ("</p>", "", $html);
+    $html = str_replace ("<div>", "\n", $html);
+    $html = str_replace ("</div>", "", $html);
+    $html = trim ($html);
+    return $html;
+  }
+
 }
 
 ?>

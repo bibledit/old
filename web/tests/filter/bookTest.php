@@ -76,5 +76,3 @@ class bookTest extends PHPUnit_Framework_TestCase
  
 }
 ?>
-
-
