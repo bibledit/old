@@ -63,8 +63,7 @@ foreach ($identifiers as $noteIdentifier) {
 
   // Assemble the text.
   $text = $database_notes->getContents ($noteIdentifier);
-  $text = html_entity_decode ($text);
-  var_dump ($text);
+  $text = Filter_Html::html2text ($text);
 
 
   $document_identifier++;
