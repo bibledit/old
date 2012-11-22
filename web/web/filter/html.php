@@ -31,16 +31,38 @@ class Filter_Html
   }
 
 
-  public static function html2text ($html)
+  public static function html2text ($html) // Todo
   {
+    // Clean the html up.
     $html = html_entity_decode ($html);
     $html = str_replace ("\n", "", $html);
-    $html = str_replace ("<p>", "\n", $html);
-    $html = str_replace ("</p>", "", $html);
-    $html = str_replace ("<div>", "\n", $html);
-    $html = str_replace ("</div>", "", $html);
-    $html = trim ($html);
-    return $html;
+    
+    // The output text.
+    $text = "";
+    
+    // Keep going while the html contains the < character.
+    $pos = strpos ($html, '<');
+    while ($pos !== false) {
+      // Add the text before the <.
+      $text .= substr ($html, 0, $pos);
+      $html = substr ($html, $pos + 1);
+      // Certain tags start new lines.
+      $tag1 = substr ($html, 0, 1);
+      $tag3 = substr ($html, 0, 3);
+      if (($tag1 == "p") || ($tag3 == "div")) {
+        $text .= "\n";
+      }
+      // Clear text out till the > character.
+      $pos = strpos ($html, '>');
+      if ($pos !== false) {
+        $html = substr ($html, $pos + 1);
+      }
+      // Next iteration.
+      $pos = strpos ($html, '<');
+    }
+
+    $text = trim ($text);
+    return $text;
   }
 
 }
