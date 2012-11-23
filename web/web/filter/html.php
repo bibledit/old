@@ -31,7 +31,7 @@ class Filter_Html
   }
 
 
-  public static function html2text ($html) // Todo
+  public static function html2text ($html)
   {
     // Clean the html up.
     $html = html_entity_decode ($html);
@@ -48,8 +48,19 @@ class Filter_Html
       $html = substr ($html, $pos + 1);
       // Certain tags start new lines.
       $tag1 = substr ($html, 0, 1);
+      $tag2 = substr ($html, 0, 2);
       $tag3 = substr ($html, 0, 3);
-      if (($tag1 == "p") || ($tag3 == "div")) {
+      if  (($tag1 == "p") 
+        || ($tag3 == "div") 
+        || ($tag2 == "li") 
+        || ($tag3 == "/ol") 
+        || ($tag3 == "/ul") 
+        || ($tag2 == "h1") 
+        || ($tag2 == "h2") 
+        || ($tag2 == "h3") 
+        || ($tag2 == "h4") 
+        || ($tag2 == "h5")
+         ) {
         $text .= "\n";
       }
       // Clear text out till the > character.
@@ -61,6 +72,9 @@ class Filter_Html
       $pos = strpos ($html, '<');
     }
 
+    while (strpos ($text, "\n\n") !== false) {
+      $text = str_replace ("\n\n", "\n", $text);
+    }
     $text = trim ($text);
     return $text;
   }
