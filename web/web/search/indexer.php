@@ -59,11 +59,13 @@ foreach ($identifiers as $noteIdentifier) {
   $summary = $database_notes->getSummary ($noteIdentifier);
   $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($noteIdentifier));
   $title = "$summary | $verses";
+  $title = Filter_Html::sanitize ($title);
 
 
   // Assemble the text.
   $text = $database_notes->getContents ($noteIdentifier);
   $text = Filter_Html::html2text ($text);
+  $text = Filter_Html::sanitize ($text);
 
 
   $document_identifier++;
