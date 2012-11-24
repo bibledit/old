@@ -71,6 +71,8 @@ class Filter_Html
       // Next iteration.
       $pos = strpos ($html, '<');
     }
+    // Add any remaining bit of text.
+    $text .= $html;
 
     while (strpos ($text, "\n\n") !== false) {
       $text = str_replace ("\n\n", "\n", $text);

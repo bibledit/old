@@ -59,5 +59,20 @@ EOD;
   }
 
 
+  public function testHtml2Text3()
+  {
+$html = <<<EOD
+test notes four
+
+Logbook:
+
+EOD;
+$plain = <<<EOD
+test notes fourLogbook:
+EOD;
+    $this->assertEquals ($plain, Filter_Html::html2text ($html));
+  }
+
+
 }
 ?>
