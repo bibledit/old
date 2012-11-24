@@ -9,7 +9,7 @@
 <p>Copies the smarty-gettext plugin just in case the package does not install it corrrectly.</p>
 <p>Requires package sphinxsearch.</p>
 <p>The link to logout has been moved from the header to the user's page.</p>
-<p></p>
+<p>Indexes and searches the consultation notes.</p>
 <p></p>
 
 <h2>Version 0.7</h2>
