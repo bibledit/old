@@ -73,7 +73,13 @@ $database_logs->log ("search: Exit code $exit_code");
 
 
 // Start the Sphinx daemon if it does not yet run.
-if (!file_exists ($sphinxPidFilename)) {
+$startDaemon = true;
+if (file_exists ($sphinxPidFilename)) {
+  if (filesize ($sphinxPidFilename) > 1) {
+    $startDaemon = false;
+  }
+}
+if ($startDaemon) {
   $command = "cd ../search; searchd --config sphinx.conf 2>&1";
   $database_logs->log ("search: $command");
   unset ($result);
