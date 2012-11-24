@@ -27,6 +27,11 @@ Steps:
 - As to the daemon running, we may do it like this: When the query fails because 
   it cannot connect to the host, then start the searchd daemon. Or give a message 
   that the manager should start the daemon, with a link or description for clarity.
+- The main search entry searches everything. 
+  How to limit searches to e.g. notes only, or bible texts only?
+  Separate search entries under Consultations / Translation?
+  Options to tick / advanced search?
+  Selection to make on the search hits page? This one looks cool. Buttons / links?
 
 
 
