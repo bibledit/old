@@ -27,7 +27,7 @@ class Desktop_Level
   /**
   * Returns the access level that belongs to a certain $desktop.
   */
-  public function access($desktop)
+  public static function access($desktop)
   {
     switch ($desktop) {
       case "editusfm": return TRANSLATOR_LEVEL;

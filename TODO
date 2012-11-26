@@ -1,8 +1,11 @@
+- Index the Bible text.
+- Go through every Bible / book / chapter / verse.
+- Convert each USFM verse to plain text. Remove inline formatting, images, etc.
+- Put notes one on a line.
 
 
 
 Steps:
-- Expand by indexing the Bible text.
 - Can charset_table in sphinx.conf be automatically generated?
   Perhaps there's a unicode library (ICU) that finds case-folding characters,
   and lower and upper case characters. 

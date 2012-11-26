@@ -14,9 +14,9 @@ class Database_Bibles
     return self::$instance;
   }
 
-  /**
-    * Optimize database table.
-  */
+  /*
+   * Optimize database table.
+   */
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE bible_names;");
@@ -25,9 +25,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Returns an array with the available Bibles.
-  */
+  /*
+   * Returns an array with the available Bibles.
+   */
   public function getBibles ()
   {
     $database_instance = Database_Instance::getInstance();
@@ -41,9 +41,9 @@ class Database_Bibles
   }
 
 
-  /**
-    * Returns the ID for a named Bible.
-    */      
+  /*
+   * Returns the ID for a named Bible.
+   */      
   public function getID ($name)
   {
     $database_instance = Database_Instance::getInstance();
@@ -58,9 +58,9 @@ class Database_Bibles
   }
 
 
-  /**
-    * Returns the Bible name for a Bible ID.
-    */      
+  /*
+   * Returns the Bible name for a Bible ID.
+   */      
   public function getName ($id)
   {
     $database_instance = Database_Instance::getInstance();
@@ -75,9 +75,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Creates a new empty Bible. Returns its ID.
-  */
+  /*
+   * Creates a new empty Bible. Returns its ID.
+   */
   public function createBible ($name)
   {
     // If the Bible already exists, return its ID.
@@ -105,9 +105,9 @@ class Database_Bibles
   }
 
 
-  /**
-    * Deletes a Bible.
-    */      
+  /*
+   * Deletes a Bible.
+   */      
   public function deleteBible ($name)
   {
     // Store diff data prior to deletion.
@@ -122,9 +122,9 @@ class Database_Bibles
   }
 
   
-  /**
-  * Gets the versification system of Bible $name.
-  */
+  /*
+   * Gets the versification system of Bible $name.
+   */
   public function getVersification ($name)
   {
     $database_instance = Database_Instance::getInstance();
@@ -146,9 +146,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Stores data of one chapter in Bible $name.
-  */
+  /*
+   * Stores data of one chapter in Bible $name.
+   */
   public function storeChapter ($name, $book, $chapter_number, $chapter_text)
   {
     // Return if the Bible $name does not exist.
@@ -172,9 +172,9 @@ class Database_Bibles
   }
   
 
-  /**
-  * Returns an array with the available books in a Bible.
-  */
+  /*
+   * Returns an array with the available books in a Bible.
+   */
   public function getBooks ($bible)
   {
     // Read the books from the database.
@@ -212,9 +212,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Returns an array with the available chapters in a $book in a Bible.
-  */
+  /*
+   * Returns an array with the available chapters in a $book in a Bible.
+   */
   public function getChapters ($bible, $book)
   {
     // Read the chapters from the database.
@@ -245,9 +245,9 @@ class Database_Bibles
     $database_instance->runQuery ($query);
   }
 
-  /**
-  * Gets the chapter data as a string.
-  */
+  /*
+   * Gets the chapter data as a string.
+   */
   public function getChapter ($bible, $book, $chapter)
   {
     $database_instance = Database_Instance::getInstance();
@@ -265,11 +265,11 @@ class Database_Bibles
   }
       
 
-  /**
-  * Returns true if diff data exists for the chapter.
-  * Else it returns false.
-  * The "diff" data helps producing the daily differences.
-  */
+  /*
+   * Returns true if diff data exists for the chapter.
+   * Else it returns false.
+   * The "diff" data helps producing the daily differences.
+   */
   public function diffExists ($bible, $book, $chapter)
   {
     $database_instance = Database_Instance::getInstance();
@@ -282,9 +282,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Stores diff data for a "bible" (string) and $book (int) and $chapter (int).
-  */
+  /*
+   * Stores diff data for a "bible" (string) and $book (int) and $chapter (int).
+   */
   private function storeDiff ($bible, $book, $chapter)
   {
     // Return when the diff exists.
@@ -305,9 +305,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Gets the diff data as a string.
-  */
+  /*
+   * Gets the diff data as a string.
+   */
   public function getDiff ($bible, $book, $chapter)
   {
     $database_instance = Database_Instance::getInstance();
@@ -325,9 +325,9 @@ class Database_Bibles
   }
       
 
-  /**
-  * Stores diff data for all chapters in a "bible" (string) and $book (int).
-  */
+  /*
+   * Stores diff data for all chapters in a "bible" (string) and $book (int).
+   */
   public function storeDiffBook ($bible, $book)
   {
     $chapters = $this->getChapters ($bible, $book);
@@ -337,9 +337,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Stores diff data for all books in a "bible" (string).
-  */
+  /*
+   * Stores diff data for all books in a "bible" (string).
+   */
   public function storeDiffBible ($bible)
   {
     $books = $this->getBooks ($bible);
@@ -349,9 +349,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Deletes the diffs for a whole Bible.
-  */
+  /*
+   * Deletes the diffs for a whole Bible.
+   */
   public function deleteDiffBible ($bible)
   {
     $database_instance = Database_Instance::getInstance();
@@ -362,9 +362,9 @@ class Database_Bibles
   }
       
 
-  /**
-  * Returns an array with the available chapters that have diff data in a $book in a Bible.
-  */
+  /*
+   * Returns an array with the available chapters that have diff data in a $book in a Bible.
+   */
   public function getDiffChapters ($bible, $book)
   {
     $database_instance = Database_Instance::getInstance();
@@ -382,10 +382,10 @@ class Database_Bibles
   }
 
 
-  /**
-  * Returns an array with the available books that have diff data in a Bible.
-  * The $bible can be a name, or an identifier. This is because the $bible identifier may no longer exist.
-  */
+  /*
+   * Returns an array with the available books that have diff data in a Bible.
+   * The $bible can be a name, or an identifier. This is because the $bible identifier may no longer exist.
+   */
   public function getDiffBooks ($bible)
   {
     $database_instance = Database_Instance::getInstance();
@@ -402,9 +402,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Returns an array with the available Bibles that have diff data.
-  */
+  /*
+   * Returns an array with the available Bibles that have diff data.
+   */
   public function getDiffBibles ()
   {
     $database_instance = Database_Instance::getInstance();
@@ -419,9 +419,9 @@ class Database_Bibles
   }
 
 
-  /**
-  * Truncates all diff data.
-  */
+  /*
+   * Truncates all diff data.
+   */
   public function truncateDiffs ()
   {
     $database_instance = Database_Instance::getInstance();

@@ -45,6 +45,7 @@ echo '<sphinx:docset>' . "\n";
 
 $database_config_general = Database_Config_General::getInstance ();
 $database_notes = Database_Notes::getInstance ();
+$database_bibles = Database_Bibles::getInstance ();
 
 
 $siteUrl = $database_config_general->getSiteURL ();
@@ -95,72 +96,10 @@ foreach ($identifiers as $noteIdentifier) {
 }
 
 
-// Go through all the manuals in the included array.
-$manuals = array ();
-foreach ($manuals as $manual) {
-  
+// Go through all Bibles.
+$bibles = $database_bibles->getBibles ();
+var_dump ($bibles);
 
-  
-  
-
-
-/*
-    // Get the html code.
-    $contents = file_get_contents ($filepath);
-
-
-
-
-    // Convert the html file to clean text.
-    $text = "";
-    unset ($output);
-    $command = "html2text $filepath 2>&1";
-    exec ($command, $output, $return_var);
-    if ($return_var == 0) {
-      $text = implode (" ", $output);
-      $text = str_replace ("  ", " ", $text);
-      $text = trim ($text);
-      $text = htmlspecialchars ($text);
-    }
-
-
-    // Echo the search attributes.
-    // The manual attribute specifies which manual to search in.
-    // The system uses one Sphinx search daemon for all manuals on the site.
-    // Without using the manual attribute, a search operation would look through all the manuals.
-    // The manual attribute restricts the search to one manual.
-    echo "<manual>$manualIdentifier</manual>\n";
-    echo "<url>$filename</url>\n";
-    echo "<title>$title</title>\n";
-    echo "<text>$text</text>\n";
-
-
-    // Echo the content. Give a higher weight to the title by repeating it.
-    echo "<content>\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo "$title\n";
-    echo $text;
-    echo "</content>\n";
-
-  
-    // End of this document.
-    echo "</sphinx:document>\n";
-
-
-  }
-*/
-
-
-
-}
 
 
 // Finish the xml document for the sphinx indexer.
