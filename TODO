@@ -2,7 +2,6 @@
 
 
 Steps:
-- Update installation documents removing older Linux versions than ubuntu 12.10. Reason: Required sphinxsearch version.
 - Expand by indexing the Bible text.
 - Can charset_table in sphinx.conf be automatically generated?
   Perhaps there's a unicode library (ICU) that finds case-folding characters,

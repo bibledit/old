@@ -11,6 +11,10 @@
 <p>The link to logout has been moved from the header to the user's page.</p>
 <p>Indexes and searches the consultation notes.</p>
 <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 
 <h2>Version 0.7</h2>
 <p>11 October 2012</p>
