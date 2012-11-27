@@ -1,5 +1,4 @@
 - Index the Bible text.
-- Go through every Bible / book / chapter / verse.
 - Convert each USFM verse to plain text. Remove inline formatting, images, etc.
 - Put notes one on a line.
 

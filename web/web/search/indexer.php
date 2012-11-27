@@ -98,7 +98,20 @@ foreach ($identifiers as $noteIdentifier) {
 
 // Go through all Bibles.
 $bibles = $database_bibles->getBibles ();
-var_dump ($bibles);
+foreach ($bibles as $bible) {
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapterText = $database_bibles->getChapter ($bible, $book, $chapter);
+      $verses = Filter_Usfm::getVerseNumbers ($chapterText);
+      foreach ($verses as $verse) {
+        $verseText = Filter_Usfm::getVerseText ($chapterText, $verse);
+
+      }
+    }
+  }
+}
 
 
 
