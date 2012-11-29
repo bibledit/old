@@ -46,6 +46,8 @@ echo '<sphinx:docset>' . "\n";
 $database_config_general = Database_Config_General::getInstance ();
 $database_notes = Database_Notes::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
+$database_styles = Database_Styles::getInstance ();
+$styles_logic = Styles_Logic::getInstance ();
 
 
 $siteUrl = $database_config_general->getSiteURL ();
@@ -96,6 +98,47 @@ foreach ($identifiers as $noteIdentifier) {
 }
 
 
+// Style information.
+$noteMarkers = array ();
+$paragraphMarkers = array ();
+$database_styles->ensureOneSheet ();
+$stylesheet = $database_styles->getSheets ();
+if (in_array ("Standard", $stylesheet)) {
+  $stylesheet = "Standard";
+} else {
+  $stylesheet = $stylesheet [0];
+}
+$markers = $database_styles->getMarkers ($stylesheet);
+foreach ($markers as $marker) {
+  $style = $database_styles->getMarkerData ($stylesheet, $marker);
+  if ($style['type'] == StyleTypeFootEndNote) {
+    if ($style['subtype'] == FootEndNoteSubtypeFootnote) {
+      $noteMarkers [] = $marker;
+    }
+    if ($style['subtype'] == FootEndNoteSubtypeEndnote) {
+      $noteMarkers [] = $marker;
+    }
+  }
+  if ($style['type'] == StyleTypeCrossreference) {
+    if ($style['subtype'] == CrossreferenceSubtypeCrossreference) {
+      $noteMarkers [] = $marker;
+    }
+  }
+  if ($style['type'] == StyleTypeIdentifier) {
+    $paragraphMarkers [] = $marker;
+  }
+  if ($style['type'] == StyleTypeStartsParagraph) {
+    $paragraphMarkers [] = $marker;
+  }
+  if ($style['type'] == StyleTypeChapterNumber) {
+    $paragraphMarkers [] = $marker;
+  }
+  if ($style['type'] == StyleTypePeripheral) {
+    $paragraphMarkers [] = $marker;
+  }
+}
+
+
 // Go through all Bibles.
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
@@ -106,8 +149,25 @@ foreach ($bibles as $bible) {
       $chapterText = $database_bibles->getChapter ($bible, $book, $chapter);
       $verses = Filter_Usfm::getVerseNumbers ($chapterText);
       foreach ($verses as $verse) {
+        $lines = array ();
+        $line = "";
         $verseText = Filter_Usfm::getVerseText ($chapterText, $verse);
-
+        var_dump ($verseText);
+        $markersAndText = Filter_Usfm::getMarkersAndText ($verseText);
+        foreach ($markersAndText as $markerOrText) { // Todo working here filtering USFM.
+          if (substr ($markerOrText, 0, 1) !== false) {
+            $marker = substr ($markerOrText, 1);
+            $marker = trim ($marker);
+            if (in_array ($marker, $paragraphMarkers)) {
+              if ($line != "") $lines [] = $line;
+              $line = "";
+            }
+          } else {
+            $line .= $markerOrText;
+          }
+        }
+        if ($line != "") $lines [] = $line;
+        var_dump ($lines);
       }
     }
   }

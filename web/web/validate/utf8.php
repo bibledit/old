@@ -5,7 +5,7 @@ class Validate_Utf8 {
 
   // Returns true if $str is valid UTF-8 and false otherwise.
   // Note: It seems to fail when validating a book of USFM code.
-  private function valid1 ($str)
+  private static function valid1 ($str)
   {
     // From http://w3.org/International/questions/qa-forms-utf-8.html
     return preg_match('%^(?:
@@ -22,7 +22,7 @@ class Validate_Utf8 {
   
   // Returns true if $str is valid UTF-8 and false otherwise.
   // Did not work reliably.
-  private function valid2 ($str)
+  private static function valid2 ($str)
   {
     // From www.php.net/manual/en/function.mb-check-encoding.php
     $len = strlen($str); 
@@ -48,7 +48,7 @@ class Validate_Utf8 {
 
 
   // Returns true if $str is valid UTF-8 and false otherwise.
-  public function valid ($str)
+  public static function valid ($str)
   {
     // From www.php.net/manual/en/function.mb-check-encoding.php
     return mb_check_encoding ($str, "UTF-8");

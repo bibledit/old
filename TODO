@@ -1,6 +1,13 @@
 - Index the Bible text.
 - Convert each USFM verse to plain text. Remove inline formatting, images, etc.
 - Put notes one on a line.
+- Create a filter for usfm2text
+- Create a unittest for usfm2text
+- It works like this:
+** Store all usfm markers that start a paragraph in an array.
+** Store all usfm markers that start / end notes in an array.
+** Divide the text into usfm markers and text: This is a standard function.
+** Process all text starting new lines if needed, and storing stuff as new lines in notes as needed, and removing the remainder of inline markers.
 
 
 
@@ -161,3 +168,20 @@ http://stackoverflow.com/questions/5343068/is-there-a-way-to-skip-password-typin
 
 Perhaps a function to restore a deleted bible from the snapshots,
 so that accedentially deleted things can be restored.
+
+
+
+
+
+
+Bibledit-Gtk
+To get a template with all \c's and \v's in Bibledit, make the project you want them to go into active, then from File menu choose Project-->Properties. 
+There's a button labeled "+ Templates" under a heading "Add Books."
+It also requires waiting for a tiny dialog with a progress bar in it to show something (in the meantime, it wasn't clear it was a progress bar in it). 
+And even then I found you have to explicitly choose the book once the template is in it (but nothing tells you the template is in it - 
+and then you have to choose a chapter and a non-zero verse number, before you see what you thought you should. 
+Improving the user experience would be helpful. 
+Clear simple interfaces, and easy to find documentation, are very important for user acceptability. 
+For instance, if a template is chosen, BE should, after inserting it, present the results in BE in such a way that the user sees immediate feedback that it is there. 
+So the book should appear in the interface, with chapter 1 verse 1 chosen automatically so that the list of markers shows.
+
