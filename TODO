@@ -1,13 +1,9 @@
-- Index the Bible text.
-- Convert each USFM verse to plain text. Remove inline formatting, images, etc.
-- Put notes one on a line.
-- Create a filter for usfm2text
-- Create a unittest for usfm2text
-- It works like this:
-** Store all usfm markers that start a paragraph in an array.
-** Store all usfm markers that start / end notes in an array.
-** Divide the text into usfm markers and text: This is a standard function.
-** Process all text starting new lines if needed, and storing stuff as new lines in notes as needed, and removing the remainder of inline markers.
+
+
+Filter_Usfm::getVerseNumbers mixes up verses.
+to fix this before proceding.
+It also affects the daily changes, because headers are also seen there mixed up.
+To write a better unit test including the Ndebele chapter 3 John 1:1.
 
 
 

@@ -32,10 +32,30 @@ Sphinx will index this xml file.
 require_once ("../bootstrap/bootstrap.php");
 
 
-// Basic variables.
-//include ("/tmp/variables.php");
-$document_identifier = 0;
-$manualIdentifier = 0;
+// This outputs the XML.
+function outputXml ($url, $title, $text) 
+{
+  static $document_identifier = 0;
+  static $manualIdentifier = 0;
+  $document_identifier++;
+  echo "<sphinx:document id=\"$document_identifier\">\n";
+  echo "<manual>$manualIdentifier</manual>\n";
+  $url = Filter_Html::sanitize ($url);
+  echo "<url>$url</url>\n";
+  $title = Filter_Html::sanitize ($title);
+  echo "<title>$title</title>\n";
+  $text = Filter_Html::sanitize ($text);
+  echo "<text>$text</text>\n";
+  echo "<content>\n";
+  // The title is repeated in the context to give it a higher weight.
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo "$title\n";
+  echo $text;
+  echo "</content>\n";
+  echo "</sphinx:document>\n";
+}
 
 
 // Start the xml file for the sphinx indexer.
@@ -56,51 +76,20 @@ $siteUrl = $database_config_general->getSiteURL ();
 // Go through the identifiers of all consultation notes.
 $identifiers = $database_notes->getIdentifiers ();
 foreach ($identifiers as $noteIdentifier) {
-
-
-  // Assemble the title.
   $summary = $database_notes->getSummary ($noteIdentifier);
   $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($noteIdentifier));
   $title = "$summary | $verses";
-  $title = Filter_Html::sanitize ($title);
-
-
-  // Assemble the text.
   $text = $database_notes->getContents ($noteIdentifier);
   $text = Filter_Html::html2text ($text);
-  $text = Filter_Html::sanitize ($text);
-
-
-  $document_identifier++;
-  echo "<sphinx:document id=\"$document_identifier\">\n";
-
-  echo "<manual>$manualIdentifier</manual>\n";
-
   $url = "$siteUrl/consultations/notes.php?consultationnote=$noteIdentifier";
-  echo "<url>$url</url>\n";
-
-  echo "<title>$title</title>\n";
-
-  echo "<text>$text</text>\n";
-
-  // Output the content.
-  echo "<content>\n";
-  // The title is repeated in the context to give it a higher weight.
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo $text;
-  echo "</content>\n";
-
-  echo "</sphinx:document>\n";
-
+  outputXml ($url, $title, $text);
 }
 
 
 // Style information.
-$noteMarkers = array ();
 $paragraphMarkers = array ();
+$noteOpeners = array ();
+$noteClosers = array ();
 $database_styles->ensureOneSheet ();
 $stylesheet = $database_styles->getSheets ();
 if (in_array ("Standard", $stylesheet)) {
@@ -113,15 +102,18 @@ foreach ($markers as $marker) {
   $style = $database_styles->getMarkerData ($stylesheet, $marker);
   if ($style['type'] == StyleTypeFootEndNote) {
     if ($style['subtype'] == FootEndNoteSubtypeFootnote) {
-      $noteMarkers [] = $marker;
+      $noteOpeners [] = $marker;
+      $noteClosers [] = "$marker*";
     }
     if ($style['subtype'] == FootEndNoteSubtypeEndnote) {
-      $noteMarkers [] = $marker;
+      $noteOpeners [] = $marker;
+      $noteClosers [] = "$marker*";
     }
   }
   if ($style['type'] == StyleTypeCrossreference) {
     if ($style['subtype'] == CrossreferenceSubtypeCrossreference) {
-      $noteMarkers [] = $marker;
+      $noteOpeners [] = $marker;
+      $noteClosers [] = "$marker*";
     }
   }
   if ($style['type'] == StyleTypeIdentifier) {
@@ -149,30 +141,48 @@ foreach ($bibles as $bible) {
       $chapterText = $database_bibles->getChapter ($bible, $book, $chapter);
       $verses = Filter_Usfm::getVerseNumbers ($chapterText);
       foreach ($verses as $verse) {
-        $lines = array ();
-        $line = "";
+        $textLine = "";
+        $textLines = array ();
+        $processingNote = false;
+        $noteLine = "";
+        $noteLines = array ();
         $verseText = Filter_Usfm::getVerseText ($chapterText, $verse);
-        var_dump ($verseText);
         $markersAndText = Filter_Usfm::getMarkersAndText ($verseText);
-        foreach ($markersAndText as $markerOrText) { // Todo working here filtering USFM.
-          if (substr ($markerOrText, 0, 1) !== false) {
+        foreach ($markersAndText as $markerOrText) {
+          if (substr ($markerOrText, 0, 1) == "\\") {
             $marker = substr ($markerOrText, 1);
             $marker = trim ($marker);
             if (in_array ($marker, $paragraphMarkers)) {
-              if ($line != "") $lines [] = $line;
-              $line = "";
+              if ($textLine != "") $textLines [] = $textLine;
+              $textLine = "";
+            }
+            if (in_array ($marker, $noteOpeners)) {
+              $processingNote = true;
+            }
+            if (in_array ($marker, $noteClosers)) {
+              $processingNote = false;
+              $noteLines [] = $noteLine;
+              $noteLine = "";
             }
           } else {
-            $line .= $markerOrText;
+            if ($processingNote) {
+              $noteLine .= $markerOrText;
+            } else {
+              $textLine .= $markerOrText;
+            }
           }
         }
-        if ($line != "") $lines [] = $line;
-        var_dump ($lines);
+        if ($textLine != "") $textLines [] = $textLine;
+        if ($noteLine != "") $noteLines [] = $textLine;
+        $url = "$siteUrl/desktop/index.php?desktop=edittext&switchbook=$book&switchchapter=$chapter";
+        $title = "$bible" . " | " . Filter_Books::passageDisplay ($book, $chapter, $verse);
+        $text = implode ("\n", $textLines) . "\n" . implode ("\n", $noteLines);
+        $text = trim ($text);
+        outputXml ($url, $title, $text);
       }
     }
   }
 }
-
 
 
 // Finish the xml document for the sphinx indexer.
