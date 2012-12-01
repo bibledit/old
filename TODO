@@ -1,9 +1,13 @@
+Write tool to remove empty last lines from all php files.
 
 
-Filter_Usfm::getVerseNumbers mixes up verses.
-to fix this before proceding.
+
+
+Filter_Usfm::getVerseNumbers - test it, fix it.
+
 It also affects the daily changes, because headers are also seen there mixed up.
 To write a better unit test including the Ndebele chapter 3 John 1:1.
+$verseText = Filter_Usfm::getVerseText ($chapterText, $verse)
 
 
 

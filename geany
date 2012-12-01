@@ -14,11 +14,11 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=3
-FILE_NAME_0=567;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
+current_page=0
+FILE_NAME_0=0;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
 FILE_NAME_1=723;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
 FILE_NAME_2=3073;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsearch.php;0;2
-FILE_NAME_3=4787;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findexer.php;0;2
+FILE_NAME_3=4580;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findexer.php;0;2
 FILE_NAME_4=604;Conf;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinx.conf;0;2
 FILE_NAME_5=15341;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinxapi.php;0;2
 FILE_NAME_6=6;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findex.php;0;2
@@ -30,6 +30,8 @@ FILE_NAME_11=5036;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fw
 FILE_NAME_12=491;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fstyles%2Findext.php;0;2
 FILE_NAME_13=1500;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fdatabase%2Fstyles.php;0;2
 FILE_NAME_14=1703;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fvalidate%2Futf8.php;0;2
+FILE_NAME_15=2118;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fdatabase%2Fbooks.php;0;2
+FILE_NAME_16=890;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fbooks.php;0;2
 
 [long line marker]
 long_line_behaviour=2
