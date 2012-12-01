@@ -9,6 +9,7 @@
   <body>
     {include file=../assets/header_full.tpl} 
     <h1>{$book_name}</h1>
+    <p class="success">{$success_message}</p>
     <p class="error">{$error_message}</p>
     <p>{t}Bible{/t}: <a href="settings.php?bible={$bible}">{$bible}</a></p>
     <p>{t}Chapters:{/t}

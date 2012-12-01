@@ -20,7 +20,8 @@ $smarty->assign ("book_name", Filter_Html::sanitize ($book_name));
 // Delete chapter.
 @$deletechapter = $_GET['deletechapter'];
 if ($deletechapter != "") {
-  if ($_GET['confirm'] != "yes") {
+  @$confirm = $_GET['confirm'];
+  if ($confirm != "yes") {
     $dialog_yes = new Dialog_Yes (array ("bible", "book"), gettext ("Would you like to delete this chapter?"), "deletechapter");
     die;
   } else {
@@ -33,12 +34,13 @@ if (isset ($_GET['createchapter'])) {
   $dialog_entry = new Dialog_Entry (array ("bible" => $bible, "book" => $book), gettext ("Please enter the number for the new chapter"), "", "createchapter", NULL);
   die;
 }
-if (isset($_POST['createchapter'])) {
+if (isset($_POST['createchapter'])) { // Todo
   $createchapter = $_POST['entry'];
   $chapters = $database_bibles->getChapters ($bible, $book);
   // Only create the chapters if it does not yet exist.
   if (array_search ($createchapter, $chapters) === false) {
-    new Book_Create ($bible, $book, $createchapter);
+    Book_Create::create ($bible, $book, $createchapter);
+    $success_message = gettext ("The chapter has been created");
   } else {
     $error_message = gettext ("This chapter already exists");
   }
@@ -48,6 +50,7 @@ if (isset($_POST['createchapter'])) {
 $chapters = $database_bibles->getChapters ($bible, $book);
 $smarty->assign ("chapters", $chapters);
 
+@$smarty->assign ("success_message", $success_message);
 @$smarty->assign ("error_message", $error_message);
 
 $smarty->display ("book.tpl");

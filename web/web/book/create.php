@@ -28,7 +28,7 @@ class Book_Create
   * Creates book template with ID $book in Bible $bible.
   * If a $chapter is given instead of NULL, it creates that chapter only.
   */
-  public function __construct($bible, $book, $chapter)
+  public static function create ($bible, $book, $chapter) // Todo this function gives feedback.
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_snapshots = Database_Snapshots::getInstance();
@@ -37,13 +37,14 @@ class Book_Create
     $database_logs = Database_Logs::getInstance ();
     $bible_id = $database_bibles->getID ($bible);
     if ($bible_id == 0) {
-      $database_logs->log ("Bible $bible does not exist: Cannot create book");
-      return;
+      return gettext ("Bible $bible does not exist: Cannot create book");
     }
     if ($book == 0) {
-      $database_logs->log ("Invalid book while creating a book template");
-      return;
+      return gettext ("Invalid book while creating a book template");
     }
+
+    // The chapters that have been created.
+    $chaptersCreated = array ();    
 
     // Chapter 0.
     if (!isset ($chapter) || ($chapter == 0)) {
@@ -52,6 +53,7 @@ class Book_Create
       $data .= "\\toc2 "  . $database_books->getEnglishFromId ($book) . "\n";
       $database_bibles->storeChapter ($bible, $book, 0, $data);
       $database_snapshots->snapChapter ($bible, $book, 0, $data, false);
+      $chaptersCreated [] = 0;
     }
 
 
@@ -70,10 +72,12 @@ class Book_Create
           }
           $database_bibles->storeChapter ($bible, $book, $ch, $data);
           $database_snapshots->snapChapter ($bible, $book, $ch, $data, false);
+          $chaptersCreated [] = $ch;
         }
       }
     }
   }
+  
 }
 
 

@@ -1,3 +1,14 @@
+Bug: Cannot create chapter in a book if the chapter number if beyond the standard ones.
+It should given some kind of error.
+It also should give green feedback for success.
+Create feedback on web page.
+
+
+
+
+
+sphinx.conf
+  charset_table = 0..9, A..Z->a..z, _, a..z, U+C0..U+FF->U+C0..U+FF, U+0100..U+0FFF->U+0100..U+0FFF
 
 
 
@@ -174,4 +185,13 @@ Improving the user experience would be helpful.
 Clear simple interfaces, and easy to find documentation, are very important for user acceptability. 
 For instance, if a template is chosen, BE should, after inserting it, present the results in BE in such a way that the user sees immediate feedback that it is there. 
 So the book should appear in the interface, with chapter 1 verse 1 chosen automatically so that the list of markers shows.
+
+
+
+
+Bibledit-Web.
+When the .pid file of searchd is removed from e.g. /tmp or wherever it might be,
+then the system tries to start searchd, but fails, and also the rotation of the
+index does not work. Try to fix it by probably killing searchd before restarting
+it when the .pid file is not found.
 

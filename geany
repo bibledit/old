@@ -14,23 +14,26 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=10
-FILE_NAME_0=60;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
-FILE_NAME_1=631;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
+current_page=0
+FILE_NAME_0=201;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
+FILE_NAME_1=673;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
 FILE_NAME_2=3073;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsearch.php;0;2
-FILE_NAME_3=4847;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findexer.php;0;2
-FILE_NAME_4=604;Conf;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinx.conf;0;2
-FILE_NAME_5=15341;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinxapi.php;0;2
-FILE_NAME_6=6;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findex.php;0;2
-FILE_NAME_7=1155;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Freadme.php;0;2
-FILE_NAME_8=177;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsearch.tpl;0;2
-FILE_NAME_9=358;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
-FILE_NAME_10=7226;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fusfm.php;0;2
-FILE_NAME_11=1500;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fdatabase%2Fstyles.php;0;2
-FILE_NAME_12=2118;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fdatabase%2Fbooks.php;0;2
-FILE_NAME_13=890;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fbooks.php;0;2
-FILE_NAME_14=4411;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Ftests%2Ffilter%2FusfmTest.php;0;2
-FILE_NAME_15=14;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fupdatecopyright;0;2
+FILE_NAME_3=4812;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findexer.php;0;2
+FILE_NAME_4=487;Conf;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinx.conf;0;2
+FILE_NAME_5=6;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findex.php;0;2
+FILE_NAME_6=1226;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Freadme.php;0;2
+FILE_NAME_7=177;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsearch.tpl;0;2
+FILE_NAME_8=358;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
+FILE_NAME_9=9171;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fusfm.php;0;2
+FILE_NAME_10=2626;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Ftests%2Ffilter%2FusfmTest.php;0;2
+FILE_NAME_11=979;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fhtml.php;0;2
+FILE_NAME_12=1433;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbible%2Fbook.php;0;2
+FILE_NAME_13=524;XML;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbible%2Fbook.tpl;0;2
+FILE_NAME_14=0;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbible%2Fchapter.php;0;2
+FILE_NAME_15=0;XML;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbible%2Fchapter.tpl;0;2
+FILE_NAME_16=1924;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbible%2Fimportcli.php;0;2
+FILE_NAME_17=1495;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbook%2Fcreate.php;0;2
+FILE_NAME_18=1579;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fbible%2Fsettings.php;0;2
 
 [long line marker]
 long_line_behaviour=2
