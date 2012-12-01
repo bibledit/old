@@ -1542,4 +1542,3 @@ class Filter_Text
 }
 
 ?>
-

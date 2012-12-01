@@ -35,4 +35,3 @@ class Dialog_Entry
 
 
 ?>
-

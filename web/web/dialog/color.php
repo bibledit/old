@@ -25,4 +25,3 @@ class Dialog_Color
 
 
 ?>
-

@@ -48,4 +48,3 @@ class Dialog_Books
   
 }
 ?>
-

@@ -60,4 +60,3 @@ class Dialog_List2
   
 }
 ?>
-

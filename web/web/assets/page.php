@@ -59,4 +59,3 @@ class Assets_Page
 
 
 ?>
-
