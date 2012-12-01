@@ -26,7 +26,7 @@ class Filter_Html
 
   public static function sanitize ($html)
   {
-    $html = htmlspecialchars ($html, ENT_QUOTES, "UTF-8");
+    @$html = htmlspecialchars ($html, ENT_QUOTES, "UTF-8");
     return $html;
   }
 
