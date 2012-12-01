@@ -252,21 +252,28 @@ class Filter_Usfm
   */
   public static function getVerseText ($usfm, $verse_number)
   {
-    $verse_text = "";
-    $lines = explode ("\n", $usfm);
-    for ($i = 0; $i < count ($lines); $i++) {
-      $numbers = Filter_Usfm::getVerseNumbers ($lines[$i]);
-      if (count ($numbers) >= 2) {
-        $number = $numbers[1];
-      } else {
-        $number = $numbers[0];
-      }
-      if ($number == $verse_number) {
-        if ($verse_text != "") $verse_text .= " ";
-        $verse_text .= $lines[$i];
-      }
+    // The start of the requested verse number.
+    $cleanPos = strpos ($usfm, "\\v $verse_number ");
+    $dirtyPos = strpos ($usfm, "\\v $verse_number");
+    if ($verse_number == 0) {
+      $startPosition = 0;
+    } else if ($cleanPos !== false) {
+      $startPosition = $cleanPos;
+    } else if ($dirtyPos !== false) {
+      $startPosition = $dirtyPos;
+    } else {
+      // The verse number was not found.
+      return "";
     }
-    return $verse_text;    
+
+    // The end of the requested verse number.
+    $endPosition = strpos ($usfm, "\\v", $startPosition + 1);
+    if ($endPosition === false) $endPosition = strlen ($usfm);
+    
+    // Return the verse text.
+    $verseText = substr ($usfm, $startPosition, $endPosition - $startPosition);
+    $verseText = trim ($verseText);
+    return $verseText;
   }
 
 

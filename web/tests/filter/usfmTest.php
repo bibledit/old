@@ -73,6 +73,50 @@ EOD;
     $this->assertEquals ("\\v 1 One", Filter_Usfm::getVerseText ($usfm, 1));
     $this->assertEquals ("\\p", Filter_Usfm::getVerseText ($usfm, 0));
     $this->assertEquals ("", Filter_Usfm::getVerseText ($usfm, 2));
+$usfm = <<<'EOD'
+\c 1
+\s Isibingelelo
+\p
+\v 1 Umdala
+\p
+\v 2 Sithandwa
+\v 3 Ngoba
+\v 4 Kangilantokozo
+\s Inkathazo
+\p
+\v 5 Sithandwa
+\v 6 abafakazele
+\v 7 Ngoba
+\v 8 Ngakho
+\p
+\v 9 Ngabhalela
+\v 10 Ngakho
+\p
+\v 11 Sithandwa
+\v 12 NgoDemetriyu
+\s Isicino
+\p
+\v 13 Bengilezinto
+\v 14 kodwa
+\p Ukuthula
+EOD;
+$output = <<<'EOD'
+\c 1
+\s Isibingelelo
+\p
+EOD;
+    $this->assertEquals ($output, Filter_Usfm::getVerseText ($usfm, 0));
+$output = <<<'EOD'
+\v 1 Umdala
+\p
+EOD;
+    $this->assertEquals ($output, Filter_Usfm::getVerseText ($usfm, 1));
+$output = <<<'EOD'
+\v 12 NgoDemetriyu
+\s Isicino
+\p
+EOD;
+    $this->assertEquals ($output, Filter_Usfm::getVerseText ($usfm, 12));
   }
   
   public function testIsUsfmMarker()
@@ -108,6 +152,39 @@ EOD;
     $this->assertEquals ("2b,3,", Filter_Usfm::peekVerseNumber ("2b,3, 4"));
     $this->assertEquals ("2a-3b", Filter_Usfm::peekVerseNumber ("2a-3b And he said"));
   }
+  
+  public function testGetVerseNumbers ()
+  {
+$usfm = <<<'EOD'
+\c 1
+\s Isibingelelo
+\p
+\v 1 Umdala
+\p
+\v 2 Sithandwa
+\v 3 Ngoba
+\v 4 Kangilantokozo
+\s Inkathazo
+\p
+\v 5 Sithandwa
+\v 6 abafakazele
+\v 7 Ngoba
+\v 8 Ngakho
+\p
+\v 9 Ngabhalela
+\v 10 Ngakho
+\p
+\v 11 Sithandwa
+\v 12 NgoDemetriyu
+\s Isicino
+\p
+\v 13 Bengilezinto
+\v 14 kodwa
+\p Ukuthula
+EOD;
+    $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14), Filter_Usfm::getVerseNumbers ($usfm));
+  }
+  
   
 }
 ?>
