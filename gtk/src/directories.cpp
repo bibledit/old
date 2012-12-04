@@ -131,7 +131,9 @@ ustring directories_get_package_data()
   ustring directory;
 #ifdef WIN32
   gchar *path;
-  path = g_find_program_in_path("bibledit-bin.exe");
+  path = g_find_program_in_path("bibledit-gtk.exe");
+
+  //TODO: there must be a better way - getcwd(path, MAXPATHLEN) perhaps
   if (path) {
     directory = path;
     g_free(path);

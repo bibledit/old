@@ -302,6 +302,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(printing_fonts);
   SAVE_VALUE(parallel_bible_projects);
   SAVE_VALUE(parallel_bible_enabled);
+  SAVE_VALUE(use_outpost);
   SAVE_VALUE(mychecks);
   SAVE_VALUE(tidy_translate);
   SAVE_VALUE(tidy_books);
@@ -536,7 +537,11 @@ IMPLEMENT(bool, bool_get, parallel_bible_include_verse_zero, false)
 IMPLEMENT(vector < ustring >, vector_string_get, printing_fonts, NULL)
 IMPLEMENT(vector < ustring >, vector_string_get, parallel_bible_projects, NULL)
 IMPLEMENT(vector < bool >, vector_bool_get, parallel_bible_enabled, NULL)
-IMPLEMENT(bool, bool_get, use_outpost, false)
+#ifdef WIN32
+  IMPLEMENT(bool, bool_get, use_outpost, true)
+#else
+  IMPLEMENT(bool, bool_get, use_outpost, false)
+#endif
 IMPLEMENT(ustring, string_get, mychecks, "")
 IMPLEMENT(bool, bool_get, tidy_translate, false)
 IMPLEMENT(vector < int >, vector_int_get, tidy_books, NULL)
