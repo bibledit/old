@@ -22,7 +22,7 @@
 #include "gtkwrappers.h"
 #include "gwrappers.h"
 #include <glib.h>
-
+#include "windowsoutpost.h"
 
 void gtkw_dialog_info(GtkWidget * parent, const ustring & info)
 {
