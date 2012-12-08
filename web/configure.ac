@@ -55,6 +55,12 @@ if test x$FIND_WDIFF = xno; then
 fi
 
 
+AC_PATH_PROG(FIND_SQLITE3, sqlite3, no)
+if test x$FIND_SQLITE3 = xno; then
+  AC_MSG_ERROR(Program "sqlite3" is needed. Install this first.)
+fi
+
+
 AC_PATH_PROG(FIND_INDEXER, indexer, no)
 if test x$FIND_INDEXER = xno; then
   AC_MSG_ERROR(Install program "indexer". It is part of sphinxsearch.)
