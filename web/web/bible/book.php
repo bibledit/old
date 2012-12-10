@@ -34,13 +34,16 @@ if (isset ($_GET['createchapter'])) {
   $dialog_entry = new Dialog_Entry (array ("bible" => $bible, "book" => $book), gettext ("Please enter the number for the new chapter"), "", "createchapter", NULL);
   die;
 }
-if (isset($_POST['createchapter'])) { // Todo
+if (isset($_POST['createchapter'])) {
   $createchapter = $_POST['entry'];
   $chapters = $database_bibles->getChapters ($bible, $book);
   // Only create the chapters if it does not yet exist.
   if (array_search ($createchapter, $chapters) === false) {
-    Book_Create::create ($bible, $book, $createchapter);
-    $success_message = gettext ("The chapter has been created");
+    $feedback = array ();
+    $result = Book_Create::create ($bible, $book, $createchapter, $feedback);
+    $feedback = implode (" ", $feedback);
+    if ($result) $success_message = $feedback;
+    else $error_message = $feedback;
   } else {
     $error_message = gettext ("This chapter already exists");
   }

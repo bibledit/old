@@ -37,7 +37,8 @@ if (isset ($createbook)) {
     $dialog_books = new Dialog_Books (array ("bible"), gettext ("Create book"), "", "", "createbook", NULL, $database_bibles->getBooks ($bible));
     die;
   } else {
-    Book_Create::create ($bible, $createbook, NULL);
+    $feedback = array ();
+    Book_Create::create ($bible, $createbook, NULL, $feedback);
   }
 }
 

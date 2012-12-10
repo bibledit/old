@@ -4,10 +4,8 @@
 
 
 
-Bug: Cannot create chapter in a book if the chapter number if beyond the standard ones.
-It should given some kind of error.
-It also should give green feedback for success.
-Create feedback on web page.
+
+
 
 
 
@@ -201,3 +199,31 @@ then the system tries to start searchd, but fails, and also the rotation of the
 index does not work. Try to fix it by probably killing searchd before restarting
 it when the .pid file is not found.
 
+
+
+
+There are some warnings when compiling Bibledit-Gtk.
+bibledit.cpp: In function â€˜int main(int, char**)â€™:
+bibledit.cpp:62:3: warning: â€˜void g_thread_init(gpointer)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:259) [-Wdeprecated-declarations]
+bibledit.cpp:62:21: warning: â€˜void g_thread_init(gpointer)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:259) [-Wdeprecated-declarations]
+windowsoutpost.cpp: In member function â€˜void WindowsOutpost::Start()â€™:
+windowsoutpost.cpp:79:3: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+windowsoutpost.cpp:79:73: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+httpd.cpp: In constructor â€˜Httpd::Httpd(bool)â€™:
+httpd.cpp:41:3: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+httpd.cpp:41:73: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+displayprojectnotes.cpp: In constructor â€˜DisplayProjectNotes::DisplayProjectNotes(const ustring&, GtkWidget*, std::vector<unsigned int>*, unsigned int&)â€™:
+displayprojectnotes.cpp:45:3: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+displayprojectnotes.cpp:45:73: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+editor.cpp: In member function â€˜void Editor2::highlight_searchwords()â€™:
+editor.cpp:1665:3: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+editor.cpp:1665:83: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+vcs.cpp: In constructor â€˜VCS::VCS(bool)â€™:
+vcs.cpp:43:3: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+vcs.cpp:43:73: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, gboolean, GError**)â€™ is deprecated (declared at /usr/include/glib-2.0/glib/deprecated/gthread.h:100): Use 'g_thread_new' instead [-Wdeprecated-declarations]
+
+
+
+Idea (whether realistic or not):
+Write simple Android app that displays web pages with Bibles, and remembers where it was last.
+Let Bibledit-Web create an adopted app every night with the updated text of a Bible.
