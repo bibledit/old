@@ -10,7 +10,7 @@
 <p>Requires package sphinxsearch.</p>
 <p>The link to logout has been moved from the header to the user's page.</p>
 <p>Searches the Consultation Notes and the Bibles.</p>
-<p></p>
+<p>Better feedback when creating chapters in a book.</p>
 <p></p>
 <p></p>
 <p></p>
