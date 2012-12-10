@@ -1,19 +1,28 @@
 Steps:
-- Indexing everything also takes the access level in account. This is how it works
-  for the web pages? Each .tpl files is searched, and then it searches which php
-  file calls that template. Then the access level of that php file is taken
-  in consideration and stored when indexing that particular template.
-  So a person with a certain access level only gets to see the permitted 
-  search results.
-  Indexing the notes and the bible text is easier: A known access level is added
-  in the index for the notes, and for the Bible text.
+Add the 'level' to the configuration.
+Supply the level through indexer.php.
+Retrieve the level in search.php.
+
+
+
+Indexing everything also takes the access level in account. 
+A person with a certain access level only gets to see the permitted search results.
+Indexing the notes and the bible text: 
+A known access level is added in the index for the notes and for the Bible text.
+Perhaps the current login level should be available to search.php.
+The access level can be requested from the user who is logged in.
+
+
+
+
+
+
+
+
+
+Steps:
 - When creating the search.php try to use the Zend Framework view helpers,
   including the localization helpers, but they can be done slightly later.
-- Perhaps the current login level should be supplied to the search.php,
-  but not as search.php?level=x, because this is easy to fake. Better to POST
-  it to the search.php. Then the search.php can use this access level to set
-  this level for the current page. Or perhaps it's not needed, and the access
-  level can be requested from the user who is logged in.
 - Every once and a while there's some check on whether the daemon runs. Needed?
 - As to the daemon running, we may do it like this: When the query fails because 
   it cannot connect to the host, then start the searchd daemon. Or give a message 
