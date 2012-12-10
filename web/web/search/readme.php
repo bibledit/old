@@ -23,14 +23,20 @@
 
 If certain characters do not get indexed, or cannot be searched on, 
 then the solution is to add these characters to sphinx.conf 
-to the 'charset_table'.
+to the 'charset_table', like so:
+index sphinxsearch
+{
+  ...
+  charset_table = 0..9, A..Z->a..z, _, a..z, U+C0..U+FF->U+C0..U+FF, U+0100..U+0FFF->U+0100..U+0FFF
+}
 
 
-# Sphinxsearch indexes the data through the configuration file.
+
+Sphinxsearch indexes the data through the configuration file.
 indexer --rotate --all --config sphinx.conf
 
 
-# The search daemon is is started like this:
+The search daemon is is started like this:
 searchd --config /path/to/sphinx.conf
 
 
