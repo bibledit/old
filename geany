@@ -15,18 +15,16 @@ run_cmd=sh /home/teus/bin/be
 
 [files]
 current_page=0
-FILE_NAME_0=117;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
+FILE_NAME_0=179;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2FTODO;0;2
 FILE_NAME_1=738;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
-FILE_NAME_2=3073;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsearch.php;0;2
-FILE_NAME_3=4812;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findexer.php;0;2
-FILE_NAME_4=387;Conf;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinx.conf;0;2
+FILE_NAME_2=1827;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsearch.php;0;2
+FILE_NAME_3=6208;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findexer.php;0;2
+FILE_NAME_4=129;Conf;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsphinx.conf;0;2
 FILE_NAME_5=6;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Findex.php;0;2
 FILE_NAME_6=1012;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Freadme.php;0;2
 FILE_NAME_7=177;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fsearch%2Fsearch.tpl;0;2
 FILE_NAME_8=177;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
-FILE_NAME_9=9171;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fusfm.php;0;2
-FILE_NAME_10=2626;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Ftests%2Ffilter%2FusfmTest.php;0;2
-FILE_NAME_11=979;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fhtml.php;0;2
+FILE_NAME_9=1327;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fassets%2Fheader_full.tpl;0;2
 
 [long line marker]
 long_line_behaviour=2

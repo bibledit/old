@@ -1,3 +1,21 @@
+A page like the Common Shona page should be produced. It allows to read the Bible online, and download the files, and do whatever else is needed.
+Bibledit-Web generates this page.
+
+
+
+
+
+Steps:
+
+
+Produce, in 'members', and from outside, a searchable version of the Bibles.
+The name of the Bible is at the top of the page and starts the breadcrumbs.
+Then the book name follows, and finally the chapter name is displayed.
+Then there's the search box. It flushes to the right so that the length of the breadcrumbs does not influence the position of the search box.
+The Bible gets a list of Bible books, clickable.
+Each book gets a list of clickable chapters.
+Each chapter gets a list of clickable verses.
+Everything goes into one folder: Web pages, search.php, index. This makes it very portable.
 
 
 
@@ -12,12 +30,13 @@
 
 
 
-
-
-
+Make NDB and SHN Bibles searchable on the site. Version to TBS, and revised version.
 
 
 Provide information about how to create a searchable site, and how to separate the logic from the bibledit-web software.
+Crontab starts the search daemon, or ensures that it runs.
+
+
 
 
 
@@ -48,27 +67,12 @@ Replace GDK_<keyname> with GDK_KEY_<keyname>: Done.
 
 
 
-Produce, in 'members', and from outside, a searchable version, like the SC manuals.
-Steps:
-Improve the web version using code from the linked web version.
-Each chapter gets a list of clickable parents at the top.
-The Bible gets a list of Bible books, clickable.
-Each book gets a list of clickable chapters.
-Each chapter gets a list of clickable verses.
-Every page gets a few anchors: Clickable Logo, Bible name, search entry.
-Perhaps to have a switch on the site whether to enable / disable the search functions.
-Use sphinxsearch
-Crontab starts the search daemon, or ensures that it runs.
 
 
 
 
 
 
-
-
-
-Make NDB and SHN Bibles searchable on the site. Version to TBS, and revised version.
 
 
 
@@ -165,9 +169,13 @@ vcs.cpp:43:73: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, g
 
 
 
+
+
 Idea (whether realistic or not):
 Write simple Android app that displays web pages with Bibles, and remembers where it was last.
 Let Bibledit-Web create an adopted app every night with the updated text of a Bible.
+
+
 
 
 
@@ -181,9 +189,13 @@ Selection to make on the search hits page? This one looks cool. Buttons / links?
 
 
 
+
+
 Near real-time searching.
 Sphinxsearch can use the main+delta indexing scheme for nearly realtime indexing.
 Indexes the stuff at midnight into the main index.
 Whenever something changes, a note or text, it indexes that in the delta index.
+
+
 
 
