@@ -19,8 +19,8 @@
 */
 
 /*
-This script goes through all html files in all manuals.
-It prepares the html files for the indexer.
+This script goes through the notes and the Bibles.
+It prepares the data for the indexer.
 It echoes the content to stdout as an xml file fit for Sphinx.
 It adds the URLs of the individual web pages,
 as well as other attributes.
@@ -30,16 +30,16 @@ Sphinx will index this xml file.
 
 
 require_once ("../bootstrap/bootstrap.php");
+include ("session/levels.php");
 
 
 // This outputs the XML.
-function outputXml ($url, $title, $text) 
+function outputXml ($url, $title, $text, $level) 
 {
   static $document_identifier = 0;
-  static $manualIdentifier = 0;
   $document_identifier++;
   echo "<sphinx:document id=\"$document_identifier\">\n";
-  echo "<manual>$manualIdentifier</manual>\n";
+  echo "<level>$level</level>\n";
   $url = Filter_Html::sanitize ($url);
   echo "<url>$url</url>\n";
   $title = Filter_Html::sanitize ($title);
@@ -82,7 +82,7 @@ foreach ($identifiers as $noteIdentifier) {
   $text = $database_notes->getContents ($noteIdentifier);
   $text = Filter_Html::html2text ($text);
   $url = "$siteUrl/consultations/notes.php?consultationnote=$noteIdentifier";
-  outputXml ($url, $title, $text);
+  outputXml ($url, $title, $text, CONSULTANT_LEVEL);
 }
 
 
@@ -178,7 +178,7 @@ foreach ($bibles as $bible) {
         $title = "$bible" . " | " . Filter_Books::passageDisplay ($book, $chapter, $verse);
         $text = implode ("\n", $textLines) . "\n" . implode ("\n", $noteLines);
         $text = trim ($text);
-        outputXml ($url, $title, $text);
+        outputXml ($url, $title, $text, TRANSLATOR_LEVEL);
       }
     }
   }

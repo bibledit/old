@@ -1,53 +1,7 @@
-Steps:
-Add the 'level' to the configuration.
-Supply the level through indexer.php.
-Retrieve the level in search.php.
-
-
-
-Indexing everything also takes the access level in account. 
-A person with a certain access level only gets to see the permitted search results.
-Indexing the notes and the bible text: 
-A known access level is added in the index for the notes and for the Bible text.
-Perhaps the current login level should be available to search.php.
-The access level can be requested from the user who is logged in.
 
 
 
 
-
-
-
-
-
-Steps:
-- When creating the search.php try to use the Zend Framework view helpers,
-  including the localization helpers, but they can be done slightly later.
-- Every once and a while there's some check on whether the daemon runs. Needed?
-- As to the daemon running, we may do it like this: When the query fails because 
-  it cannot connect to the host, then start the searchd daemon. Or give a message 
-  that the manager should start the daemon, with a link or description for clarity.
-- The main search entry searches everything. 
-  How to limit searches to e.g. notes only, or bible texts only?
-  Separate search entries under Consultations / Translation?
-  Options to tick / advanced search?
-  Selection to make on the search hits page? This one looks cool. Buttons / links?
-
-
-
-Search really everything: Bibles, notes, menus, webpages.
-
-The search results should be made extremely clear to see:
-New lines are displayed as such.
-Bible / Book / Chapter / Verse number in green.
-
-It can use the main+delta indexing scheme for nearly realtime indexing.
-Indexes the stuff at midnight into the main index.
-Whenever something changes, a note or text, it indexes that in the delta index.
-
-It indexes the notes from the database.
-It indexes the text from the database, but this needs to be converted to html, or just to take the usfm out.
-It indexes the standard pages of the website.
 
 
 
@@ -214,3 +168,22 @@ vcs.cpp:43:73: warning: â€˜GThread* g_thread_create(GThreadFunc, gpointer, g
 Idea (whether realistic or not):
 Write simple Android app that displays web pages with Bibles, and remembers where it was last.
 Let Bibledit-Web create an adopted app every night with the updated text of a Bible.
+
+
+
+
+The main search entry searches everything. 
+How to limit searches to e.g. notes only, or bible texts only?
+Separate search entries under Consultations / Translation?
+Options to tick / advanced search?
+Selection to make on the search hits page? This one looks cool. Buttons / links?
+
+
+
+
+Near real-time searching.
+Sphinxsearch can use the main+delta indexing scheme for nearly realtime indexing.
+Indexes the stuff at midnight into the main index.
+Whenever something changes, a note or text, it indexes that in the delta index.
+
+

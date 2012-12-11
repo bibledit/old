@@ -60,7 +60,8 @@ $sphinxClient->SetServer ("localhost", 9312);
 $sphinxClient->SetConnectTimeout (1);
 $sphinxClient->SetArrayResult (true);
 $sphinxClient->SetMatchMode (SPH_MATCH_EXTENDED2);
-// $sphinxClient->SetFilter ("manual", array (MANUALIDENTIFIER));
+//include ("session/levels.php");
+//$sphinxClient->SetFilter ("level", array (CONSULTANT_LEVEL, TRANSLATOR_LEVEL));
 $sphinxClient->SetLimits (0, 10000);
 
 
