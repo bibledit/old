@@ -393,7 +393,7 @@ EOD;
   /**
   * This function returns the directory of the git repository belonging to $object.
   */
-  public function git_directory ($object)
+  public static function git_directory ($object)
   {
     include ("paths/paths.php");
     $directory = "$localStatePath/$location/git/$object";

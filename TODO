@@ -1,21 +1,21 @@
-A page like the Common Shona page should be produced. It allows to read the Bible online, and download the files, and do whatever else is needed.
-Bibledit-Web generates this page.
 
 
 
 
+The index.html has all books, also clickable.
+When clicking a book in the breadcrumbs, a page opens with all books.
+When cllicking a chapter in the breadcrumbs, a page opens with all chapters in the boo,.
+Thus there are two ways of navigating to a chapter: 1: click a chapter; 2: click the book.
 
-Steps:
 
 
 Produce, in 'members', and from outside, a searchable version of the Bibles.
-The name of the Bible is at the top of the page and starts the breadcrumbs.
 Then the book name follows, and finally the chapter name is displayed.
 Then there's the search box. It flushes to the right so that the length of the breadcrumbs does not influence the position of the search box.
 The Bible gets a list of Bible books, clickable.
 Each book gets a list of clickable chapters.
 Each chapter gets a list of clickable verses.
-Everything goes into one folder: Web pages, search.php, index. This makes it very portable.
+Everything goes into one folder: Web pages, style sheet, search.php, index. This makes it very portable.
 
 
 
