@@ -1,10 +1,9 @@
-The name of the Bible is at the top of the page and starts the breadcrumbs.
-The name is clickable and clicking it returns to the index.html page.
+
+
+The name of the Bible is clickable and clicking it returns to the index.html page.
 This index.html has all books, also clickable.
-
-
-
-
+When clicking a book in the breadcrumbs, a page opens with all books.
+When cllicking a chapter in the breadcrumbs, a page opens with all chapters in the boo,.
 
 
 Produce, in 'members', and from outside, a searchable version of the Bibles.

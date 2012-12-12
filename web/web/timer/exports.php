@@ -81,9 +81,9 @@ foreach ($bibles as $bible) {
   mkdir ($plainWebDirectory);
 
   
-  // Folder for the linked web data.
-  $linkedWebDirectory = $bibleDirectory . "/Web";
-  mkdir ($linkedWebDirectory);
+  // Folder for the rich web data.
+  $richWebDirectory = $bibleDirectory . "/Web";
+  mkdir ($richWebDirectory);
 
   
   // Online Bible files go into the OnlineBible folder.
@@ -104,10 +104,10 @@ foreach ($bibles as $bible) {
   $filter_text_bible = new Filter_Text ($bible);
 
   
-  // LinkedWeb index file.
-  $html_text_linked_index = new Html_Text ($bible);
-  $html_text_linked_index->newParagraph ();
-  $html_text_linked_index->addText ($bible);
+  // RichWeb index file.
+  $html_text_rich_index = new Html_Text ($bible);
+  $html_text_rich_index->newParagraph ("breadcrumbs");
+  $html_text_rich_index->addText ($bible);
 
 
   // Go through the Bible books.
@@ -151,14 +151,14 @@ foreach ($bibles as $bible) {
     $filter_text_book->odf_text_text_and_note_citations->save ("$odtDirectory/$baseBookFileName" . "_text_and_note_citations.odt");
     $filter_text_book->odf_text_notes->save ("$odtDirectory/$baseBookFileName" . "_notes.odt");
     $filter_text_book->html_text_standard->save ("$plainWebDirectory/$baseBookFileName" . ".html");
-    $filter_text_book->html_text_linked->save ("$linkedWebDirectory/$baseBookFileName" . ".html");
+    $filter_text_book->html_text_linked->save ("$richWebDirectory/$baseBookFileName" . ".html");
 
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
     
-    // Add this book to the index for the linked web.
-    $html_text_linked_index->newParagraph ();
-    $html_text_linked_index->addLink ($html_text_linked_index->currentPDomElement,  $baseBookFileName . ".html", "", $database_books->getEnglishFromId ($book), "", $database_books->getEnglishFromId ($book));
+    // Add this book to the index for the rich web.
+    $html_text_rich_index->newParagraph ();
+    $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement,  $baseBookFileName . ".html", "", $database_books->getEnglishFromId ($book), "", $database_books->getEnglishFromId ($book));
   }
 
   // Save the USFM code for the whole Bible.
@@ -173,8 +173,8 @@ foreach ($bibles as $bible) {
   
   // Save to other formats.
   $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00_Bible.html");
-  $html_text_linked_index->save ("$linkedWebDirectory/00_index.html");
-  $html_text_linked_index->save ("$linkedWebDirectory/index.html");
+  $html_text_rich_index->save ("$richWebDirectory/00_index.html");
+  $html_text_rich_index->save ("$richWebDirectory/index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
