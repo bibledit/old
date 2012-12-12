@@ -30,6 +30,7 @@ class Database_Bibles
    */
   public function getBibles ()
   {
+    $bibles = array ();
     $database_instance = Database_Instance::getInstance();
     $query = "SELECT DISTINCT name FROM bible_names ORDER BY name ASC;";
     $result = $database_instance->runQuery ($query);
