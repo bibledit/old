@@ -46,6 +46,8 @@ public:
   void bold_close();
   void italics_open ();
   void italics_close ();
+  void highlight_open();
+  void highlight_close();
   void finish ();
   ustring html;
 private:
@@ -55,6 +57,7 @@ private:
   bool paragraph_opened;
   int bold_level;
   int italics_level;
+  int highlight_level;
 };
 
 

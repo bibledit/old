@@ -31,6 +31,7 @@ HtmlWriter2::HtmlWriter2(const ustring & title)
   paragraph_opened = false;
   bold_level = 0;
   italics_level = 0;
+  highlight_level = 0;
 
   buffer = xmlBufferCreate();
   writer = xmlNewTextWriterMemory(buffer, 0);
@@ -204,7 +205,20 @@ void HtmlWriter2::italics_close()
   }
 }
 
+void HtmlWriter2::highlight_open()
+{
+  xmlTextWriterStartElement(writer, BAD_CAST "FONT style=\"BACKGROUND-COLOR: yellow\"");
+  highlight_level++;
+}
 
+
+void HtmlWriter2::highlight_close()
+{
+  if (highlight_level) {
+    xmlTextWriterEndElement(writer);
+    highlight_level--;
+  }
+}
 void HtmlWriter2::finish ()
 // Finish the html document, and make it available.
 {

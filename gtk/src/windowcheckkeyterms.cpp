@@ -612,9 +612,15 @@ void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned
             verse.erase (0, startpositions[i] - processposition + lengths[i]);
             processposition = startpositions[i] + lengths[i];
           }
+          // Add whatever is left over of the verse. This could be the full verse in case it wasn't processed.
+          htmlwriter.text_add (verse);
         }
-        // Add whatever is left over of the verse. This could be the full verse in case it wasn't processed.
-        htmlwriter.text_add (verse);
+        else
+        {
+        	htmlwriter.highlight_open();
+        	htmlwriter.text_add (verse);
+        	htmlwriter.highlight_close();
+        }
 
         // Proceed to next.
         htmlwriter.paragraph_open ();
