@@ -1,9 +1,12 @@
 
 
-The name of the Bible is clickable and clicking it returns to the index.html page.
-This index.html has all books, also clickable.
+
+
+The index.html has all books, also clickable.
 When clicking a book in the breadcrumbs, a page opens with all books.
 When cllicking a chapter in the breadcrumbs, a page opens with all chapters in the boo,.
+Thus there are two ways of navigating to a chapter: 1: click a chapter; 2: click the book.
+
 
 
 Produce, in 'members', and from outside, a searchable version of the Bibles.

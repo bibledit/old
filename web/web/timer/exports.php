@@ -104,10 +104,13 @@ foreach ($bibles as $bible) {
   $filter_text_bible = new Filter_Text ($bible);
 
   
-  // RichWeb index file.
+  // Rich web index files.
   $html_text_rich_index = new Html_Text ($bible);
+  
+  
+  // On top are the breadcrumbs, starting with a clickable Bible name.
   $html_text_rich_index->newParagraph ("breadcrumbs");
-  $html_text_rich_index->addText ($bible);
+  $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement,  "index.html", "", $bible, "", $bible);
 
 
   // Go through the Bible books.
@@ -173,8 +176,8 @@ foreach ($bibles as $bible) {
   
   // Save to other formats.
   $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00_Bible.html");
-  $html_text_rich_index->save ("$richWebDirectory/00_index.html");
   $html_text_rich_index->save ("$richWebDirectory/index.html");
+  $html_text_rich_index->save ("$richWebDirectory/00_index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
