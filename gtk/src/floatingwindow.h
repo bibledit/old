@@ -46,7 +46,7 @@ public:
 private:
   GtkWidget *label_status1;
   GtkWidget *label_status2;
-  GtkWidget *hscrollbar_status;
+  GtkWidget *widget_resizer;
   void clear_previous_root_coordinates ();
   gint previous_root_x;
   gint previous_root_y;

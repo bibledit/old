@@ -1,13 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
+  <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkVBox" id="vbox_window">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <child>
       <object class="GtkHSeparator" id="hseparator_top">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -18,10 +18,11 @@
     <child>
       <object class="GtkHBox" id="hbox_window">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <child>
           <object class="GtkVSeparator" id="vseparator_left">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -32,30 +33,37 @@
         <child>
           <object class="GtkVBox" id="vbox_main">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
+            <property name="can_focus">False</property>
             <child>
               <object class="GtkHBox" id="hbox_titlebar">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
                   <object class="GtkEventBox" id="eventbox_title">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_title">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="ellipsize">middle</property>
                       </object>
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkEventBox" id="eventbox_close">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_close">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">x</property>
                       </object>
                     </child>
@@ -77,10 +85,11 @@
             <child>
               <object class="GtkEventBox" id="eventbox_client">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
                   <object class="GtkVBox" id="vbox_client">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <placeholder/>
                     </child>
@@ -88,19 +97,24 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkHBox" id="hbox_statusbar">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkEventBox" id="eventbox_status1">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_status1">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                       </object>
                     </child>
                   </object>
@@ -113,9 +127,11 @@
                 <child>
                   <object class="GtkEventBox" id="eventbox_status2">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_status2">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                       </object>
                     </child>
                   </object>
@@ -128,25 +144,38 @@
                 <child>
                   <object class="GtkEventBox" id="eventbox_fill">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label_status_fill">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                       </object>
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHScrollbar" id="hscrollbar_status">
-                    <property name="width_request">30</property>
+                  <object class="GtkEventBox" id="widget_resizer">
                     <property name="visible">True</property>
-                    <property name="inverted">True</property>
-                    <property name="fill_level">1</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label_resizer">
+                        <property name="width_request">30</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="yalign">0.51999998092651367</property>
+                        <property name="label">⇲</property>
+                        <property name="track_visited_links">False</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">False</property>
                     <property name="position">3</property>
                   </packing>
                 </child>
@@ -159,13 +188,15 @@
             </child>
           </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkVSeparator" id="vseparator_right">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -175,12 +206,15 @@
         </child>
       </object>
       <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkHSeparator" id="hseparator_bottom">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
       </object>
       <packing>
         <property name="expand">False</property>

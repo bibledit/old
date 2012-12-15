@@ -89,13 +89,13 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
   label_status2 = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_status2"));
   g_signal_connect ((gpointer) eventbox_status2, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
 
-  hscrollbar_status = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "hscrollbar_status"));
-  g_signal_connect ((gpointer) hscrollbar_status, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_status, "button_press_event", G_CALLBACK (on_status_bar_button_press_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_status, "button_release_event", G_CALLBACK (on_status_bar_button_release_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_status, "motion_notify_event", G_CALLBACK (on_status_bar_motion_notify_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_status, "enter_notify_event", G_CALLBACK (on_statusbar_enter_notify_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_status, "leave_notify_event", G_CALLBACK (on_statusbar_leave_notify_event), gpointer (this));
+  widget_resizer = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "widget_resizer"));
+  g_signal_connect ((gpointer) widget_resizer, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  g_signal_connect ((gpointer) widget_resizer, "button_press_event", G_CALLBACK (on_status_bar_button_press_event), gpointer (this));
+  g_signal_connect ((gpointer) widget_resizer, "button_release_event", G_CALLBACK (on_status_bar_button_release_event), gpointer (this));
+  g_signal_connect ((gpointer) widget_resizer, "motion_notify_event", G_CALLBACK (on_status_bar_motion_notify_event), gpointer (this));
+  g_signal_connect ((gpointer) widget_resizer, "enter_notify_event", G_CALLBACK (on_statusbar_enter_notify_event), gpointer (this));
+  g_signal_connect ((gpointer) widget_resizer, "leave_notify_event", G_CALLBACK (on_statusbar_leave_notify_event), gpointer (this));
 
   // Do the display handling.
   display(startup);
@@ -311,7 +311,7 @@ gboolean FloatingWindow::on_statusbar_enter_notify_event (GtkWidget *widget, Gdk
 gboolean FloatingWindow::on_statusbar_enter_notify (GdkEventCrossing *event)
 {
   // Set the cursor to a shape that shows that the status bar can be used to resize the window.
-  GtkWidget *toplevel_widget = gtk_widget_get_toplevel(hscrollbar_status);
+  GtkWidget *toplevel_widget = gtk_widget_get_toplevel(widget_resizer);
   GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   GdkCursor *cursor = gdk_cursor_new(GDK_BOTTOM_RIGHT_CORNER);
   gdk_window_set_cursor(gdk_window, cursor);
@@ -329,7 +329,7 @@ gboolean FloatingWindow::on_statusbar_leave_notify_event (GtkWidget *widget, Gdk
 gboolean FloatingWindow::on_statusbar_leave_notify (GdkEventCrossing *event)
 {
   // Restore the original cursor.
-  GtkWidget * toplevel_widget = gtk_widget_get_toplevel(hscrollbar_status);
+  GtkWidget * toplevel_widget = gtk_widget_get_toplevel(widget_resizer);
   GdkWindow *gdk_window = gtk_widget_get_window (toplevel_widget);
   gdk_window_set_cursor(gdk_window, NULL);
   return false;
