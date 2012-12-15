@@ -111,6 +111,9 @@ foreach ($bibles as $bible) {
   // On top are the breadcrumbs, starting with a clickable Bible name.
   $html_text_rich_index->newParagraph ("breadcrumbs");
   $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement,  "index.html", "", $bible, "", $bible);
+  // Prepare for the list of books.
+  $html_text_rich_index->newParagraph ();
+  $html_text_rich_index->addText ("|");
 
 
   // Go through the Bible books.
@@ -159,9 +162,9 @@ foreach ($bibles as $bible) {
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
     
-    // Add this book to the index for the rich web.
-    $html_text_rich_index->newParagraph ();
-    $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement,  $baseBookFileName . ".html", "", $database_books->getEnglishFromId ($book), "", $database_books->getEnglishFromId ($book));
+    // Add this book to the index for the rich web. // Todo
+    $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement,  $baseBookFileName . ".html", "", $database_books->getEnglishFromId ($book), "", " " . $database_books->getEnglishFromId ($book) . " ");
+    $html_text_rich_index->addText ("|");
   }
 
   // Save the USFM code for the whole Bible.
