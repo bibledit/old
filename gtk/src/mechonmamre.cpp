@@ -73,7 +73,7 @@ void mechon_mamre_detailed_page (HtmlWriter2& htmlwriter)
   htmlwriter.text_add ("1. Downloading the text");
   htmlwriter.heading_close ();
   htmlwriter.paragraph_open();
-  htmlwriter.text_add ("When you click on the link below, a web browser will open, which will download the Hebrew text. The file will be called ct005.zip. Please save this file in the home directory or on your Desktop.");
+  htmlwriter.text_add ("When you click on the link below, a web browser will open, which will download the Hebrew text. The file will be called ct005.zip. Please save this file in the home directory, on your Desktop, or in the Downloads folder.");
   htmlwriter.paragraph_close();
   htmlwriter.paragraph_open();
   htmlwriter.hyperlink_add (mechon_mamre_download_url (), "Download it");
@@ -107,6 +107,13 @@ void mechon_mamre_action_page (HtmlWriter2& htmlwriter)
   }
   if (ct005zipfilename.empty()) {
     ct005zipfilename = gw_build_filename (g_get_home_dir (), "Desktop", "ct005.zip");
+    messages.push_back ("Looking for file " + ct005zipfilename);
+    if (!g_file_test (ct005zipfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+      ct005zipfilename.clear();
+    }
+  }
+  if (ct005zipfilename.empty()) {
+    ct005zipfilename = gw_build_filename (g_get_home_dir (), "Downloads", "ct005.zip");
     messages.push_back ("Looking for file " + ct005zipfilename);
     if (!g_file_test (ct005zipfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
       ct005zipfilename.clear();
@@ -166,7 +173,7 @@ void mechon_mamre_action_page (HtmlWriter2& htmlwriter)
     ReadFiles rf (directory, "c", ".htm");
     for (unsigned int i = 0; i < rf.files.size(); i++) {
       ustring filename = gw_build_filename (directory, rf.files[i]);
-      // Check on a few charasteristics.
+      // Check on a few characteristics.
       if (mechon_mamre_copyright(filename)) {
         unsigned int digitcount = digit_count_in_string(rf.files[i]);
         if ((digitcount == 3) || (digitcount == 4)) {
@@ -482,18 +489,20 @@ vector <ustring> mechon_mamre_extract_contents (const ustring& file, unsigned in
     }
     // Find higher boundary: the relevant part ends with a verse number 
     // that is one past the last verse.
-    unsigned int higher_boundary = 0;
+    unsigned int upper_boundary = 0;
     for (unsigned int i = rt.lines.size() - 1; i > 0; i--) {
       if (rt.lines[i].find("A NAME=") != string::npos) {
-        higher_boundary = i;
+        upper_boundary = i;
+        upper_boundary++;
         break;
       }
     }
-    for (unsigned int i = lower_boundary; i <= higher_boundary; i++) {
+    // Store the relevant html lines that contain the verses.
+    for (unsigned int i = lower_boundary; i <= upper_boundary; i++) {
       htmlines.push_back(rt.lines[i]);
     }
   }
-  
+
   // Go through the relevant text and extract the verses.
   ustring verse;
   for (unsigned int ln = 0; ln < htmlines.size(); ln++) {
