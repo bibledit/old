@@ -158,7 +158,7 @@ foreach ($bibles as $bible) {
     $filter_text_book->odf_text_text_only->save ("$odtDirectory/$baseBookFileName" . "_text_only.odt");
     $filter_text_book->odf_text_text_and_note_citations->save ("$odtDirectory/$baseBookFileName" . "_text_and_note_citations.odt");
     $filter_text_book->odf_text_notes->save ("$odtDirectory/$baseBookFileName" . "_notes.odt");
-    $filter_text_book->html_text_standard->save ("$plainWebDirectory/$baseBookFileName" . ".html");
+    $filter_text_book->html_text_standard->save (Filter_Paths::htmlFileNameBible ($plainWebDirectory, $book));
     $filter_text_book->html_text_linked->save ("$richWebDirectory/$baseBookFileName" . ".html");
 
     // Add the book's USFM code to the whole Bible's USFM code.
@@ -180,7 +180,7 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
   
   // Save to other formats.
-  $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00_Bible.html");
+  $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
   $html_text_rich_index->save ("$richWebDirectory/index.html");
   $html_text_rich_index->save ("$richWebDirectory/00_index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
