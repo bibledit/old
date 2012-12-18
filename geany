@@ -14,14 +14,17 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=6
+current_page=9
 FILE_NAME_0=7598;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
 FILE_NAME_1=177;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
-FILE_NAME_2=2205;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Ftext.php;0;2
+FILE_NAME_2=28286;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Ftext.php;0;2
 FILE_NAME_3=732;HTML;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhtml%2Ftemplate.html;0;2
-FILE_NAME_4=10910;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhtml%2Ftext.php;0;2
-FILE_NAME_5=0;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ftimer%2Fexports.php;0;2
-FILE_NAME_6=0;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2FTODO;0;2
+FILE_NAME_4=9585;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhtml%2Ftext.php;0;2
+FILE_NAME_5=4715;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ftimer%2Fexports.php;0;2
+FILE_NAME_6=71;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2FTODO;0;2
+FILE_NAME_7=1131;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fpaths.php;0;2
+FILE_NAME_8=2118;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fdatabase%2Fbooks.php;0;2
+FILE_NAME_9=153;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Ftests%2Ffilter%2FpathsTest.php;0;2
 
 [long line marker]
 long_line_behaviour=2

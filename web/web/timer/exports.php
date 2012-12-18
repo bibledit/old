@@ -110,8 +110,10 @@ foreach ($bibles as $bible) {
   
   // On top are the breadcrumbs, starting with a clickable Bible name.
   $html_text_rich_index->newParagraph ("breadcrumbs");
-  $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement,  "index.html", "", $bible, "", $bible);
-  // Prepare for the list of books.
+  $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement, Filter_Paths::htmlFileNameBible (), "", $bible, "", $bible);
+
+
+  // Prepare for the list of books in de html index file.
   $html_text_rich_index->newParagraph ();
   $html_text_rich_index->addText ("|");
 
