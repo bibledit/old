@@ -65,14 +65,19 @@ void unix_cp_r(const ustring & from, const ustring & to)
 }
 
 
-void unix_mv(const ustring & from, const ustring & to)
+void unix_mv(const ustring & from, const ustring & to, bool force)
 // This is a wrapper for the mv function on Unix, which is move on Windows.
 {
 #ifdef WIN32
   GwSpawn spawn("move");
+  if (force)
+	  spawn.arg ("/Y");
 #else
   GwSpawn spawn("mv");
+  if (force)
+  	  spawn.arg ("-f");
 #endif
+
   spawn.arg(from);
   spawn.arg(to);
   spawn.run();

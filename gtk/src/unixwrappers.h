@@ -29,7 +29,7 @@
 bool unix_fnmatch (const char * pattern, const ustring& text);
 void unix_cp (const ustring& from, const ustring& to);
 void unix_cp_r (const ustring& from, const ustring& to);
-void unix_mv (const ustring& from, const ustring& to);
+void unix_mv (const ustring& from, const ustring& to, bool force = false);
 void unix_rmdir (const ustring& dir);
 void unix_kill (GPid pid);
 

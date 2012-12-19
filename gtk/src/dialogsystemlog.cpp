@@ -31,6 +31,7 @@
 #include "projectutils.h"
 #include "generalconfig.h"
 #include "settings.h"
+#include "unixwrappers.h"
 
 
 ustring log_file_name(LogFileType type, bool previous)
@@ -52,11 +53,8 @@ ustring log_file_name(LogFileType type, bool previous)
 void move_log_file (LogFileType type)
 {
   if (g_file_test (log_file_name(type, false).c_str(), G_FILE_TEST_IS_REGULAR)) {
-    GwSpawn spawn ("mv");
-    spawn.arg ("-f");
-    spawn.arg (log_file_name(type, false));
-    spawn.arg (log_file_name(type, true));
-    spawn.run ();
+     unix_mv(log_file_name(type, false), log_file_name(type, true),true);
+
   }
 }
 
