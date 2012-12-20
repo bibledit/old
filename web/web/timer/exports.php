@@ -104,25 +104,32 @@ foreach ($bibles as $bible) {
   $filter_text_bible = new Filter_Text ($bible);
 
   
-  // Rich web index files.
-  $html_text_rich_index = new Html_Text ($bible);
+  // Rich web main index file.
+  $html_text_rich_bible_index = new Html_Text ($bible); // Todo
   
   
   // On top are the breadcrumbs, starting with a clickable Bible name.
-  $html_text_rich_index->newParagraph ("breadcrumbs");
-  $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement, Filter_Paths::htmlFileNameBible (), "", $bible, "", $bible);
+  $html_text_rich_bible_index->newParagraph ("breadcrumbs"); // Todo
+  $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement, Filter_Paths::htmlFileNameBible (), "", $bible, "", $bible);
 
 
   // Prepare for the list of books in de html index file.
-  $html_text_rich_index->newParagraph ();
-  $html_text_rich_index->addText ("|");
+  $html_text_rich_bible_index->newParagraph ();
+  $html_text_rich_bible_index->addText ("|"); // Todo
 
 
   // Go through the Bible books.
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
     
-    $database_logs->log ("exports: " . $bible . " " . $database_books->getEnglishFromId ($book), true);
+    // E.g.: Ndebele Genesis
+    $bibleBookText = $bible . " " . $database_books->getEnglishFromId ($book);
+    
+    $database_logs->log ("exports: " . $bibleBookText, true);
+
+    // Rich web index file per book.
+    $html_text_rich_book_index = new Html_Text ($bibleBookText); // Todo
+    $html_text_rich_book_index->addText ("|"); // Todo
 
     // Empty the USFM data for the current book.
     $bookUsfmData = "";
@@ -146,6 +153,10 @@ foreach ($bibles as $bible) {
       // Use small chunks of USFM at a time. This gives much better speed.
       $filter_text_bible->addUsfmCode ($chapter_data);
       $filter_text_book->addUsfmCode ($chapter_data);
+      
+      $html_text_rich_book_index->addLink ($html_text_rich_book_index->currentPDomElement,  "xyz" . ".html", "", $chapter, "", " " . $chapter . " "); // Todo put the correct links here.
+      $html_text_rich_book_index->addText ("|");
+
     }
 
     // Store the USFM code for the book to disk.
@@ -164,9 +175,12 @@ foreach ($bibles as $bible) {
     // Add the book's USFM code to the whole Bible's USFM code.
     $bibleUsfmData .= $bookUsfmData;
     
-    // Add this book to the index for the rich web. // Todo
-    $html_text_rich_index->addLink ($html_text_rich_index->currentPDomElement,  $baseBookFileName . ".html", "", $database_books->getEnglishFromId ($book), "", " " . $database_books->getEnglishFromId ($book) . " ");
-    $html_text_rich_index->addText ("|");
+    // Add this book to the main index. // Todo
+    $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement,  $baseBookFileName . ".html", "", $database_books->getEnglishFromId ($book), "", " " . $database_books->getEnglishFromId ($book) . " ");
+    $html_text_rich_bible_index->addText ("|");
+
+    // Save the book index.
+    $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ("$richWebDirectory", $book));
   }
 
   // Save the USFM code for the whole Bible.
@@ -181,8 +195,8 @@ foreach ($bibles as $bible) {
   
   // Save to other formats.
   $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
-  $html_text_rich_index->save ("$richWebDirectory/index.html");
-  $html_text_rich_index->save ("$richWebDirectory/00_index.html");
+  $html_text_rich_bible_index->save ("$richWebDirectory/index.html"); // Todo
+  $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
