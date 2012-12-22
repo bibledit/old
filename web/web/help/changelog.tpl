@@ -11,6 +11,7 @@
 <p>The link to logout has been moved from the header to the user's page.</p>
 <p>Searches the Consultation Notes and the Bibles.</p>
 <p>Better display of results of creating chapters in a Bible book.</p>
+<p>Improved export from USFM to linked web pages.</p>
 <p></p>
 <p></p>
 <p></p>
