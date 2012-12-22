@@ -269,6 +269,26 @@ class Html_Text
   
   
   /**
+  * This function adds breadcrumbs to the html file.
+  * $breadcrumbs: array of array ("text", "reference");
+  */
+  public function addBreadcrumbs ($breadcrumbs)
+  {
+    if (!is_array ($breadcrumbs)) return;
+    $this->newParagraph ("breadcrumbs");
+    $crumbAdded = false;
+    foreach ($breadcrumbs as $breadcrumb) {
+      if ($crumbAdded) {
+        $this->addText (" ");
+      }
+      $this->addLink ($this->currentPDomElement, $breadcrumb [1], "", $breadcrumb [0], "", $breadcrumb [0]);
+      $crumbAdded = true;
+    }
+  }
+
+
+
+  /**
   * This function adds a note to the current paragraph.
   * $citation: The text of the note citation.
   * $style: Style name for the paragraph in the note body.

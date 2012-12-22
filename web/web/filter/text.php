@@ -366,10 +366,6 @@ class Filter_Text
   */
   private function processUsfm ()
   {
-    // The linked web file starts with a link back to the index.
-    $this->html_text_linked->newParagraph ();
-    $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement,  "index.html", "", gettext ("Index"), "", gettext ("Index"));
-
     // Go through the USFM code.
     $processedBooksCount = 0;
     $this->usfmMarkersAndTextPointer = 0;
@@ -425,13 +421,6 @@ class Filter_Text
                     $this->resetNoteCitations ('book');
                     // Online Bible.
                     $this->onlinebible_text->storeData ();
-                    // Linked web: Links to all the chapters, and back to the start.
-                    $this->html_text_linked->newParagraph ();
-                    $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "", "start", "", "", "");
-                    $this->html_text_linked->addText (gettext ("Chapter") . " |");
-                    for ($i = 1; $i <= $this->numberOfChaptersPerBook[$this->currentBookIdentifier]; $i++) {
-                      $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "#chapter$i", "", "Chapter $i", "", " $i |");
-                    }
                     // Done.
                     break;
                   }
@@ -595,11 +584,6 @@ class Filter_Text
                 $this->odf_text_text_and_note_citations->newHeading1 ($runningHeader, true);
                 $this->odf_text_notes->newHeading1 ($runningHeader, false);
                 
-                // In the linked web version, each chapter number gets linked to, and links to, the start of the book.
-                $this->html_text_linked->newParagraph ();
-                $hrefId = "chapter" . $this->currentChapterNumber;
-                $this->html_text_linked->addLink ($this->html_text_linked->currentPDomElement, "#start", $hrefId, gettext ("Go to start"), "", gettext ("Go to start"));
-
                 // This is the phase of outputting the chapter number in the text body. 
                 // The chapter number is only output when there is more than one chapter in a book.
                 if ($this->numberOfChaptersPerBook[$this->currentBookIdentifier] > 1) {
