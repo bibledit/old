@@ -205,7 +205,9 @@ void gtkw_show_uri (ustring uri, bool internet)
 
   // Handle if Windows.
 #ifdef WIN32
-  windowsoutpost_open_url (uri);
+  ustring url(uri);
+  url.insert(0, prefix);
+  windowsoutpost_open_url(url);
   return;
 #endif
 
