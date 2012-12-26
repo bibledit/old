@@ -41,25 +41,19 @@ class Html_Header
   public function create ($breadcrumbs) // Todo
   {
     if (!is_array ($breadcrumbs)) return;
+    
+    
     $tableElement = $this->htmlText->newTable ();
     $tableRowElement = $this->htmlText->newTableRow ($tableElement);
     $tableDataElement = $this->htmlText->newTableData ($tableRowElement);
-
-
-    $text = "";
-    $spanElement = $this->htmlText->newElement ("span");
-    $spanElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
-    $tableDataElement->appendChild ($spanElement);
-
-
-    
-    $this->htmlText->newParagraph ("breadcrumbs");
     $crumbAdded = false;
     foreach ($breadcrumbs as $breadcrumb) {
       if ($crumbAdded) {
-        $this->htmlText->addText ("»");
+        $spanElement = $this->htmlText->newElement ("span");
+        $spanElement->nodeValue = Filter_Html::sanitize ("»");
+        $tableDataElement->appendChild ($spanElement);
       }
-      $this->htmlText->addLink ($this->htmlText->currentPDomElement, $breadcrumb [1], "", $breadcrumb [0], "", ' ' . $breadcrumb [0] . ' ');
+      $this->htmlText->addLink ($tableDataElement, $breadcrumb [1], "", $breadcrumb [0], "", ' ' . $breadcrumb [0] . ' ');
       $crumbAdded = true;
     }
   }
