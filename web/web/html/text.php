@@ -64,7 +64,7 @@ class Html_Text
 
     $nodeList = $htmlXpath->query ("*");
     $this->headDomNode = $nodeList->item (0);
-    $element = $this->htmlDom->createElement ("title");
+    $element = $this->newElement ("title");
     $this->headDomNode->appendChild ($element);
     $element->nodeValue = htmlspecialchars ($title, ENT_QUOTES, "UTF-8");
     
@@ -77,7 +77,7 @@ class Html_Text
       }
     }
     
-    $this->notesDivDomNode = $this->htmlDom->createElement ("div");
+    $this->notesDivDomNode = $this->newElement ("div");
 
     $this->createdStyles = array ();
   }
@@ -85,7 +85,7 @@ class Html_Text
   
   public function newParagraph ($style = "")
   {
-    $this->currentPDomElement = $this->htmlDom->createElement ("p");
+    $this->currentPDomElement = $this->newElement ("p");
     if ($style != "") {
       $this->currentPDomElementNameNode = $this->currentPDomElement->setAttribute ("class", $style);
     }
@@ -99,13 +99,13 @@ class Html_Text
   * This function adds text to the current paragraph.
   * $text: The text to add.
   */
-  public function addText ($text)
+  public function addText ($text, $domNode = NULL)
   {
     if ($text != "") {
       if (!isset ($this->currentPDomElement)) {
         $this->newParagraph ();
       }
-      $spanDomElement = $this->htmlDom->createElement ("span");
+      $spanDomElement = $this->newElement ("span");
       $spanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
       $this->currentPDomElement->appendChild ($spanDomElement);
       if ($this->currentTextStyle != "") {
@@ -269,26 +269,6 @@ class Html_Text
   
   
   /**
-  * This function adds breadcrumbs to the html file.
-  * $breadcrumbs: array of array ("text", "reference");
-  */
-  public function addBreadcrumbs ($breadcrumbs)
-  {
-    if (!is_array ($breadcrumbs)) return;
-    $this->newParagraph ("breadcrumbs");
-    $crumbAdded = false;
-    foreach ($breadcrumbs as $breadcrumb) {
-      if ($crumbAdded) {
-        $this->addText (" ");
-      }
-      $this->addLink ($this->currentPDomElement, $breadcrumb [1], "", $breadcrumb [0], "", $breadcrumb [0]);
-      $crumbAdded = true;
-    }
-  }
-
-
-
-  /**
   * This function adds a note to the current paragraph.
   * $citation: The text of the note citation.
   * $style: Style name for the paragraph in the note body.
@@ -310,7 +290,7 @@ class Html_Text
     $this->addLink ($this->currentPDomElement, $reference, $identifier, $title, "superscript", $citation);
 
     // Open a paragraph element for the note body.
-    $this->notePDomElement = $this->htmlDom->createElement ("p");
+    $this->notePDomElement = $this->newElement ("p");
     $this->notesDivDomNode->appendChild ($this->notePDomElement);
     $this->notePDomElement->setAttribute ("class", $style);
 
@@ -338,7 +318,7 @@ class Html_Text
       if (!isset ($this->notePDomElement)) {
         $this->addNote ("?", "");
       }
-      $spanDomElement = $this->htmlDom->createElement ("span");
+      $spanDomElement = $this->newElement ("span");
       $spanDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
       $this->notePDomElement->appendChild ($spanDomElement);
       if ($this->currentNoteTextStyle != "") {
@@ -372,7 +352,7 @@ class Html_Text
   */
   public function addLink ($domNode, $reference, $identifier, $title, $style, $text)
   {
-    $aDomElement = $this->htmlDom->createElement ("a");
+    $aDomElement = $this->newElement ("a");
     $domNode->appendChild ($aDomElement);
     $aDomElement->setAttribute ("href", $reference);
     $aDomElement->setAttribute ("id", $identifier);
@@ -407,7 +387,7 @@ class Html_Text
   */
   private function newNamedHeading ($style, $text, $hide = false)
   {
-    $textHDomElement = $this->htmlDom->createElement ($style);
+    $textHDomElement = $this->newElement ($style);
     $this->bodyDomNode->appendChild ($textHDomElement);
     $textHDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
     // Make paragraph null, so that adding subsequent text creates a new paragraph.
@@ -417,6 +397,57 @@ class Html_Text
   }
 
   
+  /**
+  * This adds a new table to the html DOM.
+  * Returns: The new $tableElement
+  */
+  public function newTable ()
+  {
+    // Adding subsequent text should create a new paragraph.
+    unset ($this->currentPDomElement);
+    $this->currentParagraphStyle = "";
+    $this->currentParagraphContent = "";
+    // Append the table.
+    $tableElement = $this->newElement ('table');
+    $this->bodyDomNode->appendChild ($tableElement);
+    $tableElement->setAttribute ("width", "100%");
+    return $tableElement;
+  }
+
+
+  /**
+  * This adds a new row to an existing $tableElement.
+  * Returns: The new $tableRowElement.
+  */
+  public function newTableRow (&$tableElement)
+  {
+    $tableRowElement = $this->newElement ('tr');
+    $tableElement->appendChild ($tableRowElement);
+    return $tableRowElement;
+  }
+
+  
+  /**
+  * This adds a new data cell to an existing $tableRowElement.
+  * Returns: The new $tableDataElement.
+  */
+  public function newTableData (&$tableRowElement)
+  {
+    $tableDataElement = $this->newElement ('td');
+    $tableRowElement->appendChild ($tableDataElement);
+    return $tableDataElement;
+  }
+
+  
+  /**
+  * This adds a new $element to the htmlDom.
+  * Returns: The new element.
+  */
+  public function newElement ($element) // Todo
+  {
+    $element = $this->htmlDom->createElement ($element);
+    return $element;
+  }
 }
 
 

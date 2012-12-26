@@ -107,8 +107,9 @@ foreach ($bibles as $bible) {
   // Rich web main index file. 
   $html_text_rich_bible_index = new Html_Text ($bible); 
   // On top are the breadcrumbs, starting with a clickable Bible name.
-  $html_text_rich_bible_index->newParagraph ("breadcrumbs");
-  $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement, Filter_Paths::htmlFileNameBible (), "", $bible, "", $bible);
+  $htmlHeader = new Html_Header ($html_text_rich_bible_index);
+  $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
+  unset ($htmlHeader);
   // Prepare for the list of books in de html index file.
   $html_text_rich_bible_index->newParagraph ("navigationbar");
   $html_text_rich_bible_index->addText (" |");
@@ -125,10 +126,11 @@ foreach ($bibles as $bible) {
 
     // Rich web index file per book. 
     $html_text_rich_book_index = new Html_Text ($bibleBookText);
-    $html_text_rich_book_index->newParagraph ("breadcrumbs");
-    $html_text_rich_book_index->addLink ($html_text_rich_book_index->currentPDomElement, Filter_Paths::htmlFileNameBible (), "", $bible, "", $bible);
-    $html_text_rich_book_index->addText (" " );
-    $html_text_rich_book_index->addLink ($html_text_rich_book_index->currentPDomElement, Filter_Paths::htmlFileNameBible (), "", $database_books->getEnglishFromId ($book), "", $database_books->getEnglishFromId ($book));
+    $htmlHeader = new Html_Header ($html_text_rich_book_index);
+    $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
+                                array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ())
+                               ));
+    unset ($htmlHeader);
     $html_text_rich_book_index->newParagraph ("navigationbar");
     $html_text_rich_book_index->addText ("|");
 
@@ -160,10 +162,12 @@ foreach ($bibles as $bible) {
       $filter_text_chapter->addUsfmCode ($chapter_data);
 
       // Create breadcrumbs for the chapter.
-      $filter_text_chapter->html_text_linked->addBreadcrumbs (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
-                                                                     array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
-                                                                     array ($chapter, Filter_Paths::htmlFileNameBible ("", $book));
-                                                                    ));
+      $htmlHeader = new Html_Header ($filter_text_chapter->html_text_linked);
+      $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
+                                  array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
+                                  array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
+                                 ));
+      unset ($htmlHeader);
       
       // Create rich html for the chapter.
       $filter_text_chapter->run ($stylesheet);
