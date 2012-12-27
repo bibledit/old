@@ -431,9 +431,10 @@ class Html_Text
   * This adds a new data cell to an existing $tableRowElement.
   * Returns: The new $tableDataElement.
   */
-  public function newTableData (&$tableRowElement)
+  public function newTableData (&$tableRowElement, $alignRight = false)
   {
     $tableDataElement = $this->newElement ('td');
+    if ($alignRight) $tableDataElement->setAttribute ("align", "right");
     $tableRowElement->appendChild ($tableDataElement);
     return $tableDataElement;
   }
@@ -443,7 +444,7 @@ class Html_Text
   * This adds a new $element to the htmlDom.
   * Returns: The new element.
   */
-  public function newElement ($element) // Todo
+  public function newElement ($element)
   {
     $element = $this->htmlDom->createElement ($element);
     return $element;
