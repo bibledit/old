@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-27 01:45+0100\n"
+"POT-Creation-Date: 2012-12-29 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -810,10 +810,16 @@ msgstr ""
 msgid "Return to text"
 msgstr ""
 
+msgid "Search the Bible"
+msgstr ""
+
 msgid ""
 "Please confirm this request by replying to this email. There is a "
 "confirmation number in the subject line. Your reply should have this same "
 "confirmation number in the subject line."
+msgstr ""
+
+msgid "Search"
 msgstr ""
 
 msgid "Notifications"
@@ -1083,9 +1089,6 @@ msgid "Demo plugin user menu item 1"
 msgstr ""
 
 msgid "Demo plugin user menu item 2"
-msgstr ""
-
-msgid "Search"
 msgstr ""
 
 msgid "Cannot access the database"

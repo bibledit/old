@@ -220,7 +220,7 @@ foreach ($bibles as $bible) {
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
   
   // Web search function.
-  copy ("../pix/magnifying-glass.png", "$richWebDirectory/magnifying-glass.png");
+  copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
   
   // Create the info OpenDocument for the whole Bible.
   $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");

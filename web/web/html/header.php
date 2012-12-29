@@ -71,10 +71,10 @@ class Html_Header
     $formElement->appendChild ($inputElement);
     $inputElement->setAttribute ("type", "image");
     $inputElement->setAttribute ("name", "search");
-    $inputElement->setAttribute ("src", "magnifying-glass.png");
+    $inputElement->setAttribute ("src", "lens.png");
   }
 
-  
+
 }
 
 
