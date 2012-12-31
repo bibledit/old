@@ -41,7 +41,7 @@ $database_books = Database_Books::getInstance ();
 
 $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
-
+$sphinxPort = 9312;
 
 // Where to store the exported Bibles.
 include ("paths/paths.php");
@@ -127,9 +127,7 @@ foreach ($bibles as $bible) {
     // Rich web index file per book. 
     $html_text_rich_book_index = new Html_Text ($bibleBookText);
     $htmlHeader = new Html_Header ($html_text_rich_book_index);
-    $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
-                                array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ())
-                               ));
+    $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
     unset ($htmlHeader);
     $html_text_rich_book_index->newParagraph ("navigationbar");
     $html_text_rich_book_index->addText ("|");
@@ -219,14 +217,88 @@ foreach ($bibles as $bible) {
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
   
-  // Web search function.
-  copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
-  
   // Create the info OpenDocument for the whole Bible.
   $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
   
   // Create the fallout document.
   $filter_text_bible->produceFalloutDocument ("$odtDirectory/00_Fallout.odt");
+
+  // Web indexer support files.
+  // For each subsequent Bible, sphinxsearch uses a higher TCP port number.
+  $sphinxPort++;
+  $sphinxPidFilename = sys_get_temp_dir () . "/" . $bible . "-sphinx.pid";
+  $bibleditPath = dirname (dirname (__FILE__));
+
+  $contents = file_get_contents ("../webbible/sphinx.conf");
+  $contents = str_replace ('web_directory', $richWebDirectory, $contents);
+  $contents = str_replace ('9312', $sphinxPort, $contents);
+  $contents = str_replace ('sphinx.pid', $sphinxPidFilename, $contents);
+  file_put_contents ("$richWebDirectory/sphinx.conf", $contents);
+
+  $contents = file_get_contents ("../webbible/indexer.php");
+  $contents = str_replace ('bibleditPath', $bibleditPath, $contents);
+  $contents = str_replace ('_bible_', $bible, $contents);
+  file_put_contents ("$richWebDirectory/indexer.php", $contents);
+
+  // Run the Sphinx indexer.
+  $success = true;
+  //$command = "cd \"$richWebDirectory\"; indexer --rotate --all --config sphinx.conf 2>&1";
+  $command = "cd \"$richWebDirectory\"; indexer --all --config sphinx.conf 2>&1";
+  $database_logs->log ("exports: $command");
+  unset ($result);
+  exec ($command, $result, $exit_code);
+  if ($exit_code != 0) $success = false;
+  foreach ($result as $line) {
+    if ($line == "") continue;
+    $database_logs->log ("exports: $line");
+  }
+  $database_logs->log ("exports: Exit code $exit_code");
+
+  // Kill whatever deamon is listening on the TCP port that searchd needs.
+  $command = "lsof -i";
+  unset ($result);
+  exec ($command, $result, $exit_code);
+  unset ($command);
+  foreach ($result as $line) {
+    $database_logs->log ("exports: $line");
+    if (strpos ($line, ":$sphinxPort") !== false) {
+      $pos = strpos ($line, " ");
+      $line = substr ($line, $pos);
+      $pid = (int) $line;
+      $command = "kill -9 $pid 2>&1";
+    }
+  }
+  if (isset ($command)) {
+    $database_logs->log ("exports: $command");
+    unset ($result);
+    exec ($command, $result, $exit_code);
+    foreach ($result as $line) {
+      $database_logs->log ("exports: $line");
+    }
+  }
+  $database_logs->log ("exports: Exit code $exit_code");
+
+  // Start the Sphinx daemon..
+  $command = "cd \"$richWebDirectory\"; searchd --config sphinx.conf 2>&1";
+  $database_logs->log ("exports: $command");
+  unset ($result);
+  exec ($command, $result, $exit_code);
+  foreach ($result as $line) {
+    if ($line == "") continue;
+    $database_logs->log ("exports: $line");
+  }
+  $database_logs->log ("exports: Exit code $exit_code");
+
+  // Supporting files for displaying doing the search plus displaying the results.
+  copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
+
+  $contents = file_get_contents ("../webbible/sphinxapi.php");
+  $contents = str_replace ('9312', $sphinxPort, $contents);
+  file_put_contents ("$richWebDirectory/sphinxapi.php", $contents);
+
+  $contents = file_get_contents ("../webbible/search.php");
+  $contents = str_replace ('9312', $sphinxPort, $contents);
+  file_put_contents ("$richWebDirectory/search.php", $contents);
 
 }
 

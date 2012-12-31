@@ -21,19 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (GUEST_LEVEL);
-
-
 // The query: The word or string to search for.
 $queryString = isset($_GET['q'])?$_GET['q']:'';
 
 
-$smarty = new Smarty_Bibledit (__FILE__);
-
-
-// Put the query string into the search box.
-Assets_Page::header (gettext ("Search"), $queryString);
+// Put the query string into the search box. Todo add this search box.
 
 
 // Clean the query string up.
@@ -60,8 +52,6 @@ $sphinxClient->SetServer ("localhost", 9312);
 $sphinxClient->SetConnectTimeout (1);
 $sphinxClient->SetArrayResult (true);
 $sphinxClient->SetMatchMode (SPH_MATCH_EXTENDED2);
-//include ("session/levels.php");
-//$sphinxClient->SetFilter ("level", array (CONSULTANT_LEVEL, TRANSLATOR_LEVEL));
 $sphinxClient->SetLimits (0, 10000);
 
 
@@ -76,27 +66,23 @@ if ($queryResult === false) {
   }
 
 
-  // Number of search results.
+  // Number of search results. Todo test this.
   $totalFound = $queryResult['total_found'];
   if ($queryString == "") $totalFound = 0;
-  $smarty->assign ("totalFound", $totalFound);
+  echo "<font size=\"-1\" color=\"grey\"><hr /></font>\n";
+  echo "<p><font size=\"-1\" color=\"grey\">$totalFound " . gettext ("results") . "</font></p>\n";
 
 
   // Assemble the search results.
-  $titles = array ();
-  $urls = array ();
-  $excerpts = array ();
   if ($totalFound > 0) {
     foreach ($queryResult["matches"] as $docinfo) {
 
       // The title.
       $title = $docinfo['attrs']['title'];
-      $title = Filter_Html::sanitize ($title);
-      $titles [] = $title;
+      $title = htmlspecialchars ($title, ENT_QUOTES, "UTF-8");
 
       // The url.
       $url = $docinfo['attrs']['url'];
-      $urls [] = $url;
 
       // The excerpt with the hits in bold.
       $text = $docinfo['attrs']['text'];
@@ -120,20 +106,16 @@ if ($queryResult === false) {
         // Store this bit of the excerpt.
         $excerpt .= "<p style=\"margin-top: 0em\">$partialExcerpt</p>\n";
       }
-      $excerpts [] = $excerpt;
+
+      // Display the search result.
+      echo "<p style=\"margin-top: 0.75em; margin-bottom: 0em\"><a href=\"$url\">$title</a></p>\n";
+      echo "$excerpt";
     }
   }
-  // Display the search results.
-  $smarty->assign ("urls", $urls);
-  $smarty->assign ("titles", $titles);
-  $smarty->assign ("excerpts", $excerpts);
 }
 
 
-$smarty->display ("search.tpl");
-
-
-Assets_Page::footer ();
+echo "<font size=\"-1\" color=\"grey\"><hr /></font>\n";
 
 
 ?>

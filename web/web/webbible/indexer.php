@@ -19,43 +19,15 @@
 */
 
 /*
-This script goes through the notes and the Bibles.
+This script goes through a Bible.
 It prepares the data for the indexer.
 It echoes the content to stdout as an xml file fit for Sphinx.
-It adds the URLs of the individual web pages,
-as well as other attributes.
+It adds the URLs of the individual web pages as well as other attributes.
 Sphinx will index this xml file.
-
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
-include ("session/levels.php");
-
-
-// This outputs the XML.
-function outputXml ($url, $title, $text, $level) 
-{
-  static $document_identifier = 0;
-  $document_identifier++;
-  echo "<sphinx:document id=\"$document_identifier\">\n";
-  echo "<level>$level</level>\n";
-  $url = Filter_Html::sanitize ($url);
-  echo "<url>$url</url>\n";
-  $title = Filter_Html::sanitize ($title);
-  echo "<title>$title</title>\n";
-  $text = Filter_Html::sanitize ($text);
-  echo "<text>$text</text>\n";
-  echo "<content>\n";
-  // The title is repeated in the context to give it a higher weight.
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo "$title\n";
-  echo $text;
-  echo "</content>\n";
-  echo "</sphinx:document>\n";
-}
+require_once ("bibleditPath/bootstrap/bootstrap.php");
 
 
 // Start the xml file for the sphinx indexer.
@@ -64,26 +36,11 @@ echo '<sphinx:docset>' . "\n";
 
 
 $database_config_general = Database_Config_General::getInstance ();
-$database_notes = Database_Notes::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $database_styles = Database_Styles::getInstance ();
 $styles_logic = Styles_Logic::getInstance ();
-
-
+$document_identifier = 0;
 $siteUrl = $database_config_general->getSiteURL ();
-
-
-// Go through the identifiers of all consultation notes.
-$identifiers = $database_notes->getIdentifiers ();
-foreach ($identifiers as $noteIdentifier) {
-  $summary = $database_notes->getSummary ($noteIdentifier);
-  $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($noteIdentifier));
-  $title = "$summary | $verses";
-  $text = $database_notes->getContents ($noteIdentifier);
-  $text = Filter_Html::html2text ($text);
-  $url = "$siteUrl/consultations/notes.php?consultationnote=$noteIdentifier";
-  outputXml ($url, $title, $text, CONSULTANT_LEVEL);
-}
 
 
 // Style information.
@@ -131,55 +88,66 @@ foreach ($markers as $marker) {
 }
 
 
-// Go through all Bibles.
-$bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
-  $books = $database_bibles->getBooks ($bible);
-  foreach ($books as $book) {
-    $chapters = $database_bibles->getChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
-      $chapterText = $database_bibles->getChapter ($bible, $book, $chapter);
-      $verses = Filter_Usfm::getVerseNumbers ($chapterText);
-      foreach ($verses as $verse) {
-        $textLine = "";
-        $textLines = array ();
-        $processingNote = false;
-        $noteLine = "";
-        $noteLines = array ();
-        $verseText = Filter_Usfm::getVerseText ($chapterText, $verse);
-        $markersAndText = Filter_Usfm::getMarkersAndText ($verseText);
-        foreach ($markersAndText as $markerOrText) {
-          if (substr ($markerOrText, 0, 1) == "\\") {
-            $marker = substr ($markerOrText, 1);
-            $marker = trim ($marker);
-            if (in_array ($marker, $paragraphMarkers)) {
-              if ($textLine != "") $textLines [] = $textLine;
-              $textLine = "";
-            }
-            if (in_array ($marker, $noteOpeners)) {
-              $processingNote = true;
-            }
-            if (in_array ($marker, $noteClosers)) {
-              $processingNote = false;
-              $noteLines [] = $noteLine;
-              $noteLine = "";
-            }
+// Go through the Bible.
+$bible = '_bible_';
+$books = $database_bibles->getBooks ($bible);
+foreach ($books as $book) {
+  $chapters = $database_bibles->getChapters ($bible, $book);
+  foreach ($chapters as $chapter) {
+    $chapterText = $database_bibles->getChapter ($bible, $book, $chapter);
+    $verses = Filter_Usfm::getVerseNumbers ($chapterText);
+    foreach ($verses as $verse) {
+      $textLine = "";
+      $textLines = array ();
+      $processingNote = false;
+      $noteLine = "";
+      $noteLines = array ();
+      $verseText = Filter_Usfm::getVerseText ($chapterText, $verse);
+      $markersAndText = Filter_Usfm::getMarkersAndText ($verseText);
+      foreach ($markersAndText as $markerOrText) {
+        if (substr ($markerOrText, 0, 1) == "\\") {
+          $marker = substr ($markerOrText, 1);
+          $marker = trim ($marker);
+          if (in_array ($marker, $paragraphMarkers)) {
+            if ($textLine != "") $textLines [] = $textLine;
+            $textLine = "";
+          }
+          if (in_array ($marker, $noteOpeners)) {
+            $processingNote = true;
+          }
+          if (in_array ($marker, $noteClosers)) {
+            $processingNote = false;
+            $noteLines [] = $noteLine;
+            $noteLine = "";
+          }
+        } else {
+          if ($processingNote) {
+            $noteLine .= $markerOrText;
           } else {
-            if ($processingNote) {
-              $noteLine .= $markerOrText;
-            } else {
-              $textLine .= $markerOrText;
-            }
+            $textLine .= $markerOrText;
           }
         }
-        if ($textLine != "") $textLines [] = $textLine;
-        if ($noteLine != "") $noteLines [] = $textLine;
-        $url = "$siteUrl/desktop/index.php?desktop=edittext&switchbook=$book&switchchapter=$chapter";
-        $title = "$bible" . " | " . Filter_Books::passageDisplay ($book, $chapter, $verse);
-        $text = implode ("\n", $textLines) . "\n" . implode ("\n", $noteLines);
-        $text = trim ($text);
-        outputXml ($url, $title, $text, TRANSLATOR_LEVEL);
       }
+      if ($textLine != "") $textLines [] = $textLine;
+      if ($noteLine != "") $noteLines [] = $textLine;
+      $url = Filter_Paths::htmlFileNameBible ("", $book, $chapter);
+      $title = Filter_Books::passageDisplay ($book, $chapter, $verse);
+      $text = implode ("\n", $textLines) . "\n" . implode ("\n", $noteLines);
+      $text = trim ($text);
+      
+      $document_identifier++;
+      echo "<sphinx:document id=\"$document_identifier\">\n";
+      $url = Filter_Html::sanitize ($url);
+      echo "<url>$url</url>\n";
+      $title = Filter_Html::sanitize ($title);
+      echo "<title>$title</title>\n";
+      $text = Filter_Html::sanitize ($text);
+      echo "<text>$text</text>\n";
+      echo "<content>\n";
+      echo "$title\n";
+      echo $text;
+      echo "</content>\n";
+      echo "</sphinx:document>\n";
     }
   }
 }
