@@ -144,7 +144,6 @@ foreach ($books as $book) {
       $text = Filter_Html::sanitize ($text);
       echo "<text>$text</text>\n";
       echo "<content>\n";
-      echo "$title\n";
       echo $text;
       echo "</content>\n";
       echo "</sphinx:document>\n";

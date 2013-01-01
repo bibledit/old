@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-31 01:45+0100\n"
+"POT-Creation-Date: 2013-01-01 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -819,7 +819,7 @@ msgid ""
 "confirmation number in the subject line."
 msgstr ""
 
-msgid "Search"
+msgid "results"
 msgstr ""
 
 msgid "Notifications"
@@ -1089,6 +1089,9 @@ msgid "Demo plugin user menu item 1"
 msgstr ""
 
 msgid "Demo plugin user menu item 2"
+msgstr ""
+
+msgid "Search"
 msgstr ""
 
 msgid "Cannot access the database"

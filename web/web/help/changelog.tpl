@@ -12,7 +12,7 @@
 <p>Searches the Consultation Notes and the Bibles.</p>
 <p>Better display of results of creating chapters in a Bible book.</p>
 <p>Improved export from USFM to linked web pages.</p>
-<p></p>
+<p>The export from USFM to Web has an index and can be searched.</p>
 <p></p>
 <p></p>
 <p></p>
