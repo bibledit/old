@@ -166,7 +166,7 @@
                       <object class="GtkLabel" id="label_resizer">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label">⇲</property>
+                        <property name="label">||||</property>
                         <property name="track_visited_links">False</property>
                       </object>
                     </child>
