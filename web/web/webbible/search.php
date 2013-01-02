@@ -20,6 +20,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 */
 
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\" >\n";
+echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+echo "<head>\n";
+echo "  <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></meta>\n";
+echo "  <title>Search</title>\n";
+echo "  <link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheet.css\"></link>\n";
+echo "</head>\n";
+echo "<body>\n";
+
 
 // The query: The word or string to search for.
 $queryString = isset($_GET['q'])?$_GET['q']:'';
@@ -116,6 +126,7 @@ if ($queryResult === false) {
 
 
 echo "<font size=\"-1\" color=\"grey\"><hr /></font>\n";
+echo "</body>\n";
 
 
 ?>
