@@ -59,7 +59,7 @@ class Html_Header
     $formElement = $this->htmlText->newElement ("form");
     $tableDataElement->appendChild ($formElement);
     $formElement->setAttribute ("action", "search.php");
-    $formElement->setAttribute ("method", "get");
+    $formElement->setAttribute ("method", "GET");
     $formElement->setAttribute ("name", "search");
     $formElement->setAttribute ("id", "search");
     $inputElement = $this->htmlText->newElement ("input");
@@ -72,6 +72,16 @@ class Html_Header
     $inputElement->setAttribute ("type", "image");
     $inputElement->setAttribute ("name", "search");
     $inputElement->setAttribute ("src", "lens.png");
+    $inputElement = $this->htmlText->newElement ("input");
+    $formElement->appendChild ($inputElement);
+    $inputElement->setAttribute ("type", "hidden");
+    $inputElement->setAttribute ("name", "url"); // Todo
+    $inputElement->setAttribute ("value", "bible.html"); // Todo
+    $inputElement = $this->htmlText->newElement ("input");
+    $formElement->appendChild ($inputElement);
+    $inputElement->setAttribute ("type", "hidden");
+    $inputElement->setAttribute ("name", "text"); // Todo
+    $inputElement->setAttribute ("value", "Return to Genesis 1"); // Todo
   }
 
 
