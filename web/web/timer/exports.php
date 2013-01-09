@@ -108,7 +108,8 @@ foreach ($bibles as $bible) {
   $html_text_rich_bible_index = new Html_Text ($bible); 
   // On top are the breadcrumbs, starting with a clickable Bible name.
   $htmlHeader = new Html_Header ($html_text_rich_bible_index);
-  $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
+  $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible (), gettext ("Go back to Bible"));
+  $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()))); // Todo
   unset ($htmlHeader);
   // Prepare for the list of books in de html index file.
   $html_text_rich_bible_index->newParagraph ("navigationbar");
@@ -127,7 +128,7 @@ foreach ($bibles as $bible) {
     // Rich web index file per book. 
     $html_text_rich_book_index = new Html_Text ($bibleBookText);
     $htmlHeader = new Html_Header ($html_text_rich_book_index);
-    $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
+    $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) )); // Todo
     unset ($htmlHeader);
     $html_text_rich_book_index->newParagraph ("navigationbar");
     $html_text_rich_book_index->addText ("|");
@@ -164,7 +165,7 @@ foreach ($bibles as $bible) {
       $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
                                   array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                                   array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
-                                 ));
+                                 )); // Todo
       unset ($htmlHeader);
       
       // Create rich html for the chapter.

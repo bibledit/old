@@ -30,14 +30,25 @@ class Html_Header
 
 
   private $htmlText;
+  private $searchBackLinkUrl;
+  private $searchBackLinkText;
  
  
   public function __construct ($htmlText)
   {
     $this->htmlText = $htmlText;
+    $this->searchBackLinkUrl = "";
+    $this->searchBackLinkText = "";
   }
     
 
+  public function searchBackLink ($url, $text)
+  {
+    $this->searchBackLinkUrl = $url;
+    $this->searchBackLinkText = $text;
+  }
+  
+  
   public function create ($breadcrumbs)
   {
     $tableElement = $this->htmlText->newTable ();
@@ -76,12 +87,12 @@ class Html_Header
     $formElement->appendChild ($inputElement);
     $inputElement->setAttribute ("type", "hidden");
     $inputElement->setAttribute ("name", "url"); // Todo
-    $inputElement->setAttribute ("value", "bible.html"); // Todo
+    $inputElement->setAttribute ("value", $this->searchBackLinkUrl); // Todo
     $inputElement = $this->htmlText->newElement ("input");
     $formElement->appendChild ($inputElement);
     $inputElement->setAttribute ("type", "hidden");
     $inputElement->setAttribute ("name", "text"); // Todo
-    $inputElement->setAttribute ("value", "Return to Genesis 1"); // Todo
+    $inputElement->setAttribute ("value", $this->searchBackLinkText); // Todo
   }
 
 
