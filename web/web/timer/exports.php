@@ -109,7 +109,7 @@ foreach ($bibles as $bible) {
   // On top are the breadcrumbs, starting with a clickable Bible name.
   $htmlHeader = new Html_Header ($html_text_rich_bible_index);
   $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible (), gettext ("Go back to Bible"));
-  $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()))); // Todo
+  $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
   unset ($htmlHeader);
   // Prepare for the list of books in de html index file.
   $html_text_rich_bible_index->newParagraph ("navigationbar");
@@ -128,7 +128,8 @@ foreach ($bibles as $bible) {
     // Rich web index file per book. 
     $html_text_rich_book_index = new Html_Text ($bibleBookText);
     $htmlHeader = new Html_Header ($html_text_rich_book_index);
-    $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) )); // Todo
+    $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible ("", $book), gettext ("Go back to") . " " . $bibleBookText);
+    $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
     unset ($htmlHeader);
     $html_text_rich_book_index->newParagraph ("navigationbar");
     $html_text_rich_book_index->addText ("|");
@@ -162,6 +163,7 @@ foreach ($bibles as $bible) {
 
       // Create breadcrumbs for the chapter.
       $htmlHeader = new Html_Header ($filter_text_chapter->html_text_linked);
+      $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext ("Go back to") . " " . $bibleBookText . " " . $chapter); // Todo
       $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
                                   array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                                   array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))

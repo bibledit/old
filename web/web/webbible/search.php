@@ -31,11 +31,30 @@ echo "</head>\n";
 echo "<body>\n";
 
 
+// Get the URL and the text for the backlink.
+$backlinkUrl = isset($_GET['url']) ? $_GET['url'] : '';
+$backlinkText = isset($_GET['text']) ? $_GET['text'] : '';
+
+
 // The query: The word or string to search for.
-$queryString = isset($_GET['q'])?$_GET['q']:'';
+$queryString = isset($_GET['q']) ? $_GET['q'] : '';
 
 
-// Put the query string into the search box. Todo add this search box.
+// Write the search box.
+// Put the search query and the backlink in it.
+echo "<table width=\"100%\">\n";
+echo "<tr>\n";
+echo "<td><a href=\"$backlinkUrl\" id=\"\" title=\"$backlinkText\">$backlinkText</a></td>\n";
+echo "<td align=\"right\">\n";
+echo "<form action=\"search.php\" method=\"GET\" name=\"search\" id=\"search\">\n";
+echo "<input name=\"q\" type=\"text\" value=\"$queryString\">\n";
+echo "<input type=\"image\" name=\"search\" src=\"lens.png\">\n";
+echo "<input type=\"hidden\" name=\"url\" value=\"$backlinkUrl\">\n";
+echo "<input type=\"hidden\" name=\"text\" value=\"$backlinkText\">\n";
+echo "</form>\n";
+echo "</td>\n";
+echo "</tr>\n";
+echo "</table>\n";
 
 
 // Clean the query string up.
@@ -45,7 +64,7 @@ while (strpos ($queryString, "  ") !== false) {
 }
 
 
-// Add wildcards to the words in the query string.
+// Add wildcards to the separate words in the query string.
 $queryString = explode (" ", $queryString);
 foreach ($queryString as &$line) {
   if ($line == "") continue;
@@ -76,7 +95,7 @@ if ($queryResult === false) {
   }
 
 
-  // Number of search results. Todo test this.
+  // Number of search results.
   $totalFound = $queryResult['total_found'];
   if ($queryString == "") $totalFound = 0;
   echo "<font size=\"-1\" color=\"grey\"><hr /></font>\n";
