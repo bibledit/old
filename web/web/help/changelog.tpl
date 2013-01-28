@@ -13,6 +13,7 @@
 <p>Better display of results of creating chapters in a Bible book.</p>
 <p>Improved export from USFM to linked web pages.</p>
 <p>The export from USFM to Web has an index and can be searched.</p>
+<p>The page with search results in the exported web pages have a back link to the Bible and/or book and/or chapter where it was called from.</p>
 <p></p>
 <p></p>
 <p></p>
