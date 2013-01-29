@@ -322,23 +322,29 @@ class Database_Config_General
     $this->setValue ("date-in-header", $value);
   }
 
-  public function getSiteLanguage() {
+  public function getSiteLanguage () {
     return $this->getValue ("site-language", "");
   }
   public function setSiteLanguage ($value) {
     $this->setValue ("site-language", $value);
   }   
 
-  public function getTimerSearch() {
+  public function getTimerSearch () {
     return $this->getValue ("timer-search", "");
   }
   public function setTimerSearch ($value) {
     $this->setValue ("timer-search", $value);
   }   
 
+  public function getSearchDaemonPort () {
+	// Default port number for the Sphinx search daemon.
+    return $this->getValue ("search-daemon-port", "9312");
+  }
+  public function setSearchDaemonPort ($value) {
+    $this->setValue ("search-daemon-port", $value);
+  }   
 
 }
-
 
 
 ?>

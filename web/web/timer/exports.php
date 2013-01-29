@@ -41,7 +41,7 @@ $database_books = Database_Books::getInstance ();
 
 $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
-$sphinxPort = 9312;
+$sphinxPort = (int) $database_config_general->getSearchDaemonPort ();
 
 // Where to store the exported Bibles.
 include ("paths/paths.php");
@@ -163,11 +163,11 @@ foreach ($bibles as $bible) {
 
       // Create breadcrumbs for the chapter.
       $htmlHeader = new Html_Header ($filter_text_chapter->html_text_linked);
-      $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext ("Go back to") . " " . $bibleBookText . " " . $chapter); // Todo
+      $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext ("Go back to") . " " . $bibleBookText . " " . $chapter);
       $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
                                   array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                                   array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
-                                 )); // Todo
+                                 ));
       unset ($htmlHeader);
       
       // Create rich html for the chapter.

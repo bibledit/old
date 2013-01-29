@@ -36,7 +36,10 @@ if (php_sapi_name () != "cli") {
 }
 
 
-// Update paths in the Sphinx configuration file.
+// Update the Sphinx configuration file.
+$config_general = Database_Config_General::getInstance ();
+$sphinxPort = $config_general->getSearchDaemonPort ();
+$sphinxPort = (int) $sphinxPort;
 include ("paths/paths.php");
 $sphinxPidFilename = sys_get_temp_dir () . "/" . $location . "-sphinx.pid";
 $configurationFilename = "../search/sphinx.conf";
@@ -51,6 +54,7 @@ foreach ($sphinxConfiguration as &$line) {
   if (strpos ($line, "pid_file =") !== false) {
     $line = "  pid_file = $sphinxPidFilename";
   }
+  $line = str_replace ('9312', $sphinxPort, $line);
 }
 $sphinxConfiguration = implode ("\n", $sphinxConfiguration);
 file_put_contents ($configurationFilename, $sphinxConfiguration);

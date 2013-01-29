@@ -25,6 +25,9 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (GUEST_LEVEL);
 
 
+$config_general = Database_Config_General::getInstance ();
+
+
 // The query: The word or string to search for.
 $queryString = isset($_GET['q'])?$_GET['q']:'';
 
@@ -56,7 +59,7 @@ require ("sphinxapi.php");
 
 
 $sphinxClient = new SphinxClient ();
-$sphinxClient->SetServer ("localhost", 9312);
+$sphinxClient->SetServer ("localhost", (int) $config_general->getSearchDaemonPort ());
 $sphinxClient->SetConnectTimeout (1);
 $sphinxClient->SetArrayResult (true);
 $sphinxClient->SetMatchMode (SPH_MATCH_EXTENDED2);

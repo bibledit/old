@@ -86,13 +86,13 @@ class Html_Header
     $inputElement = $this->htmlText->newElement ("input");
     $formElement->appendChild ($inputElement);
     $inputElement->setAttribute ("type", "hidden");
-    $inputElement->setAttribute ("name", "url"); // Todo
-    $inputElement->setAttribute ("value", $this->searchBackLinkUrl); // Todo
+    $inputElement->setAttribute ("name", "url");
+    $inputElement->setAttribute ("value", $this->searchBackLinkUrl);
     $inputElement = $this->htmlText->newElement ("input");
     $formElement->appendChild ($inputElement);
     $inputElement->setAttribute ("type", "hidden");
-    $inputElement->setAttribute ("name", "text"); // Todo
-    $inputElement->setAttribute ("value", $this->searchBackLinkText); // Todo
+    $inputElement->setAttribute ("name", "text");
+    $inputElement->setAttribute ("value", $this->searchBackLinkText);
   }
 
 
