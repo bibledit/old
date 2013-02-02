@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-26 01:45+0100\n"
+"POT-Creation-Date: 2013-02-02 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -795,6 +795,9 @@ msgstr ""
 msgid "Go back to Bible"
 msgstr ""
 
+msgid "Go back to"
+msgstr ""
+
 msgid "changes: Generating lists of changes in the Bibles"
 msgstr ""
 
@@ -1277,6 +1280,12 @@ msgid "Read access to the repository is successful."
 msgstr ""
 
 msgid "Read access failed. Please retry it, possibly with another URL."
+msgstr ""
+
+msgid "The port number has been set"
+msgstr ""
+
+msgid "The port number was not changed"
 msgstr ""
 
 msgid ""

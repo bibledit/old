@@ -41,7 +41,7 @@ $config_general = Database_Config_General::getInstance ();
 $sphinxPort = $config_general->getSearchDaemonPort ();
 $sphinxPort = (int) $sphinxPort;
 include ("paths/paths.php");
-$sphinxPidFilename = sys_get_temp_dir () . "/" . $location . "-sphinx.pid";
+$sphinxPidFilename = "$localStatePath/$location/sphinx.pid";
 $configurationFilename = "../search/sphinx.conf";
 $sphinxConfiguration = file ($configurationFilename, FILE_IGNORE_NEW_LINES);
 foreach ($sphinxConfiguration as &$line) {
@@ -64,7 +64,7 @@ unset ($sphinxConfiguration);
 
 // Run the Sphinx indexer.
 $success = true;
-$command = "cd ../search; indexer --rotate --all --config sphinx.conf 2>&1";
+$command = "cd ../search; indexer --all --rotate --config sphinx.conf 2>&1";
 $database_logs->log ("search: $command");
 unset ($result);
 exec ($command, $result, $exit_code);
@@ -76,24 +76,41 @@ foreach ($result as $line) {
 $database_logs->log ("search: Exit code $exit_code");
 
 
-// Start the Sphinx daemon if it does not yet run.
-$startDaemon = true;
-if (file_exists ($sphinxPidFilename)) {
-  if (filesize ($sphinxPidFilename) > 1) {
-    $startDaemon = false;
+// Kill whatever deamon is listening on the TCP port that searchd needs.
+$command = "lsof -i";
+unset ($result);
+exec ($command, $result, $exit_code);
+unset ($command);
+foreach ($result as $line) {
+  $database_logs->log ("exports: $line");
+  if (strpos ($line, ":$sphinxPort") !== false) {
+    $pos = strpos ($line, " ");
+    $line = substr ($line, $pos);
+    $pid = (int) $line;
+    $command = "kill -9 $pid 2>&1";
   }
 }
-if ($startDaemon) {
-  $command = "cd ../search; searchd --config sphinx.conf 2>&1";
-  $database_logs->log ("search: $command");
+if (isset ($command)) {
+  $database_logs->log ("exports: $command");
   unset ($result);
   exec ($command, $result, $exit_code);
   foreach ($result as $line) {
-    if ($line == "") continue;
-    $database_logs->log ("search: $line");
+    $database_logs->log ("exports: $line");
   }
-  $database_logs->log ("search: Exit code $exit_code");
 }
+$database_logs->log ("exports: Exit code $exit_code");
+
+
+// Start the Sphinx daemon.
+$command = "cd ../search; searchd --config sphinx.conf 2>&1";
+$database_logs->log ("search: $command");
+unset ($result);
+exec ($command, $result, $exit_code);
+foreach ($result as $line) {
+  if ($line == "") continue;
+  $database_logs->log ("search: $line");
+}
+$database_logs->log ("search: Exit code $exit_code");
 
 
 $database_logs->log ("search: Completed", true);

@@ -229,7 +229,7 @@ foreach ($bibles as $bible) {
   // Web indexer support files.
   // For each subsequent Bible, sphinxsearch uses a higher TCP port number.
   $sphinxPort++;
-  $sphinxPidFilename = sys_get_temp_dir () . "/" . $bible . "-sphinx.pid";
+  $sphinxPidFilename = "$localStatePath/$location/$bible-sphinx.pid";
   $bibleditPath = dirname (dirname (__FILE__));
 
   $contents = file_get_contents ("../webbible/sphinx.conf");
@@ -245,8 +245,7 @@ foreach ($bibles as $bible) {
 
   // Run the Sphinx indexer.
   $success = true;
-  //$command = "cd \"$richWebDirectory\"; indexer --rotate --all --config sphinx.conf 2>&1";
-  $command = "cd \"$richWebDirectory\"; indexer --all --config sphinx.conf 2>&1";
+  $command = "cd \"$richWebDirectory\"; indexer --all --rotate --config sphinx.conf 2>&1";
   $database_logs->log ("exports: $command");
   unset ($result);
   exec ($command, $result, $exit_code);
