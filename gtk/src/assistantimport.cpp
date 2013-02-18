@@ -413,9 +413,12 @@ void ImportAssistant::on_assistant_apply ()
       switch (get_bible_type()) {
         case ibtUsfm:
         {
-          for (unsigned int i = 0; i < files_names.size(); i++) {
-            import_usfm_file (files_names[i], files_book_ids[i], bible_name, summary_messages);
-          }
+        	ProgressWindow progresswindow("Importing files", false);
+        	progresswindow.set_iterate(0, 1, files_names.size());
+        	for (unsigned int i = 0; i < files_names.size(); i++) {
+        	  	progresswindow.iterate();
+        	    import_usfm_file (files_names[i], files_book_ids[i], bible_name, summary_messages);
+        	}
           break;
         }
         case ibtBibleWorks:
