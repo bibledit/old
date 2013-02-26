@@ -162,6 +162,7 @@ void import_bibleworks_text_file (const ustring& file, const ustring& bible, vec
     try {
       ustring previousbook;
       vector < ustring > booklines;
+      de_byte_order_mark (rt.lines[0]);
       for (unsigned int i = 0; i < rt.lines.size(); i++) {
         ustring currentbook = rt.lines[i].substr(0, 3);
         if (i == 0) {
