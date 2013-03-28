@@ -4,5 +4,5 @@
   <p><input type="text" name="summary" maxlength="100" class="fullwidth" /></p>
   <p>{t}Body{/t}: </p>
   <p><textarea name="contents" id="wysiwyg"></textarea></p>
-  <p><input type="submit" name="submit" value={t}Save{/t} /><input type="submit" name="cancel" value={t}Cancel{/t} /></p>
+  <p><input type="submit" name="submit" value={t}Save{/t} onClick="this.value = '{t}Please wait{/t}'; return true;" /><input type="submit" name="cancel" value={t}Cancel{/t} /></p>
 </form>

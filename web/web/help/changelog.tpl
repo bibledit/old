@@ -5,7 +5,7 @@
 <p>Processing the changes in a Bible occurs at 0:15 AM.</p>
 <p>The import BibleWorks page has a checkbox whether to keep the grammatical tags.</p>
 <p>Exports to eSword module.</p>
-<p>A lot of php 5.4 strict warnings were fixed.</p>
+<p>Many strict warnings were fixed for PHP version 5.4.</p>
 <p>Copies the smarty-gettext plugin just in case the package does not install it correctly.</p>
 <p>Requires package sphinxsearch.</p>
 <p>The link to logout has been moved from the header to the user's page.</p>
@@ -14,7 +14,7 @@
 <p>Improved export from USFM to linked web pages.</p>
 <p>The export from USFM to Web has an index and can be searched.</p>
 <p>The page with search results in the exported web pages have a back link to the Bible and/or book and/or chapter where it was called from.</p>
-<p></p>
+<p>The buttons to submit a new note or add a comment change upon click to prevent a multiple submission.</p>
 <p></p>
 <p></p>
 

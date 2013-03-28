@@ -16,7 +16,7 @@
   <form action="{$caller}?session={$session}&saveconsultationnotecomment=" name="form" method="post">
     <p>{t}Add a comment to this note:{/t}</p>
     <p><textarea name="comment" id="wysiwyg"></textarea></p>
-    <p><input type="submit" name="submit" value={t}Save{/t} /><input type="submit" name="cancel" value={t}Cancel{/t} /></p>
+    <p><input type="submit" name="submit" value={t}Save{/t} onClick="this.value = '{t}Please wait{/t}'; return true;" /><input type="submit" name="cancel" value={t}Cancel{/t} /></p>
   </form>
 {else}
   <p><a href="{$caller}?session={$session}&addtoconsultationnote=">{t}Add a comment to this note{/t}</a></p>
