@@ -129,7 +129,7 @@ CheckOTQuotationsInNT::~CheckOTQuotationsInNT()
     delete progresswindow;
 }
 
-CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui)
+CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui,const ustring & project2)
 {
   // Language.
   extern Settings *settings;
@@ -184,13 +184,46 @@ CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, c
         ustring verse = mapped_reference.human_readable(language);
         if (includetext) {
           verse.append(" ");
-          verse.append(project_retrieve_verse(project, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse));
+          verse.append(usfm_get_verse_text_only(project_retrieve_verse(project, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse)));
         }
         dataset.data.push_back(verse);
         references.push_back(books_id_to_english(mapped_reference.book) + " " + convert_to_string(mapped_reference.chapter) + ":" + mapped_reference.verse);
         comments.push_back("Parallel");
       }
+
       datasection.sets.push_back(dataset);
+      //output verses of second project
+      OtNtParallelDataSet dataset2(0);
+      //TODO refactor this loop into a separate function
+      if (project2!="")
+      {
+    	  ustring language2 = settings->projectconfig(project2, false)->language_get();
+
+    	  // Mapping.
+    	  ustring versification2 = settings->projectconfig(project2, false)->versification_get();
+    	  Mapping mapping2(versification2, 0);
+
+    	  for (unsigned int i3 = 0; i3 < otntparallels.sections[i].sets[i2].references.size(); i3++) {
+    		  // Skip if NT book is not to be included.
+    		  if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book) == bookset.end())
+    			  continue;
+    		  vector < int >remapped_chapter;
+    		  vector < int >remapped_verse;
+    		  mapping2.book_change(otntparallels.sections[i].sets[i2].references[i3].book);
+    		  mapping2.original_to_me(otntparallels.sections[i].sets[i2].references[i3].chapter, otntparallels.sections[i].sets[i2].references[i3].verse, remapped_chapter, remapped_verse);
+    		  Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book, remapped_chapter[0], convert_to_string(remapped_verse[0]));
+    		  ustring verse = mapped_reference.human_readable(language);
+    		  if (includetext) {
+    			  verse.append(" ");
+    			  verse.append(usfm_get_verse_text_only(project_retrieve_verse(project2, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse)));
+    		  }
+    		  dataset2.data.push_back(verse);
+    		  references.push_back(books_id_to_english(mapped_reference.book) + " " + convert_to_string(mapped_reference.chapter) + ":" + mapped_reference.verse);
+    		  comments.push_back("Parallel");
+    	  }
+      	  datasection.sets.push_back(dataset2);
+      }
+
     }
     data.push_back(datasection);
   }

@@ -50,7 +50,7 @@ protected:
 
   // Information label.
   GtkWidget *infolabel;
-  void information_setup (const gchar * information);
+  void information_setup (const ustring information);
 
   // Output sorting.
   GtkWidget *radiobutton_sort0;
@@ -90,6 +90,7 @@ protected:
   GtkWidget *vbox3;
   GtkWidget *hseparator2;
   SelectProjectGui * selectprojectgui;
+  SelectProjectGui * selectparallelprojectgui;
   GtkWidget *hseparator1;
   GtkWidget *checkbutton_compare_all;
   GtkWidget *label17;
@@ -182,6 +183,8 @@ protected:
   void button_capitalization_prefixes_edit ();
   static void on_button_capitalization_suffixes_clicked (GtkButton *button, gpointer user_data);
   void capitalization_suffixes_edit ();
+  static void on_include_second_project_activate (GtkButton * button, gpointer user_data);
+  void on_include_second_project ();
 
   // Word Repetition.
   GtkWidget *vbox10;
@@ -255,7 +258,9 @@ protected:
 
   // Inclusion of verse text.
   GtkWidget *checkbutton_include_verse_text;
+  GtkWidget *checkbutton_include_second_project;
   void include_verse_text_setup ();
+  void parallel_project_setup();
 
   // Output in Old Testament order.
   GtkWidget *checkbutton_output_in_ot_order;

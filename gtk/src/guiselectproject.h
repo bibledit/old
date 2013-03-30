@@ -34,6 +34,7 @@ public:
   void build (GtkWidget * box, const gchar * labeltext, const ustring& project_in);
   void focus();
   void set_label (const ustring& text);
+  void set_sensitive (bool active);
   ustring project;
 private:
   GtkWidget *label;

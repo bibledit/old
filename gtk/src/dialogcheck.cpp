@@ -40,9 +40,11 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
 {
   // Save and initialize variables.
   mycheckdialogtype = checkdialogtype;
+  extern Settings *settings;
+  const ustring project_name = settings->genconfig.project_get().c_str();
 
   checkdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(checkdialog), "Check");
+  gtk_window_set_title(GTK_WINDOW(checkdialog), project_name.c_str());
   gtk_window_set_position(GTK_WINDOW(checkdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(checkdialog), TRUE);
 
@@ -60,6 +62,7 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
   radiobutton_sort2 = NULL;
   radiobutton_sort3 = NULL;
   selectprojectgui = NULL;
+  selectparallelprojectgui = NULL;
   entry_capitalization_punctuation = NULL;
   checkbutton_repetition_case = NULL;
   entry_matching_pairs_ignore = NULL;
@@ -149,13 +152,15 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
     book_selection_setup();
     break;
   case cdtSynopticParallelsNT:
-    information_setup("Shows the synoptic parallel passages of the New Testament.");
+    information_setup("Shows the synoptic parallel passages of the " + project_name + " New Testament.");
     include_verse_text_setup();
+    parallel_project_setup();
     book_selection_setup();
     break;
   case cdtParallelsOT:
-    information_setup("Shows the parallel passages of the Old Testament.");
+    information_setup("Shows the parallel passages of the " + project_name + " Old Testament.");
     include_verse_text_setup();
+    parallel_project_setup();
     book_selection_setup();
     break;
   }
@@ -191,6 +196,8 @@ CheckDialog::~CheckDialog()
 {
   if (selectprojectgui)
     delete selectprojectgui;
+  if (selectparallelprojectgui)
+	  delete selectparallelprojectgui;
   gtk_widget_destroy(checkdialog);
 }
 
@@ -199,9 +206,9 @@ int CheckDialog::run()
   return gtk_dialog_run(GTK_DIALOG(checkdialog));
 }
 
-void CheckDialog::information_setup(const gchar * information)
+void CheckDialog::information_setup(const ustring information)
 {
-  infolabel = gtk_label_new(information);
+  infolabel = gtk_label_new(information.c_str());
   gtk_widget_show(infolabel);
   gtk_container_add(GTK_CONTAINER(vbox1), infolabel);
   gtk_label_set_line_wrap(GTK_LABEL(infolabel), TRUE);
@@ -1105,6 +1112,8 @@ void CheckDialog::set_gui()
     gtk_widget_set_sensitive(button_repetition_show, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_repetition_show)));
     gtk_widget_set_sensitive(button_repetition_ignore, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_repetition_ignore)));
   }
+
+
 }
 
 void CheckDialog::word_count_setup()
@@ -1180,6 +1189,35 @@ void CheckDialog::on_wordcount_entry1()
   }
 }
 
+void CheckDialog::parallel_project_setup()
+{
+	  extern Settings *settings;
+
+	  checkbutton_include_second_project = gtk_check_button_new_with_mnemonic("_Compare with another project:");
+	  gtk_widget_show(checkbutton_include_second_project);
+	  gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_include_second_project, TRUE, TRUE, 0);
+
+	  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_include_second_project), settings->session.check_include_second_project);
+
+	  g_signal_connect_after((gpointer) checkbutton_include_second_project, "clicked", G_CALLBACK(on_include_second_project_activate), gpointer(this));
+
+	 selectparallelprojectgui = new SelectProjectGui(0);
+	 selectparallelprojectgui->build(vbox1, "", settings->genconfig.check_markers_compare_project_get());
+}
+
+void CheckDialog::on_include_second_project_activate(GtkButton * button, gpointer user_data)
+{
+  ((CheckDialog *) user_data)->on_include_second_project();
+}
+
+void CheckDialog::on_include_second_project()
+{
+  bool active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_include_second_project));
+  selectparallelprojectgui->set_sensitive (active);
+  if (active)
+	  selectparallelprojectgui->focus();
+}
+
 void CheckDialog::include_verse_text_setup()
 {
   checkbutton_include_verse_text = gtk_check_button_new_with_mnemonic("_Include verse text");
@@ -1228,6 +1266,9 @@ void CheckDialog::on_okbutton()
     settings->genconfig.check_markers_compare_ignore_set(gtk_entry_get_text(GTK_ENTRY(entry_compare_ignore)));
     settings->genconfig.check_markers_compare_ignore_verse_zero_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_compare_ignore_verse_zero)));
   }
+
+
+
   // Words - capitalization.
   if (entry_capitalization_punctuation) {
     settings->genconfig.check_capitalization_punctuation_set(remove_spaces(gtk_entry_get_text(GTK_ENTRY(entry_capitalization_punctuation))));
@@ -1260,6 +1301,16 @@ void CheckDialog::on_okbutton()
   if (checkbutton_include_verse_text) {
     settings->session.check_include_verse_text = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_include_verse_text));
   }
+
+  //Parallel passages - second project comparison
+  if (selectparallelprojectgui) {
+  	  settings->genconfig.check_markers_compare_project_set(selectparallelprojectgui->project);
+  }
+
+  if (checkbutton_include_second_project) {
+	    settings->session.check_include_second_project = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_include_second_project));
+  }
+
   // Output in OT order.
   if (checkbutton_output_in_ot_order) {
     settings->session.check_output_in_ot_order = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_output_in_ot_order));

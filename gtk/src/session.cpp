@@ -41,7 +41,8 @@ Session::Session(int dummy)
   searchresultstype = sstLoad;
   search_page = 0;
   checksorttype = cstSort0;
-  check_include_verse_text = false;
+  check_include_verse_text = true;
+  check_include_second_project = true;
   check_output_in_ot_order = false;
   area_type = atRaw;
   area_id = false;
