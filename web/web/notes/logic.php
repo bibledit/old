@@ -176,16 +176,23 @@ class Notes_Logic
     $pos = strpos ($subject, ")");
     if ($pos === false) return false;
     $subject = substr ($subject, 0, $pos);
-    // At this stage, the $subject contains an identifier. Check that the $identifier is an existing Consultation Note.
+    // At this stage, the $subject contains an identifier.
+    // Check that the $identifier is an existing Consultation Note.
     $identifier = $subject;
     unset ($subject);
     $database_notes = Database_Notes::getInstance();
     if (!$database_notes->identifierExists ($identifier)) return false;
     // Check that the $from address of the email belongs to an existing user.
+    // Or else create a temporal user by obfuscating the email address.
     $from = Filter_Email::extractEmail ($from);
     $database_users = Database_Users::getInstance ();
-    if (!$database_users->emailExists ($from)) return false;
-    $username = $database_users->getEmailToUser ($from);
+    if ($database_users->emailExists ($from)) {
+      $username = $database_users->getEmailToUser ($from);
+    } else {
+      $username = $from;
+      $username = str_replace ("@", " ", $username);
+      $username = str_replace (".", " ", $username);
+    }
     // Clean the email's body.
     $config_general = Database_Config_General::getInstance ();
     $year = strftime ("%Y");
