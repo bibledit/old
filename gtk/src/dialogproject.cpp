@@ -595,14 +595,19 @@ void ProjectDialog::on_book_delete()
     if (gtkw_dialog_question(projectdialog, "Are you really sure to delete something worth perhaps months of work?") != GTK_RESPONSE_YES)
       return;
     vector < unsigned int >ids = books_type_to_ids(btUnknown);
+    ProgressWindow progresswindow("Deleting books", false);
+    progresswindow.set_iterate(0, 1, ids.size());
     for (unsigned int i = 0; i < ids.size(); i++) {
       // Remove the book.
       if (selection.find(ids[i]) != selection.end()) {
         project_remove_book(currentprojectname, ids[i]);
       }
+      progresswindow.iterate();
     }
+
   }
   // Update GUI.
+
   set_gui();
 }
 
