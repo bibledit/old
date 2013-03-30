@@ -53,7 +53,8 @@ public:
                          const ustring& project, 
                          const vector<unsigned int>& books,  
                          bool includetext, 
-                         bool gui);
+                         bool gui,
+                         const ustring & project2="");
   ~CheckParallelPassages ();
   vector <OtNtParallelDataSection> data;
   vector <ustring> references;

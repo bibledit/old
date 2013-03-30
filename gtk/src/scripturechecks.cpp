@@ -390,9 +390,16 @@ void scripture_checks_synoptic_parallels_from_nt(WindowReferences * references_w
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   extern Settings *settings;
-  CheckParallelPassages check(true, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
+  ustring second_project;
+
+  if (settings->session.check_include_second_project)
+	  second_project = settings->genconfig.check_markers_compare_project_get();
+  else
+	  second_project="";
+
+  CheckParallelPassages check(true, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true, second_project);
   checks_display_references_comments(check.references, check.comments, references_window);
-  ustring main_heading = "Synoptic parallel passages of the New Testament, project " + settings->genconfig.project_get();
+  ustring main_heading = "Synoptic parallel passages of the New Testament, project " + settings->genconfig.project_get() + ", "+ second_project;
   DisplayCheckingResults display(main_heading.c_str());
   display.parallel_passages(check.data, main_heading.c_str());
 }
@@ -404,9 +411,9 @@ void scripture_checks_parallels_from_ot(WindowReferences * references_window)
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   extern Settings *settings;
-  CheckParallelPassages check(false, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
+  CheckParallelPassages check(false, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true,settings->genconfig.check_markers_compare_project_get());
   checks_display_references_comments(check.references, check.comments, references_window);
-  ustring main_heading = "Parallel passages of the Old Testament, project " + settings->genconfig.project_get();
+  ustring main_heading = "Parallel passages of the Old Testament, project " + settings->genconfig.project_get() + ", " + settings->genconfig.check_markers_compare_project_get();
   DisplayCheckingResults display(main_heading.c_str());
   display.parallel_passages(check.data, main_heading.c_str());
 }

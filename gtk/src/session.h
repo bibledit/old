@@ -58,6 +58,7 @@ public:
   // Checks.
   CheckSortType checksorttype;
   bool check_include_verse_text;
+  bool check_include_second_project;
   bool check_output_in_ot_order;
   // Area selection.
   AreaType area_type;
