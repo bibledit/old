@@ -22,16 +22,18 @@
   <a {if $editselector == 4}class="active"{/if} href="{$caller}?session={$session}&consultationnoteseditselector=4">{t}today{/t}</a>
 </p>
 <p>
-{t}Select notes that have not been edited:{/t}
-  <a {if $noneditselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=0">{t}do not care about this{/t}</a>
+{t}Select notes that have not been edited for:{/t}
+  <a {if $noneditselector == 0}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=0">{t}any time{/t}</a>
   |
-  <a {if $noneditselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=1">{t}for the last 30 days{/t}</a>
+  <a {if $noneditselector == 1}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=1">{t}a day{/t}</a>
   |
-  <a {if $noneditselector == 2}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=2">{t}for the last 7 days{/t}</a>
+  <a {if $noneditselector == 2}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=2">{t}two days{/t}</a>
   |
-  <a {if $noneditselector == 3}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=3">{t}since yesterday{/t}</a>
+  <a {if $noneditselector == 3}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=3">{t}a week{/t}</a>
   |
-  <a {if $noneditselector == 4}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=4">{t}today{/t}</a>
+  <a {if $noneditselector == 4}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=4">{t}a month{/t}</a>
+  |
+  <a {if $noneditselector == 5}class="active"{/if} href="{$caller}?session={$session}&consultationnotesnoneditselector=5">{t}a year{/t}</a>
 </p>
 <p>
 {t}Select notes that have a certain status:{/t}

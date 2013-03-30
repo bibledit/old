@@ -16,7 +16,7 @@
 <p>The page with search results in the exported web pages have a back link to the Bible and/or book and/or chapter where it was called from.</p>
 <p>The buttons to submit a new note or add a comment change upon click to prevent a multiple submission.</p>
 <p>When somebody responds by email to a Consultation Note, and the email address is not recognized, it still posts that response.</p>
-<p></p>
+<p>Improved selection for Consultation Notes based on the period they have not been edited.</p>
 <p></p>
 <p></p>
 <p></p>

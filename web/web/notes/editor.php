@@ -335,7 +335,7 @@ class Notes_Editor
     }
     @$non_edit_selector = $_GET['consultationnotesnoneditselector'];
     if (isset ($non_edit_selector)) {
-      if (($non_edit_selector < 0) || ($non_edit_selector > 4)) $non_edit_selector = 0;
+      if (($non_edit_selector < 0) || ($non_edit_selector > 5)) $non_edit_selector = 0;
       $database_config_user->setConsultationNotesNonEditSelector($non_edit_selector);
     }
     @$status_selector = $_GET['consultationnotesstatusselector'];

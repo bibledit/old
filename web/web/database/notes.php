@@ -244,24 +244,28 @@ class Database_Notes
     // Consider non-edit selector.
     switch ($non_edit_selector) {
       case 0:
-        // Select notes that have not been edited: Do not care. Apply no constraint.
+        // Select notes that have not been edited at any time. Apply no constraint.
         $nonedit = 0;
         break;
       case 1:
-        // Select notes that have not been edited for the last 30 days.
-        $nonedit = strtotime ("today -30 days");
+        // Select notes that have not been edited for a day.
+        $nonedit = strtotime ("-1 day");
         break;
       case 2:
-        // Select notes that have not been edited for the last 7 days.
-        $nonedit = strtotime ("today -7 days");
+        // Select notes that have not been edited for two days.
+        $nonedit = strtotime ("-2 days");
         break;
       case 3:
-        // Select notes that have not been edited since yesterday.
-        $nonedit = strtotime ("yesterday");
+        // Select notes that have not been edited for a week.
+        $nonedit = strtotime ("-1 week");
         break;
       case 4:
         // Select notes that have not been edited today.
-        $nonedit = strtotime ("today");
+        $nonedit = strtotime ("-1 month");
+        break;
+      case 5:
+        // Select notes that have not been edited today.
+        $nonedit = strtotime ("-1 year");
         break;
     }
     if ($nonedit != 0) $query .= " AND modified <= $nonedit ";
