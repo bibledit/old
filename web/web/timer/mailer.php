@@ -22,12 +22,6 @@
  */
 
 
-//require_once ("../bootstrap/bootstrap.php");
-//$timer_mailer = new Timer_Mailer ();
-//$timer_mailer->run ();
-
-
-
 class Timer_Mailer 
 {
 

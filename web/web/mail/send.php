@@ -31,7 +31,7 @@ class Mail_Send
     $mail->setFrom($config_general->getSiteMailAddress(), $config_general->getSiteMailName());
     $mail->addTo($to_mail, $to_name);
     $mail->setSubject($subject);
-    $mail->setBodyHtml($body, "UTF-8");
+    $mail->setBodyHtml($body, "UTF-8", Zend_Mime::ENCODING_8BIT);
     $smtp_host =           $config_general->getMailSendHost();
     $smtp_authentication = $config_general->getMailSendAuthentication ();
     $smtp_user =           $config_general->getMailSendUsername();

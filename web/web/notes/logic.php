@@ -43,7 +43,7 @@ class Notes_Logic
   public function handlerAddComment ($identifier)
   {
     $this->notifyUsers ($identifier, gettext ("Comment"));
-    // If the note' status was Done, and a comment is added, mark it Reopened.
+    // If the note status was Done, and a comment is added, mark it Reopened.
     $database_notes = Database_Notes::getInstance ();
     $status = $database_notes->getRawStatus ($identifier);
     if ($status == "Done") {
@@ -103,10 +103,10 @@ class Notes_Logic
       }
     }
 
-    // Email notification recipients.
+    // The recipients who receive a notification by email.
     $recipients = array ();
     
-    // Get the subscribers who receive an email notification.
+    // Subscribers who receive email.
     $subscribers = $database_notes->getSubscribers ($identifier);
     foreach ($subscribers as $subscriber) {
       if ($database_config_user->getUserSubscribedConsultationNoteNotification ($subscriber)) {
@@ -114,7 +114,7 @@ class Notes_Logic
       }
     }
     
-    // Get the assignees who receive an email notification.
+    // Assignees who receive email.
     $assignees = $database_notes->getAssignees ($identifier);
     foreach ($assignees as $assignee) {
       if ($database_config_user->getUserAssignedConsultationNoteNotification ($assignee)) {
@@ -122,7 +122,7 @@ class Notes_Logic
       }
     }
 
-    // Unique recipients, nobody gets duplicate email.
+    // Remove duplicates from the recipients.
     $recipients = array_unique ($recipients);
     
     // Send mail to all recipients.
@@ -153,7 +153,9 @@ class Notes_Logic
     $contents .= "<br>\n";
     $siteUrl = $database_config_general->getSiteURL ();
     $link = "$siteUrl/consultations/notes.php?consultationnote=$identifier";
-    $contents .= "<p><a href=\"$link\">$link</a></p>\n";
+    $contents .= "<p><a href=\"$link\">View or respond online</a></p>\n";
+    $mailto = "mailto:" . $database_config_general->getSiteMailAddress () . "?subject=(CNID$identifier)";
+    $contents .= "<p><a href=\"$mailto\">Respond by email</a></p>\n";
     foreach ($users as $user) {
       $database_mail->send ($user, "$label | $passages | $summary | (CNID$identifier)", $contents);
     }
@@ -183,7 +185,7 @@ class Notes_Logic
     $database_notes = Database_Notes::getInstance();
     if (!$database_notes->identifierExists ($identifier)) return false;
     // Check that the $from address of the email belongs to an existing user.
-    // Or else create a temporal user by obfuscating the email address.
+    // Or else use the obfuscated email address as the user name.
     $from = Filter_Email::extractEmail ($from);
     $database_users = Database_Users::getInstance ();
     if ($database_users->emailExists ($from)) {
