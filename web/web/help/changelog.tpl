@@ -19,6 +19,10 @@
 <p>Improved selection for Consultation Notes based on the length of the period they have not been edited.</p>
 <p>The email notifications of the Consultation Notes have a mailto: link for an easier and cleaner response by email.</p>
 <p>The manager can edit the contents of a Consultation Note.</p>
+<p>Fixed: Setting up collaboration works gave an error message on recent PHP versions.</p>
+<p>The mail database was updated so that emails with details about changes in the Bible can have sizes larger than 65535 bytes.</p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 0.7</h2>

@@ -12249,6 +12249,8 @@ BEGIN
   # Table update. Create index on identifier for much faster lookup.
   # This makes a huge difference if the number of notes climbs above the, say, 1000.
   CREATE INDEX id_index ON notes (identifier);
+  # The table for the emails needs a bigger body size than 65535, so change the column type to MEDIUMTEXT
+  ALTER TABLE mail MODIFY body MEDIUMTEXT;
 END;;
 CALL upgrades();;
 DROP PROCEDURE upgrades;
