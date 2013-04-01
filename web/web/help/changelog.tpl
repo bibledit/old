@@ -18,7 +18,7 @@
 <p>When somebody responds by email to a Consultation Note, and the email address is not recognized, it still posts that response.</p>
 <p>Improved selection for Consultation Notes based on the length of the period they have not been edited.</p>
 <p>The email notifications of the Consultation Notes have a mailto: link for an easier and cleaner response by email.</p>
-<p></p>
+<p>The manager can edit the contents of a Consultation Note.</p>
 <p></p>
 
 <h2>Version 0.7</h2>
