@@ -15,7 +15,7 @@ $secure_key_directory = Filter_Git::git_config ($url);
 
 $command = "cd $directory; git clone $url .";
 echo "$command\n";
-passthru ($command, &$exit_code);
+passthru ($command, $exit_code);
 if ($exit_code == 0) {
   echo gettext ("Ok: The repository was cloned successfully.");
 } else {

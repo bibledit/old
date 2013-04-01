@@ -25,7 +25,7 @@ $secure_key_directory = Filter_Git::git_config ($url);
 $command = "git ls-remote $url 2>&1";
 $smarty->assign ("command", $command);
 ob_start ();
-system ($command, &$exit_code);
+system ($command, $exit_code);
 $read_access_result = ob_get_contents ();
 ob_end_clean();
 $smarty->assign ("read_access_result", nl2br ($read_access_result));
