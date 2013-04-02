@@ -269,7 +269,6 @@ bibledit_gtk_SOURCES = \
   editor.cpp \
   editoractions.cpp \
   nanohttp.cpp \
-  c_url.cpp \
   urltransport.cpp \
   dialogreferencesettings.cpp \
   printproject2.cpp \
@@ -478,7 +477,6 @@ bibledit_rdwrt_SOURCES = \
   editor.cpp \
   editoractions.cpp \
   nanohttp.cpp \
-  c_url.cpp \
   urltransport.cpp \
   dialogreferencesettings.cpp \
   printproject2.cpp \

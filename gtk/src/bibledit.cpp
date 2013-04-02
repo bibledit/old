@@ -40,7 +40,6 @@
 #include <libxml/xmlreader.h>
 #include "startup.h"
 #include <libxml/nanohttp.h>
-#include "c_url.h"
 #include "urltransport.h"
 #include "runtime.h"
 #include "vcs.h"

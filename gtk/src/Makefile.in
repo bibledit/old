@@ -189,7 +189,7 @@ am_bibledit_gtk_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) floatingwindow.$(OBJEXT) \
 	windowdata.$(OBJEXT) editor.$(OBJEXT) editoractions.$(OBJEXT) \
-	nanohttp.$(OBJEXT) c_url.$(OBJEXT) urltransport.$(OBJEXT) \
+	nanohttp.$(OBJEXT) urltransport.$(OBJEXT) \
 	dialogreferencesettings.$(OBJEXT) printproject2.$(OBJEXT) \
 	usfm2xetex.$(OBJEXT) xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) \
 	xetex.$(OBJEXT) dialogxetex.$(OBJEXT) paratext.$(OBJEXT) \
@@ -282,7 +282,7 @@ am_bibledit_rdwrt_OBJECTS = bibledit-rdwrt.$(OBJEXT) \
 	onlinebible.$(OBJEXT) robinson.$(OBJEXT) morphology.$(OBJEXT) \
 	greek.$(OBJEXT) startup.$(OBJEXT) dialogyesnoalways.$(OBJEXT) \
 	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) editor.$(OBJEXT) \
-	editoractions.$(OBJEXT) nanohttp.$(OBJEXT) c_url.$(OBJEXT) \
+	editoractions.$(OBJEXT) nanohttp.$(OBJEXT) \
 	urltransport.$(OBJEXT) dialogreferencesettings.$(OBJEXT) \
 	printproject2.$(OBJEXT) usfm2xetex.$(OBJEXT) \
 	xetex2pdf.$(OBJEXT) runtime.$(OBJEXT) xetex.$(OBJEXT) \
@@ -727,7 +727,6 @@ bibledit_gtk_SOURCES = \
   editor.cpp \
   editoractions.cpp \
   nanohttp.cpp \
-  c_url.cpp \
   urltransport.cpp \
   dialogreferencesettings.cpp \
   printproject2.cpp \
@@ -936,7 +935,6 @@ bibledit_rdwrt_SOURCES = \
   editor.cpp \
   editoractions.cpp \
   nanohttp.cpp \
-  c_url.cpp \
   urltransport.cpp \
   dialogreferencesettings.cpp \
   printproject2.cpp \
@@ -1064,7 +1062,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bookdata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/books.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c_url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/categorize.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_capitalization.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_chapters_verses.Po@am__quote@
