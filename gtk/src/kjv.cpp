@@ -136,7 +136,7 @@ void kjv_action_page (HtmlWriter2& htmlwriter)
 
   // Write OK.
   htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add ("", "Ok");
+  htmlwriter.hyperlink_add ("ok", "Ok");
   htmlwriter.paragraph_close ();
 }
 

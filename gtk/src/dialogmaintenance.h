@@ -25,10 +25,8 @@
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "ustring.h"
-extern "C" {
-#include <gtkhtml/gtkhtml.h>
-}
 #include "htmlwriter2.h"
+#include <webkit/webkit.h>
 
 
 class MaintenanceDialog
@@ -41,17 +39,16 @@ protected:
   GtkWidget *dialog;
   GtkWidget *dialog_vbox1;
   GtkWidget *scrolledwindow;
-  GtkWidget *htmlview;
+  GtkWidget *webview;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
-  static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
-  void html_link_clicked(const gchar * url);
+  static gboolean on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data);
+  void navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision);
+  void load_webview (const gchar * url);
   ustring active_url;
   map <ustring, unsigned int> scrolling_position;
-  static void on_html_submit (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer user_data);
-  void html_submit (const gchar *method, const gchar *url, const gchar *encoding);
   void html_add_home (HtmlWriter2& htmlwriter);
 };
 

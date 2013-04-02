@@ -43,13 +43,11 @@ MaintenanceDialog::MaintenanceDialog(int dummy)
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_SHADOW_IN);
 
-  htmlview = gtk_html_new();
-  gtk_widget_show(htmlview);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow), htmlview);
-  gtk_html_allow_selection(GTK_HTML(htmlview), true);
+  webview = webkit_web_view_new();
+  gtk_widget_show (webview);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), webview);
 
-  g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
-  g_signal_connect((gpointer) htmlview, "submit", G_CALLBACK(on_html_submit), gpointer(this));
+  g_signal_connect((gpointer) webview, "navigation-policy-decision-requested", G_CALLBACK(on_navigation_policy_decision_requested), gpointer(this));
 
   dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(dialog));
   gtk_widget_show (dialog_action_area1);
@@ -67,11 +65,11 @@ MaintenanceDialog::MaintenanceDialog(int dummy)
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), okbutton, GTK_RESPONSE_OK);
   gtk_widget_set_can_default (GTK_WIDGET (okbutton), true);
 
-  gtk_widget_grab_focus(htmlview);
-  gtk_widget_grab_default(okbutton);
+  gtk_widget_grab_focus (webview);
+  gtk_widget_grab_default (okbutton);
   
   // Home page.
-  html_link_clicked ("");
+  load_webview ("");
 }
 
 
@@ -87,20 +85,38 @@ int MaintenanceDialog::run()
 }
 
 
-gboolean MaintenanceDialog::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+gboolean MaintenanceDialog::on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data)
 {
-  ((MaintenanceDialog *) user_data)->html_link_clicked(url);
+  ((MaintenanceDialog *) user_data)->navigation_policy_decision_requested (request, navigation_action, policy_decision);
   return true;
 }
 
 
-void MaintenanceDialog::html_link_clicked (const gchar * url)
-// Callback for clicking a link.
+void MaintenanceDialog::navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision)
 {
   // Store scrolling position for the now active url.
   GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
   scrolling_position[active_url] = gtk_adjustment_get_value (adjustment);
 
+  // Get the reason for this navigation policy request.
+  WebKitWebNavigationReason reason = webkit_web_navigation_action_get_reason (navigation_action);
+  
+  // If a new page if loaded, allow the navigation, and exit.
+  if (reason == WEBKIT_WEB_NAVIGATION_REASON_OTHER) {
+    webkit_web_policy_decision_use (policy_decision);
+    return;
+  }
+
+  // Don't follow pseudo-links clicked on this page.
+  webkit_web_policy_decision_ignore (policy_decision);
+  
+  // Load new page depending on the pseudo-link clicked.
+  load_webview (webkit_network_request_get_uri (request));
+}
+
+
+void MaintenanceDialog::load_webview (const gchar * url)
+{
   // New url.
   active_url = url;
 
@@ -146,50 +162,23 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
 
     // Import Sword KJV text link.
     kjv_home_entry (htmlwriter);    
-    
-    /*    
-    htmlwriter.paragraph_open();
-    htmlwriter.form_open ("form", "page.html", "get");
-    htmlwriter.paragraph_close();
-    htmlwriter.paragraph_open();
-    htmlwriter.input_open ("entry", "text", 25, "Enter");
-    htmlwriter.paragraph_close();
-    htmlwriter.paragraph_open();
-    htmlwriter.input_open (NULL, "submit", 0, "Send");
-    htmlwriter.paragraph_close();
-    */
   }
   
   htmlwriter.finish();
   if (display_another_page) {
     // Load the page.
-    GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview));
-    gtk_html_write(GTK_HTML(htmlview), stream, htmlwriter.html.c_str(), -1);
-    gtk_html_end(GTK_HTML(htmlview), stream, GTK_HTML_STREAM_OK);
+    webkit_web_view_load_string (WEBKIT_WEB_VIEW (webview), htmlwriter.html.c_str(), NULL, NULL, NULL);
     // Scroll to the position that possibly was stored while this url was last active.
+    GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
     gtk_adjustment_set_value (adjustment, scrolling_position[active_url]);
   }
-}
-
-
-void MaintenanceDialog::on_html_submit (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer user_data)
-{
-  ((MaintenanceDialog *) user_data)->html_submit(method, url, encoding);
-}
-
-
-void MaintenanceDialog::html_submit (const gchar *method, const gchar *url, const gchar *encoding)
-{
-  char * encoding2 = strdup(encoding);
-  html_url_decode(encoding2);
-  free(encoding2);
 }
 
 
 void MaintenanceDialog::html_add_home (HtmlWriter2& htmlwriter)
 {
   htmlwriter.paragraph_open();
-  htmlwriter.hyperlink_add ("", "Home");
+  htmlwriter.hyperlink_add ("home", "Home");
   htmlwriter.paragraph_close();
 }
 
