@@ -22,7 +22,7 @@
 #include "tiny_utilities.h"
 #include "directories.h"
 #include "gwrappers.h"
-#include "htmlbrowser.h" // Todo
+#include "htmlbrowser.h"
 
 
 HtmlWriter2::HtmlWriter2(const ustring & title)

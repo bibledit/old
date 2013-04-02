@@ -25,7 +25,7 @@
 #include "dialogsystemlog.h"
 #include "constants.h"
 #include "utilities.h"
-#include "htmlbrowser.h" // Todo
+#include "htmlbrowser.h"
 #include "usfmtools.h"
 #include "dialogreplace.h"
 #include "dialoggotoreference.h"
@@ -3427,7 +3427,7 @@ void MainWindow::on_check_httpd()
   }
   // Did the browser request a url too difficult for it to handle?
   if (!httpd.difficult_url.empty()) {
-    htmlbrowser(httpd.difficult_url, true, true); // Todo
+    htmlbrowser(httpd.difficult_url, true, true);
     httpd.difficult_url.clear();
   }
 }
