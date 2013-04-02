@@ -26,10 +26,8 @@
 #include "ustring.h"
 #include "reference.h"
 #include "floatingwindow.h"
-extern "C" {
-#include <gtkhtml/gtkhtml.h>
-}
 #include "htmlwriter2.h"
+#include <webkit/webkit.h>
 
 
 enum RelatedItemType {ritNone, ritKeytermId, ritStrongNumber, ritParallels};
@@ -46,12 +44,13 @@ public:
   ustring item_id;
 protected:
   GtkWidget *scrolledwindow;
-  GtkWidget *htmlview;
+  GtkWidget *webview;
 private:
   Reference myreference;
   ustring myproject;
-  static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
-  void html_link_clicked(const gchar * url);
+  void load_webview (const gchar * url);
+  static gboolean on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data);
+  void navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision);
   ustring active_url;
   map <ustring, unsigned int> scrolling_position;
   static void thread_start(gpointer data);

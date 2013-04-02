@@ -45,16 +45,15 @@ FloatingWindow(parent_layout, widShowRelatedVerses, "Related verses", startup), 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_SHADOW_IN);
 
-  htmlview = gtk_html_new();
-  gtk_widget_show(htmlview);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow), htmlview);
-  gtk_html_allow_selection(GTK_HTML(htmlview), true);
-
-  connect_focus_signals (htmlview);
+  webview = webkit_web_view_new();
+  gtk_widget_show(webview);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), webview);
   
-  g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
+  connect_focus_signals (webview);
+  
+  g_signal_connect((gpointer) webview, "navigation-policy-decision-requested", G_CALLBACK(on_navigation_policy_decision_requested), gpointer(this));
 
-  last_focused_widget = htmlview;
+  last_focused_widget = webview;
   gtk_widget_grab_focus (last_focused_widget);
   
   button_item = gtk_button_new ();
@@ -83,20 +82,39 @@ void WindowShowRelatedVerses::go_to(const ustring & project, const Reference & r
 }
 
 
-gboolean WindowShowRelatedVerses::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+gboolean WindowShowRelatedVerses::on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data)
 {
-  ((WindowShowRelatedVerses *) user_data)->html_link_clicked(url);
+  ((WindowShowRelatedVerses *) user_data)->navigation_policy_decision_requested (request, navigation_action, policy_decision);
   return true;
 }
 
 
-void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
+void WindowShowRelatedVerses::navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision)
 // Callback for clicking a link.
 {
   // Store scrolling position for the now active url.
   GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
   scrolling_position[active_url] = gtk_adjustment_get_value (adjustment);
 
+  // Get the reason for this navigation policy request.
+  WebKitWebNavigationReason reason = webkit_web_navigation_action_get_reason (navigation_action);
+  
+  // If a new page if loaded, allow the navigation, and exit.
+  if (reason == WEBKIT_WEB_NAVIGATION_REASON_OTHER) {
+    webkit_web_policy_decision_use (policy_decision);
+    return;
+  }
+
+  // Don't follow pseudo-links clicked on this page.
+  webkit_web_policy_decision_ignore (policy_decision);
+  
+  // Load new page depending on the pseudo-link clicked.
+  load_webview (webkit_network_request_get_uri (request));
+}
+
+
+void WindowShowRelatedVerses::load_webview (const gchar * url)
+{
   // New url.
   active_url = url;
 
@@ -216,10 +234,9 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
   htmlwriter.finish();
   if (display_another_page) {
     // Load the page.
-    GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview));
-    gtk_html_write(GTK_HTML(htmlview), stream, htmlwriter.html.c_str(), -1);
-    gtk_html_end(GTK_HTML(htmlview), stream, GTK_HTML_STREAM_OK);
+    webkit_web_view_load_string (WEBKIT_WEB_VIEW (webview), htmlwriter.html.c_str(), NULL, NULL, NULL);
     // Scroll to the position that possibly was stored while this url was last active.
+    GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
     gtk_adjustment_set_value (adjustment, scrolling_position[active_url]);
   }
 }
@@ -245,8 +262,7 @@ bool WindowShowRelatedVerses::on_timeout(gpointer user_data)
 
 bool WindowShowRelatedVerses::timeout()
 {
-  html_link_clicked ("");
+  load_webview ("");
   return false;
 }
-
 

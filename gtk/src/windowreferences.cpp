@@ -390,7 +390,6 @@ void WindowReferences::navigation_policy_decision_requested (WebKitNetworkReques
 
 void WindowReferences::load_webview (const gchar *url)
 {
-
   // New url.
   active_url = url;
 
