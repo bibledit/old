@@ -1,6 +1,12 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+<p></p>
+<p></p>
+<p></p>
+
+<h2>Version 0.8</h2>
+<p>1 April 2013</p>
 <p>Run ./configure --with-open-installation=true to configure the Bibledit-Web installation from password protected to open.</p>
 <p>Processing the changes in a Bible occurs at 0:15 AM.</p>
 <p>The import BibleWorks page has a checkbox whether to keep the grammatical tags.</p>
@@ -19,11 +25,8 @@
 <p>Improved selection for Consultation Notes based on the length of the period they have not been edited.</p>
 <p>The email notifications of the Consultation Notes have a mailto: link for an easier and cleaner response by email.</p>
 <p>The manager can edit the contents of a Consultation Note.</p>
-<p>Fixed: Setting up collaboration works gave an error message on recent PHP versions.</p>
+<p>Fixed: Setting up collaboration gave an error message on recent PHP versions.</p>
 <p>The mail database was updated so that emails with details about changes in the Bible can have sizes larger than 65535 bytes.</p>
-<p></p>
-<p></p>
-<p></p>
 
 <h2>Version 0.7</h2>
 <p>11 October 2012</p>

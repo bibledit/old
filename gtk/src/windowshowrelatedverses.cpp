@@ -246,7 +246,7 @@ bool WindowShowRelatedVerses::on_timeout(gpointer user_data)
 bool WindowShowRelatedVerses::timeout()
 {
   html_link_clicked ("");
-  //g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+  //g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL); // Todo compiler warning.
   return false;
 }
 

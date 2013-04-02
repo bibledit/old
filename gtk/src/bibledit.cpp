@@ -59,7 +59,9 @@ VCS *vcs;
 int main(int argc, char *argv[])
 {
   // Initialize g threads.
-  g_thread_init(NULL);
+  // g_thread_init has been deprecated since version 2.32 and should not be used in newly-written code. 
+  // This function is no longer necessary. 
+  // The GLib threading system is automatically initialized at the start of your program.
   // Initialize g types.
   g_type_init();
   // Initialize GTK

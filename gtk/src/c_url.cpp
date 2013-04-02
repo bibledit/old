@@ -232,7 +232,7 @@ void HtmlCache::thread_main()
 
   // Create thread if there's another url in the queue.
   if (!url_queue.empty() && !abort_thread) {
-    g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+    g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL); // Todo compiler warning.
   }
   // Thread state flag.
   thread_runs--;
@@ -270,7 +270,7 @@ char *HtmlCache::request_url(ustring url, size_t & size, bool & trylater)
 
   // Optionally create fetcher thread.
   if (!thread_runs) {
-    g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+    g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL); // Todo compiler warning.
   }
   // If an error message is in the cache, get it from there and bail out.
   ustring cacheerror = cache_error(url);

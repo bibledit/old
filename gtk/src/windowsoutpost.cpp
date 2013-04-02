@@ -76,7 +76,7 @@ void WindowsOutpost::Start()
 // This effectually starts the whole system.
 {
   thread_run = true;
-  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL); // Todo compiler warning.
 }
 
 

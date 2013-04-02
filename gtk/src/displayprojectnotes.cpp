@@ -42,7 +42,7 @@ DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * 
     ids_passed = false;
   }
   // Start main thread.  
-  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL); // Todo compiler warning.
 }
 
 
