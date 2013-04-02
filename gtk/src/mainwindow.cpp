@@ -4579,6 +4579,10 @@ void MainWindow::set_fonts()
   if (window_references) {
     window_references->set_fonts();
   }
+  // Set fonts in the window for checking keyterms.
+  if (window_check_keyterms) {
+    window_check_keyterms->set_fonts();
+  }
 }
 
 

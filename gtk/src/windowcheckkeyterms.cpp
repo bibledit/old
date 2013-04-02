@@ -82,12 +82,11 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_terms), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_terms), GTK_SHADOW_IN);
 
-  htmlview_terms = gtk_html_new();
-  gtk_widget_show(htmlview_terms);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow_terms), htmlview_terms);
-  gtk_html_allow_selection(GTK_HTML(htmlview_terms), true);
+  webview_terms = webkit_web_view_new();
+  gtk_widget_show (webview_terms);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_terms), webview_terms);
 
-  connect_focus_signals (htmlview_terms);
+  connect_focus_signals (webview_terms);
   
   // Store for the renderings.
   treestore_renderings = gtk_tree_store_new(4, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_BOOLEAN);
@@ -114,12 +113,11 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
   treeselect_renderings = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_renderings));
   gtk_tree_selection_set_mode(treeselect_renderings, GTK_SELECTION_SINGLE);
 
-  g_signal_connect((gpointer) htmlview_terms, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
-  g_signal_connect((gpointer) htmlview_terms, "submit", G_CALLBACK(on_html_submit), gpointer(this));
+  g_signal_connect((gpointer) webview_terms, "navigation-policy-decision-requested", G_CALLBACK(on_navigation_policy_decision_requested), gpointer(this));
   g_signal_connect((gpointer) combobox_collection, "changed", G_CALLBACK(on_combobox_keyterm_collection_changed), gpointer(this));
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_collection), combobox_collection);
-  gtk_label_set_mnemonic_widget(GTK_LABEL(label_list), htmlview_terms);
+  gtk_label_set_mnemonic_widget(GTK_LABEL(label_list), webview_terms);
 
   // Load the categories.
   reload_collections ();
@@ -149,15 +147,17 @@ void WindowCheckKeyterms::go_to_term(unsigned int id)
 
 void WindowCheckKeyterms::copy_clipboard()
 {
-  if (gtk_widget_has_focus (htmlview_terms)) {
+  if (gtk_widget_has_focus (webview_terms)) {
     // Copy text to the clipboard.
-    gtk_html_copy (GTK_HTML (htmlview_terms));
+    webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (webview_terms));
 
     // Add the selected text to the renderings.
-    int len;
-    char * text = gtk_html_get_selection_plain_text (GTK_HTML (htmlview_terms), &len);
-    add_to_renderings(text, false);
-    free (text); 
+    GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+    char * text = gtk_clipboard_wait_for_text (clipboard);
+    if (text) {
+      add_to_renderings (text, false);
+      free (text); 
+    }
   }
 }
 
@@ -401,15 +401,38 @@ ustring WindowCheckKeyterms::collection ()
 }
 
 
-gboolean WindowCheckKeyterms::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+gboolean WindowCheckKeyterms::on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data)
 {
-  ((WindowCheckKeyterms *) user_data)->html_link_clicked(url);
+  ((WindowCheckKeyterms *) user_data)->navigation_policy_decision_requested (request, navigation_action, policy_decision);
   return true;
 }
 
 
-void WindowCheckKeyterms::html_link_clicked (const gchar * url)
+void WindowCheckKeyterms::navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision)
 // Callback for clicking a link.
+{
+  // Store scrolling position for the now active url.
+  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow_terms));
+  scrolling_position[active_url] = gtk_adjustment_get_value (adjustment);
+
+  // Get the reason for this navigation policy request.
+  WebKitWebNavigationReason reason = webkit_web_navigation_action_get_reason (navigation_action);
+  
+  // If a new page if loaded, allow the navigation, and exit.
+  if (reason == WEBKIT_WEB_NAVIGATION_REASON_OTHER) {
+    webkit_web_policy_decision_use (policy_decision);
+    return;
+  }
+
+  // Don't follow pseudo-links clicked on this page.
+  webkit_web_policy_decision_ignore (policy_decision);
+  
+  // Load new page depending on the pseudo-link clicked.
+  html_link_clicked (webkit_network_request_get_uri (request));
+}
+
+
+void WindowCheckKeyterms::html_link_clicked (const gchar * url)
 {
   // Store scrolling position for the now active url.
   GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow_terms));
@@ -484,10 +507,9 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   htmlwriter.finish();
   if (display_another_page) {
     // Load the page.
-    GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_terms));
-    gtk_html_write(GTK_HTML(htmlview_terms), stream, htmlwriter.html.c_str(), -1);
-    gtk_html_end(GTK_HTML(htmlview_terms), stream, GTK_HTML_STREAM_OK);
+    webkit_web_view_load_string (WEBKIT_WEB_VIEW (webview_terms), htmlwriter.html.c_str(), NULL, NULL, NULL);
     // Scroll to the position that possibly was stored while this url was last active.
+    GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow_terms));
     gtk_adjustment_set_value (adjustment, scrolling_position[active_url]);
     // Whether to show collections.
     if (show_collections)
@@ -502,17 +524,6 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
 }
 
 
-void WindowCheckKeyterms::on_html_submit (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer user_data)
-{
-  ((WindowCheckKeyterms *) user_data)->html_submit(method, url, encoding);
-}
-
-
-void WindowCheckKeyterms::html_submit (const gchar *method, const gchar *url, const gchar *encoding)
-{
-}
-
-
 void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned int keyword_id)
 {
   // Get data about the project.
@@ -523,7 +534,7 @@ void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned
 
   // Add action links.
   htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add ("", "[Index]");
+  htmlwriter.hyperlink_add ("index", "[Index]");
   htmlwriter.text_add (" ");
   htmlwriter.hyperlink_add ("send", "[Send to references window]");
   htmlwriter.paragraph_close ();
@@ -625,7 +636,7 @@ void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned
         // Proceed to next.
         htmlwriter.paragraph_open ();
         pos = information.find (keyterms_reference_start_markup ());
-      }    
+      }
     }
     htmlwriter.text_add (information);
     htmlwriter.paragraph_close ();
@@ -683,3 +694,15 @@ void WindowCheckKeyterms::on_text_changed ()
   }
 }
 
+
+void WindowCheckKeyterms::set_fonts()
+{
+  extern Settings *settings;
+  if (!settings->genconfig.text_editor_font_default_get()) {
+    PangoFontDescription *desired_font_description = pango_font_description_from_string(settings->genconfig.text_editor_font_name_get().c_str());
+    const char * desired_font_family = pango_font_description_get_family (desired_font_description);
+    WebKitWebSettings * webkit_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (webview_terms));
+    g_object_set (G_OBJECT (webkit_settings), "default-font-family", desired_font_family, NULL);
+    pango_font_description_free (desired_font_description);
+  }
+}
