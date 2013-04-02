@@ -56,27 +56,26 @@ FloatingWindow(parent_layout, widReferences, "References", startup), reference(0
   gtk_container_add(GTK_CONTAINER(vbox_client), scrolledwindow);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  htmlview = gtk_html_new();
-  gtk_widget_show(htmlview);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow), htmlview);
-  gtk_html_allow_selection(GTK_HTML(htmlview), true);
+  webview = webkit_web_view_new();
+  gtk_widget_show(webview);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), webview);
   
-  connect_focus_signals (htmlview);
+  connect_focus_signals (webview);
 
-  g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
+  g_signal_connect((gpointer) webview, "navigation-policy-decision-requested", G_CALLBACK(on_navigation_policy_decision_requested), gpointer(this));
 
   // Signal button.
   signal_button = gtk_button_new();
 
   // Main focused widget.
-  last_focused_widget = htmlview;
+  last_focused_widget = webview;
   gtk_widget_grab_focus (last_focused_widget);
 
   set_fonts ();
   
   // Load previously saved references.
   load ();
-  html_link_clicked ("");
+  load_webview ("");
 }
 
 
@@ -115,7 +114,7 @@ void WindowReferences::set (vector <Reference>& refs, const ustring& project_in,
       comments.push_back (comment);
     }
   }  
-  html_link_clicked ("");
+  load_webview ("");
 }
 
 
@@ -263,7 +262,7 @@ void WindowReferences::load (const ustring & filename)
     cerr << "Loading references: " << ex.what() << endl;
   }
   // Load these.
-  html_link_clicked ("");
+  load_webview ("");
 }
 
 
@@ -354,23 +353,43 @@ void WindowReferences::save(const ustring& filename)
 void WindowReferences::clear()
 {
   dismiss (false, true);
-  html_link_clicked ("");
+  load_webview ("");
 }
 
 
-gboolean WindowReferences::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+gboolean WindowReferences::on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data)
 {
-  ((WindowReferences *) user_data)->html_link_clicked(url);
+  ((WindowReferences *) user_data)->navigation_policy_decision_requested (request, navigation_action, policy_decision);
   return true;
 }
 
 
-void WindowReferences::html_link_clicked (const gchar * url)
+void WindowReferences::navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision)
 // Callback for clicking a link.
 {
   // Store scrolling position for the now active url.
   GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
-  scrolling_position[active_url] = gtk_adjustment_get_value (adjustment);
+  scrolling_position [active_url] = gtk_adjustment_get_value (adjustment);
+
+  // Get the reason for this navigation policy request.
+  WebKitWebNavigationReason reason = webkit_web_navigation_action_get_reason (navigation_action);
+  
+  // If a new page if loaded, allow the navigation, and exit.
+  if (reason == WEBKIT_WEB_NAVIGATION_REASON_OTHER) {
+    webkit_web_policy_decision_use (policy_decision);
+    return;
+  }
+
+  // Don't follow pseudo-links clicked on this page.
+  webkit_web_policy_decision_ignore (policy_decision);
+  
+  // Load new page depending on the pseudo-link clicked.
+  load_webview (webkit_network_request_get_uri (request));
+}
+
+
+void WindowReferences::load_webview (const gchar *url)
+{
 
   // New url.
   active_url = url;
@@ -458,10 +477,9 @@ void WindowReferences::html_link_clicked (const gchar * url)
   htmlwriter.finish();
   if (display_another_page) {
     // Load the page.
-    GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview));
-    gtk_html_write(GTK_HTML(htmlview), stream, htmlwriter.html.c_str(), -1);
-    gtk_html_end(GTK_HTML(htmlview), stream, GTK_HTML_STREAM_OK);
+    webkit_web_view_load_string (WEBKIT_WEB_VIEW (webview), htmlwriter.html.c_str(), NULL, NULL, NULL);
     // Scroll to the position that possibly was stored while this url was last active.
+    GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
     gtk_adjustment_set_value (adjustment, scrolling_position[active_url]);
   }
 }
@@ -762,23 +780,23 @@ void WindowReferences::goto_next_previous_internal(bool next)
 
   // Switch pages back till the reference to be selected is within the visible bounds.
   while (selection < (int)lower_boundary) {
-    html_link_clicked ("prev");
+    load_webview ("prev");
   }
 
   // Switch pages forward till the references to be selected is within the visible bounds.
   while (selection >= (int)upper_boundary) {
-    html_link_clicked ("next");
+    load_webview ("next");
   }
 
   // Go to the selected references.
   ustring url = "goto " + convert_to_string (selection);
-  html_link_clicked (url.c_str());
+  load_webview (url.c_str());
 }
 
 
 void WindowReferences::copy ()
 {
-  gtk_html_copy (GTK_HTML (htmlview));
+  webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (webview));
 }
 
 
@@ -788,9 +806,8 @@ void WindowReferences::set_fonts()
   if (!settings->genconfig.text_editor_font_default_get()) {
     PangoFontDescription *desired_font_description = pango_font_description_from_string(settings->genconfig.text_editor_font_name_get().c_str());
     const char * desired_font_family = pango_font_description_get_family (desired_font_description);
-    PangoContext * pango_context = gtk_widget_get_pango_context (htmlview);
-    PangoFontDescription *font_desc = pango_context_get_font_description (pango_context);
-    pango_font_description_set_family (font_desc, desired_font_family);
-    pango_font_description_free(desired_font_description);
+    WebKitWebSettings * webkit_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (webview));
+    g_object_set (G_OBJECT (webkit_settings), "default-font-family", desired_font_family, NULL);
+    pango_font_description_free (desired_font_description);
   }
 }

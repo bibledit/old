@@ -639,6 +639,8 @@ WEBKIT_LIBS
 WEBKIT_CFLAGS
 GTKSOURCEVIEW_LIBS
 GTKSOURCEVIEW_CFLAGS
+GTKHTML4_LIBS
+GTKHTML4_CFLAGS
 GTKHTML314_LIBS
 GTKHTML314_CFLAGS
 GTKHTML38_LIBS
@@ -811,6 +813,8 @@ GTKHTML38_CFLAGS
 GTKHTML38_LIBS
 GTKHTML314_CFLAGS
 GTKHTML314_LIBS
+GTKHTML4_CFLAGS
+GTKHTML4_LIBS
 GTKSOURCEVIEW_CFLAGS
 GTKSOURCEVIEW_LIBS
 WEBKIT_CFLAGS
@@ -1487,6 +1491,10 @@ Some influential environment variables:
               C compiler flags for GTKHTML314, overriding pkg-config
   GTKHTML314_LIBS
               linker flags for GTKHTML314, overriding pkg-config
+  GTKHTML4_CFLAGS
+              C compiler flags for GTKHTML4, overriding pkg-config
+  GTKHTML4_LIBS
+              linker flags for GTKHTML4, overriding pkg-config
   GTKSOURCEVIEW_CFLAGS
               C compiler flags for GTKSOURCEVIEW, overriding pkg-config
   GTKSOURCEVIEW_LIBS
@@ -7956,6 +7964,81 @@ $as_echo "yes" >&6; }
 fi
 
 
+
+
+
+
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GTKHTML4" >&5
+$as_echo_n "checking for GTKHTML4... " >&6; }
+
+if test -n "$GTKHTML4_CFLAGS"; then
+    pkg_cv_GTKHTML4_CFLAGS="$GTKHTML4_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libgtkhtml-4.0 >= 4.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libgtkhtml-4.0 >= 4.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTKHTML4_CFLAGS=`$PKG_CONFIG --cflags "libgtkhtml-4.0 >= 4.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GTKHTML4_LIBS"; then
+    pkg_cv_GTKHTML4_LIBS="$GTKHTML4_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libgtkhtml-4.0 >= 4.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libgtkhtml-4.0 >= 4.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTKHTML4_LIBS=`$PKG_CONFIG --libs "libgtkhtml-4.0 >= 4.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GTKHTML4_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libgtkhtml-4.0 >= 4.0" 2>&1`
+        else
+	        GTKHTML4_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libgtkhtml-4.0 >= 4.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GTKHTML4_PKG_ERRORS" >&5
+
+	as_fn_error $? "libgtkhtml4 development version >= 4.0.0 is needed." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	as_fn_error $? "libgtkhtml4 development version >= 4.0.0 is needed." "$LINENO" 5
+else
+	GTKHTML4_CFLAGS=$pkg_cv_GTKHTML4_CFLAGS
+	GTKHTML4_LIBS=$pkg_cv_GTKHTML4_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
 
 
 
