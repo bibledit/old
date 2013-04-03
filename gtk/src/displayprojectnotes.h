@@ -29,7 +29,7 @@
 class DisplayProjectNotes
 {
 public:
-  DisplayProjectNotes(const ustring& reference, GtkWidget * htmlview_in, vector <unsigned int> * ids, unsigned int& edited_note_id);
+  DisplayProjectNotes(const ustring& reference, GtkWidget * webview_in, vector <unsigned int> * ids, unsigned int& edited_note_id);
   ~DisplayProjectNotes();
   void stop();
   bool ready;
@@ -43,7 +43,7 @@ private:
   bool ids_passed;
   vector<unsigned int> ids_to_display;
   unsigned int id_to_scroll_to;
-  GtkWidget * htmlview;
+  GtkWidget * webview;
   unsigned int cursor_offset;
   ustring note_buffer;
   unsigned int extra_note_id;

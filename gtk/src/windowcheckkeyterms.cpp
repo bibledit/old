@@ -128,6 +128,8 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
   // Main focused widget.
   last_focused_widget = combobox_collection;
   gtk_widget_grab_focus (last_focused_widget);
+  
+  set_fonts ();
 }
 
 

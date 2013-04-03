@@ -64,12 +64,11 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_container_add(GTK_CONTAINER(notebook1), scrolledwindow_notes);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_notes), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  htmlview_notes = gtk_html_new();
-  gtk_widget_show(htmlview_notes);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow_notes), htmlview_notes);
-  gtk_html_allow_selection(GTK_HTML(htmlview_notes), true);
+  webview_notes = webkit_web_view_new ();
+  gtk_widget_show (webview_notes);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_notes), webview_notes);
 
-  connect_focus_signals (htmlview_notes);
+  connect_focus_signals (webview_notes);
 
   hbox14 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox14);
@@ -299,7 +298,7 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
 
   connect_focus_signals (textview_note_references);
   
-  g_signal_connect((gpointer) htmlview_notes, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
+  g_signal_connect((gpointer) webview_notes, "navigation-policy-decision-requested", G_CALLBACK(on_navigation_policy_decision_requested), gpointer(this));
   g_signal_connect((gpointer) button_note_ok, "clicked", G_CALLBACK(on_button_ok_clicked), gpointer(this));
   g_signal_connect((gpointer) button_note_cancel, "clicked", G_CALLBACK(on_button_cancel_clicked), gpointer(this));
   g_signal_connect((gpointer) button_more, "clicked", G_CALLBACK(on_button_more_clicked), gpointer(this));
@@ -327,13 +326,13 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_note_category), combobox_note_category);
 
   // GUI timer.
-  gui_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_gui_timeout), gpointer(this), NULL);
+  gui_source_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 100, GSourceFunc (on_gui_timeout), gpointer(this), NULL);
 
   // Signal button.
   references_available_signal_button = gtk_button_new();
 
   // Main focused widget.
-  last_focused_widget = htmlview_notes;
+  last_focused_widget = webview_notes;
   gtk_widget_grab_focus (last_focused_widget);
   
   // Set fonts.
@@ -343,7 +342,7 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
 
 WindowNotes::~WindowNotes()
 {
-  // Stop possible thread that is displaying notes.
+  // Stop possible thread displaying notes.
   stop_displaying_more_notes();
   // Destroy a couple of timeouts.
   gw_destroy_source(redisplay_source_id);
@@ -355,7 +354,6 @@ WindowNotes::~WindowNotes()
 
 void WindowNotes::go_to(Reference & reference)
 {
-
 }
 
 
@@ -363,21 +361,21 @@ void WindowNotes::new_note()
 // Create a new note.
 {
   // If we are currently editing a note, do nothing.
-  if (note_being_edited())
+  if (note_being_edited ())
     return;
 
   // Get the unique id for the new note.
-  int id = notes_database_get_unique_id();
+  int id = notes_database_get_unique_id ();
   // Create the new note.
-  notes_fill_edit_screen(id, true);
+  notes_fill_edit_screen (id, true);
 }
 
 
-void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
+void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
 /*
  When a new note is made, or an existing one edited, this function
  sets up the edit screen.
- */
+*/
 {
   // Create the NoteEditor object.
   if (note_editor)
@@ -511,9 +509,10 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
   current_paragraph_indentation_changed(gtk_html_get_paragraph_indentation(GTK_HTML(htmlview_note_editor)));
 
   // Switch screen to displaying the editor.
-  gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook1), 1);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook1), 1);
+
   // Focus the widget the user is most likely going to type in.
-  gtk_widget_grab_focus(htmlview_note_editor);
+  gtk_widget_grab_focus (htmlview_note_editor);
 }
 
 
@@ -789,7 +788,7 @@ void WindowNotes::redisplay_timeout()
   extern Settings *settings;
   ustring reference = books_id_to_english(settings->genconfig.book_get()) + " " + settings->genconfig.chapter_get() + ":" + settings->genconfig.verse_get();
   // Create displaying object.
-  displayprojectnotes = new DisplayProjectNotes(reference, htmlview_notes, NULL, edited_note_id);
+  displayprojectnotes = new DisplayProjectNotes (reference, webview_notes, NULL, edited_note_id);
 }
 
 
@@ -839,7 +838,7 @@ void WindowNotes::on_gui()
 void WindowNotes::display(vector < unsigned int >&ids)
 {
   stop_displaying_more_notes();
-  displayprojectnotes = new DisplayProjectNotes("", htmlview_notes, &ids, edited_note_id);
+  displayprojectnotes = new DisplayProjectNotes("", webview_notes, &ids, edited_note_id);
 }
 
 
@@ -1115,32 +1114,52 @@ void WindowNotes::get_references_from_id(gint id)
 }
 
 
-gboolean WindowNotes::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+gboolean WindowNotes::on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data)
 {
-  ((WindowNotes *) user_data)->html_link_clicked(html, url);
+  ((WindowNotes *) user_data)->navigation_policy_decision_requested (request, navigation_action, policy_decision);
   return true;
 }
 
 
-void WindowNotes::html_link_clicked(GtkHTML * html, const gchar * url)
+void WindowNotes::navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision)
+// Callback for clicking a link.
+{
+  // Get the reason for this navigation policy request.
+  WebKitWebNavigationReason reason = webkit_web_navigation_action_get_reason (navigation_action);
+  
+  // If a new page if loaded, allow the navigation, and exit.
+  if (reason == WEBKIT_WEB_NAVIGATION_REASON_OTHER) {
+    webkit_web_policy_decision_use (policy_decision);
+    return;
+  }
+
+  // Don't follow pseudo-links clicked on this page.
+  webkit_web_policy_decision_ignore (policy_decision);
+  
+  // Load new page depending on the pseudo-link clicked.
+  html_link_clicked (webkit_network_request_get_uri (request));
+}
+
+
+void WindowNotes::html_link_clicked (const gchar * url)
 // Callback for clicking a link in the project notes.
 {
   ustring myurl(url);
-  bool del = myurl.substr(0, 1) == "d";
-  bool refs = myurl.substr(0, 1) == "r";
-  myurl = number_in_string(myurl);
+  bool del = myurl.substr (0, 1) == "d";
+  bool refs = myurl.substr (0, 1) == "r";
+  myurl = number_in_string (myurl);
   unsigned int id = convert_to_int(myurl);
   if (del) {
     // Delete the note.
     vector < gint > ids;
-    ids.push_back(id);
-    delete_ids(ids);
+    ids.push_back (id);
+    delete_ids (ids);
   } else if (refs) {
     // Get the reference(s) from the note.
-    get_references_from_id(id);
+    get_references_from_id (id);
   } else {
     // Edit note.
-    notes_fill_edit_screen(id, false);
+    notes_fill_edit_screen (id, false);
   }
 }
 
@@ -1182,23 +1201,23 @@ void WindowNotes::cut()
 }
 
 
-void WindowNotes::copy()
+void WindowNotes::copy ()
 {
   // Copy to clipboard.
   if (note_being_edited()) {
     if (last_focused_widget == htmlview_note_editor)
       gtk_html_copy(GTK_HTML(htmlview_note_editor));
     if (last_focused_widget == textview_note_references) {
-      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-      gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
+      GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+      gtk_text_buffer_copy_clipboard (note_editor->textbuffer_references, clipboard);
     }
   } else {
-    gtk_html_copy(GTK_HTML(htmlview_notes));
+    webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (webview_notes));
   }
 }
 
 
-void WindowNotes::paste()
+void WindowNotes::paste ()
 {
   // Paste from clipboard if editing.
   if (note_being_edited()) {
@@ -1212,7 +1231,7 @@ void WindowNotes::paste()
 }
 
 
-void WindowNotes::undo()
+void WindowNotes::undo ()
 {
   // Undo if editing.
   if (note_being_edited()) {
@@ -1221,7 +1240,7 @@ void WindowNotes::undo()
 }
 
 
-void WindowNotes::redo()
+void WindowNotes::redo ()
 {
   if (note_being_edited()) {
     gtk_html_redo(GTK_HTML(htmlview_note_editor));
@@ -1229,7 +1248,7 @@ void WindowNotes::redo()
 }
 
 
-bool WindowNotes::note_being_edited()
+bool WindowNotes::note_being_edited ()
 // Returns whether a note is now being edited.
 {
   return (gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1)) > 0);
@@ -1251,27 +1270,20 @@ void WindowNotes::on_button_more()
 }
 
 
-void WindowNotes::set_fonts()
+void WindowNotes::set_fonts ()
 {
   extern Settings *settings;
   if (!settings->genconfig.text_editor_font_default_get()) {
-    PangoFontDescription *desired_font_description = pango_font_description_from_string(settings->genconfig.text_editor_font_name_get().c_str());
+    PangoFontDescription *desired_font_description = pango_font_description_from_string (settings->genconfig.text_editor_font_name_get ().c_str());
     const char * desired_font_family = pango_font_description_get_family (desired_font_description);
-
+    WebKitWebSettings * webkit_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (webview_notes));
+    g_object_set (G_OBJECT (webkit_settings), "default-font-family", desired_font_family, NULL);
     PangoContext * pango_context = NULL;
     PangoFontDescription *font_desc = NULL;
-    
-    pango_context = gtk_widget_get_pango_context (htmlview_notes);
-    font_desc = pango_context_get_font_description (pango_context);
-    pango_font_description_set_family (font_desc, desired_font_family);
-
     pango_context = gtk_widget_get_pango_context (htmlview_note_editor);
     font_desc = pango_context_get_font_description (pango_context);
     pango_font_description_set_family (font_desc, desired_font_family);
-
-    pango_font_description_free(desired_font_description);
+    pango_font_description_free (desired_font_description);
   }
 }
-
-
 

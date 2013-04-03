@@ -24,11 +24,11 @@
 #include "mainwindow.h"
 
 
-DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * htmlview_in, vector < unsigned int >*ids, unsigned int& edited_note_id)
+DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * webview_in, vector < unsigned int >*ids, unsigned int& edited_note_id)
 {
   // Initialize and save variables.
   editor_reference = reference;
-  htmlview = htmlview_in;
+  webview = webview_in;
   mystop = false;
   ready = false;
   cursor_offset = 0;
@@ -37,7 +37,7 @@ DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * 
   // Handle any notes given for display.
   if (ids) {
     ids_passed = true;
-    ids_to_display.assign(ids->begin(), ids->end());
+    ids_to_display.assign (ids->begin (), ids->end ());
   } else {
     ids_passed = false;
   }
@@ -57,19 +57,27 @@ void DisplayProjectNotes::stop()
 }
 
 
-void DisplayProjectNotes::show_buffer()
+void DisplayProjectNotes::show_buffer ()
 {
-  // Displays the textbuffer.
-  GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview));
-  gtk_html_write(GTK_HTML(htmlview), stream, note_buffer.c_str(), -1);
-  gtk_html_end(GTK_HTML(htmlview), stream, GTK_HTML_STREAM_OK);
+  // Displays the notes text buffer.
+  webkit_web_view_load_string (WEBKIT_WEB_VIEW (webview), note_buffer.c_str(), NULL, NULL, NULL);
 }
 
 
-void DisplayProjectNotes::position_cursor()
+void DisplayProjectNotes::position_cursor ()
 {
   // Position the cursor at the right anchor.
-  gtk_html_jump_to_anchor(GTK_HTML(htmlview), notes_cursor_anchor());
+  /*
+
+Implement the function to position the cursor at the right project note.
+Here's code that works in python:
+doc = view .get_dom_document()
+a = doc.get_element_by_id("one")
+a.click()
+
+  WebKitDOMDocument * document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview));
+  // gtk_html_jump_to_anchor(GTK_HTML(htmlview), notes_cursor_anchor());
+  */
 }
 
 
