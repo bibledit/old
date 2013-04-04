@@ -177,6 +177,9 @@ private:
   void html_link_clicked (const gchar * url);
   void delete_ids (const vector<gint>& ids);
 
+  static void on_document_load_finished (WebKitWebView *web_view, WebKitWebFrame *web_frame, gpointer user_data);
+  void document_load_finished ();
+
   static void on_button_more_clicked(GtkButton *button, gpointer user_data);
   void on_button_more();
   vector <ustring> projects;

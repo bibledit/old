@@ -64,23 +64,6 @@ void DisplayProjectNotes::show_buffer ()
 }
 
 
-void DisplayProjectNotes::position_cursor ()
-{
-  // Position the cursor at the right anchor.
-  /*
-
-Implement the function to position the cursor at the right project note.
-Here's code that works in python:
-doc = view .get_dom_document()
-a = doc.get_element_by_id("one")
-a.click()
-
-  WebKitDOMDocument * document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview));
-  // gtk_html_jump_to_anchor(GTK_HTML(htmlview), notes_cursor_anchor());
-  */
-}
-
-
 void DisplayProjectNotes::thread_start(gpointer data)
 {
   ((DisplayProjectNotes *) data)->thread_main(data);

@@ -34,7 +34,6 @@ public:
   void stop();
   bool ready;
   void show_buffer();
-  void position_cursor();
 private:
   static void thread_start(gpointer data);
   void thread_main(gpointer data);

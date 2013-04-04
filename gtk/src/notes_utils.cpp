@@ -431,11 +431,14 @@ void notes_display_internal(const ustring& language, bool show_reference_text, b
   
   // Start creating the heading with links.
   ustring linkheading;
-  // If this note is to be focused, then insert a special anchor for that: <a name="cursoranchor"></a>
+  // If this note is to be focused, then insert a special anchor for that: 
+  // <a name="cursoranchor" id="cursoranchor"></a>
   if (id == cursor_id) {
-    linkheading.append("<a name=\"");
-    linkheading.append(notes_cursor_anchor());
-    linkheading.append("\"></a>");
+    linkheading.append ("<a name=\"");
+    linkheading.append (notes_cursor_anchor());
+    linkheading.append ("\" id=\"");
+    linkheading.append (notes_cursor_anchor());
+    linkheading.append ("\"></a>");
   }
   extern Settings * settings;
   if (settings->session.project_notes_show_title) {
@@ -833,7 +836,7 @@ void notes_read(vector < unsigned int >ids, vector < ustring > &data)
 }
 
 
-const gchar *notes_cursor_anchor()
+const gchar * notes_cursor_anchor()
 // Gives the name of the anchor where the cursor has to jump to.
 {
   return "cursoranchor";

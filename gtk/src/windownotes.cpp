@@ -299,6 +299,7 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   connect_focus_signals (textview_note_references);
   
   g_signal_connect((gpointer) webview_notes, "navigation-policy-decision-requested", G_CALLBACK(on_navigation_policy_decision_requested), gpointer(this));
+  g_signal_connect((gpointer) webview_notes, "document-load-finished", G_CALLBACK (on_document_load_finished), gpointer(this));
   g_signal_connect((gpointer) button_note_ok, "clicked", G_CALLBACK(on_button_ok_clicked), gpointer(this));
   g_signal_connect((gpointer) button_note_cancel, "clicked", G_CALLBACK(on_button_cancel_clicked), gpointer(this));
   g_signal_connect((gpointer) button_more, "clicked", G_CALLBACK(on_button_more_clicked), gpointer(this));
@@ -816,7 +817,7 @@ bool WindowNotes::on_gui_timeout(gpointer data)
 }
 
 
-void WindowNotes::on_gui()
+void WindowNotes::on_gui ()
 // Tasks related to the GUI.
 {
   // Handle the gui part of displaying project notes.
@@ -827,7 +828,6 @@ void WindowNotes::on_gui()
     if (displayprojectnotes->ready) {
       displayprojectnotes->ready = false;
       displayprojectnotes->show_buffer();
-      displayprojectnotes->position_cursor();
       delete displayprojectnotes;
       displayprojectnotes = NULL;
     }
@@ -1284,6 +1284,26 @@ void WindowNotes::set_fonts ()
     font_desc = pango_context_get_font_description (pango_context);
     pango_font_description_set_family (font_desc, desired_font_family);
     pango_font_description_free (desired_font_description);
+  }
+}
+
+
+
+void WindowNotes::on_document_load_finished (WebKitWebView *web_view, WebKitWebFrame *web_frame, gpointer user_data)
+{
+  ((WindowNotes *) user_data)->document_load_finished ();
+}
+
+
+void WindowNotes::document_load_finished ()
+{
+  // Position the cursor at the right anchor for the cursor.
+  WebKitDOMDocument * dom_document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview_notes));
+  if (dom_document) {
+    WebKitDOMElement * dom_element = webkit_dom_document_get_element_by_id (dom_document, notes_cursor_anchor ());
+    if (dom_element) {
+      webkit_dom_element_scroll_into_view (dom_element, true);
+    }
   }
 }
 
