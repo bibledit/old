@@ -88,7 +88,7 @@ ustring NoteEditor::clean_edited_data()
   // Libgtkhtml3 stores data in html entities. 
   // Transform these back to UTF8. It would have been fine to leave these as entities,
   // but because of the note search functionality, we need normal characters, not entities.
-  html_entities_to_utf8(edited_data);
+  html_entities_to_utf8 (edited_data);
   // Give result.  
   return edited_data;
 }

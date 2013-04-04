@@ -959,10 +959,10 @@ void WindowNotes::on_notes_button_ok()
       }
     }
     // Apostrophies need to be doubled before storing them.
-    logbook = double_apostrophy(logbook);
+    logbook = double_apostrophy (logbook);
   }
   // Store the data to file.
-  notes_store_one_in_file(note_editor->id, note, project, osis_references, category, note_editor->date_created, note_editor->created_by, date_modified, logbook);
+  notes_store_one_in_file (note_editor->id, note, project, osis_references, category, note_editor->date_created, note_editor->created_by, date_modified, logbook);
 
   // Store the note's id, so that this note can be displayed even if it normally would not have displayed.
   // The reason is that if a user edits a note, then clicks OK to store it, then it would disappear,
@@ -1007,7 +1007,7 @@ gboolean WindowNotes::note_save_receiver(const HTMLEngine * engine, const char *
 }
 
 
-void WindowNotes::insert_standard_text(unsigned int selector)
+void WindowNotes::insert_standard_text (unsigned int selector)
 // Sets the system to insert standard text into the note.
 {
   // Bail out if no note is being edited.

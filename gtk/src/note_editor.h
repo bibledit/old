@@ -17,14 +17,17 @@
  **  
  */
 
+
 #ifndef INCLUDED_NOTE_EDITOR_H
 #define INCLUDED_NOTE_EDITOR_H
+
 
 #include "libraries.h"
 #include <gtk/gtk.h>
 extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
+
 
 class NoteEditor
 // Used while a note is being edited.
@@ -49,11 +52,13 @@ private:
   ustring edited_data;
 };
 
+
 vector <ustring> note_editor_font_size_names_list ();
 GtkHTMLFontStyle note_editor_font_size_name_to_enum (const ustring& style);
 ustring note_editor_font_size_enum_to_name (GtkHTMLFontStyle style);
 vector <ustring> note_editor_paragraph_style_names_list ();
 GtkHTMLParagraphStyle note_editor_paragraph_style_name_to_enum (const ustring& style);
 ustring note_editor_paragraph_style_enum_to_name (GtkHTMLParagraphStyle style);
+
 
 #endif
