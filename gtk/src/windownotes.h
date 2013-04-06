@@ -165,7 +165,6 @@ private:
   static void on_button_ok_clicked (GtkButton *button, gpointer user_data);
   void on_notes_button_ok ();
   void on_notes_button_ok_cancel ();
-  // Todo static gboolean note_save_receiver (const HTMLEngine * engine, const char *data, unsigned int len, void *user_data);
 
   void get_references_from_id (gint id);
 

@@ -432,12 +432,10 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
   }
   
   // Display the note.
-  // Todo GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_note_editor));
-  // Todo gtk_html_write(GTK_HTML(htmlview_note_editor), stream, note.c_str(), -1);
-  // Todo gtk_html_end(GTK_HTML(htmlview_note_editor), stream, GTK_HTML_STREAM_OK);
-  // Todo gtk_html_set_editable(GTK_HTML(htmlview_note_editor), project_notes_editable);
-  
-  note_editor->store_original_data(note);
+  webkit_web_view_load_string (WEBKIT_WEB_VIEW (webview_note_editor), note.c_str(), NULL, NULL, NULL);
+  webkit_web_view_set_editable (WEBKIT_WEB_VIEW (webview_note_editor), true);
+
+  note_editor->store_original_data (note);
   gtk_text_buffer_set_modified(note_editor->textbuffer_references, false);
   
   // Put all available categories into the category combo.
@@ -513,7 +511,7 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook1), 1);
 
   // Focus the widget the user is most likely going to type in.
-  gtk_widget_grab_focus (webview_note_editor);
+  gtk_widget_grab_focus (webview_note_editor); // Todo this does not yet work.
 }
 
 
@@ -897,7 +895,7 @@ void WindowNotes::on_notes_button_ok()
     // Store possible messages here for later display.
     vector <ustring> messages;
     // Get all references from the editor.
-    notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
+    notes_get_references_from_editor (note_editor->textbuffer_references, references, messages);
     // Store the references in OSIS format too.
     for (unsigned int i = 0; i < references.size(); i++) {
       ustring osis_book = books_id_to_osis(references[i].book);
@@ -930,8 +928,11 @@ void WindowNotes::on_notes_button_ok()
   // Category (text)
   ustring category = combobox_get_active_string(combobox_note_category);
   // Note (text)
-  // Todo gtk_html_save(GTK_HTML(htmlview_note_editor), (GtkHTMLSaveReceiverFn) note_save_receiver, gpointer(note_editor));
-  ustring note = note_editor->clean_edited_data();
+  WebKitDOMDocument * dom_document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview_note_editor));
+  WebKitDOMHTMLElement * body_element = webkit_dom_document_get_body (dom_document);
+  gchar * html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (body_element));
+  note_editor->receive_data_from_html_editor (html);
+  ustring note = note_editor->clean_edited_data ();
   // Date created. Variabele note_info_date_created
   // Date modified.
   int date_modified;
@@ -1002,15 +1003,15 @@ void WindowNotes::on_notes_button_ok_cancel()
 // Functions common to both the ok and cancel buttons.
 {
   // Show the normal notes display again.
-  gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook1), 0);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook1), 0);
 
   // Clear some widgets.
-  combobox_clear_strings(combobox_note_category);
-  gtk_text_buffer_set_text(note_editor->textbuffer_references, "", -1);
+  combobox_clear_strings (combobox_note_category);
+  gtk_text_buffer_set_text (note_editor->textbuffer_references, "", -1);
 
   // Clear the html editor.
-  // Todo gtk_html_set_editable(GTK_HTML(htmlview_note_editor), false);
-  // Todo gtk_html_load_empty(GTK_HTML(htmlview_note_editor));
+  webkit_web_view_load_string (WEBKIT_WEB_VIEW (webview_note_editor), "", NULL, NULL, NULL);
+  webkit_web_view_set_editable (WEBKIT_WEB_VIEW (webview_note_editor), false);
 
   // Destroy NoteEditor object.
   if (note_editor)
@@ -1018,18 +1019,9 @@ void WindowNotes::on_notes_button_ok_cancel()
   note_editor = NULL;
 
   // Just to be sure, redisplay the notes.
-  redisplay();
+  redisplay ();
 }
 
-
-/* Todo
-gboolean WindowNotes::note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data)
-// Called by the gtkhtml project note editor when saving its data
-{
-  ((NoteEditor *) user_data)->receive_data_from_html_editor(data, len);
-  return true;
-}
-*/
 
 void WindowNotes::insert_standard_text (unsigned int selector)
 // Sets the system to insert standard text into the note.
@@ -1217,7 +1209,7 @@ void WindowNotes::cut()
   // Cut to clipboard if editing.
   if (note_being_edited()) {
     if (last_focused_widget == webview_note_editor)
-      // Todo gtk_html_cut(GTK_HTML(htmlview_note_editor));
+      webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (webview_note_editor));
     if (last_focused_widget == textview_note_references) {
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
       gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
@@ -1231,7 +1223,7 @@ void WindowNotes::copy ()
   // Copy to clipboard.
   if (note_being_edited()) {
     if (last_focused_widget == webview_note_editor)
-      // Todo gtk_html_copy(GTK_HTML(htmlview_note_editor));
+      webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (webview_note_editor));
     if (last_focused_widget == textview_note_references) {
       GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
       gtk_text_buffer_copy_clipboard (note_editor->textbuffer_references, clipboard);
@@ -1247,7 +1239,7 @@ void WindowNotes::paste ()
   // Paste from clipboard if editing.
   if (note_being_edited()) {
     if (last_focused_widget == webview_note_editor)
-      // Todo gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
+      webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (webview_note_editor));
     if (last_focused_widget == textview_note_references) {
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
       gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
@@ -1258,9 +1250,8 @@ void WindowNotes::paste ()
 
 void WindowNotes::undo ()
 {
-  // Undo if editing.
   if (note_being_edited()) {
-    // Todo gtk_html_undo(GTK_HTML(htmlview_note_editor));
+    webkit_web_view_undo (WEBKIT_WEB_VIEW (webview_note_editor));
   }
 }
 
@@ -1268,7 +1259,7 @@ void WindowNotes::undo ()
 void WindowNotes::redo ()
 {
   if (note_being_edited()) {
-    // Todo gtk_html_redo(GTK_HTML(htmlview_note_editor));
+    webkit_web_view_redo (WEBKIT_WEB_VIEW (webview_note_editor));
   }
 }
 
@@ -1276,17 +1267,17 @@ void WindowNotes::redo ()
 bool WindowNotes::note_being_edited ()
 // Returns whether a note is now being edited.
 {
-  return (gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1)) > 0);
+  return (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook1)) > 0);
 }
 
 
-void WindowNotes::on_button_more_clicked(GtkButton * button, gpointer user_data)
+void WindowNotes::on_button_more_clicked (GtkButton * button, gpointer user_data)
 {
-  ((WindowNotes *) user_data)->on_button_more();
+  ((WindowNotes *) user_data)->on_button_more ();
 }
 
 
-void WindowNotes::on_button_more()
+void WindowNotes::on_button_more ()
 {
   ProjectNoteDialog dialog(vbox_client, projects, project, created_on, created_by, edited_on, logbook);
   if (dialog.run() == GTK_RESPONSE_OK) {

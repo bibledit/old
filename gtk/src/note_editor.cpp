@@ -41,55 +41,17 @@ void NoteEditor::store_original_data(const ustring & data)
 }
 
 
-void NoteEditor::receive_data_from_html_editor(const char *data, unsigned int len)
+void NoteEditor::receive_data_from_html_editor(const char *data)
 // Receive data from the html note editor.
-// This function will be called several times until all of the data has been saved.
 {
-  edited_data.append(data);
+  edited_data =  data;
 }
 
 
-ustring NoteEditor::clean_edited_data()
-/* Clean the data from the html note editor.
-
- A simple note with only the word "test" on one line, looks as below when saved:
-
- <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 TRANSITIONAL//EN">
- <HTML>
- <HEAD>
- <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
- <META NAME="GENERATOR" CONTENT="GtkHTML/3.12.1">
- </HEAD>
- <BODY>
- test
- </BODY>
- </HTML>
-
- We have to strip of the head and the tail and remain with the text within the body only.
-
- Note about a bug: If a new note is made e.g. with paragraph style Header 1, and saved, 
- then after save it has a few extra paragraphs. It has not been looked into deeply 
- how to resolve this. 
- 
- */
+ustring NoteEditor::clean_edited_data () // Todo working here.
+// Clean the data from the html note editor.
 {
-  // Remove html stuff before the relevant data.
-  size_t pos = edited_data.find("<BODY>");
-  if (pos == string::npos)
-    return "";
-  edited_data.erase(0, pos + 7);
-  // Remove html stuff after the relevant data.
-  pos = edited_data.find("</BODY>");
-  if (pos == string::npos)
-    return "";
-  edited_data.erase(pos, 1000);
-  // Trim off white space.
-  edited_data = trim(edited_data);
-  // Libgtkhtml3 stores data in html entities. 
-  // Transform these back to UTF8. It would have been fine to leave these as entities,
-  // but because of the note search functionality, we need normal characters, not entities.
-  html_entities_to_utf8 (edited_data);
-  // Give result.  
+  edited_data = trim (edited_data);
   return edited_data;
 }
 

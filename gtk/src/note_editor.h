@@ -41,7 +41,7 @@ public:
   ustring previous_category;
   ustring previous_project;
   void store_original_data (const ustring& data);
-  void receive_data_from_html_editor(const char *data, unsigned int len);
+  void receive_data_from_html_editor (const char *data);
   ustring clean_edited_data();
   bool data_was_edited ();
 private:
