@@ -50,12 +50,4 @@ private:
 };
 
 
-vector <ustring> note_editor_font_size_names_list ();
-// Todo GtkHTMLFontStyle note_editor_font_size_name_to_enum (const ustring& style);
-// Todo ustring note_editor_font_size_enum_to_name (GtkHTMLFontStyle style);
-vector <ustring> note_editor_paragraph_style_names_list ();
-// Todo GtkHTMLParagraphStyle note_editor_paragraph_style_name_to_enum (const ustring& style);
-// Todo ustring note_editor_paragraph_style_enum_to_name (GtkHTMLParagraphStyle style);
-
-
 #endif

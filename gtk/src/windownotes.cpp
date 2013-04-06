@@ -32,7 +32,6 @@
 #include <sqlite3.h>
 #include "sqlite_reader.h"
 #include "gwrappers.h"
-#include "htmlcolor.h"
 #include "settings.h"
 #include "utilities.h"
 #include "bible.h"
@@ -82,24 +81,6 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_widget_show(toolbar_note_editor);
   gtk_box_pack_start(GTK_BOX(vbox_note_editor), toolbar_note_editor, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar_note_editor), GTK_TOOLBAR_BOTH);
-
-  toolitem_note_edit_font_size = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_font_size);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_font_size);
-
-  combobox_note_edit_font_size = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_note_edit_font_size);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_font_size), combobox_note_edit_font_size);
-  gtk_combo_box_set_focus_on_click(GTK_COMBO_BOX(combobox_note_edit_font_size), FALSE);
-
-  toolitem_note_edit_paragraph_style = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_paragraph_style);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_paragraph_style);
-
-  combobox_note_edit_paragraph_style = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_note_edit_paragraph_style);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_paragraph_style), combobox_note_edit_paragraph_style);
-  gtk_combo_box_set_focus_on_click(GTK_COMBO_BOX(combobox_note_edit_paragraph_style), FALSE);
 
   toolitem_note_edit_bold = (GtkWidget *) gtk_tool_item_new();
   gtk_widget_show(toolitem_note_edit_bold);
@@ -152,80 +133,6 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   image29123 = gtk_image_new_from_stock("gtk-strikethrough", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show(image29123);
   gtk_container_add(GTK_CONTAINER(togglebutton_note_edit_strike_through), image29123);
-
-  toolitem_note_edit_left_justify = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_left_justify);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_left_justify);
-
-  togglebutton_note_edit_left_justify = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_left_justify);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_left_justify), togglebutton_note_edit_left_justify);
-  gtk_button_set_focus_on_click(GTK_BUTTON(togglebutton_note_edit_left_justify), FALSE);
-
-  image29124 = gtk_image_new_from_stock("gtk-justify-left", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29124);
-  gtk_container_add(GTK_CONTAINER(togglebutton_note_edit_left_justify), image29124);
-
-  toolitem_note_edit_center_justify = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_center_justify);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_center_justify);
-
-  togglebutton_note_edit_center_justify = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_center_justify);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_center_justify), togglebutton_note_edit_center_justify);
-  gtk_button_set_focus_on_click(GTK_BUTTON(togglebutton_note_edit_center_justify), FALSE);
-
-  image29125 = gtk_image_new_from_stock("gtk-justify-center", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29125);
-  gtk_container_add(GTK_CONTAINER(togglebutton_note_edit_center_justify), image29125);
-
-  toolitem_note_edit_right_justify = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_right_justify);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_right_justify);
-
-  togglebutton_note_edit_right_justify = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_right_justify);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_right_justify), togglebutton_note_edit_right_justify);
-  gtk_button_set_focus_on_click(GTK_BUTTON(togglebutton_note_edit_right_justify), FALSE);
-
-  image29126 = gtk_image_new_from_stock("gtk-justify-right", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29126);
-  gtk_container_add(GTK_CONTAINER(togglebutton_note_edit_right_justify), image29126);
-
-  toolitem_note_edit_decrease_indent = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_decrease_indent);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_decrease_indent);
-
-  button_note_edit_decrease_indent = gtk_button_new();
-  gtk_widget_show(button_note_edit_decrease_indent);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_decrease_indent), button_note_edit_decrease_indent);
-  gtk_button_set_focus_on_click(GTK_BUTTON(button_note_edit_decrease_indent), FALSE);
-
-  image29127 = gtk_image_new_from_stock("gtk-unindent", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29127);
-  gtk_container_add(GTK_CONTAINER(button_note_edit_decrease_indent), image29127);
-
-  toolitem_note_edit_increase_indent = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_increase_indent);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_increase_indent);
-
-  button_note_edit_increase_indent = gtk_button_new();
-  gtk_widget_show(button_note_edit_increase_indent);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_increase_indent), button_note_edit_increase_indent);
-  gtk_button_set_focus_on_click(GTK_BUTTON(button_note_edit_increase_indent), FALSE);
-
-  image29128 = gtk_image_new_from_stock("gtk-indent", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29128);
-  gtk_container_add(GTK_CONTAINER(button_note_edit_increase_indent), image29128);
-
-  toolitem_note_edit_color = (GtkWidget *) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_color);
-  gtk_container_add(GTK_CONTAINER(toolbar_note_editor), toolitem_note_edit_color);
-
-  colorbutton_note_edit = gtk_color_button_new();
-  gtk_widget_show(colorbutton_note_edit);
-  gtk_container_add(GTK_CONTAINER(toolitem_note_edit_color), colorbutton_note_edit);
-  gtk_button_set_focus_on_click(GTK_BUTTON(colorbutton_note_edit), FALSE);
 
   project_notes_editable = guifeatures.project_notes_management();
 
@@ -305,23 +212,11 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   g_signal_connect((gpointer) button_more, "clicked", G_CALLBACK(on_button_more_clicked), gpointer(this));
 
   // Project notes editor signals.
-  g_signal_connect((gpointer) combobox_note_edit_font_size, "changed", G_CALLBACK(on_combobox_note_edit_font_size_changed), gpointer(this));
-  // Todo g_signal_connect((gpointer) htmlview_note_editor, "insertion_font_style_changed", G_CALLBACK(on_note_editor_insertion_font_style_changed), gpointer(this));
-  g_signal_connect((gpointer) combobox_note_edit_paragraph_style, "changed", G_CALLBACK(on_combobox_note_edit_paragraph_style_changed), gpointer(this));
-  // Todo g_signal_connect((gpointer) htmlview_note_editor, "current_paragraph_style_changed", G_CALLBACK(on_note_editor_current_paragraph_style_changed), gpointer(this));
   g_signal_connect((gpointer) togglebutton_note_edit_bold, "toggled", G_CALLBACK(on_togglebutton_note_edit_bold_toggled), gpointer(this));
   g_signal_connect((gpointer) togglebutton_note_edit_italics, "toggled", G_CALLBACK(on_togglebutton_note_edit_italics_toggled), gpointer(this));
   g_signal_connect((gpointer) togglebutton_note_edit_underline, "toggled", G_CALLBACK(on_togglebutton_note_edit_underline_toggled), gpointer(this));
   g_signal_connect((gpointer) togglebutton_note_edit_strike_through, "toggled", G_CALLBACK(on_togglebutton_note_edit_strike_through_toggled), gpointer(this));
-  g_signal_connect((gpointer) togglebutton_note_edit_left_justify, "toggled", G_CALLBACK(on_togglebutton_note_edit_left_justify_toggled), gpointer(this));
-  g_signal_connect((gpointer) togglebutton_note_edit_center_justify, "toggled", G_CALLBACK(on_togglebutton_note_edit_center_justify_toggled), gpointer(this));
-  g_signal_connect((gpointer) togglebutton_note_edit_right_justify, "toggled", G_CALLBACK(on_togglebutton_note_edit_right_justify_toggled), gpointer(this));
-  // Todo g_signal_connect((gpointer) htmlview_note_editor, "current_paragraph_alignment_changed", G_CALLBACK(on_current_paragraph_alignment_changed), gpointer(this));
-  g_signal_connect((gpointer) button_note_edit_decrease_indent, "clicked", G_CALLBACK(on_button_note_edit_decrease_indent_clicked), gpointer(this));
-  g_signal_connect((gpointer) button_note_edit_increase_indent, "clicked", G_CALLBACK(on_button_note_edit_increase_indent_clicked), gpointer(this));
-  // Todo g_signal_connect((gpointer) htmlview_note_editor, "current_paragraph_indentation_changed", G_CALLBACK(on_current_paragraph_indentation_changed), gpointer(this));
-  g_signal_connect((gpointer) colorbutton_note_edit, "color_set", G_CALLBACK(on_colorbutton_note_edit_color_set), gpointer(this));
-  // Todo g_signal_connect((gpointer) htmlview_note_editor, "insertion_color_changed", G_CALLBACK(on_insertion_color_changed), gpointer(this));
+  g_signal_connect((gpointer) webview_note_editor, "move-cursor", G_CALLBACK (on_move_cursor), gpointer(this));
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_note_references), textview_note_references);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_note_category), combobox_note_category);
@@ -393,12 +288,6 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   ustring language = projectconfig->language_get();
-
-  // Fill comboboxes for the toolbar.
-  combobox_set_strings(combobox_note_edit_font_size, note_editor_font_size_names_list());
-  // Todo combobox_set_string(combobox_note_edit_font_size, note_editor_font_size_enum_to_name(GTK_HTML_FONT_STYLE_DEFAULT));
-  combobox_set_strings(combobox_note_edit_paragraph_style, note_editor_paragraph_style_names_list());
-  // Todo combobox_set_string(combobox_note_edit_paragraph_style, note_editor_paragraph_style_enum_to_name(GTK_HTML_PARAGRAPH_STYLE_NORMAL));
 
   // Fetch the data for the note from the note file.
   ustring note;
@@ -504,94 +393,30 @@ void WindowNotes::notes_fill_edit_screen (int id, bool newnote)
   note_editor->previous_category = combobox_get_active_string(combobox_note_category);
   note_editor->previous_project = project;
 
-  // Set GUI elements.
-  // Todo current_paragraph_indentation_changed(gtk_html_get_paragraph_indentation(GTK_HTML(htmlview_note_editor)));
-
   // Switch screen to displaying the editor.
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook1), 1);
 
   // Focus the widget the user is most likely going to type in.
-  gtk_widget_grab_focus (webview_note_editor); // Todo this does not yet work.
+  // For some reason this does not work anymore after moving to webkitgtk.
+  gtk_widget_grab_focus (webview_note_editor);
 }
 
 
-void WindowNotes::on_combobox_note_edit_font_size_changed(GtkComboBox * combobox, gpointer user_data)
+void WindowNotes::on_togglebutton_note_edit_bold_toggled (GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((WindowNotes *) user_data)->combobox_note_edit_font_size_changed();
+  ((WindowNotes *) user_data)->togglebutton_note_edit_bold_toggled ();
 }
 
 
-void WindowNotes::combobox_note_edit_font_size_changed()
+void WindowNotes::togglebutton_note_edit_bold_toggled ()
 {
-  // Todo GtkHTMLFontStyle style = note_editor_font_size_name_to_enum(combobox_get_active_string(combobox_note_edit_font_size));
-  // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), GtkHTMLFontStyle(GTK_HTML_FONT_STYLE_SIZE_MASK & ~GTK_HTML_FONT_STYLE_SIZE_MASK), style);
-}
-
-
-/*
-// Todo 
-void WindowNotes::on_note_editor_insertion_font_style_changed(GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->note_editor_insertion_font_style_changed(style);
-}
-*/
-
-/*
-// Todo 
-void WindowNotes::note_editor_insertion_font_style_changed(GtkHTMLFontStyle style)
-{
-  combobox_set_string(combobox_note_edit_font_size, note_editor_font_size_enum_to_name(GtkHTMLFontStyle(style & GTK_HTML_FONT_STYLE_SIZE_MASK)));
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_italics), style & GTK_HTML_FONT_STYLE_ITALIC);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_bold), style & GTK_HTML_FONT_STYLE_BOLD);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_underline), style & GTK_HTML_FONT_STYLE_UNDERLINE);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_strike_through), style & GTK_HTML_FONT_STYLE_STRIKEOUT);
-}
-*/
-
-
-void WindowNotes::on_combobox_note_edit_paragraph_style_changed(GtkComboBox * combobox, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->combobox_note_edit_paragraph_style_changed();
-}
-
-
-void WindowNotes::combobox_note_edit_paragraph_style_changed()
-{
-  // Todo GtkHTMLParagraphStyle style = note_editor_paragraph_style_name_to_enum(combobox_get_active_string(combobox_note_edit_paragraph_style));
-  // Todo gtk_html_set_paragraph_style(GTK_HTML(htmlview_note_editor), style);
-}
-
-/*
-// Todo 
-void WindowNotes::on_note_editor_current_paragraph_style_changed(GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->note_editor_current_paragraph_style_changed(style);
-}
-*/
-
-
-/*
-// Todo 
-void WindowNotes::note_editor_current_paragraph_style_changed(GtkHTMLParagraphStyle style)
-{
-  combobox_set_string(combobox_note_edit_paragraph_style, note_editor_paragraph_style_enum_to_name(style));
-}
-*/
-
-
-void WindowNotes::on_togglebutton_note_edit_bold_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->togglebutton_note_edit_bold_toggled();
-}
-
-
-void WindowNotes::togglebutton_note_edit_bold_toggled()
-{
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_bold))) {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ 0, GTK_HTML_FONT_STYLE_BOLD);
-  } else {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ GTK_HTML_FONT_STYLE_BOLD, (GtkHTMLFontStyle) 0);
-  }
+  /*
+  The available commands for the execCommand function can be found in the WebKit source.
+  The implementation uses a table in the createCommandMap function in the EditorCommand.cpp source file. 
+  Look for the ones that say "supported" (as opposed  to supportedFromMenuOrKeyBinding).
+  */
+  WebKitDOMDocument * dom_document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview_note_editor));
+  webkit_dom_document_exec_command (dom_document, "Bold", FALSE, "");
 }
 
 
@@ -603,11 +428,8 @@ void WindowNotes::on_togglebutton_note_edit_italics_toggled(GtkToggleButton * to
 
 void WindowNotes::togglebutton_note_edit_italics_toggled()
 {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_italics))) {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ 0, GTK_HTML_FONT_STYLE_ITALIC);
-  } else {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ GTK_HTML_FONT_STYLE_ITALIC, (GtkHTMLFontStyle) 0);
-  }
+  WebKitDOMDocument * dom_document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview_note_editor));
+  webkit_dom_document_exec_command (dom_document, "Italic", FALSE, "");
 }
 
 
@@ -619,11 +441,8 @@ void WindowNotes::on_togglebutton_note_edit_underline_toggled(GtkToggleButton * 
 
 void WindowNotes::togglebutton_note_edit_underline_toggled()
 {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_underline))) {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ 0, GTK_HTML_FONT_STYLE_UNDERLINE);
-  } else {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ GTK_HTML_FONT_STYLE_UNDERLINE, (GtkHTMLFontStyle) 0);
-  }
+  WebKitDOMDocument * dom_document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview_note_editor));
+  webkit_dom_document_exec_command (dom_document, "Underline", FALSE, "");
 }
 
 
@@ -635,148 +454,8 @@ void WindowNotes::on_togglebutton_note_edit_strike_through_toggled(GtkToggleButt
 
 void WindowNotes::togglebutton_note_edit_strike_through_toggled()
 {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_strike_through))) {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ 0, GTK_HTML_FONT_STYLE_STRIKEOUT);
-  } else {
-    // Todo gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), (GtkHTMLFontStyle) ~ GTK_HTML_FONT_STYLE_STRIKEOUT, (GtkHTMLFontStyle) 0);
-  }
-}
-
-
-void WindowNotes::on_togglebutton_note_edit_left_justify_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->togglebutton_note_edit_left_justify_toggled();
-}
-
-
-void WindowNotes::togglebutton_note_edit_left_justify_toggled()
-{
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_left_justify))) {
-    // Todo gtk_html_set_paragraph_alignment(GTK_HTML(htmlview_note_editor), GTK_HTML_PARAGRAPH_ALIGNMENT_LEFT);
-  }
-}
-
-
-void WindowNotes::on_togglebutton_note_edit_center_justify_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->togglebutton_note_edit_center_justify_toggled();
-}
-
-
-void WindowNotes::togglebutton_note_edit_center_justify_toggled()
-{
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_center_justify))) {
-    // Todo gtk_html_set_paragraph_alignment(GTK_HTML(htmlview_note_editor), GTK_HTML_PARAGRAPH_ALIGNMENT_CENTER);
-  }
-}
-
-
-void WindowNotes::on_togglebutton_note_edit_right_justify_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->togglebutton_note_edit_right_justify_toggled();
-}
-
-
-void WindowNotes::togglebutton_note_edit_right_justify_toggled()
-{
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_right_justify))) {
-    // Todo gtk_html_set_paragraph_alignment(GTK_HTML(htmlview_note_editor), GTK_HTML_PARAGRAPH_ALIGNMENT_RIGHT);
-  }
-}
-
-
-/*
-// Todo 
-void WindowNotes::on_current_paragraph_alignment_changed(GtkHTML * html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->current_paragraph_alignment_changed(new_alignment);
-}
-*/
-
-
-/*
-// Todo 
-void WindowNotes::current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment)
-{
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_left_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_LEFT);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_center_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_CENTER);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_right_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_RIGHT);
-}
-*/
-
-
-void WindowNotes::on_button_note_edit_decrease_indent_clicked(GtkButton * button, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->decrease_indent();
-}
-
-
-void WindowNotes::decrease_indent()
-{
-  if (note_being_edited()) {
-    // Todo gtk_html_indent_pop_level(GTK_HTML(htmlview_note_editor));
-  }
-}
-
-
-void WindowNotes::on_button_note_edit_increase_indent_clicked(GtkButton * button, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->increase_indent();
-}
-
-
-void WindowNotes::increase_indent()
-{
-  if (note_being_edited()) {
-    // Todo gtk_html_indent_push_level(GTK_HTML(htmlview_note_editor), HTML_LIST_TYPE_BLOCKQUOTE);
-  }
-}
-
-
-/*
-// Todo 
-void WindowNotes::on_current_paragraph_indentation_changed(GtkHTML * html, guint new_indentation, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->current_paragraph_indentation_changed(new_indentation);
-}
-*/
-
-
-void WindowNotes::current_paragraph_indentation_changed(guint new_indentation)
-{
-  gtk_widget_set_sensitive(toolitem_note_edit_decrease_indent, new_indentation > 0);
-}
-
-
-void WindowNotes::on_colorbutton_note_edit_color_set(GtkColorButton * colorbutton, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->colorbutton_note_edit_color_set(colorbutton);
-}
-
-
-void WindowNotes::colorbutton_note_edit_color_set(GtkColorButton * colorbutton)
-{
-  /*
-// Todo 
-  GdkColor gdk_color;
-  gtk_color_button_get_color(colorbutton, &gdk_color);
-  HTMLColor *html_color = html_color_new_from_gdk_color(&gdk_color);
-  gtk_html_set_color(GTK_HTML(htmlview_note_editor), html_color);
-  html_color_unref(html_color);
-  */
-}
-
-/*
-// Todo 
-void WindowNotes::on_insertion_color_changed(GtkHTML * html, GdkColor * color, gpointer user_data)
-{
-  ((WindowNotes *) user_data)->insertion_color_changed(color);
-}
-*/
-
-void WindowNotes::insertion_color_changed(GdkColor * color)
-{
-  gtk_color_button_set_color(GTK_COLOR_BUTTON(colorbutton_note_edit), color);
+  WebKitDOMDocument * dom_document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (webview_note_editor));
+  webkit_dom_document_exec_command (dom_document, "Strikethrough", FALSE, "");
 }
 
 
@@ -1318,4 +997,17 @@ void WindowNotes::document_load_finished ()
     }
   }
 }
+
+
+gboolean WindowNotes::on_move_cursor (WebKitWebView *web_view, GtkMovementStep step, gint count, gpointer user_data)
+{
+  ((WindowNotes *) user_data)->move_cursor (web_view, step, count);
+  return true;
+}
+
+
+void WindowNotes::move_cursor (WebKitWebView *web_view, GtkMovementStep step, gint count)
+{
+}
+
 

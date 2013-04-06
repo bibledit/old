@@ -60,10 +60,6 @@ private:
   GtkWidget *hbox14;
   GtkWidget *vbox_note_editor;
   GtkWidget *toolbar_note_editor;
-  GtkWidget *toolitem_note_edit_font_size;
-  GtkWidget *combobox_note_edit_font_size;
-  GtkWidget *toolitem_note_edit_paragraph_style;
-  GtkWidget *combobox_note_edit_paragraph_style;
   GtkWidget *toolitem_note_edit_bold;
   GtkWidget *togglebutton_note_edit_bold;
   GtkWidget *image29121;
@@ -76,23 +72,6 @@ private:
   GtkWidget *toolitem_note_edit_strike_through;
   GtkWidget *togglebutton_note_edit_strike_through;
   GtkWidget *image29123;
-  GtkWidget *toolitem_note_edit_left_justify;
-  GtkWidget *togglebutton_note_edit_left_justify;
-  GtkWidget *image29124;
-  GtkWidget *toolitem_note_edit_center_justify;
-  GtkWidget *togglebutton_note_edit_center_justify;
-  GtkWidget *image29125;
-  GtkWidget *toolitem_note_edit_right_justify;
-  GtkWidget *togglebutton_note_edit_right_justify;
-  GtkWidget *image29126;
-  GtkWidget *toolitem_note_edit_decrease_indent;
-  GtkWidget *button_note_edit_decrease_indent;
-  GtkWidget *image29127;
-  GtkWidget *toolitem_note_edit_increase_indent;
-  GtkWidget *button_note_edit_increase_indent;
-  GtkWidget *image29128;
-  GtkWidget *toolitem_note_edit_color;
-  GtkWidget *colorbutton_note_edit;
   GtkWidget *scrolledwindow_note_editor;
   GtkWidget *webview_note_editor;
   GtkWidget *scrolledwindow_controls;
@@ -117,14 +96,6 @@ private:
   void notes_fill_edit_screen(int id, bool newnote);
 
   // Formatting
-  static void on_combobox_note_edit_font_size_changed (GtkComboBox *combobox, gpointer user_data);
-  void combobox_note_edit_font_size_changed ();
-  // Todo static void on_note_editor_insertion_font_style_changed (GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data);
-  // Todo void note_editor_insertion_font_style_changed (GtkHTMLFontStyle style);
-  static void on_combobox_note_edit_paragraph_style_changed (GtkComboBox *combobox, gpointer user_data);
-  void combobox_note_edit_paragraph_style_changed ();
-  // Todo static void on_note_editor_current_paragraph_style_changed (GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data);
-  // Todo void note_editor_current_paragraph_style_changed (GtkHTMLParagraphStyle style);
   static void on_togglebutton_note_edit_bold_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_bold_toggled ();
   static void on_togglebutton_note_edit_italics_toggled (GtkToggleButton *togglebutton, gpointer user_data);
@@ -134,22 +105,9 @@ private:
   static void on_togglebutton_note_edit_strike_through_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_strike_through_toggled ();
   static void on_togglebutton_note_edit_left_justify_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_left_justify_toggled ();
-  static void on_togglebutton_note_edit_center_justify_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_center_justify_toggled ();
-  static void on_togglebutton_note_edit_right_justify_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_right_justify_toggled ();
-  // Todo static void on_current_paragraph_alignment_changed (GtkHTML *html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data);
-  // Todo void current_paragraph_alignment_changed (GtkHTMLParagraphAlignment new_alignment);
-  static void on_button_note_edit_decrease_indent_clicked (GtkButton *button, gpointer user_data);
-  static void on_button_note_edit_increase_indent_clicked (GtkButton *button, gpointer user_data);
-  // Todo static void on_current_paragraph_indentation_changed (GtkHTML *html, guint new_indentation, gpointer user_data);
-  void current_paragraph_indentation_changed (guint new_indentation);
-  static void on_colorbutton_note_edit_color_set (GtkColorButton *colorbutton, gpointer user_data);
-  void colorbutton_note_edit_color_set (GtkColorButton *colorbutton);
-  // Todo static void on_insertion_color_changed (GtkHTML *html, GdkColor *color, gpointer user_data);
-  void insertion_color_changed (GdkColor *color);
-
+  static gboolean on_move_cursor (WebKitWebView *web_view, GtkMovementStep step, gint count, gpointer user_data);
+  void move_cursor (WebKitWebView *web_view, GtkMovementStep step, gint count);
+  
   guint redisplay_source_id;
   static bool on_redisplay_timeout (gpointer data);
   void redisplay_timeout ();
@@ -187,5 +145,6 @@ private:
   
   unsigned int edited_note_id;
 };
+
 
 #endif

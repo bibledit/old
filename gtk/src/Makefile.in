@@ -156,24 +156,24 @@ am_bibledit_gtk_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogfilters.$(OBJEXT) dialogdictionary.$(OBJEXT) \
 	spelling.$(OBJEXT) dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
-	dialogxfernotes2text.$(OBJEXT) htmlcolor.$(OBJEXT) \
-	text2pdf.$(OBJEXT) text2pdf_utils.$(OBJEXT) \
-	text2pdf_area.$(OBJEXT) text2pdf_ref_area.$(OBJEXT) \
-	text2pdf_block.$(OBJEXT) text2pdf_page.$(OBJEXT) \
-	text2pdf_input.$(OBJEXT) text2pdf_layout.$(OBJEXT) \
-	text2pdf_big_block.$(OBJEXT) text2pdf_intermediate.$(OBJEXT) \
-	usfm2text.$(OBJEXT) dialogtext2pdf.$(OBJEXT) \
-	windowshowrelatedverses.$(OBJEXT) windowmerge.$(OBJEXT) \
-	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
-	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
-	windownotes.$(OBJEXT) dialogprojectnote.$(OBJEXT) \
-	windowreferences.$(OBJEXT) windoweditor.$(OBJEXT) \
-	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
-	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
-	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
-	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
-	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT) \
-	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	dialogxfernotes2text.$(OBJEXT) text2pdf.$(OBJEXT) \
+	text2pdf_utils.$(OBJEXT) text2pdf_area.$(OBJEXT) \
+	text2pdf_ref_area.$(OBJEXT) text2pdf_block.$(OBJEXT) \
+	text2pdf_page.$(OBJEXT) text2pdf_input.$(OBJEXT) \
+	text2pdf_layout.$(OBJEXT) text2pdf_big_block.$(OBJEXT) \
+	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
+	dialogtext2pdf.$(OBJEXT) windowshowrelatedverses.$(OBJEXT) \
+	windowmerge.$(OBJEXT) windowresource.$(OBJEXT) \
+	windowoutline.$(OBJEXT) windowcheckkeyterms.$(OBJEXT) \
+	windowstyles.$(OBJEXT) windownotes.$(OBJEXT) \
+	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
+	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
+	localizednumerals.$(OBJEXT) assistantimportkeyterms.$(OBJEXT) \
+	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
+	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
+	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
+	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
+	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	assistantremoterepository.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
@@ -263,16 +263,16 @@ am_bibledit_rdwrt_OBJECTS = bibledit-rdwrt.$(OBJEXT) \
 	roman.$(OBJEXT) project_memory.$(OBJEXT) dialogmerge.$(OBJEXT) \
 	merge_utils.$(OBJEXT) maintenance.$(OBJEXT) scripts.$(OBJEXT) \
 	spelling.$(OBJEXT) check_sentence_structure.$(OBJEXT) \
-	dialogcheckbutton.$(OBJEXT) htmlcolor.$(OBJEXT) \
-	text2pdf.$(OBJEXT) text2pdf_utils.$(OBJEXT) \
-	text2pdf_area.$(OBJEXT) text2pdf_ref_area.$(OBJEXT) \
-	text2pdf_block.$(OBJEXT) text2pdf_page.$(OBJEXT) \
-	text2pdf_input.$(OBJEXT) text2pdf_layout.$(OBJEXT) \
-	text2pdf_big_block.$(OBJEXT) text2pdf_intermediate.$(OBJEXT) \
-	usfm2text.$(OBJEXT) dialogtext2pdf.$(OBJEXT) \
-	windowreferences.$(OBJEXT) compress.$(OBJEXT) \
-	localizednumerals.$(OBJEXT) widgetdate.$(OBJEXT) \
-	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	dialogcheckbutton.$(OBJEXT) text2pdf.$(OBJEXT) \
+	text2pdf_utils.$(OBJEXT) text2pdf_area.$(OBJEXT) \
+	text2pdf_ref_area.$(OBJEXT) text2pdf_block.$(OBJEXT) \
+	text2pdf_page.$(OBJEXT) text2pdf_input.$(OBJEXT) \
+	text2pdf_layout.$(OBJEXT) text2pdf_big_block.$(OBJEXT) \
+	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
+	dialogtext2pdf.$(OBJEXT) windowreferences.$(OBJEXT) \
+	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
+	widgetdate.$(OBJEXT) usfm2osis.$(OBJEXT) \
+	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
 	snapshots.$(OBJEXT) windowtimednotifier.$(OBJEXT) \
@@ -652,7 +652,6 @@ bibledit_gtk_SOURCES = \
   check_sentence_structure.cpp \
   dialogcheckbutton.cpp \
   dialogxfernotes2text.cpp \
-  htmlcolor.cpp \
   text2pdf.cpp \
   text2pdf_utils.cpp \
   text2pdf_area.cpp \
@@ -885,7 +884,6 @@ bibledit_rdwrt_SOURCES = \
   spelling.cpp \
   check_sentence_structure.cpp \
   dialogcheckbutton.cpp \
-  htmlcolor.cpp \
   text2pdf.cpp \
   text2pdf_utils.cpp \
   text2pdf_area.cpp \
@@ -1179,7 +1177,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/highlight.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlbrowser.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlcolor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlwriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlwriter2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/httpd.Po@am__quote@

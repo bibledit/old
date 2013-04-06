@@ -199,7 +199,6 @@ bibledit_gtk_SOURCES = \
   check_sentence_structure.cpp \
   dialogcheckbutton.cpp \
   dialogxfernotes2text.cpp \
-  htmlcolor.cpp \
   text2pdf.cpp \
   text2pdf_utils.cpp \
   text2pdf_area.cpp \
@@ -432,7 +431,6 @@ bibledit_rdwrt_SOURCES = \
   spelling.cpp \
   check_sentence_structure.cpp \
   dialogcheckbutton.cpp \
-  htmlcolor.cpp \
   text2pdf.cpp \
   text2pdf_utils.cpp \
   text2pdf_area.cpp \
