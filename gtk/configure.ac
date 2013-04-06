@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit-gtk],[4.7.2],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-gtk],[4.7.3],[http://www.nongnu.org/bibledit])
 # AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_SRCDIR([src])
@@ -192,30 +192,6 @@ PKG_CHECK_MODULES(PANGO, [pango >= 1.3.5],
 PKG_CHECK_MODULES(PANGO, [pango >= 1.8.0],
    [AC_DEFINE(FIXED_PANGO, 1, [Define to 1 if pango >= 1.8.0.])],
    [AC_MSG_WARN([Enabling word-breaking workarounds since pango < 1.8.0])])
-
-
-PKG_CHECK_MODULES(GTKHTML38, libgtkhtml-3.8 >= 3.8.0,
-	[
-	],
-	[
-		PKG_CHECK_MODULES(GTKHTML314, libgtkhtml-3.14 >= 3.8.0,
-			[
-			],
-			[
-				AC_MSG_ERROR(libgtkhtml3 development version >= 3.8.0 is needed.)
-			]
-		)
-	]
-)
-AC_SUBST(GTKHTML38_CFLAGS)
-AC_SUBST(GTKHTML38_LIBS)
-AC_SUBST(GTKHTML314_CFLAGS)
-AC_SUBST(GTKHTML314_LIBS)
-
-
-PKG_CHECK_MODULES(GTKHTML4, libgtkhtml-4.0 >= 4.0,,AC_MSG_ERROR(libgtkhtml4 development version >= 4.0.0 is needed.))
-AC_SUBST(GTKHTML4_CFLAGS)
-AC_SUBST(GTKHTML4_LIBS)
 
 
 PKG_CHECK_MODULES(GTKSOURCEVIEW, gtksourceview-2.0 >= 2.2.0)

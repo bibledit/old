@@ -14,21 +14,21 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=6641;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2FTODO;0;2
+current_page=1
+FILE_NAME_0=1137;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2FTODO;0;2
 FILE_NAME_1=348;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fconfigure.ac;0;2
 FILE_NAME_2=1020;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindowreferences.h;0;2
-FILE_NAME_3=2349;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindowreferences.cpp;0;2
+FILE_NAME_3=17394;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindowreferences.cpp;0;2
 FILE_NAME_4=1638;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindowshowrelatedverses.h;0;2
 FILE_NAME_5=2064;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindowshowrelatedverses.cpp;0;2
 FILE_NAME_6=1732;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindowcheckkeyterms.h;0;2
 FILE_NAME_7=18354;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindowcheckkeyterms.cpp;0;2
-FILE_NAME_8=1611;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindownotes.h;0;2
-FILE_NAME_9=38932;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindownotes.cpp;0;2
-FILE_NAME_10=2286;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fdisplayprojectnotes.cpp;0;2
-FILE_NAME_11=1437;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fdisplayprojectnotes.h;0;2
-FILE_NAME_12=6139;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fnote_editor.cpp;0;2
-FILE_NAME_13=1935;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fnote_editor.h;0;2
+FILE_NAME_8=3500;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindownotes.h;0;2
+FILE_NAME_9=12066;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindownotes.cpp;0;2
+FILE_NAME_10=1185;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fdisplayprojectnotes.h;0;2
+FILE_NAME_11=917;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fnote_editor.cpp;0;2
+FILE_NAME_12=1249;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fnote_editor.h;0;2
+FILE_NAME_13=0;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fdisplayprojectnotes.cpp;0;2
 
 [long line marker]
 long_line_behaviour=2

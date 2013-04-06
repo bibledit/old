@@ -26,9 +26,6 @@
 #include "ustring.h"
 #include "floatingwindow.h"
 #include "reference.h"
-extern "C" {
-#include <gtkhtml/gtkhtml.h>
-}
 #include "note_editor.h"
 #include "displayprojectnotes.h"
 #include <webkit/webkit.h>
@@ -42,7 +39,7 @@ public:
   void go_to (Reference& reference);
   void new_note ();
   void redisplay (bool immediately = false);
-  void display(vector <unsigned int>& ids);
+  void display (vector <unsigned int>& ids);
   void insert_standard_text (unsigned int selector);
   void get_references_from_note (vector<Reference>& references, vector<ustring>& messages);
   void cut ();
@@ -97,7 +94,7 @@ private:
   GtkWidget *toolitem_note_edit_color;
   GtkWidget *colorbutton_note_edit;
   GtkWidget *scrolledwindow_note_editor;
-  GtkWidget *htmlview_note_editor;
+  GtkWidget *webview_note_editor;
   GtkWidget *scrolledwindow_controls;
   GtkWidget *vbox_controls;
   GtkWidget *hbox_ok_cancel;
@@ -120,57 +117,57 @@ private:
   void notes_fill_edit_screen(int id, bool newnote);
 
   // Formatting
-  static void on_combobox_note_edit_font_size_changed(GtkComboBox *combobox, gpointer user_data);
-  void combobox_note_edit_font_size_changed();
-  static void on_note_editor_insertion_font_style_changed(GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data);
-  void note_editor_insertion_font_style_changed(GtkHTMLFontStyle style);
-  static void on_combobox_note_edit_paragraph_style_changed(GtkComboBox *combobox, gpointer user_data);
-  void combobox_note_edit_paragraph_style_changed();
-  static void on_note_editor_current_paragraph_style_changed(GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data);
-  void note_editor_current_paragraph_style_changed(GtkHTMLParagraphStyle style);
-  static void on_togglebutton_note_edit_bold_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_bold_toggled();
-  static void on_togglebutton_note_edit_italics_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_italics_toggled();
-  static void on_togglebutton_note_edit_underline_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_underline_toggled();
-  static void on_togglebutton_note_edit_strike_through_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_strike_through_toggled();
-  static void on_togglebutton_note_edit_left_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_left_justify_toggled();
-  static void on_togglebutton_note_edit_center_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_center_justify_toggled();
-  static void on_togglebutton_note_edit_right_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void togglebutton_note_edit_right_justify_toggled();
-  static void on_current_paragraph_alignment_changed(GtkHTML *html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data);
-  void current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment);
-  static void on_button_note_edit_decrease_indent_clicked(GtkButton *button, gpointer user_data);
-  static void on_button_note_edit_increase_indent_clicked(GtkButton *button, gpointer user_data);
-  static void on_current_paragraph_indentation_changed(GtkHTML *html, guint new_indentation, gpointer user_data);
-  void current_paragraph_indentation_changed(guint new_indentation);
-  static void on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton, gpointer user_data);
-  void colorbutton_note_edit_color_set(GtkColorButton *colorbutton);
-  static void on_insertion_color_changed(GtkHTML *html, GdkColor *color, gpointer user_data);
-  void insertion_color_changed(GdkColor *color);
+  static void on_combobox_note_edit_font_size_changed (GtkComboBox *combobox, gpointer user_data);
+  void combobox_note_edit_font_size_changed ();
+  // Todo static void on_note_editor_insertion_font_style_changed (GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data);
+  // Todo void note_editor_insertion_font_style_changed (GtkHTMLFontStyle style);
+  static void on_combobox_note_edit_paragraph_style_changed (GtkComboBox *combobox, gpointer user_data);
+  void combobox_note_edit_paragraph_style_changed ();
+  // Todo static void on_note_editor_current_paragraph_style_changed (GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data);
+  // Todo void note_editor_current_paragraph_style_changed (GtkHTMLParagraphStyle style);
+  static void on_togglebutton_note_edit_bold_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_bold_toggled ();
+  static void on_togglebutton_note_edit_italics_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_italics_toggled ();
+  static void on_togglebutton_note_edit_underline_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_underline_toggled ();
+  static void on_togglebutton_note_edit_strike_through_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_strike_through_toggled ();
+  static void on_togglebutton_note_edit_left_justify_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_left_justify_toggled ();
+  static void on_togglebutton_note_edit_center_justify_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_center_justify_toggled ();
+  static void on_togglebutton_note_edit_right_justify_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_right_justify_toggled ();
+  // Todo static void on_current_paragraph_alignment_changed (GtkHTML *html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data);
+  // Todo void current_paragraph_alignment_changed (GtkHTMLParagraphAlignment new_alignment);
+  static void on_button_note_edit_decrease_indent_clicked (GtkButton *button, gpointer user_data);
+  static void on_button_note_edit_increase_indent_clicked (GtkButton *button, gpointer user_data);
+  // Todo static void on_current_paragraph_indentation_changed (GtkHTML *html, guint new_indentation, gpointer user_data);
+  void current_paragraph_indentation_changed (guint new_indentation);
+  static void on_colorbutton_note_edit_color_set (GtkColorButton *colorbutton, gpointer user_data);
+  void colorbutton_note_edit_color_set (GtkColorButton *colorbutton);
+  // Todo static void on_insertion_color_changed (GtkHTML *html, GdkColor *color, gpointer user_data);
+  void insertion_color_changed (GdkColor *color);
 
   guint redisplay_source_id;
-  static bool on_redisplay_timeout(gpointer data);
-  void redisplay_timeout();
-  void stop_displaying_more_notes();
+  static bool on_redisplay_timeout (gpointer data);
+  void redisplay_timeout ();
+  void stop_displaying_more_notes ();
   DisplayProjectNotes * displayprojectnotes;
 
   guint gui_source_id;
-  static bool on_gui_timeout(gpointer data);
-  void on_gui();
+  static bool on_gui_timeout (gpointer data);
+  void on_gui ();
 
-  static void on_button_cancel_clicked(GtkButton *button, gpointer user_data);
-  void on_notes_button_cancel();
-  static void on_button_ok_clicked(GtkButton *button, gpointer user_data);
-  void on_notes_button_ok();
-  void on_notes_button_ok_cancel();
-  static gboolean note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data);
+  static void on_button_cancel_clicked (GtkButton *button, gpointer user_data);
+  void on_notes_button_cancel ();
+  static void on_button_ok_clicked (GtkButton *button, gpointer user_data);
+  void on_notes_button_ok ();
+  void on_notes_button_ok_cancel ();
+  // Todo static gboolean note_save_receiver (const HTMLEngine * engine, const char *data, unsigned int len, void *user_data);
 
-  void get_references_from_id(gint id);
+  void get_references_from_id (gint id);
 
   static gboolean on_navigation_policy_decision_requested (WebKitWebView *web_view, WebKitWebFrame *frame, WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision, gpointer user_data);
   void navigation_policy_decision_requested (WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action, WebKitWebPolicyDecision *policy_decision);
@@ -180,8 +177,8 @@ private:
   static void on_document_load_finished (WebKitWebView *web_view, WebKitWebFrame *web_frame, gpointer user_data);
   void document_load_finished ();
 
-  static void on_button_more_clicked(GtkButton *button, gpointer user_data);
-  void on_button_more();
+  static void on_button_more_clicked (GtkButton *button, gpointer user_data);
+  void on_button_more ();
   vector <ustring> projects;
   ustring project;
   ustring created_on;

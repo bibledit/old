@@ -22,6 +22,8 @@
 #include "htmlcolor.h"
 
 
+/*
+// Todo 
 HTMLColor *html_color_new(void)
 {
   HTMLColor *nc = g_new0(HTMLColor, 1);
@@ -70,10 +72,11 @@ void html_color_unref(HTMLColor * color)
   color->refcount--;
 
   if (!color->refcount) {
-    /* if (color->allocated)
-       g_warning ("FIXME, color free\n"); */
-    /* FIXME commented out to catch g_asserts on refcount so we could hunt "too much unrefs" bugs */
+    // if (color->allocated)
+    //   g_warning ("FIXME, color free\n");
+    // FIXME commented out to catch g_asserts on refcount so we could hunt "too much unrefs" bugs
     g_free(color);
   }
 }
 
+*/
