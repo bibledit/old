@@ -197,10 +197,6 @@ navigation(0), httpd(0)
   gtk_accel_group_connect(accelerator_group, GDK_KEY_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_KEY_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_KEY_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_KEY_1, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_1_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_KEY_2, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_2_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_KEY_3, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_3_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_KEY_4, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_4_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_KEY_N, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_new_project_note_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_KEY_Down, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_verse_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_KEY_Up, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_verse_callback), gpointer(this), NULL));
@@ -926,67 +922,6 @@ navigation(0), httpd(0)
   insert1_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(insert1), insert1_menu);
 
-  standard_text_1 = NULL;
-  standard_text_2 = NULL;
-  standard_text_3 = NULL;
-  standard_text_4 = NULL;
-  current_reference1 = NULL;
-
-  if (guifeatures.project_notes()) {
-
-    standard_text_1 = gtk_image_menu_item_new_with_mnemonic("Standard text _1");
-    gtk_widget_show(standard_text_1);
-    gtk_container_add(GTK_CONTAINER(insert1_menu), standard_text_1);
-
-    image1963 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1963);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(standard_text_1), image1963);
-
-    standard_text_2 = gtk_image_menu_item_new_with_mnemonic("Standard text _2");
-    gtk_widget_show(standard_text_2);
-    gtk_container_add(GTK_CONTAINER(insert1_menu), standard_text_2);
-
-    image1964 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1964);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(standard_text_2), image1964);
-
-    standard_text_3 = gtk_image_menu_item_new_with_mnemonic("Standard text _3");
-    gtk_widget_show(standard_text_3);
-    gtk_container_add(GTK_CONTAINER(insert1_menu), standard_text_3);
-
-    image1965 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1965);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(standard_text_3), image1965);
-
-    standard_text_4 = gtk_image_menu_item_new_with_mnemonic("Standard text _4");
-    gtk_widget_show(standard_text_4);
-    gtk_container_add(GTK_CONTAINER(insert1_menu), standard_text_4);
-
-    image1966 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1966);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(standard_text_4), image1966);
-
-    separator9 = gtk_separator_menu_item_new();
-    gtk_widget_show(separator9);
-    gtk_container_add(GTK_CONTAINER(insert1_menu), separator9);
-    gtk_widget_set_sensitive(separator9, FALSE);
-
-    current_reference1 = gtk_image_menu_item_new_with_mnemonic("_Current reference");
-    gtk_widget_show(current_reference1);
-    gtk_container_add(GTK_CONTAINER(insert1_menu), current_reference1);
-
-    image3797 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3797);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(current_reference1), image3797);
-
-    GtkWidget *separator20;
-    separator20 = gtk_separator_menu_item_new();
-    gtk_widget_show(separator20);
-    gtk_container_add(GTK_CONTAINER(insert1_menu), separator20);
-    gtk_widget_set_sensitive(separator20, FALSE);
-
-  }
-
   insert_special_character = gtk_image_menu_item_new_with_mnemonic("_Special character");
   gtk_widget_show(insert_special_character);
   gtk_container_add(GTK_CONTAINER(insert1_menu), insert_special_character);
@@ -1691,16 +1626,6 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
   if (insert1)
     g_signal_connect((gpointer) insert1, "activate", G_CALLBACK(on_insert1_activate), gpointer(this));
-  if (standard_text_1)
-    g_signal_connect((gpointer) standard_text_1, "activate", G_CALLBACK(on_standard_text_1_activate), gpointer(this));
-  if (standard_text_2)
-    g_signal_connect((gpointer) standard_text_2, "activate", G_CALLBACK(on_standard_text_2_activate), gpointer(this));
-  if (standard_text_3)
-    g_signal_connect((gpointer) standard_text_3, "activate", G_CALLBACK(on_standard_text_3_activate), gpointer(this));
-  if (standard_text_4)
-    g_signal_connect((gpointer) standard_text_4, "activate", G_CALLBACK(on_standard_text_4_activate), gpointer(this));
-  if (current_reference1)
-    g_signal_connect((gpointer) current_reference1, "activate", G_CALLBACK(on_current_reference1_activate), gpointer(this));
   if (insert_special_character)
     g_signal_connect((gpointer) insert_special_character, "activate", G_CALLBACK(on_insert_special_character_activate), gpointer(this));
   if (insert_footnote)
@@ -2231,63 +2156,6 @@ void MainWindow::on_menu_insert()
 {
   // Get the focused editor window.
   WindowEditor *editor_window = last_focused_editor_window();
-  // Write the proper labels.
-  extern Settings *settings;
-  ustring std_txt = "Standard text ";
-  ustring label;
-  label = std_txt + "_1: " + settings->genconfig.edit_note_standard_text_one_get();
-  if (standard_text_1)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL(gtk_bin_get_child(GTK_BIN(standard_text_1))), label.c_str());
-  label = std_txt + "_2: " + settings->genconfig.edit_note_standard_text_two_get();
-  if (standard_text_2)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL(gtk_bin_get_child(GTK_BIN(standard_text_2))), label.c_str());
-  label = std_txt + "_3: " + settings->genconfig.edit_note_standard_text_three_get();
-  if (standard_text_3)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL(gtk_bin_get_child(GTK_BIN(standard_text_3))), label.c_str());
-  label = std_txt + "_4: " + settings->genconfig.edit_note_standard_text_four_get();
-  if (standard_text_4)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL(gtk_bin_get_child(GTK_BIN(standard_text_4))), label.c_str());
-  // Enable or disable depending on situation.
-  bool enable = (window_notes && window_notes->note_being_edited());
-  if (standard_text_1)
-    gtk_widget_set_sensitive(standard_text_1, enable);
-  if (standard_text_2)
-    gtk_widget_set_sensitive(standard_text_2, enable);
-  if (standard_text_3)
-    gtk_widget_set_sensitive(standard_text_3, enable);
-  if (standard_text_4)
-    gtk_widget_set_sensitive(standard_text_4, enable);
-
-  // Allow inserting reference when we edit a note and the reference is different 
-  // from any of the references loaded already.
-  enable = (window_notes && window_notes->note_being_edited());
-  if (enable) {
-    // Get all references from the note.
-    vector < Reference > references;
-    vector < ustring > messages;
-    window_notes->get_references_from_note(references, messages);
-    // See whether the current reference is already in it.
-    bool already_in = false;
-    for (unsigned int i = 0; i < references.size(); i++) {
-      if (editor_window)
-        if (references[i].equals(editor_window->current_reference()))
-          already_in = true;
-    }
-    // If the reference is not yet in the note's references, enable menu, so user can add it.
-    enable = !already_in;
-  }
-  // Update menu.
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  if (editor_window) {
-    label = "_Add " + editor_window->current_reference().human_readable(projectconfig->language_get()) + " to project note";
-  } else {
-    enable = false;
-  }
-
-  if (current_reference1)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL(gtk_bin_get_child(GTK_BIN(current_reference1))), label.c_str());
-  if (current_reference1)
-    gtk_widget_set_sensitive(current_reference1, enable);
 
   // Inserting special character.
   gtk_widget_set_sensitive(insert_special_character, (editor_window && (editor_window->focused)));
@@ -3095,62 +2963,6 @@ void MainWindow::on_import_notes()
     view_project_notes();
     notes_redisplay();
   }
-}
-
-void MainWindow::on_standard_text_1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
-}
-
-void MainWindow::on_standard_text_2_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
-}
-
-void MainWindow::on_standard_text_3_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
-}
-
-void MainWindow::on_standard_text_4_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
-}
-
-void MainWindow::on_insert_standard_text(GtkMenuItem * menuitem)
-{
-  // Find out which standard text to insert, and where to insert it, and how.
-  extern Settings *settings;
-  ustring standardtext;
-  unsigned int selector = 0;
-  if (menuitem == GTK_MENU_ITEM(standard_text_1)) {
-    standardtext = settings->genconfig.edit_note_standard_text_one_get();
-    selector = 0;
-  } else if (menuitem == GTK_MENU_ITEM(standard_text_2)) {
-    standardtext = settings->genconfig.edit_note_standard_text_two_get();
-    selector = 1;
-  } else if (menuitem == GTK_MENU_ITEM(standard_text_3)) {
-    standardtext = settings->genconfig.edit_note_standard_text_three_get();
-    selector = 2;
-  } else if (menuitem == GTK_MENU_ITEM(standard_text_4)) {
-    standardtext = settings->genconfig.edit_note_standard_text_four_get();
-    selector = 3;
-  } else if (menuitem == GTK_MENU_ITEM(current_reference1)) {
-    WindowEditor *editor_window = last_focused_editor_window();
-    if (editor_window) {
-      standardtext = books_id_to_english(editor_window->current_reference().book) + " " + convert_to_string(editor_window->current_reference().chapter) + ":" + editor_window->current_reference().verse;
-      selector = 4;
-    }
-  }
-  // Insert the text.
-  if (window_notes) {
-    window_notes->insert_standard_text(selector);
-  }
-}
-
-void MainWindow::on_current_reference1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
 }
 
 
@@ -5429,36 +5241,6 @@ void MainWindow::accelerator_copy_callback(gpointer user_data)
 void MainWindow::accelerator_paste_callback(gpointer user_data)
 {
   ((MainWindow *) user_data)->on_paste();
-}
-
-void MainWindow::accelerator_standard_text_1_callback(gpointer user_data)
-{
-  ((MainWindow *) user_data)->accelerator_standard_text_n(0);
-}
-
-void MainWindow::accelerator_standard_text_2_callback(gpointer user_data)
-{
-  ((MainWindow *) user_data)->accelerator_standard_text_n(1);
-}
-
-void MainWindow::accelerator_standard_text_3_callback(gpointer user_data)
-{
-  ((MainWindow *) user_data)->accelerator_standard_text_n(2);
-}
-
-void MainWindow::accelerator_standard_text_4_callback(gpointer user_data)
-{
-  ((MainWindow *) user_data)->accelerator_standard_text_n(3);
-}
-
-void MainWindow::accelerator_standard_text_n(unsigned int selector)
-{
-  if (window_notes) {
-    // Insert the text if the notes window has focus.
-    if (window_notes->focused) {
-      window_notes->insert_standard_text(selector);
-    }
-  }
 }
 
 void MainWindow::accelerator_new_project_note_callback(gpointer user_data)

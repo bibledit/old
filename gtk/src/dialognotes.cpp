@@ -25,15 +25,11 @@
 #include "dialogentry.h"
 #include "gtkwrappers.h"
 #include "listview.h"
-#include "settings.h"
 #include "help.h"
 
 
 NotesDialog::NotesDialog(int dummy)
 {
-  // Save variables.
-  extern Settings *settings;
-
   // Read all the categories and add possible new ones in the database.
   ReadText rt(notes_categories_filename());
   vector < ustring > categories = rt.lines;
@@ -48,95 +44,22 @@ NotesDialog::NotesDialog(int dummy)
   dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(notesdialog));
   gtk_widget_show(dialog_vbox1);
 
-  notebook1 = gtk_notebook_new();
-  gtk_widget_show(notebook1);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), notebook1, TRUE, TRUE, 0);
-
-  vbox1 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox1);
-  gtk_container_add(GTK_CONTAINER(notebook1), vbox1);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox1), 2);
-
-  label3 = gtk_label_new("While editing a project note, there are some accelerators\nthat enable you to quickly insert some text in the editor.\nEnter the texts that will be inserted. There are four.");
-  gtk_widget_show(label3);
-  gtk_box_pack_start(GTK_BOX(vbox1), label3, FALSE, FALSE, 2);
-  gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
-
-  table1 = gtk_table_new(4, 2, FALSE);
-  gtk_widget_show(table1);
-  gtk_box_pack_start(GTK_BOX(vbox1), table1, TRUE, TRUE, 4);
-  gtk_table_set_row_spacings(GTK_TABLE(table1), 4);
-  gtk_table_set_col_spacings(GTK_TABLE(table1), 4);
-
-  label4 = gtk_label_new("1");
-  gtk_widget_show(label4);
-  gtk_table_attach(GTK_TABLE(table1), label4, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
-
-  label5 = gtk_label_new("2");
-  gtk_widget_show(label5);
-  gtk_table_attach(GTK_TABLE(table1), label5, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment(GTK_MISC(label5), 0, 0.5);
-
-  label6 = gtk_label_new("3");
-  gtk_widget_show(label6);
-  gtk_table_attach(GTK_TABLE(table1), label6, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);
-
-  label7 = gtk_label_new("4");
-  gtk_widget_show(label7);
-  gtk_table_attach(GTK_TABLE(table1), label7, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment(GTK_MISC(label7), 0, 0.5);
-
-  entry1 = gtk_entry_new();
-  gtk_widget_show(entry1);
-  gtk_table_attach(GTK_TABLE(table1), entry1, 1, 2, 0, 1, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_entry_set_text(GTK_ENTRY(entry1), settings->genconfig.edit_note_standard_text_one_get().c_str());
-  gtk_entry_set_activates_default(GTK_ENTRY(entry1), TRUE);
-
-  entry2 = gtk_entry_new();
-  gtk_widget_show(entry2);
-  gtk_table_attach(GTK_TABLE(table1), entry2, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_entry_set_text(GTK_ENTRY(entry2), settings->genconfig.edit_note_standard_text_two_get().c_str());
-  gtk_entry_set_activates_default(GTK_ENTRY(entry2), TRUE);
-
-  entry3 = gtk_entry_new();
-  gtk_widget_show(entry3);
-  gtk_table_attach(GTK_TABLE(table1), entry3, 1, 2, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_entry_set_text(GTK_ENTRY(entry3), settings->genconfig.edit_note_standard_text_three_get().c_str());
-  gtk_entry_set_activates_default(GTK_ENTRY(entry3), TRUE);
-
-  entry4 = gtk_entry_new();
-  gtk_widget_show(entry4);
-  gtk_table_attach(GTK_TABLE(table1), entry4, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_entry_set_text(GTK_ENTRY(entry4), settings->genconfig.edit_note_standard_text_four_get().c_str());
-  gtk_entry_set_activates_default(GTK_ENTRY(entry4), TRUE);
-
-  label8 = gtk_label_new_with_mnemonic("_Accelerators");
-  gtk_widget_show(label8);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 0), label8);
-
-  vbox2 = gtk_vbox_new(FALSE, 2);
-  gtk_widget_show(vbox2);
-  gtk_container_add(GTK_CONTAINER(notebook1), vbox2);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox2), 2);
-
   label10 = gtk_label_new("While editing a project note, there are some categories that can be assigned to this note.\nThe list of categories can be edited here.");
   gtk_widget_show(label10);
-  gtk_box_pack_start(GTK_BOX(vbox2), label10, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox1), label10, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label10), TRUE);
   gtk_misc_set_alignment(GTK_MISC(label10), 0, 0.5);
 
   // User can sort the categories to his preferred order.
   treeview1 = gtk_tree_view_new();
   gtk_widget_show(treeview1);
-  gtk_box_pack_start(GTK_BOX(vbox2), treeview1, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox1), treeview1, TRUE, TRUE, 0);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview1), FALSE);
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview1), TRUE);
 
   hbox1 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox1);
-  gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox1, FALSE, FALSE, 0);
 
   buttondelete = gtk_button_new();
   gtk_widget_show(buttondelete);
@@ -178,10 +101,6 @@ NotesDialog::NotesDialog(int dummy)
   gtk_widget_show(label12);
   gtk_box_pack_start(GTK_BOX(hbox3), label12, FALSE, FALSE, 0);
 
-  label9 = gtk_label_new_with_mnemonic("Ca_tegories");
-  gtk_widget_show(label9);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook1), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook1), 1), label9);
-
   dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(notesdialog));
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
@@ -202,7 +121,6 @@ NotesDialog::NotesDialog(int dummy)
   g_signal_connect((gpointer) buttondelete, "clicked", G_CALLBACK(on_buttondelete_clicked), gpointer(this));
   g_signal_connect((gpointer) buttonadd, "clicked", G_CALLBACK(on_buttonadd_clicked), gpointer(this));
 
-  gtk_widget_grab_focus(entry1);
   gtk_widget_grab_default(okbutton1);
 
   model = gtk_list_store_new(1, G_TYPE_STRING);
@@ -236,12 +154,6 @@ void NotesDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 
 void NotesDialog::on_okbutton()
 {
-  // Store values for standard texts.
-  extern Settings *settings;
-  settings->genconfig.edit_note_standard_text_one_set(gtk_entry_get_text(GTK_ENTRY(entry1)));
-  settings->genconfig.edit_note_standard_text_two_set(gtk_entry_get_text(GTK_ENTRY(entry2)));
-  settings->genconfig.edit_note_standard_text_three_set(gtk_entry_get_text(GTK_ENTRY(entry3)));
-  settings->genconfig.edit_note_standard_text_four_set(gtk_entry_get_text(GTK_ENTRY(entry4)));
   // Save possibly edited categories.
   vector < ustring > categories = listview_get_strings(treeview1);
   write_lines(notes_categories_filename(), categories);

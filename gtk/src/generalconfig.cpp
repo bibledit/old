@@ -88,10 +88,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(window_ids);
   INITIALIZE(window_titles);
   INITIALIZE(window_shows);
-  INITIALIZE(edit_note_standard_text_one);
-  INITIALIZE(edit_note_standard_text_two);
-  INITIALIZE(edit_note_standard_text_three);
-  INITIALIZE(edit_note_standard_text_four);
   INITIALIZE(project);
   INITIALIZE(book);
   INITIALIZE(chapter);
@@ -240,10 +236,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(window_ids);
   SAVE_VALUE(window_titles);
   SAVE_VALUE(window_shows);
-  SAVE_VALUE(edit_note_standard_text_one);
-  SAVE_VALUE(edit_note_standard_text_two);
-  SAVE_VALUE(edit_note_standard_text_three);
-  SAVE_VALUE(edit_note_standard_text_four);
   SAVE_VALUE(project);
   SAVE_VALUE(book);
   SAVE_VALUE(chapter);
@@ -475,10 +467,6 @@ IMPLEMENT(vector < int >, vector_int_get, window_y_positions, NULL)
 IMPLEMENT(vector < int >, vector_int_get, window_ids, NULL)
 IMPLEMENT(vector < ustring >, vector_string_get, window_titles, NULL)
 IMPLEMENT(vector < bool >, vector_bool_get, window_shows, NULL)
-IMPLEMENT(ustring, string_get, edit_note_standard_text_one, "Exegetical problem: ")
-IMPLEMENT(ustring, string_get, edit_note_standard_text_two, "Checking question: ")
-IMPLEMENT(ustring, string_get, edit_note_standard_text_three, "Checking feedback: ")
-IMPLEMENT(ustring, string_get, edit_note_standard_text_four, "PROBLEM: ")
 IMPLEMENT(ustring, string_get, project, "")
 IMPLEMENT(int, int_get, book, 0)
 IMPLEMENT(ustring, string_get, chapter, "")

@@ -34,20 +34,6 @@ public:
 protected:
   GtkWidget *notesdialog;
   GtkWidget *dialog_vbox1;
-  GtkWidget *notebook1;
-  GtkWidget *vbox1;
-  GtkWidget *label3;
-  GtkWidget *table1;
-  GtkWidget *label4;
-  GtkWidget *label5;
-  GtkWidget *label6;
-  GtkWidget *label7;
-  GtkWidget *entry1;
-  GtkWidget *entry2;
-  GtkWidget *entry3;
-  GtkWidget *entry4;
-  GtkWidget *label8;
-  GtkWidget *vbox2;
   GtkWidget *label10;
   GtkWidget *treeview1;
   GtkWidget *hbox1;
@@ -61,7 +47,6 @@ protected:
   GtkWidget *hbox3;
   GtkWidget *image2;
   GtkWidget *label12;
-  GtkWidget *label9;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;

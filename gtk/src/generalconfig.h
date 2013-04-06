@@ -63,10 +63,6 @@ public:
   DEFINE_GENCONFIG_H (vector<int>, window_ids);
   DEFINE_GENCONFIG_H (vector<ustring>, window_titles);
   DEFINE_GENCONFIG_H (vector<bool>, window_shows);
-  DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_one);
-  DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_two);
-  DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_three);
-  DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_four);
   DEFINE_GENCONFIG_H (ustring, project);
   DEFINE_GENCONFIG_H (int, book);
   DEFINE_GENCONFIG_H (ustring, chapter);
