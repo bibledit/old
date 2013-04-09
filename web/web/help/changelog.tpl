@@ -2,7 +2,7 @@
 
 <h2>Version in repository</h2>
 <p>The personal notifications settings uses checkboxes for improved clarity.</p>
-<p></p>
+<p>Deleting consultation notes only notifies by email the users who have this option set.</p>
 <p></p>
 
 <h2>Version 0.8</h2>

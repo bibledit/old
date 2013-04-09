@@ -3,7 +3,7 @@
 * @package bibledit
 */
 /*
- ** Copyright (©) 2003-2012 Teus Benschop.
+ ** Copyright (©) 2003-2013 Teus Benschop.
  **
  ** This program is free software; you can redistribute it and/or modify
  ** it under the terms of the GNU General Public License as published by
@@ -24,9 +24,20 @@
 
 class Notes_Logic
 {
+
   private static $instance;
+
+
   private function __construct() {
   } 
+
+
+  const notifyNoteNew     = 1;
+  const notifyNoteComment = 2;
+  const notifyNoteUpdate  = 3;
+  const notifyNoteDelete  = 4;
+
+
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
@@ -35,14 +46,16 @@ class Notes_Logic
     return self::$instance;
   }
 
+
   public function handlerNewNote ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("New"));
+    $this->notifyUsers ($identifier, self::notifyNoteNew);
   }
+
 
   public function handlerAddComment ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("Comment"));
+    $this->notifyUsers ($identifier, self::notifyNoteComment);
     // If the note status was Done, and a comment is added, mark it Reopened.
     $database_notes = Database_Notes::getInstance ();
     $status = $database_notes->getRawStatus ($identifier);
@@ -53,7 +66,7 @@ class Notes_Logic
 
   public function handlerUpdateNote ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("Updated"));
+    $this->notifyUsers ($identifier, self::notifyNoteUpdate);
   }
 
   public function handlerAssignNote ($identifier, $user)
@@ -69,17 +82,19 @@ class Notes_Logic
     }
   }
 
+
   public function handlerDeleteNote ($identifier)
   {
-    $this->notifyUsers ($identifier, gettext ("Deleted"));
+    $this->notifyUsers ($identifier, self::notifyNoteDelete);
   }
+
 
   /**
   * This handles notifications for the users
   * $identifier: the note that is being handled.
-  * $label: prefix to the subject line of the email.
+  * $notification: the type of notification to the consultaton note.
   */
-  private function notifyUsers ($identifier, $label)
+  private function notifyUsers ($identifier, $notification)
   {
     // Databases.
     $database_notes = Database_Notes::getInstance();
@@ -122,8 +137,28 @@ class Notes_Logic
       }
     }
 
+    // In case the consultation note is deleted, notify only the users with this specific notification set.
+    if ($notification == self::notifyNoteDelete) {
+      $recipients = array ();
+      $users = $database_users->getUsers ();
+      foreach ($users as $user) {
+        if ($database_config_user->getUserDeletedConsultationNoteNotification ($user)) {
+          $recipients [] = $user;
+        }
+      }
+    }
+    
     // Remove duplicates from the recipients.
     $recipients = array_unique ($recipients);
+
+    // Generate the label prefixed to the subject line of the email.
+    $label = gettext ("General");
+    switch ($notification) {
+      case self::notifyNoteNew     : $label = gettext ("New");     break;
+      case self::notifyNoteComment : $label = gettext ("Comment"); break;
+      case self::notifyNoteUpdate  : $label = gettext ("Updated"); break;
+      case self::notifyNoteDelete  : $label = gettext ("Deleted"); break;
+    }
     
     // Send mail to all recipients.
     $this->emailUsers ($identifier, $label, $recipients);

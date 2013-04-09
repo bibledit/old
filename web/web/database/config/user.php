@@ -286,6 +286,15 @@ class Database_Config_User
     $this->setValue ("", "bible-changes-notification", $value);
   }   
 
+  public function getDeletedConsultationNoteNotification() {
+    return $this->getValue ("", "deleted-consultation-note-notification", false);
+  }
+  public function getUserDeletedConsultationNoteNotification($username) {
+    return $this->getValueForUser ($username, "deleted-consultation-note-notification", false);
+  }
+  public function setDeletedConsultationNoteNotification ($value) {
+    $this->setValue ("", "deleted-consultation-note-notification", $value);
+  }   
      
 }
 
