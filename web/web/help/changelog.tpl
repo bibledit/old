@@ -1,7 +1,7 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
-<p></p>
+<p>The personal notifications settings uses checkboxes for improved clarity.</p>
 <p></p>
 <p></p>
 
