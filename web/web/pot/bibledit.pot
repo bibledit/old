@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-09 01:45+0200\n"
+"POT-Creation-Date: 2013-04-10 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1400,13 +1400,16 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
+msgid "Assigned"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
 msgid "Comment"
 msgstr ""
 
 msgid "Updated"
-msgstr ""
-
-msgid "Assigned"
 msgstr ""
 
 msgid "Deleted"

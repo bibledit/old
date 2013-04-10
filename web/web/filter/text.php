@@ -70,12 +70,14 @@ class Filter_Text
   private $standardContentMarkerFootEndNote;
   private $standardContentMarkerCrossReference;
   
-  public $html_text_standard; // Object for creating Web document with text in standard form.
-  public $html_text_linked; // Object for creating Linked web document.
+  public $html_text_standard; // Object for creating standard web documents.
+  public $html_text_linked; // Object for creating interlinked web documents.
   
   public $onlinebible_text; // Object for creating the input file for the Online Bible compiler.
   
   public $esword_text; // Object for creating the Bible module for eSword.
+  
+  public $text_text; // Object for exporting to plain text.
   
   /**
   * Class constructor.
@@ -584,7 +586,11 @@ class Filter_Text
                 $this->odf_text_text_and_note_citations->newHeading1 ($runningHeader, true);
                 $this->odf_text_notes->newHeading1 ($runningHeader, false);
                 
-                // This is the phase of outputting the chapter number in the text body. 
+                // This is the phase of outputting the chapter number in the text body.
+                // It always outputs the chapter number to the clear text export.
+                if (isset ($this->text_text)) {
+                  $this->text_text->text ($number);
+                }
                 // The chapter number is only output when there is more than one chapter in a book.
                 if ($this->numberOfChaptersPerBook[$this->currentBookIdentifier] > 1) {
                   if ($style['userbool1']) {
@@ -669,6 +675,10 @@ class Filter_Text
                   if ($this->html_text_linked->currentParagraphContent != "") {
                     $this->html_text_linked->newParagraph ($this->html_text_linked->currentParagraphStyle);
                   }
+                  if (isset ($this->text_text)) {
+                    $this->text_text->paragraph ();
+                  }
+
                 }
                 // Deal with the case of a pending chapter number.
                 if (isset ($this->outputChapterTextAtFirstVerse)) {
@@ -727,6 +737,12 @@ class Filter_Text
                   $this->odf_text_text_and_note_citations->closeTextStyle ();
                   $this->html_text_standard->closeTextStyle ();
                   $this->html_text_linked->closeTextStyle ();
+                }
+                if (isset ($this->text_text)) {
+                  if ($this->text_text->line () != "") {
+                    $this->text_text->text (" ");
+                  }
+                  $this->text_text->text ($number);
                 }
                 // If there was any text following the \v marker, remove the verse number, 
                 // put the remainder back into the object, and update the pointer.
@@ -816,6 +832,9 @@ class Filter_Text
                 $this->odf_text_text_and_note_citations->newPageBreak ();
                 $this->html_text_standard->newPageBreak ();
                 $this->html_text_linked->newPageBreak ();
+                if (isset ($this->text_text)) {
+                  $this->text_text->paragraph ();
+                }
                 break;
               }
               case StyleTypeTableElement:
@@ -910,6 +929,9 @@ class Filter_Text
           $this->html_text_linked->addText ($currentItem);
           $this->onlinebible_text->addText ($currentItem);
           $this->esword_text->addText ($currentItem);
+          if (isset ($this->text_text)) {
+            $this->text_text->text ($currentItem);
+          }
         }
       }
     }
@@ -1348,6 +1370,9 @@ class Filter_Text
     $this->odf_text_text_and_note_citations->newParagraph ($marker);
     $this->html_text_standard->newParagraph ($marker);
     $this->html_text_linked->newParagraph ($marker);
+    if (isset ($this->text_text)) {
+      $this->text_text->paragraph ();
+    }
   }
   
   
