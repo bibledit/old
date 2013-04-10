@@ -3,6 +3,11 @@
 <h2>Version in repository</h2>
 <p>The personal notifications settings uses checkboxes for improved clarity.</p>
 <p>Users can check the option to be notified by email about deleted consultation notes.</p>
+<p>Exports USFM to clear text each midnight.</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 0.8</h2>

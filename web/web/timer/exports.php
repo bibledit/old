@@ -81,7 +81,7 @@ foreach ($bibles as $bible) {
   mkdir ($plainWebDirectory);
 
   
-  // Folder for the rich web data.
+  // Folder for the interlinked web files.
   $richWebDirectory = $bibleDirectory . "/Web";
   mkdir ($richWebDirectory);
 
@@ -96,6 +96,11 @@ foreach ($bibles as $bible) {
   mkdir ($eSwordDirectory);
   
   
+  // Folder for the clear text export.
+  $clearTextDirectory = $bibleDirectory . "/Text";
+  mkdir ($clearTextDirectory);
+  
+
   // USFM code of the entire Bible.
   $bibleUsfmData = "";
 
@@ -139,6 +144,9 @@ foreach ($bibles as $bible) {
 
     // OpenDocument and Web data for one Bible book.
     $filter_text_book = new Filter_Text ($bible);
+    
+    // Add the text exporter object.
+    $filter_text_book->text_text = new Text_Text ();
 
     // Go through the chapters in this book.
     $chapters = $database_bibles->getChapters ($bible, $book);
@@ -200,6 +208,10 @@ foreach ($bibles as $bible) {
 
     // Save the book index.
     $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ("$richWebDirectory", $book));
+    
+    // Save the clear text export.
+    $filter_text_book->text_text->save ("$clearTextDirectory/$baseBookFileName.txt");
+    
   }
 
   // Save the USFM code for the whole Bible.
