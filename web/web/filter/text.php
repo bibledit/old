@@ -589,7 +589,7 @@ class Filter_Text
                 // This is the phase of outputting the chapter number in the text body.
                 // It always outputs the chapter number to the clear text export.
                 if (isset ($this->text_text)) {
-                  $this->text_text->text ($number);
+                  $this->text_text->paragraph ($number);
                 }
                 // The chapter number is only output when there is more than one chapter in a book.
                 if ($this->numberOfChaptersPerBook[$this->currentBookIdentifier] > 1) {
@@ -738,11 +738,15 @@ class Filter_Text
                   $this->html_text_standard->closeTextStyle ();
                   $this->html_text_linked->closeTextStyle ();
                 }
+                // Clear text output.
                 if (isset ($this->text_text)) {
                   if ($this->text_text->line () != "") {
                     $this->text_text->text (" ");
                   }
                   $this->text_text->text ($number);
+                  // Clear text output always has a space following the verse.
+                  // Important for outputting the first verse.
+                  $this->text_text->text (" ");
                 }
                 // If there was any text following the \v marker, remove the verse number, 
                 // put the remainder back into the object, and update the pointer.
@@ -752,8 +756,9 @@ class Filter_Text
                     $textFollowingMarker = substr ($textFollowingMarker, $pos + strlen ($number));
                   }
                   // If a chapter number was put, remove any whitespace from the start of the following text.
-                  // Remove whitespace from the start of the following text, and replace it with the en space.
-                  // This en space is a fixed width space. Having this after the verse number makes things tidier.
+                  // Remove whitespace from the start of the following text, and replace it with the en-space.
+                  // This en-space is a fixed-width space. 
+                  // This type of space makes the layout of the text following the verse number look tidier.
                   // But if a chapter number was put, than do not put any space at the start of the following verse.
                   $textFollowingMarker = ltrim ($textFollowingMarker);
                   if (!isset ($this->outputChapterTextAtFirstVerse)) {

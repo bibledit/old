@@ -154,20 +154,57 @@ EOD;
   }
 
 
-  public function testClearTextExport1()
+  public function testClearTextExport1 ()
   {
 $usfm = <<<'EOD'
 \id GEN
+\h Genesis
+\toc2 Genesis
+\mt2 The book of
+\mt Genesis
 \c 1
 \p
-\v 2 Text 1\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
+\v 1 In the be\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*ginning, God created\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f* the heavens and the earth.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
 EOD;
     $filter_text = new Filter_Text ("");
     $filter_text->text_text = new Text_Text ();
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     $output = $filter_text->text_text->get ();
-    $standard = "1\n2" . Filter_Character::enSpace () . "Text 1, text 2, text3.";
+$standard = <<<'EOD'
+The book of
+Genesis
+1
+1 In the beginning, God created the heavens and the earth.
+EOD;
+    $this->assertEquals ($output, $standard);
+  }
+
+
+  public function testClearTextExport2 ()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\c 1
+\p
+\v 1 Chapter 1, verse one.
+\v 2 Verse two.
+\c 2
+\p
+\v 1 Chapter 2, verse one.
+\v 2 Verse two.
+EOD;
+    $filter_text = new Filter_Text ("");
+    $filter_text->text_text = new Text_Text ();
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("Standard");
+    $output = $filter_text->text_text->get ();
+$standard = <<<'EOD'
+1
+1 Chapter 1, verse one. 2 Verse two.
+2
+1 Chapter 2, verse one. 2 Verse two.
+EOD;
     $this->assertEquals ($output, $standard);
   }
 

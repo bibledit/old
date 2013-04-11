@@ -42,7 +42,11 @@ class Text_Text
   public function paragraph ($text = "")
   {
     if ($this->line != "") {
-      $this->output [] = trim ($this->line);
+      // The filter that converts from USFM to clear texts inserts some stuff
+      // that's being removed here again, as not desirable in clear text.
+      $this->line = str_replace (Filter_Character::enSpace(), " ", $this->line);
+      $this->line = str_replace ("  ", " ", $this->line);
+      $this->output [] = $this->line;
       $this->line = "";
     }
     $this->text ($text);
