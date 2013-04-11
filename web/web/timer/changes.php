@@ -55,11 +55,6 @@ foreach ($bibles as $bible) {
   mkdir ($directory, 0777, true);
 
   
-  // Remove old symbolic link if it's there.
-  $link = dirname ($directory) . "/0_most_recent_changes";
-  @unlink ($link);
-
-  
   // Produce the USFM and html files.
   Filter_Diff::produceVerseLevel ($bible, $directory);
 
@@ -70,7 +65,7 @@ foreach ($bibles as $bible) {
 
   // Create online page with changed verses.
   $versesoutputfile = "$directory/changed_verses.html";
-  Filter_Diff::runWDiff ("$directory/verses_old.html", "$directory/verses_new.html", $versesoutputfile);
+  Filter_Diff::runWDiff ("$directory/verses_old.txt", "$directory/verses_new.txt", $versesoutputfile);
 
 
   // Email users.

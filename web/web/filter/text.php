@@ -72,11 +72,11 @@ class Filter_Text
   
   public $html_text_standard; // Object for creating standard web documents.
   public $html_text_linked; // Object for creating interlinked web documents.
-  
+
   public $onlinebible_text; // Object for creating the input file for the Online Bible compiler.
-  
+
   public $esword_text; // Object for creating the Bible module for eSword.
-  
+
   public $text_text; // Object for exporting to plain text.
   
   /**

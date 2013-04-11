@@ -14,19 +14,16 @@ description=
 run_cmd=sh /home/teus/bin/be
 
 [files]
-current_page=0
-FILE_NAME_0=385;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2FTODO;0;2
-FILE_NAME_1=346;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fconfigure.ac;0;2
-FILE_NAME_2=1360;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindownotes.h;0;2
-FILE_NAME_3=26307;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fwindownotes.cpp;0;2
-FILE_NAME_4=1091;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fnote_editor.cpp;0;2
-FILE_NAME_5=1307;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fnote_editor.h;0;2
-FILE_NAME_6=2225;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fgeneralconfig.h;0;2
-FILE_NAME_7=178679;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fmainwindow.cpp;0;2
-FILE_NAME_8=27860;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fmainwindow.h;0;2
-FILE_NAME_9=3869;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fdialognotes.cpp;0;2
-FILE_NAME_10=1324;C;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fdialognotes.h;0;2
-FILE_NAME_11=16264;C++;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fgtk%2Fsrc%2Fgeneralconfig.cpp;0;2
+current_page=2
+FILE_NAME_0=0;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2FTODO;0;2
+FILE_NAME_1=202;Sh;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fconfigure.ac;0;2
+FILE_NAME_2=257;None;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Fhelp%2Fchangelog.tpl;0;2
+FILE_NAME_3=1201;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ftext%2Ftext.php;0;2
+FILE_NAME_4=30960;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Ftext.php;0;2
+FILE_NAME_5=8536;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ftimer%2Fexports.php;0;2
+FILE_NAME_6=203;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Ftests%2Ftext%2FtextTest.php;0;2
+FILE_NAME_7=7343;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Ftests%2Ffilter%2FtextTest.php;0;2
+FILE_NAME_8=1297;PHP;0;16;0;1;0;%2Fhome%2Fteus%2Fdocuments%2Fdev%2Fbibledit%2Fweb%2Fweb%2Ffilter%2Fcharacter.php;0;2
 
 [long line marker]
 long_line_behaviour=2

@@ -6,7 +6,8 @@ class Filter_Diff
 
 
   /**
-  * This filter produces USFM and html files to be used for showing the differences between them.
+  * This filter produces files in USFM, html and text format.
+  * The text files are to be used for showing the differences between them.
   * The files contain all verses that differ.
   * $bibleIdentifier: The Bible identifier to go through.
   * $directory: The existing directory where to put the files.
@@ -25,6 +26,9 @@ class Filter_Diff
     
     $filter_text_old = new Filter_Text ("");
     $filter_text_new = new Filter_Text ("");
+
+    $filter_text_old->text_text = new Text_Text ();
+    $filter_text_new->text_text = new Text_Text ();
     
     $books = $database_bibles->getDiffBooks ($bibleIdentifier);
     foreach ($books as $book) {
@@ -60,6 +64,8 @@ class Filter_Diff
     $filter_text_new->run ($stylesheet);
     $filter_text_old->html_text_standard->save ("$directory/verses_old.html");
     $filter_text_new->html_text_standard->save ("$directory/verses_new.html");
+    $filter_text_old->text_text->save ("$directory/verses_old.txt");
+    $filter_text_new->text_text->save ("$directory/verses_new.txt");
   }
 
 
@@ -72,15 +78,25 @@ class Filter_Diff
   public static function runWDiff ($oldfile, $newfile, $outputfile)
   {
     $database_logs = Database_Logs::getInstance ();
+    
     $oldfile = escapeshellarg ($oldfile);
     $newfile = escapeshellarg ($newfile);
-    $outputfile = escapeshellarg ($outputfile);
-    $command = "wdiff --start-insert='<span style=\"font-weight: bold;\">' --end-insert='</span>' --start-delete='<span style=\"text-decoration: line-through;\">' --end-delete='</span>' $oldfile $newfile > $outputfile 2>&1";
+    $escapedoutputfile = escapeshellarg ($outputfile);
+    $command = "wdiff --start-insert='<span style=\"font-weight: bold;\">' --end-insert='</span>' --start-delete='<span style=\"text-decoration: line-through;\">' --end-delete='</span>' $oldfile $newfile > $escapedoutputfile 2>&1";
+
     $database_logs->log ("changes: $command", true);
     exec ($command, $output, $return_var);
     foreach ($output as $line) {
       $database_logs->log ("changes: $line", true);
     }
+    
+    $contents = file_get_contents ($outputfile);
+    $contents = explode ("\n", $contents);
+    foreach ($contents as &$line) {
+      $line = "<p>" . $line . "</p>";
+    }
+    $contents = implode ("\n", $contents);
+    file_put_contents ($outputfile, $contents);
   }
 
 

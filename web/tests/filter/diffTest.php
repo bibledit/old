@@ -31,11 +31,13 @@ private $temporary_folder;
   }
 
 
-  public function testFilter()
+  public function testFilter ()
   {
     Filter_Diff::produceVerseLevel ($this->bible_id, $this->temporary_folder);
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_old.usfm", $this->temporary_folder . "/verses_old.usfm");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_new.usfm", $this->temporary_folder . "/verses_new.usfm");
+    $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_old.txt", $this->temporary_folder . "/verses_old.txt");
+    $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_new.txt", $this->temporary_folder . "/verses_new.txt");
     Filter_Diff::runWDiff ($this->temporary_folder . "/verses_old.usfm", $this->temporary_folder . "/verses_new.usfm", $this->temporary_folder . "/changed_verses.html");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/changed_verses.html", $this->temporary_folder . "/changed_verses.html");
   }
