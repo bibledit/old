@@ -4,7 +4,7 @@
 <p>The personal notifications settings uses checkboxes for improved clarity.</p>
 <p>Users can check the option to be notified by email about deleted consultation notes.</p>
 <p>Exports USFM to clear text each midnight.</p>
-<p>The daily emails with changes in the Bibles have become clearer, with less clutter.</p>
+<p>Clearer emails for the daily changes.</p>
 <p></p>
 <p></p>
 <p></p>
@@ -137,8 +137,8 @@
 
 <h2>Version 0.2</h2>
 <p>27 September 2010</p>
-<p>Many improvements were made</p>
+<p>Many improvements were made.</p>
 
 <h2>Version 0.1</h2>
 <p>26 June 2010</p>
-<p>Initial release</p>
+<p>Initial release.</p>
