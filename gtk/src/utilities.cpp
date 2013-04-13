@@ -184,10 +184,10 @@ bool replace_text(ustring & line, const ustring & look_for, const ustring & repl
 // Replaces some text. Returns true if any replacement was done.
 {
   bool replacements_done = false;
-  size_t offposition = line.find(look_for);
+  size_t offposition = line.find (look_for);
   while (offposition != string::npos) {
-    line.replace(offposition, look_for.length(), replace_with);
-    offposition = line.find(look_for, offposition + replace_with.length());
+    line.replace (offposition, look_for.length (), replace_with);
+    offposition = line.find (look_for, offposition + replace_with.length ());
     replacements_done = true;
   }
   return replacements_done;
