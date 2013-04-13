@@ -5,7 +5,7 @@
 <p>Users can check the option to be notified by email about deleted consultation notes.</p>
 <p>Exports USFM to clear text each midnight.</p>
 <p>Clearer emails for the daily changes.</p>
-<p></p>
+<p>Can access password protected git repositories through the https protocol, as used on github.com.</p>
 <p></p>
 <p></p>
 <p></p>
