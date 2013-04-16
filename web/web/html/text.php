@@ -364,19 +364,30 @@ class Html_Text
 
 
   /**
-  * This saves the web page to file
-  * $name: the name of the file to save to.
+  * This gets and then returns the html text
   */
-  public function save ($name)
+  public function getHtml () // Todo
   {
     // Add possible notes.
     if (isset ($this->notesDivDomNode)) {
       $this->bodyDomNode->appendChild ($this->notesDivDomNode);
       unset ($this->notesDivDomNode);
     }
-    // Save.
+    // Get the html.
     $this->htmlDom->formatOutput = true;
-    $string = $this->htmlDom->saveHTMLFile ($name);
+    $string = $this->htmlDom->saveHTML ();
+    return $string;
+  }
+
+
+  /**
+  * This saves the web page to file
+  * $name: the name of the file to save to.
+  */
+  public function save ($name)
+  {
+    $this->getHtml ();
+    $this->htmlDom->saveHTMLFile ($name);
   }
 
 
