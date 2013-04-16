@@ -160,9 +160,9 @@ AssistantBase("Restore", "restore")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
-  label_progress = gtk_label_new ("");
+  label_progress = gtk_label_new ("Restore is in progress");
   gtk_widget_show (label_progress);
-  gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
+  page_number_progress = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
 
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
@@ -272,7 +272,7 @@ void RestoreAssistant::on_assistant_apply ()
   }
  
   // Show summary.
-  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
+  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), page_number_progress);
 }
 
 

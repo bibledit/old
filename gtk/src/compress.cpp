@@ -100,25 +100,25 @@ bool uncompress(const ustring & archive, const ustring & directory)
     return false;
   }
   // Ensure that the output directory is there.
-  gw_mkdir_with_parents(directory);
+  gw_mkdir_with_parents (directory);
 
   // Get the uncompression identifier.
-  int uncompression_identifier = uncompression_identifier_get(archive);
+  int uncompression_identifier = uncompression_identifier_get (archive);
 
   // Do the uncompression.
   int result = -1;
   switch (uncompression_identifier) {
   case 1:
     {
-      GwSpawn spawn("unzip");
-      spawn.arg("-o");
-      if (!directory.empty()) {
-        spawn.arg("-d");
-        spawn.arg(directory);
+      GwSpawn spawn ("unzip");
+      spawn.arg ("-o");
+      if (!directory.empty ()) {
+        spawn.arg ("-d");
+        spawn.arg (directory);
       }
-      spawn.arg(archive);
-      spawn.progress("Unpacking", false);
-      spawn.run();
+      spawn.arg (archive);
+      spawn.progress ("Unpacking", false);
+      spawn.run ();
       result = 0;
       break;
     }
