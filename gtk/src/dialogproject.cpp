@@ -50,7 +50,7 @@
 #define NEW_PROJECT "New Project"
 
 
-ProjectDialog::ProjectDialog(bool newproject)
+ProjectDialog::ProjectDialog (bool newproject)
 {
   // Settings.
   extern Settings *settings;
@@ -103,13 +103,13 @@ ProjectDialog::ProjectDialog(bool newproject)
   gtk_widget_show(messagelabel);
   gtk_box_pack_start(GTK_BOX(vbox1), messagelabel, FALSE, FALSE, 0);
 
-  checkbutton_editable = gtk_check_button_new_with_mnemonic("Editable");
+  checkbutton_editable = gtk_check_button_new_with_mnemonic ("Editable");
   gtk_widget_show(checkbutton_editable);
   gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_editable, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_editable);
 
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_editable), projectconfig->editable_get());
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_editable), projectconfig->editable_get() || newproject);
 
   table1 = gtk_table_new(3, 3, FALSE);
   gtk_widget_show(table1);
