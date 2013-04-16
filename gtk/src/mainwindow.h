@@ -228,8 +228,6 @@ protected:
   GtkWidget *check_punctuation_menu;
   GtkWidget *check_matching_pairs;
   GtkWidget *image7367;
-  GtkWidget *check_sentence_structure;
-  GtkWidget *image28475;
   GtkWidget *check_references;
   GtkWidget *image21826;
   GtkWidget *check_references_menu;
@@ -505,8 +503,6 @@ protected:
   void on_synoptic_parallel_passages_from_the_nt();
   static void on_parallels_from_the_ot_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_parallels_from_the_ot();
-  static void on_check_sentence_structure_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_check_sentence_structure();
   static void on_check_spelling_error_next_activate (GtkMenuItem *menuitem, gpointer user_data);
   static void on_check_spelling_error_previous_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_check_spelling_error(bool next, bool extremity);

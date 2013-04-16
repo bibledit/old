@@ -52,7 +52,6 @@ bool scripture_checks_validate_references (WindowReferences * references_window,
 void scripture_checks_nt_quotations_from_ot (WindowReferences * references_window);
 void scripture_checks_synoptic_parallels_from_nt (WindowReferences * references_window);
 void scripture_checks_parallels_from_ot (WindowReferences * references_window);
-bool scripture_checks_sentence_structure (WindowReferences * references_window, CollectCheckingResults * results);
 
 
 #endif

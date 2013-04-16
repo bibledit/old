@@ -968,7 +968,6 @@ navigation(0), httpd(0)
   check_punctuation = NULL;
   check_punctuation_menu = NULL;
   check_matching_pairs = NULL;
-  check_sentence_structure = NULL;
   check_references = NULL;
   check_references_menu = NULL;
   check_references_inventory = NULL;
@@ -1132,14 +1131,6 @@ navigation(0), httpd(0)
     image7367 = gtk_image_new_from_stock("gtk-refresh", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image7367);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_matching_pairs), image7367);
-
-    check_sentence_structure = gtk_image_menu_item_new_with_mnemonic("_Sentence structure");
-    gtk_widget_show(check_sentence_structure);
-    gtk_container_add(GTK_CONTAINER(check_punctuation_menu), check_sentence_structure);
-
-    image28475 = gtk_image_new_from_stock("gtk-justify-fill", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image28475);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_sentence_structure), image28475);
 
     check_references = gtk_image_menu_item_new_with_mnemonic("_References");
     gtk_widget_show(check_references);
@@ -1654,8 +1645,6 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) unwanted_words, "activate", G_CALLBACK(on_unwanted_words_activate), gpointer(this));
   if (check_matching_pairs)
     g_signal_connect((gpointer) check_matching_pairs, "activate", G_CALLBACK(on_check_matching_pairs_activate), gpointer(this));
-  if (check_sentence_structure)
-    g_signal_connect((gpointer) check_sentence_structure, "activate", G_CALLBACK(on_check_sentence_structure_activate), gpointer(this));
   if (word_count_inventory)
     g_signal_connect((gpointer) word_count_inventory, "activate", G_CALLBACK(on_word_count_inventory_activate), gpointer(this));
   if (check_references_inventory)
@@ -3334,18 +3323,6 @@ void MainWindow::on_parallels_from_the_ot()
   save_editors();
   show_references_window();
   scripture_checks_parallels_from_ot(window_references);
-}
-
-void MainWindow::on_check_sentence_structure_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_check_sentence_structure();
-}
-
-void MainWindow::on_check_sentence_structure()
-{
-  save_editors();
-  show_references_window();
-  scripture_checks_sentence_structure(window_references, NULL);
 }
 
 
