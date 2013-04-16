@@ -399,12 +399,12 @@ void ProjectDialog::on_ok()
   // Deal with possible new projectname.
   if (currentprojectname != newprojectname) {
     // Move project.
-    project_move(currentprojectname, newprojectname);
+    project_move (currentprojectname, newprojectname);
   }
   // Save settings.
   extern Settings *settings;
   settings->genconfig.project_set(newprojectname);
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  ProjectConfiguration *projectconfig = settings->projectconfig (settings->genconfig.project_get ());
   projectconfig->versification_set(combobox_get_active_string(combobox_versification));
   projectconfig->language_set(combobox_get_active_string(combobox_language));
   projectconfig->editable_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_editable)));
@@ -505,17 +505,17 @@ void ProjectDialog::on_book_add()
  * If the user adds book(s), templates of the book are placed in the project.
  * The templates contain markers for chapters, verses, and the basics.
  */
-  vector < unsigned int >selectables;
-  set < unsigned int >selection;
-  vector < unsigned int >scripture_books = project_get_books(currentprojectname);
-  set < unsigned int >currentbooks;
+  vector <unsigned int> selectables;
+  set <unsigned int> selection;
+  vector <unsigned int> scripture_books = project_get_books (currentprojectname);
+  set <unsigned int> currentbooks;
   for (unsigned int i = 0; i < scripture_books.size(); i++)
-    currentbooks.insert(scripture_books[i]);
+    currentbooks.insert (scripture_books[i]);
   {
-    vector < unsigned int >ids = books_type_to_ids(btUnknown);
+    vector <unsigned int> ids = books_type_to_ids (btUnknown);
     for (unsigned int i = 0; i < ids.size(); i++) {
       if (currentbooks.find(ids[i]) == currentbooks.end())
-        selectables.push_back(ids[i]);
+        selectables.push_back (ids[i]);
     }
   }
   books_standard_order(selectables);
@@ -526,13 +526,13 @@ void ProjectDialog::on_book_add()
   int result = dialog.run();
   if (result == GTK_RESPONSE_OK) {
     selection = dialog.selectionset;
-    vector < unsigned int >ids = books_type_to_ids(btUnknown);
-    ProgressWindow progresswindow("Adding books", false);
-    progresswindow.set_iterate(0, 1, ids.size());
+    vector <unsigned int> ids = books_type_to_ids(btUnknown);
+    ProgressWindow progresswindow ("Adding books", false);
+    progresswindow.set_iterate (0, 1, selection.size());
     for (unsigned int i = 0; i < ids.size(); i++) {
-      progresswindow.iterate();
       if (!(selection.find(ids[i]) == selection.end())) {
-        vector < ustring > booktemplate;
+        progresswindow.iterate();
+        vector <ustring> booktemplate;
         // If the book is found in the templates, take that, else create it.
         ustring englishbook = books_id_to_english(ids[i]);
         ustring templatefile = englishbook.casefold() + ".usfm";
