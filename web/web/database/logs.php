@@ -84,7 +84,7 @@ class Database_Logs
     $result  = $server->runQuery ($query);
     $count = $result->fetch_row ();
     $count = $count[0];
-    $amount = 60;
+    $amount = 250;
     $limit = $count - ($page * $amount);
     if ($limit < 0) {
       $amount = $amount + $limit;
