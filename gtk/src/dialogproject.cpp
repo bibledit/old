@@ -58,11 +58,12 @@ ProjectDialog::ProjectDialog (bool newproject)
   // Save variables.
   if (newproject) {
     // Make "New Project".
-    project_create_restore(NEW_PROJECT, "");
+    project_create_restore (NEW_PROJECT, "");
     currentprojectname = NEW_PROJECT;
   } else {
-    currentprojectname = settings->genconfig.project_get();
+    currentprojectname = settings->genconfig.project_get ();
   }
+  focusbook = 0;
 
   // Get project information.
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
@@ -394,7 +395,7 @@ void ProjectDialog::set_gui()
 }
 
 
-void ProjectDialog::on_ok()
+void ProjectDialog::on_ok ()
 {
   // Deal with possible new projectname.
   if (currentprojectname != newprojectname) {
@@ -486,6 +487,14 @@ void ProjectDialog::on_ok()
     }
 
   }
+  
+  // Set the book to focus in the editor.
+  if (focusbook == 0) {
+    vector <unsigned int> books = project_get_books (newprojectname);
+    if (books.size () > 0) {
+      focusbook = books [0];
+    }
+  }
 
 }
 
@@ -534,7 +543,7 @@ void ProjectDialog::on_book_add()
         progresswindow.iterate();
         vector <ustring> booktemplate;
         // If the book is found in the templates, take that, else create it.
-        ustring englishbook = books_id_to_english(ids[i]);
+        ustring englishbook = books_id_to_english (ids[i]);
         ustring templatefile = englishbook.casefold() + ".usfm";
         replace_text(templatefile, " ", "_");
         templatefile = gw_build_filename(directories_get_package_data(), templatefile);
@@ -557,6 +566,10 @@ void ProjectDialog::on_book_add()
         }
         CategorizeChapterVerse ccv(booktemplate);
         project_store_book(currentprojectname, ids[i], ccv);
+        // The book to be focused in the Bible text editor.
+        if (focusbook == 0) {
+          focusbook = ids[i];
+        }
       }
     }
   }
@@ -607,8 +620,9 @@ void ProjectDialog::on_book_delete()
 
   }
   // Update GUI.
-
   set_gui();
+  // No book yet to focus in the Bible text editor.
+  focusbook = 0;
 }
 
 

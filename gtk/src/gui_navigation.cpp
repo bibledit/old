@@ -288,7 +288,7 @@ void GuiNavigation::clampref(Reference & reference)
 }
 
 
-void GuiNavigation::display(const Reference & ref)
+void GuiNavigation::display (const Reference & ref)
 // This has the reference displayed.
 {
   // Check whether the book is known to Bibledit. If not, bail out.

@@ -33,6 +33,7 @@ public:
   ~ProjectDialog ();
   int run ();
   ustring newprojectname;
+  int focusbook;
 protected:
   GtkWidget *projectdialog;
   GtkWidget *dialog_vbox1;

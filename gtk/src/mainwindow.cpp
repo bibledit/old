@@ -1883,11 +1883,13 @@ void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data)
 }
 
 
-void MainWindow::newproject()
+void MainWindow::newproject ()
 {
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
     on_file_project_open(projectdialog.newprojectname, false);
+    // Focus the desired book.
+    navigation.display (Reference (projectdialog.focusbook, 1, "1"));
   }
 }
 
@@ -1898,7 +1900,7 @@ void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_d
 }
 
 
-void MainWindow::editproject()
+void MainWindow::editproject ()
 {
   save_editors();
   // Show project dialog.
@@ -1911,18 +1913,20 @@ void MainWindow::editproject()
       editor_window->load_dictionaries();
     }
     // As anything could have been changed to the project, reopen it.
-    reload_all_editors(false);
+    reload_all_editors (false);
+    // Focus the desired book.
+    navigation.display (Reference (projectdialog.focusbook, 1, "1"));
   }
 }
 
 
-void MainWindow::on_delete1_activate(GtkMenuItem * menuitem, gpointer user_data)
+void MainWindow::on_delete1_activate (GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->deleteproject();
+  ((MainWindow *) user_data)->deleteproject ();
 }
 
 
-void MainWindow::deleteproject()
+void MainWindow::deleteproject ()
 {
   // Get all projects, leave the current one and the non-editable ones out.
   extern Settings *settings;
