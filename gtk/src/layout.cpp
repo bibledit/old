@@ -24,15 +24,18 @@
 #include "screen.h"
 #include "gwrappers.h"
 
+
 ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget * window)
 {
-  mywindow = GTK_WINDOW(window);
+  mywindow = GTK_WINDOW (window);
   counter = 0;
 }
+
 
 ScreenLayoutDimensions::~ScreenLayoutDimensions()
 {
 }
+
 
 void ScreenLayoutDimensions::verify()
 // Set the dimensions in the screen.
@@ -42,11 +45,11 @@ void ScreenLayoutDimensions::verify()
   
   // If the screen resolution got changed, or if the windows are too big, recalculate the values.
   bool recalculate = false;
-  GdkScreen *screen = gtk_window_get_screen(mywindow);
-  int real_screen_width = gdk_screen_get_width(screen);
-  int stored_screen_width = settings->genconfig.screen_width_get();
-  int real_screen_height = gdk_screen_get_height(screen);
-  int stored_screen_height = settings->genconfig.screen_height_get();
+  GdkScreen *screen = gtk_window_get_screen (mywindow);
+  int real_screen_width = gdk_screen_get_width (screen);
+  int stored_screen_width = settings->genconfig.screen_width_get ();
+  int real_screen_height = gdk_screen_get_height (screen);
+  int stored_screen_height = settings->genconfig.screen_height_get ();
   if (real_screen_width != stored_screen_width)
     recalculate = true;
   if (real_screen_height != stored_screen_height)
@@ -82,8 +85,9 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.window_x_position_set(x);
     settings->genconfig.window_y_position_set(y);
   }
-  gtk_window_set_default_size(GTK_WINDOW(mywindow), width, height);
-  gtk_window_set_position (GTK_WINDOW(mywindow),GTK_WIN_POS_CENTER);
+cout << "gtk_window_set_default_size, window " << mywindow << ", width " << width << ", height: " << height << endl; // Todo
+  gtk_window_set_default_size (GTK_WINDOW (mywindow), width, height);
+  gtk_window_set_position (GTK_WINDOW (mywindow),GTK_WIN_POS_CENTER);
 }
 
 
@@ -91,7 +95,7 @@ void ScreenLayoutDimensions::apply()
 // Applies the stored dimensions to the main window.
 {
   // The dimension are applies with a delay so as to give the window a change to settle.
-  g_timeout_add(100, GSourceFunc(on_timeout), gpointer(this));
+  g_timeout_add (300, GSourceFunc(on_timeout), gpointer(this));
 }
 
 
@@ -120,11 +124,13 @@ void ScreenLayoutDimensions::save()
   }
 }
 
-bool ScreenLayoutDimensions::on_timeout(gpointer data)
+
+bool ScreenLayoutDimensions::on_timeout (gpointer data)
 {
   ((ScreenLayoutDimensions *) data)->timeout();
   return false;
 }
+
 
 void ScreenLayoutDimensions::timeout()
 // Apply the dimensions after a timeout.
@@ -134,10 +140,25 @@ void ScreenLayoutDimensions::timeout()
   gint height = settings->genconfig.window_height_get ();
   gint x = settings->genconfig.window_x_position_get ();
   gint y = settings->genconfig.window_y_position_get ();
-  gtk_window_resize (mywindow, width, height);
-  gtk_window_move (mywindow, x, y);
-  if (settings->genconfig.window_maximized_get () || settings->genconfig.start_program_maximized_get ()) {
-    gtk_window_maximize(GTK_WINDOW (mywindow));
+  cout << "Intending to deal with window: " << mywindow << endl; // Todo
+  cout << "Desired width: " << width << endl; // Todo
+  cout << "Desired height: " << height << endl; // Todo
+  cout << "Desired x: " << x << endl; // Todo
+  cout << "Desired y: " << y << endl; // Todo
+  if (mywindow) {
+    if ((width > 50) && (height > 50)) {
+      if ((x >= 0) && (y >= 0)) {
+        cout << "Not resizing window " << mywindow << " to width " << width << " and height " << height << endl; // Todo
+        // The following crashes at times with macports on Mac OS X:
+        //gtk_window_resize (mywindow, width, height);
+        cout << "Moving window " << mywindow << " to x " << x << " and y " << y << endl; // Todo
+        gtk_window_move (mywindow, x, y);
+      }
+    }
+    if (settings->genconfig.window_maximized_get () || settings->genconfig.start_program_maximized_get ()) {
+      cout << "Maximizing the window" << endl; // Todo
+      gtk_window_maximize (GTK_WINDOW (mywindow));
+    }
   }
   delete this;
 }

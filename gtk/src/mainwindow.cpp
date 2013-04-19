@@ -1751,13 +1751,13 @@ navigation(0), httpd(0)
 #endif
 
   // Display project notes.
-  notes_redisplay();
+  notes_redisplay ();
 
   // Start bibledit http responder.
-  g_timeout_add(300, GSourceFunc(on_check_httpd_timeout), gpointer(this));
+  g_timeout_add (300, GSourceFunc(on_check_httpd_timeout), gpointer(this));
 
   // Show open windows.
-  g_timeout_add(300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
+  g_timeout_add (300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
   
   // Start listening to messages directed to us.
   interprocess_communications_initiate_listener ();
@@ -1770,7 +1770,7 @@ MainWindow::~MainWindow()
   gw_destroy_source (interprocess_communications_initiate_listener_event_id);
 
   // Store main window dimensions if windows are attached.
-  ScreenLayoutDimensions dimensions(window_main);
+  ScreenLayoutDimensions dimensions (window_main);
   dimensions.save();
   
   // Shut down the various windows.
