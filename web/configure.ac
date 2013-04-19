@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.8.6],[http://bibledit.org])
+AC_INIT([bibledit-web],[0.8.7],[http://bibledit.org])
 ac_default_prefix=/usr
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AC_CONFIG_HEADERS([config.php])

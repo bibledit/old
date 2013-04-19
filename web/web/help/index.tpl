@@ -4,6 +4,3 @@
 <p><a href="consultations.php">{t}Consultations{/t}</a></p>
 <p><a href="typesetting.php">{t}Typesetting{/t}</a></p>
 <p><a href="about.php">{t}About{/t}</a></p>
-{foreach key=key item=item from=$plugins} 
-  <p><a href={$key}>{$item}</a></p>
-{/foreach} 

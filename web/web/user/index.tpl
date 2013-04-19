@@ -15,9 +15,6 @@
     <p><a href="notifications.php">{t}Notifications{/t}</a></p>
     <p><a href="account.php">{t}Account{/t}</a></p>
     <p><a href="timezone.php">{t}Timezone{/t}</a></p>
-    {foreach key=key item=item from=$plugins} 
-      <p><a href={$key}>{$item}</a></p>
-    {/foreach} 
     {include file=../assets/footer_full.tpl} 
   </body>
 </html>

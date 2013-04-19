@@ -7,6 +7,3 @@
 <p><a href="language.php">Language</a></p>
 <p><a href="searching.php">Searching</a></p>
 <p><a href="phpinfo.php">PHP Info</a></p>
-{foreach key=key item=item from=$plugins} 
-  <p><a href={$key}>{$item}</a></p>
-{/foreach} 
