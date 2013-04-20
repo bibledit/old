@@ -165,6 +165,21 @@ if (($current_timestamp >= $search_timestamp) || $fifteenPastMidnight) {
 unset ($search_timestamp);
 
 
+$checks_timestamp = $config_general->getTimerChecks ();
+if (($current_timestamp >= $checks_timestamp) || $fifteenPastMidnight) {
+  $checks_timestamp += 86400;
+  while ($current_timestamp >= $checks_timestamp) {
+    // This loop updates the checks timestamp to a value larger than the current time.
+    // This avoids calling many checking routines when the routines have not been run for some time.
+    $checks_timestamp += 86400;
+  }
+  $config_general->setTimerChecks ($checks_timestamp);
+  $workingdirectory = dirname (__FILE__);
+  shell_exec ("cd $workingdirectory; php checks.php > /dev/null 2>&1 &");
+}
+unset ($checks_timestamp);
+
+
 function shutdown()
 {
 }

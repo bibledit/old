@@ -75,203 +75,203 @@ class Database_Config_General
   }
   public function setSiteMailName ($value) {
     $this->setValue ("site-mail-name", $value);
-  }   
+  }
 
   public function getSiteMailAddress() {
     return $this->getValue ("site-mail-address", "");
   }
   public function setSiteMailAddress ($value) {
     $this->setValue ("site-mail-address", $value);
-  }   
+  }
 
   public function getMailStorageHost() {
     return $this->getValue ("mail-storage-host", "");
   }
   public function setMailStorageHost ($value) {
     $this->setValue ("mail-storage-host", $value);
-  }   
+  }
 
   public function getMailStorageUsername() {
     return $this->getValue ("mail-storage-username", "");
   }
   public function setMailStorageUsername ($value) {
     $this->setValue ("mail-storage-username", $value);
-  }   
+  }
 
   public function getMailStoragePassword() {
     return $this->getValue ("mail-storage-password", "");
   }
   public function setMailStoragePassword ($value) {
     $this->setValue ("mail-storage-password", $value);
-  }   
+  }
 
   public function getMailStorageSecurity() {
     return $this->getValue ("mail-storage-security", "");
   }
   public function setMailStorageSecurity ($value) {
     $this->setValue ("mail-storage-security", $value);
-  }   
+  }
 
   public function getMailStoragePort() {
     return $this->getValue ("mail-storage-port", "");
   }
   public function setMailStoragePort ($value) {
     $this->setValue ("mail-storage-port", $value);
-  }   
+  }
 
   public function getMailSendHost() {
     return $this->getValue ("mail-send-host", "");
   }
   public function setMailSendHost ($value) {
     $this->setValue ("mail-send-host", $value);
-  }   
+  }
 
   public function getMailSendAuthentication() {
     return $this->getValue ("mail-send-authentication", "");
   }
   public function setMailSendAuthentication ($value) {
     $this->setValue ("mail-send-authentication", $value);
-  }   
+  }
 
   public function getMailSendUsername() {
     return $this->getValue ("mail-send-username", "");
   }
   public function setMailSendUsername ($value) {
     $this->setValue ("mail-send-username", $value);
-  }   
+  }
 
   public function getMailSendPassword() {
     return $this->getValue ("mail-send-password", "");
   }
   public function setMailSendPassword ($value) {
     $this->setValue ("mail-send-password", $value);
-  }   
+  }
 
   public function getMailSendSecurity() {
     return $this->getValue ("mail-send-security", "");
   }
   public function setMailSendSecurity ($value) {
     $this->setValue ("mail-send-security", $value);
-  }   
+  }
 
   public function getMailSendPort() {
     return $this->getValue ("mail-send-port", "");
   }
   public function setMailSendPort ($value) {
     $this->setValue ("mail-send-port", $value);
-  }   
+  }
 
   public function getTimerMinute() {
     return $this->getValue ("timer-minute", "");
   }
   public function setTimerMinute ($value) {
     $this->setValue ("timer-minute", $value);
-  }   
+  }
 
   public function getTimerFiveMinutes() {
     return $this->getValue ("timer-five-minutes", "");
   }
   public function setTimerFiveMinutes ($value) {
     $this->setValue ("timer-five-minutes", $value);
-  }   
+  }
 
   public function getPublicSshKey() {
     return $this->getValue ("public-ssh-key", "");
   }
   public function setPublicSshKey ($value) {
     $this->setValue ("public-ssh-key", $value);
-  }   
+  }
 
   public function getPrivateSshKey() {
     return $this->getValue ("private-ssh-key", "");
   }
   public function setPrivateSshKey ($value) {
     $this->setValue ("private-ssh-key", $value);
-  }   
+  }
 
   public function getTimezone() {
     return $this->getValue ("timezone", "UTC");
   }
   public function setTimezone ($value) {
     $this->setValue ("timezone", $value);
-  }   
+  }
 
   public function getBackupFile() {
     return $this->getValue ("backup-file", "");
   }
   public function setBackupFile ($value) {
     $this->setValue ("backup-file", $value);
-  }   
+  }
 
   public function getTimerBackup() {
     return $this->getValue ("timer-backup", "");
   }
   public function setTimerBackup ($value) {
     $this->setValue ("timer-backup", $value);
-  }   
+  }
 
   public function getTimerDiff() {
     return $this->getValue ("timer-diff", "");
   }
   public function setTimerDiff ($value) {
     $this->setValue ("timer-diff", $value);
-  }   
+  }
 
   public function getTimerExports() {
     return $this->getValue ("timer-exports", "");
   }
   public function setTimerExports ($value) {
     $this->setValue ("timer-exports", $value);
-  }   
+  }
 
   public function getTimerSendReceive() {
     return $this->getValue ("timer-send-receive", "");
   }
   public function setTimerSendReceive ($value) {
     $this->setValue ("timer-send-receive", $value);
-  }   
+  }
 
   public function getSiteURL() {
     return $this->getValue ("site-url", "");
   }
   public function setSiteURL ($value) {
     $this->setValue ("site-url", $value);
-  }   
+  }
 
   public function getExportedBibles() {
     return $this->getList ("exported-bibles", "");
   }
   public function setExportedBibles ($value) {
     $this->setList ("exported-bibles", $value);
-  }   
+  }
 
   public function getExportStylesheet() {
     return $this->getValue ("export-stylesheet", "Standard");
   }
   public function setExportStylesheet ($value) {
     $this->setValue ("export-stylesheet", $value);
-  }   
+  }
 
   public function getExportChapterDropCaps() {
     return $this->getValue ("export-chapter-drop-caps", 0);
   }
   public function setExportChapterDropCaps ($value) {
     $this->setValue ("export-chapter-drop-caps", $value);
-  }   
+  }
 
   public function getHyphenationFirstSet() {
     return $this->getValue ("hyphenation-first-set", "");
   }
   public function setHyphenationFirstSet ($value) {
     $this->setValue ("hyphenation-first-set", $value);
-  }   
+  }
 
   public function getHyphenationSecondSet() {
     return $this->getValue ("hyphenation-second-set", "");
   }
   public function setHyphenationSecondSet ($value) {
     $this->setValue ("hyphenation-second-set", $value);
-  }   
+  }
 
   public function getPageWidth () {
     return $this->getValue ("page-width", 210);
@@ -327,14 +327,14 @@ class Database_Config_General
   }
   public function setSiteLanguage ($value) {
     $this->setValue ("site-language", $value);
-  }   
+  }
 
   public function getTimerSearch () {
     return $this->getValue ("timer-search", "");
   }
   public function setTimerSearch ($value) {
     $this->setValue ("timer-search", $value);
-  }   
+  }
 
   public function getSearchDaemonPort () {
 	// Default port number for the Sphinx search daemon.
@@ -342,7 +342,14 @@ class Database_Config_General
   }
   public function setSearchDaemonPort ($value) {
     $this->setValue ("search-daemon-port", $value);
-  }   
+  }
+
+  public function getTimerChecks () {
+    return $this->getValue ("timer-checks", "");
+  }
+  public function setTimerChecks ($value) {
+    $this->setValue ("timer-checks", $value);
+  }
 
 }
 

@@ -11,3 +11,4 @@
 <p><a href="../styles/indexm.php">{t}Styles{/t}</a></p>
 <p><a href="../notes/manage.php">{t}Consultation Notes{/t}</a></p>
 <p><a href="hyphenation.php">{t}Hyphenation{/t}</a></p>
+<p><a href="../checks/index.php">{t}Checks{/t}</a></p>

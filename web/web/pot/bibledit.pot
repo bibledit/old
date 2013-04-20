@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-19 01:45+0200\n"
+"POT-Creation-Date: 2013-04-20 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -665,6 +665,9 @@ msgstr ""
 msgid "Typesetting in LibreOffice"
 msgstr ""
 
+msgid "Checks"
+msgstr ""
+
 msgid "Warning"
 msgstr ""
 
@@ -1083,18 +1086,6 @@ msgid "The following chapters have been created:"
 msgstr ""
 
 msgid "Public"
-msgstr ""
-
-msgid "Demo plugin menu item 1"
-msgstr ""
-
-msgid "Demo plugin menu item 2"
-msgstr ""
-
-msgid "Demo plugin user menu item 1"
-msgstr ""
-
-msgid "Demo plugin user menu item 2"
 msgstr ""
 
 msgid "Search"
