@@ -85,9 +85,9 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.window_x_position_set(x);
     settings->genconfig.window_y_position_set(y);
   }
-cout << "gtk_window_set_default_size, window " << mywindow << ", width " << width << ", height: " << height << endl; // Todo
+  cout << "gtk_window_set_default_size, window " << mywindow << ", width " << width << ", height: " << height << endl; // Todo
   gtk_window_set_default_size (GTK_WINDOW (mywindow), width, height);
-  gtk_window_set_position (GTK_WINDOW (mywindow),GTK_WIN_POS_CENTER);
+  // Todo switched off for Mac OS X crash gtk_window_set_position (GTK_WINDOW (mywindow),GTK_WIN_POS_CENTER);
 }
 
 
@@ -151,8 +151,10 @@ void ScreenLayoutDimensions::timeout()
         cout << "Not resizing window " << mywindow << " to width " << width << " and height " << height << endl; // Todo
         // The following crashes at times with macports on Mac OS X:
         //gtk_window_resize (mywindow, width, height);
+#ifndef DARWIN
         cout << "Moving window " << mywindow << " to x " << x << " and y " << y << endl; // Todo
         gtk_window_move (mywindow, x, y);
+#endif
       }
     }
     if (settings->genconfig.window_maximized_get () || settings->genconfig.start_program_maximized_get ()) {
@@ -162,4 +164,6 @@ void ScreenLayoutDimensions::timeout()
   }
   delete this;
 }
+
+
 
