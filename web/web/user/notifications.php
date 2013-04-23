@@ -36,17 +36,23 @@ if (isset ($_GET['assignednotenotificationtoggle'])) {
 $assignment_notification = $database_config_user->getAssignedConsultationNoteNotification();
 $smarty->assign ("assignment_notification", $assignment_notification);
 
+if (isset ($_GET['deletednotenotificationtoggle'])) {
+  $database_config_user->setDeletedConsultationNoteNotification(!$database_config_user->getDeletedConsultationNoteNotification());
+}
+$deleted_note_notification = $database_config_user->getDeletedConsultationNoteNotification();
+$smarty->assign ("deleted_note_notification", $deleted_note_notification);
+
 if (isset ($_GET['biblechangesnotificationtoggle'])) {
   $database_config_user->setBibleChangesNotification(!$database_config_user->getBibleChangesNotification());
 }
 $bible_changes_notification = $database_config_user->getBibleChangesNotification();
 $smarty->assign ("bible_changes_notification", $bible_changes_notification);
 
-if (isset ($_GET['deletednotenotificationtoggle'])) {
-  $database_config_user->setDeletedConsultationNoteNotification(!$database_config_user->getDeletedConsultationNoteNotification());
+if (isset ($_GET['biblechecksnotificationtoggle'])) {
+  $database_config_user->setBibleChecksNotification (!$database_config_user->getBibleChecksNotification ());
 }
-$deleted_note_notification = $database_config_user->getDeletedConsultationNoteNotification();
-$smarty->assign ("deleted_note_notification", $deleted_note_notification);
+$bible_checks_notification = $database_config_user->getBibleChecksNotification ();
+$smarty->assign ("bible_checks_notification", $bible_checks_notification);
 
 $smarty->display("notifications.tpl");
 Assets_Page::footer ();

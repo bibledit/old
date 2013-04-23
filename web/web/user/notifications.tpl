@@ -26,33 +26,38 @@
 {t}Get notified by email about:{/t}
 </p>
 
-<ul>
-<li>
+<p>
 <a href="notifications.php?subscribednotenotificationtoggle=">
 {if $subscription_notification == true} ☑ {else} ☐ {/if}
 </a>
 {t}changes in consultation notes you are subscribed to.{/t}
-</li>
+</p>
 
-<li>
+<p>
 <a href="notifications.php?assignednotenotificationtoggle=">
 {if $assignment_notification == true} ☑ {else} ☐ {/if}
 </a>
 {t}changes in consultation notes assigned to you.{/t}
-</li>
+</p>
 
-<li>
-<a href="notifications.php?biblechangesnotificationtoggle=">
-{if $bible_changes_notification == true} ☑ {else} ☐ {/if}
-</a>
-{t}changes in the text of the Bibles.{/t}
-</li>
-
-<li>
+<p>
 <a href="notifications.php?deletednotenotificationtoggle=">
 {if $deleted_note_notification == true} ☑ {else} ☐ {/if}
 </a>
 {t}deleted consultation notes.{/t}
-</li>
+</p>
 
-</ul>
+<p>
+<a href="notifications.php?biblechangesnotificationtoggle=">
+{if $bible_changes_notification == true} ☑ {else} ☐ {/if}
+</a>
+{t}changes in the text of the Bibles.{/t}
+</p>
+
+<p>
+<a href="notifications.php?biblechecksnotificationtoggle=">
+{if $bible_checks_notification == true} ☑ {else} ☐ {/if}
+</a>
+{t}results of running checks on the text of the Bibles.{/t}
+</p>
+
