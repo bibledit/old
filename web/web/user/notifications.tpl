@@ -60,4 +60,3 @@
 </a>
 {t}results of running checks on the text of the Bibles.{/t}
 </p>
-

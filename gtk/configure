@@ -2832,6 +2832,7 @@ ac_config_headers="$ac_config_headers config.h"
 
 
 
+CXXFLAGS="-g -O0 ${CXXFLAGS}"
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
