@@ -12230,6 +12230,27 @@ CREATE TABLE IF NOT EXISTS git (
   directory varchar(1024), output varchar (1024)
 );
 
+
+CREATE TABLE IF NOT EXISTS check_output (
+  id int auto_increment primary key,
+  bible int,
+  book int,
+  chapter int,
+  verse int,
+  data text
+);
+
+
+CREATE TABLE IF NOT EXISTS check_suppress (
+  id int auto_increment primary key,
+  bible int,
+  book int,
+  chapter int,
+  verse int,
+  data text
+);
+
+
 DROP PROCEDURE IF EXISTS upgrades;
 DELIMITER ;;
 CREATE PROCEDURE upgrades ()
