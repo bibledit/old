@@ -85,9 +85,8 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.window_x_position_set(x);
     settings->genconfig.window_y_position_set(y);
   }
-  cout << "gtk_window_set_default_size, window " << mywindow << ", width " << width << ", height: " << height << endl; // Todo
   gtk_window_set_default_size (GTK_WINDOW (mywindow), width, height);
-  // Todo switched off for Mac OS X crash gtk_window_set_position (GTK_WINDOW (mywindow),GTK_WIN_POS_CENTER);
+  gtk_window_set_position (GTK_WINDOW (mywindow), GTK_WIN_POS_NONE);
 }
 
 
@@ -140,16 +139,10 @@ void ScreenLayoutDimensions::timeout()
   gint height = settings->genconfig.window_height_get ();
   gint x = settings->genconfig.window_x_position_get ();
   gint y = settings->genconfig.window_y_position_get ();
-  cout << "Intending to deal with window: " << mywindow << endl; // Todo
-  cout << "Desired width: " << width << endl; // Todo
-  cout << "Desired height: " << height << endl; // Todo
-  cout << "Desired x: " << x << endl; // Todo
-  cout << "Desired y: " << y << endl; // Todo
   if (mywindow) {
     if ((width > 50) && (height > 50)) {
       if ((x >= 0) && (y >= 0)) {
-        // The following crashes on some versions of Mac OS X when bibledit-gtk is installed through macports
-        // It can be skipped, because it does not provide additional functionality.
+        // The following crashes on some installations of some versions of Mac OS X:
         // gtk_window_resize (mywindow, width, height);
 #ifndef DARWIN
         // Function gtk_window_move crashes on some version of Mac OS X 
@@ -160,7 +153,6 @@ void ScreenLayoutDimensions::timeout()
       }
     }
     if (settings->genconfig.window_maximized_get () || settings->genconfig.start_program_maximized_get ()) {
-      cout << "Maximizing the window" << endl; // Todo
       gtk_window_maximize (GTK_WINDOW (mywindow));
     }
   }

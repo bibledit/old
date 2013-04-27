@@ -92,7 +92,6 @@ int main(int argc, char *argv[])
     close(2);
     if (dup(1));
   }
-  cout << "The log file is at " << log_file_name (lftMain, false) << endl; // Todo
 
   // Check on runtime requirements.
   runtime_initialize ();

@@ -19,21 +19,6 @@
 </p>
 
 
-<table>
-  <thead>
-    <tr>
-      <td>{t}Timestamp{/t}</td>
-      <td></td>
-      <td>{t}Event{/t}</td>
-    </tr>
-  </thead>
-  <tbody>
-    {section name=offset loop=$timestamps} 
-    <tr>
-      <td>{$timestamps[offset]}</td>
-      <td>|</td>
-      <td>{$events[offset]}</td>
-    </tr>
-    {/section} 
-  </tbody>
-</table>
+{section name=offset loop=$timestamps} 
+<p>{$timestamps[offset]} | {$events[offset]}</p>
+{/section} 

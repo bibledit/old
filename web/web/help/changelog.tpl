@@ -6,7 +6,7 @@
 <p>Exports USFM to clear text each midnight.</p>
 <p>Clearer emails for the daily changes.</p>
 <p>Can access password protected git repositories through the https protocol, as used on github.com.</p>
-<p></p>
+<p>The layout of the logbook is more compact in case of long entries.</p>
 <p></p>
 <p></p>
 
