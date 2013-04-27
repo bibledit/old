@@ -3,8 +3,9 @@
 
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit-gtk],[4.7.9],[http://www.nongnu.org/bibledit])
-# AC_CANONICAL_TARGET
+AC_INIT([bibledit-gtk],[4.7.10],[http://www.nongnu.org/bibledit])
+AC_CANONICAL_TARGET
+AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
@@ -315,6 +316,7 @@ AC_OUTPUT
 echo "
 Bibledit-Gtk $VERSION configuration summary:
 
+  Host operating system  : ${host_os}
   Version                : ${PACKAGE_VERSION}
   Installation prefix    : ${prefix}
 "

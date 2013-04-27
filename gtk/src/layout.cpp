@@ -148,10 +148,12 @@ void ScreenLayoutDimensions::timeout()
   if (mywindow) {
     if ((width > 50) && (height > 50)) {
       if ((x >= 0) && (y >= 0)) {
-        cout << "Not resizing window " << mywindow << " to width " << width << " and height " << height << endl; // Todo
-        // The following crashes at times with macports on Mac OS X:
-        //gtk_window_resize (mywindow, width, height);
+        // The following crashes on some versions of Mac OS X when bibledit-gtk is installed through macports
+        // It can be skipped, because it does not provide additional functionality.
+        // gtk_window_resize (mywindow, width, height);
 #ifndef DARWIN
+        // Function gtk_window_move crashes on some version of Mac OS X 
+        // when bibledit-gtk is installed through macports.
         cout << "Moving window " << mywindow << " to x " << x << " and y " << y << endl; // Todo
         gtk_window_move (mywindow, x, y);
 #endif
@@ -164,6 +166,4 @@ void ScreenLayoutDimensions::timeout()
   }
   delete this;
 }
-
-
 
