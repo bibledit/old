@@ -366,7 +366,7 @@ class Html_Text
   /**
   * This gets and then returns the html text
   */
-  public function getHtml () // Todo
+  public function getHtml ()
   {
     // Add possible notes.
     if (isset ($this->notesDivDomNode)) {

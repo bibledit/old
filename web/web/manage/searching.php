@@ -5,7 +5,7 @@ Assets_Page::header (gettext ("Searching"));
 $smarty = new Smarty_Bibledit (__FILE__);
 if (isset($_GET['run'])) {
   $database_config_general = Database_Config_General::getInstance();
-  $database_config_general->setTimerSearch (time ()); // Todo modify for Checks
+  $database_config_general->setTimerSearch (time ());
   $smarty->assign ("success", gettext ("Will index the website within a minute. See the logbook for progress."));
   $database_logs = Database_Logs::getInstance ();
   $database_logs->log (gettext ("Will index the website within a minute"));
