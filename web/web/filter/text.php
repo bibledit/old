@@ -1163,98 +1163,98 @@ class Filter_Text
 
 
   /**
-  * This creates and saves the Info Document.
-  * The Info Document contains formatting information, collected from the USFM code.
+  * This creates and saves the information document.
+  * It contains formatting information, collected from the USFM code.
   * $path: Path to the document.
   */
   public function produceInfoDocument ($path)
   {
     $database_books = Database_Books::getInstance ();
 
-    $odf_text = new Odf_Text;
+    $information = new Html_Text (gettext ("Information"));
     
     // Number of chapters per book.
-    $odf_text->newHeading1 (gettext ("Number of chapters per book"));
+    $information->newHeading1 (gettext ("Number of chapters per book"));
     foreach ($this->numberOfChaptersPerBook as $book => $chapterCount) {
       $line = $database_books->getEnglishFromId ($book) . " => " . $chapterCount;
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
     
     // Running headers.
-    $odf_text->newHeading1 (gettext ("Running headers"));
+    $information->newHeading1 (gettext ("Running headers"));
     foreach ($this->runningHeaders as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
     
     // Table of Contents entries.
-    $odf_text->newHeading1 (gettext ("Long table of contents entries"));
+    $information->newHeading1 (gettext ("Long table of contents entries"));
     foreach ($this->longTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
-    $odf_text->newHeading1 (gettext ("Short table of contents entries"));
+    $information->newHeading1 (gettext ("Short table of contents entries"));
     foreach ($this->shortTOCs as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
 
     // Book abbreviations.
-    $odf_text->newHeading1 (gettext ("Book abbreviations"));
+    $information->newHeading1 (gettext ("Book abbreviations"));
     foreach ($this->bookAbbreviations as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
         
     // Chapter specials.
-    $odf_text->newHeading1 (gettext ("Publishing chapter labels"));
+    $information->newHeading1 (gettext ("Publishing chapter labels"));
     foreach ($this->chapterLabels as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
-    $odf_text->newHeading1 (gettext ("Publishing alternate chapter numbers"));
+    $information->newHeading1 (gettext ("Publishing alternate chapter numbers"));
     foreach ($this->publishedChapterMarkers as $item) {
       $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
 
     // Word lists.
-    $odf_text->newHeading1 (gettext ("Word list, glossary, dictionary entries"));
+    $information->newHeading1 (gettext ("Word list, glossary, dictionary entries"));
     foreach ($this->wordListGlossaryDictionary as $item) {
-      $odf_text->newParagraph ();
-      $odf_text->addText ($item);
+      $information->newParagraph ();
+      $information->addText ($item);
     }
-    $odf_text->newHeading1 (gettext ("Hebrew word list entries"));
+    $information->newHeading1 (gettext ("Hebrew word list entries"));
     foreach ($this->hebrewWordList as $item) {
-      $odf_text->newParagraph ();
-      $odf_text->addText ($item);
+      $information->newParagraph ();
+      $information->addText ($item);
     }
-    $odf_text->newHeading1 (gettext ("Greek word list entries"));
+    $information->newHeading1 (gettext ("Greek word list entries"));
     foreach ($this->greekWordList as $item) {
-      $odf_text->newParagraph ();
-      $odf_text->addText ($item);
+      $information->newParagraph ();
+      $information->addText ($item);
     }
-    $odf_text->newHeading1 (gettext ("Subject index entries"));
+    $information->newHeading1 (gettext ("Subject index entries"));
     foreach ($this->subjectIndex as $item) {
-      $odf_text->newParagraph ();
-      $odf_text->addText ($item);
+      $information->newParagraph ();
+      $information->addText ($item);
     }
     
     // Other info.
-    $odf_text->newHeading1 (gettext ("Other information"));
+    $information->newHeading1 (gettext ("Other information"));
     foreach ($this->info as $line) {
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $information->newParagraph ();
+      $information->addText ($line);
     }
     
-    $odf_text->save ($path);
+    $information->save ($path);
   }
   
   
@@ -1325,13 +1325,13 @@ class Filter_Text
   */
   public function produceFalloutDocument ($path)
   {
-    $odf_text = new Odf_Text;
-    $odf_text->newHeading1 (gettext ("Fallout"));
+    $fallout = new Html_Text (gettext ("Fallout"));
+    $fallout->newHeading1 (gettext ("Fallout"));
     foreach ($this->fallout as $line) {
-      $odf_text->newParagraph ();
-      $odf_text->addText ($line);
+      $fallout->newParagraph ();
+      $fallout->addText ($line);
     }
-    $odf_text->save ($path);
+    $fallout->save ($path);
   }
   
   

@@ -35,7 +35,7 @@ if (php_sapi_name () != "cli") {
 
 
 /*
-Todo implement the checks.
+
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_users = Database_Users::getInstance();

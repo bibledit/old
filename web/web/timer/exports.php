@@ -66,39 +66,44 @@ foreach ($bibles as $bible) {
   mkdir ($bibleDirectory);
 
   
-  // USFM files go into the USFM folder.
-  $usfmDirectory = $bibleDirectory . "/USFM";
+  // Folder where the USFM files go.
+  $usfmDirectory = $bibleDirectory . "/usfm";
   mkdir ($usfmDirectory);
 
 
-  // OpenDocument files go into the OpenDocument folder.
-  $odtDirectory = $bibleDirectory . "/OpenDocument";
+  // Folder for the OpenDocument files.
+  $odtDirectory = $bibleDirectory . "/opendocument";
   mkdir ($odtDirectory);
 
   
   // Folder where the plain web files go.
-  $plainWebDirectory = $bibleDirectory . "/PlainWeb";
+  $plainWebDirectory = $bibleDirectory . "/plainweb";
   mkdir ($plainWebDirectory);
 
   
   // Folder for the interlinked web files.
-  $richWebDirectory = $bibleDirectory . "/Web";
+  $richWebDirectory = $bibleDirectory . "/web";
   mkdir ($richWebDirectory);
 
   
-  // Online Bible files go into the OnlineBible folder.
-  $onlineBibleDirectory = $bibleDirectory . "/OnlineBible";
+  // Folder for the Online Bible file.
+  $onlineBibleDirectory = $bibleDirectory . "/onlinebible";
   mkdir ($onlineBibleDirectory);
 
 
   // Folder for the eSword module.
-  $eSwordDirectory = $bibleDirectory . "/eSword";
+  $eSwordDirectory = $bibleDirectory . "/esword";
   mkdir ($eSwordDirectory);
   
   
   // Folder for the clear text export.
-  $clearTextDirectory = $bibleDirectory . "/Text";
+  $clearTextDirectory = $bibleDirectory . "/text";
   mkdir ($clearTextDirectory);
+  
+
+  // Folder for the information files.
+  $infoDirectory = $bibleDirectory . "/info";
+  mkdir ($infoDirectory);
   
 
   // USFM code of the entire Bible.
@@ -232,11 +237,11 @@ foreach ($bibles as $bible) {
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
   
-  // Create the info OpenDocument for the whole Bible.
-  $filter_text_bible->produceInfoDocument ("$odtDirectory/00_Info.odt");
+  // Create the document with information about the Bible.
+  $filter_text_bible->produceInfoDocument ("$infoDirectory/information.html");
   
-  // Create the fallout document.
-  $filter_text_bible->produceFalloutDocument ("$odtDirectory/00_Fallout.odt");
+  // Create the document with the formatting fallout.
+  $filter_text_bible->produceFalloutDocument ("$infoDirectory/fallout.html");
 
   // Web indexer support files.
   // For each subsequent Bible, sphinxsearch uses a higher TCP port number.
