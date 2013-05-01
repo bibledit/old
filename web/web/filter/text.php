@@ -73,11 +73,11 @@ class Filter_Text
   public $html_text_standard; // Object for creating standard web documents.
   public $html_text_linked; // Object for creating interlinked web documents.
 
-  public $onlinebible_text; // Object for creating the input file for the Online Bible compiler. Todo object may be NULL
+  public $onlinebible_text; // Object for creating the input file for the Online Bible compiler.
 
   public $esword_text; // Object for creating the Bible module for eSword. Todo object may be NULL
 
-  public $text_text; // Object for exporting to plain text. Todo object may be NULL
+  public $text_text; // Object for exporting to plain text.
   
   /**
   * Class constructor.
@@ -105,7 +105,6 @@ class Filter_Text
     $this->notecitations = array ();
     $this->standardContentMarkerFootEndNote = "";
     $this->standardContentMarkerCrossReference = "";
-    $this->onlinebible_text = new Onlinebible_Text (); // Todo do not create by default.
     $this->esword_text = new Esword_Text ($bible); // Todo do not create by default.
   }
   
@@ -421,7 +420,7 @@ class Filter_Text
                     // Reset notes.
                     $this->resetNoteCitations ('book');
                     // Online Bible.
-                    $this->onlinebible_text->storeData ();
+                    if ($this->onlinebible_text) $this->onlinebible_text->storeData ();
                     // Done.
                     break;
                   }
@@ -552,7 +551,7 @@ class Filter_Text
                 if ($this->html_text_standard) $this->html_text_standard->closeTextStyle ();
                 if ($this->html_text_linked) $this->html_text_linked->closeTextStyle ();
 
-                $this->onlinebible_text->storeData ();
+                if ($this->onlinebible_text) $this->onlinebible_text->storeData ();
 
                 // Get the chapter number.
                 $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
@@ -656,7 +655,7 @@ class Filter_Text
                 $this->odf_text_notes->closeTextStyle ();
                 if ($this->html_text_standard) $this->html_text_standard->closeTextStyle ();
                 if ($this->html_text_linked) $this->html_text_linked->closeTextStyle ();
-                $this->onlinebible_text->storeData ();
+                if ($this->onlinebible_text) $this->onlinebible_text->storeData ();
                 // Care for the situation that a new verse starts a new paragraph.
                 if ($style['userbool1']) {
                   if ($this->odf_text_standard->currentParagraphContent != "") {
@@ -777,7 +776,7 @@ class Filter_Text
                 // Unset the chapter variable, whether it was used or not. This makes it ready for subsequent use. 
                 unset ($this->outputChapterTextAtFirstVerse);
                 // Other export formats.
-                $this->onlinebible_text->newVerse ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);
+                if ($this->onlinebible_text) $this->onlinebible_text->newVerse ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);
                 $this->esword_text->newVerse ($this->currentVerseNumber);
                 // Done.
                 break;
@@ -939,7 +938,7 @@ class Filter_Text
           $this->odf_text_text_and_note_citations->addText ($currentItem);
           if ($this->html_text_standard) $this->html_text_standard->addText ($currentItem);
           if ($this->html_text_linked) $this->html_text_linked->addText ($currentItem);
-          $this->onlinebible_text->addText ($currentItem);
+          if ($this->onlinebible_text) $this->onlinebible_text->addText ($currentItem);
           $this->esword_text->addText ($currentItem);
           if (isset ($this->text_text)) {
             $this->text_text->text ($currentItem);
@@ -1002,7 +1001,7 @@ class Filter_Text
                     if ($this->html_text_linked) $this->html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote);
                     // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler.
                     // Just take them out, then.
-                    //$this->onlinebible_text->addNote ();
+                    //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   } else {
                     break 3;
                   }
@@ -1023,7 +1022,7 @@ class Filter_Text
                     if ($this->html_text_standard) $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
                     if ($this->html_text_linked) $this->html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
                     // Online Bible.
-                    //$this->onlinebible_text->addNote ();
+                    //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   } else {
                     break 3;
                   }
@@ -1099,7 +1098,7 @@ class Filter_Text
                     if ($this->html_text_standard) $this->html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference);
                     if ($this->html_text_linked) $this->html_text_linked->addNote ($citation, $this->standardContentMarkerCrossReference);
                     // Online Bible.
-                    //$this->onlinebible_text->addNote ();
+                    //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   } else {
                     break 3;
                   }
@@ -1155,7 +1154,7 @@ class Filter_Text
         $this->odf_text_notes->addText ($currentItem);
         if ($this->html_text_standard) $this->html_text_standard->addNoteText ($currentItem);
         if ($this->html_text_linked) $this->html_text_linked->addNoteText ($currentItem);
-        //$this->onlinebible_text->addText ($currentItem);
+        //if ($this->onlinebible_text) $this->onlinebible_text->addText ($currentItem);
       }
     }
     
@@ -1165,7 +1164,7 @@ class Filter_Text
     $this->odf_text_notes->closeTextStyle ();
     if ($this->html_text_standard) $this->html_text_standard->closeCurrentNote ();
     if ($this->html_text_linked) $this->html_text_linked->closeCurrentNote ();
-    //$this->onlinebible_text->closeCurrentNote ();
+    //if ($this->onlinebible_text) $this->onlinebible_text->closeCurrentNote ();
   }
 
 

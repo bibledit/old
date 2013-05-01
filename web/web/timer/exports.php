@@ -110,9 +110,10 @@ foreach ($bibles as $bible) {
   $bibleUsfmData = "";
 
 
-  // OpenDocument / Web / Online Bible data for the whole Bible.
+  // The text converter for the whole Bible.
   $filter_text_bible = new Filter_Text ($bible); // Todo
   $filter_text_bible->html_text_standard = new Html_Text (gettext ("Bible"));
+  $filter_text_bible->onlinebible_text = new Onlinebible_Text ();
 
   
   // Rich web main index file. 
@@ -239,7 +240,7 @@ foreach ($bibles as $bible) {
   $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
   $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
   $database_logs->log ("exports: Save entire Bible to Online Bible", true);
-  $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
+  $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp"); // Todo create object before.
   $database_logs->log ("exports: Save entire Bible to eSword", true);
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
