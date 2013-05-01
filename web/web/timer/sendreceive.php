@@ -34,6 +34,11 @@ if (php_sapi_name () != "cli") {
 }
 
 
+// Newer git versions would read their config from /root and then generate a fatal error.
+// Fix that here by setting the $HOME variable to something git can read.
+putenv ("HOME=" . dirname (__FILE__));
+
+
 $database_logs->log ("send/receive: Processing any data left over from previous actions");
 Filter_Git::filedata2database ();
 

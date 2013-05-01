@@ -44,7 +44,6 @@ set_time_limit(0);
 register_shutdown_function('shutdown');
 
 
-$log = Database_Logs::getInstance();
 $config_general = Database_Config_General::getInstance ();
 //$processUser = posix_getpwuid(posix_geteuid());
 //$processUser = $processUser['name'];
