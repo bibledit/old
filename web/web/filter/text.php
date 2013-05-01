@@ -38,7 +38,7 @@ class Filter_Text
   
   private $styles; // An array holding arrays of style information.
   private $chapterMarker; // Usually this is: c
-  private $createdOdfStyles; // Array holding styles created in Odf_Text class.
+  private $createdStyles; // Array holding styles created in Odf_Text class.
   
   private $currentBookIdentifier; // Book identifier, e.g. 1, 2, 3, and so on.
   private $currentChapterNumber; // Chapter number, e.g. 1, 2, 3, etc.
@@ -75,7 +75,7 @@ class Filter_Text
 
   public $onlinebible_text; // Object for creating the input file for the Online Bible compiler.
 
-  public $esword_text; // Object for creating the Bible module for eSword. Todo object may be NULL
+  public $esword_text; // Object for creating the Bible module for eSword.
 
   public $text_text; // Object for exporting to plain text.
   
@@ -84,7 +84,7 @@ class Filter_Text
   */
   public function __construct ($bible)
   {
-    $this->createdOdfStyles = array (); // Todo can this be used for not only ODF but any styles created?
+    $this->createdStyles = array ();
     $this->numberOfChaptersPerBook = array ();
     $this->runningHeaders = array ();
     $this->longTOCs = array ();
@@ -105,7 +105,6 @@ class Filter_Text
     $this->notecitations = array ();
     $this->standardContentMarkerFootEndNote = "";
     $this->standardContentMarkerCrossReference = "";
-    $this->esword_text = new Esword_Text ($bible); // Todo do not create by default.
   }
   
 
@@ -252,7 +251,7 @@ class Filter_Text
                       $database_books = Database_Books::getInstance ();
                       $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
                       // Output to some export formats.
-                      $this->esword_text->newBook ($this->currentBookIdentifier);
+                      if ($this->esword_text) $this->esword_text->newBook ($this->currentBookIdentifier);
                       // Reset chapter and verse numbers.
                       $this->currentChapterNumber = 0;
                       $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = 0;
@@ -632,7 +631,7 @@ class Filter_Text
                 }
                 
                 // Output chapter number for other formats.
-                $this->esword_text->newChapter ($this->currentChapterNumber);
+                if ($this->esword_text) $this->esword_text->newChapter ($this->currentChapterNumber);
                 
                 // Open a paragraph for the notes. It takes the style of the footnote content marker, usually 'ft'. 
                 // This is done specifically for the version that has the notes only.
@@ -777,7 +776,7 @@ class Filter_Text
                 unset ($this->outputChapterTextAtFirstVerse);
                 // Other export formats.
                 if ($this->onlinebible_text) $this->onlinebible_text->newVerse ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);
-                $this->esword_text->newVerse ($this->currentVerseNumber);
+                if ($this->esword_text) $this->esword_text->newVerse ($this->currentVerseNumber);
                 // Done.
                 break;
               }
@@ -939,7 +938,7 @@ class Filter_Text
           if ($this->html_text_standard) $this->html_text_standard->addText ($currentItem);
           if ($this->html_text_linked) $this->html_text_linked->addText ($currentItem);
           if ($this->onlinebible_text) $this->onlinebible_text->addText ($currentItem);
-          $this->esword_text->addText ($currentItem);
+          if ($this->esword_text) $this->esword_text->addText ($currentItem);
           if (isset ($this->text_text)) {
             $this->text_text->text ($currentItem);
           }
@@ -1351,7 +1350,7 @@ class Filter_Text
   private function newParagraph ($style, $keepWithNext)
   {
     $marker = $style["marker"];
-    if (!in_array ($marker, $this->createdOdfStyles)) {
+    if (!in_array ($marker, $this->createdStyles)) {
       $fontsize = $style["fontsize"];
       $italic = $style["italic"];
       $bold = $style["bold"];
@@ -1374,7 +1373,7 @@ class Filter_Text
       $this->odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       if ($this->html_text_standard) $this->html_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       if ($this->html_text_linked) $this->html_text_linked->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
-      $this->createdOdfStyles [] = $marker;
+      $this->createdStyles [] = $marker;
     }
     $this->odf_text_standard->newParagraph ($marker);
     $this->odf_text_text_only->newParagraph ($marker);
@@ -1398,7 +1397,7 @@ class Filter_Text
     // To name a style according to the number of characters to put in drop caps,
     // e.g. a style name like p_c1 or p_c2 or p_c3.
     $combined_style = $this->odf_text_standard->currentParagraphStyle . "_" . $this->chapterMarker . $dropCapsLength;
-    if (!in_array ($combined_style, $this->createdOdfStyles)) {
+    if (!in_array ($combined_style, $this->createdStyles)) {
       $style = $this->styles[$this->odf_text_standard->currentParagraphStyle];
       $fontsize = $style["fontsize"];
       $italic = $style["italic"];
@@ -1416,7 +1415,7 @@ class Filter_Text
       $this->odf_text_standard->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
       $this->odf_text_text_only->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
       $this->odf_text_text_and_note_citations->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
-      $this->createdOdfStyles [] = $combined_style;
+      $this->createdStyles [] = $combined_style;
     }
     $this->odf_text_standard->updateCurrentParagraphStyle ($combined_style);
     $this->odf_text_text_only->updateCurrentParagraphStyle ($combined_style);
@@ -1532,7 +1531,7 @@ class Filter_Text
   */
   private function ensureNoteParagraphStyle ($marker, $style)
   {
-    if (!in_array ($marker, $this->createdOdfStyles)) {
+    if (!in_array ($marker, $this->createdStyles)) {
       $fontsize = $style["fontsize"];
       $italic = $style["italic"];
       $bold = $style["bold"];
@@ -1553,7 +1552,7 @@ class Filter_Text
       $this->odf_text_notes->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, 0, 0, 0, 0, 0, $keepWithNext, $dropcaps);
       if ($this->html_text_standard) $this->html_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
       if ($this->html_text_linked) $this->html_text_linked->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
-      $this->createdOdfStyles [] = $marker;
+      $this->createdStyles [] = $marker;
     }
   }
   

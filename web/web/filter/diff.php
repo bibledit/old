@@ -24,8 +24,8 @@ class Filter_Diff
     $old_vs_usfm = array ();
     $new_vs_usfm = array ();
     
-    $filter_text_old = new Filter_Text (""); // Todo
-    $filter_text_new = new Filter_Text (""); // Todo
+    $filter_text_old = new Filter_Text ("");
+    $filter_text_new = new Filter_Text ("");
     $filter_text_old->html_text_standard = new Html_Text (gettext ("Bible"));
     $filter_text_old->text_text = new Text_Text ();
     $filter_text_new->html_text_standard = new Html_Text (gettext ("Bible"));

@@ -114,6 +114,7 @@ foreach ($bibles as $bible) {
   $filter_text_bible = new Filter_Text ($bible); // Todo
   $filter_text_bible->html_text_standard = new Html_Text (gettext ("Bible"));
   $filter_text_bible->onlinebible_text = new Onlinebible_Text ();
+  $filter_text_bible->esword_text = new Esword_Text ($bible);
 
   
   // Rich web main index file. 
@@ -242,8 +243,8 @@ foreach ($bibles as $bible) {
   $database_logs->log ("exports: Save entire Bible to Online Bible", true);
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp"); // Todo create object before.
   $database_logs->log ("exports: Save entire Bible to eSword", true);
-  $filter_text_bible->esword_text->finalize ();
-  $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
+  $filter_text_bible->esword_text->finalize (); // Todo
+  $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx"); // Todo
   
   // Create the document with information about the Bible.
   $filter_text_bible->produceInfoDocument ("$infoDirectory/information.html");
