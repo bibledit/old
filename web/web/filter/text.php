@@ -70,21 +70,21 @@ class Filter_Text
   private $standardContentMarkerFootEndNote;
   private $standardContentMarkerCrossReference;
   
-  public $html_text_standard; // Object for creating standard web documents.
-  public $html_text_linked; // Object for creating interlinked web documents.
+  public $html_text_standard; // Object for creating standard web documents. Todo object may be NULL
+  public $html_text_linked; // Object for creating interlinked web documents. Todo object may be NULL
 
-  public $onlinebible_text; // Object for creating the input file for the Online Bible compiler.
+  public $onlinebible_text; // Object for creating the input file for the Online Bible compiler. Todo object may be NULL
 
-  public $esword_text; // Object for creating the Bible module for eSword.
+  public $esword_text; // Object for creating the Bible module for eSword. Todo object may be NULL
 
-  public $text_text; // Object for exporting to plain text.
+  public $text_text; // Object for exporting to plain text. Todo object may be NULL
   
   /**
   * Class constructor.
   */
   public function __construct ($bible)
   {
-    $this->createdOdfStyles = array ();
+    $this->createdOdfStyles = array (); // Todo can this be used for not only ODF but any styles created?
     $this->numberOfChaptersPerBook = array ();
     $this->runningHeaders = array ();
     $this->longTOCs = array ();
@@ -92,10 +92,10 @@ class Filter_Text
     $this->bookAbbreviations = array ();
     $this->chapterLabels = array ();
     $this->publishedChapterMarkers = array ();
-    $this->odf_text_standard = new Odf_Text;
-    $this->odf_text_text_only = new Odf_Text;
-    $this->odf_text_text_and_note_citations = new Odf_Text;
-    $this->odf_text_notes = new Odf_Text;
+    $this->odf_text_standard = new Odf_Text; // Todo do not create this by default, but make the object independent.
+    $this->odf_text_text_only = new Odf_Text; // Todo do not create this by default, but make the object independent.
+    $this->odf_text_text_and_note_citations = new Odf_Text; // Todo do not create this by default, but make the object independent.
+    $this->odf_text_notes = new Odf_Text; // Todo do not create this by default, but make the object independent.
     $this->info = array ();
     $this->fallout = array ();
     $this->wordListGlossaryDictionary = array ();
@@ -105,10 +105,10 @@ class Filter_Text
     $this->notecitations = array ();
     $this->standardContentMarkerFootEndNote = "";
     $this->standardContentMarkerCrossReference = "";
-    $this->html_text_standard = new Html_Text (gettext ("Bible"));
-    $this->html_text_linked = new Html_Text (gettext ("Bible"));
-    $this->onlinebible_text = new Onlinebible_Text ();
-    $this->esword_text = new Esword_Text ($bible);
+    $this->html_text_standard = new Html_Text (gettext ("Bible")); // Todo do not create by default.
+    $this->html_text_linked = new Html_Text (gettext ("Bible")); // Todo do not create by default.
+    $this->onlinebible_text = new Onlinebible_Text (); // Todo do not create by default.
+    $this->esword_text = new Esword_Text ($bible); // Todo do not create by default.
   }
   
 
