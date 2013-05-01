@@ -47,6 +47,7 @@ $usfm = <<<'EOD'
 \v 2 Text chapter 2
 EOD;
     $filter_text = new Filter_Text ("");
+    $filter_text->odf_text_standard = new Odf_Text;
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     // Check that it finds the running headers.
@@ -94,11 +95,12 @@ $usfm = <<<'EOD'
 \rem Comment
 \xxx Unknown markup
 EOD;
-    $filter_text = new Filter_Text (""); // Todo
+    $filter_text = new Filter_Text ("");
+    $filter_text->odf_text_standard = new Odf_Text;
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     @unlink ("/tmp/TextTest2.odt");
-    $filter_text->odf_text_standard->save("/tmp/TextTest2.odt");
+    $filter_text->odf_text_standard->save ("/tmp/TextTest2.odt");
     exec ("odt2txt /tmp/TextTest2.odt", $output, $return_var);
     $this->assertEquals (array ("", "Genesis 1", "=========", "", "Text Genesis 1", "", "Genesis 2", "=========", "", "Text Genesis 2", "", "Matthew 1", "=========", "", "Text Matthew 1", "", "Matthew 2", "=========", "", "Text Matthew 2", ""), $output);
     $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ',
@@ -123,7 +125,8 @@ $usfm = <<<'EOD'
 \v 4 Verse Four.
 \v 5 Verse Five.
 EOD;
-    $filter_text = new Filter_Text (""); // Todo
+    $filter_text = new Filter_Text ("");
+    $filter_text->odf_text_standard = new Odf_Text;
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     @unlink ("/tmp/TextTest3.odt");
@@ -143,7 +146,8 @@ $usfm = <<<'EOD'
 \id GEN
 \v 1 Text 1\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
 EOD;
-    $filter_text = new Filter_Text (""); // Todo
+    $filter_text = new Filter_Text ("");
+    $filter_text->odf_text_standard = new Odf_Text;
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     @unlink ("/tmp/TextTest4.odt");

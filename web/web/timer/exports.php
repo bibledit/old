@@ -111,10 +111,14 @@ foreach ($bibles as $bible) {
 
 
   // The text converter for the whole Bible.
-  $filter_text_bible = new Filter_Text ($bible); // Todo
+  $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->html_text_standard = new Html_Text (gettext ("Bible"));
   $filter_text_bible->onlinebible_text = new Onlinebible_Text ();
   $filter_text_bible->esword_text = new Esword_Text ($bible);
+  $filter_text_bible->odf_text_standard = new Odf_Text;
+  $filter_text_bible->odf_text_text_only = new Odf_Text;
+  $filter_text_bible->odf_text_text_and_note_citations = new Odf_Text;
+  $filter_text_bible->odf_text_notes = new Odf_Text;
 
   
   // Rich web main index file. 
@@ -151,16 +155,20 @@ foreach ($bibles as $bible) {
     $bookUsfmData = "";
 
     // The text converter per book.
-    $filter_text_book = new Filter_Text ($bible); // Todo
+    $filter_text_book = new Filter_Text ($bible);
     $filter_text_book->html_text_standard = new Html_Text (gettext ("Bible"));
     $filter_text_book->text_text = new Text_Text ();
+    $filter_text_book->odf_text_standard = new Odf_Text;
+    $filter_text_book->odf_text_text_only = new Odf_Text;
+    $filter_text_book->odf_text_text_and_note_citations = new Odf_Text;
+    $filter_text_book->odf_text_notes = new Odf_Text;
 
     // Go through the chapters in this book.
     $chapters = $database_bibles->getChapters ($bible, $book);
     foreach ($chapters as $chapter) {
       
       // Interlinked web data for one chapter.
-      $filter_text_chapter = new Filter_Text ($bible); // Todo
+      $filter_text_chapter = new Filter_Text ($bible);
       $filter_text_chapter->html_text_linked = new Html_Text (gettext ("Bible"));
 
       // Get the USFM code for the current chapter.
@@ -241,10 +249,10 @@ foreach ($bibles as $bible) {
   $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
   $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
   $database_logs->log ("exports: Save entire Bible to Online Bible", true);
-  $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp"); // Todo create object before.
+  $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
   $database_logs->log ("exports: Save entire Bible to eSword", true);
-  $filter_text_bible->esword_text->finalize (); // Todo
-  $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx"); // Todo
+  $filter_text_bible->esword_text->finalize ();
+  $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
   
   // Create the document with information about the Bible.
   $filter_text_bible->produceInfoDocument ("$infoDirectory/information.html");
