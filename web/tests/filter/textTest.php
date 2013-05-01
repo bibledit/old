@@ -46,7 +46,7 @@ $usfm = <<<'EOD'
 \p
 \v 2 Text chapter 2
 EOD;
-    $filter_text = new Filter_Text ("");
+    $filter_text = new Filter_Text (""); // Todo
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     // Check that it finds the running headers.
@@ -94,7 +94,7 @@ $usfm = <<<'EOD'
 \rem Comment
 \xxx Unknown markup
 EOD;
-    $filter_text = new Filter_Text ("");
+    $filter_text = new Filter_Text (""); // Todo
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     @unlink ("/tmp/TextTest2.odt");
@@ -123,7 +123,7 @@ $usfm = <<<'EOD'
 \v 4 Verse Four.
 \v 5 Verse Five.
 EOD;
-    $filter_text = new Filter_Text ("");
+    $filter_text = new Filter_Text (""); // Todo
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     @unlink ("/tmp/TextTest3.odt");
@@ -143,7 +143,7 @@ $usfm = <<<'EOD'
 \id GEN
 \v 1 Text 1\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
 EOD;
-    $filter_text = new Filter_Text ("");
+    $filter_text = new Filter_Text (""); // Todo
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
     @unlink ("/tmp/TextTest4.odt");
@@ -166,7 +166,7 @@ $usfm = <<<'EOD'
 \p
 \v 1 In the be\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*ginning, God created\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f* the heavens and the earth.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*
 EOD;
-    $filter_text = new Filter_Text ("");
+    $filter_text = new Filter_Text (""); // Todo
     $filter_text->text_text = new Text_Text ();
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
@@ -194,7 +194,7 @@ $usfm = <<<'EOD'
 \v 1 Chapter 2, verse one.
 \v 2 Verse two.
 EOD;
-    $filter_text = new Filter_Text ("");
+    $filter_text = new Filter_Text (""); // Todo
     $filter_text->text_text = new Text_Text ();
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");

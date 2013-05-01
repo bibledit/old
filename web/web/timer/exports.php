@@ -111,7 +111,8 @@ foreach ($bibles as $bible) {
 
 
   // OpenDocument / Web / Online Bible data for the whole Bible.
-  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible = new Filter_Text ($bible); // Todo
+  $filter_text_bible->html_text_standard = new Html_Text (gettext ("Bible"));
 
   
   // Rich web main index file. 
@@ -148,9 +149,8 @@ foreach ($bibles as $bible) {
     $bookUsfmData = "";
 
     // The text converter per book.
-    $filter_text_book = new Filter_Text ($bible);
-    
-    // Add the text exporter object.
+    $filter_text_book = new Filter_Text ($bible); // Todo
+    $filter_text_book->html_text_standard = new Html_Text (gettext ("Bible"));
     $filter_text_book->text_text = new Text_Text ();
 
     // Go through the chapters in this book.
@@ -158,7 +158,7 @@ foreach ($bibles as $bible) {
     foreach ($chapters as $chapter) {
       
       // Interlinked web data for one chapter.
-      $filter_text_chapter = new Filter_Text ($bible);
+      $filter_text_chapter = new Filter_Text ($bible); // Todo
 
       // Get the USFM code for the current chapter.
       $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
