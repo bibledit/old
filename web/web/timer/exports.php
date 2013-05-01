@@ -159,6 +159,7 @@ foreach ($bibles as $bible) {
       
       // Interlinked web data for one chapter.
       $filter_text_chapter = new Filter_Text ($bible); // Todo
+      $filter_text_chapter->html_text_linked = new Html_Text (gettext ("Bible"));
 
       // Get the USFM code for the current chapter.
       $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
