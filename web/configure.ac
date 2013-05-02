@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.8.10],[http://bibledit.org])
+AC_INIT([bibledit-web],[0.8.11],[http://bibledit.org])
 AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
@@ -176,43 +176,6 @@ AC_DEFINE_UNQUOTED(ZENDPATH, "$ZENDPATH")
 AC_SUBST(ZENDPATH)
 
 
-# Location of the smarty template engine.
-# Debian: dpkg -L smarty: /usr/share/php/smarty/libs/Smarty.class.php
-# Ubuntu: dpkg -L smarty: /usr/share/php/smarty/Smarty.class.php
-SMARTYPATH_DEFAULT="."
-AC_ARG_WITH(smarty-path,
-        [  --with-smarty-path=path   smarty path],
-        [ SMARTYPATH=$withval ],
-        [ SMARTYPATH=$SMARTYPATH_DEFAULT ]
-)
-AC_MSG_CHECKING(smarty path)
-if [ [ $SMARTYPATH == "." ] ]
-then
-  test -f /usr/share/php/smarty/libs/Smarty.class.php
-  if [ [ $? -eq 0 ] ]
-  then
-    SMARTYPATH=/usr/share/php/smarty/libs
-  fi
-fi
-if [ [ $SMARTYPATH == "." ] ]
-then
-  test -f /usr/share/php/smarty/Smarty.class.php
-  if [ [ $? -eq 0 ] ]
-  then
-    SMARTYPATH=/usr/share/php/smarty
-  fi
-fi
-if [ [ $SMARTYPATH == "." ] ]
-then
-  AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Could not find path to the smarty template engine. Provide the information through: --with-smarty-path=<path>)
-fi
-AC_MSG_RESULT(${SMARTYPATH})
-AC_DEFINE([SMARTYPATH], [], [Define the path to the smarty template engine])
-AC_DEFINE_UNQUOTED(SMARTYPATH, "$SMARTYPATH")
-AC_SUBST(SMARTYPATH)
-
-
 # Location on the web and internal.
 LOCATION_DEFAULT="bibledit-web"
 AC_ARG_WITH(location,
@@ -313,7 +276,6 @@ AC_CONFIG_FILES([
   cron/Makefile
   mysql/Makefile
   secure/Makefile
-  smarty/Makefile
 ])
 AC_OUTPUT
 
@@ -380,7 +342,6 @@ rm $PATHSFILE
 echo '<?php' >> $PATHSFILE
 echo '$zendPath = "'$ZENDPATH'";' >> $PATHSFILE
 echo '$localStatePath = "'$DESTDIR'/'$packagelocalstatedir'";' >> $PATHSFILE
-echo '$smartyPath = "'$SMARTYPATH'";' >> $PATHSFILE
 echo '$location = "'$LOCATION'";' >> $PATHSFILE
 echo '?>' >> $PATHSFILE
 
@@ -400,6 +361,5 @@ Website administrator username: ${SITE_ADMIN_USERNAME}
 Website administrator password: ${SITE_ADMIN_PASSWORD}
 Zend framework path: ${ZENDPATH}
 Local state directory: $DESTDIR/${packagelocalstatedir}
-Smarty template engine path: ${SMARTYPATH}
 "
 

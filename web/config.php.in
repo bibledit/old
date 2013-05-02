@@ -36,9 +36,6 @@
 /* Define the username of the site administrator */
 #undef SITE_ADMIN_USERNAME
 
-/* Define the path to the smarty template engine */
-#undef SMARTYPATH
-
 /* Version number of package */
 #undef VERSION
 

@@ -64,14 +64,6 @@ class Smarty_Bibledit extends Smarty {
       $this->assign ("user", $session_logic->currentUser()); 
       $this->assign ("level", $session_logic->currentLevel(true)); 
     }
-/*
-    include ("paths/paths.php");
-    include_once ("$smartyPath/sysplugins/smarty_internal_templatecompilerbase.php");
-    include_once ("$smartyPath/sysplugins/smarty_internal_templatelexer.php");
-    include_once ("$smartyPath/sysplugins/smarty_internal_templateparser.php");
-    include_once ("$smartyPath/sysplugins/smarty_internal_compilebase.php");
-    include_once ("$smartyPath/sysplugins/smarty_internal_write_file.php");
-*/
     parent::display($template, $cache_id, $compile_id);
   }
  

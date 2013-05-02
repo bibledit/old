@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 01:42+0200\n"
+"POT-Creation-Date: 2013-05-02 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,9 +139,6 @@ msgstr ""
 msgid "Logbook"
 msgstr ""
 
-msgid "Bible"
-msgstr ""
-
 msgid "Information"
 msgstr ""
 
@@ -203,6 +200,9 @@ msgid "Failed to compress folder"
 msgstr ""
 
 msgid "Failed to uncompress archive"
+msgstr ""
+
+msgid "Bible"
 msgstr ""
 
 msgid "Would you like to change to another Bible?"

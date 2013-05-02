@@ -177,7 +177,6 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SITE_ADMIN_PASSWORD = @SITE_ADMIN_PASSWORD@
 SITE_ADMIN_USERNAME = @SITE_ADMIN_USERNAME@
-SMARTYPATH = @SMARTYPATH@
 STRIP = @STRIP@
 VERSION = @VERSION@
 ZENDPATH = @ZENDPATH@
@@ -235,7 +234,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = fhs smarty mysql web apache cron secure tests
+SUBDIRS = fhs mysql web apache cron secure tests
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = updatecopyright
 all: config.php

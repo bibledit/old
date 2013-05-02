@@ -43,6 +43,10 @@ $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 $sphinxPort = (int) $database_config_general->getSearchDaemonPort ();
 
+
+unset ($database_config_general);
+
+
 // Where to store the exported Bibles.
 include ("paths/paths.php");
 $exportsDirectory = "$localStatePath/$location/exports";
