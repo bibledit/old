@@ -34,6 +34,10 @@ if (php_sapi_name () != "cli") {
 }
 
 
+ignore_user_abort (true);
+set_time_limit (0);
+
+
 $database_config_general = Database_Config_General::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();

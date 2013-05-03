@@ -39,9 +39,9 @@ posix_seteuid ($pwnam['uid']);
 posix_setegid ($pwnam['gid']);
 
 
-ignore_user_abort(true);
-set_time_limit(0);
-register_shutdown_function('shutdown');
+ignore_user_abort (true);
+set_time_limit (0);
+register_shutdown_function ('shutdown');
 
 
 $config_general = Database_Config_General::getInstance ();
@@ -53,14 +53,12 @@ $current_timestamp = time ();
 
 
 // CPU-intensive actions run at midnight.
-// The advantage of this is that while the site is in use during the day, 
-// CPU-intensive actions do not slow down the site.
-// There have been cases that somebody submitted a comment to a consultation note, 
-// but since the site didn't respond fast enough, 
-// the person kept pressing the submit button,
-// with the result that the comment was added multiple times to the note.
+// This keeps the site more responsive during the day.
 $midnight = (date ('Gi') == 0);
 $fifteenPastMidnight = (date ('Gi') == 15);
+$hourMinute = date ('Gi');
+$database_logs = Database_Logs::getInstance (); // Todo temporal.
+$database_logs->log ("HourMinute: $hourMinute");  // Todo temporal.
 
 
 // Mailer is done once a minute.
