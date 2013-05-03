@@ -22,41 +22,44 @@
  */
 
 
-require_once ("../bootstrap/bootstrap.php");
 
 
-$database_logs = Database_Logs::getInstance ();
-$database_logs->log ("trim: Trimming databases has started");
+class Timer_Logger
+{
+
+  const trimdatabases = 'trimdatabases';
 
 
-// Security: Page only runs from the cli SAPI.
-if (php_sapi_name () != "cli") {
-  $database_logs->log ("trim: Fatal: This only runs through the cli Server API", true);
-  die;
+  public function getLogFilename ($which)
+  {
+    include ("paths/paths.php");
+    $filename = sys_get_temp_dir () . "/$location" . "-" . "$which.log";
+    return $filename;
+  }
+
+
+  public function handleUsedLogFiles ()
+  {
+    $this->handleLogs ($this->getLogFilename ($this::trimdatabases));
+    
+  }
+  
+  
+  private function handleLogs ($logfile)
+  {
+    if (!file_exists ($logfile)) return;
+    $result = exec ("lsof +t $logfile > /dev/null");
+    if ($result != 0) return;
+    $lines = file ($logfile);
+    unlink ($logfile);
+    $database_logs = Database_Logs::getInstance (); // Todo temporal.
+    foreach ($lines as $line) {
+      $database_logs->log (basename ($logfile) . ": " . $line);
+    }
+  }
+  
+  
 }
-
-
-$database_confirm = Database_Confirm::getInstance ();
-$database_confirm->trim ();
-
-
-$database_logs = Database_Logs::getInstance ();
-$database_logs->trim ();
-
-
-$database_mail = Database_Mail::getInstance ();
-$database_mail->trim ();
-
-
-$database_sessions = Database_Sessions::getInstance ();
-$database_sessions->trim ();
-
-
-$database_snapshots = Database_Snapshots::getInstance();
-$database_snapshots->trim();
-
-
-$database_logs->log ("trim: Completed");
 
 
 ?>

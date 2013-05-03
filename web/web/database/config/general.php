@@ -168,13 +168,6 @@ class Database_Config_General
     $this->setValue ("timer-minute", $value);
   }
 
-  public function getTimerFiveMinutes() {
-    return $this->getValue ("timer-five-minutes", "");
-  }
-  public function setTimerFiveMinutes ($value) {
-    $this->setValue ("timer-five-minutes", $value);
-  }
-
   public function getPublicSshKey() {
     return $this->getValue ("public-ssh-key", "");
   }

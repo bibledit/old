@@ -45,6 +45,7 @@ register_shutdown_function ('shutdown');
 
 
 $config_general = Database_Config_General::getInstance ();
+$timer_logger = new Timer_Logger ();
 //$processUser = posix_getpwuid(posix_geteuid());
 //$processUser = $processUser['name'];
 
@@ -52,38 +53,42 @@ $config_general = Database_Config_General::getInstance ();
 $current_timestamp = time ();
 
 
-// CPU-intensive actions run at midnight.
+// CPU-intensive actions run at night.
 // This keeps the site more responsive during the day.
-$midnight = (date ('Gi') == 0);
-$fifteenPastMidnight = (date ('Gi') == 15);
-$hourMinute = date ('Gi');
+$midnight = (date ('Gi') == 0); // Todo goes out.
+$fifteenPastMidnight = (date ('Gi') == 15); // Todo goes out.
+$hour = date ('G');
+$minute = date ('i');
+
 $database_logs = Database_Logs::getInstance (); // Todo temporal.
-$database_logs->log ("HourMinute: $hourMinute");  // Todo temporal.
 
 
-// Mailer is done once a minute.
+// Every minute send out any mail.
 $timer_mailer = new Timer_Mailer ();
 $timer_mailer->run ();
 unset ($timer_mailer);
 
 
-$previous_timestamp = $config_general->getTimerFiveMinutes ();
-if ($current_timestamp >= ($previous_timestamp + 300)) {
-  $config_general->setTimerFiveMinutes ($current_timestamp);
-  
-  // Tasks to be done each five minutes:
-
+// Receive mail every five minutes.
+// Do not receive more often with gmail else the account may be shut down.
+if (($minute % 5) == 0) {
   $timer_receiver = new Timer_Receiver ();
   $timer_receiver->run ();
   unset ($timer_receiver);
-  
+}
+
+
+// Check on information in used log files every 15 minutes.
+if ($minute == 15) {
+  $timer_logger->handleUsedLogFiles ();
 }
 
 
 // Trim databases at midnight.
 if ($midnight) {
   $workingdirectory = dirname (__FILE__);
-  shell_exec ("cd $workingdirectory; php trimdatabases.php > /dev/null 2>&1 &");
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::trimdatabases);
+  shell_exec ("cd $workingdirectory; php trimdatabases.php > $logfilename 2>&1 &");
 }
 
 
