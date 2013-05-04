@@ -55,12 +55,8 @@ $current_timestamp = time ();
 
 // CPU-intensive actions run at night.
 // This keeps the site more responsive during the day.
-$midnight = (date ('Gi') == 0); // Todo goes out.
-$fifteenPastMidnight = (date ('Gi') == 15); // Todo goes out.
 $hour = date ('G');
 $minute = date ('i');
-
-$database_logs = Database_Logs::getInstance (); // Todo temporal.
 
 
 // Every minute send out any queued mail.
@@ -78,11 +74,10 @@ if (($minute % 5) == 0) {
 }
 
 
-// Check on information in used log files every 15 minutes.
-if ($minute == 15) {
+// Every 15 minutes deal with any log files that were used for the scripts.
+if (($minute % 15) == 0) {
   $timer_logger->handleUsedLogFiles ();
 }
-$timer_logger->handleUsedLogFiles (); // Todo temporal
 
 
 // The running order of the following nightly scripts is important.
@@ -142,7 +137,8 @@ if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) 
 
 
 // Index Bibles and Consultation Notes.
-// Todo find out on the production website how much time it takes there.
+// On a production installation with two full Bibles and thousands of Consultation Notes,
+// this is expected to take about 10 minutes.
 if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 0) && ($minute == 25))) {
   $config_general->setTimerSearch ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
@@ -151,43 +147,13 @@ if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 0) 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Todo
-// 7. Export the Bibles to the various output formats.
-
-$hour = 0; // Todo
-$minute = 25; // Todo
-
-
-
-
-
-
-$exports_timestamp = $config_general->getTimerExports ();
-if (($current_timestamp >= $exports_timestamp) || $midnight) {
-  $exports_timestamp += 86400;
-  while ($current_timestamp >= $exports_timestamp) {
-    // This loop updates the timestamp to a value larger than the current time.
-    // This avoids calling many processes when the task has not been done for a while.
-    $exports_timestamp += 86400;
-  }
-  $config_general->setTimerExports ($exports_timestamp);
+// Export the Bibles to the various output formats.
+if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 0) && ($minute == 35))) {
+  $config_general->setTimerExports ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
-  shell_exec ("cd $workingdirectory; php exports.php > /dev/null 2>&1 &");
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::exports);
+  shell_exec ("cd $workingdirectory; php exports.php > $logfilename 2>&1 &");
 }
-unset ($exports_timestamp);
 
 
 function shutdown()

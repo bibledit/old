@@ -33,6 +33,7 @@ class Timer_Logger
   const trimdatabases = 'trimdatabases';
   const backup = 'backup';
   const search = 'search';
+  const exports = 'exports';
 
 
   public function getLogFilename ($which)
