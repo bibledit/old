@@ -137,8 +137,17 @@ class Filter_Text
 
     // Process data.
     $this->processUsfm ();
+    
+    // Clear USFM and styles.
+    unset ($this->usfmMarkersAndText);
+    unset ($this->usfmMarkersAndTextPointer);
+    unset ($this->chapterUsfmMarkersAndText);
+    unset ($this->chapterUsfmMarkersAndTextPointer);
+    unset ($this->styles);
+    unset ($this->chapterMarker);
+    unset ($this->createdStyles);
   }
-
+  
 
   /**
   * This function return true when there is still unprocessed USFM code available.
