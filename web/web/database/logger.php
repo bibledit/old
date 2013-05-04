@@ -49,7 +49,7 @@ class Database_Logger
   }
 
 
-  public function erase ($pid) // Todo test / use.
+  public function erase ($pid)
   {
     $server  = Database_Instance::getInstance ();
     $pid = Database_SQLInjection::no ($pid);

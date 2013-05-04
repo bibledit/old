@@ -6,11 +6,44 @@ class Filter_Archive
 
 
   /**
+  * Compresses a file or folder identified by $source into zip format.
+  * Returns the path to the zipfile it created.
+  */
+  public static function zip ($source)
+  {
+    if (!extension_loaded ('zip') || !file_exists ($source)) return false;
+    $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
+    $zip = new ZipArchive();
+    if (!$zip->open ($zippedfile, ZIPARCHIVE::CREATE)) return false;
+    if (is_dir ($source) === true)
+    {
+      $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+      foreach ($files as $file)
+      {
+        // Ignore "." and ".." folders
+        if (in_array (substr ($file, strrpos ($file, '/') + 1), array ('.', '..'))) continue;
+        if (is_dir ($file) === true) {
+          $zip->addEmptyDir (str_replace ($source . '/', '', $file . '/'));
+        }
+        else if (is_file($file) === true) {
+          $zip->addFromString (str_replace ($source . '/', '', $file), file_get_contents ($file));
+        }
+      }
+    } 
+    else if (is_file ($source) === true) {
+      $zip->addFromString (basename ($source), file_get_contents ($source));
+    }
+    $zip->close ();
+    return $zippedfile;
+  }
+  
+
+  /**
   * Compresses a file identified by $filename into zip format.
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public static function zipFile ($filename, $show_errors)
+  public static function zipFile ($filename, $show_errors) // Todo replace this with function zip
   {
     $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $dirname = escapeshellarg (dirname ($filename));
@@ -36,7 +69,7 @@ class Filter_Archive
   * Returns the path to the compressed archive it created.
   * If $show_errors is true, it outputs errors in html.
   */
-  public static function zipFolder ($folder, $show_errors)
+  public static function zipFolder ($folder, $show_errors) // Todo replace this with function zip
   {
     $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
     $folder = escapeshellarg ($folder);

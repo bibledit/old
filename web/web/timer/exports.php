@@ -61,7 +61,7 @@ foreach ($bibles as $bible) {
 
 
   // Where to store this Bible to be exported.
-  // Remove this directory just case something has changed in the data or the settings.
+  // Remove this directory just in case something has changed in the data or the settings.
   $bibleDirectory = "$exportsDirectory/$bible";
   Filter_Rmdir::rmdir ($bibleDirectory);
 
@@ -241,26 +241,38 @@ foreach ($bibles as $bible) {
   // Save the USFM code for the whole Bible.
   $database_logs->log ("exports: Save entire Bible to USFM", true);
   file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
+  unset ($bibleUsfmData);
 
-  // Create standard OpenDocument containing the whole Bible.
-  $database_logs->log ("exports: Save entire Bible to OpenDocument", true);
+  // Run the converson for the whole Bible.
+  $database_logs->log ("exports: Convert entire Bible to other formats", true);
   $filter_text_bible->run ($stylesheet);
+  
+  // Save Bible to the Web formats.
+  $database_logs->log ("exports: Save entire Bible to plain Web", true);
+  $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
+  unset ($filter_text_bible->html_text_standard);
+  $database_logs->log ("exports: Save entire Bible to interlinked Web", true);
+  $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
+  $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
+  unset ($html_text_rich_bible_index);
+  
+  // Save to Online Bible format.
+  $database_logs->log ("exports: Save entire Bible to Online Bible", true);
+  $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
+  unset ($filter_text_bible->onlinebible_text);
+
+  // Save to eSword module.
+  $database_logs->log ("exports: Save entire Bible to eSword", true);
+  $filter_text_bible->esword_text->finalize ();
+  $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
+  unset ($filter_text_bible->esword_text);
+
+  // Create OpenDocument files for the whole Bible.
+  $database_logs->log ("exports: Save entire Bible to OpenDocument", true);
   $filter_text_bible->odf_text_standard->save ("$odtDirectory/00_Bible_standard.odt");
   $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
-  
-  // Save to other formats.
-  $database_logs->log ("exports: Save entire Bible to plain Web", true);
-  $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
-  $database_logs->log ("exports: Save entire Bible to interlinked Web", true);
-  $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
-  $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
-  $database_logs->log ("exports: Save entire Bible to Online Bible", true);
-  $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
-  $database_logs->log ("exports: Save entire Bible to eSword", true);
-  $filter_text_bible->esword_text->finalize ();
-  $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
   
   // Create the document with information about the Bible.
   $filter_text_bible->produceInfoDocument ("$infoDirectory/information.html");

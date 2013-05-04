@@ -637,7 +637,7 @@ class Odf_Text
     $string = $this->stylesDom->save ($this->unpackedOdtFolder . "/styles.xml");
 
     // Save the OpenDocument file.    
-    $zippedfile = Filter_Archive::zipFolder ($this->unpackedOdtFolder, false);
+    $zippedfile = Filter_Archive::zip ($this->unpackedOdtFolder);
     file_put_contents ($name, file_get_contents ($zippedfile));
     unlink ($zippedfile);
   }
