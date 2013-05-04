@@ -62,7 +62,7 @@ class Timer_Logger
     if ($result != 0) return;
     $lines = file ($logfile);
     unlink ($logfile);
-    $database_logs = Database_Logs::getInstance (); // Todo temporal.
+    $database_logs = Database_Logs::getInstance ();
     foreach ($lines as $line) {
       $database_logs->log (basename ($logfile) . ": " . $line);
     }

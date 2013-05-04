@@ -86,7 +86,6 @@ if (($minute % 15) == 0) {
 // This means something as displayed in the code of this script.
 
 
-
 // Sending and receiving Bibles to and from the git repository.
 // On a production website running on an inexpensive virtual private server 
 // with 512 Mbyte of memory and a fast network connection, 
