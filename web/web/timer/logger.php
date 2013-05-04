@@ -27,7 +27,12 @@
 class Timer_Logger
 {
 
+  const sendreceive = 'sendreceive';
+  const changes = 'changes';
+  const checks = 'checks';
   const trimdatabases = 'trimdatabases';
+  const backup = 'backup';
+  const search = 'search';
 
 
   public function getLogFilename ($which)
@@ -40,8 +45,12 @@ class Timer_Logger
 
   public function handleUsedLogFiles ()
   {
-    $this->handleLogs ($this->getLogFilename ($this::trimdatabases));
-    
+    $reflectionClass = new ReflectionClass ('Timer_Logger');
+    $constants = $reflectionClass->getConstants ();
+    foreach ($constants as $constant) {
+      $this->handleLogs ($this->getLogFilename ($constant));
+    }
+    unset ($reflectionClass);
   }
   
   

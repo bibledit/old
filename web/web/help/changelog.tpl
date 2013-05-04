@@ -8,7 +8,7 @@
 <p>Can access password protected git repositories through the https protocol, as used on github.com.</p>
 <p>The layout of the logbook is more compact in case of long entries.</p>
 <p>It installs on on Ubuntu Server 13.04 which no longer includes the smarty 2 engine.</p>
-<p></p>
+<p>If any of the regular automatic tasks behaves unexpectedly, information about it will be in the logbook.</p>
 <p></p>
 <p></p>
 

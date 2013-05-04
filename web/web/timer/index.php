@@ -63,14 +63,14 @@ $minute = date ('i');
 $database_logs = Database_Logs::getInstance (); // Todo temporal.
 
 
-// Every minute send out any mail.
+// Every minute send out any queued mail.
 $timer_mailer = new Timer_Mailer ();
 $timer_mailer->run ();
 unset ($timer_mailer);
 
 
-// Receive mail every five minutes.
-// Do not receive more often with gmail else the account may be shut down.
+// Check for new mail every five minutes.
+// Do not check more often with gmail else the account may be shut down.
 if (($minute % 5) == 0) {
   $timer_receiver = new Timer_Receiver ();
   $timer_receiver->run ();
@@ -82,44 +82,97 @@ if (($minute % 5) == 0) {
 if ($minute == 15) {
   $timer_logger->handleUsedLogFiles ();
 }
+$timer_logger->handleUsedLogFiles (); // Todo temporal
 
 
-// Trim databases at midnight.
-if ($midnight) {
+// The running order of the following nightly scripts is important.
+// In general, the order will such that all information is generated as recent as possible,
+// and that the more important tasks are done first, and the less important ones at the end.
+// This means something as displayed in the code of this script.
+
+
+
+// Sending and receiving Bibles to and from the git repository.
+// On a production website running on an inexpensive virtual private server 
+// with 512 Mbyte of memory and a fast network connection, 
+// sending and receiving two Bibles takes less than a minute.
+if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour == 0) && ($minute == 0))) {
+  $config_general->setTimerSendReceive ($current_timestamp + 100000);
+  $workingdirectory = escapeshellarg (dirname (__FILE__));
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::sendreceive);
+  shell_exec ("cd $workingdirectory; php sendreceive.php > $logfilename 2>&1 &");
+}
+
+
+// Sending the daily changes in the Bibles by email.
+// This takes a few minutes on a production machine with two Bibles and changes in several chapters.
+if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) && ($minute == 5))) {
+  $config_general->setTimerDiff ($current_timestamp + 100000);
+  $workingdirectory = escapeshellarg (dirname (__FILE__));
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::changes);
+  shell_exec ("cd $workingdirectory; php changes.php > $logfilename 2>&1 &");
+}
+
+
+// Run the checks on the Bibles.
+if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) && ($minute == 10))) {
+  $config_general->setTimerChecks ($current_timestamp + 100000);
+  $workingdirectory = dirname (__FILE__);
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::checks);
+  shell_exec ("cd $workingdirectory; php checks.php > $logfilename 2>&1 &");
+}
+
+
+// Trim the tables in the database.
+if (($hour == 0) && ($minute == 15)) {
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::trimdatabases);
   shell_exec ("cd $workingdirectory; php trimdatabases.php > $logfilename 2>&1 &");
 }
 
 
-$backup_timestamp = $config_general->getTimerBackup ();
-if (($current_timestamp >= $backup_timestamp) || $midnight) {
-  $backup_timestamp += 86400;
-  while ($current_timestamp >= $backup_timestamp) {
-    // This loop updates the backup timestamp to a value larger than the current time.
-    // This avoids calling many backup processes when backups have not been made for some time.
-    $backup_timestamp += 86400;
-  }
-  $config_general->setTimerBackup ($backup_timestamp);
+// Create a backup, so that the backup contains the most recent information
+// after the previous tasks have been done.
+if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 20))) {
+  $config_general->setTimerBackup ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
-  shell_exec ("cd $workingdirectory; php backup.php > /dev/null 2>&1 &");
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::backup);
+  shell_exec ("cd $workingdirectory; php backup.php > $logfilename 2>&1 &");
 }
-unset ($backup_timestamp);
 
 
-$diff_timestamp = $config_general->getTimerDiff ();
-if (($current_timestamp >= $diff_timestamp) || $fifteenPastMidnight) {
-  $diff_timestamp += 86400;
-  while ($current_timestamp >= $diff_timestamp) {
-    // This loop updates the timestamp to a value larger than the current time.
-    // This avoids calling many processes when the task has not been done for a while.
-    $diff_timestamp += 86400;
-  }
-  $config_general->setTimerDiff ($diff_timestamp);
-  $workingdirectory = escapeshellarg (dirname (__FILE__));
-  shell_exec ("cd $workingdirectory; php changes.php > /dev/null 2>&1 &");
+// Index Bibles and Consultation Notes.
+// Todo find out on the production website how much time it takes there.
+if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 0) && ($minute == 25))) {
+  $config_general->setTimerSearch ($current_timestamp + 100000);
+  $workingdirectory = dirname (__FILE__);
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::search);
+  shell_exec ("cd $workingdirectory; php search.php > $logfilename 2>&1 &");
 }
-unset ($diff_timestamp);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Todo
+// 7. Export the Bibles to the various output formats.
+
+$hour = 0; // Todo
+$minute = 25; // Todo
+
+
+
+
 
 
 $exports_timestamp = $config_general->getTimerExports ();
@@ -135,51 +188,6 @@ if (($current_timestamp >= $exports_timestamp) || $midnight) {
   shell_exec ("cd $workingdirectory; php exports.php > /dev/null 2>&1 &");
 }
 unset ($exports_timestamp);
-
-
-$sendreceive_timestamp = $config_general->getTimerSendReceive ();
-if (($current_timestamp >= $sendreceive_timestamp) || $midnight) {
-  $sendreceive_timestamp += 86400;
-  while ($current_timestamp >= $sendreceive_timestamp) {
-    // This loop updates the timestamp to a value larger than the current time.
-    // This avoids calling many processes when the task has not been done for a while.
-    $sendreceive_timestamp += 86400;
-  }
-  $config_general->setTimerSendReceive ($sendreceive_timestamp);
-  $workingdirectory = escapeshellarg (dirname (__FILE__));
-  shell_exec ("cd $workingdirectory; php sendreceive.php > /dev/null 2>&1 &");
-}
-unset ($sendreceive_timestamp);
-
-
-$search_timestamp = $config_general->getTimerSearch ();
-if (($current_timestamp >= $search_timestamp) || $fifteenPastMidnight) {
-  $search_timestamp += 86400;
-  while ($current_timestamp >= $search_timestamp) {
-    // This loop updates the search timestamp to a value larger than the current time.
-    // This avoids calling many search index operations when indexing has not been done for some time.
-    $search_timestamp += 86400;
-  }
-  $config_general->setTimerSearch ($search_timestamp);
-  $workingdirectory = dirname (__FILE__);
-  shell_exec ("cd $workingdirectory; php search.php > /dev/null 2>&1 &");
-}
-unset ($search_timestamp);
-
-
-$checks_timestamp = $config_general->getTimerChecks ();
-if (($current_timestamp >= $checks_timestamp) || $fifteenPastMidnight) {
-  $checks_timestamp += 86400;
-  while ($current_timestamp >= $checks_timestamp) {
-    // This loop updates the checks timestamp to a value larger than the current time.
-    // This avoids calling many checking routines when the routines have not been run for some time.
-    $checks_timestamp += 86400;
-  }
-  $config_general->setTimerChecks ($checks_timestamp);
-  $workingdirectory = dirname (__FILE__);
-  shell_exec ("cd $workingdirectory; php checks.php > /dev/null 2>&1 &");
-}
-unset ($checks_timestamp);
 
 
 function shutdown()

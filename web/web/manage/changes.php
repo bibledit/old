@@ -12,6 +12,8 @@ if (isset($_GET['generate'])) {
   $config_general = Database_Config_General::getInstance ();
   $config_general->setTimerDiff (time ());
   $smarty->assign ("success", gettext ("The lists of changes will be generated within a minute."));
+  $database_logs = Database_Logs::getInstance ();
+  $database_logs->log ("The lists of changes will be generated within a minute");
 }
 
 $smarty->display("changes.tpl");
