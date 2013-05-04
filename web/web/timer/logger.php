@@ -44,27 +44,30 @@ class Timer_Logger
   }
 
 
+  public function registerLogfile ($command, $pid, $logfile)
+  {
+    $pid = (int) $pid;
+    $database_logs = Database_Logs::getInstance ();
+    $database_logs->log ("log: command: $command - pid: $pid");
+    $database_logger = Database_Logger::getInstance ();
+    $database_logger->record ($pid, $logfile);
+  }
+
+
   public function handleUsedLogFiles ()
   {
-    $reflectionClass = new ReflectionClass ('Timer_Logger');
-    $constants = $reflectionClass->getConstants ();
-    foreach ($constants as $constant) {
-      $this->handleLogs ($this->getLogFilename ($constant));
-    }
-    unset ($reflectionClass);
-  }
-  
-  
-  private function handleLogs ($logfile)
-  {
-    if (!file_exists ($logfile)) return;
-    $result = exec ("lsof +t $logfile > /dev/null");
-    if ($result != 0) return;
-    $lines = file ($logfile);
-    unlink ($logfile);
-    $database_logs = Database_Logs::getInstance ();
-    foreach ($lines as $line) {
-      $database_logs->log (basename ($logfile) . ": " . $line);
+    $database_logger = Database_Logger::getInstance ();
+    $logfiles = $database_logger->get ();
+    foreach ($logfiles as $pid => $filename) {
+      if (file_exists ('/proc/'.$pid)) continue;
+      $database_logger->erase ($pid);
+      if (!file_exists ($filename)) continue;
+      $lines = file ($filename);
+      unlink ($filename);
+      $database_logs = Database_Logs::getInstance ();
+      foreach ($lines as $line) {
+        $database_logs->log (basename ($filename) . ": " . $line);
+      }
     }
   }
   

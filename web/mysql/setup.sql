@@ -12251,6 +12251,12 @@ CREATE TABLE IF NOT EXISTS check_suppress (
 );
 
 
+CREATE TABLE IF NOT EXISTS logger (
+  pid int,
+  logfile varchar(1024)
+);
+
+
 DROP PROCEDURE IF EXISTS upgrades;
 DELIMITER ;;
 CREATE PROCEDURE upgrades ()

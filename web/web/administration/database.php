@@ -117,6 +117,11 @@ $database_git = Database_Git::getInstance();
 $database_git->optimize();
 
 
+// The logger table.
+$database_logger = Database_Logger::getInstance ();
+$database_logger->optimize();
+
+
 // Done.
 message_information ("Ready");
 

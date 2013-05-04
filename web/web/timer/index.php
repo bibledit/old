@@ -65,18 +65,16 @@ $timer_mailer->run ();
 unset ($timer_mailer);
 
 
+// Every minute deal with any log files that were used for the scripts.
+$timer_logger->handleUsedLogFiles ();
+
+
 // Check for new mail every five minutes.
 // Do not check more often with gmail else the account may be shut down.
 if (($minute % 5) == 0) {
   $timer_receiver = new Timer_Receiver ();
   $timer_receiver->run ();
   unset ($timer_receiver);
-}
-
-
-// Every 15 minutes deal with any log files that were used for the scripts.
-if (($minute % 15) == 0) {
-  $timer_logger->handleUsedLogFiles ();
 }
 
 
@@ -94,7 +92,9 @@ if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour =
   $config_general->setTimerSendReceive ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::sendreceive);
-  shell_exec ("cd $workingdirectory; php sendreceive.php > $logfilename 2>&1 &");
+  $command = "cd $workingdirectory; php sendreceive.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
@@ -104,7 +104,9 @@ if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) &&
   $config_general->setTimerDiff ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::changes);
-  shell_exec ("cd $workingdirectory; php changes.php > $logfilename 2>&1 &");
+  $command = "cd $workingdirectory; php changes.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
@@ -113,7 +115,9 @@ if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) 
   $config_general->setTimerChecks ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::checks);
-  shell_exec ("cd $workingdirectory; php checks.php > $logfilename 2>&1 &");
+  $command = "cd $workingdirectory; php checks.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
@@ -121,7 +125,9 @@ if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) 
 if (($hour == 0) && ($minute == 15)) {
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::trimdatabases);
-  shell_exec ("cd $workingdirectory; php trimdatabases.php > $logfilename 2>&1 &");
+  $command = "cd $workingdirectory; php trimdatabases.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
@@ -131,7 +137,9 @@ if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) 
   $config_general->setTimerBackup ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::backup);
-  shell_exec ("cd $workingdirectory; php backup.php > $logfilename 2>&1 &");
+  $command = "cd $workingdirectory; php backup.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
@@ -142,7 +150,9 @@ if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 0) 
   $config_general->setTimerSearch ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::search);
-  shell_exec ("cd $workingdirectory; php search.php > $logfilename 2>&1 &");
+  $command = "cd $workingdirectory; php search.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
@@ -151,7 +161,9 @@ if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 0)
   $config_general->setTimerExports ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::exports);
-  shell_exec ("cd $workingdirectory; php exports.php > $logfilename 2>&1 &");
+  $command = "cd $workingdirectory; php exports.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
