@@ -6,12 +6,14 @@ $smarty = new Smarty_Bibledit (__FILE__);
 
 
 $database_config_general = Database_Config_General::getInstance ();
-$database_bibles = Database_Bibles::getInstance();
+$database_bibles = Database_Bibles::getInstance ();
+$database_logs = Database_Logs::getInstance ();
 
 
 if (isset($_GET['generate'])) {
   $database_config_general->setTimerExports (time ());
   $smarty->assign ("success", gettext ("The Bibles will be exported within a minute."));
+  $database_logs->log ("The Bibles will be exported within a minute");
 }
 
 
