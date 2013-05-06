@@ -199,6 +199,12 @@ foreach ($bibles as $bible) {
     unset ($bibleBookText);
     unset ($htmlHeader);
     unset ($bookUsfmData);
+    unset ($filter_text_book->html_text_standard);
+    unset ($filter_text_book->text_text);
+    unset ($filter_text_book->odf_text_standard);
+    unset ($filter_text_book->odf_text_text_only);
+    unset ($filter_text_book->odf_text_text_and_note_citations);
+    unset ($filter_text_book->odf_text_notes);
     unset ($filter_text_book);
     unset ($chapters);
     unset ($chapter);
@@ -256,6 +262,7 @@ foreach ($bibles as $bible) {
   }
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
+  unset ($filter_text_bible->html_text_standard);
   unset ($filter_text_bible);
 
 
@@ -274,6 +281,7 @@ foreach ($bibles as $bible) {
   }
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
+  unset ($filter_text_bible->onlinebible_text);
   unset ($filter_text_bible);
 
 
@@ -293,6 +301,7 @@ foreach ($bibles as $bible) {
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
+  unset ($filter_text_bible->esword_text);
   unset ($filter_text_bible);
 
 
@@ -312,12 +321,15 @@ foreach ($bibles as $bible) {
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->odf_text_standard->save ("$odtDirectory/00_Bible_standard.odt");
 
-
   // Create the document with information about the Bible.
   $filter_text_bible->produceInfoDocument ("$infoDirectory/information.html");
-  
+
   // Create the document with the formatting fallout.
   $filter_text_bible->produceFalloutDocument ("$infoDirectory/fallout.html");
+  
+  // Clear memory.
+  unset ($filter_text_bible->odf_text_standard);
+  unset ($filter_text_bible);
 
 
   // Export to OpenDocument in text-only format.
@@ -335,6 +347,8 @@ foreach ($bibles as $bible) {
   }
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
+  unset ($filter_text_bible->odf_text_text_only);
+  unset ($filter_text_bible);
 
 
   // Export to OpenDocument in text plus note citations format.
@@ -352,6 +366,8 @@ foreach ($bibles as $bible) {
   }
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
+  unset ($filter_text_bible->odf_text_text_and_note_citations);
+  unset ($filter_text_bible);
 
 
   // Export to OpenDocument in notes-only format.
@@ -369,10 +385,8 @@ foreach ($bibles as $bible) {
   }
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
-
-
-  // Free the converter to save on memory.
   unset ($filter_text_bible);
+  unset ($filter_text_bible->odf_text_notes);
 
 
   // Web indexer support files.
