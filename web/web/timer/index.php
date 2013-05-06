@@ -122,6 +122,7 @@ if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) 
 
 
 // Trim the tables in the database.
+//  It takes about half an hour on a production machine with many snapshots.
 if (($hour == 0) && ($minute == 15)) {
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::trimdatabases);
@@ -133,7 +134,7 @@ if (($hour == 0) && ($minute == 15)) {
 
 // Create a backup, so that the backup contains the most recent information
 // after the previous tasks have been done.
-if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 20))) {
+if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 45))) {
   $config_general->setTimerBackup ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::backup);
@@ -146,7 +147,7 @@ if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) 
 // Index Bibles and Consultation Notes.
 // On a production installation with two full Bibles and thousands of Consultation Notes,
 // this is expected to take about 10 minutes.
-if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 0) && ($minute == 25))) {
+if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 0) && ($minute == 50))) {
   $config_general->setTimerSearch ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::search);
@@ -157,7 +158,7 @@ if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 0) 
 
 
 // Export the Bibles to the various output formats.
-if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 0) && ($minute == 35))) {
+if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1) && ($minute == 0))) {
   $config_general->setTimerExports ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::exports);
