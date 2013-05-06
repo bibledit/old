@@ -64,71 +64,36 @@ foreach ($bibles as $bible) {
   // Remove this directory just in case something has changed in the data or the settings.
   $bibleDirectory = "$exportsDirectory/$bible";
   Filter_Rmdir::rmdir ($bibleDirectory);
-
-
   // Skip the $bible if it should not be exported.
   if (!in_array ($bible, $exportedBibles)) continue;
-
-  
   // The user can access the files through the browser at the directory.
   mkdir ($bibleDirectory);
-
-  
   // Folder where the USFM files go.
   $usfmDirectory = $bibleDirectory . "/usfm";
   mkdir ($usfmDirectory);
-
-
   // Folder for the OpenDocument files.
   $odtDirectory = $bibleDirectory . "/opendocument";
   mkdir ($odtDirectory);
-
-  
   // Folder where the plain web files go.
   $plainWebDirectory = $bibleDirectory . "/plainweb";
   mkdir ($plainWebDirectory);
-
-  
   // Folder for the interlinked web files.
   $richWebDirectory = $bibleDirectory . "/web";
   mkdir ($richWebDirectory);
-
-  
   // Folder for the Online Bible file.
   $onlineBibleDirectory = $bibleDirectory . "/onlinebible";
   mkdir ($onlineBibleDirectory);
-
-
   // Folder for the eSword module.
   $eSwordDirectory = $bibleDirectory . "/esword";
   mkdir ($eSwordDirectory);
-  
-  
   // Folder for the clear text export.
   $clearTextDirectory = $bibleDirectory . "/text";
   mkdir ($clearTextDirectory);
-  
-
   // Folder for the information files.
   $infoDirectory = $bibleDirectory . "/info";
   mkdir ($infoDirectory);
-  
-
-  // USFM code of the entire Bible.
-  $bibleUsfmData = "";
 
 
-  // The text converter for the whole Bible.
-  $filter_text_bible = new Filter_Text ($bible);
-  $filter_text_bible->html_text_standard = new Html_Text (gettext ("Bible"));
-  $filter_text_bible->onlinebible_text = new Onlinebible_Text ();
-  $filter_text_bible->esword_text = new Esword_Text ($bible);
-  $filter_text_bible->odf_text_standard = new Odf_Text;
-  $filter_text_bible->odf_text_text_only = new Odf_Text;
-  $filter_text_bible->odf_text_text_and_note_citations = new Odf_Text;
-  $filter_text_bible->odf_text_notes = new Odf_Text;
-
-  
   // Rich web main index file. 
   $html_text_rich_bible_index = new Html_Text ($bible); 
   // On top are the breadcrumbs, starting with a clickable Bible name.
@@ -155,7 +120,6 @@ foreach ($bibles as $bible) {
     $htmlHeader = new Html_Header ($html_text_rich_book_index);
     $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible ("", $book), gettext ("Go back to") . " " . $bibleBookText);
     $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
-    unset ($htmlHeader);
     $html_text_rich_book_index->newParagraph ("navigationbar");
     $html_text_rich_book_index->addText ("|");
 
@@ -187,9 +151,8 @@ foreach ($bibles as $bible) {
       $bookUsfmData .= $chapter_data;
       $bookUsfmData .= "\n";
       
-      // Add the chapter's USFM code to the Text_* filter for the whole Bible, for the book, and for the chapter.
+      // Add the chapter's USFM code to the Text_* filter for the book, and for the chapter.
       // Use small chunks of USFM at a time. This provides much better performance.
-      $filter_text_bible->addUsfmCode ($chapter_data);
       $filter_text_book->addUsfmCode ($chapter_data);
       $filter_text_chapter->addUsfmCode ($chapter_data);
 
@@ -200,7 +163,6 @@ foreach ($bibles as $bible) {
                                   array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                                   array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
                                  ));
-      unset ($htmlHeader);
       
       // Create interlinked html for the chapter.
       $filter_text_chapter->run ($stylesheet);
@@ -223,9 +185,6 @@ foreach ($bibles as $bible) {
     $filter_text_book->odf_text_notes->save ("$odtDirectory/$baseBookFileName" . "_notes.odt");
     $filter_text_book->html_text_standard->save (Filter_Paths::htmlFileNameBible ($plainWebDirectory, $book));
 
-    // Add the book's USFM code to the whole Bible's USFM code.
-    $bibleUsfmData .= $bookUsfmData;
-    
     // Add this book to the main web index.
     $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement,  Filter_Paths::htmlFileNameBible ("", $book), "", $database_books->getEnglishFromId ($book), "", " " . $database_books->getEnglishFromId ($book) . " ");
     $html_text_rich_bible_index->addText ("|");
@@ -236,49 +195,185 @@ foreach ($bibles as $bible) {
     // Save the clear text export.
     $filter_text_book->text_text->save ("$clearTextDirectory/$baseBookFileName.txt");
     
+    // Unset the variables used for the separate books.
+    unset ($bibleBookText);
+    unset ($htmlHeader);
+    unset ($bookUsfmData);
+    unset ($filter_text_book);
+    unset ($chapters);
+    unset ($chapter);
+    unset ($filter_text_chapter);
+    unset ($chapter_data);
+    unset ($baseBookFileName);
+    
   }
 
-  // Save the USFM code for the whole Bible.
-  $database_logs->log ("exports: Save entire Bible to USFM", true);
-  file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
-  unset ($bibleUsfmData);
 
-  // Run the converson for the whole Bible.
-  $database_logs->log ("exports: Convert entire Bible to other formats", true);
-  $filter_text_bible->run ($stylesheet);
-  
-  // Save Bible to the Web formats.
-  $database_logs->log ("exports: Save entire Bible to plain Web", true);
-  $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
-  unset ($filter_text_bible->html_text_standard);
-  $database_logs->log ("exports: Save entire Bible to interlinked Web", true);
+  // Save index file for the interlinked web export.
+  $database_logs->log ("exports: Create index file for interlinked Web", true);
   $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
   $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
   unset ($html_text_rich_bible_index);
-  
+
+
+  // This is the end of the conversion of separate books.
+  // Continue with the conversion of the entire Bible. 
+
+
+  // Save the USFM code for the whole Bible.
+  // Go through the Bible books and chapters.
+  // Add the chapter's USFM code to the exporter filter for the whole Bible.
+  // Use small chunks of USFM at a time for much better performance.
+  $database_logs->log ("exports: Save entire Bible to USFM", true);
+  $bibleUsfmData = "";
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $bibleUsfmData .= $chapter_data;
+      $bibleUsfmData .= "\n";
+    }
+  }
+  file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
+  unset ($bibleUsfmData);
+
+
+  // Save Bible to the plain Web format.
+  $database_logs->log ("exports: Save entire Bible to plain Web", true);
+  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible->html_text_standard = new Html_Text (gettext ("Bible"));
+  // Use small chunks of USFM at a time for much better performance.
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $filter_text_bible->addUsfmCode ($chapter_data);
+    }
+  }
+  $filter_text_bible->run ($stylesheet);
+  $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
+  unset ($filter_text_bible);
+
+
   // Save to Online Bible format.
   $database_logs->log ("exports: Save entire Bible to Online Bible", true);
+  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible->onlinebible_text = new Onlinebible_Text ();
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $filter_text_bible->addUsfmCode ($chapter_data);
+    }
+  }
+  $filter_text_bible->run ($stylesheet);
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
-  unset ($filter_text_bible->onlinebible_text);
+  unset ($filter_text_bible);
+
 
   // Save to eSword module.
   $database_logs->log ("exports: Save entire Bible to eSword", true);
+  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible->esword_text = new Esword_Text ($bible);
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $filter_text_bible->addUsfmCode ($chapter_data);
+    }
+  }
+  $filter_text_bible->run ($stylesheet);
   $filter_text_bible->esword_text->finalize ();
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
-  unset ($filter_text_bible->esword_text);
+  unset ($filter_text_bible);
 
-  // Create OpenDocument files for the whole Bible.
-  $database_logs->log ("exports: Save entire Bible to OpenDocument", true);
+
+  // Export to OpenDocument in standard Bible format: Text plus footnotes.
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text plus footnotes", true);
+  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible->odf_text_standard = new Odf_Text;
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $filter_text_bible->addUsfmCode ($chapter_data);
+    }
+  }
+  $filter_text_bible->run ($stylesheet);
   $filter_text_bible->odf_text_standard->save ("$odtDirectory/00_Bible_standard.odt");
-  $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
-  $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
-  $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
-  
+
+
   // Create the document with information about the Bible.
   $filter_text_bible->produceInfoDocument ("$infoDirectory/information.html");
   
   // Create the document with the formatting fallout.
   $filter_text_bible->produceFalloutDocument ("$infoDirectory/fallout.html");
+
+
+  // Export to OpenDocument in text-only format.
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text only", true);
+  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible->odf_text_text_only = new Odf_Text;
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $filter_text_bible->addUsfmCode ($chapter_data);
+    }
+  }
+  $filter_text_bible->run ($stylesheet);
+  $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
+
+
+  // Export to OpenDocument in text plus note citations format.
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text plus note citations", true);
+  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible->odf_text_text_and_note_citations = new Odf_Text;
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $filter_text_bible->addUsfmCode ($chapter_data);
+    }
+  }
+  $filter_text_bible->run ($stylesheet);
+  $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
+
+
+  // Export to OpenDocument in notes-only format.
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Notes only", true);
+  $filter_text_bible = new Filter_Text ($bible);
+  $filter_text_bible->odf_text_notes = new Odf_Text;
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
+      $chapter_data = trim ($chapter_data);
+      $filter_text_bible->addUsfmCode ($chapter_data);
+    }
+  }
+  $filter_text_bible->run ($stylesheet);
+  $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
+
+
+  // Free the converter to save on memory.
+  unset ($filter_text_bible);
+
 
   // Web indexer support files.
   // For each subsequent Bible, sphinxsearch uses a higher TCP port number.
