@@ -39,57 +39,6 @@ class Filter_Archive
   
 
   /**
-  * Compresses a file identified by $filename into zip format.
-  * Returns the path to the compressed archive it created.
-  * If $show_errors is true, it outputs errors in html.
-  */
-  public static function zipFile ($filename, $show_errors) // Todo replace this with function zip
-  {
-    $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
-    $dirname = escapeshellarg (dirname ($filename));
-    $basename = escapeshellarg (basename ($filename));
-    exec ("cd $dirname && zip $zippedfile $basename 2>&1", $output, $return_var);
-    if ($return_var != 0) {
-      @unlink ($zippedfile);
-      $zippedfile = NULL;
-      if ($show_errors) {
-        Assets_Page::error (gettext ("Failed to compress file"));
-        foreach ($output as $line) {
-          Assets_Page::error ($line);
-        }
-        Assets_Page::error ("Return status: $return_var");
-      }
-    }
-    return $zippedfile;
-  }
-  
-
-  /**
-  * Compresses a $folder into zip format.
-  * Returns the path to the compressed archive it created.
-  * If $show_errors is true, it outputs errors in html.
-  */
-  public static function zipFolder ($folder, $show_errors) // Todo replace this with function zip
-  {
-    $zippedfile = uniqid (sys_get_temp_dir() . "/") . ".zip";
-    $folder = escapeshellarg ($folder);
-    exec ("cd $folder && zip -r $zippedfile * 2>&1", $output, $return_var);
-    if ($return_var != 0) {
-      @unlink ($zippedfile);
-      unset ($zippedfile);
-      if ($show_errors) {
-        Assets_Page::error (gettext ("Failed to compress folder"));
-        foreach ($output as $line) {
-          Assets_Page::error ($line);
-        }
-        Assets_Page::error ("Return status: $return_var");
-      }
-    }
-    return $zippedfile;
-  }
-
-
-  /**
   * Uncompresses a zip archive identified by $file.
   * Returns the path to the folder it created.
   * If $show_errors is true, it outputs errors in html.
@@ -126,7 +75,7 @@ class Filter_Archive
     exec ("cd $dirname && tar -czf $tarball $basename 2>&1", $output, $return_var);
     if ($return_var != 0) {
       @unlink ($tarball);
-      unset ($tarball);
+      $tarball = NULL;
       if ($show_errors) {
         Assets_Page::error (gettext ("Failed to compress file"));
         foreach ($output as $line) {

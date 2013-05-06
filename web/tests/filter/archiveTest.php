@@ -34,13 +34,13 @@ class archiveTest extends PHPUnit_Framework_TestCase
   public function testFilterArchiveZipFile()
   {
     // Test zip compression.
-    $zipfile = Filter_Archive::zipFile ($this->file1, false);
+    $zipfile = Filter_Archive::zip ($this->file1, false);
     $this->assertTrue(file_exists ($zipfile));
-    $this->assertEquals(211, filesize ($zipfile));
+    $this->assertEquals(159, filesize ($zipfile));
     unlink ($zipfile);
     // Test that compressing a non-existing file returns NULL.
-    $zipfile = Filter_Archive::zipFile ("xxxxx", false);
-    $this->assertEquals(NULL, $zipfile);
+    $zipfile = Filter_Archive::zip ("xxxxx", false);
+    $this->assertEquals (NULL, $zipfile);
   }
 
 
@@ -51,21 +51,18 @@ class archiveTest extends PHPUnit_Framework_TestCase
     file_put_contents ("$folder/file1", $this->data1);
     file_put_contents ("$folder/file2", $this->data2);
     // Test zip compression.
-    $zipfile = Filter_Archive::zipFolder ($folder, false);
+    $zipfile = Filter_Archive::zip ($folder, false);
     $this->assertTrue(file_exists ($zipfile));
-    $this->assertEquals(396, filesize ($zipfile));
+    $this->assertEquals(292, filesize ($zipfile));
     // Clean up the mess.
     unlink ($zipfile);
-    // Test that compressing a non-existing folder returns NULL.
-    //$zipfile = Filter_Archive::zipFolder ("$folder/x", false);
-    //$this->assertEquals(NULL, $zipfile);
     Filter_Rmdir::rmdir ($folder);
   }
 
 
   public function testFilterArchiveUnzip()
   {
-    $zipfile = Filter_Archive::zipFile ($this->file1, false);
+    $zipfile = Filter_Archive::zip ($this->file1, false);
     // Test unzip.
     $folder = Filter_Archive::unzip ($zipfile, false);
     $this->assertTrue(file_exists ($folder));
@@ -93,7 +90,7 @@ class archiveTest extends PHPUnit_Framework_TestCase
     // Clean up tarball from /tmp folder.
     unlink ($tarball);
     // Test that compressing a non-existing file returns NULL.
-    $tarball = Filter_Archive::zipFile ("xxxxx", false);
+    $tarball = Filter_Archive::tarGzipFile ("xxxxx", false);
     $this->assertEquals(NULL, $tarball);
   }
 
