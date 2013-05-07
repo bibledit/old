@@ -385,8 +385,8 @@ foreach ($bibles as $bible) {
   }
   $filter_text_bible->run ($stylesheet);
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
-  unset ($filter_text_bible);
   unset ($filter_text_bible->odf_text_notes);
+  unset ($filter_text_bible);
 
 
   // Web indexer support files.
