@@ -34,76 +34,24 @@ if (php_sapi_name () != "cli") {
 }
 
 
-/*
-
 $database_config_general = Database_Config_General::getInstance ();
-$database_config_user = Database_Config_User::getInstance ();
-$database_users = Database_Users::getInstance();
-$database_mail = Database_Mail::getInstance();
 $database_bibles = Database_Bibles::getInstance ();
+$database_check = Database_Check::getInstance ();
 
 
-include ("paths/paths.php");
+$database_check->truncateOutput ();
 
 
-$bibles = $database_bibles->getDiffBibles ();
+$checkedBibles = $database_config_general->getCheckedBibles ();
+// Go through the Bibles.
+$bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
-
-
-  // The files get stored at http://site.org/bibledit-web/downloads/changes/<Bible>/<date>
-  $biblename = $database_bibles->getName ($bible);
-  $basePath  = "changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
-  $directory = "$localStatePath/$location/$basePath";
-  mkdir ($directory, 0777, true);
-
-  
-  // Produce the USFM and html files.
-  Filter_Diff::produceVerseLevel ($bible, $directory);
-
-  
-  // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
-  $database_bibles->deleteDiffBible ($bible);
-
-
-  // Create online page with changed verses.
-  $versesoutputfile = "$directory/changed_verses.html";
-  Filter_Diff::runWDiff ("$directory/verses_old.txt", "$directory/verses_new.txt", $versesoutputfile);
-
-
-  // Email users.
-  $subject = gettext ("Recent changes") . " " . $biblename;
-  $emailBody = file_get_contents ($versesoutputfile);
-  $users = $database_users->getUsers ();
-  foreach ($users as $user) {
-    if ($database_config_user->getUserBibleChangesNotification ($user)) {
-      $database_mail->send ($user, $subject, $emailBody);
-    }
-  }
-
-  
-  // If there are too many sets of changes, archive the oldest ones.
-  $changes_directory = dirname (dirname (__FILE__)) . "/downloads/changes/" . $biblename;
-  $archive_directory = "$changes_directory/archive";
-  @mkdir ($archive_directory, 0777, true);
-  $filenames = array ();
-  $modificationtimes = array ();
-  foreach (new DirectoryIterator ($changes_directory) as $fileInfo) {
-    if($fileInfo->isDot()) continue;
-    if($fileInfo->isDir()) {
-      $filenames[] = $fileInfo->getFilename();
-      $modificationtimes[] = $fileInfo->getMTime();
-    }
-  }
-  array_multisort ($modificationtimes, SORT_DESC, SORT_NUMERIC, $filenames);
-  for ($i = 7; $i < count ($filenames); $i++) {
-    rename ($changes_directory . "/" . $filenames[$i], $changes_directory . "/archive/" . $filenames[$i]);
-    $database_logs->log (gettext ("changes: Archiving older set of changes") . " " . $filenames[$i], true);
-  }
- 
-  
- 
+  // Skip Bibles that should not be checked.
+  if (!in_array ($bible, $checkedBibles)) continue;
+  // Run the bogus check.
+  $checks_bogus = new Checks_Bogus ();
+  $checks_bogus->run ($bible);
 }
-*/
 
 
 $database_logs->log (gettext ("checks: Completed"), true);

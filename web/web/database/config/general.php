@@ -344,7 +344,7 @@ class Database_Config_General
     $this->setValue ("timer-checks", $value);
   }
 
-  public function getCheckedBibles() {
+  public function getCheckedBibles () {
     return $this->getList ("checked-bibles", "");
   }
   public function setCheckedBibles ($value) {

@@ -12238,7 +12238,7 @@ CREATE TABLE IF NOT EXISTS check_output (
   chapter int,
   verse int,
   data text
-);
+) engine = MyISAM;
 
 
 CREATE TABLE IF NOT EXISTS check_suppress (
@@ -12248,7 +12248,7 @@ CREATE TABLE IF NOT EXISTS check_suppress (
   chapter int,
   verse int,
   data text
-);
+) engine = MyISAM;
 
 
 CREATE TABLE IF NOT EXISTS logger (
