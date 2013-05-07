@@ -211,8 +211,6 @@ foreach ($bibles as $bible) {
     unset ($filter_text_chapter);
     unset ($chapter_data);
     unset ($baseBookFileName);
-    // Some commenters said that the function to get the memory usage brings the allocated memory down.
-    memory_get_usage (true);
     
   }
 
@@ -266,7 +264,6 @@ foreach ($bibles as $bible) {
   $filter_text_bible->html_text_standard->save ("$plainWebDirectory/00-Bible.html");
   unset ($filter_text_bible->html_text_standard);
   unset ($filter_text_bible);
-  memory_get_usage (true);
 
 
   // Save to Online Bible format.
@@ -286,7 +283,6 @@ foreach ($bibles as $bible) {
   $filter_text_bible->onlinebible_text->save ("$onlineBibleDirectory/bible.exp");
   unset ($filter_text_bible->onlinebible_text);
   unset ($filter_text_bible);
-  memory_get_usage (true);
 
 
   // Save to eSword module.
@@ -307,7 +303,6 @@ foreach ($bibles as $bible) {
   $filter_text_bible->esword_text->createModule ("$eSwordDirectory/$bible.bblx");
   unset ($filter_text_bible->esword_text);
   unset ($filter_text_bible);
-  memory_get_usage (true);
 
 
   // Export to OpenDocument in standard Bible format: Text plus footnotes.
@@ -335,7 +330,6 @@ foreach ($bibles as $bible) {
   // Clear memory.
   unset ($filter_text_bible->odf_text_standard);
   unset ($filter_text_bible);
-  memory_get_usage (true);
 
 
   // Export to OpenDocument in text-only format.
@@ -355,7 +349,6 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_text_only->save ("$odtDirectory/00_Bible_text_only.odt");
   unset ($filter_text_bible->odf_text_text_only);
   unset ($filter_text_bible);
-  memory_get_usage (true);
 
 
   // Export to OpenDocument in text plus note citations format.
@@ -375,7 +368,6 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_text_and_note_citations->save ("$odtDirectory/00_Bible_text_and_note_citations.odt");
   unset ($filter_text_bible->odf_text_text_and_note_citations);
   unset ($filter_text_bible);
-  memory_get_usage (true);
 
 
   // Export to OpenDocument in notes-only format.
@@ -395,7 +387,6 @@ foreach ($bibles as $bible) {
   $filter_text_bible->odf_text_notes->save ("$odtDirectory/00_Bible_notes.odt");
   unset ($filter_text_bible->odf_text_notes);
   unset ($filter_text_bible);
-  memory_get_usage (true);
 
 
   // Web indexer support files.
