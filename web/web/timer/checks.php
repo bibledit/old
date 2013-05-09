@@ -35,8 +35,11 @@ if (php_sapi_name () != "cli") {
 
 
 $database_config_general = Database_Config_General::getInstance ();
+$database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $database_check = Database_Check::getInstance ();
+$database_users = Database_Users::getInstance ();
+$database_mail = Database_Mail::getInstance ();
 
 
 $database_check->truncateOutput ();
@@ -51,6 +54,33 @@ foreach ($bibles as $bible) {
   // Run the bogus check.
   $checks_bogus = new Checks_Bogus ();
   $checks_bogus->run ($bible);
+  unset ($checks_bogus);
+}
+
+
+// Create an email with details of the checks.
+$emailBody = array ();
+$hits = $database_check->getHits ();
+foreach ($hits as $hit) {
+  $identifiers [] = $hit['id'];
+  $bible = Filter_Html::sanitize ($database_bibles->getName ($hit['bible']));
+  $passage = Filter_Books::passagesDisplayInline (array (array ($hit['book'], $hit['chapter'], $hit['verse'])));
+  $data = Filter_Html::sanitize ($hit['data']);
+  $result = "<p>$bible $passage $data</p>";
+  $emailBody [] = $result;
+}
+
+
+// Send email to the users who subscribed to it.
+if (count ($emailBody) > 0) {
+  $subject = gettext ("Bible Checks");
+  $emailBody = implode ("\n", $emailBody);
+  $users = $database_users->getUsers ();
+  foreach ($users as $user) {
+    if ($database_config_user->getUserBibleChecksNotification ($user)) {
+      $database_mail->send ($user, $subject, $emailBody);
+    }
+  }
 }
 
 
