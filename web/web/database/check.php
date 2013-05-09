@@ -45,22 +45,72 @@ class Database_Check
   }
 
 
-/*
- // Todo update for retrieving data.
-  public function getBibles () 
+  public function getHits ()
   {
-    $bibles = array ();
+    $hits = array ();
     $database_instance = Database_Instance::getInstance();
-    $query = "SELECT DISTINCT name FROM bible_names ORDER BY name ASC;";
+    $query = "SELECT * FROM check_output WHERE NOT EXISTS (SELECT * FROM check_suppress WHERE check_output.bible=check_suppress.bible AND check_output.book=check_suppress.book AND check_output.chapter=check_suppress.chapter AND check_output.verse=check_suppress.verse AND check_output.data=check_suppress.data);";
     $result = $database_instance->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
-      $row = $result->fetch_row();
-      $bibles[] = $row[0];
+      $row = $result->fetch_assoc ();
+      $hits [] = $row;
     }
-    return $bibles;
+    return $hits;
   }
-*/
 
+
+  public function approve ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "INSERT INTO check_suppress SELECT * FROM check_output WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+  }
+
+
+  public function delete ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "DELETE FROM check_output WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+  }
+
+
+  public function getPassage ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT book, chapter, verse FROM check_output WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      return $result->fetch_assoc ();
+    }
+    return NULL;
+  }
+
+
+  public function getSuppressions ()
+  {
+    $suppressions = array ();
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT * FROM check_suppress;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_assoc ();
+      $suppressions [] = $row;
+    }
+    return $suppressions;
+  }
+
+
+  public function release ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "DELETE FROM check_suppress WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+  }
 
 
 }

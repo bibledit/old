@@ -12,6 +12,7 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $database_config_general = Database_Config_General::getInstance();
 $database_logs = Database_Logs::getInstance ();
 $database_bibles = Database_Bibles::getInstance();
+$database_check = Database_Check::getInstance ();
 
 
 if (isset($_GET['run'])) {
@@ -46,6 +47,28 @@ if (isset ($removebible)) {
   $bibles = array_values ($bibles);
   $database_config_general->setCheckedBibles ($bibles);
 }
+
+
+@$release = $_GET['release'];
+if (isset($release)) {
+  $database_check->release ($release);
+  $smarty->assign ("success", gettext ("The check result will no longer be suppressed."));
+}
+
+
+$identifiers = array ();
+$results = array ();
+$suppressions = $database_check->getSuppressions ();
+foreach ($suppressions as $suppression) {
+  $identifiers [] = $suppression['id'];
+  $bible = Filter_Html::sanitize ($database_bibles->getName ($suppression['bible']));
+  $passage = Filter_Books::passagesDisplayInline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
+  $data = Filter_Html::sanitize ($suppression['data']);
+  $result = "$bible $passage $data";
+  $results [] = $result;
+}
+$smarty->assign ("identifiers", $identifiers);
+$smarty->assign ("results", $results);
 
 
 $smarty->assign ("bibles", $database_config_general->getCheckedBibles ());

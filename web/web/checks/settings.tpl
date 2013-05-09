@@ -13,3 +13,12 @@
 {/section}
 <a href="settings.php?addbible=">[{t}add Bible{/t}]</a>
 </p>
+<br>
+<p>
+{t}Here is a list of suppressed check results.{/t}
+
+{t}Delete a result so that it is visible again in the list wth check results.{/t}
+</p>
+{section name=offset loop=$identifiers}
+<p><a href="settings.php?release={$identifiers[offset]}"> ✗ </a>{$results[offset]}</p>
+{/section} 
