@@ -40,6 +40,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_check = Database_Check::getInstance ();
 $database_users = Database_Users::getInstance ();
 $database_mail = Database_Mail::getInstance ();
+$database_books = Database_Books::getInstance ();
 
 
 $database_check->truncateOutput ();
@@ -51,10 +52,21 @@ $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
   // Skip Bibles that should not be checked.
   if (!in_array ($bible, $checkedBibles)) continue;
-  // Run the bogus check.
-  $checks_bogus = new Checks_Bogus ();
-  $checks_bogus->run ($bible);
-  unset ($checks_bogus);
+  // Go through the books and chapters.
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $bookname = $database_books->getEnglishFromId ($book);
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      $verses = Filter_Usfm::getVerseNumbers ($chapterUsfm);
+      foreach ($verses as $verse) {
+        $verseUsfm = Filter_Usfm::getVerseText ($chapterUsfm, $verse);
+        // Todo put checks here.
+        Checks_Doublespace::usfm ($bible, $book, $chapter, $verse, $verseUsfm);
+      }
+    }
+  }
 }
 
 

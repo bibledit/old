@@ -22,25 +22,19 @@
  */
 
 
-
-
-class Checks_Bogus
+class Checks_Doublespace
 {
 
 
-  public function run ($bible)
+  public function usfm ($bible, $book, $chapter, $verse, $data)
   {
-    $database_bibles = Database_Bibles::getInstance ();
     $database_check = Database_Check::getInstance ();
-    // Go through the books in the $bible
-    $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      // Go through the chapters.
-      $chapters = $database_bibles->getChapters ($bible, $book);
-      foreach ($chapters as $chapter) {
-        $verse = rand (1, 10);
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, md5 (rand ()));
-      }
+    $pos = strpos ($data, "  ");
+    if ($pos !== false) {
+      $start = $pos - 10;
+      if ($start < 0) $start = 0;
+      $fragment = substr ($data, $start, 20);
+      $database_check->recordOutput ($bible, $book, $chapter, $verse, "Double space:" . " ... " . $fragment . " ...");
     }
   }
  
