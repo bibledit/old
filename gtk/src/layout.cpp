@@ -23,6 +23,7 @@
 #include "gui_features.h"
 #include "screen.h"
 #include "gwrappers.h"
+#include <config.h>
 
 
 ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget * window)
@@ -147,7 +148,6 @@ void ScreenLayoutDimensions::timeout()
 #ifndef DARWIN
         // Function gtk_window_move crashes on some version of Mac OS X 
         // when bibledit-gtk is installed through macports.
-        cout << "Moving window " << mywindow << " to x " << x << " and y " << y << endl; // Todo
         gtk_window_move (mywindow, x, y);
 #endif
       }
