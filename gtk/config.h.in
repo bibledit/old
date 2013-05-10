@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* DARWIN */
+#undef DARWIN
+
 /* Define to 1 if pango >= 1.8.0. */
 #undef FIXED_PANGO
 
@@ -33,6 +36,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* LINUX */
+#undef LINUX
+
 /* Name of package */
 #undef PACKAGE
 
@@ -62,3 +68,6 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* WIN32 */
+#undef WIN32

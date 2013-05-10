@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 01:42+0200\n"
+"POT-Creation-Date: 2013-05-10 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -668,7 +668,16 @@ msgstr ""
 msgid "Typesetting in LibreOffice"
 msgstr ""
 
+msgid "The passage for this entry was not found."
+msgstr ""
+
 msgid "Checks"
+msgstr ""
+
+msgid "The entry was approved."
+msgstr ""
+
+msgid "The entry was deleted for just now."
 msgstr ""
 
 msgid "Settings"
@@ -681,6 +690,9 @@ msgid "Will run the checks within a minute"
 msgstr ""
 
 msgid "Would you like to add a Bible to the ones that will be checked?"
+msgstr ""
+
+msgid "The check result will no longer be suppressed."
 msgstr ""
 
 msgid "Warning"
@@ -829,6 +841,9 @@ msgid "changes: Completed"
 msgstr ""
 
 msgid "checks: Running checks on the Bibles"
+msgstr ""
+
+msgid "Bible Checks"
 msgstr ""
 
 msgid "checks: Completed"

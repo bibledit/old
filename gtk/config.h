@@ -1,6 +1,9 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* DARWIN */
+/* #undef DARWIN */
+
 /* Define to 1 if pango >= 1.8.0. */
 #define FIXED_PANGO 1
 
@@ -34,6 +37,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* LINUX */
+#define LINUX "1"
+
 /* Name of package */
 #define PACKAGE "bibledit-gtk"
 
@@ -47,7 +53,7 @@
 #define PACKAGE_NAME "bibledit-gtk"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit-gtk 4.7.12"
+#define PACKAGE_STRING "bibledit-gtk 4.7.13"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit-gtk"
@@ -56,10 +62,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.7.12"
+#define PACKAGE_VERSION "4.7.13"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "4.7.12"
+#define VERSION "4.7.13"
+
+/* WIN32 */
+/* #undef WIN32 */

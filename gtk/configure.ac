@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit-gtk],[4.7.12],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-gtk],[4.7.13],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
@@ -234,6 +234,7 @@ case "$host_os" in
 *linux*)
 	linux=true
 	AC_MSG_RESULT([yes])
+  AC_DEFINE_UNQUOTED(LINUX, "1",[LINUX])
 	;;
 *)
 	linux=false
@@ -248,6 +249,7 @@ case "$host_os" in
 *darwin*)
 	darwin=true
 	AC_MSG_RESULT([yes])
+  AC_DEFINE_UNQUOTED(DARWIN, "1",[DARWIN])
 	;;
 *)
 	darwin=false
@@ -262,6 +264,7 @@ case "$host_os" in
 *mingw*)
 	win32=true
 	AC_MSG_RESULT([yes])
+  AC_DEFINE_UNQUOTED(WIN32, "1",[WIN32])
 	;;
 *)
 	win32=false
