@@ -44,6 +44,7 @@ $database_books = Database_Books::getInstance ();
 
 
 $database_check->truncateOutput ();
+$stylesheet = $database_config_general->getExportStylesheet ();
 $check_double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm ();
 
 
@@ -56,7 +57,6 @@ foreach ($bibles as $bible) {
   // Go through the books and chapters.
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
-    $bookname = $database_books->getEnglishFromId ($book);
     $chapters = $database_bibles->getChapters ($bible, $book);
     foreach ($chapters as $chapter) {
       $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
@@ -67,6 +67,13 @@ foreach ($bibles as $bible) {
           Checks_Doublespace::usfm ($bible, $book, $chapter, $verse, $verseUsfm);
         }
       }
+      $filter_text = new Filter_Text ("");
+      $filter_text->initializeHeadingsAndTextPerVerse ();
+      $filter_text->addUsfmCode ($chapterUsfm);
+      $filter_text->run ($stylesheet);
+      $verses_headings = $filter_text->verses_headings;
+      $verses_text = $filter_text->verses_text;
+      Checks_Headers::noFullStopAtEnd ($bible, $book, $chapter, $verses_headings); // Todo honour enable/disable.
     }
   }
 }
