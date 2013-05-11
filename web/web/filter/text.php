@@ -524,7 +524,7 @@ class Filter_Text
                   case ParagraphSubtypeSectionHeading:
                   {
                     $this->newParagraph ($style, true);
-                    $this->heading_started = true; // Todo
+                    $this->heading_started = true;
                     $this->text_started = false;
                     break;
                   }
@@ -968,11 +968,11 @@ class Filter_Text
           if (isset ($this->text_text)) {
             $this->text_text->text ($currentItem);
           }
-          if (is_array ($this->verses_headings) && $this->heading_started) { // Todo
+          if (is_array ($this->verses_headings) && $this->heading_started) {
             $this->verses_headings [$this->currentVerseNumber] = $currentItem;
             $this->heading_started = false;
           }
-          if (is_array ($this->verses_text) && $this->text_started) { // Todo
+          if (is_array ($this->verses_text) && $this->text_started) {
             if (isset ($this->verses_text [$this->currentVerseNumber])) {
               $this->verses_text [$this->currentVerseNumber] .= $currentItem;
             } else {
@@ -1614,7 +1614,7 @@ class Filter_Text
   * The object will only use the array when it has been initialized.
   * The resulting arrays use the verse numbers as keys. Therefore it only works reliably within one chapter.
   */
-  public function initializeHeadingsAndTextPerVerse () // Todo
+  public function initializeHeadingsAndTextPerVerse ()
   {
     $this->verses_headings = array ();
     $this->verses_text = array ();
