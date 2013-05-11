@@ -55,16 +55,6 @@ class Filter_Character
   }
 
 
-  /**
-  * Returns an "em space", this is a mutton, nominally a space equal to the height of the font.
-  */
-  public static function emSpace ()
-  {
-    // The space below is U+2003.
-    return " ";
-  }
-
-
 }
 
 ?>

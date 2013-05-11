@@ -79,6 +79,12 @@ class Filter_Text
 
   public $text_text; // Object for exporting to plain text.
   
+  public $verses_headings; // Array to hold verse numbers and the text of the headings.
+  private $heading_started; // Flag for headings per verse processor.
+  public $verses_text; // Array to hold verse numbers and the plain text in that verse, without anything extra.
+  private $text_started; // Flag for text per verse processor.
+
+  
   /**
   * Class constructor.
   */
@@ -518,12 +524,15 @@ class Filter_Text
                   case ParagraphSubtypeSectionHeading:
                   {
                     $this->newParagraph ($style, true);
+                    $this->heading_started = true; // Todo
+                    $this->text_started = false;
                     break;
                   }
                   case ParagraphSubtypeNormalParagraph:
                   default:
                   {
                     $this->newParagraph ($style, false);
+                    $this->text_started = true;
                     break;
                   }
                 }
@@ -959,6 +968,20 @@ class Filter_Text
           if (isset ($this->text_text)) {
             $this->text_text->text ($currentItem);
           }
+          if (is_array ($this->verses_headings) && $this->heading_started) { // Todo
+            $this->verses_headings [$this->currentVerseNumber] = $currentItem;
+            $this->heading_started = false;
+          }
+          if (is_array ($this->verses_text) && $this->text_started) { // Todo
+            if (isset ($this->verses_text [$this->currentVerseNumber])) {
+              $this->verses_text [$this->currentVerseNumber] .= $currentItem;
+            } else {
+              // The verse text straight after the \v starts with an enSpace. Remove it.
+              $item = str_replace (Filter_Character::enSpace (), " ", $currentItem);
+              $this->verses_text [$this->currentVerseNumber] = ltrim ($item);
+              unset ($item);
+            }
+          }
         }
       }
     }
@@ -1180,7 +1203,6 @@ class Filter_Text
         if ($this->odf_text_notes) $this->odf_text_notes->addText ($currentItem);
         if ($this->html_text_standard) $this->html_text_standard->addNoteText ($currentItem);
         if ($this->html_text_linked) $this->html_text_linked->addNoteText ($currentItem);
-        //if ($this->onlinebible_text) $this->onlinebible_text->addText ($currentItem);
       }
     }
     
@@ -1584,9 +1606,21 @@ class Filter_Text
       $this->createdStyles [] = $marker;
     }
   }
+
+
+  /**
+  * This function initializes the array that holds verse numbers and the text of the headings,
+  * and the array that holds verse numbers and the plain text of the Bible.
+  * The object will only use the array when it has been initialized.
+  * The resulting arrays use the verse numbers as keys. Therefore it only works reliably within one chapter.
+  */
+  public function initializeHeadingsAndTextPerVerse () // Todo
+  {
+    $this->verses_headings = array ();
+    $this->verses_text = array ();
+  }  
   
-  
-  
+
 }
 
 ?>

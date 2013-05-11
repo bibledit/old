@@ -351,7 +351,7 @@ class Database_Config_General
     $this->setList ("checked-bibles", $value);
   }
 
-  public function getCheckDoubleSpacesUsfm () { // Todo use it
+  public function getCheckDoubleSpacesUsfm () {
     return $this->getValue ("double-spaces-usfm", "");
   }
   public function setCheckDoubleSpacesUsfm ($value) {

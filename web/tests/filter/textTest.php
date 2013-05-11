@@ -19,7 +19,7 @@ private $temporary_folder;
 
   }
 
-  
+
   /**
   * Test extraction of all sorts of information from USFM code
   * Test basic formatting into OpenDocument.
@@ -209,6 +209,71 @@ $standard = <<<'EOD'
 2
 1 Chapter 2, verse one. 2 Verse two.
 EOD;
+    $this->assertEquals ($output, $standard);
+  }
+
+
+  public function testVersesHeadings ()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\c 1
+\p
+\v 1 Verse one.
+\v 2 Verse two.
+\s Heading one
+\v 3 Verse three
+\p
+\s Heading two
+\v 4 Verse four.
+\v 5 Verse five.
+\c 2
+\s Heading three
+\v 1 Verse one.
+EOD;
+    $filter_text = new Filter_Text ("");
+    $filter_text->initializeHeadingsAndTextPerVerse ();
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("Standard");
+    $output = $filter_text->verses_headings;
+    $this->assertEquals ($output, array (2 => "Heading one", 3 => "Heading two", 0 => "Heading three"));
+  }
+
+
+  public function testVersesText ()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\c 1
+\p
+\v 2 Verse\x + \xt Isa. 1.1.\x* two.
+\v 3 Verse three\x + \xt Isa. 1.1.\x*.
+\s Heading one
+\p
+\v 4 Verse four.
+\p
+\s Heading two
+\p
+\v 5 Verse five.
+\v 6 Verse six.
+\c 2
+\s Heading three
+\p
+\v 1 Verse one\x + \xt Isa. 1.1.\x*.
+EOD;
+    $filter_text = new Filter_Text ("");
+    $filter_text->initializeHeadingsAndTextPerVerse ();
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("Standard");
+    $output = $filter_text->verses_text;
+    $standard = array (
+      2 => "Verse two.",
+      3 => "Verse three.",
+      4 => "Verse four.",
+      5 => "Verse five.",
+      6 => "Verse six.",
+      1 => "Verse one."
+    );
     $this->assertEquals ($output, $standard);
   }
 

@@ -9,6 +9,11 @@
 <p>The layout of the logbook is more compact in case of long entries.</p>
 <p>It installs on on Ubuntu Server 13.04 which no longer includes the smarty 2 engine.</p>
 <p>If any of the regular automatic tasks behaves unexpectedly, information about it will be in the logbook.</p>
+<p>Checks on the Bibles run every night.</p>
+<p>Results of the checks are visible on the web.</p>
+<p>Checks can be enabled or disabled.</p>
+<p>User who subscribe to the Bible checks receive regular emails if there are results of the checks.</p>
+<p>It can check on double spaces in the raw USFM of the Bibles.</p>
 <p></p>
 <p></p>
 
