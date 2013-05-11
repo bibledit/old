@@ -58,6 +58,7 @@ foreach ($hits as $hit) {
 }
 
 
+$smarty->assign ("resultcount", count ($identifiers));
 $smarty->assign ("identifiers", $identifiers);
 $smarty->assign ("results", $results);
 

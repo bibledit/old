@@ -49,6 +49,12 @@ if (isset ($removebible)) {
 }
 
 
+if (isset ($_GET['doublespacesusfm'])) {
+  $database_config_general->setCheckDoubleSpacesUsfm (!$database_config_general->getCheckDoubleSpacesUsfm ());
+}
+$smarty->assign ("double_spaces_usfm", $database_config_general->getCheckDoubleSpacesUsfm ());
+
+
 @$release = $_GET['release'];
 if (isset($release)) {
   $database_check->release ($release);

@@ -37,7 +37,7 @@ class Checks_Doublespace
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "Double space:" . " ... " . $fragment . " ...");
     }
   }
- 
+
   
 }
 

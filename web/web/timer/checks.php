@@ -44,10 +44,11 @@ $database_books = Database_Books::getInstance ();
 
 
 $database_check->truncateOutput ();
+$check_double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm ();
 
 
-$checkedBibles = $database_config_general->getCheckedBibles ();
 // Go through the Bibles.
+$checkedBibles = $database_config_general->getCheckedBibles ();
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
   // Skip Bibles that should not be checked.
@@ -62,8 +63,9 @@ foreach ($bibles as $bible) {
       $verses = Filter_Usfm::getVerseNumbers ($chapterUsfm);
       foreach ($verses as $verse) {
         $verseUsfm = Filter_Usfm::getVerseText ($chapterUsfm, $verse);
-        // Todo put checks here.
-        Checks_Doublespace::usfm ($bible, $book, $chapter, $verse, $verseUsfm);
+        if ($check_double_spaces_usfm) {
+          Checks_Doublespace::usfm ($bible, $book, $chapter, $verse, $verseUsfm);
+        }
       }
     }
   }

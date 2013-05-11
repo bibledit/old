@@ -14,11 +14,17 @@
 <a href="settings.php?addbible=">[{t}add Bible{/t}]</a>
 </p>
 <br>
+<p>{t}Enable any of the following checks to run them regularly:{/t}</p>
 <p>
-{t}Here is a list of suppressed check results.{/t}
-
-{t}Delete a result so that it is visible again in the list wth check results.{/t}
+<a href="settings.php?doublespacesusfm=">
+{if $double_spaces_usfm == true} ☑ {else} ☐ {/if}
+</a>
+{t}double spaces in the raw USFM{/t}
 </p>
+<br>
+<p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result so that it is visible again in the list with check results.{/t}</p>
 {section name=offset loop=$identifiers}
 <p><a href="settings.php?release={$identifiers[offset]}"> ✗ </a>{$results[offset]}</p>
 {/section} 
+
+
