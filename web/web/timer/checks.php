@@ -46,7 +46,8 @@ $database_books = Database_Books::getInstance ();
 $database_check->truncateOutput ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 $check_double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm ();
-$check_full_stop_in_headings = $database_config_general->getFullStopInHeadings ();
+$check_full_stop_in_headings = $database_config_general->getCheckFullStopInHeadings ();
+$check_space_before_punctuation = $database_config_general->getCheckSpaceBeforePunctuation ();
 
 
 // Go through the Bibles.
@@ -65,7 +66,7 @@ foreach ($bibles as $bible) {
       foreach ($verses as $verse) {
         $verseUsfm = Filter_Usfm::getVerseText ($chapterUsfm, $verse);
         if ($check_double_spaces_usfm) {
-          Checks_Doublespace::usfm ($bible, $book, $chapter, $verse, $verseUsfm);
+          Checks_Space::doubleSpaceUsfm ($bible, $book, $chapter, $verse, $verseUsfm);
         }
       }
       $filter_text = new Filter_Text ("");
@@ -76,6 +77,9 @@ foreach ($bibles as $bible) {
       $verses_text = $filter_text->verses_text;
       if ($check_full_stop_in_headings) {
         Checks_Headers::noFullStopAtEnd ($bible, $book, $chapter, $verses_headings);
+      }
+      if ($check_space_before_punctuation) {
+        Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);
       }
     }
   }

@@ -15,18 +15,28 @@
 </p>
 <br>
 <p>{t}Enable any of the following checks to run them regularly:{/t}</p>
+
 <p>
 <a href="settings.php?doublespacesusfm=">
 {if $double_spaces_usfm == true} ☑ {else} ☐ {/if}
 </a>
 {t}double spaces in the raw USFM{/t}
 </p>
+
 <p>
 <a href="settings.php?fullstopheadings=">
 {if $full_stop_headings == true} ☑ {else} ☐ {/if}
 </a>
 {t}full stops at the end of headings{/t}
 </p>
+
+<p>
+<a href="settings.php?spacebeforepunctuation=">
+{if $space_before_punctuation == true} ☑ {else} ☐ {/if}
+</a>
+{t}a space before a comma, a semicolon, a colon, a full stop, a question mark, or an exclamation mark{/t}
+</p>
+
 <br>
 <p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result so that it is visible again in the list with check results.{/t}</p>
 {section name=offset loop=$identifiers}

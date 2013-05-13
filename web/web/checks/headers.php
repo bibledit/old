@@ -26,7 +26,7 @@ class Checks_Headers
 {
 
 
-  public function noFullStopAtEnd ($bible, $book, $chapter, $headings) // Todo
+  public function noFullStopAtEnd ($bible, $book, $chapter, $headings)
   {
     if (!is_array ($headings)) return;
     $database_check = Database_Check::getInstance ();

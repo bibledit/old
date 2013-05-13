@@ -358,12 +358,20 @@ class Database_Config_General
     $this->setValue ("double-spaces-usfm", $value);
   }
 
-  public function getFullStopInHeadings () {
+  public function getCheckFullStopInHeadings () {
     return $this->getValue ("full-stop-headings", "");
   }
-  public function setFullStopInHeadings ($value) {
+  public function setCheckFullStopInHeadings ($value) {
     $this->setValue ("full-stop-headings", $value);
   }
+
+  public function getCheckSpaceBeforePunctuation () {
+    return $this->getValue ("space-before-punctuation", "");
+  }
+  public function setCheckSpaceBeforePunctuation ($value) {
+    $this->setValue ("space-before-punctuation", $value);
+  }
+
 }
 
 

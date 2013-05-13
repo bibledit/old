@@ -56,9 +56,15 @@ $smarty->assign ("double_spaces_usfm", $database_config_general->getCheckDoubleS
 
 
 if (isset ($_GET['fullstopheadings'])) {
-  $database_config_general->setFullStopInHeadings (!$database_config_general->getFullStopInHeadings ());
+  $database_config_general->setCheckFullStopInHeadings (!$database_config_general->getCheckFullStopInHeadings ());
 }
-$smarty->assign ("full_stop_headings", $database_config_general->getFullStopInHeadings ());
+$smarty->assign ("full_stop_headings", $database_config_general->getCheckFullStopInHeadings ());
+
+
+if (isset ($_GET['spacebeforepunctuation'])) {
+  $database_config_general->setCheckSpaceBeforePunctuation (!$database_config_general->getCheckSpaceBeforePunctuation ());
+}
+$smarty->assign ("space_before_punctuation", $database_config_general->getCheckSpaceBeforePunctuation ());
 
 
 @$release = $_GET['release'];
