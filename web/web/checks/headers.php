@@ -31,6 +31,9 @@ class Checks_Headers
     if (!is_array ($headings)) return;
     $database_check = Database_Check::getInstance ();
     foreach ($headings as $verse => $heading) {
+      // Full stops often occur in the inspired headings of many Psalms in verse 0.
+      // Skip these.
+      if (($book == 19) && ($verse == 0)) continue;
       $lastCharacter = substr ($heading, -1, 1);
       if ($lastCharacter == ".") {
         $database_check->recordOutput ($bible, $book, $chapter, $verse, "Full stop at end of heading:" . " " . $heading);
