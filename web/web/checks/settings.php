@@ -55,6 +55,12 @@ if (isset ($_GET['doublespacesusfm'])) {
 $smarty->assign ("double_spaces_usfm", $database_config_general->getCheckDoubleSpacesUsfm ());
 
 
+if (isset ($_GET['fullstopheadings'])) {
+  $database_config_general->setFullStopInHeadings (!$database_config_general->getFullStopInHeadings ());
+}
+$smarty->assign ("full_stop_headings", $database_config_general->getFullStopInHeadings ());
+
+
 @$release = $_GET['release'];
 if (isset($release)) {
   $database_check->release ($release);

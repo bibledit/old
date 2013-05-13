@@ -21,6 +21,12 @@
 </a>
 {t}double spaces in the raw USFM{/t}
 </p>
+<p>
+<a href="settings.php?fullstopheadings=">
+{if $full_stop_headings == true} ☑ {else} ☐ {/if}
+</a>
+{t}full stop at the end of headings{/t}
+</p>
 <br>
 <p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result so that it is visible again in the list with check results.{/t}</p>
 {section name=offset loop=$identifiers}

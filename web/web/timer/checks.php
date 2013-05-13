@@ -46,6 +46,7 @@ $database_books = Database_Books::getInstance ();
 $database_check->truncateOutput ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 $check_double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm ();
+$check_full_stop_in_headings = $database_config_general->getFullStopInHeadings ();
 
 
 // Go through the Bibles.
@@ -73,7 +74,9 @@ foreach ($bibles as $bible) {
       $filter_text->run ($stylesheet);
       $verses_headings = $filter_text->verses_headings;
       $verses_text = $filter_text->verses_text;
-      Checks_Headers::noFullStopAtEnd ($bible, $book, $chapter, $verses_headings); // Todo honour enable/disable.
+      if ($check_full_stop_in_headings) {
+        Checks_Headers::noFullStopAtEnd ($bible, $book, $chapter, $verses_headings);
+      }
     }
   }
 }

@@ -358,6 +358,12 @@ class Database_Config_General
     $this->setValue ("double-spaces-usfm", $value);
   }
 
+  public function getFullStopInHeadings () {
+    return $this->getValue ("full-stop-headings", "");
+  }
+  public function setFullStopInHeadings ($value) {
+    $this->setValue ("full-stop-headings", $value);
+  }
 }
 
 
