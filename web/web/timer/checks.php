@@ -48,6 +48,7 @@ $stylesheet = $database_config_general->getExportStylesheet ();
 $check_double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm ();
 $check_full_stop_in_headings = $database_config_general->getCheckFullStopInHeadings ();
 $check_space_before_punctuation = $database_config_general->getCheckSpaceBeforePunctuation ();
+$check_sentence_structure = $database_config_general->getCheckSentenceStructure ();
 
 
 // Go through the Bibles.
@@ -80,6 +81,9 @@ foreach ($bibles as $bible) {
       }
       if ($check_space_before_punctuation) {
         Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);
+      }
+      if ($check_sentence_structure) {
+        //  ($bible, $book, $chapter, $verses_text); Todo
       }
     }
   }

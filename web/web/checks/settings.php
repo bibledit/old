@@ -67,6 +67,12 @@ if (isset ($_GET['spacebeforepunctuation'])) {
 $smarty->assign ("space_before_punctuation", $database_config_general->getCheckSpaceBeforePunctuation ());
 
 
+if (isset ($_GET['sentencestructure'])) {
+  $database_config_general->setCheckSentenceStructure (!$database_config_general->getCheckSentenceStructure ());
+}
+$smarty->assign ("sentence_structure", $database_config_general->getCheckSentenceStructure ());
+
+
 @$release = $_GET['release'];
 if (isset($release)) {
   $database_check->release ($release);

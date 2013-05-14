@@ -372,6 +372,48 @@ class Database_Config_General
     $this->setValue ("space-before-punctuation", $value);
   }
 
+  public function getCheckSentenceStructure () { // Todo
+    return $this->getValue ("sentence-structure", "");
+  }
+  public function setCheckSentenceStructure ($value) {
+    $this->setValue ("sentence-structure", $value);
+  }
+
+  public function getSentenceStructureCapitals () {
+    return $this->getValue ("sentence-structure-capitals", "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
+  }
+  public function setSentenceStructureCapitals ($value) {
+    $this->setValue ("sentence-structure-capitals", $value);
+  }
+
+  public function getSentenceStructureSmallLetters () {
+    return $this->getValue ("sentence-structure-small-letters", "a b c d e f g h i j k l m n o p q r s t u v w x y z");
+  }
+  public function setSentenceStructureSmallLetters ($value) {
+    $this->setValue ("sentence-structure-small-letters", $value);
+  }
+
+  public function getSentenceStructureEndPunctuation () {
+    return $this->getValue ("sentence-structure-end-punctuation", ". ! ? :");
+  }
+  public function setSentenceStructureEndPunctuation ($value) {
+    $this->setValue ("sentence-structure-end-punctuation", $value);
+  }
+
+  public function getSentenceStructureMiddlePunctuation () {
+    return $this->getValue ("sentence-structure-middle-punctuation", ", ;");
+  }
+  public function setSentenceStructureMiddlePunctuation ($value) {
+    $this->setValue ("sentence-structure-middle-punctuation", $value);
+  }
+
+  public function getSentenceStructureDisregards () {
+    return $this->getValue ("sentence-structure-disregards", "( ) [ ] { } ' \" * 0 1 2 3 4 5 6 7 8 9");
+  }
+  public function setSentenceStructureDisregards ($value) {
+    $this->setValue ("sentence-structure-disregards", $value);
+  }
+
 }
 
 

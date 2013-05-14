@@ -39,7 +39,7 @@ class Checks_Space
   }
 
 
-  public function spaceBeforePunctuation ($bible, $book, $chapter, $texts) // Todo
+  public function spaceBeforePunctuation ($bible, $book, $chapter, $texts)
   {
     if (!is_array ($texts)) return;
     $database_check = Database_Check::getInstance ();
@@ -60,7 +60,7 @@ class Checks_Space
         $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a question mark");
       }
       if (strpos ($text, " !") !== false) {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a exclamation mark");
+        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before an exclamation mark");
       }
     }
   }
