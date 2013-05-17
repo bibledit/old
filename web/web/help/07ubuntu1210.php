@@ -6,7 +6,3 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $smarty->display("07ubuntu1210.tpl");
 Assets_Page::footer ();
 ?>
-
-
-
-

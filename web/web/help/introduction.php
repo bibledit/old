@@ -6,7 +6,3 @@ $smarty = new Smarty_Bibledit (__FILE__);
 $smarty->display("introduction.tpl");
 Assets_Page::footer ();
 ?>
-
-
-
-
