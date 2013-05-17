@@ -372,7 +372,7 @@ class Database_Config_General
     $this->setValue ("space-before-punctuation", $value);
   }
 
-  public function getCheckSentenceStructure () { // Todo
+  public function getCheckSentenceStructure () {
     return $this->getValue ("sentence-structure", "");
   }
   public function setCheckSentenceStructure ($value) {
@@ -408,10 +408,17 @@ class Database_Config_General
   }
 
   public function getSentenceStructureDisregards () {
-    return $this->getValue ("sentence-structure-disregards", "( ) [ ] { } ' \" * 0 1 2 3 4 5 6 7 8 9");
+    return $this->getValue ("sentence-structure-disregards", "( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
   }
   public function setSentenceStructureDisregards ($value) {
     $this->setValue ("sentence-structure-disregards", $value);
+  }
+
+  public function getSentenceStructureNames () {
+    return $this->getValue ("sentence-structure-names", "");
+  }
+  public function setSentenceStructureNames ($value) {
+    $this->setValue ("sentence-structure-names", $value);
   }
 
 }

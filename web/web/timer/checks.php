@@ -49,6 +49,12 @@ $check_double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm (
 $check_full_stop_in_headings = $database_config_general->getCheckFullStopInHeadings ();
 $check_space_before_punctuation = $database_config_general->getCheckSpaceBeforePunctuation ();
 $check_sentence_structure = $database_config_general->getCheckSentenceStructure ();
+$checks_sentences = new Checks_Sentences ();
+$checks_sentences->enterCapitals ($database_config_general->getSentenceStructureCapitals ());
+$checks_sentences->enterSmallLetters ($database_config_general->getSentenceStructureSmallLetters ());
+$checks_sentences->enterEndMarks ($database_config_general->getSentenceStructureEndPunctuation ());
+$checks_sentences->enterCenterMarks ($database_config_general->getSentenceStructureMiddlePunctuation ());
+$checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
 
 
 // Go through the Bibles.
@@ -83,7 +89,15 @@ foreach ($bibles as $bible) {
         Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);
       }
       if ($check_sentence_structure) {
-        //  ($bible, $book, $chapter, $verses_text); Todo
+        $checks_sentences->initializeState ();
+        $checks_sentences->check ($verses_text);
+        $checks_sentences->finalizeState ();
+        $results = $checks_sentences->getResults ();
+        foreach ($results as $result) {
+          $verse = array_keys ($result);
+          $verse = $verse [0];
+          $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
+        }
       }
     }
   }

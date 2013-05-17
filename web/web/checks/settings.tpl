@@ -41,10 +41,11 @@
 <a href="settings.php?sentencestructure=">
 {if $sentence_structure == true} ☑ {else} ☐ {/if}
 </a>
-<a href="settingssentencestructure.php">
-{t}capital at the start of a sentence and correct punctuation at the end{/t}
-</a>
+{t}sentence structure{/t}
 </p>
+
+<br>
+<p><a href="settingssentences.php">{t}Settings for the sentence structure{/t}</a></p>
 
 <br>
 <p><a href="index.php">{t}Go back{/t}</a></p>

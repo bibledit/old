@@ -16,7 +16,7 @@
 <p>It has a check on double spaces in the raw USFM of the Bibles.</p>
 <p>It has a check on a full stop at the end of a heading in the Bibles.</p>
 <p>It has a check on a space before a comma, semicolon, colon, full stop, question mark, or exclamation mark in the Bible text.</p>
-<p>It has a check on a capital at the start of a sentence and correct punctuation at the end if it in the Bible text.</p>
+<p>It has a check on a the structure and punctuation of sentences in the Bible text.</p>
 <p></p>
 
 <h2>Version 0.8</h2>
