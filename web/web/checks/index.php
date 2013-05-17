@@ -43,24 +43,47 @@ if (isset ($delete)) {
 }
 
 
-$identifiers = array ();
-$results = array ();
+@$release = $_GET['release'];
+if (isset($release)) {
+  $database_check->release ($release);
+  $smarty->assign ("success", gettext ("The check result will no longer be suppressed."));
+}
+
+
+$result_ids = array ();
+$result_data = array ();
 
 
 $hits = $database_check->getHits ();
 foreach ($hits as $hit) {
-  $identifiers [] = $hit['id'];
+  $result_ids [] = $hit['id'];
   $bible = Filter_Html::sanitize ($database_bibles->getName ($hit['bible']));
   $passage = Filter_Books::passagesDisplayInline (array (array ($hit['book'], $hit['chapter'], $hit['verse'])));
   $data = Filter_Html::sanitize ($hit['data']);
   $result = "$bible $passage $data";
-  $results [] = $result;
+  $result_data [] = $result;
 }
+$smarty->assign ("resultcount", count ($result_ids));
+$smarty->assign ("result_ids", $result_ids);
+$smarty->assign ("result_data", $result_data);
 
 
-$smarty->assign ("resultcount", count ($identifiers));
-$smarty->assign ("identifiers", $identifiers);
-$smarty->assign ("results", $results);
+$suppressed_ids = array ();
+$suppressed_data = array ();
+$suppressions = $database_check->getSuppressions ();
+foreach ($suppressions as $suppression) {
+  $suppressed_ids [] = $suppression['id'];
+  $bible = Filter_Html::sanitize ($database_bibles->getName ($suppression['bible']));
+  $passage = Filter_Books::passagesDisplayInline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
+  $data = Filter_Html::sanitize ($suppression['data']);
+  $result = "$bible $passage $data";
+  $suppressed_data [] = $result;
+}
+$smarty->assign ("suppressedcount", count ($suppressed_ids));
+$smarty->assign ("suppressed_ids", $suppressed_ids);
+$smarty->assign ("suppressed_data", $suppressed_data);
+
+
 
 
 $smarty->display("index.tpl");

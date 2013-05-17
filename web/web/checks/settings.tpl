@@ -46,14 +46,3 @@
 
 <br>
 <p><a href="settingssentences.php">{t}Settings for the sentence structure{/t}</a></p>
-
-<br>
-<p><a href="index.php">{t}Go back{/t}</a></p>
-
-<br>
-<p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result so that it is visible again in the list with check results.{/t}</p>
-{section name=offset loop=$identifiers}
-<p><a href="settings.php?release={$identifiers[offset]}"> ✗ </a>{$results[offset]}</p>
-{/section} 
-
-

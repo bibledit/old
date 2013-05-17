@@ -6,13 +6,13 @@
   <p>{t}This could be because the Bible text is okay.{/t}</p>
   <p>{t}Else check whether the checks been enabled.{/t}</p>
 {else}
-  {section name=offset loop=$identifiers}
-  <p><a href="index.php?approve={$identifiers[offset]}"> 
+  {section name=offset loop=$result_ids}
+  <p><a href="index.php?approve={$result_ids[offset]}"> 
   ✔
-  <a href="index.php?delete={$identifiers[offset]}"> 
+  <a href="index.php?delete={$result_ids[offset]}"> 
   ✗
-  </a><a href="index.php?goto={$identifiers[offset]}">
-  {$results[offset]}
+  </a><a href="index.php?goto={$result_ids[offset]}">
+  {$result_data[offset]}
   </a></p>
   {/section} 
   <br>
@@ -20,5 +20,10 @@
   <p>{t}Click on ✗ to delete the entry for just now.{/t} {t}The entry will be back in subsequent checks.{/t}</p>
   <p>{t}Click the entry to navigate to the passage.{/t}</p>
 {/if}
-<br>
-<p><a href="settings.php">{t}Settings{/t}</a></p>
+{if $suppressedcount >= 0}
+  <br>
+  <p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result so that it is visible again in the list with check results.{/t}</p>
+  {section name=offset loop=$suppressed_ids}
+  <p><a href="index.php?release={$suppressed_ids[offset]}"> ✗ </a>{$suppressed_data[offset]}</p>
+  {/section} 
+{/if}
