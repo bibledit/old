@@ -20,10 +20,11 @@
   <p>{t}Click on ✗ to delete the entry for just now.{/t} {t}The entry will be back in subsequent checks.{/t}</p>
   <p>{t}Click the entry to navigate to the passage.{/t}</p>
 {/if}
-{if $suppressedcount >= 0}
+{if $suppressedcount == 0}
+{else}
   <br>
   <p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result so that it is visible again in the list with check results.{/t}</p>
-  {section name=offset loop=$suppressed_ids}
-  <p><a href="index.php?release={$suppressed_ids[offset]}"> ✗ </a>{$suppressed_data[offset]}</p>
-  {/section} 
 {/if}
+{section name=offset loop=$suppressed_ids}
+<p style="color:grey;"><a href="index.php?release={$suppressed_ids[offset]}"> ✗ </a>{$suppressed_data[offset]}</p>
+{/section} 
