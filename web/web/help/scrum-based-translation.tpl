@@ -63,3 +63,4 @@
  {t}The Scrum Master ensures to set a good example for leading the daily scrum meeting.{/t}
 </p>
 <br>
+<p><a href="http://en.wikipedia.org/wiki/Stand-up_meeting">{t}External reference.{/t}</a></p>
