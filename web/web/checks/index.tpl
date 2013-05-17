@@ -23,7 +23,7 @@
 {if $suppressedcount == 0}
 {else}
   <br>
-  <p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result so that it is visible again in the list with check results.{/t}</p>
+  <p>{t}Here is a list of suppressed check results.{/t} {t}Delete a result to make it visible again in the list with check results above.{/t}</p>
 {/if}
 {section name=offset loop=$suppressed_ids}
 <p style="color:grey;"><a href="index.php?release={$suppressed_ids[offset]}"> ✗ </a>{$suppressed_data[offset]}</p>

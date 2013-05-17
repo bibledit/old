@@ -18,7 +18,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
     $this->check->enterCenterMarks (", ;");
     $this->check->enterDisregards ("( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
     $this->check->enterNames (array ("Nkosi Longnamelongnamelongname"));
-    $this->check->initializeState ();
+    $this->check->initialize ();
   }
 
   
@@ -31,7 +31,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testUnknownCharacter ()
   {
     $this->check->check (array (1 => "Abc ➊ abc."));
-    $this->check->finalizeState ();
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (1 => "Unknown character: ➊"));
     $this->assertEquals ($results, $standard);
@@ -41,19 +41,17 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testCapitalAfterMidSentencePunctuationMark ()
   {
     $this->check->check (array (2 => "He said, Go."));
-    $this->check->finalizeState ();
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "Capital follows mid-sentence punctuation mark: He said, Go."));
     $this->assertEquals ($results, $standard);
   }
 
 
-
-
   public function testCapitalStraightAfterMidSentencePunctuationMark ()
   {
     $this->check->check (array (2 => "He said,Go."));
-    $this->check->finalizeState ();
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "Capital follows straight after a mid-sentence punctuation mark: He said,Go."));
     $this->assertEquals ($results, $standard);
@@ -63,7 +61,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testSmallLetterStraightAfterMidSentencePunctuationMark ()
   {
     $this->check->check (array (2 => "He said,go."));
-    $this->check->finalizeState ();
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "Small letter follows straight after a mid-sentence punctuation mark: He said,go."));
     $this->assertEquals ($results, $standard);
@@ -73,7 +71,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testTwoVersesOkay ()
   {
     $this->check->check (array (17 => "Jezus kwam naar de wereld,", 18 => "dat hij zou lijden."));
-    $this->check->finalizeState ();
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array ();
     $this->assertEquals ($results, $standard);
@@ -90,7 +88,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
       21 => "Yasisithi kuye: Khangela, ngibemukele ubuso bakho lakulolu udaba, ukuze ngingawuchithi umuzi okhulume ngawo.",
       22 => "Phangisa, balekela kuwo; ngoba ngingeze ngenza ulutho uze ufike kuwo. Ngakho babiza ibizo lomuzi ngokuthi yiZowari."
     ));
-    $this->check->finalizeState ();
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array ();
     $this->assertEquals ($results, $standard);
@@ -100,7 +98,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testLongName ()
   {
     $this->check->check (array (17 => "O, Longnamelongnamelongname."));
-    $this->check->finalizeState ();
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array ();
     $this->assertEquals ($results, $standard);

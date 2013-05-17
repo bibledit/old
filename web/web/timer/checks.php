@@ -57,7 +57,7 @@ $checks_sentences->enterEndMarks ($end_marks);
 $center_marks = $database_config_general->getSentenceStructureMiddlePunctuation ();
 $checks_sentences->enterCenterMarks ($center_marks);
 $checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
-$checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ()); // Todo
+$checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ());
 
 
 // Go through the Bibles.
@@ -86,15 +86,15 @@ foreach ($bibles as $bible) {
       $verses_headings = $filter_text->verses_headings;
       $verses_text = $filter_text->verses_text;
       if ($check_full_stop_in_headings) {
-        Checks_Headers::noPunctuationAtEnd ($bible, $book, $chapter, $verses_headings, $center_marks, $end_marks); // Todo
+        Checks_Headers::noPunctuationAtEnd ($bible, $book, $chapter, $verses_headings, $center_marks, $end_marks);
       }
       if ($check_space_before_punctuation) {
-        Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);
+        Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text); // Todo
       }
       if ($check_sentence_structure) {
-        $checks_sentences->initializeState ();
+        $checks_sentences->initialize ();
         $checks_sentences->check ($verses_text);
-        $checks_sentences->finalizeState ();
+        $checks_sentences->finalize ();
         $results = $checks_sentences->getResults ();
         foreach ($results as $result) {
           $verse = array_keys ($result);

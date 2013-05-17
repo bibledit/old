@@ -17,26 +17,30 @@
 <br>
 <p>{t}Consultants can create consultation notes online, view these, set parameters for these, assign the notes to people, and delete notes.{/t}</p>
 <br>
-<p>{t}Translators can edit the Bible text.{/t}</p>
+<p>{t}Translators can do the following things:{/t}</p>
+<p>* {t}Edit the Bible text.{/t}</p>
+<p>* {t}Switch the stylesheet.{/t}</p>
+<p>* {t}View and suppress results of the automatic checks.{/t}</p>
 <br>
-<p>{t}Managers can do several things.{/t}</p>
-<p>{t}They can edit the Bible in raw USFM format.{/t}</p>
-<p>{t}They can send and receive the Bible text. This means that they can synchronize the Bible text with a remote git repository. In this way they can collaborate with people who use Bibledit-Gtk.{/t}</p>
-<p>{t}They can view and clear the logbook.{/t}</p>
-<p>{t}They can process the changes, so that lists are created, and email is sent out.{/t}</p>
-<p>{t}They can view and edit people who have an account, and create new accounts.{/t}</p>
-<p>{t}They can create and delete Bibles, books, chapters, and import USFM data.{/t}</p>
-<p>{t}They can initiate the daily export of selected Bibles to OpenDocument, USFM, html, Online Bible.{/t}</p>
-<p>{t}They can create and edit versification systems.{/t}</p>
-<p>{t}They can create and edit stylesheets.{/t}</p>
-<p>{t}They can import consultation notes from Bibledit-Gtk and remove duplicates.{/t}</p>
-<p>{t}They can deal with automatic hyphenation when exporting to OpenDocument.{/t}</p>
+<p>{t}Managers can do several things:{/t}</p>
+<p>* {t}Edit the Bible in raw USFM format.{/t}</p>
+<p>* {t}Send and receive the Bible text. This means that they can synchronize the Bible text with a remote git repository. In this way they can collaborate with people who use Bibledit-Gtk.{/t}</p>
+<p>* {t}View and clear the logbook.{/t}</p>
+<p>* {t}Process the changes, so that lists are created, and email is sent out.{/t}</p>
+<p>* {t}View and edit people who have an account, and create new accounts.{/t}</p>
+<p>* {t}Create and delete Bibles, books, chapters, and import USFM data.{/t}</p>
+<p>* {t}Initiate the daily export of selected Bibles to OpenDocument, USFM, html, Online Bible.{/t}</p>
+<p>* {t}Create and edit versification systems.{/t}</p>
+<p>* {t}Create and edit stylesheets.{/t}</p>
+<p>* {t}Import consultation notes from Bibledit-Gtk and remove duplicates.{/t}</p>
+<p>* {t}Deal with automatic hyphenation when exporting to OpenDocument.{/t}</p>
+<p>* {t}Make settings for the automatic check and select Bibles to run them on.{/t}</p>
 <br>
-<p>{t}Administrator can do several things.{/t}</p>
-<p>{t}They can setup Bibledit-Web's email account.{/t}</p>
-<p>{t}They can create backups and restore them.{/t}</p>
-<p>{t}They can set up collaboration through setting up a connection with a remote git repository.{/t}</p>
-<p>{t}They can maintain the database.{/t}</p>
-<p>{t}They can set the site's timezone.{/t}</p>
-<p>{t}They can set the site's language.{/t}</p>
-<p>{t}They can view the PHP Info.{/t}</p>
+<p>{t}Administrator can do several things:{/t}</p>
+<p>* {t}Set up Bibledit-Web's email account.{/t}</p>
+<p>* {t}Create backups and restore them.{/t}</p>
+<p>* {t}Set up collaboration through setting up a connection with a remote git repository.{/t}</p>
+<p>* {t}Maintain the database.{/t}</p>
+<p>* {t}Set the site's timezone.{/t}</p>
+<p>* {t}Set the site's language.{/t}</p>
+<p>* {t}View the PHP Info.{/t}</p>

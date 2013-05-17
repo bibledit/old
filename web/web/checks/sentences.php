@@ -32,7 +32,7 @@ class Checks_Sentences
   private $disregards;
   private $names;
 
-  // Sentence state machine.
+  // State.
   private $verseNumber;
   private $currentPosition;
   private $withinSentence;
@@ -103,7 +103,7 @@ class Checks_Sentences
   }
 
 
-  public function initializeState ()
+  public function initialize ()
   {
     $this->currentPosition = 0;
     $this->spacePosition = 0;
@@ -111,7 +111,6 @@ class Checks_Sentences
     $this->smallLetterPosition = 0;
     $this->endMarkPosition = 0;
     $this->centerMarkPosition = 0;
-    $this->withinSentence = false;
     $this->checkingResults = array ();
     $this->fullText = "";
   }
@@ -204,7 +203,7 @@ class Checks_Sentences
   }
 
 
-  public function finalizeState ()
+  public function finalize ()
   {
   }
 
@@ -265,7 +264,6 @@ class Checks_Sentences
     $this->isCapital = in_array ($this->grapheme, $this->capitals);
     if ($this->isCapital) {
       $this->capitalPosition = $this->currentPosition;
-      $this->withinSentence = true;
     }
     
     $this->isSmallLetter = in_array ($this->grapheme, $this->small_letters);
@@ -282,9 +280,7 @@ class Checks_Sentences
     if ($this->isCenterMark) {
       $this->centerMarkPosition = $this->currentPosition;
     }
-
   }  
-  
 
   
 }
