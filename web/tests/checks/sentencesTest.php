@@ -17,7 +17,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
     $this->check->enterEndMarks (". ! ? :");
     $this->check->enterCenterMarks (", ;");
     $this->check->enterDisregards ("( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
-    $this->check->enterNames ("Nkosi Longnamelongnamelongname");
+    $this->check->enterNames (array ("Nkosi Longnamelongnamelongname"));
     $this->check->initializeState ();
   }
 

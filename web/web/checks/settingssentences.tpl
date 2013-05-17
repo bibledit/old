@@ -39,6 +39,7 @@
 </form>
 <br>
 <p>{t}Enter the names, starting with a capital, that may occur after mid-sentence punctuation, separated by a space.{/t}</p>
+<p>{t}Separate the names by a space. Put no more than 10 names on one line.{/t}</p>
 <p>{t}For example{/t} Jesus Paul Peter ...</p>
 <form action="settingssentences.php" name="form6" method="post">
   <p><textarea name="names" class="fullwidth">{$names}</textarea></p>

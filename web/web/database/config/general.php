@@ -414,11 +414,11 @@ class Database_Config_General
     $this->setValue ("sentence-structure-disregards", $value);
   }
 
-  public function getSentenceStructureNames () {
-    return $this->getValue ("sentence-structure-names", "");
+  public function getSentenceStructureNames () { // Todo update where it's used.
+    return $this->getList ("sentence-structure-names", "");
   }
-  public function setSentenceStructureNames ($value) {
-    $this->setValue ("sentence-structure-names", $value);
+  public function setSentenceStructureNames ($value) { // Todo update where it's used.
+    $this->setList ("sentence-structure-names", $value);
   }
 
 }

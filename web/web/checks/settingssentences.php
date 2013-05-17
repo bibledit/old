@@ -41,7 +41,10 @@ if (isset($_POST['disregards'])) {
 
 
 if (isset($_POST['names'])) {
-  $database_config_general->setSentenceStructureNames ($_POST['names']);
+  $names = $_POST['names'];
+  $names = explode ("\n", $names);
+  foreach ($names as &$name) $name = trim ($name);
+  $database_config_general->setSentenceStructureNames ($names);
   $smarty->assign ("success", gettext ("The names that may occur after mid-sentence punctuation were stored"));
 }
 
@@ -51,7 +54,7 @@ $smarty->assign ("smallletters", Filter_Html::sanitize ($database_config_general
 $smarty->assign ("endpunctuationmarks", Filter_Html::sanitize ($database_config_general->getSentenceStructureEndPunctuation ()));
 $smarty->assign ("middlepunctuationmarks", Filter_Html::sanitize ($database_config_general->getSentenceStructureMiddlePunctuation ()));
 $smarty->assign ("disregards", Filter_Html::sanitize ($database_config_general->getSentenceStructureDisregards ()));
-$smarty->assign ("names", Filter_Html::sanitize ($database_config_general->getSentenceStructureNames ()));
+$smarty->assign ("names", Filter_Html::sanitize (implode ("\n", $database_config_general->getSentenceStructureNames ())));
 $smarty->display("settingssentences.tpl");
 Assets_Page::footer ();
 

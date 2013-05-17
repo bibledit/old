@@ -55,7 +55,7 @@ $checks_sentences->enterSmallLetters ($database_config_general->getSentenceStruc
 $checks_sentences->enterEndMarks ($database_config_general->getSentenceStructureEndPunctuation ());
 $checks_sentences->enterCenterMarks ($database_config_general->getSentenceStructureMiddlePunctuation ());
 $checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
-$checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ());
+$checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ()); // Todo
 
 
 // Go through the Bibles.
