@@ -11,7 +11,7 @@
   ✔
   <a href="index.php?delete={$result_ids[offset]}"> 
   ✗
-  </a><a href="index.php?goto={$result_ids[offset]}">
+  </a><a href="index.php?goto={$result_ids[offset]}" target="_blank">
   {$result_data[offset]}
   </a></p>
   {/section} 

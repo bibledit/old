@@ -17,7 +17,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
     $this->check->enterEndMarks (". ! ? :");
     $this->check->enterCenterMarks (", ;");
     $this->check->enterDisregards ("( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
-    $this->check->enterNames (array ("Nkosi"));
+    $this->check->enterNames ("Nkosi Longnamelongnamelongname");
     $this->check->initializeState ();
   }
 
@@ -80,7 +80,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   }
 
 
-  public function testSeveralVersesOkay ()
+  public function testNameAfterCommaSeveralVersesOkay ()
   {
     $this->check->check (array (
       17 => "Kwasekusithi esebakhuphele ngaphandle, yathi: Baleka ngenxa yempilo yakho, ungakhangeli ngemva kwakho, ungemi egcekeni lonke; balekela entabeni hlezi ubhujiswe.", 
@@ -90,6 +90,16 @@ class sentencesTest extends PHPUnit_Framework_TestCase
       21 => "Yasisithi kuye: Khangela, ngibemukele ubuso bakho lakulolu udaba, ukuze ngingawuchithi umuzi okhulume ngawo.",
       22 => "Phangisa, balekela kuwo; ngoba ngingeze ngenza ulutho uze ufike kuwo. Ngakho babiza ibizo lomuzi ngokuthi yiZowari."
     ));
+    $this->check->finalizeState ();
+    $results = $this->check->getResults ();
+    $standard = array ();
+    $this->assertEquals ($results, $standard);
+  }
+  
+  
+  public function testLongName ()
+  {
+    $this->check->check (array (17 => "O, Longnamelongnamelongname."));
     $this->check->finalizeState ();
     $results = $this->check->getResults ();
     $standard = array ();

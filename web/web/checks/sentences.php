@@ -88,9 +88,18 @@ class Checks_Sentences
   }
 
 
-  public function enterNames ($names) // Todo limit the length of the names entered to the length of the suffix.
+  public function enterNames ($names)
   {
-    $this->names = $names;
+    $this->names = array ();
+    $names = str_replace ("\n", " ", $names);
+    $names = explode (" ", $names);
+    foreach ($names as $name) {
+      if ($name != "") {
+        // Limit the length to the left of the suffix in the test.
+        $name = grapheme_substr ($name, 0, 11);
+        $this->names [] = $name;
+      }
+    }
   }
 
 
@@ -162,7 +171,7 @@ class Checks_Sentences
       if ($this->spacePosition > 0)
         if ($this->currentPosition == $this->spacePosition + 1)
           if ($this->currentPosition == $this->centerMarkPosition + 2)
-            $this->addResult ("Capital follows mid-sentence punctuation mark", Checks_Sentences::skipNames); // Todo
+            $this->addResult ("Capital follows mid-sentence punctuation mark", Checks_Sentences::skipNames);
 
 
     // Handle a small letter straight after mid-sentence punctuation: ... He said,go ...
@@ -206,7 +215,7 @@ class Checks_Sentences
   }
 
 
-  private function addResult ($text, $modifier) // Todo
+  private function addResult ($text, $modifier)
   {
     // Get previous and next text fragment.
     $start = $this->currentPosition - 10;
