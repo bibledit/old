@@ -49,7 +49,7 @@
 <p>1. {t}My ... broke and I need a new one today.{/t}</p>
 <p>2. {t}I still haven't got the ... I requested a month ago.{/t}</p>
 <p>3. {t}I'm struggling to understand ... and would like to discuss it with someone.{/t}</p>
-<p>4. {t}The organization has asked me to work on something else for a few days.{/t}</p>
+<p>4. {t}The ... has asked me to work on something else for a few days.{/t}</p>
 <p>
  {t}In cases where the Scrum Master cannot remove these impediments directly himself, he still takes responsibility for making sure someone on the team does quickly resolve the issue.{/t}
 </p>
