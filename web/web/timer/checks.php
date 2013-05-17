@@ -52,8 +52,10 @@ $check_sentence_structure = $database_config_general->getCheckSentenceStructure 
 $checks_sentences = new Checks_Sentences ();
 $checks_sentences->enterCapitals ($database_config_general->getSentenceStructureCapitals ());
 $checks_sentences->enterSmallLetters ($database_config_general->getSentenceStructureSmallLetters ());
-$checks_sentences->enterEndMarks ($database_config_general->getSentenceStructureEndPunctuation ());
-$checks_sentences->enterCenterMarks ($database_config_general->getSentenceStructureMiddlePunctuation ());
+$end_marks = $database_config_general->getSentenceStructureEndPunctuation ();
+$checks_sentences->enterEndMarks ($end_marks);
+$center_marks = $database_config_general->getSentenceStructureMiddlePunctuation ();
+$checks_sentences->enterCenterMarks ($center_marks);
 $checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
 $checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ()); // Todo
 
@@ -84,7 +86,7 @@ foreach ($bibles as $bible) {
       $verses_headings = $filter_text->verses_headings;
       $verses_text = $filter_text->verses_text;
       if ($check_full_stop_in_headings) {
-        Checks_Headers::noFullStopAtEnd ($bible, $book, $chapter, $verses_headings);
+        Checks_Headers::noPunctuationAtEnd ($bible, $book, $chapter, $verses_headings, $center_marks, $end_marks); // Todo
       }
       if ($check_space_before_punctuation) {
         Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);

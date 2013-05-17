@@ -26,7 +26,7 @@ class Checks_Headers
 {
 
 
-  public function noFullStopAtEnd ($bible, $book, $chapter, $headings)
+  public function noPunctuationAtEnd ($bible, $book, $chapter, $headings, $centermarks, $endmarks)
   {
     if (!is_array ($headings)) return;
     $database_check = Database_Check::getInstance ();
@@ -35,8 +35,11 @@ class Checks_Headers
       // Skip these.
       if (($book == 19) && ($verse == 0)) continue;
       $lastCharacter = substr ($heading, -1, 1);
-      if ($lastCharacter == ".") {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Full stop at end of heading:" . " " . $heading);
+      $message = false;
+      if (strpos ($centermarks, $lastCharacter) !== false) $message = true;
+      if (strpos ($endmarks, $lastCharacter) !== false) $message = true;
+      if ($message) {
+        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Punctuaton at end of heading:" . " " . $heading);
       }
     }
   }

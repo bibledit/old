@@ -27,7 +27,7 @@
 <a href="settings.php?fullstopheadings=">
 {if $full_stop_headings == true} ☑ {else} ☐ {/if}
 </a>
-{t}full stop at end of heading{/t}
+{t}punctuation at end of heading{/t}
 </p>
 
 <p>
