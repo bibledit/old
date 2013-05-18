@@ -78,7 +78,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   }
 
 
-  public function testNameAfterCommaSeveralVersesOkay () // Todo
+  public function testNameAfterCommaSeveralVersesOkay ()
   {
     $this->check->check (array (
       17 => "Kwasekusithi esebakhuphele ngaphandle, yathi: Baleka ngenxa yempilo yakho, ungakhangeli ngemva kwakho, ungemi egcekeni lonke; balekela entabeni hlezi ubhujiswe.", 
@@ -115,7 +115,7 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   }
 
 
-  public function testNoSpaceAfterFullStop () // Todo
+  public function testNoSpaceAfterFullStop ()
   {
     $this->check->check (array (2 => "He did that.He went."));
     $this->check->finalize ();

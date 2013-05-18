@@ -188,14 +188,14 @@ class Checks_Sentences
 
     
     // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
-    if (($this->isSmallLetter) || ($this->isCapital)) // Todo
+    if (($this->isSmallLetter) || ($this->isCapital))
       if ($this->endMarkPosition > 0)
         if ($this->currentPosition == $this->endMarkPosition + 1)
           $this->addResult ("A letter follows straight after an end-sentence punctuation mark", Checks_Sentences::displayContext);
 
       
     // Handle case of no capital after end-sentence punctuation: He did that. he went.
-    if ($this->isSmallLetter) // Todo
+    if ($this->isSmallLetter)
       if ($this->endMarkPosition > 0)
         if ($this->currentPosition == $this->endMarkPosition + 2)
           $this->addResult ("No capital after an end-sentence punctuation mark", Checks_Sentences::displayContext);
