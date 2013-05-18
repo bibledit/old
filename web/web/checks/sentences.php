@@ -120,25 +120,25 @@ class Checks_Sentences
   {
     if (!is_array ($texts)) return;
 
-    $verses = array ();
+    $verse_numbers = array ();
     $graphemes = array ();
     $iterations = 0;
     foreach ($texts as $verse => $text) {
-      // For the second and subsequent verses, add a space to the text,
+      // For the second and subsequent verse_numbers, add a space to the text,
       // because this is what is supposed to happen in USFM.
       if ($iterations > 0) {
-        $verses [] = $verse;
+        $verse_numbers [] = $verse;
         $graphemes [] = " ";
         $this->fullText .= " ";
       }
-      // Split the UTF-8 text into graphemes and add them to the arrays of verses/graphemes.
+      // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
       $count = grapheme_strlen ($text);
       for ($i = 0; $i < $count; $i++) {
         $grapheme = grapheme_substr ($text, $i, 1);
         // Skip graphemes to be disregarded.
         if (in_array ($grapheme, $this->disregards)) continue;
         // Store verse numbers and graphemes.
-        $verses [] = $verse;
+        $verse_numbers [] = $verse;
         $graphemes [] = $grapheme;
         $this->fullText .= $grapheme;
       }
@@ -150,7 +150,7 @@ class Checks_Sentences
     $graphemeCount = count ($graphemes);
     for ($i = 0; $i < $graphemeCount; $i++) {
       // Store current verse number in the object.
-      $this->verseNumber = $verses [$i];
+      $this->verseNumber = $verse_numbers [$i];
       // Get the current grapheme.
       $this->grapheme = $graphemes [$i];
       // Analyze the grapheme.
@@ -187,32 +187,27 @@ class Checks_Sentences
           $this->addResult ("Capital follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
 
     
+    // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
+    if (($this->isSmallLetter) || ($this->isCapital)) // Todo
+      if ($this->endMarkPosition > 0)
+        if ($this->currentPosition == $this->endMarkPosition + 1)
+          $this->addResult ("A letter follows straight after an end-sentence punctuation mark", Checks_Sentences::displayContext);
 
-    if ($this->isSmallLetter) {
-    }
-
-
-    if ($this->isEndMark) {
-    }
-
-
-    if ($this->isCenterMark) {
-    }
-
-    
+      
+    // Handle case of no capital after end-sentence punctuation: He did that. he went.
+    if ($this->isSmallLetter) // Todo
+      if ($this->endMarkPosition > 0)
+        if ($this->currentPosition == $this->endMarkPosition + 2)
+          $this->addResult ("No capital after an end-sentence punctuation mark", Checks_Sentences::displayContext);
   }
 
 
-  public function finalize () // Todo run the stuff at the end of each paragraph. Test again.
+  public function finalize ()
   {
-    return;
-    var_dump ($this->grapheme); // Todo
-    // Check that a paragraph ends with the correct punctuation for at the end of a sentence.
+    // Check that the last grapheme of the text is a correct punctuation mark.
     if (!$this->isEndMark) {
       $this->addResult ("Paragraph does not end with the correct punctuation", Checks_Sentences::displayGraphemeOnly);
     }
-    
-
   }
 
 

@@ -78,13 +78,13 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   }
 
 
-  public function testNameAfterCommaSeveralVersesOkay ()
+  public function testNameAfterCommaSeveralVersesOkay () // Todo
   {
     $this->check->check (array (
       17 => "Kwasekusithi esebakhuphele ngaphandle, yathi: Baleka ngenxa yempilo yakho, ungakhangeli ngemva kwakho, ungemi egcekeni lonke; balekela entabeni hlezi ubhujiswe.", 
       18 => "ULothi wasesithi kuwo: Kakungabi njalo, Nkosi yami.",
       19 => "Khangela-ke, inceku yakho ithole umusa emehlweni akho, ukhulisile isihawu sakho, osenze kimi, ukugcina uphila umphefumulo wami; kodwa mina ngingeke ngiphephele entabeni, hlezi ububi bunamathele kimi, besengisifa.",
-      20 => "Khangela-ke, lumuzi useduze ukubalekela kuwo; futhi umncinyane. Ngicela ngibalekele kuwo (kambe kawumncinyane?) lomphefumulo wami uphile.",
+      20 => "Khangela-ke, lumuzi useduze ukubalekela kuwo; futhi umncinyane. Ngicela ngibalekele kuwo (kambe kawumncinyane?) Lomphefumulo wami uphile.",
       21 => "Yasisithi kuye: Khangela, ngibemukele ubuso bakho lakulolu udaba, ukuze ngingawuchithi umuzi okhulume ngawo.",
       22 => "Phangisa, balekela kuwo; ngoba ngingeze ngenza ulutho uze ufike kuwo. Ngakho babiza ibizo lomuzi ngokuthi yiZowari."
     ));
@@ -111,6 +111,29 @@ class sentencesTest extends PHPUnit_Framework_TestCase
     $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "Paragraph does not end with the correct punctuation: o"));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testNoSpaceAfterFullStop () // Todo
+  {
+    $this->check->check (array (2 => "He did that.He went."));
+    $this->check->finalize ();
+    $results = $this->check->getResults ();
+    $standard = array (
+      array (2 => "A letter follows straight after an end-sentence punctuation mark: did that.He went."),
+      array (2 => "No capital after an end-sentence punctuation mark: id that.He went.")
+    );
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testCapitalFullStop ()
+  {
+    $this->check->check (array (2 => "He did that. he went."));
+    $this->check->finalize ();
+    $results = $this->check->getResults ();
+    $standard = array (array (2 => "No capital after an end-sentence punctuation mark: id that. he went."));
     $this->assertEquals ($results, $standard);
   }
 

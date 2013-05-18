@@ -89,7 +89,7 @@ foreach ($bibles as $bible) {
         Checks_Headers::noPunctuationAtEnd ($bible, $book, $chapter, $verses_headings, $center_marks, $end_marks);
       }
       if ($check_space_before_punctuation) {
-        Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text); // Todo
+        Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);
       }
       if ($check_sentence_structure) {
         $checks_sentences->initialize ();
