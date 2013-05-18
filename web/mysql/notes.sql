@@ -21,6 +21,7 @@ BEGIN
   DECLARE CONTINUE HANDLER FOR 1060 BEGIN END;
   DECLARE CONTINUE HANDLER FOR 1061 BEGIN END;
   DECLARE CONTINUE HANDLER FOR 1091 BEGIN END;
+  ALTER TABLE notes ENGINE = MYISAM;
   # Table update. Subscriptions: Contains users subscribed to this note.
   ALTER TABLE notes ADD subscriptions text AFTER assigned;
   # Table update. Allow full text search on summary and contents.
