@@ -17,6 +17,7 @@
 <p>It has a check on a full stop at the end of a heading in the Bibles.</p>
 <p>It has a check on a space before a comma, semicolon, colon, full stop, question mark, or exclamation mark in the Bible text.</p>
 <p>It has a check on a the structure and punctuation of sentences in the Bible text.</p>
+<p>Requires the PHP intl module for internationalization support.</p>
 <p></p>
 
 <h2>Version 0.8</h2>
