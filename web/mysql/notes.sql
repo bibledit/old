@@ -25,7 +25,7 @@ BEGIN
   # Table update. Subscriptions: Contains users subscribed to this note.
   ALTER TABLE notes ADD subscriptions text AFTER assigned;
   # Table update. Allow full text search on summary and contents.
-  # First drop the fulltext index. If this were not done, it would create multiple indexes.
+  # First drop the fulltext index. If this were not done, it would create multiple indices.
   ALTER TABLE notes DROP INDEX summary;
   ALTER TABLE notes ADD FULLTEXT(summary, contents);
   # Table update. Create index on identifier for much faster lookup.
