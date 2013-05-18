@@ -75,6 +75,18 @@ if test x$FIND_SEARCHD = xno; then
 fi
 
 
+# Check for PHP Internationalization support.
+AC_MSG_CHECKING(PHP Internationalization support)
+php -i | grep intl > /dev/null
+if test $? -ne 0
+  then
+    AC_MSG_RESULT(no)
+    AC_MSG_ERROR(PHP module intl not found. Install package php5-intl)
+    exit 1
+fi
+AC_MSG_RESULT(yes)
+
+
 # Check for web server on localhost.
 # AC_MSG_CHECKING(local web server)
 # curl -s http://localhost > /dev/null

@@ -105,5 +105,15 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   }
 
 
+  public function testCorrectPunctuationAtEndOfParagraph ()
+  {
+    $this->check->check (array (2 => "He said: Go"));
+    $this->check->finalize ();
+    $results = $this->check->getResults ();
+    $standard = array (array (2 => "Paragraph does not end with the correct punctuation: o"));
+    $this->assertEquals ($results, $standard);
+  }
+
+
 }
 ?>

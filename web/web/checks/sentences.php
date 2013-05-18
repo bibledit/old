@@ -203,8 +203,15 @@ class Checks_Sentences
   }
 
 
-  public function finalize ()
+  public function finalize () // Todo run the stuff at the end of each paragraph. Test again.
   {
+    var_dump ($this->grapheme); // Todo
+    // Check that a paragraph ends with the correct punctuation for at the end of a sentence.
+    if (!$this->isEndMark) {
+      $this->addResult ("Paragraph does not end with the correct punctuation", Checks_Sentences::displayGraphemeOnly);
+    }
+    
+
   }
 
 
