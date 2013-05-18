@@ -1,0 +1,19 @@
+USE `BIBLEDITDATABASE`;
+
+CREATE TABLE IF NOT EXISTS logs (
+  id int auto_increment primary key,
+  timestamp int,
+  event text
+) engine = MyISAM;
+
+DROP PROCEDURE IF EXISTS upgrades;
+DELIMITER ;;
+CREATE PROCEDURE upgrades ()
+BEGIN
+  DECLARE CONTINUE HANDLER FOR 1060 BEGIN END;
+  DECLARE CONTINUE HANDLER FOR 1061 BEGIN END;
+  DECLARE CONTINUE HANDLER FOR 1091 BEGIN END;
+  ALTER TABLE logs ADD level int AFTER timestamp;
+END;;
+CALL upgrades();;
+DROP PROCEDURE upgrades;

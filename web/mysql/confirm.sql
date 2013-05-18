@@ -1,0 +1,21 @@
+USE `BIBLEDITDATABASE`;
+
+CREATE TABLE IF NOT EXISTS confirm (
+  id int primary key,
+  query text,
+  timestamp int,
+  mailto varchar(256),
+  subject varchar(256),
+  body text
+) engine = MyISAM;
+
+DROP PROCEDURE IF EXISTS upgrades;
+DELIMITER ;;
+CREATE PROCEDURE upgrades ()
+BEGIN
+  DECLARE CONTINUE HANDLER FOR 1060 BEGIN END;
+  DECLARE CONTINUE HANDLER FOR 1061 BEGIN END;
+  DECLARE CONTINUE HANDLER FOR 1091 BEGIN END;
+END;;
+CALL upgrades();;
+DROP PROCEDURE upgrades;

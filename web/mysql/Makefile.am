@@ -2,8 +2,84 @@ EXTRA_DIST = *
 CLEANFILES = *~
 
 install-data-local:
-	cp setup.sql /tmp/setup.sql
-	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/setup.sql
-	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/setup.sql
-	rm /tmp/setup.sql
+	cp createdb.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp logs.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp versions.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp users.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp config.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp mail.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp mailer.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp confirm.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp books.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp versification.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp styles.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp bible.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp snapshots.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp ipc.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp sessions.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp notes.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp shell.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp git.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp check.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
+	cp logger.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
 

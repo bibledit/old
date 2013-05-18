@@ -22,11 +22,6 @@ $database_logs = Database_Logs::getInstance ();
 $database_logs->optimize();
 
 
-// The versions table.
-$database_versions = Database_Versions::getInstance ();
-$database_versions->optimize ();
-
-
 // The user table.
 $database_users = Database_Users::getInstance();
 $database_users->optimize ();
