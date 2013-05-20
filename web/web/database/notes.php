@@ -142,7 +142,7 @@ class Database_Notes
     * $contents: The note's contents.
     * $raw: Import $contents as it is. Useful for import from Bibledit-Gtk.
     */  
-  public function storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents, $raw) // Todo
+  public function storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents, $raw)
   {
     // Store new default note into the database.
     $server = Database_Instance::getInstance ();
@@ -158,9 +158,10 @@ class Database_Notes
     }
     $summary = Database_SQLInjection::no ($summary);
     if (!$raw) $contents = $this->assembleContents ($identifier, $contents);
+    $cleantext = $this->getCleanText ($contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', NULL)"; // Todo text into the cleantext column instead of NULL.
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', '$cleantext')";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
     // Return this new note´s identifier.
@@ -353,8 +354,11 @@ class Database_Notes
   public function setContents ($identifier, $contents)
   {
     $server = Database_Instance::getInstance ();
+    $cleantext = $this->getCleanText ($contents);
     $contents = Database_SQLInjection::no ($contents);
-    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;"; // Todo also set the cleantext column.
+    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;";
     $server->runQuery ($query);
   }
   
@@ -378,8 +382,11 @@ class Database_Notes
     $server = Database_Instance::getInstance ();
     $session_logic = Session_Logic::getInstance();
     $contents = $this->assembleContents ($identifier, $comment);
+    $cleantext = $this->getCleanText ($contents);
     $contents = Database_SQLInjection::no ($contents);
-    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;"; // Todo store clean text into column cleantext.
+    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
   }
@@ -1038,14 +1045,18 @@ class Database_Notes
   }
   
   
-
-
-
-
-  
+  private function getCleanText ($text)
+  {
+    $text = str_replace (array ("<div>", "</div>"), array ("\n", "\n"), $text);
+    $text = trim (strip_tags ($text));
+    $text = html_entity_decode ($text);
+    $text = htmlspecialchars_decode ($text);
+    $text = Database_SQLInjection::no ($text);
+    return $text;
+  }
+    
 
 }
-
 
 
 ?>
