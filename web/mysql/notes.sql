@@ -11,7 +11,9 @@ CREATE TABLE IF NOT EXISTS notes (
   severity int,
   private tinyint,
   summary varchar (256),
-  contents text
+  contents text,
+  cleantext text,
+  FULLTEXT searching (summary, cleantext)
 ) engine = MyISAM;
 
 DROP PROCEDURE IF EXISTS upgrades;
@@ -31,6 +33,10 @@ BEGIN
   # Table update. Create index on identifier for much faster lookup.
   # This makes a huge difference if the number of notes gets more than, say, 1000.
   CREATE INDEX id_index ON notes (identifier);
+  # Add column for searching the clean text of the note.
+  ALTER TABLE notes ADD cleantext text AFTER contents;
+  ALTER TABLE notes DROP INDEX searching;
+  ALTER TABLE notes ADD FULLTEXT searching (summary, cleantext);
 END;;
 CALL upgrades();;
 DROP PROCEDURE upgrades;
