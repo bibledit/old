@@ -57,6 +57,7 @@ class Database_Notes
     return self::$instance;
   }
 
+
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE notes;");
@@ -71,6 +72,7 @@ class Database_Notes
     $result = $server->runQuery ($query);
     return ($result->num_rows > 0);
   }
+
   
   /**
   * Update a note's $identifier.
@@ -1054,7 +1056,7 @@ class Database_Notes
     $text = Database_SQLInjection::no ($text);
     return $text;
   }
-    
+
 
 }
 
