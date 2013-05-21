@@ -160,11 +160,11 @@ class Database_Notes
     }
     $summary = Database_SQLInjection::no ($summary);
     if (!$raw) $contents = $this->assembleContents ($identifier, $contents);
-    $cleantext = $this->getCleanText ($contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', '$cleantext', NULL)"; // Todo store reversed text.
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', NULL, NULL)"; // Todo
     $server->runQuery ($query);
+    $this-> updateSearchFields ($identifier);
     $this->noteEditedActions ($identifier);
     // Return this new note´s identifier.
     return $identifier;
@@ -334,8 +334,9 @@ class Database_Notes
   {
     $server = Database_Instance::getInstance ();
     $summary = Database_SQLInjection::no ($summary);
-    $query = "UPDATE notes SET summary = '$summary' WHERE identifier = $identifier;"; // Todo add it to the two fields: cleantext and reversedtext.
+    $query = "UPDATE notes SET summary = '$summary' WHERE identifier = $identifier;"; // Todo
     $server->runQuery ($query);
+    $this->updateSearchFields ($identifier);
   }
 
 
@@ -353,15 +354,13 @@ class Database_Notes
   }
   
   
-  public function setContents ($identifier, $contents)
+  public function setContents ($identifier, $contents) // Todo
   {
     $server = Database_Instance::getInstance ();
-    $cleantext = $this->getCleanText ($contents); // Todo this function should include the summary also.
     $contents = Database_SQLInjection::no ($contents);
     $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;"; // Todo update reversed text also
-    $server->runQuery ($query);
+    $this->updateSearchFields ($identifier);
   }
   
   
@@ -384,12 +383,10 @@ class Database_Notes
     $server = Database_Instance::getInstance ();
     $session_logic = Session_Logic::getInstance();
     $contents = $this->assembleContents ($identifier, $comment);
-    $cleantext = $this->getCleanText ($contents);
     $contents = Database_SQLInjection::no ($contents);
     $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;"; // Todo include summary also.
     $server->runQuery ($query);
-    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;"; // Todo add extra query for setting the reversed text.
-    $server->runQuery ($query);
+    $this->updateSearchFields ($identifier);
     $this->noteEditedActions ($identifier);
   }
   
@@ -1047,14 +1044,40 @@ class Database_Notes
   }
   
   
-  private function getCleanText ($text)
+  private function getCleanText ($text) // Todo
   {
-    $text = str_replace (array ("<div>", "</div>"), array ("\n", "\n"), $text);
+    $text = str_replace (array ("<div>", "</div>", "\r"), array ("\n", "\n", ""), $text);
     $text = trim (strip_tags ($text));
     $text = html_entity_decode ($text);
     $text = htmlspecialchars_decode ($text);
-    $text = Database_SQLInjection::no ($text);
     return $text;
+  }
+  
+  
+  public function getReversedText ($text) // Todo
+  {
+    preg_match_all ('/./us', $text, $ar);
+    return join ('', array_reverse ($ar[0]));
+  }
+  
+  
+  public function updateSearchFields ($identifier) // Todo run on updating content, and on updating summary.
+  {
+    // The search field is a combination of the summary and content converted to clean text.
+    // Another search field will contain the reversed clean text.
+    // Both fields together enable us to search with wildcards before and after the search query
+    // with MySQL fulltext search in boolean mode.
+    $noteSummary = $this->getSummary ($identifier);
+    $noteContents = $this->getContents ($identifier);
+    $cleanText = $this->getCleanText ($noteSummary . "\n" . $noteContents);
+    $reversedText = $this->getReversedText ($cleanText);
+    $cleanText = Database_SQLInjection::no ($cleanText);
+    $reversedText = Database_SQLInjection::no ($reversedText);
+    $server = Database_Instance::getInstance ();
+    $query = "UPDATE notes SET cleantext = '$cleanText' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
+    $query = "UPDATE notes SET reversedtext = '$reversedText' WHERE identifier = $identifier;";
+    $server->runQuery ($query);
   }
 
 

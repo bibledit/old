@@ -32,12 +32,11 @@ if (php_sapi_name () != "cli") {
 
 $database_notes = Database_Notes::getInstance ();
 $identifiers = $database_notes->getIdentifiers ();
-echo "Will update column cleantext in table notes\n";
+echo "Will update columns cleantext and reversedtext in table notes\n";
 echo "Note count: " . count ($identifiers) . "\n";
 foreach ($identifiers as $identifier) {
   echo "Note $identifier\n";
-  $contents = $database_notes->getContents ($identifier);
-  $database_notes->setContents ($identifier, $contents);
+  $database_notes->updateSearchFields ($identifier);
 }
 echo "Total notes done: " . count ($identifiers) . "\n";
 
