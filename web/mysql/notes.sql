@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS notes (
   identifier int NOT NULL,
   modified int NOT NULL,
   assigned text,
+  subscriptions text,
   bible varchar (256),
   passage text,
   status varchar (256),
@@ -13,7 +14,10 @@ CREATE TABLE IF NOT EXISTS notes (
   summary varchar (256),
   contents text,
   cleantext text,
-  FULLTEXT searching (summary, cleantext)
+  reversedtext text,
+  FULLTEXT summary (summary, contents),
+  FULLTEXT searching (cleantext),
+  FULLTEXT reversedsearch (reversedtext)
 ) engine = MyISAM;
 
 DROP PROCEDURE IF EXISTS upgrades;
@@ -24,19 +28,17 @@ BEGIN
   DECLARE CONTINUE HANDLER FOR 1061 BEGIN END;
   DECLARE CONTINUE HANDLER FOR 1091 BEGIN END;
   ALTER TABLE notes ENGINE = MYISAM;
-  # Table update. Subscriptions: Contains users subscribed to this note.
-  ALTER TABLE notes ADD subscriptions text AFTER assigned;
-  # Table update. Allow full text search on summary and contents.
-  # First drop the fulltext index. If this were not done, it would create multiple indices.
-  ALTER TABLE notes DROP INDEX summary;
-  ALTER TABLE notes ADD FULLTEXT(summary, contents);
   # Table update. Create index on identifier for much faster lookup.
   # This makes a huge difference if the number of notes gets more than, say, 1000.
   CREATE INDEX id_index ON notes (identifier);
   # Add column for searching the clean text of the note.
   ALTER TABLE notes ADD cleantext text AFTER contents;
   ALTER TABLE notes DROP INDEX searching;
-  ALTER TABLE notes ADD FULLTEXT searching (summary, cleantext);
+  ALTER TABLE notes ADD FULLTEXT searching (cleantext);
+  # Add column for searching the reversed clean text of the note.
+  ALTER TABLE notes ADD reversedtext text AFTER cleantext;
+  ALTER TABLE notes DROP INDEX reversedsearch;
+  ALTER TABLE notes ADD FULLTEXT reversedsearch (reversedtext);
 END;;
 CALL upgrades();;
 DROP PROCEDURE upgrades;

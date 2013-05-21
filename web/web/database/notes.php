@@ -163,7 +163,7 @@ class Database_Notes
     $cleantext = $this->getCleanText ($contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', '$cleantext')";
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', '$cleantext', NULL)"; // Todo store reversed text.
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
     // Return this new note´s identifier.
@@ -334,7 +334,7 @@ class Database_Notes
   {
     $server = Database_Instance::getInstance ();
     $summary = Database_SQLInjection::no ($summary);
-    $query = "UPDATE notes SET summary = '$summary' WHERE identifier = $identifier;";
+    $query = "UPDATE notes SET summary = '$summary' WHERE identifier = $identifier;"; // Todo add it to the two fields: cleantext and reversedtext.
     $server->runQuery ($query);
   }
 
@@ -356,11 +356,11 @@ class Database_Notes
   public function setContents ($identifier, $contents)
   {
     $server = Database_Instance::getInstance ();
-    $cleantext = $this->getCleanText ($contents);
+    $cleantext = $this->getCleanText ($contents); // Todo this function should include the summary also.
     $contents = Database_SQLInjection::no ($contents);
     $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
     $server->runQuery ($query);
-    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;";
+    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;"; // Todo update reversed text also
     $server->runQuery ($query);
   }
   
@@ -386,9 +386,9 @@ class Database_Notes
     $contents = $this->assembleContents ($identifier, $comment);
     $cleantext = $this->getCleanText ($contents);
     $contents = Database_SQLInjection::no ($contents);
-    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
+    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;"; // Todo include summary also.
     $server->runQuery ($query);
-    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;";
+    $query = "UPDATE notes SET cleantext = '$cleantext' WHERE identifier = $identifier;"; // Todo add extra query for setting the reversed text.
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
   }
