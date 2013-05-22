@@ -19,7 +19,7 @@
 <p>It has a check on a the structure and punctuation of sentences in the Bible text.</p>
 <p>Requires the PHP intl module for internationalization support.</p>
 <p>User login is written to the logbook.</p>
-<p>It contains script notes_update.php to be manually run once on upgrade bibledit-web-0.8 to 0.9.</p>
+<p>Contains script notes_update.php to be manually run when upgrading bibledit-web-0.8 to 0.9.</p>
 <p></p>
 
 <h2>Version 0.8</h2>

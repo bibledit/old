@@ -186,7 +186,7 @@ class Database_Notes
   * $search_text: Works with $text_selector, contains the text to search for.
   * $userlevel: if 0, it takes the user's level from the current user, else it takes the level passed in the variable $userlevel itself.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel)
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel) // Todo
   {
     $session_logic = Session_Logic::getInstance ();
     if ($userlevel == 0)  $userlevel = $session_logic->currentLevel ();
@@ -299,13 +299,15 @@ class Database_Notes
       $query .= " AND (MATCH (summary, contents) AGAINST ('$search_text' IN BOOLEAN MODE) OR summary LIKE '%$search_text%' OR CONTENTS LIKE '%$search_text%') ";
     }
     // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed. 
-    $query .= " ORDER BY ABS(passage) ";
+    $query .= " ORDER BY ABS (passage) ";
     // Limit the selection if a limit is given.
     if (is_numeric ($limit)) {
       $limit = Database_SQLInjection::no ($limit);
       $query .= " LIMIT $limit, 50 ";
     }
     $query .= ";";
+    $database_logs = Database_Logs::getInstance (); // Todo temporal.
+    $database_logs->log ($query); // Todo temporal.
     $result = $server->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $row = $result->fetch_row();
