@@ -20,6 +20,8 @@
 <p>Requires the PHP intl module for internationalization support.</p>
 <p>User login is written to the logbook.</p>
 <p>Contains script notes_update.php to be manually run when upgrading bibledit-web-0.8 to 0.9.</p>
+<p>The Notes Selector better searches on text.</p>
+<p></p>
 <p></p>
 
 <h2>Version 0.8</h2>
