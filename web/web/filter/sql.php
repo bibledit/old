@@ -22,21 +22,70 @@
  */
 
 
-class Filter_Sql // Todo create SQL queries here.
+class Filter_Sql
 {
 
-  /**
-  * Returns !$bool in a robust way.
-  */
-  public static function not ($bool)
+
+  public static function notesSelectIdentifier ()
   {
-    if ($bool) return false;
-    else return true;
+    return " SELECT identifier ";
   }
 
   
+  public static function notesConsiderPrivacy ($userlevel)
+  {
+    return " AND (private <= $userlevel) ";
+  }
+
+
+  public static function notesOptionalFulltextSearchRelevanceStatement ($search)
+  {
+    if ($search == "") return;
+
+    $search = str_replace (",", "", $search);
+    $reversedsearch = Filter_String::reverse ($search);
+    $search = Database_SQLInjection::no ($search);
+    $reversedsearch = Database_SQLInjection::no ($reversedsearch);
+
+    $query = " , ";
+    // Matches in natural language mode have much higher relevance.
+    $query .= " (MATCH (cleantext) AGAINST ('$search' IN NATURAL LANGUAGE MODE) * 10) ";
+    $query .= " + ";
+    // Matches in phrase search have higher relevance.
+    $query .= " (MATCH (cleantext) AGAINST ('\"$search\"' IN BOOLEAN MODE) * 5) ";
+    $query .= " + ";
+    // Prefix and suffix wildcards to the search words and search in boolean mode.
+    $query .= " (MATCH (cleantext) AGAINST ('$search*' IN BOOLEAN MODE)) + (MATCH (reversedtext) AGAINST ('$reversedsearch*' IN BOOLEAN MODE) * 1) ";
+    // Create relevance column.
+    $query .= " AS relevance ";
+
+    return $query;
+  }
+
+
+  public static function notesFromWhereStatement ()
+  {
+    return " FROM notes WHERE TRUE ";
+  }  
   
-  
+
+  public static function notesOptionalFulltextSearchStatement ($search)
+  {
+    if ($search == "") return;
+    $search = str_replace (",", "", $search);
+    $reversedsearch = Filter_String::reverse ($search);
+    $search = Database_SQLInjection::no ($search);
+    $reversedsearch = Database_SQLInjection::no ($reversedsearch);
+    $query = " AND (MATCH (cleantext) AGAINST ('$search*' IN BOOLEAN MODE)) OR (MATCH (reversedtext) AGAINST ('$reversedsearch*' IN BOOLEAN MODE)) ";
+    return $query;
+  }
+
+
+  public static function notesOrderByRelevanceStatement ()
+  {
+    return " ORDER BY relevance DESC ";
+  }  
+
 
 }
 

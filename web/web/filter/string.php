@@ -22,21 +22,19 @@
  */
 
 
-class Filter_String // Todo create reverse filter.
+class Filter_String
 {
 
   /**
-  * Returns !$bool in a robust way.
+  * Returns the reversed $text in UTF-8 format.
   */
-  public static function not ($bool)
+  public static function reverse ($text)
   {
-    if ($bool) return false;
-    else return true;
+    preg_match_all ('/./us', $text, $ar);
+    $text = join ('', array_reverse ($ar[0]));
+    return $text;
   }
 
-  
-  
-  
 
 }
 

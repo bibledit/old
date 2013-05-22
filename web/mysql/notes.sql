@@ -39,6 +39,8 @@ BEGIN
   ALTER TABLE notes ADD reversedtext text AFTER cleantext;
   ALTER TABLE notes DROP INDEX reversedsearch;
   ALTER TABLE notes ADD FULLTEXT reversedsearch (reversedtext);
+  # Drop the summary fulltext index.
+  ALTER TABLE notes DROP INDEX summary;
 END;;
 CALL upgrades();;
 DROP PROCEDURE upgrades;

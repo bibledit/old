@@ -162,7 +162,7 @@ class Database_Notes
     if (!$raw) $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', NULL, NULL)"; // Todo
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', NULL, NULL)";
     $server->runQuery ($query);
     $this-> updateSearchFields ($identifier);
     $this->noteEditedActions ($identifier);
@@ -193,8 +193,16 @@ class Database_Notes
     $username = $session_logic->currentUser ();
     $identifiers = array ();
     $server = Database_Instance::getInstance ();
-    // Consider privacy setting.
-    $query = "SELECT identifier FROM notes WHERE private <= $userlevel ";
+    // SQL SELECT statement.
+    $query = Filter_Sql::notesSelectIdentifier ();
+    // SQL optional fulltext search statement sorted on relevance.
+    if ($text_selector == 1) {
+      $query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement ($search_text);
+    }
+    // SQL FROM ... WHERE statement.
+    $query .= Filter_Sql::notesFromWhereStatement ();
+    // SQL privacy statement.
+    $query .= Filter_Sql::notesConsiderPrivacy ($userlevel);
     // Consider passage selector.
     switch ($passage_selector) {
       case 0:
@@ -296,18 +304,21 @@ class Database_Notes
     }
     // Consider text contained in notes.
     if ($text_selector == 1) {
-      $query .= " AND (MATCH (summary, contents) AGAINST ('$search_text' IN BOOLEAN MODE) OR summary LIKE '%$search_text%' OR CONTENTS LIKE '%$search_text%') ";
+      $query .= Filter_Sql::notesOptionalFulltextSearchStatement ($search_text);
     }
-    // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed. 
-    $query .= " ORDER BY ABS (passage) ";
+    if ($text_selector == 1) {
+      // If searching in fulltext mode, notes et ordered on relevance of search hits.
+      $query .= Filter_Sql::notesOrderByRelevanceStatement ();
+    } else {
+      // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed. 
+      $query .= " ORDER BY ABS (passage) ";
+    }
     // Limit the selection if a limit is given.
     if (is_numeric ($limit)) {
       $limit = Database_SQLInjection::no ($limit);
       $query .= " LIMIT $limit, 50 ";
     }
     $query .= ";";
-    $database_logs = Database_Logs::getInstance (); // Todo temporal.
-    $database_logs->log ($query); // Todo temporal.
     $result = $server->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $row = $result->fetch_row();
@@ -336,7 +347,7 @@ class Database_Notes
   {
     $server = Database_Instance::getInstance ();
     $summary = Database_SQLInjection::no ($summary);
-    $query = "UPDATE notes SET summary = '$summary' WHERE identifier = $identifier;"; // Todo
+    $query = "UPDATE notes SET summary = '$summary' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->updateSearchFields ($identifier);
   }
@@ -356,7 +367,7 @@ class Database_Notes
   }
   
   
-  public function setContents ($identifier, $contents) // Todo
+  public function setContents ($identifier, $contents)
   {
     $server = Database_Instance::getInstance ();
     $contents = Database_SQLInjection::no ($contents);
@@ -386,7 +397,7 @@ class Database_Notes
     $session_logic = Session_Logic::getInstance();
     $contents = $this->assembleContents ($identifier, $comment);
     $contents = Database_SQLInjection::no ($contents);
-    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;"; // Todo include summary also.
+    $query = "UPDATE notes SET contents = '$contents' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->updateSearchFields ($identifier);
     $this->noteEditedActions ($identifier);
@@ -1046,7 +1057,7 @@ class Database_Notes
   }
   
   
-  private function getCleanText ($text) // Todo
+  private function getCleanText ($text)
   {
     $text = str_replace (array ("<div>", "</div>", "\r"), array ("\n", "\n", ""), $text);
     $text = trim (strip_tags ($text));
@@ -1056,14 +1067,7 @@ class Database_Notes
   }
   
   
-  public function getReversedText ($text) // Todo
-  {
-    preg_match_all ('/./us', $text, $ar);
-    return join ('', array_reverse ($ar[0]));
-  }
-  
-  
-  public function updateSearchFields ($identifier) // Todo run on updating content, and on updating summary.
+  public function updateSearchFields ($identifier)
   {
     // The search field is a combination of the summary and content converted to clean text.
     // Another search field will contain the reversed clean text.
@@ -1072,7 +1076,7 @@ class Database_Notes
     $noteSummary = $this->getSummary ($identifier);
     $noteContents = $this->getContents ($identifier);
     $cleanText = $this->getCleanText ($noteSummary . "\n" . $noteContents);
-    $reversedText = $this->getReversedText ($cleanText);
+    $reversedText = Filter_String::reverse ($cleanText);
     $cleanText = Database_SQLInjection::no ($cleanText);
     $reversedText = Database_SQLInjection::no ($reversedText);
     $server = Database_Instance::getInstance ();
