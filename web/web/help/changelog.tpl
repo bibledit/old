@@ -21,6 +21,10 @@
 <p>User login is written to the logbook.</p>
 <p>Contains script notes_update.php to be manually run when upgrading bibledit-web-0.8 to 0.9.</p>
 <p>The Notes Selector better searches on text.</p>
+<p>The site search works through MySQL full-text search.</p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 <p></p>
 
