@@ -186,7 +186,7 @@ class Database_Notes
   * $search_text: Works with $text_selector, contains the text to search for.
   * $userlevel: if 0, it takes the user's level from the current user, else it takes the level passed in the variable $userlevel itself.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel) // Todo
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel)
   {
     $session_logic = Session_Logic::getInstance ();
     if ($userlevel == 0)  $userlevel = $session_logic->currentLevel ();
@@ -307,7 +307,7 @@ class Database_Notes
       $query .= Filter_Sql::notesOptionalFulltextSearchStatement ($search_text);
     }
     if ($text_selector == 1) {
-      // If searching in fulltext mode, notes et ordered on relevance of search hits.
+      // If searching in fulltext mode, notes get ordered on relevance of search hits.
       $query .= Filter_Sql::notesOrderByRelevanceStatement ();
     } else {
       // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed. 
@@ -1087,6 +1087,46 @@ class Database_Notes
   }
 
 
+  /**
+  * Searches the notes.
+  * Returns an array of note identifiers.
+  * If $limit is non-NULL, it indicates the starting limit for the selection.
+  * $search: Contains the text to search for.
+  */
+  public function searchNotes ($search, $limit = NULL)
+  {
+    $identifiers = array ();
+    $server = Database_Instance::getInstance ();
+    // SQL SELECT statement.
+    $query = Filter_Sql::notesSelectIdentifier ();
+    // SQL fulltext search statement sorted on relevance.
+    $query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement ($search);
+    // SQL FROM ... WHERE statement.
+    $query .= Filter_Sql::notesFromWhereStatement ();
+    // SQL privacy statement.
+    $session_logic = Session_Logic::getInstance ();
+    $userlevel = $session_logic->currentLevel ();
+    $query .= Filter_Sql::notesConsiderPrivacy ($userlevel);
+    // Consider text contained in notes.
+    $query .= Filter_Sql::notesOptionalFulltextSearchStatement ($search);
+    // Notes get ordered on relevance of search hits.
+    $query .= Filter_Sql::notesOrderByRelevanceStatement ();
+    // Limit the selection if a limit is given.
+    if (is_numeric ($limit)) {
+      $limit = Database_SQLInjection::no ($limit);
+      $query .= " LIMIT $limit, 50 ";
+    }
+    $query .= ";";
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $identifier = $row[0];
+      $identifiers []= $identifier;
+    }
+    return $identifiers;
+  }
+  
+  
 }
 
 
