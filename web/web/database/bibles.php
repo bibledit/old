@@ -178,7 +178,7 @@ class Database_Bibles
   /*
    * Updates the search fields for one chapter in Bible $name.
    */
-  public function updateSearchFields ($name, $book, $chapter) // Todo implement.
+  public function updateSearchFields ($name, $book, $chapter)
   {
     // Extract clean text from the USFM.
     $filter_text = new Filter_Text ("");

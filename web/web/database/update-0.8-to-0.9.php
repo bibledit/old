@@ -30,15 +30,34 @@ if (php_sapi_name () != "cli") {
 }
 
 
+echo "Will update the columns for full text search in the tables notes and bible_data\n";
+
+
 $database_notes = Database_Notes::getInstance ();
 $identifiers = $database_notes->getIdentifiers ();
-echo "Will update columns cleantext and reversedtext in table notes\n";
 echo "Note count: " . count ($identifiers) . "\n";
 foreach ($identifiers as $identifier) {
   echo "Note $identifier\n";
   $database_notes->updateSearchFields ($identifier);
 }
 echo "Total notes done: " . count ($identifiers) . "\n";
+
+
+$database_bibles = Database_Bibles::getInstance ();
+$database_books = Database_Books::getInstance ();
+$bibles = $database_bibles->getBibles ();
+echo "Bible count: " . count ($bibles) . "\n";
+foreach ($bibles as $bible) {
+  $books = $database_bibles->getBooks ($bible);
+  foreach ($books as $book) {
+    $bookname = $database_books->getEnglishFromid ($book);
+    echo "$bible $bookname\n";
+    $chapters = $database_bibles->getChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $database_bibles->updateSearchFields ($bible, $book, $chapter);
+    }
+  }
+}
 
 
 ?>
