@@ -145,19 +145,6 @@ if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 1) 
 }
 
 
-// Index Bibles and Consultation Notes.
-// On a production installation with two full Bibles and thousands of Consultation Notes,
-// this is expected to take about 10 minutes.
-if (($current_timestamp >= $config_general->getTimerSearch ()) || (($hour == 1) && ($minute == 10))) {
-  $config_general->setTimerSearch ($current_timestamp + 100000);
-  $workingdirectory = dirname (__FILE__);
-  $logfilename = $timer_logger->getLogFilename (Timer_Logger::search);
-  $command = "cd $workingdirectory; php search.php > $logfilename 2>&1 & echo $!";
-  $pid = shell_exec ($command);
-  $timer_logger->registerLogfile ($command, $pid, $logfilename);
-}
-
-
 // Export the Bibles to the various output formats.
 if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1) && ($minute == 25))) {
   $config_general->setTimerExports ($current_timestamp + 100000);

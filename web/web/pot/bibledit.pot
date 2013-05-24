@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-22 01:42+0200\n"
+"POT-Creation-Date: 2013-05-24 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,15 +101,6 @@ msgid "Changes"
 msgstr ""
 
 msgid "The lists of changes will be generated within a minute."
-msgstr ""
-
-msgid "Searching"
-msgstr ""
-
-msgid "Will index the website within a minute. See the logbook for progress."
-msgstr ""
-
-msgid "Will index the website within a minute"
 msgstr ""
 
 msgid "Hyphenation"
@@ -1341,6 +1332,9 @@ msgid "Read access to the repository is successful."
 msgstr ""
 
 msgid "Read access failed. Please retry it, possibly with another URL."
+msgstr ""
+
+msgid "Searching"
 msgstr ""
 
 msgid "The port number has been set"

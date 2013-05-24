@@ -86,7 +86,7 @@ class Database_Config_User
   }
 
 
-  public function getStylesheet()
+  public function getStylesheet ()
   { 
     $sheet = $this->getValue ("", "stylesheet", "Standard");
     // If the stylesheet does not exist, take the first one available instead.

@@ -12,7 +12,11 @@ CREATE TABLE IF NOT EXISTS bible_data (
   bible int,
   book int,
   chapter int,
-  data text
+  data text,
+  forward text,
+  reverse text,
+  FULLTEXT forward (forward),
+  FULLTEXT reverse (reverse)
 ) engine = MyISAM;
 
 CREATE TABLE IF NOT EXISTS bible_diff (
@@ -33,6 +37,13 @@ BEGIN
   ALTER TABLE bible_names ENGINE = MYISAM;
   ALTER TABLE bible_data ENGINE = MYISAM;
   ALTER TABLE bible_diff ENGINE = MYISAM;
+  # Add columns for searching the text of the Bible.
+  ALTER TABLE bible_data ADD forward text AFTER data;
+  ALTER TABLE bible_data ADD reverse text AFTER forward;
+  ALTER TABLE bible_data DROP INDEX forward;
+  ALTER TABLE bible_data DROP INDEX reverse;
+  ALTER TABLE bible_data ADD FULLTEXT forward (forward);
+  ALTER TABLE bible_data ADD FULLTEXT reverse (reverse);
 END;;
 CALL upgrades();;
 DROP PROCEDURE upgrades;

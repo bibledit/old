@@ -322,13 +322,6 @@ class Database_Config_General
     $this->setValue ("site-language", $value);
   }
 
-  public function getTimerSearch () {
-    return $this->getValue ("timer-search", "");
-  }
-  public function setTimerSearch ($value) {
-    $this->setValue ("timer-search", $value);
-  }
-
   public function getSearchDaemonPort () {
 	// Default port number for the Sphinx search daemon.
     return $this->getValue ("search-daemon-port", "9312");

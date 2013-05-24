@@ -168,7 +168,65 @@ class Database_Bibles
     $chapter_text = Database_SQLInjection::no ($chapter_text);
     $query = "DELETE FROM bible_data WHERE bible = $bible_id AND book = $book AND chapter = $chapter_number;";
     $database_instance->runQuery ($query);
-    $query = "INSERT INTO bible_data VALUES (NULL, $bible_id, $book, $chapter_number, '$chapter_text');";
+    $query = "INSERT INTO bible_data VALUES (NULL, $bible_id, $book, $chapter_number, '$chapter_text', NULL, NULL);";
+    $database_instance->runQuery ($query);
+    // Update search fields. 
+    $this->updateSearchFields ($name, $book, $chapter_number);
+  }
+
+
+  /*
+   * Updates the search fields for one chapter in Bible $name.
+   */
+  public function updateSearchFields ($name, $book, $chapter) // Todo implement.
+  {
+    // Extract clean text from the USFM.
+    $filter_text = new Filter_Text ("");
+    $filter_text->initializeHeadingsAndTextPerVerse ();
+    $usfm = $this->getChapter ($name, $book, $chapter);
+    $filter_text->addUsfmCode ($usfm);
+    $database_config_user = Database_Config_User::getInstance ();
+    $stylesheet = $database_config_user->getStylesheet ();
+    $filter_text->run ($stylesheet);
+
+    // The clean text to search on.
+    $searchText = array ();
+
+    // First add the clean verse texts.
+    $texts = $filter_text->verses_text;
+    foreach ($texts as $verse => $text) {
+      if (isset ($searchText [$verse])) {
+        $searchText [$verse] .= "$text\n";
+      } else {
+        $searchText [$verse] = "$verse $text\n";
+      }
+    }
+    
+    // Secondly add the clean headings.
+    $headings = $filter_text->verses_headings;
+    foreach ($headings as $verse => $heading) {
+      if (isset ($searchText [$verse])) {
+        $searchText [$verse] .= "$heading\n";
+      } else {
+        $searchText [$verse] = "$verse $heading\n";
+      }
+    }
+
+    // Sort the clean text on verse number.
+    ksort ($searchText);
+
+    // Create search texts for the columns "forward"  and "reverse"
+    $forward = implode ("\n", $searchText);
+    $reverse = Filter_String::reverse ($forward);
+
+    // Store the search data in the table.
+    $database_instance = Database_Instance::getInstance();
+    $bible = $this->getID ($name);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $forward = Database_SQLInjection::no ($forward);
+    $reverse = Database_SQLInjection::no ($reverse);
+    $query = "UPDATE bible_data SET forward = '$forward', reverse = '$reverse' WHERE bible = $bible AND book = $book AND chapter = $chapter;";
     $database_instance->runQuery ($query);
   }
   
@@ -301,7 +359,7 @@ class Database_Bibles
     $database_instance = Database_Instance::getInstance();
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
-    $query = "INSERT INTO bible_diff SELECT * FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $query = "INSERT INTO bible_diff SELECT id, bible, book, chapter, data FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
     $database_instance->runQuery ($query);
   }
 

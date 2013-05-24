@@ -62,6 +62,8 @@ function outputXml ($url, $title, $text, $level)
 echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
 echo '<sphinx:docset>' . "\n";
 
+// Todo see what to keep, and what to throw away.
+// Todo then at the end, remove the entire file.
 
 $database_config_general = Database_Config_General::getInstance ();
 $database_notes = Database_Notes::getInstance ();
