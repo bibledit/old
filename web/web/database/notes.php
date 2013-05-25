@@ -1077,6 +1077,20 @@ class Database_Notes
   }
 
 
+  public function getSearchField ($identifier)
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT cleantext FROM notes WHERE identifier = $identifier;";
+    $result = $server->runQuery ($query);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      return $row[0];
+    }
+    return "";
+  }
+  
+  
   /**
   * Searches the notes.
   * Returns an array of note identifiers.

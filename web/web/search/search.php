@@ -34,6 +34,13 @@ Assets_Page::header (gettext ("Search"), $queryString);
 // Clean the query string up.
 $queryString = trim ($queryString);
 
+// Generate search words for emphasizing the search hits.
+$queryWords = explode (" ", $queryString);
+$markedWords = array ();
+foreach ($queryWords as $word) {
+  $markedWords [] = '<mark>' . $word . '</mark>';
+}
+
 $database_config_general = Database_Config_General::getInstance ();
 $database_notes = Database_Notes::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
@@ -65,36 +72,18 @@ foreach ($identifiers as $identifier) {
   $noteUrls [] = $url;
 
   // The excerpt.
-  $excerpt = "";
-  $noteExcerpts [] = $excerpt;
-
-/*
-  // $text = $database_notes->getContents ($noteIdentifier); Todo see if this can be used somewhere. Else remove it.
-  // $text = Filter_Html::html2text ($text);
-
-  // The excerpt with the hits in bold.
-  $text = $docinfo['attrs']['text'];
-  $options = array
-  (
-    "before_match" => "<b>",
-    "after_match" => "</b>",
-    "chunk_separator" => " ... ",
-    "limit" => 60,
-    "around" => 3,
-    "exact_phrase" => 0
-  );
-  // Go through each line of text separately.
+  $text = $database_notes->getSearchField ($identifier);
   $text = explode ("\n", $text);
   $excerpt = "";
-  foreach ($text as $textLine) {
-    $partialExcerpt = $sphinxClient->BuildExcerpts (array ($textLine), "sphinxsearch", $queryString, $options);
-    $partialExcerpt = $partialExcerpt [0];
-    // If this line of text has no hit, skip it.
-    if (strpos ($partialExcerpt, "<b>") === false) continue;
+  // Go through each line of text separately.
+  foreach ($text as $line) {
+    $count = 0;
+    $line = str_ireplace ($queryWords, $markedWords, $line, $count);
+    if ($count == 0) continue;
     // Store this bit of the excerpt.
-    $excerpt .= "<p style=\"margin-top: 0em\">$partialExcerpt</p>\n";
+    $excerpt .= "<p style=\"margin-top: 0em\">$line</p>\n";
   }
-  */
+  $noteExcerpts [] = $excerpt;
 }
 
 // Display the search results for the notes.
