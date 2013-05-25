@@ -488,6 +488,72 @@ class Database_Bibles
   }
 
 
+  /**
+  * Searches the text of the Bibles.
+  * Returns an array of ids of the relevant chapters.
+  * If $limit is non-NULL, it indicates the starting limit for the selection.
+  * $search: Contains the text to search for.
+  */
+  public function searchText ($search, $limit = NULL)
+  {
+    $ids = array ();
+
+    $search = str_replace (",", "", $search);
+    $forward = Database_SQLInjection::no ($search);
+    $reverse = Database_SQLInjection::no (Filter_String::reverse ($search));
+
+    $query = " SELECT id , ";
+    // Matches in natural language mode have the highest relevance.
+    $query .= " (MATCH (forward) AGAINST ('$forward' IN NATURAL LANGUAGE MODE) * 10) ";
+    $query .= " + ";
+    // Matches in phrase search have higher relevance.
+    $query .= " (MATCH (forward) AGAINST ('\"$forward\"' IN BOOLEAN MODE) * 5) ";
+    $query .= " + ";
+    // Prefix and suffix wildcards to the search words and search in boolean mode.
+    $query .= " (MATCH (forward) AGAINST ('$forward*' IN BOOLEAN MODE)) + (MATCH (reverse) AGAINST ('$reverse*' IN BOOLEAN MODE) * 1) ";
+    // Create relevance column to sort on.
+    $query .= " AS relevance ";
+
+    $query .= " FROM bible_data WHERE ";
+
+    $query .= " (MATCH (forward) AGAINST ('$forward*' IN BOOLEAN MODE)) OR (MATCH (reverse) AGAINST ('$reverse*' IN BOOLEAN MODE)) ";
+
+    // Notes get ordered on relevance of search hits.
+    $query .= " ORDER BY relevance DESC ";
+
+    // Optionally limit the number of hits.
+    if (is_numeric ($limit)) {
+      $limit = Database_SQLInjection::no ($limit);
+      $query .= " LIMIT $limit, 50 ";
+    }
+
+    $query .= ";";
+
+    $server = Database_Instance::getInstance ();
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $id = $row[0];
+      $ids []= $id;
+    }
+
+    return $ids;
+  }
+  
+  
+  /*
+   * Returns an array with the bible, book and chapter of arecord $id.
+   */
+  public function getBibleBookChapter ($id)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT bible, book, chapter FROM bible_data WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    return $result->fetch_assoc ();
+  }
+
+
 }
 
 

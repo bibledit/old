@@ -33,32 +33,23 @@ Assets_Page::header (gettext ("Search"), $queryString);
 
 // Clean the query string up.
 $queryString = trim ($queryString);
-//while (strpos ($queryString, "  ") !== false) {
-//  $queryString = str_replace ("  ", " ", $queryString);
-//}
-
-// Add wildcards to the words in the query string.
-//$queryString = explode (" ", $queryString);
-//foreach ($queryString as &$line) {
-//  if ($line == "") continue;
-//  $line = "*" . $line . "*";
-//}
-//$queryString = implode (" ", $queryString);
 
 $database_config_general = Database_Config_General::getInstance ();
 $database_notes = Database_Notes::getInstance ();
+$database_bibles = Database_Bibles::getInstance ();
 
 $siteUrl = $database_config_general->getSiteURL ();
 
+// Search the notes.
 $identifiers = $database_notes->searchNotes ($queryString);
 
-$notesCount = count ($identifiers);
-$smarty->assign ("notesCount", $notesCount);
+$noteCount = count ($identifiers);
+$smarty->assign ("noteCount", $noteCount);
 
 // Assemble the search results.
-$titles = array ();
-$urls = array ();
-$excerpts = array ();
+$noteTitles = array ();
+$noteUrls = array ();
+$noteExcerpts = array ();
 
 foreach ($identifiers as $identifier) {
 
@@ -67,20 +58,18 @@ foreach ($identifiers as $identifier) {
   $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
   $title = "$summary | $verses";
   $title = Filter_Html::sanitize ($title);
-  $titles [] = $title;
+  $noteTitles [] = $title;
 
   // The url.
   $url = "$siteUrl/consultations/notes.php?consultationnote=$identifier";
-  $urls [] = $url;
+  $noteUrls [] = $url;
 
   // The excerpt.
   $excerpt = "";
-  $excerpts [] = $excerpt;
-
+  $noteExcerpts [] = $excerpt;
 
 /*
-
-  // $text = $database_notes->getContents ($noteIdentifier);
+  // $text = $database_notes->getContents ($noteIdentifier); Todo see if this can be used somewhere. Else remove it.
   // $text = Filter_Html::html2text ($text);
 
   // The excerpt with the hits in bold.
@@ -108,17 +97,44 @@ foreach ($identifiers as $identifier) {
   */
 }
 
+// Display the search results for the notes.
+$smarty->assign ("noteUrls", $noteUrls);
+$smarty->assign ("noteTitles", $noteTitles);
+$smarty->assign ("noteExcerpts", $noteExcerpts);
 
-// Display the search results.
-$smarty->assign ("urls", $urls);
-$smarty->assign ("titles", $titles);
-$smarty->assign ("excerpts", $excerpts);
+// Search the Bible text.
+$ids = $database_bibles->searchText ($queryString);
 
+$textCount = count ($ids);
+$smarty->assign ("textCount", $textCount);
+
+// Assemble the search results.
+$textTitles = array ();
+$textUrls = array ();
+$textExcerpts = array ();
+
+foreach ($ids as $id) {
+  $details = $database_bibles->getBibleBookChapter ($id);
+  if ($details == NULL) continue;
+  $bible = $database_bibles->getName ($details["bible"]);
+  $book = $details ["book"];
+  $chapter = $details ["chapter"];
+  $title = "$bible" . " | " . Filter_Books::passageDisplay ($book, $chapter, "");
+  $title = substr ($title, 0, -1);
+  $textTitles [] = $title;
+  $url = "$siteUrl/desktop/index.php?desktop=edittext&switchbook=$book&switchchapter=$chapter";
+  $textUrls [] = $url;
+  $excerpt = "";
+  $textExcerpts [] = $excerpt;
+}
+
+// Display the search results for the Bible text.
+$smarty->assign ("textUrls", $textUrls);
+$smarty->assign ("textTitles", $textTitles);
+$smarty->assign ("textExcerpts", $textExcerpts);
 
 $smarty->display ("search.tpl");
 
-
 Assets_Page::footer ();
-
 
 ?>

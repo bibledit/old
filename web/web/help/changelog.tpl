@@ -20,9 +20,9 @@
 <p>Requires the PHP intl module for internationalization support.</p>
 <p>User login is written to the logbook.</p>
 <p>Contains script update-0.8-to-0.9.php to be manually run when upgrading bibledit-web-0.8 to 0.9.</p>
-<p>The Notes Selector better searches on text.</p>
+<p>The Notes Selector searches better on text.</p>
 <p>The site search works through MySQL full-text search.</p>
-<p></p>
+<p>The search results display the Consultations Notes at the left and the Bible text at the right.</p>
 <p></p>
 <p></p>
 <p></p>
