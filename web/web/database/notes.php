@@ -1055,18 +1055,8 @@ class Database_Notes
     }
     return $identifiers;
   }
-  
-  
-  private function getCleanText ($text)
-  {
-    $text = str_replace (array ("<div>", "</div>", "\r"), array ("\n", "\n", ""), $text);
-    $text = trim (strip_tags ($text));
-    $text = html_entity_decode ($text);
-    $text = htmlspecialchars_decode ($text);
-    return $text;
-  }
-  
-  
+
+
   public function updateSearchFields ($identifier)
   {
     // The search field is a combination of the summary and content converted to clean text.
@@ -1075,7 +1065,7 @@ class Database_Notes
     // with MySQL fulltext search in boolean mode.
     $noteSummary = $this->getSummary ($identifier);
     $noteContents = $this->getContents ($identifier);
-    $cleanText = $this->getCleanText ($noteSummary . "\n" . $noteContents);
+    $cleanText = $noteSummary . "\n" . Filter_Html::html2text ($noteContents);
     $reversedText = Filter_String::reverse ($cleanText);
     $cleanText = Database_SQLInjection::no ($cleanText);
     $reversedText = Database_SQLInjection::no ($reversedText);
