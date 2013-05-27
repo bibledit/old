@@ -27,6 +27,24 @@ CREATE TABLE IF NOT EXISTS bible_diff (
   data text
 ) engine = MyISAM;
 
+DROP PROCEDURE IF EXISTS upgrade_one;
+DELIMITER //
+CREATE PROCEDURE upgrade_one () 
+BEGIN
+  SET @version := (SELECT version FROM version WHERE NAME = 'bible');
+  IF @version IS NULL THEN 
+    ALTER TABLE bible_data DROP INDEX forward;
+    ALTER TABLE bible_data DROP INDEX reverse;
+    ALTER TABLE bible_data ADD FULLTEXT forward (forward);
+    ALTER TABLE bible_data ADD FULLTEXT reverse (reverse);
+    INSERT INTO version VALUES (NULL, 'bible', 1);
+  END IF;
+END;
+//
+DELIMITER ;
+CALL upgrade_one ();
+DROP PROCEDURE upgrade_one;
+
 DROP PROCEDURE IF EXISTS upgrades;
 DELIMITER ;;
 CREATE PROCEDURE upgrades ()
@@ -40,10 +58,6 @@ BEGIN
   # Add columns for searching the text of the Bible.
   ALTER TABLE bible_data ADD forward text AFTER data;
   ALTER TABLE bible_data ADD reverse text AFTER forward;
-  ALTER TABLE bible_data DROP INDEX forward;
-  ALTER TABLE bible_data DROP INDEX reverse;
-  ALTER TABLE bible_data ADD FULLTEXT forward (forward);
-  ALTER TABLE bible_data ADD FULLTEXT reverse (reverse);
 END;;
 CALL upgrades();;
 DROP PROCEDURE upgrades;

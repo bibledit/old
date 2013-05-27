@@ -20,6 +20,29 @@ CREATE TABLE IF NOT EXISTS notes (
   FULLTEXT reversedsearch (reversedtext)
 ) engine = MyISAM;
 
+
+DROP PROCEDURE IF EXISTS upgrade_one;
+DELIMITER //
+CREATE PROCEDURE upgrade_one () 
+BEGIN
+  SET @version := (SELECT version FROM version WHERE NAME = 'notes');
+  IF @version IS NULL THEN 
+    # Index for searching the clean text of the note.
+    ALTER TABLE notes DROP INDEX searching;
+    ALTER TABLE notes ADD FULLTEXT searching (cleantext);
+    # Index for searching the reversed clean text of the note.
+    ALTER TABLE notes DROP INDEX reversedsearch;
+    ALTER TABLE notes ADD FULLTEXT reversedsearch (reversedtext);
+    INSERT INTO version VALUES (NULL, 'notes', 1);
+  END IF;
+END;
+//
+DELIMITER ;
+CALL upgrade_one ();
+DROP PROCEDURE upgrade_one;
+
+
+
 DROP PROCEDURE IF EXISTS upgrades;
 DELIMITER ;;
 CREATE PROCEDURE upgrades ()
@@ -31,16 +54,12 @@ BEGIN
   # Table update. Create index on identifier for much faster lookup.
   # This makes a huge difference if the number of notes gets more than, say, 1000.
   CREATE INDEX id_index ON notes (identifier);
-  # Add column for searching the clean text of the note.
-  ALTER TABLE notes ADD cleantext text AFTER contents;
-  ALTER TABLE notes DROP INDEX searching;
-  ALTER TABLE notes ADD FULLTEXT searching (cleantext);
-  # Add column for searching the reversed clean text of the note.
-  ALTER TABLE notes ADD reversedtext text AFTER cleantext;
-  ALTER TABLE notes DROP INDEX reversedsearch;
-  ALTER TABLE notes ADD FULLTEXT reversedsearch (reversedtext);
   # Drop the summary fulltext index.
   ALTER TABLE notes DROP INDEX summary;
+  # Add column for searching the clean text of the note.
+  ALTER TABLE notes ADD cleantext text AFTER contents;
+  # Add column for searching the reversed clean text of the note.
+  ALTER TABLE notes ADD reversedtext text AFTER cleantext;
 END;;
 CALL upgrades();;
 DROP PROCEDURE upgrades;
