@@ -31,8 +31,17 @@ DROP PROCEDURE IF EXISTS upgrade_one;
 DELIMITER //
 CREATE PROCEDURE upgrade_one () 
 BEGIN
+  DECLARE CONTINUE HANDLER FOR 1060 BEGIN END;
+  DECLARE CONTINUE HANDLER FOR 1061 BEGIN END;
+  DECLARE CONTINUE HANDLER FOR 1091 BEGIN END;
   SET @version := (SELECT version FROM version WHERE NAME = 'bible');
   IF @version IS NULL THEN 
+    ALTER TABLE bible_names ENGINE = MYISAM;
+    ALTER TABLE bible_data ENGINE = MYISAM;
+    ALTER TABLE bible_diff ENGINE = MYISAM;
+    # Add columns for searching the text of the Bible.
+    ALTER TABLE bible_data ADD forward text AFTER data;
+    ALTER TABLE bible_data ADD reverse text AFTER forward;
     ALTER TABLE bible_data DROP INDEX forward;
     ALTER TABLE bible_data DROP INDEX reverse;
     ALTER TABLE bible_data ADD FULLTEXT forward (forward);
@@ -45,19 +54,3 @@ DELIMITER ;
 CALL upgrade_one ();
 DROP PROCEDURE upgrade_one;
 
-DROP PROCEDURE IF EXISTS upgrades;
-DELIMITER ;;
-CREATE PROCEDURE upgrades ()
-BEGIN
-  DECLARE CONTINUE HANDLER FOR 1060 BEGIN END;
-  DECLARE CONTINUE HANDLER FOR 1061 BEGIN END;
-  DECLARE CONTINUE HANDLER FOR 1091 BEGIN END;
-  ALTER TABLE bible_names ENGINE = MYISAM;
-  ALTER TABLE bible_data ENGINE = MYISAM;
-  ALTER TABLE bible_diff ENGINE = MYISAM;
-  # Add columns for searching the text of the Bible.
-  ALTER TABLE bible_data ADD forward text AFTER data;
-  ALTER TABLE bible_data ADD reverse text AFTER forward;
-END;;
-CALL upgrades();;
-DROP PROCEDURE upgrades;
