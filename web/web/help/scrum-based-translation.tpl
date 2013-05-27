@@ -33,6 +33,7 @@
 <p>1. {t}What did you do yesterday?{/t}</p>
 <p>2. {t}What are you going to do today?{/t}</p>
 <p>3. {t}Are there any impediments in your way?{/t}</p>
+<p>{t}The Scrum Master asks each team member to answer these questions, the member speaks, the Scrum Master thanks the member, and then goes to the next member.{/t}</p>
 <br>
 <p>
  {t}By focusing on what each person did yesterday and will do today, the team gains an understanding of what work has been done and what work remains.{/t}
