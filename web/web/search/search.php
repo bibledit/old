@@ -103,18 +103,37 @@ $textUrls = array ();
 $textExcerpts = array ();
 
 foreach ($ids as $id) {
+  
+  // Get the details of this search hit.
   $details = $database_bibles->getBibleBookChapter ($id);
   if ($details == NULL) continue;
   $bible = $database_bibles->getName ($details["bible"]);
   $book = $details ["book"];
   $chapter = $details ["chapter"];
+
+  // The title.
   $title = "$bible" . " | " . Filter_Books::passageDisplay ($book, $chapter, "");
   $title = substr ($title, 0, -1);
   $textTitles [] = $title;
+  
+  // The URL.
   $url = "$siteUrl/desktop/index.php?desktop=edittext&switchbook=$book&switchchapter=$chapter";
   $textUrls [] = $url;
+
+  // The excerpt.
+  $text = $database_bibles->getSearchField ($id);
+  $text = explode ("\n", $text);
   $excerpt = "";
+  // Go through each line of text separately.
+  foreach ($text as $line) {
+    $count = 0;
+    $line = str_ireplace ($queryWords, $markedWords, $line, $count);
+    if ($count == 0) continue;
+    // Store this bit of the excerpt.
+    $excerpt .= "<p style=\"margin-top: 0em\">$line</p>\n";
+  }
   $textExcerpts [] = $excerpt;
+  
 }
 
 // Display the search results for the Bible text.

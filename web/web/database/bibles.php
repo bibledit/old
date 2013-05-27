@@ -554,6 +554,17 @@ class Database_Bibles
   }
 
 
+  public function getSearchField ($id)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $id = Database_SQLInjection::no ($id);
+    $query = "SELECT forward FROM bible_data WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    $row = $result->fetch_row();
+    return $row[0];
+  }
+
+
 }
 
 
