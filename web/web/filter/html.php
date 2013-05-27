@@ -47,9 +47,9 @@ class Filter_Html
       $text .= substr ($html, 0, $pos);
       $html = substr ($html, $pos + 1);
       // Certain tags start new lines.
-      $tag1 = substr ($html, 0, 1);
-      $tag2 = substr ($html, 0, 2);
-      $tag3 = substr ($html, 0, 3);
+      $tag1 = strtolower (substr ($html, 0, 1));
+      $tag2 = strtolower (substr ($html, 0, 2));
+      $tag3 = strtolower (substr ($html, 0, 3));
       if  (($tag1 == "p") 
         || ($tag3 == "div") 
         || ($tag2 == "li") 
@@ -60,6 +60,7 @@ class Filter_Html
         || ($tag2 == "h3") 
         || ($tag2 == "h4") 
         || ($tag2 == "h5")
+        || ($tag2 == "br")
          ) {
         $text .= "\n";
       }

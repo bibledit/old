@@ -74,5 +74,23 @@ EOD;
   }
 
 
+  public function testHtml2Text4 ()
+  {
+$html = <<<EOD
+Line one.<BR>
+
+Line two.<BR>
+
+Line three.<BR>
+EOD;
+$plain = <<<EOD
+Line one.
+Line two.
+Line three.
+EOD;
+    $this->assertEquals ($plain, Filter_Html::html2text ($html));
+  }
+
+
 }
 ?>
