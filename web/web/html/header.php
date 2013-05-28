@@ -66,12 +66,10 @@ class Html_Header
         $crumbAdded = true;
       }
     }
-    $database_config_general = Database_Config_General::getInstance ();
-    $siteUrl = $database_config_general->getSiteURL ();
     $tableDataElement = $this->htmlText->newTableData ($tableRowElement, true);
     $formElement = $this->htmlText->newElement ("form");
     $tableDataElement->appendChild ($formElement);
-    $formElement->setAttribute ("action", $siteUrl . "/webbible/search.php"); // Todo updated path to search.php getSiteURL
+    $formElement->setAttribute ("action", "../../../../webbible/search.php");
     $formElement->setAttribute ("method", "GET");
     $formElement->setAttribute ("name", "search");
     $formElement->setAttribute ("id", "search");

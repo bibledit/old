@@ -93,11 +93,14 @@ foreach ($bibles as $bible) {
   mkdir ($infoDirectory);
 
 
+  // Back link path.
+  $backLinkPath = "../downloads/exports/$bible/web/";
+
   // Rich web main index file. 
   $html_text_rich_bible_index = new Html_Text ($bible); 
   // On top are the breadcrumbs, starting with a clickable Bible name.
-  $htmlHeader = new Html_Header ($html_text_rich_bible_index); // Todo
-  $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible (), gettext ("Go back to Bible"));
+  $htmlHeader = new Html_Header ($html_text_rich_bible_index);
+  $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible (), gettext ("Go back to Bible")); // Todo
   $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
   unset ($htmlHeader);
   // Prepare for the list of books in de html index file.
@@ -117,7 +120,7 @@ foreach ($bibles as $bible) {
     // Rich web index file per book. 
     $html_text_rich_book_index = new Html_Text ($bibleBookText);
     $htmlHeader = new Html_Header ($html_text_rich_book_index);
-    $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible ("", $book), gettext ("Go back to") . " " . $bibleBookText);
+    $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book), gettext ("Go back to") . " " . $bibleBookText); // Todo
     $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
     $html_text_rich_book_index->newParagraph ("navigationbar");
     $html_text_rich_book_index->addText ("|");
@@ -157,7 +160,7 @@ foreach ($bibles as $bible) {
 
       // Create breadcrumbs for the chapter.
       $htmlHeader = new Html_Header ($filter_text_chapter->html_text_linked);
-      $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext ("Go back to") . " " . $bibleBookText . " " . $chapter);
+      $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext ("Go back to") . " " . $bibleBookText . " " . $chapter); // Todo
       $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
                                   array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                                   array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
@@ -165,7 +168,7 @@ foreach ($bibles as $bible) {
       
       // Create interlinked html for the chapter.
       $filter_text_chapter->run ($stylesheet);
-      $filter_text_chapter->html_text_linked->save (Filter_Paths::htmlFileNameBible ($richWebDirectory, $book, $chapter)); // Todo
+      $filter_text_chapter->html_text_linked->save (Filter_Paths::htmlFileNameBible ($richWebDirectory, $book, $chapter));
       
       $html_text_rich_book_index->addLink ($html_text_rich_book_index->currentPDomElement, Filter_Paths::htmlFileNameBible ("", $book, $chapter), "", $chapter, "", " " . $chapter . " ");
       $html_text_rich_book_index->addText ("|");
@@ -189,7 +192,7 @@ foreach ($bibles as $bible) {
     $html_text_rich_bible_index->addText ("|");
 
     // Save the book index.
-    $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ("$richWebDirectory", $book)); // Todo
+    $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ("$richWebDirectory", $book));
     
     // Save the clear text export.
     $filter_text_book->text_text->save ("$clearTextDirectory/$baseBookFileName.txt");
@@ -216,8 +219,8 @@ foreach ($bibles as $bible) {
 
   // Save index file for the interlinked web export.
   $database_logs->log ("exports: Create index file for interlinked Web", true);
-  $html_text_rich_bible_index->save ("$richWebDirectory/index.html"); // Todo
-  $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html"); // Todo
+  $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
+  $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
   unset ($html_text_rich_bible_index);
 
 

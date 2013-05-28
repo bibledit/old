@@ -138,7 +138,6 @@ foreach ($ids as $id) {
 
 
 // Last bit of the page.
-echo "<font size=\"-1\" color=\"grey\"><hr /></font>\n";
 echo "</body>\n";
 
 
