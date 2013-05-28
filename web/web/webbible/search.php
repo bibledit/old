@@ -74,17 +74,28 @@ foreach ($queryWords as $word) {
 }
 
 
-// Databases.
-$database_config_general = Database_Config_General::getInstance ();
+// Bible databases.
 $database_bibles = Database_Bibles::getInstance ();
 
 
-// Base URL of the bibledit-web site.
-$siteUrl = $database_config_general->getSiteURL ();
+// Exported Bible.
+$exportedBible = basename (dirname (dirname ($backlinkUrl)));
+$exportedID = $database_bibles->getID ($exportedBible);
 
 
 // Search the Bible text.
 $ids = $database_bibles->searchText ($queryString);
+
+
+// Only take the results that related to the exported Bible.
+$ids2 = array ();
+foreach ($ids as $id) {
+  $details = $database_bibles->getBibleBookChapter ($id);
+  if ($exportedID == $details["bible"]) {
+    $ids2 [] = $id;
+  }
+}
+$ids = $ids2;
 
 
 // Hit count.
@@ -112,7 +123,7 @@ foreach ($ids as $id) {
 
 
   // The URL.
-  $url = "$siteUrl/downloads/exports/$bible/web/" . Filter_Paths::htmlFileNameBible ("", $book, $chapter);
+  $url = "../downloads/exports/$bible/web/" . Filter_Paths::htmlFileNameBible ("", $book, $chapter);
 
 
   // Output title and URL.
