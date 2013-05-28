@@ -63,18 +63,6 @@ if test x$FIND_SQLITE3 = xno; then
 fi
 
 
-AC_PATH_PROG(FIND_INDEXER, indexer, no)
-if test x$FIND_INDEXER = xno; then
-  AC_MSG_ERROR(Install program "indexer". It is part of sphinxsearch.)
-fi
-
-
-AC_PATH_PROG(FIND_SEARCHD, searchd, no)
-if test x$FIND_SEARCHD = xno; then
-  AC_MSG_ERROR(Install program "searchd". It is part of sphinxsearch.)
-fi
-
-
 # Check for PHP Internationalization support.
 AC_MSG_CHECKING(PHP Internationalization support)
 php -i | grep intl > /dev/null

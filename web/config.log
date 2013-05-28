@@ -43,25 +43,25 @@ PATH: /usr/local/games
 ## Core tests. ##
 ## ----------- ##
 
-configure:1791: checking build system type
-configure:1805: result: x86_64-unknown-linux-gnu
-configure:1825: checking host system type
-configure:1838: result: x86_64-unknown-linux-gnu
-configure:1858: checking target system type
-configure:1871: result: x86_64-unknown-linux-gnu
-configure:1915: checking for a BSD-compatible install
-configure:1983: result: /usr/bin/install -c
-configure:1994: checking whether build environment is sane
-configure:2044: result: yes
-configure:2185: checking for a thread-safe mkdir -p
-configure:2224: result: /bin/mkdir -p
-configure:2237: checking for gawk
-configure:2253: found /usr/bin/gawk
-configure:2264: result: gawk
-configure:2275: checking whether make sets $(MAKE)
-configure:2297: result: yes
-configure:2372: checking how to create a ustar tar archive
-configure:2385: tar --version
+configure:1789: checking build system type
+configure:1803: result: x86_64-unknown-linux-gnu
+configure:1823: checking host system type
+configure:1836: result: x86_64-unknown-linux-gnu
+configure:1856: checking target system type
+configure:1869: result: x86_64-unknown-linux-gnu
+configure:1913: checking for a BSD-compatible install
+configure:1981: result: /usr/bin/install -c
+configure:1992: checking whether build environment is sane
+configure:2042: result: yes
+configure:2183: checking for a thread-safe mkdir -p
+configure:2222: result: /bin/mkdir -p
+configure:2235: checking for gawk
+configure:2251: found /usr/bin/gawk
+configure:2262: result: gawk
+configure:2273: checking whether make sets $(MAKE)
+configure:2295: result: yes
+configure:2370: checking how to create a ustar tar archive
+configure:2383: tar --version
 tar (GNU tar) 1.26
 Copyright (C) 2011 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -69,56 +69,50 @@ This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
 Written by John Gilmore and Jay Fenlason.
-configure:2388: $? = 0
-configure:2428: tardir=conftest.dir && eval tar --format=ustar -chf - "$tardir" >conftest.tar
-configure:2431: $? = 0
-configure:2435: tar -xf - <conftest.tar
-configure:2438: $? = 0
-configure:2451: result: gnutar
-configure:2464: checking for make
-configure:2482: found /usr/bin/make
-configure:2495: result: /usr/bin/make
-configure:2510: checking for git
-configure:2528: found /usr/bin/git
-configure:2541: result: /usr/bin/git
-configure:2556: checking for mysql
-configure:2574: found /usr/bin/mysql
-configure:2587: result: /usr/bin/mysql
-configure:2600: checking for mysqldump
-configure:2618: found /usr/bin/mysqldump
-configure:2631: result: /usr/bin/mysqldump
-configure:2646: checking for php
-configure:2664: found /usr/bin/php
-configure:2677: result: /usr/bin/php
-configure:2692: checking for zip
-configure:2710: found /usr/bin/zip
-configure:2723: result: /usr/bin/zip
-configure:2738: checking for unzip
-configure:2756: found /usr/bin/unzip
-configure:2769: result: /usr/bin/unzip
-configure:2784: checking for wdiff
-configure:2802: found /usr/bin/wdiff
-configure:2815: result: /usr/bin/wdiff
-configure:2830: checking for sqlite3
-configure:2848: found /usr/bin/sqlite3
-configure:2861: result: /usr/bin/sqlite3
-configure:2876: checking for indexer
-configure:2894: found /usr/bin/indexer
-configure:2907: result: /usr/bin/indexer
-configure:2922: checking for searchd
-configure:2940: found /usr/bin/searchd
-configure:2953: result: /usr/bin/searchd
-configure:2967: checking PHP Internationalization support
-configure:2977: result: yes
-configure:3082: checking zend framework path
-configure:3106: result: /usr/share/php/libzend-framework-php/Zend
-configure:3170: checking whether to enable LINUX specific flags
-configure:3175: result: yes
-configure:3195: checking whether to enable DARWIN specific flags
-configure:3205: result: no
-configure:3220: checking whether to enable WIN32 specific flags
-configure:3230: result: no
-configure:3385: creating ./config.status
+configure:2386: $? = 0
+configure:2426: tardir=conftest.dir && eval tar --format=ustar -chf - "$tardir" >conftest.tar
+configure:2429: $? = 0
+configure:2433: tar -xf - <conftest.tar
+configure:2436: $? = 0
+configure:2449: result: gnutar
+configure:2462: checking for make
+configure:2480: found /usr/bin/make
+configure:2493: result: /usr/bin/make
+configure:2508: checking for git
+configure:2526: found /usr/bin/git
+configure:2539: result: /usr/bin/git
+configure:2554: checking for mysql
+configure:2572: found /usr/bin/mysql
+configure:2585: result: /usr/bin/mysql
+configure:2598: checking for mysqldump
+configure:2616: found /usr/bin/mysqldump
+configure:2629: result: /usr/bin/mysqldump
+configure:2644: checking for php
+configure:2662: found /usr/bin/php
+configure:2675: result: /usr/bin/php
+configure:2690: checking for zip
+configure:2708: found /usr/bin/zip
+configure:2721: result: /usr/bin/zip
+configure:2736: checking for unzip
+configure:2754: found /usr/bin/unzip
+configure:2767: result: /usr/bin/unzip
+configure:2782: checking for wdiff
+configure:2800: found /usr/bin/wdiff
+configure:2813: result: /usr/bin/wdiff
+configure:2828: checking for sqlite3
+configure:2846: found /usr/bin/sqlite3
+configure:2859: result: /usr/bin/sqlite3
+configure:2873: checking PHP Internationalization support
+configure:2883: result: yes
+configure:2988: checking zend framework path
+configure:3012: result: /usr/share/php/libzend-framework-php/Zend
+configure:3076: checking whether to enable LINUX specific flags
+configure:3081: result: yes
+configure:3101: checking whether to enable DARWIN specific flags
+configure:3111: result: no
+configure:3126: checking whether to enable WIN32 specific flags
+configure:3136: result: no
+configure:3291: creating ./config.status
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -133,11 +127,9 @@ ac_cv_env_target_alias_set=
 ac_cv_env_target_alias_value=
 ac_cv_host=x86_64-unknown-linux-gnu
 ac_cv_path_FIND_GIT=/usr/bin/git
-ac_cv_path_FIND_INDEXER=/usr/bin/indexer
 ac_cv_path_FIND_MYSQL=/usr/bin/mysql
 ac_cv_path_FIND_MYSQLDUMP=/usr/bin/mysqldump
 ac_cv_path_FIND_PHP=/usr/bin/php
-ac_cv_path_FIND_SEARCHD=/usr/bin/searchd
 ac_cv_path_FIND_SQLITE3=/usr/bin/sqlite3
 ac_cv_path_FIND_UNZIP=/usr/bin/unzip
 ac_cv_path_FIND_WDIFF=/usr/bin/wdiff
@@ -168,11 +160,9 @@ ECHO_C=''
 ECHO_N='-n'
 ECHO_T=''
 FIND_GIT='/usr/bin/git'
-FIND_INDEXER='/usr/bin/indexer'
 FIND_MYSQL='/usr/bin/mysql'
 FIND_MYSQLDUMP='/usr/bin/mysqldump'
 FIND_PHP='/usr/bin/php'
-FIND_SEARCHD='/usr/bin/searchd'
 FIND_SQLITE3='/usr/bin/sqlite3'
 FIND_UNZIP='/usr/bin/unzip'
 FIND_WDIFF='/usr/bin/wdiff'
@@ -299,15 +289,16 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on teus-HP-Compaq-8710w
 
-config.status:862: creating Makefile
-config.status:862: creating fhs/Makefile
-config.status:862: creating web/Makefile
-config.status:862: creating tests/Makefile
-config.status:862: creating apache/Makefile
-config.status:862: creating cron/Makefile
-config.status:862: creating mysql/Makefile
-config.status:862: creating secure/Makefile
-config.status:862: creating config.php
+config.status:860: creating Makefile
+config.status:860: creating fhs/Makefile
+config.status:860: creating web/Makefile
+config.status:860: creating tests/Makefile
+config.status:860: creating apache/Makefile
+config.status:860: creating cron/Makefile
+config.status:860: creating mysql/Makefile
+config.status:860: creating secure/Makefile
+config.status:860: creating config.php
+config.status:1041: config.php is unchanged
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -324,5 +315,5 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on teus-HP-Compaq-8710w
 
-config.status:862: creating config.php
-config.status:1043: config.php is unchanged
+config.status:860: creating config.php
+config.status:1041: config.php is unchanged

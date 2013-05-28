@@ -1,6 +1,7 @@
 <h1>{t}Installation{/t}</h1>
 <p>{t}Here are some guidelines as to how to install Bibledit-Web.{/t}</p>
 <p><a href="installubuntu.php">{t}Version 0.8 on Ubuntu 13.04.{/t}</a></p>
+<p><a href="installnewubuntu.php">{t}Version 0.9 (not yet released) on Ubuntu 13.04.{/t}</a></p>
 <h2>{t}Version being developed{/t}</h2>
 <p>{t}In case you'd like to use the newest version, the one being developed, you can clone the source code from the git repository.{/t}</p>
 <p><a href="http://sites.google.com/site/bibledit/community/development">{t}See the Development page for more details.{/t}</a></p>
