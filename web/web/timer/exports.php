@@ -45,7 +45,6 @@ $database_books = Database_Books::getInstance ();
 
 $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
-$sphinxPort = (int) $database_config_general->getSearchDaemonPort ();
 
 
 unset ($database_config_general);
@@ -97,7 +96,7 @@ foreach ($bibles as $bible) {
   // Rich web main index file. 
   $html_text_rich_bible_index = new Html_Text ($bible); 
   // On top are the breadcrumbs, starting with a clickable Bible name.
-  $htmlHeader = new Html_Header ($html_text_rich_bible_index);
+  $htmlHeader = new Html_Header ($html_text_rich_bible_index); // Todo
   $htmlHeader->searchBackLink (Filter_Paths::htmlFileNameBible (), gettext ("Go back to Bible"));
   $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
   unset ($htmlHeader);
@@ -166,7 +165,7 @@ foreach ($bibles as $bible) {
       
       // Create interlinked html for the chapter.
       $filter_text_chapter->run ($stylesheet);
-      $filter_text_chapter->html_text_linked->save (Filter_Paths::htmlFileNameBible ($richWebDirectory, $book, $chapter));
+      $filter_text_chapter->html_text_linked->save (Filter_Paths::htmlFileNameBible ($richWebDirectory, $book, $chapter)); // Todo
       
       $html_text_rich_book_index->addLink ($html_text_rich_book_index->currentPDomElement, Filter_Paths::htmlFileNameBible ("", $book, $chapter), "", $chapter, "", " " . $chapter . " ");
       $html_text_rich_book_index->addText ("|");
@@ -190,7 +189,7 @@ foreach ($bibles as $bible) {
     $html_text_rich_bible_index->addText ("|");
 
     // Save the book index.
-    $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ("$richWebDirectory", $book));
+    $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ("$richWebDirectory", $book)); // Todo
     
     // Save the clear text export.
     $filter_text_book->text_text->save ("$clearTextDirectory/$baseBookFileName.txt");
@@ -217,8 +216,8 @@ foreach ($bibles as $bible) {
 
   // Save index file for the interlinked web export.
   $database_logs->log ("exports: Create index file for interlinked Web", true);
-  $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
-  $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
+  $html_text_rich_bible_index->save ("$richWebDirectory/index.html"); // Todo
+  $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html"); // Todo
   unset ($html_text_rich_bible_index);
 
 
@@ -388,83 +387,8 @@ foreach ($bibles as $bible) {
   unset ($filter_text_bible->odf_text_notes);
   unset ($filter_text_bible);
 
-
-  // Web indexer support files.
-  // For each subsequent Bible, sphinxsearch uses a higher TCP port number.
-  $database_logs->log ("exports: Indexing entire Bible for interlinked Web", true);
-  $sphinxPort++;
-  $sphinxPidFilename = "$localStatePath/$location/$bible-sphinx.pid";
-  $bibleditPath = dirname (dirname (__FILE__));
-
-  $contents = file_get_contents ("../webbible/sphinx.conf");
-  $contents = str_replace ('web_directory', $richWebDirectory, $contents);
-  $contents = str_replace ('9312', $sphinxPort, $contents);
-  $contents = str_replace ('sphinx.pid', $sphinxPidFilename, $contents);
-  file_put_contents ("$richWebDirectory/sphinx.conf", $contents);
-
-  $contents = file_get_contents ("../webbible/indexer.php");
-  $contents = str_replace ('bibleditPath', $bibleditPath, $contents);
-  $contents = str_replace ('_bible_', $bible, $contents);
-  file_put_contents ("$richWebDirectory/indexer.php", $contents);
-
-  // Run the Sphinx indexer.
-  $success = true;
-  $command = "cd \"$richWebDirectory\"; indexer --all --rotate --config sphinx.conf 2>&1";
-  $database_logs->log ("exports: $command");
-  unset ($result);
-  exec ($command, $result, $exit_code);
-  if ($exit_code != 0) $success = false;
-  foreach ($result as $line) {
-    if ($line == "") continue;
-    $database_logs->log ("exports: $line");
-  }
-  $database_logs->log ("exports: Exit code $exit_code");
-
-  // Kill whatever deamon is listening on the TCP port that searchd needs.
-  $command = "lsof -i";
-  unset ($result);
-  exec ($command, $result, $exit_code);
-  unset ($command);
-  foreach ($result as $line) {
-    $database_logs->log ("exports: $line");
-    if (strpos ($line, ":$sphinxPort") !== false) {
-      $pos = strpos ($line, " ");
-      $line = substr ($line, $pos);
-      $pid = (int) $line;
-      $command = "kill -9 $pid 2>&1";
-    }
-  }
-  if (isset ($command)) {
-    $database_logs->log ("exports: $command");
-    unset ($result);
-    exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
-      $database_logs->log ("exports: $line");
-    }
-  }
-  $database_logs->log ("exports: Exit code $exit_code");
-
-  // Start the Sphinx daemon..
-  $command = "cd \"$richWebDirectory\"; searchd --config sphinx.conf 2>&1";
-  $database_logs->log ("exports: $command");
-  unset ($result);
-  exec ($command, $result, $exit_code);
-  foreach ($result as $line) {
-    if ($line == "") continue;
-    $database_logs->log ("exports: $line");
-  }
-  $database_logs->log ("exports: Exit code $exit_code");
-
-  // Supporting files for displaying doing the search plus displaying the results.
+  // Lens image supporting search.
   copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
-
-  $contents = file_get_contents ("../webbible/sphinxapi.php");
-  $contents = str_replace ('9312', $sphinxPort, $contents);
-  file_put_contents ("$richWebDirectory/sphinxapi.php", $contents);
-
-  $contents = file_get_contents ("../webbible/search.php");
-  $contents = str_replace ('9312', $sphinxPort, $contents);
-  file_put_contents ("$richWebDirectory/search.php", $contents);
 
 }
 
