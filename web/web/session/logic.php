@@ -15,13 +15,14 @@ class Session_Logic
   private $check_browser = true;              // Include browser name in fingerprint?
   private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
   private $secure_word = 'controlword';       // Control word - any word you want.
-  private $regenerate_id = false;              // Regenerate session ID to prevent fixation attacks? // Todo try out.
+  private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
   private static $instance;                   // Current singleton instance.
   private $logged_in;
 
 
   // The class constructor is private, so no outsider can call it.    
   private function __construct() {
+    ini_set ("session.gc_maxlifetime", 43200);
     session_name ('bibledit');
     if (php_sapi_name () != "cli") {
       session_set_cookie_params (43200);
