@@ -23,7 +23,7 @@
 <p>The Notes Selector searches better on text.</p>
 <p>The site search works through MySQL full-text search.</p>
 <p>The search results display the Consultations Notes at the left and the Bible text at the right.</p>
-<p>No longer requires package sphinxsearch.</p>
+<p>No longer requires package sphinxsearch, smarty or smarty-gettext.</p>
 <p></p>
 <p></p>
 <p></p>
