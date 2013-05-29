@@ -240,7 +240,7 @@ EOD;
   }
 
 
-  public function testVersesText ()
+  public function testVersesTextOne ()
   {
 $usfm = <<<'EOD'
 \id GEN
@@ -265,7 +265,7 @@ EOD;
     $filter_text->initializeHeadingsAndTextPerVerse ();
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ("Standard");
-    $output = $filter_text->verses_text;
+    $output = $filter_text->getVersesText ();
     $standard = array (
       2 => "Verse two.",
       3 => "Verse three.",
@@ -274,7 +274,30 @@ EOD;
       6 => "Verse six.",
       1 => "Verse one."
     );
-    $this->assertEquals ($output, $standard);
+    $this->assertEquals ($standard, $output);
+  }
+
+
+  public function testVersesTextTwo ()
+  {
+$usfm = <<<'EOD'
+\c 15
+\s Heading
+\p
+\v 1 He said:
+\p I will sing to the Lord.
+\v 2 The Lord is my strength.
+EOD;
+    $filter_text = new Filter_Text ("");
+    $filter_text->initializeHeadingsAndTextPerVerse ();
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("Standard");
+    $output = $filter_text->getVersesText ();
+    $standard = array (
+      1 => "He said: I will sing to the Lord.",
+      2 => "The Lord is my strength."
+    );
+    $this->assertEquals ($standard, $output);
   }
 
 

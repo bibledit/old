@@ -84,7 +84,7 @@ foreach ($bibles as $bible) {
       $filter_text->addUsfmCode ($chapterUsfm);
       $filter_text->run ($stylesheet);
       $verses_headings = $filter_text->verses_headings;
-      $verses_text = $filter_text->verses_text;
+      $verses_text = $filter_text->getVersesText ();
       if ($check_full_stop_in_headings) {
         Checks_Headers::noPunctuationAtEnd ($bible, $book, $chapter, $verses_headings, $center_marks, $end_marks);
       }

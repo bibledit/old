@@ -81,7 +81,7 @@ class Filter_Text
   
   public $verses_headings; // Array to hold verse numbers and the text of the headings.
   private $heading_started; // Flag for headings per verse processor.
-  public $verses_text; // Array to hold verse numbers and the plain text in that verse, without anything extra.
+  private $verses_text; // Array to hold verse numbers and the plain text in that verse, without anything extra.
   private $text_started; // Flag for text per verse processor.
 
   
@@ -533,6 +533,13 @@ class Filter_Text
                   {
                     $this->newParagraph ($style, false);
                     $this->text_started = true;
+                    // If a new paragraph starts within an existing verse, 
+                    // add a space to the text already in that verse.
+                    if (is_array ($this->verses_text)) {
+                      if (isset ($this->verses_text [$this->currentVerseNumber])) {
+                        $this->verses_text [$this->currentVerseNumber] .= " ";
+                      }
+                    }
                     break;
                   }
                 }
@@ -1619,7 +1626,18 @@ class Filter_Text
     $this->verses_headings = array ();
     $this->verses_text = array ();
   }  
-  
+
+
+  public function getVersesText ()
+  {
+    // Trim white space at start and end of each line.
+    foreach ($this->verses_text as &$line) {
+      $line = trim ($line);
+    }
+    // Return the result.
+    return $this->verses_text;
+  }
+    
 
 }
 

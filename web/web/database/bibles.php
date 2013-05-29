@@ -193,7 +193,7 @@ class Database_Bibles
     $searchText = array ();
 
     // First add the clean verse texts.
-    $texts = $filter_text->verses_text;
+    $texts = $filter_text->getVersesText ();
     foreach ($texts as $verse => $text) {
       if (isset ($searchText [$verse])) {
         $searchText [$verse] .= "$text\n";

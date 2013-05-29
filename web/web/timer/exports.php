@@ -100,7 +100,7 @@ foreach ($bibles as $bible) {
   $html_text_rich_bible_index = new Html_Text ($bible); 
   // On top are the breadcrumbs, starting with a clickable Bible name.
   $htmlHeader = new Html_Header ($html_text_rich_bible_index);
-  $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible (), gettext ("Go back to Bible")); // Todo
+  $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible (), gettext ("Go back to Bible"));
   $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
   unset ($htmlHeader);
   // Prepare for the list of books in de html index file.
@@ -120,7 +120,7 @@ foreach ($bibles as $bible) {
     // Rich web index file per book. 
     $html_text_rich_book_index = new Html_Text ($bibleBookText);
     $htmlHeader = new Html_Header ($html_text_rich_book_index);
-    $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book), gettext ("Go back to") . " " . $bibleBookText); // Todo
+    $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book), gettext ("Go back to") . " " . $bibleBookText);
     $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()), array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()) ));
     $html_text_rich_book_index->newParagraph ("navigationbar");
     $html_text_rich_book_index->addText ("|");
@@ -160,7 +160,7 @@ foreach ($bibles as $bible) {
 
       // Create breadcrumbs for the chapter.
       $htmlHeader = new Html_Header ($filter_text_chapter->html_text_linked);
-      $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext ("Go back to") . " " . $bibleBookText . " " . $chapter); // Todo
+      $htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible ("", $book, $chapter), gettext ("Go back to") . " " . $bibleBookText . " " . $chapter);
       $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ()),
                                   array ($database_books->getEnglishFromId ($book), Filter_Paths::htmlFileNameBible ()),
                                   array ($chapter, Filter_Paths::htmlFileNameBible ("", $book))
