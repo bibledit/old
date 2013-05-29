@@ -2884,18 +2884,6 @@ fi
 $as_echo "yes" >&6; }
 
 
-# Check for web server on localhost.
-# AC_MSG_CHECKING(local web server)
-# curl -s http://localhost > /dev/null
-# if test $? -ne 0
-#   then
-#     AC_MSG_RESULT(no)
-#     AC_MSG_ERROR(A local web server such as Apache is required but it was not found or it is not running)
-#     exit 1
-# fi
-# AC_MSG_RESULT(yes)
-
-
 # MySQL database root password.
 MYSQL_ROOT_PASSWORD_DEFAULT="root"
 
