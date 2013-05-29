@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-28 01:42+0200\n"
+"POT-Creation-Date: 2013-05-29 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -889,10 +889,7 @@ msgid ""
 "confirmation number in the subject line."
 msgstr ""
 
-msgid "Search"
-msgstr ""
-
-msgid "results"
+msgid "chapters"
 msgstr ""
 
 msgid "Notifications"
@@ -1152,6 +1149,9 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
+msgid "Search"
+msgstr ""
+
 msgid "Cannot access the database"
 msgstr ""
 
@@ -1332,15 +1332,6 @@ msgid "Read access to the repository is successful."
 msgstr ""
 
 msgid "Read access failed. Please retry it, possibly with another URL."
-msgstr ""
-
-msgid "Searching"
-msgstr ""
-
-msgid "The port number has been set"
-msgstr ""
-
-msgid "The port number was not changed"
 msgstr ""
 
 msgid ""

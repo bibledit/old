@@ -1,4 +1,29 @@
 <h1>{t}Scrum-based Translation{/t}</h1>
+<h2>{t}Release Planning{/t}</h2>
+<p>
+ {t}The release planning shows which parts of the Bible will be translated and delivered during which Sprint.{/t}
+ {t}It is convenient to define a Sprint in months, so that the release planning mentions January, February, and so on.{/t}
+</p>
+<br>
+<p>
+ {t}It is often helpful to stick the release planning to the wall so that everybody can see the grand picture.{/t}
+</p>
+<br>
+<p>
+ {t}The advantages of a release plan are:{/t}
+ {t}1. It gives the team a common vision about what needs to be achieved, and when.{/t}
+ {t}2. It guides the team to make decisions during detailed planning.{/t}
+ {t}3. It helps prioritize the actions.{/t}
+ {t}4. It resolves conflicts and guides the teams toward the right balance on trade-offs.{/t}
+</p>
+<br>
+<h2>{t}Product Backlog{/t}</h2>
+<p>
+ {t}The product backlog is an ordered list of requirements that is maintained for the Bible translation.{/t}
+ {t}It consists of translation tasks, checking tasks, testing tasks, comprehension tasks, whatever needs to be done in order to deliver a reliable manuscript.{/t}
+ {t}The Product Owner prioritizes the items on this list.{/t}
+</p>
+<br>
 <h2>{t}Daily Scrum Meeting{/t}</h2>
 <p>
  {t}On each day of a sprint, the Bible translation team holds daily meetings.{/t}
