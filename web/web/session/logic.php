@@ -15,7 +15,7 @@ class Session_Logic
   private $check_browser = true;              // Include browser name in fingerprint?
   private $check_ip_blocks = 2;               // How many numbers from IP use in fingerprint?
   private $secure_word = 'controlword';       // Control word - any word you want.
-  private $regenerate_id = true;              // Regenerate session ID to prevent fixation attacks?
+  private $regenerate_id = false;              // Regenerate session ID to prevent fixation attacks? // Todo try out.
   private static $instance;                   // Current singleton instance.
   private $logged_in;
 
@@ -71,7 +71,7 @@ class Session_Logic
        @$fingerprint .= $_SERVER['HTTP_USER_AGENT'];
      }
      if ($this->check_ip_blocks) {
-       $num_blocks = abs(intval($this->check_ip_blocks));
+       $num_blocks = abs (intval ($this->check_ip_blocks));
        if ($num_blocks > 4) {
          $num_blocks = 4;
        }
@@ -87,11 +87,11 @@ class Session_Logic
   // Regenerates session ID if possible.
   private function _RegenerateId()
   {
-    if ($this->regenerate_id && function_exists('session_regenerate_id')) {
+    if ($this->regenerate_id && function_exists ('session_regenerate_id')) {
       if (version_compare('5.1.0', phpversion(), '>=')) {
-        @session_regenerate_id(true);
+        @session_regenerate_id (true);
       } else {
-        @session_regenerate_id();
+        @session_regenerate_id ();
       }
     }
   }
