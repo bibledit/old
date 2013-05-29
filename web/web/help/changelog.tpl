@@ -1,6 +1,13 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+<h2>Version 0.9</h2>
+<p>29 May 2013</p>
 <p>The personal notifications settings uses checkboxes for improved clarity.</p>
 <p>Users can check the option to be notified by email about deleted consultation notes.</p>
 <p>Exports USFM to clear text each midnight.</p>
@@ -24,10 +31,6 @@
 <p>The site search works through MySQL full-text search.</p>
 <p>The search results display the Consultations Notes at the left and the Bible text at the right.</p>
 <p>No longer requires package sphinxsearch, smarty or smarty-gettext.</p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
 
 <h2>Version 0.8</h2>
 <p>1 April 2013</p>

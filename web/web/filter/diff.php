@@ -75,6 +75,10 @@ class Filter_Diff
   * $oldfile: The name of the old file for input.
   * $newfile: The name of the new file for input.
   * $outputfile: The name of the output file
+  * Notes:
+  * wdiff does not handle UTF8 properly.
+  * Possible fix: 
+  * Let PHP split the text in words. Then run ordinary diff. PHP assembles the words again into lines.
   */
   public static function runWDiff ($oldfile, $newfile, $outputfile)
   {

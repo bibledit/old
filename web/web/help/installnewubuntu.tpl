@@ -22,11 +22,11 @@
 
 <h2>{t}Install Bibledit-Web{/t}</h2>
 <p>{t}Download Bibledit-Web: Type the following command, and press Enter:{/t}</p>
-<code>wget http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-0.8.tar.gz</code>
+<code>wget http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-0.9.tar.gz</code>
 <p>{t}Unpack Bibledit-Web: Type the following command, and press Enter:{/t}</p>
-<code>tar zxf bibledit-web-0.8.tar.gz</code>
+<code>tar zxf bibledit-web-0.9.tar.gz</code>
 <p>{t}Enter Bibledit-Web's code: Type the following command, and press Enter:{/t}</p>
-<code>cd bibledit-web-0.8</code>
+<code>cd bibledit-web-0.9</code>
 <p>{t}Configure Bibledit-Web: Type the following command, replace 'password' with the administrative password of the mysql-server as entered above, and press Enter:{/t}</p>
 <code>./configure --with-mysql-root-password=password</code>
 <p>{t}Install Bibledit-Web: Type the following command, and press Enter:{/t}</p>
