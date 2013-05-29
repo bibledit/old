@@ -89,4 +89,48 @@ class Filter_Sql
 
 }
 
+
+/*
+
+On Ubuntu the server runs with a character set of latin1.
+
+Enable full-text search on character sets other than latin1.
+Create a script that moves the server from latin1 to utf8.
+Create a script that moves the server from utf8 to latin1.
+Try them on localhost first with Greek and Hebrew texts to see if it works.
+
+It is recommended to set the utf8 for the server for the active connection, rather than for the entire
+server globally, as this may affect other services running on the same MySQL server.
+
+Make utf8 permanent in the bibledit-web software.
+Install software on production server.
+Run the scripts on the production server.
+
+Enable MySQL general log:
+gedit /etc/mysql/my.cnf
+general_log_file        = /var/log/mysql/mysql.log
+general_log             = 1
+
+82 Query	SET CHARACTER SET 'utf8'
+82 Query	SET collation_connection = 'utf8_general_ci'
+
+SET NAMES 'utf8' ;
+SHOW VARIABLES LIKE 'coll%' ;
+SHOW VARIABLES LIKE 'char%';
+
+set global character_set_server = utf8;
+SHOW VARIABLES LIKE 'char%';
+
+set global character_set_server = utf8;
+SELECT cleantext FROM notes WHERE cleantext LIKE '%ἐγὼ%';
+
+set global character_set_server = utf8;
+
+What are the implications for changing the character set of the server from latin to utf8?
+Probably all data has to be updated.
+Looks like we need to update the data once.
+
+*/
+
+
 ?>
