@@ -97,8 +97,9 @@ foreach ($bibles as $bible) {
           $old_html = $filter_text_old->html_text_standard->getHtml ();
           $new_html = $filter_text_new->html_text_standard->getHtml ();
           $old_text = $filter_text_old->text_text->get ();
-          $old_text = $filter_text_new->text_text->get ();
-          $database_changes->record ($changeNotificationUsers, $bible, $book, $chapter, $verse, $old_html, "modification still to be generated", $new_html);
+          $new_text = $filter_text_new->text_text->get ();
+          $modification = Filter_Diff::diff ($old_text, $new_text);
+          $database_changes->record ($changeNotificationUsers, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
         }
       }
     }
@@ -115,7 +116,7 @@ foreach ($bibles as $bible) {
 
   // Create online page with changed verses.
   $versesoutputfile = "$directory/changed_verses.html";
-  Filter_Diff::runWDiff ("$directory/verses_old.txt", "$directory/verses_new.txt", $versesoutputfile);
+  Filter_Diff::runWDiffFile ("$directory/verses_old.txt", "$directory/verses_new.txt", $versesoutputfile);
 
 
   // Email users.

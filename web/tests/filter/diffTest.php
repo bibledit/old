@@ -31,17 +31,25 @@ private $temporary_folder;
   }
 
 
-  public function testFilter ()
+  public function testFilterOne ()
   {
     Filter_Diff::produceVerseLevel ($this->bible_id, $this->temporary_folder);
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_old.usfm", $this->temporary_folder . "/verses_old.usfm");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_new.usfm", $this->temporary_folder . "/verses_new.usfm");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_old.txt", $this->temporary_folder . "/verses_old.txt");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/verses_new.txt", $this->temporary_folder . "/verses_new.txt");
-    Filter_Diff::runWDiff ($this->temporary_folder . "/verses_old.usfm", $this->temporary_folder . "/verses_new.usfm", $this->temporary_folder . "/changed_verses.html");
+    Filter_Diff::runWDiffFile ($this->temporary_folder . "/verses_old.usfm", $this->temporary_folder . "/verses_new.usfm", $this->temporary_folder . "/changed_verses.html");
     $this->assertFileEquals (dirname (__FILE__) . "/diffStandards/changed_verses.html", $this->temporary_folder . "/changed_verses.html");
   }
 
+  
+  public function testDiffStringOne ()
+  {
+    $output = Filter_Diff::diff ("Old text", "New text");
+    $standard = '<span style="text-decoration: line-through;">Old</span><span style="font-weight: bold;">New</span> text';
+    $this->assertEquals ($standard, $output);
+  }
+  
 
 }
 ?>

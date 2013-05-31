@@ -36,7 +36,6 @@ $smarty->assign ("passages", $passages);
 $modifications = array ();
 foreach ($ids as $id) {
   $modification = $database_changes->getModification ($id);
-  $modification = Filter_Html::sanitize ($modification);
   $modifications [] = $modification;
 }
 $smarty->assign ("modifications", $modifications);

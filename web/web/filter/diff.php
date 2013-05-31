@@ -80,7 +80,7 @@ class Filter_Diff
   * Possible fix: 
   * Let PHP split the text in words. Then run ordinary diff. PHP assembles the words again into lines.
   */
-  public static function runWDiff ($oldfile, $newfile, $outputfile)
+  public static function runWDiffFile ($oldfile, $newfile, $outputfile)
   {
     $database_logs = Database_Logs::getInstance ();
     
@@ -102,6 +102,31 @@ class Filter_Diff
     }
     $contents = implode ("\n", $contents);
     file_put_contents ($outputfile, $contents);
+  }
+
+
+  /**
+  * This filter returns the diff of two input strngs.
+  * $oldstring: The old string for input.
+  * $newstring: The new string for input.
+  * The function returns the differences marked.
+  */
+  public static function diff ($oldstring, $newstring) // Todo
+  {
+    include_once ("finediff.php");
+    // FineDiff::$paragraphGranularity
+    // FineDiff::$sentenceGranularity
+    // FineDiff::$wordGranularity
+    // FineDiff::$characterGranularity
+    $diff = new FineDiff ($oldstring, $newstring, FineDiff::$characterGranularity);
+    $rendering = $diff->renderDiffToHTML ();
+    $search = array ("<ins>", "</ins>", "<del>", "</del>");
+    $replace = array ("<span style=\"font-weight: bold;\">", 
+                      "</span>",
+                      "<span style=\"text-decoration: line-through;\">",
+                      "</span>");
+    $html = str_replace ($search, $replace, $rendering);
+    return $html;
   }
 
 
