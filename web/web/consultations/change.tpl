@@ -13,7 +13,7 @@
     <td>{$old_text}</td>
   </tr>
   <tr>
-    <td>{t}Change{/t}:</td>
+    <td>{t}Change{/t}<a href="changes.php?approve={$id}"> ✔ </a>:</td>
     <td>{$modification}</td>
   </tr>
   <tr>
@@ -21,3 +21,5 @@
     <td>{$new_text}</td>
   </tr>
 </table>
+<br>
+<p>{$timestamp}</p>

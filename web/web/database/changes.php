@@ -80,6 +80,21 @@ class Database_Changes
   }
 
 
+  public function getTimeStamp ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT timestamp FROM changes WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $timestamp = $result->fetch_row ();
+      $timestamp = $timestamp [0];
+      return $timestamp;
+    }
+    return time ();
+  }
+
+
   public function getPassage ($id)
   {
     $id = Database_SQLInjection::no ($id);

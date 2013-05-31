@@ -13,7 +13,7 @@ $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
 
 
-// Get the identifier for the change notification.
+// The identifier for the change notification.
 @$id = $_GET['id'];
 if (isset ($id)) {
   $passage = $database_changes->getPassage ($id);
@@ -24,6 +24,7 @@ if (isset ($id)) {
 } else {
   $id = 0;
 }
+$smarty->assign ("id", $id);
 
 
 // Get old text, modification, new text.
@@ -35,6 +36,10 @@ $new_text = $database_changes->getNewText ($id);
 $smarty->assign ("new_text", $new_text);
 
 
+// Time stamp.
+$timestamp = $database_changes->getTimeStamp ($id);
+$timestamp = date ('j F Y', $timestamp);
+$smarty->assign ("timestamp", $timestamp);
 
 
 /*
