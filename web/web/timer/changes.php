@@ -98,8 +98,10 @@ foreach ($bibles as $bible) {
           $new_html = $filter_text_new->html_text_standard->getHtml ();
           $old_text = $filter_text_old->text_text->get ();
           $new_text = $filter_text_new->text_text->get ();
-          $modification = Filter_Diff::diff ($old_text, $new_text);
-          $database_changes->record ($changeNotificationUsers, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
+          if ($old_text != $new_text) {
+            $modification = Filter_Diff::diff ($old_text, $new_text);
+            $database_changes->record ($changeNotificationUsers, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
+          }
         }
       }
     }

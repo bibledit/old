@@ -1,9 +1,9 @@
 <h1>{t}ChangeLog{/t}</h1>
 
 <h2>Version in repository</h2>
-<p>Users can enable the option to have Change Notifications generated for them.</p>
+<p>Users can set an option to have Change Notifications generated for them.</p>
 <p>Consultations / Changes displays all Change Notifications for the user.</p>
-<p>The Manager can view all open Change Notifications for all the users.</p>
+<p>The manager can view all open Change Notifications for all the users.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

@@ -173,7 +173,6 @@ class Database_Notes
 
   /**
   * Returns an array of note identifiers selected.
-  * If $limit is non-NULL, it indicates the starting limit for the selection.
   * $book, $chapter, $verse, $passage_selector: These are related and can limit the selection.
   * $edit_selector: Optionally constrains selection based on modification time.
   * $non_edit_selector: Optionally constrains selection based on modification time.
@@ -184,6 +183,7 @@ class Database_Notes
   * $severity_selector: Optionally limits the selection, based on a note's severity.
   * $text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
   * $search_text: Works with $text_selector, contains the text to search for.
+  * $limit: If non-NULL, it indicates the starting limit for the selection.
   * $userlevel: if 0, it takes the user's level from the current user, else it takes the level passed in the variable $userlevel itself.
   */
   public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel)

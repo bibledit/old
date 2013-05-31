@@ -267,7 +267,7 @@ class Filter_Usfm
     }
 
     // The end of the requested verse number.
-    $endPosition = strpos ($usfm, "\\v", $startPosition + 1);
+    @$endPosition = strpos ($usfm, "\\v", $startPosition + 1);
     if ($endPosition === false) $endPosition = strlen ($usfm);
     
     // Return the verse text.
