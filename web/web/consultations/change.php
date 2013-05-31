@@ -6,13 +6,14 @@ $smarty = new Smarty_Bibledit (__FILE__);
 
 
 $database_changes = Database_Changes::getInstance ();
-$session_logic = Session_Logic::getInstance ();
 $database_notes = Database_Notes::getInstance ();
 
 
+$session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
 
 
+// Get the identifier for the change notification.
 @$id = $_GET['id'];
 if (isset ($id)) {
   $passage = $database_changes->getPassage ($id);
@@ -20,7 +21,18 @@ if (isset ($id)) {
     $ipc_focus = Ipc_Focus::getInstance();
     $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
   }
+} else {
+  $id = 0;
 }
+
+
+// Get old text, modification, new text.
+$old_text = $database_changes->getOldText ($id);
+$smarty->assign ("old_text", $old_text);
+$modification = $database_changes->getModification ($id);
+$smarty->assign ("modification", $modification);
+$new_text = $database_changes->getNewText ($id);
+$smarty->assign ("new_text", $new_text);
 
 
 
@@ -33,8 +45,6 @@ if (isset ($approve)) {
 }
 
 
-$ids = $database_changes->getIdentifiers ($username);
-$smarty->assign ("ids", $ids);
   
 
 $passages = array ();

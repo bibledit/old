@@ -3,18 +3,21 @@
 <br>
 <p>
   {t}This lists the details for the change in the verse.{/t}
-  {t}{/t}
 </p>
 <p class="error">{$error}</p>
 <p class="success">{$success}</p>
+<br>
 <table>
-  {section name=offset loop=$ids} 
   <tr>
-    <td><a href="changes.php?approve={$ids[offset]}"> ✔ </a></td>
-    <td>{$passages[offset]}</td>
-    <td>{$modifications[offset]}</td>
-    <td>{$totalNotesCount[offset]}</td>
-    <td>{$yourNotesCount[offset]}</td>
+    <td>{t}Old text{/t}:</td>
+    <td>{$old_text}</td>
   </tr>
-  {/section} 
+  <tr>
+    <td>{t}Change{/t}:</td>
+    <td>{$modification}</td>
+  </tr>
+  <tr>
+    <td>{t}New text{/t}:</td>
+    <td>{$new_text}</td>
+  </tr>
 </table>

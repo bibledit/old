@@ -93,6 +93,21 @@ class Database_Changes
   }
 
 
+  public function getOldText ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT oldtext FROM changes WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $old_text = $result->fetch_row ();
+      $old_text = $old_text [0];
+      return $old_text;
+    }
+    return "";
+  }
+
+
   public function getModification ($id)
   {
     $id = Database_SQLInjection::no ($id);
@@ -105,6 +120,21 @@ class Database_Changes
       return $modification;
     }
     return NULL;
+  }
+
+
+  public function getNewText ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT newtext FROM changes WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $new_text = $result->fetch_row ();
+      $new_text = $new_text [0];
+      return $new_text;
+    }
+    return "";
   }
 
 
