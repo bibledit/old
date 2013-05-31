@@ -175,6 +175,16 @@ class Database_Config_User
     $this->setValue ("", "get-assigned-to-consultation-notes-changes", $value);
   }   
 
+  public function getGenerateChangeNotifications() {
+    return $this->getValue ("", "generate-change-notifications", false);
+  }
+  public function getUserGenerateChangeNotifications($username) { // Todo
+    return $this->getValueForUser ($username, "generate-change-notifications", false);
+  }
+  public function setGenerateChangeNotifications ($value) {
+    $this->setValue ("", "generate-change-notifications", $value);
+  }   
+
   public function getAssignedConsultationNoteNotification() {
     return $this->getValue ("", "assigned-consultation-note-notification", true);
   }

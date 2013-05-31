@@ -18,17 +18,23 @@ if (isset ($_GET['anynotessubscriptiontoggle'])) {
 $any_notes_subscription = $database_config_user->getNotifyMeOfAnyConsultationNotesEdits();
 $smarty->assign ("any_notes_subscription", $any_notes_subscription);
 
-if (isset ($_GET['subscribednotenotificationtoggle'])) {
-  $database_config_user->setSubscribedConsultationNoteNotification(!$database_config_user->getSubscribedConsultationNoteNotification());
-}
-$subscription_notification = $database_config_user->getSubscribedConsultationNoteNotification();
-$smarty->assign ("subscription_notification", $subscription_notification);
-
 if (isset ($_GET['notesassignmenttoggle'])) {
   $database_config_user->setAssignedToConsultationNotesChanges(!$database_config_user->getAssignedToConsultationNotesChanges());
 }
 $notes_assignment = $database_config_user->getAssignedToConsultationNotesChanges();
 $smarty->assign ("notes_assignment", $notes_assignment);
+
+if (isset ($_GET['changenotificationstoggle'])) {
+  $database_config_user->setGenerateChangeNotifications(!$database_config_user->getGenerateChangeNotifications());
+}
+$change_notifications = $database_config_user->getGenerateChangeNotifications();
+$smarty->assign ("change_notifications", $change_notifications);
+
+if (isset ($_GET['subscribednotenotificationtoggle'])) {
+  $database_config_user->setSubscribedConsultationNoteNotification(!$database_config_user->getSubscribedConsultationNoteNotification());
+}
+$subscription_notification = $database_config_user->getSubscribedConsultationNoteNotification();
+$smarty->assign ("subscription_notification", $subscription_notification);
 
 if (isset ($_GET['assignednotenotificationtoggle'])) {
   $database_config_user->setAssignedConsultationNoteNotification(!$database_config_user->getAssignedConsultationNoteNotification());

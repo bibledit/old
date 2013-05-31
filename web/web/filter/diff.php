@@ -25,13 +25,13 @@ class Filter_Diff
     $new_vs_usfm = array ();
     
     $filter_text_old = new Filter_Text ("");
-    $filter_text_new = new Filter_Text ("");
     $filter_text_old->html_text_standard = new Html_Text (gettext ("Bible"));
     $filter_text_old->text_text = new Text_Text ();
+    $filter_text_new = new Filter_Text ("");
     $filter_text_new->html_text_standard = new Html_Text (gettext ("Bible"));
     $filter_text_new->text_text = new Text_Text ();
     
-    $books = $database_bibles->getDiffBooks ($bibleIdentifier);
+    $books = $database_bibles->getDiffBooks ($bibleIdentifier); // Todo transfer this to changes.php
     foreach ($books as $book) {
       $bookname = $database_books->getEnglishFromId ($book);
       $chapters = $database_bibles->getDiffChapters ($bibleIdentifier, $book);

@@ -17,105 +17,71 @@ message_information ("Number of tables in the database: " . $result->num_rows);
 message_information ("Optimizing tables");
 flush ();
 
-// The logs table.
-$database_logs = Database_Logs::getInstance ();
-$database_logs->optimize();
+$database = Database_Logs::getInstance ();
+$database->optimize();
 
+$database = Database_Users::getInstance();
+$database->optimize ();
 
-// The user table.
-$database_users = Database_Users::getInstance();
-$database_users->optimize ();
+$database = Database_Config_General::getInstance ();
+$database->optimize ();
 
+$database = Database_Mail::getInstance ();
+$database->optimize();
 
-// The general configuration table.
-$database_config_general = Database_Config_General::getInstance ();
-$database_config_general->optimize ();
+$database = Database_Mailer::getInstance ();
+$database->optimize ();
 
+$database = Database_Confirm::getInstance ();
+$database->optimize ();
 
-// The mail table.
-$database_mail = Database_Mail::getInstance ();
-$database_mail->optimize();
+$database = Database_Books::getInstance ();
+$database->optimize();
 
+$database = Database_Dialog::getInstance ();
+$database->optimize ();
 
-// The mailer table.
-$database_mailer = Database_Mailer::getInstance ();
-$database_mailer->optimize ();
+$database = Database_Versifications::getInstance();
+$database->optimize();
 
+$database = Database_Styles::getInstance();
+$database->optimize();
 
-// The confirmations table.
-$database_confirm = Database_Confirm::getInstance ();
-$database_confirm->optimize ();
+$database = Database_Config_User::getInstance();
+$database->optimize();
 
+$database = Database_Bibles::getInstance();
+$database->optimize();
 
-// The books table.
-$database_books = Database_Books::getInstance ();
-$database_books->optimize();
+$database = Database_Ipc::getInstance();
+$database->optimize();
 
+$database = Database_Snapshots::getInstance();
+$database->optimize();
 
-// The dialog table.
-$database_dialog = Database_Dialog::getInstance ();
-$database_dialog->optimize ();
+$database = Database_Repositories::getInstance();
+$database->optimize();
 
+$database = Database_Sessions::getInstance();
+$database->optimize();
 
-// The versifications table.
-$database_versifications = Database_Versifications::getInstance();
-$database_versifications->optimize();
+$database = Database_Notes::getInstance();
+$database->optimize();
 
+$database = Database_Shell::getInstance();
+$database->optimize();
 
-// The styles table.
-$database_styles = Database_Styles::getInstance();
-$database_styles->optimize();
+$database = Database_Git::getInstance();
+$database->optimize();
 
+$database = Database_Logger::getInstance ();
+$database->optimize();
 
-// The user settings table.
-$database_config_user = Database_Config_User::getInstance();
-$database_config_user->optimize();
+$database = Database_Check::getInstance ();
+$database->optimize();
 
-
-// The Bibles table.
-$database_bibles = Database_Bibles::getInstance();
-$database_bibles->optimize();
-
-
-// The ipc table.
-$database_ipc = Database_Ipc::getInstance();
-$database_ipc->optimize();
-
-
-// The Snapshots table.
-$database_snapshots = Database_Snapshots::getInstance();
-$database_snapshots->optimize();
-
-
-// The repositories table.
-$database_repositories = Database_Repositories::getInstance();
-$database_repositories->optimize();
-
-
-// The sessions table.
-$database_sessions = Database_Sessions::getInstance();
-$database_sessions->optimize();
-
-
-// The consultation notes table.
-$database_notes = Database_Notes::getInstance();
-$database_notes->optimize();
-
-
-// The shell table.
-$database_shell = Database_Shell::getInstance();
-$database_shell->optimize();
-
-
-// The git table.
-$database_git = Database_Git::getInstance();
-$database_git->optimize();
-
-
-// The logger table.
-$database_logger = Database_Logger::getInstance ();
-$database_logger->optimize();
-
+$database = Database_Changes::getInstance ();
+$database->optimize();
 
 // Done.
 message_information ("Ready");

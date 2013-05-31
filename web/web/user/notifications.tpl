@@ -20,6 +20,13 @@
 </a>
 {t}Consultation notes that get changed will be assigned to you.{/t}
 </p>
+
+<p>
+<a href="notifications.php?changenotificationstoggle=">
+{if $change_notifications == true} ☑ {else} ☐ {/if}
+</a>
+<a href="../consultations/changes.php">{t}Change notifications will be generated for you.{/t}</a>
+</p>
  
 <br>
 <p>

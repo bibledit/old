@@ -36,9 +36,23 @@ if (php_sapi_name () != "cli") {
 
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
-$database_users = Database_Users::getInstance();
-$database_mail = Database_Mail::getInstance();
+$database_users = Database_Users::getInstance ();
+$database_mail = Database_Mail::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
+$database_changes = Database_Changes::getInstance ();
+
+
+$stylesheet = $database_config_general->getExportStylesheet ();
+
+
+$changeNotificationUsers = array ();
+$users = $database_users->getUsers ();
+foreach ($users as $user) {
+  if ($database_config_user->getUserGenerateChangeNotifications ($user)) {
+    $changeNotificationUsers [] = $user;
+  }
+}
+unset ($users);
 
 
 include ("paths/paths.php");
@@ -54,6 +68,42 @@ foreach ($bibles as $bible) {
   $directory = "$localStatePath/$location/$basePath";
   mkdir ($directory, 0777, true);
 
+
+  $books = $database_bibles->getDiffBooks ($bible);
+  foreach ($books as $book) {
+    $chapters = $database_bibles->getDiffChapters ($bible, $book);
+    foreach ($chapters as $chapter) {
+      $old_chapter_usfm = $database_bibles->getDiff ($bible, $book, $chapter);
+      $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      $old_verse_numbers = Filter_Usfm::getVerseNumbers ($old_chapter_usfm);
+      $new_verse_numbers = Filter_Usfm::getVerseNumbers ($new_chapter_usfm);
+      $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
+      $verses = array_unique ($verses);
+      sort ($verses, SORT_NUMERIC);
+      foreach ($verses as $verse) {
+        $old_verse_usfm = Filter_Usfm::getVerseText ($old_chapter_usfm, $verse);
+        $new_verse_usfm = Filter_Usfm::getVerseText ($new_chapter_usfm, $verse);
+        if ($old_verse_usfm != $new_verse_usfm) {
+          $filter_text_old = new Filter_Text ("");
+          $filter_text_new = new Filter_Text ("");
+          $filter_text_old->html_text_standard = new Html_Text (gettext ("Bible"));
+          $filter_text_new->html_text_standard = new Html_Text (gettext ("Bible"));
+          $filter_text_old->text_text = new Text_Text ();
+          $filter_text_new->text_text = new Text_Text ();
+          $filter_text_old->addUsfmCode ($old_verse_usfm);
+          $filter_text_new->addUsfmCode ($new_verse_usfm);
+          $filter_text_old->run ($stylesheet);
+          $filter_text_new->run ($stylesheet);
+          $old_html = $filter_text_old->html_text_standard->getHtml ();
+          $new_html = $filter_text_new->html_text_standard->getHtml ();
+          $old_text = $filter_text_old->text_text->get ();
+          $old_text = $filter_text_new->text_text->get ();
+          $database_changes->record ($changeNotificationUsers, $bible, $book, $chapter, $verse, $old_html, "modification still to be generated", $new_html);
+        }
+      }
+    }
+  }
+
   
   // Produce the USFM and html files.
   Filter_Diff::produceVerseLevel ($bible, $directory);
@@ -61,7 +111,7 @@ foreach ($bibles as $bible) {
   
   // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
   $database_bibles->deleteDiffBible ($bible);
-
+  
 
   // Create online page with changed verses.
   $versesoutputfile = "$directory/changed_verses.html";
@@ -97,7 +147,6 @@ foreach ($bibles as $bible) {
     rename ($changes_directory . "/" . $filenames[$i], $changes_directory . "/archive/" . $filenames[$i]);
     $database_logs->log (gettext ("changes: Archiving older set of changes") . " " . $filenames[$i], true);
   }
- 
   
  
 }

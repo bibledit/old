@@ -37,7 +37,7 @@ class Database_Check
     $bible = $database_bibles->getID ($bible);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
-    if ($verse == "") $verse = 0;
+    if ($verse == "") return;
     $verse = Database_SQLInjection::no ($verse);
     $data = Database_SQLInjection::no ($data);
     $database_instance = Database_Instance::getInstance();
@@ -64,7 +64,8 @@ class Database_Check
   {
     $id = Database_SQLInjection::no ($id);
     $database_instance = Database_Instance::getInstance();
-    $query = "INSERT INTO check_suppress SELECT * FROM check_output WHERE id = $id;";
+    // The query copies all values, apart from the auto_increment id.
+    $query = "INSERT INTO check_suppress (bible, book, chapter, verse, data) SELECT bible, book, chapter, verse, data FROM check_output WHERE id = $id;";
     $result = $database_instance->runQuery ($query);
   }
 

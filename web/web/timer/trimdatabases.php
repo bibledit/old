@@ -52,8 +52,12 @@ $database_sessions = Database_Sessions::getInstance ();
 $database_sessions->trim ();
 
 
-$database_snapshots = Database_Snapshots::getInstance();
-$database_snapshots->trim();
+$database_snapshots = Database_Snapshots::getInstance ();
+$database_snapshots->trim ();
+
+
+$database_changes = Database_Changes::getInstance ();
+$database_changes->trim ();
 
 
 $database_logs->log ("trim: Completed");
