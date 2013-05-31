@@ -178,7 +178,7 @@ class Database_Config_User
   public function getGenerateChangeNotifications() {
     return $this->getValue ("", "generate-change-notifications", false);
   }
-  public function getUserGenerateChangeNotifications($username) { // Todo
+  public function getUserGenerateChangeNotifications($username) {
     return $this->getValueForUser ($username, "generate-change-notifications", false);
   }
   public function setGenerateChangeNotifications ($value) {

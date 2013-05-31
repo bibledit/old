@@ -31,7 +31,7 @@ class Filter_Diff
     $filter_text_new->html_text_standard = new Html_Text (gettext ("Bible"));
     $filter_text_new->text_text = new Text_Text ();
     
-    $books = $database_bibles->getDiffBooks ($bibleIdentifier); // Todo transfer this to changes.php
+    $books = $database_bibles->getDiffBooks ($bibleIdentifier);
     foreach ($books as $book) {
       $bookname = $database_books->getEnglishFromId ($book);
       $chapters = $database_bibles->getDiffChapters ($bibleIdentifier, $book);
@@ -111,7 +111,7 @@ class Filter_Diff
   * $newstring: The new string for input.
   * The function returns the differences marked.
   */
-  public static function diff ($oldstring, $newstring) // Todo
+  public static function diff ($oldstring, $newstring)
   {
     include_once ("finediff.php");
     // FineDiff::$paragraphGranularity
