@@ -38,5 +38,31 @@
 <br>
 <a id="help"></a>
 <p>
-  {t}{/t}
+  {t}This shows the details of the change in the text of the Bible.{/t}
+</p>
+<p>
+  {t}It shows the old text, the change, and the new text.{/t}
+</p>
+<p>
+  {t}Click ✔ to approve a change, and then to go back to the list of changes.{/t}
+</p>
+<p>
+  {t}It shows all Consultation Notes about the passage.{/t}
+</p>
+<p>
+  {t}If you are subscribed to any of the notes, you can unsubscribe.{/t}
+</p>
+<p>
+  {t}If any of the notes is assigned to you, you can unassign it.{/t}
+</p>
+<p>
+  {if $level >= 5}
+  {t}You can delete any of the notes.{/t}
+  {/if}
+</p>
+<p>
+  {t}You can create a new Consultation Notes with a query about the change in the text of the Bible.{/t}
+</p>
+<p>
+  {t}It displays the date when the modification was processed.{/t}
 </p>
