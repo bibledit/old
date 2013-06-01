@@ -143,6 +143,7 @@ class Database_Notes
     * $summary: The note's summary.
     * $contents: The note's contents.
     * $raw: Import $contents as it is. Useful for import from Bibledit-Gtk.
+    * It returns the $identifier of this new note.
     */  
   public function storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents, $raw)
   {

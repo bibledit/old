@@ -6,14 +6,17 @@
 <p>{$passage}</p>
 <table>
   <tr>
+    <td></td>
     <td>{t}Old{/t}:</td>
     <td>{$old_text}</td>
   </tr>
   <tr>
-    <td>{t}Change{/t}<a href="changes.php?approve={$id}"> ✔ </a>:</td>
+    <td><a href="changes.php?approve={$id}"> ✔ </a></td>
+    <td>{t}Change{/t}:</td>
     <td>{$modification}</td>
   </tr>
   <tr>
+    <td></td>
     <td>{t}New{/t}:</td>
     <td>{$new_text}</td>
   </tr>
@@ -29,10 +32,11 @@
     </tr>
   {/section} 
 </table>
+<p><a href="change.php?id={$id}&create={$id}" target="_blank">{t}Create note{/t}</a></p>
 <br>
 <p>{$timestamp}</p>
 <br>
 <a id="help"></a>
 <p>
-  {t}This lists the details for the change in the verse.{/t}
+  {t}{/t}
 </p>

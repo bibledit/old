@@ -68,6 +68,23 @@ $passageText = Filter_Html::sanitize ($passageText);
 $smarty->assign ("passage", $passageText);
 
 
+// Note create handler.
+@$create = $_GET['create'];
+if (isset ($create)) {
+  $bible = $database_changes->getBible ($id);
+  $summary = gettext ("Query about a change in the text");
+  $contents = "<p>" . gettext ("Old text:") . "</p>";
+  $contents .= $old_text;
+  $contents .= "<p>" .  gettext ("Change:") . "</p>";
+  $contents .= "<p>" . $modification . "</p>";
+  $contents .= "<p>" . gettext ("New text:") . "</p>";
+  $contents .= $new_text;
+  $newNoteID = $database_notes->storeNewNote ($bible, $passage['book'], $passage['chapter'], $passage['verse'], $summary, $contents, true);
+  header ("Location: notes.php?consultationnote=$newNoteID");
+  die;
+}
+
+
 // Get notes for the passage.
 $notes = $database_notes->selectNotes (
   "", // Bible.

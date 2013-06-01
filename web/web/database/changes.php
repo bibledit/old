@@ -95,6 +95,21 @@ class Database_Changes
   }
 
 
+  public function getBible ($id)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT bible FROM changes WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $bible = $result->fetch_row ();
+      $bible = $bible [0];
+      return $bible;
+    }
+    return 0;
+  }
+
+
   public function getPassage ($id)
   {
     $id = Database_SQLInjection::no ($id);
