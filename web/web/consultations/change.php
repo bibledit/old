@@ -13,6 +13,8 @@ $database_notes = Database_Notes::getInstance ();
 
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
+$level = $session_logic->currentLevel ();
+$smarty->assign ("level", $level);
 
 
 // The identifier of the change notification.
@@ -29,17 +31,24 @@ if (isset ($id)) {
 $smarty->assign ("id", $id);
 
 
-// Unsubscribe handler.
+// Note unsubscribe handler.
 @$unsubscribe = $_GET['unsubscribe'];
 if (isset ($unsubscribe)) {
   $database_notes->unsubscribe ($unsubscribe);
 }
 
 
-// Unassign handler.
+// Note unassign handler.
 @$unassign = $_GET['unassign'];
 if (isset ($unassign)) {
   $database_notes->unassign ($unassign);
+}
+
+
+// Note delete handler.
+@$delete = $_GET['delete'];
+if (isset ($delete)) {
+  $database_notes->delete ($delete);
 }
 
 
