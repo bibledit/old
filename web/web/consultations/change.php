@@ -1,4 +1,6 @@
 <?php
+
+
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (CONSULTANT_LEVEL);
 Assets_Page::header (gettext ("Change"));
@@ -36,6 +38,39 @@ $new_text = $database_changes->getNewText ($id);
 $smarty->assign ("new_text", $new_text);
 
 
+// Passage.
+$passage = $database_changes->getPassage ($id);
+$passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
+$passageText = Filter_Html::sanitize ($passageText);
+$smarty->assign ("passage", $passageText);
+
+
+// Get notes for the passage and sort them on relevance.
+$notes = $database_notes->selectNotes (
+  "", // Bible.
+  $passage['book'], $passage['chapter'], $passage['verse'],
+  0, // Passage selector.
+  0, // Edit selector.
+  0, // Non-edit selector.
+  "", // Status selector.
+  "", // Bible selector.
+  "", // Assignment selector.
+  0, // Subscription selector.
+  -1, // Severity selector.
+  0, // Text selector.
+  "", // Search text.
+  NULL, // Limit.
+  0); // User level.
+$summaries = array ();
+foreach ($notes as $note) {
+  $summary = $database_notes->getSummary ($note);
+  $summary = Filter_Html::sanitize ($summary);
+  $summaries [] = $summary;
+}
+$smarty->assign ("notes", $notes);
+$smarty->assign ("summaries", $summaries);
+
+
 // Time stamp.
 $timestamp = $database_changes->getTimeStamp ($id);
 $timestamp = date ('j F Y', $timestamp);
@@ -43,43 +78,6 @@ $smarty->assign ("timestamp", $timestamp);
 
 
 /*
-@$approve = $_GET['approve']; // Todo update this whole page.
-if (isset ($approve)) {
-  $database_changes->delete ($approve);
-  $smarty->assign ("success", gettext ("The change was approved."));
-}
-
-
-  
-
-$passages = array ();
-$modifications = array ();
-$totalNotesCount = array ();
-$yourNotesCount = array ();
-foreach ($ids as $id) {
-  $passage = $database_changes->getPassage ($id);
-  $passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
-  $passageText = Filter_Html::sanitize ($passageText);
-  $passages [] = $passageText;
-  $modification = $database_changes->getModification ($id);
-  $modifications [] = $modification;
-  $notes = $database_notes->selectNotes (
-    "", // Bible.
-    $passage['book'],
-    $passage['chapter'], 
-    $passage['verse'],
-    0, // Passage selector.
-    0, // Edit selector.
-    0, // Non-edit selector.
-    "", // Status selector.
-    "", // Bible selector.
-    "", // Assignment selector.
-    0, // Subscription selector.
-    -1, // Severity selector.
-    0, // Text selector.
-    "", // Search text.
-    NULL, // Limit.
-    0); // User level.
   $totalNotesCount [] = count ($notes);
   $subscribedNotes = $database_notes->selectNotes (
     "", // Bible.
@@ -118,11 +116,6 @@ foreach ($ids as $id) {
   $yourNotes = array_merge ($subscribedNotes, $assignedNotes);
   $yourNotes = array_unique ($yourNotes);
   $yourNotesCount [] = count ($yourNotes);
-}
-$smarty->assign ("passages", $passages);
-$smarty->assign ("modifications", $modifications);
-$smarty->assign ("totalNotesCount", $totalNotesCount);
-$smarty->assign ("yourNotesCount", $yourNotesCount);
 */
 
 $smarty->display("change.tpl");
