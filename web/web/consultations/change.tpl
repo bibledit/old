@@ -19,9 +19,15 @@
   </tr>
 </table>
 <br>
-{section name=offset loop=$notes} 
-  <p><a href="notes.php?consultationnote={$notes[offset]}" target="_blank">{$summaries[offset]}</a></p>
-{/section} 
+<table>
+  {section name=offset loop=$notes} 
+    <tr>
+      <td><a href="notes.php?consultationnote={$notes[offset]}" target="_blank">{$summaries[offset]}</a></td>
+      <td>{if $subscriptions[offset]}<a href="change.php?id={$id}&unsubscribe={$notes[offset]}">[{t}unsubscribe{/t}]</a>{/if}</td>
+      <td>{if $assignments[offset]}<a href="change.php?id={$id}&unassign={$notes[offset]}">[{t}I have done my part it{/t}]</a>{/if}</td>
+    </tr>
+  {/section} 
+</table>
 <br>
 <p>{$timestamp}</p>
 <br>

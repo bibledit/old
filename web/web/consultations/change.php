@@ -15,7 +15,7 @@ $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
 
 
-// The identifier for the change notification.
+// The identifier of the change notification.
 @$id = $_GET['id'];
 if (isset ($id)) {
   $passage = $database_changes->getPassage ($id);
@@ -27,6 +27,20 @@ if (isset ($id)) {
   $id = 0;
 }
 $smarty->assign ("id", $id);
+
+
+// Unsubscribe handler.
+@$unsubscribe = $_GET['unsubscribe'];
+if (isset ($unsubscribe)) {
+  $database_notes->unsubscribe ($unsubscribe);
+}
+
+
+// Unassign handler.
+@$unassign = $_GET['unassign'];
+if (isset ($unassign)) {
+  $database_notes->unassign ($unassign);
+}
 
 
 // Get old text, modification, new text.
@@ -45,7 +59,7 @@ $passageText = Filter_Html::sanitize ($passageText);
 $smarty->assign ("passage", $passageText);
 
 
-// Get notes for the passage and sort them on relevance.
+// Get notes for the passage.
 $notes = $database_notes->selectNotes (
   "", // Bible.
   $passage['book'], $passage['chapter'], $passage['verse'],
@@ -61,14 +75,31 @@ $notes = $database_notes->selectNotes (
   "", // Search text.
   NULL, // Limit.
   0); // User level.
+
+// Sort them, most recent notes first.
+$timestamps = array ();
+foreach ($notes as $note) {
+  $timestap = $database_notes->getModified ($note);
+  $timestamps [] = $timestap;
+}
+array_multisort ($timestamps, SORT_DESC, $notes);
+
+
+// Details for the notes.
 $summaries = array ();
+$subscriptions = array ();
+$assignments = array ();
 foreach ($notes as $note) {
   $summary = $database_notes->getSummary ($note);
   $summary = Filter_Html::sanitize ($summary);
   $summaries [] = $summary;
+  $subscriptions [] = $database_notes->isSubscribed ($note, $username);
+  $assignments [] = $database_notes->isAssigned ($note, $username);
 }
 $smarty->assign ("notes", $notes);
 $smarty->assign ("summaries", $summaries);
+$smarty->assign ("subscriptions", $subscriptions);
+$smarty->assign ("assignments", $assignments);
 
 
 // Time stamp.
@@ -77,47 +108,7 @@ $timestamp = date ('j F Y', $timestamp);
 $smarty->assign ("timestamp", $timestamp);
 
 
-/*
-  $totalNotesCount [] = count ($notes);
-  $subscribedNotes = $database_notes->selectNotes (
-    "", // Bible.
-    $passage['book'],
-    $passage['chapter'], 
-    $passage['verse'],
-    0, // Passage selector.
-    0, // Edit selector.
-    0, // Non-edit selector.
-    "", // Status selector.
-    "", // Bible selector.
-    "", // Assignment selector.
-    1, // Subscription selector.
-    -1, // Severity selector.
-    0, // Text selector.
-    "", // Search text.
-    NULL, // Limit.
-    0); // User level.
-  $assignedNotes = $database_notes->selectNotes (
-    "", // Bible.
-    $passage['book'],
-    $passage['chapter'], 
-    $passage['verse'],
-    0, // Passage selector.
-    0, // Edit selector.
-    0, // Non-edit selector.
-    "", // Status selector.
-    "", // Bible selector.
-    $username, // Assignment selector.
-    0, // Subscription selector.
-    -1, // Severity selector.
-    0, // Text selector.
-    "", // Search text.
-    NULL, // Limit.
-    0); // User level.
-  $yourNotes = array_merge ($subscribedNotes, $assignedNotes);
-  $yourNotes = array_unique ($yourNotes);
-  $yourNotesCount [] = count ($yourNotes);
-*/
-
+// Display page.
 $smarty->display("change.tpl");
 Assets_Page::footer ();
 ?>
