@@ -118,7 +118,7 @@ class Filter_Diff
     // FineDiff::$sentenceGranularity
     // FineDiff::$wordGranularity
     // FineDiff::$characterGranularity
-    $diff = new FineDiff ($oldstring, $newstring, FineDiff::$characterGranularity);
+    $diff = new FineDiff ($oldstring, $newstring, FineDiff::$wordGranularity);
     $rendering = $diff->renderDiffToHTML ();
     $search = array ("<ins>", "</ins>", "<del>", "</del>");
     $replace = array ("<span style=\"font-weight: bold;\">", 

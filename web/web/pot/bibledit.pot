@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-31 01:42+0200\n"
+"POT-Creation-Date: 2013-06-01 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -644,6 +644,9 @@ msgstr ""
 msgid "Introduction"
 msgstr ""
 
+msgid "Release Planning"
+msgstr ""
+
 msgid "Help"
 msgstr ""
 
@@ -653,13 +656,19 @@ msgstr ""
 msgid "Installation"
 msgstr ""
 
+msgid "Daily Scrum Meeting"
+msgstr ""
+
 msgid "Scrum-based translation"
 msgstr ""
 
 msgid "Methodology"
 msgstr ""
 
-msgid "Lean principles"
+msgid "Sprint Backlog"
+msgstr ""
+
+msgid "Product Backlog"
 msgstr ""
 
 msgid "About"
@@ -1621,6 +1630,12 @@ msgid "Would you like to delete this versification system?"
 msgstr ""
 
 msgid "Please enter the name for the new versification system"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "The passage for this change was not found."
 msgstr ""
 
 msgid "The change was approved."
