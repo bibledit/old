@@ -32,7 +32,7 @@ Assets_Page::header (gettext ("Checks"));
 @$approve = $_GET['approve'];
 if (isset ($approve)) {
   $database_check->approve ($approve);
-  $smarty->assign ("success", gettext ("The entry was approved."));
+  $smarty->assign ("success", gettext ("The entry was approved and suppressed."));
 }
 
 
@@ -43,47 +43,21 @@ if (isset ($delete)) {
 }
 
 
-@$release = $_GET['release'];
-if (isset($release)) {
-  $database_check->release ($release);
-  $smarty->assign ("success", gettext ("The check result will no longer be suppressed."));
-}
-
-
-$result_ids = array ();
-$result_data = array ();
+$ids = array ();
+$data = array ();
 
 
 $hits = $database_check->getHits ();
 foreach ($hits as $hit) {
-  $result_ids [] = $hit['id'];
+  $ids [] = $hit['id'];
   $bible = Filter_Html::sanitize ($database_bibles->getName ($hit['bible']));
   $passage = Filter_Books::passagesDisplayInline (array (array ($hit['book'], $hit['chapter'], $hit['verse'])));
-  $data = Filter_Html::sanitize ($hit['data']);
-  $result = "$bible $passage $data";
-  $result_data [] = $result;
+  $result = Filter_Html::sanitize ($hit['data']);
+  $result = "$bible $passage $result";
+  $data [] = $result;
 }
-$smarty->assign ("resultcount", count ($result_ids));
-$smarty->assign ("result_ids", $result_ids);
-$smarty->assign ("result_data", $result_data);
-
-
-$suppressed_ids = array ();
-$suppressed_data = array ();
-$suppressions = $database_check->getSuppressions ();
-foreach ($suppressions as $suppression) {
-  $suppressed_ids [] = $suppression['id'];
-  $bible = Filter_Html::sanitize ($database_bibles->getName ($suppression['bible']));
-  $passage = Filter_Books::passagesDisplayInline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
-  $data = Filter_Html::sanitize ($suppression['data']);
-  $result = "$bible $passage $data";
-  $suppressed_data [] = $result;
-}
-$smarty->assign ("suppressedcount", count ($suppressed_ids));
-$smarty->assign ("suppressed_ids", $suppressed_ids);
-$smarty->assign ("suppressed_data", $suppressed_data);
-
-
+$smarty->assign ("ids", $ids);
+$smarty->assign ("data", $data);
 
 
 $smarty->display("index.tpl");
