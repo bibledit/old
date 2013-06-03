@@ -60,6 +60,11 @@ if (isset ($_GET['biblechecksnotificationtoggle'])) {
 $bible_checks_notification = $database_config_user->getBibleChecksNotification ();
 $smarty->assign ("bible_checks_notification", $bible_checks_notification);
 
+if (isset ($_GET['pendingchangenotificationstoggle'])) {
+  $database_config_user->setPendingChangesNotification (!$database_config_user->getPendingChangesNotification ()); // Todo
+}
+$smarty->assign ("pending_changes_notifications", $database_config_user->getPendingChangesNotification ());
+
 $smarty->display("notifications.tpl");
 Assets_Page::footer ();
 ?>

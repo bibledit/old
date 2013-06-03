@@ -305,7 +305,7 @@ class Database_Config_User
   public function setDeletedConsultationNoteNotification ($value) {
     $this->setValue ("", "deleted-consultation-note-notification", $value);
   }   
-     
+
   public function getBibleChecksNotification () {
     return $this->getValue ("", "bible-checks-notification", false);
   }
@@ -314,6 +314,16 @@ class Database_Config_User
   }
   public function setBibleChecksNotification ($value) {
     $this->setValue ("", "bible-checks-notification", $value);
+  }   
+
+  public function getPendingChangesNotification () {
+    return $this->getValue ("", "pending-changes-notification", false);
+  }
+  public function getUserPendingChangesNotification ($username) { // Todo
+    return $this->getValueForUser ($username, "pending-changes-notification", false);
+  }
+  public function setPendingChangesNotification ($value) {
+    $this->setValue ("", "pending-changes-notification", $value);
   }   
 
 }

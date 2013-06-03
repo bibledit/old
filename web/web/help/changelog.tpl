@@ -7,6 +7,10 @@
 <p>Users can unsubscribe from notes on the Change details page.</p>
 <p>Users can unassign notes from themselves on the Change details page.</p>
 <p>The manager can view all open Change Notifications for all the users.</p>
+<p>Statistics about pending changes and notes will be mailed to subscribed users.</p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 0.9</h2>

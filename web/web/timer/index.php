@@ -145,6 +145,16 @@ if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 1) 
 }
 
 
+// Email statistics to the users.
+if (($hour == 1) && ($minute == 20)) {
+  $workingdirectory = escapeshellarg (dirname (__FILE__));
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::statistics);
+  $command = "cd $workingdirectory; php statistics.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
+}
+
+
 // Export the Bibles to the various output formats.
 if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1) && ($minute == 25))) {
   $config_general->setTimerExports ($current_timestamp + 100000);

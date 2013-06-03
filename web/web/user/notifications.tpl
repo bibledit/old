@@ -67,3 +67,11 @@
 </a>
 {t}results of running checks on the text of the Bibles.{/t}
 </p>
+
+<p>
+<a href="notifications.php?pendingchangenotificationstoggle=">
+{if $pending_changes_notifications == true} ☑ {else} ☐ {/if}
+</a>
+{t}the number of change notifications awaiting your approval.{/t}
+</p>
+
