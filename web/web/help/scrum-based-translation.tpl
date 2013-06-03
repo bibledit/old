@@ -22,6 +22,7 @@
 <p>{t}* Creates and prioritizes the product backlog.{/t}</p>
 <p>{t}* Understands the requirements for the Bible.{/t}</p>
 <p>{t}* Knows about accuracy and reliability.{/t}</p>
+<p>* <a href="product-owner.php">{t}Read more.{/t}</a></p>
 
 <h2>{t}Release Planning{/t}</h2>
 <p>{t}* Used to estimate when certain Bible books will be translated, tested, or released.{/t}</p>

@@ -1,5 +1,4 @@
 <h1>{t}Methodology{/t}</h1>
-<h2>{t}Agile Bible translation{/t}</h2>
 <p><a href="scrum-based-translation.php">{t}The Bible translation process is scrum-based.{/t}</a></p>
 <p><a href="discussions.php">{t}Our discussions are open, fair, and argued.{/t}</a></p>
 <p>{t}We depend on reliable Hebrew and Greek manuscripts.{/t}</p>
