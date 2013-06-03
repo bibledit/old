@@ -79,8 +79,10 @@ foreach ($users as $user) {
   }
 
 
-  $body = implode ("\n", $body);
-  $database_mail->send ($user, $subject, $body);
+  if (count ($body) > 0) {
+    $body = implode ("\n", $body);
+    $database_mail->send ($user, $subject, $body);
+  }
 }
 
 
