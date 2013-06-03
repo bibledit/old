@@ -319,13 +319,22 @@ class Database_Config_User
   public function getPendingChangesNotification () {
     return $this->getValue ("", "pending-changes-notification", false);
   }
-  public function getUserPendingChangesNotification ($username) { // Todo
+  public function getUserPendingChangesNotification ($username) {
     return $this->getValueForUser ($username, "pending-changes-notification", false);
   }
   public function setPendingChangesNotification ($value) {
     $this->setValue ("", "pending-changes-notification", $value);
   }   
 
+  public function getAssignedNotesStatisticsNotification () {
+    return $this->getValue ("", "assigned-notes-statistics-notification", false);
+  }
+  public function getUserAssignedNotesStatisticsNotification ($username) { // Todo
+    return $this->getValueForUser ($username, "assigned-notes-statistics-notification", false);
+  }
+  public function setAssignedNotesStatisticsNotification ($value) {
+    $this->setValue ("", "assigned-notes-statistics-notification", $value);
+  }   
 }
 
 

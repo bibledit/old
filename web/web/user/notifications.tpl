@@ -75,3 +75,10 @@
 {t}the number of change notifications awaiting your approval.{/t}
 </p>
 
+<p>
+<a href="notifications.php?assignednotesnotificationtoggle=">
+{if $assigned_notes_notifications == true} ☑ {else} ☐ {/if}
+</a>
+{t}the number of consultation notes assigned to you.{/t}
+</p>
+

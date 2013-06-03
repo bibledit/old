@@ -24,7 +24,15 @@
 
 require_once ("../bootstrap/bootstrap.php");
 
+
 $database_logs = Database_Logs::getInstance ();
+$database_config_user = Database_Config_User::getInstance ();
+$database_users = Database_Users::getInstance ();
+$database_mail = Database_Mail::getInstance ();
+$database_changes = Database_Changes::getInstance ();
+$database_notes = Database_Notes::getInstance ();
+
+
 $database_logs->log (gettext ("statistics: Sending statistics to users"), true);
 
 
@@ -35,22 +43,43 @@ if (php_sapi_name () != "cli") {
 }
 
 
-$database_config_user = Database_Config_User::getInstance ();
-$database_users = Database_Users::getInstance ();
-$database_mail = Database_Mail::getInstance ();
-$database_changes = Database_Changes::getInstance ();
-
-
 $users = $database_users->getUsers ();
 foreach ($users as $user) {
+
+
   $subject = "Bibledit " . gettext ("statistics");
   $body = array ();
+
+
   if ($database_config_user->getUserPendingChangesNotification ($user)) {
     $ids = $database_changes->getIdentifiers ($user);
-    $body [] = gettext ("Number of changes awaiting your approval:") . " " . count ($ids);
+    $body [] = "<p>" . gettext ("Number of change notifications awaiting your approval:") . " " . count ($ids) . "</p>";
   }
+
+
+  if ($database_config_user->getUserAssignedNotesStatisticsNotification ($user)) {
+    $ids = $database_notes->selectNotes (
+      "",    // Bible.
+      0,     // Book
+      0,     // Chapter
+      0,     // Verse
+      3,     // Passage selector.
+      0,     // Edit selector.
+      0,     // Non-edit selector.
+      "",    // Status selector.
+      "",    // Bible selector.
+      $user, // Assignment selector.
+      0,     // Subscription selector.
+      -1,    // Severity selector.
+      0,     // Text selector.
+      "",    // Search text.
+      NULL,  // Limit.
+      0);    // User level.
+    $body [] = "<p>" . gettext ("Number of consultation notes assigned to you awaiting your response:") . " " . count ($ids) . "</p>";
+  }
+
+
   $body = implode ("\n", $body);
-  var_dump ($body);
   $database_mail->send ($user, $subject, $body);
 }
 

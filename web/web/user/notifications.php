@@ -9,61 +9,57 @@ $database_config_user = Database_Config_User::getInstance ();
 if (isset ($_GET['editednotessubscriptiontoggle'])) {
   $database_config_user->setSubscribeToConsultationNotesEditedByMe(!$database_config_user->getSubscribeToConsultationNotesEditedByMe());
 }
-$edited_notes_subscription = $database_config_user->getSubscribeToConsultationNotesEditedByMe();
-$smarty->assign ("edited_notes_subscription", $edited_notes_subscription);
+$smarty->assign ("edited_notes_subscription", $database_config_user->getSubscribeToConsultationNotesEditedByMe());
 
 if (isset ($_GET['anynotessubscriptiontoggle'])) {
   $database_config_user->setNotifyMeOfAnyConsultationNotesEdits(!$database_config_user->getNotifyMeOfAnyConsultationNotesEdits());
 }
-$any_notes_subscription = $database_config_user->getNotifyMeOfAnyConsultationNotesEdits();
-$smarty->assign ("any_notes_subscription", $any_notes_subscription);
+$smarty->assign ("any_notes_subscription", $database_config_user->getNotifyMeOfAnyConsultationNotesEdits());
 
 if (isset ($_GET['notesassignmenttoggle'])) {
   $database_config_user->setAssignedToConsultationNotesChanges(!$database_config_user->getAssignedToConsultationNotesChanges());
 }
-$notes_assignment = $database_config_user->getAssignedToConsultationNotesChanges();
-$smarty->assign ("notes_assignment", $notes_assignment);
+$smarty->assign ("notes_assignment", $database_config_user->getAssignedToConsultationNotesChanges());
 
 if (isset ($_GET['changenotificationstoggle'])) {
   $database_config_user->setGenerateChangeNotifications(!$database_config_user->getGenerateChangeNotifications());
 }
-$change_notifications = $database_config_user->getGenerateChangeNotifications();
-$smarty->assign ("change_notifications", $change_notifications);
+$smarty->assign ("change_notifications", $database_config_user->getGenerateChangeNotifications());
 
 if (isset ($_GET['subscribednotenotificationtoggle'])) {
   $database_config_user->setSubscribedConsultationNoteNotification(!$database_config_user->getSubscribedConsultationNoteNotification());
 }
-$subscription_notification = $database_config_user->getSubscribedConsultationNoteNotification();
-$smarty->assign ("subscription_notification", $subscription_notification);
+$smarty->assign ("subscription_notification", $database_config_user->getSubscribedConsultationNoteNotification());
 
 if (isset ($_GET['assignednotenotificationtoggle'])) {
   $database_config_user->setAssignedConsultationNoteNotification(!$database_config_user->getAssignedConsultationNoteNotification());
 }
-$assignment_notification = $database_config_user->getAssignedConsultationNoteNotification();
-$smarty->assign ("assignment_notification", $assignment_notification);
+$smarty->assign ("assignment_notification", $database_config_user->getAssignedConsultationNoteNotification());
 
 if (isset ($_GET['deletednotenotificationtoggle'])) {
   $database_config_user->setDeletedConsultationNoteNotification(!$database_config_user->getDeletedConsultationNoteNotification());
 }
-$deleted_note_notification = $database_config_user->getDeletedConsultationNoteNotification();
-$smarty->assign ("deleted_note_notification", $deleted_note_notification);
+$smarty->assign ("deleted_note_notification", $database_config_user->getDeletedConsultationNoteNotification());
 
 if (isset ($_GET['biblechangesnotificationtoggle'])) {
   $database_config_user->setBibleChangesNotification(!$database_config_user->getBibleChangesNotification());
 }
-$bible_changes_notification = $database_config_user->getBibleChangesNotification();
-$smarty->assign ("bible_changes_notification", $bible_changes_notification);
+$smarty->assign ("bible_changes_notification", $database_config_user->getBibleChangesNotification());
 
 if (isset ($_GET['biblechecksnotificationtoggle'])) {
   $database_config_user->setBibleChecksNotification (!$database_config_user->getBibleChecksNotification ());
 }
-$bible_checks_notification = $database_config_user->getBibleChecksNotification ();
-$smarty->assign ("bible_checks_notification", $bible_checks_notification);
+$smarty->assign ("bible_checks_notification", $database_config_user->getBibleChecksNotification ());
 
 if (isset ($_GET['pendingchangenotificationstoggle'])) {
   $database_config_user->setPendingChangesNotification (!$database_config_user->getPendingChangesNotification ()); // Todo
 }
 $smarty->assign ("pending_changes_notifications", $database_config_user->getPendingChangesNotification ());
+
+if (isset ($_GET['assignednotesnotificationtoggle'])) {
+  $database_config_user->setAssignedNotesStatisticsNotification (!$database_config_user->getAssignedNotesStatisticsNotification ()); // Todo
+}
+$smarty->assign ("assigned_notes_notifications", $database_config_user->getAssignedNotesStatisticsNotification ());
 
 $smarty->display("notifications.tpl");
 Assets_Page::footer ();
