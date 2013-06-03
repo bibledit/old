@@ -329,7 +329,7 @@ class Database_Config_User
   public function getAssignedNotesStatisticsNotification () {
     return $this->getValue ("", "assigned-notes-statistics-notification", false);
   }
-  public function getUserAssignedNotesStatisticsNotification ($username) { // Todo
+  public function getUserAssignedNotesStatisticsNotification ($username) {
     return $this->getValueForUser ($username, "assigned-notes-statistics-notification", false);
   }
   public function setAssignedNotesStatisticsNotification ($value) {

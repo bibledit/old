@@ -21,7 +21,7 @@
 </p>
 <p>
   {t}Click ✔ to approve a change.{/t}
-  {t}The change will be removed from the list.{/t}
+  {t}The change will disappear.{/t}
 </p>
 <p>
   {t}Click the passage to open the Text Editor for the chapter.{/t}
@@ -43,4 +43,8 @@
 </p>
 <p>
   {t}The second one indicates the number of notes you are subscribed to or that have been assigned to you.{/t}
+</p>
+<p>
+  {t}The change notifications are for you only.{/t}
+  {t}Your colleagues have their own lists.{/t}
 </p>

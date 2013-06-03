@@ -52,12 +52,12 @@ if (isset ($_GET['biblechecksnotificationtoggle'])) {
 $smarty->assign ("bible_checks_notification", $database_config_user->getBibleChecksNotification ());
 
 if (isset ($_GET['pendingchangenotificationstoggle'])) {
-  $database_config_user->setPendingChangesNotification (!$database_config_user->getPendingChangesNotification ()); // Todo
+  $database_config_user->setPendingChangesNotification (!$database_config_user->getPendingChangesNotification ());
 }
 $smarty->assign ("pending_changes_notifications", $database_config_user->getPendingChangesNotification ());
 
 if (isset ($_GET['assignednotesnotificationtoggle'])) {
-  $database_config_user->setAssignedNotesStatisticsNotification (!$database_config_user->getAssignedNotesStatisticsNotification ()); // Todo
+  $database_config_user->setAssignedNotesStatisticsNotification (!$database_config_user->getAssignedNotesStatisticsNotification ());
 }
 $smarty->assign ("assigned_notes_notifications", $database_config_user->getAssignedNotesStatisticsNotification ());
 
