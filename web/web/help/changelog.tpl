@@ -9,7 +9,7 @@
 <p>The manager can view all open Change Notifications for all the users.</p>
 <p>Statistics about pending changes and assigned notes will be mailed to subscribed users.</p>
 <p>The results of the checks and the suppressed results have been separated into two pages.</p>
-<p></p>
+<p>Session timeout is now 12 hours.</p>
 <p></p>
 <p></p>
 

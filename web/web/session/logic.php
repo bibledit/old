@@ -23,7 +23,9 @@ class Session_Logic
   // The class constructor is private, so no outsider can call it.    
   private function __construct() {
     ini_set ("session.gc_maxlifetime", 43200);
-    session_name ('bibledit');
+    $session_save_path = dirname (__FILE__);
+    ini_set ("session.save_path", $session_save_path);
+    session_name ('bibledit-web');
     if (php_sapi_name () != "cli") {
       session_set_cookie_params (43200);
       session_start();
