@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-01 01:42+0200\n"
+"POT-Creation-Date: 2013-06-03 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1633,6 +1633,18 @@ msgid "Please enter the name for the new versification system"
 msgstr ""
 
 msgid "Change"
+msgstr ""
+
+msgid "Query about a change in the text"
+msgstr ""
+
+msgid "Old text:"
+msgstr ""
+
+msgid "Change:"
+msgstr ""
+
+msgid "New text:"
 msgstr ""
 
 msgid "The passage for this change was not found."

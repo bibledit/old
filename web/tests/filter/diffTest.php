@@ -43,10 +43,10 @@ private $temporary_folder;
   }
 
   
-  public function testDiffStringOne ()
+  public function testDiff ()
   {
     $output = Filter_Diff::diff ("Old text", "New text");
-    $standard = '<span style="text-decoration: line-through;">Old</span><span style="font-weight: bold;">New</span> text';
+    $standard = '<span style="text-decoration: line-through;">Old </span><span style="font-weight: bold;">New </span>text';
     $this->assertEquals ($standard, $output);
   }
   
