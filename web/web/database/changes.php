@@ -168,6 +168,15 @@ class Database_Changes
   }
 
 
+  public function clearUser ($username)
+  {
+    $username = Database_SQLInjection::no ($username);
+    $database_instance = Database_Instance::getInstance();
+    $query = "DELETE FROM changes WHERE username = '$username';";
+    $result = $database_instance->runQuery ($query);
+  }
+
+
 }
 
 

@@ -4,4 +4,22 @@
 <p class="error">{$error}</p>
 <p class="success">{$success}</p>
 <p><a href="../downloads/changes">{t}View the lists in the downloads section.{/t}</a></p>
-<p>{t}Bibledit-Web can email new lists to you.{/t} <a href="../user/notifications.php">{t}Manage your notifications.{/t}</a></p>
+<br>
+<p>
+  {t}Bibledit-Web can email lists with the changes to the users.{/t} 
+  {t}It can also generate Change Notifications for users who have enabled that option.{/t}
+  <a href="../user/notifications.php">{t}Settings are in the notifications.{/t}</a>
+</p>
+<br>
+<p>{t}List of users who still have change notifications awaiting their approval:{/t}</p>
+<table>
+  {section name=offset loop=$users} 
+  <tr>
+    <td>{$users[offset]}</td>
+    <td>|</td>
+    <td>{$count[offset]}</td>
+    <td>|</td>
+    <td><a href="changes.php?clear={$users[offset]}">[{t}clear{/t}]</a></td>
+  </tr>
+  {/section} 
+</table>
