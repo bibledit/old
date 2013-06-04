@@ -75,6 +75,13 @@ class Database_Git
     $server = Database_Instance::getInstance ();
     $result = $server->runQuery ("DELETE FROM git WHERE directory = '$directory' AND output = '$output';");
   }
+  
+  
+  public function truncate ()
+  {
+    $server = Database_Instance::getInstance ();
+    $result = $server->runQuery ("DELETE FROM git;");
+  }
 
 
 }

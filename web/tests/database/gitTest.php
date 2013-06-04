@@ -8,6 +8,8 @@ class databaseGitTest extends PHPUnit_Framework_TestCase
 
   public function setUp ()
   {
+    $database_git = Database_Git::getInstance ();
+    $database_git->truncate ();
   }
   
   public function testGit()
