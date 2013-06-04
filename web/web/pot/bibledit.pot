@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 01:42+0200\n"
+"POT-Creation-Date: 2013-06-04 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,6 +101,9 @@ msgid "Changes"
 msgstr ""
 
 msgid "The lists of changes will be generated within a minute."
+msgstr ""
+
+msgid "The change notifications were cleared for the user."
 msgstr ""
 
 msgid "Hyphenation"
@@ -653,6 +656,9 @@ msgstr ""
 msgid "Consultations"
 msgstr ""
 
+msgid "Product Owner"
+msgstr ""
+
 msgid "Installation"
 msgstr ""
 
@@ -705,13 +711,10 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
-msgid "The entry was approved."
+msgid "The entry was approved and suppressed."
 msgstr ""
 
 msgid "The entry was deleted for just now."
-msgstr ""
-
-msgid "The check result will no longer be suppressed."
 msgstr ""
 
 msgid "Settings"
@@ -724,6 +727,12 @@ msgid "Will run the checks within a minute"
 msgstr ""
 
 msgid "Would you like to add a Bible to the ones that will be checked?"
+msgstr ""
+
+msgid "Suppressed check results"
+msgstr ""
+
+msgid "The check result will no longer be suppressed."
 msgstr ""
 
 msgid "Translation"
@@ -854,6 +863,21 @@ msgid "Account opened"
 msgstr ""
 
 msgid "Welcome! Your account is now active."
+msgstr ""
+
+msgid "statistics: Sending statistics to users"
+msgstr ""
+
+msgid "statistics"
+msgstr ""
+
+msgid "Number of change notifications awaiting your approval:"
+msgstr ""
+
+msgid "Number of consultation notes assigned to you awaiting your response:"
+msgstr ""
+
+msgid "statistics: Completed"
 msgstr ""
 
 msgid "Go back to Bible"

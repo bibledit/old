@@ -5,7 +5,7 @@
 <p class="success">{$success}</p>
 {section name=offset loop=$ids}
   <p style="color:grey;">
-  <a href="index.php?release={$ids[offset]}">
+  <a href="suppress.php?release={$ids[offset]}">
   ✗ 
   </a>
   {$data[offset]}
