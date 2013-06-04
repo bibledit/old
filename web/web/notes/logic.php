@@ -246,9 +246,12 @@ class Notes_Logic
     $this->handlerAddComment ($identifier);
     $_SESSION['user'] = $sessionuser;
     // Mail confirmation to the $username.
-    $database_mail = Database_Mail::getInstance();
-    $subject = gettext ("Your comment was posted");
-    $database_mail->send ($username, "$subject [CNID$identifier]", $body);
+    $database_config_user = Database_Config_User::getInstance ();
+    if ($database_config_user->getUserNotifyMeOfMyPosts ($username)) {
+      $database_mail = Database_Mail::getInstance();
+      $subject = gettext ("Your comment was posted");
+      $database_mail->send ($username, "$subject [CNID$identifier]", $body); // Todo
+    }
     // Log operation.
     $database_logs = Database_Logs::getInstance ();
     $database_logs->log ("Comment posted" . ":" . " " . $body);
@@ -328,8 +331,11 @@ class Notes_Logic
     $this->handlerNewNote ($identifier);
     $_SESSION['user'] = $sessionuser;
     // Mail confirmation to the $username.
-    $subject = gettext ("Your new note was posted");
-    $database_mail->send ($username, $subject . ": " . $originalSubject, $body);
+    $database_config_user = Database_Config_User::getInstance ();
+    if ($database_config_user->getUserNotifyMeOfMyPosts ($username)) {
+      $subject = gettext ("Your new note was posted");
+      $database_mail->send ($username, $subject . ": " . $originalSubject, $body); // Todo
+    }
     // Log operation.
     $database_logs = Database_Logs::getInstance ();
     $database_logs->log ("New note posted" . ":" . " " . $body);

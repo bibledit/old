@@ -335,6 +335,17 @@ class Database_Config_User
   public function setAssignedNotesStatisticsNotification ($value) {
     $this->setValue ("", "assigned-notes-statistics-notification", $value);
   }   
+
+  public function getNotifyMeOfMyPosts () {
+    return $this->getValue ("", "notify-me-of-my-posts", true);
+  }
+  public function getUserNotifyMeOfMyPosts ($username) { // Todo
+    return $this->getValueForUser ($username, "notify-me-of-my-posts", true);
+  }
+  public function setNotifyMeOfMyPosts ($value) {
+    $this->setValue ("", "notify-me-of-my-posts", $value);
+  }   
+
 }
 
 

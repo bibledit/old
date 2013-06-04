@@ -17,6 +17,13 @@
 </p>
 
 <p>
+<a href="notifications.php?emailconfirmationyourpoststoggle=">
+{if $email_confirmation_your_posts == true} ☑ {else} ☐ {/if}
+</a>
+{t}Receive email confirmation of your posts to a consultation notes done by email.{/t}
+</p>
+
+<p>
 <a href="notifications.php?subscribednotenotificationtoggle=">
 {if $subscription_notification == true} ☑ {else} ☐ {/if}
 </a>
