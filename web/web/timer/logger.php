@@ -27,6 +27,8 @@
 class Timer_Logger
 {
 
+  const mailer = 'mailer';
+  const receiver = 'receiver';
   const sendreceive = 'sendreceive';
   const changes = 'changes';
   const checks = 'checks';
@@ -45,13 +47,15 @@ class Timer_Logger
   }
 
 
-  public function registerLogfile ($command, $pid, $logfile)
+  public function registerLogfile ($command, $pid, $logfile, $log = true)
   {
     $pid = (int) $pid;
-    $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ("log: command: $command - pid: $pid");
     $database_logger = Database_Logger::getInstance ();
     $database_logger->record ($pid, $logfile);
+    if ($log) {
+      $database_logs = Database_Logs::getInstance ();
+      $database_logs->log ("log: command: $command - pid: $pid");
+    }
   }
 
 

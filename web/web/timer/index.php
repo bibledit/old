@@ -41,7 +41,6 @@ posix_setegid ($pwnam['gid']);
 
 ignore_user_abort (true);
 set_time_limit (0);
-register_shutdown_function ('shutdown');
 
 
 $config_general = Database_Config_General::getInstance ();
@@ -60,9 +59,11 @@ $minute = date ('i');
 
 
 // Every minute send out any queued mail.
-$timer_mailer = new Timer_Mailer ();
-$timer_mailer->run ();
-unset ($timer_mailer);
+$workingdirectory = escapeshellarg (dirname (__FILE__));
+$logfilename = $timer_logger->getLogFilename (Timer_Logger::mailer);
+$command = "cd $workingdirectory; php mailer.php > $logfilename 2>&1 & echo $!";
+$pid = shell_exec ($command);
+$timer_logger->registerLogfile ($command, $pid, $logfilename, false);
 
 
 // Every minute deal with any log files that were used for the scripts.
@@ -72,9 +73,11 @@ $timer_logger->handleUsedLogFiles ();
 // Check for new mail every five minutes.
 // Do not check more often with gmail else the account may be shut down.
 if (($minute % 5) == 0) {
-  $timer_receiver = new Timer_Receiver ();
-  $timer_receiver->run ();
-  unset ($timer_receiver);
+  $workingdirectory = escapeshellarg (dirname (__FILE__));
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::receiver);
+  $command = "cd $workingdirectory; php receiver.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename, false);
 }
 
 
@@ -163,11 +166,6 @@ if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1)
   $command = "cd $workingdirectory; php exports.php > $logfilename 2>&1 & echo $!";
   $pid = shell_exec ($command);
   $timer_logger->registerLogfile ($command, $pid, $logfilename);
-}
-
-
-function shutdown()
-{
 }
 
 
