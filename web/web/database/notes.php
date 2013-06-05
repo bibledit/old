@@ -1101,6 +1101,8 @@ class Database_Notes
   public function searchNotes ($search, $limit = NULL)
   {
     $identifiers = array ();
+    $search = trim ($search);
+    if ($search == "") return $identifiers;
     $server = Database_Instance::getInstance ();
     // SQL SELECT statement.
     $query = Filter_Sql::notesSelectIdentifier ();
