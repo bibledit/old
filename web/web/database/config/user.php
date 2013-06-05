@@ -339,11 +339,21 @@ class Database_Config_User
   public function getNotifyMeOfMyPosts () {
     return $this->getValue ("", "notify-me-of-my-posts", true);
   }
-  public function getUserNotifyMeOfMyPosts ($username) { // Todo
+  public function getUserNotifyMeOfMyPosts ($username) {
     return $this->getValueForUser ($username, "notify-me-of-my-posts", true);
   }
   public function setNotifyMeOfMyPosts ($value) {
     $this->setValue ("", "notify-me-of-my-posts", $value);
+  }   
+
+  public function getSuppressMailFromYourUpdatesNotes () {
+    return $this->getValue ("", "suppress-mail-my-updated-notes", false);
+  }
+  public function getUserSuppressMailFromYourUpdatesNotes ($username) {
+    return $this->getValueForUser ($username, "suppress-mail-my-updated-notes", false);
+  }
+  public function setSuppressMailFromYourUpdatesNotes ($value) {
+    $this->setValue ("", "suppress-mail-my-updated-notes", $value);
   }   
 
 }

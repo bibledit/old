@@ -16,7 +16,6 @@ if (isset ($_GET['anynotessubscriptiontoggle'])) {
 }
 $smarty->assign ("any_notes_subscription", $database_config_user->getNotifyMeOfAnyConsultationNotesEdits());
 
-// Todo
 if (isset ($_GET['emailconfirmationyourpoststoggle'])) {
   $database_config_user->setNotifyMeOfMyPosts (!$database_config_user->getNotifyMeOfMyPosts ());
 }
@@ -36,6 +35,11 @@ if (isset ($_GET['assignednotenotificationtoggle'])) {
   $database_config_user->setAssignedConsultationNoteNotification(!$database_config_user->getAssignedConsultationNoteNotification());
 }
 $smarty->assign ("assignment_notification", $database_config_user->getAssignedConsultationNoteNotification());
+
+if (isset ($_GET['suppressemailsfromnotesyouupdatedtoggle'])) {
+  $database_config_user->setSuppressMailFromYourUpdatesNotes (!$database_config_user->getSuppressMailFromYourUpdatesNotes ());
+}
+$smarty->assign ("suppress_mails_from_your_updates", $database_config_user->getSuppressMailFromYourUpdatesNotes ());
 
 if (isset ($_GET['assignednotesnotificationtoggle'])) {
   $database_config_user->setAssignedNotesStatisticsNotification (!$database_config_user->getAssignedNotesStatisticsNotification ());

@@ -92,7 +92,7 @@ class Notes_Logic
   /**
   * This handles notifications for the users
   * $identifier: the note that is being handled.
-  * $notification: the type of notification to the consultaton note.
+  * $notification: the type of notification to the consultation note.
   */
   private function notifyUsers ($identifier, $notification)
   {
@@ -150,6 +150,13 @@ class Notes_Logic
     
     // Remove duplicates from the recipients.
     $recipients = array_unique ($recipients);
+    
+    // Deal with suppressing mail to the user when he made the update himself. // Todo
+    $session_logic = Session_Logic::getInstance ();
+    $username = $session_logic->currentUser ();
+    if ($database_config_user->getUserSuppressMailFromYourUpdatesNotes ($username)) {
+      $recipients = array_diff ($recipients, array ($username));
+    }
 
     // Generate the label prefixed to the subject line of the email.
     $label = gettext ("General");
@@ -250,7 +257,7 @@ class Notes_Logic
     if ($database_config_user->getUserNotifyMeOfMyPosts ($username)) {
       $database_mail = Database_Mail::getInstance();
       $subject = gettext ("Your comment was posted");
-      $database_mail->send ($username, "$subject [CNID$identifier]", $body); // Todo
+      $database_mail->send ($username, "$subject [CNID$identifier]", $body);
     }
     // Log operation.
     $database_logs = Database_Logs::getInstance ();
@@ -334,7 +341,7 @@ class Notes_Logic
     $database_config_user = Database_Config_User::getInstance ();
     if ($database_config_user->getUserNotifyMeOfMyPosts ($username)) {
       $subject = gettext ("Your new note was posted");
-      $database_mail->send ($username, $subject . ": " . $originalSubject, $body); // Todo
+      $database_mail->send ($username, $subject . ": " . $originalSubject, $body);
     }
     // Log operation.
     $database_logs = Database_Logs::getInstance ();

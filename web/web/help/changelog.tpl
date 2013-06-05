@@ -10,7 +10,7 @@
 <p>Statistics about pending changes and assigned notes will be mailed to subscribed users.</p>
 <p>The results of the checks and the suppressed results have been separated into two pages.</p>
 <p>Session timeout is now 12 hours.</p>
-<p></p>
+<p>Users can suppress receiving email from an updated Consultation Note in case the update was made by themselves.</p>
 <p></p>
 
 <h2>Version 0.9</h2>
@@ -21,7 +21,7 @@
 <p>Clearer emails for the daily changes.</p>
 <p>Can access password protected git repositories through the https protocol, as used on github.com.</p>
 <p>The layout of the logbook is more compact in case of long entries.</p>
-<p>It installs on on Ubuntu Server 13.04 which no longer includes the smarty 2 engine.</p>
+<p>It installs on Ubuntu Server 13.04 which no longer includes the smarty 2 engine.</p>
 <p>If any of the regular automatic tasks behaves unexpectedly, information about it will be in the logbook.</p>
 <p>Checks on the Bibles run every night.</p>
 <p>Results of the checks are visible on the web.</p>

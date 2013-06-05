@@ -45,6 +45,13 @@
 </p>
 
 <p>
+<a href="notifications.php?suppressemailsfromnotesyouupdatedtoggle=">
+{if $suppress_mails_from_your_updates == true} ☑ {else} ☐ {/if}
+</a>
+{t}Suppress receiving email from an updated consultation note in case the update was made by you.{/t}
+</p>
+
+<p>
 <a href="notifications.php?assignednotesnotificationtoggle=">
 {if $assigned_notes_notifications == true} ☑ {else} ☐ {/if}
 </a>
