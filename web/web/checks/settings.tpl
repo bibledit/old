@@ -48,7 +48,7 @@
 <a href="settings.php?chaptersversesversification=">
 {if $chapters_verses_versification == true} ☑ {else} ☐ {/if}
 </a>
-{t}correctness of chapters and verses according to the versification{/t}
+{t}correct number of books, chapters, and verses, according to the versification system{/t}
 </p>
 
 <br>
