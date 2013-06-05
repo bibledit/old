@@ -73,6 +73,12 @@ if (isset ($_GET['sentencestructure'])) {
 $smarty->assign ("sentence_structure", $database_config_general->getCheckSentenceStructure ());
 
 
+if (isset ($_GET['chaptersversesversification'])) {
+  $database_config_general->setCheckChaptesVersesVersification (!$database_config_general->getCheckChaptesVersesVersification ());
+}
+$smarty->assign ("chapters_verses_versification", $database_config_general->getCheckChaptesVersesVersification ());
+
+
 $smarty->assign ("bibles", $database_config_general->getCheckedBibles ());
 $smarty->display("settings.tpl");
 Assets_Page::footer ();

@@ -151,7 +151,7 @@ class Notes_Logic
     // Remove duplicates from the recipients.
     $recipients = array_unique ($recipients);
     
-    // Deal with suppressing mail to the user when he made the update himself. // Todo
+    // Deal with suppressing mail to the user when he made the update himself.
     $session_logic = Session_Logic::getInstance ();
     $username = $session_logic->currentUser ();
     if ($database_config_user->getUserSuppressMailFromYourUpdatesNotes ($username)) {

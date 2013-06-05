@@ -44,5 +44,12 @@
 {t}sentence structure{/t}
 </p>
 
+<p>
+<a href="settings.php?chaptersversesversification=">
+{if $chapters_verses_versification == true} ☑ {else} ☐ {/if}
+</a>
+{t}correctness of chapters and verses according to the versification{/t}
+</p>
+
 <br>
 <p><a href="settingssentences.php">{t}Settings for the sentence structure{/t}</a></p>

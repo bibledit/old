@@ -11,6 +11,9 @@
 <p>The results of the checks and the suppressed results have been separated into two pages.</p>
 <p>Session timeout is now 12 hours.</p>
 <p>Users can suppress receiving email from an updated Consultation Note in case the update was made by themselves.</p>
+<p>It checks on books, chapters and verses according to the versification system.</p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 0.9</h2>

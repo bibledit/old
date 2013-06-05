@@ -406,6 +406,13 @@ class Database_Config_General
     $this->setList ("sentence-structure-names", $value);
   }
 
+  public function getCheckChaptesVersesVersification () {
+    return $this->getValue ("check-chapters-verses-versification", "");
+  }
+  public function setCheckChaptesVersesVersification ($value) {
+    $this->setValue ("check-chapters-verses-versification", $value);
+  }
+
 }
 
 
