@@ -58,7 +58,7 @@ $center_marks = $database_config_general->getSentenceStructureMiddlePunctuation 
 $checks_sentences->enterCenterMarks ($center_marks);
 $checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
 $checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ());
-$check_versification = $database_config_general->getCheckChaptesVersesVersification (); // Todo
+$check_versification = $database_config_general->getCheckChaptesVersesVersification ();
 
 
 // Go through the Bibles.
@@ -73,11 +73,14 @@ foreach ($bibles as $bible) {
   // Go through the books.
   foreach ($books as $book) {
     // Get the chapters.
-    // Go through the chapters.
     $chapters = $database_bibles->getChapters ($bible, $book);
+    if ($check_versification) Checks_Versification::availableChapters ($bible, $book, $chapters); // Todo
+    // Go through the chapters.
     foreach ($chapters as $chapter) {
       $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
+      // Get the verses.
       $verses = Filter_Usfm::getVerseNumbers ($chapterUsfm);
+      // Go through the verses.
       foreach ($verses as $verse) {
         $verseUsfm = Filter_Usfm::getVerseText ($chapterUsfm, $verse);
         if ($check_double_spaces_usfm) {

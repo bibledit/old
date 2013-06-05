@@ -47,31 +47,28 @@ class Checks_Versification
   }
 
 
-  public function spaceBeforePunctuation ($bible, $book, $chapter, $texts)
+
+  public function availableChapters ($bible, $book, $chapters)
   {
-    if (!is_array ($texts)) return;
+    $database_versifications = Database_Versifications::getInstance ();
+    $data = $database_versifications->getBooksChaptersVerses ("English");
+    $standardChapters = array (0);
+    while ($row = $data->fetch_assoc()) {
+      if ($book != $row["book"]) continue;
+      $standardChapters [] = $row["chapter"];  
+    }
+    $standardChapters = array_unique ($standardChapters, SORT_NUMERIC);
+    $absentChapters = array_diff ($standardChapters, $chapters);
+    $extraChapters = array_diff ($chapters, $standardChapters);
     $database_check = Database_Check::getInstance ();
-    foreach ($texts as $verse => $text) {
-      if (strpos ($text, " ,") !== false) {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a comma");
-      }
-      if (strpos ($text, " ;") !== false) {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a semicolon");
-      }
-      if (strpos ($text, " :") !== false) {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a colon");
-      }
-      if (strpos ($text, " .") !== false) {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a full stop");
-      }
-      if (strpos ($text, " ?") !== false) {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a question mark");
-      }
-      if (strpos ($text, " !") !== false) {
-        $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before an exclamation mark");
-      }
+    foreach ($absentChapters as $chapter) {
+      $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is missing");
+    }
+    foreach ($extraChapters as $chapter) {
+      $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is extra");
     }
   }
+
 
   
 }
