@@ -74,12 +74,13 @@ foreach ($bibles as $bible) {
   foreach ($books as $book) {
     // Get the chapters.
     $chapters = $database_bibles->getChapters ($bible, $book);
-    if ($check_versification) Checks_Versification::chapters ($bible, $book, $chapters); // Todo
+    if ($check_versification) Checks_Versification::chapters ($bible, $book, $chapters);
     // Go through the chapters.
     foreach ($chapters as $chapter) {
       $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
       // Get the verses.
       $verses = Filter_Usfm::getVerseNumbers ($chapterUsfm);
+      if ($check_versification) Checks_Versification::verses ($bible, $book, $chapter, $verses);
       // Go through the verses.
       foreach ($verses as $verse) {
         $verseUsfm = Filter_Usfm::getVerseText ($chapterUsfm, $verse);

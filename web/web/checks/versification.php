@@ -53,8 +53,8 @@ class Checks_Versification
     $data = $database_versifications->getBooksChaptersVerses ("English");
     $standardChapters = array (0);
     while ($row = $data->fetch_assoc()) {
-      if ($book == $row["book"]) {
-        $standardChapters [] = $row["chapter"];
+      if ($book == $row ["book"]) {
+        $standardChapters [] = $row ["chapter"];
       }
     }
     $standardChapters = array_unique ($standardChapters, SORT_NUMERIC);
@@ -66,6 +66,44 @@ class Checks_Versification
     }
     foreach ($extraChapters as $chapter) {
       $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is extra");
+    }
+  }
+
+  
+  public function verses ($bible, $book, $chapter, $verses) // Todo use versification for bible.
+  {
+    // Get highest verse number in this chapter according to the versification system for the Bible.
+    $database_versifications = Database_Versifications::getInstance ();
+    $data = $database_versifications->getBooksChaptersVerses ("English");
+    $highestVerse = 0;
+    while ($row = $data->fetch_assoc()) {
+      if (($book == $row ["book"]) && ($chapter == $row ["chapter"])) {
+        $highestVerse = $row ["verse"];
+      }
+    }
+    // Create array with verses this chapter is supposed to have.
+    $standardVerses = array ();
+    for ($i = 0; $i <= $highestVerse; $i++) {
+      $standardVerses [] = $i;
+    }
+    // Ensure the verse number are of type int.
+    foreach ($verses as &$verse) {
+      $verse = (int) $verse;
+    }
+    unset ($verse);
+    // Look for missing and extra verses.
+    $absentVerses = array_diff ($standardVerses, $verses);
+    $extraVerses = array_diff ($verses, $standardVerses);
+    $database_check = Database_Check::getInstance ();
+    foreach ($absentVerses as $verse) {
+      $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is missing according to the versification system");
+    }
+    foreach ($extraVerses as $verse) {
+      $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is extra according to the versification system");
+    }
+    // Look for verses out of order.
+    if ($verses !== $standardVerses) {
+      $database_check->recordOutput ($bible, $book, $chapter, 0, "Not all verses in this chapter are in ascending order");
     }
   }
 
