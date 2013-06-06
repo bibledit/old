@@ -133,7 +133,9 @@ class Database_Bibles
     $query = "SELECT versification FROM bible_names WHERE name = '$name';";
     $result = $database_instance->runQuery ($query);
     $row = $result->fetch_row();
-    return $row[0];
+    $versification = $row[0];
+    if ($versification == "") $versification = "English";
+    return $versification;
   }
 
 

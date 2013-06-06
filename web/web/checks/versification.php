@@ -74,7 +74,9 @@ class Checks_Versification
   {
     // Get highest verse number in this chapter according to the versification system for the Bible.
     $database_versifications = Database_Versifications::getInstance ();
-    $data = $database_versifications->getBooksChaptersVerses ("English");
+    $database_bibles = Database_Bibles::getInstance ();
+    $versification = $database_bibles->getVersification ($bible);
+    $data = $database_versifications->getBooksChaptersVerses ($versification);
     $highestVerse = 0;
     while ($row = $data->fetch_assoc()) {
       if (($book == $row ["book"]) && ($chapter == $row ["chapter"])) {
