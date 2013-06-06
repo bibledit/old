@@ -29,6 +29,7 @@
 #include "parallel_passages.h"
 #include "settings.h"
 #include "gwrappers.h"
+#include "utilities.h"
 
 
 WindowShowRelatedVerses::WindowShowRelatedVerses(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
@@ -201,10 +202,13 @@ void WindowShowRelatedVerses::load_webview (const gchar * url)
     // Display the data.
     for (unsigned int i = 0; i < strongs.size(); i++) {
       htmlwriter.paragraph_open ();
-      htmlwriter.text_add (words[i]);
-      htmlwriter.text_add (" ");
-      ustring url = "strong " + strongs[i];
-      htmlwriter.hyperlink_add (url, strongs[i]);
+      Parse parse (strongs[i]);
+      for (unsigned int i2 = 0; i2 < parse.words.size (); i2++) {
+        htmlwriter.text_add (words[i]);
+        htmlwriter.text_add (" ");
+        ustring url = "strong " + parse.words[i2];
+        htmlwriter.hyperlink_add (url, parse.words[i2]);
+      }
       htmlwriter.paragraph_close ();
     }
     

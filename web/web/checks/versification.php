@@ -70,7 +70,7 @@ class Checks_Versification
   }
 
   
-  public function verses ($bible, $book, $chapter, $verses) // Todo use versification for bible.
+  public function verses ($bible, $book, $chapter, $verses)
   {
     // Get highest verse number in this chapter according to the versification system for the Bible.
     $database_versifications = Database_Versifications::getInstance ();
