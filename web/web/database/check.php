@@ -37,7 +37,7 @@ class Database_Check
     $bible = $database_bibles->getID ($bible);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
-    if ($verse == "") return;
+    if ($verse == "") $verse = 0;
     $verse = Database_SQLInjection::no ($verse);
     $data = Database_SQLInjection::no ($data);
     $database_instance = Database_Instance::getInstance();

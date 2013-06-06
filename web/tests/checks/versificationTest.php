@@ -34,7 +34,7 @@ class versificationTest extends PHPUnit_Framework_TestCase
     }
     $books = array_unique ($books, SORT_NUMERIC);
     $fault = array_diff ($books, array (10));
-    Checks_Versification::availableBooks ("Bible", $fault);
+    Checks_Versification::books ("Bible", $fault);
     $database_check = Database_Check::getInstance ();
     $result = $database_check->getHits ();
     $standard = array (array (
@@ -62,7 +62,7 @@ class versificationTest extends PHPUnit_Framework_TestCase
     $fault = array_diff ($books, array (10));
     $book = 8; // Ruth.
     $chapters = array (0, 2, 3, 4, 5);
-    Checks_Versification::availableChapters ("Bible", $book, $chapters);
+    Checks_Versification::chapters ("Bible", $book, $chapters);
     $database_check = Database_Check::getInstance ();
     $result = $database_check->getHits ();
     $standard = array (

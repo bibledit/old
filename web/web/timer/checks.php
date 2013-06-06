@@ -69,12 +69,12 @@ foreach ($bibles as $bible) {
   if (!in_array ($bible, $checkedBibles)) continue;
   // Get the books.
   $books = $database_bibles->getBooks ($bible);
-  if ($check_versification) Checks_Versification::availableBooks ($bible, $books);
+  if ($check_versification) Checks_Versification::books ($bible, $books);
   // Go through the books.
   foreach ($books as $book) {
     // Get the chapters.
     $chapters = $database_bibles->getChapters ($bible, $book);
-    if ($check_versification) Checks_Versification::availableChapters ($bible, $book, $chapters); // Todo
+    if ($check_versification) Checks_Versification::chapters ($bible, $book, $chapters); // Todo
     // Go through the chapters.
     foreach ($chapters as $chapter) {
       $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);

@@ -26,7 +26,7 @@ class Checks_Versification
 {
 
 
-  public function availableBooks ($bible, $books)
+  public function books ($bible, $books)
   {
     $database_versifications = Database_Versifications::getInstance ();
     $data = $database_versifications->getBooksChaptersVerses ("English");
@@ -47,15 +47,15 @@ class Checks_Versification
   }
 
 
-
-  public function availableChapters ($bible, $book, $chapters)
+  public function chapters ($bible, $book, $chapters)
   {
     $database_versifications = Database_Versifications::getInstance ();
     $data = $database_versifications->getBooksChaptersVerses ("English");
     $standardChapters = array (0);
     while ($row = $data->fetch_assoc()) {
-      if ($book != $row["book"]) continue;
-      $standardChapters [] = $row["chapter"];  
+      if ($book == $row["book"]) {
+        $standardChapters [] = $row["chapter"];
+      }
     }
     $standardChapters = array_unique ($standardChapters, SORT_NUMERIC);
     $absentChapters = array_diff ($standardChapters, $chapters);
@@ -68,7 +68,6 @@ class Checks_Versification
       $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is extra");
     }
   }
-
 
   
 }

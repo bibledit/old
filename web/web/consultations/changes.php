@@ -104,11 +104,19 @@ foreach ($ids as $id) {
   $yourNotes = array_merge ($subscribedNotes, $assignedNotes);
   $yourNotes = array_unique ($yourNotes);
   $yourNotesCount [] = count ($yourNotes);
+  // Display no more than 20 changes for performance reasons.
+  if (count ($passages) >= 20) break;
 }
 $smarty->assign ("passages", $passages);
 $smarty->assign ("modifications", $modifications);
 $smarty->assign ("totalNotesCount", $totalNotesCount);
 $smarty->assign ("yourNotesCount", $yourNotesCount);
+
+
+// Information about the number of changes / total changes.
+$smarty->assign ("displayedChangesCount", count ($passages));
+$smarty->assign ("totalChangesCount", count ($ids));
+
 
 
 $smarty->display("changes.tpl");

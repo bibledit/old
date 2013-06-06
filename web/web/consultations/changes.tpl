@@ -1,10 +1,12 @@
 <h1>{t}Changes{/t}</h1>
-<p><a href="#help">[{t}help{/t}]</a></p>
+<p>
+  <a href="#help">[{t}help{/t}]</a>
+  {t}Displaying changes{/t} {$displayedChangesCount} {t}of{/t} {$totalChangesCount}</p>
 <br>
 <p class="error">{$error}</p>
 <p class="success">{$success}</p>
 <table>
-  {section name=offset loop=$ids} 
+  {section name=offset loop=$modifications} 
   <tr>
     <td><a href="changes.php?approve={$ids[offset]}"> ✔ </a></td>
     <td><a href="changes.php?goto={$ids[offset]}" target="_blank">{$passages[offset]}</a></td>
