@@ -13,6 +13,9 @@
 <p>Users can suppress receiving email from an updated Consultation Note in case the update was made by themselves.</p>
 <p>It checks on books, chapters and verses according to the versification system.</p>
 <p>Requires Python.</p>
+<p>Exports Bibles to OSIS format through usfm2osis.py.</p>
+<p></p>
+<p></p>
 <p></p>
 <p></p>
 

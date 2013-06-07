@@ -68,8 +68,10 @@ foreach ($bibles as $bible) {
   // The user can access the files through the browser at the directory.
   mkdir ($bibleDirectory);
   // Folder where the USFM files go.
-  $usfmDirectory = $bibleDirectory . "/usfm";
-  mkdir ($usfmDirectory);
+  $usfmDirectoryFull = $bibleDirectory . "/usfm/full";
+  mkdir ($usfmDirectoryFull, 0777, true);
+  $usfmDirectoryBasic = $bibleDirectory . "/usfm/basic"; // Todo
+  mkdir ($usfmDirectoryBasic, 0777, true);
   // Folder for the OpenDocument files.
   $odtDirectory = $bibleDirectory . "/opendocument";
   mkdir ($odtDirectory);
@@ -110,6 +112,8 @@ foreach ($bibles as $bible) {
   $html_text_rich_bible_index->newParagraph ("navigationbar");
   $html_text_rich_bible_index->addText (" |");
 
+  // The name for the basic USFM file with the entire Bible. // Todo
+  $basicUsfmBibleFilename = $usfmDirectoryBasic . "/00_Bible.usfm";
 
   // Go through the Bible books.
   $books = $database_bibles->getBooks ($bible);
@@ -139,14 +143,26 @@ foreach ($bibles as $bible) {
     $filter_text_book->odf_text_text_only = new Odf_Text;
     $filter_text_book->odf_text_text_and_note_citations = new Odf_Text;
     $filter_text_book->odf_text_notes = new Odf_Text;
+    
+    // Basic USFM. // Todo
+    $basicUsfm = "\\id " . $database_books->getUsfmFromId ($book) . "\n";
+    file_put_contents ($basicUsfmBibleFilename, $basicUsfm, FILE_APPEND);
+    $basicUsfmBookFilename = $usfmDirectoryBasic . "/" . sprintf ("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book) . ".usfm";
+    file_put_contents ($basicUsfmBookFilename, $basicUsfm, FILE_APPEND);
+    unset ($basicUsfm);
 
     // Go through the chapters in this book.
     $chapters = $database_bibles->getChapters ($bible, $book);
     foreach ($chapters as $chapter) {
-      
-      // Interlinked web data for one chapter.
+
+      // The text filter for this chapter.      
       $filter_text_chapter = new Filter_Text ($bible);
+
+      // Interlinked web data for one chapter.
       $filter_text_chapter->html_text_linked = new Html_Text (gettext ("Bible"));
+      
+      // Basic USFM for this chapter.
+      $filter_text_chapter->initializeHeadingsAndTextPerVerse ();
 
       // Get the USFM code for the current chapter.
       $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
@@ -175,12 +191,27 @@ foreach ($bibles as $bible) {
       
       $html_text_rich_book_index->addLink ($html_text_rich_book_index->currentPDomElement, Filter_Paths::htmlFileNameBible ("", $book, $chapter), "", $chapter, "", " " . $chapter . " ");
       $html_text_rich_book_index->addText ("|");
+      
+      // Deal with basic USFM. Todo
+      if ($chapter > 0) {
+        $verses_text = $filter_text_chapter->getVersesText ();
+        $basicUsfm = "\\c $chapter\n";
+        $basicUsfm .= "\\p\n";
+        foreach ($verses_text as $verse => $text) {
+          $basicUsfm .= "\\v $verse $text\n";
+        }
+        file_put_contents ($basicUsfmBibleFilename, $basicUsfm, FILE_APPEND);
+        file_put_contents ($basicUsfmBookFilename, $basicUsfm, FILE_APPEND);
+        unset ($verse);
+        unset ($text);
+        unset ($basicUsfm);
+      }
 
     }
 
     // Save the USFM code of the book to disk.
     $baseBookFileName = sprintf("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book);
-    file_put_contents ("$usfmDirectory/$baseBookFileName.usfm", $bookUsfmData);
+    file_put_contents ("$usfmDirectoryFull/$baseBookFileName.usfm", $bookUsfmData);
 
     // Create OpenDocument and Web files for the Bible book.
     $filter_text_book->run ($stylesheet);
@@ -247,7 +278,7 @@ foreach ($bibles as $bible) {
       $bibleUsfmData .= "\n";
     }
   }
-  file_put_contents ("$usfmDirectory/00_Bible.usfm", $bibleUsfmData);
+  file_put_contents ("$usfmDirectoryFull/00_Bible.usfm", $bibleUsfmData);
   unset ($bibleUsfmData);
 
 
@@ -398,7 +429,7 @@ foreach ($bibles as $bible) {
 
   // Export to full OSIS format.
   $database_logs->log ("exports: Save entire Bible to OSIS", true); // Todo
-  $osis_text = new Osis_Text ($usfmDirectory, $osisDirectory, $bible);
+  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectory, $bible);
   $osis_text->run ();
   unset ($osis_text);
   
