@@ -397,10 +397,10 @@ foreach ($bibles as $bible) {
   copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
 
   // Export to full OSIS format.
-  //$database_logs->log ("exports: Save entire Bible to OSIS", true); // Todo
-  //$osis_text = new Osis_Text ($usfmDirectory, $osisDirectory, $bible);
-  //$osis_text->run ("00_Bible.usfm");
-  //unset ($osis_text);
+  $database_logs->log ("exports: Save entire Bible to OSIS", true); // Todo
+  $osis_text = new Osis_Text ($usfmDirectory, $osisDirectory, $bible);
+  $osis_text->run ();
+  unset ($osis_text);
   
 
 }

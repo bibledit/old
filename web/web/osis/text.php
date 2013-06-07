@@ -41,15 +41,36 @@ class Osis_Text
   }
   
   
-  public function run ($usfmFile)
+  public function run ()
   {
+    // Get all the filenames.
+    $filenames = array ();
+    foreach (new DirectoryIterator ($this->usfmFolder) as $fileInfo) {
+      if ($fileInfo->isDot ()) continue;
+      if ($fileInfo->isDir ()) continue;
+      $filename = $fileInfo->getFilename ();
+      if (pathinfo ($filename, PATHINFO_EXTENSION) == "usfm") {
+        $filenames [] = $filename;
+      }
+    }
+
+    sort ($filenames);
+
     $scriptFolder = dirname (__FILE__);
-    $command = "python $scriptFolder/usfm2osis.py Bible -r -x -o " . escapeshellarg ($this->osisFolder . "/bible.xml") . " " . escapeshellarg ($this->usfmFolder . "/$usfmFile") . " 2>&1";
-    exec ($command, $output, $exit_code);
-    $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ($command);
-    foreach ($output as $line) {
-      $database_logs->log ($line);
+    
+    foreach ($filenames as $filename) {
+      $xmlfile = basename ($filename, "usfm");
+      // At the time of writing this, the Perl script had a bug that it entered an infinite loop.
+      // A timeout it set that kills the program in case it runs too long.
+      $command = "timeout 120 python $scriptFolder/usfm2osis.py Bible -r -x -o ";
+      $command .= " " . escapeshellarg ($this->osisFolder . "/" . $xmlfile . "xml") . " ";
+      $command .= " " . escapeshellarg ($this->usfmFolder . "/$filename") . " 2>&1";
+      exec ($command, $output, $exit_code);
+      $database_logs = Database_Logs::getInstance ();
+      $database_logs->log ($command);
+      foreach ($output as $line) {
+        $database_logs->log ($line);
+      }
     }
   }  
 
