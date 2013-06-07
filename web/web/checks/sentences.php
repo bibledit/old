@@ -206,7 +206,9 @@ class Checks_Sentences
   {
     // Check that the last grapheme of the text is a correct punctuation mark.
     if (!$this->isEndMark) {
-      $this->addResult ("Paragraph does not end with the correct punctuation", Checks_Sentences::displayGraphemeOnly);
+      if ($this->currentPosition > 0) {
+        $this->addResult ("Paragraph does not end with the correct punctuation", Checks_Sentences::displayGraphemeOnly);
+      }
     }
   }
 

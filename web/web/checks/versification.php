@@ -88,11 +88,6 @@ class Checks_Versification
     for ($i = 0; $i <= $highestVerse; $i++) {
       $standardVerses [] = $i;
     }
-    // Ensure the verse number are of type int.
-    foreach ($verses as &$verse) {
-      $verse = (int) $verse;
-    }
-    unset ($verse);
     // Look for missing and extra verses.
     $absentVerses = array_diff ($standardVerses, $verses);
     $extraVerses = array_diff ($verses, $standardVerses);
@@ -104,8 +99,14 @@ class Checks_Versification
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is extra according to the versification system");
     }
     // Look for verses out of order.
-    if ($verses !== $standardVerses) {
-      $database_check->recordOutput ($bible, $book, $chapter, 0, "Not all verses in this chapter are in ascending order");
+    $previousVerse = 0;
+    foreach ($verses as $key => $verse) {
+      if ($key > 0) {
+        if ($verse != ($previousVerse + 1)) {
+          $database_check->recordOutput ($bible, $book, $chapter, $verse, "The verse is out of sequence");
+        }
+      }
+      $previousVerse = $verse;
     }
   }
 

@@ -116,8 +116,16 @@ class versificationTest extends PHPUnit_Framework_TestCase
        'bible' => "0",
        'book' => "8",
        'chapter' => "1",
-       'verse' => "0",
-       'data' => "Not all verses in this chapter are in ascending order"
+       'verse' => "2",
+       'data' => "The verse is out of sequence"
+      ),
+      array (
+       'id' => "4",
+       'bible' => "0",
+       'book' => "8",
+       'chapter' => "1",
+       'verse' => "24",
+       'data' => "The verse is out of sequence"
       )
     );
     $this->assertEquals ($standard, $results);
@@ -129,7 +137,7 @@ class versificationTest extends PHPUnit_Framework_TestCase
     // Ruth 1.
     $book = 8; 
     $chapter = 1;
-    // One missing and one extra verse.
+    // Verses out of order.
     $verses = array (0, 2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22);
     // Run check.
     Checks_Versification::verses ("Bible", $book, $chapter, $verses);
@@ -142,8 +150,24 @@ class versificationTest extends PHPUnit_Framework_TestCase
        'bible' => "0",
        'book' => "8",
        'chapter' => "1",
-       'verse' => "0",
-       'data' => "Not all verses in this chapter are in ascending order"
+       'verse' => "2",
+       'data' => "The verse is out of sequence"
+      ),
+      array (
+       'id' => "2",
+       'bible' => "0",
+       'book' => "8",
+       'chapter' => "1",
+       'verse' => "1",
+       'data' => "The verse is out of sequence"
+      ),
+      array (
+       'id' => "3",
+       'bible' => "0",
+       'book' => "8",
+       'chapter' => "1",
+       'verse' => "3",
+       'data' => "The verse is out of sequence"
       )
     );
     $this->assertEquals ($standard, $results);
