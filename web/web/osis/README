@@ -1,0 +1,10 @@
+usfm2osis.py
+
+http://www.crosswire.org/svn/sword-tools/trunk/modules/python/
+
+http://www.crosswire.org/wiki/Converting_SFM_Bibles_to_OSIS
+
+usfm2osis.py requires a Python interpreter in the system path.
+
+python usfm2osis.py
+

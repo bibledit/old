@@ -91,6 +91,9 @@ foreach ($bibles as $bible) {
   // Folder for the information files.
   $infoDirectory = $bibleDirectory . "/info";
   mkdir ($infoDirectory);
+  // Folder for the OSIS files.
+  $osisDirectory = $bibleDirectory . "/osis";
+  mkdir ($osisDirectory);
 
 
   // Back link path.
@@ -392,6 +395,13 @@ foreach ($bibles as $bible) {
 
   // Lens image supporting search.
   copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
+
+  // Export to full OSIS format.
+  //$database_logs->log ("exports: Save entire Bible to OSIS", true); // Todo
+  //$osis_text = new Osis_Text ($usfmDirectory, $osisDirectory, $bible);
+  //$osis_text->run ("00_Bible.usfm");
+  //unset ($osis_text);
+  
 
 }
 

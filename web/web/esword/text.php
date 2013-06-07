@@ -126,7 +126,7 @@ class Esword_Text
     foreach ($output as $line) {
       $database_logs->log ($line);
     }
-    //unlink ($sqlfile);
+    unlink ($sqlfile);
   }
 
 

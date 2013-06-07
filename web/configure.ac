@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[0.9.11],[http://bibledit.org])
+AC_INIT([bibledit-web],[0.9.12],[http://bibledit.org])
 AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
@@ -60,6 +60,12 @@ fi
 AC_PATH_PROG(FIND_SQLITE3, sqlite3, no)
 if test x$FIND_SQLITE3 = xno; then
   AC_MSG_ERROR(Program "sqlite3" is needed. Install this first.)
+fi
+
+
+AC_PATH_PROG(FIND_PYTHON, python, no)
+if test x$FIND_PYTHON = xno; then
+  AC_MSG_ERROR(Program "python" is needed. Install this first.)
 fi
 
 

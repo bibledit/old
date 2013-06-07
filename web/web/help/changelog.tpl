@@ -12,7 +12,7 @@
 <p>Session timeout is now 12 hours.</p>
 <p>Users can suppress receiving email from an updated Consultation Note in case the update was made by themselves.</p>
 <p>It checks on books, chapters and verses according to the versification system.</p>
-<p></p>
+<p>Requires Python.</p>
 <p></p>
 <p></p>
 

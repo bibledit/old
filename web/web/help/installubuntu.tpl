@@ -1,4 +1,4 @@
-<h1>{t}Install Bibledit-Web 0.8 on Ubuntu 13.04{/t}</h1>
+<h1>{t}Install Bibledit-Web 0.9 on Ubuntu 13.04{/t}</h1>
 <p>{t}This assumes a standard installation of the operating system.{/t}</p>
 <p>{t}Connect to or open a terminal.{/t}</p>
 <p>{t}Update the software sources. Type the following command, and then press Enter.{/t}</p>
@@ -17,16 +17,16 @@
 
 <h2>{t}Install the software Bibledit-Web relies on{/t}</h2>
 <p>{t}In the terminal issue these commands:{/t}</p>
-<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff smarty smarty-gettext sqlite3 sphinxsearch php5-intl</code></p>
+<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff sqlite3 php5-intl</code></p>
 <p>{t}Anything to be set up, choose the default settings and enter the correct passwords.{/t}</p>
 
 <h2>{t}Install Bibledit-Web{/t}</h2>
 <p>{t}Download Bibledit-Web: Type the following command, and press Enter:{/t}</p>
-<code>wget http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-0.8.tar.gz</code>
+<code>wget http://download.savannah.nongnu.org/releases/bibledit/source/web/bibledit-web-0.9.tar.gz</code>
 <p>{t}Unpack Bibledit-Web: Type the following command, and press Enter:{/t}</p>
-<code>tar zxf bibledit-web-0.8.tar.gz</code>
+<code>tar zxf bibledit-web-0.9.tar.gz</code>
 <p>{t}Enter Bibledit-Web's code: Type the following command, and press Enter:{/t}</p>
-<code>cd bibledit-web-0.8</code>
+<code>cd bibledit-web-0.9</code>
 <p>{t}Configure Bibledit-Web: Type the following command, replace 'password' with the administrative password of the mysql-server as entered above, and press Enter:{/t}</p>
 <code>./configure --with-mysql-root-password=password</code>
 <p>{t}Install Bibledit-Web: Type the following command, and press Enter:{/t}</p>
