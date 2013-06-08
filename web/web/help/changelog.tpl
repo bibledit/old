@@ -12,8 +12,8 @@
 <p>Session timeout is now 12 hours.</p>
 <p>Users can suppress receiving email from an updated Consultation Note in case the update was made by themselves.</p>
 <p>It checks on books, chapters and verses according to the versification system.</p>
-<p>Requires Python.</p>
-<p>Exports Bibles to OSIS format through usfm2osis.py.</p>
+<p>Requires Python and Perl.</p>
+<p>Exports Bibles to simple and full OSIS formats through usfm2osis.py and through usfm2osis.pl.</p>
 <p></p>
 <p></p>
 <p></p>

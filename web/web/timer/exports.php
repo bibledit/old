@@ -94,10 +94,14 @@ foreach ($bibles as $bible) {
   $infoDirectory = $bibleDirectory . "/info";
   mkdir ($infoDirectory);
   // Folder for the OSIS files.
-  $osisDirectoryBasic = $bibleDirectory . "/osis/basic";
-  mkdir ($osisDirectoryBasic, 0777, true);
-  $osisDirectoryFull = $bibleDirectory . "/osis/full";
-  mkdir ($osisDirectoryFull, 0777, true);
+  $osisDirectoryBasicPython = $bibleDirectory . "/osis/basic-1";
+  mkdir ($osisDirectoryBasicPython, 0777, true);
+  $osisDirectoryFullPython = $bibleDirectory . "/osis/full-1";
+  mkdir ($osisDirectoryFullPython, 0777, true);
+  $osisDirectoryBasicPerl = $bibleDirectory . "/osis/basic-2";
+  mkdir ($osisDirectoryBasicPerl, 0777, true);
+  $osisDirectoryFullPerl = $bibleDirectory . "/osis/full-2";
+  mkdir ($osisDirectoryFullPerl, 0777, true);
 
 
   // Back link path.
@@ -430,12 +434,18 @@ foreach ($bibles as $bible) {
   copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
 
   // Export to full OSIS format.
-  $database_logs->log ("exports: Convert Bible from full USFM to OSIS", true); // Todo
-  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFull, $bible);
-  $osis_text->runPython ();
-  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS", true); // Todo
-  $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasic, $bible);
-  $osis_text->runPython ();
+  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Python", true); // Todo
+  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFullPython, $bible);
+  $osis_text->run ('py');
+  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Python", true); // Todo
+  $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasicPython, $bible);
+  $osis_text->run ('py');
+  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Perl", true); // Todo
+  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFullPerl, $bible);
+  $osis_text->run ('pl');
+  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Perl", true); // Todo
+  $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasicPerl, $bible);
+  $osis_text->run ('pl');
   unset ($osis_text);
 
 }

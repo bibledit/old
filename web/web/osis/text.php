@@ -41,7 +41,7 @@ class Osis_Text
   }
   
   
-  public function runPython ()
+  public function run ($interpreter)
   {
     // Get all the filenames.
     $filenames = array ();
@@ -62,11 +62,17 @@ class Osis_Text
     
     foreach ($filenames as $filename) {
       $xmlfile = basename ($filename, "usfm");
-      // At the time of writing this, the Perl script had a bug that it entered an infinite loop.
-      // A timeout it set that kills the program in case it runs too long.
-      $command = "timeout 120 python $scriptFolder/usfm2osis.py Bible -r -x -o ";
-      $command .= " " . escapeshellarg ($this->osisFolder . "/" . $xmlfile . "xml") . " ";
-      $command .= " " . escapeshellarg ($this->usfmFolder . "/$filename") . " 2>&1";
+      if ($interpreter == "py") {
+        // At the time of writing this, the Perl script had a bug that it entered an infinite loop.
+        // A timeout it set that kills the program in case it runs too long.
+        $command = "timeout 120 python $scriptFolder/usfm2osis.py bible -r -x -o ";
+        $command .= " " . escapeshellarg ($this->osisFolder . "/" . $xmlfile . "xml") . " ";
+        $command .= " " . escapeshellarg ($this->usfmFolder . "/$filename") . " 2>&1";
+      } else {
+        $command = "perl $scriptFolder/usfm2osis.pl bible ";
+        $command .= " -o " . escapeshellarg ($this->osisFolder . "/" . $xmlfile . "xml") . " ";
+        $command .= " " . escapeshellarg ($this->usfmFolder . "/$filename") . " 2>&1";
+      }
       exec ($command, $output, $exit_code);
     }
 

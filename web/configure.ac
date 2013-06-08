@@ -69,6 +69,12 @@ if test x$FIND_PYTHON = xno; then
 fi
 
 
+AC_PATH_PROG(FIND_PERL, perl, no)
+if test x$FIND_PERL = xno; then
+  AC_MSG_ERROR(Program "perl" is needed. Install this first.)
+fi
+
+
 # Check for PHP Internationalization support.
 AC_MSG_CHECKING(PHP Internationalization support)
 php -i | grep intl > /dev/null
