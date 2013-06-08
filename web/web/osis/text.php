@@ -41,7 +41,7 @@ class Osis_Text
   }
   
   
-  public function run ()
+  public function runPython ()
   {
     // Get all the filenames.
     $filenames = array ();
@@ -58,6 +58,8 @@ class Osis_Text
 
     $scriptFolder = dirname (__FILE__);
     
+    $output = array ();
+    
     foreach ($filenames as $filename) {
       $xmlfile = basename ($filename, "usfm");
       // At the time of writing this, the Perl script had a bug that it entered an infinite loop.
@@ -66,12 +68,14 @@ class Osis_Text
       $command .= " " . escapeshellarg ($this->osisFolder . "/" . $xmlfile . "xml") . " ";
       $command .= " " . escapeshellarg ($this->usfmFolder . "/$filename") . " 2>&1";
       exec ($command, $output, $exit_code);
-      $database_logs = Database_Logs::getInstance ();
-      $database_logs->log ($command);
-      foreach ($output as $line) {
-        $database_logs->log ($line);
-      }
     }
+
+    $database_logs = Database_Logs::getInstance ();
+    $output = array_unique ($output);
+    foreach ($output as $line) {
+      $database_logs->log ($line);
+    }
+
   }  
 
 

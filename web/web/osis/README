@@ -3,3 +3,6 @@ http://www.crosswire.org/wiki/Converting_SFM_Bibles_to_OSIS
 python usfm2osis.py
 http://www.crosswire.org/svn/sword-tools/trunk/modules/python/
 
+perl usfm2osis.pl
+http://crosswire.org/svn/sword-tools/trunk/modules/perlconverters/
+

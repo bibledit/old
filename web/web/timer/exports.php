@@ -94,8 +94,10 @@ foreach ($bibles as $bible) {
   $infoDirectory = $bibleDirectory . "/info";
   mkdir ($infoDirectory);
   // Folder for the OSIS files.
-  $osisDirectory = $bibleDirectory . "/osis";
-  mkdir ($osisDirectory);
+  $osisDirectoryBasic = $bibleDirectory . "/osis/basic";
+  mkdir ($osisDirectoryBasic, 0777, true);
+  $osisDirectoryFull = $bibleDirectory . "/osis/full";
+  mkdir ($osisDirectoryFull, 0777, true);
 
 
   // Back link path.
@@ -112,7 +114,7 @@ foreach ($bibles as $bible) {
   $html_text_rich_bible_index->newParagraph ("navigationbar");
   $html_text_rich_bible_index->addText (" |");
 
-  // The name for the basic USFM file with the entire Bible. // Todo
+  // The filename for the entire Bible in basic USFM.
   $basicUsfmBibleFilename = $usfmDirectoryBasic . "/00_Bible.usfm";
 
   // Go through the Bible books.
@@ -144,7 +146,7 @@ foreach ($bibles as $bible) {
     $filter_text_book->odf_text_text_and_note_citations = new Odf_Text;
     $filter_text_book->odf_text_notes = new Odf_Text;
     
-    // Basic USFM. // Todo
+    // Basic USFM.
     $basicUsfm = "\\id " . $database_books->getUsfmFromId ($book) . "\n";
     file_put_contents ($basicUsfmBibleFilename, $basicUsfm, FILE_APPEND);
     $basicUsfmBookFilename = $usfmDirectoryBasic . "/" . sprintf ("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book) . ".usfm";
@@ -192,7 +194,7 @@ foreach ($bibles as $bible) {
       $html_text_rich_book_index->addLink ($html_text_rich_book_index->currentPDomElement, Filter_Paths::htmlFileNameBible ("", $book, $chapter), "", $chapter, "", " " . $chapter . " ");
       $html_text_rich_book_index->addText ("|");
       
-      // Deal with basic USFM. Todo
+      // Deal with basic USFM.
       if ($chapter > 0) {
         $verses_text = $filter_text_chapter->getVersesText ();
         $basicUsfm = "\\c $chapter\n";
@@ -428,11 +430,13 @@ foreach ($bibles as $bible) {
   copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
 
   // Export to full OSIS format.
-  $database_logs->log ("exports: Save entire Bible to OSIS", true); // Todo
-  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectory, $bible);
-  $osis_text->run ();
+  $database_logs->log ("exports: Convert Bible from full USFM to OSIS", true); // Todo
+  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFull, $bible);
+  $osis_text->runPython ();
+  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS", true); // Todo
+  $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasic, $bible);
+  $osis_text->runPython ();
   unset ($osis_text);
-  
 
 }
 
