@@ -601,6 +601,7 @@ ZENDPATH
 SITE_ADMIN_PASSWORD
 SITE_ADMIN_USERNAME
 MYSQL_ROOT_PASSWORD
+FIND_OSIS2MOD
 FIND_PERL
 FIND_PYTHON
 FIND_SQLITE3
@@ -2960,6 +2961,52 @@ fi
 
 if test x$FIND_PERL = xno; then
   as_fn_error $? "Program \"perl\" is needed. Install this first." "$LINENO" 5
+fi
+
+
+# Extract the first word of "osis2mod", so it can be a program name with args.
+set dummy osis2mod; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_FIND_OSIS2MOD+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $FIND_OSIS2MOD in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_FIND_OSIS2MOD="$FIND_OSIS2MOD" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_FIND_OSIS2MOD="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_FIND_OSIS2MOD" && ac_cv_path_FIND_OSIS2MOD="no"
+  ;;
+esac
+fi
+FIND_OSIS2MOD=$ac_cv_path_FIND_OSIS2MOD
+if test -n "$FIND_OSIS2MOD"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $FIND_OSIS2MOD" >&5
+$as_echo "$FIND_OSIS2MOD" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test x$FIND_OSIS2MOD = xno; then
+  as_fn_error $? "Program \"osis2mod\" is needed. Install this first." "$LINENO" 5
 fi
 
 

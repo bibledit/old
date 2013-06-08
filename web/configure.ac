@@ -75,6 +75,12 @@ if test x$FIND_PERL = xno; then
 fi
 
 
+AC_PATH_PROG(FIND_OSIS2MOD, osis2mod, no)
+if test x$FIND_OSIS2MOD = xno; then
+  AC_MSG_ERROR(Program "osis2mod" is needed. Install this first.)
+fi
+
+
 # Check for PHP Internationalization support.
 AC_MSG_CHECKING(PHP Internationalization support)
 php -i | grep intl > /dev/null

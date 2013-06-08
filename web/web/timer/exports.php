@@ -67,11 +67,15 @@ foreach ($bibles as $bible) {
   if (!in_array ($bible, $exportedBibles)) continue;
   // The user can access the files through the browser at the directory.
   mkdir ($bibleDirectory);
-  // Folder where the USFM files go.
-  $usfmDirectoryFull = $bibleDirectory . "/usfm/full";
-  mkdir ($usfmDirectoryFull, 0777, true);
-  $usfmDirectoryBasic = $bibleDirectory . "/usfm/basic"; // Todo
-  mkdir ($usfmDirectoryBasic, 0777, true);
+  // Folders where the USFM files go.
+  $usfmDirectory = $bibleDirectory . "/usfm";
+  mkdir ($usfmDirectory);
+  $usfmDirectoryFull = $usfmDirectory . "/full";
+  mkdir ($usfmDirectoryFull);
+  $usfmDirectoryBasic = $usfmDirectory . "/basic";
+  mkdir ($usfmDirectoryBasic);
+  // Copy info for USFM.
+  copy ("usfm.html", "$usfmDirectory/readme.html");
   // Folder for the OpenDocument files.
   $odtDirectory = $bibleDirectory . "/opendocument";
   mkdir ($odtDirectory);
@@ -93,16 +97,33 @@ foreach ($bibles as $bible) {
   // Folder for the information files.
   $infoDirectory = $bibleDirectory . "/info";
   mkdir ($infoDirectory);
-  // Folder for the OSIS files.
-  $osisDirectoryBasicPython = $bibleDirectory . "/osis/basic-1";
-  mkdir ($osisDirectoryBasicPython, 0777, true);
-  $osisDirectoryFullPython = $bibleDirectory . "/osis/full-1";
-  mkdir ($osisDirectoryFullPython, 0777, true);
-  $osisDirectoryBasicPerl = $bibleDirectory . "/osis/basic-2";
-  mkdir ($osisDirectoryBasicPerl, 0777, true);
-  $osisDirectoryFullPerl = $bibleDirectory . "/osis/full-2";
-  mkdir ($osisDirectoryFullPerl, 0777, true);
+  // Folders for the OSIS files.
+  $osisDirectory = $bibleDirectory . "/osis";
+  mkdir ($osisDirectory);
+  $osisDirectoryBasicPython = $osisDirectory . "/basic-1";
+  mkdir ($osisDirectoryBasicPython);
+  $osisDirectoryFullPython = $osisDirectory . "/full-1";
+  mkdir ($osisDirectoryFullPython);
+  $osisDirectoryBasicPerl = $osisDirectory . "/basic-2";
+  mkdir ($osisDirectoryBasicPerl);
+  $osisDirectoryFullPerl = $osisDirectory . "/full-2";
+  mkdir ($osisDirectoryFullPerl);
+  // Copy info for OSIS.
+  copy ("../osis/osis.html", "$osisDirectory/readme.html");
 
+  // Folders for the Sword files. Todo
+  $swordDirectory = $bibleDirectory . "/sword";
+  mkdir ($swordDirectory);
+  $swordDirectoryBasicPython = $swordDirectory . "/basic-1";
+  mkdir ($swordDirectoryBasicPython);
+  $swordDirectoryFullPython = $swordDirectory . "/full-1";
+  mkdir ($swordDirectoryFullPython);
+  $swordDirectoryBasicPerl = $swordDirectory . "/basic-2";
+  mkdir ($swordDirectoryBasicPerl);
+  $swordDirectoryFullPerl = $swordDirectory . "/full-2";
+  mkdir ($swordDirectoryFullPerl);
+  // Copy info for Sword.
+  copy ("../sword/sword.html", "$swordDirectory/readme.html");
 
   // Back link path.
   $backLinkPath = "../downloads/exports/$bible/web/";
@@ -433,20 +454,32 @@ foreach ($bibles as $bible) {
   // Lens image supporting search.
   copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
 
-  // Export to full OSIS format.
-  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Python", true); // Todo
+  // Export to OSIS format.
+  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Python", true);
   $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFullPython, $bible);
   $osis_text->run ('py');
-  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Python", true); // Todo
+  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Python", true);
   $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasicPython, $bible);
   $osis_text->run ('py');
-  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Perl", true); // Todo
+  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Perl", true);
   $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFullPerl, $bible);
   $osis_text->run ('pl');
-  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Perl", true); // Todo
+  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Perl", true);
   $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasicPerl, $bible);
   $osis_text->run ('pl');
   unset ($osis_text);
+
+  // Export to various Sword module. Todo
+  $database_logs->log ("exports: Create various Sword modules", true);
+  $sword_text = new Sword_Text ($osisDirectoryBasicPython, $swordDirectoryBasicPython, $bible);
+  $sword_text->run ("00_Bible.xml");
+  $sword_text = new Sword_Text ($osisDirectoryFullPython, $swordDirectoryFullPython, $bible);
+  $sword_text->run ("00_Bible.xml");
+  $sword_text = new Sword_Text ($osisDirectoryBasicPerl, $swordDirectoryBasicPerl, $bible);
+  $sword_text->run ("00_Bible.xml");
+  $sword_text = new Sword_Text ($osisDirectoryFullPerl, $swordDirectoryFullPerl, $bible);
+  $sword_text->run ("00_Bible.xml");
+
 
 }
 
