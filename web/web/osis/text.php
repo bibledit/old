@@ -43,41 +43,23 @@ class Osis_Text
   
   public function run ($interpreter)
   {
-    // Get all the filenames.
-    $filenames = array ();
-    foreach (new DirectoryIterator ($this->usfmFolder) as $fileInfo) {
-      if ($fileInfo->isDot ()) continue;
-      if ($fileInfo->isDir ()) continue;
-      $filename = $fileInfo->getFilename ();
-      if (pathinfo ($filename, PATHINFO_EXTENSION) == "usfm") {
-        $filenames [] = $filename;
-      }
-    }
-
-    sort ($filenames);
-
     $scriptFolder = dirname (__FILE__);
-    
-    $output = array ();
-    
-    foreach ($filenames as $filename) {
-      $xmlfile = basename ($filename, "usfm");
-      if ($interpreter == "py") {
-        // At the time of writing this, the Perl script had a bug that it entered an infinite loop.
-        // A timeout it set that kills the program in case it runs too long.
-        $command = "timeout 120 python $scriptFolder/usfm2osis.py bible -r -x -o ";
-        $command .= " " . escapeshellarg ($this->osisFolder . "/" . $xmlfile . "xml") . " ";
-        $command .= " " . escapeshellarg ($this->usfmFolder . "/$filename") . " 2>&1";
-      } else {
-        $command = "perl $scriptFolder/usfm2osis.pl bible ";
-        $command .= " -o " . escapeshellarg ($this->osisFolder . "/" . $xmlfile . "xml") . " ";
-        $command .= " " . escapeshellarg ($this->usfmFolder . "/$filename") . " 2>&1";
-      }
-      exec ($command, $output, $exit_code);
+
+    if ($interpreter == "py") {
+      // At the time of writing this, the Perl script had a bug that it entered an infinite loop.
+      // The timeout kills the program in case it runs too long.
+      $command = "timeout 120 python $scriptFolder/usfm2osis.py bible -r -x -s canonical -o ";
+      $command .= " " . escapeshellarg ($this->osisFolder . "/00_Bible.xml") . " ";
+      $command .= " " . $this->usfmFolder . "/* 2>&1";
+    } else {
+      $command = "perl $scriptFolder/usfm2osis.pl bible ";
+      $command .= " -o " . escapeshellarg ($this->osisFolder . "/00_Bible.xml") . " ";
+      $command .= " " . $this->usfmFolder . "/* 2>&1";
     }
+    exec ($command, $output, $exit_code);
 
     $database_logs = Database_Logs::getInstance ();
-    $output = array_unique ($output);
+    $database_logs->log ("export: $command");
     foreach ($output as $line) {
       $database_logs->log ($line);
     }

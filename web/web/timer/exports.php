@@ -76,6 +76,11 @@ foreach ($bibles as $bible) {
   mkdir ($usfmDirectoryBasic);
   // Copy info for USFM.
   copy ("usfm.html", "$usfmDirectory/readme.html");
+  // Folder for temporal USFM files for conversion to other formats.
+  $usfmTemporalFolderBasic = uniqid (sys_get_temp_dir() . "/") . "basic";
+  mkdir ($usfmTemporalFolderBasic);
+  $usfmTemporalFolderFull = uniqid (sys_get_temp_dir() . "/") . "full";
+  mkdir ($usfmTemporalFolderFull);
   // Folder for the OpenDocument files.
   $odtDirectory = $bibleDirectory . "/opendocument";
   mkdir ($odtDirectory);
@@ -111,7 +116,7 @@ foreach ($bibles as $bible) {
   // Copy info for OSIS.
   copy ("../osis/osis.html", "$osisDirectory/readme.html");
 
-  // Folders for the Sword files. Todo
+  // Folders for the Sword files.
   $swordDirectory = $bibleDirectory . "/sword";
   mkdir ($swordDirectory);
   $swordDirectoryBasicPython = $swordDirectory . "/basic-1";
@@ -174,8 +179,9 @@ foreach ($bibles as $bible) {
     // Basic USFM.
     $basicUsfm = "\\id " . $database_books->getUsfmFromId ($book) . "\n";
     file_put_contents ($basicUsfmBibleFilename, $basicUsfm, FILE_APPEND);
-    $basicUsfmBookFilename = $usfmDirectoryBasic . "/" . sprintf ("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book) . ".usfm";
-    file_put_contents ($basicUsfmBookFilename, $basicUsfm, FILE_APPEND);
+    $basicUsfmBookFilename = sprintf ("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book) . ".usfm";
+    file_put_contents ("$usfmDirectoryBasic/$basicUsfmBookFilename", $basicUsfm, FILE_APPEND);
+    file_put_contents ("$usfmTemporalFolderBasic/$basicUsfmBookFilename", $basicUsfm, FILE_APPEND);
     unset ($basicUsfm);
 
     // Go through the chapters in this book.
@@ -227,8 +233,8 @@ foreach ($bibles as $bible) {
         foreach ($verses_text as $verse => $text) {
           $basicUsfm .= "\\v $verse $text\n";
         }
-        file_put_contents ($basicUsfmBibleFilename, $basicUsfm, FILE_APPEND);
-        file_put_contents ($basicUsfmBookFilename, $basicUsfm, FILE_APPEND);
+        file_put_contents ("$usfmDirectoryBasic/$basicUsfmBookFilename", $basicUsfm, FILE_APPEND);
+        file_put_contents ("$usfmTemporalFolderBasic/$basicUsfmBookFilename", $basicUsfm, FILE_APPEND);
         unset ($verse);
         unset ($text);
         unset ($basicUsfm);
@@ -236,9 +242,10 @@ foreach ($bibles as $bible) {
 
     }
 
-    // Save the USFM code of the book to disk.
+    // Save the USFM code of the book the output folder and to the temporal folder.
     $baseBookFileName = sprintf("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book);
     file_put_contents ("$usfmDirectoryFull/$baseBookFileName.usfm", $bookUsfmData);
+    file_put_contents ("$usfmTemporalFolderFull/$baseBookFileName.usfm", $bookUsfmData);
 
     // Create OpenDocument and Web files for the Bible book.
     $filter_text_book->run ($stylesheet);
@@ -456,20 +463,20 @@ foreach ($bibles as $bible) {
 
   // Export to OSIS format.
   $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Python", true);
-  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFullPython, $bible);
+  $osis_text = new Osis_Text ($usfmTemporalFolderFull, $osisDirectoryFullPython, $bible);
   $osis_text->run ('py');
   $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Python", true);
-  $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasicPython, $bible);
+  $osis_text = new Osis_Text ($usfmTemporalFolderBasic, $osisDirectoryBasicPython, $bible);
   $osis_text->run ('py');
   $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Perl", true);
-  $osis_text = new Osis_Text ($usfmDirectoryFull, $osisDirectoryFullPerl, $bible);
+  $osis_text = new Osis_Text ($usfmTemporalFolderFull, $osisDirectoryFullPerl, $bible);
   $osis_text->run ('pl');
   $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Perl", true);
-  $osis_text = new Osis_Text ($usfmDirectoryBasic, $osisDirectoryBasicPerl, $bible);
+  $osis_text = new Osis_Text ($usfmTemporalFolderBasic, $osisDirectoryBasicPerl, $bible);
   $osis_text->run ('pl');
   unset ($osis_text);
 
-  // Export to various Sword module. Todo
+  // Export to various Sword module.
   $database_logs->log ("exports: Create various Sword modules", true);
   $sword_text = new Sword_Text ($osisDirectoryBasicPython, $swordDirectoryBasicPython, $bible);
   $sword_text->run ("00_Bible.xml");
@@ -479,6 +486,10 @@ foreach ($bibles as $bible) {
   $sword_text->run ("00_Bible.xml");
   $sword_text = new Sword_Text ($osisDirectoryFullPerl, $swordDirectoryFullPerl, $bible);
   $sword_text->run ("00_Bible.xml");
+  
+  // Remove the temporal folders containing USFM for conversion.
+  Filter_Rmdir::rmdir ($usfmTemporalFolderBasic);
+  Filter_Rmdir::rmdir ($usfmTemporalFolderFull);
 
 
 }

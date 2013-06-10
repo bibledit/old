@@ -37,7 +37,7 @@ Basic steps:
 */
 
 
-class Sword_Text // Todo update it.
+class Sword_Text
 {
 
   private $osisFolder;
@@ -59,7 +59,7 @@ class Sword_Text // Todo update it.
     $configurationFolder = $this->swordFolder . "/mods.d";
     mkdir ($configurationFolder);
 
-    // Write configuration.
+    // Write configuration. Todo use saved configuration from database if available.
     $contents = file_get_contents (dirname (__FILE__) . "/module.conf");
     $contents = str_replace ("<bible>", $this->bibleName, $contents);
     $contents = str_replace ("<date>", date ("Y.m.d"), $contents);

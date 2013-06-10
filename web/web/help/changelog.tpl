@@ -14,7 +14,7 @@
 <p>It checks on books, chapters and verses according to the versification system.</p>
 <p>Requires Python, Perl, and the Sword utilities.</p>
 <p>Exports Bibles to simple and full OSIS formats through usfm2osis.py and through usfm2osis.pl.</p>
-<p>Creates Sword modules in four flavours.</p>
+<p>Creates Sword modules based on the four OSIS flavours above.</p>
 <p></p>
 <p></p>
 <p></p>
