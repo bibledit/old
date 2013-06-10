@@ -48,7 +48,7 @@ class Osis_Text
     if ($interpreter == "py") {
       // At the time of writing this, the Perl script had a bug that it entered an infinite loop.
       // The timeout kills the program in case it runs too long.
-      $command = "timeout 120 python $scriptFolder/usfm2osis.py bible -r -x -s canonical -o ";
+      $command = "timeout 600 python $scriptFolder/usfm2osis.py bible -r -x -s canonical -o ";
       $command .= " " . escapeshellarg ($this->osisFolder . "/00_Bible.xml") . " ";
       $command .= " " . $this->usfmFolder . "/* 2>&1";
     } else {
