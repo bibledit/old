@@ -152,6 +152,18 @@ if (isset ($_GET['dateinheadertoggle'])) {
 }
 
 
+if (isset ($_GET ['resetswordconfig'])) {
+  $database_config_general->setSwordConfiguration (array ());
+}
+
+
+@$swordconfig = $_POST ['swordconfig'];
+if (isset ($swordconfig)) { // Todo
+  Sword_Text::saveConfiguration ($swordconfig);
+  $smarty->assign ("success", gettext ("The Sword configuration was saved"));
+}
+
+
 $smarty->assign ("bibles", $database_config_general->getExportedBibles ());
 $smarty->assign ("stylesheet", Filter_Html::sanitize ($database_config_general->getExportStylesheet ()));
 $smarty->assign ("dropcaps", $database_config_general->getExportChapterDropCaps());
@@ -162,6 +174,7 @@ $smarty->assign ("outermargin", Filter_Html::sanitize ($database_config_general-
 $smarty->assign ("topmargin", Filter_Html::sanitize ($database_config_general->getTopMargin ()));
 $smarty->assign ("bottommargin", Filter_Html::sanitize ($database_config_general->getBottomMargin ()));
 $smarty->assign ("dateinheader", $database_config_general->getDateInHeader());
+$smarty->assign ("swordconfig", Sword_Text::getConfiguration ());
 $smarty->display("exports.tpl");
 
 Assets_Page::footer ();

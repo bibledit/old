@@ -413,6 +413,13 @@ class Database_Config_General
     $this->setValue ("check-chapters-verses-versification", $value);
   }
 
+  public function getSwordConfiguration () {
+    return $this->getList ("sword-configuration", "");
+  }
+  public function setSwordConfiguration ($value) {
+    $this->setList ("sword-configuration", $value);
+  }
+
 }
 
 

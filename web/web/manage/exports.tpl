@@ -19,13 +19,8 @@
 <p>{t}The exports use the following stylesheet:{/t} {$stylesheet} [<a href="exports.php?sheet=">{t}switch{/t}</a>].</p>
 <br>
 <p>
-{t}When exporting Bibles to OpenDocument format, when the chapter number gets put just before the first verse in bigger font, frames may be used for this.{/t}
-{if $dropcaps}
-  {t}Frames are off.{/t}
-{else}
-  {t}Frames are on.{/t}
-{/if}
-  <a href="exports.php?dropcapstoggle=">[{t}toggle{/t}]</a></p>
+<a href="exports.php?dropcapstoggle=">{if $dropcaps} ☑ {else} ☐ {/if}</a>
+{t}Use frames for OpenDocument format in case the chapter number gets put just before the first verse in drop caps.{/t}  
 </p>
 <br>
 <p>{t}Page size and margins are relevant for export to a format that supports those.{/t}</p>
@@ -39,13 +34,28 @@
 </table>
 <br>
 <p>
+<a href="exports.php?dateinheadertoggle=">{if $dateinheader} ☑ {else} ☐ {/if}</a>
 {t}Display the current date in the running headers.{/t}
-{if $dateinheader}
-  {t}This setting is on.{/t}
-{else}
-  {t}This setting is off.{/t}
-{/if}
-  <a href="exports.php?dateinheadertoggle=">[{t}toggle{/t}]</a></p>
 </p>
 <br>
-{t}It also exports to a file suitable for the Online Bible module creation process. For more information about how to create a module, see Online Bible, menu Help - Table Of Contents - How To - Create Your Own Bible Version.{/t}
+<p>
+ {t}It also exports to a file suitable for the Online Bible module creation process.{/t}
+ {t}For more information about how to create a module, see Online Bible, menu Help - Table Of Contents - How To - Create Your Own Bible Version.{/t}
+</p>
+<br>
+<p>
+ {t}You can edit the configuration file used for exporting to a Sword module.{/t}
+ {t}Update the text below, and click button Save.{/t}
+</p>
+<p>{t}There are two special variables:{/t}</p>
+<p>&lt;bible&gt;: {t}This will be replaced with the name of the Bible being exported.{/t}</p>
+<p>&lt;date&gt;: {t}This will be replaced with the date of export.{/t}</p>
+<form action="exports.php" name="formswordconfig" method="post">
+  <p><textarea name="swordconfig" class="fullwidth">{$swordconfig}</textarea></p>
+  <p><input type="submit" name="submitswordconfig" value={t}Save{/t} /> <a href="exports.php?resetswordconfig=">{t}Reset{/t}</a></p>
+</form>
+<p>
+ {t}{/t}
+ {t}{/t}
+ {t}{/t}
+</p>

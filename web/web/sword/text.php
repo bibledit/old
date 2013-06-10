@@ -60,7 +60,7 @@ class Sword_Text
     mkdir ($configurationFolder);
 
     // Write configuration. Todo use saved configuration from database if available.
-    $contents = file_get_contents (dirname (__FILE__) . "/module.conf");
+    $contents = Sword_Text::getConfiguration ();
     $contents = str_replace ("<bible>", $this->bibleName, $contents);
     $contents = str_replace ("<date>", date ("Y.m.d"), $contents);
     // For right-to-left scripts, add this: Direction=RtoL
@@ -92,6 +92,34 @@ class Sword_Text
   }  
 
 
+  static function getConfiguration ()  // Todo
+  {
+    $database_config_general = Database_Config_General::getInstance ();
+    $data = $database_config_general->getSwordConfiguration();
+    if (empty ($data)) {
+      $data = file_get_contents (dirname (__FILE__) . "/module.conf");
+    } else {
+      $data = implode ("\n", $data);
+    }
+    return $data;
+  }
+  
+  
+  static function saveConfiguration ($data) // Todo
+  {
+    $database_config_general = Database_Config_General::getInstance ();
+    $data = trim ($data);
+    $default = file_get_contents (dirname (__FILE__) . "/module.conf");
+    $default = trim ($default);
+    if ($data == $default) {
+    } else {
+      $database_config_general->setSwordConfiguration (array ());
+    }
+    $data = explode ("\n", $data);
+    $database_config_general->setSwordConfiguration ($data);
+  }
+  
+  
 }
 
 
