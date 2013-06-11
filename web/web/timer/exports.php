@@ -47,9 +47,6 @@ $exportedBibles = $database_config_general->getExportedBibles ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 
 
-unset ($database_config_general);
-
-
 // Where to store the exported Bibles.
 include ("paths/paths.php");
 $exportsDirectory = "$localStatePath/$location/exports";
@@ -128,7 +125,14 @@ foreach ($bibles as $bible) {
   $swordDirectoryFullPerl = $swordDirectory . "/full-2";
   mkdir ($swordDirectoryFullPerl);
   // Copy info for Sword.
-  copy ("../sword/sword.html", "$swordDirectory/readme.html");
+  $contents = file_get_contents ("../sword/sword.html");
+  $host = $database_config_general->getSiteURL ();
+  $host = parse_url ($host, PHP_URL_HOST);
+  $contents = str_replace ("_host_", "$host", $contents); // Todo
+  $contents = str_replace ("_bible_", $bible, $contents); // Todo
+  file_put_contents ("$swordDirectory/readme.html", $contents);
+  unset ($contents);
+  unset ($host);
 
   // Back link path.
   $backLinkPath = "../downloads/exports/$bible/web/";

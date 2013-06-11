@@ -16,7 +16,7 @@
 <p>Exports Bibles to simple and full OSIS formats through usfm2osis.py and through usfm2osis.pl.</p>
 <p>Creates Sword modules based on the four OSIS flavours above.</p>
 <p>Contains an editor for the Sword configuration file.</p>
-<p></p>
+<p>Contains information about setting up a Sword module repository from the exported Bibles.</p>
 <p></p>
 
 <h2>Version 0.9</h2>
