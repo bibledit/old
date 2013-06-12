@@ -222,7 +222,7 @@ class Filter_Usfm
         $verse_numbers [] = Filter_Numeric::integer_in_string ($marker_or_text);
         $extract_verse = false;
       }
-      if (substr ($marker_or_text, 1, 1) == "v") {
+      if (substr ($marker_or_text, 0, 2) == '\v') {
         $extract_verse = true;
       }
     }

@@ -153,7 +153,7 @@ EOD;
     $this->assertEquals ("2a-3b", Filter_Usfm::peekVerseNumber ("2a-3b And he said"));
   }
   
-  public function testGetVerseNumbers ()
+  public function testGetVerseNumbersOne ()
   {
 $usfm = <<<'EOD'
 \c 1
@@ -183,6 +183,43 @@ $usfm = <<<'EOD'
 \p Ukuthula
 EOD;
     $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14), Filter_Usfm::getVerseNumbers ($usfm));
+  }
+
+
+  public function testGetVerseNumbersTwo ()
+  {
+$usfm = <<<'EOD'
+\c 80
+\s Umkhuleko wokusizwa kukaIsrayeli
+\d Kumqondisi wokuhlabelela. NgeShoshanimi. Ubufakazi. Isihlabelelo sikaAsafi
+\p
+\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\x + Hlab. 81.5.\x* njengomhlambi\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\x*, ohlezi \add phakathi\add* \w kwamakherubhi\w**\x + Hlab. 99.1. Eks. 25.22.\x*, khanyisa\x + Hlab. 50.2.\x*.
+\v 2 Phambi kukaEfrayimi loBhenjamini loManase\x + Nani 2.18-23.\x* vusa amandla akho, uze ube lusindiso lwethu\x + Hlab. 35.23.\x*.
+\p
+\v 3 Siphendule, Nkulunkulu\x + 80.7,14,19. Hlab. 60.1. 85.4. Lilo 5.21.\x*, wenze ubuso bakho bukhanye, ngakho sizasindiswa\x + Nani 6.25. Hlab. 4.6.\x*.
+\p
+\v 4 N\nd kosi\nd* Nkulunkulu wamabandla\x + Ps 59.5. 84.8.\x*, koze kube nini uthukuthelela umkhuleko wabantu bakho\x + Hlab. 74.10.\x*?
+\v 5 Ubenze badla isinkwa sezinyembezi\x + Hlab. 42.3. Hlab. 102.9.\x*, wabanathisa izinyembezi ngesilinganiso\x + Isa. 40.12.\x*.
+\v 6 Usenza sibe yingxabano kubomakhelwane bethu, lezitha zethu ziyahlekisana \add ngathi\x + Hlab. 44.13. 79.4.\x*\add*.
+\p
+\v 7 Siphendule, Nkulunkulu wamabandla, wenze ubuso bakho bukhanye, ngakho sizasindiswa\x + 80.7,14,19. Hlab. 60.1. 85.4. Lilo 5.21.\x*.
+\p
+\v 8 Waliletha ivini livela eGibhithe\x + Isa. 5.1-7. 27.2. Jer. 2.21. 12.10. Hez. 15.6. 17.6. 19.10. Mat. 21.33. Mark. 12.1. Luka 20.9. Joha. 15.1-6.\x*, wazixotsha izizwe\x + Hlab. 78.55.\x*, walihlanyela lona\x + Hlab. 44.2.\x*.
+\v 9 Walungisa \add indawo\add* phambi kwalo\x + Gen. 24.31. Josh. 24.12.\x*, wagxilisa impande zalo, laze lagcwala umhlaba.
+\v 10 Izintaba zembeswa ngomthunzi walo, lezingatsha zalo zi\add njenge\add*misedari kaNkulunkulu.
+\v 11 Lanabisela ingatsha zalo elwandle\x + Jobe 14.9.\x*, lamahlumela alo\x + Jobe 8.16.\x* emfuleni\x + Hlab. 72.8.\x*.
+\v 12 Uyibhobozeleni imiduli yalo\x + Hlab. 89.40,41. Isa. 5.5.\x*, ukuze balikhe bonke abadlula ngendlela\x + Hlab. 89.40,41. Isa. 5.5.\x*?
+\v 13 Ingulube yasehlathini iyalihlikiza\x + Jer. 5.6.\x*, lenyamazana yeganga iyalidla\x + Hlab. 50.11.\x*.
+\p
+\v 14 Nkulunkulu wamabandla, akubuyele\x + 80.3.\x*, ukhangele phansi usemazulwini\x + Isa. 63.15.\x*, ubone, wethekelele lelivini\x + Hlab. 84.9.\x*,
+\v 15 ngitsho isivini isandla sakho sokunene esasihlanyelayo, lendodana\x + Gen. 49.22.\x* \add o\add*waziqinisela \add yona\x + 80.17. Isa.44.14.\x*\add*.
+\v 16 Sitshisiwe ngomlilo\x + Isa. 33.12.\x*, saqunyelwa phansi\x + Isa. 33.12.\x*; bayabhubha ngokukhuza kobuso bakho\x + Hlab. 76.6. Hlab. 39.11.\x*.
+\v 17 Isandla sakho kasibe phezu komuntu\x + Hlab. 89.21. Luka 1.66.\x* wesandla sakho sokunene\x + 80.15.\x*, phezu kwendodana yomuntu\x + Hlab. 8.4,5.\x*, \add o\add*ziqinisele \add yona\x + 80.17. Isa. 44.14.\x*\x + Hlab. 89.21. Luka 1.66.\x*\add*.
+\v 18 Ngakho kasiyikubuyela emuva sisuke kuwe; sivuselele, khona sizabiza ibizo lakho\x + Hlab. 71.20.\x*.
+\p
+\v 19 N\nd kosi\nd*, Nkulunkulu wamabandla, siphendule, wenze ubuso bakho bukhanye, ngakho sizasindiswa\x + 80.3,7.\x*.
+EOD;
+    $this->assertEquals(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19), Filter_Usfm::getVerseNumbers ($usfm));
   }
   
   
