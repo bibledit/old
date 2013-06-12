@@ -166,3 +166,23 @@ int main(int argc, char *argv[])
 }
 
 
+/*
+
+Gtk3
+http://developer.gnome.org/gtk3/stable/gtk-migrating-2-to-3.html
+http://developer.gnome.org/gtk/2.24/
+
+Do not include individual headers: Done.
+Do not use deprecated symbols: Done.
+Use accessor functions instead of direct access: Done.
+Replace GDK_<keyname> with GDK_KEY_<keyname>: Done.
+Use GIO for launching applications: Done.
+Use cairo for drawing: Done.
+
+Gtk3 is available on Windows.
+
+Switching to Gtk3 needs the webkitgtk for gtk3 also.
+
+pkg-config gtk+-3.0 --modversion
+
+*/
