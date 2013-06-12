@@ -128,8 +128,8 @@ foreach ($bibles as $bible) {
   $contents = file_get_contents ("../sword/sword.html");
   $host = $database_config_general->getSiteURL ();
   $host = parse_url ($host, PHP_URL_HOST);
-  $contents = str_replace ("_host_", "$host", $contents); // Todo
-  $contents = str_replace ("_bible_", $bible, $contents); // Todo
+  $contents = str_replace ("_host_", "$host", $contents);
+  $contents = str_replace ("_bible_", $bible, $contents);
   file_put_contents ("$swordDirectory/readme.html", $contents);
   unset ($contents);
   unset ($host);
@@ -492,8 +492,8 @@ foreach ($bibles as $bible) {
   $sword_text->run ("00_Bible.xml");
   
   // Remove the temporal folders containing USFM for conversion.
-  Filter_Rmdir::rmdir ($usfmTemporalFolderBasic);
-  Filter_Rmdir::rmdir ($usfmTemporalFolderFull);
+  // Todo Filter_Rmdir::rmdir ($usfmTemporalFolderBasic);
+  // Todo Filter_Rmdir::rmdir ($usfmTemporalFolderFull);
 
 
 }

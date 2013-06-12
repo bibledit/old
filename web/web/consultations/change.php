@@ -72,6 +72,8 @@ $smarty->assign ("passage", $passageText);
 @$create = $_GET['create'];
 if (isset ($create)) {
   $bible = $database_changes->getBible ($id);
+  $database_bibles = Database_Bibles::getInstance ();
+  $bible = $database_bibles->getName ($bible);
   $summary = gettext ("Query about a change in the text");
   $contents = "<p>" . gettext ("Old text:") . "</p>";
   $contents .= $old_text;

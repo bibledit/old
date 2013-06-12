@@ -59,7 +59,7 @@ class Sword_Text
     $configurationFolder = $this->swordFolder . "/mods.d";
     mkdir ($configurationFolder);
 
-    // Write configuration. Todo use saved configuration from database if available.
+    // Write configuration.
     $contents = Sword_Text::getConfiguration ();
     $contents = str_replace ("<bible>", $this->bibleName, $contents);
     $contents = str_replace ("<date>", date ("Y.m.d"), $contents);
@@ -92,7 +92,7 @@ class Sword_Text
   }  
 
 
-  static function getConfiguration ()  // Todo
+  static function getConfiguration ()
   {
     $database_config_general = Database_Config_General::getInstance ();
     $data = $database_config_general->getSwordConfiguration();
@@ -105,7 +105,7 @@ class Sword_Text
   }
   
   
-  static function saveConfiguration ($data) // Todo
+  static function saveConfiguration ($data)
   {
     $database_config_general = Database_Config_General::getInstance ();
     $data = trim ($data);

@@ -158,7 +158,7 @@ if (isset ($_GET ['resetswordconfig'])) {
 
 
 @$swordconfig = $_POST ['swordconfig'];
-if (isset ($swordconfig)) { // Todo
+if (isset ($swordconfig)) {
   Sword_Text::saveConfiguration ($swordconfig);
   $smarty->assign ("success", gettext ("The Sword configuration was saved"));
 }
