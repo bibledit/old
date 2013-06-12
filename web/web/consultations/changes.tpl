@@ -1,7 +1,7 @@
 <h1>{t}Changes{/t}</h1>
 <p>
   <a href="#help">[{t}help{/t}]</a>
-  {t}Displaying changes{/t} {$displayedChangesCount} {t}of{/t} {$totalChangesCount}</p>
+  {t}Displaying{/t} {$displayedChangesCount} {t}of{/t} {$totalChangesCount}</p>
 <br>
 <p class="error">{$error}</p>
 <p class="success">{$success}</p>
@@ -24,6 +24,8 @@
 <p>
   {t}Click ✔ to approve a change.{/t}
   {t}The change will disappear.{/t}
+  <a href="changes.php?approvepage=">{t}Or approve all changes above.{/t}</a>  
+  
 </p>
 <p>
   {t}Click the passage to open the Text Editor for the chapter.{/t}

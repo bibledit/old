@@ -34,6 +34,19 @@ if (isset ($approve)) {
 }
 
 
+if (isset ($_GET['approvepage'])) {
+  $ids = $database_changes->getIdentifiers ($username);
+  $approvedCount = 0;
+  foreach ($ids as $id) {
+    if ($approvedCount >= 20) break;
+    $approvedCount++;
+    $database_changes->delete ($id);
+  }
+  $smarty->assign ("success", gettext ("The changes were approved."));
+  unset ($ids);
+}
+
+
 $ids = $database_changes->getIdentifiers ($username);
 $smarty->assign ("ids", $ids);
   

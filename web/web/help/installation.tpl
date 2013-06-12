@@ -22,12 +22,12 @@
   {t}Bibledit-Web can export Bibles to a Sword module.{/t} 
   {t}It will store the module in a location accessible through the web server.{/t} 
   {t}You can also create a Sword module repository.{/t} 
-  {t}This enables users to to an online installation of the Bible in their Sword front-end.{/t} 
+  {t}This enables users to do an online installation of the Bible in their Sword front-end.{/t} 
   {t}To create a Sword module repository, install an anonymous FTP server, and set the root for anonymous access to the folder with exported Bibles.{/t} 
   {t}This is how it can be done on Ubuntu Server:{/t} 
 </p>
 <br>
-<p>{t}Install the very secure FTP daemon:{/t}</p>
+<p>{t}Install the FTP server:{/t}</p>
 <pre>$ sudo apt-get install vsftpd</pre>
 <p>{t}Create the ftp user:{/t}</p>
 <pre>$ sudo useradd ftp</pre>
@@ -68,3 +68,5 @@ anon_root=/var/lib/bibledit-web/bibledit-web/exports
     <td>/ndebele/sword/full-2</td>
   </tr>
 </table>
+<br>
+<p>{t}If vsftpd does not work for you, any other FTP server will do the job also:{/t} tinyftp, ftpd, pure-ftpd...</p>
