@@ -29,7 +29,7 @@ git --bare init --shared
   <p>{t}The repository is now there, but it is not yet accessible from the network.{/t}</p>
   <p>{t}To make the repository available to the network, type:{/t}</p>
   <pre>git daemon --export-all --base-path=/home/jim/git --detach --enable=receive-pack</pre>
-  <p>{t}Each time that the server boots, it is necessary to execute the above command again. It would be easier to put the command in the boot script. Then it will automatically be started after boot.{/t}</p>
+  <p>{t}Each time the server boots, it is necessary to execute the above command again. It would be easier to put the command in the boot script. Then it will automatically be started after boot.{/t}</p>
   <p>{t}To test access to the new repository from another computer on the network, type:{/t}</p>
   <pre>git ls-remote git://192.168.0.1/repository</pre>
   <p>{t}If everything is fine, no errors will occur.{/t}</p>
@@ -44,7 +44,7 @@ git --bare init --shared
     <p><input type="submit" name="url" value={t}Submit{/t} /></p>
   </form>
 
-  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
+  <h2><a href="collaboration_repo_read.php?object={$object}">{t}Next page{/t}</a></h2>
 
   {include file=../assets/footer_full.tpl} 
   </body>

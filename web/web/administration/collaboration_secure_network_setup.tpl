@@ -64,7 +64,7 @@
   <p>{t}On your personal account page at sourceforge.net, choose Services, then choose "Edit SSH Keys for Shell/CVS". Select all the text of the public key, see above, and copy it to the clipboard. Be sure it is the public key, not the private one. In the screen titled "SSH Keys", there is a place where it says "Authorized keys:". Paste the text of the public key into that space on the web page. After checking that everything looks fine, press button "Update". Make sure to enter only the public key, not the private key. Synchronizing the keys into the system has a 10 minute delay.{/t}</p>
   <p>{t}After the delay of 10 minutes has expired you can continue to the next page.{/t}</p>
 
-  <h2><a href="collaboration_repo_init.php?object={$object}">{t}Next page{/t}</a></h2>
+  <h2><a href="collaboration_repo_read.php?object={$object}">{t}Next page{/t}</a></h2>
 
   {include file=../assets/footer_full.tpl} 
   </body>
