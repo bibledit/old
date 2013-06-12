@@ -490,6 +490,8 @@ foreach ($bibles as $bible) {
   $sword_text->run ("00_Bible.xml");
   $sword_text = new Sword_Text ($osisDirectoryFullPerl, $swordDirectoryFullPerl, $bible);
   $sword_text->run ("00_Bible.xml");
+  // Make the Sword folder readable for the FTP server for the module repository.
+  system ("cd ". escapeshellarg ($swordDirectory) . " ; chmod -R +r *");
   
   // Remove the temporal folders containing USFM for conversion.
   // Todo Filter_Rmdir::rmdir ($usfmTemporalFolderBasic);
