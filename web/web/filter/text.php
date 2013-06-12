@@ -532,6 +532,7 @@ class Filter_Text
                   default:
                   {
                     $this->newParagraph ($style, false);
+                    $this->heading_started = false;
                     $this->text_started = true;
                     // If a new paragraph starts within an existing verse, 
                     // add a space to the text already in that verse.
@@ -976,8 +977,10 @@ class Filter_Text
             $this->text_text->text ($currentItem);
           }
           if (is_array ($this->verses_headings) && $this->heading_started) {
-            $this->verses_headings [$this->currentVerseNumber] = $currentItem;
-            $this->heading_started = false;
+            if (!isset ($this->verses_headings [$this->currentVerseNumber])) {
+              $this->verses_headings [$this->currentVerseNumber] = "";
+            }
+            $this->verses_headings [$this->currentVerseNumber] .= $currentItem;
           }
           if (is_array ($this->verses_text) && $this->text_started) {
             if (isset ($this->verses_text [$this->currentVerseNumber])) {

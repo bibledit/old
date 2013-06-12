@@ -116,7 +116,7 @@ class Esword_Text
   public function createModule ($filename)
   {
     $this->flushCache ();
-    $sqlfile =  tempnam (sys_get_temp_dir (), '');
+    $sqlfile =  tempnam (sys_get_temp_dir (), '') . ".sql";
     $sql = implode ("\n", $this->sql);
     file_put_contents ($sqlfile, $sql);
     $database_logs = Database_Logs::getInstance ();
@@ -126,7 +126,7 @@ class Esword_Text
     foreach ($output as $line) {
       $database_logs->log ($line);
     }
-    unlink ($sqlfile);
+    // Todo temporal for checking sql error unlink ($sqlfile);
   }
 
 

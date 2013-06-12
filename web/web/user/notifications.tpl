@@ -71,7 +71,7 @@
 <a href="notifications.php?biblechangesnotificationtoggle=">
 {if $bible_changes_notification == true} ☑ {else} ☐ {/if}
 </a>
-{t}Receive a daily email about changes in the text of the Bibles.{/t}
+{t}Receive a daily email with the changes in the text of the Bibles.{/t}
 </p>
 
 <p>

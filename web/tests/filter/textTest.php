@@ -213,7 +213,7 @@ EOD;
   }
 
 
-  public function testVersesHeadings ()
+  public function testVersesHeadingsOne ()
   {
 $usfm = <<<'EOD'
 \id GEN
@@ -222,13 +222,16 @@ $usfm = <<<'EOD'
 \v 1 Verse one.
 \v 2 Verse two.
 \s Heading one
+\p
 \v 3 Verse three
 \p
 \s Heading two
+\p
 \v 4 Verse four.
 \v 5 Verse five.
 \c 2
 \s Heading three
+\p
 \v 1 Verse one.
 EOD;
     $filter_text = new Filter_Text ("");
@@ -237,6 +240,30 @@ EOD;
     $filter_text->run ("Standard");
     $output = $filter_text->verses_headings;
     $this->assertEquals ($output, array (2 => "Heading one", 3 => "Heading two", 0 => "Heading three"));
+  }
+
+
+  public function testVersesHeadingsTwo ()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\c 1
+\p
+\v 1 Verse one.
+\s \s Usuku lweN\nd kosi\nd* luyeza masinyane
+\p
+\v 2 Verse two
+\p
+\s Heading \add two\add*
+\p
+\v 3 Verse three
+EOD;
+    $filter_text = new Filter_Text ("");
+    $filter_text->initializeHeadingsAndTextPerVerse ();
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("Standard");
+    $output = $filter_text->verses_headings;
+    $this->assertEquals ($output, array (1 => "Usuku lweNkosi luyeza masinyane", 2 => "Heading two"));
   }
 
 
