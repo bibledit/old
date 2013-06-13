@@ -21,6 +21,8 @@
 <p>Support for ssh access to secured repositories works in case the Linux host server can access such a repository.</p>
 <p></p>
 <p></p>
+<p></p>
+<p></p>
 
 <h2>Version 0.9</h2>
 <p>29 May 2013</p>

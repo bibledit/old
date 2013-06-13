@@ -27,6 +27,7 @@ require_once ("../bootstrap/bootstrap.php");
 
 $database_logs = Database_Logs::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
+$database_config_general = Database_Config_General::getInstance ();
 $database_users = Database_Users::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 $database_changes = Database_Changes::getInstance ();
@@ -43,6 +44,9 @@ if (php_sapi_name () != "cli") {
 }
 
 
+$siteUrl = $database_config_general->getSiteURL ();
+
+
 $users = $database_users->getUsers ();
 foreach ($users as $user) {
 
@@ -53,7 +57,7 @@ foreach ($users as $user) {
 
   if ($database_config_user->getUserPendingChangesNotification ($user)) {
     $ids = $database_changes->getIdentifiers ($user);
-    $body [] = "<p>" . gettext ("Number of change notifications awaiting your approval:") . " " . count ($ids) . "</p>";
+    $body [] = "<p><a href=\"$siteUrl/consultations/changes.php\">" . gettext ("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
@@ -75,7 +79,7 @@ foreach ($users as $user) {
       "",    // Search text.
       NULL,  // Limit.
       0);    // User level.
-    $body [] = "<p>" . gettext ("Number of consultation notes assigned to you awaiting your response:") . " " . count ($ids) . "</p>";
+    $body [] = "<p><a href=\"$siteUrl/consultations/notes.php\">" . gettext ("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
