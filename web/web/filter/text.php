@@ -261,8 +261,6 @@ class Filter_Text
                       $s = str_replace (Filter_Character::softHyphen (), "", $s); // Remove possible soft hyphen.
                       $database_books = Database_Books::getInstance ();
                       $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
-                      // Output to some export formats.
-                      if ($this->esword_text) $this->esword_text->newBook ($this->currentBookIdentifier);
                       // Reset chapter and verse numbers.
                       $this->currentChapterNumber = 0;
                       $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = 0;
@@ -431,6 +429,8 @@ class Filter_Text
                     $this->resetNoteCitations ('book');
                     // Online Bible.
                     if ($this->onlinebible_text) $this->onlinebible_text->storeData ();
+                    // eSword.
+                    if ($this->esword_text) $this->esword_text->newBook ($this->currentBookIdentifier);
                     // Done.
                     break;
                   }

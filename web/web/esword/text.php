@@ -57,9 +57,9 @@ class Esword_Text
     $text = trim ($this->currentText);
     if ($text != "") {
       $text = str_replace ("'", "''", $text);
-      $book = $this->currentBook;
-      $chapter = $this->currentChapter;
-      $verse = $this->currentVerse;
+      $book = (int) $this->currentBook;
+      $chapter = (int) $this->currentChapter;
+      $verse = (int) $this->currentVerse;
       $statement = "INSERT INTO Bible VALUES ($book, $chapter, $verse, '$text');";
       $this->sql [] = $statement;
     }
@@ -126,7 +126,7 @@ class Esword_Text
     foreach ($output as $line) {
       $database_logs->log ($line);
     }
-    // Todo temporal for checking sql error unlink ($sqlfile);
+    unlink ($sqlfile);
   }
 
 
