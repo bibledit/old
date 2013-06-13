@@ -1,13 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" >
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
-    <title>{t}Collaboration{/t}</title>
-    <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
-  </head>
-  <body>
-  {include file=../assets/header_full.tpl} 
 
   {include file=../assets/install_git.tpl} 
   {include file=../assets/install_ssh.tpl} 
@@ -24,13 +14,13 @@
   <p>{t}Register a new project on your personal account page on sourceforge.net. Let's call this project "repo".{/t}</p>
   <p>{t}Enable project feature "Git" on this project. This provides the repository that we need.{/t}</p>
   <p>{t}The next thing is to try whether you can read the repository properly. To try that, open a terminal and issue the following command:{/t}</p>
-  <code>git ls-remote ssh://joe@repo.git.sourceforge.net/gitroot/repo/repo</code>
+  <code>git ls-remote ssh://joe@git.code.sf.net/p/repo/code</code>
   <p>{t}This command probably will ask for your password, and the first time it could ask you whether you want to continue connecting. But it should show no errors. If it completes without errors, then your secure repository works well.{/t}</p>
 
   <a name="url"></a>
   <h1>{t}Repository URL{/t}</h1>
   <p>{t}The repository that was created in this tutorial has the following URL:{/t}</p>
-  <code>ssh://joe@repo.git.sourceforge.net/gitroot/repo/repo</code>
+  <code>ssh://joe@git.code.sf.net/p/repo/code</code>
   <p>{t}Where it says "joe", you would need to fill in the username that can access the account on sourceforge.net. And where it has "repo" you would need to fill in the name of the project that you created on sourceforge.net.{/t}</p>
  <p>{t}Your own repository that you have created has a URL too, the one that will be used from now on. Please enter it below, and press the Submit button to save it.{/t}</p>
   <form action="collaboration_secure_network_setup.php?object={$object}#url" name="url" method="post">
@@ -66,6 +56,3 @@
 
   <h2><a href="collaboration_repo_read.php?object={$object}">{t}Next page{/t}</a></h2>
 
-  {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

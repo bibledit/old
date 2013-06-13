@@ -1,6 +1,7 @@
 <?php
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
+Assets_Page::header (gettext ("Collaboration"));
 
 $smarty = new Smarty_Bibledit (__FILE__);
 
@@ -49,4 +50,5 @@ $smarty->assign ("privatekey", $privatekey);
 $smarty->assign ("publickey", $publickey);
 
 $smarty->display("collaboration_secure_network_setup.tpl");
+Assets_Page::footer ();
 ?>

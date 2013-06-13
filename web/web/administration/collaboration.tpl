@@ -39,7 +39,7 @@
       <li><em>{t}USB Flash Drive.{/t}</em> {t}First of all there is the repository that resides on a file system. A USB flash drive can be used in this case. This flash drive can be physically moved from one translator to the other, and so on, updating each translator, and getting updated by each translator.{/t} <a href="collaboration_flash_drive_setup.php?object={$object}">{t}Set it up.{/t}</a></li>
       <li><em>{t}Open Network Repository.{/t}</em> {t}Secondly there is the repository that resides on the network. For internal networks a simple open network repository can be used. Whoever knows where the repository resides can write to it.{/t} <a href="collaboration_open_network_setup.php?object={$object}">{t}Set it up.{/t}</a></li>
       <li><em>{t}Password Protected Network Repository.{/t}</em> {t}For better security is is helpful to use a repository that needs a username and password for write access.{/t} <a href="collaboration_password_protected_network_setup.php?object={$object}">{t}Set it up.{/t}</a></li>
-      <li><em>{t}Secured Network Repository.{/t}</em> {t}For high security it is recommended to use this type of repository. Only those who have the secure keys to such a repository can write to it.{/t} <a href="collaboration_secure_network_setup.php?object={$object}">{t}Set it up.{/t}</a></li>
+      <li><em>{t}Secured Network Repository.{/t}</em> {t}For high security it is recommended to use this type of repository. Only those who have the secure keys to such a repository can write to it. Bibledit-Web supports this in case the Linux server has been set up to access this repository through passphrase-less private and public keys.{/t}</li>
     </ul> 
   {/if}
 

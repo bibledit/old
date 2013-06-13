@@ -18,7 +18,7 @@
 <p>Contains an editor for the Sword configuration file.</p>
 <p>Contains information about setting up a Sword module repository from the exported Bibles.</p>
 <p>Collaboration is possible with Bible names with spaces.</p>
-<p></p>
+<p>Support for ssh access to secured repositories works in case the Linux host server can access such a repository.</p>
 <p></p>
 <p></p>
 
