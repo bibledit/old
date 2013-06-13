@@ -45,6 +45,7 @@
 <br>
 <p>
  {t}You can edit the configuration file used for exporting to a Sword module.{/t}
+ <a href="http://www.crosswire.org/sword/develop/swordmodule" target="_blank">{t}More information.{/t}</a>
  {t}Update the text below, and click button Save.{/t}
 </p>
 <p>{t}There are two special variables:{/t}</p>
