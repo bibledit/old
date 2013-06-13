@@ -30,7 +30,7 @@
       {if $level >= 2}
         <form action="{$header_path_modifier}search/search.php" method="get" name="search" id="search">
           <input name="q" type="text" value="{$query}"/>
-          <input type="submit" value="Search"/>
+          <input type="submit" value="{t}Search{/t}" onClick="this.value = '{t}Searching...{/t}'; return true;" />
         </form>
       {/if}
       <a href="{$header_path_modifier}user/index.php">{$user}</a>
