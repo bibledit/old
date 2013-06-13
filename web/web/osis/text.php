@@ -56,10 +56,9 @@ class Osis_Text
       $command .= " -o " . escapeshellarg ($this->osisFolder . "/00_Bible.xml") . " ";
       $command .= " " . $this->usfmFolder . "/* 2>&1";
     }
-    exec ($command, $output, $exit_code);
-
     $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ("export: $command");
+    $database_logs->log ("exports: $command");
+    exec ($command, $output, $exit_code);
     foreach ($output as $line) {
       $database_logs->log ($line);
     }

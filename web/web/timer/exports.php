@@ -494,8 +494,8 @@ foreach ($bibles as $bible) {
   system ("cd ". escapeshellarg ($swordDirectory) . " ; chmod -R +r *");
   
   // Remove the temporal folders containing USFM for conversion.
-  // Todo Filter_Rmdir::rmdir ($usfmTemporalFolderBasic);
-  // Todo Filter_Rmdir::rmdir ($usfmTemporalFolderFull);
+  Filter_Rmdir::rmdir ($usfmTemporalFolderBasic);
+  Filter_Rmdir::rmdir ($usfmTemporalFolderFull);
 
 
 }

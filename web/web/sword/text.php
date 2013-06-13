@@ -73,14 +73,15 @@ class Sword_Text
     mkdir ($textFolder, 0777, true);
 
     // Convert OSIS to Sword through the Sword utility.
+    $database_logs = Database_Logs::getInstance ();
     $command = "osis2mod ";
     $command .= escapeshellarg ($textFolder);
     $command .= " ";
     $command .= escapeshellarg ($this->osisFolder . "/$osisFilename");
     $command .= " 2>&1";
+    $database_logs->log ("exports: $command");
     exec ($command, $output, $exit_code);
     $output = array_unique ($output);
-    $database_logs = Database_Logs::getInstance ();
     foreach ($output as $line) {
       $database_logs->log ($line);
     }
