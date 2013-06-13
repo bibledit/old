@@ -6,6 +6,7 @@ require_once ("../bootstrap/bootstrap.php");
 
 $object = $argv[1];
 $directory = $argv[2];
+$escapedDir = escapeshellarg ($directory);
 
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
@@ -20,7 +21,7 @@ $temporal_file_name = $directory . "/test_repository_writable";
 file_put_contents ($temporal_file_name, "contents");
 
 // Add this file.
-$command = "cd $directory; git add . 2>&1";
+$command = "cd $escapedDir; git add . 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
@@ -33,7 +34,7 @@ echo "\n";
 echo gettext ("Step: Committing the above changes locally") . "\n";
 
 // Commit the above locally.
-$command = "cd $directory; git commit -a -m write-test 2>&1";
+$command = "cd $escapedDir; git commit -a -m write-test 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 // Exit code can be 1 in case there was nothing to commit.
@@ -49,7 +50,7 @@ echo gettext ("Step: Pulling changes from the remote repository") . "\n";
 // Pull changes.
 // We cannot look at the exit code here in case the repository is empty,
 // because in such cases the exit code is undefined.
-$command = "cd $directory; git pull 2>&1";
+$command = "cd $escapedDir; git pull 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 echo gettext ("Ok: Changes were pulled from the repository successfully.");
@@ -59,7 +60,7 @@ echo gettext ("Step: Pushing changes to the remote repository") . "\n";
 
 // Push the changes to see if there is write access.
 // Notice the --all switch needed when the remote repository is empty.
-$command = "cd $directory; git push --all 2>&1";
+$command = "cd $escapedDir; git push --all 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
@@ -73,7 +74,7 @@ echo gettext ("Step: Removing the temporal file from the local repository") . "\
 
 // Remove the temporal file from the cloned repository.
 unlink ($temporal_file_name);
-$command = "cd $directory; git commit -a -m write-test 2>&1";
+$command = "cd $escapedDir; git commit -a -m write-test 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
@@ -86,7 +87,7 @@ echo "\n";
 echo gettext ("Step: Pushing the changes to the remote repository") . "\n";
 
 // Push changes to the remote repository.
-$command = "cd $directory; git push 2>&1";
+$command = "cd $escapedDir; git push 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {

@@ -6,6 +6,7 @@ require_once ("../bootstrap/bootstrap.php");
 
 $object = $argv[1];
 $directory = $argv[2];
+$escapedDir = escapeshellarg ($directory);
 
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
@@ -13,7 +14,7 @@ $url = $database_config_user->getRemoteRepositoryUrl ($object);
 // In case the repository is secure, set up the secure keys.
 $secure_key_directory = Filter_Git::git_config ($url);
 
-$command = "cd $directory; git clone $url .";
+$command = "cd $escapedDir; git clone $url .";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
@@ -25,18 +26,18 @@ echo "\n";
 
 // Switch rename detection off. 
 // This is necessary for the consultation notes, since git has been seen to "detect" spurious renames.
-exec ("cd $directory; git config diff.renamelimit 0");
+exec ("cd $escapedDir; git config diff.renamelimit 0");
 
 // Newer versions of git ask the user to set the default pushing method.
-exec ("cd $directory; git config push.default matching");
+exec ("cd $escapedDir; git config push.default matching");
 
 // On the XO machine, the mail name and address were not set properly; therefore these are set manually.
 // Also, since it runs from the web server, it is likely to be set to an irrelevant name and address.
 $database_config_general = Database_Config_General::getInstance();
 $mail_name = $database_config_general->getSiteMailName();
-exec ("cd $directory; git config user.name \"$mail_name\"");
+exec ("cd $escapedDir; git config user.name \"$mail_name\"");
 $mail_address = $database_config_general->getSiteMailAddress();
-exec ("cd $directory; git config user.email \"$mail_address\"");
+exec ("cd $escapedDir; git config user.email \"$mail_address\"");
 
 // For security reasons, remove the private ssh key.
 Filter_Git::git_un_config ($secure_key_directory);

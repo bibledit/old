@@ -11,6 +11,7 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $directory = Filter_Git::git_directory ($object);
 
+
 // Set up the secure keys just in case the repository happens to be secure.
 $secure_key_directory = Filter_Git::git_config ($url);
 
