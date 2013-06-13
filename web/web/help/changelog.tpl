@@ -17,6 +17,9 @@
 <p>Creates Sword modules based on the four OSIS flavours above.</p>
 <p>Contains an editor for the Sword configuration file.</p>
 <p>Contains information about setting up a Sword module repository from the exported Bibles.</p>
+<p>Collaboration is possible with Bible names with spaces.</p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 0.9</h2>
