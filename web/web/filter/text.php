@@ -83,6 +83,7 @@ class Filter_Text
   private $heading_started; // Flag for headings per verse processor.
   private $verses_text; // Array to hold verse numbers and the plain text in that verse, without anything extra.
   private $text_started; // Flag for text per verse processor.
+  public $paragraph_start_positions; // Positions, in graphemes, where paragraphs start in verses_text.
 
   
   /**
@@ -534,12 +535,16 @@ class Filter_Text
                     $this->newParagraph ($style, false);
                     $this->heading_started = false;
                     $this->text_started = true;
-                    // If a new paragraph starts within an existing verse, 
-                    // add a space to the text already in that verse.
                     if (is_array ($this->verses_text)) {
+                      // If a new paragraph starts within an existing verse, 
+                      // add a space to the text already in that verse.
                       if (isset ($this->verses_text [$this->currentVerseNumber])) {
                         $this->verses_text [$this->currentVerseNumber] .= " ";
                       }
+                      // Record the position within the text where this new paragraph starts.
+                      $contents = implode ('', $this->verses_text);
+                      $this->paragraph_start_positions [] = grapheme_strlen ($contents);
+                      unset ($contents);
                     }
                     break;
                   }
@@ -1628,6 +1633,7 @@ class Filter_Text
   {
     $this->verses_headings = array ();
     $this->verses_text = array ();
+    $this->paragraph_start_positions = array ();
   }  
 
 

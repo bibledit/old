@@ -73,6 +73,12 @@ if (isset ($_GET['sentencestructure'])) {
 $smarty->assign ("sentence_structure", $database_config_general->getCheckSentenceStructure ());
 
 
+if (isset ($_GET['paragraphstructure'])) {
+  $database_config_general->setCheckParagraphStructure (!$database_config_general->getCheckParagraphStructure ());
+}
+$smarty->assign ("paragraph_structure", $database_config_general->getCheckParagraphStructure ());
+
+
 if (isset ($_GET['chaptersversesversification'])) {
   $database_config_general->setCheckChaptesVersesVersification (!$database_config_general->getCheckChaptesVersesVersification ());
 }

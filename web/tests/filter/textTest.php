@@ -328,6 +328,27 @@ EOD;
   }
 
 
+  public function testParagraphPositionsOne ()
+  {
+$usfm = <<<'EOD'
+\c 1
+\s Heading
+\p
+\v 1 He said:
+\p I will sing to the Lord.
+\v 2 The Lord is my strength.
+\p I trust in Him.
+EOD;
+    $filter_text = new Filter_Text ("");
+    $filter_text->initializeHeadingsAndTextPerVerse ();
+    $filter_text->addUsfmCode ($usfm);
+    $filter_text->run ("Standard");
+    $output = $filter_text->paragraph_start_positions;
+    $standard = array (0, 9, 58);
+    $this->assertEquals ($standard, $output);
+  }
+
+
 }
 
 

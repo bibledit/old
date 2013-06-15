@@ -31,7 +31,6 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testUnknownCharacter ()
   {
     $this->check->check (array (1 => "Abc ➊ abc."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (1 => "Unknown character: ➊"));
     $this->assertEquals ($results, $standard);
@@ -41,7 +40,6 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testCapitalAfterMidSentencePunctuationMark ()
   {
     $this->check->check (array (2 => "He said, Go."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "Capital follows mid-sentence punctuation mark: He said, Go."));
     $this->assertEquals ($results, $standard);
@@ -51,7 +49,6 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testCapitalStraightAfterMidSentencePunctuationMark ()
   {
     $this->check->check (array (2 => "He said,Go."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "Capital follows straight after a mid-sentence punctuation mark: He said,Go."));
     $this->assertEquals ($results, $standard);
@@ -61,7 +58,6 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testSmallLetterStraightAfterMidSentencePunctuationMark ()
   {
     $this->check->check (array (2 => "He said,go."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "Small letter follows straight after a mid-sentence punctuation mark: He said,go."));
     $this->assertEquals ($results, $standard);
@@ -71,7 +67,6 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testTwoVersesOkay ()
   {
     $this->check->check (array (17 => "Jezus kwam naar de wereld,", 18 => "dat hij zou lijden."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array ();
     $this->assertEquals ($results, $standard);
@@ -88,7 +83,6 @@ class sentencesTest extends PHPUnit_Framework_TestCase
       21 => "Yasisithi kuye: Khangela, ngibemukele ubuso bakho lakulolu udaba, ukuze ngingawuchithi umuzi okhulume ngawo.",
       22 => "Phangisa, balekela kuwo; ngoba ngingeze ngenza ulutho uze ufike kuwo. Ngakho babiza ibizo lomuzi ngokuthi yiZowari."
     ));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array ();
     $this->assertEquals ($results, $standard);
@@ -98,19 +92,8 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testLongName ()
   {
     $this->check->check (array (17 => "O, Longnamelongnamelongname."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array ();
-    $this->assertEquals ($results, $standard);
-  }
-
-
-  public function testCorrectPunctuationAtEndOfParagraph ()
-  {
-    $this->check->check (array (2 => "He said: Go"));
-    $this->check->finalize ();
-    $results = $this->check->getResults ();
-    $standard = array (array (2 => "Paragraph does not end with the correct punctuation: o"));
     $this->assertEquals ($results, $standard);
   }
 
@@ -118,7 +101,6 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testNoSpaceAfterFullStop ()
   {
     $this->check->check (array (2 => "He did that.He went."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (
       array (2 => "A letter follows straight after an end-sentence punctuation mark: did that.He went."),
@@ -131,9 +113,41 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   public function testCapitalFullStop ()
   {
     $this->check->check (array (2 => "He did that. he went."));
-    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array (array (2 => "No capital after an end-sentence punctuation mark: id that. he went."));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testParagraphOne ()
+  {
+    $this->check->paragraphs (array (1 => "he said"), array (0));
+    $results = $this->check->getResults ();
+    $standard = array (
+                  array (1 => "Paragraph does not start with a capital: h"),
+                  array (1 => "Paragraph does not end with an end marker: d")
+                );
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testParagraphTwo ()
+  {
+    $this->check->paragraphs (array (1 => "εὐθέως"), array (0));
+    $results = $this->check->getResults ();
+    $standard = array (
+                  array (1 => "Paragraph does not start with a capital: ε"),
+                  array (1 => "Paragraph does not end with an end marker: ς")
+                );
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testParagraphThree ()
+  {
+    $this->check->paragraphs (array (1 => "Immediately εὐθέως."), array (0));
+    $results = $this->check->getResults ();
+    $standard = array ();
     $this->assertEquals ($results, $standard);
   }
 

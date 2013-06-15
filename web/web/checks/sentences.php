@@ -202,14 +202,66 @@ class Checks_Sentences
   }
 
 
-  public function finalize ()
+  public function paragraphs ($texts, $paragraphs)
   {
-    // Check that the last grapheme of the text is a correct punctuation mark.
-    if (!$this->isEndMark) {
-      if ($this->currentPosition > 0) {
-        $this->addResult ("Paragraph does not end with the correct punctuation", Checks_Sentences::displayGraphemeOnly);
+    if (!is_array ($texts)) return;
+    if (!is_array ($paragraphs)) return;
+
+    $verses = array ();
+    $graphemes = array ();
+
+    // Put the UTF-8 text into the arrays of verses and graphemes.
+    foreach ($texts as $verse => $text) {
+      $count = grapheme_strlen ($text);
+      for ($i = 0; $i < $count; $i++) {
+        $grapheme = grapheme_substr ($text, $i, 1);
+        $verses [] = $verse;
+        $graphemes [] = $grapheme;
       }
     }
+
+    // Correct the positions where the paragraphs start.
+    for ($i = 1; $i < count ($paragraphs); $i++) {
+      $offset = $paragraphs [$i];
+      $paragraphVerse = $verses [$offset];
+      $twoVersesBack = $verses [$offset - 2];
+      if ($paragraphVerse != $twoVersesBack) {
+        for ($i2 = $i; $i2 < count ($paragraphs); $i2++) {
+          $paragraphs [$i2] = $paragraphs [$i2] - 1;
+        }
+      }
+    }
+
+    $paragraphCount = count ($paragraphs);
+    
+    // Go through the paragraphs to see whether they start with capitals.
+    for ($i = 0; $i < $paragraphCount; $i++) {
+      $offset = $paragraphs [$i];
+      $verse = $verses [$offset];
+      $grapheme = $graphemes [$offset];
+      $isCapital = in_array ($grapheme, $this->capitals);
+      if (!$isCapital) {
+        $this->checkingResults [] = array ($verse => "Paragraph does not start with a capital" . ": " . $grapheme);
+      }
+    }
+    
+    // Go through the paragraphs to see whether they end with proper punctuation.
+    for ($i = 0; $i < $paragraphCount; $i++) {
+      if ($i < ($paragraphCount - 1)) {
+        $offset = $paragraphs [$i + 1];
+      } else {
+        $offset = count ($graphemes);
+      }
+      $offset--;
+      $verse = $verses [$offset];
+      $grapheme = $graphemes [$offset];
+      $previousGrapheme = $graphemes [$offset - 1];
+      $isEndMark = in_array ($grapheme, $this->end_marks) || in_array ($previousGrapheme, $this->end_marks);
+      if (!$isEndMark) {
+        $this->checkingResults [] = array ($verse => "Paragraph does not end with an end marker" . ": " . $grapheme);
+      }
+    }
+
   }
 
 

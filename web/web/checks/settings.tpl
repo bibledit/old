@@ -45,6 +45,13 @@
 </p>
 
 <p>
+<a href="settings.php?paragraphstructure=">
+{if $paragraph_structure == true} ☑ {else} ☐ {/if}
+</a>
+{t}paragraph starts with a capital and ends with a correct end marker{/t}
+</p>
+
+<p>
 <a href="settings.php?chaptersversesversification=">
 {if $chapters_verses_versification == true} ☑ {else} ☐ {/if}
 </a>

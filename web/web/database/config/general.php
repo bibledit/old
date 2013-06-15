@@ -364,6 +364,13 @@ class Database_Config_General
     $this->setValue ("sentence-structure", $value);
   }
 
+  public function getCheckParagraphStructure () {
+    return $this->getValue ("paragraph-structure", "");
+  }
+  public function setCheckParagraphStructure ($value) {
+    $this->setValue ("paragraph-structure", $value);
+  }
+
   public function getSentenceStructureCapitals () {
     return $this->getValue ("sentence-structure-capitals", "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
   }

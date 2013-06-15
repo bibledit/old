@@ -49,6 +49,7 @@ $check_double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm (
 $check_full_stop_in_headings = $database_config_general->getCheckFullStopInHeadings ();
 $check_space_before_punctuation = $database_config_general->getCheckSpaceBeforePunctuation ();
 $check_sentence_structure = $database_config_general->getCheckSentenceStructure ();
+$check_paragraph_structure = $database_config_general->getCheckParagraphStructure ();
 $checks_sentences = new Checks_Sentences ();
 $checks_sentences->enterCapitals ($database_config_general->getSentenceStructureCapitals ());
 $checks_sentences->enterSmallLetters ($database_config_general->getSentenceStructureSmallLetters ());
@@ -100,10 +101,10 @@ foreach ($bibles as $bible) {
       if ($check_space_before_punctuation) {
         Checks_Space::spaceBeforePunctuation ($bible, $book, $chapter, $verses_text);
       }
-      if ($check_sentence_structure) {
+      if ($check_sentence_structure || $check_paragraph_structure) {
         $checks_sentences->initialize ();
-        $checks_sentences->check ($verses_text);
-        $checks_sentences->finalize ();
+        if ($check_sentence_structure) $checks_sentences->check ($verses_text);
+        if ($check_paragraph_structure) $checks_sentences->paragraphs ($verses_text, $filter_text->paragraph_start_positions);
         $results = $checks_sentences->getResults ();
         foreach ($results as $result) {
           $verse = array_keys ($result);
