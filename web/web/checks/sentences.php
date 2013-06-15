@@ -49,6 +49,8 @@ class Checks_Sentences
   private $endMarkPosition;
   private $isCenterMark;
   private $centerMarkPosition;
+  private $punctuationMarkPosition;
+  private $previousMarkPosition;
 
   // Context.
   private $fullText;
@@ -111,6 +113,8 @@ class Checks_Sentences
     $this->smallLetterPosition = 0;
     $this->endMarkPosition = 0;
     $this->centerMarkPosition = 0;
+    $this->punctuationMarkPosition = 0;
+    $this->previousMarkPosition = 0;
     $this->checkingResults = array ();
     $this->fullText = "";
   }
@@ -199,6 +203,13 @@ class Checks_Sentences
       if ($this->endMarkPosition > 0)
         if ($this->currentPosition == $this->endMarkPosition + 2)
           $this->addResult ("No capital after an end-sentence punctuation mark", Checks_Sentences::displayContext);
+
+          
+    // Handle two punctuation marks in sequence.
+    if ($this->isEndMark || $this->isCenterMark)
+      if ($this->currentPosition == $this->previousMarkPosition + 1)
+        $this->addResult ("Two punctuation marks in sequence", Checks_Sentences::displayContext);
+    
   }
 
 
@@ -331,11 +342,15 @@ class Checks_Sentences
     $this->isEndMark = in_array ($this->grapheme, $this->end_marks);
     if ($this->isEndMark) {
       $this->endMarkPosition = $this->currentPosition;
+      $this->previousMarkPosition = $this->punctuationMarkPosition;
+      $this->punctuationMarkPosition = $this->currentPosition;
     }
 
     $this->isCenterMark = in_array ($this->grapheme, $this->center_marks);
     if ($this->isCenterMark) {
       $this->centerMarkPosition = $this->currentPosition;
+      $this->previousMarkPosition = $this->punctuationMarkPosition;
+      $this->punctuationMarkPosition = $this->currentPosition;
     }
   }  
 

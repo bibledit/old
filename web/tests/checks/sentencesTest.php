@@ -152,5 +152,23 @@ class sentencesTest extends PHPUnit_Framework_TestCase
   }
 
 
+  public function testTwoPunctuationMarksOne ()
+  {
+    $this->check->check (array (2 => "He did that.."));
+    $results = $this->check->getResults ();
+    $standard = array (array (2 => "Two punctuation marks in sequence: did that.."));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testTwoPunctuationMarksTwo ()
+  {
+    $this->check->check (array (2 => "He did ;. That."));
+    $results = $this->check->getResults ();
+    $standard = array (array (2 => "Two punctuation marks in sequence: He did ;. That."));
+    $this->assertEquals ($results, $standard);
+  }
+
+
 }
 ?>
