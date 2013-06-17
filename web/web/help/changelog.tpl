@@ -21,7 +21,7 @@
 <p>Support for ssh access to secured repositories works in case the Linux host server can access such a repository.</p>
 <p>Can check whether a paragraph starts with a capital and ends with correct punctuation.</p>
 <p>Can check on two punctuation marks in sequence.</p>
-<p>Can check on correct or malformed USFM.</p>
+<p>Can check on malformed USFM.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

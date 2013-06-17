@@ -57,6 +57,8 @@ class Checks_Usfm // Todo
 
   public function check ($usfm) // Todo
   {
+    $this->newLineInUsfm ($usfm);
+
     $this->usfmMarkersAndText = Filter_Usfm::getMarkersAndText ($usfm);
     for ($this->usfmMarkersAndTextPointer = 0; $this->usfmMarkersAndTextPointer < count ($this->usfmMarkersAndText); $this->usfmMarkersAndTextPointer++) {
       $this->usfmItem = $this->usfmMarkersAndText [$this->usfmMarkersAndTextPointer];
@@ -69,6 +71,7 @@ class Checks_Usfm // Todo
         }
 
         $this->malformedVerseNumber ();
+
       } else {
       }
     }
@@ -83,8 +86,27 @@ class Checks_Usfm // Todo
       $dirtyVerseNumber = explode (" ", $usfm);
       $dirtyVerseNumber = $dirtyVerseNumber [0];
       if ($cleanVerseNumber != $dirtyVerseNumber) {
-        $this->addResult ("Malformed verse number", Checks_Usfm::displayFull); // Todo
+        $this->addResult ("Malformed verse number", Checks_Usfm::displayFull);
       }
+    }
+  }
+
+
+  private function newLineInUsfm ($usfm) // Todo
+  {
+    $position = false;
+    $pos = strpos ($usfm, "\\\n");
+    if ($pos !== false) {
+      $position = $pos;
+    }
+    $pos = strpos ($usfm, "\\ \n");
+    if ($pos !== false) {
+      $position = $pos;
+    }
+    if ($position !== false) {
+      $bit = substr ($usfm, $position - 1, 10);
+      $bit = str_replace ("\n", " ", $bit);
+      $this->addResult ("New line within USFM: " . $bit, Checks_Usfm::displayNothing); // Todo
     }
   }
 

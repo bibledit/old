@@ -27,20 +27,61 @@ class usfmTest extends PHPUnit_Framework_TestCase
 $usfm = <<<EOD
 \\c 1
 \\p
-\\v 1 He said.
-EOD;
-    $this->check->check ($usfm);
-    $results = $this->check->getResults ();
-    $standard = array ();
-    $this->assertEquals ($results, $standard);
-$usfm = <<<EOD
-\\c 1
-\\p
 \\v 2,He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
     $standard = array (array (2 => 'Malformed verse number: \v 2,He said.'));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testNewLineInUSFMGood ()
+  {
+$usfm = <<<EOD
+\\c 1
+\\p He said.
+\\v 1 He said.
+\\p He said.
+\\v 2 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array ();
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testNewLineInUSFMOne ()
+  {
+$usfm = <<<EOD
+\\c 1
+\\p He said.
+\\v 1 He said.
+\\
+\\p He said.
+\\v 2 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'New line within USFM:  \ \p He s'));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testNewLineInUSFMTwo ()
+  {
+$usfm = <<<EOD
+\\c 1
+\\p He said.
+\\v 1 He said.
+\\ 
+\\p He said.
+\\v 3 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'New line within USFM:  \  \p He '));
     $this->assertEquals ($results, $standard);
   }
 
