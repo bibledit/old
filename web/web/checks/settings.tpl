@@ -58,5 +58,12 @@
 {t}correct number of books, chapters, and verses, according to the versification system{/t}
 </p>
 
+<p>
+<a href="settings.php?wellformedusfm=">
+{if $well_formed_usfm == true} ☑ {else} ☐ {/if}
+</a>
+{t}well-formed USFM{/t}
+</p>
+
 <br>
 <p><a href="settingssentences.php">{t}Settings for the sentence structure{/t}</a></p>

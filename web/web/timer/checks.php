@@ -60,6 +60,8 @@ $checks_sentences->enterCenterMarks ($center_marks);
 $checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
 $checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ());
 $check_versification = $database_config_general->getCheckChaptesVersesVersification ();
+$check_well_formed_usfm = $database_config_general->getCheckWellFormedUsfm ();
+$checks_usfm = new Checks_Usfm ();
 
 
 // Go through the Bibles.
@@ -106,6 +108,16 @@ foreach ($bibles as $bible) {
         if ($check_sentence_structure) $checks_sentences->check ($verses_text);
         if ($check_paragraph_structure) $checks_sentences->paragraphs ($verses_text, $filter_text->paragraph_start_positions);
         $results = $checks_sentences->getResults ();
+        foreach ($results as $result) {
+          $verse = array_keys ($result);
+          $verse = $verse [0];
+          $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
+        }
+      }
+      if ($check_well_formed_usfm) {
+        $checks_usfm->initialize ();
+        $checks_usfm->check ($chapterUsfm);
+        $results = $checks_usfm->getResults ();
         foreach ($results as $result) {
           $verse = array_keys ($result);
           $verse = $verse [0];

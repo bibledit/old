@@ -85,6 +85,12 @@ if (isset ($_GET['chaptersversesversification'])) {
 $smarty->assign ("chapters_verses_versification", $database_config_general->getCheckChaptesVersesVersification ());
 
 
+if (isset ($_GET['wellformedusfm'])) {
+  $database_config_general->setCheckWellFormedUsfm (!$database_config_general->getCheckWellFormedUsfm ());
+}
+$smarty->assign ("well_formed_usfm", $database_config_general->getCheckWellFormedUsfm ());
+
+
 $smarty->assign ("bibles", $database_config_general->getCheckedBibles ());
 $smarty->display("settings.tpl");
 Assets_Page::footer ();

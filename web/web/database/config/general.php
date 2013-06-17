@@ -427,6 +427,13 @@ class Database_Config_General
     $this->setList ("sword-configuration", $value);
   }
 
+  public function getCheckWellFormedUsfm () {
+    return $this->getValue ("check-well-formed-usfm", "");
+  }
+  public function setCheckWellFormedUsfm ($value) {
+    $this->setValue ("check-well-formed-usfm", $value);
+  }
+
 }
 
 
