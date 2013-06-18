@@ -64,6 +64,8 @@ class Checks_Usfm
   {
     $this->newLineInUsfm ($usfm);
 
+    $this->lineWithoutUsfm ($usfm);
+
     $this->usfmMarkersAndText = Filter_Usfm::getMarkersAndText ($usfm);
     for ($this->usfmMarkersAndTextPointer = 0; $this->usfmMarkersAndTextPointer < count ($this->usfmMarkersAndText); $this->usfmMarkersAndTextPointer++) {
       $this->usfmItem = $this->usfmMarkersAndText [$this->usfmMarkersAndTextPointer];
@@ -117,7 +119,7 @@ class Checks_Usfm
   }
 
 
-  private function markerInStylesheet () // Todo
+  private function markerInStylesheet ()
   {
     $marker = substr ($this->usfmItem, 1, 100);
     $marker = trim ($marker);
@@ -127,6 +129,17 @@ class Checks_Usfm
     if ($marker == "") return;
     if (in_array ($marker, $this->markersStylesheet)) return;
     $this->addResult ("Marker not in stylesheet", Checks_Usfm::displayCurrent);
+  }
+
+
+  private function lineWithoutUsfm ($usfm) // Todo
+  {
+    $lines = explode ("\n", $usfm);
+    foreach ($lines as $line) {
+      if (strpos ($line, "\\") === false) {
+        $this->addResult ("Line without USFM: " . $line, Checks_Usfm::displayNothing);
+      }
+    }
   }
 
 

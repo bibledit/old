@@ -118,6 +118,22 @@ EOD;
   }
 
 
+  public function testLineWithoutUsfm ()
+  {
+$usfm = <<<EOD
+\\c 1
+\\p 
+He said.
+\\p He said.
+\\v 3 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'Line without USFM: He said.'));
+    $this->assertEquals ($results, $standard);
+  }
+
+
 
 
 }
