@@ -66,6 +66,8 @@ class Checks_Usfm
 
     $this->lineWithoutUsfm ($usfm);
 
+    $this->forwardSlash ($usfm);
+
     $this->usfmMarkersAndText = Filter_Usfm::getMarkersAndText ($usfm);
     for ($this->usfmMarkersAndTextPointer = 0; $this->usfmMarkersAndTextPointer < count ($this->usfmMarkersAndText); $this->usfmMarkersAndTextPointer++) {
       $this->usfmItem = $this->usfmMarkersAndText [$this->usfmMarkersAndTextPointer];
@@ -145,7 +147,7 @@ class Checks_Usfm
   }
 
 
-  private function malformedId () // Todo
+  private function malformedId ()
   {
     $item = substr ($this->usfmItem, 0, 3);
     if ($item == '\id') {
@@ -161,6 +163,29 @@ class Checks_Usfm
         if (strtoupper ($id) != $id) {
           $this->addResult ("ID is not in uppercase", Checks_Usfm::displayFull);
         }
+      }
+    }
+  }
+
+
+  private function forwardSlash ($usfm) // Todo
+  {
+    $usfm = str_replace ("\n", " ", $usfm);
+    $pos = strpos ($usfm, "/");
+    if ($pos !== false) {
+      $pos2 = strpos ($usfm, " ", $pos);
+      if ($pos2 !== false) {
+        $bit = substr ($usfm, $pos, $pos2 - $pos);
+      } else {
+        $bit = substr ($usfm, $pos, 100);
+      }
+      $pos2 = strpos ($bit, "*");
+      if ($pos2 !== false) {
+        $bit = substr ($bit, 0, $pos2);
+      }
+      $marker = substr ($bit, 1, 100);
+      if (in_array ($marker, $this->markersStylesheet)) {
+        $this->addResult ("Forward slash instead of backslash: " . $bit, Checks_Usfm::displayNothing);
       }
     }
   }

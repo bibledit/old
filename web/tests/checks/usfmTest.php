@@ -162,7 +162,7 @@ EOD;
   }
 
 
-  public function testIdThree()
+  public function testIdThree ()
   {
 $usfm = <<<EOD
 \\id Gen
@@ -172,6 +172,34 @@ EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
     $standard = array (array (0 => 'ID is not in uppercase: \id Gen'));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testForwardSlashOne ()
+  {
+$usfm = <<<EOD
+\\id GEN
+\\p He said.
+\\v 1 He said. He said something/add*.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'Forward slash instead of backslash: /add'));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testForwardSlashTwo ()
+  {
+$usfm = <<<EOD
+\\id GEN
+\\p He said.
+\\v 1 /v He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'Forward slash instead of backslash: /v'));
     $this->assertEquals ($results, $standard);
   }
 
