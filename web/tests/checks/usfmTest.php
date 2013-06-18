@@ -134,6 +134,46 @@ EOD;
   }
 
 
+  public function testIdOne ()
+  {
+$usfm = <<<EOD
+\\id GENN
+\\p He said.
+\\v 1 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'Unknown ID: \id GENN'));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testIdTwo()
+  {
+$usfm = <<<EOD
+\\id
+\\p He said.
+\\v 1 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'Unknown ID: \id\p '));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testIdThree()
+  {
+$usfm = <<<EOD
+\\id Gen
+\\p He said.
+\\v 1 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'ID is not in uppercase: \id Gen'));
+    $this->assertEquals ($results, $standard);
+  }
 
 
 }

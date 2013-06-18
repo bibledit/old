@@ -80,6 +80,8 @@ class Checks_Usfm
         $this->malformedVerseNumber ();
         
         $this->markerInStylesheet ();
+        
+        $this->malformedId ();
 
       } else {
       }
@@ -132,12 +134,33 @@ class Checks_Usfm
   }
 
 
-  private function lineWithoutUsfm ($usfm) // Todo
+  private function lineWithoutUsfm ($usfm)
   {
     $lines = explode ("\n", $usfm);
     foreach ($lines as $line) {
       if (strpos ($line, "\\") === false) {
         $this->addResult ("Line without USFM: " . $line, Checks_Usfm::displayNothing);
+      }
+    }
+  }
+
+
+  private function malformedId () // Todo
+  {
+    $item = substr ($this->usfmItem, 0, 3);
+    if ($item == '\id') {
+      $usfm = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+      $id =  substr ($usfm, 0, 3);
+      $id = explode (" ", $usfm);
+      $id = $id [0];
+      $database_books = Database_Books::getInstance ();
+      $book = $database_books->getIdFromUsfm ($id);
+      if ($book == 0) {
+        $this->addResult ("Unknown ID", Checks_Usfm::displayFull);
+      } else {
+        if (strtoupper ($id) != $id) {
+          $this->addResult ("ID is not in uppercase", Checks_Usfm::displayFull);
+        }
       }
     }
   }
