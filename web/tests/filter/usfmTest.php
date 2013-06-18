@@ -1,7 +1,7 @@
 <?php
 
  
-class usfmTest extends PHPUnit_Framework_TestCase
+class filterUsfmTest extends PHPUnit_Framework_TestCase
 {
 
   public function testGetMarkersAndText()

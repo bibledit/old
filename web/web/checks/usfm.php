@@ -64,7 +64,7 @@ class Checks_Usfm // Todo
       $this->usfmItem = $this->usfmMarkersAndText [$this->usfmMarkersAndTextPointer];
       if (Filter_Usfm::isUsfmMarker ($this->usfmItem)) {
  
-        // Current verse number for diagnostics.
+        // Get the current verse number.
         if ($this->usfmItem == '\v ') {
           $usfm = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
           $this->verseNumber = Filter_Usfm::peekVerseNumber ($usfm);
@@ -83,8 +83,7 @@ class Checks_Usfm // Todo
     if ($this->usfmItem == '\v ') {
       $usfm = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
       $cleanVerseNumber = Filter_Usfm::peekVerseNumber ($usfm);
-      $dirtyVerseNumber = explode (" ", $usfm);
-      $dirtyVerseNumber = $dirtyVerseNumber [0];
+      $dirtyVerseNumber = explode (" ", $usfm) [0];
       if ($cleanVerseNumber != $dirtyVerseNumber) {
         $this->addResult ("Malformed verse number", Checks_Usfm::displayFull);
       }

@@ -1,7 +1,7 @@
 <?php
 
 
-class usfmTest extends PHPUnit_Framework_TestCase
+class checksUsfmTest extends PHPUnit_Framework_TestCase
 {
 
 
