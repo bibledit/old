@@ -22,7 +22,7 @@
  */
 
 
-class Checks_Usfm // Todo
+class Checks_Usfm
 {
 
   // USFM and text.
@@ -38,11 +38,16 @@ class Checks_Usfm // Todo
   const displayNext = 2;
   const displayFull = 3;
 
+  // Stylesheet.
+  private $markersStylesheet;
+  
 
   public function __construct ()
   {
     $database_config_general = Database_Config_General::getInstance ();
+    $database_styles = Database_Styles::getInstance ();
     $stylesheet = $database_config_general->getExportStylesheet ();
+    $this->markersStylesheet = $database_styles->getMarkers ($stylesheet);
   }
   
 
@@ -71,6 +76,8 @@ class Checks_Usfm // Todo
         }
 
         $this->malformedVerseNumber ();
+        
+        $this->markerInStylesheet ();
 
       } else {
       }
@@ -91,7 +98,7 @@ class Checks_Usfm // Todo
   }
 
 
-  private function newLineInUsfm ($usfm) // Todo
+  private function newLineInUsfm ($usfm)
   {
     $position = false;
     $pos = strpos ($usfm, "\\\n");
@@ -105,8 +112,21 @@ class Checks_Usfm // Todo
     if ($position !== false) {
       $bit = substr ($usfm, $position - 1, 10);
       $bit = str_replace ("\n", " ", $bit);
-      $this->addResult ("New line within USFM: " . $bit, Checks_Usfm::displayNothing); // Todo
+      $this->addResult ("New line within USFM: " . $bit, Checks_Usfm::displayNothing);
     }
+  }
+
+
+  private function markerInStylesheet () // Todo
+  {
+    $marker = substr ($this->usfmItem, 1, 100);
+    $marker = trim ($marker);
+    if (!Filter_Usfm::isOpeningMarker ($marker)) {
+      $marker = substr ($marker, 0, -1);
+    }
+    if ($marker == "") return;
+    if (in_array ($marker, $this->markersStylesheet)) return;
+    $this->addResult ("Marker not in stylesheet", Checks_Usfm::displayCurrent);
   }
 
 

@@ -86,6 +86,39 @@ EOD;
   }
 
 
+  public function testUnknownUsfmOne ()
+  {
+$usfm = <<<EOD
+\\c 1
+\\p He said.
+\\v 1 He said \add something\add*.
+\\p,p He said.
+\\v 3 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (1 => 'Marker not in stylesheet: \p,p '));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testUnknownUsfmTwoe ()
+  {
+$usfm = <<<EOD
+\\c 1
+\\pHe said.
+\\v 1 He said \add something\add*.
+\\p He said.
+\\v 3 He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (0 => 'Marker not in stylesheet: \pHe '));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+
 
 }
 ?>
