@@ -51,23 +51,23 @@ class Filter_Usfm
 
 
   /**
-  * Returns the string $usfm as an array alternating between marker and text.
+  * Returns the string $code as an array alternating between marker and text.
   * Example, input is:   \id GEN
   *                      \c 10
   *             ...
   * Output would be:     array ("\id ", "GEN", "\c ", "10", ...)
-  * If $usfm does not start with a marker, this becomes visible in the output too.
+  * If $code does not start with a marker, this becomes visible in the output too.
   */
-  public static function getMarkersAndText ($usfm)
+  public static function getMarkersAndText ($code)
   {
     $markers_and_text = array ();
-    $usfm = str_replace ("\n\\", "\\", $usfm); // New line followed by backslash: leave new line out.
-    $usfm = str_replace ("\n", " ", $usfm); // New line only: change to space, according to the USFM specification.
-    $usfm = str_replace ("  ", " ", $usfm);
-    $usfm = trim ($usfm);
-    while ($usfm != "") {
-      if ($usfm != "") {
-        $pos = strpos ($usfm, "\\");
+    $code = str_replace ("\n\\", "\\", $code); // New line followed by backslash: leave new line out.
+    $code = str_replace ("\n", " ", $code); // New line only: change to space, according to the USFM specification.
+    $code = str_replace ("  ", " ", $code);
+    $code = trim ($code);
+    while ($code != "") {
+      if ($code != "") {
+        $pos = strpos ($code, "\\");
         if ($pos === 0) {
           // Marker found. 
           // The marker ends
@@ -77,25 +77,25 @@ class Filter_Usfm
           // - at the end of the string,
           // whichever comes first.
           $positions = array ();
-          $pos = strpos ($usfm, " ");
+          $pos = strpos ($code, " ");
           if ($pos !== false) $positions [] = $pos + 1;
-          $pos = strpos ($usfm, "*");
+          $pos = strpos ($code, "*");
           if ($pos !== false) $positions [] = $pos + 1;
-          $pos = strpos ($usfm, "\\", 1);
+          $pos = strpos ($code, "\\", 1);
           if ($pos !== false) $positions [] = $pos;
-          $positions [] = strlen ($usfm);
+          $positions [] = strlen ($code);
           sort ($positions, SORT_NUMERIC);
           $pos = $positions[0];
-          $marker = substr ($usfm, 0, $pos);
+          $marker = substr ($code, 0, $pos);
           $markers_and_text [] = $marker;
-          $usfm = substr ($usfm, $pos);
+          $code = substr ($code, $pos);
         } else {
           // Text found. It ends at the next backslash or at the end of the string.
-          $pos = strpos ($usfm, "\\");
-          if ($pos === false) $pos = strlen ($usfm);
-          $text = substr ($usfm, 0, $pos);
+          $pos = strpos ($code, "\\");
+          if ($pos === false) $pos = strlen ($code);
+          $text = substr ($code, 0, $pos);
           $markers_and_text [] = $text;
-          $usfm = substr ($usfm, $pos);
+          $code = substr ($code, $pos);
         }
       }
     }

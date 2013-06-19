@@ -64,8 +64,6 @@ class Checks_Usfm
   {
     $this->newLineInUsfm ($usfm);
 
-    $this->lineWithoutUsfm ($usfm);
-
     $this->forwardSlash ($usfm);
 
     $this->usfmMarkersAndText = Filter_Usfm::getMarkersAndText ($usfm);
@@ -75,8 +73,8 @@ class Checks_Usfm
  
         // Get the current verse number.
         if ($this->usfmItem == '\v ') {
-          $usfm = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
-          $this->verseNumber = Filter_Usfm::peekVerseNumber ($usfm);
+          $verseCode = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+          $this->verseNumber = Filter_Usfm::peekVerseNumber ($verseCode);
         }
 
         $this->malformedVerseNumber ();
@@ -94,9 +92,9 @@ class Checks_Usfm
   private function malformedVerseNumber ()
   {
     if ($this->usfmItem == '\v ') {
-      $usfm = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
-      $cleanVerseNumber = Filter_Usfm::peekVerseNumber ($usfm);
-      $dirtyVerseNumber = explode (" ", $usfm) [0];
+      $code = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+      $cleanVerseNumber = Filter_Usfm::peekVerseNumber ($code);
+      $dirtyVerseNumber = explode (" ", $code) [0];
       if ($cleanVerseNumber != $dirtyVerseNumber) {
         $this->addResult ("Malformed verse number", Checks_Usfm::displayFull);
       }
@@ -136,24 +134,13 @@ class Checks_Usfm
   }
 
 
-  private function lineWithoutUsfm ($usfm)
-  {
-    $lines = explode ("\n", $usfm);
-    foreach ($lines as $line) {
-      if (strpos ($line, "\\") === false) {
-        $this->addResult ("Line without USFM: " . $line, Checks_Usfm::displayNothing);
-      }
-    }
-  }
-
-
   private function malformedId ()
   {
     $item = substr ($this->usfmItem, 0, 3);
     if ($item == '\id') {
-      $usfm = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
-      $id =  substr ($usfm, 0, 3);
-      $id = explode (" ", $usfm);
+      $code = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+      $id =  substr ($code, 0, 3);
+      $id = explode (" ", $code);
       $id = $id [0];
       $database_books = Database_Books::getInstance ();
       $book = $database_books->getIdFromUsfm ($id);
@@ -168,16 +155,16 @@ class Checks_Usfm
   }
 
 
-  private function forwardSlash ($usfm) // Todo
+  private function forwardSlash ($usfm)
   {
-    $usfm = str_replace ("\n", " ", $usfm);
-    $pos = strpos ($usfm, "/");
+    $code = str_replace ("\n", " ", $usfm);
+    $pos = strpos ($code, "/");
     if ($pos !== false) {
-      $pos2 = strpos ($usfm, " ", $pos);
+      $pos2 = strpos ($code, " ", $pos);
       if ($pos2 !== false) {
-        $bit = substr ($usfm, $pos, $pos2 - $pos);
+        $bit = substr ($code, $pos, $pos2 - $pos);
       } else {
-        $bit = substr ($usfm, $pos, 100);
+        $bit = substr ($code, $pos, 100);
       }
       $pos2 = strpos ($bit, "*");
       if ($pos2 !== false) {
