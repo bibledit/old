@@ -82,6 +82,8 @@ class Checks_Usfm
         $this->markerInStylesheet ();
         
         $this->malformedId ();
+        
+        $this->widowBackSlash ();
 
       } else {
       }
@@ -174,6 +176,16 @@ class Checks_Usfm
       if (in_array ($marker, $this->markersStylesheet)) {
         $this->addResult ("Forward slash instead of backslash: " . $bit, Checks_Usfm::displayNothing);
       }
+    }
+  }
+
+
+  private function widowBackSlash ()
+  {
+    $marker = $this->usfmItem;
+    $marker = trim ($marker);
+    if (strlen ($marker) == 1) {
+      $this->addResult ("Widow backslash", Checks_Usfm::displayCurrent);
     }
   }
 

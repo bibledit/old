@@ -81,7 +81,9 @@ $usfm = <<<EOD
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
-    $standard = array (array (0 => 'New line within USFM:  \  \p He '));
+    $standard = array (array (0 => 'New line within USFM:  \  \p He '),
+                       array (1 => 'Widow backslash: \ ')
+                );
     $this->assertEquals ($results, $standard);
   }
 
@@ -236,6 +238,20 @@ EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
     $standard = array ();
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testWidowBackslashOne ()
+  {
+$usfm = <<<EOD
+\\id GEN
+\\p
+\\v 1 \ He said.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (1 => 'Widow backslash: \ '));
     $this->assertEquals ($results, $standard);
   }
 
