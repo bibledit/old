@@ -22,7 +22,7 @@
 <p>Can check whether a paragraph starts with a capital and ends with correct punctuation.</p>
 <p>Can check on two punctuation marks in sequence.</p>
 <p>Can check on malformed USFM.</p>
-<p>Can check on matching end markers in USFM.</p>
+<p>Can check on matching opening and closing markers in USFM.</p>
 <p></p>
 <p></p>
 

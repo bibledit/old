@@ -117,6 +117,7 @@ foreach ($bibles as $bible) {
       if ($check_well_formed_usfm) {
         $checks_usfm->initialize ();
         $checks_usfm->check ($chapterUsfm);
+        $checks_usfm->finalize ();
         $results = $checks_usfm->getResults ();
         foreach ($results as $result) {
           $verse = array_keys ($result);

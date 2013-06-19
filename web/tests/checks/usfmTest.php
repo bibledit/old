@@ -303,8 +303,23 @@ $usfm = <<<'EOD'
 \v 9 Kodwa uNowa wazuza umusa emehlweni eN\nd kosi\x + 19.19.\x*\nd*.
 EOD;
     $this->check->check ($usfm);
+    $this->check->finalize ();
     $results = $this->check->getResults ();
     $standard = array ();
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testMatchingMarkersFive ()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\v 8 Kodwa uNowa wazuza umusa \add emehlweni eN\nd kosi\x + 19.19.\nd*\x*.
+EOD;
+    $this->check->check ($usfm);
+    $this->check->finalize ();
+    $results = $this->check->getResults ();
+    $standard = array (array (8 => "Unclosed markers: add"));
     $this->assertEquals ($results, $standard);
   }
 

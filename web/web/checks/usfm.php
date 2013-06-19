@@ -87,6 +87,14 @@ class Checks_Usfm
   }
 
 
+  public function finalize ()
+  {
+    if (count ($this->openMatchingMarkers) > 0) {
+      $this->addResult ("Unclosed markers" . ": " . implode (" ", $this->openMatchingMarkers), Checks_Usfm::displayNothing);
+    }
+  }
+  
+  
   public function check ($usfm)
   {
     $this->newLineInUsfm ($usfm);
