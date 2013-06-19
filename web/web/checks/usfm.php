@@ -40,6 +40,10 @@ class Checks_Usfm
 
   // Stylesheet.
   private $markersStylesheet;
+
+  // Matching markers.
+  private $markersRequiringEndmarkers;
+  private $previousMarkerForEndmarker;
   
 
   public function __construct ()
@@ -48,6 +52,28 @@ class Checks_Usfm
     $database_styles = Database_Styles::getInstance ();
     $stylesheet = $database_config_general->getExportStylesheet ();
     $this->markersStylesheet = $database_styles->getMarkers ($stylesheet);
+    $styles_logic = Styles_Logic::getInstance (); 
+    foreach ($this->markersStylesheet as $marker) {
+      $style = $database_styles->getMarkerData ($stylesheet, $marker);
+      $requiredEndmarker = false;
+      $styleType = $style['type'];
+      $styleSubtype = $style['subtype'];
+      if ($styleType == StyleTypeFootEndNote) {
+        if (($styleSubtype == FootEndNoteSubtypeFootnote) || ($styleSubtype == FootEndNoteSubtypeEndnote)) {
+          $requiredEndmarker = true;
+        }
+      }
+      if ($styleType == StyleTypeCrossreference) {
+        if ($styleSubtype == CrossreferenceSubtypeCrossreference) {
+          $requiredEndmarker = true;
+        }
+      }
+      if ($styleType == StyleTypeInlineText) $requiredEndmarker = true;
+      if ($styleType == StyleTypeWordlistElement) $requiredEndmarker = true;
+      if ($requiredEndmarker) {
+        $this->markersRequiringEndmarkers [] = $marker;
+      }
+    }
   }
   
 
@@ -60,7 +86,7 @@ class Checks_Usfm
   }
 
 
-  public function check ($usfm) // Todo
+  public function check ($usfm)
   {
     $this->newLineInUsfm ($usfm);
 
@@ -84,6 +110,8 @@ class Checks_Usfm
         $this->malformedId ();
         
         $this->widowBackSlash ();
+
+        $this->matchingEndmarker ();
 
       } else {
       }
@@ -186,6 +214,29 @@ class Checks_Usfm
     $marker = trim ($marker);
     if (strlen ($marker) == 1) {
       $this->addResult ("Widow backslash", Checks_Usfm::displayCurrent);
+    }
+  }
+
+
+  private function matchingEndmarker ()
+  {
+    $marker = $this->usfmItem;
+    // Remove the initial backslash, e.g. '\add' becomes 'add'.
+    $marker = substr ($marker, 1);
+    $marker = trim ($marker);
+    $isOpener = Filter_Usfm::isOpeningMarker ($marker);
+    if (!$isOpener) $marker = substr ($marker, 0, -1);
+    if (!in_array ($marker, $this->markersRequiringEndmarkers)) return;
+    if ($isOpener) {
+      if ($this->previousMarkerForEndmarker != "") {
+        $this->addResult ("Nested opening marker", Checks_Usfm::displayCurrent);
+      }
+      $this->previousMarkerForEndmarker = $marker;
+    } else {
+      if ($marker != $this->previousMarkerForEndmarker) {
+        $this->addResult ("Closing marker does not match opening marker" . " " . $this->previousMarkerForEndmarker, Checks_Usfm::displayCurrent);
+      }
+      $this->previousMarkerForEndmarker = "";
     }
   }
 

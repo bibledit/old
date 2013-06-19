@@ -256,5 +256,44 @@ EOD;
   }
 
 
+  public function testMatchingMarkersOne ()
+  {
+$usfm = <<<EOD
+\\id GEN
+\\v 1  He said \add addition\add*.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array ();
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testMatchingMarkersTwo ()
+  {
+$usfm = <<<EOD
+\\id GEN
+\\v 1  He said addition\add*.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (1 => 'Closing marker does not match opening marker : \add*'));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testMatchingMarkersThree ()
+  {
+$usfm = <<<EOD
+\\id GEN
+\\v 1  He said \add addition\add .
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array (array (1 => 'Nested opening marker: \add '));
+    $this->assertEquals ($results, $standard);
+  }
+
+
 }
 ?>
