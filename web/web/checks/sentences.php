@@ -235,7 +235,7 @@ class Checks_Sentences
     for ($i = 1; $i < count ($paragraphs); $i++) {
       $offset = $paragraphs [$i];
       $paragraphVerse = $verses [$offset];
-      $twoVersesBack = $verses [$offset - 2];
+      @$twoVersesBack = $verses [$offset - 2];
       if ($paragraphVerse != $twoVersesBack) {
         for ($i2 = $i; $i2 < count ($paragraphs); $i2++) {
           $paragraphs [$i2] = $paragraphs [$i2] - 1;
@@ -248,8 +248,8 @@ class Checks_Sentences
     // Go through the paragraphs to see whether they start with capitals.
     for ($i = 0; $i < $paragraphCount; $i++) {
       $offset = $paragraphs [$i];
-      $verse = $verses [$offset];
-      $grapheme = $graphemes [$offset];
+      @$verse = $verses [$offset];
+      @$grapheme = $graphemes [$offset];
       $isCapital = in_array ($grapheme, $this->capitals);
       if (!$isCapital) {
         $this->checkingResults [] = array ($verse => "Paragraph does not start with a capital" . ": " . $grapheme);
@@ -264,9 +264,9 @@ class Checks_Sentences
         $offset = count ($graphemes);
       }
       $offset--;
-      $verse = $verses [$offset];
-      $grapheme = $graphemes [$offset];
-      $previousGrapheme = $graphemes [$offset - 1];
+      @$verse = $verses [$offset];
+      @$grapheme = $graphemes [$offset];
+      @$previousGrapheme = $graphemes [$offset - 1];
       $isEndMark = in_array ($grapheme, $this->end_marks) || in_array ($previousGrapheme, $this->end_marks);
       if (!$isEndMark) {
         $this->checkingResults [] = array ($verse => "Paragraph does not end with an end marker" . ": " . $grapheme);
