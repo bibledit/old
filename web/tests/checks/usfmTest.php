@@ -24,10 +24,10 @@ class checksUsfmTest extends PHPUnit_Framework_TestCase
 
   public function testMalformedVerse ()
   {
-$usfm = <<<EOD
-\\c 1
-\\p
-\\v 2,He said.
+$usfm = <<<'EOD'
+\c 1
+\p
+\v 2,He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -38,12 +38,12 @@ EOD;
 
   public function testNewLineInUSFMGood ()
   {
-$usfm = <<<EOD
-\\c 1
-\\p He said.
-\\v 1 He said.
-\\p He said.
-\\v 2 He said.
+$usfm = <<<'EOD'
+\c 1
+\p He said.
+\v 1 He said.
+\p He said.
+\v 2 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -54,13 +54,13 @@ EOD;
 
   public function testNewLineInUSFMOne ()
   {
-$usfm = <<<EOD
-\\c 1
-\\p He said.
-\\v 1 He said.
-\\
-\\p He said.
-\\v 2 He said.
+$usfm = <<<'EOD'
+\c 1
+\p He said.
+\v 1 He said.
+\
+\p He said.
+\v 2 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -71,13 +71,13 @@ EOD;
 
   public function testNewLineInUSFMTwo ()
   {
-$usfm = <<<EOD
-\\c 1
-\\p He said.
-\\v 1 He said.
-\\ 
-\\p He said.
-\\v 3 He said.
+$usfm = <<<'EOD'
+\c 1
+\p He said.
+\v 1 He said.
+\ 
+\p He said.
+\v 3 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -90,12 +90,12 @@ EOD;
 
   public function testUnknownUsfmOne ()
   {
-$usfm = <<<EOD
-\\c 1
-\\p He said.
-\\v 1 He said \add something\add*.
-\\p,p He said.
-\\v 3 He said.
+$usfm = <<<'EOD'
+\c 1
+\p He said.
+\v 1 He said \add something\add*.
+\p,p He said.
+\v 3 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -106,12 +106,12 @@ EOD;
 
   public function testUnknownUsfmTwoe ()
   {
-$usfm = <<<EOD
-\\c 1
-\\pHe said.
-\\v 1 He said \add something\add*.
-\\p He said.
-\\v 3 He said.
+$usfm = <<<'EOD'
+\c 1
+\pHe said.
+\v 1 He said \add something\add*.
+\p He said.
+\v 3 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -122,10 +122,10 @@ EOD;
 
   public function testIdOne ()
   {
-$usfm = <<<EOD
-\\id GENN
-\\p He said.
-\\v 1 He said.
+$usfm = <<<'EOD'
+\id GENN
+\p He said.
+\v 1 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -136,10 +136,10 @@ EOD;
 
   public function testIdTwo()
   {
-$usfm = <<<EOD
-\\id
-\\p He said.
-\\v 1 He said.
+$usfm = <<<'EOD'
+\id
+\p He said.
+\v 1 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -150,10 +150,10 @@ EOD;
 
   public function testIdThree ()
   {
-$usfm = <<<EOD
-\\id Gen
-\\p He said.
-\\v 1 He said.
+$usfm = <<<'EOD'
+\id Gen
+\p He said.
+\v 1 He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -164,10 +164,10 @@ EOD;
 
   public function testForwardSlashOne ()
   {
-$usfm = <<<EOD
-\\id GEN
-\\p He said.
-\\v 1 He said. He said something/add*.
+$usfm = <<<'EOD'
+\id GEN
+\p He said.
+\v 1 He said. He said something/add*.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -178,10 +178,10 @@ EOD;
 
   public function testForwardSlashTwo ()
   {
-$usfm = <<<EOD
-\\id GEN
-\\p He said.
-\\v 1 /v He said.
+$usfm = <<<'EOD'
+\id GEN
+\p He said.
+\v 1 /v He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -192,8 +192,8 @@ EOD;
 
   public function testCleanUsfm ()
   {
-$usfm = <<<EOD
-\\id GEN
+$usfm = <<<'EOD'
+\id GEN
 \c 35
 \s UNkulunkulu ubusisa uJakobe eBhetheli
 \p
@@ -244,10 +244,10 @@ EOD;
 
   public function testWidowBackslashOne ()
   {
-$usfm = <<<EOD
-\\id GEN
-\\p
-\\v 1 \ He said.
+$usfm = <<<'EOD'
+\id GEN
+\p
+\v 1 \ He said.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -258,9 +258,9 @@ EOD;
 
   public function testMatchingMarkersOne ()
   {
-$usfm = <<<EOD
-\\id GEN
-\\v 1  He said \add addition\add*.
+$usfm = <<<'EOD'
+\id GEN
+\v 1  He said \add addition\add*.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -271,9 +271,9 @@ EOD;
 
   public function testMatchingMarkersTwo ()
   {
-$usfm = <<<EOD
-\\id GEN
-\\v 1  He said addition\add*.
+$usfm = <<<'EOD'
+\id GEN
+\v 1  He said addition\add*.
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
@@ -284,13 +284,27 @@ EOD;
 
   public function testMatchingMarkersThree ()
   {
-$usfm = <<<EOD
-\\id GEN
-\\v 1  He said \add addition\add .
+$usfm = <<<'EOD'
+\id GEN
+\v 1  He said \add addition\add .
 EOD;
     $this->check->check ($usfm);
     $results = $this->check->getResults ();
-    $standard = array (array (1 => 'Nested opening marker: \add '));
+    $standard = array (array (1 => 'Repeating opening marker: \add '));
+    $this->assertEquals ($results, $standard);
+  }
+
+
+  public function testMatchingMarkersFour ()
+  {
+$usfm = <<<'EOD'
+\id GEN
+\v 8 Kodwa uNowa wazuza umusa emehlweni eN\nd kosi\x + 19.19.\nd*\x*.
+\v 9 Kodwa uNowa wazuza umusa emehlweni eN\nd kosi\x + 19.19.\x*\nd*.
+EOD;
+    $this->check->check ($usfm);
+    $results = $this->check->getResults ();
+    $standard = array ();
     $this->assertEquals ($results, $standard);
   }
 

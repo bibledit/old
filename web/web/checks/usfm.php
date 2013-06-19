@@ -43,7 +43,7 @@ class Checks_Usfm
 
   // Matching markers.
   private $markersRequiringEndmarkers;
-  private $previousMarkerForEndmarker;
+  private $openMatchingMarkers;
   
 
   public function __construct ()
@@ -83,6 +83,7 @@ class Checks_Usfm
     $this->usfmMarkersAndText = array ();
     $this->usfmMarkersAndTextPointer = 0;
     $this->verseNumber = 0;
+    $this->openMatchingMarkers = array ();
   }
 
 
@@ -228,13 +229,16 @@ class Checks_Usfm
     if (!$isOpener) $marker = substr ($marker, 0, -1);
     if (!in_array ($marker, $this->markersRequiringEndmarkers)) return;
     if ($isOpener) {
-      if ($this->previousMarkerForEndmarker != "") {
-        $this->addResult ("Nested opening marker", Checks_Usfm::displayCurrent);
+      if (in_array ($marker, $this->openMatchingMarkers)) {
+        $this->addResult ("Repeating opening marker", Checks_Usfm::displayCurrent);
+      } else {
+        $this->openMatchingMarkers [] = $marker;
       }
-      $this->previousMarkerForEndmarker = $marker;
     } else {
-      if ($marker != $this->previousMarkerForEndmarker) {
-        $this->addResult ("Closing marker does not match opening marker" . " " . $this->previousMarkerForEndmarker, Checks_Usfm::displayCurrent);
+      if (in_array ($marker, $this->openMatchingMarkers)) {
+        $this->openMatchingMarkers = array_diff ($this->openMatchingMarkers, array ($marker));
+      } else {
+        $this->addResult ("Closing marker does not match opening marker" . " " . implode (" ", $this->openMatchingMarkers), Checks_Usfm::displayCurrent);
       }
       $this->previousMarkerForEndmarker = "";
     }
