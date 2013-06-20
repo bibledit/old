@@ -23,7 +23,6 @@
 
 
 
-
 int main (int argc, char *argv[])
 {
   
@@ -331,7 +330,7 @@ void TinySpawn::run()
   if (!myworkingdirectory.empty())
     workingdirectory = myworkingdirectory.c_str();
   // Store arguments in argv.
-  char *argv[arguments.size() + 2];
+  char *argv [arguments.size() + 2];
   argv[0] = (char *)myprogram;
   for (unsigned int i = 0; i < arguments.size(); i++) {
     argv[i + 1] = (char *)arguments[i].c_str();

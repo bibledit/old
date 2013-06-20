@@ -2,7 +2,7 @@ bin_PROGRAMS = bibledit-git
 
 bibledit_git_SOURCES = bibledit-git.cpp
 
-AM_CXXFLAGS = -Wall 
+AM_CXXFLAGS = -Wall
 AM_CXXFLAGS += $(GLIB_CFLAGS)
 AM_CXXFLAGS += $(GTK_CFLAGS)
 
