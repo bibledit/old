@@ -62,7 +62,9 @@ int main(int argc, char *argv[])
   // This function is no longer necessary. 
   // The GLib threading system is automatically initialized at the start of your program.
   // Initialize g types.
-  g_type_init();
+  // g_type_init has been deprecated since version 2.36.
+  // The type system is now initialised automatically.
+  // g_type_init();
   // Initialize GTK
   gtk_init(&argc, &argv);
 

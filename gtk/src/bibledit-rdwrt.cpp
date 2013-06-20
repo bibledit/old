@@ -42,8 +42,9 @@ VCS *vcs;
 
 int main(int argc, char *argv[])
 {
-  // Initialize g types.
-  g_type_init();
+  // g_type_init has been deprecated since version 2.36.
+  // The type system is now initialised automatically.
+  // g_type_init();
 
   // Settings object. 
   Settings mysettings(true);
