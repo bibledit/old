@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <link href="../bibledit.css" rel="stylesheet" type="text/css" /><!-- 
@@ -36,6 +36,9 @@ Free Documentation License" in the file FDL.
             <li>
               <a href="development/diagnostics.html">Diagnostics</a>
             </li>
+            <li>
+              <a href="development/mac-os-x.html">Mac OS X Notes</a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -45,168 +48,160 @@ Free Documentation License" in the file FDL.
         Development
       </h1>
       <h3>
-        <a name="TOC-Recent-code" href="" id="TOC-Recent-code"></a>Recent code
+        <a name="TOC-Code-repository" href="" id="TOC-Code-repository"></a>Code repository
       </h3>
       <p>
         The code is stored in a git repository. The repository is accessible from the <a href="http://savannah.nongnu.org/projects/bibledit" rel="nofollow">Savannah Project Page</a>. To view the code on the web, click on "Source Code" - and then "Browse Sources Repository" just below "Use Git". To use the repository in another way, click on "Source Code" - "Use Git". It will give some information there.
       </p>
       <p>
-        Recent code can be checked out from the repository. This code gives the latest versions of Bibledit. Every night this code is updated, hence it contains the nightly builds. This code has not been thoroughly tested, but is supported, and give you a great way to follow the newest and latest developments in Bibledit.
+        The code can be checked out from the repository. This code gives the latest versions of the Bibledit suite or programs. The code has not been thoroughly tested, but is supported.
       </p>
       <p>
-        In order to get the most recent code, do the following in a terminal.
+        To get the most recent code, do the following in a terminal.
       </p>
       <pre>
 git clone git://git.savannah.nongnu.org/bibledit
 </pre>
       <p>
-        The above command clones the code repository to your local disk. It will create a directory called "bibledit". Go into that directory, and do the normal "./configure", "make", "sudo make install" sequence, as is described in the <a href="https://sites.google.com/site/bibledit/gtk/installation">installation</a> documentation.
+        The above command clones the code repository to your local disk. It will create a directory called "bibledit". Go into that directory, go into directory "gtk" for bibledit-gtk, or into directory "web" for bibledit-web. Then do the normal "./configure", "make", "sudo make install" sequence, as is described in the <a href="https://sites.google.com/site/bibledit/gtk/installation" target="_blank">installation documentation for bibledit-gtk</a>&nbsp;and the <a href="http://bibleconsultants.dyndns.org/bibledit-web-demo/help/installation.php" target="_blank" rel="nofollow">installation documentation for bibledit-web</a>..
       </p>
       <p>
-        Note 1. To save bandwidth, it is recommended to leave the directory "bibledit", created above, as it is. If that directory is left there, then next time there is no need to clone the whole repository. Just pulling the changes is enough:
+        Note 1. If you are installing development versions often, to save bandwidth, it is possible to leave the directory "bibledit", created above, as it is. If that directory is left there, then next time there is no need to clone the whole repository. Just pulling the changes is enough:
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">cd bibledit</span>
+<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">$ cd bibledit
+$ git reset --hard
+$ git pull</span>
 </pre>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">git reset --hard
-git pull
-cd gtk
-./configure
-make
-sudo make install</span>
+<span style="font-family:Arial,Verdana,sans-serif;white-space:normal"><span style="font-family:Arial,Verdana,sans-serif;font-size:10pt;line-height:1.6;white-space:normal">Continue installation from here...</span>
+</span>
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Formerly if anybody wished to run what was then called nightly builds needed to download the full build each time. The current method saves a lot of bandwidth, because it downloads the changes only, and these changes are usually small.</span>
-      </p>
-      <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Note 2. For best results close Bibledit while installing the new version.</span>
-      </p>
-      <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Note 3. This also works for updating/upgrading to full versions where the version number is x.x. But there is a good change that the version that you get will be a newer version, like x.x.1 or x.x.2.</span>
+        <span style="line-height:1.6;font-size:10pt">Note 2. For best results close Bibledit-Web while installing the new version. This does not apply to Bibledit-Web.</span>
       </p>
       <h3>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal"><a name="helpneeded" href="" id="helpneeded"></a>Help needed</span>
+        <a name="helpneeded" href="" id="helpneeded"></a>Help needed
       </h3>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Help in developing Bibledit is welcome.</span>
+        Help in developing Bibledit is welcome.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">* Do you like writing good documentation? Your help is welcome to maintain the helpfiles of Bibledit.</span>
+        * Do you like writing good documentation? Your help is welcome to maintain the helpfiles of Bibledit.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">* You know how useful packages are? Making packages could be the thing you would like to help with.</span>
+        * You know how useful packages are? Making packages could be the thing you would like to help with.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">* Are you good at testing? Your feedback is welcome and suggestions for new features too.</span>
+        * Are you good at testing? Your feedback is welcome and suggestions for new features too.
       </p>
       <h3>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal"><a name="bugsandfeaturerequests" href="" id="bugsandfeaturerequests"></a>Bugs and feature requests</span>
+        <a name="bugsandfeaturerequests" href="" id="bugsandfeaturerequests"></a>Bugs and feature requests
       </h3>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Savannah.nongnu.org provides resources for developing Bibledit. The <a href="http://savannah.nongnu.org/projects/bibledit" rel="nofollow">Savannah Project Page</a> is the central point from where all these resources can be accessed.</span>
+        Savannah.nongnu.org provides resources for developing Bibledit. The <a href="http://savannah.nongnu.org/projects/bibledit" rel="nofollow">Savannah Project Page</a> is the central point from where all these resources can be accessed.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">To report a problem go to the <a href="http://savannah.nongnu.org/projects/bibledit" rel="nofollow">Savannah Project Page</a>, and click on "Bugs". A list of open bugs will show, and you can see whether your bug has been reported already. If not, click "Bugs" - "Submit", fill in the screen with detailed information on when the bug occurs, and the steps to be taken to reproduce it, and any other information that may be useful, and click the "Submit" button at the bottom of the screen. You need to open an account to do this, and then you'll be emailed whenever this bug is attended to.</span>
+        To report a problem go to the <a href="http://savannah.nongnu.org/projects/bibledit" rel="nofollow">Savannah Project Page</a>, and click on "Bugs". A list of open bugs will show, and you can see whether your bug has been reported already. If not, click "Bugs" - "Submit", fill in the screen with detailed information on when the bug occurs, and the steps to be taken to reproduce it, and any other information that may be useful, and click the "Submit" button at the bottom of the screen. You need to open an account to do this, and then you'll be emailed whenever this bug is attended to.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Asking for a new feature works similar. Click on "Tasks". A list of tasks, that is, feature requests, will appear. If the feature you wish to have it not yet in, click "Tasks" - "Submit", and submit a new task.</span>
+        Asking for a new feature works similar. Click on "Tasks". A list of tasks, that is, feature requests, will appear. If the feature you wish to have it not yet in, click "Tasks" - "Submit", and submit a new task.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">When submitting bug reports it is sometimes useful to include your configuration and data. This allows the programmer or tester to reproduce your bug, and so fix it. In a terminal type</span>
+        When submitting bug reports it is sometimes useful to include the configuration and data of Bibledit-Gtk. This allows the programmer or tester to reproduce your bug, and so fix it. In a terminal type
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">tar -czf bibledit.tar.gz .bibledit</span>
+tar -czf bibledit.tar.gz .bibledit
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">to create a file called bibledit.tar.gz. This file can be attached to the bug report.</span>
+        to create a file called bibledit.tar.gz. This file can be attached to the bug report.
       </p>
       <h3>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal"><a name="howitstarted" href="" id="howitstarted"></a>How it started</span>
+        <a name="howitstarted" href="" id="howitstarted"></a>How it started
       </h3>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">It started with an entry in the programmer's diary:</span>
+        It started with an entry in the programmer's diary:
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">* Friday 30 May 2003. I made the decision to move from Windows to Linux. God will help here, and the future will show why this decision had to be taken. A lot of programming needs to be done to move the Bible translation programs to Linux.</span>
+        * Friday 30 May 2003. I made the decision to move from Windows to Linux. God will help here, and the future will show why this decision had to be taken. A lot of programming needs to be done to move the Bible translation programs to Linux.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">I remember that at that time I had lost peace with God for a good while, was in great unrest of mind, and examined myself thoroughly what it was, and then came to the above decision. It seemed to me a bit an unusual cause for this unrest, but nevertheless I could not find another one. After the decision was made and the actual move, I regained my peace.</span>
+        I remember that at that time I had lost peace with God for a good while, was in great unrest of mind, and examined myself thoroughly what it was, and then came to the above decision. It seemed to me a bit an unusual cause for this unrest, but nevertheless I could not find another one. After the decision was made and the actual move, I regained my peace.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">In 2004 some programming work was done that aided Bible translation work, and as I foresaw a greater future use for this program, I called it Bibledit.</span>
+        In 2004 some programming work was done that aided Bible translation work, and as I foresaw a greater future use for this program, I called it Bibledit.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">After that God gave sufficient energy to work on the project in the spare time. Others started to contribute too, and the project moved forward to where it is now.</span>
+        After that God gave sufficient energy to work on the project in the spare time. Others started to contribute too, and the project moved forward to where it is now.
       </p>
       <h3>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal"><a name="usingthedebugger" href="" id="usingthedebugger"></a>Using the debugger</span>
+        <a name="usingthedebugger" href="" id="usingthedebugger"></a>Using the debugger
       </h3>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">When troubleshooting bibledit a core file may be requested.</span>
+        When troubleshooting bibledit a core file may be requested.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">A core file is a file created by the operating system when a program terminates unexpectedly, encounters a bug, or violates the operating system's protection mechanisms.</span>
+        A core file is a file created by the operating system when a program terminates unexpectedly, encounters a bug, or violates the operating system's protection mechanisms.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">By default core files are not created on some Linux systems. Whether or not the operating system creates core files is controlled by the ulimit command. To see the current ulimit setting for core files, do the following:</span>
-      </p>
-      <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">ulimit -c<br />0</span>
-</pre>
-      <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">The ulimit command sets limits on the resource available to the bash shell. The -c parameter controls the size of core files. The value 0 indicates that core files are not created. To enable core file creation, increase the size limit of core files to a number greater than zero. For example:</span>
+        By default core files are not created on some Linux systems. Whether or not the operating system creates core files is controlled by the ulimit command. To see the current ulimit setting for core files, do the following:
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">ulimit -c 50000</span>
+ulimit -c<br />0
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">allows core files and limits the file size to 50000 bytes.</span>
-      </p>
-      <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">If you need to enable core file creation temporarily to create a core file for a problem application, increase the ulimit at the command line and then run the application.</span>
-      </p>
-      <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">When bibledit causes a segmentation fault and leaves a core dump file, you can use gdb to look at the program state when it crashed. Use the core command to load a core file.The argument to the core command is the filename of the core dump file, which is usually "core.&lt;pid&gt;", making the full command core core.&lt;pid&gt;.</span>
+        The ulimit command sets limits on the resource available to the bash shell. The -c parameter controls the size of core files. The value 0 indicates that core files are not created. To enable core file creation, increase the size limit of core files to a number greater than zero. For example:
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">prompt &gt; bibledit<br />Segmentation fault (core dumped)<br />prompt &gt; gdb bibledit<br />...<br />(gdb) core core.&lt;pid&gt;<br />...</span>
+ulimit -c 50000
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">If bibledit crashes repeatedly, an easier way is to start bibledit through the debugger, and then use the backtrace command to see what happened and when.</span>
+        allows core files and limits the file size to 50000 bytes.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Open bibledit in the debugger:</span>
+        If you need to enable core file creation temporarily to create a core file for a problem application, increase the ulimit at the command line and then run the application.
+      </p>
+      <p>
+        When bibledit causes a segmentation fault and leaves a core dump file, you can use gdb to look at the program state when it crashed. Use the core command to load a core file.The argument to the core command is the filename of the core dump file, which is usually "core.&lt;pid&gt;", making the full command core core.&lt;pid&gt;.
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">gdb bibledit</span>
+prompt &gt; bibledit<br />Segmentation fault (core dumped)<br />prompt &gt; gdb bibledit<br />...<br />(gdb) core core.&lt;pid&gt;<br />...
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Bibledit would not run in gdb normally and say that another copy is already running. To disable that check for another instance, and have it run in gdb, add the --debug argument to the commandline:</span>
+        If bibledit crashes repeatedly, an easier way is to start bibledit through the debugger, and then use the backtrace command to see what happened and when.
+      </p>
+      <p>
+        Open bibledit in the debugger:
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">(gdb) set args --debug</span>
+gdb bibledit
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Run it:</span>
+        Bibledit would not run in gdb normally and say that another copy is already running. To disable that check for another instance, and have it run in gdb, add the --debug argument to the commandline:
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">(gdb) run</span>
+(gdb) set args --debug
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">If there is a problem, bibledit will freeze. Switch to the debugger. View the stack:</span>
+        Run it:
       </p>
       <pre>
-<span style="font-family:Arial,Verdana,sans-serif;white-space:normal">(gdb) backtrace</span>
+(gdb) run
 </pre>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">You can then contact the developer and inform him about what you see and when it happened.</span>
+        If there is a problem, bibledit will freeze. Switch to the debugger. View the stack:
+      </p>
+      <pre>
+(gdb) backtrace
+</pre>
+      <p>
+        You can then contact the developer and inform him about what you see and when it happened.
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">Notes:</span>
+        Notes:
       </p>
       <p>
-        <span style="font-family:Arial,Verdana,sans-serif;white-space:normal">On Cygwin, gdb might get stopped and return you to the terminal. Enter "fg" to get the debugger back.</span>
+        On Cygwin, gdb might get stopped and return you to the terminal. Enter "fg" to get the debugger back.
       </p>
     </div>
   </body>

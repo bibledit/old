@@ -28,16 +28,16 @@ Free Documentation License" in the file FDL.
         <li style="list-style: none; display: inline">
           <hr />
         </li>
-        <li>Bibledit 4.6 on Ubuntu 12.04 LTS
-        </li>
         <li>
-          <a href="bibledit-4-8-on-ubuntu-12-10.html">Bibledit 4.8 on Ubuntu 13.04</a>
+          <a href="bibledit-4-6-on-ubuntu-12-04-lts.html">Bibledit 4.6 on Ubuntu 12.04 LTS</a>
+        </li>
+        <li>Bibledit 4.8 on Ubuntu 13.04
         </li>
       </ul>
     </div>
     <div id="content">
       <h1>
-        Bibledit 4.6 on Ubuntu 12.04 LTS
+        Bibledit 4.8 on Ubuntu 13.04
       </h1>
       <p>
         It is assumed that a standard installation of the operating system is used.
@@ -46,19 +46,26 @@ Free Documentation License" in the file FDL.
         Connect to the installation media.
       </p>
       <p>
-        Open a terminal, and&nbsp;do the following:
+        Start the Synaptic Package Manager through menu System / Administration.
       </p>
       <p>
-        $ sudo apt-get install git<br />
-        $ git clone git://git.savannah.nongnu.org/bibledit<br />
-        $ sudo apt-get install build-essential libgtk2.0-dev<br />
-        $ sudo apt-get install rcs<br />
-        $ sudo apt-get install sqlite3 libsqlite3-dev<br />
-        $ sudo apt-get install libxml2-dev<br />
-        $ sudo apt-get install libenchant-dev&nbsp;<br />
-        $ sudo apt-get install libgtkhtml3.14-dev<br />
-        <span style="line-height:1.6;font-size:10pt">$ sudo apt-get install libgtksourceview2.0-dev<br /></span><span style="line-height:1.6;font-size:10pt">$ sudo apt-get install libwebkit-dev<br /></span><span style="line-height:1.6;font-size:10pt">$ cd bibledit/gtk<br /></span><span style="line-height:1.6;font-size:10pt">$ ./configure<br /></span><span style="line-height:1.6;font-size:10pt">$ make<br /></span><span style="line-height:1.6;font-size:10pt">$ sudo make install &nbsp; &nbsp; &nbsp;</span>
-      </p><br />
+        In the Package Manager, install the following list of packages, with their additional required changes:
+      </p>
+      <p>
+        <span style="line-height:1.6;font-size:10pt">build-essential&nbsp;</span>libgtk2.0-dev git rcs curl&nbsp;<span style="line-height:1.6;font-size:10pt">sqlite3&nbsp;</span><span style="line-height:1.6;font-size:10pt">libsqlite3-dev&nbsp;</span><span style="line-height:1.6;font-size:10pt">libxml2-dev&nbsp;</span><span style="font-size:10pt;line-height:1.6">libenchant-dev libgtksourceview2.0-dev libwebkit-dev texlive-xetex&nbsp;</span>
+      </p>
+      <p>
+        When through, open a terminal by clicking Applications, Accessories, Terminal.
+      </p>
+      <p>
+        <a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install bibledit</a>.
+      </p>
+      <p>
+        <a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/run-bibledit">Run bibledit</a>.
+      </p>
+      <p>
+        <br />
+      </p>
     </div>
   </body>
 </html>

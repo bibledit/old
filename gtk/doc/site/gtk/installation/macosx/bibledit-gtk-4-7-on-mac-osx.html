@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link href="../../../bibledit.css" rel="stylesheet" type="text/css" /><!-- 
+
+Copyright (©) 2003-2011 Teus Benschop and Contributors to the Wiki.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+
+-->
+    <title></title>
+  </head>
+  <body>
+    <div id="menu">
+      <ul>
+        <li>
+          <a href="../../../home.html">1 Bibledit</a>
+        </li>
+        <li>
+          <a href="../macosx.html">Macosx</a>
+        </li>
+        <li style="list-style: none; display: inline">
+          <hr />
+        </li>
+        <li>Bibledit-Gtk 4.7 on Mac OS X 10.6 and 10.7
+        </li>
+      </ul>
+    </div>
+    <div id="content">
+      <h1>
+        Bibledit-Gtk 4.7 on Mac OS X 10.6 and 10.7
+      </h1>
+      <p>
+        Notes about how to install Bibledit-Gtk on OS X.
+      </p>
+      <h2>
+        <a name="installx11" href="" id="installx11"></a>Install Xcode
+      </h2>
+      <p>
+        <span style="line-height:1.6;font-size:10pt">10.6 Snow Leopard: Insert the Mac OS X Install DVD, go to folder "Optional Installs", and install "Xcode".</span>
+      </p>
+      <p>
+        10.7 Lion: <span style="line-height:1.6;font-size:10pt">Go to&nbsp;</span><a href="https://developer.apple.com/downloads" rel="nofollow">https://developer.apple.com/downloads</a>, download "Xcode", and install it. Open Launchpad and run "Install Xcode". Also download and install "Command Line Tools for Xcode".
+      </p>
+      <p>
+        <span style="font-size:1.6em;line-height:1.6">Terminal</span>
+      </p>
+      <p>
+        Open the "Applications" folder in Finder. Scroll down and click "Utilities". Click Terminal. The terminal will open.
+      </p>
+      <p>
+        Update the search path. In the terminal, type:
+      </p>
+      <pre>
+echo export PATH=$PATH:/opt/local/bin &gt;&gt; .bashrc
+</pre>
+      <p>
+        Reboot the computer for the updated search path to take effect.
+      </p>
+      <pre>
+<span style="font-size:1.6em;line-height:1.6;font-family:Arial,Verdana,sans-serif">MacPorts</span>
+</pre>
+      <p>
+        MacPorts is available from <a href="http://www.macports.org/" rel="nofollow">http://www.macports.org.</a> Follow the instructions on the site to install MacPorts.
+      </p>
+      <p>
+        Update MacPorts: In the Terminal, type:
+      </p>
+      <pre>
+sudo port selfupdate
+</pre>
+      <p>
+        <span style="font-size:1.6em;line-height:1.6">Bibledit</span>
+      </p>The easiest way is to just install it with MacPorts:&nbsp;<span style="font-family:courier new,monospace;font-size:10pt;line-height:1.6">sudo&nbsp;</span><font face="courier new, monospace">port uninstall --follow-dependencies bibledit</font><span style="font-family:courier new,monospace;line-height:1.6;font-size:10pt">sudo</span><span style="font-family:courier new,monospace;line-height:1.6;font-size:10pt">&nbsp;</span><span style="font-family:courier new,monospace;font-size:10pt;line-height:1.6">port clean --all bibledit</span><span style="line-height:1.6;font-size:10pt"><font face="courier new, monospace">sudo port install bibledit</font></span><br />
+      In a few cases a crash was reported in Bibledit-Gtk when installed from MacPorts. This is how to fix it:<span style="font-family:courier new,monospace">sudo port clean --all bibledit</span>Install Bibledit-Gtk from source, see&nbsp;<a href="https://sites.google.com/site/bibledit/gtk/installation/technicalities/compile-from-source">Install Bibledit</a>.
+      <h2>
+        <a name="TOC-Run" href="" id="TOC-Run"></a>Run
+      </h2>
+      <p>
+        To run Bibledit, do the following every time you use it:
+      </p>
+      <p>
+        Open a Terminal.
+      </p>
+      <p>
+        Start bibledit: Type
+      </p>
+      <pre>
+bibledit-gtk
+</pre>
+      <p>
+        <span style="font-size:1.6em;line-height:1.6">Notes</span>
+      </p>
+      <ul>
+        <li>
+          <span style="line-height:1.6;font-size:10pt">You can create an Applescript that will open X11 and BIbledit-Gtk in one operation from within Finder. This will give you an easy way to start Bibledit in one click. In Finder, click Applications, then double-click AppleScript and then double-click Script Editor. In Script Editor type:<br /></span><span style="line-height:1.6;font-size:10pt"><font face="courier new, monospace">do shell script "/usr/bin/open-x11 /opt/local/bin/bibledit-gtk"</font><br /></span><span style="line-height:1.6;font-size:10pt">Then click the Compile button, and in the menu click File, then Save. Call it Bibledit, and save it in Applications, and set the file format to "Application". Then save it.</span>
+        </li>
+        <li>
+          <span style="line-height:1.6;font-size:10pt">When a port fails to install you may need to clean all traces of it and try again.&nbsp;<span style="font-size:10pt;line-height:1.6">So for example when installing bibledit fails on the dependency&nbsp;gdk-pixbuf2, do this:<br /></span><span style="font-size:10pt;line-height:1.6"><font face="courier new, monospace">sudo port clean --all gdk-pixbuf2</font><br /></span><span style="font-size:10pt;line-height:1.6"><font face="courier new, monospace">sudo port install gdk-pixbuf2</font> (the port installed successfully this time)<br /></span><span style="font-size:10pt;line-height:1.6"><font face="courier new, monospace">sudo port install bibledit</font> (continue with the normal install procedure)</span></span>
+        </li>
+        <li>You want to have keyboard input in other languages? You can use the input from the regular Mac keyboard. The fix is easy. Under X11 -&gt; Preferences..., select the Input tab and check "Follow System Keyboard Layout." That allows you to write in other languages through the regular Mac keyboard.
+        </li>
+        <li>If errors occur during macport installing dependencies, try adding the -d flag to the command, and re-run the port command. It will then display more information. In order to fix the errors, it is usually sufficient to read the instructions that port displays well, and carry them out, and then try installing again.
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
