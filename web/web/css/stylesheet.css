@@ -41,11 +41,11 @@ strong {
 a {
   text-decoration: none;
   background: none;
-  color: #1d98c6;;
+  color: blue;
 }
 
 a:visited {
-  color: #1d98c6;;
+  color: blue;
 }
 
 a:hover {
