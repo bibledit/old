@@ -1,16 +1,16 @@
-# Dutch translation for bibledit
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Brazilian Portuguese translation for bibledit
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the bibledit package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-21 01:47+0200\n"
-"PO-Revision-Date: 2012-03-03 13:52+0000\n"
-"Last-Translator: ZENODotus <Unknown>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"PO-Revision-Date: 2012-02-04 21:47+0000\n"
+"Last-Translator: rodrigo <bilufe@yahoo.com.br>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,52 +18,52 @@ msgstr ""
 "X-Generator: Launchpad (build 16677)\n"
 
 msgid "Send/Receive"
-msgstr "Versturen/ontvangen"
+msgstr "Enviar/Receber"
 
 msgid ""
 "Will send and receive Bibles within a minute. See the logbook for progress."
 msgstr ""
-"Zal Bijbels binnen een minuut verzenden en ontvangen. Zie het logboek voor "
-"de voortgang."
+"Vou enviar e receber Bíblias dentro de um minuto. Veja o diário de bordo "
+"para o progresso."
 
 msgid "Will send and receive Bibles within a minute"
-msgstr "Zal Bijbels binnen een minuut verzenden en ontvangen"
+msgstr ""
 
 msgid "Please enter a name for the new user"
-msgstr "Voert u een naam in voor de nieuwe gebruiker"
+msgstr "Por favor digite o nome do novo usuário"
 
 msgid "User already exists"
-msgstr "Gebruiker bestaat al"
+msgstr "Usuário já existe"
 
 msgid "User created"
-msgstr "Gebruiker aangemaakt"
+msgstr "Usuário criado"
 
 msgid "Would you like to delete"
-msgstr "Wilt u verwijderen"
+msgstr "Você gostaria de apagar"
 
 msgid "Access level change"
-msgstr "Aanpassing in het toegangsniveau"
+msgstr "Mudanla de nível de acesso"
 
 msgid "Your access level was updated"
-msgstr "Uw toegangsnivo is bijgewerkt"
+msgstr "Seu nível de acesso foi atualizado"
 
 msgid "Please enter an email address for the user"
-msgstr "Geef een email adres voor de gebruiker"
+msgstr ""
 
 msgid "Email address was updated"
-msgstr "Email adres is bijgewerkt"
+msgstr ""
 
 msgid "The email address is not valid"
-msgstr "Het email adres is niet juist"
+msgstr ""
 
 msgid "Users"
-msgstr "Gebruikers"
+msgstr "Usuários"
 
 msgid "Management"
-msgstr "Beheer"
+msgstr "Gerenciamento"
 
 msgid "Exports"
-msgstr "Uitvoer"
+msgstr "Exportar"
 
 msgid "The Bibles will be exported within a minute."
 msgstr ""
@@ -71,41 +71,41 @@ msgstr ""
 msgid ""
 "Would you like to add a Bible to the list of Bibles that will be exported?"
 msgstr ""
-"Wilt u een Bijbel toevoegen aan de lijst van Bijbels die uitgevoerd zullen "
-"worden?"
+"Gostaria de adicionar uma Bíblia para a lista de Bíblias que serão "
+"exportados?"
 
 msgid "Would you like to use another stylesheet for all exports?"
-msgstr "Wilt u een andere stijlenlijst gebruiken voor alle uitvoer?"
+msgstr "Gostaria de usar outra folha de estilo para todas as exportações?"
 
 msgid "Please enter a page width in millimeters"
-msgstr "Voert u de breedte van de pagina in in millimeters"
+msgstr "Por favor insira a largura da página em milímetros"
 
 msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
-msgstr "De breedte van A4 is 210 mm. De breedte van Letter is 216 mm."
+msgstr "A largura do A4 é de 210 mm. A largura da Carta é de 216 mm."
 
 msgid "Please enter a page height in millimeters"
-msgstr "Voert u de hoogte van de pagina in in millimeters."
+msgstr "Digite uma altura da página em milímetros"
 
 msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
-msgstr "De hoogte van A4 is 297 mm. De breedte van Letter is 279 mm."
+msgstr "A altura do A4 é 297 mm. A largura da Carta é 279 mm."
 
 msgid "Please enter an inner margin size in millimeters"
-msgstr "Voert u een binnenste marge in in millimeters"
+msgstr "Por favor insira um tamanho de margem interna em milímetros"
 
 msgid "Please enter an outer margin size in millimeters"
-msgstr "Voert u een buitenste marge in in millimeters"
+msgstr "Por favor insira um tamanho de margem externa em milímetros"
 
 msgid "Please enter an top margin size in millimeters"
-msgstr "Voert u een bovenmarge in in millimeters"
+msgstr "Por favor insira um tamanho de margem superior em milímetros"
 
 msgid "Please enter an bottom margin size in millimeters"
-msgstr "Voert u een ondermarge in in millimeters."
+msgstr "Digite um tamanho da margem inferior em milímetros"
 
 msgid "The Sword configuration was saved"
 msgstr ""
 
 msgid "Changes"
-msgstr "Wijzigingen"
+msgstr "Alterações"
 
 msgid "The lists of changes will be generated within a minute."
 msgstr ""
@@ -114,41 +114,41 @@ msgid "The change notifications were cleared for the user."
 msgstr ""
 
 msgid "Hyphenation"
-msgstr "Woordafbreking"
+msgstr "Hifenização"
 
 msgid "The two sets of characters were saved"
-msgstr "De twee groepen lettertekens zijn opgeslagen"
+msgstr "Os dois conjuntos de caracteres foram salvos"
 
 msgid "Which Bible would you like to take the data from?"
-msgstr "Van welke Bijbel wilt u de gegevens nemen?"
+msgstr "Qual Bíblia você gostaria de ter os dados?"
 
 msgid "No Bible given"
-msgstr "Geen Bijbel gegeven"
+msgstr "Nenhum dado Bíblia"
 
 msgid "No first set of characters given"
-msgstr "De eerste groep lettertekens is niet gegeven"
+msgstr "Sem o primeiro conjunto de caracteres dados"
 
 msgid "No second set of characters given"
-msgstr "De tweede groep lettertekens is niet gegeven"
+msgstr ""
 
 msgid "The Bible is being hyphenated. See the logbook for details."
 msgstr ""
-"De woordafbreking in de Bijbel vindt plaats. Zie het logboek voor details."
+"A Bíblia está sendo hifenizada. Veja o diário de bordo para mais detalhes."
 
 msgid "Logbook was partially or fully cleared"
-msgstr "Het logboek was gedeeltelijk of helemaal geleegd"
+msgstr "O diário de bordo foi parcialmente ou totalmente limpo"
 
 msgid "Logbook"
-msgstr "Logboek"
+msgstr "Diário de bordo"
 
 msgid "Information"
 msgstr ""
 
 msgid "Number of chapters per book"
-msgstr "Aantal hoofdstukken per boek"
+msgstr "Número de capítulos por livro"
 
 msgid "Running headers"
-msgstr "Doorlopende koppen"
+msgstr "Cabeçalhos em execução"
 
 msgid "Long table of contents entries"
 msgstr ""
@@ -157,181 +157,181 @@ msgid "Short table of contents entries"
 msgstr ""
 
 msgid "Book abbreviations"
-msgstr "boekafkortingen"
+msgstr ""
 
 msgid "Publishing chapter labels"
-msgstr "publiceren van hoofdstuklabels"
+msgstr ""
 
 msgid "Publishing alternate chapter numbers"
-msgstr "Publiceren van afwijkende hoofdstuknummers"
+msgstr ""
 
 msgid "Word list, glossary, dictionary entries"
-msgstr "Woordenlijst-, glossarium-, woordenboekvermeldingen"
+msgstr ""
 
 msgid "Hebrew word list entries"
-msgstr "Hebreeuwse woordenlijstvermeldingen"
+msgstr "Lista de entradas de palavras hebraicas"
 
 msgid "Greek word list entries"
-msgstr "Griekse woordenlijstvermeldingen"
+msgstr ""
 
 msgid "Subject index entries"
-msgstr "Onderwerp indexvermeldingen"
+msgstr ""
 
 msgid "Other information"
-msgstr "Overige informatie"
+msgstr "Outras informações"
 
 msgid "Fallout"
 msgstr ""
 
 msgid "The collaboration system deleted a chapter"
-msgstr "Het samenwerkingssysteem verwijderde een hoofdstuk"
+msgstr ""
 
 msgid "The collaboration system updated a chapter"
-msgstr "Het samenwerkingsysteem heeft een hoofdstuk bijgewerkt"
+msgstr ""
 
 msgid "The collaboration system deleted a note"
-msgstr "Het samenwerkingssysteem heeft een nota verwijderd"
+msgstr ""
 
 msgid "The collaboration system created or updated a note"
-msgstr "Het samenwerkingssysteem heeft een nota gecreëerd of bijgewerkt"
+msgstr ""
 
 msgid "Failed to uncompress archive"
-msgstr "Kon archief niet decomprimeren"
+msgstr "Falha ao descomprimir arquivo"
 
 msgid "Failed to compress file"
-msgstr "Kon bestand niet comprimeren"
+msgstr "Falha ao comprimir o arquivo"
 
 msgid "Failed to compress folder"
-msgstr "Kon map niet comprimeren"
+msgstr "Falha ao imprimir a pasta"
 
 msgid "Bible"
-msgstr "Bijbel"
+msgstr "Bíblia"
 
 msgid "Would you like to change to another Bible?"
-msgstr "Wilt u naar een andere Bijbel overschakelen?"
+msgstr "Você gostaria de modificar outra Bíblia?"
 
 msgid "Go to another book"
-msgstr "Ga naar een ander boek"
+msgstr "Ir para outro livro"
 
 msgid "Go to another chapter"
-msgstr "Ga naar een ander hoofdstuk"
+msgstr "Ir para outro capítulo"
 
 msgid "Go to another verse"
-msgstr "Ga naar een ander vers"
+msgstr "Ir para outro versículo"
 
 msgid "Styles"
-msgstr "Stijlen"
+msgstr "Estilos"
 
 msgid "Would you like to switch to another stylesheet?"
-msgstr "Wilt u overschakelen naar een andere stylesheet?"
+msgstr ""
 
 msgid "Identification information"
-msgstr "Identificatie informatie"
+msgstr "Informações de identificação"
 
 msgid "Introduction titles and headings"
-msgstr "Inleiding titels en koppen"
+msgstr ""
 
 msgid "Introduction paragraphs and poetry"
-msgstr "Inleiding paragrafen en poëzie"
+msgstr ""
 
 msgid "Introduction other elements"
-msgstr "Inleiding andere elementen"
+msgstr ""
 
 msgid "Titles"
-msgstr "Titels"
+msgstr "Títulos"
 
 msgid "Headings"
-msgstr "Koppen"
+msgstr "Cabeçalhos"
 
 msgid "Chapters and verses"
-msgstr "Hoofdstukken en verzen"
+msgstr "Capítulos e versículos"
 
 msgid "Paragraphs"
-msgstr "Paragrafen"
+msgstr "Parágrafos"
 
 msgid "Lists"
-msgstr "Lijsten"
+msgstr "Listas"
 
 msgid "Poetry elements"
 msgstr ""
 
 msgid "Table elements"
-msgstr ""
+msgstr "Tabela de elementos"
 
 msgid "Footnotes"
-msgstr "Voetnoten"
+msgstr "Notas do rodapé"
 
 msgid "Crossreferences"
-msgstr "Kruisverwijzingen"
+msgstr "Referências cruzadas"
 
 msgid "Extended study notes"
-msgstr "Uitgebreide studieopmerkingen"
+msgstr ""
 
 msgid "Special text"
-msgstr "Speciale tekst"
+msgstr "Texto especial"
 
 msgid "Character styles"
-msgstr "Karakterstijlen"
+msgstr "Estilos de carácter"
 
 msgid "Spacings and breaks"
-msgstr "Spatiëring en regeleindes"
+msgstr "Espaços e quebras"
 
 msgid "Special features"
-msgstr "Speciale kenmerken"
+msgstr ""
 
 msgid "Peripheral materials"
 msgstr ""
 
 msgid "Extra styles"
-msgstr ""
+msgstr "Estilos extras"
 
 msgid "is an identifier"
 msgstr ""
 
 msgid "starts a new paragraph"
-msgstr "Start een nieuwe paragraaf"
+msgstr "inicie um novo parágrafo"
 
 msgid "is inline text with endmarker"
 msgstr ""
 
 msgid "is a chapter number"
-msgstr "Is een hoofdstuknummer"
+msgstr ""
 
 msgid "is a verse number"
-msgstr "Is een versnummer"
+msgstr ""
 
 msgid "is a footnote or endnote"
-msgstr "Is een voetnoot of eindnoot"
+msgstr ""
 
 msgid "is a crossreference"
-msgstr "Is een kruisverwijzing"
+msgstr ""
 
 msgid "is a peripheral element"
 msgstr ""
 
 msgid "is a picture"
-msgstr "Is een afbeelding"
+msgstr "é uma imagem"
 
 msgid "starts a new page"
-msgstr "Start een nieuwe pagina"
+msgstr "inicie uma nova página"
 
 msgid "is a table element"
-msgstr "Is een tabel element"
+msgstr ""
 
 msgid "is a word list element"
-msgstr "Is een woordenlijst element"
+msgstr ""
 
 msgid "identifies the book"
-msgstr "Identificeert het boek"
+msgstr "identifique o livro"
 
 msgid "identifies the encoding"
-msgstr "Identificeert de codering"
+msgstr ""
 
 msgid "is a comment"
-msgstr "Is een commentaar"
+msgstr "é um comentário"
 
 msgid "is a running header"
-msgstr "Is een lopende kop"
+msgstr ""
 
 msgid "is long table of contents text"
 msgstr ""
@@ -340,73 +340,73 @@ msgid "is short table of contents text"
 msgstr ""
 
 msgid "is the book abbreviation"
-msgstr "Is de boekafkorting"
+msgstr ""
 
 msgid "is the chapter label"
-msgstr "Is het hoofdstuklabel"
+msgstr ""
 
 msgid "is the published chapter marker"
 msgstr ""
 
 msgid "is a comment with an endmarker"
-msgstr "Is een commentaar met een eindmarkeerder"
+msgstr ""
 
 msgid "is a main title"
-msgstr "Is een hoofdtitel"
+msgstr "é um título principal"
 
 msgid "is a subtitle"
-msgstr "Is een ondertitel"
+msgstr "é um subtítulo"
 
 msgid "is a section heading"
-msgstr "Is een sectiekop"
+msgstr ""
 
 msgid "is a normal paragraph"
-msgstr "Is een normale paragraaf"
+msgstr "é um parágrafo normal"
 
 msgid "starts a footnote"
-msgstr "Start een voetnoot"
+msgstr "inicie uma nota de rodapé"
 
 msgid "starts an endnote"
-msgstr "Start een eindnoot"
+msgstr ""
 
 msgid "is standard content"
-msgstr "Is standaardinhoud"
+msgstr ""
 
 msgid "is content"
-msgstr "Is inhoud"
+msgstr ""
 
 msgid "is content with endmarker"
-msgstr "Is inhoud met eindmarkeerder"
+msgstr ""
 
 msgid "starts another paragraph"
-msgstr "Start een nieuwe paragraaf"
+msgstr "inicie outro parágrafo"
 
 msgid "starts a crossreference"
-msgstr "Start een kruisverwijzing"
+msgstr "inicie uma referência cruzada"
 
 msgid "starts publication data"
-msgstr "Start publicatiegegevens"
+msgstr ""
 
 msgid "starts table of contents"
-msgstr "Start inhoudstabel"
+msgstr ""
 
 msgid "starts preface"
-msgstr "Start voorwoord"
+msgstr "inicie o prefácio"
 
 msgid "starts introduction"
-msgstr "Start inleiding"
+msgstr ""
 
 msgid "starts concordance"
-msgstr "Start register"
+msgstr ""
 
 msgid "starts glossary"
-msgstr "Start glossarium"
+msgstr ""
 
 msgid "starts index"
-msgstr "Start index"
+msgstr ""
 
 msgid "starts map index"
-msgstr "Start kaartenindex"
+msgstr ""
 
 msgid "starts cover"
 msgstr ""
@@ -415,13 +415,13 @@ msgid "starts spine"
 msgstr ""
 
 msgid "starts a new row"
-msgstr "Start een nieuwe rij"
+msgstr ""
 
 msgid "is a column heading"
-msgstr "Is een kolomkop"
+msgstr ""
 
 msgid "is cell data"
-msgstr "Is kolominhoud"
+msgstr ""
 
 msgid "is a wordlist / glossary / dictionary entry"
 msgstr ""
@@ -436,107 +436,105 @@ msgid "is a subject index entry"
 msgstr ""
 
 msgid "Off"
-msgstr "Uit"
+msgstr ""
 
 msgid "On"
-msgstr "Aan"
+msgstr ""
 
 msgid "Inherit"
-msgstr "Overnemen"
+msgstr ""
 
 msgid "Toggle"
-msgstr "Schakelaar"
+msgstr ""
 
 msgid "Start (Left in left-to-right script)"
-msgstr "Start (links in links-naar-rechts script)"
+msgstr ""
 
 msgid "Center"
-msgstr "Centreren"
+msgstr ""
 
 msgid "End (Right in left-to-right script)"
-msgstr "Einde (Rechts in rechts-naar-links script)"
+msgstr ""
 
 msgid "Justify"
-msgstr "Uitvullen"
+msgstr ""
 
 msgid "Print chapter number at first verse"
-msgstr "Hoofdstuknummeer aan het eerst vers afdrukken"
+msgstr ""
 
 msgid "Start on a new page"
-msgstr "Begin op een nieuwe pagina"
+msgstr ""
 
 msgid "Refers to the Apocrypha"
-msgstr "Verwijst naar de Apocrypha"
+msgstr ""
 
 msgid "Restart paragraph"
-msgstr "Herbegin paragraaf"
+msgstr ""
 
 msgid ""
 "New page starts with an odd number (not implemented due to limitations in "
 "OpenDocument)"
 msgstr ""
-"Begin nieuwe pagina met een oneven nummer (Niet geïmplementeerd door "
-"beperkingen in OpenDocument)"
 
 msgid "Print chapter number in the running header of the left page"
-msgstr "Hoofdstuknummer in de lopende kop van de linkerpagina afdrukken"
+msgstr ""
 
 msgid "Print this in the running header of the left page"
-msgstr "Dit afdrukken in de lopende kop van de linkerpagina"
+msgstr ""
 
 msgid "Print chapter number in the running header of the right page"
-msgstr "Hoofdstuknummer in de lopende kop van de rechterpagina afdrukken"
+msgstr ""
 
 msgid "Print this in the running header of the right page"
-msgstr "Dit afdrukken in de lopende kop van de rechterpagina"
+msgstr ""
 
 msgid "User defined sequence"
 msgstr ""
 
 msgid "Never"
-msgstr "nooit"
+msgstr ""
 
 msgid "Every book"
-msgstr "Alle boeken"
+msgstr ""
 
 msgid "Every chapter"
-msgstr "Alle hoofdstukken"
+msgstr ""
 
 msgid "After each book"
-msgstr "Na elk boek"
+msgstr ""
 
 msgid "After everything else"
-msgstr "Na al het andere"
+msgstr ""
 
 msgid "Upon encountering a certain marker"
-msgstr "Na het tegenkomen van een bepaalde markeerder"
+msgstr ""
 
 msgid "Would you like to delete this stylesheet?"
-msgstr "Wilt u deze stylesheet verwijderen?"
+msgstr ""
 
 msgid "Please enter the name for the new stylesheet"
-msgstr "Geef de naam voor de nieuwe stylesheet"
+msgstr ""
 
 msgid "Please enter the name for the style"
-msgstr "Geef de naam voor de nieuwe stijl"
+msgstr ""
 
 msgid "Please enter the description for the style"
-msgstr "Geef de omschrijving van de stijl"
+msgstr ""
 
 msgid "Would you like to change the category of this style?"
-msgstr "Wilt u the categorie aanpassen van deze stijl?"
+msgstr ""
 
 msgid "Here are the various categories:"
-msgstr "Hier zijn de verschillende categorieën:"
+msgstr ""
 
 msgid "Please pick one."
-msgstr "Selecteer één"
+msgstr ""
 
 msgid "Would you like to change the type of this style?"
-msgstr "Wilt u het type aanpassen van deze stijl?"
+msgstr ""
 
 msgid "Here are the various types:"
-msgstr "Hier zijn de verschillende typen:"
+msgstr ""
 
 msgid "Would you like to change the sub type of this style?"
 msgstr ""
@@ -656,13 +654,13 @@ msgid "Typesetting in InDesign"
 msgstr ""
 
 msgid "Introduction"
-msgstr "Inleiding"
+msgstr ""
 
 msgid "Release Planning"
 msgstr ""
 
 msgid "Help"
-msgstr "Hulp"
+msgstr ""
 
 msgid "Consultations"
 msgstr ""
@@ -692,7 +690,7 @@ msgid "Product Backlog"
 msgstr ""
 
 msgid "About"
-msgstr "Info over"
+msgstr ""
 
 msgid "Typesetting in LibreOffice"
 msgstr ""
@@ -753,150 +751,131 @@ msgid "Translation"
 msgstr ""
 
 msgid "Warning"
-msgstr "Waarschuwing"
+msgstr ""
 
 msgid "Username or email address is too short"
-msgstr "Gebruikersnaam of email adres is te kort"
+msgstr ""
 
 msgid "Account changed"
-msgstr "Account aangepast"
+msgstr ""
 
 msgid "Somebody requested a new password for your account."
-msgstr "Iemand vroeg om een nieuw wachtwoord voor uw account"
+msgstr ""
 
 msgid "Here is the new password:"
-msgstr "Hier is het nieuwe wachtwoord:"
+msgstr ""
 
 msgid ""
 "It is recommended to log into your account with this new password, and then "
 "change it."
 msgstr ""
-"Het wordt aangevolen om in te loggen in uw account met dit nieuwe "
-"wachtwoord, en om het dan te veranderen."
 
 msgid ""
 "A message was sent to the email address belonging to this account to help "
 "you getting the password"
 msgstr ""
-"Een bericht is naar het email adres van dit acccount gestuurd om u te helpen "
-"om het wachtwoord te verkrijgen"
 
 msgid "Username or email address cannot be found"
-msgstr "Gebruikersnaam of email adres niet gevonden"
+msgstr ""
 
 msgid "Username should be at least two characters long"
 msgstr ""
 
 msgid "Password should be at least four characters long"
-msgstr "Het wachtwoord moet tenminste vier tekens lang zijn"
+msgstr ""
 
 msgid "Username or email address or password are not correct"
-msgstr "Gebruikersnaam of email adres of wachtwoord is niet correct"
+msgstr ""
 
 msgid "Guest"
-msgstr "Gast"
+msgstr ""
 
 msgid "Member"
-msgstr "Lid"
+msgstr ""
 
 msgid "Consultant"
-msgstr "Consultant"
+msgstr ""
 
 msgid "Translator"
-msgstr "Vertaler"
+msgstr ""
 
 msgid "Manager"
-msgstr "Manager"
+msgstr ""
 
 msgid "Administrator"
-msgstr "Systeembeheerder"
+msgstr ""
 
 msgid ""
 "To which city was Paul travelling when a light from heaven shone round about "
 "him?"
 msgstr ""
-"Naar welke stad was Paulus op reis toen een licht van de hemel hem rondom "
-"bescheen?"
 
 msgid "Damascus"
-msgstr "Damascus"
+msgstr ""
 
 msgid ""
 "And while he travelled, he came near Damascus; and suddenly a light from "
 "heaven shone round about him."
 msgstr ""
-"En terwijl hij reisde kwam hij in de buurt van Damascus; en plotseling "
-"bescheen een licht van de hemel hem rondom."
 
 msgid "What is the name of the brother of Aaron the high priest?"
-msgstr "Wat is de naam van de broer van Aaron de hogepriester?"
+msgstr ""
 
 msgid "Moses"
-msgstr "Mozes"
+msgstr ""
 
 msgid ""
 "And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
 "the Levite your brother?"
 msgstr ""
-"En de toorn van Jehova ontstak tegen Mozes, en hij zei: Is Aaron de Leviet "
-"niet uw broer?"
 
 msgid "What is the name of the city where Jesus was born?"
-msgstr "Wat is de naam van de stad waar Jezus geboren is?"
+msgstr ""
 
 msgid "Bethlehem"
-msgstr "Bethlehem"
+msgstr ""
 
 msgid ""
 "When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
 "behold, wise men from the east came to Jerusalem."
 msgstr ""
-"Toen Jezus geboren was in Bethlehem van Judea in de dagen van Herodes de "
-"koning, zie, er kwamen wijzen uit het oosten naar Jeruzalem"
 
 msgid "What is the name of the island where John was sent to?"
-msgstr "Hoe heet het eiland waar Johannes heen was gestuurd?"
+msgstr ""
 
 msgid "Patmos"
-msgstr "Patmos"
+msgstr ""
 
 msgid ""
 "I, John, your brother and companion in the persecution, and in the kingdom "
 "and endurance of Jesus Christ, was in the island which is called Patmos, "
 "because of the word of God, and because of the testimony of Jesus Christ."
 msgstr ""
-"Ik, Johanes, je broer en metgezel in de verdrukking en in het koninkrijk en "
-"de volharding van Jezus Christus, was in het eiland genaamd Patmos, vanwege "
-"het woord van God, en vanwege het getuigenis van Jezus Christus."
 
 msgid "The answer to the question is not correct"
-msgstr "Het antwoord op de vraag is niet juist"
+msgstr ""
 
 msgid ""
 "The username that you have chosen has already been taken. Please choose "
 "another one."
 msgstr ""
-"De gebruikersnaam die u heeft gekozen is al in gebruik. U kunt een andere "
-"kiezen."
 
 msgid ""
 "The email address that you have chosen has already been taken. Please choose "
 "another one."
 msgstr ""
-"Het email adres dat u gekozen heeft is al in gebruik. Kiest u een ander "
-"adres."
 
 msgid "Signup verification"
-msgstr "Verificatie inschrijving"
+msgstr ""
 
 msgid "Somebody requested to open an account with this email address."
-msgstr "Iemand heeft verzocht een account te openen met dit email adres."
+msgstr ""
 
 msgid "Account opened"
-msgstr "Account geopend"
+msgstr ""
 
 msgid "Welcome! Your account is now active."
-msgstr "Welkom! Uw account is nu geactiveerd."
+msgstr ""
 
 msgid "statistics: Sending statistics to users"
 msgstr ""
@@ -962,33 +941,33 @@ msgid "Notifications"
 msgstr ""
 
 msgid "Passwords do not match"
-msgstr "Wachtwoorden komen niet overeen"
+msgstr ""
 
 msgid "Current password is not valid"
-msgstr "Huidig password is niet juist"
+msgstr ""
 
 msgid "The new password was saved"
-msgstr "Het nieuwe wachtwoord is opgeslagen"
+msgstr ""
 
 msgid "Email address is not valid"
-msgstr "Email adres is niet juist"
+msgstr ""
 
 msgid "Email address verification"
-msgstr "Verificatie email adres"
+msgstr ""
 
 msgid ""
 "Somebody requested to change the email address that belongs to your account."
-msgstr "Iemand verzocht om het email adres van uw account te veranderen."
+msgstr ""
 
 msgid "Email address change"
-msgstr "Email adres wijziging"
+msgstr ""
 
 msgid ""
 "The email address that belongs to your account has been changed successfully."
-msgstr "Het email adres dat bij uw account hoort is met succes gewijzigd."
+msgstr ""
 
 msgid "No changes were made"
-msgstr "Er zijn geen wijzigingen aangebracht"
+msgstr ""
 
 msgid "Timezone"
 msgstr ""
@@ -1219,31 +1198,31 @@ msgid "Search"
 msgstr ""
 
 msgid "Cannot access the database"
-msgstr "Kan geen toegang verkrijgen tot de database"
+msgstr ""
 
 msgid "The site is not in operation at the moment."
-msgstr "De site werkt momenteel niet."
+msgstr ""
 
 msgid "Unknown"
-msgstr "Onbekend"
+msgstr ""
 
 msgid "XXX"
-msgstr "XXX"
+msgstr ""
 
 msgid "Xxx"
 msgstr ""
 
 msgid "New"
-msgstr "Nieuw"
+msgstr ""
 
 msgid "Pending"
-msgstr "In afwachting"
+msgstr ""
 
 msgid "In progress"
-msgstr "Bezig"
+msgstr ""
 
 msgid "Done"
-msgstr "Klaar"
+msgstr ""
 
 msgid "Reopened"
 msgstr ""
@@ -1252,13 +1231,13 @@ msgid "Wish"
 msgstr ""
 
 msgid "Minor"
-msgstr "Klein"
+msgstr ""
 
 msgid "Normal"
-msgstr "Standaard"
+msgstr ""
 
 msgid "Important"
-msgstr "Belangrijk"
+msgstr ""
 
 msgid "Major"
 msgstr ""
@@ -1322,7 +1301,7 @@ msgid "Pushing your data to the remote repository failed."
 msgstr ""
 
 msgid "Administration"
-msgstr "Beheer"
+msgstr ""
 
 msgid "Backup"
 msgstr ""

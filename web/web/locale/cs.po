@@ -7,20 +7,63 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-04-23 01:45+0200\n"
+"POT-Creation-Date: 2013-06-21 01:47+0200\n"
 "PO-Revision-Date: 2010-06-11 20:10+0000\n"
 "Last-Translator: escamilo <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-26 04:34+0000\n"
-"X-Generator: Launchpad (build 12758)\n"
+"X-Launchpad-Export-Date: 2013-06-22 04:30+0000\n"
+"X-Generator: Launchpad (build 16677)\n"
+
+msgid "Send/Receive"
+msgstr ""
+
+msgid ""
+"Will send and receive Bibles within a minute. See the logbook for progress."
+msgstr ""
+
+msgid "Will send and receive Bibles within a minute"
+msgstr ""
+
+msgid "Please enter a name for the new user"
+msgstr ""
+
+msgid "User already exists"
+msgstr ""
+
+msgid "User created"
+msgstr ""
+
+msgid "Would you like to delete"
+msgstr ""
+
+msgid "Access level change"
+msgstr ""
+
+msgid "Your access level was updated"
+msgstr ""
+
+msgid "Please enter an email address for the user"
+msgstr ""
+
+msgid "Email address was updated"
+msgstr ""
+
+msgid "The email address is not valid"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Management"
+msgstr ""
 
 msgid "Exports"
 msgstr ""
 
-msgid "The Bibles will be exported soon."
+msgid "The Bibles will be exported within a minute."
 msgstr ""
 
 msgid ""
@@ -54,46 +97,16 @@ msgstr ""
 msgid "Please enter an bottom margin size in millimeters"
 msgstr ""
 
-msgid "Logbook was partially or fully cleared"
-msgstr ""
-
-msgid "Logbook"
+msgid "The Sword configuration was saved"
 msgstr ""
 
 msgid "Changes"
 msgstr ""
 
-msgid "The lists of changes will be generated soon."
+msgid "The lists of changes will be generated within a minute."
 msgstr ""
 
-msgid "Please enter a name for the new user"
-msgstr ""
-
-msgid "User already exists"
-msgstr ""
-
-msgid "User created"
-msgstr ""
-
-msgid "Would you like to delete"
-msgstr ""
-
-msgid "Access level change"
-msgstr ""
-
-msgid "Your access level was updated"
-msgstr ""
-
-msgid "Users"
-msgstr ""
-
-msgid "Management"
-msgstr ""
-
-msgid "Send/Receive"
-msgstr ""
-
-msgid "Will send and receive Bibles soon. See the logbook for progress."
+msgid "The change notifications were cleared for the user."
 msgstr ""
 
 msgid "Hyphenation"
@@ -117,440 +130,77 @@ msgstr ""
 msgid "The Bible is being hyphenated. See the logbook for details."
 msgstr ""
 
-msgid "See footnote"
+msgid "Logbook was partially or fully cleared"
 msgstr ""
 
-msgid "Return to text"
+msgid "Logbook"
 msgstr ""
 
-msgid "New"
+msgid "Information"
 msgstr ""
 
-msgid "Pending"
+msgid "Number of chapters per book"
 msgstr ""
 
-msgid "In progress"
+msgid "Running headers"
 msgstr ""
 
-msgid "Done"
+msgid "Long table of contents entries"
 msgstr ""
 
-msgid "Reopened"
+msgid "Short table of contents entries"
 msgstr ""
 
-msgid "Wish"
+msgid "Book abbreviations"
 msgstr ""
 
-msgid "Minor"
+msgid "Publishing chapter labels"
 msgstr ""
 
-msgid "Normal"
+msgid "Publishing alternate chapter numbers"
 msgstr ""
 
-msgid "Important"
+msgid "Word list, glossary, dictionary entries"
 msgstr ""
 
-msgid "Major"
+msgid "Hebrew word list entries"
 msgstr ""
 
-msgid "Critical"
+msgid "Greek word list entries"
 msgstr ""
 
-msgid "Cannot access the database"
+msgid "Subject index entries"
 msgstr ""
 
-msgid "The site is not in operation at the moment."
+msgid "Other information"
 msgstr ""
 
-msgid "Unknown"
+msgid "Fallout"
 msgstr ""
 
-msgid "XXX"
+msgid "The collaboration system deleted a chapter"
 msgstr ""
 
-msgid "Import"
+msgid "The collaboration system updated a chapter"
 msgstr ""
 
-msgid "Could not find the folder with the consultation notes"
+msgid "The collaboration system deleted a note"
 msgstr ""
 
-msgid "Notes"
+msgid "The collaboration system created or updated a note"
 msgstr ""
 
-msgid "Removal of duplicate consultation notes has started"
+msgid "Failed to uncompress archive"
 msgstr ""
 
-msgid "Looking into note"
+msgid "Failed to compress file"
 msgstr ""
 
-msgid "Deleting duplicate note"
+msgid "Failed to compress folder"
 msgstr ""
 
-msgid "This note no longer exists"
-msgstr ""
-
-msgid "Removal of duplicate consultation notes has finished"
-msgstr ""
-
-msgid "Comment"
-msgstr ""
-
-msgid "Updated"
-msgstr ""
-
-msgid "Assigned"
-msgstr ""
-
-msgid "Deleted"
-msgstr ""
-
-msgid "Your comment was posted"
-msgstr ""
-
-msgid "Unknown book"
-msgstr ""
-
-msgid "Unknown chapter"
-msgstr ""
-
-msgid "Unknown verse"
-msgstr ""
-
-msgid "Unknown summary"
-msgstr ""
-
-msgid "Your new note could not be posted"
-msgstr ""
-
-msgid "Your new note was posted"
-msgstr ""
-
-msgid "Import consultation notes has started"
-msgstr ""
-
-msgid "Importing from folder:"
-msgstr ""
-
-msgid "Note"
-msgstr ""
-
-msgid "Imported"
-msgstr ""
-
-msgid "Could not import the note"
-msgstr ""
-
-msgid "This is not a note"
-msgstr ""
-
-msgid "Import consultation notes has finished"
-msgstr ""
-
-msgid "There was nothing to save"
-msgstr ""
-
-msgid "Please enter the summary"
-msgstr ""
-
-msgid "Would you like to assign this note to a user?"
-msgstr ""
-
-msgid "Would you like to assign this note to another Bible?"
-msgstr ""
-
-msgid "Make it a general note which does not apply to any particular Bible"
-msgstr ""
-
-msgid "Would you like to change the status of this note?"
-msgstr ""
-
-msgid "Would you like to change the severity of this note?"
-msgstr ""
-
-msgid "Would you like to change the the visibility of this note?"
-msgstr ""
-
-msgid "The note will be visible to:"
-msgstr ""
-
-msgid "Would you like to edit the verses?"
-msgstr ""
-
-msgid "Search text saved"
-msgstr ""
-
-msgid "You subscribed to these notes"
-msgstr ""
-
-msgid "You unsubscribed from these notes"
-msgstr ""
-
-msgid "Would you like to assign these notes to a user?"
-msgstr ""
-
-msgid "The notes were assigned to the user"
-msgstr ""
-
-msgid "Would you like to remove the assignment of these notes to a user?"
-msgstr ""
-
-msgid "The notes are no longer assigned to the user"
-msgstr ""
-
-msgid "Would you like to change the status of these notes?"
-msgstr ""
-
-msgid "The status of the notes was updated"
-msgstr ""
-
-msgid "Would you like to change the severity of these notes?"
-msgstr ""
-
-msgid "The severity of the notes was updated"
-msgstr ""
-
-msgid "Would you like to change the visibility of these notes?"
-msgstr ""
-
-msgid "The notes should be visible to:"
-msgstr ""
-
-msgid "The visibility of the notes was updated"
-msgstr ""
-
-msgid "Would you like to assign these notes to another Bible?"
-msgstr ""
-
-msgid "The Bible of the notes was updated"
-msgstr ""
-
-msgid "Would you like to delete the notes?"
-msgstr ""
-
-msgid "The notes were deleted"
-msgstr ""
-
-msgid "This view does not display any notes."
-msgstr ""
-
-msgid "Removing duplicate consultation notes"
-msgstr ""
-
-msgid "Desktop"
-msgstr ""
-
-msgid "Here are the various options:"
-msgstr ""
-
-msgid "Please pick one."
-msgstr ""
-
-msgid "Chapter was saved."
-msgstr ""
-
-msgid "The following data could not be saved and was discarded:"
-msgstr ""
-
-msgid ""
-"The text was not valid Unicode UTF-8. The chapter could not saved and has "
-"been reverted to the last good version."
-msgstr ""
-
-msgid ""
-"There was no text. Nothing was saved. The original text of the chapter was "
-"reloaded."
-msgstr ""
-
-msgid "This chapter does not exist or is empty"
-msgstr ""
-
-msgid "The line was saved."
-msgstr ""
-
-msgid "Warning"
-msgstr ""
-
-msgid "Would you like to delete this versification system?"
-msgstr ""
-
-msgid "Please enter the name for the new versification system"
-msgstr ""
-
-msgid "Failed to temporarily store the .git directory"
-msgstr ""
-
-msgid "Failed to restore the .git directory"
-msgstr ""
-
-msgid "Step 1/2: Exporting the local data to the local repository"
-msgstr ""
-
-msgid "Step 2/2: Pushing the data to the remote repository"
-msgstr ""
-
-msgid ""
-"Your data was pushed to the remote repository successfully, overwriting any "
-"data that was there before."
-msgstr ""
-
-msgid "Pushing your data to the remote repository failed."
-msgstr ""
-
-msgid "Backup"
-msgstr ""
-
-msgid "Backups are disabled"
-msgstr ""
-
-msgid "The filename was saved and the backup will be created soon"
-msgstr ""
-
-msgid "Collaboration"
-msgstr ""
-
-msgid "Ok: The repository was cloned successfully."
-msgstr ""
-
-msgid "Error: The repository could not be cloned."
-msgstr ""
-
-msgid "Read access to the repository is successful."
-msgstr ""
-
-msgid "Read access failed. Please retry it, possibly with another URL."
-msgstr ""
-
-msgid ""
-"Step 1/1: Copying the data from the local cloned repository, and storing it "
-"in the Consultation Notes"
-msgstr ""
-
-msgid ""
-"Step 1/1: Copying the data from the local cloned repository, and storing it "
-"in the Bible"
-msgstr ""
-
-msgid "The email address does not appear to be valid"
-msgstr ""
-
-msgid "The name and email address were saved"
-msgstr ""
-
-msgid "The details were saved."
-msgstr ""
-
-msgid "The account was accessed successfully."
-msgstr ""
-
-msgid "Messages on server:"
-msgstr ""
-
-msgid ""
-"For the purpose of trying whether Bibledit-Web can send email, a test email "
-"was sent out to the account above:"
-msgstr ""
-
-msgid "Administration"
-msgstr ""
-
-msgid "Which Bible are you going to use?"
-msgstr ""
-
-msgid "Step: Adding a temporal file to the cloned repository"
-msgstr ""
-
-msgid "Ok: Local addition was made successfully."
-msgstr ""
-
-msgid "Error: Local addition failed."
-msgstr ""
-
-msgid "Step: Committing the above changes locally"
-msgstr ""
-
-msgid "Ok: Local commit was made successfully."
-msgstr ""
-
-msgid "Error: Local commit failed."
-msgstr ""
-
-msgid "Step: Pulling changes from the remote repository"
-msgstr ""
-
-msgid "Ok: Changes were pulled from the repository successfully."
-msgstr ""
-
-msgid "Step: Pushing changes to the remote repository"
-msgstr ""
-
-msgid "Ok: Changes were pushed to the repository successfully."
-msgstr ""
-
-msgid "Error: Pushing changes to the repository failed."
-msgstr ""
-
-msgid "Step: Removing the temporal file from the local repository"
-msgstr ""
-
-msgid ""
-"Ok: The temporal file was removed from the local repository successfully."
-msgstr ""
-
-msgid "Error: Removing the temporal file from the local repository failed."
-msgstr ""
-
-msgid "Step: Pushing the changes to the remote repository"
-msgstr ""
-
-msgid "Ok: Changes were pushed to the remote repository successfully."
-msgstr ""
-
-msgid "Error: Pushing changes to the remote repository failed."
-msgstr ""
-
-msgid "Timezone"
-msgstr ""
-
-msgid "Would you like to change the default timezone for the site?"
-msgstr ""
-
-msgid "Notifications"
-msgstr ""
-
-msgid "Password should be at least four characters long"
-msgstr ""
-
-msgid "Passwords do not match"
-msgstr ""
-
-msgid "Current password is not valid"
-msgstr ""
-
-msgid "The new password was saved"
-msgstr ""
-
-msgid "Email address is not valid"
-msgstr ""
-
-msgid "Email address verification"
-msgstr ""
-
-msgid ""
-"Somebody requested to change the email address that belongs to your account."
-msgstr ""
-
-msgid "Email address change"
-msgstr ""
-
-msgid ""
-"The email address that belongs to your account has been changed successfully."
-msgstr ""
-
-msgid "No changes were made"
-msgstr ""
-
-msgid "Would you like to change your timezone?"
-msgstr ""
+msgid "Bible"
+msgstr "Bible"
 
 msgid "Would you like to change to another Bible?"
 msgstr ""
@@ -562,133 +212,6 @@ msgid "Go to another chapter"
 msgstr ""
 
 msgid "Go to another verse"
-msgstr ""
-
-msgid "Guest"
-msgstr ""
-
-msgid "Member"
-msgstr ""
-
-msgid "Consultant"
-msgstr ""
-
-msgid "Translator"
-msgstr ""
-
-msgid "Manager"
-msgstr ""
-
-msgid "Administrator"
-msgstr ""
-
-msgid "Username should be at least two characters long"
-msgstr ""
-
-msgid "Username or email address or password are not correct"
-msgstr ""
-
-msgid "Username or email address is too short"
-msgstr ""
-
-msgid "Account changed"
-msgstr ""
-
-msgid "Somebody requested a new password for your account."
-msgstr ""
-
-msgid "Here is the new password:"
-msgstr ""
-
-msgid ""
-"It is recommended to log into your account with this new password, and then "
-"change it."
-msgstr ""
-
-msgid ""
-"A message was sent to the email address belonging to this account to help "
-"you getting the password"
-msgstr ""
-
-msgid "Username or email address cannot be found"
-msgstr ""
-
-msgid ""
-"To which city was Paul travelling when a light from heaven shone round about "
-"him?"
-msgstr ""
-
-msgid "Damascus"
-msgstr ""
-
-msgid ""
-"And while he travelled, he came near Damascus; and suddenly a light from "
-"heaven shone round about him."
-msgstr ""
-
-msgid "What is the name of the brother of Aaron the high priest?"
-msgstr ""
-
-msgid "Moses"
-msgstr ""
-
-msgid ""
-"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
-"the Levite your brother?"
-msgstr ""
-
-msgid "What is the name of the city where Jesus was born?"
-msgstr ""
-
-msgid "Bethlehem"
-msgstr ""
-
-msgid ""
-"When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
-"behold, wise men from the east came to Jerusalem."
-msgstr ""
-
-msgid "What is the name of the island where John was sent to?"
-msgstr ""
-
-msgid "Patmos"
-msgstr ""
-
-msgid ""
-"I, John, your brother and companion in the persecution, and in the kingdom "
-"and endurance of Jesus Christ, was in the island which is called Patmos, "
-"because of the word of God, and because of the testimony of Jesus Christ."
-msgstr ""
-
-msgid "The email address is not valid"
-msgstr ""
-
-msgid "The answer to the question is not correct"
-msgstr ""
-
-msgid ""
-"The username that you have chosen has already been taken. Please choose "
-"another one."
-msgstr ""
-
-msgid ""
-"The email address that you have chosen has already been taken. Please choose "
-"another one."
-msgstr ""
-
-msgid "Signup verification"
-msgstr ""
-
-msgid "Somebody requested to open an account with this email address."
-msgstr ""
-
-msgid "Account opened"
-msgstr ""
-
-msgid "Welcome! Your account is now active."
-msgstr ""
-
-msgid "Downloads"
 msgstr ""
 
 msgid "Styles"
@@ -999,6 +522,9 @@ msgstr ""
 msgid "Here are the various categories:"
 msgstr ""
 
+msgid "Please pick one."
+msgstr ""
+
 msgid "Would you like to change the type of this style?"
 msgstr ""
 
@@ -1113,7 +639,986 @@ msgstr ""
 msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
 
+msgid "ChangeLog"
+msgstr ""
+
+msgid "Typesetting"
+msgstr ""
+
+msgid "Typesetting in InDesign"
+msgstr ""
+
+msgid "Introduction"
+msgstr ""
+
+msgid "Release Planning"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Consultations"
+msgstr ""
+
+msgid "Product Owner"
+msgstr ""
+
+msgid "Installation"
+msgstr ""
+
+msgid "Daily Scrum Meeting"
+msgstr ""
+
+msgid "FTP server"
+msgstr ""
+
+msgid "Scrum-based translation"
+msgstr ""
+
+msgid "Methodology"
+msgstr ""
+
+msgid "Sprint Backlog"
+msgstr ""
+
+msgid "Product Backlog"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "Typesetting in LibreOffice"
+msgstr ""
+
+msgid "Sentence Structure"
+msgstr ""
+
+msgid "The capitals were stored"
+msgstr ""
+
+msgid "The small letters were stored"
+msgstr ""
+
+msgid "The punctuation marks at the ends of sentences were stored"
+msgstr ""
+
+msgid "The punctuation marks within the sentences were stored"
+msgstr ""
+
+msgid ""
+"The characters that should be disregarded within the sentences were stored"
+msgstr ""
+
+msgid "The names that may occur after mid-sentence punctuation were stored"
+msgstr ""
+
+msgid "The passage for this entry was not found."
+msgstr ""
+
+msgid "Checks"
+msgstr ""
+
+msgid "The entry was approved and suppressed."
+msgstr ""
+
+msgid "The entry was deleted for just now."
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Will run the checks within a minute. See the logbook for progress."
+msgstr ""
+
+msgid "Will run the checks within a minute"
+msgstr ""
+
+msgid "Would you like to add a Bible to the ones that will be checked?"
+msgstr ""
+
+msgid "Suppressed check results"
+msgstr ""
+
+msgid "The check result will no longer be suppressed."
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "Username or email address is too short"
+msgstr ""
+
+msgid "Account changed"
+msgstr ""
+
+msgid "Somebody requested a new password for your account."
+msgstr ""
+
+msgid "Here is the new password:"
+msgstr ""
+
+msgid ""
+"It is recommended to log into your account with this new password, and then "
+"change it."
+msgstr ""
+
+msgid ""
+"A message was sent to the email address belonging to this account to help "
+"you getting the password"
+msgstr ""
+
+msgid "Username or email address cannot be found"
+msgstr ""
+
+msgid "Username should be at least two characters long"
+msgstr ""
+
+msgid "Password should be at least four characters long"
+msgstr ""
+
+msgid "Username or email address or password are not correct"
+msgstr ""
+
+msgid "Guest"
+msgstr ""
+
+msgid "Member"
+msgstr ""
+
+msgid "Consultant"
+msgstr ""
+
+msgid "Translator"
+msgstr ""
+
+msgid "Manager"
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid ""
+"To which city was Paul travelling when a light from heaven shone round about "
+"him?"
+msgstr ""
+
+msgid "Damascus"
+msgstr ""
+
+msgid ""
+"And while he travelled, he came near Damascus; and suddenly a light from "
+"heaven shone round about him."
+msgstr ""
+
+msgid "What is the name of the brother of Aaron the high priest?"
+msgstr ""
+
+msgid "Moses"
+msgstr ""
+
+msgid ""
+"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
+"the Levite your brother?"
+msgstr ""
+
+msgid "What is the name of the city where Jesus was born?"
+msgstr ""
+
+msgid "Bethlehem"
+msgstr ""
+
+msgid ""
+"When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
+"behold, wise men from the east came to Jerusalem."
+msgstr ""
+
+msgid "What is the name of the island where John was sent to?"
+msgstr ""
+
+msgid "Patmos"
+msgstr ""
+
+msgid ""
+"I, John, your brother and companion in the persecution, and in the kingdom "
+"and endurance of Jesus Christ, was in the island which is called Patmos, "
+"because of the word of God, and because of the testimony of Jesus Christ."
+msgstr ""
+
+msgid "The answer to the question is not correct"
+msgstr ""
+
+msgid ""
+"The username that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid ""
+"The email address that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid "Signup verification"
+msgstr ""
+
+msgid "Somebody requested to open an account with this email address."
+msgstr ""
+
+msgid "Account opened"
+msgstr ""
+
+msgid "Welcome! Your account is now active."
+msgstr ""
+
+msgid "statistics: Sending statistics to users"
+msgstr ""
+
+msgid "statistics"
+msgstr ""
+
+msgid "Number of change notifications awaiting your approval"
+msgstr ""
+
+msgid "Number of consultation notes assigned to you awaiting your response"
+msgstr ""
+
+msgid "statistics: Completed"
+msgstr ""
+
+msgid "Go back to Bible"
+msgstr ""
+
+msgid "Go back to"
+msgstr ""
+
+msgid "changes: Generating lists of changes in the Bibles"
+msgstr ""
+
+msgid "Recent changes"
+msgstr ""
+
+msgid "changes: Archiving older set of changes"
+msgstr ""
+
+msgid "changes: Completed"
+msgstr ""
+
+msgid "checks: Running checks on the Bibles"
+msgstr ""
+
+msgid "Bible Checks"
+msgstr ""
+
+msgid "checks: Completed"
+msgstr ""
+
+msgid "See footnote"
+msgstr ""
+
+msgid "Return to text"
+msgstr ""
+
+msgid "Search the Bible"
+msgstr ""
+
+msgid ""
+"Please confirm this request by replying to this email. There is a "
+"confirmation number in the subject line. Your reply should have this same "
+"confirmation number in the subject line."
+msgstr ""
+
+msgid "chapters"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Passwords do not match"
+msgstr ""
+
+msgid "Current password is not valid"
+msgstr ""
+
+msgid "The new password was saved"
+msgstr ""
+
+msgid "Email address is not valid"
+msgstr ""
+
+msgid "Email address verification"
+msgstr ""
+
+msgid ""
+"Somebody requested to change the email address that belongs to your account."
+msgstr ""
+
+msgid "Email address change"
+msgstr ""
+
+msgid ""
+"The email address that belongs to your account has been changed successfully."
+msgstr ""
+
+msgid "No changes were made"
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid "Would you like to change your timezone?"
+msgstr ""
+
+msgid "Front Matter"
+msgstr ""
+
+msgid "Genesis"
+msgstr ""
+
+msgid "Exodus"
+msgstr ""
+
+msgid "Leviticus"
+msgstr ""
+
+msgid "Numbers"
+msgstr ""
+
+msgid "Deuteronomy"
+msgstr ""
+
+msgid "Joshua"
+msgstr ""
+
+msgid "Judges"
+msgstr ""
+
+msgid "Ruth"
+msgstr ""
+
+msgid "1 Samuel"
+msgstr ""
+
+msgid "2 Samuel"
+msgstr ""
+
+msgid "1 Kings"
+msgstr ""
+
+msgid "2 Kings"
+msgstr ""
+
+msgid "1 Chronicles"
+msgstr ""
+
+msgid "2 Chronicles"
+msgstr ""
+
+msgid "Ezra"
+msgstr ""
+
+msgid "Nehemiah"
+msgstr ""
+
+msgid "Esther"
+msgstr ""
+
+msgid "Job"
+msgstr ""
+
+msgid "Psalms"
+msgstr ""
+
+msgid "Proverbs"
+msgstr ""
+
+msgid "Ecclesiastes"
+msgstr ""
+
+msgid "Song of Solomon"
+msgstr ""
+
+msgid "Isaiah"
+msgstr ""
+
+msgid "Jeremiah"
+msgstr ""
+
+msgid "Lamentations"
+msgstr ""
+
+msgid "Ezekiel"
+msgstr ""
+
+msgid "Daniel"
+msgstr ""
+
+msgid "Hosea"
+msgstr ""
+
+msgid "Joel"
+msgstr ""
+
+msgid "Amos"
+msgstr ""
+
+msgid "Obadiah"
+msgstr ""
+
+msgid "Jonah"
+msgstr ""
+
+msgid "Micah"
+msgstr ""
+
+msgid "Nahum"
+msgstr ""
+
+msgid "Habakkuk"
+msgstr ""
+
+msgid "Zephaniah"
+msgstr ""
+
+msgid "Haggai"
+msgstr ""
+
+msgid "Zechariah"
+msgstr ""
+
+msgid "Malachi"
+msgstr ""
+
+msgid "Matthew"
+msgstr ""
+
+msgid "Mark"
+msgstr ""
+
+msgid "Luke"
+msgstr ""
+
+msgid "John"
+msgstr ""
+
+msgid "Acts"
+msgstr ""
+
+msgid "Romans"
+msgstr ""
+
+msgid "1 Corinthians"
+msgstr ""
+
+msgid "2 Corinthians"
+msgstr ""
+
+msgid "Galatians"
+msgstr ""
+
+msgid "Ephesians"
+msgstr ""
+
+msgid "Philippians"
+msgstr ""
+
+msgid "Colossians"
+msgstr ""
+
+msgid "1 Thessalonians"
+msgstr ""
+
+msgid "2 Thessalonians"
+msgstr ""
+
+msgid "1 Timothy"
+msgstr ""
+
+msgid "2 Timothy"
+msgstr ""
+
+msgid "Titus"
+msgstr ""
+
+msgid "Philemon"
+msgstr ""
+
+msgid "Hebrews"
+msgstr ""
+
+msgid "James"
+msgstr ""
+
+msgid "1 Peter"
+msgstr ""
+
+msgid "2 Peter"
+msgstr ""
+
+msgid "1 John"
+msgstr ""
+
+msgid "2 John"
+msgstr ""
+
+msgid "3 John"
+msgstr ""
+
+msgid "Jude"
+msgstr ""
+
+msgid "Revelation"
+msgstr ""
+
+msgid "Back Matter"
+msgstr ""
+
+msgid "Other Material"
+msgstr ""
+
+msgid "Invalid book while creating a book template"
+msgstr ""
+
+msgid "No chapters have been craeted"
+msgstr ""
+
+msgid "The following chapters have been created:"
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Cannot access the database"
+msgstr ""
+
+msgid "The site is not in operation at the moment."
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "XXX"
+msgstr ""
+
+msgid "Xxx"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Reopened"
+msgstr ""
+
+msgid "Wish"
+msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Important"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Set the default language for the site"
+msgstr ""
+
+msgid "Collaboration"
+msgstr ""
+
+msgid "Which Bible are you going to use?"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+msgid "The email address does not appear to be valid"
+msgstr ""
+
+msgid "The name and email address were saved"
+msgstr ""
+
+msgid "The details were saved."
+msgstr ""
+
+msgid "The account was accessed successfully."
+msgstr ""
+
+msgid "Messages on server:"
+msgstr ""
+
+msgid ""
+"For the purpose of trying whether Bibledit-Web can send email, a test email "
+"was sent out to the account above:"
+msgstr ""
+
+msgid "Failed to temporarily store the .git directory"
+msgstr ""
+
+msgid "Failed to restore the .git directory"
+msgstr ""
+
+msgid "Step 1/2: Exporting the local data to the local repository"
+msgstr ""
+
+msgid "Step 2/2: Pushing the data to the remote repository"
+msgstr ""
+
+msgid ""
+"Your data was pushed to the remote repository successfully, overwriting any "
+"data that was there before."
+msgstr ""
+
+msgid "Pushing your data to the remote repository failed."
+msgstr ""
+
+msgid "Administration"
+msgstr ""
+
+msgid "Backup"
+msgstr ""
+
+msgid "Backups are disabled"
+msgstr ""
+
+msgid "The filename was saved and the backup will be created within a minute"
+msgstr ""
+
+msgid "Will create a backup within a minute"
+msgstr ""
+
+msgid "Ok: The repository was cloned successfully."
+msgstr ""
+
+msgid "Error: The repository could not be cloned."
+msgstr ""
+
+msgid "Step: Adding a temporal file to the cloned repository"
+msgstr ""
+
+msgid "Ok: Local addition was made successfully."
+msgstr ""
+
+msgid "Error: Local addition failed."
+msgstr ""
+
+msgid "Step: Committing the above changes locally"
+msgstr ""
+
+msgid "Ok: Local commit was made successfully."
+msgstr ""
+
+msgid "Error: Local commit failed."
+msgstr ""
+
+msgid "Step: Pulling changes from the remote repository"
+msgstr ""
+
+msgid "Ok: Changes were pulled from the repository successfully."
+msgstr ""
+
+msgid "Step: Pushing changes to the remote repository"
+msgstr ""
+
+msgid "Ok: Changes were pushed to the repository successfully."
+msgstr ""
+
+msgid "Error: Pushing changes to the repository failed."
+msgstr ""
+
+msgid "Step: Removing the temporal file from the local repository"
+msgstr ""
+
+msgid ""
+"Ok: The temporal file was removed from the local repository successfully."
+msgstr ""
+
+msgid "Error: Removing the temporal file from the local repository failed."
+msgstr ""
+
+msgid "Step: Pushing the changes to the remote repository"
+msgstr ""
+
+msgid "Ok: Changes were pushed to the remote repository successfully."
+msgstr ""
+
+msgid "Error: Pushing changes to the remote repository failed."
+msgstr ""
+
+msgid "Read access to the repository is successful."
+msgstr ""
+
+msgid "Read access failed. Please retry it, possibly with another URL."
+msgstr ""
+
+msgid ""
+"Copying the data from the local cloned repository, and storing it in the "
+"Consultation Notes"
+msgstr ""
+
+msgid ""
+"Copying the data from the local cloned repository, and storing it in the "
+"Bible"
+msgstr ""
+
+msgid "Would you like to change the default timezone for the site?"
+msgstr ""
+
 msgid "Members"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Here are the various options:"
+msgstr ""
+
+msgid "There was nothing to save"
+msgstr ""
+
+msgid "Please enter the summary"
+msgstr ""
+
+msgid "Would you like to assign this note to a user?"
+msgstr ""
+
+msgid "Would you like to assign this note to another Bible?"
+msgstr ""
+
+msgid "Make it a general note which does not apply to any particular Bible"
+msgstr ""
+
+msgid "Would you like to change the status of this note?"
+msgstr ""
+
+msgid "Would you like to change the severity of this note?"
+msgstr ""
+
+msgid "Would you like to change the the visibility of this note?"
+msgstr ""
+
+msgid "The note will be visible to:"
+msgstr ""
+
+msgid "Would you like to edit the verses?"
+msgstr ""
+
+msgid "Search text saved"
+msgstr ""
+
+msgid "You subscribed to these notes"
+msgstr ""
+
+msgid "You unsubscribed from these notes"
+msgstr ""
+
+msgid "Would you like to assign these notes to a user?"
+msgstr ""
+
+msgid "The notes were assigned to the user"
+msgstr ""
+
+msgid "Would you like to remove the assignment of these notes to a user?"
+msgstr ""
+
+msgid "The notes are no longer assigned to the user"
+msgstr ""
+
+msgid "Would you like to change the status of these notes?"
+msgstr ""
+
+msgid "The status of the notes was updated"
+msgstr ""
+
+msgid "Would you like to change the severity of these notes?"
+msgstr ""
+
+msgid "The severity of the notes was updated"
+msgstr ""
+
+msgid "Would you like to change the visibility of these notes?"
+msgstr ""
+
+msgid "The notes should be visible to:"
+msgstr ""
+
+msgid "The visibility of the notes was updated"
+msgstr ""
+
+msgid "Would you like to assign these notes to another Bible?"
+msgstr ""
+
+msgid "The Bible of the notes was updated"
+msgstr ""
+
+msgid "Would you like to delete the notes?"
+msgstr ""
+
+msgid "The notes were deleted"
+msgstr ""
+
+msgid "This view does not display any notes."
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Assigned"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Updated"
+msgstr ""
+
+msgid "Deleted"
+msgstr ""
+
+msgid "Your comment was posted"
+msgstr ""
+
+msgid "Unknown book"
+msgstr ""
+
+msgid "Unknown chapter"
+msgstr ""
+
+msgid "Unknown verse"
+msgstr ""
+
+msgid "Unknown summary"
+msgstr ""
+
+msgid "Your new note could not be posted"
+msgstr ""
+
+msgid "Your new note was posted"
+msgstr ""
+
+msgid "Edit Note Source"
+msgstr ""
+
+msgid "The note was saved"
+msgstr ""
+
+msgid "Unknown Note Identifier"
+msgstr ""
+
+msgid "Could not find the folder with the consultation notes"
+msgstr ""
+
+msgid "Import consultation notes has started"
+msgstr ""
+
+msgid "Importing from folder:"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Imported"
+msgstr ""
+
+msgid "Could not import the note"
+msgstr ""
+
+msgid "This is not a note"
+msgstr ""
+
+msgid "Import consultation notes has finished"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Removal of duplicate consultation notes has started"
+msgstr ""
+
+msgid "Looking into note"
+msgstr ""
+
+msgid "Deleting duplicate note"
+msgstr ""
+
+msgid "This note no longer exists"
+msgstr ""
+
+msgid "Removal of duplicate consultation notes has finished"
+msgstr ""
+
+msgid "Removing duplicate consultation notes"
+msgstr ""
+
+msgid "Downloads"
+msgstr ""
+
+msgid "Would you like to delete this chapter?"
+msgstr ""
+
+msgid "Please enter the number for the new chapter"
+msgstr ""
+
+msgid "This chapter already exists"
+msgstr ""
+
+msgid "Import USFM"
+msgstr ""
+
+msgid "Please supply valid Unicode UTF-8 text."
+msgstr ""
+
+msgid "Nothing was imported."
+msgstr ""
+
+msgid "Import BibleWorks"
+msgstr ""
+
+msgid "Import Bible data has started"
+msgstr ""
+
+msgid "Please enter a name for the new empty Bible"
+msgstr ""
+
+msgid "Please enter a name for where to copy the Bible to"
+msgstr ""
+
+msgid "Cannot copy Bible because the destination Bible already exists."
+msgstr ""
+
+msgid "The Bible was copied."
+msgstr ""
+
+msgid "Could not import this data:"
+msgstr ""
+
+msgid "The following was imported:"
 msgstr ""
 
 msgid "Would you like to change the versification system?"
@@ -1130,3054 +1635,54 @@ msgstr ""
 msgid "Would you like to delete this book?"
 msgstr ""
 
-msgid "Please enter a name for the new empty Bible"
+msgid "The line was saved."
 msgstr ""
 
-msgid "Please enter a name for where to copy the Bible to"
-msgstr ""
-
-msgid "Cannot copy Bible because the destination Bible already exists."
-msgstr ""
-
-msgid "The Bible was copied."
-msgstr ""
-
-msgid "Would you like to delete this chapter?"
-msgstr ""
-
-msgid "Please enter the number for the new chapter"
-msgstr ""
-
-msgid "This chapter already exists"
-msgstr ""
-
-msgid "Import Bible data has started"
-msgstr ""
-
-msgid "Could not import this data:"
-msgstr ""
-
-msgid "The following was imported:"
-msgstr ""
-
-msgid "Please supply valid Unicode UTF-8 text."
-msgstr ""
-
-msgid "Nothing was imported."
-msgstr ""
-
-msgid "Exporting the Bibles"
-msgstr ""
-
-msgid "The Bibles have been exported"
-msgstr ""
-
-msgid "Generating lists of changes in the Bibles"
-msgstr ""
-
-msgid "recent changes"
-msgstr ""
-
-msgid ""
-"Added text shows in bold and light green. Removed text is stroked out and "
-"light red."
-msgstr ""
-
-msgid "Recent changes"
-msgstr ""
-
-msgid "Archiving older set of changes"
-msgstr ""
-
-msgid "The lists of changes in the Bibles have been generated"
-msgstr ""
-
-msgid ""
-"Starting to send and receive the relevant Bibles and Consultation Notes."
-msgstr ""
-
-msgid "Processing any data left over from previous actions."
-msgstr ""
-
-msgid "Consultation Notes"
-msgstr ""
-
-msgid "Bible"
-msgstr "Bible"
-
-msgid "Remote repository URL"
-msgstr ""
-
-msgid "Git repository directory"
-msgstr ""
-
-msgid ""
-"Cannot send and receive the data because the git repository was not found in "
-"the filesystem."
-msgstr ""
-
-msgid "Transferring notes to file ..."
-msgstr ""
-
-msgid "Transferring Bible text to file ..."
-msgstr ""
-
-msgid ""
-"A conflict was found in the above book and chapter or consultation note. "
-"Please resolve this conflict manually. Open the chapter in the editor in "
-"USFM view, and select which of the two conflicting lines of text should be "
-"retained, and remove the other line, and the conflict markup. After that it "
-"is recommended to send and receive the Bibles again. This will remove the "
-"conflict from the repository."
-msgstr ""
-
-msgid "Moving the data that was changed into the database ..."
-msgstr ""
-
-msgid "Listing the last few commits ..."
-msgstr ""
-
-msgid "There was a failure"
-msgstr ""
-
-msgid "The Consultation Notes have been done."
-msgstr ""
-
-msgid "This Bible has been done."
-msgstr ""
-
-msgid ""
-"Ready. All relevant Bibles, and Consultations Notes, have been sent and "
-"received."
-msgstr ""
-
-msgid "Installation"
-msgstr ""
-
-msgid "Typesetting"
-msgstr ""
-
-msgid "About"
-msgstr ""
-
-msgid "Introduction"
-msgstr ""
-
-msgid "Help"
-msgstr ""
-
-msgid "ChangeLog"
-msgstr ""
-
-msgid "Consultations"
-msgstr ""
-
-msgid "Demo plugin menu item 1"
-msgstr ""
-
-msgid "Demo plugin menu item 2"
-msgstr ""
-
-msgid "Demo plugin user menu item 1"
-msgstr ""
-
-msgid "Demo plugin user menu item 2"
-msgstr ""
-
-msgid "Number of chapters per book"
-msgstr ""
-
-msgid "Running headers"
-msgstr ""
-
-msgid "Long table of contents entries"
-msgstr ""
-
-msgid "Short table of contents entries"
-msgstr ""
-
-msgid "Book abbreviations"
-msgstr ""
-
-msgid "Publishing chapter labels"
-msgstr ""
-
-msgid "Publishing alternate chapter numbers"
-msgstr ""
-
-msgid "Word list, glossary, dictionary entries"
-msgstr ""
-
-msgid "Hebrew word list entries"
-msgstr ""
-
-msgid "Greek word list entries"
-msgstr ""
-
-msgid "Subject index entries"
-msgstr ""
-
-msgid "Other information"
-msgstr ""
-
-msgid "Fallout"
-msgstr ""
-
-msgid "Failed to compress file"
-msgstr ""
-
-msgid "Failed to compress folder"
-msgstr ""
-
-msgid "Failed to uncompress archive"
-msgstr ""
-
-msgid "The collaboration system deleted a chapter"
-msgstr ""
-
-msgid "The collaboration system updated a chapter"
-msgstr ""
-
-msgid "The collaboration system deleted a note"
-msgstr ""
-
-msgid "The collaboration system created or updated a note"
-msgstr ""
-
-msgid ""
-"Please confirm this request by replying to this email. There is a "
-"confirmation number in the subject line. Your reply should have this same "
-"confirmation number in the subject line."
-msgstr ""
-
-msgid ""
-"This shows all user accounts. You can delete users, or change users' roles."
-msgstr ""
-
-msgid "Username"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "delete"
-msgstr ""
-
-msgid "change"
-msgstr ""
-
-msgid ""
-"Normally users create their own account. But you can also manually create "
-"new users on this site. The username that you assign will also be the "
-"password. For example, when you create username \"joe\", then the password "
-"will also be \"joe\"."
-msgstr ""
-
-msgid "Create a new user"
-msgstr ""
-
-msgid "Page"
-msgstr ""
-
-msgid "clear"
-msgstr ""
-
-msgid "Timestamp"
-msgstr ""
-
-msgid "Event"
-msgstr ""
-
-msgid "Bibledit-Web sends and receives the Bibles on a daily basis."
-msgstr ""
-
-msgid ""
-"It receives changes made by others, and it sends changes made here to the "
-"server for collaboration."
-msgstr ""
-
-msgid "Send and receive Bibles now, and every day at this same time."
-msgstr ""
-
-msgid "Edit Bible with raw USFM code"
-msgstr ""
-
-msgid "Send and Receive"
-msgstr ""
-
-msgid "Bibles"
-msgstr ""
-
-msgid "Versifications"
-msgstr ""
-
-msgid "Bibledit-Web exports the Bibles on a daily basis."
-msgstr ""
-
-msgid "The following Bibles will be exported"
-msgstr ""
-
-msgid "remove"
-msgstr ""
-
-msgid "add Bible"
-msgstr ""
-
-msgid "Do a fresh export now, and every day at this same time."
-msgstr ""
-
-msgid "View the exported data in the downloads section."
-msgstr ""
-
-msgid "The exports use the following stylesheet:"
-msgstr ""
-
-msgid "switch"
-msgstr ""
-
-msgid ""
-"When exporting Bibles to OpenDocument format, when the chapter number gets "
-"put just before the first verse in bigger font, frames are used for this. It "
-"is to achieve better appearance. When this is problematic, Bibledit-Web can "
-"also output the chapter number in drop caps."
-msgstr ""
-
-msgid "This setting is on."
-msgstr ""
-
-msgid "This setting is off."
-msgstr ""
-
-msgid "toggle"
-msgstr ""
-
-msgid ""
-"Page size and margins are relevant for export to a format that supports "
-"those."
-msgstr ""
-
-msgid "Page width"
-msgstr ""
-
-msgid "mm"
-msgstr ""
-
-msgid "Page height"
-msgstr ""
-
-msgid "Inner margin"
-msgstr ""
-
-msgid "Outer margin"
-msgstr ""
-
-msgid "Top margin"
-msgstr ""
-
-msgid "Bottom margin"
-msgstr ""
-
-msgid "Display the current date in the running headers."
-msgstr ""
-
-msgid ""
-"It also exports to a file suitable for the Online Bible module creation "
-"process. For more information about how to create a module, see Online "
-"Bible, menu Help - Table Of Contents - How To - Create Your Own Bible "
-"Version."
-msgstr ""
-
-msgid "Bibledit-Web tracks the changes in the Bibles that it stores."
-msgstr ""
-
-msgid ""
-"If there have been any changes in any Bible, it will generate lists of these "
-"changes every day."
-msgstr ""
-
-msgid "Generate fresh lists now, and every day at this same time."
-msgstr ""
-
-msgid "View the lists in the downloads section."
-msgstr ""
-
-msgid "Bibledit-Web can email new lists to you."
-msgstr ""
-
-msgid "Manage your notifications."
-msgstr ""
-
-msgid "Hyphenation can be used when preparing a Bible for printing."
-msgstr ""
-
-msgid ""
-"It allows for more efficient usage of paper, and for more regular appearance "
-"of margins at the end of the lines without requiring spacing adjustments."
-msgstr ""
-
-msgid ""
-"The details of hyphenating properly are complex and dependent on the "
-"language, and can interact with other orthographic and typesetting practices."
-msgstr ""
-
-msgid ""
-"Hyphenation may not be so important when preparing a Bible for proofreading. "
-"It is usually regarded important for production quality Bibles."
-msgstr ""
-
-msgid ""
-"When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the "
-"wordprocessor itself provides hyphenation algorithms for many languages."
-msgstr ""
-
-msgid ""
-"If no suitable hyphenation algorithm can be used, perhaps Bibledit-Web can "
-"assist to a limited degree."
-msgstr ""
-
-msgid ""
-"Bibledit-Web can take the data from a Bible, insert soft hyphens in the "
-"words according to a certain algorithm, and then save this data as a new "
-"Bible."
-msgstr ""
-
-msgid ""
-"This new Bible can then be exported to OpenDocument format, and opened in a "
-"wordprocessor."
-msgstr ""
-
-msgid ""
-"The wordprocessor sees these soft hyphens. When a soft hyphen occurs near "
-"the end of the line, it breaks the word there."
-msgstr ""
-
-msgid ""
-"Bibledit-Web has one hyphenating algorithm. When there is a transition in "
-"the text from any character of a first set of characters, to any character "
-"of a second set of characters, then the soft hyphen will be inserted at that "
-"location in the text."
-msgstr ""
-
-msgid "First set of characters"
-msgstr ""
-
-msgid "Second set of characters"
-msgstr ""
-
-msgid "Enter the sets of characters, and press Save."
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-msgid "The Bible where the data will be taken from is:"
-msgstr ""
-
-msgid "The Bible where the hyphenated data will be written to is:"
-msgstr ""
-
-msgid "Insert the soft hyphens according to the settings."
-msgstr ""
-
-msgid "Translation"
-msgstr ""
-
-msgid "Text"
-msgstr ""
-
-msgid "Go back to the note contents"
-msgstr ""
-
-msgid "Summary"
-msgstr ""
-
-msgid "You are subscribed to this note"
-msgstr ""
-
-msgid "unsubscribe"
-msgstr ""
-
-msgid "Subscribe to this note"
-msgstr ""
-
-msgid "The note has been assigned to"
-msgstr ""
-
-msgid "unassign"
-msgstr ""
-
-msgid "add assignee"
-msgstr ""
-
-msgid "This note has been specifically assigned to you for taking action on."
-msgstr ""
-
-msgid "I have done my part on it."
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "Verses"
-msgstr ""
-
-msgid "edit"
-msgstr ""
-
-msgid "add"
-msgstr ""
-
-msgid "Severity"
-msgstr ""
-
-msgid "This note is visible to users with the following roles"
-msgstr ""
-
-msgid "This is a general note, it does not apply to any specific Bible"
-msgstr ""
-
-msgid "Identifier"
-msgstr ""
-
-msgid "Delete this note"
-msgstr ""
-
-msgid "Importing notes, step 2"
-msgstr ""
-
-msgid "The notes file has been uploaded successfully."
-msgstr ""
-
-msgid "Filename"
-msgstr ""
-
-msgid "Next"
-msgstr ""
-
-msgid "The process for removing duplicate consultation notes has started."
-msgstr ""
-
-msgid "The progress of this process is visible in the logbook."
-msgstr ""
-
-msgid ""
-"It can take a good amount of time, depending on the amount of notes to be "
-"sorted out."
-msgstr ""
-
-msgid "View logbook."
-msgstr ""
-
-msgid ""
-"Notes are duplicates when their summary, contents, and verses are the same."
-msgstr ""
-
-msgid ""
-"Duplicates may occur for various reasons. One reason could be that a set of "
-"notes has been imported more than once."
-msgstr ""
-
-msgid "There was a problem uploading the file."
-msgstr ""
-
-msgid "Yo can go back to retry it."
-msgstr ""
-
-msgid ""
-"Or you can manually specify the location of the file, e.g. "
-"/home/joe/notes.tar.gz, and then press Submit."
-msgstr ""
-
-msgid "Submit"
-msgstr ""
-
-msgid "Create a new consultation note."
-msgstr ""
-
-msgid "Body"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "Importing notes"
-msgstr ""
-
-msgid "This page assists you with importing Consultation Notes."
-msgstr ""
-
-msgid ""
-"Bibledit-Gtk, part of the Bibledit Suite, has what it calls Project Notes. "
-"These can be imported into Bibledit-Web, and will appear there as "
-"Consultation Notes."
-msgstr ""
-
-msgid ""
-"When doing this import, it is important to know that this is a one-way "
-"operation. It means that, at the time of writing this, notes can be moved "
-"from Bibledit-Gtk to Bibledit-Web, but not the other way round."
-msgstr ""
-
-msgid ""
-"Importing the notes into Bibledit-Web, and using these there, has some "
-"advantages. For example, users can be notified of changes in the notes."
-msgstr ""
-
-msgid ""
-"Have you decided that you'd like to move your notes from Bibledit-Gtk to "
-"Bibledit-Web? Let's give it a go, then."
-msgstr ""
-
-msgid ""
-"The first thing to do is to get your notes out of Bibledit-Gtk and to save "
-"these to file."
-msgstr ""
-
-msgid "Start Bibledit-Gtk, and display the project notes window."
-msgstr ""
-
-msgid ""
-"In the menu, choose File, and then Backup. Note that at the time of writing "
-"this tutorial, the Export function does not work for Project Notes. Only "
-"Backup works."
-msgstr ""
-
-msgid ""
-"Go through the Backup assistant step by step, backup the \"Notes\", and save "
-"them as a file called \"notes\". Bibledit-Gtk will change this into a file "
-"called \"notes.tar.gz\". Complete the Backup procedure. It may take a while "
-"depending on the number of notes you have."
-msgstr ""
-
-msgid "Locate the file on disk, and see if it looks fine."
-msgstr ""
-
-msgid "The next thing is to prepare this notes.tar.gz file for uploading."
-msgstr ""
-
-msgid ""
-"The configuration of the server on which Bibledit-Web runs imposes some "
-"limits on the size of the file to be uploaded. The size of the file should "
-"not exceed either of the two limits given below:"
-msgstr ""
-
-msgid "Maximum size of a file to be posted:"
-msgstr ""
-
-msgid "Maximum size of a file to be uploaded:"
-msgstr ""
-
-msgid ""
-"The file to be uploaded is a compressed archive. If it is too large, you can "
-"remove parts from it. Files that can be removed are \"index.sql\", and the "
-"whole \".git\" folder that resides in the \"data\" folder."
-msgstr ""
-
-msgid ""
-"If it is still too large, you can remove some of the notes data files from "
-"it, keep these, and import these through a second upload. The note data "
-"files are the files that have numeric names, e.g. \"44166759\"."
-msgstr ""
-
-msgid "The next thing is to upload this file to Bibledit-Web."
-msgstr ""
-
-msgid ""
-"Choose the notes file to be uploaded. This tutorial assumes that the file is "
-"\"notes.tar.gz\"."
-msgstr ""
-
-msgid "Then press the Upload button."
-msgstr ""
-
-msgid "Upload"
-msgstr ""
-
-msgid ""
-"Uploading may take some time. It depends on the speed of your network, and "
-"on the size of the notes file."
-msgstr ""
-
-msgid ""
-"If uploading fails, it may be because the file is too large, or the network "
-"too slow."
-msgstr ""
-
-msgid "Back to notes list"
-msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-msgid "Add a comment to this note:"
-msgstr ""
-
-msgid "Add a comment to this note"
-msgstr ""
-
-msgid "Edit Notes Display"
-msgstr ""
-
-msgid "Select notes that refer to:"
-msgstr ""
-
-msgid "any passage"
-msgstr ""
-
-msgid "the current verse"
-msgstr ""
-
-msgid "the current chapter"
-msgstr ""
-
-msgid "the current book"
-msgstr ""
-
-msgid "Select notes that have been edited:"
-msgstr ""
-
-msgid "at any time"
-msgstr ""
-
-msgid "during the last 30 days"
-msgstr ""
-
-msgid "during the last 7 days"
-msgstr ""
-
-msgid "since yesterday"
-msgstr ""
-
-msgid "today"
-msgstr ""
-
-msgid "Select notes that have not been edited:"
-msgstr ""
-
-msgid "do not care about this"
-msgstr ""
-
-msgid "for the last 30 days"
-msgstr ""
-
-msgid "for the last 7 days"
-msgstr ""
-
-msgid "Select notes that have a certain status:"
-msgstr ""
-
-msgid "Any"
-msgstr ""
-
-msgid "Select notes that belong to:"
-msgstr ""
-
-msgid "any Bible"
-msgstr ""
-
-msgid "Select notes that have been assigned to somebody:"
-msgstr ""
-
-msgid "Currently looking for notes assigned to:"
-msgstr ""
-
-msgid "Select notes by subscription:"
-msgstr ""
-
-msgid "notes I am subscribed to"
-msgstr ""
-
-msgid "Select notes that have a severity of:"
-msgstr ""
-
-msgid "Select notes that contain text:"
-msgstr ""
-
-msgid "Specific text or words:"
-msgstr ""
-
-msgid "Number of notes selected:"
-msgstr ""
-
-msgid "Passage inclusion:"
-msgstr ""
-
-msgid "Do not include the passage text"
-msgstr ""
-
-msgid "Include the passage text"
-msgstr ""
-
-msgid "Text inclusion:"
-msgstr ""
-
-msgid "Do not include the note text"
-msgstr ""
-
-msgid "Include the note text"
-msgstr ""
-
-msgid "Ok, I have finished"
-msgstr ""
-
-msgid "display the notes list"
-msgstr ""
-
-msgid "or"
-msgstr ""
-
-msgid "display all selected notes for this once"
-msgstr ""
-
-msgid "Bulk Update Consultation Notes"
-msgstr ""
-
-msgid ""
-"This function is powerful. It can update many notes at once, with one click "
-"of the mouse. Changes made here are not easily reverted."
-msgstr ""
-
-msgid "Amount of notes to be updated in one go:"
-msgstr ""
-
-msgid "Subscribe to the notes"
-msgstr ""
-
-msgid "Unsubscribe from the notes"
-msgstr ""
-
-msgid "Assign the notes to somebody"
-msgstr ""
-
-msgid "Unassign the note from somebody"
-msgstr ""
-
-msgid "Change the status of the notes"
-msgstr ""
-
-msgid "Change the severity of the notes"
-msgstr ""
-
-msgid "Change the visibility of the notes"
-msgstr ""
-
-msgid "Change the Bible of the notes"
-msgstr ""
-
-msgid "Delete the notes"
-msgstr ""
-
-msgid "Manage Consultation Notes"
-msgstr ""
-
-msgid "Import notes"
-msgstr ""
-
-msgid "Remove duplicates"
-msgstr ""
-
-msgid "Importing notes, step 3"
-msgstr ""
-
-msgid "The notes were uncompressed."
-msgstr ""
-
-msgid "Folder"
-msgstr ""
-
-msgid "Create new note"
-msgstr ""
-
-msgid "Displaying notes"
-msgstr ""
-
-msgid "update"
-msgstr ""
-
-msgid "Importing notes, last step"
-msgstr ""
-
-msgid "The process for importing consultation notes has been started."
-msgstr ""
-
-msgid ""
-"It can take a good amount of time, depending on the amount of notes to be "
-"imported."
-msgstr ""
-
-msgid ""
-"After everything has been done, you can see the consultation notes in the "
-"normal place. They will be added to any existing ones."
-msgstr ""
-
-msgid "Color"
-msgstr ""
-
-msgid "List"
-msgstr ""
-
-msgid "Entry"
-msgstr ""
-
-msgid "Yes"
-msgstr ""
-
-msgid "Yes / No"
-msgstr ""
-
-msgid "Privileges"
-msgstr ""
-
-msgid "Please login to access this page"
-msgstr ""
-
-msgid "You do not currently have access to the page you try to view."
-msgstr ""
-
-msgid "There can be a few reasons for this."
-msgstr ""
-
-msgid ""
-"One reason may be that your session has timed out. To resolve this, log in "
-"and try again."
-msgstr ""
-
-msgid ""
-"Another reason may be that your browser does not accept cookies. To resolve "
-"this, switch the cookies on in your browser, and log in again."
-msgstr ""
-
-msgid "This lists the currently available versification systems."
-msgstr ""
-
-msgid "You can create a new versification system."
-msgstr ""
-
-msgid "Versification system"
-msgstr ""
-
-msgid ""
-"This shows how many verses each chapter of the Bible has according to this "
-"versification system, and how many chapters each book has. The data is given "
-"in two formats. First in human readable form, and then in xml format if you "
-"scroll further down the page."
-msgstr ""
-
-msgid "Delete this versification"
-msgstr ""
-
-msgid "Book"
-msgstr ""
-
-msgid "Chapter"
-msgstr ""
-
-msgid ""
-"You can modify this versification system. To do that, copy the existing xml "
-"data from this page into an editor, make the changes, and paste the data "
-"back into the textbow below, and then submit it. It will overwrite whatever "
-"was there before."
-msgstr ""
-
-msgid "Repository data"
-msgstr ""
-
-msgid ""
-"You are now at a stage that the data in Bibledit-Web, and the data in the "
-"repository, needs to be synchronized. This means that some action needs to "
-"be taken to make these two sets of data the same. Not all the data in "
-"Bibledit-Web needs to be synchronized with the repository. It is only the "
-"data in the one Bible or the Consultation Notes you are now dealing with."
-msgstr ""
-
-msgid "There are two options:"
-msgstr ""
-
-msgid "Take the data in the repository."
-msgstr ""
-
-msgid ""
-"Taking the data in the repository means that the data in the repository is "
-"left as it is, and that a copy of that data overwrites your own data in "
-"Bibledit-Web. This option is used most of the time."
-msgstr ""
-
-msgid "Take your own data."
-msgstr ""
-
-msgid ""
-"Taking your own data means that your data is taken as it is, and that this "
-"is copied to the repository, overwriting whatever is there in the repository "
-"now."
-msgstr ""
-
-msgid "Take your data."
-msgstr ""
-
-msgid "If there were no errors, then setting up the collaboration is ready."
-msgstr ""
-
-msgid ""
-"The Manager can now choose menu Send/Receive any time he wants to "
-"synchronize the Bible and the Consultation Notes with the remote repository."
-msgstr ""
-
-msgid "Take data in repository"
-msgstr ""
-
-msgid "Repository URL"
-msgstr ""
-
-msgid ""
-"The data in the remote repository is being copied over into Bibledit-Web's "
-"data, overwriting the data that was there before."
-msgstr ""
-
-msgid ""
-"You can go to the next page if the cloning completed successfully and there "
-"was no error."
-msgstr ""
-
-msgid "Next page"
-msgstr ""
-
-msgid "Take local data"
-msgstr ""
-
-msgid "Your data is being pushed to the remote repository."
-msgstr ""
-
-msgid "Clone repository"
-msgstr ""
-
-msgid ""
-"Bibledit-Web clones the remote repository, and optimizes the clone for your "
-"use."
-msgstr ""
-
-msgid ""
-"You can go to the next page if all the steps completed successfully and "
-"there was no error."
-msgstr ""
-
-msgid "Site timezone"
-msgstr ""
-
-msgid "This page deals with the default timezone for the site."
-msgstr ""
-
-msgid "Visitors will use this default timezone."
-msgstr ""
-
-msgid "Current timezone:"
-msgstr ""
-
-msgid "The default timezone has not yet been set."
-msgstr ""
-
-msgid "Change the timezone."
-msgstr ""
-
-msgid ""
-"Those who have an account on this site can override this by setting their "
-"own preferred timezone."
-msgstr ""
-
-msgid "Mail"
-msgstr ""
-
-msgid "Database"
-msgstr ""
-
-msgid "USB flash drive repository setup"
-msgstr ""
-
-msgid ""
-"In this section you will set up a distributed repository on a USB flash "
-"drive."
-msgstr ""
-
-msgid "Formatting the flash drive"
-msgstr ""
-
-msgid ""
-"Normally a USB flash drive, as it comes out of the box, has been formatted "
-"with a FAT filesystem. Such a filesystem is not supported for collaboration. "
-"The stick needs to formatted to the ext3 or ext4 filesystem for "
-"collaboration to work. How this is done will be described here."
-msgstr ""
-
-msgid ""
-"Insert the flash drive into a computer running Linux, and wait a little till "
-"it gets mounted. It is supposed to mount automatically. If it does not mount "
-"on its own, then automatic mounting needs to be set up. Setting up automatic "
-"mounting goes beyond the scope of this tutorial."
-msgstr ""
-
-msgid "Open a terminal. In the terminal, give the command:"
-msgstr ""
-
-msgid "The output of this command can be something like:"
-msgstr ""
-
-msgid ""
-"Looking through the list of mounting points, we assume that the USB flash "
-"drive that was inserted mounts at /media/usbdisk. From there we can see that "
-"the device is /dev/sdd1. Once we have that information, we are ready for the "
-"next step."
-msgstr ""
-
-msgid ""
-"Before the stick can be formatted, it must be unmounted first. Issue the "
-"following command to unmount the stick:"
-msgstr ""
-
-msgid ""
-"The \"sudo\" in the command means that root privileges are needed to execute "
-"the command."
-msgstr ""
-
-msgid ""
-"To format the USB drive to the ext3 filesystem, issue the following command:"
-msgstr ""
-
-msgid ""
-"The formatting process will be visible and at the end some information about "
-"it will be given. At this point it is important to see if no errors occurred."
-msgstr ""
-
-msgid ""
-"The formatting command is very powerful. One could even format the main "
-"drive of the computer, wiping out all information. Extreme care should be "
-"used to ensure that the USB flash drive is going to be formatted, and "
-"nothing else."
-msgstr ""
-
-msgid "Labelling the flash drive"
-msgstr ""
-
-msgid ""
-"An internal label needs to be written to the USB drive. The reason of this "
-"is so as to make sure that this drive will always mount at the same mounting "
-"point. In this tutorial we write the label \"usbstick\" to it."
-msgstr ""
-
-msgid ""
-"We take it that the same device is being used as we used for formatting the "
-"drive. That is device /dev/sdd1. To write the label to the drive, issue the "
-"following two commands:"
-msgstr ""
-
-msgid ""
-"After the label has been written to it, remove the USB flash drive from the "
-"computer, and insert it again. It should now mount to the name of the label. "
-"In this case it should mount under /media/usbstick."
-msgstr ""
-
-msgid "This can be verified with command \"df\":"
-msgstr ""
-
-msgid "The output of this command:"
-msgstr ""
-
-msgid "This shows that it now mounts under the new name."
-msgstr ""
-
-msgid "Creating the repository on the flash drive"
-msgstr ""
-
-msgid "The USB flash drive will hold the data repository."
-msgstr ""
-
-msgid ""
-"To make this flash drive fit for collaboration, there are a few steps to be "
-"taken. These steps are:"
-msgstr ""
-
-msgid ""
-"1. The first step will be to create a directory for the repository, and to "
-"make that directory writable. If we assume that the flash drive mounts at "
-"/media/usbstick, then the command to create a directory called "
-"\"repository\" is:"
-msgstr ""
-
-msgid ""
-"Notice the \"sudo\" command, which means that this usually needs to be done "
-"by user root. If this is done by an ordinary user, permission would be "
-"denied."
-msgstr ""
-
-msgid ""
-"Once the directory for the repository is there, this directory needs to be "
-"made writable for ordinary users. This is the command:"
-msgstr ""
-
-msgid "Note the \"sudo\" again."
-msgstr ""
-
-msgid ""
-"Now it is time to check whether the USB drive is writable. We do this by "
-"trying to create a file in the repository. If this succeeds, then it is "
-"writable. Here's the command:"
-msgstr ""
-
-msgid ""
-"This command should complete without errors. After that the file needs to be "
-"removed again:"
-msgstr ""
-
-msgid ""
-"2. The second step is to make the USB stick the current working directory. "
-"Type:"
-msgstr ""
-
-msgid "3. The next step is to create a repository on the USB stick."
-msgstr ""
-
-msgid "To create a shared repository on the USB stick, type:"
-msgstr ""
-
-msgid ""
-"Git will respond saying that an empty shared Git repository has been created."
-msgstr ""
-
-msgid ""
-"4. The last step is to make the repository accessible to the web server's "
-"user. To do this, type the following two commands:"
-msgstr ""
-
-msgid ""
-"All steps have now been taken. Before removing the flash drive, ensure that "
-"the data gets written to it, by issuing the command:"
-msgstr ""
-
-msgid "This finishes setting up the repository on the USB flash drive."
-msgstr ""
-
-msgid ""
-"The repository that was created in this tutorial has the following URL:"
-msgstr ""
-
-msgid ""
-"Your own repository that you have created has a URL too, the one that will "
-"be used from now on. Please enter it below, and press the Submit button to "
-"save it."
-msgstr ""
-
-msgid "Test read access"
-msgstr ""
-
-msgid ""
-"Bibledit-Web attempted to read data from this repository. This is the result:"
-msgstr ""
-
-msgid "The shell command that was used is:"
-msgstr ""
-
-msgid "If you'd like to retry, after updating the URL, press button Submit."
-msgstr ""
-
-msgid "This page deals with setting up the backup system."
-msgstr ""
-
-msgid ""
-"Bibledit-Web can create a backup of the database. This would backup all the "
-"data that is relevant to this site. It can do that every day."
-msgstr ""
-
-msgid ""
-"To enable this, enter a filename where the backup will be stored, and press "
-"Submit."
-msgstr ""
-
-msgid "To disable it, remove any filename that is there, and press Submit."
-msgstr ""
-
-msgid ""
-"Once you press the Submit button, a backup will be created. Every day "
-"another backup will be created at the same time."
-msgstr ""
-
-msgid "The Logbook shows the backup progress."
-msgstr ""
-
-msgid ""
-"Once the backup has been created, it can be downloaded from the following "
-"location:"
-msgstr ""
-
-msgid ""
-"If there were no errors, then setting up collaboration is now ready, and the "
-"Manager can choose menu Send/Receive any time he wants to synchronize Bibles "
-"and Consultation Notes with the remote repository."
-msgstr ""
-
-msgid "Write to repository"
-msgstr ""
-
-msgid "Repository initialization"
-msgstr ""
-
-msgid ""
-"No URL has been given for the repository. Please go back to enter the URL."
-msgstr ""
-
-msgid ""
-"Newer versions of git can clone an empty repository, but older versions only "
-"clone repositories that have been initialized with some data."
-msgstr ""
-
-msgid ""
-"Just to be sure that everything will work well, in this tutorial you are "
-"going to put some data into the repository, then try to clone it to see how "
-"it now goes."
-msgstr ""
-
-msgid ""
-"You need to put something into the repository. It does not matter what, "
-"anything will do. Let's proceed and put an empty file into the repository. "
-"Issue the commands as given:"
-msgstr ""
-
-msgid "It will say that an empty Git repository was initialized."
-msgstr ""
-
-msgid "It will say that an initial commit was created."
-msgstr ""
-
-msgid ""
-"It will give some information, which shows that data was written to the "
-"repository. No errors should occur."
-msgstr ""
-
-msgid "Clean out the temporal directory:"
-msgstr ""
-
-msgid "Now try to clone the repository:"
-msgstr ""
-
-msgid ""
-"It should say that an empty Git repository was created, give some more "
-"information, and show that objects were received. It is does this, and there "
-"are no errors, then everything is fine. Your repository has been initialized."
-msgstr ""
-
-msgid "Database maintenance"
-msgstr ""
-
-msgid "Web collaboration"
-msgstr ""
-
-msgid ""
-"With Bibledit-Web several translators can work on one Bible at the same "
-"time. Several people can work with the Consultation Notes at the same time."
-msgstr ""
-
-msgid "There is nothing special needed to make this happen."
-msgstr ""
-
-msgid ""
-"The people log into the site that runs Bibledit-Web, and translate and work "
-"with the Consultation Notes there."
-msgstr ""
-
-msgid ""
-"All the data related to the Bible or Consultation Notes is saved on that "
-"website, and is available to the relevant people."
-msgstr ""
-
-msgid ""
-"When collaborating in this way, the information given below on the rest of "
-"the page is not relevant."
-msgstr ""
-
-msgid "Distributed collaboration"
-msgstr ""
-
-msgid ""
-"With distributed collaboration there are several copies of the Bible or the "
-"Consultation Notes distributed all over the place or the globe."
-msgstr ""
-
-msgid ""
-"Translators and other people that collaborate in this way do not need to be "
-"connected to the Internet all the time, or even not at all."
-msgstr ""
-
-msgid "They collaborate through the network or a USB drive."
-msgstr ""
-
-msgid ""
-"Once everything has been set up, it all goes automatic. The person working "
-"on the Bible or the Consultation Notes does not notice the mechanics of the "
-"collaboration. It all happens under the hood."
-msgstr ""
-
-msgid ""
-"There are a variety of methods for collaboration. The administrator who will "
-"set it all up needs to have sufficient knowledge of information technology."
-msgstr ""
-
-msgid ""
-"Bibledit-Web stores all data locally. When collaboration is enabled, it also "
-"connects to a central repository. Through that repository the data gets "
-"shared between the various translators and other users."
-msgstr ""
-
-msgid ""
-"Under the hood, Bibledit uses Git for collaboration. Git is a content "
-"manager. The user does not notice that Git is used. He does not operate it "
-"directly. The only thing that the manager needs to do at regular times is to "
-"\"Send/Receive\" the Bible and the Consultation Notes. After having done "
-"that, the changes in the Bible and the Consultation Notes, made by the other "
-"translators or users, appear on his screen too. And the changes made by "
-"himself get stored in the repository, and if the other users do Send/Receive "
-"also, then these changes will reflect on their screens also."
-msgstr ""
-
-msgid ""
-"If distributed collaboration is used, it needs to be set up per Bible, or "
-"for the Consultation Notes."
-msgstr ""
-
-msgid "Select which Bible to use."
-msgstr ""
-
-msgid "Or set it up for the Consultation Notes."
-msgstr ""
-
-msgid "Setup for Consultation Notes"
-msgstr ""
-
-msgid "Setup for Bible"
-msgstr ""
-
-msgid "Distributed collaboration for this is enabled."
-msgstr ""
-
-msgid "Disable it."
-msgstr ""
-
-msgid ""
-"There is a variety of repositories that can be used. Each of them has it own "
-"use, advantages and disadvantages."
-msgstr ""
-
-msgid "USB Flash Drive."
-msgstr ""
-
-msgid ""
-"First of all there is the repository that resides on a file system. A USB "
-"flash drive can be used in this case. This flash drive can be physically "
-"moved from one translator to the other, and so on, updating each translator, "
-"and getting updated by each translator."
-msgstr ""
-
-msgid "Set it up."
-msgstr ""
-
-msgid "Open Network Repository."
-msgstr ""
-
-msgid ""
-"Secondly there is the repository that resides on the network. For internal "
-"networks a simple open network repository can be used. Whoever knows where "
-"the repository resides can write to it."
-msgstr ""
-
-msgid "Secure Network Repository."
-msgstr ""
-
-msgid ""
-"For public networks such as the internet a secure network repository would "
-"be recommended. This type of repository is locked down. Only those who have "
-"the keys to such a repository can write to it."
-msgstr ""
-
-msgid "This page deals with setting up the email system."
-msgstr ""
-
-msgid "Site name and email address"
-msgstr ""
-
-msgid ""
-"The name and the email address of the site will appear on any emails sent "
-"out from this site. If the Ndebele Bible, for example, is being translated "
-"on this site, then the name could be, e.g. \"Ndebele Bible Translation\", "
-"and the email address could be, e.g. \"ndebeletranslation@gmail.com\". Or "
-"anything that suits you. To switch the mailer off, make the fields empty."
-msgstr ""
-
-msgid "Enter the name and the email address, and press Submit."
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Email address"
-msgstr ""
-
-msgid "Retrieving mail"
-msgstr ""
-
-msgid ""
-"Bibledit will retrieve email from the account specified below, and act on "
-"it. When you submit new values, Bibledit will attempt to contact this "
-"account and tell you how many messages there are. If something goes wrong, "
-"the message given may be cryptic at times. Please enter the correct details "
-"for this to work. Normally the \"Port\" can be left empty. The right port "
-"will be chosen automatically. To give an example, to retrieve mail from a "
-"gmail account, set the following: POP3 Host: pop.gmail.com; Username: "
-"yourusername@gmail.com; Password: yourpassword; Security: SSL."
-msgstr ""
-
-msgid "Enter the account details, and press Submit."
-msgstr ""
-
-msgid "Password"
-msgstr ""
-
-msgid "Please wait"
-msgstr ""
-
-msgid "Sending mail"
-msgstr ""
-
-msgid ""
-"Bibledit will send out emails through the account specified below. When you "
-"submit new values, Bibledit will attempt to send an email the site's email "
-"address. If something goes wrong, the message given may be cryptic at times. "
-"Please enter the correct details for this to work. If the SMTP server does "
-"not need authenticaton, just leave the fields for the username and the "
-"password empty. If the SMTP Host is left empty, it will use the default "
-"sendmail transport. If you'd like to know the types of settings to make "
-"here, you can search the internet for the name of the module used "
-"(Zend_Mail) and the server. When searching for, e.g. \"Zend_Mail\" and "
-"\"smtp.gmail.com\" one would find how to to it: SMTP: smtp.gmail.com, auth "
-"=> login, username => YOUR_USERNAME@gmail.com, password => YOUR_PASSWORD, "
-"ssl => ssl, port => 465."
-msgstr ""
-
-msgid "Secure network repository setup"
-msgstr ""
-
-msgid ""
-"In this tutorial you are going to set up an secure repository on the network."
-msgstr ""
-
-msgid "The tutorial uses a git repository on sourceforge.net."
-msgstr ""
-
-msgid ""
-"Open an account on http://sourceforge.net. We will use the username \"joe\" "
-"in this tutorial."
-msgstr ""
-
-msgid ""
-"Register a new project on your personal account page on sourceforge.net. "
-"Let's call this project \"repo\"."
-msgstr ""
-
-msgid ""
-"Enable project feature \"Git\" on this project. This provides the repository "
-"that we need."
-msgstr ""
-
-msgid ""
-"The next thing is to try whether you can read the repository properly. To "
-"try that, open a terminal and issue the following command:"
-msgstr ""
-
-msgid ""
-"This command probably will ask for your password, and the first time it "
-"could ask you whether you want to continue connecting. But it should show no "
-"errors. If it completes without errors, then your secure repository works "
-"well."
-msgstr ""
-
-msgid ""
-"Where it says \"joe\", you would need to fill in the username that can "
-"access the account on sourceforge.net. And where it has \"repo\" you would "
-"need to fill in the name of the project that you created on sourceforge.net."
-msgstr ""
-
-msgid "Secure shell keys"
-msgstr ""
-
-msgid ""
-"Once manual access to the secure repository works, the next step is to set "
-"up secure shell keys. These keys allow Bibledit-Web easy access to the "
-"secure repository, without the need to type the password each time."
-msgstr ""
-
-msgid "Generating the keys"
-msgstr ""
-
-msgid ""
-"Here are the keys that can be used. Bibledit has generated or kept them for "
-"you."
-msgstr ""
-
-msgid "Private key"
-msgstr ""
-
-msgid "Public key"
-msgstr ""
-
-msgid "Update"
-msgstr ""
-
-msgid ""
-"Optionally, if you would like to use your own private and public keys, you "
-"can paste these above, and then press button Update above. Or if you empty "
-"the keys, and then press button Update, the keys will be regenerated."
-msgstr ""
-
-msgid "Enter the public key"
-msgstr ""
-
-msgid ""
-"Go to your personal account at sourceforge.net. See above for this account."
-msgstr ""
-
-msgid ""
-"On your personal account page at sourceforge.net, choose Services, then "
-"choose \"Edit SSH Keys for Shell/CVS\". Select all the text of the public "
-"key, see above, and copy it to the clipboard. Be sure it is the public key, "
-"not the private one. In the screen titled \"SSH Keys\", there is a place "
-"where it says \"Authorized keys:\". Paste the text of the public key into "
-"that space on the web page. After checking that everything looks fine, press "
-"button \"Update\". Make sure to enter only the public key, not the private "
-"key. Synchronizing the keys into the system has a 10 minute delay."
-msgstr ""
-
-msgid ""
-"After the delay of 10 minutes has expired you can continue to the next page."
-msgstr ""
-
-msgid "Open network repository setup"
-msgstr ""
-
-msgid ""
-"In this tutorial you are going to set up an open repository on the network."
-msgstr ""
-
-msgid ""
-"You need a server to run this repository. Any of your Linux computers "
-"attached to your network will do. In this tutorial we assume that the "
-"computer is accessible from the network through IP address 192.168.0.1. The "
-"user of this computer will be Jim."
-msgstr ""
-
-msgid ""
-"To create the repository, login as user jim. Then open a terminal. The "
-"repository is going to be in Jim's home directory. In the terminal type the "
-"following:"
-msgstr ""
-
-msgid ""
-"The repository is now there, but it is not yet accessible from the network."
-msgstr ""
-
-msgid "To make the repository available to the network, type:"
-msgstr ""
-
-msgid ""
-"Each time that the server boots, it is necessary to execute the above "
-"command again. It would be easier to put the command in the boot script. "
-"Then it will automatically be started after boot."
-msgstr ""
-
-msgid ""
-"To test access to the new repository from another computer on the network, "
-"type:"
-msgstr ""
-
-msgid "If everything is fine, no errors will occur."
-msgstr ""
-
-msgid "Here you can set up your own timezone."
-msgstr ""
-
-msgid "All dates and times will then be shown as relevant to your timezone."
-msgstr ""
-
-msgid "Your timezone has not yet been set."
-msgstr ""
-
-msgid "My area"
-msgstr ""
-
-msgid "Account"
-msgstr ""
-
-msgid "Subscribe to consultation notes that you create or edit yourself."
-msgstr ""
-
-msgid ""
-"Subscribe to consultation notes that are created or edited by anybody."
-msgstr ""
-
-msgid ""
-"Get notified by email about changes in consultation notes that you are "
-"subscribed to."
-msgstr ""
-
-msgid "Consultation notes that get changed will be assigned to you."
-msgstr ""
-
-msgid ""
-"Get notified by email about changes in consultation notes that have been "
-"assigned to you."
-msgstr ""
-
-msgid "Get notified by email about changes in the text of the Bibles."
-msgstr ""
-
-msgid "Inbox"
-msgstr ""
-
-msgid "Trash"
-msgstr ""
-
-msgid "Subject"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Mail older than 90 days will automatically be deleted."
-msgstr ""
-
-msgid ""
-"You can change your password or your email address. Your current email "
-"address is"
-msgstr ""
-
-msgid "Current password"
-msgstr ""
-
-msgid "New password"
-msgstr ""
-
-msgid "Again new password"
-msgstr ""
-
-msgid "New email address"
-msgstr ""
-
-msgid "Program \"git\" is needed. But it cannot be found on this machine."
-msgstr ""
-
-msgid ""
-"To install this program, on Linux install a package called \"git-core\"."
-msgstr ""
-
-msgid "Login"
-msgstr ""
-
-msgid "Logout"
-msgstr ""
-
-msgid "Program \"ssh\" cannot be found on this machine."
-msgstr ""
-
-msgid "To install this program, install a package called \"openssh-client\"."
-msgstr ""
-
-msgid "Go to"
-msgstr ""
-
-msgid "chapter"
-msgstr ""
-
-msgid "verse"
-msgstr ""
-
-msgid "Goodbye"
-msgstr ""
-
-msgid "You have logged out"
-msgstr ""
-
-msgid "Signup"
-msgstr ""
-
-msgid "A verification email has been sent."
-msgstr ""
-
-msgid "Which username would you like to use?"
-msgstr ""
-
-msgid "Which password?"
-msgstr ""
-
-msgid "Your email address?"
-msgstr ""
-
-msgid "Security question:"
-msgstr ""
-
-msgid "Hint to answer the security question:"
-msgstr ""
-
-msgid "Username or email address"
-msgstr ""
-
-msgid "Forgot password?"
-msgstr ""
-
-msgid "Not registered?"
-msgstr ""
-
-msgid "Sign up!"
-msgstr ""
-
-msgid ""
-"If you lost the password, submit your username or email address, and a new "
-"password will be emailed to you."
-msgstr ""
-
-msgid "Welcome"
-msgstr ""
-
-msgid "You have logged in."
-msgstr ""
-
-msgid "There is mail for you."
-msgstr ""
-
-msgid "Lists of recent changes in the Bibles"
-msgstr ""
-
-msgid "Exported Bibles"
-msgstr ""
-
-msgid "Style"
-msgstr ""
-
-msgid "Stylesheet"
-msgstr ""
-
-msgid "Description"
-msgstr ""
-
-msgid "Category"
-msgstr ""
-
-msgid "This style"
-msgstr ""
-
-msgid "This one"
-msgstr ""
-
-msgid "Font size"
-msgstr ""
-
-msgid "points"
-msgstr ""
-
-msgid "Italic"
-msgstr ""
-
-msgid "Bold"
-msgstr ""
-
-msgid "Underline"
-msgstr ""
-
-msgid "Small caps"
-msgstr ""
-
-msgid "Superscript"
-msgstr ""
-
-msgid "Text alignment"
-msgstr ""
-
-msgid "Space before"
-msgstr ""
-
-msgid "Space after"
-msgstr ""
-
-msgid "Left margin"
-msgstr ""
-
-msgid "Right margin"
-msgstr ""
-
-msgid "First line indent"
-msgstr ""
-
-msgid "Span columns"
-msgstr ""
-
-msgid "Print"
-msgstr ""
-
-msgid "Note numbering"
-msgstr ""
-
-msgid "Column number"
-msgstr ""
-
-msgid "Restart the note numbering"
-msgstr ""
-
-msgid "Position of endnote"
-msgstr ""
-
-msgid "User-defined note numbering sequence"
-msgstr ""
-
-msgid "Addition after word list entry"
-msgstr ""
-
-msgid "Dump endnotes when encountering marker"
-msgstr ""
-
-msgid "This lists the currently available stylesheets."
-msgstr ""
-
-msgid "You can create a new stylesheet."
-msgstr ""
-
-msgid ""
-"The various styles for the Bible editor are contained in a stylesheet."
-msgstr ""
-
-msgid "The stylesheet you are currently using is:"
-msgstr ""
-
-msgid "This shows the various styles contained in this stylesheet."
-msgstr ""
-
-msgid ""
-"You can modify this stylesheet. To do that, make changes to the existing xml "
-"data in the textbox below, and then submit it. It will overwrite whatever "
-"was there before."
-msgstr ""
-
-msgid "Delete this chapter"
-msgstr ""
-
-msgid "Chapters:"
-msgstr ""
-
-msgid "Create chapter"
-msgstr ""
-
-msgid "Delete this book"
-msgstr ""
-
-msgid "Importing Bible data, step 2"
-msgstr ""
-
-msgid "The file has been uploaded successfully."
-msgstr ""
-
-msgid ""
-"Or you can manually specify the location of the file, e.g. "
-"/home/joe/USFM.zip, and then press Submit."
-msgstr ""
-
-msgid "Importing Bible data"
-msgstr ""
-
-msgid "This page assists you with importing USFM data into the Bible."
-msgstr ""
-
-msgid ""
-"The file to be uploaded can be a USFM file, or a compressed archive with "
-"USFM files."
-msgstr ""
-
-msgid "Choose the USFM file to be uploaded."
-msgstr ""
-
-msgid ""
-"Uploading may take some time. It depends on the speed of your network, and "
-"on the size of the file."
-msgstr ""
-
-msgid "This helps you with importing Unified Standard Format Markers data."
-msgstr ""
-
-msgid ""
-"See the Unified Standard Format Markers User Reference for more information "
-"about this format."
-msgstr ""
-
-msgid ""
-"The data to be imported will overwrite similar data already in the Bible."
-msgstr ""
-
-msgid ""
-"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
-"that chapter already was in the Bible."
-msgstr ""
-
-msgid "It will not overwrite anything else."
-msgstr ""
-
-msgid "If Genesis 1 was not yet there, it will be created."
-msgstr ""
-
-msgid ""
-"You can import one chapter, or several chapters, or one book, or several "
-"books, all in one go."
-msgstr ""
-
-msgid ""
-"Bibledit will recognize books through the \\id markup and chapters through "
-"the \\c markup."
-msgstr ""
-
-msgid "The text to be imported should be in Unicode UTF-8 format."
-msgstr ""
-
-msgid ""
-"To import the data, paste the data into the box below, and then press the "
-"Submit button."
-msgstr ""
-
-msgid "Or upload a file."
-msgstr ""
-
-msgid "Available Bibles:"
-msgstr ""
-
-msgid "Create a new empty Bible"
-msgstr ""
-
-msgid "Importing Bible data, step 3"
-msgstr ""
-
-msgid "The file or files were unpacked."
-msgstr ""
-
-msgid "Location"
-msgstr ""
-
-msgid "Available books"
-msgstr ""
-
-msgid "Import data"
-msgstr ""
-
-msgid "Copy this Bible"
-msgstr ""
-
-msgid "Delete this Bible"
-msgstr ""
-
-msgid "Importing Bible data, last step"
-msgstr ""
-
-msgid "The process for importing Bible data has been started."
-msgstr ""
-
-msgid "The progress is visible in the logbook."
-msgstr ""
-
-msgid ""
-"It can take some time, depending on the amount of data to be imported."
-msgstr ""
-
-msgid ""
-"After everything has been done, you can see the Bible in the normal place."
-msgstr ""
-
-msgid "The Notes are an important part of Consultations."
-msgstr ""
-
-msgid ""
-"The notes help to record the discussions with consultants and other people."
-msgstr ""
-
-msgid ""
-"Normally, when going to the Consultation Notes, you will see a list of "
-"notes. It would say, for example, \"Displaying notes 1 - 5 / 5\". This means "
-"that it would display notes 1 to 5, out of 5 notes total."
-msgstr ""
-
-msgid ""
-"You can edit the display. That means that you can edit the number of notes "
-"that will display in that list."
-msgstr ""
-
-msgid ""
-"Clicking \"edit\" takes you to a new page, called Edit Notes Display. This "
-"enables you to \"edit\" how the notes will be displayed, and how many."
-msgstr ""
-
-msgid "The first thing that you can edit is how many notes will be selected."
-msgstr ""
-
-msgid ""
-"If you select notes that refer to any passage, then notes will be selected "
-"that refer to any passage, from Genesis to Revelation. But when you select "
-"notes that refer to the current verse, then only those notes will be "
-"selected that refer to the currently opened verse. In case you have Genesis "
-"2.2 open in the navigator, then only notes that refer to that particular "
-"verse are displayed."
-msgstr ""
-
-msgid ""
-"If you select notes that have been edited at any time, then all notes would "
-"be selected. But when you select notes that have been edited on \"today\", "
-"then only today's notes are displayed."
-msgstr ""
-
-msgid ""
-"The note selection mechanism combines all selection methods that have been "
-"set. If you select notes that refer to the current verse, for example, and "
-"that have been edited today, and only those notes that both refer to the "
-"current verse, and that also have been edited today, are displayed."
-msgstr ""
-
-msgid ""
-"There are other notes selection mechanisms as well. See the relevant page "
-"for all selection mechanisms. Things should be plain and there should be no "
-"need for any further information."
-msgstr ""
-
-msgid ""
-"One thing that would need explanation would be the mechanism that selects "
-"notes that contain certain text. This is intended to be used to search notes "
-"for text."
-msgstr ""
-
-msgid ""
-"If you select notes that contain \"any\" text, then searching for text in "
-"the note is not done."
-msgstr ""
-
-msgid ""
-"Searching for text can be done by selecting notes that contain specific "
-"words or text. When you select this option, you will see that an entry "
-"becomes visible. Search text should be entered there. Then the Save button "
-"should be pressed. This is to save that search text. Or just pressing Enter "
-"while the cursor is in that entry will do also."
-msgstr ""
-
-msgid ""
-"When you search for, for example, \"house\" (without the quotes), then notes "
-"that contain the word \"house\" will be selected. Notes that contain the "
-"word \"houses\", notice the plural, would not be selected. To select this "
-"plural form, you can use wildcards. Instead of entering \"house\", enter "
-"\"house*\". Notice the asterisk. This will select notes that contains the "
-"word \"house\" or \"houses\"."
-msgstr ""
-
-msgid ""
-"You can also enter two or more words to search for. The search routine will "
-"then do its best to select these notes that contain some or all of these "
-"words. Notes that contain all words are given first, and notes that contains "
-"only one or a few of the words will be given later."
-msgstr ""
-
-msgid ""
-"If you select notes that refer to the current verse, and then also search "
-"for some text, then only the notes that refer to the current verse would be "
-"searched. It is important to be aware of this. At times one may search for "
-"words or phrases, and get zero results, yet he is sure that there should be "
-"some results. This would happen because the user does not search the whole "
-"Bible, but only the current verse. The same applies to other selection "
-"mechanisms. Therefore, when searching notes for text, you may want to set "
-"all other selection mechanisms to \"any\"."
-msgstr ""
-
-msgid ""
-"There is more that can be said about searching notes. The wildcard operator "
-"already has been mentioned. Here is a list of possible operators:"
-msgstr ""
-
-msgid ""
-"By default, when no opeerator specified, the word is optional, but the "
-"result that contain it will be rated higher."
-msgstr ""
-
-msgid ""
-"A leading plus sign indicates that this word must be present in every result "
-"returned."
-msgstr ""
-
-msgid ""
-"A leading minus sign indicates that this word must not be present in any "
-"result returned."
-msgstr ""
-
-msgid ""
-"A leading tilde acts as a negation operator, causing the word's contribution "
-"to the result relevance to be negative. It's useful for marking noise words. "
-"A result that contains such a word will be rated lower than others, but will "
-"not be excluded altogether, as it would be with the minus operator."
-msgstr ""
-
-msgid ""
-"An asterisk is the wildcard operator. Unlike the other operators, it is "
-"appended to the word, or fragment, not prepended. This means that if there "
-"is a note with the word \"house\", and you search for \"*ouse\", this note "
-"won't be selected. Yes, this is unusual, but this is how the database search "
-"works. To minimize the pain of this, measures have been taken that if you "
-"type any part of the word, the expected result will still be found."
-msgstr ""
-
-msgid ""
-"Double quotes at the beginning and end of a phrase, gives only the notes "
-"that contain the complete phrase, as it was typed."
-msgstr ""
-
-msgid ""
-"Each note can be assigned to somebody. The person to whom the note is "
-"assigned then knows that action should be taken on this note. Or the person "
-"can be automatically emailed if the note gets changed."
-msgstr ""
-
-msgid "The Consultation Notes can partly be operated by email."
-msgstr ""
-
-msgid ""
-"When you receive an email from Bibledit-Web, and this email contains a "
-"Consultation Note, then you can reply to this email. Your reply will be "
-"added as a comment to this particular Consultation Note."
-msgstr ""
-
-msgid ""
-"The reply should come from the email address which you registered with "
-"Bibledit-Web when you created your  account. The reply should also have "
-"(CSID123456789) in the subject line. The number 123456789 is a Consultation "
-"Note Identifier. It is different for every Note. Just replying to a "
-"Consultation Note you received is usually all that is needed. Only replies "
-"that are typed before the quoted text are considered. This is called top-"
-"posting. When the quoted text gets posted too, then it is necessary to "
-"remove that from your email reply."
-msgstr ""
-
-msgid "You can also submit a new Consultation Note by email."
-msgstr ""
-
-msgid "This is how to do it:"
-msgstr ""
-
-msgid ""
-"Create a new email to the site's email address. The subject line contains "
-"\"New note\", then the passage, and finally the summary."
-msgstr ""
-
-msgid "For example:"
-msgstr ""
-
-msgid "The body of the email will be the first comment on that note."
-msgstr ""
-
-msgid "Install Bibledit-Web version 0.3 on Ubuntu 10.04 desktop and server"
-msgstr ""
-
-msgid "This assumes a standard installation of the operating system."
-msgstr ""
-
-msgid "Connect to a terminal on the server."
-msgstr ""
-
-msgid ""
-"Install the software Bibledit-Web relies on. To do that, type the following "
-"command, and press Enter:"
-msgstr ""
-
-msgid ""
-"While installing mysql-server, set the administrative password. These "
-"guidelines assume that it will be set to root."
-msgstr ""
-
-msgid ""
-"When it asks to choose the web server that should be configured to run "
-"phpMyAdmin, choose apache2."
-msgstr ""
-
-msgid ""
-"Anything else to be set up, choose the default settings and enter the "
-"correct passwords."
-msgstr ""
-
-msgid ""
-"Download Bibledit-Web. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Unpack Bibledit-Web. To do that, type the following command, and press Enter:"
-msgstr ""
-
-msgid ""
-"Enter Bibledit-Web's code. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Configure Bibledit-Web. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Install Bibledit-Web. To do that, type the following command, and press "
-"Enter:"
-msgstr ""
-
-msgid ""
-"Test the web server. Open the site in the browser. It should say something "
-"like"
-msgstr ""
-
-msgid ""
-"Setup Bibledit-Web. Open the setup url in the browser. If the site is "
-"\"site.org\", then this will be something like:"
-msgstr ""
-
-msgid "Bibledit-Web should now be ready, and accessible through:"
-msgstr ""
-
-msgid ""
-"You can initially login through default username \"adminusername\" and "
-"password \"adminpassword\". These only work if no Administrator's account "
-"exist on the system. It is recommended, therefore, to create an "
-"Administrator's account of your own choice, and then to remove the default "
-"adminusername account."
-msgstr ""
-
-msgid "Typesetting Bibles"
-msgstr ""
-
-msgid "The Bible has been translated. It is time to publish it."
-msgstr ""
-
-msgid "This article gives some hints about how to typeset a Bible."
-msgstr ""
-
-msgid ""
-"At the end of all, you will have a PDF file with the whole Bible, typeset, "
-"ready for publishing."
-msgstr ""
-
-msgid "Basic assumptions"
-msgstr ""
-
-msgid ""
-"The Bible is available in USFM code. The USFM code is clean and adheres to "
-"the standards."
-msgstr ""
-
-msgid ""
-"You have access to your own copy of Bibledit-Web, or to the Bibledit-Web "
-"demo on the internet."
-msgstr ""
-
-msgid "You have access to a copy of LibreOffice or OpenOffice."
-msgstr ""
-
-msgid "Exporting the USFM files to OpenDocument files"
-msgstr ""
-
-msgid ""
-"This section writes about a specific Bible that was to be prepared for "
-"publication. It gives the steps I took to convert the USFM code to "
-"OpenDocument files."
-msgstr ""
-
-msgid ""
-"The OpenDocument files are used as a starting point for typesetting. "
-"Typesetting itself is done in LibreOffice."
-msgstr ""
-
-msgid ""
-"The Bible is available in USFM files. Each Bible book is stored as one USFM "
-"file."
-msgstr ""
-
-msgid ""
-"Create a new Bible in Bibledit-Web through menu Management / Bibles. Give "
-"the Bible a name. I call it \"Ndebele\"."
-msgstr ""
-
-msgid "Click the \"Ndebele\" Bible."
-msgstr ""
-
-msgid "Import data into it."
-msgstr ""
-
-msgid "Choose the option to upload a file."
-msgstr ""
-
-msgid ""
-"You can upload 66 separate files, or you can put all the 66 files into one "
-"zipped file, and then upload that zipped file. I chose the second option, as "
-"being easier and quicker than the first. Importing took about a minute. The "
-"logbook shows the progress."
-msgstr ""
-
-msgid ""
-"Create a new stylesheet in menu Management / Styles. Give it a name. I call "
-"it \"Ndebele\"."
-msgstr ""
-
-msgid ""
-"All the data is now in Bibledit-Web. Everthing is ready for export to "
-"OpenDocument files."
-msgstr ""
-
-msgid "Let us now make the first export and see how the files look."
-msgstr ""
-
-msgid "Go to menu Management / Exports."
-msgstr ""
-
-msgid "Add Bible \"Ndebele\" to the ones that will be exported."
-msgstr ""
-
-msgid "Use stylesheet \"Ndebele\"."
-msgstr ""
-
-msgid "Output the chapter number in drop caps. Switch that setting on."
-msgstr ""
-
-msgid ""
-"Set the page size. I've used a width of 138 mm and a height of 210 mm."
-msgstr ""
-
-msgid ""
-"Set the margins. I've used 10 mm for top, bottom, and outer margins, and 12 "
-"mm for the inner margins."
-msgstr ""
-
-msgid ""
-"Do not display the date in the running headers. Switch that setting off."
-msgstr ""
-
-msgid "Do a fresh export. Give it some time to finish."
-msgstr ""
-
-msgid ""
-"Go to menu Members / Downloads / Exported Bibles, and choose your Bible "
-"there. Then go to the OpenDocument folder."
-msgstr ""
-
-msgid "You will see the Bible exported into several format."
-msgstr ""
-
-msgid "View them and see if you like them."
-msgstr ""
-
-msgid ""
-"I noticed that the Divine name was underlined in the OpenDocument files. The "
-"Divine name is within nd_...nd* markup in USFM. I prefer this in small "
-"capitals, not underlined."
-msgstr ""
-
-msgid "An update in the stylesheet is needed."
-msgstr ""
-
-msgid ""
-"Go to menu Management / Styles, and choose the \"Ndebele\" stylesheet."
-msgstr ""
-
-msgid "Click the \"nd\" style."
-msgstr ""
-
-msgid "Switch \"Underline\" off."
-msgstr ""
-
-msgid "Switch \"Small caps\" on."
-msgstr ""
-
-msgid ""
-"Do a new export, wait a while, and review the OpenDocument files again."
-msgstr ""
-
-msgid ""
-"I notice that the verse numbers are in superscript. The verse numbers are "
-"small and difficult to read."
-msgstr ""
-
-msgid "The intended audience prefers the verse numbers in bigger print."
-msgstr ""
-
-msgid "Go to the relevant stylesheet and choose the \"v\" style."
-msgstr ""
-
-msgid "Switch \"Superscript\" off."
-msgstr ""
-
-msgid "Do a new export and review the OpenDocument files."
-msgstr ""
-
-msgid ""
-"The text in the OpenDocument files has been divided into paragraphs. New "
-"paragraphs start when appropriate in the context. This is how the USFM files "
-"have been marked up."
-msgstr ""
-
-msgid ""
-"The people who are going to read this Bible prefer each verse to start a new "
-"paragraph."
-msgstr ""
-
-msgid "Go to the stylesheet, and choose the \"v\" style."
-msgstr ""
-
-msgid "Switch \"Restart paragraph\" on."
-msgstr ""
-
-msgid "Export again."
-msgstr ""
-
-msgid ""
-"Since each verse starts a new paragraph, there is no longer any need to "
-"indent the first line of that paragraph."
-msgstr ""
-
-msgid "In the stylesheet, edit the \"p\" style."
-msgstr ""
-
-msgid "Set the \"First line indent\" to 0 mm."
-msgstr ""
-
-msgid ""
-"Some verses are short. Chapters that start with short verses no longer have "
-"the chapter number in drop caps in LibreOffice."
-msgstr ""
-
-msgid ""
-"This is because this verse is all on one line, and thus there is no space "
-"for drop caps, as these need two lines of text."
-msgstr ""
-
-msgid ""
-"Setting the text in two columns in LibreOffice solves the problem. The drop "
-"caps are back."
-msgstr ""
-
-msgid ""
-"The letters of the Bible text are too big. This would take up too much "
-"space. The Bible would get too many pages."
-msgstr ""
-
-msgid ""
-"Find out which styles start paragraphs. In the Ndebele Bible, these are the "
-"styles p, s, nb, d."
-msgstr ""
-
-msgid "Set these styles to have a font size of 10 points."
-msgstr ""
-
-msgid "The letters of the notes and crossreferences are too big."
-msgstr ""
-
-msgid "Set the fontsize of the styles ft and xt to 6 points."
-msgstr ""
-
-msgid ""
-"Parts of the footnotes are in bold or italics or both. I prefer it all in "
-"normal script."
-msgstr ""
-
-msgid ""
-"Update the relevant footnote styles and switch bold and italics off. The "
-"styles are fk, fl, fq, fqa."
-msgstr ""
-
 msgid ""
-"Some of the word in the OpenDocument files are long. This results in too "
-"much space between some words."
+"The text was not valid Unicode UTF-8. The chapter could not saved and has "
+"been reverted to the last good version."
 msgstr ""
 
-msgid ""
-"The words need to get hyphens so that part of the word goes on the next line."
-msgstr ""
-
-msgid ""
-"LibreOffice has hyphenation algorithms for many languages. That would solve "
-"the problem."
-msgstr ""
-
-msgid "LibreOffice does not have a hyphenation algorithm for our language."
-msgstr ""
-
-msgid "Bibledit-Web has a hyphenater that could assist."
-msgstr ""
-
-msgid "In Bibledit-Web, go to menu Management / Hyphenation."
-msgstr ""
-
-msgid "Enter the first set of characters, and the second set, and save it."
-msgstr ""
-
-msgid ""
-"Set the Bible where to take the data from. In this case it is \"Ndebele\"."
-msgstr ""
-
-msgid ""
-"Insert the soft hyphens according to the setting. It takes a while to "
-"complete."
-msgstr ""
-
-msgid "The output Bible is called \"Ndebele-hyphenated\"."
-msgstr ""
-
-msgid "Use this Bible in the Exports options. Export it."
-msgstr ""
-
-msgid "Page count"
-msgstr ""
-
-msgid ""
-"The publisher may set limits to the number of pages the typeset Bible may "
-"contain."
-msgstr ""
-
-msgid ""
-"In this example, we expect an entire Bible, with singable Psalms added as an "
-"appendix, to contain no more than 2000 pages. Normal range is 1500 to 1800 "
-"pages."
-msgstr ""
-
-msgid "We suppose that the singable Psalms take up no more than 200 pages."
-msgstr ""
-
-#, c-format
-msgid ""
-"Usually the inclusion of the singable Psalms in a Bible will add about 10% "
-"to the number of pages."
-msgstr ""
-
-msgid ""
-"The Bible will have footnotes and crossreferences, all lumped together into "
-"a single textframe at the bottom of each page."
-msgstr ""
-
-msgid "Let us now measure how many pages the notes are likely to take up."
-msgstr ""
-
-msgid ""
-"Download the file with notes. It was exported above. It is called "
-"00_Bible_notes.odt."
-msgstr ""
-
-msgid "Open the file in LibreOffice."
-msgstr ""
-
-msgid ""
-"Let it repaginate. A good way of doing this is to press Ctrl-P as if going "
-"to print the document. Then it will repaginate. Cancel the print dialog."
-msgstr ""
-
-msgid "It will now give the page count that the notes are likely to take up."
-msgstr ""
-
-msgid "In our case, this is about 300 pages."
-msgstr ""
-
-msgid ""
-"Each chapter has headings. These headings do not belong to the notes. Thus "
-"the page count is too high."
-msgstr ""
-
-msgid ""
-"Notice that the paragraph style for these headings is called \"Heading 1\". "
-msgstr ""
-
-msgid ""
-"Hide the headings. This can be done like this. Right-click on a heading. "
-"Choose \"Edit Paragraph Style\". A dialog comes up. Choose tab \"Font "
-"Effects\". Tick option \"Hidden\"."
-msgstr ""
-
-msgid ""
-"Repaginate, and notice the page count. In our case it is down to about 125."
-msgstr ""
-
-msgid ""
-"Let us now find out how many pages the main text body is likely to take up."
-msgstr ""
-
-msgid ""
-"Download the OpenDocument file with text and note citations. It was exported "
-"above. It is called 00_Bible_text_and_note_citations.odt."
-msgstr ""
-
-msgid "The document has only one column."
-msgstr ""
-
-msgid "Repaginate and notice the page count. In our case this is 1750."
-msgstr ""
-
-msgid ""
-"This figure is not accurate since it applies to a column count of one."
-msgstr ""
-
-msgid "Set the whole document to have two columns."
-msgstr ""
-
-msgid ""
-"Go to menu Format / Page. Choose the Columns tab. Choose two columns. Set "
-"the spacing to 0.2 cm. Set a thin separator line. Click Ok."
-msgstr ""
-
-msgid "Repaginate and notice the page count. It is down to 1520."
-msgstr ""
-
-msgid ""
-"The font is of particular influence on the page count. This is not dealt "
-"with here."
-msgstr ""
-
-msgid "We are now able to estimate the page count for the entire Bible:"
-msgstr ""
-
-msgid ""
-"Text body 1520 pages. Notes 125 pages. Singable Psalms 200 pages. Estimated "
-"total is 1845 pages."
-msgstr ""
-
-msgid "Typesetting guidelines"
-msgstr ""
-
-msgid ""
-"Line spacing should be consistent throughout and should be placed line on "
-"line across all pages. It means that they should all line up with each other "
-"all the way down the page and across all pages. Then when the Bible is "
-"printed, the printed text will be back to back and not show through from one "
-"side of the page to the other."
-msgstr ""
-
-msgid ""
-"The space after the verse numbers would be nearly the same and consistent."
-msgstr ""
-
-msgid ""
-"The alignment of the drop caps chapter numbers to the text is to be "
-"consistent. The chapter divisions would also benefit from some more space "
-"between them and the text of the preceding chapter."
-msgstr ""
-
-msgid ""
-"The amount of space given to the Bible book headings should not be too great."
-msgstr ""
-
-msgid ""
-"Subheadings should not appear squashed amongst the rest of the text and "
-"would benefit from some space."
-msgstr ""
-
-msgid ""
-"The space between the text and footnotes should not be too tight neither "
-"unnecessarily large."
-msgstr ""
-
-msgid ""
-"In the crossreferences it is pleasing to have the chapter and verse number "
-"kept together with the book name, especially as the small font on long lines "
-"gives scope for this."
-msgstr ""
-
-msgid ""
-"The columns should start at the same height and should be balanced at the "
-"ends."
-msgstr ""
-
-msgid ""
-"The Psalm headers need consistent spaces before and after and should be "
-"positioned closer to the Psalm that follows than to the Psalm before."
-msgstr ""
-
-msgid ""
-"A 10 mm margin is okay for the outer margin. The inner margin needs slightly "
-"more, e.g. 12 mm."
-msgstr ""
-
-msgid ""
-"Readability would be helped by distinguishing the verse numbers visually. "
-"Others may prefer these to to be less visible."
-msgstr ""
-
-msgid ""
-"It would be helpful to distinguish the running head, perhaps by using a semi-"
-"bold version of the same font."
-msgstr ""
-
-msgid ""
-"One way in which the number of pages in a volume could be reduced without "
-"loss of readability would be to choose a font with slightly shorter "
-"ascenders and descenders and then tighten the leading (line spacing) "
-"slightly."
-msgstr ""
-
-msgid "Using LibreOffice for typesetting"
-msgstr ""
-
-msgid ""
-"Having used LibreOffice for typesetting for some time, my experience is that "
-"the program is suitable for typesetting Bibles."
-msgstr ""
-
-msgid ""
-"I'd like to give some hints about how to do typographic work in LibreOffice."
-msgstr ""
-
-msgid ""
-"To meet the requirement that line spacing be consistent throughout and be "
-"placed line on line across all pages, do the following:"
-msgstr ""
-
-msgid ""
-"Go to menu Format / Page, and enable Register-true. Set the reference style "
-"to \"Text Body\". Press OK."
-msgstr ""
-
-msgid ""
-"Select all the text, and go to menu Format / Paragraph, and activate "
-"Register-true. Press OK."
-msgstr ""
-
-msgid ""
-"The line spacing specified by the paragraph style \"Text Body\" is now used "
-"as the reference line spacing for all paragraphs that have the register-true "
-"feature enabled."
-msgstr ""
-
-msgid ""
-"The line spacing in the document is going to be consistent. It will be equal "
-"to the line spacing of the reference style \"Text Body\", or a multiple of "
-"it."
-msgstr ""
-
-msgid "Changing the line spacing."
-msgstr ""
-
-msgid "Change the line spacing in paragraph style \"Text Body\"."
-msgstr ""
-
-msgid "Press F11 to get the Styles and Formatting dialog."
-msgstr ""
-
-msgid "Locate style \"Text Body\"."
-msgstr ""
-
-msgid "Right-click it with the mouse, and choose menu Modify."
-msgstr ""
-
-msgid "Go to tab Indents & Spacing."
-msgstr ""
-
-msgid ""
-"Adjust the spacing above the paragraph, the spacing below the paragrap, and "
-"the line spacing. Press OK."
-msgstr ""
-
-msgid ""
-"It may happen that some paragraphs in the text used to have a line spacing "
-"equal to the line spacing of style \"Text Body\", but now suddenly take up a "
-"multiple of it. This may happen when you have tightened the line spacing a "
-"bit."
-msgstr ""
-
-msgid ""
-"To resolve this, make the line spacing of those paragraphs smaller than the "
-"line spacing of style \"Text body\"."
-msgstr ""
-
-msgid "Updating a paragraph style."
-msgstr ""
-
-msgid ""
-"After exporting USFM text to OpenDocument, the paragraph styles of the USFM "
-"document appear in LibreOffice."
-msgstr ""
-
-msgid ""
-"For example, normal paragraphs usually have style \"p\", and section heading "
-"\"s\"."
-msgstr ""
-
-msgid ""
-"If you like to update a paragraph style, you may update each section heading "
-"individually, but this is a lot of work. It is faster to update the style "
-"for \"s\", so that this updates all paragraphs that have this style."
-msgstr ""
-
-msgid ""
-"To update a paragraph style, right-click the text of this paragraph, and "
-"choose menu Edit Paragraph Style..., and make the desired settings."
-msgstr ""
-
-msgid "Exporting to PDF."
-msgstr ""
-
-msgid "See menu File / Export as PDF."
-msgstr ""
-
-msgid "Hiding the soft hyphens and non-breaking spaces."
-msgstr ""
-
-msgid ""
-"The soft hyphens and the non-breaking spaces are visible as grey fields that "
-"clutter the page. To hide them, do this:"
-msgstr ""
-
-msgid "Go to menu Tools / Options."
-msgstr ""
-
-msgid "Go to LibreOffice Writer / Formatting Aids."
-msgstr ""
-
-msgid "Untick display of custom hyphens."
-msgstr ""
-
-msgid "Untick display of non-breaking spaces."
-msgstr ""
-
-msgid ""
-"Install Bibledit-Web version 0.4 and higher on Ubuntu 10.10 desktop and "
-"server"
-msgstr ""
-
-msgid ""
-"Install the software Bibledit-Web relies on. To do that, type the following "
-"commands, and press Enter after each:"
-msgstr ""
-
-msgid "Reboot when through. This is to start the Apache web server."
-msgstr ""
-
-msgid "The x.x refers to the version number"
-msgstr ""
-
-msgid "Bibledit-Web"
-msgstr ""
-
-msgid ""
-"Bibledit is a web-based application for translating the Bible. It is part of "
-"the Bibledit suite."
-msgstr ""
-
-msgid ""
-"The idea behind Bibledit-Web is that various users can log into the "
-"application, and that each user has a certain \"level\" within the "
-"application. This level will give him or her more or less rights."
-msgstr ""
-
-msgid ""
-"There's the most basic level, which is \"Visitor\". A visitor can be anybody "
-"who visit the site. Visitors should be able to see the Bibles being "
-"translated on the site."
-msgstr ""
-
-msgid ""
-"The next level is a \"Member\". A member is somebody who has signed up to "
-"the site, and has confirmed this signup through his email. This is an "
-"independent process, which means whoever wants can become a \"Member\". "
-"Members will be able to do the same as Visitors, but in addition they will "
-"be able to raise Issues or \"Consultation Notes\" on the site. These notes "
-"presumably will be about how a certain passage has been translated. Members "
-"should be able to subscribe to changes in the Bible, and to changes in "
-"Consultation Notes, so that they are notified by email about this."
-msgstr ""
-
-msgid ""
-"Then, again the next level, there can be a \"Consultant\". Consultants are "
-"people who can be consulted because of their knowledge of the original "
-"language such as Hebrew or Greek, or because of their knowledge of their "
-"target language in case they are language scholars, or for any other "
-"knowledge they have. Nobody can become a Consultant by himself, this level "
-"is assigned to him by the Manager."
-msgstr ""
-
-msgid ""
-"The next level is \"Translator\". These are the ones that have all the "
-"rights of the Consultant, but in addition can actually change the Bible text."
-msgstr ""
-
-msgid ""
-"Then there's the \"Manager\". The manager has all the privileges of the "
-"previous levels, but in addition can add books to the Bible, delete books, "
-"add chapters, copy Bibles, and so on. The manager can assign privileges to "
-"the translators, consultants, and so on."
-msgstr ""
-
-msgid ""
-"Finally, there is the \"Administrator\". The administrator has all rights to "
-"do anything, and will do the technical setup and maintenance of the site."
-msgstr ""
-
-msgid "Here are some guidelines as to how to install Bibledit-Web."
-msgstr ""
-
-msgid "Version 0.4 and higher on Ubuntu 10.10 desktop and server."
+msgid "This chapter does not exist or is empty"
 msgstr ""
 
-msgid "Version 0.3 on Ubuntu 10.04 desktop and server."
+msgid "Chapter was saved."
 msgstr ""
 
-msgid "Version being developed"
+msgid "The following data could not be saved and was discarded:"
 msgstr ""
 
 msgid ""
-"In case you'd like to use the newest version, the one being developed, you "
-"can clone the source code from the git repository."
+"There was no text. Nothing was saved. The original text of the chapter was "
+"reloaded."
 msgstr ""
 
-msgid "See the Development page for more details."
+msgid "Would you like to delete this versification system?"
 msgstr ""
 
-msgid ""
-"Once you have cloned the source code, and have a local repository for the "
-"bibledit code, you can then copy directory web/web into your local web "
-"server, and get it up and running there. A web server is needed, PHP, and "
-"MySQL. If you have copied the web/web directory to, for example, "
-"http://localhost/bibledit, then to install the program and create all the "
-"databases, you need to run http://localhost/bibledit/setup.php once."
-msgstr ""
-
-msgid ""
-"To log into the application, use the default username \"adminusername\" and "
-"password \"adminpassword\". These only work if no Administrator's  account "
-"exist on the system. It is recommended to create an Administrator's account "
-"of your own choice. This will disable the default adminusername account."
+msgid "Please enter the name for the new versification system"
 msgstr ""
 
-msgid "Plugin"
+msgid "Change"
 msgstr ""
 
-msgid "Demo plugin"
+msgid "Query about a change in the text"
 msgstr ""
 
-msgid "Demo plugin for the User menu, page 1."
+msgid "Old text:"
 msgstr ""
 
-msgid "Demo plugin for the Translation menu, page 2."
+msgid "Change:"
 msgstr ""
 
-msgid "Demo plugin for the Translation menu, page 1."
+msgid "New text:"
 msgstr ""
 
-msgid "Demo plugin for the User menu, page 2."
+msgid "The passage for this change was not found."
 msgstr ""
 
-msgid "Demo plugin for the Management menu, page 1."
+msgid "The change was approved."
 msgstr ""
 
-msgid "Demo plugin for the Management menu, page 2."
+msgid "The changes were approved."
 msgstr ""
-
-msgid "Demo plugin for the Administration menu, page 1."
-msgstr ""
-
-msgid "Demo plugin for the Administration menu, page 2."
-msgstr ""
-
-#~ msgid "Starting to send and receive the relevant Bibles and Project Notes."
-#~ msgstr "Začínám odesílat a přijímat příslušné Bible a poznámky k projektu."
