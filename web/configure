@@ -2641,7 +2641,7 @@ if test x$FIND_MYSQLDUMP = xno; then
   as_fn_error $? "Program \"mysqldump\" is needed. Install this first." "$LINENO" 5
 fi
 
-6
+
 # Extract the first word of "php", so it can be a program name with args.
 set dummy php; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5

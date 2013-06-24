@@ -32,7 +32,7 @@ if test x$FIND_MYSQLDUMP = xno; then
   AC_MSG_ERROR(Program "mysqldump" is needed. Install this first.)
 fi
 
-6
+
 AC_PATH_PROG(FIND_PHP, php, no)
 if test x$FIND_PHP = xno; then
   AC_MSG_ERROR(Program "php" is needed. Install this first.)

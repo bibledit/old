@@ -30,7 +30,7 @@ class Locale_Logic
   * Gets the available localizations.
   * Returns an array of them.
   */
-  public function getLocalizations ()
+  static public function getLocalizations ()
   {
     $localizations = array ("default");
     $localeFolder = dirname (__FILE__);
@@ -48,7 +48,7 @@ class Locale_Logic
   * Gets the language of a localization.
   * Returns a string.
   */
-  public function getLanguage ($localization)
+  static public function getLanguage ($localization)
   {
     $language = "Default";
     $filename = dirname (__FILE__) . "/$localization.po";
@@ -72,7 +72,7 @@ class Locale_Logic
   * Filters out the default language.
   * Returns the $localization, or "" in case of the default language.
   */
-  public function filterDefault ($localization)
+  public static function filterDefault ($localization)
   {
     if ($localization == "default") $localization = "";
     return $localization;
