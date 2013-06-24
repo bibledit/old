@@ -53,15 +53,17 @@ $check_paragraph_structure = $database_config_general->getCheckParagraphStructur
 $checks_sentences = new Checks_Sentences ();
 $checks_sentences->enterCapitals ($database_config_general->getSentenceStructureCapitals ());
 $checks_sentences->enterSmallLetters ($database_config_general->getSentenceStructureSmallLetters ());
-$end_marks = $database_config_general->getSentenceStructureEndPunctuation ();
+$end_marks = $database_config_general->getSentenceStructureEndPunctuation (); // Todo
 $checks_sentences->enterEndMarks ($end_marks);
-$center_marks = $database_config_general->getSentenceStructureMiddlePunctuation ();
+$center_marks = $database_config_general->getSentenceStructureMiddlePunctuation (); // Todo
 $checks_sentences->enterCenterMarks ($center_marks);
 $checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
 $checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ());
 $check_versification = $database_config_general->getCheckChaptesVersesVersification ();
 $check_well_formed_usfm = $database_config_general->getCheckWellFormedUsfm ();
 $checks_usfm = new Checks_Usfm ();
+$check_missing_punctuation_end_verse = $database_config_general->getCheckMissingPunctuationEndVerse (); // Todo
+$check_punctuation_before_closing_bracket = $database_config_general->getCheckPunctuationBeforeClosingBracket (); // Todo
 
 
 // Go through the Bibles.
@@ -124,6 +126,9 @@ foreach ($bibles as $bible) {
           $verse = $verse [0];
           $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
         }
+      }
+      if ($check_missing_punctuation_end_verse) {
+        Checks_Verses::missingPunctuationAtEnd ($bible, $book, $chapter, $verses_text, $center_marks, $end_marks); // Todo
       }
     }
   }

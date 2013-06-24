@@ -23,7 +23,7 @@
 <p>Can check on two punctuation marks in sequence.</p>
 <p>Can check on malformed USFM.</p>
 <p>Can check on matching opening and closing markers in USFM.</p>
-<p></p>
+<p>Can check on punctuation at the end of each verse.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

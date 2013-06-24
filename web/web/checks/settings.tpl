@@ -27,7 +27,7 @@
 <a href="settings.php?fullstopheadings=">
 {if $full_stop_headings == true} ☑ {else} ☐ {/if}
 </a>
-{t}punctuation at end of heading{/t}
+{t}punctuation at the end of a heading{/t}
 </p>
 
 <p>
@@ -63,6 +63,20 @@
 {if $well_formed_usfm == true} ☑ {else} ☐ {/if}
 </a>
 {t}well-formed USFM{/t}
+</p>
+
+<p>
+<a href="settings.php?punctuationatendverse=">
+{if $punctuation_end_verse == true} ☑ {else} ☐ {/if}
+</a>
+{t}missing punctuation at the end of a verse{/t}
+</p>
+
+<p>
+<a href="settings.php?punctuationbeforeclosingbracket=">
+{if $punctuation_before_closing_bracket == true} ☑ {else} ☐ {/if}
+</a>
+{t}punctuation before a round closing bracket{/t}
 </p>
 
 <br>

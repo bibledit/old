@@ -91,6 +91,18 @@ if (isset ($_GET['wellformedusfm'])) {
 $smarty->assign ("well_formed_usfm", $database_config_general->getCheckWellFormedUsfm ());
 
 
+if (isset ($_GET['punctuationatendverse'])) {
+  $database_config_general->setCheckMissingPunctuationEndVerse (!$database_config_general->getCheckMissingPunctuationEndVerse ());
+}
+$smarty->assign ("punctuation_end_verse", $database_config_general->getCheckMissingPunctuationEndVerse ());
+
+
+if (isset ($_GET['punctuationbeforeclosingbracket'])) {
+  $database_config_general->setCheckPunctuationBeforeClosingBracket (!$database_config_general->getCheckPunctuationBeforeClosingBracket ());
+}
+$smarty->assign ("punctuation_before_closing_bracket", $database_config_general->getCheckPunctuationBeforeClosingBracket ());
+
+
 $smarty->assign ("bibles", $database_config_general->getCheckedBibles ());
 $smarty->display("settings.tpl");
 Assets_Page::footer ();
