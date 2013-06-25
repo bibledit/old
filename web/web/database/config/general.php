@@ -434,18 +434,25 @@ class Database_Config_General
     $this->setValue ("check-well-formed-usfm", $value);
   }
 
-  public function getCheckMissingPunctuationEndVerse () { // Todo
+  public function getCheckMissingPunctuationEndVerse () {
     return $this->getValue ("missing-punctuation-end-verse", "");
   }
   public function setCheckMissingPunctuationEndVerse ($value) {
     $this->setValue ("missing-punctuation-end-verse", $value);
   }
 
-  public function getCheckPunctuationBeforeClosingBracket () { // Todo
-    return $this->getValue ("punctuation-before-closing-bracket", "");
+  public function getCheckPatterns () {
+    return $this->getValue ("check_patterns", "");
   }
-  public function setCheckPunctuationBeforeClosingBracket ($value) {
-    $this->setValue ("punctuation-before-closing-bracket", $value);
+  public function setCheckPatterns ($value) {
+    $this->setValue ("check_patterns", $value);
+  }
+
+  public function getCheckingPatterns () {
+    return $this->getList ("checking-patterns", "");
+  }
+  public function setCheckingPatterns ($value) {
+    $this->setList ("checking-patterns", $value);
   }
 
 }

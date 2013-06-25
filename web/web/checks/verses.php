@@ -26,7 +26,7 @@ class Checks_Verses
 {
 
 
-  public function missingPunctuationAtEnd ($bible, $book, $chapter, $verses, $centermarks, $endmarks) // Todo update it.
+  public function missingPunctuationAtEnd ($bible, $book, $chapter, $verses, $centermarks, $endmarks)
   {
     if (!is_array ($verses)) return;
     $centermarks = explode (" ", $centermarks);
@@ -38,6 +38,21 @@ class Checks_Verses
       if (in_array ($lastCharacter, $centermarks)) continue;
       if (in_array ($lastCharacter, $endmarks)) continue;
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "No punctuation at end of verse:" . " " . $lastCharacter);
+    }
+  }
+
+  
+  public function patterns ($bible, $book, $chapter, $verses, $patterns)
+  {
+    if (!is_array ($verses)) return;
+    if (!is_array ($patterns)) return;
+    $database_check = Database_Check::getInstance ();
+    foreach ($verses as $verse => $text) {
+      foreach ($patterns as $pattern) {
+        if (strpos ($text, $pattern) !== false) {
+          $database_check->recordOutput ($bible, $book, $chapter, $verse, "Pattern found in text:" . " " . $pattern);
+        }
+      }
     }
   }
 

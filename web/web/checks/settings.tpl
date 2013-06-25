@@ -73,10 +73,11 @@
 </p>
 
 <p>
-<a href="settings.php?punctuationbeforeclosingbracket=">
-{if $punctuation_before_closing_bracket == true} ☑ {else} ☐ {/if}
+<a href="settings.php?patterns=">
+{if $check_patterns == true} ☑ {else} ☐ {/if}
 </a>
-{t}punctuation before a round closing bracket{/t}
+  {t}patterns in the text{/t}
+  [<a href="settingspatterns.php">{t}settings{/t}</a>]
 </p>
 
 <br>

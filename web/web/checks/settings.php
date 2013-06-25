@@ -97,10 +97,10 @@ if (isset ($_GET['punctuationatendverse'])) {
 $smarty->assign ("punctuation_end_verse", $database_config_general->getCheckMissingPunctuationEndVerse ());
 
 
-if (isset ($_GET['punctuationbeforeclosingbracket'])) {
-  $database_config_general->setCheckPunctuationBeforeClosingBracket (!$database_config_general->getCheckPunctuationBeforeClosingBracket ());
+if (isset ($_GET['patterns'])) {
+  $database_config_general->setCheckPatterns (!$database_config_general->getCheckPatterns ());
 }
-$smarty->assign ("punctuation_before_closing_bracket", $database_config_general->getCheckPunctuationBeforeClosingBracket ());
+$smarty->assign ("check_patterns", $database_config_general->getCheckPatterns ());
 
 
 $smarty->assign ("bibles", $database_config_general->getCheckedBibles ());

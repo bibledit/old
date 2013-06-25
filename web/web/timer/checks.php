@@ -53,17 +53,18 @@ $check_paragraph_structure = $database_config_general->getCheckParagraphStructur
 $checks_sentences = new Checks_Sentences ();
 $checks_sentences->enterCapitals ($database_config_general->getSentenceStructureCapitals ());
 $checks_sentences->enterSmallLetters ($database_config_general->getSentenceStructureSmallLetters ());
-$end_marks = $database_config_general->getSentenceStructureEndPunctuation (); // Todo
+$end_marks = $database_config_general->getSentenceStructureEndPunctuation ();
 $checks_sentences->enterEndMarks ($end_marks);
-$center_marks = $database_config_general->getSentenceStructureMiddlePunctuation (); // Todo
+$center_marks = $database_config_general->getSentenceStructureMiddlePunctuation ();
 $checks_sentences->enterCenterMarks ($center_marks);
 $checks_sentences->enterDisregards ($database_config_general->getSentenceStructureDisregards ());
 $checks_sentences->enterNames ($database_config_general->getSentenceStructureNames ());
 $check_versification = $database_config_general->getCheckChaptesVersesVersification ();
 $check_well_formed_usfm = $database_config_general->getCheckWellFormedUsfm ();
 $checks_usfm = new Checks_Usfm ();
-$check_missing_punctuation_end_verse = $database_config_general->getCheckMissingPunctuationEndVerse (); // Todo
-$check_punctuation_before_closing_bracket = $database_config_general->getCheckPunctuationBeforeClosingBracket (); // Todo
+$check_missing_punctuation_end_verse = $database_config_general->getCheckMissingPunctuationEndVerse ();
+$check_patterns = $database_config_general->getCheckPatterns ();
+$checking_patterns = array_filter ($database_config_general->getCheckingPatterns (), 'strlen');
 
 
 // Go through the Bibles.
@@ -128,7 +129,10 @@ foreach ($bibles as $bible) {
         }
       }
       if ($check_missing_punctuation_end_verse) {
-        Checks_Verses::missingPunctuationAtEnd ($bible, $book, $chapter, $verses_text, $center_marks, $end_marks); // Todo
+        Checks_Verses::missingPunctuationAtEnd ($bible, $book, $chapter, $verses_text, $center_marks, $end_marks);
+      }
+      if ($check_patterns) {
+        Checks_Verses::patterns ($bible, $book, $chapter, $verses_text, $checking_patterns);
       }
     }
   }

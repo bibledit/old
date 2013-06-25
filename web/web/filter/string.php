@@ -36,6 +36,17 @@ class Filter_String
   }
 
 
+  /**
+  * Returns the $string as an array cut on newlines.
+  */
+  public static function string2array ($string)
+  {
+    $string = str_replace ("\r", "", $string);
+    $string = explode ("\n", $string);
+    return $string;
+  }
+  
+  
 }
 
 ?>
