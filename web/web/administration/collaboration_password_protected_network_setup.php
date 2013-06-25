@@ -19,4 +19,5 @@ $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
 $smarty->display("collaboration_password_protected_network_setup.tpl");
+Assets_Page::footer ();
 ?>

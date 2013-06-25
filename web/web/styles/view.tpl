@@ -106,6 +106,3 @@
 
     </table>
 
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

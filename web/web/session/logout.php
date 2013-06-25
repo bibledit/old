@@ -8,5 +8,5 @@ $session_logic->logout ();
 
 $smarty = new Smarty_Bibledit (__FILE__);
 $smarty->display("logout.tpl");
-
+Assets_Page::footer ();
 ?>

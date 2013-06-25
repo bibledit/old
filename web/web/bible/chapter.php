@@ -23,4 +23,6 @@ $smarty->assign ("chapter", Filter_Html::sanitize ($chapter));
 
 $smarty->display ("chapter.tpl");
 
+Assets_Page::footer ();
+
 ?>

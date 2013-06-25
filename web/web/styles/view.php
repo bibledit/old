@@ -556,4 +556,6 @@ $smarty->assign ("userstring2", Filter_Html::sanitize ($userstring2));
 
 $smarty->display ("view.tpl");
 
+Assets_Page::footer ();
+
 ?>

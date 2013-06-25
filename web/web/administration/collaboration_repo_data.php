@@ -8,4 +8,5 @@ $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $directory = Filter_Git::git_directory ($object);
 $smarty->display("collaboration_repo_data.tpl");
+Assets_Page::footer ();
 ?>

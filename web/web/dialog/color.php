@@ -20,6 +20,7 @@ class Dialog_Color
     $this->smarty->assign ("active_url", $active_url);
     $this->smarty->assign ("question",   $question);
     $this->smarty->display("color.tpl");
+    Assets_Page::footer ();
   }
 }
 

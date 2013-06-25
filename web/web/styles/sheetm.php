@@ -36,4 +36,6 @@ $smarty->assign ("xml", $xml);
 
 $smarty->display ("sheetm.tpl");
 
+Assets_Page::footer ();
+
 ?>

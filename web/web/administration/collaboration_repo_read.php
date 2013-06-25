@@ -43,4 +43,6 @@ $smarty->display("collaboration_repo_read.tpl");
 // For security reasons, remove the private ssh key.
 Filter_Git::git_un_config ($secure_key_directory);
 
+Assets_Page::footer ();
+
 ?>

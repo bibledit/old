@@ -15,6 +15,3 @@
     </form>
     <h3><a href="{$base_url}">{t}Cancel{/t}</a></h3>
     <p>{$help}</p>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

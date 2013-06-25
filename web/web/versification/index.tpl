@@ -13,6 +13,3 @@
     {section name=offset loop=$systems} 
       <p><a href="system.php?name={$systems[offset]}">{$systems[offset]}</a></p>
     {/section} 
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

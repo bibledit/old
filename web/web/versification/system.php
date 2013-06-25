@@ -36,5 +36,6 @@ $xml = $database_versifications->exportBibleditXmlFile ($name);
 $smarty->assign ("xml", $xml);
 
 $smarty->display ("system.tpl");
+Assets_Page::footer ();
 
 ?>

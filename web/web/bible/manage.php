@@ -92,6 +92,6 @@ if (isset ($origin)) {
 $bibles = $database_bibles->getBibles();
 $smarty->assign ("bibles", $bibles);
 $smarty->display ("manage.tpl");
-
+Assets_Page::footer ();
 
 ?>

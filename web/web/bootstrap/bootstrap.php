@@ -34,6 +34,7 @@ function page_access_level ($level)
   if ($level > $session_logic->currentLevel ()) {
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->display("bootstrap.tpl");
+    Assets_Page::footer ();
     die ();
   } 
 }

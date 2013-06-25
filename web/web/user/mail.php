@@ -59,5 +59,6 @@ $smarty->assign ("views",        $views);
 
 $smarty->display ("mail.tpl");
 
+Assets_Page::footer ();
 
 ?>

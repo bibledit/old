@@ -35,6 +35,7 @@ class Dialog_Yes
 
     $this->smarty->assign ("question",     $question);
     $this->smarty->display("yes.tpl");
+    Assets_Page::footer ();
   }
 }
 

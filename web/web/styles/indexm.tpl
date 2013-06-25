@@ -13,6 +13,3 @@
     {section name=offset loop=$sheets} 
       <p><a href="sheetm.php?name={$sheets[offset]}">{$sheets[offset]}</a></p>
     {/section} 
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

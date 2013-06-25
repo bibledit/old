@@ -57,6 +57,7 @@ class Dialog_List
     $this->smarty->assign ("text_lines",     $this->text_lines);
     $this->smarty->assign ("get_parameters", $this->get_parameters);
     $this->smarty->display("list.tpl");
+    Assets_Page::footer ();
   }  
 
   

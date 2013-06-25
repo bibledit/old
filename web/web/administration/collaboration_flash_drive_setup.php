@@ -24,4 +24,5 @@ ob_end_clean();
 $smarty->assign ("username", $username);
 
 $smarty->display("collaboration_flash_drive_setup.tpl");
+Assets_Page::footer ();
 ?>

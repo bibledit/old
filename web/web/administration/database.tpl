@@ -9,6 +9,3 @@
   <body>
   {include file=../assets/header_full.tpl} 
   <h1>{t}Database maintenance{/t}</h1>
-  {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

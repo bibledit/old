@@ -57,5 +57,6 @@ $smarty->assign ("chapters", $chapters);
 @$smarty->assign ("error_message", $error_message);
 
 $smarty->display ("book.tpl");
+Assets_Page::footer ();
 
 ?>

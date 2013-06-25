@@ -25,6 +25,3 @@
       <p>{$info_bottom}</p>
     {/if}
     <h3><a href="{$caller_url}">{t}Cancel{/t}</a></h3>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

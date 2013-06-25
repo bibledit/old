@@ -17,6 +17,3 @@
     <p>
          {t}You have logged out{/t} 
     </p>
-     {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

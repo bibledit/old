@@ -30,6 +30,7 @@ class Dialog_Entry
     $this->smarty->assign ("submit",   $submit);
     $this->smarty->assign ("help",     $help);
     $this->smarty->display("entry.tpl");
+    Assets_Page::footer ();
   }
 }
 

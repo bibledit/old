@@ -18,6 +18,3 @@
     {/section}
     </ul>
     <p><a href="manage.php?new=">{t}Create a new empty Bible{/t}</a></p>
-    {include file=../assets/footer_full.tpl}
-  </body>
-</html>

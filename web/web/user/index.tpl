@@ -15,6 +15,3 @@
     <p><a href="notifications.php">{t}Notifications{/t}</a></p>
     <p><a href="account.php">{t}Account{/t}</a></p>
     <p><a href="timezone.php">{t}Timezone{/t}</a></p>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

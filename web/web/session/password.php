@@ -55,5 +55,6 @@ if (isset($_POST['submit'])) {
 
 $smarty->display("password.tpl");
 
+Assets_Page::footer ();
 
 ?>

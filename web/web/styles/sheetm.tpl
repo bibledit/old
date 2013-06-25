@@ -37,7 +37,3 @@
       <p><textarea name="data">{$xml}</textarea></p>
       <p><input type="submit" name="submit" value={t}Submit{/t} /></p>
     </form>
-
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

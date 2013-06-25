@@ -40,7 +40,3 @@
     
     <p>{t}Not registered?{/t} <a href="signup.php">{t}Sign up!{/t}</a></p>
     </form>
-
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

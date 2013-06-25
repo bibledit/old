@@ -105,6 +105,3 @@ tmpfs        1038428         0   1038428   0% /dev/shm
 
   <h2><a href="collaboration_repo_read.php?object={$object}">{t}Next page{/t}</a></h2>
 
-  {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

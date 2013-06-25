@@ -34,6 +34,7 @@ if (isset ($_GET['new'])) {
 $systems = $database_versifications->getSystems();
 $smarty->assign ("systems", $systems);
 $smarty->display ("index.tpl");
+Assets_Page::footer ();
 
 
 ?>

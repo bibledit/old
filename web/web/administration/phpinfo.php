@@ -4,4 +4,5 @@ page_access_level (ADMIN_LEVEL);
 $smarty = new Smarty_Bibledit (__FILE__);
 $smarty->display("phpinfo.tpl");
 phpinfo ();
+Assets_Page::footer ();
 ?>

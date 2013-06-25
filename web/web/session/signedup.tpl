@@ -12,6 +12,4 @@
     <p>{t}Your account is pending.{/t}</p>
     <p>{t}A verification email has been sent.{/t}</p>
     <p>{t}After you reply to the verification email, your account will be activated. This may take five or more minutes.{/t}</p>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>
+

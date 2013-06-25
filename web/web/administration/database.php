@@ -86,5 +86,6 @@ $database->optimize();
 // Done.
 message_information ("Ready");
 
+Assets_Page::footer ();
 
 ?>

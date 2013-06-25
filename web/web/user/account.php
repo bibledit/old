@@ -5,7 +5,6 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MEMBER_LEVEL);
 
 
-
 $smarty = new Smarty_Bibledit (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
@@ -82,6 +81,9 @@ $smarty->assign ('email', Filter_Html::sanitize ($email));
 @$smarty->assign ('success_messages', $success_messages);
 @$smarty->assign ('actions_taken', $actions_taken);
 $smarty->display("account.tpl");
+
+
+Assets_Page::footer ();
 
 
 ?>

@@ -9,6 +9,3 @@
   <body>
   {include file=../assets/header_full.tpl} 
   <h1>PHP Info</h1>
-  {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

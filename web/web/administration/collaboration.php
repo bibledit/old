@@ -34,4 +34,5 @@ $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $smarty->assign ("url", $url);
 
 $smarty->display("collaboration.tpl");
+Assets_Page::footer ();
 ?>

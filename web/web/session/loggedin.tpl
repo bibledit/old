@@ -13,6 +13,3 @@
     {if $mailcount > 0}
       <p><a href="../user/mail.php">{t}There is mail for you.{/t}</a></p>
     {/if}
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

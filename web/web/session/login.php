@@ -48,4 +48,6 @@ if ($session_logic->loggedIn ()) {
   $smarty->display("login.tpl");
 }
 
+Assets_Page::footer ();
+
 ?>

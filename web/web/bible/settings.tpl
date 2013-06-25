@@ -21,6 +21,3 @@
     <p><a href="import_bibleworks.php?bible={$bible}">{t}Import BibleWorks{/t}</a></p>
     <p><a href="manage.php?copy={$bible}">{t}Copy this Bible{/t}</a></p>
     <p><a href="manage.php?delete={$bible}">{t}Delete this Bible{/t}</a></p>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

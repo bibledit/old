@@ -51,9 +51,10 @@ class Assets_Page
   }
   public static function footer ()
   {
-    $smarty = new Smarty_Bibledit (__FILE__);
-    $smarty->display ("footer_full.tpl");
-    $smarty->display ("xhtml_finish.tpl");
+    $view = new Assets_View (__FILE__);
+    $view->render ('footer_full.php');
+    $view->render ('xhtml_finish.php');
+
   }
 }
 

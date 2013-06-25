@@ -274,6 +274,3 @@
 </table>
 
     <h3><a href="{$base_url}">{t}Cancel{/t}</a></h3>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

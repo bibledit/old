@@ -17,6 +17,3 @@
     </p>
     <p>{$info_bottom}</p>
     <h3><a href="{$caller}">{t}Cancel{/t}</a></h3>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

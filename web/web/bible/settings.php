@@ -67,4 +67,5 @@ foreach ($book_ids as $book) {
 
 $smarty->display ("settings.tpl");
 
+Assets_Page::footer ();
 ?>

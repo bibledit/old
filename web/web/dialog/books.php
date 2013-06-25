@@ -44,6 +44,7 @@ class Dialog_Books
     $this->smarty->assign ("book_ids", $book_ids);
     $this->smarty->assign ("book_names", $book_names);
     $this->smarty->display("books.tpl");
+    Assets_Page::footer ();
   }
   
 }

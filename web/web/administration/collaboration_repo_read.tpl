@@ -33,7 +33,3 @@
   </form>
 
   <h2><a href="collaboration_repo_clone.php?object={$object}">{t}Next page{/t}</a></h2>
-
-  {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

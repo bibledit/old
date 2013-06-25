@@ -97,6 +97,7 @@ if ($signed_up)
 else
   $smarty->display("signup.tpl");
 
+Assets_Page::footer ();
 
 
 ?>

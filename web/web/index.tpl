@@ -14,6 +14,3 @@
     <h1>
        {$pagetitle} 
     </h1>
-     {include file=assets/footer_full.tpl} 
-  </body>
-</html>

@@ -3,6 +3,7 @@
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
+
 $smarty = new Smarty_Bibledit (__FILE__);
 $database_styles = Database_Styles::getInstance();
 
@@ -36,4 +37,5 @@ $smarty->assign ("sheets", $sheets);
 $smarty->display ("indexm.tpl");
 
 
+Assets_Page::footer ();
 ?>

@@ -19,6 +19,3 @@
     </p>
     <p><a href="book.php?bible={$bible}&book={$book}&createchapter=">{t}Create chapter{/t}</a></p>
     <p><a href="settings.php?bible={$bible}&deletebook={$book}">{t}Delete this book{/t}</a></p>
-    {include file=../assets/footer_full.tpl} 
-  </body>
-</html>

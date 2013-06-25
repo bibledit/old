@@ -42,7 +42,3 @@
       <li><em>{t}Secured Network Repository.{/t}</em> {t}For high security it is recommended to use this type of repository. Only those who have the secure keys to such a repository can write to it. Bibledit-Web supports this in case the Linux server has been set up to access this repository through passphrase-less private and public keys.{/t}</li>
     </ul> 
   {/if}
-
-  {include file=../assets/footer_full.tpl} 
-  </body>
-</html>
