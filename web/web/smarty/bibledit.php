@@ -1,23 +1,12 @@
 <?php
-/**
-* @package smarty
-*/
 
-
-/**
-* Needs to include the parent Smarty class.
-*/
 require_once ("Smarty.class.php");
 
 
-/**
-* Specialized form of Smarty, suited to our needs
-*
-* @package smarty
-*/
-class Smarty_Bibledit extends Smarty { 
+class Smarty_Bibledit extends Smarty {
 
-  public function __construct($calling_file_php)
+  public function __construct($calling_file_php) 
+  // The logic from this one has been transferred.
   {
     // Construct the Smarty object.
     parent::__construct();
@@ -57,7 +46,8 @@ class Smarty_Bibledit extends Smarty {
   * Setting the session variables in Smarty is postponed to the very last moment, since 
   * these could change within the course of the calling .php file.
   */ 
-  public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
+  public function display($template = null, $cache_id = null, $compile_id = null, $parent = null) 
+  // This logic has been transferred to Zend_View.
   {
     $session_logic = Session_Logic::getInstance ();
     if ($session_logic->loggedIn ()) {

@@ -24,13 +24,22 @@
 class Assets_Page 
 {
 
-  public static function header ($title, $query = "")
+  public static function header2 ($title, $query = "")
   {
     $smarty = new Smarty_Bibledit (__FILE__); // Todo convert - test well - also the levels.
     $smarty->assign ("title", $title);
     $smarty->assign ("query", $query);
     $smarty->display ("xhtml_start.tpl");
     $smarty->display ("header_full.tpl");
+  }
+
+  public static function header ($title, $query = "")
+  {
+    $view = new Assets_View (__FILE__);
+    $view->view->title = $title;
+    $view->view->query = $query;
+    $view->render ("xhtml_start.php");
+    $view->render ("header_full.php");
   }
 
   public static function success ($message)
