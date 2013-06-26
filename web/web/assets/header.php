@@ -24,10 +24,12 @@
 class Assets_Header
 {
   private static $instance;
-  private $smarty;
+  private $view;
   private $document_ready_functions;
+
   private function __construct() {
   } 
+
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
@@ -35,14 +37,17 @@ class Assets_Header
     }
     return self::$instance;
   }
+
   /**
   * Writes a header with jQuery basics if needed.
   */
   public function jQueryHeader ($title)
   {
-    $this->smarty = new Smarty_Bibledit (__FILE__);
-    $this->smarty->assign ("title", $title);
+    $this->view = new Assets_View (__FILE__);
+    $this->view->view->title = $title;
+    
   }
+
   /**
   * Adds a document ready function for jQuery.
   */
@@ -52,25 +57,29 @@ class Assets_Header
       $this->document_ready_functions[] = $code;
     }
   }
+
   /**
   * Adds a document ready function for jQuery.
   */
   public function jQueryHeaderAddWysiwygHeaders ()
   {
-    $this->smarty->assign ("wysiwyg_editor", true);
+    $this->view->view->wysiwyg_editor = true;
     if (isset ($code)) {
       $this->document_ready_functions[] = $code;
     }
   }
+
   /**
   * Runs the header.
   */
   public function run ()
   {
-    $this->smarty->assign ("document_ready_functions", $this->document_ready_functions);
-    $this->smarty->display ("xhtml_start.tpl");
-    $this->smarty->display ("header_full.tpl");
+    $this->view->view->document_ready_functions =  $this->document_ready_functions;
+    $this->view->render ("xhtml_start.php");
+    $this->view->render ("header_full.php");
+    
   }
+
 }
 
 

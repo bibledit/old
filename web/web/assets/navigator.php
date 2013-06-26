@@ -193,7 +193,7 @@ class Assets_Navigator
   }
   
   
-  public function display () // Todo
+  public function display ()
   {
     $database_books = Database_Books::getInstance();
     $database_bibles = Database_Bibles::getInstance();

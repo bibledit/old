@@ -28,7 +28,7 @@ class Assets_View
   
 
   // Wrapper around Zend_View, adapted for bibledit-web.
-  public function __construct ($calling_file_php) // Todo transferring the smarty_bibledit logic to this Zend_View wrapper.
+  public function __construct ($calling_file_php)
   {
     $this->view = new Zend_View (array ("basePath" => dirname ($calling_file_php)));
 
