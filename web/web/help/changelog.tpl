@@ -25,7 +25,7 @@
 <p>Can check on matching opening and closing markers in USFM.</p>
 <p>Can check on punctuation at the end of each verse.</p>
 <p>Can check on the existence of patterns in the verse text.</p>
-<p>Switches from the Smarty template engine to Zend_View.</p>
+<p>Switching from Smarty to Zend_View.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

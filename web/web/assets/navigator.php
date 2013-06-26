@@ -27,7 +27,7 @@ class Assets_Navigator
 {
   private static $instance;
   private function __construct() {
-  } 
+  }
   public static function getInstance() 
   {
     if ( empty( self::$instance ) ) {
@@ -193,23 +193,24 @@ class Assets_Navigator
   }
   
   
-  public function display ()
+  public function display () // Todo
   {
     $database_books = Database_Books::getInstance();
     $database_bibles = Database_Bibles::getInstance();
     $database_sessions = Database_Sessions::getInstance();
 
-    $smarty = new Smarty_Bibledit (__FILE__);
-    $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
+    $view = new Assets_View (__FILE__);
 
-    $smarty->assign ("caller", $_SERVER["PHP_SELF"]);
+    $view->view->session = $database_sessions->getCurrentSessionId ();
+
+    $view->view->caller = $_SERVER["PHP_SELF"];
 
     $bible = $this->bible();
-    $smarty->assign ("bible", $bible);
+    $view->view->bible = $bible;
 
     $book = $this->book();
-    $smarty->assign ("book",  $book);
-    $smarty->assign ("book_name", gettext ($database_books->getEnglishFromId ($book)));
+    $view->view->book = $book;
+    $view->view->book_name =  gettext ($database_books->getEnglishFromId ($book));
     $books = $database_bibles->getBooks($bible);
     $key = array_search ($book, $books);
     $previous_book = "";
@@ -218,11 +219,11 @@ class Assets_Navigator
       @$previous_book = $books [$key - 1];
       @$next_book = $books [$key + 1];
     }
-    $smarty->assign ("previous_book", $previous_book);
-    $smarty->assign ("next_book", $next_book);
+    $view->view->previous_book = $previous_book;
+    $view->view->next_book = $next_book;
 
     $chapter = $this->chapter();
-    $smarty->assign ("chapter", $chapter);
+    $view->view->chapter = $chapter;
     $chapters = $database_bibles->getChapters ($bible, $book);
     $key = array_search ($chapter, $chapters);
     $previous_chapter = "";
@@ -231,11 +232,11 @@ class Assets_Navigator
       @$previous_chapter = $chapters [$key - 1];
       @$next_chapter = $chapters [$key + 1];
     }
-    $smarty->assign ("previous_chapter", $previous_chapter);
-    $smarty->assign ("next_chapter", $next_chapter);
+    $view->view->previous_chapter = $previous_chapter;
+    $view->view->next_chapter = $next_chapter;
 
     $verse = $this->verse();
-    $smarty->assign ("verse", $verse);
+    $view->view->verse = $verse;
     $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
     $key = array_search ($verse, $verses);
     $previous_verse = "";
@@ -244,10 +245,10 @@ class Assets_Navigator
       @$previous_verse = $verses [$key - 1];
       @$next_verse = $verses [$key + 1];
     }
-    $smarty->assign ("previous_verse", $previous_verse);
-    $smarty->assign ("next_verse", $next_verse);
+    $view->view->previous_verse = $previous_verse;
+    $view->view->next_verse = $next_verse;
 
-    $smarty->display ("navigator.tpl");
+    $view->render ("navigator.php");
   }
 
 
