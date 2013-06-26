@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-25 01:43+0200\n"
+"POT-Creation-Date: 2013-06-26 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -660,6 +660,152 @@ msgid "Consultations"
 msgstr ""
 
 msgid "Product Owner"
+msgstr ""
+
+msgid ""
+"Bibledit is a web-based application for translating the Bible. It is part of "
+"the Bibledit suite."
+msgstr ""
+
+msgid "People can sign up for an account and log in."
+msgstr ""
+
+msgid "Each user has a certain role within the application."
+msgstr ""
+
+msgid ""
+"The first role is Member. A member is somebody who has signed up to the "
+"site, and has confirmed this signup through his email."
+msgstr ""
+
+msgid ""
+"The second role is Consultant. Consultants are people who can be consulted "
+"because of their knowledge of the original language such as Hebrew or Greek, "
+"or because of their knowledge of their target language in case they are "
+"language scholars, or for any other knowledge they have."
+msgstr ""
+
+msgid ""
+"The next role is Translator. These are the ones that have all the rights of "
+"the Consultant, but in addition can change the Bible text."
+msgstr ""
+
+msgid ""
+"Then there's the Manager. The manager has all the privileges of the previous "
+"levels, but in addition can add books to the Bible, delete books, add "
+"chapters, copy Bibles, and so on. The manager can assign privileges to the "
+"translators, consultants, and so on."
+msgstr ""
+
+msgid ""
+"Finally, there is the Administrator. The administrator has all rights to do "
+"anything, and will do the technical setup and maintenance of the site."
+msgstr ""
+
+msgid ""
+"Everybody who has an account can enable the personal notifications. Those "
+"who have switched the relevant notifications on can receive email from "
+"Bibledit-Web. They receive email when new consultation notes get created, or "
+"when consultation notes get changed, or when consultation notes get assigned "
+"to them. They can also get automatic daily email detailing the changes that "
+"have been made in the Bible since the previous email."
+msgstr ""
+
+msgid ""
+"Everybody who has an account can create consultation notes by email, and "
+"respond to these by email."
+msgstr ""
+
+msgid ""
+"Members can view and download all exported Bibles and lists with recent "
+"changes in the Bibles."
+msgstr ""
+
+msgid ""
+"Consultants can create consultation notes online, view these, set parameters "
+"for these, assign the notes to people, and delete notes."
+msgstr ""
+
+msgid "Translators can do the following things:"
+msgstr ""
+
+msgid "Edit the Bible text."
+msgstr ""
+
+msgid "Switch the stylesheet."
+msgstr ""
+
+msgid "View and suppress results of the automatic checks."
+msgstr ""
+
+msgid "Managers can do several things:"
+msgstr ""
+
+msgid "Edit the Bible in raw USFM format."
+msgstr ""
+
+msgid ""
+"Send and receive the Bible text. This means that they can synchronize the "
+"Bible text with a remote git repository. In this way they can collaborate "
+"with people who use Bibledit-Gtk."
+msgstr ""
+
+msgid "View and clear the logbook."
+msgstr ""
+
+msgid "Process the changes, so that lists are created, and email is sent out."
+msgstr ""
+
+msgid "View and edit people who have an account, and create new accounts."
+msgstr ""
+
+msgid "Create and delete Bibles, books, chapters, and import USFM data."
+msgstr ""
+
+msgid ""
+"Initiate the daily export of selected Bibles to OpenDocument, USFM, html, "
+"Online Bible."
+msgstr ""
+
+msgid "Create and edit versification systems."
+msgstr ""
+
+msgid "Create and edit stylesheets."
+msgstr ""
+
+msgid "Import consultation notes from Bibledit-Gtk and remove duplicates."
+msgstr ""
+
+msgid "Deal with automatic hyphenation when exporting to OpenDocument."
+msgstr ""
+
+msgid "Make settings for the automatic check and select Bibles to run them on."
+msgstr ""
+
+msgid "Administrator can do several things:"
+msgstr ""
+
+msgid "Set up Bibledit-Web's email account."
+msgstr ""
+
+msgid "Create backups and restore them."
+msgstr ""
+
+msgid ""
+"Set up collaboration through setting up a connection with a remote git "
+"repository."
+msgstr ""
+
+msgid "Maintain the database."
+msgstr ""
+
+msgid "Set the site's timezone."
+msgstr ""
+
+msgid "Set the site's language."
+msgstr ""
+
+msgid "View the PHP Info."
 msgstr ""
 
 msgid "Installation"

@@ -21,7 +21,7 @@
  **  
  */
 
-class Assets_View // Todo
+class Assets_View
 {
 
   public $view;

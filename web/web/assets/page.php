@@ -23,39 +23,44 @@
 
 class Assets_Page 
 {
+
   public static function header ($title, $query = "")
   {
-    $smarty = new Smarty_Bibledit (__FILE__);
+    $smarty = new Smarty_Bibledit (__FILE__); // Todo convert - test well - also the levels.
     $smarty->assign ("title", $title);
     $smarty->assign ("query", $query);
     $smarty->display ("xhtml_start.tpl");
     $smarty->display ("header_full.tpl");
   }
+
   public static function success ($message)
   {
-    $smarty = new Smarty_Bibledit (__FILE__);
-    $smarty->assign ("message", $message);
-    $smarty->display ("success.tpl");
+    $view = new Assets_View (__FILE__);
+    $view->view->message = $message;
+    $view->render ("success.php");
   }
+
   public static function error ($message)
   {
-    $smarty = new Smarty_Bibledit (__FILE__);
-    $smarty->assign ("message", $message);
-    $smarty->display ("error.tpl");
+    $view = new Assets_View (__FILE__);
+    $view->view->message = $message;
+    $view->render ("error.php");
   }
+
   public static function message ($message)
   {
-    $smarty = new Smarty_Bibledit (__FILE__);
-    $smarty->assign ("message", $message);
-    $smarty->display ("message.tpl");
+    $view = new Assets_View (__FILE__);
+    $view->view->message = $message;
+    $view->render ("message.php");
   }
+
   public static function footer ()
   {
     $view = new Assets_View (__FILE__);
     $view->render ('footer_full.php');
     $view->render ('xhtml_finish.php');
-
   }
+
 }
 
 
