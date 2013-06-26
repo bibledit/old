@@ -6,7 +6,7 @@
 <p>
  <?php echo gettext ("Each member of the team translates independently and in a responsible manner.") ?>
  <?php echo gettext ("In case a translator is sure of a required change, he enters it without consulting others.") ?>
- <?php echo gettext ("If a translator thinks a proposed change needs discusson, he notifies his colleagues.") ?>
+ <?php echo gettext ("If a translator thinks a proposed change needs discussion, he notifies his colleagues.") ?>
 </p>
 <br>
 <p>
@@ -17,7 +17,7 @@
 <br>
 <p>
  <?php echo gettext ("This way of working is based on personal responsibility and mutual trust.") ?>
- <?php echo gettext ("It speeds up the translation procedure because there's more actual translation workk going on, and less discussions.") ?>
+ <?php echo gettext ("It speeds up the translation procedure because there's more actual translation work going on, and less discussions.") ?>
  <?php echo gettext ("The newer members of the team learn from the more experienced ones through the daily reviews.") ?>
 </p>
 <br>
