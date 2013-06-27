@@ -2,7 +2,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Hyphenation"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 $config_general = Database_Config_General::getInstance ();
 $success = "";
@@ -54,11 +54,11 @@ if (isset($_GET['run'])) {
 }
 
 
-$smarty->assign ("firstset", $firstset);
-$smarty->assign ("secondset", $secondset);
-$smarty->assign ("bible", $bible);
-$smarty->assign ("success", $success);
-$smarty->assign ("error", $error);
-$smarty->display("hyphenation.tpl");
+$view->view->firstset = $firstset;
+$view->view->secondset = $secondset;
+$view->view->bible = $bible;
+$view->view->success = $success;
+$view->view->error = $error;
+$view->render ("hyphenation.php");
 Assets_Page::footer ();
 ?>

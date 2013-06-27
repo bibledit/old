@@ -8,7 +8,7 @@ $database_logs = Database_Logs::getInstance();
 
 if (isset ($_GET['delete'])) {
   $database_logs->clear();
-  $database_logs->log (gettext ("Logbook was partially or fully cleared"), true);
+  $database_logs->log (gettext ("Logbook was cleared"), true);
   header ("Location: logbook.php");
 } else {
   header ("Refresh: 5");
@@ -16,7 +16,7 @@ if (isset ($_GET['delete'])) {
 
 
 Assets_Page::header (gettext ("Logbook"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 @$page = $_GET['page'];
@@ -32,12 +32,12 @@ while ($row = $entries->fetch_assoc()) {
   $timestamps [] = date ('j F Y, g:i:s a', $row["timestamp"]);
   $events     [] = Filter_Html::sanitize ($row["event"]);
 }
-$smarty->assign ("previous", $page - 1);
-$smarty->assign ("page", $page);
-$smarty->assign ("next", $page + 1);
-$smarty->assign ("timestamps", $timestamps);
-$smarty->assign ("events",     $events);
-$smarty->display ("logbook.tpl");
+$view->view->previous = $page - 1;
+$view->view->page = $page;
+$view->view->next = $page + 1;
+$view->view->timestamps = $timestamps;
+$view->view->events = $events;
+$view->render ("logbook.php");
 Assets_Page::footer ();
 
 

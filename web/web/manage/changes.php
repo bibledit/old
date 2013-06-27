@@ -4,7 +4,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Changes"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 $database_users = Database_Users::getInstance ();
@@ -15,7 +15,7 @@ $database_logs = Database_Logs::getInstance ();
 
 if (isset($_GET['generate'])) {
   $config_general->setTimerDiff (time ());
-  $smarty->assign ("success", gettext ("The lists of changes will be generated within a minute."));
+  $view->view->success = gettext ("The lists of changes will be generated within a minute.");
   $database_logs->log ("The lists of changes will be generated within a minute");
 }
 
@@ -23,7 +23,7 @@ if (isset($_GET['generate'])) {
 @$clear = $_GET['clear'];
 if (isset ($clear)) {
   $database_changes->clearUser ($clear);
-  $smarty->assign ("success", gettext ("The change notifications were cleared for the user."));
+  $view->view->success = gettext ("The change notifications were cleared for the user.");
 }
 
 
@@ -40,11 +40,11 @@ foreach ($users as $user) {
 }
 
 
-$smarty->assign ("users", $pendingUsers);
-$smarty->assign ("count", $pendingCount);
+$view->view->users = $pendingUsers;
+$view->view->count = $pendingCount;
 
 
-$smarty->display("changes.tpl");
+$view->render ("changes.php");
 Assets_Page::footer ();
 
 

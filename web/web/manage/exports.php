@@ -2,7 +2,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Exports"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 $database_config_general = Database_Config_General::getInstance ();
@@ -12,7 +12,7 @@ $database_logs = Database_Logs::getInstance ();
 
 if (isset($_GET['generate'])) {
   $database_config_general->setTimerExports (time ());
-  $smarty->assign ("success", gettext ("The Bibles will be exported within a minute."));
+  $view->view->success = gettext ("The Bibles will be exported within a minute.");
   $database_logs->log ("The Bibles will be exported within a minute");
 }
 
@@ -160,22 +160,22 @@ if (isset ($_GET ['resetswordconfig'])) {
 @$swordconfig = $_POST ['swordconfig'];
 if (isset ($swordconfig)) {
   Sword_Text::saveConfiguration ($swordconfig);
-  $smarty->assign ("success", gettext ("The Sword configuration was saved"));
+  $view->view->success = gettext ("The Sword configuration was saved");
 }
 
 
-$smarty->assign ("bibles", $database_config_general->getExportedBibles ());
-$smarty->assign ("stylesheet", Filter_Html::sanitize ($database_config_general->getExportStylesheet ()));
-$smarty->assign ("dropcaps", $database_config_general->getExportChapterDropCaps());
-$smarty->assign ("pagewidth", Filter_Html::sanitize ($database_config_general->getPageWidth ()));
-$smarty->assign ("pageheight", Filter_Html::sanitize ($database_config_general->getPageHeight ()));
-$smarty->assign ("innermargin", Filter_Html::sanitize ($database_config_general->getInnerMargin ()));
-$smarty->assign ("outermargin", Filter_Html::sanitize ($database_config_general->getOuterMargin ()));
-$smarty->assign ("topmargin", Filter_Html::sanitize ($database_config_general->getTopMargin ()));
-$smarty->assign ("bottommargin", Filter_Html::sanitize ($database_config_general->getBottomMargin ()));
-$smarty->assign ("dateinheader", $database_config_general->getDateInHeader());
-$smarty->assign ("swordconfig", Sword_Text::getConfiguration ());
-$smarty->display("exports.tpl");
+$view->view->bibles = $database_config_general->getExportedBibles ();
+$view->view->stylesheet = Filter_Html::sanitize ($database_config_general->getExportStylesheet ());
+$view->view->dropcaps = $database_config_general->getExportChapterDropCaps();
+$view->view->pagewidth = Filter_Html::sanitize ($database_config_general->getPageWidth ());
+$view->view->pageheight = Filter_Html::sanitize ($database_config_general->getPageHeight ());
+$view->view->innermargin = Filter_Html::sanitize ($database_config_general->getInnerMargin ());
+$view->view->outermargin = Filter_Html::sanitize ($database_config_general->getOuterMargin ());
+$view->view->topmargin = Filter_Html::sanitize ($database_config_general->getTopMargin ());
+$view->view->bottommargin = Filter_Html::sanitize ($database_config_general->getBottomMargin ());
+$view->view->dateinheader = $database_config_general->getDateInHeader();
+$view->view->swordconfig = Sword_Text::getConfiguration ();
+$view->render ("exports.php");
 
 Assets_Page::footer ();
 ?>
