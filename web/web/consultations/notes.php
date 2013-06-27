@@ -25,11 +25,10 @@ page_access_level (CONSULTANT_LEVEL);
 $database_sessions = Database_Sessions::getInstance ();
 $database_sessions->getCurrentSessionId ();
 
-$assets_header = Assets_Header::getInstance();
+$assets_header = new Assets_Header (gettext ("Notes"));
 $assets_navigator = Assets_Navigator::getInstance();
 $notes_editor = Notes_Editor::getInstance();
 
-$assets_header->jQueryHeader (gettext ("Notes"));
 $assets_header->jQueryHeaderAddDocumentReadyFunction ($notes_editor->scripts ());
 if ($notes_editor->use_wysiwyg_editor ()) {
   $assets_header->jQueryHeaderAddWysiwygHeaders ();

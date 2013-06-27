@@ -3,6 +3,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
+Assets_Page::header (gettext ("Versification system"));
 $smarty = new Smarty_Bibledit (__FILE__);
 $database_versifications = Database_Versifications::getInstance();
 

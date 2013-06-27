@@ -5,6 +5,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (GUEST_LEVEL);
 
 
+Assets_Page::header (gettext ("Password"));
 $smarty = new Smarty_Bibledit (__FILE__);
 
 

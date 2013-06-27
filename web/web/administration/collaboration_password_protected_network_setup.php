@@ -2,6 +2,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
 
+Assets_Page::header (gettext ("Collaboration"));
 $smarty = new Smarty_Bibledit (__FILE__);
 
 $which_git = new Filter_Which ("git");

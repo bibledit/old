@@ -2,8 +2,8 @@
     
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (GUEST_LEVEL);
-
-$smarty = new Smarty_Bibledit (__FILE__);
+// Postpone displaying header due to an expected changed logged-in state during this script.
+$view = new Assets_View (__FILE__);
 
 // Form submission handler.
 if (isset($_POST['submit'])) {
@@ -12,11 +12,11 @@ if (isset($_POST['submit'])) {
   $pass = $_POST['pass'];
   if (strlen ($user) < 2) {
     $form_is_valid = false;
-    $smarty->assign ('username_or_email_invalid_message', gettext ("Username should be at least two characters long"));
+    $view->view->username_or_email_invalid_message = gettext ("Username should be at least two characters long");
   }
   if (strlen ($pass) < 4) {
     $form_is_valid = false;
-    $smarty->assign ('password_invalid_message', gettext ("Password should be at least four characters long"));
+    $view->view->password_invalid_message = gettext ("Password should be at least four characters long");
   }
   if ($form_is_valid) {
     $session_logic = Session_Logic::getInstance ();
@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
       @$siteUrl = dirname (dirname ($_SERVER["HTTP_REFERER"]));
       $database_config_general->setSiteURL ($siteUrl);
     } else {
-      $smarty->assign ('error_message', gettext ("Username or email address or password are not correct"));
+      $view->view->error_message = gettext ("Username or email address or password are not correct");
       $session_logic->logout();
       // Log the login failure.
       $database_logs->log ("Failed login attempt for user $user with password $pass");
@@ -37,15 +37,20 @@ if (isset($_POST['submit'])) {
   }
 }
 
+// Delayed header display.
+$header = new Assets_Header (gettext ("Login"));
+$header->setBodyOnload ('document.form.user.focus();');
+$header->run ();
+
 $session_logic = Session_Logic::getInstance ();
 if ($session_logic->loggedIn ()) {
   $mail = Database_Mail::getInstance ();
   $mailcount = $mail->getMailCount ();
-  $smarty->assign ('mailcount', $mailcount);
-  $smarty->display("loggedin.tpl");
+  $view->view->mailcount = $mailcount;
+  $view->render ("loggedin.php");
 } else {
-  $smarty->assign ('logging_in', true);
-  $smarty->display("login.tpl");
+  $view->view->logging_in = true;
+  $view->render ("login.php");
 }
 
 Assets_Page::footer ();

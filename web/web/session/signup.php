@@ -7,9 +7,10 @@
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (GUEST_LEVEL);
+Assets_Page::header (gettext ("Signup"));
 
 
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 /**
@@ -32,12 +33,12 @@ $answers[]   = gettext ("Patmos");
 $passages[]  = gettext ('I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.');
 
 $question_number = rand (0, 3);
-$smarty->assign ('question', $questions[$question_number]);
-$smarty->assign ('passage', $passages[$question_number]);
+$view->view->question = $questions[$question_number];
+$view->view->passage = $passages[$question_number];
 // The form has a hidden text entry. This text entry stores the right answer to the questions.
 // When the form is submitted, this right answer is submitted too, and we can check whether 
 // the user gave the right answer.
-$smarty->assign ('standard', $answers[$question_number]);
+$view->view->standard = $answers[$question_number];
 
 // Form submission handler.
 $signed_up = false;
@@ -50,31 +51,31 @@ if (isset($_POST['submit'])) {
   $standard = $_POST['standard'];
   if (strlen ($user) < 2) {
     $form_is_valid = false;
-    $smarty->assign ('username_invalid_message', gettext ("Username should be at least two characters long"));
+    $view->view->username_invalid_message = gettext ("Username should be at least two characters long");
   }
-  if (strlen ($pass) < 4) {
+  if (strlen ($pass) < 2) {
     $form_is_valid = false;
-    $smarty->assign ('password_invalid_message', gettext ("Password should be at least four characters long"));
+    $view->view->password_invalid_message = gettext ("Password should be at least two characters long");
   }
   $validator = new Zend_Validate_EmailAddress ();
   if (!$validator->isValid ($mail)) {
     $form_is_valid = false;
-    $smarty->assign ('email_invalid_message', gettext ("The email address is not valid"));
+    $view->view->email_invalid_message = gettext ("The email address is not valid");
   }
   if ($answer != $standard) {
     $form_is_valid = false;
-    $smarty->assign ('answer_invalid_message', gettext ("The answer to the question is not correct"));
+    $view->view->answer_invalid_message = gettext ("The answer to the question is not correct");
   }
   $database_users = Database_Users::getInstance ();
   if ($form_is_valid) {
     if ($database_users->usernameExists ($user)) {
-      $smarty->assign ('error_message', gettext ("The username that you have chosen has already been taken. Please choose another one."));
+      $view->view->error_message = gettext ("The username that you have chosen has already been taken. Please choose another one.");
       $form_is_valid = false;
     }
   }
   if ($form_is_valid) {
     if ($database_users->emailExists ($mail)) {
-      $smarty->assign ('error_message', gettext ("The email address that you have chosen has already been taken. Please choose another one."));
+      $view->view->error_message = gettext ("The email address that you have chosen has already been taken. Please choose another one.");
       $form_is_valid = false;
     }
   }
@@ -93,9 +94,9 @@ if (isset($_POST['submit'])) {
 
 
 if ($signed_up)
-  $smarty->display("signedup.tpl");
+  $view->render ("signedup.php");
 else
-  $smarty->display("signup.tpl");
+  $view->render ("signup.php");
 
 Assets_Page::footer ();
 

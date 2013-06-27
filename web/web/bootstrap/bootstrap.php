@@ -32,6 +32,7 @@ function page_access_level ($level)
 {
   $session_logic = Session_Logic::getInstance ();
   if ($level > $session_logic->currentLevel ()) {
+    Assets_Page::header (gettext ("Privileges"));
     $smarty = new Smarty_Bibledit (__FILE__);
     $smarty->display("bootstrap.tpl");
     Assets_Page::footer ();

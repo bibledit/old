@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-26 01:43+0200\n"
+"POT-Creation-Date: 2013-06-27 03:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,6 +200,39 @@ msgid "Failed to compress folder"
 msgstr ""
 
 msgid "Bible"
+msgstr ""
+
+msgid "Administration"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "Consultations"
+msgstr ""
+
+msgid "Members"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Searching"
+msgstr ""
+
+msgid "Go to"
+msgstr ""
+
+msgid "chapter"
+msgstr ""
+
+msgid "verse"
 msgstr ""
 
 msgid "Would you like to change to another Bible?"
@@ -510,6 +543,9 @@ msgstr ""
 msgid "Please enter the name for the new stylesheet"
 msgstr ""
 
+msgid "Style"
+msgstr ""
+
 msgid "Please enter the name for the style"
 msgstr ""
 
@@ -638,6 +674,9 @@ msgstr ""
 msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
 
+msgid "Stylesheet"
+msgstr ""
+
 msgid "ChangeLog"
 msgstr ""
 
@@ -651,12 +690,6 @@ msgid "Introduction"
 msgstr ""
 
 msgid "Release Planning"
-msgstr ""
-
-msgid "Help"
-msgstr ""
-
-msgid "Consultations"
 msgstr ""
 
 msgid "Product Owner"
@@ -808,25 +841,309 @@ msgstr ""
 msgid "View the PHP Info."
 msgstr ""
 
-msgid "Installation"
+msgid "Scrum-based Translation"
+msgstr ""
+
+msgid "What is Scrum-based translation?"
+msgstr ""
+
+msgid ""
+"A translation team that works with Scrum frequently releases portions of "
+"translated Scripture."
+msgstr ""
+
+msgid ""
+"This makes it clear to involved parties where the translation project is "
+"going."
+msgstr ""
+
+msgid ""
+"It enables the translation team to make course corrections based on the "
+"facts."
+msgstr ""
+
+msgid ""
+"Burndown charts and the product backlog provide the product owner and others "
+"with a permanent overview over the translation status and progress."
+msgstr ""
+
+msgid ""
+"Scrum is an agile process that enables self-organizing translation teams to "
+"deliver high translation output and accuracy in a short time."
+msgstr ""
+
+msgid ""
+"Using iterative translation, it releases portions of translated Scripture "
+"every iteration, that is, every month."
+msgstr ""
+
+msgid ""
+"At the end of the every sprint, anyone can see the translated portion, and "
+"decide whether to release it to the congregations and community for feedback "
+"or continue to enhance it."
+msgstr ""
+
+msgid ""
+"The introduction and the following explanation just outlines the mechanics "
+"of Scrum-based Translation."
+msgstr ""
+
+msgid ""
+"It does not make clear what difficulties and issues you will run into trying "
+"to implement it."
+msgstr ""
+
+msgid "It only hints at the agile spirit that's required to make it work."
+msgstr ""
+
+msgid ""
+"If you're interested in implementing Scrum-based translation, do some "
+"reading, watch videos, follow a course, find a mentor or coach."
+msgstr ""
+
+msgid "* Creates and prioritizes the product backlog."
+msgstr ""
+
+msgid "* Understands the requirements for the Bible."
+msgstr ""
+
+msgid "* Knows about accuracy and reliability."
+msgstr ""
+
+msgid "Read more."
+msgstr ""
+
+msgid ""
+"* Used to estimate when certain Bible books will be translated, tested, or "
+"released."
+msgstr ""
+
+msgid "* It's a simple way of doing top-down planning."
+msgstr ""
+
+msgid "* It is an estimate, simple and quick to do."
+msgstr ""
+
+msgid "* It is based on the Product Backlog."
+msgstr ""
+
+msgid "Product Backlog"
+msgstr ""
+
+msgid "* Used to determine the work for the next sprints."
+msgstr ""
+
+msgid ""
+"* A prioritized list of everything needed or wanted for the desired "
+"translation."
+msgstr ""
+
+msgid "* Often written in the form of user stories."
+msgstr ""
+
+msgid "* Have estimates associated with them."
+msgstr ""
+
+msgid "Sprint"
+msgstr ""
+
+msgid "* Iteration typically of one month's length."
+msgstr ""
+
+msgid ""
+"* This is where the translaton work (translate, review, approve, test) "
+"occurs."
+msgstr ""
+
+msgid "Sprint Planning Meeting"
+msgstr ""
+
+msgid "* Select the stories the team believes it can commit to in a sprint."
+msgstr ""
+
+msgid ""
+"* Break the stories down into tasks and provide estimates for those tasks."
+msgstr ""
+
+msgid "Sprint Backlog"
+msgstr ""
+
+msgid "* List of tasks that are to be completed in a sprint."
+msgstr ""
+
+msgid ""
+"* The tasks are created by breaking down the stories during the planning "
+"meeting."
+msgstr ""
+
+msgid "* Have estimates in hours or days associated with them."
+msgstr ""
+
+msgid "Team"
+msgstr ""
+
+msgid "* Contains the Bible translators, their assistants, and consultants."
+msgstr ""
+
+msgid ""
+"* Organizes itself to do the work and deliver a reliable and good Bible "
+"translation."
+msgstr ""
+
+msgid "Scrum Master"
+msgstr ""
+
+msgid "* Organizes the translation process."
+msgstr ""
+
+msgid "* Keeps track of the progress of the translation team."
+msgstr ""
+
+msgid "* Removes obstacles from the path of the team."
 msgstr ""
 
 msgid "Daily Scrum Meeting"
+msgstr ""
+
+msgid ""
+"* Team members share progress with other team members (not the manager)."
+msgstr ""
+
+msgid ""
+"* Team members answer three questions – “what did you do yesterday”, “what "
+"will you do today”, “do you have any roadblocks”."
+msgstr ""
+
+msgid "* Anyone may attend, only team members may speak."
+msgstr ""
+
+msgid ""
+"* Scrum master uses the information from the meeting to update burndown "
+"chart illustrating progress."
+msgstr ""
+
+msgid ""
+"* Fifteen minutes maximum - typically held standing up in front of Task "
+"Board - helps keep the meeting focused."
+msgstr ""
+
+msgid "* Side conversations are taken offline."
+msgstr ""
+
+msgid "Sprint Review"
+msgstr ""
+
+msgid ""
+"* The Product Owner looks through the sprint’s work and provides feedback."
+msgstr ""
+
+msgid "* Translators may also demonstrate features."
+msgstr ""
+
+msgid ""
+"* Team owns up to deficiencies with the translation, helping to build trust "
+"with the Product Owner."
+msgstr ""
+
+msgid "Sprint Retrospective"
+msgstr ""
+
+msgid "* Team reviews what went well and what went poorly."
+msgstr ""
+
+msgid "* Use retrospection techniques to find potential for improvement."
+msgstr ""
+
+msgid "* Pick one or two areas to focus for improvement."
+msgstr ""
+
+msgid "A sprint typically takes one month."
+msgstr ""
+
+msgid ""
+"Each member of the team translates independently and in a responsible manner."
+msgstr ""
+
+msgid ""
+"In case a translator is sure of a required change, he enters it without "
+"consulting others."
+msgstr ""
+
+msgid ""
+"If a translator thinks a proposed change needs discussion, he notifies his "
+"colleagues."
+msgstr ""
+
+msgid ""
+"All members of the translation team review the changes made by the team."
+msgstr ""
+
+msgid ""
+"This is to make sure that all changes are reviewed by all members, that no "
+"mistakes occur."
+msgstr ""
+
+msgid "The reviews are done every day."
+msgstr ""
+
+msgid ""
+"This way of working is based on personal responsibility and mutual trust."
+msgstr ""
+
+msgid ""
+"It speeds up the translation procedure because there's more actual "
+"translation work going on, and less discussions."
+msgstr ""
+
+msgid ""
+"The newer members of the team learn from the more experienced ones through "
+"the daily reviews."
+msgstr ""
+
+msgid "Bibledit-Web has the concept of daily Change Notifications."
+msgstr ""
+
+msgid "A member can opt to receive the Change Notifications through email."
+msgstr ""
+
+msgid "This email can be viewed online also."
+msgstr ""
+
+msgid ""
+"Or a member can opt to have the Change Notifications generated for him "
+"online, and can review and approve them there."
+msgstr ""
+
+msgid "Methodology"
+msgstr ""
+
+msgid "The translation process is scrum-based."
+msgstr ""
+
+msgid "The discussions are transparent, fair, and argued."
+msgstr ""
+
+msgid "The translation depends on reliable Hebrew and Greek manuscripts."
+msgstr ""
+
+msgid "The team looks for and depends on the help of the Lord Jesus."
+msgstr ""
+
+msgid "The team uses modern tools and technology."
+msgstr ""
+
+msgid ""
+"The goal is to deliver a reliable Bible translation within a reasonable time "
+"frame."
+msgstr ""
+
+msgid "Installation"
 msgstr ""
 
 msgid "FTP server"
 msgstr ""
 
 msgid "Scrum-based translation"
-msgstr ""
-
-msgid "Methodology"
-msgstr ""
-
-msgid "Sprint Backlog"
-msgstr ""
-
-msgid "Product Backlog"
 msgstr ""
 
 msgid "About"
@@ -891,9 +1208,6 @@ msgid "Suppressed check results"
 msgstr ""
 
 msgid "The check result will no longer be suppressed."
-msgstr ""
-
-msgid "Translation"
 msgstr ""
 
 msgid "Warning"
@@ -1340,9 +1654,6 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-msgid "Search"
-msgstr ""
-
 msgid "Cannot access the database"
 msgstr ""
 
@@ -1446,9 +1757,6 @@ msgstr ""
 msgid "Pushing your data to the remote repository failed."
 msgstr ""
 
-msgid "Administration"
-msgstr ""
-
 msgid "Backup"
 msgstr ""
 
@@ -1536,9 +1844,6 @@ msgid ""
 msgstr ""
 
 msgid "Would you like to change the default timezone for the site?"
-msgstr ""
-
-msgid "Members"
 msgstr ""
 
 msgid "Desktop"

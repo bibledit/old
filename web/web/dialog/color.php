@@ -7,6 +7,7 @@ class Dialog_Color
 
   public function __construct ($query, $question, $item) 
   {
+    Assets_Page::header (gettext ("xxx"));
     $this->smarty = new Smarty_Bibledit (__FILE__);
     $base_url = $_SERVER['PHP_SELF'];
     if (is_array ($query)) {

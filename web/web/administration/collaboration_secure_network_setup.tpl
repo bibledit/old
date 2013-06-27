@@ -1,7 +1,4 @@
 
-  {include file=../assets/install_git.tpl} 
-  {include file=../assets/install_ssh.tpl} 
-
   <h1>{t}Secure network repository setup{/t}</h1>
   {if $object == "consultationnotes"}
   <p>{t}Consultation Notes{/t}</p>

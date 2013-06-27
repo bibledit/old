@@ -30,4 +30,10 @@
       } 
     ?>
   </head>
-  <body>
+<?php  
+echo "<body";
+if (isset ($this->onLoadStatement)) {
+  echo ' onload="' . $this->onLoadStatement . '"';
+}
+echo ">\n";
+?>

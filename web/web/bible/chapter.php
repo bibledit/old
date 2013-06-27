@@ -3,6 +3,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
+Assets_Page::header (gettext ("Chapter"));
 $smarty = new Smarty_Bibledit (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
 $database_books = Database_Books::getInstance();

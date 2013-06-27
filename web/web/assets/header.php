@@ -27,30 +27,13 @@ class Assets_Header
   private $view;
   private $document_ready_functions;
 
-  private function __construct() {
-  } 
-
-  public static function getInstance() 
-  {
-    if ( empty( self::$instance ) ) {
-      self::$instance = new Assets_Header();
-    }
-    return self::$instance;
-  }
-
-  /**
-  * Writes a header with jQuery basics if needed.
-  */
-  public function jQueryHeader ($title)
+  public function __construct ($title) 
   {
     $this->view = new Assets_View (__FILE__);
     $this->view->view->title = $title;
-    
   }
 
-  /**
-  * Adds a document ready function for jQuery.
-  */
+  // Adds a document ready function for jQuery.
   public function jQueryHeaderAddDocumentReadyFunction ($code)
   {
     if ($code != "") {
@@ -58,20 +41,20 @@ class Assets_Header
     }
   }
 
-  /**
-  * Adds a document ready function for jQuery.
-  */
+  // Adds a document ready function for the jQuery editor.
   public function jQueryHeaderAddWysiwygHeaders ()
   {
     $this->view->view->wysiwyg_editor = true;
-    if (isset ($code)) {
-      $this->document_ready_functions[] = $code;
-    }
   }
 
-  /**
-  * Runs the header.
-  */
+  // Adds an 'onload' statement to the <body> html tag.
+  // $code could be, e.g.: onload="document.form.user.focus();"
+  public function setBodyOnload ($code)
+  {
+    $this->view->view->onLoadStatement = $code;
+  }
+  
+  // Runs the header.
   public function run ()
   {
     $this->view->view->document_ready_functions =  $this->document_ready_functions;

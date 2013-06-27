@@ -7,6 +7,7 @@ include_once ("messages/messages.php");
 
 
 $database_instance = Database_Instance::getInstance();
+Assets_Page::header (gettext ("Database"));
 $smarty = new Smarty_Bibledit (__FILE__);
 $smarty->display("database.tpl");
 

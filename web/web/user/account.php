@@ -5,6 +5,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MEMBER_LEVEL);
 
 
+Assets_Page::header (gettext ("Account"));
 $smarty = new Smarty_Bibledit (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();

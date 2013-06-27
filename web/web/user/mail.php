@@ -3,6 +3,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MEMBER_LEVEL);
 
+Assets_Page::header (gettext ("Mail"));
 $smarty = new Smarty_Bibledit (__FILE__);
 $database_mail = Database_Mail::getInstance();
 

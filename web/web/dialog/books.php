@@ -14,6 +14,7 @@ class Dialog_Books
   */
   public function __construct ($query, $header, $info_top, $info_bottom, $action, $inclusions, $exclusions)
   {
+    Assets_Page::header (gettext ("xxx"));
     $this->smarty = new Smarty_Bibledit (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
     if (is_array ($query)) {

@@ -19,6 +19,7 @@ class Dialog_Entry
   */
   public function __construct ($query, $question, $value, $submit, $help)
   {
+    Assets_Page::header (gettext ("Entry"));
     $this->smarty = new Smarty_Bibledit (__FILE__);
     $base_url = $_SERVER['PHP_SELF'];
     if (is_array ($query)) {
