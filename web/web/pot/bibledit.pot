@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 03:54+0200\n"
+"POT-Creation-Date: 2013-06-28 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,246 @@ msgstr ""
 msgid "Management"
 msgstr ""
 
+msgid "Bibledit-Web sends and receives the Bibles every day at midnight."
+msgstr ""
+
+msgid ""
+"It receives changes made by others, and it sends changes made here to the "
+"server for collaboration."
+msgstr ""
+
+msgid "Send and receive Bibles now."
+msgstr ""
+
+msgid "Edit Bible in USFM code"
+msgstr ""
+
+msgid "Send and Receive"
+msgstr ""
+
+msgid "Logbook"
+msgstr ""
+
+msgid "Changes"
+msgstr ""
+
+msgid "Bibles"
+msgstr ""
+
 msgid "Exports"
+msgstr ""
+
+msgid "Versifications"
+msgstr ""
+
+msgid "Styles"
+msgstr ""
+
+msgid "Consultation Notes"
+msgstr ""
+
+msgid "Hyphenation"
+msgstr ""
+
+msgid "Checks"
+msgstr ""
+
+msgid "Bibledit-Web exports the Bibles every day at midnight."
+msgstr ""
+
+msgid "The following Bibles will be exported"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+msgid "add Bible"
+msgstr ""
+
+msgid "Do a fresh export now."
+msgstr ""
+
+msgid "View the exported data in the downloads section."
+msgstr ""
+
+msgid "The exports use the following stylesheet:"
+msgstr ""
+
+msgid "switch"
+msgstr ""
+
+msgid ""
+"Use frames for OpenDocument format in case the chapter number gets put just "
+"before the first verse in drop caps."
+msgstr ""
+
+msgid ""
+"Page size and margins are relevant for export to a format that supports "
+"those."
+msgstr ""
+
+msgid "Page width"
+msgstr ""
+
+msgid "mm"
+msgstr ""
+
+msgid "Page height"
+msgstr ""
+
+msgid "Inner margin"
+msgstr ""
+
+msgid "Outer margin"
+msgstr ""
+
+msgid "Top margin"
+msgstr ""
+
+msgid "Bottom margin"
+msgstr ""
+
+msgid "Display the current date in the running headers."
+msgstr ""
+
+msgid ""
+"It also exports to a file suitable for the Online Bible module creation "
+"process."
+msgstr ""
+
+msgid ""
+"For more information about how to create a module, see Online Bible, menu "
+"Help - Table Of Contents - How To - Create Your Own Bible Version."
+msgstr ""
+
+msgid ""
+"You can edit the configuration file used for exporting to a Sword module."
+msgstr ""
+
+msgid "More information."
+msgstr ""
+
+msgid "Update the text below, and click button Save."
+msgstr ""
+
+msgid "There are two special variables:"
+msgstr ""
+
+msgid "This will be replaced with the name of the Bible being exported."
+msgstr ""
+
+msgid "This will be replaced with the date of export."
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Bibledit-Web tracks the changes in the text of the Bibles."
+msgstr ""
+
+msgid "If there have been changes, it will generate lists of them at midnight."
+msgstr ""
+
+msgid "Generate fresh lists now."
+msgstr ""
+
+msgid "View the lists in the downloads section."
+msgstr ""
+
+msgid "Bibledit-Web can email lists with the changes to the users."
+msgstr ""
+
+msgid ""
+"It can also generate Change Notifications for users who have enabled that "
+"option."
+msgstr ""
+
+msgid "Settings are in the notifications."
+msgstr ""
+
+msgid ""
+"List of users who still have change notifications awaiting their approval:"
+msgstr ""
+
+msgid "clear"
+msgstr ""
+
+msgid "Hyphenation can be used when preparing a Bible for printing."
+msgstr ""
+
+msgid ""
+"It allows for more efficient usage of paper, and for more regular appearance "
+"of margins at the end of the lines without requiring spacing adjustments."
+msgstr ""
+
+msgid ""
+"The details of hyphenating properly are complex and dependent on the "
+"language, and can interact with other orthographic and typesetting practices."
+msgstr ""
+
+msgid ""
+"Hyphenation may not be so important when preparing a Bible for proofreading. "
+"It is usually regarded important for production quality Bibles."
+msgstr ""
+
+msgid ""
+"When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the "
+"wordprocessor itself provides hyphenation algorithms for many languages."
+msgstr ""
+
+msgid ""
+"If no suitable hyphenation algorithm can be used, perhaps Bibledit-Web can "
+"assist to a limited degree."
+msgstr ""
+
+msgid ""
+"Bibledit-Web can take the data from a Bible, insert soft hyphens in the "
+"words according to a certain algorithm, and then save this data as a new "
+"Bible."
+msgstr ""
+
+msgid ""
+"This new Bible can then be exported to OpenDocument format, and opened in a "
+"wordprocessor."
+msgstr ""
+
+msgid ""
+"The wordprocessor sees these soft hyphens. When a soft hyphen occurs near "
+"the end of the line, it breaks the word there."
+msgstr ""
+
+msgid ""
+"Bibledit-Web has one hyphenating algorithm. When there is a transition in "
+"the text from any character of a first set of characters, to any character "
+"of a second set of characters, then the soft hyphen will be inserted at that "
+"location in the text."
+msgstr ""
+
+msgid "First set of characters"
+msgstr ""
+
+msgid "Second set of characters"
+msgstr ""
+
+msgid "Enter the sets of characters, and press Save."
+msgstr ""
+
+msgid "The Bible where the data will be taken from is:"
+msgstr ""
+
+msgid "change"
+msgstr ""
+
+msgid "The Bible where the hyphenated data will be written to is:"
+msgstr ""
+
+msgid "Insert the soft hyphens according to the settings."
+msgstr ""
+
+msgid "Page"
 msgstr ""
 
 msgid "The Bibles will be exported within a minute."
@@ -100,16 +339,10 @@ msgstr ""
 msgid "The Sword configuration was saved"
 msgstr ""
 
-msgid "Changes"
-msgstr ""
-
 msgid "The lists of changes will be generated within a minute."
 msgstr ""
 
 msgid "The change notifications were cleared for the user."
-msgstr ""
-
-msgid "Hyphenation"
 msgstr ""
 
 msgid "The two sets of characters were saved"
@@ -130,10 +363,7 @@ msgstr ""
 msgid "The Bible is being hyphenated. See the logbook for details."
 msgstr ""
 
-msgid "Logbook was partially or fully cleared"
-msgstr ""
-
-msgid "Logbook"
+msgid "Logbook was cleared"
 msgstr ""
 
 msgid "Information"
@@ -245,9 +475,6 @@ msgid "Go to another chapter"
 msgstr ""
 
 msgid "Go to another verse"
-msgstr ""
-
-msgid "Styles"
 msgstr ""
 
 msgid "Would you like to switch to another stylesheet?"
@@ -1183,9 +1410,6 @@ msgstr ""
 msgid "The passage for this entry was not found."
 msgstr ""
 
-msgid "Checks"
-msgstr ""
-
 msgid "The entry was approved and suppressed."
 msgstr ""
 
@@ -1213,6 +1437,9 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
+msgid "Password"
+msgstr ""
+
 msgid "Username or email address is too short"
 msgstr ""
 
@@ -1238,6 +1465,9 @@ msgstr ""
 msgid "Username or email address cannot be found"
 msgstr ""
 
+msgid "Logout"
+msgstr ""
+
 msgid "Username should be at least two characters long"
 msgstr ""
 
@@ -1245,6 +1475,56 @@ msgid "Password should be at least four characters long"
 msgstr ""
 
 msgid "Username or email address or password are not correct"
+msgstr ""
+
+msgid "Username or email address"
+msgstr ""
+
+msgid "Forgot password?"
+msgstr ""
+
+msgid "Not registered?"
+msgstr ""
+
+msgid "Sign up!"
+msgstr ""
+
+msgid "Signup"
+msgstr ""
+
+msgid "Which username would you like to use?"
+msgstr ""
+
+msgid "Which password?"
+msgstr ""
+
+msgid "Your email address?"
+msgstr ""
+
+msgid "Security question:"
+msgstr ""
+
+msgid "Hint to answer the security question:"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "You have logged in."
+msgstr ""
+
+msgid "There is mail for you."
+msgstr ""
+
+msgid "Your account is pending."
+msgstr ""
+
+msgid "A verification email has been sent."
+msgstr ""
+
+msgid ""
+"After you reply to the verification email, your account will be activated. "
+"This may take five or more minutes."
 msgstr ""
 
 msgid "Guest"
@@ -1310,6 +1590,9 @@ msgid ""
 "I, John, your brother and companion in the persecution, and in the kingdom "
 "and endurance of Jesus Christ, was in the island which is called Patmos, "
 "because of the word of God, and because of the testimony of Jesus Christ."
+msgstr ""
+
+msgid "Password should be at least two characters long"
 msgstr ""
 
 msgid "The answer to the question is not correct"
@@ -1400,6 +1683,9 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
+msgid "Account"
+msgstr ""
+
 msgid "Passwords do not match"
 msgstr ""
 
@@ -1427,6 +1713,12 @@ msgid ""
 msgstr ""
 
 msgid "No changes were made"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+msgid "My area"
 msgstr ""
 
 msgid "Timezone"
@@ -1714,7 +2006,7 @@ msgstr ""
 msgid "Which Bible are you going to use?"
 msgstr ""
 
-msgid "Mail"
+msgid "Database"
 msgstr ""
 
 msgid "The email address does not appear to be valid"
@@ -1833,6 +2125,9 @@ msgstr ""
 msgid "Read access failed. Please retry it, possibly with another URL."
 msgstr ""
 
+msgid "PHP Info"
+msgstr ""
+
 msgid ""
 "Copying the data from the local cloned repository, and storing it in the "
 "Consultation Notes"
@@ -1846,10 +2141,25 @@ msgstr ""
 msgid "Would you like to change the default timezone for the site?"
 msgstr ""
 
+msgid "Privileges"
+msgstr ""
+
 msgid "Desktop"
 msgstr ""
 
+msgid "Entry"
+msgstr ""
+
+msgid "xxx"
+msgstr ""
+
 msgid "Here are the various options:"
+msgstr ""
+
+msgid "Yes / No"
+msgstr ""
+
+msgid "List"
 msgstr ""
 
 msgid "There was nothing to save"
@@ -2035,6 +2345,9 @@ msgstr ""
 msgid "Downloads"
 msgstr ""
 
+msgid "Book"
+msgstr ""
+
 msgid "Would you like to delete this chapter?"
 msgstr ""
 
@@ -2054,6 +2367,9 @@ msgid "Nothing was imported."
 msgstr ""
 
 msgid "Import BibleWorks"
+msgstr ""
+
+msgid "Chapter"
 msgstr ""
 
 msgid "Import Bible data has started"
@@ -2117,6 +2433,9 @@ msgid "Would you like to delete this versification system?"
 msgstr ""
 
 msgid "Please enter the name for the new versification system"
+msgstr ""
+
+msgid "Versification system"
 msgstr ""
 
 msgid "Change"

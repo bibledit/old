@@ -4,11 +4,11 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
 Assets_Page::header (gettext ("Stylesheet"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_styles = Database_Styles::getInstance();
 
 $name = $_GET['name'];
-$smarty->assign ("name", Filter_Html::sanitize ($name));
+$view->view->name = Filter_Html::sanitize ($name);
 
 if (isset($_POST['submit'])) {
   $data = $_POST['data'];
@@ -29,13 +29,13 @@ foreach ($markers_names as $row) {
   $markers[] =  $row['marker'];
   $names[]=     $row['name'];
 }
-$smarty->assign ("markers", $markers);
-$smarty->assign ("names",   $names);
+$view->view->markers = $markers;
+$view->view->names = $names;
 
 $xml = $database_styles->exportXml ($name);
-$smarty->assign ("xml", $xml);
+$view->view->xml = $xml;
 
-$smarty->display ("sheetm.tpl");
+$view->render ("sheetm.php");
 
 Assets_Page::footer ();
 

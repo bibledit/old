@@ -4,7 +4,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (TRANSLATOR_LEVEL);
 Assets_Page::header (gettext ("Styles"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_config_user = Database_Config_User::getInstance();
 
 if (isset ($_GET['sheet'])) {
@@ -24,8 +24,8 @@ if (isset ($_GET['sheet'])) {
 }
 
 $stylesheet = $database_config_user->getStylesheet();
-$smarty->assign ("stylesheet", Filter_Html::sanitize ($stylesheet));
-$smarty->display ("indext.tpl");
+$view->view->stylesheet = Filter_Html::sanitize ($stylesheet);
+$view->render ("indext.php");
 Assets_Page::footer ();
 
 ?>

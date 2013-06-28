@@ -5,7 +5,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
 Assets_Page::header (gettext ("Styles"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_styles = Database_Styles::getInstance();
 
 
@@ -34,8 +34,8 @@ if (isset ($_GET['new'])) {
 
 
 $sheets = $database_styles->getSheets();
-$smarty->assign ("sheets", $sheets);
-$smarty->display ("indexm.tpl");
+$view->view->sheets = $sheets;
+$view->render ("indexm.php");
 
 
 Assets_Page::footer ();

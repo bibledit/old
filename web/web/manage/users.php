@@ -76,15 +76,15 @@ if (isset($_POST['email'])) {
 
 
 Assets_Page::header (gettext ("Users"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $users = Session_Users::getInstance ();
 for ($i = 0; $i < count ($users->levels); $i++) {
   $named_roles[] = $roles[$users->levels[$i]];
 }
-$smarty->assign ("usernames", $users->usernames);
-$smarty->assign ("levels",    $named_roles);
-$smarty->assign ("emails",    $users->emails);
-$smarty->display("users.tpl");
+$view->view->usernames = $users->usernames;
+$view->view->levels = $named_roles;
+$view->view->emails = $users->emails;
+$view->render ("users.php");
 Assets_Page::footer ();
 
 
