@@ -9,7 +9,7 @@ $database_check = Database_Check::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 @$goto = $_GET['goto'];
@@ -21,7 +21,7 @@ if (isset ($goto)) {
     header ("Location: ../desktop/index.php?desktop=edittext");
     die;
   } else {
-    $smarty->assign ("error", gettext ("The passage for this entry was not found."));
+    $view->view->error = gettext ("The passage for this entry was not found.");
   }
 }
 
@@ -32,14 +32,14 @@ Assets_Page::header (gettext ("Checks"));
 @$approve = $_GET['approve'];
 if (isset ($approve)) {
   $database_check->approve ($approve);
-  $smarty->assign ("success", gettext ("The entry was approved and suppressed."));
+  $view->view->success = gettext ("The entry was approved and suppressed.");
 }
 
 
 @$delete = $_GET['delete'];
 if (isset ($delete)) {
   $database_check->delete ($delete);
-  $smarty->assign ("success", gettext ("The entry was deleted for just now."));
+  $view->view->success = gettext ("The entry was deleted for just now.");
 }
 
 
@@ -56,10 +56,10 @@ foreach ($hits as $hit) {
   $result = "$bible $passage $result";
   $data [] = $result;
 }
-$smarty->assign ("ids", $ids);
-$smarty->assign ("data", $data);
+$view->view->ids = $ids;
+$view->view->data = $data;
 
 
-$smarty->display("index.tpl");
+$view->render ("index.php");
 Assets_Page::footer ();
 ?>

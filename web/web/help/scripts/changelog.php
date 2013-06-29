@@ -1,4 +1,4 @@
-<h1><?php echo gettext ("ChangeLog") ?></h1>
+<h1>ChangeLog</h1>
 
 <h2>Version in repository</h2>
 <p>Users can set an option to have Change Notifications generated for them.</p>

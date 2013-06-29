@@ -6,7 +6,7 @@ page_access_level (MANAGER_LEVEL);
 
 
 Assets_Page::header (gettext ("Settings"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 $database_config_general = Database_Config_General::getInstance();
@@ -17,7 +17,7 @@ $database_check = Database_Check::getInstance ();
 
 if (isset($_GET['run'])) {
   $database_config_general->setTimerChecks (time ());
-  $smarty->assign ("success", gettext ("Will run the checks within a minute. See the logbook for progress."));
+  $view->view->success = gettext ("Will run the checks within a minute. See the logbook for progress.");
   $database_logs->log (gettext ("Will run the checks within a minute"));
 }
 
@@ -52,59 +52,59 @@ if (isset ($removebible)) {
 if (isset ($_GET['doublespacesusfm'])) {
   $database_config_general->setCheckDoubleSpacesUsfm (!$database_config_general->getCheckDoubleSpacesUsfm ());
 }
-$smarty->assign ("double_spaces_usfm", $database_config_general->getCheckDoubleSpacesUsfm ());
+$view->view->double_spaces_usfm = $database_config_general->getCheckDoubleSpacesUsfm ();
 
 
 if (isset ($_GET['fullstopheadings'])) {
   $database_config_general->setCheckFullStopInHeadings (!$database_config_general->getCheckFullStopInHeadings ());
 }
-$smarty->assign ("full_stop_headings", $database_config_general->getCheckFullStopInHeadings ());
+$view->view->full_stop_headings = $database_config_general->getCheckFullStopInHeadings ();
 
 
 if (isset ($_GET['spacebeforepunctuation'])) {
   $database_config_general->setCheckSpaceBeforePunctuation (!$database_config_general->getCheckSpaceBeforePunctuation ());
 }
-$smarty->assign ("space_before_punctuation", $database_config_general->getCheckSpaceBeforePunctuation ());
+$view->view->space_before_punctuation = $database_config_general->getCheckSpaceBeforePunctuation ();
 
 
 if (isset ($_GET['sentencestructure'])) {
   $database_config_general->setCheckSentenceStructure (!$database_config_general->getCheckSentenceStructure ());
 }
-$smarty->assign ("sentence_structure", $database_config_general->getCheckSentenceStructure ());
+$view->view->sentence_structure = $database_config_general->getCheckSentenceStructure ();
 
 
 if (isset ($_GET['paragraphstructure'])) {
   $database_config_general->setCheckParagraphStructure (!$database_config_general->getCheckParagraphStructure ());
 }
-$smarty->assign ("paragraph_structure", $database_config_general->getCheckParagraphStructure ());
+$view->view->paragraph_structure = $database_config_general->getCheckParagraphStructure ();
 
 
 if (isset ($_GET['chaptersversesversification'])) {
   $database_config_general->setCheckChaptesVersesVersification (!$database_config_general->getCheckChaptesVersesVersification ());
 }
-$smarty->assign ("chapters_verses_versification", $database_config_general->getCheckChaptesVersesVersification ());
+$view->view->chapters_verses_versification = $database_config_general->getCheckChaptesVersesVersification ();
 
 
 if (isset ($_GET['wellformedusfm'])) {
   $database_config_general->setCheckWellFormedUsfm (!$database_config_general->getCheckWellFormedUsfm ());
 }
-$smarty->assign ("well_formed_usfm", $database_config_general->getCheckWellFormedUsfm ());
+$view->view->well_formed_usfm = $database_config_general->getCheckWellFormedUsfm ();
 
 
 if (isset ($_GET['punctuationatendverse'])) {
   $database_config_general->setCheckMissingPunctuationEndVerse (!$database_config_general->getCheckMissingPunctuationEndVerse ());
 }
-$smarty->assign ("punctuation_end_verse", $database_config_general->getCheckMissingPunctuationEndVerse ());
+$view->view->punctuation_end_verse = $database_config_general->getCheckMissingPunctuationEndVerse ();
 
 
 if (isset ($_GET['patterns'])) {
   $database_config_general->setCheckPatterns (!$database_config_general->getCheckPatterns ());
 }
-$smarty->assign ("check_patterns", $database_config_general->getCheckPatterns ());
+$view->view->check_patterns = $database_config_general->getCheckPatterns ();
 
 
-$smarty->assign ("bibles", $database_config_general->getCheckedBibles ());
-$smarty->display("settings.tpl");
+$view->view->bibles = $database_config_general->getCheckedBibles ();
+$view->render ("settings.php");
 Assets_Page::footer ();
 
 

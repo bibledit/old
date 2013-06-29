@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-28 01:43+0200\n"
+"POT-Creation-Date: 2013-06-29 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,6 +69,35 @@ msgid ""
 msgstr ""
 
 msgid "Send and receive Bibles now."
+msgstr ""
+
+msgid ""
+"This shows all user accounts. You can delete users, or change users' roles."
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "change"
+msgstr ""
+
+msgid ""
+"Normally users create their own account. You can also manually create new "
+"users on this site. The username that you assign will also be the password. "
+"For example, when you create username \"joe\", then the password will also "
+"be \"joe\"."
+msgstr ""
+
+msgid "Create a new user"
 msgstr ""
 
 msgid "Edit Bible in USFM code"
@@ -288,9 +317,6 @@ msgid "Enter the sets of characters, and press Save."
 msgstr ""
 
 msgid "The Bible where the data will be taken from is:"
-msgstr ""
-
-msgid "change"
 msgstr ""
 
 msgid "The Bible where the hyphenated data will be written to is:"
@@ -901,7 +927,118 @@ msgstr ""
 msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
 
+msgid "The various styles for the Bible editor are contained in a stylesheet."
+msgstr ""
+
+msgid "The stylesheet you are currently using is:"
+msgstr ""
+
+msgid "This lists the currently available stylesheets."
+msgstr ""
+
+msgid "You can create a new stylesheet."
+msgstr ""
+
 msgid "Stylesheet"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "This style"
+msgstr ""
+
+msgid "This one"
+msgstr ""
+
+msgid "Font size"
+msgstr ""
+
+msgid "points"
+msgstr ""
+
+msgid "Italic"
+msgstr ""
+
+msgid "Bold"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "Small caps"
+msgstr ""
+
+msgid "Superscript"
+msgstr ""
+
+msgid "Text alignment"
+msgstr ""
+
+msgid "Space before"
+msgstr ""
+
+msgid "Space after"
+msgstr ""
+
+msgid "Left margin"
+msgstr ""
+
+msgid "Right margin"
+msgstr ""
+
+msgid "First line indent"
+msgstr ""
+
+msgid "Span columns"
+msgstr ""
+
+msgid "Color"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "Print"
+msgstr ""
+
+msgid "Note numbering"
+msgstr ""
+
+msgid "Column number"
+msgstr ""
+
+msgid "Restart the note numbering"
+msgstr ""
+
+msgid "Position of endnote"
+msgstr ""
+
+msgid "User-defined note numbering sequence"
+msgstr ""
+
+msgid "Addition after word list entry"
+msgstr ""
+
+msgid "Dump endnotes when encountering marker"
+msgstr ""
+
+msgid "This shows the various styles contained in this stylesheet."
+msgstr ""
+
+msgid ""
+"You can modify this stylesheet. To do that, make changes to the existing xml "
+"data in the textbox below, and then submit it. It will overwrite whatever "
+"was there before."
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "ChangeLog"
@@ -920,6 +1057,946 @@ msgid "Release Planning"
 msgstr ""
 
 msgid "Product Owner"
+msgstr ""
+
+msgid "Typesetting Bibles"
+msgstr ""
+
+msgid "The Bible has been translated. It is time to publish it."
+msgstr ""
+
+msgid "This article assists with typesetting the Bible."
+msgstr ""
+
+msgid ""
+"At the end of all, you will have a PDF file with part of the Bible, or the "
+"whole Bible, typeset, ready for publishing."
+msgstr ""
+
+msgid "Basic assumptions"
+msgstr ""
+
+msgid ""
+"The Bible is available in USFM code. The USFM code is clean and adheres to "
+"the standards."
+msgstr ""
+
+msgid ""
+"You have access to your own copy of Bibledit-Web, or to the Bibledit-Web "
+"demo on the internet."
+msgstr ""
+
+msgid "You have access to a copy of LibreOffice."
+msgstr ""
+
+msgid "Importing the USFM files"
+msgstr ""
+
+msgid ""
+"This section is about a specific Bible that I prepare for publication. It "
+"describes the steps I take to prepare the USFM code for export."
+msgstr ""
+
+msgid ""
+"The Bible is available in USFM files. Each Bible book is stored as one USFM "
+"file."
+msgstr ""
+
+msgid ""
+"Create a new Bible in Bibledit-Web through menu Management / Bibles. Give "
+"the Bible a name. I call it 'Ndebele'."
+msgstr ""
+
+msgid "Click the 'Ndebele' Bible."
+msgstr ""
+
+msgid "Import data into it."
+msgstr ""
+
+msgid "Choose the option to upload a file."
+msgstr ""
+
+msgid ""
+"You can upload 66 separate files, or you can put all the 66 files into one "
+"zipped file, and then upload that zipped file. I chose the second option, as "
+"being easier and quicker than the first. Importing took about a minute. The "
+"logbook shows the progress."
+msgstr ""
+
+msgid ""
+"Create a new stylesheet in menu Management / Styles. Give it a name. I call "
+"it 'Ndebele'."
+msgstr ""
+
+msgid ""
+"All the data is now in Bibledit-Web. Everthing is ready for export to "
+"OpenDocument files."
+msgstr ""
+
+msgid ""
+"The OpenDocument files are used as a starting point for typesetting. "
+"Typesetting itself is done in another program."
+msgstr ""
+
+msgid ""
+"Some of the word in the OpenDocument files are long. This results in too "
+"much space between some words."
+msgstr ""
+
+msgid ""
+"The words need to get hyphens so that part of the word goes on the next line."
+msgstr ""
+
+msgid ""
+"LibreOffice and Adobe InDesign have hyphenation algorithms for many "
+"languages. That would solve the problem."
+msgstr ""
+
+msgid "But the programs do not have a hyphenation algorithm for our language."
+msgstr ""
+
+msgid "Bibledit-Web has a hyphenater that could assist."
+msgstr ""
+
+msgid "In Bibledit-Web, go to menu Management / Hyphenation."
+msgstr ""
+
+msgid "Enter the first set of characters, and the second set, and save it."
+msgstr ""
+
+msgid ""
+"Set the Bible where to take the data from. In this case it is 'Ndebele'."
+msgstr ""
+
+msgid ""
+"Insert the soft hyphens according to the setting. It takes a while to "
+"complete."
+msgstr ""
+
+msgid "The output Bible is called 'Ndebele-hyphenated'."
+msgstr ""
+
+msgid "Use this Bible from now on."
+msgstr ""
+
+msgid "Exporting to OpenDocument files"
+msgstr ""
+
+msgid "We are going to make the initial export just to see how the text looks."
+msgstr ""
+
+msgid "In Bibledit-Web, go to menu Management / Exports."
+msgstr ""
+
+msgid "Add Bible 'Ndebele' to the ones that will be exported."
+msgstr ""
+
+msgid "Use stylesheet 'Ndebele'."
+msgstr ""
+
+msgid "Output the chapter number in drop caps. Switch that setting on."
+msgstr ""
+
+msgid "Set the page size. I use this: width: 138 mm; height: 210 mm."
+msgstr ""
+
+msgid ""
+"Set the margins. I use this: 10 mm for top, bottom, and outer margins, and "
+"12 mm for the inner margins."
+msgstr ""
+
+msgid ""
+"Do not display the date in the running headers. Switch that setting off."
+msgstr ""
+
+msgid "Do a fresh export."
+msgstr ""
+
+msgid ""
+"The Logbook, in menu Management, shows the progress and when it is ready."
+msgstr ""
+
+msgid ""
+"Go to menu Members / Downloads / Exported Bibles, and choose your Bible "
+"there. Then go to the OpenDocument folder."
+msgstr ""
+
+msgid "You will see the Bible exported into several format."
+msgstr ""
+
+msgid "Open them in LibreOffice and see how they look."
+msgstr ""
+
+msgid ""
+"I notice that the Divine name is underlined in the OpenDocument files. The "
+"Divine name is within \\nd_...\\nd* markup in USFM. I prefer this in small "
+"capitals, not underlined."
+msgstr ""
+
+msgid "This can be changed in the stylesheet."
+msgstr ""
+
+msgid "Go to menu Management / Styles, and choose the 'Ndebele' stylesheet."
+msgstr ""
+
+msgid "Click the 'nd' style."
+msgstr ""
+
+msgid "Switch 'Underline' off."
+msgstr ""
+
+msgid "Switch 'Small caps' on."
+msgstr ""
+
+msgid "Do a new export, wait a while, and review the OpenDocument files again."
+msgstr ""
+
+msgid ""
+"I notice that the verse numbers are in superscript. The verse numbers are "
+"small and difficult to read."
+msgstr ""
+
+msgid "The intended audience prefers the verse numbers in bigger print."
+msgstr ""
+
+msgid "Go to the relevant stylesheet and choose the 'v' style."
+msgstr ""
+
+msgid "Switch 'Superscript' off."
+msgstr ""
+
+msgid "Do a new export and review the OpenDocument files."
+msgstr ""
+
+msgid ""
+"The text in the OpenDocument files has been divided into paragraphs. New "
+"paragraphs start when appropriate in the context. This is how the USFM files "
+"have been marked up."
+msgstr ""
+
+msgid ""
+"The people who are going to read this Bible prefer each verse to start a new "
+"paragraph."
+msgstr ""
+
+msgid "Go to the stylesheet, and choose the 'v' style."
+msgstr ""
+
+msgid "Switch 'Restart paragraph' on."
+msgstr ""
+
+msgid "Export again."
+msgstr ""
+
+msgid ""
+"Since each verse starts a new paragraph, there is no longer any need to "
+"indent the first line of that paragraph."
+msgstr ""
+
+msgid "In the stylesheet, edit the 'p' style."
+msgstr ""
+
+msgid "Set the 'First line indent' to 0 mm."
+msgstr ""
+
+msgid ""
+"Some verses are short. Chapters that start with short verses no longer have "
+"the chapter number in drop caps in LibreOffice."
+msgstr ""
+
+msgid ""
+"This is because this verse is all on one line, and thus there is no space "
+"for drop caps, as these need two lines of text."
+msgstr ""
+
+msgid ""
+"Setting the text in two columns in LibreOffice solves the problem. The drop "
+"caps are back."
+msgstr ""
+
+msgid ""
+"The letters of the Bible text are too big. This takes up a lot of space. The "
+"Bible would get too many pages."
+msgstr ""
+
+msgid ""
+"Find out which styles start paragraphs. In the Ndebele Bible, these are the "
+"styles p, s, nb, d."
+msgstr ""
+
+msgid "Set these styles to have a font size of 10 points."
+msgstr ""
+
+msgid "The letters of the notes and crossreferences are too big."
+msgstr ""
+
+msgid "Set the fontsize of the styles ft and xt to 6 points."
+msgstr ""
+
+msgid ""
+"Parts of the footnotes are in bold or italics or both. I prefer it all in "
+"normal script."
+msgstr ""
+
+msgid ""
+"Update the relevant footnote styles and switch bold and italics off. The "
+"styles are fk, fl, fq, fqa."
+msgstr ""
+
+msgid "Typesetting guidelines"
+msgstr ""
+
+msgid ""
+"The following needs consideration if the Bible includes more than one book. "
+"Does the next book follow on the same page on which the previous book "
+"finished, or do the books follow on from one another in a different way? "
+"Whatever method is chosen, it needs to be applied consistently throughout "
+"the Bible."
+msgstr ""
+
+msgid ""
+"Line spacing should be consistent throughout and should be placed line on "
+"line across all pages. It means that they should all line up with each other "
+"all the way down the page and across all pages. Then when the Bible is "
+"printed, the printed text will be back to back and not show through from one "
+"side of the page to the other. In the typesetting software, this can be "
+"implemented by setting up a grid in the document, and then aligning all text "
+"to this grid."
+msgstr ""
+
+#, php-format
+msgid ""
+"The space after the verse numbers would be the same and consistent. Bibledit-"
+"Web exports the text to OpenDocument format using 'en spaces' after each "
+"verse. This ensures a consistent width of the spaces after the verse "
+"numbers. Superscript numerals could also be considered, though larger than "
+"any note citations in the text. The size of the superscript would be between "
+"70 and 80% of the size of the main text."
+msgstr ""
+
+msgid ""
+"The alignment of the drop caps chapter numbers to the text beside it is to "
+"be consistent. There should be some space between the numbers and the text. "
+"Drop cap characters should not be too large and not rise too far above the "
+"height of the other letters on the first line. The top of the highest "
+"letters should reach to about the same height. The drop cap characters in "
+"the body of the text should not be indented."
+msgstr ""
+
+msgid ""
+"The chapter divisions would also benefit from some more space between them "
+"and the text of the preceding chapter. When there is no heading above a "
+"chapter, it may be visually better to start the chapter number with a line "
+"space before it."
+msgstr ""
+
+msgid ""
+"The amount of space given to the Bible book headings should not be too great."
+msgstr ""
+
+msgid ""
+"Subheadings should not appear squashed amongst the rest of the text and "
+"would benefit from some space."
+msgstr ""
+
+msgid ""
+"Subheadings are an addition and not Scripture, so it is appropriate to put "
+"these in italics."
+msgstr ""
+
+msgid ""
+"The space between the text and footnotes should not be too tight neither "
+"unnecessarily large. Keep the gap between the references in the footer and "
+"the main bock of text as consistent as possible."
+msgstr ""
+
+msgid ""
+"The footnotes and crossreferences should not have a large variation in how "
+"far they finish from the foot of the page."
+msgstr ""
+
+msgid ""
+"In the crossreferences it is pleasing to have the chapter and verse number "
+"kept together with the book name, especially as the small font on long lines "
+"gives scope for this."
+msgstr ""
+
+msgid ""
+"The columns should start at the same height and should be balanced at the "
+"ends."
+msgstr ""
+
+msgid "The gap between the columns should be between 4 and 5 mm."
+msgstr ""
+
+msgid ""
+"The centre line dividing the two columns should start about level or very "
+"slightly above the top of the highest ascenders on the first line of text in "
+"a column and finish about level with the bottom of the lowest descenders on "
+"the bottom line. The centre line may also be omitted, as most modern Bibles "
+"do. The pages looks cleaner."
+msgstr ""
+
+msgid ""
+"The Psalm headers need consistent spaces before and after and should be "
+"positioned closer to the Psalm that follows than to the Psalm before."
+msgstr ""
+
+msgid ""
+"A 10 mm margin is okay for the outer margin, and for the top and bottom "
+"margin. The inner margin needs slightly more, e.g. 12 mm."
+msgstr ""
+
+msgid ""
+"For singable Psalms, readability would be helped by distinguishing the verse "
+"numbers visually."
+msgstr ""
+
+msgid ""
+"It is helpful to distinguish the running head, perhaps by using a semi-bold "
+"version of the same font."
+msgstr ""
+
+msgid ""
+"One way in which the number of pages in a volume could be reduced without "
+"loss of readability would be to choose a font with slightly shorter "
+"ascenders and descenders and then tighten the leading (line spacing) "
+"slightly."
+msgstr ""
+
+msgid ""
+"When producing PDF output, the text needs to be monochrome black, not black "
+"consisting of three or four colours."
+msgstr ""
+
+msgid ""
+"The last line of a verse or paragraph should not appear on its own at the "
+"top of a column. The typesetting software will have a setting for 'orphans' "
+"to control this. An elegant way of avoiding orphans is to increase or "
+"decrease the tracking of the text. This is the overall spacing of the "
+"letters in a paragraph or on a line."
+msgstr ""
+
+msgid "Avoid hyphenations in the headings."
+msgstr ""
+
+msgid ""
+"Many book titles consist of a main title and a subtitle, like 'The gospel of "
+"Matthew'. 'Matthew' is the main title, and the rest is the subtitle. It is "
+"good if there is a clear contrast on size between these two. Say 24 points "
+"bold for the main title, and 14 points regular for the subtitle."
+msgstr ""
+
+msgid ""
+"The number of hyphens used in a row should be few for enhanced readability. "
+"The number of hyphens used in a row should not amount to more than three "
+"consecutive hyphenated lines. At times a word that is now hyphenated could "
+"be forced down onto the next line without opening up the gaps between the "
+"words too much on the line above. Hyphenation should be set to the optimum "
+"result for the column width but then it is usually necessary to go over "
+"every page and make corrections manually."
+msgstr ""
+
+msgid ""
+"The main page numbering should start at the first page of Genesis, or "
+"Matthew in case of New Testaments."
+msgstr ""
+
+msgid ""
+"To avoid what are sometimes referred to as 'rivers' in the text. This is "
+"where large spaces between words cause rivers of white space to be seen "
+"running through the text. The use of hyphenation or tracking adjustments are "
+"tools that can be used to minimise the problem. But as always they need to "
+"be used with discretion."
+msgstr ""
+
+msgid "As a general rule text will be justified on the left and the right."
+msgstr ""
+
+msgid ""
+"A word, part of a word, or very short line should not appear by itself at "
+"the end of a paragraph. This result in less much white space between "
+"paragraphs or at the bottom of a page."
+msgstr ""
+
+msgid ""
+"The main page numbering starts at the first page of the text of the "
+"Scripture. This first page of Scripture starts on the recto (right side of a "
+"two page spread) for left to right reading scripts and the verso (left side "
+"of a two page spread) for right to left scripts."
+msgstr ""
+
+msgid "The typesetting"
+msgstr ""
+
+msgid ""
+"I can do the typesetting work in LibreOffice. I then work with free software."
+msgstr ""
+
+msgid ""
+"My organisation may want me to use professional typesetting software, such "
+"as Adobe InDesign."
+msgstr ""
+
+msgid "LibreOffice"
+msgstr ""
+
+msgid "Adobe InDesign"
+msgstr ""
+
+msgid "Typesetting in Adobe InDesign"
+msgstr ""
+
+msgid ""
+"See the online help about typesetting for more information about some "
+"general principles."
+msgstr ""
+
+msgid "I use LibreOffice and Adobe InDesign."
+msgstr ""
+
+msgid "Chapter numbers in drop caps"
+msgstr ""
+
+msgid ""
+"Bibledit-Web normally exports chapter numbers in bigger font in a text frame."
+msgstr ""
+
+msgid "In InDesign it is helpful to have these in drop caps."
+msgstr ""
+
+msgid "Go to Bibledit-Web, menu Management / Export."
+msgstr ""
+
+msgid "There is a setting for using frames in the drop caps. Switch it off."
+msgstr ""
+
+msgid "Creating a new document"
+msgstr ""
+
+msgid "Typesetting in InDesign starts with creating a new document."
+msgstr ""
+
+msgid "Choose menu File / New / Document, or press Ctrl-N."
+msgstr ""
+
+msgid "In the New Document dialog, make some settings."
+msgstr ""
+
+msgid "Facing Pages: on."
+msgstr ""
+
+msgid "Page width: 138 mm."
+msgstr ""
+
+msgid "Page height: 210 mm."
+msgstr ""
+
+msgid "Number of columns: 2."
+msgstr ""
+
+msgid "Gutter: 4.2 mm."
+msgstr ""
+
+msgid "Top, Bottom and Outside margins: 10 mm."
+msgstr ""
+
+msgid "Untick the option to set all margins the same."
+msgstr ""
+
+msgid "Inside margin: 12 mm."
+msgstr ""
+
+msgid ""
+"Click Save Preset, and save the settings as 'Ndebele'. Next time, use this "
+"preset to quickly make another new document with the same settings as this "
+"one."
+msgstr ""
+
+msgid "Click OK to create the new document."
+msgstr ""
+
+msgid "Setting up the baseline grid"
+msgstr ""
+
+msgid "All our text will stick to the baseline grid."
+msgstr ""
+
+msgid "This is a key factor to good typography."
+msgstr ""
+
+msgid "My leading is 12 points, and I will set up a grid to reflect this."
+msgstr ""
+
+msgid "Go to menu Edit / Preferences / Grids."
+msgstr ""
+
+msgid "Start the baseline grid at 0 mm relative to the top margin."
+msgstr ""
+
+msgid "Increment it every 12 points."
+msgstr ""
+
+msgid "Press OK. The grid is now set up."
+msgstr ""
+
+msgid ""
+"Optionally, to make it visible, go to menu View / Grids & Guides / Show "
+"Baseline Grid."
+msgstr ""
+
+msgid "Placing text"
+msgstr ""
+
+msgid "I am going to show how to place Bible text in InDesign."
+msgstr ""
+
+msgid "The text is available from Bibledit-Web as OpenDocument files."
+msgstr ""
+
+msgid ""
+"Open the book of Genesis, the version with text and note citations, in "
+"OpenOffice."
+msgstr ""
+
+msgid "Save it as a Microsoft Word 97 / 2000 / XP (.doc) document."
+msgstr ""
+
+msgid "Create a new document in InDesign."
+msgstr ""
+
+msgid "Go to menu File / Place, or press Ctrl-D."
+msgstr ""
+
+msgid "Select the document in MS Word (.doc) format."
+msgstr ""
+
+msgid ""
+"Move the cursor through the document in InDesign. Notice that the cursor "
+"shows some of the text to be placed."
+msgstr ""
+
+msgid ""
+"Move the cursor to the corner of the first column where the text will start. "
+"Click there. Notice that the first bit of the text will be placed in the "
+"first column."
+msgstr ""
+
+msgid ""
+"There is much more text than what fits in just one column. This extra text "
+"is not visible. What is visible, though, is a red plus near the end of the "
+"first column. This shows that more text is available."
+msgstr ""
+
+msgid "I would like to place this extra text in the second column."
+msgstr ""
+
+msgid ""
+"Click the Selection Tool or press V. The cursor changes to a selection arrow."
+msgstr ""
+
+msgid ""
+"Select the first column, and then click the red plus near the end of the "
+"first column. Notice that the cursor will now show some text."
+msgstr ""
+
+msgid ""
+"Place this text in the second column, in the same way as it was placed in "
+"the first column."
+msgstr ""
+
+msgid ""
+"There is still more text than fits in the second column. I estimate that "
+"there is enough text to fill many pages."
+msgstr ""
+
+msgid ""
+"I am going to insert an extra page, so that we get more space to place the "
+"text."
+msgstr ""
+
+msgid ""
+"To add blank pages, I need to have the Pages palette visible. If the Pages "
+"palette is not visible, choose Window > Pages to open the palette."
+msgstr ""
+
+msgid ""
+"In the Pages palette, click Create new page. A new page will be added. This "
+"is page 2. Press F12 to close the palette."
+msgstr ""
+
+msgid ""
+"Page 2 shows guides for two columns. I can fill these with text in the "
+"manner as described above."
+msgstr ""
+
+msgid ""
+"I can then add as many pages as are needed, and fill each page with text."
+msgstr ""
+
+msgid "Span headlines across columns"
+msgstr ""
+
+msgid ""
+"The headline I have in this example is 'The first book of Moses called "
+"Genesis'. I'd like it to span across the two columns."
+msgstr ""
+
+msgid ""
+"Select the left column, and drag the top to make it shorter, so creating "
+"space above it."
+msgstr ""
+
+msgid "Do the same with the right column."
+msgstr ""
+
+msgid ""
+"Select the text 'The first book of Moses called Genesis'. Cut it to the "
+"clipboard."
+msgstr ""
+
+msgid "Click the Type tool or type Escape T."
+msgstr ""
+
+msgid ""
+"Create a new text box above the two columns. Let it span across the two "
+"columns. Estimate the size it needs to be."
+msgstr ""
+
+msgid "Paste the text into that text box."
+msgstr ""
+
+msgid ""
+"Resize the text box so it looks smart. Then resize both columns so that all "
+"looks good."
+msgstr ""
+
+msgid "Making text align to the grid"
+msgstr ""
+
+msgid "Text aligned to the grid is key to good typesetting."
+msgstr ""
+
+msgid "Select all text you would like to stick to the baseline grid."
+msgstr ""
+
+msgid "Go to menu Type / Paragraph, or press Alt-Ctrl-T."
+msgstr ""
+
+msgid ""
+"Press the Align to baseline grid button in the bottom right hand corner."
+msgstr ""
+
+msgid ""
+"The leading of the text should be equal to the baseline grid. If the leading "
+"of the text is bigger, then it is like as if you have double line spacing."
+msgstr ""
+
+msgid "Total page count"
+msgstr ""
+
+msgid ""
+"The publisher may set limits to the number of pages the typeset Bible may "
+"contain."
+msgstr ""
+
+msgid ""
+"In this example, we expect an entire Bible, with singable Psalms added as an "
+"appendix, to contain no more than 2000 pages. Normal range is 1500 to 1800 "
+"pages."
+msgstr ""
+
+msgid "We suppose that the singable Psalms take up no more than 200 pages."
+msgstr ""
+
+msgid ""
+"Usually the inclusion of the singable Psalms in a Bible will add about 10% "
+"to the number of pages."
+msgstr ""
+
+msgid ""
+"The Bible will have footnotes and crossreferences, all lumped together into "
+"a single textframe at the bottom of each page."
+msgstr ""
+
+msgid "Let us now measure how many pages the notes are likely to take up."
+msgstr ""
+
+msgid ""
+"Open the file with all notes in LibreOffice. It is 00_Bible_notes.odt. Save "
+"it in the correct format for InDesign."
+msgstr ""
+
+msgid ""
+"Place the text as described above. But I am going to use Autoflow this time. "
+"Autoflow will automatically create new text boxes and new page till all text "
+"has been placed. This allows us quickly to see how many pages the notes will "
+"take up."
+msgstr ""
+
+msgid "This is how to use Autoflow."
+msgstr ""
+
+msgid ""
+"When you are about the click where you want the text to go, keep the Shift "
+"key down."
+msgstr ""
+
+msgid ""
+"I can now roughly see the total number of pages that the notes will take up."
+msgstr ""
+
+msgid "This is sufficient for an estimate."
+msgstr ""
+
+msgid ""
+"Let us now find out how many pages the main text body is likely to take up."
+msgstr ""
+
+msgid "The text is in the file called 00_Bible_text_and_note_citations.odt."
+msgstr ""
+
+msgid "Place this text and use Autoflow."
+msgstr ""
+
+msgid ""
+"It appears that, on my system, all text cannot be placed at once. It will "
+"cut off after some point."
+msgstr ""
+
+msgid "I will place 01_Genesis_text_and_note_citations.odt instead."
+msgstr ""
+
+msgid ""
+"I can now roughly see the total number of pages that the text of Genesis "
+"will take up."
+msgstr ""
+
+msgid ""
+"The size of the whole Bible is about 22 times more than the size of Genesis."
+msgstr ""
+
+msgid ""
+"The font is of particular influence on the page count. This is not dealt "
+"with here."
+msgstr ""
+
+msgid "Editing a paragraph style"
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, and placing this text into "
+"InDesign, the USFM styles appear in InDesign."
+msgstr ""
+
+msgid ""
+"For example, normal paragraphs usually have style 'p', and section heading "
+"'s'."
+msgstr ""
+
+msgid ""
+"If you like to update a paragraph style, you may update each section heading "
+"individually, but this is a lot of work. It is faster to update the style "
+"for 's', so that this updates all paragraphs that have this style."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, place the cursor in it, and on the palette "
+"choose Paragraph Styles. Right-click the style you want and choose Edit."
+msgstr ""
+
+msgid ""
+"The Bible will have running headers. The headers contain the page number "
+"near the inside margin. At the right margin it shows book and chapters "
+"numbers on that page."
+msgstr ""
+
+msgid "Enter the page numbers on the master pages."
+msgstr ""
+
+msgid "On the Pages palette, double-click the master pages."
+msgstr ""
+
+msgid ""
+"On the left master page, create a text frame, and enter the page number at "
+"the inside margin."
+msgstr ""
+
+msgid ""
+"Page numbers can be found in menu Type / Insert Special Character / Marker / "
+"Current Page Number."
+msgstr ""
+
+msgid ""
+"On the right master page, create a text frame, and enter the page number at "
+"the inside margin too."
+msgstr ""
+
+msgid ""
+"On page 1, create a new text frame at the top, and put the book and chapter "
+"at the outside margin."
+msgstr ""
+
+msgid "This text frame can be copied to each odd page as it is generated."
+msgstr ""
+
+msgid "The same applies for page 2, and any subsequent even pages."
+msgstr ""
+
+msgid "The page where a book starts normally does not display a page number."
+msgstr ""
+
+msgid "In order to do that, apply master page [None] to that particular page."
+msgstr ""
+
+msgid "Space between drop caps and text"
+msgstr ""
+
+msgid ""
+"It may be visually pleasant to have some space between the drop caps chapter "
+"numbers and the text beside it."
+msgstr ""
+
+msgid ""
+"All that is needed is a fixed space after the chapter numbers. Pick any one "
+"from a hair space to an em space. The number of characters in drop caps is "
+"now increased by one. Set this value in the drop cap settings. All lines "
+"after the first will automatically line up."
+msgstr ""
+
+msgid "Managing widows or orphans"
+msgstr ""
+
+msgid ""
+"Widows and orphans are words or short lines at the beginning or end of a "
+"paragraph, which are left dangling at the top or bottom of a column, "
+"separated from the rest of the paragraph."
+msgstr ""
+
+msgid ""
+"There is some disagreement about the definitions of widow and orphan; what "
+"one calls a widow the other calls an orphan."
+msgstr ""
+
+msgid "There are some ways to avoid widows or orphans."
+msgstr ""
+
+msgid ""
+"- Adjusting the spacing between words to produce tighter or looser "
+"paragraphs."
+msgstr ""
+
+msgid ""
+"- Adjusting the tracking of the text. This is the overall spacing of the "
+"letters in a paragraph or on a line. With a good font in justified "
+"paragraphs this can usually be adjusted by up to -25 or +15 without it "
+"looking too out of place."
+msgstr ""
+
+msgid "- Adjusting the hyphenation of words within the paragraph."
+msgstr ""
+
+msgid "- Forcing a word down onto the next line using a soft return."
 msgstr ""
 
 msgid ""
@@ -1068,7 +2145,691 @@ msgstr ""
 msgid "View the PHP Info."
 msgstr ""
 
+msgid ""
+"The release planning shows which parts of the Bible will be translated and "
+"delivered during which Sprint."
+msgstr ""
+
+msgid ""
+"It is convenient to define a Sprint in months, so that the release planning "
+"mentions January, February, and so on."
+msgstr ""
+
+msgid ""
+"It is often helpful to stick the release planning to the wall so that "
+"everybody can see the grand picture."
+msgstr ""
+
+msgid "The advantages of a release plan are:"
+msgstr ""
+
+msgid ""
+"1. It gives the team a common vision about what needs to be achieved, and "
+"when."
+msgstr ""
+
+msgid "2. It guides the team to make decisions during detailed planning."
+msgstr ""
+
+msgid "3. It helps prioritize the actions."
+msgstr ""
+
+msgid ""
+"4. It resolves conflicts and guides the teams toward the right balance on "
+"trade-offs."
+msgstr ""
+
+msgid ""
+"Release each completed Bible book to the community and get their feedback."
+msgstr ""
+
+msgid "This assists with the important principle of continual improvement."
+msgstr ""
+
 msgid "Scrum-based Translation"
+msgstr ""
+
+msgid "Installation"
+msgstr ""
+
+msgid "Methodology"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "The Notes are an important part of Consultations."
+msgstr ""
+
+msgid ""
+"The notes help to record the discussions with consultants and other people."
+msgstr ""
+
+msgid ""
+"Normally, when going to the Consultation Notes, you will see a list of "
+"notes. It would say, for example: Displaying notes 1 - 5 / 5. This means "
+"that it would display notes 1 to 5, out of 5 notes total."
+msgstr ""
+
+msgid ""
+"You can edit the display. That means that you can edit the number of notes "
+"that will display in that list."
+msgstr ""
+
+msgid ""
+"Clicking [edit] takes you to a new page, called Edit Notes Display. This "
+"enables you to edit how the notes will be displayed, and how many."
+msgstr ""
+
+msgid "The first thing that you can edit is how many notes will be selected."
+msgstr ""
+
+msgid ""
+"If you select notes that refer to any passage, then notes will be selected "
+"that refer to any passage, from Genesis to Revelation. But when you select "
+"notes that refer to the current verse, then only those notes will be "
+"selected that refer to the currently opened verse. In case you have Genesis "
+"2.2 open in the navigator, then only notes that refer to that particular "
+"verse are displayed."
+msgstr ""
+
+msgid ""
+"If you select notes that have been edited at any time, then all notes would "
+"be selected. But when you select notes that have been edited on Today, then "
+"only today's notes are displayed."
+msgstr ""
+
+msgid ""
+"The note selection mechanism combines all selection methods that have been "
+"set. If you select notes that refer to the current verse, for example, and "
+"that have been edited today, and only those notes that both refer to the "
+"current verse, and that also have been edited today, are displayed."
+msgstr ""
+
+msgid ""
+"There are other notes selection mechanisms as well. See the relevant page "
+"for all selection mechanisms. Things should be plain and there should be no "
+"need for any further information."
+msgstr ""
+
+msgid ""
+"One thing that would need explanation would be the mechanism that selects "
+"notes that contain certain text. This is intended to be used to search notes "
+"for text."
+msgstr ""
+
+msgid ""
+"If you select notes that contain Any text, then searching for text in the "
+"note is not done."
+msgstr ""
+
+msgid ""
+"Searching for text can be done by selecting notes that contain specific "
+"words or text. When you select this option, you will see that an entry "
+"becomes visible. Search text should be entered there. Then the Save button "
+"should be pressed. This is to save that search text. Or just pressing Enter "
+"while the cursor is in that entry will do also."
+msgstr ""
+
+msgid ""
+"When you search for, for example, \"house\" (without the quotes), then notes "
+"that contain the word \"house\" will be selected. Notes that contain the "
+"word \"houses\" (in plural) would not be selected. To select this plural "
+"form, you can use wildcards. Instead of entering \"house\", enter \"house*\" "
+"Notice the asterisk. This will select notes that contains the word \"house\" "
+"or \"houses\"."
+msgstr ""
+
+msgid ""
+"You can also enter two or more words to search for. The search routine will "
+"then do its best to select these notes that contain some or all of these "
+"words. Notes that contain all words are given first, and notes that contains "
+"only one or a few of the words will be given later."
+msgstr ""
+
+msgid ""
+"If you select notes that refer to the current verse, and then also search "
+"for some text, then only the notes that refer to the current verse would be "
+"searched. It is important to be aware of this. At times one may search for "
+"words or phrases, and get zero results, yet he is sure that there should be "
+"some results. This would happen because the user does not search the whole "
+"Bible, but only the current verse. The same applies to other selection "
+"mechanisms. Therefore, when searching notes for text, you may want to set "
+"all other selection mechanisms to Any."
+msgstr ""
+
+msgid ""
+"There is more that can be said about searching notes. The wildcard operator "
+"already has been mentioned. Here is a list of possible operators:"
+msgstr ""
+
+msgid ""
+"By default, when no opeerator specified, the word is optional, but the "
+"result that contain it will be rated higher."
+msgstr ""
+
+msgid ""
+"A leading plus sign indicates that this word must be present in every result "
+"returned."
+msgstr ""
+
+msgid ""
+"A leading minus sign indicates that this word must not be present in any "
+"result returned."
+msgstr ""
+
+msgid ""
+"A leading tilde acts as a negation operator, causing the word's contribution "
+"to the result relevance to be negative. It's useful for marking noise words. "
+"A result that contains such a word will be rated lower than others, but will "
+"not be excluded altogether, as it would be with the minus operator."
+msgstr ""
+
+msgid ""
+"An asterisk is the wildcard operator. Unlike the other operators, it is "
+"appended to the word, or fragment, not prepended. This means that if there "
+"is a note with the word \"house\", and you search for \"*ouse\", this note "
+"will not be selected. Yes, this is unusual, but this is how the database "
+"search works. To minimize the pain of this, measures have been taken that if "
+"you type any part of the word, the expected result will still be found."
+msgstr ""
+
+msgid ""
+"Double quotes at the beginning and end of a phrase, gives only the notes "
+"that contain the complete phrase, as it was typed."
+msgstr ""
+
+msgid ""
+"Each note can be assigned to somebody. The person to whom the note is "
+"assigned then knows that action should be taken on this note. Or the person "
+"can be automatically emailed if the note gets changed."
+msgstr ""
+
+msgid "The Consultation Notes can partly be operated by email."
+msgstr ""
+
+msgid ""
+"When you receive an email from Bibledit-Web, and this email contains a "
+"Consultation Note, then you can reply to this email. Your reply will be "
+"added as a comment to this particular Consultation Note."
+msgstr ""
+
+msgid ""
+"The reply should come from the email address which you registered with "
+"Bibledit-Web when you created your  account. The reply should also have "
+"(CSID123456789) in the subject line. The number 123456789 is a Consultation "
+"Note Identifier. It is different for every Note. Just replying to a "
+"Consultation Note you received is usually all that is needed. Only replies "
+"that are typed before the quoted text are considered. This is called top-"
+"posting. When the quoted text gets posted too, then it is necessary to "
+"remove that from your email reply."
+msgstr ""
+
+msgid "You can also submit a new Consultation Note by email."
+msgstr ""
+
+msgid "This is how to do it:"
+msgstr ""
+
+msgid ""
+"Create a new email to the site's email address. The subject line contains "
+"'New note', then the passage, and finally the summary."
+msgstr ""
+
+msgid "For example:"
+msgstr ""
+
+msgid "The body of the email will be the first comment on that note."
+msgstr ""
+
+msgid "The Product Owner represents the stakeholders."
+msgstr ""
+
+msgid ""
+"He or she is the voice of the target audience, that is the Bible reader."
+msgstr ""
+
+msgid "The Product Owner may also be a group of people in a committee."
+msgstr ""
+
+msgid ""
+"He is accountable for ensuring that the team delivers accuracy and "
+"reliability to the Bible translation."
+msgstr ""
+
+msgid "He defines items that focus on desired features."
+msgstr ""
+
+msgid ""
+"He makes decisions as to whether to implement footnotes or leave them out."
+msgstr ""
+
+msgid ""
+"In the same way, he defines other features, like headers, introductions, or "
+"decides to leave them out."
+msgstr ""
+
+msgid "He decides about use or non-use of a dialect."
+msgstr ""
+
+msgid "He sets the priorities for the work to be done."
+msgstr ""
+
+msgid "He adds the items to the product backlog."
+msgstr ""
+
+msgid "Scrum teams should have one Product Owner."
+msgstr ""
+
+msgid ""
+"The Product Owner may be part of the Translation Team, but it is recommended "
+"that this role not be combined with that of the Scrum Master."
+msgstr ""
+
+msgid "Install Bibledit-Web 0.9 on Ubuntu 13.04"
+msgstr ""
+
+msgid "This assumes a standard installation of the operating system."
+msgstr ""
+
+msgid "Connect to or open a terminal."
+msgstr ""
+
+msgid ""
+"Update the software sources. Type the following command, and then press "
+"Enter."
+msgstr ""
+
+msgid "Install the web server"
+msgstr ""
+
+msgid "In the terminal issue these commands:"
+msgstr ""
+
+msgid "Tick the LAMP server, and press Enter. Installation takes a while."
+msgstr ""
+
+msgid ""
+"While installing mysql-server, set the administrative password. This "
+"password is needed later."
+msgstr ""
+
+msgid ""
+"Test the web server. Open the site in the browser. The web address of the "
+"site depends on your situation. Examples:"
+msgstr ""
+
+msgid "http://localhost"
+msgstr ""
+
+msgid "http://website.org"
+msgstr ""
+
+msgid "Install the software Bibledit-Web relies on"
+msgstr ""
+
+msgid ""
+"Anything to be set up, choose the default settings and enter the correct "
+"passwords."
+msgstr ""
+
+msgid "Install Bibledit-Web"
+msgstr ""
+
+msgid "Download Bibledit-Web: Type the following command, and press Enter:"
+msgstr ""
+
+msgid "Unpack Bibledit-Web: Type the following command, and press Enter:"
+msgstr ""
+
+msgid "Enter Bibledit-Web's code: Type the following command, and press Enter:"
+msgstr ""
+
+msgid ""
+"Configure Bibledit-Web: Type the following command, replace 'password' with "
+"the administrative password of the mysql-server as entered above, and press "
+"Enter:"
+msgstr ""
+
+msgid "Install Bibledit-Web: Type the following command, and press Enter:"
+msgstr ""
+
+msgid "Access Bibledit-Web"
+msgstr ""
+
+msgid "Bibledit-Web should now be ready, and accessible through:"
+msgstr ""
+
+msgid ""
+"You can initially login through default username 'adminusername' and "
+"password 'adminpassword'. These only work if no Administrator's account "
+"exist on the system. It is recommended to create an Administrator's account "
+"of your own choice. This automatically removes the default adminusername "
+"account."
+msgstr ""
+
+msgid "Install Bibledit-Web 1.0 (not yet released) on Ubuntu 13.04"
+msgstr ""
+
+msgid "Daily Scrum Meeting"
+msgstr ""
+
+msgid ""
+"On each day of a sprint, the Bible translation team holds daily meetings."
+msgstr ""
+
+msgid "These meetings are called: Daily scrum meetings."
+msgstr ""
+
+msgid "The scrum meetings are held in the same place and at the same time."
+msgstr ""
+
+msgid ""
+"The daily scrum meeting is best held in the morning, because it assists in "
+"setting the context for the work of that day."
+msgstr ""
+
+msgid ""
+"During the meeting, all members stand, as this keeps the discussion short "
+"and relevant."
+msgstr ""
+
+msgid "The scrum meeting is strictly time-boxed to 15 minutes."
+msgstr ""
+
+msgid ""
+"There is a difference between people who are 'committed' to the Bible "
+"translation project, and those who are 'involved' in it."
+msgstr ""
+
+msgid "Scrum affords special status to those who are committed."
+msgstr ""
+
+msgid ""
+"Many teams enforce a rule in which only those who are committed are allowed "
+"to talk during the daily scrum meeting."
+msgstr ""
+
+msgid "All team members are required to attend the scrum meetings."
+msgstr ""
+
+msgid ""
+"The Scrum Master and the and Product Owner (usually the Bible Translation "
+"Manager) are committed team members."
+msgstr ""
+
+msgid "They are expected to attend and participate."
+msgstr ""
+
+msgid ""
+"Anyone else, for example a Church leader, a Committee member, or a "
+"Translator from another team, is allowed to attend but is there to listen "
+"only."
+msgstr ""
+
+msgid ""
+"This makes the daily scrum meeting an excellent way for a scrum team to "
+"disseminate information."
+msgstr ""
+
+msgid ""
+"If you are interested in hearing the status of the project, attend that "
+"day's meeting."
+msgstr ""
+
+msgid ""
+"The scrum meeting is not the place for solving problems or resolving issues."
+msgstr ""
+
+msgid ""
+"Issues that are raised are usually dealt with by one or two team members "
+"immediately after the scrum."
+msgstr ""
+
+msgid ""
+"During the daily Scrum, each team member answers the following three "
+"questions:"
+msgstr ""
+
+msgid "What did you do yesterday?"
+msgstr ""
+
+msgid "What are you going to do today?"
+msgstr ""
+
+msgid "Are there any impediments in your way?"
+msgstr ""
+
+msgid ""
+"The Scrum Master asks each team member to answer these questions, the member "
+"speaks, the Scrum Master thanks the member, and then goes to the next member."
+msgstr ""
+
+msgid ""
+"By focusing on what each person did yesterday and will do today, the team "
+"gains an understanding of what work has been done and what work remains."
+msgstr ""
+
+msgid ""
+"The daily scrum meeting is not a status update meeting in which the boss is "
+"finding out about who is slow in his work."
+msgstr ""
+
+msgid ""
+"Rather, it is a meeting in which team members make commitments to each other."
+msgstr ""
+
+msgid ""
+"If a translator says: Today, I will prepare chapter 10 and 11 of Matthew, "
+"everyone knows that in tomorrow's meeting, he will say whether or not he did "
+"finish."
+msgstr ""
+
+msgid ""
+"This has the wonderful effect of helping a team realize the significance of "
+"these commitments, and that their commitments are to each other, and not to "
+"anyone else."
+msgstr ""
+
+msgid ""
+"Any impediments that are raised in the daily scrums become the Scrum "
+"Master's responsibility to resolve as quickly as possible."
+msgstr ""
+
+msgid "Typical impediments are:"
+msgstr ""
+
+msgid "My ... broke and I need a new one today."
+msgstr ""
+
+msgid "I still haven't got the ... I requested a month ago."
+msgstr ""
+
+msgid ""
+"I'm struggling to understand ... and would like to discuss it with someone."
+msgstr ""
+
+msgid "The ... has asked me to work on something else for a few days."
+msgstr ""
+
+msgid ""
+"In cases where the Scrum Master cannot remove these impediments directly "
+"himself, he still takes responsibility for making sure someone on the team "
+"does quickly resolve the issue."
+msgstr ""
+
+msgid "Every day a different person leads the daily scrum meeting."
+msgstr ""
+
+msgid "This gets the entire team involved."
+msgstr ""
+
+msgid "It opens up new channels for communication."
+msgstr ""
+
+msgid "It builds trust between the Translators and the Scrum Master."
+msgstr ""
+
+msgid "Team members can learn from one another's techniques."
+msgstr ""
+
+msgid ""
+"The Scrum Master ensures to set a good example for leading the daily scrum "
+"meeting."
+msgstr ""
+
+msgid "External reference"
+msgstr ""
+
+msgid "Here are some guidelines as to how to install Bibledit-Web."
+msgstr ""
+
+msgid "Version 0.9 on Ubuntu 13.04."
+msgstr ""
+
+msgid "Version 1.0 (not yet released) on Ubuntu 13.04."
+msgstr ""
+
+msgid "Version being developed"
+msgstr ""
+
+msgid ""
+"In case you'd like to use the newest version, the one being developed, you "
+"can clone the source code from the git repository."
+msgstr ""
+
+msgid "See the Development page for more details."
+msgstr ""
+
+msgid ""
+"Once you have cloned the source code, and have a local repository for the "
+"bibledit code, you can then copy directory web/web into your local web "
+"server, and get it up and running there. A web server is needed, PHP, and "
+"MySQL. If you have copied the web/web directory to, for example, http://"
+"localhost/bibledit, then to install the program and create all the "
+"databases, you need to run http://localhost/bibledit/setup.php once."
+msgstr ""
+
+msgid "Open installation"
+msgstr ""
+
+msgid "You can configure the Bibledit-Web installation to be completely open."
+msgstr ""
+
+msgid "It means that there is no need to login to the website."
+msgstr ""
+
+msgid "The website appears to be logged in as user 'admin' for any visitor."
+msgstr ""
+
+msgid ""
+"This is useful for demo installations, or installations providing a free "
+"service to the the community."
+msgstr ""
+
+msgid "Sword module repository"
+msgstr ""
+
+msgid "Bibledit-Web can export Bibles to a Sword module."
+msgstr ""
+
+msgid ""
+"It will store the module in a location accessible through the web server."
+msgstr ""
+
+msgid "You can also create a Sword module repository."
+msgstr ""
+
+msgid ""
+"This enables users to do an online installation of the Bible in their Sword "
+"front-end."
+msgstr ""
+
+msgid ""
+"To create a Sword module repository, install an anonymous FTP server, and "
+"set the root for anonymous access to the folder with exported Bibles."
+msgstr ""
+
+msgid "Install FTP server on Ubuntu Server."
+msgstr ""
+
+msgid "FTP server"
+msgstr ""
+
+msgid "This page describes installation of two dfferent FTP servers."
+msgstr ""
+
+msgid "Pick the one that suits you."
+msgstr ""
+
+msgid "Install the vsftpd FTP server:"
+msgstr ""
+
+msgid "Create the ftp user:"
+msgstr ""
+
+msgid "Edit file /etc/vsftpd.conf and make the settings below:"
+msgstr ""
+
+msgid "Restart the FTP server:"
+msgstr ""
+
+msgid "Install the pure-ftpd FTP server:"
+msgstr ""
+
+msgid "It will log to:"
+msgstr ""
+
+msgid "Enable anonymous access and secure the server:"
+msgstr ""
+
+msgid "Users with a local account normally can login through FTP."
+msgstr ""
+
+msgid "Disable that for security reasons."
+msgstr ""
+
+msgid "Edit file /etc/ftpusers, and add the local accounts to that file."
+msgstr ""
+
+msgid "The anonymous users will read from:"
+msgstr ""
+
+msgid "Update the root folder for anonymous access:"
+msgstr ""
+
+msgid "The Sword module repository it now ready for use."
+msgstr ""
+
+msgid "You can add a remote source to your Sword front-end."
+msgstr ""
+
+msgid ""
+"Bibledit-Web creates four flavours of the Sword module, so there will be "
+"four remote sources."
+msgstr ""
+
+msgid ""
+"If bibledit-web exports a Bible called 'ndebele', then the following four "
+"remote sources will work:"
+msgstr ""
+
+msgid "Host:"
+msgstr ""
+
+msgid "Directory 1:"
+msgstr ""
+
+msgid "Directory 2:"
+msgstr ""
+
+msgid "Directory 3:"
+msgstr ""
+
+msgid "Directory 4:"
+msgstr ""
+
+msgid "More information"
 msgstr ""
 
 msgid "What is Scrum-based translation?"
@@ -1229,9 +2990,6 @@ msgstr ""
 msgid "* Removes obstacles from the path of the team."
 msgstr ""
 
-msgid "Daily Scrum Meeting"
-msgstr ""
-
 msgid ""
 "* Team members share progress with other team members (not the manager)."
 msgstr ""
@@ -1341,9 +3099,6 @@ msgid ""
 "online, and can review and approve them there."
 msgstr ""
 
-msgid "Methodology"
-msgstr ""
-
 msgid "The translation process is scrum-based."
 msgstr ""
 
@@ -1364,19 +3119,401 @@ msgid ""
 "frame."
 msgstr ""
 
-msgid "Installation"
+msgid ""
+"For a team it is vitally important to have a clear goal to work towards."
 msgstr ""
 
-msgid "FTP server"
+msgid ""
+"Thus everybody is focused on the desired outcome, and keeps a good pace."
 msgstr ""
 
-msgid "Scrum-based translation"
+msgid ""
+"Without a clear goal, the team still does a lot of things, but these may not "
+"be valuable things."
 msgstr ""
 
-msgid "About"
+msgid "Discussions"
+msgstr ""
+
+msgid ""
+"It is important that the more difficult or important passages of the "
+"translation are discussed by the Translation Team."
+msgstr ""
+
+msgid ""
+"All the members of the Translation Team have the intention to produce a "
+"reliable translation."
+msgstr ""
+
+msgid ""
+"But the views of the members about how to best put this reliable translation "
+"into words may differ."
+msgstr ""
+
+msgid ""
+"All members will listen to each other's arguments, bring their own "
+"arguments, and come to a conclusion."
+msgstr ""
+
+msgid ""
+"The conclusion can be reached because everybody agrees, or it can be reached "
+"by vote, or by consulting others, or a combination of this."
+msgstr ""
+
+msgid "Discussions shall be guided by the following rules:"
+msgstr ""
+
+msgid ""
+"If a member of the Team wishes to raise an issue for discussion, that member "
+"shall create a consultation note for the team."
+msgstr ""
+
+msgid "The consultation note will be distributed to all members of the team."
+msgstr ""
+
+msgid ""
+"To give members time to think about the issues, and thus make the discussion "
+"more productive, the consultation note shall not be discussed immediately, "
+"but after a day or more."
+msgstr ""
+
+msgid "The consultation note clearly describes the issue or question."
+msgstr ""
+
+msgid ""
+"If the member desires a change, the member shall include a clear suggestion "
+"for change in the consultation note."
+msgstr ""
+
+msgid "The members of the team shall choose a chair person."
+msgstr ""
+
+msgid ""
+"The chair person leads the discussions, keeps the discussions on topic, "
+"ensures that procedures are followed, and keeps the time."
+msgstr ""
+
+msgid "The members of the team are all busy and their time is valuable."
+msgstr ""
+
+msgid "Therefore discussions should be kept short and to the point."
+msgstr ""
+
+msgid ""
+"Personal reflections and deliberations about a passage shall not be done in "
+"the team, while others are held in suspense."
+msgstr ""
+
+msgid ""
+"Everybody shall hold such deliberations in his own time without disturbing "
+"others."
+msgstr ""
+
+msgid ""
+"If discussion of a consultation note is dragging on, let's say for more than "
+"5 minutes, a vote shall be taken so as to arrive at a decision."
+msgstr ""
+
+msgid ""
+"If a member is not satisfied with the outcome of a discussion, that member "
+"can forward the consultation note to other appropriate bodies who are able "
+"to advise the translation team."
+msgstr ""
+
+msgid ""
+"If the matter concerns the original language, then it will be forwarded to "
+"the Bible Society."
+msgstr ""
+
+msgid ""
+"If the matter concerns the local language, the matter should be forwarded to "
+"the group of language scholars."
+msgstr ""
+
+msgid ""
+"If the answer from the scholars does not satisfy any member of the team, the "
+"matter can be forwarded to the panel consisting of local Church leaders and "
+"scholars."
+msgstr ""
+
+msgid ""
+"If a consultation notes has gone through the advising bodies, and a "
+"rendering is arrived at by the majority of the members of the translation "
+"team, and this rendering does not satisfy a team member, that member can ask "
+"the matter to be forwarded to three able Church leaders."
+msgstr ""
+
+msgid ""
+"Those able Church leaders have knowledge of Hebrew and Greek, of good "
+"commentaries and other reference materials."
+msgstr ""
+
+msgid ""
+"The questions sent to them should be worded such that it places a low demand "
+"on their time."
+msgstr ""
+
+msgid ""
+"The matter shall include the discussions of the translation team, the answer "
+"given by the Bible Society, shall state the rendering chosen by the majority "
+"of the team, and the alternate rendering."
+msgstr ""
+
+msgid ""
+"The able Church leaders shall be asked whether they choose the majority "
+"rendering or the alternate."
+msgstr ""
+
+msgid ""
+"They shall be informed that their choice defaults to the majority if no "
+"response has been received by the translation team within a month."
+msgstr ""
+
+msgid ""
+"A vote shall be taken from the answers given by the Bible Society and each "
+"of the able Church leaders."
+msgstr ""
+
+msgid ""
+"If the vote needs to be split, equal votes will be given to each of the "
+"members of the translation team."
+msgstr ""
+
+msgid ""
+"The product backlog is an ordered list of requirements that is maintained "
+"for the Bible translation."
+msgstr ""
+
+msgid ""
+"It consists of translation tasks, checking tasks, testing tasks, "
+"comprehension tasks, whatever needs to be done in order to deliver a "
+"reliable manuscript."
+msgstr ""
+
+msgid "The Product Owner prioritizes the items on this list."
+msgstr ""
+
+msgid "Bibledit-Web"
+msgstr ""
+
+msgid ""
+"While Bibledit-Web may be used for making any Bibles, there are some "
+"distinct advantages to releasing Bibles under an open license."
+msgstr ""
+
+msgid ""
+"* Others's will feel free to publish the open Bible, so that you don't need "
+"to do everything yourself: Others will help spreading the Word of God."
+msgstr ""
+
+msgid ""
+"* It becomes easy to publish Bibles in a variety of formats by a variety of "
+"people: on paper, phones, the Internet."
+msgstr ""
+
+msgid ""
+"* If you think that the Bible you translated is good and reliable, and you "
+"release it under an open license, it will rapidly spread over the Internet."
+msgstr ""
+
+msgid ""
+"* Compare an open Bible to the Greek minuscules: They were copied freely, "
+"and they can now be found all over the place."
+msgstr ""
+
+msgid "* Freely you received, freely give."
 msgstr ""
 
 msgid "Typesetting in LibreOffice"
+msgstr ""
+
+msgid "Page count"
+msgstr ""
+
+msgid ""
+"Download the file with notes. It was exported above. It is called "
+"00_Bible_notes.odt."
+msgstr ""
+
+msgid "Open the file in LibreOffice."
+msgstr ""
+
+msgid ""
+"Let it repaginate. A good way of doing this is to press Ctrl-P as if going "
+"to print the document. Then it will repaginate. Cancel the print dialog."
+msgstr ""
+
+msgid "It will now give the page count that the notes are likely to take up."
+msgstr ""
+
+msgid "In our case, this is about 300 pages."
+msgstr ""
+
+msgid ""
+"Each chapter has headings. These headings do not belong to the notes. Thus "
+"the page count is too high."
+msgstr ""
+
+msgid ""
+"Notice that the paragraph style for these headings is called 'Heading 1'. "
+msgstr ""
+
+msgid ""
+"Hide the headings. This can be done like this. Right-click on a heading. "
+"Choose 'Edit Paragraph Style'. A dialog comes up. Choose tab 'Font Effects'. "
+"Tick option 'Hidden'."
+msgstr ""
+
+msgid ""
+"Repaginate, and notice the page count. In our case it is down to about 125."
+msgstr ""
+
+msgid ""
+"Download the OpenDocument file with text and note citations. It was exported "
+"above. It is called 00_Bible_text_and_note_citations.odt."
+msgstr ""
+
+msgid "The document has only one column."
+msgstr ""
+
+msgid "Repaginate and notice the page count. In our case this is 1750."
+msgstr ""
+
+msgid "This figure is not accurate since it applies to a column count of one."
+msgstr ""
+
+msgid "Set the whole document to have two columns."
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page. Choose the Columns tab. Choose two columns. Set "
+"the spacing to 0.2 cm. Set a thin separator line. Click Ok."
+msgstr ""
+
+msgid "Repaginate and notice the page count. It is down to 1520."
+msgstr ""
+
+msgid "We are now able to estimate the page count for the entire Bible:"
+msgstr ""
+
+msgid ""
+"Text body 1520 pages. Notes 125 pages. Singable Psalms 200 pages. Estimated "
+"total is 1845 pages."
+msgstr ""
+
+msgid "Using LibreOffice for typesetting"
+msgstr ""
+
+msgid ""
+"Having used LibreOffice for typesetting for some time, my experience is that "
+"the program is suitable for typesetting Bibles."
+msgstr ""
+
+msgid ""
+"I'd like to give some hints about how to do typographic work in LibreOffice."
+msgstr ""
+
+msgid ""
+"To meet the requirement that line spacing be consistent throughout and be "
+"placed line on line across all pages, do the following:"
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page, and enable Register-true. Set the reference style "
+"to 'Text Body'. Press OK."
+msgstr ""
+
+msgid ""
+"Select all the text, and go to menu Format / Paragraph, and activate "
+"Register-true. Press OK."
+msgstr ""
+
+msgid ""
+"The line spacing specified by the paragraph style 'Text Body' is now used as "
+"the reference line spacing for all paragraphs that have the register-true "
+"feature enabled."
+msgstr ""
+
+msgid ""
+"The line spacing in the document is going to be consistent. It will be equal "
+"to the line spacing of the reference style 'Text Body', or a multiple of it."
+msgstr ""
+
+msgid "Changing the line spacing."
+msgstr ""
+
+msgid "Change the line spacing in paragraph style 'Text Body'."
+msgstr ""
+
+msgid "Press F11 to get the Styles and Formatting dialog."
+msgstr ""
+
+msgid "Locate style 'Text Body'."
+msgstr ""
+
+msgid "Right-click it with the mouse, and choose menu Modify."
+msgstr ""
+
+msgid "Go to tab Indents & Spacing."
+msgstr ""
+
+msgid ""
+"Adjust the spacing above the paragraph, the spacing below the paragrap, and "
+"the line spacing. Press OK."
+msgstr ""
+
+msgid ""
+"It may happen that some paragraphs in the text used to have a line spacing "
+"equal to the line spacing of style 'Text Body', but now suddenly take up a "
+"multiple of it. This may happen when you have tightened the line spacing a "
+"bit."
+msgstr ""
+
+msgid ""
+"To resolve this, make the line spacing of those paragraphs smaller than the "
+"line spacing of style 'Text body'."
+msgstr ""
+
+msgid "Updating a paragraph style."
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, the paragraph styles of the USFM "
+"document appear in LibreOffice."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, right-click the text of this paragraph, and "
+"choose menu Edit Paragraph Style..., and make the desired settings."
+msgstr ""
+
+msgid "Exporting to PDF."
+msgstr ""
+
+msgid "See menu File / Export as PDF."
+msgstr ""
+
+msgid "Hiding the soft hyphens and non-breaking spaces."
+msgstr ""
+
+msgid ""
+"The soft hyphens and the non-breaking spaces are visible as grey fields that "
+"clutter the page. To hide them, do this:"
+msgstr ""
+
+msgid "Go to menu Tools / Options."
+msgstr ""
+
+msgid "Go to LibreOffice Writer / Formatting Aids."
+msgstr ""
+
+msgid "Untick display of custom hyphens."
+msgstr ""
+
+msgid "Untick display of non-breaking spaces."
+msgstr ""
+
+msgid "Scrum-based translation"
 msgstr ""
 
 msgid "Sentence Structure"
@@ -1414,6 +3551,73 @@ msgid "The entry was approved and suppressed."
 msgstr ""
 
 msgid "The entry was deleted for just now."
+msgstr ""
+
+msgid "Enter the patterns to search for."
+msgstr ""
+
+msgid "One per line."
+msgstr ""
+
+msgid ""
+"It will search the plain text of the Bible, without verse numbers, heading, "
+"and other additions."
+msgstr ""
+
+msgid "Go back"
+msgstr ""
+
+msgid "Settings for Checks"
+msgstr ""
+
+msgid ""
+"Bibledit-Web runs the checks on the Bibles every day just after midnight."
+msgstr ""
+
+msgid "Run the checks now"
+msgstr ""
+
+msgid "The following Bibles will be checked"
+msgstr ""
+
+msgid "Enable any of the following checks to run them regularly:"
+msgstr ""
+
+msgid "double spaces in the raw USFM"
+msgstr ""
+
+msgid "punctuation at the end of a heading"
+msgstr ""
+
+msgid ""
+"a space before a comma, semicolon, colon, full stop, question mark, or "
+"exclamation mark"
+msgstr ""
+
+msgid "sentence structure"
+msgstr ""
+
+msgid "paragraph starts with a capital and ends with a correct end marker"
+msgstr ""
+
+msgid ""
+"correct number of books, chapters, and verses, according to the "
+"versification system"
+msgstr ""
+
+msgid "well-formed USFM"
+msgstr ""
+
+msgid "missing punctuation at the end of a verse"
+msgstr ""
+
+msgid "patterns in the text"
+msgstr ""
+
+msgid "settings"
+msgstr ""
+
+msgid "Settings for the sentence structure"
 msgstr ""
 
 msgid "Settings"
