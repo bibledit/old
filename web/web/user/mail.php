@@ -4,7 +4,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MEMBER_LEVEL);
 
 Assets_Page::header (gettext ("Mail"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_mail = Database_Mail::getInstance();
 
 if (isset ($_GET['delete'])) {
@@ -21,21 +21,21 @@ if (isset ($_GET['view'])) {
   $subject = strip_tags ($subject);
   $body    = $row['body'];
   $body    = strip_tags ($body, '<p>');
-  $smarty->assign ("subject", Filter_Html::sanitize ($subject));
-  $smarty->assign ("body",    Filter_Html::sanitize ($body));
+  $view->view->subject = Filter_Html::sanitize ($subject);
+  $view->view->body = Filter_Html::sanitize ($body);
 }
 
 @$active_label = $_GET['label'];
 if ($active_label == "") $active_label = $database_mail->labelInbox ();
-$smarty->assign ("active_label", $active_label);
+$view->view->active_label = $active_label;
 
 $label_inbox   = $database_mail->labelInbox ();
 $link_inbox    = "mail.php?label=$label_inbox";
-$smarty->assign ("link_inbox", $link_inbox);
+$view->view->link_inbox = $link_inbox;
 
 $label_trash   = $database_mail->labelTrash ();
 $link_trash    = "mail.php?label=$label_trash";
-$smarty->assign ("link_trash", $link_trash);
+$view->view->link_trash = $link_trash;
 
 $ids = array ();
 $timestamps = array ();
@@ -52,13 +52,13 @@ while ($row = $mails->fetch_assoc()) {
   $deletes     [] = "mail.php?label=$active_label&delete=$id";
   $views       [] = "mail.php?label=$active_label&view=$id";
 }
-$smarty->assign ("ids",          $ids);
-$smarty->assign ("timestamps",   $timestamps);
-$smarty->assign ("subjects",     $subjects);
-$smarty->assign ("deletes",      $deletes);
-$smarty->assign ("views",        $views);
+$view->view->ids = $ids;
+$view->view->timestamps = $timestamps;
+$view->view->subjects = $subjects;
+$view->view->deletes = $deletes;
+$view->view->views = $views;
 
-$smarty->display ("mail.tpl");
+$view->render ("mail.php");
 
 Assets_Page::footer ();
 

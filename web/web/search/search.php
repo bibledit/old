@@ -26,10 +26,10 @@ page_access_level (GUEST_LEVEL);
 // The query: The word or string to search for.
 $queryString = isset($_GET['q'])?$_GET['q']:'';
 
-$smarty = new Smarty_Bibledit (__FILE__);
-
 // Put the query string into the search box.
 Assets_Page::header (gettext ("Search"), $queryString);
+
+$view = new Assets_View (__FILE__);
 
 // Clean the query string up.
 $queryString = trim ($queryString);
@@ -51,7 +51,7 @@ $siteUrl = $database_config_general->getSiteURL ();
 $identifiers = $database_notes->searchNotes ($queryString);
 
 $noteCount = count ($identifiers);
-$smarty->assign ("noteCount", $noteCount);
+$view->view->noteCount = $noteCount;
 
 // Assemble the search results.
 $noteTitles = array ();
@@ -87,15 +87,15 @@ foreach ($identifiers as $identifier) {
 }
 
 // Display the search results for the notes.
-$smarty->assign ("noteUrls", $noteUrls);
-$smarty->assign ("noteTitles", $noteTitles);
-$smarty->assign ("noteExcerpts", $noteExcerpts);
+$view->view->noteUrls = $noteUrls;
+$view->view->noteTitles = $noteTitles;
+$view->view->noteExcerpts = $noteExcerpts;
 
 // Search the Bible text.
 $ids = $database_bibles->searchText ($queryString);
 
 $textCount = count ($ids);
-$smarty->assign ("textCount", $textCount);
+$view->view->textCount = $textCount;
 
 // Assemble the search results.
 $textTitles = array ();
@@ -137,11 +137,11 @@ foreach ($ids as $id) {
 }
 
 // Display the search results for the Bible text.
-$smarty->assign ("textUrls", $textUrls);
-$smarty->assign ("textTitles", $textTitles);
-$smarty->assign ("textExcerpts", $textExcerpts);
+$view->view->textUrls = $textUrls;
+$view->view->textTitles = $textTitles;
+$view->view->textExcerpts = $textExcerpts;
 
-$smarty->display ("search.tpl");
+$view->render ("search.php");
 
 Assets_Page::footer ();
 

@@ -63,12 +63,12 @@ class Database_Mail
   */
   public function getMailCount () {
     $session = Session_Logic::getInstance ();
-    $user    = $session->currentUser();
-    $user    = Database_SQLInjection::no ($user);
-    $label   = $this->labelInbox ();
-    $query   = "SELECT id FROM mail WHERE username = '$user' and label = '$label';";
-    $server  = Database_Instance::getInstance ();
-    $result  = $server->runQuery ($query);
+    $user = $session->currentUser();
+    $user = Database_SQLInjection::no ($user);
+    $label = $this->labelInbox ();
+    $query = "SELECT id FROM mail WHERE username = '$user' and label = '$label';";
+    $server = Database_Instance::getInstance ();
+    $result = $server->runQuery ($query);
     return $result->num_rows;
   }
 
@@ -79,10 +79,10 @@ class Database_Mail
   public function getMails ($label) {
     $label = Database_SQLInjection::no ($label);
     $session = Session_Logic::getInstance ();
-    $user    = $session->currentUser();
-    $server  = Database_Instance::getInstance ();
-    $query   = "SELECT id, timestamp, subject FROM mail WHERE username = '$user' and label = '$label' ORDER BY timestamp DESC;";
-    $result  = $server->runQuery ($query);
+    $user = $session->currentUser();
+    $server = Database_Instance::getInstance ();
+    $query = "SELECT id, timestamp, subject FROM mail WHERE username = '$user' and label = '$label' ORDER BY timestamp DESC;";
+    $result = $server->runQuery ($query);
     return $result;
   }
 
@@ -91,19 +91,19 @@ class Database_Mail
   * delete - delete a mail.
   */
   public function delete ($id) {
-    $id      = Database_SQLInjection::no ($id);
-    $server  = Database_Instance::getInstance ();
-    $query   = "SELECT label FROM mail WHERE id = $id;";
-    $result  = $server->runQuery ($query);
-    $row     = $result->fetch_assoc();
-    $label   = $row['label'];
+    $id = Database_SQLInjection::no ($id);
+    $server = Database_Instance::getInstance ();
+    $query = "SELECT label FROM mail WHERE id = $id;";
+    $result = $server->runQuery ($query);
+    $row = $result->fetch_assoc();
+    $label = $row['label'];
     if ($label == $this->labelTrash ()) {
       // If the mail was in the Trash, delete it completely.
-      $query  = "DELETE FROM mail WHERE id = $id;";
+      $query = "DELETE FROM mail WHERE id = $id;";
     } else {
       // Move the mail into the Trash.
       $label = $this->labelTrash ();
-      $query  = "UPDATE mail SET label = '$label' WHERE id = $id;";
+      $query = "UPDATE mail SET label = '$label' WHERE id = $id;";
     }
     $server->runQuery ($query);
   }
@@ -113,10 +113,10 @@ class Database_Mail
   * get - get a mail.
   */
   public function get ($id) {
-    $id      = Database_SQLInjection::no ($id);
-    $server  = Database_Instance::getInstance ();
-    $query   = "SELECT username, subject, body FROM mail WHERE id = $id;";
-    $result  = $server->runQuery ($query);
+    $id = Database_SQLInjection::no ($id);
+    $server = Database_Instance::getInstance ();
+    $query = "SELECT username, subject, body FROM mail WHERE id = $id;";
+    $result = $server->runQuery ($query);
     return $result;
   }
 
@@ -127,8 +127,8 @@ class Database_Mail
   public function getMailsInboxes () {
     $ids = array ();
     $server = Database_Instance::getInstance ();
-    $label  = $this->labelInbox();
-    $query  = "SELECT id FROM mail WHERE label = '$label';";
+    $label = $this->labelInbox();
+    $query = "SELECT id FROM mail WHERE label = '$label';";
     $result = $server->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $result_array = $result->fetch_row();
@@ -151,7 +151,6 @@ class Database_Mail
 
 
 }
-
 
 
 ?>

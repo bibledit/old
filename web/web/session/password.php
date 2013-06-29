@@ -6,7 +6,7 @@ page_access_level (GUEST_LEVEL);
 
 
 Assets_Page::header (gettext ("Password"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 // Form submission handler.
@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
   $form_is_valid = true;
   $user = $_POST['user'];
   if (strlen ($user) < 4) {
-    $smarty->assign ('error_message', gettext ("Username or email address is too short"));
+    $view->view->error_message = gettext ("Username or email address is too short");
     $form_is_valid = false;
   }
   $database_users = Database_Users::getInstance ();
@@ -47,14 +47,13 @@ if (isset($_POST['submit'])) {
     $body .= "\n\n";
     $body .= gettext ("It is recommended to log into your account with this new password, and then change it.");
     $database_mail->send ($username, $subject, $body);
-    $smarty->assign ('success_message', gettext ("A message was sent to the email address belonging to this account to help you getting the password"));
+    $view->view->success_message = gettext ("A message was sent to the email address belonging to this account to help you getting the password");
   } else {
-    $smarty->assign ('error_message', gettext ("Username or email address cannot be found"));
+    $view->view->error_message = gettext ("Username or email address cannot be found");
   }
 }
 
-
-$smarty->display("password.tpl");
+$view->render ("password.php");
 
 Assets_Page::footer ();
 

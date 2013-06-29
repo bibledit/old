@@ -7,7 +7,7 @@ $session_logic = Session_Logic::getInstance ();
 $session_logic->logout ();
 
 Assets_Page::header (gettext ("Logout"));
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->display("logout.tpl");
+$view = new Assets_View (__FILE__);
+$view->render ("logout.php");
 Assets_Page::footer ();
 ?>

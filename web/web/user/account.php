@@ -6,12 +6,13 @@ page_access_level (MEMBER_LEVEL);
 
 
 Assets_Page::header (gettext ("Account"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
 $database_users  = Database_Users::getInstance ();
 $email = $database_users->getUserToEmail ($username);
 $actions_taken   = false;
+$success_messages = array ();
 
 
 // Form submission handler.
@@ -25,19 +26,19 @@ if (isset($_POST['submit'])) {
   if (($newpassword != "") || ($newpassword2 != "")) {
     if (strlen ($newpassword) < 4) {
       $form_is_valid = false;
-      $smarty->assign ('new_password_invalid_message', gettext ("Password should be at least four characters long"));
+      $view->view->new_password_invalid_message = gettext ("Password should be at least four characters long");
     }
     if (strlen ($newpassword2) < 4) {
       $form_is_valid = false;
-      $smarty->assign ('new_password2_invalid_message', gettext ("Password should be at least four characters long"));
+      $view->view->new_password2_invalid_message = gettext ("Password should be at least four characters long");
     }
     if ($newpassword2 != $newpassword) {
       $form_is_valid = false;
-      $smarty->assign ('new_password2_invalid_message', gettext ("Passwords do not match"));
+      $view->view->new_password2_invalid_message = gettext ("Passwords do not match");
     }
     if (!$database_users->matchUsernamePassword ($username, $currentpassword)) {
       $form_is_valid = false;
-      $smarty->assign ('current_password_invalid_message', gettext ("Current password is not valid"));
+      $view->view->current_password_invalid_message = gettext ("Current password is not valid");
     }
     if ($form_is_valid) {
       $database_users->updateUserPassword ($username, $newpassword);
@@ -50,11 +51,11 @@ if (isset($_POST['submit'])) {
     $validator = new Zend_Validate_EmailAddress ();
     if (!$validator->isValid ($newemail)) {
       $form_is_valid = false;
-      $smarty->assign ('new_email_invalid_message', gettext ("Email address is not valid"));
+      $view->view->new_email_invalid_message = gettext ("Email address is not valid");
     }
     if (!$database_users->matchUsernamePassword ($username, $currentpassword)) {
       $form_is_valid = false;
-      $smarty->assign ('current_password_invalid_message', gettext ("Current password is not valid"));
+      $view->view->current_password_invalid_message = gettext ("Current password is not valid");
     }
     if ($form_is_valid) {
       $confirm_worker = Confirm_Worker::getInstance ();
@@ -77,11 +78,11 @@ if (isset($_POST['submit'])) {
 }
 
 
-$smarty->assign ('username', Filter_Html::sanitize ($username));
-$smarty->assign ('email', Filter_Html::sanitize ($email));
-@$smarty->assign ('success_messages', $success_messages);
-@$smarty->assign ('actions_taken', $actions_taken);
-$smarty->display("account.tpl");
+$view->view->username = Filter_Html::sanitize ($username);
+$view->view->email = Filter_Html::sanitize ($email);
+$view->view->success_messages = $success_messages;
+$view->view->actions_taken = $actions_taken;
+$view->render ("account.php");
 
 
 Assets_Page::footer ();

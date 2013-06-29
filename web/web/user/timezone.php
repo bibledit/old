@@ -16,9 +16,9 @@ if (isset ($timezone)) {
     $database_config_user->setTimezone ($timezone);
   }
 }
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $timezone = $database_config_user->getTimezone();
-$smarty->assign ("timezone", $timezone);
-$smarty->display("timezone.tpl");
+$view->view->timezone = $timezone;
+$view->render ("timezone.php");
 Assets_Page::footer ();
 ?>
