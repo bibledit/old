@@ -10,9 +10,6 @@ $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $directory = Filter_Git::git_directory ($object);
 
 
-// Set up the secure keys just in case the repository happens to be secure.
-$secure_key_directory = Filter_Git::git_config ($url);
-
 // Temporarily store the .git directory.
 $tempdirectory = tempnam (sys_get_temp_dir(), '');
 unlink ($tempdirectory);
@@ -83,9 +80,6 @@ if ($exit_code == 0) {
 
 // Be sure to sync in case somebody unplugs the USB flash drive before data was fully written to it.
 exec ("sync");
-
-// For security reasons, remove the private ssh key.
-Filter_Git::git_un_config ($secure_key_directory);
 
 $database_shell = Database_Shell::getInstance ();
 $database_shell->stopProcess ("collaboration_take_yourself", 0);

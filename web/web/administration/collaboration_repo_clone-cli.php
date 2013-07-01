@@ -11,9 +11,6 @@ $escapedDir = escapeshellarg ($directory);
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 
-// In case the repository is secure, set up the secure keys.
-$secure_key_directory = Filter_Git::git_config ($url);
-
 $command = "cd $escapedDir; git clone $url .";
 echo "$command\n";
 passthru ($command, $exit_code);
@@ -38,9 +35,6 @@ $mail_name = $database_config_general->getSiteMailName();
 exec ("cd $escapedDir; git config user.name \"$mail_name\"");
 $mail_address = $database_config_general->getSiteMailAddress();
 exec ("cd $escapedDir; git config user.email \"$mail_address\"");
-
-// For security reasons, remove the private ssh key.
-Filter_Git::git_un_config ($secure_key_directory);
 
 exec ("sync");
 

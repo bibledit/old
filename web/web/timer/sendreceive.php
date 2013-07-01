@@ -77,10 +77,6 @@ foreach ($bibles as $bible) {
     }
 
 
-    // Set up the secure shell keys in case these are needed.    
-    $secure_key_directory = Filter_Git::git_config ($remote_repository_url);
-
-
     // Temporarily store the .git directory.
     $tempdirectory = tempnam (sys_get_temp_dir(), '');
     unlink ($tempdirectory);
@@ -233,10 +229,6 @@ foreach ($bibles as $bible) {
       $database_logs->log ("send/receive: Moving the data that was changed into the database ...");
       Filter_Git::filedata2database ();
     }
-
-
-    // For security reasons, remove the secure shell keys.
-    Filter_Git::git_un_config ($secure_key_directory);
 
 
     // Do a "git log" to provide information about the most recent commits.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-29 01:43+0200\n"
+"POT-Creation-Date: 2013-07-01 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3553,6 +3553,50 @@ msgstr ""
 msgid "The entry was deleted for just now."
 msgstr ""
 
+msgid ""
+"The settings here will be used by several checks on the structure of the "
+"sentence."
+msgstr ""
+
+msgid ""
+"Enter all the possible capitals in the text of the Bible, separated by a "
+"space."
+msgstr ""
+
+msgid "For example"
+msgstr ""
+
+msgid ""
+"Enter all the possible small letters in the text of the Bible, separated by "
+"a space."
+msgstr ""
+
+msgid ""
+"Enter all the possible punctuation marks at the ends of sentences, separated "
+"by a space."
+msgstr ""
+
+msgid ""
+"Enter all the possible punctuation marks within sentences, separated by a "
+"space."
+msgstr ""
+
+msgid ""
+"Enter all the possible characters that should be disregarded within "
+"sentences, separated by a space."
+msgstr ""
+
+msgid ""
+"Enter the names, starting with a capital, that may occur after mid-sentence "
+"punctuation, separated by a space."
+msgstr ""
+
+msgid "Separate the names by a space. Put no more than 10 names on one line."
+msgstr ""
+
+msgid "Go back"
+msgstr ""
+
 msgid "Enter the patterns to search for."
 msgstr ""
 
@@ -3564,7 +3608,28 @@ msgid ""
 "and other additions."
 msgstr ""
 
-msgid "Go back"
+msgid "help"
+msgstr ""
+
+msgid "The page displays a list of results of running the checks."
+msgstr ""
+
+msgid "Click ✔ to approve and suppress the entry."
+msgstr ""
+
+msgid "Click ✗ to remove the entry for just now."
+msgstr ""
+
+msgid "It will be back next day, unless the text of the Bible is corrected."
+msgstr ""
+
+msgid "Click an entry to open the chapter in the text editor."
+msgstr ""
+
+msgid "The Manager should enable the checks."
+msgstr ""
+
+msgid "Suppressed entries"
 msgstr ""
 
 msgid "Settings for Checks"
@@ -3620,6 +3685,21 @@ msgstr ""
 msgid "Settings for the sentence structure"
 msgstr ""
 
+msgid "Suppressed check results"
+msgstr ""
+
+msgid "back"
+msgstr ""
+
+msgid "The page lists the suppressed results of the checks."
+msgstr ""
+
+msgid "Click ✗ to remove the items from the suppressed list."
+msgstr ""
+
+msgid "It will be visible again in the list of check results."
+msgstr ""
+
 msgid "Settings"
 msgstr ""
 
@@ -3632,10 +3712,10 @@ msgstr ""
 msgid "Would you like to add a Bible to the ones that will be checked?"
 msgstr ""
 
-msgid "Suppressed check results"
+msgid "The check result will no longer be suppressed."
 msgstr ""
 
-msgid "The check result will no longer be suppressed."
+msgid "Text"
 msgstr ""
 
 msgid "Warning"
@@ -3681,7 +3761,21 @@ msgstr ""
 msgid "Username or email address or password are not correct"
 msgstr ""
 
+msgid "New password"
+msgstr ""
+
+msgid ""
+"If you lost the password, submit your username or email address, and a new "
+"password will be emailed to you."
+msgstr ""
+
 msgid "Username or email address"
+msgstr ""
+
+msgid "Goodbye"
+msgstr ""
+
+msgid "You have logged out"
 msgstr ""
 
 msgid "Forgot password?"
@@ -3925,7 +4019,109 @@ msgstr ""
 msgid "My area"
 msgstr ""
 
+msgid ""
+"Subscribe to a consultation note you created or edited online or by email."
+msgstr ""
+
+msgid ""
+"Subscribe to a consultation note created or edited by anybody online or by "
+"email."
+msgstr ""
+
+msgid ""
+"Receive email confirmation of your posts to a consultation notes done by "
+"email."
+msgstr ""
+
+msgid ""
+"Receive email about changes in a consultation note you are subscribed to."
+msgstr ""
+
+msgid "A consultation note that get changed will be assigned to you."
+msgstr ""
+
+msgid "Receive email about changes in a consultation note assigned to you."
+msgstr ""
+
+msgid ""
+"Suppress receiving email from an updated consultation note in case the "
+"update was made by you."
+msgstr ""
+
+msgid ""
+"Receive a daily email with the number of consultation notes assigned to you."
+msgstr ""
+
+msgid "Receive email about a deleted consultation note."
+msgstr ""
+
+msgid "Change Notifications"
+msgstr ""
+
+msgid "Receive a daily email with the changes in the text of the Bibles."
+msgstr ""
+
+msgid ""
+"Notifications about changes in the Bible text will be generated for you "
+"online."
+msgstr ""
+
+msgid ""
+"Receive a daily email with the number of online change notifications "
+"awaiting your approval."
+msgstr ""
+
+msgid "Text Checks"
+msgstr ""
+
+msgid "Receive a daily email with results of checks on the text of the Bibles."
+msgstr ""
+
+msgid ""
+"You can change your password or your email address. Your current email "
+"address is"
+msgstr ""
+
+msgid "Current password"
+msgstr ""
+
+msgid "Again new password"
+msgstr ""
+
+msgid "New email address"
+msgstr ""
+
+msgid "Inbox"
+msgstr ""
+
+msgid "Trash"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Mail older than 90 days will automatically be deleted."
+msgstr ""
+
 msgid "Timezone"
+msgstr ""
+
+msgid "Here you can set up your own timezone."
+msgstr ""
+
+msgid "All dates and times will then be shown as relevant to your timezone."
+msgstr ""
+
+msgid "Current timezone:"
+msgstr ""
+
+msgid "Your timezone has not yet been set."
+msgstr ""
+
+msgid "Change the timezone."
 msgstr ""
 
 msgid "Would you like to change your timezone?"
@@ -4150,6 +4346,14 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
+msgid ""
+"Tool to convert a text file suitable for BibleWorks into a text file "
+"suitable for eSword"
+msgstr ""
+
+msgid "notes"
+msgstr ""
+
 msgid "Cannot access the database"
 msgstr ""
 
@@ -4253,7 +4457,211 @@ msgstr ""
 msgid "Pushing your data to the remote repository failed."
 msgstr ""
 
+msgid "Site language"
+msgstr ""
+
+msgid "This page deals with the language for the site."
+msgstr ""
+
+msgid "Current language:"
+msgstr ""
+
+msgid "Change the language."
+msgstr ""
+
+msgid "Database maintenance"
+msgstr ""
+
+msgid "This page deals with setting up the email system."
+msgstr ""
+
+msgid ""
+"Bibledit-Web sends out email. It also collects email every five minutes and "
+"acts upon these emails."
+msgstr ""
+
+msgid "It needs an external email account for sending and receiving email."
+msgstr ""
+
+msgid ""
+"The help information on this page assumes that we use a Google mail account. "
+"You will have your own email account dedicated to Bibledit-Web."
+msgstr ""
+
+msgid ""
+"The email address is bibletranslation@gmail.com, and the password is pazzwrd."
+msgstr ""
+
+msgid "Site name and email address"
+msgstr ""
+
+msgid "Our own sample values are given below. Yours will be different."
+msgstr ""
+
+msgid "Name: Bible Translation."
+msgstr ""
+
+msgid "Email address: bibletranslation@gmail.com."
+msgstr ""
+
+msgid "To switch the mailer off, leave the fields empty."
+msgstr ""
+
+msgid "Enter the name and the email address, and press Submit."
+msgstr ""
+
+msgid "Email address"
+msgstr ""
+
+msgid "Retrieving mail"
+msgstr ""
+
+msgid "POP3 Host: pop.gmail.com."
+msgstr ""
+
+msgid "Username: bibletranslation@gmail.com."
+msgstr ""
+
+msgid "Password: pazzwrd."
+msgstr ""
+
+msgid "Security: SSL."
+msgstr ""
+
+msgid "Port: Leave empty. The right port will be chosen automatically."
+msgstr ""
+
+msgid "Enter the account details, and press Submit."
+msgstr ""
+
+msgid ""
+"When you submit the values, Bibledit will attempt to contact this email "
+"account and tell you how many messages there are in the Inbox. If something "
+"goes wrong, the message given may be cryptic at times."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Sending mail"
+msgstr ""
+
+msgid ""
+"SMTP Host: smtp.gmail.com. If it is left empty, it will use the default "
+"sendmail transport."
+msgstr ""
+
+msgid "Authentication: LOGIN."
+msgstr ""
+
+msgid "Port: 465."
+msgstr ""
+
+msgid ""
+"If the SMTP server does not need authenticaton, just leave the fields for "
+"username and password empty."
+msgstr ""
+
+msgid ""
+"When you submit new values, Bibledit will attempt to send an email the "
+"site's email address. If something goes wrong, the message given may be "
+"cryptic at times. Please enter the correct details for this to work."
+msgstr ""
+
+msgid "Backup and Restore"
+msgstr ""
+
 msgid "Backup"
+msgstr ""
+
+msgid ""
+"Bibledit-Web can create a backup of the database. This would backup all the "
+"relevant data."
+msgstr ""
+
+msgid ""
+"To enable this, enter a filename where the backup will be stored, and press "
+"Submit."
+msgstr ""
+
+msgid "To disable it, remove any filename that is there, and press Submit."
+msgstr ""
+
+msgid ""
+"Once you press the Submit button, a backup will be created. Every day "
+"another backup will be created at midnight."
+msgstr ""
+
+msgid "The Logbook shows the backup progress."
+msgstr ""
+
+msgid "The backup will be stored at the following location:"
+msgstr ""
+
+msgid "Restore"
+msgstr ""
+
+msgid ""
+"Make sure you work with an existing an operational system. If this is not "
+"the case, then follow all installation procedures before proceeding to the "
+"next steps."
+msgstr ""
+
+msgid "Login to the server or open a terminal."
+msgstr ""
+
+msgid "Go to a directory on the server. Copy the backup file there."
+msgstr ""
+
+msgid ""
+"Assuming that the backup is called backup.tar.gz, enter this to unpack it:"
+msgstr ""
+
+msgid "This should give a file called backup.sql."
+msgstr ""
+
+msgid "Start the mysql client:"
+msgstr ""
+
+msgid "It will welcome you to the MySQL monitor."
+msgstr ""
+
+msgid "Use the correct table:"
+msgstr ""
+
+msgid "Restore the backup:"
+msgstr ""
+
+msgid ""
+"Press enter after the above command, and then let it run till it is through."
+msgstr ""
+
+msgid ""
+"If there are projects that use collaboration through Send/Receive, then "
+"their parameters will have been restored, but their internal git "
+"repositories will not have been restored."
+msgstr ""
+
+msgid ""
+"Such project will not operate correctly. For correct operation these project "
+"need to be set up again."
+msgstr ""
+
+msgid "Site timezone"
+msgstr ""
+
+msgid "This page deals with the default timezone for the site."
+msgstr ""
+
+msgid "Visitors will use this default timezone."
+msgstr ""
+
+msgid "The default timezone has not yet been set."
+msgstr ""
+
+msgid ""
+"Those who have an account on this site can override this by setting their "
+"own preferred timezone."
 msgstr ""
 
 msgid "Backups are disabled"

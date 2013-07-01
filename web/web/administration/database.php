@@ -8,12 +8,11 @@ include_once ("messages/messages.php");
 
 $database_instance = Database_Instance::getInstance();
 Assets_Page::header (gettext ("Database"));
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->display("database.tpl");
+$view = new Assets_View (__FILE__);
+$view->render ("database.php");
 
 // Show number of tables.
 $result = $database_instance->runQuery ("SHOW TABLES;");
-$smarty->assign ("tables_count_before", $result->num_rows);
 message_information ("Number of tables in the database: " . $result->num_rows);
 message_information ("Optimizing tables");
 flush ();

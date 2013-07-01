@@ -6,7 +6,7 @@ page_access_level (ADMIN_LEVEL);
 Assets_Page::header (gettext ("Mail"));
 
 
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 // Email form submission.
@@ -18,25 +18,25 @@ if (isset($_POST['email'])) {
     $validator = new Zend_Validate_EmailAddress ();
     if (!$validator->isValid ($sitemail)) {
       $form_is_valid = false;
-      $smarty->assign ('site_name_error', gettext ("The email address does not appear to be valid"));
+      $view->view->site_name_error = gettext ("The email address does not appear to be valid");
     }
   }
   if ($form_is_valid) {
     $config_general = Database_Config_General::getInstance ();
     $config_general->setSiteMailName ($sitename);
     $config_general->setSiteMailAddress ($sitemail);
-    $smarty->assign ("site_name_success", gettext ("The name and email address were saved"));
+    $view->view->site_name_success = gettext ("The name and email address were saved");
   }
 }
 
 
 // Mail storage form submission.
 if (isset($_POST['retrieve'])) {
-  $storagehost =     $_POST['storagehost'];
+  $storagehost = $_POST['storagehost'];
   $storageusername = $_POST['storageusername'];
   $storagepassword = $_POST['storagepassword'];
   $storagesecurity = $_POST['storagesecurity'];
-  $storageport     = $_POST['storageport'];
+  $storageport = $_POST['storageport'];
   $storage_success = "";
   $storage_error = "";
   $config_general = Database_Config_General::getInstance ();
@@ -52,19 +52,19 @@ if (isset($_POST['retrieve'])) {
   } catch (Exception $e) {
     $storage_error .= " " . $e->getMessage ();
   }
-  $smarty->assign ("storage_success", $storage_success);
-  $smarty->assign ("storage_error", $storage_error);
+  $view->view->storage_success = $storage_success;
+  $view->view->storage_error = $storage_error;
 }
 
 
 // Mail sending form submission.
 if (isset($_POST['send'])) {
-  $sendhost =           $_POST['sendhost'];
+  $sendhost = $_POST['sendhost'];
   $sendauthentication = $_POST['sendauthentication'];
-  $sendusername =       $_POST['sendusername'];
-  $sendpassword =       $_POST['sendpassword'];
-  $sendsecurity =       $_POST['sendsecurity'];
-  $sendport     =       $_POST['sendport'];
+  $sendusername = $_POST['sendusername'];
+  $sendpassword = $_POST['sendpassword'];
+  $sendsecurity = $_POST['sendsecurity'];
+  $sendport  = $_POST['sendport'];
   $config_general = Database_Config_General::getInstance ();
   $config_general->setMailSendHost           ($sendhost);
   $config_general->setMailSendAuthentication ($sendauthentication);
@@ -79,8 +79,8 @@ if (isset($_POST['send'])) {
   } catch (Exception $e) {
     $send_error .= " " . $e->getMessage ();
   }
-  @$smarty->assign ("send_success", $send_success);
-  @$smarty->assign ("send_error", $send_error);
+  @$view->view->send_success = $send_success;
+  @$view->view->send_error = $send_error;
 
 }
 
@@ -89,20 +89,20 @@ if (isset($_POST['send'])) {
 * Normal page display.
 */
 $config_general = Database_Config_General::getInstance ();
-$smarty->assign ("sitename",           $config_general->getSiteMailName ());
-$smarty->assign ("sitemail",           $config_general->getSiteMailAddress ());
-$smarty->assign ("storagehost",        $config_general->getMailStorageHost ());
-$smarty->assign ("storageusername",    $config_general->getMailStorageUsername ());
-$smarty->assign ("storagepassword",    $config_general->getMailStoragePassword ());
-$smarty->assign ("storagesecurity",    $config_general->getMailStorageSecurity ());
-$smarty->assign ("storageport",        $config_general->getMailStoragePort ());
-$smarty->assign ("sendhost",           $config_general->getMailSendHost ());
-$smarty->assign ("sendauthentication", $config_general->getMailSendAuthentication ());
-$smarty->assign ("sendusername",       $config_general->getMailSendUsername ());
-$smarty->assign ("sendpassword",       $config_general->getMailSendPassword ());
-$smarty->assign ("sendsecurity",       $config_general->getMailSendSecurity ());
-$smarty->assign ("sendport",           $config_general->getMailSendPort ());
-$smarty->display("mail.tpl");
+$view->view->sitename = $config_general->getSiteMailName ();
+$view->view->sitemail = $config_general->getSiteMailAddress ();
+$view->view->storagehost = $config_general->getMailStorageHost ();
+$view->view->storageusername = $config_general->getMailStorageUsername ();
+$view->view->storagepassword = $config_general->getMailStoragePassword ();
+$view->view->storagesecurity = $config_general->getMailStorageSecurity ();
+$view->view->storageport = $config_general->getMailStoragePort ();
+$view->view->sendhost = $config_general->getMailSendHost ();
+$view->view->sendauthentication = $config_general->getMailSendAuthentication ();
+$view->view->sendusername = $config_general->getMailSendUsername ();
+$view->view->sendpassword = $config_general->getMailSendPassword ();
+$view->view->sendsecurity = $config_general->getMailSendSecurity ();
+$view->view->sendport = $config_general->getMailSendPort ();
+$view->render ("mail.php");
 
 
 Assets_Page::footer ();

@@ -12,7 +12,6 @@
   </thead>
   <tbody>
     <?php foreach ($this->usernames as $offset => $username) { ?>
-    {section name=offset loop=$usernames} 
     <tr>
       <td><?php echo $username ?> <a href="users.php?delete=<?php echo $username ?>">[<?php echo gettext ("delete") ?>]</a></td>
       <td>|</td>

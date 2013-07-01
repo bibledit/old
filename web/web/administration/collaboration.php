@@ -3,7 +3,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (ADMIN_LEVEL);
 
 Assets_Page::header (gettext ("Collaboration"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 @$object = $_GET ['object'];
 @$select = $_GET['select'];
@@ -21,7 +21,7 @@ if (isset ($select)) {
     $object = $select;
   }
 }
-$smarty->assign ("object", $object);
+$view->view->object = $object;
 
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
@@ -32,8 +32,8 @@ if (isset ($_GET ['disable'])) {
   Filter_Rmdir::rmdir ($repository);
 }
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
-$smarty->assign ("url", $url);
+$view->view->url = $url;
 
-$smarty->display("collaboration.tpl");
+$view->render ("collaboration.php");
 Assets_Page::footer ();
 ?>

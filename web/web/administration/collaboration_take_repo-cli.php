@@ -12,9 +12,6 @@ $url = $database_config_user->getRemoteRepositoryUrl ($object);
 $directory = Filter_Git::git_directory ($object);
 
 
-// Set up the secure keys just in case the repository happens to be secure.
-$secure_key_directory = Filter_Git::git_config ($url);
-
 // Take action based on whether it deals with a Bible or with the Consultation Notes.
 if ($object == "consultationnotes") {
 
@@ -64,9 +61,6 @@ if ($object == "consultationnotes") {
   }
   
 }
-
-// For security reasons, remove the private ssh key.
-Filter_Git::git_un_config ($secure_key_directory);
 
 exec ("sync");
 

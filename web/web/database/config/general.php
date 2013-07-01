@@ -168,20 +168,6 @@ class Database_Config_General
     $this->setValue ("timer-minute", $value);
   }
 
-  public function getPublicSshKey() {
-    return $this->getValue ("public-ssh-key", "");
-  }
-  public function setPublicSshKey ($value) {
-    $this->setValue ("public-ssh-key", $value);
-  }
-
-  public function getPrivateSshKey() {
-    return $this->getValue ("private-ssh-key", "");
-  }
-  public function setPrivateSshKey ($value) {
-    $this->setValue ("private-ssh-key", $value);
-  }
-
   public function getTimezone() {
     return $this->getValue ("timezone", "UTC");
   }

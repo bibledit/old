@@ -1,0 +1,1 @@
+<p><?php echo gettext ("If there were no errors, then setting up collaboration is now ready, and the Manager can choose menu Send/Receive any time he wants to synchronize Bibles and Consultation Notes with the remote repository.") ?></p>

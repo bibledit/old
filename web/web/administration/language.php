@@ -16,8 +16,8 @@ if (isset ($language)) {
     $database_config_general->setSiteLanguage (Locale_Logic::filterDefault ($language));
   }
 }
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->assign ("language", Locale_Logic::getLanguage ($database_config_general->getSiteLanguage()));
-$smarty->display("language.tpl");
+$view = new Assets_View (__FILE__);
+$view->view->language = Locale_Logic::getLanguage ($database_config_general->getSiteLanguage());
+$view->render ("language.php");
 Assets_Page::footer ();
 ?>

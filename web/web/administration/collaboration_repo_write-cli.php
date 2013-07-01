@@ -11,9 +11,6 @@ $escapedDir = escapeshellarg ($directory);
 $database_config_user = Database_Config_User::getInstance();
 $url = $database_config_user->getRemoteRepositoryUrl ($object);
 
-// In case the repository is secure, set up the secure keys.
-$secure_key_directory = Filter_Git::git_config ($url);
-
 echo gettext ("Step: Adding a temporal file to the cloned repository") . "\n";
 
 // Temporal file for trying write access.
@@ -98,9 +95,6 @@ if ($exit_code == 0) {
 echo "\n";
 
 exec ("sync");
-
-// For security reasons, remove the private ssh key.
-Filter_Git::git_un_config ($secure_key_directory);
 
 $database_shell = Database_Shell::getInstance ();
 $database_shell->stopProcess ("collaboration_repo_write", 0);
