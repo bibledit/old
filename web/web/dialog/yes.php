@@ -3,7 +3,7 @@
 
 class Dialog_Yes
 {
-  private $smarty;
+  private $view;
 
   /**
   * Dialog that asks the user for confirmation to perform an action.
@@ -14,7 +14,7 @@ class Dialog_Yes
   public function __construct ($query, $question, $action) 
   {
     Assets_Page::header (gettext ("Yes / No"));
-    $this->smarty = new Smarty_Bibledit (__FILE__);
+    $this->view = new Assets_View (__FILE__);
 
     $caller_url = $_SERVER["PHP_SELF"];
     if (is_array ($query)) {
@@ -24,7 +24,7 @@ class Dialog_Yes
       }
       $caller_url .= "?" . http_build_query ($full_query);
     }
-    $this->smarty->assign ("caller_url", $caller_url);
+    $this->view->view->caller_url = $caller_url;
 
     if ($action != "") {
       $full_query = array ($action => $_GET[$action]);
@@ -32,10 +32,10 @@ class Dialog_Yes
       else $action = "?";
       $action .= http_build_query ($full_query);
     }
-    $this->smarty->assign ("action", $action);
+    $this->view->view->action = $action;
 
-    $this->smarty->assign ("question",     $question);
-    $this->smarty->display("yes.tpl");
+    $this->view->view->question = $question;
+    $this->view->render ("yes.php");
     Assets_Page::footer ();
   }
 }
