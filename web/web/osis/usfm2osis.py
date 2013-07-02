@@ -1350,7 +1350,7 @@ def convertToOsis(sFile):
         osis = osis.replace('<div type="book" osisID="' + sb + '">', '<div type="' + sb.lower() + '">')
 
     if DEBUG:
-        localUnhandledTags = set(re.findall(r'(\\[^\s\*]+?\b\*?)', osis))
+        localUnhandledTags = set(re.findall(r'(\\[^\s]*)', osis))
         if localUnhandledTags:
             print(('Unhandled USFM tags in ' + sFile + ': ' + ', '.join(localUnhandledTags) + ' (' + str(len(localUnhandledTags)) + ' total)'))
 
@@ -1573,7 +1573,7 @@ if __name__ == "__main__":
 
         unhandledTags = set()
         for doc in usfmDocList:
-            unhandledTags |= set(re.findall(r'(\\[^\s\*]+?\b\*?)', osisSegment[doc]))
+            unhandledTags |= set(re.findall(r'(\\[^\s]*)', osisSegment[doc]))
             osisDoc += osisSegment[doc]
 
         osisDoc += '</osisText>\n</osis>\n'

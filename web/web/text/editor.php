@@ -118,26 +118,30 @@ class Text_Editor
     $database_sessions = Database_Sessions::getInstance();
     $assets_navigator = Assets_Navigator::getInstance();
     $database_bibles = Database_Bibles::getInstance();
-    $smarty = new Smarty_Bibledit (__FILE__);
+    $view = new Assets_View (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
-    $smarty->assign ("caller", $caller);
-    $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
+    $view->view->caller = $caller;
+    $view->view->session = $database_sessions->getCurrentSessionId ();
     // Values for $bible, $book and $chapter are passed to the template and on to the Save button.
     // This makes it more robust. Else what could happen is that a chapter got loaded, 
     // then the navigator moved to somewhere else, then this chapter would be saved to the wrong place.
     // But when these values are passed to the Save button, it will get it right always.
     $bible = $assets_navigator->bible();
-    $smarty->assign ("bible", $bible);
+    $view->view->bible = $bible;
     $book = $assets_navigator->book();
-    $smarty->assign ("book", $book);
+    $view->view->book = $book;
     $chapter = $assets_navigator->chapter();
-    $smarty->assign ("chapter", $chapter);
+    $view->view->chapter = $chapter;
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
     if ($chapter_data == "") {
       Assets_Page::error (gettext ("This chapter does not exist or is empty"));
     }
 
     // Divide the chapter data into three lots: Data before the editor, data for the editor, and data after the editor.
+    $line_data_before = array ();
+    $line_numbers_before = array ();
+    $line_data_after = array ();
+    $line_numbers_after = array ();
     $lines = explode ("\n", $chapter_data);
     for ($i = 0; $i < count ($lines); $i++) {
       if ($i < $this->edit_usfm_line_number) {
@@ -150,18 +154,17 @@ class Text_Editor
         $line_numbers_after[] = $i;
       }
     }
-    @$smarty->assign ("line_data_before", $line_data_before);
-    @$smarty->assign ("line_numbers_before", $line_numbers_before); 
-    @$smarty->assign ("line_data_edit", $line_data_edit);
-    @$smarty->assign ("line_number_edit", $this->edit_usfm_line_number); 
-    @$smarty->assign ("line_data_after", $line_data_after);
-    @$smarty->assign ("line_numbers_after", $line_numbers_after); 
+    $view->view->line_data_before = $line_data_before;
+    $view->view->line_numbers_before = $line_numbers_before;
+    @$view->view->line_data_edit = $line_data_edit;
+    @$view->view->line_number_edit = $this->edit_usfm_line_number;
+    $view->view->line_data_after = $line_data_after;
+    $view->view->line_numbers_after = $line_numbers_after;
 
     // Line number where to move the screen to.
-    $smarty->assign ("goto_line", $this->goto_line_number);
+    $view->view->goto_line = $this->goto_line_number;
     
-    //$smarty->debugging = true;    
-    $smarty->display ("editor.tpl");
+    $view->render ("editor.php");
   }
 
 }  

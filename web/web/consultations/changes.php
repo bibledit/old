@@ -2,7 +2,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (CONSULTANT_LEVEL);
 Assets_Page::header (gettext ("Changes"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 $database_changes = Database_Changes::getInstance ();
@@ -30,7 +30,7 @@ if (isset ($goto)) {
 @$approve = $_GET['approve'];
 if (isset ($approve)) {
   $database_changes->delete ($approve);
-  $smarty->assign ("success", gettext ("The change was approved."));
+  $view->view->success = gettext ("The change was approved.");
 }
 
 
@@ -42,13 +42,13 @@ if (isset ($_GET['approvepage'])) {
     $approvedCount++;
     $database_changes->delete ($id);
   }
-  $smarty->assign ("success", gettext ("The changes were approved."));
+  $view->view->success = gettext ("The changes were approved.");
   unset ($ids);
 }
 
 
 $ids = $database_changes->getIdentifiers ($username);
-$smarty->assign ("ids", $ids);
+$view->view->ids = $ids;
   
 
 $passages = array ();
@@ -120,18 +120,17 @@ foreach ($ids as $id) {
   // Display no more than 20 changes for performance reasons.
   if (count ($passages) >= 20) break;
 }
-$smarty->assign ("passages", $passages);
-$smarty->assign ("modifications", $modifications);
-$smarty->assign ("totalNotesCount", $totalNotesCount);
-$smarty->assign ("yourNotesCount", $yourNotesCount);
+$view->view->passages = $passages;
+$view->view->modifications = $modifications;
+$view->view->totalNotesCount = $totalNotesCount;
+$view->view->yourNotesCount = $yourNotesCount;
 
 
 // Information about the number of changes / total changes.
-$smarty->assign ("displayedChangesCount", count ($passages));
-$smarty->assign ("totalChangesCount", count ($ids));
+$view->view->displayedChangesCount = count ($passages);
+$view->view->totalChangesCount = count ($ids);
 
 
-
-$smarty->display("changes.tpl");
+$view->render ("changes.php");
 Assets_Page::footer ();
 ?>

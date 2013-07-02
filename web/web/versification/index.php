@@ -4,7 +4,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Versifications"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_versifications = Database_Versifications::getInstance();
 
 
@@ -33,8 +33,8 @@ if (isset ($_GET['new'])) {
 
 
 $systems = $database_versifications->getSystems();
-$smarty->assign ("systems", $systems);
-$smarty->display ("index.tpl");
+$view->view->systems = $systems;
+$view->render ("index.php");
 Assets_Page::footer ();
 
 

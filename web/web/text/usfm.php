@@ -78,26 +78,26 @@ class Text_Usfm
     $database_sessions = Database_Sessions::getInstance();
     $assets_navigator = Assets_Navigator::getInstance();
     $database_bibles = Database_Bibles::getInstance();
-    $smarty = new Smarty_Bibledit (__FILE__);
+    $view = new Assets_View (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
-    $smarty->assign ("caller", $caller);
-    $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
+    $view->view->caller = $caller;
+    $view->view->session = $database_sessions->getCurrentSessionId ();
     // Values for $bible, $book and $chapter are passed to the template and on to the Save button.
     // This makes it more robust. Else what could happen is that a chapter got loaded, 
     // then the navigator moved to somewhere else, then this chapter would be saved to the wrong place.
     // But when these values are passed to the Save button, it will get it right always.
     $bible = $assets_navigator->bible();
-    $smarty->assign ("bible", $bible);
+    $view->view->bible = $bible;
     $book = $assets_navigator->book();
-    $smarty->assign ("book", $book);
+    $view->view->book = $book;
     $chapter = $assets_navigator->chapter();
-    $smarty->assign ("chapter", $chapter);
+    $view->view->chapter = $chapter;
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
     if ($chapter_data == "") {
       Assets_Page::error (gettext ("This chapter does not exist or is empty"));
     }
-    $smarty->assign ("chapter_data", $chapter_data);
-    $smarty->display ("usfm.tpl");
+    $view->view->chapter_data = $chapter_data;
+    $view->render ("usfm.php");
   }
 
 }  

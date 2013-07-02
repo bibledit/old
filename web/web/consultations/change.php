@@ -4,7 +4,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (CONSULTANT_LEVEL);
 Assets_Page::header (gettext ("Change"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 
 $database_changes = Database_Changes::getInstance ();
@@ -14,7 +14,7 @@ $database_notes = Database_Notes::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
 $level = $session_logic->currentLevel ();
-$smarty->assign ("level", $level);
+$view->view->level = $level;
 
 
 // The identifier of the change notification.
@@ -28,7 +28,7 @@ if (isset ($id)) {
 } else {
   $id = 0;
 }
-$smarty->assign ("id", $id);
+$view->view->id = $id;
 
 
 // Note unsubscribe handler.
@@ -54,18 +54,18 @@ if (isset ($delete)) {
 
 // Get old text, modification, new text.
 $old_text = $database_changes->getOldText ($id);
-$smarty->assign ("old_text", $old_text);
+$view->view->old_text = $old_text;
 $modification = $database_changes->getModification ($id);
-$smarty->assign ("modification", $modification);
+$view->view->modification = $modification;
 $new_text = $database_changes->getNewText ($id);
-$smarty->assign ("new_text", $new_text);
+$view->view->new_text = $new_text;
 
 
 // Passage.
 $passage = $database_changes->getPassage ($id);
 $passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
 $passageText = Filter_Html::sanitize ($passageText);
-$smarty->assign ("passage", $passageText);
+$view->view->passage = $passageText;
 
 
 // Note create handler.
@@ -124,19 +124,19 @@ foreach ($notes as $note) {
   $subscriptions [] = $database_notes->isSubscribed ($note, $username);
   $assignments [] = $database_notes->isAssigned ($note, $username);
 }
-$smarty->assign ("notes", $notes);
-$smarty->assign ("summaries", $summaries);
-$smarty->assign ("subscriptions", $subscriptions);
-$smarty->assign ("assignments", $assignments);
+$view->view->notes = $notes;
+$view->view->summaries = $summaries;
+$view->view->subscriptions = $subscriptions;
+$view->view->assignments = $assignments;
 
 
 // Time stamp.
 $timestamp = $database_changes->getTimeStamp ($id);
 $timestamp = date ('j F Y', $timestamp);
-$smarty->assign ("timestamp", $timestamp);
+$view->view->timestamp = $timestamp;
 
 
 // Display page.
-$smarty->display("change.tpl");
+$view->render ("change.php");
 Assets_Page::footer ();
 ?>

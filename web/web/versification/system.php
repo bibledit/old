@@ -4,11 +4,11 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
 Assets_Page::header (gettext ("Versification system"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_versifications = Database_Versifications::getInstance();
 
 $name = $_GET['name'];
-$smarty->assign ("name", Filter_Html::sanitize ($name));
+$view->view->name = Filter_Html::sanitize ($name);
 
 if (isset($_POST['submit'])) {
   $data = $_POST['data'];
@@ -29,14 +29,14 @@ while ($row = $data->fetch_assoc()) {
   $chapters[] = $chapter;
   $verses[]   = $verse;
 }
-$smarty->assign ("books",    $books);
-$smarty->assign ("chapters", $chapters);
-$smarty->assign ("verses",   $verses);
+$view->view->books = $books;
+$view->view->chapters = $chapters;
+$view->view->verses = $verses;
 
 $xml = $database_versifications->exportBibleditXmlFile ($name);
-$smarty->assign ("xml", $xml);
+$view->view->xml = $xml;
 
-$smarty->display ("system.tpl");
+$view->render ("system.php");
 Assets_Page::footer ();
 
 ?>
