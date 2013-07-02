@@ -4,7 +4,7 @@
 class Dialog_List
 {
 
-  private $smarty;
+  private $view;
   private $text_lines;
   private $get_parameters;
     
@@ -18,7 +18,7 @@ class Dialog_List
   public function __construct ($query, $header, $info_top, $info_bottom, $horizontal = false)
   {
     Assets_Page::header (gettext ("List"));
-    $this->smarty = new Smarty_Bibledit (__FILE__);
+    $this->view = new Assets_View (__FILE__);
 
     $caller_url = $_SERVER["PHP_SELF"];
 
@@ -30,19 +30,19 @@ class Dialog_List
       $caller_url .= "?" . http_build_query ($full_query);
     }
 
-    $this->smarty->assign ("caller_url", $caller_url);
+    $this->view->view->caller_url = $caller_url;
 
-    $this->smarty->assign ("header", $header);
+    $this->view->view->header = $header;
 
     if ($info_top == "") 
       $info_top = gettext ("Here are the various options:");
-    $this->smarty->assign ("info_top", $info_top);
+    $this->view->view->info_top = $info_top;
 
     if ($info_bottom == "") 
       $info_bottom = gettext ("Please pick one.");
-    $this->smarty->assign ("info_bottom", $info_bottom);
+    $this->view->view->info_bottom = $info_bottom;
     
-    $this->smarty->assign ("horizontal", $horizontal);
+    $this->view->view->horizontal = $horizontal;
   }
 
 
@@ -55,9 +55,9 @@ class Dialog_List
   
   public function run ()
   {
-    $this->smarty->assign ("text_lines",     $this->text_lines);
-    $this->smarty->assign ("get_parameters", $this->get_parameters);
-    $this->smarty->display("list.tpl");
+    $this->view->view->text_lines = $this->text_lines;
+    $this->view->view->get_parameters = $this->get_parameters;
+    $this->view->render ("list.php");
     Assets_Page::footer ();
   }  
 

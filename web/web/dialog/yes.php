@@ -13,7 +13,6 @@ class Dialog_Yes
   */
   public function __construct ($query, $question, $action) 
   {
-    Assets_Page::header (gettext ("Yes / No"));
     $this->view = new Assets_View (__FILE__);
 
     $caller_url = $_SERVER["PHP_SELF"];

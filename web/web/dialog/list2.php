@@ -6,38 +6,38 @@
 */
 class Dialog_List2
 {
-  private $smarty;
+  private $view;
   private $text_lines;
   private $get_parameters;
     
 
   public function __construct ($header)
   {
-    $this->smarty = new Smarty_Bibledit (__FILE__);
+    $this->view = new Assets_View (__FILE__);
     $database_sessions = Database_Sessions::getInstance ();
     $caller_url = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ("session" => $database_sessions->getCurrentSessionId ()));
-    $this->smarty->assign ("caller_url", $caller_url);
-    $this->smarty->assign ("header", $header);
-    $this->smarty->assign ("info_top", gettext ("Here are the various options:"));
-    $this->smarty->assign ("info_bottom", gettext ("Please pick one."));
+    $this->view->view->caller_url = $caller_url;
+    $this->view->view->header = $header;
+    $this->view->view->info_top = gettext ("Here are the various options:");
+    $this->view->view->info_bottom = gettext ("Please pick one.");
   }
 
 
   public function info_top ($text)
   {
-    $this->smarty->assign ("info_top", $text);
+    $this->view->view->info_top = $text;
   }
   
   
   public function info_bottom ($text)
   {
-    $this->smarty->assign ("info_bottom", $text);
+    $this->view->view->info_bottom = $text;
   }
 
 
   public function horizontal ()
   {
-    $this->smarty->assign ("horizontal", true);
+    $this->view->view->horizontal = true;
   }
       
 
@@ -50,9 +50,9 @@ class Dialog_List2
   
   public function run ()
   {
-    $this->smarty->assign ("text_lines",     $this->text_lines);
-    $this->smarty->assign ("get_parameters", $this->get_parameters);
-    $this->smarty->display("list2.tpl");
+    $this->view->view->text_lines = $this->text_lines;
+    $this->view->view->get_parameters = $this->get_parameters;
+    $this->view->render ("list2.php");
     Assets_Page::footer ();
     die ();
   }  

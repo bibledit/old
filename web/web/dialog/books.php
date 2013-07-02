@@ -3,7 +3,7 @@
 
 class Dialog_Books
 {
-  private $smarty;
+  private $view;
     
   /**
   * Constructs a book dialog
@@ -14,8 +14,7 @@ class Dialog_Books
   */
   public function __construct ($query, $header, $info_top, $info_bottom, $action, $inclusions, $exclusions)
   {
-    Assets_Page::header (gettext ("xxx"));
-    $this->smarty = new Smarty_Bibledit (__FILE__);
+    $this->view = new Assets_View (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
     if (is_array ($query)) {
       $full_query = array ();
@@ -24,11 +23,11 @@ class Dialog_Books
       }
       $caller .= "?" . http_build_query ($full_query);
     }
-    $this->smarty->assign ("caller", $caller);
-    $this->smarty->assign ("header", $header);
-    $this->smarty->assign ("info_top", $info_top);
-    $this->smarty->assign ("info_bottom", $info_bottom);
-    $this->smarty->assign ("action", $action);
+    $this->view->view->caller = $caller;
+    $this->view->view->header = $header;
+    $this->view->view->info_top = $info_top;
+    $this->view->view->info_bottom = $info_bottom;
+    $this->view->view->action = $action;
 
     $database_books = Database_Books::getInstance();
     $book_ids = $database_books->getIDs ();
@@ -42,9 +41,9 @@ class Dialog_Books
     foreach ($book_ids as $id) {
       $book_names[] = $database_books->getEnglishFromId ($id);
     }
-    $this->smarty->assign ("book_ids", $book_ids);
-    $this->smarty->assign ("book_names", $book_names);
-    $this->smarty->display("books.tpl");
+    $this->view->view->book_ids = $book_ids;
+    $this->view->view->book_names = $book_names;
+    $this->view->render ("books.php");
     Assets_Page::footer ();
   }
   

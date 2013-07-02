@@ -3,7 +3,7 @@
 
 class Dialog_Entry
 {
-  private $smarty;
+  private $view;
 
 
   /**
@@ -19,18 +19,17 @@ class Dialog_Entry
   */
   public function __construct ($query, $question, $value, $submit, $help)
   {
-    Assets_Page::header (gettext ("Entry"));
-    $this->smarty = new Smarty_Bibledit (__FILE__);
+    $this->view = new Assets_View (__FILE__);
     $base_url = $_SERVER['PHP_SELF'];
     if (is_array ($query)) {
       $base_url .= "?" . http_build_query ($query);
     }
-    $this->smarty->assign ("base_url", $base_url);
-    $this->smarty->assign ("question", $question);
-    $this->smarty->assign ("value",    $value);
-    $this->smarty->assign ("submit",   $submit);
-    $this->smarty->assign ("help",     $help);
-    $this->smarty->display("entry.tpl");
+    $this->view->view->base_url = $base_url;
+    $this->view->view->question = $question;
+    $this->view->view->value = $value;
+    $this->view->view->submit = $submit;
+    $this->view->view->help = $help;
+    $this->view->render ("entry.php");
     Assets_Page::footer ();
   }
 }

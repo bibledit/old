@@ -6,7 +6,7 @@
 */
 class Dialog_Text
 {
-  private $smarty;
+  private $view;
     
   /**
   * Text dialog constructor.
@@ -16,31 +16,31 @@ class Dialog_Text
   */
   public function __construct ($header, $text, $parameter)
   {
-    $this->smarty = new Smarty_Bibledit (__FILE__);
-    $this->smarty->assign ("caller", $_SERVER["PHP_SELF"]);
+    $this->view = new Assets_View (__FILE__);
+    $this->view->view->caller = $_SERVER["PHP_SELF"];
     $database_sessions = Database_Sessions::getInstance ();
-    $this->smarty->assign ("session", $database_sessions->getCurrentSessionId ());
-    $this->smarty->assign ("header", $header);
-    $this->smarty->assign ("parameter", $parameter);
-    $this->smarty->assign ("text", $text);
+    $this->view->view->session = $database_sessions->getCurrentSessionId ();
+    $this->view->view->header = $header;
+    $this->view->view->parameter = $parameter;
+    $this->view->view->text = $text;
   }
 
 
   public function info_top ($text)
   {
-    $this->smarty->assign ("info_top", $text);
+    $this->view->view->info_top = $text;
   }
   
   
   public function info_bottom ($text)
   {
-    $this->smarty->assign ("info_bottom", $text);
+    $this->view->view->info_bottom = $text;
   }
 
 
   public function run ()
   {
-    $this->smarty->display("text.tpl");
+    $this->view->render ("text.php");
     Assets_Page::footer ();
     die ();
   }  
