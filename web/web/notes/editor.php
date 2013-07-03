@@ -577,22 +577,22 @@ class Notes_Editor
     $displayconsultationnoteactions = $database_sessions->getDisplayConsultationNoteActions ();
     $editconsultationnoteview = $database_sessions->getEditConsultationNoteView ();
     $bulkupdateconsultationnotes = $database_sessions->getBulkUpdateConsultationNotes ();
-    $smarty = new Smarty_Bibledit (__FILE__);
+    $view = new Assets_View (__FILE__);
     $caller = $_SERVER["PHP_SELF"];
-    $smarty->assign ("caller", $caller);
-    $smarty->assign ("session", $database_sessions->getCurrentSessionId ());
-    $smarty->assign ("consultationnote", $consultationnote);
+    $view->view->caller = $caller;
+    $view->view->session = $database_sessions->getCurrentSessionId ();
+    $view->view->consultationnote = $consultationnote;
     $assets_navigator = Assets_Navigator::getInstance();
     // Values for $bible, $book and $chapter are passed to the template and on to any Save button.
     // This makes it more robust, keeping these values even in case someone navigates to some other verse.
     $bible = $assets_navigator->bible();
-    $smarty->assign ("bible", $bible);
+    $view->view->bible = $bible;
     $book = $assets_navigator->book();
-    $smarty->assign ("book", $book);
+    $view->view->book = $book;
     $chapter = $assets_navigator->chapter();
-    $smarty->assign ("chapter", $chapter);
+    $view->view->chapter = $chapter;
     $verse = $assets_navigator->verse();
-    $smarty->assign ("verse", $verse);
+    $view->view->verse = $verse;
     $passage_selector = $database_config_user->getConsultationNotesPassageSelector();
     $edit_selector = $database_config_user->getConsultationNotesEditSelector();
     $non_edit_selector = $database_config_user->getConsultationNotesNonEditSelector();
@@ -608,87 +608,87 @@ class Notes_Editor
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
-      $smarty->display ("create.tpl");
+      $view->render ("create.php");
     } 
     else if ($consultationnote != "") {
       // Note display.
-      $smarty->assign ("summary", $database_notes->getSummary($consultationnote));
-      $smarty->assign ("identifier", $consultationnote);
+      $view->view->summary = $database_notes->getSummary($consultationnote);
+      $view->view->identifier = $consultationnote;
       if ($displayconsultationnoteactions) {
         // Display note actions.
         $session_logic = Session_Logic::getInstance();
         $user = $session_logic->currentUser ();
         $subscribed = $database_notes->isSubscribed ($consultationnote, $user);
-        $smarty->assign ("subscribed", $subscribed);
+        $view->view->subscribed = $subscribed;
         $assignees = $database_notes->getAssignees ($consultationnote);
-        $smarty->assign ("assignees", $assignees);
+        $view->view->assignees = $assignees;
         $assignee = $database_notes->isAssigned ($consultationnote, $user);
-        $smarty->assign ("assignee", $assignee);
+        $view->view->assignee = $assignee;
         $status = $database_notes->getStatus ($consultationnote);
-        $smarty->assign ("status", $status);
+        $view->view->status = $status;
         $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($consultationnote));
-        $smarty->assign ("verses", $verses);
+        $view->view->verses = $verses;
         $severity = $database_notes->getSeverity ($consultationnote);
-        $smarty->assign ("severity", $severity);
+        $view->view->severity = $severity;
         $privacy = $database_notes->getPrivacy ($consultationnote);
         $privacy = Filter_Notes::privacy2text ($privacy);
-        $smarty->assign ("privacy", $privacy);
+        $view->view->privacy = $privacy;
         $consultationnotebible = $database_notes->getBible ($consultationnote);
-        $smarty->assign ("consultationnotebible", $consultationnotebible);
-        $smarty->display ("actions.tpl");
+        $view->view->consultationnotebible = $consultationnotebible;
+        $view->render ("actions.php");
       } else {
         // Display one note.
         $contents = $database_notes->getContents($consultationnote);
-        $smarty->assign ("note_content", $contents);
-        @$smarty->assign ("note_add_comment", $_GET['addtoconsultationnote']);
-        $smarty->display ("note.tpl");
+        $view->view->note_content = $contents;
+        @$view->view->note_add_comment = $_GET['addtoconsultationnote'];
+        $view->render ("note.php");
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
       $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $totalcount = count ($identifiers);
-      $smarty->assign ("totalcount", $totalcount);
-      $smarty->assign ("passageselector", $passage_selector);
-      $smarty->assign ("editselector", $edit_selector);
-      $smarty->assign ("noneditselector", $non_edit_selector);
+      $view->view->totalcount = $totalcount;
+      $view->view->passageselector = $passage_selector;
+      $view->view->editselector = $edit_selector;
+      $view->view->noneditselector = $non_edit_selector;
       $possible_statuses = $database_notes->getPossibleStatuses();
       foreach ($possible_statuses as $possible_status) {
         $status_ids [] = $possible_status[0];
         $status_localizations [] = $possible_status[1];
       }
-      $smarty->assign ("statusids", $status_ids);
-      $smarty->assign ("statuslocs", $status_localizations);
-      $smarty->assign ("statusselector", $status_selector);
-      $smarty->assign ("bibleselector", $bible_selector);
+      $view->view->statusids = $status_ids;
+      $view->view->statuslocs = $status_localizations;
+      $view->view->statusselector = $status_selector;
+      $view->view->bibleselector = $bible_selector;
       $bibles = $database_notes->getAllBibles ();
-      $smarty->assign ("bibles", $bibles);
-      $smarty->assign ("assignmentselector", $assignment_selector);
+      $view->view->bibles = $bibles;
+      $view->view->assignmentselector = $assignment_selector;
       $assignees = $database_notes->getAllAssignees();
-      $smarty->assign ("assignees", $assignees);
+      $view->view->assignees = $assignees;
       if ($assignment_selector != "") {
         if (!in_array ($assignment_selector, $assignees)) {
-          $smarty->assign ("nonexistingassignee", true);
+          $view->view->nonexistingassignee = true;
         }
       }
-      $smarty->assign ("subscriptionselector", $subscription_selector);
-      $smarty->assign ("severityselector", $severity_selector);
-      $smarty->assign ("severities", $database_notes->getPossibleSeverities());
-      $smarty->assign ("textselector", $text_selector);
-      $smarty->assign ("searchtext", Filter_Html::sanitize ($search_text));
-      $smarty->assign ("passageinclusionselector", $passage_inclusion_selector);
-      $smarty->assign ("textinclusionselector", $text_inclusion_selector);
-      $smarty->display ("editview.tpl");
+      $view->view->subscriptionselector = $subscription_selector;
+      $view->view->severityselector = $severity_selector;
+      $view->view->severities = $database_notes->getPossibleSeverities();
+      $view->view->textselector = $text_selector;
+      $view->view->searchtext = Filter_Html::sanitize ($search_text);
+      $view->view->passageinclusionselector = $passage_inclusion_selector;
+      $view->view->textinclusionselector = $text_inclusion_selector;
+      $view->render ("editview.php");
     } else if ($bulkupdateconsultationnotes) {
       $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $notescount = count ($identifiers);
-      $smarty->assign ("notescount", $notescount);
-      $smarty->display ("bulkupdate.tpl");
+      $view->view->notescount = $notescount;
+      $view->render ("bulkupdate.php");
     } else {
       // Display notes list.
       // Total notes count.
       $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
       $totalcount = count ($identifiers);
-      $smarty->assign ("totalcount", $totalcount);
+      $view->view->totalcount = $totalcount;
       // First and last note to display, and notes count.
       if (isset ($_GET['showallconsultationnotes'])) {
         $startinglimit = 0;
@@ -704,11 +704,11 @@ class Notes_Editor
         $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit, 0);
         $displaycount = count ($identifiers);
       }
-      $smarty->assign ("firstnote", $startinglimit + 1);
-      $smarty->assign ("lastnote", $lastnote);
-      if ($lastnote == 0) $smarty->assign ("firstnote", 0);
+      $view->view->firstnote = $startinglimit + 1;
+      $view->view->lastnote = $lastnote;
+      if ($lastnote == 0) $view->view->firstnote = 0;
       // Note data.
-      $smarty->assign ("identifiers", $identifiers);
+      $view->view->identifiers = $identifiers;
       $summaries = array ();
       $verse_texts = array ();
       $contents = array ();
@@ -738,11 +738,11 @@ class Notes_Editor
         }
         $contents[] = $content;
       }
-      $smarty->assign ("summaries", $summaries);
-      $smarty->assign ("versetexts", $verse_texts);
-      $smarty->assign ("contents", $contents);
+      $view->view->summaries = $summaries;
+      $view->view->versetexts = $verse_texts;
+      $view->view->contents = $contents;
       // Display page.
-      $smarty->display ("notes.tpl");
+      $view->render ("notes.php");
       if ($displaycount == 0) {
         Assets_Page::message (gettext ("This view does not display any notes."));
       }

@@ -24,9 +24,9 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import"));
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->assign ("post_max_size", ini_get ("post_max_size"));
-$smarty->assign ("upload_max_filesize", ini_get ("upload_max_filesize"));
+$view = new Assets_View (__FILE__);
+$view->view->post_max_size = ini_get ("post_max_size");
+$view->view->upload_max_filesize = ini_get ("upload_max_filesize");
 /*
 Other variables of importance are:
 file_uploads
@@ -35,7 +35,7 @@ memory_limit
 max_execution_time
 For just now these are left as they are.
 */
-$smarty->display ("import1.tpl");
+$view->render ("import1.php");
 Assets_Page::footer ();
 
 ?>

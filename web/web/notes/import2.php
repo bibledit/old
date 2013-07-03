@@ -30,14 +30,14 @@ $notesfile = tempnam (sys_get_temp_dir(), '');
 unlink ($notesfile);
 @$notesfile .= $_FILES['notes']['name'];
 @$tmpfile = $_FILES['notes']['tmp_name'];
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 if(move_uploaded_file($tmpfile, $notesfile)) {
-  $smarty->assign ("filename", $notesfile);
+  $view->view->filename = $notesfile;
   $notesfolder = Filter_Archive::uncompress ($notesfile, true);
-  $smarty->assign ("folder", $notesfolder);
-  $smarty->display ("import2.tpl");
+  $view->view->folder = $notesfolder;
+  $view->render ("import2.php");
 } else {
-  $smarty->display ("import2error.tpl");
+  $view->render ("import2error.php");
 }
 Assets_Page::footer ();
 

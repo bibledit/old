@@ -24,8 +24,8 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Notes"));
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->display ("manage.tpl");
+$view = new Assets_View (__FILE__);
+$view->render ("manage.php");
 Assets_Page::footer ();
 
 ?>

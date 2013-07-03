@@ -26,9 +26,9 @@ page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import"));
 $file = $_GET ['file'];
 $folder = Filter_Archive::uncompress ($file, true);
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->assign ("folder", $folder);
-$smarty->display ("import3.tpl");
+$view = new Assets_View (__FILE__);
+$view->view->folder = $folder;
+$view->render ("import3.php");
 Assets_Page::footer ();
 
 ?>

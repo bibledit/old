@@ -29,8 +29,8 @@ $folder = $_GET ['folder'];
 if (file_exists ($folder)) {
   $workingdirectory = dirname (__FILE__);
   shell_exec ("cd $workingdirectory; php importcli.php $folder > /dev/null 2>&1 &");
-  $smarty = new Smarty_Bibledit (__FILE__);
-  $smarty->display ("import4.tpl");
+  $view = new Assets_View (__FILE__);
+  $view->render ("import4.php");
 } else {
   Assets_Page::error (gettext ("Could not find the folder with the consultation notes"));
 }

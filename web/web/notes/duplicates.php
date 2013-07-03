@@ -27,8 +27,8 @@ Assets_Page::header (gettext ("Removing duplicate consultation notes"));
 set_time_limit (0);
 $workingdirectory = dirname (__FILE__);
 shell_exec ("cd $workingdirectory; php duplicatescli.php > /dev/null 2>&1 &");
-$smarty = new Smarty_Bibledit (__FILE__);
-$smarty->display ("duplicates.tpl");
+$view = new Assets_View (__FILE__);
+$view->render ("duplicates.php");
 Assets_Page::footer ();
 
 ?>

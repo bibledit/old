@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-02 01:43+0200\n"
+"POT-Creation-Date: 2013-07-03 01:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5335,19 +5335,16 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-msgid "Entry"
-msgstr ""
-
-msgid "xxx"
-msgstr ""
-
 msgid "Here are the various options:"
 msgstr ""
 
-msgid "Yes / No"
+msgid "List"
 msgstr ""
 
-msgid "List"
+msgid "Cancel"
+msgstr ""
+
+msgid "Yes"
 msgstr ""
 
 msgid "There was nothing to save"
@@ -5606,9 +5603,6 @@ msgstr ""
 msgid "This chapter does not exist or is empty"
 msgstr ""
 
-msgid "Cancel"
-msgstr ""
-
 msgid "Chapter was saved."
 msgstr ""
 
@@ -5626,7 +5620,33 @@ msgstr ""
 msgid "Please enter the name for the new versification system"
 msgstr ""
 
+msgid "This lists the currently available versification systems."
+msgstr ""
+
+msgid "You can create a new versification system."
+msgstr ""
+
 msgid "Versification system"
+msgstr ""
+
+msgid ""
+"This shows how many verses each chapter of the Bible has according to this "
+"versification system, and how many chapters each book has. The data is given "
+"in two formats. First in human readable form, and then in xml format if you "
+"scroll further down the page."
+msgstr ""
+
+msgid "Delete this versification"
+msgstr ""
+
+msgid "Verses"
+msgstr ""
+
+msgid ""
+"You can modify this versification system. To do that, copy the existing xml "
+"data from this page into an editor, make the changes, and paste the data "
+"back into the textbow below, and then submit it. It will overwrite whatever "
+"was there before."
 msgstr ""
 
 msgid "Change"
@@ -5642,6 +5662,98 @@ msgid "Change:"
 msgstr ""
 
 msgid "New text:"
+msgstr ""
+
+msgid "Old"
+msgstr ""
+
+msgid "unsubscribe"
+msgstr ""
+
+msgid "I have done my part it"
+msgstr ""
+
+msgid "Create note"
+msgstr ""
+
+msgid "This shows the details of the change in the text of the Bible."
+msgstr ""
+
+msgid "It shows the old text, the change, and the new text."
+msgstr ""
+
+msgid ""
+"Click ✔ to approve a change, and then to go back to the list of changes."
+msgstr ""
+
+msgid "It shows all Consultation Notes about the passage."
+msgstr ""
+
+msgid "If you are subscribed to any of the notes, you can unsubscribe."
+msgstr ""
+
+msgid "If any of the notes is assigned to you, you can unassign it."
+msgstr ""
+
+msgid "You can delete any of the notes."
+msgstr ""
+
+msgid ""
+"You can create a new Consultation Notes with a query about the change in the "
+"text of the Bible."
+msgstr ""
+
+msgid "It displays the date when the modification was processed."
+msgstr ""
+
+msgid "Displaying"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "This page lists the changes in the text of the Bibles."
+msgstr ""
+
+msgid "Click ✔ to approve a change."
+msgstr ""
+
+msgid "The change will disappear."
+msgstr ""
+
+msgid "Or approve all changes above."
+msgstr ""
+
+msgid "Click the passage to open the Text Editor for the chapter."
+msgstr ""
+
+msgid "Click the changed text to display the Change Details."
+msgstr ""
+
+msgid ""
+"Any changes in the text of the Bibles will be added to the list the next day."
+msgstr ""
+
+msgid "This works if enabled in your personal notifications."
+msgstr ""
+
+msgid "There are two numbers at the right of each change."
+msgstr ""
+
+msgid ""
+"The first number shows the total number of Consultation Notes about the "
+"verse where the change was made."
+msgstr ""
+
+msgid ""
+"The second one indicates the number of notes you are subscribed to or that "
+"have been assigned to you."
+msgstr ""
+
+msgid "The change notifications are for you only."
+msgstr ""
+
+msgid "Your colleagues have their own lists."
 msgstr ""
 
 msgid "The passage for this change was not found."
