@@ -6,11 +6,11 @@
     <title><?php echo "$this->title" ?></title>
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
     <?php if (isset ($this->document_ready_functions) || isset ($this->wysiwyg_editor)) { ?>
-      <script type="text/javascript" src="../jwysiwyg/jslib.js"></script>
+      <script type="text/javascript" src="../jquery/jquery.js"></script>
     <?php } ?>
     <?php if (isset ($this->wysiwyg_editor)) { ?>
-      <link rel="stylesheet" href="../jwysiwyg/jwysiwyg/jquery.wysiwyg.css" type="text/css" />
-      <script type="text/javascript" src="../jwysiwyg/jwysiwyg/jquery.wysiwyg.js"></script>
+      <link rel="stylesheet" href="../jwysiwyg/jquery.wysiwyg.css" type="text/css" />
+      <script type="text/javascript" src="../jwysiwyg/jquery.wysiwyg.js"></script>
       <script type="text/javascript">
         $(function()
         {

@@ -17,7 +17,7 @@
 
 <h2><?php echo gettext ("Install the software Bibledit-Web relies on") ?></h2>
 <p><?php echo gettext ("In the terminal issue these commands:") ?></p>
-<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff sqlite3 php5-intl python perl libsword-utils</code></p>
+<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff sqlite3 php5-intl python perl libsword-utils libjs-jquery</code></p>
 <p><?php echo gettext ("Anything to be set up, choose the default settings and enter the correct passwords.") ?></p>
 
 <h2><?php echo gettext ("Install Bibledit-Web") ?></h2>

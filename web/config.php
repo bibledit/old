@@ -1,6 +1,9 @@
 /* config.php.  Generated from config.php.in by configure.  */
 /* config.php.in.  Generated from configure.ac by autoheader.  */
 
+/* Define the path to jquery */
+#define JQUERYPATH "/usr/share/javascript/jquery"
+
 /* Define the location on the web and internal */
 #define LOCATION "bibledit-web"
 

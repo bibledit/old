@@ -597,6 +597,7 @@ LINUX_FALSE
 LINUX_TRUE
 OPEN_INSTALLATION
 LOCATION
+JQUERYPATH
 ZENDPATH
 SITE_ADMIN_PASSWORD
 SITE_ADMIN_USERNAME
@@ -1324,6 +1325,7 @@ Optional Packages:
   --with-site-admin-password=password
                           Site Administrator password
   --with-zend-path=path   Zend Framework path
+  --with-jquery-path=path   jQuery path
   --with-location=location  Location on the web and internal
   --with-open-installation=true
                           Open installation
@@ -3101,7 +3103,7 @@ _ACEOF
 
 
 
-# Location of the zend framework.
+# Location of the Zend framework.
 # Debian: dpkg -L zendframework: /usr/share/php/Zend
 # Ubuntu: dpkg -L libzend-framework-php: /usr/share/php/libzend-framework-php/Zend
 ZENDPATH_DEFAULT="."
@@ -3145,6 +3147,54 @@ $as_echo "#define ZENDPATH /**/" >>confdefs.h
 
 cat >>confdefs.h <<_ACEOF
 #define ZENDPATH "$ZENDPATH"
+_ACEOF
+
+
+
+
+# Location of jQuery.
+# Ubuntu: dpkg -L libjs-jquery: /usr/share/javascript/jquery/jquery.js
+JQUERYPATH_DEFAULT="."
+
+# Check whether --with-zend-path was given.
+if test "${with_zend_path+set}" = set; then :
+  withval=$with_zend_path;  JQUERYPATH=$withval
+else
+   JQUERYPATH=$JQUERYPATH_DEFAULT
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking jquery path" >&5
+$as_echo_n "checking jquery path... " >&6; }
+if  [ $JQUERYPATH == "." ]
+then
+  test -d /usr/share/javascript/jquery
+  if  [ $? -eq 0 ]
+  then
+    JQUERYPATH=/usr/share/javascript/jquery
+  fi
+fi
+if  [ $JQUERYPATH == "." ]
+then
+  test -d /usr/share/javascript/jquery
+  if  [ $? -eq 0 ]
+  then
+    JQUERYPATH=/usr/share/javascript/jquery
+  fi
+fi
+if  [ $JQUERYPATH == "." ]
+then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+  as_fn_error $? "Could not find path to jQuery. Provide the information through: --with-jquery-path=<path>" "$LINENO" 5
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${JQUERYPATH}" >&5
+$as_echo "${JQUERYPATH}" >&6; }
+
+$as_echo "#define JQUERYPATH /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define JQUERYPATH "$JQUERYPATH"
 _ACEOF
 
 
@@ -4712,6 +4762,7 @@ MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
 Website administrator username: ${SITE_ADMIN_USERNAME}
 Website administrator password: ${SITE_ADMIN_PASSWORD}
 Zend framework path: ${ZENDPATH}
+jQuery path: ${JQUERYPATH}
 Local state directory: $DESTDIR/${packagelocalstatedir}
 "
 

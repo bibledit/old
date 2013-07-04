@@ -145,7 +145,7 @@ AC_DEFINE_UNQUOTED(SITE_ADMIN_PASSWORD, "$SITE_ADMIN_PASSWORD")
 AC_SUBST(SITE_ADMIN_PASSWORD)
 
 
-# Location of the zend framework.
+# Location of the Zend framework.
 # Debian: dpkg -L zendframework: /usr/share/php/Zend
 # Ubuntu: dpkg -L libzend-framework-php: /usr/share/php/libzend-framework-php/Zend
 ZENDPATH_DEFAULT="."
@@ -180,6 +180,42 @@ AC_MSG_RESULT(${ZENDPATH})
 AC_DEFINE([ZENDPATH], [], [Define the path to the zend framework])
 AC_DEFINE_UNQUOTED(ZENDPATH, "$ZENDPATH")
 AC_SUBST(ZENDPATH)
+
+
+# Location of jQuery.
+# Ubuntu: dpkg -L libjs-jquery: /usr/share/javascript/jquery/jquery.js
+JQUERYPATH_DEFAULT="."
+AC_ARG_WITH(zend-path,
+        [  --with-jquery-path=path   jQuery path],
+        [ JQUERYPATH=$withval ],
+        [ JQUERYPATH=$JQUERYPATH_DEFAULT ]
+)
+AC_MSG_CHECKING(jquery path)
+if [ [ $JQUERYPATH == "." ] ]
+then
+  test -d /usr/share/javascript/jquery
+  if [ [ $? -eq 0 ] ]
+  then
+    JQUERYPATH=/usr/share/javascript/jquery
+  fi
+fi
+if [ [ $JQUERYPATH == "." ] ]
+then
+  test -d /usr/share/javascript/jquery
+  if [ [ $? -eq 0 ] ]
+  then
+    JQUERYPATH=/usr/share/javascript/jquery
+  fi
+fi
+if [ [ $JQUERYPATH == "." ] ]
+then
+  AC_MSG_RESULT(no)
+  AC_MSG_ERROR(Could not find path to jQuery. Provide the information through: --with-jquery-path=<path>)
+fi
+AC_MSG_RESULT(${JQUERYPATH})
+AC_DEFINE([JQUERYPATH], [], [Define the path to jquery])
+AC_DEFINE_UNQUOTED(JQUERYPATH, "$JQUERYPATH")
+AC_SUBST(JQUERYPATH)
 
 
 # Location on the web and internal.
@@ -366,6 +402,7 @@ MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
 Website administrator username: ${SITE_ADMIN_USERNAME}
 Website administrator password: ${SITE_ADMIN_PASSWORD}
 Zend framework path: ${ZENDPATH}
+jQuery path: ${JQUERYPATH}
 Local state directory: $DESTDIR/${packagelocalstatedir}
 "
 
