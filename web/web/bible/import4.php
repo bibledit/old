@@ -26,10 +26,10 @@ page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import"));
 set_time_limit (0);
 
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 $bible = $_GET['bible'];
-$smarty->assign ("bible", Filter_Html::sanitize ($bible));
+$view->view->bible = Filter_Html::sanitize ($bible);
 
 $location = $_GET ['location'];
 if (file_exists ($location)) {
@@ -38,7 +38,7 @@ if (file_exists ($location)) {
   $location = escapeshellarg ($location);
   $command = "php importcli.php $location $bible > /dev/null 2>&1 &";
   shell_exec ($command);
-  $smarty->display ("import4.tpl");
+  $view->render ("import4.php");
 } else {
   Assets_Page::error (gettext ("Could not find the folder with the consultation notes"));
 }

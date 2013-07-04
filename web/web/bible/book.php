@@ -4,19 +4,19 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
 Assets_Page::header (gettext ("Book"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
 $database_books = Database_Books::getInstance();
 
 // The name of the Bible.
 $bible = $_GET['bible'];
-$smarty->assign ("bible", Filter_Html::sanitize ($bible));
+$view->view->bible = Filter_Html::sanitize ($bible);
 
 // The book.
 $book = $_GET['book'];
-$smarty->assign ("book", Filter_Html::sanitize ($book));
+$view->view->book = Filter_Html::sanitize ($book);
 $book_name = $database_books->getEnglishFromId ($book);
-$smarty->assign ("book_name", Filter_Html::sanitize ($book_name));
+$view->view->book_name = Filter_Html::sanitize ($book_name);
 
 // Delete chapter.
 @$deletechapter = $_GET['deletechapter'];
@@ -52,12 +52,12 @@ if (isset($_POST['createchapter'])) {
 
 // Available chapters.
 $chapters = $database_bibles->getChapters ($bible, $book);
-$smarty->assign ("chapters", $chapters);
+$view->view->chapters = $chapters;
 
-@$smarty->assign ("success_message", $success_message);
-@$smarty->assign ("error_message", $error_message);
+@$view->view->success_message = $success_message;
+@$view->view->error_message = $error_message;
 
-$smarty->display ("book.tpl");
+$view->render ("book.php");
 Assets_Page::footer ();
 
 ?>

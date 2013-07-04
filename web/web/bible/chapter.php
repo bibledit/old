@@ -4,25 +4,25 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
 Assets_Page::header (gettext ("Chapter"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
 $database_books = Database_Books::getInstance();
 
 // The Bible.
 $bible = $_GET['bible'];
-$smarty->assign ("bible", Filter_Html::sanitize ($bible));
+$view->view->bible = Filter_Html::sanitize ($bible);
 
 // The book.
 $book = $_GET['book'];
-$smarty->assign ("book", Filter_Html::sanitize ($book));
+$view->view->book = Filter_Html::sanitize ($book);
 $book_name = $database_books->getEnglishFromId ($book);
-$smarty->assign ("book_name", Filter_Html::sanitize ($book_name));
+$view->view->book_name = Filter_Html::sanitize ($book_name);
 
 // The chapter.
 $chapter = $_GET['chapter'];
-$smarty->assign ("chapter", Filter_Html::sanitize ($chapter));
+$view->view->chapter = Filter_Html::sanitize ($chapter);
 
-$smarty->display ("chapter.tpl");
+$view->render ("chapter.php");
 
 Assets_Page::footer ();
 

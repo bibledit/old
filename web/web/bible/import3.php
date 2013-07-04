@@ -24,18 +24,18 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 $bible = $_GET['bible'];
-$smarty->assign ("bible", Filter_Html::sanitize ($bible));
+$view->view->bible = Filter_Html::sanitize ($bible);
 
 $file = $_GET ['file'];
 $location = $file;
 $folder = Filter_Archive::uncompress ($file, true);
 if ($folder != NULL) $location = $folder;
-$smarty->assign ("location", $location);
+$view->view->location = $location;
 
-$smarty->display ("import3.tpl");
+$view->render ("import3.php");
 Assets_Page::footer ();
 
 ?>

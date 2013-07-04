@@ -24,11 +24,11 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 
 // The name of the Bible.
 $bible = $_GET['bible'];
-$smarty->assign ("bible", Filter_Html::sanitize ($bible));
+$view->view->bible = Filter_Html::sanitize ($bible);
 
 // Move the uploaded file to a temporary name.
 $datafile = tempnam (sys_get_temp_dir(), '');
@@ -36,10 +36,10 @@ unlink ($datafile);
 @$datafile .= $_FILES['data']['name'];
 @$tmpfile = $_FILES['data']['tmp_name'];
 if(move_uploaded_file($tmpfile, $datafile)) {
-  $smarty->assign ("filename", $datafile);
-  $smarty->display ("import2.tpl");
+  $view->view->filename = $datafile;
+  $view->render ("import2.php");
 } else {
-  $smarty->display ("import2error.tpl");
+  $view->render ("import2error.php");
 }
 Assets_Page::footer ();
 

@@ -4,13 +4,13 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 
 Assets_Page::header (gettext ("Bible"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
 $database_books = Database_Books::getInstance();
 
 // The Bible.
 $bible = $_GET['bible'];
-$smarty->assign ("bible", Filter_Html::sanitize ($bible));
+$view->view->bible = Filter_Html::sanitize ($bible);
 
 // Versification.
 @$versification = $_GET['versification'];
@@ -29,7 +29,7 @@ if (isset ($versification)) {
   }
 }
 $versification = $database_bibles->getVersification ($bible);
-$smarty->assign ("versification", $versification);
+$view->view->versification = $versification;
 
 // Book creation.
 @$createbook = $_GET['createbook'];
@@ -63,10 +63,10 @@ foreach ($book_ids as $book) {
   $book_name = gettext ($book_name);
   $book_names [] = $book_name;
 }
-@$smarty->assign ("book_ids", $book_ids);
-@$smarty->assign ("book_names", $book_names);
+@$view->view->book_ids = $book_ids;
+@$view->view->book_names = $book_names;
 
-$smarty->display ("settings.tpl");
+$view->render ("settings.php");
 
 Assets_Page::footer ();
 ?>

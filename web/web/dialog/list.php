@@ -17,7 +17,6 @@ class Dialog_List
   */
   public function __construct ($query, $header, $info_top, $info_bottom, $horizontal = false)
   {
-    Assets_Page::header (gettext ("List"));
     $this->view = new Assets_View (__FILE__);
 
     $caller_url = $_SERVER["PHP_SELF"];

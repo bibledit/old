@@ -6,7 +6,7 @@ page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Import USFM"));
 
 
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
 $database_books = Database_Books::getInstance();
 
@@ -17,7 +17,7 @@ $error_message = "";
 
 // The name of the Bible.
 $bible = $_GET['bible'];
-$smarty->assign ("bible", Filter_Html::sanitize ($bible));
+$view->view->bible = Filter_Html::sanitize ($bible);
 
 
 // USFM data submission.
@@ -37,9 +37,9 @@ if (isset($_POST['submit'])) {
 }
 
 
-@$smarty->assign ("success_message", $success_message);
-@$smarty->assign ("error_message", $error_message);
-$smarty->display ("import_usfm.tpl");
+@$view->view->success_message = $success_message;
+@$view->view->error_message = $error_message;
+$view->render ("import_usfm.php");
 Assets_Page::footer ();
 
 

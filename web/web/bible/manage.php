@@ -25,7 +25,7 @@
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Bibles"));
-$smarty = new Smarty_Bibledit (__FILE__);
+$view = new Assets_View (__FILE__);
 $database_bibles = Database_Bibles::getInstance();
 
 
@@ -88,11 +88,11 @@ if (isset ($origin)) {
 }
 
 
-@$smarty->assign ("success_message", $success_message);
-@$smarty->assign ("error_message", $error_message);
+@$view->view->success_message = $success_message;
+@$view->view->error_message = $error_message;
 $bibles = $database_bibles->getBibles();
-$smarty->assign ("bibles", $bibles);
-$smarty->display ("manage.tpl");
+$view->view->bibles = $bibles;
+$view->render ("manage.php");
 Assets_Page::footer ();
 
 ?>
