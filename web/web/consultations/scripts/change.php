@@ -26,9 +26,9 @@
   <?php foreach ($this->notes as $offset => $note) { ?>
     <tr>
       <td><a href="notes.php?consultationnote=<?php echo $this->notes[$offset] ?>" target="_blank"><?php echo $this->summaries[$offset] ?></a></td>
-      <td>{if $subscriptions[offset]}<a href="change.php?id=<?php echo $this->id ?>&unsubscribe=<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("unsubscribe") ?>]</a>{/if}</td>
-      <td>{if $assignments[offset]}<a href="change.php?id=<?php echo $this->id ?>&unassign=<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("I have done my part it") ?>]</a>{/if}</td>
-      <td>{if $level >= 5}<a href="change.php?id=<?php echo $this->id ?>&delete=<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("delete") ?>]</a>{/if}</td>
+      <td><?php if ($this->subscriptions[$offset]) { ?><a href="change.php?id=<?php echo $this->id ?>&unsubscribe=<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("unsubscribe") ?>]</a><?php } ?></td>
+      <td><?php if ($this->assignments[$offset]) { ?><a href="change.php?id=<?php echo $this->id ?>&unassign=<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("I have done my part it") ?>]</a><?php } ?></td>
+      <td><?php if ($this->level >= 5) { ?><a href="change.php?id=<?php echo $this->id ?>&delete=<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("delete") ?>]</a><?php } ?></td>
     </tr>
   <?php } ?>
 </table>
@@ -56,9 +56,9 @@
   <?php echo gettext ("If any of the notes is assigned to you, you can unassign it.") ?>
 </p>
 <p>
-  {if $level >= 5}
+  <?php if ($this->level >= 5) { ?>
   <?php echo gettext ("You can delete any of the notes.") ?>
-  {/if}
+  <?php } ?>
 </p>
 <p>
   <?php echo gettext ("You can create a new Consultation Notes with a query about the change in the text of the Bible.") ?>
