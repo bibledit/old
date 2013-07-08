@@ -26,6 +26,7 @@ class Assets_Header
   private static $instance;
   private $view;
   private $document_ready_functions;
+  private $includeJQuery = false;
 
   public function __construct ($title) 
   {
@@ -33,10 +34,16 @@ class Assets_Header
     $this->view->view->title = $title;
   }
 
+  public function jQueryOn ()
+  {
+    $this->includeJQuery = true;
+  }
+  
   // Adds a document ready function for jQuery.
   public function jQueryHeaderAddDocumentReadyFunction ($code)
   {
     if ($code != "") {
+      $this->jQueryOn ();
       $this->document_ready_functions[] = $code;
     }
   }
@@ -44,6 +51,7 @@ class Assets_Header
   // Adds a document ready function for the jQuery editor.
   public function jQueryHeaderAddWysiwygHeaders ()
   {
+    $this->jQueryOn ();
     $this->view->view->wysiwyg_editor = true;
   }
 
@@ -57,6 +65,7 @@ class Assets_Header
   // Runs the header.
   public function run ()
   {
+    $this->view->view->include_jquery = $this->includeJQuery;
     $this->view->view->document_ready_functions =  $this->document_ready_functions;
     $this->view->render ("xhtml_start.php");
     $this->view->render ("header_full.php");

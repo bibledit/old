@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-04 01:43+0200\n"
+"POT-Creation-Date: 2013-07-08 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6027,6 +6027,15 @@ msgstr ""
 msgid "The following was imported:"
 msgstr ""
 
+msgid "Importing Bible data, step 3"
+msgstr ""
+
+msgid "The file or files were unpacked."
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
 msgid "Chapters:"
 msgstr ""
 
@@ -6036,10 +6045,134 @@ msgstr ""
 msgid "Delete this book"
 msgstr ""
 
+msgid "Importing Bible data, step 2"
+msgstr ""
+
+msgid "The file has been uploaded successfully."
+msgstr ""
+
+msgid "This helps you with importing Unified Standard Format Markers data."
+msgstr ""
+
+msgid ""
+"See the Unified Standard Format Markers User Reference for more information "
+"about this format."
+msgstr ""
+
+msgid ""
+"The data to be imported will overwrite similar data already in the Bible."
+msgstr ""
+
+msgid ""
+"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
+"that chapter already was in the Bible."
+msgstr ""
+
+msgid "It will not overwrite anything else."
+msgstr ""
+
+msgid "If Genesis 1 was not yet there, it will be created."
+msgstr ""
+
+msgid ""
+"You can import one chapter, or several chapters, or one book, or several "
+"books, all in one go."
+msgstr ""
+
+msgid ""
+"Bibledit will recognize books through the \\id markup and chapters through "
+"the \\c markup."
+msgstr ""
+
+msgid "The text to be imported should be in Unicode UTF-8 format."
+msgstr ""
+
+msgid ""
+"To import the data, paste the data into the box below, and then press the "
+"Submit button."
+msgstr ""
+
+msgid "Or upload a file."
+msgstr ""
+
+msgid "This helps you with importing BibleWorks data."
+msgstr ""
+
+msgid ""
+"Each line in this data starts with a book, and a chapter and verse, like so:"
+msgstr ""
+
+msgid "Then a space follows, and then the text of the verse."
+msgstr ""
+
+msgid "That's basically it."
+msgstr ""
+
+msgid ""
+"There may be numbers in the text that key to Strong's data and other "
+"grammatical information, like so:"
+msgstr ""
+
+msgid "Normally these tags are removed."
+msgstr ""
+
+msgid "There is a checkbox for keeping them."
+msgstr ""
+
+msgid "Words in italics are placed between square brackets, like so:"
+msgstr ""
+
+msgid "The text of footnotes is placed between curly brackets."
+msgstr ""
+
+msgid "Bibledit will recognize books and chapters from the BibleWorks markup."
+msgstr ""
+
+msgid "Keep the grammatical tags"
+msgstr ""
+
+msgid "Delete this chapter"
+msgstr ""
+
+msgid "Importing Bible data, last step"
+msgstr ""
+
+msgid "The process for importing Bible data has been started."
+msgstr ""
+
+msgid "The progress is visible in the logbook."
+msgstr ""
+
+msgid "It can take some time, depending on the amount of data to be imported."
+msgstr ""
+
+msgid ""
+"After everything has been done, you can see the Bible in the normal place."
+msgstr ""
+
 msgid "Available Bibles:"
 msgstr ""
 
 msgid "Create a new empty Bible"
+msgstr ""
+
+msgid "Importing Bible data"
+msgstr ""
+
+msgid "This page assists you with importing USFM data into the Bible."
+msgstr ""
+
+msgid ""
+"The file to be uploaded can be a USFM file, or a compressed archive with "
+"USFM files."
+msgstr ""
+
+msgid "Choose the USFM file to be uploaded."
+msgstr ""
+
+msgid ""
+"Uploading may take some time. It depends on the speed of your network, and "
+"on the size of the file."
 msgstr ""
 
 msgid "Available books"
@@ -6055,6 +6188,11 @@ msgid "Copy this Bible"
 msgstr ""
 
 msgid "Delete this Bible"
+msgstr ""
+
+msgid ""
+"Or you can manually specify the location of the file, e.g. /home/joe/USFM."
+"zip, and then press Submit."
 msgstr ""
 
 msgid "Would you like to change the versification system?"
