@@ -30,6 +30,7 @@ class Database_Logs
   /**
   * log - Logs entry
   * $manager - whether this logbook entry should be visible to the Manager as well.
+  *            This has been disabled.
   */
   public function log ($description, $manager = false) 
   {
@@ -45,15 +46,28 @@ class Database_Logs
 
   /**
   * get - get the logbook entries.
-  * $page is page number, where the last page would be 1, 
-  * the one-but last would be 2, and so on.
+  * $start and $end are the timestamps that limit the returned result.
   */
-  public function get ($page) {
+  public function get ($start, $end) {
     $session_logic = Session_Logic::getInstance ();
-    $level = $session_logic->currentLevel ();
     $server  = Database_Instance::getInstance ();
-    $limits = $this->limits ($page);
-    $query = "SELECT timestamp, event FROM logs WHERE level <= $level ORDER BY id $limits;";
+    $today = strtotime ("today");
+    $start = (int) $start;
+    $end = (int) $end;
+    $query = "SELECT id, timestamp, event FROM logs WHERE timestamp >= $start AND timestamp < $end ORDER BY id;";
+    $result = $server->runQuery ($query);
+    return $result;
+  }
+
+
+  /**
+  * get - get the logbook entry with $id
+  */
+  public function getID ($id) {
+    $id = (int) $id;
+    $session_logic = Session_Logic::getInstance ();
+    $server  = Database_Instance::getInstance ();
+    $query = "SELECT timestamp, event FROM logs WHERE id = $id;";
     $result = $server->runQuery ($query);
     return $result;
   }
@@ -68,32 +82,6 @@ class Database_Logs
     $server  = Database_Instance::getInstance ();
     $query   = "DELETE FROM logs WHERE level <= $level;";
     $server->runQuery ($query);
-  }
-
-
-  /**
-  * Returns the LIMIT clause for the database query.
-  * $page: the page in the database, starting at 1.
-  * If the $page is 0, there will be no limit.
-  */
-  private function limits ($page)
-  {
-    $page = Database_SQLInjection::no ($page);
-    $server  = Database_Instance::getInstance ();
-    $query = "SELECT COUNT(*) FROM logs;";
-    $result  = $server->runQuery ($query);
-    $count = $result->fetch_row ();
-    $count = $count[0];
-    $amount = 250;
-    $limit = $count - ($page * $amount);
-    if ($limit < 0) {
-      $amount = $amount + $limit;
-      $limit = 0;
-    }
-    if ($amount < 0) $amount = 0;
-    $query = "LIMIT $limit,$amount";
-    if ($page == 0) $query = "";
-    return $query;
   }
 
 

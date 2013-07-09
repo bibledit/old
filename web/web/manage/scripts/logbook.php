@@ -1,25 +1,25 @@
 <h1><?php echo gettext ("Logbook") ?></h1>
-
 <p>
-<?php  
-if (is_numeric ($this->previous)) {
-  echo '<a href="logbook.php?page=' . $this->previous . '">««</a>' . "\n";
-} else {
-  echo '««' . "\n";
-}
-echo gettext ("Page") . " " . $this->page . "\n";
-if (is_numeric ($this->next)) {
-  echo '<a href="logbook.php?page=' . $this->next . '">»»</a>' . "\n";
-} else {
-  echo "»»" . "\n";
-}
-echo "|" . "\n";
-echo '<a href="logbook.php?delete=">' . gettext ("clear") . '</a>' . "\n";
-?>
+  <?php echo $this->date; ?>
+  |
+  <a href="?delete="><?php echo gettext ("clear"); ?></a>
+  |
+  <a href="?"><?php echo gettext ("today"); ?></a>
+  |
+  <a href="?day=1"><?php echo gettext ("yesterday"); ?></a>
+  |
+  <a href="?day=2"><?php echo gettext ("two days ago"); ?></a>
+  |
+  <a href="?day=3"><?php echo gettext ("three days ago"); ?></a>
 </p>
-
+<div>
 <?php  
-foreach ($this->timestamps as $offset => $timestamp) {
-  echo '<p>' . $timestamp . " | " . $this->events[$offset] . "</p>\n";
+foreach ($this->lines as $line) {
+  echo "<p>$line</p>\n";
 }
 ?>
+</div>
+<script>
+<?php echo $this->script; ?>
+</script>
+<script type="text/javascript" src="logbook.js"></script>
