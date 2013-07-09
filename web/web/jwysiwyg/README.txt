@@ -1,2 +1,3 @@
-jWYSIWYG.
-http://code.google.com/p/jwysiwyg/
+jWYSIWYG
+jQuery plugin
+https://github.com/akzhan/jwysiwyg/
