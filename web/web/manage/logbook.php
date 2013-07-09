@@ -25,7 +25,7 @@ if (isset ($id)) {
       echo "$timestamp | $event";
       die;
     }
-    usleep (100000);
+    sleep (1);
   }
 }
 
