@@ -32,25 +32,8 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
-$database = Database_Confirm::getInstance ();
-$database->trim ();
-
 $database = Database_Logs::getInstance ();
 $database->trim ();
-
-$database = Database_Mail::getInstance ();
-$database->trim ();
-
-$database = Database_Sessions::getInstance ();
-$database->trim ();
-
-$database = Database_Snapshots::getInstance ();
-$database->trim ();
-
-$database = Database_Changes::getInstance ();
-$database->trim ();
-
-$database = Database_Logs::getInstance ();
 $database->optimize();
 
 $database = Database_Users::getInstance();
@@ -60,12 +43,14 @@ $database = Database_Config_General::getInstance ();
 $database->optimize ();
 
 $database = Database_Mail::getInstance ();
+$database->trim ();
 $database->optimize();
 
 $database = Database_Mailer::getInstance ();
 $database->optimize ();
 
 $database = Database_Confirm::getInstance ();
+$database->trim ();
 $database->optimize ();
 
 $database = Database_Books::getInstance ();
@@ -89,13 +74,15 @@ $database->optimize();
 $database = Database_Ipc::getInstance();
 $database->optimize();
 
-$database = Database_Snapshots::getInstance();
+$database = Database_Snapshots::getInstance ();
+$database->trim ();
 $database->optimize();
 
 $database = Database_Repositories::getInstance();
 $database->optimize();
 
-$database = Database_Sessions::getInstance();
+$database = Database_Sessions::getInstance ();
+$database->trim ();
 $database->optimize();
 
 $database = Database_Notes::getInstance();
@@ -114,6 +101,7 @@ $database = Database_Check::getInstance ();
 $database->optimize();
 
 $database = Database_Changes::getInstance ();
+$database->trim ();
 $database->optimize();
 
 $database_logs->log ("database: Completed");
