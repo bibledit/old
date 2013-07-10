@@ -32,7 +32,7 @@ class Timer_Logger
   const sendreceive = 'sendreceive';
   const changes = 'changes';
   const checks = 'checks';
-  const trimdatabases = 'trimdatabases';
+  const database = 'database';
   const backup = 'backup';
   const search = 'search';
   const exports = 'exports';

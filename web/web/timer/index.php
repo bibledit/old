@@ -129,8 +129,8 @@ if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) 
 //  It takes about half an hour on a production machine with many snapshots.
 if (($hour == 0) && ($minute == 35)) {
   $workingdirectory = dirname (__FILE__);
-  $logfilename = $timer_logger->getLogFilename (Timer_Logger::trimdatabases);
-  $command = "cd $workingdirectory; php trimdatabases.php > $logfilename 2>&1 & echo $!";
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::database);
+  $command = "cd $workingdirectory; php database.php > $logfilename 2>&1 & echo $!";
   $pid = shell_exec ($command);
   $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }

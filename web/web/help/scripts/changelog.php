@@ -31,7 +31,7 @@
 <p>Statistics about subscribed consultation notes will be mailed to subscribed users.</p>
 <p>The links in the daily email with statistics take the user to the correct selections of consultation notes.</p>
 <p>Removes snapshots older than 30 days.</p>
-<p></p>
+<p>Trims and optimizes the database every night.</p>
 <p></p>
 <p></p>
 
