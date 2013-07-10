@@ -6,6 +6,7 @@ page_access_level (MANAGER_LEVEL);
 $database_logs = Database_Logs::getInstance();
 
 
+// Clear the entire logbook.
 if (isset ($_GET['delete'])) {
   $database_logs->clear();
   $database_logs->log (gettext ("Logbook was cleared"), true);
@@ -14,19 +15,17 @@ if (isset ($_GET['delete'])) {
 }
 
 
+// Respond to AJAX call for the next logbook entry.
 @$id = $_GET['id'];
 if (isset ($id)) {
-  while (true) {
-    $result = $database_logs->getID ($id);
-    if ($result->num_rows > 0) {
-      $row = $result->fetch_assoc ();
-      $timestamp = date ('g:i:s a', $row ["timestamp"]);
-      $event = Filter_Html::sanitize ($row ["event"]);
-      echo "$timestamp | $event";
-      die;
-    }
-    sleep (1);
+  $result = $database_logs->getID ($id);
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc ();
+    $timestamp = date ('g:i:s a', $row ["timestamp"]);
+    $event = Filter_Html::sanitize ($row ["event"]);
+    echo "$timestamp | $event";
   }
+  die;
 }
 
 
@@ -56,6 +55,7 @@ $view->view->date = $date;
 
 $entries = $database_logs->get ($start, $end);
 $lines = array ();
+$id = 1;
 while ($row = $entries->fetch_assoc()) {
   $timestamp = date ('g:i:s a', $row ["timestamp"]);
   $event = Filter_Html::sanitize ($row ["event"]);
@@ -65,11 +65,14 @@ while ($row = $entries->fetch_assoc()) {
 $view->view->lines = $lines;
 
 
+// Pass information to the AJAX calls about the ID of next logbook entry to get.
 $nextID = $id + 1;
 $script = <<<EOD
 var nextID = $nextID;
-
 EOD;
+// The AJAX calls for getting more logbook entries only runs when displaying
+// items for 'today', not for 'yesterday' and other days.
+if ($day != 0) $script = "";
 $view->view->script = $script;
 
 

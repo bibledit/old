@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-09 01:43+0200\n"
+"POT-Creation-Date: 2013-07-10 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -325,7 +325,16 @@ msgstr ""
 msgid "Insert the soft hyphens according to the settings."
 msgstr ""
 
-msgid "Page"
+msgid "today"
+msgstr ""
+
+msgid "yesterday"
+msgstr ""
+
+msgid "two days ago"
+msgstr ""
+
+msgid "three days ago"
 msgstr ""
 
 msgid "The Bibles will be exported within a minute."
@@ -5855,9 +5864,6 @@ msgid "during the last 7 days"
 msgstr ""
 
 msgid "since yesterday"
-msgstr ""
-
-msgid "today"
 msgstr ""
 
 msgid "Select notes that have not been edited for:"

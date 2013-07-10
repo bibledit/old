@@ -27,7 +27,7 @@
 <p>Can check on the existence of patterns in the verse text.</p>
 <p>Switch from Smarty to Zend_View.</p>
 <p>Requires package libjs-jquery.</p>
-<p>Displaying the logbook is fluid and dynamically shows new entries.</p>
+<p>Improved user experience for displaying the logbook.</p>
 <p></p>
 <p></p>
 
