@@ -59,6 +59,13 @@
 </p>
 
 <p>
+<a href="notifications.php?subscribednotesnotificationtoggle=">
+<?php if ($this->subscribed_notes_notifications == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
+</a>
+<?php echo gettext ("Receive a daily email with the number of consultation notes you are subscribed to.") ?>
+</p>
+
+<p>
 <a href="notifications.php?deletednotenotificationtoggle=">
 <?php if ($this->deleted_note_notification == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
 </a>

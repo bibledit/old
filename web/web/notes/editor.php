@@ -382,6 +382,37 @@ class Notes_Editor
       $database_config_user->setConsultationNotesTextInclusionSelector($text_inclusion_selector);
     }
     
+    // Presets for notes selectors.
+    @$preset_selector = $_GET ['presetselection'];
+    if (isset ($preset_selector)) {
+      $database_config_user->setConsultationNotesPassageSelector (3);
+      $database_config_user->setConsultationNotesEditSelector (0);
+      $database_config_user->setConsultationNotesNonEditSelector (0);
+      $database_config_user->setConsultationNotesStatusSelector ("");
+      $database_config_user->setConsultationNotesBibleSelector ("");
+      $database_config_user->setConsultationNotesAssignmentSelector ("");
+      $database_config_user->setConsultationNotesSubscriptionSelector (0);
+      $database_config_user->setConsultationNotesSeveritySelector (-1);
+      $database_config_user->setConsultationNotesTextSelector (0);
+      switch ($preset_selector) {
+        case "assigned":
+          $session_logic = Session_Logic::getInstance();
+          $database_config_user->setConsultationNotesAssignmentSelector ($session_logic->currentUser ());
+          break;
+        case "subscribed":
+          $database_config_user->setConsultationNotesSubscriptionSelector (1);
+          break;
+        case "subscribeddayidle":
+          $database_config_user->setConsultationNotesSubscriptionSelector (1);
+          $database_config_user->setConsultationNotesNonEditSelector (1);
+          break;
+        case "subscribedweekidle":
+          $database_config_user->setConsultationNotesSubscriptionSelector (1);
+          $database_config_user->setConsultationNotesNonEditSelector (3);
+          break;
+      }
+    }
+    
     // Bulk note actions.
     @$bulk_update = $_GET['consultationnotesbulkupdate'];
     if (isset ($bulk_update)) {

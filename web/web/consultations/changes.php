@@ -53,7 +53,6 @@ $view->view->ids = $ids;
 
 $passages = array ();
 $modifications = array ();
-$totalNotesCount = array ();
 $yourNotesCount = array ();
 foreach ($ids as $id) {
   $passage = $database_changes->getPassage ($id);
@@ -62,24 +61,6 @@ foreach ($ids as $id) {
   $passages [] = $passageText;
   $modification = $database_changes->getModification ($id);
   $modifications [] = $modification;
-  $notes = $database_notes->selectNotes (
-    "",   // Bible.
-    $passage['book'],
-    $passage['chapter'], 
-    $passage['verse'],
-    0,    // Passage selector.
-    0,    // Edit selector.
-    0,    // Non-edit selector.
-    "",   // Status selector.
-    "",   // Bible selector.
-    "",   // Assignment selector.
-    0,    // Subscription selector.
-    -1,   // Severity selector.
-    0,    // Text selector.
-    "",   // Search text.
-    NULL, // Limit.
-    0);   // User level.
-  $totalNotesCount [] = count ($notes);
   $subscribedNotes = $database_notes->selectNotes (
     "",   // Bible.
     $passage['book'],
@@ -122,7 +103,6 @@ foreach ($ids as $id) {
 }
 $view->view->passages = $passages;
 $view->view->modifications = $modifications;
-$view->view->totalNotesCount = $totalNotesCount;
 $view->view->yourNotesCount = $yourNotesCount;
 
 

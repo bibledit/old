@@ -79,7 +79,71 @@ foreach ($users as $user) {
       "",    // Search text.
       NULL,  // Limit.
       0);    // User level.
-    $body [] = "<p><a href=\"$siteUrl/consultations/notes.php\">" . gettext ("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/consultations/notes.php?presetselection=assigned\">" . gettext ("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
+  }
+
+
+  if ($database_config_user->getUserSubscribedNotesStatisticsNotification ($user)) {
+    $body [] = "<p>" . gettext ("Number of consultation notes you are subscribed to") . ":</p>\n";
+    $body [] = "<ul>\n";
+    @$storeUser = $_SESSION['user'];
+    $_SESSION['user'] = $user;
+    $ids = $database_notes->selectNotes (
+      "",    // Bible.
+      0,     // Book
+      0,     // Chapter
+      0,     // Verse
+      3,     // Passage selector.
+      0,     // Edit selector.
+      0,     // Non-edit selector.
+      "",    // Status selector.
+      "",    // Bible selector.
+      "",    // Assignment selector.
+      1,     // Subscription selector.
+      -1,    // Severity selector.
+      0,     // Text selector.
+      "",    // Search text.
+      NULL,  // Limit.
+      0);    // User level.
+    $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribed\">" . gettext ("Total") . "</a>: " . count ($ids) . "</li>\n";
+    $ids = $database_notes->selectNotes (
+      "",    // Bible.
+      0,     // Book
+      0,     // Chapter
+      0,     // Verse
+      3,     // Passage selector.
+      0,     // Edit selector.
+      1,     // Non-edit selector.
+      "",    // Status selector.
+      "",    // Bible selector.
+      "",    // Assignment selector.
+      1,     // Subscription selector.
+      -1,    // Severity selector.
+      0,     // Text selector.
+      "",    // Search text.
+      NULL,  // Limit.
+      0);    // User level.
+    $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribeddayidle\">" . gettext ("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
+    $ids = $database_notes->selectNotes (
+      "",    // Bible.
+      0,     // Book
+      0,     // Chapter
+      0,     // Verse
+      3,     // Passage selector.
+      0,     // Edit selector.
+      3,     // Non-edit selector.
+      "",    // Status selector.
+      "",    // Bible selector.
+      "",    // Assignment selector.
+      1,     // Subscription selector.
+      -1,    // Severity selector.
+      0,     // Text selector.
+      "",    // Search text.
+      NULL,  // Limit.
+      0);    // User level.
+    $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribedweekidle\">" . gettext ("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "</ul>\n";
+    $_SESSION['user'] = $storeUser;
   }
 
 

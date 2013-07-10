@@ -46,6 +46,11 @@ if (isset ($_GET['assignednotesnotificationtoggle'])) {
 }
 $view->view->assigned_notes_notifications = $database_config_user->getAssignedNotesStatisticsNotification ();
 
+if (isset ($_GET['subscribednotesnotificationtoggle'])) {
+  $database_config_user->setSubscribedNotesStatisticsNotification (!$database_config_user->getSubscribedNotesStatisticsNotification ());
+}
+$view->view->subscribed_notes_notifications = $database_config_user->getSubscribedNotesStatisticsNotification ();
+
 if (isset ($_GET['deletednotenotificationtoggle'])) {
   $database_config_user->setDeletedConsultationNoteNotification(!$database_config_user->getDeletedConsultationNoteNotification());
 }

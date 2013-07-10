@@ -11,7 +11,6 @@
     <td><a href="changes.php?approve=<?php echo $this->ids[$offset] ?>"> ✔ </a></td>
     <td><a href="changes.php?goto=<?php echo $this->ids[$offset] ?>" target="_blank"><?php echo $this->passages[$offset] ?></a></td>
     <td><a href="change.php?id=<?php echo $this->ids[$offset] ?>"><?php echo $this->modifications[$offset] ?></a></td>
-    <td><?php echo $this->totalNotesCount[$offset] ?></td>
     <td><?php echo $this->yourNotesCount[$offset] ?></td>
   </tr>
   <?php } ?>
@@ -40,13 +39,10 @@
   <?php echo gettext ("This works if enabled in your personal notifications.") ?>
 </p>
 <p>
-  <?php echo gettext ("There are two numbers at the right of each change.") ?>
+  <?php echo gettext ("There is a number at the right of each change.") ?>
 </p>
 <p>
-  <?php echo gettext ("The first number shows the total number of Consultation Notes about the verse where the change was made.") ?>
-</p>
-<p>
-  <?php echo gettext ("The second one indicates the number of notes you are subscribed to or that have been assigned to you.") ?>
+  <?php echo gettext ("It indicates the number of notes you are subscribed to or that have been assigned to you.") ?>
 </p>
 <p>
   <?php echo gettext ("The change notifications are for you only.") ?>

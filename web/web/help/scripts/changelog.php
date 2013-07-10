@@ -28,6 +28,10 @@
 <p>Switch from Smarty to Zend_View.</p>
 <p>Requires package libjs-jquery.</p>
 <p>Improved user experience for displaying the logbook.</p>
+<p>Statistics about subscribed consultation notes will be mailed to subscribed users.</p>
+<p>The links in the daily email with statistics take the user to the correct selections of consultation notes.</p>
+<p></p>
+<p></p>
 <p></p>
 <p></p>
 
