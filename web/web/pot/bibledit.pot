@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-10 01:43+0200\n"
+"POT-Creation-Date: 2013-07-11 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3939,6 +3939,18 @@ msgstr ""
 msgid "Number of consultation notes assigned to you awaiting your response"
 msgstr ""
 
+msgid "Number of consultation notes you are subscribed to"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Inactive for a day"
+msgstr ""
+
+msgid "Inactive for a week"
+msgstr ""
+
 msgid "statistics: Completed"
 msgstr ""
 
@@ -4059,6 +4071,11 @@ msgstr ""
 
 msgid ""
 "Receive a daily email with the number of consultation notes assigned to you."
+msgstr ""
+
+msgid ""
+"Receive a daily email with the number of consultation notes you are "
+"subscribed to."
 msgstr ""
 
 msgid "Receive email about a deleted consultation note."
@@ -4421,9 +4438,6 @@ msgid "Collaboration"
 msgstr ""
 
 msgid "Which Bible are you going to use?"
-msgstr ""
-
-msgid "Database"
 msgstr ""
 
 msgid "The email address does not appear to be valid"
@@ -4937,9 +4951,6 @@ msgid ""
 msgstr ""
 
 msgid "This finishes setting up the repository on the USB flash drive."
-msgstr ""
-
-msgid "Database maintenance"
 msgstr ""
 
 msgid "This page deals with setting up the email system."
@@ -6348,17 +6359,12 @@ msgstr ""
 msgid "This works if enabled in your personal notifications."
 msgstr ""
 
-msgid "There are two numbers at the right of each change."
+msgid "There is a number at the right of each change."
 msgstr ""
 
 msgid ""
-"The first number shows the total number of Consultation Notes about the "
-"verse where the change was made."
-msgstr ""
-
-msgid ""
-"The second one indicates the number of notes you are subscribed to or that "
-"have been assigned to you."
+"It indicates the number of notes you are subscribed to or that have been "
+"assigned to you."
 msgstr ""
 
 msgid "The change notifications are for you only."

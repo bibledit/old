@@ -90,7 +90,7 @@ if (($minute % 5) == 0) {
 // Sending and receiving Bibles to and from the git repository.
 // On a production website running on an inexpensive virtual private server 
 // with 512 Mbyte of memory and a fast network connection, 
-// sending and receiving two Bibles takes less than a minute.
+// sending and receiving two Bibles takes more than five minutes when there are many changes.
 if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour == 0) && ($minute == 0))) {
   $config_general->setTimerSendReceive ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
@@ -103,7 +103,7 @@ if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour =
 
 // Sending the daily changes in the Bibles by email.
 // This takes a few minutes on a production machine with two Bibles and changes in several chapters.
-if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) && ($minute == 5))) {
+if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) && ($minute == 10))) {
   $config_general->setTimerDiff ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::changes);
@@ -114,8 +114,8 @@ if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) &&
 
 
 // Run the checks on the Bibles.
-// This takes 20 minutes on a production machine with two Bibles.
-if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) && ($minute == 10))) {
+// This takes 15 minutes on a production machine with two Bibles.
+if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) && ($minute == 15))) {
   $config_general->setTimerChecks ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::checks);
@@ -125,8 +125,8 @@ if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) 
 }
 
 
-// Trim the tables in the database.
-//  It takes about half an hour on a production machine with many snapshots.
+// Database maintenance and trimming.
+// It takes a few minutes on a production machine..
 if (($hour == 0) && ($minute == 35)) {
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::database);
@@ -138,7 +138,7 @@ if (($hour == 0) && ($minute == 35)) {
 
 // Create a backup, so that the backup contains the most recent information
 // after the previous tasks have been done.
-if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 1) && ($minute == 5))) {
+if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 45))) {
   $config_general->setTimerBackup ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::backup);
@@ -149,7 +149,7 @@ if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 1) 
 
 
 // Email statistics to the users.
-if (($hour == 1) && ($minute == 20)) {
+if (($hour == 0) && ($minute == 50)) {
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::statistics);
   $command = "cd $workingdirectory; php statistics.php > $logfilename 2>&1 & echo $!";
@@ -159,7 +159,8 @@ if (($hour == 1) && ($minute == 20)) {
 
 
 // Export the Bibles to the various output formats.
-if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1) && ($minute == 25))) {
+// This may take an hour on a production machine.
+if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 0) && ($minute == 55))) {
   $config_general->setTimerExports ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::exports);
