@@ -130,26 +130,6 @@ foreach ($bibles as $bible) {
       $database_mail->send ($user, $subject, $emailBody);
     }
   }
-
-  
-  // If there are too many sets of changes, archive the oldest ones.
-  $changes_directory = dirname (dirname (__FILE__)) . "/downloads/changes/" . $biblename;
-  $archive_directory = "$changes_directory/archive";
-  @mkdir ($archive_directory, 0777, true);
-  $filenames = array ();
-  $modificationtimes = array ();
-  foreach (new DirectoryIterator ($changes_directory) as $fileInfo) {
-    if($fileInfo->isDot()) continue;
-    if($fileInfo->isDir()) {
-      $filenames[] = $fileInfo->getFilename();
-      $modificationtimes[] = $fileInfo->getMTime();
-    }
-  }
-  array_multisort ($modificationtimes, SORT_DESC, SORT_NUMERIC, $filenames);
-  for ($i = 7; $i < count ($filenames); $i++) {
-    rename ($changes_directory . "/" . $filenames[$i], $changes_directory . "/archive/" . $filenames[$i]);
-    $database_logs->log (gettext ("changes: Archiving older set of changes") . " " . $filenames[$i], true);
-  }
   
  
 }
