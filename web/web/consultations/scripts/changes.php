@@ -1,30 +1,36 @@
 <h1><?php echo gettext ("Changes") ?></h1>
 <p>
   <a href="#help">[<?php echo gettext ("help") ?>]</a>
-  <?php echo gettext ("Displaying") ?> <?php echo $this->displayedChangesCount ?> <?php echo gettext ("of") ?> <?php echo $this->totalChangesCount ?></p>
+  <span id="count"></span>
+  <?php echo gettext ("items") ?>
+</p>
 <br>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
-<table>
-  <?php foreach ($this->modifications as $offset => $modification) { ?>
-  <tr>
-    <td><a href="changes.php?approve=<?php echo $this->ids[$offset] ?>"> ✔ </a></td>
-    <td><a href="changes.php?goto=<?php echo $this->ids[$offset] ?>" target="_blank"><?php echo $this->passages[$offset] ?></a></td>
-    <td><a href="change.php?id=<?php echo $this->ids[$offset] ?>"><?php echo $this->modifications[$offset] ?></a></td>
-    <td><?php echo $this->yourNotesCount[$offset] ?></td>
-  </tr>
-  <?php } ?>
-</table>
+<?php foreach ($this->modifications as $offset => $modification) { ?>
+<div id="<?php echo $this->ids[$offset] ?>">
+  <p>
+    <a href="changes.php?expand=<?php echo $this->ids[$offset] ?>"> ⊞ </a>
+    <a href="changes.php?approve=<?php echo $this->ids[$offset] ?>"> ✗ </a>
+    <a href="changes.php?goto=<?php echo $this->ids[$offset] ?>" target="_blank"><?php echo $this->passages[$offset] ?></a>
+    <?php echo $this->modifications[$offset] ?>
+    <a href="change.php?id=<?php echo $this->ids[$offset] ?>"> ⊞ </a>
+  </p>
+  <p id="<?php echo $this->ids[$offset] ?>">
+  </p>
+</div>
+<?php } ?>
 <br>
 <a id="help"></a>
 <p>
-  <?php echo gettext ("This page lists the changes in the text of the Bibles.") ?>
+  <?php echo gettext ("This page lists the change notifications.") ?>
 </p>
 <p>
-  <?php echo gettext ("Click ✔ to approve a change.") ?>
-  <?php echo gettext ("The change will disappear.") ?>
-  <a href="changes.php?approvepage="><?php echo gettext ("Or approve all changes above.") ?></a>  
-  
+  <?php echo gettext ("Use the up and down arrow keys to navigate through the entries.") ?>
+  <?php echo gettext ("Use the delete key to remove the selected entry.") ?>
+</p>
+<p>
+  <?php echo gettext ("Click ✗ to remove the change.") ?>
 </p>
 <p>
   <?php echo gettext ("Click the passage to open the Text Editor for the chapter.") ?>
@@ -48,3 +54,7 @@
   <?php echo gettext ("The change notifications are for you only.") ?>
   <?php echo gettext ("Your colleagues have their own lists.") ?>
 </p>
+<script>
+<?php echo $this->script; ?>
+</script>
+<script type="text/javascript" src="changes.js"></script>

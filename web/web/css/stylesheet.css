@@ -134,3 +134,7 @@ textarea {
 #search {
   display: inline;
 }
+
+.selected {
+  background: #FFFFCC;
+}

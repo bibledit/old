@@ -1,8 +1,6 @@
 <?php
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (CONSULTANT_LEVEL);
-Assets_Page::header (gettext ("Changes"));
-$view = new Assets_View (__FILE__);
 
 
 $database_changes = Database_Changes::getInstance ();
@@ -10,7 +8,27 @@ $session_logic = Session_Logic::getInstance ();
 $database_notes = Database_Notes::getInstance ();
 
 
+@$remove = $_POST['remove'];
+if (isset ($remove)) {
+  $database_changes->delete ($remove);
+  $database_logs = Database_Logs::getInstance ();
+  $database_logs->log ($remove);
+  die;
+}
+
+
 $username = $session_logic->currentUser ();
+
+
+
+
+
+$header = new Assets_Header (gettext ("Changes"));
+$header->jQueryOn ();
+$header->run ();
+
+
+$view = new Assets_View (__FILE__);
 
 
 @$goto = $_GET['goto'];
@@ -34,33 +52,27 @@ if (isset ($approve)) {
 }
 
 
-if (isset ($_GET['approvepage'])) {
-  $ids = $database_changes->getIdentifiers ($username);
-  $approvedCount = 0;
-  foreach ($ids as $id) {
-    if ($approvedCount >= 20) break;
-    $approvedCount++;
-    $database_changes->delete ($id);
-  }
-  $view->view->success = gettext ("The changes were approved.");
-  unset ($ids);
-}
-
-
 $ids = $database_changes->getIdentifiers ($username);
 $view->view->ids = $ids;
   
 
+// The first identifier of the change notification in the list.
+$firstID = 0;
+if (count ($ids) > 0) $firstID = $ids[0];
+$lastID = 0;
+
+
 $passages = array ();
 $modifications = array ();
-$yourNotesCount = array ();
 foreach ($ids as $id) {
+  $lastID = $id;
   $passage = $database_changes->getPassage ($id);
   $passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
   $passageText = Filter_Html::sanitize ($passageText);
   $passages [] = $passageText;
   $modification = $database_changes->getModification ($id);
   $modifications [] = $modification;
+  /*
   $subscribedNotes = $database_notes->selectNotes (
     "",   // Bible.
     $passage['book'],
@@ -98,17 +110,19 @@ foreach ($ids as $id) {
   $yourNotes = array_merge ($subscribedNotes, $assignedNotes);
   $yourNotes = array_unique ($yourNotes);
   $yourNotesCount [] = count ($yourNotes);
-  // Display no more than 20 changes for performance reasons.
-  if (count ($passages) >= 20) break;
+  */
+  //if (count ($passages) >= 35) break; // Todo remove this later.
 }
 $view->view->passages = $passages;
 $view->view->modifications = $modifications;
-$view->view->yourNotesCount = $yourNotesCount;
 
 
-// Information about the number of changes / total changes.
-$view->view->displayedChangesCount = count ($passages);
-$view->view->totalChangesCount = count ($ids);
+$script = <<<EOD
+var firstID = $firstID;
+var lastID = $lastID;
+var selectedID = $firstID;
+EOD;
+$view->view->script = $script;
 
 
 $view->render ("changes.php");
