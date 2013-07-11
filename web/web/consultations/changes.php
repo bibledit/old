@@ -11,8 +11,6 @@ $database_notes = Database_Notes::getInstance ();
 @$remove = $_POST['remove'];
 if (isset ($remove)) {
   $database_changes->delete ($remove);
-  $database_logs = Database_Logs::getInstance ();
-  $database_logs->log ($remove);
   die;
 }
 
