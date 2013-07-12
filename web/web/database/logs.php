@@ -74,25 +74,13 @@ class Database_Logs
 
 
   /**
-  * clear - clears the logbook entries.
-  */
-  public function clear () {
-    $session_logic = Session_Logic::getInstance ();
-    $level = $session_logic->currentLevel ();
-    $server  = Database_Instance::getInstance ();
-    $query   = "DELETE FROM logs WHERE level <= $level;";
-    $server->runQuery ($query);
-  }
-
-
-  /**
   * Removes older entries.
   */
   public function trim ()
   {
     $database_instance = Database_Instance::getInstance();
-    $time = time () - 604800; // Remove entries after a week.
-    $query = "DELETE FROM logs WHERE timestamp < $time;";
+    $timestamp = strtotime ("-1 month");
+    $query = "DELETE FROM logs WHERE timestamp < $timestamp;";
     $database_instance->runQuery ($query);
   }   
 

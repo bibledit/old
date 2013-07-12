@@ -6,16 +6,7 @@ page_access_level (MANAGER_LEVEL);
 $database_logs = Database_Logs::getInstance();
 
 
-// Clear the entire logbook.
-if (isset ($_GET['delete'])) {
-  $database_logs->clear();
-  $database_logs->log (gettext ("Logbook was cleared"), true);
-  header ("Location: logbook.php");
-  die;
-}
-
-
-// Respond to AJAX call for the next logbook entry.
+// Deal with AJAX call for the next logbook entry.
 @$id = $_GET['id'];
 if (isset ($id)) {
   $result = $database_logs->getID ($id);

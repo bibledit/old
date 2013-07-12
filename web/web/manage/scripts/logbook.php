@@ -2,8 +2,6 @@
 <p>
   <?php echo $this->date; ?>
   |
-  <a href="?delete="><?php echo gettext ("clear"); ?></a>
-  |
   <a href="?"><?php echo gettext ("today"); ?></a>
   |
   <a href="?day=1"><?php echo gettext ("yesterday"); ?></a>

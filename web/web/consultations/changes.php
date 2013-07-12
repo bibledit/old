@@ -8,6 +8,7 @@ $session_logic = Session_Logic::getInstance ();
 $database_notes = Database_Notes::getInstance ();
 
 
+// Handle AJAX call to remove a change notification.
 @$remove = $_POST['remove'];
 if (isset ($remove)) {
   $database_changes->delete ($remove);

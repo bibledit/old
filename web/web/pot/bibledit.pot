@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-11 01:43+0200\n"
+"POT-Creation-Date: 2013-07-12 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3966,9 +3966,6 @@ msgstr ""
 msgid "Recent changes"
 msgstr ""
 
-msgid "changes: Archiving older set of changes"
-msgstr ""
-
 msgid "changes: Completed"
 msgstr ""
 
@@ -6328,22 +6325,19 @@ msgstr ""
 msgid "It displays the date when the modification was processed."
 msgstr ""
 
-msgid "Displaying"
+msgid "items"
 msgstr ""
 
-msgid "of"
+msgid "This page lists the change notifications."
 msgstr ""
 
-msgid "This page lists the changes in the text of the Bibles."
+msgid "Use the up and down arrow keys to navigate through the entries."
 msgstr ""
 
-msgid "Click ✔ to approve a change."
+msgid "Use the delete key to remove the selected entry."
 msgstr ""
 
-msgid "The change will disappear."
-msgstr ""
-
-msgid "Or approve all changes above."
+msgid "Click ✗ to remove the change."
 msgstr ""
 
 msgid "Click the passage to open the Text Editor for the chapter."
@@ -6377,7 +6371,4 @@ msgid "The passage for this change was not found."
 msgstr ""
 
 msgid "The change was approved."
-msgstr ""
-
-msgid "The changes were approved."
 msgstr ""
