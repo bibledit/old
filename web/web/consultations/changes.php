@@ -7,6 +7,8 @@ $database_changes = Database_Changes::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 $database_notes = Database_Notes::getInstance ();
 $database_logs = Database_Logs::getInstance ();
+
+
 $username = $session_logic->currentUser ();
 
 
@@ -25,6 +27,23 @@ if (isset ($remove)) {
 }
 
 
+// Handle AJAX call to navigate to the passage belonging to the change notification.
+@$navigate = $_POST['navigate'];
+if (isset ($navigate)) {
+  $id = $navigate;
+  $passage = $database_changes->getPassage ($id);
+  if ($passage != NULL) {
+    $ipc_focus = Ipc_Focus::getInstance();
+    $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
+  }
+  // Set the correct default Bible for the user.
+  $database_config_user = Database_Config_User::getInstance ();
+  $database_bibles = Database_Bibles::getInstance ();
+  $bible = $database_changes->getBible ($id);
+  $bible = $database_bibles->getName ($bible);
+  $database_config_user->setBible ($bible);
+  die;
+}
 
 
 $header = new Assets_Header (gettext ("Changes"));
@@ -33,27 +52,6 @@ $header->run ();
 
 
 $view = new Assets_View (__FILE__);
-
-
-@$goto = $_GET['goto'];
-if (isset ($goto)) {
-  $passage = $database_changes->getPassage ($goto);
-  if ($passage != NULL) {
-    $ipc_focus = Ipc_Focus::getInstance();
-    $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
-    header ("Location: ../desktop/index.php?desktop=edittext");
-    die;
-  } else {
-    $smarty->assign ("error", gettext ("The passage for this change was not found."));
-  }
-}
-
-
-@$approve = $_GET['approve'];
-if (isset ($approve)) {
-  $database_changes->delete ($approve);
-  $view->view->success = gettext ("The change was approved.");
-}
 
 
 $ids = $database_changes->getIdentifiers ($username);
@@ -115,7 +113,6 @@ foreach ($ids as $id) {
   $yourNotes = array_unique ($yourNotes);
   $yourNotesCount [] = count ($yourNotes);
   */
-  //if (count ($passages) >= 35) break; // Todo remove this later.
 }
 $view->view->passages = $passages;
 $view->view->modifications = $modifications;
