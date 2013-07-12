@@ -6,18 +6,23 @@ page_access_level (CONSULTANT_LEVEL);
 $database_changes = Database_Changes::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 $database_notes = Database_Notes::getInstance ();
+$database_logs = Database_Logs::getInstance ();
+$username = $session_logic->currentUser ();
 
 
 // Handle AJAX call to remove a change notification.
 @$remove = $_POST['remove'];
 if (isset ($remove)) {
-  $database_changes->delete ($remove);
+  $id = $remove;
+  // Log action just to safekeep the notification for a while.
+  $passage = $database_changes->getPassage ($id);
+  $passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
+  $modification = $database_changes->getModification ($id);
+  $database_logs->log ("User $username removed change notification $passageText $modification"); 
+  // Remove change notification.
+  $database_changes->delete ($id);
   die;
 }
-
-
-$username = $session_logic->currentUser ();
-
 
 
 

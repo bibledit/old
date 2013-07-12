@@ -83,7 +83,7 @@ foreach ($bibles as $bible) {
     mkdir ($tempdirectory);
     $success = rename ("$directory/.git", "$tempdirectory/.git");
     if (!$success) {
-      $database_logs->log("send/receive: Failed to temporarily store the .git directory");
+      $database_logs->log ("send/receive: Failed to temporarily store the .git directory");
     }
 
     
@@ -100,7 +100,7 @@ foreach ($bibles as $bible) {
     // Move the .git directory back into place.
     $success = rename ("$tempdirectory/.git", "$directory/.git");
     if (!$success) {
-      $database_logs->log("send/receive: Failed to restore the .git directory");
+      $database_logs->log ("send/receive: Failed to restore the .git directory");
     }
 
     
@@ -253,7 +253,7 @@ foreach ($bibles as $bible) {
     if ($bible == "consultationnotes") {
       $database_logs->log ("send/receive: The Consultation Notes have been done.");
     } else {
-      $database_logs->log("send/receive: This Bible has been done.");
+      $database_logs->log ("send/receive: This Bible has been done.");
     }
   }
 }

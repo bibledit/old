@@ -29,12 +29,12 @@ $database_books = Database_Books::getInstance ();
 
 $inputBible = $argv[1];
 $outputBible = "$inputBible-hyphenated";
-$database_logs->log ("Reading Bible $inputBible, adding soft hyphens, putting it into Bible $outputBible", true);
+$database_logs->log ("Reading Bible $inputBible, adding soft hyphens, putting it into Bible $outputBible");
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("Fatal: This only runs through the cli Server API");
   die;
 }
 
@@ -60,7 +60,7 @@ $database_bibles->createBible ($outputBible);
 // Go through the input Bible's books and chapters.
 $books = $database_bibles->getBooks ($inputBible);
 foreach ($books as $book) {
-  $database_logs->log ($database_books->getEnglishFromId ($book), true);
+  $database_logs->log ($database_books->getEnglishFromId ($book));
   $chapters = $database_bibles->getChapters ($inputBible, $book);
   foreach ($chapters as $chapter) {
     $data = $database_bibles->getChapter ($inputBible, $book, $chapter);
@@ -70,6 +70,6 @@ foreach ($books as $book) {
 }
 
 
-$database_logs->log ("The Bible has been hyphenated", true);
+$database_logs->log ("The Bible has been hyphenated");
 
 ?>

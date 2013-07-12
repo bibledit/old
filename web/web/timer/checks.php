@@ -24,12 +24,12 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (gettext ("checks: Running checks on the Bibles"), true);
+$database_logs->log (gettext ("checks: Running checks on the Bibles"));
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("checks: Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("checks: Fatal: This only runs through the cli Server API");
   die;
 }
 
@@ -165,7 +165,7 @@ if (count ($emailBody) > 0) {
 }
 
 
-$database_logs->log (gettext ("checks: Completed"), true);
+$database_logs->log (gettext ("checks: Completed"));
 
 
 ?>

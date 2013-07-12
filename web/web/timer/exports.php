@@ -24,12 +24,12 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("exports: Exporting the Bibles", true);
+$database_logs->log ("exports: Exporting the Bibles");
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("exports: Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("exports: Fatal: This only runs through the cli Server API");
   die;
 }
 
@@ -158,7 +158,7 @@ foreach ($bibles as $bible) {
     // E.g.: Ndebele Genesis
     $bibleBookText = $bible . " " . $database_books->getEnglishFromId ($book);
     
-    $database_logs->log ("exports: " . $bibleBookText, true);
+    $database_logs->log ("exports: " . $bibleBookText);
 
     // Rich web index file per book. 
     $html_text_rich_book_index = new Html_Text ($bibleBookText);
@@ -290,7 +290,7 @@ foreach ($bibles as $bible) {
 
 
   // Save index file for the interlinked web export.
-  $database_logs->log ("exports: Create index file for interlinked Web", true);
+  $database_logs->log ("exports: Create index file for interlinked Web");
   $html_text_rich_bible_index->save ("$richWebDirectory/index.html");
   $html_text_rich_bible_index->save ("$richWebDirectory/00_index.html");
   unset ($html_text_rich_bible_index);
@@ -304,7 +304,7 @@ foreach ($bibles as $bible) {
   // Go through the Bible books and chapters.
   // Add the chapter's USFM code to the exporter filter for the whole Bible.
   // Use small chunks of USFM at a time for much better performance.
-  $database_logs->log ("exports: Save entire Bible to USFM", true);
+  $database_logs->log ("exports: Save entire Bible to USFM");
   $bibleUsfmData = "";
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
@@ -321,7 +321,7 @@ foreach ($bibles as $bible) {
 
 
   // Save Bible to the plain Web format.
-  $database_logs->log ("exports: Save entire Bible to plain Web", true);
+  $database_logs->log ("exports: Save entire Bible to plain Web");
   $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->html_text_standard = new Html_Text (gettext ("Bible"));
   // Use small chunks of USFM at a time for much better performance.
@@ -341,7 +341,7 @@ foreach ($bibles as $bible) {
 
 
   // Save to Online Bible format.
-  $database_logs->log ("exports: Save entire Bible to Online Bible", true);
+  $database_logs->log ("exports: Save entire Bible to Online Bible");
   $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->onlinebible_text = new Onlinebible_Text ();
   $books = $database_bibles->getBooks ($bible);
@@ -360,7 +360,7 @@ foreach ($bibles as $bible) {
 
 
   // Save to eSword module.
-  $database_logs->log ("exports: Save entire Bible to eSword", true);
+  $database_logs->log ("exports: Save entire Bible to eSword");
   $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->esword_text = new Esword_Text ($bible);
   $books = $database_bibles->getBooks ($bible);
@@ -380,7 +380,7 @@ foreach ($bibles as $bible) {
 
 
   // Export to OpenDocument in standard Bible format: Text plus footnotes.
-  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text plus footnotes", true);
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text plus footnotes");
   $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->odf_text_standard = new Odf_Text;
   $books = $database_bibles->getBooks ($bible);
@@ -407,7 +407,7 @@ foreach ($bibles as $bible) {
 
 
   // Export to OpenDocument in text-only format.
-  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text only", true);
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text only");
   $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->odf_text_text_only = new Odf_Text;
   $books = $database_bibles->getBooks ($bible);
@@ -426,7 +426,7 @@ foreach ($bibles as $bible) {
 
 
   // Export to OpenDocument in text plus note citations format.
-  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text plus note citations", true);
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Text plus note citations");
   $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->odf_text_text_and_note_citations = new Odf_Text;
   $books = $database_bibles->getBooks ($bible);
@@ -445,7 +445,7 @@ foreach ($bibles as $bible) {
 
 
   // Export to OpenDocument in notes-only format.
-  $database_logs->log ("exports: Save entire Bible to OpenDocument: Notes only", true);
+  $database_logs->log ("exports: Save entire Bible to OpenDocument: Notes only");
   $filter_text_bible = new Filter_Text ($bible);
   $filter_text_bible->odf_text_notes = new Odf_Text;
   $books = $database_bibles->getBooks ($bible);
@@ -466,22 +466,22 @@ foreach ($bibles as $bible) {
   copy ("../webbible/lens.png", "$richWebDirectory/lens.png");
 
   // Export to OSIS format.
-  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Python", true);
+  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Python");
   $osis_text = new Osis_Text ($usfmTemporalFolderFull, $osisDirectoryFullPython, $bible);
   $osis_text->run ('py');
-  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Python", true);
+  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Python");
   $osis_text = new Osis_Text ($usfmTemporalFolderBasic, $osisDirectoryBasicPython, $bible);
   $osis_text->run ('py');
-  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Perl", true);
+  $database_logs->log ("exports: Convert Bible from full USFM to OSIS through Perl");
   $osis_text = new Osis_Text ($usfmTemporalFolderFull, $osisDirectoryFullPerl, $bible);
   $osis_text->run ('pl');
-  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Perl", true);
+  $database_logs->log ("exports: Convert Bible from basic USFM to OSIS through Perl");
   $osis_text = new Osis_Text ($usfmTemporalFolderBasic, $osisDirectoryBasicPerl, $bible);
   $osis_text->run ('pl');
   unset ($osis_text);
 
   // Export to various Sword module.
-  $database_logs->log ("exports: Create various Sword modules", true);
+  $database_logs->log ("exports: Create various Sword modules");
   $sword_text = new Sword_Text ($osisDirectoryBasicPython, $swordDirectoryBasicPython, $bible);
   $sword_text->run ("00_Bible.xml");
   $sword_text = new Sword_Text ($osisDirectoryFullPython, $swordDirectoryFullPython, $bible);
@@ -501,7 +501,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$database_logs->log ("exports: Completed", true);
+$database_logs->log ("exports: Completed");
 
 
 ?>

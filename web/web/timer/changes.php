@@ -24,12 +24,12 @@
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (gettext ("changes: Generating lists of changes in the Bibles"), true);
+$database_logs->log (gettext ("changes: Generating lists of changes in the Bibles"));
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("changes: Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("changes: Fatal: This only runs through the cli Server API");
   die;
 }
 
@@ -135,7 +135,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$database_logs->log (gettext ("changes: Completed"), true);
+$database_logs->log (gettext ("changes: Completed"));
 
 
 ?>
