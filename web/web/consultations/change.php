@@ -10,23 +10,26 @@ $database_notes = Database_Notes::getInstance ();
 
 
 // Note unsubscribe handler.
-@$unsubscribe = $_GET['unsubscribe'];
+@$unsubscribe = $_POST['unsubscribe'];
 if (isset ($unsubscribe)) {
-  $database_notes->unsubscribe ($unsubscribe);
+  $database_notes->unsubscribe (Filter_Numeric::integer_in_string ($unsubscribe));
+  die;
 }
 
 
 // Note unassign handler.
-@$unassign = $_GET['unassign'];
+@$unassign = $_POST['unassign'];
 if (isset ($unassign)) {
-  $database_notes->unassign ($unassign);
+  $database_notes->unassign (Filter_Numeric::integer_in_string ($unassign));
+  die;
 }
 
 
 // Note delete handler.
-@$delete = $_GET['delete'];
+@$delete = $_POST['delete'];
 if (isset ($delete)) {
-  $database_notes->delete ($delete);
+  $database_notes->delete (Filter_Numeric::integer_in_string ($delete));
+  die;
 }
 
 
@@ -46,21 +49,6 @@ if (isset ($create)) {
   $contents .= $database_changes->getNewText ($create);
   $newNoteID = $database_notes->storeNewNote ($bible, $passage['book'], $passage['chapter'], $passage['verse'], $summary, $contents, true);
   header ("Location: notes.php?consultationnote=$newNoteID");
-  die;
-}
-
-
-// Edit text handler. Todo goes out.
-@$edittext = $_GET['edittext'];
-if (isset ($edittext)) {
-  // Set the correct Bible.
-  $database_config_user = Database_Config_User::getInstance ();
-  $database_bibles = Database_Bibles::getInstance ();
-  $bible = $database_changes->getBible ($edittext);
-  $bible = $database_bibles->getName ($bible);
-  $database_config_user->setBible ($bible);
-  // Open the text editor.
-  header ("Location: ../desktop/index.php?desktop=edittext");
   die;
 }
 

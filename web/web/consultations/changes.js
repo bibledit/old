@@ -45,15 +45,38 @@ function keyDown (event) {
 function handleClick (event) {
   selectedID = $(event.currentTarget).attr ("id").substring (5, 100);
   selectEntry ();
-  var actionID = $(event.target).attr ("id");
+  var eventTarget = $(event.target);
+  var actionID = eventTarget.attr ("id");
+  if (!actionID) return;
+  // Remove the change notification.
   if (actionID == ("remove" + selectedID)) {
     removeEntry ();
     nextEntry ();
     selectEntry ();
     event.preventDefault ();
   }
+  // Expand / collapse the change notification.
   if (actionID == ("expand" + selectedID)) {
     toggleEntry ();
+    event.preventDefault ();
+  }
+  // Unsubscribe from the note.
+  if (actionID.substring (0, 11) == ("unsubscribe")) {
+    $.post ("change.php", { unsubscribe:actionID });
+    eventTarget.fadeOut ();
+    event.preventDefault ();
+  }
+  // Unassign the note.
+  if (actionID.substring (0, 8) == ("unassign")) {
+    $.post ("change.php", { unassign:actionID });
+    eventTarget.fadeOut ();
+    event.preventDefault ();
+  }
+  // Delete the note.
+  if (actionID.substring (0, 6) == ("delete")) {
+    $.post ("change.php", { delete:actionID });
+    console.log (eventTarget.parent ());
+    eventTarget.parent ().parent ().fadeOut ();
     event.preventDefault ();
   }
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-12 01:43+0200\n"
+"POT-Creation-Date: 2013-07-13 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -396,9 +396,6 @@ msgid "No second set of characters given"
 msgstr ""
 
 msgid "The Bible is being hyphenated. See the logbook for details."
-msgstr ""
-
-msgid "Logbook was cleared"
 msgstr ""
 
 msgid "Information"
@@ -6271,9 +6268,6 @@ msgid ""
 "was there before."
 msgstr ""
 
-msgid "Change"
-msgstr ""
-
 msgid "Query about a change in the text"
 msgstr ""
 
@@ -6289,10 +6283,65 @@ msgstr ""
 msgid "Old"
 msgstr ""
 
-msgid "I have done my part it"
+msgid "Change"
+msgstr ""
+
+msgid "I have done my part on it"
+msgstr ""
+
+msgid "Edit text"
 msgstr ""
 
 msgid "Create note"
+msgstr ""
+
+msgid "items"
+msgstr ""
+
+msgid "This page lists the change notifications."
+msgstr ""
+
+msgid "Use the up and down arrow keys to navigate through the entries."
+msgstr ""
+
+msgid "Press the delete key to remove the selected entry."
+msgstr ""
+
+msgid "Or click the ✗."
+msgstr ""
+
+msgid ""
+"Use the left and right arrow keys to expand or collapse the selected entry."
+msgstr ""
+
+msgid "Or click the ⊞."
+msgstr ""
+
+msgid "Click the passage to open the Text Editor for the chapter."
+msgstr ""
+
+msgid "Click the changed text to display the Change Details."
+msgstr ""
+
+msgid ""
+"Any changes in the text of the Bibles will be added to the list the next day."
+msgstr ""
+
+msgid "This works if enabled in your personal notifications."
+msgstr ""
+
+msgid "There is a number at the right of each change."
+msgstr ""
+
+msgid ""
+"It indicates the number of notes you are subscribed to or that have been "
+"assigned to you."
+msgstr ""
+
+msgid "The change notifications are for you only."
+msgstr ""
+
+msgid "Your colleagues have their own lists."
 msgstr ""
 
 msgid "This shows the details of the change in the text of the Bible."
@@ -6323,52 +6372,4 @@ msgid ""
 msgstr ""
 
 msgid "It displays the date when the modification was processed."
-msgstr ""
-
-msgid "items"
-msgstr ""
-
-msgid "This page lists the change notifications."
-msgstr ""
-
-msgid "Use the up and down arrow keys to navigate through the entries."
-msgstr ""
-
-msgid "Use the delete key to remove the selected entry."
-msgstr ""
-
-msgid "Click ✗ to remove the change."
-msgstr ""
-
-msgid "Click the passage to open the Text Editor for the chapter."
-msgstr ""
-
-msgid "Click the changed text to display the Change Details."
-msgstr ""
-
-msgid ""
-"Any changes in the text of the Bibles will be added to the list the next day."
-msgstr ""
-
-msgid "This works if enabled in your personal notifications."
-msgstr ""
-
-msgid "There is a number at the right of each change."
-msgstr ""
-
-msgid ""
-"It indicates the number of notes you are subscribed to or that have been "
-"assigned to you."
-msgstr ""
-
-msgid "The change notifications are for you only."
-msgstr ""
-
-msgid "Your colleagues have their own lists."
-msgstr ""
-
-msgid "The passage for this change was not found."
-msgstr ""
-
-msgid "The change was approved."
 msgstr ""
