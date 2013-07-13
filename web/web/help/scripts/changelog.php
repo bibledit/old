@@ -32,7 +32,7 @@
 <p>The links in the daily email with statistics take the user to the correct selections of consultation notes.</p>
 <p>Removes snapshots older than 30 days.</p>
 <p>Trims and optimizes the database every night.</p>
-<p></p>
+<p>The page with Change Notifications is more user-friendly.</p>
 <p></p>
 
 <h2>Version 0.9</h2>
