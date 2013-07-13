@@ -15,14 +15,9 @@ $username = $session_logic->currentUser ();
 // Handle AJAX call to remove a change notification.
 @$remove = $_POST['remove'];
 if (isset ($remove)) {
-  $id = $remove;
-  // Log action just to safekeep the notification for a while.
-  $passage = $database_changes->getPassage ($id);
-  $passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
-  $modification = $database_changes->getModification ($id);
-  $database_logs->log ("User $username removed change notification $passageText $modification"); 
-  // Remove change notification.
-  $database_changes->delete ($id);
+  $trash_handler = Trash_Handler::getInstance ();
+  $trash_handler->changeNotification ($remove);
+  $database_changes->delete ($remove);
   die;
 }
 
