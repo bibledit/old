@@ -28,7 +28,10 @@ if (isset ($unassign)) {
 // Note delete handler.
 @$delete = $_POST['delete'];
 if (isset ($delete)) {
-  $database_notes->delete (Filter_Numeric::integer_in_string ($delete));
+  $identifier = Filter_Numeric::integer_in_string ($delete);
+  $trash_handler = Trash_Handler::getInstance ();
+  $trash_handler->consultationNote ($identifier);
+  $database_notes->delete ($identifier);
   die;
 }
 

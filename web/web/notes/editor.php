@@ -167,6 +167,8 @@ class Notes_Editor
     @$deleteconsultationnote = $_GET['deleteconsultationnote'];
     if (isset ($deleteconsultationnote)) {
       $notes_logic->handlerDeleteNote ($deleteconsultationnote); // Notifications handling.
+      $trash_handler = Trash_Handler::getInstance ();
+      $trash_handler->consultationNote ($deleteconsultationnote);
       $database_notes->delete ($deleteconsultationnote);
       $consultationnote = "";
       $database_sessions->setConsultationNote ($consultationnote);
@@ -590,6 +592,8 @@ class Notes_Editor
         } else {
           foreach ($identifiers as $identifier) {
             $notes_logic->handlerDeleteNote ($identifier); // Notifications handling.
+            $trash_handler = Trash_Handler::getInstance ();
+            $trash_handler->consultationNote ($identifier);
             $database_notes->delete ($identifier);
           }
           Assets_Page::success (gettext ("The notes were deleted"));

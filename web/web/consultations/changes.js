@@ -10,7 +10,6 @@ $(document).ready(function() {
 
 
 function keyDown (event) {
-  //console.log (event);
   // Down arrow: Go to next entry.
   if (event.keyCode == 40) {
     event.preventDefault ();

@@ -59,7 +59,8 @@ class Database_Changes
       $username = Database_SQLInjection::no ($username);
       $query .= " WHERE username = '$username' ";
     }
-    $query .= " ORDER BY bible ASC, book ASC, chapter ASC, verse ASC;";
+    // Sort on id, so that the entries display in chronological order.
+    $query .= " ORDER BY id ASC;";
     $database_instance = Database_Instance::getInstance();
     $result = $database_instance->runQuery ($query);
     $ids = array ();

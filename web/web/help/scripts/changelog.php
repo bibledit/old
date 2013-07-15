@@ -33,6 +33,8 @@
 <p>Removes snapshots older than 30 days.</p>
 <p>Trims and optimizes the database every night.</p>
 <p>The page with Change Notifications is more user-friendly.</p>
+<p>Logs removing change notifications.</p>
+<p>Logs deleting consultation notes.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

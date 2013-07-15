@@ -43,6 +43,21 @@ class Trash_Handler
   }
 
 
+  public function consultationNote ($id)
+  {
+    $database_notes = Database_Notes::getInstance ();
+    $database_logs = Database_Logs::getInstance ();
+    $passage = $database_notes->getPassages ($id);
+    $passageText = Filter_Books::passagesDisplayInline ($passage);
+    $summary = $database_notes->getSummary ($id);
+    $contents = $database_notes->getContents ($id);
+    $contents = Filter_Html::html2text ($contents);
+    $session_logic = Session_Logic::getInstance ();
+    $username = $session_logic->currentUser ();
+    $database_logs->log ("$username removed consultation note $passageText | $summary | $contents"); 
+  }
+
+
 
 }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-13 01:43+0200\n"
+"POT-Creation-Date: 2013-07-15 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6317,25 +6317,29 @@ msgstr ""
 msgid "Or click the ⊞."
 msgstr ""
 
-msgid "Click the passage to open the Text Editor for the chapter."
-msgstr ""
-
-msgid "Click the changed text to display the Change Details."
+msgid "The expanded entry provides more information and options."
 msgstr ""
 
 msgid ""
-"Any changes in the text of the Bibles will be added to the list the next day."
+"It displays all the Consultation Notes that refer to passage of the Change "
+"Notification."
 msgstr ""
 
-msgid "This works if enabled in your personal notifications."
+msgid "If you are subscribed to a note, you can unsubscribe."
 msgstr ""
 
-msgid "There is a number at the right of each change."
+msgid "If a note is assigned to you, you can unassign it."
+msgstr ""
+
+msgid "You can delete a note."
+msgstr ""
+
+msgid "You can edit the text of the Bible."
 msgstr ""
 
 msgid ""
-"It indicates the number of notes you are subscribed to or that have been "
-"assigned to you."
+"You can create a new Consultation Notes with a query about the change in the "
+"text of the Bible."
 msgstr ""
 
 msgid "The change notifications are for you only."
@@ -6344,32 +6348,9 @@ msgstr ""
 msgid "Your colleagues have their own lists."
 msgstr ""
 
-msgid "This shows the details of the change in the text of the Bible."
-msgstr ""
-
-msgid "It shows the old text, the change, and the new text."
-msgstr ""
-
 msgid ""
-"Click ✔ to approve a change, and then to go back to the list of changes."
+"Any changes in the text of the Bibles will be added to the list the next day."
 msgstr ""
 
-msgid "It shows all Consultation Notes about the passage."
-msgstr ""
-
-msgid "If you are subscribed to any of the notes, you can unsubscribe."
-msgstr ""
-
-msgid "If any of the notes is assigned to you, you can unassign it."
-msgstr ""
-
-msgid "You can delete any of the notes."
-msgstr ""
-
-msgid ""
-"You can create a new Consultation Notes with a query about the change in the "
-"text of the Bible."
-msgstr ""
-
-msgid "It displays the date when the modification was processed."
+msgid "This works if enabled in your personal notifications."
 msgstr ""
