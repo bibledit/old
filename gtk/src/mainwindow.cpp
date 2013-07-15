@@ -597,54 +597,54 @@ navigation(0), httpd(0)
   }
 
   file_resources = gtk_image_menu_item_new_with_mnemonic("R_esources");
-  gtk_widget_show(file_resources);
+  //gtk_widget_show(file_resources);
   gtk_container_add(GTK_CONTAINER(menuitem_file_menu), file_resources);
 
   image27365 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27365);
+  //gtk_widget_show(image27365);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources), image27365);
 
   file_resources_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(file_resources), file_resources_menu);
 
   file_resources_open = gtk_image_menu_item_new_with_mnemonic("_Open");
-  gtk_widget_show(file_resources_open);
+  //gtk_widget_show(file_resources_open);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_open);
 
   image27366 = gtk_image_new_from_stock("gtk-open", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27366);
+  //gtk_widget_show(image27366);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_open), image27366);
 
   file_resources_close = gtk_image_menu_item_new_with_mnemonic("_Close");
-  gtk_widget_show(file_resources_close);
+  //gtk_widget_show(file_resources_close);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_close);
 
   image27367 = gtk_image_new_from_stock("gtk-close", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27367);
+  //gtk_widget_show(image27367);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_close), image27367);
 
   file_resources_new = gtk_image_menu_item_new_with_mnemonic("_New");
-  gtk_widget_show(file_resources_new);
+  //gtk_widget_show(file_resources_new);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_new);
 
   image27514 = gtk_image_new_from_stock("gtk-new", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27514);
+  //gtk_widget_show(image27514);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_new), image27514);
 
   file_resources_edit = gtk_image_menu_item_new_with_mnemonic("_Edit");
-  gtk_widget_show(file_resources_edit);
+  //gtk_widget_show(file_resources_edit);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_edit);
 
   image27515 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27515);
+  //gtk_widget_show(image27515);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_edit), image27515);
 
   file_resources_delete = gtk_image_menu_item_new_with_mnemonic("_Delete");
-  gtk_widget_show(file_resources_delete);
+  //gtk_widget_show(file_resources_delete);
   gtk_container_add(GTK_CONTAINER(file_resources_menu), file_resources_delete);
 
   image27664 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27664);
+  //gtk_widget_show(image27664);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_delete), image27664);
 
   file_keyterms = gtk_image_menu_item_new_with_mnemonic ("_Keyterms");
