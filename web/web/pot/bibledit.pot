@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-15 01:43+0200\n"
+"POT-Creation-Date: 2013-07-16 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5344,6 +5344,24 @@ msgid "Daily changes in the Bibles"
 msgstr ""
 
 msgid "Exported Bibles"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "Settings for Resources"
+msgstr ""
+
+msgid "Active resources"
+msgstr ""
+
+msgid "Available internal Bible resources"
+msgstr ""
+
+msgid "Click an item to activate it"
+msgstr ""
+
+msgid "No resources available for"
 msgstr ""
 
 msgid "Desktop"

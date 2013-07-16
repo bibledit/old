@@ -8,6 +8,7 @@ $(document).ready (function () {
 
 function pollPassage () 
 {
+  return;
   $.ajax ({
     url: "get.php",
     type: "GET",
@@ -39,3 +40,4 @@ function loadResources ()
     },
   });
 }
+

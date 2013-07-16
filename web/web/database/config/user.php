@@ -49,8 +49,36 @@ class Database_Config_User
     $query = "INSERT INTO config_user VALUES (NULL, '$username', '$bible', '$key', '$value', 0);";    
     $database->runQuery ($query);
   }
-
-
+  public function getList ($bible, $key) {
+    $session_logic = Session_Logic::getInstance();
+    $username = $session_logic->currentUser();
+    $username = Database_SQLInjection::no ($username);
+    $bible = Database_SQLInjection::no ($bible);
+    $database = Database_Instance::getInstance ();
+    $query = "SELECT value FROM config_user WHERE username = '$username' AND bible = '$bible' AND ident = '$key' ORDER BY offset;";
+    $result = $database->runQuery ($query);
+    $list = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $result_array = $result->fetch_row();
+      $list [] = $result_array [0];
+    }
+    return $list;
+  }
+  public function setList ($bible, $key, $values) {
+    $session_logic = Session_Logic::getInstance();
+    $username = $session_logic->currentUser();
+    $username = Database_SQLInjection::no ($username);
+    $bible = Database_SQLInjection::no ($bible);
+    $database = Database_Instance::getInstance ();
+    $query = "DELETE FROM config_user WHERE username = '$username' AND bible = '$bible' AND ident = '$key';";
+    $database->runQuery ($query);
+    foreach ($values as $offset => $value) {
+      $offset = Database_SQLInjection::no ($offset);
+      $value = Database_SQLInjection::no ($value);
+      $query = "INSERT INTO config_user VALUES (NULL, '$username', '$bible', '$key', '$value', $offset);";    
+      $database->runQuery ($query);
+    }
+  }
   private function getValueForBible ($bible, $key, $default) {
     $bible = Database_SQLInjection::no ($bible);
     $database = Database_Instance::getInstance ();
@@ -364,6 +392,13 @@ class Database_Config_User
   }
   public function setSuppressMailFromYourUpdatesNotes ($value) {
     $this->setValue ("", "suppress-mail-my-updated-notes", $value);
+  }   
+
+  public function getActiveResources () {
+    return $this->getList ("", "active-resources");
+  }
+  public function setActiveResources ($values) {
+    $this->setList ("", "active-resources", $values);
   }   
 
 }
