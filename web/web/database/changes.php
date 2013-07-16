@@ -60,6 +60,7 @@ class Database_Changes
       $query .= " WHERE username = '$username' ";
     }
     // Sort on id, so that the entries display in chronological order.
+    //$query .= " ORDER BY book ASC, chapter ASC, verse ASC, id ASC;";
     $query .= " ORDER BY id ASC;";
     $database_instance = Database_Instance::getInstance();
     $result = $database_instance->runQuery ($query);
