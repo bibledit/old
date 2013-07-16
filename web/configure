@@ -597,7 +597,6 @@ LINUX_FALSE
 LINUX_TRUE
 OPEN_INSTALLATION
 LOCATION
-JQUERYPATH
 ZENDPATH
 SITE_ADMIN_PASSWORD
 SITE_ADMIN_USERNAME
@@ -1325,7 +1324,6 @@ Optional Packages:
   --with-site-admin-password=password
                           Site Administrator password
   --with-zend-path=path   Zend Framework path
-  --with-jquery-path=path   jQuery path
   --with-location=location  Location on the web and internal
   --with-open-installation=true
                           Open installation
@@ -3154,50 +3152,74 @@ _ACEOF
 
 # Location of jQuery.
 # Ubuntu: dpkg -L libjs-jquery: /usr/share/javascript/jquery/jquery.js
-JQUERYPATH_DEFAULT="."
-
-# Check whether --with-zend-path was given.
-if test "${with_zend_path+set}" = set; then :
-  withval=$with_zend_path;  JQUERYPATH=$withval
-else
-   JQUERYPATH=$JQUERYPATH_DEFAULT
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking jquery path" >&5
-$as_echo_n "checking jquery path... " >&6; }
-if  [ $JQUERYPATH == "." ]
-then
-  test -d /usr/share/javascript/jquery
-  if  [ $? -eq 0 ]
-  then
-    JQUERYPATH=/usr/share/javascript/jquery
-  fi
-fi
-if  [ $JQUERYPATH == "." ]
-then
-  test -d /usr/share/javascript/jquery
-  if  [ $? -eq 0 ]
-  then
-    JQUERYPATH=/usr/share/javascript/jquery
-  fi
-fi
-if  [ $JQUERYPATH == "." ]
-then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-  as_fn_error $? "Could not find path to jQuery. Provide the information through: --with-jquery-path=<path>" "$LINENO" 5
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${JQUERYPATH}" >&5
-$as_echo "${JQUERYPATH}" >&6; }
-
-$as_echo "#define JQUERYPATH /**/" >>confdefs.h
-
-cat >>confdefs.h <<_ACEOF
-#define JQUERYPATH "$JQUERYPATH"
-_ACEOF
+# JQUERYPATH_DEFAULT="."
+# AC_ARG_WITH(jquery-path,
+#         [  --with-jquery-path=path   jQuery path],
+#         [ JQUERYPATH=$withval ],
+#         [ JQUERYPATH=$JQUERYPATH_DEFAULT ]
+# )
+# AC_MSG_CHECKING(jquery path)
+# if [ [ $JQUERYPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYPATH=/usr/share/javascript/jquery
+#   fi
+# fi
+# if [ [ $JQUERYPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYPATH=/usr/share/javascript/jquery
+#   fi
+# fi
+# if [ [ $JQUERYPATH == "." ] ]
+# then
+#   AC_MSG_RESULT(no)
+#   AC_MSG_ERROR(Could not find path to jQuery. Provide the information through: --with-jquery-path=<path>)
+# fi
+# AC_MSG_RESULT(${JQUERYPATH})
+# AC_DEFINE([JQUERYPATH], [], [Define the path to jquery])
+# AC_DEFINE_UNQUOTED(JQUERYPATH, "$JQUERYPATH")
+# AC_SUBST(JQUERYPATH)
 
 
+# Location of jQuery UI.
+# Ubuntu: dpkg -L libjs-jquery-ui: /usr/share/javascript/jquery-ui/...
+# JQUERYUIPATH_DEFAULT="."
+# AC_ARG_WITH(jqueryui-path,
+#         [ --with-jqueryui-path=path   jQuery UI path],
+#         [ JQUERYUIPATH=$withval ],
+#         [ JQUERYUIPATH=$JQUERYUIPATH_DEFAULT ]
+# )
+# AC_MSG_CHECKING(jqueryui path)
+# if [ [ $JQUERYUIPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery-ui
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYUIPATH=/usr/share/javascript/jquery-ui
+#   fi
+# fi
+# if [ [ $JQUERYUIPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery-ui
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYUIPATH=/usr/share/javascript/jquery-ui
+#   fi
+# fi
+# if [ [ $JQUERYUIPATH == "." ] ]
+# then
+#   AC_MSG_RESULT(no)
+#   AC_MSG_ERROR(Could not find path to jQuery UI. Provide the information through: --with-jqueryui-path=<path>)
+# fi
+# AC_MSG_RESULT(${JQUERYUIPATH})
+# AC_DEFINE([JQUERYUIPATH], [], [Define the path to jquery-ui])
+# AC_DEFINE_UNQUOTED(JQUERYUIPATH, "$JQUERYUIPATH")
+# AC_SUBST(JQUERYUIPATH)
 
 
 # Location on the web and internal.
@@ -4762,7 +4784,6 @@ MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
 Website administrator username: ${SITE_ADMIN_USERNAME}
 Website administrator password: ${SITE_ADMIN_PASSWORD}
 Zend framework path: ${ZENDPATH}
-jQuery path: ${JQUERYPATH}
 Local state directory: $DESTDIR/${packagelocalstatedir}
 "
 

@@ -1,8 +1,5 @@
 /* config.php.in.  Generated from configure.ac by autoheader.  */
 
-/* Define the path to jquery */
-#undef JQUERYPATH
-
 /* Define the location on the web and internal */
 #undef LOCATION
 

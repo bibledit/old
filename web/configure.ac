@@ -184,38 +184,74 @@ AC_SUBST(ZENDPATH)
 
 # Location of jQuery.
 # Ubuntu: dpkg -L libjs-jquery: /usr/share/javascript/jquery/jquery.js
-JQUERYPATH_DEFAULT="."
-AC_ARG_WITH(zend-path,
-        [  --with-jquery-path=path   jQuery path],
-        [ JQUERYPATH=$withval ],
-        [ JQUERYPATH=$JQUERYPATH_DEFAULT ]
-)
-AC_MSG_CHECKING(jquery path)
-if [ [ $JQUERYPATH == "." ] ]
-then
-  test -d /usr/share/javascript/jquery
-  if [ [ $? -eq 0 ] ]
-  then
-    JQUERYPATH=/usr/share/javascript/jquery
-  fi
-fi
-if [ [ $JQUERYPATH == "." ] ]
-then
-  test -d /usr/share/javascript/jquery
-  if [ [ $? -eq 0 ] ]
-  then
-    JQUERYPATH=/usr/share/javascript/jquery
-  fi
-fi
-if [ [ $JQUERYPATH == "." ] ]
-then
-  AC_MSG_RESULT(no)
-  AC_MSG_ERROR(Could not find path to jQuery. Provide the information through: --with-jquery-path=<path>)
-fi
-AC_MSG_RESULT(${JQUERYPATH})
-AC_DEFINE([JQUERYPATH], [], [Define the path to jquery])
-AC_DEFINE_UNQUOTED(JQUERYPATH, "$JQUERYPATH")
-AC_SUBST(JQUERYPATH)
+# JQUERYPATH_DEFAULT="."
+# AC_ARG_WITH(jquery-path,
+#         [  --with-jquery-path=path   jQuery path],
+#         [ JQUERYPATH=$withval ],
+#         [ JQUERYPATH=$JQUERYPATH_DEFAULT ]
+# )
+# AC_MSG_CHECKING(jquery path)
+# if [ [ $JQUERYPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYPATH=/usr/share/javascript/jquery
+#   fi
+# fi
+# if [ [ $JQUERYPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYPATH=/usr/share/javascript/jquery
+#   fi
+# fi
+# if [ [ $JQUERYPATH == "." ] ]
+# then
+#   AC_MSG_RESULT(no)
+#   AC_MSG_ERROR(Could not find path to jQuery. Provide the information through: --with-jquery-path=<path>)
+# fi
+# AC_MSG_RESULT(${JQUERYPATH})
+# AC_DEFINE([JQUERYPATH], [], [Define the path to jquery])
+# AC_DEFINE_UNQUOTED(JQUERYPATH, "$JQUERYPATH")
+# AC_SUBST(JQUERYPATH)
+
+
+# Location of jQuery UI.
+# Ubuntu: dpkg -L libjs-jquery-ui: /usr/share/javascript/jquery-ui/...
+# JQUERYUIPATH_DEFAULT="."
+# AC_ARG_WITH(jqueryui-path,
+#         [ --with-jqueryui-path=path   jQuery UI path],
+#         [ JQUERYUIPATH=$withval ],
+#         [ JQUERYUIPATH=$JQUERYUIPATH_DEFAULT ]
+# )
+# AC_MSG_CHECKING(jqueryui path)
+# if [ [ $JQUERYUIPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery-ui
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYUIPATH=/usr/share/javascript/jquery-ui
+#   fi
+# fi
+# if [ [ $JQUERYUIPATH == "." ] ]
+# then
+#   test -d /usr/share/javascript/jquery-ui
+#   if [ [ $? -eq 0 ] ]
+#   then
+#     JQUERYUIPATH=/usr/share/javascript/jquery-ui
+#   fi
+# fi
+# if [ [ $JQUERYUIPATH == "." ] ]
+# then
+#   AC_MSG_RESULT(no)
+#   AC_MSG_ERROR(Could not find path to jQuery UI. Provide the information through: --with-jqueryui-path=<path>)
+# fi
+# AC_MSG_RESULT(${JQUERYUIPATH})
+# AC_DEFINE([JQUERYUIPATH], [], [Define the path to jquery-ui])
+# AC_DEFINE_UNQUOTED(JQUERYUIPATH, "$JQUERYUIPATH")
+# AC_SUBST(JQUERYUIPATH)
 
 
 # Location on the web and internal.
@@ -402,7 +438,6 @@ MySQL database administrator password: ${MYSQL_ROOT_PASSWORD}
 Website administrator username: ${SITE_ADMIN_USERNAME}
 Website administrator password: ${SITE_ADMIN_PASSWORD}
 Zend framework path: ${ZENDPATH}
-jQuery path: ${JQUERYPATH}
 Local state directory: $DESTDIR/${packagelocalstatedir}
 "
 

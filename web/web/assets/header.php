@@ -27,6 +27,7 @@ class Assets_Header
   private $view;
   private $document_ready_functions;
   private $includeJQuery = false;
+  private $includeJQueryUI = false;
 
   public function __construct ($title) 
   {
@@ -37,6 +38,12 @@ class Assets_Header
   public function jQueryOn ()
   {
     $this->includeJQuery = true;
+  }
+  
+  public function jQueryUIOn ()
+  {
+    $this->jQueryOn ();
+    $this->includeJQueryUI = true;
   }
   
   // Adds a document ready function for jQuery.
@@ -66,6 +73,7 @@ class Assets_Header
   public function run ()
   {
     $this->view->view->include_jquery = $this->includeJQuery;
+    $this->view->view->include_jquery_ui = $this->includeJQueryUI;
     $this->view->view->document_ready_functions =  $this->document_ready_functions;
     $this->view->render ("xhtml_start.php");
     $this->view->render ("header_full.php");

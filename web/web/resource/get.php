@@ -32,21 +32,20 @@ if (!$book || !$chapter || !$verse) {
 $view = new Assets_View (__FILE__);
 
 
-$names = array ();
 $fragments = array ();
 
 
 $database_bibles = Database_Bibles::getInstance ();
 $database_config_general = Database_Config_General::getInstance ();
+$database_config_user = Database_Config_User::getInstance ();
 
 
 $stylesheet = $database_config_general->getExportStylesheet ();
 $bibles = $database_bibles->getBibles ();
+$resources = $database_config_user->getActiveResources ();
 
-
-foreach ($bibles as $bible) {
-  $names [] = $bible;
-  $chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+foreach ($resources as $resource) {
+  $chapter_usfm = $database_bibles->getChapter ($resource, $book, $chapter);
   $verse_usfm = Filter_Usfm::getVerseText ($chapter_usfm, $verse);
   $filter_text = new Filter_Text ("");
   $filter_text->html_text_standard = new Html_Text (gettext ("Bible"));
@@ -57,7 +56,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$view->view->names = $names;
+$view->view->names = $resources;
 $view->view->fragments = $fragments;
 $view->render ("get.php");
 

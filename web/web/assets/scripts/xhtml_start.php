@@ -1,12 +1,16 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n" ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" >
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
+<meta charset="utf-8" />
 <title><?php echo "$this->title" ?></title>
 <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
 <?php if ($this->include_jquery) { ?>
-<script type="text/javascript" src="../jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../jquery/jquery-1.10.2.min.js"></script>
+<?php } ?>
+<?php if ($this->include_jquery_ui) { ?>
+<link rel="stylesheet" type="text/css" href="../jquery/jquery-ui-1.10.3.css"></link>
+<script type="text/javascript" src="../jquery/jquery-ui-1.10.3.min.js"></script>
 <?php } ?>
 <?php if (isset ($this->wysiwyg_editor)) { ?>
   <link rel="stylesheet" href="../jwysiwyg/jquery.wysiwyg.css" type="text/css" />

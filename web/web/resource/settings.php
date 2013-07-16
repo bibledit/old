@@ -16,11 +16,28 @@ if (isset ($add)) {
 }
 
 
+@$remove = $_GET['remove'];
+if (isset ($remove)) {
+  $resources = $database_config_user->getActiveResources ();
+  $key = array_search ($remove, $resources);
+  unset ($resources[$key]);
+  $database_config_user->setActiveResources ($resources);
+}
+
+
+@$resources = $_POST ['resources'];
+if (isset ($resources)) {
+  $resources = explode (",", $resources);
+  $database_config_user->setActiveResources ($resources);
+}
+
+
 $database_bibles = Database_Bibles::getInstance ();
 
 
 $header = new Assets_Header (gettext ("Resources"));
 $header->jQueryOn ();
+$header->jQueryUIOn ();
 $header->run ();
 $view = new Assets_View (__FILE__);
 

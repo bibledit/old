@@ -26,7 +26,7 @@
 <p>Can check on punctuation at the end of each verse.</p>
 <p>Can check on the existence of patterns in the verse text.</p>
 <p>Switch from Smarty to Zend_View.</p>
-<p>Requires package libjs-jquery.</p>
+<p>Includes jQuery and jQuery UI.</p>
 <p>Improved user experience for displaying the logbook.</p>
 <p>Statistics about subscribed consultation notes will be mailed to subscribed users.</p>
 <p>The links in the daily email with statistics take the user to the correct selections of consultation notes.</p>
