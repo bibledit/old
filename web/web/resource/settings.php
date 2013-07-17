@@ -42,8 +42,13 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
-$view->view->actives = $database_config_user->getActiveResources ();
-$view->view->bibles = $database_bibles->getBibles ();
+$active_resources = $database_config_user->getActiveResources ();
+$available_bibles = $database_bibles->getBibles ();
+$available_bibles = array_diff ($available_bibles, $active_resources);
+
+
+$view->view->actives = $active_resources;
+$view->view->bibles = $available_bibles;
 $view->render ("settings.php");
 Assets_Page::footer ();
 
