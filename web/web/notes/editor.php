@@ -37,17 +37,9 @@ class Notes_Editor
 
   public function scripts ()
   {
-    $code = "";
-    if (isset ($_GET['createconsultationnote'])) {
-      $code = "document.form.summary.focus();"; 
-    }
-    if (isset ($_GET['addtoconsultationnote'])) {
-      $code = "document.form.comment.focus();"; 
-    }
-    return $code;
   }
   
-  public function use_wysiwyg_editor ()
+  public function use_jquery ()
   {
     if (isset ($_GET['createconsultationnote'])) return true;
     if (isset ($_GET['addtoconsultationnote'])) return true;
@@ -643,7 +635,7 @@ class Notes_Editor
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
-      $view->render ("create.php"); // Todo rte editor.
+      $view->render ("create.php");
     } 
     else if ($consultationnote != "") {
       // Note display.
@@ -676,7 +668,7 @@ class Notes_Editor
         $contents = $database_notes->getContents($consultationnote);
         $view->view->note_content = $contents;
         @$view->view->note_add_comment = $_GET['addtoconsultationnote'];
-        $view->render ("note.php"); // Todo new editor.
+        $view->render ("note.php");
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.

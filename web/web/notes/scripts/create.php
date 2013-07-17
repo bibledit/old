@@ -1,5 +1,5 @@
 <form
-  style="border:1px #bbb solid;padding:1em;" 
+  style="border:1px #bbb solid;"
   action="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&createnotebible=<?php echo $this->bible ?>&createnotebook=<?php echo $this->book ?>&createnotechapter=<?php echo $this->chapter ?>&createnoteverse=<?php echo $this->verse ?>&savenewconsultationnote=" 
   name="form" 
   method="post"
@@ -15,5 +15,6 @@
 <script type="text/javascript">
 $(document).ready (function () {
   $('.rte-zone').rte ("css url", "toolbox images url");
+  document.form.summary.focus();
 });
 </script>

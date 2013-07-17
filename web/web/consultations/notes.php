@@ -29,9 +29,8 @@ $assets_header = new Assets_Header (gettext ("Notes"));
 $assets_navigator = Assets_Navigator::getInstance();
 $notes_editor = Notes_Editor::getInstance();
 
-$assets_header->jQueryHeaderAddDocumentReadyFunction ($notes_editor->scripts ());
-if ($notes_editor->use_wysiwyg_editor ()) {
-  $assets_header->jQueryHeaderAddWysiwygHeaders ();
+if ($notes_editor->use_jquery ()) {
+  $assets_header->jQueryOn ();
 }
 $assets_header->run();
 

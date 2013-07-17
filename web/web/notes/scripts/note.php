@@ -13,7 +13,7 @@
 <hr>
 <?php if (isset ($this->note_add_comment)) { ?>
   <form 
-    style="border:1px #bbb solid;padding:1em;" 
+    style="border:1px #bbb solid;" 
     action="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&saveconsultationnotecomment=" 
     name="form" 
     method="post"
@@ -26,6 +26,7 @@
   <script type="text/javascript">
   $(document).ready (function () {
     $('.rte-zone').rte ("css url", "toolbox images url");
+    document.form.comment.focus();
   });
 </script>
 <?php } else { ?>

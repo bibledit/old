@@ -25,7 +25,6 @@ class Assets_Header
 {
   private static $instance;
   private $view;
-  private $document_ready_functions;
   private $includeJQuery = false;
   private $includeJQueryUI = false;
 
@@ -46,22 +45,6 @@ class Assets_Header
     $this->includeJQueryUI = true;
   }
   
-  // Adds a document ready function for jQuery.
-  public function jQueryHeaderAddDocumentReadyFunction ($code) // Todo phase out.
-  {
-    if ($code != "") {
-      $this->jQueryOn ();
-      $this->document_ready_functions[] = $code;
-    }
-  }
-
-  // Adds a document ready function for the jQuery editor.
-  public function jQueryHeaderAddWysiwygHeaders () // Todo phase out.
-  {
-    $this->jQueryOn ();
-    $this->view->view->wysiwyg_editor = true;
-  }
-
   // Adds an 'onload' statement to the <body> html tag.
   // $code could be, e.g.: onload="document.form.user.focus();"
   public function setBodyOnload ($code)
@@ -74,7 +57,6 @@ class Assets_Header
   {
     $this->view->view->include_jquery = $this->includeJQuery;
     $this->view->view->include_jquery_ui = $this->includeJQueryUI;
-    $this->view->view->document_ready_functions =  $this->document_ready_functions; // Todo phase out.
     $this->view->render ("xhtml_start.php");
     $this->view->render ("header_full.php");
     

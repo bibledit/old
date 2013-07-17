@@ -35,6 +35,7 @@
 <p>The page with Change Notifications is more user-friendly.</p>
 <p>Logs removing change notifications.</p>
 <p>Logs deleting consultation notes.</p>
+<p>The editor for the consultation notes has been simplified.</p>
 <p></p>
 
 <h2>Version 0.9</h2>
