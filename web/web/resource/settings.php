@@ -44,6 +44,7 @@ $view = new Assets_View (__FILE__);
 
 $active_resources = $database_config_user->getActiveResources ();
 $available_bibles = $database_bibles->getBibles ();
+// Active resources are not listed as available.
 $available_bibles = array_diff ($available_bibles, $active_resources);
 
 
