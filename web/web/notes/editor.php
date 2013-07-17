@@ -643,7 +643,7 @@ class Notes_Editor
 
     if (isset ($_GET['createconsultationnote'])) {
       // New note creation display.
-      $view->render ("create.php");
+      $view->render ("create.php"); // Todo rte editor.
     } 
     else if ($consultationnote != "") {
       // Note display.
@@ -676,7 +676,7 @@ class Notes_Editor
         $contents = $database_notes->getContents($consultationnote);
         $view->view->note_content = $contents;
         @$view->view->note_add_comment = $_GET['addtoconsultationnote'];
-        $view->render ("note.php");
+        $view->render ("note.php"); // Todo new editor.
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.

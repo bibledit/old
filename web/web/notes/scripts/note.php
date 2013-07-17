@@ -12,11 +12,22 @@
 <div><?php echo $this->note_content ?></div>
 <hr>
 <?php if (isset ($this->note_add_comment)) { ?>
-  <form action="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&saveconsultationnotecomment=" name="form" method="post">
+  <form 
+    style="border:1px #bbb solid;padding:1em;" 
+    action="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&saveconsultationnotecomment=" 
+    name="form" 
+    method="post"
+  >
     <p><?php echo gettext ("Add a comment to this note:") ?></p>
-    <p><textarea name="comment" id="wysiwyg"></textarea></p>
+    <p><textarea name="comment" class="rte-zone"></textarea></p>
     <p><input type="submit" name="submit" value=<?php echo gettext ("Save") ?> onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" /><input type="submit" name="cancel" value=<?php echo gettext ("Cancel") ?> /></p>
   </form>
+  <script src="../rte/jquery.rte.js"></script>
+  <script type="text/javascript">
+  $(document).ready (function () {
+    $('.rte-zone').rte ("css url", "toolbox images url");
+  });
+</script>
 <?php } else { ?>
   <p><a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&addtoconsultationnote="><?php echo gettext ("Add a comment to this note") ?></a></p>
 <?php } ?>
