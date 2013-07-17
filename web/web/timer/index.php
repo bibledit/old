@@ -81,16 +81,17 @@ if (($minute % 5) == 0) {
 }
 
 
-// The running order of the following nightly scripts is important.
-// In general, the order will such that all information is generated as recent as possible,
-// and that the more important tasks are done first, and the less important ones at the end.
-// This means something as displayed in the code of this script.
+// The order for running the following nightly scripts is important.
+// Any of those scripts may influence the subsequent ones.
+// The order is such that all information generated is as recent as possible.
+// More important tasks are done first, and the less important ones at the end.
+// This leads to an order as visible in the code below.
 
 
 // Sending and receiving Bibles to and from the git repository.
 // On a production website running on an inexpensive virtual private server 
 // with 512 Mbyte of memory and a fast network connection, 
-// sending and receiving two Bibles takes more than five minutes when there are many changes.
+// sending and receiving two Bibles takes more than 15 minutes when there are many changes.
 if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour == 0) && ($minute == 0))) {
   $config_general->setTimerSendReceive ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
@@ -103,7 +104,7 @@ if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour =
 
 // Sending the daily changes in the Bibles by email.
 // This takes a few minutes on a production machine with two Bibles and changes in several chapters.
-if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) && ($minute == 10))) {
+if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) && ($minute == 20))) {
   $config_general->setTimerDiff ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::changes);
@@ -115,7 +116,7 @@ if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) &&
 
 // Run the checks on the Bibles.
 // This takes 15 minutes on a production machine with two Bibles.
-if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) && ($minute == 15))) {
+if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) && ($minute == 25))) {
   $config_general->setTimerChecks ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::checks);
@@ -127,7 +128,7 @@ if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) 
 
 // Database maintenance and trimming.
 // It takes a few minutes on a production machine..
-if (($hour == 0) && ($minute == 35)) {
+if (($hour == 0) && ($minute == 40)) {
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::database);
   $command = "cd $workingdirectory; php database.php > $logfilename 2>&1 & echo $!";

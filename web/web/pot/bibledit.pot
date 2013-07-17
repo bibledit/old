@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-16 01:43+0200\n"
+"POT-Creation-Date: 2013-07-17 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4363,6 +4363,9 @@ msgstr ""
 msgid "The following chapters have been created:"
 msgstr ""
 
+msgid "Test"
+msgstr ""
+
 msgid "Public"
 msgstr ""
 
@@ -5355,10 +5358,16 @@ msgstr ""
 msgid "Active resources"
 msgstr ""
 
+msgid "To change the order, drag an item to another location."
+msgstr ""
+
+msgid "Click ✗ to remove."
+msgstr ""
+
 msgid "Available internal Bible resources"
 msgstr ""
 
-msgid "Click an item to activate it"
+msgid "Click to activate:"
 msgstr ""
 
 msgid "No resources available for"
