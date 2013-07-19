@@ -1,4 +1,5 @@
 <h2><?php echo gettext ("Edit resource") ?> "<?php echo $this->name ?>"</h2>
+<h3><?php echo gettext ("Introduction") ?></h3>
 <p>
   <?php echo gettext ("Bibledit-Web displays external resources to the user.") ?>
   <?php echo gettext ("Bibledit-Web attempts to extract the correct passage before passing it on to the user.") ?>
@@ -17,13 +18,24 @@
   <?php echo gettext ("Bibledit-Web strips a lot of stuff away, and only serves the essentials to the user.") ?>
 </p>
 <p>
-  <?php echo gettext ("On this page you can edit the command and the script to run.") ?>
+  <?php echo gettext ("On this page you can edit and test the script.") ?>
 </p>
-<br>
 <p><a href="admin.php">[<?php echo gettext ("back") ?>]</a></p>
-<br>
 <form action="edit.php?name=<?php echo $this->name ?>" name="name" method="post">
-  <p><?php echo gettext ("Enter the command to run the script:") ?></p>
+  <h3><?php echo gettext ("Command") ?></h3>
+  <p>
+    <?php echo gettext ("Bibledit-Web runs a separate process to fetch the external resource.") ?>
+    <?php echo gettext ("This is for improved security.") ?>
+    <?php echo gettext ("Enter the command to run the script.") ?>
+    <?php echo gettext ("Samples:") ?>
+  </p>
+  <p>php script</p>
+  <p>perl script</p>
+  <p>python script</p>
+  <p>bash script</p>
+  <p>
+    <?php echo gettext ("The string 'script' should always be there, because during execution Bibledit-Web replaces it with the filename of the script.") ?>
+  </p>
   <input type="text" name="command" value="<?php echo $this->command ?>" />
   <p><?php echo gettext ("Enter the code of the script:") ?></p>
   <textarea name="code"><?php echo $this->code ?></textarea>
@@ -45,3 +57,12 @@
 <p>
   <?php echo gettext ("") ?>
 </p>
+
+
+<?php if ($this->posted) { ?>
+<script type="text/javascript">
+$(window).load (function () {
+  $("body").animate({ scrollTop: $(document).height() - $(window).height() }, 500);
+});
+</script>
+<?php } ?>

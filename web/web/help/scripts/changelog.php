@@ -36,6 +36,7 @@
 <p>Logs removing change notifications.</p>
 <p>Logs deleting consultation notes.</p>
 <p>The editor for the consultation notes has been simplified.</p>
+<p>The Administrator can create, modify, test, and delete scripts for fetching external resources such as Bibles and commentaries.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

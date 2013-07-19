@@ -14,8 +14,10 @@
   </p>
 </div>
 <br>
+<p><?php echo gettext ("You can add, edit, and delete resources.") ?></p>
 <p>
-  <?php echo gettext ("You can add, edit, and delete resources.") ?>
+  <?php echo gettext ("Bibledit-Web comes with a set of default scripts.") ?>
+  <?php echo gettext ("Changes in them will be reverted during upgrade of Bibledit-Web.") ?>
 </p>
 <link rel="stylesheet" href="../jquery/smoothness/jquery-ui-1.10.3.css" />
 <script type="text/javascript" src="admin.js"></script>

@@ -3,7 +3,9 @@
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
-Assets_Page::header (gettext ("Resource"));
+$header = new Assets_Header (gettext ("Resource"));
+$header->jQueryOn ();
+$header->run ();
 $view = new Assets_View (__FILE__);
 
 
@@ -26,6 +28,7 @@ if (isset($_POST['command'])) {
   $book = $_POST ['book'];
   $chapter = $_POST ['chapter'];
   $verse = $_POST ['verse'];
+  $view->view->posted = true;
 }
 
 
