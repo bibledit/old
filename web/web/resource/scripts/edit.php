@@ -37,7 +37,15 @@
     <?php echo gettext ("The string 'script' should always be there, because during execution Bibledit-Web replaces it with the filename of the script.") ?>
   </p>
   <input type="text" name="command" value="<?php echo $this->command ?>" />
-  <p><?php echo gettext ("Enter the code of the script:") ?></p>
+  <p>
+    <?php echo gettext ("Enter the code of the script manually or select a default template") ?>
+    <select name="default">
+      <?php foreach ($this->defaults as $default) { ?>
+      <option value="<?php echo $default ?>"><?php echo $default ?></option>
+      <?php } ?>
+    </select>
+    <?php echo gettext ("and save it.") ?>
+  </p>
   <textarea name="code"><?php echo $this->code ?></textarea>
   <select name="book">
     <?php foreach ($this->books as $offset => $book) { ?>

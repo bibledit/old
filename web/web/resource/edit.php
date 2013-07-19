@@ -19,6 +19,10 @@ $view->view->name = $name;
 if (isset($_POST['command'])) {
   $command = $_POST['command'];
   $code = $_POST['code'];
+  $default = $_POST['default'];
+  if ($default != "") {
+    $code = file_get_contents ($default);
+  }
   include ("administration/credentials.php");
   if ($open_installation) {
     echo "<h2>Cannot save data in this open installation</h2>";
@@ -30,6 +34,17 @@ if (isset($_POST['command'])) {
   $verse = $_POST ['verse'];
   $view->view->posted = true;
 }
+
+
+$defaults = array ("");
+foreach (new DirectoryIterator (".") as $fileInfo) {
+  if($fileInfo->isDot()) continue;
+  if($fileInfo->isDir()) continue;
+  $default = $fileInfo->getFilename();
+  if (strpos ($default, "default") === false) continue;
+  $defaults [] = $default;
+}
+$view->view->defaults = $defaults;
 
 
 $details = $database_resources->getDetails ($name);
