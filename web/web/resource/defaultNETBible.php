@@ -80,7 +80,8 @@ $bookConverter = array (
 
 $book = $bookConverter [$book];
 
-$url = "https://net.bible.org/resource/netTexts/" . urlencode ("$book $chapter:$verse");
+$url = "https://net.bible.org/resource/netTexts/$book $chapter:$verse";
+$url = str_replace (" ", "%20", $url);
 
 $text = file_get_contents ($url);
 
@@ -88,10 +89,13 @@ echo $text;
 
 echo "\n";
 
-$url = "https://net.bible.org/resource/netNotes/" . urlencode ("$book $chapter:$verse");
+$url = "https://net.bible.org/resource/netNotes/$book $chapter:$verse";
+$url = str_replace (" ", "%20", $url);
 
 $notes = file_get_contents ($url);
 
 echo $notes;
+
+echo "\n";
 
 ?>
