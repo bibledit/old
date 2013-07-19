@@ -11,12 +11,19 @@
   <?php echo gettext ("To change the order, drag an item to another location.") ?>
   <?php echo gettext ("Click ✗ to remove.") ?>
 </p>
-<h3><?php echo gettext ("Available internal Bibles") ?></h3>
+<h3><?php echo gettext ("Available resources") ?></h3>
 <p>
-<?php echo gettext ("Click to activate:") ?>
+<?php echo gettext ("Internal Bibles:") ?>
 <?php foreach ($this->bibles as $offset => $bible) { ?>
   <?php if ($offset) echo " | " ?>
   <a href="?add=<?php echo $bible ?>"><?php echo $bible ?></a>
+<?php } ?>
+</p>
+<p>
+<?php echo gettext ("External resources:") ?>
+<?php foreach ($this->externals as $offset => $external) { ?>
+  <?php if ($offset) echo " | " ?>
+  <a href="?add=<?php echo $external ?>"><?php echo $external ?></a>
 <?php } ?>
 </p>
 <script type="text/javascript" src="settings.js"></script>

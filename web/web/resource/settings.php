@@ -32,9 +32,6 @@ if (isset ($resources)) {
 }
 
 
-$database_bibles = Database_Bibles::getInstance ();
-
-
 $header = new Assets_Header (gettext ("Resources"));
 $header->jQueryOn ();
 $header->jQueryUIOn ("sortable");
@@ -43,13 +40,25 @@ $view = new Assets_View (__FILE__);
 
 
 $active_resources = $database_config_user->getActiveResources ();
-$available_bibles = $database_bibles->getBibles ();
-// Active resources are not listed as available.
-$available_bibles = array_diff ($available_bibles, $active_resources);
-
-
 $view->view->actives = $active_resources;
+
+
+// Active resources are no longer listed as available.
+
+
+$database_bibles = Database_Bibles::getInstance ();
+$available_bibles = $database_bibles->getBibles ();
+$available_bibles = array_diff ($available_bibles, $active_resources);
 $view->view->bibles = $available_bibles;
+
+
+$database_resources = Database_Resources::getInstance ();
+$available_external_resources = $database_resources->getNames ();
+$available_external_resources = array_diff ($available_external_resources, $active_resources);
+$view->view->externals = $available_external_resources;
+
+
+
 $view->render ("settings.php");
 Assets_Page::footer ();
 

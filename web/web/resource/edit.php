@@ -72,12 +72,7 @@ $view->view->chapter = $chapter;
 $view->view->verse = $verse;
 
 
-// Todo DRY: Move to filter. Create unit test for it.
-$filename = tempnam (sys_get_temp_dir (), "");
-file_put_contents ($filename, $code);
-$command = str_replace ("script", "$filename $book $chapter $verse", $command) . " 2>&1";
-$output = shell_exec ($command);
-unlink ($filename);
+$output = Resource_Logic::getExternal ($name, $book, $chapter, $verse);
 $view->view->output = $output;
 
 
