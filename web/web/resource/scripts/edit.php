@@ -26,7 +26,7 @@
   <p>
     <?php echo gettext ("Bibledit-Web runs a separate process to fetch the external resource.") ?>
     <?php echo gettext ("This is for improved security.") ?>
-    <?php echo gettext ("Enter the command to run the script.") ?>
+    <?php echo gettext ("Enter the shell command to run the script.") ?>
     <?php echo gettext ("Samples:") ?>
   </p>
   <p>php script</p>
@@ -37,6 +37,7 @@
     <?php echo gettext ("The string 'script' should always be there, because during execution Bibledit-Web replaces it with the filename of the script.") ?>
   </p>
   <input type="text" name="command" value="<?php echo $this->command ?>" />
+  <h3><?php echo gettext ("Code") ?></h3>
   <p>
     <?php echo gettext ("Enter the code of the script manually or select a default template") ?>
     <select name="default">
@@ -47,6 +48,7 @@
     <?php echo gettext ("and save it.") ?>
   </p>
   <textarea name="code"><?php echo $this->code ?></textarea>
+  <h3><?php echo gettext ("Save and test") ?></h3>
   <select name="book">
     <?php foreach ($this->books as $offset => $book) { ?>
     <option <?php if ($this->book == $book) echo 'selected="selected"' ?> value="<?php echo $book ?>"><?php echo $this->booknames [$offset] ?></option>
@@ -55,18 +57,14 @@
   <input type="text" name="chapter" value="<?php echo $this->chapter ?>" />
   :
   <input type="text" name="verse" value="<?php echo $this->verse ?>" />
-  <p><input type="submit" name="save" value=<?php echo gettext ("Save") ?> /></p>
+  -
+  <input type="submit" name="save" value=<?php echo gettext ("Submit") ?> />
 </form>
 <br>
+<h3><?php echo gettext ("Result") ?></h3>
 <p><?php echo gettext ("Output of running the script:") ?></p>
 <textarea><?php echo $this->output ?></textarea>
 <br>
-
-<p>
-  <?php echo gettext ("") ?>
-</p>
-
-
 <?php if ($this->posted) { ?>
 <script type="text/javascript">
 $(window).load (function () {

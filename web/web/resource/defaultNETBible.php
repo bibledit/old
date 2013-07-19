@@ -1,6 +1,6 @@
 <?php
 
-// This sample script uses the NET Bible Web Service.
+// This sample script displays the text and the notes of the NET Bible.
 
 // Bibledit-Web calls the script with three parameters on the command line.
 $book = $argv [1];
@@ -80,10 +80,18 @@ $bookConverter = array (
 
 $book = $bookConverter [$book];
 
-$url = "http://labs.bible.org/api/?passage=" . urlencode ("$book $chapter:$verse");
+$url = "https://net.bible.org/resource/netTexts/" . urlencode ("$book $chapter:$verse");
 
 $text = file_get_contents ($url);
 
 echo $text;
+
+echo "\n";
+
+$url = "https://net.bible.org/resource/netNotes/" . urlencode ("$book $chapter:$verse");
+
+$notes = file_get_contents ($url);
+
+echo $notes;
 
 ?>

@@ -5,7 +5,7 @@ require_once ("bootstrap/bootstrap.php");
 class Resource_Logic
 {
 
-  public static function getExternal ($name, $book, $chapter, $verse) // Todo implement.
+  public static function getExternal ($name, $book, $chapter, $verse)
   {
     $database_resources = Database_Resources::getInstance ();
     $details = $database_resources->getDetails ($name);
