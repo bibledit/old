@@ -20,6 +20,7 @@ foreach ($files as $file) {
   $name = substr ($file, 7, -1 - strlen ($suffix));
   $name = "$name (bibledit)";
   $code = file_get_contents ("$folder/$file");
+  $code = addslashes ($code);
 
   echo "DELETE FROM resources WHERE name = '$name'; \n";
   echo "INSERT INTO resources VALUES ( \n";
