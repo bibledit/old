@@ -37,7 +37,7 @@ $database_bibles = Database_Bibles::getInstance ();
 
 $header = new Assets_Header (gettext ("Resources"));
 $header->jQueryOn ();
-$header->jQueryUIOn ();
+$header->jQueryUIOn ("sortable");
 $header->run ();
 $view = new Assets_View (__FILE__);
 

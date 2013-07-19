@@ -10,7 +10,7 @@
 <?php } ?>
 <?php if ($this->include_jquery_ui) { ?>
 <link rel="stylesheet" type="text/css" href="../jquery/jquery-ui-1.10.3.css"></link>
-<script type="text/javascript" src="../jquery/jquery-ui-1.10.3.min.js"></script>
+<script type="text/javascript" src="../jquery/jquery-ui-1.10.3.<?php echo $this->include_jquery_ui_subset ?>min.js"></script>
 <?php } ?>
 </head>
 <?php  

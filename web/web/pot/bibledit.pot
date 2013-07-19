@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 01:45+0200\n"
+"POT-Creation-Date: 2013-07-19 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5046,6 +5046,9 @@ msgid ""
 "cryptic at times. Please enter the correct details for this to work."
 msgstr ""
 
+msgid "Resources"
+msgstr ""
+
 msgid "Backup and Restore"
 msgstr ""
 
@@ -5349,7 +5352,77 @@ msgstr ""
 msgid "Exported Bibles"
 msgstr ""
 
-msgid "Resources"
+msgid "Resource"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Bibledit-Web displays external resources to the user."
+msgstr ""
+
+msgid ""
+"Bibledit-Web attempts to extract the correct passage before passing it on to "
+"the user."
+msgstr ""
+
+msgid "This is how it works:"
+msgstr ""
+
+msgid "Bibledit-Web notices the active passage, for example Genesis 1:1."
+msgstr ""
+
+msgid ""
+"Bibledit-Web then runs a script, and passes book, chapter and verse to it."
+msgstr ""
+
+msgid "The script fetches a page from the web."
+msgstr ""
+
+msgid "The script filters this web page."
+msgstr ""
+
+msgid "The script outputs the filtered content."
+msgstr ""
+
+msgid ""
+"Bibledit-Web captures the output of the script, and passes it to the user."
+msgstr ""
+
+msgid ""
+"This method of serving content to the user saves the user a lot of data."
+msgstr ""
+
+msgid ""
+"Bibledit-Web strips a lot of stuff away, and only serves the essentials to "
+"the user."
+msgstr ""
+
+msgid "On this page you can edit the command and the script to run."
+msgstr ""
+
+msgid "Enter the command to run the script:"
+msgstr ""
+
+msgid "Enter the code of the script:"
+msgstr ""
+
+msgid "Output of running the script:"
+msgstr ""
+
+msgid "External resources"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Remove the resource?"
+msgstr ""
+
+msgid "Are you sure?"
+msgstr ""
+
+msgid "You can add, edit, and delete resources."
 msgstr ""
 
 msgid "Settings for Resources"
@@ -5364,7 +5437,7 @@ msgstr ""
 msgid "Click ✗ to remove."
 msgstr ""
 
-msgid "Available internal Bible resources"
+msgid "Available internal Bibles"
 msgstr ""
 
 msgid "Click to activate:"
@@ -5855,9 +5928,10 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-msgid ""
-"Uploading may take some time. It depends on the speed of your network, and "
-"on the size of the notes file."
+msgid "Uploading may take some time."
+msgstr ""
+
+msgid "It depends on the speed of your network and on the size of the file."
 msgstr ""
 
 msgid ""
@@ -5991,12 +6065,7 @@ msgstr ""
 msgid "There was a problem uploading the file."
 msgstr ""
 
-msgid "Yo can go back to retry it."
-msgstr ""
-
-msgid ""
-"Or you can manually specify the location of the file, e.g. /home/joe/notes."
-"tar.gz, and then press Submit."
+msgid "You can go back to retry it."
 msgstr ""
 
 msgid "Removal of duplicate consultation notes has started"
@@ -6208,11 +6277,6 @@ msgstr ""
 msgid "Choose the USFM file to be uploaded."
 msgstr ""
 
-msgid ""
-"Uploading may take some time. It depends on the speed of your network, and "
-"on the size of the file."
-msgstr ""
-
 msgid "Available books"
 msgstr ""
 
@@ -6226,11 +6290,6 @@ msgid "Copy this Bible"
 msgstr ""
 
 msgid "Delete this Bible"
-msgstr ""
-
-msgid ""
-"Or you can manually specify the location of the file, e.g. /home/joe/USFM."
-"zip, and then press Submit."
 msgstr ""
 
 msgid "Would you like to change the versification system?"

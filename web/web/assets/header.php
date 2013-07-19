@@ -27,6 +27,7 @@ class Assets_Header
   private $view;
   private $includeJQuery = false;
   private $includeJQueryUI = false;
+  private $JQueryUISubset = "";
 
   public function __construct ($title) 
   {
@@ -39,10 +40,17 @@ class Assets_Header
     $this->includeJQuery = true;
   }
   
-  public function jQueryUIOn ()
+  public function jQueryUIOn ($subset = "")
   {
     $this->jQueryOn ();
     $this->includeJQueryUI = true;
+    // Setting a subset makes a big difference in the size of the JavaScript
+    // the page has to load, and therefore it makes a big difference in the
+    // load time of the page.
+    // Subsets can be created on the download builder at http://jqueryui.com.
+    if ($subset != "") {
+      $this->JQueryUISubset = $subset . ".";
+    }
   }
   
   // Adds an 'onload' statement to the <body> html tag.
@@ -57,6 +65,7 @@ class Assets_Header
   {
     $this->view->view->include_jquery = $this->includeJQuery;
     $this->view->view->include_jquery_ui = $this->includeJQueryUI;
+    $this->view->view->include_jquery_ui_subset = $this->JQueryUISubset;
     $this->view->render ("xhtml_start.php");
     $this->view->render ("header_full.php");
     

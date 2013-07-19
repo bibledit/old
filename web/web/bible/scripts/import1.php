@@ -14,6 +14,9 @@
   <p><?php echo gettext ("Then press the Upload button.") ?></p>
   <input type="submit" value="<?php echo gettext ("Upload") ?>" />
 </form>
-<p><?php echo gettext ("Uploading may take some time. It depends on the speed of your network, and on the size of the file.") ?></p>
+<p>
+  <?php echo gettext ("Uploading may take some time.") ?>
+  <?php echo gettext ("It depends on the speed of your network and on the size of the file.") ?>
+</p>
 <br>
 <p><?php echo gettext ("If uploading fails, it may be because the file is too large, or the network too slow.") ?></p>
