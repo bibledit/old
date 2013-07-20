@@ -38,7 +38,7 @@
 <p>The editor for the consultation notes has been simplified.</p>
 <p>The Administrator can create, modify, test, and delete scripts for fetching external resources such as Bibles and commentaries.</p>
 <p>The user can view internal Bibles and external web snippets as Resources.</p>
-<p>Comes with the following default external resources: NET Bible plus footnotes, Calvin's Commentaries.</p>
+<p>Can fetch several commentaries as external resources.</p>
 <p></p>
 <p></p>
 

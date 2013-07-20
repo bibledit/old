@@ -98,4 +98,8 @@ install-data-local:
 	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
 	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
 	rm /tmp/bibledit.sql
+	cp usfmresources.sql /tmp/bibledit.sql
+	sed -i "s/BIBLEDITDATABASE/$(LOCATION)/g" /tmp/bibledit.sql
+	mysql -uroot -p$(MYSQL_ROOT_PASSWORD) < /tmp/bibledit.sql
+	rm /tmp/bibledit.sql
 

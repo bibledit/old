@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-19 01:43+0200\n"
+"POT-Creation-Date: 2013-07-20 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5355,7 +5355,7 @@ msgstr ""
 msgid "Resource"
 msgstr ""
 
-msgid "Edit"
+msgid "Edit resource"
 msgstr ""
 
 msgid "Bibledit-Web displays external resources to the user."
@@ -5390,7 +5390,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"This method of serving content to the user saves the user a lot of data."
+"This method of serving content to the user saves the user a lot of bandwidth."
 msgstr ""
 
 msgid ""
@@ -5398,13 +5398,42 @@ msgid ""
 "the user."
 msgstr ""
 
-msgid "On this page you can edit the command and the script to run."
+msgid "On this page you can edit and test the script."
 msgstr ""
 
-msgid "Enter the command to run the script:"
+msgid "Command"
 msgstr ""
 
-msgid "Enter the code of the script:"
+msgid "Bibledit-Web runs a separate process to fetch the external resource."
+msgstr ""
+
+msgid "This is for improved security."
+msgstr ""
+
+msgid "Enter the shell command to run the script."
+msgstr ""
+
+msgid "Samples:"
+msgstr ""
+
+msgid ""
+"The string 'script' should always be there, because during execution "
+"Bibledit-Web replaces it with the filename of the script."
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Enter the code of the script manually or select a default template"
+msgstr ""
+
+msgid "and save it."
+msgstr ""
+
+msgid "Save and test"
+msgstr ""
+
+msgid "Result"
 msgstr ""
 
 msgid "Output of running the script:"
@@ -5425,6 +5454,12 @@ msgstr ""
 msgid "You can add, edit, and delete resources."
 msgstr ""
 
+msgid "Bibledit-Web comes with a set of default scripts."
+msgstr ""
+
+msgid "Changes in them will be reverted during upgrade of Bibledit-Web."
+msgstr ""
+
 msgid "Settings for Resources"
 msgstr ""
 
@@ -5437,10 +5472,13 @@ msgstr ""
 msgid "Click ✗ to remove."
 msgstr ""
 
-msgid "Available internal Bibles"
+msgid "Available resources"
 msgstr ""
 
-msgid "Click to activate:"
+msgid "Internal Bibles:"
+msgstr ""
+
+msgid "External resources:"
 msgstr ""
 
 msgid "No resources available for"
