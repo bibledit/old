@@ -64,7 +64,6 @@ $available_external_resources = array_diff ($available_external_resources, $acti
 $view->view->externals = $available_external_resources;
 
 
-
 $view->render ("settings.php");
 Assets_Page::footer ();
 

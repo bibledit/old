@@ -11,3 +11,4 @@
 <p><a href="../notes/manage.php"><?php echo gettext ("Consultation Notes") ?></a></p>
 <p><a href="hyphenation.php"><?php echo gettext ("Hyphenation") ?></a></p>
 <p><a href="../checks/settings.php"><?php echo gettext ("Checks") ?></a></p>
+<p><a href="../resource/manage.php"><?php echo gettext ("USFM Resources") ?></a></p>

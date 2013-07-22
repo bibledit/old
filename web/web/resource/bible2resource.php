@@ -18,11 +18,11 @@ $database_usfmresources = Database_UsfmResources::getInstance ();
 
 $usfmResources = $database_usfmresources->getResources ();
 if (in_array ($bible, $usfmResources)) {
-  $view->view->error = gettext ("A USFM Resource with this name already exists"); // Todo test this message.
+  $view->view->error = gettext ("A USFM Resource with this name already exists");
 }
 $externalResources = $database_resources->getNames ();
 if (in_array ($bible, $externalResources)) {
-  $view->view->error = gettext ("An external resource with this name already exists"); // Todo test this message.
+  $view->view->error = gettext ("An external resource with this name already exists");
 }
 
 
