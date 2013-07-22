@@ -37,6 +37,7 @@ class Timer_Logger
   const search = 'search';
   const exports = 'exports';
   const statistics = 'statistics';
+  const manual = 'manual';
 
 
   public function getLogFilename ($which)

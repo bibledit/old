@@ -52,6 +52,12 @@ $available_bibles = array_diff ($available_bibles, $active_resources);
 $view->view->bibles = $available_bibles;
 
 
+$database_usfmresources = Database_UsfmResources::getInstance ();
+$available_usfm_resources = $database_usfmresources->getResources ();
+$available_usfm_resources = array_diff ($available_usfm_resources, $active_resources);
+$view->view->usfms = $available_usfm_resources;
+
+
 $database_resources = Database_Resources::getInstance ();
 $available_external_resources = $database_resources->getNames ();
 $available_external_resources = array_diff ($available_external_resources, $active_resources);

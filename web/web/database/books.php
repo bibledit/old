@@ -59,7 +59,7 @@ class Database_Books
   }
   
 
-  public function getIdFromEnglish($english)
+  public function getIdFromEnglish ($english)
   {
     $database_instance = Database_Instance::getInstance();
     $english = Database_SQLInjection::no ($english);
@@ -73,7 +73,7 @@ class Database_Books
   }
       
 
-  public function getEnglishFromId($id)
+  public function getEnglishFromId ($id)
   {
     // Care for empty input.
     if ($id == "") return "Unknown";

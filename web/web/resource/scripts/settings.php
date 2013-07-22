@@ -20,6 +20,13 @@
 <?php } ?>
 </p>
 <p>
+<?php echo gettext ("Internal USFM resources:") ?>
+<?php foreach ($this->usfms as $offset => $usfm) { ?>
+  <?php if ($offset) echo " | " ?>
+  <a href="?add=<?php echo $usfm ?>"><?php echo $usfm ?></a>
+<?php } ?>
+</p>
+<p>
 <?php echo gettext ("External resources:") ?>
 <?php foreach ($this->externals as $offset => $external) { ?>
   <?php if ($offset) echo " | " ?>

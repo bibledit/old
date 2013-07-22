@@ -424,6 +424,21 @@ class Database_Bibles
       
 
   /*
+   * Deletes the diffs for one chapter of a Bible.
+   */
+  public function deleteDiffChapter ($bible, $book, $chapter)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bible = Database_SQLInjection::no ($bible);
+    if (!is_numeric ($bible)) $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "DELETE FROM bible_diff WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $result = $database_instance->runQuery ($query);
+  }
+      
+
+  /*
    * Returns an array with the available chapters that have diff data in a $book in a Bible.
    */
   public function getDiffChapters ($bible, $book)

@@ -11,3 +11,4 @@
 <p><a href="import_bibleworks.php?bible=<?php echo $this->bible ?>"><?php echo gettext ("Import BibleWorks") ?></a></p>
 <p><a href="manage.php?copy=<?php echo $this->bible ?>"><?php echo gettext ("Copy this Bible") ?></a></p>
 <p><a href="manage.php?delete=<?php echo $this->bible ?>"><?php echo gettext ("Delete this Bible") ?></a></p>
+<p><a href="../resource/bible2resource.php?bible=<?php echo $this->bible ?>"><?php echo gettext ("Convert to USFM resource") ?></a></p>

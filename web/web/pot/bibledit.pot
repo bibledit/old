@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-20 01:43+0200\n"
+"POT-Creation-Date: 2013-07-22 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5352,7 +5352,54 @@ msgstr ""
 msgid "Exported Bibles"
 msgstr ""
 
+msgid "Convert"
+msgstr ""
+
+msgid "A USFM Resource with this name already exists"
+msgstr ""
+
+msgid "An external resource with this name already exists"
+msgstr ""
+
 msgid "Resource"
+msgstr ""
+
+msgid "Convert Bible to USFM Resource"
+msgstr ""
+
+msgid "You can convert a Bible to a USFM Resource."
+msgstr ""
+
+msgid "It means that the text of the Bible will be moved to a Resource."
+msgstr ""
+
+msgid "The users can display this resource."
+msgstr ""
+
+msgid "A Resource will be created with the same name and text as the Bible."
+msgstr ""
+
+msgid "When the conversion is complete, the Bible will be deleted."
+msgstr ""
+
+msgid "A Bible can be edited, but a USFM Resource cannot."
+msgstr ""
+
+msgid "A Bible can be searched, but a USFM Resource cannot."
+msgstr ""
+
+msgid "The USFM Resource uses less space."
+msgstr ""
+
+msgid ""
+"Operations on the remaining Bibles will be faster, because the table for "
+"Bibles in the database will be smaller."
+msgstr ""
+
+msgid "Start the conversion process."
+msgstr ""
+
+msgid "You can view the conversion process in the logbook."
 msgstr ""
 
 msgid "Edit resource"
@@ -5478,10 +5525,19 @@ msgstr ""
 msgid "Internal Bibles:"
 msgstr ""
 
+msgid "Internal USFM resources:"
+msgstr ""
+
 msgid "External resources:"
 msgstr ""
 
 msgid "No resources available for"
+msgstr ""
+
+msgid "convert: Converting Bible to USFM Resource"
+msgstr ""
+
+msgid "convert: Completed"
 msgstr ""
 
 msgid "Desktop"
@@ -6328,6 +6384,9 @@ msgid "Copy this Bible"
 msgstr ""
 
 msgid "Delete this Bible"
+msgstr ""
+
+msgid "Convert to USFM resource"
 msgstr ""
 
 msgid "Would you like to change the versification system?"

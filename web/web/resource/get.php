@@ -37,6 +37,7 @@ $fragments = array ();
 
 $database_bibles = Database_Bibles::getInstance ();
 $database_resources = Database_Resources::getInstance ();
+$database_usfmresources = Database_UsfmResources::getInstance ();
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 
@@ -44,11 +45,16 @@ $database_config_user = Database_Config_User::getInstance ();
 $stylesheet = $database_config_general->getExportStylesheet ();
 $bibles = $database_bibles->getBibles ();
 $externals = $database_resources->getNames ();
+$usfms = $database_usfmresources->getResources ();
 $actives = $database_config_user->getActiveResources ();
 
+
 foreach ($actives as $active) {
-  if (in_array ($active, $bibles)) {
-    $chapter_usfm = $database_bibles->getChapter ($active, $book, $chapter);
+  $isBible = in_array ($active, $bibles);
+  $isUsfm = in_array ($active, $usfms);
+  if ($isBible || $isUsfm) {
+    if ($isBible) $chapter_usfm = $database_bibles->getChapter ($active, $book, $chapter);
+    if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($active, $book, $chapter);
     $verse_usfm = Filter_Usfm::getVerseText ($chapter_usfm, $verse);
     $filter_text = new Filter_Text ("");
     $filter_text->html_text_standard = new Html_Text (gettext ("Bible"));
@@ -58,7 +64,7 @@ foreach ($actives as $active) {
   } else if (in_array ($active, $externals)) {
     $html = Resource_Logic::getExternal ($active, $book, $chapter, $verse);
   } else {
-    $html = "Unavailable";
+    $html = gettext ("This resource is not available");
   }
   $fragments [] = $html;
 }
