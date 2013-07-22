@@ -17,28 +17,22 @@ $url = "http://www.studylight.org/com/jfb/view.cgi?bk=$book&ch=$chapter";
 
 $text = file_get_contents ($url);
 
-// The following filter tries to locate the verse text.
-$startTag = "\"" . $verse . "\"";
-$rawLines = explode ("\n", $text);
-$output = array ();
-$withinVerse = false;
-foreach ($rawLines as $line) {
-  if (strpos ($line, "<hr") !== false) {
-    $withinVerse = false;
-  }
-  if (strpos ($line, $startTag) !== false) {
-    $withinVerse = true;
-  }
-  if ($withinVerse) {
-    $output [] = $line;
-  }
+$pos = strpos ($text, 'name="' . $verse . '"');
+if ($pos === false) {
+  $text = "";
+} else {
+  $text = substr ($text, $pos + 8 + strlen ($verse));
+}
+$pos = strpos ($text, "<hr");
+if ($pos === false) {
+  $text = "";
+} else {
+  $text = substr ($text, 0, $pos);
 }
 
-$text = implode ("\n", $output);
 
-if ($text == "") {
-  $text = "<a href=\"$url\" target=\"_blank\">$url</a>";
-}
+$text .= "<p><a href=\"$url\" target=\"_blank\">$url</a></p>\n";
+
 
 echo $text;
 
