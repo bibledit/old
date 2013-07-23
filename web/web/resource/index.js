@@ -28,14 +28,19 @@ function pollPassage ()
 function loadResources ()
 {
   var ref = $.parseJSON (passage);
-  $.ajax ({
-    url: "get.php",
-    type: "GET",
-    data: { book: ref ["book"], chapter: ref ["chapter"], verse: ref ["verse"] },
-    success: function (response) {
-      var container = $ ("#bibledit");
-      container.empty ();
-      container.append ($ ("<div>" + response + "</div>"));
-    },
-  });
+  for (i = 0; i < resourceCount; i++) {
+    var container = $ ("#bibledit" + i);
+    container.empty ();
+    container.append ("↻");
+    $.ajax ({
+      context: container,
+      url: "get.php",
+      type: "GET",
+      data: { resource: i, book: ref ["book"], chapter: ref ["chapter"], verse: ref ["verse"] },
+      success: function (response) {
+        this.empty ();
+        this.append ($ (response));
+      },
+    });
+  }
 }

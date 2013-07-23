@@ -39,7 +39,7 @@
 <p>The Administrator can create, modify, test, and delete scripts for fetching external resources such as Bibles and commentaries.</p>
 <p>The user can view internal Bibles and external web snippets as Resources.</p>
 <p>Can fetch several commentaries as external resources.</p>
-<p></p>
+<p>Can convert a Bible to a USFM Resource, and vice versa.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

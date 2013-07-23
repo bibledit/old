@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-22 01:43+0200\n"
+"POT-Creation-Date: 2013-07-23 03:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,6 +131,9 @@ msgid "Hyphenation"
 msgstr ""
 
 msgid "Checks"
+msgstr ""
+
+msgid "USFM Resources"
 msgstr ""
 
 msgid "Bibledit-Web exports the Bibles every day at midnight."
@@ -5361,6 +5364,12 @@ msgstr ""
 msgid "An external resource with this name already exists"
 msgstr ""
 
+msgid "convert: Converting USFM Resource to Bible"
+msgstr ""
+
+msgid "convert: Completed"
+msgstr ""
+
 msgid "Resource"
 msgstr ""
 
@@ -5400,6 +5409,9 @@ msgid "Start the conversion process."
 msgstr ""
 
 msgid "You can view the conversion process in the logbook."
+msgstr ""
+
+msgid "Loading ..."
 msgstr ""
 
 msgid "Edit resource"
@@ -5486,16 +5498,39 @@ msgstr ""
 msgid "Output of running the script:"
 msgstr ""
 
-msgid "External resources"
-msgstr ""
-
-msgid "Add"
+msgid "Remove"
 msgstr ""
 
 msgid "Remove the resource?"
 msgstr ""
 
 msgid "Are you sure?"
+msgstr ""
+
+msgid "Convert the resource?"
+msgstr ""
+
+msgid "Are you sure to convert the resource to a Bible?"
+msgstr ""
+
+msgid ""
+"To create a USFM resource, go to the Bibles, and convert it to a USFM "
+"resource."
+msgstr ""
+
+msgid "You can delete a USFM resource."
+msgstr ""
+
+msgid "You can convert a USFM resource back to a Bible."
+msgstr ""
+
+msgid "Progress will be visilble in the logbook."
+msgstr ""
+
+msgid "External resources"
+msgstr ""
+
+msgid "Add"
 msgstr ""
 
 msgid "You can add, edit, and delete resources."
@@ -5534,10 +5569,10 @@ msgstr ""
 msgid "No resources available for"
 msgstr ""
 
-msgid "convert: Converting Bible to USFM Resource"
+msgid "This resource is not available"
 msgstr ""
 
-msgid "convert: Completed"
+msgid "convert: Converting Bible to USFM Resource"
 msgstr ""
 
 msgid "Desktop"

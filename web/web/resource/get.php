@@ -18,21 +18,16 @@ if (isset ($pollpassage)) {
 }
 
 
+@$resource = $_GET['resource'];
 @$book = $_GET['book'];
 @$chapter = $_GET['chapter'];
 @$verse = $_GET['verse'];
 
 
 if (!$book || !$chapter || !$verse) {
-  echo gettext ("No resources available for") . " " . Filter_Books::passageDisplay ($book, $chapter, $verse);
+  echo gettext ("No resource available for") . " " . Filter_Books::passageDisplay ($book, $chapter, $verse);
   die;
 }
-
-
-$view = new Assets_View (__FILE__);
-
-
-$fragments = array ();
 
 
 $database_bibles = Database_Bibles::getInstance ();
@@ -46,33 +41,31 @@ $stylesheet = $database_config_general->getExportStylesheet ();
 $bibles = $database_bibles->getBibles ();
 $externals = $database_resources->getNames ();
 $usfms = $database_usfmresources->getResources ();
-$actives = $database_config_user->getActiveResources ();
+$resources = $database_config_user->getActiveResources ();
 
 
-foreach ($actives as $active) {
-  $isBible = in_array ($active, $bibles);
-  $isUsfm = in_array ($active, $usfms);
-  if ($isBible || $isUsfm) {
-    if ($isBible) $chapter_usfm = $database_bibles->getChapter ($active, $book, $chapter);
-    if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($active, $book, $chapter);
-    $verse_usfm = Filter_Usfm::getVerseText ($chapter_usfm, $verse);
-    $filter_text = new Filter_Text ("");
-    $filter_text->html_text_standard = new Html_Text (gettext ("Bible"));
-    $filter_text->addUsfmCode ($verse_usfm);
-    $filter_text->run ($stylesheet);
-    $html = $filter_text->html_text_standard->getHtml ();
-  } else if (in_array ($active, $externals)) {
-    $html = Resource_Logic::getExternal ($active, $book, $chapter, $verse);
-  } else {
-    $html = gettext ("This resource is not available");
-  }
-  $fragments [] = $html;
+$resource = $resources [$resource];
+
+
+$isBible = in_array ($resource, $bibles);
+$isUsfm = in_array ($resource, $usfms);
+if ($isBible || $isUsfm) {
+  if ($isBible) $chapter_usfm = $database_bibles->getChapter ($resource, $book, $chapter);
+  if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
+  $verse_usfm = Filter_Usfm::getVerseText ($chapter_usfm, $verse);
+  $filter_text = new Filter_Text ("");
+  $filter_text->html_text_standard = new Html_Text (gettext ("Bible"));
+  $filter_text->addUsfmCode ($verse_usfm);
+  $filter_text->run ($stylesheet);
+  $html = $filter_text->html_text_standard->getHtml ();
+} else if (in_array ($resource, $externals)) {
+  $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse);
+} else {
+  $html = gettext ("This resource is not available");
 }
 
 
-$view->view->names = $actives;
-$view->view->fragments = $fragments;
-$view->render ("get.php");
+echo $html;
 
 
 ?>
