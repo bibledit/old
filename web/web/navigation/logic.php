@@ -74,7 +74,7 @@ class Navigation_Logic
     $book = $ipc_focus->getBook ();
     $activeChapter = $ipc_focus->getChapter ();
     $chapters = $database_bibles->getChapters ($bible, $book);
-    $html = '<span id="selectchapters">';
+    $html = gettext ("Chapter") . ' <span id="selectchapters">';
     foreach ($chapters as $offset => $chapter) {
       if ($offset) $html .= " | ";
       if ($chapter == $activeChapter) $html .= "<mark>";
@@ -95,7 +95,7 @@ class Navigation_Logic
     $chapter = $ipc_focus->getChapter ();
     $activeVerse = $ipc_focus->getVerse ();
     $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
-    $html = '<span id="selectverses">';
+    $html = gettext ("Verse") . ' <span id="selectverses">';
     foreach ($verses as $offset => $verse) {
       if ($offset) $html .= " | ";
       if ($verse == $activeVerse) $html .= "<mark>";
