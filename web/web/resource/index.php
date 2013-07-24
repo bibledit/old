@@ -16,6 +16,9 @@ var resourceCount = $resource_count;
 EOD;
 $view->view->script = $script;
 
+$view->view->navigationHtml = Navigation_Logic::htmlNavigator ();
+$view->view->navigationCode = Navigation_Logic::code ();
+
 $view->render ("index.php");
 Assets_Page::footer ();
 ?>
