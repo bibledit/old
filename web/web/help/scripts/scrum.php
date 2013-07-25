@@ -17,26 +17,80 @@
  <?php echo gettext ("It only hints at the agile spirit that's required to make it work.") ?>
  <?php echo gettext ("If you're interested in implementing Scrum-based translation, do some reading, watch videos, follow a course, find a mentor or coach.") ?>
 </p>
-<br>
 <h2><?php echo gettext ("Product Owner") ?></h2>
-<p><?php echo gettext ("* Creates and prioritizes the product backlog.") ?></p>
-<p><?php echo gettext ("* Understands the requirements for the Bible.") ?></p>
-<p><?php echo gettext ("* Knows about accuracy and reliability.") ?></p>
-<p>* <a href="product-owner.php"><?php echo gettext ("Read more.") ?></a></p>
+<p>
+ <?php echo gettext ("The Product Owner represents the stakeholders.") ?>
+ <?php echo gettext ("He or she is the voice of the target audience, that is the Bible reader.") ?>
+ <?php echo gettext ("He understands the requirements for the Bible.") ?>
+ <?php echo gettext ("The Product Owner may also be a group of people in a committee.") ?>
+</p>
+<br>
+<p>
+ <?php echo gettext ("He is responsible for ensuring that the team delivers accuracy and reliability to the Bible translation.") ?>
+ <?php echo gettext ("He knows about accuracy and reliability.") ?>
+</p>
+<br>
+<p>
+ <?php echo gettext ("He defines items that focus on desired features.") ?>
+ <?php echo gettext ("He makes decisions as to whether to implement footnotes or leave them out.") ?>
+ <?php echo gettext ("In the same way, he defines other features, like headers, introductions, or decides to leave them out.") ?>
+ <?php echo gettext ("He decides about use or non-use of a dialect.") ?>
+</p>
+<br>
+<p>
+ <?php echo gettext ("He sets the priorities for the work to be done.") ?>
+ <?php echo gettext ("He adds the items to the product backlog.") ?>
+</p>
+<br>
+<p>
+ <?php echo gettext ("Scrum teams should have one Product Owner.") ?>
+ <?php echo gettext ("The Product Owner may be part of the Translation Team, but it is recommended that his role not be combined with the role of Scrum Master.") ?>
+</p>
 
 <h2><?php echo gettext ("Release Planning") ?></h2>
-<p><?php echo gettext ("* Used to estimate when certain Bible books will be translated, tested, or released.") ?></p>
-<p><?php echo gettext ("* It's a simple way of doing top-down planning.") ?></p>
-<p><?php echo gettext ("* It is an estimate, simple and quick to do.") ?></p>
-<p><?php echo gettext ("* It is based on the Product Backlog.") ?></p>
-<p>* <a href="release-planning.php"><?php echo gettext ("Read more.") ?></a></p>
+<p>
+ <?php echo gettext ("The release planning shows which parts of the Bible will be translated and delivered during which Sprint.") ?>
+ <?php echo gettext ("It is convenient to define a Sprint in months, so that the release planning mentions January, February, and so on.") ?>
+</p>
+<br>
+<p>
+ <?php echo gettext ("It is often helpful to stick the release planning to the wall so that everybody can see the grand picture.") ?>
+</p>
+<br>
+<p><?php echo gettext ("The advantages of a release planning are:") ?></p>
+<p><?php echo gettext ("1. It gives the team a common vision about what needs to be achieved, and when.") ?></p>
+<p><?php echo gettext ("2. It guides the team to make decisions during detailed planning.") ?></p>
+<p><?php echo gettext ("3. It helps prioritize the actions.") ?></p>
+<p><?php echo gettext ("4. It resolves conflicts and guides the teams toward the right balance on trade-offs.") ?></p>
+<br>
+<p>
+ <?php echo gettext ("Release each completed Bible book to the community and get their feedback.") ?>
+ <?php echo gettext ("This implements the important principle of continual improvement.") ?>
+</p>
+<br>
+<p>
+  <?php echo gettext ("The release planning is a simple way of doing top-down planning.") ?>
+  <?php echo gettext ("It is an estimate, simple and quick to do.") ?>
+  <?php echo gettext ("It is based on the Product Backlog.") ?>
+</p>
 
 <h2><?php echo gettext ("Product Backlog") ?></h2>
-<p><?php echo gettext ("* Used to determine the work for the next sprints.") ?></p>
-<p><?php echo gettext ("* A prioritized list of everything needed or wanted for the desired translation.") ?></p>
-<p><?php echo gettext ("* Often written in the form of user stories.") ?></p>
-<p><?php echo gettext ("* Have estimates associated with them.") ?></p>
-<p>* <a href="product-backlog.php"><?php echo gettext ("Read more.") ?></a></p>
+<p>
+  <?php echo gettext ("The product backlog is an ordered list of requirements that is maintained for the Bible translation.") ?>
+  <?php echo gettext ("It consists of translation tasks, checking tasks, testing tasks, comprehension tasks, whatever needs to be done in order to deliver a reliable manuscript.") ?>
+</p>
+<p>
+  <?php echo gettext ("The Product Owner prioritizes the items on this list.") ?>
+  <?php echo gettext ("It is used to determine the work for the next sprints.") ?>
+  <?php echo gettext ("Each item has an associated estimated time to complete.") ?>
+</p>
+
+
+
+
+
+
+
 
 <h2><?php echo gettext ("Sprint") ?></h2>
 <p><?php echo gettext ("* Iteration typically of one month's length.") ?></p>

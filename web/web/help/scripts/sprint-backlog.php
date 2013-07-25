@@ -5,4 +5,4 @@
  <?php echo gettext ("Without a clear goal, the team still does a lot of things, but these may not be valuable things.") ?>
 </p>
 <br>
-<p><a href="scrum-based-translation.php"><?php echo gettext ("Scrum-based Translation") ?></a></p>
+<p><a href="scrum.php"><?php echo gettext ("Scrum-based Translation") ?></a></p>

@@ -63,5 +63,5 @@
  <?php echo gettext ("The Scrum Master ensures to set a good example for leading the daily scrum meeting.") ?>
 </p>
 <br>
-<p><a href="scrum-based-translation.php"><?php echo gettext ("Scrum-based Translation") ?></a></p>
+<p><a href="scrum.php"><?php echo gettext ("Scrum-based Translation") ?></a></p>
 <p><a href="http://en.wikipedia.org/wiki/Stand-up_meeting"><?php echo gettext ("External reference") ?></a></p>

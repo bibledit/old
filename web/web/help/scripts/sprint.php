@@ -28,4 +28,4 @@
  <?php echo gettext ("Or a member can opt to have the Change Notifications generated for him online, and can review and approve them there.") ?>
 </p>
 <br>
-<p><a href="scrum-based-translation.php"><?php echo gettext ("Scrum-based Translation") ?></a></p>
+<p><a href="scrum.php"><?php echo gettext ("Scrum-based Translation") ?></a></p>
