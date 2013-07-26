@@ -3,11 +3,17 @@ var container;
 
 $(document).ready (function () {
   container = $ ("#bibleditnavigation");
-  bindClickHandlers ();
+  $.get ("../navigation/update.php?bible=" + bible, function (response) {
+    container.append (response);
+    bindClickHandlers ();
+  });  
 });
 
 
 function bindClickHandlers () {
+  $("#selectbible").on ("click", function (event) {
+    selectBible (event);
+  });
   $("#selectbook").on ("click", function (event) {
     selectBook (event);
   });
@@ -20,9 +26,21 @@ function bindClickHandlers () {
 }
 
 
+function selectBible (event) {
+  event.preventDefault ();
+  $.get ("../navigation/update.php?bible=" + bible + "&getbibles", function (response) {
+    container.empty ();
+    container.append (response);
+    $("#selectbibles").on ("click", function (event) {
+      selectBibles (event);
+    });
+  });  
+}
+
+
 function selectBook (event) {
   event.preventDefault ();
-  $.get ("../navigation/update.php?getbooks", function (response) {
+  $.get ("../navigation/update.php?bible=" + bible + "&getbooks", function (response) {
     container.empty ();
     container.append (response);
     $("#selectbooks").on ("click", function (event) {
@@ -34,7 +52,7 @@ function selectBook (event) {
 
 function selectChapter (event) {
   event.preventDefault ();
-  $.get ("../navigation/update.php?getchapters", function (response) {
+  $.get ("../navigation/update.php?bible=" + bible + "&getchapters", function (response) {
     container.empty ();
     container.append (response);
     $("#selectchapters").on ("click", function (event) {
@@ -46,7 +64,7 @@ function selectChapter (event) {
 
 function selectVerse (event) {
   event.preventDefault ();
-  $.get ("../navigation/update.php?getverses", function (response) {
+  $.get ("../navigation/update.php?bible=" + bible + "&getverses", function (response) {
     container.empty ();
     container.append (response);
     $("#selectverses").on ("click", function (event) {
@@ -56,10 +74,23 @@ function selectVerse (event) {
 }
 
 
+function selectBibles (event) {
+  event.preventDefault ();
+  if (event.target.localName == "a") {
+    bible = event.target.innerText;
+    $.get ("../navigation/update.php?bible=" + bible + "&setbible", function (response) {
+      container.empty ();
+      container.append (response);
+      bindClickHandlers ();
+    });  
+  }
+}
+
+
 function selectBooks (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.get ("../navigation/update.php?setbook=" + event.target.id, function (response) {
+    $.get ("../navigation/update.php?bible=" + bible + "&setbook=" + event.target.id, function (response) {
       container.empty ();
       container.append (response);
       bindClickHandlers ();
@@ -71,7 +102,7 @@ function selectBooks (event) {
 function selectChapters (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.get ("../navigation/update.php?setchapter=" + event.target.id, function (response) {
+    $.get ("../navigation/update.php?bible=" + bible + "&setchapter=" + event.target.id, function (response) {
       container.empty ();
       container.append (response);
       bindClickHandlers ();
@@ -83,7 +114,7 @@ function selectChapters (event) {
 function selectVerses (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.get ("../navigation/update.php?setverse=" + event.target.id, function (response) {
+    $.get ("../navigation/update.php?bible=" + bible + "&setverse=" + event.target.id, function (response) {
       container.empty ();
       container.append (response);
       bindClickHandlers ();

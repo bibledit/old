@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-25 01:43+0200\n"
+"POT-Creation-Date: 2013-07-26 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1050,6 +1050,9 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+msgid "Scrum-based translation"
+msgstr ""
+
 msgid "ChangeLog"
 msgstr ""
 
@@ -1062,10 +1065,309 @@ msgstr ""
 msgid "Introduction"
 msgstr ""
 
-msgid "Release Planning"
+msgid "Scrum-based Translation"
+msgstr ""
+
+msgid "What is Scrum-based translation?"
+msgstr ""
+
+msgid ""
+"A translation team that works with Scrum frequently releases portions of "
+"translated Scripture."
+msgstr ""
+
+msgid ""
+"This makes it clear to involved parties where the translation project is "
+"going."
+msgstr ""
+
+msgid ""
+"It enables the translation team to make course corrections based on the "
+"facts."
+msgstr ""
+
+msgid ""
+"Burndown charts and the product backlog provide the product owner and others "
+"with a permanent overview over the translation status and progress."
+msgstr ""
+
+msgid ""
+"Scrum is an agile process that enables self-organizing translation teams to "
+"deliver high translation output and accuracy in a short time."
+msgstr ""
+
+msgid ""
+"Using iterative translation, it releases portions of translated Scripture "
+"every iteration, that is, every month."
+msgstr ""
+
+msgid ""
+"At the end of the every sprint, anyone can see the translated portion, and "
+"decide whether to release it to the congregations and community for feedback "
+"or continue to enhance it."
+msgstr ""
+
+msgid ""
+"The introduction and the following explanation just outlines the mechanics "
+"of Scrum-based Translation."
+msgstr ""
+
+msgid ""
+"It does not make clear what difficulties and issues you will run into trying "
+"to implement it."
+msgstr ""
+
+msgid "It only hints at the agile spirit that's required to make it work."
+msgstr ""
+
+msgid ""
+"If you're interested in implementing Scrum-based translation, do some "
+"reading, watch videos, follow a course, find a mentor or coach."
 msgstr ""
 
 msgid "Product Owner"
+msgstr ""
+
+msgid "The Product Owner represents the stakeholders."
+msgstr ""
+
+msgid ""
+"He or she is the voice of the target audience, that is the Bible reader."
+msgstr ""
+
+msgid "He understands the requirements for the Bible."
+msgstr ""
+
+msgid "The Product Owner may also be a group of people in a committee."
+msgstr ""
+
+msgid ""
+"He is responsible for ensuring that the team delivers accuracy and "
+"reliability to the Bible translation."
+msgstr ""
+
+msgid "He knows about accuracy and reliability."
+msgstr ""
+
+msgid "He defines items that focus on desired features."
+msgstr ""
+
+msgid ""
+"He makes decisions as to whether to implement footnotes or leave them out."
+msgstr ""
+
+msgid ""
+"In the same way, he defines other features, like headers, introductions, or "
+"decides to leave them out."
+msgstr ""
+
+msgid "He decides about use or non-use of a dialect."
+msgstr ""
+
+msgid "He sets the priorities for the work to be done."
+msgstr ""
+
+msgid "He adds the items to the product backlog."
+msgstr ""
+
+msgid "Scrum teams should have one Product Owner."
+msgstr ""
+
+msgid ""
+"The Product Owner may be part of the Translation Team, but it is recommended "
+"that his role not be combined with the role of Scrum Master."
+msgstr ""
+
+msgid "Release Planning"
+msgstr ""
+
+msgid ""
+"The release planning shows which parts of the Bible will be translated and "
+"delivered during which Sprint."
+msgstr ""
+
+msgid ""
+"It is convenient to define a Sprint in months, so that the release planning "
+"mentions January, February, and so on."
+msgstr ""
+
+msgid ""
+"It is often helpful to stick the release planning to the wall so that "
+"everybody can see the grand picture."
+msgstr ""
+
+msgid "The advantages of a release planning are:"
+msgstr ""
+
+msgid ""
+"1. It gives the team a common vision about what needs to be achieved, and "
+"when."
+msgstr ""
+
+msgid "2. It guides the team to make decisions during detailed planning."
+msgstr ""
+
+msgid "3. It helps prioritize the actions."
+msgstr ""
+
+msgid ""
+"4. It resolves conflicts and guides the teams toward the right balance on "
+"trade-offs."
+msgstr ""
+
+msgid ""
+"Release each completed Bible book to the community and get their feedback."
+msgstr ""
+
+msgid "This implements the important principle of continual improvement."
+msgstr ""
+
+msgid "The release planning is a simple way of doing top-down planning."
+msgstr ""
+
+msgid "It is an estimate, simple and quick to do."
+msgstr ""
+
+msgid "It is based on the Product Backlog."
+msgstr ""
+
+msgid "Product Backlog"
+msgstr ""
+
+msgid ""
+"The product backlog is an ordered list of requirements that is maintained "
+"for the Bible translation."
+msgstr ""
+
+msgid ""
+"It consists of translation tasks, checking tasks, testing tasks, "
+"comprehension tasks, whatever needs to be done in order to deliver a "
+"reliable manuscript."
+msgstr ""
+
+msgid "The Product Owner prioritizes the items on this list."
+msgstr ""
+
+msgid "It is used to determine the work for the next sprints."
+msgstr ""
+
+msgid "Each item has an associated estimated time to complete."
+msgstr ""
+
+msgid "Sprint"
+msgstr ""
+
+msgid "* Iteration typically of one month's length."
+msgstr ""
+
+msgid ""
+"* This is where the translaton work (translate, review, approve, test) "
+"occurs."
+msgstr ""
+
+msgid "Read more."
+msgstr ""
+
+msgid "Sprint Planning Meeting"
+msgstr ""
+
+msgid "* Select the stories the team believes it can commit to in a sprint."
+msgstr ""
+
+msgid ""
+"* Break the stories down into tasks and provide estimates for those tasks."
+msgstr ""
+
+msgid "Sprint Backlog"
+msgstr ""
+
+msgid "* List of tasks that are to be completed in a sprint."
+msgstr ""
+
+msgid ""
+"* The tasks are created by breaking down the stories during the planning "
+"meeting."
+msgstr ""
+
+msgid "* Have estimates in hours or days associated with them."
+msgstr ""
+
+msgid "Team"
+msgstr ""
+
+msgid "* Contains the Bible translators, their assistants, and consultants."
+msgstr ""
+
+msgid ""
+"* Organizes itself to do the work and deliver a reliable and good Bible "
+"translation."
+msgstr ""
+
+msgid "Scrum Master"
+msgstr ""
+
+msgid "* Organizes the translation process."
+msgstr ""
+
+msgid "* Keeps track of the progress of the translation team."
+msgstr ""
+
+msgid "* Removes obstacles from the path of the team."
+msgstr ""
+
+msgid "Daily Scrum Meeting"
+msgstr ""
+
+msgid ""
+"* Team members share progress with other team members (not the manager)."
+msgstr ""
+
+msgid ""
+"* Team members answer three questions – “what did you do yesterday”, “what "
+"will you do today”, “do you have any roadblocks”."
+msgstr ""
+
+msgid "* Anyone may attend, only team members may speak."
+msgstr ""
+
+msgid ""
+"* Scrum master uses the information from the meeting to update burndown "
+"chart illustrating progress."
+msgstr ""
+
+msgid ""
+"* Fifteen minutes maximum - typically held standing up in front of Task "
+"Board - helps keep the meeting focused."
+msgstr ""
+
+msgid "* Side conversations are taken offline."
+msgstr ""
+
+msgid "Sprint Review"
+msgstr ""
+
+msgid ""
+"* The Product Owner looks through the sprint’s work and provides feedback."
+msgstr ""
+
+msgid "* Translators may also demonstrate features."
+msgstr ""
+
+msgid ""
+"* Team owns up to deficiencies with the translation, helping to build trust "
+"with the Product Owner."
+msgstr ""
+
+msgid "Sprint Retrospective"
+msgstr ""
+
+msgid "* Team reviews what went well and what went poorly."
+msgstr ""
+
+msgid "* Use retrospection techniques to find potential for improvement."
+msgstr ""
+
+msgid "* Pick one or two areas to focus for improvement."
 msgstr ""
 
 msgid "Typesetting Bibles"
@@ -2154,50 +2456,6 @@ msgstr ""
 msgid "View the PHP Info."
 msgstr ""
 
-msgid ""
-"The release planning shows which parts of the Bible will be translated and "
-"delivered during which Sprint."
-msgstr ""
-
-msgid ""
-"It is convenient to define a Sprint in months, so that the release planning "
-"mentions January, February, and so on."
-msgstr ""
-
-msgid ""
-"It is often helpful to stick the release planning to the wall so that "
-"everybody can see the grand picture."
-msgstr ""
-
-msgid "The advantages of a release plan are:"
-msgstr ""
-
-msgid ""
-"1. It gives the team a common vision about what needs to be achieved, and "
-"when."
-msgstr ""
-
-msgid "2. It guides the team to make decisions during detailed planning."
-msgstr ""
-
-msgid "3. It helps prioritize the actions."
-msgstr ""
-
-msgid ""
-"4. It resolves conflicts and guides the teams toward the right balance on "
-"trade-offs."
-msgstr ""
-
-msgid ""
-"Release each completed Bible book to the community and get their feedback."
-msgstr ""
-
-msgid "This assists with the important principle of continual improvement."
-msgstr ""
-
-msgid "Scrum-based Translation"
-msgstr ""
-
 msgid "Installation"
 msgstr ""
 
@@ -2391,50 +2649,6 @@ msgstr ""
 msgid "The body of the email will be the first comment on that note."
 msgstr ""
 
-msgid "The Product Owner represents the stakeholders."
-msgstr ""
-
-msgid ""
-"He or she is the voice of the target audience, that is the Bible reader."
-msgstr ""
-
-msgid "The Product Owner may also be a group of people in a committee."
-msgstr ""
-
-msgid ""
-"He is accountable for ensuring that the team delivers accuracy and "
-"reliability to the Bible translation."
-msgstr ""
-
-msgid "He defines items that focus on desired features."
-msgstr ""
-
-msgid ""
-"He makes decisions as to whether to implement footnotes or leave them out."
-msgstr ""
-
-msgid ""
-"In the same way, he defines other features, like headers, introductions, or "
-"decides to leave them out."
-msgstr ""
-
-msgid "He decides about use or non-use of a dialect."
-msgstr ""
-
-msgid "He sets the priorities for the work to be done."
-msgstr ""
-
-msgid "He adds the items to the product backlog."
-msgstr ""
-
-msgid "Scrum teams should have one Product Owner."
-msgstr ""
-
-msgid ""
-"The Product Owner may be part of the Translation Team, but it is recommended "
-"that this role not be combined with that of the Scrum Master."
-msgstr ""
-
 msgid "Install Bibledit-Web 0.9 on Ubuntu 13.04"
 msgstr ""
 
@@ -2518,9 +2732,6 @@ msgid ""
 msgstr ""
 
 msgid "Install Bibledit-Web 1.0 (not yet released) on Ubuntu 13.04"
-msgstr ""
-
-msgid "Daily Scrum Meeting"
 msgstr ""
 
 msgid ""
@@ -2841,216 +3052,6 @@ msgstr ""
 msgid "More information"
 msgstr ""
 
-msgid "What is Scrum-based translation?"
-msgstr ""
-
-msgid ""
-"A translation team that works with Scrum frequently releases portions of "
-"translated Scripture."
-msgstr ""
-
-msgid ""
-"This makes it clear to involved parties where the translation project is "
-"going."
-msgstr ""
-
-msgid ""
-"It enables the translation team to make course corrections based on the "
-"facts."
-msgstr ""
-
-msgid ""
-"Burndown charts and the product backlog provide the product owner and others "
-"with a permanent overview over the translation status and progress."
-msgstr ""
-
-msgid ""
-"Scrum is an agile process that enables self-organizing translation teams to "
-"deliver high translation output and accuracy in a short time."
-msgstr ""
-
-msgid ""
-"Using iterative translation, it releases portions of translated Scripture "
-"every iteration, that is, every month."
-msgstr ""
-
-msgid ""
-"At the end of the every sprint, anyone can see the translated portion, and "
-"decide whether to release it to the congregations and community for feedback "
-"or continue to enhance it."
-msgstr ""
-
-msgid ""
-"The introduction and the following explanation just outlines the mechanics "
-"of Scrum-based Translation."
-msgstr ""
-
-msgid ""
-"It does not make clear what difficulties and issues you will run into trying "
-"to implement it."
-msgstr ""
-
-msgid "It only hints at the agile spirit that's required to make it work."
-msgstr ""
-
-msgid ""
-"If you're interested in implementing Scrum-based translation, do some "
-"reading, watch videos, follow a course, find a mentor or coach."
-msgstr ""
-
-msgid "* Creates and prioritizes the product backlog."
-msgstr ""
-
-msgid "* Understands the requirements for the Bible."
-msgstr ""
-
-msgid "* Knows about accuracy and reliability."
-msgstr ""
-
-msgid "Read more."
-msgstr ""
-
-msgid ""
-"* Used to estimate when certain Bible books will be translated, tested, or "
-"released."
-msgstr ""
-
-msgid "* It's a simple way of doing top-down planning."
-msgstr ""
-
-msgid "* It is an estimate, simple and quick to do."
-msgstr ""
-
-msgid "* It is based on the Product Backlog."
-msgstr ""
-
-msgid "Product Backlog"
-msgstr ""
-
-msgid "* Used to determine the work for the next sprints."
-msgstr ""
-
-msgid ""
-"* A prioritized list of everything needed or wanted for the desired "
-"translation."
-msgstr ""
-
-msgid "* Often written in the form of user stories."
-msgstr ""
-
-msgid "* Have estimates associated with them."
-msgstr ""
-
-msgid "Sprint"
-msgstr ""
-
-msgid "* Iteration typically of one month's length."
-msgstr ""
-
-msgid ""
-"* This is where the translaton work (translate, review, approve, test) "
-"occurs."
-msgstr ""
-
-msgid "Sprint Planning Meeting"
-msgstr ""
-
-msgid "* Select the stories the team believes it can commit to in a sprint."
-msgstr ""
-
-msgid ""
-"* Break the stories down into tasks and provide estimates for those tasks."
-msgstr ""
-
-msgid "Sprint Backlog"
-msgstr ""
-
-msgid "* List of tasks that are to be completed in a sprint."
-msgstr ""
-
-msgid ""
-"* The tasks are created by breaking down the stories during the planning "
-"meeting."
-msgstr ""
-
-msgid "* Have estimates in hours or days associated with them."
-msgstr ""
-
-msgid "Team"
-msgstr ""
-
-msgid "* Contains the Bible translators, their assistants, and consultants."
-msgstr ""
-
-msgid ""
-"* Organizes itself to do the work and deliver a reliable and good Bible "
-"translation."
-msgstr ""
-
-msgid "Scrum Master"
-msgstr ""
-
-msgid "* Organizes the translation process."
-msgstr ""
-
-msgid "* Keeps track of the progress of the translation team."
-msgstr ""
-
-msgid "* Removes obstacles from the path of the team."
-msgstr ""
-
-msgid ""
-"* Team members share progress with other team members (not the manager)."
-msgstr ""
-
-msgid ""
-"* Team members answer three questions – “what did you do yesterday”, “what "
-"will you do today”, “do you have any roadblocks”."
-msgstr ""
-
-msgid "* Anyone may attend, only team members may speak."
-msgstr ""
-
-msgid ""
-"* Scrum master uses the information from the meeting to update burndown "
-"chart illustrating progress."
-msgstr ""
-
-msgid ""
-"* Fifteen minutes maximum - typically held standing up in front of Task "
-"Board - helps keep the meeting focused."
-msgstr ""
-
-msgid "* Side conversations are taken offline."
-msgstr ""
-
-msgid "Sprint Review"
-msgstr ""
-
-msgid ""
-"* The Product Owner looks through the sprint’s work and provides feedback."
-msgstr ""
-
-msgid "* Translators may also demonstrate features."
-msgstr ""
-
-msgid ""
-"* Team owns up to deficiencies with the translation, helping to build trust "
-"with the Product Owner."
-msgstr ""
-
-msgid "Sprint Retrospective"
-msgstr ""
-
-msgid "* Team reviews what went well and what went poorly."
-msgstr ""
-
-msgid "* Use retrospection techniques to find potential for improvement."
-msgstr ""
-
-msgid "* Pick one or two areas to focus for improvement."
-msgstr ""
-
 msgid "A sprint typically takes one month."
 msgstr ""
 
@@ -3288,20 +3289,6 @@ msgid ""
 "members of the translation team."
 msgstr ""
 
-msgid ""
-"The product backlog is an ordered list of requirements that is maintained "
-"for the Bible translation."
-msgstr ""
-
-msgid ""
-"It consists of translation tasks, checking tasks, testing tasks, "
-"comprehension tasks, whatever needs to be done in order to deliver a "
-"reliable manuscript."
-msgstr ""
-
-msgid "The Product Owner prioritizes the items on this list."
-msgstr ""
-
 msgid "Bibledit-Web"
 msgstr ""
 
@@ -3520,9 +3507,6 @@ msgid "Untick display of custom hyphens."
 msgstr ""
 
 msgid "Untick display of non-breaking spaces."
-msgstr ""
-
-msgid "Scrum-based translation"
 msgstr ""
 
 msgid "Chapter"

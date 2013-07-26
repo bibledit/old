@@ -5,25 +5,51 @@ require_once ("bootstrap/bootstrap.php");
 class Navigation_Logic
 {
 
-  private static function getStartingFragment ()
+  public static function getContainer ()
   {
-    return '<span id="bibleditnavigation">';
+    return '<span id="bibleditnavigation"></span>';
   }
   
-  public static function getNavigatorFragment ()
+  public static function getNavigator ($bible) // Todo clamp books / chapters / verse within their ranges.
   {
     $fragment = '';
     
+    if ($bible != "") {
+      $fragment .= '<a id="selectbible" href="selectbible">' . $bible . '</a>';
+      $fragment .= " ";
+    }
+    
     $ipc_focus = Ipc_Focus::getInstance();
     $database_books = Database_Books::getInstance ();
+    $database_bibles = Database_Bibles::getInstance ();
 
     $book = $ipc_focus->getBook ();
+
+    // Check that the book exists in the Bible.
+    if ($bible != "") {
+      $books = $database_bibles->getBooks ($bible);
+      if (!in_array ($book, $books)) {
+        if (count ($books) > 0) $book = $books [0];
+        else $book = 0;
+      }
+    }
+
     $bookName = $database_books->getEnglishFromId ($book);
     $fragment .= '<a id="selectbook" href="selectbook">' . $bookName . '</a>';
 
     $fragment .= " ";
 
     $chapter = $ipc_focus->getChapter ();
+    
+    // Ensure that the chapter exists in the book.
+    if ($bible != "") {
+      $chapters = $database_bibles->getChapters ($bible, $book);
+      if (!in_array ($chapter, $chapters)) {
+        if (count ($chapters) > 0) $chapter = $chapters [0];
+        else $chapter = 1;
+      }
+    }
+
     $fragment .= '<a id="selectchapter" href="selectchapter">' . $chapter . '</a>';
 
     $fragment .= ":";
@@ -34,26 +60,35 @@ class Navigation_Logic
     return $fragment;
   }
   
-  private static function getEndingFragment ()
+  public static function getBiblesFragment ($bible)
   {
-    return '</span>';
+    $database_bibles = Database_Bibles::getInstance ();
+    $bibles = $database_bibles->getBibles ();
+    $activeBible = $bible;
+    $html = gettext ("Select Bible") . " " . '<span id="selectbibles">';
+    foreach ($bibles as $offset => $bible) {
+      if ($offset) $html .= " | ";
+      if ($bible == $activeBible) $html .= "<mark>";
+      $html .= '<a href="bible">' . $bible . '</a>';
+      if ($bible == $activeBible) $html .= "</mark>";
+    }
+    $html .= "</span>";
+    return $html;    
   }
   
-  public static function htmlNavigator ()
+  public static function getBooksFragment ($bible)
   {
-    return Navigation_Logic::getStartingFragment () . Navigation_Logic::getNavigatorFragment () . Navigation_Logic::getEndingFragment ();
-  }
-
-  public static function getBooksFragment ()
-  {
-    $database_config_user = Database_Config_User::getInstance ();
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
     $ipc_focus = Ipc_Focus::getInstance();
-    $bible = $database_config_user->getBible ();
     $activeBook = $ipc_focus->getBook ();
-    $books = $database_bibles->getBooks ($bible);
-    $html = '<span id="selectbooks">';
+    // Take standard books in case of no Bible.
+    if ($bible == "") {
+      $books = $database_books->getIDs ();
+    } else {
+      $books = $database_bibles->getBooks ($bible);
+    }
+    $html = gettext ("Select book") . " " . '<span id="selectbooks">';
     foreach ($books as $offset => $book) {
       $bookName = $database_books->getEnglishFromId ($book);
       if ($offset) $html .= " | ";
@@ -65,15 +100,25 @@ class Navigation_Logic
     return $html;    
   }
   
-  public static function getChaptersFragment ()
+  public static function getChaptersFragment ($bible)
   {
-    $database_config_user = Database_Config_User::getInstance ();
     $database_bibles = Database_Bibles::getInstance ();
     $ipc_focus = Ipc_Focus::getInstance();
-    $bible = $database_config_user->getBible ();
     $book = $ipc_focus->getBook ();
     $activeChapter = $ipc_focus->getChapter ();
-    $chapters = $database_bibles->getChapters ($bible, $book);
+    if ($bible == "") {
+      $database_versifications = Database_Versifications::getInstance ();
+      $data = $database_versifications->getBooksChaptersVerses ("English");
+      $chapters = array (0);
+      while ($row = $data->fetch_assoc()) {
+        if ($book == $row ["book"]) {
+          $chapters [] = $row ["chapter"];
+        }
+      }
+      $chapters = array_unique ($chapters, SORT_NUMERIC);
+    } else {
+      $chapters = $database_bibles->getChapters ($bible, $book);
+    }
     $html = gettext ("Chapter") . ' <span id="selectchapters">';
     foreach ($chapters as $offset => $chapter) {
       if ($offset) $html .= " | ";
@@ -85,16 +130,29 @@ class Navigation_Logic
     return $html;
   }
 
-  public static function getVersesFragment ()
+  public static function getVersesFragment ($bible)
   {
-    $database_config_user = Database_Config_User::getInstance ();
     $database_bibles = Database_Bibles::getInstance ();
     $ipc_focus = Ipc_Focus::getInstance();
-    $bible = $database_config_user->getBible ();
     $book = $ipc_focus->getBook ();
     $chapter = $ipc_focus->getChapter ();
     $activeVerse = $ipc_focus->getVerse ();
-    $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+    if ($bible == "") {
+      $database_versifications = Database_Versifications::getInstance ();
+      $data = $database_versifications->getBooksChaptersVerses ("English");
+      $highestVerse = 0;
+      while ($row = $data->fetch_assoc()) {
+        if (($book == $row ["book"]) && ($chapter == $row ["chapter"])) {
+          $highestVerse = $row ["verse"];
+        }
+      }
+      $verses = array ();
+      for ($i = 0; $i <= $highestVerse; $i++) {
+        $verses [] = $i;
+      }
+    } else {
+      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+    }
     $html = gettext ("Verse") . ' <span id="selectverses">';
     foreach ($verses as $offset => $verse) {
       if ($offset) $html .= " | ";
@@ -106,9 +164,14 @@ class Navigation_Logic
     return $html;
   }
   
-  public static function code ()
+  public static function code ($bible)
   {
-    $code = '<script type="text/javascript" src="../navigation/code.js"></script>';
+    $code = "";
+    $code .= '<script type="text/javascript">';
+    $code .= 'var bible = "' . $bible . '";';
+    $code .= '</script>';
+    $code .= "\n";
+    $code .= '<script type="text/javascript" src="../navigation/code.js"></script>';
     $code .= "\n";
     return $code;
   }
