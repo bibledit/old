@@ -5,7 +5,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (CONSULTANT_LEVEL);
 
 
-@$pollpassage = $_GET['pollpassage'];
+@$pollpassage = $_GET['pollpassage']; // Todo
 if (isset ($pollpassage)) {
   $ipc_focus = Ipc_Focus::getInstance();
   $book = $ipc_focus->getBook ();

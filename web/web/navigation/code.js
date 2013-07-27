@@ -1,14 +1,22 @@
 var container;
+var newPassageAvailable = false;
+var navigatorTimeout;
 
 
 $(document).ready (function () {
   container = $ ("#bibleditnavigation");
+  buildNavigator ();
+  navigationPollPassage ();
+});
+
+
+function buildNavigator () {
   $.get ("../navigation/update.php?bible=" + bible, function (response) {
+    container.empty ();
     container.append (response);
     bindClickHandlers ();
   });
-  navigationPollPassage ();
-});
+}
 
 
 function bindClickHandlers () {
@@ -83,6 +91,7 @@ function selectBibles (event) {
       container.empty ();
       container.append (response);
       bindClickHandlers ();
+      navigationPollPassage ();
     });  
   }
 }
@@ -95,6 +104,7 @@ function selectBooks (event) {
       container.empty ();
       container.append (response);
       bindClickHandlers ();
+      navigationPollPassage ();
     });  
   }
 }
@@ -107,6 +117,7 @@ function selectChapters (event) {
       container.empty ();
       container.append (response);
       bindClickHandlers ();
+      navigationPollPassage ();
     });  
   }
 }
@@ -119,28 +130,35 @@ function selectVerses (event) {
       container.empty ();
       container.append (response);
       bindClickHandlers ();
+      navigationPollPassage ();
     });  
   }
 }
 
 
-function navigationPollPassage () // Todo
+function navigationPollPassage ()
 {
+  if (navigatorTimeout) {
+    clearTimeout (navigatorTimeout);
+  }
   $.ajax ({
     url: "../navigation/passage.php",
     type: "GET",
-    data: { pollpassage: "" },
     success: function (response) {
-      console.log (response);
-      /* 
-      if (response != passage) {
-        passage = response;
-        loadResources ();
+      var ref = $.parseJSON (response);
+      var book = ref ["book"];
+      var chapter = ref ["chapter"];
+      var verse = ref ["verse"];
+      if ((book != navigationBook) || (chapter != navigationChapter) || (verse != navigationVerse)) {
+        navigationBook = book;
+        navigationChapter = chapter;
+        navigationVerse = verse;
+        newPassageAvailable = true;
+        buildNavigator ();
       }
-      */
     },
     complete: function (xhr, status) {
-      setTimeout (navigationPollPassage, 1000);
+      navigatorTimeout = setTimeout (navigationPollPassage, 1000);
     }
   });
 }

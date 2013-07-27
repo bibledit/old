@@ -36,7 +36,7 @@ $database_ipc = Database_Ipc::getInstance();
 
 // This routine has a timeout so that, even if the focused reference does not 
 // change, it still will pass a message to the caller.
-// The reason of this is that some caller's code time out on a web request,
+// The reason of this is that some callers' code time out on a web request,
 // if there is no answer for a long time.
 // Rather than to fix the different types of code, it is quicker to just
 // prevent timeout by passing a message after some time.

@@ -3,31 +3,22 @@ var passage = "";
 
 $(document).ready (function () {
   pollPassage ();
+  loadResources ();
 });
 
 
 function pollPassage () 
 {
-  $.ajax ({
-    url: "get.php",
-    type: "GET",
-    data: { pollpassage: "" },
-    success: function (response) {
-      if (response != passage) {
-        passage = response;
-        loadResources ();
-      }
-    },
-    complete: function (xhr, status) {
-      setTimeout (pollPassage, 1000);
-    }
-  });
+  if (newPassageAvailable) {
+    newPassageAvailable = false;
+    loadResources ();
+  }
+  setTimeout (pollPassage, 1000);
 }
 
 
 function loadResources ()
 {
-  var ref = $.parseJSON (passage);
   for (i = 0; i < resourceCount; i++) {
     var container = $ ("#bibledit" + i);
     container.empty ();
@@ -36,7 +27,7 @@ function loadResources ()
       context: container,
       url: "get.php",
       type: "GET",
-      data: { resource: i, book: ref ["book"], chapter: ref ["chapter"], verse: ref ["verse"] },
+      data: { resource: i, book: navigationBook, chapter: navigationChapter, verse: navigationVerse },
       success: function (response) {
         this.empty ();
         this.append ($ (response));

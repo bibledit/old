@@ -198,9 +198,9 @@ foreach ($bibles as $bible) {
           $database_mail = Database_Mail::getInstance ();
           $database_users = Database_Users::getInstance ();
           $adminusername = $database_users->getAdministrator ();
-          $subject = "Send/Receive conflict";
-          $body = $line;
-          $body .= $message;
+          $subject = "Send/Receive" . ' ' . $line;
+          $body = "<p>$line</p>";
+          $body .= "<p>$message</p>";
           $database_mail->send ($adminusername, $subject, $body);
         }
       }

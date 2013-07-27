@@ -164,18 +164,22 @@ class Navigation_Logic
     return $html;
   }
   
-  public static function code ($bible) // Todo perhaps start with defaults?
+  public static function code ($bible)
   {
+    $ipc_focus = Ipc_Focus::getInstance();
     $code = "";
     $code .= '<script type="text/javascript">';
     $code .= "\n";
     $code .= 'var bible = "' . $bible . '";';
     $code .= "\n";
-    $code .= 'var navigationBook = "' . 0 . '";';
+    $book = $ipc_focus->getBook ();
+    $code .= 'var navigationBook = "' . $book . '";';
     $code .= "\n";
-    $code .= 'var navigationChapter = "' . 0 . '";';
+    $chapter = $ipc_focus->getChapter ();
+    $code .= 'var navigationChapter = "' . $chapter . '";';
     $code .= "\n";
-    $code .= 'var navigationVerse = "' . 0 . '";';
+    $verse = $ipc_focus->getVerse ();
+    $code .= 'var navigationVerse = "' . $verse . '";';
     $code .= "\n";
     $code .= '</script>';
     $code .= "\n";
