@@ -6,7 +6,8 @@ $(document).ready (function () {
   $.get ("../navigation/update.php?bible=" + bible, function (response) {
     container.append (response);
     bindClickHandlers ();
-  });  
+  });
+  navigationPollPassage ();
 });
 
 
@@ -121,4 +122,27 @@ function selectVerses (event) {
     });  
   }
 }
+
+
+function navigationPollPassage () // Todo
+{
+  $.ajax ({
+    url: "../navigation/passage.php",
+    type: "GET",
+    data: { pollpassage: "" },
+    success: function (response) {
+      console.log (response);
+      /* 
+      if (response != passage) {
+        passage = response;
+        loadResources ();
+      }
+      */
+    },
+    complete: function (xhr, status) {
+      setTimeout (navigationPollPassage, 1000);
+    }
+  });
+}
+
 

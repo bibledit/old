@@ -172,7 +172,7 @@ class Database_Versifications
   /**
     * getBooksChaptersVerses - Returns the books, chapters, verses for the given versification system.
     */
-  public function getBooksChaptersVerses ($name) // Todo make extra functions for getting chapters and verses. DRY.
+  public function getBooksChaptersVerses ($name)
   {
     $id = $this->getID ($name);
     $query = "SELECT book, chapter, verse FROM versification_data WHERE system = $id ORDER BY book, chapter, verse ASC;";

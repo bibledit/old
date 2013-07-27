@@ -10,7 +10,7 @@ class Navigation_Logic
     return '<span id="bibleditnavigation"></span>';
   }
   
-  public static function getNavigator ($bible) // Todo clamp books / chapters / verse within their ranges.
+  public static function getNavigator ($bible)
   {
     $fragment = '';
     
@@ -164,11 +164,19 @@ class Navigation_Logic
     return $html;
   }
   
-  public static function code ($bible)
+  public static function code ($bible) // Todo perhaps start with defaults?
   {
     $code = "";
     $code .= '<script type="text/javascript">';
+    $code .= "\n";
     $code .= 'var bible = "' . $bible . '";';
+    $code .= "\n";
+    $code .= 'var navigationBook = "' . 0 . '";';
+    $code .= "\n";
+    $code .= 'var navigationChapter = "' . 0 . '";';
+    $code .= "\n";
+    $code .= 'var navigationVerse = "' . 0 . '";';
+    $code .= "\n";
     $code .= '</script>';
     $code .= "\n";
     $code .= '<script type="text/javascript" src="../navigation/code.js"></script>';
