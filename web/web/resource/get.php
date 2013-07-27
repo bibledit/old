@@ -5,19 +5,6 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (CONSULTANT_LEVEL);
 
 
-@$pollpassage = $_GET['pollpassage']; // Todo
-if (isset ($pollpassage)) {
-  $ipc_focus = Ipc_Focus::getInstance();
-  $book = $ipc_focus->getBook ();
-  $chapter = $ipc_focus->getChapter ();
-  $verse = $ipc_focus->getVerse ();
-  $passage = array ("book" => $book, "chapter" => $chapter, "verse" => $verse);
-  $passage = json_encode ($passage);
-  echo $passage;
-  die;
-}
-
-
 @$resource = $_GET['resource'];
 @$book = $_GET['book'];
 @$chapter = $_GET['chapter'];
