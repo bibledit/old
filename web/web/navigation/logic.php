@@ -212,6 +212,19 @@ class Navigation_Logic
     $ipc_focus->set ($book, $chapter, $verse);
   }
   
+  public static function getEntry () // Todo
+  {
+    $html = "";
+    $html .= '<form action="../navigation/update.php" method="get" name="navigation" id="navigation">';
+    $html .= "\n";
+    $html .= '<input name="q" type="text" value=""/>';
+    $html .= "\n";
+    $html .= '<input type="submit" value="OK" />';
+    $html .= "\n";
+    $html .= '</form>';
+    return $html;
+  }
+  
 }
 
 ?>

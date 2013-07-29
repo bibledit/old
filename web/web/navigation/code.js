@@ -7,6 +7,7 @@ $(document).ready (function () {
   container = $ ("#bibleditnavigation");
   buildNavigator ();
   navigationPollPassage ();
+  $("body").on ("keydown", handleKeyDown);
 });
 
 
@@ -161,6 +162,33 @@ function navigationPollPassage ()
       navigatorTimeout = setTimeout (navigationPollPassage, 1000);
     }
   });
+}
+
+
+function handleKeyDown (event) {
+  // Ctrl-G:
+  if ((event.ctrlKey == true) && (event.keyCode == 71)) {
+    event.preventDefault ();
+    getEntry ();
+  }
+  // Escape:
+  if (event.keyCode == 27) {
+    event.preventDefault ();
+    buildNavigator ();
+  }
+}
+
+
+function getEntry () {
+  $.get ("../navigation/update.php?bible=" + bible + "&getentry", function (response) {
+    container.empty ();
+    container.append (response);
+    /*
+    $("#selectverses").on ("click", function (event) {
+      selectVerses (event);
+    });
+    */
+  });  
 }
 
 

@@ -10,7 +10,7 @@ page_access_level (CONSULTANT_LEVEL);
 // The reason is that the Navigator can be independent of any Bible.
 // If that's so, it has all the 66 canonical books, plus their chapters and verses.
 // If the Navigator has a Bible, it uses the books / chapters / verses from that Bible.
-$bible = $_GET['bible'];
+@$bible = $_GET['bible'];
 
 
 @$getbibles = $_GET['getbibles'];
@@ -63,6 +63,13 @@ if (isset ($getverses)) {
 @$setverse = $_GET['setverse'];
 if (isset ($setverse)) {
   Navigation_Logic::setVerse ($setverse);
+}
+
+
+@$getentry = $_GET['getentry']; // Todo
+if (isset ($getentry)) {
+  echo Navigation_Logic::getEntry ();
+  die;
 }
 
 

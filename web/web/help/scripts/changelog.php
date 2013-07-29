@@ -41,7 +41,7 @@
 <p>Can fetch several commentaries as external resources.</p>
 <p>Can convert a Bible to a USFM Resource, and vice versa.</p>
 <p>The Resources page has a Navigator.</p>
-<p></p>
+<p>Provides information about the Scrum-based Bible translation method.</p>
 <p></p>
 <p></p>
 <p></p>
