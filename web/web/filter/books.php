@@ -159,10 +159,6 @@ class Filter_Books
       }
     }
     
-    What could be done too is to use the full-text search options of the database.
-    library/computing/lamp/mysql-docs/refman-5.1-maria-en.html-chapter/functions.html#fulltext-search
-    Tutorial at http://devzone.zend.com/article/1304
-    
     For language searches, one would need to load all book translations through a series of gettext calls,
     then sort these out.
     
@@ -174,6 +170,24 @@ class Filter_Books
   }
 
 
+  static private function cleanPassage ($text)
+  {
+    // Trim text.
+    $text = trim ($text);
+    // As references could be, e.g.: Genesis 10.2, or Genesis 10:2,
+    // it needs to convert a the full stop and the colon to a space.
+    $text = str_replace (".", " ", $text);
+    $text = str_replace (":", " ", $text);
+    // Change double spaces into single ones.
+    $text = str_replace ("  ", " ", $text);
+    $text = str_replace ("  ", " ", $text);
+    // Trim again.
+    $text = trim ($text);
+    // Result.
+    return $text;
+  }
+
+
   /**
   * Takes the passage in $text, and explodes it into book, chapter, verse.
   * The book is the numerical identifier, not the string, e.g.,
@@ -181,15 +195,7 @@ class Filter_Books
   */
   static public function explodePassage ($text) 
   {
-    // Trim text.
-    $text = trim ($text);
-    // As references could be, e.g.: Genesis 10.2, or Genesis 10:2,
-    // it needs to make spaces of the full stop and the colon.
-    $text = str_replace (".", " ", $text);
-    $text = str_replace (":", " ", $text);
-    // Change double spaces into single ones.
-    $text = str_replace ("  ", " ", $text);
-    $text = str_replace ("  ", " ", $text);
+    $text = Filter_Books::cleanPassage ($text);
     // Cut the text in its parts.
     $text = explode (" ", $text);
     // Defaults to empty passage.
@@ -208,6 +214,81 @@ class Filter_Books
     return $passage;    
   }
  
+ 
+  /**
+  * Takes the passage in $rawPassage, and tries to interpret it.
+    The following situations can occur:
+    - Only book given, e.g. "Genesis".
+    - One number given, e.g. "10".
+    - Two numbers given, e.g. "1 2".
+    - Book and one number given, e.g. "Exodus 10".
+    - Book and two numbers given, e.g. "Song of Solomon 2 3".
+    It deals with these situations.
+    If needed, it bases the interpreted passage on $currentPassage,
+    which is an array of book, chapter, verse.
+  */
+  static public function interpretPassage ($currentPassage, $rawPassage)
+  {
+    $rawPassage = Filter_Books::cleanPassage ($rawPassage);
+
+    // Create an array with the bits of the raw input.
+    $input = explode (" ", $rawPassage);
+    
+    // Go through the array from verse to chapter to book.
+    // Check how many numerals it has after the book part.
+    $numerals = array ();
+    $book = "";
+    $invertedInput = array_reverse ($input);
+    foreach ($invertedInput as $bit) {
+      if (Filter_Numeric::integer_in_string ($bit) != "") {
+        $numerals [] = $bit;
+        array_pop ($input);
+      } else {
+        $book = implode (" ", $input);
+        break;
+      }
+    }
+
+    // Deal with: Only book given, e.g. "Genesis".
+    if (($book != "") && (count ($numerals) == 0)) {
+      return Filter_Books::explodePassage ("$book 1 1");
+    }
+
+    // Deal with: One number given, e.g. "10".
+    else if (($book == "") && (count ($numerals) == 1)) {
+      $book = $currentPassage [0];
+      $chapter = $currentPassage [1];
+      $verse = $numerals [0];
+      $passage = Filter_Books::explodePassage ("Unknown $chapter $verse");
+      $passage [0] = $book;
+      return $passage;
+    }
+
+    // Deal with: Two numbers given, e.g. "1 2".
+    else if (($book == "") && (count ($numerals) == 2)) {
+      $book = $currentPassage [0];
+      $chapter = $numerals [1];
+      $verse = $numerals [0];
+      $passage = Filter_Books::explodePassage ("Unknown $chapter $verse");
+      $passage [0] = $book;
+      return $passage;
+    }
+
+    // Deal with: Book and one number given, e.g. "Exodus 10".
+    else if (($book != "") && (count ($numerals) == 1)) {
+      $chapter = $numerals [0];
+      return Filter_Books::explodePassage ("$book $chapter 1");
+    }
+
+    // Deal with: Book and two numbers given, e.g. "Song of Solomon 2 3".
+    else if (($book != "") && (count ($numerals) == 2)) {
+      return Filter_Books::explodePassage ($rawPassage);
+    }
+    
+    // Give up.
+    return $currentPassage;
+  }
+
 
 
 }

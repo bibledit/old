@@ -1,7 +1,8 @@
 <h1><?php echo gettext ("Methodology") ?></h1>
-<p><a href="scrum.php"><?php echo gettext ("The translation process is scrum-based.") ?></a></p>
-<p><a href="discussions.php"><?php echo gettext ("The discussions are transparent, fair, and argued.") ?></a></p>
-<p><?php echo gettext ("The translation depends on reliable Hebrew and Greek manuscripts.") ?></p>
-<p><?php echo gettext ("The team looks for and depends on the help of the Lord Jesus.") ?></p>
-<p><?php echo gettext ("The team uses modern tools and technology.") ?></p>
-<p><?php echo gettext ("The goal is to deliver a reliable Bible translation within a reasonable time frame.") ?></p>
+<p><a href="scrum.php"><?php echo gettext ("Scrum-based translation process.") ?></a></p>
+<p><a href="discussions.php"><?php echo gettext ("Transparent, fair, and argued discussions") ?></a></p>
+<p><?php echo gettext ("Use of reliable Hebrew and Greek manuscripts.") ?></p>
+<p><?php echo gettext ("Looking for and depending on the help of the Lord Jesus.") ?></p>
+<p><?php echo gettext ("Use of modern tools and technology.") ?></p>
+<p><?php echo gettext ("Goal: Deliver a reliable Bible translation within a reasonable time frame.") ?></p>
+<p><a href="leanmanagement.php"><?php echo gettext ("Lean management") ?></a></p>

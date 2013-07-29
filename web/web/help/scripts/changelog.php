@@ -42,7 +42,7 @@
 <p>Can convert a Bible to a USFM Resource, and vice versa.</p>
 <p>The Resources page has a Navigator.</p>
 <p>Provides information about the Scrum-based Bible translation method.</p>
-<p></p>
+<p>The Navigator can be operated through the mouse and the keyboard.</p>
 <p></p>
 <p></p>
 <p></p>

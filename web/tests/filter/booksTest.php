@@ -1,7 +1,7 @@
 <?php
 
  
-class bookTest extends PHPUnit_Framework_TestCase
+class booksTest extends PHPUnit_Framework_TestCase
 {
 
   public function testPassageDisplay()
@@ -73,6 +73,47 @@ class bookTest extends PHPUnit_Framework_TestCase
   }
   
   
+  public function testInterpretPassage ()
+  {
+    $currentPassage = array (2, 4, 6);
+
+    $standard = array (1, 2, 3);
+    $output = Filter_Books::interpretPassage ($currentPassage, " Genesis 2 3");
+    $this->assertEquals ($standard, $output);
+
+    $standard = array (46, 2, 3);
+    $output = Filter_Books::interpretPassage ($currentPassage, "1  Corinthians 2:3");
+    $this->assertEquals ($standard, $output);
+
+    $standard = array (22, 2, 3);
+    $output = Filter_Books::interpretPassage ($currentPassage, "Song of Solomon 2.3");
+    $this->assertEquals ($standard, $output);
+
+    $standard = $currentPassage;
+    $output = Filter_Books::interpretPassage ($currentPassage, "");
+    $this->assertEquals ($standard, $output);
+
+    $standard = array (0, 1, 1);
+    $output = Filter_Books::interpretPassage ($currentPassage, "Genesis Exodus");
+    $this->assertEquals ($standard, $output);
+
+    $standard = array (2, 1, 1);
+    $output = Filter_Books::interpretPassage ($currentPassage, "Exodus");
+    $this->assertEquals ($standard, $output);
+
+    $standard = array (2, 4, 11);
+    $output = Filter_Books::interpretPassage ($currentPassage, "11");
+    $this->assertEquals ($standard, $output);
+
+    $standard = array (2, 11, 14);
+    $output = Filter_Books::interpretPassage ($currentPassage, "11 14");
+    $this->assertEquals ($standard, $output);
+
+    $standard = array (22, 2, 1);
+    $output = Filter_Books::interpretPassage ($currentPassage, "Song of Solomon 2");
+    $this->assertEquals ($standard, $output);
+  }
+    
  
 }
 ?>

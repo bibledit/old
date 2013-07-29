@@ -7,7 +7,7 @@ $(document).ready (function () {
   container = $ ("#bibleditnavigation");
   buildNavigator ();
   navigationPollPassage ();
-  $("body").on ("keydown", handleKeyDown);
+  $("body").on ("keydown", navigationHandleKeyDown);
 });
 
 
@@ -165,30 +165,47 @@ function navigationPollPassage ()
 }
 
 
-function handleKeyDown (event) {
+function navigationHandleKeyDown (event) {
   // Ctrl-G:
   if ((event.ctrlKey == true) && (event.keyCode == 71)) {
     event.preventDefault ();
-    getEntry ();
+    navigationGetEntry ();
   }
   // Escape:
   if (event.keyCode == 27) {
     event.preventDefault ();
     buildNavigator ();
   }
+  // Enter:
+  if (event.keyCode == 13) {
+    if (event.target.id == "selectpassage") {
+      event.preventDefault ();
+      navigationSubmitEntry ();
+    }
+  }
 }
 
 
-function getEntry () {
+function navigationGetEntry () {
   $.get ("../navigation/update.php?bible=" + bible + "&getentry", function (response) {
     container.empty ();
     container.append (response);
-    /*
-    $("#selectverses").on ("click", function (event) {
-      selectVerses (event);
+    $("#selectpassage").focus ();
+    $("#submitpassage").on ("click", function (event) {
+      navigationSubmitEntry ();
     });
-    */
   });  
 }
 
 
+function navigationSubmitEntry () {
+  var passage = $("#selectpassage").val ();
+  $.ajax ({
+    url: "../navigation/update.php",
+    type: "GET",
+    data: { bible: bible, passage: passage },
+    complete: function (xhr, status) {
+      buildNavigator ();
+    }
+  });
+}

@@ -66,9 +66,16 @@ if (isset ($setverse)) {
 }
 
 
-@$getentry = $_GET['getentry']; // Todo
+@$getentry = $_GET['getentry'];
 if (isset ($getentry)) {
   echo Navigation_Logic::getEntry ();
+  die;
+}
+
+
+@$passage = $_GET['passage'];
+if (isset ($passage)) {
+  Navigation_Logic::setPassage ($passage);
   die;
 }
 
