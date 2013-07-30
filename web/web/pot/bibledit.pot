@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-29 01:43+0200\n"
+"POT-Creation-Date: 2013-07-30 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1059,6 +1059,9 @@ msgstr ""
 msgid "Typesetting"
 msgstr ""
 
+msgid "Lean management"
+msgstr ""
+
 msgid "Typesetting in InDesign"
 msgstr ""
 
@@ -1241,8 +1244,8 @@ msgstr ""
 
 msgid ""
 "It consists of translation tasks, checking tasks, testing tasks, "
-"comprehension tasks, whatever needs to be done in order to deliver a "
-"reliable manuscript."
+"comprehension tasks, whatever needs to be done to deliver a reliable "
+"manuscript."
 msgstr ""
 
 msgid "The Product Owner prioritizes the items on this list."
@@ -1257,117 +1260,355 @@ msgstr ""
 msgid "Sprint"
 msgstr ""
 
-msgid "* Iteration typically of one month's length."
+msgid "A sprint typically takes one month."
 msgstr ""
 
 msgid ""
-"* This is where the translaton work (translate, review, approve, test) "
-"occurs."
+"This is where the translaton work (translate, review, approve, test) occurs."
 msgstr ""
 
-msgid "Read more."
+msgid ""
+"Each member of the team translates independently and in a responsible manner."
+msgstr ""
+
+msgid ""
+"In case a translator is sure of a required change, he enters it without "
+"consulting others."
+msgstr ""
+
+msgid ""
+"If a translator thinks a proposed change needs discussion, he notifies his "
+"colleagues."
+msgstr ""
+
+msgid ""
+"All members of the translation team review the changes made by the team."
+msgstr ""
+
+msgid ""
+"This is to make sure that all changes are reviewed by all members, that no "
+"mistakes occur."
+msgstr ""
+
+msgid "The reviews take place every day."
+msgstr ""
+
+msgid ""
+"This way of working is based on personal responsibility and mutual trust."
+msgstr ""
+
+msgid ""
+"It speeds up the translation procedure because there's more actual "
+"translation work going on, and less discussions."
+msgstr ""
+
+msgid ""
+"The newer members of the team learn from the more experienced ones through "
+"the daily reviews."
+msgstr ""
+
+msgid "Bibledit-Web has the concept of daily Change Notifications."
+msgstr ""
+
+msgid "A member can opt to receive the Change Notifications through email."
+msgstr ""
+
+msgid "This email can be viewed online also."
+msgstr ""
+
+msgid ""
+"Or a member can opt to have the Change Notifications generated for him "
+"online, and can review and approve them there."
 msgstr ""
 
 msgid "Sprint Planning Meeting"
 msgstr ""
 
-msgid "* Select the stories the team believes it can commit to in a sprint."
+msgid ""
+"During this meeting the team selects the portions to translate, review and "
+"test it believes it can commit to in a sprint."
 msgstr ""
 
 msgid ""
-"* Break the stories down into tasks and provide estimates for those tasks."
+"The team breaks the portions down into tasks and provided estimates for "
+"those tasks as to the time it takes to complete them."
 msgstr ""
 
 msgid "Sprint Backlog"
 msgstr ""
 
-msgid "* List of tasks that are to be completed in a sprint."
+msgid "The sprint backlog is a list of tasks to be completed in a sprint."
 msgstr ""
 
 msgid ""
-"* The tasks are created by breaking down the stories during the planning "
-"meeting."
+"The tasks are created by breaking down the product backlog items during the "
+"planning meeting."
 msgstr ""
 
-msgid "* Have estimates in hours or days associated with them."
+msgid "The tasks have estimates in hours or days associated with them."
+msgstr ""
+
+msgid ""
+"For a team it is vitally important to have a clear goal to work towards."
+msgstr ""
+
+msgid ""
+"Thus everybody is focused on the desired outcome, and keeps a good pace."
+msgstr ""
+
+msgid ""
+"Without a clear goal, the team may still do a lot of things and work hard, "
+"but the produced results may have the desired value."
 msgstr ""
 
 msgid "Team"
 msgstr ""
 
-msgid "* Contains the Bible translators, their assistants, and consultants."
+msgid ""
+"The team consistes of the Bible translators, their assistants, and the "
+"consultants."
 msgstr ""
 
 msgid ""
-"* Organizes itself to do the work and deliver a reliable and good Bible "
-"translation."
+"The team organizes itself to carry out the work and deliver a reliable and "
+"good Bible translation."
 msgstr ""
 
 msgid "Scrum Master"
 msgstr ""
 
-msgid "* Organizes the translation process."
+msgid "The scrum master organizes the translation process."
 msgstr ""
 
-msgid "* Keeps track of the progress of the translation team."
+msgid "He or she keeps track of the progress of the translation team."
 msgstr ""
 
-msgid "* Removes obstacles from the path of the team."
+msgid "He removes obstacles from the path of the team."
 msgstr ""
 
 msgid "Daily Scrum Meeting"
 msgstr ""
 
 msgid ""
-"* Team members share progress with other team members (not the manager)."
+"On each day of a sprint, the Bible translation team holds daily meetings."
+msgstr ""
+
+msgid "These meetings are called: Daily scrum meetings."
+msgstr ""
+
+msgid "The scrum meetings are held in the same place and at the same time."
+msgstr ""
+
+msgid "The meetings are typically held in front of Task Board."
 msgstr ""
 
 msgid ""
-"* Team members answer three questions – “what did you do yesterday”, “what "
-"will you do today”, “do you have any roadblocks”."
-msgstr ""
-
-msgid "* Anyone may attend, only team members may speak."
+"The daily scrum meeting is best held in the morning, because it assists in "
+"setting the context for the work of that day."
 msgstr ""
 
 msgid ""
-"* Scrum master uses the information from the meeting to update burndown "
-"chart illustrating progress."
+"During the meeting, all members stand, as this keeps the discussion short "
+"and relevant."
+msgstr ""
+
+msgid "The scrum meeting is strictly time-boxed to 15 minutes."
 msgstr ""
 
 msgid ""
-"* Fifteen minutes maximum - typically held standing up in front of Task "
-"Board - helps keep the meeting focused."
+"There is a difference between people who are 'committed' to the Bible "
+"translation project, and those who are 'involved' in it."
 msgstr ""
 
-msgid "* Side conversations are taken offline."
+msgid "Scrum affords special status to those who are committed."
+msgstr ""
+
+msgid ""
+"Many teams enforce a rule in which only those who are committed are allowed "
+"to talk during the daily scrum meeting."
+msgstr ""
+
+msgid "All team members are required to attend the scrum meetings."
+msgstr ""
+
+msgid ""
+"The Scrum Master and the and Product Owner (usually the Bible Translation "
+"Manager) are committed team members."
+msgstr ""
+
+msgid "They are expected to attend and participate."
+msgstr ""
+
+msgid ""
+"Anyone else, for example a Church leader, a Committee member, or a "
+"Translator from another team, is allowed to attend but is there to listen "
+"only."
+msgstr ""
+
+msgid ""
+"This makes the daily scrum meeting an excellent way for a scrum team to "
+"disseminate information."
+msgstr ""
+
+msgid ""
+"If you are interested in hearing the status of the project, attend that "
+"day's meeting."
+msgstr ""
+
+msgid ""
+"The scrum meeting is not the place for solving problems or resolving issues."
+msgstr ""
+
+msgid ""
+"Issues that are raised are usually dealt with by one or two team members "
+"immediately after the scrum."
+msgstr ""
+
+msgid ""
+"During the daily Scrum, each team member answers the following three "
+"questions:"
+msgstr ""
+
+msgid "What did you do yesterday?"
+msgstr ""
+
+msgid "What are you going to do today?"
+msgstr ""
+
+msgid "Are there any impediments in your way?"
+msgstr ""
+
+msgid ""
+"The Scrum Master asks each team member to answer these questions, the member "
+"speaks, the Scrum Master thanks the member, and then goes to the next member."
+msgstr ""
+
+msgid ""
+"By focusing on what each person did yesterday and will do today, the team "
+"gains an understanding of what work has been done and what work remains."
+msgstr ""
+
+msgid ""
+"The daily scrum meeting is not a status update meeting in which the boss is "
+"finding out about who is slow in his work."
+msgstr ""
+
+msgid ""
+"Rather, it is a meeting in which team members make commitments to each other."
+msgstr ""
+
+msgid ""
+"If a translator says: Today, I will prepare chapter 10 and 11 of Matthew, "
+"everyone knows that in tomorrow's meeting, he will say whether or not he did "
+"finish."
+msgstr ""
+
+msgid ""
+"This has the wonderful effect of helping a team realize the significance of "
+"these commitments, and that their commitments are to each other, and not to "
+"anyone else."
+msgstr ""
+
+msgid ""
+"Any impediments that are raised in the daily scrums become the Scrum "
+"Master's responsibility to resolve as quickly as possible."
+msgstr ""
+
+msgid "Typical impediments are:"
+msgstr ""
+
+msgid "My ... broke and I need a new one today."
+msgstr ""
+
+msgid "I still haven't got the ... I requested a month ago."
+msgstr ""
+
+msgid ""
+"I'm struggling to understand ... and would like to discuss it with someone."
+msgstr ""
+
+msgid "The ... has asked me to work on something else for a few days."
+msgstr ""
+
+msgid ""
+"In cases where the Scrum Master cannot remove these impediments directly "
+"himself, he still takes responsibility for making sure someone on the team "
+"does quickly resolve the issue."
+msgstr ""
+
+msgid "Every day a different person leads the daily scrum meeting."
+msgstr ""
+
+msgid "This gets the entire team involved."
+msgstr ""
+
+msgid "It opens up new channels for communication."
+msgstr ""
+
+msgid "It builds trust between the Translators and the Scrum Master."
+msgstr ""
+
+msgid "Team members can learn from one another's techniques."
+msgstr ""
+
+msgid ""
+"The Scrum Master ensures to set a good example for leading the daily scrum "
+"meeting."
+msgstr ""
+
+msgid ""
+"The scrum master uses the information from the meeting to update the "
+"burndown chart illustrating progress."
+msgstr ""
+
+msgid "Side conversations are taken offline."
+msgstr ""
+
+msgid "External reference"
+msgstr ""
+
+msgid "Burn down chart"
+msgstr ""
+
+msgid ""
+"A burn down chart is a graphical representation of work left to do versus "
+"time."
+msgstr ""
+
+msgid "The outstanding work is on the vertical axis."
+msgstr ""
+
+msgid "The days of the sprint are on the horizontal axis."
+msgstr ""
+
+msgid "It is useful for predicting when all of the work will be completed."
 msgstr ""
 
 msgid "Sprint Review"
 msgstr ""
 
 msgid ""
-"* The Product Owner looks through the sprint’s work and provides feedback."
+"The Product Owner looks through the sprint’s work and provides feedback."
 msgstr ""
 
-msgid "* Translators may also demonstrate features."
+msgid "The Translators may demonstrate features."
 msgstr ""
 
 msgid ""
-"* Team owns up to deficiencies with the translation, helping to build trust "
-"with the Product Owner."
+"The Team owns up to deficiencies with the translation, helping to build "
+"trust with the Product Owner."
 msgstr ""
 
 msgid "Sprint Retrospective"
 msgstr ""
 
-msgid "* Team reviews what went well and what went poorly."
+msgid "The Team reviews what went well and what went poorly."
 msgstr ""
 
-msgid "* Use retrospection techniques to find potential for improvement."
+msgid "They use retrospection techniques to find potential for improvement."
 msgstr ""
 
-msgid "* Pick one or two areas to focus for improvement."
+msgid "They pick one or two areas to focus for improvement."
 msgstr ""
 
 msgid "Typesetting Bibles"
@@ -1853,6 +2094,15 @@ msgid "LibreOffice"
 msgstr ""
 
 msgid "Adobe InDesign"
+msgstr ""
+
+msgid "Lean Bible translation management"
+msgstr ""
+
+msgid "What is lean management?"
+msgstr ""
+
+msgid "..."
 msgstr ""
 
 msgid "Typesetting in Adobe InDesign"
@@ -2462,6 +2712,9 @@ msgstr ""
 msgid "Methodology"
 msgstr ""
 
+msgid "Navigation"
+msgstr ""
+
 msgid "About"
 msgstr ""
 
@@ -2734,173 +2987,6 @@ msgstr ""
 msgid "Install Bibledit-Web 1.0 (not yet released) on Ubuntu 13.04"
 msgstr ""
 
-msgid ""
-"On each day of a sprint, the Bible translation team holds daily meetings."
-msgstr ""
-
-msgid "These meetings are called: Daily scrum meetings."
-msgstr ""
-
-msgid "The scrum meetings are held in the same place and at the same time."
-msgstr ""
-
-msgid ""
-"The daily scrum meeting is best held in the morning, because it assists in "
-"setting the context for the work of that day."
-msgstr ""
-
-msgid ""
-"During the meeting, all members stand, as this keeps the discussion short "
-"and relevant."
-msgstr ""
-
-msgid "The scrum meeting is strictly time-boxed to 15 minutes."
-msgstr ""
-
-msgid ""
-"There is a difference between people who are 'committed' to the Bible "
-"translation project, and those who are 'involved' in it."
-msgstr ""
-
-msgid "Scrum affords special status to those who are committed."
-msgstr ""
-
-msgid ""
-"Many teams enforce a rule in which only those who are committed are allowed "
-"to talk during the daily scrum meeting."
-msgstr ""
-
-msgid "All team members are required to attend the scrum meetings."
-msgstr ""
-
-msgid ""
-"The Scrum Master and the and Product Owner (usually the Bible Translation "
-"Manager) are committed team members."
-msgstr ""
-
-msgid "They are expected to attend and participate."
-msgstr ""
-
-msgid ""
-"Anyone else, for example a Church leader, a Committee member, or a "
-"Translator from another team, is allowed to attend but is there to listen "
-"only."
-msgstr ""
-
-msgid ""
-"This makes the daily scrum meeting an excellent way for a scrum team to "
-"disseminate information."
-msgstr ""
-
-msgid ""
-"If you are interested in hearing the status of the project, attend that "
-"day's meeting."
-msgstr ""
-
-msgid ""
-"The scrum meeting is not the place for solving problems or resolving issues."
-msgstr ""
-
-msgid ""
-"Issues that are raised are usually dealt with by one or two team members "
-"immediately after the scrum."
-msgstr ""
-
-msgid ""
-"During the daily Scrum, each team member answers the following three "
-"questions:"
-msgstr ""
-
-msgid "What did you do yesterday?"
-msgstr ""
-
-msgid "What are you going to do today?"
-msgstr ""
-
-msgid "Are there any impediments in your way?"
-msgstr ""
-
-msgid ""
-"The Scrum Master asks each team member to answer these questions, the member "
-"speaks, the Scrum Master thanks the member, and then goes to the next member."
-msgstr ""
-
-msgid ""
-"By focusing on what each person did yesterday and will do today, the team "
-"gains an understanding of what work has been done and what work remains."
-msgstr ""
-
-msgid ""
-"The daily scrum meeting is not a status update meeting in which the boss is "
-"finding out about who is slow in his work."
-msgstr ""
-
-msgid ""
-"Rather, it is a meeting in which team members make commitments to each other."
-msgstr ""
-
-msgid ""
-"If a translator says: Today, I will prepare chapter 10 and 11 of Matthew, "
-"everyone knows that in tomorrow's meeting, he will say whether or not he did "
-"finish."
-msgstr ""
-
-msgid ""
-"This has the wonderful effect of helping a team realize the significance of "
-"these commitments, and that their commitments are to each other, and not to "
-"anyone else."
-msgstr ""
-
-msgid ""
-"Any impediments that are raised in the daily scrums become the Scrum "
-"Master's responsibility to resolve as quickly as possible."
-msgstr ""
-
-msgid "Typical impediments are:"
-msgstr ""
-
-msgid "My ... broke and I need a new one today."
-msgstr ""
-
-msgid "I still haven't got the ... I requested a month ago."
-msgstr ""
-
-msgid ""
-"I'm struggling to understand ... and would like to discuss it with someone."
-msgstr ""
-
-msgid "The ... has asked me to work on something else for a few days."
-msgstr ""
-
-msgid ""
-"In cases where the Scrum Master cannot remove these impediments directly "
-"himself, he still takes responsibility for making sure someone on the team "
-"does quickly resolve the issue."
-msgstr ""
-
-msgid "Every day a different person leads the daily scrum meeting."
-msgstr ""
-
-msgid "This gets the entire team involved."
-msgstr ""
-
-msgid "It opens up new channels for communication."
-msgstr ""
-
-msgid "It builds trust between the Translators and the Scrum Master."
-msgstr ""
-
-msgid "Team members can learn from one another's techniques."
-msgstr ""
-
-msgid ""
-"The Scrum Master ensures to set a good example for leading the daily scrum "
-"meeting."
-msgstr ""
-
-msgid "External reference"
-msgstr ""
-
 msgid "Here are some guidelines as to how to install Bibledit-Web."
 msgstr ""
 
@@ -3052,94 +3138,23 @@ msgstr ""
 msgid "More information"
 msgstr ""
 
-msgid "A sprint typically takes one month."
+msgid "Scrum-based translation process."
+msgstr ""
+
+msgid "Transparent, fair, and argued discussions"
+msgstr ""
+
+msgid "Use of reliable Hebrew and Greek manuscripts."
+msgstr ""
+
+msgid "Looking for and depending on the help of the Lord Jesus."
+msgstr ""
+
+msgid "Use of modern tools and technology."
 msgstr ""
 
 msgid ""
-"Each member of the team translates independently and in a responsible manner."
-msgstr ""
-
-msgid ""
-"In case a translator is sure of a required change, he enters it without "
-"consulting others."
-msgstr ""
-
-msgid ""
-"If a translator thinks a proposed change needs discussion, he notifies his "
-"colleagues."
-msgstr ""
-
-msgid ""
-"All members of the translation team review the changes made by the team."
-msgstr ""
-
-msgid ""
-"This is to make sure that all changes are reviewed by all members, that no "
-"mistakes occur."
-msgstr ""
-
-msgid "The reviews are done every day."
-msgstr ""
-
-msgid ""
-"This way of working is based on personal responsibility and mutual trust."
-msgstr ""
-
-msgid ""
-"It speeds up the translation procedure because there's more actual "
-"translation work going on, and less discussions."
-msgstr ""
-
-msgid ""
-"The newer members of the team learn from the more experienced ones through "
-"the daily reviews."
-msgstr ""
-
-msgid "Bibledit-Web has the concept of daily Change Notifications."
-msgstr ""
-
-msgid "A member can opt to receive the Change Notifications through email."
-msgstr ""
-
-msgid "This email can be viewed online also."
-msgstr ""
-
-msgid ""
-"Or a member can opt to have the Change Notifications generated for him "
-"online, and can review and approve them there."
-msgstr ""
-
-msgid "The translation process is scrum-based."
-msgstr ""
-
-msgid "The discussions are transparent, fair, and argued."
-msgstr ""
-
-msgid "The translation depends on reliable Hebrew and Greek manuscripts."
-msgstr ""
-
-msgid "The team looks for and depends on the help of the Lord Jesus."
-msgstr ""
-
-msgid "The team uses modern tools and technology."
-msgstr ""
-
-msgid ""
-"The goal is to deliver a reliable Bible translation within a reasonable time "
-"frame."
-msgstr ""
-
-msgid ""
-"For a team it is vitally important to have a clear goal to work towards."
-msgstr ""
-
-msgid ""
-"Thus everybody is focused on the desired outcome, and keeps a good pace."
-msgstr ""
-
-msgid ""
-"Without a clear goal, the team still does a lot of things, but these may not "
-"be valuable things."
+"Goal: Deliver a reliable Bible translation within a reasonable time frame."
 msgstr ""
 
 msgid "Discussions"
@@ -3318,6 +3333,34 @@ msgid ""
 msgstr ""
 
 msgid "* Freely you received, freely give."
+msgstr ""
+
+msgid "Several pages have a Passage Navigator on top."
+msgstr ""
+
+msgid "It consists of the name of the book, the chapter, and the verse."
+msgstr ""
+
+msgid "Matthew 1:1"
+msgstr ""
+
+msgid "The navigator enables you to go to another passage."
+msgstr ""
+
+msgid "Click on the name of the book to navigate to another book."
+msgstr ""
+
+msgid "In the same way you can click on the chapter and on the verse."
+msgstr ""
+
+msgid "You can also use the keyboard to navigate."
+msgstr ""
+
+msgid ""
+"Press Ctrl-G, enter the new passage, for example Mat 2 3, and press Enter."
+msgstr ""
+
+msgid "Press Escape to cancel any navigation operation."
 msgstr ""
 
 msgid "Typesetting in LibreOffice"
@@ -3519,6 +3562,9 @@ msgid "Chapter"
 msgstr ""
 
 msgid "Verse"
+msgstr ""
+
+msgid "OK"
 msgstr ""
 
 msgid "Sentence Structure"
