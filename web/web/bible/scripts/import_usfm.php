@@ -4,7 +4,9 @@
 <p><?php echo gettext ("Bible") ?>: <a href="settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
 <p>
   <?php echo gettext ("This helps you with importing Unified Standard Format Markers data.") ?>
-  <a href="../usfm/usfm.htm"><?php echo gettext ("See the Unified Standard Format Markers User Reference for more information about this format.") ?></a>
+  <?php echo gettext ("More informatoin about this format:") ?>
+  <a href="http://paratext.org/about/usfm" target="_blank"><?php echo gettext ("Source 1: Paratext.") ?></a>
+  <a href="http://ubs-icap.org/chm/usfm/" target="_blank"><?php echo gettext ("Source 2: UBS ICAP.") ?></a>
 </p>
 <p>
   <?php echo gettext ("The data to be imported will overwrite similar data already in the Bible.") ?>

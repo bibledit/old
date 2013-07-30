@@ -43,7 +43,7 @@
 <p>The Resources page has a Navigator.</p>
 <p>Provides information about the Scrum-based Bible translation method.</p>
 <p>The Navigator can be operated through the mouse and the keyboard.</p>
-<p></p>
+<p>Information about USFM is no longer included, but links to external sources online.</p>
 <p></p>
 <p></p>
 
