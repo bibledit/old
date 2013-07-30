@@ -2,6 +2,11 @@
 
 <h2>Version in repository</h2>
 <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 
 <h2>Version 1.0</h2>
 <p>30 July 2013</p>

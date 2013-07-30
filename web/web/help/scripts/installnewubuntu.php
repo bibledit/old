@@ -1,4 +1,4 @@
-<h1><?php echo gettext ("Install Bibledit-Web 1.0 (not yet released) on Ubuntu 13.04") ?></h1>
+<h1><?php echo gettext ("Install Bibledit-Web 1.0 on Ubuntu 13.04") ?></h1>
 <p><?php echo gettext ("This assumes a standard installation of the operating system.") ?></p>
 <p><?php echo gettext ("Connect to or open a terminal.") ?></p>
 <p><?php echo gettext ("Update the software sources. Type the following command, and then press Enter.") ?></p>
