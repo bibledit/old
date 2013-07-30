@@ -44,7 +44,7 @@
 <p>Provides information about the Scrum-based Bible translation method.</p>
 <p>The Navigator can be operated through the mouse and the keyboard.</p>
 <p>Information about USFM is no longer included, but links to external sources online.</p>
-<p></p>
+<p>The text editors use the new Passage Navigator widget.</p>
 <p></p>
 
 <h2>Version 0.9</h2>

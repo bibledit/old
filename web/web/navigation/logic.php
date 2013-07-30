@@ -223,16 +223,12 @@ class Navigation_Logic
    
   public static function setPassage ($passage)
   {
-    $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ($passage);
     $ipc_focus = Ipc_Focus::getInstance();
     $currentBook = $ipc_focus->getBook ();
     $currentChapter = $ipc_focus->getChapter ();
     $currentVerse = $ipc_focus->getVerse ();
     $passage = Filter_Books::interpretPassage (array ($currentBook, $currentChapter, $currentVerse), $passage);
-    $database_logs->log ($passage[0] . " " . $passage [1] . " " . $passage [2]);
     if ($passage[0] != 0) {
-    $database_logs->log ($passage[0] . " " . $passage [1] . " " . $passage [2]);
       $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
     }
   }

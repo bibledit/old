@@ -1,5 +1,5 @@
 <h1><?php echo gettext ("Management") ?></h1>
-<p><a href="../desktop/index.php?desktop=editusfm"><?php echo gettext ("Edit Bible in USFM code") ?></a></p>
+<p><a href="../editusfm/index.php"><?php echo gettext ("Edit Bible in USFM code") ?></a></p>
 <p><a href="sendreceive.php"><?php echo gettext ("Send and Receive") ?></a></p>
 <p><a href="logbook.php"><?php echo gettext ("Logbook") ?></a></p>
 <p><a href="changes.php"><?php echo gettext ("Changes") ?></a></p>

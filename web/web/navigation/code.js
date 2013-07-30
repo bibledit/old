@@ -1,4 +1,5 @@
 var container;
+var container;
 var newPassageAvailable = false;
 var navigatorTimeout;
 

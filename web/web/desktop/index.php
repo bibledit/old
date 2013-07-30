@@ -36,19 +36,12 @@ Assets_Page::header (gettext ("Desktop") . " $desktop");
 $assets_navigator = Assets_Navigator::getInstance();
 $assets_navigator->actions ();
 
-if ($desktop == "editusfm") {
-  $text_usfm = Text_Usfm::getInstance();
-  $text_usfm->actions ();
-}
 if ($desktop == "edittext") {
   $edit_text = Text_Editor::getInstance();
   $edit_text->actions ();
 }
 
 $assets_navigator->display ();
-if ($desktop == "editusfm") {
-  $text_usfm->display ();
-}
 if ($desktop == "edittext") {
   $edit_text->display ();
 }
