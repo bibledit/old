@@ -1,6 +1,10 @@
 <h1>ChangeLog</h1>
 
 <h2>Version in repository</h2>
+<p></p>
+
+<h2>Version 1.0</h2>
+<p>30 July 2013</p>
 <p>Users can set an option to have Change Notifications generated for them.</p>
 <p>Consultations / Changes displays all Change Notifications for the user.</p>
 <p>Details for each Change Notificaton include relevant Consultation Notes.</p>
@@ -45,7 +49,6 @@
 <p>The Navigator can be operated through the mouse and the keyboard.</p>
 <p>Information about USFM is no longer included, but links to external sources online.</p>
 <p>The text editors use the new Passage Navigator widget.</p>
-<p></p>
 
 <h2>Version 0.9</h2>
 <p>29 May 2013</p>
