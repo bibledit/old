@@ -1,20 +1,6 @@
-var passage = "";
-
-
 $(document).ready (function () {
-  pollPassage ();
-  loadResources ();
+  $(document).on ("passage", loadResources);
 });
-
-
-function pollPassage () 
-{
-  if (newPassageAvailable) {
-    newPassageAvailable = false;
-    loadResources ();
-  }
-  setTimeout (pollPassage, 1000);
-}
 
 
 function loadResources ()

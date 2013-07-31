@@ -164,22 +164,13 @@ class Navigation_Logic
     return $html;
   }
   
-  public static function code ($bible)
+  public static function code ($bible) // Todo
   {
     $ipc_focus = Ipc_Focus::getInstance();
     $code = "";
     $code .= '<script type="text/javascript">';
     $code .= "\n";
     $code .= 'var bible = "' . $bible . '";';
-    $code .= "\n";
-    $book = $ipc_focus->getBook ();
-    $code .= 'var navigationBook = "' . $book . '";';
-    $code .= "\n";
-    $chapter = $ipc_focus->getChapter ();
-    $code .= 'var navigationChapter = "' . $chapter . '";';
-    $code .= "\n";
-    $verse = $ipc_focus->getVerse ();
-    $code .= 'var navigationVerse = "' . $verse . '";';
     $code .= "\n";
     $code .= '</script>';
     $code .= "\n";
