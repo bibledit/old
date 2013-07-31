@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-30 01:42+0200\n"
+"POT-Creation-Date: 2013-07-31 01:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2984,7 +2984,7 @@ msgid ""
 "account."
 msgstr ""
 
-msgid "Install Bibledit-Web 1.0 (not yet released) on Ubuntu 13.04"
+msgid "Install Bibledit-Web 1.0 on Ubuntu 13.04"
 msgstr ""
 
 msgid "Here are some guidelines as to how to install Bibledit-Web."
@@ -2993,7 +2993,7 @@ msgstr ""
 msgid "Version 0.9 on Ubuntu 13.04."
 msgstr ""
 
-msgid "Version 1.0 (not yet released) on Ubuntu 13.04."
+msgid "Version 1.0 on Ubuntu 13.04."
 msgstr ""
 
 msgid "Version being developed"
@@ -3341,7 +3341,7 @@ msgstr ""
 msgid "It consists of the name of the book, the chapter, and the verse."
 msgstr ""
 
-msgid "Matthew 1:1"
+msgid "Matthew 1:1."
 msgstr ""
 
 msgid "The navigator enables you to go to another passage."
@@ -3358,6 +3358,24 @@ msgstr ""
 
 msgid ""
 "Press Ctrl-G, enter the new passage, for example Mat 2 3, and press Enter."
+msgstr ""
+
+msgid ""
+"You can also enter the name of the book without chapter and verse, for "
+"example, Genesis, and it will go to that book."
+msgstr ""
+
+msgid ""
+"Or enter chapter and verse, for example 10 2, and it goes to that passage in "
+"the current book."
+msgstr ""
+
+msgid ""
+"When entering just one number, for example 2, it will go to verse 2 in the "
+"current chapter."
+msgstr ""
+
+msgid "Or enter Luke 10, to go to Luke chapter 10."
 msgstr ""
 
 msgid "Press Escape to cancel any navigation operation."
@@ -3550,6 +3568,28 @@ msgid "Untick display of custom hyphens."
 msgstr ""
 
 msgid "Untick display of non-breaking spaces."
+msgstr ""
+
+msgid "Edit USFM"
+msgstr ""
+
+msgid "Chapter was saved."
+msgstr ""
+
+msgid "The following data could not be saved and was discarded:"
+msgstr ""
+
+msgid ""
+"The text was not valid Unicode UTF-8. The chapter could not saved and has "
+"been reverted to the last good version."
+msgstr ""
+
+msgid ""
+"There was no text. Nothing was saved. The original text of the chapter was "
+"reloaded."
+msgstr ""
+
+msgid "This chapter does not exist or is empty"
 msgstr ""
 
 msgid "Select Bible"
@@ -6326,9 +6366,13 @@ msgstr ""
 msgid "This helps you with importing Unified Standard Format Markers data."
 msgstr ""
 
-msgid ""
-"See the Unified Standard Format Markers User Reference for more information "
-"about this format."
+msgid "More informatoin about this format:"
+msgstr ""
+
+msgid "Source 1: Paratext."
+msgstr ""
+
+msgid "Source 2: UBS ICAP."
 msgstr ""
 
 msgid ""
@@ -6472,25 +6516,6 @@ msgid "Would you like to delete this book?"
 msgstr ""
 
 msgid "The line was saved."
-msgstr ""
-
-msgid ""
-"The text was not valid Unicode UTF-8. The chapter could not saved and has "
-"been reverted to the last good version."
-msgstr ""
-
-msgid "This chapter does not exist or is empty"
-msgstr ""
-
-msgid "Chapter was saved."
-msgstr ""
-
-msgid "The following data could not be saved and was discarded:"
-msgstr ""
-
-msgid ""
-"There was no text. Nothing was saved. The original text of the chapter was "
-"reloaded."
 msgstr ""
 
 msgid "Would you like to delete this versification system?"

@@ -1,15 +1,29 @@
 $(document).ready (function () {
-  pollPassage ();
+  usfmEditorPollPassage ();
+  usfmEditorLoadChapter ();
 });
 
 
-function pollPassage () 
+function usfmEditorPollPassage () 
 {
   if (newPassageAvailable) {
     newPassageAvailable = false;
-    $('input[type=submit]').click();
+    usfmEditorSaveChapter ();
+    usfmEditorLoadChapter ();
   }
-  setTimeout (pollPassage, 1000);
+  setTimeout (usfmEditorPollPassage, 1000);
 }
 
 
+function usfmEditorLoadChapter ()
+{
+  console.log ("load chapter");
+  
+}
+
+
+function usfmEditorSaveChapter ()
+{
+  console.log ("save chapter");
+  
+}

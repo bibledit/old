@@ -12,7 +12,7 @@
 <p>30 July 2013</p>
 <p>Users can set an option to have Change Notifications generated for them.</p>
 <p>Consultations / Changes displays all Change Notifications for the user.</p>
-<p>Details for each Change Notificaton include relevant Consultation Notes.</p>
+<p>Details for each Change Notification include relevant Consultation Notes.</p>
 <p>Users can unsubscribe from notes on the Change details page.</p>
 <p>Users can unassign notes from themselves on the Change details page.</p>
 <p>The manager can view all open Change Notifications for all the users.</p>
