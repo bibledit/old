@@ -171,4 +171,14 @@ if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 0)
 }
 
 
+// Clear the past sessions.
+if (($hour == 2) && ($minute == 0)) {
+  $sessions_path = dirname (__FILE__) . "../session";
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::sessions);
+  $command = "php sessions.php $sessions_path > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
+}
+
+
 ?>

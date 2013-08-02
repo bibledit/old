@@ -37,6 +37,7 @@ class Timer_Logger
   const search = 'search';
   const exports = 'exports';
   const statistics = 'statistics';
+  const sessions = 'sessions';
   const manual = 'manual';
 
 

@@ -18,14 +18,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (MANAGER_LEVEL);
-$header = new Assets_Header (gettext ("Edit USFM"));
-$header->jQueryOn ();
-$header->run ();
-$view = new Assets_View (__FILE__);
-$database_config_user = Database_Config_User::getInstance ();
-$bible = $database_config_user->getBible ();
-$view->view->navigationHtml = Navigation_Logic::getContainer ();
-$view->view->navigationCode = Navigation_Logic::code ($bible);
-$view->render ("index.php");
-Assets_Page::footer ();
+$bible = $_GET ['bible'];
+$book = $_GET ['book'];
+$chapter = $_GET ['chapter'];
+$database_bibles = Database_Bibles::getInstance();
+$usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+echo $usfm;
 ?>

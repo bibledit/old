@@ -17,7 +17,7 @@ $(document).ready (function () {
 
 
 function buildNavigator () {
-  $.get ("../navigation/update.php?bible=" + bible, function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible, function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
     bindClickHandlers ();
@@ -43,7 +43,7 @@ function bindClickHandlers () {
 
 function selectBible (event) {
   event.preventDefault ();
-  $.get ("../navigation/update.php?bible=" + bible + "&getbibles", function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getbibles", function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
     $("#selectbibles").on ("click", function (event) {
@@ -55,7 +55,7 @@ function selectBible (event) {
 
 function selectBook (event) {
   event.preventDefault ();
-  $.get ("../navigation/update.php?bible=" + bible + "&getbooks", function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getbooks", function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
     $("#selectbooks").on ("click", function (event) {
@@ -67,7 +67,7 @@ function selectBook (event) {
 
 function selectChapter (event) {
   event.preventDefault ();
-  $.get ("../navigation/update.php?bible=" + bible + "&getchapters", function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getchapters", function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
     $("#selectchapters").on ("click", function (event) {
@@ -79,7 +79,7 @@ function selectChapter (event) {
 
 function selectVerse (event) {
   event.preventDefault ();
-  $.get ("../navigation/update.php?bible=" + bible + "&getverses", function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getverses", function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
     $("#selectverses").on ("click", function (event) {
@@ -97,6 +97,10 @@ function selectBibles (event) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
       bindClickHandlers ();
+      if (bible != navigationBible) { // Todo
+        navigationBible = response;
+        $(document).trigger ("passage");
+      }
       navigationPollPassage ();
     });  
   }
@@ -106,7 +110,7 @@ function selectBibles (event) {
 function selectBooks (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.get ("../navigation/update.php?bible=" + bible + "&setbook=" + event.target.id, function (response) {
+    $.get ("../navigation/update.php?bible=" + navigationBible + "&setbook=" + event.target.id, function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
       bindClickHandlers ();
@@ -119,7 +123,7 @@ function selectBooks (event) {
 function selectChapters (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.get ("../navigation/update.php?bible=" + bible + "&setchapter=" + event.target.id, function (response) {
+    $.get ("../navigation/update.php?bible=" + navigationBible + "&setchapter=" + event.target.id, function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
       bindClickHandlers ();
@@ -132,7 +136,7 @@ function selectChapters (event) {
 function selectVerses (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.get ("../navigation/update.php?bible=" + bible + "&setverse=" + event.target.id, function (response) {
+    $.get ("../navigation/update.php?bible=" + navigationBible + "&setverse=" + event.target.id, function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
       bindClickHandlers ();
@@ -192,7 +196,7 @@ function navigationHandleKeyDown (event) {
 
 
 function navigationGetEntry () {
-  $.get ("../navigation/update.php?bible=" + bible + "&getentry", function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getentry", function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
     $("#selectpassage").focus ();
@@ -208,7 +212,7 @@ function navigationSubmitEntry () {
   $.ajax ({
     url: "../navigation/update.php",
     type: "GET",
-    data: { bible: bible, passage: passage },
+    data: { bible: navigationBible, passage: passage },
     complete: function (xhr, status) {
       buildNavigator ();
     }

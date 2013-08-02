@@ -1,8 +1,8 @@
 <h1>ChangeLog</h1>
 
 <h2>Version in repository</h2>
-<p></p>
-<p></p>
+<p>Improved online USFM editor.</p>
+<p>Every night it clears out all sessions.</p>
 <p></p>
 <p></p>
 <p></p>
