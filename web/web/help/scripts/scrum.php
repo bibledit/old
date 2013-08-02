@@ -143,6 +143,10 @@
 <p>
   <?php echo gettext ("The team organizes itself to carry out the work and deliver a reliable and good Bible translation.") ?>
 </p>
+<p>
+  <?php echo gettext ("The team is quick but does not hurry.") ?>
+  <?php echo gettext ("The team goes fast, but always has an eye on translation quality.") ?>
+</p>
 
 <h2><?php echo gettext ("Scrum Master") ?></h2>
 <p>
