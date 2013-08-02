@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (MANAGER_LEVEL);
+page_access_level (TRANSLATOR_LEVEL);
 $database_config_user = Database_Config_User::getInstance ();
 $database_snapshots = Database_Snapshots::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();

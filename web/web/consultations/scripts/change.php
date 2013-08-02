@@ -26,7 +26,7 @@
   <?php } ?>
 </table>
 <p>
-  <a href="../desktop/index.php?desktop=edittext" target="_blank"><?php echo gettext ("Edit text") ?></a>
+  <a href="../editusfm/index.php" target="_blank"><?php echo gettext ("Edit text") ?></a>
   |
   <a href="change.php?createnote=<?php echo $this->id ?>" target="_blank"><?php echo gettext ("Create note") ?></a>
 </p>

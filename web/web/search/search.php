@@ -117,7 +117,7 @@ foreach ($ids as $id) {
   $textTitles [] = $title;
   
   // The URL.
-  $url = "$siteUrl/desktop/index.php?desktop=edittext&switchbook=$book&switchchapter=$chapter";
+  $url = "$siteUrl/editusfm/index.php?switchbook=$book&switchchapter=$chapter";
   $textUrls [] = $url;
 
   // The excerpt.

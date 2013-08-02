@@ -18,7 +18,7 @@ if (isset ($goto)) {
   if ($passage != NULL) {
     $ipc_focus = Ipc_Focus::getInstance();
     $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
-    header ("Location: ../desktop/index.php?desktop=edittext");
+    header ("Location: ../editusfm/index.php");
     die;
   } else {
     $view->view->error = gettext ("The passage for this entry was not found.");
