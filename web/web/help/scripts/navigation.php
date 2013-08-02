@@ -20,6 +20,10 @@
   <?php echo gettext ("When entering just one number, for example 2, it will go to verse 2 in the current chapter.") ?>
   <?php echo gettext ("Or enter Luke 10, to go to Luke chapter 10.") ?>
 </p>
+<p>
+  <?php echo gettext ("Enter nothing or + to go to the next verse.") ?>
+  <?php echo gettext ("Enter - to go to the previous verse.") ?>
+</p>
 <br>
 <p>
   <?php echo gettext ("Press Escape to cancel any navigation operation.") ?>

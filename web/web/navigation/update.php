@@ -75,7 +75,7 @@ if (isset ($getentry)) {
 
 @$passage = $_GET['passage'];
 if (isset ($passage)) {
-  Navigation_Logic::setPassage ($passage);
+  Navigation_Logic::setPassage ($bible, $passage);
   die;
 }
 

@@ -211,17 +211,55 @@ class Navigation_Logic
   }
   
    
-  public static function setPassage ($passage)
+  public static function setPassage ($bible, $passage)
   {
     $ipc_focus = Ipc_Focus::getInstance();
     $currentBook = $ipc_focus->getBook ();
     $currentChapter = $ipc_focus->getChapter ();
     $currentVerse = $ipc_focus->getVerse ();
-    $passage = Filter_Books::interpretPassage (array ($currentBook, $currentChapter, $currentVerse), $passage);
+    $passage = trim ($passage);
+    if (($passage == "") || ($passage == "+")) {
+      $passage = Navigation_Logic::nextVerse ($bible, $currentBook, $currentChapter, $currentVerse);
+    } else if ($passage == "-") {
+      $passage = Navigation_Logic::previousVerse ($bible, $currentBook, $currentChapter, $currentVerse);
+    } else {
+      $passage = Filter_Books::interpretPassage (array ($currentBook, $currentChapter, $currentVerse), $passage);
+    }
     if ($passage[0] != 0) {
       $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
     }
   }
+  
+  
+  private static function nextVerse ($bible, $book, $chapter, $verse)
+  {
+    $verse++;
+    if ($bible != "") {
+      $database_bibles = Database_Bibles::getInstance ();
+      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+      if (!in_array ($verse, $verses)) {
+        $verse = array_pop ($verses);
+      }
+    }
+    $passage = array ($book, $chapter, $verse);
+    return $passage;
+  }
+  
+  
+  private static function previousVerse ($bible, $book, $chapter, $verse)
+  {
+    $verse--;
+    if ($bible != "") {
+      $database_bibles = Database_Bibles::getInstance ();
+      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+      if (!in_array ($verse, $verses)) {
+        $verse = array_shift ($verses);
+      }
+    }
+    $passage = array ($book, $chapter, $verse);
+    return $passage;
+  }
+  
   
 }
 

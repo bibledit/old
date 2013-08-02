@@ -3,7 +3,7 @@
 <h2>Version in repository</h2>
 <p>Improved automatic save in online USFM editor.</p>
 <p>Every night it clears out all sessions.</p>
-<p></p>
+<p>Improved passage navigator: Enter nothing or + for next verse, and - for previous verse.</p>
 <p></p>
 <p></p>
 <p></p>
