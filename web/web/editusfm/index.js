@@ -1,8 +1,10 @@
 var usfmEditorContainer;
+var usfmStatusContainer;
 
 
 $(document).ready (function () {
   usfmEditorContainer = $ ("#usfmeditor");
+  usfmStatusContainer = $ ("#usfmstatus");
   $(document).on ("passage", usfmEditorNewPassage);
   usfmEditorContainer.on ("paste cut keydown", usfmEditorChanged);
   $(window).on ("unload beforeunload", usfmEditorSaveChapter);
@@ -38,7 +40,7 @@ function usfmEditorLoadChapter ()
       success: function (response) {
         usfmEditorContainer.empty ();
         usfmEditorContainer.append (response);
-        usfmEditorUpdateHeight ();
+        usfmEditorStatus (usfmEditorChapterLoaded);
       },
     });
   }
@@ -51,13 +53,13 @@ function usfmEditorSaveChapter ()
   if (!usfmBook) return;
   if (!usfmChangedFlag) return;
   usfmChangedFlag = false;
-  var usfm = usfmEditorContainer.text()
+  var usfm = usfmEditorContainer.text ();
   $.ajax ({
     url: "save.php",
     type: "POST",
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: usfm },
     success: function (response) {
-      console.log (response); // Todo move to gui.
+      usfmEditorStatus (response);
     },
   });
 }
@@ -69,20 +71,14 @@ function usfmEditorChanged ()
   if (usfmEditorTimeout) {
     clearTimeout (usfmEditorTimeout);
   }
-  usfmEditorTimeout = setTimeout (usfmEditorChangeTimeout, 1000);
+  usfmEditorTimeout = setTimeout (usfmEditorSaveChapter, 1000);
+  usfmEditorStatus (usfmEditorChapterModified);
 }
 
 
-function usfmEditorChangeTimeout ()
+function usfmEditorStatus (text)
 {
-  usfmEditorUpdateHeight ();
-  usfmEditorSaveChapter ();
+  usfmStatusContainer.empty ();
+  usfmStatusContainer.append (text);
 }
-
-
-function usfmEditorUpdateHeight ()
-{
-  usfmEditorContainer.height(usfmEditorContainer[0].scrollHeight);
-}
-
 

@@ -26,6 +26,20 @@ $database_config_user = Database_Config_User::getInstance ();
 $bible = $database_config_user->getBible ();
 $view->view->navigationHtml = Navigation_Logic::getContainer ();
 $view->view->navigationCode = Navigation_Logic::code ($bible);
+$chapterLoaded = gettext ("Loaded");
+$chapterModified = gettext ("Saving...");
+$chapterSaved = gettext ("Saved");
+$script = <<<EOD
+var usfmEditorChapterLoaded = '$chapterLoaded';
+var usfmEditorChapterModified = '$chapterModified';
+EOD;
+$view->view->script = $script;
 $view->render ("index.php");
 Assets_Page::footer ();
+/*
+Tests for the USFM editor:
+* Autosave on going to another passage.
+* Autosave on document unload.
+* Autosave shortly after any change.
+*/
 ?>

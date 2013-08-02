@@ -6,6 +6,7 @@ var navigationVerse;
 
 var navigatorContainer;
 var navigatorTimeout;
+var navigationNewBible;
 
 
 $(document).ready (function () {
@@ -92,13 +93,14 @@ function selectVerse (event) {
 function selectBibles (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    bible = event.target.innerText;
-    $.get ("../navigation/update.php?bible=" + bible + "&setbible", function (response) {
+    navigationNewBible = event.target.innerText;
+    $.get ("../navigation/update.php?bible=" + navigationNewBible + "&setbible", function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
       bindClickHandlers ();
-      if (bible != navigationBible) { // Todo
-        navigationBible = response;
+      if (navigationNewBible != navigationBible) {
+        navigationBible = navigationNewBible;
+        navigationNewBible = undefined;
         $(document).trigger ("passage");
       }
       navigationPollPassage ();

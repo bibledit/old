@@ -53,7 +53,6 @@ foreach (new DirectoryIterator ($session_path) as $fileInfo) {
 }
 
 
-
 $database_logs->log (gettext ("sessions: Number of sessions cleared: $counter"), true);
 
 
