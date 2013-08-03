@@ -29,9 +29,6 @@ $assets_header = new Assets_Header (gettext ("Notes"));
 $assets_navigator = Assets_Navigator::getInstance();
 $notes_editor = Notes_Editor::getInstance();
 
-if ($notes_editor->use_jquery ()) {
-  $assets_header->jQueryOn ();
-}
 $assets_header->run();
 
 $assets_navigator->actions ();

@@ -7,6 +7,7 @@ page_access_level (CONSULTANT_LEVEL);
 
 $database_changes = Database_Changes::getInstance ();
 $database_notes = Database_Notes::getInstance ();
+$notes_logic = Notes_Logic::getInstance();
 
 
 // Note unsubscribe handler.
@@ -31,6 +32,7 @@ if (isset ($delete)) {
   $identifier = Filter_Numeric::integer_in_string ($delete);
   $trash_handler = Trash_Handler::getInstance ();
   $trash_handler->consultationNote ($identifier);
+  $notes_logic->handlerDeleteNote ($identifier); // Notifications handling.
   $database_notes->delete ($identifier);
   die;
 }
@@ -51,6 +53,7 @@ if (isset ($create)) {
   $contents .= "<p>" . gettext ("New text:") . "</p>";
   $contents .= $database_changes->getNewText ($create);
   $newNoteID = $database_notes->storeNewNote ($bible, $passage['book'], $passage['chapter'], $passage['verse'], $summary, $contents, true);
+  $notes_logic->handlerNewNote ($newNoteID);
   header ("Location: ../notes/comment.php?id=$newNoteID");
   die;
 }

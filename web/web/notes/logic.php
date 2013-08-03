@@ -194,7 +194,7 @@ class Notes_Logic
     // Include a link to the note on the site.
     $contents .= "<br>\n";
     $siteUrl = $database_config_general->getSiteURL ();
-    $link = "$siteUrl/consultations/notes.php?consultationnote=$identifier";
+    $link = "$siteUrl/notes/note.php?id=$identifier";
     $contents .= "<p><a href=\"$link\">View or respond online</a></p>\n";
     $mailto = "mailto:" . $database_config_general->getSiteMailAddress () . "?subject=(CNID$identifier)";
     $contents .= "<p><a href=\"$mailto\">Respond by email</a></p>\n";

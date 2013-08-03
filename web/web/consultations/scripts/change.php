@@ -18,7 +18,7 @@
 <table>
   <?php foreach ($this->notes as $offset => $note) { ?>
     <tr>
-      <td><a href="notes.php?consultationnote=<?php echo $this->notes[$offset] ?>" target="_blank"><?php echo $this->summaries[$offset] ?></a></td>
+      <td><a href="../notes/note.php?id=<?php echo $this->notes[$offset] ?>" target="_blank"><?php echo $this->summaries[$offset] ?></a></td>
       <td><?php if ($this->subscriptions[$offset]) { ?><a href="unsubscribe" id="unsubscribe<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("unsubscribe") ?>]</a><?php } ?></td>
       <td><?php if ($this->assignments[$offset]) { ?><a href="unassign" id="unassign<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("I have done my part on it") ?>]</a><?php } ?></td>
       <td><?php if ($this->level >= 5) { ?><a href="delete" id="deletei<?php echo $this->notes[$offset] ?>">[<?php echo gettext ("delete") ?>]</a><?php } ?></td>

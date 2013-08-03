@@ -15,7 +15,7 @@
 </p>
 <?php foreach ($this->identifiers as $offset => $identifier) { ?>
   <a name="note<?php echo $this->identifiers[$offset] ?>"></a>
-  <p><a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&consultationnote=<?php echo $this->identifiers[$offset] ?>"><?php echo $this->summaries[$offset] ?></a></p>
+  <p><a href="../notes/note.php?id=<?php echo $this->identifiers[$offset] ?>"><?php echo $this->summaries[$offset] ?></a></p>
   <p><?php echo $this->versetexts[$offset] ?></p>
   <p><?php echo $this->contents[$offset] ?></p>
 <?php } ?>

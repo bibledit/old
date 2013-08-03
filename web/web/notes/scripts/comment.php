@@ -1,7 +1,7 @@
 <p>
 <a href="index.php"><?php echo gettext ("Back to notes list") ?></a>
 |
-<a href="index.php?id=<?php echo $this->id ?>&displaynotesactions="><?php echo gettext ("Actions") ?></a>
+<a href="actions.php?id=<?php echo $this->id ?>"><?php echo gettext ("Actions") ?></a>
 </p>
 <p>
 <?php echo gettext ("Summary") ?>: <?php echo $this->summary ?>

@@ -39,11 +39,6 @@ class Notes_Editor
   {
   }
   
-  public function use_jquery ()
-  {
-    return false;
-  }
-  
   public function actions ()
   {
     $database_notes = Database_Notes::getInstance();
@@ -95,6 +90,13 @@ class Notes_Editor
       $displayconsultationnoteactions = false;
       $bulkupdateconsultationnotes = true;
     }
+    // This forwards links in emails to the new page for displaying one note.
+    // It can go out as from bibledit-web version 1.2.
+    if (isset ($_GET['consultationnote'])) {
+      $id = $_GET['consultationnote'];
+      header ("Location: ../notes/note.php?id=$id");
+      die;
+    }
     @$database_sessions->setConsultationNote ($consultationnote);
     $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
     $database_sessions->setEditConsultationNoteView ($editconsultationnoteview);
@@ -125,155 +127,7 @@ class Notes_Editor
       // $notes_logic->handlerUpdateNote ($consultationnote);
     }
 
-    // Delete a note.
-    @$deleteconsultationnote = $_GET['deleteconsultationnote'];
-    if (isset ($deleteconsultationnote)) {
-      $notes_logic->handlerDeleteNote ($deleteconsultationnote); // Notifications handling.
-      $trash_handler = Trash_Handler::getInstance ();
-      $trash_handler->consultationNote ($deleteconsultationnote);
-      $database_notes->delete ($deleteconsultationnote);
-      $consultationnote = "";
-      $database_sessions->setConsultationNote ($consultationnote);
-      $displayconsultationnoteactions = false;
-      $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
-    }
-    
-    // Unsubscribe from the note.
-    if (isset ($_GET['consultationnoteunsubscribe'])) {
-      $database_notes->unsubscribe ($consultationnote);
-    }
 
-    // Subscribe to the note.
-    if (isset ($_GET['consultationnotesubscribe'])) {
-      $database_notes->subscribe ($consultationnote);
-    }
-    
-    // Add assignee.
-    @$addassignee = $_GET['consultationnoteaddassignee'];
-    if (isset ($addassignee)) {
-      $database_users = Database_Users::getInstance();
-      if ($addassignee == "") {
-        $dialog_list = new Dialog_List2 (gettext ("Would you like to assign this note to a user?"));
-        $users = $database_users->getUsers ();
-        foreach ($users as $user) {
-          $dialog_list->add_row ($user, "&consultationnoteaddassignee=$user");
-        }
-        $dialog_list->run();
-      } else {
-        if ($database_users->usernameExists ($addassignee)) {
-          // Assign logic comes first.
-          $notes_logic->handlerAssignNote ($consultationnote, $addassignee);
-          $database_notes->assignUser ($consultationnote, $addassignee);
-        }
-      }
-    }
-    
-    // Un-assign note.
-    @$removeassignee = $_GET['consultationnoteremoveassignee'];
-    if (isset ($removeassignee)) {
-      $database_notes->unassignUser ($consultationnote, $removeassignee);
-      // $notes_logic->handlerUpdateNote ($consultationnote);
-    }
-    @$unassignme = $_GET['consultationnoteunassignme'];
-    if (isset ($unassignme)) {
-      // If a user unassigns himself, the automatic assignment setting should not assign him again.
-      // For that reason the assignment logic is done before the user is unasssigned.
-      // $notes_logic->handlerUpdateNote ($consultationnote);
-      $database_notes->unassign ($consultationnote);
-    }
-
-    // Assign to Bible.    
-    @$consultationnotebible = $_GET['consultationnotechangebible'];
-    if (isset ($consultationnotebible)) {
-      $database_bibles = Database_Bibles::getInstance();
-      if ($consultationnotebible == "") {
-        $dialog_list = new Dialog_List2 (gettext ("Would you like to assign this note to another Bible?"));
-        $bibles = $database_bibles->getBibles ();
-        foreach ($bibles as $bible) {
-          $dialog_list->add_row ($bible, "&consultationnotechangebible=$bible");
-        }
-        $dialog_list->add_row (gettext ("Make it a general note which does not apply to any particular Bible"), "&consultationnotechangebible=0gen0bible0");
-        $dialog_list->run();
-      } else {
-        if ($consultationnotebible == "0gen0bible0") $consultationnotebible = "";
-        $database_notes->setBible ($consultationnote, $consultationnotebible);
-        // $notes_logic->handlerUpdateNote ($consultationnote);
-      }
-    }
-
-    // Edit status.
-    @$consultationnotestatus = $_GET['consultationnotestatus'];
-    if (isset ($consultationnotestatus)) {
-      if ($consultationnotestatus == "") {
-        $dialog_list = new Dialog_List2 (gettext ("Would you like to change the status of this note?"));
-        $statuses = $database_notes->getPossibleStatuses ();
-        foreach ($statuses as $status) {
-          $dialog_list->add_row ($status[1], "&consultationnotestatus=$status[0]");
-        }
-        $dialog_list->run();
-      } else {
-        $database_notes->setStatus ($consultationnote, $consultationnotestatus);
-        // $notes_logic->handlerUpdateNote ($consultationnote);
-      }
-    }
-
-    // Edit severity.
-    @$consultationnoteseverity = $_GET['consultationnoteseverity'];
-    if (isset ($consultationnoteseverity)) {
-      if ($consultationnoteseverity == "") {
-        $dialog_list = new Dialog_List2 (gettext ("Would you like to change the severity of this note?"));
-        $severities = $database_notes->getPossibleSeverities ();
-        foreach ($severities as $severity) {
-          $dialog_list->add_row ($severity[1], "&consultationnoteseverity=$severity[0]");
-        }
-        $dialog_list->run();
-      } else {
-        $database_notes->setRawSeverity ($consultationnote, $consultationnoteseverity);
-        // $notes_logic->handlerUpdateNote ($consultationnote);
-      }
-    }
-
-    // Edit privacy. 
-    @$consultationnoteprivacy = $_GET['consultationnoteprivacy'];
-    if (isset ($consultationnoteprivacy)) {
-      if ($consultationnoteprivacy == "") {
-        $dialog_list = new Dialog_List2 (gettext ("Would you like to change the the visibility of this note?"));
-        $dialog_list->info_top (gettext ("The note will be visible to:"));
-        $privacies = $database_notes->getPossiblePrivacies ();
-        foreach ($privacies as $privacy) {
-          $dialog_list->add_row (Filter_Notes::privacy2text ($privacy), "&consultationnoteprivacy=$privacy");
-        }
-        $dialog_list->run();
-      } else {
-        $database_notes->setPrivacy ($consultationnote, $consultationnoteprivacy);
-        // $notes_logic->handlerUpdateNote ($consultationnote);
-      }
-    }
-
-    // Edit passages.
-    @$consultationnoteeditverses = $_GET['consultationnoteeditverses'];
-    if (isset ($consultationnoteeditverses)) {
-      if (!isset($_POST['submit'])) {
-        $text = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($consultationnote));
-        $dialog_text = new Dialog_Text (gettext ("Would you like to edit the verses?"), $text, "consultationnoteeditverses");
-        $dialog_text->run ();
-      } else {
-        $lines = explode ("\n", $_POST['contents']);
-        $passages = array ();
-        foreach ($lines as $line) {
-          $line = trim ($line);
-          if ($line != "") {
-            $passage = Filter_Books::explodePassage ($line);
-            if ($passage[0] != 0) {
-              $passages [] = $passage;
-            }
-          }
-        }
-        $database_notes->setPassages ($consultationnote, $passages);
-        // $notes_logic->handlerUpdateNote ($consultationnote);
-      }
-    }
-    
     // Note navigator.
     if (isset ($_GET['shownextconsultationnotes'])) {
       $startinglimit = $database_sessions->getConsultationNoteStartingLimit ();
@@ -284,7 +138,7 @@ class Notes_Editor
       $startinglimit -= 50;
       if ($startinglimit < 0) $startinglimit = 0;
       $database_sessions->setConsultationNoteStartingLimit ($startinglimit);
-    }    
+    }
 
     // Notes selector.
     @$passages_selector = $_GET['consultationnotespassageselector'];
@@ -608,27 +462,6 @@ class Notes_Editor
       $view->view->summary = $database_notes->getSummary($consultationnote);
       $view->view->identifier = $consultationnote;
       if ($displayconsultationnoteactions) {
-        // Display note actions.
-        $session_logic = Session_Logic::getInstance();
-        $user = $session_logic->currentUser ();
-        $subscribed = $database_notes->isSubscribed ($consultationnote, $user);
-        $view->view->subscribed = $subscribed;
-        $assignees = $database_notes->getAssignees ($consultationnote);
-        $view->view->assignees = $assignees;
-        $assignee = $database_notes->isAssigned ($consultationnote, $user);
-        $view->view->assignee = $assignee;
-        $status = $database_notes->getStatus ($consultationnote);
-        $view->view->status = $status;
-        $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($consultationnote));
-        $view->view->verses = $verses;
-        $severity = $database_notes->getSeverity ($consultationnote);
-        $view->view->severity = $severity;
-        $privacy = $database_notes->getPrivacy ($consultationnote);
-        $privacy = Filter_Notes::privacy2text ($privacy);
-        $view->view->privacy = $privacy;
-        $consultationnotebible = $database_notes->getBible ($consultationnote);
-        $view->view->consultationnotebible = $consultationnotebible;
-        $view->render ("actions.php");
       } else {
         // Display one note.
         $contents = $database_notes->getContents($consultationnote);

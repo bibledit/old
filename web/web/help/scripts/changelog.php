@@ -5,7 +5,7 @@
 <p>Every night it clears out all sessions.</p>
 <p>Improved passage navigator: Enter nothing or + for next verse, and - for previous verse.</p>
 <p>Internal cleanup of the Consultation Notes editor.</p>
-<p></p>
+<p>Improved passage detection when editing the passage of a consultation note.</p>
 <p></p>
 
 <h2>Version 1.0</h2>

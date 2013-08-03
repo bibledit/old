@@ -68,7 +68,7 @@ foreach ($identifiers as $identifier) {
   $noteTitles [] = $title;
 
   // The url.
-  $url = "$siteUrl/consultations/notes.php?consultationnote=$identifier";
+  $url = "$siteUrl/notes/note.php?id=$identifier";
   $noteUrls [] = $url;
 
   // The excerpt.
