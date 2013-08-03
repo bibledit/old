@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-02 01:42+0200\n"
+"POT-Creation-Date: 2013-08-03 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1372,6 +1372,12 @@ msgstr ""
 msgid ""
 "The team organizes itself to carry out the work and deliver a reliable and "
 "good Bible translation."
+msgstr ""
+
+msgid "The team is quick but does not hurry."
+msgstr ""
+
+msgid "The team goes fast, but always has an eye on translation quality."
 msgstr ""
 
 msgid "Scrum Master"
@@ -3390,6 +3396,12 @@ msgstr ""
 msgid "Or enter Luke 10, to go to Luke chapter 10."
 msgstr ""
 
+msgid "Enter nothing or + to go to the next verse."
+msgstr ""
+
+msgid "Enter - to go to the previous verse."
+msgstr ""
+
 msgid "Press Escape to cancel any navigation operation."
 msgstr ""
 
@@ -3582,26 +3594,22 @@ msgstr ""
 msgid "Untick display of non-breaking spaces."
 msgstr ""
 
-msgid "Chapter was saved."
+msgid "Saved"
 msgstr ""
 
-msgid "The following data could not be saved and was discarded:"
-msgstr ""
-
-msgid ""
-"The text was not valid Unicode UTF-8. The chapter could not saved and has "
-"been reverted to the last good version."
-msgstr ""
-
-msgid ""
-"There was no text. Nothing was saved. The original text of the chapter was "
-"reloaded."
+msgid "Save failure"
 msgstr ""
 
 msgid "Nothing to save"
 msgstr ""
 
 msgid "Edit USFM"
+msgstr ""
+
+msgid "Loaded"
+msgstr ""
+
+msgid "Saving..."
 msgstr ""
 
 msgid "Select Bible"
@@ -4070,6 +4078,9 @@ msgid "Bible Checks"
 msgstr ""
 
 msgid "checks: Completed"
+msgstr ""
+
+msgid "sessions: Clearing out sessions"
 msgstr ""
 
 msgid "See footnote"
@@ -5666,9 +5677,6 @@ msgstr ""
 msgid "convert: Converting Bible to USFM Resource"
 msgstr ""
 
-msgid "Desktop"
-msgstr ""
-
 msgid "Here are the various options:"
 msgstr ""
 
@@ -6528,6 +6536,11 @@ msgid "Would you like to delete this book?"
 msgstr ""
 
 msgid "The line was saved."
+msgstr ""
+
+msgid ""
+"The text was not valid Unicode UTF-8. The chapter could not saved and has "
+"been reverted to the last good version."
 msgstr ""
 
 msgid "This chapter does not exist or is empty"
