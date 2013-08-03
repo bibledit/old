@@ -51,7 +51,7 @@ if (isset ($create)) {
   $contents .= "<p>" . gettext ("New text:") . "</p>";
   $contents .= $database_changes->getNewText ($create);
   $newNoteID = $database_notes->storeNewNote ($bible, $passage['book'], $passage['chapter'], $passage['verse'], $summary, $contents, true);
-  header ("Location: notes.php?consultationnote=$newNoteID");
+  header ("Location: ../notes/comment.php?id=$newNoteID");
   die;
 }
 

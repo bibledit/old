@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-
-// Todo this page is going to display the notes list.
-header ("Location: ../consultations/notes.php");
+$query = http_build_query ($_GET);
+header ("Location: ../consultations/notes.php?$query");
 ?>

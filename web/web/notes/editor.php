@@ -41,7 +41,6 @@ class Notes_Editor
   
   public function use_jquery ()
   {
-    if (isset ($_GET['addtoconsultationnote'])) return true;
     return false;
   }
   
@@ -113,34 +112,6 @@ class Notes_Editor
       }
     }
     
-    // Save new note.
-    if (isset ($_GET['savenewconsultationnote'])) {
-      if (isset($_POST['submit'])) {
-        $summary = trim ($_POST['summary']);
-        $contents = trim ($_POST['contents']);
-        if (($contents == "") && ($summary == "")) {
-          Assets_Page::error (gettext ("There was nothing to save"));
-        } else {
-          $consultationnote = $database_notes->storeNewNote ($_GET['createnotebible'], $_GET['createnotebook'], $_GET['createnotechapter'], $_GET['createnoteverse'], $summary, $contents, false);
-          $database_sessions->setConsultationNote ($consultationnote);
-          $notes_logic->handlerNewNote ($consultationnote);
-        }
-      }
-    }
-
-    // Add comment to existing note.
-    if (isset ($_GET['saveconsultationnotecomment'])) {
-      if (isset($_POST['submit'])) {
-        $comment = trim ($_POST['comment']);
-        if ($comment == "") {
-          Assets_Page::error (gettext ("There was nothing to save"));
-        } else {
-          $database_notes->addComment ($consultationnote, $comment);
-          $notes_logic->handlerAddComment ($consultationnote);
-        }
-      }
-    }
-
     // Edit summary.
     @$consultationnoteeditsummary = $_GET['consultationnoteeditsummary'];
     if (isset ($consultationnoteeditsummary)) {
@@ -662,7 +633,7 @@ class Notes_Editor
         // Display one note.
         $contents = $database_notes->getContents($consultationnote);
         $view->view->note_content = $contents;
-        @$view->view->note_add_comment = $_GET['addtoconsultationnote'];
+        $view->view->id = $consultationnote;
         $view->render ("note.php");
       }
     } else if ($editconsultationnoteview) {
