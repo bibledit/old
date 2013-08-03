@@ -350,7 +350,7 @@ class Notes_Logic
     return true;
   }
   
-
+  
 }  
 
 

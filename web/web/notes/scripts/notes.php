@@ -1,4 +1,4 @@
-<p><a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&createconsultationnote="><?php echo gettext ("Create new note") ?></a></p>
+<p><a href="../notes/create.php"><?php echo gettext ("Create note") ?></a></p>
 <p>
 <?php if ($this->firstnote > 1) { ?>
   <a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&showpreviousconsultationnotes=">««</a>

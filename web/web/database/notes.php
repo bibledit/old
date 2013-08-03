@@ -127,6 +127,7 @@ class Database_Notes
     $session_logic = Session_Logic::getInstance();
     $user = $session_logic->currentUser ();
     $new_contents .= "<p>$user ($datetime):</p>\n";
+    if ($contents == "<br>") $contents = "";
     $lines = explode ("\n", $contents);
     foreach ($lines as $line) {
       $line = trim ($line);
@@ -154,7 +155,7 @@ class Database_Notes
     $passage = Database_SQLInjection::no ($this->encodePassage ($book, $chapter, $verse));
     // If the $summary is not given, take the first line of the $contents as the $summary.
     if ($summary == "") {
-      // The wysiwyg editor, jsysiwyg, does not put new lines at each line, but instead <div>s. Handle these also.
+      // The notes editor does not put new lines at each line, but instead <div>s. Handle these also.
       $summary = str_replace ("<", "\n", $contents);
       $summary = explode ("\n", $summary);
       $summary = $summary[0];

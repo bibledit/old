@@ -41,7 +41,6 @@ class Notes_Editor
   
   public function use_jquery ()
   {
-    if (isset ($_GET['createconsultationnote'])) return true;
     if (isset ($_GET['addtoconsultationnote'])) return true;
     return false;
   }
@@ -633,11 +632,7 @@ class Notes_Editor
     $passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();
     $text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector();
 
-    if (isset ($_GET['createconsultationnote'])) {
-      // New note creation display.
-      $view->render ("create.php");
-    } 
-    else if ($consultationnote != "") {
+    if ($consultationnote != "") {
       // Note display.
       $view->view->summary = $database_notes->getSummary($consultationnote);
       $view->view->identifier = $consultationnote;
