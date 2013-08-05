@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-03 01:43+0200\n"
+"POT-Creation-Date: 2013-08-05 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5686,34 +5686,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-msgid "There was nothing to save"
-msgstr ""
-
 msgid "Please enter the summary"
-msgstr ""
-
-msgid "Would you like to assign this note to a user?"
-msgstr ""
-
-msgid "Would you like to assign this note to another Bible?"
-msgstr ""
-
-msgid "Make it a general note which does not apply to any particular Bible"
-msgstr ""
-
-msgid "Would you like to change the status of this note?"
-msgstr ""
-
-msgid "Would you like to change the severity of this note?"
-msgstr ""
-
-msgid "Would you like to change the the visibility of this note?"
-msgstr ""
-
-msgid "The note will be visible to:"
-msgstr ""
-
-msgid "Would you like to edit the verses?"
 msgstr ""
 
 msgid "Search text saved"
@@ -5761,6 +5734,9 @@ msgstr ""
 msgid "Would you like to assign these notes to another Bible?"
 msgstr ""
 
+msgid "Make it a general note which does not apply to any particular Bible"
+msgstr ""
+
 msgid "The Bible of the notes was updated"
 msgstr ""
 
@@ -5771,6 +5747,9 @@ msgid "The notes were deleted"
 msgstr ""
 
 msgid "This view does not display any notes."
+msgstr ""
+
+msgid "Note passages"
 msgstr ""
 
 msgid "Import"
@@ -5812,6 +5791,9 @@ msgstr ""
 msgid "Your new note was posted"
 msgstr ""
 
+msgid "Note"
+msgstr ""
+
 msgid "Edit Note Source"
 msgstr ""
 
@@ -5824,13 +5806,16 @@ msgstr ""
 msgid "Could not find the folder with the consultation notes"
 msgstr ""
 
+msgid "Note actions"
+msgstr ""
+
+msgid "Create note"
+msgstr ""
+
 msgid "Import consultation notes has started"
 msgstr ""
 
 msgid "Importing from folder:"
-msgstr ""
-
-msgid "Note"
 msgstr ""
 
 msgid "Imported"
@@ -5846,6 +5831,12 @@ msgid "Import consultation notes has finished"
 msgstr ""
 
 msgid "Notes"
+msgstr ""
+
+msgid "Edit the verses?"
+msgstr ""
+
+msgid "Assign this note to another Bible"
 msgstr ""
 
 msgid "Importing notes, step 3"
@@ -5916,9 +5907,6 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
-msgid "Add a comment to this note:"
-msgstr ""
-
 msgid "Add a comment to this note"
 msgstr ""
 
@@ -5941,9 +5929,6 @@ msgstr ""
 
 msgid ""
 "Enter the identifier of the Consultation Note to be edited and press Submit."
-msgstr ""
-
-msgid "Create new note"
 msgstr ""
 
 msgid "Displaying notes"
@@ -5995,7 +5980,7 @@ msgstr ""
 msgid "add assignee"
 msgstr ""
 
-msgid "This note has been specifically assigned to you for taking action on."
+msgid "This note has been assigned to you for you to take action on."
 msgstr ""
 
 msgid "I have done my part on it."
@@ -6007,13 +5992,7 @@ msgstr ""
 msgid "Verses"
 msgstr ""
 
-msgid "add"
-msgstr ""
-
 msgid "Severity"
-msgstr ""
-
-msgid "This note is visible to users with the following roles"
 msgstr ""
 
 msgid "This is a general note, it does not apply to any specific Bible"
@@ -6025,10 +6004,13 @@ msgstr ""
 msgid "Delete this note"
 msgstr ""
 
-msgid "Create a new consultation note."
+msgid "Create consultation note for"
 msgstr ""
 
 msgid "Body"
+msgstr ""
+
+msgid "Add a comment to this note:"
 msgstr ""
 
 msgid "Manage Consultation Notes"
@@ -6290,10 +6272,19 @@ msgstr ""
 msgid "display all selected notes for this once"
 msgstr ""
 
+msgid "Select the user to assign the note to"
+msgstr ""
+
 msgid "There was a problem uploading the file."
 msgstr ""
 
 msgid "You can go back to retry it."
+msgstr ""
+
+msgid "Update the severity of this note"
+msgstr ""
+
+msgid "Select the new status for the note"
 msgstr ""
 
 msgid "Removal of duplicate consultation notes has started"
@@ -6309,6 +6300,12 @@ msgid "This note no longer exists"
 msgstr ""
 
 msgid "Removal of duplicate consultation notes has finished"
+msgstr ""
+
+msgid "Assign note"
+msgstr ""
+
+msgid "Note status"
 msgstr ""
 
 msgid "Downloads"
@@ -6597,9 +6594,6 @@ msgid "I have done my part on it"
 msgstr ""
 
 msgid "Edit text"
-msgstr ""
-
-msgid "Create note"
 msgstr ""
 
 msgid "items"

@@ -23,9 +23,19 @@ page_access_level (CONSULTANT_LEVEL);
 
 
 $database_notes = Database_Notes::getInstance();
+$ipc_focus = Ipc_Focus::getInstance();
 
 
 $id = $_GET ['id'];
+
+
+// When a note is opened, then the passage navigator should go to the passage that belongs to that note.
+$passages = $database_notes->getPassages ($id);
+if (is_array ($passages)) {
+  if (!empty ($passages)) {
+    $ipc_focus->set ($passages[0][0], $passages[0][1], $passages[0][2]);
+  }
+}
 
 
 $assets_header = new Assets_Header (gettext ("Note"));
