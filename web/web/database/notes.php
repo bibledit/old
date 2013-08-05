@@ -164,7 +164,7 @@ class Database_Notes
     if (!$raw) $contents = $this->assembleContents ($identifier, $contents);
     $contents = Database_SQLInjection::no ($contents);
     if (($contents == "") && ($summary == "")) return;
-    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, 0, '$summary', '$contents', NULL, NULL)";
+    $query = "INSERT INTO notes VALUES (NULL, $identifier, 0, '', '', '$bible', '$passage', 'New', 2, '$summary', '$contents', NULL, NULL)";
     $server->runQuery ($query);
     $this-> updateSearchFields ($identifier);
     $this->noteEditedActions ($identifier);

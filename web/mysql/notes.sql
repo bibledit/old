@@ -55,3 +55,19 @@ CALL upgrade_one ();
 DROP PROCEDURE upgrade_one;
 
 
+DROP PROCEDURE IF EXISTS upgrade_two;
+DELIMITER //
+CREATE PROCEDURE upgrade_two () 
+BEGIN
+  SET @version := (SELECT version FROM version WHERE NAME = 'notes');
+  IF @version = 1 THEN 
+    ALTER TABLE notes DROP private;
+    UPDATE version SET version = 2 WHERE name = 'notes';
+  END IF;
+END;
+//
+DELIMITER ;
+CALL upgrade_two ();
+DROP PROCEDURE upgrade_two;
+
+
