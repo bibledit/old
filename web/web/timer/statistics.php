@@ -77,8 +77,7 @@ foreach ($users as $user) {
       -1,    // Severity selector.
       0,     // Text selector.
       "",    // Search text.
-      NULL,  // Limit.
-      0);    // User level.
+      NULL); // Limit.
     $body [] = "<p><a href=\"$siteUrl/consultations/notes.php?presetselection=assigned\">" . gettext ("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
   }
 
@@ -103,8 +102,7 @@ foreach ($users as $user) {
       -1,    // Severity selector.
       0,     // Text selector.
       "",    // Search text.
-      NULL,  // Limit.
-      0);    // User level.
+      NULL); // Limit.
     $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribed\">" . gettext ("Total") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       "",    // Bible.
@@ -121,8 +119,7 @@ foreach ($users as $user) {
       -1,    // Severity selector.
       0,     // Text selector.
       "",    // Search text.
-      NULL,  // Limit.
-      0);    // User level.
+      NULL); // Limit.
     $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribeddayidle\">" . gettext ("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       "",    // Bible.
@@ -139,8 +136,7 @@ foreach ($users as $user) {
       -1,    // Severity selector.
       0,     // Text selector.
       "",    // Search text.
-      NULL,  // Limit.
-      0);    // User level.
+      NULL); // Limit.
     $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribedweekidle\">" . gettext ("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
     $body [] = "</ul>\n";
     $_SESSION['user'] = $storeUser;

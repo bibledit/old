@@ -176,7 +176,6 @@ EOD;
     $database_notes->assignUser ($identifier2, "user3");
     $database_notes->subscribeUser ($identifier1, "subscriber1");
     $database_notes->subscribeUser ($identifier1, "subscriber2");
-    $database_notes->setPrivacy ($identifier3, 5);
     
     // Transfer these notes (and other ones that may be in the database) to the file system.
     Filter_Git::notesDatabase2filedata ($directory);
@@ -207,7 +206,6 @@ EOD;
     unset ($contents2[3]); // Remove assignee 'user1';
     $contents2[10] = "40.50.60"; // Update passages.
     $contents3[11] = 10; // Update severity.
-    $contents3[13] = 55; // Update privacy.
     $contents3[15] = "-summary-"; // Update summary.
     
     // Store the new content to file; delete or rename notes.
@@ -244,7 +242,6 @@ EOD;
     $this->assertTrue (in_array ("user3", $database_notes->getAssignees ($identifier2)));
     $this->assertEquals (array (array (40, 50, 60)), $database_notes->getPassages ($identifier2));
     $this->assertEquals (10, $database_notes->getRawSeverity ($identifier3));
-    $this->assertEquals (55, $database_notes->getPrivacy ($identifier3));
     $this->assertEquals ("-summary-", $database_notes->getSummary ($identifier3));
     $this->assertEquals ("bible5", $database_notes->getBible ($identifier6));
     $this->assertEquals ("summary5", $database_notes->getSummary ($identifier6));

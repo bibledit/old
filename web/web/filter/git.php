@@ -142,7 +142,7 @@ class Filter_Git
       $data [] = "Severity:";
       $data [] = $database_notes->getRawSeverity ($identifier);
       $data [] = "Privacy:";
-      $data [] = $database_notes->getPrivacy ($identifier);
+      $data [] = 0;
       $data [] = "Summary:";
       $data [] = $database_notes->getSummary ($identifier);
       $data [] = "Contents:";
@@ -294,10 +294,8 @@ class Filter_Git
           break;
         case "Summary:":
           // This heading follows the Privacy: heading, hence the note's privacy is stored here.
+          // Privacy no longer works.
           @$privacy = $fielddata[0];
-          if ($privacy != $database_notes->getPrivacy ($identifier)) {
-            $database_notes->setPrivacy ($identifier, $privacy);
-          }
           unset ($fielddata);
           break;
         case "Contents:":

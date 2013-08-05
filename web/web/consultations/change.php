@@ -99,8 +99,7 @@ $notes = $database_notes->selectNotes (
   -1, // Severity selector.
   0, // Text selector.
   "", // Search text.
-  NULL, // Limit.
-  0); // User level.
+  NULL); // Limit.
 
 // Sort them, most recent notes first.
 $timestamps = array ();

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
 <meta charset="utf-8" />
-<?php foreach ($this->head_lines as $line) echo "$line\n"; ?>
+<?php if (isset ($this->head_lines)) foreach ($this->head_lines as $line) echo "$line\n"; ?>
 <title><?php echo "$this->title" ?></title>
 <link rel="stylesheet" type="text/css" href="../css/stylesheet.css"></link>
 <?php if ($this->include_jquery) { ?>

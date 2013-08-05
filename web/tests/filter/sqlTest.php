@@ -9,11 +9,6 @@ class sqlTest extends PHPUnit_Framework_TestCase
     $this->assertEquals (" SELECT identifier ", Filter_Sql::notesSelectIdentifier ());
   }
   
-  public function testConsiderPrivacy ()
-  {
-    $this->assertEquals (" AND (private <= 10) ", Filter_Sql::notesConsiderPrivacy (10));
-  }
-
   public function testOptionalFulltextSearchRelevanceStatement ()
   {
     $this->assertEquals (" ,  (MATCH (cleantext) AGAINST ('Note 10' IN NATURAL LANGUAGE MODE) * 10)  +  (MATCH (cleantext) AGAINST ('\"Note 10\"' IN BOOLEAN MODE) * 5)  +  (MATCH (cleantext) AGAINST ('Note 10*' IN BOOLEAN MODE)) + (MATCH (reversedtext) AGAINST ('01 etoN*' IN BOOLEAN MODE) * 1)  AS relevance ", Filter_Sql::notesOptionalFulltextSearchRelevanceStatement ("Note 10"));

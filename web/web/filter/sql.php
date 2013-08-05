@@ -32,12 +32,6 @@ class Filter_Sql
   }
 
   
-  public static function notesConsiderPrivacy ($userlevel)
-  {
-    return " AND (private <= $userlevel) ";
-  }
-
-
   public static function notesOptionalFulltextSearchRelevanceStatement ($search)
   {
     if ($search == "") return;

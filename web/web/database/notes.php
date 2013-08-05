@@ -186,12 +186,10 @@ class Database_Notes
   * $text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
   * $search_text: Works with $text_selector, contains the text to search for.
   * $limit: If non-NULL, it indicates the starting limit for the selection.
-  * $userlevel: if 0, it takes the user's level from the current user, else it takes the level passed in the variable $userlevel itself.
   */
-  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit, $userlevel)
+  public function selectNotes ($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $limit)
   {
     $session_logic = Session_Logic::getInstance ();
-    if ($userlevel == 0)  $userlevel = $session_logic->currentLevel ();
     $username = $session_logic->currentUser ();
     $identifiers = array ();
     $server = Database_Instance::getInstance ();
@@ -203,8 +201,6 @@ class Database_Notes
     }
     // SQL FROM ... WHERE statement.
     $query .= Filter_Sql::notesFromWhereStatement ();
-    // SQL privacy statement.
-    $query .= Filter_Sql::notesConsiderPrivacy ($userlevel);
     // Consider passage selector.
     switch ($passage_selector) {
       case 0:
@@ -953,53 +949,6 @@ class Database_Notes
   }
   
 
-  /**
-  * Returns the privacy of a note as a number.
-  */
-  public function getPrivacy ($identifier)
-  {
-    $server = Database_Instance::getInstance ();
-    $identifier = Database_SQLInjection::no ($identifier);
-    $query = "SELECT private FROM notes WHERE identifier = $identifier;";
-    $result = $server->runQuery ($query);
-    $privacy = 0;
-    if ($result->num_rows > 0) {
-      $row = $result->fetch_row();
-      $privacy = $row[0];
-    }
-    return $privacy;
-  }
-
-
-  /**
-  * Sets the $privacy of the note identified by $identifier.
-  * $privacy is a number.
-  */
-  public function setPrivacy ($identifier, $privacy)
-  {
-    $server = Database_Instance::getInstance ();
-    $identifier = Database_SQLInjection::no ($identifier);
-    $privacy = Database_SQLInjection::no ($privacy);
-    $query = "UPDATE notes SET private = $privacy WHERE identifier = $identifier;";
-    $server->runQuery ($query);
-    $this->noteEditedActions ($identifier);
-    // $this->addComment ($identifier, gettext ("The note's privacy was updated"));
-  }
-
-
-  /**
-  * Gets an array with the possible privacy values.
-  */
-  public function getPossiblePrivacies ()
-  {
-    include ("session/levels.php");
-    for ($i = GUEST_LEVEL; $i <= ADMIN_LEVEL; $i++) {
-      $privacies[] = $i;
-    }
-    return $privacies;
-  }
-
-  
   public function getModified ($identifier)
   {
     $server = Database_Instance::getInstance ();
@@ -1111,10 +1060,6 @@ class Database_Notes
     $query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement ($search);
     // SQL FROM ... WHERE statement.
     $query .= Filter_Sql::notesFromWhereStatement ();
-    // SQL privacy statement.
-    $session_logic = Session_Logic::getInstance ();
-    $userlevel = $session_logic->currentLevel ();
-    $query .= Filter_Sql::notesConsiderPrivacy ($userlevel);
     // Consider text contained in notes.
     $query .= Filter_Sql::notesOptionalFulltextSearchStatement ($search);
     // Notes get ordered on relevance of search hits.

@@ -229,9 +229,9 @@ class Notes_Editor
                                                   $database_config_user->getConsultationNotesBibleSelector(), 
                                                   $database_config_user->getConsultationNotesAssignmentSelector(), 
                                                   $database_config_user->getConsultationNotesSubscriptionSelector(), 
-                                                  $database_config_user->getConsultationNotesSeveritySelector(), 
+                                                  $database_config_user->getConsultationNotesSeveritySelector(),
                                                   $database_config_user->getConsultationNotesTextSelector(), 
-                                                  $database_config_user->getConsultationNotesSearchText(), NULL, 0);
+                                                  $database_config_user->getConsultationNotesSearchText(), NULL);
       foreach ($identifiers as $identifier) {
         @$identifierlist .= " $identifier";
       }                                          
@@ -341,28 +341,6 @@ class Notes_Editor
           $database_logs->log ("Severity update of notes: $identifierlist", true);
         }
       }
-      // Bulk note visibility update.
-      if ($bulk_update == "visibility") {
-        @$visibility = $_GET['visibility'];
-        if ($visibility == "") {
-          $dialog_list = new Dialog_List2 (gettext ("Would you like to change the visibility of these notes?"));
-          $dialog_list->info_top (gettext ("The notes should be visible to:"));
-          $privacies = $database_notes->getPossiblePrivacies ();
-          foreach ($privacies as $visibility) {
-            $dialog_list->add_row (Filter_Notes::privacy2text ($visibility), "&consultationnotesbulkupdate=visibility&visibility=$visibility");
-          }
-          $dialog_list->run();
-        } else {
-          foreach ($identifiers as $identifier) {
-            if ($database_notes->getPrivacy ($identifier) != $visibility) {
-              $database_notes->setPrivacy ($identifier, $visibility);
-              // $notes_logic->handlerUpdateNote ($identifier);
-            }
-          }
-          Assets_Page::success (gettext ("The visibility of the notes was updated"));
-          $database_logs->log ("Visibility update of notes: $identifierlist", true);
-        }
-      }
       // Bulk note Bible update.
       if ($bulk_update == "bible") {
         @$bible = $_GET['bible'];
@@ -457,7 +435,7 @@ class Notes_Editor
       }
     } else if ($editconsultationnoteview) {
       // Display note view editor.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
       $totalcount = count ($identifiers);
       $view->view->totalcount = $totalcount;
       $view->view->passageselector = $passage_selector;
@@ -491,14 +469,14 @@ class Notes_Editor
       $view->view->textinclusionselector = $text_inclusion_selector;
       $view->render ("editview.php");
     } else if ($bulkupdateconsultationnotes) {
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
       $notescount = count ($identifiers);
       $view->view->notescount = $notescount;
       $view->render ("bulkupdate.php");
     } else {
       // Display notes list.
       // Total notes count.
-      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL, 0);
+      $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
       $totalcount = count ($identifiers);
       $view->view->totalcount = $totalcount;
       // First and last note to display, and notes count.
@@ -513,7 +491,7 @@ class Notes_Editor
         if ($startinglimit < 0) $startinglimit = 0;
         $lastnote = $startinglimit + 50;
         if ($lastnote > $totalcount) $lastnote = $totalcount;
-        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit, 0);
+        $identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, $startinglimit);
         $displaycount = count ($identifiers);
       }
       $view->view->firstnote = $startinglimit + 1;
