@@ -6,7 +6,7 @@
 <p>
 <?php echo gettext ("Summary") ?>: <?php echo $this->summary ?>
 <?php if ($this->level >= 5) { ?>
-  [<a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&consultationnoteeditsummary="><?php echo gettext ("edit") ?></a>]
+  [<a href="summary.php?id=<?php echo $this->id ?>"><?php echo gettext ("edit") ?></a>]
 <?php } ?>
 </p>
 <div><?php echo $this->content ?></div>
