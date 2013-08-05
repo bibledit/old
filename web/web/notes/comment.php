@@ -37,13 +37,13 @@ if (isset($_POST['submit'])) {
   $comment = trim ($_POST['comment']);
   $database_notes->addComment ($id, $comment);
   $notes_logic->handlerAddComment ($id);
-  header ("Location: index.php");
+  header ("Location: note.php?id=$id");
   die;
 }
 
 
 if (isset($_POST['cancel'])) {
-  header ("Location: index.php");
+  header ("Location: note.php?id=$id");
   die;
 }
 

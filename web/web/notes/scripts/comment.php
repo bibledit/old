@@ -1,14 +1,5 @@
-<p>
-<a href="index.php"><?php echo gettext ("Back to notes list") ?></a>
-|
-<a href="actions.php?id=<?php echo $this->id ?>"><?php echo gettext ("Actions") ?></a>
-</p>
-<p>
-<?php echo gettext ("Summary") ?>: <?php echo $this->summary ?>
-<?php if ($this->level >= 5) { ?>
-  [<a href="summary.php?id=<?php echo $this->id ?>"><?php echo gettext ("edit") ?></a>]
-<?php } ?>
-</p>
+<p><a href="index.php"><?php echo gettext ("Back to notes list") ?></a></p>
+<p><?php echo gettext ("Summary") ?>: <?php echo $this->summary ?></p>
 <div><?php echo $this->content ?></div>
 <hr>
 <form style="border:1px #bbb solid;" action="comment.php" name="form"  method="post">
