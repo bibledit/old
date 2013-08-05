@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
   $comment = trim ($_POST['comment']);
   $database_notes->addComment ($id, $comment);
   $notes_logic->handlerAddComment ($id);
-  header ("Location: note.php?id=$id");
+  header ("Location: note.php?id=$id&temporal");
   die;
 }
 

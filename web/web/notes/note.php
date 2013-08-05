@@ -38,8 +38,13 @@ if (is_array ($passages)) {
 }
 
 
-$assets_header = new Assets_Header (gettext ("Note"));
-$assets_header->run();
+$header = new Assets_Header (gettext ("Note"));
+// After adding a comment to a note it returns to the note.
+// When doing nothing for several seconds, the browser then returns to the list of notes.
+if (isset ($_GET ['temporal'])) {
+  $header->addHeadLine ('<META HTTP-EQUIV="refresh" CONTENT="5;URL=index.php">');
+}
+$header->run();
 
 
 $view = new Assets_View (__FILE__);

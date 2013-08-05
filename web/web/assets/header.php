@@ -28,6 +28,7 @@ class Assets_Header
   private $includeJQuery = false;
   private $includeJQueryUI = false;
   private $JQueryUISubset = "";
+  private $headLines = array ();
 
   public function __construct ($title) 
   {
@@ -52,7 +53,13 @@ class Assets_Header
       $this->JQueryUISubset = $subset . ".";
     }
   }
-  
+
+  // Adds an extra line in the <head>.
+  public function addHeadLine ($line)
+  {
+    $this->headLines [] = $line;
+  }  
+
   // Adds an 'onload' statement to the <body> html tag.
   // $code could be, e.g.: onload="document.form.user.focus();"
   public function setBodyOnload ($code)
@@ -66,6 +73,7 @@ class Assets_Header
     $this->view->view->include_jquery = $this->includeJQuery;
     $this->view->view->include_jquery_ui = $this->includeJQueryUI;
     $this->view->view->include_jquery_ui_subset = $this->JQueryUISubset;
+    $this->view->view->head_lines = $this->headLines;
     $this->view->render ("xhtml_start.php");
     $this->view->render ("header_full.php");
     
