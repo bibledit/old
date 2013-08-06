@@ -151,6 +151,23 @@ if (isset ($bible)) {
 }
 
 
+@$delete = $_GET['delete'];
+if (isset ($delete)) {
+  @$confirm = $_GET['confirm'];
+  if ($confirm != "yes") {
+    $dialog_yes = new Dialog_Yes2 (gettext ("Would you like to delete the notes?"), "&delete=");
+  } else {
+    foreach ($identifiers as $identifier) {
+      $notes_logic->handlerDeleteNote ($identifier); // Notifications handling.
+      $trash_handler = Trash_Handler::getInstance ();
+      $trash_handler->consultationNote ($identifier);
+      $database_notes->delete ($identifier);
+    }
+    Assets_Page::success (gettext ("The notes were deleted"));
+    $database_logs->log ("Notes deleted: $identifierlist", true);
+  }
+}
+
 $view = new Assets_View (__FILE__);
 
 

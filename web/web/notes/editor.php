@@ -85,11 +85,6 @@ class Notes_Editor
       $displayconsultationnoteactions = false;
       $bulkupdateconsultationnotes = false;
     }
-    if (isset ($_GET['consultationnotesbulkupdate'])) { // Todo
-      $editconsultationnoteview = false;
-      $displayconsultationnoteactions = false;
-      $bulkupdateconsultationnotes = true;
-    }
     // This forwards links in emails to the new page for displaying one note.
     // It can go out as from bibledit-web version 1.2.
     if (isset ($_GET['consultationnote'])) {
@@ -102,17 +97,6 @@ class Notes_Editor
     $database_sessions->setEditConsultationNoteView ($editconsultationnoteview);
     $database_sessions->setBulkUpdateConsultationNotes ($bulkupdateconsultationnotes);
     
-    // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
-    if (isset ($_GET['consultationnote'])) {
-      // Variable $consultationnote has been set above. It contains the note identifier.
-      $passages = $database_notes->getPassages ($consultationnote);
-      if (is_array ($passages)) {
-        if (!empty ($passages)) {
-          $ipc_focus = Ipc_Focus::getInstance();
-          $ipc_focus->set ($passages[0][0], $passages[0][1], $passages[0][2]);
-        }
-      }
-    }
     
     // Note navigator.
     if (isset ($_GET['shownextconsultationnotes'])) {
@@ -222,18 +206,6 @@ class Notes_Editor
     if (isset ($bulk_update)) {
       // Bulk note delete.Todo
       if ($bulk_update == "delete") {
-        if ($_GET['confirm'] != "yes") {
-          $dialog_yes = new Dialog_Yes2 (gettext ("Would you like to delete the notes?"), "&consultationnotesbulkupdate=delete");
-        } else {
-          foreach ($identifiers as $identifier) {
-            $notes_logic->handlerDeleteNote ($identifier); // Notifications handling.
-            $trash_handler = Trash_Handler::getInstance ();
-            $trash_handler->consultationNote ($identifier);
-            $database_notes->delete ($identifier);
-          }
-          Assets_Page::success (gettext ("The notes were deleted"));
-          $database_logs->log ("Notes deleted: $identifierlist", true);
-        }
       }
     }
   }
