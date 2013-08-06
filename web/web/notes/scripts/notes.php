@@ -10,7 +10,7 @@
 <?php } ?>
 <?php if ($this->level >= 5) { ?>
   |
-  [<a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&consultationnotesbulkupdate="><?php echo gettext ("update") ?></a>]
+  [<a href="../notes/bulk.php"><?php echo gettext ("update") ?></a>]
 <?php } ?>
 </p>
 <?php foreach ($this->identifiers as $offset => $identifier) { ?>

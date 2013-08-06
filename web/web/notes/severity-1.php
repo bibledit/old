@@ -19,24 +19,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (MANAGER_LEVEL);
+page_access_level (CONSULTANT_LEVEL);
 
 
 $database_notes = Database_Notes::getInstance();
+$notes_logic = Notes_Logic::getInstance();
+$database_users = Database_Users::getInstance();
 
 
 $id = $_GET ['id'];
 
 
-@$status = $_GET['status'];
-if (isset ($status)) {
-  $database_notes->setStatus ($id, $status);
+@$severity = $_GET['severity'];
+if (isset ($severity)) {
+  $database_notes->setRawSeverity ($id, $severity);
   header ("Location: actions.php?id=$id");
   die;
 }
 
 
-$assets_header = new Assets_Header (gettext ("Note status"));
+$assets_header = new Assets_Header (gettext ("Severity"));
 $assets_header->run();
 
 
@@ -46,11 +48,11 @@ $view = new Assets_View (__FILE__);
 $view->view->id = $id;
 
 
-$statuses = $database_notes->getPossibleStatuses ();
-$view->view->statuses = $statuses;
+$severities = $database_notes->getPossibleSeverities ();
+$view->view->severities = $severities;
 
 
-$view->render ("status.php");
+$view->render ("severity-1.php");
 
 
 Assets_Page::footer ();

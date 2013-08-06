@@ -23,26 +23,20 @@ page_access_level (MANAGER_LEVEL);
 
 
 $database_notes = Database_Notes::getInstance();
-$notes_logic = Notes_Logic::getInstance();
-$database_users = Database_Users::getInstance();
 
 
 $id = $_GET ['id'];
 
 
-@$assign = $_GET['assign'];
-if (isset ($assign)) {
-  if ($database_users->usernameExists ($assign)) {
-    // Assign logic comes first.
-    $notes_logic->handlerAssignNote ($id, $assign);
-    $database_notes->assignUser ($id, $assign);
-  }
+@$status = $_GET['status'];
+if (isset ($status)) {
+  $database_notes->setStatus ($id, $status);
   header ("Location: actions.php?id=$id");
   die;
 }
 
 
-$assets_header = new Assets_Header (gettext ("Assign note"));
+$assets_header = new Assets_Header (gettext ("Note status"));
 $assets_header->run();
 
 
@@ -52,11 +46,11 @@ $view = new Assets_View (__FILE__);
 $view->view->id = $id;
 
 
-$users = $database_users->getUsers ();
-$view->view->users = $users;
+$statuses = $database_notes->getPossibleStatuses ();
+$view->view->statuses = $statuses;
 
 
-$view->render ("assign.php");
+$view->render ("status-1.php");
 
 
 Assets_Page::footer ();

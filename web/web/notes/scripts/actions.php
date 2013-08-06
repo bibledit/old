@@ -15,7 +15,7 @@
   <?php } ?>
 <?php } ?>
 <?php if ($this->level >= 5) { ?>
-  <a href="assign.php?id=<?php echo $this->id ?>">[<?php echo gettext ("add assignee") ?>]</a>
+  <a href="assign-1.php?id=<?php echo $this->id ?>">[<?php echo gettext ("add assignee") ?>]</a>
 <?php } ?>
 </p>
 <?php if ($this->assignee) { ?>
@@ -27,7 +27,7 @@
 <p>
 <?php echo gettext ("Status") ?>:
 <?php if ($this->level >= 4) { ?>
-  <a href="status.php?id=<?php echo $this->id ?>"><?php echo $this->status ?></a>
+  <a href="status-1.php?id=<?php echo $this->id ?>"><?php echo $this->status ?></a>
 <?php } else { ?>
   <?php echo $this->status ?>
 <?php } ?>
@@ -37,7 +37,7 @@
   <a href="verses.php?id=<?php echo $this->id ?>">[<?php echo gettext ("edit") ?>]</a>
 </p>
   <p><?php echo gettext ("Severity") ?>: 
-  <a href="severity.php?id=<?php echo $this->id ?>"><?php echo $this->severity ?></a></p>
+  <a href="severity-1.php?id=<?php echo $this->id ?>"><?php echo $this->severity ?></a></p>
 <p>
 </p>
 <p>
@@ -47,7 +47,7 @@
 <?php } else { ?>
   <?php echo gettext ("This is a general note, it does not apply to any specific Bible") ?>
 <?php } ?>
-  <a href="bibles.php?id=<?php echo $this->id ?>">[<?php echo gettext ("change") ?>]</a>
+  <a href="bible-1.php?id=<?php echo $this->id ?>">[<?php echo gettext ("change") ?>]</a>
 </p>
 <p><?php echo gettext ("Identifier") ?>: <?php echo $this->id ?></p>
 </p>

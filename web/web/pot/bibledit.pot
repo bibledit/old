@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-05 01:42+0200\n"
+"POT-Creation-Date: 2013-08-06 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5686,9 +5686,6 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-msgid "Please enter the summary"
-msgstr ""
-
 msgid "Search text saved"
 msgstr ""
 
@@ -5720,15 +5717,6 @@ msgid "Would you like to change the severity of these notes?"
 msgstr ""
 
 msgid "The severity of the notes was updated"
-msgstr ""
-
-msgid "Would you like to change the visibility of these notes?"
-msgstr ""
-
-msgid "The notes should be visible to:"
-msgstr ""
-
-msgid "The visibility of the notes was updated"
 msgstr ""
 
 msgid "Would you like to assign these notes to another Bible?"
@@ -5801,6 +5789,9 @@ msgid "The note was saved"
 msgstr ""
 
 msgid "Unknown Note Identifier"
+msgstr ""
+
+msgid "Note summary"
 msgstr ""
 
 msgid "Could not find the folder with the consultation notes"
@@ -5935,6 +5926,9 @@ msgid "Displaying notes"
 msgstr ""
 
 msgid "update"
+msgstr ""
+
+msgid "Edit note summary"
 msgstr ""
 
 msgid "Importing notes, last step"

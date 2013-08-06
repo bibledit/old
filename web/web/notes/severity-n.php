@@ -23,35 +23,22 @@ page_access_level (CONSULTANT_LEVEL);
 
 
 $database_notes = Database_Notes::getInstance();
-$database_bibles = Database_Bibles::getInstance();
+$notes_logic = Notes_Logic::getInstance();
+$database_users = Database_Users::getInstance();
 
 
-$id = $_GET ['id'];
-
-
-@$bible = $_GET['bible'];
-if (isset ($bible)) {
-  $database_notes->setBible ($id, $bible);
-  header ("Location: actions.php?id=$id");
-  die;
-}
-
-
-$assets_header = new Assets_Header (gettext ("Bibles"));
-$assets_header->run();
+$header = new Assets_Header (gettext ("Severity"));
+$header->run();
 
 
 $view = new Assets_View (__FILE__);
 
 
-$view->view->id = $id;
+$severities = $database_notes->getPossibleSeverities ();
+$view->view->severities = $severities;
 
 
-$bibles = $database_bibles->getBibles ();
-$view->view->bibles = $bibles;
-
-
-$view->render ("bibles.php");
+$view->render ("severity-n.php");
 
 
 Assets_Page::footer ();
