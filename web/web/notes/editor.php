@@ -85,13 +85,6 @@ class Notes_Editor
       $displayconsultationnoteactions = false;
       $bulkupdateconsultationnotes = false;
     }
-    // This forwards links in emails to the new page for displaying one note.
-    // It can go out as from bibledit-web version 1.2.
-    if (isset ($_GET['consultationnote'])) {
-      $id = $_GET['consultationnote'];
-      header ("Location: ../notes/note.php?id=$id");
-      die;
-    }
     @$database_sessions->setConsultationNote ($consultationnote);
     $database_sessions->setDisplayConsultationNoteActions ($displayconsultationnoteactions);
     $database_sessions->setEditConsultationNoteView ($editconsultationnoteview);

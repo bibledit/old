@@ -63,7 +63,12 @@ if (isset ($preset_selector)) {
 }
 
 
-// Todo temporal forward to old notes display.
-$query = http_build_query ($_GET);
-header ("Location: ../consultations/notes.php?$query");
+$header = new Assets_Header (gettext ("Consultation Notes"));
+$header->run();
+
+
+
+Assets_Page::footer ();
+
+
 ?>
