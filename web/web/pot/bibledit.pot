@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-06 01:42+0200\n"
+"POT-Creation-Date: 2013-08-07 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5689,51 +5689,6 @@ msgstr ""
 msgid "Search text saved"
 msgstr ""
 
-msgid "You subscribed to these notes"
-msgstr ""
-
-msgid "You unsubscribed from these notes"
-msgstr ""
-
-msgid "Would you like to assign these notes to a user?"
-msgstr ""
-
-msgid "The notes were assigned to the user"
-msgstr ""
-
-msgid "Would you like to remove the assignment of these notes to a user?"
-msgstr ""
-
-msgid "The notes are no longer assigned to the user"
-msgstr ""
-
-msgid "Would you like to change the status of these notes?"
-msgstr ""
-
-msgid "The status of the notes was updated"
-msgstr ""
-
-msgid "Would you like to change the severity of these notes?"
-msgstr ""
-
-msgid "The severity of the notes was updated"
-msgstr ""
-
-msgid "Would you like to assign these notes to another Bible?"
-msgstr ""
-
-msgid "Make it a general note which does not apply to any particular Bible"
-msgstr ""
-
-msgid "The Bible of the notes was updated"
-msgstr ""
-
-msgid "Would you like to delete the notes?"
-msgstr ""
-
-msgid "The notes were deleted"
-msgstr ""
-
 msgid "This view does not display any notes."
 msgstr ""
 
@@ -5779,6 +5734,39 @@ msgstr ""
 msgid "Your new note was posted"
 msgstr ""
 
+msgid "Bulk update"
+msgstr ""
+
+msgid "You subscribed to these notes"
+msgstr ""
+
+msgid "You unsubscribed from these notes"
+msgstr ""
+
+msgid "The notes were assigned to the user"
+msgstr ""
+
+msgid "The notes are no longer assigned to the user"
+msgstr ""
+
+msgid "The status of the notes was updated"
+msgstr ""
+
+msgid "The severity of the notes was updated"
+msgstr ""
+
+msgid "The Bible of the notes was updated"
+msgstr ""
+
+msgid "Would you like to delete the notes?"
+msgstr ""
+
+msgid "The notes were deleted"
+msgstr ""
+
+msgid "Severity"
+msgstr ""
+
 msgid "Note"
 msgstr ""
 
@@ -5798,6 +5786,9 @@ msgid "Could not find the folder with the consultation notes"
 msgstr ""
 
 msgid "Note actions"
+msgstr ""
+
+msgid "Assign note"
 msgstr ""
 
 msgid "Create note"
@@ -5827,9 +5818,6 @@ msgstr ""
 msgid "Edit the verses?"
 msgstr ""
 
-msgid "Assign this note to another Bible"
-msgstr ""
-
 msgid "Importing notes, step 3"
 msgstr ""
 
@@ -5851,12 +5839,16 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-msgid "Bulk Update Consultation Notes"
+msgid "Notes Bulk Update"
 msgstr ""
 
-msgid ""
-"This function is powerful. It can update many notes at once, with one click "
-"of the mouse. Changes made here are not easily reverted."
+msgid "This function is powerful."
+msgstr ""
+
+msgid "One mouse click can update many notes at once."
+msgstr ""
+
+msgid "Changes made here are not easily reverted."
 msgstr ""
 
 msgid "Amount of notes to be updated in one go:"
@@ -5871,16 +5863,13 @@ msgstr ""
 msgid "Assign the notes to somebody"
 msgstr ""
 
-msgid "Unassign the note from somebody"
+msgid "Unassign the notes from somebody"
 msgstr ""
 
 msgid "Change the status of the notes"
 msgstr ""
 
 msgid "Change the severity of the notes"
-msgstr ""
-
-msgid "Change the visibility of the notes"
 msgstr ""
 
 msgid "Change the Bible of the notes"
@@ -5890,6 +5879,9 @@ msgid "Delete the notes"
 msgstr ""
 
 msgid "Back to notes list"
+msgstr ""
+
+msgid "Update the severity of this note"
 msgstr ""
 
 msgid "Actions"
@@ -5926,6 +5918,9 @@ msgid "Displaying notes"
 msgstr ""
 
 msgid "update"
+msgstr ""
+
+msgid "Update the severity of the notes"
 msgstr ""
 
 msgid "Edit note summary"
@@ -5986,9 +5981,6 @@ msgstr ""
 msgid "Verses"
 msgstr ""
 
-msgid "Severity"
-msgstr ""
-
 msgid "This is a general note, it does not apply to any specific Bible"
 msgstr ""
 
@@ -5996,6 +5988,9 @@ msgid "Identifier"
 msgstr ""
 
 msgid "Delete this note"
+msgstr ""
+
+msgid "Select the user to assign the note to"
 msgstr ""
 
 msgid "Create consultation note for"
@@ -6037,6 +6032,9 @@ msgstr ""
 msgid ""
 "Duplicates may occur for various reasons. One reason could be that a set of "
 "notes has been imported more than once."
+msgstr ""
+
+msgid "Select the user to unassign the notes from"
 msgstr ""
 
 msgid "Importing notes"
@@ -6266,7 +6264,13 @@ msgstr ""
 msgid "display all selected notes for this once"
 msgstr ""
 
-msgid "Select the user to assign the note to"
+msgid "Assign the notes to another Bible"
+msgstr ""
+
+msgid "Select the user to assign the notes to"
+msgstr ""
+
+msgid "Select the new status for the note"
 msgstr ""
 
 msgid "There was a problem uploading the file."
@@ -6275,10 +6279,10 @@ msgstr ""
 msgid "You can go back to retry it."
 msgstr ""
 
-msgid "Update the severity of this note"
+msgid "Select the new status for the notes"
 msgstr ""
 
-msgid "Select the new status for the note"
+msgid "Assign this note to another Bible"
 msgstr ""
 
 msgid "Removal of duplicate consultation notes has started"
@@ -6296,10 +6300,19 @@ msgstr ""
 msgid "Removal of duplicate consultation notes has finished"
 msgstr ""
 
-msgid "Assign note"
+msgid "Unassign notes"
+msgstr ""
+
+msgid "no Bible"
+msgstr ""
+
+msgid "Assign notes"
 msgstr ""
 
 msgid "Note status"
+msgstr ""
+
+msgid "Notes status"
 msgstr ""
 
 msgid "Downloads"

@@ -1,25 +1,21 @@
 <?php
-/**
-* @package bibledit
-*/
 /*
- ** Copyright (©) 2003-2013 Teus Benschop.
- **
- ** This program is free software; you can redistribute it and/or modify
- ** it under the terms of the GNU General Public License as published by
- ** the Free Software Foundation; either version 3 of the License, or
- ** (at your option) any later version.
- **  
- ** This program is distributed in the hope that it will be useful,
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ** GNU General Public License for more details.
- **  
- ** You should have received a copy of the GNU General Public License
- ** along with this program; if not, write to the Free Software
- ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- **  
- */
+Copyright (©) 2003-2013 Teus Benschop.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+  
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+  
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
 
 require_once ("../bootstrap/bootstrap.php");
@@ -78,7 +74,7 @@ foreach ($users as $user) {
       0,     // Text selector.
       "",    // Search text.
       NULL); // Limit.
-    $body [] = "<p><a href=\"$siteUrl/consultations/notes.php?presetselection=assigned\">" . gettext ("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/notes/index.php?presetselection=assigned\">" . gettext ("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
@@ -103,7 +99,7 @@ foreach ($users as $user) {
       0,     // Text selector.
       "",    // Search text.
       NULL); // Limit.
-    $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribed\">" . gettext ("Total") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribed\">" . gettext ("Total") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       "",    // Bible.
       0,     // Book
@@ -120,7 +116,7 @@ foreach ($users as $user) {
       0,     // Text selector.
       "",    // Search text.
       NULL); // Limit.
-    $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribeddayidle\">" . gettext ("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribeddayidle\">" . gettext ("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       "",    // Bible.
       0,     // Book
@@ -137,7 +133,7 @@ foreach ($users as $user) {
       0,     // Text selector.
       "",    // Search text.
       NULL); // Limit.
-    $body [] = "<li><a href=\"$siteUrl/consultations/notes.php?presetselection=subscribedweekidle\">" . gettext ("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribedweekidle\">" . gettext ("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
     $body [] = "</ul>\n";
     $_SESSION['user'] = $storeUser;
   }
