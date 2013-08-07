@@ -23,12 +23,12 @@ page_access_level (CONSULTANT_LEVEL);
 
 
 $database_notes = Database_Notes::getInstance();
-$database_sessions = Database_Sessions::getInstance();
 $database_config_user = Database_Config_User::getInstance();
+$database_bibles = Database_Bibles::getInstance();
 
 
 $notes_logic = Notes_Logic::getInstance();
-$session_logic = Session_Logic::getInstance();
+$ipc_focus = Ipc_Focus::getInstance ();
 
 
 // Presets for notes selectors.
@@ -63,9 +63,84 @@ if (isset ($preset_selector)) {
 }
 
 
+$bible = $database_config_user->getBible();
+$book = $ipc_focus->getBook();
+$chapter = $ipc_focus->getChapter();
+$verse = $ipc_focus->getVerse();
+
+
+$passage_selector = $database_config_user->getConsultationNotesPassageSelector();
+$edit_selector = $database_config_user->getConsultationNotesEditSelector();
+$non_edit_selector = $database_config_user->getConsultationNotesNonEditSelector();
+$status_selector = $database_config_user->getConsultationNotesStatusSelector();
+$bible_selector = $database_config_user->getConsultationNotesBibleSelector();
+$assignment_selector = $database_config_user->getConsultationNotesAssignmentSelector();
+$subscription_selector = $database_config_user->getConsultationNotesSubscriptionSelector();
+$severity_selector = $database_config_user->getConsultationNotesSeveritySelector();
+$text_selector = $database_config_user->getConsultationNotesTextSelector();
+$search_text = $database_config_user->getConsultationNotesSearchText();
+$passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();
+$text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector();
+
+
 $header = new Assets_Header (gettext ("Consultation Notes"));
 $header->run();
 
+
+
+
+$view = new Assets_View (__FILE__);
+
+
+$identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
+$view->view->identifiers = $identifiers;
+
+
+$count = count ($identifiers);
+$view->view->count = $count;
+
+
+$summaries = array ();
+$verse_texts = array ();
+$contents = array ();
+foreach ($identifiers as $identifier) {
+
+  $summary = $database_notes->getSummary ($identifier);
+
+  $passages = $database_notes->getPassages ($identifier);
+  $verses = Filter_Books::passagesDisplayInline ($passages);
+  $summaries[] = $summary . " | " . $verses;
+
+  $verse_text = "";
+  if ($passage_inclusion_selector) {
+    $passages = $database_notes->getPassages ($identifier);
+    foreach ($passages as $passage) {
+      $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
+      $text = Filter_Usfm::getVerseText ($usfm, $passage[2]);
+      $verse_text .= $text;
+      $verse_text .= "\n";
+    }
+  }
+  $verse_texts [] = nl2br ($verse_text);
+
+  $content = "";
+  if ($text_inclusion_selector) {
+    $content = $database_notes->getContents ($identifier);
+  }
+  $contents[] = $content;
+
+}
+$view->view->summaries = $summaries;
+$view->view->versetexts = $verse_texts;
+$view->view->contents = $contents;
+
+
+$view->render ("index.php");
+
+
+if ($count == 0) {
+  Assets_Page::message (gettext ("This view does not display any notes."));
+}
 
 
 Assets_Page::footer ();
