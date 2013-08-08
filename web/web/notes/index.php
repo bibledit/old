@@ -87,8 +87,6 @@ $header = new Assets_Header (gettext ("Consultation Notes"));
 $header->run();
 
 
-
-
 $view = new Assets_View (__FILE__);
 
 

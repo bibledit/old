@@ -14,8 +14,7 @@ class Dialog_Yes2
   public function __construct ($question, $action)
   {
     $this->view = new Assets_View (__FILE__);
-    $database_sessions = Database_Sessions::getInstance ();
-    $caller_url = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ("session" => $database_sessions->getCurrentSessionId ()));
+    $caller_url = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ());
     $this->view->view->caller_url = $caller_url;
     $this->view->view->action = $action;
     $this->view->view->question = $question;

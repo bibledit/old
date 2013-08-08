@@ -81,10 +81,6 @@ $database->optimize();
 $database = Database_Repositories::getInstance();
 $database->optimize();
 
-$database = Database_Sessions::getInstance ();
-$database->trim ();
-$database->optimize();
-
 $database = Database_Notes::getInstance();
 $database->optimize();
 

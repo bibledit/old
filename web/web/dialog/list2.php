@@ -14,8 +14,7 @@ class Dialog_List2
   public function __construct ($header)
   {
     $this->view = new Assets_View (__FILE__);
-    $database_sessions = Database_Sessions::getInstance ();
-    $caller_url = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ("session" => $database_sessions->getCurrentSessionId ()));
+    $caller_url = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ());
     $this->view->view->caller_url = $caller_url;
     $this->view->view->header = $header;
     $this->view->view->info_top = gettext ("Here are the various options:");

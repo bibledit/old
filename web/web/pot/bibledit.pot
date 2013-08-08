@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-07 01:42+0200\n"
+"POT-Creation-Date: 2013-08-08 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5689,9 +5689,6 @@ msgstr ""
 msgid "Search text saved"
 msgstr ""
 
-msgid "This view does not display any notes."
-msgstr ""
-
 msgid "Note passages"
 msgstr ""
 
@@ -5792,6 +5789,9 @@ msgid "Assign note"
 msgstr ""
 
 msgid "Create note"
+msgstr ""
+
+msgid "This view does not display any notes."
 msgstr ""
 
 msgid "Import consultation notes has started"
@@ -5914,12 +5914,6 @@ msgid ""
 "Enter the identifier of the Consultation Note to be edited and press Submit."
 msgstr ""
 
-msgid "Displaying notes"
-msgstr ""
-
-msgid "update"
-msgstr ""
-
 msgid "Update the severity of the notes"
 msgstr ""
 
@@ -5997,6 +5991,9 @@ msgid "Create consultation note for"
 msgstr ""
 
 msgid "Body"
+msgstr ""
+
+msgid "update"
 msgstr ""
 
 msgid "Add a comment to this note:"
@@ -6141,7 +6138,25 @@ msgid ""
 "too slow."
 msgstr ""
 
-msgid "Edit Notes Display"
+msgid "Assign the notes to another Bible"
+msgstr ""
+
+msgid "Select the user to assign the notes to"
+msgstr ""
+
+msgid "Select the new status for the note"
+msgstr ""
+
+msgid "There was a problem uploading the file."
+msgstr ""
+
+msgid "You can go back to retry it."
+msgstr ""
+
+msgid "Select the new status for the notes"
+msgstr ""
+
+msgid "Select Notes"
 msgstr ""
 
 msgid "Select notes that refer to:"
@@ -6252,34 +6267,7 @@ msgstr ""
 msgid "Include the note text"
 msgstr ""
 
-msgid "Ok, I have finished"
-msgstr ""
-
-msgid "display the notes list"
-msgstr ""
-
-msgid "or"
-msgstr ""
-
-msgid "display all selected notes for this once"
-msgstr ""
-
-msgid "Assign the notes to another Bible"
-msgstr ""
-
-msgid "Select the user to assign the notes to"
-msgstr ""
-
-msgid "Select the new status for the note"
-msgstr ""
-
-msgid "There was a problem uploading the file."
-msgstr ""
-
-msgid "You can go back to retry it."
-msgstr ""
-
-msgid "Select the new status for the notes"
+msgid "Display the notes list"
 msgstr ""
 
 msgid "Assign this note to another Bible"
@@ -6313,6 +6301,9 @@ msgid "Note status"
 msgstr ""
 
 msgid "Notes status"
+msgstr ""
+
+msgid "Select notes"
 msgstr ""
 
 msgid "Downloads"
@@ -6537,17 +6528,6 @@ msgid ""
 msgstr ""
 
 msgid "Would you like to delete this book?"
-msgstr ""
-
-msgid "The line was saved."
-msgstr ""
-
-msgid ""
-"The text was not valid Unicode UTF-8. The chapter could not saved and has "
-"been reverted to the last good version."
-msgstr ""
-
-msgid "This chapter does not exist or is empty"
 msgstr ""
 
 msgid "Would you like to delete this versification system?"

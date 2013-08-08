@@ -1,5 +1,5 @@
 <p>
-  <a href="edit.php"><?php echo gettext ("Notes") ?>: <?php echo $this->count ?></a>
+  <a href="select.php"><?php echo gettext ("Notes") ?>: <?php echo $this->count ?></a>
   <?php if ($this->level >= 5) { ?>
     |
     [<a href="bulk.php"><?php echo gettext ("update") ?></a>]

@@ -18,8 +18,6 @@ class Dialog_Text
   {
     $this->view = new Assets_View (__FILE__);
     $this->view->view->caller = $_SERVER["PHP_SELF"];
-    $database_sessions = Database_Sessions::getInstance ();
-    $this->view->view->session = $database_sessions->getCurrentSessionId ();
     $this->view->view->header = $header;
     $this->view->view->parameter = $parameter;
     $this->view->view->text = $text;

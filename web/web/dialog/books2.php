@@ -14,8 +14,7 @@ class Dialog_Books2
   public function __construct ($header, $info_top, $info_bottom, $action, $inclusions, $exclusions)
   {
     $this->view = new Assets_View (__FILE__);
-    $database_sessions = Database_Sessions::getInstance();
-    $caller = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ("session" => $database_sessions->getCurrentSessionId ()));
+    $caller = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ());
     $this->view->view->caller = $caller;
     $this->view->view->header = $header;
     $this->view->view->info_top = $info_top;
