@@ -146,7 +146,9 @@ function expandEntry () {
   // Navigate to the passage of the entry.
   $.post ("changes.php", { navigate:selectedID });
   // Get extra information through AJAX calls.
+  $(".selected").append ($ ("<div>" + loading + "</div>"));
   $.get ("change.php?get=" + selectedID, function (response) {
+    $(".selected > div").remove ();
     var extraInfo = $ ("<div>" + response + "</div>");
     $(".selected").append (extraInfo);
     var viewportHeight = $(window).height ();

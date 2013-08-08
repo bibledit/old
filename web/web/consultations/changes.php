@@ -74,10 +74,14 @@ $view->view->passages = $passages;
 $view->view->modifications = $modifications;
 
 
+$loading = '"' . gettext ("Loading ...") . '"';
+
+
 $script = <<<EOD
 var firstID = $firstID;
 var lastID = $lastID;
 var selectedID = $firstID;
+var loading = $loading;
 EOD;
 $view->view->script = $script;
 
