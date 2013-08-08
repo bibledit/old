@@ -4,9 +4,9 @@
     <?php echo $this->passage ?>
   </p>
   <p><?php echo gettext ("Summary") ?>:</p>
-  <p><input type="text" name="summary" maxlength="100" class="fullwidth" /></p>
+  <p><input type="text" name="summary" maxlength="100" class="fullwidth" value="<?php echo $this->summary ?>"/></p>
   <p><?php echo gettext ("Body") ?>: </p>
-  <p><textarea name="contents" class="rte-zone"></textarea></p>
+  <textarea name="contents" class="rte-zone"><?php echo $this->contents ?></textarea>
   <p>
     <input type="submit" name="submit" value=<?php echo gettext ("Save") ?> onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" />
     <input type="submit" name="cancel" value=<?php echo gettext ("Cancel") ?> />

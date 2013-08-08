@@ -28,6 +28,6 @@
 <p>
   <a href="../editusfm/index.php" target="_blank"><?php echo gettext ("Edit text") ?></a>
   |
-  <a href="change.php?createnote=<?php echo $this->id ?>" target="_blank"><?php echo gettext ("Create note") ?></a>
+  <a href="../notes/create.php?fromchange=<?php echo $this->id ?>" target="_blank"><?php echo gettext ("Create note") ?></a>
 </p>
 <br>

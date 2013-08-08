@@ -31,10 +31,7 @@ $ipc_focus = Ipc_Focus::getInstance();
 // Is is possible to pass a Bible to this script.
 // The note will then be created for this Bible.
 // If no Bible is passed, it takes the user's active Bible.
-@$bible = $_GET ['bible'];
-if ($bible == "") {
-  @$bible = $_POST ['bible'];
-}
+@$bible = $_POST ['bible'];
 if ($bible == "") {
   $bible = $database_config_user->getBible ();
 }
@@ -76,6 +73,26 @@ $assets_header->run();
 
 
 $view = new Assets_View (__FILE__);
+
+
+// This script can be called from a change notification.
+// It will then create a note based on that change notification.
+@$fromchange = $_GET ['fromchange'];
+if (isset ($fromchange)) {
+  $database_changes = Database_Changes::getInstance ();
+  $database_bibles = Database_Bibles::getInstance ();
+  $bible = $database_changes->getBible ($fromchange);
+  $bible = $database_bibles->getName ($bible);
+  $summary = gettext ("Query about a change in the text");
+  $contents = "<p>" . gettext ("Old text:") . "</p>";
+  $contents .= $database_changes->getOldText ($fromchange);
+  $contents .= "<p>" .  gettext ("Change:") . "</p>";
+  $contents .= "<p>" . $database_changes->getModification ($fromchange) . "</p>";
+  $contents .= "<p>" . gettext ("New text:") . "</p>";
+  $contents .= $database_changes->getNewText ($fromchange);
+  $view->view->summary = $summary;
+  $view->view->contents = $contents;
+}
 
 
 $view->view->bible = $bible;

@@ -8,7 +8,7 @@
 <p>Improved passage detection when editing the passage of a consultation note.</p>
 <p>Better user experience while dealing with consultation notes.</p>
 <p>Privacy handling was removed from the consultation notes.</p>
-<p></p>
+<p>Creating a consultation note from a change notification allows the summary and content to be edited.</p>
 <p></p>
 <p></p>
 <p></p>

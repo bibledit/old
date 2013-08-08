@@ -38,28 +38,7 @@ if (isset ($delete)) {
 }
 
 
-// Note create handler.
-@$create = $_GET['createnote'];
-if (isset ($create)) {
-  $bible = $database_changes->getBible ($create);
-  $database_bibles = Database_Bibles::getInstance ();
-  $bible = $database_bibles->getName ($bible);
-  $passage = $database_changes->getPassage ($create);
-  $summary = gettext ("Query about a change in the text");
-  $contents = "<p>" . gettext ("Old text:") . "</p>";
-  $contents .= $database_changes->getOldText ($create);
-  $contents .= "<p>" .  gettext ("Change:") . "</p>";
-  $contents .= "<p>" . $database_changes->getModification ($create) . "</p>";
-  $contents .= "<p>" . gettext ("New text:") . "</p>";
-  $contents .= $database_changes->getNewText ($create);
-  $newNoteID = $database_notes->storeNewNote ($bible, $passage['book'], $passage['chapter'], $passage['verse'], $summary, $contents, true);
-  $notes_logic->handlerNewNote ($newNoteID);
-  header ("Location: ../notes/comment.php?id=$newNoteID");
-  die;
-}
-
-
-// From here and down the script will produce output.
+// From here on the script will produce output.
 $view = new Assets_View (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
