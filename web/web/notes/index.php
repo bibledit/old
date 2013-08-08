@@ -91,59 +91,11 @@ $header->run();
 $view = new Assets_View (__FILE__);
 
 
-$identifiers = $database_notes->selectNotes($bible, $book, $chapter, $verse, $passage_selector, $edit_selector, $non_edit_selector, $status_selector, $bible_selector, $assignment_selector, $subscription_selector, $severity_selector, $text_selector, $search_text, NULL);
-$view->view->identifiers = $identifiers;
-
-
-$count = count ($identifiers);
-$view->view->count = $count;
-
-
-$summaries = array ();
-$verse_texts = array ();
-$contents = array ();
-foreach ($identifiers as $identifier) {
-
-  $summary = $database_notes->getSummary ($identifier);
-
-  $passages = $database_notes->getPassages ($identifier);
-  $verses = Filter_Books::passagesDisplayInline ($passages);
-  $summaries[] = $summary . " | " . $verses;
-
-  $verse_text = "";
-  if ($passage_inclusion_selector) {
-    $passages = $database_notes->getPassages ($identifier);
-    foreach ($passages as $passage) {
-      $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
-      $text = Filter_Usfm::getVerseText ($usfm, $passage[2]);
-      $verse_text .= $text;
-      $verse_text .= "\n";
-    }
-  }
-  $verse_texts [] = nl2br ($verse_text);
-
-  $content = "";
-  if ($text_inclusion_selector) {
-    $content = $database_notes->getContents ($identifier);
-  }
-  $contents[] = $content;
-
-}
-$view->view->summaries = $summaries;
-$view->view->versetexts = $verse_texts;
-$view->view->contents = $contents;
-
-
 $view->view->navigationHtml = Navigation_Logic::getContainer ();
 $view->view->navigationCode = Navigation_Logic::code ($bible);
 
 
 $view->render ("index.php");
-
-
-if ($count == 0) {
-  Assets_Page::message (gettext ("This view does not display any notes."));
-}
 
 
 Assets_Page::footer ();
