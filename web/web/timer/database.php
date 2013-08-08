@@ -100,6 +100,9 @@ $database = Database_Changes::getInstance ();
 $database->trim ();
 $database->optimize();
 
+$database = Database_Menu::getInstance ();
+$database->optimize();
+
 $database_logs->log ("database: Completed");
 
 ?>
