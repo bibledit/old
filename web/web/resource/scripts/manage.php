@@ -27,7 +27,7 @@
 <p><?php echo gettext ("You can delete a USFM resource.") ?></p>
 <p>
   <?php echo gettext ("You can convert a USFM resource back to a Bible.") ?>
-  <?php echo gettext ("Progress will be visilble in the logbook.") ?>
+  <?php echo gettext ("Progress will be visible in the logbook.") ?>
 </p>
 <link rel="stylesheet" href="../jquery/smoothness/jquery-ui-1.10.3.css" />
 <script type="text/javascript" src="manage.js"></script>
