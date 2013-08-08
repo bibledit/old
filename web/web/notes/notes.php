@@ -31,38 +31,6 @@ $notes_logic = Notes_Logic::getInstance();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-// Presets for notes selectors.
-// Used by the daily statistics.
-@$preset_selector = $_GET ['presetselection'];
-if (isset ($preset_selector)) {
-  $database_config_user->setConsultationNotesPassageSelector (3);
-  $database_config_user->setConsultationNotesEditSelector (0);
-  $database_config_user->setConsultationNotesNonEditSelector (0);
-  $database_config_user->setConsultationNotesStatusSelector ("");
-  $database_config_user->setConsultationNotesBibleSelector ("");
-  $database_config_user->setConsultationNotesAssignmentSelector ("");
-  $database_config_user->setConsultationNotesSubscriptionSelector (0);
-  $database_config_user->setConsultationNotesSeveritySelector (-1);
-  $database_config_user->setConsultationNotesTextSelector (0);
-  switch ($preset_selector) {
-    case "assigned":
-      $database_config_user->setConsultationNotesAssignmentSelector ($session_logic->currentUser ());
-      break;
-    case "subscribed":
-      $database_config_user->setConsultationNotesSubscriptionSelector (1);
-      break;
-    case "subscribeddayidle":
-      $database_config_user->setConsultationNotesSubscriptionSelector (1);
-      $database_config_user->setConsultationNotesNonEditSelector (1);
-      break;
-    case "subscribedweekidle":
-      $database_config_user->setConsultationNotesSubscriptionSelector (1);
-      $database_config_user->setConsultationNotesNonEditSelector (3);
-      break;
-  }
-}
-
-
 $bible = $database_config_user->getBible();
 $book = $ipc_focus->getBook();
 $chapter = $ipc_focus->getChapter();
@@ -81,11 +49,6 @@ $text_selector = $database_config_user->getConsultationNotesTextSelector();
 $search_text = $database_config_user->getConsultationNotesSearchText();
 $passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();
 $text_inclusion_selector = $database_config_user->getConsultationNotesTextInclusionSelector();
-
-
-$header = new Assets_Header (gettext ("Consultation Notes"));
-$header->jQueryOn ();
-$header->run();
 
 
 $view = new Assets_View (__FILE__);
@@ -134,19 +97,12 @@ $view->view->versetexts = $verse_texts;
 $view->view->contents = $contents;
 
 
-$view->view->navigationHtml = Navigation_Logic::getContainer ();
-$view->view->navigationCode = Navigation_Logic::code ($bible);
-
-
-$view->render ("index.php");
+$view->render ("notes.php");
 
 
 if ($count == 0) {
   Assets_Page::message (gettext ("This view does not display any notes."));
 }
-
-
-Assets_Page::footer ();
 
 
 ?>

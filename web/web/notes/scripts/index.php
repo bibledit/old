@@ -1,4 +1,6 @@
 <p>
+  <span><?php echo $this->navigationHtml ?></span>
+  |
   <a href="select.php"><?php echo gettext ("Notes") ?>: <?php echo $this->count ?></a>
   <?php if ($this->level >= 5) { ?>
     |
@@ -7,9 +9,7 @@
   |
   <a href="create.php"><?php echo gettext ("Create note") ?></a>  
 </p>
-<?php foreach ($this->identifiers as $offset => $identifier) { ?>
-  <a name="note<?php echo $this->identifiers[$offset] ?>"></a>
-  <p><a href="note.php?id=<?php echo $this->identifiers[$offset] ?>"><?php echo $this->summaries[$offset] ?></a></p>
-  <p><?php echo $this->versetexts[$offset] ?></p>
-  <p><?php echo $this->contents[$offset] ?></p>
-<?php } ?>
+<br>
+<div id="noteslist"><?php echo gettext ("Loading...") ?></div>
+<script type="text/javascript" src="index.js"></script>
+<?php echo $this->navigationCode; ?>
