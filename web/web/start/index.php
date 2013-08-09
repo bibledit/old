@@ -49,32 +49,39 @@ $fullmenu = array (
   "notes/import1" => "[" . gettext ("import") . "]"
 ),
 "changes" => array (
-  "consultations/changes" => gettext ("Changes"),
+  "downloads/changes" => gettext ("Changes"),
+  "consultations/changes" => "[" . gettext ("notifications") . "]",
   "manage/changes" => "[" . gettext ("manage") . "]"
 ),
 "resources" => array (
-  "resource/index" => gettext ("Resources")
+  "resource/index" => gettext ("Resources"),
+  "resource/manage" => "[" . gettext ("manage") . "]",
+  "resource/admin" => "[" . gettext ("admin") . "]"
 ),
 "translation" => array (
   "translate/index" => gettext ("Translation")
+),
+"exports" => array (
+  "downloads/exports" => gettext ("Exports"),
+  "manage/exports" => "[" . gettext ("manage") . "]"
 ),
 "management" => array (
   "manage/sendreceive" => gettext ("Receive/Send"),
   "manage/logbook" => gettext ("Logbook"),
   "manage/users" => gettext ("Users"),
   "bible/manage" => gettext ("Bibles"),
-  "manage/exports" => gettext ("Exports"),
   "versification/index" => gettext ("Versifications"),
   "styles/indexm" => gettext ("Styles"),
   "manage/hyphenation" => gettext ("Hyphenation"),
-  "checks/settings" => gettext ("Checks"),
-  "resource/manage" => gettext ("USFM Resources")
+  "checks/settings" => gettext ("Checks")
 ),
 "administration" => array (
-  "administration/index" => gettext ("Administration")
-),
-"members" => array (
-  "members/index" => gettext ("Members")
+  "administration/collaboration" => gettext ("Collaboration"),
+  "administration/mail" => gettext ("Mail"),
+  "administration/backup" => gettext ("Backup/Restore"),
+  "administration/timezone" => gettext ("Timezone"),
+  "administration/language" => gettext ("Language"),
+  "administration/phpinfo" => gettext ("PHPInfo")
 ),
 "help" => array (
   "help/index" => gettext ("Help")
@@ -93,7 +100,8 @@ $user = $session_logic->currentUser ();
 if (isset ($url)) {
   $category = $_GET ['category'];
   $database_menu->increaseAccessCount ($user, $category);
-  header ("Location: ../$url.php");
+  if (strpos ($url, "downloads") === false) $url .= ".php";
+  header ("Location: ../$url");
   die;
 }
 
@@ -118,7 +126,7 @@ foreach ($hits as $category => $count) {
   $usersubmenu = array ();
   $submenu = $fullmenu [$category];
   foreach ($submenu as $url => $text) {
-    $contents = file_get_contents ("../$url.php");
+    @$contents = file_get_contents ("../$url.php");
     $menu_level = 0;
     if (strpos ($contents, "GUEST_LEVEL")      !== false) $menu_level = GUEST_LEVEL;
     if (strpos ($contents, "MEMBER_LEVEL")     !== false) $menu_level = MEMBER_LEVEL;
