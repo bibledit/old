@@ -22,10 +22,10 @@ class Database_Menu
   }
   
 
-  public function getAccessCount ($user, $url) {
+  public function getAccessCount ($user, $category) {
     $user = Database_SQLInjection::no ($user);
-    $url = Database_SQLInjection::no ($url);
-    $query = "SELECT hits FROM menu WHERE username = '$user' AND url = '$url';";
+    $category = Database_SQLInjection::no ($category);
+    $query = "SELECT hits FROM menu WHERE username = '$user' AND category = '$category';";
     $server = Database_Instance::getInstance ();
     $result = $server->runQuery ($query);
     if ($result->num_rows == 0) return 0;
@@ -36,15 +36,15 @@ class Database_Menu
   }   
 
 
-  public function increaseAccessCount ($user, $url) {
-    $count = $this->getAccessCount ($user, $url);
+  public function increaseAccessCount ($user, $category) {
+    $count = $this->getAccessCount ($user, $category);
     $user = Database_SQLInjection::no ($user);
-    $url = Database_SQLInjection::no ($url);
+    $category = Database_SQLInjection::no ($category);
     if ($count == 0) {
-      $query = "INSERT INTO menu VALUES (NULL, '$user', '$url', 1)";
+      $query = "INSERT INTO menu VALUES (NULL, '$user', '$category', 1)";
     } else {
       $count++;
-      $query = "UPDATE menu SET hits = $count WHERE username = '$user' AND url = '$url';";
+      $query = "UPDATE menu SET hits = $count WHERE username = '$user' AND category = '$category';";
     }
     $server = Database_Instance::getInstance ();
     $server->runQuery ($query);

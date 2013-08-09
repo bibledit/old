@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-08 01:42+0200\n"
+"POT-Creation-Date: 2013-08-09 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -467,19 +467,7 @@ msgstr ""
 msgid "Bible"
 msgstr ""
 
-msgid "Administration"
-msgstr ""
-
-msgid "Translation"
-msgstr ""
-
-msgid "Consultations"
-msgstr ""
-
-msgid "Members"
-msgstr ""
-
-msgid "Help"
+msgid "Start"
 msgstr ""
 
 msgid "Login"
@@ -489,27 +477,6 @@ msgid "Search"
 msgstr ""
 
 msgid "Searching"
-msgstr ""
-
-msgid "Go to"
-msgstr ""
-
-msgid "chapter"
-msgstr ""
-
-msgid "verse"
-msgstr ""
-
-msgid "Would you like to change to another Bible?"
-msgstr ""
-
-msgid "Go to another book"
-msgstr ""
-
-msgid "Go to another chapter"
-msgstr ""
-
-msgid "Go to another verse"
 msgstr ""
 
 msgid "Would you like to switch to another stylesheet?"
@@ -1066,6 +1033,12 @@ msgid "Typesetting in InDesign"
 msgstr ""
 
 msgid "Introduction"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Consultations"
 msgstr ""
 
 msgid "Scrum-based Translation"
@@ -3826,6 +3799,9 @@ msgstr ""
 msgid "The check result will no longer be suppressed."
 msgstr ""
 
+msgid "Translation"
+msgstr ""
+
 msgid "Text"
 msgstr ""
 
@@ -4090,6 +4066,18 @@ msgid "Return to text"
 msgstr ""
 
 msgid "Search the Bible"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "Administration"
+msgstr ""
+
+msgid "Members"
 msgstr ""
 
 msgid ""
@@ -5154,9 +5142,6 @@ msgid ""
 "cryptic at times. Please enter the correct details for this to work."
 msgstr ""
 
-msgid "Resources"
-msgstr ""
-
 msgid "Backup and Restore"
 msgstr ""
 
@@ -5626,7 +5611,7 @@ msgstr ""
 msgid "You can convert a USFM resource back to a Bible."
 msgstr ""
 
-msgid "Progress will be visilble in the logbook."
+msgid "Progress will be visible in the logbook."
 msgstr ""
 
 msgid "External resources"
@@ -5684,9 +5669,6 @@ msgid "Cancel"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
-
-msgid "Search text saved"
 msgstr ""
 
 msgid "Note passages"
@@ -5776,6 +5758,9 @@ msgstr ""
 msgid "Unknown Note Identifier"
 msgstr ""
 
+msgid "This view does not display any notes."
+msgstr ""
+
 msgid "Note summary"
 msgstr ""
 
@@ -5791,7 +5776,16 @@ msgstr ""
 msgid "Create note"
 msgstr ""
 
-msgid "This view does not display any notes."
+msgid "Query about a change in the text"
+msgstr ""
+
+msgid "Old text:"
+msgstr ""
+
+msgid "Change:"
+msgstr ""
+
+msgid "New text:"
 msgstr ""
 
 msgid "Import consultation notes has started"
@@ -5810,9 +5804,6 @@ msgid "This is not a note"
 msgstr ""
 
 msgid "Import consultation notes has finished"
-msgstr ""
-
-msgid "Notes"
 msgstr ""
 
 msgid "Edit the verses?"
@@ -5993,7 +5984,13 @@ msgstr ""
 msgid "Body"
 msgstr ""
 
+msgid "select"
+msgstr ""
+
 msgid "update"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Add a comment to this note:"
@@ -6306,6 +6303,9 @@ msgstr ""
 msgid "Select notes"
 msgstr ""
 
+msgid "Search text saved"
+msgstr ""
+
 msgid "Downloads"
 msgstr ""
 
@@ -6559,18 +6559,6 @@ msgid ""
 "was there before."
 msgstr ""
 
-msgid "Query about a change in the text"
-msgstr ""
-
-msgid "Old text:"
-msgstr ""
-
-msgid "Change:"
-msgstr ""
-
-msgid "New text:"
-msgstr ""
-
 msgid "Old"
 msgstr ""
 
@@ -6641,4 +6629,7 @@ msgid ""
 msgstr ""
 
 msgid "This works if enabled in your personal notifications."
+msgstr ""
+
+msgid "Loading ..."
 msgstr ""

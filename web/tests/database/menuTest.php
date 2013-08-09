@@ -22,7 +22,7 @@ class databaseMenuTest extends PHPUnit_Framework_TestCase
   public function testZeroCount ()
   {
     $database_menu = Database_Menu::getInstance ();
-    $count = $database_menu->getAccessCount ("phpunit1", "test/test");
+    $count = $database_menu->getAccessCount ("phpunit1", "test");
     $this->assertEquals (0, $count);
   }
 
@@ -30,14 +30,14 @@ class databaseMenuTest extends PHPUnit_Framework_TestCase
   public function testIncreaseCount ()
   {
     $database_menu = Database_Menu::getInstance ();
-    $database_menu->increaseAccessCount ("phpunit1", "test/test");
-    $count = $database_menu->getAccessCount ("phpunit1", "test/test");
+    $database_menu->increaseAccessCount ("phpunit1", "test");
+    $count = $database_menu->getAccessCount ("phpunit1", "test");
     $this->assertEquals (1, $count);
-    $count = $database_menu->getAccessCount ("phpunit2", "test/test");
+    $count = $database_menu->getAccessCount ("phpunit2", "test");
     $this->assertEquals (0, $count);
-    $database_menu->increaseAccessCount ("phpunit1", "test/test");
-    $database_menu->increaseAccessCount ("phpunit1", "test/test");
-    $count = $database_menu->getAccessCount ("phpunit1", "test/test");
+    $database_menu->increaseAccessCount ("phpunit1", "test");
+    $database_menu->increaseAccessCount ("phpunit1", "test");
+    $count = $database_menu->getAccessCount ("phpunit1", "test");
     $this->assertEquals (3, $count);
   }
   

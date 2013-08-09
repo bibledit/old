@@ -34,16 +34,36 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (GUEST_LEVEL);
 
 
-$menu = array (
-"notes/index" => gettext ("Notes"),
-"consultations/changes" => gettext ("Changes"),
-"resource/index" => gettext ("Resources"),
-"translate/index" => gettext ("Translation"),
-"manage/index" => gettext ("Management"),
-"administration/index" => gettext ("Administration"),
-"members/index" => gettext ("Members"),
-"help/index" => gettext ("Help"),
-0 => 0);
+// This array has the full start menu.
+// Every entry has a unique key.
+// This key is used to track usage statistics.
+// The values consist of an array with paths to the file => localized menu text.
+$fullmenu = array (
+"notes" => array (
+  "notes/index" => gettext ("Notes")
+),
+"changes" => array (
+  "consultations/changes" => gettext ("Changes")
+),
+"resources" => array (
+  "resource/index" => gettext ("Resources")
+),
+"translation" => array (
+  "translate/index" => gettext ("Translation")
+),
+"management" => array (
+  "manage/index" => gettext ("Management")
+),
+"administration" => array (
+  "administration/index" => gettext ("Administration")
+),
+"members" => array (
+  "members/index" => gettext ("Members")
+),
+"help" => array (
+  "help/index" => gettext ("Help")
+)
+);
 
 
 $database_menu = Database_Menu::getInstance ();
@@ -55,52 +75,58 @@ $user = $session_logic->currentUser ();
 
 @$url = $_GET ['url'];
 if (isset ($url)) {
-  $database_menu->increaseAccessCount ($user, $url);
+  $category = $_GET ['category'];
+  $database_menu->increaseAccessCount ($user, $category);
   header ("Location: ../$url.php");
   die;
 }
 
 
-array_pop ($menu);
-
-
-Assets_Page::header (gettext ("Start"));
-$view = new Assets_View (__FILE__);
+// Sort the full menu based on usage: Most often used entries come first.
+$hits = array ();
+foreach ($fullmenu as $category => $menu) {
+  $count = $database_menu->getAccessCount ($user, $category);
+  $hits [$category] = $count;
+}
+arsort ($hits, SORT_NUMERIC);
 
 
 $user_level = $session_logic->currentLevel ();
 include ("session/levels.php");
 
 
-$hits = array ();
-foreach ($menu as $url => $text) {
-  $contents = file_get_contents ("../$url.php");
-  $menu_level = 0;
-  if (strpos ($contents, "GUEST_LEVEL")      !== false) $menu_level = GUEST_LEVEL;
-  if (strpos ($contents, "MEMBER_LEVEL")     !== false) $menu_level = MEMBER_LEVEL;
-  if (strpos ($contents, "CONSULTANT_LEVEL") !== false) $menu_level = CONSULTANT_LEVEL;
-  if (strpos ($contents, "TRANSLATOR_LEVEL") !== false) $menu_level = TRANSLATOR_LEVEL;
-  if (strpos ($contents, "MANAGER_LEVEL")    !== false) $menu_level = MANAGER_LEVEL;
-  if (strpos ($contents, "ADMIN_LEVEL")      !== false) $menu_level = ADMIN_LEVEL;
-  if ($menu_level > $user_level) continue;
-  $count = $database_menu->getAccessCount ($user, $url);
-  $hits [$url] = $count;
+// Take the full menu, and remove the menu the items the user has no permission for.
+// This produces a menu specific to the user.
+$usermenu = array ();
+foreach ($hits as $category => $count) {
+  $usersubmenu = array ();
+  $submenu = $fullmenu [$category];
+  foreach ($submenu as $url => $text) {
+    $contents = file_get_contents ("../$url.php");
+    $menu_level = 0;
+    if (strpos ($contents, "GUEST_LEVEL")      !== false) $menu_level = GUEST_LEVEL;
+    if (strpos ($contents, "MEMBER_LEVEL")     !== false) $menu_level = MEMBER_LEVEL;
+    if (strpos ($contents, "CONSULTANT_LEVEL") !== false) $menu_level = CONSULTANT_LEVEL;
+    if (strpos ($contents, "TRANSLATOR_LEVEL") !== false) $menu_level = TRANSLATOR_LEVEL;
+    if (strpos ($contents, "MANAGER_LEVEL")    !== false) $menu_level = MANAGER_LEVEL;
+    if (strpos ($contents, "ADMIN_LEVEL")      !== false) $menu_level = ADMIN_LEVEL;
+    if ($menu_level > $user_level) continue;
+    $usersubmenu [$url] = $text;
+  }
+  $usermenu [$category] = $usersubmenu;
 }
 
 
-arsort ($hits, SORT_NUMERIC);
+Assets_Page::header (gettext ("Start"));
+$view = new Assets_View (__FILE__);
 
 
-$newmenu = array ();
-foreach ($hits as $url => $count) {
-  $newmenu [$url] = $menu [$url];
-}
-
-
-$view->view->menu = $newmenu;
+$view->view->menu = $usermenu;
 
 
 $view->render ("index.php");
+
+
 Assets_Page::footer ();
 
 
