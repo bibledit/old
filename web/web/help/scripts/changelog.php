@@ -10,6 +10,9 @@
 <p>Privacy handling was removed from the consultation notes.</p>
 <p>Creating a consultation note from a change notification allows the summary and content to be edited.</p>
 <p>Expanding a Change Notifications gives "Loading..." feedback.</p>
+<p>The menu is available from a Start button.</p>
+<p>The menu dynamically moves more often used items to the top.</p>
+<p></p>
 <p></p>
 <p></p>
 <p></p>

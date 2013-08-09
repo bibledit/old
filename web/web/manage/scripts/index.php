@@ -1,14 +1,19 @@
-<h1><?php echo gettext ("Management") ?></h1>
-<p><a href="../editusfm/index.php"><?php echo gettext ("Edit Bible in USFM code") ?></a></p>
-<p><a href="sendreceive.php"><?php echo gettext ("Send and Receive") ?></a></p>
-<p><a href="logbook.php"><?php echo gettext ("Logbook") ?></a></p>
-<p><a href="changes.php"><?php echo gettext ("Changes") ?></a></p>
-<p><a href="users.php"><?php echo gettext ("Users") ?></a></p>
-<p><a href="../bible/manage.php"><?php echo gettext ("Bibles") ?></a></p>
-<p><a href="exports.php"><?php echo gettext ("Exports") ?></a></p>
-<p><a href="../versification/index.php"><?php echo gettext ("Versifications") ?></a></p>
-<p><a href="../styles/indexm.php"><?php echo gettext ("Styles") ?></a></p>
-<p><a href="../notes/manage.php"><?php echo gettext ("Consultation Notes") ?></a></p>
-<p><a href="hyphenation.php"><?php echo gettext ("Hyphenation") ?></a></p>
-<p><a href="../checks/settings.php"><?php echo gettext ("Checks") ?></a></p>
-<p><a href="../resource/manage.php"><?php echo gettext ("USFM Resources") ?></a></p>
+<?php
+/*
+Copyright (©) 2003-2013 Teus Benschop.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+  
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+  
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+?>

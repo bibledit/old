@@ -39,11 +39,16 @@ page_access_level (GUEST_LEVEL);
 // This key is used to track usage statistics.
 // The values consist of an array with paths to the file => localized menu text.
 $fullmenu = array (
+"translate" => array (
+  "editusfm/index" => gettext ("Translate")
+),
 "notes" => array (
-  "notes/index" => gettext ("Notes")
+  "notes/index" => gettext ("Notes"),
+  "notes/manage" => "[" . gettext ("manage") . "]"
 ),
 "changes" => array (
-  "consultations/changes" => gettext ("Changes")
+  "consultations/changes" => gettext ("Changes"),
+  "manage/changes" => "[" . gettext ("manage") . "]"
 ),
 "resources" => array (
   "resource/index" => gettext ("Resources")
@@ -52,7 +57,16 @@ $fullmenu = array (
   "translate/index" => gettext ("Translation")
 ),
 "management" => array (
-  "manage/index" => gettext ("Management")
+  "manage/sendreceive" => gettext ("Receive/Send"),
+  "manage/logbook" => gettext ("Logbook"),
+  "manage/users" => gettext ("Users"),
+  "bible/manage" => gettext ("Bibles"),
+  "manage/exports" => gettext ("Exports"),
+  "versification/index" => gettext ("Versifications"),
+  "styles/indexm" => gettext ("Styles"),
+  "manage/hyphenation" => gettext ("Hyphenation"),
+  "checks/settings" => gettext ("Checks"),
+  "resource/manage" => gettext ("USFM Resources")
 ),
 "administration" => array (
   "administration/index" => gettext ("Administration")
