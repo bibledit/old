@@ -14,7 +14,7 @@
   <?php echo gettext ("Bibledit-Web captures the output of the script, and passes it to the user.") ?>
 </p>
 <p>
-  <?php echo gettext ("This method of serving content to the user saves the user a lot of bandwidth.") ?>
+  <?php echo gettext ("This method of serving content saves the user a lot of bandwidth.") ?>
   <?php echo gettext ("Bibledit-Web strips a lot of stuff away, and only serves the essentials to the user.") ?>
 </p>
 <p>

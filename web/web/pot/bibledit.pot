@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-09 01:42+0200\n"
+"POT-Creation-Date: 2013-08-10 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,9 +57,6 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-msgid "Management"
-msgstr ""
-
 msgid "Bibledit-Web sends and receives the Bibles every day at midnight."
 msgstr ""
 
@@ -100,40 +97,7 @@ msgstr ""
 msgid "Create a new user"
 msgstr ""
 
-msgid "Edit Bible in USFM code"
-msgstr ""
-
-msgid "Send and Receive"
-msgstr ""
-
-msgid "Logbook"
-msgstr ""
-
-msgid "Changes"
-msgstr ""
-
-msgid "Bibles"
-msgstr ""
-
 msgid "Exports"
-msgstr ""
-
-msgid "Versifications"
-msgstr ""
-
-msgid "Styles"
-msgstr ""
-
-msgid "Consultation Notes"
-msgstr ""
-
-msgid "Hyphenation"
-msgstr ""
-
-msgid "Checks"
-msgstr ""
-
-msgid "USFM Resources"
 msgstr ""
 
 msgid "Bibledit-Web exports the Bibles every day at midnight."
@@ -229,6 +193,9 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
+msgid "Changes"
+msgstr ""
+
 msgid "Bibledit-Web tracks the changes in the text of the Bibles."
 msgstr ""
 
@@ -257,6 +224,9 @@ msgid ""
 msgstr ""
 
 msgid "clear"
+msgstr ""
+
+msgid "Hyphenation"
 msgstr ""
 
 msgid "Hyphenation can be used when preparing a Bible for printing."
@@ -326,6 +296,9 @@ msgid "The Bible where the hyphenated data will be written to is:"
 msgstr ""
 
 msgid "Insert the soft hyphens according to the settings."
+msgstr ""
+
+msgid "Logbook"
 msgstr ""
 
 msgid "today"
@@ -477,6 +450,9 @@ msgid "Search"
 msgstr ""
 
 msgid "Searching"
+msgstr ""
+
+msgid "Styles"
 msgstr ""
 
 msgid "Would you like to switch to another stylesheet?"
@@ -3631,6 +3607,9 @@ msgstr ""
 msgid "The passage for this entry was not found."
 msgstr ""
 
+msgid "Checks"
+msgstr ""
+
 msgid "The entry was approved and suppressed."
 msgstr ""
 
@@ -4068,16 +4047,55 @@ msgstr ""
 msgid "Search the Bible"
 msgstr ""
 
+msgid "Translate"
+msgstr ""
+
 msgid "Notes"
+msgstr ""
+
+msgid "duplicates"
+msgstr ""
+
+msgid "import"
+msgstr ""
+
+msgid "notifications"
+msgstr ""
+
+msgid "manage"
 msgstr ""
 
 msgid "Resources"
 msgstr ""
 
-msgid "Administration"
+msgid "admin"
 msgstr ""
 
-msgid "Members"
+msgid "Receive/Send"
+msgstr ""
+
+msgid "Bibles"
+msgstr ""
+
+msgid "Versifications"
+msgstr ""
+
+msgid "Collaboration"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+msgid "Backup/Restore"
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "PHPInfo"
 msgstr ""
 
 msgid ""
@@ -4124,10 +4142,10 @@ msgstr ""
 msgid "No changes were made"
 msgstr ""
 
-msgid "Mail"
+msgid "My area"
 msgstr ""
 
-msgid "My area"
+msgid "Consultation Notes"
 msgstr ""
 
 msgid ""
@@ -4220,9 +4238,6 @@ msgid "Date"
 msgstr ""
 
 msgid "Mail older than 90 days will automatically be deleted."
-msgstr ""
-
-msgid "Timezone"
 msgstr ""
 
 msgid "Here you can set up your own timezone."
@@ -4521,13 +4536,7 @@ msgstr ""
 msgid "Critical"
 msgstr ""
 
-msgid "Language"
-msgstr ""
-
 msgid "Set the default language for the site"
-msgstr ""
-
-msgid "Collaboration"
 msgstr ""
 
 msgid "Which Bible are you going to use?"
@@ -5142,9 +5151,6 @@ msgid ""
 "cryptic at times. Please enter the correct details for this to work."
 msgstr ""
 
-msgid "Backup and Restore"
-msgstr ""
-
 msgid "Password protected network repository setup"
 msgstr ""
 
@@ -5439,12 +5445,6 @@ msgid ""
 "this, switch the cookies on in your browser, and log in again."
 msgstr ""
 
-msgid "Daily changes in the Bibles"
-msgstr ""
-
-msgid "Exported Bibles"
-msgstr ""
-
 msgid "Convert"
 msgstr ""
 
@@ -5454,6 +5454,9 @@ msgstr ""
 msgid "An external resource with this name already exists"
 msgstr ""
 
+msgid "Download resource"
+msgstr ""
+
 msgid "convert: Converting USFM Resource to Bible"
 msgstr ""
 
@@ -5461,6 +5464,9 @@ msgid "convert: Completed"
 msgstr ""
 
 msgid "Resource"
+msgstr ""
+
+msgid "USFM Resources"
 msgstr ""
 
 msgid "Convert Bible to USFM Resource"
@@ -5501,6 +5507,38 @@ msgstr ""
 msgid "You can view the conversion process in the logbook."
 msgstr ""
 
+msgid "Bibledit-Web can display external resources to the user."
+msgstr ""
+
+msgid "It fetches the resources from websites on the Internet."
+msgstr ""
+
+msgid "Some of those websites may be slow to respond."
+msgstr ""
+
+msgid "Bibledit-Web may not always be able to reach them."
+msgstr ""
+
+msgid "To address these issues, you can download external resources."
+msgstr ""
+
+msgid "Bibledit-Web then stores the data in its database."
+msgstr ""
+
+msgid ""
+"When a downloaded resource is needed, Bibledit-Web can fetch the data from "
+"its database rather than from the external website."
+msgstr ""
+
+msgid "This works faster."
+msgstr ""
+
+msgid "It takes the load off the website."
+msgstr ""
+
+msgid "Start downloading this resource, en view the progress in the logbook."
+msgstr ""
+
 msgid "Edit resource"
 msgstr ""
 
@@ -5535,8 +5573,7 @@ msgid ""
 "Bibledit-Web captures the output of the script, and passes it to the user."
 msgstr ""
 
-msgid ""
-"This method of serving content to the user saves the user a lot of bandwidth."
+msgid "This method of serving content saves the user a lot of bandwidth."
 msgstr ""
 
 msgid ""
@@ -5617,10 +5654,13 @@ msgstr ""
 msgid "External resources"
 msgstr ""
 
+msgid "Delete resource"
+msgstr ""
+
 msgid "Add"
 msgstr ""
 
-msgid "You can add, edit, and delete resources."
+msgid "You can add, edit, download, and delete resources."
 msgstr ""
 
 msgid "Bibledit-Web comes with a set of default scripts."
@@ -5994,18 +6034,6 @@ msgid "Loading..."
 msgstr ""
 
 msgid "Add a comment to this note:"
-msgstr ""
-
-msgid "Manage Consultation Notes"
-msgstr ""
-
-msgid "Import notes"
-msgstr ""
-
-msgid "Remove duplicates"
-msgstr ""
-
-msgid "Edit note source"
 msgstr ""
 
 msgid "Removing duplicate consultation notes"

@@ -1,6 +1,11 @@
 <h2><?php echo gettext ("External resources") ?></h2>
 <?php foreach ($this->resources as $resource) { ?>
-  <p><a href="?delete=<?php echo $resource ?>" class="deleteresource"> ✗ </a><a href="edit.php?name=<?php echo $resource ?>"> ✎ </a><?php echo $resource ?></p>
+  <p>
+    <a href="?delete=<?php echo $resource ?>" class="deleteresource" title="<?php echo gettext ("Delete resource") ?>"> ✗ </a>
+    <a href="edit.php?name=<?php echo $resource ?>" title="<?php echo gettext ("Edit resource") ?>"> ✎ </a>
+    <a href="download.php?name=<?php echo $resource ?>" title="<?php echo gettext ("Download resource") ?>"> ⇓ </a>
+    <?php echo $resource ?>
+  </p>
 <?php } ?>
 <br>
 <form action="admin.php" name="form" method="post">
@@ -14,7 +19,7 @@
   </p>
 </div>
 <br>
-<p><?php echo gettext ("You can add, edit, and delete resources.") ?></p>
+<p><?php echo gettext ("You can add, edit, download, and delete resources.") ?></p>
 <p>
   <?php echo gettext ("Bibledit-Web comes with a set of default scripts.") ?>
   <?php echo gettext ("Changes in them will be reverted during upgrade of Bibledit-Web.") ?>

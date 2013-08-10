@@ -127,7 +127,7 @@ foreach ($hits as $category => $count) {
   $submenu = $fullmenu [$category];
   foreach ($submenu as $url => $text) {
     @$contents = file_get_contents ("../$url.php");
-    $menu_level = 0;
+    $menu_level = MEMBER_LEVEL;
     if (strpos ($contents, "GUEST_LEVEL")      !== false) $menu_level = GUEST_LEVEL;
     if (strpos ($contents, "MEMBER_LEVEL")     !== false) $menu_level = MEMBER_LEVEL;
     if (strpos ($contents, "CONSULTANT_LEVEL") !== false) $menu_level = CONSULTANT_LEVEL;

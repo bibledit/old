@@ -12,7 +12,7 @@
 <p>Expanding a Change Notifications gives "Loading..." feedback.</p>
 <p>The menu is available from a Start button.</p>
 <p>The menu dynamically moves more often used items to the top.</p>
-<p></p>
+<p>Can download external resources for faster display.</p>
 <p></p>
 <p></p>
 <p></p>
