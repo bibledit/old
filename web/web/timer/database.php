@@ -100,7 +100,13 @@ $database = Database_Changes::getInstance ();
 $database->trim ();
 $database->optimize();
 
+$database = Database_UsfmResources::getInstance ();
+$database->optimize();
+
 $database = Database_Menu::getInstance ();
+$database->optimize();
+
+$database = Database_OfflineResources::getInstance ();
 $database->optimize();
 
 $database_logs->log ("database: Completed");

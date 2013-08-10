@@ -23,19 +23,49 @@
 
 
 require_once ("../bootstrap/bootstrap.php");
+
+
 $database_logs = Database_Logs::getInstance ();
+$database_versifications = Database_Versifications::getInstance ();
+$database_books = Database_Books::getInstance ();
+$database_offlineresources = Database_OfflineResources::getInstance ();
 
 
 $resource = $argv [1];
 
 
-$database_logs->log (gettext ("download: Starting to download resource") . " " . $resource, true);
+$database_logs->log ("download: Starting to download resource $resource");
 
 
 // Security: Page only runs from the cli SAPI.
 if (php_sapi_name () != "cli") {
   $database_logs->log ("download: Fatal: This only runs through the cli Server API", true);
   die;
+}
+
+
+$versification = "English";
+$books = $database_versifications->getBooks ($versification);
+foreach ($books as $book) {
+  $bookName = $database_books->getEnglishFromId ($book);
+  $chapters = $database_versifications->getChapters ($versification, $book, true);
+  foreach ($chapters as $chapter) {
+    $message = "download: $bookName chapter $chapter";
+    $verses = $database_versifications->getVerses ($versification, $book, $chapter);
+    foreach ($verses as $verse) { // Todo
+      $message .= "; verse $verse: ";
+      if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
+        $message .= "exists";
+      } else {
+        $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse);
+        $database_offlineresources->store ($resource, $book, $chapter, $verse, $html);
+        $size = strlen ($html);
+        $message .= "size $size";
+      }
+    }
+    $message .= " done";
+    $database_logs->log ($message);
+  }
 }
 
 
