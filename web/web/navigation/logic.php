@@ -108,14 +108,7 @@ class Navigation_Logic
     $activeChapter = $ipc_focus->getChapter ();
     if ($bible == "") {
       $database_versifications = Database_Versifications::getInstance ();
-      $data = $database_versifications->getBooksChaptersVerses ("English");
-      $chapters = array (0);
-      while ($row = $data->fetch_assoc()) {
-        if ($book == $row ["book"]) {
-          $chapters [] = $row ["chapter"];
-        }
-      }
-      $chapters = array_unique ($chapters, SORT_NUMERIC);
+      $chapters = $database_versifications->getChapters ("English", $book, true);
     } else {
       $chapters = $database_bibles->getChapters ($bible, $book);
     }
@@ -139,17 +132,7 @@ class Navigation_Logic
     $activeVerse = $ipc_focus->getVerse ();
     if ($bible == "") {
       $database_versifications = Database_Versifications::getInstance ();
-      $data = $database_versifications->getBooksChaptersVerses ("English");
-      $highestVerse = 0;
-      while ($row = $data->fetch_assoc()) {
-        if (($book == $row ["book"]) && ($chapter == $row ["chapter"])) {
-          $highestVerse = $row ["verse"];
-        }
-      }
-      $verses = array ();
-      for ($i = 0; $i <= $highestVerse; $i++) {
-        $verses [] = $i;
-      }
+      $verses = $database_versifications->getVerses ("English", $book, $chapter);
     } else {
       $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
     }

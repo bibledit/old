@@ -169,9 +169,7 @@ class Database_Versifications
   }
 
 
-  /**
-    * getBooksChaptersVerses - Returns the books, chapters, verses for the given versification system.
-    */
+  // Returns the books, chapters, verses for the given versification system.
   public function getBooksChaptersVerses ($name)
   {
     $id = $this->getID ($name);
@@ -181,6 +179,59 @@ class Database_Versifications
     return $result;
   }
   
+  
+  public function getBooks ($name)
+  {
+    $id = $this->getID ($name);
+    $query = "SELECT DISTINCT book FROM versification_data WHERE system = $id ORDER BY book ASC;";
+    $database_instance = Database_Instance::getInstance();
+    $result = $database_instance->runQuery ($query);
+    $books = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $books [] = $row[0];
+    }
+    return $books;
+  }
+  
+  
+  // This returns all the chapters in $book of versification system $name.
+  // $include0: Includes chapter 0 also.
+  public function getChapters ($name, $book, $include0 = false)
+  {
+    $id = $this->getID ($name);
+    $book = Database_SQLInjection::no ($book);
+    $query = "SELECT DISTINCT chapter FROM versification_data WHERE system = $id AND book = $book ORDER BY chapter ASC;";
+    $database_instance = Database_Instance::getInstance();
+    $result = $database_instance->runQuery ($query);
+    $chapters = array ();
+    if ($include0) $chapters [] = 0;
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $chapters [] = $row[0];
+    }
+    return $chapters;
+  }
+
+
+  public function getVerses ($name, $book, $chapter)
+  {
+    $id = $this->getID ($name);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "SELECT DISTINCT verse FROM versification_data WHERE system = $id AND book = $book AND chapter = $chapter ORDER BY verse ASC;";
+    $database_instance = Database_Instance::getInstance();
+    $result = $database_instance->runQuery ($query);
+    $verses = array ();
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      $verse = $row[0];
+      for ($i = 0; $i <= $verse; $i++) {
+        $verses [] = $i;
+      }
+    }
+    return $verses;
+  }
 
 
 }

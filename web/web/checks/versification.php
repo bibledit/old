@@ -29,12 +29,7 @@ class Checks_Versification
   public function books ($bible, $books)
   {
     $database_versifications = Database_Versifications::getInstance ();
-    $data = $database_versifications->getBooksChaptersVerses ("English");
-    $standardBooks = array ();
-    while ($row = $data->fetch_assoc()) {
-      $standardBooks [] = $row["book"];
-    }
-    $standardBooks = array_unique ($standardBooks, SORT_NUMERIC);
+    $standardBooks = $database_versifications->getBooks ("English");
     $absentBooks = array_diff ($standardBooks, $books);
     $extraBooks = array_diff ($books, $standardBooks);
     $database_check = Database_Check::getInstance ();
@@ -50,14 +45,7 @@ class Checks_Versification
   public function chapters ($bible, $book, $chapters)
   {
     $database_versifications = Database_Versifications::getInstance ();
-    $data = $database_versifications->getBooksChaptersVerses ("English");
-    $standardChapters = array (0);
-    while ($row = $data->fetch_assoc()) {
-      if ($book == $row ["book"]) {
-        $standardChapters [] = $row ["chapter"];
-      }
-    }
-    $standardChapters = array_unique ($standardChapters, SORT_NUMERIC);
+    $standardChapters = $database_versifications->getChapters ("English", $book, true);
     $absentChapters = array_diff ($standardChapters, $chapters);
     $extraChapters = array_diff ($chapters, $standardChapters);
     $database_check = Database_Check::getInstance ();
@@ -72,22 +60,11 @@ class Checks_Versification
   
   public function verses ($bible, $book, $chapter, $verses)
   {
-    // Get highest verse number in this chapter according to the versification system for the Bible.
+    // Get verses in this chapter according to the versification system for the Bible.
     $database_versifications = Database_Versifications::getInstance ();
     $database_bibles = Database_Bibles::getInstance ();
     $versification = $database_bibles->getVersification ($bible);
-    $data = $database_versifications->getBooksChaptersVerses ($versification);
-    $highestVerse = 0;
-    while ($row = $data->fetch_assoc()) {
-      if (($book == $row ["book"]) && ($chapter == $row ["chapter"])) {
-        $highestVerse = $row ["verse"];
-      }
-    }
-    // Create array with verses this chapter is supposed to have.
-    $standardVerses = array ();
-    for ($i = 0; $i <= $highestVerse; $i++) {
-      $standardVerses [] = $i;
-    }
+    $standardVerses = $database_versifications->getVerses ($versification, $book, $chapter);
     // Look for missing and extra verses.
     $absentVerses = array_diff ($standardVerses, $verses);
     $extraVerses = array_diff ($verses, $standardVerses);
