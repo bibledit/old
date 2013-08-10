@@ -15,4 +15,16 @@
   <?php echo gettext ("It takes the load off the website.") ?>
 </p>
 <br>
+<p>
+  <?php echo gettext ("Number of verses available offline for this resource:") ?>
+  <?php echo $this->count ?>
+  <?php if ($this->count) { ?>
+    [<a href="?name=<?php echo $this->name ?>&clear"><?php echo gettext ("clear") ?></a>]
+  <?php } ?>
+</p>
 <p><a href="?name=<?php echo $this->name ?>&download"><?php echo gettext ("Start downloading this resource, en view the progress in the logbook.") ?></a></p>
+<br>
+<p>
+  <?php echo gettext ("It takes partial downloads into account, because it only downloads the missing pieces.") ?>
+  <?php echo gettext ("Clear any offline verses if a full download is needed.") ?>
+</p>

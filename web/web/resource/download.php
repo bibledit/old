@@ -9,6 +9,7 @@ $view = new Assets_View (__FILE__);
 
 
 $database_resources = Database_Resources::getInstance ();
+$database_offlineresources = Database_OfflineResources::getInstance ();
 $timer_logger = new Timer_Logger ();
 
 
@@ -26,6 +27,15 @@ if (isset ($_GET ['download'])) {
   header ("Location: ../manage/logbook.php");
   die;
 }
+
+
+if (isset ($_GET ['clear'])) {
+  $database_offlineresources->delete ($name);
+}
+
+
+$count = $database_offlineresources->count ($name);
+$view->view->count = $count;
 
 
 $view->render ("download.php");

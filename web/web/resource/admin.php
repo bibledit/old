@@ -8,6 +8,7 @@ include ("administration/credentials.php");
 
 
 $database_resources = Database_Resources::getInstance ();
+$database_offlineresources = Database_OfflineResources::getInstance ();
 
 
 @$add = $_POST['entry'];
@@ -19,6 +20,7 @@ if (isset ($add)) {
 @$delete = $_GET['delete'];
 if (isset ($delete)) {
   $database_resources->delete ($delete);
+  $database_offlineresources->delete ($delete);
 }
 
 

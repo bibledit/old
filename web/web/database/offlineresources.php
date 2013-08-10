@@ -60,6 +60,18 @@ class Database_OfflineResources
   }
   
 
+  // Counts the number of verses in the offline resource $name.
+  public function count ($name)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $name = Database_SQLInjection::no ($name);
+    $query = "SELECT count(*) FROM offlineresources WHERE name = '$name';";
+    $result = $database_instance->runQuery ($query);
+    $row = $result->fetch_row();
+    return $row [0];
+  }
+  
+
   public function get ($name, $book, $chapter, $verse)
   {
     $database_instance = Database_Instance::getInstance();
