@@ -22,6 +22,7 @@ $database_resources = Database_Resources::getInstance ();
 $database_usfmresources = Database_UsfmResources::getInstance ();
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
+$database_offlineresources = Database_OfflineResources::getInstance ();
 
 
 $stylesheet = $database_config_general->getExportStylesheet ();
@@ -46,7 +47,12 @@ if ($isBible || $isUsfm) {
   $filter_text->run ($stylesheet);
   $html = $filter_text->html_text_standard->getHtml ();
 } else if (in_array ($resource, $externals)) {
-  $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse);
+  // Use offline copy if it exists, else fetch it online.
+  if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
+    $html = $database_offlineresources->get ($resource, $book, $chapter, $verse);
+  } else {
+    $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse);
+  }
 } else {
   $html = gettext ("This resource is not available");
 }

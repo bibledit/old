@@ -52,7 +52,7 @@ foreach ($books as $book) {
   foreach ($chapters as $chapter) {
     $message = "download: $bookName chapter $chapter";
     $verses = $database_versifications->getVerses ($versification, $book, $chapter);
-    foreach ($verses as $verse) { // Todo
+    foreach ($verses as $verse) {
       $message .= "; verse $verse: ";
       if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
         $message .= "exists";
@@ -63,7 +63,7 @@ foreach ($books as $book) {
         $message .= "size $size";
       }
     }
-    $message .= " done";
+    $message .= "; done";
     $database_logs->log ($message);
   }
 }

@@ -60,7 +60,7 @@ class Database_OfflineResources
   }
   
 
-  public function get ($name, $book, $chapter, $verse) /// Todo implement.
+  public function get ($name, $book, $chapter, $verse)
   {
     $database_instance = Database_Instance::getInstance();
     $name = Database_SQLInjection::no ($name);
