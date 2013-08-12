@@ -58,12 +58,17 @@ $fullmenu = array (
   "resource/manage" => "[" . gettext ("manage") . "]",
   "resource/admin" => "[" . gettext ("admin") . "]"
 ),
-"translation" => array (
-  "translate/index" => gettext ("Translation")
+"checks" => array (
+  "checks/index" => gettext ("Checks"),
+  "checks/settings" => "[" . gettext ("manage") . "]"
 ),
 "exports" => array (
   "downloads/exports" => gettext ("Exports"),
   "manage/exports" => "[" . gettext ("manage") . "]"
+),
+"styles" => array (
+  "styles/indext" => gettext ("Styles"),
+  "styles/indexm" => "[" . gettext ("manage") . "]"
 ),
 "management" => array (
   "manage/sendreceive" => gettext ("Receive/Send"),
@@ -71,9 +76,7 @@ $fullmenu = array (
   "manage/users" => gettext ("Users"),
   "bible/manage" => gettext ("Bibles"),
   "versification/index" => gettext ("Versifications"),
-  "styles/indexm" => gettext ("Styles"),
-  "manage/hyphenation" => gettext ("Hyphenation"),
-  "checks/settings" => gettext ("Checks")
+  "manage/hyphenation" => gettext ("Hyphenation")
 ),
 "administration" => array (
   "administration/collaboration" => gettext ("Collaboration"),

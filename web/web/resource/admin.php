@@ -2,7 +2,7 @@
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (CONSULTANT_LEVEL);
+page_access_level (ADMIN_LEVEL);
 include ("administration/credentials.php");
 
 
