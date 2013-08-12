@@ -13,7 +13,7 @@
 <p>The menu is available from a Start button.</p>
 <p>The menu dynamically moves more often used items to the top.</p>
 <p>Can make external resources available offline for faster display.</p>
-<p></p>
+<p>After login, takes the user straight to the desired function, for a smoother user experience.</p>
 <p></p>
 <p></p>
 

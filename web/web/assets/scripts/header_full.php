@@ -7,7 +7,9 @@
 <?php  
 if ($this->user == "") {
   if ($this->logging_in != true) {
-    echo '<a href="' . $this->header_path_modifier . 'session/login.php">' . gettext ("Login") . "</a>\n";
+?>
+    <a href="<?php echo $this->header_path_modifier ?>session/login.php?request=<?php echo $this->request ?>"><?php echo gettext ("Login") ?></a>
+<?php  
   }
 } else {
   if ($this->level >= 2) {

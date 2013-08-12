@@ -1,6 +1,6 @@
 <h1><?php echo gettext ("Login") ?></h1>
 
-<form action="login.php" name="form" method="post">
+<form action="login.php?<?php echo $this->query ?>" name="form" method="post">
 
 <table>
 

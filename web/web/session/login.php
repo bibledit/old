@@ -1,4 +1,21 @@
 <?php
+/*
+Copyright (©) 2003-2013 Teus Benschop.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
     
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (GUEST_LEVEL);
@@ -43,12 +60,20 @@ $header->setBodyOnload ('document.form.user.focus();');
 $header->run ();
 
 $session_logic = Session_Logic::getInstance ();
+@$query = $_SERVER['QUERY_STRING'];
 if ($session_logic->loggedIn ()) {
+  $query = substr ($query, 8);
+  if ($query) {
+    // After login, the user is forwarded to the originally requested URL, if any.
+    header ("Location: " . $query);
+    die;
+  }
   $mail = Database_Mail::getInstance ();
   $mailcount = $mail->getMailCount ();
   $view->view->mailcount = $mailcount;
   $view->render ("loggedin.php");
 } else {
+  $view->view->query = $query;
   $view->view->logging_in = true;
   $view->render ("login.php");
 }

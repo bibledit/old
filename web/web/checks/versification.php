@@ -45,7 +45,7 @@ class Checks_Versification
   public function chapters ($bible, $book, $chapters)
   {
     $database_versifications = Database_Versifications::getInstance ();
-    $standardChapters = $database_versifications->getChapters ("English", $book, true); // Todo
+    $standardChapters = $database_versifications->getChapters ("English", $book, true);
     $absentChapters = array_diff ($standardChapters, $chapters);
     $extraChapters = array_diff ($chapters, $standardChapters);
     $database_check = Database_Check::getInstance ();
