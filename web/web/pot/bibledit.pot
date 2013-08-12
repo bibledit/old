@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-10 01:42+0200\n"
+"POT-Creation-Date: 2013-08-12 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5536,7 +5536,18 @@ msgstr ""
 msgid "It takes the load off the website."
 msgstr ""
 
+msgid "Number of verses available offline for this resource:"
+msgstr ""
+
 msgid "Start downloading this resource, en view the progress in the logbook."
+msgstr ""
+
+msgid ""
+"It takes partial downloads into account, because it only downloads the "
+"missing pieces."
+msgstr ""
+
+msgid "Clear any offline verses if a full download is needed."
 msgstr ""
 
 msgid "Edit resource"
@@ -5691,6 +5702,9 @@ msgid "Internal USFM resources:"
 msgstr ""
 
 msgid "External resources:"
+msgstr ""
+
+msgid "download: Completed"
 msgstr ""
 
 msgid "No resource available for"

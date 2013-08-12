@@ -191,5 +191,14 @@ class databaseVersificationsTest extends PHPUnit_Framework_TestCase
   }
 
 
+  public function testVersesInChapterZero ()
+  {
+    $database_versifications = Database_Versifications::getInstance ();
+    $verses = $database_versifications->getVerses ("English", 1, 0);
+    $standard = array (0);
+    $this->assertEquals ($standard, $verses);
+  }
+
+
 }
 ?>

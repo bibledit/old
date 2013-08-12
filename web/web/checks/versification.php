@@ -45,7 +45,7 @@ class Checks_Versification
   public function chapters ($bible, $book, $chapters)
   {
     $database_versifications = Database_Versifications::getInstance ();
-    $standardChapters = $database_versifications->getChapters ("English", $book, true);
+    $standardChapters = $database_versifications->getChapters ("English", $book, true); // Todo
     $absentChapters = array_diff ($standardChapters, $chapters);
     $extraChapters = array_diff ($chapters, $standardChapters);
     $database_check = Database_Check::getInstance ();
@@ -73,6 +73,7 @@ class Checks_Versification
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is missing according to the versification system");
     }
     foreach ($extraVerses as $verse) {
+      //if (($chapter == 0) && ($verse == 0)) continue;
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is extra according to the versification system");
     }
     // Look for verses out of order.

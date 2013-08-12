@@ -230,6 +230,8 @@ class Database_Versifications
         $verses [] = $i;
       }
     }
+    // Put verse 0 in chapter 0.
+    if ($chapter == 0) $verses [] = 0;
     return $verses;
   }
 
