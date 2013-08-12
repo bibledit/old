@@ -96,7 +96,7 @@ if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour =
   $config_general->setTimerSendReceive ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::sendreceive);
-  $command = "cd $workingdirectory; php sendreceive.php > $logfilename 2>&1 & echo $!";
+  $command = "cd $workingdirectory; php receivesend.php > $logfilename 2>&1 & echo $!";
   $pid = shell_exec ($command);
   $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }

@@ -5,13 +5,33 @@ class filterGitTest extends PHPUnit_Framework_TestCase
 {
 
 
+  private $bible;
+  private $repository;
+  private $newrepository;
   private $psalms_0_data;
   private $psalms_11_data;
   private $song_of_solomon_2_data;
 
 
-  private function initialize_data () 
+  protected function setUp () 
   {
+    $this->bible = "PHPUnit";
+    $this->repository = uniqid (sys_get_temp_dir() . "/");
+    $this->newrepository = uniqid (sys_get_temp_dir() . "/");
+
+    $this->tearDown ();
+
+    $database_bibles = Database_Bibles::getInstance();
+    $database_bibles->createBible ($this->bible);
+
+    mkdir ($this->repository);
+    mkdir ($this->newrepository);
+
+    $command = "cd " . $this->repository . "; git init 2>&1";
+    exec ($command, $result, $exit_code);
+    $command = "cd " . $this->newrepository . "; git init 2>&1";
+    exec ($command, $result, $exit_code);
+
 $this->psalms_0_data = <<<EOD
 \\id PSA
 \\h Izihlabelelo
@@ -19,6 +39,7 @@ $this->psalms_0_data = <<<EOD
 \\mt2 UGWALO
 \\mt LWEZIHLABELELO
 EOD;
+
 $this->psalms_11_data = <<<EOD
 \\c 11
 \\s IN\\sc KOSI\\sc* iyisiphephelo sabaqotho
@@ -33,6 +54,7 @@ $this->psalms_11_data = <<<EOD
 \\v 6 Uzanisa phezu kwababi imijibila, umlilo, lesolufa*\\x + Jobe 18.15.\\x*, lomoya otshisayo\\x + Hlab. 119.53. Lilo 5.10.\\x*, kuzakuba yisabelo senkezo yabo\\x + Hlab. 75.8. Jobe 21.20. Hlab. 16.5.\\x*.
 \\v 7 Ngoba ilungile iN\\sc KOSI\\sc*, iyathanda ukulunga\\x + Hlab. 33.5. 45.7. Hlab. 37.28. 146.8.\\x*; ubuso bayo buyabona oqotho\\x + Hlab. 33.18. Hlab. 17.2.\\x*.
 EOD;
+
 $this->song_of_solomon_2_data = <<<EOD
 \\c 2
 \\p
@@ -58,51 +80,46 @@ $this->song_of_solomon_2_data = <<<EOD
 \\v 16 Isithandwa sami ngesami, lami ngingowaso\\x + 6.3. 7.10.\\x*, eselusa phakathi kwemiduze\\x + 2.1. 4.5. 6.3.\\x*.
 \\v 17 Kuze kube semadabukakusa, lamathunzi abaleke\\x + 4.6.\\x*, phenduka, sithandwa sami, ube njengomziki kumbe njengethole lendluzele\\x + 8.14. 2.9.\\x* phezu kwezintaba zeBhetheri\\x + 2 Sam. 2.29.\\x*.
 EOD;
+
+    mkdir ($this->repository . "/Psalms");
+    mkdir ($this->repository . "/Psalms/0");
+    mkdir ($this->repository . "/Psalms/11");
+    mkdir ($this->repository . "/Song of Solomon");
+    mkdir ($this->repository . "/Song of Solomon/2");
+
+
+    file_put_contents ($this->repository . "/Psalms/0/data", $this->psalms_0_data);
+    file_put_contents ($this->repository . "/Psalms/11/data", $this->psalms_11_data);
+    file_put_contents ($this->repository . "/Song of Solomon/2/data", $this->song_of_solomon_2_data);
+
+
     $_SERVER['HTTP_USER_AGENT'] = "PHPUnit";
     $_SERVER['REMOTE_ADDR'] = "127.0.0.1";
     $_SESSION['user'] = "PHPUnit";
-  }
-  
 
-  private function initialize_directories ($directory) 
-  {
-    mkdir ("$directory/Psalms");
-    mkdir ("$directory/Psalms/0");
-    mkdir ("$directory/Psalms/11");
-    mkdir ("$directory/Song of Solomon");
-    mkdir ("$directory/Song of Solomon/2");
   }
 
 
   protected function tearDown ()
   {
+    $database_bibles = Database_Bibles::getInstance();
+    $database_bibles->deleteBible ($this->bible);
+    Filter_Rmdir::rmdir ($this->repository);
+    Filter_Rmdir::rmdir ($this->newrepository);
   }
 
 
-  /**
-  * This tests round-tripping git Bible data in the file system,
-  * being transferred to the database, then back to the filesystem.
-  */
+  // This tests round-tripping git Bible data in the file system,
+  // being transferred to the database, then back to the filesystem.
   public function testFiledata2database2filedata()
   {
-    // Working directory.
-    $directory = uniqid (sys_get_temp_dir() . "/");
-    mkdir ($directory);
+    $bible = $this->bible;
+    $directory = $this->repository;
+    $newdirectory = $this->newrepository;
 
-    // Set up testing data.    
-    $this->initialize_data();
-    $this->initialize_directories ($directory);
-
-    // Simulate the presence of some chapters.
-    file_put_contents ("$directory/Psalms/0/data", $this->psalms_0_data);
-    file_put_contents ("$directory/Psalms/11/data", $this->psalms_11_data);
-    file_put_contents ("$directory/Song of Solomon/2/data", $this->song_of_solomon_2_data);
-
-    // Create a temporal Bible in the database and store some data in it.
+    // Store some data in the temporal Bible in the database.
     // Filter_Git, when called with this data, is supposed to erase this data if it is not in the filesystem.
     $database_bibles = Database_Bibles::getInstance();
-    $bible = "PHPUnit";
-    $database_bibles->createBible ($bible);
     $database_bibles->storeChapter ($bible, 2, 1, $this->song_of_solomon_2_data);
     $database_bibles->storeChapter ($bible, 3, 4, $this->song_of_solomon_2_data);
     $database_bibles->storeChapter ($bible, 5, 6, $this->song_of_solomon_2_data);
@@ -115,8 +132,6 @@ EOD;
     Filter_Git::bibleFiledata2database ($directory, $bible, "Psalms/11/data |    2 +-");
     Filter_Git::bibleFiledata2database ($directory, $bible, "Song of Solomon/2/data |    2 +-");
 
-    $database_bibles = Database_Bibles::getInstance();
-    
     // Assert database has certain books.
     $books = $database_bibles->getBooks ($bible);
     $this->assertEquals(array(19, 22), $books);
@@ -133,23 +148,95 @@ EOD;
     $data = $database_bibles->getChapter ($bible, 19, 11);
     $this->assertEquals($this->psalms_11_data, $data);
 
-    // New working directory.
-    $newdirectory = uniqid (sys_get_temp_dir(). '/');
-    mkdir ($newdirectory);
-
     // Call the filter.
     Filter_Git::bibleDatabase2filedata ($bible, $newdirectory);
 
     // Compare new directory with the standard one.
     system ("diff -r $newdirectory $directory", $exit_code);
     $this->assertEquals(0, $exit_code);
-    
-    // Tear down.
-    $database_bibles->deleteBible ($bible);
-    Filter_Rmdir::rmdir ($directory);
-    Filter_Rmdir::rmdir ($newdirectory);
   }
 
+
+  public function testSyncBible2GitOne ()
+  {
+    $database_bibles = Database_Bibles::getInstance();
+
+    $repository = $this->repository;
+    
+    $this->assertFileExists ("$repository/.git");
+    $this->assertFileExists ("$repository/Psalms/0/data");
+    $this->assertFileExists ("$repository/Psalms/11/data");
+    $this->assertFileExists ("$repository/Song of Solomon/2/data");
+    $this->assertFileNotExists ("$repository/Exodus/1/data");
+
+    $database_bibles->storeChapter ($this->bible, 2, 1, $this->song_of_solomon_2_data);
+    Filter_Git::syncBible2Git ($this->bible, $this->repository);
+
+    $this->assertFileExists ("$repository/.git");
+    $this->assertFileNotExists ("$repository/Psalms/0/data");
+    $this->assertFileNotExists ("$repository/Psalms/11/data");
+    $this->assertFileNotExists ("$repository/Song of Solomon/2/data");
+    $this->assertFileExists ("$repository/Exodus/1/data");
+  }
+
+
+  public function testSyncBible2GitTwo ()
+  {
+    $database_bibles = Database_Bibles::getInstance();
+
+    $repository = $this->repository;
+    
+    $this->assertFileExists ("$repository/.git");
+    $this->assertFileExists ("$repository/Psalms/0/data");
+    $this->assertFileExists ("$repository/Psalms/11/data");
+    $this->assertFileExists ("$repository/Song of Solomon/2/data");
+    $this->assertFileNotExists ("$repository/Exodus/1/data");
+
+    $database_bibles->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
+    Filter_Git::syncBible2Git ($this->bible, $this->repository);
+
+    $this->assertFileExists ("$repository/.git");
+    $this->assertFileNotExists ("$repository/Psalms/0/data");
+    $this->assertFileExists ("$repository/Psalms/1/data");
+
+    $data = file_get_contents ("$repository/Psalms/1/data");
+    $this->assertEquals ($this->song_of_solomon_2_data, $data);
+  }
+
+  
+  public function testSyncBible2GitThree ()
+  {
+    $database_bibles = Database_Bibles::getInstance();
+
+    $repository = $this->repository;
+    
+    $this->assertFileExists ("$repository/.git");
+    $this->assertFileExists ("$repository/Psalms/0/data");
+    $this->assertFileExists ("$repository/Psalms/11/data");
+    $this->assertFileExists ("$repository/Song of Solomon/2/data");
+    $this->assertFileNotExists ("$repository/Exodus/1/data");
+
+    $database_bibles->storeChapter ($this->bible, 19, 1, $this->song_of_solomon_2_data);
+    $database_bibles->storeChapter ($this->bible, 22, 2, $this->psalms_11_data);
+    $database_bibles->storeChapter ($this->bible, 19, 11, $this->song_of_solomon_2_data);
+    Filter_Git::syncBible2Git ($this->bible, $this->repository);
+
+    $this->assertFileExists ("$repository/.git");
+    $this->assertFileExists ("$repository/Song of Solomon/2/data");
+    $this->assertFileExists ("$repository/Psalms/1/data");
+    $this->assertFileExists ("$repository/Song of Solomon/2/data");
+    $this->assertFileExists ("$repository/Psalms/11/data");
+
+    $data = file_get_contents ("$repository/Song of Solomon/2/data");
+    $this->assertEquals ($this->psalms_11_data, $data);
+
+    $data = file_get_contents ("$repository/Psalms/11/data");
+    $this->assertEquals ($this->song_of_solomon_2_data, $data);
+
+    $data = file_get_contents ("$repository/Psalms/1/data");
+    $this->assertEquals ($this->song_of_solomon_2_data, $data);
+  }
+  
 
   /**
   * This tests round-tripping consultation notes to the file system.
@@ -159,7 +246,6 @@ EOD;
   public function testNotesDatabaseToFileToDatabase()
   {
     $database_notes = Database_Notes::getInstance ();
-    $this->initialize_data ();
     
     // Working directory.
     $directory = uniqid (sys_get_temp_dir() . '/');

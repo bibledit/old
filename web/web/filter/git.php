@@ -96,6 +96,81 @@ class Filter_Git
   }
 
 
+  // This filter takes the Bible data as it is stored in Bibledit-Web's database, 
+  // and puts this information into the layout in books and chapters
+  // such as is used in Bibledit-Gtk into the $git folder.
+  // The $git is a git repository, and may contain other data as well.
+  // The filter focuses on reading the data in the git repository, and only writes to it if necessary, 
+  // This speeds up the filter.
+  public static function syncBible2Git ($bible, $git, $progress = false)
+  {
+    $success = true;
+
+    $database_bibles = Database_Bibles::getInstance ();
+    $database_books = Database_Books::getInstance ();
+
+    // First stage: Repository >> Database.
+    // Read the chapters in the git repository, 
+    // and check if they occur in the database.
+    // If a chapter is not in the database, remove it from the repository.
+    $books = $database_bibles->getBooks ($bible);
+    foreach (new DirectoryIterator ($git) as $fileInfo) {
+      if ($fileInfo->isDot ()) continue;
+      if ($fileInfo->isDir ()) {
+        $bookname = $fileInfo->getFilename ();
+        $book = $database_books->getIdFromEnglish ($bookname);
+        if ($book) {
+          if (in_array ($book, $books)) {
+            // Book exists in the database: Check the chapters.
+            $chapters = $database_bibles->getChapters ($bible, $book);
+            foreach (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
+              if ($fileInfo2->isDot ()) continue;
+              if ($fileInfo2->isDir ()) {
+                $chapter = $fileInfo2->getFilename ();
+                if (is_numeric ($chapter)) {
+                  $filename = "$git/$bookname/$chapter/data";
+                  if (file_exists ($filename)) {
+                    if (!in_array ($chapter, $chapters)) {
+                      // Chapter does not exist in the database.
+                      Filter_Rmdir::rmdir ("$git/$bookname/$chapter");
+                    }
+                  }
+                }
+              }
+            }
+          } else {
+            // Book does not exist in the database: Remove it from $git.
+            Filter_Rmdir::rmdir ("$git/$bookname");
+          }
+        }
+      }
+    }
+
+    // Second stage: Database >> Repository.
+    // Read the books / chapters from the database, 
+    // and check if they occur in the repository, and the data matches.
+    // If necessary, save the chapter to the repository.
+    $books = $database_bibles->getBooks ($bible);
+    foreach ($books as $book) {
+      $bookname = $database_books->getEnglishFromId ($book);
+      if ($progress) echo "$bookname ";
+      $bookdir = "$git/$bookname";
+      if (!file_exists ($bookdir)) mkdir ($bookdir);
+      $chapters = $database_bibles->getChapters ($bible, $book);
+      foreach ($chapters as $chapter) {
+        $chapterdir = "$bookdir/$chapter";
+        if (!file_exists ($chapterdir)) mkdir ($chapterdir);
+        $datafile = "$chapterdir/data";
+        @$contents = file_get_contents ($datafile);
+        $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+        if ($contents != $usfm) file_put_contents ($datafile, $usfm);
+      }
+    }
+    if ($progress) echo "\n";
+    return $success;
+  }
+
+
   /**
   * This filter takes the Consultations Notes as these are stored in Bibledit-Web's database, 
   * and transfers this information to the file system,

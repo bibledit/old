@@ -14,7 +14,7 @@
 <p>The menu dynamically moves more often used items to the top.</p>
 <p>Can make external resources available offline for faster display.</p>
 <p>After login, takes the user straight to the desired function, for a smoother user experience.</p>
-<p></p>
+<p>Optimized data transfer into collaboration repository.</p>
 <p></p>
 
 <h2>Version 1.0</h2>
