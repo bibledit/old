@@ -37,7 +37,7 @@ echo "$message\n";
 if ($object == "consultationnotes") {
   Filter_Git::notesDatabase2filedata ($directory, true);
 } else {
-  Filter_Git::bibleDatabase2filedata ($object, $directory, true);
+  Filter_Git::syncBible2Git ($object, $directory, true);
 }
 
 // Directory made fit for use by the shell.

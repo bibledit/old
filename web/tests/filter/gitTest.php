@@ -149,7 +149,7 @@ EOD;
     $this->assertEquals($this->psalms_11_data, $data);
 
     // Call the filter.
-    Filter_Git::bibleDatabase2filedata ($bible, $newdirectory);
+    Filter_Git::syncBible2Git ($bible, $newdirectory);
 
     // Compare new directory with the standard one.
     system ("diff -r $newdirectory $directory", $exit_code);

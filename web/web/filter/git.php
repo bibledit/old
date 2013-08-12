@@ -65,37 +65,6 @@ class Filter_Git
   }
 
 
-  /**
-  * This filter takes the Bible data as it is stored in Bibledit-Web's database, 
-  * and transfers this information into the layout in books and chapters
-  * such as is used in Bibledit-Gtk into $directory.
-  * The $directory may contain other data. This data will not normally be affected.
-  */
-  public static function bibleDatabase2filedata ($bible, $directory, $progress = false)
-  {
-    $success = true;
-    $database_bibles = Database_Bibles::getInstance ();
-    $database_books = Database_Books::getInstance ();
-    $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
-      $book_name = $database_books->getEnglishFromId ($book);
-      if ($progress) echo "$book_name ";
-      $bookdir = "$directory/$book_name";
-      if (!is_dir ($bookdir)) mkdir ($bookdir);
-      $chapters = $database_bibles->getChapters ($bible, $book);
-      foreach ($chapters as $chapter) {
-        $chapterdir = "$bookdir/$chapter";
-        if (!is_dir ($chapterdir)) mkdir ($chapterdir);
-        $data = $database_bibles->getChapter ($bible, $book, $chapter);
-        if (file_put_contents ("$chapterdir/data", $data) === false)
-          $success = false;
-      }
-    }
-    if ($progress) echo "\n";
-    return $success;
-  }
-
-
   // This filter takes the Bible data as it is stored in Bibledit-Web's database, 
   // and puts this information into the layout in books and chapters
   // such as is used in Bibledit-Gtk into the $git folder.
@@ -109,7 +78,7 @@ class Filter_Git
     $database_bibles = Database_Bibles::getInstance ();
     $database_books = Database_Books::getInstance ();
 
-    // First stage: Repository >> Database.
+    // First stage.
     // Read the chapters in the git repository, 
     // and check if they occur in the database.
     // If a chapter is not in the database, remove it from the repository.
@@ -146,7 +115,7 @@ class Filter_Git
       }
     }
 
-    // Second stage: Database >> Repository.
+    // Second stage.
     // Read the books / chapters from the database, 
     // and check if they occur in the repository, and the data matches.
     // If necessary, save the chapter to the repository.
