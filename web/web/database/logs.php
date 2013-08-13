@@ -36,14 +36,14 @@ class Database_Logs
   /**
   * log - Logs entry
   */
-  public function log ($description) 
+  public function log ($description, $level = 5) 
   {
     $database_instance = Database_Instance::getInstance();
     $description = Database_SQLInjection::no ($description);
     // The level of this entry.
     $session_logic = Session_Logic::getInstance ();
     $level = $session_logic->currentLevel ();
-    // System-generated entries have level 1: Fix that.    
+    // System-generated entries have level 1: Fix that.
     include ("session/levels.php");
     if ($level = GUEST_LEVEL) $level = MANAGER_LEVEL;
     $time = time();

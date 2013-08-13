@@ -71,7 +71,7 @@ $fullmenu = array (
   "styles/indexm" => "[" . gettext ("manage") . "]"
 ),
 "management" => array (
-  "manage/sendreceive" => gettext ("Receive/Send"),
+  "manage/sendreceive" => gettext ("Send/Receive"),
   "manage/logbook" => gettext ("Logbook"),
   "manage/users" => gettext ("Users"),
   "bible/manage" => gettext ("Bibles"),

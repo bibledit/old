@@ -2,7 +2,7 @@
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (MANAGER_LEVEL);
+page_access_level (TRANSLATOR_LEVEL);
 $database_logs = Database_Logs::getInstance();
 
 
