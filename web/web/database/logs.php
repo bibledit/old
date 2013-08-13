@@ -40,12 +40,7 @@ class Database_Logs
   {
     $database_instance = Database_Instance::getInstance();
     $description = Database_SQLInjection::no ($description);
-    // The level of this entry.
-    $session_logic = Session_Logic::getInstance ();
-    $level = $session_logic->currentLevel ();
-    // System-generated entries have level 1: Fix that.
-    include ("session/levels.php");
-    if ($level = GUEST_LEVEL) $level = MANAGER_LEVEL;
+    $level = Database_SQLInjection::no ($level);
     $time = time();
     $query = "INSERT INTO logs VALUES (NULL, $time, $level, '$description');";
     $database_instance->runQuery ($query);

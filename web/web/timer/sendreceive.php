@@ -20,16 +20,19 @@
 
 
 $receive_send = "send/receive:";
+include ("../session/levels.php");
 
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("$receive_send Starting to send and receive Bibles");
+$database_logs->log ("$receive_send Starting to send and receive Bibles", TRANSLATOR_LEVEL);
+
+
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("$receive_send Fatal: This only runs through the cli Server API", true);
+  $database_logs->log ("$receive_send Fatal: This only runs through the cli Server API");
   die;
 }
 
