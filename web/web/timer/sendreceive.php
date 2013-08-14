@@ -28,8 +28,6 @@ $database_logs = Database_Logs::getInstance ();
 $database_logs->log ("$receive_send Starting to send and receive Bibles", TRANSLATOR_LEVEL);
 
 
-
-
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
   $database_logs->log ("$receive_send Fatal: This only runs through the cli Server API");
@@ -61,9 +59,9 @@ foreach ($bibles as $bible) {
     if ($bible == "consultationnotes") {
       //$database_logs->log ("$receive_send Consultation Notes");
     } else {
-      $database_logs->log ("$receive_send Bible" . ": " . $bible);
+      $database_logs->log ("$receive_send Bible" . ": " . $bible, TRANSLATOR_LEVEL);
     }
-    $database_logs->log ("$receive_send Remote repository URL: " . $remote_repository_url);
+    $database_logs->log ("$receive_send Remote repository URL: " . $remote_repository_url, ADMIN_LEVEL);
 
 
     // The git directory for this object.
@@ -84,7 +82,7 @@ foreach ($bibles as $bible) {
       //$database_logs->log ("$receive_send Transferring notes to file.");
       //$success = Filter_Git::notesDatabase2filedata ($directory);
     } else {
-      $database_logs->log ("$receive_send Syncing Bible text to the repository.");
+      $database_logs->log ("$receive_send Syncing Bible text to the repository.", TRANSLATOR_LEVEL);
       $success = Filter_Git::syncBible2Git ($bible, $directory);
     }
     // If the above does not succeed, then there is a serious problem. 
@@ -120,7 +118,7 @@ foreach ($bibles as $bible) {
       exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
-        if ($line) $database_logs->log ("$receive_send $line");
+        if ($line) $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
       }
       $message = "Exit code $exit_code";
       $database_logs->log ("$receive_send $message");
@@ -154,12 +152,12 @@ foreach ($bibles as $bible) {
         //   Failed to add the host to the list of known hosts (/var/www/.ssh/known_hosts).
         // Such messages confuse the user, and are not real errors.
         if (strstr ($line, "/.ssh") != false) continue;
-        $database_logs->log ("$receive_send $line");
+        $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
         $database_git->insert ($directory, $line);
         if (strstr ($line, "CONFLICT") !== false) {
-          if ($line) $database_logs->log ("$receive_send $line");
+          if ($line) $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
           $message = "A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.";
-          $database_logs->log ("$receive_send $message");
+          $database_logs->log ("$receive_send $message", TRANSLATOR_LEVEL);
           // Inform administrator about the conflict.
           $database_mail = Database_Mail::getInstance ();
           $database_users = Database_Users::getInstance ();
@@ -184,7 +182,7 @@ foreach ($bibles as $bible) {
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         if (strstr ($line, "/.ssh") != false) continue;
-        if ($line) $database_logs->log ("$receive_send $line");
+        if ($line) $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
       }
       $message = "Exit code $exit_code";
       $database_logs->log ("$receive_send $message");
@@ -199,18 +197,18 @@ foreach ($bibles as $bible) {
 
     // Done.
     if (!$success) {
-      $database_logs->log ("$receive_send There was a failure");
+      $database_logs->log ("$receive_send There was a failure", TRANSLATOR_LEVEL);
     }
     if ($bible == "consultationnotes") {
-      $database_logs->log ("$receive_send The Consultation Notes have been done.");
+      //$database_logs->log ("$receive_send The Consultation Notes have been done.");
     } else {
-      $database_logs->log ("$receive_send This Bible has been done.");
+      $database_logs->log ("$receive_send This Bible has been done.", TRANSLATOR_LEVEL);
     }
   }
 }
 
 
-$database_logs->log ("$receive_send Ready");
+$database_logs->log ("$receive_send Ready", TRANSLATOR_LEVEL);
 
 
 ?>
