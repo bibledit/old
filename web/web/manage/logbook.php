@@ -6,15 +6,18 @@ page_access_level (TRANSLATOR_LEVEL);
 $database_logs = Database_Logs::getInstance();
 
 
-// Deal with AJAX call for the next logbook entry.
+// Deal with AJAX call for a possible new logbook entry.
 @$id = $_GET['id'];
 if (isset ($id)) {
-  $result = $database_logs->getID ($id);
+  $result = $database_logs->getNext ($id);
   if ($result->num_rows > 0) {
     $row = $result->fetch_assoc ();
+    $id = $row ['id'];
     $timestamp = date ('g:i:s a', $row ["timestamp"]);
     $event = Filter_Html::sanitize ($row ["event"]);
-    echo "$timestamp | $event";
+    $entry = "$timestamp | $event";
+    $data = array ('id' => $id, 'entry' => $entry);
+    echo json_encode ($data);
   }
   die;
 }
@@ -56,10 +59,9 @@ while ($row = $entries->fetch_assoc()) {
 $view->view->lines = $lines;
 
 
-// Pass information to the AJAX calls about the ID of next logbook entry to get.
-$nextID = $id + 1;
+// Pass the highest ID in a script for use by the AJAX calls for getting subsequent logbook entries.
 $script = <<<EOD
-var nextID = $nextID;
+var lastID = $id;
 EOD;
 // The AJAX calls for getting more logbook entries only runs when displaying
 // items for 'today', not for 'yesterday' and other days.

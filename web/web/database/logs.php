@@ -64,14 +64,13 @@ class Database_Logs
   }
 
 
-  /**
-  * get - get the logbook entry with $id
-  */
-  public function getID ($id) {
+  // Gets the logbook entry with id higher than $id.
+  public function getNext ($id) {
     $id = (int) $id;
     $session_logic = Session_Logic::getInstance ();
+    $level = $session_logic->currentLevel ();
     $server  = Database_Instance::getInstance ();
-    $query = "SELECT timestamp, event FROM logs WHERE id = $id;";
+    $query = "SELECT id, timestamp, event FROM logs WHERE id > $id AND level <= $level ORDER BY id ASC LIMIT 1;";
     $result = $server->runQuery ($query);
     return $result;
   }

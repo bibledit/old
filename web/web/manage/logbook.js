@@ -4,13 +4,14 @@ $(window).load (function () {
 
 var getMore = function () 
 {
-  $.get ("logbook.php?id=" + nextID, function (response) {
+  $.get ("logbook.php?id=" + lastID, function (response) {
     if (response == "") {
       setTimeout (getMore, 2000);
     } else {
-      $ ("div").append ($ ("<p>" + response + "</p>"));
+      response = $.parseJSON (response);
+      lastID = response ["id"];
+      $ ("div").append ($ ("<p>" + response ["entry"] + "</p>"));
       $("body").animate({ scrollTop: $(document).height() - $(window).height() }, 100);
-      nextID++;
       setTimeout (getMore, 100);
     }
   });  
