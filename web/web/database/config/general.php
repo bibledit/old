@@ -1,4 +1,21 @@
 <?php
+/*
+Copyright (©) 2003-2013 Teus Benschop.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+  
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+  
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
 
 class Database_Config_General
@@ -201,13 +218,6 @@ class Database_Config_General
   }
   public function setTimerExports ($value) {
     $this->setValue ("timer-exports", $value);
-  }
-
-  public function getTimerSendReceive() {
-    return $this->getValue ("timer-send-receive", "");
-  }
-  public function setTimerSendReceive ($value) {
-    $this->setValue ("timer-send-receive", $value);
   }
 
   public function getSiteURL() {
@@ -439,6 +449,13 @@ class Database_Config_General
   }
   public function setCheckingPatterns ($value) {
     $this->setList ("checking-patterns", $value);
+  }
+
+  public function getRepeatSendReceive () {
+    return $this->getValue ("repeat-send-receive", false);
+  }
+  public function setRepeatSendReceive ($value) {
+    $this->setValue ("repeat-send-receive", $value);
   }
 
 }

@@ -64,7 +64,7 @@ class Timer_Logger
   public function handleUsedLogFiles ()
   {
     $database_logger = Database_Logger::getInstance ();
-    $logfiles = $database_logger->get ();
+    $logfiles = $database_logger->getAll ();
     foreach ($logfiles as $pid => $filename) {
       if (file_exists ('/proc/'.$pid)) continue;
       $database_logger->erase ($pid);

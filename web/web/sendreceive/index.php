@@ -16,17 +16,37 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+
+
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (TRANSLATOR_LEVEL);
+
+
+$database_config_general = Database_Config_General::getInstance ();
+
+
 Assets_Page::header (gettext ("Send/Receive"));
 $view = new Assets_View (__FILE__);
+
+
 if (isset($_GET['run'])) {
-  $database_config_general = Database_Config_General::getInstance();
-  $database_config_general->setTimerSendReceive (time ());
-  $view->view->success = gettext ("Will send and receive Bibles within a minute. See the logbook for progress.");
-  $database_logs = Database_Logs::getInstance ();
-  $database_logs->log (gettext ("Will send and receive Bibles within a minute"));
+  if (SendReceive_Logic::isRunning ()) {
+    $view->view->success = gettext ("Sending and receiving is in progress.");
+  } else {
+    SendReceive_Logic::start ();
+    $view->view->success = gettext ("Sending and receiving has started.");
+  }
 }
-$view->render ("sendreceive.php");
+
+
+if (isset($_GET['togglerepeat'])) {
+  $database_config_general->setRepeatSendReceive (!$database_config_general->getRepeatSendReceive ());
+}
+$view->view->repeat = $database_config_general->getRepeatSendReceive ();
+
+
+$view->render ("index.php");
 Assets_Page::footer ();
+
+
 ?>

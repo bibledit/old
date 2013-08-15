@@ -40,7 +40,8 @@ page_access_level (GUEST_LEVEL);
 // The values consist of an array with paths to the file => localized menu text.
 $fullmenu = array (
 "translate" => array (
-  "editusfm/index" => gettext ("Translate")
+  "editusfm/index" => gettext ("Translate"),
+  "sendreceive/index" => gettext ("Send/Receive"),
 ),
 "notes" => array (
   "notes/index" => gettext ("Notes"),
@@ -71,7 +72,6 @@ $fullmenu = array (
   "styles/indexm" => "[" . gettext ("manage") . "]"
 ),
 "management" => array (
-  "manage/sendreceive" => gettext ("Send/Receive"),
   "manage/logbook" => gettext ("Logbook"),
   "manage/users" => gettext ("Users"),
   "bible/manage" => gettext ("Bibles"),

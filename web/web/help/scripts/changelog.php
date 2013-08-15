@@ -16,6 +16,11 @@
 <p>After login, takes the user straight to the desired function, for a smoother user experience.</p>
 <p>Optimized data transfer into collaboration repository.</p>
 <p>The translators can also Send/Receive, no longer the managers only.</p>
+<p>It has a setting to send and receive every five minutes.</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 1.0</h2>

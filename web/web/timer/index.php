@@ -1,25 +1,21 @@
 <?php
-/**
-* @package bibledit
-*/
 /*
- ** Copyright (©) 2003-2013 Teus Benschop.
- **
- ** This program is free software; you can redistribute it and/or modify
- ** it under the terms of the GNU General Public License as published by
- ** the Free Software Foundation; either version 3 of the License, or
- ** (at your option) any later version.
- **  
- ** This program is distributed in the hope that it will be useful,
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ** GNU General Public License for more details.
- **  
- ** You should have received a copy of the GNU General Public License
- ** along with this program; if not, write to the Free Software
- ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- **  
- */
+Copyright (©) 2003-2013 Teus Benschop.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+  
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+  
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
 
 require_once ("../bootstrap/bootstrap.php");
@@ -92,13 +88,13 @@ if (($minute % 5) == 0) {
 // On a production website running on an inexpensive virtual private server 
 // with 512 Mbyte of memory and a fast network connection, 
 // sending and receiving two Bibles takes more than 15 minutes when there are many changes.
-if (($current_timestamp >= $config_general->getTimerSendReceive ()) || (($hour == 0) && ($minute == 0))) {
-  $config_general->setTimerSendReceive ($current_timestamp + 100000);
-  $workingdirectory = escapeshellarg (dirname (__FILE__));
-  $logfilename = $timer_logger->getLogFilename (Timer_Logger::sendreceive);
-  $command = "cd $workingdirectory; php sendreceive.php > $logfilename 2>&1 & echo $!";
-  $pid = shell_exec ($command);
-  $timer_logger->registerLogfile ($command, $pid, $logfilename);
+$sendreceive = false;
+if (($hour == 0) && ($minute == 0)) $sendreceive = true;
+if ((($minute % 5) == 0) && $config_general->getRepeatSendReceive ()) $sendreceive = true;
+if ($sendreceive) {
+  if (!SendReceive_Logic::isRunning ()) {
+    SendReceive_Logic::start ();
+  }
 }
 
 
