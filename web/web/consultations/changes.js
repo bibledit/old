@@ -1,9 +1,6 @@
-var idCount = 0;
-
-
 $(document).ready(function() {
   updateIdCount ();
-  selectEntry ();
+  selectEntry ($ ("div").first ());
   $("body").on ("keydown", keyDown);
   $("div").on ("click", handleClick);
 });
@@ -13,20 +10,18 @@ function keyDown (event) {
   // Down arrow: Go to next entry.
   if (event.keyCode == 40) {
     event.preventDefault ();
-    nextEntry ();
-    selectEntry ();
+    selectEntry (getNextEntry ());
   }
   // Up arrow: Go to previous entry.
   if (event.keyCode == 38) {
     event.preventDefault ();
-    previousEntry ();
-    selectEntry ();
+    selectEntry (getPreviousEntry ());
   }
   // Delete the entry.
   if (event.keyCode == 46) {
+    var newEntry = getEntryAfterDelete ();
     removeEntry ();
-    nextEntry ();
-    selectEntry ();
+    selectEntry (newEntry);
   }
   // Right arrow: Expand entry.
   if (event.keyCode == 39) {
@@ -42,8 +37,9 @@ function keyDown (event) {
 
 
 function handleClick (event) {
+  return; // Todo implement clicking.
   selectedID = $(event.currentTarget).attr ("id").substring (5, 100);
-  selectEntry ();
+  // Todo selectEntry ();
   var eventTarget = $(event.target);
   var actionID = eventTarget.attr ("id");
   if (!actionID) return;
@@ -51,7 +47,7 @@ function handleClick (event) {
   if (actionID == ("remove" + selectedID)) {
     removeEntry ();
     nextEntry ();
-    selectEntry ();
+    // Todo selectEntry ();
     event.preventDefault ();
   }
   // Expand / collapse the change notification.
@@ -81,73 +77,73 @@ function handleClick (event) {
 }
 
 
-function nextEntry () {
-  if (selectedID == 0) return;
-  while (selectedID++ <= lastID) {
-    if ($("div#entry" + selectedID).length) {
-      return;
-    }
-  }
-  if ($("div").length) {
-    selectedID = $("div").last ().attr ("id").substring (5, 100);
-  } else {
-    selectedID = 0;
-  }
+function getNextEntry () {
+  var current = $(".selected");
+  if (!current) return undefined;
+  var next = current.next ("div");
+  if (next.length) return next;
+  return current;
 }
 
 
-function previousEntry () {
-  if (selectedID == 0) return;
-  while (selectedID-- >= firstID) {
-    if ($("div#entry" + selectedID).length) {
-      return;
-    }
-  }
-  if ($("div").length) {
-    selectedID = $("div").first ().attr ("id").substring (5, 100);
-  } else {
-    selectedID = 0;
-  }
-
+function getPreviousEntry () {
+  var current = $(".selected");
+  if (!current) return undefined;
+  var prev = current.prev ("div");
+  if (prev.length) return prev;
+  return current;
 }
 
 
-function selectEntry () {
-  $(".selected").removeClass ("selected");
-  var selectedElement = $("div#entry" + selectedID);
-  if (selectedElement.length) {
-    selectedElement.addClass ("selected");
-    var elementOffset = selectedElement.offset ();
-    $("body").scrollTop (elementOffset.top + (selectedElement.height () / 2) - ($(window).height () / 2));
+function getEntryAfterDelete () {
+  var current = $(".selected");
+  if (!current) return undefined;
+  var entry = current.next ("div");
+  if (entry.length) return entry;
+  entry = current.prev ("div");
+  if (entry.length) return entry;
+  return undefined;  
+}
+
+
+function selectEntry (entry) {
+  if (entry) {
+    $(".selected").removeClass ("selected");
+    entry.addClass ("selected");
+    var elementOffset = entry.offset ();
+    $("body").scrollTop (elementOffset.top + (entry.height () / 2) - ($(window).height () / 2));
   }
 }
 
 
 function removeEntry () {
-  if (selectedID == 0) return;
-  $.post ("changes.php", { remove:selectedID });
+  var identifier = getSelectedIdentifier ();
+  if (identifier == 0) return;
+  $.post ("changes.php", { remove:identifier });
   $(".selected").remove ();
   updateIdCount ();
-  
 }
 
 
 function updateIdCount () {
-  idCount = $("div[id^='entry']").length;
+  var idCount = $("div[id^='entry']").length;
   $("#count").html (idCount);
 }
 
 
 function expandEntry () {
   // Bail out if nothing has been selected.
-  if (selectedID == 0) return;
+  var current = $(".selected");
+  if (!current) return;
   // Bail out if the entry is already expanded.
   if ($(".selected > div").length > 0) return;
+  // Get the selected identifier.
+  var identifier = getSelectedIdentifier ();
   // Navigate to the passage of the entry.
-  $.post ("changes.php", { navigate:selectedID });
+  $.post ("changes.php", { navigate:identifier });
   // Get extra information through AJAX calls.
   $(".selected").append ($ ("<div>" + loading + "</div>"));
-  $.get ("change.php?get=" + selectedID, function (response) {
+  $.get ("change.php?get=" + identifier, function (response) {
     $(".selected > div").remove ();
     var extraInfo = $ ("<div>" + response + "</div>");
     $(".selected").append (extraInfo);
@@ -160,9 +156,8 @@ function expandEntry () {
 
 
 function collapseEntry () {
-  if (selectedID == 0) return;
   $(".selected > div").remove ();
-  selectEntry ();
+  selectEntry ($(".selected"));
 }
 
 
@@ -174,3 +169,12 @@ function toggleEntry () {
     expandEntry ();
   }
 }
+
+
+function getSelectedIdentifier () {
+  var current = $(".selected");
+  if (!current) return 0;
+  var identifier = current.attr ("id").substring (5, 100);
+  return identifier;
+}
+

@@ -59,9 +59,8 @@ class Database_Changes
       $username = Database_SQLInjection::no ($username);
       $query .= " WHERE username = '$username' ";
     }
-    // Sort on id, so that the entries display in chronological order.
-    //$query .= " ORDER BY book ASC, chapter ASC, verse ASC, id ASC;";
-    $query .= " ORDER BY id ASC;";
+    // Sort on reference, so that related changes are near each other.
+    $query .= " ORDER BY book ASC, chapter ASC, verse ASC, id ASC;";
     $database_instance = Database_Instance::getInstance();
     $result = $database_instance->runQuery ($query);
     $ids = array ();
