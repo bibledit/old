@@ -37,40 +37,42 @@ function keyDown (event) {
 
 
 function handleClick (event) {
-  return; // Todo implement clicking.
-  selectedID = $(event.currentTarget).attr ("id").substring (5, 100);
-  // Todo selectEntry ();
+  var entry = $(event.currentTarget);
+
+  selectEntry (entry);
+
+  var identifier = entry.attr ("id").substring (5, 100);
+
   var eventTarget = $(event.target);
   var actionID = eventTarget.attr ("id");
   if (!actionID) return;
-  // Remove the change notification.
-  if (actionID == ("remove" + selectedID)) {
+
+  if (actionID == ("remove" + identifier)) {
+    var newEntry = getEntryAfterDelete ();
     removeEntry ();
-    nextEntry ();
-    // Todo selectEntry ();
+    selectEntry (newEntry);
     event.preventDefault ();
   }
-  // Expand / collapse the change notification.
-  if (actionID == ("expand" + selectedID)) {
+
+  if (actionID == ("expand" + identifier)) {
     toggleEntry ();
     event.preventDefault ();
   }
-  // Unsubscribe from the note.
+
   if (actionID.substring (0, 11) == ("unsubscribe")) {
     $.post ("change.php", { unsubscribe:actionID });
     eventTarget.fadeOut ();
     event.preventDefault ();
   }
-  // Unassign the note.
+
   if (actionID.substring (0, 8) == ("unassign")) {
     $.post ("change.php", { unassign:actionID });
     eventTarget.fadeOut ();
     event.preventDefault ();
   }
-  // Delete the note.
+
   if (actionID.substring (0, 6) == ("delete")) {
     $.post ("change.php", { delete:actionID });
-    console.log (eventTarget.parent ());
     eventTarget.parent ().parent ().fadeOut ();
     event.preventDefault ();
   }
@@ -162,7 +164,6 @@ function collapseEntry () {
 
 
 function toggleEntry () {
-  if (selectedID == 0) return;
   if ($(".selected > div").length > 0) {
     collapseEntry ();
   } else {
