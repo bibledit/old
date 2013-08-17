@@ -103,6 +103,7 @@ EOD;
   protected function tearDown ()
   {
     $database_bibles = Database_Bibles::getInstance();
+    $database_bibles->deleteDiffBible ($this->bible);
     $database_bibles->deleteBible ($this->bible);
     Filter_Rmdir::rmdir ($this->repository);
     Filter_Rmdir::rmdir ($this->newrepository);
@@ -157,7 +158,7 @@ EOD;
   }
 
 
-  public function testSyncBible2GitOne ()
+  public function testSyncBibleToGit1 ()
   {
     $database_bibles = Database_Bibles::getInstance();
 
@@ -180,7 +181,7 @@ EOD;
   }
 
 
-  public function testSyncBible2GitTwo ()
+  public function testSyncBibleToGit2 ()
   {
     $database_bibles = Database_Bibles::getInstance();
 
@@ -204,7 +205,7 @@ EOD;
   }
 
   
-  public function testSyncBible2GitThree ()
+  public function testSyncBibleToGit3 ()
   {
     $database_bibles = Database_Bibles::getInstance();
 
@@ -235,6 +236,68 @@ EOD;
 
     $data = file_get_contents ("$repository/Psalms/1/data");
     $this->assertEquals ($this->song_of_solomon_2_data, $data);
+  }
+  
+
+  public function testSyncGitToBibleAddChapters ()
+  {
+    $database_bibles = Database_Bibles::getInstance();
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // The Bible has been created, but has no data yet.
+    // Run the filter, and check that all three chapters are now the database.
+    Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+    $books = $database_bibles->getBooks ($this->bible);
+    $this->assertEquals ($books, array (19, 22));
+    // Check that the data matches.
+    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $this->assertEquals ($this->psalms_0_data, $usfm);
+    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $this->assertEquals ($this->psalms_11_data, $usfm);
+    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $this->assertEquals ($this->song_of_solomon_2_data, $usfm);
+  }
+
+
+  public function testSyncGitToBibleDeleteChapters ()
+  {
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // Put that into the database.
+    $database_bibles = Database_Bibles::getInstance();
+    Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+    // Remove one book and one chapter from the git repository,
+    // and check that after running the filter, the database is updated accordingly.
+    Filter_Rmdir::rmdir ($this->repository . "/Song of Solomon");
+    Filter_Rmdir::rmdir ($this->repository . "/Psalms/0");
+    Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+    $books = $database_bibles->getBooks ($this->bible);
+    $this->assertEquals ($books, array (19));
+    // Check that the data matches.
+    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $this->assertEquals ("", $usfm);
+    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $this->assertEquals ($this->psalms_11_data, $usfm);
+    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $this->assertEquals ("", $usfm);
+  }
+  
+
+  public function testSyncGitToBibleUpdateChapters () // Todo
+  {
+    // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
+    // Put that into the database.
+    $database_bibles = Database_Bibles::getInstance();
+    Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+    // Update some chapters in the git repository,
+    // and check that after running the filter, the database is updated accordingly.
+    file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
+    file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
+    Filter_Git::syncGit2Bible ($this->repository, $this->bible);
+    $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
+    $this->assertEquals ($this->psalms_0_data, $usfm);
+    $usfm = $database_bibles->getChapter ($this->bible, 19, 11);
+    $this->assertEquals ("\\c 11", $usfm);
+    $usfm = $database_bibles->getChapter ($this->bible, 22, 2);
+    $this->assertEquals ("\\c 2", $usfm);
   }
   
 

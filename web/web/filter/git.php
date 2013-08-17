@@ -140,6 +140,92 @@ class Filter_Git
   }
 
 
+  // This filter takes the Bible data as it is stored in the $git folder, 
+  // and puts this information into Bibledit-Web's database.
+  // The $git is a git repository, and may contain other data as well.
+  // The filter focuses on reading the data in the git repository and the database,
+  // and only writes to the database if necessary, 
+  // This speeds up the filter.
+  public static function syncGit2Bible ($git, $bible) // Todo
+  {
+    $success = true;
+
+    $database_bibles = Database_Bibles::getInstance ();
+    $database_books = Database_Books::getInstance ();
+    $database_logs = Database_Logs::getInstance ();
+
+    // Stage one:
+    // Read the chapters in the git repository,
+    // and check that they occur in the database.
+    // If any does not occur, add the chapter to the database.
+    // This stage does not check the contents of the chapters.
+    $books = $database_bibles->getBooks ($bible);
+    foreach (new DirectoryIterator ($git) as $fileInfo) {
+      if ($fileInfo->isDot ()) continue;
+      if ($fileInfo->isDir ()) {
+        $bookname = $fileInfo->getFilename ();
+        $book = $database_books->getIdFromEnglish ($bookname);
+        if ($book) {
+          // Check the chapters.
+          $chapters = $database_bibles->getChapters ($bible, $book);
+          foreach (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
+            if ($fileInfo2->isDot ()) continue;
+            if ($fileInfo2->isDir ()) {
+              $chapter = $fileInfo2->getFilename ();
+              if (is_numeric ($chapter)) {
+                $filename = "$git/$bookname/$chapter/data";
+                if (file_exists ($filename)) {
+                  if (!in_array ($chapter, $chapters)) {
+                    // Chapter does not exist in the database: Add it.
+                    $usfm = file_get_contents ($filename);
+                    $database_bibles->storeChapter ($bible, $book, $chapter, $usfm);
+                    $database_logs->log (gettext ("A translator added a chapter") . ": $bible $bookname $chapter");
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    
+    // Stage two:
+    // Read through the chapters in the database,
+    // and check that they occur in the git folder.
+    // If necessary, remove a chapter from the database.
+    // If a chapter matches, check that the contents of the data in the git 
+    // folder and the contents in the database match.
+    // If necessary, update the data in the database.
+    $books = $database_bibles->getBooks ($bible);
+    foreach ($books as $book) {
+      $bookname = $database_books->getEnglishFromId ($book);
+      $bookdir = "$git/$bookname";
+      if (file_exists ($bookdir)) {
+        $chapters = $database_bibles->getChapters ($bible, $book);
+        foreach ($chapters as $chapter) {
+          $chapterdir = "$bookdir/$chapter";
+          if (file_exists ($chapterdir)) {
+            $datafile = "$chapterdir/data";
+            $contents = file_get_contents ($datafile);
+            $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+            if ($contents != $usfm) {
+              $database_bibles->storeChapter ($bible, $book, $chapter, $contents);
+              $database_logs->log (gettext ("A translator updated a chapter") . ": $bible $bookname $chapter");
+           }
+          } else {
+            $database_bibles->deleteChapter ($bible, $book, $chapter);
+            $database_logs->log (gettext ("A translator deleted a chapter") . ": $bible $bookname $chapter");
+         }
+        }
+      } else {
+        $database_bibles->deleteBook ($bible, $book);
+        $database_logs->log (gettext ("A translator deleted a book") . ": $bible $bookname");
+      }
+    }
+  }
+
+
   /**
   * This filter takes the Consultations Notes as these are stored in Bibledit-Web's database, 
   * and transfers this information to the file system,
