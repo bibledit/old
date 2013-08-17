@@ -1,30 +1,24 @@
 <?php
-/**
-* @package bibledit
-*/
 /*
- ** Copyright (©) 2003-2013 Teus Benschop.
- **
- ** This program is free software; you can redistribute it and/or modify
- ** it under the terms of the GNU General Public License as published by
- ** the Free Software Foundation; either version 3 of the License, or
- ** (at your option) any later version.
- **  
- ** This program is distributed in the hope that it will be useful,
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ** GNU General Public License for more details.
- **  
- ** You should have received a copy of the GNU General Public License
- ** along with this program; if not, write to the Free Software
- ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- **  
- */
+Copyright (©) 2003-2013 Teus Benschop.
 
-
-/**
-* This database is for the mailer.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+  
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+  
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+
+
+// This database is for the mailer.
 class Database_Mailer
 {
   private static $instance;
@@ -43,9 +37,12 @@ class Database_Mailer
     $database_instance->runQuery ("OPTIMIZE TABLE mailer;");
   }
 
-  /**
-  * Returns true if mail $id has been postponed.
-  */
+
+  public function trim () {
+  }
+
+
+  // Returns true if mail $id has been postponed.
   public function isPostponed ($id) {
     $id = Database_SQLInjection::no ($id);
     $database_instance = Database_Instance::getInstance();
@@ -54,9 +51,8 @@ class Database_Mailer
     return ($result->num_rows > 0);
   }
 
-  /**
-  * Postpone mail $id.
-  */
+
+  // Postpone mail $id.
   public function postpone ($id) {
     $id = Database_SQLInjection::no ($id);
     $database_instance = Database_Instance::getInstance();
@@ -65,10 +61,8 @@ class Database_Mailer
       // First failure: delay 60 seconds.
       $delay = 60;
     } else {
-      // Subsequent failures: double the delay, but don't go beyond one day.
+      // Subsequent failures: double the delay,
       $delay = 2 * $delay;
-      if ($delay > 86400) 
-        $delay = 86400;
     }
     $retry = time () + $delay;
     $query = "DELETE FROM mailer WHERE id = $id;";
@@ -87,9 +81,7 @@ class Database_Mailer
     return $result_array[0];
   }
 
-  /**
-  * getRetryMails.
-  */
+
   public function getRetryMails ()
   {
     $ids = array ();
@@ -104,15 +96,29 @@ class Database_Mailer
     return $ids;
   }
 
-  /**
-  * delete - deletes $id from the database.
-  */
+
+  public function getOverdueMails ()
+  {
+    $ids = array ();
+    $database_instance = Database_Instance::getInstance();
+    $retry = time () + 345600;
+    $query = "SELECT id FROM mailer WHERE retry > $retry;";    
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $result_array = $result->fetch_row();
+      $ids[] = $result_array [0];
+    }
+    return $ids;
+  }
+
+
   public function delete ($id) 
   {
     $database_instance = Database_Instance::getInstance();
     $query = "DELETE FROM mailer WHERE id = $id;";
     $database_instance->runQuery ($query);
   }
+
     
 }
 

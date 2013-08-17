@@ -42,12 +42,16 @@ $database->optimize ();
 $database = Database_Config_General::getInstance ();
 $database->optimize ();
 
+$database = Database_Mailer::getInstance ();
+$overdues = $database->getOverdueMails ();
+foreach ($overdues as $id) $database->delete ($id);
+$database->trim ();
+$database->optimize ();
+
 $database = Database_Mail::getInstance ();
+foreach ($overdues as $id) $database->delete ($id);
 $database->trim ();
 $database->optimize();
-
-$database = Database_Mailer::getInstance ();
-$database->optimize ();
 
 $database = Database_Confirm::getInstance ();
 $database->trim ();
