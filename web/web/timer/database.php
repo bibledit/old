@@ -87,9 +87,6 @@ $database->optimize();
 $database = Database_Shell::getInstance();
 $database->optimize();
 
-$database = Database_Git::getInstance();
-$database->optimize();
-
 $database = Database_Logger::getInstance ();
 $database->optimize();
 

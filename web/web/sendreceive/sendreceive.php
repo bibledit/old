@@ -40,14 +40,9 @@ if (php_sapi_name () != "cli") {
 putenv ("HOME=" . dirname (__FILE__));
 
 
-$database_logs->log ("$receive_send Processing any data left over from previous actions");
-Filter_Git::filedata2database ();
-
-
 $database_bibles = Database_Bibles::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $database_logs = Database_Logs::getInstance();
-$database_git = Database_Git::getInstance();
 $bibles = $database_bibles->getBibles();
 // Add the Consultation Notes as well.
 $bibles [] = "consultationnotes";
@@ -77,7 +72,7 @@ foreach ($bibles as $bible) {
     }
 
 
-    // Sync the reposityr with the database. 
+    // Sync the repository with the database. 
     if ($bible == "consultationnotes") {
       //$database_logs->log ("$receive_send Transferring notes to file.");
       //$success = Filter_Git::notesDatabase2filedata ($directory);
@@ -153,7 +148,6 @@ foreach ($bibles as $bible) {
         // Such messages confuse the user, and are not real errors.
         if (strstr ($line, "/.ssh") != false) continue;
         $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
-        $database_git->insert ($directory, $line);
         if (strstr ($line, "CONFLICT") !== false) {
           if ($line) $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
           $message = "A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.";
@@ -191,7 +185,7 @@ foreach ($bibles as $bible) {
 
     if ($success) {
       $database_logs->log ("$receive_send Storing the changes in the database.");
-      Filter_Git::filedata2database ();
+      Filter_Git::syncGit2Bible ($directory, $bible);
     }
 
 

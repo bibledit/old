@@ -17,7 +17,7 @@
 <p>Optimized data transfer into collaboration repository.</p>
 <p>The translators can also Send/Receive, no longer the managers only.</p>
 <p>It has a setting to send and receive every five minutes.</p>
-<p></p>
+<p>More robust synchronization from the collaboration repository to the Bible database.</p>
 <p></p>
 <p></p>
 <p></p>

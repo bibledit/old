@@ -64,7 +64,7 @@ class Database_Logger
   }
 
 
-  public function getPID ($logfile) // Todo implement.
+  public function getPID ($logfile)
   {
     $server  = Database_Instance::getInstance ();
     $logfile = Database_SQLInjection::no ($logfile);

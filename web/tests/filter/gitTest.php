@@ -110,54 +110,6 @@ EOD;
   }
 
 
-  // This tests round-tripping git Bible data in the file system,
-  // being transferred to the database, then back to the filesystem.
-  public function testFiledata2database2filedata()
-  {
-    $bible = $this->bible;
-    $directory = $this->repository;
-    $newdirectory = $this->newrepository;
-
-    // Store some data in the temporal Bible in the database.
-    // Filter_Git, when called with this data, is supposed to erase this data if it is not in the filesystem.
-    $database_bibles = Database_Bibles::getInstance();
-    $database_bibles->storeChapter ($bible, 2, 1, $this->song_of_solomon_2_data);
-    $database_bibles->storeChapter ($bible, 3, 4, $this->song_of_solomon_2_data);
-    $database_bibles->storeChapter ($bible, 5, 6, $this->song_of_solomon_2_data);
-
-    // Call the filter for each chapter.
-    Filter_Git::bibleFiledata2database ($directory, $bible, "Exodus/1/data |    2 +-");
-    Filter_Git::bibleFiledata2database ($directory, $bible, "Leviticus/4/data |    2 +-");
-    Filter_Git::bibleFiledata2database ($directory, $bible, "Deuteronomy/6/data |    2 +-");
-    Filter_Git::bibleFiledata2database ($directory, $bible, "Psalms/0/data |    2 +-");
-    Filter_Git::bibleFiledata2database ($directory, $bible, "Psalms/11/data |    2 +-");
-    Filter_Git::bibleFiledata2database ($directory, $bible, "Song of Solomon/2/data |    2 +-");
-
-    // Assert database has certain books.
-    $books = $database_bibles->getBooks ($bible);
-    $this->assertEquals(array(19, 22), $books);
-
-    // Assert Psalms has certain chapters.
-    $chapters = $database_bibles->getChapters ($bible, 19);
-    $this->assertEquals(array(0, 11), $chapters);
-
-    // Assert Song of Solomon has a certain chapter.
-    $chapters = $database_bibles->getChapters ($bible, 22);
-    $this->assertEquals(array(2), $chapters);
-
-    // Assert data in Psalm 11.
-    $data = $database_bibles->getChapter ($bible, 19, 11);
-    $this->assertEquals($this->psalms_11_data, $data);
-
-    // Call the filter.
-    Filter_Git::syncBible2Git ($bible, $newdirectory);
-
-    // Compare new directory with the standard one.
-    system ("diff -r $newdirectory $directory", $exit_code);
-    $this->assertEquals(0, $exit_code);
-  }
-
-
   public function testSyncBibleToGit1 ()
   {
     $database_bibles = Database_Bibles::getInstance();
@@ -281,7 +233,7 @@ EOD;
   }
   
 
-  public function testSyncGitToBibleUpdateChapters () // Todo
+  public function testSyncGitToBibleUpdateChapters ()
   {
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // Put that into the database.
