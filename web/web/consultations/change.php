@@ -26,14 +26,14 @@ if (isset ($unassign)) {
 }
 
 
-// Note delete handler.
+// Note mark for deletion handler.
 @$delete = $_POST['delete'];
 if (isset ($delete)) {
   $identifier = Filter_Numeric::integer_in_string ($delete);
+  $database_notes->markForDeletion ($identifier);
   $trash_handler = Trash_Handler::getInstance ();
   $trash_handler->consultationNote ($identifier);
-  $notes_logic->handlerDeleteNote ($identifier); // Notifications handling.
-  $database_notes->delete ($identifier);
+  $notes_logic->handlerMarkNoteForDeletion ($identifier); // Notifications handling.
   die;
 }
 
@@ -79,6 +79,13 @@ $notes = $database_notes->selectNotes (
   0, // Text selector.
   "", // Search text.
   NULL); // Limit.
+
+// Remove the ones marked for deletion.
+foreach ($notes as $offset => $note) {
+  if ($database_notes->isMarkedForDeletion ($note)) {
+    unset ($notes [$offset]);
+  }
+}
 
 // Sort them, most recent notes first.
 $timestamps = array ();

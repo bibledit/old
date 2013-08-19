@@ -36,7 +36,7 @@ class Notes_Logic
   const notifyNoteComment         = 2;
   const notifyNoteUpdate          = 3;
   const notifyNoteDelete          = 4;
-  const notifyMarkNoteForDeletion = 5; // Todo
+  const notifyMarkNoteForDeletion = 5;
 
 
   public static function getInstance() 
@@ -86,7 +86,7 @@ class Notes_Logic
   }
 
 
-  public function handlerMarkNoteForDeletion ($identifier) // Todo implement
+  public function handlerMarkNoteForDeletion ($identifier)
   {
     $this->notifyUsers ($identifier, self::notifyMarkNoteForDeletion);
   }
@@ -174,8 +174,8 @@ class Notes_Logic
       case self::notifyNoteNew             : $label = gettext ("New");                 break;
       case self::notifyNoteComment         : $label = gettext ("Comment");             break;
       case self::notifyNoteUpdate          : $label = gettext ("Updated");             break;
-      case self::notifyNoteDelete          : $label = gettext ("Deleted");             break; // Todo
-      case self::notifyMarkNoteForDeletion : $label = gettext ("Marked for deletion"); break; // Todo
+      case self::notifyNoteDelete          : $label = gettext ("Deleted");             break;
+      case self::notifyMarkNoteForDeletion : $label = gettext ("Marked for deletion"); break;
     }
     
     // Send mail to all recipients.
