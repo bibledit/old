@@ -65,9 +65,9 @@ if (isset ($_GET['done'])) {
 
 if (isset ($_GET['markdel'])) {
   $database_notes->markForDeletion ($id);
-  $success = gettext ("This note will be deleted after a week.") . " " . gettext ("But if the note gets updated, it won't be deleted anymore.");
-  // $notes_logic->handlerDeleteNote ($id); Todo write new function with a different email.
-  //$trash_handler->consultationNote ($id); // todo write new function slightly adapted, or give extra parameter
+  $success = gettext ("The note will be deleted after a week.") . " " . gettext ("Adding a comment to the note cancels the deletion.");
+  $notes_logic->handlerMarkNoteForDeletion ($id);
+  $trash_handler->consultationNote ($id);
 }
 
 

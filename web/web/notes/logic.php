@@ -32,10 +32,11 @@ class Notes_Logic
   } 
 
 
-  const notifyNoteNew     = 1;
-  const notifyNoteComment = 2;
-  const notifyNoteUpdate  = 3;
-  const notifyNoteDelete  = 4;
+  const notifyNoteNew             = 1;
+  const notifyNoteComment         = 2;
+  const notifyNoteUpdate          = 3;
+  const notifyNoteDelete          = 4;
+  const notifyMarkNoteForDeletion = 5; // Todo
 
 
   public static function getInstance() 
@@ -64,10 +65,12 @@ class Notes_Logic
     }
   }
 
+
   public function handlerUpdateNote ($identifier)
   {
     $this->notifyUsers ($identifier, self::notifyNoteUpdate);
   }
+
 
   public function handlerAssignNote ($identifier, $user)
   {
@@ -80,6 +83,12 @@ class Notes_Logic
         $this->emailUsers ($identifier, gettext ("Assigned"), array ($user));
       }
     }
+  }
+
+
+  public function handlerMarkNoteForDeletion ($identifier) // Todo implement
+  {
+    $this->notifyUsers ($identifier, self::notifyMarkNoteForDeletion);
   }
 
 
@@ -137,8 +146,9 @@ class Notes_Logic
       }
     }
 
-    // In case the consultation note is deleted, notify only the users with this specific notification set.
-    if ($notification == self::notifyNoteDelete) {
+    // In case the consultation note is deleted or marked for deletion,
+    // notify only the users with this specific notification set.
+    if (($notification == self::notifyNoteDelete) || ($notification == self::notifyMarkNoteForDeletion)) {
       $recipients = array ();
       $users = $database_users->getUsers ();
       foreach ($users as $user) {
@@ -161,10 +171,11 @@ class Notes_Logic
     // Generate the label prefixed to the subject line of the email.
     $label = gettext ("General");
     switch ($notification) {
-      case self::notifyNoteNew     : $label = gettext ("New");     break;
-      case self::notifyNoteComment : $label = gettext ("Comment"); break;
-      case self::notifyNoteUpdate  : $label = gettext ("Updated"); break;
-      case self::notifyNoteDelete  : $label = gettext ("Deleted"); break;
+      case self::notifyNoteNew             : $label = gettext ("New");                 break;
+      case self::notifyNoteComment         : $label = gettext ("Comment");             break;
+      case self::notifyNoteUpdate          : $label = gettext ("Updated");             break;
+      case self::notifyNoteDelete          : $label = gettext ("Deleted");             break; // Todo
+      case self::notifyMarkNoteForDeletion : $label = gettext ("Marked for deletion"); break; // Todo
     }
     
     // Send mail to all recipients.
@@ -202,7 +213,6 @@ class Notes_Logic
       $database_mail->send ($user, "$label | $passages | $summary | (CNID$identifier)", $contents);
     }
   }
-  
   
 
   /**

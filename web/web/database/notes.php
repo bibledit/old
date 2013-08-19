@@ -409,6 +409,7 @@ class Database_Notes
     $server->runQuery ($query);
     $this->updateSearchFields ($identifier);
     $this->noteEditedActions ($identifier);
+    $this->unmarkForDeletion ($identifier);
   }
   
   
@@ -651,9 +652,6 @@ class Database_Notes
     $query = "UPDATE notes SET bible = '$bible' WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
-    // Add a comment for the change of Bible.
-    // if ($bible == "") $bible = gettext ("none");
-    // $this->addComment ($identifier, gettext ("The note's Bible was changed to:") . " " . $bible);
   }
 
 
@@ -743,7 +741,6 @@ class Database_Notes
     $server->runQuery ($query);
     if (!$import) {
       $this->noteEditedActions ($identifier);
-      // $this->addComment ($identifier, gettext ("The note's passages were updated"));
     }
   }
 
@@ -862,7 +859,6 @@ class Database_Notes
     $server->runQuery ($query);
     if (!$import) {
       $this->noteEditedActions ($identifier);
-      // $this->addComment ($identifier, gettext ("The note's status was updated"));
     }
   }
 
@@ -943,7 +939,6 @@ class Database_Notes
     $query = "UPDATE notes SET severity = $severity WHERE identifier = $identifier;";
     $server->runQuery ($query);
     $this->noteEditedActions ($identifier);
-    // $this->addComment ($identifier, gettext ("The note's severity was updated"));
   }
 
 
@@ -1090,7 +1085,7 @@ class Database_Notes
   }
 
 
-  public function markForDeletion ($identifier) // Todo
+  public function markForDeletion ($identifier)
   {
     $this->unmarkForDeletion ($identifier);
     $server = Database_Instance::getInstance ();
@@ -1098,11 +1093,10 @@ class Database_Notes
     // Delete after 7 days.
     $query = "INSERT INTO notes_del VALUES ($identifier, 7)";
     $server->runQuery ($query);
-    // Todo create $this->noteMarkedActions ($identifier);
   }
   
   
-  public function unmarkForDeletion ($identifier) // Todo
+  public function unmarkForDeletion ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -1111,7 +1105,7 @@ class Database_Notes
   }
 
 
-  public function isMarkedForDeletion ($identifier) // Todo
+  public function isMarkedForDeletion ($identifier)
   {
     $server = Database_Instance::getInstance ();
     $identifier = Database_SQLInjection::no ($identifier);
@@ -1123,7 +1117,7 @@ class Database_Notes
   }
   
   
-  public function touchMarkedForDeletion () // Todo
+  public function touchMarkedForDeletion ()
   {
     $server = Database_Instance::getInstance ();
     $query = "UPDATE notes_del SET days = days - 1;";
@@ -1131,7 +1125,7 @@ class Database_Notes
   }
 
 
-  public function getDueForDeletion () // Todo
+  public function getDueForDeletion ()
   {
     $server = Database_Instance::getInstance ();
     $identifiers = array ();

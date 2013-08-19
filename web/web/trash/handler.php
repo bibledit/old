@@ -54,7 +54,7 @@ class Trash_Handler
     $contents = Filter_Html::html2text ($contents);
     $session_logic = Session_Logic::getInstance ();
     $username = $session_logic->currentUser ();
-    $database_logs->log ("$username removed consultation note $passageText | $summary | $contents"); 
+    $database_logs->log ("$username deleted / marked for deletion consultation note $passageText | $summary | $contents"); 
   }
 
 
