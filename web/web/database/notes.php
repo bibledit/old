@@ -1078,6 +1078,61 @@ class Database_Notes
     }
     return $identifiers;
   }
+
+
+  public function markForDeletion ($identifier) // Todo
+  {
+    $this->unmarkForDeletion ($identifier);
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    // Delete after 7 days.
+    $query = "INSERT INTO notes_del VALUES ($identifier, 7)";
+    $server->runQuery ($query);
+    // Todo create $this->noteMarkedActions ($identifier);
+  }
+  
+  
+  public function unmarkForDeletion ($identifier) // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "DELETE FROM notes_del WHERE note = $identifier;";
+    $result = $server->runQuery ($query);
+  }
+
+
+  public function isMarkedForDeletion ($identifier) // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $identifier = Database_SQLInjection::no ($identifier);
+    $query = "SELECT count(*) FROM notes_del WHERE note = $identifier;";
+    $result = $server->runQuery ($query);
+    $count = $result->fetch_row();
+    $count = $count [0];
+    return ($count > 0);
+  }
+  
+  
+  public function touchMarkedForDeletion () // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $query = "UPDATE notes_del SET days = days - 1;";
+    $result = $server->runQuery ($query);
+  }
+
+
+  public function getDueForDeletion () // Todo
+  {
+    $server = Database_Instance::getInstance ();
+    $identifiers = array ();
+    $query = "SELECT note FROM notes_del WHERE days <= 0;";
+    $result = $server->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_row();
+      $identifiers [] = $row[0];
+    }
+    return $identifiers;
+  }
   
   
 }

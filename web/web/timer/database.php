@@ -50,6 +50,7 @@ $database->optimize ();
 
 $database = Database_Mail::getInstance ();
 foreach ($overdues as $id) $database->delete ($id);
+unset ($overdues);
 $database->trim ();
 $database->optimize();
 

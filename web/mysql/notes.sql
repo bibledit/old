@@ -20,6 +20,10 @@ CREATE TABLE IF NOT EXISTS notes (
   FULLTEXT reversedsearch (reversedtext)
 ) engine = MyISAM;
 
+CREATE TABLE IF NOT EXISTS notes_del (
+  note int primary key,
+  days int
+) engine = MyISAM;
 
 DROP PROCEDURE IF EXISTS upgrade_one;
 DELIMITER //
