@@ -26,9 +26,14 @@ $database_notes = Database_Notes::getInstance();
 $database_config_user = Database_Config_User::getInstance();
 $notes_logic = Notes_Logic::getInstance();
 $session_logic = Session_Logic::getInstance();
+$trash_handler = Trash_Handler::getInstance ();
 
 
 $user = $session_logic->currentUser ();
+
+
+$success = "";
+$error = "";
 
 
 @$id = $_GET ['id'];
@@ -58,9 +63,21 @@ if (isset ($_GET['done'])) {
 }
 
 
+if (isset ($_GET['markdel'])) {
+  $database_notes->markForDeletion ($id);
+  $success = gettext ("This note will be deleted after a week.") . " " . gettext ("But if the note gets updated, it won't be deleted anymore.");
+  // $notes_logic->handlerDeleteNote ($id); Todo write new function with a different email.
+  //$trash_handler->consultationNote ($id); // todo write new function slightly adapted, or give extra parameter
+}
+
+
+if (isset ($_GET['unmarkdel'])) {
+  $database_notes->unmarkForDeletion ($id);
+}
+
+
 if (isset ($_GET['delete'])) {
   $notes_logic->handlerDeleteNote ($id);
-  $trash_handler = Trash_Handler::getInstance ();
   $trash_handler->consultationNote ($id);
   $database_notes->delete ($id);
   header ("Location: index.php");
@@ -108,6 +125,14 @@ $view->view->severity = $severity;
 
 $bible = $database_notes->getBible ($id);
 $view->view->bible = $bible;
+
+
+$marked = $database_notes->isMarkedForDeletion ($id);
+$view->view->marked = $marked;
+
+
+$view->view->success = $success;
+$view->view->error = $error;
 
 
 $view->render ("actions.php");

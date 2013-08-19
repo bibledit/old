@@ -58,6 +58,16 @@ class Database_Notes
   }
 
 
+  public function trim () {
+    $this->touchMarkedForDeletion ();
+    $identifiers = $this->getDueForDeletion ();
+    foreach ($identifiers as $identifier) {
+      $this->delete ($identifier);
+      $this->unmarkForDeletion ($identifier);
+    }
+  }
+
+
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
     $database_instance->runQuery ("OPTIMIZE TABLE notes;");

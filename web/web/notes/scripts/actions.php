@@ -52,5 +52,16 @@
 <p><?php echo gettext ("Identifier") ?>: <?php echo $this->id ?></p>
 </p>
 <?php if ($this->level >= 5) { ?>
-  <p><a href="?id=<?php echo $this->id ?>&delete="><?php echo gettext ("Delete this note") ?></a></p>
+  <p>
+  <?php if ($this->marked) { ?>
+    <?php echo gettext ("The note will be deleted after it expires
+    ") ?>
+    <a href="?id=<?php echo $this->id ?>&unmarkdel=">[<?php echo gettext ("cancel") ?>]</a>
+  <?php } else { ?>
+    <a href="?id=<?php echo $this->id ?>&markdel="><?php echo gettext ("Mark the note for deletion after a week") ?></a>
+  <?php } ?>
+  </p>
+  <p><a href="?id=<?php echo $this->id ?>&delete="><?php echo gettext ("Delete the note now") ?></a></p>
 <?php } ?>
+<p class="error"><?php echo $this->error ?></p>
+<p class="success"><?php echo $this->success ?></p>

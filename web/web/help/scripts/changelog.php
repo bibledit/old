@@ -18,7 +18,7 @@
 <p>The translators can also Send/Receive, no longer the managers only.</p>
 <p>It has a setting to send and receive every five minutes.</p>
 <p>More robust synchronization from the collaboration repository to the Bible database.</p>
-<p></p>
+<p>A note can be marked to be deleted after a week.</p>
 <p></p>
 <p></p>
 <p></p>
