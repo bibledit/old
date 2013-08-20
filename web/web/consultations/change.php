@@ -33,7 +33,7 @@ if (isset ($delete)) {
   $database_notes->markForDeletion ($identifier);
   $trash_handler = Trash_Handler::getInstance ();
   $trash_handler->consultationNote ($identifier);
-  $notes_logic->handlerMarkNoteForDeletion ($identifier); // Notifications handling.
+  $notes_logic->handlerMarkNoteForDeletion ($identifier);
   die;
 }
 

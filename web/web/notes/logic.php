@@ -103,28 +103,35 @@ class Notes_Logic
   * $identifier: the note that is being handled.
   * $notification: the type of notification to the consultation note.
   */
-  private function notifyUsers ($identifier, $notification)
+  private function notifyUsers ($identifier, $notification) // Todo
   {
     // Databases.
     $database_notes = Database_Notes::getInstance();
     $database_config_user = Database_Config_User::getInstance ();
     $database_users = Database_Users::getInstance();
-    
-    // Whether current user gets subscribed to the note.
-    if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
-      $database_notes = Database_Notes::getInstance();
-      $database_notes->subscribe ($identifier);
-    }
-    
-    // Users to get subscribed to the note, or to whom the note is to be assigned.
-    $users = $database_users->getUsers ();
-    foreach ($users as $user) {
-      if ($database_config_user->getNotifyUserOfAnyConsultationNotesEdits ($user)) {
-        $database_notes->subscribeUser ($identifier, $user);
+
+    // Subscription and assignment not to be used for notes marked for deletion,
+    // because marking notes for deletion is nearly the same as deleting them 
+    // straightaway.
+    if ($notification != self::notifyMarkNoteForDeletion) {
+
+      // Whether current user gets subscribed to the note.
+      if ($database_config_user->getSubscribeToConsultationNotesEditedByMe ()) {
+        $database_notes = Database_Notes::getInstance();
+        $database_notes->subscribe ($identifier);
       }
-      if ($database_config_user->getUserAssignedToConsultationNotesChanges ($user)) {
-        $database_notes->assignUser ($identifier, $user, false); // Do not add a comment for this automatic assignment.
+    
+      // Users to get subscribed to the note, or to whom the note is to be assigned.
+      $users = $database_users->getUsers ();
+      foreach ($users as $user) {
+        if ($database_config_user->getNotifyUserOfAnyConsultationNotesEdits ($user)) {
+          $database_notes->subscribeUser ($identifier, $user);
+        }
+        if ($database_config_user->getUserAssignedToConsultationNotesChanges ($user)) {
+          $database_notes->assignUser ($identifier, $user, false); // Do not add a comment for this automatic assignment.
+        }
       }
+
     }
 
     // The recipients who receive a notification by email.
