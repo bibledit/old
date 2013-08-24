@@ -41,6 +41,7 @@
 #include "tiny_utilities.h"
 #include "git.h"
 #include "progresswindow.h"
+#include "merge_utils.h"
 
 
 /*
@@ -231,7 +232,7 @@ void Editor2::book_set(unsigned int book_in)
 }
 
 
-void Editor2::chapter_load(unsigned int chapter_in) // Todo
+void Editor2::chapter_load(unsigned int chapter_in) 
 // Loads a chapter with the number "chapter_in".
 {
   // Clear the stacks of actions done and redoable.
@@ -402,19 +403,21 @@ void Editor2::chapter_save() // Todo
   // Get the USFM text.
   ustring chaptertext = get_chapter();
 
+  // Flags for use below.
+  bool reload = false;
+  bool save_action_is_over = false;
+  bool check_chapter_cache = true;
+
   // If the chapter text is completely empty, 
   // that means that the user has deleted everything.
   // This is interpreted as to mean that the user wishes to delete this chapter.
   // After asking for confirmation, delete the chapter.
-  bool reload = false;
-  bool save_action_is_over = false;
   if (chaptertext.empty()) {
     if (gtkw_dialog_question(NULL, "The chapter is empty.\n" "Do you wish to delete this chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
       project_remove_chapter(project, book, chapter);
       save_action_is_over = true;
       reload = true;
-      if (chapter > 0)
-        reload_chapter_number = chapter - 1;
+      if (chapter > 0) reload_chapter_number = chapter - 1;
     }
   }
 
@@ -449,6 +452,7 @@ void Editor2::chapter_save() // Todo
         confirmed_chapter_number = chapter_in_text;
         reload = true;
         reload_chapter_number = chapter_in_text;
+        check_chapter_cache = false;
       } else {
         confirmed_chapter_number = chapter;
       }
@@ -469,10 +473,25 @@ void Editor2::chapter_save() // Todo
         }
       }
     }
+
+    // Check the chapter cache with the version on disk. 
+    // The chapter cache contains the chapter data when it was loaded in the editor.
+    // Normally cache and disk are the same.
+    // In case of collaboration, the text on disk may differ from the text in the chapter cache.
+    if ((!save_action_is_over) && check_chapter_cache) { // Todo
+      vector <ustring> file_data = project_retrieve_chapter (project, book, chapter);
+      if (loaded_chapter_lines != file_data) {
+        merge_editor_and_file (loaded_chapter_lines, parseline.lines, project, book, chapter);
+        save_action_is_over = true;
+        reload = true;
+      }
+    }
+
     // Store chapter.
-    if (!save_action_is_over)
+    if (!save_action_is_over) {
       project_store_chapter(project, book, ccv);
-    save_action_is_over = true;
+      save_action_is_over = true;
+    }
   }
 
   // Store size of editor actions. Based on this it knows next time whether to save the chapter.

@@ -76,4 +76,8 @@ ustring merge_join_data(const ustring& data);
 ustring merge_split_data_character(const ustring& data);
 ustring merge_join_data_character(const ustring& data);
 
+void merge_editor_and_file (vector <ustring> merge_base, 
+                            vector <ustring> editor_lines,
+                            const ustring& project, unsigned int book, unsigned int chapter);
+
 #endif

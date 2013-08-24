@@ -218,3 +218,14 @@ ustring merge_join_data_character(const ustring & data)
   }
   return joineddata;
 }
+
+
+void merge_editor_and_file (vector <ustring> merge_base, 
+                            vector <ustring> editor_lines,
+                            const ustring& project, unsigned int book, unsigned int chapter)
+// Merges the changes from the editor with the changes in the filesystem,
+// and stores the result to file.
+{
+  // Todo implement and test well.
+  cout << "merge editor and file" << endl; // Todo
+}
