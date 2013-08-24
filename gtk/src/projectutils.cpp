@@ -394,7 +394,7 @@ vector < ustring > project_retrieve_chapter(const ustring & project, unsigned in
   // Get the data.
   ReadText rt(filename, true);
 
-  // If the data shows that there is a conflict, solve it, then reload.
+  // If the data shows that there is a conflict, solve it, then reload. Todo
   bool solve_conflict = false;
   for (unsigned int i = 0; i < rt.lines.size(); i++) {
     if (rt.lines[i].find(git_mine_conflict_marker()) != string::npos) {

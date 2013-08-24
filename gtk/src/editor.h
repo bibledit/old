@@ -72,7 +72,6 @@ private:
   vector <ustring> styles_to_be_deleted;
   ustring usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer);
 
-
   // Textview keyboard key pressing.
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   gboolean textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
@@ -103,7 +102,6 @@ private:
   static bool on_textview_move_cursor_delayed(gpointer user_data);
   void textview_move_cursor_delayed();
 
-
   // Focus handling.
 public:
   GtkWidget * last_focused_widget;
@@ -115,8 +113,14 @@ public:
   ustring character_style_on_start_typing;
 
   void book_set(unsigned int book_in);
+
+  // Chapter loading / saving.
   void chapter_load(unsigned int chapter_in);
+  vector <ustring> loaded_chapter_lines;
   void chapter_save();
+  GtkWidget * reload_signal; // Todo is this used?
+  unsigned int reload_chapter_number; // Todo how does this work?
+
   ustring text_get_selection();
   void text_insert(ustring text);
 
@@ -128,8 +132,6 @@ public:
   GtkWidget * quick_references_button;
 
   GtkWidget * new_styles_signal;
-  GtkWidget * reload_signal;
-  unsigned int reload_chapter_number;
 
   Reference current_reference;
   bool go_to_new_reference_highlight;
@@ -152,7 +154,6 @@ public:
 
   // Some event ids.
   guint save_timeout_event_id;
-
 
   GtkTextTagTable * texttagtable;
   void create_or_update_formatting_data();

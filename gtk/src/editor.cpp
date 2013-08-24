@@ -231,7 +231,7 @@ void Editor2::book_set(unsigned int book_in)
 }
 
 
-void Editor2::chapter_load(unsigned int chapter_in)
+void Editor2::chapter_load(unsigned int chapter_in) // Todo
 // Loads a chapter with the number "chapter_in".
 {
   // Clear the stacks of actions done and redoable.
@@ -254,12 +254,12 @@ void Editor2::chapter_load(unsigned int chapter_in)
     get_next_note_caller_and_style (entFootnote, dummy, dummy, true);
   }
   
-  // Load text in memory.
-  vector <ustring> lines = project_retrieve_chapter(project, book, chapter);
+  // Load text in memory and cache it for later use.
+  loaded_chapter_lines = project_retrieve_chapter(project, book, chapter);
 
   // Whether chapter is editable.
   editable = true;
-  if (lines.empty())
+  if (loaded_chapter_lines.empty())
     editable = false;
   if (!projectconfig->editable_get())
     editable = false;
@@ -275,10 +275,10 @@ void Editor2::chapter_load(unsigned int chapter_in)
   // last marker is "\toc". Without that extra space it won't see this marker,
   // because the formatter looks for "\toc ". The space will solve the issue.
   ustring line;
-  for (unsigned int i = 0; i < lines.size(); i++) {
+  for (unsigned int i = 0; i < loaded_chapter_lines.size(); i++) {
     if (!line.empty())
       line.append(" ");
-    line.append(lines[i]);
+    line.append(loaded_chapter_lines[i]);
   }
   line.append(" ");
 
@@ -381,7 +381,7 @@ void Editor2::text_load (ustring text, ustring character_style, bool note_mode)
 }
 
 
-void Editor2::chapter_save()
+void Editor2::chapter_save() // Todo
 // Handles saving the chapter.
 {
   // Set variables.
