@@ -81,6 +81,12 @@ if test x$FIND_OSIS2MOD = xno; then
 fi
 
 
+AC_PATH_PROG(FIND_MERGE, merge, no)
+if test x$FIND_MERGE = xno; then
+  AC_MSG_ERROR(Program "merge" (in package rcs) is needed. Install this first.)
+fi
+
+
 # Check for PHP Internationalization support.
 AC_MSG_CHECKING(PHP Internationalization support)
 php -i | grep intl > /dev/null
