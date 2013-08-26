@@ -13,7 +13,7 @@ AC_CONFIG_HEADERS([config.php])
 
 AC_PATH_PROG(MAKE_PATH, make, no)
 if test x$MAKE_PATH = xno; then
-  AC_MSG_ERROR(Program "make" is needed. Install this first.)
+    AC_MSG_ERROR(Program "make" is needed. Install this first.)
 fi
 
 
@@ -78,12 +78,6 @@ fi
 AC_PATH_PROG(FIND_OSIS2MOD, osis2mod, no)
 if test x$FIND_OSIS2MOD = xno; then
   AC_MSG_ERROR(Program "osis2mod" is needed. Install this first.)
-fi
-
-
-AC_PATH_PROG(FIND_MERGE, merge, no)
-if test x$FIND_MERGE = xno; then
-  AC_MSG_ERROR(Program "merge" (in package rcs) is needed. Install this first.)
 fi
 
 
