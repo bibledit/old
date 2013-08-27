@@ -27,7 +27,8 @@
 #include <gtk/gtk.h>
 
 
-enum RuntimeType {rtXeTeX, 
+enum RuntimeType {rtXeTeX,
+                  rtPHP,
                   rtLast};
 
 

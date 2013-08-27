@@ -318,6 +318,7 @@ AC_CONFIG_FILES([Makefile
 		  kjv/Makefile
 		  xetex/Makefile
 		  git/Makefile
+		  php/Makefile
 		])
 AC_OUTPUT
 

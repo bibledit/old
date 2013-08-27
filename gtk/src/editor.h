@@ -118,8 +118,8 @@ public:
   void chapter_load(unsigned int chapter_in);
   vector <ustring> loaded_chapter_lines;
   void chapter_save();
-  GtkWidget * reload_signal; // Todo is this used?
-  unsigned int reload_chapter_number; // Todo how does this work?
+  GtkWidget * reload_signal;
+  unsigned int reload_chapter_number;
 
   ustring text_get_selection();
   void text_insert(ustring text);

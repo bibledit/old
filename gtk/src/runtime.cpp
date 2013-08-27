@@ -28,7 +28,8 @@ bool runtime_check_internal (RuntimeType type, ustring& message)
   ustring package;
   switch (type) {
     case rtXeTeX: package = "texlive-xetex"; break;
-    case rtLast: return true;
+    case rtPHP:   package = "php5-cli"; break;
+    case rtLast:  return true;
   }
   const gchar * program = runtime_program (type);
   if (gw_find_program_in_path(program)) {
@@ -46,7 +47,8 @@ const gchar * runtime_program (RuntimeType type)
 {
   switch (type) {
     case rtXeTeX: return "xetex";
-    case rtLast: return NULL;
+    case rtPHP:   return "php";
+    case rtLast:  return NULL;
   }
   return NULL;
 }

@@ -21,6 +21,10 @@
 #include "utilities.h"
 #include "tiny_utilities.h"
 #include "usfmtools.h"
+#include "directories.h"
+#include "gwrappers.h"
+#include "projectutils.h"
+
 
 ustring merge_conflict_markup(unsigned int number)
 // Gives the text of the conflict markup.
@@ -226,6 +230,31 @@ void merge_editor_and_file (vector <ustring> merge_base,
 // Merges the changes from the editor with the changes in the filesystem,
 // and stores the result to file.
 {
-  // Todo implement and test well.
-  cout << "merge editor and file" << endl; // Todo
+  gw_message ("Merge changes from user and server.");
+  // If PHP is not available, skip running the filter to avoid complete data loss.
+  if (!gw_find_program_in_path ("php")) {
+    gw_message ("Cannot find PHP.");
+    gw_message ("Bibledit-Gtk needs PHP for improved collaboration and merging.");
+    gw_message ("Some changes were lost.");
+    gw_message ("Install package php5-cli.");
+    return;
+  }
+  ustring basefile = gw_build_filename (directories_get_temp(), "mergebase.txt");
+  write_lines (basefile, merge_base);
+  ustring userfile = gw_build_filename (directories_get_temp(), "mergeuser.txt");
+  write_lines (userfile, editor_lines);
+  vector <ustring> server_lines = project_retrieve_chapter (project, book, chapter);
+  ustring serverfile = gw_build_filename (directories_get_temp(), "mergeserver.txt");
+  write_lines (serverfile, server_lines);
+  ustring outputfile = gw_build_filename (directories_get_temp(), "mergeoutput.txt");
+  GwSpawn spawn ("php");
+  spawn.arg (gw_build_filename (directories_get_package_data (), "mergecli.php"));
+  spawn.arg (basefile);
+  spawn.arg (userfile);
+  spawn.arg (serverfile);
+  spawn.arg (outputfile);
+  spawn.run ();
+  ReadText rt (outputfile, true);
+  CategorizeChapterVerse ccv (rt.lines);
+  project_store_chapter (project, book, ccv);
 }
