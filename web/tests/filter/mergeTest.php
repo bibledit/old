@@ -282,6 +282,55 @@ EOD;
     $this->assertEquals ($standard, $output);
   }
 
+
+  public function testCliWrapper () /// Todo write it.
+  {
+    $base = uniqid (sys_get_temp_dir () . "/");
+    $user = uniqid (sys_get_temp_dir () . "/");
+    $server = uniqid (sys_get_temp_dir () . "/");
+    $output = uniqid (sys_get_temp_dir () . "/");
+
+    $mergeBaseData = <<<'EOD'
+\c 28
+\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\x + 27.65,66.\x*.
+
+EOD;
+    $userModificationData = <<<'EOD'
+\c 28
+\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\x + 27.65,66.\x*.
+
+EOD;
+    $serverModificationData = <<<'EOD'
+\c 29
+\v 4 Abalindi basebethuthumela besabe baba njengabafileyo\x + 27.65,66.\x*.
+
+EOD;
+
+    $standard = <<<'EOD'
+\c 29
+\v 4 Abalindi bathuthumela besabe baba njengabafileyo\x + 27.65,66.\x*.
+
+EOD;
+
+    file_put_contents ($base, $mergeBaseData);
+    file_put_contents ($user, $userModificationData);
+    file_put_contents ($server, $serverModificationData);
+
+    $command = "php ../../web/filter/mergecli.php $base $user $server $output";
+    exec ($command, $result, $exit_code);    
+
+    $outputData = file_get_contents ($output);
+    
+    $this->assertEquals ($standard, $outputData);
+    
+    unlink ($base);
+    unlink ($user);
+    unlink ($server);
+    unlink ($output);
+  }
+  
+  
+
   
 }
 
