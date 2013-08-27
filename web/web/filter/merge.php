@@ -28,11 +28,12 @@ class Filter_Merge
   $user: Data as modified by the user.
   $server: Data as modified by the collaboration server.
   The filter uses program "git" do do a three-way merge.
+  There should be one unchanged segment (either a line or word) between the modifications.
   If necessary it converts the data into a new format with one character per line, 
   for more fine-grained merging.
   In case of a conflict, it favours the edition from the server.
   */
-  public static function run ($base, $user, $server) // Todo
+  public static function run ($base, $user, $server)
   {
     // First try a standard line-based merge. Should be sufficient for most cases.
     $repository = Filter_Merge::createRepository ();    
@@ -43,23 +44,61 @@ class Filter_Merge
     Filter_Merge::commitData ($serverClone, $server);
     Filter_Merge::pushData ($serverClone);
     Filter_Merge::commitData ($userClone, $user);
-    $exit_code = Filter_Merge::pullData ($userClone);
-    var_dump ($exit_code); // Todo
+    $exit_code = Filter_Merge::pullData ($userClone, "");
     $result = file_get_contents ("$userClone/data");
-    if ($exit_code == 0) {
-
-    }
-
     Filter_Rmdir::rmdir ($repository);
-    // Todo Filter_Rmdir::rmdir ($userClone);
+    Filter_Rmdir::rmdir ($userClone);
     Filter_Rmdir::rmdir ($serverClone);
-        
-    return $result;
-
-
-
-
-
+    if ($exit_code == 0) {
+      return $result;
+    }
+    // The line-based merge didn't manage to merge properly. Convert the data with 
+    // one word per line, and try to merge again.
+    $baseWords = Filter_Merge::lines2words ($base);
+    $userWords = Filter_Merge::lines2words ($user);
+    $serverWords = Filter_Merge::lines2words ($server);
+    $repository = Filter_Merge::createRepository ();    
+    $userClone = Filter_Merge::cloneRepository ($repository);
+    Filter_Merge::commitData ($userClone, $baseWords);
+    Filter_Merge::pushData ($userClone);
+    $serverClone = Filter_Merge::cloneRepository ($repository);
+    Filter_Merge::commitData ($serverClone, $serverWords);
+    Filter_Merge::pushData ($serverClone);
+    Filter_Merge::commitData ($userClone, $userWords);
+    $exit_code = Filter_Merge::pullData ($userClone, "");
+    $result = file_get_contents ("$userClone/data");
+    $result = Filter_Merge::words2lines ($result);
+    Filter_Rmdir::rmdir ($repository);
+    Filter_Rmdir::rmdir ($serverClone);
+    Filter_Rmdir::rmdir ($userClone);
+    if ($exit_code == 0) {
+      return $result;
+    }
+    // The word-based merge mechanism didn't manage to merge without conflicts.
+    // Convert the data so it has one grapheme per line, and try again.
+    $baseGraphemes = Filter_Merge::lines2graphemes ($base);
+    $userGraphemes = Filter_Merge::lines2graphemes ($user);
+    $serverGraphemes = Filter_Merge::lines2graphemes ($server);
+    $repository = Filter_Merge::createRepository ();    
+    $userClone = Filter_Merge::cloneRepository ($repository);
+    Filter_Merge::commitData ($userClone, $baseGraphemes);
+    Filter_Merge::pushData ($userClone);
+    $serverClone = Filter_Merge::cloneRepository ($repository);
+    Filter_Merge::commitData ($serverClone, $serverGraphemes);
+    Filter_Merge::pushData ($serverClone);
+    Filter_Merge::commitData ($userClone, $userGraphemes);
+    // Add a parameter so git will take the server's version in case of a merge conflict.
+    $exit_code = Filter_Merge::pullData ($userClone, "-Xtheirs");
+    $result = file_get_contents ("$userClone/data");
+    $result = Filter_Merge::graphemes2lines ($result);
+    Filter_Rmdir::rmdir ($repository);
+    Filter_Rmdir::rmdir ($serverClone);
+    Filter_Rmdir::rmdir ($userClone);
+    if ($exit_code == 0) {
+      return $result;
+    }
+    // Everthing failed. Return the server data.
+    return $server;
   }
 
 
@@ -107,13 +146,51 @@ class Filter_Merge
 
   // The function pulls data for $clone from its server.
   // It returns the exit code of the process.
-  private static function pullData ($clone)
+  private static function pullData ($clone, $parameter)
   {
-    $command = "cd $clone; git pull 2>&1";
+    $command = "cd $clone; git pull $parameter 2>&1";
     exec ($command, $output, $exit_code);
     return $exit_code;
   }
+  
+  
+  private static function lines2words ($data)
+  {
+    $data = str_replace ("\n", " new__line ", $data);
+    $data = str_replace (" ", "\n", $data);
+    return $data;
+  }
+  
+  
+  private static function words2lines ($data)
+  {
+    $data = str_replace ("\n", " ", $data);
+    $data = str_replace (" new__line ", "\n", $data);
+    return $data;
+  }
 
+
+  private static function lines2graphemes ($data)
+  {
+    $data = str_replace ("\n", " new__line ", $data);
+    $data2 = "";
+    $count = grapheme_strlen ($data);
+    for ($i = 0; $i < $count; $i++) {
+      $grapheme = grapheme_substr ($data, $i, 1);
+      $data2 .= $grapheme;
+      $data2 .= "\n";
+    }
+    return $data2;
+  }
+  
+  
+  private static function graphemes2lines ($data)
+  {
+    $data = str_replace ("\n", "", $data);
+    $data = str_replace (" new__line ", "\n", $data);
+    return $data;
+  }
+  
 
 }
 

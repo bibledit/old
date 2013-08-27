@@ -103,7 +103,7 @@ class Notes_Logic
   * $identifier: the note that is being handled.
   * $notification: the type of notification to the consultation note.
   */
-  private function notifyUsers ($identifier, $notification) // Todo
+  private function notifyUsers ($identifier, $notification)
   {
     // Databases.
     $database_notes = Database_Notes::getInstance();

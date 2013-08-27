@@ -2502,7 +2502,7 @@ fi
 
 
 if test x$MAKE_PATH = xno; then
-  as_fn_error $? "Program \"make\" is needed. Install this first." "$LINENO" 5
+    as_fn_error $? "Program \"make\" is needed. Install this first." "$LINENO" 5
 fi
 
 
