@@ -47,8 +47,6 @@ GtkWidget * textview = NULL;
 GtkWidget * checkbutton = NULL;
 deque <string> folders;
 bool we_loop;
-gint mergestrategy = 0; // Recursive with mergetool
-string strategies[] = {"", "ours", "theirs", ""};
 
 
 class TinySpawn

@@ -176,7 +176,6 @@ public:
   DEFINE_GENCONFIG_H (bool, reference_window_show_relevant_bits);
   DEFINE_GENCONFIG_H (bool, consultation_notes_git_use_remote_repository);
   DEFINE_GENCONFIG_H (ustring, consultation_notes_git_remote_repository_url);
-  DEFINE_GENCONFIG_H (int, consultation_notes_git_remote_repository_conflict_handling);
   DEFINE_GENCONFIG_H (ustring, bibledit_web_url);
   DEFINE_GENCONFIG_H (ustring, bibledit_web_user);
 private:

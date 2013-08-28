@@ -73,7 +73,6 @@ ProjectConfiguration::ProjectConfiguration(ustring project_in, bool save_on_dest
   INITIALIZE(backup_comment);
   INITIALIZE(git_use_remote_repository);
   INITIALIZE(git_remote_repository_url);
-  INITIALIZE(git_remote_repository_conflict_handling);
   INITIALIZE(changes_last_review);
   INITIALIZE(changes_since);
   INITIALIZE(changes_till);
@@ -128,7 +127,6 @@ void ProjectConfiguration::save()
   SAVE_VALUE(backup_comment);
   SAVE_VALUE(git_use_remote_repository);
   SAVE_VALUE(git_remote_repository_url);
-  SAVE_VALUE(git_remote_repository_conflict_handling);
   SAVE_VALUE(changes_last_review);
   SAVE_VALUE(changes_since);
   SAVE_VALUE(changes_till);
@@ -251,7 +249,6 @@ IMPLEMENT(int, int_get, backup_incremental_last_time, 0)
 IMPLEMENT(ustring, string_get, backup_comment, "")
 IMPLEMENT(bool, bool_get, git_use_remote_repository, false)
 IMPLEMENT(ustring, string_get, git_remote_repository_url, "")
-IMPLEMENT(int, int_get, git_remote_repository_conflict_handling, 0)
 IMPLEMENT(int, int_get, changes_last_review, 0)
 IMPLEMENT(int, int_get, changes_since, 0)
 IMPLEMENT(int, int_get, changes_till, 0)

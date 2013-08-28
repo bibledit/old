@@ -97,29 +97,6 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_try_git, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_try_git, false);
 
-  // Build the GUI for the task selector.
-  vbox_task_selector = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_task_selector);
-  page_number_task_selector = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_task_selector);
-
-  GSList *radiobutton_task_selector_url_group = NULL;
-
-  radiobutton_task_selector_url = gtk_radio_button_new_with_mnemonic (NULL, "To set or change which the _remote repository to use");
-  gtk_widget_show (radiobutton_task_selector_url);
-  gtk_box_pack_start (GTK_BOX (vbox_task_selector), radiobutton_task_selector_url, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_task_selector_url), radiobutton_task_selector_url_group);
-  radiobutton_task_selector_url_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_task_selector_url));
-
-  radiobutton_task_selector_settings = gtk_radio_button_new_with_mnemonic (NULL, "To set or change other se_ttings");
-  gtk_widget_show (radiobutton_task_selector_settings);
-  gtk_box_pack_start (GTK_BOX (vbox_task_selector), radiobutton_task_selector_settings, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_task_selector_settings), radiobutton_task_selector_url_group);
-  radiobutton_task_selector_url_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_task_selector_settings));
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_task_selector, "What would you like to do?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_task_selector, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_task_selector, true);
-  
   // Build GUI for the repository URL.
   vbox_repository = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_repository);
@@ -237,35 +214,6 @@ AssistantBase("Remote repository setup", "menu-preferences/dialog-remote-reposit
 
   g_signal_connect ((gpointer) button_push, "clicked", G_CALLBACK (on_button_push_clicked), gpointer (this));
 
-  // Conflict resolution.
-  vbox_conflict = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_conflict);
-  page_number_conflict = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_conflict);
-
-  label_conflict = gtk_label_new ("When synchronizing, if there is a conflict between the data in the remote repository and the local data, give preference to");
-  gtk_widget_show (label_conflict);
-  gtk_box_pack_start (GTK_BOX (vbox_conflict), label_conflict, FALSE, FALSE, 0);
-  gtk_label_set_line_wrap (GTK_LABEL (label_conflict), TRUE);
-  gtk_misc_set_alignment (GTK_MISC (label_conflict), 0, 0.5);
-
-  GSList *radiobutton_conflict_local_group = NULL;
-
-  radiobutton_conflict_local = gtk_radio_button_new_with_mnemonic (NULL, "the _local data");
-  gtk_widget_show (radiobutton_conflict_local);
-  gtk_box_pack_start (GTK_BOX (vbox_conflict), radiobutton_conflict_local, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_conflict_local), radiobutton_conflict_local_group);
-  radiobutton_conflict_local_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_conflict_local));
-
-  radiobutton_conflict_remote = gtk_radio_button_new_with_mnemonic (NULL, "the data in the _remote repository");
-  gtk_widget_show (radiobutton_conflict_remote);
-  gtk_box_pack_start (GTK_BOX (vbox_conflict), radiobutton_conflict_remote, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_conflict_remote), radiobutton_conflict_local_group);
-  radiobutton_conflict_local_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_conflict_remote));
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_conflict, "Conflict resolution");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_conflict, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_conflict, true);
-  
   // Build the confirmation stuff.
   label_confirm = gtk_label_new ("Settings are ready to be applied");
   gtk_widget_show (label_confirm);
@@ -337,26 +285,6 @@ void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
     ignore_entry_repository_changed = true;
     gtk_entry_set_text (GTK_ENTRY (entry_repository), repository_url.c_str());
     ignore_entry_repository_changed = false;
-
-    // Set conflict handling values.
-    GitConflictHandlingType conflicthandling = gchtTakeMe;
-    if (bible_notes_selector_bible ())
-      conflicthandling = (GitConflictHandlingType) projectconfig->git_remote_repository_conflict_handling_get();
-    else
-      conflicthandling = (GitConflictHandlingType) settings->genconfig.consultation_notes_git_remote_repository_conflict_handling_get();
-    switch (conflicthandling) {
-    case gchtTakeMe:
-      {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_local), true);
-        break;
-      }
-    case gchtTakeServer:
-      {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote), true);
-        break;
-      }
-    }
-   
   }
   
   if (page == label_try_git) {
@@ -420,15 +348,6 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
   else
     settings->genconfig.consultation_notes_git_remote_repository_url_set(repository_url_get());
   
-  // Save conflict handling system.
-  GitConflictHandlingType conflicthandling = gchtTakeMe;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote)))
-    conflicthandling = gchtTakeServer;
-  if (bible_notes_selector_bible ())
-    projectconfig->git_remote_repository_conflict_handling_set(conflicthandling);
-  else
-    settings->genconfig.consultation_notes_git_remote_repository_conflict_handling_set(conflicthandling);
-
   // If the repository was cloned, move it into place.
   if (repository_was_cloned()) {
     ustring destination_data_directory;
@@ -480,17 +399,10 @@ gint RemoteRepositoryAssistant::assistant_forward (gint current_page)
     }
   }
 
-  if (current_page == page_number_task_selector) {
-    // Go to the right page depending on which task is selected.
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_task_selector_settings))) {
-      new_page_number = page_number_conflict;
-    }
-  }
-
   if (current_page == page_number_clone) {
     if (!repository_was_cloned()) {
-      // If we pushed data to the repository, skip the write access test is needed.
-      new_page_number = page_number_conflict;
+      // If we pushed data to the repository, skip the write access test.
+      new_page_number = page_number_push;
     }
   }
 

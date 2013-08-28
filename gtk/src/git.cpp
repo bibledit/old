@@ -107,10 +107,6 @@ void git_resolve_conflict_chapter(const ustring & project, unsigned int book, un
   // Directory of the chapter in the data.
   ustring directory = project_data_directory_chapter(project, book, chapter);
 
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(project);
-  GitConflictHandlingType conflicthandling = (GitConflictHandlingType) projectconfig->git_remote_repository_conflict_handling_get();
-
   // Data filename.
   ustring datafile = project_data_filename_chapter(project, book, chapter, false);
 
@@ -140,11 +136,8 @@ void git_resolve_conflict_chapter(const ustring & project, unsigned int book, un
     bool takeit = false;
     if (!minemarker && !separatormarker && !servermarker) {
       if (withinmine) {
-        if (conflicthandling == gchtTakeMe)
-          takeit = true;
       } else if (withinserver) {
-        if (conflicthandling == gchtTakeServer)
-          takeit = true;
+        takeit = true;
       } else {
         takeit = true;
       }

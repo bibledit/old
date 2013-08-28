@@ -67,12 +67,6 @@ private:
   bool try_git_pull_repository (const ustring& name);
   bool try_git_push_repository (const ustring& name);
 
-  // Task selection.
-  int page_number_task_selector;
-  GtkWidget *vbox_task_selector;
-  GtkWidget *radiobutton_task_selector_url;
-  GtkWidget *radiobutton_task_selector_settings;
-
   // Repository path and accessibility check.
   int page_number_repository;
   GtkWidget *vbox_repository;
@@ -113,13 +107,6 @@ private:
   GtkWidget *button_push;
   static void on_button_push_clicked (GtkButton *button, gpointer user_data);
   void on_button_push ();
-
-  // Conflict resolution.
-  int page_number_conflict;
-  GtkWidget *vbox_conflict;
-  GtkWidget *label_conflict;
-  GtkWidget *radiobutton_conflict_local;
-  GtkWidget *radiobutton_conflict_remote;
 
   // Confirmation stuff.
   int page_number_confirm;

@@ -3,7 +3,7 @@
 
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit-gtk],[4.8.1],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit-gtk],[4.8.2],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr

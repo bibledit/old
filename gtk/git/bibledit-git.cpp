@@ -20,6 +20,7 @@
 
 
 #include "bibledit-git.h"
+#include <config.h>
 
 
 
@@ -70,31 +71,8 @@ int main (int argc, char *argv[])
   gtk_widget_show_all (window);
 
   // Read the folders to run git on.
-  // Optionally read the desired merge strategy.
   for (int i = 1; i < argc; i++) {
-    if (argv[i][0]=='-') {
-      char *p;
-      int idx = 1; // Skip mergetool possibility
-      int done = 0;
-      while (!done && (strategies[idx].size()!=0 )) {
-        p=argv[1]+1;
-        if (strategies[idx].compare(p)==0) {
-          mergestrategy=idx;
-          done=1;
-        }
-        ++idx;
-      }
-      if (!done) {
-        cout << "Bibledit-Git accepts the following options:" << endl;
-        for (idx=1;strategies[idx].size()!=0;idx++) {
-          cout << "-" << strategies[idx] <<endl;
-        }
-        cout << "The default is to use mergetool on conflict, the options specify -X options for git merge conflict resolution" << endl;
-        return 0;
-      }
-    } else {
-      folders.push_back (argv[i]);
-    }
+    folders.push_back (argv[i]);
   }
   folders.push_back ("");
 
@@ -195,12 +173,6 @@ bool on_timeout (gpointer data)
         TinySpawn spawn ("git");
         spawn.arg ("pull");
         spawn.workingdirectory (folder);
-        if (mergestrategy != 0) {
-          spawn.arg("-s");
-          spawn.arg("recursive");
-          spawn.arg("-X");
-          spawn.arg(strategies[mergestrategy]);
-        }
         spawn.read ();
         spawn.run ();
         // Normal operation: Exit status = 0.
@@ -210,10 +182,8 @@ bool on_timeout (gpointer data)
         bool merge_conflict = false;
         for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
           if (spawn.standardout[i].find ("CONFLICT") != string::npos) {
-            message ("Hey! There is a conflict between our data and their data");
-            if (mergestrategy == 0) {
-              merge_conflict = true;
-            }
+            message ("Bibledit will resolve a conflict between its own data and the data on the server.");
+            merge_conflict = true;
           }
           message (spawn.standardout[i]);
         }
@@ -222,11 +192,14 @@ bool on_timeout (gpointer data)
         }
         if (merge_conflict) {
           // Resolve merge conflict.
-          TinySpawn mergetool ("xterm") ;
-          mergetool.arg ("-e");
-          mergetool.arg ("git");
-          mergetool.arg ("mergetool");
-          mergetool.workingdirectory (folder);
+          TinySpawn mergetool ("php") ;
+          string script;
+          gchar *name;
+          name = g_build_filename (PACKAGE_DATA_DIR, "conflictcli.php", NULL);
+          script = name;
+          g_free(name);
+          mergetool.arg (script);
+          mergetool.arg (folder);
           mergetool.read ();
           mergetool.run ();
           for (unsigned int i = 0; i < mergetool.standardout.size(); i++) {

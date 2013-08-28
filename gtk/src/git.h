@@ -28,9 +28,6 @@
 #include "urltransport.h"
 
 
-enum GitConflictHandlingType {gchtTakeMe, gchtTakeServer};
-
-
 void git_upgrade ();
 void git_revert_to_internal_repository (const ustring& project);
 void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter);
