@@ -11,6 +11,8 @@ class filterConflictTest extends PHPUnit_Framework_TestCase // Todo
   private $userdata2;
   private $serverdata1;
   private $serverdata2;
+  private $mergeddata1;
+  private $mergeddata2;
 
 
   protected function setUp ()
@@ -74,6 +76,9 @@ class filterConflictTest extends PHPUnit_Framework_TestCase // Todo
     // Pull changes from the server, leading to conflicts.
     $command = "cd " . $this->userclone . "; git pull 2>&1";
     exec ($command, $output, $exit_code);
+    // Eventually merged data.
+    $this->mergeddata1 = "line one1\nline two2\n";
+    $this->mergeddata2 = "line three3\nline four4\n";
   }
 
   
@@ -85,36 +90,35 @@ class filterConflictTest extends PHPUnit_Framework_TestCase // Todo
   }
   
 
-  public function testResolveConflictsOne ()
+  public function testResolveConflictsStandard ()
   {
     Filter_Conflict::run ($this->userclone);
-    return;
-    $this->mergeBaseData = <<<'EOD'
-\c 28
-\s Ukuvuka lokuzibonakalisa kukaJesu
-\s Ukuvuka lokuzibonakalisa kukaJesu
+    $data = file_get_contents ($this->userclone . "/Genesis/3/data");
+    $this->assertEquals ($this->mergeddata1, $data);
+    $data = file_get_contents ($this->userclone . "/Exodus/2/data");
+    $this->assertEquals ($this->mergeddata1, $data);
+    $data = file_get_contents ($this->userclone . "/path/to/data/file1");
+    $this->assertEquals ($this->mergeddata2, $data);
+    $data = file_get_contents ($this->userclone . "/file2");
+    $this->assertEquals ($this->mergeddata2, $data);
+  }
+  
 
-EOD;
-    $this->userModificationData = <<<'EOD'
-\c 28
-\s Ukuvuka lokuzibonakalisa kukaJesu
-\s Ukuvuka kukaJesu
-
-EOD;
-    $this->serverModificationData = <<<'EOD'
-\c 29
-\s Ukuvuka lokuzibonakalisa kukaJesu
-\s Ukuvuka lokuzibonakalisa kukaJesu
-
-EOD;
-    $output = Filter_Merge::run ($this->mergeBaseData, $this->userModificationData, $this->serverModificationData);
-    $standard = <<<'EOD'
-\c 29
-\s Ukuvuka lokuzibonakalisa kukaJesu
-\s Ukuvuka kukaJesu
-
-EOD;
-    $this->assertEquals ($standard, $output);
+  public function testResolveConflictsCli ()
+  {
+    $folder = dirname (dirname (dirname (__FILE__)));
+    $script = $folder . "/web/filter/conflictcli.php";
+    $sript = escapeshellarg ($script);
+    $command = "php $script " . $this->userclone;
+    system ($command);
+    $data = file_get_contents ($this->userclone . "/Genesis/3/data");
+    $this->assertEquals ($this->mergeddata1, $data);
+    $data = file_get_contents ($this->userclone . "/Exodus/2/data");
+    $this->assertEquals ($this->mergeddata1, $data);
+    $data = file_get_contents ($this->userclone . "/path/to/data/file1");
+    $this->assertEquals ($this->mergeddata2, $data);
+    $data = file_get_contents ($this->userclone . "/file2");
+    $this->assertEquals ($this->mergeddata2, $data);
   }
   
   
