@@ -23,7 +23,6 @@ class Filter_Merge
 
   /*
   This filter merges files.
-  There are four arguments, all representing filenames:
   $base: Data for the merge base.
   $user: Data as modified by the user.
   $server: Data as modified by the collaboration server.
@@ -32,6 +31,7 @@ class Filter_Merge
   If necessary it converts the data into a new format with one character per line, 
   for more fine-grained merging.
   In case of a conflict, it favours the edition from the server.
+  The filter returns the merged data.
   */
   public static function run ($base, $user, $server)
   {
@@ -88,7 +88,7 @@ class Filter_Merge
     Filter_Merge::pushData ($serverClone);
     Filter_Merge::commitData ($userClone, $userGraphemes);
     // Add a parameter so git will take the server's version in case of a merge conflict.
-    $exit_code = Filter_Merge::pullData ($userClone, "-Xtheirs");
+    $exit_code = Filter_Merge::pullData ($userClone, "-X theirs");
     $result = file_get_contents ("$userClone/data");
     $result = Filter_Merge::graphemes2lines ($result);
     Filter_Rmdir::rmdir ($repository);

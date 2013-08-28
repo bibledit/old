@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-13 01:42+0200\n"
+"POT-Creation-Date: 2013-08-28 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,16 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Send/Receive"
-msgstr ""
-
-msgid ""
-"Will send and receive Bibles within a minute. See the logbook for progress."
-msgstr ""
-
-msgid "Will send and receive Bibles within a minute"
-msgstr ""
 
 msgid "Please enter a name for the new user"
 msgstr ""
@@ -55,17 +45,6 @@ msgid "The email address is not valid"
 msgstr ""
 
 msgid "Users"
-msgstr ""
-
-msgid "Bibledit-Web sends and receives the Bibles every day at midnight."
-msgstr ""
-
-msgid ""
-"It receives changes made by others, and it sends changes made here to the "
-"server for collaboration."
-msgstr ""
-
-msgid "Send and receive Bibles now."
 msgstr ""
 
 msgid ""
@@ -416,10 +395,16 @@ msgstr ""
 msgid "Fallout"
 msgstr ""
 
-msgid "The collaboration system deleted a chapter"
+msgid "A translator added chapter"
 msgstr ""
 
-msgid "The collaboration system updated a chapter"
+msgid "A translator updated chapter"
+msgstr ""
+
+msgid "A translator deleted chapter"
+msgstr ""
+
+msgid "A translator deleted book"
 msgstr ""
 
 msgid "The collaboration system deleted a note"
@@ -4044,6 +4029,9 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
+msgid "Send/Receive"
+msgstr ""
+
 msgid "Notes"
 msgstr ""
 
@@ -4063,9 +4051,6 @@ msgid "Resources"
 msgstr ""
 
 msgid "admin"
-msgstr ""
-
-msgid "Receive/Send"
 msgstr ""
 
 msgid "Bibles"
@@ -5436,6 +5421,29 @@ msgid ""
 "this, switch the cookies on in your browser, and log in again."
 msgstr ""
 
+msgid "Sending and receiving is in progress."
+msgstr ""
+
+msgid "Sending and receiving has started."
+msgstr ""
+
+msgid "Bibledit-Web sends and receives the Bibles every day at midnight."
+msgstr ""
+
+msgid ""
+"It receives changes made by others, and it sends changes made here to the "
+"server for use by other translators."
+msgstr ""
+
+msgid "Send and receive Bibles now."
+msgstr ""
+
+msgid "Send and receive every five minutes."
+msgstr ""
+
+msgid "See the Logbook for details."
+msgstr ""
+
 msgid "Convert"
 msgstr ""
 
@@ -5737,6 +5745,9 @@ msgstr ""
 msgid "Deleted"
 msgstr ""
 
+msgid "Marked for deletion"
+msgstr ""
+
 msgid "Your comment was posted"
 msgstr ""
 
@@ -5810,6 +5821,12 @@ msgid "Note summary"
 msgstr ""
 
 msgid "Could not find the folder with the consultation notes"
+msgstr ""
+
+msgid "The note will be deleted after a week."
+msgstr ""
+
+msgid "Adding a comment to the note cancels the deletion."
 msgstr ""
 
 msgid "Note actions"
@@ -6017,7 +6034,18 @@ msgstr ""
 msgid "Identifier"
 msgstr ""
 
-msgid "Delete this note"
+msgid ""
+"The note will be deleted after it expires\n"
+"    "
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "Mark the note for deletion after a week"
+msgstr ""
+
+msgid "Delete the note now"
 msgstr ""
 
 msgid "Select the user to assign the note to"
@@ -6599,6 +6627,9 @@ msgid "Change"
 msgstr ""
 
 msgid "I have done my part on it"
+msgstr ""
+
+msgid "mark for deletion"
 msgstr ""
 
 msgid "Edit text"

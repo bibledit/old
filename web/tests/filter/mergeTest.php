@@ -283,7 +283,7 @@ EOD;
   }
 
 
-  public function testCliWrapper () /// Todo write it.
+  public function testCliWrapper ()
   {
     $base = uniqid (sys_get_temp_dir () . "/");
     $user = uniqid (sys_get_temp_dir () . "/");
@@ -316,7 +316,10 @@ EOD;
     file_put_contents ($user, $userModificationData);
     file_put_contents ($server, $serverModificationData);
 
-    $command = "php ../../web/filter/mergecli.php $base $user $server $output";
+    $folder = dirname (dirname (dirname (__FILE__)));
+    $script = $folder . "/web/filter/mergecli.php";
+    $sript = escapeshellarg ($script);
+    $command = "php $script $base $user $server $output";
     exec ($command, $result, $exit_code);    
 
     $outputData = file_get_contents ($output);
