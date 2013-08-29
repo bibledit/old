@@ -1,4 +1,4 @@
-<h1><?php echo gettext ("Install Bibledit-Web 1.0 on Ubuntu 13.04") ?></h1>
+<h1><?php echo gettext ("Install Bibledit-Web 1.1 on Ubuntu 13.04") ?></h1>
 <p><?php echo gettext ("This assumes a standard installation of the operating system.") ?></p>
 <p><?php echo gettext ("Connect to or open a terminal.") ?></p>
 <p><?php echo gettext ("Update the software sources. Type the following command, and then press Enter.") ?></p>
@@ -17,7 +17,7 @@
 
 <h2><?php echo gettext ("Install the software Bibledit-Web relies on") ?></h2>
 <p><?php echo gettext ("In the terminal issue these commands:") ?></p>
-<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff sqlite3 php5-intl python perl libsword-utils</code></p>
+<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff sqlite3 php5-intl python perl libsword-utils rcs</code></p>
 <p><?php echo gettext ("Anything to be set up, choose the default settings and enter the correct passwords.") ?></p>
 
 <h2><?php echo gettext ("Install Bibledit-Web") ?></h2>
