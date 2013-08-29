@@ -147,52 +147,10 @@ foreach ($bibles as $bible) {
       }
       $message = "Exit code $exit_code";
       $database_logs->log ("$send_receive $message");
-      if ($conflict) { // Todo
+      if ($conflict) {
         $message = "Bibledit-Web will merge the conflicts.";
         $database_logs->log ("$send_receive $message", TRANSLATOR_LEVEL);
-
-// Todo
-/*
-        $command = "cd $shelldirectory; git status 2>&1";
-        unset ($result);
-        exec ($command, $result, $exit_code);
-        foreach ($result as $line) {
-          $database_logs->log ("debug $line", TRANSLATOR_LEVEL);
-        }
-        $command = "cd $shelldirectory; git show :1:Genesis/1/data 2>&1";
-        unset ($result);
-        exec ($command, $result, $exit_code);
-        foreach ($result as $line) {
-          $database_logs->log ("ancestor $line", TRANSLATOR_LEVEL);
-        }
-        $command = "cd $shelldirectory; git show :2:Genesis/1/data 2>&1";
-        unset ($result);
-        exec ($command, $result, $exit_code);
-        foreach ($result as $line) {
-          $database_logs->log ("head $line", TRANSLATOR_LEVEL);
-        }
-        $command = "cd $shelldirectory; git show :3:Genesis/1/data 2>&1";
-        unset ($result);
-        exec ($command, $result, $exit_code);
-        foreach ($result as $line) {
-          $database_logs->log ("merge_head $line", TRANSLATOR_LEVEL);
-        }
-*/
-// Todo
-
-        Filter_Conflict::run ($directory); // Todo testing the filter.
-
-// Todo
-/*
-        $command = "cd $shelldirectory; cat Genesis/1/data 2>&1";
-        unset ($result);
-        exec ($command, $result, $exit_code);
-        foreach ($result as $line) {
-          $database_logs->log ("merge result $line", TRANSLATOR_LEVEL);
-        }
-*/
-// Todo
-
+        Filter_Conflict::run ($directory);
       }
     }  
 

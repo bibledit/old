@@ -43,7 +43,7 @@ class Filter_Merge
   In case of a conflict, it favours the edition from the server.
   The filter returns the merged data.
   */
-  public static function run ($base, $user, $server) // Todo
+  public static function run ($base, $user, $server)
   {
     // The three files for merging.
     $mergeBaseFile = uniqid (sys_get_temp_dir () . "/") . "mergebase.txt";
@@ -114,7 +114,7 @@ class Filter_Merge
   Exit status is 0 for no conflicts, 1 for some conflicts, 2 for trouble.
   The function returns the exit status.
   */
-  private static function merge ($base, $user, $server) // Todo
+  private static function merge ($base, $user, $server)
   {
     $command = "merge $user $base $server 2>&1";
     exec ($command, $output, $exit_code);

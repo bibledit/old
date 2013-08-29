@@ -88,22 +88,6 @@ class Filter_Conflict
     
     $mergedData = Filter_Merge::run ($mergeBase, $userData, $serverData);
     
-    // Todo remove from here to the next.
-/*
-    $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ("mergeBase");
-    $database_logs->log ($mergeBase);
-    $database_logs->log ("userData");
-    $database_logs->log ($userData);
-    $database_logs->log ("serverData");
-    $database_logs->log ($serverData);
-    $database_logs->log ("mergedData");
-    $database_logs->log ($mergedData);
-    $database_logs->log ("Store to file $repository/$path");
-    $database_logs->log ($mergedData);
-*/
-    // Todo end stuff to be removed.
-    
     file_put_contents ("$repository/$path", $mergedData);    
 
     unlink ($common_ancestor);
