@@ -18,6 +18,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+/*
+
+Note: This object should not call other objects within the Bibledit-Web source,
+because this object is also called from Bibledit-Gtk, and does not have access
+to those other objects.
+Calling other objects would result in faral errors that break Bibledit-Gtk.
+
+*/
+
+
 class Filter_Merge
 {
 
@@ -26,7 +36,7 @@ class Filter_Merge
   $base: Data for the merge base.
   $user: Data as modified by the user.
   $server: Data as modified by the collaboration server.
-  The filter uses program "git" do do a three-way merge.
+  The filter uses program "merge" do do a three-way merge.
   There should be one unchanged segment (either a line or word) between the modifications.
   If necessary it converts the data into a new format with one character per line, 
   for more fine-grained merging.
@@ -35,124 +45,81 @@ class Filter_Merge
   */
   public static function run ($base, $user, $server)
   {
-    // First try a standard line-based merge. Should be sufficient for most cases.
-    $repository = Filter_Merge::createRepository ();    
-    $userClone = Filter_Merge::cloneRepository ($repository);
-    Filter_Merge::commitData ($userClone, $base);
-    Filter_Merge::pushData ($userClone);
-    $serverClone = Filter_Merge::cloneRepository ($repository);
-    Filter_Merge::commitData ($serverClone, $server);
-    Filter_Merge::pushData ($serverClone);
-    Filter_Merge::commitData ($userClone, $user);
-    $exit_code = Filter_Merge::pullData ($userClone, "");
-    $result = file_get_contents ("$userClone/data");
-    Filter_Rmdir::rmdir ($repository);
-    Filter_Rmdir::rmdir ($userClone);
-    Filter_Rmdir::rmdir ($serverClone);
-    if ($exit_code == 0) {
-      return $result;
+    // The three files for merging.
+    $mergeBaseFile = uniqid (sys_get_temp_dir () . "/") . "mergebase.txt";
+    $userModificationFile = uniqid (sys_get_temp_dir () . "/") . "usermodification.txt";
+    $serverModificationFile = uniqid (sys_get_temp_dir () . "/") . "servermodification.txt";
+    
+    $success = false;
+    
+    // Try a standard line-based merge. Should be sufficient for most cases.
+    file_put_contents ($mergeBaseFile, $base);
+    file_put_contents ($userModificationFile, $user);
+    file_put_contents ($serverModificationFile, $server);
+    $exit_code = Filter_Merge::merge ($mergeBaseFile, $userModificationFile, $serverModificationFile);
+    $result = file_get_contents ($userModificationFile);
+    if ($exit_code == 0) $success = true;
+
+    if (!$success) {
+      // Convert the data to one word per line, and try to merge again.
+      $baseWords = Filter_Merge::lines2words ($base);
+      $userWords = Filter_Merge::lines2words ($user);
+      $serverWords = Filter_Merge::lines2words ($server);
+      file_put_contents ($mergeBaseFile, $baseWords);
+      file_put_contents ($userModificationFile, $userWords);
+      file_put_contents ($serverModificationFile, $serverWords);
+      $exit_code = Filter_Merge::merge ($mergeBaseFile, $userModificationFile, $serverModificationFile);
+      $result = file_get_contents ($userModificationFile);
+      $result = Filter_Merge::words2lines ($result);
+      if ($exit_code == 0) $success = true;
     }
-    // The line-based merge didn't manage to merge properly. Convert the data with 
-    // one word per line, and try to merge again.
-    $baseWords = Filter_Merge::lines2words ($base);
-    $userWords = Filter_Merge::lines2words ($user);
-    $serverWords = Filter_Merge::lines2words ($server);
-    $repository = Filter_Merge::createRepository ();    
-    $userClone = Filter_Merge::cloneRepository ($repository);
-    Filter_Merge::commitData ($userClone, $baseWords);
-    Filter_Merge::pushData ($userClone);
-    $serverClone = Filter_Merge::cloneRepository ($repository);
-    Filter_Merge::commitData ($serverClone, $serverWords);
-    Filter_Merge::pushData ($serverClone);
-    Filter_Merge::commitData ($userClone, $userWords);
-    $exit_code = Filter_Merge::pullData ($userClone, "");
-    $result = file_get_contents ("$userClone/data");
-    $result = Filter_Merge::words2lines ($result);
-    Filter_Rmdir::rmdir ($repository);
-    Filter_Rmdir::rmdir ($serverClone);
-    Filter_Rmdir::rmdir ($userClone);
-    if ($exit_code == 0) {
-      return $result;
+
+    if (!$success) {
+      // Convert the data so it has one grapheme per line, and try again.
+      $baseGraphemes = Filter_Merge::lines2graphemes ($base);
+      $userGraphemes = Filter_Merge::lines2graphemes ($user);
+      $serverGraphemes = Filter_Merge::lines2graphemes ($server);
+      file_put_contents ($mergeBaseFile, $baseGraphemes);
+      file_put_contents ($userModificationFile, $userGraphemes);
+      file_put_contents ($serverModificationFile, $serverGraphemes);
+      $exit_code = Filter_Merge::merge ($mergeBaseFile, $userModificationFile, $serverModificationFile);
+      $result = file_get_contents ($userModificationFile);
+      $result = Filter_Merge::graphemes2lines ($result);
+      if ($exit_code == 0) $success = true;
     }
-    // The word-based merge mechanism didn't manage to merge without conflicts.
-    // Convert the data so it has one grapheme per line, and try again.
-    $baseGraphemes = Filter_Merge::lines2graphemes ($base);
-    $userGraphemes = Filter_Merge::lines2graphemes ($user);
-    $serverGraphemes = Filter_Merge::lines2graphemes ($server);
-    $repository = Filter_Merge::createRepository ();    
-    $userClone = Filter_Merge::cloneRepository ($repository);
-    Filter_Merge::commitData ($userClone, $baseGraphemes);
-    Filter_Merge::pushData ($userClone);
-    $serverClone = Filter_Merge::cloneRepository ($repository);
-    Filter_Merge::commitData ($serverClone, $serverGraphemes);
-    Filter_Merge::pushData ($serverClone);
-    Filter_Merge::commitData ($userClone, $userGraphemes);
-    // Add a parameter so git will take the server's version in case of a merge conflict.
-    $exit_code = Filter_Merge::pullData ($userClone, "-X theirs");
-    $result = file_get_contents ("$userClone/data");
-    $result = Filter_Merge::graphemes2lines ($result);
-    Filter_Rmdir::rmdir ($repository);
-    Filter_Rmdir::rmdir ($serverClone);
-    Filter_Rmdir::rmdir ($userClone);
-    if ($exit_code == 0) {
-      return $result;
+
+    if (!$success) {
+      // Everthing failed. Return the server data.
+      $result = $server;
     }
-    // Everthing failed. Return the server data.
-    return $server;
+    
+    // Clear up.
+    @unlink ($mergeBaseFile);
+    @unlink ($userModificationFile);
+    @unlink ($serverModificationFile);
+
+    // Merge result.
+    return $result;
   }
 
 
-  // This function creates a file-based git repository.
-  // It returns the path to the repository.
-  private static function createRepository ()
+  /*
+  merge - three-way file merge
+  merge [ options ] file1 file2 file3
+  merge  incorporates  all  changes  that  lead from file2 to file3 into file1.
+  The result ordinarily goes into file1.  
+  merge  is  useful  for combining separate changes to an original.
+  Suppose file2 is the original, and both file1 and file3 are modifications of file2.
+  Then merge combines both changes.
+  Exit status is 0 for no conflicts, 1 for some conflicts, 2 for trouble.
+  The function returns the exit status.
+  */
+  private static function merge ($base, $user, $server)
   {
-    $repository = uniqid (sys_get_temp_dir () . "/") . "repository";
-    mkdir ($repository);
-    $command = "cd $repository; git --bare init --shared 2>&1";
-    exec ($command, $output, $exit_code);
-    return $repository;
-  }
-
-
-  // This function clones a git $repository,
-  // It returns the path to the clone.
-  private static function cloneRepository ($repository)
-  {
-    $clone = uniqid (sys_get_temp_dir() . "/") . "clone";
-    $command = "git clone file://$repository $clone 2>&1";
-    exec ($command, $output, $exit_code);
-    return $clone;
-  }
-
-  
-  // The function commit $data to the git repository at $clone.
-  private static function commitData ($clone, $data)
-  {
-    file_put_contents ("$clone/data", $data);
-    $command = "cd $clone; git add . 2>&1";
-    exec ($command, $output, $exit_code);
-    $command = "cd $clone; git commit -a -m commit 2>&1";
-    exec ($command, $output, $exit_code);
-  }
-
-   
-  // The function pushes data in $clone to its server.
-  private static function pushData ($clone)
-  {
-    $command = "cd $clone; git push 2>&1";
-    exec ($command, $output, $exit_code);
-  }
-
-
-  // The function pulls data for $clone from its server.
-  // It returns the exit code of the process.
-  private static function pullData ($clone, $parameter)
-  {
-    $command = "cd $clone; git pull $parameter 2>&1";
+    $command = "merge $user $base $server 2>&1";
     exec ($command, $output, $exit_code);
     return $exit_code;
   }
-  
   
   private static function lines2words ($data)
   {

@@ -333,6 +333,53 @@ EOD;
   }
   
   
+  public function testPracticalMergeExampleOne ()
+  {
+    $this->mergeBaseData = <<<'EOD'
+\c 1
+\p
+\v 1 This is really the text of the first (1st) verse.
+\v 2 And this is what the second (2nd) verse contains.
+\v 3 The third (3rd) verse.
+\v 4 The fourth (4th) verse.
+\v 5
+
+EOD;
+    $this->userModificationData = <<<'EOD'
+\c 1
+\p
+\v 1 This is really the text of the first (1st) verse.
+\v 2 And this is what the second verse contains.
+\v 3 The third verse.
+\v 4 The fourth (4th) verse.
+\v 5
+
+EOD;
+    $this->serverModificationData = <<<'EOD'
+\c 1
+\p
+\v 1 This is really the text of the first verse.
+\v 2 And this is what the second (2nd) verse contains.
+\v 3 The third (3rd) verse.
+\v 4 The fourth verse.
+\v 5
+
+EOD;
+    $output = Filter_Merge::run ($this->mergeBaseData, $this->userModificationData, $this->serverModificationData);
+    $standard = <<<'EOD'
+\c 1
+\p
+\v 1 This is really the text of the first verse.
+\v 2 And this is what the second verse contains.
+\v 3 The third verse.
+\v 4 The fourth verse.
+\v 5
+
+EOD;
+    $this->assertEquals ($standard, $output);
+  }
+  
+  
 
   
 }

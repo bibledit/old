@@ -1,7 +1,7 @@
 <?php
 
  
-class filterConflictTest extends PHPUnit_Framework_TestCase // Todo
+class filterConflictTest extends PHPUnit_Framework_TestCase
 {
 
   private $repository;

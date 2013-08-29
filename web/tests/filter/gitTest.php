@@ -358,43 +358,5 @@ EOD;
   }
 
 
-  /*
-  * Tests the git filter that resolves a conflict.
-  */
-  public function testResolveConflict()
-  {
-$contents = <<<'EOD'
-<<<<<<< HEAD:3 John/1/data
-\v 1 xFrom the church leader.
-=======
-\v 1 xxFrom the church leader.
->>>>>>> a62f843ce41ed2d0325c8a2767993df6acdbc933:3 John/1/data
-EOD;
-    $filename = uniqid (sys_get_temp_dir() . '/');
-    file_put_contents ($filename, $contents);
-    Filter_Git::resolveConflict ($contents, $filename);
-$reference = <<<'EOD'
-\v 1 xxFrom the church leader.
-EOD;
-    $this->assertEquals ($reference, $contents);
-    $contents = file_get_contents ($filename);
-    $this->assertEquals ($reference, $contents);
-
-$contents = <<<'EOD'
-\v 1 xFrom the church leader.
-EOD;
-    file_put_contents ($filename, $contents);
-    Filter_Git::resolveConflict ($contents, NULL);
-$reference = <<<'EOD'
-\v 1 xFrom the church leader.
-EOD;
-    $this->assertEquals ($reference, $contents);
-    $contents = file_get_contents ($filename);
-    $this->assertEquals ($reference, $contents);
-    
-    unlink ($filename);
-  }
-
-
 }
 ?>

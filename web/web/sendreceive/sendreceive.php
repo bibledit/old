@@ -19,18 +19,18 @@
 */
 
 
-$receive_send = "send/receive:";
+$send_receive = "send/receive:";
 include ("../session/levels.php");
 
 
 require_once ("../bootstrap/bootstrap.php");
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("$receive_send Starting to send and receive Bibles", TRANSLATOR_LEVEL);
+$database_logs->log ("$send_receive Starting to send and receive Bibles", TRANSLATOR_LEVEL);
 
 
 // Security: The script runs from the cli SAPI only.
 if (php_sapi_name () != "cli") {
-  $database_logs->log ("$receive_send Fatal: This only runs through the cli Server API");
+  $database_logs->log ("$send_receive Fatal: This only runs through the cli Server API");
   die;
 }
 
@@ -52,32 +52,32 @@ foreach ($bibles as $bible) {
 
 
     if ($bible == "consultationnotes") {
-      //$database_logs->log ("$receive_send Consultation Notes");
+      //$database_logs->log ("$send_receive Consultation Notes");
     } else {
-      $database_logs->log ("$receive_send Bible" . ": " . $bible, TRANSLATOR_LEVEL);
+      $database_logs->log ("$send_receive Bible" . ": " . $bible, TRANSLATOR_LEVEL);
     }
-    $database_logs->log ("$receive_send Remote repository URL: " . $remote_repository_url, ADMIN_LEVEL);
+    $database_logs->log ("$send_receive Remote repository URL: " . $remote_repository_url, ADMIN_LEVEL);
 
 
     // The git directory for this object.
     $directory = Filter_Git::git_directory ($bible);
-    $database_logs->log ("$receive_send Git repository directory: " . $directory);
+    $database_logs->log ("$send_receive Git repository directory: " . $directory);
     $shelldirectory = escapeshellarg ($directory);
 
     
     // Continue to the next Bible if the repository directory is not there.
     if (!is_dir ($directory)) {
-      $database_logs->log ("$receive_send Cannot send and receive the data because the git repository was not found in the filesystem.");
+      $database_logs->log ("$send_receive Cannot send and receive the data because the git repository was not found in the filesystem.");
       continue;
     }
 
 
     // Sync the repository with the database. 
     if ($bible == "consultationnotes") {
-      //$database_logs->log ("$receive_send Transferring notes to file.");
+      //$database_logs->log ("$send_receive Transferring notes to file.");
       //$success = Filter_Git::notesDatabase2filedata ($directory);
     } else {
-      $database_logs->log ("$receive_send Syncing Bible text to the repository.", TRANSLATOR_LEVEL);
+      $database_logs->log ("$send_receive Syncing Bible text to the repository.", TRANSLATOR_LEVEL);
       $success = Filter_Git::syncBible2Git ($bible, $directory);
     }
     // If the above does not succeed, then there is a serious problem. 
@@ -94,115 +94,145 @@ foreach ($bibles as $bible) {
     // Commit the new data to the repository.
     if ($success) {
       $command = "cd $shelldirectory; git add . 2>&1";
-      $database_logs->log ("$receive_send $command");
+      $database_logs->log ("$send_receive $command");
       unset ($result);
       exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
-        if ($line) $database_logs->log ("$receive_send $line");
+        if ($line) $database_logs->log ("$send_receive $line");
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ("$receive_send $message");
+      $database_logs->log ("$send_receive $message");
     }
 
 
     if ($success) {
       $command = "cd $shelldirectory; git status 2>&1";
-      $database_logs->log ("$receive_send $command");
+      $database_logs->log ("$send_receive $command");
       unset ($result);
       exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
-        if ($line) $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
+        if ($line) $database_logs->log ("$send_receive $line", TRANSLATOR_LEVEL);
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ("$receive_send $message");
+      $database_logs->log ("$send_receive $message");
     }  
 
 
     if ($success) {
       $command = "cd $shelldirectory; git commit -a -m sync 2>&1";
-      $database_logs->log ("$receive_send $command");
+      $database_logs->log ("$send_receive $command");
       unset ($result);
       exec ($command, $result, $exit_code);
       if (($exit_code != 0) && ($exit_code != 1)) $success = false;
       foreach ($result as $line) {
-        if ($line) $database_logs->log ("$receive_send $line");
+        if ($line) $database_logs->log ("$send_receive $line");
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ("$receive_send $message");
+      $database_logs->log ("$send_receive $message");
     }  
 
 
     // Pull changes from the remote repository.
     if ($success) {
+      $conflict = false;
       $command = "cd $shelldirectory; git pull 2>&1";
-      $database_logs->log ("$receive_send $command");
+      $database_logs->log ("$send_receive $command");
       unset ($result);
       exec ($command, $result, $exit_code);
-      if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
-        // Leave out messages like:
-        //   Could not create directory '/var/www/.ssh'.
-        //   Failed to add the host to the list of known hosts (/var/www/.ssh/known_hosts).
-        // Such messages confuse the user, and are not real errors.
-        if (strstr ($line, "/.ssh") != false) continue;
-        $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
-        if (strstr ($line, "CONFLICT") !== false) {
-          if ($line) $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
-          $message = "A conflict was found in the above book and chapter or consultation note. Please resolve this conflict manually. Open the chapter in the editor in USFM view, and select which of the two conflicting lines of text should be retained, and remove the other line, and the conflict markup. After that it is recommended to send and receive the Bibles again. This will remove the conflict from the repository.";
-          $database_logs->log ("$receive_send $message", TRANSLATOR_LEVEL);
-          // Inform administrator about the conflict.
-          $database_mail = Database_Mail::getInstance ();
-          $database_users = Database_Users::getInstance ();
-          $adminusername = $database_users->getAdministrator ();
-          $subject = "Send/Receive" . ' ' . $line;
-          $body = "<p>$line</p>";
-          $body .= "<p>$message</p>";
-          $database_mail->send ($adminusername, $subject, $body);
-        }
+        $database_logs->log ("$send_receive $line", TRANSLATOR_LEVEL);
+        if (strstr ($line, "CONFLICT") !== false) $conflict = true;
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ("$receive_send $message");
+      $database_logs->log ("$send_receive $message");
+      if ($conflict) { // Todo
+        $message = "Bibledit-Web will merge the conflicts.";
+        $database_logs->log ("$send_receive $message", TRANSLATOR_LEVEL);
+
+// Todo
+/*
+        $command = "cd $shelldirectory; git status 2>&1";
+        unset ($result);
+        exec ($command, $result, $exit_code);
+        foreach ($result as $line) {
+          $database_logs->log ("debug $line", TRANSLATOR_LEVEL);
+        }
+        $command = "cd $shelldirectory; git show :1:Genesis/1/data 2>&1";
+        unset ($result);
+        exec ($command, $result, $exit_code);
+        foreach ($result as $line) {
+          $database_logs->log ("ancestor $line", TRANSLATOR_LEVEL);
+        }
+        $command = "cd $shelldirectory; git show :2:Genesis/1/data 2>&1";
+        unset ($result);
+        exec ($command, $result, $exit_code);
+        foreach ($result as $line) {
+          $database_logs->log ("head $line", TRANSLATOR_LEVEL);
+        }
+        $command = "cd $shelldirectory; git show :3:Genesis/1/data 2>&1";
+        unset ($result);
+        exec ($command, $result, $exit_code);
+        foreach ($result as $line) {
+          $database_logs->log ("merge_head $line", TRANSLATOR_LEVEL);
+        }
+*/
+// Todo
+
+        Filter_Conflict::run ($directory); // Todo testing the filter.
+
+// Todo
+/*
+        $command = "cd $shelldirectory; cat Genesis/1/data 2>&1";
+        unset ($result);
+        exec ($command, $result, $exit_code);
+        foreach ($result as $line) {
+          $database_logs->log ("merge result $line", TRANSLATOR_LEVEL);
+        }
+*/
+// Todo
+
+      }
     }  
 
 
     // Push our changes into the remote repository.
     if ($success) {
       $command = "cd $shelldirectory; git push 2>&1";
-      $database_logs->log ("$receive_send $command");
+      $database_logs->log ("$send_receive $command");
       unset ($result);
       exec ($command, $result, $exit_code);
       if ($exit_code != 0) $success = false;
       foreach ($result as $line) {
         if (strstr ($line, "/.ssh") != false) continue;
-        if ($line) $database_logs->log ("$receive_send $line", TRANSLATOR_LEVEL);
+        if ($line) $database_logs->log ("$send_receive $line", TRANSLATOR_LEVEL);
       }
       $message = "Exit code $exit_code";
-      $database_logs->log ("$receive_send $message");
+      $database_logs->log ("$send_receive $message");
     }  
 
 
     if ($success) {
-      $database_logs->log ("$receive_send Storing the changes in the database.");
+      $database_logs->log ("$send_receive Storing the changes in the database.");
       Filter_Git::syncGit2Bible ($directory, $bible);
     }
 
 
     // Done.
     if (!$success) {
-      $database_logs->log ("$receive_send There was a failure", TRANSLATOR_LEVEL);
+      $database_logs->log ("$send_receive There was a failure", TRANSLATOR_LEVEL);
     }
     if ($bible == "consultationnotes") {
-      //$database_logs->log ("$receive_send The Consultation Notes have been done.");
+      //$database_logs->log ("$send_receive The Consultation Notes have been done.");
     } else {
-      $database_logs->log ("$receive_send This Bible has been done.", TRANSLATOR_LEVEL);
+      $database_logs->log ("$send_receive This Bible has been done.", TRANSLATOR_LEVEL);
     }
   }
 }
 
 
-$database_logs->log ("$receive_send Ready", TRANSLATOR_LEVEL);
+$database_logs->log ("$send_receive Ready", TRANSLATOR_LEVEL);
 
 
 ?>

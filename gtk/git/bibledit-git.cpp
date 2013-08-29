@@ -182,7 +182,6 @@ bool on_timeout (gpointer data)
         bool merge_conflict = false;
         for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
           if (spawn.standardout[i].find ("CONFLICT") != string::npos) {
-            message ("Bibledit will resolve a conflict between its own data and the data on the server.");
             merge_conflict = true;
           }
           message (spawn.standardout[i]);
@@ -191,6 +190,7 @@ bool on_timeout (gpointer data)
           message (spawn.standarderr[i]);
         }
         if (merge_conflict) {
+          message ("Bibledit will resolve conflicts between its own data and the data on the server.");
           // Resolve merge conflict.
           TinySpawn mergetool ("php") ;
           string script;

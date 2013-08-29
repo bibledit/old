@@ -19,7 +19,8 @@
 <p>It has a setting to send and receive every five minutes.</p>
 <p>More robust synchronization from the collaboration repository to the Bible database.</p>
 <p>A note can be marked to be deleted after a week.</p>
-<p></p>
+<p>Requires program "merge" in package "rcs".</p>
+<p>Resolves conflicts during Send/receive by merging the two versions with grapheme granularity.</p>
 <p></p>
 <p></p>
 

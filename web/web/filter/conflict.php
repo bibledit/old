@@ -18,7 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_Conflict // Todo
+/*
+
+Note: This object should not call other objects within the Bibledit-Web source,
+because this object is also called from Bibledit-Gtk, and does not have access
+to those other objects.
+Calling other objects would result in faral errors that break Bibledit-Gtk.
+
+*/
+
+
+class Filter_Conflict
 {
 
   // This function resolves any conflicts in a git repository.
@@ -77,7 +87,23 @@ class Filter_Conflict // Todo
     $serverData = file_get_contents ($merge_head_version);
     
     $mergedData = Filter_Merge::run ($mergeBase, $userData, $serverData);
-
+    
+    // Todo remove from here to the next.
+/*
+    $database_logs = Database_Logs::getInstance ();
+    $database_logs->log ("mergeBase");
+    $database_logs->log ($mergeBase);
+    $database_logs->log ("userData");
+    $database_logs->log ($userData);
+    $database_logs->log ("serverData");
+    $database_logs->log ($serverData);
+    $database_logs->log ("mergedData");
+    $database_logs->log ($mergedData);
+    $database_logs->log ("Store to file $repository/$path");
+    $database_logs->log ($mergedData);
+*/
+    // Todo end stuff to be removed.
+    
     file_put_contents ("$repository/$path", $mergedData);    
 
     unlink ($common_ancestor);
