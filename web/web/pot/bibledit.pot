@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-29 01:42+0200\n"
+"POT-Creation-Date: 2013-08-30 01:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2854,7 +2854,7 @@ msgstr ""
 msgid "The body of the email will be the first comment on that note."
 msgstr ""
 
-msgid "Install Bibledit-Web 0.9 on Ubuntu 13.04"
+msgid "Install Bibledit-Web 1.0 on Ubuntu 13.04"
 msgstr ""
 
 msgid "This assumes a standard installation of the operating system."
@@ -2936,16 +2936,16 @@ msgid ""
 "account."
 msgstr ""
 
-msgid "Install Bibledit-Web 1.0 on Ubuntu 13.04"
+msgid "Install Bibledit-Web 1.1 on Ubuntu 13.04"
 msgstr ""
 
 msgid "Here are some guidelines as to how to install Bibledit-Web."
 msgstr ""
 
-msgid "Version 0.9 on Ubuntu 13.04."
+msgid "Version 1.0 on Ubuntu 13.04."
 msgstr ""
 
-msgid "Version 1.0 on Ubuntu 13.04."
+msgid "Version 1.1 (not yet released) on Ubuntu 13.04."
 msgstr ""
 
 msgid "Version being developed"

@@ -1,13 +1,7 @@
-var usfmEditorContainer;
-var usfmStatusContainer;
-
-
 $(document).ready (function () {
-  usfmEditorContainer = $ ("#usfmeditor");
-  usfmStatusContainer = $ ("#usfmstatus");
-  $(document).on ("passage", usfmEditorNewPassage);
-  usfmEditorContainer.on ("paste cut keydown", usfmEditorChanged);
-  $(window).on ("unload beforeunload", usfmEditorSaveChapter);
+  $ (document).on ("passage", usfmEditorNewPassage);
+  $ ("#usfmeditor").on ("paste cut keydown", usfmEditorChanged);
+  $ (window).on ("unload beforeunload", usfmEditorSaveChapter);
 });
 
 
@@ -18,6 +12,7 @@ var usfmChapter;
 
 var usfmChangedFlag = false;
 var usfmEditorTimeout;
+var usfmLoadedText;
 
 
 function usfmEditorNewPassage ()
@@ -32,15 +27,16 @@ function usfmEditorLoadChapter ()
     usfmBible = navigationBible;
     usfmBook = navigationBook;
     usfmChapter = navigationChapter;
-    usfmEditorContainer.empty ();
+    $ ("#usfmeditor").empty ();
     $.ajax ({
       url: "load.php",
       type: "GET",
       data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
       success: function (response) {
-        usfmEditorContainer.empty ();
-        usfmEditorContainer.append (response);
+        $ ("#usfmeditor").empty ();
+        $ ("#usfmeditor").append (response);
         usfmEditorStatus (usfmEditorChapterLoaded);
+        usfmLoadedText = response;
       },
     });
   }
@@ -53,7 +49,7 @@ function usfmEditorSaveChapter ()
   if (!usfmBook) return;
   if (!usfmChangedFlag) return;
   usfmChangedFlag = false;
-  var usfm = usfmEditorContainer.text ();
+  var usfm = $ ("#usfmeditor").text ();
   $.ajax ({
     url: "save.php",
     type: "POST",
@@ -78,7 +74,7 @@ function usfmEditorChanged ()
 
 function usfmEditorStatus (text)
 {
-  usfmStatusContainer.empty ();
-  usfmStatusContainer.append (text);
+  $ ("#usfmstatus").empty ();
+  $ ("#usfmstatus").append (text);
 }
 

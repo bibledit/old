@@ -48,7 +48,6 @@ $view->view->navigationCode = Navigation_Logic::code ($bible);
 
 $chapterLoaded = gettext ("Loaded");
 $chapterModified = gettext ("Saving...");
-$chapterSaved = gettext ("Saved");
 $script = <<<EOD
 var usfmEditorChapterLoaded = '$chapterLoaded';
 var usfmEditorChapterModified = '$chapterModified';
