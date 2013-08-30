@@ -2,6 +2,7 @@ $(document).ready (function () {
   $ (document).on ("passage", usfmEditorNewPassage);
   $ ("#usfmeditor").on ("paste cut keydown", usfmEditorChanged);
   $ (window).on ("unload beforeunload", usfmEditorSaveChapter);
+  usfmIdPoller ();
 });
 
 
@@ -10,20 +11,23 @@ var usfmBook;
 var usfmChapter;
 var usfmEditorTimeout;
 var usfmLoadedText;
+var usfmIdChapter = 0;
+var usfmIdTimeout;
 
 
 function usfmEditorNewPassage ()
 {
   usfmEditorSaveChapter ();
-  usfmEditorLoadChapter ();
+  usfmEditorLoadChapter (false);
 }
 
-function usfmEditorLoadChapter ()
+function usfmEditorLoadChapter (reload)
 {
-  if ((navigationBible != usfmBible) || (navigationBook != usfmBook) || (navigationChapter != usfmChapter)) {
+  if ((navigationBible != usfmBible) || (navigationBook != usfmBook) || (navigationChapter != usfmChapter) || reload) {
     usfmBible = navigationBible;
     usfmBook = navigationBook;
     usfmChapter = navigationChapter;
+    usfmIdChapter = 0;
     $ ("#usfmeditor").empty ();
     $.ajax ({
       url: "load.php",
@@ -48,6 +52,7 @@ function usfmEditorSaveChapter ()
   if (usfm == usfmLoadedText) return;
   usfmEditorStatus (usfmEditorChapterSaving);
   usfmLoadedText = usfm;
+  usfmIdChapter = 0;
   $.ajax ({
     url: "save.php",
     type: "POST",
@@ -73,4 +78,36 @@ function usfmEditorStatus (text)
   $ ("#usfmstatus").empty ();
   $ ("#usfmstatus").append (text);
 }
+
+
+function usfmIdPoller ()
+{
+  if (usfmIdTimeout) {
+    clearTimeout (usfmIdTimeout);
+  }
+  usfmIdTimeout = setTimeout (usfmEditorPollId, 1000);
+}
+
+
+function usfmEditorPollId ()
+{
+  $.ajax ({
+    url: "id.php",
+    type: "GET",
+    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
+    success: function (response) {
+      if (usfmIdChapter != 0) {
+        if (response != usfmIdChapter) {
+          usfmEditorLoadChapter (true);
+          usfmIdChapter = 0;
+        }
+      }
+      usfmIdChapter = response;
+    },
+    complete: function (xhr, status) {
+      usfmIdPoller ();
+    }
+  });
+}
+
 

@@ -86,6 +86,15 @@ class databaseNotesTest extends PHPUnit_Framework_TestCase
   }
 
 
+  public function testGetChapterId()
+  {
+    $database_bibles = Database_Bibles::getInstance ();
+    $id = $database_bibles->getChapterId ("none", 1, 2);
+    $this->assertEquals (0, $id);
+    $database_bibles->storeChapter ("none", 1, 2, "chapter text one");
+    $id = $database_bibles->getChapterId ("none", 1, 2);
+    $this->assertGreaterThan (0, $id);
+  }
 
       
 }

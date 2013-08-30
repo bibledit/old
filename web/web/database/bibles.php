@@ -344,6 +344,26 @@ class Database_Bibles
       
 
   /*
+   * Gets the chapter id.
+   */
+  public function getChapterId ($bible, $book, $chapter)
+  {
+    $database_instance = Database_Instance::getInstance();
+    $bible = Database_SQLInjection::no ($bible);
+    if (!is_numeric ($bible)) $bible = $this->getID ($bible);
+    $book = Database_SQLInjection::no ($book);
+    $chapter = Database_SQLInjection::no ($chapter);
+    $query = "SELECT id FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $result = $database_instance->runQuery ($query);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_row();
+      return $row[0];
+    }
+    return 0;
+  }
+      
+
+  /*
    * Returns true if diff data exists for the chapter.
    * Else it returns false.
    * The "diff" data helps producing the daily differences.
