@@ -8,9 +8,6 @@ $(document).ready (function () {
 var usfmBible;
 var usfmBook;
 var usfmChapter;
-
-
-var usfmChangedFlag = false;
 var usfmEditorTimeout;
 var usfmLoadedText;
 
@@ -47,9 +44,10 @@ function usfmEditorSaveChapter ()
 {
   if (!usfmBible) return;
   if (!usfmBook) return;
-  if (!usfmChangedFlag) return;
-  usfmChangedFlag = false;
   var usfm = $ ("#usfmeditor").text ();
+  if (usfm == usfmLoadedText) return;
+  usfmEditorStatus (usfmEditorChapterSaving);
+  usfmLoadedText = usfm;
   $.ajax ({
     url: "save.php",
     type: "POST",
@@ -63,12 +61,10 @@ function usfmEditorSaveChapter ()
 
 function usfmEditorChanged ()
 {
-  usfmChangedFlag = true;
   if (usfmEditorTimeout) {
     clearTimeout (usfmEditorTimeout);
   }
   usfmEditorTimeout = setTimeout (usfmEditorSaveChapter, 1000);
-  usfmEditorStatus (usfmEditorChapterModified);
 }
 
 
