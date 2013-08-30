@@ -1681,7 +1681,8 @@ void Editor2::highlight_searchwords()
 
   // Create a new highlighting object.
   highlight = new Highlight(focused_paragraph->textbuffer, focused_paragraph->textview, project, reference_tag, current_verse_number);
-  g_thread_new ("highlight", GThreadFunc (highlight_thread_start), gpointer(this));
+  // New g_thread_new ("highlight", GThreadFunc (highlight_thread_start), gpointer(this));
+  g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
 }
 
 

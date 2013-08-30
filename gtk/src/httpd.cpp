@@ -38,7 +38,8 @@
 Httpd::Httpd(bool dummy)
 // This is a basic webserver tailored to Bibledit's specific needs.
 {
-  g_thread_new ("httpd", GThreadFunc (thread_start), gpointer(this));
+  // New g_thread_new ("httpd", GThreadFunc (thread_start), gpointer(this));
+  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
 Httpd::~Httpd()

@@ -76,7 +76,8 @@ void WindowsOutpost::Start()
 // This effectually starts the whole system.
 {
   thread_run = true;
-  g_thread_new ("windowsoutpost", GThreadFunc(thread_start), gpointer(this));
+  // New g_thread_new ("windowsoutpost", GThreadFunc(thread_start), gpointer(this));
+  g_thread_create (GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
 

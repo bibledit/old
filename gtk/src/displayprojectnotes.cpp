@@ -42,7 +42,8 @@ DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * 
     ids_passed = false;
   }
   // Start main thread.  
-  g_thread_new ("displayprojectnotes", GThreadFunc (thread_start), gpointer(this));
+  // New g_thread_new ("displayprojectnotes", GThreadFunc (thread_start), gpointer(this));
+  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
 

@@ -40,7 +40,8 @@ VCS::VCS(bool dummy)
   mypause = false;
   thread_running = false;
   thread_run = true;
-  g_thread_new ("vcs", GThreadFunc(thread_start), gpointer(this));
+  // New g_thread_new ("vcs", GThreadFunc(thread_start), gpointer(this));
+  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
 
