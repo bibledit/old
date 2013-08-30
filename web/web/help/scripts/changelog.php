@@ -21,7 +21,7 @@
 <p>A note can be marked to be deleted after a week.</p>
 <p>Requires program "merge" in package "rcs".</p>
 <p>Resolves conflicts during Send/receive by merging the two versions with grapheme granularity.</p>
-<p></p>
+<p>The Sword module export links to information about Sword module making.</p>
 <p></p>
 
 <h2>Version 1.0</h2>

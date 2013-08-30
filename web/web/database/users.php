@@ -23,6 +23,7 @@ class Database_Users
   public function optimize ()
   {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE users;");
     $database_instance->runQuery ("OPTIMIZE TABLE users;");
   }
   

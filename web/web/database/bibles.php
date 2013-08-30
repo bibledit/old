@@ -36,6 +36,9 @@ class Database_Bibles
    */
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE bible_names;");
+    $database_instance->runQuery ("REPAIR TABLE bible_data;");
+    $database_instance->runQuery ("REPAIR TABLE bible_diff;");
     $database_instance->runQuery ("OPTIMIZE TABLE bible_names;");
     $database_instance->runQuery ("OPTIMIZE TABLE bible_data;");
     $database_instance->runQuery ("OPTIMIZE TABLE bible_diff;");

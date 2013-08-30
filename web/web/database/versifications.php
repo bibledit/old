@@ -41,6 +41,8 @@ class Database_Versifications
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE versification_names;");
+    $database_instance->runQuery ("REPAIR TABLE versification_data;");
     $database_instance->runQuery ("OPTIMIZE TABLE versification_names;");
     $database_instance->runQuery ("OPTIMIZE TABLE versification_data;");
   }

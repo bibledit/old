@@ -17,6 +17,7 @@ class Database_UsfmResources
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE usfmresources;");
     $database_instance->runQuery ("OPTIMIZE TABLE usfmresources;");
   }
 

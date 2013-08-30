@@ -43,6 +43,7 @@ class Database_Styles
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE styles;");
     $database_instance->runQuery ("OPTIMIZE TABLE styles;");
   }
 

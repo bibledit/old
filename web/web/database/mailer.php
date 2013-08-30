@@ -34,6 +34,7 @@ class Database_Mailer
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE mailer;");
     $database_instance->runQuery ("OPTIMIZE TABLE mailer;");
   }
 

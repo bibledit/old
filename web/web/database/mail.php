@@ -27,6 +27,7 @@ class Database_Mail
   */
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE mail;");
     $database_instance->runQuery ("OPTIMIZE TABLE mail;");
   }
 

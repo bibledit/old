@@ -19,6 +19,7 @@ class Database_Changes
   public function optimize ()
   {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE changes;");
     $database_instance->runQuery ("OPTIMIZE TABLE changes;");
   }
 

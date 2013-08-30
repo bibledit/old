@@ -40,6 +40,7 @@ class Database_Config_General
   */
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE config_general;");
     $database_instance->runQuery ("OPTIMIZE TABLE config_general;");
   }
 

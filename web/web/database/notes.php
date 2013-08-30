@@ -70,6 +70,7 @@ class Database_Notes
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE notes;");
     $database_instance->runQuery ("OPTIMIZE TABLE notes;");
   }
 

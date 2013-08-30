@@ -5,7 +5,7 @@
 */
 
 
-class Database_Dialog // Be aware that this one is not yet being used.
+class Database_Dialog // Be aware that this one is not yet being used. Todo can go out?
 {
   private static $instance;
   private function __construct() {

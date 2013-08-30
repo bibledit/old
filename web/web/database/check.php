@@ -19,6 +19,8 @@ class Database_Check
   public function optimize () 
   {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE check_output;");
+    $database_instance->runQuery ("REPAIR TABLE check_suppress;");
     $database_instance->runQuery ("OPTIMIZE TABLE check_output;");
     $database_instance->runQuery ("OPTIMIZE TABLE check_suppress;");
   }

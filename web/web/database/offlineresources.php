@@ -17,6 +17,7 @@ class Database_OfflineResources
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE offlineresources;");
     $database_instance->runQuery ("OPTIMIZE TABLE offlineresources;");
   }
 

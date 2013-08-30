@@ -44,10 +44,9 @@ class Database_Shell
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
-    $query = "TRUNCATE TABLE shell;";
-    $database_instance->runQuery ($query);
-    $query = "OPTIMIZE TABLE shell;";
-    $database_instance->runQuery ($query);
+    $database_instance->runQuery ("REPAIR TABLE shell;");
+    $database_instance->runQuery ("TRUNCATE TABLE shell;");
+    $database_instance->runQuery ("OPTIMIZE TABLE shell;");
   }
   
   /**

@@ -19,6 +19,7 @@ class Database_Resources
   public function optimize () 
   {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE resources;");
     $database_instance->runQuery ("OPTIMIZE TABLE resources;");
   }
 

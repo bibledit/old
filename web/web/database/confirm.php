@@ -24,6 +24,7 @@ class Database_Confirm
   */
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE confirm;");
     $database_instance->runQuery ("OPTIMIZE TABLE confirm;");
   }
 

@@ -48,6 +48,7 @@ class Database_Snapshots
   */
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE snapshots;");
     $database_instance->runQuery ("OPTIMIZE TABLE snapshots;");
   }
 

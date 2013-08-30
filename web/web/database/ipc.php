@@ -17,6 +17,7 @@ class Database_Ipc
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE ipc;");
     $database_instance->runQuery ("OPTIMIZE TABLE ipc;");
   }
 

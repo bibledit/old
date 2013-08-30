@@ -41,6 +41,7 @@ class Database_Books
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE books;");
     $database_instance->runQuery ("OPTIMIZE TABLE books;");
   }
 

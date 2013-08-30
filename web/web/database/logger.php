@@ -35,6 +35,7 @@ class Database_Logger
 
   public function optimize () {
     $database_instance = Database_Instance::getInstance();
+    $database_instance->runQuery ("REPAIR TABLE logger;");
     $database_instance->runQuery ("OPTIMIZE TABLE logger;");
   }
 
