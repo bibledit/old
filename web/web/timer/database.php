@@ -61,9 +61,6 @@ $database->optimize ();
 $database = Database_Books::getInstance ();
 $database->optimize();
 
-$database = Database_Dialog::getInstance ();
-$database->optimize ();
-
 $database = Database_Versifications::getInstance();
 $database->optimize();
 
