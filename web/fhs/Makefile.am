@@ -17,10 +17,13 @@ install-data-local:
 	## - ln -s /$(JQUERYPATH) $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/jquery
 	## rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/jquery-ui
 	## - ln -s /$(JQUERYUIPATH) $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/jquery-ui
+	mkdir -p $(DESTDIR)/etc/php5/conf.d
+	echo upload_max_filesize = 8M > $(DESTDIR)/etc/php5/conf.d/bibledit.ini
 
 uninstall-local:
 	rm -rf $(DESTDIR)/$(packagelocalstatedir)/$(LOCATION)
 	- rm -f $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	## rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/jquery
 	## rm -rf $(DESTDIR)$(prefix)/$(packagedatadir)/$(LOCATION)/jquery-ui
+	- rm -f $(DESTDIR)/etc/php5/conf.d/bibledit.ini
 

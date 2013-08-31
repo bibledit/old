@@ -22,6 +22,8 @@
 <p>Requires program "merge" in package "rcs".</p>
 <p>Resolves conflicts during Send/receive by merging the two versions with grapheme granularity.</p>
 <p>The Sword module export links to information about Sword module making.</p>
+<p>The installer sets the maximum size of file uploads to 8 Mbyte PHP.</p>
+<p></p>
 <p></p>
 
 <h2>Version 1.0</h2>
