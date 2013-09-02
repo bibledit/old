@@ -32,9 +32,16 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
+ignore_user_abort (true);
+set_time_limit (0);
+
 $location = $argv[1];
 $bible = $argv[2];
 $database_logs->log ("Importing from location $location into Bible $bible" , true);
+
+$folder = Filter_Archive::uncompress ($file, true);
+if ($folder != NULL) $location = $folder;
+unset ($folder);
 
 $files = array ();
 
@@ -55,9 +62,11 @@ $stylesheet = $database_config_user->getStylesheet();
 $database_bibles = Database_Bibles::getInstance();
 $database_snapshots = Database_Snapshots::getInstance();
 $database_books = Database_Books::getInstance ();
+$database_logs = Database_Logs::getInstance ();
+
 
 foreach ($files as $file) {
-  $database_logs->log ("Examining file $file", true);
+  $database_logs->log ("Examining file for import: $file", true);
   $success_message = "";
   $error_message = "";
   $data = file_get_contents ($file);
@@ -73,18 +82,10 @@ foreach ($files as $file) {
             $database_bibles->storeChapter ($bible, $book_number, $chapter_number, $chapter_data);
             $database_snapshots->snapChapter ($bible, $book_number, $chapter_number, $chapter_data, 1);
             $book_name = $database_books->getUsfmFromId ($book_number);
-            $success_message .= " $book_name $chapter_number"; 
+            $database_logs->log ("Imported $book_name $chapter_number", MANAGER_LEVEL); 
           } else {
-            $error_message .= " " . substr ($chapter_data, 0, 1000); 
+            $database_logs->log ("Could not import this data: " . substr ($chapter_data, 0, 1000), MANAGER_LEVEL); 
           }
-        }
-        if ($error_message != "") {
-          $error_message = "Could not import this data:" . $error_message;
-          $database_logs->log ($error_message, true);
-        }
-        if ($success_message != "") {
-          $success_message = "The following was imported:" . $success_message;
-          $database_logs->log ($success_message, true);
         }
       } else {
         $database_logs->log ("The file does not contain valid Unicode UTF-8 text.", true);

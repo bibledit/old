@@ -2,6 +2,7 @@
 <p class="success"><?php echo $this->success_message ?></p>
 <p class="error"><?php echo $this->error_message ?></p>
 <p><?php echo gettext ("Bible") ?>: <a href="settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
+<p><a href="../manage/logbook.php" target="_blank"><?php echo gettext ("Logbook") ?></a></p>
 <p>
   <?php echo gettext ("This helps you with importing Unified Standard Format Markers data.") ?>
   <?php echo gettext ("More informatoin about this format:") ?>
@@ -20,9 +21,26 @@
 <br>
 <p>
   <?php echo gettext ("To import the data, paste the data into the box below, and then press the Submit button.") ?>
-  <a href="import1.php?bible=<?php echo $this->bible ?>"><?php echo gettext ("Or upload a file.") ?></a>
 </p>
-<form action="import_usfm.php?bible=<?php echo $this->bible ?>" name="form" method="post">
+<form action="?bible=<?php echo $this->bible ?>" name="form" method="post">
   <p><textarea name="data"></textarea></p>
   <p><input type="submit" name="submit" value=<?php echo gettext ("Submit") ?> /></p>
 </form>
+<br>
+<p><?php echo gettext ("You can also upload a file.") ?></p>
+<p>
+  <?php echo gettext ("The configuration of the server on which Bibledit-Web limits limits the size of the file to be uploaded.") ?>
+  <?php echo gettext ("The size of the file should not exceed any of the two limits given below:") ?>
+</p>
+<p><?php echo gettext ("Maximum size of a file to be posted:") ?> <?php echo $this->post_max_size ?></p>
+<p><?php echo gettext ("Maximum size of a file to be uploaded:") ?> <?php echo $this->upload_max_filesize ?></p>
+<p><?php echo gettext ("The file to be uploaded can be a USFM file or a compressed archive with USFM files.") ?></p>
+<form enctype="multipart/form-data" action="?bible=<?php echo $this->bible ?>" method="POST">
+  <input name="data" type="file" />
+  <input type="submit" name="upload" value="<?php echo gettext ("Upload") ?>" />
+</form>
+<p>
+  <?php echo gettext ("Uploading may take some time.") ?>
+  <?php echo gettext ("It depends on the speed of your network and on the size of the file.") ?>
+</p>
+<p><?php echo gettext ("If uploading fails, it may be because the file is too large, or the network too slow.") ?></p>
