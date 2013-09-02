@@ -87,7 +87,4 @@ $view->render ("import_usfm.php");
 Assets_Page::footer ();
 
 
-// Todo handle / implement import1 / 2 / 3 / 4 .php
-
-
 ?>

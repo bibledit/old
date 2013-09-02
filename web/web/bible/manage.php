@@ -73,6 +73,8 @@ if (isset ($origin)) {
     if (in_array ($destination, $bibles)) {
       $error_message = gettext ("Cannot copy Bible because the destination Bible already exists.");
     } else {
+      ignore_user_abort (true);
+      set_time_limit (0);
       $database_snapshots = Database_Snapshots::getInstance();
       $database_bibles->createBible ($destination);
       $books = $database_bibles->getBooks ($origin);
