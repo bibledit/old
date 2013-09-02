@@ -22,6 +22,9 @@ $view->view->bible = Filter_Html::sanitize ($bible);
 
 // USFM data submission.
 if (isset($_POST['submit'])) {
+  // Import may take long.
+  ignore_user_abort (true);
+  set_time_limit (0);
   $data = $_POST['data'];
   $data = trim ($data);
   if ($data != "") {

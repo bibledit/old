@@ -34,6 +34,8 @@ if (isset ($_GET['delete'])) {
   $bible = $_GET['delete'];
   @$confirm = $_GET['confirm'];
   if ($confirm != "") {
+    ignore_user_abort (true);
+    set_time_limit (0);
     $database_bibles->deleteBible ($bible);
     $gitdirectory = Filter_Git::git_directory ($bible);
     if (file_exists ($gitdirectory)) {
