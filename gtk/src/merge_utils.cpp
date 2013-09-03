@@ -224,7 +224,7 @@ ustring merge_join_data_character(const ustring & data)
 }
 
 
-void merge_editor_and_file (vector <ustring> merge_base,
+void merge_editor_and_file (vector <ustring> merge_base, // Todo
                             vector <ustring> editor_lines,
                             const ustring& project, unsigned int book, unsigned int chapter)
 // Merges the changes from the editor with the changes in the filesystem,

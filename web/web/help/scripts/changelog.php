@@ -24,6 +24,12 @@
 <p>The Sword module export links to information about Sword module making.</p>
 <p>The installer sets the maximum size of file uploads to 8 Mbyte PHP.</p>
 <p>Time consuming operations on Bibles no longer time out.</p>
+<p>Does not delete session files younger than the cookie timeout of 12 hours.</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 
 <h2>Version 1.0</h2>

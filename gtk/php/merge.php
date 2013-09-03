@@ -137,7 +137,7 @@ class Filter_Merge
   }
 
 
-  private static function lines2graphemes ($data)
+  private static function lines2graphemes ($data) // Todo
   {
     mb_internal_encoding ("UTF-8");
     $data = str_replace ("\n", " new__line ", $data);
