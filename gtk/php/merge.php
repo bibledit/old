@@ -139,11 +139,12 @@ class Filter_Merge
 
   private static function lines2graphemes ($data)
   {
+    mb_internal_encoding ("UTF-8");
     $data = str_replace ("\n", " new__line ", $data);
     $data2 = "";
-    $count = grapheme_strlen ($data);
+    $count = mb_strlen ($data);
     for ($i = 0; $i < $count; $i++) {
-      $grapheme = grapheme_substr ($data, $i, 1);
+      $grapheme = mb_substr ($data, $i, 1);
       $data2 .= $grapheme;
       $data2 .= "\n";
     }

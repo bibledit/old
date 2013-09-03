@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-02 01:42+0200\n"
+"POT-Creation-Date: 2013-09-03 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6385,6 +6385,9 @@ msgstr ""
 msgid "Import USFM"
 msgstr ""
 
+msgid "Import has started. See logbook for progress."
+msgstr ""
+
 msgid "Please supply valid Unicode UTF-8 text."
 msgstr ""
 
@@ -6409,21 +6412,6 @@ msgstr ""
 msgid "The Bible was copied."
 msgstr ""
 
-msgid "Could not import this data:"
-msgstr ""
-
-msgid "The following was imported:"
-msgstr ""
-
-msgid "Importing Bible data, step 3"
-msgstr ""
-
-msgid "The file or files were unpacked."
-msgstr ""
-
-msgid "Location"
-msgstr ""
-
 msgid "Chapters:"
 msgstr ""
 
@@ -6431,12 +6419,6 @@ msgid "Create chapter"
 msgstr ""
 
 msgid "Delete this book"
-msgstr ""
-
-msgid "Importing Bible data, step 2"
-msgstr ""
-
-msgid "The file has been uploaded successfully."
 msgstr ""
 
 msgid "This helps you with importing Unified Standard Format Markers data."
@@ -6484,7 +6466,21 @@ msgid ""
 "Submit button."
 msgstr ""
 
-msgid "Or upload a file."
+msgid "You can also upload a file."
+msgstr ""
+
+msgid ""
+"The configuration of the server on which Bibledit-Web limits limits the size "
+"of the file to be uploaded."
+msgstr ""
+
+msgid ""
+"The size of the file should not exceed any of the two limits given below:"
+msgstr ""
+
+msgid ""
+"The file to be uploaded can be a USFM file or a compressed archive with USFM "
+"files."
 msgstr ""
 
 msgid "This helps you with importing BibleWorks data."
@@ -6526,40 +6522,10 @@ msgstr ""
 msgid "Delete this chapter"
 msgstr ""
 
-msgid "Importing Bible data, last step"
-msgstr ""
-
-msgid "The process for importing Bible data has been started."
-msgstr ""
-
-msgid "The progress is visible in the logbook."
-msgstr ""
-
-msgid "It can take some time, depending on the amount of data to be imported."
-msgstr ""
-
-msgid ""
-"After everything has been done, you can see the Bible in the normal place."
-msgstr ""
-
 msgid "Available Bibles:"
 msgstr ""
 
 msgid "Create a new empty Bible"
-msgstr ""
-
-msgid "Importing Bible data"
-msgstr ""
-
-msgid "This page assists you with importing USFM data into the Bible."
-msgstr ""
-
-msgid ""
-"The file to be uploaded can be a USFM file, or a compressed archive with "
-"USFM files."
-msgstr ""
-
-msgid "Choose the USFM file to be uploaded."
 msgstr ""
 
 msgid "Available books"
