@@ -28,6 +28,7 @@ $database_bibles = Database_Bibles::getInstance();
 
 
 $notes_logic = Notes_Logic::getInstance();
+$session_logic = Session_Logic::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
