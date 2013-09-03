@@ -42,12 +42,18 @@ $session_path = $argv [1];
 $database_logs->log (gettext ("sessions: Path: $session_path"), true);
 
 
+$time = time ();
+
+
 $counter = 0;
 foreach (new DirectoryIterator ($session_path) as $fileInfo) {
   if ($fileInfo->isDot ()) continue;
   if ($fileInfo->isDir ()) continue;
   $filename = $fileInfo->getFilename();
   if (strpos ($filename, "sess_") === false) continue;
+  // Don't delete session files younger than the cookie timeout.
+  $age = $time - $fileInfo->getMTime ();
+  if ($age < 43200) continue;
   unlink ("$session_path/$filename");
   $counter++;
 }
