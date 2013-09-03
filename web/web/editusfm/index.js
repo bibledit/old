@@ -2,6 +2,11 @@ $(document).ready (function () {
   $ (document).on ("passage", usfmEditorNewPassage);
   $ ("#usfmeditor").on ("paste cut keydown", usfmEditorChanged);
   $ (window).on ("unload beforeunload", usfmEditorSaveChapter);
+  $ ("#usfmeditor").on ("paste", function (e) {
+    var data = e.originalEvent.clipboardData.getData ('Text');
+    e.preventDefault();
+    document.execCommand ("insertHTML", false, data);
+  });
   usfmIdPoller ();
 });
 
