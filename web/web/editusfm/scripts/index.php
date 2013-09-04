@@ -7,5 +7,6 @@
 <script>
 <?php echo $this->script; ?>
 </script>
+<script type="text/javascript" src="../rangy/rangy-core.js"></script>
 <script type="text/javascript" src="index.js"></script>
 <?php echo $this->navigationCode; ?>

@@ -10,6 +10,7 @@ $(document).ready (function () {
   usfmIdPoller ();
   $ ("#usfmeditor").on ("paste cut keydown click", usfmCaretChanged);
   $ ("#usfmeditor").focus ();
+  rangy.init ();
 });
 
 
@@ -128,34 +129,22 @@ function usfmCaretChanged ()
 }
 
 
-function usfmHandleCaret ()
+function usfmHandleCaret () // Todo
 {
-  console.log ("usfmHandleCaret"); // Todo
-  var caretPos = getCaretPosition ($ ("#usfmeditor"));
-  console.log (caretPos); // Todo
+  var sel = rangy.getSelection ();
+  var range = sel.rangeCount ? sel.getRangeAt(0) : null;
+  var offset = range.startOffset;
+  $.ajax ({
+    url: "offset.php",
+    type: "GET",
+    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, offset: offset },
+    success: function (response) {
+      //console.log ("verse number " + response); // Todo
+    },
+    complete: function (xhr, status) {
+    }
+  });
+  
 }
 
 
-function getCaretPosition (editableDiv) {
-  var caretPos = 0, containerEl = null, sel, range;
-  if (window.getSelection) {
-    sel = window.getSelection();
-    if (sel.rangeCount) {
-      range = sel.getRangeAt(0);
-      if (range.commonAncestorContainer.parentNode == editableDiv) {
-        caretPos = range.endOffset;
-      }
-    }
-  } else if (document.selection && document.selection.createRange) {
-    range = document.selection.createRange();
-    if (range.parentElement() == editableDiv) {
-      var tempEl = document.createElement("span");
-      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
-      var tempRange = range.duplicate();
-      tempRange.moveToElementText(tempEl);
-      tempRange.setEndPoint("EndToEnd", range);
-      caretPos = tempRange.text.length;
-    }
-  }
-  return caretPos;
-}

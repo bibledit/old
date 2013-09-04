@@ -11,6 +11,7 @@ class filterUsfmTest extends PHPUnit_Framework_TestCase
     $this->assertEquals(array("\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*"), Filter_Usfm::getMarkersAndText ("\\p\\v 1 In \\add the\\add*"));
   }
 
+
   public function testOneString()
   {
     $this->assertEquals("", Filter_Usfm::oneString (""));
@@ -20,6 +21,7 @@ class filterUsfmTest extends PHPUnit_Framework_TestCase
     $this->assertEquals("\\v 10 text\\p\\v 11", Filter_Usfm::oneString ("\\v 10 text\n\\p\\v 11"));
   }
   
+
   public function testGetMarker()
   {
     $this->assertEquals("", Filter_Usfm::getMarker (""));
@@ -31,11 +33,13 @@ class filterUsfmTest extends PHPUnit_Framework_TestCase
     $this->assertEquals("add", Filter_Usfm::getMarker ("\\add*\add"));
   }
 
+
   public function testImport()
   {
     $this->assertEquals(array(), Filter_Usfm::import ("", "Standard"));
     $this->assertEquals(array(array (33, 0, "\\id MIC"), array (33, 1, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.")), Filter_Usfm::import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", "Standard"));
   }
+
   
   public function testLineNumber2VerseNumber()
   {
@@ -63,6 +67,64 @@ EOD;
     $this->assertEquals (1, Filter_Usfm::lineNumber2VerseNumber ($usfm, 2));
     $this->assertEquals (2, Filter_Usfm::lineNumber2VerseNumber ($usfm, 3));
   }
+
+  
+  public function testOffset2VerseNumberOne ()
+  {
+$usfm = <<<'EOD'
+\id MIC
+EOD;
+    $this->assertEquals (0, Filter_Usfm::offset2verseNumber ($usfm, 0));
+    $this->assertEquals (0, Filter_Usfm::offset2verseNumber ($usfm, 7));
+    $this->assertEquals (0, Filter_Usfm::offset2verseNumber ($usfm, 17));
+  }
+
+
+  public function testOffset2VerseNumberTwo ()
+  {
+$usfm = <<<'EOD'
+\id MIC
+\v 1 Verse
+EOD;
+    $this->assertEquals (0, Filter_Usfm::offset2verseNumber ($usfm, 7));
+    $this->assertEquals (1, Filter_Usfm::offset2verseNumber ($usfm, 8));
+  }
+
+
+  public function testOffset2VerseNumberThree ()
+  {
+$usfm = <<<'EOD'
+\v 1 Verse
+EOD;
+    $this->assertEquals (1, Filter_Usfm::offset2verseNumber ($usfm, 0));
+    $this->assertEquals (1, Filter_Usfm::offset2verseNumber ($usfm, 2));
+  }
+
+  
+  public function testOffset2VerseNumberFour ()
+  {
+$usfm = <<<'EOD'
+\p
+\v 3 Verse 3 (out of order).
+\v 1 Verse 1.
+\v 2 Verse 1.
+EOD;
+    $this->assertEquals (0, Filter_Usfm::offset2verseNumber ($usfm, 0));
+    $this->assertEquals (0, Filter_Usfm::offset2verseNumber ($usfm, 1));
+
+    $this->assertEquals (0, Filter_Usfm::offset2verseNumber ($usfm, 2));
+    $this->assertEquals (3, Filter_Usfm::offset2verseNumber ($usfm, 3));
+    $this->assertEquals (3, Filter_Usfm::offset2verseNumber ($usfm, 4));
+
+    $this->assertEquals (3, Filter_Usfm::offset2verseNumber ($usfm, 31));
+    $this->assertEquals (1, Filter_Usfm::offset2verseNumber ($usfm, 32));
+    $this->assertEquals (1, Filter_Usfm::offset2verseNumber ($usfm, 33));
+
+    $this->assertEquals (1, Filter_Usfm::offset2verseNumber ($usfm, 45));
+    $this->assertEquals (2, Filter_Usfm::offset2verseNumber ($usfm, 46));
+    $this->assertEquals (2, Filter_Usfm::offset2verseNumber ($usfm, 47));
+  }
+  
   
   public function testGetVerseText()
   {
@@ -118,6 +180,7 @@ $output = <<<'EOD'
 EOD;
     $this->assertEquals ($output, Filter_Usfm::getVerseText ($usfm, 12));
   }
+
   
   public function testIsUsfmMarker()
   {
@@ -125,6 +188,7 @@ EOD;
     $this->assertTrue (Filter_Usfm::isUsfmMarker ("\\c "));
     $this->assertFalse (Filter_Usfm::isUsfmMarker ("c"));
   }
+
   
   public function testIsOpeningMarker()
   {
@@ -132,6 +196,7 @@ EOD;
     $this->assertTrue (Filter_Usfm::isOpeningMarker ("\\c "));
     $this->assertFalse (Filter_Usfm::isOpeningMarker ("\\c*"));
   }
+
   
   public function testGetBookIdentifier()
   {
@@ -141,6 +206,7 @@ EOD;
     $this->assertEquals ("GEN", Filter_Usfm::getBookIdentifier (array ("\\id", "GENxxx"), 0));
     $this->assertEquals ("GEN", Filter_Usfm::getBookIdentifier (array ("", "GENxxx"), 0));
   }
+
   
   public function testPeekVerseNumber()
   {
@@ -152,6 +218,7 @@ EOD;
     $this->assertEquals ("2b,3,", Filter_Usfm::peekVerseNumber ("2b,3, 4"));
     $this->assertEquals ("2a-3b", Filter_Usfm::peekVerseNumber ("2a-3b And he said"));
   }
+
   
   public function testGetVerseNumbersOne ()
   {

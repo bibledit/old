@@ -229,10 +229,9 @@ class Filter_Usfm
     return $verse_numbers;
   }
 
-  /**
-  * Returns the verse number in the string of $usfm code at line number $line_number.
-  */
-  public static function lineNumber2VerseNumber ($usfm, $line_number)
+
+  // Returns the verse number in the string of $usfm code at line number $line_number.
+  public static function lineNumber2VerseNumber ($usfm, $line_number) // Todo
   {
     $verse_number = 0; // Initial verse number.
     $lines = explode ("\n", $usfm);
@@ -247,9 +246,26 @@ class Filter_Usfm
     return $verse_number;
   }
 
-  /**
-  * Returns the verse text given a $verse_number and $usfm code.
-  */
+
+  // Returns the verse number in the string of $usfm code at offset $offset.
+  // Offset is calculated with mb_strlen to support UTF-8.
+  public static function offset2verseNumber ($usfm, $offset) // Todo
+  {
+    $totalOffset = 0;
+    $lines = explode ("\n", $usfm);
+    foreach ($lines as $lineNumber => $line) {
+      $totalOffset += mb_strlen ($line);
+      if ($totalOffset >= $offset) {
+        return Filter_Usfm::lineNumber2VerseNumber ($usfm, $lineNumber);
+      }
+      // Add 1 for new line.
+      $totalOffset += 1; 
+    }
+    return 0;
+  }
+  
+  
+  // Returns the verse text given a $verse_number and $usfm code.
   public static function getVerseText ($usfm, $verse_number)
   {
     // The start of the requested verse number.
