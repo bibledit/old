@@ -25,8 +25,8 @@
 <p>The installer sets the maximum size of file uploads to 8 Mbyte PHP.</p>
 <p>Time consuming operations on Bibles no longer time out.</p>
 <p>Does not delete session files younger than the cookie timeout of 12 hours.</p>
-<p></p>
-<p></p>
+<p>The consultation notes editor is as wide as the browser window.</p>
+<p>Adding a comment to a consultation note focuses the notes editor so the user can type straightaway.</p>
 <p></p>
 <p></p>
 <p></p>

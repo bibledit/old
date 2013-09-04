@@ -8,16 +8,19 @@ $(document).ready (function () {
     document.execCommand ("insertHTML", false, data);
   });
   usfmIdPoller ();
+  $ ("#usfmeditor").on ("paste cut keydown click", usfmCaretChanged);
+  $ ("#usfmeditor").focus ();
 });
 
 
 var usfmBible;
 var usfmBook;
 var usfmChapter;
-var usfmEditorTimeout;
+var usfmEditorChangedTimeout;
 var usfmLoadedText;
 var usfmIdChapter = 0;
 var usfmIdTimeout;
+var usfmCaretTimeout;
 
 
 function usfmEditorNewPassage ()
@@ -69,12 +72,12 @@ function usfmEditorSaveChapter ()
 }
 
 
-function usfmEditorChanged ()
+function usfmEditorChanged () // Todo
 {
-  if (usfmEditorTimeout) {
-    clearTimeout (usfmEditorTimeout);
+  if (usfmEditorChangedTimeout) {
+    clearTimeout (usfmEditorChangedTimeout);
   }
-  usfmEditorTimeout = setTimeout (usfmEditorSaveChapter, 1000);
+  usfmEditorChangedTimeout = setTimeout (usfmEditorSaveChapter, 1000);
 }
 
 
@@ -116,3 +119,43 @@ function usfmEditorPollId ()
 }
 
 
+function usfmCaretChanged ()
+{
+  if (usfmCaretTimeout) {
+    clearTimeout (usfmCaretTimeout);
+  }
+  usfmCaretTimeout = setTimeout (usfmHandleCaret, 500);
+}
+
+
+function usfmHandleCaret ()
+{
+  console.log ("usfmHandleCaret"); // Todo
+  var caretPos = getCaretPosition ($ ("#usfmeditor"));
+  console.log (caretPos); // Todo
+}
+
+
+function getCaretPosition (editableDiv) {
+  var caretPos = 0, containerEl = null, sel, range;
+  if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.rangeCount) {
+      range = sel.getRangeAt(0);
+      if (range.commonAncestorContainer.parentNode == editableDiv) {
+        caretPos = range.endOffset;
+      }
+    }
+  } else if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    if (range.parentElement() == editableDiv) {
+      var tempEl = document.createElement("span");
+      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
+      var tempRange = range.duplicate();
+      tempRange.moveToElementText(tempEl);
+      tempRange.setEndPoint("EndToEnd", range);
+      caretPos = tempRange.text.length;
+    }
+  }
+  return caretPos;
+}
