@@ -478,6 +478,7 @@ void Editor2::chapter_save()
     // The chapter cache contains the chapter data when it was loaded in the editor.
     // Normally cache and disk are the same.
     // In case of collaboration, the text on disk may differ from the text in the chapter cache.
+/*
     if ((!save_action_is_over) && check_chapter_cache) { // Todo
       vector <ustring> file_data = project_retrieve_chapter (project, book, chapter);
       if (loaded_chapter_lines != file_data) {
@@ -486,6 +487,7 @@ void Editor2::chapter_save()
         reload = true;
       }
     }
+*/
 
     // Store chapter.
     if (!save_action_is_over) {

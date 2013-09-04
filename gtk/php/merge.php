@@ -139,6 +139,8 @@ class Filter_Merge
 
   private static function lines2graphemes ($data) // Todo
   {
+    // Older versions of PHP do not yet have the grapheme_* functions,
+    // so we use the mb_* versions here.
     mb_internal_encoding ("UTF-8");
     $data = str_replace ("\n", " new__line ", $data);
     $data2 = "";

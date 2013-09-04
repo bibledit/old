@@ -4,7 +4,7 @@
 <hr>
 <form style="border:1px #bbb solid;" action="comment.php" name="form"  method="post">
   <p><?php echo gettext ("Add a comment to this note:") ?></p>
-  <p><textarea name="comment" class="rte-zone"></textarea></p>
+  <p><textarea name="comment" class="rte-zone fullwidth"></textarea></p>
   <p>
     <input type="submit" name="submit" value=<?php echo gettext ("Save") ?> onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" />
     <input type="submit" name="cancel" value=<?php echo gettext ("Cancel") ?> />
@@ -15,6 +15,6 @@
 <script type="text/javascript">
 $(document).ready (function () {
   $('.rte-zone').rte ("css url", "toolbox images url");
-  document.form.comment.focus();
+  $(".rte-zone").focus();
 });
 </script>
