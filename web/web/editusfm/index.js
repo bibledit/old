@@ -8,7 +8,8 @@ $(document).ready (function () {
     document.execCommand ("insertHTML", false, data);
   });
   usfmIdPoller ();
-  $ ("#usfmeditor").on ("paste cut keydown click", usfmCaretChanged);
+  $ ("#usfmeditor").on ("paste cut click", usfmCaretChanged); // Todo
+  $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown); // Todo
   $ ("#usfmeditor").focus ();
   rangy.init ();
 });
@@ -126,6 +127,16 @@ function usfmCaretChanged ()
     clearTimeout (usfmCaretTimeout);
   }
   usfmCaretTimeout = setTimeout (usfmHandleCaret, 500);
+}
+
+
+function usfmHandleKeyDown (event) // Todo
+{
+  // Ctrl-G: No action.
+  if ((event.ctrlKey == true) && (event.keyCode == 71)) {
+    return;
+  }
+  usfmCaretChanged ();
 }
 
 
