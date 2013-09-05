@@ -142,18 +142,21 @@ function usfmHandleKeyDown (event)
 
 function usfmHandleCaret ()
 {
-  var sel = rangy.getSelection ();
-  var range = sel.rangeCount ? sel.getRangeAt(0) : null;
-  var offset = range.startOffset;
-  $.ajax ({
-    url: "offset.php",
-    type: "GET",
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, offset: offset },
-    success: function (response) {
-      response = $.parseJSON (response);
-      var verse = response ["verse"];
-    }
-  });
+  if ($ ("#usfmeditor").is (":focus")) {
+    var sel = rangy.getSelection ();
+    var range = sel.rangeCount ? sel.getRangeAt(0) : null;
+    var offset = range.startOffset;
+    console.log (offset); // Todo
+    $.ajax ({
+      url: "offset.php",
+      type: "GET",
+      data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, offset: offset },
+      success: function (response) {
+        response = $.parseJSON (response);
+        var verse = response ["verse"];
+      }
+    });
+  }
 }
 
 
