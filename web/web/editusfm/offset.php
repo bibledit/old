@@ -26,5 +26,6 @@ $database_bibles = Database_Bibles::getInstance();
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 $verse = Filter_Usfm::offset2verseNumber ($usfm, $offset);
 Navigation_Logic::setVerse ($verse);
-echo $verse; // Todo
+$data = array ('verse' => $verse, 'start' => 0, 'finish' => 0);
+echo json_encode ($data);
 ?>

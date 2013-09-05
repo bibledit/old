@@ -139,12 +139,10 @@ function usfmHandleCaret () // Todo
     type: "GET",
     data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, offset: offset },
     success: function (response) {
-      //console.log ("verse number " + response); // Todo
-    },
-    complete: function (xhr, status) {
+      response = $.parseJSON (response);
+      var verse = response ["verse"];
     }
   });
-  
 }
 
 
