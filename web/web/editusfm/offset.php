@@ -25,7 +25,12 @@ $offset = $_GET ['offset'];
 $database_bibles = Database_Bibles::getInstance();
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 $verse = Filter_Usfm::offset2verseNumber ($usfm, $offset);
-Navigation_Logic::setVerse ($verse);
+$ipc_focus = Ipc_Focus::getInstance ();
+// Only update navigation in case the verse changed.
+// This avoids unnecessary focus operations in the clients.
+if ($verse != $ipc_focus->getVerse ()) {
+  Navigation_Logic::setVerse ($verse);
+}
 $data = array ('verse' => $verse, 'start' => 0, 'finish' => 0);
 echo json_encode ($data);
 ?>
