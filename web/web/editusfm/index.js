@@ -146,7 +146,6 @@ function usfmHandleCaret ()
     var sel = rangy.getSelection ();
     var range = sel.rangeCount ? sel.getRangeAt(0) : null;
     var offset = range.startOffset;
-    console.log (offset); // Todo
     $.ajax ({
       url: "offset.php",
       type: "GET",
