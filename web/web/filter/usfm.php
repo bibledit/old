@@ -231,7 +231,7 @@ class Filter_Usfm
 
 
   // Returns the verse number in the string of $usfm code at line number $line_number.
-  public static function lineNumber2VerseNumber ($usfm, $line_number) // Todo
+  public static function lineNumber2VerseNumber ($usfm, $line_number)
   {
     $verse_number = 0; // Initial verse number.
     $lines = explode ("\n", $usfm);
@@ -249,7 +249,7 @@ class Filter_Usfm
 
   // Returns the verse number in the string of $usfm code at offset $offset.
   // Offset is calculated with mb_strlen to support UTF-8.
-  public static function offset2verseNumber ($usfm, $offset) // Todo
+  public static function offset2verseNumber ($usfm, $offset)
   {
     $totalOffset = 0;
     $lines = explode ("\n", $usfm);

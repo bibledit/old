@@ -8,8 +8,8 @@ $(document).ready (function () {
     document.execCommand ("insertHTML", false, data);
   });
   usfmIdPoller ();
-  $ ("#usfmeditor").on ("paste cut click", usfmCaretChanged); // Todo
-  $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown); // Todo
+  $ ("#usfmeditor").on ("paste cut click", usfmCaretChanged);
+  $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
   $ ("#usfmeditor").focus ();
   rangy.init ();
 });
@@ -74,7 +74,7 @@ function usfmEditorSaveChapter ()
 }
 
 
-function usfmEditorChanged () // Todo
+function usfmEditorChanged ()
 {
   if (usfmEditorChangedTimeout) {
     clearTimeout (usfmEditorChangedTimeout);
@@ -130,7 +130,7 @@ function usfmCaretChanged ()
 }
 
 
-function usfmHandleKeyDown (event) // Todo
+function usfmHandleKeyDown (event)
 {
   // Ctrl-G: No action.
   if ((event.ctrlKey == true) && (event.keyCode == 71)) {
@@ -140,7 +140,7 @@ function usfmHandleKeyDown (event) // Todo
 }
 
 
-function usfmHandleCaret () // Todo
+function usfmHandleCaret ()
 {
   var sel = rangy.getSelection ();
   var range = sel.rangeCount ? sel.getRangeAt(0) : null;
