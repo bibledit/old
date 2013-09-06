@@ -103,7 +103,7 @@ $passage = Filter_Books::passageDisplay ($book, $chapter, $verse);
 $view->view->passage = $passage;
 
 
-$view->render ("create.php"); // Todo
+$view->render ("create.php");
 
 
 Assets_Page::footer ();

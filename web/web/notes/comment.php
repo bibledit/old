@@ -67,7 +67,7 @@ $content = $database_notes->getContents ($id);
 $view->view->content = $content;
 
 
-$view->render ("comment.php"); // Todo
+$view->render ("comment.php");
 
 
 Assets_Page::footer ();
