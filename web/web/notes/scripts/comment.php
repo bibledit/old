@@ -4,17 +4,31 @@
 <hr>
 <form style="border:1px #bbb solid;" action="comment.php" name="form"  method="post">
   <p><?php echo gettext ("Add a comment to this note:") ?></p>
-  <p><textarea name="comment" class="rte-zone fullwidth"></textarea></p>
+  <p><textarea name="comment" class="fullwidth"></textarea></p>
   <p>
     <input type="submit" name="submit" value=<?php echo gettext ("Save") ?> onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" />
     <input type="submit" name="cancel" value=<?php echo gettext ("Cancel") ?> />
   </p>
   <input type="hidden" name="id" value=<?php echo $this->id ?> />
 </form>
-<script src="../rte/jquery.rte.js"></script>
+<script src="../nicedit/nicedit.js"></script>
 <script type="text/javascript">
+	bkLib.onDomLoaded (function () { nicEditors.allTextAreas () });
+  $ ("body").on ("paste", function (e) {
+    var data = e.originalEvent.clipboardData.getData ('Text');
+    e.preventDefault();
+    document.execCommand ("insertHTML", false, data);
+  });
+  
 $(document).ready (function () {
-  $('.rte-zone').rte ("css url", "toolbox images url");
-  $(".rte-zone").focus();
+
+  //$("textarea").focus ();
+  //$ ("body > form > p > div").focus ();
+  //$("body").focus ();
+  //$ (".nicEdit-main").focus ();
+
 });
+  
+  
+  
 </script>
