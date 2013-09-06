@@ -218,6 +218,7 @@ if(typeof $.fn.rte === "undefined") {
         };
 
         function setSelectedType(node, select) {
+          /*
             while(node.parentNode) {
                 var nName = node.nodeName.toLowerCase();
                 for(var i=0;i<select.options.length;i++) {
@@ -230,6 +231,7 @@ if(typeof $.fn.rte === "undefined") {
             }
             select.selectedIndex=0;
             return true;
+            */
         };
 
         function getSelectionElement() {
