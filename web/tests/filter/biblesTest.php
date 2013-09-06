@@ -45,7 +45,8 @@ $usfm = <<<'EOD'
 \v 4 Verse 4.
 \v 5 Verse 5.
 EOD;
-    Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $result = Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $this->assertTrue ($result);
     $result = $database_bibles->getChapter ("phpunit", 1, 1);    
     $this->assertEquals($this->usfm, $result);
   }
@@ -62,7 +63,8 @@ $usfm = <<<'EOD'
 \v 3 Verse 3.
 \v 4 Verse 4.
 EOD;
-    Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $result = Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $this->assertTrue ($result);
     $result = $database_bibles->getChapter ("phpunit", 1, 1);    
     $this->assertEquals($usfm, $result);
   }
@@ -78,7 +80,8 @@ $usfm = <<<'EOD'
 \v 2 Verse 2.
 \v 3 Verse 3.
 EOD;
-    Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $result = Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $this->assertFalse ($result);
     $result = $database_bibles->getChapter ("phpunit", 1, 1);    
     $this->assertEquals($this->usfm, $result);
   }
@@ -95,7 +98,8 @@ $usfm = <<<'EOD'
 \v 2 Verse 2.
 \v 4 Verse 4.
 EOD;
-    Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $result = Filter_Bibles::safeStoreChapter ("phpunit", 1, 1, $usfm);
+    $this->assertFalse ($result);
     $result = $database_bibles->getChapter ("phpunit", 1, 1);    
     $this->assertEquals($this->usfm, $result);
   }

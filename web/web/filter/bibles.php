@@ -23,6 +23,7 @@ class Filter_Bibles
 
   // Function to safely store a chapter.
   // It saves the chapter if the new USFM does not differ too much from the existing USFM.
+  // It returns true or false depending on success.
   public static function safeStoreChapter ($bible, $book, $chapter, $usfm)
   {
     $database_bibles = Database_Bibles::getInstance ();
@@ -42,7 +43,7 @@ class Filter_Bibles
       $database_logs->log ("The chapter was not saved for safety reasons. The length differs $percentage% from the existing chapter. Make minor changes and save often.");
       $database_logs->log ("$bible " . $database_books->getEnglishFromId ($book) . " $chapter");
       $database_logs->log ($usfm);
-      return;
+      return false;
     }
     
     // The text of the new chapter should not differ more than 20% from the existing text.
@@ -54,11 +55,12 @@ class Filter_Bibles
       $database_logs->log ("The chapter was not saved for safety reasons. The new text differs $percentage% from the existing text. Make minor changes and save often.");
       $database_logs->log ("$bible " . $database_books->getEnglishFromId ($book) . " $chapter");
       $database_logs->log ($usfm);
-      return;
+      return false;
     }
     
     // Safety checks have passed: Save chapter.
     $database_bibles->storeChapter ($bible, $book, $chapter, $usfm);
+    return true;
   }
 
 

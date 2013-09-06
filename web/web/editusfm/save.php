@@ -35,8 +35,12 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($usfm)) {
         $chapter_number = $data[1];
         $chapter_data_to_save = $data[2];
         if ((($book_number == $book) || ($book_number == 0)) && ($chapter_number == $chapter)) {
-          Filter_Bibles::safeStoreChapter ($bible, $book, $chapter, $chapter_data_to_save);
-          echo gettext ("Saved");
+          $saved = Filter_Bibles::safeStoreChapter ($bible, $book, $chapter, $chapter_data_to_save);
+          if ($saved) {
+            echo gettext ("Saved");
+          } else {
+            echo gettext ("Not saved because of too many changes");
+          }
         } else {
           echo gettext ("Save failure");
           $database_logs->log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
