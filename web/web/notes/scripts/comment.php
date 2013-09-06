@@ -17,6 +17,7 @@
   $ ("body").on ("paste", function (e) {
     var data = e.originalEvent.clipboardData.getData ('Text');
     e.preventDefault();
+    data = data.replace (/\n/g, "");
     document.execCommand ("insertHTML", false, data);
   });
   
