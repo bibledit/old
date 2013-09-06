@@ -157,5 +157,3 @@ function usfmHandleCaret ()
     });
   }
 }
-
-

@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (TRANSLATOR_LEVEL);
 $database_config_user = Database_Config_User::getInstance ();
-$database_snapshots = Database_Snapshots::getInstance ();
-$database_bibles = Database_Bibles::getInstance ();
 $database_logs = Database_Logs::getInstance ();
 $bible = $_POST['bible'];
 $book = $_POST['book'];
@@ -37,8 +35,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($usfm)) {
         $chapter_number = $data[1];
         $chapter_data_to_save = $data[2];
         if ((($book_number == $book) || ($book_number == 0)) && ($chapter_number == $chapter)) {
-          $database_bibles->storeChapter ($bible, $book, $chapter, $chapter_data_to_save);
-          //$database_snapshots->snapChapter ($bible, $book, $chapter, $chapter_data_to_save, 0);
+          Filter_Bibles::safeStoreChapter ($bible, $book, $chapter, $chapter_data_to_save);
           echo gettext ("Saved");
         } else {
           echo gettext ("Save failure");

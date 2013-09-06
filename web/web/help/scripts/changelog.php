@@ -27,7 +27,7 @@
 <p>Does not delete session files younger than the cookie timeout of 12 hours.</p>
 <p>The consultation notes editor is as wide as the browser window.</p>
 <p>Adding a comment to a consultation note focuses the notes editor so the user can type straightaway.</p>
-<p></p>
+<p>The USFM editor only saves a chapter when the length of the new text does not differ more than 20% from the length of the existing text, and the new text is at least 80% similar to the existing text.</p>
 <p></p>
 <p></p>
 <p></p>
