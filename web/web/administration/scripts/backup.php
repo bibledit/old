@@ -1,21 +1,12 @@
 <h1><?php echo gettext ("Backup") ?></h1>
-<p><?php echo gettext ("Bibledit-Web can create a backup of the database. This would backup all the relevant data.") ?></p>
-<p><?php echo gettext ("To enable this, enter a filename where the backup will be stored, and press Submit.") ?></p>
-<p><?php echo gettext ("To disable it, remove any filename that is there, and press Submit.") ?></p>
-<br>
+<p><?php echo gettext ("Every day at midnight, Bibledit-Web creates a backup of the database.") ?></p>
+<p><?php echo gettext ("This backs up all relevant data.") ?></p>
+<p><?php echo gettext ("The backup will be stored at the following location:") ?></p>
+<p><?php echo $this->file ?></p>
+<p><?php echo gettext ("The Logbook shows the backup progress.") ?></p>
+<p><a href="?create="><?php echo gettext ("Backup now.") ?></a></p>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
-<form action="backup.php" name="email" method="post">
-  <p><input type="text" name="name" maxlength="50" value="<?php echo $this->name ?>" /></p>
-  <p><input type="submit" name="submit" value=<?php echo gettext ("Submit") ?> /></p>
-</form>
-<br>
-<?php if ($this->file != "") { ?>
-  <p><?php echo gettext ("Once you press the Submit button, a backup will be created. Every day another backup will be created at midnight.") ?></p
-  <p><?php echo gettext ("The Logbook shows the backup progress.") ?></p>
-  <p><?php echo gettext ("The backup will be stored at the following location:") ?></p>
-  <p><?php echo $this->file ?></p>
-<?php } ?>
 <h2><?php echo gettext ("Restore") ?></h2>
 <p><?php echo gettext ("Make sure you work with an existing an operational system. If this is not the case, then follow all installation procedures before proceeding to the next steps.") ?></p>
 <br>

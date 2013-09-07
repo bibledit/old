@@ -193,13 +193,6 @@ class Database_Config_General
     $this->setValue ("timezone", $value);
   }
 
-  public function getBackupFile() {
-    return $this->getValue ("backup-file", "");
-  }
-  public function setBackupFile ($value) {
-    $this->setValue ("backup-file", $value);
-  }
-
   public function getTimerBackup() {
     return $this->getValue ("timer-backup", "");
   }
