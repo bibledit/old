@@ -21,6 +21,7 @@ if (isset ($_GET ['create'])) {
 
 include ("database/credentials.php");
 $view->view->file = Filter_Backup::file ();
+$view->view->folder = Filter_Backup::folder ();
 $view->view->database_host = $database_host;
 $view->view->database_name = $database_name;
 $view->view->database_user = $database_user;

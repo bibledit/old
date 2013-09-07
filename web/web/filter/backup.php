@@ -5,11 +5,17 @@ class Filter_Backup
 {
 
 
+  public static function folder ()
+  {
+    include ("paths/paths.php");
+    $folder = "$localStatePath/$location";
+    return $folder;
+  }
+
+
   public static function file ()
   {
-    $config_general = Database_Config_General::getInstance ();
-    include ("paths/paths.php");
-    $file = "$localStatePath/$location/backup.sql.gz";
+    $file = Filter_Backup::folder () . "/backup.sql.gz";
     return $file;
   }
 

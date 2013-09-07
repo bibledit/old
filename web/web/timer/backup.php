@@ -39,10 +39,6 @@ require ("database/credentials.php");
 
   
 $file = Filter_Backup::file ();
-if ($file == "") {
-  $database_logs->log ("backup: Backups have not been enabled. It is recommended to backup the data, either through the Backup function, or through other means, and to store the data safely.", true);
-  die;
-}
 
 
 $command = "mysqldump -h $database_host --opt -c -e -Q -u$database_user -p$database_pass $database_name | gzip > $file";
@@ -50,6 +46,33 @@ $database_logs->log ("backup: $command");
 exec ($command, $output, $exitcode);
 foreach ($output as $line) $database_logs->log ("backup: $line");
 $database_logs->log ("backup: Exit code: $exitcode");
+
+
+// Get all tables in the database.
+$tables = array ();
+$database_instance = Database_Instance::getInstance();
+$query = "SHOW TABLES;";
+$result = $database_instance->runQuery ($query);
+for ($i = 0; $i <$result->num_rows ; $i++) {
+  $row = $result->fetch_row ();
+  $tables[] = $row[0];
+}
+
+
+$folder = Filter_Backup::folder ();
+
+
+// Dump each table to a separate file.
+foreach ($tables as $table) {
+  $file = "$folder/$table.sql";
+  $shellfile = escapeshellarg ($file);
+  $shelltable = escapeshellarg ($table);
+  $command = "mysqldump -h $database_host --opt -c -e -Q -u$database_user -p$database_pass $database_name $shelltable > $shellfile";
+  $database_logs->log ("backup: $command");
+  exec ($command, $output, $exitcode);
+  foreach ($output as $line) $database_logs->log ("backup: $line");
+  $database_logs->log ("backup: Exit code: $exitcode");
+}
 
 
 $database_logs->log ("backup: Completed");

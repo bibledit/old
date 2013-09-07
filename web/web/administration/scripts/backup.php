@@ -1,8 +1,10 @@
 <h1><?php echo gettext ("Backup") ?></h1>
 <p><?php echo gettext ("Every day at midnight, Bibledit-Web creates a backup of the database.") ?></p>
 <p><?php echo gettext ("This backs up all relevant data.") ?></p>
-<p><?php echo gettext ("The backup will be stored at the following location:") ?></p>
+<p><?php echo gettext ("The complete backup will be stored at the following location:") ?></p>
 <p><?php echo $this->file ?></p>
+<p><?php echo gettext ("In addition, there will be .sql files for each table in the following folder:") ?></p>
+<p><?php echo $this->folder ?></p>
 <p><?php echo gettext ("The Logbook shows the backup progress.") ?></p>
 <p><a href="?create="><?php echo gettext ("Backup now.") ?></a></p>
 <p class="error"><?php echo $this->error ?></p>
