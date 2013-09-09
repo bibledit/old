@@ -18,16 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-/*
-
-Note: This object should not call other objects within the Bibledit-Web source,
-because this object is also called from Bibledit-Gtk, and does not have access
-to those other objects.
-Calling other objects would result in faral errors that break Bibledit-Gtk.
-
-*/
-
-
 class Filter_Merge
 {
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-07 01:42+0200\n"
+"POT-Creation-Date: 2013-09-09 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5158,28 +5158,23 @@ msgstr ""
 msgid "Backup"
 msgstr ""
 
-msgid ""
-"Bibledit-Web can create a backup of the database. This would backup all the "
-"relevant data."
+msgid "Every day at midnight, Bibledit-Web creates a backup of the database."
+msgstr ""
+
+msgid "This backs up all relevant data."
+msgstr ""
+
+msgid "The complete backup will be stored at the following location:"
 msgstr ""
 
 msgid ""
-"To enable this, enter a filename where the backup will be stored, and press "
-"Submit."
-msgstr ""
-
-msgid "To disable it, remove any filename that is there, and press Submit."
-msgstr ""
-
-msgid ""
-"Once you press the Submit button, a backup will be created. Every day "
-"another backup will be created at midnight."
+"In addition, there will be .sql files for each table in the following folder:"
 msgstr ""
 
 msgid "The Logbook shows the backup progress."
 msgstr ""
 
-msgid "The backup will be stored at the following location:"
+msgid "Backup now."
 msgstr ""
 
 msgid "Restore"
@@ -5314,12 +5309,6 @@ msgstr ""
 msgid ""
 "Those who have an account on this site can override this by setting their "
 "own preferred timezone."
-msgstr ""
-
-msgid "Backups are disabled"
-msgstr ""
-
-msgid "The filename was saved and the backup will be created within a minute"
 msgstr ""
 
 msgid "Will create a backup within a minute"
