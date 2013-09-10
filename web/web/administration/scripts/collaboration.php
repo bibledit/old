@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     </li>
     <li>
       <em><?php echo gettext ("Secured Network Repository.") ?></em>
-      <?php echo gettext ("For high security it is recommended to use this type of repository. Only those who have the secure keys to such a repository can write to it. Bibledit-Web supports this in case the Linux server has been set up to access this repository through passphrase-less private and public keys.") ?> 
+      <?php echo gettext ("For high security it is recommended to use this type of repository. Only those who have the secure keys to such a repository can write to it. Bibledit-Web supports this in case the GNU/Linux server has been set up to access this repository through passphrase-less private and public keys.") ?> 
       <a href="collaboration_secure_network_setup.php?object=<?php echo $this->object ?>"><?php echo gettext ("Set it up.") ?></a>
     </li>
   </ul> 

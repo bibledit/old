@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <h1><?php echo gettext ("Formatting the flash drive") ?></h1>
 <p><?php echo gettext ("Normally a USB flash drive, as it comes out of the box, has been formatted with a FAT filesystem. Such a filesystem is not supported for collaboration. The stick needs to formatted to the ext3 or ext4 filesystem for collaboration to work. How this is done will be described here.") ?></p>
-<p><?php echo gettext ("Insert the flash drive into a computer running Linux, and wait a little till it gets mounted. It is supposed to mount automatically. If it does not mount on its own, then automatic mounting needs to be set up. Setting up automatic mounting goes beyond the scope of this tutorial.") ?></p>
+<p><?php echo gettext ("Insert the flash drive into a computer running GNU/Linux, and wait a little till it gets mounted. It is supposed to mount automatically. If it does not mount on its own, then automatic mounting needs to be set up. Setting up automatic mounting goes beyond the scope of this tutorial.") ?></p>
 <p><?php echo gettext ("Open a terminal. In the terminal, give the command:") ?></p>
 <pre>df</pre>
 <p><?php echo gettext ("The output of this command can be something like:") ?></p>

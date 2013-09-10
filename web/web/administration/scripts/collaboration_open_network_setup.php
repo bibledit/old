@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext ("Bible") ?>: <?php echo $this->object ?></p>
 <?php } ?>
 <p><?php echo gettext ("In this tutorial you are going to set up an open repository on the network.") ?></p>
-<p><?php echo gettext ("You need a server to run this repository. Any of your Linux computers attached to your network will do. In this tutorial we assume that the computer is accessible from the network through IP address 192.168.0.1. The user of this computer will be Jim.") ?></p>
+<p><?php echo gettext ("You need a server to run this repository. Any of your GNU/Linux computers attached to your network will do. In this tutorial we assume that the computer is accessible from the network through IP address 192.168.0.1. The user of this computer will be Jim.") ?></p>
 <p><?php echo gettext ("To create the repository, login as user jim. Then open a terminal. The repository is going to be in Jim's home directory. In the terminal type the following:") ?></p>
 <pre>
 cd

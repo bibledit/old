@@ -19,7 +19,7 @@ The PHP scripts import data from the database of GBS Digitaal 2.9,
 and stores it in USFM.
 
 Condition is that the database is copied from GBS Digitaal to your own
-mysql server on Linux. And that there is a working Bibledit-Web.
+mysql server on GNU/Linux. And that there is a working Bibledit-Web.
 
 To copy the GBS database, do the following:
 
@@ -29,11 +29,11 @@ To copy the GBS database, do the following:
   by the license.
 
 - Copy folder C:\Program Files\2G\GBS Digitaal\mysql\data\gbs
-  and whatever it contains from Windows to Linux.
+  and whatever it contains from Windows to GNU/Linux.
   Put it in /var/lib/mysql.
   The above has been tested on Ubuntu 11.04.
 
-The mysql server on Linux now has an added database.
+The mysql server on GNU/Linux now has an added database.
 The database is called 'gbs'.
 The database is accessible as usual.
 All texts of GBS are in this database.

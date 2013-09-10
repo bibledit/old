@@ -70,7 +70,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Contains an editor for the Sword configuration file.</p>
 <p>Contains information about setting up a Sword module repository from the exported Bibles.</p>
 <p>Collaboration is possible with Bible names with spaces.</p>
-<p>Support for ssh access to secured repositories works in case the Linux host server can access such a repository.</p>
+<p>Support for ssh access to secured repositories works in case the GNU/Linux host server can access such a repository.</p>
 <p>Can check whether a paragraph starts with a capital and ends with correct punctuation.</p>
 <p>Can check on two punctuation marks in sequence.</p>
 <p>Can check on malformed USFM.</p>
@@ -183,7 +183,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Outdated installation information was removed.</p>
 <p>Installs into /usr/share/bibledit-web/www.</p>
 <p>Configures Apache for accessing Bibledit-Web at http://localhost/bibledit-web.</p>
-<p>No longer uses a poor man's crontab, but sets up the proper Linux one.</p>
+<p>No longer uses a poor man's crontab, but sets up the proper GNU/Linux one.</p>
 <p>Warnings in timer/index.php send email to the admin every minute. These were eliminated.</p>
 <p>The git folders moved from among the web pages to /var/lib/bibledit-web/git.</p>
 <p>The daily changes moved from among the web pages to /var/lib/bibledit-web/changes.</p>
