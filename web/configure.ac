@@ -16,7 +16,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[1.0.14],[http://bibledit.org])
+AC_INIT([bibledit-web],[1.0.15],[http://bibledit.org])
 AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
@@ -380,7 +380,24 @@ AC_OUTPUT
 # Create the file with the database credentials.
 CREDENTIALS=web/database/credentials.php
 rm $CREDENTIALS
-echo '<?php'                                                       >> $CREDENTIALS
+echo '<?php' >> $CREDENTIALS
+echo '/*' >> $CREDENTIALS
+echo 'Copyright (©) 2003-2013 Teus Benschop.' >> $CREDENTIALS
+echo '' >> $CREDENTIALS
+echo 'This program is free software; you can redistribute it and/or modify' >> $CREDENTIALS
+echo 'it under the terms of the GNU General Public License as published by' >> $CREDENTIALS
+echo 'the Free Software Foundation; either version 3 of the License, or' >> $CREDENTIALS
+echo '(at your option) any later version.' >> $CREDENTIALS
+echo ' ' >> $CREDENTIALS
+echo 'This program is distributed in the hope that it will be useful,' >> $CREDENTIALS
+echo 'but WITHOUT ANY WARRANTY; without even the implied warranty of' >> $CREDENTIALS
+echo 'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the' >> $CREDENTIALS
+echo 'GNU General Public License for more details.' >> $CREDENTIALS
+echo '  ' >> $CREDENTIALS
+echo 'You should have received a copy of the GNU General Public License' >> $CREDENTIALS
+echo 'along with this program; if not, write to the Free Software' >> $CREDENTIALS
+echo 'Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.' >> $CREDENTIALS
+echo '*/' >> $CREDENTIALS
 echo                                                               >> $CREDENTIALS
 echo // Credentials for accessing the MySQL database.              >> $CREDENTIALS
 echo // You can modify these to suit your installation.            >> $CREDENTIALS
@@ -403,7 +420,24 @@ echo '?>'                                                          >> $CREDENTIA
 # and whether this is an open installation, or the default password protected one.
 CREDENTIALS=web/administration/credentials.php
 rm $CREDENTIALS
-echo '<?php'                                                       >> $CREDENTIALS
+echo '<?php' >> $CREDENTIALS
+echo '/*' >> $CREDENTIALS
+echo 'Copyright (©) 2003-2013 Teus Benschop.' >> $CREDENTIALS
+echo '' >> $CREDENTIALS
+echo 'This program is free software; you can redistribute it and/or modify' >> $CREDENTIALS
+echo 'it under the terms of the GNU General Public License as published by' >> $CREDENTIALS
+echo 'the Free Software Foundation; either version 3 of the License, or' >> $CREDENTIALS
+echo '(at your option) any later version.' >> $CREDENTIALS
+echo ' ' >> $CREDENTIALS
+echo 'This program is distributed in the hope that it will be useful,' >> $CREDENTIALS
+echo 'but WITHOUT ANY WARRANTY; without even the implied warranty of' >> $CREDENTIALS
+echo 'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the' >> $CREDENTIALS
+echo 'GNU General Public License for more details.' >> $CREDENTIALS
+echo '  ' >> $CREDENTIALS
+echo 'You should have received a copy of the GNU General Public License' >> $CREDENTIALS
+echo 'along with this program; if not, write to the Free Software' >> $CREDENTIALS
+echo 'Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.' >> $CREDENTIALS
+echo '*/' >> $CREDENTIALS
 echo                                                               >> $CREDENTIALS
 echo // Login credentials for the site administrator.              >> $CREDENTIALS
 echo // You can modify these to suit your installation.            >> $CREDENTIALS
@@ -428,15 +462,49 @@ echo '?>'                                                          >> $CREDENTIA
 # Create the file with the version information.
 VERSIONFILE=web/version.php
 rm $VERSIONFILE
-echo '<?php'                            >> $VERSIONFILE
+echo '<?php' >> $VERSIONFILE
+echo '/*' >> $VERSIONFILE
+echo 'Copyright (©) 2003-2013 Teus Benschop.' >> $VERSIONFILE
+echo '' >> $VERSIONFILE
+echo 'This program is free software; you can redistribute it and/or modify' >> $VERSIONFILE
+echo 'it under the terms of the GNU General Public License as published by' >> $VERSIONFILE
+echo 'the Free Software Foundation; either version 3 of the License, or' >> $VERSIONFILE
+echo '(at your option) any later version.' >> $VERSIONFILE
+echo ' ' >> $VERSIONFILE
+echo 'This program is distributed in the hope that it will be useful,' >> $VERSIONFILE
+echo 'but WITHOUT ANY WARRANTY; without even the implied warranty of' >> $VERSIONFILE
+echo 'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the' >> $VERSIONFILE
+echo 'GNU General Public License for more details.' >> $VERSIONFILE
+echo '  ' >> $VERSIONFILE
+echo 'You should have received a copy of the GNU General Public License' >> $VERSIONFILE
+echo 'along with this program; if not, write to the Free Software' >> $VERSIONFILE
+echo 'Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.' >> $VERSIONFILE
+echo '*/' >> $VERSIONFILE
 echo '$version = "'$PACKAGE_VERSION'";' >> $VERSIONFILE
-echo '?>'                               >> $VERSIONFILE
+echo '?>' >> $VERSIONFILE
 
 
 # Create the file with the various system paths.
 PATHSFILE=web/paths/paths.php
 rm $PATHSFILE
 echo '<?php' >> $PATHSFILE
+echo '/*' >> $PATHSFILE
+echo 'Copyright (©) 2003-2013 Teus Benschop.' >> $PATHSFILE
+echo '' >> $PATHSFILE
+echo 'This program is free software; you can redistribute it and/or modify' >> $PATHSFILE
+echo 'it under the terms of the GNU General Public License as published by' >> $PATHSFILE
+echo 'the Free Software Foundation; either version 3 of the License, or' >> $PATHSFILE
+echo '(at your option) any later version.' >> $PATHSFILE
+echo ' ' >> $PATHSFILE
+echo 'This program is distributed in the hope that it will be useful,' >> $PATHSFILE
+echo 'but WITHOUT ANY WARRANTY; without even the implied warranty of' >> $PATHSFILE
+echo 'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the' >> $PATHSFILE
+echo 'GNU General Public License for more details.' >> $PATHSFILE
+echo '  ' >> $PATHSFILE
+echo 'You should have received a copy of the GNU General Public License' >> $PATHSFILE
+echo 'along with this program; if not, write to the Free Software' >> $PATHSFILE
+echo 'Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.' >> $PATHSFILE
+echo '*/' >> $PATHSFILE
 echo '$zendPath = "'$ZENDPATH'";' >> $PATHSFILE
 echo '$localStatePath = "'$DESTDIR'/'$packagelocalstatedir'";' >> $PATHSFILE
 echo '$location = "'$LOCATION'";' >> $PATHSFILE

@@ -26,7 +26,6 @@ It reads the access levels of those entries.
 It only keeps those menu entries the currently logged-in user has access to.
 
 It sorts the entries such that the ones used most often come earlier in the menu.
-
 */
 
 
