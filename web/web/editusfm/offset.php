@@ -31,6 +31,8 @@ $ipc_focus = Ipc_Focus::getInstance ();
 if ($verse != $ipc_focus->getVerse ()) {
   Navigation_Logic::setVerse ($verse);
 }
-$data = array ('verse' => $verse, 'start' => 0, 'finish' => 0);
+$startingOffset = Filter_Usfm::verseNumber2offset ($usfm, $verse);
+$endingOffset = Filter_Usfm::verseNumber2offset ($usfm, $verse + 1) - 1;
+$data = array ('verse' => $verse, 'start' => $startingOffset, 'end' => $endingOffset);
 echo json_encode ($data);
 ?>

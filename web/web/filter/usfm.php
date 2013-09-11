@@ -261,6 +261,27 @@ class Filter_Usfm
   }
   
   
+  // Returns the offset within the $usfm code where $verse number starts.
+  public static function verseNumber2offset ($usfm, $verse)
+  {
+    // Verse number 0 starts at offset 0.
+    if ($verse == 0) return 0;
+    $totalOffset = 0;
+    $lines = explode ("\n", $usfm);
+    foreach ($lines as $line) {
+      $verses = Filter_Usfm::getVerseNumbers ($line);
+      @$v = $verses [1];
+      if ($v == $verse) {
+        return $totalOffset;
+      }
+      $totalOffset += mb_strlen ($line);
+      // Add 1 for new line.
+      $totalOffset += 1; 
+    }
+    return mb_strlen ($usfm);
+  }
+  
+  
   // Returns the verse text given a $verse_number and $usfm code.
   public static function getVerseText ($usfm, $verse_number)
   {

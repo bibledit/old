@@ -143,6 +143,27 @@ EOD;
   }
   
   
+  public function testVerseNumber2OffsetOne ()
+  {
+$usfm = <<<'EOD'
+\p
+\v 1 Verse 1.
+\v 2 Verse 2.
+\v 3 Verse 3.
+EOD;
+    $result = Filter_Usfm::verseNumber2offset ($usfm, 1);
+    $this->assertEquals (3, $result);
+    $result = Filter_Usfm::verseNumber2offset ($usfm, 2);
+    $this->assertEquals (17, $result);
+    $result = Filter_Usfm::verseNumber2offset ($usfm, 3);
+    $this->assertEquals (31, $result);
+    $result = Filter_Usfm::verseNumber2offset ($usfm, 4);
+    $this->assertEquals (44, $result);
+    $result = Filter_Usfm::verseNumber2offset ($usfm, 5);
+    $this->assertEquals (44, $result);
+  }
+  
+  
   public function testGetVerseText()
   {
 $usfm = <<<EOD

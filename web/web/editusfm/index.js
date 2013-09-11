@@ -46,6 +46,7 @@ function usfmEditorNewPassage ()
 {
   usfmEditorSaveChapter ();
   usfmEditorLoadChapter (false);
+  usfmPositionCaret ();
 }
 
 function usfmEditorLoadChapter (reload)
@@ -161,7 +162,7 @@ function usfmHandleCaret ()
 {
   if ($ ("#usfmeditor").is (":focus")) {
     var sel = rangy.getSelection ();
-    var range = sel.rangeCount ? sel.getRangeAt(0) : null;
+    var range = sel.getRangeAt(0);
     var offset = range.startOffset;
     $.ajax ({
       url: "offset.php",
@@ -170,7 +171,43 @@ function usfmHandleCaret ()
       success: function (response) {
         response = $.parseJSON (response);
         var verse = response ["verse"];
+        var start = response ["start"];
+        var end = response ["end"];
+/*
+//        console.log ("start " + start + " end " + end); // Todo
+
+        var selection = rangy.getSelection ();
+        var range = selection.getRangeAt(0);
+        var offset = range.startOffset;
+        console.log (offset); // Todo
+        if ((offset < start) || (offset > end)) {
+//          console.log (start - offset);
+          selection.move ("character", start - offset);
+        }
+*/
       }
     });
   }
+}
+
+
+function usfmPositionCaret ()
+{
+  $ ("#usfmeditor").focus ();
+  $.ajax ({
+    url: "focus.php",
+    type: "GET",
+    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
+    success: function (response) {
+      response = $.parseJSON (response);
+      var start = response ["start"];
+      var end = response ["end"];
+      var selection = rangy.getSelection ();
+      var range = selection.getRangeAt(0);
+      var offset = range.startOffset;
+      if ((offset < start) || (offset > end)) {
+        selection.move ("character", start - offset);
+      }
+    }
+  });
 }
