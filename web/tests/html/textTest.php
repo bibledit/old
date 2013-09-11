@@ -30,6 +30,9 @@ class htmlTextTest extends PHPUnit_Framework_TestCase
   
   public function tearDown ()
   {
+    @unlink ("/tmp/HtmlTextTest1.html");
+    @unlink ("/tmp/HtmlTextTest2.html");
+    @unlink ("/tmp/HtmlTextTest3.html");
   }
 
 
@@ -48,10 +51,8 @@ class htmlTextTest extends PHPUnit_Framework_TestCase
     $this->assertEquals ("", $html_text->currentParagraphContent);
     $html_text->newParagraph ();
     $html_text->addText ("Paragraph Three");
-    @unlink ("/tmp/HtmlTextTest1.html");
     $html_text->save ("/tmp/HtmlTextTest1.html");
     $this->assertFileEquals (dirname (__FILE__) . "/test1.html", "/tmp/HtmlTextTest1.html");
-    @unlink ("/tmp/HtmlTextTest1.html");
   }
 
 
@@ -59,10 +60,8 @@ class htmlTextTest extends PHPUnit_Framework_TestCase
   {
     $html_text = new Html_Text ("TestTwo");
     $html_text->addText ("Should create new paragraph automatically");
-    @unlink ("/tmp/HtmlTextTest2.html");
     $html_text->save ("/tmp/HtmlTextTest2.html");
     $this->assertFileEquals (dirname (__FILE__) . "/test2.html", "/tmp/HtmlTextTest2.html");
-    @unlink ("/tmp/HtmlTextTest2.html");
   }
 
 
@@ -74,10 +73,8 @@ class htmlTextTest extends PHPUnit_Framework_TestCase
     $html_text->addNote ("†", "");
     $html_text->addNoteText ("Note1.");
     $html_text->addText (".");
-    @unlink ("/tmp/HtmlTextTest3.html");
     $html_text->save ("/tmp/HtmlTextTest3.html");
     $this->assertFileEquals (dirname (__FILE__) . "/test3.html", "/tmp/HtmlTextTest3.html");
-    @unlink ("/tmp/HtmlTextTest3.html");
   }
 
 
