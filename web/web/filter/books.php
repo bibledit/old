@@ -287,6 +287,52 @@ class Filter_Books
   }
 
 
+  /*
+  This deals with sequences and ranges of verses, like the following:
+  Exod. 37:4-5, 14-15, 27-28
+  It puts each verse on a separate line.
+  */
+  static public function handleSequencesRanges ($passage)
+  {
+    // A passage like Exod. 37:4-5, 14-15, 27-28 will be cut at the comma.
+    // The resulting array contains the following:
+    // Exod. 37:4-5
+    // 14-15
+    // 27-28
+    // It implies that the first sequence has book and chapter.
+    $sequences = explode (",", $passage);
+    foreach ($sequences as &$line) $line = trim ($line);
+    unset ($line);
+
+    // Store output lines.
+    $output = array ();
+
+    // Cut the passages at the hyphen.
+    foreach ($sequences as $offset => $sequence) {
+      $range = explode ("-", $sequence);
+      if (count ($range) == 1) {
+        $output [] = trim ($range [0]);
+      } else {
+        $start = trim ($range [0]);
+        $output [] = $start;
+        if ($offset == 0) {
+          // Since the first bit contains book / chapter / verse,
+          // extract the verse number.
+          $start = strrev ($start);
+          $start = Filter_Numeric::integer_in_string ($start);
+          $start = strrev ($start);
+        }
+        $end = trim ($range [1]);
+        for ($i = $start + 1; $i <= $end; $i++) {
+          $output [] = $i;
+        }
+      }
+    }
+    
+    // Result.
+    return $output;
+  }
+
 
 }
 

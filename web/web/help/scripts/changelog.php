@@ -48,6 +48,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Adding a comment to a consultation note focuses the notes editor so the user can type straightaway.</p>
 <p>For safety the USFM editor only saves a chapter when the length of the new text does not differ more than 20% from the length of the existing text, and the new text is at least 80% similar to the existing text.</p>
 <p>Pasting text into the consultation notes editor converts it to plain text.</p>
+<p>There is a tool for checking the consistency of the Bible translation.</p>
+<p></p>
+<p></p>
 <p></p>
 <p></p>
 

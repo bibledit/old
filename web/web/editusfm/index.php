@@ -25,10 +25,16 @@ page_access_level (TRANSLATOR_LEVEL);
 @$switchbook = $_GET ['switchbook'];
 @$switchchapter = $_GET ['switchchapter'];
 if (isset ($switchbook) && isset ($switchchapter)) {
+  $verse = 1;
+  @$switchverse = $_GET ['switchverse'];
+  if ($switchverse) {
+    $switchverse = Filter_Numeric::integer_in_string ($switchverse);
+    $verse = $switchverse;
+  }
   $ipc_focus = Ipc_Focus::getInstance();
   $switchbook = Filter_Numeric::integer_in_string ($switchbook);
   $switchchapter = Filter_Numeric::integer_in_string ($switchchapter);
-  $ipc_focus->set ($switchbook, $switchchapter, 1);
+  $ipc_focus->set ($switchbook, $switchchapter, $verse);
 }
 
 

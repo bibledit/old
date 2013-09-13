@@ -60,7 +60,8 @@ $fullmenu = array (
 ),
 "checks" => array (
   "checks/index" => gettext ("Checks"),
-  "checks/settings" => "[" . gettext ("manage") . "]"
+  "checks/settings" => "[" . gettext ("manage") . "]",
+  "consistency/index" => gettext ("Consistency"),
 ),
 "exports" => array (
   "downloads/exports" => gettext ("Exports"),

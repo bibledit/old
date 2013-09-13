@@ -130,7 +130,51 @@ class booksTest extends PHPUnit_Framework_TestCase
     $output = Filter_Books::interpretPassage ($currentPassage, "Song of Solomon 2");
     $this->assertEquals ($standard, $output);
   }
+  
     
- 
+  public function testSequenceAndRangeNone ()
+  {
+    $standard = array ("Exod. 30:4");
+    $output = Filter_Books::handleSequencesRanges ("Exod. 30:4");
+    $this->assertEquals ($standard, $output);
+  }
+  
+
+  public function testSequence ()
+  {
+    $standard = array ("Exod. 37:5", 14, 28);
+    $output = Filter_Books::handleSequencesRanges ("Exod. 37:5, 14, 28");
+    $this->assertEquals ($standard, $output);
+  }
+
+
+  public function testRange ()
+  {
+    $standard = array ("Exod. 37:5", 14, 15, 16);
+    $output = Filter_Books::handleSequencesRanges ("Exod. 37:5, 14 - 16");
+    $this->assertEquals ($standard, $output);
+  }
+  
+  
+  public function testSequenceAndRangeOne ()
+  {
+    $standard = array ("Exod. 37:4", 5, 14, 15, 27, 28, 30, 40);
+    $output = Filter_Books::handleSequencesRanges ("Exod. 37:4 - 5, 14 - 15, 27 - 28, 30, 40");
+    $this->assertEquals ($standard, $output);
+  }
+  
+
+  public function testSequenceAndRangeTwo () //
+  {
+    $standard = array ("Exod. 25:13", 14, 27, 28);
+    $output = Filter_Books::handleSequencesRanges ("Exod. 25:13-14, 27-28");
+    $this->assertEquals ($standard, $output);
+  }
+  
+  
+  
+  
+  
+  
 }
 ?>

@@ -106,6 +106,10 @@ $database->optimize();
 $database = Database_OfflineResources::getInstance ();
 $database->optimize();
 
+$database = Database_Consistency::getInstance ();
+$database->trim ();
+$database->optimize();
+
 $database_logs->log ("database: Completed");
 
 ?>
