@@ -419,6 +419,13 @@ class Database_Config_User
     $this->setList ("", "active-resources", $values);
   }   
 
+  public function getConsistencyBibles () {
+    return $this->getList ("", "consistency-bibles");
+  }
+  public function setConsistencyBibles ($values) {
+    $this->setList ("", "consistency-bibles", $values);
+  }   
+
 }
 
 

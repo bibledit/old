@@ -22,28 +22,47 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (TRANSLATOR_LEVEL);
 
 
-$database_check = Database_Check::getInstance ();
+$header = new Assets_Header (gettext ("Consistency"));
+$header->jQueryOn ();
+$header->run ();
+
+
+$database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance();
 
 
-$header = new Assets_Header (gettext ("Consistency"));
-$header->jQueryOn ();
-$header->run ();
+@$addbible = $_GET ['addbible'];
+if (isset ($addbible)) {
+  if ($addbible == "") {
+    $dialog_list = new Dialog_List2 (gettext ("Would you like to add a Bible?"));
+    $bibles = $database_bibles->getBibles ();
+    foreach ($bibles as $bible) {
+      $dialog_list->add_row ($bible, "&addbible=$bible");
+    }
+    $dialog_list->run();
+  } else {
+    $bibles = $database_config_user->getConsistencyBibles ();
+    $bibles [] = $addbible;
+    $bibles = array_unique ($bibles, SORT_STRING);
+    $database_config_user->setConsistencyBibles ($bibles);
+  }
+}
+
+
+@$removebible = $_GET ['removebible'];
+if (isset ($removebible)) {
+  $bibles = $database_config_user->getConsistencyBibles ();
+  $bibles = array_diff ($bibles, array ($removebible));
+  $bibles = array_values ($bibles);
+  $database_config_user->setConsistencyBibles ($bibles);
+}
+
+
 $view = new Assets_View (__FILE__);
 
 
-@$goto = $_GET['goto'];
-if (isset ($goto)) {
-  $passage = $database_check->getPassage ($goto);
-  if ($passage != NULL) {
-    $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
-    header ("Location: ../editusfm/index.php");
-    die;
-  } else {
-    $view->view->error = gettext ("The passage for this entry was not found.");
-  }
-}
+$view->view->bibles = $database_config_user->getConsistencyBibles ();
 
 
 $view->render ("index.php");

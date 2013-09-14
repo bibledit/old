@@ -24,7 +24,6 @@ class Consistency_Logic
   public $translations;
 
 
-  private $bible;
   private $stylesheet;
   private $siteUrl;
   private $response;
@@ -34,7 +33,9 @@ class Consistency_Logic
   {
     $database_config_general = Database_Config_General::getInstance ();
     $database_config_user = Database_Config_User::getInstance ();
-    $this->bible = $database_config_user->getBible ();
+    $bibles = array ();
+    $bibles [] = $database_config_user->getBible ();
+    $bibles = array_merge ($bibles, $database_config_user->getConsistencyBibles ());
     $this->siteUrl = $database_config_general->getSiteURL ();
     $this->stylesheet = $database_config_general->getExportStylesheet ();
     $this->translations = trim ($this->translations);
@@ -55,11 +56,16 @@ class Consistency_Logic
           $text = Filter_Books::passageDisplay ($book, $chapter, $verse);
           $line = "<a href=\"" . $this->siteUrl . "/editusfm/index.php?switchbook=$book&switchchapter=$chapter&switchverse=$verse\" target=\"_blank\">$text</a>";
           $line .= " ";
-          $text = $this->verseText ($book, $chapter, $verse);
-          if ($this->translations != "") {
-            $text = Filter_Markup::words ($translations, $text);
+          foreach ($bibles as $bible) {
+            $text = $this->verseText ($bible, $book, $chapter, $verse);
+            if ($this->translations != "") {
+              $text = Filter_Markup::words ($translations, $text);
+            }
+            if (count ($bibles) > 1) {
+              $line .= "<br>";
+            }
+            $line .= $text;
           }
-          $line .= $text;
           $this->response [] = $line;
           $previousPassage = $passage;
         } else {
@@ -75,17 +81,15 @@ class Consistency_Logic
   }
 
 
-  private function verseText ($book, $chapter, $verse)
+  private function verseText ($bible, $book, $chapter, $verse)
   {
     $database_bibles = Database_Bibles::getInstance ();
-    $usfm = $database_bibles->getChapter ($this->bible, $book, $chapter);
+    $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
     $usfm = Filter_Usfm::getVerseText ($usfm, $verse);
     $filter_text = new Filter_Text ("");
-    //$filter_text->html_text_standard = new Html_Text (gettext ("Bible"));
     $filter_text->text_text = new Text_Text ();
     $filter_text->addUsfmCode ($usfm);
     $filter_text->run ($this->stylesheet);
-    //$html = $filter_text->html_text_standard->getHtml ();
     $text = $filter_text->text_text->get ();
     return $text;
   }

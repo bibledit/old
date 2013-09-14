@@ -25,6 +25,9 @@ class Filter_Markup
   // It uses the <mark> markup for display as html.
   public static function words ($words, $string)
   {
+    // Array of needles to look for.
+    // The needles contain the search $words as they occur in the $string
+    // in upper case or lower case, or any mixed case.
     $needles = array ();
     foreach ($words as $word) {
       $position = mb_stripos ($string, $word, 0);
@@ -38,13 +41,17 @@ class Filter_Markup
     }
     $needles = array_unique ($needles);
 
+    // All the $needles are converted to $markup, 
+    // which will replace the $needles.
     $markup = array ();
     foreach ($needles as $needle) {
       $markup [] = '<mark>' . $needle . '</mark>';
     }
-      
+
+    // Do the replacement.
     $string = str_replace ($needles, $markup, $string);
     
+    // Result.
     return $string;
   }  
 
