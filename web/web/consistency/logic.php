@@ -84,7 +84,11 @@ class Consistency_Logic
   private function verseText ($bible, $book, $chapter, $verse)
   {
     $database_bibles = Database_Bibles::getInstance ();
+    $database_usfmresources = Database_UsfmResources::getInstance ();
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
+    if ($usfm == "") {
+      $usfm = $database_usfmresources->getUsfm ($bible, $book, $chapter);
+    }
     $usfm = Filter_Usfm::getVerseText ($usfm, $verse);
     $filter_text = new Filter_Text ("");
     $filter_text->text_text = new Text_Text ();

@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext ("") ?>
 </p>
 
-<p><?php echo gettext ("Add text from the following Bibles as extra aids for comparison") ?>:
+<p><?php echo gettext ("Add text from the following Bibles or USFM Resources as extra aids for comparison") ?>:
 <?php foreach ($this->bibles as $bible) { ?>
   <?php echo $bible ?>
   <a href="?removebible=<?php echo $bible ?>">[<?php echo gettext ("remove") ?>]</a>

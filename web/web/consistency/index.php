@@ -29,6 +29,7 @@ $header->run ();
 
 $database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
+$database_usfmresources = Database_UsfmResources::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance();
 
 
@@ -36,7 +37,7 @@ $ipc_focus = Ipc_Focus::getInstance();
 if (isset ($addbible)) {
   if ($addbible == "") {
     $dialog_list = new Dialog_List2 (gettext ("Would you like to add a Bible?"));
-    $bibles = $database_bibles->getBibles ();
+    $bibles = array_merge ($database_bibles->getBibles (), $database_usfmresources->getResources ());
     foreach ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&addbible=$bible");
     }
