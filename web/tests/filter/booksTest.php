@@ -43,29 +43,113 @@ class booksTest extends PHPUnit_Framework_TestCase
     $this->assertEquals("Unknown 10:2\nExodus 777:777\n", Filter_Books::passagesDisplayMultiline (array (array (-1, 10, 2), array (2, 777, 777))));
   }
 
-  public function testInterpretBook()
+  public function testInterpretBookEnglish()
   {
-    // Test interpretation of full English names.
     $this->assertEquals(1, Filter_Books::interpretBook ("Genesis"));
     $this->assertEquals(46, Filter_Books::interpretBook ("1 Corinthians"));
     $this->assertEquals(22, Filter_Books::interpretBook ("Song of Solomon"));
-    // Test interpretation of USFM abbreviations.
+  }
+
+
+  public function testInterpretBookUSFM ()
+  {
     $this->assertEquals(1, Filter_Books::interpretBook ("GEN"));
     $this->assertEquals(67, Filter_Books::interpretBook ("FRT"));
     $this->assertEquals(46, Filter_Books::interpretBook ("1CO"));
-    // Test interpretation of OSIS books.
+  }
+  
+  
+  public function testInterpretBookOSIS ()
+  {
     $this->assertEquals(1, Filter_Books::interpretBook ("Gen"));
     $this->assertEquals(46, Filter_Books::interpretBook ("1Cor"));
     $this->assertEquals(22, Filter_Books::interpretBook ("Song"));
-    // Test interpretation of BibleWorks abbreviations.
-    $this->assertEquals(1, Filter_Books::interpretBook ("Gen"));
-    $this->assertEquals(46, Filter_Books::interpretBook ("1Co"));
-    $this->assertEquals(22, Filter_Books::interpretBook ("Sol"));
-    // Test interpretation of Online Bible abbreviations.
+  }
+
+
+  public function testInterpretBookBibleWorks () // Todo
+  {
+    $this->assertEquals (1,  Filter_Books::interpretBook ("Gen"));
+    $this->assertEquals (2,  Filter_Books::interpretBook ("Exod"));
+    $this->assertEquals (3,  Filter_Books::interpretBook ("Lev"));
+    $this->assertEquals (4,  Filter_Books::interpretBook ("Num"));
+    $this->assertEquals (5,  Filter_Books::interpretBook ("Deut"));
+    $this->assertEquals (6,  Filter_Books::interpretBook ("Jos"));
+    $this->assertEquals (7,  Filter_Books::interpretBook ("Jdg"));
+    $this->assertEquals (8,  Filter_Books::interpretBook ("Ruth"));
+    $this->assertEquals (9,  Filter_Books::interpretBook ("1 Sam"));
+    $this->assertEquals (10, Filter_Books::interpretBook ("2 Sam"));
+    $this->assertEquals (11, Filter_Books::interpretBook ("1 Ki"));
+    $this->assertEquals (12, Filter_Books::interpretBook ("2 Ki"));
+    $this->assertEquals (13, Filter_Books::interpretBook ("1 Chr"));
+    $this->assertEquals (14, Filter_Books::interpretBook ("2 Chr"));
+    $this->assertEquals (15, Filter_Books::interpretBook ("Ezr"));
+    $this->assertEquals (16, Filter_Books::interpretBook ("Neh"));
+    $this->assertEquals (17, Filter_Books::interpretBook ("Est"));
+    $this->assertEquals (18, Filter_Books::interpretBook ("Job"));
+    $this->assertEquals (19, Filter_Books::interpretBook ("Ps"));
+    $this->assertEquals (20, Filter_Books::interpretBook ("Prov"));
+    $this->assertEquals (21, Filter_Books::interpretBook ("Eccl"));
+    $this->assertEquals (22, Filter_Books::interpretBook ("Cant"));
+    $this->assertEquals (22, Filter_Books::interpretBook ("Sol"));
+    $this->assertEquals (23, Filter_Books::interpretBook ("Isa"));
+    $this->assertEquals (24, Filter_Books::interpretBook ("Jer"));
+    $this->assertEquals (25, Filter_Books::interpretBook ("Lam"));
+    $this->assertEquals (26, Filter_Books::interpretBook ("Ezek"));
+    $this->assertEquals (27, Filter_Books::interpretBook ("Dan"));
+    $this->assertEquals (28, Filter_Books::interpretBook ("Hos"));
+    $this->assertEquals (29, Filter_Books::interpretBook ("Joel"));
+    $this->assertEquals (30, Filter_Books::interpretBook ("Amos"));
+    $this->assertEquals (31, Filter_Books::interpretBook ("Obad"));
+    $this->assertEquals (32, Filter_Books::interpretBook ("Jon"));
+    $this->assertEquals (33, Filter_Books::interpretBook ("Mic"));
+    $this->assertEquals (34, Filter_Books::interpretBook ("Nah"));
+    $this->assertEquals (35, Filter_Books::interpretBook ("Hab"));
+    $this->assertEquals (36, Filter_Books::interpretBook ("Zeph"));
+    $this->assertEquals (37, Filter_Books::interpretBook ("Hag"));
+    $this->assertEquals (38, Filter_Books::interpretBook ("Zech"));
+    $this->assertEquals (39, Filter_Books::interpretBook ("Mal"));
+    $this->assertEquals (40, Filter_Books::interpretBook ("Matt"));
+    $this->assertEquals (41, Filter_Books::interpretBook ("Mk"));
+    $this->assertEquals (42, Filter_Books::interpretBook ("Lk"));
+    $this->assertEquals (43, Filter_Books::interpretBook ("Jn"));
+    $this->assertEquals (44, Filter_Books::interpretBook ("Acts"));
+    $this->assertEquals (45, Filter_Books::interpretBook ("Rom"));
+    $this->assertEquals (46, Filter_Books::interpretBook ("1 Co"));
+    $this->assertEquals (46, Filter_Books::interpretBook ("1Co"));
+    $this->assertEquals (47, Filter_Books::interpretBook ("2 Co"));
+    $this->assertEquals (48, Filter_Books::interpretBook ("Gal"));
+    $this->assertEquals (49, Filter_Books::interpretBook ("Eph"));
+    $this->assertEquals (50, Filter_Books::interpretBook ("Phil"));
+    $this->assertEquals (51, Filter_Books::interpretBook ("Col"));
+    $this->assertEquals (52, Filter_Books::interpretBook ("1 Thess"));
+    $this->assertEquals (53, Filter_Books::interpretBook ("2 Thess"));
+    $this->assertEquals (54, Filter_Books::interpretBook ("1 Tim"));
+    $this->assertEquals (55, Filter_Books::interpretBook ("2 Tim"));
+    $this->assertEquals (56, Filter_Books::interpretBook ("Tit"));
+    $this->assertEquals (57, Filter_Books::interpretBook ("Phlm"));
+    $this->assertEquals (58, Filter_Books::interpretBook ("Heb"));
+    $this->assertEquals (59, Filter_Books::interpretBook ("Jas"));
+    $this->assertEquals (60, Filter_Books::interpretBook ("1 Pet"));
+    $this->assertEquals (61, Filter_Books::interpretBook ("2 Pet"));
+    $this->assertEquals (62, Filter_Books::interpretBook ("1 Jn"));
+    $this->assertEquals (63, Filter_Books::interpretBook ("2 Jn"));
+    $this->assertEquals (64, Filter_Books::interpretBook ("3 Jn"));
+    $this->assertEquals (65, Filter_Books::interpretBook ("Jude"));
+    $this->assertEquals (66, Filter_Books::interpretBook ("Rev"));
+  }
+
+
+  public function testInterpretBookOnlineBibleAbbreviations ()
+  {
     $this->assertEquals(1, Filter_Books::interpretBook ("Ge"));
     $this->assertEquals(46, Filter_Books::interpretBook ("1Co"));
     $this->assertEquals(22, Filter_Books::interpretBook ("So"));
-    // Test partial book names.
+  }  
+
+
+  public function testInterpretBookPartialNames ()
+  {
     $this->assertEquals(1, Filter_Books::interpretBook ("G"));
     $this->assertEquals(1, Filter_Books::interpretBook ("g"));
     $this->assertEquals(1, Filter_Books::interpretBook ("ge"));

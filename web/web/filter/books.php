@@ -95,6 +95,16 @@ class Filter_Books
       return $identifier;
     }
 
+    // Handle names from BibleWorks when copying the verse list to the clipboard.
+    // These are not handled elsewhere.
+    if ($book == "Cant") return 22;
+    if ($book == "Mk") return 41;
+    if ($book == "Lk") return 42;
+    if ($book == "Jn") return 43;
+    if ($book == "1 Jn") return 62;
+    if ($book == "2 Jn") return 63;
+    if ($book == "3 Jn") return 64;
+
     // Try the abbreviations of the Online Bible.
     $identifier = $database_books->getIdFromOnlinebible ($book);
     if ($identifier) {
