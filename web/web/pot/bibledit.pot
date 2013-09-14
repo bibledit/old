@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 01:44+0200\n"
+"POT-Creation-Date: 2013-09-14 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3528,6 +3528,68 @@ msgstr ""
 msgid "Untick display of non-breaking spaces."
 msgstr ""
 
+msgid "Unknown passage"
+msgstr ""
+
+msgid "Consistency"
+msgstr ""
+
+msgid "The passage for this entry was not found."
+msgstr ""
+
+msgid "help"
+msgstr ""
+
+msgid "Paste passages:"
+msgstr ""
+
+msgid "Paste translations:"
+msgstr ""
+
+msgid ""
+"This assists with checking how consistent words have been translated in the "
+"Bible."
+msgstr ""
+
+msgid "Enter or paste the passages to check."
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Not saved because of too many changes"
+msgstr ""
+
+msgid "Save failure"
+msgstr ""
+
+msgid "Nothing to save"
+msgstr ""
+
+msgid "Edit USFM"
+msgstr ""
+
+msgid "Loaded"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Select Bible"
+msgstr ""
+
+msgid "Select book"
+msgstr ""
+
+msgid "Chapter"
+msgstr ""
+
+msgid "Verse"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
 msgid "Sentence Structure"
 msgstr ""
 
@@ -3556,10 +3618,7 @@ msgstr ""
 msgid "The patterns were saved"
 msgstr ""
 
-msgid "The passage for this entry was not found."
-msgstr ""
-
-msgid "Consistency"
+msgid "Checks"
 msgstr ""
 
 msgid "The entry was approved and suppressed."
@@ -3623,13 +3682,25 @@ msgid ""
 "and other additions."
 msgstr ""
 
-msgid "help"
+msgid "The page displays a list of results of running the checks."
 msgstr ""
 
-msgid "Help."
+msgid "Click ✔ to approve and suppress the entry."
 msgstr ""
 
-msgid "Settings"
+msgid "Click ✗ to remove the entry for just now."
+msgstr ""
+
+msgid "It will be back next day, unless the text of the Bible is corrected."
+msgstr ""
+
+msgid "Click an entry to open the chapter in the text editor."
+msgstr ""
+
+msgid "The Manager should enable the checks."
+msgstr ""
+
+msgid "Suppressed entries"
 msgstr ""
 
 msgid "Settings for Checks"
@@ -3700,6 +3771,9 @@ msgstr ""
 msgid "It will be visible again in the list of check results."
 msgstr ""
 
+msgid "Settings"
+msgstr ""
+
 msgid "Will run the checks within a minute. See the logbook for progress."
 msgstr ""
 
@@ -3710,66 +3784,6 @@ msgid "Would you like to add a Bible to the ones that will be checked?"
 msgstr ""
 
 msgid "The check result will no longer be suppressed."
-msgstr ""
-
-msgid "Saved"
-msgstr ""
-
-msgid "Not saved because of too many changes"
-msgstr ""
-
-msgid "Save failure"
-msgstr ""
-
-msgid "Nothing to save"
-msgstr ""
-
-msgid "Edit USFM"
-msgstr ""
-
-msgid "Loaded"
-msgstr ""
-
-msgid "Saving..."
-msgstr ""
-
-msgid "Select Bible"
-msgstr ""
-
-msgid "Select book"
-msgstr ""
-
-msgid "Chapter"
-msgstr ""
-
-msgid "Verse"
-msgstr ""
-
-msgid "OK"
-msgstr ""
-
-msgid "Checks"
-msgstr ""
-
-msgid "The page displays a list of results of running the checks."
-msgstr ""
-
-msgid "Click ✔ to approve and suppress the entry."
-msgstr ""
-
-msgid "Click ✗ to remove the entry for just now."
-msgstr ""
-
-msgid "It will be back next day, unless the text of the Bible is corrected."
-msgstr ""
-
-msgid "Click an entry to open the chapter in the text editor."
-msgstr ""
-
-msgid "The Manager should enable the checks."
-msgstr ""
-
-msgid "Suppressed entries"
 msgstr ""
 
 msgid "Warning"

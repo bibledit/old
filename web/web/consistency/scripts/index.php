@@ -17,6 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
+<style type="text/css">
+  *.searchResult {
+      font-weight: bold;
+      background-color: yellow;
+  }
+</style>
 <h3><?php echo gettext ("Consistency") ?></h3>
 <p><a href="#help">[<?php echo gettext ("help") ?>]</a></p>
 <br>
@@ -39,10 +45,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <p>
   <?php echo gettext ("Enter or paste the passages to check.") ?>
-  <?php echo gettext ("") ?>
+  <?php echo gettext ("Example:") ?>
+</p>
+<p>Exod. 37:4-5, 14-15, 27-28</p>
+<p>Exod. 38:5-7</p>
+<p>Exod. 39:35, 39</p>
+<p>
+  <?php echo gettext ("The web page will load the verse text for the passages.") ?>
+</p>
+<p>
+  <?php echo gettext ("Enter the translations for the key words.") ?>
+  <?php echo gettext ("Enter one word per line.") ?>
+</p>
+<p>
+  <?php echo gettext ("The web page will mark the translations in the verse text.") ?>
 </p>
 <p>
   <?php echo gettext ("") ?>
   <?php echo gettext ("") ?>
 </p>
+<script type="text/javascript" src="../rangy/rangy-core.js"></script>
+<script type="text/javascript" src="../rangy/rangy-textrange.js"></script>
+<script type="text/javascript" src="../rangy/rangy-cssclassapplier.js"></script>
 <script type="text/javascript" src="index.js"></script>

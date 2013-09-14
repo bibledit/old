@@ -21,7 +21,6 @@ class Consistency_Logic
 {
 
   public $passages;
-  public $translations;
 
 
   private $bible;

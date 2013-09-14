@@ -17,32 +17,40 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-var changedTimeout;
+var passagesTimeout;
 var identifier;
 var pollerTimeout;
+var translationsTimeout;
+var searchResultApplier;
 
 
 $(document).ready (function () {
   $ ("#passages").focus ();
-  $ ("textarea").on ("paste cut keydown", function (event) {
-    if (changedTimeout) clearTimeout (changedTimeout);
-    changedTimeout = setTimeout (changed, 500);
+  $ ("#passages").on ("paste cut keydown", function (event) {
+    if (passagesTimeout) clearTimeout (passagesTimeout);
+    passagesTimeout = setTimeout (passagesChanged, 500);
   });
+  $ ("#translations").on ("paste cut keydown", function (event) {
+    if (translationsTimeout) clearTimeout (translationsTimeout);
+    translationsTimeout = setTimeout (translationsChanged, 500);
+  });
+  rangy.init ();
+  searchResultApplier = rangy.createCssClassApplier("searchResult");
 });
 
 
-function changed ()
+function passagesChanged ()
 {
   identifier = Math.floor (( Math.random () * 1000000) + 1000000);
   var passages = $('#passages').val();
-  var translations = $('#translations').val();
   $.ajax ({
     url: "passages.php",
     type: "POST",
-    data: { id: identifier, passages: passages, translations: translations },
+    data: { id: identifier, passages: passages },
     success: function (response) {
       $ ("#texts").empty ();
       $ ("#texts").append (response);
+      translationsChanged ();
     },
     complete: function (xhr, status) {
       delayedPoll ();
@@ -70,6 +78,7 @@ function poll ()
       if (response != "") {
         $ ("#texts").empty ();
         $ ("#texts").append (response);
+        translationsChanged ();
       }
     },
     complete: function (xhr, status) {
@@ -78,4 +87,34 @@ function poll ()
   });
 }
 
+
+function translationsChanged ()
+{
+  var range = rangy.createRange();
+  var searchScopeRange = rangy.createRange();
+  searchScopeRange.selectNodeContents (document.body);
+
+  var options = {
+      caseSensitive: false,
+      wholeWordsOnly: false,
+      withinRange: searchScopeRange,
+      direction: "forward"
+  };
+
+  range.selectNodeContents(document.body);
+  searchResultApplier.undoToRange(range);
+
+  var translations = $('#translations').val();
+  translations = $.trim (translations);
+  if (translations == "") return;
+  translations = translations.split ("\n");
+
+  for (i in translations) {
+    while (range.findText (translations [i], options)) {
+      searchResultApplier.applyToRange(range);
+      range.collapse (false);
+    }
+  }
+
+}
 
