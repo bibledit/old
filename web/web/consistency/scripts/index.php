@@ -64,7 +64,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext ("") ?>
   <?php echo gettext ("") ?>
 </p>
-<script type="text/javascript" src="../rangy/rangy-core.js"></script>
-<script type="text/javascript" src="../rangy/rangy-textrange.js"></script>
-<script type="text/javascript" src="../rangy/rangy-cssclassapplier.js"></script>
 <script type="text/javascript" src="index.js"></script>

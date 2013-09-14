@@ -21,8 +21,10 @@ page_access_level (TRANSLATOR_LEVEL);
 $database_consistency = Database_Consistency::getInstance ();
 $id = $_GET ['id'];
 $passages = $database_consistency->getPassages ($id);
+$translations = $database_consistency->getTranslations ($id);
 $logic = new Consistency_Logic ();
 $logic->passages = $passages;
+$logic->translations = $translations;
 $response = $logic->response ();
 $previousResponse = $database_consistency->getResponse ($id);
 if ($response != $previousResponse) {

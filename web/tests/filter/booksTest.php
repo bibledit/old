@@ -67,7 +67,7 @@ class booksTest extends PHPUnit_Framework_TestCase
   }
 
 
-  public function testInterpretBookBibleWorks () // Todo
+  public function testInterpretBookBibleWorks ()
   {
     $this->assertEquals (1,  Filter_Books::interpretBook ("Gen"));
     $this->assertEquals (2,  Filter_Books::interpretBook ("Exod"));

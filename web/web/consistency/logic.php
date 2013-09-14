@@ -21,6 +21,7 @@ class Consistency_Logic
 {
 
   public $passages;
+  public $translations;
 
 
   private $bible;
@@ -36,6 +37,8 @@ class Consistency_Logic
     $this->bible = $database_config_user->getBible ();
     $this->siteUrl = $database_config_general->getSiteURL ();
     $this->stylesheet = $database_config_general->getExportStylesheet ();
+    $this->translations = trim ($this->translations);
+    $translations = Filter_String::string2array ($this->translations);
     $this->response = array ();
     $passages = explode ("\n", $this->passages);
     $previousPassage = array (1, 1, 1);
@@ -52,7 +55,11 @@ class Consistency_Logic
           $text = Filter_Books::passageDisplay ($book, $chapter, $verse);
           $line = "<a href=\"" . $this->siteUrl . "/editusfm/index.php?switchbook=$book&switchchapter=$chapter&switchverse=$verse\" target=\"_blank\">$text</a>";
           $line .= " ";
-          $line .= $this->verseText ($book, $chapter, $verse);
+          $text = $this->verseText ($book, $chapter, $verse);
+          if ($this->translations != "") {
+            $text = Filter_Markup::words ($translations, $text);
+          }
+          $line .= $text;
           $this->response [] = $line;
           $previousPassage = $passage;
         } else {
