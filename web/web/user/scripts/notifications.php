@@ -114,6 +114,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php echo gettext ("Receive a daily email with the number of online change notifications awaiting your approval.") ?>
 </p>
 
+<p>
+<a href="notifications.php?userchangesnotificationstoggle=">
+<?php if ($this->user_changes_notifications == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
+</a>
+<?php echo gettext ("Receive a daily email with the changes made by you in the online Bible text editor.") ?>
+</p>
+
 <h2><?php echo gettext ("Text Checks") ?></h2>
 
 <p>

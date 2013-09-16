@@ -88,6 +88,11 @@ if (isset ($_GET['pendingchangenotificationstoggle'])) {
 }
 $view->view->pending_changes_notifications = $database_config_user->getPendingChangesNotification ();
 
+if (isset ($_GET['userchangesnotificationstoggle'])) {
+  $database_config_user->setUserChangesNotification (!$database_config_user->getUserChangesNotification ());
+}
+$view->view->user_changes_notifications = $database_config_user->getUserChangesNotification ();
+
 if (isset ($_GET['biblechecksnotificationtoggle'])) {
   $database_config_user->setBibleChecksNotification (!$database_config_user->getBibleChecksNotification ());
 }

@@ -372,6 +372,16 @@ class Database_Config_User
     $this->setValue ("", "pending-changes-notification", $value);
   }   
 
+  public function getUserChangesNotification () {
+    return $this->getValue ("", "user-changes-notification", false);
+  }
+  public function getUserUserChangesNotification ($username) { // Todo
+    return $this->getValueForUser ($username, "user-changes-notification", false);
+  }
+  public function setUserChangesNotification ($value) {
+    $this->setValue ("", "user-changes-notification", $value);
+  }   
+
   public function getAssignedNotesStatisticsNotification () {
     return $this->getValue ("", "assigned-notes-statistics-notification", false);
   }
