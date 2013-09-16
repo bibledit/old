@@ -113,11 +113,13 @@ class databaseChangesUserTest extends PHPUnit_Framework_TestCase
   public function testChapter ()
   {
     $database = Database_ChangesUser::getInstance ();
-    $database->recordSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
-    $database->recordSave ("phpunit1", "bible", 1, 2, 4, "old", 5, "new");
-    $database->recordSave ("phpunit1", "bible", 1, 2, 5, "old", 6, "new");
-    $chapter = $database->getChapter ("phpunit1", "bible", 1, 2, 3);
-    $this->assertEquals (array ('oldtext' => 'old', 'newtext' => 'new'), $chapter);
+    $database->recordSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
+    $database->recordSave ("phpunit1", "bible", 1, 2, 4, "old2", 5, "new2");
+    $database->recordSave ("phpunit1", "bible", 1, 2, 5, "old3", 6, "new3");
+    $chapter = $database->getChapter ("phpunit1", "bible", 1, 2, 4);
+    $this->assertEquals (array ('oldtext' => 'old1', 'newtext' => 'new1'), $chapter);
+    $chapter = $database->getChapter ("phpunit1", "bible", 1, 2, 5);
+    $this->assertEquals (array ('oldtext' => 'old2', 'newtext' => 'new2'), $chapter);
   }
 
 

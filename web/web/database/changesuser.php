@@ -146,15 +146,15 @@ class Database_ChangesUser // Todo
   }
 
 
-  public function getChapter ($username, $bible, $book, $chapter, $oldID)
+  public function getChapter ($username, $bible, $book, $chapter, $newID)
   {
     $username = Database_SQLInjection::no ($username);
     $bible = Database_SQLInjection::no ($bible);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
-    $oldID = Database_SQLInjection::no ($oldID);
+    $newID = Database_SQLInjection::no ($newID);
     $database_instance = Database_Instance::getInstance();
-    $query = "SELECT oldtext, newtext FROM changes_user WHERE username = '$username' AND bible = '$bible' AND book = $book AND chapter = $chapter AND oldid = $oldID;";
+    $query = "SELECT oldtext, newtext FROM changes_user WHERE username = '$username' AND bible = '$bible' AND book = $book AND chapter = $chapter AND newid = $newID;";
     $result = $database_instance->runQuery ($query);
     for ($i = 0; $i < $result->num_rows; $i++) {
       $row = $result->fetch_assoc ();
