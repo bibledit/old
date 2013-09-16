@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-14 01:42+0200\n"
+"POT-Creation-Date: 2013-09-16 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3534,7 +3534,7 @@ msgstr ""
 msgid "Consistency"
 msgstr ""
 
-msgid "The passage for this entry was not found."
+msgid "Would you like to add a Bible?"
 msgstr ""
 
 msgid "help"
@@ -3552,6 +3552,26 @@ msgid ""
 msgstr ""
 
 msgid "Enter or paste the passages to check."
+msgstr ""
+
+msgid "Example:"
+msgstr ""
+
+msgid "The web page will load the verse text for the passages."
+msgstr ""
+
+msgid "Enter the translations for the key words."
+msgstr ""
+
+msgid "Enter one word per line."
+msgstr ""
+
+msgid "The web page will mark the translations in the verse text."
+msgstr ""
+
+msgid ""
+"Add text from the following Bibles or USFM Resources as extra aids for "
+"comparison"
 msgstr ""
 
 msgid "Saved"
@@ -3616,6 +3636,9 @@ msgid "Patterns"
 msgstr ""
 
 msgid "The patterns were saved"
+msgstr ""
+
+msgid "The passage for this entry was not found."
 msgstr ""
 
 msgid "Checks"
@@ -5967,9 +5990,6 @@ msgstr ""
 msgid ""
 "The identifier of a Consultation Note can be seen through the Actions link "
 "of that note."
-msgstr ""
-
-msgid "Example:"
 msgstr ""
 
 msgid "Identifier:"
