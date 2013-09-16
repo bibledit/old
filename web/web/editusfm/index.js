@@ -46,6 +46,7 @@ var usfmIdTimeout;
 var usfmCaretTimeout;
 var usfmReload = false;
 var usfmCaretPosition = 0;
+var usfmClarifierTimeout;
 
 
 function usfmEditorNewPassage ()
@@ -114,6 +115,7 @@ function usfmEditorChanged ()
     clearTimeout (usfmEditorChangedTimeout);
   }
   usfmEditorChangedTimeout = setTimeout (usfmEditorSaveChapter, 1000);
+  restartCaretClarifier ();
 }
 
 
@@ -162,6 +164,7 @@ function usfmCaretChanged ()
     clearTimeout (usfmCaretTimeout);
   }
   usfmCaretTimeout = setTimeout (usfmHandleCaret, 500);
+  restartCaretClarifier ();
 }
 
 
@@ -209,6 +212,7 @@ function positionCaretViaAjax ()
       if ((offset < start) || (offset > end)) {
         positionCaret (start);
       }
+      restartCaretClarifier ();
     }
   });
 }
@@ -246,3 +250,50 @@ function usfmWindowFocused ()
 function usfmWindowBlurred ()
 {
 }
+
+
+function restartCaretClarifier ()
+{
+  if (usfmClarifierTimeout) {
+    clearTimeout (usfmClarifierTimeout);
+  }
+  usfmClarifierTimeout = setTimeout (clarifyCaret, 100);
+}
+
+
+function getSelectionCoordinates() {
+  var x = 0, y = 0;
+  var sel = document.selection, range;
+  if (sel) {
+    if (sel.type != "Control") {
+      range = sel.createRange();
+      range.collapse(true);
+      x = range.boundingLeft;
+      y = range.boundingTop;
+    }
+  } else if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.rangeCount) {
+      range = sel.getRangeAt(0).cloneRange();
+      if (range.getClientRects) {
+        range.collapse(true);
+        var rect = range.getClientRects()[0];
+        x = rect.left;
+        y = rect.top;
+      }
+    }
+  }
+  return { x: x, y: y };
+}
+
+
+function clarifyCaret ()
+{
+  var scrolltop = $ ("body").scrollTop ();
+  var coordinates = getSelectionCoordinates ();
+  var caretTop = coordinates.y + scrolltop;
+  console.log (caretTop); // Todo
+  var viewportHeight = $(window).height ();
+  $ ("body").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
+}
+
