@@ -27,15 +27,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><a href="#help">[<?php echo gettext ("help") ?>]</a></p>
 <br>
 <table>
-<tr>
+<tr style="vertical-align: top;">
 <td style="width:10%;">
-  <p><?php echo gettext ("Paste passages:") ?></p>
+  <p><?php echo gettext ("Passages:") ?></p>
   <textarea id="passages"></textarea>
-  <p><?php echo gettext ("Paste translations:") ?></p>
+  <p><?php echo gettext ("Translations:") ?></p>
   <textarea id="translations"></textarea>
 </td>
 <td style="width:1%;"></td>
-<td style="vertical-align: top;"><div id="texts"></div></td>
+<td><div id="texts"></div></td>
 </tr>
 </table>
 <br>
@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext ("This assists with checking how consistent words have been translated in the Bible.") ?>
 </p>
 <p>
-  <?php echo gettext ("Enter or paste the passages to check.") ?>
+  <?php echo gettext ("Enter the passages to check.") ?>
   <?php echo gettext ("Example:") ?>
 </p>
 <p>Exod. 37:4-5, 14-15, 27-28</p>

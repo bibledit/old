@@ -16,13 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+require_once ("../bootstrap/bootstrap.php");
+page_access_level (GUEST_LEVEL);
+Assets_Page::header (gettext ("Consistency"));
+$view = new Assets_View (__FILE__);
+$view->render ("consistency.php");
+Assets_Page::footer ();
 ?>
-<h1><?php echo gettext ("Help") ?></h1>
-<p><a href="introduction.php"><?php echo gettext ("Introduction") ?></a></p>
-<p><a href="installation.php"><?php echo gettext ("Installation") ?></a></p>
-<p><a href="methodology.php"><?php echo gettext ("Methodology") ?></a></p>
-<p><a href="navigation.php"><?php echo gettext ("Navigation") ?></a></p>
-<p><a href="consultations.php"><?php echo gettext ("Consultations") ?></a></p>
-<p><a href="consistency.php"><?php echo gettext ("Consistency") ?></a></p>
-<p><a href="typesetting.php"><?php echo gettext ("Typesetting") ?></a></p>
-<p><a href="about.php"><?php echo gettext ("About") ?></a></p>
