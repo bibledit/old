@@ -31,6 +31,8 @@ $(document).ready (function () {
   $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
   $ ("#usfmeditor").focus ();
   rangy.init ();
+  $ (window).on ("focus", usfmWindowFocused);
+  $ (window).on ("blur", usfmWindowBlurred);
 });
 
 
@@ -42,23 +44,28 @@ var usfmLoadedText;
 var usfmIdChapter = 0;
 var usfmIdTimeout;
 var usfmCaretTimeout;
+var usfmReload = false;
+var usfmCaretPosition = 0;
 
 
 function usfmEditorNewPassage ()
 {
   usfmEditorSaveChapter ();
-  usfmEditorLoadChapter (false);
-  usfmPositionCaret ();
+  usfmReload = false;
+  usfmEditorLoadChapter ();
+  positionCaretViaAjax ();
 }
 
-function usfmEditorLoadChapter (reload)
+function usfmEditorLoadChapter ()
 {
-  if ((navigationBible != usfmBible) || (navigationBook != usfmBook) || (navigationChapter != usfmChapter) || reload) {
+  if ((navigationBible != usfmBible) || (navigationBook != usfmBook) || (navigationChapter != usfmChapter) || usfmReload) {
     usfmBible = navigationBible;
     usfmBook = navigationBook;
     usfmChapter = navigationChapter;
     usfmIdChapter = 0;
-    $ ("#usfmeditor").empty ();
+    $ ("#usfmeditor").focus;
+    usfmCaretPosition = getCaretPosition ();
+    $ ("#usfmeditor").attr ("contenteditable", "false");
     $.ajax ({
       url: "load.php",
       type: "GET",
@@ -66,8 +73,15 @@ function usfmEditorLoadChapter (reload)
       success: function (response) {
         $ ("#usfmeditor").empty ();
         $ ("#usfmeditor").append (response);
+        $ ("#usfmeditor").attr ("contenteditable", "true");
         usfmEditorStatus (usfmEditorChapterLoaded);
         usfmLoadedText = response;
+        if (usfmReload) {
+          positionCaret (usfmCaretPosition);
+        } else {
+          positionCaretViaAjax ();
+        }
+        usfmReload = false;
       },
     });
   }
@@ -128,7 +142,8 @@ function usfmEditorPollId ()
     success: function (response) {
       if (usfmIdChapter != 0) {
         if (response != usfmIdChapter) {
-          usfmEditorLoadChapter (true);
+          usfmReload = true;
+          usfmEditorLoadChapter ();
           usfmIdChapter = 0;
         }
       }
@@ -163,9 +178,7 @@ function usfmHandleKeyDown (event)
 function usfmHandleCaret ()
 {
   if ($ ("#usfmeditor").is (":focus")) {
-    var sel = rangy.getSelection ();
-    var range = sel.getRangeAt(0);
-    var offset = range.startOffset;
+    var offset = getCaretPosition ();
     $.ajax ({
       url: "offset.php",
       type: "GET",
@@ -175,25 +188,13 @@ function usfmHandleCaret ()
         var verse = response ["verse"];
         var start = response ["start"];
         var end = response ["end"];
-/*
-//        console.log ("start " + start + " end " + end); // Todo
-
-        var selection = rangy.getSelection ();
-        var range = selection.getRangeAt(0);
-        var offset = range.startOffset;
-        console.log (offset); // Todo
-        if ((offset < start) || (offset > end)) {
-//          console.log (start - offset);
-          selection.move ("character", start - offset);
-        }
-*/
       }
     });
   }
 }
 
 
-function usfmPositionCaret ()
+function positionCaretViaAjax ()
 {
   $ ("#usfmeditor").focus ();
   $.ajax ({
@@ -204,12 +205,44 @@ function usfmPositionCaret ()
       response = $.parseJSON (response);
       var start = response ["start"];
       var end = response ["end"];
-      var selection = rangy.getSelection ();
-      var range = selection.getRangeAt(0);
-      var offset = range.startOffset;
+      var offset = getCaretPosition ();
       if ((offset < start) || (offset > end)) {
-        selection.move ("character", start - offset);
+        positionCaret (start);
       }
     }
   });
+}
+
+
+function getCaretPosition ()
+{
+  var position = undefined;
+  if ($ ("#usfmeditor").is (":focus")) {
+    var sel = rangy.getSelection ();
+    var range = sel.getRangeAt(0);
+    position = range.startOffset;
+  }
+  return position;
+}
+
+
+function positionCaret (position)
+{
+  $ ("#usfmeditor").focus ();
+  var currentPosition = getCaretPosition ();
+  if (currentPosition == undefined) return;
+  if (position == undefined) return;
+  var selection = rangy.getSelection ();
+  selection.move ("character", position - currentPosition);
+}
+
+
+function usfmWindowFocused ()
+{
+  positionCaretViaAjax ();
+}
+
+
+function usfmWindowBlurred ()
+{
 }
