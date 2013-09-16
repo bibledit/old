@@ -25,6 +25,7 @@ class Timer_Logger
   const receiver = 'receiver';
   const sendreceive = 'sendreceive';
   const changes = 'changes';
+  const userchanges = 'userchanges';
   const checks = 'checks';
   const database = 'database';
   const backup = 'backup';

@@ -32,122 +32,129 @@ if (php_sapi_name () != "cli") {
 }
 
 
-$database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $database_changesuser = Database_ChangesUser::getInstance ();
 
 
-$stylesheet = $database_config_general->getExportStylesheet ();
-
-
 // Go through the users who have made changes in the Biblethrough the web editor.
 $users = $database_changesuser->getUsernames ();
-foreach ($users as $username) {
-
-
-
-}
-
-
-
-/*
-
-
-$changeNotificationUsers = array ();
-$users = $database_users->getUsers ();
 foreach ($users as $user) {
-  if ($database_config_user->getUserGenerateChangeNotifications ($user)) {
-    $changeNotificationUsers [] = $user;
-  }
-}
-unset ($users);
 
+  // Check whether the user receives a notification.
+  if ($database_config_user->getUserUserChangesNotification ($user)) {
 
-include ("paths/paths.php");
+    // Go through the Bibles changed by the current user.
+    $bibles = $database_changesuser->getBibles ($user);
+    foreach ($bibles as $bible) {
+      
+      // Body of the email to be sent.
+      $emailbody = "";
+        
+      // Go through the books in that Bible.
+      $books = $database_changesuser->getBooks ($user, $bible);
+      foreach ($books as $book) {
+        
+        // Go through the chapters in that book.
+        $chapters = $database_changesuser->getChapters ($user, $bible, $book);
+        foreach ($chapters as $chapter) {
+          
+          // Get the sets of identifiers for that chapter, and set some variables.
+          $IdSets = $database_changesuser->getIdentifiers ($user, $bible, $book, $chapter);
+          $referenceOldId = 0;
+          $referenceNewId = 0;
+          $lastNewId = 0;
+          $restart = true;
 
+          // Go through the sets of identifiers.
+          foreach ($IdSets as $IdSet) {
+            
+            $oldId = $IdSet ['oldid'];
+            $newId = $IdSet ['newid'];
 
-$bibles = $database_bibles->getDiffBibles ();
-foreach ($bibles as $bible) {
+            if ($restart) {
+              $emailbody .= processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId);
+              $referenceOldId = $oldId;
+              $referenceNewId = $newId;
+              $lastNewId = $newId;
+              $restart = false;
+              continue;
+            }
 
+            if ($oldId == $lastNewId) {
+              $lastNewId = $newId;
+            } else {
+              $restart = true;
+            }
 
-  // The files get stored at http://site.org/bibledit-web/downloads/changes/<Bible>/<date>
-  $biblename = $database_bibles->getName ($bible);
-  $basePath  = "changes/" . $biblename . "/" . strftime ("%Y-%m-%d_%H:%M:%S");
-  $directory = "$localStatePath/$location/$basePath";
-  mkdir ($directory, 0777, true);
-
-
-  $books = $database_bibles->getDiffBooks ($bible);
-  foreach ($books as $book) {
-    $chapters = $database_bibles->getDiffChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
-      $old_chapter_usfm = $database_bibles->getDiff ($bible, $book, $chapter);
-      $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-      $old_verse_numbers = Filter_Usfm::getVerseNumbers ($old_chapter_usfm);
-      $new_verse_numbers = Filter_Usfm::getVerseNumbers ($new_chapter_usfm);
-      $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
-      $verses = array_unique ($verses);
-      sort ($verses, SORT_NUMERIC);
-      foreach ($verses as $verse) {
-        $old_verse_usfm = Filter_Usfm::getVerseText ($old_chapter_usfm, $verse);
-        $new_verse_usfm = Filter_Usfm::getVerseText ($new_chapter_usfm, $verse);
-        if ($old_verse_usfm != $new_verse_usfm) {
-          $filter_text_old = new Filter_Text ("");
-          $filter_text_new = new Filter_Text ("");
-          $filter_text_old->html_text_standard = new Html_Text (gettext ("Bible"));
-          $filter_text_new->html_text_standard = new Html_Text (gettext ("Bible"));
-          $filter_text_old->text_text = new Text_Text ();
-          $filter_text_new->text_text = new Text_Text ();
-          $filter_text_old->addUsfmCode ($old_verse_usfm);
-          $filter_text_new->addUsfmCode ($new_verse_usfm);
-          $filter_text_old->run ($stylesheet);
-          $filter_text_new->run ($stylesheet);
-          $old_html = $filter_text_old->html_text_standard->getHtml ();
-          $new_html = $filter_text_new->html_text_standard->getHtml ();
-          $old_text = $filter_text_old->text_text->get ();
-          $new_text = $filter_text_new->text_text->get ();
-          if ($old_text != $new_text) {
-            $modification = Filter_Diff::diff ($old_text, $new_text);
-            $database_changes->record ($changeNotificationUsers, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
           }
+          
+          // Process the last set of identifiers.
+          $emailbody .= processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId);
+
+        }
+      }
+
+      // Send the email.
+      $subject = gettext ("Changes you entered in") . " " . $bible;
+      $database_mail->send ($user, $subject, $emailbody);
+
+    }
+  }
+
+  // Clear the user's changes in the database.
+  $database_changesuser->clearUser ($user);
+
+}
+
+
+$database_logs->log (gettext ("userchanges: Completed"));
+
+
+function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId)
+{
+  $body = "";
+  if ($oldId != 0) {
+    $database_changesuser = Database_ChangesUser::getInstance ();
+    $database_config_general = Database_Config_General::getInstance ();
+    $stylesheet = $database_config_general->getExportStylesheet ();
+    $old_chapter_usfm = $database_changesuser->getChapter ($user, $bible, $book, $chapter, $oldId);
+    $old_chapter_usfm = $old_chapter_usfm ['oldtext'];
+    $new_chapter_usfm = $database_changesuser->getChapter ($user, $bible, $book, $chapter, $newId);
+    $new_chapter_usfm = $new_chapter_usfm ['newtext'];
+    $old_verse_numbers = Filter_Usfm::getVerseNumbers ($old_chapter_usfm);
+    $new_verse_numbers = Filter_Usfm::getVerseNumbers ($new_chapter_usfm);
+    $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
+    $verses = array_unique ($verses);
+    sort ($verses, SORT_NUMERIC);
+    foreach ($verses as $verse) {
+      $old_verse_usfm = Filter_Usfm::getVerseText ($old_chapter_usfm, $verse);
+      $new_verse_usfm = Filter_Usfm::getVerseText ($new_chapter_usfm, $verse);
+      if ($old_verse_usfm != $new_verse_usfm) {
+        $filter_text_old = new Filter_Text ("");
+        $filter_text_new = new Filter_Text ("");
+        $filter_text_old->text_text = new Text_Text ();
+        $filter_text_new->text_text = new Text_Text ();
+        $filter_text_old->addUsfmCode ($old_verse_usfm);
+        $filter_text_new->addUsfmCode ($new_verse_usfm);
+        $filter_text_old->run ($stylesheet);
+        $filter_text_new->run ($stylesheet);
+        $old_text = $filter_text_old->text_text->get ();
+        $new_text = $filter_text_new->text_text->get ();
+        if ($old_text != $new_text) {
+          $modification = Filter_Diff::diff ($old_text, $new_text);
+          $body .= "<div>";
+          $body .= Filter_Books::passageDisplay ($book, $chapter, $verse);
+          $body .= " ";
+          $body .= $modification;
+          $body .= "</div>";
         }
       }
     }
   }
-
-  
-  // Produce the USFM and html files.
-  Filter_Diff::produceVerseLevel ($bible, $directory);
-
-  
-  // Delete diff data for this Bible, allowing new diffs to be stored straightaway.
-  $database_bibles->deleteDiffBible ($bible);
-  
-
-  // Create online page with changed verses.
-  $versesoutputfile = "$directory/changed_verses.html";
-  Filter_Diff::runWDiffFile ("$directory/verses_old.txt", "$directory/verses_new.txt", $versesoutputfile);
-
-
-  // Email users.
-  $subject = gettext ("Recent changes") . " " . $biblename;
-  $emailBody = file_get_contents ($versesoutputfile);
-  $users = $database_users->getUsers ();
-  foreach ($users as $user) {
-    if ($database_config_user->getUserBibleChangesNotification ($user)) {
-      $database_mail->send ($user, $subject, $emailBody);
-    }
-  }
-  
- 
+  return $body;
 }
-*/
-
-
-
-$database_logs->log (gettext ("userchanges: Completed"));
 
 
 ?>

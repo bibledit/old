@@ -110,9 +110,19 @@ if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) &&
 }
 
 
+// Deal with the changes in the Bible made per user.
+if (($hour == 0) && ($minute == 25)) {
+  $workingdirectory = escapeshellarg (dirname (__FILE__));
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::userchanges);
+  $command = "cd $workingdirectory; php userchanges.php > $logfilename 2>&1 & echo $!";
+  $pid = shell_exec ($command);
+  $timer_logger->registerLogfile ($command, $pid, $logfilename);
+}
+
+
 // Run the checks on the Bibles.
 // This takes 15 minutes on a production machine with two Bibles.
-if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) && ($minute == 25))) {
+if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) && ($minute == 30))) {
   $config_general->setTimerChecks ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::checks);
@@ -124,7 +134,7 @@ if (($current_timestamp >= $config_general->getTimerChecks ()) || (($hour == 0) 
 
 // Database maintenance and trimming.
 // It takes a few minutes on a production machine..
-if (($hour == 0) && ($minute == 40)) {
+if (($hour == 0) && ($minute == 50)) {
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::database);
   $command = "cd $workingdirectory; php database.php > $logfilename 2>&1 & echo $!";
@@ -135,7 +145,7 @@ if (($hour == 0) && ($minute == 40)) {
 
 // Create a backup, so that the backup contains the most recent information
 // after the previous tasks have been done.
-if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 45))) {
+if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 555))) {
   $config_general->setTimerBackup ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::backup);
@@ -146,7 +156,7 @@ if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) 
 
 
 // Email statistics to the users.
-if (($hour == 0) && ($minute == 50)) {
+if (($hour == 1) && ($minute == 0)) {
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::statistics);
   $command = "cd $workingdirectory; php statistics.php > $logfilename 2>&1 & echo $!";
@@ -157,7 +167,7 @@ if (($hour == 0) && ($minute == 50)) {
 
 // Export the Bibles to the various output formats.
 // This may take an hour on a production machine.
-if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 0) && ($minute == 55))) {
+if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1) && ($minute == 5))) {
   $config_general->setTimerExports ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::exports);
