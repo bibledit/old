@@ -302,6 +302,7 @@ function clarifyCaret ()
 
 function dimensionsPoller ()
 {
+  return; // Todo
   var width = $ ("#usfmeditor").width ();
   var height = $ ("#usfmeditor").height ();
   if ((width != usfmPreviousWidth) || (height != usfmPreviousHeight)) {
