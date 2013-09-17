@@ -50,7 +50,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Pasting text into the consultation notes editor converts it to plain text.</p>
 <p>There is a tool for checking the consistency of the Bible translation.</p>
 <p>Subscribed users get a daily email detailing the changes they have entered in the web-based Bible editor.</p>
-<p>A yellow mark indicates the position of the caret in the USFM editor.</p>
 <p>The caret of the USFM editor scrolls the center of the browser window.</p>
 <p></p>
 <p></p>

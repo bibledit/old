@@ -32,7 +32,6 @@ $(document).ready (function () {
   $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
   $ ("#usfmeditor").focus ();
   $ (window).on ("focus", usfmWindowFocused);
-  setInterval (dimensionsPoller, 2000);
 });
 
 
@@ -291,24 +290,6 @@ function clarifyCaret ()
   var caretTop = coordinates.y + scrolltop;
   var viewportHeight = $(window).height ();
   $ ("body").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
-  $("canvas").clearCanvas ();
-  $("canvas").drawArc({
-    fillStyle: "yellow",
-    x: coordinates.x, y: caretTop + 5,
-    radius: 30
-  });
 }
 
 
-function dimensionsPoller ()
-{
-  return; // Todo
-  var width = $ ("#usfmeditor").width ();
-  var height = $ ("#usfmeditor").height ();
-  if ((width != usfmPreviousWidth) || (height != usfmPreviousHeight)) {
-    usfmPreviousWidth = width;
-    usfmPreviousHeight = height;
-    $ ("canvas").attr ("width", width);
-    $ ("canvas").attr ("height", height + 100);
-  }
-}
