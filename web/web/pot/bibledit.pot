@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-16 01:42+0200\n"
+"POT-Creation-Date: 2013-09-17 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2667,6 +2667,9 @@ msgstr ""
 msgid "Navigation"
 msgstr ""
 
+msgid "Consistency"
+msgstr ""
+
 msgid "About"
 msgstr ""
 
@@ -3256,6 +3259,55 @@ msgid ""
 "members of the translation team."
 msgstr ""
 
+msgid ""
+"Bibledit-Web assists with checking how consistent words have been translated "
+"in the Bible."
+msgstr ""
+
+msgid "The suggested work-flow for consistency checking is this:"
+msgstr ""
+
+msgid ""
+"Create a Consultation Note, and enter the details of the desired consistency "
+"check, plus the passages to check."
+msgstr ""
+
+msgid "Open the Consistency tool in a new tab."
+msgstr ""
+
+msgid ""
+"Copy the passages from the Consultation Note and paste them in the "
+"Consistency tool."
+msgstr ""
+
+msgid "Enter the desired translation or translations in the Consistency tool."
+msgstr ""
+
+msgid ""
+"The Consistency tool will display the verse texts from the active Bible."
+msgstr ""
+
+msgid "It will mark the translations in the verse."
+msgstr ""
+
+msgid "To make corrections, click a Passage."
+msgstr ""
+
+msgid "The text editor will open at the correct chapter and verse."
+msgstr ""
+
+msgid "Changes can be made in the text."
+msgstr ""
+
+msgid "The Consistency tool will display any updates in the Bible."
+msgstr ""
+
+msgid "The Consistency tool can display extra Bibles."
+msgstr ""
+
+msgid "This assists the checking process."
+msgstr ""
+
 msgid "Bibledit-Web"
 msgstr ""
 
@@ -3531,19 +3583,16 @@ msgstr ""
 msgid "Unknown passage"
 msgstr ""
 
-msgid "Consistency"
-msgstr ""
-
 msgid "Would you like to add a Bible?"
 msgstr ""
 
 msgid "help"
 msgstr ""
 
-msgid "Paste passages:"
+msgid "Passages:"
 msgstr ""
 
-msgid "Paste translations:"
+msgid "Translations:"
 msgstr ""
 
 msgid ""
@@ -3551,7 +3600,7 @@ msgid ""
 "Bible."
 msgstr ""
 
-msgid "Enter or paste the passages to check."
+msgid "Enter the passages to check."
 msgstr ""
 
 msgid "Example:"
@@ -4036,6 +4085,15 @@ msgstr ""
 msgid "statistics: Completed"
 msgstr ""
 
+msgid "userchanges: Generating lists of changes in the Bibles per user"
+msgstr ""
+
+msgid "Changes you entered in"
+msgstr ""
+
+msgid "userchanges: Completed"
+msgstr ""
+
 msgid "Go back to Bible"
 msgstr ""
 
@@ -4228,6 +4286,11 @@ msgstr ""
 msgid ""
 "Receive a daily email with the number of online change notifications "
 "awaiting your approval."
+msgstr ""
+
+msgid ""
+"Receive a daily email with the changes made by you in the online Bible text "
+"editor."
 msgstr ""
 
 msgid "Text Checks"
