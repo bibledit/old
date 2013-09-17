@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 $(document).ready (function () {
+  rangy.init ();
   $ (document).on ("passage", usfmEditorNewPassage);
   $ ("#usfmeditor").on ("paste cut keydown", usfmEditorChanged);
   $ (window).on ("unload beforeunload", usfmEditorSaveChapter);
@@ -30,9 +31,8 @@ $(document).ready (function () {
   $ ("#usfmeditor").on ("paste cut click", usfmCaretChanged);
   $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
   $ ("#usfmeditor").focus ();
-  rangy.init ();
   $ (window).on ("focus", usfmWindowFocused);
-  $ (window).on ("blur", usfmWindowBlurred);
+  setInterval (dimensionsPoller, 2000);
 });
 
 
@@ -47,6 +47,8 @@ var usfmCaretTimeout;
 var usfmReload = false;
 var usfmCaretPosition = 0;
 var usfmClarifierTimeout;
+var usfmPreviousWidth;
+var usfmPreviousHeight;
 
 
 function usfmEditorNewPassage ()
@@ -247,11 +249,6 @@ function usfmWindowFocused ()
 }
 
 
-function usfmWindowBlurred ()
-{
-}
-
-
 function restartCaretClarifier ()
 {
   if (usfmClarifierTimeout) {
@@ -292,8 +289,25 @@ function clarifyCaret ()
   var scrolltop = $ ("body").scrollTop ();
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
-  console.log (caretTop); // Todo
   var viewportHeight = $(window).height ();
   $ ("body").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
+  $("canvas").clearCanvas ();
+  $("canvas").drawArc({
+    fillStyle: "yellow",
+    x: coordinates.x, y: caretTop + 5,
+    radius: 30
+  });
 }
 
+
+function dimensionsPoller ()
+{
+  var width = $ ("#usfmeditor").width ();
+  var height = $ ("#usfmeditor").height ();
+  if ((width != usfmPreviousWidth) || (height != usfmPreviousHeight)) {
+    usfmPreviousWidth = width;
+    usfmPreviousHeight = height;
+    $ ("canvas").attr ("width", width);
+    $ ("canvas").attr ("height", height + 100);
+  }
+}
