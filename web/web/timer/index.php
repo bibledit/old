@@ -145,7 +145,7 @@ if (($hour == 0) && ($minute == 50)) {
 
 // Create a backup, so that the backup contains the most recent information
 // after the previous tasks have been done.
-if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 555))) {
+if (($current_timestamp >= $config_general->getTimerBackup ()) || (($hour == 0) && ($minute == 55))) {
   $config_general->setTimerBackup ($current_timestamp + 100000);
   $workingdirectory = dirname (__FILE__);
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::backup);
