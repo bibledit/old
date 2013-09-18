@@ -46,6 +46,7 @@ var usfmCaretTimeout;
 var usfmReload = false;
 var usfmCaretPosition = 0;
 var usfmClarifierTimeout;
+var usfmPreviousCaretTop;
 var usfmPreviousWidth;
 var usfmPreviousHeight;
 
@@ -188,10 +189,6 @@ function usfmHandleCaret ()
       type: "GET",
       data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, offset: offset },
       success: function (response) {
-        response = $.parseJSON (response);
-        var verse = response ["verse"];
-        var start = response ["start"];
-        var end = response ["end"];
       }
     });
   }
@@ -211,7 +208,7 @@ function positionCaretViaAjax ()
       var end = response ["end"];
       var offset = getCaretPosition ();
       if ((offset < start) || (offset > end)) {
-        positionCaret (start);
+        positionCaret (start + 3);
       }
       restartCaretClarifier ();
     }
@@ -288,8 +285,16 @@ function clarifyCaret ()
   var scrolltop = $ ("body").scrollTop ();
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
+  if (caretTop == usfmPreviousCaretTop) return;
+  usfmPreviousCaretTop = caretTop;
   var viewportHeight = $(window).height ();
   $ ("body").animate ({ scrollTop: caretTop - (viewportHeight / 2) }, 500);
+  var barOffset = $ ("#caretbar").offset ().top;
+  $ ("#caretbar").empty ();
+  $ ("#caretbar").prepend ("<span><mark>￫</mark></span>");
+  var barTop = barOffset + $ ("#caretbar").height ();
+  while (barTop <= caretTop) {
+    $ ("#caretbar").prepend ("\n");
+    barTop = barOffset + $ ("#caretbar").height ();
+  }
 }
-
-
