@@ -51,7 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>There is a tool for checking the consistency of the Bible translation.</p>
 <p>Subscribed users get a daily email detailing the changes they have entered in the web-based Bible editor.</p>
 <p>The caret of the USFM editor scrolls the center of the browser window.</p>
-<p></p>
+<p>A moving vertical yellow arrow points to the position of the caret in the Bible editor.</p>
 <p></p>
 
 <h2>Version 1.0</h2>
