@@ -98,6 +98,11 @@ if (isset ($_GET['biblechecksnotificationtoggle'])) {
 }
 $view->view->bible_checks_notification = $database_config_user->getBibleChecksNotification ();
 
+if (isset ($_GET['sprintprogressnotificationtoggle'])) {
+  $database_config_user->setSprintProgressNotification (!$database_config_user->getSprintProgressNotification ());
+}
+$view->view->sprint_progress_notification = $database_config_user->getSprintProgressNotification ();
+
 $view->render ("notifications.php");
 Assets_Page::footer ();
 ?>

@@ -33,6 +33,7 @@ class Timer_Logger
   const exports = 'exports';
   const statistics = 'statistics';
   const sessions = 'sessions';
+  const burndown = 'burndown';
   const manual = 'manual';
 
 

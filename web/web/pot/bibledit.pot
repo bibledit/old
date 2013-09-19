@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-18 01:42+0200\n"
+"POT-Creation-Date: 2013-09-19 01:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4133,9 +4133,6 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-msgid "Send/Receive"
-msgstr ""
-
 msgid "Notes"
 msgstr ""
 
@@ -4157,13 +4154,16 @@ msgstr ""
 msgid "admin"
 msgstr ""
 
+msgid "Send/Receive"
+msgstr ""
+
+msgid "Collaboration"
+msgstr ""
+
 msgid "Bibles"
 msgstr ""
 
 msgid "Versifications"
-msgstr ""
-
-msgid "Collaboration"
 msgstr ""
 
 msgid "Mail"
@@ -5542,6 +5542,21 @@ msgstr ""
 msgid "See the Logbook for details."
 msgstr ""
 
+msgid "New task added"
+msgstr ""
+
+msgid "Add task"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Updating sprint history"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
 msgid "Convert"
 msgstr ""
 
@@ -5763,9 +5778,6 @@ msgid "External resources"
 msgstr ""
 
 msgid "Delete resource"
-msgstr ""
-
-msgid "Add"
 msgstr ""
 
 msgid "You can add, edit, download, and delete resources."

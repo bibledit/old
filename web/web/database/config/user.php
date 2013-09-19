@@ -436,6 +436,30 @@ class Database_Config_User
     $this->setList ("", "consistency-bibles", $values);
   }   
 
+  public function getSprintMonth () {
+    return $this->getValue ("", "sprint-month", date ("n"));
+  }
+  public function setSprintMonth ($value) {
+    $this->setValue ("", "sprint-month", $value);
+  }   
+
+  public function getSprintYear () {
+    return $this->getValue ("", "sprint-year", date ("Y"));
+  }
+  public function setSprintYear ($value) {
+    $this->setValue ("", "sprint-year", $value);
+  }   
+
+  public function getSprintProgressNotification () {
+    return $this->getValue ("", "sprint-progress-notification", false);
+  }
+  public function getUserSprintProgressNotification ($username) {
+    return $this->getValueForUser ($username, "sprint-progress-notification", false);
+  }
+  public function setSprintProgressNotification ($value) {
+    $this->setValue ("", "sprint-progress-notification", $value);
+  }   
+
 }
 
 

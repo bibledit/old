@@ -25,11 +25,7 @@ class Filter_Datetime
   */
   public static function timezones ()
   {
-    if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
-      $identifiers = DateTimeZone::listIdentifiers();
-    } else {
-      $identifiers = array ();
-    }
+    $identifiers = DateTimeZone::listIdentifiers();
     sort ($identifiers);
     foreach ($identifiers as $identifier) {
       // Keep the preferred identifiers, and drop the deprecated ones.
@@ -63,6 +59,28 @@ class Filter_Datetime
       $datetime->setTimezone ($datetimezone);
     }
   }
+  
+  
+  public static function isFirstWorkingDayOfMonth ($monthday, $weekday)
+  {
+    if (($monthday == 1) && in_array ($weekday, array (1, 2, 3, 4, 5))) return true;
+    if (in_array ($monthday, array (2, 3)) && ($weekday == 1)) return true;
+    return false;
+  }
+  
+  
+  public static function getLastBusinessDayOfMonth ($year, $month)
+  {
+    $time = mktime (0, 0, 0, $month, 1, $year);
+    $lastday = date ("t", $time);
+    $time = mktime (0, 0, 0, $month, $lastday, $year);
+    $lastweekday = date ("w", $time);
+    if ($lastweekday == 0) $lastday -= 2;
+    if ($lastweekday == 6) $lastday--;
+    return $lastday;
+  }
+ 
+  
 }
 
 ?>

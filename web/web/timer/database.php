@@ -110,6 +110,12 @@ $database = Database_Consistency::getInstance ();
 $database->trim ();
 $database->optimize();
 
+$database = Database_ChangesUser::getInstance ();
+$database->optimize();
+
+$database = Database_Sprint::getInstance ();
+$database->optimize();
+
 $database_logs->log ("database: Completed");
 
 ?>

@@ -165,9 +165,23 @@ if (($hour == 1) && ($minute == 0)) {
 }
 
 
+// Sprint burndown.
+// It runs at midnight, but also in the morning and afternoon.
+// The script itself determines what to do at various times of the day,
+// or days of the week or month.
+$burndown = false;
+if (($hour == 1) && ($minute == 5)) $burndown = true;
+if (($hour == 10) && ($minute == 0)) $burndown = true;
+if (($hour == 14) && ($minute == 0)) $burndown = true;
+if ($burndown) {
+  Sprint_Logic::burndown (false);
+}
+unset ($burndown);
+
+
 // Export the Bibles to the various output formats.
 // This may take an hour on a production machine.
-if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1) && ($minute == 5))) {
+if (($current_timestamp >= $config_general->getTimerExports ()) || (($hour == 1) && ($minute == 10))) {
   $config_general->setTimerExports ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
   $logfilename = $timer_logger->getLogFilename (Timer_Logger::exports);

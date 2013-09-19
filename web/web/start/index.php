@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 /*
-This script generates a "Start" menu.
+This generates a start menu.
 
 It is based on an array of all possible menu entries.
 It reads the access levels of those entries.
@@ -39,8 +39,7 @@ page_access_level (GUEST_LEVEL);
 // The values consist of an array with paths to the file => localized menu text.
 $fullmenu = array (
 "translate" => array (
-  "editusfm/index" => gettext ("Translate"),
-  "sendreceive/index" => gettext ("Send/Receive"),
+  "editusfm/index" => gettext ("Translate")
 ),
 "notes" => array (
   "notes/index" => gettext ("Notes"),
@@ -63,6 +62,12 @@ $fullmenu = array (
   "checks/settings" => "[" . gettext ("manage") . "]",
   "consistency/index" => gettext ("Consistency"),
 ),
+"team" => array (
+  "sprint/index" => gettext ("Sprint"),
+  "sendreceive/index" => gettext ("Send/Receive"),
+  "manage/users" => gettext ("Users"),
+  "administration/collaboration" => gettext ("Collaboration")
+),
 "exports" => array (
   "downloads/exports" => gettext ("Exports"),
   "manage/exports" => "[" . gettext ("manage") . "]"
@@ -73,13 +78,11 @@ $fullmenu = array (
 ),
 "management" => array (
   "manage/logbook" => gettext ("Logbook"),
-  "manage/users" => gettext ("Users"),
   "bible/manage" => gettext ("Bibles"),
   "versification/index" => gettext ("Versifications"),
   "manage/hyphenation" => gettext ("Hyphenation")
 ),
 "administration" => array (
-  "administration/collaboration" => gettext ("Collaboration"),
   "administration/mail" => gettext ("Mail"),
   "administration/backup" => gettext ("Backup/Restore"),
   "administration/timezone" => gettext ("Timezone"),
