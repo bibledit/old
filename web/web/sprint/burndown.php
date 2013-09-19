@@ -114,7 +114,20 @@ if ($email) {
       
       $body = array ();
       
-      $body [] = "<p>Sprint</p>";
+      $body [] = "<h3>" . gettext ("Sprint Planning and Team's Progress") . "</h3>";
+      $body [] = "<table>";
+      $tasks = $database_sprint->getTasks ($year, $month);
+      foreach ($tasks as $id) {
+        $body [] = "<tr>";
+        $title = $database_sprint->getTitle ($id);
+        $body [] = "<td>" . $title . "</td>";
+        $complete = $database_sprint->getComplete ($id);
+        $text = str_repeat ("█", intval ($complete / 25)) . str_repeat ("▁", 4 - intval ($complete / 25));
+        $body [] = "<td>" . $text . "</td>";
+        $body [] = "<td>" . $complete . "%</td>";
+        $body [] = "</tr>";
+      }
+      $body [] = "</table>";
 
       if (count ($body) > 0) {
         $body = implode ("\n", $body);
