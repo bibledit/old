@@ -20,6 +20,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h1>ChangeLog</h1>
 
 <h2>Version in repository</h2>
+<p>The tool to remove duplicate consultation notes was renamed to "Clean Consultation Notes".</p>
+<p>The tool to clean the consultation notes converts the note summaries to clean text.</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 
 <h2>Version 1.1</h2>
 <p>20 September 2013</p>

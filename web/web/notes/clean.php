@@ -22,9 +22,9 @@ page_access_level (MANAGER_LEVEL);
 Assets_Page::header (gettext ("Removing duplicate consultation notes"));
 set_time_limit (0);
 $workingdirectory = dirname (__FILE__);
-shell_exec ("cd $workingdirectory; php duplicatescli.php > /dev/null 2>&1 &");
+shell_exec ("cd $workingdirectory; php cleancli.php > /dev/null 2>&1 &");
 $view = new Assets_View (__FILE__);
-$view->render ("duplicates.php");
+$view->render ("clean.php");
 Assets_Page::footer ();
 
 ?>

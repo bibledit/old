@@ -44,7 +44,7 @@ $fullmenu = array (
 "notes" => array (
   "notes/index" => gettext ("Notes"),
   "notes/editsource" => "[" . gettext ("edit") . "]",
-  "notes/duplicates" => "[" . gettext ("duplicates") . "]",
+  "notes/clean" => "[" . gettext ("clean") . "]",
   "notes/import1" => "[" . gettext ("import") . "]"
 ),
 "changes" => array (

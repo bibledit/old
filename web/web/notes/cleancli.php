@@ -17,9 +17,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+
 require_once ("../bootstrap/bootstrap.php");
+
 $database_logs = Database_Logs::getInstance ();
+$database_notes = Database_Notes::getInstance ();
+
+
 $database_logs->log (gettext ("Removal of duplicate consultation notes has started"), true);
+
 
 // Security: Page only runs from the cli SAPI.
 if (php_sapi_name () != "cli") {
@@ -27,8 +33,18 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
+
+// Go through all note identifiers to strip the tags from the notes summaries.
+$identifiers = $database_notes->getIdentifiers ();
+foreach ($identifiers as $identifier) {
+  $summary = $database_notes->getSummary ($identifier);
+  $summary = strip_tags ($summary);
+  $database_notes->setSummary ($identifier, $summary);
+}
+unset ($identifier);
+
+
 // Go through all note identifiers.
-$database_notes = Database_Notes::getInstance ();
 $identifiers = $database_notes->getIdentifiers ();
 foreach ($identifiers as $identifier) {
   $database_logs->log (gettext ("Looking into note") . " " . $identifier, true);
@@ -52,7 +68,10 @@ foreach ($identifiers as $identifier) {
     $database_logs->log (gettext ("This note no longer exists"), true);
   }
 }
+unset ($identifier);
+
 
 $database_logs->log (gettext ("Removal of duplicate consultation notes has finished"), true);
+
 
 ?>

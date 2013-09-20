@@ -17,11 +17,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext ("Removing duplicate consultation notes") ?></h1>
-<p><?php echo gettext ("The process for removing duplicate consultation notes has started.") ?></p>
-<p><?php echo gettext ("The progress of this process is visible in the logbook.") ?></p>
-<p><?php echo gettext ("It can take a good amount of time, depending on the amount of notes to be sorted out.") ?></p>
-<p><a href="../manage/logbook.php"><?php echo gettext ("View logbook.") ?></a></p>
+<h3><?php echo gettext ("Clean Consultation Notes") ?></h3>
+<p><?php echo gettext ("The process for cleaning consultation notes has started.") ?></p>
+<p>
+  <?php echo gettext ("The progress is visible in the logbook.") ?>
+  <a href="../manage/logbook.php"><?php echo gettext ("View logbook.") ?></a>
+</p>
+<p><?php echo gettext ("It can take time, depending on the amount of consultation notes.") ?></p>
 <br>
+<p><?php echo gettext ("It starts by removing any markup from the note summaries.") ?></p>
+<p><?php echo gettext ("It then removes duplicate consultation notes.") ?></p>
 <p><?php echo gettext ("Notes are duplicates when their summary, contents, and verses are the same.") ?></p>
-<p><?php echo gettext ("Duplicates may occur for various reasons. One reason could be that a set of notes has been imported more than once.") ?></p>
+<p>
+  <?php echo gettext ("Duplicates may occur for various reasons.") ?>
+  <?php echo gettext ("One reason could be that some notes have been imported more than once.") ?>
+</p>
