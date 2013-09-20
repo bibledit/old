@@ -20,6 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h1>ChangeLog</h1>
 
 <h2>Version in repository</h2>
+
+<h2>Version 1.1</h2>
+<p>20 September 2013</p>
 <p>Improved automatic save in online USFM editor.</p>
 <p>Every night it clears out all sessions.</p>
 <p>Improved passage navigator: Enter nothing or + for next verse, and - for previous verse.</p>

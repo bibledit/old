@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h1><?php echo gettext ("Installation") ?></h1>
 <p><?php echo gettext ("Here are some guidelines as to how to install Bibledit-Web.") ?></p>
 <p><a href="installubuntu.php"><?php echo gettext ("Version 1.0 on Ubuntu 13.04.") ?></a></p>
-<p><a href="installnewubuntu.php"><?php echo gettext ("Version 1.1 (not yet released) on Ubuntu 13.04.") ?></a></p>
+<p><a href="installnewubuntu.php"><?php echo gettext ("Version 1.1 on Ubuntu 13.04.") ?></a></p>
 
 <h2><?php echo gettext ("Version being developed") ?></h2>
 <p><?php echo gettext ("In case you'd like to use the newest version, the one being developed, you can clone the source code from the git repository.") ?></p>
