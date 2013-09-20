@@ -39,13 +39,15 @@ function changed ()
   var translations = $('#translations').val();
   if ((passages == previousPassages) && (translations == previousTranslations)) return;
   identifier = Math.floor (( Math.random () * 1000000) + 1000000);
+  status (consistencyLoading);
   $.ajax ({
     url: "passages.php",
     type: "POST",
     data: { id: identifier, passages: passages, translations: translations },
     success: function (response) {
-      $ ("#texts").empty ();
+      $ ("#texts").empty (); // Todo
       $ ("#texts").append (response);
+      status ('');
     },
     complete: function (xhr, status) {
       delayedPoll ();
@@ -82,3 +84,8 @@ function poll ()
 }
 
 
+function status (status)
+{
+  $ ("#status").empty ();
+  $ ("#status").append (status);
+}

@@ -66,6 +66,13 @@ $view = new Assets_View (__FILE__);
 $view->view->bibles = $database_config_user->getConsistencyBibles ();
 
 
+$consistencyLoading = '"' . gettext ("Loading text...") . '"';
+$script = <<<EOD
+var consistencyLoading = $consistencyLoading;
+EOD;
+$view->view->script = $script;
+
+
 $view->render ("index.php");
 Assets_Page::footer ();
 ?>

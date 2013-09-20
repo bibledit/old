@@ -54,7 +54,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>A moving vertical yellow arrow points to the position of the caret in the Bible editor.</p>
 <p>Tasks can be defined for a sprint, and moved to another sprint.</p>
 <p>The percentage complete can be set for each task in steps.</p>
-<p>Sends weekly emails with the sprint planning and a burndown chart to subscribed users.</p>
+<p>Sends weekly email with the sprint planning and a burndown chart to subscribed users.</p>
 <p></p>
 <p></p>
 

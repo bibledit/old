@@ -29,7 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <textarea id="translations"></textarea>
 </td>
 <td style="width:1%;"></td>
-<td><div id="texts"></div></td>
+<td>
+  <div id="status"></div>
+  <div id="texts"></div>
+</td>
 </tr>
 </table>
 <br>
@@ -66,4 +69,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   |
 <?php } ?>
 <a href="?addbible=">[<?php echo gettext ("add Bible") ?>]</a>
+<script>
+<?php echo $this->script; ?>
+</script>
 <script type="text/javascript" src="index.js"></script>
