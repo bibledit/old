@@ -117,10 +117,10 @@ $view->view->sprint = date ("F Y", mktime (0, 0, 0, $month, 1, $year));
 $view->view->tasks = $tasks;
 $view->view->titles = $titles;
 $view->view->percentages = $percentages;
-if (extension_loaded ("gd")) {
-  $view->view->chart = base64_encode (Sprint_Logic::createBurndownChart ($year, $month));
-}
-
+//if (extension_loaded ("gd")) {
+//  $view->view->chart = base64_encode (Sprint_Logic::createGraphicalBurndownChart ($year, $month));
+//}
+$view->view->chart2 = Sprint_Logic::createTextBasedBurndownChart ($year, $month);
 
 $view->render ("index.php");
 Assets_Page::footer ();

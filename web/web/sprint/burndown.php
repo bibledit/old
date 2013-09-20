@@ -119,12 +119,16 @@ if ($email) {
         $title = $database_sprint->getTitle ($id);
         $body [] = "<td>" . $title . "</td>";
         $complete = $database_sprint->getComplete ($id);
-        $text = str_repeat ("█", intval ($complete / 25)) . str_repeat ("▁", 4 - intval ($complete / 25));
+        $text = str_repeat ("▓", intval ($complete / 25)) . str_repeat ("▁", 4 - intval ($complete / 25));
         $body [] = "<td>" . $text . "</td>";
         $body [] = "<td>" . $complete . "%</td>";
         $body [] = "</tr>";
       }
       $body [] = "</table>";
+      
+      $body [] = "<h3>" . gettext ("Sprint Burndown Chart - Remaining Tasks") . "</h3>";
+      $burndownchart = Sprint_Logic::createTextBasedBurndownChart ($year, $month);
+      $body [] = "<p>$burndownchart</p>";
 
       if (count ($body) > 0) {
         $body = implode ("\n", $body);

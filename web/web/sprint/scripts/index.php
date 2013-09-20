@@ -69,11 +69,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 </table>
 <br>
+<p><?php echo gettext ('Sprint Burndown Chart - Remaining Tasks') ?></p>
 <?php if ($this->chart) { ?>
   <img src="data:image/png;base64,<?php echo $this->chart ?>" />
-<?php } else { ?>
-  <p>Install PHP GD support on the server to see the Burndown Chart</p>
 <?php } ?>
+<p><?php echo $this->chart2 ?></p>
 <br>
 <form action="" name="addtask" method="post">
   <p>

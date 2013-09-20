@@ -40,8 +40,8 @@ class Sprint_Logic
   }
 
 
-  // This function creates a burndown chart for sprint $year / $month.
-  static public function createBurndownChart ($year, $month)
+  // This function creates a graphical burndown chart for sprint $year / $month.
+  static public function createGraphicalBurndownChart ($year, $month)
   {
     // Number of days in the month for on the X-axis.
     $time = mktime (0, 0, 0, $month, 15, $year);
@@ -66,7 +66,7 @@ class Sprint_Logic
     // Create burndown chart as an image.
     include_once ("../phpmygraph/phpMyGraph5.0.php");
 
-    $cfg['title'] = gettext ('Sprint Burndown Chart - Tasks per Day');
+    $cfg['title-visible'] = false;
     $cfg['width'] = 700;
     $cfg['height'] = 250;
     $cfg['zero-line-visible'] = false;
@@ -80,6 +80,51 @@ class Sprint_Logic
     ob_end_clean ();
 
     return $image;
+  }
+  
+
+  // This function creates a text-based burndown chart for sprint $year / $month.
+  static public function createTextBasedBurndownChart ($year, $month)
+  {
+    // Number of days in the month for on the X-axis.
+    $time = mktime (0, 0, 0, $month, 15, $year);
+    $days_in_month = date ("t", $time);
+    
+    // Assemble history of this sprint.
+    $database_sprint = Database_Sprint::getInstance ();
+    $history = $database_sprint->getHistory ($year, $month);
+    $data = array ();
+    for ($day = 1; $day <= $days_in_month; $day++) {
+      $data [$day] = "";
+      foreach ($history as $item) {
+        if ($day == $item ['day']) {
+          $tasks = $item ['tasks'];
+          $complete = $item ['complete'];
+          $tasks = $tasks * (100 - $complete) / 100;
+          $tasks = intval ($tasks);
+          $data [$day] = $tasks;
+        }
+      }
+    }
+    unset ($item);
+    
+    $lines = array ();
+    $lines [] = '<table style="text-align:center;">';
+    $lines [] = '<tr style="vertical-align: bottom;">';
+    foreach ($data as $day => $tasks) {
+      $text = str_repeat ("▓<br>", intval ($tasks));
+      $lines [] = "<td>$text</td>";
+    }
+    $lines [] = "</tr>";
+    $lines [] = '<tr>';
+    foreach ($data as $day => $tasks) {
+      $lines [] = "<td>$day</td>";
+    }
+    $lines [] = "</tr>";
+    $lines [] = "</table>";
+    
+    $chart = implode ("\n", $lines);
+    return $chart;
   }
   
 

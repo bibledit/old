@@ -55,7 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Tasks can be defined for a sprint, and moved to another sprint.</p>
 <p>The percentage complete can be set for each task in steps.</p>
 <p>Sends weekly emails with the sprint planning and a burndown chart to subscribed users.</p>
-<p>Requires package php5-gd for GD support to see the Burndown Chart on the Sprint page.</p>
+<p></p>
 <p></p>
 
 <h2>Version 1.0</h2>
