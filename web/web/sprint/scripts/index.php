@@ -69,6 +69,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 </table>
 <br>
+<img src="data:image/png;base64,<?php echo $this->chart ?>" />
+<br>
 <form action="" name="addtask" method="post">
   <p>
     <?php echo gettext ("Add task") ?>

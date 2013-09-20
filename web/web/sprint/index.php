@@ -117,6 +117,7 @@ $view->view->sprint = date ("F Y", mktime (0, 0, 0, $month, 1, $year));
 $view->view->tasks = $tasks;
 $view->view->titles = $titles;
 $view->view->percentages = $percentages;
+$view->view->chart = base64_encode (Sprint_Logic::createBurndownChart ($year, $month));
 
 
 $view->render ("index.php");
