@@ -35,6 +35,7 @@ if (php_sapi_name () != "cli") {
 
 
 // Go through all note identifiers to strip the tags from the notes summaries.
+$database_logs->log (gettext ("Converting the summaries of the Consultation Notes to plain text"), true);
 $identifiers = $database_notes->getIdentifiers ();
 foreach ($identifiers as $identifier) {
   $summary = $database_notes->getSummary ($identifier);
