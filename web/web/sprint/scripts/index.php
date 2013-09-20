@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <table>
 <?php foreach ($this->tasks as $offset => $id) { ?>
   <tr>
+    <td><a href="?id=<?php echo $id ?>&moveback="> « </a></td>
     <td><?php echo $this->titles [$offset] ?></td>
     <td>
       <a href="?id=<?php echo $id ?>&complete=0">
@@ -63,6 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
       </a>
       %
     </td>
+    <td><a href="?id=<?php echo $id ?>&moveforward="> » </a></td>
   </tr>
 <?php } ?>
 </table>

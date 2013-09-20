@@ -73,11 +73,27 @@ if (isset ($title)) {
 @$mail = $_GET ['mail'];
 if (isset ($mail)) {
   Sprint_Logic::burndown (true);
-  $view->view->success = gettext ("Information was mailed");
+  $view->view->success = gettext ("The information was mailed to the subscribers");
 }
 
 
 @$id = $_GET ['id'];
+
+
+@$moveback = $_GET ['moveback'];
+if (isset ($moveback)) {
+  $time = mktime (0, 0, 0, $month - 1, 1, $year);
+  $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
+  $view->view->success = gettext ("The task was moved to the previous sprint");
+}
+
+
+@$moveforward = $_GET ['moveforward'];
+if (isset ($moveforward)) {
+  $time = mktime (0, 0, 0, $month + 1, 1, $year);
+  $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
+  $view->view->success = gettext ("The task was moved to the next sprint");
+}
 
 
 @$complete = $_GET ['complete'];

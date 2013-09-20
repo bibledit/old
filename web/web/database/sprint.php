@@ -115,6 +115,17 @@ class Database_Sprint
   }
 
 
+  public function updateMonthYear ($id, $month, $year)
+  {
+    $id = Database_SQLInjection::no ($id);
+    $month = Database_SQLInjection::no ($month);
+    $year = Database_SQLInjection::no ($year);
+    $database_instance = Database_Instance::getInstance();
+    $query = "UPDATE sprint SET month = $month, year = $year WHERE id = $id;";
+    $database_instance->runQuery ($query);
+  }
+
+
   public function logHistory ($year, $month, $day, $tasks, $complete)
   {
     $year = Database_SQLInjection::no ($year);
