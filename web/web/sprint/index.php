@@ -23,7 +23,7 @@ page_access_level (TRANSLATOR_LEVEL);
 
 
 $header = new Assets_Header (gettext ("Sprint"));
-$header->setBodyOnload ('document.form.add.focus();');
+$header->setBodyOnload ('document.addtask.add.focus();');
 $header->run ();
 $view = new Assets_View (__FILE__);
 
@@ -67,6 +67,13 @@ $year = $database_config_user->getSprintYear ();
 if (isset ($title)) {
   $database_sprint->storeTask ($year, $month, $title);
   $view->view->success = gettext ("New task added");
+}
+
+
+@$mail = $_GET ['mail'];
+if (isset ($mail)) {
+  Sprint_Logic::burndown (true);
+  $view->view->success = gettext ("Information was mailed");
 }
 
 

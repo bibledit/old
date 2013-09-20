@@ -74,24 +74,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     <input type="submit" name="submit" value="<?php echo gettext ("Add") ?>" />
   </p>
 </form>
+<p><a href="?mail="><?php echo gettext ("Mail information to subscribers") ?></a></p>
 <br>
 <a id="help"></a>
 <p>
     <?php echo gettext ("") ?>
-</p>
-<p>
-    <?php echo gettext ("") ?>
-</p>
-<p>
-    <?php echo gettext ("") ?>
-</p>
-<p>
-    <?php echo gettext ("") ?>
-</p>
-<p>
-    <?php echo gettext ("") ?>
-</p>
-<p>
-  <?php echo gettext ("") ?>
-  <?php echo gettext ("") ?>
 </p>

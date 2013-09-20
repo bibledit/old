@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-19 01:45+0200\n"
+"POT-Creation-Date: 2013-09-20 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4299,6 +4299,14 @@ msgstr ""
 msgid "Receive a daily email with results of checks on the text of the Bibles."
 msgstr ""
 
+msgid "Team work"
+msgstr ""
+
+msgid ""
+"Receive a weekly email about the team's progress during the course of the "
+"sprint."
+msgstr ""
+
 msgid ""
 "You can change your password or your email address. Your current email "
 "address is"
@@ -5552,6 +5560,18 @@ msgid "Add"
 msgstr ""
 
 msgid "Updating sprint history"
+msgstr ""
+
+msgid "Team's progress in Sprint"
+msgstr ""
+
+msgid "Sprint starts"
+msgstr ""
+
+msgid "Sprint has finished"
+msgstr ""
+
+msgid "Sprint Planning and Team's Progress"
 msgstr ""
 
 msgid "Completed"
