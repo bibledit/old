@@ -100,9 +100,6 @@ $database_sprint->logHistory ($year, $month, $day, $tasks, $complete);
 
 
 // Send email if needed.
-//$email = true; // Todo
-//$sprintstart = false; // Todo
-//$sprintfinish = true; // Todo
 if ($email) {
   $users = $database_users->getUsers ();
   foreach ($users as $user) {

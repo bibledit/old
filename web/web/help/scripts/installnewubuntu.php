@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <h2><?php echo gettext ("Install the software Bibledit-Web relies on") ?></h2>
 <p><?php echo gettext ("In the terminal issue these commands:") ?></p>
-<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff sqlite3 php5-intl python perl libsword-utils rcs</code></p>
+<p><code>sudo apt-get install make git curl zip unzip libzend-framework-php wdiff sqlite3 php5-intl python perl libsword-utils rcs php5-gd</code></p>
 <p><?php echo gettext ("Anything to be set up, choose the default settings and enter the correct passwords.") ?></p>
 
 <h2><?php echo gettext ("Install Bibledit-Web") ?></h2>

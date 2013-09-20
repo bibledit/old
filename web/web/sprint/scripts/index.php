@@ -69,7 +69,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 </table>
 <br>
-<img src="data:image/png;base64,<?php echo $this->chart ?>" />
+<?php if ($this->chart) { ?>
+  <img src="data:image/png;base64,<?php echo $this->chart ?>" />
+<?php } else { ?>
+  <p>Install PHP GD support on the server to see the Burndown Chart</p>
+<?php } ?>
 <br>
 <form action="" name="addtask" method="post">
   <p>
