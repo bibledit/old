@@ -25,7 +25,7 @@ page_access_level (CONSULTANT_LEVEL);
 // The navigator does not fetch the active Bible from the user configuration,
 // but from the query generated in the webbrowser by Javascript.
 // The reason is that the Navigator can be independent of any Bible.
-// If that's so, it has all the 66 canonical books, plus their chapters and verses.
+// If there's no Bible, the Navigator has all the 66 canonical books, plus their chapters and verses.
 // If the Navigator has a Bible, it uses the books / chapters / verses from that Bible.
 @$bible = $_GET['bible'];
 

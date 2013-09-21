@@ -43,7 +43,7 @@ function buildNavigator () {
 }
 
 
-function bindClickHandlers () {
+function bindClickHandlers () { // Todo
   $("#selectbible").on ("click", function (event) {
     selectBible (event);
   });
@@ -59,7 +59,7 @@ function bindClickHandlers () {
 }
 
 
-function selectBible (event) {
+function selectBible (event) { // Todo
   event.preventDefault ();
   $.get ("../navigation/update.php?bible=" + navigationBible + "&getbibles", function (response) {
     navigatorContainer.empty ();

@@ -27,9 +27,16 @@ class Navigation_Logic
     return '<span id="bibleditnavigation"></span>';
   }
   
-  public static function getNavigator ($bible)
+  public static function getNavigator ($bible) // Todo
   {
     $fragment = '';
+
+    // Links to go back and forward. Todo
+    $fragment .= " ";
+    $fragment .= '<a id="navigateback" href="navigateback">↶</a>';
+    $fragment .= " ";
+    $fragment .= '<a id="navigateforward" href="navigateforward">↷</a>';
+    $fragment .= " ";
     
     if ($bible != "") {
       $fragment .= '<a id="selectbible" href="selectbible">' . $bible . '</a>';
