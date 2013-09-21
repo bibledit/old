@@ -31,9 +31,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext ("You can configure the Bibledit-Web installation to be completely open.") ?></p>
 <pre>./configure --with-open-installation=true</pre>
 <p>
-<?php echo gettext ("It means that there is no need to login to the website.") ?> 
-<?php echo gettext ("The website appears to be logged in as user 'admin' for any visitor.") ?> 
-<?php echo gettext ("This is useful for demo installations, or installations providing a free service to the the community.") ?>
+  <?php echo gettext ("It means that there is no need to login to the website.") ?> 
+  <?php echo gettext ("The website appears to be logged in as user 'admin' for any visitor.") ?> 
+  <?php echo gettext ("This is useful for demo installations, or installations providing a free service to the the community.") ?>
+  <?php echo gettext ("A disadvantage is that the crawlers of the search engines keep clicking links, and will disturb data and settings.") ?>
 </p>
 
 <h2><?php echo gettext ("Sword module repository") ?></h2>
@@ -45,3 +46,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext ("To create a Sword module repository, install an anonymous FTP server, and set the root for anonymous access to the folder with exported Bibles.") ?> 
 </p>
 <p><a href="ftpserver.php"><?php echo gettext ("Install FTP server on Ubuntu Server.") ?></a></p>
+
+<h2><?php echo gettext ("Several installations on one server") ?></h2>
+<p>
+  <?php echo gettext ("It is possible to have several installations of Bibledit-Web on one server. ") ?> 
+  <?php echo gettext ("This is how to do it:") ?> 
+</p>
+<pre>./configure --with-location=location-one && make && sudo make install</pre>
+<pre>./configure --with-location=biblename    && make && sudo make install</pre>
+<pre>./configure --with-location=numberthree  && make && sudo make install</pre>
+<p>
+  <?php echo gettext ("This creates installations at the following URL's:") ?> 
+</p>
+<ul>
+<li>http://website.org/location-one</li>
+<li>http://website.org/biblename</li>
+<li>http://website.org/numberthree</li>
+</ul>
+<p>
+  <?php echo gettext ("Everything is completely separated between the installation.") ?> 
+  <?php echo gettext ("This includes all data and the database.") ?> 
+  <?php echo gettext ("Every installation has its own independent database.") ?> 
+</p>
+<p>
+  <?php echo gettext ("The --with-location=location option does not take slashes.") ?> 
+  <?php echo gettext ("For example, --with-location=/location would fail.") ?> 
+  <?php echo gettext ("And --with-location=path/to/location would fail also.") ?> 
+</p>
+<p>
+  <?php echo gettext ("") ?> 
+</p>
