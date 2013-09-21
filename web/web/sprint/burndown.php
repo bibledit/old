@@ -84,6 +84,7 @@ $day = date ("j", $time);
 // Get the total number of tasks for this sprint,
 // and the average percentage of completion of them,
 // and store this information in the sprint history table.
+$database_logs->log ("burndown: " . gettext ("Updating day") . " " . $day);
 $ids = $database_sprint->getTasks ($year, $month);
 $percentages = array ();
 foreach ($ids as $id) {
