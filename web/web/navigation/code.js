@@ -43,7 +43,13 @@ function buildNavigator () {
 }
 
 
-function bindClickHandlers () { // Todo
+function bindClickHandlers () {
+  $("#navigateback").on ("click", function (event) {
+    navigateBack (event);
+  });
+  $("#navigateforward").on ("click", function (event) {
+    navigateForward (event);
+  });
   $("#selectbible").on ("click", function (event) {
     selectBible (event);
   });
@@ -59,7 +65,33 @@ function bindClickHandlers () { // Todo
 }
 
 
-function selectBible (event) { // Todo
+function navigateBack (event) { // Todo
+  event.preventDefault ();
+  return;
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getbibles", function (response) {
+    navigatorContainer.empty ();
+    navigatorContainer.append (response);
+    $("#selectbibles").on ("click", function (event) {
+      selectBibles (event);
+    });
+  });  
+}
+
+
+function navigateForward (event) { // Todo
+  event.preventDefault ();
+  return;
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&getbibles", function (response) {
+    navigatorContainer.empty ();
+    navigatorContainer.append (response);
+    $("#selectbibles").on ("click", function (event) {
+      selectBibles (event);
+    });
+  });  
+}
+
+
+function selectBible (event) {
   event.preventDefault ();
   $.get ("../navigation/update.php?bible=" + navigationBible + "&getbibles", function (response) {
     navigatorContainer.empty ();

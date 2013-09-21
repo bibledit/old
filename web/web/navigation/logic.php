@@ -33,13 +33,13 @@ class Navigation_Logic
 
     // Links to go back and forward. Todo
     $fragment .= " ";
-    $fragment .= '<a id="navigateback" href="navigateback">↶</a>';
+    $fragment .= '<a id="navigateback" href="navigateback" title="' . gettext ("Back") . '">↶</a>';
     $fragment .= " ";
-    $fragment .= '<a id="navigateforward" href="navigateforward">↷</a>';
+    $fragment .= '<a id="navigateforward" href="navigateforward" title="' . gettext ("Forward") . '">↷</a>';
     $fragment .= " ";
     
     if ($bible != "") {
-      $fragment .= '<a id="selectbible" href="selectbible">' . $bible . '</a>';
+      $fragment .= '<a id="selectbible" href="selectbible" title="' . gettext ("Select Bible") . '">' . $bible . '</a>';
       $fragment .= " ";
     }
     
@@ -59,7 +59,7 @@ class Navigation_Logic
     }
 
     $bookName = $database_books->getEnglishFromId ($book);
-    $fragment .= '<a id="selectbook" href="selectbook">' . $bookName . '</a>';
+    $fragment .= '<a id="selectbook" href="selectbook" title="' . gettext ("Select book") . '">' . $bookName . '</a>';
 
     $fragment .= " ";
 
@@ -74,12 +74,12 @@ class Navigation_Logic
       }
     }
 
-    $fragment .= '<a id="selectchapter" href="selectchapter">' . $chapter . '</a>';
+    $fragment .= '<a id="selectchapter" href="selectchapter" title="' . gettext ("Select chapter") . '">' . $chapter . '</a>';
 
     $fragment .= ":";
 
     $verse = $ipc_focus->getVerse ();
-    $fragment .= '<a id="selectverse" href="selectverse">' . $verse . '</a>';
+    $fragment .= '<a id="selectverse" href="selectverse" title="' . gettext ("Select verse") . '">' . $verse . '</a>';
 
     return $fragment;
   }
