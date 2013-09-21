@@ -460,6 +460,16 @@ class Database_Config_User
     $this->setValue ("", "sprint-progress-notification", $value);
   }   
 
+  public function getUserChangesNotificationsOnline () {
+    return $this->getValue ("", "user-changes-notifications-online", false);
+  }
+  public function getUserUserChangesNotificationsOnline ($username) { // Todo
+    return $this->getValueForUser ($username, "user-changes-notifications-online", false);
+  }
+  public function setUserChangesNotificationsOnline ($value) {
+    $this->setValue ("", "user-changes-notifications-online", $value);
+  }   
+
 }
 
 

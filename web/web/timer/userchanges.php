@@ -38,69 +38,74 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_changesuser = Database_ChangesUser::getInstance ();
 
 
-// Go through the users who have made changes in the Biblethrough the web editor.
+// Go through the users who have made changes in the Bible through the web editor.
 $users = $database_changesuser->getUsernames ();
 foreach ($users as $user) {
 
-  // Check whether the user receives a notification.
+  // Deal with the notification for the user to generate personal change proposals online.
+  unset ($database_changes);
   if ($database_config_user->getUserUserChangesNotification ($user)) {
+    $database_changes = Database_Changes::getInstance ();
+  }
 
-    // Go through the Bibles changed by the current user.
-    $bibles = $database_changesuser->getBibles ($user);
-    foreach ($bibles as $bible) {
+  // Go through the Bibles changed by the current user.
+  $bibles = $database_changesuser->getBibles ($user);
+  foreach ($bibles as $bible) {
+    
+    // Body of the email to be sent.
+    $emailbody = "<p>" . gettext ("You have entered the changes below in the online Bible Editor.") ." " . gettext ("You may check if it made its way into the Bible text.") . "</p>";
       
-      // Body of the email to be sent.
-      $emailbody = "";
+    // Go through the books in that Bible.
+    $books = $database_changesuser->getBooks ($user, $bible);
+    foreach ($books as $book) {
+      
+      // Go through the chapters in that book.
+      $chapters = $database_changesuser->getChapters ($user, $bible, $book);
+      foreach ($chapters as $chapter) {
         
-      // Go through the books in that Bible.
-      $books = $database_changesuser->getBooks ($user, $bible);
-      foreach ($books as $book) {
-        
-        // Go through the chapters in that book.
-        $chapters = $database_changesuser->getChapters ($user, $bible, $book);
-        foreach ($chapters as $chapter) {
+        // Get the sets of identifiers for that chapter, and set some variables.
+        $IdSets = $database_changesuser->getIdentifiers ($user, $bible, $book, $chapter);
+        $referenceOldId = 0;
+        $referenceNewId = 0;
+        $lastNewId = 0;
+        $restart = true;
+
+        // Go through the sets of identifiers.
+        foreach ($IdSets as $IdSet) {
           
-          // Get the sets of identifiers for that chapter, and set some variables.
-          $IdSets = $database_changesuser->getIdentifiers ($user, $bible, $book, $chapter);
-          $referenceOldId = 0;
-          $referenceNewId = 0;
-          $lastNewId = 0;
-          $restart = true;
+          $oldId = $IdSet ['oldid'];
+          $newId = $IdSet ['newid'];
 
-          // Go through the sets of identifiers.
-          foreach ($IdSets as $IdSet) {
-            
-            $oldId = $IdSet ['oldid'];
-            $newId = $IdSet ['newid'];
-
-            if ($restart) {
-              $emailbody .= processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId);
-              $referenceOldId = $oldId;
-              $referenceNewId = $newId;
-              $lastNewId = $newId;
-              $restart = false;
-              continue;
-            }
-
-            if ($oldId == $lastNewId) {
-              $lastNewId = $newId;
-            } else {
-              $restart = true;
-            }
-
+          if ($restart) {
+            processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $emailbody, $database_changes);
+            $referenceOldId = $oldId;
+            $referenceNewId = $newId;
+            $lastNewId = $newId;
+            $restart = false;
+            continue;
           }
-          
-          // Process the last set of identifiers.
-          $emailbody .= processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId);
+
+          if ($oldId == $lastNewId) {
+            $lastNewId = $newId;
+          } else {
+            $restart = true;
+          }
 
         }
-      }
+        
+        // Process the last set of identifiers.
+        processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $emailbody, $database_changes);
 
-      // Send the email.
+      }
+    }
+
+    // Send the user email with the user's personal changes if the user opted to receive it.
+    if ($database_config_user->getUserUserChangesNotification ($user)) {
       $subject = gettext ("Changes you entered in") . " " . $bible;
       $database_mail->send ($user, $subject, $emailbody);
-
     }
+    unset ($emailbody);
+
   }
 
   // Clear the user's changes in the database.
@@ -112,9 +117,8 @@ foreach ($users as $user) {
 $database_logs->log (gettext ("userchanges: Completed"));
 
 
-function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId)
+function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$emailbody, $database_changes) // Todo
 {
-  $body = "";
   if ($oldId != 0) {
     $database_changesuser = Database_ChangesUser::getInstance ();
     $database_config_general = Database_Config_General::getInstance ();
@@ -144,16 +148,15 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId)
         $new_text = $filter_text_new->text_text->get ();
         if ($old_text != $new_text) {
           $modification = Filter_Diff::diff ($old_text, $new_text);
-          $body .= "<div>";
-          $body .= Filter_Books::passageDisplay ($book, $chapter, $verse);
-          $body .= " ";
-          $body .= $modification;
-          $body .= "</div>";
+          $emailbody .= "<div>";
+          $emailbody .= Filter_Books::passageDisplay ($book, $chapter, $verse);
+          $emailbody .= " ";
+          $emailbody .= $modification;
+          $emailbody .= "</div>";
         }
       }
     }
   }
-  return $body;
 }
 
 

@@ -93,6 +93,16 @@ if (isset ($_GET['userchangesnotificationstoggle'])) {
 }
 $view->view->user_changes_notifications = $database_config_user->getUserChangesNotification ();
 
+// Todo
+
+if (isset ($_GET['userchangenotificationsonlinetoggle'])) {
+  $database_config_user->setUserChangesNotificationsOnline (!$database_config_user->getUserChangesNotificationsOnline ());
+}
+$view->view->user_changes_notifications_online = $database_config_user->getUserChangesNotificationsOnline ();
+
+
+
+
 if (isset ($_GET['biblechecksnotificationtoggle'])) {
   $database_config_user->setBibleChecksNotification (!$database_config_user->getBibleChecksNotification ());
 }

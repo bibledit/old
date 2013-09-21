@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-20 01:43+0200\n"
+"POT-Creation-Date: 2013-09-21 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2948,7 +2948,7 @@ msgstr ""
 msgid "Version 1.0 on Ubuntu 13.04."
 msgstr ""
 
-msgid "Version 1.1 (not yet released) on Ubuntu 13.04."
+msgid "Version 1.1 on Ubuntu 13.04."
 msgstr ""
 
 msgid "Version being developed"
@@ -3586,6 +3586,9 @@ msgstr ""
 msgid "Would you like to add a Bible?"
 msgstr ""
 
+msgid "Loading text..."
+msgstr ""
+
 msgid "help"
 msgstr ""
 
@@ -4136,7 +4139,7 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-msgid "duplicates"
+msgid "clean"
 msgstr ""
 
 msgid "import"
@@ -5553,10 +5556,25 @@ msgstr ""
 msgid "New task added"
 msgstr ""
 
+msgid "The information was mailed to the subscribers"
+msgstr ""
+
+msgid "The task was moved to the previous sprint"
+msgstr ""
+
+msgid "The task was moved to the next sprint"
+msgstr ""
+
+msgid "Sprint Burndown Chart - Remaining Tasks"
+msgstr ""
+
 msgid "Add task"
 msgstr ""
 
 msgid "Add"
+msgstr ""
+
+msgid "Mail information to subscribers"
 msgstr ""
 
 msgid "Updating sprint history"
@@ -5899,6 +5917,27 @@ msgstr ""
 msgid "Your new note was posted"
 msgstr ""
 
+msgid "Removal of duplicate consultation notes has started"
+msgstr ""
+
+msgid "Converting the summaries of the Consultation Notes to plain text"
+msgstr ""
+
+msgid "Looking into note"
+msgstr ""
+
+msgid "Deleting duplicate note"
+msgstr ""
+
+msgid "This note no longer exists"
+msgstr ""
+
+msgid "Removal of duplicate consultation notes has finished"
+msgstr ""
+
+msgid "Removing duplicate consultation notes"
+msgstr ""
+
 msgid "Bulk update"
 msgstr ""
 
@@ -6013,6 +6052,37 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+msgid "Clean Consultation Notes"
+msgstr ""
+
+msgid "The process for cleaning consultation notes has started."
+msgstr ""
+
+msgid "The progress is visible in the logbook."
+msgstr ""
+
+msgid "View logbook."
+msgstr ""
+
+msgid "It can take time, depending on the amount of consultation notes."
+msgstr ""
+
+msgid "It starts by removing any markup from the note summaries."
+msgstr ""
+
+msgid "It then removes duplicate consultation notes."
+msgstr ""
+
+msgid ""
+"Notes are duplicates when their summary, contents, and verses are the same."
+msgstr ""
+
+msgid "Duplicates may occur for various reasons."
+msgstr ""
+
+msgid "One reason could be that some notes have been imported more than once."
+msgstr ""
+
 msgid "Importing notes, step 2"
 msgstr ""
 
@@ -6119,9 +6189,6 @@ msgid ""
 "normal place. They will be added to any existing ones."
 msgstr ""
 
-msgid "View logbook."
-msgstr ""
-
 msgid "Go back to the note contents"
 msgstr ""
 
@@ -6194,26 +6261,6 @@ msgid "Loading..."
 msgstr ""
 
 msgid "Add a comment to this note:"
-msgstr ""
-
-msgid "Removing duplicate consultation notes"
-msgstr ""
-
-msgid "The process for removing duplicate consultation notes has started."
-msgstr ""
-
-msgid ""
-"It can take a good amount of time, depending on the amount of notes to be "
-"sorted out."
-msgstr ""
-
-msgid ""
-"Notes are duplicates when their summary, contents, and verses are the same."
-msgstr ""
-
-msgid ""
-"Duplicates may occur for various reasons. One reason could be that a set of "
-"notes has been imported more than once."
 msgstr ""
 
 msgid "Select the user to unassign the notes from"
@@ -6456,21 +6503,6 @@ msgid "Display the notes list"
 msgstr ""
 
 msgid "Assign this note to another Bible"
-msgstr ""
-
-msgid "Removal of duplicate consultation notes has started"
-msgstr ""
-
-msgid "Looking into note"
-msgstr ""
-
-msgid "Deleting duplicate note"
-msgstr ""
-
-msgid "This note no longer exists"
-msgstr ""
-
-msgid "Removal of duplicate consultation notes has finished"
 msgstr ""
 
 msgid "Unassign notes"

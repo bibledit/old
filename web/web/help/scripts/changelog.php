@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Requires program "merge" in package "rcs".</p>
 <p>Resolves conflicts during Send/receive by merging the two versions with grapheme granularity.</p>
 <p>The Sword module export links to information about Sword module making.</p>
-<p>The installer sets the maximum size of file uploads to 8 Mbyte PHP.</p>
+<p>The installer sets the maximum size of file uploads to 8 Mbyte for PHP.</p>
 <p>Time consuming operations on Bibles no longer time out.</p>
 <p>Does not delete session files younger than the cookie timeout of 12 hours.</p>
 <p>The consultation notes editor is as wide as the browser window.</p>
@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Pasting text into the consultation notes editor converts it to plain text.</p>
 <p>There is a tool for checking the consistency of the Bible translation.</p>
 <p>Subscribed users get a daily email detailing the changes they have entered in the web-based Bible editor.</p>
-<p>The caret of the USFM editor scrolls the center of the browser window.</p>
+<p>The caret of the USFM editor scrolls to the center of the browser window.</p>
 <p>A moving vertical yellow arrow points to the position of the caret in the Bible editor.</p>
 <p>Tasks can be defined for a sprint, and moved to another sprint.</p>
 <p>The percentage complete can be set for each task in steps.</p>
