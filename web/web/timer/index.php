@@ -98,23 +98,24 @@ if ($sendreceive) {
 }
 
 
-// Sending the daily changes in the Bibles by email.
-// This takes a few minutes on a production machine with two Bibles and changes in several chapters.
-if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) && ($minute == 20))) {
-  $config_general->setTimerDiff ($current_timestamp + 100000);
+// Deal with the changes in the Bible made per user.
+// It should run before the general changes to influence the order of the notifications in the GUI.
+if (($hour == 0) && ($minute == 20)) {
   $workingdirectory = escapeshellarg (dirname (__FILE__));
-  $logfilename = $timer_logger->getLogFilename (Timer_Logger::changes);
-  $command = "cd $workingdirectory; php changes.php > $logfilename 2>&1 & echo $!";
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::userchanges);
+  $command = "cd $workingdirectory; php userchanges.php > $logfilename 2>&1 & echo $!";
   $pid = shell_exec ($command);
   $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }
 
 
-// Deal with the changes in the Bible made per user.
-if (($hour == 0) && ($minute == 25)) {
+// Deal with notifications for the daily changes in the Bibles.
+// This takes a few minutes on a production machine with two Bibles and changes in several chapters.
+if (($current_timestamp >= $config_general->getTimerDiff ()) || (($hour == 0) && ($minute == 25))) {
+  $config_general->setTimerDiff ($current_timestamp + 100000);
   $workingdirectory = escapeshellarg (dirname (__FILE__));
-  $logfilename = $timer_logger->getLogFilename (Timer_Logger::userchanges);
-  $command = "cd $workingdirectory; php userchanges.php > $logfilename 2>&1 & echo $!";
+  $logfilename = $timer_logger->getLogFilename (Timer_Logger::changes);
+  $command = "cd $workingdirectory; php changes.php > $logfilename 2>&1 & echo $!";
   $pid = shell_exec ($command);
   $timer_logger->registerLogfile ($command, $pid, $logfilename);
 }

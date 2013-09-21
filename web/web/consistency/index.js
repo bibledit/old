@@ -45,7 +45,7 @@ function changed ()
     type: "POST",
     data: { id: identifier, passages: passages, translations: translations },
     success: function (response) {
-      $ ("#texts").empty (); // Todo
+      $ ("#texts").empty ();
       $ ("#texts").append (response);
       status ('');
     },

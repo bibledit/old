@@ -36,24 +36,19 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 $database_changesuser = Database_ChangesUser::getInstance ();
+$database_changes = Database_Changes::getInstance ();
 
 
 // Go through the users who have made changes in the Bible through the web editor.
 $users = $database_changesuser->getUsernames ();
 foreach ($users as $user) {
 
-  // Deal with the notification for the user to generate personal change proposals online.
-  unset ($database_changes);
-  if ($database_config_user->getUserUserChangesNotification ($user)) {
-    $database_changes = Database_Changes::getInstance ();
-  }
-
   // Go through the Bibles changed by the current user.
   $bibles = $database_changesuser->getBibles ($user);
   foreach ($bibles as $bible) {
     
     // Body of the email to be sent.
-    $emailbody = "<p>" . gettext ("You have entered the changes below in the online Bible Editor.") ." " . gettext ("You may check if it made its way into the Bible text.") . "</p>";
+    $email = "<p>" . gettext ("You have entered the changes below in the online Bible Editor.") ." " . gettext ("You may check if it made its way into the Bible text.") . "</p>";
       
     // Go through the books in that Bible.
     $books = $database_changesuser->getBooks ($user, $bible);
@@ -77,7 +72,7 @@ foreach ($users as $user) {
           $newId = $IdSet ['newid'];
 
           if ($restart) {
-            processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $emailbody, $database_changes);
+            processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $email, $database_changes);
             $referenceOldId = $oldId;
             $referenceNewId = $newId;
             $lastNewId = $newId;
@@ -94,7 +89,7 @@ foreach ($users as $user) {
         }
         
         // Process the last set of identifiers.
-        processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $emailbody, $database_changes);
+        processIdentifiers ($user, $bible, $book, $chapter, $referenceNewId, $newId, $email, $database_changes);
 
       }
     }
@@ -102,9 +97,9 @@ foreach ($users as $user) {
     // Send the user email with the user's personal changes if the user opted to receive it.
     if ($database_config_user->getUserUserChangesNotification ($user)) {
       $subject = gettext ("Changes you entered in") . " " . $bible;
-      $database_mail->send ($user, $subject, $emailbody);
+      $database_mail->send ($user, $subject, $email);
     }
-    unset ($emailbody);
+    unset ($email);
 
   }
 
@@ -117,11 +112,14 @@ foreach ($users as $user) {
 $database_logs->log (gettext ("userchanges: Completed"));
 
 
-function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$emailbody, $database_changes) // Todo
+function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$email, $database_changes)
 {
   if ($oldId != 0) {
     $database_changesuser = Database_ChangesUser::getInstance ();
     $database_config_general = Database_Config_General::getInstance ();
+    $database_config_user = Database_Config_User::getInstance ();
+    $database_bibles = Database_Bibles::getInstance ();
+    $bibleID = $database_bibles->getID ($bible);
     $stylesheet = $database_config_general->getExportStylesheet ();
     $old_chapter_usfm = $database_changesuser->getChapter ($user, $bible, $book, $chapter, $oldId);
     $old_chapter_usfm = $old_chapter_usfm ['oldtext'];
@@ -138,21 +136,30 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
       if ($old_verse_usfm != $new_verse_usfm) {
         $filter_text_old = new Filter_Text ("");
         $filter_text_new = new Filter_Text ("");
+        $filter_text_old->html_text_standard = new Html_Text (gettext ("Bible"));
+        $filter_text_new->html_text_standard = new Html_Text (gettext ("Bible"));
         $filter_text_old->text_text = new Text_Text ();
         $filter_text_new->text_text = new Text_Text ();
         $filter_text_old->addUsfmCode ($old_verse_usfm);
         $filter_text_new->addUsfmCode ($new_verse_usfm);
         $filter_text_old->run ($stylesheet);
         $filter_text_new->run ($stylesheet);
+        $old_html = $filter_text_old->html_text_standard->getHtml ();
+        $new_html = $filter_text_new->html_text_standard->getHtml ();
         $old_text = $filter_text_old->text_text->get ();
         $new_text = $filter_text_new->text_text->get ();
         if ($old_text != $new_text) {
           $modification = Filter_Diff::diff ($old_text, $new_text);
-          $emailbody .= "<div>";
-          $emailbody .= Filter_Books::passageDisplay ($book, $chapter, $verse);
-          $emailbody .= " ";
-          $emailbody .= $modification;
-          $emailbody .= "</div>";
+          $email .= "<div>";
+          $email .= Filter_Books::passageDisplay ($book, $chapter, $verse);
+          $email .= " ";
+          $email .= $modification;
+          $email .= "</div>";
+          if ($database_config_user->getUserUserChangesNotificationsOnline ($user)) {
+            $changeNotificationUsers = array ($user);
+            $modification_header = $modification . " " . "(" . gettext ("Personal change proposal") . ")" . " ☺";
+            $database_changes->record ($changeNotificationUsers, $bibleID, $book, $chapter, $verse, $old_html, $modification_header, $new_html);
+          }
         }
       }
     }

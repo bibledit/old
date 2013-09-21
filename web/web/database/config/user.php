@@ -463,7 +463,7 @@ class Database_Config_User
   public function getUserChangesNotificationsOnline () {
     return $this->getValue ("", "user-changes-notifications-online", false);
   }
-  public function getUserUserChangesNotificationsOnline ($username) { // Todo
+  public function getUserUserChangesNotificationsOnline ($username) {
     return $this->getValueForUser ($username, "user-changes-notifications-online", false);
   }
   public function setUserChangesNotificationsOnline ($value) {
