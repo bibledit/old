@@ -61,7 +61,10 @@ class Database_Changes
     $modification = Database_SQLInjection::no ($modification);
     $newtext = Database_SQLInjection::no ($newtext);
     $database_instance = Database_Instance::getInstance();
-    $timestamp = time ();
+    // Normally this function is called just after midnight.
+    // It would then put the current time on changes made the day before.
+    // Make a correction for that by subtracting 6 hours.
+    $timestamp = time () - 21600;
     foreach ($users as $user) {
       $user = Database_SQLInjection::no ($user);
       $query = "INSERT INTO changes VALUES (NULL, $timestamp, '$user', $bible, $book, $chapter, $verse, '$oldtext', '$modification', '$newtext');";
