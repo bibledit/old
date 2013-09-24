@@ -47,4 +47,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   <?php echo gettext ("Press Escape to cancel any navigation operation.") ?>
 </p>
-
+<br>
+<p><?php echo gettext ("The Navigator shows two arrows:") ?> ↶ <?php echo gettext ("and") ?> ↷.</p>
+<p>↶ <?php echo gettext ("Go back in the navigation history.") ?></p>
+<p>↷ <?php echo gettext ("Go forward in the navigation history.") ?></p>
+<p><?php echo gettext ("Two keyboard shortcuts work the same.") ?></p>
+<p>Alt-Left Arrow: <?php echo gettext ("Go back.") ?></p>
+<p>Alt-Right Arrow: <?php echo gettext ("Go forward.") ?></p>

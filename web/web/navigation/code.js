@@ -65,7 +65,7 @@ function bindClickHandlers () {
 }
 
 
-function navigateBack (event) {
+function navigateBack (event) { // Todo
   event.preventDefault ();
   $.get ("../navigation/update.php?bible=" + navigationBible + "&goback", function (response) {
     navigatorContainer.empty ();
@@ -76,7 +76,7 @@ function navigateBack (event) {
 }
 
 
-function navigateForward (event) {
+function navigateForward (event) { // Todo
   event.preventDefault ();
   $.get ("../navigation/update.php?bible=" + navigationBible + "&goforward", function (response) {
     navigatorContainer.empty ();
@@ -238,6 +238,14 @@ function navigationHandleKeyDown (event) {
       event.preventDefault ();
       navigationSubmitEntry ();
     }
+  }
+  // Alt-Left Arrow.
+  if ((event.altKey == true) && (event.keyCode == 37)) {
+    navigateBack (event);
+  }
+  // Alt-Right Arrow.
+  if ((event.altKey == true) && (event.keyCode == 39)) {
+    navigateForward (event);
   }
 }
 

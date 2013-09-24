@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>The logbook shows for which day of the month the sprint history gets updated.</p>
 <p>The clickable elements of the Navigator have titles that show up if the mouse hovers over the links.</p>
 <p>The Navigator has a link ↶ for going back in the navigation history, and a link ↷ for going forward.</p>
-<p></p>
+<p>The Navigator responds to the Alt-Left arrow key press by going back. Alt-Right goes forward.</p>
 <p></p>
 <p></p>
 <p></p>

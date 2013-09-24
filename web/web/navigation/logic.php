@@ -254,8 +254,8 @@ class Navigation_Logic
 
     }
   }
-  
-  
+
+
   private static function nextVerse ($bible, $book, $chapter, $verse)
   {
     $verse++;
@@ -269,8 +269,8 @@ class Navigation_Logic
     $passage = array ($book, $chapter, $verse);
     return $passage;
   }
-  
-  
+
+
   private static function previousVerse ($bible, $book, $chapter, $verse)
   {
     $verse--;
