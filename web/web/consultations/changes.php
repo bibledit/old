@@ -61,6 +61,12 @@ if (isset ($navigate)) {
 }
 
 
+// Remove personal change proposals and their matching change notifications.
+if (isset ($_GET ['match'])) {
+  $database_changes->clearMatches ($username, "☺", "♺");
+}
+
+
 $header = new Assets_Header (gettext ("Changes"));
 $header->jQueryOn ();
 $header->run ();

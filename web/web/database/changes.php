@@ -50,7 +50,7 @@ class Database_Changes
   }   
 
 
-  public function record ($users, $category, $bible, $book, $chapter, $verse, $oldtext, $modification, $newtext) // Todo
+  public function record ($users, $category, $bible, $book, $chapter, $verse, $oldtext, $modification, $newtext)
   {
     $bible = Database_SQLInjection::no ($bible);
     $category = Database_SQLInjection::no ($category);
@@ -118,7 +118,7 @@ class Database_Changes
   }
 
 
-  public function getCategory ($id) // Todo
+  public function getCategory ($id)
   {
     $id = Database_SQLInjection::no ($id);
     $database_instance = Database_Instance::getInstance();
@@ -212,6 +212,57 @@ class Database_Changes
     $database_instance = Database_Instance::getInstance();
     $query = "DELETE FROM changes WHERE username = '$username';";
     $result = $database_instance->runQuery ($query);
+  }
+  
+
+  // This function deletes personal change proposals and their matching change notifications.
+  public function clearMatches ($username, $personal, $team)
+  {
+    // Clean input.
+    $personal = Database_SQLInjection::no ($personal);
+    $team = Database_SQLInjection::no ($team);
+
+    $database_instance = Database_Instance::getInstance();
+
+    // Select all identifiers of the personal change proposals.
+    $query = "SELECT id, bible, book, chapter, verse, modification FROM changes WHERE username = '$username' AND category = '$personal';";
+    $result = $database_instance->runQuery ($query);
+    $rows = array ();
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_assoc ();
+      $rows [] = $row;
+    }
+    unset ($row);
+    
+    // Matches to be deleted.
+    $deletes = array ();
+
+    // Get all matching identifiers among the team's change notifications.
+    foreach ($rows as $row) {
+      $id = $row ['id'];
+      $bible = $row ['bible'];
+      $book = $row ['book'];
+      $chapter = $row ['chapter'];
+      $verse = $row ['verse'];
+      $modification = $row ['modification'];
+      $modification = Database_SQLInjection::no ($modification);
+      $query = "SELECT id FROM changes WHERE username = '$username' AND category = '$team' AND bible = $bible AND book = $book AND chapter = $chapter AND verse = $verse AND modification = '$modification';";
+      $result = $database_instance->runQuery ($query);
+      for ($i = 0; $i < $result->num_rows; $i++) {
+        $row = $result->fetch_assoc ();
+        $id2 = $row ['id'];
+        // Store the personal change proposal to be deleted.
+        $deletes [] = $id;
+        // Store the matching change notification to be deleted also.
+        $deletes [] = $id2;
+      }
+    }
+    
+    // Delete all stored identifiers to be deleted.
+    foreach ($deletes as $delete) {
+      $query = "DELETE FROM changes WHERE id = $delete;";
+      $database_instance->runQuery ($query);
+    }
   }
 
 

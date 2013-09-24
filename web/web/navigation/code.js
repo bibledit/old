@@ -65,7 +65,7 @@ function bindClickHandlers () {
 }
 
 
-function navigateBack (event) { // Todo
+function navigateBack (event) {
   event.preventDefault ();
   $.get ("../navigation/update.php?bible=" + navigationBible + "&goback", function (response) {
     navigatorContainer.empty ();
@@ -76,7 +76,7 @@ function navigateBack (event) { // Todo
 }
 
 
-function navigateForward (event) { // Todo
+function navigateForward (event) {
   event.preventDefault ();
   $.get ("../navigation/update.php?bible=" + navigationBible + "&goforward", function (response) {
     navigatorContainer.empty ();

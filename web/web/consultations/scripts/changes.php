@@ -35,12 +35,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 <br>
 <a id="help"></a>
-<p>
-  <?php echo gettext ("This page lists the change notifications.") ?>
-</p>
-<p>
-  <?php echo gettext ("Use the up and down arrow keys to navigate through the entries.") ?>
-</p>
+<p><?php echo gettext ("This page lists the change notifications.") ?></p>
+<p><?php echo gettext ("Use the up and down arrow keys to navigate through the entries.") ?></p>
 <p>
   <?php echo gettext ("Press the delete key to remove the selected entry.") ?>
   <?php echo gettext ("Or click the ✗.") ?>
@@ -82,6 +78,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext ("Bible translation is a collabortive effort.") ?>
   <?php echo gettext ("Changes you enter into the web-based Bible editor may be overwritten by other team members.") ?>
   <?php echo gettext ("The two categories of changes enable you to find out if your change proposal made its way into the team's text.") ?>
+</p>
+<p>
+  <a href="?match"><?php echo gettext ("Automatically remove personal change proposals and their matching change notifications.") ?></a>
 </p>
 <script>
 <?php echo $this->script; ?>
