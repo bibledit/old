@@ -35,6 +35,7 @@ if (isset ($goto)) {
   if ($passage != NULL) {
     $ipc_focus = Ipc_Focus::getInstance();
     $ipc_focus->set ($passage['book'], $passage['chapter'], $passage['verse']);
+    Navigation_Logic::recordHistory ($passage['book'], $passage['chapter'], $passage['verse']);
     header ("Location: ../editusfm/index.php");
     die;
   } else {

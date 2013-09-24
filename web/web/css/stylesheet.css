@@ -138,3 +138,8 @@ textarea {
 .selected {
   background: #FFFFCC;
 }
+
+.grayedout {
+  color: grey;
+}
+

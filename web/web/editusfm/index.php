@@ -35,6 +35,7 @@ if (isset ($switchbook) && isset ($switchchapter)) {
   $switchbook = Filter_Numeric::integer_in_string ($switchbook);
   $switchchapter = Filter_Numeric::integer_in_string ($switchchapter);
   $ipc_focus->set ($switchbook, $switchchapter, $verse);
+  Navigation_Logic::recordHistory ($switchbook, $switchchapter, $verse);
 }
 
 

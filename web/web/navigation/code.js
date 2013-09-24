@@ -65,28 +65,24 @@ function bindClickHandlers () {
 }
 
 
-function navigateBack (event) { // Todo
+function navigateBack (event) {
   event.preventDefault ();
-  return;
-  $.get ("../navigation/update.php?bible=" + navigationBible + "&getbibles", function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&goback", function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
-    $("#selectbibles").on ("click", function (event) {
-      selectBibles (event);
-    });
+    bindClickHandlers ();
+    navigationPollPassage ();
   });  
 }
 
 
-function navigateForward (event) { // Todo
+function navigateForward (event) {
   event.preventDefault ();
-  return;
-  $.get ("../navigation/update.php?bible=" + navigationBible + "&getbibles", function (response) {
+  $.get ("../navigation/update.php?bible=" + navigationBible + "&goforward", function (response) {
     navigatorContainer.empty ();
     navigatorContainer.append (response);
-    $("#selectbibles").on ("click", function (event) {
-      selectBibles (event);
-    });
+    bindClickHandlers ();
+    navigationPollPassage ();
   });  
 }
 

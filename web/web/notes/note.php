@@ -34,6 +34,7 @@ $passages = $database_notes->getPassages ($id);
 if (is_array ($passages)) {
   if (!empty ($passages)) {
     $ipc_focus->set ($passages[0][0], $passages[0][1], $passages[0][2]);
+    Navigation_Logic::recordHistory ($passages[0][0], $passages[0][1], $passages[0][2]);
   }
 }
 

@@ -24,8 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>The tool to clean the consultation notes converts the note summaries to clean text.</p>
 <p>Users can opt for having their personal change proposals visible among the Change Notifications online.</p>
 <p>The logbook shows for which day of the month the sprint history gets updated.</p>
-<p></p>
-<p></p>
+<p>The clickable elements of the Navigator have titles that show up if the mouse hovers over the links.</p>
+<p>The Navigator has a link ↶ for going back in the navigation history, and a link ↷ for going forward.</p>
 <p></p>
 <p></p>
 <p></p>
@@ -66,7 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>There is a tool for checking the consistency of the Bible translation.</p>
 <p>Subscribed users get a daily email detailing the changes they have entered in the web-based Bible editor.</p>
 <p>The caret of the USFM editor scrolls to the center of the browser window.</p>
-<p>A moving vertical yellow arrow points to the position of the caret in the Bible editor.</p>
+<p>A vertically moving yellow arrow points to the position of the caret in the Bible editor.</p>
 <p>Tasks can be defined for a sprint, and moved to another sprint.</p>
 <p>The percentage complete can be set for each task in steps.</p>
 <p>Sends weekly email with the sprint planning and a burndown chart to subscribed users.</p>

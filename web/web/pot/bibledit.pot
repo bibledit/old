@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-21 01:43+0200\n"
+"POT-Creation-Date: 2013-09-24 01:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2988,6 +2988,11 @@ msgid ""
 "service to the the community."
 msgstr ""
 
+msgid ""
+"A disadvantage is that the crawlers of the search engines keep clicking "
+"links, and will disturb data and settings."
+msgstr ""
+
 msgid "Sword module repository"
 msgstr ""
 
@@ -3012,6 +3017,34 @@ msgid ""
 msgstr ""
 
 msgid "Install FTP server on Ubuntu Server."
+msgstr ""
+
+msgid "Several installations on one server"
+msgstr ""
+
+msgid ""
+"It is possible to have several installations of Bibledit-Web on one server. "
+msgstr ""
+
+msgid "This creates installations at the following URL's:"
+msgstr ""
+
+msgid "Everything is completely separated between the installation."
+msgstr ""
+
+msgid "This includes all data and the database."
+msgstr ""
+
+msgid "Every installation has its own independent database."
+msgstr ""
+
+msgid "The --with-location=location option does not take slashes."
+msgstr ""
+
+msgid "For example, --with-location=/location would fail."
+msgstr ""
+
+msgid "And --with-location=path/to/location would fail also."
 msgstr ""
 
 msgid "FTP server"
@@ -3647,10 +3680,22 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
+msgid "Back"
+msgstr ""
+
+msgid "Forward"
+msgstr ""
+
 msgid "Select Bible"
 msgstr ""
 
 msgid "Select book"
+msgstr ""
+
+msgid "Select chapter"
+msgstr ""
+
+msgid "Select verse"
 msgstr ""
 
 msgid "Chapter"
@@ -4091,10 +4136,19 @@ msgstr ""
 msgid "userchanges: Generating lists of changes in the Bibles per user"
 msgstr ""
 
+msgid "You have entered the changes below in the online Bible Editor."
+msgstr ""
+
+msgid "You may check if it made its way into the Bible text."
+msgstr ""
+
 msgid "Changes you entered in"
 msgstr ""
 
 msgid "userchanges: Completed"
+msgstr ""
+
+msgid "Personal change proposal"
 msgstr ""
 
 msgid "Go back to Bible"
@@ -4294,6 +4348,11 @@ msgstr ""
 msgid ""
 "Receive a daily email with the changes made by you in the online Bible text "
 "editor."
+msgstr ""
+
+msgid ""
+"Notifications about changes made by you in the online Bible text editor will "
+"be generated for you online."
 msgstr ""
 
 msgid "Text Checks"
@@ -5580,6 +5639,9 @@ msgstr ""
 msgid "Updating sprint history"
 msgstr ""
 
+msgid "Updating day"
+msgstr ""
+
 msgid "Team's progress in Sprint"
 msgstr ""
 
@@ -6743,6 +6805,9 @@ msgid ""
 "data from this page into an editor, make the changes, and paste the data "
 "back into the textbow below, and then submit it. It will overwrite whatever "
 "was there before."
+msgstr ""
+
+msgid "This is your change proposal."
 msgstr ""
 
 msgid "Old"

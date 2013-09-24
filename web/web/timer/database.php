@@ -116,6 +116,10 @@ $database->optimize();
 $database = Database_Sprint::getInstance ();
 $database->optimize();
 
+$database = Database_Navigation::getInstance ();
+$database->trim ();
+$database->optimize();
+
 $database_logs->log ("database: Completed");
 
 ?>

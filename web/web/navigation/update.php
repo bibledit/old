@@ -30,6 +30,18 @@ page_access_level (CONSULTANT_LEVEL);
 @$bible = $_GET['bible'];
 
 
+@$goback = $_GET['goback'];
+if (isset ($goback)) {
+  Navigation_Logic::goBack ();
+}
+
+
+@$goforward = $_GET['goforward'];
+if (isset ($goforward)) {
+  Navigation_Logic::goForward ();
+}
+
+
 @$getbibles = $_GET['getbibles'];
 if (isset ($getbibles)) {
   echo Navigation_Logic::getBiblesFragment ($bible);

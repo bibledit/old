@@ -18,9 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-/**
-* This contains the focus stuff.
-*/
+// Deals with the passage focus stuff.
 class Ipc_Focus
 {
   private static $instance;
@@ -35,9 +33,7 @@ class Ipc_Focus
   }
 
 
-  /**
-  * Sets the focus.
-  */
+  // Sets the focus.
   function set ($book, $chapter, $verse)
   {
     $session_logic = Session_Logic::getInstance ();
@@ -47,9 +43,7 @@ class Ipc_Focus
   }
 
 
-  /**
-  * Gets the focused book.
-  */
+  // Gets the focused book.
   function getBook ()
   {
     $database_ipc = Database_Ipc::getInstance();
@@ -59,9 +53,7 @@ class Ipc_Focus
   }
 
 
-  /**
-  * Gets the focused chapter.
-  */
+  // Gets the focused chapter.
   function getChapter ()
   {
     $database_ipc = Database_Ipc::getInstance();
@@ -71,9 +63,7 @@ class Ipc_Focus
   }
   
   
-  /**
-  * Gets the focused verse.
-  */
+  // Gets the focused verse.
   function getVerse ()
   {
     $database_ipc = Database_Ipc::getInstance();

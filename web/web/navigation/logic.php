@@ -27,15 +27,31 @@ class Navigation_Logic
     return '<span id="bibleditnavigation"></span>';
   }
   
-  public static function getNavigator ($bible) // Todo
+  public static function getNavigator ($bible)
   {
+    $ipc_focus = Ipc_Focus::getInstance();
+    $database_books = Database_Books::getInstance ();
+    $database_bibles = Database_Bibles::getInstance ();
+    $database_navigation = Database_Navigation::getInstance ();
+    $session_logic = Session_Logic::getInstance ();
+    
+    $user = $session_logic->currentUser ();
+
     $fragment = '';
 
-    // Links to go back and forward. Todo
+    // Links to go back and forward are grayed out or active depending on available passages to go to.
     $fragment .= " ";
-    $fragment .= '<a id="navigateback" href="navigateback" title="' . gettext ("Back") . '">↶</a>';
+    if ($database_navigation->previousExists ($user)) {
+      $fragment .= '<a id="navigateback" href="navigateback" title="' . gettext ("Back") . '">↶</a>';
+    } else {
+      $fragment .= '<span class="grayedout">↶</span>';
+    }
     $fragment .= " ";
-    $fragment .= '<a id="navigateforward" href="navigateforward" title="' . gettext ("Forward") . '">↷</a>';
+    if ($database_navigation->nextExists ($user)) {
+      $fragment .= '<a id="navigateforward" href="navigateforward" title="' . gettext ("Forward") . '">↷</a>';
+    } else {
+      $fragment .= '<span class="grayedout">↷</span>';
+    }
     $fragment .= " ";
     
     if ($bible != "") {
@@ -43,9 +59,6 @@ class Navigation_Logic
       $fragment .= " ";
     }
     
-    $ipc_focus = Ipc_Focus::getInstance();
-    $database_books = Database_Books::getInstance ();
-    $database_bibles = Database_Bibles::getInstance ();
 
     $book = $ipc_focus->getBook ();
 
@@ -190,6 +203,7 @@ class Navigation_Logic
     $book = Filter_Numeric::integer_in_string ($book);
     $ipc_focus = Ipc_Focus::getInstance();
     $ipc_focus->set ($book, 1, 1);
+    Navigation_Logic::recordHistory ($book, 1, 1);
   }
     
   public static function setChapter ($chapter)
@@ -198,6 +212,7 @@ class Navigation_Logic
     $book = $ipc_focus->getBook ();
     $chapter = Filter_Numeric::integer_in_string ($chapter);
     $ipc_focus->set ($book, $chapter, 1);
+    Navigation_Logic::recordHistory ($book, $chapter, 1);
   }
     
   public static function setVerse ($verse)
@@ -207,6 +222,7 @@ class Navigation_Logic
     $chapter = $ipc_focus->getChapter ();
     $verse = Filter_Numeric::integer_in_string ($verse);
     $ipc_focus->set ($book, $chapter, $verse);
+    Navigation_Logic::recordHistory ($book, $chapter, $verse);
   }
   
   public static function getEntry ()
@@ -234,6 +250,8 @@ class Navigation_Logic
     }
     if ($passage[0] != 0) {
       $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
+      Navigation_Logic::recordHistory ($passage [0], $passage [1], $passage [2]);
+
     }
   }
   
@@ -265,6 +283,41 @@ class Navigation_Logic
     }
     $passage = array ($book, $chapter, $verse);
     return $passage;
+  }
+  
+  
+  public static function recordHistory ($book, $chapter, $verse)
+  {
+    $session_logic = Session_Logic::getInstance ();
+    $user = $session_logic->currentUser ();
+    $database_navigation = Database_Navigation::getInstance ();
+    $database_navigation->record (time (), $user, $book, $chapter, $verse);
+  }
+  
+  
+  public static function goBack ()
+  {
+    $database_navigation = Database_Navigation::getInstance ();
+    $session_logic = Session_Logic::getInstance ();
+    $user = $session_logic->currentUser ();
+    $passage = $database_navigation->getPrevious ($user);
+    if ($passage) {
+      $ipc_focus = Ipc_Focus::getInstance();
+      $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
+    }
+  }
+
+
+  public static function goForward ()
+  {
+    $database_navigation = Database_Navigation::getInstance ();
+    $session_logic = Session_Logic::getInstance ();
+    $user = $session_logic->currentUser ();
+    $passage = $database_navigation->getNext ($user);
+    if ($passage) {
+      $ipc_focus = Ipc_Focus::getInstance();
+      $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
+    }
   }
   
   
