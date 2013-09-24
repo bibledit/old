@@ -157,8 +157,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
           $email .= "</div>";
           if ($database_config_user->getUserUserChangesNotificationsOnline ($user)) {
             $changeNotificationUsers = array ($user);
-            $modification_header = $modification . " " . "(" . gettext ("Personal change proposal") . ")" . " ☺";
-            $database_changes->record ($changeNotificationUsers, $bibleID, $book, $chapter, $verse, $old_html, $modification_header, $new_html);
+            $database_changes->record ($changeNotificationUsers, "☺", $bibleID, $book, $chapter, $verse, $old_html, $modification, $new_html); // Todo
           }
         }
       }

@@ -50,9 +50,10 @@ class Database_Changes
   }   
 
 
-  public function record ($users, $bible, $book, $chapter, $verse, $oldtext, $modification, $newtext)
+  public function record ($users, $category, $bible, $book, $chapter, $verse, $oldtext, $modification, $newtext) // Todo
   {
     $bible = Database_SQLInjection::no ($bible);
+    $category = Database_SQLInjection::no ($category);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
     if ($verse == "") $verse = 0;
@@ -67,7 +68,7 @@ class Database_Changes
     $timestamp = time () - 21600;
     foreach ($users as $user) {
       $user = Database_SQLInjection::no ($user);
-      $query = "INSERT INTO changes VALUES (NULL, $timestamp, '$user', $bible, $book, $chapter, $verse, '$oldtext', '$modification', '$newtext');";
+      $query = "INSERT INTO changes VALUES (NULL, $timestamp, '$user', '$category', $bible, $book, $chapter, $verse, '$oldtext', '$modification', '$newtext');";
       $result = $database_instance->runQuery ($query);
     }
   }
@@ -114,6 +115,21 @@ class Database_Changes
       return $timestamp;
     }
     return time ();
+  }
+
+
+  public function getCategory ($id) // Todo
+  {
+    $id = Database_SQLInjection::no ($id);
+    $database_instance = Database_Instance::getInstance();
+    $query = "SELECT category FROM changes WHERE id = $id;";
+    $result = $database_instance->runQuery ($query);
+    for ($i = 0; $i < $result->num_rows; $i++) {
+      $category = $result->fetch_row ();
+      $category = $category [0];
+      return $category;
+    }
+    return NULL;
   }
 
 

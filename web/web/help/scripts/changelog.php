@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>The clickable elements of the Navigator have titles that show up if the mouse hovers over the links.</p>
 <p>The Navigator has a link ↶ for going back in the navigation history, and a link ↷ for going forward.</p>
 <p>The Navigator responds to the Alt-Left arrow key press by going back. Alt-Right goes forward.</p>
-<p></p>
+<p>Personal change proposals are marked with ☺ in the change notifications, and changes in the team's Bible are marked with ♺.</p>
 <p></p>
 <p></p>
 <p></p>

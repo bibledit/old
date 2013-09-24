@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     <a href="expand" id="expand<?php echo $this->ids[$offset] ?>"> ⊞ </a>
     <a href="remove" id="remove<?php echo $this->ids[$offset] ?>"> ✗ </a>
     <?php echo $this->passages[$offset] ?>
-    |
+    <span style="font-family:monospace;font-size:125%;"><?php echo $this->categories[$offset] ?></span>
     <?php echo $this->modifications[$offset] ?>
   </div>
 <?php } ?>
@@ -67,6 +67,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext ("Your colleagues have their own lists.") ?>
   <?php echo gettext ("Any changes in the text of the Bibles will be added to the list the next day.") ?>
   <?php echo gettext ("This works if enabled in your personal notifications.") ?>
+</p>
+<br>
+<p><?php echo gettext ("The change notifications fall into two categories:") ?></p>
+<p>
+  <large>☺</large>
+  <?php echo gettext ("Changes marked with this symbol are your personal change proposals.") ?>
+</p>
+<p>
+  <large>♺</large>
+  <?php echo gettext ("Changes marked with this symbol are changes in the team's Bible text.") ?>
+</p>
+<p>
+  <?php echo gettext ("Bible translation is a collabortive effort.") ?>
+  <?php echo gettext ("Changes you enter into the web-based Bible editor may be overwritten by other team members.") ?>
+  <?php echo gettext ("The two categories of changes enable you to find out if your change proposal made its way into the team's text.") ?>
 </p>
 <script>
 <?php echo $this->script; ?>

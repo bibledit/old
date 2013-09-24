@@ -19,12 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <br>
 <p><?php echo $this->timestamp ?></p>
-<?php if ($this->personal_change_proposal) { ?>
-<p>
-  <?php echo gettext ("This is your change proposal.") ?>
-  <?php echo gettext ("You may check if it made its way into the Bible text.") ?>
-</p>
-<?php } ?>
 <table>
   <tr>
     <td><?php echo gettext ("Old") ?>:</td>

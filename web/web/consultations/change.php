@@ -130,11 +130,6 @@ $view->view->subscriptions = $subscriptions;
 $view->view->assignments = $assignments;
 
 
-// Whether it's a personal change proposal.
-$personal_change_proposal = (strpos ($modification, "☺") !== false);
-$view->view->personal_change_proposal = $personal_change_proposal;
-
-
 // Time stamp.
 $timestamp = $database_changes->getTimeStamp ($id);
 $timestamp = date ('j F Y', $timestamp);

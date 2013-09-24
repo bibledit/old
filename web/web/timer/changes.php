@@ -96,7 +96,7 @@ foreach ($bibles as $bible) {
           $new_text = $filter_text_new->text_text->get ();
           if ($old_text != $new_text) {
             $modification = Filter_Diff::diff ($old_text, $new_text);
-            $database_changes->record ($changeNotificationUsers, $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
+            $database_changes->record ($changeNotificationUsers, "♺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html); // Todo
           }
         }
       }

@@ -74,16 +74,21 @@ $view->view->ids = $ids;
   
 
 $passages = array ();
+$categories = array ();
 $modifications = array ();
 foreach ($ids as $id) {
   $passage = $database_changes->getPassage ($id);
   $passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
   $passageText = Filter_Html::sanitize ($passageText);
   $passages [] = $passageText;
+  $category = $database_changes->getCategory ($id);
+  $category = Filter_Html::sanitize ($category);
+  $categories [] = $category;
   $modification = $database_changes->getModification ($id);
   $modifications [] = $modification;
 }
 $view->view->passages = $passages;
+$view->view->categories = $categories;
 $view->view->modifications = $modifications;
 
 

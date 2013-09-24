@@ -29,3 +29,18 @@ CREATE TABLE IF NOT EXISTS changes (
   newtext text
 ) engine = MyISAM;
 
+DROP PROCEDURE IF EXISTS upgrade_one;
+DELIMITER //
+CREATE PROCEDURE upgrade_one () 
+BEGIN
+  SET @version := (SELECT version FROM version WHERE NAME = 'changes');
+  IF @version IS NULL THEN 
+    ALTER TABLE changes ADD category varchar (256) AFTER username;
+    INSERT INTO version VALUES (NULL, 'changes', 1);
+  END IF;
+END;
+//
+DELIMITER ;
+CALL upgrade_one ();
+DROP PROCEDURE upgrade_one;
+
