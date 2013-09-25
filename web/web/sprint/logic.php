@@ -95,14 +95,16 @@ class Sprint_Logic
     $history = $database_sprint->getHistory ($year, $month);
     $data = array ();
     for ($day = 1; $day <= $days_in_month; $day++) {
-      $data [$day] = "";
-      foreach ($history as $item) {
-        if ($day == $item ['day']) {
-          $tasks = $item ['tasks'];
-          $complete = $item ['complete'];
-          $tasks = $tasks * (100 - $complete) / 100;
-          $tasks = intval ($tasks);
-          $data [$day] = $tasks;
+      if (Filter_Datetime::isBusinessDay ($year, $month, $day)) {
+        $data [$day] = "";
+        foreach ($history as $item) {
+          if ($day == $item ['day']) {
+            $tasks = $item ['tasks'];
+            $complete = $item ['complete'];
+            $tasks = $tasks * (100 - $complete) / 100;
+            $tasks = intval ($tasks);
+            $data [$day] = $tasks;
+          }
         }
       }
     }

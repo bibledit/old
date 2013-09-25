@@ -29,6 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>The Navigator responds to the Alt-Left arrow key press by going back. Alt-Right goes forward.</p>
 <p>Personal change proposals are marked with ☺ in the change notifications, and changes in the team's Bible are marked with ♺.</p>
 <p>Automatically remove personal change proposals and their matching change notifications.</p>
+<p>Updated information about typesetting.</p>
+<p>Some bugs in the styles editor were fixed.</p>
+<p>The sprint burndown chart gives the business days only, so the chart is smoother and more realistic.</p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 <p></p>
 <p></p>

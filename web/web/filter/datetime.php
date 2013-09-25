@@ -79,6 +79,14 @@ class Filter_Datetime
     if ($lastweekday == 6) $lastday--;
     return $lastday;
   }
+  
+  
+  public static function isBusinessDay ($year, $month, $day) // Todo
+  {
+    $time = mktime (0, 0, 0, $month, $day, $year);
+    $weekday = date ("w", $time);
+    return in_array ($weekday, array (1, 2, 3, 4, 5));
+  }
  
   
 }

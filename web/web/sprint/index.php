@@ -107,7 +107,7 @@ if (isset ($complete)) {
 $tasks = $database_sprint->getTasks ($year, $month);
 $titles = array ();
 $percentages = array ();
-foreach ($tasks as $id) {
+foreach ($tasks as &$id) {
   $titles [] = Filter_Html::sanitize ($database_sprint->getTitle ($id));
   $percentages [] = $database_sprint->getComplete ($id);
 }

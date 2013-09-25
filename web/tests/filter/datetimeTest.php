@@ -83,6 +83,20 @@ class filterDatetimeTest extends PHPUnit_Framework_TestCase
     $this->assertEquals (30, Filter_Datetime::getLastBusinessDayOfMonth (2014, 5));
     $this->assertEquals (30, Filter_Datetime::getLastBusinessDayOfMonth (2014, 6));
   }
+  
+  
+  public function testIsBusinessDay ()
+  {
+    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 1));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 2));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 3));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 4));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 5));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 6));
+    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 7));
+    $this->assertFalse (Filter_Datetime::isBusinessDay (2013, 9, 8));
+    $this->assertTrue (Filter_Datetime::isBusinessDay (2013, 9, 30));
+  }
 
 
 
