@@ -22,9 +22,6 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (TRANSLATOR_LEVEL);
 
 
-$header = new Assets_Header (gettext ("Sprint"));
-$header->setBodyOnload ('document.addtask.add.focus();');
-$header->run ();
 $view = new Assets_View (__FILE__);
 
 
@@ -64,11 +61,19 @@ $month = $database_config_user->getSprintMonth ();
 $year = $database_config_user->getSprintYear ();
 
 
+$header = new Assets_Header (gettext ("Sprint"));
+
+
 @$title = $_POST ['add'];
 if (isset ($title)) {
   $database_sprint->storeTask ($year, $month, $title);
   $view->view->success = gettext ("New task added");
+  // Focus the entry for adding tasks only in case a new task was added.
+  $header->setBodyOnload ('document.addtask.add.focus();');
 }
+
+
+$header->run ();
 
 
 @$mail = $_GET ['mail'];
