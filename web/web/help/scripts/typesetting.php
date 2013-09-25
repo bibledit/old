@@ -25,53 +25,66 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext ("At the end of all, you will have a PDF file with part of the Bible, or the whole Bible, typeset, ready for publishing.") ?></p>
 
 <h2><?php echo gettext ("Basic assumptions") ?></h2>
-<p><?php echo gettext ("The Bible is available in USFM code. The USFM code is clean and adheres to the standards.") ?></p>
-<p><?php echo gettext ("You have access to your own copy of Bibledit-Web, or to the Bibledit-Web demo on the internet.") ?></p>
-<p><?php echo gettext ("You have access to a copy of LibreOffice.") ?></p>
+<ul>
+<li><?php echo gettext ("The Bible is available in USFM code.") ?></li>
+<li><?php echo gettext ("The USFM code is clean and adheres to the standards.") ?></li>
+<li><?php echo gettext ("You have access to Bibledit-Web.") ?></li>
+<li><?php echo gettext ("You have OpenOffice, LibreOffice or an equivalent.") ?></li>
+</ul>
 
 <h2><?php echo gettext ("Importing the USFM files") ?></h2>
-<p><?php echo gettext ("This section is about a specific Bible that I prepare for publication. It describes the steps I take to prepare the USFM code for export.") ?></p>
-<p><?php echo gettext ("The Bible is available in USFM files. Each Bible book is stored as one USFM file.") ?></p>
-<p><?php echo gettext ("Create a new Bible in Bibledit-Web through menu Management / Bibles. Give the Bible a name. I call it 'Ndebele'.") ?></p>
-<p><?php echo gettext ("Click the 'Ndebele' Bible.") ?></p>
-<p><?php echo gettext ("Import data into it.") ?></p>
-<p><?php echo gettext ("Choose the option to upload a file.") ?></p>
-<p><?php echo gettext ("You can upload 66 separate files, or you can put all the 66 files into one zipped file, and then upload that zipped file. I chose the second option, as being easier and quicker than the first. Importing took about a minute. The logbook shows the progress.") ?></p>
-<p><?php echo gettext ("Create a new stylesheet in menu Management / Styles. Give it a name. I call it 'Ndebele'.") ?></p>
+<p><?php echo gettext ("This section describes the steps to take to prepare the USFM code for export.") ?></p>
+<p><?php echo gettext ("Each Bible book is stored as one USFM file.") ?></p>
+<ul>
+<li><?php echo gettext ("Create a new Bible in Bibledit-Web through menu Bibles. Give the Bible a name. The example calls it 'Ndebele'.") ?></li>
+<li><?php echo gettext ("Click the 'Ndebele' Bible.") ?></li>
+<li><?php echo gettext ("Import data into it.") ?></li>
+<li><?php echo gettext ("Choose the option to upload a file.") ?></li>
+</ul>
+<p><?php echo gettext ("You can upload 66 separate files, or you can put all the 66 files into one zipped file, and then upload that zipped file. Import takes a while. The logbook shows the progress.") ?></p>
+<ul>
+<li><?php echo gettext ("Create a new stylesheet in menu Styles. Give it a name. The example calls it 'Ndebele'.") ?></li>
+</ul>
 <p><?php echo gettext ("All the data is now in Bibledit-Web. Everthing is ready for export to OpenDocument files.") ?></p>
-<p><?php echo gettext ("The OpenDocument files are used as a starting point for typesetting. Typesetting itself is done in another program.") ?></p>
+<p><?php echo gettext ("The OpenDocument files are used as a starting point for typesetting.") ?></p>
 
 <h2><?php echo gettext ("Hyphenation") ?></h2>
 <p><?php echo gettext ("Some of the word in the OpenDocument files are long. This results in too much space between some words.") ?></p>
 <p><?php echo gettext ("The words need to get hyphens so that part of the word goes on the next line.") ?></p>
 <p><?php echo gettext ("LibreOffice and Adobe InDesign have hyphenation algorithms for many languages. That would solve the problem.") ?></p>
-<p><?php echo gettext ("But the programs do not have a hyphenation algorithm for our language.") ?></p>
+<p><?php echo gettext ("But the programs do not have a hyphenation algorithms for all languages.") ?></p>
 <p><?php echo gettext ("Bibledit-Web has a hyphenater that could assist.") ?></p>
-<p><?php echo gettext ("In Bibledit-Web, go to menu Management / Hyphenation.") ?></p>
-<p><?php echo gettext ("Enter the first set of characters, and the second set, and save it.") ?></p>
-<p><?php echo gettext ("Set the Bible where to take the data from. In this case it is 'Ndebele'.") ?></p>
-<p><?php echo gettext ("Insert the soft hyphens according to the setting. It takes a while to complete.") ?></p>
+<ul>
+<li><?php echo gettext ("In Bibledit-Web, go to menu Hyphenation.") ?></li>
+<li><?php echo gettext ("Enter the first set of characters, and the second set, and save it.") ?></li>
+<li><?php echo gettext ("Set the Bible where to take the data from. In this case it is 'Ndebele'.") ?></li>
+<li><?php echo gettext ("Insert the soft hyphens according to the setting. It takes a while to complete.") ?></li>
+</ul>
 <p><?php echo gettext ("The output Bible is called 'Ndebele-hyphenated'.") ?></p>
 <p><?php echo gettext ("Use this Bible from now on.") ?></p>
 
 <h2><?php echo gettext ("Exporting to OpenDocument files") ?></h2>
 <p><?php echo gettext ("We are going to make the initial export just to see how the text looks.") ?></p>
-<p><?php echo gettext ("In Bibledit-Web, go to menu Management / Exports.") ?></p>
-<p><?php echo gettext ("Add Bible 'Ndebele' to the ones that will be exported.") ?></p>
-<p><?php echo gettext ("Use stylesheet 'Ndebele'.") ?></p>
-<p><?php echo gettext ("Output the chapter number in drop caps. Switch that setting on.") ?></p>
-<p><?php echo gettext ("Set the page size. I use this: width: 138 mm; height: 210 mm.") ?></p>
-<p><?php echo gettext ("Set the margins. I use this: 10 mm for top, bottom, and outer margins, and 12 mm for the inner margins.") ?></p>
-<p><?php echo gettext ("Do not display the date in the running headers. Switch that setting off.") ?></p>
-<p><?php echo gettext ("Do a fresh export.") ?></p>
-<p><?php echo gettext ("The Logbook, in menu Management, shows the progress and when it is ready.") ?></p>
-<p><?php echo gettext ("Go to menu Members / Downloads / Exported Bibles, and choose your Bible there. Then go to the OpenDocument folder.") ?></p>
+<ul>
+<li><?php echo gettext ("In Bibledit-Web, go to menu Exports.") ?></li>
+<li><?php echo gettext ("Add Bible 'Ndebele' to the ones that will be exported.") ?></li>
+<li><?php echo gettext ("Use stylesheet 'Ndebele'.") ?></li>
+<li><?php echo gettext ("Output the chapter number in drop caps. Switch that setting on.") ?></li>
+<li><?php echo gettext ("Set the page size. I use this: width: 138 mm; height: 210 mm.") ?></li>
+<li><?php echo gettext ("Set the margins. I use this: 10 mm for top, bottom, and outer margins, and 12 mm for the inner margins.") ?></li>
+<li><?php echo gettext ("Do not display the date in the running headers. Switch that setting off.") ?></li>
+<li><?php echo gettext ("Do a fresh export.") ?></li>
+</ul>
+<p><?php echo gettext ("The Logbook shows the progress and when it is ready.") ?></p>
+<ul>
+<li><?php echo gettext ("Go to menu Members / Downloads / Exported Bibles, and choose your Bible there. Then go to the OpenDocument folder.") ?></li>
+</ul>
 <p><?php echo gettext ("You will see the Bible exported into several format.") ?></p>
 <p><?php echo gettext ("Open them in LibreOffice and see how they look.") ?></p>
 <br>
-<p><?php echo gettext ("I notice that the Divine name is underlined in the OpenDocument files. The Divine name is within \\nd_...\\nd* markup in USFM. I prefer this in small capitals, not underlined.") ?></p>
+<p><?php echo gettext ("The divine name will be underlined in the OpenDocument files. The divine name is within \\nd_...\\nd* markup in USFM. I prefer this in small capitals, not underlined.") ?></p>
 <p><?php echo gettext ("This can be changed in the stylesheet.") ?></p>
-<p><?php echo gettext ("Go to menu Management / Styles, and choose the 'Ndebele' stylesheet.") ?></p>
+<p><?php echo gettext ("Go to menu Styles, and choose the 'Ndebele' stylesheet.") ?></p>
 <p><?php echo gettext ("Click the 'nd' style.") ?></p>
 <p><?php echo gettext ("Switch 'Underline' off.") ?></p>
 <p><?php echo gettext ("Switch 'Small caps' on.") ?></p>
@@ -104,8 +117,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext ("The letters of the notes and crossreferences are too big.") ?></p>
 <p><?php echo gettext ("Set the fontsize of the styles ft and xt to 6 points.") ?></p>
 <br>
-<p><?php echo gettext ("Parts of the footnotes are in bold or italics or both. I prefer it all in normal script.") ?></p>
-<p><?php echo gettext ("Update the relevant footnote styles and switch bold and italics off. The styles are fk, fl, fq, fqa.") ?></p>
+<p><?php echo gettext ("Parts of the footnotes are in bold or italics or both. You may prefer it all in normal script.") ?></p>
+  <p><?php echo gettext ("Update the relevant footnote styles and switch bold and italics off. The styles are fk, fl, fq, fqa.") ?></p>
 
 <h2><?php echo gettext ("Typesetting guidelines") ?></h2>
 <ol>

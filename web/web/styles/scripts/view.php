@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php } ?>
 
   <?php if ($this->superscript_relevant) { ?>
-  <tr><td><?php echo gettext ("Superscript") ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&superscript={$superscript_toggle}"><?php echo $this->superscript_value ?></a></td></tr>
+  <tr><td><?php echo gettext ("Superscript") ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&superscript=<?php echo $this->superscript_toggle ?>"><?php echo $this->superscript_value ?></a></td></tr>
   <?php } ?>
 
   <?php if ($this->paragraph_treats_relevant) { ?>
@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php } ?>
 
   <?php if ($this->columns_relevant) { ?>
-  <tr><td><?php echo gettext ("Span columns") ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&spancolumns={$spancolumns_toggle}"><?php echo $this->spancolumns ?></a></td></tr>
+  <tr><td><?php echo gettext ("Span columns") ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&spancolumns=<?php echo $this->spancolumns_toggle ?>"><?php echo $this->spancolumns ?></a></td></tr>
   <?php } ?>
 
   <?php if ($this->color_relevant) { ?>
