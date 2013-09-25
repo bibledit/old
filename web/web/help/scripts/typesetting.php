@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext ("Use this Bible from now on.") ?></p>
 
 <h2><?php echo gettext ("Exporting to OpenDocument files") ?></h2>
-<p><?php echo gettext ("We are going to make the initial export just to see how the text looks.") ?></p>
+<p><?php echo gettext ("Make an initial export just to see how the text looks.") ?></p>
 <ul>
 <li><?php echo gettext ("In Bibledit-Web, go to menu Exports.") ?></li>
 <li><?php echo gettext ("Add Bible 'Ndebele' to the ones that will be exported.") ?></li>
@@ -75,36 +75,44 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <li><?php echo gettext ("Do not display the date in the running headers. Switch that setting off.") ?></li>
 <li><?php echo gettext ("Do a fresh export.") ?></li>
 </ul>
-<p><?php echo gettext ("The Logbook shows the progress and when it is ready.") ?></p>
+<p><?php echo gettext ("The Logbook shows the progress. Proceed when it is ready.") ?></p>
 <ul>
-<li><?php echo gettext ("Go to menu Members / Downloads / Exported Bibles, and choose your Bible there. Then go to the OpenDocument folder.") ?></li>
+<li><?php echo gettext ("Go to menu Exports and choose your Bible there. Then go to the OpenDocument folder.") ?></li>
 </ul>
-<p><?php echo gettext ("You will see the Bible exported into several format.") ?></p>
-<p><?php echo gettext ("Open them in LibreOffice and see how they look.") ?></p>
+<p><?php echo gettext ("You will see the Bible exported into several formats.") ?></p>
+<p><?php echo gettext ("Open the books in LibreOffice to see how they look.") ?></p>
 <br>
-<p><?php echo gettext ("The divine name will be underlined in the OpenDocument files. The divine name is within \\nd_...\\nd* markup in USFM. I prefer this in small capitals, not underlined.") ?></p>
+<p><?php echo gettext ("The divine name will be underlined in the OpenDocument files. The divine name is within \\nd_...\\nd* markup in USFM. Some prefer this in small capitals, not underlined.") ?></p>
 <p><?php echo gettext ("This can be changed in the stylesheet.") ?></p>
-<p><?php echo gettext ("Go to menu Styles, and choose the 'Ndebele' stylesheet.") ?></p>
-<p><?php echo gettext ("Click the 'nd' style.") ?></p>
-<p><?php echo gettext ("Switch 'Underline' off.") ?></p>
-<p><?php echo gettext ("Switch 'Small caps' on.") ?></p>
-<p><?php echo gettext ("Do a new export, wait a while, and review the OpenDocument files again.") ?></p>
+<ul>
+<li><?php echo gettext ("Go to menu Styles, and choose the 'Ndebele' stylesheet.") ?></li>
+<li><?php echo gettext ("Click the 'nd' style.") ?></li>
+<li><?php echo gettext ("Switch 'Underline' off.") ?></li>
+<li><?php echo gettext ("Switch 'Small caps' on.") ?></li>
+<li><?php echo gettext ("Do a new export, wait a while, and review the OpenDocument files again.") ?></li>
+</ul>
 <br>
-<p><?php echo gettext ("I notice that the verse numbers are in superscript. The verse numbers are small and difficult to read.") ?></p>
+<p><?php echo gettext ("The verse numbers are in superscript. The verse numbers are small and difficult to read.") ?></p>
 <p><?php echo gettext ("The intended audience prefers the verse numbers in bigger print.") ?></p>
-<p><?php echo gettext ("Go to the relevant stylesheet and choose the 'v' style.") ?></p>
-<p><?php echo gettext ("Switch 'Superscript' off.") ?></p>
-<p><?php echo gettext ("Do a new export and review the OpenDocument files.") ?></p>
+<ul>
+<li><?php echo gettext ("Go to the relevant stylesheet and choose the 'v' style.") ?></li>
+<li><?php echo gettext ("Switch 'Superscript' off.") ?></li>
+<li><?php echo gettext ("Do a new export and review the OpenDocument files.") ?></li>
+</ul>
 <br>
 <p><?php echo gettext ("The text in the OpenDocument files has been divided into paragraphs. New paragraphs start when appropriate in the context. This is how the USFM files have been marked up.") ?></p>
 <p><?php echo gettext ("The people who are going to read this Bible prefer each verse to start a new paragraph.") ?></p>
-<p><?php echo gettext ("Go to the stylesheet, and choose the 'v' style.") ?></p>
-<p><?php echo gettext ("Switch 'Restart paragraph' on.") ?></p>
-<p><?php echo gettext ("Export again.") ?></p>
+<ul>
+<li><?php echo gettext ("Go to the stylesheet, and choose the 'v' style.") ?></li>
+<li><?php echo gettext ("Switch 'Restart paragraph' on.") ?></li>
+<li><?php echo gettext ("Export again.") ?></li>
+</ul>
 <br>
 <p><?php echo gettext ("Since each verse starts a new paragraph, there is no longer any need to indent the first line of that paragraph.") ?></p>
-<p><?php echo gettext ("In the stylesheet, edit the 'p' style.") ?></p>
-<p><?php echo gettext ("Set the 'First line indent' to 0 mm.") ?></p>
+<ul>
+<li><?php echo gettext ("In the stylesheet, edit the 'p' style.") ?></li>
+<li><?php echo gettext ("Set the 'First line indent' to 0 mm.") ?></li>
+</ul>
 <br>
 <p><?php echo gettext ("Some verses are short. Chapters that start with short verses no longer have the chapter number in drop caps in LibreOffice.") ?></p>
 <p><?php echo gettext ("This is because this verse is all on one line, and thus there is no space for drop caps, as these need two lines of text.") ?></p>
