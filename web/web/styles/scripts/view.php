@@ -74,15 +74,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php } ?>
 
   <?php if ($this->userbool1_function != "") { ?>
-  <tr><td><?php echo $this->userbool1_function ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&userbool1={$userbool1_toggle}"><?php echo $this->userbool1_value ?></a></td></tr>
+  <tr><td><?php echo $this->userbool1_function ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&userbool1=<?php echo $this->userbool1_toggle ?>"><?php echo $this->userbool1_value ?></a></td></tr>
   <?php } ?>
 
   <?php if ($this->userbool2_function != "") { ?>
-  <tr><td><?php echo $this->userbool2_function ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&userbool2={$userbool2_toggle}"><?php echo $this->userbool2_value ?></a></td></tr>
+  <tr><td><?php echo $this->userbool2_function ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&userbool2=<?php echo $this->userbool2_toggle ?>"><?php echo $this->userbool2_value ?></a></td></tr>
   <?php } ?>
 
   <?php if ($this->userbool3_function != "") { ?>
-  <tr><td><?php echo $this->userbool3_function ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&userbool3={$userbool3_toggle}"><?php echo $this->userbool3_value ?></a></td></tr>
+  <tr><td><?php echo $this->userbool3_function ?></td><td><a href="view.php?sheet=<?php echo $this->sheet ?>&style=<?php echo $this->style ?>&userbool3=<?php echo $this->userbool3_toggle ?>"><?php echo $this->userbool3_value ?></a></td></tr>
   <?php } ?>
 
   <?php if ($this->userint1_notenumbering) { ?>
