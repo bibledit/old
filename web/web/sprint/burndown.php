@@ -51,6 +51,7 @@ if (($monthday == Filter_Datetime::getLastBusinessDayOfMonth ($year, $month)) &&
 
 
 $database_logs = Database_Logs::getInstance ();
+$database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_users = Database_Users::getInstance ();
 $database_mail = Database_Mail::getInstance ();
@@ -102,6 +103,10 @@ $database_sprint->logHistory ($year, $month, $day, $tasks, $complete);
 
 // Send email if needed.
 if ($email) {
+  $categories = $database_config_general->getSprintTaskCompletionCategories ();
+  $categories = explode ("\n", $categories);
+  $category_count = count ($categories);
+  $category_percentage = intval (100 / $category_count);
   $users = $database_users->getUsers ();
   foreach ($users as $user) {
     if ($database_config_user->getUserSprintProgressNotification ($user)) {
@@ -120,7 +125,7 @@ if ($email) {
         $title = $database_sprint->getTitle ($id);
         $body [] = "<td>" . $title . "</td>";
         $complete = $database_sprint->getComplete ($id);
-        $text = str_repeat ("▓", intval ($complete / 25)) . str_repeat ("▁", 4 - intval ($complete / 25));
+        $text = str_repeat ("▓", intval ($complete / $category_percentage)) . str_repeat ("▁", $category_count - intval ($complete / $category_percentage));
         $body [] = "<td>" . $text . "</td>";
         $body [] = "<td>" . $complete . "%</td>";
         $body [] = "</tr>";
