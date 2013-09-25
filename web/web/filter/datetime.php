@@ -81,7 +81,7 @@ class Filter_Datetime
   }
   
   
-  public static function isBusinessDay ($year, $month, $day) // Todo
+  public static function isBusinessDay ($year, $month, $day)
   {
     $time = mktime (0, 0, 0, $month, $day, $year);
     $weekday = date ("w", $time);

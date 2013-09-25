@@ -28,42 +28,35 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <br>
 <table>
+  <tr>
+    <td></td>
+    <td></td>
+    <?php foreach ($this->categories as $offset => $category) { ?>
+      <td style="text-align:center"><?php echo $category ?></td>
+    <?php } ?>
+  </tr>
 <?php foreach ($this->tasks as $offset => $id) { ?>
   <tr>
     <td><a href="?id=<?php echo $id ?>&moveback="> « </a></td>
     <td><?php echo $this->titles [$offset] ?></td>
-    <td>
-      <a href="?id=<?php echo $id ?>&complete=0">
-        <?php echo ($this->percentages[$offset] >= 0) ? "<mark>" : "" ?> 
-        0 
-        <?php echo ($this->percentages[$offset] >= 0) ? "</mark>" : "" ?>
-      </a>
-      |
-      <a href="?id=<?php echo $id ?>&complete=25"> 
-        <?php echo ($this->percentages[$offset] >= 25) ? "<mark>" : "" ?> 
-        25 
-        <?php echo ($this->percentages[$offset] >= 25) ? "</mark>" : "" ?>
-      </a>
-      |
-      <a href="?id=<?php echo $id ?>&complete=50"> 
-        <?php echo ($this->percentages[$offset] >= 50) ? "<mark>" : "" ?> 
-        50 
-        <?php echo ($this->percentages[$offset] >= 50) ? "</mark>" : "" ?>
-      </a>
-      |
-      <a href="?id=<?php echo $id ?>&complete=75"> 
-        <?php echo ($this->percentages[$offset] >= 75) ? "<mark>" : "" ?> 
-        75 
-        <?php echo ($this->percentages[$offset] >= 75) ? "</mark>" : "" ?>
-      </a>
-      |
-      <a href="?id=<?php echo $id ?>&complete=100"> 
-        <?php echo ($this->percentages[$offset] >= 100) ? "<mark>" : "" ?> 
-        100 
-        <?php echo ($this->percentages[$offset] >= 100) ? "</mark>" : "" ?>
-      </a>
-      %
-    </td>
+    <?php
+    $threshold = intval (100 / count ($this->categories));
+    foreach ($this->categories as $offset2 => $category) {
+      $low = $offset2 * $threshold;
+      $high = ($offset2 + 1) * $threshold;
+      $background = "";
+      if ($this->percentages [$offset] >= $high) {
+        $background = "background-color:yellow;"; 
+      }
+      echo "<td style=\"text-align:center; $background\">";
+      if ($this->percentages [$offset] >= $high) {
+        echo "<a href=\"?id=$id&complete=$low\"> ☑ </a>";
+      } else {
+        echo "<a href=\"?id=$id&complete=$high\"> ☐ </a>";
+      }
+      echo "</td>";
+    }
+    ?>
     <td><a href="?id=<?php echo $id ?>&moveforward="> » </a></td>
   </tr>
 <?php } ?>
@@ -75,6 +68,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 <p><?php echo $this->chart2 ?></p>
 <br>
+<p><a href="?mail="><?php echo gettext ("Mail information to subscribers") ?></a></p>
+<br>
 <form action="" name="addtask" method="post">
   <p>
     <?php echo gettext ("Add task") ?>
@@ -82,7 +77,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     <input type="submit" name="submit" value="<?php echo gettext ("Add") ?>" />
   </p>
 </form>
-<p><a href="?mail="><?php echo gettext ("Mail information to subscribers") ?></a></p>
+<br>
+<form action="" name="categories" method="post">
+  <p>
+    <?php echo gettext ("Enter task completion categories.") ?>
+    <?php echo gettext ("One per line.") ?>
+  </p>
+  <p><textarea name="categories" style="width:100px"><?php echo $this->categorytext ?></textarea></p>  
+  <p><input type="submit" name="save" value="<?php echo gettext ("Save") ?>" /></p>
+</form>
 <br>
 <a id="help"></a>
 <p>

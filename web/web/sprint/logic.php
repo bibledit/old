@@ -118,11 +118,21 @@ class Sprint_Logic
       $lines [] = "<td>$text</td>";
     }
     $lines [] = "</tr>";
+    
+    // Write number of days along the x-axis.
     $lines [] = '<tr>';
     foreach ($data as $day => $tasks) {
       $lines [] = "<td>$day</td>";
     }
     $lines [] = "</tr>";
+
+    // Write "days" below the x-axis.
+    $lines [] = '<tr>';
+    $columncount = count ($data);
+    $text = gettext ("days");
+    $lines [] = "<td colspan=\"$columncount\">$text</td>";
+    $lines [] = "</tr>";
+
     $lines [] = "</table>";
     
     $chart = implode ("\n", $lines);

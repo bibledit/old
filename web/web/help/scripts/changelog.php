@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Updated information about typesetting.</p>
 <p>Some bugs in the styles editor were fixed.</p>
 <p>The sprint burndown chart gives the business days only, so the chart is smoother and more realistic.</p>
-<p></p>
+<p>The Spint page uses completion categories for the tasks instead of percentages.</p>
 <p></p>
 <p></p>
 <p></p>

@@ -28,6 +28,7 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
+$database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
 $database_sprint = Database_Sprint::getInstance ();
 
@@ -104,6 +105,21 @@ if (isset ($complete)) {
 }
 
 
+@$categories = $_POST ['categories'];
+if (isset ($categories)) {
+  $categories2 = array ();
+  $categories = trim ($categories);
+  $categories = explode ("\n", $categories);
+  foreach ($categories as $category) {
+    $category = trim ($category);
+    if ($category != "") $categories2 [] = $category;
+  }
+  $categories = implode ("\n", $categories2);
+  $database_config_general->setSprintTaskCompletionCategories ($categories);
+}
+
+
+
 $tasks = $database_sprint->getTasks ($year, $month);
 $titles = array ();
 $percentages = array ();
@@ -121,6 +137,13 @@ $view->view->percentages = $percentages;
 //  $view->view->chart = base64_encode (Sprint_Logic::createGraphicalBurndownChart ($year, $month));
 //}
 $view->view->chart2 = Sprint_Logic::createTextBasedBurndownChart ($year, $month);
+
+
+$categorytext = $database_config_general->getSprintTaskCompletionCategories ();
+$view->view->categorytext = $categorytext;
+$categories = explode ("\n", $categorytext);
+$view->view->categories = $categories;
+
 
 $view->render ("index.php");
 Assets_Page::footer ();

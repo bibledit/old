@@ -452,6 +452,13 @@ class Database_Config_General
     $this->setValue ("repeat-send-receive", $value);
   }
 
+  public function getSprintTaskCompletionCategories () {
+    return $this->getValue ("sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");
+  }
+  public function setSprintTaskCompletionCategories ($value) {
+    $this->setValue ("sprint-task-completion-categories", $value);
+  }
+
 }
 
 
