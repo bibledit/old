@@ -40,10 +40,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     <td><a href="?id=<?php echo $id ?>&moveback="> « </a></td>
     <td><?php echo $this->titles [$offset] ?></td>
     <?php
-    $threshold = intval (100 / count ($this->categories));
+    $category_count = count ($this->categories);
+    $category_percentage = 100 / $category_count;
     foreach ($this->categories as $offset2 => $category) {
-      $low = $offset2 * $threshold;
-      $high = ($offset2 + 1) * $threshold;
+      $low = intval ($offset2 * $category_percentage);
+      $high = intval (($offset2 + 1) * $category_percentage);
       $background = "";
       if ($this->percentages [$offset] >= $high) {
         $background = "background-color:yellow;"; 

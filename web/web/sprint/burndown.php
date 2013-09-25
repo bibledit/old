@@ -127,7 +127,6 @@ if ($email) {
         $complete = $database_sprint->getComplete ($id);
         $text = str_repeat ("▓", intval ($complete / $category_percentage)) . str_repeat ("▁", $category_count - intval ($complete / $category_percentage));
         $body [] = "<td>" . $text . "</td>";
-        $body [] = "<td>" . $complete . "%</td>";
         $body [] = "</tr>";
       }
       $body [] = "</table>";

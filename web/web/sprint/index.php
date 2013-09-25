@@ -105,7 +105,6 @@ if (isset ($moveforward)) {
 @$complete = $_GET ['complete'];
 if (isset ($complete)) {
   $complete = Filter_Numeric::integer_in_string ($complete);
-  $complete = in_array ($complete, array (0, 25, 50, 75, 100)) ? $complete : 50;
   $database_sprint->updateComplete ($id, $complete);
 }
 
