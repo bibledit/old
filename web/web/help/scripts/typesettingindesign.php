@@ -17,33 +17,36 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext ("Typesetting in Adobe InDesign") ?></h1>
+<h1><?php echo gettext ("Typesetting in Adobe InDesign CS5.5") ?></h1>
 
 <h2><?php echo gettext ("Introduction") ?></h2>
-<p><?php echo gettext ("See the online help about typesetting for more information about some general principles.") ?></p>
-<p><?php echo gettext ("I use LibreOffice and Adobe InDesign.") ?></p>
+<p><?php echo gettext ("See the online help about typesetting for more information and general principles.") ?></p>
 
 <h2><?php echo gettext ("Chapter numbers in drop caps") ?></h2>
 <p><?php echo gettext ("Bibledit-Web normally exports chapter numbers in bigger font in a text frame.") ?></p>
 <p><?php echo gettext ("In InDesign it is helpful to have these in drop caps.") ?></p>
-<p><?php echo gettext ("Go to Bibledit-Web, menu Management / Export.") ?></p>
-<p><?php echo gettext ("There is a setting for using frames in the drop caps. Switch it off.") ?></p>
-<p><?php echo gettext ("Do a fresh export.") ?></p>
+<ul>
+<li><?php echo gettext ("Go to Bibledit-Web, menu Export.") ?></li>
+<li><?php echo gettext ("There is a setting for using frames in the drop caps. Switch it off.") ?></li>
+<li><?php echo gettext ("Do a fresh export.") ?></li>
+</ul>
 
 <h2><?php echo gettext ("Creating a new document") ?></h2>
 <p><?php echo gettext ("Typesetting in InDesign starts with creating a new document.") ?></p>
-<p><?php echo gettext ("Choose menu File / New / Document, or press Ctrl-N.") ?></p>
-<p><?php echo gettext ("In the New Document dialog, make some settings.") ?></p>
-<p><?php echo gettext ("Facing Pages: on.") ?></p>
-<p><?php echo gettext ("Page width: 138 mm.") ?></p>
-<p><?php echo gettext ("Page height: 210 mm.") ?></p>
-<p><?php echo gettext ("Number of columns: 2.") ?></p>
-<p><?php echo gettext ("Gutter: 4.2 mm.") ?></p>
-<p><?php echo gettext ("Top, Bottom and Outside margins: 10 mm.") ?></p>
-<p><?php echo gettext ("Untick the option to set all margins the same.") ?></p>
-<p><?php echo gettext ("Inside margin: 12 mm.") ?></p>
-<p><?php echo gettext ("Click Save Preset, and save the settings as 'Ndebele'. Next time, use this preset to quickly make another new document with the same settings as this one.") ?></p>
-<p><?php echo gettext ("Click OK to create the new document.") ?></p>
+<ul>
+<li><?php echo gettext ("Choose menu File / New / Document, or press Ctrl-N.") ?></li>
+<li><?php echo gettext ("In the New Document dialog, make some settings.") ?></li>
+<li><?php echo gettext ("Facing Pages: on.") ?></li>
+<li><?php echo gettext ("Page width: 138 mm.") ?></li>
+<li><?php echo gettext ("Page height: 210 mm.") ?></li>
+<li><?php echo gettext ("Number of columns: 2.") ?></li>
+<li><?php echo gettext ("Gutter: 4.2 mm.") ?></li>
+<li><?php echo gettext ("Top, Bottom and Outside margins: 10 mm.") ?></li>
+<li><?php echo gettext ("Untick the option to set all margins the same.") ?></li>
+<li><?php echo gettext ("Inside margin: 12 mm.") ?></li>
+<li><?php echo gettext ("Click Save Preset, and save the settings as 'Ndebele'. Next time, use this preset to quickly make another new document with the same settings as this one.") ?></li>
+<li><?php echo gettext ("Click OK to create the new document.") ?></li>
+</ul>
 
 <h2><?php echo gettext ("Setting up the baseline grid") ?></h2>
 <p><?php echo gettext ("All our text will stick to the baseline grid.") ?></p>
