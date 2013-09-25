@@ -94,10 +94,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h2><?php echo gettext ("Change Notifications") ?></h2>
 
 <p>
+<a href="?userchangesnotificationstoggle=">
+<?php if ($this->user_changes_notifications == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
+</a>
+<?php echo gettext ("Receive a daily email with the changes made by you in the online Bible text editor.") ?>
+</p>
+
+<p>
 <a href="?biblechangesnotificationtoggle=">
 <?php if ($this->bible_changes_notification == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
 </a>
-<?php echo gettext ("Receive a daily email with the changes in the text of the Bibles.") ?>
+<?php echo gettext ("Receive a daily email with the changes accepted into the team's text of the Bibles.") ?>
 </p>
 
 <p>
@@ -108,24 +115,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 
 <p>
-<a href="?pendingchangenotificationstoggle=">
-<?php if ($this->pending_changes_notifications == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
-</a>
-<?php echo gettext ("Receive a daily email with the number of online change notifications awaiting your approval.") ?>
-</p>
-
-<p>
-<a href="?userchangesnotificationstoggle=">
-<?php if ($this->user_changes_notifications == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
-</a>
-<?php echo gettext ("Receive a daily email with the changes made by you in the online Bible text editor.") ?>
-</p>
-
-<p>
 <a href="?userchangenotificationsonlinetoggle=">
 <?php if ($this->user_changes_notifications_online == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
 </a>
 <a href="../consultations/changes.php"><?php echo gettext ("Notifications about changes made by you in the online Bible text editor will be generated for you online.") ?></a>
+</p>
+
+<p>
+<a href="?pendingchangenotificationstoggle=">
+<?php if ($this->pending_changes_notifications == true) { ?> ☑ <?php } else { ?> ☐ <?php } ?>
+</a>
+<?php echo gettext ("Receive a daily email with the number of online change notifications awaiting your attention.") ?>
 </p>
 
 <h2><?php echo gettext ("Text Checks") ?></h2>

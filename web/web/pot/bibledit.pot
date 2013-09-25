@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-24 01:42+0200\n"
+"POT-Creation-Date: 2013-09-25 01:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3424,6 +3424,27 @@ msgstr ""
 msgid "Press Escape to cancel any navigation operation."
 msgstr ""
 
+msgid "The Navigator shows two arrows:"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "goes back in the navigation history."
+msgstr ""
+
+msgid "goes forward in the navigation history."
+msgstr ""
+
+msgid "Two keyboard shortcuts work the same."
+msgstr ""
+
+msgid "Go back."
+msgstr ""
+
+msgid "Go forward."
+msgstr ""
+
 msgid "Typesetting in LibreOffice"
 msgstr ""
 
@@ -4146,9 +4167,6 @@ msgid "Changes you entered in"
 msgstr ""
 
 msgid "userchanges: Completed"
-msgstr ""
-
-msgid "Personal change proposal"
 msgstr ""
 
 msgid "Go back to Bible"
@@ -6807,9 +6825,6 @@ msgid ""
 "was there before."
 msgstr ""
 
-msgid "This is your change proposal."
-msgstr ""
-
 msgid "Old"
 msgstr ""
 
@@ -6883,6 +6898,33 @@ msgid ""
 msgstr ""
 
 msgid "This works if enabled in your personal notifications."
+msgstr ""
+
+msgid "The change notifications fall into two categories:"
+msgstr ""
+
+msgid "Changes marked with this symbol are your personal change proposals."
+msgstr ""
+
+msgid "Changes marked with this symbol are changes in the team's Bible text."
+msgstr ""
+
+msgid "Bible translation is a collabortive effort."
+msgstr ""
+
+msgid ""
+"Changes you enter into the web-based Bible editor may be overwritten by "
+"other team members."
+msgstr ""
+
+msgid ""
+"The two categories of changes enable you to find out if your change proposal "
+"made its way into the team's text."
+msgstr ""
+
+msgid ""
+"Automatically remove personal change proposals and their matching change "
+"notifications."
 msgstr ""
 
 msgid "Loading ..."

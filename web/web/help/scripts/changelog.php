@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>The Navigator has a link ↶ for going back in the navigation history, and a link ↷ for going forward.</p>
 <p>The Navigator responds to the Alt-Left arrow key press by going back. Alt-Right goes forward.</p>
 <p>Personal change proposals are marked with ☺ in the change notifications, and changes in the team's Bible are marked with ♺.</p>
-<p></p>
+<p>Automatically remove personal change proposals and their matching change notifications.</p>
 <p></p>
 <p></p>
 <p></p>
