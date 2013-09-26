@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-25 01:44+0200\n"
+"POT-Creation-Date: 2013-09-26 03:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1568,35 +1568,31 @@ msgstr ""
 msgid "Basic assumptions"
 msgstr ""
 
-msgid ""
-"The Bible is available in USFM code. The USFM code is clean and adheres to "
-"the standards."
+msgid "The Bible is available in USFM code."
 msgstr ""
 
-msgid ""
-"You have access to your own copy of Bibledit-Web, or to the Bibledit-Web "
-"demo on the internet."
+msgid "The USFM code is clean and adheres to the standards."
 msgstr ""
 
-msgid "You have access to a copy of LibreOffice."
+msgid "You have access to Bibledit-Web."
+msgstr ""
+
+msgid "You have OpenOffice, LibreOffice or an equivalent."
 msgstr ""
 
 msgid "Importing the USFM files"
 msgstr ""
 
 msgid ""
-"This section is about a specific Bible that I prepare for publication. It "
-"describes the steps I take to prepare the USFM code for export."
+"This section describes the steps to take to prepare the USFM code for export."
+msgstr ""
+
+msgid "Each Bible book is stored as one USFM file."
 msgstr ""
 
 msgid ""
-"The Bible is available in USFM files. Each Bible book is stored as one USFM "
-"file."
-msgstr ""
-
-msgid ""
-"Create a new Bible in Bibledit-Web through menu Management / Bibles. Give "
-"the Bible a name. I call it 'Ndebele'."
+"Create a new Bible in Bibledit-Web through menu Bibles. Give the Bible a "
+"name. The example calls it 'Ndebele'."
 msgstr ""
 
 msgid "Click the 'Ndebele' Bible."
@@ -1610,14 +1606,13 @@ msgstr ""
 
 msgid ""
 "You can upload 66 separate files, or you can put all the 66 files into one "
-"zipped file, and then upload that zipped file. I chose the second option, as "
-"being easier and quicker than the first. Importing took about a minute. The "
+"zipped file, and then upload that zipped file. Import takes a while. The "
 "logbook shows the progress."
 msgstr ""
 
 msgid ""
-"Create a new stylesheet in menu Management / Styles. Give it a name. I call "
-"it 'Ndebele'."
+"Create a new stylesheet in menu Styles. Give it a name. The example calls it "
+"'Ndebele'."
 msgstr ""
 
 msgid ""
@@ -1625,9 +1620,7 @@ msgid ""
 "OpenDocument files."
 msgstr ""
 
-msgid ""
-"The OpenDocument files are used as a starting point for typesetting. "
-"Typesetting itself is done in another program."
+msgid "The OpenDocument files are used as a starting point for typesetting."
 msgstr ""
 
 msgid ""
@@ -1644,13 +1637,14 @@ msgid ""
 "languages. That would solve the problem."
 msgstr ""
 
-msgid "But the programs do not have a hyphenation algorithm for our language."
+msgid ""
+"But the programs do not have a hyphenation algorithms for all languages."
 msgstr ""
 
 msgid "Bibledit-Web has a hyphenater that could assist."
 msgstr ""
 
-msgid "In Bibledit-Web, go to menu Management / Hyphenation."
+msgid "In Bibledit-Web, go to menu Hyphenation."
 msgstr ""
 
 msgid "Enter the first set of characters, and the second set, and save it."
@@ -1674,10 +1668,10 @@ msgstr ""
 msgid "Exporting to OpenDocument files"
 msgstr ""
 
-msgid "We are going to make the initial export just to see how the text looks."
+msgid "Make an initial export just to see how the text looks."
 msgstr ""
 
-msgid "In Bibledit-Web, go to menu Management / Exports."
+msgid "In Bibledit-Web, go to menu Exports."
 msgstr ""
 
 msgid "Add Bible 'Ndebele' to the ones that will be exported."
@@ -1704,31 +1698,30 @@ msgstr ""
 msgid "Do a fresh export."
 msgstr ""
 
-msgid ""
-"The Logbook, in menu Management, shows the progress and when it is ready."
+msgid "The Logbook shows the progress. Proceed when it is ready."
 msgstr ""
 
 msgid ""
-"Go to menu Members / Downloads / Exported Bibles, and choose your Bible "
-"there. Then go to the OpenDocument folder."
+"Go to menu Exports and choose your Bible there. Then go to the OpenDocument "
+"folder."
 msgstr ""
 
-msgid "You will see the Bible exported into several format."
+msgid "You will see the Bible exported into several formats."
 msgstr ""
 
-msgid "Open them in LibreOffice and see how they look."
+msgid "Open the books in LibreOffice to see how they look."
 msgstr ""
 
 msgid ""
-"I notice that the Divine name is underlined in the OpenDocument files. The "
-"Divine name is within \\nd_...\\nd* markup in USFM. I prefer this in small "
+"The divine name will be underlined in the OpenDocument files. The divine "
+"name is within \\nd_...\\nd* markup in USFM. Some prefer this in small "
 "capitals, not underlined."
 msgstr ""
 
 msgid "This can be changed in the stylesheet."
 msgstr ""
 
-msgid "Go to menu Management / Styles, and choose the 'Ndebele' stylesheet."
+msgid "Go to menu Styles, and choose the 'Ndebele' stylesheet."
 msgstr ""
 
 msgid "Click the 'nd' style."
@@ -1744,8 +1737,8 @@ msgid "Do a new export, wait a while, and review the OpenDocument files again."
 msgstr ""
 
 msgid ""
-"I notice that the verse numbers are in superscript. The verse numbers are "
-"small and difficult to read."
+"The verse numbers are in superscript. The verse numbers are small and "
+"difficult to read."
 msgstr ""
 
 msgid "The intended audience prefers the verse numbers in bigger print."
@@ -1826,8 +1819,8 @@ msgid "Set the fontsize of the styles ft and xt to 6 points."
 msgstr ""
 
 msgid ""
-"Parts of the footnotes are in bold or italics or both. I prefer it all in "
-"normal script."
+"Parts of the footnotes are in bold or italics or both. You may prefer it all "
+"in normal script."
 msgstr ""
 
 msgid ""
@@ -2057,15 +2050,12 @@ msgstr ""
 msgid "Developing capable people who can develop the desired conditions."
 msgstr ""
 
-msgid "Typesetting in Adobe InDesign"
+msgid "Typesetting in Adobe InDesign CS5.5"
 msgstr ""
 
 msgid ""
-"See the online help about typesetting for more information about some "
-"general principles."
-msgstr ""
-
-msgid "I use LibreOffice and Adobe InDesign."
+"See the online help about typesetting for more information and general "
+"principles."
 msgstr ""
 
 msgid "Chapter numbers in drop caps"
@@ -2078,7 +2068,7 @@ msgstr ""
 msgid "In InDesign it is helpful to have these in drop caps."
 msgstr ""
 
-msgid "Go to Bibledit-Web, menu Management / Export."
+msgid "Go to Bibledit-Web, menu Export."
 msgstr ""
 
 msgid "There is a setting for using frames in the drop caps. Switch it off."
@@ -3448,6 +3438,14 @@ msgstr ""
 msgid "Typesetting in LibreOffice"
 msgstr ""
 
+msgid ""
+"See the online help about typesetting for more information about some "
+"general principles."
+msgstr ""
+
+msgid "You have access to a copy of LibreOffice."
+msgstr ""
+
 msgid "Page count"
 msgstr ""
 
@@ -4350,7 +4348,14 @@ msgstr ""
 msgid "Change Notifications"
 msgstr ""
 
-msgid "Receive a daily email with the changes in the text of the Bibles."
+msgid ""
+"Receive a daily email with the changes made by you in the online Bible text "
+"editor."
+msgstr ""
+
+msgid ""
+"Receive a daily email with the changes accepted into the team's text of the "
+"Bibles."
 msgstr ""
 
 msgid ""
@@ -4359,18 +4364,13 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Receive a daily email with the number of online change notifications "
-"awaiting your approval."
-msgstr ""
-
-msgid ""
-"Receive a daily email with the changes made by you in the online Bible text "
-"editor."
-msgstr ""
-
-msgid ""
 "Notifications about changes made by you in the online Bible text editor will "
 "be generated for you online."
+msgstr ""
+
+msgid ""
+"Receive a daily email with the number of online change notifications "
+"awaiting your attention."
 msgstr ""
 
 msgid "Text Checks"
@@ -5630,6 +5630,9 @@ msgstr ""
 msgid "See the Logbook for details."
 msgstr ""
 
+msgid "days"
+msgstr ""
+
 msgid "New task added"
 msgstr ""
 
@@ -5645,13 +5648,16 @@ msgstr ""
 msgid "Sprint Burndown Chart - Remaining Tasks"
 msgstr ""
 
+msgid "Mail information to subscribers"
+msgstr ""
+
 msgid "Add task"
 msgstr ""
 
 msgid "Add"
 msgstr ""
 
-msgid "Mail information to subscribers"
+msgid "Enter task completion categories."
 msgstr ""
 
 msgid "Updating sprint history"

@@ -57,11 +57,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
   <?php echo gettext ("The web page will mark the translations in the verse text.") ?>
 </p>
-<p>
-  <?php echo gettext ("") ?>
-  <?php echo gettext ("") ?>
-</p>
-
 <p><?php echo gettext ("Add text from the following Bibles or USFM Resources as extra aids for comparison") ?>:
 <?php foreach ($this->bibles as $bible) { ?>
   <?php echo $bible ?>

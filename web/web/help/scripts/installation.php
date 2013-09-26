@@ -73,6 +73,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext ("For example, --with-location=/location would fail.") ?> 
   <?php echo gettext ("And --with-location=path/to/location would fail also.") ?> 
 </p>
-<p>
-  <?php echo gettext ("") ?> 
-</p>
