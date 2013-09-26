@@ -144,9 +144,6 @@ foreach ($bibles as $bible) {
   $html_text_rich_bible_index->newParagraph ("navigationbar");
   $html_text_rich_bible_index->addText (" |");
 
-  // The filename for the entire Bible in basic USFM.
-  $basicUsfmBibleFilename = $usfmDirectoryBasic . "/00_Bible.usfm";
-
   // Go through the Bible books.
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
@@ -178,7 +175,6 @@ foreach ($bibles as $bible) {
     
     // Basic USFM.
     $basicUsfm = "\\id " . $database_books->getUsfmFromId ($book) . "\n";
-    file_put_contents ($basicUsfmBibleFilename, $basicUsfm, FILE_APPEND);
     $basicUsfmBookFilename = sprintf ("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book) . ".usfm";
     file_put_contents ("$usfmDirectoryBasic/$basicUsfmBookFilename", $basicUsfm, FILE_APPEND);
     file_put_contents ("$usfmTemporalFolderBasic/$basicUsfmBookFilename", $basicUsfm, FILE_APPEND);
@@ -296,24 +292,12 @@ foreach ($bibles as $bible) {
   // Continue with the conversion of the entire Bible. 
 
 
-  // Save the USFM code for the whole Bible.
-  // Go through the Bible books and chapters.
-  // Add the chapter's USFM code to the exporter filter for the whole Bible.
-  // Use small chunks of USFM at a time for much better performance.
-  $database_logs->log ("exports: Save entire Bible to USFM");
-  $bibleUsfmData = "";
-  $books = $database_bibles->getBooks ($bible);
-  foreach ($books as $book) {
-    $chapters = $database_bibles->getChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
-      $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
-      $chapter_data = trim ($chapter_data);
-      $bibleUsfmData .= $chapter_data;
-      $bibleUsfmData .= "\n";
-    }
-  }
-  file_put_contents ("$usfmDirectoryFull/00_Bible.usfm", $bibleUsfmData);
-  unset ($bibleUsfmData);
+  // Compress USFM files into zip file. Todo
+  $database_logs->log ("exports: Create archive with entire Bible in USFM");
+  $zipfile = Filter_Archive::zip ($usfmDirectoryFull);
+  rename ($zipfile, "$usfmDirectoryFull/00_Bible.zip");
+  $zipfile = Filter_Archive::zip ($usfmDirectoryBasic);
+  rename ($zipfile, "$usfmDirectoryBasic/00_Bible.zip");
 
 
   // Save Bible to the plain Web format.
