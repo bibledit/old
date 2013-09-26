@@ -70,3 +70,22 @@ DELIMITER ;
 CALL upgrade_one ();
 DROP PROCEDURE upgrade_one;
 
+
+DROP PROCEDURE IF EXISTS upgrade_two;
+DELIMITER //
+CREATE PROCEDURE upgrade_two () 
+BEGIN
+  SET @version := (SELECT version FROM version WHERE NAME = 'bible');
+  IF @version = 1 THEN 
+    ALTER TABLE bible_data ADD INDEX bible (bible);
+    ALTER TABLE bible_data ADD INDEX book (book);
+    ALTER TABLE bible_data ADD INDEX chapter (chapter);
+    UPDATE version SET version = 2 WHERE name = 'bible';
+  END IF;
+END;
+//
+DELIMITER ;
+CALL upgrade_two ();
+DROP PROCEDURE upgrade_two;
+
+

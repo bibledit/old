@@ -261,7 +261,7 @@ class Database_Bibles
     // Read the books from the database.
     $database_instance = Database_Instance::getInstance();
     $bible = $this->getID ($bible);
-    $query = "SELECT DISTINCT book FROM bible_data WHERE bible = $bible;";
+    $query = "SELECT DISTINCT book FROM bible_data WHERE bible = $bible;"; // Todo optimize?
     $result = $database_instance->runQuery ($query);
     $books = array ();
     for ($i = 0; $i < $result->num_rows; $i++) {
@@ -302,7 +302,7 @@ class Database_Bibles
     $database_instance = Database_Instance::getInstance();
     $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
-    $query = "SELECT DISTINCT chapter FROM bible_data WHERE bible = $bible AND book = $book ORDER BY chapter ASC;";
+    $query = "SELECT DISTINCT chapter FROM bible_data WHERE bible = $bible AND book = $book ORDER BY chapter ASC;"; // Todo optimize?
     $result = $database_instance->runQuery ($query);
     $chapters = array ();
     for ($i = 0; $i < $result->num_rows; $i++) {
@@ -336,7 +336,7 @@ class Database_Bibles
     if (!is_numeric ($bible)) $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
-    $query = "SELECT data FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $query = "SELECT data FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;"; // Todo optimize?
     $result = $database_instance->runQuery ($query);
     if ($result->num_rows > 0) {
       $row = $result->fetch_row();
@@ -356,7 +356,7 @@ class Database_Bibles
     if (!is_numeric ($bible)) $bible = $this->getID ($bible);
     $book = Database_SQLInjection::no ($book);
     $chapter = Database_SQLInjection::no ($chapter);
-    $query = "SELECT id FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;";
+    $query = "SELECT id FROM bible_data WHERE bible = $bible AND book = $book AND chapter = $chapter;"; // Todo optimize?
     $result = $database_instance->runQuery ($query);
     if ($result->num_rows > 0) {
       $row = $result->fetch_row();
@@ -551,7 +551,7 @@ class Database_Bibles
   * If $limit is non-NULL, it indicates the starting limit for the selection.
   * $search: Contains the text to search for.
   */
-  public function searchText ($search, $limit = NULL)
+  public function searchText ($search, $limit = NULL) // Todo optimize?
   {
     $ids = array ();
 
@@ -599,9 +599,9 @@ class Database_Bibles
   
   
   /*
-   * Returns an array with the bible, book and chapter of arecord $id.
+   * Returns an array with the bible, book and chapter of a record $id.
    */
-  public function getBibleBookChapter ($id)
+  public function getBibleBookChapter ($id) // Todo optimize?
   {
     $database_instance = Database_Instance::getInstance();
     $id = Database_SQLInjection::no ($id);
@@ -611,7 +611,7 @@ class Database_Bibles
   }
 
 
-  public function getSearchField ($id)
+  public function getSearchField ($id) // Todo optimize?
   {
     $database_instance = Database_Instance::getInstance();
     $id = Database_SQLInjection::no ($id);
@@ -623,7 +623,6 @@ class Database_Bibles
 
 
 }
-
 
 
 ?>
