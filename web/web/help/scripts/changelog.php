@@ -36,6 +36,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>The Sprint page focuses the entry for adding new tasks only when a new task has just been added.</p>
 <p>Export to e-Sword now also works with Bibles that have spaces in their names.</p>
 <p>Compressed the USFM files to a zip file during export.</p>
+<p>Fix: Uploading a zipped file with USFM files imports the USFM files.</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>
 <p></p>
 
