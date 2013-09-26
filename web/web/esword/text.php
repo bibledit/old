@@ -116,6 +116,7 @@ class Esword_Text
     $sql = implode ("\n", $this->sql);
     file_put_contents ($sqlfile, $sql);
     $database_logs = Database_Logs::getInstance ();
+    $filename = escapeshellarg ($filename);
     $command = "sqlite3 $filename < $sqlfile 2>&1";
     exec ($command, $output, $exit_code);
     $database_logs->log ($command);

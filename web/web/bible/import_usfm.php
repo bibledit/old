@@ -68,7 +68,6 @@ if (isset($_POST['upload'])) {
   // Upload may take long if file is big or network is slow.
   ignore_user_abort (true);
   set_time_limit (0);
-
   $datafile = tempnam (sys_get_temp_dir(), '');
   unlink ($datafile);
   @$datafile .= $_FILES['data']['name'];

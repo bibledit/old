@@ -16,7 +16,7 @@
 
 
 AC_PREREQ(2.64)
-AC_INIT([bibledit-web],[1.1.04],[http://bibledit.org])
+AC_INIT([bibledit-web],[1.1.05],[http://bibledit.org])
 AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr

@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>The sprint burndown chart gives the business days only, so the chart is smoother and more realistic.</p>
 <p>The Spint page uses completion categories for the tasks instead of percentages.</p>
 <p>The Sprint page focuses the entry for adding new tasks only when a new task has just been added.</p>
-<p></p>
+<p>Export to e-Sword now also works with Bibles that have spaces in their names.</p>
 <p></p>
 <p></p>
 <p></p>
