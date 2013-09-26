@@ -17,10 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+
 require_once ("../bootstrap/bootstrap.php");
+
 
 $database_logs = Database_Logs::getInstance ();
 $database_logs->log (gettext ("Import Bible data has started"), true);
+
 
 // Security: Page only runs from the cli SAPI.
 if (php_sapi_name () != "cli") {
@@ -28,18 +31,25 @@ if (php_sapi_name () != "cli") {
   die;
 }
 
+
 ignore_user_abort (true);
 set_time_limit (0);
 
+
 $location = $argv[1];
 $bible = $argv[2];
+
+
 $database_logs->log ("Importing from location $location into Bible $bible" , true);
 
-$folder = Filter_Archive::uncompress ($file, true);
+
+$folder = Filter_Archive::uncompress ($location, true);
 if ($folder != NULL) $location = $folder;
 unset ($folder);
 
+
 $files = array ();
+
 
 if (is_dir ($location)) {
   $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($location));
@@ -52,8 +62,10 @@ if (is_dir ($location)) {
   $files [] = $location;
 }
 
+
 $database_config_user = Database_Config_User::getInstance();
 $stylesheet = $database_config_user->getStylesheet();
+
 
 $database_bibles = Database_Bibles::getInstance();
 $database_snapshots = Database_Snapshots::getInstance();
@@ -93,6 +105,8 @@ foreach ($files as $file) {
  
 }
 
+
 $database_logs->log ("Import Bible data has finished", true);
+
 
 ?>
