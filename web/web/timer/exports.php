@@ -292,7 +292,7 @@ foreach ($bibles as $bible) {
   // Continue with the conversion of the entire Bible. 
 
 
-  // Compress USFM files into zip file. Todo
+  // Compress USFM files into zip file.
   $database_logs->log ("exports: Create archive with entire Bible in USFM");
   $zipfile = Filter_Archive::zip ($usfmDirectoryFull);
   rename ($zipfile, "$usfmDirectoryFull/00_Bible.zip");
