@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>Compressed the USFM files to a zip file during export.</p>
 <p>Fix: Uploading a zipped file with USFM files imports the USFM files.</p>
 <p>The table for storing Bible data in the database was optimized for better performance.</p>
-<p></p>
+<p>Pages not found redirect to the home page.</p>
 <p></p>
 <p></p>
 <p></p>
