@@ -23,6 +23,7 @@ install-data-local:
 	echo "<Directory /usr/share/bibledit-web/$(LOCATION)>" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	echo "	Options FollowSymLinks Indexes" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	echo "	DirectoryIndex index.php" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
+	echo "	ErrorDocument 404 /$(LOCATION)/index/index.php" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	echo "</Directory>" >> $(DESTDIR)/etc/apache2/conf.d/$(LOCATION).conf
 	- service apache2 restart
 
