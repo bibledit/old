@@ -48,7 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <p><?php echo gettext ("You can modify this versification system. To do that, copy the existing xml data from this page into an editor, make the changes, and paste the data back into the textbow below, and then submit it. It will overwrite whatever was there before.") ?></p>
 
-<form action="{$php_self}?name=<?php echo $this->name ?>" name="form" method="post">
+<form action="?name=<?php echo $this->name ?>" name="form" method="post">
   <p><textarea name="data"></textarea></p>
   <p><input type="submit" name="submit" value=<?php echo gettext ("Submit") ?> /></p>
 </form>
