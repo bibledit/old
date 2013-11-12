@@ -137,7 +137,7 @@ class Filter_Merge
   }
 
 
-  private static function lines2graphemes ($data) // Todo
+  private static function lines2graphemes ($data)
   {
     // Older versions of PHP do not yet have the grapheme_* functions,
     // so we use the mb_* versions here.

@@ -81,10 +81,12 @@ vector < ustring > config_xml_vector_string_get(const ustring & file, const ustr
   // resource creation, but it appeared that it didn't solve the problem.
   // Yet the mutex was left, because the configurations are accessed in 
   // a thread, so it is always good to have a mutex in place.
-  // New static GMutex config_xml_vector_string_get_mutex = G_STATIC_MUTEX_INIT;
-  // New g_mutex_lock (&config_xml_vector_string_get_mutex);
-  static GStaticMutex config_xml_vector_string_get_mutex = G_STATIC_MUTEX_INIT;
-  g_static_mutex_lock(&config_xml_vector_string_get_mutex);
+  // New 
+  static GMutex config_xml_vector_string_get_mutex = G_STATIC_MUTEX_INIT;
+  // New 
+  g_mutex_lock (&config_xml_vector_string_get_mutex);
+  // Old static GStaticMutex config_xml_vector_string_get_mutex = G_STATIC_MUTEX_INIT;
+  // Old g_static_mutex_lock(&config_xml_vector_string_get_mutex);
 
   vector < ustring > value;
   if (g_file_test(file.c_str(), G_FILE_TEST_IS_REGULAR)) {
@@ -140,8 +142,9 @@ vector < ustring > config_xml_vector_string_get(const ustring & file, const ustr
       g_free(contents);
   }
 
-  // New g_mutex_unlock (&config_xml_vector_string_get_mutex);
-  g_static_mutex_unlock(&config_xml_vector_string_get_mutex);
+  // New 
+  g_mutex_unlock (&config_xml_vector_string_get_mutex);
+  // Old g_static_mutex_unlock(&config_xml_vector_string_get_mutex);
 
   return value;
 }

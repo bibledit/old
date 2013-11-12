@@ -58,9 +58,11 @@ void git_upgrade ()
       }
       // Get the data directory for the project
       ustring datadirectory = tiny_project_data_directory_project(projects[i]);
-      /*
       // On most machines git can determine the user's name from the system services. 
-      // But on the XO machine, it can't. It is set here manually.
+      // On the XO machine, it can't. It is set here manually. 
+      // On more recent versions of git, like version 1.8.3 and younger,
+      // although git may determine the user's name from the system, 
+      // it still requires it to be set manually.
       ustring command;
       command = "git config user.email \"";
       command.append(g_get_user_name());
@@ -72,7 +74,6 @@ void git_upgrade ()
       command.append(g_get_real_name());
       command.append("\"");
       maintenance_register_shell_command (datadirectory, command);
-      */
       // (Re)initialize the repository. This can be done repeatedly without harm.
       // Note that this is done on shutdown.
       maintenance_register_shell_command (datadirectory, "git init");
