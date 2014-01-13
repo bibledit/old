@@ -192,7 +192,7 @@ bool on_timeout (gpointer data)
         if (merge_conflict) {
           message ("Bibledit will resolve conflicts between its own data and the data on the server.");
           // Resolve merge conflict.
-          TinySpawn mergetool ("php") ;
+          TinySpawn mergetool ("php");
           string script;
           gchar *name;
           name = g_build_filename (PACKAGE_DATA_DIR, "conflictcli.php", NULL);

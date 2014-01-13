@@ -479,12 +479,13 @@ void Editor2::chapter_save()
     // Normally cache and disk are the same.
     // In case of collaboration, the text on disk may differ from the text in the chapter cache.
     if ((!save_action_is_over) && check_chapter_cache) {
-      vector <ustring> file_data = project_retrieve_chapter (project, book, chapter);
-      if (loaded_chapter_lines != file_data) {
-        merge_editor_and_file (loaded_chapter_lines, parseline.lines, project, book, chapter);
-        save_action_is_over = true;
-        reload = true;
-      }
+      // The code is disabled, because it at times reverts changes entered in the editor.
+      //vector <ustring> file_data = project_retrieve_chapter (project, book, chapter);
+      //if (loaded_chapter_lines != file_data) {
+        //merge_editor_and_file (loaded_chapter_lines, parseline.lines, project, book, chapter);
+        //save_action_is_over = true;
+        //reload = true;
+      //}
     }
 
     // Store chapter.
