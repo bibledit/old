@@ -102,7 +102,8 @@ void ReferenceExchangeDialog::on_url_test_clicked(GtkButton * button, gpointer u
 void ReferenceExchangeDialog::on_url_test()
 {
   GwSpawn spawn ("curl");
-  spawn.arg ("-sS"); // Makes curl silent, but still show errors.
+  // Makes curl silent, no checking of certificate, but still show errors.
+  spawn.arg ("-sSk"); 
   ustring url = gtk_entry_get_text (GTK_ENTRY (entry_url));
   url.append ("/ipc/setmessage.php");
   spawn.arg (url);
