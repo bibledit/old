@@ -238,6 +238,7 @@ private:
   static bool on_scroll_insertion_point_on_screen_timeout(gpointer data);
   void scroll_insertion_point_on_screen_timeout();
   GtkTextTag * verse_highlight_tag;
+  guint scroll_insertion_point_on_screen_id;
 
   // Moving from one textview to the other.
 public:

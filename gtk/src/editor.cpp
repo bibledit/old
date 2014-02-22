@@ -100,6 +100,7 @@ current_reference(0, 1000, "")
   editor_actions_size_at_no_save = false;
   font_size_multiplier = 1;
   highlight_timeout_event_id = 0;
+  scroll_insertion_point_on_screen_id = 0;
     
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -193,6 +194,7 @@ Editor2::~Editor2()
   gw_destroy_source(event_id_show_quick_references);
   gw_destroy_source(signal_if_verse_changed_event_id);
   gw_destroy_source(textview_button_press_event_id);
+  gw_destroy_source(scroll_insertion_point_on_screen_id);
 
   // Delete speller.
   delete spellingchecker;
@@ -674,7 +676,7 @@ bool Editor2::on_textview_grab_focus_delayed(gpointer data)
 }
 
 
-void Editor2::textview_grab_focus_delayed()
+void Editor2::textview_grab_focus_delayed() // Todo
 /*
  If the user clicks in the editor window, 
  and straight after that the position of the cursor is requested, 
@@ -1383,7 +1385,7 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
 }
 
 
-void Editor2::signal_if_styles_changed()
+void Editor2::signal_if_styles_changed() // Todo
 {
   set < ustring > styles = get_styles_at_cursor();
   if (styles != styles_at_cursor) {
@@ -1878,7 +1880,7 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 
 void Editor2::scroll_insertion_point_on_screen ()
 {
-  g_timeout_add(100, GSourceFunc(on_scroll_insertion_point_on_screen_timeout), gpointer(this));
+  scroll_insertion_point_on_screen_id = g_timeout_add(100, GSourceFunc(on_scroll_insertion_point_on_screen_timeout), gpointer(this));
 }
 
 
@@ -1889,8 +1891,10 @@ bool Editor2::on_scroll_insertion_point_on_screen_timeout(gpointer data)
 }
 
 
-void Editor2::scroll_insertion_point_on_screen_timeout()
+void Editor2::scroll_insertion_point_on_screen_timeout() // Todo crashes here.
 {
+  if (!focused_paragraph->textbuffer) return;
+  
   if (focused_paragraph) {
 
     // Ensure that the screen has been fully displayed.
@@ -1907,7 +1911,8 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
 
     // Get all the textviews.
     vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
-    
+
+   
     // Offset of insertion point starting from top.
     gint insertion_point_offset = 0;
     {
@@ -1919,8 +1924,10 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
         gtk_widget_get_allocation (textviews[i], &allocation);
         insertion_point_offset += allocation.height;
       }
+      //GtkTextMark * gtktextmark = gtk_text_buffer_get_insert (focused_paragraph->textbuffer);
+      GtkTextMark * gtktextmark = gtk_text_buffer_get_mark (focused_paragraph->textbuffer, "insert");
       GtkTextIter iter;
-      gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert (focused_paragraph->textbuffer));
+      gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtktextmark);
       GdkRectangle rectangle;
       gtk_text_view_get_iter_location (GTK_TEXT_VIEW (focused_paragraph->textview), &iter, &rectangle);
       gint window_x, window_y;

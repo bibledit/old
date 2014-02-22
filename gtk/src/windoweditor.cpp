@@ -574,7 +574,7 @@ void WindowEditor::editing_usfm_code_set (bool setting)
 }
 
 
-void WindowEditor::switch_to_view (bool viewusfm, ustring project)
+void WindowEditor::switch_to_view (bool viewusfm, ustring project) // Todo
 // Switch between normal editor, which is the default,
 // or to the USFM editor if argument "usfmview" is true.
 {

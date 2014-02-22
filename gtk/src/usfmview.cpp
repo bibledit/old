@@ -506,7 +506,7 @@ bool USFMView::on_verse_tracker()
 }
 
 
-void USFMView::position_cursor_at_verse(const ustring & verse)
+void USFMView::position_cursor_at_verse (const ustring & verse)
 // Moves the cursor to the verse
 {
   // Bail out of the cursor is already on the verse.
@@ -515,14 +515,17 @@ void USFMView::position_cursor_at_verse(const ustring & verse)
 
   // Save the current verse.
   current_verse_number = verse;
-  
+
+  while (gtk_events_pending()) gtk_main_iteration();
+  if (!sourcebuffer) return;
+  if (!sourceview) return;
+
   // Place the cursor at the verse. Verse 0 is at the start of the buffer.
   GtkTextIter startiter;
   gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (sourcebuffer), &startiter);
   ustring usfmcode = "\\v " + verse;
   gtk_text_iter_forward_search (&startiter, usfmcode.c_str(), GtkTextSearchFlags (0), &startiter, NULL, NULL);
   gtk_text_buffer_place_cursor(GTK_TEXT_BUFFER (sourcebuffer), &startiter);
-  while (gtk_events_pending()) gtk_main_iteration();
   textview_scroll_to_mark (GTK_TEXT_VIEW(sourceview), gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (sourcebuffer)), true);
 }
 
