@@ -750,8 +750,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
       catch(exception & ex) {
         ustring msg = "Skipping: ";
         msg.append(ex.what());
-        if (write(1, msg.c_str(), strlen(msg.c_str()))) ;
-        cout << endl;
+        cout << msg << endl;
       }
 
     }
