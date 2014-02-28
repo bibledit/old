@@ -1070,7 +1070,10 @@ void keyterms_store_renderings(const ustring & project, const ustring & keyterm,
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     for (unsigned int i = 0; i < renderings.size(); i++) {
-      sql = g_strdup_printf("insert into renderings values ('%s', '%s', '%s', %d, %d);", double_apostrophy(keyterm).c_str(), double_apostrophy(collection).c_str(), double_apostrophy(renderings[i]).c_str(), wholewords[i], casesensitives[i]);
+      ustring s1 = double_apostrophy(keyterm);
+      ustring s2 = double_apostrophy(collection);
+      ustring s3 = double_apostrophy(renderings[i]);
+      sql = g_strdup_printf("insert into renderings values ('%s', '%s', '%s', %d, %d);", s1.c_str(), s2.c_str(), s3.c_str(), wholewords[i], casesensitives[i]);
       rc = sqlite3_exec(db, sql, NULL, NULL, &error);
       g_free(sql);
       if (rc)
