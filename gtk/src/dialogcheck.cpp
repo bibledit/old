@@ -70,6 +70,7 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
   usfm_spacing_entry1 = NULL;
   checkbutton_include_verse_text = NULL;
   checkbutton_output_in_ot_order = NULL;
+  checkbutton_include_second_project = NULL;
 
   // Build the gui for this check.
   switch (checkdialogtype) {

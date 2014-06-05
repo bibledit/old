@@ -1322,7 +1322,7 @@ inform the developer, so that appropriate adjustments can be made in
 the bibledit code.</div></body></html><name>site/gtk/reference/menu.html</name></url><url><loc>https://sites.google.com/site/bibledit/gtk/reference/usfm</loc><priority>0.5</priority><dir>site/gtk/reference</dir><html><head/><body><div id="menu"/><div id="content"><h1>USFM</h1>
 
 <p>More information about Unified Standard Format Markers (USFM) is available
-from the <a href="http://confluence.ubs-icap.org/display/USFM/Home" rel="nofollow">official USFM information</a>.</p>
+from the <a href="http://paratext.org/about/usfm" target="_blank" rel="nofollow">official USFM information</a>.</p>
 
 <p>Bibledit supports several of the markers.</p>
 
@@ -2184,7 +2184,7 @@ Front Matter. The table of contents will be there.</p>
 <p>If the versification system or language you need does not come with
 Bibledit, then you can create your own language or versification system and add
 it to Bibledit yourself. To do that, take an existing versification textfile or
-language textfile from /usr/share/bibledit, edit it, and save it in the <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">data directory</a>, subdirectory templates.</p>
+language textfile from /usr/share/bibledit-gtk, edit it, and save it in the <a href="https://sites.google.com/site/bibledit/gtk/4-management/data">data directory</a>, subdirectory templates.</p>
 <p>Notes.</p>
 <p>The versification files start with versification_, the mapping files with
 mapping_, and the language files with language_. It is important to keep that
@@ -4829,7 +4829,7 @@ to transfer the formatted text into other applications. For that reason several
 style settings, like two columns, are unsupported.</p>
 <p>It makes use of a template. This template is a simple document in
 OpenDocument format. Under normal circumstances this template is stored at
-/usr/share/bibledit/template.odt. If you really like to change the OpenDocument
+/usr/share/bibledit-gtk/template.odt. If you really like to change the OpenDocument
 export, you can modify the template.</p>
 <h4><a name="gobible"/>Go Bible</h4>
 <p>This will create a Go Bible. It runs on a cell phone. You need to have a
@@ -5593,7 +5593,7 @@ textfiles should be.</p>
 <p>There are several different types of textfiles than can be imported.</p>
 
 <p>1. There is the Standard textfile. Samples of this type of file are in the
-bibledit distribution or are installed in, normally, /usr/share/bibledit. These
+bibledit distribution or are installed in, normally, /usr/share/bibledit-gtk. These
 files start with "keyterms" and have the "txt" extension. Looking for files
 like "keyterms*txt" will give them.</p>
 
