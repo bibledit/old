@@ -1,19 +1,25 @@
 noinst_LIBRARIES = libbibledit.a
 
 libbibledit_a_SOURCES = \
-	library/library.cc 
-	library/library.h
+	library/bibledit.cpp \
+	webserver/webserver.cpp \
+	webserver/http.cpp \
+	sqlite/sqlite3.c
 
 bin_PROGRAMS = bibledit
 
-bibledit_SOURCES = \
-	executable/bibledit.cc \
-	executable/bibledit.h
+bibledit_SOURCES = executable/bibledit.cpp
 
 bibledit_LDADD = libbibledit.a
 
 AM_CXXFLAGS = -Wall 
-AM_CXXFLAGS += -Ilibrary
 
 LIBS = -Wall 
-LIBS += -I.
+
+EXTRA_DIST = \
+	library/*.h \
+	executable/*.h \
+	webserver/*.h \
+	sqlite/*
+
+CLEANFILES = bibledit*.gz *~
