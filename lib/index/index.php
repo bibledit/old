@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Page bootstrapping.
 require_once ("../bootstrap/bootstrap.php");
 
-Assets_Page::header ("Bibledit-Web");
+Assets_Page::header ("Bibledit-Web"); // Todo port to C++
 $view = new Assets_View (__FILE__);
 $view->render ("index.php");
 
