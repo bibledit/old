@@ -1,0 +1,17 @@
+This is going to be a version of Bibledit that runs on all relevant platforms.
+
+The developer transforms Bibledit-Web, written in PHP, with minimal effort, into C++.
+
+A main reason is that PHP is not well suited to the mobile platforms like Android and in particular iOS.
+On iOS it was possible to compile stock PHP without errors, 
+but newer versions of PHP, like 5.6, crashed, 
+and older versions, like 5.4 left out symbols which crippled the library.
+When everything is written in C or in C++, it can be compiled for the mobile devices without problems.
+
+For mobile platforms it is easier to include all dependent libraries in source form.
+For example, include sqlite.h and sqlite.c to get SQLite support.
+
+Platform iOS needs static libraries so libbibledit.a will be a static library.
+
+The Bibledit library runs a webserver.
+

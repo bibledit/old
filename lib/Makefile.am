@@ -16,10 +16,10 @@ AM_CXXFLAGS = -Wall
 
 LIBS = -Wall 
 
-EXTRA_DIST = \
-	library/*.h \
-	executable/*.h \
-	webserver/*.h \
-	sqlite/*
+EXTRA_DIST = D* e* l* w* s*
+
+dist-hook:
+	rm -rf `find $(distdir) -name *.o`
+	rm -rf `find $(distdir) -name *.a`
 
 CLEANFILES = bibledit*.gz *~
