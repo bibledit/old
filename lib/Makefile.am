@@ -4,7 +4,9 @@ libbibledit_a_SOURCES = \
 	library/bibledit.cpp \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
-	sqlite/sqlite3.c
+	sqlite/sqlite3.c \
+	bootstrap/bootstrap.cpp \
+	filter/url.cpp
 
 bin_PROGRAMS = bibledit
 

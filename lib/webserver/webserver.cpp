@@ -36,6 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unistd.h>
 #include <stdio.h>
 #include <webserver/http.h>
+#include <bootstrap/bootstrap.h>
+
 
 
 using namespace std;
@@ -85,8 +87,9 @@ void webserver ()
     string get = http_get_header_get (request);
 
     // Assemble response.
-    string reply = "<h1>Bibledit-Web</h1>";
-    reply = http_assemble_response (200, reply);
+    string header;
+    string reply = bootstrap_index (get, header);
+    reply = http_assemble_response (0, header, reply);
 
     // Send response to browser.    
     const char * output = reply.c_str();

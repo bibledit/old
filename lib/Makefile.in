@@ -81,8 +81,9 @@ bin_PROGRAMS = bibledit$(EXEEXT)
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/configure $(am__configure_deps) depcomp COPYING \
-	compile install-sh missing
+	$(top_srcdir)/configure $(am__configure_deps) \
+	$(srcdir)/config.h.in depcomp COPYING compile install-sh \
+	missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -90,6 +91,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
+CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
@@ -104,7 +106,8 @@ libbibledit_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	webserver/webserver.$(OBJEXT) webserver/http.$(OBJEXT) \
-	sqlite/sqlite3.$(OBJEXT)
+	sqlite/sqlite3.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
+	filter/url.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -159,7 +162,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
+am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
+	$(LISP)config.h.in
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
 # *not* preserved.
@@ -291,14 +295,17 @@ libbibledit_a_SOURCES = \
 	library/bibledit.cpp \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
-	sqlite/sqlite3.c
+	sqlite/sqlite3.c \
+	bootstrap/bootstrap.cpp \
+	filter/url.cpp
 
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall 
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
-all: all-am
+all: config.h
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .cpp .o .obj
@@ -337,6 +344,21 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
+config.h: stamp-h1
+	@test -f $@ || rm -f stamp-h1
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h1
+
+stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status config.h
+$(srcdir)/config.h.in:  $(am__configure_deps) 
+	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
+	rm -f stamp-h1
+	touch $@
+
+distclean-hdr:
+	-rm -f config.h stamp-h1
+
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 library/$(am__dirstamp):
@@ -365,6 +387,22 @@ sqlite/$(DEPDIR)/$(am__dirstamp):
 	@: > sqlite/$(DEPDIR)/$(am__dirstamp)
 sqlite/sqlite3.$(OBJEXT): sqlite/$(am__dirstamp) \
 	sqlite/$(DEPDIR)/$(am__dirstamp)
+bootstrap/$(am__dirstamp):
+	@$(MKDIR_P) bootstrap
+	@: > bootstrap/$(am__dirstamp)
+bootstrap/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) bootstrap/$(DEPDIR)
+	@: > bootstrap/$(DEPDIR)/$(am__dirstamp)
+bootstrap/bootstrap.$(OBJEXT): bootstrap/$(am__dirstamp) \
+	bootstrap/$(DEPDIR)/$(am__dirstamp)
+filter/$(am__dirstamp):
+	@$(MKDIR_P) filter
+	@: > filter/$(am__dirstamp)
+filter/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) filter/$(DEPDIR)
+	@: > filter/$(DEPDIR)/$(am__dirstamp)
+filter/url.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -427,7 +465,9 @@ bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) $(EXTRA_bibledit
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f bootstrap/*.$(OBJEXT)
 	-rm -f executable/*.$(OBJEXT)
+	-rm -f filter/*.$(OBJEXT)
 	-rm -f library/*.$(OBJEXT)
 	-rm -f sqlite/*.$(OBJEXT)
 	-rm -f webserver/*.$(OBJEXT)
@@ -435,7 +475,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sqlite/$(DEPDIR)/sqlite3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
@@ -700,7 +742,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(PROGRAMS)
+all-am: Makefile $(LIBRARIES) $(PROGRAMS) config.h
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -732,8 +774,12 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f bootstrap/$(DEPDIR)/$(am__dirstamp)
+	-rm -f bootstrap/$(am__dirstamp)
 	-rm -f executable/$(DEPDIR)/$(am__dirstamp)
 	-rm -f executable/$(am__dirstamp)
+	-rm -f filter/$(DEPDIR)/$(am__dirstamp)
+	-rm -f filter/$(am__dirstamp)
 	-rm -f library/$(DEPDIR)/$(am__dirstamp)
 	-rm -f library/$(am__dirstamp)
 	-rm -f sqlite/$(DEPDIR)/$(am__dirstamp)
@@ -751,10 +797,10 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf executable/$(DEPDIR) library/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf bootstrap/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) library/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-tags
+	distclean-hdr distclean-tags
 
 dvi: dvi-am
 
@@ -799,7 +845,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf executable/$(DEPDIR) library/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf bootstrap/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) library/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -817,24 +863,24 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: install-am install-strip
+.MAKE: all install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am am--refresh check check-am clean \
 	clean-binPROGRAMS clean-cscope clean-generic \
 	clean-noinstLIBRARIES cscope cscopelist-am ctags ctags-am dist \
 	dist-all dist-bzip2 dist-gzip dist-hook dist-lzip dist-shar \
 	dist-tarZ dist-xz dist-zip distcheck distclean \
-	distclean-compile distclean-generic distclean-tags \
-	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	distclean-compile distclean-generic distclean-hdr \
+	distclean-tags distcleancheck distdir distuninstallcheck dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binPROGRAMS install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
 
 dist-hook:

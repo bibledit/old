@@ -24,5 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-string http_get_header_get (string headers);
-string http_assemble_response (int code, string header, string contents);
+string filter_url_redirect (string url);
+string filter_url_dirname (string url);
+

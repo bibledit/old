@@ -17,12 +17,37 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <iostream>
-#include <cstdlib>
+#include <vector>
+#include <sstream>
+#include <filter/url.h>
 
 
 using namespace std;
 
 
-string http_get_header_get (string headers);
-string http_assemble_response (int code, string header, string contents);
+/*
+
+This function is the first function to be called when a client requests a page or file.
+Based on the request from the client, it decides what other functions to call
+to assemble the response.
+
+*/
+
+string bootstrap_index (string get, string &header)
+{
+  // /favicon.ico: Not yet implemented.
+  if (get == "/favicon.ico") {
+    return "";
+  }
+  
+  // Home page.
+  else if (get == "/index/index") {
+    return "<h1>Bibledit home page</h1>";
+  }
+
+  // Forward the browser to the default home page.
+  header = filter_url_redirect ("/index/index");
+  return "";
+}
+
+

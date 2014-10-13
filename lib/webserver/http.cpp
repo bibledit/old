@@ -62,21 +62,34 @@ string http_get_header_get (string headers)
 
 The function assembles the response to be given to the browser.
 code: an integer response code, normally this is 200.
+header: An extra header to be sent with the response. May be empty.
 contents: the response body to be sent.
 
 The function inserts the correct headers,
 and returns the entire result to be sent back to the browser.
 
 */
-string http_assemble_response (int code, string contents)
+string http_assemble_response (int code, string header, string contents)
 {
   ostringstream length;
   length << contents.size ();
 
+  // Assemble the http response code fragment.
+  string http_response_code_fragment;
+  if (code == 0) {
+    // Default.
+    http_response_code_fragment = "200 OK";
+    
+    if (header.find ("Location") != string::npos) {
+      http_response_code_fragment = "302 Found";
+    }
+  }
+
   vector <string> response;
-  response.push_back ("HTTP/1.1 200 OK");
+  response.push_back ("HTTP/1.1 " + http_response_code_fragment);
   response.push_back ("Content-Length: " + length.str());
   response.push_back ("Content-Type: text/html;charset=UTF-8");
+  if (!header.empty ()) response.push_back (header);
   response.push_back ("");
   response.push_back (contents);
 
