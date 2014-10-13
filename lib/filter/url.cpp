@@ -29,7 +29,7 @@ using namespace std;
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-string filter_url_redirect (string path) // Todo porting this.
+string filter_url_redirect (string path)
 {
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
