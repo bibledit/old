@@ -296,7 +296,7 @@ libbibledit_a_SOURCES = \
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall 
-EXTRA_DIST = D* e* l* w* s*
+EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: all-am
 
@@ -840,6 +840,7 @@ uninstall-am: uninstall-binPROGRAMS
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`
 	rm -rf `find $(distdir) -name *.a`
+	rm -rf `find $(distdir) -name autom4te.cache`
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
