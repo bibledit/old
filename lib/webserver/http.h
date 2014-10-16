@@ -17,12 +17,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#pragma once
+
+
 #include <iostream>
 #include <cstdlib>
+#include <webserver/request.h>
 
 
 using namespace std;
 
 
-string http_get_header_get (string headers);
-string http_assemble_response (int code, string header, string contents);
+void http_get_header_get (string headers, Webserver_Request * request);
+void http_assemble_response (Webserver_Request * request);

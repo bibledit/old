@@ -20,34 +20,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 #include <sstream>
 #include <filter/url.h>
+#include <index/index.h>
+#include <bootstrap/bootstrap.h>
 
 
 using namespace std;
 
 
-/*
-
-This function is the first function to be called when a client requests a page or file.
-Based on the request from the client, it decides what other functions to call
-to assemble the response.
-
-*/
-
-string bootstrap_index (string get, string &header)
+// This function is the first function to be called when a client requests a page or file.
+// Based on the request from the client, it decides what other functions to call to assemble the response.
+void bootstrap_index (Webserver_Request * request)
 {
+  //  cout << request->get << endl; // Todo
+  string extension = filter_url_get_extension (request->get);
+  
   // /favicon.ico: Not yet implemented.
-  if (get == "/favicon.ico") {
-    return "";
+  if (request->get == "/favicon.ico") {
   }
   
   // Home page.
-  else if (get == "/index/index") {
-    return "<h1>Bibledit home page</h1>";
+  else if (request->get == "/index/index") {
+    request->reply = index_index ();
+  }
+  
+  // Serve stylesheets.
+  else if (extension == "css") {
+    cout << request->get << endl; // Todo
   }
 
   // Forward the browser to the default home page.
-  header = filter_url_redirect ("/index/index");
-  return "";
+  else {
+    filter_url_redirect ("/index/index", request);
+  }
 }
 
 

@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <vector>
 #include <sstream>
+#include <filter/url.h>
 
 
 using namespace std;
@@ -40,21 +41,33 @@ The function extracts the page request:
 /index/page
 
 */
-string http_get_header_get (string headers)
+void http_get_header_get (string headers, Webserver_Request * request)
 {
-  string get = "/index";
-  istringstream iss(headers);
+  // Default page to get.
+  request->get = "/index";
+  
+  // Split header on spaces, and extract the bit after the "GET".
+  istringstream issget (headers);
   string s;
   bool bingo = false;
-  while (getline (iss, s, ' ')) 
+  while (getline (issget, s, ' ')) 
   {
     if (bingo) {
-      get = s;
+      request->get = s;
       bingo = false;
     }
     if (s == "GET") bingo = true;
   }
-  return get;
+  
+  // The GET value may be, for example: stylesheet.css?1.0.1.
+  // Split it up into two parts: The part before the ?, and the part after the ?.
+  istringstream issquery (request->get);
+  int counter = 0;
+  while (getline (issquery, s, '?')) {
+    if (counter == 0) request->get = s;
+    if (counter == 1) request->query = s;
+    counter++;
+  }
 }
 
 
@@ -66,37 +79,39 @@ header: An extra header to be sent with the response. May be empty.
 contents: the response body to be sent.
 
 The function inserts the correct headers,
-and returns the entire result to be sent back to the browser.
+and creates the entire result to be sent back to the browser.
 
 */
-string http_assemble_response (int code, string header, string contents)
+void http_assemble_response (Webserver_Request * request)
 {
   ostringstream length;
-  length << contents.size ();
+  length << request->reply.size ();
 
-  // Assemble the http response code fragment.
+  // Assemble the HTTP response code fragment.
   string http_response_code_fragment;
-  if (code == 0) {
-    // Default.
-    http_response_code_fragment = "200 OK";
-    
-    if (header.find ("Location") != string::npos) {
-      http_response_code_fragment = "302 Found";
-    }
-  }
+  if (request->response_code == 200) http_response_code_fragment = "200 OK";
+  if (request->response_code == 302) http_response_code_fragment = "302 Found";
 
+  // Assemble the Content-Type. Todo
+  string extension = filter_url_get_extension (request->get);
+  string content_type;
+  if (extension == "js") content_type = "application/javascript";
+  else if (extension == "css") content_type = "text/css"; // Todo this requires separation of the bits after the ? in the GET request: Update the request object for that.
+  else content_type = "text/html";
+
+  // Assemble the complete response for the browser.
   vector <string> response;
   response.push_back ("HTTP/1.1 " + http_response_code_fragment);
   response.push_back ("Content-Length: " + length.str());
-  response.push_back ("Content-Type: text/html;charset=UTF-8");
-  if (!header.empty ()) response.push_back (header);
+  response.push_back ("Content-Type: " + content_type);
+  if (!request->header.empty ()) response.push_back (request->header);
   response.push_back ("");
-  response.push_back (contents);
+  if (!request->reply.empty ()) response.push_back (request->reply);
 
   string assembly;
   for (unsigned int i = 0; i < response.size (); i++) {
     if (i > 0) assembly += "\n";
     assembly += response [i];
   }
-  return assembly;
+  request->reply = assembly;
 }

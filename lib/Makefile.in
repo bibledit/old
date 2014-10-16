@@ -106,8 +106,13 @@ libbibledit_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	webserver/webserver.$(OBJEXT) webserver/http.$(OBJEXT) \
-	sqlite/sqlite3.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
-	filter/url.$(OBJEXT)
+	webserver/request.$(OBJEXT) sqlite/sqlite3.$(OBJEXT) \
+	bootstrap/bootstrap.$(OBJEXT) filter/url.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
+	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
+	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) \
+	locale/translate.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -229,7 +234,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBS = -Wall 
+LIBS = -Wall `xml2-config --libs`
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -247,6 +252,9 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
+XML2_CONFIG = @XML2_CONFIG@
+XML_CPPFLAGS = @XML_CPPFLAGS@
+XML_LIBS = @XML_LIBS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -295,13 +303,24 @@ libbibledit_a_SOURCES = \
 	library/bibledit.cpp \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
+	webserver/request.cpp \
 	sqlite/sqlite3.c \
 	bootstrap/bootstrap.cpp \
-	filter/url.cpp
+	filter/url.cpp \
+	flate/flate.c \
+	assets/view.cpp \
+	assets/page.cpp \
+	assets/header.cpp \
+	index/index.cpp \
+	config/globals.cpp \
+	menu/logic.cpp \
+	menu/main.cpp \
+	locale/translate.cpp
 
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
-AM_CXXFLAGS = -Wall 
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++0x `xml2-config \
+	--cflags`
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h
@@ -379,6 +398,8 @@ webserver/webserver.$(OBJEXT): webserver/$(am__dirstamp) \
 	webserver/$(DEPDIR)/$(am__dirstamp)
 webserver/http.$(OBJEXT): webserver/$(am__dirstamp) \
 	webserver/$(DEPDIR)/$(am__dirstamp)
+webserver/request.$(OBJEXT): webserver/$(am__dirstamp) \
+	webserver/$(DEPDIR)/$(am__dirstamp)
 sqlite/$(am__dirstamp):
 	@$(MKDIR_P) sqlite
 	@: > sqlite/$(am__dirstamp)
@@ -403,6 +424,60 @@ filter/$(DEPDIR)/$(am__dirstamp):
 	@: > filter/$(DEPDIR)/$(am__dirstamp)
 filter/url.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
+flate/$(am__dirstamp):
+	@$(MKDIR_P) flate
+	@: > flate/$(am__dirstamp)
+flate/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) flate/$(DEPDIR)
+	@: > flate/$(DEPDIR)/$(am__dirstamp)
+flate/flate.$(OBJEXT): flate/$(am__dirstamp) \
+	flate/$(DEPDIR)/$(am__dirstamp)
+assets/$(am__dirstamp):
+	@$(MKDIR_P) assets
+	@: > assets/$(am__dirstamp)
+assets/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) assets/$(DEPDIR)
+	@: > assets/$(DEPDIR)/$(am__dirstamp)
+assets/view.$(OBJEXT): assets/$(am__dirstamp) \
+	assets/$(DEPDIR)/$(am__dirstamp)
+assets/page.$(OBJEXT): assets/$(am__dirstamp) \
+	assets/$(DEPDIR)/$(am__dirstamp)
+assets/header.$(OBJEXT): assets/$(am__dirstamp) \
+	assets/$(DEPDIR)/$(am__dirstamp)
+index/$(am__dirstamp):
+	@$(MKDIR_P) index
+	@: > index/$(am__dirstamp)
+index/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) index/$(DEPDIR)
+	@: > index/$(DEPDIR)/$(am__dirstamp)
+index/index.$(OBJEXT): index/$(am__dirstamp) \
+	index/$(DEPDIR)/$(am__dirstamp)
+config/$(am__dirstamp):
+	@$(MKDIR_P) config
+	@: > config/$(am__dirstamp)
+config/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) config/$(DEPDIR)
+	@: > config/$(DEPDIR)/$(am__dirstamp)
+config/globals.$(OBJEXT): config/$(am__dirstamp) \
+	config/$(DEPDIR)/$(am__dirstamp)
+menu/$(am__dirstamp):
+	@$(MKDIR_P) menu
+	@: > menu/$(am__dirstamp)
+menu/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) menu/$(DEPDIR)
+	@: > menu/$(DEPDIR)/$(am__dirstamp)
+menu/logic.$(OBJEXT): menu/$(am__dirstamp) \
+	menu/$(DEPDIR)/$(am__dirstamp)
+menu/main.$(OBJEXT): menu/$(am__dirstamp) \
+	menu/$(DEPDIR)/$(am__dirstamp)
+locale/$(am__dirstamp):
+	@$(MKDIR_P) locale
+	@: > locale/$(am__dirstamp)
+locale/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) locale/$(DEPDIR)
+	@: > locale/$(DEPDIR)/$(am__dirstamp)
+locale/translate.$(OBJEXT): locale/$(am__dirstamp) \
+	locale/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -465,22 +540,38 @@ bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) $(EXTRA_bibledit
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f assets/*.$(OBJEXT)
 	-rm -f bootstrap/*.$(OBJEXT)
+	-rm -f config/*.$(OBJEXT)
 	-rm -f executable/*.$(OBJEXT)
 	-rm -f filter/*.$(OBJEXT)
+	-rm -f flate/*.$(OBJEXT)
+	-rm -f index/*.$(OBJEXT)
 	-rm -f library/*.$(OBJEXT)
+	-rm -f locale/*.$(OBJEXT)
+	-rm -f menu/*.$(OBJEXT)
 	-rm -f sqlite/*.$(OBJEXT)
 	-rm -f webserver/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/header.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/page.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sqlite/$(DEPDIR)/sqlite3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/request.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/webserver.Po@am__quote@
 
 .c.o:
@@ -774,14 +865,26 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f assets/$(DEPDIR)/$(am__dirstamp)
+	-rm -f assets/$(am__dirstamp)
 	-rm -f bootstrap/$(DEPDIR)/$(am__dirstamp)
 	-rm -f bootstrap/$(am__dirstamp)
+	-rm -f config/$(DEPDIR)/$(am__dirstamp)
+	-rm -f config/$(am__dirstamp)
 	-rm -f executable/$(DEPDIR)/$(am__dirstamp)
 	-rm -f executable/$(am__dirstamp)
 	-rm -f filter/$(DEPDIR)/$(am__dirstamp)
 	-rm -f filter/$(am__dirstamp)
+	-rm -f flate/$(DEPDIR)/$(am__dirstamp)
+	-rm -f flate/$(am__dirstamp)
+	-rm -f index/$(DEPDIR)/$(am__dirstamp)
+	-rm -f index/$(am__dirstamp)
 	-rm -f library/$(DEPDIR)/$(am__dirstamp)
 	-rm -f library/$(am__dirstamp)
+	-rm -f locale/$(DEPDIR)/$(am__dirstamp)
+	-rm -f locale/$(am__dirstamp)
+	-rm -f menu/$(DEPDIR)/$(am__dirstamp)
+	-rm -f menu/$(am__dirstamp)
 	-rm -f sqlite/$(DEPDIR)/$(am__dirstamp)
 	-rm -f sqlite/$(am__dirstamp)
 	-rm -f webserver/$(DEPDIR)/$(am__dirstamp)
@@ -797,7 +900,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf bootstrap/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) library/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -845,7 +948,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf bootstrap/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) library/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

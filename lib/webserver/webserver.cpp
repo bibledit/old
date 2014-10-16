@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <stdio.h>
 #include <webserver/http.h>
 #include <bootstrap/bootstrap.h>
-
+#include <webserver/request.h>
 
 
 using namespace std;
@@ -64,8 +64,8 @@ void webserver ()
   // Make it a listening socket ready to accept many connection requests.
   listen (listenfd, 100);
   
-  // Ignore SIGPIPE signal: When the browser cancels the request, it won't kill the app.
-  signal(SIGPIPE, SIG_IGN);
+  // Ignore SIGPIPE signal: When the browser cancels the request, it won't kill Bibledit.
+  signal (SIGPIPE, SIG_IGN);
 
   // Keep waiting for, accepting, and processing connections.
   while (true) {
@@ -76,26 +76,33 @@ void webserver ()
     int connfd = accept (listenfd, (SA *) &clientaddr, &clientlen);
     // &clientaddr contains client info.
 
+    // The environment for this request.
+    // It gets passed around from function to function during the entire request.
+    // This provides thread-safety to the request.
+    Webserver_Request * request = new Webserver_Request ();
+
     // Read the client's request.
     char buffer[65535];
     size_t bytes_read;
     bytes_read = read (connfd, buffer, sizeof (buffer));
-    if (bytes_read);
-    string request = buffer;
+    if (bytes_read) {};
+    string input = buffer;
 
-    // The requested page.
-    string get = http_get_header_get (request);
+    // The page the browser requests via GET.
+    http_get_header_get (input, request);
 
     // Assemble response.
-    string header;
-    string reply = bootstrap_index (get, header);
-    reply = http_assemble_response (0, header, reply);
+    bootstrap_index (request);
+    http_assemble_response (request);
 
     // Send response to browser.    
-    const char * output = reply.c_str();
+    const char * output = request->reply.c_str();
     size_t length = strlen (output);
     ssize_t written = write (connfd, output, length);
-    if (written);
+    if (written) {};
+
+    // Clear memory.
+    delete request;
 
     // Done: Close.
     close (connfd);

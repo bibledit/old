@@ -21,21 +21,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 #include <sstream>
 #include <libgen.h>
+#include <sys/stat.h>
 
 
 using namespace std;
 
 
-
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-string filter_url_redirect (string path)
+void filter_url_redirect (string path, Webserver_Request * request)
 {
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
   
   // E.g. localhost
-  string host = "localhost";
+  string host = "localhost"; // Todo get it from the browser's headers.
 
   // Port
   string port = "8080"; 
@@ -43,7 +43,8 @@ string filter_url_redirect (string path)
   // A location header needs to contain an absolute url, like http://localhost/some.php.
   // See 14.30 in the specification http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
   string location = scheme + "://" + host + ":" + port + path;
-  return "Location: " + location;
+  request->header = "Location: " + location;
+  request->response_code = 302;
 }
 
 
@@ -59,4 +60,51 @@ string filter_url_dirname (string url)
   delete [] writable;
   
   return directoryname;
+}
+
+
+// Wraps the basename function, see http://linux.die.net/man/3/basename.
+string filter_url_basename (string url)
+{
+  char * writable = new char [url.size() + 1];
+  copy (url.begin(), url.end(), writable);
+  writable[url.size()] = '\0';
+
+  string base_name = basename (writable);
+
+  delete [] writable;
+  
+  return base_name;
+}
+
+
+// Creates a file path out of the components.
+string filter_url_create_path (vector <string> components)
+{
+  string path;
+  for (unsigned int i = 0; i < components.size(); i++) {
+    if (i > 0) path += "/";
+    path += components [i];
+  }
+  return path;
+}
+
+
+// Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
+string filter_url_get_extension (string url)
+{
+  string extension;
+  size_t pos = url.find_last_of (".");
+  if (pos != string::npos) {
+    extension = url.substr (pos + 1);
+  }
+  return extension;
+}
+
+
+// Returns true if the file in "url" exists.
+bool filter_url_file_exists (string url)
+{
+  struct stat buffer;   
+  return (stat (url.c_str(), &buffer) == 0);
 }

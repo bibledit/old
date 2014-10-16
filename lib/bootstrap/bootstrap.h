@@ -17,11 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#pragma once
+
+
 #include <iostream>
 #include <cstdlib>
+#include <webserver/request.h>
 
 
 using namespace std;
 
 
-string bootstrap_index (string get, string &header);
+void bootstrap_index (Webserver_Request * request);

@@ -5,6 +5,7 @@ AC_PROG_CXX
 AC_PROG_RANLIB
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADER(config.h)
+AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this first.))
 
 
 AC_OUTPUT(Makefile)

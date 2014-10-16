@@ -17,13 +17,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#pragma once
+
+
 #include <iostream>
 #include <cstdlib>
+#include <vector>
+#include <webserver/request.h>
 
 
 using namespace std;
 
 
-string filter_url_redirect (string url);
+void filter_url_redirect (string url, Webserver_Request * request);
 string filter_url_dirname (string url);
-
+string filter_url_basename (string url);
+string filter_url_create_path (vector <string> components);
+string filter_url_get_extension (string url);
+bool filter_url_file_exists (string url);
