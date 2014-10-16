@@ -25,26 +25,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
+string menu_logic_href (string href)
+{
+  return "/" + href;
+}
+
 
 
 /* C++Port
-
-
-string menu_logic_href (string href)
-{
-}
 
 
 bool menu_logic_check_user_access (string url)
 {
 }
 
-
-
-  public static function href ($href)
-  {
-    return "../menu/index.php?url=$href";
-  }
 
 
   public static function check_user_access ($url)

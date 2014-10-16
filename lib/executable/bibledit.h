@@ -21,5 +21,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cstdlib>
 
 
-int library (int argc, char **argv);
+int main (int argc, char **argv);
 

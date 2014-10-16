@@ -5,7 +5,6 @@ libbibledit_a_SOURCES = \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
 	webserver/request.cpp \
-	sqlite/sqlite3.c \
 	bootstrap/bootstrap.cpp \
 	filter/url.cpp \
 	flate/flate.c \
@@ -18,17 +17,23 @@ libbibledit_a_SOURCES = \
 	menu/main.cpp \
 	locale/translate.cpp
 
-bin_PROGRAMS = bibledit
+bin_PROGRAMS = bibledit unittest
 
 bibledit_SOURCES = executable/bibledit.cpp
 
 bibledit_LDADD = libbibledit.a
 
+unittest_SOURCES = unittests/unittest.cpp
+
+unittest_LDADD = libbibledit.a
+
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++0x
 AM_CXXFLAGS += `xml2-config --cflags`
+AM_CXXFLAGS += $(SQLITE_CFLAGS)
 
 LIBS = -Wall 
 LIBS += `xml2-config --libs`
+LIBS += $(SQLITE_LIBS)
 
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 #include <locale/translate.h>
 #include <libxml/xmlwriter.h>
+#include <menu/logic.h>
 
 
 using namespace std;
@@ -95,8 +96,8 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   // Start building the Workbench menu.
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
 
-  /*
-  // Add the available configured Workbenches to the menu. C++Port
+  /* C++Port
+  // Add the available configured Workbenches to the menu. 
   $workbenches = Workbench_Logic::getWorkbenches ();
   foreach ($workbenches as $offset => $workbench) {
     $menu [] = array ("workbench/index?bench=$offset", $workbench, NULL);
@@ -197,7 +198,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
   menu->push_back ( { "", "fonts/index", gettext ("Fonts"), NULL } );
 /* C++Port
-    // If the installation is not prepared for Client mode, disable the menu.
+    // If the installation is not prepared for Client mode, disable the client menu.
     // But keep the menu item in an open installation.
     include ("config/open.php");
     if (!$open_installation) {
@@ -285,7 +286,7 @@ vector <Menu_Main_Item> * Menu_Main::helpmenu ()
 
 
 // Create the menu.
-string Menu_Main::create () // Todo implement.
+string Menu_Main::create ()
 {
   // Modify the menu based on user access level.
 /* C++Port
@@ -317,32 +318,27 @@ string Menu_Main::create () // Todo implement.
   // Go through the main menu.
   for (unsigned int i = 0; i < main_menu->size(); i++) {
     
-    Menu_Main_Item mainitem = main_menu->at (i);
+    Menu_Main_Item item = main_menu->at (i);
 
     // Build the main menu.
     xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
     xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "class", "%s", "toggle");
-    if (mainitem.href == "") {
+    if (item.href == "") {
       xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
     } else {
       xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
-      xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", mainitem.href.c_str());
+      xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
     }
-    xmlTextWriterWriteFormatString (xmlwriter, "%s", mainitem.text.c_str());
+    xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
     xmlTextWriterEndElement (xmlwriter); // span
-
-    if (mainitem.submenu) {
-
-      // Build the submenu.
-      submenu (xmlwriter, mainitem.submenu);
-      
-      // Free dynamic memory submenu.
-      delete (mainitem.submenu);
-
-    }
+   
+    // Build the submenu.
+    if (item.submenu) submenu (xmlwriter, item.submenu);
+    
+    // Free dynamic memory submenu.
+    if (item.submenu) delete (item.submenu);
 
     xmlTextWriterEndElement (xmlwriter); // li
-    
   }
   xmlTextWriterEndElement (xmlwriter); // ul
 
@@ -363,70 +359,43 @@ string Menu_Main::create () // Todo implement.
 }
 
 
-void Menu_Main::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_Main_Item> * menu) // Todo writing it.
+void Menu_Main::submenu (xmlTextWriterPtr xmlwriter, vector <Menu_Main_Item> * menu)
 {
-  //$ul = $document->createElement ("ul");
-  //$parent->appendChild ($ul);
   xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
-  //foreach ($menu as $item) {
   for (unsigned int i = 0; i < menu->size(); i++) {
     Menu_Main_Item item = menu->at (i);
-    //$href = $item [0];
-    //$text = $item [1];
-    //$submenu = $item [2];
-    //$li = $document->createElement ("li");
-    //$ul->appendChild ($li);
     xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
-    // $this->subsubmenu ($document, $li, $submenu);
     subsubmenu (xmlwriter, item.submenu);
-    //if ($href == "") {
     if (item.href == "") {
-      //$subaspan = $document->createElement ("span");
       xmlTextWriterStartElement (xmlwriter, BAD_CAST "span");
     } else {
-      //$subaspan = $document->createElement ("a");
-      //$attribute = $document->createAttribute ("href");
-      //$subaspan->appendChild ($attribute);
-      //$attribute->value = Menu_Logic::href ($href); // Todo do the menu logic.
-      //$li->appendChild ($subaspan);
       xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
-      xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", item.href.c_str());
+      xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
     }
-    //$subaspan->nodeValue = $text;
     xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
     xmlTextWriterEndElement (xmlwriter); // span
     xmlTextWriterEndElement (xmlwriter); // li
+    if (item.submenu) delete item.submenu;
   }
   xmlTextWriterEndElement (xmlwriter); // ul
 }
 
 
-void Menu_Main::subsubmenu (xmlTextWriterPtr xmlwriter, vector <Menu_Main_Item> * menu) // Todo writing it.
+void Menu_Main::subsubmenu (xmlTextWriterPtr xmlwriter, vector <Menu_Main_Item> * menu)
 {
   if (!menu) return;
-  //$ul = $document->createElement ("ul");
-  //$parent->appendChild ($ul);
   xmlTextWriterStartElement (xmlwriter, BAD_CAST "ul");
-  //foreach ($menu as $item) {
   for (unsigned int i = 0; i < menu->size(); i++) {
     Menu_Main_Item item = menu->at (i);
-    //$href = $item [0];
-    //$text = $item [1];
-    //$submenu = $item [2];
-    //$li = $document->createElement ("li");
-    //$ul->appendChild ($li);
     xmlTextWriterStartElement (xmlwriter, BAD_CAST "li");
-    //$suba = $document->createElement ("a");
-    //$li->appendChild ($suba);
     xmlTextWriterStartElement (xmlwriter, BAD_CAST "a");
-    //$attribute = $document->createAttribute ("href");
-    //$suba->appendChild ($attribute);
-    // C++Port $attribute->value = Menu_Logic::href ($href);
-    xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", item.href.c_str());
-    //$suba->nodeValue = $text;
+    xmlTextWriterWriteFormatAttribute (xmlwriter, BAD_CAST "href", "%s", menu_logic_href (item.href).c_str());
     xmlTextWriterWriteFormatString (xmlwriter, "%s", item.text.c_str());
     xmlTextWriterEndElement (xmlwriter); // a
     xmlTextWriterEndElement (xmlwriter); // li
+    if (item.submenu) delete item.submenu;
   }
   xmlTextWriterEndElement (xmlwriter); // ul
 }
+
+

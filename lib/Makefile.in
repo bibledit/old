@@ -77,7 +77,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = bibledit$(EXEEXT)
+bin_PROGRAMS = bibledit$(EXEEXT) unittest$(EXEEXT)
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -106,19 +106,21 @@ libbibledit_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	webserver/webserver.$(OBJEXT) webserver/http.$(OBJEXT) \
-	webserver/request.$(OBJEXT) sqlite/sqlite3.$(OBJEXT) \
-	bootstrap/bootstrap.$(OBJEXT) filter/url.$(OBJEXT) \
-	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) \
-	locale/translate.$(OBJEXT)
+	webserver/request.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
+	filter/url.$(OBJEXT) flate/flate.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/main.$(OBJEXT) locale/translate.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_bibledit_OBJECTS = executable/bibledit.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_DEPENDENCIES = libbibledit.a
+am_unittest_OBJECTS = unittests/unittest.$(OBJEXT)
+unittest_OBJECTS = $(am_unittest_OBJECTS)
+unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -160,8 +162,10 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES)
-DIST_SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES)
+SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES) \
+	$(unittest_SOURCES)
+DIST_SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES) \
+	$(unittest_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -216,6 +220,7 @@ AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
 CXXDEPMODE = @CXXDEPMODE@
@@ -226,7 +231,9 @@ DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
+EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -234,7 +241,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBS = -Wall `xml2-config --libs`
+LIBS = -Wall `xml2-config --libs` $(SQLITE_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -247,9 +254,14 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SQLITE_CFLAGS = @SQLITE_CFLAGS@
+SQLITE_LIBS = @SQLITE_LIBS@
 STRIP = @STRIP@
 VERSION = @VERSION@
 XML2_CONFIG = @XML2_CONFIG@
@@ -304,7 +316,6 @@ libbibledit_a_SOURCES = \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
 	webserver/request.cpp \
-	sqlite/sqlite3.c \
 	bootstrap/bootstrap.cpp \
 	filter/url.cpp \
 	flate/flate.c \
@@ -319,8 +330,10 @@ libbibledit_a_SOURCES = \
 
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
+unittest_SOURCES = unittests/unittest.cpp
+unittest_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++0x `xml2-config \
-	--cflags`
+	--cflags` $(SQLITE_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h
@@ -400,14 +413,6 @@ webserver/http.$(OBJEXT): webserver/$(am__dirstamp) \
 	webserver/$(DEPDIR)/$(am__dirstamp)
 webserver/request.$(OBJEXT): webserver/$(am__dirstamp) \
 	webserver/$(DEPDIR)/$(am__dirstamp)
-sqlite/$(am__dirstamp):
-	@$(MKDIR_P) sqlite
-	@: > sqlite/$(am__dirstamp)
-sqlite/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) sqlite/$(DEPDIR)
-	@: > sqlite/$(DEPDIR)/$(am__dirstamp)
-sqlite/sqlite3.$(OBJEXT): sqlite/$(am__dirstamp) \
-	sqlite/$(DEPDIR)/$(am__dirstamp)
 bootstrap/$(am__dirstamp):
 	@$(MKDIR_P) bootstrap
 	@: > bootstrap/$(am__dirstamp)
@@ -537,6 +542,18 @@ executable/bibledit.$(OBJEXT): executable/$(am__dirstamp) \
 bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) $(EXTRA_bibledit_DEPENDENCIES) 
 	@rm -f bibledit$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
+unittests/$(am__dirstamp):
+	@$(MKDIR_P) unittests
+	@: > unittests/$(am__dirstamp)
+unittests/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) unittests/$(DEPDIR)
+	@: > unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/unittest.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+
+unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
+	@rm -f unittest$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(unittest_OBJECTS) $(unittest_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -550,7 +567,7 @@ mostlyclean-compile:
 	-rm -f library/*.$(OBJEXT)
 	-rm -f locale/*.$(OBJEXT)
 	-rm -f menu/*.$(OBJEXT)
-	-rm -f sqlite/*.$(OBJEXT)
+	-rm -f unittests/*.$(OBJEXT)
 	-rm -f webserver/*.$(OBJEXT)
 
 distclean-compile:
@@ -569,7 +586,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@sqlite/$(DEPDIR)/sqlite3.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/request.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/webserver.Po@am__quote@
@@ -885,8 +902,8 @@ distclean-generic:
 	-rm -f locale/$(am__dirstamp)
 	-rm -f menu/$(DEPDIR)/$(am__dirstamp)
 	-rm -f menu/$(am__dirstamp)
-	-rm -f sqlite/$(DEPDIR)/$(am__dirstamp)
-	-rm -f sqlite/$(am__dirstamp)
+	-rm -f unittests/$(DEPDIR)/$(am__dirstamp)
+	-rm -f unittests/$(am__dirstamp)
 	-rm -f webserver/$(DEPDIR)/$(am__dirstamp)
 	-rm -f webserver/$(am__dirstamp)
 
@@ -900,7 +917,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -948,7 +965,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) sqlite/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
