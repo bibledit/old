@@ -17,17 +17,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
-
-
-#include <iostream>
-#include <cstdlib>
-#include <webserver/request.h>
+#include <string>
+#include <assets/view.h>
+#include <assets/page.h>
 
 
 using namespace std;
 
 
-void http_get_header_get (string headers, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+string index_index ()
+{
+  string page;
+
+  page = Assets_Page::header ("Bibledit-Web", ""); // Todo building this: It should display the menu, depending on the login and level.
+
+  Assets_View * view = new Assets_View (__FILE__);
+  page += view->render ("");
+
+  page += Assets_Page::footer ();
+
+  return page;
+}

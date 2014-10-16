@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <index/index.h>
 #include <bootstrap/bootstrap.h>
+#include <webserver/http.h>
 
 
 using namespace std;
@@ -31,11 +32,11 @@ using namespace std;
 // Based on the request from the client, it decides what other functions to call to assemble the response.
 void bootstrap_index (Webserver_Request * request)
 {
-  //  cout << request->get << endl; // Todo
   string extension = filter_url_get_extension (request->get);
   
-  // /favicon.ico: Not yet implemented.
-  if (request->get == "/favicon.ico") {
+  // Serve icons.
+  if (extension  == "ico") {
+    http_serve_file (request);
   }
   
   // Home page.
@@ -45,7 +46,12 @@ void bootstrap_index (Webserver_Request * request)
   
   // Serve stylesheets.
   else if (extension == "css") {
-    cout << request->get << endl; // Todo
+    http_serve_file (request);
+  }
+  
+  // Serve javascript.
+  else if (extension == "js") {
+    http_serve_file (request);
   }
 
   // Forward the browser to the default home page.

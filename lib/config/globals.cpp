@@ -17,17 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
-
-
-#include <iostream>
-#include <cstdlib>
-#include <webserver/request.h>
+#include <config/globals.h>
 
 
 using namespace std;
 
 
-void http_get_header_get (string headers, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+void documentroot (string path)
+{
+  config_globals_document_root = path;
+}
+
+
+string config_globals_document_root = "/";
+
+

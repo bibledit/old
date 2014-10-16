@@ -22,12 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <iostream>
 #include <cstdlib>
-#include <webserver/request.h>
+#include <vector>
 
 
 using namespace std;
 
 
-void http_get_header_get (string headers, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+string gettext (string english);

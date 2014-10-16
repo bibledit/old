@@ -20,14 +20,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 
-#include <iostream>
 #include <cstdlib>
-#include <webserver/request.h>
+#include <string>
 
 
 using namespace std;
 
 
-void http_get_header_get (string headers, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+class Webserver_Request
+{
+public:
+  Webserver_Request ();
+  ~Webserver_Request ();
+  string get; // The page the browser requests via GET.
+  string query; // The query from the browser, e.g. foo=bar&baz=qux
+  string header; // Extra header to be sent back to the browser.
+  string reply; // Body to be sent back to the browser.
+  int response_code; // Response code to be sent to the browser.
+private:
+};
+
+

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 #include <sstream>
 #include <filter/url.h>
+#include <config/globals.h>
 
 
 using namespace std;
@@ -92,16 +93,18 @@ void http_assemble_response (Webserver_Request * request)
   if (request->response_code == 200) http_response_code_fragment = "200 OK";
   if (request->response_code == 302) http_response_code_fragment = "302 Found";
 
-  // Assemble the Content-Type. Todo
+  // Assemble the Content-Type.
   string extension = filter_url_get_extension (request->get);
   string content_type;
   if (extension == "js") content_type = "application/javascript";
-  else if (extension == "css") content_type = "text/css"; // Todo this requires separation of the bits after the ? in the GET request: Update the request object for that.
+  else if (extension == "css") content_type = "text/css";
+  else if (extension == "ico") content_type = "image/vnd.microsoft.icon";
   else content_type = "text/html";
 
   // Assemble the complete response for the browser.
   vector <string> response;
   response.push_back ("HTTP/1.1 " + http_response_code_fragment);
+  response.push_back ("Accept-Ranges: bytes");
   response.push_back ("Content-Length: " + length.str());
   response.push_back ("Content-Type: " + content_type);
   if (!request->header.empty ()) response.push_back (request->header);
@@ -114,4 +117,18 @@ void http_assemble_response (Webserver_Request * request)
     assembly += response [i];
   }
   request->reply = assembly;
+}
+
+
+// This function serves a file.
+void http_serve_file (Webserver_Request * request)
+{
+  // Full path to the file.
+  vector <string> components;
+  components.push_back (config_globals_document_root);
+  components.push_back (request->get);
+  string filename = filter_url_create_path (components);
+  
+  // Get file's contents.
+  request->reply = filter_url_get_file_contents (filename);
 }

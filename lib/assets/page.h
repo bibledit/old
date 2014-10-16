@@ -20,14 +20,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 
-#include <iostream>
-#include <cstdlib>
-#include <webserver/request.h>
+#include <flate/flate.h>
+#include <string>
+#include <map>
 
 
 using namespace std;
 
 
-void http_get_header_get (string headers, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+class Assets_Page
+{
+public:
+  Assets_Page (const char * file);
+  ~Assets_Page ();
+  static string header (string title, string searchQuery);
+  static string success (string message);
+  static string error (string message);
+  static string message (string message);
+  static string footer ();
+private:
+};
+
+

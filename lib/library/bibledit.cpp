@@ -33,6 +33,9 @@ using namespace std;
 
 int bibledit (int argc, char **argv) 
 {
+  if (argc) {};
+  if (argv[0]) {};
+
   cout << "Listening on http://localhost:8080" << endl;
   cout << "Press Ctrl-C to quit" << endl;
 

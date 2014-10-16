@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <vector>
 #include <sstream>
+#include <fstream>
 #include <libgen.h>
 #include <sys/stat.h>
 
@@ -107,4 +108,20 @@ bool filter_url_file_exists (string url)
 {
   struct stat buffer;   
   return (stat (url.c_str(), &buffer) == 0);
+}
+
+
+// C++ rough equivalent for PHP's file_get_contents.
+string filter_url_get_file_contents (string filename)
+{
+  try {
+    ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
+    ifstream::pos_type filesize = ifs.tellg();
+    ifs.seekg (0, ios::beg);
+    vector <char> bytes (filesize);
+    ifs.read (&bytes[0], filesize);
+    return string (&bytes[0], filesize);
+  } catch (...) {
+    return "";
+  }
 }

@@ -20,14 +20,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 
-#include <iostream>
-#include <cstdlib>
-#include <webserver/request.h>
+#include <flate/flate.h>
+#include <string>
+#include <vector>
+#include <assets/view.h>
 
 
 using namespace std;
 
 
-void http_get_header_get (string headers, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+class Assets_Header
+{
+public:
+  Assets_Header (string title);
+  ~Assets_Header ();
+  void jQueryUIOn (string subset = "");
+  void addHeadLine (string line);
+  void setBodyOnload (string code);
+  void setLogin ();
+  void setNavigator ();
+  void setStylesheet ();
+  void setEditorStylesheet ();
+  void setSearchQuery (string query);
+  bool displayTopbar ();
+  string run ();
+private:
+  Assets_View * view;
+  bool includeJQueryUI;
+  string JQueryUISubset;
+  vector <string> headLines;
+  bool displayNavigator;
+  bool includedStylesheet;
+  bool includedEditorStylesheet;
+};
+
+

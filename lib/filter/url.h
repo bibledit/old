@@ -35,3 +35,4 @@ string filter_url_basename (string url);
 string filter_url_create_path (vector <string> components);
 string filter_url_get_extension (string url);
 bool filter_url_file_exists (string url);
+string filter_url_get_file_contents (string filename);
