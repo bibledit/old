@@ -81,7 +81,7 @@ void Database_Config_General::setList (const char * key, vector <string> values)
 }
 
 
-// Named configuration function.
+// Named configuration functions.
 
 
 string Database_Config_General::getSiteMailName ()
