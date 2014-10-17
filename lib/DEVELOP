@@ -8,6 +8,11 @@ but newer versions of PHP, like 5.6, crashed,
 and older versions, like 5.4 left out symbols which crippled the library.
 When everything is written in C or in C++, it can be compiled for the mobile devices without problems.
 
+Another reason for switching to C++ is that when it runs on a server,
+it requires less server memory and places a lower demand on the CPU.
+And such a server is less expensive to rent.
+And for mobile platforms, the battery will last longer.
+
 For mobile platforms it is easier to include all dependent libraries in source form.
 For example, include sqlite.h and sqlite.c to get SQLite support.
 

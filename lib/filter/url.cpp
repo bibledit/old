@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libgen.h>
 #include <sys/stat.h>
 #include <cstring>
+#include <config/globals.h>
 
 
 using namespace std;
@@ -86,6 +87,18 @@ string filter_url_create_path (vector <string> components)
 }
 
 
+// Creates a file path out of the variable list of components, relative to the server's document root.
+string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "")
+{
+  string path = config_globals_document_root;
+  if (part1.length()) path += "/" + part1;
+  if (part2.length()) path += "/" + part2;
+  if (part3.length()) path += "/" + part3;
+  if (part4.length()) path += "/" + part4;
+  return path;
+}
+
+
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
 string filter_url_get_extension (string url)
 {
@@ -118,5 +131,18 @@ string filter_url_get_file_contents (string filename)
     return string (&bytes[0], filesize);
   } catch (...) {
     return "";
+  }
+}
+
+
+// C++ rough equivalent for PHP's file_put_contents.
+void filter_url_put_file_contents (string filename, string contents)
+{
+  try {
+    ofstream file;  
+    file.open (filename, ios::binary);  
+    file << contents;
+    file.close ();
+  } catch (...) {
   }
 }

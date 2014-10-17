@@ -107,11 +107,12 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	webserver/webserver.$(OBJEXT) webserver/http.$(OBJEXT) \
 	webserver/request.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
-	filter/url.$(OBJEXT) flate/flate.$(OBJEXT) \
-	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
-	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
-	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/main.$(OBJEXT) locale/translate.$(OBJEXT)
+	filter/url.$(OBJEXT) filter/string.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
+	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
+	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) \
+	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -318,6 +319,7 @@ libbibledit_a_SOURCES = \
 	webserver/request.cpp \
 	bootstrap/bootstrap.cpp \
 	filter/url.cpp \
+	filter/string.cpp \
 	flate/flate.c \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -326,7 +328,8 @@ libbibledit_a_SOURCES = \
 	config/globals.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
-	locale/translate.cpp
+	locale/translate.cpp \
+	database/config/general.cpp
 
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
@@ -429,6 +432,8 @@ filter/$(DEPDIR)/$(am__dirstamp):
 	@: > filter/$(DEPDIR)/$(am__dirstamp)
 filter/url.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
+filter/string.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
 	@: > flate/$(am__dirstamp)
@@ -483,6 +488,14 @@ locale/$(DEPDIR)/$(am__dirstamp):
 	@: > locale/$(DEPDIR)/$(am__dirstamp)
 locale/translate.$(OBJEXT): locale/$(am__dirstamp) \
 	locale/$(DEPDIR)/$(am__dirstamp)
+database/config/$(am__dirstamp):
+	@$(MKDIR_P) database/config
+	@: > database/config/$(am__dirstamp)
+database/config/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) database/config/$(DEPDIR)
+	@: > database/config/$(DEPDIR)/$(am__dirstamp)
+database/config/general.$(OBJEXT): database/config/$(am__dirstamp) \
+	database/config/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -560,6 +573,7 @@ mostlyclean-compile:
 	-rm -f assets/*.$(OBJEXT)
 	-rm -f bootstrap/*.$(OBJEXT)
 	-rm -f config/*.$(OBJEXT)
+	-rm -f database/config/*.$(OBJEXT)
 	-rm -f executable/*.$(OBJEXT)
 	-rm -f filter/*.$(OBJEXT)
 	-rm -f flate/*.$(OBJEXT)
@@ -578,7 +592,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
@@ -888,6 +904,8 @@ distclean-generic:
 	-rm -f bootstrap/$(am__dirstamp)
 	-rm -f config/$(DEPDIR)/$(am__dirstamp)
 	-rm -f config/$(am__dirstamp)
+	-rm -f database/config/$(DEPDIR)/$(am__dirstamp)
+	-rm -f database/config/$(am__dirstamp)
 	-rm -f executable/$(DEPDIR)/$(am__dirstamp)
 	-rm -f executable/$(am__dirstamp)
 	-rm -f filter/$(DEPDIR)/$(am__dirstamp)
@@ -917,7 +935,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -965,7 +983,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

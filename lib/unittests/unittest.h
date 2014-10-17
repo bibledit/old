@@ -19,7 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <iostream>
 #include <cstdlib>
+#include <string>
+
+
+using namespace std;
 
 
 int main (int argc, char **argv);
-
+string testing_directory;
+void refresh_sandbox ();
+void error_message (string function, string desired, string actual);

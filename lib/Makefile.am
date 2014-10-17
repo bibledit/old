@@ -7,6 +7,7 @@ libbibledit_a_SOURCES = \
 	webserver/request.cpp \
 	bootstrap/bootstrap.cpp \
 	filter/url.cpp \
+	filter/string.cpp \
 	flate/flate.c \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -15,7 +16,8 @@ libbibledit_a_SOURCES = \
 	config/globals.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
-	locale/translate.cpp
+	locale/translate.cpp \
+	database/config/general.cpp
 
 bin_PROGRAMS = bibledit unittest
 
