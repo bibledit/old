@@ -20,10 +20,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <iostream>
 #include <cstdlib>
 #include <library/bibledit.h>
+#include <signal.h>
+
+
+void sigint_handler (int s)
+{
+  if (s) {};
+  exit (0);
+}
 
 
 int main (int argc, char **argv) 
 {
+  // Ctrl-C would normally interrupt Bibledit, and that's desired behaviour.
+  // But it would not be valgrind-clean in this way.
+  // Setting up a signal handler that exits the program makes it valgrind-clean.
+  struct sigaction sigIntHandler;
+  sigIntHandler.sa_handler = sigint_handler;
+  sigemptyset (&sigIntHandler.sa_mask);
+  sigIntHandler.sa_flags = 0;
+  sigaction (SIGINT, &sigIntHandler, NULL);
+
+  // Start Bibledit library to listen for connection and deal with them.
   return bibledit (argc, argv);
 }
 

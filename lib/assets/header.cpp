@@ -42,6 +42,7 @@ Assets_Header::Assets_Header (string title)
 
 Assets_Header::~Assets_Header ()
 {
+  delete view;
 }
 
 
@@ -164,8 +165,8 @@ string Assets_Header::run ()
 
   if (displayTopbar ()) { // Todo working here.
     view->enable_zone ("display_topbar");
-    Menu_Main * menu_main = new Menu_Main (); // Todo port main menu to C++
-    view->set_variable ("mainmenu", menu_main->create ());
+    Menu_Main menu_main = Menu_Main (); // Todo port main menu to C++
+    view->set_variable ("mainmenu", menu_main.create ());
     /*
     $menu_user = new Menu_User (); // Todo port user menu to C++
     $this->view->view->usermenu = $menu_user->create ();

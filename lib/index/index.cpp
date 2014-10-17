@@ -31,8 +31,8 @@ string index_index ()
 
   page = Assets_Page::header ("Bibledit-Web", ""); // Todo building this: It should display the menu, depending on the login and level.
 
-  Assets_View * view = new Assets_View (__FILE__);
-  page += view->render ("");
+  Assets_View view = Assets_View (__FILE__);
+  page += view.render ("");
 
   page += Assets_Page::footer ();
 

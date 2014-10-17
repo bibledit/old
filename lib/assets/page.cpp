@@ -30,6 +30,7 @@ using namespace std;
 
 Assets_Page::Assets_Page (const char * file)
 {
+  if (file) {};
 }
 
 
@@ -40,15 +41,16 @@ Assets_Page::~Assets_Page ()
 
 string Assets_Page::header (string title, string searchQuery) // Todo writing.
 {
-  Assets_Header * header = new Assets_Header (title);
-  header->setSearchQuery (searchQuery);
-  string page = header->run ();
+  Assets_Header header = Assets_Header (title);
+  header.setSearchQuery (searchQuery);
+  string page = header.run ();
   return page;
 }
 
 
 string Assets_Page::success (string message)
 {
+  if (message.length()) {};
   /* C++Port
     $view = new Assets_View (__FILE__);
     $view->view->message = $message;
@@ -60,6 +62,7 @@ string Assets_Page::success (string message)
 
 string Assets_Page::error (string message)
 {
+  if (message.length()) {};
   /* C++Port
     $view = new Assets_View (__FILE__);
     $view->view->message = $message;
@@ -71,6 +74,7 @@ string Assets_Page::error (string message)
 
 string Assets_Page::message (string message)
 {
+  if (message.length()) {};
   /* C++Port
     $view = new Assets_View (__FILE__);
     $view->view->message = $message;
@@ -83,11 +87,10 @@ string Assets_Page::message (string message)
 string Assets_Page::footer ()
 {
   string page;
-  Assets_View * view;
-  view = new Assets_View (__FILE__);
-  page += view->render ("footer.html");
-  view = new Assets_View (__FILE__);
-  page += view->render ("xhtml_finish.html");
+  Assets_View view = Assets_View (__FILE__);
+  page += view.render ("footer.html");
+  view = Assets_View (__FILE__);
+  page += view.render ("xhtml_finish.html");
   return page;
 }
 

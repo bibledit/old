@@ -15,3 +15,6 @@ Platform iOS needs static libraries so libbibledit.a will be a static library.
 
 The Bibledit library runs a webserver.
 
+Since Bibledit is going to run as a server, it may run for years without interruption.
+Therefore it is imperative that it leaks no memory at all.
+Keep it valgrind clean.

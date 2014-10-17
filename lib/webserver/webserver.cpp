@@ -82,7 +82,8 @@ void webserver ()
     Webserver_Request * request = new Webserver_Request ();
 
     // Read the client's request.
-    char buffer[65535];
+    char buffer [65535];
+    memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
     size_t bytes_read;
     bytes_read = read (connfd, buffer, sizeof (buffer));
     if (bytes_read) {};

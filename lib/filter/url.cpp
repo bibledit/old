@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <fstream>
 #include <libgen.h>
 #include <sys/stat.h>
+#include <cstring>
 
 
 using namespace std;
@@ -55,11 +56,8 @@ string filter_url_dirname (string url)
   char * writable = new char [url.size() + 1];
   copy (url.begin(), url.end(), writable);
   writable[url.size()] = '\0';
-
   string directoryname = dirname (writable);
-
   delete [] writable;
-  
   return directoryname;
 }
 
@@ -70,11 +68,8 @@ string filter_url_basename (string url)
   char * writable = new char [url.size() + 1];
   copy (url.begin(), url.end(), writable);
   writable[url.size()] = '\0';
-
   string base_name = basename (writable);
-
   delete [] writable;
-  
   return base_name;
 }
 

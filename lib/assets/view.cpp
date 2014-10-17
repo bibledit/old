@@ -49,7 +49,7 @@ Assets_View::Assets_View (string file)
 
 Assets_View::~Assets_View ()
 {
-  flateFreeMem (view);
+  if (view) flateFreeMem (view);
 }
 
 
@@ -82,7 +82,7 @@ string Assets_View::render (string tpl)
     tpl = filter_url_basename (tpl);
     tpl += "html";
   }
-  // Variable tpl is relative, make it a full path now.
+  // Variable tpl is a relative path. Make it a full one.
   vector <string> components;
   components.push_back (config_globals_document_root);
   components.push_back (filter_url_dirname (caller));
@@ -116,5 +116,7 @@ string Assets_View::render (string tpl)
   char *buf = flatePage (view);
   string page = buf;
   free (buf);
+  if (view) flateFreeMem (view); // Fix memory leak detected by valgrind.
+  view = NULL; // No double free.
   return page;
 }

@@ -350,6 +350,8 @@ string Menu_Main::create ()
   // Free memory.
   if (xmlwriter) xmlFreeTextWriter(xmlwriter);
   if (xmlbuffer) xmlBufferFree(xmlbuffer);
+  xmlCleanupCharEncodingHandlers ();
+  delete main_menu;
 
   // Remove the <?xml version="1.0" encoding="UTF-8"?>
   html.erase (0, html.find (">") + 1);
