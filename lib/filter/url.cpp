@@ -88,13 +88,14 @@ string filter_url_create_path (vector <string> components)
 
 
 // Creates a file path out of the variable list of components, relative to the server's document root.
-string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "")
+string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "")
 {
   string path = config_globals_document_root;
   if (part1.length()) path += "/" + part1;
   if (part2.length()) path += "/" + part2;
   if (part3.length()) path += "/" + part3;
   if (part4.length()) path += "/" + part4;
+  if (part5.length()) path += "/" + part5;
   return path;
 }
 
@@ -116,6 +117,13 @@ bool filter_url_file_exists (string url)
 {
   struct stat buffer;   
   return (stat (url.c_str(), &buffer) == 0);
+}
+
+
+// Wrapper for the mkdir function: make a directory.
+void filter_url_mkdir (string directory)
+{
+  mkdir (directory.c_str(), 0777);
 }
 
 

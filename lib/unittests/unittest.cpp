@@ -23,7 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sys/stat.h>
 #include <unittests/unittest.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
 #include <config/globals.h>
+#include <filter/url.h>
 
 
 using namespace std;
@@ -47,6 +49,7 @@ void error_message (string function, string desired, string actual)
   cout << "Desired result: " << desired << endl;
   cout << "Actual result:  " << actual << endl;
   cout << endl;
+  error_count++;
 }
 
 
@@ -60,27 +63,42 @@ int main (int argc, char **argv)
   
   // Directory where the unit tests will run.
   testing_directory = "/tmp/bibledit-unittests";  
-  mkdir (testing_directory.c_str(), 0777);
+  filter_url_mkdir (testing_directory);
   refresh_sandbox ();
   config_globals_document_root = testing_directory;
+  
+  error_count = 0;
 
   // Variables for general use.  
   string s1, s2;
   vector <string> vs1, vs2;
-  
+ 
   // Tests for Database_Config_General.
-  Database_Config_General database_config_general = Database_Config_General ();
-
   s1 = "Bible Translation";
-  s2 = database_config_general.getSiteMailName ();
+  s2 = Database_Config_General::getSiteMailName ();
   if (s1 != s2) error_message ("Database_Config_General::getSiteMailName", s1, s2);
   s1 = "unittest";
-  database_config_general.setSiteMailName (s1);
-  s2 = database_config_general.getSiteMailName ();
+  Database_Config_General::setSiteMailName (s1);
+  s2 = Database_Config_General::getSiteMailName ();
   if (s1 != s2) error_message ("Database_Config_General::getSiteMailName", s1, s2);
 
+  s1 = "";
+  s2 = Database_Config_General::getMailStorageSecurity ();
+  if (s1 != s2) error_message ("Database_Config_General::getMailStorageSecurity", s1, s2);
+  
+  // Tests for Database_Config_Bible.
+  s1 = "";
+  s2 = Database_Config_Bible::getViewableByAllUsers ("testbible");
+  if (s1 != s2) error_message ("Database_Config_Bible::getViewableByAllUsers", s1, s2);
+  s1 = "1";
+  Database_Config_Bible::setViewableByAllUsers ("testbible", s1);
+  s2 = Database_Config_Bible::getViewableByAllUsers ("testbible");
+  if (s1 != s2) error_message ("Database_Config_Bible::getViewableByAllUsers", s1, s2);
   
   
+  
+  if (error_count == 0) cout << "All tests passed" << endl;
+  else cout << "Number of failures: " << error_count << endl;
   return 0;
 }
 

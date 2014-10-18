@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-Database_Config_General::Database_Config_General () // Todo
+Database_Config_General::Database_Config_General ()
 {
 }
 

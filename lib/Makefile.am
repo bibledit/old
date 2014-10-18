@@ -17,7 +17,8 @@ libbibledit_a_SOURCES = \
 	menu/logic.cpp \
 	menu/main.cpp \
 	locale/translate.cpp \
-	database/config/general.cpp
+	database/config/general.cpp \
+	database/config/bible.cpp
 
 bin_PROGRAMS = bibledit unittest
 
