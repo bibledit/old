@@ -23,21 +23,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <iostream>
 #include <cstdlib>
 #include <vector>
-#include <webserver/request.h>
 
 
 using namespace std;
 
 
-void filter_url_redirect (string url, Webserver_Request * request);
-string filter_url_dirname (string url);
-string filter_url_basename (string url);
-string filter_url_create_path (vector <string> components);
-string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "");
-string filter_url_get_extension (string url);
-bool filter_url_file_exists (string url);
-void filter_url_mkdir (string directory);
-string filter_url_get_file_contents (string filename);
-void filter_url_put_file_contents (string filename, string contents);
-void filter_url_put_file_contents_apend (string filename, string contents);
+class Filter_Roles
+{
+public:
+  Filter_Roles ();
+  ~Filter_Roles ();
+  static int guest ();
+  static int member ();
+  static int consultant ();
+  static int translator ();
+  static int manager ();
+  static int admin ();
+  static int lowest ();
+  static int highest ();
+  static string text (int role);
+private:
+
+};
+
 

@@ -24,8 +24,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/unittest.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
+#include <database/logs.h>
 #include <config/globals.h>
 #include <filter/url.h>
+#include <filter/string.h>
+#include <filter/roles.h>
 
 
 using namespace std;
@@ -53,9 +56,17 @@ void error_message (string function, string desired, string actual)
 }
 
 
+void error_message (string function, int desired, int actual)
+{
+  string s1 = filter_string_convert_to_string (desired);
+  string s2 = filter_string_convert_to_string (actual);
+  error_message (function, s1, s2);
+}
+
+
 int main (int argc, char **argv) 
 {
-  cout << "Running Bibledit unittests" << endl;
+  cout << "Running unittests" << endl;
 
   // No compile warnings.
   if (argc) {};
@@ -71,6 +82,7 @@ int main (int argc, char **argv)
 
   // Variables for general use.  
   string s1, s2;
+  int i1, i2;
   vector <string> vs1, vs2;
  
   // Tests for Database_Config_General.
@@ -94,6 +106,23 @@ int main (int argc, char **argv)
   Database_Config_Bible::setViewableByAllUsers ("testbible", s1);
   s2 = Database_Config_Bible::getViewableByAllUsers ("testbible");
   if (s1 != s2) error_message ("Database_Config_Bible::getViewableByAllUsers", s1, s2);
+  
+  // Tests for filter_string.
+  s1 = "⇊⇦";
+  s2 = filter_string_str_replace ("⇖", "", "⇊⇖⇦");
+  if (s1 != s2) error_message ("filter_string_str_replace", s1, s2);
+
+  // Tests for Database_Logs.
+  Database_Logs::log ("description", 2);
+  
+  // Tests for Filter_Roles.
+  i1 = 3;
+  i2 = Filter_Roles::consultant ();
+  if (i1 != i2) error_message ("Filter_Roles::consultant", i1, i2);
+  i1 = 1;
+  i2 = Filter_Roles::lowest ();
+  if (i1 != i2) error_message ("Filter_Roles::lowest", i1, i2);
+  
   
   
   

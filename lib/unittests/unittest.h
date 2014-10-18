@@ -29,4 +29,5 @@ int main (int argc, char **argv);
 string testing_directory;
 void refresh_sandbox ();
 void error_message (string function, string desired, string actual);
+void error_message (string function, int desired, int actual);
 int error_count;

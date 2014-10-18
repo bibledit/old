@@ -61,3 +61,29 @@ string filter_string_implode (vector <string>& values, string delimiter)
   return full;  
 }
 
+
+// A C++ rough equivalent for PHP's str_replace function.
+string filter_string_str_replace (string search, string replace, string subject)
+{
+  size_t offposition = subject.find (search);
+  while (offposition != string::npos) {
+    subject.replace (offposition, search.length (), replace);
+    offposition = subject.find (search, offposition + replace.length ());
+  }
+  return subject;
+}
+
+
+string filter_string_convert_to_string (unsigned int i)
+{
+  ostringstream r;
+  r << i;
+  return r.str();
+}
+
+
+string filter_string_convert_to_string (char * c)
+{
+  string s = c;
+  return s;
+}

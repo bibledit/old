@@ -154,3 +154,19 @@ void filter_url_put_file_contents (string filename, string contents)
   } catch (...) {
   }
 }
+
+
+// C++ rough equivalent for PHP's file_put_contents.
+// Appends the data if the file exists.
+void filter_url_put_file_contents_apend (string filename, string contents)
+{
+  try {
+    ofstream file;  
+    file.open (filename, ios::binary | ios::app);  
+    file << contents;
+    file.close ();
+  } catch (...) {
+  }
+}
+
+

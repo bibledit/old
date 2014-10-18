@@ -18,66 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-/*
-It has been seen on a shared hosting platform that the MySQL server did not have
-sufficient available concurrent connections at times.
-Other processes were using many connections, so that none remained for Bibledit-Web.
-That is a reason against using MySQL on shared hosting.
-
-A reason for using SQLite is that it is easier to set up.
-No users, no privileges, no server.
-
-Another reason is that a backup of the web space also back ups the SQLite databases,
-provided they are stored in the web space.
-With MySQL this is hard to do.
-
-Usually with shared hosting, the web space is big, but the MySQL database space is small.
-With a few Bibles, and several notes, plus resources, the MySQL database is full.
-SQLite uses the huge web space that usually come with shared hosting.
-Therefore it can store much more data with the same shared hosting package.
-
-While MySQL is a faster database than SQLite in isolated experiments, 
-on shared hosts it may be different.
-The reasons is that on a shared host, SQLite gets the data in the same process 
-straight from disk. This works differently for MySQL. In most cases, the shared
-host uses a separate database server. Thus the web server fetches its data
-from another host through the network. This introduces some delays.
-For smaller data sets SQLite is much faster in this scenario.
-
-Some often-used databases at times display database errors:
-  disk I/O error
-  unable to open database file
-It was tried wiether the errors go away when "PRAGMA busy_timeout = 100;"
-is executed after opening the database connection. The errors did not go away.
-
-It was tried whether the above errors go away on shared hosting with this command:
-PRAGMA journal_mode = TRUNCATE;
-The errors did not go away.
-
-It was tried whether the above errors go away on shared hosting with this command:
-PRAGMA temp_store = MEMORY;
-The errors did not go away.
-
-It was tried whether the above errors go away on shared hosting with this command:
-PRAGMA journal_mode = MEMORY;
-The errors went away, but the database behaved in an inconsistent way.
-It did not keeps its data properly, and did not update it properly.
-The same behaviour was found with:
-PRAGMA journal_mode = OFF;
-
-It was tried whether setting the environment variable TMPDIR to a directory
-in our own web space would improve SQLite, but this did not improve SQLite.
-However, in other areas it looked as if this did give improvement.
-
-What made a big difference is this:
-1. Changing the database for the logbook from SQLite to the filesystem.
-2. Setting the TMPDIR to a folder inside Bibledit's own webspace.
-3. Letting the tasks runner not use a SQLite database, but the file system and memory.
-The database errors went away.
-
-*/
-
-
 class Database_SQLite {
 
 
