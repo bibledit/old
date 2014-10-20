@@ -24,4 +24,4 @@ using namespace std;
 
 
 extern string config_globals_document_root;
-
+extern bool config_globals_unit_testing;

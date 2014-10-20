@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>
+#include <database/sqlite.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -77,18 +78,24 @@ int main (int argc, char **argv)
   filter_url_mkdir (testing_directory);
   refresh_sandbox ();
   config_globals_document_root = testing_directory;
-  
+
+  // Number of failed unit tests.  
   error_count = 0;
+  
+  // Flag for unit tests.
+  config_globals_unit_testing = true;
 
   // Variables for general use.  
   string s1, s2;
   int i1, i2;
   vector <string> vs1, vs2;
+  map <string, vector <string> > mvs1, mvs2;
  
   // Tests for Database_Config_General.
   s1 = "Bible Translation";
   s2 = Database_Config_General::getSiteMailName ();
   if (s1 != s2) error_message ("Database_Config_General::getSiteMailName", s1, s2);
+
   s1 = "unittest";
   Database_Config_General::setSiteMailName (s1);
   s2 = Database_Config_General::getSiteMailName ();
@@ -102,6 +109,7 @@ int main (int argc, char **argv)
   s1 = "";
   s2 = Database_Config_Bible::getViewableByAllUsers ("testbible");
   if (s1 != s2) error_message ("Database_Config_Bible::getViewableByAllUsers", s1, s2);
+
   s1 = "1";
   Database_Config_Bible::setViewableByAllUsers ("testbible", s1);
   s2 = Database_Config_Bible::getViewableByAllUsers ("testbible");
@@ -112,17 +120,36 @@ int main (int argc, char **argv)
   s2 = filter_string_str_replace ("⇖", "", "⇊⇖⇦");
   if (s1 != s2) error_message ("filter_string_str_replace", s1, s2);
 
+  // Tests for SQLite.
+  sqlite3 * db = database_sqlite_connect ("sqlite");
+  if (!db) error_message ("database_sqlite_connect", "pointer", "NULL");
+  database_sqlite_exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
+  database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
+  database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");
+  database_sqlite_exec (db, "INSERT INTO test VALUES (345, 678, 901);");
+  mvs1 = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
+  s1 = "567";
+  s2 = mvs1 ["column2"] [1]; 
+  if (s1 != s2) error_message ("database_sqlite_query", s1, s2);
+
+  database_sqlite_disconnect (db);
+  database_sqlite_disconnect (NULL);
+  
   // Tests for Database_Logs.
+  config_globals_unit_testing = false;
   Database_Logs::log ("description", 2);
+  config_globals_unit_testing = true;
   
   // Tests for Filter_Roles.
   i1 = 3;
   i2 = Filter_Roles::consultant ();
   if (i1 != i2) error_message ("Filter_Roles::consultant", i1, i2);
+
   i1 = 1;
   i2 = Filter_Roles::lowest ();
   if (i1 != i2) error_message ("Filter_Roles::lowest", i1, i2);
   
+
   
   
   

@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/users.h>
+#include <database/sqlite.h>
 #include <vector>
 #include <sstream>
 #include <fstream>
@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cstring>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <stdexcept>
+#include <database/logs.h>
 
 
 using namespace std;
@@ -91,3 +93,81 @@ The database errors went away.
 */
 
 
+sqlite3 * database_sqlite_connect (string database)
+{
+  sqlite3 *db;
+  int rc;
+  try {
+    string file = filter_url_create_root_path ("databases", database + ".sqlite");
+    rc = sqlite3_open (file.c_str(), &db);
+    if (rc) {
+      throw runtime_error (sqlite3_errmsg (db));
+    }
+    sqlite3_busy_timeout (db, 1000);
+  } catch (exception & ex) {
+    string message = "Database " + database + ": " + ex.what();
+    Database_Logs::log (message);
+    return NULL;
+  }
+  return db;
+}
+
+
+void database_sqlite_exec (sqlite3 * db, string sql)
+{
+  int rc;
+  try {
+    char *error = NULL;
+    rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
+    if (rc != SQLITE_OK) {
+      throw runtime_error (error);
+    }
+  } catch (exception & ex) {
+    string message = "SQL " + sql + ": " + ex.what();
+    Database_Logs::log (message);
+  }
+}
+
+
+map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
+{
+  int rc;
+  SqliteReader reader (0);
+  try {
+    char *error = NULL;
+    rc = sqlite3_exec (db, sql.c_str(), reader.callback, &reader, &error);
+    if (rc != SQLITE_OK) {
+      throw runtime_error (error);
+    }
+  } catch (exception & ex) {
+    string message = "SQL " + sql + ": " + ex.what();
+    Database_Logs::log (message);
+  }
+  return reader.result;
+}
+
+
+void database_sqlite_disconnect (sqlite3 * database)
+{
+  sqlite3_close (database);
+}
+
+
+SqliteReader::SqliteReader (int dummy)
+{
+  if (dummy) {};
+}
+
+
+SqliteReader::~SqliteReader ()
+{
+}
+
+
+int SqliteReader::callback (void *userdata, int argc, char **argv, char **column_names)
+{
+  for (int i = 0; i < argc; i++) {
+    ((SqliteReader *) userdata)->result [column_names [i]].push_back (argv[i]);
+  }
+  return 0;
+}

@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <sys/time.h>
+#include <config/globals.h>
 
 
 using namespace std;
@@ -235,6 +236,9 @@ void Database_Logs::log (string description, int level) // Todo work here.
 {
   // No new lines.
   description = filter_string_str_replace ("\n", " ", description);
+
+  // During unit testing, send everything to the terminal as well.
+  if (config_globals_unit_testing) cout << description << endl;
 
   // Save this logbook entry to a filename with seconds and microseconds.
   struct timeval tv;
