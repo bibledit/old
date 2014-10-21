@@ -28,12 +28,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <sys/time.h>
 #include <config/globals.h>
+#include <database/sqlite.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <dirent.h>
+#include <algorithm>
 
 
 using namespace std;
 
 
-Database_Logs::Database_Logs () // Todo working here.
+Database_Logs::Database_Logs ()
 {
 }
 
@@ -43,196 +48,13 @@ Database_Logs::~Database_Logs ()
 }
 
 
-
-/* C++Port
-
-// Singleton logic.
-
-
-private function connect ()
-{
-  $db = Database_SQLite::connect ("logs");
-  return $db;
-}
-
-
-public function create ()
-{
-  $db = self::connect ();
-$sql = <<<'EOD'
-CREATE TABLE IF NOT EXISTS logs (
-timestamp integer,
-entry text
-);
-EOD;
-  Database_SQLite::exec ($db, $sql);
-  unset ($db);
-}
-
-
-// Does a checkup on the health of the main database.
-// Optionally recreates it.
-public function checkup ()
-{
-  $database_file = "../databases/logs.sqlite";
-  $database_path = realpath (__DIR__ . "/" . $database_file);
-
-  // Do an integrity check, and bail out if the database is healthy.
-  // An empty file appears healthy too, so deal with that.
-  if (filesize ($database_path) > 0) {
-    $db = self::connect ();
-    $query = "PRAGMA integrity_check;";
-    $result = Database_SQLite::query ($db, $query);
-    $ok = false;
-    foreach ($result as $row) {
-      if ($row[0] == "ok") $ok = true;
-    }
-    unset ($db);
-    if ($ok) return;
-  }
-
-  // Recreate the database.
-  @unlink ($database_path);
-  $this->create ();
-  $this->log ("The Journal database was damaged and has been recreated");
-}
-
-
-public function rotate ()
-{
-  $db = self::connect ();
-  
-  // Speed up adding and removing records.
-  Database_SQLite::exec ($db, "PRAGMA synchronous = OFF;");
-
-  // Transfer the journal entries from the filesystem into the database.
-  // This speeds up subsequent reading of the Journal by the users.
-  // Use a mechanism that handles huge amounts of entries.
-  // Function scandir would choke on this, or take a very long time.
-  // Function opendir / readdir / closedir could handle it better.
-  $folder = $this->folder ();
-  $counter = 0;
-  $files = array ();
-  $handle = opendir ($folder);
-  while (($entry = readdir ($handle)) !== false) {
-    if ($entry != "." && $entry != ".." && $entry != ".htaccess") {
-      $files [] = $entry;
-    }
-    // Read a limited number of entries to avoid getting stuck in them.
-    $counter++;
-    if ($counter > 10000) break;
-    
-  }
-  closedir ($handle);
-  sort ($files);
-  foreach ($files as $file) {
-    $path = $folder . "/" . $file;
-    $timestamp = $file;
-    // Some of the code below have suppressed errors.
-    // This is to ensure that transferring the entries does not generate additional entries entries,
-    // which could lead to an infinite loop, as has been noticed on shared hosting.
-    // It has also been observed that huge journal entries keep generating other huge entries,
-    // which causes the disk to get full.
-    // Therefore huge journal entries will be truncated, and a short message written to the Journal.
-    $filesize = filesize ($path);
-    if ($filesize > 10000) {
-      @$fp = fopen ($path, 'r');
-      @fseek ($fp, 0);
-      @$entry = fread ($fp, 100);
-      @fclose ($fp);
-      $entry .= "... This entry was too large and has been truncated: $filesize bytes";
-    } else {
-      @$entry = file_get_contents ($path);
-    }
-    @unlink ($path);
-    $timestamp = Database_SQLiteInjection::no ($timestamp);
-    $entry = Database_SQLiteInjection::no ($entry);
-    $query = "INSERT INTO logs VALUES ($timestamp, '$entry');";
-    Database_SQLite::exec ($db, $query);
-  }
-
-  // Remove records older than five days from the database.
-  $second = strtotime ("today") -  (6 * 86400);
-  $timestamp = $second . str_repeat ("0", 8);
-  $timestamp = Database_SQLiteInjection::no ($timestamp);
-  $query = "DELETE FROM logs WHERE timestamp < $timestamp;";
-  Database_SQLite::exec ($db, $query);
-
-  $query = "VACUUM logs;";
-  Database_SQLite::exec ($db, $query);
-
-  unset ($db);
-}
-
-
-// Get the logbook entries for $day.
-// Day 0 is today, day 1 is yesterday, and so on.
-public function get ($day)
-{
-  $day = (int) $day;
-  //$firstsecond = strtotime ("today") -  ($day * 86400);
-  // A day is considered not a natural day, but a period of 24 hours from now.
-  $day++;
-  $firstsecond = time () -  ($day * 86400);
-  $lastsecond = $firstsecond + 86400 - 1;
-  $firstfilename = $firstsecond . str_repeat ("0", 8);
-  $lastfilename = $lastsecond . str_repeat ("9", 8);
-
-  $lastentry = $firstfilename;
-
-  $entries = array ();
-
-  // Read them from the database.
-  $db = self::connect ();
-  $firsttimestamp = Database_SQLiteInjection::no ($firstfilename);
-  $lasttimestamp = Database_SQLiteInjection::no ($lastfilename);
-  $query = "SELECT entry FROM logs WHERE timestamp >= $firsttimestamp AND timestamp <= $lasttimestamp ORDER BY rowid ASC;";
-  $result = Database_SQLite::query ($db, $query);
-  foreach ($result as $row) {
-    $entries [] = $row[0];
-  }
-  unset ($db);
-  
-  // Add them from the filesystem.
-  $files = scandir ($this->folder ());
-  $files = Filter_Folders::cleanup ($files);
-  foreach ($files as $file) {
-    if (($file >= $firstfilename) && ($file <= $lastfilename)) {
-      $lastentry = $file;
-      $entries [] = file_get_contents ($this->folder () . "/$file");
-    }
-  }
-
-  return array ($lastentry, $entries);
-}
-
-
-// Gets journal entry more recent than $filename.
-public function getNext ($filename)
-{
-  $files = scandir ($this->folder ());
-  $files = Filter_Folders::cleanup ($files);
-  foreach ($files as $file) {
-    if ($file > $filename) {
-      $entry = file_get_contents ($this->folder () . "/$file");
-      return array ($file, $entry);
-    }
-  }
-
-  return NULL;
-}
-
-
-*/
-
-
 string Database_Logs::folder ()
 {
   return filter_url_create_root_path ("logbook");
 }
 
 
-void Database_Logs::log (string description, int level) // Todo work here.
+void Database_Logs::log (string description, int level)
 {
   // No new lines.
   description = filter_string_str_replace ("\n", " ", description);
@@ -250,14 +72,188 @@ void Database_Logs::log (string description, int level) // Todo work here.
   components.push_back (time);
   string file = filter_url_create_path (components);
 
-  char seconds [64];
-  sprintf (seconds, "%u", (unsigned int) tv.tv_sec);
-
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
   // There may be the rare case of more than one entry per file.
   // Append the data so it won't overwrite an earlier entry.
-  filter_url_put_file_contents_apend (file, filter_string_convert_to_string (level) + " " + seconds + " " + description);
+  filter_url_put_file_contents_apend (file, filter_string_convert_to_string (level) + " " + filter_string_convert_to_string (tv.tv_sec) + " " + description);
 }
 
 
+sqlite3 * Database_Logs::connect ()
+{
+  return database_sqlite_connect ("logs2");
+}
+
+
+void Database_Logs::create ()
+{
+  sqlite3 * db = connect ();
+  string sql = "CREATE TABLE IF NOT EXISTS logs ("
+               " timestamp integer,"
+               " entry text"
+               ");";
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
+}
+
+
+// Does a checkup on the health of the main database.
+// Optionally recreates it.
+void Database_Logs::checkup ()
+{
+  string database = "logs2";
+  if (database_sqlite_healthy (database)) return;
+
+  // Recreate the database.
+  string file = database_sqlite_file (database);
+  unlink (file.c_str());
+  create ();
+  Database_Logs::log ("The Journal database was damaged and has been recreated");
+}
+
+
+void Database_Logs::rotate ()
+{
+  sqlite3 * db = connect ();
+  
+  // Speed up adding and removing records.
+  database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
+
+  // Transfer the journal entries from the filesystem into the database.
+  // This speeds up subsequent reading of the Journal by the users.
+  // Use a mechanism that handles huge amounts of entries.
+  // The PHP function scandir choked on this or take a very long time.
+  // The PHP functions opendir / readdir / closedir handled it better.
+
+  string directory = folder ();
+  int counter = 0;
+  vector <string> files;
+  DIR * dir = opendir (directory.c_str());
+  if (dir) {
+    struct dirent * direntry;
+    while ((direntry = readdir (dir)) != NULL) {
+      string name = direntry->d_name;
+      if (name != "." && name != "..") {
+        files.push_back (name);
+      }
+      // Limit the number of entries to avoid getting stuck in them.
+      counter++;
+      if (counter > 10000) break;
+    }
+  }
+  closedir (dir);
+
+  sort (files.begin(), files.end());
+  
+  for (unsigned int i = 0; i < files.size(); i++) {
+    vector <string> components;
+    components.push_back (directory);
+    components.push_back (files [i]);
+    string path = filter_url_create_path (components);
+    int timestamp = filter_string_convert_to_int (files [i].substr (0, 10));
+    // Some of the code below had suppressed errors in PHP.
+    // This was to ensure that transferring the entries does not generate additional journal entries.
+    // This would lead to an infinite loop, as has been noticed on shared hosting.
+    // It has also been observed that huge journal entries keep generating other huge entries,
+    // which causes the disk to get full.
+    // Therefore huge journal entries will be truncated, and a short message written to the journal.
+    string entry = filter_url_file_get_contents (path);
+    int filesize = filter_url_filesize (path);
+    if (filesize > 10000) {
+      entry = entry.substr (0, 100);
+      entry += "... This entry was too large and has been truncated: " + filter_string_convert_to_string (filesize) + " bytes";
+    }
+    unlink (path.c_str());
+    entry = database_sqlite_no_sql_injection (entry);
+    string sql = "INSERT INTO logs VALUES (" + filter_string_convert_to_string (timestamp) + ", '" + entry + "');";
+    database_sqlite_exec (db, sql);
+  }
+
+  // Remove records older than five days from the database.
+  struct timeval tv;
+  gettimeofday (&tv, NULL);
+  string timestamp = filter_string_convert_to_string (tv.tv_sec - (6 * 86400));
+  string sql = "DELETE FROM logs WHERE timestamp < " + timestamp + ";";
+  database_sqlite_exec (db, sql);
+
+  sql = "VACUUM logs;";
+  database_sqlite_exec (db, sql);
+
+  database_sqlite_disconnect (db);
+}
+
+
+// Get the logbook entries for variable "day".
+// Day 0 is the last 24 hours, day 1 is 24 more hours back, and so on.
+vector <string> Database_Logs::get (int day, int& lastsecond)
+{
+  // A day is considered a period of 24 hours starting now.
+  struct timeval tv;
+  gettimeofday (&tv, NULL);
+  int firstsecond = tv.tv_sec - ((day + 1) * 86400);
+  lastsecond = firstsecond + 86400;
+
+  // Read the entries from the database.
+  vector <string> entries;
+  sqlite3 * db = connect ();
+  string query = "SELECT entry FROM logs WHERE timestamp >= " + filter_string_convert_to_string (firstsecond) + " AND timestamp <= " + filter_string_convert_to_string (lastsecond) + " ORDER BY rowid ASC;";
+  entries = database_sqlite_query (db, query)["entry"];
+  database_sqlite_disconnect (db);
+
+  // Add entries from the filesystem in case of day 0.
+  if (day == 0) {
+    string directory = folder ();
+    vector <string> files = filter_url_scandir (directory);
+    for (unsigned int i = 0; i < files.size(); i++) {
+      string file = files [i];
+      vector <string> components;
+      components.push_back (directory);
+      components.push_back (file);
+      string path = filter_url_create_path (components);
+      string contents = filter_url_file_get_contents (path);
+      entries.push_back (contents);
+      // Last second gets updated based on the filename.
+      lastsecond = filter_string_convert_to_int (file.substr (0, 10));
+    }
+  }
+
+  // Done.  
+  return entries;
+}
+
+
+// Gets journal entry more recent than "filename".
+// Updates "filename" to the item it got.
+string Database_Logs::getNext (string &filename)
+{
+  string directory = folder ();
+  vector <string> files = filter_url_scandir (directory);
+  for (unsigned int i = 0; i < files.size (); i++) {
+    string file = files [i];
+    if (file > filename) {
+      filename = file;
+      vector <string> components;
+      components.push_back (directory);
+      components.push_back (file);
+      string path = filter_url_create_path (components);
+      string contents = filter_url_file_get_contents (path);
+      return contents;
+    }
+  }
+  return "";
+}
+
+
+// Used for unit testing.
+// Updated entries in the database at a timestamp of "oldseconds"
+// to a timestamp of "newseconds".
+void Database_Logs::update (int oldseconds, int newseconds)
+{
+  sqlite3 * db = connect ();
+  for (int i = -1; i <= 1; i++) {
+    string sql = "UPDATE logs SET timestamp = " + filter_string_convert_to_string (newseconds) + " WHERE timestamp = " + filter_string_convert_to_string (oldseconds + i) + ";";
+    database_sqlite_exec (db, sql);
+  }
+  database_sqlite_disconnect (db);
+}

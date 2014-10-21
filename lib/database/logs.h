@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <sqlite3.h>
 
 
 using namespace std;
@@ -34,8 +35,15 @@ public:
   Database_Logs ();
   ~Database_Logs ();
   static void log (string description, int level = 5);
+  void create ();
+  void checkup ();
+  void rotate ();
+  vector <string> get (int day, int& lastsecond);
+  string getNext (string &filename);
+  void update (int oldseconds, int newseconds);
 private:
   static string folder ();
+  sqlite3 * connect ();
 };
 
 

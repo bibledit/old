@@ -130,5 +130,5 @@ void http_serve_file (Webserver_Request * request)
   string filename = filter_url_create_path (components);
   
   // Get file's contents.
-  request->reply = filter_url_get_file_contents (filename);
+  request->reply = filter_url_file_get_contents (filename);
 }

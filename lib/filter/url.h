@@ -37,7 +37,9 @@ string filter_url_create_root_path (string part1 = "", string part2 = "", string
 string filter_url_get_extension (string url);
 bool filter_url_file_exists (string url);
 void filter_url_mkdir (string directory);
-string filter_url_get_file_contents (string filename);
+string filter_url_file_get_contents (string filename);
 void filter_url_put_file_contents (string filename, string contents);
 void filter_url_put_file_contents_apend (string filename, string contents);
+int filter_url_filesize (string filename);
+vector <string> filter_url_scandir (string folder);
 

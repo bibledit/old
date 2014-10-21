@@ -87,3 +87,14 @@ string filter_string_convert_to_string (char * c)
   string s = c;
   return s;
 }
+
+
+int filter_string_convert_to_int (string s)
+{
+  int i = 0;
+  istringstream r (s);
+  r >> i;
+  return i;
+}
+
+

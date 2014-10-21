@@ -25,6 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sys/stat.h>
 #include <cstring>
 #include <config/globals.h>
+#include <stdio.h>
+#include <dirent.h>
+#include <algorithm>
 
 
 using namespace std;
@@ -128,7 +131,7 @@ void filter_url_mkdir (string directory)
 
 
 // C++ rough equivalent for PHP's file_get_contents.
-string filter_url_get_file_contents (string filename)
+string filter_url_file_get_contents (string filename)
 {
   try {
     ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
@@ -170,3 +173,30 @@ void filter_url_put_file_contents_apend (string filename, string contents)
 }
 
 
+// A C++ equivalent for PHP's filesize function.
+int filter_url_filesize (string filename)
+{
+  struct stat stat_buf;
+  int rc = stat (filename.c_str(), &stat_buf);
+  return rc == 0 ? stat_buf.st_size : 0;
+}
+
+
+// A C++ near equivalent for PHP's scandir function.
+vector <string> filter_url_scandir (string folder)
+{
+  vector <string> files;
+  DIR * dir = opendir (folder.c_str());
+  if (dir) {
+    struct dirent * direntry;
+    while ((direntry = readdir (dir)) != NULL) {
+      string name = direntry->d_name;
+      if (name != "." && name != "..") {
+        files.push_back (name);
+      }
+    }
+  }
+  closedir (dir);
+  sort (files.begin(), files.end());
+  return files;
+}

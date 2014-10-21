@@ -93,13 +93,18 @@ The database errors went away.
 */
 
 
+string database_sqlite_file (string database)
+{
+  return filter_url_create_root_path ("databases", database + ".sqlite");
+}
+
+
 sqlite3 * database_sqlite_connect (string database)
 {
   sqlite3 *db;
   int rc;
   try {
-    string file = filter_url_create_root_path ("databases", database + ".sqlite");
-    rc = sqlite3_open (file.c_str(), &db);
+    rc = sqlite3_open (database_sqlite_file (database).c_str(), &db);
     if (rc) {
       throw runtime_error (sqlite3_errmsg (db));
     }
@@ -110,6 +115,12 @@ sqlite3 * database_sqlite_connect (string database)
     return NULL;
   }
   return db;
+}
+
+
+string database_sqlite_no_sql_injection (string sql)
+{
+  return filter_string_str_replace ("'", "''", sql);
 }
 
 
@@ -150,6 +161,28 @@ map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
 void database_sqlite_disconnect (sqlite3 * database)
 {
   sqlite3_close (database);
+}
+
+
+// Does an integrity check on the database.
+// Returns true if healthy, false otherwise.
+bool database_sqlite_healthy (string database)
+{
+  string file = database_sqlite_file (database);
+  bool ok = false;
+  // Do an integrity check on the database.
+  // An empty file appears healthy too, so deal with that.
+  if (filter_url_filesize (file) > 0) {
+    sqlite3 * db = database_sqlite_connect (database);
+    string query = "PRAGMA integrity_check;";
+    map <string, vector <string> > result = database_sqlite_query (db, query);
+    vector <string> health = result ["integrity_check"];
+    if (health.size () == 1) {
+      if (health [0] == "ok") ok = true;
+    }
+    database_sqlite_disconnect (db);
+  }
+  return ok;
 }
 
 
