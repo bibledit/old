@@ -9,6 +9,7 @@ libbibledit_a_SOURCES = \
 	filter/url.cpp \
 	filter/string.cpp \
 	filter/roles.cpp \
+	filter/md5.cpp \
 	flate/flate.c \
 	assets/view.cpp \
 	assets/page.cpp \

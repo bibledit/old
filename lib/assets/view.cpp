@@ -83,11 +83,7 @@ string Assets_View::render (string tpl)
     tpl += "html";
   }
   // Variable tpl is a relative path. Make it a full one.
-  vector <string> components;
-  components.push_back (config_globals_document_root);
-  components.push_back (filter_url_dirname (caller));
-  components.push_back (tpl);
-  tpl = filter_url_create_path (components);
+  tpl = filter_url_create_root_path (filter_url_dirname (caller), tpl);
 
   // The flate engine crashes if the template does not exist, so be sure it exists.  
   if (!filter_url_file_exists (tpl)) {

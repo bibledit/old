@@ -124,10 +124,7 @@ void http_assemble_response (Webserver_Request * request)
 void http_serve_file (Webserver_Request * request)
 {
   // Full path to the file.
-  vector <string> components;
-  components.push_back (config_globals_document_root);
-  components.push_back (request->get);
-  string filename = filter_url_create_path (components);
+  string filename = filter_url_create_root_path (request->get);
   
   // Get file's contents.
   request->reply = filter_url_file_get_contents (filename);

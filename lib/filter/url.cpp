@@ -79,13 +79,13 @@ string filter_url_basename (string url)
 
 
 // Creates a file path out of the components.
-string filter_url_create_path (vector <string> components)
+string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "")
 {
-  string path;
-  for (unsigned int i = 0; i < components.size(); i++) {
-    if (i > 0) path += "/";
-    path += components [i];
-  }
+  string path (part1);
+  if (part2.length()) path += "/" + part2;
+  if (part3.length()) path += "/" + part3;
+  if (part4.length()) path += "/" + part4;
+  if (part5.length()) path += "/" + part5;
   return path;
 }
 

@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <sqlite3.h>
 
 
 using namespace std;
@@ -33,7 +34,14 @@ class Database_Users
 public:
   Database_Users ();
   ~Database_Users ();
+  void create ();
+  void upgrade ();
+  void trim ();
+  void optimize ();
 private:
+  sqlite3 * connect ();
+  string mainFolder ();
+  string timestampFile (string user);
 };
 
 

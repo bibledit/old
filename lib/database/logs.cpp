@@ -59,18 +59,12 @@ void Database_Logs::log (string description, int level)
   // No new lines.
   description = filter_string_str_replace ("\n", " ", description);
 
-  // During unit testing, send everything to the terminal as well.
-  if (config_globals_unit_testing) cout << description << endl;
-
   // Save this logbook entry to a filename with seconds and microseconds.
   struct timeval tv;
   gettimeofday (&tv, NULL);
   char time [64];
   sprintf (time, "%u%08u", (unsigned int) tv.tv_sec, (unsigned int) tv.tv_usec);
-  vector <string> components;
-  components.push_back (folder ());
-  components.push_back (time);
-  string file = filter_url_create_path (components);
+  string file = filter_url_create_path (folder (), time);
 
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
@@ -147,10 +141,7 @@ void Database_Logs::rotate ()
   sort (files.begin(), files.end());
   
   for (unsigned int i = 0; i < files.size(); i++) {
-    vector <string> components;
-    components.push_back (directory);
-    components.push_back (files [i]);
-    string path = filter_url_create_path (components);
+    string path = filter_url_create_path (directory, files [i]);
     int timestamp = filter_string_convert_to_int (files [i].substr (0, 10));
     // Some of the code below had suppressed errors in PHP.
     // This was to ensure that transferring the entries does not generate additional journal entries.
@@ -207,10 +198,7 @@ vector <string> Database_Logs::get (int day, int& lastsecond)
     vector <string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size(); i++) {
       string file = files [i];
-      vector <string> components;
-      components.push_back (directory);
-      components.push_back (file);
-      string path = filter_url_create_path (components);
+      string path = filter_url_create_path (directory, file);
       string contents = filter_url_file_get_contents (path);
       entries.push_back (contents);
       // Last second gets updated based on the filename.
@@ -233,10 +221,7 @@ string Database_Logs::getNext (string &filename)
     string file = files [i];
     if (file > filename) {
       filename = file;
-      vector <string> components;
-      components.push_back (directory);
-      components.push_back (file);
-      string path = filter_url_create_path (components);
+      string path = filter_url_create_path (directory, file);
       string contents = filter_url_file_get_contents (path);
       return contents;
     }

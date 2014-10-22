@@ -35,3 +35,4 @@ string filter_string_str_replace (string search, string replace, string subject)
 string filter_string_convert_to_string (unsigned int i);
 string filter_string_convert_to_string (char * c);
 int filter_string_convert_to_int (string s);
+string filter_string_md5 (string str);

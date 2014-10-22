@@ -30,8 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
+#include <filter/md5.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <database/users.h>
 
 
 using namespace std;
@@ -160,11 +162,9 @@ int main (int argc, char **argv)
     refresh_sandbox ();
     // Log some items.
     // Temporarily disable output to stdout to avoid clutter there.
-    config_globals_unit_testing = false;
     Database_Logs::log ("description1", 2);
     Database_Logs::log ("description2", 3);
     Database_Logs::log ("description3", 4);
-    config_globals_unit_testing = true;
     Database_Logs database_logs = Database_Logs ();
     database_logs.create ();
     database_logs.checkup ();
@@ -181,9 +181,7 @@ int main (int argc, char **argv)
     // This entry is proof that it recreated the database.
     refresh_sandbox ();
     Database_Logs database_logs = Database_Logs ();
-    config_globals_unit_testing = false;
     database_logs.checkup ();
-    config_globals_unit_testing = true;
     int lastsecond = 1111111111;
     vector <string> result = database_logs.get (0, lastsecond);
     if (result.size () != 1) error_message ("Database_Logs::get", "Size should be 1", filter_string_convert_to_string (result.size ()));
@@ -204,7 +202,6 @@ int main (int argc, char **argv)
     int min6days = min5days - 86400;
     int lastsecond = 0;
     vector <string> result;
-    config_globals_unit_testing = false;
 
     // Log entry for 6 days ago.
     Database_Logs::log ("Six days ago");
@@ -239,9 +236,6 @@ int main (int argc, char **argv)
     if (result.size () != 1) error_message ("Database_Logs::get", "Now: Size should be 1", filter_string_convert_to_string (result.size ()));
     // The "lastsecond" variable, test it.
     if ((lastsecond < now ) || (lastsecond > now + 1)) error_message ("Database_Logs::get lastsecond", now, lastsecond);
-
-    // Done.
-    config_globals_unit_testing = true;
   }
 
   {
@@ -249,7 +243,6 @@ int main (int argc, char **argv)
     refresh_sandbox ();
     Database_Logs database_logs = Database_Logs ();
     database_logs.create ();
-    config_globals_unit_testing = false;
     string huge (10000, 'x');
     Database_Logs::log (huge);
     database_logs.rotate ();
@@ -264,15 +257,12 @@ int main (int argc, char **argv)
     } else {
       error_message ("Database_Logs: test huge entry", "Size should be 1", filter_string_convert_to_string (result.size ()));
     }
-    config_globals_unit_testing = true;
   }
   
   {
     // Test the getNext function of the Journal.
     refresh_sandbox ();
-    config_globals_unit_testing = false;
     Database_Logs::log ("description");
-    config_globals_unit_testing = true;
     Database_Logs database_logs = Database_Logs ();
     struct timeval tv;
     gettimeofday (&tv, NULL);
@@ -300,7 +290,19 @@ int main (int argc, char **argv)
     if (ref != act) error_message ("Filter_Roles::lowest", ref, act);
   }
 
-
+  // Tests for the C++ md5 function as compared to PHP's version.
+  {
+    string ref = "1f3870be274f6c49b3e31a0c6728957f";
+    string act = md5 ("apple");
+    if (ref != act) error_message ("md5", ref, act);
+  }
+  
+  // Tests for Database_Users.
+  {
+    refresh_sandbox ();
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+  }
   
   
   // Test results.  

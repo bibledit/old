@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/users.h>
+#include <database/sqlite.h>
 #include <vector>
 #include <sstream>
 #include <fstream>
@@ -26,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cstring>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <string>
 
 
 using namespace std;
@@ -40,7 +42,7 @@ using namespace std;
 // In the unlikely case of corruption, it will get fixed next time it is written to.
 
 
-Database_Users::Database_Users () // Todo working here.
+Database_Users::Database_Users ()
 {
 }
 
@@ -50,80 +52,69 @@ Database_Users::~Database_Users ()
 }
 
 
-/* C++Port
-
-
-
-private function __construct() {
-  $this->db = Database_SQLite::connect ("users");
-}
-
-
-public function create ()
+sqlite3 * Database_Users::connect ()
 {
-$sql = <<<'EOD'
-CREATE TABLE IF NOT EXISTS users (
-username text,
-password text,
-level integer,
-email text
-);
-EOD;
-  Database_SQLite::exec ($this->db, $sql);
-
-$sql = <<<'EOD'
-CREATE TABLE IF NOT EXISTS teams (
-username text,
-bible text,
-readonly boolean
-);
-EOD;
-  Database_SQLite::exec ($this->db, $sql);
-
-$sql = <<<'EOD'
-CREATE TABLE IF NOT EXISTS logins (
-username text,
-address text,
-agent text,
-fingerprint text,
-cookie text
-);
-EOD;
-  Database_SQLite::exec ($this->db, $sql);
+  return database_sqlite_connect ("users");
 }
 
 
-public function upgrade ()
+void Database_Users::create ()
+{
+  sqlite3 * db = connect ();
+  string sql;
+  sql = "CREATE TABLE IF NOT EXISTS users ("
+        " username text,"
+        " password text,"
+        " level integer,"
+        " email text"
+        ");";
+  database_sqlite_exec (db, sql);
+  sql = "CREATE TABLE IF NOT EXISTS teams ("
+        " username text,"
+        " bible text,"
+        " readonly boolean"
+        ");";
+  database_sqlite_exec (db, sql);
+  sql = "CREATE TABLE IF NOT EXISTS logins ("
+        " username text,"
+        " address text,"
+        " agent text,"
+        " fingerprint text,"
+        " cookie text"
+        ");";
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
+}
+
+
+void Database_Users::upgrade ()
 {
   // Upgrade table "users".
   // Column 'timestamp' is available in older databases. It is not in use.
   // It cannot be dropped easily in SQLite. Leave it for just now.
-  $columns = array ();
-  $query = "PRAGMA table_info (users);";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $columns [] = $row ['name'];
-  }
+  sqlite3 * db = connect ();
+  string sql = "PRAGMA table_info (users);";
+  vector <string> columns = database_sqlite_query (db, sql) ["name"];
+  database_sqlite_disconnect (db);
 }
 
 
-private function mainFolder ()
+string Database_Users::mainFolder ()
 {
-  $folder = realpath (__DIR__ . "/../databases/users");
-  return $folder;
+  return filter_url_create_root_path ("databases", "users");
 }
 
 
-private function timestampFile ($user)
+string Database_Users::timestampFile (string user)
 {
-  $file = $this->mainFolder () . "/timestamp" . $user;
-  return $file;
+  return filter_url_create_path (mainFolder (), "timestamp" + user);
 }
 
 
-public function trim ()
+void Database_Users::trim ()
 {
   // Remove persistent logins after a day of inactivity.
+/* C++Port
   $dayAgo = time () - 86400;
   $users = $this->getUsers ();
   foreach ($users as $username) {
@@ -134,14 +125,21 @@ public function trim ()
       Database_SQLite::exec ($this->db, $query);
     }
   }
+*/
 }
-  
 
-public function optimize ()
+
+void Database_Users::optimize ()
 {
-  Database_SQLite::exec ($this->db, "VACUUM users;");
+  sqlite3 * db = connect ();
+  string sql = "VACUUM users;";
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
+
+/* C++Port
+ 
 
 // Returns true if the username and password match.
 public function matchUsernamePassword ($username, $password)

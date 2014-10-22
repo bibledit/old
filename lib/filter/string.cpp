@@ -98,3 +98,9 @@ int filter_string_convert_to_int (string s)
 }
 
 
+// A C++ equivalent for PHP's md5 function.
+string filter_string_md5 (string str)
+{
+  
+}
+
