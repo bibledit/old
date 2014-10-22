@@ -147,7 +147,7 @@ string filter_url_file_get_contents (string filename)
 
 
 // C++ rough equivalent for PHP's file_put_contents.
-void filter_url_put_file_contents (string filename, string contents)
+void filter_url_file_put_contents (string filename, string contents)
 {
   try {
     ofstream file;  
@@ -161,7 +161,7 @@ void filter_url_put_file_contents (string filename, string contents)
 
 // C++ rough equivalent for PHP's file_put_contents.
 // Appends the data if the file exists.
-void filter_url_put_file_contents_apend (string filename, string contents)
+void filter_url_file_put_contents_append (string filename, string contents)
 {
   try {
     ofstream file;  
@@ -200,3 +200,5 @@ vector <string> filter_url_scandir (string folder)
   sort (files.begin(), files.end());
   return files;
 }
+
+

@@ -31,16 +31,6 @@ class Filter_Bool
   }
 
 
-  /**
-  * Returns $bool as an int, i.e. 1 or 0.
-  */
-  public static function int ($bool)
-  {
-    if ($bool) return 1;
-    else return 0;
-  }
-
-
 
 }
 

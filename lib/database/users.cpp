@@ -27,7 +27,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cstring>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/md5.h>
+#include <filter/roles.h>
+#include <filter/url.h>
 #include <string>
+#include <sys/time.h>
 
 
 using namespace std;
@@ -114,18 +118,22 @@ string Database_Users::timestampFile (string user)
 void Database_Users::trim ()
 {
   // Remove persistent logins after a day of inactivity.
-/* C++Port
-  $dayAgo = time () - 86400;
-  $users = $this->getUsers ();
-  foreach ($users as $username) {
-    $timestamp = $this->getTimestamp ($username);
-    if ($timestamp < $dayAgo) {
-      $username = Database_SQLiteInjection::no ($username);
-      $query = "UPDATE logins SET fingerprint = '' WHERE username = '$username';";
-      Database_SQLite::exec ($this->db, $query);
+  struct timeval tv;
+  gettimeofday (&tv, NULL);
+  string timestamp = filter_string_convert_to_string ((int)tv.tv_sec - (6 * 86400));
+  int dayAgo = tv.tv_sec - 86400;
+  vector <string> users = getUsers ();
+  sqlite3 * db = connect ();
+  for (unsigned int i = 0; i < users.size(); i++) {
+    string username = users [i];
+    int timestamp = getTimestamp (username);
+    if (timestamp < dayAgo) {
+      username = database_sqlite_no_sql_injection (username);
+      string sql = "UPDATE logins SET fingerprint = '' WHERE username = '" + username + "';";
+      database_sqlite_exec (db, sql);
     }
   }
-*/
+  database_sqlite_disconnect (db);
 }
 
 
@@ -138,387 +146,373 @@ void Database_Users::optimize ()
 }
 
 
-/* C++Port
- 
+// Add the user details to the database.
+void Database_Users::addNewUser (string username, string password, int level, string email)
+{
+  username = database_sqlite_no_sql_injection (username);
+  email = database_sqlite_no_sql_injection (email);
+  sqlite3 * db = connect ();
+  string sql = "INSERT INTO users (username, level, email) VALUES ('" + username + "', " + filter_string_convert_to_string (level) + ", '" + email + "');";
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
+  updateUserPassword (username, password);
+}
+
+
+// Updates the password for user.
+void Database_Users::updateUserPassword (string user, string password)
+{
+  user = database_sqlite_no_sql_injection (user);
+  password = md5 (password);
+  sqlite3 * db = connect ();
+  string sql = "UPDATE users SET password = '" + password + "' WHERE username = '" + user + "';";
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
+}
+
 
 // Returns true if the username and password match.
-public function matchUsernamePassword ($username, $password)
+bool Database_Users::matchUsernamePassword (string username, string password)
 {
-  $username = Database_SQLiteInjection::no ($username);
-  $password = md5 ($password);
-  $query = "SELECT * FROM users WHERE username = '$username' and password = '$password'";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return true;
-  }
-  return false;
+  username = database_sqlite_no_sql_injection (username);
+  password = md5 (password);
+  sqlite3 * db = connect ();
+  string sql = "SELECT * FROM users WHERE username = '" + username + "' and password = '" + password + "';";
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  return (!result.empty());
 }
 
 
 // Returns true if the email and password match.
-public function matchEmailPassword ($email, $password)
+bool Database_Users::matchEmailPassword (string email, string password)
 {
-  $email = Database_SQLiteInjection::no ($email);
-  $password = md5 ($password);
-  $query = "SELECT * FROM users WHERE email = '$email' and password = '$password'";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return true;
-  }
-  return false;
-}
-
-
-// Add the user details to the database.
-public function addNewUser ($username, $password, $level, $email) 
-{
-  $username = Database_SQLiteInjection::no ($username);
-  $level = Database_SQLiteInjection::no ($level);
-  $email = Database_SQLiteInjection::no ($email);
-  $query = "INSERT INTO users (username, level, email) VALUES ('$username', $level, '$email');";
-  Database_SQLite::exec ($this->db, $query);
-  $this->updateUserPassword ($username, $password);
+  email = database_sqlite_no_sql_injection (email);
+  password = md5 (password);
+  string sql = "SELECT * FROM users WHERE email = '" + email + "' and password = '" + password + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  return (!result.empty());
 }
 
 
 // Returns the query to execute to add a new user.
-public function addNewUserQuery ($username, $password, $level, $email) 
+string Database_Users::addNewUserQuery (string username, string password, int level, string email)
 {
-  $username = Database_SQLiteInjection::no ($username);
-  $password = md5 ($password);
-  $level = Database_SQLiteInjection::no ($level);
-  $email = Database_SQLiteInjection::no ($email);
-  $query = "INSERT INTO users (username, password, level, email) VALUES ('$username', '$password', $level, '$email')";
-  return $query;
+  username = database_sqlite_no_sql_injection (username);
+  password = md5 (password);
+  email = database_sqlite_no_sql_injection (email);
+  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + username + "', '" + password + "', " + filter_string_convert_to_string (level) + ", '" + email + "');";
+  return query;
 }
 
 
-// Returns the username that belongs to the $email.
-public function getEmailToUser ($email) 
+// Returns the username that belongs to the email.
+string Database_Users::getEmailToUser (string email)
 {
-  $email = Database_SQLiteInjection::no ($email);
-  $query = "SELECT username FROM users WHERE email = '$email';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row [0];
-  }
+  email = database_sqlite_no_sql_injection (email);
+  string sql = "SELECT username FROM users WHERE email = '" + email + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  if (!result.empty()) return result [0];
   return "";
 }
 
 
-// Returns the email address that belongs to $user.
-public function getUserToEmail ($user) 
+// Returns the email address that belongs to user.
+string Database_Users::getUserToEmail (string user)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $query = "SELECT email FROM users WHERE username = '$user';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row [0];
-  }
+  user = database_sqlite_no_sql_injection (user);
+  string sql = "SELECT email FROM users WHERE username = '" + user + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["email"];
+  database_sqlite_disconnect (db);
+  if (!result.empty()) return result [0];
   return "";
 }
 
 
 // Returns true if the username exists in the database.
-public function usernameExists ($user)
+bool Database_Users::usernameExists (string user)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $query = "SELECT * FROM users WHERE username = '$user'";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return true;
-  }
-  return false;
+  user = database_sqlite_no_sql_injection (user);
+  string sql = "SELECT * FROM users WHERE username = '" + user + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  return !result.empty ();
 }
 
 
 // Returns true if the email address exists in the database.
-public function emailExists ($email)
+bool Database_Users::emailExists (string email)
 {
-  $email  = Database_SQLiteInjection::no ($email);
-  $query  = "SELECT * FROM users WHERE email = '$email'";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return true;
-  }
-  return false;
+  email  = database_sqlite_no_sql_injection (email);
+  string sql  = "SELECT * FROM users WHERE email = '" + email + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  return !result.empty ();
 }
 
 
 // Returns the level that belongs to the user.
-public function getUserLevel ($user)
+int Database_Users::getUserLevel (string user)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $query = "SELECT level FROM users WHERE username = '$user';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row [0];
-  }
-  return Filter_Roles::GUEST_LEVEL;
+  user = database_sqlite_no_sql_injection (user);
+  string sql = "SELECT level FROM users WHERE username = '" + user + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["level"];
+  database_sqlite_disconnect (db);
+  if (!result.empty()) return filter_string_convert_to_int (result [0]);
+  return Filter_Roles::guest ();
 }
 
 
 // Updates the level of a given user.
-public function updateUserLevel ($user, $level) 
+void Database_Users::updateUserLevel (string user, int level)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $level = Database_SQLiteInjection::no ($level);
-  $query = "UPDATE users SET level = $level WHERE username = '$user';";
-  Database_SQLite::exec ($this->db, $query);
+  user = database_sqlite_no_sql_injection (user);
+  string sql = "UPDATE users SET level = " + filter_string_convert_to_string (level) + " WHERE username = '" + user + "';";
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Remove a user from the database.
-public function removeUser ($user)
+void Database_Users::removeUser (string user)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $query = "DELETE FROM users WHERE username = '$user'";
-  Database_SQLite::exec ($this->db, $query);
-  $query = "DELETE FROM teams WHERE username = '$user'";
-  Database_SQLite::exec ($this->db, $query);
+  user = database_sqlite_no_sql_injection (user);
+  sqlite3 * db = connect ();
+  string sql = "DELETE FROM users WHERE username = '" + user + "'";
+  database_sqlite_exec (db, sql);
+  sql = "DELETE FROM teams WHERE username = '" + user + "'";
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Returns an array with the usernames of the site administrators.
-public function getAdministrators ()
+vector <string> Database_Users::getAdministrators ()
 {
-  $administrators = array ();
-  $query = "SELECT username FROM users WHERE level = " . Filter_Roles::ADMIN_LEVEL . ";";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $administrators [] = $row [0];
-  }
-  return $administrators;
-}
-
-
-// Updates the $password for $user.
-public function updateUserPassword ($user, $password) 
-{
-  $user = Database_SQLiteInjection::no ($user);
-  $password = md5 ($password);
-  $query = "UPDATE users SET password = '$password' WHERE username = '$user';";
-  Database_SQLite::exec ($this->db, $query);
+  string sql = "SELECT username FROM users WHERE level = " + filter_string_convert_to_string (Filter_Roles::admin ()) + ";";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  return result;
 }
 
 
 // Returns the query to update a user's email address.
-public function updateEmailQuery ($username, $email)
+string Database_Users::updateEmailQuery (string username, string email)
 {
-  $query = "UPDATE users SET email = '$email' WHERE username = '$username';";
-  return $query;
+  return "UPDATE users SET email = '" + email + "' WHERE username = '" + username + "';";
 }
 
 
-// Updates the $email for $user.
-public function updateUserEmail ($user, $email) 
+// Updates the "email" for "user".
+void Database_Users::updateUserEmail (string user, string email)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $email = Database_SQLiteInjection::no ($email);
-  $query = $this->updateEmailQuery ($user, $email);
-  Database_SQLite::exec ($this->db, $query);
+  user = database_sqlite_no_sql_injection (user);
+  email = database_sqlite_no_sql_injection (email);
+  string sql = updateEmailQuery (user, email);
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Return an array with the available users.
-public function getUsers ()
+vector <string> Database_Users::getUsers ()
 {
-  $users = array ();
-  $query = "SELECT username FROM users;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $users [] = $row[0];
-  }
-  return $users;
+  string sql = "SELECT username FROM users;";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  return result;
 }
 
 
 // Returns the md5 hash for the $user's password.
-public function getmd5 ($user)
+string Database_Users::getmd5 (string user)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $query = "SELECT password FROM users WHERE username = '$user';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row [0];
-  }
-  return false;
+  user = database_sqlite_no_sql_injection (user);
+  string sql = "SELECT password FROM users WHERE username = '" + user + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["password"];
+  database_sqlite_disconnect (db);
+  if (!result.empty()) return result [0];
+  return "";
 }
 
 
 // Sets the login security tokens for a user.
-public function setTokens ($username, $address, $agent, $fingerprint)
+void Database_Users::setTokens (string username, string address, string agent, string fingerprint)
 {
-  if ($username == $this->getUsername ($address, $agent, $fingerprint)) return;
-  $username = Database_SQLiteInjection::no ($username);
-  $address = md5 ($address);
-  $agent = md5 ($agent);
-  $fingerprint = md5 ($fingerprint);
-  $query = "INSERT INTO logins (username, address, agent, fingerprint) VALUES ('$username', '$address', '$agent', '$fingerprint')";
-  Database_SQLite::exec ($this->db, $query);
+  if (username == getUsername (address, agent, fingerprint)) return;
+  username = database_sqlite_no_sql_injection (username);
+  address = md5 (address);
+  agent = md5 (agent);
+  fingerprint = md5 (fingerprint);
+  string sql = "INSERT INTO logins (username, address, agent, fingerprint) VALUES ('" + username + "', '" + address + "', '" + agent + "', '" + fingerprint + "')";
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Remove the login securityh tokens for a user.
-public function removeTokens ($username)
+void Database_Users::removeTokens (string username)
 {
-  $username = Database_SQLiteInjection::no ($username);
-  $query = "DELETE FROM logins WHERE username = '$username';";
-  Database_SQLite::exec ($this->db, $query);
+  username = database_sqlite_no_sql_injection (username);
+  string sql = "DELETE FROM logins WHERE username = '" + username + "';";
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Returns the username that matches the remote IP $address and the browser's user $agent,
-// and the remaining fingerprint from the user.
-// Returns false if no match was found.
-public function getUsername ($address, $agent, $fingerprint)
+// and the other fingerprints from the user.
+string Database_Users::getUsername (string address, string agent, string fingerprint)
 {
-  $address = md5 ($address);
-  $agent = md5 ($agent);
-  $fingerprint = md5 ($fingerprint);
-  $query = "SELECT username FROM logins WHERE address = '$address' AND agent = '$agent' AND fingerprint = '$fingerprint';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row [0];
-  }
-  return false;
+  address = md5 (address);
+  agent = md5 (agent);
+  fingerprint = md5 (fingerprint);
+  string sql = "SELECT username FROM logins WHERE address = '" + address + "' AND agent = '" + agent + "' AND fingerprint = '" + fingerprint + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  if (!result.empty()) return result [0];
+  return "";
 }
 
 
 // Ping the access timestamp for $username.
-public function pingTimestamp ($username)
+void Database_Users::pingTimestamp (string username)
 {
-  $existingTimestamp = $this->getTimestamp ($username);
-  $timestamp = time ();
-  if ($timestamp != $existingTimestamp) {
-    $file = $this->timestampFile ($username);
-    file_put_contents ($file, $timestamp);
+  int existingTimestamp = getTimestamp (username);
+  struct timeval tv;
+  gettimeofday (&tv, NULL);
+  int timestamp = tv.tv_sec;
+  if (timestamp != existingTimestamp) {
+    string file = timestampFile (username);
+    filter_url_file_put_contents (file, filter_string_convert_to_string (timestamp));
   }
 }
 
 
 // Gets the access timestamp for $username.
-public function getTimestamp ($username)
+int Database_Users::getTimestamp (string username)
 {
-  $file = $this->timestampFile ($username);
-  @$timestamp = file_get_contents ($file);
-  if ($timestamp) return $timestamp;
-  return 0;
+  string file = timestampFile (username);
+  string timestamp = filter_url_file_get_contents (file);
+  return filter_string_convert_to_int (timestamp);
 }
 
 
 // Get array with the teams.
-public function getTeams ()
+vector <string> Database_Users::getTeams ()
 {
-  $teams = array ();
-  $query = "SELECT DISTINCT bible FROM teams;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $teams [] = $row [0];
-  }
-  return $teams;
+  string sql = "SELECT DISTINCT bible FROM teams;";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["bible"];
+  database_sqlite_disconnect (db);
+  return result;
 }
 
 
 // Give a $user access to a $bible.
-public function grantAccess2Bible ($user, $bible)
+void Database_Users::grantAccess2Bible (string user, string bible)
 {
-  $this->revokeAccess2Bible ($user, $bible);
-  $user = Database_SQLiteInjection::no ($user);
-  $bible = Database_SQLiteInjection::no ($bible);
-  $query = "INSERT INTO teams (username, bible) VALUES ('$user', '$bible');";
-  Database_SQLite::exec ($this->db, $query);
+  revokeAccess2Bible (user, bible);
+  user = database_sqlite_no_sql_injection (user);
+  bible = database_sqlite_no_sql_injection (bible);
+  string sql = "INSERT INTO teams (username, bible) VALUES ('" + user + "', '" + bible + "');";
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
  
 // Revoke a $user's access to a $bible.
-public function revokeAccess2Bible ($user, $bible)
+void Database_Users::revokeAccess2Bible (string user, string bible)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $bible = Database_SQLiteInjection::no ($bible);
-  $query = "DELETE FROM teams WHERE username = '$user' AND bible = '$bible';";
-  Database_SQLite::exec ($this->db, $query);
+  user = database_sqlite_no_sql_injection (user);
+  bible = database_sqlite_no_sql_injection (bible);
+  string sql = "DELETE FROM teams WHERE username = '" + user + "' AND bible = '" + bible + "';";
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
 
-// Get an array of Bibles the $user has access to.
-public function getBibles4User ($user)
+// Get the Bibles the $user has access to.
+vector <string> Database_Users::getBibles4User (string user)
 {
-  $bibles = array ();
-  $user = Database_SQLiteInjection::no ($user);
-  $query = "SELECT DISTINCT bible FROM teams WHERE username = '$user';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $bibles [] = $row [0];
-  }
-  return $bibles;
+  user = database_sqlite_no_sql_injection (user);
+  string sql = "SELECT DISTINCT bible FROM teams WHERE username = '" + user + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["bible"];
+  database_sqlite_disconnect (db);
+  return result;
 }
 
 
-// Get an array of users who have access to a $bible.
-public function getUsers4Bible ($bible)
+// Get the users who have access to a $bible.
+vector <string> Database_Users::getUsers4Bible (string bible)
 {
-  $users = array ();
-  $bible = Database_SQLiteInjection::no ($bible);
-  $query = "SELECT DISTINCT username FROM teams WHERE bible = '$bible';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $users [] = $row [0];
-  }
-  return $users;
+  bible = database_sqlite_no_sql_injection (bible);
+  string sql = "SELECT DISTINCT username FROM teams WHERE bible = '" + bible + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["username"];
+  database_sqlite_disconnect (db);
+  return result;
 }
 
 
 // Returns whether a $user has access to a $bible: true or false.
 // If no more than one team has been formed, all users have access to all Bibles.
 // Administrators have access to any Bible.
-public function hasAccess2Bible ($user, $bible)
+bool Database_Users::hasAccess2Bible (string user, string bible)
 {
-  $teams = $this->getTeams ();
-  if (count ($teams) <= 1) return true;
-  $level = $this->getUserLevel ($user);
-  if ($level >= Filter_Roles::ADMIN_LEVEL) return true;
-  $bibles = $this->getBibles4User ($user);
-  return in_array ($bible, $bibles);
+  vector <string> teams = getTeams ();
+  if (teams.size () <= 1) return true;
+  int level = getUserLevel (user);
+  if (level >= Filter_Roles::admin ()) return true;
+  vector <string> bibles = getBibles4User (user);
+  return filter_string_in_array (bible, bibles);
 }
 
 
 // Set $readonly access for $user to $bible to true or false.
-public function setReadOnlyAccess2Bible ($user, $bible, $readonly)
+void Database_Users::setReadOnlyAccess2Bible (string user, string bible, bool readonly)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $bible = Database_SQLiteInjection::no ($bible);
-  $readonly = Filter_Bool::int ($readonly);
-  $query = "UPDATE teams SET readonly = $readonly WHERE username = '$user' AND bible = '$bible';";
-  Database_SQLite::exec ($this->db, $query);
+  user = database_sqlite_no_sql_injection (user);
+  bible = database_sqlite_no_sql_injection (bible);
+  string read_only = filter_string_convert_to_string (readonly);
+  string sql = "UPDATE teams SET readonly = " + read_only + " WHERE username = '" + user + "' AND bible = '" + bible + "';";
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Returns true or false depending on whether $user has read-only access to $bible.
-public function hasReadOnlyAccess2Bible ($user, $bible)
+bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $bible = Database_SQLiteInjection::no ($bible);
-  $query = "SELECT readonly FROM teams WHERE username = '$user' AND bible = '$bible';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return (boolean) $row [0];
-  }
+  user = database_sqlite_no_sql_injection (user);
+  bible = database_sqlite_no_sql_injection (bible);
+  string sql = "SELECT readonly FROM teams WHERE username = '" + user + "' AND bible = '" + bible + "';";
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql) ["readonly"];
+  database_sqlite_disconnect (db);
+  if (!result.empty ()) return filter_string_convert_to_bool (result [0]);
   // Entry not found for user/bible: Default is not read-only.
   return false;
 }
   
 
-public function debug ()
-{
-  $query = "SELECT * FROM teams;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    unset ($row[0]);
-    unset ($row[1]);
-    var_dump ($row);
-  }
-}
-
-
-*/

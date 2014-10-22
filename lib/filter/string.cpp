@@ -82,10 +82,25 @@ string filter_string_convert_to_string (unsigned int i)
 }
 
 
+string filter_string_convert_to_string (int i)
+{
+  ostringstream r;
+  r << i;
+  return r.str();
+}
+
+
 string filter_string_convert_to_string (char * c)
 {
   string s = c;
   return s;
+}
+
+
+string filter_string_convert_to_string (bool b)
+{
+  if (b) return "1";
+  return "0";
 }
 
 
@@ -98,9 +113,23 @@ int filter_string_convert_to_int (string s)
 }
 
 
-// A C++ equivalent for PHP's md5 function.
-string filter_string_md5 (string str)
+bool filter_string_convert_to_bool (string s)
 {
-  
+  bool b;
+  istringstream (s) >> b;
+  return b;
 }
+
+
+// A C++ equivalent for PHP's in_array function.
+bool filter_string_in_array (const string& needle, const vector <string>& haystack)
+{
+  int max = haystack.size ();
+  if (max == 0) return false;
+  for (int i = 0; i < max; i++) {
+    if (haystack [i] == needle) return true;
+  }
+  return false;
+}
+
 

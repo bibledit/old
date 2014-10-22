@@ -38,8 +38,8 @@ string filter_url_get_extension (string url);
 bool filter_url_file_exists (string url);
 void filter_url_mkdir (string directory);
 string filter_url_file_get_contents (string filename);
-void filter_url_put_file_contents (string filename, string contents);
-void filter_url_put_file_contents_apend (string filename, string contents);
+void filter_url_file_put_contents (string filename, string contents);
+void filter_url_file_put_contents_append (string filename, string contents);
 int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
 

@@ -65,7 +65,7 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
   string filename = file (bible, key);
   string dirname = filter_url_dirname (filename);
   if (!filter_url_file_exists (dirname)) filter_url_mkdir (dirname); // Todo filter mkdir test it in the unit tests.
-  filter_url_put_file_contents (filename, value);
+  filter_url_file_put_contents (filename, value);
 }
 
 

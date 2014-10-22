@@ -63,7 +63,7 @@ string Database_Config_General::getValue (const char * key, const char * default
 void Database_Config_General::setValue (const char * key, string value)
 {
   string filename = file (key);
-  filter_url_put_file_contents (filename, value);
+  filter_url_file_put_contents (filename, value);
 }
 
 

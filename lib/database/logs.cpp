@@ -70,7 +70,7 @@ void Database_Logs::log (string description, int level)
   // On Windows it is lower than on Linux.
   // There may be the rare case of more than one entry per file.
   // Append the data so it won't overwrite an earlier entry.
-  filter_url_put_file_contents_apend (file, filter_string_convert_to_string (level) + " " + filter_string_convert_to_string (tv.tv_sec) + " " + description);
+  filter_url_file_put_contents_append (file, filter_string_convert_to_string (level) + " " + filter_string_convert_to_string ((int)tv.tv_sec) + " " + description);
 }
 
 
@@ -164,7 +164,7 @@ void Database_Logs::rotate ()
   // Remove records older than five days from the database.
   struct timeval tv;
   gettimeofday (&tv, NULL);
-  string timestamp = filter_string_convert_to_string (tv.tv_sec - (6 * 86400));
+  string timestamp = filter_string_convert_to_string ((int)tv.tv_sec - (6 * 86400));
   string sql = "DELETE FROM logs WHERE timestamp < " + timestamp + ";";
   database_sqlite_exec (db, sql);
 
