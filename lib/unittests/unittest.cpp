@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/logs.h>
 #include <database/sqlite.h>
+#include <database/users.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -33,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <unistd.h>
 #include <sys/time.h>
-#include <database/users.h>
+#include <session/logic.h>
 
 
 using namespace std;
@@ -94,9 +95,11 @@ int main (int argc, char **argv)
 {
   cout << "Running unittests" << endl;
 
+
   // No compile warnings.
   if (argc) {};
   if (argv[0]) {};
+
   
   // Directory where the unit tests will run.
   testing_directory = "/tmp/bibledit-unittests";  
@@ -104,11 +107,14 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   config_globals_document_root = testing_directory;
 
+
   // Number of failed unit tests.  
   error_count = 0;
+
   
   // Flag for unit tests.
   config_globals_unit_testing = true;
+
 
   // Tests for Database_Config_General.
   {
@@ -122,6 +128,7 @@ int main (int argc, char **argv)
   {
     evaluate ("Database_Config_General::getMailStorageSecurity", "", Database_Config_General::getMailStorageSecurity ());
   }
+
   
   // Tests for Database_Config_Bible.
   {
@@ -132,12 +139,14 @@ int main (int argc, char **argv)
     Database_Config_Bible::setViewableByAllUsers ("testbible", ref);
     evaluate ("Database_Config_Bible::getViewableByAllUsers", ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
   }
+
   
   // Tests for filter_string.
   // The test shows std::string handles UTF-8 well for simple operations. 
   {
     evaluate ("filter_string_str_replace", "⇊⇦", filter_string_str_replace ("⇖", "", "⇊⇖⇦"));
   }
+
 
   // Tests for SQLite.
   {
@@ -158,6 +167,7 @@ int main (int argc, char **argv)
 
     evaluate ("database_sqlite_no_sql_injection", "He''s", database_sqlite_no_sql_injection ("He's"));
   }
+
 
   // Tests for Database_Logs.
   {
@@ -281,6 +291,7 @@ int main (int argc, char **argv)
     refresh_sandbox (false);
   }
 
+
   // Tests for Filter_Roles.
   {
     evaluate ("Filter_Roles::consultant", 3, Filter_Roles::consultant ());
@@ -289,10 +300,12 @@ int main (int argc, char **argv)
     evaluate ("Filter_Roles::lowest", 1, Filter_Roles::lowest ());
   }
 
+
   // Tests for the C++ md5 function as compared to PHP's version.
   {
     evaluate ("md5", "1f3870be274f6c49b3e31a0c6728957f", md5 ("apple"));
   }
+
   
   // Tests for Database_Users.
   {
@@ -476,7 +489,119 @@ int main (int argc, char **argv)
   }
   
 
+  // Test for class Session_Logic.
+  {
+    refresh_sandbox (true);
+    
+    // The session logic depends on users in the database.
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    
+    // In an open installation, a client is always logged in as user admin, even after logging out.
+    config_globals_open_installation = true;
+    Webserver_Request request = Webserver_Request ();
+    Session_Logic session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn open", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::currentUser open", "admin", session_logic.currentUser ());
+    evaluate ("Session_Logic::currentLevel open", Filter_Roles::admin (), session_logic.currentLevel ());
+    session_logic.logout ();
+    evaluate ("Session_Logic::loggedIn open after logout", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::currentUser open after logout", "admin", session_logic.currentUser ());
+    evaluate ("Session_Logic::currentLevel open after logout", Filter_Roles::admin (), session_logic.currentLevel ());
+    
+    // Test function to set the username.
+    string username = "ঃইঝম";
+    session_logic.setUsername (username);
+    evaluate ("Session_Logic::setUsername / currentUser", username, session_logic.currentUser ());
+    config_globals_open_installation = false;
+  }
+  {
+    // In a client installation, a client is logged in as admin when there's no user in the database.
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    config_globals_client_prepared = true;
+    Webserver_Request request = Webserver_Request ();
+    Session_Logic session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn client", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::currentUser client", "admin", session_logic.currentUser ());
+    evaluate ("Session_Logic::currentLevel client", Filter_Roles::admin (), session_logic.currentLevel ());
+    config_globals_client_prepared = false;
+  }
+  {
+    // In a client installation, a client is logged in as the first user in the database.
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    string username = "ঃইঝম";
+    int level = 10;
+    database_users.addNewUser (username, "password", level, "email");
+    config_globals_client_prepared = true;
+    Webserver_Request request = Webserver_Request ();
+    Session_Logic session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn client user", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::currentUser client user", username, session_logic.currentUser ());
+    evaluate ("Session_Logic::currentLevel client user", level, session_logic.currentLevel ());
+    config_globals_client_prepared = false;
+  }
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request = Webserver_Request ();
+    Session_Logic session_logic = Session_Logic (&request);
 
+    // Enter a user into the database.
+    string username = "ঃইঝম";
+    string password = "ᨃᨄᨔᨕ";
+    string email = "email@website";
+    int level = 10;
+    database_users.addNewUser (username, password, level, email);
+
+    // Log in by providing username and password.
+    evaluate ("Session_Logic::attemptLogin invalid credentials", false, session_logic.attemptLogin (username, "incorrect"));
+    evaluate ("Session_Logic::attemptLogin correct", true, session_logic.attemptLogin (username, password));
+
+    // Check whether logged in also from another session.
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn normal 2", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::currentUser normal 2", username, session_logic.currentUser ());
+    evaluate ("Session_Logic::currentLevel normal 2", level, session_logic.currentLevel ());
+    
+    // Logout in another session, and check it in a subsequent session.
+    session_logic = Session_Logic (&request);
+    session_logic.logout ();
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn normal 3", false, session_logic.loggedIn ());
+    evaluate ("Session_Logic::currentUser normal 3", "", session_logic.currentUser ());
+    evaluate ("Session_Logic::currentLevel normal 3", Filter_Roles::guest(), session_logic.currentLevel ());
+    
+    // Login. then vary the browser's signature for subsequent sessions.
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::attemptLogin 4", true, session_logic.attemptLogin (username, password));
+    evaluate ("Session_Logic::loggedIn 4", true, session_logic.loggedIn ());
+    string remote_address = request.remote_address;
+    string user_agent = request.user_agent;
+    string accept_language = request.accept_language;
+    request.remote_address = "1.2.3.4";
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn 5", false, session_logic.loggedIn ());
+    request.remote_address = remote_address;
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn 6", true, session_logic.loggedIn ());
+    request.user_agent = "User's Agent";
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn 6", false, session_logic.loggedIn ());
+    request.user_agent = user_agent;
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn 7", true, session_logic.loggedIn ());
+    request.accept_language = "xy_ZA";
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn 8", false, session_logic.loggedIn ());
+    request.accept_language = accept_language;
+    session_logic = Session_Logic (&request);
+    evaluate ("Session_Logic::loggedIn 9", true, session_logic.loggedIn ());
+  }
 
 
 

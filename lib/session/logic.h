@@ -41,7 +41,6 @@ public:
   string currentUser ();
   int currentLevel (bool force = false);
   void logout ();
-  bool clientAccess ();
 private:
   int level = 0;               // The level of the user.
   int check_ip_blocks = 3;     // How many numbers from IP use in fingerprint?
@@ -52,6 +51,7 @@ private:
   bool openAccess ();
   string remoteAddress ();
   string fingerprint ();
+  bool clientAccess ();
 };
 
 

@@ -130,11 +130,11 @@ bool Session_Logic::openAccess ()
 // Returns IP blocks of remote address.
 string Session_Logic::remoteAddress ()
 {
-  string address = "";
-  int num_blocks = abs (check_ip_blocks);
-  if (num_blocks > 4) num_blocks = 4;
   vector <string> blocks = filter_string_explode (request->remote_address, '.');
-  for (int i = 0; i < num_blocks; i++) {
+  string address = "";
+  unsigned int num_blocks = abs (check_ip_blocks);
+  if (num_blocks > blocks.size ()) num_blocks = blocks.size ();
+  for (unsigned int i = 0; i < num_blocks; i++) {
     address += blocks [i] + ".";
   }
   return address;
@@ -233,8 +233,8 @@ void Session_Logic::logout ()
 bool Session_Logic::clientAccess ()
 {
   // If client mode is prepared, 
-  // log in as the first username in the users database,
-  // or as the admin in case no user have been set up yet.
+  // log in as the first username in the user database,
+  // or as the admin in case no user has been set up yet.
   if (config_globals_client_prepared) {
     Database_Users database_users = Database_Users ();
     vector <string> users = database_users.getUsers ();
