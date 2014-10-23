@@ -13,6 +13,28 @@ AC_SUBST(SQLITE_CFLAGS)
 AC_SUBST(SQLITE_LIBS)
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
 
+# Open installation.
+AC_ARG_WITH(open-installation,
+        [  --with-open-installation=bool
+                          Open demo installation],
+        [ OPEN_INSTALLATION=$withval ],
+        [ OPEN_INSTALLATION=0 ]
+)
+AC_DEFINE([OPEN_INSTALLATION], [], [Define whether it is an open demo installation])
+AC_DEFINE_UNQUOTED(OPEN_INSTALLATION, "$OPEN_INSTALLATION")
+AC_SUBST(OPEN_INSTALLATION)
+
+# Client installation.
+AC_ARG_WITH(client-installation,
+        [  --with-client-installation=bool
+                          Client installation],
+        [ CLIENT_INSTALLATION=$withval ],
+        [ CLIENT_INSTALLATION=0 ]
+)
+AC_DEFINE([CLIENT_INSTALLATION], [], [Define whether it is a client installation])
+AC_DEFINE_UNQUOTED(CLIENT_INSTALLATION, "$CLIENT_INSTALLATION")
+AC_SUBST(CLIENT_INSTALLATION)
+
 AC_OUTPUT(Makefile)
 
 echo "

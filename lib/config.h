@@ -1,6 +1,9 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define whether it is a client installation */
+#define CLIENT_INSTALLATION "0"
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
@@ -27,6 +30,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
+
+/* Define whether it is an open demo installation */
+#define OPEN_INSTALLATION "0"
 
 /* Name of package */
 #define PACKAGE "bibledit"

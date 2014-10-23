@@ -625,6 +625,8 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+CLIENT_INSTALLATION
+OPEN_INSTALLATION
 EGREP
 GREP
 CPP
@@ -733,6 +735,8 @@ enable_dependency_tracking
 with_xml_prefix
 with_xml_exec_prefix
 enable_xmltest
+with_open_installation
+with_client_installation
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1378,6 +1382,10 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-xml-prefix=PFX   Prefix where libxml is installed (optional)
   --with-xml-exec-prefix=PFX Exec prefix where libxml is installed (optional)
+  --with-open-installation=bool
+                          Open demo installation
+  --with-client-installation=bool
+                          Client installation
 
 Some influential environment variables:
   CC          C compiler command
@@ -5507,6 +5515,44 @@ if test "x$ac_cv_header_sqlite3_h" = xyes; then :
 else
   as_fn_error $? "Header file sqlite3.h was not found. Usually this is in libsqlite3-dev." "$LINENO" 5
 fi
+
+
+
+# Open installation.
+
+# Check whether --with-open-installation was given.
+if test "${with_open_installation+set}" = set; then :
+  withval=$with_open_installation;  OPEN_INSTALLATION=$withval
+else
+   OPEN_INSTALLATION=0
+
+fi
+
+
+$as_echo "#define OPEN_INSTALLATION /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define OPEN_INSTALLATION "$OPEN_INSTALLATION"
+_ACEOF
+
+
+
+# Client installation.
+
+# Check whether --with-client-installation was given.
+if test "${with_client_installation+set}" = set; then :
+  withval=$with_client_installation;  CLIENT_INSTALLATION=$withval
+else
+   CLIENT_INSTALLATION=0
+
+fi
+
+
+$as_echo "#define CLIENT_INSTALLATION /**/" >>confdefs.h
+
+cat >>confdefs.h <<_ACEOF
+#define CLIENT_INSTALLATION "$CLIENT_INSTALLATION"
+_ACEOF
 
 
 

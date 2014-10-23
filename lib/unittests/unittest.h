@@ -27,7 +27,7 @@ using namespace std;
 
 int main (int argc, char **argv);
 string testing_directory;
-void refresh_sandbox ();
+void refresh_sandbox (bool displayjournal);
 void error_message (string function, string desired, string actual);
 void evaluate (string function, string desired, string actual);
 void evaluate (string function, int desired, int actual);

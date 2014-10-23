@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define whether it is a client installation */
+#undef CLIENT_INSTALLATION
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
@@ -26,6 +29,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define whether it is an open demo installation */
+#undef OPEN_INSTALLATION
 
 /* Name of package */
 #undef PACKAGE

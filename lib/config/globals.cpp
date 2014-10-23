@@ -25,5 +25,7 @@ using namespace std;
 
 string config_globals_document_root = "/";
 bool config_globals_unit_testing = false;
+bool config_globals_open_installation = false;
+bool config_globals_client_prepared = false;
 
 

@@ -22,10 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sstream>
 #include <filter/url.h>
 #include <config/globals.h>
+#include <filter/string.h>
 
 
 using namespace std;
-
 
 
 /*
@@ -42,32 +42,47 @@ The function extracts the page request:
 /index/page
 
 */
-void http_get_header_get (string headers, Webserver_Request * request)
+void http_parse_headers (string headers, Webserver_Request * request)
 {
-  // Default page to get.
+  // Defaults for the headers.
   request->get = "/index";
+  request->user_agent = "Browser/1.0";
+  request->accept_language = "en-US";
   
-  // Split header on spaces, and extract the bit after the "GET".
-  istringstream issget (headers);
-  string s;
-  bool bingo = false;
-  while (getline (issget, s, ' ')) 
-  {
-    if (bingo) {
-      request->get = s;
-      bingo = false;
+  // Split the headers up into separate lines and process them.
+  vector <string> lines = filter_string_explode (headers, '\n');
+  for (unsigned int i = 0; i < lines.size (); i++) {
+    string line = lines [i];
+
+    // Deal with a header like this: GET /css/stylesheet.css?1.0.1 HTTP/1.1
+    if (line.substr (0, 3) == "GET") {
+      vector <string> get = filter_string_explode (line, ' ');
+      if (get.size () >= 2) {
+        request->get = get [1];
+        // The GET value may be, for example: stylesheet.css?1.0.1.
+        // Split it up into two parts: The part before the ?, and the part after the ?.
+        istringstream issquery (request->get);
+        int counter = 0;
+        string s;
+        while (getline (issquery, s, '?')) {
+          if (counter == 0) request->get = s;
+          if (counter == 1) request->query = s;
+          counter++;
+        }
+      }
     }
-    if (s == "GET") bingo = true;
-  }
-  
-  // The GET value may be, for example: stylesheet.css?1.0.1.
-  // Split it up into two parts: The part before the ?, and the part after the ?.
-  istringstream issquery (request->get);
-  int counter = 0;
-  while (getline (issquery, s, '?')) {
-    if (counter == 0) request->get = s;
-    if (counter == 1) request->query = s;
-    counter++;
+    
+    // Extract the User-Agent from a header like this:
+    // User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36
+    if (line.substr (0, 10) == "User-Agent") {
+      request->user_agent = line.substr (12);
+    }
+    
+    // Extract the Accept-Language from a header like this:
+    // Accept-Language: sn,en-US;q=0.8,en;q=0.6
+    if (line.substr (0, 15) == "Accept-Language") {
+      request->accept_language = line.substr (17);
+    }
   }
 }
 

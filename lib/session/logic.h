@@ -20,27 +20,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 
+#include <iostream>
 #include <cstdlib>
-#include <string>
+#include <vector>
+#include <sqlite3.h>
+#include <webserver/request.h>
 
 
 using namespace std;
 
 
-class Webserver_Request
+class Session_Logic
 {
 public:
-  Webserver_Request ();
-  ~Webserver_Request ();
-  string remote_address; // The browser's or client's remote IPv4 address.
-  string get; // The page the browser requests via GET.
-  string query; // The query from the browser, e.g. foo=bar&baz=qux
-  string user_agent; // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
-  string accept_language; // The browser's or client's Accept-Language header.
-  string header; // Extra header to be sent back to the browser.
-  string reply; // Body to be sent back to the browser.
-  int response_code; // Response code to be sent to the browser.
+  Session_Logic (Webserver_Request * request_in);
+  ~Session_Logic ();
+  void setUsername (string name);
+  bool attemptLogin (string user_or_email, string password);
+  bool loggedIn ();
+  string currentUser ();
+  int currentLevel (bool force = false);
+  void logout ();
+  bool clientAccess ();
 private:
+  int level = 0;               // The level of the user.
+  int check_ip_blocks = 3;     // How many numbers from IP use in fingerprint?
+  bool logged_in;              // Whether user is logged in.
+  string username;             // The username.
+  Webserver_Request * request; // The web request.
+  void Open ();
+  bool openAccess ();
+  string remoteAddress ();
+  string fingerprint ();
 };
 
 

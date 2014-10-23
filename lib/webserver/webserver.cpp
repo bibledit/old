@@ -38,6 +38,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <bootstrap/bootstrap.h>
 #include <webserver/request.h>
+#include <config.h>
+#include <config/globals.h>
 
 
 using namespace std;
@@ -45,6 +47,11 @@ using namespace std;
 
 void webserver () 
 {
+  // Setup server behaviour.
+  if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
+  if (strcmp (OPEN_INSTALLATION, "1") == 0) config_globals_open_installation = true;
+
+  
   // Create a socket descriptor.
   int listenfd = socket (AF_INET, SOCK_STREAM, 0);
   int optval = 1;
@@ -60,7 +67,7 @@ void webserver ()
   serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
   serveraddr.sin_port = htons((unsigned short)8080);
   bind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
-      
+
   // Make it a listening socket ready to accept many connection requests.
   listen (listenfd, 100);
   
@@ -70,16 +77,20 @@ void webserver ()
   // Keep waiting for, accepting, and processing connections.
   while (true) {
       
-    // Socket and file descriptor for the client connection.
-    struct sockaddr_in clientaddr;
-    socklen_t clientlen = sizeof (clientaddr);
-    int connfd = accept (listenfd, (SA *) &clientaddr, &clientlen);
-    // &clientaddr contains client info.
-
     // The environment for this request.
     // It gets passed around from function to function during the entire request.
     // This provides thread-safety to the request.
     Webserver_Request * request = new Webserver_Request ();
+
+    // Socket and file descriptor for the client connection.
+    struct sockaddr_in clientaddr;
+    socklen_t clientlen = sizeof (clientaddr);
+    int connfd = accept (listenfd, (SA *) &clientaddr, &clientlen);
+    
+    // The client's remote IPv4 address in dotted notation.
+    char remote_address [256];
+    inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
+    request->remote_address = remote_address;
 
     // Read the client's request.
     char buffer [65535];
@@ -89,8 +100,8 @@ void webserver ()
     if (bytes_read) {};
     string input = buffer;
 
-    // The page the browser requests via GET.
-    http_get_header_get (input, request);
+    // Parse the browser's request's headers.
+    http_parse_headers (input, request);
 
     // Assemble response.
     bootstrap_index (request);
@@ -98,7 +109,7 @@ void webserver ()
 
     // Send response to browser.    
     const char * output = request->reply.c_str();
-    size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take .size()
+    size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
     ssize_t written = write (connfd, output, length);
     if (written) {};
 

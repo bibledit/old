@@ -322,10 +322,10 @@ int main (int argc, char **argv)
 
     evaluate ("Database_Users::getEmailToUser", username, database_users.getEmailToUser (email));
     evaluate ("Database_Users::getEmailToUser (wrong email)", "", database_users.getEmailToUser ("wrong email"));
-    
+
     evaluate ("Database_Users::getUserToEmail", email, database_users.getUserToEmail (username));
     evaluate ("Database_Users::getUserToEmail (wrong username)", "", database_users.getUserToEmail ("wrong username"));
-    
+
     evaluate ("Database_Users::usernameExists", true, database_users.usernameExists (username));
     evaluate ("Database_Users::usernameExists (invalid username)", false, database_users.usernameExists ("invalid username"));
 
@@ -334,7 +334,7 @@ int main (int argc, char **argv)
 
     evaluate ("Database_Users::getUserLevel", level, database_users.getUserLevel (username));
     evaluate ("Database_Users::getUserLevel (invalid user)", Filter_Roles::guest (), database_users.getUserLevel ("invalid username"));
-    
+
     level = 7;
     database_users.updateUserLevel (username, level);
     evaluate ("Database_Users::getUserLevel after updateUserLevel", level, database_users.getUserLevel (username));

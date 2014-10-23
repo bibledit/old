@@ -23,7 +23,8 @@ libbibledit_a_SOURCES = \
 	database/config/bible.cpp \
 	database/users.cpp \
 	database/logs.cpp \
-	database/sqlite.cpp
+	database/sqlite.cpp \
+	session/logic.cpp
 
 bin_PROGRAMS = bibledit unittest
 
