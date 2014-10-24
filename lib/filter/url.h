@@ -32,7 +32,7 @@ using namespace std;
 void filter_url_redirect (string url, Webserver_Request * request);
 string filter_url_dirname (string url);
 string filter_url_basename (string url);
-string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "");
+string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "", string part6 = "");
 string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "");
 string filter_url_get_extension (string url);
 bool filter_url_file_exists (string url);
@@ -42,4 +42,4 @@ void filter_url_file_put_contents (string filename, string contents);
 void filter_url_file_put_contents_append (string filename, string contents);
 int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
-
+int filter_url_filemtime (string filename);

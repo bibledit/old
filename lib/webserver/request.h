@@ -37,6 +37,7 @@ public:
   string query; // The query from the browser, e.g. foo=bar&baz=qux
   string user_agent; // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
   string accept_language; // The browser's or client's Accept-Language header.
+  string host; // The server's host as requested by the client.
   string header; // Extra header to be sent back to the browser.
   string reply; // Body to be sent back to the browser.
   int response_code; // Response code to be sent to the browser.

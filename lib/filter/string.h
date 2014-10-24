@@ -39,3 +39,7 @@ string filter_string_convert_to_string (bool b);
 int filter_string_convert_to_int (string s);
 bool filter_string_convert_to_bool (string s);
 bool filter_string_in_array (const string& needle, const vector <string>& haystack);
+vector <string> filter_string_array_unique (vector <string> values);
+vector <string> filter_string_array_diff (vector <string> from, vector <string> against);
+int filter_string_date_numerical_month ();
+int filter_string_date_numerical_year ();

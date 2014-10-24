@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/unittest.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
+#include <database/config/user.h>
 #include <database/logs.h>
 #include <database/sqlite.h>
 #include <database/users.h>
@@ -35,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unistd.h>
 #include <sys/time.h>
 #include <session/logic.h>
+#include <utime.h>
 
 
 using namespace std;
@@ -91,6 +93,18 @@ void evaluate (string function, bool desired, bool actual)
 }
 
 
+void evaluate (string function, vector <string> desired, vector <string> actual)
+{
+  if (desired.size() != actual.size ()) {
+    error_message (function + " size mismatch", filter_string_convert_to_string ((int)desired.size ()), filter_string_convert_to_string ((int)actual.size()));
+    return;
+  }
+  for (unsigned int i = 0; i < desired.size (); i++) {
+    if (desired[i] != actual[i]) error_message (function + " mismatch at offset " + filter_string_convert_to_string (i), desired[i], actual[i]);
+  }
+}
+
+
 int main (int argc, char **argv) 
 {
   cout << "Running unittests" << endl;
@@ -140,14 +154,91 @@ int main (int argc, char **argv)
     evaluate ("Database_Config_Bible::getViewableByAllUsers", ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
   }
 
-  
-  // Tests for filter_string.
-  // The test shows std::string handles UTF-8 well for simple operations. 
+
+  // Tests for Database_Config_User. Todo
   {
-    evaluate ("filter_string_str_replace", "⇊⇦", filter_string_str_replace ("⇖", "", "⇊⇖⇦"));
+    // Setup.
+    refresh_sandbox (true);
+    Webserver_Request * request = new Webserver_Request ();
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    database_users.addNewUser ("username", "password", 5, "");
+    Session_Logic session_logic = Session_Logic (request);
+    session_logic.attemptLogin ("username", "password");
+    Database_Config_User database_config_user = Database_Config_User (request);
+
+    // Testing setList, getList, plus add/removeUpdatedSetting.
+    vector <string> empty;
+    evaluate ("Database_Config_User::getUpdatedSettings 1", empty, database_config_user.getUpdatedSettings ());
+
+    vector <string> standard1;
+    standard1.push_back ("one two three");
+    standard1.push_back ("four five six");
+    database_config_user.setUpdatedSettings (standard1);
+    evaluate ("Database_Config_User::getUpdatedSettings 2", standard1, database_config_user.getUpdatedSettings ());
+
+    database_config_user.addUpdatedSetting ("seven eight nine");
+    standard1.push_back ("seven eight nine");
+    evaluate ("Database_Config_User::addUpdatedSetting", standard1, database_config_user.getUpdatedSettings ());
+    
+    database_config_user.removeUpdatedSetting ("four five six");
+    vector <string> standard2;
+    standard2.push_back ("one two three");
+    standard2.push_back ("seven eight nine");
+    evaluate ("Database_Config_User::removeUpdatedSetting", standard2, database_config_user.getUpdatedSettings ());
+    
+    // Testing the Sprint month and its trim () function.
+    // It should get today's month.
+    int month = filter_string_date_numerical_month ();
+    evaluate ("Database_Config_User::getSprintMonth", month, database_config_user.getSprintMonth ());
+    // Set the sprint month to another month value: It should get this value back from the database.
+    int newmonth = 123;
+    database_config_user.setSprintMonth (newmonth);
+    evaluate ("Database_Config_User::setSprintMonth", newmonth, database_config_user.getSprintMonth ());
+    // Trim: The sprint month should not be reset.
+    database_config_user.trim ();
+    evaluate ("Database_Config_User::setSprintMonth", newmonth, database_config_user.getSprintMonth ());
+    // Set the modification time of the sprint month record to more than two days ago: 
+    // Trimming resets the sprint month to the current month.
+    struct timeval tv;
+    gettimeofday (&tv, NULL);
+    string filename = filter_url_create_path (testing_directory, "databases", "config", "user", "username", "sprint-month");
+    struct stat foo;
+    struct utimbuf new_times;
+    stat (filename.c_str(), &foo);
+    new_times.actime = tv.tv_sec - (2 * 24 * 3600) - 10;
+    new_times.modtime = tv.tv_sec - (2 * 24 * 3600) - 10;
+    utime (filename.c_str(), &new_times);
+    database_config_user.trim ();
+    evaluate ("Database_Config_User::trim", month, database_config_user.getSprintMonth ());
+
+    // Test boolean setting.
+    evaluate ("Database_Config_User::getSubscribeToConsultationNotesEditedByMe", false, database_config_user.getSubscribeToConsultationNotesEditedByMe ());
+    database_config_user.setSubscribeToConsultationNotesEditedByMe (true);
+    evaluate ("Database_Config_User::setSubscribeToConsultationNotesEditedByMe", true, database_config_user.getSubscribeToConsultationNotesEditedByMe ());
+    
+    // Test integer setting.
+    evaluate ("Database_Config_User::getConsultationNotesPassageSelector", 0, database_config_user.getConsultationNotesPassageSelector ());
+    database_config_user.setConsultationNotesPassageSelector (11);
+    evaluate ("Database_Config_User::setConsultationNotesPassageSelector", 11, database_config_user.getConsultationNotesPassageSelector ());
+    
+    // Test string setting.
+    evaluate ("Database_Config_User::getConsultationNotesAssignmentSelector", "", database_config_user.getConsultationNotesAssignmentSelector ());
+    database_config_user.setConsultationNotesAssignmentSelector ("test");
+    evaluate ("Database_Config_User::setConsultationNotesAssignmentSelector", "test", database_config_user.getConsultationNotesAssignmentSelector ());
+
+    evaluate ("Database_Config_User::getSprintYear", filter_string_date_numerical_year (), database_config_user.getSprintYear ());
+
+
+
+
+    
+    
+    
+    delete request;
   }
 
-
+  
   // Tests for SQLite.
   {
     sqlite3 * db = database_sqlite_connect ("sqlite");
@@ -292,18 +383,73 @@ int main (int argc, char **argv)
   }
 
 
-  // Tests for Filter_Roles.
+  // Tests for the filters in the filter folder.
   {
+    // Filter_Roles.
     evaluate ("Filter_Roles::consultant", 3, Filter_Roles::consultant ());
-  }
-  {
     evaluate ("Filter_Roles::lowest", 1, Filter_Roles::lowest ());
   }
-
-
-  // Tests for the C++ md5 function as compared to PHP's version.
   {
+    // mkdir including parents.
+    string directory = filter_url_create_path (testing_directory, "a", "b");
+    filter_url_mkdir (directory);
+    string path = filter_url_create_path (directory, "c");
+    string contents = "unittest";
+    filter_url_file_put_contents (path, contents);
+    evaluate ("filter_url_mkdir", contents, filter_url_file_get_contents (path));
+  }
+  {
+    // C++ md5 function as compared to PHP's version.
     evaluate ("md5", "1f3870be274f6c49b3e31a0c6728957f", md5 ("apple"));
+  }
+  {
+    // Test str_replace.
+    // Shows that std::string handles UTF-8 well for simple operations. 
+    evaluate ("filter_string_str_replace", "⇊⇦", filter_string_str_replace ("⇖", "", "⇊⇖⇦"));
+  }
+  {
+    // Test filter_string_array_unique, a C++ equivalent for PHP's array_unique function.
+    vector <string> reference;
+    reference.push_back ("aaa");
+    reference.push_back ("b");
+    reference.push_back ("zzz");
+    reference.push_back ("x");
+    reference.push_back ("yyy");
+    reference.push_back ("k");
+    vector <string> input;
+    input.push_back ("aaa");
+    input.push_back ("b");
+    input.push_back ("aaa");
+    input.push_back ("b");
+    input.push_back ("aaa");
+    input.push_back ("zzz");
+    input.push_back ("x");
+    input.push_back ("x");
+    input.push_back ("yyy");
+    input.push_back ("k");
+    input.push_back ("k");
+    vector <string> output = filter_string_array_unique (input);
+    evaluate ("filter_string_array_unique", reference, output);
+  }
+  {
+    // Test filter_string_array_diff, a C++ equivalent for PHP's array_diff function.
+    vector <string> reference;
+    reference.push_back ("aaa");
+    reference.push_back ("zzz");
+    reference.push_back ("b");
+    vector <string> from;
+    from.push_back ("aaa");
+    from.push_back ("bbb");
+    from.push_back ("ccc");
+    from.push_back ("zzz");
+    from.push_back ("b");
+    from.push_back ("x");
+    vector <string> against;
+    against.push_back ("bbb");
+    against.push_back ("ccc");
+    against.push_back ("x");
+    vector <string> output = filter_string_array_diff (from, against);
+    evaluate ("filter_string_array_diff", reference, output);
   }
 
   

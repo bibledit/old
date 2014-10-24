@@ -114,9 +114,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
 	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
-	database/config/bible.$(OBJEXT) database/users.$(OBJEXT) \
-	database/logs.$(OBJEXT) database/sqlite.$(OBJEXT) \
-	session/logic.$(OBJEXT)
+	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
+	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
+	database/sqlite.$(OBJEXT) session/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -339,6 +339,7 @@ libbibledit_a_SOURCES = \
 	locale/translate.cpp \
 	database/config/general.cpp \
 	database/config/bible.cpp \
+	database/config/user.cpp \
 	database/users.cpp \
 	database/logs.cpp \
 	database/sqlite.cpp \
@@ -515,6 +516,8 @@ database/config/general.$(OBJEXT): database/config/$(am__dirstamp) \
 	database/config/$(DEPDIR)/$(am__dirstamp)
 database/config/bible.$(OBJEXT): database/config/$(am__dirstamp) \
 	database/config/$(DEPDIR)/$(am__dirstamp)
+database/config/user.$(OBJEXT): database/config/$(am__dirstamp) \
+	database/config/$(DEPDIR)/$(am__dirstamp)
 database/$(am__dirstamp):
 	@$(MKDIR_P) database
 	@: > database/$(am__dirstamp)
@@ -638,6 +641,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/users.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/bible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@

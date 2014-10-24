@@ -21,6 +21,7 @@ libbibledit_a_SOURCES = \
 	locale/translate.cpp \
 	database/config/general.cpp \
 	database/config/bible.cpp \
+	database/config/user.cpp \
 	database/users.cpp \
 	database/logs.cpp \
 	database/sqlite.cpp \

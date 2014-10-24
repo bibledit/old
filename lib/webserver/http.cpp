@@ -83,6 +83,14 @@ void http_parse_headers (string headers, Webserver_Request * request)
     if (line.substr (0, 15) == "Accept-Language") {
       request->accept_language = line.substr (17);
     }
+    
+    // Extract the Host from a header like this:
+    // Host: 192.168.1.139:8080
+    if (line.substr (0, 4) == "Host") {
+      request->host = line.substr (6);
+      vector <string> bits = filter_string_explode (request->host, ':');
+      if (!bits.empty ()) request->host = bits [0];
+    }
   }
 }
 

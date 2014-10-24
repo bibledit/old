@@ -27,6 +27,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <istream>
 #include <utility>
+#include <unordered_set>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <sys/time.h>
+#include <time.h>
 
 
 using namespace std;
@@ -130,6 +136,63 @@ bool filter_string_in_array (const string& needle, const vector <string>& haysta
     if (haystack [i] == needle) return true;
   }
   return false;
+}
+
+
+// A C++ equivalent for PHP's array_unique function.
+vector <string> filter_string_array_unique (vector <string> values)
+{
+  vector <string> result;
+  set <string> unique;
+  for (unsigned int i = 0; i < values.size (); i++) {
+    if (unique.find (values[i]) == unique.end ()) {
+      unique.insert (values[i]);
+      result.push_back ((values[i]));
+    }
+  }
+  return result;
+}
+
+
+// A C++ equivalent for PHP's array_diff function.
+// Returns items in "from" which are not present in "against".
+vector <string> filter_string_array_diff (vector <string> from, vector <string> against)
+{
+  vector <string> result;
+  set <string> against2 (against.begin (), against.end ());
+  for (unsigned int i = 0; i < from.size (); i++) {
+    if (against2.find (from[i]) == against2.end ()) {
+      result.push_back ((from[i]));
+    }
+  }
+  return result;
+}
+
+
+// A C++ equivalent for PHP's date ("n") function.
+// Numeric representation of a month: 1 through 12.
+int filter_string_date_numerical_month ()
+{
+  // See http://www.informit.com/articles/article.aspx?p=23618&seqNum=8.
+  struct timeval tv;
+  gettimeofday (&tv, NULL);
+  struct tm* ptm = localtime (&tv.tv_sec);
+  int month = ptm->tm_mon + 1;
+  return month;  
+}
+
+
+// A C++ equivalent for PHP's date ("Y") function.
+// A full numeric representation of a year, 4 digits: 2014.
+int filter_string_date_numerical_year ()
+{
+  // See http://www.informit.com/articles/article.aspx?p=23618&seqNum=8.
+  struct timeval tv;
+  gettimeofday (&tv, NULL);
+  struct tm* ptm = localtime (&tv.tv_sec);
+  // Get years since 1900, and correct to get years since birth of Christ.
+  int year = ptm->tm_year + 1900; 
+  return year;  
 }
 
 

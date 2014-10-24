@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <stdio.h>
 #include <dirent.h>
 #include <algorithm>
+#include <sys/stat.h>
 
 
 using namespace std;
@@ -40,15 +41,12 @@ void filter_url_redirect (string path, Webserver_Request * request)
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
   
-  // E.g. localhost
-  string host = "localhost"; // Todo get it from the browser's headers.
-
   // Port
   string port = "8080"; 
   
   // A location header needs to contain an absolute url, like http://localhost/some.php.
   // See 14.30 in the specification http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
-  string location = scheme + "://" + host + ":" + port + path;
+  string location = scheme + "://" + request->host + ":" + port + path;
   request->header = "Location: " + location;
   request->response_code = 302;
 }
@@ -79,13 +77,14 @@ string filter_url_basename (string url)
 
 
 // Creates a file path out of the components.
-string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "")
+string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "", string part6 = "")
 {
   string path (part1);
   if (part2.length()) path += "/" + part2;
   if (part3.length()) path += "/" + part3;
   if (part4.length()) path += "/" + part4;
   if (part5.length()) path += "/" + part5;
+  if (part6.length()) path += "/" + part6;
   return path;
 }
 
@@ -124,9 +123,23 @@ bool filter_url_file_exists (string url)
 
 
 // Wrapper for the mkdir function: make a directory.
+// Creates parents where needed.
 void filter_url_mkdir (string directory)
 {
-  mkdir (directory.c_str(), 0777);
+  int status = mkdir (directory.c_str(), 0777);
+  if (status != 0) {
+    vector <string> paths;
+    paths.push_back (directory);
+    directory = filter_url_dirname (directory);
+    while (directory.length () > 2) {
+      paths.push_back (directory);
+      directory = filter_url_dirname (directory);
+    }
+    reverse (paths.begin (), paths.end ());
+    for (unsigned int i = 0; i < paths.size (); i++) {
+      mkdir (paths [i].c_str(), 0777);
+    }
+  }
 }
 
 
@@ -199,6 +212,15 @@ vector <string> filter_url_scandir (string folder)
   closedir (dir);
   sort (files.begin(), files.end());
   return files;
+}
+
+
+// A C++ near equivalent for PHP's filemtime function.
+int filter_url_filemtime (string filename)
+{
+  struct stat attributes;
+  stat (filename.c_str(), &attributes);
+  return attributes.st_mtime;
 }
 
 

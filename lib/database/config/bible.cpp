@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-Database_Config_Bible::Database_Config_Bible () // Todo
+Database_Config_Bible::Database_Config_Bible ()
 {
 }
 
@@ -64,7 +64,7 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
 {
   string filename = file (bible, key);
   string dirname = filter_url_dirname (filename);
-  if (!filter_url_file_exists (dirname)) filter_url_mkdir (dirname); // Todo filter mkdir test it in the unit tests.
+  if (!filter_url_file_exists (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
 }
 
