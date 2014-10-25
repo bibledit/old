@@ -137,7 +137,6 @@ int main (int argc, char **argv)
   {
     evaluate ("Database_Config_General::getMailStorageSecurity", "", Database_Config_General::getMailStorageSecurity ());
   }
-
   
   // Tests for Database_Config_Bible.
   {
@@ -435,6 +434,12 @@ int main (int argc, char **argv)
     against.push_back ("x");
     vector <string> output = filter_string_array_diff (from, against);
     evaluate ("filter_string_array_diff", reference, output);
+  }
+  {
+    // Test trim.
+    evaluate ("filter_string_trim 1", "", filter_string_trim ("  "));
+    evaluate ("filter_string_trim 2", "", filter_string_trim (""));
+    evaluate ("filter_string_trim 2", "xx", filter_string_trim ("\t\nxx\n\r"));
   }
 
   

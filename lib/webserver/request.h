@@ -40,6 +40,8 @@ public:
   string user_agent; // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
   string accept_language; // The browser's or client's Accept-Language header.
   string host; // The server's host as requested by the client.
+  string content_type; // The content type of the browser request.
+  map <string, string> post_data; // The raw POST data from the browser, line by line.
   string header; // Extra header to be sent back to the browser.
   string reply; // Body to be sent back to the browser.
   int response_code; // Response code to be sent to the browser.

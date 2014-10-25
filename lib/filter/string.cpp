@@ -196,3 +196,17 @@ int filter_string_date_numerical_year ()
 }
 
 
+// A C++ equivalent for PHP's trim function.
+string filter_string_trim (string s)
+{
+  if (s.length () == 0)
+    return s;
+  // Strip spaces, tabs, new lines, carriage returns.
+  size_t beg = s.find_first_not_of(" \t\n\r");
+  size_t end = s.find_last_not_of(" \t\n\r");
+  // No non-spaces  
+  if (beg == string::npos)
+    return "";
+  return string (s, beg, end - beg + 1);
+}
+

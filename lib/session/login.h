@@ -17,25 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_ASSETS_PAGE_H
-#define INCLUDED_ASSETS_PAGE_H
+#ifndef INCLUDED_SESSION_LOGIN_H
+#define INCLUDED_SESSION_LOGIN_H
 
 
 #include <config/libraries.h>
 
 
-class Assets_Page
-{
-public:
-  Assets_Page (const char * file);
-  ~Assets_Page ();
-  static string header (string title, void * webserver_request, string searchQuery);
-  static string success (string message);
-  static string error (string message);
-  static string message (string message);
-  static string footer ();
-private:
-};
+string session_login (void * webserver_request);
+string session_login_display_header (void * webserver_request);
 
 
 #endif

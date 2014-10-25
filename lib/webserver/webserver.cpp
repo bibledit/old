@@ -17,28 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <iostream>
-#include <cstdlib>
-#include <arpa/inet.h>
-#include <signal.h>
-#include <dirent.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <time.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdio.h>
 #include <webserver/http.h>
 #include <bootstrap/bootstrap.h>
 #include <webserver/request.h>
-#include <config.h>
 #include <config/globals.h>
 
 

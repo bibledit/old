@@ -18,23 +18,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <assets/header.h>
-#include <cstdlib>
-#include <iostream>
 #include <filter/url.h>
 #include <config/globals.h>
-#include <config.h>
 #include <menu/main.h>
+#include <locale/translate.h>
 
 
 using namespace std;
 
 
-Assets_Header::Assets_Header (string title)
+Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
   includeJQueryUI = false;
   displayNavigator = false;
   includedStylesheet = false;
   includedEditorStylesheet = false;
+  webserver_request = webserver_request_in;
   view = new Assets_View (__FILE__);
   view->set_variable ("title", title);
 }
@@ -76,10 +75,8 @@ void Assets_Header::addHeadLine (string line)
 // Variable "code" could be, e.g.: onload="document.form.user.focus();"
 void Assets_Header::setBodyOnload (string code)
 {
-  code = ""; // Temporal.
-  /* C++Port
-    $this->view->view->onLoadStatement = $code;
-   */
+  view->enable_zone ("on_load_statement");
+  view->set_variable ("onLoadStatement", code);
 }
 
 
@@ -168,10 +165,19 @@ string Assets_Header::run ()
     Menu_Main menu_main = Menu_Main (); // Todo port main menu to C++
     view->set_variable ("mainmenu", menu_main.create ());
     view->enable_zone ("display_user"); // Todo implement and test it.
+    string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+    if (user.empty ()) {
+      view->enable_zone ("user_empty");
+      view->enable_zone ("logging_in");
+      view->set_variable ("text_login", gettext ("Login"));
+    }
+    //view->enable_zone ("user_full"); // Todo test it.
+    //view->set_variable ("usermenu", "this is the user's menu"); // Todo
     /*
     $menu_user = new Menu_User (); // Todo port user menu to C++
     $this->view->view->usermenu = $menu_user->create ();
     */
+    if (((Webserver_Request *) webserver_request)->session_logic ()->currentLevel () >= 2) view->enable_zone ("level_two");
   /* C++Port
     $this->view->view->display_navigator = $this->displayNavigator;
     if ($this->view->view->display_navigator) {

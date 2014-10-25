@@ -19,11 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <session/logic.h>
 #include <database/sqlite.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <dirent.h>
-#include <algorithm>
-#include <config.h>
 #include <database/users.h>
 #include <webserver/request.h>
 #include <filter/url.h>

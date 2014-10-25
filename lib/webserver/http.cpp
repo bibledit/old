@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <config/globals.h>
 #include <filter/string.h>
+#include <parsewebdata/ParseWebData.h>
 
 
 using namespace std;
@@ -48,11 +49,14 @@ void http_parse_headers (string headers, Webserver_Request * request)
   request->get = "/index";
   request->user_agent = "Browser/1.0";
   request->accept_language = "en-US";
-  
+
+  // Flags.
+  bool reading_post_data = false;
+    
   // Split the headers up into separate lines and process them.
   vector <string> lines = filter_string_explode (headers, '\n');
   for (unsigned int i = 0; i < lines.size (); i++) {
-    string line = lines [i];
+    string line = filter_string_trim (lines [i]);
 
     // Deal with a header like this: GET /css/stylesheet.css?1.0.1 HTTP/1.1
     if (line.substr (0, 3) == "GET") {
@@ -91,6 +95,25 @@ void http_parse_headers (string headers, Webserver_Request * request)
       vector <string> bits = filter_string_explode (request->host, ':');
       if (!bits.empty ()) request->host = bits [0];
     }
+    
+    // Extract the Content-Type from a header like this:
+    // Content-Type: application/x-www-form-urlencoded
+    if (line.substr (0, 12) == "Content-Type") {
+      request->content_type = line.substr (14);
+    }
+    
+    // Read and parse the POST data.
+    if (reading_post_data) {
+   		ParseWebData::WebDataMap dataMap;
+      ParseWebData::parse_post_data (line, request->content_type, dataMap);
+      for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
+        request->post_data [(*iter).first] = (*iter).second.value;
+      }
+    }
+    
+    // The POST data comes after a blank line.
+    if (line == "") reading_post_data = true;
+    
   }
 }
 

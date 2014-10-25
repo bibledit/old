@@ -25,7 +25,10 @@ libbibledit_a_SOURCES = \
 	database/users.cpp \
 	database/logs.cpp \
 	database/sqlite.cpp \
-	session/logic.cpp
+	session/logic.cpp \
+	session/login.cpp \
+	parsewebdata/ParseMultipartFormData.cpp \
+	parsewebdata/ParseWebData.cpp
 
 bin_PROGRAMS = bibledit unittest
 

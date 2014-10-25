@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <index/index.h>
 #include <bootstrap/bootstrap.h>
 #include <webserver/http.h>
+#include <session/login.h>
 
 
 using namespace std;
@@ -39,7 +40,12 @@ void bootstrap_index (Webserver_Request * request)
   
   // Home page.
   else if (request->get == "/index/index") {
-    request->reply = index_index ();
+    request->reply = index_index (request);
+  }
+  
+  // Login and logout.
+  else if (request->get == "/session/login") {
+    request->reply = session_login (request);
   }
   
   // Serve stylesheets.

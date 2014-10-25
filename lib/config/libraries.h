@@ -22,11 +22,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unistd.h>
 #include <utime.h>
 #include <libgen.h>
+#include <stdio.h>
+#include <dirent.h>
+#include <signal.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 // C headers in sub folders.
 #include <sys/stat.h>
 #include <sys/time.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 
 
 // C++ headers.
@@ -37,6 +50,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 #include <map>
 #include <cstring>
+#include <algorithm>
 
 
 // Headers dependencies.
@@ -44,6 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Bibledit headers.
+#include <config.h>
 
 
 using namespace std;

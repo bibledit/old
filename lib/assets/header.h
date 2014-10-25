@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Assets_Header
 {
 public:
-  Assets_Header (string title);
+  Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
   void jQueryUIOn (string subset = "");
   void addHeadLine (string line);
@@ -48,6 +48,7 @@ private:
   bool displayNavigator;
   bool includedStylesheet;
   bool includedEditorStylesheet;
+  void * webserver_request;
 };
 
 
