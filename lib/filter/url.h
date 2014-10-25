@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
+string filter_url_page_url (Webserver_Request * request);
 void filter_url_redirect (string url, Webserver_Request * request);
 string filter_url_dirname (string url);
 string filter_url_basename (string url);
@@ -39,6 +40,7 @@ void filter_url_file_put_contents_append (string filename, string contents);
 int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
 int filter_url_filemtime (string filename);
+string filter_url_urldecode (string url);
 
 
 #endif

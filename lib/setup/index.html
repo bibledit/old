@@ -1,4 +1,4 @@
-<?php
+<!-- #BEGINZONE copyright -->
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,79 +16,21 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-
-
-error_reporting (E_ALL);
-
-
-require_once ("../bootstrap/bootstrap.php");
-
-
-$database_users  = Database_Users::getInstance ();
-
-
-@$admin_username = $_POST ['admin_username'];
-@$admin_password = $_POST ['admin_password'];
-@$admin_email = $_POST ['admin_email'];
-$error = array ();
-
-
-if (isset ($admin_username)) {
-  if (strlen ($admin_username) < 5) {
-    unset ($admin_username);
-    $error [] = "Choose a longer username.";
-  }
-}
-
-
-if (isset ($admin_password)) {
-  if (strlen ($admin_password) < 7) {
-    unset ($admin_password);
-    $error [] = "Choose a longer password.";
-  }
-}
-
-
-if (isset ($admin_email)) {
-  $validator = new Zend_Validate_EmailAddress ();
-  if (!$validator->isValid ($admin_email)) {
-    unset ($admin_email);
-    $error [] = "Choose a valid email address.";
-  }
-}
-
-
-if (isset ($admin_username) && isset ($admin_password) && isset ($admin_email)) {
-  $database_users->removeUser ($admin_username);
-  $database_users->addNewUser ($admin_username, $admin_password, Filter_Roles::ADMIN_LEVEL, $admin_email);
-}
-
-
-
-$admins = $database_users->getAdministrators ();
-if (count ($admins) != 0) {
-  include ("../filter/url.php");
-  Filter_Url::redirect ("step.php?referer=details");
-  die;
-}
-
-
-$error = implode (" ", $error);
-
-
-?>
+<!-- #ENDZONE copyright -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Bibledit-Web Installation</title>
-<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+<link rel="stylesheet" href="/setup/stylesheet.css" type="text/css" />
 </head>
 <body>
-<h1><img src="../assets/bibledit.png"> <a href="http://bibledit.org/">Bibledit-Web</a></h1>
-<p>Please provide the following information. You can change these settings later.</p>
-<p><?php echo $error ?></p>
-<form id="setup" method="post" action="details.php">
+<h1><img src="/assets/bibledit.png"> <a href="http://bibledit.org/">Bibledit Setup</a></h1>
+<p>Please provide the following information. You can change this later.</p>
+<!-- #BEGINZONE errors -->
+<p class="message">##error##</p>
+<!-- #ENDZONE errors -->
+<form id="setup" method="post" action="/setup/index">
   <table class="form-table">
     <tr>
       <th scope="row"><label for="user_login">Administrator's username</label></th>

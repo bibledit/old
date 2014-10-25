@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,6 +15,16 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h1><?php echo Locale_Translate::_("Welcome") ?></h1>
-<p><?php echo Locale_Translate::_("You have logged in.") ?></p>
+
+
+#ifndef INCLUDED_SETUP_INDEX_H
+#define INCLUDED_SETUP_INDEX_H
+
+
+using namespace std;
+
+
+string setup_index (void * webserver_request);
+
+
+#endif

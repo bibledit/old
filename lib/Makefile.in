@@ -119,7 +119,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) session/logic.$(OBJEXT) \
 	session/login.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
-	parsewebdata/ParseWebData.$(OBJEXT)
+	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -349,7 +349,8 @@ libbibledit_a_SOURCES = \
 	session/logic.cpp \
 	session/login.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
-	parsewebdata/ParseWebData.cpp
+	parsewebdata/ParseWebData.cpp \
+	setup/index.cpp
 
 bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
@@ -557,6 +558,14 @@ parsewebdata/ParseMultipartFormData.$(OBJEXT):  \
 	parsewebdata/$(DEPDIR)/$(am__dirstamp)
 parsewebdata/ParseWebData.$(OBJEXT): parsewebdata/$(am__dirstamp) \
 	parsewebdata/$(DEPDIR)/$(am__dirstamp)
+setup/$(am__dirstamp):
+	@$(MKDIR_P) setup
+	@: > setup/$(am__dirstamp)
+setup/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) setup/$(DEPDIR)
+	@: > setup/$(DEPDIR)/$(am__dirstamp)
+setup/index.$(OBJEXT): setup/$(am__dirstamp) \
+	setup/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -645,6 +654,7 @@ mostlyclean-compile:
 	-rm -f menu/*.$(OBJEXT)
 	-rm -f parsewebdata/*.$(OBJEXT)
 	-rm -f session/*.$(OBJEXT)
+	-rm -f setup/*.$(OBJEXT)
 	-rm -f unittests/*.$(OBJEXT)
 	-rm -f webserver/*.$(OBJEXT)
 
@@ -677,6 +687,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/request.Po@am__quote@
@@ -1001,6 +1012,8 @@ distclean-generic:
 	-rm -f parsewebdata/$(am__dirstamp)
 	-rm -f session/$(DEPDIR)/$(am__dirstamp)
 	-rm -f session/$(am__dirstamp)
+	-rm -f setup/$(DEPDIR)/$(am__dirstamp)
+	-rm -f setup/$(am__dirstamp)
 	-rm -f unittests/$(DEPDIR)/$(am__dirstamp)
 	-rm -f unittests/$(am__dirstamp)
 	-rm -f webserver/$(DEPDIR)/$(am__dirstamp)
@@ -1016,7 +1029,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -1064,7 +1077,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

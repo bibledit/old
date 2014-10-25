@@ -28,7 +28,8 @@ libbibledit_a_SOURCES = \
 	session/logic.cpp \
 	session/login.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
-	parsewebdata/ParseWebData.cpp
+	parsewebdata/ParseWebData.cpp \
+	setup/index.cpp
 
 bin_PROGRAMS = bibledit unittest
 

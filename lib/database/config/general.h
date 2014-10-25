@@ -70,6 +70,8 @@ public:
   static void setServerAddress (string value);
   static string getRepeatSendReceive ();
   static void setRepeatSendReceive (string value);
+  static string getInstalledVersion ();
+  static void setInstalledVersion (string value);
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

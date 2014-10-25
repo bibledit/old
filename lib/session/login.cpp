@@ -24,9 +24,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <webserver/request.h>
 #include <filter/url.h>
+#include <filter/roles.h>
+#include <database/logs.h>
+#include <database/config/general.h>
 
 
-string session_login (void * webserver_request) // Todo writing login page.
+string session_login (void * webserver_request)
 {
   /*
   This script can have several functions:
@@ -47,50 +50,50 @@ string session_login (void * webserver_request) // Todo writing login page.
 
   Assets_View view = Assets_View (__FILE__);
 
-  /* Todo C++Port
   // Form submission handler.
-  if (isset($_POST['submit'])) {
-    $form_is_valid = true;
-    $user = $_POST['user'];
-    $pass = $_POST['pass'];
-    if (strlen ($user) < 2) {
-      $form_is_valid = false;
+  if (request->post["submit"] != "") {
+    bool form_is_valid = true;
+    string user = request->post["user"];
+    string pass = request->post["pass"];
+    if (user.length () < 2) {
+      form_is_valid = false;
       view.set_variable ("username_email_invalid", gettext ("Username should be at least two characters long"));
     }
-    if (strlen ($pass) < 4) {
-      $form_is_valid = false;
+    if (pass.length() < 4) {
+      form_is_valid = false;
       view.set_variable ("password_invalid", gettext ("Password should be at least four characters long"));
     }
-    if ($form_is_valid) {
-      if ($session_logic->attemptLogin ($user, $pass)) {
+    if (form_is_valid) {
+      if (request->session_logic()->attemptLogin (user, pass)) {
         // Log the login.
-        $database_logs->log ($session_logic->currentUser () . " logged in");
+        Database_Logs::log (request->session_logic()->currentUser () + " logged in");
         // Store web site's base URL.
-        @$siteUrl = dirname (dirname ($_SERVER["HTTP_REFERER"]));
-        $database_config_general->setSiteURL ($siteUrl);
+        string siteUrl = filter_url_page_url (request);
+        Database_Config_General::setSiteURL (siteUrl);
       } else {
-        $view->view->error_message = Locale_Translate::_("Username or email address or password are not correct");
-        $session_logic->logout();
+        view.set_variable ("error_message", gettext ("Username or email address or password are not correct"));
+        request->session_logic()->logout();
         // Log the login failure for the Administrator(s), so that others cannot reverse engineer a user's password based on the failure information.
-        $database_logs->log ("Failed login attempt for user $user with password $pass", Filter_Roles::ADMIN_LEVEL);
+        Database_Logs::log ("Failed login attempt for user $user with password $pass", Filter_Roles::admin ());
       }
     }
   }
-  */
 
   string page;
 
   string query = request->query;
   
   if (request->session_logic ()->loggedIn ()) {
-    query = query.substr (8);
+    if (query.length () >= 8) query = query.substr (8);
     if (query != "") {
       // After login, the user is forwarded to the originally requested URL, if any.
       filter_url_redirect (query, request);
       return page;
     }
     page += session_login_display_header (webserver_request);
-    page += view.render ("loggedin.html"); // Todo write html
+    view.set_variable ("welcome", gettext ("Welcome"));
+    view.set_variable ("loggedin", gettext ("You have logged in."));
+    page += view.render ("loggedin.html");
   } else {
     page += session_login_display_header (webserver_request);
     view.set_variable ("query", query);

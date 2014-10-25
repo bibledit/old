@@ -18,35 +18,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <webserver/http.h>
-#include <vector>
-#include <sstream>
-#include <fstream>
-#include <libgen.h>
-#include <sys/stat.h>
-#include <cstring>
 #include <config/globals.h>
-#include <stdio.h>
-#include <dirent.h>
-#include <algorithm>
-#include <sys/stat.h>
+#include <filter/UriCodec.cpp>
 
 
 using namespace std;
+
+
+// Gets the base URL of current Bibledit installation.
+string filter_url_page_url (Webserver_Request * request)
+{
+  // E.g. http or https: Always use http for just now.
+  string scheme = "http";  
+  // Port
+  string port = "8080"; 
+  // Full URL.  
+  string url = scheme + "://" + request->host + ":" + port;
+  return url;
+}
 
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
 void filter_url_redirect (string path, Webserver_Request * request)
 {
-  // E.g. http or https: Always use http for just now.
-  string scheme = "http";  
-  
-  // Port
-  string port = "8080"; 
-  
   // A location header needs to contain an absolute url, like http://localhost/some.php.
   // See 14.30 in the specification http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
-  string location = scheme + "://" + request->host + ":" + port + path;
+  string location = filter_url_page_url (request) + path;
   request->header = "Location: " + location;
   request->response_code = 302;
 }
@@ -224,3 +222,10 @@ int filter_url_filemtime (string filename)
 }
 
 
+// A C++ near equivalent for PHP's urldecode function.
+string filter_url_urldecode (string url)
+{
+  url = UriDecode (url);
+  replace (url.begin (), url.end (), '+', ' ');
+  return url;
+}

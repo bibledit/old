@@ -51,6 +51,7 @@ void http_parse_headers (string headers, Webserver_Request * request)
   request->accept_language = "en-US";
 
   // Flags.
+  bool post_request = false;
   bool reading_post_data = false;
     
   // Split the headers up into separate lines and process them.
@@ -59,11 +60,18 @@ void http_parse_headers (string headers, Webserver_Request * request)
     string line = filter_string_trim (lines [i]);
 
     // Deal with a header like this: GET /css/stylesheet.css?1.0.1 HTTP/1.1
-    if (line.substr (0, 3) == "GET") {
+    // Or like this: POST /session/login?request= HTTP/1.1
+    bool get = false;
+    if (line.substr (0, 3) == "GET") get = true;
+    if (line.substr (0, 4) == "POST") {
+      get = true;
+      post_request = true;
+    }
+    if (get) {
       vector <string> get = filter_string_explode (line, ' ');
       if (get.size () >= 2) {
         request->get = get [1];
-        // The GET value may be, for example: stylesheet.css?1.0.1.
+        // The GET or POST value may be, for example: stylesheet.css?1.0.1.
         // Split it up into two parts: The part before the ?, and the part after the ?.
         istringstream issquery (request->get);
         int counter = 0;
@@ -103,17 +111,16 @@ void http_parse_headers (string headers, Webserver_Request * request)
     }
     
     // Read and parse the POST data.
-    if (reading_post_data) {
+    if (reading_post_data && post_request) {
    		ParseWebData::WebDataMap dataMap;
       ParseWebData::parse_post_data (line, request->content_type, dataMap);
       for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
-        request->post_data [(*iter).first] = (*iter).second.value;
+        request->post [(*iter).first] = filter_url_urldecode ((*iter).second.value);
       }
     }
     
     // The POST data comes after a blank line.
     if (line == "") reading_post_data = true;
-    
   }
 }
 

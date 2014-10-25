@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <session/logic.h>
 #include <database/config/user.h>
+#include <database/users.h>
 
 
 using namespace std;
@@ -41,15 +42,17 @@ public:
   string accept_language; // The browser's or client's Accept-Language header.
   string host; // The server's host as requested by the client.
   string content_type; // The content type of the browser request.
-  map <string, string> post_data; // The raw POST data from the browser, line by line.
+  map <string, string> post; // The raw POST data from the browser, line by line.
   string header; // Extra header to be sent back to the browser.
   string reply; // Body to be sent back to the browser.
   int response_code; // Response code to be sent to the browser.
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
+  Database_Users * database_users ();
 private:
   Session_Logic * session_logic_instance = NULL;
   Database_Config_User * database_config_user_instance = NULL;
+  Database_Users * database_users_instance = NULL;
 };
 
 

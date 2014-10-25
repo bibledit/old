@@ -439,7 +439,13 @@ int main (int argc, char **argv)
     // Test trim.
     evaluate ("filter_string_trim 1", "", filter_string_trim ("  "));
     evaluate ("filter_string_trim 2", "", filter_string_trim (""));
-    evaluate ("filter_string_trim 2", "xx", filter_string_trim ("\t\nxx\n\r"));
+    evaluate ("filter_string_trim 3", "xx", filter_string_trim ("\t\nxx\n\r"));
+  }
+  {
+    // Test URL decoder.
+    evaluate ("filter_url_urldecode 1", "Store settings", filter_url_urldecode ("Store+settings"));
+    evaluate ("filter_url_urldecode 2", "test@mail", filter_url_urldecode ("test%40mail"));
+    evaluate ("filter_url_urldecode 3", "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
   }
 
   

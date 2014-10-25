@@ -286,3 +286,13 @@ void Database_Config_General::setRepeatSendReceive (string value)
 }
 
 
+string Database_Config_General::getInstalledVersion ()
+{
+  return getValue ("installed-version", "0");
+}
+void Database_Config_General::setInstalledVersion (string value)
+{
+  setValue ("installed-version", value);
+}
+
+
