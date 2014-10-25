@@ -17,16 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_FILTER_STRING_H
+#define INCLUDED_FILTER_STRING_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-#include <webserver/request.h>
-
-
-using namespace std;
+#include <config/libraries.h>
 
 
 vector <string> filter_string_explode (string value, char delimiter);
@@ -43,3 +38,6 @@ vector <string> filter_string_array_unique (vector <string> values);
 vector <string> filter_string_array_diff (vector <string> from, vector <string> against);
 int filter_string_date_numerical_month ();
 int filter_string_date_numerical_year ();
+
+
+#endif

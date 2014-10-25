@@ -3,37 +3,32 @@
   <div id="topbar">
     ##mainmenu##
       <!-- #BEGINZONE display_user -->
-      Todo implement and test it.
-      <?php
-      if ($this->user == "") {
-        if ($this->logging_in != true) {
-      ?>
+        <!-- #BEGINZONE user_empty -->
+          <!-- #BEGINZONE logging_in -->
           <ul id="usermenu" class="menu">
-          <li><a href="<?php echo $this->header_path_modifier ?>session/login.php?request=<?php echo $this->request ?>"><?php echo Locale_Translate::_("Login") ?></a></li>
+            <li><a href="/session/login.php?request=##request##">Locale_Translate::_(Login)</a></li>
           </ul>
-      <?php
-        }
-      } else {
-        echo $this->usermenu;
-  
-        if ($this->level >= 2) {
-          echo '<ul id="searchwrapper" class="menu">' . "\n";
-          echo   '<form action="' . $this->header_path_modifier . 'search/search.php" method="get" name="search" id="search">' . "\n";
-          echo   '  <input name="q" type="text" value="' . $this->search_query . '"/>' . "\n";
-          echo   "  <input type=\"submit\" value=\"" . Locale_Translate::_("Search") . "\" onClick=\"this.value = '" . Locale_Translate::_ ("Searching") . "...'; return true;\" />\n";
-          echo   "</form>\n";
-          echo '</ul>' . "\n";
-        }
-      }
-      ?>
+          <!-- #ENDZONE logging_in -->
+        <!-- #BEGINZONE user_empty -->
+        <!-- #BEGINZONE user_full -->
+          ##usermenu##
+          <!-- #BEGINZONE level_two -->
+          <ul id="searchwrapper" class="menu">
+            <form action="/search/search.php" method="get" name="search" id="search">
+              <input name="q" type="text" value="##searchquery#"/>
+              <input type="submit" value="Locale_Translate::_(Search)" onClick="this.value = Locale_Translate (Searching)..."; return true;
+            </form>
+          </ul>
+          <!-- #ENDZONE level_two -->
+        <!-- #ENDZONE user_full -->
       <!-- #ENDZONE display_user -->
     <div class="clearfix"></div>
   </div>
   <!-- #BEGINZONE display_navigator -->
-    <div id="versepickerwrapper"><?php echo $this->navigationHtml ?></div>
-    <script type="text/javascript" src="../navigation/passage.js?<?php echo Config_Logic::version () ?>"></script> Todo implement this.
-    <script type="text/javascript">var displayNavigator = true;</script> // Todo test navigator.
-    <?php echo $this->navigationCode; ?>
+    <div id="versepickerwrapper">##navigationhtml##></div>
+    <script type="text/javascript" src="../navigation/passage.js?##VERSION##"></script>
+    <script type="text/javascript">var displayNavigator = true;</script>
+    ##navigationcode##
     <div class="clearfix"></div>
   <!-- #ENDZONE display_navigator -->
 <!-- #ENDZONE display_topbar -->

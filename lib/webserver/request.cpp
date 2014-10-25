@@ -31,6 +31,25 @@ Webserver_Request::Webserver_Request ()
 
 Webserver_Request::~Webserver_Request ()
 {
+  if (session_logic_instance) delete session_logic_instance;
+  if (database_config_user_instance) delete database_config_user_instance;
 }
 
+
+// Returns a pointer to a live Session_Logic object.
+Session_Logic * Webserver_Request::session_logic ()
+{
+  // Single live object during the entire web request.
+  if (!session_logic_instance) session_logic_instance = new Session_Logic (this);
+  return session_logic_instance;
+}
+
+
+// Returns a pointer to a live Database_Config_User object.
+Database_Config_User * Webserver_Request::database_config_user ()
+{
+  // Single live object during the entire web request.
+  if (!database_config_user_instance) database_config_user_instance = new Database_Config_User (this);
+  return database_config_user_instance;
+}
 

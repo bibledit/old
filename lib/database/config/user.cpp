@@ -17,7 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/config/user.h>
 #include <vector>
 #include <sstream>
 #include <fstream>
@@ -35,9 +34,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-Database_Config_User::Database_Config_User (Webserver_Request * request_in)
+Database_Config_User::Database_Config_User (void * webserver_request_in)
 {
-  request = request_in;
+  webserver_request = webserver_request_in;
 }
 
 
@@ -57,8 +56,7 @@ string Database_Config_User::file (string user, const char * key)
 
 string Database_Config_User::getValue (const char * key, const char * default_value)
 {
-  Session_Logic session_logic = Session_Logic (request);
-  string user = session_logic.currentUser ();
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
 }
 
@@ -103,8 +101,7 @@ int Database_Config_User::getValueForUser (string user, const char * key, int de
 
 void Database_Config_User::setValue (const char * key, string value)
 {
-  Session_Logic session_logic = Session_Logic (request);
-  string user = session_logic.currentUser ();
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
   if (filter_url_file_exists (directory)) filter_url_mkdir (directory);
@@ -126,8 +123,7 @@ void Database_Config_User::setValue (const char * key, int value)
 
 vector <string> Database_Config_User::getList (const char * key)
 {
-  Session_Logic session_logic = Session_Logic (request);
-  string user = session_logic.currentUser ();
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   return getListForUser (user, key);
 }
 
@@ -146,8 +142,7 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
 
 void Database_Config_User::setList (const char * key, vector <string> values)
 {
-  Session_Logic session_logic = Session_Logic (request);
-  string user = session_logic.currentUser ();
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
   if (!filter_url_file_exists (directory)) filter_url_mkdir (directory);

@@ -17,23 +17,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_SESSION_LOGIC_H
+#define INCLUDED_SESSION_LOGIC_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-#include <sqlite3.h>
-#include <webserver/request.h>
-
-
-using namespace std;
+#include <config/libraries.h>
 
 
 class Session_Logic
 {
 public:
-  Session_Logic (Webserver_Request * request_in);
+  Session_Logic (void * webserver_request_in);
   ~Session_Logic ();
   void setUsername (string name);
   bool attemptLogin (string user_or_email, string password);
@@ -46,7 +40,7 @@ private:
   int check_ip_blocks = 3;     // How many numbers from IP use in fingerprint?
   bool logged_in;              // Whether user is logged in.
   string username;             // The username.
-  Webserver_Request * request; // The web request.
+  void * webserver_request;    // Pointer to instance of Webserver_Request.
   void Open ();
   bool openAccess ();
   string remoteAddress ();
@@ -55,3 +49,4 @@ private:
 };
 
 
+#endif

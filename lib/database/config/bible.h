@@ -17,15 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_DATABASE_CONFIG_BIBLE_H
+#define INCLUDED_DATABASE_CONFIG_BIBLE_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-
-
-using namespace std;
+#include <config/libraries.h>
 
 
 class Database_Config_Bible
@@ -136,3 +132,4 @@ private:
 };
 
 
+#endif

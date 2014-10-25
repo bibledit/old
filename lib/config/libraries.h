@@ -17,17 +17,35 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_WEBSERVER_HTTP_H
-#define INCLUDED_WEBSERVER_HTTP_H
+// Basic C headers.
+#include <cstdlib>
+#include <unistd.h>
+#include <utime.h>
+#include <libgen.h>
 
 
-#include <config/libraries.h>
-#include <webserver/request.h>
+// C headers in sub folders.
+#include <sys/stat.h>
+#include <sys/time.h>
 
 
-void http_parse_headers (string headers, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+// C++ headers.
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <map>
+#include <cstring>
 
 
-#endif
+// Headers dependencies.
+#include <sqlite3.h>
+
+
+// Bibledit headers.
+
+
+using namespace std;
+
+

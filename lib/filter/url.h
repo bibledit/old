@@ -17,16 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_FILTER_URL_H
+#define INCLUDED_FILTER_URL_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
+#include <config/libraries.h>
 #include <webserver/request.h>
-
-
-using namespace std;
 
 
 void filter_url_redirect (string url, Webserver_Request * request);
@@ -43,3 +39,6 @@ void filter_url_file_put_contents_append (string filename, string contents);
 int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
 int filter_url_filemtime (string filename);
+
+
+#endif

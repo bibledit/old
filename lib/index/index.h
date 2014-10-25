@@ -17,10 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_INDEX_INDEX_H
+#define INCLUDED_INDEX_INDEX_H
 
 
 using namespace std;
 
 
 string index_index ();
+
+
+#endif

@@ -17,15 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_MENU_MAIN_H
+#define INCLUDED_MENU_MAIN_H
 
 
-#include <string>
-#include <vector>
+#include <config/libraries.h>
 #include <libxml/xmlwriter.h>
-
-
-using namespace std;
 
 
 struct Menu_Main_Item
@@ -63,3 +60,4 @@ private:
 };
 
 
+#endif

@@ -17,11 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_WEBSERVER_REQUEST_H
+#define INCLUDED_WEBSERVER_REQUEST_H
 
 
-#include <cstdlib>
-#include <string>
+#include <config/libraries.h>
+#include <session/logic.h>
+#include <database/config/user.h>
 
 
 using namespace std;
@@ -41,7 +43,12 @@ public:
   string header; // Extra header to be sent back to the browser.
   string reply; // Body to be sent back to the browser.
   int response_code; // Response code to be sent to the browser.
+  Session_Logic * session_logic ();
+  Database_Config_User * database_config_user ();
 private:
+  Session_Logic * session_logic_instance = NULL;
+  Database_Config_User * database_config_user_instance = NULL;
 };
 
 
+#endif

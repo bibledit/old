@@ -20,7 +20,7 @@ reasons of making it cross-platform and for going beyond what PHP can do.
 For mobile platforms it is easier to include all dependent libraries in source form.
 For example, include sqlite.h and sqlite.c to get SQLite support.
 
-Platform iOS needs static libraries so libbibledit.a will be a static library.
+Platform iOS needs static libraries so libbibledit.a needs to be a static library.
 
 The Bibledit library runs a webserver.
 

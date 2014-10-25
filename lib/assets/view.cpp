@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <iostream>
 #include <filter/url.h>
 #include <config/globals.h>
+#include <database/logs.h>
 
 
 using namespace std;
@@ -87,7 +88,7 @@ string Assets_View::render (string tpl)
 
   // The flate engine crashes if the template does not exist, so be sure it exists.  
   if (!filter_url_file_exists (tpl)) {
-    cout << "Cannot find template file " + tpl << endl; // Todo create a logbook database, to log everything there.
+    Database_Logs::log ("Cannot find template file " + tpl);
     return "";
   }
 

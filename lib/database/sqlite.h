@@ -17,14 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_DATABASE_SQLITE_H
+#define INCLUDED_DATABASE_SQLITE_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-#include <map>
-#include <string>
+#include <config/libraries.h>
+
+
+
 #include <sqlite3.h>
 
 
@@ -52,3 +52,4 @@ private:
 };
 
 
+#endif

@@ -17,10 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <iostream>
-#include <cstdlib>
+#include <config/libraries.h>
 #include <library/bibledit.h>
-#include <sys/stat.h>
 #include <unittests/unittest.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
@@ -33,10 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <filter/md5.h>
-#include <unistd.h>
-#include <sys/time.h>
 #include <session/logic.h>
-#include <utime.h>
 
 
 using namespace std;
@@ -159,45 +154,43 @@ int main (int argc, char **argv)
   {
     // Setup.
     refresh_sandbox (true);
-    Webserver_Request * request = new Webserver_Request ();
+    Webserver_Request request = Webserver_Request ();
     Database_Users database_users = Database_Users ();
     database_users.create ();
     database_users.addNewUser ("username", "password", 5, "");
-    Session_Logic session_logic = Session_Logic (request);
-    session_logic.attemptLogin ("username", "password");
-    Database_Config_User database_config_user = Database_Config_User (request);
+    request.session_logic ()->attemptLogin ("username", "password");
 
     // Testing setList, getList, plus add/removeUpdatedSetting.
     vector <string> empty;
-    evaluate ("Database_Config_User::getUpdatedSettings 1", empty, database_config_user.getUpdatedSettings ());
+    evaluate ("Database_Config_User::getUpdatedSettings 1", empty, request.database_config_user ()->getUpdatedSettings ());
 
     vector <string> standard1;
     standard1.push_back ("one two three");
     standard1.push_back ("four five six");
-    database_config_user.setUpdatedSettings (standard1);
-    evaluate ("Database_Config_User::getUpdatedSettings 2", standard1, database_config_user.getUpdatedSettings ());
+    request.database_config_user ()->setUpdatedSettings (standard1);
+    evaluate ("Database_Config_User::getUpdatedSettings 2", standard1, request.database_config_user ()->getUpdatedSettings ());
 
-    database_config_user.addUpdatedSetting ("seven eight nine");
+    request.database_config_user ()->addUpdatedSetting ("seven eight nine");
     standard1.push_back ("seven eight nine");
-    evaluate ("Database_Config_User::addUpdatedSetting", standard1, database_config_user.getUpdatedSettings ());
+    evaluate ("Database_Config_User::addUpdatedSetting", standard1, request.database_config_user ()->getUpdatedSettings ());
     
-    database_config_user.removeUpdatedSetting ("four five six");
+    request.database_config_user ()->removeUpdatedSetting ("four five six");
     vector <string> standard2;
     standard2.push_back ("one two three");
     standard2.push_back ("seven eight nine");
-    evaluate ("Database_Config_User::removeUpdatedSetting", standard2, database_config_user.getUpdatedSettings ());
+    evaluate ("Database_Config_User::removeUpdatedSetting", standard2, request.database_config_user ()->getUpdatedSettings ());
     
     // Testing the Sprint month and its trim () function.
     // It should get today's month.
     int month = filter_string_date_numerical_month ();
-    evaluate ("Database_Config_User::getSprintMonth", month, database_config_user.getSprintMonth ());
+    evaluate ("Database_Config_User::getSprintMonth", month, request.database_config_user ()->getSprintMonth ());
     // Set the sprint month to another month value: It should get this value back from the database.
     int newmonth = 123;
-    database_config_user.setSprintMonth (newmonth);
-    evaluate ("Database_Config_User::setSprintMonth", newmonth, database_config_user.getSprintMonth ());
+    request.database_config_user ()->setSprintMonth (newmonth);
+    evaluate ("Database_Config_User::setSprintMonth", newmonth, request.database_config_user ()->getSprintMonth ());
     // Trim: The sprint month should not be reset.
-    database_config_user.trim ();
-    evaluate ("Database_Config_User::setSprintMonth", newmonth, database_config_user.getSprintMonth ());
+    request.database_config_user ()->trim ();
+    evaluate ("Database_Config_User::setSprintMonth", newmonth, request.database_config_user ()->getSprintMonth ());
     // Set the modification time of the sprint month record to more than two days ago: 
     // Trimming resets the sprint month to the current month.
     struct timeval tv;
@@ -209,33 +202,25 @@ int main (int argc, char **argv)
     new_times.actime = tv.tv_sec - (2 * 24 * 3600) - 10;
     new_times.modtime = tv.tv_sec - (2 * 24 * 3600) - 10;
     utime (filename.c_str(), &new_times);
-    database_config_user.trim ();
-    evaluate ("Database_Config_User::trim", month, database_config_user.getSprintMonth ());
+    request.database_config_user ()->trim ();
+    evaluate ("Database_Config_User::trim", month, request.database_config_user ()->getSprintMonth ());
 
     // Test boolean setting.
-    evaluate ("Database_Config_User::getSubscribeToConsultationNotesEditedByMe", false, database_config_user.getSubscribeToConsultationNotesEditedByMe ());
-    database_config_user.setSubscribeToConsultationNotesEditedByMe (true);
-    evaluate ("Database_Config_User::setSubscribeToConsultationNotesEditedByMe", true, database_config_user.getSubscribeToConsultationNotesEditedByMe ());
+    evaluate ("Database_Config_User::getSubscribeToConsultationNotesEditedByMe", false, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
+    request.database_config_user ()->setSubscribeToConsultationNotesEditedByMe (true);
+    evaluate ("Database_Config_User::setSubscribeToConsultationNotesEditedByMe", true, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
     
     // Test integer setting.
-    evaluate ("Database_Config_User::getConsultationNotesPassageSelector", 0, database_config_user.getConsultationNotesPassageSelector ());
-    database_config_user.setConsultationNotesPassageSelector (11);
-    evaluate ("Database_Config_User::setConsultationNotesPassageSelector", 11, database_config_user.getConsultationNotesPassageSelector ());
+    evaluate ("Database_Config_User::getConsultationNotesPassageSelector", 0, request.database_config_user ()->getConsultationNotesPassageSelector ());
+    request.database_config_user ()->setConsultationNotesPassageSelector (11);
+    evaluate ("Database_Config_User::setConsultationNotesPassageSelector", 11, request.database_config_user ()->getConsultationNotesPassageSelector ());
     
     // Test string setting.
-    evaluate ("Database_Config_User::getConsultationNotesAssignmentSelector", "", database_config_user.getConsultationNotesAssignmentSelector ());
-    database_config_user.setConsultationNotesAssignmentSelector ("test");
-    evaluate ("Database_Config_User::setConsultationNotesAssignmentSelector", "test", database_config_user.getConsultationNotesAssignmentSelector ());
+    evaluate ("Database_Config_User::getConsultationNotesAssignmentSelector", "", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
+    request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
+    evaluate ("Database_Config_User::setConsultationNotesAssignmentSelector", "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
 
-    evaluate ("Database_Config_User::getSprintYear", filter_string_date_numerical_year (), database_config_user.getSprintYear ());
-
-
-
-
-    
-    
-    
-    delete request;
+    evaluate ("Database_Config_User::getSprintYear", filter_string_date_numerical_year (), request.database_config_user ()->getSprintYear ());
   }
 
   
@@ -646,19 +631,18 @@ int main (int argc, char **argv)
     // In an open installation, a client is always logged in as user admin, even after logging out.
     config_globals_open_installation = true;
     Webserver_Request request = Webserver_Request ();
-    Session_Logic session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn open", true, session_logic.loggedIn ());
-    evaluate ("Session_Logic::currentUser open", "admin", session_logic.currentUser ());
-    evaluate ("Session_Logic::currentLevel open", Filter_Roles::admin (), session_logic.currentLevel ());
-    session_logic.logout ();
-    evaluate ("Session_Logic::loggedIn open after logout", true, session_logic.loggedIn ());
-    evaluate ("Session_Logic::currentUser open after logout", "admin", session_logic.currentUser ());
-    evaluate ("Session_Logic::currentLevel open after logout", Filter_Roles::admin (), session_logic.currentLevel ());
+    evaluate ("Session_Logic::loggedIn open", true, request.session_logic ()->loggedIn ());
+    evaluate ("Session_Logic::currentUser open", "admin", request.session_logic ()->currentUser ());
+    evaluate ("Session_Logic::currentLevel open", Filter_Roles::admin (), request.session_logic ()->currentLevel ());
+    request.session_logic ()->logout ();
+    evaluate ("Session_Logic::loggedIn open after logout", true, request.session_logic ()->loggedIn ());
+    evaluate ("Session_Logic::currentUser open after logout", "admin", request.session_logic ()->currentUser ());
+    evaluate ("Session_Logic::currentLevel open after logout", Filter_Roles::admin (), request.session_logic ()->currentLevel ());
     
     // Test function to set the username.
     string username = "ঃইঝম";
-    session_logic.setUsername (username);
-    evaluate ("Session_Logic::setUsername / currentUser", username, session_logic.currentUser ());
+    request.session_logic ()->setUsername (username);
+    evaluate ("Session_Logic::setUsername / currentUser", username, request.session_logic ()->currentUser ());
     config_globals_open_installation = false;
   }
   {
@@ -668,10 +652,9 @@ int main (int argc, char **argv)
     database_users.create ();
     config_globals_client_prepared = true;
     Webserver_Request request = Webserver_Request ();
-    Session_Logic session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn client", true, session_logic.loggedIn ());
-    evaluate ("Session_Logic::currentUser client", "admin", session_logic.currentUser ());
-    evaluate ("Session_Logic::currentLevel client", Filter_Roles::admin (), session_logic.currentLevel ());
+    evaluate ("Session_Logic::loggedIn client", true, request.session_logic ()->loggedIn ());
+    evaluate ("Session_Logic::currentUser client", "admin", request.session_logic ()->currentUser ());
+    evaluate ("Session_Logic::currentLevel client", Filter_Roles::admin (), request.session_logic ()->currentLevel ());
     config_globals_client_prepared = false;
   }
   {
@@ -684,10 +667,9 @@ int main (int argc, char **argv)
     database_users.addNewUser (username, "password", level, "email");
     config_globals_client_prepared = true;
     Webserver_Request request = Webserver_Request ();
-    Session_Logic session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn client user", true, session_logic.loggedIn ());
-    evaluate ("Session_Logic::currentUser client user", username, session_logic.currentUser ());
-    evaluate ("Session_Logic::currentLevel client user", level, session_logic.currentLevel ());
+    evaluate ("Session_Logic::loggedIn client user", true, request.session_logic ()->loggedIn ());
+    evaluate ("Session_Logic::currentUser client user", username, request.session_logic ()->currentUser ());
+    evaluate ("Session_Logic::currentLevel client user", level, request.session_logic ()->currentLevel ());
     config_globals_client_prepared = false;
   }
   {
@@ -695,7 +677,6 @@ int main (int argc, char **argv)
     Database_Users database_users = Database_Users ();
     database_users.create ();
     Webserver_Request request = Webserver_Request ();
-    Session_Logic session_logic = Session_Logic (&request);
 
     // Enter a user into the database.
     string username = "ঃইঝম";
@@ -705,48 +686,48 @@ int main (int argc, char **argv)
     database_users.addNewUser (username, password, level, email);
 
     // Log in by providing username and password.
-    evaluate ("Session_Logic::attemptLogin invalid credentials", false, session_logic.attemptLogin (username, "incorrect"));
-    evaluate ("Session_Logic::attemptLogin correct", true, session_logic.attemptLogin (username, password));
+    evaluate ("Session_Logic::attemptLogin invalid credentials", false, request.session_logic ()->attemptLogin (username, "incorrect"));
+    evaluate ("Session_Logic::attemptLogin correct", true, request.session_logic ()->attemptLogin (username, password));
 
     // Check whether logged in also from another session.
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn normal 2", true, session_logic.loggedIn ());
-    evaluate ("Session_Logic::currentUser normal 2", username, session_logic.currentUser ());
-    evaluate ("Session_Logic::currentLevel normal 2", level, session_logic.currentLevel ());
+    request = Webserver_Request ();
+    evaluate ("Session_Logic::loggedIn normal 2", true, request.session_logic ()->loggedIn ());
+    evaluate ("Session_Logic::currentUser normal 2", username, request.session_logic ()->currentUser ());
+    evaluate ("Session_Logic::currentLevel normal 2", level, request.session_logic ()->currentLevel ());
     
     // Logout in another session, and check it in a subsequent session.
-    session_logic = Session_Logic (&request);
-    session_logic.logout ();
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn normal 3", false, session_logic.loggedIn ());
-    evaluate ("Session_Logic::currentUser normal 3", "", session_logic.currentUser ());
-    evaluate ("Session_Logic::currentLevel normal 3", Filter_Roles::guest(), session_logic.currentLevel ());
+    request = Webserver_Request ();
+    request.session_logic ()->logout ();
+    request = Webserver_Request ();
+    evaluate ("Session_Logic::loggedIn normal 3", false, request.session_logic ()->loggedIn ());
+    evaluate ("Session_Logic::currentUser normal 3", "", request.session_logic ()->currentUser ());
+    evaluate ("Session_Logic::currentLevel normal 3", Filter_Roles::guest(), request.session_logic ()->currentLevel ());
     
     // Login. then vary the browser's signature for subsequent sessions.
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::attemptLogin 4", true, session_logic.attemptLogin (username, password));
-    evaluate ("Session_Logic::loggedIn 4", true, session_logic.loggedIn ());
+    request = Webserver_Request ();
+    evaluate ("Session_Logic::attemptLogin 4", true, request.session_logic ()->attemptLogin (username, password));
+    evaluate ("Session_Logic::loggedIn 4", true, request.session_logic ()->loggedIn ());
     string remote_address = request.remote_address;
     string user_agent = request.user_agent;
     string accept_language = request.accept_language;
+    request = Webserver_Request ();
     request.remote_address = "1.2.3.4";
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn 5", false, session_logic.loggedIn ());
+    evaluate ("Session_Logic::loggedIn 5", false, request.session_logic ()->loggedIn ());
+    request = Webserver_Request ();
     request.remote_address = remote_address;
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn 6", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::loggedIn 6", true, request.session_logic ()->loggedIn ());
+    request = Webserver_Request ();
     request.user_agent = "User's Agent";
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn 6", false, session_logic.loggedIn ());
+    evaluate ("Session_Logic::loggedIn 6", false, request.session_logic ()->loggedIn ());
+    request = Webserver_Request ();
     request.user_agent = user_agent;
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn 7", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::loggedIn 7", true, request.session_logic ()->loggedIn ());
+    request = Webserver_Request ();
     request.accept_language = "xy_ZA";
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn 8", false, session_logic.loggedIn ());
+    evaluate ("Session_Logic::loggedIn 8", false, request.session_logic ()->loggedIn ());
+    request = Webserver_Request ();
     request.accept_language = accept_language;
-    session_logic = Session_Logic (&request);
-    evaluate ("Session_Logic::loggedIn 9", true, session_logic.loggedIn ());
+    evaluate ("Session_Logic::loggedIn 9", true, request.session_logic ()->loggedIn ());
   }
 
 

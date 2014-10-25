@@ -17,15 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_LOCALE_TRANSLATE_H
+#define INCLUDED_LOCALE_TRANSLATE_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-
-
-using namespace std;
+#include <config/libraries.h>
 
 
 string gettext (string english);
+
+
+#endif

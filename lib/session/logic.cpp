@@ -18,17 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <session/logic.h>
-#include <vector>
-#include <sstream>
-#include <fstream>
-#include <libgen.h>
-#include <sys/stat.h>
-#include <cstring>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/roles.h>
-#include <sys/time.h>
-#include <config/globals.h>
 #include <database/sqlite.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -36,6 +25,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <algorithm>
 #include <config.h>
 #include <database/users.h>
+#include <webserver/request.h>
+#include <filter/url.h>
+#include <filter/string.h>
+#include <filter/roles.h>
+#include <config/globals.h>
 
 
 using namespace std;
@@ -75,9 +69,9 @@ After the port to C++, the PHP session mechanism is no longer a good option.
 */
 
 
-Session_Logic::Session_Logic (Webserver_Request * request_in)
+Session_Logic::Session_Logic (void * webserver_request_in)
 {
-  request = request_in;
+  webserver_request = webserver_request_in;
   Open ();
 }
 
@@ -94,7 +88,7 @@ void Session_Logic::Open ()
   if (clientAccess ()) return;
 
   string address = remoteAddress ();
-  string agent = request->user_agent;
+  string agent = ((Webserver_Request *) webserver_request)->user_agent;
   Database_Users database_users = Database_Users ();
   string username = database_users.getUsername (address, agent, fingerprint ());
   if (username != "") {
@@ -130,7 +124,7 @@ bool Session_Logic::openAccess ()
 // Returns IP blocks of remote address.
 string Session_Logic::remoteAddress ()
 {
-  vector <string> blocks = filter_string_explode (request->remote_address, '.');
+  vector <string> blocks = filter_string_explode (((Webserver_Request *) webserver_request)->remote_address, '.');
   string address = "";
   unsigned int num_blocks = abs (check_ip_blocks);
   if (num_blocks > blocks.size ()) num_blocks = blocks.size ();
@@ -147,7 +141,7 @@ string Session_Logic::fingerprint ()
   string fingerprint = "";
   // fingerprint += $_SERVER ['HTTP_CONNECTION']; Unstable fingerprint. No use for persistent login.
   // fingerprint += $_SERVER ['HTTP_ACCEPT_ENCODING']; Unstable fingerprint. No use for persistent login.
-  fingerprint += request->accept_language;
+  fingerprint += ((Webserver_Request *) webserver_request)->accept_language;
   return fingerprint;
 }
 
@@ -174,7 +168,7 @@ bool Session_Logic::attemptLogin (string user_or_email, string password)
     setUsername (user_or_email);
     logged_in = true;
     string security1 = remoteAddress ();
-    string security2 = request->user_agent;
+    string security2 = ((Webserver_Request *) webserver_request)->user_agent;
     string security3 = fingerprint ();
     database.setTokens (user_or_email, security1, security2, security3);
     currentLevel (true);

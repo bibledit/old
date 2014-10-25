@@ -17,15 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_FILTER_ROLES_H
+#define INCLUDED_FILTER_ROLES_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-
-
-using namespace std;
+#include <config/libraries.h>
 
 
 class Filter_Roles
@@ -43,7 +39,7 @@ public:
   static int highest ();
   static string text (int role);
 private:
-
 };
 
 
+#endif

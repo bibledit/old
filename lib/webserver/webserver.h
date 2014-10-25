@@ -17,12 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_WEBSERVER_WEBSERVER_H
+#define INCLUDED_WEBSERVER_WEBSERVER_H
 
 
-#include <iostream>
-#include <cstdlib>
+#include <config/libraries.h>
 
 
 void webserver ();
 
+
+#endif

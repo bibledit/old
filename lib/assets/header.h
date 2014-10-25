@@ -17,16 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_ASSETS_HEADER_H
+#define INCLUDED_ASSETS_HEADER_H
 
 
-#include <flate/flate.h>
-#include <string>
-#include <vector>
+#include <config/libraries.h>
 #include <assets/view.h>
-
-
-using namespace std;
 
 
 class Assets_Header
@@ -55,3 +51,4 @@ private:
 };
 
 
+#endif

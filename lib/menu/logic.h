@@ -17,15 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_MENU_LOGIC_H
+#define INCLUDED_MENU_LOGIC_H
 
 
-#include <string>
-#include <vector>
-
-
-using namespace std;
+#include <config/libraries.h>
 
 
 string menu_logic_href (string href);
 bool menu_logic_check_user_access (string url);
+
+
+#endif

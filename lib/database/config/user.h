@@ -17,22 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_DATABASE_CONFIG_USER_H
+#define INCLUDED_DATABASE_CONFIG_USER_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
+#include <config/libraries.h>
 #include <webserver/request.h>
-
-
-using namespace std;
 
 
 class Database_Config_User
 {
 public:
-  Database_Config_User (Webserver_Request * request_in);
+  Database_Config_User (void * webserver_request_in);
   ~Database_Config_User ();
   void trim ();
   string getStylesheet ();
@@ -157,7 +153,7 @@ public:
   void addUpdatedSetting (string value);
   void removeUpdatedSetting (string value);
 private:
-  Webserver_Request * request;
+  void * webserver_request;
   string file (string user, const char * key);
   string getValue (const char * key, const char * default_value);
   bool getValue (const char * key, bool default_value);
@@ -176,3 +172,4 @@ private:
 };
 
 
+#endif

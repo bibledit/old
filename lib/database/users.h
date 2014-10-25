@@ -17,13 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
+#ifndef INCLUDED_DATABASE_USERS_H
+#define INCLUDED_DATABASE_USERS_H
 
 
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-#include <sqlite3.h>
+#include <config/libraries.h>
 
 
 using namespace std;
@@ -75,3 +73,4 @@ private:
 };
 
 
+#endif
