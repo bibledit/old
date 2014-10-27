@@ -179,7 +179,7 @@ string Database_Config_User::getStylesheet ()
 {
   string sheet = getValue ("stylesheet", "Standard");
   // If the stylesheet does not exist, take the first one available instead.
-  /* Todo implement the database. Test.
+  /* C++Port
   $database_styles = Database_Styles::getInstance();
   $sheets = $database_styles->getSheets();
   if (!in_array ($sheet, $sheets)) {
@@ -199,7 +199,7 @@ string Database_Config_User::getBible ()
 {
   string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
-  /* Todo implement the database. Test.
+  /* C++Port
   $database_bibles = Database_Bibles::getInstance();
   $bibles = $database_bibles->getBibles ();
   if (!in_array ($bible, $bibles)) {

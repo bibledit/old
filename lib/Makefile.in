@@ -112,12 +112,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
 	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
 	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) session/logic.$(OBJEXT) \
-	session/login.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
@@ -339,6 +339,7 @@ libbibledit_a_SOURCES = \
 	config/globals.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
+	menu/user.cpp \
 	locale/translate.cpp \
 	database/config/general.cpp \
 	database/config/bible.cpp \
@@ -348,6 +349,7 @@ libbibledit_a_SOURCES = \
 	database/sqlite.cpp \
 	session/logic.cpp \
 	session/login.cpp \
+	session/logout.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp
@@ -505,6 +507,8 @@ menu/logic.$(OBJEXT): menu/$(am__dirstamp) \
 	menu/$(DEPDIR)/$(am__dirstamp)
 menu/main.$(OBJEXT): menu/$(am__dirstamp) \
 	menu/$(DEPDIR)/$(am__dirstamp)
+menu/user.$(OBJEXT): menu/$(am__dirstamp) \
+	menu/$(DEPDIR)/$(am__dirstamp)
 locale/$(am__dirstamp):
 	@$(MKDIR_P) locale
 	@: > locale/$(am__dirstamp)
@@ -546,6 +550,8 @@ session/$(DEPDIR)/$(am__dirstamp):
 session/logic.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 session/login.$(OBJEXT): session/$(am__dirstamp) \
+	session/$(DEPDIR)/$(am__dirstamp)
+session/logout.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 parsewebdata/$(am__dirstamp):
 	@$(MKDIR_P) parsewebdata
@@ -683,10 +689,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@

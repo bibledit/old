@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <config/globals.h>
 #include <menu/main.h>
+#include <menu/user.h>
 #include <locale/translate.h>
 
 
@@ -86,7 +87,7 @@ void Assets_Header::setLogin ()
 {
   /* C++Port
     $request = $_SERVER['REQUEST_URI'];
-    $this->view->view->request = $request;
+    $this->view->view->request = $request; Update to this->request.
    */
 }
 
@@ -160,24 +161,18 @@ string Assets_Header::run ()
     $this->view->view->head_lines = $this->headLines;
   */
 
-  if (displayTopbar ()) { // Todo working here.
+  if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
-    Menu_Main menu_main = Menu_Main (); // Todo port main menu to C++
+    Menu_Main menu_main = Menu_Main (webserver_request);
     view->set_variable ("mainmenu", menu_main.create ());
-    view->enable_zone ("display_user"); // Todo implement and test it.
-    string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-    if (user.empty ()) {
-      view->enable_zone ("user_empty");
-      view->enable_zone ("logging_in");
-      view->set_variable ("text_login", gettext ("Login"));
+    view->enable_zone ("user_full");
+    Menu_User menu_user = Menu_User (webserver_request);
+    view->set_variable ("usermenu", menu_user.create (loginrequest));
+    if (((Webserver_Request *) webserver_request)->session_logic ()->currentLevel () >= 2) {
+      view->enable_zone ("display_search");
+      view->set_variable ("search", gettext ("Search"));
+      view->set_variable ("searching", gettext ("Searching"));
     }
-    //view->enable_zone ("user_full"); // Todo test it.
-    //view->set_variable ("usermenu", "this is the user's menu"); // Todo
-    /*
-    $menu_user = new Menu_User (); // Todo port user menu to C++
-    $this->view->view->usermenu = $menu_user->create ();
-    */
-    if (((Webserver_Request *) webserver_request)->session_logic ()->currentLevel () >= 2) view->enable_zone ("level_two");
   /* C++Port
     $this->view->view->display_navigator = $this->displayNavigator;
     if ($this->view->view->display_navigator) {

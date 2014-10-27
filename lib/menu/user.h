@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -17,15 +16,36 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::GUEST_LEVEL);
 
-$session_logic = Session_Logic::getInstance ();
-$session_logic->logout ();
+#ifndef INCLUDED_MENU_USER_H
+#define INCLUDED_MENU_USER_H
 
-Assets_Page::header (Locale_Translate::_("Logout"));
-$view = new Assets_View (__FILE__);
-$view->render ("logout.php");
-Assets_Page::footer ();
 
-?>
+#include <config/libraries.h>
+#include <libxml/xmlwriter.h>
+
+
+struct Menu_User_Item
+{
+  string id;
+  string href;
+  string text;
+  vector <Menu_User_Item> * submenu;
+};
+
+
+class Menu_User
+{
+public:
+  Menu_User (void * webserver_request_in);
+  ~Menu_User ();
+  string create (string request);
+private:
+  void * webserver_request;
+  vector <Menu_User_Item> * mainmenu (string request);
+  vector <Menu_User_Item> * usermenu ();
+  void submenu (xmlTextWriterPtr xmlwriter, vector <Menu_User_Item> * menu);
+};
+
+
+#endif

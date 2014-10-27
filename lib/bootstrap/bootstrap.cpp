@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bootstrap/bootstrap.h>
 #include <webserver/http.h>
 #include <session/login.h>
+#include <session/logout.h>
 #include <database/config/general.h>
 #include <setup/index.h>
 
@@ -35,40 +36,21 @@ void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
   
-  // Serve graphics.
-  if ((extension  == "ico") || (extension  == "png")) {
-    http_serve_file (request);
-  }
-  
-  // Serve stylesheets.
-  else if (extension == "css") {
-    http_serve_file (request);
-  }
-  
-  // Serve javascript.
-  else if (extension == "js") {
-    http_serve_file (request);
-  }
+  // Serve graphics, stylesheets, JavaScript.
+  if ((extension  == "ico") || (extension  == "png") || (extension == "css") || (extension == "js")) http_serve_file (request);
   
   // Force setup.
-  else if (VERSION != Database_Config_General::getInstalledVersion ()) {
-    request->reply = setup_index (request);
-  }
+  else if (VERSION != Database_Config_General::getInstalledVersion ()) request->reply = setup_index (request);
 
   // Home page.
-  else if (request->get == "/index/index") {
-    request->reply = index_index (request);
-  }
+  else if (request->get == "/index/index") request->reply = index_index (request);
   
   // Login and logout.
-  else if (request->get == "/session/login") {
-    request->reply = session_login (request);
-  }
+  else if (request->get == "/session/login") request->reply = session_login (request);
+  else if (request->get == "/session/logout") request->reply = session_logout (request);
   
   // Forward the browser to the default home page.
-  else {
-    filter_url_redirect ("/index/index", request);
-  }
+  else filter_url_redirect ("/index/index", request);
 }
 
 

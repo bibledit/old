@@ -39,7 +39,6 @@ string setup_index (void * webserver_request)
 
   Assets_View view = Assets_View (__FILE__);
 
-  cout << request->post ["Submit"] << endl; // Todo
   if (!request->post ["Submit"].empty ()) {
   
     string admin_username = request->post ["admin_username"];

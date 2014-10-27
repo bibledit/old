@@ -18,6 +18,7 @@ libbibledit_a_SOURCES = \
 	config/globals.cpp \
 	menu/logic.cpp \
 	menu/main.cpp \
+	menu/user.cpp \
 	locale/translate.cpp \
 	database/config/general.cpp \
 	database/config/bible.cpp \
@@ -27,6 +28,7 @@ libbibledit_a_SOURCES = \
 	database/sqlite.cpp \
 	session/logic.cpp \
 	session/login.cpp \
+	session/logout.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp

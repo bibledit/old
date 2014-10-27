@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,6 +15,28 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h1><?php echo Locale_Translate::_("Goodbye") ?></h1>
-<p><?php echo Locale_Translate::_("You have logged out") ?></p>
+
+
+#include <assets/view.h>
+#include <assets/page.h>
+#include <assets/header.h>
+#include <session/login.h>
+#include <locale/translate.h>
+#include <webserver/request.h>
+
+
+string session_logout (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  request->session_logic ()->logout ();
+  string page;
+  page += Assets_Page::header (gettext ("Logout"), webserver_request, "");
+  Assets_View view = Assets_View (__FILE__);
+  view.set_variable ("goodbye", gettext("Goodbye"));
+  view.set_variable ("loggedout", gettext("You have logged out"));
+  page += view.render ("");
+  page += Assets_Page::footer ();
+  return page;
+}
+
+

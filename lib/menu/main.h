@@ -37,10 +37,11 @@ struct Menu_Main_Item
 class Menu_Main
 {
 public:
-  Menu_Main ();
+  Menu_Main (void * webserver_request_in);
   ~Menu_Main ();
   string create ();
 private:
+  void * webserver_request;
   vector <Menu_Main_Item> * mainmenu ();
   vector <Menu_Main_Item> * biblemenu ();
   vector <Menu_Main_Item> * bible_edit_menu ();

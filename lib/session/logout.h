@@ -17,40 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_ASSETS_HEADER_H
-#define INCLUDED_ASSETS_HEADER_H
+#ifndef INCLUDED_SESSION_LOGOUT_H
+#define INCLUDED_SESSION_LOGOUT_H
 
 
 #include <config/libraries.h>
-#include <assets/view.h>
 
 
-class Assets_Header
-{
-public:
-  Assets_Header (string title, void * webserver_request_in);
-  ~Assets_Header ();
-  void jQueryUIOn (string subset = "");
-  void addHeadLine (string line);
-  void setBodyOnload (string code);
-  void setLogin ();
-  void setNavigator ();
-  void setStylesheet ();
-  void setEditorStylesheet ();
-  void setSearchQuery (string query);
-  bool displayTopbar ();
-  string run ();
-private:
-  Assets_View * view;
-  bool includeJQueryUI;
-  string JQueryUISubset;
-  vector <string> headLines;
-  bool displayNavigator;
-  bool includedStylesheet;
-  bool includedEditorStylesheet;
-  void * webserver_request;
-  string loginrequest;
-};
+string session_logout (void * webserver_request);
 
 
 #endif

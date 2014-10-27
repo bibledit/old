@@ -39,7 +39,7 @@ Assets_Page::~Assets_Page ()
 }
 
 
-string Assets_Page::header (string title, void * webserver_request, string searchQuery) // Todo writing.
+string Assets_Page::header (string title, void * webserver_request, string searchQuery)
 {
   Assets_Header header = Assets_Header (title, webserver_request);
   header.setSearchQuery (searchQuery);

@@ -149,7 +149,7 @@ int main (int argc, char **argv)
   }
 
 
-  // Tests for Database_Config_User. Todo
+  // Tests for Database_Config_User.
   {
     // Setup.
     refresh_sandbox (true);
