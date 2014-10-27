@@ -17,31 +17,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <iostream>
-#include <cstdlib>
 #include <library/bibledit.h>
-#include <signal.h>
+#include <config/libraries.h>
+#include <thread>
 
 
 void sigint_handler (int s)
 {
   if (s) {};
-  exit (0);
+  bibledit_stop ();
 }
 
 
 int main (int argc, char **argv) 
 {
-  // Ctrl-C would normally interrupt Bibledit, and that's desired behaviour.
+  if (argc) {};
+  if (argv[0]) {};
+
+  // Ctrl-C would normally interrupt Bibledit.
   // But it would not be valgrind-clean in this way.
-  // Setting up a signal handler that exits the program makes it valgrind-clean.
+  // Setting up a signal handler that initiates program exit makes it valgrind-clean.
   struct sigaction sigIntHandler;
   sigIntHandler.sa_handler = sigint_handler;
   sigemptyset (&sigIntHandler.sa_mask);
   sigIntHandler.sa_flags = 0;
   sigaction (SIGINT, &sigIntHandler, NULL);
 
-  // Start Bibledit library to listen for connection and deal with them.
-  return bibledit (argc, argv);
+  // Run Bibledit library in a thread, and wait till it is ready.
+  thread first (bibledit_start);
+  cout << "Listening on http://localhost:8080" << endl;
+  cout << "Press Ctrl-C to quit" << endl;
+  first.join ();
+
+  return EXIT_SUCCESS;
 }
 

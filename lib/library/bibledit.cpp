@@ -17,29 +17,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <iostream>
-#include <cstdlib>
+#include <config/libraries.h>
 #include <webserver/webserver.h>
 #include <library/bibledit.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <config/globals.h>
 #include <filter/url.h>
-#include <cstring>
+#include <libxml/threads.h>
 
 
 using namespace std;
 
 
-int bibledit (int argc, char **argv) 
+// Start the Bibledit server.
+void bibledit_start () 
 {
-  if (argc) {};
-  if (argv[0]) {};
-
-  cout << "Listening on http://localhost:8080" << endl;
-  cout << "Press Ctrl-C to quit" << endl;
-
   // Get the executable path, and set the document root based on it.
   // Mac OS X: NSGetExecutablePath()
   // Linux: readlink /proc/self/exe
@@ -57,7 +48,24 @@ int bibledit (int argc, char **argv)
   free (linkname);
 
   webserver ();
-
-  return EXIT_SUCCESS;
+  
+  // Free XML resources.
+  xmlCleanupThreads ();
 }
 
+
+// Stop the Bibledit server.
+void bibledit_stop ()
+{
+  // Clear running flag.
+  config_globals_running = false;
+  
+  // Connect to localhost to initiate the shutdown mechanism in the running server.
+  struct sockaddr_in sa;
+  sa.sin_family = AF_INET;
+  sa.sin_port = htons (8080);
+  sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
+  memset(sa.sin_zero, '\0', sizeof (sa.sin_zero));
+  int mysocket = socket (PF_INET, SOCK_STREAM, 0);
+  connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
+}

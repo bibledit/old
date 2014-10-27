@@ -17,9 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <iostream>
-#include <cstdlib>
+void bibledit_start ();
+void bibledit_stop ();
 
-
-int bibledit (int argc, char **argv);
 

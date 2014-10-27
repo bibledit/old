@@ -56,8 +56,9 @@ void webserver ()
   signal (SIGPIPE, SIG_IGN);
 
   // Keep waiting for, accepting, and processing connections.
-  while (true) {
-      
+  config_globals_running = true;
+  while (config_globals_running) {
+
     // The environment for this request.
     // It gets passed around from function to function during the entire request.
     // This provides thread-safety to the request.
@@ -72,27 +73,31 @@ void webserver ()
     char remote_address [256];
     inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
     request->remote_address = remote_address;
+    
+    if (config_globals_running) {
 
-    // Read the client's request.
-    char buffer [65535];
-    memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
-    size_t bytes_read;
-    bytes_read = read (connfd, buffer, sizeof (buffer));
-    if (bytes_read) {};
-    string input = buffer;
+      // Read the client's request.
+      char buffer [65535];
+      memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
+      size_t bytes_read;
+      bytes_read = read (connfd, buffer, sizeof (buffer));
+      if (bytes_read) {};
+      string input = buffer;
+  
+      // Parse the browser's request's headers.
+      http_parse_headers (input, request);
+  
+      // Assemble response.
+      bootstrap_index (request);
+      http_assemble_response (request);
+  
+      // Send response to browser.    
+      const char * output = request->reply.c_str();
+      size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
+      ssize_t written = write (connfd, output, length);
+      if (written) {};
 
-    // Parse the browser's request's headers.
-    http_parse_headers (input, request);
-
-    // Assemble response.
-    bootstrap_index (request);
-    http_assemble_response (request);
-
-    // Send response to browser.    
-    const char * output = request->reply.c_str();
-    size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
-    ssize_t written = write (connfd, output, length);
-    if (written) {};
+    }
 
     // Clear memory.
     delete request;
