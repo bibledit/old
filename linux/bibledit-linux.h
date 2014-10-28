@@ -32,7 +32,6 @@ using namespace std;
 
 int main (int argc, char *argv[]);
 static void activate (GtkApplication *app);
-static void create ();
 GtkApplication *application;
 gint status;
 GtkWidget * window;

@@ -29,48 +29,52 @@
 
 int main (int argc, char *argv[])
 {
-  if (argc) {};
-  if (argv) {}
-  
   application = gtk_application_new ("org.bibledit.linux", G_APPLICATION_FLAGS_NONE);
+
   g_signal_connect (application, "activate", G_CALLBACK (activate), NULL);
-  status = g_application_run (G_APPLICATION(application), argc, argv);
+
+  status = g_application_run (G_APPLICATION (application), argc, argv);
+
   g_object_unref (application);
+
   return status;
 }
 
 
 void activate (GtkApplication *app)
 {
-  GList *list;
-  list = gtk_application_get_windows (app);
+  GList *list = gtk_application_get_windows (app);
+
   if (list) gtk_window_present (GTK_WINDOW (list->data));
-  else create ();
+
+  else {
+
+    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title (GTK_WINDOW (window), "Bibledit");
+    gtk_window_set_default_size (GTK_WINDOW (window), 400, 400);
+    gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
+    gtk_window_set_application (GTK_WINDOW (window), application);
+  
+    gchar * iconfile = g_build_filename ("bibledit-linux.xpm", NULL);
+    gtk_window_set_default_icon_from_file (iconfile, NULL);
+    g_free (iconfile);
+  
+    g_signal_connect (window, "destroy", G_CALLBACK (on_signal_destroy), NULL);
+  
+    button = gtk_link_button_new_with_label ("http://localhost:8080", "Open Bibledit");
+    gtk_container_add (GTK_CONTAINER (window), button);
+  
+    g_signal_connect ((gpointer) button, "clicked", G_CALLBACK(on_button_clicked), NULL);
+  
+    gtk_widget_show_all (window);
+  
+    gtk_main();
+  }
 }
 
 
 void create ()
 {
-  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window), "Bibledit");
-  gtk_window_set_default_size (GTK_WINDOW (window), 400, 400);
-  gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
-  gtk_window_set_application (GTK_WINDOW (window), application);
-
-  gchar * iconfile = g_build_filename ("bibledit-linux.xpm", NULL);
-  gtk_window_set_default_icon_from_file (iconfile, NULL);
-  g_free (iconfile);
-
-  g_signal_connect (window, "destroy", G_CALLBACK (on_signal_destroy), NULL);
-
-  button = gtk_link_button_new_with_label ("http://localhost:8080", "Open Bibledit");
-  gtk_container_add (GTK_CONTAINER (window), button);
-
-  g_signal_connect ((gpointer) button, "clicked", G_CALLBACK(on_button_clicked), NULL);
-
-  gtk_widget_show_all (window);
-
-  gtk_main();
 }
 
 
