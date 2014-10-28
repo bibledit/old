@@ -1,0 +1,17 @@
+#!/bin/sh
+
+
+# Refresh the bibledit-web source code in the assets.
+rsync -a --delete ../bibledit-web/web/* bibledit-web
+
+
+# Disable the Filter_Cli class becuase on Windows it is not the shell that runs the regular tasks, but the web server.
+# This is no longer true, because now the CLI server runs it.
+# sed -i '/php_sapi_name/d' bibledit-web/filter/cli.php
+
+
+# Retrieve the Bibledit-Web version number from the PHP sources and store it in the strings.xml.
+# VERSION=`cat bibledit-web/config/version.php  | grep version | cut -d'"' -f2`
+# sed -i "/version_number/c\\  <string name=\"version_number\">$VERSION</string>" res/values/strings.xml
+
+
