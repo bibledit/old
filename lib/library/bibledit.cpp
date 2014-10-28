@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <filter/url.h>
 #include <libxml/threads.h>
+#include <thread>
 
 
 using namespace std;
@@ -47,10 +48,16 @@ void bibledit_start ()
   config_globals_document_root = filter_url_dirname (linkname);
   free (linkname);
 
-  webserver ();
-  
-  // Free XML resources.
-  xmlCleanupThreads ();
+  // Run the web server in a thread.
+  config_globals_worker = new thread (webserver);
+}
+
+
+// Returns true if Bibledit is running.
+bool bibledit_running ()
+{
+  usleep (10000);
+  return config_globals_running;
 }
 
 
@@ -68,4 +75,12 @@ void bibledit_stop ()
   memset(sa.sin_zero, '\0', sizeof (sa.sin_zero));
   int mysocket = socket (PF_INET, SOCK_STREAM, 0);
   connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
+  
+  // Wait till the server shuts down.
+  config_globals_worker->join ();
+  
+  // Clear memory.
+  xmlCleanupThreads ();
+  delete config_globals_worker;
+
 }

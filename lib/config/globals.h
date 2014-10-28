@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <string>
+#include <thread>
 
 
 using namespace std;
@@ -28,3 +29,4 @@ extern bool config_globals_unit_testing;
 extern bool config_globals_open_installation;
 extern bool config_globals_client_prepared;
 extern bool config_globals_running;
+extern thread * config_globals_worker;

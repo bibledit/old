@@ -43,7 +43,7 @@ unittest_SOURCES = unittests/unittest.cpp
 
 unittest_LDADD = libbibledit.a
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++0x
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11
 AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 

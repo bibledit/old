@@ -358,7 +358,7 @@ bibledit_SOURCES = executable/bibledit.cpp
 bibledit_LDADD = libbibledit.a
 unittest_SOURCES = unittests/unittest.cpp
 unittest_LDADD = libbibledit.a
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++0x `xml2-config \
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 `xml2-config \
 	--cflags` $(SQLITE_CFLAGS)
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~

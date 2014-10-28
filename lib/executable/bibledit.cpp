@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <library/bibledit.h>
 #include <config/libraries.h>
-#include <thread>
 
 
 void sigint_handler (int s)
@@ -34,9 +33,7 @@ int main (int argc, char **argv)
   if (argc) {};
   if (argv[0]) {};
 
-  // Ctrl-C would normally interrupt Bibledit.
-  // But it would not be valgrind-clean in this way.
-  // Setting up a signal handler that initiates program exit makes it valgrind-clean.
+  // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   struct sigaction sigIntHandler;
   sigIntHandler.sa_handler = sigint_handler;
   sigemptyset (&sigIntHandler.sa_mask);
@@ -44,11 +41,12 @@ int main (int argc, char **argv)
   sigaction (SIGINT, &sigIntHandler, NULL);
 
   // Run Bibledit library in a thread, and wait till it is ready.
-  thread first (bibledit_start);
+  bibledit_start ();
   cout << "Listening on http://localhost:8080" << endl;
   cout << "Press Ctrl-C to quit" << endl;
-  first.join ();
-
+  while (bibledit_running ()) { };
+  
   return EXIT_SUCCESS;
 }
+
 

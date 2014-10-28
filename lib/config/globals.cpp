@@ -28,5 +28,5 @@ bool config_globals_unit_testing = false;
 bool config_globals_open_installation = false;
 bool config_globals_client_prepared = false;
 bool config_globals_running = true;
-
+thread * config_globals_worker = NULL;
 
