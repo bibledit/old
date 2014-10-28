@@ -33,11 +33,11 @@ using namespace std;
 int main (int argc, char *argv[]);
 static void activate (GtkApplication *app);
 GtkApplication *application;
-gint status;
 GtkWidget * window;
 GtkWidget * button;
 static void on_button_clicked (GtkButton * button, gpointer user_data);
 static void on_signal_destroy (gpointer user_data);
+gint status;
 
 
 

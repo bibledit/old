@@ -6,11 +6,11 @@ AC_PROG_RANLIB
 AM_INIT_AUTOMAKE([subdir-objects tar-ustar])
 AC_CONFIG_HEADER(config.h)
 
+PKG_PROG_PKG_CONFIG
+
 PKG_CHECK_MODULES(GTK, gtk+-3.0,,AC_MSG_ERROR(Gtk3 development version is needed.))
 AC_SUBST(GTK_LIBS)
 AC_SUBST(GTK_CFLAGS)
-
-PKG_PROG_PKG_CONFIG
 
 AC_PATH_PROG(PKG_CONFIG_PATH, pkg-config, no)
 if test x$PKG_CONFIG_PATH = xno; then
