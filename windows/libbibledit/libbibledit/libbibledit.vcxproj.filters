@@ -45,4 +45,7 @@
   <ItemGroup>
     <Library Include="..\sqlite\sqlite3.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
