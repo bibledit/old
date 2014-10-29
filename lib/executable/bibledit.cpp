@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <library/bibledit.h>
 #include <config/libraries.h>
+#include <filter/url.h>
 
 
 void sigint_handler (int s)
@@ -40,10 +41,28 @@ int main (int argc, char **argv)
   sigIntHandler.sa_flags = 0;
   sigaction (SIGINT, &sigIntHandler, NULL);
 
-  // Run Bibledit library in a thread, and wait till it is ready.
+  // Get the executable path, and set the document root based on it.
+  // Mac OS X: NSGetExecutablePath()
+  // Linux: readlink /proc/self/exe
+  // Solaris: getexecname()
+  // FreeBSD: sysctl CTL_KERN KERN_PROC KERN_PROC_PATHNAME -1
+  // FreeBSD if it has procfs: readlink /proc/curproc/file
+  // NetBSD: readlink /proc/curproc/exe
+  // DragonFly BSD: readlink /proc/curproc/file
+  // Windows: GetModuleFileName() with hModule = NULL
+  char *linkname = (char *) malloc (256);
+  memset (linkname, 0, 256); // valgrind uninitialized value(s)
+  ssize_t r = readlink ("/proc/self/exe", linkname, 256);
+  if (r) {};
+  bibledit_root (filter_url_dirname (linkname));
+  free (linkname);
+
+  // Start the Bibledit library.
   bibledit_start ();
   cout << "Listening on http://localhost:8080" << endl;
   cout << "Press Ctrl-C to quit" << endl;
+  
+  // Wait till Bibledit it is ready.
   while (bibledit_running ()) { };
   
   return EXIT_SUCCESS;

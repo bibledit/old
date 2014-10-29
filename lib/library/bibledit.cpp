@@ -29,25 +29,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
+// Set the root folder for the web server.
+void bibledit_root (string directory)
+{
+  config_globals_document_root = directory;
+}
+
+
 // Start the Bibledit server.
 void bibledit_start () 
 {
-  // Get the executable path, and set the document root based on it.
-  // Mac OS X: NSGetExecutablePath()
-  // Linux: readlink /proc/self/exe
-  // Solaris: getexecname()
-  // FreeBSD: sysctl CTL_KERN KERN_PROC KERN_PROC_PATHNAME -1
-  // FreeBSD if it has procfs: readlink /proc/curproc/file
-  // NetBSD: readlink /proc/curproc/exe
-  // DragonFly BSD: readlink /proc/curproc/file
-  // Windows: GetModuleFileName() with hModule = NULL
-  char *linkname = (char *) malloc (256);
-  memset (linkname, 0, 256); // valgrind uninitialized value(s)
-  ssize_t r = readlink ("/proc/self/exe", linkname, 256);
-  if (r) {};
-  config_globals_document_root = filter_url_dirname (linkname);
-  free (linkname);
-
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
 }
