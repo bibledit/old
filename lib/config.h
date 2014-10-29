@@ -4,6 +4,9 @@
 /* Define whether it is a client installation */
 #define CLIENT_INSTALLATION "0"
 
+/* Define the directory separator as Windows differs from Linux */
+#define DIRECTORY_SEPARATOR "/"
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 

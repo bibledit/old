@@ -5518,6 +5518,10 @@ fi
 
 
 
+
+$as_echo "#define DIRECTORY_SEPARATOR \"/\"" >>confdefs.h
+
+
 # Open installation.
 
 # Check whether --with-open-installation was given.

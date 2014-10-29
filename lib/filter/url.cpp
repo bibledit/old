@@ -78,11 +78,11 @@ string filter_url_basename (string url)
 string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "", string part6 = "")
 {
   string path (part1);
-  if (part2.length()) path += "/" + part2;
-  if (part3.length()) path += "/" + part3;
-  if (part4.length()) path += "/" + part4;
-  if (part5.length()) path += "/" + part5;
-  if (part6.length()) path += "/" + part6;
+  if (part2.length()) path += DIRECTORY_SEPARATOR + part2;
+  if (part3.length()) path += DIRECTORY_SEPARATOR + part3;
+  if (part4.length()) path += DIRECTORY_SEPARATOR + part4;
+  if (part5.length()) path += DIRECTORY_SEPARATOR + part5;
+  if (part6.length()) path += DIRECTORY_SEPARATOR + part6;
   return path;
 }
 
@@ -91,11 +91,11 @@ string filter_url_create_path (string part1 = "", string part2 = "", string part
 string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "")
 {
   string path = config_globals_document_root;
-  if (part1.length()) path += "/" + part1;
-  if (part2.length()) path += "/" + part2;
-  if (part3.length()) path += "/" + part3;
-  if (part4.length()) path += "/" + part4;
-  if (part5.length()) path += "/" + part5;
+  if (part1.length()) path += DIRECTORY_SEPARATOR + part1;
+  if (part2.length()) path += DIRECTORY_SEPARATOR + part2;
+  if (part3.length()) path += DIRECTORY_SEPARATOR + part3;
+  if (part4.length()) path += DIRECTORY_SEPARATOR + part4;
+  if (part5.length()) path += DIRECTORY_SEPARATOR + part5;
   return path;
 }
 

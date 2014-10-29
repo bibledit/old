@@ -13,6 +13,8 @@ AC_SUBST(SQLITE_CFLAGS)
 AC_SUBST(SQLITE_LIBS)
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
 
+AC_DEFINE([DIRECTORY_SEPARATOR], ["/"], [Define the directory separator as Windows differs from Linux])
+
 # Open installation.
 AC_ARG_WITH(open-installation,
         [  --with-open-installation=bool
