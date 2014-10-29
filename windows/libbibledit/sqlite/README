@@ -1,1 +1,10 @@
-Download sqlite-dll-win32-x86-3080701
+Download sqlite-dll-win32-x86-3080701 from sqlite.org.
+
+Via the Windows start button, type Visual Studio, and then choose Visual Studio Tools. 
+In File Explorer, choose Developer Command Prompt for VS2013.
+
+In the command line window, enter, for example:
+
+lib /DEF:sqlite3.def /OUT:sqlite3.lib
+
+In the Solution Explorer window, right-click on your project, add the "sqlite3.lib" file.

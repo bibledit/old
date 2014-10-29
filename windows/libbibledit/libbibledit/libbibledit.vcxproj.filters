@@ -42,4 +42,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\sqlite\sqlite3.lib" />
+  </ItemGroup>
 </Project>

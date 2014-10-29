@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <io.h>
 #include <sys/utime.h>
 // What is the Windows equivalent? Todo #include <libgen.h>
-#include <../windows/dirent/include/dirent.h>
+#include <../dirent/include/dirent.h>
 #else
 #include <unistd.h>
 #include <utime.h>
