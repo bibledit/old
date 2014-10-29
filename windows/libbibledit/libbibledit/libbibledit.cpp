@@ -5,14 +5,16 @@
 #include "libbibledit.h"
 #include <iostream>
 #include <stdexcept>
+#include <library/bibledit.h>
 
 
 using namespace std;
 
 
-void bibledit_run()
+void bibledit_start_win()
 {
-	cout << "Hello from libbibledit WIN32" << endl;
+	bibledit_start();
+	cout << "Hello from libbibledit Windows" << endl;
 }
 
 

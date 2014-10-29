@@ -4,5 +4,5 @@
 
 extern "C"
 {
-	__declspec(dllexport) void bibledit_run();
+	__declspec(dllexport) void bibledit_start_win();
 }

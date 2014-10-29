@@ -21,9 +21,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bibleditdll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="libbibledit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
