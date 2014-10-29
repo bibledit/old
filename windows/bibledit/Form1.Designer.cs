@@ -28,11 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.linkLabel = new System.Windows.Forms.LinkLabel();
-            this.timerindex = new System.Windows.Forms.Timer(this.components);
-            this.timerrun = new System.Windows.Forms.Timer(this.components);
             this.label = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.SuspendLayout();
@@ -49,18 +46,6 @@
             this.linkLabel.TabStop = true;
             this.linkLabel.Text = "Open Bibledit";
             this.linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            // 
-            // timerindex
-            // 
-            this.timerindex.Enabled = true;
-            this.timerindex.Interval = 60000;
-            this.timerindex.Tick += new System.EventHandler(this.timerindex_Tick);
-            // 
-            // timerrun
-            // 
-            this.timerrun.Enabled = true;
-            this.timerrun.Interval = 1000;
-            this.timerrun.Tick += new System.EventHandler(this.timerrun_Tick);
             // 
             // label
             // 
@@ -103,8 +88,6 @@
         #endregion
 
         private System.Windows.Forms.LinkLabel linkLabel;
-        private System.Windows.Forms.Timer timerindex;
-        private System.Windows.Forms.Timer timerrun;
         private System.Windows.Forms.Label label;
         private System.Windows.Forms.StatusStrip statusStrip1;
     }
