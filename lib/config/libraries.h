@@ -21,13 +21,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cstdlib>
 #ifdef _WIN32
 #include <io.h>
+#include <sys/utime.h>
+// What is the Windows equivalent? Todo #include <libgen.h>
+#include <../windows/dirent/include/dirent.h>
 #else
 #include <unistd.h>
-#endif
 #include <utime.h>
 #include <libgen.h>
-#include <stdio.h>
 #include <dirent.h>
+#endif
+#include <stdio.h>
 #include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -38,12 +41,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // C headers in sub folders.
 #include <sys/stat.h>
+#ifdef _WIN32
+// What is the Windows equivalent? Todo #include <sys/time.h>
+// Port to Winsock2 Todo #include <sys/socket.h>
+// Todo port to winsock #include <arpa/inet.h>
+// Port to winsock #include <netinet/in.h>
+// Port to winsock #include <netinet/tcp.h>
+#else
 #include <sys/time.h>
 #include <sys/socket.h>
-#include <sys/types.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#endif
+#include <sys/types.h>
 
 
 // C++ headers.
