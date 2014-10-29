@@ -1,6 +1,9 @@
 #!/bin/bash
 
 
+# No longer synchronize, but instead use the Linux source tree for Windows.
+exit
+
 # Synchronize the bibledit source code to the library for Windows and clean it up.
 rsync -a --delete ../lib/* libbibledit/libsrc
 pushd libbibledit/libsrc > /dev/null

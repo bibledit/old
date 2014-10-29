@@ -41,14 +41,9 @@ int main (int argc, char **argv)
   sigIntHandler.sa_flags = 0;
   sigaction (SIGINT, &sigIntHandler, NULL);
 
-  // Get the executable path, and set the document root based on it.
+  // Get the executable path and base the document root on it.
   // Mac OS X: NSGetExecutablePath()
-  // Linux: readlink /proc/self/exe
   // Solaris: getexecname()
-  // FreeBSD: sysctl CTL_KERN KERN_PROC KERN_PROC_PATHNAME -1
-  // FreeBSD if it has procfs: readlink /proc/curproc/file
-  // NetBSD: readlink /proc/curproc/exe
-  // DragonFly BSD: readlink /proc/curproc/file
   // Windows: GetModuleFileName() with hModule = NULL
   char *linkname = (char *) malloc (256);
   memset (linkname, 0, 256); // valgrind uninitialized value(s)
