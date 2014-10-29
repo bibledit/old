@@ -1,7 +1,10 @@
-This repository contains Bibledit for Windows.
+This folder contains Bibledit for Windows.
 
-The repository contains the following objects:
-* Source code for bibledit.exe.
+It contains the following objects:
+* Source code for bibledit.exe in C#.
 * Inno Setup package script.
-* Library libbibledit.dll.
-* Console app for testing.
+* Library libbibledit.dll in C++.
+* Console app for testing in C#.
+
+Script ./refresh refreshes the source for libbibledit.dll.
+Build it in Visual Studio, and resolve any errors.

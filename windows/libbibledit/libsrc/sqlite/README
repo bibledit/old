@@ -1,0 +1,5 @@
+For just now, the library uses sqlite as installed on the host.
+To include SQLite in the project,
+include the amalgamated sqlite.h and sqlite.c files.
+http://www.sqlite.org/download.html
+http://www.sqlite.org/amalgamation.html

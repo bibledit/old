@@ -1,17 +1,31 @@
-#!/bin/sh
+#!/bin/bash
 
 
-# Refresh the bibledit-web source code in the assets.
-rsync -a --delete ../bibledit-web/web/* bibledit-web
+# Synchronize the bibledit source code to the library for Windows and clean it up.
+rsync -a --delete ../lib/* libbibledit/libsrc
+pushd libbibledit/libsrc > /dev/null
+rm compile
+rm *.a
+rm dev
+rm depcomp
+rm config.h.*
+rm config.status
+rm config.log
+rm configure*
+rm *.m4
+rm -rf autom4te.cache
+rm bibledit
+rm reconfigure
+rm valgrind
+rm unittest
+rm missing
+rm Makefile*
+rm install-sh
+rm stamp-h1
+popd > /dev/null
 
 
-# Disable the Filter_Cli class becuase on Windows it is not the shell that runs the regular tasks, but the web server.
-# This is no longer true, because now the CLI server runs it.
-# sed -i '/php_sapi_name/d' bibledit-web/filter/cli.php
-
-
-# Retrieve the Bibledit-Web version number from the PHP sources and store it in the strings.xml.
-# VERSION=`cat bibledit-web/config/version.php  | grep version | cut -d'"' -f2`
-# sed -i "/version_number/c\\  <string name=\"version_number\">$VERSION</string>" res/values/strings.xml
+# Update directory separator for Windows.
+sed -i 's|"/"|"\\\\"|g' libbibledit/libsrc/config.h
 
 
