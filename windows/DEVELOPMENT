@@ -7,13 +7,7 @@ To create a package, Windows uses Inno Setup installed from isetup-5.5.5-unicode
 
 For git on Windows, it uses Git-1.9.4-preview20140815.exe with the bash option.
 
-The web server is taken from LightTPD-1.4.35-1-IPv6-Win32-SSL.zip.
-
-PHP is taken from php-5.5.15-nts-Win32-VC11-x86.zip.
-
 Be careful when editing files on Windows with Notepad or another editor.
-If the editing causes a byte-order mark (BOM) to be inserted into the script,
-PHP notices the BOM in the executed script, and always outputs the BOM.
-This causes confusion.
-
-
+If the editing causes a byte-order mark (BOM) to be inserted into a script,
+this may disrupt the output, and cause confusion.
+All text files should be UTF-8 without BOM.
