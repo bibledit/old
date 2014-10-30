@@ -118,10 +118,8 @@ string Database_Users::timestampFile (string user)
 void Database_Users::trim ()
 {
   // Remove persistent logins after a day of inactivity.
-  struct timeval tv;
-  gettimeofday (&tv, NULL);
-  string timestamp = filter_string_convert_to_string ((int)tv.tv_sec - (6 * 86400));
-  int dayAgo = tv.tv_sec - 86400;
+  string timestamp = filter_string_convert_to_string (filter_string_date_seconds_since_epoch () - (6 * 86400));
+  int dayAgo = filter_string_date_seconds_since_epoch () - 86400;
   vector <string> users = getUsers ();
   sqlite3 * db = connect ();
   for (unsigned int i = 0; i < users.size(); i++) {
@@ -395,9 +393,7 @@ string Database_Users::getUsername (string address, string agent, string fingerp
 void Database_Users::pingTimestamp (string username)
 {
   int existingTimestamp = getTimestamp (username);
-  struct timeval tv;
-  gettimeofday (&tv, NULL);
-  int timestamp = tv.tv_sec;
+  int timestamp = filter_string_date_seconds_since_epoch ();
   if (timestamp != existingTimestamp) {
     string file = timestampFile (username);
     filter_url_file_put_contents (file, filter_string_convert_to_string (timestamp));

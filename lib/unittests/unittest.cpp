@@ -467,11 +467,12 @@ int main (int argc, char **argv)
     if ((month < 1) || (month > 12)) evaluate ("filter_string_date_numerical_month", "current month", filter_string_convert_to_string (month));
     int year = filter_string_date_numerical_year ();
     if ((year < 2014) || (year > 2050)) evaluate ("filter_string_date_numerical_year", "current year", filter_string_convert_to_string (year));
-    
-    
-    
-        cout << filter_string_date_numerical_year () << endl; // Todo
-
+    struct timeval tv;
+    gettimeofday (&tv, NULL);
+    int reference_second = tv.tv_sec;
+    int actual_second = filter_string_date_seconds_since_epoch ();
+    if (abs (actual_second - reference_second) > 1) evaluate ("filter_string_date_seconds_since_epoch", reference_second, actual_second);
+    cout << filter_string_date_numerical_microseconds () << endl; // Todo
   }
 
   

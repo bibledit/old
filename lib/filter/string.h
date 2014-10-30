@@ -38,6 +38,8 @@ vector <string> filter_string_array_unique (vector <string> values);
 vector <string> filter_string_array_diff (vector <string> from, vector <string> against);
 int filter_string_date_numerical_month ();
 int filter_string_date_numerical_year ();
+int filter_string_date_numerical_microseconds ();
+int filter_string_date_seconds_since_epoch ();
 string filter_string_trim (string s);
 
 

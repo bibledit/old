@@ -156,9 +156,6 @@ vector <string> filter_string_array_diff (vector <string> from, vector <string> 
 int filter_string_date_numerical_month ()
 {
   auto now = chrono::system_clock::now ();
-  //auto duration = now.time_since_epoch (); // Todo
-  //auto seconds = chrono::duration_cast<std::chrono::seconds>(duration).count();
-  //cout << seconds << endl; // Todo
   time_t tt = chrono::system_clock::to_time_t (now);
 #ifdef WIN32
   tm utc_tm;
@@ -186,6 +183,28 @@ int filter_string_date_numerical_year ()
   // Get years since 1900, and correct to get years since birth of Christ.
   int year = utc_tm.tm_year + 1900; 
   return year;  
+}
+
+
+// This function gives the number of microseconds within the current second.
+int filter_string_date_numerical_microseconds () // Todo
+{
+  //  sprintf (time, "%u%08u", (unsigned int) tv.tv_sec, (unsigned int) tv.tv_usec);
+  auto now = chrono::system_clock::now ();
+  auto duration = now.time_since_epoch ();
+  auto microseconds = chrono::duration_cast<std::chrono::microseconds>(duration).count();
+  int usecs = microseconds % 1000000;
+  return usecs;
+}
+
+
+// This function returns the seconds since the Unix epoch, which is 1 January 1970 UTC.
+int filter_string_date_seconds_since_epoch ()
+{
+  auto now = chrono::system_clock::now ();
+  auto duration = now.time_since_epoch ();
+  int seconds = chrono::duration_cast<std::chrono::seconds>(duration).count();
+  return seconds;
 }
 
 

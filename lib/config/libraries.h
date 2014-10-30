@@ -22,12 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef WIN32
 #include <io.h>
 #include <sys/utime.h>
-// What is the Windows equivalent? Todo #include <libgen.h>
 #include <../dirent/include/dirent.h>
 #else
 #include <unistd.h>
 #include <utime.h>
-#include <libgen.h>
 #include <dirent.h>
 #endif
 #include <stdio.h>
