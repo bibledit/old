@@ -142,10 +142,11 @@ bool filter_url_file_exists (string url)
 // Creates parents where needed.
 void filter_url_mkdir (string directory)
 {
+  int status;
 #ifdef WIN32
-	int status = _mkdir(directory.c_str());
+	status = _mkdir(directory.c_str());
 #else
-  int status = mkdir(directory.c_str(), 0777);
+  status = mkdir(directory.c_str(), 0777);
 #endif
   if (status != 0) {
     vector <string> paths;
