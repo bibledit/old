@@ -38,7 +38,7 @@ void webserver ()
   int optval = 1;
 
   // Eliminate "Address already in use" error from bind.
-  setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const void *) &optval, sizeof (int));
+  setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof (int));
   
   // Listenfd will be an endpoint for all requests to a port on any IP address for this host.
   typedef struct sockaddr SA;
