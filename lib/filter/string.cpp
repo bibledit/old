@@ -17,25 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <webserver/http.h>
-#include <vector>
-#include <sstream>
-#include <fstream>
-#include <libgen.h>
-#include <sys/stat.h>
-#include <cstring>
-#include <config/globals.h>
-#include <istream>
-#include <utility>
-#include <unordered_set>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <sys/time.h>
-#include <time.h>
-
-
-using namespace std;
+#include <filter/string.h>
 
 
 // A C++ equivalent for PHP's explode function.
