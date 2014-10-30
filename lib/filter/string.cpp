@@ -160,7 +160,8 @@ int filter_string_date_numerical_month ()
   //auto seconds = chrono::duration_cast<std::chrono::seconds>(duration).count();
   //cout << seconds << endl; // Todo
   time_t tt = chrono::system_clock::to_time_t (now);
-  tm utc_tm = *gmtime(&tt);
+  tm utc_tm;
+  gmtime_s(&utc_tm, &tt);
   int month = utc_tm.tm_mon + 1;
   return month;  
 }
