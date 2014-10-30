@@ -171,6 +171,7 @@ void filter_url_mkdir (string directory)
 // C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents (string filename)
 {
+  if (!filter_url_file_exists (filename)) return "";
   try {
     ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
     fstream::pos_type filesize = ifs.tellg();
