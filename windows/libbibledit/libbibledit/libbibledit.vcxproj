@@ -92,6 +92,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,12 +144,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\lib\library\bibledit.h" />
+    <ClInclude Include="..\..\..\lib\webserver\http.h" />
+    <ClInclude Include="..\..\..\lib\webserver\request.h" />
+    <ClInclude Include="..\..\..\lib\webserver\webserver.h" />
     <ClInclude Include="libbibledit.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\lib\library\bibledit.cpp" />
+    <ClCompile Include="..\..\..\lib\webserver\http.cpp" />
+    <ClCompile Include="..\..\..\lib\webserver\request.cpp" />
+    <ClCompile Include="..\..\..\lib\webserver\webserver.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>

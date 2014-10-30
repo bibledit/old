@@ -53,7 +53,10 @@ void webserver ()
   listen (listenfd, 100);
   
   // Ignore SIGPIPE signal: When the browser cancels the request, it won't kill Bibledit.
+#ifdef WIN32
+#else
   signal (SIGPIPE, SIG_IGN);
+#endif
 
   // Keep waiting for, accepting, and processing connections.
   config_globals_running = true;
