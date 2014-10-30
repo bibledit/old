@@ -175,12 +175,16 @@ int filter_string_date_numerical_month ()
 // A full numeric representation of a year, 4 digits: 2014.
 int filter_string_date_numerical_year ()
 {
-  // See http://www.informit.com/articles/article.aspx?p=23618&seqNum=8.
-  struct timeval tv;
-  gettimeofday (&tv, NULL);
-  struct tm* ptm = localtime (&tv.tv_sec);
+  auto now = chrono::system_clock::now ();
+  time_t tt = chrono::system_clock::to_time_t (now);
+#ifdef WIN32
+  tm utc_tm;
+  gmtime_s(&utc_tm, &tt);
+#else
+  tm utc_tm = *gmtime(&tt);
+#endif
   // Get years since 1900, and correct to get years since birth of Christ.
-  int year = ptm->tm_year + 1900; 
+  int year = utc_tm.tm_year + 1900; 
   return year;  
 }
 

@@ -104,8 +104,6 @@ int main (int argc, char **argv)
 {
   cout << "Running unittests" << endl;
 
-    cout << filter_string_date_numerical_month () << endl; // Todo
-  exit (0);
 
   // No compile warnings.
   if (argc) {};
@@ -465,7 +463,15 @@ int main (int argc, char **argv)
   }
   {
     // Test the date and time related functions. Todo
-    cout << filter_string_date_numerical_month () << endl; // Todo
+    int month = filter_string_date_numerical_month ();
+    if ((month < 1) || (month > 12)) evaluate ("filter_string_date_numerical_month", "current month", filter_string_convert_to_string (month));
+    int year = filter_string_date_numerical_year ();
+    if ((year < 2014) || (year > 2050)) evaluate ("filter_string_date_numerical_year", "current year", filter_string_convert_to_string (year));
+    
+    
+    
+        cout << filter_string_date_numerical_year () << endl; // Todo
+
   }
 
   
