@@ -26,6 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
+#ifdef WIN32
+#define DIRECTORY_SEPARATOR "\\"
+#endif
+
+
 // Gets the base URL of current Bibledit installation.
 string filter_url_page_url (Webserver_Request * request)
 {
@@ -51,36 +56,35 @@ void filter_url_redirect (string path, Webserver_Request * request)
 }
 
 
-// Wraps the dirname function, see http://linux.die.net/man/3/dirname.
+// C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
 string filter_url_dirname (string url)
 {
-#ifdef WIN32
-	TCHAR buffer[MAX_PATH];
-	_tcscpy_s(buffer, CA2T(url.c_str()));
-	//LPWSTR lpStr1 = url.c_str ();
-	//lpStr1 = buffer;
-	PathRemoveFileSpecW (buffer);
-	string directoryname = buffer;
-#else
-	char * writable = new char[url.size() + 1];
-	copy(url.begin(), url.end(), writable);
-	writable[url.size()] = '\0';
-	string directoryname = dirname(writable);
-	delete[] writable;
-	return directoryname;
-#endif
+  if (!url.empty ()) {
+    if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
+      // Remove trailing slash.
+      url = url.substr (0, url.length () - 1);
+    }
+    size_t pos = url.find_last_of (DIRECTORY_SEPARATOR);
+    if (pos != string::npos) url = url.substr (0, pos);
+    else url = "";
+  }
+  if (url.empty ()) url = ".";
+  return url;
 }
 
 
-// Wraps the basename function, see http://linux.die.net/man/3/basename.
+// C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
 string filter_url_basename (string url)
 {
-  char * writable = new char [url.size() + 1];
-  copy (url.begin(), url.end(), writable);
-  writable[url.size()] = '\0';
-  string base_name = basename (writable);
-  delete [] writable;
-  return base_name;
+  if (!url.empty ()) {
+    if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
+      // Remove trailing slash.
+      url = url.substr (0, url.length () - 1);
+    }
+    size_t pos = url.find_last_of (DIRECTORY_SEPARATOR);
+    if (pos != string::npos) url = url.substr (pos + 1);
+  }
+  return url;
 }
 
 

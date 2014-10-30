@@ -447,7 +447,20 @@ int main (int argc, char **argv)
     evaluate ("filter_url_urldecode 2", "test@mail", filter_url_urldecode ("test%40mail"));
     evaluate ("filter_url_urldecode 3", "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
   }
-  // Todo
+  {
+    // Test dirname and basename functions.
+    evaluate ("filter_url_dirname 1", ".", filter_url_dirname (""));
+    evaluate ("filter_url_dirname 2", ".", filter_url_dirname ("/"));
+    evaluate ("filter_url_dirname 3", ".", filter_url_dirname ("dir/"));
+    evaluate ("filter_url_dirname 4", ".", filter_url_dirname ("/dir"));
+    evaluate ("filter_url_dirname 5", "foo", filter_url_dirname ("foo/bar"));
+    evaluate ("filter_url_dirname 6", "/foo", filter_url_dirname ("/foo/bar"));
+    evaluate ("filter_url_dirname 7", "/foo", filter_url_dirname ("/foo/bar/"));
+    evaluate ("filter_url_basename 1", "a.txt", filter_url_basename ("/a.txt"));
+    evaluate ("filter_url_basename 2", "txt", filter_url_basename ("/txt/"));
+    evaluate ("filter_url_basename 3", "foo.bar", filter_url_basename ("/path/to/foo.bar"));
+    evaluate ("filter_url_basename 4", "foo.bar", filter_url_basename ("foo.bar"));
+  }
 
   
   // Tests for Database_Users.
