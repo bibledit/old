@@ -54,12 +54,20 @@ void filter_url_redirect (string path, Webserver_Request * request)
 // Wraps the dirname function, see http://linux.die.net/man/3/dirname.
 string filter_url_dirname (string url)
 {
-  char * writable = new char [url.size() + 1];
-  copy (url.begin(), url.end(), writable);
-  writable[url.size()] = '\0';
-  string directoryname = dirname (writable);
-  delete [] writable;
-  return directoryname;
+#ifdef WIN32
+	TCHAR buffer[ ] = url.c_str (); 
+	//LPWSTR lpStr1 = url.c_str ();
+	//lpStr1 = buffer;
+	PathRemoveFileSpecW (buffer);
+	string directoryname = buffer;
+#else
+	char * writable = new char[url.size() + 1];
+	copy(url.begin(), url.end(), writable);
+	writable[url.size()] = '\0';
+	string directoryname = dirname(writable);
+	delete[] writable;
+	return directoryname;
+#endif
 }
 
 

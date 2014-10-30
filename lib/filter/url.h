@@ -23,6 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #include <webserver/request.h>
+#ifdef WIN32
+#include <windows.h>
+#include "Shlwapi.h"
+#endif
 
 
 string filter_url_page_url (Webserver_Request * request);
