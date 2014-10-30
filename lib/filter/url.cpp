@@ -19,8 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <webserver/http.h>
 #include <config/globals.h>
-#include <filter/UriCodec.cpp>
 #include <filter/url.h>
+#include <filter/UriCodec.cpp>
 
 
 using namespace std;
@@ -76,7 +76,7 @@ string filter_url_basename (string url)
 
 
 // Creates a file path out of the components.
-string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "", string part6 = "")
+string filter_url_create_path (string part1, string part2, string part3, string part4, string part5, string part6)
 {
   string path (part1);
   if (part2.length()) path += DIRECTORY_SEPARATOR + part2;
@@ -89,7 +89,7 @@ string filter_url_create_path (string part1 = "", string part2 = "", string part
 
 
 // Creates a file path out of the variable list of components, relative to the server's document root.
-string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "")
+string filter_url_create_root_path (string part1, string part2, string part3, string part4, string part5)
 {
   string path = config_globals_document_root;
   if (part1.length()) path += DIRECTORY_SEPARATOR + part1;
