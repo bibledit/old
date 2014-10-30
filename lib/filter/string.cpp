@@ -155,11 +155,13 @@ vector <string> filter_string_array_diff (vector <string> from, vector <string> 
 // Numeric representation of a month: 1 through 12.
 int filter_string_date_numerical_month ()
 {
-  // See http://www.informit.com/articles/article.aspx?p=23618&seqNum=8.
-  struct timeval tv;
-  gettimeofday (&tv, NULL);
-  struct tm* ptm = localtime (&tv.tv_sec);
-  int month = ptm->tm_mon + 1;
+  auto now = chrono::system_clock::now ();
+  //auto duration = now.time_since_epoch (); // Todo
+  //auto seconds = chrono::duration_cast<std::chrono::seconds>(duration).count();
+  //cout << seconds << endl; // Todo
+  time_t tt = chrono::system_clock::to_time_t (now);
+  tm utc_tm = *gmtime(&tt);
+  int month = utc_tm.tm_mon + 1;
   return month;  
 }
 

@@ -104,6 +104,8 @@ int main (int argc, char **argv)
 {
   cout << "Running unittests" << endl;
 
+    cout << filter_string_date_numerical_month () << endl; // Todo
+  exit (0);
 
   // No compile warnings.
   if (argc) {};
@@ -460,6 +462,10 @@ int main (int argc, char **argv)
     evaluate ("filter_url_basename 2", "txt", filter_url_basename ("/txt/"));
     evaluate ("filter_url_basename 3", "foo.bar", filter_url_basename ("/path/to/foo.bar"));
     evaluate ("filter_url_basename 4", "foo.bar", filter_url_basename ("foo.bar"));
+  }
+  {
+    // Test the date and time related functions. Todo
+    cout << filter_string_date_numerical_month () << endl; // Todo
   }
 
   
