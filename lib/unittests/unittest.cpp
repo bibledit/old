@@ -553,7 +553,6 @@ int main (int argc, char **argv)
     string address = "192.168.1.0";
     string agent = "Browser's user agent";
     string fingerprint = "ԴԵԶԸ";
-
     database_users.setTokens (username, address, agent, fingerprint);
     evaluate ("Database_Users::getUsername 1", username, database_users.getUsername (address, agent, fingerprint));
     database_users.removeTokens (username);

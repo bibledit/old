@@ -173,7 +173,7 @@ string filter_url_file_get_contents (string filename)
 {
   try {
     ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
-    unsigned int filesize = (unsigned int) ifs.tellg();
+    fstream::pos_type filesize = ifs.tellg();
     ifs.seekg (0, ios::beg);
     vector <char> bytes (filesize);
     ifs.read (&bytes[0], filesize);
