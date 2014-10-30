@@ -143,6 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\lib\config\globals.h" />
+    <ClInclude Include="..\..\..\lib\config\libraries.h" />
+    <ClInclude Include="..\..\..\lib\filter\md5.h" />
+    <ClInclude Include="..\..\..\lib\filter\roles.h" />
+    <ClInclude Include="..\..\..\lib\filter\string.h" />
+    <ClInclude Include="..\..\..\lib\filter\url.h" />
     <ClInclude Include="..\..\..\lib\library\bibledit.h" />
     <ClInclude Include="..\..\..\lib\webserver\http.h" />
     <ClInclude Include="..\..\..\lib\webserver\request.h" />
@@ -152,6 +158,12 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\lib\config\globals.cpp" />
+    <ClCompile Include="..\..\..\lib\filter\md5.cpp" />
+    <ClCompile Include="..\..\..\lib\filter\roles.cpp" />
+    <ClCompile Include="..\..\..\lib\filter\string.cpp" />
+    <ClCompile Include="..\..\..\lib\filter\UriCodec.cpp" />
+    <ClCompile Include="..\..\..\lib\filter\url.cpp" />
     <ClCompile Include="..\..\..\lib\library\bibledit.cpp" />
     <ClCompile Include="..\..\..\lib\webserver\http.cpp" />
     <ClCompile Include="..\..\..\lib\webserver\request.cpp" />

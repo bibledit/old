@@ -58,6 +58,7 @@ void webserver ()
   signal (SIGPIPE, SIG_IGN);
 #endif
 
+
   // Keep waiting for, accepting, and processing connections.
   config_globals_running = true;
   while (config_globals_running) {
@@ -67,7 +68,13 @@ void webserver ()
     // This provides thread-safety to the request.
     Webserver_Request * request = new Webserver_Request ();
 
-    // Socket and file descriptor for the client connection.
+#ifdef WIN32
+#define read _read
+#define write _write
+#define close _close
+#endif
+	
+	// Socket and file descriptor for the client connection.
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof (clientaddr);
     int connfd = accept (listenfd, (SA *) &clientaddr, &clientlen);
@@ -83,7 +90,7 @@ void webserver ()
       char buffer [65535];
       memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
       size_t bytes_read;
-      bytes_read = _read (connfd, buffer, sizeof (buffer));
+      bytes_read = read (connfd, buffer, sizeof (buffer));
       if (bytes_read) {};
       string input = buffer;
   
@@ -97,7 +104,7 @@ void webserver ()
       // Send response to browser.    
       const char * output = request->reply.c_str();
       size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
-      int written = _write (connfd, output, length);
+      int written = write (connfd, output, length);
       if (written) {};
 
     }
@@ -106,7 +113,7 @@ void webserver ()
     delete request;
 
     // Done: Close.
-    _close (connfd);
+    close (connfd);
   }
 
 

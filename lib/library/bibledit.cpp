@@ -75,7 +75,10 @@ void bibledit_stop ()
   config_globals_worker->join ();
   
   // Clear memory.
-  xmlCleanupThreads ();
+#ifdef WIN32
+#else
+  xmlCleanupThreads();
+#endif
   delete config_globals_worker;
 
 }
