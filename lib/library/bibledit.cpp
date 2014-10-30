@@ -63,7 +63,10 @@ void bibledit_stop ()
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
   sa.sin_port = htons (8080);
-  sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
+  //sa.sin_addr.s_addr = inet_addr ("127.0.0.1");
+  inet_pton (AF_INET, "127.0.0.1", &(sa.sin_addr));
+  char str[INET_ADDRSTRLEN];
+  inet_ntop(AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
   memset(sa.sin_zero, '\0', sizeof (sa.sin_zero));
   int mysocket = socket (PF_INET, SOCK_STREAM, 0);
   connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
