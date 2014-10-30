@@ -55,7 +55,8 @@ void filter_url_redirect (string path, Webserver_Request * request)
 string filter_url_dirname (string url)
 {
 #ifdef WIN32
-	TCHAR buffer[ ] = url.c_str (); 
+	TCHAR buffer[MAX_PATH];
+	_tcscpy_s(buffer, CA2T(url.c_str()));
 	//LPWSTR lpStr1 = url.c_str ();
 	//lpStr1 = buffer;
 	PathRemoveFileSpecW (buffer);
