@@ -97,7 +97,7 @@ void webserver ()
       // Send response to browser.    
       const char * output = request->reply.c_str();
       size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
-      ssize_t written = write (connfd, output, length);
+      int written = write (connfd, output, length);
       if (written) {};
 
     }
