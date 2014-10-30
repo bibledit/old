@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Basic C headers.
 #include <cstdlib>
-#ifdef _WIN32
+#ifdef WIN32
 #include <io.h>
 #include <sys/utime.h>
 // What is the Windows equivalent? Todo #include <libgen.h>
@@ -41,12 +41,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // C headers in sub folders.
 #include <sys/stat.h>
-#ifdef _WIN32
-// What is the Windows equivalent? Todo #include <sys/time.h>
-// Port to Winsock2 Todo #include <sys/socket.h>
-// Todo port to winsock #include <arpa/inet.h>
-// Port to winsock #include <netinet/in.h>
-// Port to winsock #include <netinet/tcp.h>
+#ifdef WIN32
+#include <ws2tcpip.h>
 #else
 #include <sys/time.h>
 #include <sys/socket.h>
@@ -69,7 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Headers dependencies.
-#ifdef _WIN32
+#ifdef WIN32
 #include <../sqlite/sqlite3.h>
 #else
 #include <sqlite3.h>
