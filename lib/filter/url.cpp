@@ -174,11 +174,11 @@ string filter_url_file_get_contents (string filename)
   if (!filter_url_file_exists (filename)) return "";
   try {
     ifstream ifs (filename.c_str(), ios::in | ios::binary | ios::ate);
-    fstream::pos_type filesize = ifs.tellg();
+    streamoff filesize = ifs.tellg();
     ifs.seekg (0, ios::beg);
-    vector <char> bytes (filesize);
-    ifs.read (&bytes[0], filesize);
-    return string (&bytes[0], filesize);
+    vector <char> bytes ((int)filesize);
+    ifs.read (&bytes[0], (int)filesize);
+    return string (&bytes[0], (int)filesize);
   } catch (...) {
     return "";
   }
