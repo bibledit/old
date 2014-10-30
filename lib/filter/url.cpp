@@ -245,7 +245,7 @@ int filter_url_filemtime (string filename)
 {
   struct stat attributes;
   stat (filename.c_str(), &attributes);
-  return attributes.st_mtime;
+  return (int) attributes.st_mtime;
 }
 
 
