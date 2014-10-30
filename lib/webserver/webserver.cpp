@@ -83,7 +83,7 @@ void webserver ()
       char buffer [65535];
       memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
       size_t bytes_read;
-      bytes_read = read (connfd, buffer, sizeof (buffer));
+      bytes_read = _read (connfd, buffer, sizeof (buffer));
       if (bytes_read) {};
       string input = buffer;
   
@@ -97,7 +97,7 @@ void webserver ()
       // Send response to browser.    
       const char * output = request->reply.c_str();
       size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
-      int written = write (connfd, output, length);
+      int written = _write (connfd, output, length);
       if (written) {};
 
     }
@@ -106,7 +106,7 @@ void webserver ()
     delete request;
 
     // Done: Close.
-    close (connfd);
+    _close (connfd);
   }
 
 
