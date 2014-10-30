@@ -21,12 +21,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/UriCodec.cpp>
+#ifdef WIN32
+#include <direct.h>
+#endif
 
 
 using namespace std;
 
 
 #ifdef WIN32
+#undef DIRECTORY_SEPARATOR
 #define DIRECTORY_SEPARATOR "\\"
 #endif
 
@@ -138,7 +142,11 @@ bool filter_url_file_exists (string url)
 // Creates parents where needed.
 void filter_url_mkdir (string directory)
 {
-  int status = mkdir (directory.c_str(), 0777);
+#ifdef WIN32
+	int status = _mkdir(directory.c_str());
+#else
+  int status = mkdir(directory.c_str(), 0777);
+#endif
   if (status != 0) {
     vector <string> paths;
     paths.push_back (directory);
@@ -149,7 +157,11 @@ void filter_url_mkdir (string directory)
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
-      mkdir (paths [i].c_str(), 0777);
+#ifdef WIN32
+		_mkdir(paths[i].c_str());
+#else
+		mkdir(paths[i].c_str(), 0777);
+#endif
     }
   }
 }
