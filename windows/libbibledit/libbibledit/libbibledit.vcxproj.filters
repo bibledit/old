@@ -108,9 +108,6 @@
     <ClInclude Include="..\..\..\lib\menu\main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\lib\menu\user.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -198,9 +195,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\lib\menu\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\lib\menu\user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

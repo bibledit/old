@@ -88,6 +88,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBBIBLEDIT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\lib;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(InputDir)\$(IntDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -162,7 +163,6 @@
     <ClInclude Include="..\..\..\lib\locale\translate.h" />
     <ClInclude Include="..\..\..\lib\menu\logic.h" />
     <ClInclude Include="..\..\..\lib\menu\main.h" />
-    <ClInclude Include="..\..\..\lib\menu\user.h" />
     <ClInclude Include="..\..\..\lib\parsewebdata\ParseMultipartFormData.h" />
     <ClInclude Include="..\..\..\lib\parsewebdata\ParseWebData.h" />
     <ClInclude Include="..\..\..\lib\parsewebdata\ParseWebData_local.h" />
@@ -195,7 +195,6 @@
     <ClCompile Include="..\..\..\lib\locale\translate.cpp" />
     <ClCompile Include="..\..\..\lib\menu\logic.cpp" />
     <ClCompile Include="..\..\..\lib\menu\main.cpp" />
-    <ClCompile Include="..\..\..\lib\menu\user.cpp" />
     <ClCompile Include="..\..\..\lib\parsewebdata\ParseMultipartFormData.cpp" />
     <ClCompile Include="..\..\..\lib\parsewebdata\ParseWebData.cpp" />
     <ClCompile Include="..\..\..\lib\session\logic.cpp" />
