@@ -36,6 +36,7 @@
 #define MAXVALSIZE 8192 /* max size of data for a field */
 #define MAXCOOKIESIZE 4096
 
+#define _CRT_SECURE_NO_ERRORS 1
 
 enum {
     FLATE_HTML,
