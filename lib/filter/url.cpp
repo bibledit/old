@@ -92,6 +92,16 @@ string filter_url_basename (string url)
 }
 
 
+void filter_url_unlink (string filename)
+{
+#ifdef WIN32
+  _unlink (filename.c_str());
+#else
+  unlink(filename.c_str());
+#endif
+}
+
+
 // Creates a file path out of the components.
 string filter_url_create_path (string part1, string part2, string part3, string part4, string part5, string part6)
 {
