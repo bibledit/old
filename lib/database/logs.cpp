@@ -87,7 +87,7 @@ void Database_Logs::checkup ()
 
   // Recreate the database.
   string file = database_sqlite_file (database);
-  unlink (file.c_str());
+  filter_url_unlink (file);
   create ();
   Database_Logs::log ("The Journal database was damaged and has been recreated");
 }
@@ -141,7 +141,7 @@ void Database_Logs::rotate ()
       entry = entry.substr (0, 100);
       entry += "... This entry was too large and has been truncated: " + filter_string_convert_to_string (filesize) + " bytes";
     }
-    unlink (path.c_str());
+    filter_url_unlink (path);
     entry = database_sqlite_no_sql_injection (entry);
     string sql = "INSERT INTO logs VALUES (" + filter_string_convert_to_string (timestamp) + ", '" + entry + "');";
     database_sqlite_exec (db, sql);
