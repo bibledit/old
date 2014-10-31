@@ -114,6 +114,9 @@
     <ClInclude Include="..\..\..\lib\flate\flate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\lib\flate\flate2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -206,14 +209,11 @@
     <ClCompile Include="..\..\..\lib\menu\user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\lib\flate\flate.c">
+    <ClCompile Include="..\..\..\lib\flate\flate2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\sqlite\sqlite3.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

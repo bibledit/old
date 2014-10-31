@@ -161,6 +161,7 @@
     <ClInclude Include="..\..\..\lib\filter\string.h" />
     <ClInclude Include="..\..\..\lib\filter\url.h" />
     <ClInclude Include="..\..\..\lib\flate\flate.h" />
+    <ClInclude Include="..\..\..\lib\flate\flate2.h" />
     <ClInclude Include="..\..\..\lib\library\bibledit.h" />
     <ClInclude Include="..\..\..\lib\locale\translate.h" />
     <ClInclude Include="..\..\..\lib\menu\logic.h" />
@@ -194,7 +195,7 @@
     <ClCompile Include="..\..\..\lib\filter\roles.cpp" />
     <ClCompile Include="..\..\..\lib\filter\string.cpp" />
     <ClCompile Include="..\..\..\lib\filter\url.cpp" />
-    <ClCompile Include="..\..\..\lib\flate\flate.c" />
+    <ClCompile Include="..\..\..\lib\flate\flate2.cpp" />
     <ClCompile Include="..\..\..\lib\library\bibledit.cpp" />
     <ClCompile Include="..\..\..\lib\locale\translate.cpp" />
     <ClCompile Include="..\..\..\lib\menu\logic.cpp" />
@@ -232,9 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\sqlite\sqlite3.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
