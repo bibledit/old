@@ -192,14 +192,12 @@ int main (int argc, char **argv)
     evaluate ("Database_Config_User::setSprintMonth", newmonth, request.database_config_user ()->getSprintMonth ());
     // Set the modification time of the sprint month record to more than two days ago: 
     // Trimming resets the sprint month to the current month.
-    struct timeval tv;
-    gettimeofday (&tv, NULL);
     string filename = filter_url_create_path (testing_directory, "databases", "config", "user", "username", "sprint-month");
     struct stat foo;
     struct utimbuf new_times;
     stat (filename.c_str(), &foo);
-    new_times.actime = tv.tv_sec - (2 * 24 * 3600) - 10;
-    new_times.modtime = tv.tv_sec - (2 * 24 * 3600) - 10;
+    new_times.actime = filter_string_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
+    new_times.modtime = filter_string_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
     utime (filename.c_str(), &new_times);
     request.database_config_user ()->trim ();
     evaluate ("Database_Config_User::trim", month, request.database_config_user ()->getSprintMonth ());
@@ -278,9 +276,7 @@ int main (int argc, char **argv)
     refresh_sandbox (true);
     Database_Logs database_logs = Database_Logs ();
     database_logs.create ();
-    struct timeval tv;
-    gettimeofday (&tv, NULL);
-    int now = tv.tv_sec;
+    int now = filter_string_date_seconds_since_epoch ();
     int min1days = now - 86400 - 10;
     int min2days = min1days - 86400;
     int min3days = min2days - 86400;
@@ -351,9 +347,7 @@ int main (int argc, char **argv)
     refresh_sandbox (true);
     Database_Logs::log ("description");
     Database_Logs database_logs = Database_Logs ();
-    struct timeval tv;
-    gettimeofday (&tv, NULL);
-    int second = tv.tv_sec;
+    int second = filter_string_date_seconds_since_epoch ();
     string filename = filter_string_convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;
@@ -436,10 +430,11 @@ int main (int argc, char **argv)
     evaluate ("filter_string_array_diff", reference, output);
   }
   {
-    // Test trim.
+    // Test string modifiers.
     evaluate ("filter_string_trim 1", "", filter_string_trim ("  "));
     evaluate ("filter_string_trim 2", "", filter_string_trim (""));
     evaluate ("filter_string_trim 3", "xx", filter_string_trim ("\t\nxx\n\r"));
+    evaluate ("filter_string_fill", "0000012345", filter_string_fill ("12345", 10, '0'));
   }
   {
     // Test URL decoder.
@@ -472,7 +467,8 @@ int main (int argc, char **argv)
     int reference_second = tv.tv_sec;
     int actual_second = filter_string_date_seconds_since_epoch ();
     if (abs (actual_second - reference_second) > 1) evaluate ("filter_string_date_seconds_since_epoch", reference_second, actual_second);
-    cout << filter_string_date_numerical_microseconds () << endl; // Todo
+    int usecs = filter_string_date_numerical_microseconds ();
+    if ((usecs < 0) || (usecs > 1000000)) evaluate ("filter_string_date_numerical_microseconds", "0-1000000", filter_string_convert_to_string (usecs));
   }
 
   
@@ -572,11 +568,10 @@ int main (int argc, char **argv)
     evaluate ("Database_Users::getUsername 2", "", database_users.getUsername (address, agent, fingerprint));
 
     evaluate ("Database_Users::getTimestamp 0", 0, database_users.getTimestamp (username));
-    struct timeval tv;
-    gettimeofday (&tv, NULL);
     database_users.pingTimestamp (username);
     int timestamp = database_users.getTimestamp (username);
-    if ((timestamp != tv.tv_sec) && (timestamp != tv.tv_sec + 1)) evaluate ("Database_Users::getTimestamp time", tv.tv_sec, timestamp);
+    int second = filter_string_date_seconds_since_epoch ();
+    if ((timestamp != second) && (timestamp != second + 1)) evaluate ("Database_Users::getTimestamp time", second, timestamp);
   }
   {
     refresh_sandbox (true);

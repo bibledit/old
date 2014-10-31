@@ -60,17 +60,14 @@ void Database_Logs::log (string description, int level)
   description = filter_string_str_replace ("\n", " ", description);
 
   // Save this logbook entry to a filename with seconds and microseconds.
-  struct timeval tv;
-  gettimeofday (&tv, NULL);
-  char time [64];
-  sprintf (time, "%u%08u", (unsigned int) tv.tv_sec, (unsigned int) tv.tv_usec);
+  string seconds = filter_string_convert_to_string (filter_string_date_seconds_since_epoch ());
+  string time = seconds + filter_string_fill (filter_string_convert_to_string (filter_string_date_numerical_microseconds ()), 8, '0');
   string file = filter_url_create_path (folder (), time);
-
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
   // There may be the rare case of more than one entry per file.
   // Append the data so it won't overwrite an earlier entry.
-  filter_url_file_put_contents_append (file, filter_string_convert_to_string (level) + " " + filter_string_convert_to_string ((int)tv.tv_sec) + " " + description);
+  filter_url_file_put_contents_append (file, filter_string_convert_to_string (level) + " " + seconds + " " + description);
 }
 
 
@@ -162,9 +159,7 @@ void Database_Logs::rotate ()
   }
 
   // Remove records older than five days from the database.
-  struct timeval tv;
-  gettimeofday (&tv, NULL);
-  string timestamp = filter_string_convert_to_string ((int)tv.tv_sec - (6 * 86400));
+  string timestamp = filter_string_convert_to_string (filter_string_date_seconds_since_epoch () - (6 * 86400));
   string sql = "DELETE FROM logs WHERE timestamp < " + timestamp + ";";
   database_sqlite_exec (db, sql);
 
@@ -180,9 +175,7 @@ void Database_Logs::rotate ()
 vector <string> Database_Logs::get (int day, int& lastsecond)
 {
   // A day is considered a period of 24 hours starting now.
-  struct timeval tv;
-  gettimeofday (&tv, NULL);
-  int firstsecond = tv.tv_sec - ((day + 1) * 86400);
+  int firstsecond = filter_string_date_seconds_since_epoch () - ((day + 1) * 86400);
   lastsecond = firstsecond + 86400;
 
   // Read the entries from the database.

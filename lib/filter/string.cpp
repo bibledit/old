@@ -222,3 +222,12 @@ string filter_string_trim (string s)
   return string (s, beg, end - beg + 1);
 }
 
+
+// Fills a string up to "width", with the character "fill" at the left.
+string filter_string_fill (string s, int width, char fill)
+{
+  ostringstream str;
+  str << setfill (fill) << setw (width) << s;
+  return str.str();
+}
+
