@@ -156,7 +156,11 @@ void Database_Config_User::trim ()
     string filename = file (users[i], keySprintMonth ());
     if (filter_url_file_exists (filename)) {
       if (filter_url_filemtime (filename) < time) {
-        unlink (filename.c_str());
+#ifdef WIN32
+        _unlink (filename.c_str());
+#else
+        unlink(filename.c_str());
+#endif
       }
     }
   }
