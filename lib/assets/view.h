@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <flate/flate.h>
 
 
 class Assets_View
@@ -36,7 +35,7 @@ public:
 private:
   string caller;
   map <string, string> variables;
-  Flate * view = NULL;
+  map <string, bool> zones;
 };
 
 

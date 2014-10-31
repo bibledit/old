@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/md5.h>
 #include <session/logic.h>
+#include <flate/flate2.h>
 
 
 using namespace std;
@@ -124,6 +125,32 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
+  // Test for the flate2 template engine. Todo
+  {
+    string tpl = filter_url_create_root_path ("unittests", "tests", "flate1.html");
+    Flate flate = Flate ();
+    string desired;
+    string actual;
+
+    desired = "line 1\n\nline 6";
+    actual = filter_string_trim (flate.render (tpl));
+    evaluate ("Flate 1", desired, actual);
+    
+    flate = Flate ();
+    flate.enable_zone ("one");
+    flate.enable_zone ("two");
+    desired = "line 1\n\nline 2\n\n\n\nline 3\n\nline 4\n\n\nline 6";
+    actual = filter_string_trim (flate.render (tpl));
+    evaluate ("Flate 2", desired, actual);
+
+    flate = Flate ();
+    flate.enable_zone ("one");
+    flate.enable_zone ("three");
+    flate.set_variable ("three", "THREE");
+    desired = "line 1\n\nline 2\n\n\n\nline 4\n\nTHREE\nline 5\n\n\nline 6";
+    actual = filter_string_trim (flate.render (tpl));
+    evaluate ("Flate 3", desired, actual);
+  }
 
   // Tests for Database_Config_General.
   {
@@ -457,7 +484,7 @@ int main (int argc, char **argv)
     evaluate ("filter_url_basename 4", "foo.bar", filter_url_basename ("foo.bar"));
   }
   {
-    // Test the date and time related functions. Todo
+    // Test the date and time related functions.
     int month = filter_string_date_numerical_month ();
     if ((month < 1) || (month > 12)) evaluate ("filter_string_date_numerical_month", "current month", filter_string_convert_to_string (month));
     int year = filter_string_date_numerical_year ();

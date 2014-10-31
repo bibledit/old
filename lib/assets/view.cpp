@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <config/globals.h>
 #include <database/logs.h>
+#include <flate/flate2.h>
 
 
 using namespace std;
@@ -32,25 +33,11 @@ Assets_View::Assets_View (string file)
 {
   // Store name of the calling C++ file for selecting the default template file.
   caller = file;
-  /* C++Port
-    // Modifier for the links in the headers.
-    $bibledit_root_folder = Bootstrap::getInstance ()->bibledit_root_folder;
-    $file_path = dirname ($calling_file_php);
-    $header_path_modifier = "";
-    $iterations_count = 0;
-    while (($file_path != $bibledit_root_folder) && ($iterations_count < 10)) {
-      $file_path = dirname ($file_path);
-      $iterations_count++;
-      $header_path_modifier .= "../";
-    }
-    $this->view->header_path_modifier = $header_path_modifier;
-  */
 }
 
 
 Assets_View::~Assets_View ()
 {
-  if (view) flateFreeMem (view);
 }
 
 
@@ -64,7 +51,7 @@ void Assets_View::set_variable (string key, string value)
 // Enable displaying a zone in the html template.
 void Assets_View::enable_zone (string zone)
 {
-  variables [zone] = "";
+  zones [zone] = true;
 }
 
 
@@ -92,13 +79,17 @@ string Assets_View::render (string tpl)
     return "";
   }
 
-  // Load the template in memory. 
-  flateSetFile (&view, (char *) tpl.c_str());
+  // Instantiate and fill the template engine. 
+  Flate flate = Flate ();
 
-  // Set any variables in the template.
-  map <string, string>::iterator iter;
-  for (iter = variables.begin (); iter != variables.end(); ++iter) {
-    flateSetVar (view, (char *) iter->first.c_str(), (char *) iter->second.c_str());
+  // Copy the variables and zones to the engine.
+  map <string, string>::iterator iter1;
+  for (iter1 = variables.begin (); iter1 != variables.end(); ++iter1) {
+    flate.set_variable (iter1->first, iter1->second);
+  }
+  map <string, bool>::iterator iter2;
+  for (iter2 = zones.begin (); iter2 != zones.end(); ++iter2) {
+    flate.enable_zone (iter2->first);
   }
 
   /* C++Port
@@ -110,10 +101,6 @@ string Assets_View::render (string tpl)
   */
 
   // Get and return the page contents.
-  char *buf = flatePage (view);
-  string page = buf;
-  free (buf);
-  if (view) flateFreeMem (view); // Fix memory leak detected by valgrind.
-  view = NULL; // No double free.
+  string page = flate.render (tpl);
   return page;
 }

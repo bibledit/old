@@ -187,9 +187,8 @@ int filter_string_date_numerical_year ()
 
 
 // This function gives the number of microseconds within the current second.
-int filter_string_date_numerical_microseconds () // Todo
+int filter_string_date_numerical_microseconds ()
 {
-  //  sprintf (time, "%u%08u", (unsigned int) tv.tv_sec, (unsigned int) tv.tv_usec);
   auto now = chrono::system_clock::now ();
   auto duration = now.time_since_epoch ();
   auto microseconds = chrono::duration_cast<std::chrono::microseconds>(duration).count();
