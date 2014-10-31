@@ -18,21 +18,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/logs.h>
-#include <vector>
-#include <sstream>
-#include <fstream>
-#include <libgen.h>
-#include <sys/stat.h>
-#include <cstring>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <sys/time.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <dirent.h>
-#include <algorithm>
 
 
 using namespace std;

@@ -148,6 +148,9 @@
     <ClInclude Include="..\..\..\lib\database\config\bible.h" />
     <ClInclude Include="..\..\..\lib\database\config\general.h" />
     <ClInclude Include="..\..\..\lib\database\config\user.h" />
+    <ClInclude Include="..\..\..\lib\database\logs.h" />
+    <ClInclude Include="..\..\..\lib\database\sqlite.h" />
+    <ClInclude Include="..\..\..\lib\database\users.h" />
     <ClInclude Include="..\..\..\lib\filter\md5.h" />
     <ClInclude Include="..\..\..\lib\filter\roles.h" />
     <ClInclude Include="..\..\..\lib\filter\string.h" />
@@ -172,6 +175,9 @@
     <ClCompile Include="..\..\..\lib\database\config\bible.cpp" />
     <ClCompile Include="..\..\..\lib\database\config\general.cpp" />
     <ClCompile Include="..\..\..\lib\database\config\user.cpp" />
+    <ClCompile Include="..\..\..\lib\database\logs.cpp" />
+    <ClCompile Include="..\..\..\lib\database\sqlite.cpp" />
+    <ClCompile Include="..\..\..\lib\database\users.cpp" />
     <ClCompile Include="..\..\..\lib\filter\md5.cpp" />
     <ClCompile Include="..\..\..\lib\filter\roles.cpp" />
     <ClCompile Include="..\..\..\lib\filter\string.cpp" />

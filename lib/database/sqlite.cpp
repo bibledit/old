@@ -18,15 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/sqlite.h>
-#include <vector>
-#include <sstream>
-#include <fstream>
-#include <libgen.h>
-#include <sys/stat.h>
-#include <cstring>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <stdexcept>
 #include <database/logs.h>
 
 
