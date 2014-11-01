@@ -29,10 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-Assets_View::Assets_View (string file)
+Assets_View::Assets_View ()
 {
-  // Store name of the calling C++ file for selecting the default template file.
-  caller = file;
 }
 
 
@@ -56,23 +54,15 @@ void Assets_View::enable_zone (string zone)
 
 
 // Renders the "tpl" template through the flate template engine.
-// If "tpl" is not given, it takes a default template based on the calling C++ file,
-// e.g. when called by index/index.cpp, then the template file index/index.tpl is used.
+// The "tpl" consists of two bits: 
+// 1: Relative folder
+// 2: Basename of the html template without the .html extension.
 // Setting the session variables in the template is postponed to the very last moment,
 // since these could change during the course of the calling page.
-string Assets_View::render (string tpl)
+string Assets_View::render (string tpl1, string tpl2)
 {
-  // If variable tpl is not given, construct if from the calling path, 
-  // and change the extension to "html".
-  if (tpl.empty ()) {
-    string extension = filter_url_get_extension (caller);
-    tpl = caller.substr (0, caller.length () - extension.length ());
-    tpl = filter_url_basename (tpl);
-    tpl += "html";
-  }
-  
   // Variable tpl is a relative path. Make it a full one.
-  tpl = filter_url_create_root_path (filter_url_dirname (caller), tpl);
+  string tpl = filter_url_create_root_path (tpl1, tpl2 + ".html");
 
   // The flate engine crashes if the template does not exist, so be sure it exists.  
   if (!filter_url_file_exists (tpl)) {

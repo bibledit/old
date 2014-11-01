@@ -87,10 +87,10 @@ string Assets_Page::message (string message)
 string Assets_Page::footer ()
 {
   string page;
-  Assets_View view = Assets_View (__FILE__);
-  page += view.render ("footer.html");
-  view = Assets_View (__FILE__);
-  page += view.render ("xhtml_finish.html");
+  Assets_View view = Assets_View ();
+  page += view.render ("assets", "footer");
+  view = Assets_View ();
+  page += view.render ("assets", "xhtml_finish");
   return page;
 }
 

@@ -48,7 +48,7 @@ string session_login (void * webserver_request)
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  Assets_View view = Assets_View (__FILE__);
+  Assets_View view = Assets_View ();
 
   // Form submission handler.
   if (request->post["submit"] != "") {
@@ -93,7 +93,7 @@ string session_login (void * webserver_request)
     page += session_login_display_header (webserver_request);
     view.set_variable ("welcome", gettext ("Welcome"));
     view.set_variable ("loggedin", gettext ("You have logged in."));
-    page += view.render ("loggedin.html");
+    page += view.render ("session", "loggedin");
   } else {
     page += session_login_display_header (webserver_request);
     view.set_variable ("query", query);
@@ -104,7 +104,7 @@ string session_login (void * webserver_request)
     view.set_variable ("forgot_password", gettext ("Forgot password?"));
     view.set_variable ("not_registered", gettext ("Not registered?"));
     view.set_variable ("signup", gettext ("Sign up!"));
-    page += view.render ("login.html");
+    page += view.render ("session", "login");
   }
 
   page += Assets_Page::footer ();

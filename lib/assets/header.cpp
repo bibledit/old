@@ -35,7 +35,7 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
   includedStylesheet = false;
   includedEditorStylesheet = false;
   webserver_request = webserver_request_in;
-  view = new Assets_View (__FILE__);
+  view = new Assets_View ();
   view->set_variable ("title", title);
 }
 
@@ -185,8 +185,8 @@ string Assets_Header::run ()
     $this->view->view->included_editor_stylesheet = $this->includedEditorStylesheet;
   */
   }
-  page += view->render ("xhtml_start.html");
-  page += view->render ("header.html");
+  page += view->render ("assets", "xhtml_start");
+  page += view->render ("assets", "header");
 
   return page;
 }
