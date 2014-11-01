@@ -32,7 +32,6 @@ void webserver ()
   if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
   if (strcmp (OPEN_INSTALLATION, "1") == 0) config_globals_open_installation = true;
 
-  
   // Create a socket descriptor.
   int listenfd = socket (AF_INET, SOCK_STREAM, 0);
   int optval = 1;
@@ -69,12 +68,11 @@ void webserver ()
     Webserver_Request * request = new Webserver_Request ();
 
 #ifdef WIN32
-#define read _read
 #define write _write
 #define close _close
 #endif
 	
-	// Socket and file descriptor for the client connection.
+    // Socket and file descriptor for the client connection.
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof (clientaddr);
     int connfd = accept (listenfd, (SA *) &clientaddr, &clientlen);
@@ -90,7 +88,11 @@ void webserver ()
       char buffer [65535];
       memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
       size_t bytes_read;
-      bytes_read = read (connfd, buffer, sizeof (buffer));
+#ifdef WIN32
+      bytes_read = recv(connfd, buffer, sizeof(buffer), 0);
+#else
+      bytes_read = read(connfd, buffer, sizeof(buffer));
+#endif
       if (bytes_read) {};
       string input = buffer;
   
@@ -104,7 +106,12 @@ void webserver ()
       // Send response to browser.    
       const char * output = request->reply.c_str();
       size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
-      int written = write (connfd, output, length);
+      int written;
+#ifdef WIN32
+      written = send(connfd, output, length, 0);
+#else
+      written = write(connfd, output, length);
+#endif
       if (written) {};
 
     }
@@ -113,7 +120,11 @@ void webserver ()
     delete request;
 
     // Done: Close.
-    close (connfd);
+#ifdef WIN32
+    closesocket(connfd);
+#else
+    close(connfd);
+#endif
   }
 
 
