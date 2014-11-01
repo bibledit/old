@@ -48,7 +48,7 @@ void bibledit_start ()
 bool bibledit_running ()
 {
   // Moved to C++: usleep (10000);
-  this_thread::sleep_for (chrono::milliseconds (100)); // Todo back to 10
+  this_thread::sleep_for (chrono::milliseconds (10));
   return config_globals_running;
 }
 

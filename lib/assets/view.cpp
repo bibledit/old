@@ -29,8 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-Assets_View::Assets_View ()
+Assets_View::Assets_View(int dummy)
 {
+  if (dummy) {};
 }
 
 
@@ -42,7 +43,7 @@ Assets_View::~Assets_View ()
 // Sets a variable (key and value) for the html template.
 void Assets_View::set_variable (string key, string value)
 {
-  variables [key] = value;
+  variables[key] = value;
 }
 
 

@@ -35,7 +35,7 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
   includedStylesheet = false;
   includedEditorStylesheet = false;
   webserver_request = webserver_request_in;
-  view = new Assets_View ();
+  view = new Assets_View (0);
   view->set_variable ("title", title);
 }
 
@@ -153,7 +153,9 @@ string Assets_Header::run ()
   string page;
   
   // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
-  view->set_variable ("VERSION", VERSION);
+  cout << 1 << endl; // Todo
+  // Todo view->set_variable("VERSION", VERSION);
+  cout << 2 << endl; // Todo
 
   /* C++Port
     $this->view->view->include_jquery_ui = $this->includeJQueryUI;
@@ -185,8 +187,8 @@ string Assets_Header::run ()
     $this->view->view->included_editor_stylesheet = $this->includedEditorStylesheet;
   */
   }
-  page += view->render ("assets", "xhtml_start");
-  page += view->render ("assets", "header");
+  page += view->render("assets", "xhtml_start");
+  page += view->render("assets", "header");
 
   return page;
 }

@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Assets_View
 {
 public:
-  Assets_View ();
+  Assets_View (int dummy);
   ~Assets_View ();
   void set_variable (string key, string value);
   void enable_zone (string zone);

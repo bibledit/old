@@ -48,7 +48,7 @@ string session_login (void * webserver_request)
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  Assets_View view = Assets_View ();
+  Assets_View view = Assets_View (0);
 
   // Form submission handler.
   if (request->post["submit"] != "") {

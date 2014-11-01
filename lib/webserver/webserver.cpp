@@ -123,7 +123,7 @@ void webserver ()
     // Accept a client socket
     SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
     if (ClientSocket == INVALID_SOCKET) cout << "accept failed with error: " << WSAGetLastError() << endl;
-    // Todo set the remove address for Windows see below.
+    // Todo set the remote address for Windows see below.
 
 #else
 
@@ -171,7 +171,6 @@ void webserver ()
         http_assemble_response (request);
     
         // Send response to browser.    
-        //request->reply = "A reply to the browser"; // Todo
         const char * output = request->reply.c_str();
         size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
 #ifdef WIN32

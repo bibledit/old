@@ -37,7 +37,7 @@ string setup_index (void * webserver_request)
   // Create or upgrade the quick and small databases.
   request->database_users ()->create ();
 
-  Assets_View view = Assets_View ();
+  Assets_View view = Assets_View (0);
 
   if (!request->post ["Submit"].empty ()) {
   
