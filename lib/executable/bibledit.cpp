@@ -44,7 +44,6 @@ int main (int argc, char **argv)
   // Get the executable path and base the document root on it.
   // Mac OS X: NSGetExecutablePath()
   // Solaris: getexecname()
-  // Windows: GetModuleFileName() with hModule = NULL
   char *linkname = (char *) malloc (256);
   memset (linkname, 0, 256); // valgrind uninitialized value(s)
   ssize_t r = readlink ("/proc/self/exe", linkname, 256);
