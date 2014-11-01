@@ -87,7 +87,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBBIBLEDIT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\lib;$(ProjectDir)\..\sqlite;$(ProjectDir)\..\libxml;$(ProjectDir);$(ProjectDir)\..\iconv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\lib;$(ProjectDir)\..\..\sqlite;$(ProjectDir)\..\..\libxml;$(ProjectDir);$(ProjectDir)\..\..\iconv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
@@ -238,8 +238,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\libxml\libxml2.lib" />
-    <Library Include="..\sqlite\sqlite3.lib" />
+    <Library Include="..\..\libxml\libxml2.lib" />
+    <Library Include="..\..\sqlite\sqlite3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

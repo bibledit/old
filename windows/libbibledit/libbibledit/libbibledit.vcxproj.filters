@@ -232,7 +232,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\sqlite\sqlite3.lib" />
-    <Library Include="..\libxml\libxml2.lib" />
+    <Library Include="..\..\libxml\libxml2.lib" />
+    <Library Include="..\..\sqlite\sqlite3.lib" />
   </ItemGroup>
 </Project>
