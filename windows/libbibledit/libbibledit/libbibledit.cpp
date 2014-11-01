@@ -20,21 +20,18 @@ void bibledit_root_win(const char *directory)
 
 void bibledit_start_win()
 {
-	cout << "Call bibledit_start" << endl;
   bibledit_start();
 }
 
 
 bool bibledit_running_win()
 {
-  cout << "Call bibledit_running" << endl;
   return bibledit_running();
 }
 
 
 void bibledit_stop_win()
 {
-  cout << "Call bibledit_stop" << endl;
   bibledit_stop();
 }
 

@@ -21,9 +21,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bootstrap/bootstrap.h>
 #include <webserver/request.h>
 #include <config/globals.h>
+#ifdef WIN32
+#undef UNICODE
+#define WIN32_LEAN_AND_MEAN
+#include "stdafx.h"
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <stdlib.h>
+#include <stdio.h>
+#endif
 
 
-using namespace std;
+// Need to link with Ws2_32.lib
+#pragma comment (lib, "Ws2_32.lib")
+// #pragma comment (lib, "Mswsock.lib")
+
+
+// using namespace std;
 
 
 void webserver () 
@@ -32,16 +47,16 @@ void webserver ()
   if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
   if (strcmp (OPEN_INSTALLATION, "1") == 0) config_globals_open_installation = true;
 
+  int iResult;
+
 #ifdef WIN32
   // Initialize Winsock
   WSADATA wsaData;
-  WSAStartup(MAKEWORD(2, 2), &wsaData);
+  iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+  if (iResult != 0) cout << "WSAStartup failed with error: " << iResult << endl;
 #endif
 
 #ifdef WIN32
-
-  // Server port to listen on.
-  const char * portc = "8080";
 
   struct addrinfo *result = NULL;
   struct addrinfo hints;
@@ -52,17 +67,22 @@ void webserver ()
   hints.ai_flags = AI_PASSIVE;
 
   // Resolve the server address and port
-  getaddrinfo(NULL, portc, &hints, &result);
+  const char * portc = "8080";
+  iResult = getaddrinfo(NULL, portc, &hints, &result);
+  if (iResult != 0) cout << "getaddrinfo failed with error: " << iResult << endl;
 
   // Create a SOCKET for listening
   SOCKET ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+  if (ListenSocket == INVALID_SOCKET) cout << "socket failed with error: " << WSAGetLastError() << endl;
 
   // Setup the TCP listening socket
-  bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+  iResult = bind(ListenSocket, (const sockaddr *) result->ai_addr, (int)result->ai_addrlen);
+  if (iResult == SOCKET_ERROR) cout << "bind failed with error: " << WSAGetLastError() << endl;
 
   freeaddrinfo(result);
 
-  listen(ListenSocket, SOMAXCONN);
+  iResult = listen(ListenSocket, SOMAXCONN);
+  if (iResult == SOCKET_ERROR) cout << "listen failed with error: " << WSAGetLastError() << endl;
 
 #else
 
@@ -106,6 +126,7 @@ void webserver ()
 
     // Accept a client socket
     SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
+    if (ClientSocket == INVALID_SOCKET) cout << "accept failed with error: " << WSAGetLastError() << endl;
 
 #else
 
@@ -153,13 +174,14 @@ void webserver ()
       http_assemble_response (request);
   
       // Send response to browser.    
+      //request->reply = "A reply to the browser"; // Todo
       const char * output = request->reply.c_str();
       size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
 #ifdef WIN32
-      send(ClientSocket, output, length, 0);
+      iResult = send(ClientSocket, output, length, 0);
+      if (iResult == SOCKET_ERROR) cout << "send failed with error: " << WSAGetLastError() << endl;
 #else
-      int written;
-      written = write(connfd, output, length);
+      int written = write(connfd, output, length);
       if (written) {};
 #endif
 
@@ -170,7 +192,8 @@ void webserver ()
 
     // Done: Close.
 #ifdef WIN32
-    shutdown(ClientSocket, SD_SEND);
+    iResult = shutdown(ClientSocket, SD_SEND);
+    if (iResult == SOCKET_ERROR) cout << "shutdown failed with error: " << WSAGetLastError() << endl;
     closesocket(ClientSocket);
 #else
     close(connfd);
