@@ -65,11 +65,9 @@ string Assets_View::render (string tpl)
   // If variable tpl is not given, construct if from the calling path, 
   // and change the extension to "html".
   if (tpl.empty ()) {
-    cout << caller << endl; // Todo
     string extension = filter_url_get_extension (caller);
     tpl = caller.substr (0, caller.length () - extension.length ());
     tpl = filter_url_basename (tpl);
-    cout << tpl << endl; // Todo
     tpl += "html";
   }
   
