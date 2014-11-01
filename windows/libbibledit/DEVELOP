@@ -1,6 +1,0 @@
-To install libxml2, run the following command in the Package Manager Console:
-
-Install-Package libxml2
-
-To install libiconv: Install-Package libiconv
-

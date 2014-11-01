@@ -1,10 +1,11 @@
 This folder contains Bibledit for Windows.
 
-It contains the following objects:
-* Source code for bibledit.exe in C#.
-* Inno Setup package script.
-* Library libbibledit.dll in C++.
-* Console app for testing in C#.
-
-Script ./refresh refreshes the source for libbibledit.dll.
-Build it in Visual Studio, and resolve any errors.
+cli: The command line interface version in C#. Depends on the library.
+dirent: Supplies the missing dirent.h for Windows.
+gui: Contains the graphical user interface version in C#. Depends on the library.
+iconv: Headers and library,
+install: Contains the Inno Setup package script.
+libbibledit: Contains the library in C++. Refers to the shared source for all platforms.
+libxml: Headers and library.
+sqlite: Headers and library.
+zlib: Headers and library.

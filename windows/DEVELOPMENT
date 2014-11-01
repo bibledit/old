@@ -1,7 +1,7 @@
-Development occurs on two machines:
-1. Linux to add Bibledit-Web scripts and update them.
-2. Windows to write the app in Visual Studio Express.
-Both machines use git for the code.
+Development occurs on two operating systems:
+1. Linux to write the Bibledit library.
+2. Windows to write the user interface in Visual Studio Express.
+Synchronization through a git repository.
 
 To create a package, Windows uses Inno Setup installed from isetup-5.5.5-unicode.exe.
 
