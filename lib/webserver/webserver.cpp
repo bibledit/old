@@ -38,11 +38,10 @@ void webserver ()
   WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif
 
-  // Server port to listen on.
-  int porti = 8080;
-  const char * portc = "8080";
-
 #ifdef WIN32
+
+  // Server port to listen on.
+  const char * portc = "8080";
 
   struct addrinfo *result = NULL;
   struct addrinfo hints;
@@ -67,6 +66,9 @@ void webserver ()
 
 #else
 
+  // Server port to listen on.
+  unsigned short porti = 8080;
+
   // Create a listening socket.
   int listenfd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -80,7 +82,7 @@ void webserver ()
   memset(&serveraddr, 0, sizeof(serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  serveraddr.sin_port = htons((unsigned short)8080);
+  serveraddr.sin_port = htons(porti);
   bind(listenfd, (SA *)&serveraddr, sizeof(serveraddr));
 
   // Make it a listening socket ready to accept many connection requests.
