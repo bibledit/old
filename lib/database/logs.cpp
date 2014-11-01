@@ -180,6 +180,7 @@ vector <string> Database_Logs::get (int day, int& lastsecond)
     vector <string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size(); i++) {
       string file = files [i];
+      if (file == "gitflag") continue;
       string path = filter_url_create_path (directory, file);
       string contents = filter_url_file_get_contents (path);
       entries.push_back (contents);
@@ -201,6 +202,7 @@ string Database_Logs::getNext (string &filename)
   vector <string> files = filter_url_scandir (directory);
   for (unsigned int i = 0; i < files.size (); i++) {
     string file = files [i];
+    if (file == "gitflag") continue;
     if (file > filename) {
       filename = file;
       string path = filter_url_create_path (directory, file);

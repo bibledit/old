@@ -46,6 +46,7 @@ void refresh_sandbox (bool displayjournal)
     string directory = filter_url_create_path (testing_directory, "logbook");
     vector <string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size (); i++) {
+      if (files [i] == "gitflag") continue;
       string contents = filter_url_file_get_contents (filter_url_create_path (directory, files [i]));
       cout << contents << endl;
     }
@@ -788,17 +789,23 @@ int main (int argc, char **argv)
     request.accept_language = accept_language;
     evaluate ("Session_Logic::loggedIn 9", true, request.session_logic ()->loggedIn ());
   }
-
-
-
+  
+  
+  // There should be no empty folders in the library, because git does not include them.
+  {
+    int result = system ("find . -type d -empty");
+    evaluate ("No empty folders", 0, result);
+  }
 
 
   // Possible journal entries.
   refresh_sandbox (true);
+
   
   // Test results.  
   if (error_count == 0) cout << "All tests passed" << endl;
   else cout << "Number of failures: " << error_count << endl;
+
 
   // Ready.
   return (error_count == 0) ? 0 : 1;
