@@ -65,14 +65,17 @@ string Assets_View::render (string tpl)
   // If variable tpl is not given, construct if from the calling path, 
   // and change the extension to "html".
   if (tpl.empty ()) {
+    cout << caller << endl; // Todo
     string extension = filter_url_get_extension (caller);
     tpl = caller.substr (0, caller.length () - extension.length ());
     tpl = filter_url_basename (tpl);
+    cout << tpl << endl; // Todo
     tpl += "html";
   }
+  
   // Variable tpl is a relative path. Make it a full one.
   tpl = filter_url_create_root_path (filter_url_dirname (caller), tpl);
-
+  
   // The flate engine crashes if the template does not exist, so be sure it exists.  
   if (!filter_url_file_exists (tpl)) {
     Database_Logs::log ("Cannot find template file " + tpl);
