@@ -73,7 +73,7 @@ string Assets_View::render (string tpl)
   
   // Variable tpl is a relative path. Make it a full one.
   tpl = filter_url_create_root_path (filter_url_dirname (caller), tpl);
-  
+
   // The flate engine crashes if the template does not exist, so be sure it exists.  
   if (!filter_url_file_exists (tpl)) {
     Database_Logs::log ("Cannot find template file " + tpl);
