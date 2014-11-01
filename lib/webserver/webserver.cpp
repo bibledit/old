@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <stdlib.h>
 #include <stdio.h>
 #endif
+#include <database/logs.h>
 
 
 using namespace std;
@@ -137,50 +138,54 @@ void webserver ()
     request->remote_address = remote_address;
 
 #endif
-    
-    if (config_globals_running) {
-
+    try {
+      if (config_globals_running) {
+  
 #define BUFLEN 65535
-
+  
 #ifdef WIN32
-
-      char recvbuf[BUFLEN];
-      ZeroMemory(&recvbuf, BUFLEN);
-
-      int bytesRead = recv(ClientSocket, recvbuf, BUFLEN, 0);
-      string input = recvbuf;
-
+  
+        char recvbuf[BUFLEN];
+        ZeroMemory(&recvbuf, BUFLEN);
+  
+        int bytesRead = recv(ClientSocket, recvbuf, BUFLEN, 0);
+        string input = recvbuf;
+  
 #else
-
-      // Read the client's request.
-      char buffer [BUFLEN];
-      memset(&buffer, 0, BUFLEN); // Fix valgrind unitialized value message.
-      size_t bytes_read;
-      bytes_read = read(connfd, buffer, sizeof(buffer));
-      if (bytes_read) {};
-      string input = buffer;
-
+  
+        // Read the client's request.
+        char buffer [BUFLEN];
+        memset(&buffer, 0, BUFLEN); // Fix valgrind unitialized value message.
+        size_t bytes_read;
+        bytes_read = read(connfd, buffer, sizeof(buffer));
+        if (bytes_read) {};
+        string input = buffer;
+  
+#endif
+    
+        // Parse the browser's request's headers.
+        http_parse_headers (input, request);
+    
+        // Assemble response.
+        bootstrap_index (request);
+        http_assemble_response (request);
+    
+        // Send response to browser.    
+        //request->reply = "A reply to the browser"; // Todo
+        const char * output = request->reply.c_str();
+        size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
+#ifdef WIN32
+        iResult = send(ClientSocket, output, length, 0);
+        if (iResult == SOCKET_ERROR) cout << "send failed with error: " << WSAGetLastError() << endl;
+#else
+        int written = write(connfd, output, length);
+        if (written) {};
 #endif
   
-      // Parse the browser's request's headers.
-      http_parse_headers (input, request);
-  
-      // Assemble response.
-      bootstrap_index (request);
-      http_assemble_response (request);
-  
-      // Send response to browser.    
-      //request->reply = "A reply to the browser"; // Todo
-      const char * output = request->reply.c_str();
-      size_t length = request->reply.size (); // The C function strlen () fails on null characters in the reply, so take string::size()
-#ifdef WIN32
-      iResult = send(ClientSocket, output, length, 0);
-      if (iResult == SOCKET_ERROR) cout << "send failed with error: " << WSAGetLastError() << endl;
-#else
-      int written = write(connfd, output, length);
-      if (written) {};
-#endif
+      }
 
+    } catch (exception & e) {
+      Database_Logs::log (e.what ());
     }
 
     // Clear memory.
