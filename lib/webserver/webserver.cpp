@@ -122,6 +122,7 @@ void webserver ()
     // Accept a client socket
     SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
     if (ClientSocket == INVALID_SOCKET) cout << "accept failed with error: " << WSAGetLastError() << endl;
+    // Todo set the remove address for Windows see below.
 
 #else
 
@@ -152,8 +153,8 @@ void webserver ()
 #else
 
       // Read the client's request.
-      char buffer [65535];
-      memset(&buffer, 0, 65535); // Fix valgrind unitialized value message.
+      char buffer [BUFLEN];
+      memset(&buffer, 0, BUFLEN); // Fix valgrind unitialized value message.
       size_t bytes_read;
       bytes_read = read(connfd, buffer, sizeof(buffer));
       if (bytes_read) {};
