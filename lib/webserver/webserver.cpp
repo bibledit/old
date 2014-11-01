@@ -33,12 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
-// Need to link with Ws2_32.lib
-#pragma comment (lib, "Ws2_32.lib")
-// #pragma comment (lib, "Mswsock.lib")
-
-
-// using namespace std;
+using namespace std;
 
 
 void webserver () 
@@ -47,9 +42,9 @@ void webserver ()
   if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
   if (strcmp (OPEN_INSTALLATION, "1") == 0) config_globals_open_installation = true;
 
+#ifdef WIN32
   int iResult;
 
-#ifdef WIN32
   // Initialize Winsock
   WSADATA wsaData;
   iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
