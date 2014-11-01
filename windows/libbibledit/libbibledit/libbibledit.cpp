@@ -13,7 +13,6 @@ using namespace std;
 
 void bibledit_root_win(const char *directory)
 {
-  cout << "Set bibledit root to " << directory << endl;
   bibledit_root(directory);
 }
 
