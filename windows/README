@@ -9,3 +9,4 @@ libbibledit: Contains the library in C++. Refers to the shared source for all pl
 libxml: Headers and library.
 sqlite: Headers and library.
 zlib: Headers and library.
+

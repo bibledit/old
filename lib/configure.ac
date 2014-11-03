@@ -6,6 +6,12 @@ AC_PROG_RANLIB
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADER(config.h)
 
+PKG_PROG_PKG_CONFIG
+AC_PATH_PROG(PKG_CONFIG_PATH, pkg-config, no)
+if test x$PKG_CONFIG_PATH = xno; then
+  AC_MSG_ERROR(Program "pkg-config" is needed. Install this first.)
+fi
+
 AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this first.))
 
 PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(sqlite development version >= 3.0.0 is needed.))

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+# Run this script within a Cygwin shell to sync all Bibledit library files from the Linux computer to Cygwin.
