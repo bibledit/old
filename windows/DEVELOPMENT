@@ -5,9 +5,10 @@ Synchronization through a git repository.
 
 To create a package, Windows uses Inno Setup installed from isetup-5.5.5-unicode.exe.
 
-For git on Windows, it uses Git-1.9.4-preview20140815.exe with the bash option.
+Development occurs within a Cygwin shell.
 
 Be careful when editing files on Windows with Notepad or another editor.
 If the editing causes a byte-order mark (BOM) to be inserted into a script,
 this may disrupt the output, and cause confusion.
 All text files should be UTF-8 without BOM.
+
