@@ -12,3 +12,4 @@ If the editing causes a byte-order mark (BOM) to be inserted into a script,
 this may disrupt the output, and cause confusion.
 All text files should be UTF-8 without BOM.
 
+Copy the bibledit.exe and all required .dll files into a location, and run it from there.
