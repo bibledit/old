@@ -123,7 +123,7 @@ void webserver ()
     // Accept a client socket
     SOCKET ClientSocket = accept(ListenSocket, NULL, NULL);
     if (ClientSocket == INVALID_SOCKET) cout << "accept failed with error: " << WSAGetLastError() << endl;
-    // Todo set the remote address for Windows see below.
+    // Set the remote address for Windows see below: No longer need for Cygwin.
 
 #else
 

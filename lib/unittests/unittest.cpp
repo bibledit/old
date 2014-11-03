@@ -126,7 +126,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  // Test for the flate2 template engine. Todo
+  // Test for the flate2 template engine.
   {
     string tpl = filter_url_create_root_path ("unittests", "tests", "flate1.html");
     Flate flate = Flate ();

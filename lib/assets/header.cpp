@@ -153,9 +153,7 @@ string Assets_Header::run ()
   string page;
   
   // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
-  cout << 1 << endl; // Todo
-  // Todo view->set_variable("VERSION", VERSION);
-  cout << 2 << endl; // Todo
+  view->set_variable("VERSION", VERSION);
 
   /* C++Port
     $this->view->view->include_jquery_ui = $this->includeJQueryUI;
