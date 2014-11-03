@@ -28,21 +28,6 @@ Since Bibledit is going to run as a server, it may run for years without interru
 Therefore it is imperative that it leaks no memory at all.
 Keep it valgrind clean.
 
-Sqlite:
-Download sqlite-dll-win32-x86-3080701 from sqlite.org.
-Via the Windows start button, type Visual Studio, and then choose Visual Studio Tools. 
-In File Explorer, choose Developer Command Prompt for VS2013.
-In the command line window, enter, for example:
-lib /DEF:sqlite3.def /OUT:sqlite3.lib
-In the Solution Explorer window, right-click on your project, add the "sqlite3.lib" file.
-
-LibXml2:
-Download from ftp://ftp.zlatkovic.com/libxml/
-zlib-1.2.5
-libxml2-2.7.8.win32
-iconv-1.9.2.win32
-In the Solution Explorer window, right-click on your project, add the "libxml2.lib" file.
-
 Porting to Windows was done in Visual Studio.
 The library compiles well through gcc.
 It also compiles in Visual Studio, but the library crashes with a segmentation error.

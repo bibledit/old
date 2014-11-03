@@ -92,6 +92,12 @@ string filter_string_convert_to_string (bool b)
 }
 
 
+string filter_string_convert_to_string (string s)
+{
+  return s;
+}
+
+
 int filter_string_convert_to_int (string s)
 {
   int i = 0;

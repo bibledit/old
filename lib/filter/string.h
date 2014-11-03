@@ -31,6 +31,7 @@ string filter_string_convert_to_string (unsigned int i);
 string filter_string_convert_to_string (int i);
 string filter_string_convert_to_string (char * c);
 string filter_string_convert_to_string (bool b);
+string filter_string_convert_to_string (string s);
 int filter_string_convert_to_int (string s);
 bool filter_string_convert_to_bool (string s);
 bool filter_string_in_array (const string& needle, const vector <string>& haystack);

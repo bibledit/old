@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/sqlite.h>
 #include <database/users.h>
+#include <database/styles.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -126,32 +127,17 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  // Test for the flate2 template engine.
+
+  // Tests for Database_Users. Todo
   {
-    string tpl = filter_url_create_root_path ("unittests", "tests", "flate1.html");
-    Flate flate = Flate ();
-    string desired;
-    string actual;
-
-    desired = "line 1\n\nline 6";
-    actual = filter_string_trim (flate.render (tpl));
-    evaluate ("Flate 1", desired, actual);
-    
-    flate = Flate ();
-    flate.enable_zone ("one");
-    flate.enable_zone ("two");
-    desired = "line 1\n\nline 2\n\n\n\nline 3\n\nline 4\n\n\nline 6";
-    actual = filter_string_trim (flate.render (tpl));
-    evaluate ("Flate 2", desired, actual);
-
-    flate = Flate ();
-    flate.enable_zone ("one");
-    flate.enable_zone ("three");
-    flate.set_variable ("three", "THREE");
-    desired = "line 1\n\nline 2\n\n\n\nline 4\n\nTHREE\nline 5\n\n\nline 6";
-    actual = filter_string_trim (flate.render (tpl));
-    evaluate ("Flate 3", desired, actual);
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.optimize ();
+    database_styles.createStandardSheet ();
   }
+  exit (0); // Todo
+
 
   // Tests for Database_Config_General.
   {
@@ -165,6 +151,7 @@ int main (int argc, char **argv)
   {
     evaluate ("Database_Config_General::getMailStorageSecurity", "", Database_Config_General::getMailStorageSecurity ());
   }
+
   
   // Tests for Database_Config_Bible.
   {
@@ -795,6 +782,34 @@ int main (int argc, char **argv)
   {
     int result = system ("find . -type d -empty");
     evaluate ("No empty folders", 0, result);
+  }
+
+
+  // Test for the flate2 template engine.
+  {
+    string tpl = filter_url_create_root_path ("unittests", "tests", "flate1.html");
+    Flate flate = Flate ();
+    string desired;
+    string actual;
+
+    desired = "line 1\n\nline 6";
+    actual = filter_string_trim (flate.render (tpl));
+    evaluate ("Flate 1", desired, actual);
+    
+    flate = Flate ();
+    flate.enable_zone ("one");
+    flate.enable_zone ("two");
+    desired = "line 1\n\nline 2\n\n\n\nline 3\n\nline 4\n\n\nline 6";
+    actual = filter_string_trim (flate.render (tpl));
+    evaluate ("Flate 2", desired, actual);
+
+    flate = Flate ();
+    flate.enable_zone ("one");
+    flate.enable_zone ("three");
+    flate.set_variable ("three", "THREE");
+    desired = "line 1\n\nline 2\n\n\n\nline 4\n\nTHREE\nline 5\n\n\nline 6";
+    actual = filter_string_trim (flate.render (tpl));
+    evaluate ("Flate 3", desired, actual);
   }
 
 
