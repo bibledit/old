@@ -77,7 +77,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = bibledit$(EXEEXT) unittest$(EXEEXT)
+bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT)
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -124,9 +124,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_bibledit_OBJECTS = executable/bibledit.$(OBJEXT)
-bibledit_OBJECTS = $(am_bibledit_OBJECTS)
-bibledit_DEPENDENCIES = libbibledit.a
+am_server_OBJECTS = executable/bibledit.$(OBJEXT)
+server_OBJECTS = $(am_server_OBJECTS)
+server_DEPENDENCIES = libbibledit.a
 am_unittest_OBJECTS = unittests/unittest.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
@@ -159,9 +159,9 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES) \
+SOURCES = $(libbibledit_a_SOURCES) $(server_SOURCES) \
 	$(unittest_SOURCES)
-DIST_SOURCES = $(libbibledit_a_SOURCES) $(bibledit_SOURCES) \
+DIST_SOURCES = $(libbibledit_a_SOURCES) $(server_SOURCES) \
 	$(unittest_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -344,8 +344,8 @@ libbibledit_a_SOURCES = \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp
 
-bibledit_SOURCES = executable/bibledit.cpp
-bibledit_LDADD = libbibledit.a
+server_SOURCES = executable/bibledit.cpp
+server_LDADD = libbibledit.a
 unittest_SOURCES = unittests/unittest.cpp
 unittest_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 `xml2-config \
@@ -620,9 +620,9 @@ executable/$(DEPDIR)/$(am__dirstamp):
 executable/bibledit.$(OBJEXT): executable/$(am__dirstamp) \
 	executable/$(DEPDIR)/$(am__dirstamp)
 
-bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) $(EXTRA_bibledit_DEPENDENCIES) 
-	@rm -f bibledit$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
+server$(EXEEXT): $(server_OBJECTS) $(server_DEPENDENCIES) $(EXTRA_server_DEPENDENCIES) 
+	@rm -f server$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(server_OBJECTS) $(server_LDADD) $(LIBS)
 unittests/$(am__dirstamp):
 	@$(MKDIR_P) unittests
 	@: > unittests/$(am__dirstamp)

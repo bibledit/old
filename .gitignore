@@ -40,6 +40,7 @@ windows/libbibledit/libbibledit/Debug/*
 bibledit.vshost.application
 bibledit.vshost.exe.manifest
 bibledit.vshost.exe.config
+server
 
 
 

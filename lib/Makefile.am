@@ -34,11 +34,11 @@ libbibledit_a_SOURCES = \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp
 
-bin_PROGRAMS = bibledit unittest
+bin_PROGRAMS = server unittest
 
-bibledit_SOURCES = executable/bibledit.cpp
+server_SOURCES = executable/bibledit.cpp
 
-bibledit_LDADD = libbibledit.a
+server_LDADD = libbibledit.a
 
 unittest_SOURCES = unittests/unittest.cpp
 
