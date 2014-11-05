@@ -27,26 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-class Database_Styles
-{
-public:
-  Database_Styles ();
-  ~Database_Styles ();
-  void create ();
-  void optimize ();
-  string createStandardSheet (string name = "");
-  void createSheet (string sheet);
-  vector <string> getSheets ();
-  void importXml (string sheet, string xml);
-  string exportXml (string name);
-  void deleteSheet (string name);
-  void addMarker (string sheet, string marker);
-  void deleteMarker (string sheet, string marker);
-private:
-  sqlite3 * connect ();
-};
-
-
 class Database_Styles_Item
 {
 public:
@@ -82,6 +62,60 @@ public:
   string userstring1;
   string userstring2;
   string userstring3;
+};
+
+
+class Database_Styles
+{
+public:
+  Database_Styles ();
+  ~Database_Styles ();
+  void create ();
+  void optimize ();
+  string createStandardSheet (string name = "");
+  void createSheet (string sheet);
+  vector <string> getSheets ();
+  void importXml (string sheet, string xml);
+  string exportXml (string sheet);
+  void deleteSheet (string name);
+  void addMarker (string sheet, string marker);
+  void deleteMarker (string sheet, string marker);
+  map <string, vector <string> > getMarkersAndNames (string sheet);
+  vector <string> getMarkers (string sheet);
+  Database_Styles_Item getMarkerData (string sheet, string marker);
+  void updateName (string sheet, string marker, string name);
+  void updateInfo (string sheet, string marker, string info);
+  void updateCategory (string sheet, string marker, string category);
+  void updateType (string sheet, string marker, string type);
+  void updateSubType (string sheet, string marker, string subtype);
+  void updateFontsize (string sheet, string marker, string fontsize);
+  void updateItalic (string sheet, string marker, int italic);
+  void updateBold (string sheet, string marker, int bold);
+  void updateUnderline (string sheet, string marker, int underline);
+  void updateSmallcaps (string sheet, string marker, int smallcaps);
+  void updateSuperscript (string sheet, string marker, int superscript);
+  void updateJustification (string sheet, string marker, int justification);
+  void updateSpaceBefore (string sheet, string marker, string spacebefore);
+  void updateSpaceAfter (string sheet, string marker, string spaceafter);
+  void updateLeftMargin (string sheet, string marker, string leftmargin);
+  void updateRightMargin (string sheet, string marker, string rightmargin);
+  void updateFirstLineIndent (string sheet, string marker, string firstlineindent);
+  void updateSpanColumns (string sheet, string marker, int spancolumns);
+  void updateColor (string sheet, string marker, string color);
+  void updatePrint (string sheet, string marker, int print);
+  void updateUserbool1 (string sheet, string marker, int userbool1);
+  void updateUserbool2 (string sheet, string marker, int userbool2);
+  void updateUserbool3 (string sheet, string marker, int userbool3);
+  void updateUserint1 (string sheet, string marker, int userint1);
+  void updateUserint2 (string sheet, string marker, int userint2);
+  void updateUserstring1 (string sheet, string marker, string userstring1);
+  void updateUserstring2 (string sheet, string marker, string userstring2);
+  void updateUserstring3 (string sheet, string marker, string userstring3);
+  void grantWriteAccess (string user, string sheet);
+  void revokeWriteAccess (string user, string sheet);
+  bool hasWriteAccess (string user, string sheet);
+private:
+  sqlite3 * connect ();
 };
 
 

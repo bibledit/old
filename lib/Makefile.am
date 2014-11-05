@@ -48,7 +48,7 @@ AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11
 AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 
-LIBS = -Wall 
+LIBS = -Wall -lpthread
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
 

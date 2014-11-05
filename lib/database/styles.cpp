@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <libxml/xmlreader.h>
+#include <libxml/xmlwriter.h>
 
 
 using namespace std;
@@ -133,7 +134,7 @@ void Database_Styles::createSheet (string sheet)
 
 
 // Returns an array with the available stylesheets.
-vector <string> Database_Styles::getSheets () // Todo test it.
+vector <string> Database_Styles::getSheets ()
 {
   string sql = "SELECT DISTINCT sheet FROM styles ORDER BY sheet ASC;";
   sqlite3 * db = connect ();
@@ -147,7 +148,7 @@ vector <string> Database_Styles::getSheets () // Todo test it.
 }
 
 
-void Database_Styles::importXml (string sheet, string xml) // Todo
+void Database_Styles::importXml (string sheet, string xml) 
 {
   sqlite3 * db = connect ();
   sheet = database_sqlite_no_sql_injection (sheet);
@@ -212,7 +213,7 @@ void Database_Styles::importXml (string sheet, string xml) // Todo
         {
           char *closing_element = (char *)xmlTextReaderName (reader);
           if (!strcmp (closing_element, "style")) {
-            // Write to database. Todo
+            // Write to database.
             string sql = "INSERT INTO styles (sheet, marker, name, info, category, type, subtype, fontsize, italic, bold, underline, smallcaps, superscript, justification, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, color, print, userbool1, userbool2, userbool3, userint1, userint2, userint3, userstring1, userstring2, userstring3) VALUES (";
             sql.append ("'" + database_sqlite_no_sql_injection (sheet) + "'");
             sql.append (", ");
@@ -290,478 +291,760 @@ void Database_Styles::importXml (string sheet, string xml) // Todo
 }
 
 
-string Database_Styles::exportXml (string name)
+string Database_Styles::exportXml (string sheet) // Todo test.
 {
+  // XML writer.
+  xmlBufferPtr xmlbuffer = xmlBufferCreate ();
+  xmlTextWriterPtr xmlwriter = xmlNewTextWriterMemory (xmlbuffer, 0);
 
-  /* PortC++
-  $xml = new SimpleXMLElement ("<stylesheet></stylesheet>");
-  $markers = $this->getMarkers ($name);
-  foreach ($markers as $marker) {
-    $style = $xml->addChild ("style");
-    $style->addChild ("marker", $marker);
-    $marker_data = $this->getMarkerData ($name, $marker);
-    $style->addChild ("name",                 $marker_data['name']);
-    $style->addChild ("info",                 $marker_data['info']);
-    $style->addChild ("category",             $marker_data['category']);
-    $style->addChild ("type",                 $marker_data['type']);
-    $style->addChild ("subtype",              $marker_data['subtype']);
-    $style->addChild ("fontsize",             $marker_data['fontsize']);
-    $style->addChild ("italic",               $marker_data['italic']);
-    $style->addChild ("bold",                 $marker_data['bold']);
-    $style->addChild ("underline",            $marker_data['underline']);
-    $style->addChild ("smallcaps",            $marker_data['smallcaps']);
-    $style->addChild ("superscript",          $marker_data['superscript']);
-    $style->addChild ("justification",        $marker_data['justification']);
-    $style->addChild ("spacebefore",          $marker_data['spacebefore']);
-    $style->addChild ("spaceafter",           $marker_data['spaceafter']);
-    $style->addChild ("leftmargin",           $marker_data['leftmargin']);
-    $style->addChild ("rightmargin",          $marker_data['rightmargin']);
-    $style->addChild ("firstlineindent",      $marker_data['firstlineindent']);
-    $style->addChild ("spancolumns",          $marker_data['spancolumns']);
-    $style->addChild ("color",                $marker_data['color']);
-    $style->addChild ("print",                $marker_data['print']);
-    $style->addChild ("userbool1",            $marker_data['userbool1']);
-    $style->addChild ("userbool2",            $marker_data['userbool2']);
-    $style->addChild ("userbool3",            $marker_data['userbool3']);
-    $style->addChild ("userint1",             $marker_data['userint1']);
-    $style->addChild ("userint2",             $marker_data['userint2']);
-    $style->addChild ("userint3",             $marker_data['userint3']);
-    $style->addChild ("userstring1",          $marker_data['userstring1']);
-    $style->addChild ("userstring2",          $marker_data['userstring2']);
-    $style->addChild ("userstring3",          $marker_data['userstring3']);
+  // Setup and start document.
+  xmlTextWriterStartDocument (xmlwriter, NULL, "UTF-8", NULL);
+  xmlTextWriterSetIndent (xmlwriter, 1);
+  xmlTextWriterStartElement (xmlwriter, BAD_CAST "stylesheet");
+
+  vector <string> markers = getMarkers (sheet);
+  for (string marker : markers) {
+    xmlTextWriterStartElement (xmlwriter, BAD_CAST "style");
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "marker");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", marker.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      Database_Styles_Item styles_item = getMarkerData (sheet, marker);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "name");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.name.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "info");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.info.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "category");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.category.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "type");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.type);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "subtype");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.subtype);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "fontsize");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.fontsize.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "italic");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.italic);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "bold");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.bold);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "underline");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.underline);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "smallcaps");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.smallcaps);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "superscript");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.superscript);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "justification");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.justification);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "spacebefore");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.spacebefore.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "spaceafter");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.spaceafter.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "leftmargin");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.leftmargin.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "rightmargin");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.rightmargin.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "firstlineindent");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.firstlineindent.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "spancolumns");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.spancolumns);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "color");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.color.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "print");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.print);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userbool1");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userbool1);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userbool2");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userbool2);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userbool3");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userbool3);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userint1");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userint1);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userint2");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userint2);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userint3");
+      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userint3);
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userstring1");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.userstring1.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userstring2");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.userstring2.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userstring3");
+      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.userstring3.c_str());
+      xmlTextWriterEndElement (xmlwriter);
+    xmlTextWriterEndElement (xmlwriter); // style
   }
-  $domnode = dom_import_simplexml ($xml);
-  $dom = new DOMDocument ("1.0", "UTF-8");
-  $domnode = $dom->importNode ($domnode, true);
-  $dom->appendChild ($domnode);
-  $dom->formatOutput = true;
-  $string = $dom->saveXML ();
-  return $string;
-  */
-  return name;
+  
+  // Close document and get its contents.
+  xmlTextWriterEndDocument (xmlwriter);
+  xmlTextWriterFlush (xmlwriter);
+  string xml = (char *) xmlbuffer->content;
+  
+  // Free memory.
+  if (xmlwriter) xmlFreeTextWriter(xmlwriter);
+  if (xmlbuffer) xmlBufferFree(xmlbuffer);
+
+//cout << xml << endl; // Todo  
+  return xml;
 }
 
 
 // Deletes a stylesheet.
 void Database_Styles::deleteSheet (string name)
 {
-  name = database_sqlite_no_sql_injection (name);
+  SqliteSQL sql;
+  sql.add ("DELETE FROM styles WHERE sheet =");
+  sql.add (name);
+  sql.add (";");
   sqlite3 * db = connect ();
-  string sql = "DELETE FROM styles WHERE sheet = '" + name + "';";
-  database_sqlite_exec (db, sql);
+  database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
 
 
 // Adds a marker to the stylesheet.
-void Database_Styles::addMarker (string sheet, string marker)
+void Database_Styles::addMarker (string sheet, string marker) // Todo test.
 {
-  sheet  = database_sqlite_no_sql_injection (sheet);
-  marker = database_sqlite_no_sql_injection (marker);
-  string sql = "INSERT INTO styles (sheet, marker, name, info) VALUES ('" + sheet + "', '" + marker + "', 'marker name', 'marker information');";
+  SqliteSQL sql;
+  sql.add ("INSERT INTO styles (sheet, marker, name, info) VALUES (");
+  sql.add (sheet);
+  sql.add (",");
+  sql.add (marker);
+  sql.add (", 'marker name', 'marker information');");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
+  database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
 
 
 // Deletes a marker from a stylesheet.
-void Database_Styles::deleteMarker (string sheet, string marker)
+void Database_Styles::deleteMarker (string sheet, string marker) // Todo test.
 {
-  sheet  = database_sqlite_no_sql_injection (sheet);
-  marker = database_sqlite_no_sql_injection (marker);
-  string sql = "DELETE FROM styles WHERE sheet = '" + sheet + "' AND marker = '" + marker + "';";
+  SqliteSQL sql;
+  sql.add ("DELETE FROM styles WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql);
+  database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
 
 
-
-
-
-
-
-
-/* Todo port.
-
-
-// Returns an array with all the markers and the names of the styles in the stylesheet.
-public function getMarkersAndNames ($sheet)
+// Returns a map with all the markers and the names of the styles in the stylesheet.
+map <string, vector <string> > Database_Styles::getMarkersAndNames (string sheet) // Todo test.
 {
-  $markers_names = array ();
-  $sheet = Database_SQLiteInjection::no ($sheet);
-  $query = "SELECT marker, name FROM styles WHERE sheet = '$sheet' ORDER BY marker ASC;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    unset ($row [0]);
-    unset ($row [1]);
-    $markers_names [] = $row;
-  }
-  return $markers_names;
+  sqlite3 * db = connect ();
+  SqliteSQL sql;
+  sql.add ("SELECT marker, name FROM styles WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("ORDER BY marker ASC;");
+  map <string, vector <string> > markers_names = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
+  return markers_names;
 }
 
 
 // Returns an array with all the markers of the styles in the stylesheet.
-public function getMarkers ($sheet)
+vector <string> Database_Styles::getMarkers (string sheet)
 {
-  $sheet = Database_SQLiteInjection::no ($sheet);
-  $markers = array ();
-  $query = "SELECT marker FROM styles WHERE sheet = '$sheet' ORDER BY marker ASC;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $markers[] = $row[0];
+  sqlite3 * db = connect ();
+  SqliteSQL sql;
+  sql.add ("SELECT marker FROM styles WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("ORDER BY marker ASC;");
+  vector <string> markers = database_sqlite_query (db, sql.sql) ["marker"];
+  database_sqlite_disconnect (db);
+  if (markers.empty ()) {
+    createSheet (sheet);
+    return getMarkers (sheet);
   }
-  if (empty ($markers)) {
-    $this->createSheet ($sheet);
-    return $this->getMarkers ($sheet);
-  }
-  return $markers;
+  return markers;
 }
 
 
-// Returns an array with all data belonging to a marker.
-public function getMarkerData ($sheet, $marker)
+// Returns a map with all data belonging to a marker.
+// If none, it returns an empty map.
+Database_Styles_Item Database_Styles::getMarkerData (string sheet, string marker) // Todo
 {
-  $sheet = Database_SQLiteInjection::no ($sheet);
-  $marker = Database_SQLiteInjection::no ($marker);
-  $query = "SELECT * FROM styles WHERE sheet = '$sheet' AND marker = '$marker';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
+  sqlite3 * db = connect ();
+  SqliteSQL sql;
+  sql.add ("SELECT * FROM styles WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  Database_Styles_Item marker_data = Database_Styles_Item ();
+  if (!result ["marker"].empty ()) {
+    marker_data.marker = result ["marker"] [0];
+    marker_data.name = result ["name"] [0];
+    marker_data.info = result ["info"] [0];
+    marker_data.category = result ["category"] [0];
+    marker_data.type = filter_string_convert_to_int (result ["type"] [0]);
+    marker_data.subtype = filter_string_convert_to_int (result ["subtype"] [0]);
+    marker_data.fontsize = result ["fontsize"] [0];
+    marker_data.italic = filter_string_convert_to_int (result ["italic"] [0]);
+    marker_data.bold = filter_string_convert_to_int (result ["bold"] [0]);
+    marker_data.underline = filter_string_convert_to_int (result ["underline"] [0]);
+    marker_data.smallcaps = filter_string_convert_to_int (result ["smallcaps"] [0]);
+    marker_data.superscript = filter_string_convert_to_int (result ["superscript"] [0]);
+    marker_data.justification = filter_string_convert_to_int (result ["justification"] [0]);
+    marker_data.spacebefore = result ["spacebefore"] [0];
+    marker_data.spaceafter = result ["spaceafter"] [0];
+    marker_data.leftmargin = result ["leftmargin"] [0];
+    marker_data.rightmargin = result ["rightmargin"] [0];
+    marker_data.firstlineindent = result ["firstlineindent"] [0];
+    marker_data.spancolumns = filter_string_convert_to_int (result ["spancolumns"] [0]);
+    marker_data.color = result ["color"] [0];
     // Pad the color with preceding zeroes so the color shows properly in the html page.
-    $row ['color'] = str_pad ($row ['color'], 6, "0", STR_PAD_LEFT);
-    for ($i = 0; $i < 35; $i++) unset ($row [$i]);
-    return $row;
+    marker_data.color = filter_string_fill (marker_data.color, 6, '0');
+    marker_data.print = filter_string_convert_to_int (result ["print"] [0]);
+    marker_data.userbool1 = filter_string_convert_to_int (result ["userbool1"] [0]);
+    marker_data.userbool2 = filter_string_convert_to_int (result ["userbool2"] [0]);
+    marker_data.userbool3 = filter_string_convert_to_int (result ["userbool3"] [0]);
+    marker_data.userint1 = filter_string_convert_to_int (result ["userint1"] [0]);
+    marker_data.userint2 = filter_string_convert_to_int (result ["userint2"] [0]);
+    marker_data.userint3 = filter_string_convert_to_int (result ["userint3"] [0]);
+    marker_data.userstring1 = result ["userstring1"] [0];
+    marker_data.userstring2 = result ["userstring2"] [0];
+    marker_data.userstring3 = result ["userstring3"] [0];
   }
-  return NULL;
+  return marker_data;
 }
 
 
 // Updates a style's name.
-public function updateName ($sheet, $marker, $name)
+void Database_Styles::updateName (string sheet, string marker, string name) // Todo
 {
-  $sheet   = Database_SQLiteInjection::no ($sheet);
-  $marker  = Database_SQLiteInjection::no ($marker);
-  $name    = Database_SQLiteInjection::no ($name);
-  $query   = "UPDATE styles SET name = '$name' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET name =");
+  sql.add (name);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's info.
-public function updateInfo ($sheet, $marker, $info)
+void Database_Styles::updateInfo (string sheet, string marker, string info) // Todo test.
 {
-  $sheet   = Database_SQLiteInjection::no ($sheet);
-  $marker  = Database_SQLiteInjection::no ($marker);
-  $info    = Database_SQLiteInjection::no ($info);
-  $query   = "UPDATE styles SET info = '$info' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET info =");
+  sql.add (info);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's category.
-public function updateCategory ($sheet, $marker, $category)
+void Database_Styles::updateCategory (string sheet, string marker, string category) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $category  = Database_SQLiteInjection::no ($category);
-  $query     = "UPDATE styles SET category = '$category' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET category =");
+  sql.add (category);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's type.
-public function updateType ($sheet, $marker, $type)
+void Database_Styles::updateType (string sheet, string marker, string type) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $type      = Database_SQLiteInjection::no ($type);
-  $query     = "UPDATE styles SET type = '$type' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET type =");
+  sql.add (type);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's subtype.
-public function updateSubType ($sheet, $marker, $subtype)
+void Database_Styles::updateSubType (string sheet, string marker, string subtype) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $subtype   = Database_SQLiteInjection::no ($subtype);
-  $query     = "UPDATE styles SET subtype = '$subtype' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET subtype =");
+  sql.add (subtype);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's font size.
-public function updateFontsize ($sheet, $marker, $fontsize)
+void Database_Styles::updateFontsize (string sheet, string marker, string fontsize) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $fontsize  = Database_SQLiteInjection::no ($fontsize);
-  $query     = "UPDATE styles SET fontsize = '$fontsize' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET fontsize =");
+  sql.add (fontsize);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker = ");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's italic setting.
-public function updateItalic ($sheet, $marker, $italic)
+void Database_Styles::updateItalic (string sheet, string marker, int italic) // Todo test.
 {
-  $sheet  = Database_SQLiteInjection::no ($sheet);
-  $marker = Database_SQLiteInjection::no ($marker);
-  $italic = Database_SQLiteInjection::no ($italic);
-  $query  = "UPDATE styles SET italic = $italic WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET italic =");
+  sql.add (italic);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's bold setting.
-public function updateBold ($sheet, $marker, $bold)
+void Database_Styles::updateBold (string sheet, string marker, int bold) // Todo test.
 {
-  $sheet  = Database_SQLiteInjection::no ($sheet);
-  $marker = Database_SQLiteInjection::no ($marker);
-  $bold   = Database_SQLiteInjection::no ($bold);
-  $query  = "UPDATE styles SET bold = $bold WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET bold =");
+  sql.add (bold);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker = ");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's underline setting.
-public function updateUnderline ($sheet, $marker, $underline)
+void Database_Styles::updateUnderline (string sheet, string marker, int underline) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $underline = Database_SQLiteInjection::no ($underline);
-  $query  = "UPDATE styles SET underline = $underline WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET underline =");
+  sql.add (underline);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Updates a style's small caps setting.
-public function updateSmallcaps ($sheet, $marker, $smallcaps)
+void Database_Styles::updateSmallcaps (string sheet, string marker, int smallcaps) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $smallcaps = Database_SQLiteInjection::no ($smallcaps);
-  $query  = "UPDATE styles SET smallcaps = $smallcaps WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET smallcaps =");
+  sql.add (smallcaps);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateSuperscript ($sheet, $marker, $superscript)
+void Database_Styles::updateSuperscript (string sheet, string marker, int superscript) // Todo test.
 {
-  $sheet       = Database_SQLiteInjection::no ($sheet);
-  $marker      = Database_SQLiteInjection::no ($marker);
-  $superscript = Database_SQLiteInjection::no ($superscript);
-  $query  = "UPDATE styles SET superscript = $superscript WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET superscript =");
+  sql.add (superscript);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateJustification ($sheet, $marker, $justification)
+void Database_Styles::updateJustification (string sheet, string marker, int justification) // Todo test.
 {
-  $sheet         = Database_SQLiteInjection::no ($sheet);
-  $marker        = Database_SQLiteInjection::no ($marker);
-  $justification = Database_SQLiteInjection::no ($justification);
-  $query  = "UPDATE styles SET justification = $justification WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET justification =");
+  sql.add (justification);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateSpaceBefore ($sheet, $marker, $spacebefore)
+void Database_Styles::updateSpaceBefore (string sheet, string marker, string spacebefore) // Todo test.
 {
-  $sheet       = Database_SQLiteInjection::no ($sheet);
-  $marker      = Database_SQLiteInjection::no ($marker);
-  $spacebefore = Database_SQLiteInjection::no ($spacebefore);
-  $query  = "UPDATE styles SET spacebefore = $spacebefore WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET spacebefore =");
+  sql.add (spacebefore);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateSpaceAfter ($sheet, $marker, $spaceafter)
+void Database_Styles::updateSpaceAfter (string sheet, string marker, string spaceafter) // Todo test.
 {
-  $sheet      = Database_SQLiteInjection::no ($sheet);
-  $marker     = Database_SQLiteInjection::no ($marker);
-  $spaceafter = Database_SQLiteInjection::no ($spaceafter);
-  $query  = "UPDATE styles SET spaceafter = $spaceafter WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET spaceafter =");
+  sql.add (spaceafter);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateLeftMargin ($sheet, $marker, $leftmargin)
+void Database_Styles::updateLeftMargin (string sheet, string marker, string leftmargin) // Todo test.
 {
-  $sheet      = Database_SQLiteInjection::no ($sheet);
-  $marker     = Database_SQLiteInjection::no ($marker);
-  $leftmargin = Database_SQLiteInjection::no ($leftmargin);
-  $query  = "UPDATE styles SET leftmargin = $leftmargin WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET leftmargin =");
+  sql.add (leftmargin);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateRightMargin ($sheet, $marker, $rightmargin)
+void Database_Styles::updateRightMargin (string sheet, string marker, string rightmargin) // Todo test.
 {
-  $sheet       = Database_SQLiteInjection::no ($sheet);
-  $marker      = Database_SQLiteInjection::no ($marker);
-  $rightmargin = Database_SQLiteInjection::no ($rightmargin);
-  $query  = "UPDATE styles SET rightmargin = $rightmargin WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET rightmargin =");
+  sql.add (rightmargin);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateFirstLineIndent ($sheet, $marker, $firstlineindent)
+void Database_Styles::updateFirstLineIndent (string sheet, string marker, string firstlineindent) // Todo test.
 {
-  $sheet           = Database_SQLiteInjection::no ($sheet);
-  $marker          = Database_SQLiteInjection::no ($marker);
-  $firstlineindent = Database_SQLiteInjection::no ($firstlineindent);
-  $query  = "UPDATE styles SET firstlineindent = $firstlineindent WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET firstlineindent =");
+  sql.add (firstlineindent);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateSpanColumns ($sheet, $marker, $spancolumns)
+void Database_Styles::updateSpanColumns (string sheet, string marker, int spancolumns) // Todo test.
 {
-  $sheet       = Database_SQLiteInjection::no ($sheet);
-  $marker      = Database_SQLiteInjection::no ($marker);
-  $spancolumns = Database_SQLiteInjection::no ($spancolumns);
-  $query  = "UPDATE styles SET spancolumns = $spancolumns WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET spancolumns =");
+  sql.add (spancolumns);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateColor ($sheet, $marker, $color)
+void Database_Styles::updateColor (string sheet, string marker, string color) // Todo test.
 {
-  $sheet   = Database_SQLiteInjection::no ($sheet);
-  $marker  = Database_SQLiteInjection::no ($marker);
-  $color   = Database_SQLiteInjection::no ($color);
-  $query  = "UPDATE styles SET color = '$color' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET color =");
+  sql.add (color);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updatePrint ($sheet, $marker, $print)
+void Database_Styles::updatePrint (string sheet, string marker, int print) // Todo test.
 {
-  $sheet  = Database_SQLiteInjection::no ($sheet);
-  $marker = Database_SQLiteInjection::no ($marker);
-  $print  = Database_SQLiteInjection::no ($print);
-  $query  = "UPDATE styles SET print = $print WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET print =");
+  sql.add (print);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserbool1 ($sheet, $marker, $userbool1)
+void Database_Styles::updateUserbool1 (string sheet, string marker, int userbool1) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $userbool1 = Database_SQLiteInjection::no ($userbool1);
-  $query  = "UPDATE styles SET userbool1 = $userbool1 WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userbool1 =");
+  sql.add (userbool1);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserbool2 ($sheet, $marker, $userbool2)
+void Database_Styles::updateUserbool2 (string sheet, string marker, int userbool2) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $userbool2 = Database_SQLiteInjection::no ($userbool2);
-  $query  = "UPDATE styles SET userbool2 = $userbool2 WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userbool2 =");
+  sql.add (userbool2);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserbool3 ($sheet, $marker, $userbool3)
+void Database_Styles::updateUserbool3 (string sheet, string marker, int userbool3) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $userbool3 = Database_SQLiteInjection::no ($userbool3);
-  $query  = "UPDATE styles SET userbool3 = $userbool3 WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userbool3 =");
+  sql.add (userbool3);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserint1 ($sheet, $marker, $userint1)
+void Database_Styles::updateUserint1 (string sheet, string marker, int userint1) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $userint1  = Database_SQLiteInjection::no ($userint1);
-  $query  = "UPDATE styles SET userint1 = $userint1 WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userint1 =");
+  sql.add (userint1);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserint2 ($sheet, $marker, $userint2)
+void Database_Styles::updateUserint2 (string sheet, string marker, int userint2) // Todo test.
 {
-  $sheet     = Database_SQLiteInjection::no ($sheet);
-  $marker    = Database_SQLiteInjection::no ($marker);
-  $userint2  = Database_SQLiteInjection::no ($userint2);
-  $query  = "UPDATE styles SET userint2 = $userint2 WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userint2 =");
+  sql.add (userint2);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserstring1 ($sheet, $marker, $userstring1)
+void Database_Styles::updateUserstring1 (string sheet, string marker, string userstring1) // Todo test.
 {
-  $sheet       = Database_SQLiteInjection::no ($sheet);
-  $marker      = Database_SQLiteInjection::no ($marker);
-  $userstring1 = Database_SQLiteInjection::no ($userstring1);
-  $query  = "UPDATE styles SET userstring1 = '$userstring1' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userstring1 =");
+  sql.add (userstring1);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserstring2 ($sheet, $marker, $userstring2)
+void Database_Styles::updateUserstring2 (string sheet, string marker, string userstring2) // Todo test.
 {
-  $sheet       = Database_SQLiteInjection::no ($sheet);
-  $marker      = Database_SQLiteInjection::no ($marker);
-  $userstring2 = Database_SQLiteInjection::no ($userstring2);
-  $query  = "UPDATE styles SET userstring2 = '$userstring2' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userstring2 =");
+  sql.add (userstring2);
+  sql.add ("WHERE sheet =");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function updateUserstring3 ($sheet, $marker, $userstring3)
+void Database_Styles::updateUserstring3 (string sheet, string marker, string userstring3) // Todo test.
 {
-  $sheet       = Database_SQLiteInjection::no ($sheet);
-  $marker      = Database_SQLiteInjection::no ($marker);
-  $userstring3 = Database_SQLiteInjection::no ($userstring3);
-  $query  = "UPDATE styles SET userstring3 = '$userstring3' WHERE sheet = '$sheet' AND marker = '$marker';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("UPDATE styles SET userstring3 =");
+  sql.add (userstring3);
+  sql.add ("WHERE sheet");
+  sql.add (sheet);
+  sql.add ("AND marker =");
+  sql.add (marker);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Grant $user write access to stylesheet $sheet.
-public function grantWriteAccess ($user, $sheet)
+void Database_Styles::grantWriteAccess (string user, string sheet) // Todo test.
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $sheet = Database_SQLiteInjection::no ($sheet);
-  $query = "INSERT INTO users VALUES ('$user', '$sheet');";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("INSERT INTO users VALUES (");
+  sql.add (user);
+  sql.add (",");
+  sql.add (sheet);
+  sql.add (");");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Revoke a $user's write access to stylesheet $sheet.
 // If the $user is empty, then revoke write access of anybody to that $sheet.
-public function revokeWriteAccess ($user, $sheet)
+void Database_Styles::revokeWriteAccess (string user, string sheet) // Todo test.
 {
-  $user = Database_SQLiteInjection::no ($user);
-  $sheet = Database_SQLiteInjection::no ($sheet);
-  if ($user != "") $query = "DELETE FROM users WHERE user = '$user' AND sheet = '$sheet';";
-  else $query = "DELETE FROM users WHERE sheet = '$sheet';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql;
+  sql.add ("DELETE FROM users WHERE");
+  if (!user.empty ()) {
+    sql.add ("user =");
+    sql.add (user);
+    sql.add ("AND");
+  }
+  sql.add ("sheet =");
+  sql.add (sheet);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Returns true or false depending on whether $user has write access to $sheet.
-public function hasWriteAccess ($user, $sheet)
+bool Database_Styles::hasWriteAccess (string user, string sheet) // Todo test.
 {
-  $query = "SELECT rowid FROM users WHERE user = '$user' AND sheet = '$sheet';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return true;
-  }
-  return false;
+  SqliteSQL sql;
+  sql.add ("SELECT rowid FROM users WHERE user =");
+  sql.add (user);
+  sql.add ("AND sheet =");
+  sql.add (sheet);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  return !result["rowid"].empty ();
 }
-
-
-*/
 
 
 Database_Styles_Item::Database_Styles_Item ()
@@ -790,9 +1073,9 @@ Database_Styles_Item::Database_Styles_Item ()
   userint1 = 0;
   userint2 = 0;
   userint3 = 0;
-  userstring1 = "0";
-  userstring2 = "0";
-  userstring3 = "0";
+  userstring1 = "";
+  userstring2 = "";
+  userstring3 = "";
 }
 
 

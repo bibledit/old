@@ -41,6 +41,20 @@ void database_sqlite_disconnect (sqlite3 * database);
 bool database_sqlite_healthy (string database);
 
 
+// Creates a database SQL query.
+class SqliteSQL
+{
+public:
+  SqliteSQL ();
+  ~SqliteSQL ();
+  void add (const char * fragment);
+  void add (int value);
+  void add (string value);
+  string sql;
+private:
+};
+
+
 // Stores values collected during a reading session of sqlite3.
 class SqliteReader
 {

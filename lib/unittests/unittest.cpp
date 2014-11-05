@@ -103,67 +103,32 @@ void evaluate (string function, vector <string> desired, vector <string> actual)
 }
 
 
-int main (int argc, char **argv) 
+void test_database_config_general ()
 {
-  cout << "Running unittests" << endl;
-
-
-  // No compile warnings.
-  if (argc) {};
-  if (argv[0]) {};
-
-  
-  // Directory where the unit tests will run.
-  testing_directory = "/tmp/bibledit-unittests";  
-  filter_url_mkdir (testing_directory);
-  refresh_sandbox (true);
-  config_globals_document_root = testing_directory;
-
-
-  // Number of failed unit tests.  
-  error_count = 0;
-
-  
-  // Flag for unit tests.
-  config_globals_unit_testing = true;
-
-
-  // Tests for Database_Users. Todo
-  {
-    refresh_sandbox (true);
-    Database_Styles database_styles = Database_Styles ();
-    database_styles.create ();
-    database_styles.optimize ();
-    database_styles.createStandardSheet ();
-  }
-  exit (0); // Todo
-
-
   // Tests for Database_Config_General.
-  {
-    evaluate ("Database_Config_General::getSiteMailName", "Bible Translation", Database_Config_General::getSiteMailName ());
-  }
-  {
-    string ref = "unittest";
-    Database_Config_General::setSiteMailName (ref);
-    evaluate ("Database_Config_General::getSiteMailName", ref, Database_Config_General::getSiteMailName ());
-  }
-  {
-    evaluate ("Database_Config_General::getMailStorageSecurity", "", Database_Config_General::getMailStorageSecurity ());
-  }
+  evaluate ("Database_Config_General::getSiteMailName", "Bible Translation", Database_Config_General::getSiteMailName ());
 
-  
+  string ref = "unittest";
+  Database_Config_General::setSiteMailName (ref);
+  evaluate ("Database_Config_General::getSiteMailName", ref, Database_Config_General::getSiteMailName ());
+
+  evaluate ("Database_Config_General::getMailStorageSecurity", "", Database_Config_General::getMailStorageSecurity ());
+}
+
+
+void test_database_config_bible ()
+{
   // Tests for Database_Config_Bible.
-  {
     evaluate ("Database_Config_Bible::getViewableByAllUsers", "", Database_Config_Bible::getViewableByAllUsers ("testbible"));
-  }
-  {
+
     string ref = "1";
     Database_Config_Bible::setViewableByAllUsers ("testbible", ref);
     evaluate ("Database_Config_Bible::getViewableByAllUsers", ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
-  }
+}
 
 
+void test_database_config_user ()
+{
   // Tests for Database_Config_User.
   {
     // Setup.
@@ -234,29 +199,33 @@ int main (int argc, char **argv)
 
     evaluate ("Database_Config_User::getSprintYear", filter_string_date_numerical_year (), request.database_config_user ()->getSprintYear ());
   }
+}
 
-  
+
+void test_sqlite ()
+{
   // Tests for SQLite.
-  {
-    sqlite3 * db = database_sqlite_connect ("sqlite");
-    if (!db) error_message ("database_sqlite_connect", "pointer", "NULL");
-    database_sqlite_exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
-    database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
-    database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");
-    database_sqlite_exec (db, "INSERT INTO test VALUES (345, 678, 901);");
-    map <string, vector <string> > actual = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
-    evaluate ("database_sqlite_query", "567", actual ["column2"] [1]);
-    database_sqlite_disconnect (db);
-    database_sqlite_disconnect (NULL);
+  sqlite3 * db = database_sqlite_connect ("sqlite");
+  if (!db) error_message ("database_sqlite_connect", "pointer", "NULL");
+  database_sqlite_exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
+  database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
+  database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");
+  database_sqlite_exec (db, "INSERT INTO test VALUES (345, 678, 901);");
+  map <string, vector <string> > actual = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
+  evaluate ("database_sqlite_query", "567", actual ["column2"] [1]);
+  database_sqlite_disconnect (db);
+  database_sqlite_disconnect (NULL);
 
-    evaluate ("database_sqlite_healthy", true, database_sqlite_healthy ("sqlite"));
-    unlink (database_sqlite_file ("sqlite").c_str());
-    evaluate ("database_sqlite_healthy", false, database_sqlite_healthy ("sqlite"));
+  evaluate ("database_sqlite_healthy", true, database_sqlite_healthy ("sqlite"));
+  unlink (database_sqlite_file ("sqlite").c_str());
+  evaluate ("database_sqlite_healthy", false, database_sqlite_healthy ("sqlite"));
 
-    evaluate ("database_sqlite_no_sql_injection", "He''s", database_sqlite_no_sql_injection ("He's"));
-  }
+  evaluate ("database_sqlite_no_sql_injection", "He''s", database_sqlite_no_sql_injection ("He's"));
+}
 
 
+void test_database_logs ()
+{
   // Tests for Database_Logs.
   {
     refresh_sandbox (true);
@@ -374,8 +343,11 @@ int main (int argc, char **argv)
     evaluate ("Database_Logs::getNext", "", s);
     refresh_sandbox (false);
   }
+}
 
 
+void test_filters ()
+{
   // Tests for the filters in the filter folder.
   {
     // Filter_Roles.
@@ -485,8 +457,11 @@ int main (int argc, char **argv)
     int usecs = filter_string_date_numerical_microseconds ();
     if ((usecs < 0) || (usecs > 1000000)) evaluate ("filter_string_date_numerical_microseconds", "0-1000000", filter_string_convert_to_string (usecs));
   }
+}
 
-  
+
+void test_database_users ()
+{
   // Tests for Database_Users.
   {
     refresh_sandbox (true);
@@ -665,8 +640,11 @@ int main (int argc, char **argv)
     // No read-only access for unknown user.
     evaluate ("Database_Users::hasReadOnlyAccess2Bible 3", false, database_users.hasReadOnlyAccess2Bible ("unknown", bible1));
   }
-  
+}
 
+
+void test_session_logic ()
+{
   // Test for class Session_Logic.
   {
     refresh_sandbox (true);
@@ -776,51 +754,255 @@ int main (int argc, char **argv)
     request.accept_language = accept_language;
     evaluate ("Session_Logic::loggedIn 9", true, request.session_logic ()->loggedIn ());
   }
-  
-  
+}
+
+
+void test_empty_folders ()
+{
   // There should be no empty folders in the library, because git does not include them.
-  {
-    int result = system ("find . -type d -empty");
-    evaluate ("No empty folders", 0, result);
-  }
+  int result = system ("find . -type d -empty");
+  evaluate ("No empty folders", 0, result);
+}
 
 
+void test_flate2 ()
+{
   // Test for the flate2 template engine.
+  string tpl = filter_url_create_root_path ("unittests", "tests", "flate1.html");
+  Flate flate = Flate ();
+  string desired;
+  string actual;
+
+  desired = "line 1\n\nline 6";
+  actual = filter_string_trim (flate.render (tpl));
+  evaluate ("Flate 1", desired, actual);
+  
+  flate = Flate ();
+  flate.enable_zone ("one");
+  flate.enable_zone ("two");
+  desired = "line 1\n\nline 2\n\n\n\nline 3\n\nline 4\n\n\nline 6";
+  actual = filter_string_trim (flate.render (tpl));
+  evaluate ("Flate 2", desired, actual);
+
+  flate = Flate ();
+  flate.enable_zone ("one");
+  flate.enable_zone ("three");
+  flate.set_variable ("three", "THREE");
+  desired = "line 1\n\nline 2\n\n\n\nline 4\n\nTHREE\nline 5\n\n\nline 6";
+  actual = filter_string_trim (flate.render (tpl));
+  evaluate ("Flate 3", desired, actual);
+}
+
+
+void test_database_styles ()
+{
+  // Tests for Database_Styles.
   {
-    string tpl = filter_url_create_root_path ("unittests", "tests", "flate1.html");
-    Flate flate = Flate ();
-    string desired;
-    string actual;
-
-    desired = "line 1\n\nline 6";
-    actual = filter_string_trim (flate.render (tpl));
-    evaluate ("Flate 1", desired, actual);
-    
-    flate = Flate ();
-    flate.enable_zone ("one");
-    flate.enable_zone ("two");
-    desired = "line 1\n\nline 2\n\n\n\nline 3\n\nline 4\n\n\nline 6";
-    actual = filter_string_trim (flate.render (tpl));
-    evaluate ("Flate 2", desired, actual);
-
-    flate = Flate ();
-    flate.enable_zone ("one");
-    flate.enable_zone ("three");
-    flate.set_variable ("three", "THREE");
-    desired = "line 1\n\nline 2\n\n\n\nline 4\n\nTHREE\nline 5\n\n\nline 6";
-    actual = filter_string_trim (flate.render (tpl));
-    evaluate ("Flate 3", desired, actual);
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.optimize ();
+    database_styles.createStandardSheet ();
   }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+
+    vector <string> sheets = database_styles.getSheets ();
+    vector <string> standard;
+    standard.push_back ("Standard");
+    evaluate ("Database_Styles::getSheets 1", standard, sheets);
+
+    database_styles.createSheet ("phpunit");
+    standard.push_back ("phpunit");
+    sheets = database_styles.getSheets ();
+    evaluate ("Database_Styles::getSheets 2", standard, sheets);
+
+    database_styles.deleteSheet ("phpunit");
+    standard.pop_back ();
+    sheets = database_styles.getSheets ();
+    evaluate ("Database_Styles::getSheets 3", standard, sheets);
+
+    database_styles.deleteSheet ("Standard");
+    sheets = database_styles.getSheets ();
+    evaluate ("Database_Styles::getSheets 4", standard, sheets);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+
+    vector <string> markers = database_styles.getMarkers ("phpunit");
+    evaluate ("Database_Styles::getMarkers 5", 179, markers.size ());
+    string marker = "p";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate ("Database_Styles::getMarkers 6", marker, "not found");
+    marker = "add";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate ("Database_Styles::getMarkers 7", marker, "not found");
+
+    map <string, vector <string> > markers_names = database_styles.getMarkersAndNames ("phpunit");
+    evaluate ("Database_Styles::getMarkersAndNames 1", markers, markers_names ["marker"]);
+
+    marker = "p";
+    vector <string>::iterator iter = find (markers_names ["marker"].begin (), markers_names ["marker"].end (), marker);
+    size_t index = distance (markers_names ["marker"].begin (), iter);
+    string name = markers_names ["name"] [index];
+    evaluate ("Database_Styles::getMarkersAndNames 2", "Normal, First Line Indent", name);
+
+    marker = "add";
+    iter = find (markers_names ["marker"].begin (), markers_names ["marker"].end (), marker);
+    index = distance (markers_names ["marker"].begin (), iter);
+    name = markers_names ["name"] [index];
+    evaluate ("Database_Styles::getMarkersAndNames 3", "* Translational Addition", name);
+    
+    database_styles.deleteMarker ("phpunit", "p");
+    
+    markers = database_styles.getMarkers ("phpunit");
+    marker = "p";
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate ("Database_Styles::getMarkers 8", marker, "should not be there");
+    marker = "add";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate ("Database_Styles::getMarkers 9", marker, "not found");
+    
+    markers_names = database_styles.getMarkersAndNames ("phpunit");
+
+    marker = "p";
+    iter = find (markers_names ["marker"].begin (), markers_names ["marker"].end (), marker);
+    if (iter != markers_names ["marker"].end ()) evaluate ("Database_Styles::getMarkersAndNames 4", marker, "should not be there");
+
+    marker = "add";
+    iter = find (markers_names ["marker"].begin (), markers_names ["marker"].end (), marker);
+    index = distance (markers_names ["marker"].begin (), iter);
+    name = markers_names ["name"] [index];
+    evaluate ("Database_Styles::getMarkersAndNames 5", "* Translational Addition", name);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+    
+    vector <string> markers = database_styles.getMarkers ("phpunit");
+    for (string marker : markers) if (marker != "add") database_styles.deleteMarker ("phpunit", marker);
+    string xml = database_styles.exportXml ("phpunit");
+    string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "addstyle.xml"));
+    evaluate ("Database_Styles::exportXml", filter_string_trim (standard), filter_string_trim (xml));
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    evaluate ("Database_Styles::getMarkerData 1", "add", data.marker);
+    evaluate ("Database_Styles::getMarkerData 2", "st", data.category);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+    database_styles.updateName ("phpunit", "add", "Addition");
+    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    evaluate ("Database_Styles::updateName", "Addition", data.name);
+
+    database_styles.updateInfo ("phpunit", "p", "Paragraph");
+    data = database_styles.getMarkerData ("phpunit", "p");
+    evaluate ("Database_Styles::updateInfo", "Paragraph", data.info);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+
+    // A user does not have write access to the stylesheet.
+    bool write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate ("Database_Styles::hasWriteAccess", false, write);
+
+    // Grant write access, and test it for this user, and for another user.
+    database_styles.grantWriteAccess ("user", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate ("Database_Styles::grantWriteAccess", true, write);
+    write = database_styles.hasWriteAccess ("user2", "phpunit");
+    evaluate ("Database_Styles::grantWriteAccess 2", false, write);
+    write = database_styles.hasWriteAccess ("user", "phpunit2");
+    evaluate ("Database_Styles::hasWriteAccess 2", false, write);
+
+    // Revoke write access for a user, test it in various ways.
+    database_styles.revokeWriteAccess ("user2", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate ("Database_Styles::revokeWriteAccess", true, write);
+    database_styles.revokeWriteAccess ("user", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate ("Database_Styles::revokeWriteAccess 2", false, write);
+    
+    // Revoking write access for all users.
+    database_styles.grantWriteAccess ("user1", "phpunit");
+    database_styles.grantWriteAccess ("user2", "phpunit");
+    database_styles.revokeWriteAccess ("", "phpunit");
+    write = database_styles.hasWriteAccess ("user1", "phpunit");
+    evaluate ("Database_Styles::revokeWriteAccess all", false, write);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+
+    // Get markers.
+    vector <string> markers = database_styles.getMarkers ("phpunit");
+    string marker = "zhq";
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate ("Database_Styles::addMarker 1", marker, "should not be there");
+  
+    // Add marker.
+    database_styles.addMarker ("phpunit", marker);
+    markers = database_styles.getMarkers ("phpunit");
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate ("Database_Styles::addMarker 1", marker, "should be there");
+  }
+}
 
 
-  // Possible journal entries.
+int main (int argc, char **argv) 
+{
+  // No compile warnings.
+  if (argc) {};
+  if (argv[0]) {};
+
+  cout << "Running unittests" << endl;
+  
+  // Directory where the unit tests will run.
+  testing_directory = "/tmp/bibledit-unittests";  
+  filter_url_mkdir (testing_directory);
   refresh_sandbox (true);
+  config_globals_document_root = testing_directory;
 
+  // Number of failed unit tests.  
+  error_count = 0;
+  
+  // Flag for unit tests.
+  config_globals_unit_testing = true;
+
+  // Run the tests.
+  test_database_config_general ();
+  test_database_config_bible ();
+  test_database_config_user ();
+  test_sqlite ();
+  test_database_logs ();
+  test_filters ();
+  test_database_users ();
+  test_session_logic ();
+  test_empty_folders ();
+  test_flate2 ();
+  test_database_styles ();
+   
+
+  // Output possible journal entries.
+  refresh_sandbox (true);
   
   // Test results.  
   if (error_count == 0) cout << "All tests passed" << endl;
   else cout << "Number of failures: " << error_count << endl;
-
 
   // Ready.
   return (error_count == 0) ? 0 : 1;

@@ -179,6 +179,39 @@ bool database_sqlite_healthy (string database)
 }
 
 
+SqliteSQL::SqliteSQL ()
+{
+}
+
+
+SqliteSQL::~SqliteSQL ()
+{
+}
+
+
+void SqliteSQL::add (const char * fragment)
+{
+  sql.append (" ");
+  sql.append (fragment);
+  sql.append (" ");
+}
+
+void SqliteSQL::add (int value)
+{
+  sql.append (" ");
+  sql.append (filter_string_convert_to_string (value));
+  sql.append (" ");
+}
+
+void SqliteSQL::add (string value)
+{
+  sql.append (" '");
+  value = database_sqlite_no_sql_injection (value);
+  sql.append (value);
+  sql.append ("' ");
+}
+
+
 SqliteReader::SqliteReader (int dummy)
 {
   if (dummy) {};
