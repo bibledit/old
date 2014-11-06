@@ -33,6 +33,9 @@ Webserver_Request::~Webserver_Request ()
 {
   if (session_logic_instance) delete session_logic_instance;
   if (database_config_user_instance) delete database_config_user_instance;
+  if (database_users_instance) delete database_users_instance;
+  if (database_styles_instance) delete database_styles_instance;
+  if (database_bibles_instance) delete database_bibles_instance;
 }
 
 

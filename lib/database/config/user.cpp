@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <database/users.h>
 #include <database/styles.h>
+#include <webserver/request.h>
 
 
 using namespace std;
@@ -189,15 +190,19 @@ string Database_Config_User::getBible ()
 {
   string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
-  /* C++Port
-  $database_bibles = Database_Bibles::getInstance();
-  $bibles = $database_bibles->getBibles ();
-  if (!in_array ($bible, $bibles)) {
-    // There may not even be a first Bible: Suppress error.
-    @$bible = $bibles[0];
-    $this->setBible ($bible);
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Database_Bibles * database_bibles = request->database_bibles ();
+  vector <string> bibles = database_bibles->getBibles ();
+  if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
+    // There may not even be a first Bible: Create one.
+    if (bibles.empty ()) {
+      bible = "testBible";
+      database_bibles->createBible (bible);
+    } else {
+      bible = bibles [0];
+    }
+    setBible (bible);
   }
-  */
   return bible;
 }
 void Database_Config_User::setBible (string bible)

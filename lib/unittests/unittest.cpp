@@ -210,6 +210,9 @@ void test_database_config_user ()
     evaluate ("Database_Config_User::setConsultationNotesAssignmentSelector", "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
 
     evaluate ("Database_Config_User::getSprintYear", filter_string_date_numerical_year (), request.database_config_user ()->getSprintYear ());
+    
+    // Test getting a Bible that does not exist: It creates one.
+    evaluate ("Database_Config_User::getBible", "testBible", request.database_config_user ()->getBible ());
   }
 }
 
