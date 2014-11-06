@@ -62,3 +62,10 @@ Database_Users * Webserver_Request::database_users ()
   return database_users_instance;
 }
 
+
+
+Database_Styles * Webserver_Request::database_styles ()
+{
+  if (!database_styles_instance) database_styles_instance = new Database_Styles ();
+  return database_styles_instance;
+}

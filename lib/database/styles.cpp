@@ -179,29 +179,29 @@ void Database_Styles::importXml (string sheet, string xml)
             if (elementname == "name")            database_styles_item.name =            text;
             if (elementname == "info")            database_styles_item.info =            text;
             if (elementname == "category")        database_styles_item.category =        text;
-            if (elementname == "type")            database_styles_item.type =            filter_string_convert_to_int (text);
-            if (elementname == "subtype")         database_styles_item.subtype =         filter_string_convert_to_int (text);
+            if (elementname == "type")            database_styles_item.type =            convert_to_int (text);
+            if (elementname == "subtype")         database_styles_item.subtype =         convert_to_int (text);
             if (elementname == "fontsize")        database_styles_item.fontsize =        text;
-            if (elementname == "italic")          database_styles_item.italic =          filter_string_convert_to_int (text);
-            if (elementname == "bold")            database_styles_item.bold =            filter_string_convert_to_int (text);
-            if (elementname == "underline")       database_styles_item.underline =       filter_string_convert_to_int (text);
-            if (elementname == "smallcaps")       database_styles_item.smallcaps =       filter_string_convert_to_int (text);
-            if (elementname == "superscript")     database_styles_item.superscript =     filter_string_convert_to_int (text);
-            if (elementname == "justification")   database_styles_item.justification =   filter_string_convert_to_int (text);
+            if (elementname == "italic")          database_styles_item.italic =          convert_to_int (text);
+            if (elementname == "bold")            database_styles_item.bold =            convert_to_int (text);
+            if (elementname == "underline")       database_styles_item.underline =       convert_to_int (text);
+            if (elementname == "smallcaps")       database_styles_item.smallcaps =       convert_to_int (text);
+            if (elementname == "superscript")     database_styles_item.superscript =     convert_to_int (text);
+            if (elementname == "justification")   database_styles_item.justification =   convert_to_int (text);
             if (elementname == "spacebefore")     database_styles_item.spacebefore =     text;
             if (elementname == "spaceafter")      database_styles_item.spaceafter =      text;
             if (elementname == "leftmargin")      database_styles_item.leftmargin =      text;
             if (elementname == "rightmargin")     database_styles_item.rightmargin =     text;
             if (elementname == "firstlineindent") database_styles_item.firstlineindent = text;
-            if (elementname == "spancolumns")     database_styles_item.spancolumns =     filter_string_convert_to_int (text);
+            if (elementname == "spancolumns")     database_styles_item.spancolumns =     convert_to_int (text);
             if (elementname == "color")           database_styles_item.color =           text;
-            if (elementname == "print")           database_styles_item.print =           filter_string_convert_to_int (text);
-            if (elementname == "userbool1")       database_styles_item.userbool1 =       filter_string_convert_to_int (text);
-            if (elementname == "userbool2")       database_styles_item.userbool2 =       filter_string_convert_to_int (text);
-            if (elementname == "userbool3")       database_styles_item.userbool3 =       filter_string_convert_to_int (text);
-            if (elementname == "userint1")        database_styles_item.userint1 =        filter_string_convert_to_int (text);
-            if (elementname == "userint2")        database_styles_item.userint2 =        filter_string_convert_to_int (text);
-            if (elementname == "userint3")        database_styles_item.userint3 =        filter_string_convert_to_int (text);
+            if (elementname == "print")           database_styles_item.print =           convert_to_int (text);
+            if (elementname == "userbool1")       database_styles_item.userbool1 =       convert_to_int (text);
+            if (elementname == "userbool2")       database_styles_item.userbool2 =       convert_to_int (text);
+            if (elementname == "userbool3")       database_styles_item.userbool3 =       convert_to_int (text);
+            if (elementname == "userint1")        database_styles_item.userint1 =        convert_to_int (text);
+            if (elementname == "userint2")        database_styles_item.userint2 =        convert_to_int (text);
+            if (elementname == "userint3")        database_styles_item.userint3 =        convert_to_int (text);
             if (elementname == "userstring1")     database_styles_item.userstring1 =     text;
             if (elementname == "userstring2")     database_styles_item.userstring2 =     text;
             if (elementname == "userstring3")     database_styles_item.userstring3 =     text;
@@ -225,51 +225,51 @@ void Database_Styles::importXml (string sheet, string xml)
             sql.append (", ");
             sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.category) + "'");
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.type));
+            sql.append (convert_to_string (database_styles_item.type));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.subtype));
+            sql.append (convert_to_string (database_styles_item.subtype));
             sql.append (", ");
             sql.append (database_sqlite_no_sql_injection (database_styles_item.fontsize));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.italic));
+            sql.append (convert_to_string (database_styles_item.italic));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.bold));
+            sql.append (convert_to_string (database_styles_item.bold));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.underline));
+            sql.append (convert_to_string (database_styles_item.underline));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.smallcaps));
+            sql.append (convert_to_string (database_styles_item.smallcaps));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.superscript));
+            sql.append (convert_to_string (database_styles_item.superscript));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.justification));
+            sql.append (convert_to_string (database_styles_item.justification));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.spacebefore));
+            sql.append (convert_to_string (database_styles_item.spacebefore));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.spaceafter));
+            sql.append (convert_to_string (database_styles_item.spaceafter));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.leftmargin));
+            sql.append (convert_to_string (database_styles_item.leftmargin));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.rightmargin));
+            sql.append (convert_to_string (database_styles_item.rightmargin));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.firstlineindent));
+            sql.append (convert_to_string (database_styles_item.firstlineindent));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.spancolumns));
+            sql.append (convert_to_string (database_styles_item.spancolumns));
             sql.append (", ");
             sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.color) + "'");
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.print));
+            sql.append (convert_to_string (database_styles_item.print));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.userbool1));
+            sql.append (convert_to_string (database_styles_item.userbool1));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.userbool2));
+            sql.append (convert_to_string (database_styles_item.userbool2));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.userbool3));
+            sql.append (convert_to_string (database_styles_item.userbool3));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.userint1));
+            sql.append (convert_to_string (database_styles_item.userint1));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.userint2));
+            sql.append (convert_to_string (database_styles_item.userint2));
             sql.append (", ");
-            sql.append (filter_string_convert_to_string (database_styles_item.userint3));
+            sql.append (convert_to_string (database_styles_item.userint3));
             sql.append (", ");
             sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.userstring1) + "'");
             sql.append (", ");
@@ -291,7 +291,7 @@ void Database_Styles::importXml (string sheet, string xml)
 }
 
 
-string Database_Styles::exportXml (string sheet) // Todo test.
+string Database_Styles::exportXml (string sheet)
 {
   // XML writer.
   xmlBufferPtr xmlbuffer = xmlBufferCreate ();
@@ -408,7 +408,6 @@ string Database_Styles::exportXml (string sheet) // Todo test.
   if (xmlwriter) xmlFreeTextWriter(xmlwriter);
   if (xmlbuffer) xmlBufferFree(xmlbuffer);
 
-//cout << xml << endl; // Todo  
   return xml;
 }
 
@@ -427,7 +426,7 @@ void Database_Styles::deleteSheet (string name)
 
 
 // Adds a marker to the stylesheet.
-void Database_Styles::addMarker (string sheet, string marker) // Todo test.
+void Database_Styles::addMarker (string sheet, string marker)
 {
   SqliteSQL sql;
   sql.add ("INSERT INTO styles (sheet, marker, name, info) VALUES (");
@@ -442,7 +441,7 @@ void Database_Styles::addMarker (string sheet, string marker) // Todo test.
 
 
 // Deletes a marker from a stylesheet.
-void Database_Styles::deleteMarker (string sheet, string marker) // Todo test.
+void Database_Styles::deleteMarker (string sheet, string marker)
 {
   SqliteSQL sql;
   sql.add ("DELETE FROM styles WHERE sheet =");
@@ -457,7 +456,7 @@ void Database_Styles::deleteMarker (string sheet, string marker) // Todo test.
 
 
 // Returns a map with all the markers and the names of the styles in the stylesheet.
-map <string, vector <string> > Database_Styles::getMarkersAndNames (string sheet) // Todo test.
+map <string, vector <string> > Database_Styles::getMarkersAndNames (string sheet)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql;
@@ -490,7 +489,7 @@ vector <string> Database_Styles::getMarkers (string sheet)
 
 // Returns a map with all data belonging to a marker.
 // If none, it returns an empty map.
-Database_Styles_Item Database_Styles::getMarkerData (string sheet, string marker) // Todo
+Database_Styles_Item Database_Styles::getMarkerData (string sheet, string marker)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql;
@@ -506,31 +505,31 @@ Database_Styles_Item Database_Styles::getMarkerData (string sheet, string marker
     marker_data.name = result ["name"] [0];
     marker_data.info = result ["info"] [0];
     marker_data.category = result ["category"] [0];
-    marker_data.type = filter_string_convert_to_int (result ["type"] [0]);
-    marker_data.subtype = filter_string_convert_to_int (result ["subtype"] [0]);
+    marker_data.type = convert_to_int (result ["type"] [0]);
+    marker_data.subtype = convert_to_int (result ["subtype"] [0]);
     marker_data.fontsize = result ["fontsize"] [0];
-    marker_data.italic = filter_string_convert_to_int (result ["italic"] [0]);
-    marker_data.bold = filter_string_convert_to_int (result ["bold"] [0]);
-    marker_data.underline = filter_string_convert_to_int (result ["underline"] [0]);
-    marker_data.smallcaps = filter_string_convert_to_int (result ["smallcaps"] [0]);
-    marker_data.superscript = filter_string_convert_to_int (result ["superscript"] [0]);
-    marker_data.justification = filter_string_convert_to_int (result ["justification"] [0]);
+    marker_data.italic = convert_to_int (result ["italic"] [0]);
+    marker_data.bold = convert_to_int (result ["bold"] [0]);
+    marker_data.underline = convert_to_int (result ["underline"] [0]);
+    marker_data.smallcaps = convert_to_int (result ["smallcaps"] [0]);
+    marker_data.superscript = convert_to_int (result ["superscript"] [0]);
+    marker_data.justification = convert_to_int (result ["justification"] [0]);
     marker_data.spacebefore = result ["spacebefore"] [0];
     marker_data.spaceafter = result ["spaceafter"] [0];
     marker_data.leftmargin = result ["leftmargin"] [0];
     marker_data.rightmargin = result ["rightmargin"] [0];
     marker_data.firstlineindent = result ["firstlineindent"] [0];
-    marker_data.spancolumns = filter_string_convert_to_int (result ["spancolumns"] [0]);
+    marker_data.spancolumns = convert_to_int (result ["spancolumns"] [0]);
     marker_data.color = result ["color"] [0];
     // Pad the color with preceding zeroes so the color shows properly in the html page.
     marker_data.color = filter_string_fill (marker_data.color, 6, '0');
-    marker_data.print = filter_string_convert_to_int (result ["print"] [0]);
-    marker_data.userbool1 = filter_string_convert_to_int (result ["userbool1"] [0]);
-    marker_data.userbool2 = filter_string_convert_to_int (result ["userbool2"] [0]);
-    marker_data.userbool3 = filter_string_convert_to_int (result ["userbool3"] [0]);
-    marker_data.userint1 = filter_string_convert_to_int (result ["userint1"] [0]);
-    marker_data.userint2 = filter_string_convert_to_int (result ["userint2"] [0]);
-    marker_data.userint3 = filter_string_convert_to_int (result ["userint3"] [0]);
+    marker_data.print = convert_to_int (result ["print"] [0]);
+    marker_data.userbool1 = convert_to_int (result ["userbool1"] [0]);
+    marker_data.userbool2 = convert_to_int (result ["userbool2"] [0]);
+    marker_data.userbool3 = convert_to_int (result ["userbool3"] [0]);
+    marker_data.userint1 = convert_to_int (result ["userint1"] [0]);
+    marker_data.userint2 = convert_to_int (result ["userint2"] [0]);
+    marker_data.userint3 = convert_to_int (result ["userint3"] [0]);
     marker_data.userstring1 = result ["userstring1"] [0];
     marker_data.userstring2 = result ["userstring2"] [0];
     marker_data.userstring3 = result ["userstring3"] [0];
@@ -540,7 +539,7 @@ Database_Styles_Item Database_Styles::getMarkerData (string sheet, string marker
 
 
 // Updates a style's name.
-void Database_Styles::updateName (string sheet, string marker, string name) // Todo
+void Database_Styles::updateName (string sheet, string marker, string name)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET name =");
@@ -557,7 +556,7 @@ void Database_Styles::updateName (string sheet, string marker, string name) // T
 
 
 // Updates a style's info.
-void Database_Styles::updateInfo (string sheet, string marker, string info) // Todo test.
+void Database_Styles::updateInfo (string sheet, string marker, string info)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET info =");
@@ -574,7 +573,7 @@ void Database_Styles::updateInfo (string sheet, string marker, string info) // T
 
 
 // Updates a style's category.
-void Database_Styles::updateCategory (string sheet, string marker, string category) // Todo test.
+void Database_Styles::updateCategory (string sheet, string marker, string category)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET category =");
@@ -591,7 +590,7 @@ void Database_Styles::updateCategory (string sheet, string marker, string catego
 
 
 // Updates a style's type.
-void Database_Styles::updateType (string sheet, string marker, string type) // Todo test.
+void Database_Styles::updateType (string sheet, string marker, string type)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET type =");
@@ -608,7 +607,7 @@ void Database_Styles::updateType (string sheet, string marker, string type) // T
 
 
 // Updates a style's subtype.
-void Database_Styles::updateSubType (string sheet, string marker, string subtype) // Todo test.
+void Database_Styles::updateSubType (string sheet, string marker, string subtype)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET subtype =");
@@ -625,7 +624,7 @@ void Database_Styles::updateSubType (string sheet, string marker, string subtype
 
 
 // Updates a style's font size.
-void Database_Styles::updateFontsize (string sheet, string marker, string fontsize) // Todo test.
+void Database_Styles::updateFontsize (string sheet, string marker, string fontsize)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET fontsize =");
@@ -642,7 +641,7 @@ void Database_Styles::updateFontsize (string sheet, string marker, string fontsi
 
 
 // Updates a style's italic setting.
-void Database_Styles::updateItalic (string sheet, string marker, int italic) // Todo test.
+void Database_Styles::updateItalic (string sheet, string marker, int italic)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET italic =");
@@ -659,7 +658,7 @@ void Database_Styles::updateItalic (string sheet, string marker, int italic) // 
 
 
 // Updates a style's bold setting.
-void Database_Styles::updateBold (string sheet, string marker, int bold) // Todo test.
+void Database_Styles::updateBold (string sheet, string marker, int bold)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET bold =");
@@ -676,7 +675,7 @@ void Database_Styles::updateBold (string sheet, string marker, int bold) // Todo
 
 
 // Updates a style's underline setting.
-void Database_Styles::updateUnderline (string sheet, string marker, int underline) // Todo test.
+void Database_Styles::updateUnderline (string sheet, string marker, int underline)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET underline =");
@@ -693,7 +692,7 @@ void Database_Styles::updateUnderline (string sheet, string marker, int underlin
 
 
 // Updates a style's small caps setting.
-void Database_Styles::updateSmallcaps (string sheet, string marker, int smallcaps) // Todo test.
+void Database_Styles::updateSmallcaps (string sheet, string marker, int smallcaps)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET smallcaps =");
@@ -709,7 +708,7 @@ void Database_Styles::updateSmallcaps (string sheet, string marker, int smallcap
 }
 
 
-void Database_Styles::updateSuperscript (string sheet, string marker, int superscript) // Todo test.
+void Database_Styles::updateSuperscript (string sheet, string marker, int superscript)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET superscript =");
@@ -725,7 +724,7 @@ void Database_Styles::updateSuperscript (string sheet, string marker, int supers
 }
 
 
-void Database_Styles::updateJustification (string sheet, string marker, int justification) // Todo test.
+void Database_Styles::updateJustification (string sheet, string marker, int justification)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET justification =");
@@ -741,7 +740,7 @@ void Database_Styles::updateJustification (string sheet, string marker, int just
 }
 
 
-void Database_Styles::updateSpaceBefore (string sheet, string marker, string spacebefore) // Todo test.
+void Database_Styles::updateSpaceBefore (string sheet, string marker, string spacebefore)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET spacebefore =");
@@ -757,7 +756,7 @@ void Database_Styles::updateSpaceBefore (string sheet, string marker, string spa
 }
 
 
-void Database_Styles::updateSpaceAfter (string sheet, string marker, string spaceafter) // Todo test.
+void Database_Styles::updateSpaceAfter (string sheet, string marker, string spaceafter)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET spaceafter =");
@@ -773,7 +772,7 @@ void Database_Styles::updateSpaceAfter (string sheet, string marker, string spac
 }
 
 
-void Database_Styles::updateLeftMargin (string sheet, string marker, string leftmargin) // Todo test.
+void Database_Styles::updateLeftMargin (string sheet, string marker, string leftmargin)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET leftmargin =");
@@ -789,7 +788,7 @@ void Database_Styles::updateLeftMargin (string sheet, string marker, string left
 }
 
 
-void Database_Styles::updateRightMargin (string sheet, string marker, string rightmargin) // Todo test.
+void Database_Styles::updateRightMargin (string sheet, string marker, string rightmargin)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET rightmargin =");
@@ -805,7 +804,7 @@ void Database_Styles::updateRightMargin (string sheet, string marker, string rig
 }
 
 
-void Database_Styles::updateFirstLineIndent (string sheet, string marker, string firstlineindent) // Todo test.
+void Database_Styles::updateFirstLineIndent (string sheet, string marker, string firstlineindent)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET firstlineindent =");
@@ -821,7 +820,7 @@ void Database_Styles::updateFirstLineIndent (string sheet, string marker, string
 }
 
 
-void Database_Styles::updateSpanColumns (string sheet, string marker, int spancolumns) // Todo test.
+void Database_Styles::updateSpanColumns (string sheet, string marker, int spancolumns)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET spancolumns =");
@@ -837,7 +836,7 @@ void Database_Styles::updateSpanColumns (string sheet, string marker, int spanco
 }
 
 
-void Database_Styles::updateColor (string sheet, string marker, string color) // Todo test.
+void Database_Styles::updateColor (string sheet, string marker, string color)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET color =");
@@ -853,7 +852,7 @@ void Database_Styles::updateColor (string sheet, string marker, string color) //
 }
 
 
-void Database_Styles::updatePrint (string sheet, string marker, int print) // Todo test.
+void Database_Styles::updatePrint (string sheet, string marker, int print)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET print =");
@@ -869,7 +868,7 @@ void Database_Styles::updatePrint (string sheet, string marker, int print) // To
 }
 
 
-void Database_Styles::updateUserbool1 (string sheet, string marker, int userbool1) // Todo test.
+void Database_Styles::updateUserbool1 (string sheet, string marker, int userbool1)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userbool1 =");
@@ -885,7 +884,7 @@ void Database_Styles::updateUserbool1 (string sheet, string marker, int userbool
 }
 
 
-void Database_Styles::updateUserbool2 (string sheet, string marker, int userbool2) // Todo test.
+void Database_Styles::updateUserbool2 (string sheet, string marker, int userbool2)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userbool2 =");
@@ -901,7 +900,7 @@ void Database_Styles::updateUserbool2 (string sheet, string marker, int userbool
 }
 
 
-void Database_Styles::updateUserbool3 (string sheet, string marker, int userbool3) // Todo test.
+void Database_Styles::updateUserbool3 (string sheet, string marker, int userbool3)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userbool3 =");
@@ -917,7 +916,7 @@ void Database_Styles::updateUserbool3 (string sheet, string marker, int userbool
 }
 
 
-void Database_Styles::updateUserint1 (string sheet, string marker, int userint1) // Todo test.
+void Database_Styles::updateUserint1 (string sheet, string marker, int userint1)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userint1 =");
@@ -933,7 +932,7 @@ void Database_Styles::updateUserint1 (string sheet, string marker, int userint1)
 }
 
 
-void Database_Styles::updateUserint2 (string sheet, string marker, int userint2) // Todo test.
+void Database_Styles::updateUserint2 (string sheet, string marker, int userint2)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userint2 =");
@@ -949,7 +948,7 @@ void Database_Styles::updateUserint2 (string sheet, string marker, int userint2)
 }
 
 
-void Database_Styles::updateUserstring1 (string sheet, string marker, string userstring1) // Todo test.
+void Database_Styles::updateUserstring1 (string sheet, string marker, string userstring1)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userstring1 =");
@@ -965,7 +964,7 @@ void Database_Styles::updateUserstring1 (string sheet, string marker, string use
 }
 
 
-void Database_Styles::updateUserstring2 (string sheet, string marker, string userstring2) // Todo test.
+void Database_Styles::updateUserstring2 (string sheet, string marker, string userstring2)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userstring2 =");
@@ -981,7 +980,7 @@ void Database_Styles::updateUserstring2 (string sheet, string marker, string use
 }
 
 
-void Database_Styles::updateUserstring3 (string sheet, string marker, string userstring3) // Todo test.
+void Database_Styles::updateUserstring3 (string sheet, string marker, string userstring3)
 {
   SqliteSQL sql;
   sql.add ("UPDATE styles SET userstring3 =");
@@ -998,7 +997,7 @@ void Database_Styles::updateUserstring3 (string sheet, string marker, string use
 
 
 // Grant $user write access to stylesheet $sheet.
-void Database_Styles::grantWriteAccess (string user, string sheet) // Todo test.
+void Database_Styles::grantWriteAccess (string user, string sheet)
 {
   SqliteSQL sql;
   sql.add ("INSERT INTO users VALUES (");
@@ -1014,7 +1013,7 @@ void Database_Styles::grantWriteAccess (string user, string sheet) // Todo test.
 
 // Revoke a $user's write access to stylesheet $sheet.
 // If the $user is empty, then revoke write access of anybody to that $sheet.
-void Database_Styles::revokeWriteAccess (string user, string sheet) // Todo test.
+void Database_Styles::revokeWriteAccess (string user, string sheet)
 {
   SqliteSQL sql;
   sql.add ("DELETE FROM users WHERE");
@@ -1033,7 +1032,7 @@ void Database_Styles::revokeWriteAccess (string user, string sheet) // Todo test
 
 
 // Returns true or false depending on whether $user has write access to $sheet.
-bool Database_Styles::hasWriteAccess (string user, string sheet) // Todo test.
+bool Database_Styles::hasWriteAccess (string user, string sheet)
 {
   SqliteSQL sql;
   sql.add ("SELECT rowid FROM users WHERE user =");

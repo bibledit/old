@@ -49,14 +49,14 @@ void Database_Logs::log (string description, int level)
   description = filter_string_str_replace ("\n", " ", description);
 
   // Save this logbook entry to a filename with seconds and microseconds.
-  string seconds = filter_string_convert_to_string (filter_string_date_seconds_since_epoch ());
-  string time = seconds + filter_string_fill (filter_string_convert_to_string (filter_string_date_numerical_microseconds ()), 8, '0');
+  string seconds = convert_to_string (filter_string_date_seconds_since_epoch ());
+  string time = seconds + filter_string_fill (convert_to_string (filter_string_date_numerical_microseconds ()), 8, '0');
   string file = filter_url_create_path (folder (), time);
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
   // There may be the rare case of more than one entry per file.
   // Append the data so it won't overwrite an earlier entry.
-  filter_url_file_put_contents_append (file, filter_string_convert_to_string (level) + " " + seconds + " " + description);
+  filter_url_file_put_contents_append (file, convert_to_string (level) + " " + seconds + " " + description);
 }
 
 
@@ -128,7 +128,7 @@ void Database_Logs::rotate ()
   
   for (unsigned int i = 0; i < files.size(); i++) {
     string path = filter_url_create_path (directory, files [i]);
-    int timestamp = filter_string_convert_to_int (files [i].substr (0, 10));
+    int timestamp = convert_to_int (files [i].substr (0, 10));
     // Some of the code below had suppressed errors in PHP.
     // This was to ensure that transferring the entries does not generate additional journal entries.
     // This would lead to an infinite loop, as has been noticed on shared hosting.
@@ -139,16 +139,16 @@ void Database_Logs::rotate ()
     int filesize = filter_url_filesize (path);
     if (filesize > 10000) {
       entry = entry.substr (0, 100);
-      entry += "... This entry was too large and has been truncated: " + filter_string_convert_to_string (filesize) + " bytes";
+      entry += "... This entry was too large and has been truncated: " + convert_to_string (filesize) + " bytes";
     }
     filter_url_unlink (path);
     entry = database_sqlite_no_sql_injection (entry);
-    string sql = "INSERT INTO logs VALUES (" + filter_string_convert_to_string (timestamp) + ", '" + entry + "');";
+    string sql = "INSERT INTO logs VALUES (" + convert_to_string (timestamp) + ", '" + entry + "');";
     database_sqlite_exec (db, sql);
   }
 
   // Remove records older than five days from the database.
-  string timestamp = filter_string_convert_to_string (filter_string_date_seconds_since_epoch () - (6 * 86400));
+  string timestamp = convert_to_string (filter_string_date_seconds_since_epoch () - (6 * 86400));
   string sql = "DELETE FROM logs WHERE timestamp < " + timestamp + ";";
   database_sqlite_exec (db, sql);
 
@@ -170,7 +170,7 @@ vector <string> Database_Logs::get (int day, int& lastsecond)
   // Read the entries from the database.
   vector <string> entries;
   sqlite3 * db = connect ();
-  string query = "SELECT entry FROM logs WHERE timestamp >= " + filter_string_convert_to_string (firstsecond) + " AND timestamp <= " + filter_string_convert_to_string (lastsecond) + " ORDER BY rowid ASC;";
+  string query = "SELECT entry FROM logs WHERE timestamp >= " + convert_to_string (firstsecond) + " AND timestamp <= " + convert_to_string (lastsecond) + " ORDER BY rowid ASC;";
   entries = database_sqlite_query (db, query)["entry"];
   database_sqlite_disconnect (db);
 
@@ -185,7 +185,7 @@ vector <string> Database_Logs::get (int day, int& lastsecond)
       string contents = filter_url_file_get_contents (path);
       entries.push_back (contents);
       // Last second gets updated based on the filename.
-      lastsecond = filter_string_convert_to_int (file.substr (0, 10));
+      lastsecond = convert_to_int (file.substr (0, 10));
     }
   }
 
@@ -221,7 +221,7 @@ void Database_Logs::update (int oldseconds, int newseconds)
 {
   sqlite3 * db = connect ();
   for (int i = -1; i <= 1; i++) {
-    string sql = "UPDATE logs SET timestamp = " + filter_string_convert_to_string (newseconds) + " WHERE timestamp = " + filter_string_convert_to_string (oldseconds + i) + ";";
+    string sql = "UPDATE logs SET timestamp = " + convert_to_string (newseconds) + " WHERE timestamp = " + convert_to_string (oldseconds + i) + ";";
     database_sqlite_exec (db, sql);
   }
   database_sqlite_disconnect (db);

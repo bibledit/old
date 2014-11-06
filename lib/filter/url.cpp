@@ -178,6 +178,28 @@ void filter_url_mkdir (string directory)
 }
 
 
+// Removes directory recursively.
+void filter_url_rmdir (string directory)
+{
+  DIR *dir;
+  struct dirent *entry;
+  char path[PATH_MAX];
+  dir = opendir(directory.c_str());
+  if (dir == NULL) return;
+  while ((entry = readdir (dir)) != NULL) {
+    if (strcmp (entry->d_name, ".") && strcmp (entry->d_name, "..")) {
+      snprintf (path, (size_t) PATH_MAX, "%s/%s", directory.c_str(), entry->d_name);
+      if (entry->d_type == DT_DIR) {
+        filter_url_rmdir (path);
+      }
+      remove (path);
+    }
+  }
+  closedir(dir);
+  remove (directory.c_str());
+}
+
+
 // C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents (string filename)
 {
@@ -240,7 +262,7 @@ vector <string> filter_url_scandir (string folder)
     struct dirent * direntry;
     while ((direntry = readdir (dir)) != NULL) {
       string name = direntry->d_name;
-      if (name != "." && name != "..") {
+      if (name != "." && name != ".." && name != "gitflag") {
         files.push_back (name);
       }
     }

@@ -199,7 +199,7 @@ void SqliteSQL::add (const char * fragment)
 void SqliteSQL::add (int value)
 {
   sql.append (" ");
-  sql.append (filter_string_convert_to_string (value));
+  sql.append (convert_to_string (value));
   sql.append (" ");
 }
 

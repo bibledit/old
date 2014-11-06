@@ -110,7 +110,7 @@ string Database_Users::timestampFile (string user)
 void Database_Users::trim ()
 {
   // Remove persistent logins after a day of inactivity.
-  string timestamp = filter_string_convert_to_string (filter_string_date_seconds_since_epoch () - (6 * 86400));
+  string timestamp = convert_to_string (filter_string_date_seconds_since_epoch () - (6 * 86400));
   int dayAgo = filter_string_date_seconds_since_epoch () - 86400;
   vector <string> users = getUsers ();
   sqlite3 * db = connect ();
@@ -142,7 +142,7 @@ void Database_Users::addNewUser (string username, string password, int level, st
   username = database_sqlite_no_sql_injection (username);
   email = database_sqlite_no_sql_injection (email);
   sqlite3 * db = connect ();
-  string sql = "INSERT INTO users (username, level, email) VALUES ('" + username + "', " + filter_string_convert_to_string (level) + ", '" + email + "');";
+  string sql = "INSERT INTO users (username, level, email) VALUES ('" + username + "', " + convert_to_string (level) + ", '" + email + "');";
   database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
   updateUserPassword (username, password);
@@ -193,7 +193,7 @@ string Database_Users::addNewUserQuery (string username, string password, int le
   username = database_sqlite_no_sql_injection (username);
   password = md5 (password);
   email = database_sqlite_no_sql_injection (email);
-  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + username + "', '" + password + "', " + filter_string_convert_to_string (level) + ", '" + email + "');";
+  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + username + "', '" + password + "', " + convert_to_string (level) + ", '" + email + "');";
   return query;
 }
 
@@ -256,7 +256,7 @@ int Database_Users::getUserLevel (string user)
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, sql) ["level"];
   database_sqlite_disconnect (db);
-  if (!result.empty()) return filter_string_convert_to_int (result [0]);
+  if (!result.empty()) return convert_to_int (result [0]);
   return Filter_Roles::guest ();
 }
 
@@ -265,7 +265,7 @@ int Database_Users::getUserLevel (string user)
 void Database_Users::updateUserLevel (string user, int level)
 {
   user = database_sqlite_no_sql_injection (user);
-  string sql = "UPDATE users SET level = " + filter_string_convert_to_string (level) + " WHERE username = '" + user + "';";
+  string sql = "UPDATE users SET level = " + convert_to_string (level) + " WHERE username = '" + user + "';";
   sqlite3 * db = connect ();
   database_sqlite_exec (db, sql);
   database_sqlite_disconnect (db);
@@ -288,7 +288,7 @@ void Database_Users::removeUser (string user)
 // Returns an array with the usernames of the site administrators.
 vector <string> Database_Users::getAdministrators ()
 {
-  string sql = "SELECT username FROM users WHERE level = " + filter_string_convert_to_string (Filter_Roles::admin ()) + ";";
+  string sql = "SELECT username FROM users WHERE level = " + convert_to_string (Filter_Roles::admin ()) + ";";
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, sql) ["username"];
   database_sqlite_disconnect (db);
@@ -388,7 +388,7 @@ void Database_Users::pingTimestamp (string username)
   int timestamp = filter_string_date_seconds_since_epoch ();
   if (timestamp != existingTimestamp) {
     string file = timestampFile (username);
-    filter_url_file_put_contents (file, filter_string_convert_to_string (timestamp));
+    filter_url_file_put_contents (file, convert_to_string (timestamp));
   }
 }
 
@@ -398,7 +398,7 @@ int Database_Users::getTimestamp (string username)
 {
   string file = timestampFile (username);
   string timestamp = filter_url_file_get_contents (file);
-  return filter_string_convert_to_int (timestamp);
+  return convert_to_int (timestamp);
 }
 
 
@@ -481,7 +481,7 @@ void Database_Users::setReadOnlyAccess2Bible (string user, string bible, bool re
 {
   user = database_sqlite_no_sql_injection (user);
   bible = database_sqlite_no_sql_injection (bible);
-  string read_only = filter_string_convert_to_string (readonly);
+  string read_only = convert_to_string (readonly);
   string sql = "UPDATE teams SET readonly = " + read_only + " WHERE username = '" + user + "' AND bible = '" + bible + "';";
   sqlite3 * db = connect ();
   database_sqlite_exec (db, sql);
@@ -498,7 +498,7 @@ bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, sql) ["readonly"];
   database_sqlite_disconnect (db);
-  if (!result.empty ()) return filter_string_convert_to_bool (result [0]);
+  if (!result.empty ()) return convert_to_bool (result [0]);
   // Entry not found for user/bible: Default is not read-only.
   return false;
 }

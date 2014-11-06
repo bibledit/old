@@ -39,6 +39,7 @@ string filter_url_create_root_path (string part1 = "", string part2 = "", string
 string filter_url_get_extension (string url);
 bool filter_url_file_exists (string url);
 void filter_url_mkdir (string directory);
+void filter_url_rmdir (string directory);
 string filter_url_file_get_contents (string filename);
 void filter_url_file_put_contents (string filename, string contents);
 void filter_url_file_put_contents_append (string filename, string contents);

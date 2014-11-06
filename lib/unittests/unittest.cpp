@@ -81,24 +81,24 @@ void evaluate (string function, string desired, string actual)
 
 void evaluate (string function, int desired, int actual)
 {
-  if (desired != actual) error_message (function, filter_string_convert_to_string (desired), filter_string_convert_to_string (actual));
+  if (desired != actual) error_message (function, convert_to_string (desired), convert_to_string (actual));
 }
 
 
 void evaluate (string function, bool desired, bool actual)
 {
-  if (desired != actual) error_message (function, filter_string_convert_to_string (desired), filter_string_convert_to_string (actual));
+  if (desired != actual) error_message (function, convert_to_string (desired), convert_to_string (actual));
 }
 
 
 void evaluate (string function, vector <string> desired, vector <string> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (function + " size mismatch", filter_string_convert_to_string ((int)desired.size ()), filter_string_convert_to_string ((int)actual.size()));
+    error_message (function + " size mismatch", convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()));
     return;
   }
   for (unsigned int i = 0; i < desired.size (); i++) {
-    if (desired[i] != actual[i]) error_message (function + " mismatch at offset " + filter_string_convert_to_string (i), desired[i], actual[i]);
+    if (desired[i] != actual[i]) error_message (function + " mismatch at offset " + convert_to_string (i), desired[i], actual[i]);
   }
 }
 
@@ -332,7 +332,7 @@ void test_database_logs ()
     Database_Logs::log ("description");
     Database_Logs database_logs = Database_Logs ();
     int second = filter_string_date_seconds_since_epoch ();
-    string filename = filter_string_convert_to_string (second) + "00000000";
+    string filename = convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;
     s = database_logs.getNext (filename);
@@ -446,16 +446,16 @@ void test_filters ()
   {
     // Test the date and time related functions.
     int month = filter_string_date_numerical_month ();
-    if ((month < 1) || (month > 12)) evaluate ("filter_string_date_numerical_month", "current month", filter_string_convert_to_string (month));
+    if ((month < 1) || (month > 12)) evaluate ("filter_string_date_numerical_month", "current month", convert_to_string (month));
     int year = filter_string_date_numerical_year ();
-    if ((year < 2014) || (year > 2050)) evaluate ("filter_string_date_numerical_year", "current year", filter_string_convert_to_string (year));
+    if ((year < 2014) || (year > 2050)) evaluate ("filter_string_date_numerical_year", "current year", convert_to_string (year));
     struct timeval tv;
     gettimeofday (&tv, NULL);
     int reference_second = tv.tv_sec;
     int actual_second = filter_string_date_seconds_since_epoch ();
     if (abs (actual_second - reference_second) > 1) evaluate ("filter_string_date_seconds_since_epoch", reference_second, actual_second);
     int usecs = filter_string_date_numerical_microseconds ();
-    if ((usecs < 0) || (usecs > 1000000)) evaluate ("filter_string_date_numerical_microseconds", "0-1000000", filter_string_convert_to_string (usecs));
+    if ((usecs < 0) || (usecs > 1000000)) evaluate ("filter_string_date_numerical_microseconds", "0-1000000", convert_to_string (usecs));
   }
 }
 

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <session/logic.h>
 #include <database/users.h>
+#include <database/styles.h>
 
 
 using namespace std;
@@ -56,15 +57,15 @@ string Database_Config_User::getValue (const char * key, const char * default_va
 
 bool Database_Config_User::getValue (const char * key, bool default_value)
 {
-  string value = getValue (key, filter_string_convert_to_string (default_value).c_str());
-  return filter_string_convert_to_bool (value);
+  string value = getValue (key, convert_to_string (default_value).c_str());
+  return convert_to_bool (value);
 }
 
 
 int Database_Config_User::getValue (const char * key, int default_value)
 {
-  string value = getValue (key, filter_string_convert_to_string (default_value).c_str());
-  return filter_string_convert_to_int (value);
+  string value = getValue (key, convert_to_string (default_value).c_str());
+  return convert_to_int (value);
 }
 
 
@@ -80,15 +81,15 @@ string Database_Config_User::getValueForUser (string user, const char * key, con
 
 bool Database_Config_User::getValueForUser (string user, const char * key, bool default_value)
 {
-  string value = getValueForUser (user, key, filter_string_convert_to_string (default_value).c_str());
-  return filter_string_convert_to_bool (value);
+  string value = getValueForUser (user, key, convert_to_string (default_value).c_str());
+  return convert_to_bool (value);
 }
 
 
 int Database_Config_User::getValueForUser (string user, const char * key, int default_value)
 {
-  string value = getValueForUser (user, key, filter_string_convert_to_string (default_value).c_str());
-  return filter_string_convert_to_int (value);
+  string value = getValueForUser (user, key, convert_to_string (default_value).c_str());
+  return convert_to_int (value);
 }
 
 
@@ -104,13 +105,13 @@ void Database_Config_User::setValue (const char * key, string value)
 
 void Database_Config_User::setValue (const char * key, bool value)
 {
-  setValue (key, filter_string_convert_to_string (value));
+  setValue (key, convert_to_string (value));
 }
 
 
 void Database_Config_User::setValue (const char * key, int value)
 {
-  setValue (key, filter_string_convert_to_string (value));
+  setValue (key, convert_to_string (value));
 }
 
 
@@ -170,14 +171,12 @@ string Database_Config_User::getStylesheet ()
 {
   string sheet = getValue ("stylesheet", "Standard");
   // If the stylesheet does not exist, take the first one available instead.
-  /* C++Port
-  $database_styles = Database_Styles::getInstance();
-  $sheets = $database_styles->getSheets();
-  if (!in_array ($sheet, $sheets)) {
-    $sheet = $sheets[0];
-    $this->setStylesheet ($sheet);
+  Database_Styles * database_styles = ((Webserver_Request *) webserver_request)->database_styles ();
+  vector <string> sheets = database_styles->getSheets();
+  if (find (sheets.begin (), sheets.end (), sheet) == sheets.end ()) {
+    sheet = sheets[0];
+    setStylesheet (sheet);
   }
-  */
   return sheet;
 }
 void Database_Config_User::setStylesheet (string sheet)

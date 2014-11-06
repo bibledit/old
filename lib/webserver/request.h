@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <database/config/user.h>
 #include <database/users.h>
+#include <database/styles.h>
 
 
 using namespace std;
@@ -49,10 +50,12 @@ public:
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();
+  Database_Styles * database_styles ();
 private:
   Session_Logic * session_logic_instance = NULL;
   Database_Config_User * database_config_user_instance = NULL;
   Database_Users * database_users_instance = NULL;
+  Database_Styles * database_styles_instance = NULL;
 };
 
 

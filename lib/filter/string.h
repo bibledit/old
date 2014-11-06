@@ -27,13 +27,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 vector <string> filter_string_explode (string value, char delimiter);
 string filter_string_implode (vector <string>& values, string delimiter);
 string filter_string_str_replace (string search, string replace, string subject);
-string filter_string_convert_to_string (unsigned int i);
-string filter_string_convert_to_string (int i);
-string filter_string_convert_to_string (char * c);
-string filter_string_convert_to_string (bool b);
-string filter_string_convert_to_string (string s);
-int filter_string_convert_to_int (string s);
-bool filter_string_convert_to_bool (string s);
+string convert_to_string (unsigned int i);
+string convert_to_string (int i);
+string convert_to_string (char * c);
+string convert_to_string (bool b);
+string convert_to_string (string s);
+int convert_to_int (string s);
+bool convert_to_bool (string s);
 bool filter_string_in_array (const string& needle, const vector <string>& haystack);
 vector <string> filter_string_array_unique (vector <string> values);
 vector <string> filter_string_array_diff (vector <string> from, vector <string> against);
@@ -43,6 +43,7 @@ int filter_string_date_numerical_microseconds ();
 int filter_string_date_seconds_since_epoch ();
 string filter_string_trim (string s);
 string filter_string_fill (string s, int width, char fill);
+bool filter_string_is_numeric (string s);
 
 
 #endif

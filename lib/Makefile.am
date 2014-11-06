@@ -27,6 +27,7 @@ libbibledit_a_SOURCES = \
 	database/logs.cpp \
 	database/sqlite.cpp \
 	database/styles.cpp \
+	database/bibles.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

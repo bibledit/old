@@ -62,7 +62,7 @@ string filter_string_str_replace (string search, string replace, string subject)
 }
 
 
-string filter_string_convert_to_string (unsigned int i)
+string convert_to_string (unsigned int i)
 {
   ostringstream r;
   r << i;
@@ -70,7 +70,7 @@ string filter_string_convert_to_string (unsigned int i)
 }
 
 
-string filter_string_convert_to_string (int i)
+string convert_to_string (int i)
 {
   ostringstream r;
   r << i;
@@ -78,27 +78,27 @@ string filter_string_convert_to_string (int i)
 }
 
 
-string filter_string_convert_to_string (char * c)
+string convert_to_string (char * c)
 {
   string s = c;
   return s;
 }
 
 
-string filter_string_convert_to_string (bool b)
+string convert_to_string (bool b)
 {
   if (b) return "1";
   return "0";
 }
 
 
-string filter_string_convert_to_string (string s)
+string convert_to_string (string s)
 {
   return s;
 }
 
 
-int filter_string_convert_to_int (string s)
+int convert_to_int (string s)
 {
   int i = 0;
   istringstream r (s);
@@ -107,7 +107,7 @@ int filter_string_convert_to_int (string s)
 }
 
 
-bool filter_string_convert_to_bool (string s)
+bool convert_to_bool (string s)
 {
   bool b;
   istringstream (s) >> b;
@@ -236,3 +236,10 @@ string filter_string_fill (string s, int width, char fill)
   return str.str();
 }
 
+
+// Returns true/false whether s is numeric.
+bool filter_string_is_numeric (string s) // Todo test it.
+{
+  for (char c : s) if (!isdigit (c)) return false;
+  return true;
+}
