@@ -103,6 +103,18 @@ void evaluate (string function, vector <string> desired, vector <string> actual)
 }
 
 
+void evaluate (string function, vector <int> desired, vector <int> actual)
+{
+  if (desired.size() != actual.size ()) {
+    error_message (function + " size mismatch", convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()));
+    return;
+  }
+  for (unsigned int i = 0; i < desired.size (); i++) {
+    if (desired[i] != actual[i]) error_message (function + " mismatch at offset " + convert_to_string (i), convert_to_string (desired[i]), convert_to_string (actual[i]));
+  }
+}
+
+
 void test_database_config_general ()
 {
   // Tests for Database_Config_General.
@@ -456,6 +468,12 @@ void test_filters ()
     if (abs (actual_second - reference_second) > 1) evaluate ("filter_string_date_seconds_since_epoch", reference_second, actual_second);
     int usecs = filter_string_date_numerical_microseconds ();
     if ((usecs < 0) || (usecs > 1000000)) evaluate ("filter_string_date_numerical_microseconds", "0-1000000", convert_to_string (usecs));
+  }
+  {
+    evaluate ("filter_string_is_numeric 1", true, filter_string_is_numeric ("1"));
+    evaluate ("filter_string_is_numeric 2", true, filter_string_is_numeric ("1234"));
+    evaluate ("filter_string_is_numeric 3", false, filter_string_is_numeric ("X"));
+    evaluate ("filter_string_is_numeric 4", false, filter_string_is_numeric ("120X"));
   }
 }
 
@@ -963,6 +981,247 @@ void test_database_styles ()
 }
 
 
+// Tests for Database_Bibles.
+void test_database_bibles ()
+{
+  {
+    refresh_sandbox (true);
+    /* C++Port repeat for every test.
+    $database_search = Database_Search::getInstance ();
+    $database_search->create ();
+    $database_bibleactions = Database_BibleActions::getInstance ();
+    $database_bibleactions->create ();
+    */
+    Database_Bibles database_bibles = Database_Bibles ();
+    vector <string> standard;
+    vector <string> bibles = database_bibles.getBibles ();
+    evaluate ("Database_Bibles::getBibles 1", standard, bibles);
+  }
+  {
+    // Test whether optimizing works without errors.
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+    int id = database_bibles.createBible ("phpunit");
+    if (id == 0) evaluate ("Database_Bibles::createBible", "non-zero", id);
+    database_bibles.storeChapter ("phpunit", 2, 3, "a");
+    database_bibles.storeChapter ("phpunit", 2, 3, "b");
+    database_bibles.storeChapter ("phpunit", 2, 3, "c");
+    database_bibles.storeChapter ("phpunit", 2, 3, "d");
+    database_bibles.storeChapter ("phpunit", 2, 3, "e");
+    database_bibles.storeChapter ("phpunit", 2, 3, "f");
+    database_bibles.storeChapter ("phpunit", 2, 3, "g");
+    database_bibles.optimize ();
+    string usfm = database_bibles.getChapter ("phpunit", 2, 3);
+    evaluate ("Database_Bibles::optimize", "g", usfm);
+  }
+  {
+    // Test whether optimizing removes files with 0 size.
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+    int id = database_bibles.createBible ("phpunit");
+    if (id == 0) evaluate ("Database_Bibles::createBible", "non-zero", id);
+    database_bibles.storeChapter ("phpunit", 2, 3, "a");
+    database_bibles.storeChapter ("phpunit", 2, 3, "b");
+    database_bibles.storeChapter ("phpunit", 2, 3, "c");
+    database_bibles.storeChapter ("phpunit", 2, 3, "d");
+    database_bibles.storeChapter ("phpunit", 2, 3, "e");
+    database_bibles.storeChapter ("phpunit", 2, 3, "f");
+    database_bibles.storeChapter ("phpunit", 2, 3, "");
+    string usfm = database_bibles.getChapter ("phpunit", 2, 3);
+    evaluate ("Database_Bibles::getChapter 2", "", usfm);
+    database_bibles.optimize ();
+    usfm = database_bibles.getChapter ("phpunit", 2, 3);
+    evaluate ("Database_Bibles::optimize 2", "f", usfm);
+  }
+  // Test create / get / delete Bibles.
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+
+    int id = database_bibles.createBible ("phpunit");
+    evaluate ("Database_Bibles::createBible 3", 1, id);
+    
+    vector <string> bibles = database_bibles.getBibles ();
+    vector <string> standard = {"phpunit"};
+    evaluate ("Database_Bibles::getBibles 3", standard, bibles);
+
+    id = database_bibles.getID ("phpunit2");
+    evaluate ("Database_Bibles::getID 3", 0, id);
+    
+    database_bibles.deleteBible ("phpunit");
+
+    id = database_bibles.getID ("phpunit");
+    evaluate ("Database_Bibles::deleteBible 3", 0, id);
+  }
+  // Test names / identifiers.
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+
+    int id = database_bibles.getID ("phpunit");
+    evaluate ("Database_Bibles::getID 4", 0, id);
+
+    string bible = database_bibles.getName (0);
+    evaluate ("Database_Bibles::getName 4", "Unknown", bible);
+
+    id = database_bibles.createBible ("phpunit");
+    evaluate ("Database_Bibles::createBible 4", 1, id);
+
+    id = database_bibles.getID ("phpunit");
+    evaluate ("Database_Bibles::getID 5", 1, id);
+
+    bible = database_bibles.getName (1);
+    evaluate ("Database_Bibles::getName 5", "phpunit", bible);
+    
+    bible = database_bibles.getName (2);
+    evaluate ("Database_Bibles::getName 5", "Unknown", bible);
+  }
+  // Test storeChapter / getChapter
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+    database_bibles.createBible ("phpunit");
+    string usfm = "\\c 1\n\\p\n\\v 1 Verse 1";
+    database_bibles.storeChapter ("phpunit", 2, 1, usfm);
+    string result = database_bibles.getChapter ("phpunit", 2, 1);
+    evaluate ("Database_Bibles::storeChapter getChapter 1", usfm, result);
+    result = database_bibles.getChapter ("phpunit2", 2, 1);
+    evaluate ("Database_Bibles::storeChapter getChapter 2", "", result);
+    result = database_bibles.getChapter ("phpunit", 1, 1);
+    evaluate ("Database_Bibles::storeChapter getChapter 3", "", result);
+  }
+  // Test books
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+    database_bibles.createBible ("phpunit");
+    vector <int> books = database_bibles.getBooks ("phpunit");
+    evaluate ("Database_Bibles::getBooks 6", { }, books);
+
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    books = database_bibles.getBooks ("phpunit");
+    evaluate ("Database_Bibles::storeChapter getBooks 6", { 1 }, books);
+
+    database_bibles.storeChapter ("phpunit", 2, 3, "\\c 0");
+    books = database_bibles.getBooks ("phpunit");
+    evaluate ("Database_Bibles::storeChapter getBooks 7", { 1, 2 }, books);
+
+    database_bibles.deleteBook ("phpunit", 3);
+    books = database_bibles.getBooks ("phpunit");
+    evaluate ("Database_Bibles::storeChapter deleteBook 6", { 1, 2 }, books);
+
+    database_bibles.deleteBook ("phpunit", 1);
+    books = database_bibles.getBooks ("phpunit");
+    evaluate ("Database_Bibles::storeChapter deleteBook 7", { 2 }, books);
+
+    database_bibles.deleteBook ("phpunit2", 2);
+    books = database_bibles.getBooks ("phpunit");
+    evaluate ("Database_Bibles::storeChapter deleteBook 8", { 2 }, books);
+  }
+  // Test chapters ()
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+
+    database_bibles.createBible ("phpunit");
+    vector <int> chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate ("Database_Bibles::test chapters 1", { }, chapters);
+ 
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate ("Database_Bibles::test chapters 2", { 2 }, chapters);
+    
+    chapters = database_bibles.getChapters ("phpunit", 2);
+    evaluate ("Database_Bibles::test chapters 3", { }, chapters);
+
+    database_bibles.storeChapter ("phpunit", 1, 3, "\\c 1");
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate ("Database_Bibles::test chapters 4", { 2, 3 }, chapters);
+
+    database_bibles.deleteChapter ("phpunit", 3, 3);
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate ("Database_Bibles::test chapters 5", { 2, 3 }, chapters);
+
+    database_bibles.deleteChapter ("phpunit", 1, 2);
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate ("Database_Bibles::test chapters 6", { 3 }, chapters);
+
+    database_bibles.deleteChapter ("phpunit", 1, 3);
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate ("Database_Bibles::test chapters 7", { }, chapters);
+  }
+  // Test chapter IDs
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles = Database_Bibles ();
+
+    database_bibles.createBible ("phpunit");
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    int id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate ("Database_Bibles::chapter IDs 1", 100000001, id);
+    
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate ("Database_Bibles::chapter IDs 2", 100000002, id);
+
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate ("Database_Bibles::chapter IDs 3", 100000004, id);
+
+    database_bibles.storeChapter ("phpunit", 2, 3, "\\c 1");
+    id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate ("Database_Bibles::chapter IDs 4", 100000004, id);
+  }
+  // Test Bible actionsOne
+  {
+    /* C++Port
+    database_bibleactions = Database_BibleActions::getInstance ();
+
+    database_bibleactions.optimize ();
+    
+    bibles = database_bibleactions.getBibles ();
+    this.assertEquals (array (), bibles);
+
+    database_bibleactions.record ("phpunit1", 1, 2, "data112");
+    database_bibleactions.record ("phpunit1", 1, 3, "data113");
+    database_bibleactions.record ("phpunit1", 2, 4, "data124");
+    database_bibleactions.record ("phpunit2", 5, 6, "data256");
+    database_bibleactions.record ("phpunit2", 5, 6, "data256: Not to be stored");
+
+    bibles = database_bibleactions.getBibles ();
+    this.assertEquals (array ("phpunit1", "phpunit2"), bibles);
+
+    books = database_bibleactions.getBooks ("phpunit1");
+    this.assertEquals (array (1, 2), books);
+
+    chapters = database_bibleactions.getChapters ("phpunit1", 1);
+    this.assertEquals (array (2, 3), chapters);
+    
+    chapters = database_bibleactions.getChapters ("phpunit1", 2);
+    this.assertEquals (array (4), chapters);
+    
+    database_bibleactions.delete ("phpunit1", 2, 3);
+    
+    chapters = database_bibleactions.getChapters ("phpunit1", 2);
+    this.assertEquals (array (4), chapters);
+    
+    database_bibleactions.delete ("phpunit1", 2, 4);
+    
+    chapters = database_bibleactions.getChapters ("phpunit1", 2);
+    this.assertEquals (array (), chapters);
+    
+    usfm = database_bibleactions.getUsfm ("phpunit2", 5, 5);
+    this.assertFalse (usfm);
+    
+    usfm = database_bibleactions.getUsfm ("phpunit2", 5, 6);
+    this.assertEquals ("data256", usfm);
+    */
+  }
+  
+}
+
+
 int main (int argc, char **argv) 
 {
   // No compile warnings.
@@ -995,6 +1254,7 @@ int main (int argc, char **argv)
   test_empty_folders ();
   test_flate2 ();
   test_database_styles ();
+  test_database_bibles ();
    
 
   // Output possible journal entries.

@@ -238,7 +238,7 @@ string filter_string_fill (string s, int width, char fill)
 
 
 // Returns true/false whether s is numeric.
-bool filter_string_is_numeric (string s) // Todo test it.
+bool filter_string_is_numeric (string s)
 {
   for (char c : s) if (!isdigit (c)) return false;
   return true;

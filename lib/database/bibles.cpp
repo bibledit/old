@@ -149,7 +149,7 @@ void Database_Bibles::storeChapter (string name, int book, int chapter_number, s
 
 void Database_Bibles::updateSearchFields (string name, int book, int chapter)
 {
-  if (book) name.append (name); // Todo temporal: OUT.
+  if (book) name.append (name); // temporal: OUT.
   if (chapter) {};
   /* C++Port
   $database_search = Database_Search::getInstance ();
@@ -242,41 +242,36 @@ int Database_Bibles::getChapterId (string bible, int book, int chapter)
 
 void Database_Bibles::optimize ()
 {
-  /* C++Port
   // Go through all chapters in all books and all Ḃibles.
-  $bibles = $this->getBibles ();
-  foreach ($bibles as $bible) {
-    $books = $this->getBooks ($bible);
-    foreach ($books as $book) {
-      $chapters = $this->getChapters ($bible, $book);
-      foreach ($chapters as $chapter) {
-        $folder = $this->chapterFolder ($bible, $book, $chapter);
+  vector <string> bibles = getBibles ();
+  for (string bible : bibles) {
+    vector <int> books = getBooks (bible);
+    for (int book : books) {
+      vector <int> chapters = getChapters (bible, book);
+      for (int chapter : chapters) {
+        string folder = chapterFolder (bible, book, chapter);
         // Read the files in the folder.
-        $files = scandir ($folder);
-        // Remove the "." and ".." entries.
-        // Because scandir sorts the files, those entries are at the start of the array.
-        array_shift ($files);
-        array_shift ($files);
+        vector <string> files = filter_url_scandir (folder);
         // Remove files with 0 size. so that in case a chapter was emptied by accident, 
         // it is removed now, effectually reverting the chapter to an earlier version.
-        foreach ($files as $offset => $file) {
-          if (filesize ("$folder/$file") == 0) {
-            unlink ("$folder/$file");
-            unset ($files [$offset]);
-          }
+        vector <string> files2;
+        for (string file : files) {
+          string path = filter_url_create_path (folder, file);
+          if (filter_url_filesize (path) == 0) filter_url_unlink (path);
+          else files2.push_back (file);
         }
         // Remove the three most recent files from the array, so they don't get deleted.
-        // Because scandir sorts the files, the files to be removed are at the end.
-        array_pop ($files);
-        array_pop ($files);
-        array_pop ($files);
+        // Because scandir sorts the files, the files to be kept are at the end.
+        files2.pop_back ();
+        files2.pop_back ();
+        files2.pop_back ();
         // Remove the remaining files. These are the older versions.
-        foreach ($files as $file) {
-          unlink ("$folder/$file");
+        for (string file : files2) {
+          string path = filter_url_create_path (folder, file);
+          filter_url_unlink (path);
         }
       }
     }
   }
-  */
 }
 

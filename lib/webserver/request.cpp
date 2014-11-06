@@ -69,3 +69,10 @@ Database_Styles * Webserver_Request::database_styles ()
   if (!database_styles_instance) database_styles_instance = new Database_Styles ();
   return database_styles_instance;
 }
+
+
+Database_Bibles * Webserver_Request::database_bibles ()
+{
+  if (!database_bibles_instance) database_bibles_instance = new Database_Bibles ();
+  return database_bibles_instance;
+}
