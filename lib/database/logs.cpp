@@ -204,7 +204,7 @@ string Database_Logs::getNext (string &filename)
   for (unsigned int i = 0; i < files.size (); i++) {
     string file = files [i];
     if (file == "gitflag") continue;
-    //cout << file << " " << filename << " " << convert_to_long_long (filename) << endl; // Todo
+    //cout << file << " " << filename << " " << convert_to_long_long (filename) << endl;
     
     if (file > filename) {
       filename = file;

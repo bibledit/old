@@ -317,7 +317,8 @@ void test_database_logs ()
     result = database_logs.get (0, lastfilename);
     evaluate ("Database_Logs::get: Now: Size should be 1", 1, result.size ());
     // The "lastsecond" variable, test it.
-    // Todo if ((lastsecond < now ) || (lastsecond > now + 1)) evaluate ("Database_Logs::get lastsecond", now, lastsecond);
+    int lastsecond = convert_to_int (lastfilename.substr (0, 10));
+    if ((lastsecond < now ) || (lastsecond > now + 1)) evaluate ("Database_Logs::get lastsecond", now, lastsecond);
     refresh_sandbox (false);
   }
   {

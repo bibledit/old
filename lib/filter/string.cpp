@@ -174,7 +174,7 @@ vector <string> filter_string_array_diff (vector <string> from, vector <string> 
 
 
 // Gets the second within the minute from the seconds since the Unix epoch.
-int filter_string_date_numerical_second (int seconds) // Todo
+int filter_string_date_numerical_second (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -184,7 +184,7 @@ int filter_string_date_numerical_second (int seconds) // Todo
 
 
 // Gets the minute within the hour from the seconds since the Unix epoch.
-int filter_string_date_numerical_minute (int seconds) // Todo
+int filter_string_date_numerical_minute (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);
@@ -194,7 +194,7 @@ int filter_string_date_numerical_minute (int seconds) // Todo
 
 
 // Gets the hour within the day from the seconds since the Unix epoch.
-int filter_string_date_numerical_hour (int seconds) // Todo
+int filter_string_date_numerical_hour (int seconds)
 {
   time_t tt = seconds;
   tm utc_tm = *gmtime(&tt);

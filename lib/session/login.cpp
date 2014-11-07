@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <filter/url.h>
 #include <filter/roles.h>
+#include <filter/string.h>
 #include <database/logs.h>
 #include <database/config/general.h>
 
@@ -81,14 +82,12 @@ string session_login (void * webserver_request)
 
   string page;
 
-  // Todo string query = request->query; Fix it.
-  string query = "";
+  string forward = request->query ["request"];
   
   if (request->session_logic ()->loggedIn ()) {
-    if (query.length () >= 8) query = query.substr (8);
-    if (query != "") {
+    if (forward != "") {
       // After login, the user is forwarded to the originally requested URL, if any.
-      filter_url_redirect (query, request);
+      filter_url_redirect (forward, request);
       return page;
     }
     page += session_login_display_header (webserver_request);
@@ -97,7 +96,7 @@ string session_login (void * webserver_request)
     page += view.render ("session", "loggedin");
   } else {
     page += session_login_display_header (webserver_request);
-    view.set_variable ("query", query);
+    view.set_variable ("forward", forward);
     view.enable_zone ("logging_in");
     view.set_variable ("login", gettext ("Login"));
     view.set_variable ("username_email", gettext ("Username or email address"));
