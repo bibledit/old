@@ -85,6 +85,13 @@ string convert_to_string (char * c)
 }
 
 
+string convert_to_string (const char * c)
+{
+  string s = c;
+  return s;
+}
+
+
 string convert_to_string (bool b)
 {
   if (b) return "1";
@@ -101,6 +108,15 @@ string convert_to_string (string s)
 int convert_to_int (string s)
 {
   int i = 0;
+  istringstream r (s);
+  r >> i;
+  return i;
+}
+
+
+long long convert_to_long_long (string s)
+{
+  long long i = 0;
   istringstream r (s);
   r >> i;
   return i;
@@ -154,6 +170,36 @@ vector <string> filter_string_array_diff (vector <string> from, vector <string> 
     }
   }
   return result;
+}
+
+
+// Gets the second within the minute from the seconds since the Unix epoch.
+int filter_string_date_numerical_second (int seconds) // Todo
+{
+  time_t tt = seconds;
+  tm utc_tm = *gmtime(&tt);
+  int second = utc_tm.tm_sec;
+  return second;
+}
+
+
+// Gets the minute within the hour from the seconds since the Unix epoch.
+int filter_string_date_numerical_minute (int seconds) // Todo
+{
+  time_t tt = seconds;
+  tm utc_tm = *gmtime(&tt);
+  int minute = utc_tm.tm_min;
+  return minute;
+}
+
+
+// Gets the hour within the day from the seconds since the Unix epoch.
+int filter_string_date_numerical_hour (int seconds) // Todo
+{
+  time_t tt = seconds;
+  tm utc_tm = *gmtime(&tt);
+  int hour = utc_tm.tm_hour;
+  return hour;
 }
 
 
@@ -243,3 +289,25 @@ bool filter_string_is_numeric (string s)
   for (char c : s) if (!isdigit (c)) return false;
   return true;
 }
+
+
+void var_dump (map <string, string> var)
+{
+  for (map <string, string>::const_iterator iter = var.begin(); iter != var.end(); ++iter) {
+    cout << "first: " << (*iter).first << ", second: " << (*iter).second << endl;
+  }
+  
+}
+
+
+// C++ equivalent for PHP function htmlspecialchars.
+string filter_string_sanitize_html (string html)
+{
+  html = filter_string_str_replace ("&", "&amp;", html);
+  html = filter_string_str_replace ("\"", "&quot;", html);
+  html = filter_string_str_replace ("'", "&apos;", html);
+  html = filter_string_str_replace ("<", "&lt;", html);
+  html = filter_string_str_replace (">", "&gt;", html);
+  return html;
+}
+

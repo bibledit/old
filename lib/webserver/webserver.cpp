@@ -185,6 +185,8 @@ void webserver ()
 
     } catch (exception & e) {
       Database_Logs::log (e.what ());
+    } catch (exception * e) {
+      Database_Logs::log (e->what ());
     }
 
     // Clear memory.

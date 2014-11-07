@@ -21,11 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Filter_Html
 {
 
-  public static function sanitize ($html)
-  {
-    @$html = htmlspecialchars ($html, ENT_QUOTES, "UTF-8");
-    return $html;
-  }
 
 
   public static function html2text ($html)

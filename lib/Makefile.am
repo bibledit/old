@@ -33,7 +33,8 @@ libbibledit_a_SOURCES = \
 	session/logout.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
-	setup/index.cpp
+	setup/index.cpp \
+	journal/index.cpp
 
 bin_PROGRAMS = server unittest
 

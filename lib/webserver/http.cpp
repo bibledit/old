@@ -53,6 +53,9 @@ void http_parse_headers (string headers, Webserver_Request * request)
   // Flags.
   bool post_request = false;
   bool reading_post_data = false;
+  
+  // Query data.
+  string query_data;
     
   // Split the headers up into separate lines and process them.
   vector <string> lines = filter_string_explode (headers, '\n');
@@ -78,7 +81,7 @@ void http_parse_headers (string headers, Webserver_Request * request)
         string s;
         while (getline (issquery, s, '?')) {
           if (counter == 0) request->get = s;
-          if (counter == 1) request->query = s;
+          if (counter == 1) query_data = s;
           counter++;
         }
       }
@@ -112,7 +115,7 @@ void http_parse_headers (string headers, Webserver_Request * request)
     
     // Read and parse the POST data.
     if (reading_post_data && post_request) {
-   		ParseWebData::WebDataMap dataMap;
+   	  ParseWebData::WebDataMap dataMap;
       ParseWebData::parse_post_data (line, request->content_type, dataMap);
       for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
         request->post [(*iter).first] = filter_url_urldecode ((*iter).second.value);
@@ -121,6 +124,15 @@ void http_parse_headers (string headers, Webserver_Request * request)
     
     // The POST data comes after a blank line.
     if (line == "") reading_post_data = true;
+  }
+
+  // Read and parse the GET data.
+  if (!query_data.empty ()) {
+ 	  ParseWebData::WebDataMap dataMap;
+    ParseWebData::parse_get_data (query_data, dataMap);
+    for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
+      request->query [(*iter).first] = filter_url_urldecode ((*iter).second.value);
+    }
   }
 }
 

@@ -215,9 +215,6 @@ if ($minute == 10) {
 }
 
 
-// Kick the watchdog for the minutely tasks.
-$watchdog = dirname (__DIR__) . "/config/watchdog";
-file_put_contents ($watchdog, "");
 
 
 ?>

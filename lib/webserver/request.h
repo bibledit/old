@@ -39,7 +39,7 @@ public:
   ~Webserver_Request ();
   string remote_address; // The browser's or client's remote IPv4 address.
   string get; // The page the browser requests via GET.
-  string query; // The query from the browser, e.g. foo=bar&baz=qux
+  map <string, string> query; // The query from the browser, e.g. foo=bar&baz=qux, neatly arranged into a map.
   string user_agent; // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
   string accept_language; // The browser's or client's Accept-Language header.
   string host; // The server's host as requested by the client.

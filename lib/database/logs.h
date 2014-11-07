@@ -42,7 +42,7 @@ public:
   void create ();
   void checkup ();
   void rotate ();
-  vector <string> get (int day, int& lastsecond);
+  vector <string> get (int day, string & lastfilename);
   string getNext (string &filename);
   void update (int oldseconds, int newseconds);
 private:

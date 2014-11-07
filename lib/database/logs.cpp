@@ -161,11 +161,12 @@ void Database_Logs::rotate ()
 
 // Get the logbook entries for variable "day".
 // Day 0 is the last 24 hours, day 1 is 24 more hours back, and so on.
-vector <string> Database_Logs::get (int day, int& lastsecond)
+vector <string> Database_Logs::get (int day, string & lastfilename)
 {
   // A day is considered a period of 24 hours starting now.
   int firstsecond = filter_string_date_seconds_since_epoch () - ((day + 1) * 86400);
-  lastsecond = firstsecond + 86400;
+  int lastsecond = firstsecond + 86400;
+  lastfilename = convert_to_string (lastsecond) + "00000000";
 
   // Read the entries from the database.
   vector <string> entries;
@@ -185,7 +186,7 @@ vector <string> Database_Logs::get (int day, int& lastsecond)
       string contents = filter_url_file_get_contents (path);
       entries.push_back (contents);
       // Last second gets updated based on the filename.
-      lastsecond = convert_to_int (file.substr (0, 10));
+      lastfilename = file;
     }
   }
 
@@ -203,6 +204,8 @@ string Database_Logs::getNext (string &filename)
   for (unsigned int i = 0; i < files.size (); i++) {
     string file = files [i];
     if (file == "gitflag") continue;
+    //cout << file << " " << filename << " " << convert_to_long_long (filename) << endl; // Todo
+    
     if (file > filename) {
       filename = file;
       string path = filter_url_create_path (directory, file);

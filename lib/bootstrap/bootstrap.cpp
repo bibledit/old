@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logout.h>
 #include <database/config/general.h>
 #include <setup/index.h>
+#include <journal/index.h>
 
 
 using namespace std;
@@ -49,8 +50,13 @@ void bootstrap_index (Webserver_Request * request)
   else if (request->get == "/session/login") request->reply = session_login (request);
   else if (request->get == "/session/logout") request->reply = session_logout (request);
   
+  // Pages for the Changes menu.
+  else if (request->get == "/journal/index") request->reply = journal_index (request);
+  
   // Forward the browser to the default home page.
-  else filter_url_redirect ("/index/index", request);
+  else {
+    filter_url_redirect ("/index/index", request);
+  }
 }
 
 

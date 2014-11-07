@@ -30,13 +30,18 @@ string filter_string_str_replace (string search, string replace, string subject)
 string convert_to_string (unsigned int i);
 string convert_to_string (int i);
 string convert_to_string (char * c);
+string convert_to_string (const char * c);
 string convert_to_string (bool b);
 string convert_to_string (string s);
 int convert_to_int (string s);
+long long convert_to_long_long (string s);
 bool convert_to_bool (string s);
 bool filter_string_in_array (const string& needle, const vector <string>& haystack);
 vector <string> filter_string_array_unique (vector <string> values);
 vector <string> filter_string_array_diff (vector <string> from, vector <string> against);
+int filter_string_date_numerical_second (int seconds);
+int filter_string_date_numerical_minute (int seconds);
+int filter_string_date_numerical_hour (int seconds);
 int filter_string_date_numerical_month ();
 int filter_string_date_numerical_year ();
 int filter_string_date_numerical_microseconds ();
@@ -44,6 +49,8 @@ int filter_string_date_seconds_since_epoch ();
 string filter_string_trim (string s);
 string filter_string_fill (string s, int width, char fill);
 bool filter_string_is_numeric (string s);
+void var_dump (map <string, string> var);
+string filter_string_sanitize_html (string html);
 
 
 #endif

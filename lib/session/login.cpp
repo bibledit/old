@@ -81,7 +81,8 @@ string session_login (void * webserver_request)
 
   string page;
 
-  string query = request->query;
+  // Todo string query = request->query; Fix it.
+  string query = "";
   
   if (request->session_logic ()->loggedIn ()) {
     if (query.length () >= 8) query = query.substr (8);
