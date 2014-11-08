@@ -79,7 +79,7 @@ class Editor_Import
     $usfm = trim ($usfm);
     $usfm .= "\n";
     // Separate it into markers and text.
-    $markersAndText = Filter_Usfm::getMarkersAndText ($usfm);
+    $markersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);
     // Load it into the object.
     $this->markersAndText = array ();
     foreach ($markersAndText as $item) {

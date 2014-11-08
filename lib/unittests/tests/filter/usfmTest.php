@@ -22,67 +22,6 @@ class filterUsfmTest extends PHPUnit_Framework_TestCase
 {
 
 
-  public function setUp ()
-  {
-    $this->tearDown ();
-  }
-
-
-  public function tearDown ()
-  {
-    $GLOBALS[0] = true;
-    unset ($GLOBALS[0]);
-  }
-
-
-  public function testGetMarkersAndText()
-  {
-$usfm = <<<'EOD'
-\id GEN\c 10
-EOD;
-    $output = Filter_Usfm::getMarkersAndText ($usfm);
-    $this->assertEquals (array ("\\id ", "GEN", "\\c ", "10"), $output);
-
-$usfm = <<<'EOD'
-noise\id GEN\c 10
-EOD;
-    $output = Filter_Usfm::getMarkersAndText ($usfm);
-    $this->assertEquals (array ("noise", "\\id ", "GEN", "\\c ", "10"), $output);
-
-$usfm = <<<'EOD'
-\p\v 1 In \add the\add*
-EOD;
-    $output = Filter_Usfm::getMarkersAndText ($usfm);
-    $this->assertEquals (array ("\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*"), $output);
-
-$usfm = <<<'EOD'
-\v 2 Text \add of the \add*1st\add second verse\add*.
-EOD;
-    $output = Filter_Usfm::getMarkersAndText ($usfm);
-    $this->assertEquals (array ('\v ', '2 Text ', '\add ', 'of the ', '\add*', '1st', '\add ', 'second verse', '\add*', '.'), $output);
-
-$usfm = <<<'EOD'
-\p\v 1 In \+add the\+add*
-EOD;
-    $output = Filter_Usfm::getMarkersAndText ($usfm);
-    $this->assertEquals (array ('\p', '\v ', '1 In ', '\+add ', 'the', '\+add*'), $output);
-  }
-
-
-  public function testGetMarker()
-  {
-    $this->assertEquals("", Filter_Usfm::getMarker (""));
-    $this->assertEquals("id", Filter_Usfm::getMarker ('\id GEN'));
-    $this->assertEquals("", Filter_Usfm::getMarker (' \id GEN'));
-    $this->assertEquals("add", Filter_Usfm::getMarker ('\add insertion'));
-    $this->assertEquals("add", Filter_Usfm::getMarker ('\add'));
-    $this->assertEquals("add", Filter_Usfm::getMarker ('\add*'));
-    $this->assertEquals("add", Filter_Usfm::getMarker ('\add*\add'));
-    $this->assertEquals("add", Filter_Usfm::getMarker ('\+add'));
-    $this->assertEquals("add", Filter_Usfm::getMarker ('\+add*'));
-  }
-
-
   public function testImport()
   {
     $this->assertEquals(array(), Filter_Usfm::import ("", "Standard"));

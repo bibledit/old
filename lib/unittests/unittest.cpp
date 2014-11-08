@@ -489,9 +489,23 @@ void test_filters ()
     evaluate ("usfm_one_string 4", "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
     evaluate ("usfm_one_string 5", "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
 
-  
+    evaluate ("usfm_get_markers_and_text 1", { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
+    evaluate ("usfm_get_markers_and_text 2", { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
+    evaluate ("usfm_get_markers_and_text 3", { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
+    evaluate ("usfm_get_markers_and_text 4", { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
+    evaluate ("usfm_get_markers_and_text 5", { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
 
+    evaluate ("usfm_get_marker 1", "", usfm_get_marker (""));
+    evaluate ("usfm_get_marker 2", "id", usfm_get_marker ("\\id GEN"));
+    evaluate ("usfm_get_marker 3", "add", usfm_get_marker ("\\add insertion"));
+    evaluate ("usfm_get_marker 4", "add", usfm_get_marker ("\\add"));
+    evaluate ("usfm_get_marker 5", "add", usfm_get_marker ("\\add*"));
+    evaluate ("usfm_get_marker 6", "add", usfm_get_marker ("\\add*\\add"));
+    evaluate ("usfm_get_marker 7", "add", usfm_get_marker ("\\+add"));
+    evaluate ("usfm_get_marker 8", "add", usfm_get_marker ("\\+add*"));
+/*
 
+*/
   }
 }
 

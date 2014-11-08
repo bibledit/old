@@ -97,7 +97,7 @@ class Checks_Usfm
 
     $this->forwardSlash ($usfm);
 
-    $this->usfmMarkersAndText = Filter_Usfm::getMarkersAndText ($usfm);
+    $this->usfmMarkersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);
     for ($this->usfmMarkersAndTextPointer = 0; $this->usfmMarkersAndTextPointer < count ($this->usfmMarkersAndText); $this->usfmMarkersAndTextPointer++) {
       $this->usfmItem = $this->usfmMarkersAndText [$this->usfmMarkersAndTextPointer];
       if (Filter_Usfm::isUsfmMarker ($this->usfmItem)) {

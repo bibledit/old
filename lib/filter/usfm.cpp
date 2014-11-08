@@ -50,94 +50,87 @@ string usfm_one_string (string usfm)
 //             ...
 // Output would be:     array ("\id ", "GEN", "\c ", "10", ...)
 // If $code does not start with a marker, this becomes visible in the output too.
-public static function getMarkersAndText ($code)
+vector <string> usfm_get_markers_and_text (string code)
 {
-  $markers_and_text = array ();
-  $code = str_replace ("\n\\", "\\", $code); // New line followed by backslash: leave new line out.
-  $code = str_replace ("\n", " ", $code); // New line only: change to space, according to the USFM specification.
+  vector <string> markers_and_text;
+  code = filter_string_str_replace ("\n\\", "\\", code); // New line followed by backslash: leave new line out.
+  code = filter_string_str_replace ("\n", " ", code); // New line only: change to space, according to the USFM specification.
   // No removal of double spaces, because it would remove an opening marker (which already has its own space), followed by a space.
-  $code = trim ($code);
-  while ($code != "") {
-    if ($code != "") {
-      $pos = strpos ($code, "\\");
-      if ($pos === 0) {
-        // Marker found.
-        // The marker ends
-        // - after the first space, or
-        // - after the first asterisk (*), or
-        // - at the first backslash (\), or
-        // - at the end of the string,
-        // whichever comes first.
-        $positions = array ();
-        $pos = strpos ($code, " ");
-        if ($pos !== false) $positions [] = $pos + 1;
-        $pos = strpos ($code, "*");
-        if ($pos !== false) $positions [] = $pos + 1;
-        $pos = strpos ($code, "\\", 1);
-        if ($pos !== false) $positions [] = $pos;
-        $positions [] = strlen ($code);
-        sort ($positions, SORT_NUMERIC);
-        $pos = $positions[0];
-        $marker = substr ($code, 0, $pos);
-        $markers_and_text [] = $marker;
-        $code = substr ($code, $pos);
-      } else {
-        // Text found. It ends at the next backslash or at the end of the string.
-        $pos = strpos ($code, "\\");
-        if ($pos === false) $pos = strlen ($code);
-        $text = substr ($code, 0, $pos);
-        $markers_and_text [] = $text;
-        $code = substr ($code, $pos);
-      }
+  code = filter_string_trim (code);
+  while (!code.empty ()) {
+    size_t pos = code.find ("\\");
+    if (pos == 0) {
+      // Marker found.
+      // The marker ends
+      // - after the first space, or
+      // - after the first asterisk (*), or
+      // - at the first backslash (\), or
+      // - at the end of the string,
+      // whichever comes first.
+      vector <size_t> positions;
+      pos = code.find (" ");
+      if (pos != string::npos) positions.push_back (pos + 1);
+      pos = code.find ("*");
+      if (pos != string::npos) positions.push_back (pos + 1);
+      pos = code.find ("\\", 1);
+      if (pos != string::npos) positions.push_back (pos);
+      positions.push_back (code.length());
+      sort (positions.begin (), positions.end());
+      pos = positions[0];
+      string marker = code.substr (0, pos);
+      markers_and_text.push_back (marker);
+      code = code.substr (pos);
+    } else {
+      // Text found. It ends at the next backslash or at the end of the string.
+      pos = code.find ("\\");
+      if (pos == string::npos) pos = code.length();
+      string text = code.substr (0, pos);
+      markers_and_text.push_back (text);
+      code = code.substr (pos);
     }
   }
-  return $markers_and_text;
+  return markers_and_text;
 }
 
 
-/* C++Port Todo
 // Gets the marker from $usfm if it is there, else returns an empty string.
 // Examples:
 // "\id"    -> "id"
 // "\id "   -> "id"
 // "\add*"  -> "add"
 // "\+add*" -> "add"
-public static function getMarker ($usfm)
+string usfm_get_marker (string usfm)
 {
-  if ($usfm == "")
-    return $usfm;
-  $pos = strpos ($usfm, "\\");
-  if ($pos === 0) {
+  if (usfm.empty ()) return usfm;
+  size_t pos = usfm.find ("\\");
+  if (pos == 0) {
     // Marker found.
     // Erase backslash.
-    $usfm = substr ($usfm, 1);
+    usfm = usfm.substr (1);
     // Optionally erase the + embedded marker.
-    $pos = strpos ($usfm, "+");
-    if ($pos === 0) {
-      $usfm = substr ($usfm, 1);
-    }
+    pos = usfm.find ("+");
+    if (pos == 0) usfm = usfm.substr (1);
     // The marker ends
     // - at the first space, or
     // - at the first asterisk (*), or
     // - at the first backslash (\), or
     // - at the end of the string,
     // whichever comes first.
-    $positions = array ();
-    $pos = strpos ($usfm, " ");
-    if ($pos !== false) $positions [] = $pos;
-    $pos = strpos ($usfm, "*");
-    if ($pos !== false) $positions [] = $pos;
-    $pos = strpos ($usfm, "\\");
-    if ($pos !== false) $positions [] = $pos;
-    $positions [] = strlen ($usfm);
-    sort ($positions, SORT_NUMERIC);
-    $pos = $positions[0];
-    $marker = substr ($usfm, 0, $pos);
-    return $marker;
-  } else {
-    // Text found. No marker.
-    return "";
+    vector <size_t> positions;
+    pos = usfm.find (" ");
+    if (pos != string::npos) positions.push_back (pos);
+    pos = usfm.find ("*");
+    if (pos != string::npos) positions.push_back (pos);
+    pos = usfm.find ("\\");
+    if (pos != string::npos) positions.push_back (pos);
+    positions.push_back (usfm.length());
+    sort (positions.begin(), positions.end());
+    pos = positions[0];
+    string marker = usfm.substr (0, pos);
+    return marker;
   }
+  // Text found. No marker.
+  return "";
 }
 
 
@@ -153,7 +146,7 @@ public static function import ($input, $stylesheet)
   $chapter_data = "";
 
   $input = Filter_Usfm::oneString ($input);
-  $markers_and_text = Filter_Usfm::getMarkersAndText ($input);
+  $markers_and_text = Filter_Usfm::usfm_get_markers_and_text ($input);
   $retrieve_book_number_on_next_iteration = false;
   $retrieve_chapter_number_on_next_iteration = false;
 
@@ -206,11 +199,12 @@ public static function import ($input, $stylesheet)
 }
 
 
+/* C++Port Todo
 // Returns an array with the verse numbers found in $usfm.
 public static function getVerseNumbers ($usfm)
 {
   $verse_numbers = array (0);
-  $markers_and_text = Filter_Usfm::getMarkersAndText ($usfm);
+  $markers_and_text = Filter_Usfm::usfm_get_markers_and_text ($usfm);
   $extract_verse = false;
   foreach ($markers_and_text as $marker_or_text) {
     if ($extract_verse) {
@@ -436,7 +430,7 @@ public static function extractNotes ($usfm, $markers)
     $closers [] = self::getClosingUsfm ($marker);
   }
 
-  $usfm = self::getMarkersAndText ($usfm);
+  $usfm = self::usfm_get_markers_and_text ($usfm);
 
   $notes = array ();
   

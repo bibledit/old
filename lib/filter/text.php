@@ -118,7 +118,7 @@ class Filter_Text
     }
     $code .= "\n";
     // Sort the USFM $code out and separate it into markers and text.
-    $markersAndText = Filter_Usfm::getMarkersAndText ($code);
+    $markersAndText = Filter_Usfm::usfm_get_markers_and_text ($code);
     foreach ($markersAndText as $item) {
       $this->usfmMarkersAndText [] = $item;
     }

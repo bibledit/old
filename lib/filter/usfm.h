@@ -25,8 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 string usfm_one_string (string usfm);
-
-
+vector <string> usfm_get_markers_and_text (string code);
+string usfm_get_marker (string usfm);
 
 
 #endif
