@@ -1,1 +1,8 @@
+# Sample
+# find . -type f | xargs grep -l "searchfor" | xargs sed -i 's/searchfor/replacewith/'
+
+# Update copyright
 # find . -type f | xargs grep -l "2003-2013" | xargs sed -i 's/2003-2013/2003-2014/'
+
+find . -name '*.h' -o -name '*.cpp' | xargs grep -l "filter_url_dirname" | xargs sed -i 's/filter_url_dirname/get_dirname/g'
+
