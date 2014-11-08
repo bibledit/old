@@ -69,7 +69,7 @@ string session_login (void * webserver_request)
         // Log the login.
         Database_Logs::log (request->session_logic()->currentUser () + " logged in");
         // Store web site's base URL.
-        string siteUrl = filter_url_page_url (request);
+        string siteUrl = get_base_url (request);
         Database_Config_General::setSiteURL (siteUrl);
       } else {
         view.set_variable ("error_message", gettext ("Username or email address or password are not correct"));
@@ -87,7 +87,7 @@ string session_login (void * webserver_request)
   if (request->session_logic ()->loggedIn ()) {
     if (forward != "") {
       // After login, the user is forwarded to the originally requested URL, if any.
-      filter_url_redirect (forward, request);
+      redirect_browser (forward, request);
       return page;
     }
     page += session_login_display_header (webserver_request);

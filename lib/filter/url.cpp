@@ -36,7 +36,7 @@ using namespace std;
 
 
 // Gets the base URL of current Bibledit installation.
-string filter_url_page_url (Webserver_Request * request)
+string get_base_url (Webserver_Request * request)
 {
   // E.g. http or https: Always use http for just now.
   string scheme = "http";  
@@ -50,11 +50,11 @@ string filter_url_page_url (Webserver_Request * request)
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-void filter_url_redirect (string path, Webserver_Request * request)
+void redirect_browser (string path, Webserver_Request * request)
 {
   // A location header needs to contain an absolute url, like http://localhost/some.php.
   // See 14.30 in the specification http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
-  string location = filter_url_page_url (request) + path;
+  string location = get_base_url (request) + path;
   request->header = "Location: " + location;
   request->response_code = 302;
 }

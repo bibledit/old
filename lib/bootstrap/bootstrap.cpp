@@ -55,7 +55,7 @@ void bootstrap_index (Webserver_Request * request)
   
   // Forward the browser to the default home page.
   else {
-    filter_url_redirect ("/index/index", request);
+    redirect_browser ("/index/index", request);
   }
 }
 
