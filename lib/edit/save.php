@@ -52,7 +52,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
         $editor_export->run ();
         $usfm = $editor_export->get ();
   
-        $book_chapter_text = Filter_Usfm::import ($usfm, $stylesheet);
+        $book_chapter_text = usfm_import ($usfm, $stylesheet);
         foreach ($book_chapter_text as $data) {
           $book_number = $data[0];
           $chapter_number = $data[1];

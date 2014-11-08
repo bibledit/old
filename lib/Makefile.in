@@ -119,8 +119,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
 	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) \
+	database/books.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	journal/index.$(OBJEXT)
@@ -343,6 +343,7 @@ libbibledit_a_SOURCES = \
 	database/styles.cpp \
 	database/bibles.cpp \
 	database/search.cpp \
+	database/books.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -546,6 +547,8 @@ database/bibles.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/search.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
+database/books.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
 	@: > session/$(am__dirstamp)
@@ -687,6 +690,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@

@@ -612,7 +612,7 @@ EOD;
 $data [] = $usfm;
 
 foreach ($data as $usfm) {
-  $book_chapter_text = Filter_Usfm::import ($usfm, "Standard");
+  $book_chapter_text = usfm_import ($usfm, "Standard");
   foreach ($book_chapter_text as $data) {
     $book_number = $data[0];
     $chapter_number = $data[1];

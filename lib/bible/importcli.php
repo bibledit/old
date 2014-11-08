@@ -77,7 +77,7 @@ foreach ($files as $file) {
   if ($data !== false) {
     if ($data != "") {
       if (Validate_Utf8::valid ($data)) {
-        $book_chapter_text = Filter_Usfm::import ($data, $stylesheet);
+        $book_chapter_text = usfm_import ($data, $stylesheet);
         foreach ($book_chapter_text as $data) {
           $book_number = $data[0];
           $chapter_number = $data[1];

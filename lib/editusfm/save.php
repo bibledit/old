@@ -42,7 +42,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($usfm)) {
     if ($usfm != "") {
       if (Validate_Utf8::valid ($usfm)) {
         $stylesheet = $database_config_user->getStylesheet();
-        $book_chapter_text = Filter_Usfm::import ($usfm, $stylesheet);
+        $book_chapter_text = usfm_import ($usfm, $stylesheet);
         foreach ($book_chapter_text as $data) {
           $book_number = $data[0];
           $chapter_number = $data[1];

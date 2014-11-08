@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <database/styles.h>
 #include <database/search.h>
+#include <database/books.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -481,7 +482,7 @@ void test_filters ()
     evaluate ("filter_string_is_numeric 3", false, filter_string_is_numeric ("X"));
     evaluate ("filter_string_is_numeric 4", false, filter_string_is_numeric ("120X"));
   }
-  // Test the USFM filter functions. Todo
+  // Test the USFM filter functions. C++Port
   {
     evaluate ("usfm_one_string 1", "", usfm_one_string (""));
     evaluate ("usfm_one_string 2", "\\id GEN", usfm_one_string ("\\id GEN\n"));
@@ -503,9 +504,6 @@ void test_filters ()
     evaluate ("usfm_get_marker 6", "add", usfm_get_marker ("\\add*\\add"));
     evaluate ("usfm_get_marker 7", "add", usfm_get_marker ("\\+add"));
     evaluate ("usfm_get_marker 8", "add", usfm_get_marker ("\\+add*"));
-/*
-
-*/
   }
 }
 
@@ -1419,6 +1417,29 @@ void test_database_search ()
 }
 
 
+void test_database_books ()
+{
+  refresh_sandbox (true);
+  Database_Books database_books = Database_Books ();
+  database_books.create ();
+  evaluate ("Database_Books::getIDs", 69, database_books.getIDs ().size());
+  evaluate ("Database_Books::getIdFromEnglish", 2, database_books.getIdFromEnglish ("Exodus"));
+  evaluate ("Database_Books::getEnglishFromId", "Leviticus", database_books.getEnglishFromId (3));
+  evaluate ("Database_Books::getUsfmFromId", "NUM", database_books.getUsfmFromId (4));
+  evaluate ("Database_Books::getBibleworksFromId", "Deu", database_books.getBibleworksFromId (5));
+  evaluate ("Database_Books::getIdFromUsfm", 22, database_books.getIdFromUsfm ("SNG"));
+  evaluate ("Database_Books::getIdFromOsis", 13, database_books.getIdFromOsis ("1Chr"));
+  evaluate ("Database_Books::getIdFromBibleworks", 12, database_books.getIdFromBibleworks ("2Ki"));
+  evaluate ("Database_Books::getIdLikeText", 12, database_books.getIdLikeText ("2Ki"));
+  evaluate ("Database_Books::getIdFromOnlinebible", 12, database_books.getIdFromOnlinebible ("2Ki"));
+  evaluate ("Database_Books::getOnlinebibleFromId", "De", database_books.getOnlinebibleFromId (5));
+  evaluate ("Database_Books::getSequenceFromId", "5", database_books.getSequenceFromId (5));
+  evaluate ("Database_Books::getType 1", "nt", database_books.getType (40));
+  evaluate ("Database_Books::getType 1", "ot", database_books.getType (39));
+  evaluate ("Database_Books::getType 1", "", database_books.getType (0));
+}
+
+
 int main (int argc, char **argv) 
 {
   // No compile warnings.
@@ -1426,7 +1447,7 @@ int main (int argc, char **argv)
   if (argv[0]) {};
 
   cout << "Running unittests" << endl;
-  
+
   // Directory where the unit tests will run.
   testing_directory = "/tmp/bibledit-unittests";  
   filter_url_mkdir (testing_directory);
@@ -1439,14 +1460,13 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-test_filters (); exit (0); // Todo
   // Run the tests.
   test_database_config_general ();
   test_database_config_bible ();
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  //test_filters ();
+  test_filters ();
   test_database_users ();
   test_session_logic ();
   test_empty_folders ();
@@ -1454,6 +1474,7 @@ test_filters (); exit (0); // Todo
   test_database_styles ();
   test_database_bibles ();
   test_database_search ();
+  test_database_books ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

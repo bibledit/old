@@ -4,6 +4,6 @@
 # Update copyright
 # find . -type f | xargs grep -l "2003-2013" | xargs sed -i 's/2003-2013/2003-2014/'
 
-find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "getMarkersAndText" | xargs sed -i 's/getMarkersAndText/usfm_get_markers_and_text/g'
+find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "Filter_Usfm::import" | xargs sed -i 's/Filter_Usfm::import/usfm_import/g'
 
 

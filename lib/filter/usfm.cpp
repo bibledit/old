@@ -134,28 +134,29 @@ string usfm_get_marker (string usfm)
 }
 
 
+/* C++Port
 // This imports USFM $input.
 // It takes raw $input,
 // and returns an array of an array [book_number, chapter_number, chapter_data].
-public static function import ($input, $stylesheet)
+vector < vector <string> > usfm_import (string input, string stylesheet)
 {
-  $result = array ();
+  vector < vector <string> > result;
 
-  $book_number = 0;
-  $chapter_number = 0;
-  $chapter_data = "";
+  int book_number = 0;
+  int chapter_number = 0;
+  string chapter_data = "";
 
-  $input = Filter_Usfm::oneString ($input);
-  $markers_and_text = Filter_Usfm::usfm_get_markers_and_text ($input);
-  $retrieve_book_number_on_next_iteration = false;
-  $retrieve_chapter_number_on_next_iteration = false;
+  input = usfm_one_string (input);
+  vector <string> markers_and_text = usfm_get_markers_and_text (input);
+  bool retrieve_book_number_on_next_iteration = false;
+  bool retrieve_chapter_number_on_next_iteration = false;
 
-  foreach ($markers_and_text as $marker_or_text) {
-    if ($retrieve_book_number_on_next_iteration) {
-      $database_books = Database_Books::getInstance ();
-      $book_number = $database_books->getIdFromUsfm (substr ($marker_or_text, 0, 3));
-      $chapter_number = 0;
-      $retrieve_book_number_on_next_iteration = false;
+  for (string marker_or_text : markers_and_text) {
+    if (retrieve_book_number_on_next_iteration) {
+      Database_Books database_books = Database_Books ();
+      book_number = database_books.getIdFromUsfm (marker_or_text.substr (0, 3));
+      chapter_number = 0;
+      retrieve_book_number_on_next_iteration = false;
     }
     if ($retrieve_chapter_number_on_next_iteration) {
       $retrieve_chapter_number_on_next_iteration = false;
@@ -195,9 +196,9 @@ public static function import ($input, $stylesheet)
   }
   $chapter_data = trim ($chapter_data);
   if ($chapter_data != "") $result [] = array ($book_number, $chapter_number, $chapter_data);
-  return $result;
+  return result;
 }
-
+*/
 
 /* C++Port Todo
 // Returns an array with the verse numbers found in $usfm.
