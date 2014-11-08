@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <filter/md5.h>
+#include <filter/usfm.h>
 #include <session/logic.h>
 #include <flate/flate2.h>
 
@@ -448,17 +449,17 @@ void test_filters ()
   }
   {
     // Test dirname and basename functions.
-    evaluate ("filter_url_dirname 1", ".", filter_url_dirname (""));
-    evaluate ("filter_url_dirname 2", ".", filter_url_dirname ("/"));
-    evaluate ("filter_url_dirname 3", ".", filter_url_dirname ("dir/"));
-    evaluate ("filter_url_dirname 4", ".", filter_url_dirname ("/dir"));
-    evaluate ("filter_url_dirname 5", "foo", filter_url_dirname ("foo/bar"));
-    evaluate ("filter_url_dirname 6", "/foo", filter_url_dirname ("/foo/bar"));
-    evaluate ("filter_url_dirname 7", "/foo", filter_url_dirname ("/foo/bar/"));
-    evaluate ("filter_url_basename 1", "a.txt", filter_url_basename ("/a.txt"));
-    evaluate ("filter_url_basename 2", "txt", filter_url_basename ("/txt/"));
-    evaluate ("filter_url_basename 3", "foo.bar", filter_url_basename ("/path/to/foo.bar"));
-    evaluate ("filter_url_basename 4", "foo.bar", filter_url_basename ("foo.bar"));
+    evaluate ("get_dirname 1", ".", get_dirname (""));
+    evaluate ("get_dirname 2", ".", get_dirname ("/"));
+    evaluate ("get_dirname 3", ".", get_dirname ("dir/"));
+    evaluate ("get_dirname 4", ".", get_dirname ("/dir"));
+    evaluate ("get_dirname 5", "foo", get_dirname ("foo/bar"));
+    evaluate ("get_dirname 6", "/foo", get_dirname ("/foo/bar"));
+    evaluate ("get_dirname 7", "/foo", get_dirname ("/foo/bar/"));
+    evaluate ("get_basename 1", "a.txt", get_basename ("/a.txt"));
+    evaluate ("get_basename 2", "txt", get_basename ("/txt/"));
+    evaluate ("get_basename 3", "foo.bar", get_basename ("/path/to/foo.bar"));
+    evaluate ("get_basename 4", "foo.bar", get_basename ("foo.bar"));
   }
   {
     // Test the date and time related functions.
@@ -479,6 +480,18 @@ void test_filters ()
     evaluate ("filter_string_is_numeric 2", true, filter_string_is_numeric ("1234"));
     evaluate ("filter_string_is_numeric 3", false, filter_string_is_numeric ("X"));
     evaluate ("filter_string_is_numeric 4", false, filter_string_is_numeric ("120X"));
+  }
+  // Test the USFM filter functions. Todo
+  {
+    evaluate ("usfm_one_string 1", "", usfm_one_string (""));
+    evaluate ("usfm_one_string 2", "\\id GEN", usfm_one_string ("\\id GEN\n"));
+    evaluate ("usfm_one_string 3", "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
+    evaluate ("usfm_one_string 4", "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
+    evaluate ("usfm_one_string 5", "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
+
+  
+
+
   }
 }
 
@@ -1412,13 +1425,14 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
+test_filters (); exit (0); // Todo
   // Run the tests.
   test_database_config_general ();
   test_database_config_bible ();
   test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
-  test_filters ();
+  //test_filters ();
   test_database_users ();
   test_session_logic ();
   test_empty_folders ();

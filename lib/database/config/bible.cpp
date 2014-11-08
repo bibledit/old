@@ -57,7 +57,7 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
 void Database_Config_Bible::setValue (string bible, const char * key, string value)
 {
   string filename = file (bible, key);
-  string dirname = filter_url_dirname (filename);
+  string dirname = get_dirname (filename);
   if (!filter_url_file_exists (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
 }

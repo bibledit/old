@@ -109,10 +109,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	webserver/request.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
 	filter/url.$(OBJEXT) filter/string.$(OBJEXT) \
 	filter/roles.$(OBJEXT) filter/md5.$(OBJEXT) \
-	flate/flate2.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	filter/usfm.$(OBJEXT) flate/flate2.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
@@ -322,6 +323,7 @@ libbibledit_a_SOURCES = \
 	filter/string.cpp \
 	filter/roles.cpp \
 	filter/md5.cpp \
+	filter/usfm.cpp \
 	flate/flate2.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -455,6 +457,8 @@ filter/string.$(OBJEXT): filter/$(am__dirstamp) \
 filter/roles.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/md5.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/usfm.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -696,6 +700,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@

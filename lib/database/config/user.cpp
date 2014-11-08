@@ -98,7 +98,7 @@ void Database_Config_User::setValue (const char * key, string value)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   string filename = file (user, key);
-  string directory = filter_url_dirname (filename);
+  string directory = get_dirname (filename);
   if (filter_url_file_exists (directory)) filter_url_mkdir (directory);
   filter_url_file_put_contents (filename, value);
 }
@@ -139,7 +139,7 @@ void Database_Config_User::setList (const char * key, vector <string> values)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   string filename = file (user, key);
-  string directory = filter_url_dirname (filename);
+  string directory = get_dirname (filename);
   if (!filter_url_file_exists (directory)) filter_url_mkdir (directory);
   string value = filter_string_implode (values, "\n");
   filter_url_file_put_contents (filename, value);

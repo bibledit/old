@@ -69,16 +69,6 @@ EOD;
   }
 
 
-  public function testOneString()
-  {
-    $this->assertEquals("", Filter_Usfm::oneString (""));
-    $this->assertEquals("\\id GEN", Filter_Usfm::oneString ("\\id GEN\n"));
-    $this->assertEquals("\\v 10 text", Filter_Usfm::oneString ("\\v 10\ntext"));
-    $this->assertEquals("\\v 10\\v 11", Filter_Usfm::oneString ("\\v 10\n\\v 11"));
-    $this->assertEquals("\\v 10 text\\p\\v 11", Filter_Usfm::oneString ("\\v 10 text\n\\p\\v 11"));
-  }
-  
-
   public function testGetMarker()
   {
     $this->assertEquals("", Filter_Usfm::getMarker (""));

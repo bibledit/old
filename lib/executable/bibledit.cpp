@@ -48,7 +48,7 @@ int main (int argc, char **argv)
   memset (linkname, 0, 256); // valgrind uninitialized value(s)
   ssize_t r = readlink ("/proc/self/exe", linkname, 256);
   if (r) {};
-  bibledit_root (filter_url_dirname (linkname));
+  bibledit_root (get_dirname (linkname));
   free (linkname);
 
   // Start the Bibledit library.
