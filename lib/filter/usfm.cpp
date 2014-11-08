@@ -19,6 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/usfm.h>
 #include <filter/string.h>
+#include <database/books.h>
+#include <database/styles.h>
+
+
+BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)
+{
+  book = book_in;
+  chapter = chapter_in;
+  data = data_in;
+}
 
 
 // Returns the string $usfm as one long string.
@@ -134,13 +144,12 @@ string usfm_get_marker (string usfm)
 }
 
 
-/* C++Port
 // This imports USFM $input.
 // It takes raw $input,
 // and returns an array of an array [book_number, chapter_number, chapter_data].
-vector < vector <string> > usfm_import (string input, string stylesheet)
+vector <BookChapterData> usfm_import (string input, string stylesheet)
 {
-  vector < vector <string> > result;
+  vector <BookChapterData> result;
 
   int book_number = 0;
   int chapter_number = 0;
@@ -158,47 +167,52 @@ vector < vector <string> > usfm_import (string input, string stylesheet)
       chapter_number = 0;
       retrieve_book_number_on_next_iteration = false;
     }
-    if ($retrieve_chapter_number_on_next_iteration) {
-      $retrieve_chapter_number_on_next_iteration = false;
-      $chapter_number = Filter_Numeric::integer_in_string ($marker_or_text);
+    if (retrieve_chapter_number_on_next_iteration) {
+      retrieve_chapter_number_on_next_iteration = false;
+      chapter_number = convert_to_int (marker_or_text);
+      /* Todo test this, may not be needed.
       if ($chapter_number == "") {
         $chapter_number = 0;
       }
+      */
     }
-    $marker = Filter_Usfm::getMarker ($marker_or_text);
-    if ($marker != "") {
+    string marker = usfm_get_marker (marker_or_text);
+    if (marker != "") {
       // USFM marker found.
-      if ($marker == "id") {
-        $retrieve_book_number_on_next_iteration = true;
-        $store_chapter_data = true;
+      bool store_chapter_data = false;
+      if (marker == "id") {
+        retrieve_book_number_on_next_iteration = true;
+        store_chapter_data = true;
       }
-      if ($marker == "c") {
-        $retrieve_chapter_number_on_next_iteration = true;
-        $store_chapter_data = true;
+      if (marker == "c") {
+        retrieve_chapter_number_on_next_iteration = true;
+        store_chapter_data = true;
       }
-      if ($store_chapter_data) {
-        $chapter_data = trim ($chapter_data);
-        if ($chapter_data != "") $result [] = array ($book_number, $chapter_number, $chapter_data);
-        $chapter_number = 0;
-        $chapter_data = "";
-        $store_chapter_data = false;
+      if (store_chapter_data) {
+        chapter_data = filter_string_trim (chapter_data);
+        if (chapter_data != "") result.push_back ( { book_number, chapter_number, chapter_data } );
+        chapter_number = 0;
+        chapter_data = "";
+        store_chapter_data = false;
       }
-      $database_styles = Database_Styles::getInstance ();
-      $marker_data = $database_styles->getMarkerData ($stylesheet, $marker);
-      $type = $marker_data['type'];
-      $subtype = $marker_data['subtype'];
+      Database_Styles database_styles = Database_Styles ();
+      Database_Styles_Item marker_data = database_styles.getMarkerData (stylesheet, marker);
+      int type = marker_data.type;
+      int subtype = marker_data.subtype;
+      /* Todo
       $styles_logic = Styles_Logic::getInstance();
       if ($styles_logic->startsNewLineInUsfm ($type, $subtype)) {
-        $chapter_data .= "\n";
+        chapter_data += "\n";
       }
+      */
     }
-    $chapter_data .= $marker_or_text;
+    chapter_data += marker_or_text;
   }
-  $chapter_data = trim ($chapter_data);
-  if ($chapter_data != "") $result [] = array ($book_number, $chapter_number, $chapter_data);
+  chapter_data = filter_string_trim (chapter_data);
+  if (chapter_data != "") result.push_back (BookChapterData (book_number, chapter_number, chapter_data));
   return result;
 }
-*/
+
 
 /* C++Port Todo
 // Returns an array with the verse numbers found in $usfm.

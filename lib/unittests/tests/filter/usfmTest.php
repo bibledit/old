@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
  
-class filterUsfmTest extends PHPUnit_Framework_TestCase C++Port
+class filterUsfmTest extends PHPUnit_Framework_TestCase // Todo C++Port
 {
 
 
