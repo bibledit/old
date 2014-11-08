@@ -23,39 +23,6 @@ class filterUsfmTest extends PHPUnit_Framework_TestCase // Todo C++Port
 {
 
 
-  public function testImport() 
-  {
-    $this->assertEquals(array(), usfm_import ("", "Standard"));
-    $this->assertEquals(array(array (33, 0, "\\id MIC"), array (33, 1, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.")), usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", "Standard"));
-  }
-
-  
-  public function testLineNumber2VerseNumber()
-  {
-$usfm = <<<EOD
-\\id MIC
-EOD;
-    $this->assertEquals (0, Filter_Usfm::lineNumber2VerseNumber ($usfm, 0));
-$usfm = <<<EOD
-\\id MIC
-\\v 1 Verse
-EOD;
-    $this->assertEquals (1, Filter_Usfm::lineNumber2VerseNumber ($usfm, 1));
-$usfm = <<<EOD
-\\v 1 Verse
-EOD;
-    $this->assertEquals (1, Filter_Usfm::lineNumber2VerseNumber ($usfm, 0));
-$usfm = <<<EOD
-\\p
-\\v 3 Verse 3 (out of order).
-\\v 1 Verse 1. 
-\\v 2 Verse 1.
-EOD;
-    $this->assertEquals (0, Filter_Usfm::lineNumber2VerseNumber ($usfm, 0));
-    $this->assertEquals (3, Filter_Usfm::lineNumber2VerseNumber ($usfm, 1));
-    $this->assertEquals (1, Filter_Usfm::lineNumber2VerseNumber ($usfm, 2));
-    $this->assertEquals (2, Filter_Usfm::lineNumber2VerseNumber ($usfm, 3));
-  }
 
   
   public function testOffset2VerseNumberOne ()

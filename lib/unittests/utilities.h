@@ -17,10 +17,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#ifndef INCLUDED_UNITTESTS_UTILITIES_H
+#define INCLUDED_UNITTESTS_UTILITIES_H
+
+
 #include <config/libraries.h>
 
 
-using namespace std;
+extern string testing_directory;
+extern int error_count;
+void refresh_sandbox (bool displayjournal);
+void error_message (string function, string desired, string actual);
+void evaluate (string function, string desired, string actual);
+void evaluate (string function, int desired, int actual);
+void evaluate (string function, bool desired, bool actual);
+void evaluate (string function, vector <string> desired, vector <string> actual);
+void evaluate (string function, vector <int> desired, vector <int> actual);
 
 
-int main (int argc, char **argv);
+#endif

@@ -130,7 +130,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_server_OBJECTS = executable/bibledit.$(OBJEXT)
 server_OBJECTS = $(am_server_OBJECTS)
 server_DEPENDENCIES = libbibledit.a
-am_unittest_OBJECTS = unittests/unittest.$(OBJEXT)
+am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
+	unittests/utilities.$(OBJEXT) unittests/tests1.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -355,7 +356,11 @@ libbibledit_a_SOURCES = \
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
-unittest_SOURCES = unittests/unittest.cpp
+unittest_SOURCES = \
+	unittests/unittest.cpp \
+	unittests/utilities.cpp \
+	unittests/tests1.cpp
+
 unittest_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 `xml2-config \
 	--cflags` $(SQLITE_CFLAGS)
@@ -664,6 +669,10 @@ unittests/$(DEPDIR)/$(am__dirstamp):
 	@: > unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/unittest.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/utilities.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/tests1.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -730,7 +739,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tests1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/request.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/webserver.Po@am__quote@

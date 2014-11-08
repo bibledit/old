@@ -46,7 +46,10 @@ server_SOURCES = executable/bibledit.cpp
 
 server_LDADD = libbibledit.a
 
-unittest_SOURCES = unittests/unittest.cpp
+unittest_SOURCES = \
+	unittests/unittest.cpp \
+	unittests/utilities.cpp \
+	unittests/tests1.cpp
 
 unittest_LDADD = libbibledit.a
 

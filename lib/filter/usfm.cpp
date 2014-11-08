@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/books.h>
 #include <database/styles.h>
+#include <styles/logic.h>
 
 
 BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)
@@ -146,7 +147,7 @@ string usfm_get_marker (string usfm)
 
 // This imports USFM $input.
 // It takes raw $input,
-// and returns an array of an array [book_number, chapter_number, chapter_data].
+// and returns a vector with objects with book_number, chapter_number, chapter_data.
 vector <BookChapterData> usfm_import (string input, string stylesheet)
 {
   vector <BookChapterData> result;
@@ -170,11 +171,6 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
     if (retrieve_chapter_number_on_next_iteration) {
       retrieve_chapter_number_on_next_iteration = false;
       chapter_number = convert_to_int (marker_or_text);
-      /* Todo test this, may not be needed.
-      if ($chapter_number == "") {
-        $chapter_number = 0;
-      }
-      */
     }
     string marker = usfm_get_marker (marker_or_text);
     if (marker != "") {
@@ -199,12 +195,9 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
       Database_Styles_Item marker_data = database_styles.getMarkerData (stylesheet, marker);
       int type = marker_data.type;
       int subtype = marker_data.subtype;
-      /* Todo
-      $styles_logic = Styles_Logic::getInstance();
-      if ($styles_logic->startsNewLineInUsfm ($type, $subtype)) {
+      if (styles_logic_starts_new_line_in_usfm (type, subtype)) {
         chapter_data += "\n";
       }
-      */
     }
     chapter_data += marker_or_text;
   }
@@ -214,43 +207,44 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 }
 
 
-/* C++Port Todo
 // Returns an array with the verse numbers found in $usfm.
-public static function getVerseNumbers ($usfm)
+vector <int> usfm_get_verse_numbers (string usfm)
 {
-  $verse_numbers = array (0);
-  $markers_and_text = Filter_Usfm::usfm_get_markers_and_text ($usfm);
-  $extract_verse = false;
-  foreach ($markers_and_text as $marker_or_text) {
-    if ($extract_verse) {
-      $verse_numbers [] = Filter_Numeric::integer_in_string ($marker_or_text);
-      $extract_verse = false;
+  vector <int> verse_numbers = { 0 };
+  vector <string> markers_and_text = usfm_get_markers_and_text (usfm);
+  bool extract_verse = false;
+  for (string marker_or_text : markers_and_text) {
+    if (extract_verse) {
+      verse_numbers.push_back (convert_to_int (marker_or_text));
+      extract_verse = false;
     }
-    if (substr ($marker_or_text, 0, 2) == '\v') {
-      $extract_verse = true;
+    if (marker_or_text.substr (0, 2) == "\\v") {
+      extract_verse = true;
     }
   }
-  return $verse_numbers;
+  return verse_numbers;
 }
 
 
 // Returns the verse number in the string of $usfm code at line number $line_number.
-public static function lineNumber2VerseNumber ($usfm, $line_number)
+int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 {
-  $verse_number = 0; // Initial verse number.
-  $lines = explode ("\n", $usfm);
-  for ($i = 0; $i < count ($lines); $i++) {
-    if ($i <= $line_number) {
-      $verse_numbers = Filter_Usfm::getVerseNumbers ($lines[$i]);
-      if (count ($verse_numbers) >= 2) {
-        $verse_number = $verse_numbers[1];
+  int verse_number = 0; // Initial verse number.
+  vector <string> lines = filter_string_explode (usfm, '\n');
+  for (unsigned int i = 0; i < lines.size(); i++) {
+    if (i <= line_number) {
+      vector <int> verse_numbers = usfm_get_verse_numbers (lines[i]);
+      if (verse_numbers.size() >= 2) {
+        verse_number = verse_numbers[1];
       }
     }
   }
-  return $verse_number;
+  return verse_number;
 }
 
 
+
+/* C++Port Todo
 // Returns the verse number in the string of $usfm code at offset $offset.
 // Offset is calculated with mb_strlen to support UTF-8.
 public static function offset2verseNumber ($usfm, $offset)
