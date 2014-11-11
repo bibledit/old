@@ -114,6 +114,13 @@ int convert_to_int (string s)
 }
 
 
+int convert_to_int (float f)
+{
+  int i = (int)round(f);
+  return i;
+}
+
+
 long long convert_to_long_long (string s)
 {
   long long i = 0;

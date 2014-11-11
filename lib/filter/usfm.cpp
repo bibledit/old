@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/styles.h>
 #include <styles/logic.h>
-#include <utf8/utf8.h>
+#include <utf8/String.h>
 
 
 BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)
@@ -258,8 +258,8 @@ int usfm_offset_to_versenumber (string usfm, unsigned int offset)
   unsigned int totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
-    string line = lines [i];
-    int length = utf8::distance (line.begin(), line.end());
+    UTF8::String line (lines [i]);
+    int length = line.Length ();
     totalOffset += length;
     if (totalOffset >= offset) {
       return usfm_linenumber_to_versenumber (usfm, i);
@@ -284,11 +284,13 @@ int usfm_versenumber_to_offset (string usfm, int verse)
     int v = 0;
     if (!verses.empty()) v = verses [1];
     if (v == verse) return totalOffset;
-    totalOffset += utf8::distance (line.begin(), line.end ());
+    UTF8::String s (line);
+    totalOffset += s.Length ();
     // Add 1 for new line.
     totalOffset += 1;
   }
-  return utf8::distance (usfm.begin(), usfm.end());
+  UTF8::String s (usfm);
+  return s.Length ();
 }
 
 
@@ -460,7 +462,10 @@ vector <UsfmNote> usfm_extract_notes (string usfm, const vector <string> & marke
 
     // Caclulate the offset in the main text. 
     // That means not to consider the length of the notes.
-    if (!within_note) running_offset += utf8::distance (item.begin(), item.end());
+    if (!within_note) {
+      UTF8::String s (item);
+      running_offset += s.Length();
+    }
     
     if (within_note) running_note += item;
 
@@ -475,79 +480,78 @@ vector <UsfmNote> usfm_extract_notes (string usfm, const vector <string> & marke
 }
 
 
-/* C++Port Todo
 // This function removes the notes from the USFM.
 // $usfm: Where to extract from.
 // $markers: Array of markers surrounding the notes.
 // It returns the USFM without the notes.
-public static function removeNotes ($usfm, $markers)
+string usfm_remove_notes (string usfm, const vector <string> & markers)
 {
-  $notes = self::extractNotes ($usfm, $markers);
-  foreach ($notes as $note) {
-    $search = $note [1];
-    $usfm = str_replace ($search, "", $usfm);
+  vector <UsfmNote> notes = usfm_extract_notes (usfm, markers);
+  for (auto note : notes) {
+    string search = note.data;
+    usfm = filter_string_str_replace (search, "", usfm);
   }
-  return $usfm;
+  return usfm;
 }
 
 
 // This function inserts notes into USFM.
 // It replaces $search with $replace in the $notes.
 // $usfm: string where to insert the notes - it is assumed not to contain any notes yet.
-// $notes: array of offsets => notes.
+// $notes: object of offsets => notes.
 // $ratio: ratio to multiply the offsets with.
 // It returns the updated USFM.
-public static function insertNotes ($usfm, $notes, $ratio)
+string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio)
 {
-  if (!isset ($usfm)) return $usfm;
-  if ($usfm == "") return $usfm;
-  if (!isset ($notes)) return $usfm;
-  if (empty ($notes)) return $usfm;
+  if (usfm.empty()) return usfm;
+  if (notes.empty()) return usfm;
+  
+  vector <string> markers = {"x", "f", "fe"};
   
   // Temporally extract existing notes.
-  $existing = self::extractNotes ($usfm, array ("x", "f", "fe"));
+  vector <UsfmNote> existing = usfm_extract_notes (usfm, markers);
 
   // Work with USFM without notes so that a note will not be inserted in another note.
-  $usfm = self::removeNotes ($usfm, array ("x", "f", "fe"));
+  usfm = usfm_remove_notes (usfm, markers);
 
   // Calculate insertion positions before actually inserting the notes to avoid nested notes placement.
-  foreach ($notes as $key => $note) {
-    $position = $note [0];
-    $position = intval ($position * $ratio);
-    $position = self::getNewNotePosition ($usfm, $position, 0);
-    $notes [$key] [0] = $position;
+  for (UsfmNote & note : notes) {
+    int position = note.offset;
+    position = convert_to_int (position * ratio);
+    position = usfm_get_new_note_position (usfm, position, 0);
+    note.offset = position;
   }
 
   // Add existing notes data.
-  $notes = array_merge ($notes, $existing);
+  notes.insert (notes.end(), existing.begin(), existing.end());
 
   // Sort the notes such that the last one gets inserted first.
   // This way inserting happens from the end of the USFM towards the start.
   // Inserted text does not affect any insertion positions this way.
-  $highest_position = 0;
-  foreach ($notes as $note) {
-    $position = $note [0];
-    if ($position > $highest_position) {
-      $highest_position = $position;
+  int highest_position = 0;
+  for (UsfmNote note : notes) {
+    int position = note.offset;
+    if (position > highest_position) {
+      highest_position = position;
     }
   }
-  $notes2 = array ();
-  for ($i = $highest_position; $i >= 0; $i--) {
-    foreach ($notes as $note) {
-      if ($note [0] == $i) {
-        $notes2 [] = $note;
+  vector <UsfmNote> notes2;
+  for (int i = highest_position; i >= 0; i--) {
+    for (UsfmNote note : notes) {
+      if (note.offset == i) {
+        notes2.push_back (note);
       }
     }
   }
 
   // Insert the notes into the USFM at the correct position.
-  foreach ($notes2 as $note) {
-    $position = $note [0];
-    $text = $note [1];
-    $usfm = substr_replace ($usfm, $text, $position, 0);
+  for (UsfmNote note : notes2) {
+    int position = note.offset;
+    string text = note.data;
+    usfm.insert (position, text);
   }
 
-  return $usfm;
+  return usfm;
 }
 
 
@@ -556,18 +560,20 @@ public static function insertNotes ($usfm, $notes, $ratio)
 // $direction: The direction into which to move the note.
 // $number: The note number. Starts at 1.
 // Returns the updated USFM.
-public static function moveNote ($usfm, $direction, $number)
+string usfm_move_note (string usfm, int direction, int number)
 {
-  $notes = self::extractNotes ($usfm, array ("x", "f", "fe"));
-  $key = $number - 1;
-  if (!isset ($notes [$key])) return $usfm;
-  $usfm = self::removeNotes ($usfm, array ("x", "f", "fe"));
-  $position = $notes [$key] [0];
-  $position += ($direction * 3);
-  $position = self::getNewNotePosition ($usfm, $position, $direction);
-  $notes [$key] [0] = $position;
-  $usfm = self::insertNotes ($usfm, $notes, 1);
-  return $usfm;
+  vector <string> markers = {"x", "f", "fe"};
+  vector <UsfmNote> notes = usfm_extract_notes (usfm, markers);
+  int key = number - 1;
+  if (key < 0) return usfm;
+  if (key >= (int)notes.size()) return usfm;
+  usfm = usfm_remove_notes (usfm, markers);
+  int position = notes[key].offset;
+  position += (direction * 3);
+  position = usfm_get_new_note_position (usfm, position, direction);
+  notes[key].offset = position;
+  usfm = usfm_insert_notes (usfm, notes, 1);
+  return usfm;
 }
 
 
@@ -578,74 +584,78 @@ public static function moveNote ($usfm, $direction, $number)
 //   -1: Go back to the previous slot.
 //    0: Attempt current position, else take next slot.
 //    1: Go forward to the next slot.
-public static function getNewNotePosition ($usfm, $position, $direction)
+// The positions take the string as UTF8.
+size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 {
-  $words = explode (" ", $usfm);
+  vector <string> words = filter_string_explode (usfm, ' ');
 
-  $length = 0;
+  size_t length = 0;
 
-  $lengths = array ();
+  vector <size_t> lengths;
 
-  foreach ($words as $word) {
+  for (string word : words) {
 
     // Add length of item.
-    $length += mb_strlen ($word);
+    UTF8::String s (word);
+    length += s.Length();
     
     // Check whether at opening marker.
-    $opening_marker = self::isUsfmMarker ($word);
-    if ($opening_marker) {
-      $opening_marker = self::isOpeningMarker ($word);
+    bool opening_marker = usfm_is_usfm_marker (word);
+    if (opening_marker) {
+      opening_marker = usfm_is_opening_marker (word);
     }
 
     // Don't create a slot for placing a note right after an opening marker.
-    if (!$opening_marker) $lengths [] = $length;
+    if (!opening_marker) lengths.push_back (length);
 
     // Add length of space.
-    $length++;
+    length++;
     
   }
   
-  $found = false;
+  bool found = false;
   
-  if ($direction > 0) {
+  if (direction > 0) {
     // Take next position.
-    foreach ($lengths as $key => $length) {
-      if ($found) continue;
-      if ($length > $position) {
-        $position = $length;
-        $found = true;
+    for (size_t length : lengths) {
+      if (found) continue;
+      if (length > position) {
+        position = length;
+        found = true;
       }
     }
-  } else if ($direction < 0) {
+  } else if (direction < 0) {
     // Take previous position.
-    $lengths_r = array_reverse ($lengths);
-    foreach ($lengths_r as $key => $length) {
-      if ($found) continue;
-      if ($length < $position) {
-        $position = $length;
-        $found = true;
+    vector <size_t> lengths_r (lengths.begin(), lengths.end());
+    reverse (lengths_r.begin(), lengths_r.end());
+    for (size_t length : lengths_r) {
+      if (found) continue;
+      if (length < position) {
+        position = length;
+        found = true;
       }
     }
   } else {
     // Take optimal position.
-    foreach ($lengths as $key => $length) {
-      if ($found) continue;
-      if ($length >= $position) {
-        $position = $length;
-        $found = true;
+    for (size_t length : lengths) {
+      if (found) continue;
+      if (length >= position) {
+        position = length;
+        found = true;
       }
     }
   }
   
-  if (!$found) {
-    $position = mb_strlen ($usfm);
+  if (!found) {
+    UTF8::String s(usfm);
+    position = s.Length ();
   }
   
   // Move a note to before punctuation.
-  $punctuation = array (".", ",", ";", ":", "?", "!");
-  $character = mb_substr ($usfm, $position - 1, 1);
-  if (in_array ($character, $punctuation)) $position--;
+  set <UTF8::String> punctuation = {".", ",", ";", ":", "?", "!"};
+  UTF8::String s(usfm);
+  UTF8::String character = s.Substring (position - 1, 1);
+  if (punctuation.find (character) != punctuation.end()) position--;
 
-  return $position;
+  return position;
 }
-*/

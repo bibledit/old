@@ -34,6 +34,7 @@ string convert_to_string (const char * c);
 string convert_to_string (bool b);
 string convert_to_string (string s);
 int convert_to_int (string s);
+int convert_to_int (float f);
 long long convert_to_long_long (string s);
 bool convert_to_bool (string s);
 bool filter_string_in_array (const string& needle, const vector <string>& haystack);

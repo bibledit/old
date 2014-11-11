@@ -422,12 +422,134 @@ void test_filters ()
     }
   }
   {
+    string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi\\f + Hlab. 81.5.\\f*\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
+    usfm = usfm_remove_notes (usfm, {"x", "f", "fe"});
+    string standard = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**, khanyisa.";
+    evaluate (__LINE__, __func__, standard, usfm);
   }
   {
+    // Test inserting empty notes
+    UsfmNote usfmnote (1, "");
+    string usfm = usfm_insert_notes ("", {usfmnote}, 0.9);
+    evaluate (__LINE__, __func__, "", usfm);
+
+    usfmnote = UsfmNote (1, "");
+    usfm = usfm_insert_notes ("", {usfmnote}, 0.9);
+    evaluate (__LINE__, __func__, "", usfm);
+
+    usfmnote = UsfmNote (1, "");
+    usfm = usfm_insert_notes ("\\v 1 Text.", {}, 0.9);
+    evaluate (__LINE__, __func__, "\\v 1 Text.", usfm);
+  }
+  {
+    // Test regular notes placement.
+    string usfm = "\\v 1 Melusi kaIsrayeli\\x + Ps. 1.1\\x*, beka indlebe, okhokhela uJosefa njengomhlambi, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**, khanyisa.";
+    vector <UsfmNote> notes = {
+      {54, "\\x + Hlab. 81.5.\\x*"},
+      {69, "\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*"},
+      {117, "\\x + Hlab. 99.1. Eks. 25.22.\\x*"},
+      {127, "\\x + Hlab. 50.2.\\x*"}
+    };
+    usfm = usfm_insert_notes (usfm, notes, 0.9);
+    string standard = "\\v 1 Melusi kaIsrayeli\\x + Ps. 1.1\\x*, beka indlebe, okhokhela uJosefa\\x + Hlab. 81.5.\\x* njengomhlambi\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 50.2.\\x*\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  {
+    // Test notes placement where non-placed notes are added to the very end of the string.
+    string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**, khanyisa.";
+    vector <UsfmNote> notes = {
+      {55, "\\x + Hlab. 81.5.\\x*"},
+      {69, "\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*"},
+      {117, "\\x + Hlab. 99.1. Eks. 25.22.\\x*"},
+      {127, "\\x + Hlab. 50.2.\\x*"}
+    };
+    usfm = usfm_insert_notes (usfm, notes, 1.5);
+    string standard = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi, ohlezi \\add phakathi\\add*\\x + Hlab. 81.5.\\x* \\w kwamakherubhi\\w**\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*, khanyisa\\x + Hlab. 50.2.\\x*\\x + Hlab. 99.1. Eks. 25.22.\\x*.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  {
+    // Test moving note.
+    string usfm = "\\v 1 Zvino namazuva okutonga kwavatongi\\x + Judg. 2.16.\\x* nzara yakange iripo panyika. Umwe\\x + Judg. 6.4,5,6.\\x* murume weBheterehemu-judha akanogara\\x + Judg. 17.8.\\x* panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    usfm = usfm_move_note (usfm, 1, 1);
+    string standard = "\\v 1 Zvino namazuva okutonga kwavatongi nzara\\x + Judg. 2.16.\\x* yakange iripo panyika. Umwe\\x + Judg. 6.4,5,6.\\x* murume weBheterehemu-judha akanogara\\x + Judg. 17.8.\\x* panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  {
+    // Test moving note.
+    string usfm = "\\v 1 Zvino namazuva okutonga kwavatongi\\x + Judg. 2.16.\\x* nzara yakange iripo panyika. Umwe\\x + Judg. 6.4,5,6.\\x* murume weBheterehemu-judha akanogara\\x + Judg. 17.8.\\x* panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    usfm = usfm_move_note (usfm, -1, 2);
+    string standard = "\\v 1 Zvino namazuva okutonga kwavatongi\\x + Judg. 2.16.\\x* nzara yakange iripo panyika\\x + Judg. 6.4,5,6.\\x*. Umwe murume weBheterehemu-judha akanogara\\x + Judg. 17.8.\\x* panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  {
+    // Test moving note.
+    string usfm = "\\v 1 Zvino namazuva okutonga kwavatongi\\x + Judg. 2.16.\\x* nzara yakange iripo panyika. Umwe\\x + Judg. 6.4,5,6.\\x* murume weBheterehemu-judha akanogara\\x + Judg. 17.8.\\x* panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    usfm = usfm_move_note (usfm, -1, 10);
+    string standard = "\\v 1 Zvino namazuva okutonga kwavatongi\\x + Judg. 2.16.\\x* nzara yakange iripo panyika. Umwe\\x + Judg. 6.4,5,6.\\x* murume weBheterehemu-judha akanogara\\x + Judg. 17.8.\\x* panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  {
+    // Test getting new note position.
+    string usfm = "\\v 1 Zvino namazuva okutonga kwavatongi nzara yakange iripo panyika. Umwe murume weBheterehemu-judha akanogara panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    int position = usfm_get_new_note_position (usfm, 5, 0);
+    evaluate (__LINE__, __func__, 10, position);
+    position = usfm_get_new_note_position (usfm, 5, 1);
+    evaluate (__LINE__, __func__, 10, position);
+    position = usfm_get_new_note_position (usfm, 5, -1);
+    evaluate (__LINE__, __func__, 4, position);
+  }
+  {
+    // Test getting new note position.
+    string usfm = "\\v 1 Zvino namazuva okutonga kwavatongi nzara yakange iripo panyika. Umwe murume weBheterehemu-judha akanogara panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    int position = usfm_get_new_note_position (usfm, 62, 0);
+    evaluate (__LINE__, __func__, 67, position);
+    position = usfm_get_new_note_position (usfm, 62, 1);
+    evaluate (__LINE__, __func__, 67, position);
+    position = usfm_get_new_note_position (usfm, 62, -1);
+    evaluate (__LINE__, __func__, 59, position);
+  }
+  {
+    // Test getting new note position.
+    string usfm = "\\v 1 Zvino namazuva okutonga kwavatongi nzara yakange iripo panyika. Umwe murume weBheterehemu-judha akanogara panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
+    int position = usfm_get_new_note_position (usfm, 19, 0);
+    evaluate (__LINE__, __func__, 19, position);
+    position = usfm_get_new_note_position (usfm, 19, 1);
+    evaluate (__LINE__, __func__, 28, position);
+    position = usfm_get_new_note_position (usfm, 19, -1);
+    evaluate (__LINE__, __func__, 10, position);
+  }
+  {
+    // Test getting new note position.
+    string usfm = "\\v 1 Zvino.";
+    int position = usfm_get_new_note_position (usfm, 19, 0);
+    evaluate (__LINE__, __func__, 10, position);
+    position = usfm_get_new_note_position (usfm, 19, 1);
+    evaluate (__LINE__, __func__, 10, position);
+    position = usfm_get_new_note_position (usfm, 19, -1);
+    evaluate (__LINE__, __func__, 10, position);
+  }
+  {
+    // Test whether a note is not inserted straight after opening USFM code.
+    string usfm = "\\v 1 Zvino namazuva \\add okutonga\\add* kwavatongi nzara yakange iripo panyika.";
+
+    int position = usfm_get_new_note_position (usfm, 20, 0);
+    evaluate (__LINE__, __func__, 38, position);
+
+    position = usfm_get_new_note_position (usfm, 20, 1);
+    evaluate (__LINE__, __func__, 38, position);
+
+    position = usfm_get_new_note_position (usfm, 31, -1);
+    evaluate (__LINE__, __func__, 19, position);
+  }
+  {
+    // It tests whether a note is not inserted within another note.
+    string usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.";
+
+    int position = usfm_get_new_note_position (usfm, 10, 0);
+    evaluate (__LINE__, __func__, 10, position);
+
+    position = usfm_get_new_note_position (usfm, 20, 0);
+    evaluate (__LINE__, __func__, 21, position);
   }
 }
 
-/* Todo
-
-
-*/

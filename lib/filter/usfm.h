@@ -62,6 +62,10 @@ string usfm_peek_verse_number (string usfm);
 string usfm_get_opening_usfm (string text, bool embedded = false);
 string usfm_get_closing_usfm (string text, bool embedded = false);
 vector <UsfmNote> usfm_extract_notes (string usfm, const vector <string> & markers);
+string usfm_remove_notes (string usfm, const vector <string> & markers);
+string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio);
+string usfm_move_note (string usfm, int direction, int number);
+size_t usfm_get_new_note_position (string usfm, size_t position, int direction);
 
 
 #endif
