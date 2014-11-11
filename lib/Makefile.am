@@ -49,7 +49,9 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/tests1.cpp
+	unittests/tests1.cpp \
+	unittests/database_config.cpp \
+	unittests/filters.cpp
 
 unittest_LDADD = libbibledit.a
 

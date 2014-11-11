@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
 #include <unittests/tests1.h>
+#include <unittests/database_config.h>
+#include <unittests/filters.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
 #include <database/config/user.h>
@@ -34,197 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <session/logic.h>
 
-
-using namespace std;
-
-
-void test_filters ()
-{
-  // Tests for the filters in the filter folder.
-  {
-    // Filter_Roles.
-    evaluate ("Filter_Roles::consultant", 3, Filter_Roles::consultant ());
-    evaluate ("Filter_Roles::lowest", 1, Filter_Roles::lowest ());
-  }
-  {
-    // mkdir including parents.
-    string directory = filter_url_create_path (testing_directory, "a", "b");
-    filter_url_mkdir (directory);
-    string path = filter_url_create_path (directory, "c");
-    string contents = "unittest";
-    filter_url_file_put_contents (path, contents);
-    evaluate ("filter_url_mkdir", contents, filter_url_file_get_contents (path));
-  }
-  {
-    // C++ md5 function as compared to PHP's version.
-    evaluate ("md5", "1f3870be274f6c49b3e31a0c6728957f", md5 ("apple"));
-  }
-  {
-    // Test str_replace.
-    // Shows that std::string handles UTF-8 well for simple operations. 
-    evaluate ("filter_string_str_replace", "⇊⇦", filter_string_str_replace ("⇖", "", "⇊⇖⇦"));
-  }
-  {
-    // Test filter_string_array_unique, a C++ equivalent for PHP's array_unique function.
-    vector <string> reference;
-    reference.push_back ("aaa");
-    reference.push_back ("b");
-    reference.push_back ("zzz");
-    reference.push_back ("x");
-    reference.push_back ("yyy");
-    reference.push_back ("k");
-    vector <string> input;
-    input.push_back ("aaa");
-    input.push_back ("b");
-    input.push_back ("aaa");
-    input.push_back ("b");
-    input.push_back ("aaa");
-    input.push_back ("zzz");
-    input.push_back ("x");
-    input.push_back ("x");
-    input.push_back ("yyy");
-    input.push_back ("k");
-    input.push_back ("k");
-    vector <string> output = filter_string_array_unique (input);
-    evaluate ("filter_string_array_unique", reference, output);
-  }
-  {
-    // Test filter_string_array_diff, a C++ equivalent for PHP's array_diff function.
-    vector <string> reference;
-    reference.push_back ("aaa");
-    reference.push_back ("zzz");
-    reference.push_back ("b");
-    vector <string> from;
-    from.push_back ("aaa");
-    from.push_back ("bbb");
-    from.push_back ("ccc");
-    from.push_back ("zzz");
-    from.push_back ("b");
-    from.push_back ("x");
-    vector <string> against;
-    against.push_back ("bbb");
-    against.push_back ("ccc");
-    against.push_back ("x");
-    vector <string> output = filter_string_array_diff (from, against);
-    evaluate ("filter_string_array_diff", reference, output);
-  }
-  {
-    // Test string modifiers.
-    evaluate ("filter_string_trim 1", "", filter_string_trim ("  "));
-    evaluate ("filter_string_trim 2", "", filter_string_trim (""));
-    evaluate ("filter_string_trim 3", "xx", filter_string_trim ("\t\nxx\n\r"));
-    evaluate ("filter_string_fill", "0000012345", filter_string_fill ("12345", 10, '0'));
-  }
-  {
-    // Test URL decoder.
-    evaluate ("filter_url_urldecode 1", "Store settings", filter_url_urldecode ("Store+settings"));
-    evaluate ("filter_url_urldecode 2", "test@mail", filter_url_urldecode ("test%40mail"));
-    evaluate ("filter_url_urldecode 3", "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
-  }
-  {
-    // Test dirname and basename functions.
-    evaluate ("get_dirname 1", ".", get_dirname (""));
-    evaluate ("get_dirname 2", ".", get_dirname ("/"));
-    evaluate ("get_dirname 3", ".", get_dirname ("dir/"));
-    evaluate ("get_dirname 4", ".", get_dirname ("/dir"));
-    evaluate ("get_dirname 5", "foo", get_dirname ("foo/bar"));
-    evaluate ("get_dirname 6", "/foo", get_dirname ("/foo/bar"));
-    evaluate ("get_dirname 7", "/foo", get_dirname ("/foo/bar/"));
-    evaluate ("get_basename 1", "a.txt", get_basename ("/a.txt"));
-    evaluate ("get_basename 2", "txt", get_basename ("/txt/"));
-    evaluate ("get_basename 3", "foo.bar", get_basename ("/path/to/foo.bar"));
-    evaluate ("get_basename 4", "foo.bar", get_basename ("foo.bar"));
-  }
-  {
-    // Test the date and time related functions.
-    int month = filter_string_date_numerical_month ();
-    if ((month < 1) || (month > 12)) evaluate ("filter_string_date_numerical_month", "current month", convert_to_string (month));
-    int year = filter_string_date_numerical_year ();
-    if ((year < 2014) || (year > 2050)) evaluate ("filter_string_date_numerical_year", "current year", convert_to_string (year));
-    struct timeval tv;
-    gettimeofday (&tv, NULL);
-    int reference_second = tv.tv_sec;
-    int actual_second = filter_string_date_seconds_since_epoch ();
-    if (abs (actual_second - reference_second) > 1) evaluate ("filter_string_date_seconds_since_epoch", reference_second, actual_second);
-    int usecs = filter_string_date_numerical_microseconds ();
-    if ((usecs < 0) || (usecs > 1000000)) evaluate ("filter_string_date_numerical_microseconds", "0-1000000", convert_to_string (usecs));
-  }
-  {
-    evaluate ("filter_string_is_numeric 1", true, filter_string_is_numeric ("1"));
-    evaluate ("filter_string_is_numeric 2", true, filter_string_is_numeric ("1234"));
-    evaluate ("filter_string_is_numeric 3", false, filter_string_is_numeric ("X"));
-    evaluate ("filter_string_is_numeric 4", false, filter_string_is_numeric ("120X"));
-  }
-  {
-    evaluate ("convert_to_int 1", 0, convert_to_int (""));
-    evaluate ("convert_to_int 2", 123, convert_to_int ("123"));
-    evaluate ("convert_to_int 3", 123, convert_to_int ("123xx"));
-    evaluate ("convert_to_int 4", 0, convert_to_int ("xxx123xx"));
-  }
-  // Test the USFM filter functions. C++Port Todo
-  {
-    evaluate ("usfm_one_string 1", "", usfm_one_string (""));
-    evaluate ("usfm_one_string 2", "\\id GEN", usfm_one_string ("\\id GEN\n"));
-    evaluate ("usfm_one_string 3", "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
-    evaluate ("usfm_one_string 4", "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
-    evaluate ("usfm_one_string 5", "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
-  }
-  {
-    evaluate ("usfm_get_markers_and_text 1", { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
-    evaluate ("usfm_get_markers_and_text 2", { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
-    evaluate ("usfm_get_markers_and_text 3", { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
-    evaluate ("usfm_get_markers_and_text 4", { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
-    evaluate ("usfm_get_markers_and_text 5", { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
-  }
-  {
-    evaluate ("usfm_get_marker 1", "", usfm_get_marker (""));
-    evaluate ("usfm_get_marker 2", "id", usfm_get_marker ("\\id GEN"));
-    evaluate ("usfm_get_marker 3", "add", usfm_get_marker ("\\add insertion"));
-    evaluate ("usfm_get_marker 4", "add", usfm_get_marker ("\\add"));
-    evaluate ("usfm_get_marker 5", "add", usfm_get_marker ("\\add*"));
-    evaluate ("usfm_get_marker 6", "add", usfm_get_marker ("\\add*\\add"));
-    evaluate ("usfm_get_marker 7", "add", usfm_get_marker ("\\+add"));
-    evaluate ("usfm_get_marker 8", "add", usfm_get_marker ("\\+add*"));
-  }
-  {
-    Database_Styles database_styles = Database_Styles ();
-    database_styles.create ();
-    Database_Books database_books = Database_Books ();
-    database_books.create ();
-
-    evaluate ("usfm_import 1", 0, usfm_import ("", "Standard").size());
-    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", "Standard");
-    evaluate ("usfm_import 2", 2, import2.size());
-    if (import2.size () == 2) {
-      evaluate ("usfm_import 3", 33, import2 [0].book);
-      evaluate ("usfm_import 4", 0, import2 [0].chapter);
-      evaluate ("usfm_import 5", "\\id MIC", import2 [0].data);
-      evaluate ("usfm_import 6", 33, import2 [1].book);
-      evaluate ("usfm_import 7", 1, import2 [1].chapter);
-      evaluate ("usfm_import 8", "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import2 [1].data);
-    } else evaluate ("usfm_import 9", "executing tests", "skipping tests");
-
-    evaluate ("usfm_get_verse_numbers 1", {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
-
-    string usfm = "\\id MIC";
-    evaluate ("usfm_linenumber2versenumber 1", 0, usfm_linenumber_to_versenumber (usfm, 0));
-    usfm = "\\id MIC\n\\v 1 Verse";
-    evaluate ("usfm_linenumber2versenumber 2", 1, usfm_linenumber_to_versenumber (usfm, 1));
-    usfm = "\\v 1 Verse";
-    evaluate ("usfm_linenumber2versenumber 3", 1, usfm_linenumber_to_versenumber (usfm, 0));
-    usfm = "\\p\n\\v 3 Verse 3 (out of order).\n\\v 1 Verse 1. \n\\v 2 Verse 1.";
-    evaluate ("usfm_linenumber2versenumber 4", 0, usfm_linenumber_to_versenumber (usfm, 0));
-    evaluate ("usfm_linenumber2versenumber 5", 3, usfm_linenumber_to_versenumber (usfm, 1));
-    evaluate ("usfm_linenumber2versenumber 6", 1, usfm_linenumber_to_versenumber (usfm, 2));
-    evaluate ("usfm_linenumber2versenumber 7", 2, usfm_linenumber_to_versenumber (usfm, 3));
-
-
-/* Todo
-  
-
-*/
-  }
-}
 
 
 // Tests for Database_Bibles.
@@ -241,14 +52,14 @@ void test_database_bibles ()
     Database_Bibles database_bibles = Database_Bibles ();
     vector <string> standard;
     vector <string> bibles = database_bibles.getBibles ();
-    evaluate ("Database_Bibles::getBibles 1", standard, bibles);
+    evaluate (__LINE__, __func__, standard, bibles);
   }
   {
     // Test whether optimizing works without errors.
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
     int id = database_bibles.createBible ("phpunit");
-    if (id == 0) evaluate ("Database_Bibles::createBible", "non-zero", id);
+    if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
     database_bibles.storeChapter ("phpunit", 2, 3, "a");
     database_bibles.storeChapter ("phpunit", 2, 3, "b");
     database_bibles.storeChapter ("phpunit", 2, 3, "c");
@@ -258,14 +69,14 @@ void test_database_bibles ()
     database_bibles.storeChapter ("phpunit", 2, 3, "g");
     database_bibles.optimize ();
     string usfm = database_bibles.getChapter ("phpunit", 2, 3);
-    evaluate ("Database_Bibles::optimize", "g", usfm);
+    evaluate (__LINE__, __func__, "g", usfm);
   }
   {
     // Test whether optimizing removes files with 0 size.
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
     int id = database_bibles.createBible ("phpunit");
-    if (id == 0) evaluate ("Database_Bibles::createBible", "non-zero", id);
+    if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
     database_bibles.storeChapter ("phpunit", 2, 3, "a");
     database_bibles.storeChapter ("phpunit", 2, 3, "b");
     database_bibles.storeChapter ("phpunit", 2, 3, "c");
@@ -274,10 +85,10 @@ void test_database_bibles ()
     database_bibles.storeChapter ("phpunit", 2, 3, "f");
     database_bibles.storeChapter ("phpunit", 2, 3, "");
     string usfm = database_bibles.getChapter ("phpunit", 2, 3);
-    evaluate ("Database_Bibles::getChapter 2", "", usfm);
+    evaluate (__LINE__, __func__, "", usfm);
     database_bibles.optimize ();
     usfm = database_bibles.getChapter ("phpunit", 2, 3);
-    evaluate ("Database_Bibles::optimize 2", "f", usfm);
+    evaluate (__LINE__, __func__, "f", usfm);
   }
   // Test create / get / delete Bibles.
   {
@@ -285,19 +96,19 @@ void test_database_bibles ()
     Database_Bibles database_bibles = Database_Bibles ();
 
     int id = database_bibles.createBible ("phpunit");
-    evaluate ("Database_Bibles::createBible 3", 1, id);
+    evaluate (__LINE__, __func__, 1, id);
     
     vector <string> bibles = database_bibles.getBibles ();
     vector <string> standard = {"phpunit"};
-    evaluate ("Database_Bibles::getBibles 3", standard, bibles);
+    evaluate (__LINE__, __func__, standard, bibles);
 
     id = database_bibles.getID ("phpunit2");
-    evaluate ("Database_Bibles::getID 3", 0, id);
+    evaluate (__LINE__, __func__, 0, id);
     
     database_bibles.deleteBible ("phpunit");
 
     id = database_bibles.getID ("phpunit");
-    evaluate ("Database_Bibles::deleteBible 3", 0, id);
+    evaluate (__LINE__, __func__, 0, id);
   }
   // Test names / identifiers.
   {
@@ -305,22 +116,22 @@ void test_database_bibles ()
     Database_Bibles database_bibles = Database_Bibles ();
 
     int id = database_bibles.getID ("phpunit");
-    evaluate ("Database_Bibles::getID 4", 0, id);
+    evaluate (__LINE__, __func__, 0, id);
 
     string bible = database_bibles.getName (0);
-    evaluate ("Database_Bibles::getName 4", "Unknown", bible);
+    evaluate (__LINE__, __func__, "Unknown", bible);
 
     id = database_bibles.createBible ("phpunit");
-    evaluate ("Database_Bibles::createBible 4", 1, id);
+    evaluate (__LINE__, __func__, 1, id);
 
     id = database_bibles.getID ("phpunit");
-    evaluate ("Database_Bibles::getID 5", 1, id);
+    evaluate (__LINE__, __func__, 1, id);
 
     bible = database_bibles.getName (1);
-    evaluate ("Database_Bibles::getName 5", "phpunit", bible);
+    evaluate (__LINE__, __func__, "phpunit", bible);
     
     bible = database_bibles.getName (2);
-    evaluate ("Database_Bibles::getName 5", "Unknown", bible);
+    evaluate (__LINE__, __func__, "Unknown", bible);
   }
   // Test storeChapter / getChapter
   {
@@ -330,11 +141,11 @@ void test_database_bibles ()
     string usfm = "\\c 1\n\\p\n\\v 1 Verse 1";
     database_bibles.storeChapter ("phpunit", 2, 1, usfm);
     string result = database_bibles.getChapter ("phpunit", 2, 1);
-    evaluate ("Database_Bibles::storeChapter getChapter 1", usfm, result);
+    evaluate (__LINE__, __func__, usfm, result);
     result = database_bibles.getChapter ("phpunit2", 2, 1);
-    evaluate ("Database_Bibles::storeChapter getChapter 2", "", result);
+    evaluate (__LINE__, __func__, "", result);
     result = database_bibles.getChapter ("phpunit", 1, 1);
-    evaluate ("Database_Bibles::storeChapter getChapter 3", "", result);
+    evaluate (__LINE__, __func__, "", result);
   }
   // Test books
   {
@@ -342,27 +153,27 @@ void test_database_bibles ()
     Database_Bibles database_bibles = Database_Bibles ();
     database_bibles.createBible ("phpunit");
     vector <int> books = database_bibles.getBooks ("phpunit");
-    evaluate ("Database_Bibles::getBooks 6", { }, books);
+    evaluate (__LINE__, __func__, { }, books);
 
     database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
     books = database_bibles.getBooks ("phpunit");
-    evaluate ("Database_Bibles::storeChapter getBooks 6", { 1 }, books);
+    evaluate (__LINE__, __func__, { 1 }, books);
 
     database_bibles.storeChapter ("phpunit", 2, 3, "\\c 0");
     books = database_bibles.getBooks ("phpunit");
-    evaluate ("Database_Bibles::storeChapter getBooks 7", { 1, 2 }, books);
+    evaluate (__LINE__, __func__, { 1, 2 }, books);
 
     database_bibles.deleteBook ("phpunit", 3);
     books = database_bibles.getBooks ("phpunit");
-    evaluate ("Database_Bibles::storeChapter deleteBook 6", { 1, 2 }, books);
+    evaluate (__LINE__, __func__, { 1, 2 }, books);
 
     database_bibles.deleteBook ("phpunit", 1);
     books = database_bibles.getBooks ("phpunit");
-    evaluate ("Database_Bibles::storeChapter deleteBook 7", { 2 }, books);
+    evaluate (__LINE__, __func__, { 2 }, books);
 
     database_bibles.deleteBook ("phpunit2", 2);
     books = database_bibles.getBooks ("phpunit");
-    evaluate ("Database_Bibles::storeChapter deleteBook 8", { 2 }, books);
+    evaluate (__LINE__, __func__, { 2 }, books);
   }
   // Test chapters ()
   {
@@ -371,30 +182,30 @@ void test_database_bibles ()
 
     database_bibles.createBible ("phpunit");
     vector <int> chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate ("Database_Bibles::test chapters 1", { }, chapters);
+    evaluate (__LINE__, __func__, { }, chapters);
  
     database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
     chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate ("Database_Bibles::test chapters 2", { 2 }, chapters);
+    evaluate (__LINE__, __func__, { 2 }, chapters);
     
     chapters = database_bibles.getChapters ("phpunit", 2);
-    evaluate ("Database_Bibles::test chapters 3", { }, chapters);
+    evaluate (__LINE__, __func__, { }, chapters);
 
     database_bibles.storeChapter ("phpunit", 1, 3, "\\c 1");
     chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate ("Database_Bibles::test chapters 4", { 2, 3 }, chapters);
+    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
 
     database_bibles.deleteChapter ("phpunit", 3, 3);
     chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate ("Database_Bibles::test chapters 5", { 2, 3 }, chapters);
+    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
 
     database_bibles.deleteChapter ("phpunit", 1, 2);
     chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate ("Database_Bibles::test chapters 6", { 3 }, chapters);
+    evaluate (__LINE__, __func__, { 3 }, chapters);
 
     database_bibles.deleteChapter ("phpunit", 1, 3);
     chapters = database_bibles.getChapters ("phpunit", 1);
-    evaluate ("Database_Bibles::test chapters 7", { }, chapters);
+    evaluate (__LINE__, __func__, { }, chapters);
   }
   // Test chapter IDs
   {
@@ -404,20 +215,20 @@ void test_database_bibles ()
     database_bibles.createBible ("phpunit");
     database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
     int id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate ("Database_Bibles::chapter IDs 1", 100000001, id);
+    evaluate (__LINE__, __func__, 100000001, id);
     
     database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
     id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate ("Database_Bibles::chapter IDs 2", 100000002, id);
+    evaluate (__LINE__, __func__, 100000002, id);
 
     database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
     database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
     id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate ("Database_Bibles::chapter IDs 3", 100000004, id);
+    evaluate (__LINE__, __func__, 100000004, id);
 
     database_bibles.storeChapter ("phpunit", 2, 3, "\\c 1");
     id = database_bibles.getChapterId ("phpunit", 1, 2);
-    evaluate ("Database_Bibles::chapter IDs 4", 100000004, id);
+    evaluate (__LINE__, __func__, 100000004, id);
   }
   // Test Bible actionsOne
   {
@@ -507,14 +318,14 @@ void test_database_search ()
 
     database_search.optimize ();
     bool healthy = database_search.checkup ();
-    evaluate ("Database_Search optimize", false, healthy);
+    evaluate (__LINE__, __func__, false, healthy);
 
     string path = filter_url_create_root_path ("databases", "search.sqlite");
     filter_url_file_put_contents (path, "damaged database");
     healthy = database_search.checkup ();
-    evaluate ("Database_Search checkup 1", true, healthy);
+    evaluate (__LINE__, __func__, true, healthy);
     healthy = database_search.checkup ();
-    evaluate ("Database_Search checkup 2", false, healthy);
+    evaluate (__LINE__, __func__, false, healthy);
     refresh_sandbox (false);
   }
   {

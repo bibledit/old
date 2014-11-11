@@ -27,12 +27,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 extern string testing_directory;
 extern int error_count;
 void refresh_sandbox (bool displayjournal);
-void error_message (string function, string desired, string actual);
-void evaluate (string function, string desired, string actual);
-void evaluate (string function, int desired, int actual);
-void evaluate (string function, bool desired, bool actual);
-void evaluate (string function, vector <string> desired, vector <string> actual);
-void evaluate (string function, vector <int> desired, vector <int> actual);
+void error_message (int line, string funct, string desired, string actual);
+void evaluate (int line, string func, string desired, string actual);
+void evaluate (int line, string func, int desired, int actual);
+void evaluate (int line, string func, bool desired, bool actual);
+void evaluate (int line, string func, vector <string> desired, vector <string> actual);
+void evaluate (int line, string func, vector <int> desired, vector <int> actual);
+void evaluate (int line, string func, map <int, string> desired, map <int, string> actual);
 
 
 #endif

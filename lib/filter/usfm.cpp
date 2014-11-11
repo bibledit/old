@@ -22,12 +22,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/styles.h>
 #include <styles/logic.h>
+#include <utf8/utf8.h>
 
 
 BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)
 {
   book = book_in;
   chapter = chapter_in;
+  data = data_in;
+}
+
+
+UsfmNote::UsfmNote (int offset_in, string data_in)
+{
+  offset = offset_in;
   data = data_in;
 }
 
@@ -243,186 +251,185 @@ int usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
 }
 
 
-
-/* C++Port Todo
 // Returns the verse number in the string of $usfm code at offset $offset.
 // Offset is calculated with mb_strlen to support UTF-8.
-public static function offset2verseNumber ($usfm, $offset)
+int usfm_offset_to_versenumber (string usfm, unsigned int offset)
 {
-  $totalOffset = 0;
-  $lines = explode ("\n", $usfm);
-  foreach ($lines as $lineNumber => $line) {
-    $totalOffset += mb_strlen ($line);
-    if ($totalOffset >= $offset) {
-      return Filter_Usfm::lineNumber2VerseNumber ($usfm, $lineNumber);
+  unsigned int totalOffset = 0;
+  vector <string> lines = filter_string_explode (usfm, '\n');
+  for (unsigned int i = 0; i < lines.size(); i++) {
+    string line = lines [i];
+    int length = utf8::distance (line.begin(), line.end());
+    totalOffset += length;
+    if (totalOffset >= offset) {
+      return usfm_linenumber_to_versenumber (usfm, i);
     }
     // Add 1 for new line.
-    $totalOffset += 1;
+    totalOffset += 1;
   }
   return 0;
 }
 
 
+
 // Returns the offset within the $usfm code where $verse number starts.
-public static function verseNumber2offset ($usfm, $verse)
+int usfm_versenumber_to_offset (string usfm, int verse)
 {
   // Verse number 0 starts at offset 0.
-  if ($verse == 0) return 0;
-  $totalOffset = 0;
-  $lines = explode ("\n", $usfm);
-  foreach ($lines as $line) {
-    $verses = Filter_Usfm::getVerseNumbers ($line);
-    @$v = $verses [1];
-    if ($v == $verse) {
-      return $totalOffset;
-    }
-    $totalOffset += mb_strlen ($line);
+  if (verse == 0) return 0;
+  int totalOffset = 0;
+  vector <string> lines = filter_string_explode (usfm, '\n');
+  for (string line : lines) {
+    vector <int> verses = usfm_get_verse_numbers (line);
+    int v = 0;
+    if (!verses.empty()) v = verses [1];
+    if (v == verse) return totalOffset;
+    totalOffset += utf8::distance (line.begin(), line.end ());
     // Add 1 for new line.
-    $totalOffset += 1;
+    totalOffset += 1;
   }
-  return mb_strlen ($usfm);
+  return utf8::distance (usfm.begin(), usfm.end());
 }
 
 
 // Returns the verse text given a $verse_number and $usfm code.
-public static function getVerseText ($usfm, $verse_number)
+string usfm_get_verse_text (string usfm, int verse_number)
 {
   // The start of the requested verse number.
-  $cleanPos = strpos ($usfm, "\\v $verse_number ");
-  $dirtyPos = strpos ($usfm, "\\v $verse_number");
-  if ($verse_number == 0) {
-    $startPosition = 0;
-  } else if ($cleanPos !== false) {
-    $startPosition = $cleanPos;
-  } else if ($dirtyPos !== false) {
-    $startPosition = $dirtyPos;
+  size_t cleanPos = usfm.find ("\\v " + convert_to_string (verse_number) + " ");
+  size_t dirtyPos = usfm.find ("\\v " + convert_to_string (verse_number));
+  size_t startPosition;
+  if (verse_number == 0) {
+    startPosition = 0;
+  } else if (cleanPos != string::npos) {
+    startPosition = cleanPos;
+  } else if (dirtyPos != string::npos) {
+    startPosition = dirtyPos;
   } else {
     // The verse number was not found.
     return "";
   }
 
   // The end of the requested verse number.
-  @$endPosition = strpos ($usfm, "\\v", $startPosition + 1);
-  if ($endPosition === false) $endPosition = strlen ($usfm);
+  size_t endPosition = usfm.find ("\\v", startPosition + 1);
+  if (endPosition == string::npos) endPosition = usfm.length ();
 
   // Return the verse text.
-  $verseText = substr ($usfm, $startPosition, $endPosition - $startPosition);
-  $verseText = trim ($verseText);
-  return $verseText;
+  string verseText = usfm.substr (startPosition, endPosition - startPosition);
+  verseText = filter_string_trim (verseText);
+  return verseText;
 }
 
 
 // Returns true if the $code contains an USFM marker.
-public static function isUsfmMarker ($code)
+bool usfm_is_usfm_marker (string code)
 {
-  if (strlen ($code) < 2) return false;
-  if (substr ($code, 0, 1) == "\\") return true;
+  if (code.length () < 2) return false;
+  if (code.substr (0, 1) == "\\") return true;
   return false;
 }
 
 
 // Returns true if the marker in $usfm is an opening marker.
 // Else it returns false.
-public static function isOpeningMarker ($usfm)
+bool usfm_is_opening_marker (string usfm)
 {
-  return (strpos ($usfm, "*") === false);
+  return usfm.find ("*") == string::npos;
 }
 
 
 // Returns true if the marker in $usfm is an embedded marker.
 // Else it returns false.
-public static function isEmbeddedMarker ($usfm)
+bool usfm_is_embedded_marker (string usfm)
 {
-  return (strpos ($usfm, "+") !== false);
+  return usfm.find ( "+") != string::npos;
 }
 
 
 // Returns the USFM book identifier.
 // $usfm: array of strings alternating between USFM code and subsequent text.
-// $pointer: should point to the \id in $usfm. Gets increased by one.
-public static function getBookIdentifier ($usfm, $pointer)
+// $pointer: if increased by one, it should point to the \id in $usfm.
+string usfm_get_book_identifier (const vector <string>& usfm, unsigned int pointer)
 {
-  $identifier = "XXX"; // Fallback value.
-  if (++$pointer < count ($usfm)) {
-    $identifier = substr ($usfm[$pointer], 0, 3);
+  string identifier = "XXX"; // Fallback value.
+  if (++pointer < usfm.size ()) {
+    identifier = usfm[pointer].substr (0, 3);
   }
-  return $identifier;
+  return identifier;
+}
+
+
+// Returns the text that follows a USFM marker.
+// $usfm: array of strings alternating between USFM code and subsequent text.
+// $pointer: should point to the marker in $usfm. It gets increased by one.
+string usfm_get_text_following_marker (const vector <string>& usfm, unsigned int & pointer)
+{
+  string text = ""; // Fallback value.
+  ++pointer;
+  if (pointer < usfm.size()) {
+    text = usfm [pointer];
+  }
+  return text;
 }
 
 
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. Pointer is left as it is.
-public static function peekTextFollowingMarker ($usfm, $pointer)
+string usfm_peek_text_following_marker (const vector <string>& usfm, unsigned int pointer)
 {
-  return Filter_Usfm::getTextFollowingMarker ($usfm, $pointer);
-}
-
-
-// Returns the text that follows a USFM marker.
-// $usfm: array of strings alternating between USFM code and subsequent text.
-// $pointer: should point to the marker in $usfm. Is increased by one.
-public static function getTextFollowingMarker ($usfm, &$pointer)
-{
-  $text = ""; // Fallback value.
-  if (++$pointer < count ($usfm)) {
-    $text = $usfm[$pointer];
-  }
-  return $text;
+  return usfm_get_text_following_marker (usfm, pointer);
 }
 
 
 // Returns the verse number in the $usfm code.
-public static function peekVerseNumber ($usfm)
+string usfm_peek_verse_number (string usfm)
 {
   // Make it robust, even handling cases like \v 1-2“Moi - No space after verse number.
-  $verseNumber = "";
-  $usfmStringLength = strlen ($usfm);
-  for ($i = 0; $i < $usfmStringLength; $i++) {
-    $character = substr ($usfm, $i, 1);
-    switch ($character) {
-      case "0":
-      case "1":
-      case "2":
-      case "3":
-      case "4":
-      case "5":
-      case "6":
-      case "7":
-      case "8":
-      case "9":
-      case ",":
-      case "-":
-      case "a":
-      case "b":
-        break;
-      default:
-        break 2;
-    }
+  string verseNumber = "";
+  size_t usfmStringLength = usfm.length ();
+  unsigned int i = 0;
+  for (i = 0; i < usfmStringLength; i++) {
+    string character = usfm.substr (i, 1);
+    if (character == "0") continue;
+    if (character == "1") continue;
+    if (character == "2") continue;
+    if (character == "3") continue;
+    if (character == "4") continue;
+    if (character == "5") continue;
+    if (character == "6") continue;
+    if (character == "7") continue;
+    if (character == "8") continue;
+    if (character == "9") continue;
+    if (character == ",") continue;
+    if (character == "-") continue;
+    if (character == "a") continue;
+    if (character == "b") continue;
+    break;
   }
-  $verseNumber = substr ($usfm, 0, $i);
-  $verseNumber = trim ($verseNumber);
-  return $verseNumber;
+  verseNumber = usfm.substr (0, i);
+  verseNumber = filter_string_trim (verseNumber);
+  return verseNumber;
 }
 
 
 // Takes a marker in the form of text only, like "id" or "add",
 // and converts it into opening USFM, like "\id " or "\add ".
 // Supports the embedded markup "+".
-public static function getOpeningUsfm ($text, $embedded = false)
+string usfm_get_opening_usfm (string text, bool embedded)
 {
-  $embedded = $embedded ? "+" : "";
-  return "\\$embedded$text ";
+  string embed = embedded ? "+" : "";
+  return "\\" + embed + text + " ";
 }
 
 
 // Takes a marker in the form of text only, like "add",
 // and converts it into closing USFM, like "\add*".
 // Supports the embedded markup "+".
-public static function getClosingUsfm ($text, $embedded = false)
+string usfm_get_closing_usfm (string text, bool embedded)
 {
-  $embedded = $embedded ? "+" : "";
-  return "\\$embedded$text*";
+  string embed = embedded ? "+" : "";
+  return "\\" + embed + text + "*";
 }
 
 
@@ -430,49 +437,45 @@ public static function getClosingUsfm ($text, $embedded = false)
 // $usfm: Where to extract from.
 // $markers: Array of possible markers surrounding the notes.
 // It returns an array of array ($offset, $note).
-public static function extractNotes ($usfm, $markers)
+vector <UsfmNote> usfm_extract_notes (string usfm, const vector <string> & markers)
 {
-  $openers = array ();
-  $closers = array ();
-  foreach ($markers as $marker) {
-    $openers [] = self::getOpeningUsfm ($marker);
-    $closers [] = self::getClosingUsfm ($marker);
+  set <string> openers;
+  set <string> closers;
+  for (string marker : markers) {
+    openers.insert (usfm_get_opening_usfm (marker));
+    closers.insert (usfm_get_closing_usfm (marker));
   }
 
-  $usfm = self::usfm_get_markers_and_text ($usfm);
+  vector <string> markers_and_text = usfm_get_markers_and_text (usfm);
 
-  $notes = array ();
+  vector <UsfmNote> notes;
   
-  $within_note = false;
-  $running_offset = 0;
-  $running_note = "";
+  bool within_note = false;
+  size_t running_offset = 0;
+  string running_note = "";
 
-  foreach ($usfm as $item) {
+  for (string item : markers_and_text) {
     
-    if (in_array ($item, $openers)) {
-      $within_note = true;
-    }
+    if (openers.find (item) != openers.end ()) within_note = true;
 
     // Caclulate the offset in the main text. 
     // That means not to consider the length of the notes.
-    if (!$within_note) $running_offset += mb_strlen ($item);
+    if (!within_note) running_offset += utf8::distance (item.begin(), item.end());
     
-    if ($within_note) {
-      $running_note .= $item;
-    }
-    
-    if (in_array ($item, $closers)) {
-      $notes [] = array ($running_offset, $running_note);
-      $running_note = "";
-      $within_note = false;
-    }
+    if (within_note) running_note += item;
 
+    if (closers.find (item) != closers.end()) {
+      notes.push_back (UsfmNote (running_offset, running_note));
+      running_note = "";
+      within_note = false;
+    }
   }
   
-  return $notes;
+  return notes;
 }
 
 
+/* C++Port Todo
 // This function removes the notes from the USFM.
 // $usfm: Where to extract from.
 // $markers: Array of markers surrounding the notes.

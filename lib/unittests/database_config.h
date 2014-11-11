@@ -17,22 +17,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_TESTS1_H
-#define INCLUDED_UNITTESTS_TESTS1_H
+#ifndef INCLUDED_UNITTESTS_DATABASE_CONFIG_H
+#define INCLUDED_UNITTESTS_DATABASE_CONFIG_H
 
 
 #include <config/libraries.h>
 
 
-void test_sqlite ();
-void test_database_logs ();
-void test_database_users ();
-void test_sqlite ();
-void test_session_logic ();
-void test_empty_folders ();
-void test_flate2 ();
-void test_database_styles ();
-void test_database_books ();
+void test_database_config_general ();
+void test_database_config_bible ();
+void test_database_config_user ();
 
 
 #endif

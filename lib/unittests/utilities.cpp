@@ -50,9 +50,10 @@ void refresh_sandbox (bool displayjournal)
 }
 
 
-void error_message (string function, string desired, string actual)
+void error_message (int line, string func, string desired, string actual)
 {
-  cout << "Function:       " << function << endl;
+  cout << "Line number:    " << line << endl;
+  cout << "Function:       " << func << endl;
   cout << "Desired result: " << desired << endl;
   cout << "Actual result:  " << actual << endl;
   cout << endl;
@@ -60,45 +61,61 @@ void error_message (string function, string desired, string actual)
 }
 
 
-void evaluate (string function, string desired, string actual)
+void evaluate (int line, string func, string desired, string actual)
 {
-  if (desired != actual) error_message (function, desired, actual);
+  if (desired != actual) error_message (line, func, desired, actual);
 }
 
 
-void evaluate (string function, int desired, int actual)
+void evaluate (int line, string func, int desired, int actual)
 {
-  if (desired != actual) error_message (function, convert_to_string (desired), convert_to_string (actual));
+  if (desired != actual) error_message (line, func, convert_to_string (desired), convert_to_string (actual));
 }
 
 
-void evaluate (string function, bool desired, bool actual)
+void evaluate (int line, string func, bool desired, bool actual)
 {
-  if (desired != actual) error_message (function, convert_to_string (desired), convert_to_string (actual));
+  if (desired != actual) error_message (line, func, desired ? "true" : "false", actual ? "true" : "false");
 }
 
 
-void evaluate (string function, vector <string> desired, vector <string> actual)
+void evaluate (int line, string func, vector <string> desired, vector <string> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (function + " size mismatch", convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()));
+    error_message (line, convert_to_string ((int)desired.size ()), func, convert_to_string ((int)actual.size()) + " size mismatch");
     return;
   }
   for (unsigned int i = 0; i < desired.size (); i++) {
-    if (desired[i] != actual[i]) error_message (function + " mismatch at offset " + convert_to_string (i), desired[i], actual[i]);
+    if (desired[i] != actual[i]) error_message (line, func, desired[i], actual[i] + " mismatch at offset " + convert_to_string (i));
   }
 }
 
 
-void evaluate (string function, vector <int> desired, vector <int> actual)
+void evaluate (int line, string func, vector <int> desired, vector <int> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (function + " size mismatch", convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()));
+    error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
     return;
   }
   for (unsigned int i = 0; i < desired.size (); i++) {
-    if (desired[i] != actual[i]) error_message (function + " mismatch at offset " + convert_to_string (i), convert_to_string (desired[i]), convert_to_string (actual[i]));
+    if (desired[i] != actual[i]) error_message (line, func, convert_to_string (desired[i]), convert_to_string (actual[i]) + " mismatch at offset " + convert_to_string (i));
   }
 }
 
+
+void evaluate (int line, string func, map <int, string> desired, map <int, string> actual) // Todo
+{
+  if (desired.size() != actual.size ()) {
+    error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
+    return;
+  }
+  auto desirediterator = desired.begin ();
+  auto actualiterator = actual.begin ();
+  for (auto iterator = desired.begin(); iterator != desired.end(); iterator++) {
+    evaluate (line, func, desirediterator->first, actualiterator->first);
+    evaluate (line, func, desirediterator->second, actualiterator->second);
+    desirediterator++;
+    actualiterator++;
+  }
+}
 
