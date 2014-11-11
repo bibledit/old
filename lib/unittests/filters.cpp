@@ -168,7 +168,7 @@ void test2 ()
 
 void test3 ()
 {
-  // Test the USFM filter functions. C++Port Todo
+  // Test the USFM filter functions.
   {
     evaluate (__LINE__, __func__, "", usfm_one_string (""));
     evaluate (__LINE__, __func__, "\\id GEN", usfm_one_string ("\\id GEN\n"));
@@ -322,13 +322,8 @@ void test4 ()
 }
 
 
-// Tests for the filters in the filter folder.
-void test_filters ()
+void test5 ()
 {
-  test1 ();
-  test2 ();
-  test3 ();
-  test4 ();
   {
     evaluate (__LINE__, __func__, "\\id ", usfm_get_opening_usfm ("id"));
     evaluate (__LINE__, __func__, "\\add ", usfm_get_opening_usfm ("add"));
@@ -427,6 +422,11 @@ void test_filters ()
     string standard = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**, khanyisa.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
+}
+
+
+void test6 ()
+{
   {
     // Test inserting empty notes
     UsfmNote usfmnote (1, "");
@@ -551,5 +551,16 @@ void test_filters ()
     position = usfm_get_new_note_position (usfm, 20, 0);
     evaluate (__LINE__, __func__, 21, position);
   }
+}
+
+// Tests for the filters in the filter folder.
+void test_filters ()
+{
+  test1 ();
+  test2 ();
+  test3 ();
+  test4 ();
+  test5 ();
+  test6 ();
 }
 

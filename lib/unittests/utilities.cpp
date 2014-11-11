@@ -103,7 +103,7 @@ void evaluate (int line, string func, vector <int> desired, vector <int> actual)
 }
 
 
-void evaluate (int line, string func, map <int, string> desired, map <int, string> actual) // Todo
+void evaluate (int line, string func, map <int, string> desired, map <int, string> actual)
 {
   if (desired.size() != actual.size ()) {
     error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
