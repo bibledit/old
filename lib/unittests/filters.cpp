@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <text/text.h>
 
 
-void test1 ()
+void test_filters_test1 ()
 {
   {
     // Filter_Roles.
@@ -109,7 +109,7 @@ void test1 ()
 }
 
 
-void test2 ()
+void test_filters_test2 ()
 {
   {
     // Test string modifiers.
@@ -167,7 +167,7 @@ void test2 ()
 }
 
 
-void test3 ()
+void test_filters_test3 ()
 {
   // Test the USFM filter functions.
   {
@@ -217,7 +217,7 @@ void test3 ()
 }
 
 
-void test4 ()
+void test_filters_test4 ()
 {
   {
     string usfm = "\\id MIC";
@@ -323,7 +323,7 @@ void test4 ()
 }
 
 
-void test5 ()
+void test_filters_test5 ()
 {
   {
     evaluate (__LINE__, __func__, "\\id ", usfm_get_opening_usfm ("id"));
@@ -426,7 +426,7 @@ void test5 ()
 }
 
 
-void test6 ()
+void test_filters_test6 ()
 {
   {
     // Test inserting empty notes
@@ -556,7 +556,7 @@ void test6 ()
 
 
 
-void test7 ()
+void test_filters_test7 ()
 {
   // Test object Text_Text.
   Text_Text text_text = Text_Text ();
@@ -577,12 +577,12 @@ void test7 ()
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
-  test1 ();
-  test2 ();
-  test3 ();
-  test4 ();
-  test5 ();
-  test6 ();
-  test7 ();
+  test_filters_test1 ();
+  test_filters_test2 ();
+  test_filters_test3 ();
+  test_filters_test4 ();
+  test_filters_test5 ();
+  test_filters_test6 ();
+  test_filters_test7 ();
 }
 
