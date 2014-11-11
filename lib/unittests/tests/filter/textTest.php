@@ -145,7 +145,7 @@ EOD;
     $filter_text->run ("Standard");
     $filter_text->odf_text_standard->save ("/tmp/TextTest.odt");
     exec ("odt2txt /tmp/TextTest.odt", $output, $return_var);
-    $this->assertEquals (array ("", "1" . Filter_Character::enSpace () . "Verse One.", "", "Paragraph One. 2" . Filter_Character::enSpace () . "Verse Two.", "", "3" . Filter_Character::enSpace () . "Verse Three. 4" . Filter_Character::enSpace () . "Verse Four. 5" . Filter_Character::enSpace () . "Verse Five.", ""), $output);
+    $this->assertEquals (array ("", "1" . get_en_space () . "Verse One.", "", "Paragraph One. 2" . get_en_space () . "Verse Two.", "", "3" . get_en_space () . "Verse Three. 4" . get_en_space () . "Verse Four. 5" . get_en_space () . "Verse Five.", ""), $output);
   }
 
 
@@ -162,7 +162,7 @@ EOD;
     $filter_text->run ("Standard");
     $filter_text->odf_text_standard->save ("/tmp/TextTest.odt");
     exec ("odt2txt /tmp/TextTest.odt", $output, $return_var);
-    $this->assertEquals (array ("", "1" . Filter_Character::enSpace () . "Text 1a", "", "Isa. 1.1.", "", "Isa. 2.2.", "", "b", "", "Isa. 3.3.", "", ", text 21", "", "Word1: Heb. Explanation1.", "", "2", "", "Word2: Heb. Explanation2.", "", ", text3.3", "", "Test: Heb. Note at the very end.", ""), $output);
+    $this->assertEquals (array ("", "1" . get_en_space () . "Text 1a", "", "Isa. 1.1.", "", "Isa. 2.2.", "", "b", "", "Isa. 3.3.", "", ", text 21", "", "Word1: Heb. Explanation1.", "", "2", "", "Word2: Heb. Explanation2.", "", ", text3.3", "", "Test: Heb. Note at the very end.", ""), $output);
   }
 
 

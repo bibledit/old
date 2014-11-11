@@ -318,3 +318,27 @@ string filter_string_sanitize_html (string html)
   return html;
 }
 
+
+
+// Returns a soft hyphen.
+string get_soft_hyphen ()
+{
+  // The "­" below is not an empty string, but the soft hyphen U+00AD.
+  return "­";
+}
+
+
+// Returns a no-break space (NBSP).
+string get_no_break_space ()
+{
+  // The space below is a no-break space.
+  return " ";
+}
+
+
+// Returns an "en space", this is a nut, half an em space.
+string get_en_space ()
+{
+  // The space below is U+2002.
+  return " ";
+}

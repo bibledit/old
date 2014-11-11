@@ -69,7 +69,7 @@ class Filter_Hyphenate
           $thisCharacterIsRelevant = in_array ($character, $secondset);
           if (($thisCharacterIsRelevant) && ($previousCharacterWasRelevant)) {
             if (!Filter_Hyphenate::nearWhiteSpace ($characters, $key)) {
-              $character = Filter_Character::softHyphen () . $character;
+              $character = get_soft_hyphen () . $character;
             }
           }
 

@@ -254,7 +254,7 @@ class Filter_Text
                     {
                       // Get book number.
                       $s = Filter_Usfm::getBookIdentifier ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                      $s = str_replace (Filter_Character::softHyphen (), "", $s); // Remove possible soft hyphen.
+                      $s = str_replace (get_soft_hyphen (), "", $s); // Remove possible soft hyphen.
                       $database_books = Database_Books::getInstance ();
                       $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
                       // Reset chapter and verse numbers.
@@ -403,7 +403,7 @@ class Filter_Text
                   {
                     // Get book number.
                     $s = Filter_Usfm::getBookIdentifier ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $s = str_replace (Filter_Character::softHyphen (), "", $s); // Remove possible soft hyphen.
+                    $s = str_replace (get_soft_hyphen (), "", $s); // Remove possible soft hyphen.
                     $database_books = Database_Books::getInstance ();
                     $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
                     // Reset chapter and verse numbers.
@@ -803,7 +803,7 @@ class Filter_Text
                   // But if a chapter number was put, than do not put any space at the start of the following verse.
                   $textFollowingMarker = ltrim ($textFollowingMarker);
                   if (!isset ($this->outputChapterTextAtFirstVerse)) {
-                    $textFollowingMarker = Filter_Character::enSpace () . $textFollowingMarker;
+                    $textFollowingMarker = get_en_space () . $textFollowingMarker;
                   }
                   $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer] = $textFollowingMarker;
                   $this->chapterUsfmMarkersAndTextPointer--;
@@ -989,7 +989,7 @@ class Filter_Text
               $this->verses_text [$this->currentVerseNumber] .= $currentItem;
             } else {
               // The verse text straight after the \v starts with an enSpace. Remove it.
-              $item = str_replace (Filter_Character::enSpace (), " ", $currentItem);
+              $item = str_replace (get_en_space (), " ", $currentItem);
               $this->verses_text [$this->currentVerseNumber] = ltrim ($item);
               unset ($item);
             }
@@ -1051,7 +1051,7 @@ class Filter_Text
                       }
                     }
                     // Add the note citation. And a no-break space after it.
-                    if ($this->odf_text_notes) $this->odf_text_notes->addText ($citation . Filter_Character::noBreakSpace());
+                    if ($this->odf_text_notes) $this->odf_text_notes->addText ($citation . get_no_break_space());
                     // Open note in the web pages.
                     if ($this->html_text_standard) $this->html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote);
                     if ($this->html_text_linked) $this->html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote);
@@ -1154,7 +1154,7 @@ class Filter_Text
                       }
                     }
                     // Add the note citation. And a no-break space (NBSP) after it.
-                    if ($this->odf_text_notes) $this->odf_text_notes->addText ($citation . Filter_Character::noBreakSpace());
+                    if ($this->odf_text_notes) $this->odf_text_notes->addText ($citation . get_no_break_space());
                     // Open note in the web page.
                     $this->ensureNoteParagraphStyle ($this->standardContentMarkerCrossReference, $this->styles[$this->standardContentMarkerCrossReference]);
                     if ($this->html_text_standard) $this->html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference);

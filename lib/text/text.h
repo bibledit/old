@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -18,39 +17,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_Character
+#ifndef INCLUDED_TEXT_TEXT_H
+#define INCLUDED_TEXT_TEXT_H
+
+
+#include <config/libraries.h>
+
+
+class Text_Text
 {
-
-  /**
-  * Returns a soft hyphen.
-  */
-  public static function softHyphen ()
-  {
-    // The "­" below is not an empty string, but the soft hyphen U+00AD.
-    return "­";
-  }
-
-
-  /**
-  * Returns a no-break space (NBSP).
-  */
-  public static function noBreakSpace ()
-  {
-    // The space below is a no-break space.
-    return " ";
-  }
+public:
+  Text_Text ();
+  void paragraph (string text = "");
+  string line ();
+  void addtext (string text);
+  string get ();
+  void save (string name);
+private:
+  vector <string> output;
+  string thisline;
+};
 
 
-  /**
-  * Returns an "en space", this is a nut, half an em space.
-  */
-  public static function enSpace ()
-  {
-    // The space below is U+2002.
-    return " ";
-  }
-
-
-}
-
-?>
+#endif

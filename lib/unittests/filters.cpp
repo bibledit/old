@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <session/logic.h>
+#include <text/text.h>
 
 
 void test1 ()
@@ -553,6 +554,26 @@ void test6 ()
   }
 }
 
+
+
+void test7 ()
+{
+  // Test object Text_Text.
+  Text_Text text_text = Text_Text ();
+  text_text.addtext ("text one");
+  evaluate (__LINE__, __func__, "text one", text_text.get ());
+
+  text_text = Text_Text ();
+  text_text.paragraph ("paragraph1");
+  text_text.paragraph ("paragraph2");
+  evaluate (__LINE__, __func__, "paragraph1\nparagraph2", text_text.get ());
+
+  text_text = Text_Text ();
+  text_text.paragraph ("paragraph");
+  evaluate (__LINE__, __func__, "paragraph", text_text.line ());
+}
+
+  
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -562,5 +583,6 @@ void test_filters ()
   test4 ();
   test5 ();
   test6 ();
+  test7 ();
 }
 
