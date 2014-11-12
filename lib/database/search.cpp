@@ -113,7 +113,7 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
 
   string usfm = database_bibles.getChapter (name, book, chapter);
   string stylesheet = database_config_bible.getExportStylesheet (name);
-  /* C++Port
+  /* Todo C++Port
 
 
   // Data to store.
@@ -460,7 +460,7 @@ vector <int> Database_Search::getBooks (string bible)
 void Database_Search::deleteBook (string bible, int book)
 {
   cout << bible <<  book << endl;
-  /* Todo
+  /*
   $bible = Database_SQLiteInjection::no ($bible);
   $book = Database_SQLiteInjection::no ($book);
   $query = "DELETE FROM bibles WHERE bible = '$bible' AND book = $book;";
@@ -472,7 +472,7 @@ void Database_Search::deleteBook (string bible, int book)
 vector <int> Database_Search::getChapters (string bible, int book)
 {
   cout << bible <<  book << endl;
-  /* Todo
+  /*
   $bible = Database_SQLiteInjection::no ($bible);
   $book = Database_SQLiteInjection::no ($book);
   $chapters = array ();
@@ -490,7 +490,7 @@ vector <int> Database_Search::getChapters (string bible, int book)
 void Database_Search::deleteChapter (string bible, int book, int chapter)
 {
   cout << bible <<  book << chapter << endl;
-  /* Todo
+  /* 
   $bible = Database_SQLiteInjection::no ($bible);
   $book = Database_SQLiteInjection::no ($book);
   $chapter = Database_SQLiteInjection::no ($chapter);

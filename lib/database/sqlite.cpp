@@ -86,6 +86,25 @@ The database errors went away.
 */
 
 
+sqlite3 * database_sqlite_connect_file (string filename)
+{
+  sqlite3 *db;
+  int rc;
+  try {
+    rc = sqlite3_open (filename.c_str(), &db);
+    if (rc) {
+      throw runtime_error (sqlite3_errmsg (db));
+    }
+    sqlite3_busy_timeout (db, 1000);
+  } catch (exception & ex) {
+    string message = "Database " + filename + ": " + ex.what();
+    Database_Logs::log (message);
+    return NULL;
+  }
+  return db;
+}
+
+
 string database_sqlite_file (string database)
 {
   return filter_url_create_root_path ("databases", database + ".sqlite");
@@ -94,20 +113,7 @@ string database_sqlite_file (string database)
 
 sqlite3 * database_sqlite_connect (string database)
 {
-  sqlite3 *db;
-  int rc;
-  try {
-    rc = sqlite3_open (database_sqlite_file (database).c_str(), &db);
-    if (rc) {
-      throw runtime_error (sqlite3_errmsg (db));
-    }
-    sqlite3_busy_timeout (db, 1000);
-  } catch (exception & ex) {
-    string message = "Database " + database + ": " + ex.what();
-    Database_Logs::log (message);
-    return NULL;
-  }
-  return db;
+  return database_sqlite_connect_file (database_sqlite_file (database));
 }
 
 

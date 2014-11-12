@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
+sqlite3 * database_sqlite_connect_file (string filename);
 string database_sqlite_file (string database);
 sqlite3 * database_sqlite_connect (string database);
 string database_sqlite_no_sql_injection (string sql);

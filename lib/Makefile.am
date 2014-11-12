@@ -41,7 +41,8 @@ libbibledit_a_SOURCES = \
 	styles/logic.cpp \
 	utf8/String.cpp \
 	utf8/Exception.cpp \
-	text/text.cpp
+	text/text.cpp \
+	esword/text.cpp
 
 bin_PROGRAMS = server unittest
 

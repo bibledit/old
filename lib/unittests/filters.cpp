@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <session/logic.h>
 #include <text/text.h>
+#include <esword/text.h>
 
 
 void test_filters_test1 ()
@@ -558,22 +559,127 @@ void test_filters_test6 ()
 
 void test_filters_test7 ()
 {
-  // Test object Text_Text.
-  Text_Text text_text = Text_Text ();
-  text_text.addtext ("text one");
-  evaluate (__LINE__, __func__, "text one", text_text.get ());
-
-  text_text = Text_Text ();
-  text_text.paragraph ("paragraph1");
-  text_text.paragraph ("paragraph2");
-  evaluate (__LINE__, __func__, "paragraph1\nparagraph2", text_text.get ());
-
-  text_text = Text_Text ();
-  text_text.paragraph ("paragraph");
-  evaluate (__LINE__, __func__, "paragraph", text_text.line ());
+  {
+    // Test object Text_Text.
+    Text_Text text_text = Text_Text ();
+    text_text.addtext ("text one");
+    evaluate (__LINE__, __func__, "text one", text_text.get ());
+  
+    text_text = Text_Text ();
+    text_text.paragraph ("paragraph1");
+    text_text.paragraph ("paragraph2");
+    evaluate (__LINE__, __func__, "paragraph1\nparagraph2", text_text.get ());
+  
+    text_text = Text_Text ();
+    text_text.paragraph ("paragraph");
+    evaluate (__LINE__, __func__, "paragraph", text_text.line ());
+  }
+  {
+    // Test Esword_Text title.
+    Esword_Text esword_text = Esword_Text ("The Word of the Lord Jesus Christ");
+    vector <string> sql = {
+      {"PRAGMA foreign_keys=OFF;"},
+      {"PRAGMA synchronous=OFF;"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"}
+    };
+    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+  }
+  // Test e-Sword text zero reference.
+  {
+    Esword_Text esword_text = Esword_Text ("");
+    esword_text.addText ("The Word of God");
+    esword_text.finalize ();
+    vector <string> sql = {
+      {"PRAGMA foreign_keys=OFF;"},
+      {"PRAGMA synchronous=OFF;"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
+      {"INSERT INTO Bible VALUES (0, 0, 0, 'The Word of God');"},
+      {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
+    };
+    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+  }
+  // Test e-Sword converter John 2:3
+  {
+    Esword_Text esword_text = Esword_Text ("");
+    esword_text.newBook (43);
+    esword_text.newChapter (2);
+    esword_text.newVerse (3);
+    esword_text.addText ("In the beginning was the Word, and the Word was with God, and the Word was God.");
+    esword_text.finalize ();
+    vector <string> sql = {
+      {"PRAGMA foreign_keys=OFF;"},
+      {"PRAGMA synchronous=OFF;"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
+      {"INSERT INTO Bible VALUES (43, 2, 3, 'In the beginning was the Word, and the Word was with God, and the Word was God.');"},
+      {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
+    };
+    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+  }
+  // Test e-Sword converter fragmented text
+  {
+    Esword_Text esword_text = Esword_Text ("");
+    esword_text.newBook (43);
+    esword_text.newChapter (1);
+    esword_text.newVerse (1);
+    esword_text.addText ("In the beginning was the Word");
+    esword_text.addText (", and the Word was with God");
+    esword_text.addText (", and the Word was God.");
+    esword_text.finalize ();
+    vector <string> sql = {
+      {"PRAGMA foreign_keys=OFF;"},
+      {"PRAGMA synchronous=OFF;"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
+      {"INSERT INTO Bible VALUES (43, 1, 1, 'In the beginning was the Word, and the Word was with God, and the Word was God.');"},
+      {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
+    };
+    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+  }
+  // Test e-Sword converter switch reference.
+  {
+    Esword_Text esword_text = Esword_Text ("");
+    esword_text.newBook (1);
+    esword_text.newChapter (2);
+    esword_text.newVerse (3);
+    esword_text.addText ("But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.");
+    esword_text.newBook (4);
+    esword_text.newChapter (5);
+    esword_text.newVerse (6);
+    esword_text.addText ("Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.");
+    esword_text.finalize ();
+    vector <string> sql = {
+      {"PRAGMA foreign_keys=OFF;"},
+      {"PRAGMA synchronous=OFF;"},
+      {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
+      {"INSERT INTO Details VALUES ('', '', '', 1, 'DEFAULT', 0, 1, 1, 0, 0);"},
+      {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"},
+      {"INSERT INTO Bible VALUES (1, 2, 3, 'But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.');"},
+      {"INSERT INTO Bible VALUES (4, 5, 6, 'Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.');"},
+      {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
+    };
+    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+  }
+  // Test e-Sword converter create module.
+  {
+    Esword_Text esword_text = Esword_Text ("");
+    esword_text.addText ("In the beginning was the Word, and the Word was with God, and the Word was God.");
+    esword_text.finalize ();
+    string filename = "/tmp/module.bblx";
+    esword_text.createModule (filename);
+    int filesize = filter_url_filesize (filename);
+    evaluate (__LINE__, __func__, 4096, filesize);
+    filter_url_unlink (filename);
+  }
 }
 
-  
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
