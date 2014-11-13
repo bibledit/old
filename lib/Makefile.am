@@ -42,7 +42,8 @@ libbibledit_a_SOURCES = \
 	utf8/String.cpp \
 	utf8/Exception.cpp \
 	text/text.cpp \
-	esword/text.cpp
+	esword/text.cpp \
+	onlinebible/text.cpp
 
 bin_PROGRAMS = server unittest
 

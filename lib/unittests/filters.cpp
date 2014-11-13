@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
+#include <onlinebible/text.h>
 
 
 void test_filters_test1 ()
@@ -675,6 +676,37 @@ void test_filters_test7 ()
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
     evaluate (__LINE__, __func__, 4096, filesize);
+    filter_url_unlink (filename);
+  }
+  // Test class OnlineBible_Text.
+  {
+    OnlineBible_Text onlinebible_text = OnlineBible_Text ();
+    onlinebible_text.addText ("No verse given, so discard this.");
+    onlinebible_text.newVerse (2, 2, 2);
+    onlinebible_text.addText ("Text for Exodus 2:2, not verse 2-6a.");
+    onlinebible_text.storeData ();
+    onlinebible_text.addText ("Verse was stored, no new verse given, so discard this.");
+    string filename = "/tmp/OLBTextTest1.exp";
+    onlinebible_text.save (filename);
+    string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "onlinebible1.exp"));
+    string result = filter_url_file_get_contents (filename);
+    evaluate (__LINE__, __func__, standard, result);
+    filter_url_unlink (filename);
+  }
+  {
+    OnlineBible_Text onlinebible_text = OnlineBible_Text ();
+    onlinebible_text.addNote ();
+    onlinebible_text.addText ("Discard this note text because no verse has been given yet.");
+    onlinebible_text.closeCurrentNote ();
+    onlinebible_text.newVerse (1, 2, 3);
+    onlinebible_text.addNote ();
+    onlinebible_text.addText ("Output this note text.");
+    onlinebible_text.closeCurrentNote ();
+    string filename = "/tmp/OLBTextTest2.exp";
+    onlinebible_text.save (filename);
+    string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "onlinebible2.exp"));
+    string result = filter_url_file_get_contents (filename);
+    evaluate (__LINE__, __func__, standard, result);
     filter_url_unlink (filename);
   }
 }

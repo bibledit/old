@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,4 +15,31 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
+
+
+#ifndef INCLUDED_ONLINEBIBLE_TEXT_H
+#define INCLUDED_ONLINEBIBLE_TEXT_H
+
+
+#include <config/libraries.h>
+
+
+class OnlineBible_Text
+{
+public:
+  OnlineBible_Text ();
+  void newVerse (int bookIdentifier, int chapterNumber, int verseNumber);
+  void addText (string text);
+  void addNote ();
+  void closeCurrentNote ();
+  void save (string name);
+  void storeData ();
+private:
+  string currentLine;
+  bool lineLoaded = false;
+  vector <string> output;
+};
+
+
+#endif
+

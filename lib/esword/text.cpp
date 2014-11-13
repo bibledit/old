@@ -113,5 +113,3 @@ vector <string> Esword_Text::get_sql ()
   return sql;
 }
 
-
-// Todo
