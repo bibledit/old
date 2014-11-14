@@ -126,7 +126,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
 	utf8/String.$(OBJEXT) utf8/Exception.$(OBJEXT) \
 	text/text.$(OBJEXT) esword/text.$(OBJEXT) \
-	onlinebible/text.$(OBJEXT)
+	onlinebible/text.$(OBJEXT) html/text.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -362,7 +362,8 @@ libbibledit_a_SOURCES = \
 	utf8/Exception.cpp \
 	text/text.cpp \
 	esword/text.cpp \
-	onlinebible/text.cpp
+	onlinebible/text.cpp \
+	html/text.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -648,6 +649,14 @@ onlinebible/$(DEPDIR)/$(am__dirstamp):
 	@: > onlinebible/$(DEPDIR)/$(am__dirstamp)
 onlinebible/text.$(OBJEXT): onlinebible/$(am__dirstamp) \
 	onlinebible/$(DEPDIR)/$(am__dirstamp)
+html/$(am__dirstamp):
+	@$(MKDIR_P) html
+	@: > html/$(am__dirstamp)
+html/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) html/$(DEPDIR)
+	@: > html/$(DEPDIR)/$(am__dirstamp)
+html/text.$(OBJEXT): html/$(am__dirstamp) \
+	html/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -739,6 +748,7 @@ mostlyclean-compile:
 	-rm -f executable/*.$(OBJEXT)
 	-rm -f filter/*.$(OBJEXT)
 	-rm -f flate/*.$(OBJEXT)
+	-rm -f html/*.$(OBJEXT)
 	-rm -f index/*.$(OBJEXT)
 	-rm -f journal/*.$(OBJEXT)
 	-rm -f library/*.$(OBJEXT)
@@ -780,6 +790,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/bibledit.Po@am__quote@
@@ -1100,6 +1111,8 @@ distclean-generic:
 	-rm -f filter/$(am__dirstamp)
 	-rm -f flate/$(DEPDIR)/$(am__dirstamp)
 	-rm -f flate/$(am__dirstamp)
+	-rm -f html/$(DEPDIR)/$(am__dirstamp)
+	-rm -f html/$(am__dirstamp)
 	-rm -f index/$(DEPDIR)/$(am__dirstamp)
 	-rm -f index/$(am__dirstamp)
 	-rm -f journal/$(DEPDIR)/$(am__dirstamp)
@@ -1139,7 +1152,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) text/$(DEPDIR) unittests/$(DEPDIR) utf8/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) text/$(DEPDIR) unittests/$(DEPDIR) utf8/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -1187,7 +1200,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) text/$(DEPDIR) unittests/$(DEPDIR) utf8/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) text/$(DEPDIR) unittests/$(DEPDIR) utf8/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

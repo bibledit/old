@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <text/text.h>
 #include <esword/text.h>
 #include <onlinebible/text.h>
+#include <html/text.h>
 
 
 void test_filters_test1 ()
@@ -712,6 +713,156 @@ void test_filters_test7 ()
 }
 
 
+void test_filters_test8 ()
+{
+  // Test Html_Text paragraphs.
+  {
+    Html_Text html_text = Html_Text ("TestOne");
+    html_text.newParagraph ();
+    evaluate (__LINE__, __func__, "", html_text.currentParagraphStyle);
+    html_text.addText ("Paragraph One");
+    evaluate (__LINE__, __func__, "Paragraph One", html_text.currentParagraphContent);
+    html_text.newParagraph ();
+    evaluate (__LINE__, __func__, "", html_text.currentParagraphContent);
+    html_text.addText ("Paragraph Two");
+    evaluate (__LINE__, __func__, "Paragraph Two", html_text.currentParagraphContent);
+    html_text.newHeading1 ("Heading One");
+    evaluate (__LINE__, __func__, "", html_text.currentParagraphContent);
+    html_text.newParagraph ();
+    html_text.addText ("Paragraph Three");
+    string html = html_text.getInnerHtml ();
+    string standard =
+"    <p>\n"
+"      <span>Paragraph One</span>\n"
+"    </p>\n"
+"    <p>\n"
+"      <span>Paragraph Two</span>\n"
+"    </p>\n"
+"    <h1>Heading One</h1>\n"
+"    <p>\n"
+"      <span>Paragraph Three</span>\n"
+"    </p>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+  }
+  // Test Html_Text automatic paragraph.
+  {
+    Html_Text html_text = Html_Text ("TestTwo");
+    html_text.addText ("Should create new paragraph automatically");
+    string html = html_text.getInnerHtml ();
+    string standard = 
+"    <p>\n"
+"      <span>Should create new paragraph automatically</span>\n"
+"    </p>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+  }
+  // Test Html_Text basic note
+  {
+    Html_Text html_text = Html_Text ("TestThree");
+    html_text.newParagraph ();
+    html_text.addText ("Text1");
+    html_text.addNote ("†", "");
+    html_text.addNoteText ("Note1.");
+    html_text.addText (".");
+    string html = html_text.getInnerHtml ();
+    string standard = 
+    "    <p>\n"
+    "      <span>Text1</span>\n"
+    "      <a href=\"#note1\" id=\"citation1\" class=\"superscript\">†</a>\n"
+    "      <span>.</span>\n"
+    "    </p>\n"
+    "    <div>\n"
+    "      <p class=\"\">\n"
+    "        <a href=\"#citation1\" id=\"note1\">†</a>\n"
+    "        <span> </span>\n"
+    "        <span>Note1.</span>\n"
+    "      </p>\n"
+    "    </div>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+  }
+  // Test Html_Text getInnerHtml ()
+  {
+    Html_Text html_text = Html_Text ("test");
+    html_text.newParagraph ();
+    html_text.addText ("Paragraph One");
+    html_text.newParagraph ();
+    html_text.addText ("Paragraph Two");
+    string html = html_text.getInnerHtml ();
+    string standard = 
+    "    <p>\n"
+    "      <span>Paragraph One</span>\n"
+    "    </p>\n"
+    "    <p>\n"
+    "      <span>Paragraph Two</span>\n"
+    "    </p>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+  }
+  // Test Html_Text basic formatted note ()
+  {
+    Database_Styles_Item style;
+    Html_Text html_text = Html_Text ("");
+    html_text.newParagraph ();
+    html_text.addText ("Text");
+    html_text.addNote ("𐌰", "f");
+    style.marker = "add";
+    html_text.openTextStyle (style, true, false);
+    html_text.addNoteText ("Add");
+    html_text.closeTextStyle (true, false);
+    html_text.addNoteText ("normal");
+    html_text.addText (".");
+    string html = html_text.getInnerHtml ();
+    string standard = 
+    "    <p>\n"
+    "      <span>Text</span>\n"
+    "      <a href=\"#note1\" id=\"citation1\" class=\"superscript\">𐌰</a>\n"
+    "      <span>.</span>\n"
+    "    </p>\n"
+    "    <div>\n"
+    "      <p class=\"f\">\n"
+    "        <a href=\"#citation1\" id=\"note1\">𐌰</a>\n"
+    "        <span> </span>\n"
+    "        <span class=\"add\">Add</span>\n"
+    "        <span>normal</span>\n"
+    "      </p>\n"
+    "    </div>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+  }
+  // Test Html_Text embedded formatted note
+  {
+    Database_Styles_Item style;
+    Html_Text html_text = Html_Text ("");
+    html_text.newParagraph ();
+    html_text.addText ("text");
+    html_text.addNote ("𐌰", "f");
+    style.marker = "add";
+    html_text.openTextStyle (style, true, false);
+    html_text.addNoteText ("add");
+    style.marker = "nd";
+    html_text.openTextStyle (style, true, true);
+    html_text.addNoteText ("nd");
+    html_text.closeTextStyle (true, false);
+    html_text.addNoteText ("normal");
+    html_text.addText (".");
+    string html = html_text.getInnerHtml ();
+    string standard = 
+"    <p>\n"
+"      <span>text</span>\n"
+"      <a href=\"#note1\" id=\"citation1\" class=\"superscript\">𐌰</a>\n"
+"      <span>.</span>\n"
+"    </p>\n"
+"    <div>\n"
+"      <p class=\"f\">\n"
+"        <a href=\"#citation1\" id=\"note1\">𐌰</a>\n"
+"        <span> </span>\n"
+"        <span class=\"add\">add</span>\n"
+"        <span class=\"add nd\">nd</span>\n"
+"        <span>normal</span>\n"
+"      </p>\n"
+"    </div>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+  }
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -722,5 +873,7 @@ void test_filters ()
   test_filters_test5 ();
   test_filters_test6 ();
   test_filters_test7 ();
+  test_filters_test8 ();
 }
+
 
