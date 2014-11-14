@@ -6,6 +6,36 @@ AC_PROG_RANLIB
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADER(config.h)
 
+AC_PATH_PROG(GZIP_PATH, gzip, no)
+if test x$GZIP_PATH = xno; then
+  AC_MSG_ERROR(Program "gzip" is needed. Install this first.)
+fi
+
+
+AC_PATH_PROG(GUNZIP_PATH, gunzip, no)
+if test x$GUNZIP_PATH = xno; then
+  AC_MSG_ERROR(Program "gunzip" is needed. Install this first.)
+fi
+
+
+AC_PATH_PROG(FIND_TAR, tar, no)
+if test x$FIND_TAR = xno; then
+  AC_MSG_ERROR(Program "tar" is needed. Install this first.)
+fi
+
+
+AC_PATH_PROG(ZIP_PATH, zip, no)
+if test x$ZIP_PATH = xno; then
+  AC_MSG_ERROR(Program "zip" is needed. Install this first.)
+fi
+
+
+AC_PATH_PROG(UNZIP_PATH, unzip, no)
+if test x$UNZIP_PATH = xno; then
+  AC_MSG_ERROR(Program "unzip" is needed. Install this first.)
+fi
+
+
 PKG_PROG_PKG_CONFIG
 AC_PATH_PROG(PKG_CONFIG_PATH, pkg-config, no)
 if test x$PKG_CONFIG_PATH = xno; then

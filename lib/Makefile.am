@@ -11,6 +11,7 @@ libbibledit_a_SOURCES = \
 	filter/roles.cpp \
 	filter/md5.cpp \
 	filter/usfm.cpp \
+	filter/archive.cpp \
 	flate/flate2.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -44,7 +45,8 @@ libbibledit_a_SOURCES = \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \
-	html/text.cpp
+	html/text.cpp \
+	odf/text.cpp
 
 bin_PROGRAMS = server unittest
 

@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,4 +15,22 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
+
+
+#ifndef INCLUDED_FILTER_ARCHIVE_H
+#define INCLUDED_FILTER_ARCHIVE_H
+
+
+#include <config/libraries.h>
+
+
+string filter_archive_zip_file (string file);
+string filter_archive_zip_folder (string folder);
+string filter_archive_unzip (string file);
+string filter_archive_tar_gzip_file (string filename);
+string filter_archive_tar_gzip_folder (string folder);
+string filter_archive_untar_gzip (string file);
+string filter_archive_uncompress (string file);
+
+
+#endif

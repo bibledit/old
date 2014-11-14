@@ -29,6 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
+#ifdef WIN32
+#undef DIRECTORY_SEPARATOR
+#define DIRECTORY_SEPARATOR "\\"
+#endif
+
+
 string get_base_url (Webserver_Request * request);
 void redirect_browser (string url, Webserver_Request * request);
 string get_dirname (string url);
@@ -47,6 +53,8 @@ int filter_url_filesize (string filename);
 vector <string> filter_url_scandir (string folder);
 int filter_url_filemtime (string filename);
 string filter_url_urldecode (string url);
+string filter_url_tempfile ();
+string filter_url_escape_shell_argument (string argument);
 
 
 #endif

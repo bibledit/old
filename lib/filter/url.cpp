@@ -24,15 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef WIN32
 #include <direct.h>
 #endif
-
-
-using namespace std;
-
-
-#ifdef WIN32
-#undef DIRECTORY_SEPARATOR
-#define DIRECTORY_SEPARATOR "\\"
-#endif
+#include <filter/string.h>
 
 
 // Gets the base URL of current Bibledit installation.
@@ -289,3 +281,22 @@ string filter_url_urldecode (string url)
   replace (url.begin (), url.end (), '+', ' ');
   return url;
 }
+
+
+// Returns the name of a temporary file.
+string filter_url_tempfile ()
+{
+  string filename = filter_url_create_root_path ("tmp", convert_to_string (filter_string_date_seconds_since_epoch ()) + convert_to_string (filter_string_date_numerical_microseconds ()));
+  return filename;
+}
+
+
+// C++ equivalent for PHP's escapeshellarg function.
+string filter_url_escape_shell_argument (string argument)
+{
+  argument = filter_string_str_replace ("'", "\\'", argument);
+  argument.insert (0, "'");
+  argument.append ("'");
+  return argument;
+}
+
