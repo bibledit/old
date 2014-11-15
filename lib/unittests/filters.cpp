@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/md5.h>
 #include <filter/usfm.h>
+#include <filter/archive.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -863,154 +864,122 @@ void test_filters_test8 ()
 }
 
 
+void test_filters_test9_setup (string file1, string & data1, string file2, string & data2)
+{
+  for (unsigned int i = 0; i < 1000; i++) {
+    data1.append ("Data One\n");
+    data2.append ("Data Two\n");
+  }
+  filter_url_file_put_contents (file1, data1);
+  filter_url_file_put_contents (file2, data2);
+}
+
+
 void test_filters_test9 ()
 {
   // Test filter_url_escape_shell_argument.
   evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
   evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
-  
-  /* Todo C++Port
-private $file1;
-  private $file2;
-  private $data1;
-  private $data2;
-  
-  
-  protected function setUp () 
+
+  // Prepare for testing the archive functions.  
+  string file1 = "/tmp/testarchive1";
+  string file2 = "/tmp/testarchive2";
+  string data1;
+  string data2;
+  test_filters_test9_setup (file1, data1, file2, data2);
   {
-    for ($i = 0; $i < 1000; $i++) {
-      $this->data1 .= "Data One\n";
-      $this->data2 .= "Data Two\n";
-    }
-    $this->file1 = tempnam (sys_get_temp_dir(), '');
-    file_put_contents ($this->file1, $this->data1);
-    $this->file2 = tempnam (sys_get_temp_dir(), '');
-    file_put_contents ($this->file2, $this->data2);
+    // Test zip compression of one file.
+    string zipfile = filter_archive_zip_file (file1);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (zipfile));
+    evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
+    filter_url_unlink (zipfile);
+    // Test compressing a non-existing file.
+    zipfile = filter_archive_zip_file ("xxxxx");
+    evaluate (__LINE__, __func__, "", zipfile);
   }
-  
-  
-  protected function tearDown () 
+  // Test Filter_Archive zip folder.
   {
-    unlink ($this->file1);
-    unlink ($this->file2);
-  }
-  
-  
-  public function testFilterArchiveZipFile()
-  {
+    string folder = filter_url_tempfile();
+    filter_url_mkdir (folder);
+    filter_url_file_put_contents (folder + "/file1", data1);
+    filter_url_file_put_contents (folder + "/file2", data2);
     // Test zip compression.
-    $zipfile = Filter_Archive::zip ($this->file1, false);
-    $this->assertTrue(file_exists ($zipfile));
-    $this->assertEquals(159, filesize ($zipfile));
-    unlink ($zipfile);
-    // Test that compressing a non-existing file returns NULL.
-    $zipfile = Filter_Archive::zip ("xxxxx", false);
-    $this->assertEquals (NULL, $zipfile);
-  }
-  
-  
-  public function testFilterArchiveZipFolder()
-  {
-    $folder = uniqid (sys_get_temp_dir() . "/");
-    mkdir ($folder);
-    file_put_contents ("$folder/file1", $this->data1);
-    file_put_contents ("$folder/file2", $this->data2);
-    // Test zip compression.
-    $zipfile = Filter_Archive::zip ($folder, false);
-    $this->assertTrue(file_exists ($zipfile));
-    $this->assertEquals(292, filesize ($zipfile));
+    string zipfile = filter_archive_zip_folder (folder);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (zipfile));
+    evaluate (__LINE__, __func__, 396, filter_url_filesize (zipfile));
     // Clean up the mess.
-    unlink ($zipfile);
-    Filter_Rmdir::rmdir ($folder);
+    filter_url_unlink (zipfile);
+    filter_url_rmdir (folder);
   }
-  
-  
-  public function testFilterArchiveUnzip()
+  // Test Filter_Archive unzip.
   {
-    $zipfile = Filter_Archive::zip ($this->file1, false);
+    string zipfile = filter_archive_zip_file (file1);
     // Test unzip.
-    $folder = Filter_Archive::unzip ($zipfile, false);
-    $this->assertTrue(file_exists ($folder));
-    foreach (new DirectoryIterator ($folder) as $fileInfo) {
-      if($fileInfo->isDot()) continue;
-      $path = $fileInfo->getFilename();
-      $path = "$folder/$path";
-      $this->assertEquals(9000, filesize ($path));
-    }
-    unlink ($zipfile);
-    Filter_Rmdir::rmdir ($folder);
+    string folder = filter_archive_unzip (zipfile);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (zipfile));
+    evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
+    filter_url_unlink (zipfile);
+    filter_url_rmdir (folder);
     // Test that unzipping garbage returns NULL.
-    $folder = Filter_Archive::unzip ("xxxxx", false);
-    $this->assertEquals(NULL, $folder);
+    folder = filter_archive_unzip ("xxxxx");
+    evaluate (__LINE__, __func__, "", folder);
   }
-  
-  
-  public function testFilterArchiveTarGzipFile()
+  // Test Filter_Archive tar gzip file.
   {
     // Test gzipped tarball compression.
-    $tarball = Filter_Archive::tarGzipFile ($this->file1, false);
-    $this->assertTrue(file_exists ($tarball));
-    $this->assertGreaterThan(140, filesize ($tarball));
-    $this->assertLessThan(180, filesize ($tarball));
+    string tarball = filter_archive_tar_gzip_file (file1);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
+    int size = filter_url_filesize (tarball);
+    if ((size < 155) || (size > 165)) evaluate (__LINE__, __func__, "between 155 and 165", convert_to_string (size));
     // Clean up tarball from /tmp folder.
-    unlink ($tarball);
+    filter_url_unlink (tarball);
     // Test that compressing a non-existing file returns NULL.
-    $tarball = Filter_Archive::tarGzipFile ("xxxxx", false);
-    $this->assertEquals(NULL, $tarball);
+    tarball = filter_archive_tar_gzip_file ("xxxxx");
+    evaluate (__LINE__, __func__, "", tarball);
   }
-  
-  
-  public function testFilterArchiveTarGzipFolder()
+  // Test Filter Archive Tar Gzip Folder.
   {
-    $folder = uniqid (sys_get_temp_dir() . "/");
-    mkdir ($folder);
-    file_put_contents ("$folder/file1", $this->data1);
-    file_put_contents ("$folder/file2", $this->data2);
+    string folder = filter_url_tempfile ();
+    filter_url_mkdir (folder);
+    filter_url_file_put_contents (folder + "/file1", data1);
+    filter_url_file_put_contents (folder + "/file2", data2);
     // Test compression.
-    $tarball = Filter_Archive::tarGzipFolder ($folder, false);
-    $this->assertTrue(file_exists ($tarball));
-    $this->assertGreaterThan(220, filesize ($tarball));
-    $this->assertLessThan(260, filesize ($tarball));
+    string tarball = filter_archive_tar_gzip_folder (folder);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
+    int size = filter_url_filesize (tarball);
+    if ((size < 235) || (size > 245)) evaluate (__LINE__, __func__, "between 235 and 245", convert_to_string (size));
     // Clean up.
-    unlink ($tarball);
-    Filter_Rmdir::rmdir ($folder);
+    filter_url_unlink (tarball);
+    filter_url_rmdir (folder);
     // Test that compressing a non-existing folder returns NULL.
-    //$tarball = Filter_Archive::tarGzipFolder ("$folder/x", false);
-    //$this->assertEquals(NULL, $tarball);
+    //tarball = filter_archive_tar_gzip_folder (folder + "/x");
+    //evaluate (__LINE__, __func__, "", tarball);
   }
-  
-  
-  public function testFilterArchiveUntargz()
+  // Test Filter Archive Untargz.
   {
-    $tarball = Filter_Archive::tarGzipFile ($this->file1, false);
+    string tarball = filter_archive_tar_gzip_file (file1);
     // Test decompression.
-    $folder = Filter_Archive::untargz ($tarball, false);
-    $this->assertTrue(file_exists ($folder));
-    Filter_Rmdir::rmdir ($folder);
-    $folder = Filter_Archive::uncompress ($tarball, false);
-    $this->assertTrue(file_exists ($folder));
-    foreach (new DirectoryIterator ($folder) as $fileInfo) {
-      if($fileInfo->isDot()) continue;
-      $path = $fileInfo->getFilename();
-      $path = "$folder/$path";
-      $this->assertEquals(9000, filesize ($path));
-    }
-    Filter_Rmdir::rmdir ($folder);
-    unlink ($tarball);
+    string folder = filter_archive_untar_gzip (tarball);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (folder));
+    filter_url_rmdir (folder);
+    folder = filter_archive_uncompress (tarball);
+    evaluate (__LINE__, __func__, true, filter_url_file_exists (folder));
+    evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
+    filter_url_rmdir (folder);
+    filter_url_unlink (tarball);
     // Test that unzipping garbage returns NULL.
-    $folder = Filter_Archive::untargz ("xxxxx", false);
-    $this->assertEquals(NULL, $folder);
+    folder = filter_archive_untar_gzip ("xxxxx");
+    evaluate (__LINE__, __func__, "", folder);
   }
-  
-  
-  
-  */
+  // Clear up data used for the archive tests.
+  refresh_sandbox (false);
 }
 
 
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
+  refresh_sandbox (true);
   test_filters_test1 ();
   test_filters_test2 ();
   test_filters_test3 ();
@@ -1020,6 +989,7 @@ void test_filters ()
   test_filters_test7 ();
   test_filters_test8 ();
   test_filters_test9 ();
+  refresh_sandbox (true);
 }
 
 

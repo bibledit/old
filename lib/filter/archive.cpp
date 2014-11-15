@@ -31,7 +31,7 @@ string filter_archive_zip_file (string filename)
   string logfile = filter_url_tempfile () + ".log";
   string dirname = filter_url_escape_shell_argument (get_dirname (filename));
   string basename = filter_url_escape_shell_argument (get_basename (filename));
-  string command = "cd " + dirname + " && zip " + zippedfile + " " + basename + " 2>&1 > " + logfile;
+  string command = "cd " + dirname + " && zip " + zippedfile + " " + basename + " > " + logfile + " 2>&1";
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
@@ -51,7 +51,7 @@ string filter_archive_zip_folder (string folder)
   string zippedfile = filter_url_tempfile () + ".zip";
   string logfile = filter_url_tempfile () + ".log";
   folder = filter_url_escape_shell_argument (folder);
-  string command = "cd " + folder + " && zip -r " + zippedfile + " * 2>&1 > " + logfile;
+  string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
@@ -72,7 +72,7 @@ string filter_archive_unzip (string file)
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
-  string command = "unzip -o -d " + folder + " " + file + " 2>&1 > " + logfile;
+  string command = "unzip -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_rmdir (folder);
@@ -92,7 +92,7 @@ string filter_archive_tar_gzip_file (string filename)
   string dirname = filter_url_escape_shell_argument (get_dirname (filename));
   string basename = filter_url_escape_shell_argument (get_basename (filename));
   string logfile = filter_url_tempfile () + ".log";
-  string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " 2>&1 > " + logfile;
+  string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_unlink (tarball);
@@ -111,7 +111,7 @@ string filter_archive_tar_gzip_folder (string folder)
   string tarball = filter_url_tempfile () + ".tar.gz";
   folder = filter_url_escape_shell_argument (folder);
   string logfile = filter_url_tempfile () + ".log";
-  string command = "cd " + folder + " && tar -czf " + tarball + " . 2>&1 > " + logfile;
+  string command = "cd " + folder + " && tar -czf " + tarball + " . > " + logfile + " 2>&1";
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_unlink (tarball);
@@ -132,7 +132,7 @@ string filter_archive_untar_gzip (string file)
   filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
-  string command = "cd " + folder + " && tar zxf " + file + " 2>&1 > " + logfile;
+  string command = "cd " + folder + " && tar zxf " + file + " > " + logfile + " 2>&1";
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_rmdir (folder);
