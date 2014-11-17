@@ -54,6 +54,18 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
 }
 
 
+bool Database_Config_Bible::getValue (string bible, const char * key, bool default_value)
+{
+  return convert_to_bool (getValue (bible, key, convert_to_string (default_value).c_str()));
+}
+
+
+void Database_Config_Bible::setValue (string bible, const char * key, bool value)
+{
+  setValue (bible, key, convert_to_string (value));
+}
+
+
 void Database_Config_Bible::setValue (string bible, const char * key, string value)
 {
   string filename = file (bible, key);
@@ -336,11 +348,11 @@ void Database_Config_Bible::setBottomMargin  (string bible, string value)
 }
 
 
-string Database_Config_Bible::getDateInHeader (string bible) 
+bool Database_Config_Bible::getDateInHeader (string bible) 
 {
-  return getValue (bible, "date-in-header", "");
+  return getValue (bible, "date-in-header", false);
 }
-void Database_Config_Bible::setDateInHeader  (string bible, string value) 
+void Database_Config_Bible::setDateInHeader  (string bible, bool value) 
 {
   setValue (bible, "date-in-header", value);
 }
@@ -528,7 +540,7 @@ void Database_Config_Bible::setBookOrder (string bible, string value)
 
 string Database_Config_Bible::getTextDirection (string bible)
 {
-  return getValue (bible, "text-direction", 0);
+  return getValue (bible, "text-direction", "0");
 }
 void Database_Config_Bible::setTextDirection (string bible, string value) 
 {

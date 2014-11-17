@@ -33,6 +33,8 @@ class Odf_Text
 public:
   Odf_Text (string bible_in);
   ~Odf_Text ();
+  void createPageBreakStyle ();
+  void save (string name);
   string currentParagraphStyle;
   string currentParagraphContent;
   vector <string> currentTextStyle;
@@ -40,7 +42,7 @@ private:
   string bible;
   string unpackedOdtFolder;
   xmlDocPtr contentDom; // The content.xml DOMDocument.
-  xmlNodePtr $officeTextDomNode; // The office:text DOMNode.
+  xmlNodePtr officeTextDomNode; // The office:text DOMNode.
   xmlDocPtr stylesDom; // The styles.xml DOMDocument.
   vector <string> createdStyles; // An array with styles already created in the $stylesDom.
   xmlNodePtr officeStylesDomNode; // The office:styles DOMNode.
@@ -51,6 +53,8 @@ private:
   int noteCount;
   xmlNodePtr noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
   vector <string> currentNoteTextStyle;
+  void initialize_content_xml ();
+  void initialize_styles_xml ();
 };
 
 

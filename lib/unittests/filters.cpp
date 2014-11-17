@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <esword/text.h>
 #include <onlinebible/text.h>
 #include <html/text.h>
+#include <odf/text.h>
 
 
 void test_filters_test1 ()
@@ -109,6 +110,11 @@ void test_filters_test1 ()
     against.push_back ("x");
     vector <string> output = filter_string_array_diff (from, against);
     evaluate (__LINE__, __func__, reference, output);
+  }
+  {
+    // Test filter_url_escape_shell_argument.
+    evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
+    evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
   }
 }
 
@@ -864,29 +870,19 @@ void test_filters_test8 ()
 }
 
 
-void test_filters_test9_setup (string file1, string & data1, string file2, string & data2)
+void test_filters_test9 ()
 {
+  // Prepare for testing the archive functions.  
+  string file1 = "/tmp/testarchive1";
+  string file2 = "/tmp/testarchive2";
+  string data1;
+  string data2;
   for (unsigned int i = 0; i < 1000; i++) {
     data1.append ("Data One\n");
     data2.append ("Data Two\n");
   }
   filter_url_file_put_contents (file1, data1);
   filter_url_file_put_contents (file2, data2);
-}
-
-
-void test_filters_test9 ()
-{
-  // Test filter_url_escape_shell_argument.
-  evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
-  evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
-
-  // Prepare for testing the archive functions.  
-  string file1 = "/tmp/testarchive1";
-  string file2 = "/tmp/testarchive2";
-  string data1;
-  string data2;
-  test_filters_test9_setup (file1, data1, file2, data2);
   {
     // Test zip compression of one file.
     string zipfile = filter_archive_zip_file (file1);
@@ -976,6 +972,191 @@ void test_filters_test9 ()
 }
 
 
+void test_filters_test10 ()
+{
+  string OdfTextTestDotOdt = "/tmp/OdfTextTest.odt";
+  string temporary_folder = "/tmp";
+  // Test Odf converter paragraphs.
+  {
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    /*
+    $odf_text->createPageBreakStyle ();
+    $odf_text->newParagraph ();
+    $this->assertEquals ("Standard", $odf_text->currentParagraphStyle);
+    $odf_text->addText ("Paragraph One");
+    $this->assertEquals ("Paragraph One", $odf_text->currentParagraphContent);
+    $odf_text->newParagraph ();
+    $this->assertEquals ("", $odf_text->currentParagraphContent);
+    $odf_text->addText ("Paragraph Two");
+    $this->assertEquals ("Paragraph Two", $odf_text->currentParagraphContent);
+    $odf_text->newHeading1 ("Heading One");
+    $this->assertEquals ("", $odf_text->currentParagraphContent);
+    $odf_text->newPageBreak ();
+    $odf_text->newParagraph ();
+    $odf_text->addText ("Paragraph Three");
+    */
+    odf_text.save (OdfTextTestDotOdt);
+    /*
+    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
+$standard = <<<'EOD'
+Paragraph One
+
+Paragraph Two
+
+Heading One
+===========
+
+Paragraph Three
+EOD;
+    $this->assertEquals ($standard, trim ($odt));
+    */
+  }
+  exit (0); // Todo
+/* Todo
+
+
+
+  public function testAutomaticParagraph ()
+  {
+    $odf_text = new Odf_Text ("phpunit");
+    $odf_text->addText ("Should create new paragraph automatically");
+    $odf_text->save ("/tmp/OdfTextTest.odt");
+    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
+$standard = <<<'EOD'
+Should create new paragraph automatically
+EOD;
+    $this->assertEquals ($standard, trim ($odt));
+  }
+
+
+  public function testBasicNote ()
+  {
+    $odf_text = new Odf_Text ("phpunit");
+    $odf_text->newParagraph ();
+    $odf_text->addText ("Text");
+    $odf_text->addNote ("†", "");
+    $odf_text->addNoteText ("Note");
+    $odf_text->addText (".");
+    $odf_text->save ("/tmp/OdfTextTest.odt");
+    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
+$standard = <<<'EOD'
+Text†
+
+Note
+
+.
+EOD;
+    $this->assertEquals ($standard, trim ($odt));
+  }
+
+
+  public function testBasicFormattedText ()
+  {
+    $styles_logic = Styles_Logic::getInstance ();
+    $database_styles = Database_Styles::getInstance ();
+    $add = $database_styles->getMarkerData ("Standard", "add");
+    $odf_text = new Odf_Text ("phpunit");
+    $odf_text->newParagraph ();
+    $odf_text->addText ("text");
+    $odf_text->openTextStyle ($add, false, false);
+    $odf_text->addText ("add");
+    $odf_text->closeTextStyle (false, false);
+    $odf_text->addText ("normal");
+    $odf_text->addText (".");
+    $odf_text->save ("/tmp/OdfTextTest.odt");
+    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
+$standard = <<<'EOD'
+textaddnormal.
+EOD;
+    $this->assertEquals ($standard, trim ($odt));
+  }
+
+
+  public function testBasicFormattedNote ()
+  {
+    $styles_logic = Styles_Logic::getInstance ();
+    $database_styles = Database_Styles::getInstance ();
+    $add = $database_styles->getMarkerData ("Standard", "add");
+    $odf_text = new Odf_Text ("phpunit");
+    $odf_text->newParagraph ();
+    $odf_text->addText ("Text");
+    $odf_text->addNote ("𐌰", "f");
+    $odf_text->openTextStyle ($add, true, false);
+    $odf_text->addNoteText ("Add");
+    $odf_text->closeTextStyle (true, false);
+    $odf_text->addNoteText ("normal");
+    $odf_text->addText (".");
+    $odf_text->save ("/tmp/OdfTextTest.odt");
+    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
+$standard = <<<'EOD'
+Text𐌰
+
+Addnormal
+
+.
+EOD;
+    $this->assertEquals ($standard, trim ($odt));
+  }
+
+
+  public function testEmbeddedFormattedText ()
+  {
+    $styles_logic = Styles_Logic::getInstance ();
+    $add = array ("marker" => "add", "italic" => ooitOn, "bold" => NULL, "underline" => NULL, "smallcaps" => NULL, "superscript" => false, "color" => "000000");
+    $nd = array ("marker" => "nd", "italic" => NULL, "bold" => NULL, "underline" => NULL, "smallcaps" => ooitOn, "superscript" => false, "color" => "000000");
+    $odf_text = new Odf_Text ("phpunit");
+    $odf_text->newParagraph ();
+    $odf_text->addText ("text");
+    $odf_text->openTextStyle ($add, false, false);
+    $odf_text->addText ("add");
+    $odf_text->openTextStyle ($nd, false, true);
+    $odf_text->addText ("nd");
+    $odf_text->closeTextStyle (false, false);
+    $odf_text->addText ("normal");
+    $odf_text->addText (".");
+    $odf_text->save ("/tmp/OdfTextTest.odt");
+    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
+$standard = <<<'EOD'
+textaddndnormal.
+EOD;
+    $this->assertEquals ($standard, trim ($odt));
+  }
+
+
+  public function testEmbeddedFormattedNote ()
+  {
+    $styles_logic = Styles_Logic::getInstance ();
+    $add = array ("marker" => "add", "italic" => ooitOn, "bold" => NULL, "underline" => NULL, "smallcaps" => NULL, "superscript" => false, "color" => "000000");
+    $nd = array ("marker" => "nd", "italic" => NULL, "bold" => NULL, "underline" => NULL, "smallcaps" => ooitOn, "superscript" => false, "color" => "000000");
+    $odf_text = new Odf_Text ("phpunit");
+    $odf_text->newParagraph ();
+    $odf_text->addText ("text");
+    $odf_text->addNote ("𐌰", "f");
+    $odf_text->openTextStyle ($add, true, false);
+    $odf_text->addNoteText ("add");
+    $odf_text->openTextStyle ($nd, true, true);
+    $odf_text->addNoteText ("nd");
+    $odf_text->closeTextStyle (true, false);
+    $odf_text->addNoteText ("normal");
+    $odf_text->addText (".");
+    $odf_text->save ("/tmp/OdfTextTest.odt");
+    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
+$standard = <<<'EOD'
+text𐌰
+
+addndnormal
+
+.
+EOD;
+    $this->assertEquals ($standard, trim ($odt));
+  }
+
+
+
+*/
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -989,6 +1170,7 @@ void test_filters ()
   test_filters_test7 ();
   test_filters_test8 ();
   test_filters_test9 ();
+  test_filters_test10 ();
   refresh_sandbox (true);
 }
 

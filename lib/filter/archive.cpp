@@ -68,6 +68,7 @@ string filter_archive_zip_folder (string folder)
 string filter_archive_unzip (string file)
 {
   string folder = filter_url_tempfile ();
+  folder = "/tmp/odt"; // Todo
   filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";

@@ -83,8 +83,8 @@ public:
   static void setTopMargin  (string bible, string value);
   static string getBottomMargin (string bible);
   static void setBottomMargin  (string bible, string value);
-  static string getDateInHeader (string bible);
-  static void setDateInHeader  (string bible, string value);
+  static bool getDateInHeader (string bible);
+  static void setDateInHeader  (string bible, bool value);
   static string getHyphenationFirstSet (string bible);
   static void setHyphenationFirstSet (string bible, string value);
   static string getHyphenationSecondSet (string bible);
@@ -129,6 +129,8 @@ private:
   static string file (string bible, const char * key);
   static string getValue (string bible, const char * key, const char * default_value);
   static void setValue (string bible, const char * key, string value);
+  static bool getValue (string bible, const char * key, bool default_value);
+  static void setValue (string bible, const char * key, bool value);
 };
 
 
