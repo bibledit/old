@@ -975,101 +975,113 @@ void test_filters_test9 ()
 void test_filters_test10 ()
 {
   string OdfTextTestDotOdt = "/tmp/OdfTextTest.odt";
-  string temporary_folder = "/tmp";
+  string Odt2TxtOutput = "/tmp/Odt2TxtOutput.txt";
   // Test Odf converter paragraphs.
   {
     Odf_Text odf_text = Odf_Text ("phpunit");
-    /*
-    $odf_text->createPageBreakStyle ();
-    $odf_text->newParagraph ();
-    $this->assertEquals ("Standard", $odf_text->currentParagraphStyle);
-    $odf_text->addText ("Paragraph One");
-    $this->assertEquals ("Paragraph One", $odf_text->currentParagraphContent);
-    $odf_text->newParagraph ();
-    $this->assertEquals ("", $odf_text->currentParagraphContent);
-    $odf_text->addText ("Paragraph Two");
-    $this->assertEquals ("Paragraph Two", $odf_text->currentParagraphContent);
-    $odf_text->newHeading1 ("Heading One");
-    $this->assertEquals ("", $odf_text->currentParagraphContent);
-    $odf_text->newPageBreak ();
-    $odf_text->newParagraph ();
-    $odf_text->addText ("Paragraph Three");
-    */
+    odf_text.createPageBreakStyle ();
+    odf_text.newParagraph ();
+    evaluate (__LINE__, __func__, "Standard", odf_text.currentParagraphStyle);
+    odf_text.addText ("Paragraph One");
+    evaluate (__LINE__, __func__, "Paragraph One", odf_text.currentParagraphContent);
+    odf_text.newParagraph ();
+    evaluate (__LINE__, __func__, "", odf_text.currentParagraphContent);
+    odf_text.addText ("Paragraph Two");
+    evaluate (__LINE__, __func__, "Paragraph Two", odf_text.currentParagraphContent);
+    odf_text.newHeading1 ("Heading One");
+    evaluate (__LINE__, __func__, "", odf_text.currentParagraphContent);
+    odf_text.newPageBreak ();
+    odf_text.newParagraph ();
+    odf_text.addText ("Paragraph Three");
     odf_text.save (OdfTextTestDotOdt);
-    /*
-    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
-$standard = <<<'EOD'
-Paragraph One
-
-Paragraph Two
-
-Heading One
-===========
-
-Paragraph Three
-EOD;
-    $this->assertEquals ($standard, trim ($odt));
-    */
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = ""
+"Paragraph One\n"
+"\n"
+"Paragraph Two\n"
+"\n"
+"Heading One\n"
+"===========\n"
+"\n"
+"Paragraph Three\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  // Test Automatic Paragraph
+  {
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    odf_text.addText ("Should create new paragraph automatically");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = ""
+"Should create new paragraph automatically\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+  }
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  // Test Basic Note
+  {
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    odf_text.newParagraph ();
+    odf_text.addText ("Text");
+    odf_text.addNote ("†", "");
+    odf_text.addNoteText ("Note");
+    odf_text.addText (".");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = ""
+"Text†\n"
+"\n"
+"Note\n"
+"\n"
+".\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+  }
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  // TestBasicFormattedText
+  {
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createStandardSheet ();
+    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    odf_text.newParagraph ();
+    odf_text.addText ("text");
+    odf_text.openTextStyle (add, false, false);
+    odf_text.addText ("add");
+    odf_text.closeTextStyle (false, false);
+    odf_text.addText ("normal");
+    odf_text.addText (".");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = "textaddnormal.";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+  }
+
+
   exit (0); // Todo
 /* Todo
 
 
 
-  public function testAutomaticParagraph ()
-  {
-    $odf_text = new Odf_Text ("phpunit");
-    $odf_text->addText ("Should create new paragraph automatically");
-    $odf_text->save ("/tmp/OdfTextTest.odt");
-    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
-$standard = <<<'EOD'
-Should create new paragraph automatically
-EOD;
-    $this->assertEquals ($standard, trim ($odt));
-  }
 
 
-  public function testBasicNote ()
-  {
-    $odf_text = new Odf_Text ("phpunit");
-    $odf_text->newParagraph ();
-    $odf_text->addText ("Text");
-    $odf_text->addNote ("†", "");
-    $odf_text->addNoteText ("Note");
-    $odf_text->addText (".");
-    $odf_text->save ("/tmp/OdfTextTest.odt");
-    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
-$standard = <<<'EOD'
-Text†
-
-Note
-
-.
-EOD;
-    $this->assertEquals ($standard, trim ($odt));
-  }
 
 
-  public function testBasicFormattedText ()
-  {
-    $styles_logic = Styles_Logic::getInstance ();
-    $database_styles = Database_Styles::getInstance ();
-    $add = $database_styles->getMarkerData ("Standard", "add");
-    $odf_text = new Odf_Text ("phpunit");
-    $odf_text->newParagraph ();
-    $odf_text->addText ("text");
-    $odf_text->openTextStyle ($add, false, false);
-    $odf_text->addText ("add");
-    $odf_text->closeTextStyle (false, false);
-    $odf_text->addText ("normal");
-    $odf_text->addText (".");
-    $odf_text->save ("/tmp/OdfTextTest.odt");
-    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
-$standard = <<<'EOD'
-textaddnormal.
-EOD;
-    $this->assertEquals ($standard, trim ($odt));
-  }
 
 
   public function testBasicFormattedNote ()

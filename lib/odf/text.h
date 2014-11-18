@@ -33,7 +33,15 @@ class Odf_Text
 public:
   Odf_Text (string bible_in);
   ~Odf_Text ();
+  void newParagraph (string style = "Standard");
+  void addText (string text);
+  void newHeading1 (string text, bool hide = false);
   void createPageBreakStyle ();
+  void newPageBreak ();
+  void openTextStyle (Database_Styles_Item style, bool note, bool embed);
+  void closeTextStyle (bool note, bool embed);
+  void addNote (string caller, string style, bool endnote = false);
+  void addNoteText (string text);
   void save (string name);
   string currentParagraphStyle;
   string currentParagraphContent;
@@ -48,13 +56,15 @@ private:
   xmlNodePtr officeStylesDomNode; // The office:styles DOMNode.
   xmlNodePtr officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
   xmlNodePtr currentTextPDomElement; // The current text:p DOMElement.
-  string currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
+  xmlAttrPtr currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
   int frameCount;
   int noteCount;
   xmlNodePtr noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
   vector <string> currentNoteTextStyle;
   void initialize_content_xml ();
   void initialize_styles_xml ();
+  void newNamedHeading (string style, string text, bool hide = false);
+  string convertStyleName (string style);
 };
 
 
