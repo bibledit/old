@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // The other thing is that Java is slow as compared to this method employed here.
 
 
-Odf_Text::Odf_Text (string bible_in) // Todo C++Port
+Odf_Text::Odf_Text (string bible_in)
 {
   bible = bible_in;
   currentTextPDomElement = NULL;
@@ -57,7 +57,7 @@ Odf_Text::~Odf_Text ()
 {
   xmlFreeDoc (contentDom);
   xmlFreeDoc (stylesDom);
-  // Todo filter_url_rmdir (unpackedOdtFolder);
+  filter_url_rmdir (unpackedOdtFolder);
 }
 
 
@@ -638,7 +638,7 @@ void Odf_Text::addText (string text)
   xmlNodePtr domElement = currentTextPDomElement;
   for (string style : styles) {
     xmlNodePtr textSpanDomElement = xmlNewNode (NULL, BAD_CAST "text:span");
-    xmlAddChild (currentTextPDomElement, textSpanDomElement);
+    xmlAddChild (domElement, textSpanDomElement);
     if (!style.empty ()) {
       xmlNewProp (textSpanDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (style).c_str());
     }
@@ -701,13 +701,11 @@ void Odf_Text::newPageBreak ()
 }
 
 
-/*
-
 // This creates a paragraph style.
 // $name: the name of the style, e.g. 'p'.
 // $dropcaps: If 0, there are no drop caps.
 //            If greater than 0, it the number of characters in drop caps style.
-public function createParagraphStyle ($name, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps)
+void Odf_Text::createParagraphStyle (string name, string fontsize, int italic, int bold, int underline, int smallcaps, int alignment, string spacebefore, string spaceafter, string leftmargin, string rightmargin, string firstlineindent, bool keepWithNext, bool dropcaps)
 {
   // It looks like this in styles.xml:
   // <style:style style:display-name="p_c1" style:family="paragraph" style:name="p_c1">
@@ -716,96 +714,92 @@ public function createParagraphStyle ($name, $fontsize, $italic, $bold, $underli
   //   <style:paragraph-properties>
   //   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
   // </style:style>
-  $styleDomElement = $this->stylesDom->createElement ("style:style");
-  $styleDomElement->setAttribute ("style:name", $this->convertStyleName ($name));
-  $styleDomElement->setAttribute ("style:display-name", $name);
-  $styleDomElement->setAttribute ("style:family", "paragraph");
-  $this->officeStylesDomNode->appendChild ($styleDomElement);
+  xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
+  xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST convertStyleName (name).c_str());
+  xmlNewProp (styleDomElement, BAD_CAST "style:display-name", BAD_CAST name.c_str());
+  xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "paragraph");
+  xmlAddChild (officeStylesDomNode, styleDomElement);
 
-  $styleParagraphPropertiesDomElement = $this->stylesDom->createElement ("style:paragraph-properties");
-  $styleDomElement->appendChild ($styleParagraphPropertiesDomElement);
+  xmlNodePtr styleParagraphPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
+  xmlAddChild (styleDomElement, styleParagraphPropertiesDomElement);
 
-  $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
-  $styleDomElement->appendChild ($styleTextPropertiesDomElement);
+  xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
+  xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
 
-  $fontsize .= "pt";
-  $styleTextPropertiesDomElement->setAttribute ("fo:font-size", $fontsize);
-  $styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", $fontsize);
-  $styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", $fontsize);
+  fontsize += "pt";
+  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST fontsize.c_str());
+  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST fontsize.c_str());
+  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST fontsize.c_str());
 
   // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
-  if ($italic != ooitOff) {
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-style", "italic");
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-style-asian", "italic");
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-style-complex", "italic");
+  if (italic != ooitOff) {
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style", BAD_CAST "italic");
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-asian", BAD_CAST "italic");
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-complex", BAD_CAST "italic");
   }
-  if ($bold != ooitOff) {
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-weight", "bold");
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-asian", "bold");
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-complex", "bold");
+  if (bold != ooitOff) {
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight", BAD_CAST "bold");
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-asian", BAD_CAST "bold");
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-complex", BAD_CAST "bold");
   }
-  if ($underline != ooitOff) {
-    $styleTextPropertiesDomElement->setAttribute ("style:text-underline-style", "solid");
-    $styleTextPropertiesDomElement->setAttribute ("style:text-underline-width", "auto");
-    $styleTextPropertiesDomElement->setAttribute ("style:text-underline-color", "font-color");
+  if (underline != ooitOff) {
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-style", BAD_CAST "solid");
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-width", BAD_CAST "auto");
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-underline-color", BAD_CAST "font-color");
   }
-  if ($smallcaps != ooitOff) {
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-variant", "small-caps");
+  if (smallcaps != ooitOff) {
+    xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-variant", BAD_CAST "small-caps");
   }
 
   // Text alignment can be: AlignmentLeft, AlignmentCenter, AlignmentRight, AlignmentJustify.
-  switch ($alignment) {
-    case AlignmentLeft:    $alignment = "start"; break;
-    case AlignmentCenter:  $alignment = "center"; break;
-    case AlignmentRight:   $alignment = "end"; break;
-    case AlignmentJustify: $alignment = "justify"; break;
+  string alignmenttext = "";
+  switch (alignment) {
+    case AlignmentLeft:    alignmenttext = "start"; break;
+    case AlignmentCenter:  alignmenttext = "center"; break;
+    case AlignmentRight:   alignmenttext = "end"; break;
+    case AlignmentJustify: alignmenttext = "justify"; break;
   }
-  $styleParagraphPropertiesDomElement->setAttribute ("fo:text-align", $alignment);
-  $styleParagraphPropertiesDomElement->setAttribute ("style:justify-single-word", "false");
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-align", BAD_CAST alignmenttext.c_str());
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "style:justify-single-word", BAD_CAST "false");
 
   // Paragraph measurements; given in mm.
-  $spacebefore .= "mm";
-  $styleParagraphPropertiesDomElement->setAttribute ("fo:margin-top", $spacebefore);
-  $spaceafter .= "mm";
-  $styleParagraphPropertiesDomElement->setAttribute ("fo:margin-bottom", $spaceafter);
-  $leftmargin .= "mm";
-  $styleParagraphPropertiesDomElement->setAttribute ("fo:margin-left", $leftmargin);
-  $rightmargin .= "mm";
-  $styleParagraphPropertiesDomElement->setAttribute ("fo:margin-right", $rightmargin);
-  $firstlineindent .= "mm";
-  $styleParagraphPropertiesDomElement->setAttribute ("fo:text-indent", $firstlineindent);
+  spacebefore += "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-top", BAD_CAST spacebefore.c_str());
+  spaceafter += "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-bottom", BAD_CAST spaceafter.c_str());
+  leftmargin += "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-left", BAD_CAST leftmargin.c_str());
+  rightmargin += "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-right", BAD_CAST rightmargin.c_str());
+  firstlineindent += "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-indent", BAD_CAST firstlineindent.c_str());
 
-  if ($keepWithNext) {
-    $styleParagraphPropertiesDomElement->setAttribute ("fo:keep-together", "always");
-    $styleParagraphPropertiesDomElement->setAttribute ("fo:keep-with-next", "always");
+  if (keepWithNext) {
+    xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:keep-together", BAD_CAST "always");
+    xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:keep-with-next", BAD_CAST "always");
   }
 
-  if ($dropcaps > 0) {
+  if (dropcaps) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
-    $styleDropCapDomElement = $this->stylesDom->createElement ("style:drop-cap");
-    $styleParagraphPropertiesDomElement->appendChild ($styleDropCapDomElement);
-    $styleDropCapDomElement->setAttribute ("style:lines", 2);
-    $styleDropCapDomElement->setAttribute ("style:length", $dropcaps);
-    $styleDropCapDomElement->setAttribute ("style:distance", "0.15cm");
+    xmlNodePtr styleDropCapDomElement = xmlNewNode (NULL, BAD_CAST "style:drop-cap");
+    xmlAddChild (styleParagraphPropertiesDomElement, styleDropCapDomElement);
+    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:lines", BAD_CAST "2");
+    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:length", BAD_CAST "2");
+    xmlNewProp (styleDropCapDomElement, BAD_CAST "style:distance", BAD_CAST "0.15cm");
   }
-
 }
 
 
 // This updates the style name of the current paragraph.
 // $name: the name of the style, e.g. 'p'.
-public function updateCurrentParagraphStyle ($name)
+void Odf_Text::updateCurrentParagraphStyle (string name)
 {
-  if (!isset ($this->currentTextPDomElement)) {
-    $this->newParagraph ();
-  }
-  // void	xmlFreeProp			(xmlAttrPtr cur)
-  $this->currentTextPDomElement->removeAttributeNode ($this->currentTextPDomElementNameNode);
-  $this->currentTextPDomElementNameNode = $this->currentTextPDomElement->setAttribute ("text:style-name", $this->convertStyleName ($name));
+  if (!currentTextPDomElement) newParagraph ();
+  xmlRemoveProp (currentTextPDomElementNameNode);
+  currentTextPDomElementNameNode = xmlNewProp (currentTextPDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (name).c_str());
 }
 
 
-*/
 // This opens a text style.
 // $style: the object with the style variables.
 // $note: Whether this refers to notes.
@@ -897,23 +891,20 @@ void Odf_Text::closeTextStyle (bool note, bool embed)
 }
 
 
-/*
 // This places text in a frame in OpenDocument.
 // It does all the housekeeping to get it display properly.
 // $text - the text to place in the frame.
 // $style - the name of the style of the $text.
 // $fontsize - given in points.
-// $italic, $bold - boolean values.
-public function placeTextInFrame ($text, $style, $fontsize, $italic, $bold)
+// $italic, $bold - integer values.
+void Odf_Text::placeTextInFrame (string text, string style, string fontsize, int italic, int bold)
 {
   // Empty text is discarded.
-  if ($text == "") return;
+  if (text.empty ()) return;
 
   // The frame goes in an existing paragraph (text:p) element, just like a 'text:span' element.
   // Ensure that a paragraph is open.
-  if (!isset ($this->currentTextPDomElement)) {
-    $this->newParagraph ();
-  }
+  if (!currentTextPDomElement) newParagraph ();
 
   // The frame looks like this, in content.xml:
   // <draw:frame draw:style-name="fr1" draw:name="frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
@@ -921,116 +912,121 @@ public function placeTextInFrame ($text, $style, $fontsize, $italic, $bold)
   //     <text:p text:style-name="c">1</text:p>
   //   </draw:text-box>
   // </draw:frame>
-  $drawFrameDomElement = $this->contentDom->createElement ("draw:frame");
-  $this->currentTextPDomElement->appendChild ($drawFrameDomElement);
-  $drawFrameDomElement->setAttribute ("draw:style-name", "chapterframe");
-  $this->frameCount++;
-  $drawFrameDomElement->setAttribute ("draw:name", "frame" . $this->frameCount);
-  $drawFrameDomElement->setAttribute ("text:anchor-type", "paragraph");
-  $drawFrameDomElement->setAttribute ("svg:y", "0cm");
-  $drawFrameDomElement->setAttribute ("fo:min-width", "0.34cm");
-  $drawFrameDomElement->setAttribute ("draw:z-index", "0");
+  xmlNodePtr drawFrameDomElement = xmlNewNode (NULL, BAD_CAST "draw:frame");
+  xmlAddChild (currentTextPDomElement, drawFrameDomElement);
+  xmlNewProp (drawFrameDomElement, BAD_CAST "draw:style-name", BAD_CAST "chapterframe");
+  frameCount++;
+  xmlNewProp (drawFrameDomElement, BAD_CAST "draw:name", BAD_CAST convert_to_string ("frame" + convert_to_string (frameCount)).c_str());
+  xmlNewProp (drawFrameDomElement, BAD_CAST "text:anchor-type", BAD_CAST "paragraph");
+  xmlNewProp (drawFrameDomElement, BAD_CAST "svg:y", BAD_CAST "0cm");
+  xmlNewProp (drawFrameDomElement, BAD_CAST "fo:min-width", BAD_CAST "0.34cm");
+  xmlNewProp (drawFrameDomElement, BAD_CAST "draw:z-index", BAD_CAST "0");
 
-  $drawTextBoxDomElement = $this->contentDom->createElement ("draw:text-box");
-  $drawFrameDomElement->appendChild ($drawTextBoxDomElement);
-  $drawTextBoxDomElement->setAttribute ("fo:min-height", "0.34cm");
+  xmlNodePtr drawTextBoxDomElement = xmlNewNode (NULL, BAD_CAST "draw:text-box");
+  xmlAddChild (drawFrameDomElement, drawTextBoxDomElement);
+  xmlNewProp (drawTextBoxDomElement, BAD_CAST "fo:min-height", BAD_CAST "0.34cm");
 
-  $textPDomElement = $this->contentDom->createElement ("text:p");
-  $drawTextBoxDomElement->appendChild ($textPDomElement);
-  $textPDomElement->setAttribute ("text:style-name", $this->convertStyleName ($style));
-  $textPDomElement->nodeValue = htmlspecialchars ($text, ENT_QUOTES, "UTF-8");
+  xmlNodePtr textPDomElement = xmlNewNode (NULL, BAD_CAST "text:p");
+  xmlAddChild (drawTextBoxDomElement, textPDomElement);
+  xmlNewProp (textPDomElement, BAD_CAST "text:style-name", BAD_CAST convertStyleName (style).c_str());
+  xmlNodePtr textnode = xmlNewText(BAD_CAST filter_string_sanitize_html (text).c_str());
+  xmlAddChild (textPDomElement, textnode);
 
   // File styles.xml contains the appropriate styles for this frame and text box and paragraph.
   // Create the styles once for the whole document.
-  if (!in_array ($style, $this->createdStyles)) {
-
-    // The style for the text:p element looks like this:
-    // <style:style style:name="c" style:family="paragraph">
-    //   <style:paragraph-properties fo:text-align="justify" style:justify-single-word="false"/>
-    //   <style:text-properties fo:font-size="24pt" fo:font-weight="bold" style:font-size-asian="24pt" style:font-weight-asian="bold" style:font-size-complex="24pt" style:font-weight-complex="bold"/>
-    // </style:style>
-    $styleDomElement = $this->stylesDom->createElement ("style:style");
-    $this->officeStylesDomNode->appendChild ($styleDomElement);
-    $styleDomElement->setAttribute ("style:name", $this->convertStyleName ($style));
-    $styleDomElement->setAttribute ("style:family", "paragraph");
-
-    $styleParagraphPropertiesDomElement = $this->stylesDom->createElement ("style:paragraph-properties");
-    $styleDomElement->appendChild ($styleParagraphPropertiesDomElement);
-    $styleParagraphPropertiesDomElement->setAttribute ("fo:text-align", "justify");
-    $styleParagraphPropertiesDomElement->setAttribute ("style:justify-single-word", "false");
-
-    $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
-    $styleDomElement->appendChild ($styleTextPropertiesDomElement);
-    $fontsize .= "pt";
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-size", $fontsize);
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", $fontsize);
-    $styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", $fontsize);
-    if ($italic != ooitOff) {
-      $styleTextPropertiesDomElement->setAttribute ("fo:font-style", "italic");
-      $styleTextPropertiesDomElement->setAttribute ("fo:font-style-asian", "italic");
-      $styleTextPropertiesDomElement->setAttribute ("fo:font-style-complex", "italic");
+  if (find (createdStyles.begin(), createdStyles.end (), style) == createdStyles.end()) {
+    createdStyles.push_back (style);
+    
+    {
+      // The style for the text:p element looks like this:
+      // <style:style style:name="c" style:family="paragraph">
+      //   <style:paragraph-properties fo:text-align="justify" style:justify-single-word="false"/>
+      //   <style:text-properties fo:font-size="24pt" fo:font-weight="bold" style:font-size-asian="24pt" style:font-weight-asian="bold" style:font-size-complex="24pt" style:font-weight-complex="bold"/>
+      // </style:style>
+      xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
+      xmlAddChild (officeStylesDomNode, styleDomElement);
+      xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST convertStyleName (style).c_str());
+      xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "paragraph");
+  
+      xmlNodePtr styleParagraphPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:paragraph-properties");
+      xmlAddChild (styleDomElement, styleParagraphPropertiesDomElement);
+      xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-align", BAD_CAST "justify");
+      xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "style:justify-single-word", BAD_CAST "false");
+  
+      xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
+      xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
+      fontsize += "pt";
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST fontsize.c_str());
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST fontsize.c_str());
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST fontsize.c_str());
+      if (italic != ooitOff) {
+        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style", BAD_CAST "italic");
+        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-asian", BAD_CAST "italic");
+        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-complex", BAD_CAST "italic");
+      }
+      if (bold != ooitOff) {
+        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight", BAD_CAST "bold");
+        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-asian", BAD_CAST "bold");
+        xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-weight-complex", BAD_CAST "bold");
+      }
     }
-    if ($bold != ooitOff) {
-      $styleTextPropertiesDomElement->setAttribute ("fo:font-weight", "bold");
-      $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-asian", "bold");
-      $styleTextPropertiesDomElement->setAttribute ("fo:font-weight-complex", "bold");
+    {
+      // The style for the draw:frame element looks like this:
+      // <style:style style:name="chapterframe" style:family="graphic" style:parent-style-name="ChapterFrameParent">
+      //   <style:graphic-properties fo:margin-left="0cm" fo:margin-right="0.199cm" fo:margin-top="0cm" fo:margin-bottom="0cm" style:vertical-pos="from-top" style:vertical-rel="paragraph-content" style:horizontal-pos="left" style:horizontal-rel="paragraph" fo:background-color="transparent" style:background-transparency="100%" fo:padding="0cm" fo:border="none" style:shadow="none" style:flow-with-text="true">
+      //   <style:background-image/>
+      //   </style:graphic-properties>
+      // </style:style>
+      xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
+      xmlAddChild (officeStylesDomNode, styleDomElement);
+      xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST "chapterframe");
+      xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "graphic");
+  
+      xmlNodePtr styleGraphicPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:graphic-properties");
+      xmlAddChild (styleDomElement, styleGraphicPropertiesDomElement);
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-left", BAD_CAST "0cm");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-right", BAD_CAST "0.2cm");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-top", BAD_CAST "0cm");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:margin-bottom", BAD_CAST "0cm");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:vertical-pos", BAD_CAST "from-top");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:vertical-rel", BAD_CAST "paragraph-content");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:horizontal-pos", BAD_CAST "left");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:horizontal-rel", BAD_CAST "paragraph");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:background-color", BAD_CAST "transparent");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:background-transparency", BAD_CAST "100%");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:padding", BAD_CAST "0cm");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "fo:border", BAD_CAST "none");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:shadow", BAD_CAST "none");
+      xmlNewProp (styleGraphicPropertiesDomElement, BAD_CAST "style:flow-with-text", BAD_CAST "true");
     }
-
-    // The style for the draw:frame element looks like this:
-    // <style:style style:name="chapterframe" style:family="graphic" style:parent-style-name="ChapterFrameParent">
-    //   <style:graphic-properties fo:margin-left="0cm" fo:margin-right="0.199cm" fo:margin-top="0cm" fo:margin-bottom="0cm" style:vertical-pos="from-top" style:vertical-rel="paragraph-content" style:horizontal-pos="left" style:horizontal-rel="paragraph" fo:background-color="transparent" style:background-transparency="100%" fo:padding="0cm" fo:border="none" style:shadow="none" style:flow-with-text="true">
-    //   <style:background-image/>
-    //   </style:graphic-properties>
-    // </style:style>
-    $styleDomElement = $this->stylesDom->createElement ("style:style");
-    $this->officeStylesDomNode->appendChild ($styleDomElement);
-    $styleDomElement->setAttribute ("style:name", "chapterframe");
-    $styleDomElement->setAttribute ("style:family", "graphic");
-
-    $styleGraphicPropertiesDomElement = $this->stylesDom->createElement ("style:graphic-properties");
-    $styleDomElement->appendChild ($styleGraphicPropertiesDomElement);
-    $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-left", "0cm");
-    $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-right", "0.2cm");
-    $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-top", "0cm");
-    $styleGraphicPropertiesDomElement->setAttribute ("fo:margin-bottom", "0cm");
-    $styleGraphicPropertiesDomElement->setAttribute ("style:vertical-pos", "from-top");
-    $styleGraphicPropertiesDomElement->setAttribute ("style:vertical-rel", "paragraph-content");
-    $styleGraphicPropertiesDomElement->setAttribute ("style:horizontal-pos", "left");
-    $styleGraphicPropertiesDomElement->setAttribute ("style:horizontal-rel", "paragraph");
-    $styleGraphicPropertiesDomElement->setAttribute ("fo:background-color", "transparent");
-    $styleGraphicPropertiesDomElement->setAttribute ("style:background-transparency", "100%");
-    $styleGraphicPropertiesDomElement->setAttribute ("fo:padding", "0cm");
-    $styleGraphicPropertiesDomElement->setAttribute ("fo:border", "none");
-    $styleGraphicPropertiesDomElement->setAttribute ("style:shadow", "none");
-    $styleGraphicPropertiesDomElement->setAttribute ("style:flow-with-text", "true");
   }
 
 }
 
 
 // This creates the superscript style.
-public function createSuperscriptStyle ()
+void Odf_Text::createSuperscriptStyle ()
 {
   // The style entry looks like this in styles.xml:
   // <style:style style:name="superscript" style:family="text">
   //   <style:text-properties style:text-position="super 58%"/>
   // </style:style>
-  $styleDomElement = $this->stylesDom->createElement ("style:style");
-  $styleDomElement->setAttribute ("style:name", "superscript");
-  $styleDomElement->setAttribute ("style:family", "text");
-  $this->officeStylesDomNode->appendChild ($styleDomElement);
+  xmlNodePtr styleDomElement = xmlNewNode (NULL, BAD_CAST "style:style");
+  xmlNewProp (styleDomElement, BAD_CAST "style:name", BAD_CAST "superscript");
+  xmlNewProp (styleDomElement, BAD_CAST "style:family", BAD_CAST "text");
+  xmlAddChild (officeStylesDomNode, styleDomElement);
 
-  $styleTextPropertiesDomElement = $this->stylesDom->createElement ("style:text-properties");
-  $styleDomElement->appendChild ($styleTextPropertiesDomElement);
+  xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
+  xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
   //$styleTextPropertiesDomElement->setAttribute ("style:text-position", "super 58%");
   // If the percentage is not specified, an appropriate font height is used.
-  $styleTextPropertiesDomElement->setAttribute ("style:text-position", "super");
-  // The mere setting of the superscript value makes the font smaller. No need to set it manually.
+  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "style:text-position", BAD_CAST "super");
+  // Setting the superscript attribute automatically makes the font smaller. No need to set it manually.
   //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%");
   //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%");
   //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
 }
-*/
+
 
 // This function adds a note to the current paragraph.
 // $caller: The text of the note caller, that is, the note citation.
@@ -1098,16 +1094,12 @@ void Odf_Text::addNoteText (string text)
 }
 
 
-/*
 // This function closes the current footnote.
-public function closeCurrentNote ()
+void Odf_Text::closeCurrentNote ()
 {
-  $this->closeTextStyle (true, false);
-  $this->noteTextPDomElement = NULL;
+  closeTextStyle (true, false);
+  noteTextPDomElement = NULL;
 }
-
-
-*/
 
 
 // This creates a heading with styled content.
@@ -1179,13 +1171,11 @@ void Odf_Text::save (string name)
 {
   // Create the content.xml file.
   // No formatting because some white space is processed. $this->contentDom->formatOutput = true;
-  // Todo $string = $this->contentDom->save ($this->unpackedOdtFolder . "/content.xml");
   string contentXml = filter_url_create_path (unpackedOdtFolder, "content.xml");
   xmlSaveFormatFileEnc (contentXml.c_str(), contentDom, "UTF-8", 0);
 
   // Create the styles.xml file.
   // No formatting because some white space is processed. $this->stylesDom->formatOutput = true;
-  // Todo $string = $this->stylesDom->save ($this->unpackedOdtFolder . "/styles.xml");
   string stylesXml = filter_url_create_path (unpackedOdtFolder, "styles.xml");
   xmlSaveFormatFileEnc (stylesXml.c_str(), stylesDom, "UTF-8", 0);
 

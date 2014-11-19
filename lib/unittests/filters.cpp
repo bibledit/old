@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <onlinebible/text.h>
 #include <html/text.h>
 #include <odf/text.h>
+#include <styles/logic.h>
 
 
 void test_filters_test1 ()
@@ -969,6 +970,8 @@ void test_filters_test9 ()
   }
   // Clear up data used for the archive tests.
   refresh_sandbox (false);
+  filter_url_unlink (file1);
+  filter_url_unlink (file2);
 }
 
 
@@ -1071,101 +1074,149 @@ void test_filters_test10 ()
     string standard = "textaddnormal.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-
-
-  exit (0); // Todo
-/* Todo
-
-
-
-
-
-
-
-
-
-  public function testBasicFormattedNote ()
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  // Test Basic Formatted Note
   {
-    $styles_logic = Styles_Logic::getInstance ();
-    $database_styles = Database_Styles::getInstance ();
-    $add = $database_styles->getMarkerData ("Standard", "add");
-    $odf_text = new Odf_Text ("phpunit");
-    $odf_text->newParagraph ();
-    $odf_text->addText ("Text");
-    $odf_text->addNote ("𐌰", "f");
-    $odf_text->openTextStyle ($add, true, false);
-    $odf_text->addNoteText ("Add");
-    $odf_text->closeTextStyle (true, false);
-    $odf_text->addNoteText ("normal");
-    $odf_text->addText (".");
-    $odf_text->save ("/tmp/OdfTextTest.odt");
-    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
-$standard = <<<'EOD'
-Text𐌰
-
-Addnormal
-
-.
-EOD;
-    $this->assertEquals ($standard, trim ($odt));
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createStandardSheet ();
+    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    odf_text.newParagraph ();
+    odf_text.addText ("Text");
+    odf_text.addNote ("𐌰", "f");
+    odf_text.openTextStyle (add, true, false);
+    odf_text.addNoteText ("Add");
+    odf_text.closeTextStyle (true, false);
+    odf_text.addNoteText ("normal");
+    odf_text.addText (".");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = ""
+      "Text𐌰\n"
+      "\n"
+      "Addnormal\n"
+      "\n"
+      ".\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-
-
-  public function testEmbeddedFormattedText ()
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  // Test Embedded Formatted Text.
   {
-    $styles_logic = Styles_Logic::getInstance ();
-    $add = array ("marker" => "add", "italic" => ooitOn, "bold" => NULL, "underline" => NULL, "smallcaps" => NULL, "superscript" => false, "color" => "000000");
-    $nd = array ("marker" => "nd", "italic" => NULL, "bold" => NULL, "underline" => NULL, "smallcaps" => ooitOn, "superscript" => false, "color" => "000000");
-    $odf_text = new Odf_Text ("phpunit");
-    $odf_text->newParagraph ();
-    $odf_text->addText ("text");
-    $odf_text->openTextStyle ($add, false, false);
-    $odf_text->addText ("add");
-    $odf_text->openTextStyle ($nd, false, true);
-    $odf_text->addText ("nd");
-    $odf_text->closeTextStyle (false, false);
-    $odf_text->addText ("normal");
-    $odf_text->addText (".");
-    $odf_text->save ("/tmp/OdfTextTest.odt");
-    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
-$standard = <<<'EOD'
-textaddndnormal.
-EOD;
-    $this->assertEquals ($standard, trim ($odt));
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createStandardSheet ();
+    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    add.italic = ooitOn;
+    add.bold = 0;
+    add.underline = 0;
+    add.smallcaps = 0;
+    add.superscript = false;
+    add.color = "000000";
+    Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
+    nd.italic = 0;
+    nd.bold = 0;
+    nd.underline = 0;
+    nd.smallcaps = ooitOn;
+    nd.superscript = false;
+    nd.color = "000000";
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    odf_text.newParagraph ();
+    odf_text.addText ("text");
+    odf_text.openTextStyle (add, false, false);
+    odf_text.addText ("add");
+    odf_text.openTextStyle (nd, false, true);
+    odf_text.addText ("nd");
+    odf_text.closeTextStyle (false, false);
+    odf_text.addText ("normal");
+    odf_text.addText (".");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = "textaddndnormal.";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-
-
-  public function testEmbeddedFormattedNote ()
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  // Test Embedded Formatted Note.
   {
-    $styles_logic = Styles_Logic::getInstance ();
-    $add = array ("marker" => "add", "italic" => ooitOn, "bold" => NULL, "underline" => NULL, "smallcaps" => NULL, "superscript" => false, "color" => "000000");
-    $nd = array ("marker" => "nd", "italic" => NULL, "bold" => NULL, "underline" => NULL, "smallcaps" => ooitOn, "superscript" => false, "color" => "000000");
-    $odf_text = new Odf_Text ("phpunit");
-    $odf_text->newParagraph ();
-    $odf_text->addText ("text");
-    $odf_text->addNote ("𐌰", "f");
-    $odf_text->openTextStyle ($add, true, false);
-    $odf_text->addNoteText ("add");
-    $odf_text->openTextStyle ($nd, true, true);
-    $odf_text->addNoteText ("nd");
-    $odf_text->closeTextStyle (true, false);
-    $odf_text->addNoteText ("normal");
-    $odf_text->addText (".");
-    $odf_text->save ("/tmp/OdfTextTest.odt");
-    $odt = shell_exec ("odt2txt /tmp/OdfTextTest.odt");
-$standard = <<<'EOD'
-text𐌰
-
-addndnormal
-
-.
-EOD;
-    $this->assertEquals ($standard, trim ($odt));
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createStandardSheet ();
+    Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
+    add.italic = ooitOn;
+    add.bold = 0;
+    add.underline = 0;
+    add.smallcaps = 0;
+    add.superscript = false;
+    add.color = "000000";
+    Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
+    nd.italic = 0;
+    nd.bold = 0;
+    nd.underline = 0;
+    nd.smallcaps = ooitOn;
+    nd.superscript = false;
+    nd.color = "000000";
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    odf_text.newParagraph ();
+    odf_text.addText ("text");
+    odf_text.addNote ("𐌰", "f");
+    odf_text.openTextStyle (add, true, false);
+    odf_text.addNoteText ("add");
+    odf_text.openTextStyle (nd, true, true);
+    odf_text.addNoteText ("nd");
+    odf_text.closeTextStyle (true, false);
+    odf_text.addNoteText ("normal");
+    odf_text.addText (".");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = ""
+    "text𐌰\n"
+    "\n"
+    "addndnormal\n"
+    "\n"
+    ".\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-
-
-
-*/
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  // Test paragraph formatting.
+  {
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createStandardSheet ();
+    Database_Styles_Item d = database_styles.getMarkerData ("Standard", "d");
+    Odf_Text odf_text = Odf_Text ("phpunit");
+    odf_text.createParagraphStyle (d.marker, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
+    odf_text.newParagraph ("d");
+    odf_text.addText ("Paragraph with d style");
+    odf_text.newParagraph ("d");
+    odf_text.addText ("Paragraph with d style at first, then Standard");
+    odf_text.updateCurrentParagraphStyle ("Standard");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = ""
+    "Paragraph with d style\n"
+    "\n"
+    "Paragraph with d style at first, then Standard\n"
+    "";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+  }
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
 }
 
 

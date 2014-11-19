@@ -38,10 +38,15 @@ public:
   void newHeading1 (string text, bool hide = false);
   void createPageBreakStyle ();
   void newPageBreak ();
+  void createParagraphStyle (string name, string fontsize, int italic, int bold, int underline, int smallcaps, int alignment, string spacebefore, string spaceafter, string leftmargin, string rightmargin, string firstlineindent, bool keepWithNext, bool dropcaps);
+  void updateCurrentParagraphStyle (string name);
   void openTextStyle (Database_Styles_Item style, bool note, bool embed);
   void closeTextStyle (bool note, bool embed);
+  void placeTextInFrame (string text, string style, string fontsize, int italic, int bold);
+  void createSuperscriptStyle ();
   void addNote (string caller, string style, bool endnote = false);
   void addNoteText (string text);
+  void closeCurrentNote ();
   void save (string name);
   string currentParagraphStyle;
   string currentParagraphContent;
