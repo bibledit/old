@@ -33,10 +33,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Filter_Text_Passage_Marker_Value
 {
 public:
-  Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, int verse_in, string marker_in, string value_in);
+  Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in);
   int book;
   int chapter;
-  int verse;
+  string verse;
   string marker;
   string value;
 };
@@ -63,7 +63,7 @@ public:
   void run (string stylesheet);
 private:
   vector <string> chapterUsfmMarkersAndText; // Vector holding a chapter of USFM code, alternating between USFM and text.
-  int chapterUsfmMarkersAndTextPointer;
+  unsigned int chapterUsfmMarkersAndTextPointer;
 
 public:
   void getStyles (string stylesheet);
@@ -79,6 +79,8 @@ private:
   int currentChapterNumber; // Chapter number, e.g. 1, 2, 3, etc.
   string currentVerseNumber; // Verse number, e.g. "0", "1", "2", and so on.
   map <int, int> numberOfChaptersPerBook; // Map of (book, chapter number).
+  void processUsfm ();
+  void processNote ();
 
 public:
   vector <Filter_Text_Passage_Marker_Value> runningHeaders; // Vector with objects (book, chapter, verse, marker, header value).

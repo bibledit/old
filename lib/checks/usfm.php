@@ -100,12 +100,12 @@ class Checks_Usfm
     $this->usfmMarkersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);
     for ($this->usfmMarkersAndTextPointer = 0; $this->usfmMarkersAndTextPointer < count ($this->usfmMarkersAndText); $this->usfmMarkersAndTextPointer++) {
       $this->usfmItem = $this->usfmMarkersAndText [$this->usfmMarkersAndTextPointer];
-      if (Filter_Usfm::isUsfmMarker ($this->usfmItem)) {
+      if (usfm_is_usfm_marker ($this->usfmItem)) {
 
         // Get the current verse number.
         if ($this->usfmItem == '\v ') {
           $verseCode = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
-          $this->verseNumber = Filter_Usfm::peekVerseNumber ($verseCode);
+          $this->verseNumber = usfm_peek_verse_number ($verseCode);
         }
 
         $this->malformedVerseNumber ();
@@ -128,7 +128,7 @@ class Checks_Usfm
   {
     if ($this->usfmItem == '\v ') {
       $code = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
-      $cleanVerseNumber = Filter_Usfm::peekVerseNumber ($code);
+      $cleanVerseNumber = usfm_peek_verse_number ($code);
       $dirtyVerseNumber = explode (" ", $code);
       $dirtyVerseNumber = $dirtyVerseNumber [0];
       if ($cleanVerseNumber != $dirtyVerseNumber) {
@@ -161,7 +161,7 @@ class Checks_Usfm
   {
     $marker = substr ($this->usfmItem, 1, 100);
     $marker = trim ($marker);
-    if (!Filter_Usfm::isOpeningMarker ($marker)) {
+    if (!usfm_is_opening_marker ($marker)) {
       $marker = substr ($marker, 0, -1);
     }
     if ($marker == "") return;
@@ -230,7 +230,7 @@ class Checks_Usfm
     // Remove the initial backslash, e.g. '\add' becomes 'add'.
     $marker = substr ($marker, 1);
     $marker = trim ($marker);
-    $isOpener = Filter_Usfm::isOpeningMarker ($marker);
+    $isOpener = usfm_is_opening_marker ($marker);
     if (!$isOpener) $marker = substr ($marker, 0, -1);
     if (!in_array ($marker, $this->markersRequiringEndmarkers)) return;
     if ($isOpener) {

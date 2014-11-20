@@ -190,13 +190,13 @@ EOD;
     $markersAndTextCount = count ($this->markersAndText);
     for ($this->markersAndTextPointer = 0; $this->markersAndTextPointer < $markersAndTextCount; $this->markersAndTextPointer++) {
       $currentItem = $this->markersAndText[$this->markersAndTextPointer];
-      if (Filter_Usfm::isUsfmMarker ($currentItem))
+      if (usfm_is_usfm_marker ($currentItem))
       {
         // Store indicator whether the marker is an opening marker.
-        $isOpeningMarker = Filter_Usfm::isOpeningMarker ($currentItem);
-        $isEmbeddedMarker = Filter_Usfm::isEmbeddedMarker ($currentItem);
+        $isOpeningMarker = usfm_is_opening_marker ($currentItem);
+        $isEmbeddedMarker = usfm_is_embedded_marker ($currentItem);
         // Clean up the marker, so we remain with the basic version, e.g. 'id'.
-        $marker = Filter_Usfm::getMarker ($currentItem);
+        $marker = usfm_get_marker ($currentItem);
         if (array_key_exists ($marker, $this->styles))
         {
           $style = $this->styles[$marker];
@@ -241,8 +241,8 @@ EOD;
               }
               // Open verse style, record verse/length, add verse number, close style again, and add a space.
               $this->openTextStyle ($style, false, false);
-              $textFollowingMarker = Filter_Usfm::getTextFollowingMarker ($this->markersAndText, $this->markersAndTextPointer);
-              $number = Filter_Usfm::peekVerseNumber ($textFollowingMarker);
+              $textFollowingMarker = usfm_get_text_following_marker ($this->markersAndText, $this->markersAndTextPointer);
+              $number = usfm_peek_verse_number ($textFollowingMarker);
               $this->verseStartOffsets [intval ($number)] = $this->textLength;
               $this->addText ($number);
               $this->closeTextStyle (false, false);

@@ -22,9 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/usfm.h>
 #include <styles/logic.h>
+#include <database/books.h>
 
 
-Filter_Text_Passage_Marker_Value::Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, int verse_in, string marker_in, string value_in)
+Filter_Text_Passage_Marker_Value::Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in)
 {
   book = book_in;
   chapter = chapter_in;
@@ -96,10 +97,10 @@ void Filter_Text::run (string stylesheet)
   getStyles (stylesheet);
 
   // Preprocess.
-  // Todo preprocessingStage ();
+  preprocessingStage ();
 
   // Process data.
-  // Todo processUsfm ();
+  processUsfm ();
 
   // Clear USFM and styles.
   usfmMarkersAndText.clear();
@@ -201,90 +202,90 @@ void Filter_Text::preprocessingStage ()
     getUsfmNextChapter ();
     for (chapterUsfmMarkersAndTextPointer = 0; chapterUsfmMarkersAndTextPointer < chapterUsfmMarkersAndText.size(); chapterUsfmMarkersAndTextPointer++) {
       string currentItem = chapterUsfmMarkersAndText[chapterUsfmMarkersAndTextPointer];
-      if (Filter_Usfm::isUsfmMarker ($currentItem)) {
-        $marker = trim ($currentItem); // Change, e.g. '\id ' to '\id'.
-        $marker = substr ($marker, 1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
-        if (Filter_Usfm::isOpeningMarker ($marker)) {
-          if (array_key_exists ($marker, $this->styles)) {
-            $style = $this->styles[$marker];
-            switch ($style['type']) {
+      if (usfm_is_usfm_marker (currentItem)) {
+        string marker = filter_string_trim (currentItem); // Change, e.g. '\id ' to '\id'.
+        marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
+        if (usfm_is_opening_marker (marker)) {
+          if (styles.find (marker) != styles.end()) {
+            Database_Styles_Item style = styles [marker];
+            switch (style.type) {
               case StyleTypeIdentifier:
-                switch ($style['subtype']) {
+                switch (style.subtype) {
                   case IdentifierSubtypeBook:
                   {
                     // Get book number.
-                    $s = Filter_Usfm::getBookIdentifier ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $s = str_replace (get_soft_hyphen (), "", $s); // Remove possible soft hyphen.
-                    $database_books = Database_Books::getInstance ();
-                    $this->currentBookIdentifier = $database_books->getIdFromUsfm ($s);
+                    string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
+                    Database_Books database_books = Database_Books ();
+                    currentBookIdentifier = database_books.getIdFromUsfm (s);
                     // Reset chapter and verse numbers.
-                    $this->currentChapterNumber = 0;
-                    $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = 0;
-                    $this->currentVerseNumber = "0";
+                    currentChapterNumber = 0;
+                    numberOfChaptersPerBook[currentBookIdentifier] = 0;
+                    currentVerseNumber = "0";
                     break;
                   }
                   case IdentifierSubtypeRunningHeader:
                   {
-                    $runningHeader = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $this->runningHeaders [] = array ('book' => $this->currentBookIdentifier, 'chapter' => $this->currentChapterNumber, 'verse' => $this->currentVerseNumber, 'marker' => $marker, 'value' => $runningHeader);
+                    string runningHeader = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    runningHeaders.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, runningHeader));
                     break;
                   }
                   case IdentifierSubtypeLongTOC:
                   {
-                    $longTOC = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $this->longTOCs [] = array ('book' => $this->currentBookIdentifier, 'chapter' => $this->currentChapterNumber, 'verse' => $this->currentVerseNumber, 'marker' => $marker, 'value' => $longTOC);
+                    string longTOC = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    longTOCs.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, longTOC));
                     break;
                   }
                   case IdentifierSubtypeShortTOC:
                   {
-                    $shortTOC = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $this->shortTOCs [] = array ('book' => $this->currentBookIdentifier, 'chapter' => $this->currentChapterNumber, 'verse' => $this->currentVerseNumber, 'marker' => $marker, 'value' => $shortTOC);
+                    string shortTOC = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    shortTOCs.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, shortTOC));
                     break;
                   }
                   case IdentifierSubtypeBookAbbrev:
                   {
-                    $bookAbbreviation = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $this->bookAbbreviations [] = array ('book' => $this->currentBookIdentifier, 'chapter' => $this->currentChapterNumber, 'verse' => $this->currentVerseNumber, 'marker' => $marker, 'value' => $bookAbbreviation);
+                    string bookAbbreviation = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    bookAbbreviations.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, bookAbbreviation));
                     break;
                   }
                   case IdentifierSubtypeChapterLabel:
                   {
-                    $chapterLabel = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $this->chapterLabels [] = array ('book' => $this->currentBookIdentifier, 'chapter' => $this->currentChapterNumber, 'verse' => $this->currentVerseNumber, 'marker' => $marker, 'value' => $chapterLabel);
+                    string chapterLabel = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    chapterLabels.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, chapterLabel));
                     break;
                   }
                   case IdentifierSubtypePublishedChapterMarker:
                   {
-                    $publishedChapterMarker = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                    $this->publishedChapterMarkers [] = array ('book' => $this->currentBookIdentifier, 'chapter' => $this->currentChapterNumber, 'verse' => $this->currentVerseNumber, 'marker' => $marker, 'value' => $publishedChapterMarker);
+                    string publishedChapterMarker = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    publishedChapterMarkers.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedChapterMarker));
                     break;
                   }
                 }
                 break;
               case StyleTypeChapterNumber:
               {
-                $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                $number = Filter_Numeric::integer_in_string ($number);
-                $this->currentChapterNumber = $number;
-                $this->numberOfChaptersPerBook[$this->currentBookIdentifier] = $number;
-                $this->currentVerseNumber = "0";
+                string number = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                int inumber = convert_to_int (number);
+                currentChapterNumber = inumber;
+                numberOfChaptersPerBook[currentBookIdentifier] = inumber;
+                currentVerseNumber = "0";
                 break;
               }
               case StyleTypeVerseNumber:
               {
-                $number = Filter_Usfm::getTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
-                $number = Filter_Numeric::integer_in_string ($number);
-                $this->currentVerseNumber = $number;
+                string number = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                int inumber = convert_to_int (number);
+                currentVerseNumber = convert_to_string (inumber);
                 break;
               }
               case StyleTypeFootEndNote:
               {
-                switch ($style['subtype'])
+                switch (style.subtype)
                 {
                   case FootEndNoteSubtypeFootnote:
                   case FootEndNoteSubtypeEndnote:
                   {
-                    $this->createNoteCitation ($style);
+                    // Todo createNoteCitation (style);
                     break;
                   }
                   case FootEndNoteSubtypeStandardContent:
@@ -299,11 +300,11 @@ void Filter_Text::preprocessingStage ()
               }
               case StyleTypeCrossreference:
               {
-                switch ($style['subtype'])
+                switch (style.subtype)
                 {
                   case CrossreferenceSubtypeCrossreference:
                   {
-                    $this->createNoteCitation ($style);
+                    // Todo createNoteCitation (style);
                     break;
                   }
                   case CrossreferenceSubtypeStandardContent:
@@ -321,6 +322,1298 @@ void Filter_Text::preprocessingStage ()
       }
     }
   }
+}
+
+
+/**
+* This function does the processing of the USFM code,
+* formatting the document and extracting other useful information.
+*/
+void Filter_Text::processUsfm ()
+{
+  // Go through the USFM code.
+  int processedBooksCount = 0;
+  usfmMarkersAndTextPointer = 0;
+  while (unprocessedUsfmCodeAvailable ()) {
+    getUsfmNextChapter ();
+    for (chapterUsfmMarkersAndTextPointer = 0; chapterUsfmMarkersAndTextPointer < chapterUsfmMarkersAndText.size(); chapterUsfmMarkersAndTextPointer++) {
+      string currentItem = chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer];
+      if (usfm_is_usfm_marker (currentItem))
+      {
+        // Indicator describing the marker.
+        bool isOpeningMarker = usfm_is_opening_marker (currentItem);
+        bool isEmbeddedMarker = usfm_is_embedded_marker (currentItem);
+        // Clean up the marker, so we remain with the basic version, e.g. 'id'.
+        string marker = usfm_get_marker (currentItem);
+        if (styles.find (marker) != styles.end())
+        {
+          Database_Styles_Item style = styles [marker];
+          switch (style.type)
+          {
+            case StyleTypeIdentifier:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              switch (style.subtype)
+              {
+                case IdentifierSubtypeBook:
+                {
+                  // Get book number.
+                  string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
+                  Database_Books database_books = Database_Books ();
+                  currentBookIdentifier = database_books.getIdFromUsfm (s);
+                  // Reset chapter and verse numbers.
+                  currentChapterNumber = 0;
+                  currentVerseNumber = "0";
+                  // Throw away whatever follows the \id, e.g. 'GEN xxx xxx'.
+                  usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  // Whether to insert a new page before the book. But never before the first book.
+                  if (style.userbool1) {
+                    if (processedBooksCount) {
+                      if (odf_text_standard) odf_text_standard->newPageBreak ();
+                      if (odf_text_text_only) odf_text_text_only->newPageBreak ();
+                      if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
+                      if (html_text_standard) html_text_standard->newPageBreak ();
+                      if (html_text_linked) html_text_linked->newPageBreak ();
+                    }
+                  }
+                  processedBooksCount++;
+                  // Reset notes.
+                  // Todo resetNoteCitations ('book');
+                  // Online Bible.
+                  if (onlinebible_text) onlinebible_text->storeData ();
+                  // eSword.
+                  if (esword_text) esword_text->newBook (currentBookIdentifier);
+                  // Done.
+                  break;
+                }
+                case IdentifierSubtypeEncoding:
+                {
+                  // Todo addToFallout ("Text encoding indicator not supported. Encoding is always in UTF8: \\$marker", true);
+                  break;
+                }
+                case IdentifierSubtypeComment:
+                {
+                  // Todo addToInfo ("Comment: \\$marker", true);
+                  break;
+                }
+                case IdentifierSubtypeRunningHeader:
+                {
+                  // This information already went into the Info document during the preprocessing stage.
+                  // Remove it from the USFM input stream.
+                  usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  // Ideally this information should be inserted in the headers of the standard text document.
+                  // UserBool2RunningHeaderLeft:
+                  // UserBool3RunningHeaderRight:
+                  break;
+                }
+                case IdentifierSubtypeLongTOC:
+                {
+                  // This information already went into the Info document. Remove it from the USFM stream.
+                  usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  break;
+                }
+                case IdentifierSubtypeShortTOC:
+                {
+                  // This information already went into the Info document. Remove it from the USFM stream.
+                  usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  break;
+                }
+                case IdentifierSubtypeBookAbbrev:
+                {
+                  // This information already went into the Info document. Remove it from the USFM stream.
+                  usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  break;
+                }
+                case IdentifierSubtypeChapterLabel:
+                {
+                  // This information is already in the object. Remove it from the USFM stream.
+                  usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  break;
+                }
+                case IdentifierSubtypePublishedChapterMarker:
+                {
+                  // This information is already in the object. Remove it from the USFM stream.
+                  usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  break;
+                }
+                case IdentifierSubtypeCommentWithEndmarker:
+                {
+                  if (isOpeningMarker) {
+                    // Todo addToInfo ("Comment: \\$marker", true);
+                  }
+                  break;
+                }
+                default:
+                {
+                  // Todo addToFallout ("Unknown markup: \\$marker", true);
+                  break;
+                }
+              }
+              break;
+            }
+            case StyleTypeNotUsedComment:
+            {
+              // Todo addToFallout ("Unknown markup: \\$marker", true);
+              break;
+            }
+            case StyleTypeNotUsedRunningHeader:
+            {
+              // Todo addToFallout ("Unknown markup: \\$marker", true);
+              break;
+            }
+            case StyleTypeStartsParagraph:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              switch (style.subtype)
+              {
+                case ParagraphSubtypeMainTitle:
+                case ParagraphSubtypeSubTitle:
+                case ParagraphSubtypeSectionHeading:
+                {
+                  // Todo newParagraph (style, true);
+                  heading_started = true;
+                  text_started = false;
+                  break;
+                }
+                case ParagraphSubtypeNormalParagraph:
+                default:
+                {
+                  // Todo newParagraph ($style, false);
+                  heading_started = false;
+                  text_started = true;
+                  /* Todo needs additional flag
+                  if (is_array ($this->verses_text)) {
+                    // If a new paragraph starts within an existing verse,
+                    // add a space to the text already in that verse.
+                    if (isset ($this->verses_text [$this->currentVerseNumber])) {
+                      $this->verses_text [$this->currentVerseNumber] .= " ";
+                    }
+                    // Record the position within the text where this new paragraph starts.
+                    $contents = implode ('', $this->verses_text);
+                    $this->paragraph_start_positions [] = mb_strlen ($contents);
+                    unset ($contents);
+                  }
+                  */
+                  break;
+                }
+              }
+              break;
+            }
+            case StyleTypeInlineText:
+            {
+              // Support for a normal and an embedded character style.
+              if (isOpeningMarker) {
+                if (odf_text_standard) odf_text_standard->openTextStyle (style, false, isEmbeddedMarker);
+                if (odf_text_text_only) odf_text_text_only->openTextStyle (style, false, isEmbeddedMarker);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, isEmbeddedMarker);
+                if (html_text_standard) html_text_standard->openTextStyle (style, false, isEmbeddedMarker);
+                if (html_text_linked) html_text_linked->openTextStyle (style, false, isEmbeddedMarker);
+              } else {
+                if (odf_text_standard) odf_text_standard->closeTextStyle (false, isEmbeddedMarker);
+                if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, isEmbeddedMarker);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, isEmbeddedMarker);
+                if (html_text_standard) html_text_standard->closeTextStyle (false, isEmbeddedMarker);
+                if (html_text_linked) html_text_linked->closeTextStyle (false, isEmbeddedMarker);
+              }
+              break;
+            }
+            case StyleTypeChapterNumber:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+
+              if (onlinebible_text) onlinebible_text->storeData ();
+
+              // Get the chapter number.
+              string number = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+              int inumber = convert_to_int (number);
+
+              // Update this object.
+              currentChapterNumber = inumber;
+              currentVerseNumber = "0";
+
+              // If there is a published chapter character, the chapter number takes that value.
+              for (auto publishedChapterMarker : publishedChapterMarkers) {
+                if (publishedChapterMarker.book == currentBookIdentifier) {
+                  if (publishedChapterMarker.chapter == currentChapterNumber) {
+                    number = publishedChapterMarker.value;
+                    inumber = convert_to_int (number);
+                  }
+                }
+              }
+
+              // Enter text for the running headers.
+              Database_Books database_books = Database_Books ();
+              string runningHeader = database_books.getEnglishFromId (currentBookIdentifier);
+              for (auto item : runningHeaders) {
+                if (item.book == currentBookIdentifier) {
+                  runningHeader = item.value;
+                }
+              }
+              runningHeader = runningHeader + " " + number;
+              if (odf_text_standard) odf_text_standard->newHeading1 (runningHeader, true);
+              if (odf_text_text_only) odf_text_text_only->newHeading1 (runningHeader, true);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newHeading1 (runningHeader, true);
+              if (odf_text_notes) odf_text_notes->newHeading1 (runningHeader, false);
+
+              // This is the phase of outputting the chapter number in the text body.
+              // It always outputs the chapter number to the clear text export.
+              if (text_text) {
+                text_text->paragraph (number);
+              }
+              // The chapter number is only output when there is more than one chapter in a book.
+              if (numberOfChaptersPerBook [currentBookIdentifier] > 1) {
+                if (style.userbool1) {
+                  // Output the chapter number at the first verse, not here.
+                  // Store it for later processing.
+                  outputChapterTextAtFirstVerse = number;
+                } else {
+                  // Output the chapter in a new paragraph.
+                  // If the chapter label \cl is entered once before chapter 1 (\c 1)
+                  // it represents the text for "chapter" to be used throughout the current book.
+                  // If \cl is used after each individual chapter marker, it represents the particular text
+                  // to be used for the display of the current chapter heading
+                  // (usually done if numbers are being presented as words, not numerals).
+                  string labelEntireBook = "";
+                  string labelCurrentChapter = "";
+                  for (auto pchapterLabel : chapterLabels) {
+                    if (pchapterLabel.book == currentBookIdentifier) {
+                      if (pchapterLabel.chapter == 0) {
+                        labelEntireBook = pchapterLabel.value;
+                      }
+                      if (pchapterLabel.chapter == currentChapterNumber) {
+                        labelCurrentChapter = pchapterLabel.value;
+                      }
+                    }
+                  }
+                  if (labelEntireBook != "") {
+                    number = labelEntireBook + " " + number;
+                  }
+                  if (labelCurrentChapter != "") {
+                    number = labelCurrentChapter;
+                  }
+                  // The chapter number shows in a new paragraph.
+                  // Keep it together with the next paragraph.
+                  // Todo newParagraph (style, true);
+                  if (odf_text_standard) odf_text_standard->addText (number);
+                  if (odf_text_text_only) odf_text_text_only->addText (number);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (number);
+                  if (html_text_standard) html_text_standard->addText (number);
+                  if (html_text_linked) html_text_linked->addText (number);
+                }
+              }
+
+              // Output chapter number for other formats.
+              if (esword_text) esword_text->newChapter (currentChapterNumber);
+
+              // Open a paragraph for the notes. It takes the style of the footnote content marker, usually 'ft'.
+              // This is done specifically for the version that has the notes only.
+              // Todo $this->ensureNoteParagraphStyle ($this->standardContentMarkerFootEndNote, $this->styles[$this->standardContentMarkerFootEndNote]);
+              if (odf_text_notes) odf_text_notes->newParagraph (standardContentMarkerFootEndNote);
+              // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
+              // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
+
+              // Reset.
+              // Todo resetNoteCitations ('chapter');
+
+              // Done.
+              break;
+            }
+            case StyleTypeVerseNumber:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (onlinebible_text) onlinebible_text->storeData ();
+              // Care for the situation that a new verse starts a new paragraph.
+              if (style.userbool1) {
+                if (odf_text_standard) {
+                  if (odf_text_standard->currentParagraphContent != "") {
+                    odf_text_standard->newParagraph (odf_text_standard->currentParagraphStyle);
+                  }
+                }
+                if (odf_text_text_only) {
+                  if (odf_text_text_only->currentParagraphContent != "") {
+                    odf_text_text_only->newParagraph (odf_text_text_only->currentParagraphStyle);
+                  }
+                }
+                if (odf_text_text_and_note_citations) {
+                  if (odf_text_text_and_note_citations->currentParagraphContent != "") {
+                    odf_text_text_and_note_citations->newParagraph (odf_text_text_and_note_citations->currentParagraphStyle);
+                  }
+                }
+                if (html_text_standard) {
+                  if (html_text_standard->currentParagraphContent != "") {
+                    html_text_standard->newParagraph (html_text_standard->currentParagraphStyle);
+                  }
+                }
+                if (html_text_linked) {
+                  if (html_text_linked->currentParagraphContent != "") {
+                    html_text_linked->newParagraph (html_text_linked->currentParagraphStyle);
+                  }
+                }
+                if (text_text) {
+                  text_text->paragraph ();
+                }
+
+              }
+              // Deal with the case of a pending chapter number.
+              if (outputChapterTextAtFirstVerse != "") {
+                /* Todo
+                if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) {
+                  $dropCapsLength = mb_strlen ($this->outputChapterTextAtFirstVerse);
+                  $this->applyDropCapsToCurrentParagraph ($dropCapsLength);
+                  if (odf_text_standard) odf_text_standard->addText ($this->outputChapterTextAtFirstVerse);
+                  if (odf_text_text_only) odf_text_text_only->addText ($this->outputChapterTextAtFirstVerse);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText ($this->outputChapterTextAtFirstVerse);
+                } else {
+                  $this->putChapterNumberInFrame ($this->outputChapterTextAtFirstVerse);
+                }
+                if (html_text_standard) html_text_standard->openTextStyle (array ("marker" => "dropcaps"), false, false);
+                if (html_text_standard) html_text_standard->addText ($this->outputChapterTextAtFirstVerse);
+                if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+                if (html_text_linked) html_text_linked->openTextStyle (array ("marker" => "dropcaps"), false, false);
+                if (html_text_linked) html_text_linked->addText ($this->outputChapterTextAtFirstVerse);
+                if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+                */
+              }
+              // Temporarily retrieve the text that follows the \v verse marker.
+              string textFollowingMarker = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+              // Extract the verse number, and store it in the object.
+              string number = usfm_peek_verse_number (textFollowingMarker);
+              currentVerseNumber = number;
+              // Output the verse number. But only if no chapter number was put here.
+              if (outputChapterTextAtFirstVerse.empty ()) {
+                // If the current paragraph has text already, then insert a space.
+                if (odf_text_standard) {
+                  if (odf_text_standard->currentParagraphContent != "") {
+                    odf_text_standard->addText (" ");
+                  }
+                }
+                if (odf_text_text_only) {
+                  if (odf_text_text_only->currentParagraphContent != "") {
+                    odf_text_text_only->addText (" ");
+                  }
+                }
+                if (odf_text_text_and_note_citations) {
+                  if (odf_text_text_and_note_citations->currentParagraphContent != "") {
+                    odf_text_text_and_note_citations->addText (" ");
+                  }
+                }
+                if (html_text_standard) {
+                  if (html_text_standard->currentParagraphContent != "") {
+                    html_text_standard->addText (" ");
+                  }
+                }
+                if (html_text_linked) {
+                  if (html_text_linked->currentParagraphContent != "") {
+                    html_text_linked->addText (" ");
+                  }
+                }
+                if (odf_text_standard) odf_text_standard->openTextStyle (style, false, false);
+                if (odf_text_text_only) odf_text_text_only->openTextStyle (style, false, false);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, false);
+                if (html_text_standard) html_text_standard->openTextStyle (style, false, false);
+                if (html_text_linked) html_text_linked->openTextStyle (style, false, false);
+                if (odf_text_standard) odf_text_standard->addText (number);
+                if (odf_text_text_only) odf_text_text_only->addText (number);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (number);
+                if (html_text_standard) html_text_standard->addText (number);
+                if (html_text_linked) html_text_linked->addText (number);
+                if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+                if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+                if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+                if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              }
+              // Clear text output.
+              if (text_text) {
+                if (text_text->line () != "") {
+                  text_text->addtext (" ");
+                }
+                text_text->addtext (number);
+                // Clear text output always has a space following the verse.
+                // Important for outputting the first verse.
+                text_text->addtext (" ");
+              }
+              // If there was any text following the \v marker, remove the verse number,
+              // put the remainder back into the object, and update the pointer.
+              if (textFollowingMarker != "") {
+                size_t pos = textFollowingMarker.find (number);
+                if (pos != string::npos) {
+                  textFollowingMarker = textFollowingMarker.substr (pos + number.length ());
+                }
+                // If a chapter number was put, remove any whitespace from the start of the following text.
+                // Remove whitespace from the start of the following text, and replace it with the en-space.
+                // This en-space is a fixed-width space.
+                // This type of space makes the layout of the text following the verse number look tidier.
+                // But if a chapter number was put, than do not put any space at the start of the following verse.
+                // Todo $textFollowingMarker = ltrim ($textFollowingMarker);
+                if (outputChapterTextAtFirstVerse.empty()) {
+                  textFollowingMarker = get_en_space () + textFollowingMarker;
+                }
+                chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer] = textFollowingMarker;
+                chapterUsfmMarkersAndTextPointer--;
+              }
+              // Unset the chapter variable, whether it was used or not. This makes it ready for subsequent use.
+              outputChapterTextAtFirstVerse.clear();
+              // Other export formats.
+              if (onlinebible_text) onlinebible_text->newVerse (currentBookIdentifier, currentChapterNumber, convert_to_int (currentVerseNumber));
+              if (esword_text) esword_text->newVerse (convert_to_int (currentVerseNumber));
+              // Done.
+              break;
+            }
+            case StyleTypeFootEndNote:
+            {
+              // Todo processNote ();
+              break;
+            }
+            case StyleTypeCrossreference:
+            {
+              // Todo processNote ();
+              break;
+            }
+            case StyleTypePeripheral:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              switch (style.subtype)
+              {
+                case PeripheralSubtypePublication:
+                case PeripheralSubtypeTableOfContents:
+                case PeripheralSubtypePreface:
+                case PeripheralSubtypeIntroduction:
+                case PeripheralSubtypeGlossary:
+                case PeripheralSubtypeConcordance:
+                case PeripheralSubtypeIndex:
+                case PeripheralSubtypeMapIndex:
+                case PeripheralSubtypeCover:
+                case PeripheralSubtypeSpine:
+                default:
+                {
+                  // Todo addToFallout ("Unknown pheripheral marker \\$marker", false);
+                  break;
+                }
+              }
+              break;
+            }
+            case StyleTypePicture:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              // Todo addToFallout ("Picture formatting not yet implemented", true);
+              break;
+            }
+            case StyleTypePageBreak:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->newPageBreak ();
+              if (odf_text_text_only) odf_text_text_only->newPageBreak ();
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
+              if (html_text_standard) html_text_standard->newPageBreak ();
+              if (html_text_linked) html_text_linked->newPageBreak ();
+              if (text_text) {
+                text_text->paragraph ();
+              }
+              break;
+            }
+            case StyleTypeTableElement:
+            {
+              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
+              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              switch (style.subtype)
+              {
+                case TableElementSubtypeRow:
+                {
+                  // Todo addToFallout ("Table elements not yet implemented", false);
+                  break;
+                }
+                case TableElementSubtypeHeading:
+                case TableElementSubtypeCell:
+                {
+                  // Todo newParagraph ($style, false);
+                  break;
+                }
+                default:
+                {
+                  break;
+                }
+              }
+              // UserInt1TableColumnNumber:
+              break;
+            }
+            case StyleTypeWordlistElement:
+            {
+              switch (style.subtype)
+              {
+                case WorListElementSubtypeWordlistGlossaryDictionary:
+                {
+                  if (isOpeningMarker) {
+                    // Todo addToWordList ($this->wordListGlossaryDictionary);
+                  }
+                  break;
+                }
+                case WorListElementSubtypeHebrewWordlistEntry:
+                {
+                  if (isOpeningMarker) {
+                    // Todo $this->addToWordList ($this->hebrewWordList);
+                  }
+                  break;
+                }
+                case WorListElementSubtypeGreekWordlistEntry:
+                {
+                  if (isOpeningMarker) {
+                    // Todo $this->addToWordList ($this->greekWordList);
+                  }
+                  break;
+                }
+                case WorListElementSubtypeSubjectIndexEntry:
+                {
+                  if (isOpeningMarker) {
+                    // Todo $this->addToWordList ($this->subjectIndex);
+                  }
+                  break;
+                }
+                default:
+                {
+                  if (isOpeningMarker) {
+                    // Todo $this->addToFallout ("Unknown word list marker \\$marker", false);
+                  }
+                  break;
+                }
+              }
+              // UserString1WordListEntryAddition:
+              break;
+            }
+            default:
+            {
+              // This marker is not yet implemented. Add to fallout, plus any text that follows.
+              // Todo addToFallout ("Marker not yet implemented \\$marker, possible formatting error:", true);
+              break;
+            }
+          }
+        } else {
+          // Here is an unknown marker. Add to fallout, plus any text that follows.
+          // Todo addToFallout ("Unknown marker \\$marker, formatting error:", true);
+        }
+      } else {
+        // Here is no marker. Treat it as text.
+        if (odf_text_standard) odf_text_standard->addText (currentItem);
+        if (odf_text_text_only) odf_text_text_only->addText (currentItem);
+        if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (currentItem);
+        if (html_text_standard) html_text_standard->addText (currentItem);
+        if (html_text_linked) html_text_linked->addText (currentItem);
+        if (onlinebible_text) onlinebible_text->addText (currentItem);
+        if (esword_text) esword_text->addText (currentItem);
+        if (text_text) {
+          text_text->addtext (currentItem);
+        }
+        /* Todo
+        if (is_array ($this->verses_headings) && $this->heading_started) {
+          if (!isset ($this->verses_headings [$this->currentVerseNumber])) {
+            $this->verses_headings [$this->currentVerseNumber] = "";
+          }
+          $this->verses_headings [$this->currentVerseNumber] .= $currentItem;
+        }
+        if (is_array ($this->verses_text) && $this->text_started) {
+          if (isset ($this->verses_text [$this->currentVerseNumber])) {
+            $this->verses_text [$this->currentVerseNumber] .= $currentItem;
+          } else {
+            // The verse text straight after the \v starts with an enSpace. Remove it.
+            $item = str_replace (get_en_space (), " ", $currentItem);
+            $this->verses_text [$this->currentVerseNumber] = ltrim ($item);
+            unset ($item);
+          }
+        }
+        */
+      }
+    }
+  }
+}
+
+
+/**
+* This function does the processing of the USFM code for one note,
+* formatting the document and extracting information.
+*/
+void Filter_Text::processNote ()
+{
+  for ( ; chapterUsfmMarkersAndTextPointer < chapterUsfmMarkersAndText.size(); chapterUsfmMarkersAndTextPointer++)
+  {
+    string currentItem = chapterUsfmMarkersAndText[chapterUsfmMarkersAndTextPointer];
+    if (usfm_is_usfm_marker (currentItem))
+    {
+      // Flags about the nature of the marker.
+      bool isOpeningMarker = usfm_is_opening_marker (currentItem);
+      bool isEmbeddedMarker = usfm_is_embedded_marker (currentItem);
+      // Clean up the marker, so we remain with the basic version, e.g. 'f'.
+      string marker = usfm_get_marker (currentItem);
+      if (styles.find (marker) != styles.end())
+      {
+        Database_Styles_Item style = styles[marker];
+        switch (style.type)
+        {
+          case StyleTypeVerseNumber:
+          {
+            // Verse found. The note should have stopped here. Incorrect note markup.
+            // /Todo addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
+            goto noteDone;
+          }
+          case StyleTypeFootEndNote:
+          {
+            switch (style.subtype)
+            {
+              case FootEndNoteSubtypeFootnote:
+              {
+                if (isOpeningMarker) {
+                  /* Todo
+                  $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
+                  $citation = $this->getNoteCitation ($style);
+                  if (odf_text_standard) odf_text_standard->addNote ($citation, $marker);
+                  // Note citation in superscript in the document with text and note citations.
+                  if (odf_text_text_and_note_citations) {
+                    $currentTextStyle = odf_text_text_and_note_citations->currentTextStyle;
+                    odf_text_text_and_note_citations->currentTextStyle = array ("superscript");
+                    odf_text_text_and_note_citations->addText ($citation);
+                    odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
+                  }
+                  // Add space if the paragraph has text already.
+                  if (odf_text_notes) {
+                    if (odf_text_notes->currentParagraphContent != "") {
+                      odf_text_notes->addText (" ");
+                    }
+                  }
+                  // Add the note citation. And a no-break space after it.
+                  if (odf_text_notes) odf_text_notes->addText ($citation . get_no_break_space());
+                  // Open note in the web pages.
+                  if (html_text_standard) html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote);
+                  if (html_text_linked) html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote);
+                  // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler.
+                  // Just take them out, then.
+                  //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+                  */
+                } else {
+                  goto noteDone;
+                }
+                break;
+              }
+              case FootEndNoteSubtypeEndnote:
+              {
+                if (isOpeningMarker) {
+                  /* Todo
+                  $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
+                  $citation = $this->getNoteCitation ($style);
+                  if (odf_text_standard) odf_text_standard->addNote ($citation, $marker, true);
+                  // Note citation in superscript in the document with text and note citations.
+                  if (odf_text_text_and_note_citations) {
+                    $currentTextStyle = odf_text_text_and_note_citations->currentTextStyle;
+                    odf_text_text_and_note_citations->currentTextStyle = array ("superscript");
+                    odf_text_text_and_note_citations->addText ($citation);
+                    odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
+                  }
+                  // Open note in the web page.
+                  if (html_text_standard) html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
+                  if (html_text_linked) html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
+                  // Online Bible.
+                  //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+                  */
+                } else {
+                  goto noteDone;
+                }
+                break;
+              }
+              case FootEndNoteSubtypeStandardContent:
+              {
+                // The style of the standard content is already used in the note's body.
+                // If means that the text style should be cleared
+                // in order to return to the correct style for the paragraph.
+                if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
+                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (html_text_standard) html_text_standard->closeTextStyle (true, false);
+                if (html_text_linked) html_text_linked->closeTextStyle (true, false);
+                break;
+              }
+              case FootEndNoteSubtypeContent:
+              case FootEndNoteSubtypeContentWithEndmarker:
+              {
+                if (isOpeningMarker) {
+                  if (odf_text_standard) odf_text_standard->openTextStyle (style, true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->openTextStyle (style, false, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->openTextStyle (style, true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->openTextStyle (style, true, isEmbeddedMarker);
+                } else {
+                  if (odf_text_standard) odf_text_standard->closeTextStyle (true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->closeTextStyle (false, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->closeTextStyle (true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->closeTextStyle (true, isEmbeddedMarker);
+                }
+                break;
+              }
+              case FootEndNoteSubtypeParagraph:
+              {
+                // The style of this is not yet implemented.
+                if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
+                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (html_text_standard) html_text_standard->closeTextStyle (true, false);
+                if (html_text_linked) html_text_linked->closeTextStyle (true, false);
+                break;
+              }
+              default:
+              {
+                break;
+              }
+            }
+            // UserBool1NoteAppliesToApocrypha: For xref too?
+            break;
+          }
+          case StyleTypeCrossreference:
+          {
+            switch (style.subtype)
+            {
+              case CrossreferenceSubtypeCrossreference:
+              {
+                if (isOpeningMarker) {
+                  /* Todo 
+                  $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerCrossReference]);
+                  $citation = $this->getNoteCitation ($style);
+                  if (odf_text_standard) odf_text_standard->addNote ($citation, $marker);
+                  // Note citation in superscript in the document with text and note citations.
+                  if (odf_text_text_and_note_citations) {
+                    $currentTextStyle = odf_text_text_and_note_citations->currentTextStyle;
+                    odf_text_text_and_note_citations->currentTextStyle = array ("superscript");
+                    odf_text_text_and_note_citations->addText ($citation);
+                    odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
+                  }
+                  // Add a space if the paragraph has text already.
+                  if (odf_text_notes) {
+                    if (odf_text_notes->currentParagraphContent != "") {
+                      odf_text_notes->addText (" ");
+                    }
+                  }
+                  // Add the note citation. And a no-break space (NBSP) after it.
+                  if (odf_text_notes) odf_text_notes->addText ($citation . get_no_break_space());
+                  // Open note in the web page.
+                  $this->ensureNoteParagraphStyle ($this->standardContentMarkerCrossReference, $this->styles[$this->standardContentMarkerCrossReference]);
+                  if (html_text_standard) html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference);
+                  if (html_text_linked) html_text_linked->addNote ($citation, $this->standardContentMarkerCrossReference);
+                  // Online Bible.
+                  //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+                  */
+                } else {
+                  goto noteDone;
+                }
+                break;
+              }
+              case CrossreferenceSubtypeStandardContent:
+              {
+                // The style of the standard content is already used in the note's body.
+                // If means that the text style should be cleared
+                // in order to return to the correct style for the paragraph.
+                if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
+                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (html_text_standard) html_text_standard->closeTextStyle (true, false);
+                if (html_text_linked) html_text_linked->closeTextStyle (true, false);
+                break;
+              }
+              case CrossreferenceSubtypeContent:
+              case CrossreferenceSubtypeContentWithEndmarker:
+              {
+                if (isOpeningMarker) {
+                  if (odf_text_standard) odf_text_standard->openTextStyle (style, true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->openTextStyle (style, false, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->openTextStyle (style, true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->openTextStyle (style, true, isEmbeddedMarker);
+                } else {
+                  if (odf_text_standard) odf_text_standard->closeTextStyle (true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->closeTextStyle (false, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->closeTextStyle (true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->closeTextStyle (true, isEmbeddedMarker);
+                }
+                break;
+              }
+              default:
+              {
+                break;
+              }
+            }
+            break;
+          }
+          default:
+          {
+            // Todo $this->addToFallout ("Marker not suitable in note context \\$marker", false);
+            break;
+          }
+        }
+      } else {
+        // Here is an unknown marker. Add the marker to fallout, plus any text that follows.
+        // Todo $this->addToFallout ("Unknown marker \\$marker", true);
+      }
+    } else {
+      // Here is no marker. Treat it as text.
+      if (odf_text_standard) odf_text_standard->addNoteText (currentItem);
+      if (odf_text_notes) odf_text_notes->addText (currentItem);
+      if (html_text_standard) html_text_standard->addNoteText (currentItem);
+      if (html_text_linked) html_text_linked->addNoteText (currentItem);
+    }
+  }
+  
+  noteDone:
+
+  // "Close" the current note, so that any following note text, if malformed,
+  // will be added to a new note, not to the last one created.
+  if (odf_text_standard) odf_text_standard->closeCurrentNote ();
+  if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+  if (html_text_standard) html_text_standard->closeCurrentNote ();
+  if (html_text_linked) html_text_linked->closeCurrentNote ();
+  //if ($this->onlinebible_text) $this->onlinebible_text->closeCurrentNote ();
+}
+
+
+/**
+* This creates and saves the information document.
+* It contains formatting information, collected from the USFM code.
+* $path: Path to the document.
+*/
+public function produceInfoDocument ($path)
+{
+  $database_books = Database_Books::getInstance ();
+
+  $information = new Html_Text (Locale_Translate::_("Information"));
+
+  // Number of chapters per book.
+  $information->newHeading1 (Locale_Translate::_("Number of chapters per book"));
+  foreach ($this->numberOfChaptersPerBook as $book => $chapterCount) {
+    $line = $database_books->getEnglishFromId ($book) . " => " . $chapterCount;
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+
+  // Running headers.
+  $information->newHeading1 (Locale_Translate::_("Running headers"));
+  foreach ($this->runningHeaders as $item) {
+    $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+
+  // Table of Contents entries.
+  $information->newHeading1 (Locale_Translate::_("Long table of contents entries"));
+  foreach ($this->longTOCs as $item) {
+    $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+  $information->newHeading1 (Locale_Translate::_("Short table of contents entries"));
+  foreach ($this->shortTOCs as $item) {
+    $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+
+  // Book abbreviations.
+  $information->newHeading1 (Locale_Translate::_("Book abbreviations"));
+  foreach ($this->bookAbbreviations as $item) {
+    $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+
+  // Chapter specials.
+  $information->newHeading1 (Locale_Translate::_("Publishing chapter labels"));
+  foreach ($this->chapterLabels as $item) {
+    $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+  $information->newHeading1 (Locale_Translate::_("Publishing alternate chapter numbers"));
+  foreach ($this->publishedChapterMarkers as $item) {
+    $line = $database_books->getEnglishFromId ($item['book']) . " (USFM " . $item['marker'] . ") => " . $item['value'];
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+
+  // Word lists.
+  $information->newHeading1 (Locale_Translate::_("Word list, glossary, dictionary entries"));
+  foreach ($this->wordListGlossaryDictionary as $item) {
+    $information->newParagraph ();
+    $information->addText ($item);
+  }
+  $information->newHeading1 (Locale_Translate::_("Hebrew word list entries"));
+  foreach ($this->hebrewWordList as $item) {
+    $information->newParagraph ();
+    $information->addText ($item);
+  }
+  $information->newHeading1 (Locale_Translate::_("Greek word list entries"));
+  foreach ($this->greekWordList as $item) {
+    $information->newParagraph ();
+    $information->addText ($item);
+  }
+  $information->newHeading1 (Locale_Translate::_("Subject index entries"));
+  foreach ($this->subjectIndex as $item) {
+    $information->newParagraph ();
+    $information->addText ($item);
+  }
+
+  // Other info.
+  $information->newHeading1 (Locale_Translate::_("Other information"));
+  foreach ($this->info as $line) {
+    $information->newParagraph ();
+    $information->addText ($line);
+  }
+
+  $information->save ($path);
+}
+
+
+/**
+* This function produces the text of the current passage, e.g.: Genesis 1:1.
+* Returns: The passage text
+*/
+private function getCurrentPassageText()
+{
+  return Filter_Books::passageDisplay ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);
+}
+
+
+/**
+* This function adds a string to the Info array, prefixed by the current passage.
+* $text: String to add to the Info array.
+* $next: If true, it also adds the text following the marker to the info,
+* and removes this text from the USFM input stream.
+*/
+private function addToInfo($text, $next = false)
+{
+  $text = $this->getCurrentPassageText() . " " . $text;
+  if ($next) {
+    $text .= " " . usfm_get_text_following_marker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+  }
+  $this->info[] = $text;
+}
+
+
+
+/**
+* This function adds a string to the Fallout array, prefixed by the current passage.
+* $text: String to add to the Fallout array.
+* $next: If true, it also adds the text following the marker to the fallout,
+* and removes this text from the USFM input stream.
+*/
+private function addToFallout($text, $next = false)
+{
+  $text = $this->getCurrentPassageText() . " " . $text;
+  if ($next) {
+    $text .= " " . usfm_get_text_following_marker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+  }
+  $this->fallout[] = $text;
+}
+
+
+
+/**
+* This function adds something to a word list array, prefixed by the current passage.
+* $list: which list to add the text to.
+* The word is extracted from the input USFM. The Usfm pointer points to the current marker,
+* and the text following that marker is added to the word list array.
+*/
+private function addToWordList(&$list)
+{
+  $text = Filter_Usfm::peekTextFollowingMarker ($this->chapterUsfmMarkersAndText, $this->chapterUsfmMarkersAndTextPointer);
+  $text .= " (";
+  $text .= $this->getCurrentPassageText();
+  $text .= ")";
+  $list[] = $text;
+}
+
+
+
+/**
+* This produces and saves the Fallout document.
+* $path: Path to the document.
+*/
+public function produceFalloutDocument ($path)
+{
+  $fallout = new Html_Text (Locale_Translate::_("Fallout"));
+  $fallout->newHeading1 (Locale_Translate::_("Fallout"));
+  foreach ($this->fallout as $line) {
+    $fallout->newParagraph ();
+    $fallout->addText ($line);
+  }
+  $fallout->save ($path);
+}
+
+
+
+/**
+* This function produces ensures that a certain paragraph style is in the OpenDocument,
+* and then opens a paragraph with this style
+* $style: The style to use.
+* $keepWithNext: Whether to keep this paragraph with the next one.
+*/
+private function newParagraph ($style, $keepWithNext)
+{
+  $marker = $style["marker"];
+  if (!in_array ($marker, $this->createdStyles)) {
+    $fontsize = $style["fontsize"];
+    $italic = $style["italic"];
+    $bold = $style["bold"];
+    $underline = $style["underline"];
+    $smallcaps = $style["smallcaps"];
+    $alignment = $style["justification"];
+    $spacebefore = $style["spacebefore"];
+    $spaceafter = $style["spaceafter"];
+    $leftmargin = $style["leftmargin"];
+    $rightmargin = $style["rightmargin"];
+    $firstlineindent = $style["firstlineindent"];
+    // Columns are not implemented at present. Reason:
+    // I failed to copy and paste sections with columns between documents in LibreOffice.
+    // So why implement something that does not work.
+    // If it gets implemented, then sections are to be used in OpenDocument.
+    $spancolumns = $style["spancolumns"];
+    $dropcaps = 0;
+    if (odf_text_standard) odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+    if (odf_text_text_only) odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+    $this->createdStyles [] = $marker;
+  }
+  if (odf_text_standard) odf_text_standard->newParagraph ($marker);
+  if (odf_text_text_only) odf_text_text_only->newParagraph ($marker);
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newParagraph ($marker);
+  if (html_text_standard) html_text_standard->newParagraph ($marker);
+  if (html_text_linked) html_text_linked->newParagraph ($marker);
+  if (isset ($this->text_text)) {
+    $this->text_text->paragraph ();
+  }
+}
+
+
+
+/**
+* This applies the drop caps setting to the current paragraph style.
+* This is for the chapter number to appear in drop caps in the OpenDocument.
+* $dropCapsLength: Number of characters to put in drop caps.
+*/
+private function applyDropCapsToCurrentParagraph ($dropCapsLength)
+{
+  // To name a style according to the number of characters to put in drop caps,
+  // e.g. a style name like p_c1 or p_c2 or p_c3.
+  if (odf_text_standard) {
+    $combined_style = odf_text_standard->currentParagraphStyle . "_" . $this->chapterMarker . $dropCapsLength;
+    if (!in_array ($combined_style, $this->createdStyles)) {
+      $style = $this->styles[odf_text_standard->currentParagraphStyle];
+      $fontsize = $style["fontsize"];
+      $italic = $style["italic"];
+      $bold = $style["bold"];
+      $underline = $style["underline"];
+      $smallcaps = $style["smallcaps"];
+      $alignment = $style["justification"];
+      $spacebefore = $style["spacebefore"];
+      $spaceafter = $style["spaceafter"];
+      $leftmargin = $style["leftmargin"];
+      $rightmargin = $style["rightmargin"];
+      $firstlineindent = 0; // First line that contains the chapter number in drop caps is not indented.
+      $spancolumns = $style["spancolumns"];
+      $keepWithNext = false;
+      if (odf_text_standard) odf_text_standard->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
+      if (odf_text_text_only) odf_text_text_only->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
+      if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle ($combined_style, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropCapsLength);
+      $this->createdStyles [] = $combined_style;
+    }
+    if (odf_text_standard) odf_text_standard->updateCurrentParagraphStyle ($combined_style);
+    if (odf_text_text_only) odf_text_text_only->updateCurrentParagraphStyle ($combined_style);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->updateCurrentParagraphStyle ($combined_style);
+  }
+}
+
+
+
+/**
+* This puts the chapter number in a frame in the current paragraph.
+* This is to put the chapter number in a frame so it looks like drop caps in the OpenDocument.
+* $chapterText: The text of the chapter indicator to put.
+*/
+private function putChapterNumberInFrame ($chapterText)
+{
+  $style = $this->styles[$this->chapterMarker];
+  if (odf_text_standard) odf_text_standard->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]);
+  if (odf_text_text_only) odf_text_text_only->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]);
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->placeTextInFrame ($chapterText, $this->chapterMarker, $style["fontsize"], $style["italic"], $style["bold"]);
+}
+
+
+
+/**
+* This creates an entry in the $this->notecitations array.
+* $style: the style: an array of key => value.
+*/
+private function createNoteCitation ($style)
+{
+  // Create an entry in the notecitations array in this object, if it does not yet exist.
+  if (!array_key_exists ($style['marker'], $this->notecitations)) {
+    $numbering = $style['userint1'];
+    $sequence = "1 2 3 4 5 6 7 8 9"; // Fallback sequence.
+    if ($numbering == NoteNumbering123) $sequence = "";
+    if ($numbering == NoteNumberingAbc) $sequence = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
+    if ($numbering == NoteNumberingUser) $sequence = $style['userstring1'];
+    if ($sequence == "") $sequence = array ();
+    else $sequence = explode (" ", $sequence);
+    // Use of the above information:
+    // The note will be numbered as follows:
+    // If a $sequence is given, then this sequence is followed for the citations.
+    // If no $sequence is given, then the note gets numerical citations.
+
+    $restart = "chapter";
+    $userint2 = $style['userint2'];
+    if ($userint2 == NoteRestartNumberingNever) $restart = "never";
+    if ($userint2 == NoteRestartNumberingEveryBook) $restart = "book";
+    if ($userint2 == NoteRestartNumberingEveryChapter) $restart = "chapter";
+
+    $this->notecitations[$style['marker']] = array ('sequence'  => $sequence, 'restart' => $restart, 'pointer' => 0);
+  }
+
+}
+
+
+
+/**
+* This gets the note citation.
+* The first time that a xref is encountered, this function would return, e.g. 'a'.
+* The second time, it would return 'b'. Then 'c', 'd', 'e', and so on, up to 'z'.
+* Then it would restart with 'a'. And so on.
+* The note citation is the character that is put in superscript in the main body of Bible text.
+* $style: array with values for the note opening marker.
+* Returns: The character for the note citation.
+*/
+private function getNoteCitation ($style)
+{
+  // Get the raw note citation from the USFM. This could be, e.g. '+'.
+  $nextText = $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer + 1];
+  $citation = substr ($nextText, 0, 1);
+  $nextText = ltrim (substr ($nextText, 1));
+  $this->chapterUsfmMarkersAndText [$this->chapterUsfmMarkersAndTextPointer + 1] = $nextText;
+  $citation = trim ($citation);
+  if ($citation == "+") {
+    $marker = $style['marker'];
+    $sequence = $this->notecitations[$marker]['sequence'];
+    $pointer = $this->notecitations[$marker]['pointer'];
+    if (count ($sequence) == 0) {
+      $citation = ++$pointer;
+    } else {
+      $citation = $sequence [$pointer];
+      $pointer++;
+      if ($pointer >= count ($sequence)) $pointer = 0;
+    }
+    $this->notecitations[$marker]['pointer'] = $pointer;
+  } else if ($citation == "-") {
+    $citation = "";
+  }
+  return $citation;
+}
+
+
+/**
+* This resets selected note citation data.
+* Resetting means that the note citations start to count afresh.
+* $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
+*/
+private function resetNoteCitations ($moment)
+{
+  foreach ($this->notecitations as &$notecitation) {
+    if ($notecitation['restart'] == $moment) {
+      $notecitation['pointer'] = 0;
+    }
+  }
+}
+
+
+
+/**
+* This function ensures that a certain paragraph style for a note is present in the OpenDocument.
+* $marker: Which note, e.g. 'f' or 'x' or 'fe'.
+* $style: The style to use.
+*/
+private function ensureNoteParagraphStyle ($marker, $style)
+{
+  if (!in_array ($marker, $this->createdStyles)) {
+    $fontsize = $style["fontsize"];
+    $italic = $style["italic"];
+    $bold = $style["bold"];
+    $underline = $style["underline"];
+    $smallcaps = $style["smallcaps"];
+    $alignment = $style["justification"];
+    $spacebefore = $style["spacebefore"];
+    $spaceafter = $style["spaceafter"];
+    $leftmargin = $style["leftmargin"];
+    $rightmargin = $style["rightmargin"];
+    $firstlineindent = $style["firstlineindent"];
+    $spancolumns = false;
+    $keepWithNext = false;
+    $dropcaps = 0;
+    if (odf_text_standard) odf_text_standard->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+    if (odf_text_text_only) odf_text_text_only->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, $spacebefore, $spaceafter, $leftmargin, $rightmargin, $firstlineindent, $keepWithNext, $dropcaps);
+    if (odf_text_notes) odf_text_notes->createParagraphStyle ($marker, $fontsize, $italic, $bold, $underline, $smallcaps, $alignment, 0, 0, 0, 0, 0, $keepWithNext, $dropcaps);
+    $this->createdStyles [] = $marker;
+  }
+}
+
+
+/**
+* This function initializes the array that holds verse numbers and the text of the headings,
+* and the array that holds verse numbers and the plain text of the Bible.
+* The object will only use the array when it has been initialized.
+* The resulting arrays use the verse numbers as keys. Therefore it only works reliably within one chapter.
+*/
+public function initializeHeadingsAndTextPerVerse ()
+{
+  $this->verses_headings = array ();
+  $this->verses_text = array ();
+  $this->paragraph_start_positions = array ();
+}
+
+
+public function getVersesText ()
+{
+  // Trim white space at start and end of each line.
+  foreach ($this->verses_text as &$line) {
+    $line = trim ($line);
+  }
+  // Return the result.
+  return $this->verses_text;
 }
 
 

@@ -1233,6 +1233,8 @@ void test_filters_test11 ()
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
   database_styles.createStandardSheet ();
+  Database_Books database_books = Database_Books ();
+  database_books.create ();
 
   // Test extraction of all sorts of information from USFM code
   // Test basic formatting into OpenDocument.
