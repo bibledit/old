@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/styles.h>
 #include <database/search.h>
 #include <database/books.h>
+#include <database/config/bible.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -34,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <filter/archive.h>
+#include <filter/text.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -1220,6 +1222,77 @@ void test_filters_test10 ()
 }
 
 
+void test_filters_test11 ()
+{
+  string TextTestOdt = "/tmp/TextTest.odt";
+  string TextTestHtml = "/tmp/TextTest.html";
+  string bible = "phpunit";
+
+  // The unittests depend on known settings and values.
+  Database_Config_Bible::setExportChapterDropCapsFrames (bible, true);
+  Database_Styles database_styles = Database_Styles ();
+  database_styles.create ();
+  database_styles.createStandardSheet ();
+
+  // Test extraction of all sorts of information from USFM code
+  // Test basic formatting into OpenDocument.
+  {
+    string usfm = ""
+      "\\id GEN\n"
+      "\\h Header\n"
+      "\\h1 Header1\n"
+      "\\h2 Header2\n"
+      "\\h3 Header3\n"
+      "\\toc1 The Book of Genesis\n"
+      "\\toc2 Genesis\n"
+      "\\toc3 Gen\n"
+      "\\cl Chapter\n"
+      "\\c 1\n"
+      "\\cp Ⅰ\n"
+      "\\p\n"
+      "\\v 1 Text chapter 1\n"
+      "\\c 2\n"
+      "\\cp ②\n"
+      "\\h Header4\n"
+      "\\p\n"
+      "\\v 2 Text chapter 2\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run ("Standard");
+
+
+  }
+
+  
+/* Todo
+    // Check that it finds the running headers.
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h', 'value' => 'Header'),  filter_text.runningHeaders[0]);
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h1', 'value' => 'Header1'), filter_text.runningHeaders[1]);
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h2', 'value' => 'Header2'), filter_text.runningHeaders[2]);
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h3', 'value' => 'Header3'), filter_text.runningHeaders[3]);
+    this.assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'h', 'value' => 'Header4'), filter_text.runningHeaders[4]);
+    // Check on Table of Contents items.
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'toc1', 'value' => 'The Book of Genesis'), filter_text.longTOCs[0]);
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'toc2', 'value' => 'Genesis'), filter_text.shortTOCs[0]);
+    // Check book abbreviation.
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'toc3', 'value' => 'Gen'), filter_text.bookAbbreviations[0]);
+    // Check chapter specials.
+    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'cl', 'value' => 'Chapter'), filter_text.chapterLabels[0]);
+    this.assertEquals (array ('book' => 1, 'chapter' => 1, 'verse' => 0, 'marker' => 'cp', 'value' => 'Ⅰ'), filter_text.publishedChapterMarkers[0]);
+    this.assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '②'), filter_text.publishedChapterMarkers[1]);
+    this.assertEquals (array (1 => 2), filter_text.numberOfChaptersPerBook);
+    filter_text.odf_text_standard.save ("/tmp/TextTest.odt");
+    exec ("odt2txt /tmp/TextTest.odt", output, return_var);
+    this.assertEquals (array ("", "Header4 Ⅰ", "=========", "", "[-- Image: frame1 --]", "", "Ⅰ", "", "Text chapter 1", "", "Header4 ②", "=========", "", "[-- Image: frame2 --]", "", "②", "", "Text chapter 2", ""), output);
+
+*/
+
+  filter_url_unlink (TextTestOdt);
+  filter_url_unlink (TextTestHtml);
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -1234,6 +1307,7 @@ void test_filters ()
   test_filters_test8 ();
   test_filters_test9 ();
   test_filters_test10 ();
+  test_filters_test11 ();
   refresh_sandbox (true);
 }
 

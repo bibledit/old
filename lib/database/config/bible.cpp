@@ -278,11 +278,11 @@ void Database_Config_Bible::setRepeatSendReceive (string bible, string value)
 }
 
 
-string Database_Config_Bible::getExportChapterDropCapsFrames (string bible)
+bool Database_Config_Bible::getExportChapterDropCapsFrames (string bible)
 {
-  return getValue (bible, "export-chapter-drop-caps-frames", "0");
+  return getValue (bible, "export-chapter-drop-caps-frames", false);
 }
-void Database_Config_Bible::setExportChapterDropCapsFrames (string bible, string value) 
+void Database_Config_Bible::setExportChapterDropCapsFrames (string bible, bool value) 
 {
   setValue (bible, "export-chapter-drop-caps-frames", value);
 }
