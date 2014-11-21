@@ -1224,8 +1224,9 @@ void test_filters_test10 ()
 
 void test_filters_test11 ()
 {
-  string TextTestOdt = "/tmp/TextTest.odt";
+  string TextTestOdt  = "/tmp/TextTest.odt";
   string TextTestHtml = "/tmp/TextTest.html";
+  string TextTestTxt  = "/tmp/TextTest.txt";
   string bible = "phpunit";
 
   // The unittests depend on known settings and values.
@@ -1262,34 +1263,184 @@ void test_filters_test11 ()
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-
-
+    // Check that it finds the running headers.
+    int desiredRunningHeaders = 5;
+    int actualRunningHeaders = filter_text.runningHeaders.size();
+    evaluate (__LINE__, __func__, desiredRunningHeaders, actualRunningHeaders);
+    if (actualRunningHeaders == desiredRunningHeaders) {
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[0].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[0].verse);
+      evaluate (__LINE__, __func__, "h", filter_text.runningHeaders[0].marker);
+      evaluate (__LINE__, __func__, "Header", filter_text.runningHeaders[0].value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[1].book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[1].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[1].verse);
+      evaluate (__LINE__, __func__, "h1", filter_text.runningHeaders[1].marker);
+      evaluate (__LINE__, __func__, "Header1", filter_text.runningHeaders[1].value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[2].book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[2].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[2].verse);
+      evaluate (__LINE__, __func__, "h2", filter_text.runningHeaders[2].marker);
+      evaluate (__LINE__, __func__, "Header2", filter_text.runningHeaders[2].value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[3].book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[3].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[3].verse);
+      evaluate (__LINE__, __func__, "h3", filter_text.runningHeaders[3].marker);
+      evaluate (__LINE__, __func__, "Header3", filter_text.runningHeaders[3].value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[4].book);
+      evaluate (__LINE__, __func__, 2, filter_text.runningHeaders[4].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[4].verse);
+      evaluate (__LINE__, __func__, "h", filter_text.runningHeaders[4].marker);
+      evaluate (__LINE__, __func__, "Header4", filter_text.runningHeaders[4].value);
+    }
+    // Check on Table of Contents items.
+    int desiredlongTOCs = 1;
+    int actuallongTOCs = filter_text.longTOCs.size();
+    evaluate (__LINE__, __func__, desiredlongTOCs, actuallongTOCs);
+    if (desiredlongTOCs == actuallongTOCs) {
+      evaluate (__LINE__, __func__, 1, filter_text.longTOCs[0].book);
+      evaluate (__LINE__, __func__, 0, filter_text.longTOCs[0].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.longTOCs[0].verse);
+      evaluate (__LINE__, __func__, "toc1", filter_text.longTOCs[0].marker);
+      evaluate (__LINE__, __func__, "The Book of Genesis", filter_text.longTOCs[0].value);
+    }
+    int desiredshortTOCs = 1;
+    int actualshortTOCs = filter_text.shortTOCs.size();
+    evaluate (__LINE__, __func__, desiredshortTOCs, actualshortTOCs);
+    if (desiredlongTOCs == actuallongTOCs) {
+      evaluate (__LINE__, __func__, 1, filter_text.shortTOCs[0].book);
+      evaluate (__LINE__, __func__, 0, filter_text.shortTOCs[0].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.shortTOCs[0].verse);
+      evaluate (__LINE__, __func__, "toc2", filter_text.shortTOCs[0].marker);
+      evaluate (__LINE__, __func__, "Genesis", filter_text.shortTOCs[0].value);
+    }
+    // Check book abbreviation.
+    int desiredbookAbbreviations = 1;
+    int actualbookAbbreviations = filter_text.bookAbbreviations.size();
+    evaluate (__LINE__, __func__, desiredbookAbbreviations, actualbookAbbreviations);
+    if (desiredlongTOCs == actuallongTOCs) {
+      evaluate (__LINE__, __func__, 1, filter_text.bookAbbreviations[0].book);
+      evaluate (__LINE__, __func__, 0, filter_text.bookAbbreviations[0].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.bookAbbreviations[0].verse);
+      evaluate (__LINE__, __func__, "toc3", filter_text.bookAbbreviations[0].marker);
+      evaluate (__LINE__, __func__, "Gen", filter_text.bookAbbreviations[0].value);
+    }
+    // Check chapter specials.
+    int desiredchapterLabels = 1;
+    int actualchapterLabels = filter_text.chapterLabels.size();
+    evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
+    if (desiredlongTOCs == actuallongTOCs) {
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].book);
+      evaluate (__LINE__, __func__, 0, filter_text.chapterLabels[0].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].verse);
+      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].marker);
+      evaluate (__LINE__, __func__, "Chapter", filter_text.chapterLabels[0].value);
+    }
+    int desiredpublishedChapterMarkers = 2;
+    int actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
+    evaluate (__LINE__, __func__, desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
+    if (desiredlongTOCs == actuallongTOCs) {
+      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].book);
+      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[0].verse);
+      evaluate (__LINE__, __func__, "cp", filter_text.publishedChapterMarkers[0].marker);
+      evaluate (__LINE__, __func__, "Ⅰ", filter_text.publishedChapterMarkers[0].value);
+      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[1].book);
+      evaluate (__LINE__, __func__, 2, filter_text.publishedChapterMarkers[1].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[1].verse);
+      evaluate (__LINE__, __func__, "cp", filter_text.publishedChapterMarkers[1].marker);
+      evaluate (__LINE__, __func__, "②", filter_text.publishedChapterMarkers[1].value);
+    }
+    // OpenDocument output.
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    string standard = ""
+    "\n"
+    "Header4 Ⅰ\n"
+    "=========\n"
+    "\n"
+    "[-- Image: frame1 --]\n"
+    "\n"
+    "Ⅰ\n"
+    "\n"
+    "Text chapter 1\n"
+    "\n"
+    "Header4 ②\n"
+    "=========\n"
+    "\n"
+    "[-- Image: frame2 --]\n"
+    "\n"
+    "②\n"
+    "\n"
+    "Text chapter 2\n"
+    "\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+  }
+  filter_url_unlink (TextTestOdt);
+  filter_url_unlink (TextTestHtml);
+  // There are two books here. This normally gives one new page between these two books.
+  // Test that basic USFM code gets transformed correctly.
+  {
+    string usfm =
+      "\\id GEN\n"
+      "\\ide XYZ\n"
+      "\\c 1\n"
+      "\\p Text Genesis 1\n"
+      "\\c 2\n"
+      "\\p Text Genesis 2\n"
+      "\\id MAT\n"
+      "\\c 1\n"
+      "\\p Text Matthew 1\n"
+      "\\c 2\n"
+      "\\p Text Matthew 2\n"
+      "\\rem Comment\n"
+      "\\xxx Unknown markup\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run ("Standard");
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    string standard = ""
+      "\n"
+      "Genesis 1\n"
+      "=========\n"
+      "\n"
+      "Text Genesis 1\n"
+      "\n"
+      "Genesis 2\n"
+      "=========\n"
+      "\n"
+      "Text Genesis 2\n"
+      "\n"
+      "Matthew 1\n"
+      "=========\n"
+      "\n"
+      "Text Matthew 1\n"
+      "\n"
+      "Matthew 2\n"
+      "=========\n"
+      "\n"
+      "Text Matthew 2\n"
+      "\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
 
-  
+
 /* Todo
-    // Check that it finds the running headers.
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h', 'value' => 'Header'),  filter_text.runningHeaders[0]);
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h1', 'value' => 'Header1'), filter_text.runningHeaders[1]);
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h2', 'value' => 'Header2'), filter_text.runningHeaders[2]);
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'h3', 'value' => 'Header3'), filter_text.runningHeaders[3]);
-    this.assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'h', 'value' => 'Header4'), filter_text.runningHeaders[4]);
-    // Check on Table of Contents items.
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'toc1', 'value' => 'The Book of Genesis'), filter_text.longTOCs[0]);
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'toc2', 'value' => 'Genesis'), filter_text.shortTOCs[0]);
-    // Check book abbreviation.
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'toc3', 'value' => 'Gen'), filter_text.bookAbbreviations[0]);
-    // Check chapter specials.
-    this.assertEquals (array ('book' => 1, 'chapter' => 0, 'verse' => 0, 'marker' => 'cl', 'value' => 'Chapter'), filter_text.chapterLabels[0]);
-    this.assertEquals (array ('book' => 1, 'chapter' => 1, 'verse' => 0, 'marker' => 'cp', 'value' => 'Ⅰ'), filter_text.publishedChapterMarkers[0]);
-    this.assertEquals (array ('book' => 1, 'chapter' => 2, 'verse' => 0, 'marker' => 'cp', 'value' => '②'), filter_text.publishedChapterMarkers[1]);
-    this.assertEquals (array (1 => 2), filter_text.numberOfChaptersPerBook);
-    filter_text.odf_text_standard.save ("/tmp/TextTest.odt");
-    exec ("odt2txt /tmp/TextTest.odt", output, return_var);
-    this.assertEquals (array ("", "Header4 Ⅰ", "=========", "", "[-- Image: frame1 --]", "", "Ⅰ", "", "Text chapter 1", "", "Header4 ②", "=========", "", "[-- Image: frame2 --]", "", "②", "", "Text chapter 2", ""), output);
+    $this->assertEquals (array ('Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \ide XYZ',
+                                'Matthew 2:0 Unknown marker \xxx, formatting error: Unknown markup'), $filter_text->fallout);
+    $this->assertEquals (array ('Matthew 2:0 Comment: \rem Comment'), $filter_text->info);
 
 */
-
+  exit (0); // Todo
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
 }

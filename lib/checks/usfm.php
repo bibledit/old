@@ -104,7 +104,7 @@ class Checks_Usfm
 
         // Get the current verse number.
         if ($this->usfmItem == '\v ') {
-          $verseCode = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+          $verseCode = usfm_peek_text_following_marker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
           $this->verseNumber = usfm_peek_verse_number ($verseCode);
         }
 
@@ -127,7 +127,7 @@ class Checks_Usfm
   private function malformedVerseNumber ()
   {
     if ($this->usfmItem == '\v ') {
-      $code = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+      $code = usfm_peek_text_following_marker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
       $cleanVerseNumber = usfm_peek_verse_number ($code);
       $dirtyVerseNumber = explode (" ", $code);
       $dirtyVerseNumber = $dirtyVerseNumber [0];
@@ -174,7 +174,7 @@ class Checks_Usfm
   {
     $item = substr ($this->usfmItem, 0, 3);
     if ($item == '\id') {
-      $code = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+      $code = usfm_peek_text_following_marker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
       $id =  substr ($code, 0, 3);
       $id = explode (" ", $code);
       $id = $id [0];
@@ -259,7 +259,7 @@ class Checks_Usfm
   private function addResult ($text, $modifier)
   {
     $current = $this->usfmItem;
-    $next = Filter_Usfm::peekTextFollowingMarker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
+    $next = usfm_peek_text_following_marker ($this->usfmMarkersAndText, $this->usfmMarkersAndTextPointer);
     $next = substr ($next, 0, 20);
     switch ($modifier) {
       case Checks_Usfm::displayNothing:

@@ -42,6 +42,17 @@ public:
 };
 
 
+class Filter_Text_Note_Citation
+{
+public:
+  Filter_Text_Note_Citation ();
+  Filter_Text_Note_Citation (vector <string> sequence_in, string restart_in);
+  vector <string> sequence;
+  string restart;
+  unsigned int pointer;
+};
+
+
 class Filter_Text
 {
 public:
@@ -78,9 +89,17 @@ private:
   int currentBookIdentifier; // Book identifier, e.g. 1, 2, 3, and so on.
   int currentChapterNumber; // Chapter number, e.g. 1, 2, 3, etc.
   string currentVerseNumber; // Verse number, e.g. "0", "1", "2", and so on.
+  string getCurrentPassageText ();
   map <int, int> numberOfChaptersPerBook; // Map of (book, chapter number).
   void processUsfm ();
   void processNote ();
+  void newParagraph (Database_Styles_Item style, bool keepWithNext);
+  void applyDropCapsToCurrentParagraph (int dropCapsLength);
+  void putChapterNumberInFrame (string chapterText);
+  void createNoteCitation (Database_Styles_Item style);
+  string getNoteCitation (Database_Styles_Item style);
+  void resetNoteCitations (string moment);
+  void ensureNoteParagraphStyle (string marker, Database_Styles_Item style);
 
 public:
   vector <Filter_Text_Passage_Marker_Value> runningHeaders; // Vector with objects (book, chapter, verse, marker, header value).
@@ -101,16 +120,21 @@ public:
   Odf_Text * odf_text_notes; // Object for creating OpenDocument with the notes only.
 
 public:
+  void produceInfoDocument (string path);
+  void produceFalloutDocument (string path);
   vector <string> info;
   vector <string> fallout;
 private:
+  void addToInfo (string text, bool next = false);
+  void addToFallout (string text, bool next = false);
+  void addToWordList (vector <string>  & list);
   vector <string> wordListGlossaryDictionary;
   vector <string> hebrewWordList;
   vector <string> greekWordList;
   vector <string> subjectIndex;
 
 private:
-  vector <string> notecitations; // Array with information for the citations for the notes. Update the type after it is known what information it contains.
+  map <string, Filter_Text_Note_Citation> notecitations; // Information for the citations for the notes.
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
 
@@ -128,6 +152,8 @@ public:
   Text_Text * text_text; // Object for exporting to plain text.
 
 public:
+  void initializeHeadingsAndTextPerVerse ();
+  map <int, string> getVersesText ();
   vector <Filter_Text_Passage_Marker_Value> verses_headings; // Vector with objexts to hold verse numbers and the text of the headings.
   vector <int> paragraph_start_positions; // Positions, in graphemes, where paragraphs start in verses_text.
 private:
