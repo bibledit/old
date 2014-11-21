@@ -159,7 +159,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
         if ($old_text != $new_text) {
           $modification = Filter_Diff::diff ($old_text, $new_text);
           $email .= "<div>";
-          $email .= Filter_Books::passageDisplay ($book, $chapter, $verse);
+          $email .= filter_passage_display ($book, $chapter, $verse);
           $email .= " ";
           $email .= $modification;
           $email .= "</div>";
@@ -233,7 +233,7 @@ foreach ($bibles as $bible) {
   foreach ($books as $book) {
     $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
     foreach ($chapters as $chapter) {
-      $database_logs->log ("$bible " . Filter_Books::passageDisplay ($book, $chapter, "") . " Listing changes", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::TRANSLATOR_LEVEL);
       $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
       $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
       $old_verse_numbers = Filter_Usfm::getVerseNumbers ($old_chapter_usfm);

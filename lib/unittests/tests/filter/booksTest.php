@@ -37,8 +37,8 @@ class booksTest extends PHPUnit_Framework_TestCase
 
   public function testPassageDisplay()
   {
-    $this->assertEquals("Genesis 10:2", Filter_Books::passageDisplay (1, 10, 2));
-    $this->assertEquals("Exodus 11:2", Filter_Books::passageDisplay (2, 11, 2));
+    $this->assertEquals("Genesis 10:2", filter_passage_display (1, 10, 2));
+    $this->assertEquals("Exodus 11:2", filter_passage_display (2, 11, 2));
   }
 
 

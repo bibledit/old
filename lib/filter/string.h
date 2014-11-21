@@ -48,6 +48,7 @@ int filter_string_date_numerical_year ();
 int filter_string_date_numerical_microseconds ();
 int filter_string_date_seconds_since_epoch ();
 string filter_string_trim (string s);
+string filter_string_ltrim (string s);
 string filter_string_fill (string s, int width, char fill);
 bool filter_string_is_numeric (string s);
 void var_dump (map <string, string> var);

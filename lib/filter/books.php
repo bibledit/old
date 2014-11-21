@@ -18,16 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_Books
+class Filter_Books // C++Port to passage.h/cpp
 {
-
-
-  static public function passageDisplay ($book, $chapter, $verse)
-  {
-    $database_books = Database_Books::getInstance ();
-    $book = Locale_Translate::_($database_books->getEnglishFromId ($book));
-    return "$book $chapter:$verse";
-  }
 
 
   // Returns the display string for the $passages as one line.
@@ -38,7 +30,7 @@ class Filter_Books
     foreach ($passages as $passage) {
       if ($display != "")
         $display .= " | ";
-      $display .= Filter_Books::passageDisplay ($passage[0], $passage[1], $passage[2]);
+      $display .= filter_passage_display ($passage[0], $passage[1], $passage[2]);
     }
     return $display;
   }
@@ -50,7 +42,7 @@ class Filter_Books
   {
     $display = "";
     foreach ($passages as $passage) {
-      $display .= Filter_Books::passageDisplay ($passage[0], $passage[1], $passage[2]);
+      $display .= filter_passage_display ($passage[0], $passage[1], $passage[2]);
       $display .= "\n";
     }
     return $display;

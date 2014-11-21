@@ -151,11 +151,11 @@ foreach ($books as $book) {
         $compare_text = $filter_text_compare->text_text->get ();
         if ($bible_text != $compare_text) {
           $modification = Filter_Diff::diff ($compare_text, $bible_text);
-          $result [] = Filter_Books::passageDisplay ($book, $chapter, $verse) . " " . $modification;
-          $new [] = Filter_Books::passageDisplay ($book, $chapter, $verse) . " " . $bible_text;
+          $result [] = filter_passage_display ($book, $chapter, $verse) . " " . $modification;
+          $new [] = filter_passage_display ($book, $chapter, $verse) . " " . $bible_text;
         }
         $modification = Filter_Diff::diff ($compare_verse_usfm, $bible_verse_usfm);
-        $raw [] = Filter_Books::passageDisplay ($book, $chapter, $verse) . " " . $modification;
+        $raw [] = filter_passage_display ($book, $chapter, $verse) . " " . $modification;
       }
     }
 

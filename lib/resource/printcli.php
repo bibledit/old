@@ -67,7 +67,7 @@ foreach ($books as $book) {
     foreach ($verses as $verse) {
       $passage = Filter_Books::passage2integer (array ($book, $chapter, $verse));
       if (($passage >= $from) && ($passage <= $to)) {
-        $passageText = Filter_Books::passageDisplay ($book, $chapter, $verse);
+        $passageText = filter_passage_display ($book, $chapter, $verse);
         $database_jobs->setProgress ($jobId, $passageText);
         $result [] = '<div class="nextresource">';
         $result [] = "<p>$passageText</p>";

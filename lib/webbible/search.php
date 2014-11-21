@@ -102,7 +102,7 @@ foreach ($ids as $id) {
 
 
   // The title.
-  $title = "$bible" . " | " . Filter_Books::passageDisplay ($book, $chapter, $verse);
+  $title = "$bible" . " | " . filter_passage_display ($book, $chapter, $verse);
   $title = Filter_Html::sanitize ($title);
 
 

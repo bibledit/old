@@ -154,9 +154,10 @@ public:
 public:
   void initializeHeadingsAndTextPerVerse ();
   map <int, string> getVersesText ();
-  vector <Filter_Text_Passage_Marker_Value> verses_headings; // Vector with objexts to hold verse numbers and the text of the headings.
-  vector <int> paragraph_start_positions; // Positions, in graphemes, where paragraphs start in verses_text.
+  map <int, string> verses_headings; // Vector with objects to hold verse numbers and the text of the headings.
+  vector <int> paragraph_start_positions; // Positions, in unicode characters, where paragraphs start in verses_text.
 private:
+  bool headings_text_per_verse_active;
   bool heading_started; // Flag for headings per verse processor.
   map <int, string> verses_text; // Holds verse numbers and the plain text in that verse, without anything extra.
   bool text_started; // Flag for text per verse processor.

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
+#include <filter/passage.h>
 #include <styles/logic.h>
 #include <database/books.h>
 #include <database/config/bible.h>
@@ -71,7 +72,8 @@ Filter_Text::Filter_Text (string bible_in)
   html_text_linked = NULL;
   onlinebible_text = NULL;
   esword_text = NULL;
-  text_text = NULL;  
+  text_text = NULL;
+  headings_text_per_verse_active = false;
 }
 
 
@@ -86,7 +88,7 @@ Filter_Text::~Filter_Text ()
   if (html_text_linked) delete html_text_linked;
   if (onlinebible_text) delete onlinebible_text;
   if (esword_text) delete esword_text;
-  if (text_text) delete esword_text;
+  if (text_text) delete text_text;
 }
 
 
@@ -420,12 +422,12 @@ void Filter_Text::processUsfm ()
                 }
                 case IdentifierSubtypeEncoding:
                 {
-                  addToFallout ("Text encoding indicator not supported. Encoding is always in UTF8: \\$marker", true);
+                  addToFallout ("Text encoding indicator not supported. Encoding is always in UTF8: \\" + marker, true);
                   break;
                 }
                 case IdentifierSubtypeComment:
                 {
-                  addToInfo ("Comment: \\$marker", true);
+                  addToInfo ("Comment: \\" + marker, true);
                   break;
                 }
                 case IdentifierSubtypeRunningHeader:
@@ -471,13 +473,13 @@ void Filter_Text::processUsfm ()
                 case IdentifierSubtypeCommentWithEndmarker:
                 {
                   if (isOpeningMarker) {
-                    addToInfo ("Comment: \\$marker", true);
+                    addToInfo ("Comment: \\" + marker, true);
                   }
                   break;
                 }
                 default:
                 {
-                  addToFallout ("Unknown markup: \\$marker", true);
+                  addToFallout ("Unknown markup: \\" + marker, true);
                   break;
                 }
               }
@@ -485,12 +487,12 @@ void Filter_Text::processUsfm ()
             }
             case StyleTypeNotUsedComment:
             {
-              addToFallout ("Unknown markup: \\$marker", true);
+              addToFallout ("Unknown markup: \\" + marker, true);
               break;
             }
             case StyleTypeNotUsedRunningHeader:
             {
-              addToFallout ("Unknown markup: \\$marker", true);
+              addToFallout ("Unknown markup: \\" + marker, true);
               break;
             }
             case StyleTypeStartsParagraph:
@@ -518,19 +520,19 @@ void Filter_Text::processUsfm ()
                   newParagraph (style, false);
                   heading_started = false;
                   text_started = true;
-                  /* Todo needs additional flag
-                  if (is_array ($this->verses_text)) {
+                  if (headings_text_per_verse_active) {
                     // If a new paragraph starts within an existing verse,
                     // add a space to the text already in that verse.
-                    if (isset ($this->verses_text [$this->currentVerseNumber])) {
-                      $this->verses_text [$this->currentVerseNumber] .= " ";
+                    int iverse = convert_to_int (currentVerseNumber);
+                    if (!verses_text [iverse].empty()) {
+                      verses_text [iverse].append (" ");
                     }
                     // Record the position within the text where this new paragraph starts.
-                    $contents = implode ('', $this->verses_text);
-                    $this->paragraph_start_positions [] = mb_strlen ($contents);
-                    unset ($contents);
+                    string contents;
+                    for (auto & element : verses_text) contents.append (element.second);
+                    UTF8::String ucontents (contents);
+                    paragraph_start_positions.push_back (ucontents.Length());
                   }
-                  */
                   break;
                 }
               }
@@ -793,7 +795,7 @@ void Filter_Text::processUsfm ()
                 // This en-space is a fixed-width space.
                 // This type of space makes the layout of the text following the verse number look tidier.
                 // But if a chapter number was put, than do not put any space at the start of the following verse.
-                // Todo $textFollowingMarker = ltrim ($textFollowingMarker);
+                textFollowingMarker = filter_string_ltrim (textFollowingMarker);
                 if (outputChapterTextAtFirstVerse.empty()) {
                   textFollowingMarker = get_en_space () + textFollowingMarker;
                 }
@@ -870,9 +872,7 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
               if (html_text_standard) html_text_standard->newPageBreak ();
               if (html_text_linked) html_text_linked->newPageBreak ();
-              if (text_text) {
-                text_text->paragraph ();
-              }
+              if (text_text) text_text->paragraph ();
               break;
             }
             case StyleTypeTableElement:
@@ -967,27 +967,21 @@ void Filter_Text::processUsfm ()
         if (html_text_linked) html_text_linked->addText (currentItem);
         if (onlinebible_text) onlinebible_text->addText (currentItem);
         if (esword_text) esword_text->addText (currentItem);
-        if (text_text) {
-          text_text->addtext (currentItem);
+        if (text_text) text_text->addtext (currentItem);
+        if (headings_text_per_verse_active && heading_started) {
+          int iverse = convert_to_int (currentVerseNumber);
+          verses_headings [iverse].append (currentItem);
         }
-        /* Todo
-        if (is_array ($this->verses_headings) && $this->heading_started) {
-          if (!isset ($this->verses_headings [$this->currentVerseNumber])) {
-            $this->verses_headings [$this->currentVerseNumber] = "";
-          }
-          $this->verses_headings [$this->currentVerseNumber] .= $currentItem;
-        }
-        if (is_array ($this->verses_text) && $this->text_started) {
-          if (isset ($this->verses_text [$this->currentVerseNumber])) {
-            $this->verses_text [$this->currentVerseNumber] .= $currentItem;
+        if (headings_text_per_verse_active && text_started) {
+          int iverse = convert_to_int (currentVerseNumber);
+          if (!verses_text [iverse].empty ()) {
+            verses_text [iverse].append (currentItem);
           } else {
             // The verse text straight after the \v starts with an enSpace. Remove it.
-            $item = str_replace (get_en_space (), " ", $currentItem);
-            $this->verses_text [$this->currentVerseNumber] = ltrim ($item);
-            unset ($item);
+            string item = filter_string_str_replace (get_en_space (), " ", currentItem);
+            verses_text [iverse] = filter_string_ltrim (item);
           }
         }
-        */
       }
     }
   }
@@ -1029,16 +1023,15 @@ void Filter_Text::processNote ()
               case FootEndNoteSubtypeFootnote:
               {
                 if (isOpeningMarker) {
-                  /* Todo
-                  $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
-                  $citation = $this->getNoteCitation ($style);
-                  if (odf_text_standard) odf_text_standard->addNote ($citation, $marker);
+                  ensureNoteParagraphStyle (marker, styles [standardContentMarkerFootEndNote]);
+                  string citation = getNoteCitation (style);
+                  if (odf_text_standard) odf_text_standard->addNote (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    $currentTextStyle = odf_text_text_and_note_citations->currentTextStyle;
-                    odf_text_text_and_note_citations->currentTextStyle = array ("superscript");
-                    odf_text_text_and_note_citations->addText ($citation);
-                    odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
+                    odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
+                    odf_text_text_and_note_citations->addText (citation);
+                    odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
                   }
                   // Add space if the paragraph has text already.
                   if (odf_text_notes) {
@@ -1047,14 +1040,12 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space after it.
-                  if (odf_text_notes) odf_text_notes->addText ($citation . get_no_break_space());
+                  if (odf_text_notes) odf_text_notes->addText (citation + get_no_break_space());
                   // Open note in the web pages.
-                  if (html_text_standard) html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote);
-                  if (html_text_linked) html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote);
-                  // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler.
-                  // Just take them out, then.
+                  if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerFootEndNote);
+                  if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote);
+                  // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-                  */
                 } else {
                   goto noteDone;
                 }
@@ -1063,23 +1054,21 @@ void Filter_Text::processNote ()
               case FootEndNoteSubtypeEndnote:
               {
                 if (isOpeningMarker) {
-                  /* Todo
-                  $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerFootEndNote]);
-                  $citation = $this->getNoteCitation ($style);
-                  if (odf_text_standard) odf_text_standard->addNote ($citation, $marker, true);
+                  ensureNoteParagraphStyle (marker, styles[standardContentMarkerFootEndNote]);
+                  string citation = getNoteCitation (style);
+                  if (odf_text_standard) odf_text_standard->addNote (citation, marker, true);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    $currentTextStyle = odf_text_text_and_note_citations->currentTextStyle;
-                    odf_text_text_and_note_citations->currentTextStyle = array ("superscript");
-                    odf_text_text_and_note_citations->addText ($citation);
-                    odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
+                    odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
+                    odf_text_text_and_note_citations->addText (citation);
+                    odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
                   }
                   // Open note in the web page.
-                  if (html_text_standard) html_text_standard->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
-                  if (html_text_linked) html_text_linked->addNote ($citation, $this->standardContentMarkerFootEndNote, true);
-                  // Online Bible.
+                  if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerFootEndNote, true);
+                  if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote, true);
+                  // Online Bible: Leave note out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-                  */
                 } else {
                   goto noteDone;
                 }
@@ -1136,16 +1125,15 @@ void Filter_Text::processNote ()
               case CrossreferenceSubtypeCrossreference:
               {
                 if (isOpeningMarker) {
-                  /* Todo 
-                  $this->ensureNoteParagraphStyle ($marker, $this->styles[$this->standardContentMarkerCrossReference]);
-                  $citation = $this->getNoteCitation ($style);
-                  if (odf_text_standard) odf_text_standard->addNote ($citation, $marker);
+                  ensureNoteParagraphStyle (marker, styles[standardContentMarkerCrossReference]);
+                  string citation = getNoteCitation (style);
+                  if (odf_text_standard) odf_text_standard->addNote (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    $currentTextStyle = odf_text_text_and_note_citations->currentTextStyle;
-                    odf_text_text_and_note_citations->currentTextStyle = array ("superscript");
-                    odf_text_text_and_note_citations->addText ($citation);
-                    odf_text_text_and_note_citations->currentTextStyle = $currentTextStyle;
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
+                    odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
+                    odf_text_text_and_note_citations->addText (citation);
+                    odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
                   }
                   // Add a space if the paragraph has text already.
                   if (odf_text_notes) {
@@ -1154,14 +1142,13 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space (NBSP) after it.
-                  if (odf_text_notes) odf_text_notes->addText ($citation . get_no_break_space());
+                  if (odf_text_notes) odf_text_notes->addText (citation + get_no_break_space());
                   // Open note in the web page.
-                  $this->ensureNoteParagraphStyle ($this->standardContentMarkerCrossReference, $this->styles[$this->standardContentMarkerCrossReference]);
-                  if (html_text_standard) html_text_standard->addNote ($citation, $this->standardContentMarkerCrossReference);
-                  if (html_text_linked) html_text_linked->addNote ($citation, $this->standardContentMarkerCrossReference);
-                  // Online Bible.
+                  ensureNoteParagraphStyle (standardContentMarkerCrossReference, styles[standardContentMarkerCrossReference]);
+                  if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerCrossReference);
+                  if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerCrossReference);
+                  // Online Bible: Skip notes.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-                  */
                 } else {
                   goto noteDone;
                 }
@@ -1336,8 +1323,7 @@ void Filter_Text::produceInfoDocument (string path)
 */
 string Filter_Text::getCurrentPassageText ()
 {
-  // Todo return Filter_Books::passageDisplay ($this->currentBookIdentifier, $this->currentChapterNumber, $this->currentVerseNumber);
-  return "Todo temporal";
+  return filter_passage_display (currentBookIdentifier, currentChapterNumber, currentVerseNumber);
 }
 
 
@@ -1549,7 +1535,7 @@ string Filter_Text::getNoteCitation (Database_Styles_Item style)
   // Get the raw note citation from the USFM. This could be, e.g. '+'.
   string nextText = chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer + 1];
   string citation = nextText.substr (0, 1);
-  // Todo $nextText = ltrim (substr ($nextText, 1));
+  nextText = filter_string_ltrim (nextText.substr (1));
   chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer + 1] = nextText;
   citation = filter_string_trim (citation);
   if (citation == "+") {
@@ -1628,11 +1614,7 @@ void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item 
 */
 void Filter_Text::initializeHeadingsAndTextPerVerse ()
 {
-  /* Todo use a flag instead of the below.
-  $this->verses_headings = array ();
-  $this->verses_text = array ();
-  $this->paragraph_start_positions = array ();
-  */
+  headings_text_per_verse_active = true;
 }
 
 

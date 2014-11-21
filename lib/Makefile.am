@@ -13,6 +13,7 @@ libbibledit_a_SOURCES = \
 	filter/usfm.cpp \
 	filter/archive.cpp \
 	filter/text.cpp \
+	filter/passage.cpp \
 	flate/flate2.cpp \
 	assets/view.cpp \
 	assets/page.cpp \

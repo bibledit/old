@@ -499,6 +499,7 @@ Database_Styles_Item Database_Styles::getMarkerData (string sheet, string marker
   sql.add (marker);
   sql.add (";");
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
   Database_Styles_Item marker_data = Database_Styles_Item ();
   if (!result ["marker"].empty ()) {
     marker_data.marker = result ["marker"] [0];
@@ -1042,6 +1043,7 @@ bool Database_Styles::hasWriteAccess (string user, string sheet)
   sql.add (";");
   sqlite3 * db = connect ();
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
   return !result["rowid"].empty ();
 }
 

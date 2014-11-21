@@ -281,6 +281,18 @@ string filter_string_trim (string s)
 }
 
 
+// A C++ equivalent for PHP's ltrim function.
+string filter_string_ltrim (string s)
+{
+  if (s.length () == 0) return s;
+  // Strip spaces, tabs, new lines, carriage returns.
+  size_t pos = s.find_first_not_of(" \t\n\r");
+  // No non-spaces  
+  if (pos == string::npos) return "";
+  return s.substr (pos);
+}
+
+
 // Fills a string up to "width", with the character "fill" at the left.
 string filter_string_fill (string s, int width, char fill)
 {
