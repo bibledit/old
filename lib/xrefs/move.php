@@ -43,10 +43,10 @@ $usfmString = $database_bibles->getChapter ($bible, $book, $chapter);
 if ($usfmString == "") die;
 
 
-$verses = Filter_Usfm::getVerseNumbers ($usfmString);
+$verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
 foreach ($verses as $vs) {
-  $usfmArray [$vs] = Filter_Usfm::getVerseText ($usfmString, $vs);
+  $usfmArray [$vs] = usfm_get_verse_text ($usfmString, $vs);
 }
 
 

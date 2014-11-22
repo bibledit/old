@@ -36,7 +36,7 @@ $verse = $_GET ['verse'];
 
 
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-$usfm = Filter_Usfm::getVerseText ($usfm, $verse);
+$usfm = usfm_get_verse_text ($usfm, $verse);
 
 
 $editor_import = Editor_Import::getInstance ();

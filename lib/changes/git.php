@@ -77,14 +77,14 @@ foreach ($bibles as $bible) {
         $data = Filter_Git::changes ($directory, $sha1, $path);
         $oldusfm = $data ['old'];
         $newusfm = $data ['new'];
-        $oldverses = Filter_Usfm::getVerseNumbers ($oldusfm);
-        $newverses = Filter_Usfm::getVerseNumbers ($newusfm);
+        $oldverses = usfm_get_verse_numbers ($oldusfm);
+        $newverses = usfm_get_verse_numbers ($newusfm);
         $verses = array_merge ($oldverses, $newverses);
         $verses = array_unique ($verses);
         sort ($verses, SORT_NUMERIC);
         foreach ($verses as $verse) {
-          $old_verse_usfm = Filter_Usfm::getVerseText ($oldusfm, $verse);
-          $new_verse_usfm = Filter_Usfm::getVerseText ($newusfm, $verse);
+          $old_verse_usfm = usfm_get_verse_text ($oldusfm, $verse);
+          $new_verse_usfm = usfm_get_verse_text ($newusfm, $verse);
           if ($old_verse_usfm != $new_verse_usfm) {
             $filter_text_old = new Filter_Text ($bible);
             $filter_text_new = new Filter_Text ($bible);

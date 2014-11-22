@@ -39,9 +39,9 @@ $allnotes = array ();
 
 
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-$verses = Filter_Usfm::getVerseNumbers ($usfm);
+$verses = usfm_get_verse_numbers ($usfm);
 foreach ($verses as $verse) {
-  $verse_usfm = Filter_Usfm::getVerseText ($usfm, $verse);
+  $verse_usfm = usfm_get_verse_text ($usfm, $verse);
   $xrefs = Filter_Usfm::extractNotes ($verse_usfm, array ("x"));
   foreach ($xrefs as $xref) {
     $xref ['verse'] = $verse;

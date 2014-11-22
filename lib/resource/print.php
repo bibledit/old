@@ -109,7 +109,7 @@ if (isset ($frombook)) {
       $topassage [0] = $frombook;
       $chapters = $database_bibles->getChapters ($bible, $topassage [0]);
       $topassage [1] = array_pop ($chapters);
-      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
+      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
       $database_config_user->setPrintPassageTo (implode (".", $topassage));
     }
@@ -139,7 +139,7 @@ if (isset ($fromchapter)) {
     if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
       // Set ending chapter / verse to sensible values.
       $topassage [1] = $fromchapter;
-      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
+      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
       $database_config_user->setPrintPassageTo (implode (".", $topassage));
     }
@@ -153,7 +153,7 @@ if (isset ($fromverse)) {
     $dialog_list = new Dialog_List2 (Locale_Translate::_("Select a verse"));
     $passage = explode (".", $database_config_user->getPrintPassageFrom ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
-    $verses = Filter_Usfm::getVerseNumbers ($usfm);
+    $verses = usfm_get_verse_numbers ($usfm);
     foreach ($verses as $verse) {
       $parameter = "fromverse=$verse";
       $dialog_list->add_row ($verse, $parameter);
@@ -167,7 +167,7 @@ if (isset ($fromverse)) {
     // Sensible matching ending verse.
     $topassage = explode (".", $database_config_user->getPrintPassageTo ());
     if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
-      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
+      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
       $database_config_user->setPrintPassageTo (implode (".", $topassage));
     }
@@ -242,7 +242,7 @@ if (isset ($toverse)) {
     $dialog_list = new Dialog_List2 (Locale_Translate::_("Select a verse"));
     $passage = explode (".", $database_config_user->getPrintPassageTo ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
-    $verses = Filter_Usfm::getVerseNumbers ($usfm);
+    $verses = usfm_get_verse_numbers ($usfm);
     foreach ($verses as $verse) {
       $parameter = "toverse=$verse";
       $dialog_list->add_row ($verse, $parameter);

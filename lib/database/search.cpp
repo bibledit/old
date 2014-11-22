@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/usfm.h>
+#include <filter/text.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
 #include <database/bibles.h>
@@ -113,262 +115,285 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
 
   string usfm = database_bibles.getChapter (name, book, chapter);
   string stylesheet = database_config_bible.getExportStylesheet (name);
-  /* Todo C++Port
-
 
   // Data to store.
-  $usfmraw = array ();
-  $usfmlower = array ();
-  $plainraw = array ();
-  $plainlower = array ();
+  map <int, string> usfmraw;
+  map <int, string> usfmlower;
+  map <int, string> plainraw;
+  map <int, string> plainlower;
 
   // Get the verses in the chapter.
-  $verses = Filter_Usfm::getVerseNumbers ($usfm);
-  $verses = array_unique ($verses);
-  sort ($verses, SORT_NUMERIC);
+  vector <int> verses = usfm_get_verse_numbers (usfm);
+  set <int> uverses (verses.begin(), verses.end ());
+  verses.assign (uverses.begin(), uverses.end ());
+  sort (verses.begin (), verses.end());
 
   // One column contains the raw USFM as it is, and another one the lowercase text.
-  foreach ($verses as $verse) {
-    $raw = Filter_Usfm::getVerseText ($usfm, $verse);
-    $lower = mb_convert_case ($raw, MB_CASE_LOWER);
-    $usfmraw [$verse] = $raw;
-    $usfmlower [$verse] = $lower;
+  for (auto verse : verses) {
+    string raw = usfm_get_verse_text (usfm, verse);
+    string lower;
+    transform (raw.begin(), raw.end(), lower.begin(), ::tolower); // This still needs unicode support.
+    usfmraw [verse] = raw;
+    usfmlower [verse] = lower;
   }
   
   // Text filter for getting the plain text.
-  $filter_text = new Filter_Text ($name);
-  $filter_text->text_text = new Text_Text ();
-  $filter_text->initializeHeadingsAndTextPerVerse ();
-  $filter_text->addUsfmCode ($usfm);
-  $filter_text->run ($stylesheet);
+  Filter_Text filter_text = Filter_Text (name);
+  filter_text.text_text = new Text_Text ();
+  filter_text.initializeHeadingsAndTextPerVerse ();
+  filter_text.addUsfmCode (usfm);
+  filter_text.run (stylesheet);
 
   // Get the clean verse texts.
-  $texts = $filter_text->getVersesText ();
-  foreach ($texts as $verse => $text) {
-    if (!isset ($plainraw [$verse])) $plainraw [$verse] = "";
-    $plainraw [$verse] .= "$text\n";
+  map <int, string> texts = filter_text.getVersesText ();
+  for (auto & element : texts) {
+    plainraw [element.first].append (element.second + "\n");
   }
 
   // Add any clean headings.
-  $headings = $filter_text->verses_headings;
-  foreach ($headings as $verse => $heading) {
-    if (!isset ($plainraw [$verse])) $plainraw [$verse] = "";
-    $plainraw [$verse] .= "$heading\n";
+  map <int, string> headings = filter_text.verses_headings;
+  for (auto & element : headings) {
+    plainraw [element.first].append (element.second + "\n");
   }
   
   // Create the lower case plain text.
-  foreach ($plainraw as $verse => $raw) {
-    $plainlower [$verse] = mb_convert_case ($raw, MB_CASE_LOWER);
+  for (auto & element : plainraw) {
+    string raw = element.second;
+    string lower;
+    transform (raw.begin(), raw.end(), lower.begin(), ::tolower); // Still needs unicode support.
+    plainlower [element.first] = lower;
   }
   
   // Get all possible verses.
-  $allverses = array_merge (array_keys ($usfmraw), array_keys ($plainraw));
-  $allverses = array_unique ($allverses);
+  vector <int> allverses;
+  for (auto & element : usfmraw) allverses.push_back (element.first);
+  for (auto & element : plainraw) allverses.push_back (element.first);
+  {
+    set <int> uallverses (allverses.begin(), allverses.end());
+    allverses.assign (uallverses.begin(), uallverses.end());
+  }
+  sort (allverses.begin (), allverses.end ());
 
   // Store everything.
-  Database_SQLite::exec ($this->db, "BEGIN;");
-  $name = Database_SQLiteInjection::no ($name);
-  $book = Database_SQLiteInjection::no ($book);
-  $chapter = Database_SQLiteInjection::no ($chapter);
-  $query = "DELETE FROM bibles WHERE bible = '$name' AND book = $book AND chapter = $chapter;";
-  Database_SQLite::exec ($this->db, $query);
-  foreach ($allverses as $verse) {
-    if ($verse == "") $verse = 0;
-    $verse = (integer) $verse;
-    @$ur = Database_SQLiteInjection::no ($usfmraw [$verse]);
-    @$ul = Database_SQLiteInjection::no ($usfmlower [$verse]);
-    @$pr = Database_SQLiteInjection::no ($plainraw [$verse]);
-    @$pl = Database_SQLiteInjection::no ($plainlower [$verse]);
-    $query = "INSERT INTO bibles (bible, book, chapter, verse, usfmraw, usfmlower, plainraw, plainlower) VALUES ('$name', $book, $chapter, $verse, '$ur', '$ul', '$pr', '$pl');";
-    Database_SQLite::exec ($this->db, $query);
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, "BEGIN;");
+  SqliteSQL sql;
+  sql.add ("DELETE FROM bibles WHERE bible =");
+  sql.add (name);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
+  for (int verse : allverses) {
+    SqliteSQL sql;
+    sql.add ("INSERT INTO bibles (bible, book, chapter, verse, usfmraw, usfmlower, plainraw, plainlower) VALUES (");
+    sql.add (name);
+    sql.add (", ");
+    sql.add (book);
+    sql.add (", ");
+    sql.add (chapter);
+    sql.add (", ");
+    sql.add (verse);
+    sql.add (", ");
+    sql.add (usfmraw [verse]);
+    sql.add (", ");
+    sql.add (usfmlower [verse]);
+    sql.add (", ");
+    sql.add (plainraw [verse]);
+    sql.add (", ");
+    sql.add (plainlower [verse]);
+    sql.add (");");
+    database_sqlite_exec (db, sql.sql);
   }
-  Database_SQLite::exec ($this->db, "COMMIT;");
-  */
+  database_sqlite_exec (db, "COMMIT;");
+  database_sqlite_disconnect (db);
 }
 
 
 /*
 * Searches the text of the Bibles.
 * Returns an array with the rowid's of matching verses.
-* $search: Contains the text to search for.
-* $bibles: Array of Bible names to search in.
+* search: Contains the text to search for.
+* bibles: Array of Bible names to search in.
 */
 vector <int> Database_Search::searchText (string search, vector <string> bibles)
 {
   if (bibles.empty()) cout << search;
   /* C++Port
-  $ids = array ();
+  ids = array ();
 
-  if ($search == "") {
-    return $ids;
+  if (search == "") {
+    return ids;
   }
 
-  $search = mb_convert_case ($search, MB_CASE_LOWER);
-  $search = str_replace (",", "", $search);
-  $search = Database_SQLiteInjection::no ($search);
+  search = mb_convert_case (search, MB_CASE_LOWER);
+  search = str_replace (",", "", search);
+  search = Database_SQLiteInjection::no (search);
 
-  $bibleCondition = "1";
-  if (!empty ($bibles)) {
-    $bibleCondition = " ( ";
-    foreach ($bibles as $offset => $bible) {
-      if ($offset) $bibleCondition .= " OR ";
-      $bible = Database_SQLiteInjection::no ($bible);
-      $bibleCondition .= " bible = '$bible' ";
+  bibleCondition = "1";
+  if (!empty (bibles)) {
+    bibleCondition = " ( ";
+    foreach (bibles as offset => bible) {
+      if (offset) bibleCondition .= " OR ";
+      bible = Database_SQLiteInjection::no (bible);
+      bibleCondition .= " bible = 'bible' ";
     }
-    $bibleCondition .= " ) ";
+    bibleCondition .= " ) ";
   }
 
-  $query = "SELECT rowid FROM bibles WHERE $bibleCondition AND plainlower LIKE '%$search%';";
-  $hits = array ();
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $hits [] = $row [0];
+  query = "SELECT rowid FROM bibles WHERE bibleCondition AND plainlower LIKE '%search%';";
+  hits = array ();
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    hits [] = row [0];
   }
   
-  return $hits;
+  return hits;
   */
   return {};
 }
 
 
 /*
-* Performs a case-insensitive search of the text of one $bible.
+* Performs a case-insensitive search of the text of one bible.
 * Returns an array with the rowid's of matching verses.
-* $search: Contains the text to search for.
+* search: Contains the text to search for.
 */
 vector <int> Database_Search::searchBibleText (string bible, string search)
 {
   cout << bible << search << endl;
   /* C++Port
-  $ids = array ();
+  ids = array ();
 
-  $bible = Database_SQLiteInjection::no ($bible);
+  bible = Database_SQLiteInjection::no (bible);
 
-  $search = mb_convert_case ($search, MB_CASE_LOWER);
-  $search = Database_SQLiteInjection::no ($search);
+  search = mb_convert_case (search, MB_CASE_LOWER);
+  search = Database_SQLiteInjection::no (search);
 
-  $query = "SELECT rowid FROM bibles WHERE bible = '$bible' AND plainlower LIKE '%$search%';";
-  $hits = array ();
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $hits [] = $row [0];
+  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND plainlower LIKE '%search%';";
+  hits = array ();
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    hits [] = row [0];
   }
   
-  return $hits;
+  return hits;
   */
   return {};
 }
 
 
 /*
-* Performs a case-sensitive search of the text of one $bible.
+* Performs a case-sensitive search of the text of one bible.
 * Returns an array with the rowid's of matching verses.
-* $search: Contains the text to search for.
+* search: Contains the text to search for.
 */
 vector <int> Database_Search::searchBibleTextCaseSensitive (string bible, string search)
 {
   cout << bible << search << endl;
   /* C++Port
-  $ids = array ();
+  ids = array ();
 
-  $bible = Database_SQLiteInjection::no ($bible);
-  $search = Database_SQLiteInjection::no ($search);
+  bible = Database_SQLiteInjection::no (bible);
+  search = Database_SQLiteInjection::no (search);
 
-  $query = "PRAGMA case_sensitive_like = true;";
-  Database_SQLite::exec ($this->db, $query);
+  query = "PRAGMA case_sensitive_like = true;";
+  Database_SQLite::exec (this->db, query);
   
-  $query = "SELECT rowid FROM bibles WHERE bible = '$bible' AND plainraw LIKE '%$search%';";
-  $hits = array ();
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $hits [] = $row [0];
+  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND plainraw LIKE '%search%';";
+  hits = array ();
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    hits [] = row [0];
   }
 
-  $query = "PRAGMA case_sensitive_like = false;";
-  Database_SQLite::exec ($this->db, $query);
+  query = "PRAGMA case_sensitive_like = false;";
+  Database_SQLite::exec (this->db, query);
   
-  return $hits;
+  return hits;
   */
   return {};
 }
 
 
 /*
-* Performs a case-insensitive search of the USFM of one $bible.
+* Performs a case-insensitive search of the USFM of one bible.
 * Returns an array with the rowid's of matching verses.
-* $search: Contains the text to search for.
+* search: Contains the text to search for.
 */
 vector <int> Database_Search::searchBibleUsfm (string bible, string search)
 {
   cout << bible << search << endl;
   /* C++Port
-  $ids = array ();
+  ids = array ();
 
-  $bible = Database_SQLiteInjection::no ($bible);
+  bible = Database_SQLiteInjection::no (bible);
 
-  $search = mb_convert_case ($search, MB_CASE_LOWER);
-  $search = Database_SQLiteInjection::no ($search);
+  search = mb_convert_case (search, MB_CASE_LOWER);
+  search = Database_SQLiteInjection::no (search);
 
-  $query = "SELECT rowid FROM bibles WHERE bible = '$bible' AND usfmlower LIKE '%$search%';";
-  $hits = array ();
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $hits [] = $row [0];
+  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND usfmlower LIKE '%search%';";
+  hits = array ();
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    hits [] = row [0];
   }
   
-  return $hits;
+  return hits;
   */
   return {};
 }
 
 
 /*
-* Performs a case-sensitive search of the USFM of one $bible.
+* Performs a case-sensitive search of the USFM of one bible.
 * Returns an array with the rowid's of matching verses.
-* $search: Contains the text to search for.
+* search: Contains the text to search for.
 */
 vector <int> Database_Search::searchBibleUsfmCaseSensitive (string bible, string search)
 {
   cout << bible << search << endl;
   /* C++Port
-  $ids = array ();
+  ids = array ();
 
-  $bible = Database_SQLiteInjection::no ($bible);
-  $search = Database_SQLiteInjection::no ($search);
+  bible = Database_SQLiteInjection::no (bible);
+  search = Database_SQLiteInjection::no (search);
 
-  $query = "PRAGMA case_sensitive_like = true;";
-  Database_SQLite::exec ($this->db, $query);
+  query = "PRAGMA case_sensitive_like = true;";
+  Database_SQLite::exec (this->db, query);
   
-  $query = "SELECT rowid FROM bibles WHERE bible = '$bible' AND usfmraw LIKE '%$search%';";
-  $hits = array ();
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $hits [] = $row [0];
+  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND usfmraw LIKE '%search%';";
+  hits = array ();
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    hits [] = row [0];
   }
 
-  $query = "PRAGMA case_sensitive_like = false;";
-  Database_SQLite::exec ($this->db, $query);
+  query = "PRAGMA case_sensitive_like = false;";
+  Database_SQLite::exec (this->db, query);
   
-  return $hits;
+  return hits;
   */
   return {};
 }
 
 
-// Returns the Bible and passage for a $rowid.
+// Returns the Bible and passage for a rowid.
 map <string, string> Database_Search::getBiblePassage (int rowid)
 {
   cout << rowid << endl;
   /* C++Port
-  $rowid = Database_SQLiteInjection::no ($rowid);
-  $query = "SELECT bible, book, chapter, verse FROM bibles WHERE rowid = $rowid;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    unset ($row [0]);
-    unset ($row [1]);
-    unset ($row [2]);
-    unset ($row [3]);
-    return $row;
+  rowid = Database_SQLiteInjection::no (rowid);
+  query = "SELECT bible, book, chapter, verse FROM bibles WHERE rowid = rowid;";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    unset (row [0]);
+    unset (row [1]);
+    unset (row [2]);
+    unset (row [3]);
+    return row;
   }
   return NULL;
   */
@@ -376,38 +401,38 @@ map <string, string> Database_Search::getBiblePassage (int rowid)
 }
 
 
-// Gets the plain raw text for the $bible and passage given.  
+// Gets the plain raw text for the bible and passage given.  
 string Database_Search::getBibleVerseText (string bible, int book, int chapter, int verse)
 {
   cout << bible <<  book << chapter << verse << endl;
   /* C++Port
-  $bible = Database_SQLiteInjection::no ($bible);
-  $book = Database_SQLiteInjection::no ($book);
-  $chapter = Database_SQLiteInjection::no ($chapter);
-  $verse = Database_SQLiteInjection::no ($verse);
-  $query = "SELECT plainraw FROM bibles WHERE bible = '$bible' AND book = $book AND chapter = $chapter AND verse = $verse;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row[0];
+  bible = Database_SQLiteInjection::no (bible);
+  book = Database_SQLiteInjection::no (book);
+  chapter = Database_SQLiteInjection::no (chapter);
+  verse = Database_SQLiteInjection::no (verse);
+  query = "SELECT plainraw FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter AND verse = verse;";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    return row[0];
   }
   */
   return "";
 }
 
 
-// Gets the raw USFM for the $bible and passage given.
+// Gets the raw USFM for the bible and passage given.
 string Database_Search::getBibleVerseUsfm (string bible, int book, int chapter, int verse)
 {
   cout << bible <<  book << chapter << verse << endl;
   /* C++Port
-  $bible = Database_SQLiteInjection::no ($bible);
-  $book = Database_SQLiteInjection::no ($book);
-  $chapter = Database_SQLiteInjection::no ($chapter);
-  $verse = Database_SQLiteInjection::no ($verse);
-  $query = "SELECT usfmraw FROM bibles WHERE bible = '$bible' AND book = $book AND chapter = $chapter AND verse = $verse;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row[0];
+  bible = Database_SQLiteInjection::no (bible);
+  book = Database_SQLiteInjection::no (book);
+  chapter = Database_SQLiteInjection::no (chapter);
+  verse = Database_SQLiteInjection::no (verse);
+  query = "SELECT usfmraw FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter AND verse = verse;";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    return row[0];
   }
   */
   return "";
@@ -417,13 +442,13 @@ string Database_Search::getBibleVerseUsfm (string bible, int book, int chapter, 
 vector <string> Database_Search::getBibles ()
 {
   /* C++Port
-  $bibles = array ();
-  $query = "SELECT DISTINCT bible FROM bibles ORDER BY bible ASC;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $bibles [] = $row[0];
+  bibles = array ();
+  query = "SELECT DISTINCT bible FROM bibles ORDER BY bible ASC;";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    bibles [] = row[0];
   }
-  return $bibles;
+  return bibles;
   */
   return { };
 }
@@ -433,9 +458,9 @@ void Database_Search::deleteBible (string bible)
 {
   cout << bible << endl;
   /* C++Port
-  $bible = Database_SQLiteInjection::no ($bible);
-  $query = "DELETE FROM bibles WHERE bible = '$bible';";
-  Database_SQLite::exec ($this->db, $query);
+  bible = Database_SQLiteInjection::no (bible);
+  query = "DELETE FROM bibles WHERE bible = 'bible';";
+  Database_SQLite::exec (this->db, query);
   */
 }
 
@@ -444,14 +469,14 @@ vector <int> Database_Search::getBooks (string bible)
 {
   cout << bible << endl;
   /*
-  $bible = Database_SQLiteInjection::no ($bible);
-  $books = array ();
-  $query = "SELECT DISTINCT book FROM bibles WHERE bible = '$bible' ORDER BY book ASC;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $books [] = $row[0];
+  bible = Database_SQLiteInjection::no (bible);
+  books = array ();
+  query = "SELECT DISTINCT book FROM bibles WHERE bible = 'bible' ORDER BY book ASC;";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    books [] = row[0];
   }
-  return $books;
+  return books;
   */
   return { };
 }
@@ -461,10 +486,10 @@ void Database_Search::deleteBook (string bible, int book)
 {
   cout << bible <<  book << endl;
   /*
-  $bible = Database_SQLiteInjection::no ($bible);
-  $book = Database_SQLiteInjection::no ($book);
-  $query = "DELETE FROM bibles WHERE bible = '$bible' AND book = $book;";
-  Database_SQLite::exec ($this->db, $query);
+  bible = Database_SQLiteInjection::no (bible);
+  book = Database_SQLiteInjection::no (book);
+  query = "DELETE FROM bibles WHERE bible = 'bible' AND book = book;";
+  Database_SQLite::exec (this->db, query);
   */
 }
 
@@ -473,15 +498,15 @@ vector <int> Database_Search::getChapters (string bible, int book)
 {
   cout << bible <<  book << endl;
   /*
-  $bible = Database_SQLiteInjection::no ($bible);
-  $book = Database_SQLiteInjection::no ($book);
-  $chapters = array ();
-  $query = "SELECT DISTINCT chapter FROM bibles WHERE bible = '$bible' AND book = $book ORDER BY chapter ASC;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $chapters [] = $row[0];
+  bible = Database_SQLiteInjection::no (bible);
+  book = Database_SQLiteInjection::no (book);
+  chapters = array ();
+  query = "SELECT DISTINCT chapter FROM bibles WHERE bible = 'bible' AND book = book ORDER BY chapter ASC;";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    chapters [] = row[0];
   }
-  return $chapters;
+  return chapters;
   */
   return { };
 }
@@ -491,11 +516,11 @@ void Database_Search::deleteChapter (string bible, int book, int chapter)
 {
   cout << bible <<  book << chapter << endl;
   /* 
-  $bible = Database_SQLiteInjection::no ($bible);
-  $book = Database_SQLiteInjection::no ($book);
-  $chapter = Database_SQLiteInjection::no ($chapter);
-  $query = "DELETE FROM bibles WHERE bible = '$bible' AND book = $book AND chapter = $chapter;";
-  Database_SQLite::exec ($this->db, $query);
+  bible = Database_SQLiteInjection::no (bible);
+  book = Database_SQLiteInjection::no (book);
+  chapter = Database_SQLiteInjection::no (chapter);
+  query = "DELETE FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter;";
+  Database_SQLite::exec (this->db, query);
   */
 }
 
@@ -504,16 +529,16 @@ vector <int> Database_Search::getVerses (string bible, int book, int chapter)
 {
   cout << bible <<  book << chapter << endl;
   /*
-  $bible = Database_SQLiteInjection::no ($bible);
-  $book = Database_SQLiteInjection::no ($book);
-  $chapter = Database_SQLiteInjection::no ($chapter);
-  $verses = array ();
-  $query = "SELECT DISTINCT verse FROM bibles WHERE bible = '$bible' AND book = $book AND chapter = $chapter ORDER BY chapter ASC;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $verses [] = $row[0];
+  bible = Database_SQLiteInjection::no (bible);
+  book = Database_SQLiteInjection::no (book);
+  chapter = Database_SQLiteInjection::no (chapter);
+  verses = array ();
+  query = "SELECT DISTINCT verse FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter ORDER BY chapter ASC;";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    verses [] = row[0];
   }
-  return $verses;
+  return verses;
   */
   return { };
 }
@@ -523,11 +548,11 @@ int Database_Search::getVerseCount (string bible)
 {
   cout << bible << endl;
   /*
-  $bible = Database_SQLiteInjection::no ($bible);
-  $query = "SELECT count(*) FROM bibles WHERE bible = '$bible';";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    return $row[0];
+  bible = Database_SQLiteInjection::no (bible);
+  query = "SELECT count(*) FROM bibles WHERE bible = 'bible';";
+  result = Database_SQLite::query (this->db, query);
+  foreach (result as row) {
+    return row[0];
   }
   */
   return 0;

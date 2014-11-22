@@ -75,7 +75,7 @@ foreach ($searchBibles as $searchBible) {
             
             // Check for extra verses in the search database, and take corrective action.
             $usfm = $database_bibles->getChapter ($searchBible, $searchBook, $searchChapter);
-            $verses = Filter_Usfm::getVerseNumbers ($usfm);
+            $verses = usfm_get_verse_numbers ($usfm);
             $searchVerses = $database_search->getVerses ($searchBible, $searchBook, $searchChapter);
             foreach ($searchVerses as $searchVerse) {
               if (!in_array ($searchVerse, $verses)) {
@@ -101,11 +101,11 @@ foreach ($bibles as $bible) {
     $chapters = $database_bibles->getChapters ($bible, $book);
     foreach ($chapters as $chapter) {
       $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-      $verses = Filter_Usfm::getVerseNumbers ($usfm);
+      $verses = usfm_get_verse_numbers ($usfm);
       $updateChapter = false;
       foreach ($verses as $verse) {
         if (!$updateChapter) {
-          $verseUSFM = Filter_Usfm::getVerseText ($usfm, $verse);
+          $verseUSFM = usfm_get_verse_text ($usfm, $verse);
           $searchUSFM = $database_search->getBibleVerseUsfm ($bible, $book, $chapter, $verse);
           if ($searchUSFM != $verseUSFM) {
             $updateChapter = true;

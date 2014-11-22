@@ -124,16 +124,16 @@ foreach ($books as $book) {
     }
 
 
-    $bible_verse_numbers = Filter_Usfm::getVerseNumbers ($bible_chapter_usfm);
-    $compare_verse_numbers = Filter_Usfm::getVerseNumbers ($compare_chapter_usfm);
+    $bible_verse_numbers = usfm_get_verse_numbers ($bible_chapter_usfm);
+    $compare_verse_numbers = usfm_get_verse_numbers ($compare_chapter_usfm);
     $verses = array_merge ($bible_verse_numbers, $compare_verse_numbers);
     $verses = array_unique ($verses);
     sort ($verses, SORT_NUMERIC);
 
 
     foreach ($verses as $verse) {
-      $bible_verse_usfm = Filter_Usfm::getVerseText ($bible_chapter_usfm, $verse);
-      $compare_verse_usfm = Filter_Usfm::getVerseText ($compare_chapter_usfm, $verse);
+      $bible_verse_usfm = usfm_get_verse_text ($bible_chapter_usfm, $verse);
+      $compare_verse_usfm = usfm_get_verse_text ($compare_chapter_usfm, $verse);
       if ($bible_verse_usfm != $compare_verse_usfm) {
         $filter_text_bible = new Filter_Text ($bible);
         $filter_text_compare = new Filter_Text ($compare);

@@ -88,7 +88,7 @@ foreach ($identifiers as $identifier) {
     $passages = $database_notes->getPassages ($identifier);
     foreach ($passages as $passage) {
       $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
-      $text = Filter_Usfm::getVerseText ($usfm, $passage[2]);
+      $text = usfm_get_verse_text ($usfm, $passage[2]);
       $verse_text .= $text;
       $verse_text .= "\n";
     }

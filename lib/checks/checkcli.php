@@ -90,12 +90,12 @@ foreach ($books as $book) {
     $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
 
 
-    $verses = Filter_Usfm::getVerseNumbers ($chapterUsfm);
+    $verses = usfm_get_verse_numbers ($chapterUsfm);
     if ($check_versification) Checks_Versification::verses ($bible, $book, $chapter, $verses);
 
 
     foreach ($verses as $verse) {
-      $verseUsfm = Filter_Usfm::getVerseText ($chapterUsfm, $verse);
+      $verseUsfm = usfm_get_verse_text ($chapterUsfm, $verse);
       if ($check_double_spaces_usfm) {
         Checks_Space::doubleSpaceUsfm ($bible, $book, $chapter, $verse, $verseUsfm);
       }

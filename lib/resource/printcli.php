@@ -63,7 +63,7 @@ foreach ($books as $book) {
   $chapters = $database_bibles->getChapters ($bible, $book);
   foreach ($chapters as $chapter) {
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-    $verses = Filter_Usfm::getVerseNumbers ($usfm);
+    $verses = usfm_get_verse_numbers ($usfm);
     foreach ($verses as $verse) {
       $passage = Filter_Books::passage2integer (array ($book, $chapter, $verse));
       if (($passage >= $from) && ($passage <= $to)) {

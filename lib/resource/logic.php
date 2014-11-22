@@ -97,7 +97,7 @@ class Resource_Logic
     if ($isBible || $isUsfm) {
       if ($isBible) $chapter_usfm = $database_bibles->getChapter ($resource, $book, $chapter);
       if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
-      $verse_usfm = Filter_Usfm::getVerseText ($chapter_usfm, $verse);
+      $verse_usfm = usfm_get_verse_text ($chapter_usfm, $verse);
       $database_config_user = Database_Config_User::getInstance ();
       $stylesheet = $database_config_user->getStylesheet ();
       $filter_text = new Filter_Text ($resource);
@@ -144,7 +144,7 @@ class Resource_Logic
     if ($isBible || $isUsfm) {
       if ($isBible) $chapter_usfm = $database_bibles->getChapter ($resource, $book, $chapter);
       if ($isUsfm) $chapter_usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
-      $verse_usfm = Filter_Usfm::getVerseText ($chapter_usfm, $verse);
+      $verse_usfm = usfm_get_verse_text ($chapter_usfm, $verse);
       $database_config_user = Database_Config_User::getInstance ();
       $stylesheet = $database_config_user->getStylesheet ();
       $filter_text = new Filter_Text ($resource);

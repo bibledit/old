@@ -57,14 +57,14 @@ class Filter_Diff
         // Go through the combined verse numbers in the old and new chapter.
         $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
         $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-        $old_verse_numbers = Filter_Usfm::getVerseNumbers ($old_chapter_usfm);
-        $new_verse_numbers = Filter_Usfm::getVerseNumbers ($new_chapter_usfm);
+        $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
+        $new_verse_numbers = usfm_get_verse_numbers ($new_chapter_usfm);
         $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
         $verses = array_unique ($verses);
         sort ($verses, SORT_NUMERIC);
         foreach ($verses as $verse) {
-          $old_verse_text = Filter_Usfm::getVerseText ($old_chapter_usfm, $verse);
-          $new_verse_text = Filter_Usfm::getVerseText ($new_chapter_usfm, $verse);
+          $old_verse_text = usfm_get_verse_text ($old_chapter_usfm, $verse);
+          $new_verse_text = usfm_get_verse_text ($new_chapter_usfm, $verse);
           if ($old_verse_text != $new_verse_text) {
             $usfmCode = "\\p $bookname $chapter.$verse $old_verse_text";
             $old_vs_usfm [] = $usfmCode;

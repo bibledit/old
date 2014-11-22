@@ -524,7 +524,7 @@ void Filter_Text::processUsfm ()
                     // If a new paragraph starts within an existing verse,
                     // add a space to the text already in that verse.
                     int iverse = convert_to_int (currentVerseNumber);
-                    if (!verses_text [iverse].empty()) {
+                    if (verses_text.find (iverse) != verses_text.end()) {
                       verses_text [iverse].append (" ");
                     }
                     // Record the position within the text where this new paragraph starts.
@@ -974,7 +974,7 @@ void Filter_Text::processUsfm ()
         }
         if (headings_text_per_verse_active && text_started) {
           int iverse = convert_to_int (currentVerseNumber);
-          if (!verses_text [iverse].empty ()) {
+          if (verses_text.find (iverse) != verses_text.end ()) {
             verses_text [iverse].append (currentItem);
           } else {
             // The verse text straight after the \v starts with an enSpace. Remove it.
@@ -1515,7 +1515,7 @@ void Filter_Text::createNoteCitation (Database_Styles_Item style)
     if (userint2 == NoteRestartNumberingEveryBook) restart = "book";
     if (userint2 == NoteRestartNumberingEveryChapter) restart = "chapter";
     // /Store the citation for later use.
-    notecitations [style.marker] = Filter_Text_Note_Citation (sequencevector, restart); // Todo not sure if the default object is perhaps stored here, leaving out the citations.
+    notecitations [style.marker] = Filter_Text_Note_Citation (sequencevector, restart);
   }
 }
 

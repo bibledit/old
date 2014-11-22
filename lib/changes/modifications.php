@@ -133,14 +133,14 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
     $new_chapter_usfm = $database_modifications->getUserChapter ($user, $bible, $book, $chapter, $newId);
     $new_chapter_usfm = $new_chapter_usfm ['newtext'];
     $timestamp = $database_modifications->getUserTimestamp ($user, $bible, $book, $chapter, $newId);
-    $old_verse_numbers = Filter_Usfm::getVerseNumbers ($old_chapter_usfm);
-    $new_verse_numbers = Filter_Usfm::getVerseNumbers ($new_chapter_usfm);
+    $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
+    $new_verse_numbers = usfm_get_verse_numbers ($new_chapter_usfm);
     $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
     $verses = array_unique ($verses);
     sort ($verses, SORT_NUMERIC);
     foreach ($verses as $verse) {
-      $old_verse_usfm = Filter_Usfm::getVerseText ($old_chapter_usfm, $verse);
-      $new_verse_usfm = Filter_Usfm::getVerseText ($new_chapter_usfm, $verse);
+      $old_verse_usfm = usfm_get_verse_text ($old_chapter_usfm, $verse);
+      $new_verse_usfm = usfm_get_verse_text ($new_chapter_usfm, $verse);
       if ($old_verse_usfm != $new_verse_usfm) {
         $filter_text_old = new Filter_Text ($bible);
         $filter_text_new = new Filter_Text ($bible);
@@ -236,14 +236,14 @@ foreach ($bibles as $bible) {
       $database_logs->log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::TRANSLATOR_LEVEL);
       $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
       $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-      $old_verse_numbers = Filter_Usfm::getVerseNumbers ($old_chapter_usfm);
-      $new_verse_numbers = Filter_Usfm::getVerseNumbers ($new_chapter_usfm);
+      $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
+      $new_verse_numbers = usfm_get_verse_numbers ($new_chapter_usfm);
       $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
       $verses = array_unique ($verses);
       sort ($verses, SORT_NUMERIC);
       foreach ($verses as $verse) {
-        $old_verse_usfm = Filter_Usfm::getVerseText ($old_chapter_usfm, $verse);
-        $new_verse_usfm = Filter_Usfm::getVerseText ($new_chapter_usfm, $verse);
+        $old_verse_usfm = usfm_get_verse_text ($old_chapter_usfm, $verse);
+        $new_verse_usfm = usfm_get_verse_text ($new_chapter_usfm, $verse);
         if ($old_verse_usfm != $new_verse_usfm) {
           $processedChangesCount++;
           // In case of too many change notifications, processing them would take too much time, so take a few shortcuts.

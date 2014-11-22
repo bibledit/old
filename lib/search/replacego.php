@@ -65,11 +65,11 @@ if ($casesensitive) {
 // Get the old USFM into an array of verse => USFM fragment.
 $usfmArray = array ();
 $usfmString = $database_bibles->getChapter ($bible, $book, $chapter);
-$verses = Filter_Usfm::getVerseNumbers ($usfmString);
+$verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
 sort ($verses, SORT_NUMERIC);
 foreach ($verses as $vs) {
-  $usfmArray [$vs] = Filter_Usfm::getVerseText ($usfmString, $vs);
+  $usfmArray [$vs] = usfm_get_verse_text ($usfmString, $vs);
 }
 
 

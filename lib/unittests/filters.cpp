@@ -1524,7 +1524,7 @@ void test_filters_test12 ()
   string TextTestHtml = "/tmp/TextTest.html";
   string TextTestTxt  = "/tmp/TextTest.txt";
   string bible = "phpunit";
-  // Test Clear Text Export
+  // Test Clear Text Export 1
   {
     string usfm = 
       "\\id GEN\n"
@@ -1571,330 +1571,304 @@ void test_filters_test12 ()
       "1 Chapter 2, verse one. 2 Verse two.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (output));
   }
-  
-  
-  
-
-
-/* Todo
-  
-  
-  
-  public function testVersesHeadingsOne ()
+  // Test Verses Headings 1
   {
-  usfm = <<<'EOD'
-  \id GEN
-  \c 1
-  \p
-  \v 1 Verse one.
-  \v 2 Verse two.
-  \s Heading one
-  \p
-  \v 3 Verse three
-  \p
-  \s Heading two
-  \p
-  \v 4 Verse four.
-  \v 5 Verse five.
-  \c 2
-  \s Heading three
-  \p
-  \v 1 Verse one.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
+    string usfm =
+      "\\id GEN\n"
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 Verse one.\n"
+      "\\v 2 Verse two.\n"
+      "\\s Heading one\n"
+      "\\p\n"
+      "\\v 3 Verse three\n"
+      "\\p\n"
+      "\\s Heading two\n"
+      "\\p\n"
+      "\\v 4 Verse four.\n"
+      "\\v 5 Verse five.\n"
+      "\\c 2\n"
+      "\\s Heading three\n"
+      "\\p\n"
+      "\\v 1 Verse one.\n";
+    Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    output = filter_text.verses_headings;
-    this.assertEquals (output, array (2 => "Heading one", 3 => "Heading two", 0 => "Heading three"));
+    map <int, string> output = filter_text.verses_headings;
+    map <int, string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
+    evaluate (__LINE__, __func__, standard, output);
   }
-  
-  
-  public function testVersesHeadingsTwo ()
+  // Test Verses Headings 2
   {
-  usfm = <<<'EOD'
-  \id GEN
-  \c 1
-  \p
-  \v 1 Verse one.
-  \s \s Usuku lweN\nd kosi\nd* luyeza masinyane
-  \p
-  \v 2 Verse two
-  \p
-  \s Heading \add two\add*
-  \p
-  \v 3 Verse three
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
+    string usfm = 
+      "\\id GEN\n"
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 Verse one.\n"
+      "\\s \\s Usuku lweN\\nd kosi\\nd* luyeza masinyane\n"
+      "\\p\n"
+      "\\v 2 Verse two\n"
+      "\\p\n"
+      "\\s Heading \\add two\\add*\n"
+      "\\p\n"
+      "\\v 3 Verse three\n";
+    Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    output = filter_text.verses_headings;
-    this.assertEquals (output, array (1 => "Usuku lweNkosi luyeza masinyane", 2 => "Heading two"));
+    map <int, string> output = filter_text.verses_headings;
+    map <int, string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
+    evaluate (__LINE__, __func__, standard, output);
   }
-  
-  
-  public function testVersesTextOne ()
+  // Test Verses Text 1
   {
-  usfm = <<<'EOD'
-  \id GEN
-  \c 1
-  \p
-  \v 2 Verse\x + \xt Isa. 1.1.\x* two.
-  \v 3 Verse three\x + \xt Isa. 1.1.\x*.
-  \s Heading one
-  \p
-  \v 4 Verse four.
-  \p
-  \s Heading two
-  \p
-  \v 5 Verse five.
-  \v 6 Verse six.
-  \c 2
-  \s Heading three
-  \p
-  \v 1 Verse one\x + \xt Isa. 1.1.\x*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
+    string usfm = 
+      "\\id GEN\n"
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 2 Verse\\x + \\xt Isa. 1.1.\\x* two.\n"
+      "\\v 3 Verse three\\x + \\xt Isa. 1.1.\\x*.\n"
+      "\\s Heading one\n"
+      "\\p\n"
+      "\\v 4 Verse four.\n"
+      "\\p\n"
+      "\\s Heading two\n"
+      "\\p\n"
+      "\\v 5 Verse five.\n"
+      "\\v 6 Verse six.\n"
+      "\\c 2\n"
+      "\\s Heading three\n"
+      "\\p\n"
+      "\\v 1 Verse one\\x + \\xt Isa. 1.1.\\x*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    output = filter_text.getVersesText ();
-    standard = array (
-      2 => "Verse two.",
-      3 => "Verse three.",
-      4 => "Verse four.",
-      5 => "Verse five.",
-      6 => "Verse six.",
-      1 => "Verse one."
-    );
-    this.assertEquals (standard, output);
+    map <int, string> output = filter_text.getVersesText ();
+    map <int, string> standard = {
+      {1, "Verse one."},
+      {2, "Verse two."},
+      {3, "Verse three."},
+      {4, "Verse four."},
+      {5, "Verse five."},
+      {6, "Verse six."},
+    };
+    evaluate (__LINE__, __func__, standard, output);
   }
-  
-  
-  public function testVersesTextTwo ()
+  // Test Verses Text 2
   {
-  usfm = <<<'EOD'
-  \c 15
-  \s Heading
-  \p
-  \v 1 He said:
-  \p I will sing to the Lord.
-  \v 2 The Lord is my strength.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
+    string usfm = 
+      "\\c 15\n"
+      "\\s Heading\n"
+      "\\p\n"
+      "\\v 1 He said:\n"
+      "\\p I will sing to the Lord.\n"
+      "\\v 2 The Lord is my strength.\n";
+    Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    output = filter_text.getVersesText ();
-    standard = array (
-      1 => "He said: I will sing to the Lord.",
-      2 => "The Lord is my strength."
-    );
-    this.assertEquals (standard, output);
+    map <int, string> output = filter_text.getVersesText ();
+    map <int, string> standard = {
+      {1, "He said: I will sing to the Lord."},
+      {2, "The Lord is my strength." }
+    };
+    evaluate (__LINE__, __func__, standard, output);
   }
-  
-  
-  public function testParagraphPositionsOne ()
+  // Test Paragraph Positions 1
   {
-  usfm = <<<'EOD'
-  \c 1
-  \s Heading
-  \p
-  \v 1 He said:
-  \p I will sing to the Lord.
-  \v 2 The Lord is my strength.
-  \p I trust in Him.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
+    string usfm = 
+      "\\c 1\n"
+      "\\s Heading\n"
+      "\\p\n"
+      "\\v 1 He said:\n"
+      "\\p I will sing to the Lord.\n"
+      "\\v 2 The Lord is my strength.\n"
+      "\\p I trust in Him.\n";
+    Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    output = filter_text.paragraph_start_positions;
-    standard = array (0, 9, 58);
-    this.assertEquals (standard, output);
+    vector <int> output = filter_text.paragraph_start_positions;
+    vector <int> standard = {0, 9, 58};
+    evaluate (__LINE__, __func__, standard, output);
   }
-  
-  
-  public function testEmbeddedTextOne ()
+  // Test Embedded Text 1
   {
-  usfm = <<<'EOD'
-  \c 1
-  \p
-  \v 1 He said: I will sing \add to the \+nd Lord\+nd*\add*.
-  \v 2 The \nd Lord\nd* is my strength.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
+    string usfm = 
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 He said: I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n"
+      "\\v 2 The \\nd Lord\\nd* is my strength.\n";
+    Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse ();
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    text = filter_text.getVersesText ();
-    standard = array (
-      1 => "He said: I will sing to the Lord.",
-      2 => "The Lord is my strength."
-    );
-    this.assertEquals (standard, text);
+    map <int, string> output = filter_text.getVersesText ();
+    map <int, string> standard = {
+      {1, "He said: I will sing to the Lord."},
+      {2, "The Lord is my strength."}
+    };
+    evaluate (__LINE__, __func__, standard, output);
   }
-  
-  
-  public function testEmbeddedHtmlOne ()
+  // Test Embedded Html One
   {
     // Open character style, and embedded character style, and close both normally.
-  usfm = <<<'EOD'
-  \c 1
-  \p
-  \v 1 I will sing \add to the \+nd Lord\+nd*\add*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
-    filter_text.html_text_standard = new Html_Text ("phpunit");
+    string usfm =
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    html = filter_text.html_text_standard.getInnerHtml ();
-  standard = <<<'EOD'
-  <p class="p"><span class="v">1</span><span> I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span>.</span></p>
-  EOD;
-    this.assertEquals (trim (standard), trim (html));
+    string html = filter_text.html_text_standard->getInnerHtml ();
+    string standard = 
+      "    <p class=\"p\">\n"
+      "      <span class=\"v\">1</span>\n"
+      "      <span> I will sing </span>\n"
+      "      <span class=\"add\">to the </span>\n"
+      "      <span class=\"add nd\">Lord</span>\n"
+      "      <span>.</span>\n"
+      "    </p>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
-  
-  
-  public function testEmbeddedHtmlTwo ()
+  // Test Embedded Html Two
   {
     // Open character style, open embedded character style, close embedded one, then close the outer one.
-  usfm = <<<'EOD'
-  \c 1
-  \p
-  \v 1 I will sing \add to the \+nd Lord\+nd* God\add*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
-    filter_text.html_text_standard = new Html_Text ("phpunit");
+    string usfm = 
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    html = filter_text.html_text_standard.getInnerHtml ();
-  standard = <<<'EOD'
-  <p class="p"><span class="v">1</span><span> I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span class="add"> God</span><span>.</span></p>
-  EOD;
-    this.assertEquals (trim (standard), trim (html));
+    string html = filter_text.html_text_standard->getInnerHtml ();
+    string standard = 
+      "    <p class=\"p\">\n"
+      "      <span class=\"v\">1</span>\n"
+      "      <span> I will sing </span>\n"
+      "      <span class=\"add\">to the </span>\n"
+      "      <span class=\"add nd\">Lord</span>\n"
+      "      <span class=\"add\"> God</span>\n"
+      "      <span>.</span>\n"
+      "    </p>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
-  
-  
-  public function testEmbeddedHtmlThree ()
+  // Test Embedded Html Three.
   {
     // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
-  usfm = <<<'EOD'
-  \c 1
-  \p
-  \v 1 I will sing \add to the \+nd Lord\add*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
-    filter_text.html_text_standard = new Html_Text ("phpunit");
+    string usfm = 
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    html = filter_text.html_text_standard.getInnerHtml ();
-  standard = <<<'EOD'
-  <p class="p"><span class="v">1</span><span> I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span>.</span></p>
-  EOD;
-    this.assertEquals (trim (standard), trim (html));
+    string html = filter_text.html_text_standard->getInnerHtml ();
+    string standard = 
+      "    <p class=\"p\">\n"
+      "      <span class=\"v\">1</span>\n"
+      "      <span> I will sing </span>\n"
+      "      <span class=\"add\">to the </span>\n"
+      "      <span class=\"add nd\">Lord</span>\n"
+      "      <span>.</span>\n"
+      "    </p>\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
-  
-  
-  public function testEmbeddedOpenDocumentOne ()
+  // Test Embedded Open Document One
   {
     // Open character style, and embedded character style, and close both normally.
-  usfm = <<<'EOD'
-  \id GEN
-  \c 1
-  \p
-  \v 1 I will sing \add to the \+nd Lord\+nd*\add*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
-    filter_text.odf_text_standard = new Odf_Text ("phpunit");
+    string usfm = 
+      "\\id GEN\n"
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    filter_text.odf_text_standard.save ("/tmp/TextTest.odt");
-    odt = shell_exec ("odt2txt /tmp/TextTest.odt");
-  standard = <<<'EOD'
-  Genesis 1
-  =========
-  
-  1 I will sing to the Lord.
-  EOD;
-    this.assertEquals (standard, trim (odt));
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    string standard = ""
+      "Genesis 1\n"
+      "=========\n"
+      "\n"
+      "1 I will sing to the Lord.\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  
-  
   // Exercise bits in document to generate text and note citations.
-  public function testTextNoteCitationsOpenDocumentOne ()
   {
-  usfm = <<<'EOD'
-  \id GEN
-  \v 1 Text 1\x + \xt Isa. 1.1.\x* text\f + \fk Word: \fl Heb. \fq Explanation1.\f* text\fe + \fk Word: \fl Heb. \fq Explanation1.\fe*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
-    filter_text.odf_text_text_and_note_citations = new Odf_Text ("phpunit");
+    string usfm = 
+      "\\id GEN\n"
+      "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_text_and_note_citations = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    filter_text.odf_text_text_and_note_citations.save ("/tmp/TextTest.odt");
-    odt = shell_exec ("odt2txt /tmp/TextTest.odt");
-  standard = <<<'EOD'
-  1 Text 1a text1 text1.
-  EOD;
-    this.assertEquals (standard, trim (odt));
+    filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
+    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    string standard = ""
+      "1 Text 1a text1 text1.";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  
-  
-  public function testEmbeddedOpenDocumentTwo ()
+  // TestEmbeddedOpenDocumentTwo
   {
     // Open character style, open embedded character style, close embedded one, then close the outer one.
-  usfm = <<<'EOD'
-  \id GEN
-  \c 1
-  \p
-  \v 1 I will sing \add to the \+nd Lord\+nd* God\add*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
-    filter_text.odf_text_standard = new Odf_Text ("phpunit");
+    string usfm = 
+      "\\id GEN\n"
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    filter_text.odf_text_standard.save ("/tmp/TextTest.odt");
-    odt = shell_exec ("odt2txt /tmp/TextTest.odt");
-  standard = <<<'EOD'
-  Genesis 1
-  =========
-  
-  1 I will sing to the Lord God.
-  EOD;
-    this.assertEquals (standard, trim (odt));
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    string standard = ""
+      "Genesis 1\n"
+      "=========\n"
+      "\n"
+      "1 I will sing to the Lord God.\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  
-  
-  public function testEmbeddedOpenDocumentThree ()
+  // Test EmbeddedOpenDocumentThree
   {
     // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
-  usfm = <<<'EOD'
-  \id GEN
-  \c 1
-  \p
-  \v 1 I will sing \add to the \+nd Lord\add*.
-  EOD;
-    filter_text = new Filter_Text ("phpunit");
-    filter_text.odf_text_standard = new Odf_Text ("phpunit");
+    string usfm = 
+      "\\id GEN\n"
+      "\\c 1\n"
+      "\\p\n"
+      "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run ("Standard");
-    filter_text.odf_text_standard.save ("/tmp/TextTest.odt");
-    filter_text.odf_text_standard.save ("/tmp/TextTest2.odt");
-    odt = shell_exec ("odt2txt /tmp/TextTest.odt");
-  standard = <<<'EOD'
-  Genesis 1
-  =========
-  
-  1 I will sing to the Lord.
-  EOD;
-    this.assertEquals (standard, trim (odt));
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    string standard = ""
+      "Genesis 1\n"
+      "=========\n"
+      "\n"
+      "1 I will sing to the Lord.\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-
-
-*/
-  exit (0); // Todo
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
   filter_url_unlink (TextTestTxt);

@@ -86,10 +86,10 @@ foreach ($allxrefs as $key => $xref) {
 // Get the target USFM into an array of verse => USFM fragment.
 $usfmArray = array ();
 $usfmString = $database_bibles->getChapter ($targetBible, $book, $chapter);
-$verses = Filter_Usfm::getVerseNumbers ($usfmString);
+$verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
 foreach ($verses as $verse) {
-  $usfmArray [$verse] = Filter_Usfm::getVerseText ($usfmString, $verse);
+  $usfmArray [$verse] = usfm_get_verse_text ($usfmString, $verse);
 }
 
 
@@ -117,7 +117,7 @@ foreach ($verses as $verse) {
   // Get the length of the text of the verse in the source Bible without the xrefs.
   // Get the ratio for positioning the xrefs by comparing the lengths of source and target verse text.
   $sourceUsfm = $database_bibles->getChapter ($sourceBible, $book, $chapter);
-  $sourceUsfm = Filter_Usfm::getVerseText ($sourceUsfm, $verse);
+  $sourceUsfm = usfm_get_verse_text ($sourceUsfm, $verse);
   $sourceUsfm = Filter_Usfm::removeNotes ($sourceUsfm, array ("x"));
   $sourceLength = mb_strlen ($sourceUsfm);
   $targetLength = mb_strlen ($usfm);

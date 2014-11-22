@@ -32,7 +32,7 @@ $database_bibles = Database_Bibles::getInstance();
 
 
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-$usfm = Filter_Usfm::getVerseText ($usfm, $verse);
+$usfm = usfm_get_verse_text ($usfm, $verse);
 
 
 echo Checksum_Logic::send ($usfm);

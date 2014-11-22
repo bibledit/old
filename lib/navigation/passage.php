@@ -162,7 +162,7 @@ class Navigation_Passage
       $database_versifications = Database_Versifications::getInstance ();
       $verses = $database_versifications->getVerses ("English", $book, $chapter);
     } else {
-      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $book, $chapter));
     }
     $html = "";
     foreach ($verses as $vs) {
@@ -229,7 +229,7 @@ class Navigation_Passage
     $verse++;
     if ($bible != "") {
       $database_bibles = Database_Bibles::getInstance ();
-      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $book, $chapter));
       if (!in_array ($verse, $verses)) {
         $verse = array_pop ($verses);
       }
@@ -244,7 +244,7 @@ class Navigation_Passage
     $verse--;
     if ($bible != "") {
       $database_bibles = Database_Bibles::getInstance ();
-      $verses = Filter_Usfm::getVerseNumbers ($database_bibles->getChapter ($bible, $book, $chapter));
+      $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $book, $chapter));
       if (!in_array ($verse, $verses)) {
         $verse = array_shift ($verses);
       }

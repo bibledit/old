@@ -34,6 +34,7 @@ void evaluate (int line, string func, bool desired, bool actual);
 void evaluate (int line, string func, vector <string> desired, vector <string> actual);
 void evaluate (int line, string func, vector <int> desired, vector <int> actual);
 void evaluate (int line, string func, map <int, string> desired, map <int, string> actual);
+void evaluate (int line, string func, map <string, string> desired, map <string, string> actual);
 
 
 #endif
