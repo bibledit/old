@@ -220,39 +220,40 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
 */
 vector <int> Database_Search::searchText (string search, vector <string> bibles)
 {
-  if (bibles.empty()) cout << search;
-  /* C++Port
-  ids = array ();
+  if (search == "") return { };
 
-  if (search == "") {
-    return ids;
-  }
-
-  search = mb_convert_case (search, MB_CASE_LOWER);
-  search = str_replace (",", "", search);
-  search = Database_SQLiteInjection::no (search);
-
-  bibleCondition = "1";
-  if (!empty (bibles)) {
-    bibleCondition = " ( ";
-    foreach (bibles as offset => bible) {
-      if (offset) bibleCondition .= " OR ";
-      bible = Database_SQLiteInjection::no (bible);
-      bibleCondition .= " bible = 'bible' ";
-    }
-    bibleCondition .= " ) ";
-  }
-
-  query = "SELECT rowid FROM bibles WHERE bibleCondition AND plainlower LIKE '%search%';";
-  hits = array ();
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    hits [] = row [0];
-  }
+  string searchlower;
+  transform (search.begin(), search.end (), searchlower.begin(), ::tolower); // Support unicode, still to do.
+  search = searchlower;
+  search = filter_string_str_replace (",", "", search);
   
-  return hits;
-  */
-  return {};
+  SqliteSQL sql;
+  sql.add ("SELECT rowid FROM bibles WHERE");
+  if (!bibles.empty()) {
+    sql.add (" ( ");
+    for (unsigned int i = 0; i < bibles.size(); i++) {
+      if (i > 0) sql.add (" OR ");
+      sql.add (" bible = ");
+      sql.add (bibles[i]);
+      sql.add (" ");
+    }
+    sql.add (" ) ");
+  } else {
+    sql.add ("1");
+  }
+  sql.add ("AND plainlower LIKE");
+  search.insert (0, "%");
+  search.append ("%");
+  sql.add (search);
+  sql.add (";");
+ 
+  vector <int> ids;
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
+  for (auto & id : result) ids.push_back (convert_to_int (id));
+  database_sqlite_disconnect (db);
+  
+  return ids;
 }
 
 
@@ -263,25 +264,25 @@ vector <int> Database_Search::searchText (string search, vector <string> bibles)
 */
 vector <int> Database_Search::searchBibleText (string bible, string search)
 {
-  cout << bible << search << endl;
-  /* C++Port
-  ids = array ();
+  string lower;
+  transform (search.begin(), search.end(), lower.begin(), ::tolower); // This still needs to deal with unicode properly, perhaps through the ICU library.
+  search.assign (lower);
 
-  bible = Database_SQLiteInjection::no (bible);
+  SqliteSQL sql;
+  sql.add ("SELECT rowid FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND plainlower LIKE");
+  search.insert (0, "%");
+  search.append ("%");
+  sql.add (search);
 
-  search = mb_convert_case (search, MB_CASE_LOWER);
-  search = Database_SQLiteInjection::no (search);
-
-  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND plainlower LIKE '%search%';";
-  hits = array ();
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    hits [] = row [0];
-  }
+  vector <int> ids;
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
+  for (auto & id : result) ids.push_back (convert_to_int (id));
+  database_sqlite_disconnect (db);
   
-  return hits;
-  */
-  return {};
+  return ids;
 }
 
 
@@ -292,29 +293,28 @@ vector <int> Database_Search::searchBibleText (string bible, string search)
 */
 vector <int> Database_Search::searchBibleTextCaseSensitive (string bible, string search)
 {
-  cout << bible << search << endl;
-  /* C++Port
-  ids = array ();
+  sqlite3 * db = connect ();
 
-  bible = Database_SQLiteInjection::no (bible);
-  search = Database_SQLiteInjection::no (search);
+  database_sqlite_exec (db, "PRAGMA case_sensitive_like = true;");
 
-  query = "PRAGMA case_sensitive_like = true;";
-  Database_SQLite::exec (this->db, query);
-  
-  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND plainraw LIKE '%search%';";
-  hits = array ();
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    hits [] = row [0];
-  }
+  SqliteSQL sql;
+  sql.add ("SELECT rowid FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND plainraw LIKE");
+  search.insert (0, "%");
+  search.append ("%");
+  sql.add (search);
+  sql.add (";");
 
-  query = "PRAGMA case_sensitive_like = false;";
-  Database_SQLite::exec (this->db, query);
-  
-  return hits;
-  */
-  return {};
+  vector <int> ids;
+  vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
+  for (auto & id : result) ids.push_back (convert_to_int (id));
+
+  database_sqlite_exec (db, "PRAGMA case_sensitive_like = false;");
+
+  database_sqlite_disconnect (db);
+
+  return ids;
 }
 
 
@@ -325,25 +325,26 @@ vector <int> Database_Search::searchBibleTextCaseSensitive (string bible, string
 */
 vector <int> Database_Search::searchBibleUsfm (string bible, string search)
 {
-  cout << bible << search << endl;
-  /* C++Port
-  ids = array ();
-
-  bible = Database_SQLiteInjection::no (bible);
-
-  search = mb_convert_case (search, MB_CASE_LOWER);
-  search = Database_SQLiteInjection::no (search);
-
-  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND usfmlower LIKE '%search%';";
-  hits = array ();
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    hits [] = row [0];
-  }
+  string lower;
+  transform (search.begin(), search.end(), lower.begin(), ::tolower); // This still needs to deal with unicode properly, perhaps through the ICU library.
+  search.assign (lower);
   
-  return hits;
-  */
-  return {};
+  SqliteSQL sql;
+  sql.add ("SELECT rowid FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND usfmlower LIKE");
+  search.insert (0, "%");
+  search.append ("%");
+  sql.add (search);
+  sql.add (";");
+  
+  sqlite3 * db = connect ();
+  vector <int> ids;
+  vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
+  for (auto & id : result) ids.push_back (convert_to_int (id));
+  database_sqlite_disconnect (db);
+  
+  return ids;
 }
 
 
@@ -354,207 +355,210 @@ vector <int> Database_Search::searchBibleUsfm (string bible, string search)
 */
 vector <int> Database_Search::searchBibleUsfmCaseSensitive (string bible, string search)
 {
-  cout << bible << search << endl;
-  /* C++Port
-  ids = array ();
+  sqlite3 * db = connect ();
 
-  bible = Database_SQLiteInjection::no (bible);
-  search = Database_SQLiteInjection::no (search);
+  database_sqlite_exec (db, "PRAGMA case_sensitive_like = true;");
 
-  query = "PRAGMA case_sensitive_like = true;";
-  Database_SQLite::exec (this->db, query);
+  SqliteSQL sql;
+  sql.add ("SELECT rowid FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND usfmraw LIKE");
+  search.insert (0, "%");
+  search.append ("%");
+  sql.add (search);
+  sql.add (";");
+
+  vector <int> ids;
+  vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
+  for (auto & id : result) ids.push_back (convert_to_int (id));
+
+  database_sqlite_exec (db, "PRAGMA case_sensitive_like = false;");
+
+  database_sqlite_disconnect (db);
   
-  query = "SELECT rowid FROM bibles WHERE bible = 'bible' AND usfmraw LIKE '%search%';";
-  hits = array ();
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    hits [] = row [0];
-  }
-
-  query = "PRAGMA case_sensitive_like = false;";
-  Database_SQLite::exec (this->db, query);
-  
-  return hits;
-  */
-  return {};
+  return ids;
 }
 
 
 // Returns the Bible and passage for a rowid.
-map <string, string> Database_Search::getBiblePassage (int rowid)
+Passage Database_Search::getBiblePassage (int rowid)
 {
-  cout << rowid << endl;
-  /* C++Port
-  rowid = Database_SQLiteInjection::no (rowid);
-  query = "SELECT bible, book, chapter, verse FROM bibles WHERE rowid = rowid;";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    unset (row [0]);
-    unset (row [1]);
-    unset (row [2]);
-    unset (row [3]);
-    return row;
+  Passage passage = Passage ();
+  SqliteSQL sql;
+  sql.add ("SELECT bible, book, chapter, verse FROM bibles WHERE rowid =");
+  sql.add (rowid);
+  sql.add (";");
+
+  sqlite3 * db = connect ();
+  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  if (!result.empty ()) {
+    passage.bible = result ["bible"] [0];
+    passage.book = convert_to_int (result ["book"] [0]);
+    passage.chapter = convert_to_int (result ["chapter"] [0]);
+    passage.verse = result ["verse"] [0];
   }
-  return NULL;
-  */
-  return {};
+  database_sqlite_disconnect (db);
+
+  return passage;
 }
 
 
 // Gets the plain raw text for the bible and passage given.  
 string Database_Search::getBibleVerseText (string bible, int book, int chapter, int verse)
 {
-  cout << bible <<  book << chapter << verse << endl;
-  /* C++Port
-  bible = Database_SQLiteInjection::no (bible);
-  book = Database_SQLiteInjection::no (book);
-  chapter = Database_SQLiteInjection::no (chapter);
-  verse = Database_SQLiteInjection::no (verse);
-  query = "SELECT plainraw FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter AND verse = verse;";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    return row[0];
-  }
-  */
-  return "";
+  SqliteSQL sql;
+  sql.add ("SELECT plainraw FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("AND verse =");
+  sql.add (verse);
+  sql.add (";");
+  string plainraw;
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["plainraw"];
+  if (!result.empty ()) plainraw = result [0];
+  database_sqlite_disconnect (db);
+  return plainraw;
 }
 
 
 // Gets the raw USFM for the bible and passage given.
 string Database_Search::getBibleVerseUsfm (string bible, int book, int chapter, int verse)
 {
-  cout << bible <<  book << chapter << verse << endl;
-  /* C++Port
-  bible = Database_SQLiteInjection::no (bible);
-  book = Database_SQLiteInjection::no (book);
-  chapter = Database_SQLiteInjection::no (chapter);
-  verse = Database_SQLiteInjection::no (verse);
-  query = "SELECT usfmraw FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter AND verse = verse;";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    return row[0];
-  }
-  */
-  return "";
+  SqliteSQL sql;
+  sql.add ("SELECT usfmraw FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("AND verse =");
+  sql.add (verse);
+  sql.add (";");
+  string usfmraw;
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["plainraw"];
+  if (!result.empty ()) usfmraw = result [0];
+  database_sqlite_disconnect (db);
+  return usfmraw;
 }
 
 
 vector <string> Database_Search::getBibles ()
 {
-  /* C++Port
-  bibles = array ();
-  query = "SELECT DISTINCT bible FROM bibles ORDER BY bible ASC;";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    bibles [] = row[0];
-  }
+  sqlite3 * db = connect ();
+  vector <string> bibles = database_sqlite_query (db, "SELECT DISTINCT bible FROM bibles ORDER BY bible ASC;") ["bible"];
+  database_sqlite_disconnect (db);
   return bibles;
-  */
-  return { };
 }
 
 
 void Database_Search::deleteBible (string bible)
 {
-  cout << bible << endl;
-  /* C++Port
-  bible = Database_SQLiteInjection::no (bible);
-  query = "DELETE FROM bibles WHERE bible = 'bible';";
-  Database_SQLite::exec (this->db, query);
-  */
+  SqliteSQL sql;
+  sql.add ("DELETE FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 vector <int> Database_Search::getBooks (string bible)
 {
-  cout << bible << endl;
-  /*
-  bible = Database_SQLiteInjection::no (bible);
-  books = array ();
-  query = "SELECT DISTINCT book FROM bibles WHERE bible = 'bible' ORDER BY book ASC;";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    books [] = row[0];
-  }
+  vector <int> books;
+  SqliteSQL sql;
+  sql.add ("SELECT DISTINCT book FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("ORDER BY book ASC;");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["book"];
+  for (auto & book : result) books.push_back (convert_to_int (book));
   return books;
-  */
-  return { };
 }
 
 
 void Database_Search::deleteBook (string bible, int book)
 {
-  cout << bible <<  book << endl;
-  /*
-  bible = Database_SQLiteInjection::no (bible);
-  book = Database_SQLiteInjection::no (book);
-  query = "DELETE FROM bibles WHERE bible = 'bible' AND book = book;";
-  Database_SQLite::exec (this->db, query);
-  */
+  SqliteSQL sql;
+  sql.add ("DELETE FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 vector <int> Database_Search::getChapters (string bible, int book)
 {
-  cout << bible <<  book << endl;
-  /*
-  bible = Database_SQLiteInjection::no (bible);
-  book = Database_SQLiteInjection::no (book);
-  chapters = array ();
-  query = "SELECT DISTINCT chapter FROM bibles WHERE bible = 'bible' AND book = book ORDER BY chapter ASC;";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    chapters [] = row[0];
-  }
+  vector <int> chapters;
+  SqliteSQL sql;
+  sql.add ("SELECT DISTINCT chapter FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("ORDER BY chapter ASC;");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["chapter"];
+  database_sqlite_disconnect (db);
+  for (auto & chapter : result) chapters.push_back (convert_to_int (chapter));
   return chapters;
-  */
-  return { };
 }
 
 
 void Database_Search::deleteChapter (string bible, int book, int chapter)
 {
-  cout << bible <<  book << chapter << endl;
-  /* 
-  bible = Database_SQLiteInjection::no (bible);
-  book = Database_SQLiteInjection::no (book);
-  chapter = Database_SQLiteInjection::no (chapter);
-  query = "DELETE FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter;";
-  Database_SQLite::exec (this->db, query);
-  */
+  SqliteSQL sql;
+  sql.add ("DELETE FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 vector <int> Database_Search::getVerses (string bible, int book, int chapter)
 {
-  cout << bible <<  book << chapter << endl;
-  /*
-  bible = Database_SQLiteInjection::no (bible);
-  book = Database_SQLiteInjection::no (book);
-  chapter = Database_SQLiteInjection::no (chapter);
-  verses = array ();
-  query = "SELECT DISTINCT verse FROM bibles WHERE bible = 'bible' AND book = book AND chapter = chapter ORDER BY chapter ASC;";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    verses [] = row[0];
-  }
+  vector <int> verses;
+  SqliteSQL sql;
+  sql.add ("SELECT DISTINCT verse FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add ("AND book =");
+  sql.add (book);
+  sql.add ("AND chapter =");
+  sql.add (chapter);
+  sql.add ("ORDER BY chapter ASC;");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["verse"];
+  for (auto & verse : result) verses.push_back (convert_to_int (verse));
+  database_sqlite_disconnect (db);
   return verses;
-  */
-  return { };
 }
 
 
 int Database_Search::getVerseCount (string bible)
 {
-  cout << bible << endl;
-  /*
-  bible = Database_SQLiteInjection::no (bible);
-  query = "SELECT count(*) FROM bibles WHERE bible = 'bible';";
-  result = Database_SQLite::query (this->db, query);
-  foreach (result as row) {
-    return row[0];
-  }
-  */
+  SqliteSQL sql;
+  sql.add ("SELECT count(*) FROM bibles WHERE bible =");
+  sql.add (bible);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  // vector <string> result = database_sqlite_query (db, sql.sql) ["??"]; // Todo
+  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  // Todo find out how to get the count here.
+  database_sqlite_disconnect (db);
   return 0;
 }
 

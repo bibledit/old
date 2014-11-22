@@ -24,6 +24,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 
 
+Passage::Passage ()
+{
+  book = 0;
+  chapter = 0;
+}
+
+
+Passage::Passage (string bible_in, int book_in, int chapter_in, string verse_in)
+{
+  bible = bible_in;
+  book = book_in;
+  chapter = chapter_in;
+  verse = verse_in;
+}
+
+
 string filter_passage_display (int book, int chapter, string verse)
 {
   Database_Books database_books = Database_Books ();

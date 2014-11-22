@@ -61,7 +61,8 @@ unittest_SOURCES = \
 	unittests/utilities.cpp \
 	unittests/tests1.cpp \
 	unittests/database_config.cpp \
-	unittests/filters.cpp
+	unittests/filters.cpp \
+	unittests/databases.cpp
 
 unittest_LDADD = libbibledit.a
 

@@ -17,26 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_FILTER_PASSAGE_H
-#define INCLUDED_FILTER_PASSAGE_H
+#ifndef INCLUDED_UNITTESTS_DATABASES_H
+#define INCLUDED_UNITTESTS_DATABASES_H
 
 
 #include <config/libraries.h>
 
 
-class Passage
-{
-public:
-  Passage ();
-  Passage (string bible_in, int book_in, int chapter_in, string verse_in);
-  string bible;
-  int book;
-  int chapter;
-  string verse;
-};
-
-
-string filter_passage_display (int book, int chapter, string verse);
+void test_database_search ();
 
 
 #endif

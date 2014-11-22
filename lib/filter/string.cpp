@@ -72,9 +72,8 @@ string convert_to_string (unsigned int i)
 
 string convert_to_string (int i)
 {
-  ostringstream r;
-  r << i;
-  return r.str();
+  string s = to_string (i);
+  return s;
 }
 
 

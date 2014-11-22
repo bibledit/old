@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #include <sqlite3.h>
-
+#include <filter/passage.h>
 
 
 class Database_Search
@@ -40,7 +40,7 @@ public:
   vector <int> searchBibleTextCaseSensitive (string bible, string search);
   vector <int> searchBibleUsfm (string bible, string search);
   vector <int> searchBibleUsfmCaseSensitive (string bible, string search);
-  map <string, string> getBiblePassage (int rowid);
+  Passage getBiblePassage (int rowid);
   string getBibleVerseText (string bible, int book, int chapter, int verse);
   string getBibleVerseUsfm (string bible, int book, int chapter, int verse);
   vector <string> getBibles ();
