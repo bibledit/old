@@ -171,7 +171,6 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 
   for (string marker_or_text : markers_and_text) {
     if (retrieve_book_number_on_next_iteration) {
-      Database_Books database_books = Database_Books ();
       book_number = database_books.getIdFromUsfm (marker_or_text.substr (0, 3));
       chapter_number = 0;
       retrieve_book_number_on_next_iteration = false;

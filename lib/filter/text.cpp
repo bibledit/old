@@ -243,7 +243,6 @@ void Filter_Text::preprocessingStage ()
                     // Get book number.
                     string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                     s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
-                    Database_Books database_books = Database_Books ();
                     currentBookIdentifier = database_books.getIdFromUsfm (s);
                     // Reset chapter and verse numbers.
                     currentChapterNumber = 0;
@@ -393,7 +392,6 @@ void Filter_Text::processUsfm ()
                   // Get book number.
                   string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                   s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
-                  Database_Books database_books = Database_Books ();
                   currentBookIdentifier = database_books.getIdFromUsfm (s);
                   // Reset chapter and verse numbers.
                   currentChapterNumber = 0;
@@ -586,7 +584,6 @@ void Filter_Text::processUsfm ()
               }
 
               // Enter text for the running headers.
-              Database_Books database_books = Database_Books ();
               string runningHeader = database_books.getEnglishFromId (currentBookIdentifier);
               for (auto item : runningHeaders) {
                 if (item.book == currentBookIdentifier) {
@@ -1227,8 +1224,6 @@ void Filter_Text::processNote ()
 */
 void Filter_Text::produceInfoDocument (string path)
 {
-  Database_Books database_books = Database_Books ();
-
   Html_Text information = Html_Text (gettext("Information"));
 
   // Number of chapters per book.

@@ -684,10 +684,9 @@ void test_database_styles ()
 void test_database_books ()
 {
   refresh_sandbox (true);
-  Database_Books database_books = Database_Books ();
-  database_books.create ();
   evaluate (__LINE__, __func__, 69, database_books.getIDs ().size());
   evaluate (__LINE__, __func__, 2, database_books.getIdFromEnglish ("Exodus"));
+  evaluate (__LINE__, __func__, 0, database_books.getIdFromEnglish ("exodus"));
   evaluate (__LINE__, __func__, "Leviticus", database_books.getEnglishFromId (3));
   evaluate (__LINE__, __func__, "NUM", database_books.getUsfmFromId (4));
   evaluate (__LINE__, __func__, "Deu", database_books.getBibleworksFromId (5));

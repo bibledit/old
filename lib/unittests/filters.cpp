@@ -214,8 +214,6 @@ void test_filters_test3 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    Database_Books database_books = Database_Books ();
-    database_books.create ();
 
     evaluate (__LINE__, __func__, 0, usfm_import ("", "Standard").size());
     vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", "Standard");
@@ -1238,8 +1236,6 @@ void test_filters_test11 ()
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
   database_styles.createStandardSheet ();
-  Database_Books database_books = Database_Books ();
-  database_books.create ();
 
   // Test extraction of all sorts of information from USFM code
   // Test basic formatting into OpenDocument.
@@ -1518,8 +1514,6 @@ void test_filters_test12 ()
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
   database_styles.createStandardSheet ();
-  Database_Books database_books = Database_Books ();
-  database_books.create ();
   string TextTestOdt  = "/tmp/TextTest.odt";
   string TextTestHtml = "/tmp/TextTest.html";
   string TextTestTxt  = "/tmp/TextTest.txt";

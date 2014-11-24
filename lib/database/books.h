@@ -25,28 +25,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sqlite3.h>
 
 
-
 class Database_Books
 {
 public:
   Database_Books ();
-  ~Database_Books ();
-  void create ();
-  vector <int> getIDs ();
-  int getIdFromEnglish (string english);
-  string getEnglishFromId (int id);
-  string getUsfmFromId (int id);
-  string getBibleworksFromId (int id);
-  int getIdFromUsfm (string usfm);
-  int getIdFromOsis (string osis);
-  int getIdFromBibleworks (string bibleworks);
-  int getIdLikeText (string text);
-  int getIdFromOnlinebible (string onlinebible);
-  string getOnlinebibleFromId (int id);
-  int getSequenceFromId (int id);
-  string getType (int id);
+  static vector <int> getIDs ();
+  static int getIdFromEnglish (string english);
+  static string getEnglishFromId (int id);
+  static string getUsfmFromId (int id);
+  static string getBibleworksFromId (int id);
+  static int getIdFromUsfm (string usfm);
+  static int getIdFromOsis (string osis);
+  static int getIdFromBibleworks (string bibleworks);
+  static int getIdLikeText (string text);
+  static int getIdFromOnlinebible (string onlinebible);
+  static string getOnlinebibleFromId (int id);
+  static int getSequenceFromId (int id);
+  static string getType (int id);
 private:
-  sqlite3 * connect ();
+  static unsigned int data_count ();
 };
 
 

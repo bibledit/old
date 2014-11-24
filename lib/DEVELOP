@@ -36,3 +36,8 @@ The solution that is taken is this:
 1. Compile the library plus console program on Windows within Cygwin.
 2. Write a GUI in C#: It calls the console app with the library.
 
+An important reason for moving from a LAMP stack to a self-contained Bibledit
+version written in C++ is this: A LAMP stack has many option to run
+shell commands and has options for security holes.
+The self-contained version is offers hardly any options for security holes.
+Thus the server is expected to be more secure.
