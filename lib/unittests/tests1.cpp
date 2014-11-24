@@ -684,22 +684,22 @@ void test_database_styles ()
 void test_database_books ()
 {
   refresh_sandbox (true);
-  evaluate (__LINE__, __func__, 69, database_books.getIDs ().size());
-  evaluate (__LINE__, __func__, 2, database_books.getIdFromEnglish ("Exodus"));
-  evaluate (__LINE__, __func__, 0, database_books.getIdFromEnglish ("exodus"));
-  evaluate (__LINE__, __func__, "Leviticus", database_books.getEnglishFromId (3));
-  evaluate (__LINE__, __func__, "NUM", database_books.getUsfmFromId (4));
-  evaluate (__LINE__, __func__, "Deu", database_books.getBibleworksFromId (5));
-  evaluate (__LINE__, __func__, 22, database_books.getIdFromUsfm ("SNG"));
-  evaluate (__LINE__, __func__, 13, database_books.getIdFromOsis ("1Chr"));
-  evaluate (__LINE__, __func__, 12, database_books.getIdFromBibleworks ("2Ki"));
-  evaluate (__LINE__, __func__, 12, database_books.getIdLikeText ("2Ki"));
-  evaluate (__LINE__, __func__, 12, database_books.getIdFromOnlinebible ("2Ki"));
-  evaluate (__LINE__, __func__, "De", database_books.getOnlinebibleFromId (5));
-  evaluate (__LINE__, __func__, "5", database_books.getSequenceFromId (5));
-  evaluate (__LINE__, __func__, "nt", database_books.getType (40));
-  evaluate (__LINE__, __func__, "ot", database_books.getType (39));
-  evaluate (__LINE__, __func__, "", database_books.getType (0));
+  evaluate (__LINE__, __func__, 69, Database_Books::getIDs ().size());
+  evaluate (__LINE__, __func__, 2, Database_Books::getIdFromEnglish ("Exodus"));
+  evaluate (__LINE__, __func__, 0, Database_Books::getIdFromEnglish ("exodus"));
+  evaluate (__LINE__, __func__, "Leviticus", Database_Books::getEnglishFromId (3));
+  evaluate (__LINE__, __func__, "NUM", Database_Books::getUsfmFromId (4));
+  evaluate (__LINE__, __func__, "Deu", Database_Books::getBibleworksFromId (5));
+  evaluate (__LINE__, __func__, 22, Database_Books::getIdFromUsfm ("SNG"));
+  evaluate (__LINE__, __func__, 13, Database_Books::getIdFromOsis ("1Chr"));
+  evaluate (__LINE__, __func__, 12, Database_Books::getIdFromBibleworks ("2Ki"));
+  evaluate (__LINE__, __func__, 12, Database_Books::getIdLikeText ("2Ki"));
+  evaluate (__LINE__, __func__, 12, Database_Books::getIdFromOnlinebible ("2Ki"));
+  evaluate (__LINE__, __func__, "De", Database_Books::getOnlinebibleFromId (5));
+  evaluate (__LINE__, __func__, "5", Database_Books::getSequenceFromId (5));
+  evaluate (__LINE__, __func__, "nt", Database_Books::getType (40));
+  evaluate (__LINE__, __func__, "ot", Database_Books::getType (39));
+  evaluate (__LINE__, __func__, "", Database_Books::getType (0));
 }
 
 

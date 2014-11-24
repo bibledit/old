@@ -42,7 +42,7 @@ Passage::Passage (string bible_in, int book_in, int chapter_in, string verse_in)
 
 string filter_passage_display (int book, int chapter, string verse)
 {
-  string sbook = gettext (database_books.getEnglishFromId (book).c_str());
+  string sbook = gettext (Database_Books::getEnglishFromId (book).c_str());
   string display = sbook + " " + convert_to_string (chapter);
   if (!verse.empty ()) display.append (":" + verse);
   return display;

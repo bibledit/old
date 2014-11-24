@@ -45,7 +45,7 @@ void OnlineBible_Text::newVerse (int bookIdentifier, int chapterNumber, int vers
   storeData ();
   // Store passage and any text only in case the book is valid,
   // and the chapter and verse are non-zero.
-  string book = database_books.getOnlinebibleFromId (bookIdentifier);
+  string book = Database_Books::getOnlinebibleFromId (bookIdentifier);
   if (!book.empty()) {
     if (chapterNumber > 0) {
       if (verseNumber > 0) {

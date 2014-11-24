@@ -243,7 +243,7 @@ void Filter_Text::preprocessingStage ()
                     // Get book number.
                     string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                     s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
-                    currentBookIdentifier = database_books.getIdFromUsfm (s);
+                    currentBookIdentifier = Database_Books::getIdFromUsfm (s);
                     // Reset chapter and verse numbers.
                     currentChapterNumber = 0;
                     numberOfChaptersPerBook[currentBookIdentifier] = 0;
@@ -392,7 +392,7 @@ void Filter_Text::processUsfm ()
                   // Get book number.
                   string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                   s = filter_string_str_replace (get_soft_hyphen (), "", s); // Remove possible soft hyphen.
-                  currentBookIdentifier = database_books.getIdFromUsfm (s);
+                  currentBookIdentifier = Database_Books::getIdFromUsfm (s);
                   // Reset chapter and verse numbers.
                   currentChapterNumber = 0;
                   currentVerseNumber = "0";
@@ -584,7 +584,7 @@ void Filter_Text::processUsfm ()
               }
 
               // Enter text for the running headers.
-              string runningHeader = database_books.getEnglishFromId (currentBookIdentifier);
+              string runningHeader = Database_Books::getEnglishFromId (currentBookIdentifier);
               for (auto item : runningHeaders) {
                 if (item.book == currentBookIdentifier) {
                   runningHeader = item.value;
@@ -1229,7 +1229,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Number of chapters per book.
   information.newHeading1 (gettext("Number of chapters per book"));
   for (const auto & element : numberOfChaptersPerBook) {
-    string line = database_books.getEnglishFromId (element.first) + " => " + convert_to_string (element.second);
+    string line = Database_Books::getEnglishFromId (element.first) + " => " + convert_to_string (element.second);
     information.newParagraph ();
     information.addText (line);
   }
@@ -1237,7 +1237,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Running headers.
   information.newHeading1 (gettext("Running headers"));
   for (auto item : runningHeaders) {
-    string line = database_books.getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
@@ -1245,13 +1245,13 @@ void Filter_Text::produceInfoDocument (string path)
   // Table of Contents entries.
   information.newHeading1 (gettext("Long table of contents entries"));
   for (auto item : longTOCs) {
-    string line = database_books.getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
   information.newHeading1 (gettext("Short table of contents entries"));
   for (auto item : shortTOCs) {
-    string line = database_books.getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
@@ -1259,7 +1259,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Book abbreviations.
   information.newHeading1 (gettext("Book abbreviations"));
   for (auto item : bookAbbreviations) {
-    string line = database_books.getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
@@ -1267,13 +1267,13 @@ void Filter_Text::produceInfoDocument (string path)
   // Chapter specials.
   information.newHeading1 (gettext("Publishing chapter labels"));
   for (auto item : chapterLabels) {
-    string line = database_books.getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
   information.newHeading1 (gettext("Publishing alternate chapter numbers"));
   for (auto item : publishedChapterMarkers) {
-    string line = database_books.getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
     information.newParagraph ();
     information.addText (line);
   }
