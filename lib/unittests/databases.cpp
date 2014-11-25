@@ -30,12 +30,163 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 
 
+void test_database_styles ()
+{
+  // Tests for Database_Styles.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+
+    vector <string> sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+
+    database_styles.createSheet ("phpunit");
+    sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { "Standard", "phpunit" }, sheets);
+
+    database_styles.deleteSheet ("phpunit");
+    sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+
+    database_styles.deleteSheet ("Standard");
+    sheets = database_styles.getSheets ();
+    evaluate (__LINE__, __func__, { "Standard" }, sheets);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+
+    vector <string> markers;
+    
+    markers = database_styles.getMarkers ("Standard");
+    evaluate (__LINE__, __func__, 179, markers.size ());
+
+    markers = database_styles.getMarkers ("phpunit");
+    evaluate (__LINE__, __func__, 179, markers.size ());
+
+    string marker = "p";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+    marker = "add";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+
+    map <string, string> markers_names = database_styles.getMarkersAndNames ("phpunit");
+    evaluate (__LINE__, __func__, 179, markers_names.size());
+    evaluate (__LINE__, __func__, "Blank Line", markers_names ["b"]);
+    evaluate (__LINE__, __func__, "Normal, First Line Indent", markers_names ["p"]);
+    evaluate (__LINE__, __func__, "* Translational Addition", markers_names ["add"]);
+
+    database_styles.deleteMarker ("phpunit", "p");
+    markers = database_styles.getMarkers ("phpunit");
+    marker = "p";
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+    marker = "add";
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+
+    markers_names = database_styles.getMarkersAndNames ("phpunit");
+    evaluate (__LINE__, __func__, "", markers_names ["p"]);
+    evaluate (__LINE__, __func__, "* Translational Addition", markers_names ["add"]);    
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    evaluate (__LINE__, __func__, "add", data.marker);
+    evaluate (__LINE__, __func__, "st", data.category);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    database_styles.updateName ("phpunit", "add", "Addition");
+    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    evaluate (__LINE__, __func__, "Addition", data.name);
+    database_styles.updateInfo ("phpunit", "p", "Paragraph");
+    data = database_styles.getMarkerData ("phpunit", "p");
+    evaluate (__LINE__, __func__, "Paragraph", data.info);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+
+    // A user does not have write access to the stylesheet.
+    bool write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+
+    // Grant write access, and test it for this user, and for another user.
+    database_styles.grantWriteAccess ("user", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, true, write);
+    write = database_styles.hasWriteAccess ("user2", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+    write = database_styles.hasWriteAccess ("user", "phpunit2");
+    evaluate (__LINE__, __func__, false, write);
+
+    // Revoke write access for a user, test it in various ways.
+    database_styles.revokeWriteAccess ("user2", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, true, write);
+    database_styles.revokeWriteAccess ("user", "phpunit");
+    write = database_styles.hasWriteAccess ("user", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+    
+    // Revoking write access for all users.
+    database_styles.grantWriteAccess ("user1", "phpunit");
+    database_styles.grantWriteAccess ("user2", "phpunit");
+    database_styles.revokeWriteAccess ("", "phpunit");
+    write = database_styles.hasWriteAccess ("user1", "phpunit");
+    evaluate (__LINE__, __func__, false, write);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.create ();
+    database_styles.createSheet ("phpunit");
+
+    // Get markers.
+    vector <string> markers = database_styles.getMarkers ("phpunit");
+    string marker = "zhq";
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+  
+    // Add marker.
+    database_styles.addMarker ("phpunit", marker);
+    markers = database_styles.getMarkers ("phpunit");
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "should be there");
+  }
+}
+
+
+// Tests for the Database_Books object.
+void test_database_books ()
+{
+  refresh_sandbox (true);
+  evaluate (__LINE__, __func__, 69, Database_Books::getIDs ().size());
+  evaluate (__LINE__, __func__, 2, Database_Books::getIdFromEnglish ("Exodus"));
+  evaluate (__LINE__, __func__, 0, Database_Books::getIdFromEnglish ("exodus"));
+  evaluate (__LINE__, __func__, "Leviticus", Database_Books::getEnglishFromId (3));
+  evaluate (__LINE__, __func__, "NUM", Database_Books::getUsfmFromId (4));
+  evaluate (__LINE__, __func__, "Deu", Database_Books::getBibleworksFromId (5));
+  evaluate (__LINE__, __func__, 22, Database_Books::getIdFromUsfm ("SNG"));
+  evaluate (__LINE__, __func__, 13, Database_Books::getIdFromOsis ("1Chr"));
+  evaluate (__LINE__, __func__, 12, Database_Books::getIdFromBibleworks ("2Ki"));
+  evaluate (__LINE__, __func__, 12, Database_Books::getIdLikeText ("2Ki"));
+  evaluate (__LINE__, __func__, 12, Database_Books::getIdFromOnlinebible ("2Ki"));
+  evaluate (__LINE__, __func__, "De", Database_Books::getOnlinebibleFromId (5));
+  evaluate (__LINE__, __func__, "5", Database_Books::getSequenceFromId (5));
+  evaluate (__LINE__, __func__, "nt", Database_Books::getType (40));
+  evaluate (__LINE__, __func__, "ot", Database_Books::getType (39));
+  evaluate (__LINE__, __func__, "", Database_Books::getType (0));
+}
+
+
 // Tests for Database_Search
 void test_database_search_setup ()
 {
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
-  database_styles.createStandardSheet ();
 
   string standardUSFM1 =  "\\c 1"
                           "\\p"

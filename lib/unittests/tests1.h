@@ -31,8 +31,6 @@ void test_sqlite ();
 void test_session_logic ();
 void test_empty_folders ();
 void test_flate2 ();
-void test_database_styles ();
-void test_database_books ();
 
 
 #endif

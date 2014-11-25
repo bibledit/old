@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-// All data is stored in code, not in a database on disk.
+// All data is stored in the code in memory, not in a database on disk.
 
 
 typedef struct
@@ -148,19 +148,7 @@ book_record books_table [] =
 };
 
 
-unsigned int bookdata_books_count()
-{
-  unsigned int count = sizeof(books_table) / sizeof(*books_table);
-  return count;
-}
-
-
 // For OSIS abbreviations see http://www.crosswire.org/wiki/OSIS_Book_Abbreviations.
-
-
-Database_Books::Database_Books ()
-{
-}
 
 
 vector <int> Database_Books::getIDs ()

@@ -705,7 +705,7 @@ void Odf_Text::newPageBreak ()
 // $name: the name of the style, e.g. 'p'.
 // $dropcaps: If 0, there are no drop caps.
 //            If greater than 0, it the number of characters in drop caps style.
-void Odf_Text::createParagraphStyle (string name, string fontsize, int italic, int bold, int underline, int smallcaps, int alignment, string spacebefore, string spaceafter, string leftmargin, string rightmargin, string firstlineindent, bool keepWithNext, bool dropcaps)
+void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, bool dropcaps)
 {
   // It looks like this in styles.xml:
   // <style:style style:display-name="p_c1" style:family="paragraph" style:name="p_c1">
@@ -726,10 +726,10 @@ void Odf_Text::createParagraphStyle (string name, string fontsize, int italic, i
   xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
   xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
 
-  fontsize += "pt";
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST fontsize.c_str());
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST fontsize.c_str());
-  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST fontsize.c_str());
+  string sfontsize = convert_to_string (fontsize) + "pt";
+  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST sfontsize.c_str());
+  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST sfontsize.c_str());
+  xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST sfontsize.c_str());
 
   // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
   if (italic != ooitOff) {
@@ -763,16 +763,16 @@ void Odf_Text::createParagraphStyle (string name, string fontsize, int italic, i
   xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "style:justify-single-word", BAD_CAST "false");
 
   // Paragraph measurements; given in mm.
-  spacebefore += "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-top", BAD_CAST spacebefore.c_str());
-  spaceafter += "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-bottom", BAD_CAST spaceafter.c_str());
-  leftmargin += "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-left", BAD_CAST leftmargin.c_str());
-  rightmargin += "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-right", BAD_CAST rightmargin.c_str());
-  firstlineindent += "mm";
-  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-indent", BAD_CAST firstlineindent.c_str());
+  string sspacebefore = convert_to_string (spacebefore) + "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-top", BAD_CAST sspacebefore.c_str());
+  string sspaceafter = convert_to_string (spaceafter) + "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-bottom", BAD_CAST sspaceafter.c_str());
+  string sleftmargin = convert_to_string (leftmargin) + "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-left", BAD_CAST sleftmargin.c_str());
+  string srightmargin = convert_to_string (rightmargin) + "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:margin-right", BAD_CAST srightmargin.c_str());
+  string sfirstlineindent = convert_to_string (firstlineindent) + "mm";
+  xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:text-indent", BAD_CAST sfirstlineindent.c_str());
 
   if (keepWithNext) {
     xmlNewProp (styleParagraphPropertiesDomElement, BAD_CAST "fo:keep-together", BAD_CAST "always");
@@ -813,7 +813,7 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
     int underline = style.underline;
     int smallcaps = style.smallcaps;
     int superscript = style.superscript;
-    string color = style.color;
+    int color = style.color;
     createdStyles.push_back (marker);
 
     // The style entry looks like this in styles.xml, e.g., for italic:
@@ -860,8 +860,9 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
       //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
     }
 
-    if (color != "000000") {
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:color", BAD_CAST convert_to_string ("#" + color).c_str());
+    if (color != 0) {
+      string scolor = filter_string_fill (convert_to_string (color), 6, '0');
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:color", BAD_CAST convert_to_string ("#" + scolor).c_str());
     }
 
   }
@@ -897,7 +898,7 @@ void Odf_Text::closeTextStyle (bool note, bool embed)
 // $style - the name of the style of the $text.
 // $fontsize - given in points.
 // $italic, $bold - integer values.
-void Odf_Text::placeTextInFrame (string text, string style, string fontsize, int italic, int bold)
+void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int italic, int bold)
 {
   // Empty text is discarded.
   if (text.empty ()) return;
@@ -955,10 +956,10 @@ void Odf_Text::placeTextInFrame (string text, string style, string fontsize, int
   
       xmlNodePtr styleTextPropertiesDomElement = xmlNewNode (NULL, BAD_CAST "style:text-properties");
       xmlAddChild (styleDomElement, styleTextPropertiesDomElement);
-      fontsize += "pt";
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST fontsize.c_str());
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST fontsize.c_str());
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST fontsize.c_str());
+      string sfontsize = convert_to_string (fontsize) + "pt";
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size", BAD_CAST sfontsize.c_str());
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-asian", BAD_CAST sfontsize.c_str());
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-size-complex", BAD_CAST sfontsize.c_str());
       if (italic != ooitOff) {
         xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style", BAD_CAST "italic");
         xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:font-style-asian", BAD_CAST "italic");

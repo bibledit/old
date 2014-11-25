@@ -1401,17 +1401,17 @@ void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
 {
   string marker = style.marker;
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
-    string fontsize = style.fontsize;
+    float fontsize = style.fontsize;
     int italic = style.italic;
     int bold = style.bold;
     int underline = style.underline;
     int smallcaps = style.smallcaps;
     int alignment = style.justification;
-    string spacebefore = style.spacebefore;
-    string spaceafter = style.spaceafter;
-    string leftmargin = style.leftmargin;
-    string rightmargin = style.rightmargin;
-    string firstlineindent = style.firstlineindent;
+    float spacebefore = style.spacebefore;
+    float spaceafter = style.spaceafter;
+    float leftmargin = style.leftmargin;
+    float rightmargin = style.rightmargin;
+    float firstlineindent = style.firstlineindent;
     // Columns are not implemented at present. Reason:
     // Copying and pasting sections with columns between documents in LibreOffice failed to work.
     // int spancolumns = style.spancolumns;
@@ -1444,17 +1444,17 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
     string combined_style = odf_text_standard->currentParagraphStyle + "_" + chapterMarker + convert_to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
       Database_Styles_Item style = styles[odf_text_standard->currentParagraphStyle];
-      string fontsize = style.fontsize;
+      float fontsize = style.fontsize;
       int italic = style.italic;
       int bold = style.bold;
       int underline = style.underline;
       int smallcaps = style.smallcaps;
       int alignment = style.justification;
-      string spacebefore = style.spacebefore;
-      string spaceafter = style.spaceafter;
-      string leftmargin = style.leftmargin;
-      string rightmargin = style.rightmargin;
-      string firstlineindent = "0"; // First line that contains the chapter number in drop caps is not indented.
+      float spacebefore = style.spacebefore;
+      float spaceafter = style.spaceafter;
+      float leftmargin = style.leftmargin;
+      float rightmargin = style.rightmargin;
+      float firstlineindent = 0; // First line that contains the chapter number in drop caps is not indented.
       //int spancolumns = style.spancolumns;
       bool keepWithNext = false;
       if (odf_text_standard) odf_text_standard->createParagraphStyle (combined_style, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
@@ -1578,17 +1578,17 @@ void Filter_Text::resetNoteCitations (string moment)
 void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item style)
 {
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
-    string fontsize = style.fontsize;
+    float fontsize = style.fontsize;
     int italic = style.italic;
     int bold = style.bold;
     int underline = style.underline;
     int smallcaps = style.smallcaps;
     int alignment = style.justification;
-    string spacebefore = style.spacebefore;
-    string spaceafter = style.spaceafter;
-    string leftmargin = style.leftmargin;
-    string rightmargin = style.rightmargin;
-    string firstlineindent = style.firstlineindent;
+    float spacebefore = style.spacebefore;
+    float spaceafter = style.spaceafter;
+    float leftmargin = style.leftmargin;
+    float rightmargin = style.rightmargin;
+    float firstlineindent = style.firstlineindent;
     //bool spancolumns = false;
     bool keepWithNext = false;
     int dropcaps = 0;

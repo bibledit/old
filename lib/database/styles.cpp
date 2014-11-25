@@ -25,12 +25,230 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/xmlwriter.h>
 
 
-using namespace std;
-
-
 // This is the database for the styles.
 // Resilience: It is hardly written to. 
 // Chances of corruption are low.
+// All default data is stored in the code in memory, not in a database on disk.
+
+
+typedef struct
+{
+  const char * marker;
+  const char * name;
+  const char * info;
+  const char * category;
+  int type;
+  int subtype;
+  float fontsize;
+  int italic;
+  int bold;
+  int underline;
+  int smallcaps;
+  int superscript;
+  int justification;
+  float spacebefore;
+  float spaceafter;
+  float leftmargin;
+  float rightmargin;
+  float firstlineindent;
+  int spancolumns;
+  int color;
+  bool print;
+  bool userbool1;
+  bool userbool2;
+  bool userbool3;
+  int userint1;
+  int userint2;
+  int userint3;
+  const char * userstring1;
+  const char * userstring2;
+  const char * userstring3;
+} 
+style_record;
+
+
+style_record styles_table [] =
+{
+  { /* marker */ "add", /* name */ "* Translational Addition", /* info */ "For a translational addition to the text", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 60 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "b", /* name */ "Blank Line", /* info */ "May be used to explicitely indicate additional white space between paragraphs. Poetry text stanza break (e.g. stanza break)", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "bd", /* name */ "* Bold Text", /* info */ "A character style, use bold text", /* category */ "cs", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "bdit", /* name */ "* BoldItalic Text", /* info */ "A character style, use bold + italic text", /* category */ "cs", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "bk", /* name */ "* Quoted book title", /* info */ "For the quoted name of a book", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "c", /* name */ "Chapter Number", /* info */ "Chapter number", /* category */ "cv", /* type */ 5, /* subtype */ 0, /* fontsize */ 30 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ -3, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 1, /* userbool2 */ 1, /* userbool3 */ 1, /* userint1 */ 90, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ca", /* name */ "Alternate Chapter Number", /* info */ "Second (alternate) chapter number (for coding dual versification; useful for places where different traditions of chapter breaks need to be supported in the same translation). Bibledit does nothing with this marker yet.", /* category */ "cv", /* type */ 0, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 20, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "cd", /* name */ "Chapter Description", /* info */ "Chapter Description (Publishing option D, e.g. in Russian Bibles)", /* category */ "cv", /* type */ 3, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "cl", /* name */ "Chapter Publishing Label", /* info */ "Chapter label used for translations that add a word such as 'Chapter' before chapter numbers (e.g. Psalms).", /* category */ "cv", /* type */ 0, /* subtype */ 7, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "cls", /* name */ "Closure of an Epistle", /* info */ "Closure of an Epistle", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "conc", /* name */ "Concordance", /* info */ "Back matter concordance.", /* category */ "pm", /* type */ 9, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "cov", /* name */ "Cover", /* info */ "Other peripheral materials - cover.", /* category */ "pm", /* type */ 9, /* subtype */ 6, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "cp", /* name */ "Publishing Alternate Chapter Number", /* info */ "Published chapter number (this is a chapter marking that would be used in the published text).", /* category */ "cv", /* type */ 0, /* subtype */ 8, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "d", /* name */ "Descriptive Title, Hebrew Subtitle", /* info */ "A Hebrew text heading, to provide description (e.g. Psalms)", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 4, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "dc", /* name */ "* Deuterocanonical/LXX Additions", /* info */ "Deuterocanonical/LXX additions or insertions in the Protocanonical text", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "em", /* name */ "* Emphasized Text", /* info */ "A character style, use emphasized text style", /* category */ "cs", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "f", /* name */ "* Footnote", /* info */ "A Footnote text item.", /* category */ "f", /* type */ 7, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 3, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 2, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fdc", /* name */ "* DC text", /* info */ "Footnote text, applies to Apocrypha only.", /* category */ "f", /* type */ 7, /* subtype */ 4, /* fontsize */ 11 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 1, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fe", /* name */ "* Endnote", /* info */ "An Endnote text item.", /* category */ "f", /* type */ 7, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 3, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "zendnotes", /* userstring3 */ "" },
+  { /* marker */ "fig", /* name */ "* Figure/Illustration/Map", /* info */ "Illustration [Columns to span, height, filename, caption text]", /* category */ "sf", /* type */ 10, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fk", /* name */ "Keyword", /* info */ "(*) A footnote keyword.", /* category */ "f", /* type */ 7, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 1, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fl", /* name */ "Label Text", /* info */ "(*) A footnote label text item, for labelling the type or alternate translation being provided in the note.", /* category */ "f", /* type */ 7, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 1, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fm", /* name */ "* Footnote Mark", /* info */ "An additional footnote marker location for a previous footnote.", /* category */ "f", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 1, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fp", /* name */ "Paragraph Mark", /* info */ "(*) A Footnote additional paragraph marker.", /* category */ "f", /* type */ 7, /* subtype */ 5, /* fontsize */ 11 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 3, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 3, /* rightmargin */ 0, /* firstlineindent */ 3, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fq", /* name */ "Quotation or Alternate Rendering", /* info */ "(*) A footnote scripture quote.", /* category */ "f", /* type */ 7, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fqa", /* name */ "Alternate Rendering", /* info */ "(*) A footnote alternate rendering for a portion of scripture text.", /* category */ "f", /* type */ 7, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fr", /* name */ "Reference", /* info */ "(*) The origin reference for the footnote.", /* category */ "f", /* type */ 7, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ft", /* name */ "Text", /* info */ "(*) Footnote text.", /* category */ "f", /* type */ 7, /* subtype */ 2, /* fontsize */ 11 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "fv", /* name */ "Embedded Verse Number", /* info */ "(*) A verse number within the footnote text.", /* category */ "f", /* type */ 7, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "glo", /* name */ "Glossary", /* info */ "Back matter glossary.", /* category */ "pm", /* type */ 9, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "h", /* name */ "Running Header", /* info */ "Running header text for a book", /* category */ "id", /* type */ 0, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 1, /* userbool3 */ 1, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "h1", /* name */ "Running Header", /* info */ "Running header text", /* category */ "id", /* type */ 0, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 1, /* userbool3 */ 1, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "h2", /* name */ "Left Running Header", /* info */ "Running header text, left side of page", /* category */ "id", /* type */ 0, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 1, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "h3", /* name */ "Right Running Header", /* info */ "Running header text, right side of page", /* category */ "id", /* type */ 0, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 1, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ib", /* name */ "Blank Line", /* info */ "Introduction blank line", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 5 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "id", /* name */ "Identification", /* info */ "File identification information (BOOKID, FILENAME, EDITOR, MODIFICATION DATE)", /* category */ "id", /* type */ 0, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 1, /* userbool2 */ 1, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ide", /* name */ "Encoding", /* info */ "File encoding information. Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.", /* category */ "id", /* type */ 0, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "idx", /* name */ "Index", /* info */ "Back matter index.", /* category */ "pm", /* type */ 9, /* subtype */ 4, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ie", /* name */ "End Marker", /* info */ "Introduction ending marker", /* category */ "ioe", /* type */ 0, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "iex", /* name */ "Explanatory or Bridge Text", /* info */ "Introduction explanatory or bridge text (e.g. explanation of missing book in Short Old Testament)", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 4, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 3.2, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "im", /* name */ "Paragraph, no first line indent", /* info */ "Introduction prose paragraph, with no first line indent (may occur after poetry)", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imi", /* name */ "Indented Paragraph, no first line indent", /* info */ "Introduction prose paragraph text, indented, with no first line indent", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imq", /* name */ "Paragraph, quote from text, no first line indent", /* info */ "Introduction prose paragraph, quote from the body text, with no first line indent", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imt", /* name */ "Major Title Level 1", /* info */ "Introduction major title, level 1 (if single level)", /* category */ "ith", /* type */ 3, /* subtype */ 0, /* fontsize */ 14 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imt1", /* name */ "Major Title Level 1", /* info */ "Introduction major title, level 1 (if multiple levels)", /* category */ "ith", /* type */ 3, /* subtype */ 0, /* fontsize */ 14 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imt2", /* name */ "Major Title Level 2", /* info */ "Introduction major title, level 2", /* category */ "ith", /* type */ 3, /* subtype */ 0, /* fontsize */ 13 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 6, /* spaceafter */ 3, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imt3", /* name */ "Major Title Level 3", /* info */ "Introduction major title, level 3", /* category */ "ith", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 2, /* spaceafter */ 2, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imt4", /* name */ "Major Title Level 4", /* info */ "Introduction major title, level 4 (usually within parenthesis)", /* category */ "ith", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 2, /* spaceafter */ 2, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "imte", /* name */ "[Uncommon] Major Title at Introduction End", /* info */ "Introduction major title at introduction end", /* category */ "ith", /* type */ 3, /* subtype */ 0, /* fontsize */ 20 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "intro", /* name */ "Introduction", /* info */ "Front matter introduction.", /* category */ "pm", /* type */ 9, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "io", /* name */ "Outline Level 1", /* info */ "Introduction outline text, level 1 (if single level)", /* category */ "ioe", /* type */ 3, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 12.7, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "io1", /* name */ "Outline Level 1", /* info */ "Introduction outline text, level 1 (if multiple levels)", /* category */ "ioe", /* type */ 3, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 12.7, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "io2", /* name */ "Outline Level 2", /* info */ "Introduction outline text, level 2", /* category */ "ioe", /* type */ 3, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 19.1, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "io3", /* name */ "Outline Level 3", /* info */ "Introduction outline text, level 3", /* category */ "ioe", /* type */ 3, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "io4", /* name */ "Outline Level 4", /* info */ "Introduction outline text, level 4", /* category */ "ioe", /* type */ 3, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 31.8, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ior", /* name */ "Outline References Range", /* info */ "Introduction references range for outline entry; for marking references separately", /* category */ "ioe", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "iot", /* name */ "Outline Title", /* info */ "Introduction outline title", /* category */ "ioe", /* type */ 3, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ip", /* name */ "Paragraph", /* info */ "Introduction prose paragraph", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 5, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ipi", /* name */ "Indented Paragraph, first line indent", /* info */ "Introduction prose paragraph, indented, with first line indent", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.3, /* rightmargin */ 6.3, /* firstlineindent */ 3.2, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ipq", /* name */ "Paragraph, quote from text", /* info */ "Introduction prose paragraph, quote from the body text", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 3.2, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ipr", /* name */ "Paragraph, right aligned", /* info */ "Introduction prose paragraph, right aligned", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "iq", /* name */ "Poetry Level 1", /* info */ "Introduction poetry text, level 1 (if single level)", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -19.1, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "iq1", /* name */ "Poetry Level 1", /* info */ "Introduction poetry text, level 1 (if multiple levels)", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -19.1, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "iq2", /* name */ "Poetry Level 2", /* info */ "Introduction poetry text, level 2", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -12.7, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "iq3", /* name */ "Poetry Level 3", /* info */ "Introduction poetry text, level 3", /* category */ "ipp", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -6.4, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "is", /* name */ "Section Heading Level 1", /* info */ "Introduction section heading, level 1 (if single level)", /* category */ "ith", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "is1", /* name */ "Section Heading Level 1", /* info */ "Introduction section heading, level 1 (if multiple levels)", /* category */ "ith", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "is2", /* name */ "Section Heading Level 2", /* info */ "Introduction section heading, level 2", /* category */ "ith", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "it", /* name */ "* Italic Text", /* info */ "A character style, use italic text", /* category */ "cs", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "k", /* name */ "* Keyword", /* info */ "For a keyword", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "k1", /* name */ "Concordance Keyword Level 1", /* info */ "Concordance main entry text or keyword, level 1", /* category */ "pm", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "k2", /* name */ "Concordance Keyword Level 2", /* info */ "Concordance main entry text or keyword, level 2", /* category */ "pm", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "li", /* name */ "List Entry Level 1", /* info */ "A list entry, level 1 (if single level)", /* category */ "l", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 15.9, /* rightmargin */ -9.3, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "li1", /* name */ "List Entry Level 1", /* info */ "A list entry, level 1 (if multiple levels)", /* category */ "l", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 12.7, /* rightmargin */ 0, /* firstlineindent */ -6.4, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "li2", /* name */ "List Entry Level 2", /* info */ "A list entry, level 2", /* category */ "l", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 19.1, /* rightmargin */ 0, /* firstlineindent */ -6.4, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "li3", /* name */ "List Entry Level 3", /* info */ "A list entry, level 3", /* category */ "l", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -6.4, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "li4", /* name */ "List Entry Level 4", /* info */ "A list entry, level 4", /* category */ "l", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 31.8, /* rightmargin */ 0, /* firstlineindent */ -6.4, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "lit", /* name */ "* Liturgical note", /* info */ "For a comment or note inserted for liturgical use", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "m", /* name */ "Margin, No First Line Indent", /* info */ "Paragraph text, with no first line indent (may occur after poetry)", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "maps", /* name */ "Map Index", /* info */ "Back matter map index.", /* category */ "pm", /* type */ 9, /* subtype */ 5, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mi", /* name */ "Indented, No First Line Indent", /* info */ "Paragraph text, indented, with no first line indent; often used for discourse", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mr", /* name */ "Major Section Range References", /* info */ "A major section division references range heading", /* category */ "h", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ms", /* name */ "Major Section Level 1", /* info */ "A major section division heading, level 1 (if single level)", /* category */ "h", /* type */ 3, /* subtype */ 0, /* fontsize */ 14 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 16, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ms1", /* name */ "Major Section Level 1", /* info */ "A major section division heading, level 1 (if multiple levels)", /* category */ "h", /* type */ 3, /* subtype */ 0, /* fontsize */ 14 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 16, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ms2", /* name */ "Major Section Level 2", /* info */ "A major section division heading, level 2", /* category */ "h", /* type */ 3, /* subtype */ 0, /* fontsize */ 14 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 16, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mt", /* name */ "Major Title Level 1", /* info */ "The main title of the book (if single level)", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 20 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mt1", /* name */ "Major Title Level 1", /* info */ "The main title of the book (if multiple levels)", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 20 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 2, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mt2", /* name */ "Major Title Level 2", /* info */ "A secondary title with less important information than the main title.", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 16 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 2, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mt3", /* name */ "Major Title Level 3", /* info */ "A secondary title, less important than the main title", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 16 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 2, /* spaceafter */ 2, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mt4", /* name */ "Major Title level 4", /* info */ "A small secondary title sometimes occuring within parentheses", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 2, /* spaceafter */ 2, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mte", /* name */ "[Uncommon] Major Title Ending Level 1", /* info */ "The main title of the book repeated at the end of the book (if single level)", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 20 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mte1", /* name */ "[Uncommon] Major Title Ending Level 1", /* info */ "The main title of the book repeated at the end of the book (if multiple levels)", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 20 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "mte2", /* name */ "[Uncommon] Major Title Ending Level 2", /* info */ "A secondary title occurring before or after the 'ending' main title", /* category */ "t", /* type */ 3, /* subtype */ 0, /* fontsize */ 16 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 2, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "nb", /* name */ "No Break with Previous Paragraph", /* info */ "Paragraph text, with no break from previous paragraph text (at chapter boundary)", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 3, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "nd", /* name */ "* Name of Deity", /* info */ "For name of diety", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 1, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ndx", /* name */ "* Subject Index Entry", /* info */ "A subject index text item.", /* category */ "sf", /* type */ 13, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "no", /* name */ "* Normal Text", /* info */ "A character style, use normal text", /* category */ "cs", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "ord", /* name */ "* Ordinal number text portion", /* info */ "For the text portion of an ordinal number", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 1, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "p", /* name */ "Normal, First Line Indent", /* info */ "Paragraph text, with first line indent", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 3, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 3.2, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "p1", /* name */ "Front/Back Matter Paragraph Level 1", /* info */ "Front or back matter text paragraph, level 1 (if multiple levels)", /* category */ "pm", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 3.2, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "p2", /* name */ "Front/Back Matter Paragraph Level 2", /* info */ "Front or back matter text paragraph, level 2 (if multiple levels)", /* category */ "pm", /* type */ 3, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 3.2, /* rightmargin */ 0, /* firstlineindent */ 3.2, /* spancolumns */ 1,  /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pb", /* name */ "Page Break", /* info */ "Page Break used for new reader portions and children's bibles where content is controlled by the page", /* category */ "sb", /* type */ 11, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pc", /* name */ "Centered (for Inscription)", /* info */ "Paragraph text, centered (for Inscription)", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pi", /* name */ "Indented, Level 1, First Line Indent", /* info */ "Paragraph text, level 1 indent (if single level), with first line indent; often used for discourse", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 3.2, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pi1", /* name */ "Indented, Level 1, First Line Indent", /* info */ "Paragraph text, level 1 indent (if multiple levels), with first line indent; often used for discourse", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 3.2, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pi2", /* name */ "Indented, Level 2, First Line Indent", /* info */ "Paragraph text, level 2 indent, with first line indent; often used for discourse", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 12.7, /* rightmargin */ 6.4, /* firstlineindent */ 3.2, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pi3", /* name */ "Indented, Level 3, First Line Indent", /* info */ "Paragraph text, level 3 indent, with first line indent; often used for discourse", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 19.1, /* rightmargin */ 6.4, /* firstlineindent */ 3.2, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pm", /* name */ "Embedded Text", /* info */ "Embedded text paragraph", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 3.2, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pmc", /* name */ "Embedded Text Closing", /* info */ "Embedded text closing", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pmo", /* name */ "Embedded Text Opening", /* info */ "Embedded text opening", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 3.2, /* rightmargin */ 3.2, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pmr", /* name */ "Embedded Text Refrain", /* info */ "Embedded text refrain (e.g. Then all the people shall say, Amen!)", /* category */ "p", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 6.4, /* rightmargin */ 6.4, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pn", /* name */ "* Proper Name", /* info */ "For a proper name", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 1, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pref", /* name */ "Preface", /* info */ "Front matter preface.", /* category */ "pm", /* type */ 9, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pro", /* name */ "* CJK Prounciation", /* info */ "For indicating pronunciation in CJK texts", /* category */ "sf", /* type */ 0, /* subtype */ 9, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pub", /* name */ "Publication Data", /* info */ "Front matter publication data.", /* category */ "pm", /* type */ 9, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "pubinfo", /* name */ "Publication Information", /* info */ "Publication information - Lang,Credit,Version,Copies,Publisher,Id,Logo. Not yet supported in Bibledit.", /* category */ "pm", /* type */ 0, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "q", /* name */ "Indent Level 1, Single Level Only", /* info */ "Poetry text, level 1 indent (if single level)", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -19.1, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "q1", /* name */ "Indent Level 1", /* info */ "Poetry text, level 1 indent (if multiple levels)", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 24.4, /* rightmargin */ 0, /* firstlineindent */ -19.1, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "q2", /* name */ "Indent Level 2", /* info */ "Poetry text, level 2 indent", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -12.7, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "q3", /* name */ "Indent Level 3", /* info */ "Poetry text, level 3 indent", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -6.4, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qa", /* name */ "Acrostic Heading/Marker", /* info */ "Poetry text, Acrostic marker/heading", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qac", /* name */ "* Acrostic Letter", /* info */ "Poetry text, Acrostic markup of the first character of a line of acrostic poetry", /* category */ "pe", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qc", /* name */ "Centered", /* info */ "Poetry text, centered", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qm", /* name */ "Embedded Text, Indent Level 1, Single Level Only", /* info */ "Poetry text, embedded, level 1 indent (if single level)", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -19.1, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qm1", /* name */ "Embedded Text, Indent Level 1", /* info */ "Poetry text, embedded, level 1 indent (if multiple levels)", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -19.1, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qm2", /* name */ "Embedded Text, Indent Level 2", /* info */ "Poetry text, embedded, level 2 indent", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -12.7, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qm3", /* name */ "Embedded Text, Indent Level 3", /* info */ "Poetry text, embedded, level 3 indent", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 25.4, /* rightmargin */ 0, /* firstlineindent */ -6.4, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qr", /* name */ "Right Aligned", /* info */ "Poetry text, Right Aligned", /* category */ "pe", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qs", /* name */ "* Selah", /* info */ "Poetry text, Selah", /* category */ "pe", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "qt", /* name */ "* Quoted Text, OT in NT", /* info */ "For Old Testament quoted text appearing in the New Testament", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "r", /* name */ "Parallel References", /* info */ "Parallel reference(s)", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "rem", /* name */ "Remark", /* info */ "Comments and remarks", /* category */ "id", /* type */ 0, /* subtype */ 2, /* fontsize */ 60 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "rq", /* name */ "Inline Quotation References", /* info */ "A cross-reference indicating the source text for the preceding quotation.", /* category */ "h", /* type */ 3, /* subtype */ 3, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "s", /* name */ "Section Heading Level 1", /* info */ "A section heading, level 1 (if single level)", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "s1", /* name */ "Section Heading Level 1", /* info */ "A section heading, level 1 (if multiple levels)", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "s2", /* name */ "Section Heading Level 2", /* info */ "A section heading, level 2 (e.g. Proverbs 22-24)", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "s3", /* name */ "Section Heading Level 3", /* info */ "A section heading, level 3 (e.g. Genesis: The First Day)", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 6, /* spaceafter */ 3, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "s4", /* name */ "Section Heading Level 4", /* info */ "A section heading, level 4", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 6, /* spaceafter */ 3, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "sc", /* name */ "* Small Caps", /* info */ "A character style, for small capitalization text", /* category */ "cs", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 1, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "sig", /* name */ "* Author's Signature (Epistles)", /* info */ "For the signature of the author of an Epistle", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "sls", /* name */ "* Secondary Language or Text Source", /* info */ "To represent where the original text is in a secondary language or from an alternate text source", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "sp", /* name */ "Speaker", /* info */ "A heading, to identify the speaker (e.g. Job)", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 8, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "spine", /* name */ "Spine", /* info */ "Other peripheral materials - spine.", /* category */ "pm", /* type */ 9, /* subtype */ 9, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "sr", /* name */ "Section Heading Range References", /* info */ "A section division references range heading", /* category */ "h", /* type */ 3, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 1, /* spacebefore */ 0, /* spaceafter */ 4, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tc1", /* name */ "Column 1 Cell", /* info */ "A table cell item, column 1.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tc2", /* name */ "Column 2 Cell", /* info */ "A table cell item, column 2.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 2, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tc3", /* name */ "Column 3 Cell", /* info */ "A table cell item, column 3.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 3, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tc4", /* name */ "Column 4 Cell", /* info */ "A table cell item, column 4.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 4, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tcr1", /* name */ "Column 1 Cell, Right Aligned", /* info */ "A table cell item, column 1, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tcr2", /* name */ "Column 2 Cell, Right Aligned", /* info */ "A table cell item, column 2, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 2, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tcr3", /* name */ "Column 3 Cell, Right Aligned", /* info */ "A table cell item, column 3, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 3, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tcr4", /* name */ "Column 4 Cell, Right Aligned", /* info */ "A table cell item, column 4, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 4, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "th1", /* name */ "Column 1 Heading", /* info */ "A table heading, column 1.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "th2", /* name */ "Column 2 Heading", /* info */ "A table heading, column 2.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 2, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "th3", /* name */ "Column 3 Heading", /* info */ "A table heading, column 3.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 3, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "th4", /* name */ "Column 4 Heading", /* info */ "A table heading, column 4.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 4, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "thr1", /* name */ "Column 1 Heading, Right Aligned", /* info */ "A table heading, column 1, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "thr2", /* name */ "Column 2 Heading, Right Aligned", /* info */ "A table heading, column 2, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 2, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "thr3", /* name */ "Column 3 Heading, Right Aligned", /* info */ "A table heading, column 3, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 3, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "thr4", /* name */ "Column 4 Heading, Right Aligned", /* info */ "A table heading, column 4, right aligned.", /* category */ "te", /* type */ 12, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 2, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 4, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tl", /* name */ "* Transliterated Word", /* info */ "For transliterated words", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "toc", /* name */ "Table of Contents", /* info */ "Front matter table of contents.", /* category */ "pm", /* type */ 9, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "toc1", /* name */ "Long Table of Contents Text", /* info */ "Long table of contents text", /* category */ "id", /* type */ 0, /* subtype */ 4, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "toc2", /* name */ "Short Table of Contents Text", /* info */ "Short table of contents text", /* category */ "id", /* type */ 0, /* subtype */ 5, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "toc3", /* name */ "Book Abbreviation", /* info */ "Book Abbreviation (not yet supported by Bibledit).", /* category */ "id", /* type */ 0, /* subtype */ 6, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "tr", /* name */ "Row", /* info */ "A new table row.", /* category */ "te", /* type */ 12, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 12.7, /* rightmargin */ 0, /* firstlineindent */ -3.2, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "v", /* name */ "Verse Number", /* info */ "A verse number (Necessary for normal Bibledit operation)", /* category */ "cv", /* type */ 6, /* subtype */ 0, /* fontsize */ 60 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 1, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "va", /* name */ "* Alternate verse number", /* info */ "Second (alternate) verse number (for coding dual numeration in Psalms; see also NRSV Exo 22.1-4)", /* category */ "cv", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "vp", /* name */ "* Publishing alternate verse", /* info */ "Published verse marker - this is a verse marking that would be used in the published text.", /* category */ "cv", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "w", /* name */ "* Wordlist Entry", /* info */ "A wordlist text item.", /* category */ "sf", /* type */ 13, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 2, /* bold */ 2, /* underline */ 2, /* smallcaps */ 2, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "wg", /* name */ "* Greek Wordlist Entry", /* info */ "A Greek Wordlist text item.", /* category */ "sf", /* type */ 13, /* subtype */ 2, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "wh", /* name */ "* Hebrew Wordlist Entry", /* info */ "A Hebrew wordlist text item.", /* category */ "sf", /* type */ 13, /* subtype */ 1, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "wj", /* name */ "* Words of Jesus", /* info */ "For marking the words of Jesus", /* category */ "st", /* type */ 4, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 16711680,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "x", /* name */ "* Cross Reference", /* info */ "A list of cross references.", /* category */ "x", /* type */ 8, /* subtype */ 0, /* fontsize */ 12 , /* italic */ 3, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 1, /* userint2 */ 2, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "xdc", /* name */ "* DC Target Refs", /* info */ "Cross-reference target reference(s), Apocrypha only.", /* category */ "x", /* type */ 8, /* subtype */ 3, /* fontsize */ 11 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 1, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "xk", /* name */ "Keyword", /* info */ "(*) A cross reference keyword.", /* category */ "x", /* type */ 8, /* subtype */ 2, /* fontsize */ 11 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "xo", /* name */ "Origin Reference", /* info */ "(*) The cross reference origin reference.", /* category */ "x", /* type */ 8, /* subtype */ 2, /* fontsize */ 11 , /* italic */ 0, /* bold */ 1, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "xq", /* name */ "Quotation", /* info */ "(*) A cross-reference quotation from the scripture text.", /* category */ "x", /* type */ 8, /* subtype */ 2, /* fontsize */ 11 , /* italic */ 1, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" },
+  { /* marker */ "xt", /* name */ "Target References", /* info */ "(*) The cross reference target reference(s).", /* category */ "x", /* type */ 8, /* subtype */ 1, /* fontsize */ 11 , /* italic */ 0, /* bold */ 0, /* underline */ 0, /* smallcaps */ 0, /* <superscript */ 0, /* justification */ 0, /* spacebefore */ 0, /* spaceafter */ 0, /* leftmargin */ 0, /* rightmargin */ 0, /* firstlineindent */ 0, /* spancolumns */ 0, /* color */ 0,  /* print */ 1, /* userbool1 */ 0, /* userbool2 */ 0, /* userbool3 */ 0, /* userint1 */ 0, /* userint2 */ 0, /* userint3 */ 0, /* userstring1 */ "", /* userstring2 */ "", /* userstring3 */ "" }
+};
 
 
 Database_Styles::Database_Styles ()
@@ -53,42 +271,6 @@ void Database_Styles::create ()
 {
   sqlite3 * db = connect ();
   string sql;
-  sql = "CREATE TABLE IF NOT EXISTS styles ("
-        "sheet text,"
-        "marker text,"
-        "name text,"
-        "info text,"
-        "category text,"
-        "type integer,"
-        "subtype integer,"
-        "fontsize real,"
-        "italic integer,"
-        "bold integer,"
-        "underline integer,"
-        "smallcaps integer,"
-        "superscript integer,"
-        "justification integer,"
-        "spacebefore real,"
-        "spaceafter real,"
-        "leftmargin real,"
-        "rightmargin real,"
-        "firstlineindent real,"
-        "spancolumns integer,"
-        "color text,"
-        "print integer,"
-        "userbool1 integer,"
-        "userbool2 integer,"
-        "userbool3 integer,"
-        "userint1 integer,"
-        "userint2 integer,"
-        "userint3 integer,"
-        "userstring1 text,"
-        "userstring2 text,"
-        "userstring3 text"
-        ");";
-  database_sqlite_exec (db, sql);
-  sql = "CREATE INDEX IF NOT EXISTS speedup ON styles (sheet, marker)";
-  database_sqlite_exec (db, sql);
   sql = "CREATE TABLE IF NOT EXISTS users ("
         "user text,"
         "sheet text"
@@ -98,373 +280,61 @@ void Database_Styles::create ()
 }
 
 
-void Database_Styles::optimize ()
-{
-  sqlite3 * db = connect ();
-  string sql;
-  sql = "REINDEX styles;";
-  database_sqlite_exec (db, sql);
-  sql = "VACUUM styles;";
-  database_sqlite_exec (db, sql);
-  sql = "VACUUM users;";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Creates the "Standard" stylesheet, if no name is given.
-// Else creates the stylesheet given in variable "name".
-// It returns the name of the stylesheet it has created.
-string Database_Styles::createStandardSheet (string name)
-{
-  if (name == "") name = "Standard";
-  createSheet (name);
-  return name;
-}
-
-
 // Creates a stylesheet.
 void Database_Styles::createSheet (string sheet)
 {
-  deleteSheet (sheet);
-  string file = filter_url_create_root_path ("styles", "sheet.xml");
-  string contents = filter_url_file_get_contents (file);
-  importXml (sheet, contents);
+  filter_url_mkdir (sheetfolder (sheet));
+  for (unsigned int i = 0; i < data_count(); i++) {
+    Database_Styles_Item item = read_item ("", styles_table[i].marker);
+    write_item (sheet, item);
+  }
 }
 
 
 // Returns an array with the available stylesheets.
 vector <string> Database_Styles::getSheets ()
 {
-  string sql = "SELECT DISTINCT sheet FROM styles ORDER BY sheet ASC;";
-  sqlite3 * db = connect ();
-  vector <string> sheets = database_sqlite_query (db, sql) ["sheet"];
-  database_sqlite_disconnect (db);
-  if (sheets.empty ()) {
-    string sheet = createStandardSheet ();
-    sheets.push_back (sheet);
+  string standard = "Standard";
+  vector <string> sheets = filter_url_scandir (databasefolder ());
+  if (find (sheets.begin (), sheets.end (), standard) == sheets.end ()) {
+    sheets.push_back (standard);
   }
+  sort (sheets.begin(), sheets.end());
   return sheets;
 }
 
 
-void Database_Styles::importXml (string sheet, string xml) 
-{
-  sqlite3 * db = connect ();
-  sheet = database_sqlite_no_sql_injection (sheet);
-  database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
-  database_sqlite_exec (db, "BEGIN;");
-  xmlParserInputBufferPtr inputbuffer = xmlParserInputBufferCreateMem (xml.c_str(), strlen (xml.c_str()), XML_CHAR_ENCODING_NONE);
-  xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
-  if (reader) {
-    Database_Styles_Item database_styles_item;
-    string elementname;
-    while ((xmlTextReaderRead (reader) == 1)) {
-      switch (xmlTextReaderNodeType (reader)) {
-        case XML_READER_TYPE_ELEMENT:
-        {
-          char *opening_element = (char *) xmlTextReaderName (reader);
-          elementname.assign (opening_element);
-          if (!strcmp (opening_element, "style")) {
-            // Reset the styles.
-            database_styles_item = Database_Styles_Item ();
-          }
-          break;
-        }
-        case XML_READER_TYPE_TEXT:
-        {
-          char *text = (char *) xmlTextReaderValue (reader);
-          if (text) {
-            if (elementname == "marker")          database_styles_item.marker =          text;
-            if (elementname == "name")            database_styles_item.name =            text;
-            if (elementname == "info")            database_styles_item.info =            text;
-            if (elementname == "category")        database_styles_item.category =        text;
-            if (elementname == "type")            database_styles_item.type =            convert_to_int (text);
-            if (elementname == "subtype")         database_styles_item.subtype =         convert_to_int (text);
-            if (elementname == "fontsize")        database_styles_item.fontsize =        text;
-            if (elementname == "italic")          database_styles_item.italic =          convert_to_int (text);
-            if (elementname == "bold")            database_styles_item.bold =            convert_to_int (text);
-            if (elementname == "underline")       database_styles_item.underline =       convert_to_int (text);
-            if (elementname == "smallcaps")       database_styles_item.smallcaps =       convert_to_int (text);
-            if (elementname == "superscript")     database_styles_item.superscript =     convert_to_int (text);
-            if (elementname == "justification")   database_styles_item.justification =   convert_to_int (text);
-            if (elementname == "spacebefore")     database_styles_item.spacebefore =     text;
-            if (elementname == "spaceafter")      database_styles_item.spaceafter =      text;
-            if (elementname == "leftmargin")      database_styles_item.leftmargin =      text;
-            if (elementname == "rightmargin")     database_styles_item.rightmargin =     text;
-            if (elementname == "firstlineindent") database_styles_item.firstlineindent = text;
-            if (elementname == "spancolumns")     database_styles_item.spancolumns =     convert_to_int (text);
-            if (elementname == "color")           database_styles_item.color =           text;
-            if (elementname == "print")           database_styles_item.print =           convert_to_int (text);
-            if (elementname == "userbool1")       database_styles_item.userbool1 =       convert_to_int (text);
-            if (elementname == "userbool2")       database_styles_item.userbool2 =       convert_to_int (text);
-            if (elementname == "userbool3")       database_styles_item.userbool3 =       convert_to_int (text);
-            if (elementname == "userint1")        database_styles_item.userint1 =        convert_to_int (text);
-            if (elementname == "userint2")        database_styles_item.userint2 =        convert_to_int (text);
-            if (elementname == "userint3")        database_styles_item.userint3 =        convert_to_int (text);
-            if (elementname == "userstring1")     database_styles_item.userstring1 =     text;
-            if (elementname == "userstring2")     database_styles_item.userstring2 =     text;
-            if (elementname == "userstring3")     database_styles_item.userstring3 =     text;
-            free (text);
-          }
-          break;
-        }
-        case XML_READER_TYPE_END_ELEMENT:
-        {
-          char *closing_element = (char *)xmlTextReaderName (reader);
-          if (!strcmp (closing_element, "style")) {
-            // Write to database.
-            string sql = "INSERT INTO styles (sheet, marker, name, info, category, type, subtype, fontsize, italic, bold, underline, smallcaps, superscript, justification, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, color, print, userbool1, userbool2, userbool3, userint1, userint2, userint3, userstring1, userstring2, userstring3) VALUES (";
-            sql.append ("'" + database_sqlite_no_sql_injection (sheet) + "'");
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.marker) + "'");
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.name) + "'");
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.info) + "'");
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.category) + "'");
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.type));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.subtype));
-            sql.append (", ");
-            sql.append (database_sqlite_no_sql_injection (database_styles_item.fontsize));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.italic));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.bold));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.underline));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.smallcaps));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.superscript));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.justification));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.spacebefore));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.spaceafter));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.leftmargin));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.rightmargin));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.firstlineindent));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.spancolumns));
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.color) + "'");
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.print));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.userbool1));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.userbool2));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.userbool3));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.userint1));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.userint2));
-            sql.append (", ");
-            sql.append (convert_to_string (database_styles_item.userint3));
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.userstring1) + "'");
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.userstring2) + "'");
-            sql.append (", ");
-            sql.append ("'" + database_sqlite_no_sql_injection (database_styles_item.userstring3) + "'");
-            sql.append (");");
-            database_sqlite_exec (db, sql);
-          }
-          break;
-        }
-      }
-    }
-  }
-  database_sqlite_exec (db, "COMMIT;");
-  database_sqlite_disconnect (db);
-  if (reader) xmlFreeTextReader(reader);
-  if (inputbuffer) xmlFreeParserInputBuffer(inputbuffer);
-}
-
-
-string Database_Styles::exportXml (string sheet)
-{
-  // XML writer.
-  xmlBufferPtr xmlbuffer = xmlBufferCreate ();
-  xmlTextWriterPtr xmlwriter = xmlNewTextWriterMemory (xmlbuffer, 0);
-
-  // Setup and start document.
-  xmlTextWriterStartDocument (xmlwriter, NULL, "UTF-8", NULL);
-  xmlTextWriterSetIndent (xmlwriter, 1);
-  xmlTextWriterStartElement (xmlwriter, BAD_CAST "stylesheet");
-
-  vector <string> markers = getMarkers (sheet);
-  for (string marker : markers) {
-    xmlTextWriterStartElement (xmlwriter, BAD_CAST "style");
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "marker");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", marker.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      Database_Styles_Item styles_item = getMarkerData (sheet, marker);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "name");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.name.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "info");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.info.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "category");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.category.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "type");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.type);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "subtype");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.subtype);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "fontsize");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.fontsize.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "italic");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.italic);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "bold");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.bold);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "underline");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.underline);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "smallcaps");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.smallcaps);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "superscript");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.superscript);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "justification");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.justification);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "spacebefore");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.spacebefore.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "spaceafter");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.spaceafter.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "leftmargin");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.leftmargin.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "rightmargin");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.rightmargin.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "firstlineindent");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.firstlineindent.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "spancolumns");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.spancolumns);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "color");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.color.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "print");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.print);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userbool1");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userbool1);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userbool2");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userbool2);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userbool3");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userbool3);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userint1");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userint1);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userint2");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userint2);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userint3");
-      xmlTextWriterWriteFormatString (xmlwriter, "%d", styles_item.userint3);
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userstring1");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.userstring1.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userstring2");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.userstring2.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-      xmlTextWriterStartElement (xmlwriter, BAD_CAST "userstring3");
-      xmlTextWriterWriteFormatString (xmlwriter, "%s", styles_item.userstring3.c_str());
-      xmlTextWriterEndElement (xmlwriter);
-    xmlTextWriterEndElement (xmlwriter); // style
-  }
-  
-  // Close document and get its contents.
-  xmlTextWriterEndDocument (xmlwriter);
-  xmlTextWriterFlush (xmlwriter);
-  string xml = (char *) xmlbuffer->content;
-  
-  // Free memory.
-  if (xmlwriter) xmlFreeTextWriter(xmlwriter);
-  if (xmlbuffer) xmlBufferFree(xmlbuffer);
-
-  return xml;
-}
-
-
 // Deletes a stylesheet.
-void Database_Styles::deleteSheet (string name)
+void Database_Styles::deleteSheet (string sheet)
 {
-  SqliteSQL sql;
-  sql.add ("DELETE FROM styles WHERE sheet =");
-  sql.add (name);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  filter_url_rmdir (sheetfolder (sheet));
 }
 
 
 // Adds a marker to the stylesheet.
 void Database_Styles::addMarker (string sheet, string marker)
 {
-  SqliteSQL sql;
-  sql.add ("INSERT INTO styles (sheet, marker, name, info) VALUES (");
-  sql.add (sheet);
-  sql.add (",");
-  sql.add (marker);
-  sql.add (", 'marker name', 'marker information');");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  write_item (sheet, item);
 }
 
 
 // Deletes a marker from a stylesheet.
 void Database_Styles::deleteMarker (string sheet, string marker)
 {
-  SqliteSQL sql;
-  sql.add ("DELETE FROM styles WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  filter_url_unlink (stylefile (sheet, marker));
 }
 
 
 // Returns a map with all the markers and the names of the styles in the stylesheet.
-map <string, vector <string> > Database_Styles::getMarkersAndNames (string sheet)
+map <string, string> Database_Styles::getMarkersAndNames (string sheet)
 {
-  sqlite3 * db = connect ();
-  SqliteSQL sql;
-  sql.add ("SELECT marker, name FROM styles WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("ORDER BY marker ASC;");
-  map <string, vector <string> > markers_names = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  map <string, string> markers_names;
+  vector <string> markers = getMarkers (sheet);
+  for (auto marker : markers) {
+    Database_Styles_Item item = read_item (sheet, marker);
+    markers_names [marker] = item.name;
+  }
   return markers_names;
 }
 
@@ -472,528 +342,254 @@ map <string, vector <string> > Database_Styles::getMarkersAndNames (string sheet
 // Returns an array with all the markers of the styles in the stylesheet.
 vector <string> Database_Styles::getMarkers (string sheet)
 {
-  sqlite3 * db = connect ();
-  SqliteSQL sql;
-  sql.add ("SELECT marker FROM styles WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("ORDER BY marker ASC;");
-  vector <string> markers = database_sqlite_query (db, sql.sql) ["marker"];
-  database_sqlite_disconnect (db);
+  vector <string> markers = filter_url_scandir (sheetfolder (sheet));
   if (markers.empty ()) {
-    createSheet (sheet);
-    return getMarkers (sheet);
+    for (unsigned int i = 0; i < data_count(); i++) {
+      markers.push_back (styles_table[i].marker);
+    }
   }
   return markers;
 }
 
 
-// Returns a map with all data belonging to a marker.
-// If none, it returns an empty map.
+// Returns an object with all data belonging to a marker.
 Database_Styles_Item Database_Styles::getMarkerData (string sheet, string marker)
 {
-  sqlite3 * db = connect ();
-  SqliteSQL sql;
-  sql.add ("SELECT * FROM styles WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
-  Database_Styles_Item marker_data = Database_Styles_Item ();
-  if (!result ["marker"].empty ()) {
-    marker_data.marker = result ["marker"] [0];
-    marker_data.name = result ["name"] [0];
-    marker_data.info = result ["info"] [0];
-    marker_data.category = result ["category"] [0];
-    marker_data.type = convert_to_int (result ["type"] [0]);
-    marker_data.subtype = convert_to_int (result ["subtype"] [0]);
-    marker_data.fontsize = result ["fontsize"] [0];
-    marker_data.italic = convert_to_int (result ["italic"] [0]);
-    marker_data.bold = convert_to_int (result ["bold"] [0]);
-    marker_data.underline = convert_to_int (result ["underline"] [0]);
-    marker_data.smallcaps = convert_to_int (result ["smallcaps"] [0]);
-    marker_data.superscript = convert_to_int (result ["superscript"] [0]);
-    marker_data.justification = convert_to_int (result ["justification"] [0]);
-    marker_data.spacebefore = result ["spacebefore"] [0];
-    marker_data.spaceafter = result ["spaceafter"] [0];
-    marker_data.leftmargin = result ["leftmargin"] [0];
-    marker_data.rightmargin = result ["rightmargin"] [0];
-    marker_data.firstlineindent = result ["firstlineindent"] [0];
-    marker_data.spancolumns = convert_to_int (result ["spancolumns"] [0]);
-    marker_data.color = result ["color"] [0];
-    // Pad the color with preceding zeroes so the color shows properly in the html page.
-    marker_data.color = filter_string_fill (marker_data.color, 6, '0');
-    marker_data.print = convert_to_int (result ["print"] [0]);
-    marker_data.userbool1 = convert_to_int (result ["userbool1"] [0]);
-    marker_data.userbool2 = convert_to_int (result ["userbool2"] [0]);
-    marker_data.userbool3 = convert_to_int (result ["userbool3"] [0]);
-    marker_data.userint1 = convert_to_int (result ["userint1"] [0]);
-    marker_data.userint2 = convert_to_int (result ["userint2"] [0]);
-    marker_data.userint3 = convert_to_int (result ["userint3"] [0]);
-    marker_data.userstring1 = result ["userstring1"] [0];
-    marker_data.userstring2 = result ["userstring2"] [0];
-    marker_data.userstring3 = result ["userstring3"] [0];
-  }
-  return marker_data;
+  return read_item (sheet, marker);
 }
 
 
 // Updates a style's name.
 void Database_Styles::updateName (string sheet, string marker, string name)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET name =");
-  sql.add (name);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.name = name;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's info.
 void Database_Styles::updateInfo (string sheet, string marker, string info)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET info =");
-  sql.add (info);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.info = info;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's category.
 void Database_Styles::updateCategory (string sheet, string marker, string category)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET category =");
-  sql.add (category);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.category = category;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's type.
-void Database_Styles::updateType (string sheet, string marker, string type)
+void Database_Styles::updateType (string sheet, string marker, int type)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET type =");
-  sql.add (type);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.type = type;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's subtype.
-void Database_Styles::updateSubType (string sheet, string marker, string subtype)
+void Database_Styles::updateSubType (string sheet, string marker, int subtype)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET subtype =");
-  sql.add (subtype);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.subtype = subtype;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's font size.
-void Database_Styles::updateFontsize (string sheet, string marker, string fontsize)
+void Database_Styles::updateFontsize (string sheet, string marker, float fontsize)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET fontsize =");
-  sql.add (fontsize);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker = ");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.fontsize = fontsize;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's italic setting.
 void Database_Styles::updateItalic (string sheet, string marker, int italic)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET italic =");
-  sql.add (italic);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.italic = italic;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's bold setting.
 void Database_Styles::updateBold (string sheet, string marker, int bold)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET bold =");
-  sql.add (bold);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker = ");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.bold = bold;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's underline setting.
 void Database_Styles::updateUnderline (string sheet, string marker, int underline)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET underline =");
-  sql.add (underline);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.underline = underline;
+  write_item (sheet, item);
 }
 
 
 // Updates a style's small caps setting.
 void Database_Styles::updateSmallcaps (string sheet, string marker, int smallcaps)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET smallcaps =");
-  sql.add (smallcaps);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.smallcaps = smallcaps;
+  write_item (sheet, item);
 }
 
 
 void Database_Styles::updateSuperscript (string sheet, string marker, int superscript)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET superscript =");
-  sql.add (superscript);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.superscript = superscript;
+  write_item (sheet, item);
 }
 
 
 void Database_Styles::updateJustification (string sheet, string marker, int justification)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET justification =");
-  sql.add (justification);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.justification = justification;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateSpaceBefore (string sheet, string marker, string spacebefore)
+void Database_Styles::updateSpaceBefore (string sheet, string marker, float spacebefore)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET spacebefore =");
-  sql.add (spacebefore);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.spacebefore = spacebefore;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateSpaceAfter (string sheet, string marker, string spaceafter)
+void Database_Styles::updateSpaceAfter (string sheet, string marker, float spaceafter)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET spaceafter =");
-  sql.add (spaceafter);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.spaceafter = spaceafter;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateLeftMargin (string sheet, string marker, string leftmargin)
+void Database_Styles::updateLeftMargin (string sheet, string marker, float leftmargin)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET leftmargin =");
-  sql.add (leftmargin);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.leftmargin = leftmargin;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateRightMargin (string sheet, string marker, string rightmargin)
+void Database_Styles::updateRightMargin (string sheet, string marker, float rightmargin)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET rightmargin =");
-  sql.add (rightmargin);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.rightmargin = rightmargin;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateFirstLineIndent (string sheet, string marker, string firstlineindent)
+void Database_Styles::updateFirstLineIndent (string sheet, string marker, float firstlineindent)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET firstlineindent =");
-  sql.add (firstlineindent);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.firstlineindent = firstlineindent;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateSpanColumns (string sheet, string marker, int spancolumns)
+void Database_Styles::updateSpanColumns (string sheet, string marker, bool spancolumns)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET spancolumns =");
-  sql.add (spancolumns);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.spancolumns = spancolumns;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateColor (string sheet, string marker, string color)
+void Database_Styles::updateColor (string sheet, string marker, int color)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET color =");
-  sql.add (color);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.color = color;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updatePrint (string sheet, string marker, int print)
+void Database_Styles::updatePrint (string sheet, string marker, bool print)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET print =");
-  sql.add (print);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.print = print;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateUserbool1 (string sheet, string marker, int userbool1)
+void Database_Styles::updateUserbool1 (string sheet, string marker, bool userbool1)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userbool1 =");
-  sql.add (userbool1);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userbool1 = userbool1;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateUserbool2 (string sheet, string marker, int userbool2)
+void Database_Styles::updateUserbool2 (string sheet, string marker, bool userbool2)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userbool2 =");
-  sql.add (userbool2);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userbool2 = userbool2;
+  write_item (sheet, item);
 }
 
 
-void Database_Styles::updateUserbool3 (string sheet, string marker, int userbool3)
+void Database_Styles::updateUserbool3 (string sheet, string marker, bool userbool3)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userbool3 =");
-  sql.add (userbool3);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userbool3 = userbool3;
+  write_item (sheet, item);
 }
 
 
 void Database_Styles::updateUserint1 (string sheet, string marker, int userint1)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userint1 =");
-  sql.add (userint1);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userint1 = userint1;
+  write_item (sheet, item);
 }
 
 
 void Database_Styles::updateUserint2 (string sheet, string marker, int userint2)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userint2 =");
-  sql.add (userint2);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userint2 = userint2;
+  write_item (sheet, item);
 }
 
 
 void Database_Styles::updateUserstring1 (string sheet, string marker, string userstring1)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userstring1 =");
-  sql.add (userstring1);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userstring1 = userstring1;
+  write_item (sheet, item);
 }
 
 
 void Database_Styles::updateUserstring2 (string sheet, string marker, string userstring2)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userstring2 =");
-  sql.add (userstring2);
-  sql.add ("WHERE sheet =");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userstring2 = userstring2;
+  write_item (sheet, item);
 }
 
 
 void Database_Styles::updateUserstring3 (string sheet, string marker, string userstring3)
 {
-  SqliteSQL sql;
-  sql.add ("UPDATE styles SET userstring3 =");
-  sql.add (userstring3);
-  sql.add ("WHERE sheet");
-  sql.add (sheet);
-  sql.add ("AND marker =");
-  sql.add (marker);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  Database_Styles_Item item = read_item (sheet, marker);
+  item.userstring3 = userstring3;
+  write_item (sheet, item);
 }
 
 
@@ -1048,29 +644,195 @@ bool Database_Styles::hasWriteAccess (string user, string sheet)
 }
 
 
+string Database_Styles::databasefolder ()
+{
+  return filter_url_create_root_path ("databases", "styles");
+}
+
+
+string Database_Styles::sheetfolder (string sheet)
+{
+  return filter_url_create_path (databasefolder (), sheet);
+}
+
+
+string Database_Styles::stylefile (string sheet, string marker)
+{
+  return filter_url_create_path (sheetfolder (sheet), marker);
+}
+
+
+unsigned int Database_Styles::data_count ()
+{
+  return sizeof (styles_table) / sizeof (*styles_table);
+}
+
+
+// Reads a style from file.
+// If the file is not there, it takes the default value.
+Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
+{
+  Database_Styles_Item item;
+  bool take_default = sheet.empty ();
+  string filename;
+  if (!take_default) {
+    filename = stylefile (sheet, marker);
+    if (!filter_url_file_exists (filename)) take_default = true;
+  }
+  if (take_default) {
+    // Take the default style for the marker.
+    const char * cmarker = marker.c_str();
+    for (unsigned int i = 0; i < data_count(); i++) {
+      if (strcmp (cmarker, styles_table[i].marker) == 0) {
+        item.marker = styles_table[i].marker;
+        item.name = styles_table[i].name;
+        item.info = styles_table[i].info;
+        item.category = styles_table[i].category;
+        item.type = styles_table[i].type;
+        item.subtype = styles_table[i].subtype;
+        item.fontsize = styles_table[i].fontsize;
+        item.italic = styles_table[i].italic;
+        item.bold = styles_table[i].bold;
+        item.underline = styles_table[i].underline;
+        item.smallcaps = styles_table[i].smallcaps;
+        item.superscript = styles_table[i].superscript;
+        item.justification = styles_table[i].justification;
+        item.spacebefore = styles_table[i].spacebefore;
+        item.spaceafter = styles_table[i].spaceafter;
+        item.leftmargin = styles_table[i].leftmargin;
+        item.rightmargin = styles_table[i].rightmargin;
+        item.firstlineindent = styles_table[i].firstlineindent;
+        item.spancolumns = styles_table[i].spancolumns;
+        item.color = styles_table[i].color;
+        item.print = styles_table[i].print;
+        item.userbool1 = styles_table[i].userbool1;
+        item.userbool2 = styles_table[i].userbool2;
+        item.userbool3 = styles_table[i].userbool3;
+        item.userint1 = styles_table[i].userint1;
+        item.userint2 = styles_table[i].userint2;
+        item.userint3 = styles_table[i].userint3;
+        item.userstring1 = styles_table[i].userstring1;
+        item.userstring2 = styles_table[i].userstring2;
+        item.userstring3 = styles_table[i].userstring3;
+        return item;
+      }
+    }
+    // Non-standard marker.
+    item.marker = marker;
+    item.name = gettext ("Name");
+    item.info = gettext ("Information");
+  } else {
+    // Read the style from file.
+    string contents = filter_url_file_get_contents (filename);
+    vector <string> lines = filter_string_explode (contents, '\n');
+    for (unsigned int i = 0; i < lines.size(); i++) {
+      if (i == 0)  item.marker = lines [i];
+      if (i == 1)  item.name = lines [i];
+      if (i == 2)  item.info = lines [i];
+      if (i == 3)  item.category = lines [i];
+      if (i == 4)  item.type = convert_to_int (lines [i]);
+      if (i == 5)  item.subtype = convert_to_int (lines [i]);
+      if (i == 6)  item.fontsize = convert_to_float (lines [i]);
+      if (i == 7)  item.italic = convert_to_int (lines [i]);
+      if (i == 8)  item.bold = convert_to_int (lines [i]);
+      if (i == 9)  item.underline = convert_to_int (lines [i]);
+      if (i == 10) item.smallcaps = convert_to_int (lines [i]);
+      if (i == 11) item.superscript = convert_to_int (lines [i]);
+      if (i == 12) item.justification = convert_to_int (lines [i]);
+      if (i == 13) item.spacebefore = convert_to_float (lines [i]);
+      if (i == 14) item.spaceafter = convert_to_float (lines [i]);
+      if (i == 15) item.leftmargin = convert_to_float (lines [i]);
+      if (i == 16) item.rightmargin = convert_to_float (lines [i]);
+      if (i == 17) item.firstlineindent = convert_to_float (lines [i]);
+      if (i == 18) item.spancolumns = convert_to_bool (lines [i]);
+      if (i == 19) item.color = convert_to_int (lines [i]);
+      if (i == 20) item.print = convert_to_bool (lines [i]);
+      if (i == 21) item.userbool1 = convert_to_bool (lines [i]);
+      if (i == 22) item.userbool2 = convert_to_bool (lines [i]);
+      if (i == 23) item.userbool3 = convert_to_bool (lines [i]);
+      if (i == 24) item.userint1 = convert_to_int (lines [i]);
+      if (i == 25) item.userint2 = convert_to_int (lines [i]);
+      if (i == 26) item.userint3 = convert_to_int (lines [i]);
+      if (i == 27) item.userstring1 = lines [i];
+      if (i == 28) item.userstring2 = lines [i];
+      if (i == 29) item.userstring3 = lines [i];
+    }
+  }
+  return item;
+}
+
+
+void Database_Styles::write_item (string sheet, Database_Styles_Item & item)
+{
+  // The style is saved to file here.
+  // When the style is loaded again from file, the various parts of the style are loaded by line number.
+  // Therefore it cannot handle strings with new lines in them.
+  // Remove the new lines where appropriate.
+  item.name = filter_string_str_replace ("\n", " ", item.name);
+  item.name = filter_string_str_replace ("\r", " ", item.name);
+  item.info = filter_string_str_replace ("\n", " ", item.info);
+  item.info = filter_string_str_replace ("\r", " ", item.info);
+  // Load the lines.
+  vector <string> lines;
+  lines.push_back (item.marker);
+  lines.push_back (item.name);
+  lines.push_back (item.info);
+  lines.push_back (item.category);
+  lines.push_back (convert_to_string (item.type));
+  lines.push_back (convert_to_string (item.subtype));
+  lines.push_back (convert_to_string (item.fontsize));
+  lines.push_back (convert_to_string (item.italic));
+  lines.push_back (convert_to_string (item.bold));
+  lines.push_back (convert_to_string (item.underline));
+  lines.push_back (convert_to_string (item.smallcaps));
+  lines.push_back (convert_to_string (item.superscript));
+  lines.push_back (convert_to_string (item.justification));
+  lines.push_back (convert_to_string (item.spacebefore));
+  lines.push_back (convert_to_string (item.spaceafter));
+  lines.push_back (convert_to_string (item.leftmargin));
+  lines.push_back (convert_to_string (item.rightmargin));
+  lines.push_back (convert_to_string (item.firstlineindent));
+  lines.push_back (convert_to_string (item.spancolumns));
+  lines.push_back (convert_to_string (item.color));
+  lines.push_back (convert_to_string (item.print));
+  lines.push_back (convert_to_string (item.userbool1));
+  lines.push_back (convert_to_string (item.userbool2));
+  lines.push_back (convert_to_string (item.userbool3));
+  lines.push_back (convert_to_string (item.userint1));
+  lines.push_back (convert_to_string (item.userint2));
+  lines.push_back (convert_to_string (item.userint3));
+  lines.push_back (item.userstring1);
+  lines.push_back (item.userstring2);
+  lines.push_back (item.userstring3);
+  // Save.
+  string data = filter_string_implode (lines, "\n");
+  filter_url_file_put_contents (stylefile (sheet, item.marker), data);
+}
+
+
 Database_Styles_Item::Database_Styles_Item ()
 {
   // Defaults.
   type = 0;
   subtype = 0;
-  fontsize = "12";
+  fontsize = 12;
   italic = 0;
   bold = 0;
   underline = 0;
   smallcaps = 0;
   superscript = 0;
   justification = 0;
-  spacebefore = "0";
-  spaceafter = "0";
-  leftmargin = "0";
-  rightmargin = "0";
-  firstlineindent = "0";
-  spancolumns = 0;
-  string color = "0";
-  print = 0;
-  userbool1 = 0;
-  userbool2 = 0;
-  userbool3 = 0;
+  spacebefore = 0;
+  spaceafter = 0;
+  leftmargin = 0;
+  rightmargin = 0;
+  firstlineindent = 0;
+  spancolumns = false;
+  color = 0;
+  print = false;
+  userbool1 = false;
+  userbool2 = false;
+  userbool3 = false;
   userint1 = 0;
   userint2 = 0;
   userint3 = 0;

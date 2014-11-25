@@ -104,6 +104,14 @@ string convert_to_string (string s)
 }
 
 
+string convert_to_string (float f)
+{
+  ostringstream r;
+  r << f;
+  return r.str();
+}
+
+
 int convert_to_int (string s)
 {
   int i = 0;
@@ -126,6 +134,15 @@ long long convert_to_long_long (string s)
   istringstream r (s);
   r >> i;
   return i;
+}
+
+
+float convert_to_float (string s)
+{
+  float f = 0;
+  istringstream r (s);
+  r >> f;
+  return f;
 }
 
 

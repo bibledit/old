@@ -1060,7 +1060,6 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    database_styles.createStandardSheet ();
     Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
@@ -1084,7 +1083,6 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    database_styles.createStandardSheet ();
     Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
@@ -1114,21 +1112,20 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    database_styles.createStandardSheet ();
     Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
-    add.color = "000000";
+    add.color = 0;
     Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
     nd.smallcaps = ooitOn;
     nd.superscript = false;
-    nd.color = "000000";
+    nd.color = 0;
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
@@ -1153,21 +1150,20 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    database_styles.createStandardSheet ();
     Database_Styles_Item add = database_styles.getMarkerData ("Standard", "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
-    add.color = "000000";
+    add.color = 0;
     Database_Styles_Item nd = database_styles.getMarkerData ("Standard", "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
     nd.smallcaps = ooitOn;
     nd.superscript = false;
-    nd.color = "000000";
+    nd.color = 0;
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.newParagraph ();
     odf_text.addText ("text");
@@ -1198,7 +1194,6 @@ void test_filters_test10 ()
   {
     Database_Styles database_styles = Database_Styles ();
     database_styles.create ();
-    database_styles.createStandardSheet ();
     Database_Styles_Item d = database_styles.getMarkerData ("Standard", "d");
     Odf_Text odf_text = Odf_Text ("phpunit");
     odf_text.createParagraphStyle (d.marker, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
@@ -1235,7 +1230,6 @@ void test_filters_test11 ()
   Database_Config_Bible::setExportChapterDropCapsFrames (bible, true);
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
-  database_styles.createStandardSheet ();
 
   // Test extraction of all sorts of information from USFM code
   // Test basic formatting into OpenDocument.
@@ -1513,7 +1507,6 @@ void test_filters_test12 ()
 {
   Database_Styles database_styles = Database_Styles ();
   database_styles.create ();
-  database_styles.createStandardSheet ();
   string TextTestOdt  = "/tmp/TextTest.odt";
   string TextTestHtml = "/tmp/TextTest.html";
   string TextTestTxt  = "/tmp/TextTest.txt";

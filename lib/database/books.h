@@ -28,7 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Books
 {
 public:
-  Database_Books ();
   static vector <int> getIDs ();
   static int getIdFromEnglish (string english);
   static string getEnglishFromId (int id);
