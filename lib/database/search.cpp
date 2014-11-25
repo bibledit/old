@@ -175,6 +175,7 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
   sort (allverses.begin (), allverses.end ());
 
   // Store everything.
+  return; // Todo
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "BEGIN;");
   SqliteSQL sql;

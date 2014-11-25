@@ -114,9 +114,7 @@ string convert_to_string (float f)
 
 int convert_to_int (string s)
 {
-  int i = 0;
-  istringstream r (s);
-  r >> i;
+  int i = atoi (s.c_str());
   return i;
 }
 

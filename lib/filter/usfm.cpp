@@ -297,7 +297,7 @@ int usfm_versenumber_to_offset (string usfm, int verse)
 string usfm_get_verse_text (string usfm, int verse_number)
 {
   // The start of the requested verse number.
-  string sverse = convert_to_string (verse_number); // Todo crash.
+  string sverse = convert_to_string (verse_number);
   size_t cleanPos = usfm.find ("\\v " + sverse + " ");
   size_t dirtyPos = usfm.find ("\\v " + sverse);
   size_t startPosition;

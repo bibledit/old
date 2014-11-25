@@ -185,9 +185,6 @@ void test_database_books ()
 // Tests for Database_Search
 void test_database_search_setup ()
 {
-  Database_Styles database_styles = Database_Styles ();
-  database_styles.create ();
-
   string standardUSFM1 =  "\\c 1"
                           "\\p"
                           "\\v 1 Text of the first verse."
