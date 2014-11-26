@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/bibles.h>
+#include <database/search.h>
 #include <filter/url.h>
 #include <filter/string.h>
 
@@ -149,12 +150,8 @@ void Database_Bibles::storeChapter (string name, int book, int chapter_number, s
 
 void Database_Bibles::updateSearchFields (string name, int book, int chapter)
 {
-  if (book) name.append (name); // temporal: OUT.
-  if (chapter) {};
-  /* C++Port
-  $database_search = Database_Search::getInstance ();
-  $database_search->updateSearchFields ($name, $book, $chapter);
-  */
+  Database_Search database_search = Database_Search ();
+  database_search.updateSearchFields (name, book, chapter);
 }
 
 

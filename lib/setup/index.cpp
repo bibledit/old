@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <database/config/general.h>
 #include <database/logs.h>
+#include <database/search.h>
 
 
 using namespace std;
@@ -40,6 +41,7 @@ string setup_index (void * webserver_request)
   Database_Logs database_logs = Database_Logs ();
   database_logs.create ();
   request->database_styles ()->create ();
+  request->database_search ()->create ();
 
   Assets_View view = Assets_View (0);
 

@@ -131,8 +131,7 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
   // One column contains the raw USFM as it is, and another one the lowercase text.
   for (auto verse : verses) {
     string raw = usfm_get_verse_text (usfm, verse);
-    string lower;
-    transform (raw.begin(), raw.end(), lower.begin(), ::tolower); // This still needs unicode support.
+    string lower = unicode_string_casefold (raw);
     usfmraw [verse] = raw;
     usfmlower [verse] = lower;
   }
@@ -159,8 +158,7 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
   // Create the lower case plain text.
   for (auto & element : plainraw) {
     string raw = element.second;
-    string lower;
-    transform (raw.begin(), raw.end(), lower.begin(), ::tolower); // Still needs unicode support.
+    string lower = unicode_string_casefold (raw);
     plainlower [element.first] = lower;
   }
   
@@ -175,7 +173,6 @@ void Database_Search::updateSearchFields (string name, int book, int chapter)
   sort (allverses.begin (), allverses.end ());
 
   // Store everything.
-  return; // Todo
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "BEGIN;");
   SqliteSQL sql;
@@ -223,22 +220,19 @@ vector <int> Database_Search::searchText (string search, vector <string> bibles)
 {
   if (search == "") return { };
 
-  string searchlower;
-  transform (search.begin(), search.end (), searchlower.begin(), ::tolower); // Support unicode, still to do.
-  search = searchlower;
+  search = unicode_string_casefold (search);
   search = filter_string_str_replace (",", "", search);
   
   SqliteSQL sql;
   sql.add ("SELECT rowid FROM bibles WHERE");
   if (!bibles.empty()) {
-    sql.add (" ( ");
+    sql.add ("(");
     for (unsigned int i = 0; i < bibles.size(); i++) {
-      if (i > 0) sql.add (" OR ");
-      sql.add (" bible = ");
+      if (i > 0) sql.add ("OR");
+      sql.add ("bible =");
       sql.add (bibles[i]);
-      sql.add (" ");
     }
-    sql.add (" ) ");
+    sql.add (")");
   } else {
     sql.add ("1");
   }
@@ -265,9 +259,7 @@ vector <int> Database_Search::searchText (string search, vector <string> bibles)
 */
 vector <int> Database_Search::searchBibleText (string bible, string search)
 {
-  string lower;
-  transform (search.begin(), search.end(), lower.begin(), ::tolower); // This still needs to deal with unicode properly, perhaps through the ICU library.
-  search.assign (lower);
+  search = unicode_string_casefold (search);
 
   SqliteSQL sql;
   sql.add ("SELECT rowid FROM bibles WHERE bible =");
@@ -326,9 +318,7 @@ vector <int> Database_Search::searchBibleTextCaseSensitive (string bible, string
 */
 vector <int> Database_Search::searchBibleUsfm (string bible, string search)
 {
-  string lower;
-  transform (search.begin(), search.end(), lower.begin(), ::tolower); // This still needs to deal with unicode properly, perhaps through the ICU library.
-  search.assign (lower);
+  search = unicode_string_casefold (search);
   
   SqliteSQL sql;
   sql.add ("SELECT rowid FROM bibles WHERE bible =");
@@ -556,10 +546,11 @@ int Database_Search::getVerseCount (string bible)
   sql.add (bible);
   sql.add (";");
   sqlite3 * db = connect ();
-  // vector <string> result = database_sqlite_query (db, sql.sql) ["??"]; // Todo
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
-  // Todo find out how to get the count here.
+  vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
   database_sqlite_disconnect (db);
+  if (!result.empty ()) {
+    return convert_to_int (result [0]);
+  }
   return 0;
 }
 

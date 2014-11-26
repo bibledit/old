@@ -1863,7 +1863,7 @@ void test_filters_test12 ()
 
 
 // Unicode tests.
-void test_filters_test13 () // Todo write unicode tests.
+void test_filters_test13 ()
 {
   evaluate (__LINE__, __func__, 4, unicode_string_length ("test"));
   evaluate (__LINE__, __func__, 4, unicode_string_length ("ᨁᨃᨅᨕ"));
@@ -1876,6 +1876,9 @@ void test_filters_test13 () // Todo write unicode tests.
   evaluate (__LINE__, __func__, "12", unicode_string_substr ("test123456", 4, 2));
   evaluate (__LINE__, __func__, "גּדּ", unicode_string_substr ("אָבּגּדּהּ", 2, 2));
   evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr ("אָבּגּדּהּ", 2, 10));
+
+  evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
+  evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
 }
 
 

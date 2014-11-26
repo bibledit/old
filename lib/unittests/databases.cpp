@@ -232,120 +232,118 @@ void test_database_search ()
     evaluate (__LINE__, __func__, false, healthy);
     refresh_sandbox (false);
   }
-/* C++Port
+  // Test updating search fields.
   {
     refresh_sandbox (true);
     test_database_search_setup ();
-    // Test Update Fields
     Database_Search database_search = Database_Search ();
     database_search.updateSearchFields ("phpunit", 2, 3);
   }
-
-  public function testSearchGetBiblePassage ()
+  // Test searching and getting Bible passage
   {
-    database_search = Database_Search::getInstance ();
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
     database_search.updateSearchFields ("phpunit", 2, 3);
-    $hits = database_search.searchText ("sixth", array ("phpunit"));
-    $this.assertEquals (1, count ($hits));
-    $id = $hits [0];
-    $data = database_search.getBiblePassage ($id);
-    $this.assertEquals ("phpunit", $data ['bible']);
-    $this.assertEquals (2, $data ['book']);
-    $this.assertEquals (3, $data ['chapter']);
-    $this.assertEquals (6, $data ['verse']);
+    vector <int> hits = database_search.searchText ("sixth", {"phpunit"});
+    evaluate (__LINE__, __func__, 1, hits.size());
+    if (!hits.empty ()) {
+      int id = hits [0];
+      Passage passage = database_search.getBiblePassage (id);
+      evaluate (__LINE__, __func__, "phpunit", passage.bible);
+      evaluate (__LINE__, __func__, 2, passage.book);
+      evaluate (__LINE__, __func__, 3, passage.chapter);
+      evaluate (__LINE__, __func__, "6", passage.verse);
+    }
   }
-  
-  
-  public function testGetBibleVerseText ()
+  // Test getting Bible verse text.
   {
-    database_search = Database_Search::getInstance ();
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
     database_search.updateSearchFields ("phpunit", 2, 3);
-    $text = database_search.getBibleVerseText ("phpunit", 2, 3, 5);
-    $this.assertEquals ("Text of the 5th fifth verse is this: Verse five ✆.", trim ($text));
+    string text = database_search.getBibleVerseText ("phpunit", 2, 3, 5);
+    evaluate (__LINE__, __func__, "Text of the 5th fifth verse is this: Verse five ✆.", filter_string_trim (text));
   }
-
-
-  public function testSearchBible ()
+  // Test search Bible
   {
-    database_search = Database_Search::getInstance ();
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
     database_search.updateSearchFields ("phpunit", 2, 3);
     database_search.updateSearchFields ("phpunit2", 4, 5);
-    $ids = database_search.searchBibleText ("phpunit", "sixth");
-    $this.assertEquals (1, count ($ids));
-    $ids = database_search.searchBibleText ("phpunit2", "sixth");
-    $this.assertEquals (0, count ($ids));
-    $ids = database_search.searchBibleText ("phpunit2", "said");
-    $this.assertEquals (1, count ($ids));
+    vector <int> ids = database_search.searchBibleText ("phpunit", "sixth");
+    evaluate (__LINE__, __func__, 1, ids.size ());
+    ids = database_search.searchBibleText ("phpunit2", "sixth");
+    evaluate (__LINE__, __func__, 0, ids.size ());
+    ids = database_search.searchBibleText ("phpunit2", "said");
+    evaluate (__LINE__, __func__, 1, ids.size ());
   }
-
-
-  public function testSearchBibleCaseSensitive ()
+  // Test search Bible case sensitive.
   {
-    database_search = Database_Search::getInstance ();
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
     database_search.updateSearchFields ("phpunit", 2, 1);
     database_search.updateSearchFields ("phpunit", 2, 3);
     database_search.updateSearchFields ("phpunit2", 4, 5);
-    $ids = database_search.searchBibleTextCaseSensitive ("phpunit", "Verse");
-    $this.assertEquals (3, count ($ids));
-    $ids = database_search.searchBibleText ("phpunit", "sixth");
-    $this.assertEquals (1, count ($ids));
-    $ids = database_search.searchBibleText ("phpunit2", "said");
-    $this.assertEquals (1, count ($ids));
+    vector <int> ids = database_search.searchBibleTextCaseSensitive ("phpunit", "Verse");
+    evaluate (__LINE__, __func__, 3, ids.size ());
+    ids = database_search.searchBibleText ("phpunit", "sixth");
+    evaluate (__LINE__, __func__, 1, ids.size ());
+    ids = database_search.searchBibleText ("phpunit2", "said");
+    evaluate (__LINE__, __func__, 1, ids.size ());
   }
-
-
-  public function testGetBibles ()
+  // Test getting Bibles.
   {
-    database_search = Database_Search::getInstance ();
-    $bibles = database_search.getBibles ();
-    $this.assertContains ("phpunit", $bibles);
-    $this.assertContains ("phpunit2", $bibles);
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
+    vector <string> bibles = database_search.getBibles ();
+    evaluate (__LINE__, __func__, { "phpunit", "phpunit2" }, bibles);
     database_search.deleteBible ("phpunit");
-    $bibles = database_search.getBibles ();
-    $this.assertContains ("phpunit2", $bibles);
+    bibles = database_search.getBibles ();
+    evaluate (__LINE__, __func__, { "phpunit2" }, bibles);
   }
-
-
-  public function testGetBooks ()
+  // Test getting books.
   {
-    database_search = Database_Search::getInstance ();
-    $books = database_search.getBooks ("phpunit");
-    $this.assertContains (2, $books);
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
+    vector <int> books = database_search.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { 2 }, books);
     database_search.deleteBook ("phpunit", 2);
-    $books = database_search.getBooks ("phpunit");
-    $this.assertNotContains (2, $books);
+    books = database_search.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { }, books);
   }
-
-
-  public function testGetChapters ()
+  // Test getting chapters.
   {
-    database_search = Database_Search::getInstance ();
-    $chapters = database_search.getChapters ("phpunit", 2);
-    $this.assertContains (3, $chapters);
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
+    vector <int> chapters = database_search.getChapters ("phpunit", 2);
+    evaluate (__LINE__, __func__, { 3 }, chapters);
     database_search.deleteChapter ("phpunit", 2, 3);
-    $chapters = database_search.getChapters ("phpunit", 2);
-    $this.assertNotContains (3, $chapters);
+    chapters = database_search.getChapters ("phpunit", 2);
+    evaluate (__LINE__, __func__, { }, chapters);
   }
-
-
-  public function testGetVerses ()
+  // Test getVerses.
   {
-    database_search = Database_Search::getInstance ();
-    $verses = database_search.getVerses ("phpunit", 2, 3);
-    $standard = array ();
-    for ($i = 0; $i <= 10; $i++) $standard [] = $i;
-    $this.assertEquals ($standard, $verses);
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
+    vector <int> verses = database_search.getVerses ("phpunit", 2, 3);
+    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, verses);
   }
-
-
-  public function testGetVerseCount ()
+  // Test getVerseCount ()
   {
-    database_search = Database_Search::getInstance ();
+    refresh_sandbox (true);
+    test_database_search_setup ();
+    Database_Search database_search = Database_Search ();
     database_search.updateSearchFields ("phpunit", 2, 3);
-    $count = database_search.getVerseCount ("phpunit");
-    $this.assertEquals (11, $count);
+    int count = database_search.getVerseCount ("phpunit");
+    evaluate (__LINE__, __func__, 11, count);
   }
-*/
 }
 
 

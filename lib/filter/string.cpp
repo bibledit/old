@@ -424,5 +424,15 @@ string unicode_string_substr (string s, size_t pos, size_t len)
 }
 
 
-// Optional it can use the ICU library plus wrappers.
+// Optionally the unicode wrappers can use the ICU library.
 // The wrappers should then have fallback functions for platforms where the ICU library is not available.
+
+
+// Converts string so to lowercase.
+// Later on it should do casefolding with full unicode support.
+string unicode_string_casefold (string s)
+{
+  transform (s.begin(), s.end (), s.begin(), ::tolower);
+  return s;
+}
+

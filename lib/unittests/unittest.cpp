@@ -45,8 +45,6 @@ void test_database_bibles ()
   {
     refresh_sandbox (true);
     /* C++Port repeat for every test.
-    $database_search = Database_Search::getInstance ();
-    $database_search->create ();
     $database_bibleactions = Database_BibleActions::getInstance ();
     $database_bibleactions->create ();
     */
@@ -59,6 +57,8 @@ void test_database_bibles ()
     // Test whether optimizing works without errors.
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
     int id = database_bibles.createBible ("phpunit");
     if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
     database_bibles.storeChapter ("phpunit", 2, 3, "a");
@@ -76,6 +76,8 @@ void test_database_bibles ()
     // Test whether optimizing removes files with 0 size.
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
     int id = database_bibles.createBible ("phpunit");
     if (id == 0) evaluate (__LINE__, __func__, "non-zero", id);
     database_bibles.storeChapter ("phpunit", 2, 3, "a");
@@ -95,6 +97,8 @@ void test_database_bibles ()
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
 
     int id = database_bibles.createBible ("phpunit");
     evaluate (__LINE__, __func__, 1, id);
@@ -115,6 +119,8 @@ void test_database_bibles ()
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
 
     int id = database_bibles.getID ("phpunit");
     evaluate (__LINE__, __func__, 0, id);
@@ -138,6 +144,9 @@ void test_database_bibles ()
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
+
     database_bibles.createBible ("phpunit");
     string usfm = "\\c 1\n\\p\n\\v 1 Verse 1";
     database_bibles.storeChapter ("phpunit", 2, 1, usfm);
@@ -152,6 +161,9 @@ void test_database_bibles ()
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
+
     database_bibles.createBible ("phpunit");
     vector <int> books = database_bibles.getBooks ("phpunit");
     evaluate (__LINE__, __func__, { }, books);
@@ -180,6 +192,8 @@ void test_database_bibles ()
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
 
     database_bibles.createBible ("phpunit");
     vector <int> chapters = database_bibles.getChapters ("phpunit", 1);
@@ -212,6 +226,8 @@ void test_database_bibles ()
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles = Database_Bibles ();
+    Database_Search database_search = Database_Search ();
+    database_search.create ();
 
     database_bibles.createBible ("phpunit");
     database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
@@ -298,8 +314,6 @@ int main (int argc, char **argv)
   
   // Flag for unit tests.
   config_globals_unit_testing = true;
-
-  test_database_search (); exit (0); // Todo
 
   // Run the tests.
   test_database_config_general ();

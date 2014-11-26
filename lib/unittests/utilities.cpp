@@ -82,7 +82,7 @@ void evaluate (int line, string func, bool desired, bool actual)
 void evaluate (int line, string func, vector <string> desired, vector <string> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, convert_to_string ((int)desired.size ()), func, convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
     return;
   }
   for (unsigned int i = 0; i < desired.size (); i++) {
