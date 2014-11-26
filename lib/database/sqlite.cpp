@@ -126,8 +126,8 @@ string database_sqlite_no_sql_injection (string sql)
 void database_sqlite_exec (sqlite3 * db, string sql)
 {
   int rc;
+  char *error = NULL;
   try {
-    char *error = NULL;
     rc = sqlite3_exec (db, sql.c_str(), NULL, NULL, &error);
     if (rc != SQLITE_OK) {
       throw runtime_error (error);
@@ -136,15 +136,16 @@ void database_sqlite_exec (sqlite3 * db, string sql)
     string message = "SQL " + sql + ": " + ex.what();
     Database_Logs::log (message);
   }
+  if (error) sqlite3_free (error);
 }
 
 
 map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
 {
   int rc;
+  char *error = NULL;
   SqliteReader reader (0);
   try {
-    char *error = NULL;
     rc = sqlite3_exec (db, sql.c_str(), reader.callback, &reader, &error);
     if (rc != SQLITE_OK) {
       throw runtime_error (error);
@@ -153,6 +154,7 @@ map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql)
     string message = "SQL " + sql + ": " + ex.what();
     Database_Logs::log (message);
   }
+  if (error) sqlite3_free (error);
   return reader.result;
 }
 

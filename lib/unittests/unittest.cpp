@@ -299,7 +299,6 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_filters (); exit (0); // Todo
   test_database_search (); exit (0); // Todo
 
   // Run the tests.
