@@ -1862,6 +1862,23 @@ void test_filters_test12 ()
 }
 
 
+// Unicode tests.
+void test_filters_test13 () // Todo write unicode tests.
+{
+  evaluate (__LINE__, __func__, 4, unicode_string_length ("test"));
+  evaluate (__LINE__, __func__, 4, unicode_string_length ("ᨁᨃᨅᨕ"));
+
+  evaluate (__LINE__, __func__, "st1234", unicode_string_substr ("test1234", 2));
+  evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr ("אָבּגּדּהּ", 2));
+  evaluate (__LINE__, __func__, "", unicode_string_substr ("אָבּגּדּהּ", 5));
+  evaluate (__LINE__, __func__, "", unicode_string_substr ("אָבּגּדּהּ", 6));
+  evaluate (__LINE__, __func__, "test", unicode_string_substr ("test123456", 0, 4));
+  evaluate (__LINE__, __func__, "12", unicode_string_substr ("test123456", 4, 2));
+  evaluate (__LINE__, __func__, "גּדּ", unicode_string_substr ("אָבּגּדּהּ", 2, 2));
+  evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr ("אָבּגּדּהּ", 2, 10));
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -1881,6 +1898,7 @@ void test_filters ()
   refresh_sandbox (true);
   test_filters_test12 ();
   refresh_sandbox (true);
+  test_filters_test13 ();
 }
 
 

@@ -58,6 +58,8 @@ string filter_string_sanitize_html (string html);
 string get_soft_hyphen ();
 string get_no_break_space ();
 string get_en_space ();
+size_t unicode_string_length (string s);
+string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 
 
 #endif

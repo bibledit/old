@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/styles.h>
 #include <styles/logic.h>
-#include <utf8/String.h>
 
 
 BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)
@@ -257,8 +256,7 @@ int usfm_offset_to_versenumber (string usfm, unsigned int offset)
   unsigned int totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
-    UTF8::String line (lines [i]);
-    int length = line.Length ();
+    int length = unicode_string_length (lines [i]);
     totalOffset += length;
     if (totalOffset >= offset) {
       return usfm_linenumber_to_versenumber (usfm, i);
@@ -283,13 +281,11 @@ int usfm_versenumber_to_offset (string usfm, int verse)
     int v = 0;
     if (!verses.empty()) v = verses [1];
     if (v == verse) return totalOffset;
-    UTF8::String s (line);
-    totalOffset += s.Length ();
+    totalOffset += unicode_string_length (line);
     // Add 1 for new line.
     totalOffset += 1;
   }
-  UTF8::String s (usfm);
-  return s.Length ();
+  return unicode_string_length (usfm);
 }
 
 
@@ -463,8 +459,7 @@ vector <UsfmNote> usfm_extract_notes (string usfm, const vector <string> & marke
     // Caclulate the offset in the main text. 
     // That means not to consider the length of the notes.
     if (!within_note) {
-      UTF8::String s (item);
-      running_offset += s.Length();
+      running_offset += unicode_string_length (item);
     }
     
     if (within_note) running_note += item;
@@ -596,8 +591,7 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
   for (string word : words) {
 
     // Add length of item.
-    UTF8::String s (word);
-    length += s.Length();
+    length += unicode_string_length (word);
     
     // Check whether at opening marker.
     bool opening_marker = usfm_is_usfm_marker (word);
@@ -647,14 +641,12 @@ size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
   }
   
   if (!found) {
-    UTF8::String s(usfm);
-    position = s.Length ();
+    position = unicode_string_length (usfm);
   }
   
   // Move a note to before punctuation.
-  set <UTF8::String> punctuation = {".", ",", ";", ":", "?", "!"};
-  UTF8::String s(usfm);
-  UTF8::String character = s.Substring (position - 1, 1);
+  set <string> punctuation = {".", ",", ";", ":", "?", "!"};
+  string character = unicode_string_substr (usfm, position - 1, 1);
   if (punctuation.find (character) != punctuation.end()) position--;
 
   return position;

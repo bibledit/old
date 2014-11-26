@@ -18,6 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <filter/string.h>
+#include <utf8/String.h>
+#include <utf8/utf8.h>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -368,3 +370,59 @@ string get_en_space ()
   // The space below is U+2002.
   return " ";
 }
+
+
+// Returns the length of string s in unicode points, not in bytes.
+size_t unicode_string_length (string s)
+{
+  int length = utf8::distance (s.begin(), s.end());
+  return length;
+}
+
+
+// Get the substring with unicode point pos(ition) and len(gth).
+// If len = 0, the string from start till end is returned.
+string unicode_string_substr (string s, size_t pos, size_t len)
+{
+  char * input = (char *) s.c_str();
+  char * startiter = (char *) input;
+  size_t length = strlen (input);
+  char * veryend = input + length + 1;
+  // Iterate forward pos times.
+  while (pos > 0) {
+    if (strlen (startiter)) {
+      utf8::next (startiter, veryend);
+    } else {
+      // End reached: Return empty result.
+      return "";
+    }
+    pos--;
+  }
+  // Zero len: Return result till the end of the string.
+  if (len == 0) {
+    s.assign (startiter);
+    return s;
+  }
+
+  // Iterate forward len times.
+  char * enditer = startiter;
+  while (len > 0) {
+    if (strlen (enditer)) {
+      utf8::next (enditer, veryend);
+    } else {
+      // End reached: Return result.
+      s.assign (startiter);
+      return s;
+    }
+    len--;
+  }
+  // Return substring.
+  size_t startpos = startiter - input;
+  size_t lenpos = enditer - startiter;
+  s = s.substr (startpos, lenpos);
+  return s;
+}
+
+
+// Optional it can use the ICU library plus wrappers.
+// The wrappers should then have fallback functions for platforms where the ICU library is not available.

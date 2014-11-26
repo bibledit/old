@@ -42,8 +42,6 @@ libbibledit_a_SOURCES = \
 	setup/index.cpp \
 	journal/index.cpp \
 	styles/logic.cpp \
-	utf8/String.cpp \
-	utf8/Exception.cpp \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \

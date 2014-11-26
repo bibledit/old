@@ -25,8 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <database/books.h>
 #include <database/config/bible.h>
-#include <utf8/String.h>
-
 
 
 Filter_Text_Passage_Marker_Value::Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in)
@@ -528,8 +526,7 @@ void Filter_Text::processUsfm ()
                     // Record the position within the text where this new paragraph starts.
                     string contents;
                     for (auto & element : verses_text) contents.append (element.second);
-                    UTF8::String ucontents (contents);
-                    paragraph_start_positions.push_back (ucontents.Length());
+                    paragraph_start_positions.push_back (unicode_string_length (contents));
                   }
                   break;
                 }
@@ -703,8 +700,7 @@ void Filter_Text::processUsfm ()
               // Deal with the case of a pending chapter number.
               if (outputChapterTextAtFirstVerse != "") {
                 if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) {
-                  UTF8::String s (outputChapterTextAtFirstVerse);
-                  int dropCapsLength = s.Length ();
+                  int dropCapsLength = unicode_string_length (outputChapterTextAtFirstVerse);
                   applyDropCapsToCurrentParagraph (dropCapsLength);
                   if (odf_text_standard) odf_text_standard->addText (outputChapterTextAtFirstVerse);
                   if (odf_text_text_only) odf_text_text_only->addText (outputChapterTextAtFirstVerse);
