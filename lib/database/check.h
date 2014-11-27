@@ -17,18 +17,46 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_DATABASES_H
-#define INCLUDED_UNITTESTS_DATABASES_H
+#ifndef INCLUDED_DATABASE_CHECK_H
+#define INCLUDED_DATABASE_CHECK_H
 
 
 #include <config/libraries.h>
+#include <sqlite3.h>
+#include <filter/passage.h>
 
 
-void test_database_styles ();
-void test_database_books ();
-void test_database_search ();
-void test_database_bibleactions ();
-void test_database_check ();
+class Database_Check_Hit
+{
+public:
+  Database_Check_Hit ();
+  int rowid;
+  int bible;
+  int book;
+  int chapter;
+  int verse;
+  string data;
+};
+
+
+class Database_Check
+{
+public:
+  Database_Check ();
+  ~Database_Check ();
+  void create ();
+  void optimize ();
+  void truncateOutput (string bible);
+  void recordOutput (string bible, int book, int chapter, int verse, string data);
+  vector <Database_Check_Hit> getHits ();
+  void approve (int id);
+  void erase (int id);
+  Passage getPassage (int id);
+  vector <Database_Check_Hit> getSuppressions ();
+  void release (int id);
+private:
+  sqlite3 * connect ();
+};
 
 
 #endif

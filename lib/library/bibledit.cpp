@@ -50,7 +50,6 @@ void bibledit_start ()
 // Returns true if Bibledit is running.
 bool bibledit_running ()
 {
-  // Moved to C++: usleep (10000);
   this_thread::sleep_for (chrono::milliseconds (10));
   return config_globals_running;
 }

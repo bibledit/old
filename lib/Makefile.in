@@ -118,11 +118,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
-	database/bibleactions.$(OBJEXT) database/sqlite.$(OBJEXT) \
-	database/styles.$(OBJEXT) database/bibles.$(OBJEXT) \
-	database/search.$(OBJEXT) database/books.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) \
+	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
+	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
+	database/books.$(OBJEXT) database/bibleactions.$(OBJEXT) \
+	database/check.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
@@ -356,12 +356,13 @@ libbibledit_a_SOURCES = \
 	database/config/user.cpp \
 	database/users.cpp \
 	database/logs.cpp \
-	database/bibleactions.cpp \
 	database/sqlite.cpp \
 	database/styles.cpp \
 	database/bibles.cpp \
 	database/search.cpp \
 	database/books.cpp \
+	database/bibleactions.cpp \
+	database/check.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -579,8 +580,6 @@ database/users.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/logs.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/bibleactions.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
 database/sqlite.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/styles.$(OBJEXT): database/$(am__dirstamp) \
@@ -590,6 +589,10 @@ database/bibles.$(OBJEXT): database/$(am__dirstamp) \
 database/search.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/books.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/bibleactions.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/check.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
@@ -817,6 +820,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleactions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
