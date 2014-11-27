@@ -34,7 +34,7 @@ string render_journal_entry (string entry)
   entry = entry.substr (2);
   // Extract and remove the seconds since Unix epoch.
   time_t seconds = convert_to_int (entry);
-  entry = entry.substr (10);
+  entry = entry.substr (11);
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
   // Convert the seconds into a human readable time.
@@ -52,28 +52,17 @@ string render_journal_entry (string entry)
 string journal_index_ajax (Webserver_Request * request, string filename)
 {
   int userLevel = request->session_logic()->currentLevel ();
-  // Sample filetime: "1415358783".
-  // It's the number of seconds past the Unix epoch.
+  // Sample filetime: "141708283400041520".
+  // It is the number of seconds past the Unix epoch, plus the microseconds within the current second.
   Database_Logs database_logs = Database_Logs ();
   string result = database_logs.getNext (filename);
   if (!result.empty()) {
-    /* C++Port Todo
-    $output = array ();
-    $output [] = $result [0];
-    $line = $result [1];
-    $entryLevel = (integer) $line;
-    if ($entryLevel <= $userLevel) 
-    {
-      $output [] = render_journal_entry ($line);
-    };
-    echo implode ("\n", $output);
-    */
+    int entryLevel = convert_to_int (result);
+    if (entryLevel <= userLevel) result = render_journal_entry (result);
+    else result.clear ();
+    result.insert (0, filename + "\n");
   }
-
-  if (userLevel) {};
-
-
-  return "";
+  return result;
 }
 
 
@@ -113,8 +102,8 @@ string journal_index (void * webserver_request)
 
   string lines;
   for (auto entry : entries) {
-    // C++Port $entryLevel = (integer) $entry; Todo
-    // C++Port if ($entryLevel > $userLevel) continue;
+    int entryLevel = convert_to_int (entry);
+    if (entryLevel > userLevel) continue;
     entry = render_journal_entry (entry);
     lines.append ("<p>");
     lines.append (entry);
@@ -135,26 +124,3 @@ string journal_index (void * webserver_request)
   return page;
 }
 
-
-/*
-C++Port
-
-
-
-$database_config_general = Database_Config_General::getInstance ();
-
-
-$session_logic = Session_Logic::getInstance ();
-$userLevel = $session_logic->currentLevel ();
-
-
-$timezone = $database_config_general->getTimezone ();
-if ($timezone) date_default_timezone_set ($timezone);
-
-
-
-
-
-
-
-*/

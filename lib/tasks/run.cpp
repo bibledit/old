@@ -54,7 +54,7 @@ void tasks_run_one (string filename)
     database_logs.checkup ();
     database_logs.rotate ();
     Database_Logs::log ("The Journal was checked and rotated");
-  } else if (command == "Todo") {
+  } else if (command == "Placerholder") {
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

@@ -30,8 +30,8 @@ string tasks_logic_folder ()
 }
 
 
-// Queue $command to run in a thread, with $parameters.
-void tasks_logic_queue (string command, vector <string> parameters) // Todo
+// Queue task $command to run later, with $parameters for that task.
+void tasks_logic_queue (string command, vector <string> parameters)
 {
   // The file on disk will contain the command on the first line,
   // and any parameters on the following lines, one parameters per line.

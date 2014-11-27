@@ -304,7 +304,7 @@ string filter_url_escape_shell_argument (string argument)
 // The function accepts a $path.
 // The function may add a numerical suffix 
 // to ensure that the $path does not yet exist in the filesystem.
-string filter_url_unique_path (string path) // Todo write unittests.
+string filter_url_unique_path (string path)
 {
   if (!filter_url_file_exists (path)) return path;
   for (unsigned int i = 1; i < 100; i++) {

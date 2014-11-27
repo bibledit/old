@@ -50,7 +50,7 @@ void timer_index ()
 
       // At the sixth minute after midnight, after the backup silence, and any hour after, rotate the journal.
       if (minute == 6) tasks_logic_queue (ROTATEJOURNAL);
-
+      
     } catch (exception & e) {
       Database_Logs::log (e.what ());
     } catch (exception * e) {

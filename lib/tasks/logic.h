@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 string tasks_logic_folder ();
-void tasks_logic_queue (string command, vector <string> parameters = { }); // Todo
+void tasks_logic_queue (string command, vector <string> parameters = { });
 
 
 #endif
