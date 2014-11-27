@@ -32,17 +32,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-string setup_index (void * webserver_request)
+void setup_create_databases (Webserver_Request * request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  // Create or upgrade the quick and small databases.
   request->database_users ()->create ();
   Database_Logs database_logs = Database_Logs ();
   database_logs.create ();
   request->database_styles ()->create ();
   request->database_search ()->create ();
+  request->database_bibleactions ()->create ();
+}
 
+
+string setup_index (void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Create or upgrade the databases.
+  new thread (setup_create_databases, request);
+  
   Assets_View view = Assets_View (0);
 
   if (!request->post ["Submit"].empty ()) {

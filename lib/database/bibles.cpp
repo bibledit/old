@@ -23,9 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-using namespace std;
-
-
 // This database stores its data in files in the filesystem.
 // This is a rugged and reliable system of storing data.
 // Because no real database is used, no database can get corrupted.

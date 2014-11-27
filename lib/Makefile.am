@@ -29,6 +29,7 @@ libbibledit_a_SOURCES = \
 	database/config/user.cpp \
 	database/users.cpp \
 	database/logs.cpp \
+	database/bibleactions.cpp \
 	database/sqlite.cpp \
 	database/styles.cpp \
 	database/bibles.cpp \

@@ -82,6 +82,7 @@ void bibledit_stop ()
 #ifdef WIN32
 #else
   xmlCleanupThreads();
+  xmlCleanupParser();
 #endif
   delete config_globals_worker;
   delete config_globals_timer;

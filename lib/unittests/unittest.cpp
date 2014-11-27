@@ -44,10 +44,6 @@ void test_database_bibles ()
 {
   {
     refresh_sandbox (true);
-    /* C++Port repeat for every test.
-    $database_bibleactions = Database_BibleActions::getInstance ();
-    $database_bibleactions->create ();
-    */
     Database_Bibles database_bibles = Database_Bibles ();
     vector <string> standard;
     vector <string> bibles = database_bibles.getBibles ();
@@ -247,51 +243,6 @@ void test_database_bibles ()
     id = database_bibles.getChapterId ("phpunit", 1, 2);
     evaluate (__LINE__, __func__, 100000004, id);
   }
-  // Test Bible actionsOne
-  {
-    /* C++Port
-    database_bibleactions = Database_BibleActions::getInstance ();
-
-    database_bibleactions.optimize ();
-    
-    bibles = database_bibleactions.getBibles ();
-    this.assertEquals (array (), bibles);
-
-    database_bibleactions.record ("phpunit1", 1, 2, "data112");
-    database_bibleactions.record ("phpunit1", 1, 3, "data113");
-    database_bibleactions.record ("phpunit1", 2, 4, "data124");
-    database_bibleactions.record ("phpunit2", 5, 6, "data256");
-    database_bibleactions.record ("phpunit2", 5, 6, "data256: Not to be stored");
-
-    bibles = database_bibleactions.getBibles ();
-    this.assertEquals (array ("phpunit1", "phpunit2"), bibles);
-
-    books = database_bibleactions.getBooks ("phpunit1");
-    this.assertEquals (array (1, 2), books);
-
-    chapters = database_bibleactions.getChapters ("phpunit1", 1);
-    this.assertEquals (array (2, 3), chapters);
-    
-    chapters = database_bibleactions.getChapters ("phpunit1", 2);
-    this.assertEquals (array (4), chapters);
-    
-    database_bibleactions.delete ("phpunit1", 2, 3);
-    
-    chapters = database_bibleactions.getChapters ("phpunit1", 2);
-    this.assertEquals (array (4), chapters);
-    
-    database_bibleactions.delete ("phpunit1", 2, 4);
-    
-    chapters = database_bibleactions.getChapters ("phpunit1", 2);
-    this.assertEquals (array (), chapters);
-    
-    usfm = database_bibleactions.getUsfm ("phpunit2", 5, 5);
-    this.assertFalse (usfm);
-    
-    usfm = database_bibleactions.getUsfm ("phpunit2", 5, 6);
-    this.assertEquals ("data256", usfm);
-    */
-  }
 }
 
 
@@ -330,6 +281,7 @@ int main (int argc, char **argv)
   test_database_bibles ();
   test_database_search ();
   test_database_books ();
+  test_database_bibleactions ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

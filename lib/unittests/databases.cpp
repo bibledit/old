@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <database/books.h>
 #include <database/search.h>
+#include <database/bibleactions.h>
 
 
 void test_database_styles ()
@@ -347,3 +348,48 @@ void test_database_search ()
 }
 
 
+void test_database_bibleactions ()
+{
+  refresh_sandbox (true);
+  Database_BibleActions database_bibleactions = Database_BibleActions ();
+  database_bibleactions.create ();
+  
+  database_bibleactions.optimize ();
+  
+  vector <string> bibles = database_bibleactions.getBibles ();
+  evaluate (__LINE__, __func__, { }, bibles);
+
+  database_bibleactions.record ("phpunit1", 1, 2, "data112");
+  database_bibleactions.record ("phpunit1", 1, 3, "data113");
+  database_bibleactions.record ("phpunit1", 2, 4, "data124");
+  database_bibleactions.record ("phpunit2", 5, 6, "data256");
+  database_bibleactions.record ("phpunit2", 5, 6, "data256: Not to be stored");
+
+  bibles = database_bibleactions.getBibles ();
+  evaluate (__LINE__, __func__, {"phpunit1", "phpunit2"}, bibles);
+
+  vector <int> books = database_bibleactions.getBooks ("phpunit1");
+  evaluate (__LINE__, __func__, {1, 2}, books);
+
+  vector <int> chapters = database_bibleactions.getChapters ("phpunit1", 1);
+  evaluate (__LINE__, __func__, {2, 3}, chapters);
+  
+  chapters = database_bibleactions.getChapters ("phpunit1", 2);
+  evaluate (__LINE__, __func__, {4}, chapters);
+  
+  database_bibleactions.erase ("phpunit1", 2, 3);
+  
+  chapters = database_bibleactions.getChapters ("phpunit1", 2);
+  evaluate (__LINE__, __func__, {4}, chapters);
+  
+  database_bibleactions.erase ("phpunit1", 2, 4);
+  
+  chapters = database_bibleactions.getChapters ("phpunit1", 2);
+  evaluate (__LINE__, __func__, { }, chapters);
+  
+  string usfm = database_bibleactions.getUsfm ("phpunit2", 5, 5);
+  evaluate (__LINE__, __func__, "", usfm);
+  
+  usfm = database_bibleactions.getUsfm ("phpunit2", 5, 6);
+  evaluate (__LINE__, __func__, "data256", usfm);
+}

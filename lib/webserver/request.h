@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/styles.h>
 #include <database/bibles.h>
 #include <database/search.h>
+#include <database/bibleactions.h>
 
 
 using namespace std;
@@ -55,6 +56,7 @@ public:
   Database_Styles * database_styles ();
   Database_Bibles * database_bibles ();
   Database_Search * database_search ();
+  Database_BibleActions * database_bibleactions ();
 private:
   Session_Logic * session_logic_instance = NULL;
   Database_Config_User * database_config_user_instance = NULL;
@@ -62,6 +64,7 @@ private:
   Database_Styles * database_styles_instance = NULL;
   Database_Bibles * database_bibles_instance = NULL;
   Database_Search * database_search_instance = NULL;
+  Database_BibleActions * database_bibleactions_instance = NULL;
 };
 
 

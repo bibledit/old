@@ -17,17 +17,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_DATABASES_H
-#define INCLUDED_UNITTESTS_DATABASES_H
+#ifndef INCLUDED_DATABASE_BIBLEACTIONS_H
+#define INCLUDED_DATABASE_BIBLEACTIONS_H
 
 
 #include <config/libraries.h>
+#include <sqlite3.h>
 
 
-void test_database_styles ();
-void test_database_books ();
-void test_database_search ();
-void test_database_bibleactions ();
+class Database_BibleActions
+{
+public:
+  Database_BibleActions ();
+  ~Database_BibleActions ();
+  void create ();
+  void clear ();
+  void optimize ();
+  void record (string bible, int book, int chapter, string usfm);
+  vector <string> getBibles ();
+  vector <int> getBooks (string bible);
+  vector <int> getChapters (string bible, int book);
+  string getUsfm (string bible, int book, int chapter);
+  void erase (string bible, int book, int chapter);
+private:
+  sqlite3 * connect ();
+};
 
 
 #endif
