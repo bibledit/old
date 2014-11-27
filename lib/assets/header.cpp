@@ -46,10 +46,10 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jQueryUIOn (string subset)
+void Assets_Header::jQueryUIOn (string subset) // C++Port
 {
   subset = ""; // Temporal.
-  /* C++Port
+  /*
     $this->includeJQueryUI = true;
     // Setting a subset makes a big difference in the size of the JavaScript
     // the page has to load, and therefore it makes a big difference in the
@@ -63,10 +63,10 @@ void Assets_Header::jQueryUIOn (string subset)
 
 
 // Adds an extra line in the <head>.
-void Assets_Header::addHeadLine (string line)
+void Assets_Header::addHeadLine (string line) // C++Port
 {
   line = ""; // Temporal.
-  /* C++Port
+  /* 
     $this->headLines [] = $line;
    */
 }
@@ -83,9 +83,9 @@ void Assets_Header::setBodyOnload (string code)
 
 // Adds logic to the header allowing to redirect the user to the original
 // URL after successful login.
-void Assets_Header::setLogin ()
+void Assets_Header::setLogin () // C++Port
 {
-  /* C++Port
+  /* 
     $request = $_SERVER['REQUEST_URI'];
     $this->view->view->request = $request; Update to this->request.
    */
@@ -93,18 +93,18 @@ void Assets_Header::setLogin ()
 
 
 // Display the passage navigator.
-void Assets_Header::setNavigator ()
+void Assets_Header::setNavigator () // C++Port
 {
-  /* C++Port
+  /* 
     $this->displayNavigator = true;
    */
 }
 
 
 // Display the user's basic stylesheet.css.
-void Assets_Header::setStylesheet ()
+void Assets_Header::setStylesheet () // C++Port
 {
-  /* C++Port
+  /* 
     $database_config_user = Database_Config_User::getInstance ();
     $stylesheet = $database_config_user->getStylesheet ();
     $this->includedStylesheet = $stylesheet;
@@ -113,9 +113,9 @@ void Assets_Header::setStylesheet ()
 
 
 // Display the user's editor stylesheet.css.
-void Assets_Header::setEditorStylesheet ()
+void Assets_Header::setEditorStylesheet () // C++Port
 {
-  /* C++Port
+  /*
     $database_config_user = Database_Config_User::getInstance ();
     $stylesheet = $database_config_user->getStylesheet ();
     $this->includedEditorStylesheet = $stylesheet;
@@ -123,19 +123,19 @@ void Assets_Header::setEditorStylesheet ()
 }
 
 
-void Assets_Header::setSearchQuery (string query)
+void Assets_Header::setSearchQuery (string query) // C++Port
 {
   query = ""; // Temporal.
-  /* C++Port
+  /* 
     $this->view->view->search_query = $query;
    */
 }
 
 
 // Whether to display the topbar.
-bool Assets_Header::displayTopbar ()
+bool Assets_Header::displayTopbar () // C++Port
 {
-  /* C++Port
+  /*
     // If the topbar is in the query, it means: don't display it.
     if (isset ($_GET ['topbar'])) {
       unset ($_GET ['topbar']);
@@ -155,8 +155,8 @@ string Assets_Header::run ()
   // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
   view->set_variable("VERSION", VERSION);
 
-  /* C++Port
-    $this->view->view->include_jquery_ui = $this->includeJQueryUI;
+  /*
+    $this->view->view->include_jquery_ui = $this->includeJQueryUI;  // C++Port
     $this->view->view->include_jquery_ui_subset = $this->JQueryUISubset;
     $this->view->view->head_lines = $this->headLines;
   */
@@ -173,8 +173,8 @@ string Assets_Header::run ()
       view->set_variable ("search", gettext ("Search"));
       view->set_variable ("searching", gettext ("Searching"));
     }
-  /* C++Port
-    $this->view->view->display_navigator = $this->displayNavigator;
+  /*
+    $this->view->view->display_navigator = $this->displayNavigator; // C++Port
     if ($this->view->view->display_navigator) {
       $database_config_user = Database_Config_User::getInstance ();
       $bible = Access_Bible::clamp ($database_config_user->getBible ());

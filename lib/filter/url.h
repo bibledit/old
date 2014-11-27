@@ -55,6 +55,7 @@ int filter_url_filemtime (string filename);
 string filter_url_urldecode (string url);
 string filter_url_tempfile ();
 string filter_url_escape_shell_argument (string argument);
+string filter_url_unique_path (string path);
 
 
 #endif

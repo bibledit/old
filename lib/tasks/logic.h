@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -18,34 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-include ("utils.php");
+#ifndef INCLUDED_TASKS_LOGIC
+#define INCLUDED_TASKS_LOGIC
 
 
-ob_start ();
+#include <config/libraries.h>
 
 
-require_once ("../database/sqlite.php");
-require_once ("../database/search.php");
+#define ROTATEJOURNAL "rotatejournal"
 
 
-$database_search = Database_Search::getInstance ();
-$database_search->create ();
+string tasks_logic_folder ();
+void tasks_logic_queue (string command, vector <string> parameters = { }); // Todo
 
 
-$okay = !ob_get_flush ();
-
-
-display_header ($okay);
-if ($okay) {
-  display_okay ();
-  display_paragraph ("Search database okay.");
-} else {
-  display_paragraph ("Errors creating or upgrading the search database");
-  open_paragraph ();
-  display_link ("commits1.php", "Retry");
-  close_paragraph ();
-}
-display_footer ();
-
-
-?>
+#endif

@@ -1862,9 +1862,9 @@ void test_filters_test12 ()
 }
 
 
-// Unicode tests.
 void test_filters_test13 ()
 {
+  // Unicode tests.
   evaluate (__LINE__, __func__, 4, unicode_string_length ("test"));
   evaluate (__LINE__, __func__, 4, unicode_string_length ("ᨁᨃᨅᨕ"));
 
@@ -1879,6 +1879,19 @@ void test_filters_test13 ()
 
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
   evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
+  
+  // Test unique filename.
+  string filename = "/tmp/unique";
+  filter_url_file_put_contents (filename, "");
+  string filename1 = filter_url_unique_path (filename);
+  filter_url_file_put_contents (filename1, "");
+  evaluate (__LINE__, __func__, "/tmp/unique.1", filename1);
+  string filename2 = filter_url_unique_path (filename);
+  filter_url_file_put_contents (filename2, "");
+  evaluate (__LINE__, __func__, "/tmp/unique.2", filename2);
+  filter_url_unlink (filename);
+  filter_url_unlink (filename1);
+  filter_url_unlink (filename2);
 }
 
 

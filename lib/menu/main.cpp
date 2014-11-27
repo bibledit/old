@@ -209,7 +209,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (level >= Filter_Roles::admin ())      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "fonts/index", gettext ("Fonts"), NULL } );
-/* C++Port
+/* C++Port client mode dependent.
     // If the installation is not prepared for Client mode, disable the client menu.
     // But keep the menu item in an open installation.
     include ("config/open.php");
@@ -251,7 +251,7 @@ vector <Menu_Main_Item> * Menu_Main::helpmenu ()
 // Create the menu.
 string Menu_Main::create ()
 {
-  // Modify the menu based on user access level.
+  // Modify the menu based on user access level.  // C++Port
 /* C++Port
   $mainmenu = $this->accesscontrol ($this->mainmenu ());
 */

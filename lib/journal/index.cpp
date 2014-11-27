@@ -57,7 +57,7 @@ string journal_index_ajax (Webserver_Request * request, string filename)
   Database_Logs database_logs = Database_Logs ();
   string result = database_logs.getNext (filename);
   if (!result.empty()) {
-    /* C++Port
+    /* C++Port Todo
     $output = array ();
     $output [] = $result [0];
     $line = $result [1];
@@ -113,7 +113,7 @@ string journal_index (void * webserver_request)
 
   string lines;
   for (auto entry : entries) {
-    // C++Port $entryLevel = (integer) $entry;
+    // C++Port $entryLevel = (integer) $entry; Todo
     // C++Port if ($entryLevel > $userLevel) continue;
     entry = render_journal_entry (entry);
     lines.append ("<p>");

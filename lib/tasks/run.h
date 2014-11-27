@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -18,16 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
+#ifndef INCLUDED_TASKS_RUN_H
+#define INCLUDED_TASKS_RUN_H
 
 
-// Security: The script runs from the cli SAPI only.
-Filter_Cli::assert ();
+#include <config/libraries.h>
 
 
-$database_logs = Database_Logs::getInstance ();
-$database_logs->checkup ();
-$database_logs->rotate ();
+void tasks_run_check ();
 
 
-?>
+#endif

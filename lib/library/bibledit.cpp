@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <libxml/threads.h>
 #include <thread>
+#include <timer/index.h>
 
 
 using namespace std;
@@ -41,6 +42,8 @@ void bibledit_start ()
 {
   // Run the web server in a thread.
   config_globals_worker = new thread (webserver);
+  // Run the timers in a thread.
+  config_globals_timer = new thread (timer_index);
 }
 
 
@@ -71,8 +74,9 @@ void bibledit_stop ()
   int mysocket = socket (PF_INET, SOCK_STREAM, 0);
   connect (mysocket, (struct sockaddr*) &sa, sizeof (sa));
   
-  // Wait till the server shuts down.
+  // Wait till the server and the timers shut down.
   config_globals_worker->join ();
+  config_globals_timer->join ();
   
   // Clear memory.
 #ifdef WIN32
@@ -80,5 +84,6 @@ void bibledit_stop ()
   xmlCleanupThreads();
 #endif
   delete config_globals_worker;
+  delete config_globals_timer;
 
 }

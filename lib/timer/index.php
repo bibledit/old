@@ -59,13 +59,6 @@ if ($hour == 0) {
 
 
 
-// At the sixth minute after midnight, after the backup silence, and any hour after, rotate the logbook.
-if ($minute == 6) {
-  $directory = dirname (__DIR__) . "/journal";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/rotate.php"));
-}
-
-
 // Every minute send out queued email, except in offline mode.
 if (!$client) {
   Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/mailer.php"));

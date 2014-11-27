@@ -166,8 +166,8 @@ vector <int> Database_Bibles::getBooks (string bible)
     if (filter_string_is_numeric (book)) books.push_back (convert_to_int (book));
   }
 
-  // Sort the books according to the sequence defined in the books database.
-  /* C++Port
+  // Sort the books according to the sequence defined in the books database. C++Port
+  /*
   $sequence = array ();
   $database_books = Database_Books::getInstance ();
   foreach ($books as $book) {

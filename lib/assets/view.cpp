@@ -84,14 +84,6 @@ string Assets_View::render (string tpl1, string tpl2)
     flate.enable_zone (iter2->first);
   }
 
-  /* C++Port
-    $session_logic = Session_Logic::getInstance ();
-    if ($session_logic->loggedIn ()) {
-      $this->view->user = $session_logic->currentUser ();
-      $this->view->level = $session_logic->currentLevel (true);
-    }
-  */
-
   // Get and return the page contents.
   string page = flate.render (tpl);
   return page;

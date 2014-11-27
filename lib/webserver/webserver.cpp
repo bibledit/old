@@ -187,6 +187,8 @@ void webserver ()
       Database_Logs::log (e.what ());
     } catch (exception * e) {
       Database_Logs::log (e->what ());
+    } catch (...) {
+      Database_Logs::log ("A general internal error occurred in the web server");
     }
 
     // Clear memory.

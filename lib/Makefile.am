@@ -46,7 +46,10 @@ libbibledit_a_SOURCES = \
 	esword/text.cpp \
 	onlinebible/text.cpp \
 	html/text.cpp \
-	odf/text.cpp
+	odf/text.cpp \
+	timer/index.cpp \
+	tasks/logic.cpp \
+	tasks/run.cpp
 
 bin_PROGRAMS = server unittest
 

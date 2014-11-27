@@ -26,3 +26,4 @@ extern bool config_globals_open_installation;
 extern bool config_globals_client_prepared;
 extern bool config_globals_running;
 extern thread * config_globals_worker;
+extern thread * config_globals_timer;

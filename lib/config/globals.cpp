@@ -29,4 +29,5 @@ bool config_globals_open_installation = false;
 bool config_globals_client_prepared = false;
 bool config_globals_running = true;
 thread * config_globals_worker = NULL;
+thread * config_globals_timer = NULL;
 

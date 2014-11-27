@@ -18,22 +18,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_File
+class Filter_File // Todo goes out entirely, even the file.
 {
 
-
-  // The function accepts a $path.
-  // The function may add a numerical suffix 
-  // to ensure that the $path does not yet exist in the filesystem.
-  public static function unique ($path) 
-  {
-    if (!file_exists ($path)) return $path;
-    for ($i = 1; $i < 100; $i++) {
-      $uniquepath = $path . "." . $i;
-      if (!file_exists ($uniquepath)) return $uniquepath;
-    }
-    return $path . "." . mt_rand (100, 1000);
-  }
 
 
 }

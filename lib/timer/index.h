@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,9 +15,16 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-include ("utils.php");
-display_header (true);
-display_active ();
-display_paragraph ("Creating and upgrading the search database.");
-display_footer ();
-?>
+
+
+#ifndef INCLUDED_TIMER_INDEX_H
+#define INCLUDED_TIMER_INDEX_H
+
+
+#include <config/libraries.h>
+
+
+void timer_index ();
+
+
+#endif

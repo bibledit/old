@@ -48,10 +48,10 @@ string Assets_Page::header (string title, void * webserver_request, string searc
 }
 
 
-string Assets_Page::success (string message)
+string Assets_Page::success (string message) // C++Port
 {
   if (message.length()) {};
-  /* C++Port
+  /*
     $view = new Assets_View (__FILE__);
     $view->view->message = $message;
     $view->render ("success.php");
@@ -60,10 +60,10 @@ string Assets_Page::success (string message)
 }
 
 
-string Assets_Page::error (string message)
+string Assets_Page::error (string message) // C++Port
 {
   if (message.length()) {};
-  /* C++Port
+  /*
     $view = new Assets_View (__FILE__);
     $view->view->message = $message;
     $view->render ("error.php");
@@ -72,10 +72,10 @@ string Assets_Page::error (string message)
 }
 
 
-string Assets_Page::message (string message)
+string Assets_Page::message (string message) // C++Port
 {
   if (message.length()) {};
-  /* C++Port
+  /*
     $view = new Assets_View (__FILE__);
     $view->view->message = $message;
     $view->render ("message.php");

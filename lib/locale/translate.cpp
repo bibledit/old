@@ -30,6 +30,5 @@ string gettext (string english)
   return english;
 }
 
-// C++Port 
-// Create a very simple gettext function that reads the language .po files and outputs the correct localizations.
+// C++Port Create a very simple gettext function that reads the language .po files and outputs the correct localizations.
 // Look for gettext or similar.
