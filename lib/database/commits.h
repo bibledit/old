@@ -17,19 +17,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_DATABASES_H
-#define INCLUDED_UNITTESTS_DATABASES_H
+#ifndef INCLUDED_DATABASE_COMMITS_H
+#define INCLUDED_DATABASE_COMMITS_H
 
 
 #include <config/libraries.h>
+#include <sqlite3.h>
+#include <filter/passage.h>
 
 
-void test_database_styles ();
-void test_database_books ();
-void test_database_search ();
-void test_database_bibleactions ();
-void test_database_check ();
-void test_database_commits ();
+class Database_Commits
+{
+public:
+  Database_Commits ();
+  ~Database_Commits ();
+  void create ();
+  void optimize ();
+  void record (string bible, string sha1);
+  vector <string> get (string bible);
+private:
+  sqlite3 * connect ();
+};
 
 
 #endif

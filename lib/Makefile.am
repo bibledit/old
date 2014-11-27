@@ -36,6 +36,7 @@ libbibledit_a_SOURCES = \
 	database/books.cpp \
 	database/bibleactions.cpp \
 	database/check.cpp \
+	database/commits.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

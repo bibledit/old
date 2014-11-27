@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define INCLUDED_SETUP_INDEX_H
 
 
-using namespace std;
+#include <config/libraries.h>
 
 
 string setup_index (void * webserver_request);

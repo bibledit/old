@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <string>
+#include <setup/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <webserver/request.h>
@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <database/config/general.h>
 #include <database/logs.h>
-#include <database/search.h>
+#include <database/commits.h>
 
 
 using namespace std;
@@ -40,6 +40,9 @@ void setup_create_databases (Webserver_Request * request)
   request->database_styles ()->create ();
   request->database_search ()->create ();
   request->database_bibleactions ()->create ();
+  request->database_check ()->create ();
+  Database_Commits database_commits = Database_Commits ();
+  database_commits.create ();  
 }
 
 

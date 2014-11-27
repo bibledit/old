@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 #include <database/bibleactions.h>
 #include <database/check.h>
+#include <database/commits.h>
 
 
 void test_database_styles ()
@@ -508,3 +509,30 @@ void test_database_check ()
   }
 }
 
+
+void test_database_commits ()
+{
+  refresh_sandbox (true);
+  Database_Commits database_commits = Database_Commits ();
+  database_commits.create ();
+  database_commits.optimize ();
+
+  string bible = "phpunit";
+  string sha = "sha";
+
+  vector <string> data = database_commits.get (bible);
+  evaluate (__LINE__, __func__, 0, data.size());
+  
+  // Record some data.
+  database_commits.record (bible, sha);
+  database_commits.record (bible, sha);
+
+  // Check the data.
+  data = database_commits.get (bible);
+  evaluate (__LINE__, __func__, 2, data.size());
+  evaluate (__LINE__, __func__, "sha", data [1]);
+
+  // No data for another Bible
+  data = database_commits.get ("none");
+  evaluate (__LINE__, __func__, 0, data.size());
+}

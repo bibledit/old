@@ -38,6 +38,7 @@ Webserver_Request::~Webserver_Request ()
   if (database_bibles_instance) delete database_bibles_instance;
   if (database_search_instance) delete database_search_instance;
   if (database_bibleactions_instance) delete database_bibleactions_instance; 
+  if (database_check_instance) delete database_check_instance; 
 }
 
 
@@ -95,5 +96,14 @@ Database_BibleActions * Webserver_Request::database_bibleactions ()
   if (!database_bibleactions_instance) database_bibleactions_instance = new Database_BibleActions ();
   return database_bibleactions_instance;
 }
+
+
+Database_Check * Webserver_Request::database_check ()
+{
+  if (!database_check_instance) database_check_instance = new Database_Check ();
+  return database_check_instance;
+}
+
+
 
 
