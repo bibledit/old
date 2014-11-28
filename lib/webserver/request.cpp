@@ -37,8 +37,9 @@ Webserver_Request::~Webserver_Request ()
   if (database_styles_instance) delete database_styles_instance;
   if (database_bibles_instance) delete database_bibles_instance;
   if (database_search_instance) delete database_search_instance;
-  if (database_bibleactions_instance) delete database_bibleactions_instance; 
-  if (database_check_instance) delete database_check_instance; 
+  if (database_bibleactions_instance) delete database_bibleactions_instance;
+  if (database_check_instance) delete database_check_instance;
+  if (database_ipc_instance) delete database_ipc_instance;
 }
 
 
@@ -67,7 +68,6 @@ Database_Users * Webserver_Request::database_users ()
   if (!database_users_instance) database_users_instance = new Database_Users ();
   return database_users_instance;
 }
-
 
 
 Database_Styles * Webserver_Request::database_styles ()
@@ -105,5 +105,10 @@ Database_Check * Webserver_Request::database_check ()
 }
 
 
+Database_Ipc * Webserver_Request::database_ipc ()
+{
+  if (!database_ipc_instance) database_ipc_instance = new Database_Ipc (this);
+  return database_ipc_instance;
+}
 
 

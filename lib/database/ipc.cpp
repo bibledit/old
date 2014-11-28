@@ -83,8 +83,9 @@ void Database_Ipc::storeMessage (string user, string channel, string command, st
 
 
 // Retrieves a message if there is any.
-// Returns NULL if there was nothing,
-// else an associated array with keys and values for "id", "channel", "command" and "message".
+// Returns an object with the data.
+// The rowid is 0 if there was nothing,
+// Else the object's properties are set properly.
 Database_Ipc_Message Database_Ipc::retrieveMessage (int id, string user, string channel, string command)
 {
   int highestId = 0;
@@ -198,7 +199,7 @@ Database_Ipc_Message Database_Ipc::getNote ()
 }
 
 
-string Database_Ipc::getNotesAlive ()
+bool Database_Ipc::getNotesAlive ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic ()->currentUser ();
@@ -220,13 +221,13 @@ string Database_Ipc::getNotesAlive ()
     }
   }
 
-  if (highestId) return hitMessage;
+  if (highestId) return convert_to_bool (hitMessage);
 
-  return "";
+  return false;
 }
 
 
-string Database_Ipc::getBibleAlive ()
+bool Database_Ipc::getBibleAlive ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic ()->currentUser ();
@@ -247,9 +248,9 @@ string Database_Ipc::getBibleAlive ()
     }
   }
 
-  if (highestId) return hitMessage;
+  if (highestId) return convert_to_bool (hitMessage);
 
-  return "";
+  return false;
 }
 
 
@@ -278,6 +279,7 @@ vector <Database_Ipc_Item> Database_Ipc::readData ()
     vector <string> explosion = filter_string_explode (file, '_');
     if (explosion.size () == 7) {
       Database_Ipc_Item item = Database_Ipc_Item ();
+      item.file = file;
       item.rowid = convert_to_int (explosion [0]);
       item.user = explosion [2];
       item.channel = explosion [4];

@@ -57,8 +57,8 @@ public:
   void deleteMessage (int id);
   string getFocus ();
   Database_Ipc_Message getNote ();
-  string getNotesAlive ();
-  string getBibleAlive ();
+  bool getNotesAlive ();
+  bool getBibleAlive ();
 private:
   void * webserver_request;
   string folder ();

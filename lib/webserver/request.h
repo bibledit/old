@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/search.h>
 #include <database/bibleactions.h>
 #include <database/check.h>
+#include <database/ipc.h>
 
 
 using namespace std;
@@ -59,6 +60,7 @@ public:
   Database_Search * database_search ();
   Database_BibleActions * database_bibleactions ();
   Database_Check * database_check ();
+  Database_Ipc * database_ipc ();
 private:
   Session_Logic * session_logic_instance = NULL;
   Database_Config_User * database_config_user_instance = NULL;
@@ -68,6 +70,7 @@ private:
   Database_Search * database_search_instance = NULL;
   Database_BibleActions * database_bibleactions_instance = NULL;
   Database_Check * database_check_instance = NULL;
+  Database_Ipc * database_ipc_instance = NULL;
 };
 
 
