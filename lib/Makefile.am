@@ -39,6 +39,7 @@ libbibledit_a_SOURCES = \
 	database/commits.cpp \
 	database/confirm.cpp \
 	database/history.cpp \
+	database/ipc.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
