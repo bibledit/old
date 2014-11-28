@@ -86,7 +86,7 @@ class Database_Resources
   public function save ($name, $code)
   {
     $file = $this->getFile ($name);
-    file_put_contents ($file, $code);
+   filter_url_file_put_contents ($file, $code);
   }
 
 

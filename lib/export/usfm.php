@@ -84,7 +84,7 @@ foreach ($books as $book) {
   
   
   // Save.
-  file_put_contents ($path, $bookUsfmDataFull);
+ filter_url_file_put_contents ($path, $bookUsfmDataFull);
 
 
 }

@@ -107,7 +107,7 @@ $book = $bookConverter [$book];
 $url = "http://biblehub.com/text/$book/$chapter-$verse.htm";
 
 // Get the html from the server, and tidy it up.
-@$html = file_get_contents ($url);
+@$html =filter_url_file_get_contents ($url);
 $tidy = Tidy_Html::run ($html);
 $tidied = explode ("\n", $tidy);
 

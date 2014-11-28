@@ -77,8 +77,8 @@ class Filter_Diff
       }
     }
 
-    file_put_contents ("$directory/verses_old.usfm", implode ("\n", $old_vs_usfm));
-    file_put_contents ("$directory/verses_new.usfm", implode ("\n", $new_vs_usfm));
+   filter_url_file_put_contents ("$directory/verses_old.usfm", implode ("\n", $old_vs_usfm));
+   filter_url_file_put_contents ("$directory/verses_new.usfm", implode ("\n", $new_vs_usfm));
     $filter_text_old->run ($stylesheet);
     $filter_text_new->run ($stylesheet);
     $filter_text_old->html_text_standard->save ("$directory/verses_old.html");
@@ -96,8 +96,8 @@ class Filter_Diff
   */
   public static function runDiffFile ($oldfile, $newfile, $outputfile)
   {
-    $oldstring = file_get_contents ($oldfile);
-    $newstring = file_get_contents ($newfile);
+    $oldstring =filter_url_file_get_contents ($oldfile);
+    $newstring =filter_url_file_get_contents ($newfile);
 
     $differences = self::diff ($oldstring, $newstring);
 
@@ -107,7 +107,7 @@ class Filter_Diff
     }
     $differences = implode ("\n", $differences);
 
-    file_put_contents ($outputfile, $differences);
+   filter_url_file_put_contents ($outputfile, $differences);
   }
 
 

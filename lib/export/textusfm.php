@@ -101,7 +101,7 @@ foreach ($chapters as $chapter) {
     foreach ($verses_text as $verse => $text) {
       $basicUsfm .= "\\v $verse $text\n";
     }
-    file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
+   filter_url_file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
   }
 
 

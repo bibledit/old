@@ -58,7 +58,7 @@ class modificationsNotificationsTest extends PHPUnit_Framework_TestCase
     // Set the time back, re-index, trim, and check one entry's gone.
     $file = $database_modifications->notificationTimeFile (1);
     $database_modifications->indexTrimAllNotifications ();
-    file_put_contents ($file, time () - 7776001);
+   filter_url_file_put_contents ($file, time () - 7776001);
     $database_modifications->indexTrimAllNotifications ();
     $ids = $database_modifications->getNotificationIdentifiers ();
     $this->assertEquals (array (2), $ids);

@@ -48,7 +48,7 @@ if (isset($_POST['code'])) {
 
 
 $file = $database_resources->getFile ($name);
-$code = file_get_contents ($file);
+$code =filter_url_file_get_contents ($file);
 $view->view->code = $code;
 
 

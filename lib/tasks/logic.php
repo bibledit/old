@@ -37,7 +37,7 @@ class Tasks_Logic
     $files = scandir (dirname (__DIR__) . "/processes");
     $files = Filter_Folders::cleanup ($files);
     foreach ($files as $file) {
-      @$contents = file_get_contents (dirname (__DIR__) . "/processes/$file");
+      @$contents =filter_url_file_get_contents (dirname (__DIR__) . "/processes/$file");
       $contents = trim ($contents);
       if (strpos ($contents, $command) !== false) {
         return $file;

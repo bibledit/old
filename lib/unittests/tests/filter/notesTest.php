@@ -43,7 +43,7 @@ Ndebele
 umdumisile: Text was changed from "has given glory" to "has glorified".
 Logbook:
 EOD;
-    file_put_contents ($filename, $data);
+   filter_url_file_put_contents ($filename, $data);
     $identifier = Filter_Notes::importFromBibleditGtkFile ($filename);
     $this->note_identifiers [] = $identifier;
     $bible = $database_notes->getBible ($identifier);
@@ -65,7 +65,7 @@ Ndebele
 umdumisile: Text was changed from "has given glory" to "has glorified".
 Logbook:
 EOD;
-    file_put_contents ($filename, $data);
+   filter_url_file_put_contents ($filename, $data);
     $identifier = Filter_Notes::importFromBibleditGtkFile ($filename);
     $this->note_identifiers [] = $identifier;
     $passages = $database_notes->getPassages ($identifier);

@@ -253,7 +253,7 @@ EOD;
     $path = $this->resourceFolder ($name);
     if (!is_dir ($path)) mkdir ($path, 0777, true);
     $file = "$path/$file";
-    file_put_contents ($file, $contents);
+   filter_url_file_put_contents ($file, $contents);
   }
   
   
@@ -261,7 +261,7 @@ EOD;
   public function load ($name, $file)
   {
     $path = $this->resourceFolder ($name) . "/$file";
-    $contents = file_get_contents ($path);
+    $contents =filter_url_file_get_contents ($path);
     return $contents;
   }
 

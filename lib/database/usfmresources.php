@@ -113,7 +113,7 @@ class Database_UsfmResources
     $file = $this->chapterFile ($name, $book, $chapter);
     $folder = dirname ($file);
     if (!file_exists ($folder)) mkdir ($folder, 0777, true);
-    file_put_contents ($file, $usfm);
+   filter_url_file_put_contents ($file, $usfm);
   }
 
 
@@ -146,7 +146,7 @@ class Database_UsfmResources
   public function getUsfm ($name, $book, $chapter)
   {
     $file = $this->chapterFile ($name, $book, $chapter);
-    @$usfm = file_get_contents ($file);
+    @$usfm =filter_url_file_get_contents ($file);
     if ($usfm) return $usfm;
     return "";
   }

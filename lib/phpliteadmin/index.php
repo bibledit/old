@@ -754,7 +754,7 @@ if ($auth->isAuthorized())
 					$arr[$i] = $directory.DIRECTORY_SEPARATOR.$arr[$i];
 				
 				if(@!is_file($arr[$i])) continue;
-				$con = file_get_contents($arr[$i], NULL, NULL, 0, 60);
+				$con =filter_url_file_get_contents($arr[$i], NULL, NULL, 0, 60);
 				if(strpos($con, "** This file contains an SQLite 2.1 database **", 0)!==false || strpos($con, "SQLite format 3", 0)!==false)
 				{
 					$databases[$j]['path'] = $arr[$i];
@@ -916,7 +916,7 @@ if ($auth->isAuthorized())
 		$db->registerUserFunction($custom_functions);
 		if($_POST['import_type']=="sql")
 		{
-			$data = file_get_contents($_FILES["file"]["tmp_name"]);
+			$data =filter_url_file_get_contents($_FILES["file"]["tmp_name"]);
 			$importSuccess = $db->import_sql($data);
 		}
 		else

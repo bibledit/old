@@ -106,9 +106,9 @@ EOD;
     mkdir ($this->repository . "/Song of Solomon");
     mkdir ($this->repository . "/Song of Solomon/2");
 
-    file_put_contents ($this->repository . "/Psalms/0/data", $this->psalms_0_data);
-    file_put_contents ($this->repository . "/Psalms/11/data", $this->psalms_11_data);
-    file_put_contents ($this->repository . "/Song of Solomon/2/data", $this->song_of_solomon_2_data);
+   filter_url_file_put_contents ($this->repository . "/Psalms/0/data", $this->psalms_0_data);
+   filter_url_file_put_contents ($this->repository . "/Psalms/11/data", $this->psalms_11_data);
+   filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", $this->song_of_solomon_2_data);
 
     $_SERVER['HTTP_USER_AGENT'] = "PHPUnit";
     $_SERVER['REMOTE_ADDR'] = "127.0.0.1";
@@ -170,7 +170,7 @@ EOD;
     $this->assertFileNotExists ("$repository/Psalms/0/data");
     $this->assertFileExists ("$repository/Psalms/1/data");
 
-    $data = file_get_contents ("$repository/Psalms/1/data");
+    $data =filter_url_file_get_contents ("$repository/Psalms/1/data");
     $this->assertEquals ($this->song_of_solomon_2_data, $data);
   }
 
@@ -198,13 +198,13 @@ EOD;
     $this->assertFileExists ("$repository/Song of Solomon/2/data");
     $this->assertFileExists ("$repository/Psalms/11/data");
 
-    $data = file_get_contents ("$repository/Song of Solomon/2/data");
+    $data =filter_url_file_get_contents ("$repository/Song of Solomon/2/data");
     $this->assertEquals ($this->psalms_11_data, $data);
 
-    $data = file_get_contents ("$repository/Psalms/11/data");
+    $data =filter_url_file_get_contents ("$repository/Psalms/11/data");
     $this->assertEquals ($this->song_of_solomon_2_data, $data);
 
-    $data = file_get_contents ("$repository/Psalms/1/data");
+    $data =filter_url_file_get_contents ("$repository/Psalms/1/data");
     $this->assertEquals ($this->song_of_solomon_2_data, $data);
   }
 
@@ -280,8 +280,8 @@ EOD;
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
     // Update some chapters in the git repository,
     // and check that after running the filter, the database is updated accordingly.
-    file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
-    file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
+   filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
+   filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
     $usfm = $database_bibles->getChapter ($this->bible, 19, 0);
     $this->assertEquals ($this->psalms_0_data, $usfm);
@@ -363,8 +363,8 @@ EOD;
     Filter_Git::syncGit2Bible ($this->repository, $this->bible);
 
     // Update some chapters in the git repository.
-    file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
-    file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
+   filter_url_file_put_contents ($this->repository . "/Psalms/11/data", "\\c 11");
+   filter_url_file_put_contents ($this->repository . "/Song of Solomon/2/data", "\\c 2");
 
     // Run updates on the two chapters.
     Filter_Git::syncGitChapter2Bible ($this->repository, $this->bible, 19, 11);

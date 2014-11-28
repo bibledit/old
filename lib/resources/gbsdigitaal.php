@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 function gbsdigitaal ($url, $verse)
 {
-  $json = file_get_contents ($url);
+  $json =filter_url_file_get_contents ($url);
   $data = json_decode ($json);
   
   

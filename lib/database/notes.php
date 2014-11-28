@@ -327,11 +327,11 @@ EOD;
     $modified = $this->getModified ($identifier);
 
     $file = $this->assignedFile ($identifier);
-    @$assigned = file_get_contents ($file);
+    @$assigned =filter_url_file_get_contents ($file);
     if (!$assigned) $assigned = "";
 
     $file = $this->subscriptionsFile ($identifier);
-    @$subscriptions = file_get_contents ($file);
+    @$subscriptions =filter_url_file_get_contents ($file);
     if (!$subscriptions) $subscriptions = "";
 
     $bible = $this->getBible ($identifier);
@@ -598,12 +598,12 @@ EOD;
     
     // Store the note in the file system.
     mkdir ($this->noteFolder ($identifier), 0777, true);
-    file_put_contents ($this->bibleFile ($identifier), $bible);
-    file_put_contents ($this->passageFile ($identifier), $passage);
-    file_put_contents ($this->statusFile ($identifier), $status);
-    file_put_contents ($this->severityFile ($identifier), $severity);
-    file_put_contents ($this->summaryFile ($identifier), $summary);
-    file_put_contents ($this->contentsFile ($identifier), $contents);
+   filter_url_file_put_contents ($this->bibleFile ($identifier), $bible);
+   filter_url_file_put_contents ($this->passageFile ($identifier), $passage);
+   filter_url_file_put_contents ($this->statusFile ($identifier), $status);
+   filter_url_file_put_contents ($this->severityFile ($identifier), $severity);
+   filter_url_file_put_contents ($this->summaryFile ($identifier), $summary);
+   filter_url_file_put_contents ($this->contentsFile ($identifier), $contents);
     
     // Store new default note into the database.
     $db = self::connect ();
@@ -789,7 +789,7 @@ EOD;
   public function getSummary ($identifier)
   {
     $file = $this->summaryFile ($identifier);
-    @$summary = file_get_contents ($file);
+    @$summary =filter_url_file_get_contents ($file);
     if ($summary) return $summary;
     return "";
   }
@@ -799,7 +799,7 @@ EOD;
   {
     // Store authoritative copy in the filesystem.
     $file = $this->summaryFile ($identifier);
-    file_put_contents ($file, $summary);
+   filter_url_file_put_contents ($file, $summary);
     // Update the shadow database.
     $db = self::connect ();
     $identifier = Database_SQLiteInjection::no ($identifier);
@@ -817,7 +817,7 @@ EOD;
   public function getContents ($identifier)
   {
     $file = $this->contentsFile ($identifier);
-    @$contents = file_get_contents ($file);
+    @$contents =filter_url_file_get_contents ($file);
     if ($contents) return $contents;
     return "";
   }
@@ -827,7 +827,7 @@ EOD;
   {
     // Store in file system.
     $file = $this->contentsFile ($identifier);
-    file_put_contents ($file, $contents);
+   filter_url_file_put_contents ($file, $contents);
     // Update database.
     $db = self::connect ();
     $identifier = Database_SQLiteInjection::no ($identifier);
@@ -904,7 +904,7 @@ EOD;
   public function getSubscribers ($identifier)
   {
     $file = $this->subscriptionsFile ($identifier);
-    @$subscribers = file_get_contents ($file);
+    @$subscribers =filter_url_file_get_contents ($file);
     if (!$subscribers) return array ();
     $subscribers = explode ("\n", $subscribers);
     $subscribers = array_diff ($subscribers, array (""));
@@ -925,7 +925,7 @@ EOD;
     
     // Store them in the filesystem.
     $file = $this->subscriptionsFile ($identifier);
-    file_put_contents ($file, $subscribers);
+   filter_url_file_put_contents ($file, $subscribers);
     
     // Store them in the database as well.
     $db = self::connect ();
@@ -1007,7 +1007,7 @@ EOD;
   {
     // Get the asssignees from the filesystem.
     $file = $this->assignedFile ($identifier);
-    @$assignees = file_get_contents ($file);
+    @$assignees =filter_url_file_get_contents ($file);
     return $this->getAssigneesInternal ($assignees);
   }
   
@@ -1088,7 +1088,7 @@ EOD;
   public function getBible ($identifier)
   {
     $file = $this->bibleFile ($identifier);
-    @$bible = file_get_contents ($file);
+    @$bible =filter_url_file_get_contents ($file);
     if ($bible) return $bible;
     return "";
   }
@@ -1098,7 +1098,7 @@ EOD;
   {
     // Write the $bible to the filesystem.
     $file = $this->bibleFile ($identifier);
-    file_put_contents ($file, $bible);
+   filter_url_file_put_contents ($file, $bible);
 
     // Update the database also.
     $db = self::connect ();
@@ -1137,7 +1137,7 @@ EOD;
   public function getRawPassage ($identifier)
   {
     $file = $this->passageFile ($identifier);
-    @$contents = file_get_contents ($file);
+    @$contents =filter_url_file_get_contents ($file);
     if ($contents) return $contents;
     return "";
   }
@@ -1174,7 +1174,7 @@ EOD;
 
     // Store the authoritative copy in the filesystem.
     $file = $this->passageFile ($identifier);
-    file_put_contents ($file, $line);
+   filter_url_file_put_contents ($file, $line);
 
     if (!$import) $this->noteEditedActions ($identifier);
 
@@ -1193,7 +1193,7 @@ EOD;
   public function getRawStatus ($identifier)
   {
     $file = $this->statusFile ($identifier);
-    @$status = file_get_contents ($file);
+    @$status =filter_url_file_get_contents ($file);
     if ($status) return $status;
     return "";
   }
@@ -1267,7 +1267,7 @@ EOD;
   public function getRawSeverity ($identifier)
   {
     $file = $this->severityFile ($identifier);
-    @$severity = file_get_contents ($file);
+    @$severity =filter_url_file_get_contents ($file);
     if ($severity === false) return 2;
     return (integer) $severity;
   }
@@ -1290,7 +1290,7 @@ EOD;
   {
     // Update the file system.
     $file = $this->severityFile ($identifier);
-    file_put_contents ($file, $severity);
+   filter_url_file_put_contents ($file, $severity);
     
     $this->noteEditedActions ($identifier);
     
@@ -1317,7 +1317,7 @@ EOD;
   public function getModified ($identifier)
   {
     $file = $this->modifiedFile ($identifier);
-    @$modified = file_get_contents ($file);
+    @$modified =filter_url_file_get_contents ($file);
     if ($modified) return $modified;
     return 0;
   }
@@ -1459,7 +1459,7 @@ EOD;
   {
     $file = $this->expiryFile ($identifier);
     // Delete after 7 days.
-    file_put_contents ($file, 7);
+   filter_url_file_put_contents ($file, 7);
   }
 
 
@@ -1483,10 +1483,10 @@ EOD;
     foreach ($identifiers as $identifier) {
       if ($this->isMarkedForDeletion ($identifier)) {
         $file = $this->expiryFile ($identifier);
-        $days = file_get_contents ($file);
+        $days =filter_url_file_get_contents ($file);
         $days = (integer) $days;
         $days--;
-        file_put_contents ($file, $days);
+       filter_url_file_put_contents ($file, $days);
       }
     }
   }
@@ -1499,7 +1499,7 @@ EOD;
     foreach ($identifiers as $identifier) {
       if ($this->isMarkedForDeletion ($identifier)) {
         $file = $this->expiryFile ($identifier);
-        $days = file_get_contents ($file);
+        $days =filter_url_file_get_contents ($file);
         $days = (integer) $days;
         if ($days <= 0) {
           $deletes [] = $identifier;
@@ -1661,7 +1661,7 @@ EOD;
     if ($available) {
       @unlink ($this->availability_flag ());
     } else {
-      file_put_contents ($this->availability_flag (), "");
+     filter_url_file_put_contents ($this->availability_flag (), "");
     }
   }
 

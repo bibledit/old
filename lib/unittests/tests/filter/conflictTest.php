@@ -47,12 +47,12 @@ class filterConflictTest extends PHPUnit_Framework_TestCase
     $data1 = "line one\nline two\n";
     $data2 = "line three\nline four\n";
     mkdir ($this->userclone . "/Genesis/3", 0777, true);
-    file_put_contents ($this->userclone . "/Genesis/3/data", $data1);
+   filter_url_file_put_contents ($this->userclone . "/Genesis/3/data", $data1);
     mkdir ($this->userclone . "/Exodus/2", 0777, true);
-    file_put_contents ($this->userclone . "/Exodus/2/data", $data1);
+   filter_url_file_put_contents ($this->userclone . "/Exodus/2/data", $data1);
     mkdir ($this->userclone . "/path/to/data", 0777, true);
-    file_put_contents ($this->userclone . "/path/to/data/file1", $data2);
-    file_put_contents ($this->userclone . "/file2", $data2);
+   filter_url_file_put_contents ($this->userclone . "/path/to/data/file1", $data2);
+   filter_url_file_put_contents ($this->userclone . "/file2", $data2);
     // Commit and push the data in the user clone.
     $command = "cd " . $this->userclone . "; git add . 2>&1";
     exec ($command, $output, $exit_code);
@@ -67,10 +67,10 @@ class filterConflictTest extends PHPUnit_Framework_TestCase
     // Store conflicting data in the server clone.
     $this->serverdata1 = "line one1\nline two\n";
     $this->serverdata2 = "line three3\nline four\n";
-    file_put_contents ($this->serverclone . "/Genesis/3/data", $this->serverdata1);
-    file_put_contents ($this->serverclone . "/Exodus/2/data", $this->serverdata1);
-    file_put_contents ($this->serverclone . "/path/to/data/file1", $this->serverdata2);
-    file_put_contents ($this->serverclone . "/file2", $this->serverdata2);
+   filter_url_file_put_contents ($this->serverclone . "/Genesis/3/data", $this->serverdata1);
+   filter_url_file_put_contents ($this->serverclone . "/Exodus/2/data", $this->serverdata1);
+   filter_url_file_put_contents ($this->serverclone . "/path/to/data/file1", $this->serverdata2);
+   filter_url_file_put_contents ($this->serverclone . "/file2", $this->serverdata2);
     // Commit and push the data in the server clone.
     $command = "cd " . $this->serverclone . "; git add . 2>&1";
     exec ($command, $output, $exit_code);
@@ -81,10 +81,10 @@ class filterConflictTest extends PHPUnit_Framework_TestCase
     // Store conflicting data in the user clone.
     $this->userdata1 = "line one\nline two2\n";
     $this->userdata2 = "line three\nline four4\n";
-    file_put_contents ($this->userclone . "/Genesis/3/data", $this->userdata1);
-    file_put_contents ($this->userclone . "/Exodus/2/data", $this->userdata1);
-    file_put_contents ($this->userclone . "/path/to/data/file1", $this->userdata2);
-    file_put_contents ($this->userclone . "/file2", $this->userdata2);
+   filter_url_file_put_contents ($this->userclone . "/Genesis/3/data", $this->userdata1);
+   filter_url_file_put_contents ($this->userclone . "/Exodus/2/data", $this->userdata1);
+   filter_url_file_put_contents ($this->userclone . "/path/to/data/file1", $this->userdata2);
+   filter_url_file_put_contents ($this->userclone . "/file2", $this->userdata2);
     // Commit the data in the user clone.
     $command = "cd " . $this->userclone . "; git add . 2>&1";
     exec ($command, $output, $exit_code);
@@ -110,13 +110,13 @@ class filterConflictTest extends PHPUnit_Framework_TestCase
   public function testResolveConflictsStandard ()
   {
     Filter_Conflict::run ($this->userclone);
-    $data = file_get_contents ($this->userclone . "/Genesis/3/data");
+    $data =filter_url_file_get_contents ($this->userclone . "/Genesis/3/data");
     $this->assertEquals (trim ($this->mergeddata1), $data);
-    $data = file_get_contents ($this->userclone . "/Exodus/2/data");
+    $data =filter_url_file_get_contents ($this->userclone . "/Exodus/2/data");
     $this->assertEquals (trim ($this->mergeddata1), $data);
-    $data = file_get_contents ($this->userclone . "/path/to/data/file1");
+    $data =filter_url_file_get_contents ($this->userclone . "/path/to/data/file1");
     $this->assertEquals (trim ($this->mergeddata2), $data);
-    $data = file_get_contents ($this->userclone . "/file2");
+    $data =filter_url_file_get_contents ($this->userclone . "/file2");
     $this->assertEquals (trim ($this->mergeddata2), $data);
   }
   

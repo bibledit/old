@@ -81,7 +81,7 @@ EOD;
       $name = substr ($name, 0, -4);
       $name = str_replace ("_", " ", $name);
       $name = ucwords ($name);
-      $data = file_get_contents ($path);
+      $data =filter_url_file_get_contents ($path);
       $this->import ($name, $data);
     }
   }

@@ -192,7 +192,7 @@ void filter_url_rmdir (string directory)
 }
 
 
-// C++ rough equivalent for PHP's file_get_contents.
+// C++ rough equivalent for PHP'sfilter_url_file_get_contents.
 string filter_url_file_get_contents (string filename)
 {
   if (!filter_url_file_exists (filename)) return "";
@@ -209,7 +209,7 @@ string filter_url_file_get_contents (string filename)
 }
 
 
-// C++ rough equivalent for PHP's file_put_contents.
+// C++ rough equivalent for PHP'sfilter_url_file_put_contents.
 void filter_url_file_put_contents (string filename, string contents)
 {
   try {
@@ -222,7 +222,7 @@ void filter_url_file_put_contents (string filename, string contents)
 }
 
 
-// C++ rough equivalent for PHP's file_put_contents.
+// C++ rough equivalent for PHP'sfilter_url_file_put_contents.
 // Appends the data if the file exists.
 void filter_url_file_put_contents_append (string filename, string contents)
 {

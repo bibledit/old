@@ -3,7 +3,7 @@
 // The line looks like this: 
 // AC_INIT([bibledit], [1.0.1],[http://www.nongnu.org/bibledit])
 $filename = __DIR__ . "/configure.ac";
-$contents = file_get_contents ($filename);
+$contents =filter_url_file_get_contents ($filename);
 $pos = strpos ($contents, "AC_INIT");
 $pos += 15;
 $pos = strpos ($contents, "[", $pos);

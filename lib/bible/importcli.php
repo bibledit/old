@@ -73,7 +73,7 @@ foreach ($files as $file) {
   $database_logs->log ("Examining file for import: $file", true);
   $success_message = "";
   $error_message = "";
-  $data = file_get_contents ($file);
+  $data =filter_url_file_get_contents ($file);
   if ($data !== false) {
     if ($data != "") {
       if (Validate_Utf8::valid ($data)) {

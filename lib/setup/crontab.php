@@ -56,7 +56,7 @@ if (!$timerIncluded || !$tasksIncluded) {
   if (!$tasksIncluded) $result [] = $tasksSignature;
   $content = implode ("\n", $result) . "\n";
   $filename = tempnam (sys_get_temp_dir (), '');
-  file_put_contents ($filename, $content);
+ filter_url_file_put_contents ($filename, $content);
   $result = array ();
   exec ("crontab $filename 2>&1", $result, $exitcode);
   if ($exitcode != 0) {

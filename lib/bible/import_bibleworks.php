@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
       $usfm = Filter_Bibleworks::import ($data, $tags);
       // Import the USFM.
       $datafile = tempnam (sys_get_temp_dir(), '');
-      file_put_contents ($datafile, $usfm);
+     filter_url_file_put_contents ($datafile, $usfm);
       $success_message = Locale_Translate::_("Import has started. See Journal for progress.");
       $workingdirectory = dirname (__FILE__);
       Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/importcli.php", $datafile, $bible));

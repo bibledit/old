@@ -284,7 +284,7 @@ class Styles_Css
   {
     $css = implode ("\n", $this->css);
     if ($path != "") {
-      file_put_contents ($path, $css);
+     filter_url_file_put_contents ($path, $css);
     }
     return $css;
   }

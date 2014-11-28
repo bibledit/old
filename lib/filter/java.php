@@ -37,7 +37,7 @@ class Filter_Java
 
     // Store the $program to disk.
     $program = implode ("\n", $program);
-    file_put_contents ("$outputFolder/program.java", $program);
+   filter_url_file_put_contents ("$outputFolder/program.java", $program);
 
     // Assemble the class path.
     $cp = ".";

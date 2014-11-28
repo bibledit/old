@@ -26,7 +26,7 @@ class filterFileTest extends PHPUnit_Framework_TestCase
   {
     $path = tempnam (sys_get_temp_dir(), "");
     $unique1 = Filter_File::unique ($path);
-    file_put_contents ($unique1, "");
+   filter_url_file_put_contents ($unique1, "");
     $unique2 = Filter_File::unique ($path);
     unlink ($path);
     unlink ($unique1);
