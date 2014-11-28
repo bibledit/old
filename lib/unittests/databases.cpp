@@ -785,9 +785,6 @@ void test_database_ipc ()
     evaluate (__LINE__, __func__, convert_to_bool (message), alive);
   }
 /* Todo
-  
-  
-  
 
 */
 }
