@@ -30,6 +30,8 @@ void test_database_search ();
 void test_database_bibleactions ();
 void test_database_check ();
 void test_database_commits ();
+void test_database_confirm ();
+void test_database_history ();
 
 
 #endif

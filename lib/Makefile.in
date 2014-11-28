@@ -122,6 +122,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/bibles.$(OBJEXT) database/search.$(OBJEXT) \
 	database/books.$(OBJEXT) database/bibleactions.$(OBJEXT) \
 	database/check.$(OBJEXT) database/commits.$(OBJEXT) \
+	database/confirm.$(OBJEXT) database/history.$(OBJEXT) \
 	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
 	session/logout.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
@@ -365,6 +366,8 @@ libbibledit_a_SOURCES = \
 	database/bibleactions.cpp \
 	database/check.cpp \
 	database/commits.cpp \
+	database/confirm.cpp \
+	database/history.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -598,6 +601,10 @@ database/check.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/commits.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
+database/confirm.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/history.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
 	@: > session/$(am__dirstamp)
@@ -826,6 +833,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/commits.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/confirm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/history.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@

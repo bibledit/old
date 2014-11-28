@@ -27,9 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <database/commits.h>
-
-
-using namespace std;
+#include <database/confirm.h>
+#include <database/history.h>
 
 
 void setup_create_databases (Webserver_Request * request)
@@ -43,6 +42,10 @@ void setup_create_databases (Webserver_Request * request)
   request->database_check ()->create ();
   Database_Commits database_commits = Database_Commits ();
   database_commits.create ();  
+  Database_Confirm database_confirm = Database_Confirm ();
+  database_confirm.create ();
+  Database_History database_history = Database_History ();
+  database_history.create ();
 }
 
 

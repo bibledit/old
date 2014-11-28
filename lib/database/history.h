@@ -17,24 +17,43 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_DATABASE_COMMITS_H
-#define INCLUDED_DATABASE_COMMITS_H
+#ifndef INCLUDED_DATABASE_HISTORY_H
+#define INCLUDED_DATABASE_HISTORY_H
 
 
 #include <config/libraries.h>
 #include <sqlite3.h>
 
 
-class Database_Commits
+class Database_History_Item
 {
 public:
-  Database_Commits ();
-  ~Database_Commits ();
+  int timestamp;
+  string author;
+  string bible;
+  int book;
+  int chapter;
+  int verse;
+  string oldtext;
+  string modification;
+  string newtext;
+};
+
+
+class Database_History
+{
+public:
+  Database_History ();
+  ~Database_History ();
   void create ();
   void optimize ();
-  void record (string bible, string sha1);
-  vector <string> get (string bible);
+  void trim ();
+  void record (int timestamp, string author, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext);
+  int count (string author, vector <string> bibles, int book, int chapter, int verse);
+  vector <Database_History_Item> get (string author, string bible, int book, int chapter, int verse, int start);
+  vector <string> authors (vector <string> bibles);
 private:
+  string query (string author, vector <string> bibles, int book, int chapter, int verse, bool count, int start);
   sqlite3 * connect ();
 };
 

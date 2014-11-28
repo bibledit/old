@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -18,34 +17,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-include ("utils.php");
+#ifndef INCLUDED_DATABASE_CONFIRM_H
+#define INCLUDED_DATABASE_CONFIRM_H
 
 
-ob_start ();
+#include <config/libraries.h>
+#include <sqlite3.h>
 
 
-require_once ("../database/sqlite.php");
-require_once ("../database/commits.php");
+class Database_Confirm
+{
+public:
+  Database_Confirm ();
+  ~Database_Confirm ();
+  void create ();
+  void optimize ();
+  unsigned int getNewID ();
+  bool IDExists (unsigned int id);
+  void store (unsigned int id, string query, string to, string subject, string body);
+  unsigned int searchID (string subject);
+  string getQuery (unsigned int id);
+  string getMailTo (unsigned int id);
+  string getSubject (unsigned int id);
+  string getBody (unsigned int id);
+  void erase (unsigned int id);
+  void trim ();
+private:
+  sqlite3 * connect ();
+};
 
 
-$database_commits = Database_Commits::getInstance ();
-$database_commits->create ();
-
-
-$okay = !ob_get_flush ();
-
-
-display_header ($okay);
-if ($okay) {
-  display_okay ();
-  display_paragraph ("Commits database okay.");
-} else {
-  display_paragraph ("Errors creating or upgrading the commits database");
-  open_paragraph ();
-  display_link ("commits1.php", "Retry");
-  close_paragraph ();
-}
-display_footer ();
-
-
-?>
+#endif

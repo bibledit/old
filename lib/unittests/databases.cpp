@@ -31,6 +31,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibleactions.h>
 #include <database/check.h>
 #include <database/commits.h>
+#include <database/confirm.h>
+#include <database/history.h>
 
 
 void test_database_styles ()
@@ -536,3 +538,90 @@ void test_database_commits ()
   data = database_commits.get ("none");
   evaluate (__LINE__, __func__, 0, data.size());
 }
+
+
+void test_database_confirm ()
+{
+  refresh_sandbox (true);
+  Database_Confirm database_confirm = Database_Confirm ();
+  database_confirm.create ();
+
+  database_confirm.optimize ();
+  database_confirm.trim ();
+
+  // New ID generation test.
+  unsigned int id = database_confirm.getNewID ();
+  if (id < 10000) evaluate (__LINE__, __func__, "Should be greater than 10000", id);
+  
+  // Store data for the ID.
+  database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body");
+  
+  // Search for this ID based on subject.
+  unsigned int id2 = database_confirm.searchID ("Subject line CID" + convert_to_string (id) + " Re:");
+  evaluate (__LINE__, __func__, id, id2);
+
+  // Retrieve data for the ID.
+  string query = database_confirm.getQuery (id);
+  evaluate (__LINE__, __func__,"SELECT x, y, z FROM a;", query);
+
+  string to = database_confirm.getMailTo (id);
+  evaluate (__LINE__, __func__,"email", to);
+
+  string subject = database_confirm.getSubject (id);
+  evaluate (__LINE__, __func__,"subject", subject);
+
+  string body = database_confirm.getBody (id);
+  evaluate (__LINE__, __func__,"body", body);
+
+  // Delete this ID.
+  database_confirm.erase (id);
+  query = database_confirm.getQuery (id);
+  evaluate (__LINE__, __func__,"", query);
+}
+
+
+void test_database_history ()
+{
+  refresh_sandbox (true);
+  Database_History database_history = Database_History ();
+  database_history.create ();
+  database_history.optimize ();
+  database_history.trim ();
+  
+  string author = "test";
+  string bible = "phpunit";
+  int book = 1;
+  int chapter = 2;
+  int verse = 3;
+  int start = 0;
+
+  // Start with an empty history.
+  int count = database_history.count (author, {bible}, book, chapter, verse);
+  evaluate (__LINE__, __func__, 0, count);
+
+  count = database_history.count ("", {}, 0, -1, -1);
+  evaluate (__LINE__, __func__, 0, count);
+
+  vector <Database_History_Item> data = database_history.get (author, {bible}, book, chapter, verse, start);
+  evaluate (__LINE__, __func__, 0, data.size ());
+
+  vector <string> authors = database_history.authors ({bible});
+  evaluate (__LINE__, __func__, 0, authors.size ());
+
+  // Record some data.
+  database_history.record (filter_string_date_seconds_since_epoch(), author, bible, book, chapter, verse, "old1", "mod1", "new1");
+  database_history.record (filter_string_date_seconds_since_epoch(), author, bible, book, chapter, verse, "old2", "mod2", "new2");
+
+  // Check the data.
+  count = database_history.count (author, {bible}, book, chapter, verse);
+  evaluate (__LINE__, __func__, 2, count);
+  
+  count = database_history.count ("", {}, -1, -1, -1);
+  evaluate (__LINE__, __func__, 2, count);
+
+  data = database_history.get (author, {bible}, book, chapter, verse, start);
+  evaluate (__LINE__, __func__, 2, data.size ());
+  evaluate (__LINE__, __func__, "test", data [0].author);
+  evaluate (__LINE__, __func__, "new2", data [1].newtext);
+}
+

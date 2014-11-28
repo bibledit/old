@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void timer_index () 
 {
   int previous_second = -1;
+  int previous_minute = -1;
   while (config_globals_running) {
 
     try {
@@ -47,7 +48,11 @@ void timer_index ()
 
       // Every second: Deal with queued and/or active tasks.
       tasks_run_check ();
-
+      
+      // Run the part below once per minute.
+      if (minute == previous_minute) continue;
+      previous_minute = minute;
+      
       // At the sixth minute after midnight, after the backup silence, and any hour after, rotate the journal.
       if (minute == 6) tasks_logic_queue (ROTATEJOURNAL);
       

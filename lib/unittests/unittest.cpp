@@ -266,7 +266,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_database_commits (); exit (0); // Todo
+  test_database_history (); exit (0); // Todo
 
   // Run the tests.
   test_database_config_general ();
@@ -286,6 +286,8 @@ int main (int argc, char **argv)
   test_database_bibleactions ();
   test_database_check ();
   test_database_commits ();
+  test_database_confirm ();
+  test_database_history ();
 
   // Output possible journal entries.
   refresh_sandbox (true);
