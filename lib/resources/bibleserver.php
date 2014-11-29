@@ -98,7 +98,7 @@ function bibleserver ($directory, $book, $chapter, $verse)
   
   $url = "http://www.bibleserver.com/text/$directory/$book$chapter";
   
-  $text =filter_url_file_get_contents ($url);
+  $text = filter_url_file_get_contents ($url);
   
   $pos = strpos ($text, 'no="' . $verse ."," . $verse . '"');
   if ($pos === false) {

@@ -72,9 +72,9 @@ class Filter_Conflict
     $command = "cd $shellrepo; git show $argument > $merge_head_version";
     exec ($command, $output, $exit_code);
 
-    $mergeBase =filter_url_file_get_contents ($common_ancestor);
-    $userData =filter_url_file_get_contents ($head_version);
-    $serverData =filter_url_file_get_contents ($merge_head_version);
+    $mergeBase = filter_url_file_get_contents ($common_ancestor);
+    $userData = filter_url_file_get_contents ($head_version);
+    $serverData = filter_url_file_get_contents ($merge_head_version);
 
     $mergedData = Filter_Merge::run ($mergeBase, $userData, $serverData);
     $mergedData = str_replace ("new__line", "\n", $mergedData);

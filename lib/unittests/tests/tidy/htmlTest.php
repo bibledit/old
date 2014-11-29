@@ -34,9 +34,9 @@ class tidyHtmlTest extends PHPUnit_Framework_TestCase
 
   public function testOne ()
   {
-    $html =filter_url_file_get_contents (__DIR__ . "/biblehub-text-john-1-1.html");
+    $html = filter_url_file_get_contents (__DIR__ . "/biblehub-text-john-1-1.html");
     $tidy = Tidy_Html::run ($html);
-    $standard =filter_url_file_get_contents (__DIR__ . "/biblehub-text-john-1-1-tidy.html");
+    $standard = filter_url_file_get_contents (__DIR__ . "/biblehub-text-john-1-1-tidy.html");
     $this->assertEquals ($standard, $tidy);
   }
 

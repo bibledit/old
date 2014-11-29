@@ -170,7 +170,7 @@ EOD;
     $this->assertFileNotExists ("$repository/Psalms/0/data");
     $this->assertFileExists ("$repository/Psalms/1/data");
 
-    $data =filter_url_file_get_contents ("$repository/Psalms/1/data");
+    $data = filter_url_file_get_contents ("$repository/Psalms/1/data");
     $this->assertEquals ($this->song_of_solomon_2_data, $data);
   }
 
@@ -198,13 +198,13 @@ EOD;
     $this->assertFileExists ("$repository/Song of Solomon/2/data");
     $this->assertFileExists ("$repository/Psalms/11/data");
 
-    $data =filter_url_file_get_contents ("$repository/Song of Solomon/2/data");
+    $data = filter_url_file_get_contents ("$repository/Song of Solomon/2/data");
     $this->assertEquals ($this->psalms_11_data, $data);
 
-    $data =filter_url_file_get_contents ("$repository/Psalms/11/data");
+    $data = filter_url_file_get_contents ("$repository/Psalms/11/data");
     $this->assertEquals ($this->song_of_solomon_2_data, $data);
 
-    $data =filter_url_file_get_contents ("$repository/Psalms/1/data");
+    $data = filter_url_file_get_contents ("$repository/Psalms/1/data");
     $this->assertEquals ($this->song_of_solomon_2_data, $data);
   }
 

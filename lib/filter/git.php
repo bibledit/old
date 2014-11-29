@@ -87,7 +87,7 @@ class Filter_Git
         $chapterdir = "$bookdir/$chapter";
         if (!file_exists ($chapterdir)) mkdir ($chapterdir);
         $datafile = "$chapterdir/data";
-        @$contents =filter_url_file_get_contents ($datafile);
+        @$contents = filter_url_file_get_contents ($datafile);
         $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
         if ($contents != $usfm)filter_url_file_put_contents ($datafile, $usfm);
       }
@@ -163,7 +163,7 @@ class Filter_Git
                 if (file_exists ($filename)) {
                   if (!in_array ($chapter, $chapters)) {
                     // Chapter does not exist in the database: Add it.
-                    $usfm =filter_url_file_get_contents ($filename);
+                    $usfm = filter_url_file_get_contents ($filename);
                     Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
                     $database_logs->log (Locale_Translate::_("A translator added chapter") . " $bible $bookname $chapter");
                   }
@@ -193,7 +193,7 @@ class Filter_Git
           $chapterdir = "$bookdir/$chapter";
           if (file_exists ($chapterdir)) {
             $datafile = "$chapterdir/data";
-            $contents =filter_url_file_get_contents ($datafile);
+            $contents = filter_url_file_get_contents ($datafile);
             $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
             if ($contents != $usfm) {
               Bible_Logic::storeChapter ($bible, $book, $chapter, $contents);
@@ -229,7 +229,7 @@ class Filter_Git
     if (file_exists ($filename)) {
 
       // Store chapter in database.
-      $usfm =filter_url_file_get_contents ($filename);
+      $usfm = filter_url_file_get_contents ($filename);
       Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
       $database_logs->log (Locale_Translate::_("A collaborator updated") . " $bible $bookname $chapter");
 
@@ -346,7 +346,7 @@ class Filter_Git
     $command = "cd $directory; git show --all --pretty=format:%b $shapath > $newfile 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    $newtext =filter_url_file_get_contents ($newfile);
+    $newtext = filter_url_file_get_contents ($newfile);
     $newtext = trim ($newtext);
 
     // Get the patch.
@@ -359,7 +359,7 @@ class Filter_Git
     $command = "patch -R $newfile $patchfile 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    $oldtext =filter_url_file_get_contents ($newfile);
+    $oldtext = filter_url_file_get_contents ($newfile);
     $oldtext = trim ($oldtext);
 
     // Clean up.

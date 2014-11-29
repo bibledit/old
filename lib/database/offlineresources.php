@@ -261,7 +261,7 @@ EOD;
   public function load ($name, $file)
   {
     $path = $this->resourceFolder ($name) . "/$file";
-    $contents =filter_url_file_get_contents ($path);
+    $contents = filter_url_file_get_contents ($path);
     return $contents;
   }
 

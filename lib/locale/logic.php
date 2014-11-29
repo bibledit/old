@@ -73,7 +73,7 @@ class Locale_Logic
   {
     $language = "Default";
     $filename = dirname (__FILE__) . "/$localization.po";
-    @$data =filter_url_file_get_contents ($filename);
+    @$data = filter_url_file_get_contents ($filename);
     if ($data !== false) {
       $data = explode ("\n", $data);
       foreach ($data as $line) {

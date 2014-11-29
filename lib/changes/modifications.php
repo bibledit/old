@@ -217,7 +217,7 @@ foreach ($bibles as $bible) {
 
   // Email users.
   $subject = Locale_Translate::_("Recent changes") . " " . $bible;
-  $emailBody =filter_url_file_get_contents ($versesoutputfile);
+  $emailBody = filter_url_file_get_contents ($versesoutputfile);
   $users = $database_users->getUsers ();
   foreach ($users as $user) {
     if ($database_config_user->getUserBibleChangesNotification ($user)) {

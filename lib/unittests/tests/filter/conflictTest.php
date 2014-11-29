@@ -110,13 +110,13 @@ class filterConflictTest extends PHPUnit_Framework_TestCase
   public function testResolveConflictsStandard ()
   {
     Filter_Conflict::run ($this->userclone);
-    $data =filter_url_file_get_contents ($this->userclone . "/Genesis/3/data");
+    $data = filter_url_file_get_contents ($this->userclone . "/Genesis/3/data");
     $this->assertEquals (trim ($this->mergeddata1), $data);
-    $data =filter_url_file_get_contents ($this->userclone . "/Exodus/2/data");
+    $data = filter_url_file_get_contents ($this->userclone . "/Exodus/2/data");
     $this->assertEquals (trim ($this->mergeddata1), $data);
-    $data =filter_url_file_get_contents ($this->userclone . "/path/to/data/file1");
+    $data = filter_url_file_get_contents ($this->userclone . "/path/to/data/file1");
     $this->assertEquals (trim ($this->mergeddata2), $data);
-    $data =filter_url_file_get_contents ($this->userclone . "/file2");
+    $data = filter_url_file_get_contents ($this->userclone . "/file2");
     $this->assertEquals (trim ($this->mergeddata2), $data);
   }
   

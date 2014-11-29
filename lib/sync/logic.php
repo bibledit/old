@@ -41,7 +41,7 @@ class Sync_Logic
     // After failure, retry a few times more.
     $retry = 0;
     while (++$retry <= 3) {
-      @$response =filter_url_file_get_contents ($url, false, $context);
+      @$response = filter_url_file_get_contents ($url, false, $context);
       if ($response === false) {
         // Log failure.
         $database_logs = Database_Logs::getInstance ();

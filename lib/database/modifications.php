@@ -126,7 +126,7 @@ EOD;
       $bible = $database_bibles->getName ($bible);
     }
     $file = $this->teamFile ($bible, $book, $chapter);
-    @$usfm =filter_url_file_get_contents ($file);
+    @$usfm = filter_url_file_get_contents ($file);
     if ($usfm) return $usfm;
     return "";
   }
@@ -401,7 +401,7 @@ EOD;
       $newids = Filter_Folders::cleanup ($newids);
       foreach ($newids as $newid) {
         $file = $this->userOldIDFile ($username, $bible, $book, $chapter, $newid);
-        $oldid =filter_url_file_get_contents ($file);
+        $oldid = filter_url_file_get_contents ($file);
         $ids [] = array ("oldid" => $oldid, "newid" => $newid);
       }
     }
@@ -413,8 +413,8 @@ EOD;
   {
     $oldfile = $this->userOldTextFile ($username, $bible, $book, $chapter, $newID);
     $newfile = $this->userNewTextFile ($username, $bible, $book, $chapter, $newID);
-    $oldtext =filter_url_file_get_contents ($oldfile);
-    $newtext =filter_url_file_get_contents ($newfile);
+    $oldtext = filter_url_file_get_contents ($oldfile);
+    $newtext = filter_url_file_get_contents ($newfile);
     $result = array ("oldtext" => $oldtext, "newtext" => $newtext);
     return $result;
   }
@@ -423,7 +423,7 @@ EOD;
   public function getUserTimestamp ($username, $bible, $book, $chapter, $newID)
   {
     $file = $this->userTimeFile ($username, $bible, $book, $chapter, $newID);
-    $time =filter_url_file_get_contents ($file);
+    $time = filter_url_file_get_contents ($file);
     if ($time) return $time;
     return time ();
   }
@@ -560,11 +560,11 @@ EOD;
     foreach ($identifiers as $identifier) {
 
       // Fetch the data from the filesystem.
-      $timestamp =filter_url_file_get_contents ($this->notificationTimeFile ($identifier));
-      $user =filter_url_file_get_contents ($this->notificationUserFile ($identifier));
-      $category =filter_url_file_get_contents ($this->notificationCategoryFile ($identifier));
-      $bible =filter_url_file_get_contents ($this->notificationBibleFile ($identifier));
-      $passage =filter_url_file_get_contents ($this->notificationPassageFile ($identifier));
+      $timestamp = filter_url_file_get_contents ($this->notificationTimeFile ($identifier));
+      $user = filter_url_file_get_contents ($this->notificationUserFile ($identifier));
+      $category = filter_url_file_get_contents ($this->notificationCategoryFile ($identifier));
+      $bible = filter_url_file_get_contents ($this->notificationBibleFile ($identifier));
+      $passage = filter_url_file_get_contents ($this->notificationPassageFile ($identifier));
       $passage = explode (".", $passage);
       @$book = $passage [0];
       @$chapter = $passage [1];
@@ -788,7 +788,7 @@ EOD;
   public function getNotificationOldText ($id)
   {
     $file = $this->notificationOldtextFile ($id);
-    @$oldtext =filter_url_file_get_contents ($file);
+    @$oldtext = filter_url_file_get_contents ($file);
     if (!$oldtext) return "";
     return $oldtext;
   }
@@ -797,7 +797,7 @@ EOD;
   public function getNotificationModification ($id)
   {
     $file = $this->notificationModificationFile ($id);
-    @$modification =filter_url_file_get_contents ($file);
+    @$modification = filter_url_file_get_contents ($file);
     if (!$modification) return NULL;
     return $modification;
   }
@@ -806,7 +806,7 @@ EOD;
   public function getNotificationNewText ($id)
   {
     $file = $this->notificationNewtextFile ($id);
-    @$newtext =filter_url_file_get_contents ($file);
+    @$newtext = filter_url_file_get_contents ($file);
     if (!$newtext) return "";
     return $newtext;
   }

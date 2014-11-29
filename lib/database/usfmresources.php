@@ -146,7 +146,7 @@ class Database_UsfmResources
   public function getUsfm ($name, $book, $chapter)
   {
     $file = $this->chapterFile ($name, $book, $chapter);
-    @$usfm =filter_url_file_get_contents ($file);
+    @$usfm = filter_url_file_get_contents ($file);
     if ($usfm) return $usfm;
     return "";
   }

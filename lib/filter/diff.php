@@ -96,8 +96,8 @@ class Filter_Diff
   */
   public static function runDiffFile ($oldfile, $newfile, $outputfile)
   {
-    $oldstring =filter_url_file_get_contents ($oldfile);
-    $newstring =filter_url_file_get_contents ($newfile);
+    $oldstring = filter_url_file_get_contents ($oldfile);
+    $newstring = filter_url_file_get_contents ($newfile);
 
     $differences = self::diff ($oldstring, $newstring);
 

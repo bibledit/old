@@ -327,11 +327,11 @@ EOD;
     $modified = $this->getModified ($identifier);
 
     $file = $this->assignedFile ($identifier);
-    @$assigned =filter_url_file_get_contents ($file);
+    @$assigned = filter_url_file_get_contents ($file);
     if (!$assigned) $assigned = "";
 
     $file = $this->subscriptionsFile ($identifier);
-    @$subscriptions =filter_url_file_get_contents ($file);
+    @$subscriptions = filter_url_file_get_contents ($file);
     if (!$subscriptions) $subscriptions = "";
 
     $bible = $this->getBible ($identifier);
@@ -789,7 +789,7 @@ EOD;
   public function getSummary ($identifier)
   {
     $file = $this->summaryFile ($identifier);
-    @$summary =filter_url_file_get_contents ($file);
+    @$summary = filter_url_file_get_contents ($file);
     if ($summary) return $summary;
     return "";
   }
@@ -817,7 +817,7 @@ EOD;
   public function getContents ($identifier)
   {
     $file = $this->contentsFile ($identifier);
-    @$contents =filter_url_file_get_contents ($file);
+    @$contents = filter_url_file_get_contents ($file);
     if ($contents) return $contents;
     return "";
   }
@@ -904,7 +904,7 @@ EOD;
   public function getSubscribers ($identifier)
   {
     $file = $this->subscriptionsFile ($identifier);
-    @$subscribers =filter_url_file_get_contents ($file);
+    @$subscribers = filter_url_file_get_contents ($file);
     if (!$subscribers) return array ();
     $subscribers = explode ("\n", $subscribers);
     $subscribers = array_diff ($subscribers, array (""));
@@ -1007,7 +1007,7 @@ EOD;
   {
     // Get the asssignees from the filesystem.
     $file = $this->assignedFile ($identifier);
-    @$assignees =filter_url_file_get_contents ($file);
+    @$assignees = filter_url_file_get_contents ($file);
     return $this->getAssigneesInternal ($assignees);
   }
   
@@ -1088,7 +1088,7 @@ EOD;
   public function getBible ($identifier)
   {
     $file = $this->bibleFile ($identifier);
-    @$bible =filter_url_file_get_contents ($file);
+    @$bible = filter_url_file_get_contents ($file);
     if ($bible) return $bible;
     return "";
   }
@@ -1137,7 +1137,7 @@ EOD;
   public function getRawPassage ($identifier)
   {
     $file = $this->passageFile ($identifier);
-    @$contents =filter_url_file_get_contents ($file);
+    @$contents = filter_url_file_get_contents ($file);
     if ($contents) return $contents;
     return "";
   }
@@ -1193,7 +1193,7 @@ EOD;
   public function getRawStatus ($identifier)
   {
     $file = $this->statusFile ($identifier);
-    @$status =filter_url_file_get_contents ($file);
+    @$status = filter_url_file_get_contents ($file);
     if ($status) return $status;
     return "";
   }
@@ -1267,7 +1267,7 @@ EOD;
   public function getRawSeverity ($identifier)
   {
     $file = $this->severityFile ($identifier);
-    @$severity =filter_url_file_get_contents ($file);
+    @$severity = filter_url_file_get_contents ($file);
     if ($severity === false) return 2;
     return (integer) $severity;
   }
@@ -1317,7 +1317,7 @@ EOD;
   public function getModified ($identifier)
   {
     $file = $this->modifiedFile ($identifier);
-    @$modified =filter_url_file_get_contents ($file);
+    @$modified = filter_url_file_get_contents ($file);
     if ($modified) return $modified;
     return 0;
   }
@@ -1483,7 +1483,7 @@ EOD;
     foreach ($identifiers as $identifier) {
       if ($this->isMarkedForDeletion ($identifier)) {
         $file = $this->expiryFile ($identifier);
-        $days =filter_url_file_get_contents ($file);
+        $days = filter_url_file_get_contents ($file);
         $days = (integer) $days;
         $days--;
        filter_url_file_put_contents ($file, $days);
@@ -1499,7 +1499,7 @@ EOD;
     foreach ($identifiers as $identifier) {
       if ($this->isMarkedForDeletion ($identifier)) {
         $file = $this->expiryFile ($identifier);
-        $days =filter_url_file_get_contents ($file);
+        $days = filter_url_file_get_contents ($file);
         $days = (integer) $days;
         if ($days <= 0) {
           $deletes [] = $identifier;

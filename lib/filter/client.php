@@ -73,7 +73,7 @@ class Filter_Client
 
     $url = "$address/sync/setup.php?user=$encoded_user&pass=$hash";
 
-    @$response =filter_url_file_get_contents ($url);
+    @$response = filter_url_file_get_contents ($url);
     if (($response >= Filter_Roles::GUEST_LEVEL) && ($response <= Filter_Roles::ADMIN_LEVEL)) {
       // Set user's role on the client to be the same as on the server.
       $database_users->updateUserLevel ($user, $response);
