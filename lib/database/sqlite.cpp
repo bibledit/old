@@ -235,7 +235,7 @@ int SqliteReader::callback (void *userdata, int argc, char **argv, char **column
 {
   for (int i = 0; i < argc; i++) {
     // Handle NULL field.
-    if (argv [i] == NULL) ((SqliteReader *) userdata)->result [column_names [i]].push_back ("0");
+    if (argv [i] == NULL) ((SqliteReader *) userdata)->result [column_names [i]].push_back ("");
     else ((SqliteReader *) userdata)->result [column_names [i]].push_back (argv[i]);
   }
   return 0;

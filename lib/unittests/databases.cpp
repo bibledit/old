@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/confirm.h>
 #include <database/history.h>
 #include <database/ipc.h>
+#include <database/jobs.h>
 
 
 void test_database_styles ()
@@ -784,8 +785,47 @@ void test_database_ipc ()
     alive = database_ipc.getBibleAlive ();
     evaluate (__LINE__, __func__, convert_to_bool (message), alive);
   }
-/* Todo
+}
 
-*/
+
+void test_database_jobs ()
+{
+  {
+    refresh_sandbox (true);
+    Database_Jobs database_jobs = Database_Jobs ();
+    database_jobs.create ();
+
+    // Test Optimize
+    database_jobs.optimize ();
+
+    // Test Identifiers
+    int id = database_jobs.getNewId ();
+    bool exists = database_jobs.idExists (id);
+    evaluate (__LINE__, __func__, true, exists);
+
+    // Test Level.
+    id = database_jobs.getNewId ();
+    int level = database_jobs.getLevel (id);
+    evaluate (__LINE__, __func__, 0, level);
+    database_jobs.setLevel (id, 123);
+    level = database_jobs.getLevel (id);
+    evaluate (__LINE__, __func__, 123, level);
+
+    // Test Progress
+    id = database_jobs.getNewId ();
+    string progress = database_jobs.getProgress (id);
+    evaluate (__LINE__, __func__, "", progress);
+    database_jobs.setProgress (id, "progress");
+    progress = database_jobs.getProgress (id);
+    evaluate (__LINE__, __func__, "progress", progress);
+
+    // Test Result.
+    id = database_jobs.getNewId ();
+    string result = database_jobs.getResult (id);
+    evaluate (__LINE__, __func__, "", result);
+    database_jobs.setResult (id, "result");
+    result = database_jobs.getResult (id);
+    evaluate (__LINE__, __func__, "result", result);
+  }
 }
 

@@ -37,8 +37,8 @@ public:
   int getNewId ();
   void setLevel (int id, int level);
   int getLevel (int id);
-  void setProgress (int id, int progress);
-  int getProgress (int id);
+  void setProgress (int id, string progress);
+  string getProgress (int id);
   void setResult (int id, string result);
   string getResult (int id);
 private:

@@ -311,6 +311,6 @@ string filter_url_unique_path (string path)
     string uniquepath = path + "." + convert_to_string (i);
     if (!filter_url_file_exists (uniquepath)) return uniquepath;
   }
-  return path + "." + convert_to_string (rand () % 100 + 900);
+  return path + "." + convert_to_string (rand () % 100 + 900); // Todo use filter.
 }
 

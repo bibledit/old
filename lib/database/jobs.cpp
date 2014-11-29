@@ -56,8 +56,6 @@ void Database_Jobs::create ()
                " result text"
                ");";
   database_sqlite_exec (db, sql);
-  database_sqlite_exec (db, "CREATE INDEX IF NOT EXISTS bible ON commits (bible)");
-  database_sqlite_exec (db, "CREATE INDEX IF NOT EXISTS sha1 ON commits (sha1)");
   database_sqlite_disconnect (db);
 }
 
@@ -106,7 +104,7 @@ int Database_Jobs::getNewId ()
     int floor = 100000000;
     int ceiling = 999999999;
     int range = ceiling - floor;
-    id = floor + int ((range * rand()) / (RAND_MAX + 1.0));
+    id = rand() % range + floor; // Todo use filter for rand.
   } while (idExists (id));
   // Store the new id so it can't be given out again just now.
   // Also store the timestamp. used for entry expiry.
@@ -154,7 +152,7 @@ int Database_Jobs::getLevel (int id)
 }
 
 
-void Database_Jobs::setProgress (int id, int progress)
+void Database_Jobs::setProgress (int id, string progress)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET progress =");
@@ -168,7 +166,7 @@ void Database_Jobs::setProgress (int id, int progress)
 }
 
 
-int Database_Jobs::getProgress (int id)
+string Database_Jobs::getProgress (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT progress FROM jobs WHERE id =");
@@ -178,9 +176,9 @@ int Database_Jobs::getProgress (int id)
   vector <string> result = database_sqlite_query (db, sql.sql) ["progress"];
   database_sqlite_disconnect (db);
   for (auto & progress : result) {
-    return convert_to_int (progress);
+    return progress;
   }
-  return 0;
+  return "";
 }
 
 

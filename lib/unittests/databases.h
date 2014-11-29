@@ -33,6 +33,7 @@ void test_database_commits ();
 void test_database_confirm ();
 void test_database_history ();
 void test_database_ipc ();
+void test_database_jobs ();
 
 
 #endif

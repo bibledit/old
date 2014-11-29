@@ -76,7 +76,7 @@ unsigned int Database_Confirm::getNewID ()
     int floor = 100000000;
     int ceiling = 999999999;
     int range = ceiling - floor;
-    id = floor + int ((range * rand()) / (RAND_MAX + 1.0));
+    id = rand() % range + floor; // Todo use filter for rand.
   } while (IDExists (id));
   return id;
 }
