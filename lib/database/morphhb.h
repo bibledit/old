@@ -26,14 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/passage.h>
 
 
-class Database_Morphhb_Item
-{
-public:
-  string strong;
-  string english;
-};
-
-
 class Database_Morphhb
 {
 public:

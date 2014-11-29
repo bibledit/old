@@ -17,26 +17,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_DATABASES_H
-#define INCLUDED_UNITTESTS_DATABASES_H
+#ifndef INCLUDED_DATABASE_SBLGNT_H
+#define INCLUDED_DATABASE_SBLGNT_H
 
 
 #include <config/libraries.h>
+#include <sqlite3.h>
+#include <filter/passage.h>
 
 
-void test_database_styles ();
-void test_database_books ();
-void test_database_search ();
-void test_database_bibleactions ();
-void test_database_check ();
-void test_database_commits ();
-void test_database_confirm ();
-void test_database_history ();
-void test_database_ipc ();
-void test_database_jobs ();
-void test_database_kjv ();
-void test_database_morphhb ();
-void test_database_sblgnt ();
+class Database_Sblgnt
+{
+public:
+  Database_Sblgnt ();
+  ~Database_Sblgnt ();
+  vector <string> getVerse (int book, int chapter, int verse);
+  vector <Passage> searchGreek (string greek);
+private:
+  sqlite3 * connect ();
+};
 
 
 #endif

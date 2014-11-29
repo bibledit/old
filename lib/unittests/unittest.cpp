@@ -266,7 +266,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  test_database_morphhb (); exit (0); // Todo
+  //test_database_sblgnt (); exit (0); // Todo
 
   // Run the tests.
   test_database_config_general ();
@@ -292,6 +292,7 @@ int main (int argc, char **argv)
   test_database_jobs ();
   test_database_kjv ();
   test_database_morphhb ();
+  test_database_sblgnt ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

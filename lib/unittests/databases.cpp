@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/jobs.h>
 #include <database/kjv.h>
 #include <database/morphhb.h>
+#include <database/sblgnt.h>
 
 
 void test_database_styles ()
@@ -887,6 +888,22 @@ void test_database_morphhb ()
   evaluate (__LINE__, __func__, 3,    passages[1].chapter);
   evaluate (__LINE__, __func__, "10", passages[1].verse);
 }
+
+
+void test_database_sblgnt ()
+{
+  Database_Sblgnt database_sblgnt = Database_Sblgnt ();
+
+  vector <string> data = database_sblgnt.getVerse (43, 11, 35);
+  evaluate (__LINE__, __func__, { "ἐδάκρυσεν", "ὁ", "Ἰησοῦς" }, data);
+
+  vector <Passage> passages = database_sblgnt.searchGreek ("βαπτισμῶν");
+  evaluate (__LINE__, __func__, 1,   passages.size());
+  evaluate (__LINE__, __func__, 58,  passages[0].book);
+  evaluate (__LINE__, __func__, 6,   passages[0].chapter);
+  evaluate (__LINE__, __func__, "2", passages[0].verse);
+}
+
 /* Todo
 
 */
