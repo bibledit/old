@@ -124,8 +124,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/check.$(OBJEXT) database/commits.$(OBJEXT) \
 	database/confirm.$(OBJEXT) database/history.$(OBJEXT) \
 	database/ipc.$(OBJEXT) database/jobs.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) \
+	database/kjv.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
@@ -371,6 +371,7 @@ libbibledit_a_SOURCES = \
 	database/history.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
+	database/kjv.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -612,6 +613,8 @@ database/ipc.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/jobs.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
+database/kjv.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
 	@: > session/$(am__dirstamp)
@@ -844,6 +847,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/history.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@

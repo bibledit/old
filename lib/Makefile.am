@@ -41,6 +41,7 @@ libbibledit_a_SOURCES = \
 	database/history.cpp \
 	database/ipc.cpp \
 	database/jobs.cpp \
+	database/kjv.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
