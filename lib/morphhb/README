@@ -5,5 +5,5 @@ XML files
 The master files for the Hebrew Bible.
 
 createdatabase.php
-This script imports the XML file into a SQLite database fit for use in Bibledit-Web.
+This script imports the XML files into a SQLite database fit for use in Bibledit.
 
