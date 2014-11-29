@@ -44,6 +44,7 @@ libbibledit_a_SOURCES = \
 	database/kjv.cpp \
 	database/morphhb.cpp \
 	database/sblgnt.cpp \
+	database/offlineresources.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

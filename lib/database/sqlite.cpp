@@ -105,6 +105,9 @@ sqlite3 * database_sqlite_connect_file (string filename)
 }
 
 
+// The function provides the path to the "database" in the default database folder.
+// It does this in case "database" contains no path.
+// If it has a path, then it connects to the database at the path given. // Todo implement this.
 string database_sqlite_file (string database)
 {
   return filter_url_create_root_path ("databases", database + ".sqlite");
