@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/ipc.h>
 #include <database/jobs.h>
 #include <database/kjv.h>
+#include <database/morphhb.h>
 
 
 void test_database_styles ()
@@ -868,6 +869,24 @@ void test_database_kjv ()
 }
 
 
+void test_database_morphhb ()
+{
+  Database_Morphhb database_morphhb = Database_Morphhb ();
+
+  vector <string> data = database_morphhb.getVerse (18, 3, 2);
+  evaluate (__LINE__, __func__, { "וַיַּ֥עַן", "אִיּ֗וֹב", "וַיֹּאמַֽר" }, data);
+
+  vector <Passage> passages = database_morphhb.searchHebrew ("יָדְע֥וּ");
+  evaluate (__LINE__, __func__, 2, passages.size());
+
+  evaluate (__LINE__, __func__, 19,   passages[0].book);
+  evaluate (__LINE__, __func__, 95,   passages[0].chapter);
+  evaluate (__LINE__, __func__, "10", passages[0].verse);
+
+  evaluate (__LINE__, __func__, 30,   passages[1].book);
+  evaluate (__LINE__, __func__, 3,    passages[1].chapter);
+  evaluate (__LINE__, __func__, "10", passages[1].verse);
+}
 /* Todo
 
 */
