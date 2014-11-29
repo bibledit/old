@@ -56,10 +56,11 @@ void Database_OfflineResources::store (string name, int book, int chapter, int v
   string folder = resourceFolder (name);
   if (!filter_url_file_exists (folder)) filter_url_mkdir (folder);
 
-  sqlite3 *db = NULL;
   string file = databaseFile (name, book);
 
   healthy (file);
+
+  sqlite3 *db = NULL;
 
   if (!filter_url_file_exists (file)) {
     db = connect (file);
@@ -155,7 +156,7 @@ string Database_OfflineResources::get (string name, int book, int chapter, int v
     sql.add (verse);
     sql.add (";");
     sqlite3 * db = connect (file);
-    vector <string> result = database_sqlite_query (db, "SELECT count(*) FROM offlineresources;") ["html"];
+    vector <string> result = database_sqlite_query (db, sql.sql) ["html"];
     database_sqlite_disconnect (db);
     if (!result.empty ()) html = result [0];
   }

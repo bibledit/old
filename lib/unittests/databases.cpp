@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/kjv.h>
 #include <database/morphhb.h>
 #include <database/sblgnt.h>
+#include <database/offlineresources.h>
 
 
 void test_database_styles ()
@@ -902,6 +903,124 @@ void test_database_sblgnt ()
   evaluate (__LINE__, __func__, 58,  passages[0].book);
   evaluate (__LINE__, __func__, 6,   passages[0].chapter);
   evaluate (__LINE__, __func__, "2", passages[0].verse);
+}
+
+
+void test_database_offlineresourcese ()
+{
+  // Test Store / Exists / Get.
+  {
+    refresh_sandbox (true);
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
+    bool exists = database_offlineresources.exists ("phpunit", 1, 2, 3);
+    evaluate (__LINE__, __func__, true, exists);
+    exists = database_offlineresources.exists ("phpunit", 1, 2, 4);
+    evaluate (__LINE__, __func__, false, exists);
+    string html = database_offlineresources.get ("phpunit", 1, 2, 3);
+    evaluate (__LINE__, __func__, "xyz", html);
+    html = database_offlineresources.get ("phpunit", 1, 2, 4);
+    evaluate (__LINE__, __func__, "", html);
+  }
+  // Test Count / Delete.
+  {
+    refresh_sandbox (true);
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    int count = database_offlineresources.count ("phpunit");
+    evaluate (__LINE__, __func__, 0, count);
+    database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
+    count = database_offlineresources.count ("phpunit");
+    evaluate (__LINE__, __func__, 1, count);
+    database_offlineresources.store ("phpunit", 4, 5, 6, "xyz");
+    count = database_offlineresources.count ("phpunit");
+    evaluate (__LINE__, __func__, 2, count);
+    database_offlineresources.erase ("phpunit");
+    count = database_offlineresources.count ("phpunit");
+    evaluate (__LINE__, __func__, 0, count);
+  }
+  // Test Names.
+  {
+    refresh_sandbox (true);
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    vector <string> names = database_offlineresources.names ();
+    evaluate (__LINE__, __func__, {}, names);
+  
+    database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
+    names = database_offlineresources.names ();
+    evaluate (__LINE__, __func__, {"phpunit"}, names);
+    
+    database_offlineresources.store ("phpunit2", 1, 2, 3, "xyz");
+    names = database_offlineresources.names ();
+    evaluate (__LINE__, __func__, {"phpunit", "phpunit2"}, names);
+  }
+  // Test Files.
+  {
+    refresh_sandbox (true);
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+
+    vector <string> files = database_offlineresources.files ("phpunit");
+    evaluate (__LINE__, __func__, {}, files);
+    
+    database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
+    files = database_offlineresources.files ("phpunit");
+    evaluate (__LINE__, __func__, {"1.sqlite"}, files);
+  
+    database_offlineresources.store ("phpunit", 1, 4, 5, "xyz");
+    files = database_offlineresources.files ("phpunit");
+    evaluate (__LINE__, __func__, {"1.sqlite"}, files);
+  
+    database_offlineresources.store ("phpunit", 11, 22, 33, "xyz");
+    files = database_offlineresources.files ("phpunit");
+    evaluate (__LINE__, __func__, {"1.sqlite", "11.sqlite"}, files);
+  }
+  // Test Size.
+  {
+    refresh_sandbox (true);
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  
+    int size = database_offlineresources.size ("phpunit", "1.sqlite");
+    evaluate (__LINE__, __func__, 0, size);
+  
+    database_offlineresources.store ("phpunit", 1, 2, 3, string (100, 's'));
+    size = database_offlineresources.size ("phpunit", "1.sqlite");
+    evaluate (__LINE__, __func__, 2048, size);
+  
+    database_offlineresources.store ("phpunit", 1, 3, 4, string (1000, 's'));
+    size = database_offlineresources.size ("phpunit", "1.sqlite");
+    evaluate (__LINE__, __func__, 3072, size);
+  }
+  // Test Save / Load.
+  {
+    refresh_sandbox (true);
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+    
+    int size = database_offlineresources.size ("phpunit", "1.sqlite");
+    evaluate (__LINE__, __func__, 0, size);
+    
+    string standard = "abc";
+    database_offlineresources.save ("phpunit", "1.sqlite", standard);
+    string contents = database_offlineresources.load ("phpunit", "1.sqlite");
+    evaluate (__LINE__, __func__, standard, contents);
+  }
+  // Test Unlink.
+  {
+    refresh_sandbox (true);
+    Database_OfflineResources database_offlineresources = Database_OfflineResources ();
+  
+    database_offlineresources.store ("phpunit", 1, 2, 3, "xyz");
+    vector <string> files = database_offlineresources.files ("phpunit");
+    evaluate (__LINE__, __func__,  {"1.sqlite"}, files);
+    
+    database_offlineresources.unlink ("phpunit", "2");
+    
+    files = database_offlineresources.files ("phpunit");
+    evaluate (__LINE__, __func__,  {"1.sqlite"}, files);
+  
+    database_offlineresources.unlink ("phpunit", "1.sqlite");
+    
+    files = database_offlineresources.files ("phpunit");
+    evaluate (__LINE__, __func__,  {}, files);
+  }
 }
 
 /* Todo

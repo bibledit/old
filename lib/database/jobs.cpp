@@ -101,10 +101,7 @@ int Database_Jobs::getNewId ()
   // Iterate till a non-existing identifier is found.
   int id;
   do {
-    int floor = 100000000;
-    int ceiling = 999999999;
-    int range = ceiling - floor;
-    id = rand() % range + floor; // Todo use filter for rand.
+    id = filter_string_rand (100000000, 999999999);
   } while (idExists (id));
   // Store the new id so it can't be given out again just now.
   // Also store the timestamp. used for entry expiry.
