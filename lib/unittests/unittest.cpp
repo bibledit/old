@@ -290,6 +290,7 @@ int main (int argc, char **argv)
   test_database_history ();
   test_database_ipc ();
   test_database_jobs ();
+  test_database_kjv ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

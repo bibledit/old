@@ -61,6 +61,7 @@ string get_en_space ();
 size_t unicode_string_length (string s);
 string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 string unicode_string_casefold (string s);
+int filter_string_rand (int floor, int ceiling);
 
 
 #endif

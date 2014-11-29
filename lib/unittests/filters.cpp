@@ -1895,6 +1895,18 @@ void test_filters_test13 ()
 }
 
 
+void test_filters_test14 ()
+{
+  int floor = 100000;
+  int ceiling = 999999;
+  int r1 = filter_string_rand (floor, ceiling);
+  if ((r1 < floor) || (r1 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", convert_to_string (r1));
+  int r2 = filter_string_rand (floor, ceiling);
+  if ((r2 < floor) || (r2 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", convert_to_string (r2));
+  if (r1 == r2) evaluate (__LINE__, __func__, "Random generator should generate different values", convert_to_string (r1) + " " + convert_to_string (r2));
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -1915,6 +1927,7 @@ void test_filters ()
   test_filters_test12 ();
   refresh_sandbox (true);
   test_filters_test13 ();
+  test_filters_test14 ();
 }
 
 

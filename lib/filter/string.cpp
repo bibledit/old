@@ -436,3 +436,11 @@ string unicode_string_casefold (string s)
   return s;
 }
 
+
+// C++ equivalent for PHP's rand function
+int filter_string_rand (int floor, int ceiling)
+{
+  int range = ceiling - floor;
+  int r = rand () % range + floor;
+  return r;
+}
