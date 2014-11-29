@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/history.h>
 #include <database/ipc.h>
 #include <database/jobs.h>
+#include <database/kjv.h>
 
 
 void test_database_styles ()
@@ -829,3 +830,44 @@ void test_database_jobs ()
   }
 }
 
+
+void test_database_kjv ()
+{
+  Database_Kjv database_kjv = Database_Kjv ();
+
+  vector <Database_Kjv_Item> data = database_kjv.getVerse (43, 11, 35);
+  evaluate (__LINE__, __func__, 3, data.size());
+
+  evaluate (__LINE__, __func__, "G3588", data[0].strong);
+  evaluate (__LINE__, __func__, "Jesus", data[0].english);
+
+  evaluate (__LINE__, __func__, "G2424", data[1].strong);
+  evaluate (__LINE__, __func__, "Jesus", data[1].english);
+
+  evaluate (__LINE__, __func__, "G1145", data[2].strong);
+  evaluate (__LINE__, __func__, "wept",  data[2].english);
+
+  vector <Passage> passages = database_kjv.searchStrong ("G909");
+  evaluate (__LINE__, __func__, 4, passages.size());
+
+  evaluate (__LINE__, __func__, 41,   passages[0].book);
+  evaluate (__LINE__, __func__, 7,    passages[0].chapter);
+  evaluate (__LINE__, __func__, "4",  passages[0].verse);
+
+  evaluate (__LINE__, __func__, 41,   passages[1].book);
+  evaluate (__LINE__, __func__, 7,    passages[1].chapter);
+  evaluate (__LINE__, __func__, "8",  passages[1].verse);
+
+  evaluate (__LINE__, __func__, 58,   passages[2].book);
+  evaluate (__LINE__, __func__, 6,    passages[2].chapter);
+  evaluate (__LINE__, __func__, "2",  passages[2].verse);
+
+  evaluate (__LINE__, __func__, 58,   passages[3].book);
+  evaluate (__LINE__, __func__, 9,    passages[3].chapter);
+  evaluate (__LINE__, __func__, "10", passages[3].verse);
+}
+
+
+/* Todo
+
+*/
