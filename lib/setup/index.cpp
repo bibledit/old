@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/confirm.h>
 #include <database/history.h>
 #include <database/jobs.h>
+#include <database/sprint.h>
 
 
 void setup_create_databases (Webserver_Request * request)
@@ -49,6 +50,8 @@ void setup_create_databases (Webserver_Request * request)
   database_history.create ();
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.create ();
+  Database_Sprint database_sprint = Database_Sprint ();
+  database_sprint.create ();
 }
 
 
