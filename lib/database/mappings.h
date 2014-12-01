@@ -36,6 +36,10 @@ public:
   void optimize ();
   void import (const string& name, const string& data);
   string output (const string& name);
+  void create (const string & name);
+  void erase (const string & name);
+  vector <string> names ();
+  string original ();
 private:
   sqlite3 * connect ();
 };

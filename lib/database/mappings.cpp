@@ -168,7 +168,6 @@ void Database_Mappings::import (const string& name, const string& data)
     sql.add (origverse);
     sql.add (");");
     database_sqlite_exec (db, sql.sql);
-
   }
 
   // Commit the transaction.
@@ -212,46 +211,50 @@ string Database_Mappings::output (const string& name)
 }
 
 
-public function create ($name)
+void Database_Mappings::create (const string & name)
 {
-  $name = Database_SQLiteInjection::no ($name);
   // Insert one entry, so the $name makes it into the database.
-  $query = "INSERT INTO maps VALUES ('$name', 1, 1, 1, 1, 1, 1);";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("INSERT INTO maps VALUES (");
+  sql.add (name);
+  sql.add (", 1, 1, 1, 1, 1, 1);");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function erase ($name)
+void Database_Mappings::erase (const string & name)
 {
-  $name = Database_SQLiteInjection::no ($name);
-  $query = "DELETE FROM maps WHERE name = '$name';";
-  Database_SQLite::exec ($this->db, $query);
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("DELETE FROM maps WHERE name =");
+  sql.add (name);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Returns the mapping names in the database.
-public function names ()
+vector <string> Database_Mappings::names ()
 {
-  $names = array ();
-  
-  $query = "SELECT DISTINCT name FROM maps;";
-  $result = Database_SQLite::query ($this->db, $query);
-  foreach ($result as $row) {
-    $names [] = $row[0];
-  }
-
+  // Get the names from the database.
+  sqlite3 * db = connect ();
+  vector <string> names = database_sqlite_query (db, "SELECT DISTINCT name FROM maps;")["name"];
+  database_sqlite_disconnect (db);
   // Ensure the original mapping is there too.
-  if (!in_array ($this->original (), $names)) {
-    $names [] = $this->original ();
+  if (find (names.begin (), names.end (), original ()) == names.end()) {
+    names.push_back (original ());
   }
 
-  sort ($names);
+  sort (names.begin (), names.end());
 
-  return $names;
+  return names;
 }
 
 
-public function original ()
+string Database_Mappings::original ()
 {
   return "Hebrew Greek";
 }
@@ -338,22 +341,6 @@ public function translate ($input, $output, $book, $chapter, $verse)
 
 
 /* Todo old stuff
-
-void Database_Mappings::clear ()
-{
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "DROP TABLE IF EXISTS bibleactions;");
-  database_sqlite_disconnect (db);
-}
-
-
-void Database_Mappings::optimize ()
-{
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM bibleactions;");
-  database_sqlite_disconnect (db);
-}
-
 
 vector <int> Database_Mappings::getChapters (string bible, int book)
 {
