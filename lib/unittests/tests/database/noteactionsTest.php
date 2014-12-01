@@ -37,7 +37,7 @@ class databaseNoteActionsTest extends PHPUnit_Framework_TestCase
   
   public function testOptimize ()
   {
-    $database = Database_Sprint::getInstance ();
+    $database = Database_NoteActions::getInstance ();
     $database->optimize ();
   }
 
