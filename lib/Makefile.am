@@ -50,6 +50,7 @@ libbibledit_a_SOURCES = \
 	database/navigation.cpp \
 	database/resources.cpp \
 	database/usfmresources.cpp \
+	database/mappings.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
