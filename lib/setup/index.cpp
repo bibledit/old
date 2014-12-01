@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/jobs.h>
 #include <database/sprint.h>
 #include <database/mail.h>
+#include <database/navigation.h>
 
 
 void setup_create_databases (Webserver_Request * request)
@@ -56,6 +57,8 @@ void setup_create_databases (Webserver_Request * request)
   database_sprint.create ();
   Database_Mail database_mail = Database_Mail (request);
   database_mail.create ();
+  Database_Navigation database_navigation = Database_Navigation ();
+  database_navigation.create ();
 }
 
 

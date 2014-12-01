@@ -17,30 +17,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_DATABASES_H
-#define INCLUDED_UNITTESTS_DATABASES_H
+#ifndef INCLUDED_DATABASE_NAVIGATION_H
+#define INCLUDED_DATABASE_NAVIGATION_H
 
 
 #include <config/libraries.h>
+#include <sqlite3.h>
+#include <filter/passage.h>
 
 
-void test_database_styles ();
-void test_database_books ();
-void test_database_search ();
-void test_database_bibleactions ();
-void test_database_check ();
-void test_database_commits ();
-void test_database_confirm ();
-void test_database_history ();
-void test_database_ipc ();
-void test_database_jobs ();
-void test_database_kjv ();
-void test_database_morphhb ();
-void test_database_sblgnt ();
-void test_database_offlineresourcese ();
-void test_database_sprint ();
-void test_database_mail ();
-void test_database_navigation ();
+class Database_Navigation
+{
+public:
+  Database_Navigation ();
+  ~Database_Navigation ();
+  void create ();
+  void trim ();
+  void record (int time, string user, int book, int chapter, int verse);
+  bool previousExists (const string& user);
+  bool nextExists (const string& user);
+  Passage getPrevious (const string& user);
+  Passage getNext (const string& user);
+private:
+  sqlite3 * connect ();
+  int getPreviousId (const string& user);
+  int getNextId (const string& user);
+};
 
 
 #endif
