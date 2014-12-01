@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sprint.h>
 #include <database/mail.h>
 #include <database/navigation.h>
+#include <database/resources.h>
 
 
 void test_database_styles ()
@@ -1399,6 +1400,17 @@ void test_database_navigation ()
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
   }
+}
+
+
+void test_database_resources ()
+{
+  refresh_sandbox (true);
+  Database_Resources database_resources = Database_Resources ();
+  vector <string> names = database_resources.getNames ();
+  bool hit = false;
+  for (auto & name : names) if (name == "Statenbijbel GBS") hit = true;
+  evaluate (__LINE__, __func__, true, hit);
 }
 
 /* Todo

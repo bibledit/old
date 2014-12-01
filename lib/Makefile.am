@@ -48,6 +48,7 @@ libbibledit_a_SOURCES = \
 	database/sprint.cpp \
 	database/mail.cpp \
 	database/navigation.cpp \
+	database/resources.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
