@@ -17,29 +17,51 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_UNITTESTS_DATABASES_H
-#define INCLUDED_UNITTESTS_DATABASES_H
+#ifndef INCLUDED_DATABASE_MAIL_H
+#define INCLUDED_DATABASE_MAIL_H
 
 
 #include <config/libraries.h>
+#include <sqlite3.h>
 
 
-void test_database_styles ();
-void test_database_books ();
-void test_database_search ();
-void test_database_bibleactions ();
-void test_database_check ();
-void test_database_commits ();
-void test_database_confirm ();
-void test_database_history ();
-void test_database_ipc ();
-void test_database_jobs ();
-void test_database_kjv ();
-void test_database_morphhb ();
-void test_database_sblgnt ();
-void test_database_offlineresourcese ();
-void test_database_sprint ();
-void test_database_mail ();
+class Database_Mail_User
+{
+public:
+  int rowid;
+  int timestamp;
+  string subject;
+};
+
+
+class Database_Mail_Item
+{
+public:
+  string username;
+  string subject;
+  string body;
+};
+
+
+class Database_Mail
+{
+public:
+  Database_Mail (void * webserver_request_in);
+  ~Database_Mail ();
+  void create ();
+  void optimize ();
+  void trim ();
+  void send (string to, string subject, string body, int time = 0);
+  int getMailCount ();
+  vector <Database_Mail_User> getMails ();
+  void erase (int id);
+  Database_Mail_Item get (int id);
+  vector <int> getMailsToSend ();
+  void postpone (int id);
+private:
+  sqlite3 * connect ();
+  void * webserver_request;
+};
 
 
 #endif

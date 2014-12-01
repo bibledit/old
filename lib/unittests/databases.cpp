@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sblgnt.h>
 #include <database/offlineresources.h>
 #include <database/sprint.h>
+#include <database/mail.h>
 
 
 void test_database_styles ()
@@ -1114,6 +1115,97 @@ void test_database_sprint ()
     evaluate (__LINE__, __func__, 55, history[1].complete);
   }
 }
+
+
+void test_database_mail ()
+{
+  // Optimize / Trim.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request = Webserver_Request ();
+    Database_Mail database_mail = Database_Mail (&request);
+    database_mail.create ();
+    database_mail.optimize ();
+    database_mail.trim ();
+  }
+  // Empty.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request = Webserver_Request ();
+    Database_Mail database_mail = Database_Mail (&request);
+    database_mail.create ();
+    request.session_logic ()->setUsername ("phpunit");
+
+    int count = database_mail.getMailCount ();
+    evaluate (__LINE__, __func__, 0, count);
+    
+    vector <Database_Mail_User> mails = database_mail.getMails ();
+    evaluate (__LINE__, __func__, 0, mails.size());
+    
+    vector <int> mails_to_send = database_mail.getMailsToSend ();
+    evaluate (__LINE__, __func__, {}, mails_to_send);
+  }
+  // Normal Cycle
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request = Webserver_Request ();
+    Database_Mail database_mail = Database_Mail (&request);
+    database_mail.create ();
+    request.session_logic ()->setUsername ("phpunit");
+
+    database_mail.send ("phpunit", "subject", "body");
+
+    int count = database_mail.getMailCount ();
+    evaluate (__LINE__, __func__, 1, count);
+
+    vector <Database_Mail_User> mails = database_mail.getMails ();
+    evaluate (__LINE__, __func__, "subject", mails [0].subject);
+    
+    Database_Mail_Item mail = database_mail.get (1);
+    evaluate (__LINE__, __func__, "phpunit", mail.username);
+    evaluate (__LINE__, __func__, "body", mail.body);
+
+    database_mail.erase (1);
+
+    count = database_mail.getMailCount ();
+    evaluate (__LINE__, __func__, 0, count);
+  }
+  // Normal Postpone
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request = Webserver_Request ();
+    Database_Mail database_mail = Database_Mail (&request);
+    database_mail.create ();
+    request.session_logic ()->setUsername ("phpunit");
+
+    database_mail.send ("phpunit", "subject", "body");
+
+    vector <int> mails = database_mail.getMailsToSend ();
+    evaluate (__LINE__, __func__, 1, mails.size ());
+    
+    database_mail.postpone (1);
+    mails = database_mail.getMailsToSend ();
+    evaluate (__LINE__, __func__, 0, mails.size ());
+  }
+}
+
+
 /* Todo
+  
+
+  
+
+}
+
+
+?>
 
 */
