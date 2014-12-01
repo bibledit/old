@@ -128,8 +128,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/sblgnt.$(OBJEXT) database/offlineresources.$(OBJEXT) \
 	database/sprint.$(OBJEXT) database/mail.$(OBJEXT) \
 	database/navigation.$(OBJEXT) database/resources.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) \
+	database/usfmresources.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
@@ -383,6 +383,7 @@ libbibledit_a_SOURCES = \
 	database/mail.cpp \
 	database/navigation.cpp \
 	database/resources.cpp \
+	database/usfmresources.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -640,6 +641,8 @@ database/navigation.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/resources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
+database/usfmresources.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
 	@: > session/$(am__dirstamp)
@@ -885,6 +888,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/styles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/users.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/bible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@

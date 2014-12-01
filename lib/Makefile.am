@@ -49,6 +49,7 @@ libbibledit_a_SOURCES = \
 	database/mail.cpp \
 	database/navigation.cpp \
 	database/resources.cpp \
+	database/usfmresources.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

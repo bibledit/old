@@ -42,6 +42,7 @@ void test_database_sprint ();
 void test_database_mail ();
 void test_database_navigation ();
 void test_database_resources ();
+void test_database_usfmresources ();
 
 
 #endif
