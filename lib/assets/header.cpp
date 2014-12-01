@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/main.h>
 #include <menu/user.h>
 #include <locale/translate.h>
+#include <config.h>
 
 
 using namespace std;

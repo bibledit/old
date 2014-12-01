@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/history.h>
 #include <database/jobs.h>
 #include <database/sprint.h>
+#include <config.h>
 
 
 void setup_create_databases (Webserver_Request * request)

@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <setup/index.h>
 #include <journal/index.h>
+#include <config.h>
 
 
 using namespace std;

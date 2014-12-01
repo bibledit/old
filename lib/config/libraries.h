@@ -75,7 +75,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Bibledit headers.
-#include <config.h>
+// Include config.h only where needed in the .cpp files as that speeds up recompilation after increasing the version number.
+// #include <config.h> 
 
 
 using namespace std;

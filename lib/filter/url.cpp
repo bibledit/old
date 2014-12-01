@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <direct.h>
 #endif
 #include <filter/string.h>
+#include <config.h>
 
 
 // Gets the base URL of current Bibledit installation.
