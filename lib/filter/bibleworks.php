@@ -61,7 +61,7 @@ class Filter_Bibleworks
       if ($bookAbbreviation != $currentBibleWorksBookAbbreviation) {
         $currentBibleWorksBookAbbreviation = $bookAbbreviation;
         $currentChapter = 0;
-        $bookID = Filter_Books::interpretBook ($bookAbbreviation);
+        $bookID = filter_passage_interpret_book ($bookAbbreviation);
         $book = $database_books->getUsfmFromId ($bookID);
         $usfm [] = '\id ' . $book;
       }

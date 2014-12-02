@@ -134,11 +134,11 @@ void Database_Mappings::import (const string& name, const string& data)
     string spassage = filter_string_trim (entry [0]);
     string soriginal = filter_string_trim (entry [1]);
     
-    Passage passage = Passage (); // Todo C++Port = Filter_Books::interpretPassage (lastPassage, spassage);
+    Passage passage = Passage (); // Todo C++Port = filter_passage_interpret_passage (lastPassage, spassage);
     lastPassage.book = passage.book;
     lastPassage.chapter = passage.chapter;
     lastPassage.verse = passage.verse;
-    Passage original = Passage (); // Todo C++Port = Filter_Books::interpretPassage (lastOriginal, soriginal);
+    Passage original = Passage (); // Todo C++Port = filter_passage_interpret_passage (lastOriginal, soriginal);
     lastOriginal.book = original.book;
     lastOriginal.chapter = original.chapter;
     lastOriginal.verse = original.verse;

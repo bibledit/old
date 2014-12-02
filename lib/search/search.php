@@ -68,7 +68,7 @@ foreach ($identifiers as $identifier) {
 
   // The title.
   $summary = $database_notes->getSummary ($identifier);
-  $verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
+  $verses = Filter_Books::filter_passage_display_inline ($database_notes->getPassages ($identifier));
   $title = "$summary | $verses";
   $title = Filter_Html::sanitize ($title);
   $noteTitles [] = $title;
@@ -124,7 +124,7 @@ foreach ($hits as $hit) {
 
 
   // The title plus link.
-  $link = "$bible" . " | " . Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+  $link = "$bible" . " | " . filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
   $textLinks [] = $link;
 
   // The excerpt.

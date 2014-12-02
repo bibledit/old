@@ -61,14 +61,14 @@ class Consistency_Logic
     foreach ($passages as $line) {
       $line = trim ($line);
       if ($line == "") continue;
-      $range_sequence = Filter_Books::handleSequencesRanges ($line);
+      $range_sequence = filter_passage_handle_sequences_ranges ($line);
       foreach ($range_sequence as $line) {
-        $passage = Filter_Books::interpretPassage ($previousPassage, $line);
+        $passage = filter_passage_interpret_passage ($previousPassage, $line);
         if ($passage[0] != 0) {
           $book = $passage [0];
           $chapter = $passage [1];
           $verse = $passage [2];
-          $line = Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+          $line = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
           $line .= " ";
           
           // Check whether the chapter identifier has changed for this reference.

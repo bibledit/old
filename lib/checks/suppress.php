@@ -57,7 +57,7 @@ foreach ($suppressions as $suppression) {
   if (in_array ($bibleID, $bibleIDs)) {
     $ids [] = $suppression['rowid'];
     $bible = Filter_Html::sanitize ($database_bibles->getName ($bibleID));
-    $passage = Filter_Books::passagesDisplayInline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
+    $passage = Filter_Books::filter_passage_display_inline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
     $result = Filter_Html::sanitize ($suppression['data']);
     $result = "$bible $passage $result";
     $data [] = $result;

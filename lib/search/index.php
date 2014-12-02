@@ -47,7 +47,7 @@ if (isset ($id)) {
   $text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
   
   // Format it.
-  $link = Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+  $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
   $text =  Filter_Markup::words (array ($q), $text);
   $output = "<div>$link $text</div>";
   

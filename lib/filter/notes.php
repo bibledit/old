@@ -46,7 +46,7 @@ class Filter_Notes
       // It uses OSIS for book encoding.
       $passages = array ();
       foreach (explode (" ", trim ($note[2])) as $bibledit_gtk_reference) {
-        $passages [] = Filter_Books::explodePassage ($bibledit_gtk_reference);
+        $passages [] = filter_passage_explode_passage ($bibledit_gtk_reference);
       }
       // line 3: note category.
       $category = trim ($note[3]);

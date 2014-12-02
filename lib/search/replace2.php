@@ -53,7 +53,7 @@ if (isset ($id)) {
   $text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
   
   // Format it.
-  $link = Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+  $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
   $oldtext =  $text;
   $newtext = str_replace ($searchfor, $replacewith, $text);
   if ($replacewith != "") $newtext =  Filter_Markup::words (array ($replacewith), $newtext);

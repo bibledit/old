@@ -112,7 +112,7 @@ $modifications = array ();
 $newTexts = array ();
 $data = $database_history->get ($author_filter, $myBibles, $book_filter, $chapter_filter, $verse_filter, $start);
 foreach ($data as $entry) {
-  $passageText = Filter_Books::passagesDisplayInline (array (array ($entry['book'], $entry['chapter'], $entry['verse'])));
+  $passageText = Filter_Books::filter_passage_display_inline (array (array ($entry['book'], $entry['chapter'], $entry['verse'])));
   $passageText = Filter_Html::sanitize ($passageText);
   $passageTexts [] = $passageText;
   $authors [] = Filter_Html::sanitize ($entry ['author']);

@@ -104,7 +104,7 @@ if (isset ($frombook)) {
     $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
     // Check if ending book matches.
     $topassage = explode (".", $database_config_user->getPrintPassageTo ());
-    if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
+    if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set ending passage to a sensible value.
       $topassage [0] = $frombook;
       $chapters = $database_bibles->getChapters ($bible, $topassage [0]);
@@ -136,7 +136,7 @@ if (isset ($fromchapter)) {
     $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
     // Check if ending passage is sensible.
     $topassage = explode (".", $database_config_user->getPrintPassageTo ());
-    if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
+    if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set ending chapter / verse to sensible values.
       $topassage [1] = $fromchapter;
       $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
@@ -166,7 +166,7 @@ if (isset ($fromverse)) {
     $database_config_user->setPrintPassageFrom (implode (".", $frompassage));
     // Sensible matching ending verse.
     $topassage = explode (".", $database_config_user->getPrintPassageTo ());
-    if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
+    if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $topassage [0], $topassage [1]));
       $topassage [2] = array_pop ($verses);
       $database_config_user->setPrintPassageTo (implode (".", $topassage));
@@ -195,7 +195,7 @@ if (isset ($tobook)) {
     $database_config_user->setPrintPassageTo (implode (".", $topassage));
     // Check on matching starting book.
     $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
-    if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
+    if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set starting passage to a sensible value.
       $frompassage [0] = $tobook;
       $frompassage [1] = 0;
@@ -225,7 +225,7 @@ if (isset ($tochapter)) {
     $database_config_user->setPrintPassageTo (implode (".", $topassage));
     // Match starting passage.
     $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
-    if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
+    if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set starting passage to a sensible value.
       $frompassage [0] = $topassage [0];
       $frompassage [1] = 0;
@@ -255,7 +255,7 @@ if (isset ($toverse)) {
     $database_config_user->setPrintPassageTo (implode (".", $topassage));
     // Match starting verse.
     $frompassage = explode (".", $database_config_user->getPrintPassageFrom ());
-    if (Filter_Books::passage2integer ($topassage) < Filter_Books::passage2integer ($frompassage)) {
+    if (filter_passage_to_integer ($topassage) < filter_passage_to_integer ($frompassage)) {
       // Set starting passage to a sensible value.
       $frompassage [0] = $topassage [0];
       $frompassage [1] = $topassage [1];

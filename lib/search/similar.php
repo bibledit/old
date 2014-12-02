@@ -124,7 +124,7 @@ if (isset ($id)) {
   $words = explode (" " , $words);
   
   // Format it.
-  $link = Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+  $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
   $text =  Filter_Markup::words ($words, $text);
   $output = "<div>$link $text</div>";
   

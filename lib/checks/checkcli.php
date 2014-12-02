@@ -164,7 +164,7 @@ $emailBody = array ();
 $hits = $database_check->getHits ();
 foreach ($hits as $hit) {
   if ($hit['bible'] == $bibleID) {
-    $passage = Filter_Books::passagesDisplayInline (array (array ($hit['book'], $hit['chapter'], $hit['verse'])));
+    $passage = Filter_Books::filter_passage_display_inline (array (array ($hit['book'], $hit['chapter'], $hit['verse'])));
     $data = Filter_Html::sanitize ($hit['data']);
     $result = "<p>$passage $data</p>";
     $emailBody [] = $result;

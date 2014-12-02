@@ -66,7 +66,7 @@ $view->view->script = $script;
 
 
 $names = array ();
-$books = Filter_Books::getOrdered ($bible);
+$books = filter_passage_get_ordered_books ($bible);
 foreach ($books as $book) {
   $names [] = $database_books->getEnglishFromId ($book);
 }

@@ -113,7 +113,7 @@ if (isset ($words)) {
       $chapter = $detail ['chapter'];
       $verse = $detail ['verse'];
       $passage = array ($book, $chapter, $verse);
-      $passage = Filter_Books::passage2integer ($passage);
+      $passage = filter_passage_to_integer ($passage);
       if (isset ($passages [$passage])) $passages [$passage]++;
       else $passages [$passage] = 1;
     }
@@ -139,7 +139,7 @@ if (isset ($words)) {
 if (isset ($id)) {
   
   // Get the and passage for this identifier.
-  $passage = Filter_Books::integer2passage ($id);
+  $passage = filter_integer_to_passage ($id);
   $book = $passage [0];
   $chapter = $passage [1];
   $verse = $passage [2];
@@ -148,7 +148,7 @@ if (isset ($id)) {
   $text = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
 
   // Format it.
-  $link = Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+  $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
   $output = "<div>$link $text</div>";
   
   // Output to browser.

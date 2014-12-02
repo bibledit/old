@@ -55,7 +55,7 @@ if ($searchplain) {
 
 
 // Clickable passage.
-$link = Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+$link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
 
 
 $oldtext =  Filter_Markup::words (array ($searchfor), $text);

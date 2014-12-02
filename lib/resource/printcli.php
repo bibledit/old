@@ -47,12 +47,12 @@ $resources = $database_config_user->getPrintResourcesForUser ($user);
 
 $from = $database_config_user->getPrintPassageFromForUser ($user);
 $passage = explode (".", $from);
-$from = Filter_Books::passage2integer ($passage);
+$from = filter_passage_to_integer ($passage);
 
 
 $to = $database_config_user->getPrintPassageToForUser ($user);
 $passage = explode (".", $to);
-$to = Filter_Books::passage2integer ($passage);
+$to = filter_passage_to_integer ($passage);
 
 
 $result = array ();
@@ -65,7 +65,7 @@ foreach ($books as $book) {
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
     $verses = usfm_get_verse_numbers ($usfm);
     foreach ($verses as $verse) {
-      $passage = Filter_Books::passage2integer (array ($book, $chapter, $verse));
+      $passage = filter_passage_to_integer (array ($book, $chapter, $verse));
       if (($passage >= $from) && ($passage <= $to)) {
         $passageText = filter_passage_display ($book, $chapter, $verse);
         $database_jobs->setProgress ($jobId, $passageText);

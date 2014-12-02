@@ -38,6 +38,17 @@ public:
 
 
 string filter_passage_display (int book, int chapter, string verse);
+string filter_passage_display_inline (vector <Passage> passages);
+string filter_passage_display_multiline (vector <Passage> passages);
+int filter_passage_to_integer (Passage passage);
+Passage filter_integer_to_passage (int integer);
+int filter_passage_interpret_book (string book);
+string filter_passage_clean_passage (string text);
+Passage filter_passage_explode_passage (string text);
+Passage filter_passage_interpret_passage (Passage currentPassage, string rawPassage);
+vector <string> filter_passage_handle_sequences_ranges (const string& passage);
+string filter_passage_link_for_opening_editor_at (int book, int chapter, string verse);
+vector <int> filter_passage_get_ordered_books (const string& bible);
 
 
 #endif

@@ -38,6 +38,7 @@ public:
   static int getIdFromBibleworks (string bibleworks);
   static int getIdLikeText (string text);
   static int getIdFromOnlinebible (string onlinebible);
+  static int getIdLastEffort (string text);
   static string getOnlinebibleFromId (int id);
   static int getSequenceFromId (int id);
   static string getType (int id);

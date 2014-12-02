@@ -80,7 +80,7 @@ foreach ($identifiers as $identifier) {
   $summary = $database_notes->getSummary ($identifier);
 
   $passages = $database_notes->getPassages ($identifier);
-  $verses = Filter_Books::passagesDisplayInline ($passages);
+  $verses = Filter_Books::filter_passage_display_inline ($passages);
   $summaries[] = $summary . " | " . $verses;
 
   $verse_text = "";

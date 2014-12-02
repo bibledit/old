@@ -52,7 +52,7 @@ class Trash_Handler
     $database_modifications = Database_Modifications::getInstance ();
     $database_logs = Database_Logs::getInstance ();
     $passage = $database_modifications->getNotificationPassage ($id);
-    $passageText = Filter_Books::passagesDisplayInline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
+    $passageText = Filter_Books::filter_passage_display_inline (array (array ($passage['book'], $passage['chapter'], $passage['verse'])));
     $modification = $database_modifications->getNotificationModification ($id);
     $session_logic = Session_Logic::getInstance ();
     $username = $session_logic->currentUser ();
@@ -65,7 +65,7 @@ class Trash_Handler
     $database_notes = Database_Notes::getInstance ();
     $database_logs = Database_Logs::getInstance ();
     $passage = $database_notes->getPassages ($id);
-    $passageText = Filter_Books::passagesDisplayInline ($passage);
+    $passageText = Filter_Books::filter_passage_display_inline ($passage);
     $summary = $database_notes->getSummary ($id);
     $contents = $database_notes->getContents ($id);
     $contents = Filter_Html::html2text ($contents);

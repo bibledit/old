@@ -111,7 +111,7 @@ $status = $database_notes->getStatus ($id);
 $view->view->status = $status;
 
 
-$verses = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($id));
+$verses = Filter_Books::filter_passage_display_inline ($database_notes->getPassages ($id));
 $view->view->verses = $verses;
 
 

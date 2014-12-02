@@ -94,7 +94,7 @@ $categories = array ();
 $modifications = array ();
 foreach ($ids as $id) {
   $passage = $database_modifications->getNotificationPassage ($id);
-  $link = Filter_Books::linkForOpeningEditorAt ($passage['book'], $passage['chapter'], $passage['verse']);
+  $link = filter_passage_link_for_opening_editor_at ($passage['book'], $passage['chapter'], $passage['verse']);
   $links [] = $link;
   $category = $database_modifications->getNotificationCategory ($id);
   $category = Filter_Html::sanitize ($category);

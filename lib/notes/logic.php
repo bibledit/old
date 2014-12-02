@@ -489,7 +489,7 @@ class Notes_Logic
 
     // Send mail to all users.
     $summary = $database_notes->getSummary ($identifier);
-    $passages = Filter_Books::passagesDisplayInline ($database_notes->getPassages ($identifier));
+    $passages = Filter_Books::filter_passage_display_inline ($database_notes->getPassages ($identifier));
     $contents = $database_notes->getContents ($identifier);
 
     // Include a link to the note on the site.
@@ -610,7 +610,7 @@ class Notes_Logic
     $summary = NULL;
     $subject = explode (" ", $subject);
     if (count ($subject) > 0) {
-      $book = Filter_Books::interpretBook ($subject[0]);
+      $book = filter_passage_interpret_book ($subject[0]);
     }
     if (count ($subject) > 1) {
       $chapter = Filter_Numeric::integer_in_string ($subject[1]);

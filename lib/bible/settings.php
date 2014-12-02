@@ -110,7 +110,7 @@ if ($deletebook != "") {
 
 // Available books.
 $book_names = array ();
-$book_ids = Filter_Books::getOrdered ($bible);
+$book_ids = filter_passage_get_ordered_books ($bible);
 foreach ($book_ids as $book) {
   $book_name = $database_books->getEnglishFromId ($book);
   $book_name = Locale_Translate::_($book_name);

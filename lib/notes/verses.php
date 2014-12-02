@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
   foreach ($verses as $line) {
     $line = trim ($line);
     if ($line != "") {
-      $passage = Filter_Books::interpretPassage ($previousPassage, $line);
+      $passage = filter_passage_interpret_passage ($previousPassage, $line);
       if ($passage[0] != 0) {
         $passages [] = $passage;
         $previousPassage = $passage;
@@ -59,7 +59,7 @@ $view = new Assets_View (__FILE__);
 $view->view->id = $id;
 
 
-$verses = Filter_Books::passagesDisplayMultiline ($database_notes->getPassages ($id));
+$verses = filter_passage_display_multiline ($database_notes->getPassages ($id));
 $view->view->verses = $verses;
 
 

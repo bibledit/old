@@ -282,6 +282,31 @@ string Database_Books::getOnlinebibleFromId (int id)
 }
 
 
+int Database_Books::getIdLastEffort (string text)
+{
+  // Remove all spaces.
+  text = filter_string_str_replace (" ", "", text);
+  text = unicode_string_casefold (text);
+  // Length.
+  int length = text.length ();
+  // Go through all book data, convert everything to lower case, and remove all spaces, and compare only "length" characters.
+  for (unsigned int i = 0; i < data_count(); i++) {
+    string book;
+    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].english));
+    if (text == book.substr (0, length)) return books_table[i].id;
+    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].osis));
+    if (text == book.substr (0, length)) return books_table[i].id;
+    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].usfm));
+    if (text == book.substr (0, length)) return books_table[i].id;
+    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].bibleworks));
+    if (text == book.substr (0, length)) return books_table[i].id;
+    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].onlinebible));
+    if (text == book.substr (0, length)) return books_table[i].id;
+  }
+  return 0;
+}
+
+
 int Database_Books::getSequenceFromId (int id)
 {
   for (unsigned int i = 0; i < data_count(); i++) {

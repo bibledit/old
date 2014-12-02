@@ -123,7 +123,7 @@ class Navigation_Passage
     if ($bible == "") {
       $books = $database_books->getIDs ();
     } else {
-      $books = Filter_Books::getOrdered ($bible);
+      $books = filter_passage_get_ordered_books ($bible);
     }
     $html = "";
     foreach ($books as $book) {
@@ -214,7 +214,7 @@ class Navigation_Passage
     } else if ($passage == "-") {
       $passage = Navigation_Passage::getPreviousVerse ($bible, $currentBook, $currentChapter, $currentVerse);
     } else {
-      $passage = Filter_Books::interpretPassage (array ($currentBook, $currentChapter, $currentVerse), $passage);
+      $passage = filter_passage_interpret_passage (array ($currentBook, $currentChapter, $currentVerse), $passage);
     }
     if ($passage[0] != 0) {
       $ipc_focus->set ($passage [0], $passage [1], $passage [2]);

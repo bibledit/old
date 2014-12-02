@@ -35,7 +35,7 @@ $bible = $database_config_user->getTargetXrefBible ();
 $currentBook = $ipc_focus->getBook ();
 $currentChapter = $ipc_focus->getChapter ();
 $currentPassage = array ($currentBook, $currentChapter, 1);
-$currentLocation = Filter_Books::passage2integer ($currentPassage);
+$currentLocation = filter_passage_to_integer ($currentPassage);
 
 
 $books = $database_bibles->getBooks ($bible);
@@ -44,7 +44,7 @@ foreach ($books as $book) {
   foreach ($chapters as $chapter) {
     if ($chapter == 0) continue;
     $passage = array ($book, $chapter, 1);
-    $location = Filter_Books::passage2integer ($passage);
+    $location = filter_passage_to_integer ($passage);
     if ($location > $currentLocation) {
       $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
       $xrefs = Filter_Usfm::extractNotes ($usfm, array ("x"));

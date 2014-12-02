@@ -76,7 +76,7 @@ foreach ($hits as $hit) {
     $book = $hit['book'];
     $chapter = $hit['chapter'];
     $verse = $hit['verse'];
-    $link = Filter_Books::linkForOpeningEditorAt ($book, $chapter, $verse);
+    $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
     $links [] = $link;
     $information [] = Filter_Html::sanitize ($hit['data']);
   }
