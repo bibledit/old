@@ -1907,6 +1907,24 @@ void test_filters_test14 ()
 }
 
 
+void test_filters_test15 () // Todo
+{
+  Passage passage = Passage ();
+  evaluate (__LINE__, __func__, "", passage.bible);
+  evaluate (__LINE__, __func__, 0, passage.book);
+  evaluate (__LINE__, __func__, 0, passage.chapter);
+  evaluate (__LINE__, __func__, "", passage.verse);
+  passage = Passage ("bible", 1, 2, "3");
+  evaluate (__LINE__, __func__, "bible", passage.bible);
+  evaluate (__LINE__, __func__, 1, passage.book);
+  evaluate (__LINE__, __func__, 2, passage.chapter);
+  evaluate (__LINE__, __func__, "3", passage.verse);
+  evaluate (__LINE__, __func__, true, passage.equal (passage));
+  Passage passage2 = Passage ("bible", 1, 2, "4");
+  evaluate (__LINE__, __func__, false, passage.equal (passage2));
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -1928,6 +1946,7 @@ void test_filters ()
   refresh_sandbox (true);
   test_filters_test13 ();
   test_filters_test14 ();
+  test_filters_test15 ();
 }
 
 

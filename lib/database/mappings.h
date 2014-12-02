@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #include <sqlite3.h>
+#include <filter/passage.h>
 
 
 class Database_Mappings
@@ -40,6 +41,7 @@ public:
   void erase (const string & name);
   vector <string> names ();
   string original ();
+  vector <Passage> translate (const string& input, const string& output, int book, int chapter, int verse);
 private:
   sqlite3 * connect ();
 };

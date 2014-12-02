@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/mappings.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <filter/passage.h>
 #include <database/sqlite.h>
 #include <database/books.h>
 
@@ -135,11 +134,11 @@ void Database_Mappings::import (const string& name, const string& data)
     string spassage = filter_string_trim (entry [0]);
     string soriginal = filter_string_trim (entry [1]);
     
-    Passage passage = Passage (); // C++Port = Filter_Books::interpretPassage (lastPassage, spassage);
+    Passage passage = Passage (); // Todo C++Port = Filter_Books::interpretPassage (lastPassage, spassage);
     lastPassage.book = passage.book;
     lastPassage.chapter = passage.chapter;
     lastPassage.verse = passage.verse;
-    Passage original = Passage (); // C++Port = Filter_Books::interpretPassage (lastOriginal, soriginal);
+    Passage original = Passage (); // Todo C++Port = Filter_Books::interpretPassage (lastOriginal, soriginal);
     lastOriginal.book = original.book;
     lastOriginal.chapter = original.chapter;
     lastOriginal.verse = original.verse;
@@ -266,115 +265,94 @@ string Database_Mappings::original ()
 // It returns an array with one passage in most cases.
 // When the verses in the $input and $output versifications overlap,
 // it may return an array with two passages.
-public function translate ($input, $output, $book, $chapter, $verse)
+vector <Passage> Database_Mappings::translate (const string& input, const string& output, int book, int chapter, int verse)
 {
   // Care for situation that the input and output are the same.
-  if ($input == $output) {
-    $passage = array ($book, $chapter, $verse);
-    return array ($passage);
+  if (input == output) {
+    Passage passage = Passage ("", book, chapter, convert_to_string (verse));
+    return {passage};
   }
 
   // Get the $input mapping for the passage from the database.
   // This maps the $input to the Hebrew/Greek versification system.
   // Skip this phase if the $input mapping is Hebrew / Greek.
-  $origpassage = array ();
-  if ($input != $this->original ()) {
-    $input = Database_SQLiteInjection::no ($input);
-    $book = (integer) $book;
-    $chapter = (integer) $chapter;
-    $verse = (integer) $verse;
-    $query = "SELECT origbook, origchapter, origverse FROM maps WHERE name = '$input' AND book = $book AND chapter = $chapter AND verse = $verse;";
-    $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
-      unset ($row ['origbook']);
-      unset ($row ['origchapter']);
-      unset ($row ['origverse']);
-      $origpassage [] = $row;
+  vector <Passage> origpassage;
+  if (input != original ()) {
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT origbook, origchapter, origverse FROM maps WHERE name =");
+    sql.add (input);
+    sql.add ("AND book =");
+    sql.add (book);
+    sql.add ("AND chapter =");
+    sql.add (chapter);
+    sql.add ("AND verse =");
+    sql.add (verse);
+    sql.add (";");
+    sqlite3 * db = connect ();
+    map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+    database_sqlite_disconnect (db);
+    vector <string> origbooks = result ["origbook"];
+    vector <string> origchapters = result ["origchapter"];
+    vector <string> origverses = result ["origverse"];
+    for (unsigned int i = 0; i < origbooks.size (); i++) {
+      Passage passage = Passage ("", convert_to_int (origbooks [i]), convert_to_int (origchapters [i]), origverses [i]);
+      origpassage.push_back (passage);
     }
   }
   
   // Check that the search yields a passage.
   // If there is none, it means that the $input passage is the same as in Hebrew/Greek.
-  if (empty ($origpassage)) {
-    $passage = array ($book, $chapter, $verse);
-    $origpassage = array ($passage);
+  if (origpassage.empty ()) {
+    Passage passage = Passage ("", book, chapter, convert_to_string (verse));
+    origpassage.push_back (passage);
   }
 
   // If the $output mapping is Hebrew/Greek, then we're done.
-  if ($output == $this->original ()) {
-    return $origpassage;
+  if (output == original ()) {
+    return origpassage;
   }
   
   // Get the $output mapping for the passage or two passages from the database.
   // This is a translation from Hebrew/Greek to the $output system.
-  $targetpassage = array ();
-  $output = Database_SQLiteInjection::no ($output);
-  foreach ($origpassage as $passage) {
-    $origbook = $passage [0];
-    $origchapter = $passage [1];
-    $origverse = $passage [2];
-    $query = "SELECT book, chapter, verse FROM maps WHERE name = '$output' AND origbook = $origbook AND origchapter = $origchapter AND origverse = $origverse;";
-    $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
-      unset ($row ['book']);
-      unset ($row ['chapter']);
-      unset ($row ['verse']);
-      $row [0] = (integer) $row [0];
-      $row [1] = (integer) $row [1];
-      $row [2] = (integer) $row [2];
-      if (array_search ($row, $targetpassage) === false) {
-        $targetpassage [] = $row;
+  vector <Passage> targetpassage;
+  for (Passage & passage : origpassage) {
+    int origbook = passage.book;
+    int origchapter = passage.chapter;
+    int origverse = convert_to_int (passage.verse);
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT book, chapter, verse FROM maps WHERE name =");
+    sql.add (output);
+    sql.add ("AND origbook =");
+    sql.add (origbook);
+    sql.add ("AND origchapter =");
+    sql.add (origchapter);
+    sql.add ("AND origverse =");
+    sql.add (origverse);
+    sql.add (";");
+    sqlite3 * db = connect ();
+    map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+    database_sqlite_disconnect (db);
+    vector <string> books = result ["book"];
+    vector <string> chapters = result ["chapter"];
+    vector <string> verses = result ["verse"];
+    for (unsigned int i = 0; i < books.size (); i++) {
+      Passage passage = Passage ("", convert_to_int (books [i]), convert_to_int (chapters [i]), verses [i]);
+      bool passageExists = false;
+      for (auto & existingpassage : targetpassage) {
+        if (existingpassage.equal (passage)) passageExists = true;
       }
+      if (!passageExists) targetpassage.push_back (passage);
     }
   }
   
   // Check that the search yields a passage.
   // If none, it means that the $output passage is the same as in Hebrew/Greek.
-  if (empty ($targetpassage)) {
-    $targetpassage = $origpassage;
+  if (targetpassage.empty()) {
+    targetpassage = origpassage;
   }
   
   // Result.
-  return $targetpassage;
+  return targetpassage;
 }
 
 
-
-/* Todo old stuff
-
-vector <int> Database_Mappings::getChapters (string bible, int book)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT DISTINCT chapter FROM bibleactions WHERE bible =");
-  sql.add (bible);
-  sql.add ("AND book =");
-  sql.add (book);
-  sql.add ("ORDER BY chapter;");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql)["chapter"];
-  database_sqlite_disconnect (db);
-  vector <int> chapters;
-  for (auto chapter : result) chapters.push_back (convert_to_int (chapter));
-  return chapters;
-}
-
-
-string Database_Mappings::getUsfm (string bible, int book, int chapter)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT usfm FROM bibleactions WHERE bible =");
-  sql.add (bible);
-  sql.add ("AND book =");
-  sql.add (book);
-  sql.add ("AND chapter =");
-  sql.add (chapter);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql)["usfm"];
-  database_sqlite_disconnect (db);
-  for (auto usfm : result) return usfm;
-  return "";
-}
-
-
-*/

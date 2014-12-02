@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/navigation.h>
 #include <database/resources.h>
 #include <database/usfmresources.h>
+#include <database/mappings.h>
 
 
 void test_database_styles ()
@@ -1499,5 +1500,192 @@ void test_database_usfmresources ()
   }
 }
 
+
+void test_database_mappings ()
+{
+  // Setup
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    database_mappings.defaults ();
+    database_mappings.create2 ();
+    database_mappings.optimize ();
+    vector <string> names = database_mappings.names ();
+    evaluate (__LINE__, __func__, {"Dutch Traditional", "English", "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
+  }
+  // Import Export
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import = 
+      "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+      "Nehemiah 4:1 = Nehemiah 3:33\n"
+      "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("phpunit", import);
+    vector <string> names = database_mappings.names ();
+    evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
+    string output = database_mappings.output ("phpunit");
+    // Todo fix filters first. evaluate (__LINE__, __func__, import, output);
+  }
+
+}
 /* Todo
+
+
+  public function testCreate ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create ("phpunit");
+    names = database_mappings.names ();
+    this.assertContains ("phpunit", names);
+  }
+    
+  
+  public function testTranslateSame ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    passage = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
+    this.assertEquals (array (array (14, 14, 15)), passage);
+    passage = database_mappings.translate ("--X", "--X", 15, 16, 17);
+    this.assertEquals (array (array (15, 16, 17)), passage);
+  }
+  
+  
+  public function testTranslateOne ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:15 = 2 Chronicles 14:14
+Nehemiah 4:1 = Nehemiah 3:33
+Song of Solomon 7:2 = Song of Solomon 7:3
+EOD;
+    database_mappings.import ("ABC", import);
+import = <<< EOD
+2 Chronicles 14:15 = 2 Chronicles 14:14
+Nehemiah 4:1 = Nehemiah 3:33
+Song of Solomon 7:2 = Song of Solomon 7:3
+EOD;
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    passage = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    this.assertEquals (array (array (14, 14, 15)), passage);
+  }
+
+
+  public function testTranslateTwo ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:15 = 2 Chronicles 14:14
+Nehemiah 4:1 = Nehemiah 3:33
+Song of Solomon 7:2 = Song of Solomon 7:3
+EOD;
+    database_mappings.import ("ABC", import);
+import = <<< EOD
+2 Chronicles 14:13 = 2 Chronicles 14:14
+Nehemiah 4:1 = Nehemiah 3:33
+Song of Solomon 7:2 = Song of Solomon 7:3
+EOD;
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    passage = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    this.assertEquals (array (array (14, 14, 13)), passage);
+  }
+
+
+  public function testTranslateDoubleResult ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:15 = 2 Chronicles 14:14
+Nehemiah 4:1 = Nehemiah 3:33
+Song of Solomon 7:2 = Song of Solomon 7:3
+EOD;
+    database_mappings.import ("ABC", import);
+import = <<< EOD
+2 Chronicles 14:12 = 2 Chronicles 14:14
+2 Chronicles 14:13 = 2 Chronicles 14:14
+Nehemiah 4:1 = Nehemiah 3:33
+Song of Solomon 7:2 = Song of Solomon 7:3
+EOD;
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    passage = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    this.assertEquals (array (array (14, 14, 12), array (14, 14, 13)), passage);
+  }
+
+
+  public function testTranslateFromOriginal ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:12 = 2 Chronicles 14:14
+EOD;
+    database_mappings.import ("VVV", import);
+    passage = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    this.assertEquals (array (array (14, 14, 12)), passage);
+  }
+
+
+  public function testTranslateFromOriginalDouble ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:12 = 2 Chronicles 14:14
+2 Chronicles 14:13 = 2 Chronicles 14:14
+EOD;
+    database_mappings.import ("VVV", import);
+    passage = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    this.assertEquals (array (array (14, 14, 12), array (14, 14, 13)), passage);
+  }
+
+
+  public function testTranslateFromOriginalNoMapping ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:12 = 2 Chronicles 14:14
+EOD;
+    database_mappings.import ("VVV", import);
+    passage = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
+    this.assertEquals (array (array (14, 15, 14)), passage);
+  }
+
+
+  public function testTranslateToOriginal ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:12 = 2 Chronicles 14:14
+EOD;
+    database_mappings.import ("ABA", import);
+    passage = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    this.assertEquals (array (array (14, 14, 14)), passage);
+  }
+
+
+  public function testTranslateToOriginalDouble ()
+  {
+    database_mappings = Database_Mappings::getInstance ();
+    database_mappings.create1 ();
+import = <<< EOD
+2 Chronicles 14:12 = 2 Chronicles 14:13
+2 Chronicles 14:12 = 2 Chronicles 14:14
+EOD;
+    database_mappings.import ("ABA", import);
+    passage = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    this.assertEquals (array (array (14, 14, 13), array (14, 14, 14)), passage);
+  }
+
+
+
 */

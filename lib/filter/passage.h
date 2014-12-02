@@ -33,6 +33,7 @@ public:
   int book;
   int chapter;
   string verse;
+  bool equal (Passage & passage);
 };
 
 
