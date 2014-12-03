@@ -45,6 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/resources.h>
 #include <database/usfmresources.h>
 #include <database/mappings.h>
+#include <database/noteactions.h>
 
 
 void test_database_styles ()
@@ -1688,8 +1689,86 @@ void test_database_mappings ()
   }
 
 }
-/* Todo
 
+
+void test_database_noteactions ()
+{
+  // Basic tests: create / clear / optimize.
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    database.clear ();
+    database.optimize ();
+  }
+  // Record
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    database.record ("phpunit", 2, 3, "content");
+    vector <int> notes = database.getNotes ();
+    evaluate (__LINE__, __func__, {2}, notes);
+  }
+  // Get Notes
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    database.record ("phpunit", 2, 3, "content");
+    database.record ("phpunit", 2, 4, "content");
+    database.record ("phpunit", 3, 3, "content");
+    vector <int> notes = database.getNotes ();
+    evaluate (__LINE__, __func__, {2, 3}, notes);
+  }
+  // Get Note Data
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    database.record ("phpunit1", 2, 3, "content3");
+    database.record ("phpunit2", 2, 4, "content4");
+    database.record ("phpunit3", 3, 4, "content5");
+    vector <Database_Note_Action> data = database.getNoteData (2);
+    evaluate (__LINE__, __func__, 2, data.size());
+    int now = filter_string_date_seconds_since_epoch ();
+    evaluate (__LINE__, __func__, 1, data[0].rowid);
+    evaluate (__LINE__, __func__, "phpunit1", data[0].username);
+    if ((data[0].timestamp < now) || (data[0].timestamp > now + 1)) evaluate (__LINE__, __func__, now, data[0].timestamp);
+    evaluate (__LINE__, __func__, 3, data[0].action);
+    evaluate (__LINE__, __func__, "content3", data[0].content);
+    evaluate (__LINE__, __func__, 2, data[1].rowid);
+    evaluate (__LINE__, __func__, "phpunit2", data[1].username);
+    if ((data[1].timestamp < now) || (data[1].timestamp > now + 1)) evaluate (__LINE__, __func__, now, data[1].timestamp);
+    evaluate (__LINE__, __func__, 4, data[1].action);
+    evaluate (__LINE__, __func__, "content4", data[1].content);
+  }
+  // Update Notes.
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    database.record ("phpunit", 2, 3, "content");
+    database.record ("phpunit", 2, 4, "content");
+    database.record ("phpunit", 3, 3, "content");
+    database.updateNotes (2, 12345);
+    vector <int> notes = database.getNotes ();
+    evaluate (__LINE__, __func__, {12345, 3}, notes);
+  }
+  // Delete.
+  {
+    refresh_sandbox (true);
+    Database_NoteActions database = Database_NoteActions ();
+    database.create ();
+    database.record ("phpunit1", 2, 3, "content1");
+    database.record ("phpunit2", 4, 5, "content2");
+    database.erase (1);
+    vector <int> notes = database.getNotes ();
+    evaluate (__LINE__, __func__, {4}, notes);
+  }
+}
+
+/* Todo
 
 
 */

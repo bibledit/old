@@ -51,6 +51,7 @@ libbibledit_a_SOURCES = \
 	database/resources.cpp \
 	database/usfmresources.cpp \
 	database/mappings.cpp \
+	database/noteactions.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

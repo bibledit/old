@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,9 +15,44 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-include ("utils.php");
-display_header (true);
-display_active ();
-display_paragraph ("Creating and upgrading the verse mappings database. Takes a while.");
-display_footer ();
-?>
+
+
+#ifndef INCLUDED_DATABASE_NOTEACTIONS_H
+#define INCLUDED_DATABASE_NOTEACTIONS_H
+
+
+#include <config/libraries.h>
+#include <sqlite3.h>
+#include <filter/passage.h>
+
+
+class Database_Note_Action
+{
+public:
+  int rowid;
+  string username;
+  int timestamp;
+  int action;
+  string content;
+};
+
+
+class Database_NoteActions
+{
+public:
+  Database_NoteActions ();
+  ~Database_NoteActions ();
+  void create ();
+  void clear ();
+  void optimize ();
+  void record (const string& username, int note, int action, const string& content);
+  vector <int> getNotes ();
+  vector <Database_Note_Action> getNoteData (int note);
+  void updateNotes (int oldId, int newId);
+  void erase (int rowid);
+private:
+  sqlite3 * connect ();
+};
+
+
+#endif

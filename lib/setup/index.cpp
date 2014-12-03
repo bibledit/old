@@ -34,6 +34,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sprint.h>
 #include <database/mail.h>
 #include <database/navigation.h>
+#include <database/mappings.h>
+#include <database/noteactions.h>
 
 
 void setup_create_databases (Webserver_Request * request)
@@ -59,6 +61,13 @@ void setup_create_databases (Webserver_Request * request)
   database_mail.create ();
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
+  Database_Mappings database_mappings = Database_Mappings ();
+  database_mappings.create1 ();
+  database_mappings.defaults ();
+  database_mappings.create2 ();
+  database_mappings.optimize ();
+  Database_NoteActions database = Database_NoteActions ();
+  database.create ();
 }
 
 
