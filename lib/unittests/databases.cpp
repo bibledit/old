@@ -1527,164 +1527,168 @@ void test_database_mappings ()
     vector <string> names = database_mappings.names ();
     evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
     string output = database_mappings.output ("phpunit");
-    // Todo fix filters first. evaluate (__LINE__, __func__, import, output);
+    evaluate (__LINE__, __func__, filter_string_trim (import), filter_string_trim (output));
+  }
+  // Create
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    database_mappings.create ("phpunit");
+    vector <string> names = database_mappings.names ();
+    evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
+  }
+  // Translate Same
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
+    evaluate (__LINE__, __func__, 1, passages.size ());
+    Passage standard = Passage ("", 14, 14, "15");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    passages = database_mappings.translate ("--X", "--X", 15, 16, 17);
+    standard = Passage ("", 15, 16, "17");
+    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import = 
+      "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+      "Nehemiah 4:1 = Nehemiah 3:33\n"
+      "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("ABC", import);
+    import =
+      "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+      "Nehemiah 4:1 = Nehemiah 3:33\n"
+      "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    Passage standard = Passage ("", 14, 14, "15");
+    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import =
+      "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+      "Nehemiah 4:1 = Nehemiah 3:33\n"
+      "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("ABC", import);
+    import =
+      "2 Chronicles 14:13 = 2 Chronicles 14:14\n"
+      "Nehemiah 4:1 = Nehemiah 3:33\n"
+      "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    Passage standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate Double Result.
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import =
+      "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+      "Nehemiah 4:1 = Nehemiah 3:33\n"
+      "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("ABC", import);
+    import =
+      "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
+      "2 Chronicles 14:13 = 2 Chronicles 14:14\n"
+      "Nehemiah 4:1 = Nehemiah 3:33\n"
+      "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    evaluate (__LINE__, __func__, 2, passages.size ());
+    Passage standard = Passage ("", 14, 14, "12");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+  }
+  // Translate From Original
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    database_mappings.import ("VVV", import);
+    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    Passage standard = Passage ("", 14, 14, "12");
+    evaluate (__LINE__, __func__, 1, passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate From Original Double
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import =
+      "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
+      "2 Chronicles 14:13 = 2 Chronicles 14:14\n";
+    database_mappings.import ("VVV", import);
+    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    evaluate (__LINE__, __func__, 2, passages.size ());
+    Passage standard = Passage ("", 14, 14, "12");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+  }
+  // Translate From Original No Mapping
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    database_mappings.import ("VVV", import);
+    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
+    evaluate (__LINE__, __func__, 1, passages.size ());
+    Passage standard = Passage ("", 14, 15, "14");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate To Original
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    database_mappings.import ("ABA", import);
+    vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    evaluate (__LINE__, __func__, 1, passages.size ());
+    Passage standard = Passage ("", 14, 14, "14");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate To Original Double
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings = Database_Mappings ();
+    database_mappings.create1 ();
+    string import =
+      "2 Chronicles 14:12 = 2 Chronicles 14:13\n"
+      "2 Chronicles 14:12 = 2 Chronicles 14:14\n";
+    database_mappings.import ("ABA", import);
+    vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    evaluate (__LINE__, __func__, 2, passages.size ());
+    Passage standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    standard = Passage ("", 14, 14, "14");
+    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
   }
 
 }
 /* Todo
-
-
-  public function testCreate ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create ("phpunit");
-    names = database_mappings.names ();
-    this.assertContains ("phpunit", names);
-  }
-    
-  
-  public function testTranslateSame ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    passage = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
-    this.assertEquals (array (array (14, 14, 15)), passage);
-    passage = database_mappings.translate ("--X", "--X", 15, 16, 17);
-    this.assertEquals (array (array (15, 16, 17)), passage);
-  }
-  
-  
-  public function testTranslateOne ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:15 = 2 Chronicles 14:14
-Nehemiah 4:1 = Nehemiah 3:33
-Song of Solomon 7:2 = Song of Solomon 7:3
-EOD;
-    database_mappings.import ("ABC", import);
-import = <<< EOD
-2 Chronicles 14:15 = 2 Chronicles 14:14
-Nehemiah 4:1 = Nehemiah 3:33
-Song of Solomon 7:2 = Song of Solomon 7:3
-EOD;
-    database_mappings.import ("XYZ", import);
-    // Test mapping 2 Chronicles.
-    passage = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
-    this.assertEquals (array (array (14, 14, 15)), passage);
-  }
-
-
-  public function testTranslateTwo ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:15 = 2 Chronicles 14:14
-Nehemiah 4:1 = Nehemiah 3:33
-Song of Solomon 7:2 = Song of Solomon 7:3
-EOD;
-    database_mappings.import ("ABC", import);
-import = <<< EOD
-2 Chronicles 14:13 = 2 Chronicles 14:14
-Nehemiah 4:1 = Nehemiah 3:33
-Song of Solomon 7:2 = Song of Solomon 7:3
-EOD;
-    database_mappings.import ("XYZ", import);
-    // Test mapping 2 Chronicles.
-    passage = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
-    this.assertEquals (array (array (14, 14, 13)), passage);
-  }
-
-
-  public function testTranslateDoubleResult ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:15 = 2 Chronicles 14:14
-Nehemiah 4:1 = Nehemiah 3:33
-Song of Solomon 7:2 = Song of Solomon 7:3
-EOD;
-    database_mappings.import ("ABC", import);
-import = <<< EOD
-2 Chronicles 14:12 = 2 Chronicles 14:14
-2 Chronicles 14:13 = 2 Chronicles 14:14
-Nehemiah 4:1 = Nehemiah 3:33
-Song of Solomon 7:2 = Song of Solomon 7:3
-EOD;
-    database_mappings.import ("XYZ", import);
-    // Test mapping 2 Chronicles.
-    passage = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
-    this.assertEquals (array (array (14, 14, 12), array (14, 14, 13)), passage);
-  }
-
-
-  public function testTranslateFromOriginal ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:12 = 2 Chronicles 14:14
-EOD;
-    database_mappings.import ("VVV", import);
-    passage = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
-    this.assertEquals (array (array (14, 14, 12)), passage);
-  }
-
-
-  public function testTranslateFromOriginalDouble ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:12 = 2 Chronicles 14:14
-2 Chronicles 14:13 = 2 Chronicles 14:14
-EOD;
-    database_mappings.import ("VVV", import);
-    passage = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
-    this.assertEquals (array (array (14, 14, 12), array (14, 14, 13)), passage);
-  }
-
-
-  public function testTranslateFromOriginalNoMapping ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:12 = 2 Chronicles 14:14
-EOD;
-    database_mappings.import ("VVV", import);
-    passage = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
-    this.assertEquals (array (array (14, 15, 14)), passage);
-  }
-
-
-  public function testTranslateToOriginal ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:12 = 2 Chronicles 14:14
-EOD;
-    database_mappings.import ("ABA", import);
-    passage = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    this.assertEquals (array (array (14, 14, 14)), passage);
-  }
-
-
-  public function testTranslateToOriginalDouble ()
-  {
-    database_mappings = Database_Mappings::getInstance ();
-    database_mappings.create1 ();
-import = <<< EOD
-2 Chronicles 14:12 = 2 Chronicles 14:13
-2 Chronicles 14:12 = 2 Chronicles 14:14
-EOD;
-    database_mappings.import ("ABA", import);
-    passage = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    this.assertEquals (array (array (14, 14, 13), array (14, 14, 14)), passage);
-  }
 
 
 
