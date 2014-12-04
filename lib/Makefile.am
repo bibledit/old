@@ -53,6 +53,7 @@ libbibledit_a_SOURCES = \
 	database/mappings.cpp \
 	database/noteactions.cpp \
 	database/versifications.cpp \
+	database/modifications.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

@@ -130,7 +130,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/navigation.$(OBJEXT) database/resources.$(OBJEXT) \
 	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
 	database/noteactions.$(OBJEXT) \
-	database/versifications.$(OBJEXT) session/logic.$(OBJEXT) \
+	database/versifications.$(OBJEXT) \
+	database/modifications.$(OBJEXT) session/logic.$(OBJEXT) \
 	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
@@ -389,6 +390,7 @@ libbibledit_a_SOURCES = \
 	database/mappings.cpp \
 	database/noteactions.cpp \
 	database/versifications.cpp \
+	database/modifications.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -654,6 +656,8 @@ database/noteactions.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/versifications.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
+database/modifications.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
 	@: > session/$(am__dirstamp)
@@ -890,6 +894,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mappings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/modifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/morphhb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/navigation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/noteactions.Po@am__quote@
