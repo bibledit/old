@@ -52,6 +52,7 @@ libbibledit_a_SOURCES = \
 	database/usfmresources.cpp \
 	database/mappings.cpp \
 	database/noteactions.cpp \
+	database/versifications.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -85,7 +86,7 @@ unittest_SOURCES = \
 
 unittest_LDADD = libbibledit.a
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11
+AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
 AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 

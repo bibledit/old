@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/usfmresources.h>
 #include <database/mappings.h>
 #include <database/noteactions.h>
+#include <database/versifications.h>
 
 
 void test_database_styles ()
@@ -1768,6 +1769,84 @@ void test_database_noteactions ()
   }
 }
 
+
+void test_database_versifications ()
+{
+  // Basic operations, create, delete.
+  {
+    refresh_sandbox (true);
+    Database_Versifications database_versifications = Database_Versifications ();
+    database_versifications.create ();
+    database_versifications.optimize ();
+    int id = database_versifications.createSystem ("phpunit");
+    evaluate (__LINE__, __func__, 1000, id);
+    id = database_versifications.getID ("phpunit");
+    evaluate (__LINE__, __func__, 1000, id);
+    vector <string> systems = database_versifications.getSystems ();
+    evaluate (__LINE__, __func__, {"phpunit"}, systems);
+    database_versifications.erase ("phpunit");
+    systems = database_versifications.getSystems ();
+    evaluate (__LINE__, __func__, {}, systems);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Versifications database_versifications = Database_Versifications ();
+    database_versifications.create ();
+    database_versifications.defaults ();
+
+    // GetID
+    int id = database_versifications.getID ("English");
+    evaluate (__LINE__, __func__, 7 , id);
+
+    // Test books.
+    vector <int> books = database_versifications.getBooks ("English");
+    vector <int> standard;
+    for (unsigned int i = 1; i <= 66; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, books);
+
+    // Test chapters.
+    vector <int> chapters = database_versifications.getChapters ("English", 1);
+    standard.clear ();
+    for (unsigned int i = 1; i <= 50; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, chapters);
+    chapters = database_versifications.getChapters ("English", 1, true);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 50; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, chapters);
+
+    // Test verses.
+    vector <int> verses = database_versifications.getVerses ("English", 1, 2);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, verses);
+
+    // Verses In Chapter Zero.
+    verses = database_versifications.getVerses ("English", 1, 0);
+    evaluate (__LINE__, __func__, {0}, verses);
+
+    // Books Chapters Verses.
+    vector <Passage> data = database_versifications.getBooksChaptersVerses ("English");
+    evaluate (__LINE__, __func__, 1189, data.size());
+    evaluate (__LINE__, __func__, "31", data [0].verse);
+  }
+  // Import Export
+  {
+    refresh_sandbox (true);
+    Database_Versifications database_versifications = Database_Versifications ();
+    database_versifications.create ();
+    string input = 
+      "Genesis 1:31\n"
+      "Genesis 2:25\n";
+    database_versifications.input (input, "phpunit");
+    int id = database_versifications.getID ("phpunit");
+    evaluate (__LINE__, __func__, 1000, id);
+    vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
+    evaluate (__LINE__, __func__, 2, data.size ());
+    evaluate (__LINE__, __func__, "25", data [1].verse);
+    string output = database_versifications.output ("phpunit");
+    evaluate (__LINE__, __func__, filter_string_trim (input), filter_string_trim (output));
+  }
+}
 /* Todo
 
 
