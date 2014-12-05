@@ -84,6 +84,8 @@ public:
   string getNotificationOldText (int id);
   string getNotificationModification (int id);
   string getNotificationNewText (int id);
+  void clearNotificationsUser (const string& username);
+  void clearNotificationMatches (const string& username, const string& personal, const string& team);
 private:
   sqlite3 * connect ();
   string teamFolder ();

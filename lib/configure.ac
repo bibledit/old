@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.12],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0.13],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX

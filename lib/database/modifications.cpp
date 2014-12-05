@@ -578,7 +578,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     if (valid) verse = convert_to_int (vpassage [2]);
     if (vpassage [2].empty()) valid = false;
 
-    string modification = ""; // Todo should be this: = getNotificationModification (identifier);
+    string modification = getNotificationModification (identifier);
     if (modification.empty()) valid = false;
    
     if (valid) {
@@ -606,7 +606,7 @@ void Database_Modifications::indexTrimAllNotifications ()
       database_sqlite_exec (db, sql.sql);
     } else {
       // Delete invalid / expired data.
-      // Todo restore this: deleteNotification (identifier, db);
+      deleteNotification (identifier, db);
     }
   }
   
@@ -672,8 +672,8 @@ vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const s
     // Add the personal change proposal to the results.
     allIDs.push_back (personalID);
     // Get the Bible and passage for this change proposal.
-    string bible = ""; // Todo should be this: = getNotificationBible (personalID);
-    Passage passage = Passage (); // Todo put this as it should be: this.getNotificationPassage (personalID);
+    string bible = getNotificationBible (personalID);
+    Passage passage = getNotificationPassage (personalID);
     int book = passage.book;
     int chapter = passage.chapter;
     int verse = convert_to_int (passage.verse);
@@ -807,8 +807,6 @@ Passage Database_Modifications::getNotificationPassage (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-
-
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   vector <string> books = result ["book"];
@@ -844,206 +842,111 @@ string Database_Modifications::getNotificationNewText (int id)
 }
 
 
-/*
-
-
-public function clearNotificationsUser (username)
+void Database_Modifications::clearNotificationsUser (const string& username)
 {
-  identifiers = this.getNotificationIdentifiers (username);
-  db = this.connect ();
+  vector <int> identifiers = getNotificationIdentifiers (username);
+  sqlite3 * db = connect ();
   // Transaction speeds up the operation.
-  Database_SQLite::exec (db, "BEGIN;");
-  foreach (identifiers as identifier) {
-    this.deleteNotification (identifier, db);
+  database_sqlite_exec (db, "BEGIN;");
+  for (auto& identifier : identifiers) {
+    deleteNotification (identifier, db);
   }
-  Database_SQLite::exec (db, "COMMIT;");
-  unset (db);
+  database_sqlite_exec (db, "COMMIT;");
+  database_sqlite_disconnect (db);
 }
 
 
 // This function deletes personal change proposals and their matching change notifications.
-public function clearNotificationMatches (username, personal, team)
+void Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
 {
-  db = this.connect ();
+  sqlite3 * db = connect ();
   
-  // Clean input.
-  personal = Database_SQLiteInjection::no (personal);
-  team = Database_SQLiteInjection::no (team);
-
   // Select all identifiers of the personal change proposals.
-  query = "SELECT identifier FROM notifications WHERE username = 'username' AND category = 'personal';";
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT identifier FROM notifications WHERE username =");
+  sql.add (username);
+  sql.add ("AND category =");
+  sql.add (personal);
+  sql.add (";");
 
-  personals = array ();
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    personals [] = row [0];
+  vector <int> personals;
+  vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
+  for (auto & item : result) {
+    personals.push_back (convert_to_int (item));
   }
   
   // Matches to be deleted.
-  deletes = array ();
+  vector <int> deletes;
 
   // Go through each of the personal change proposals.
-  foreach (personals as personalID) {
-    bible = this.getNotificationBible (personalID);
-    passage = this.getNotificationPassage (personalID);
-    book = passage ['book'];
-    chapter = passage ['chapter'];
-    verse = passage ['verse'];
-    modification = this.getNotificationModification (personalID);
-    modification = Database_SQLiteInjection::no (modification);
+  for (auto & personalID : personals) {
+    string bible = getNotificationBible (personalID);
+    Passage passage = getNotificationPassage (personalID);
+    int book = passage.book;
+    int chapter = passage.chapter;
+    int verse = convert_to_int (passage.verse);
+    string modification = getNotificationModification (personalID);
     // Get all matching identifiers from the team's change notifications.
-    query = "SELECT identifier FROM notifications WHERE username = 'username' AND category = 'team' AND bible = 'bible' AND book = book AND chapter = chapter AND verse = verse AND modification = 'modification';";
-    teamMatches = array ();
-    result = Database_SQLite::query (db, query);
-    foreach (result as row) {
-      teamMatches [] = row [0];
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT identifier FROM notifications WHERE username =");
+    sql.add (username);
+    sql.add ("AND category =");
+    sql.add (team);
+    sql.add ("AND bible =");
+    sql.add (bible);
+    sql.add ("AND book =");
+    sql.add (book);
+    sql.add ("AND chapter =");
+    sql.add (chapter);
+    sql.add ("AND verse =");
+    sql.add (verse);
+    sql.add ("AND modification =");
+    sql.add (modification);
+    sql.add (";");
+    vector <int> teamMatches;
+    vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
+    for (auto & item : result) {
+      teamMatches.push_back (convert_to_int (item));
     }
     // There should be exactly one candidate for the matches to be removed.
     // If there are none, it means that the personal change didn't make it to the team's text.
     // If there are two or more matching changes, then one could have undone the other, so should not be automatically removed.
-    if (count (teamMatches) == 1) {
-      foreach (teamMatches as teamMatches) {
-        // Check there are only two change notifications for this user / Bible / book / chapter / verse.
-        // If there are more, we can't be sure that the personal change proposal was not overwritten somehow.
-        passageMatches = array ();
-        query = "SELECT identifier FROM notifications WHERE username = 'username' AND bible = 'bible' AND book = book AND chapter = chapter AND verse = verse;";
-        result = Database_SQLite::query (db, query);
-        foreach (result as row) {
-          passageMatches [] = row [0];
-        }
-        if (count (passageMatches) == 2) {
-          // Store the personal change proposal to be deleted.
-          // Store the matching change notification to be deleted also.
-          foreach (passageMatches as passageMatche) {
-            deletes [] = passageMatche;
-          }
+    if (teamMatches.size () == 1) {
+      // Check there are only two change notifications for this user / Bible / book / chapter / verse.
+      // If there are more, we can't be sure that the personal change proposal was not overwritten somehow.
+      vector <int> passageMatches;
+      SqliteSQL sql = SqliteSQL ();
+      sql.add ("SELECT identifier FROM notifications WHERE username =");
+      sql.add (username);
+      sql.add ("AND bible =");
+      sql.add (bible);
+      sql.add ("AND book =");
+      sql.add (book);
+      sql.add ("AND chapter =");
+      sql.add (chapter);
+      sql.add ("AND verse =");
+      sql.add (verse);
+      sql.add (";");
+      vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
+      for (auto & item : result) {
+        passageMatches.push_back (convert_to_int (item));
+      }
+      if (passageMatches.size () == 2) {
+        // Store the personal change proposal to be deleted.
+        // Store the matching change notification to be deleted also.
+        for (auto & passageMatch : passageMatches) {
+          deletes.push_back (passageMatch);
         }
       }
     }
   }
 
   // Delete all stored identifiers to be deleted.
-  foreach (deletes as delete) {
-    this.deleteNotification (delete, db);
+  for (auto & id : deletes) {
+    deleteNotification (id, db);
   }
   
-  unset (db);
-}
-
-
-
-
-*/
-
-
-/* Todo old stuff.
-
-void Database_Modifications::optimize ()
-{
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM names;");
-  database_sqlite_exec (db, "VACUUM data;");
   database_sqlite_disconnect (db);
 }
 
 
-// Import data.
-void Database_Modifications::input (const string& contents, const string& name)
-{
-  // Delete old system if it is there, and create new one.
-  erase (name);
-  sqlite3 * db = connect ();
-  int id = createSystem (name);
-  vector <string> lines = filter_string_explode (contents, '\n');
-  for (auto line : lines) {
-    line = filter_string_trim (line);
-    if (line.empty ()) continue;
-    Passage passage = filter_passage_explode_passage (line);
-    if (passage.book == 0) continue;
-    if (passage.chapter == 0) continue;
-    if (passage.verse.empty ()) continue;
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO data (system, book, chapter, verse) VALUES (");
-    sql.add (id);
-    sql.add (",");
-    sql.add (passage.book);
-    sql.add (",");
-    sql.add (passage.chapter);
-    sql.add (",");
-    sql.add (convert_to_int (passage.verse));
-    sql.add (");");
-    database_sqlite_exec (db, sql.sql);
-  }
-  database_sqlite_disconnect (db);
-}
-
-
-// Export data.
-string Database_Modifications::output (const string& name)
-{
-  vector <string> lines;
-  vector <Passage> versification_data = getBooksChaptersVerses (name);
-  for (Passage & passage : versification_data) {
-    string line = Database_Books::getEnglishFromId (passage.book);
-    line.append (" ");
-    line.append (convert_to_string (passage.chapter));
-    line.append (":");
-    line.append (passage.verse);
-    lines.push_back (line);
-  }
-  return filter_string_implode (lines, "\n");
-}
-
-
-// Delete a versification system.
-void Database_Modifications::erase (const string& name)
-{
-  int id = getID (name);
-
-  SqliteSQL sql1 = SqliteSQL ();
-  sql1.add ("DELETE FROM names WHERE system =");
-  sql1.add (id);
-  sql1.add (";");
-
-  SqliteSQL sql2 = SqliteSQL ();
-  sql2.add ("DELETE FROM data WHERE system =");
-  sql2.add (id);
-  sql2.add (";");
-
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql1.sql);
-  database_sqlite_exec (db, sql2.sql);
-  database_sqlite_disconnect (db);
-}
-
-
-// Returns the ID for a named versification system.
-int Database_Modifications::getID (const string& name)
-{
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT system FROM names WHERE name =");
-  sql.add (name);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> systems = database_sqlite_query (db, sql.sql) ["system"];
-  database_sqlite_disconnect (db);
-  for (auto & id : systems) {
-    return convert_to_int (id);
-  }
-  return 0;
-}
-
-
-
-
-// Returns an array of the available versification systems.
-vector <string> Database_Modifications::getSystems ()
-{
-  sqlite3 * db = connect ();
-  vector <string> systems = database_sqlite_query (db, "SELECT name FROM names ORDER BY name ASC;") ["name"];
-  database_sqlite_disconnect (db);
-  return systems;
-}
-
-
-*/
