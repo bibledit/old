@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 
-Assets_Page::header (Locale_Translate::_("Account"));
+Assets_Page::header (gettext("Account"));
 $view = new Assets_View (__FILE__);
 $session_logic = Session_Logic::getInstance ();
 $username = $session_logic->currentUser ();
@@ -42,24 +42,24 @@ if (isset($_POST['submit'])) {
   if (($newpassword != "") || ($newpassword2 != "")) {
     if (strlen ($newpassword) < 4) {
       $form_is_valid = false;
-      $view->view->new_password_invalid_message = Locale_Translate::_("Password should be at least four characters long");
+      $view->view->new_password_invalid_message = gettext("Password should be at least four characters long");
     }
     if (strlen ($newpassword2) < 4) {
       $form_is_valid = false;
-      $view->view->new_password2_invalid_message = Locale_Translate::_("Password should be at least four characters long");
+      $view->view->new_password2_invalid_message = gettext("Password should be at least four characters long");
     }
     if ($newpassword2 != $newpassword) {
       $form_is_valid = false;
-      $view->view->new_password2_invalid_message = Locale_Translate::_("Passwords do not match");
+      $view->view->new_password2_invalid_message = gettext("Passwords do not match");
     }
     if (!$database_users->matchUsernamePassword ($username, $currentpassword)) {
       $form_is_valid = false;
-      $view->view->current_password_invalid_message = Locale_Translate::_("Current password is not valid");
+      $view->view->current_password_invalid_message = gettext("Current password is not valid");
     }
     if ($form_is_valid) {
       $database_users->updateUserPassword ($username, $newpassword);
       $actions_taken = true;
-      $success_messages[] = Locale_Translate::_("The new password was saved");
+      $success_messages[] = gettext("The new password was saved");
     }
   }
 
@@ -67,27 +67,27 @@ if (isset($_POST['submit'])) {
     $validator = new Zend_Validate_EmailAddress ();
     if (!$validator->isValid ($newemail)) {
       $form_is_valid = false;
-      $view->view->new_email_invalid_message = Locale_Translate::_("Email address is not valid");
+      $view->view->new_email_invalid_message = gettext("Email address is not valid");
     }
     if (!$database_users->matchUsernamePassword ($username, $currentpassword)) {
       $form_is_valid = false;
-      $view->view->current_password_invalid_message = Locale_Translate::_("Current password is not valid");
+      $view->view->current_password_invalid_message = gettext("Current password is not valid");
     }
     if ($form_is_valid) {
       $confirm_worker = Confirm_Worker::getInstance ();
-      $initial_subject = Locale_Translate::_("Email address verification");
-      $initial_body = Locale_Translate::_("Somebody requested to change the email address that belongs to your account.");
+      $initial_subject = gettext("Email address verification");
+      $initial_body = gettext("Somebody requested to change the email address that belongs to your account.");
       $query = $database_users->updateEmailQuery ($username, $newemail);
-      $subsequent_subject = Locale_Translate::_("Email address change");
-      $subsequent_body = Locale_Translate::_("The email address that belongs to your account has been changed successfully.");
+      $subsequent_subject = gettext("Email address change");
+      $subsequent_body = gettext("The email address that belongs to your account has been changed successfully.");
       $confirm_worker->setup ($newemail, $initial_subject, $initial_body, $query, $subsequent_subject, $subsequent_body);
       $actions_taken = true;
-      $success_messages[] = Locale_Translate::_("A verification email was sent to $newemail");
+      $success_messages[] = gettext("A verification email was sent to $newemail");
     }
   }
 
   if (!$actions_taken) {
-    $success_messages[] = Locale_Translate::_("No changes were made");
+    $success_messages[] = gettext("No changes were made");
   }
 
 

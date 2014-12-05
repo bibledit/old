@@ -65,7 +65,7 @@ if (isset ($_GET ['match'])) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Changes"));
+$header = new Assets_Header (gettext("Changes"));
 $header->setStylesheet ();
 $header->run ();
 
@@ -107,7 +107,7 @@ $view->view->categories = $categories;
 $view->view->modifications = $modifications;
 
 
-$loading = '"' . Locale_Translate::_("Loading ...") . '"';
+$loading = '"' . gettext("Loading ...") . '"';
 
 
 $script = <<<EOD

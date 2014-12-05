@@ -17,11 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Sprint") ?></h3>
+<h3><?php echo gettext("Sprint") ?></h3>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
 <p>
-  <?php echo Locale_Translate::_("Bible") ?>:
+  <?php echo gettext("Bible") ?>:
   <a href="?bible="><?php echo $this->bible ?></a>
   |
   <a href="?previoussprint=">«</a>
@@ -65,29 +65,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 </table>
 <br>
-<p><?php echo Locale_Translate::_('Sprint Burndown Chart - Remaining Tasks') ?></p>
+<p><?php echo gettext('Sprint Burndown Chart - Remaining Tasks') ?></p>
 <?php if ($this->chart) { ?>
   <img src="data:image/png;base64,<?php echo $this->chart ?>" />
 <?php } ?>
 <p><?php echo $this->chart2 ?></p>
 <br>
-<p><a href="?mail="><?php echo Locale_Translate::_("Mail information to subscribers") ?></a></p>
+<p><a href="?mail="><?php echo gettext("Mail information to subscribers") ?></a></p>
 <br>
 <form action="index.php" name="addtask" method="post">
   <p>
-    <?php echo Locale_Translate::_("Add task") ?>
+    <?php echo gettext("Add task") ?>
     <input type="text" name="add" maxlength="256" />
-    <input type="submit" name="submit" value="<?php echo Locale_Translate::_("Add") ?>" />
+    <input type="submit" name="submit" value="<?php echo gettext("Add") ?>" />
   </p>
 </form>
 <br>
 <form action="" name="categories" method="post">
   <p>
-    <?php echo Locale_Translate::_("Enter task completion categories.") ?>
-    <?php echo Locale_Translate::_("One per line.") ?>
+    <?php echo gettext("Enter task completion categories.") ?>
+    <?php echo gettext("One per line.") ?>
   </p>
   <p><textarea name="categories" style="width:100px"><?php echo $this->categorytext ?></textarea></p>
-  <p><input type="submit" name="save" value="<?php echo Locale_Translate::_("Save") ?>" /></p>
+  <p><input type="submit" name="save" value="<?php echo gettext("Save") ?>" /></p>
 </form>
 <br>
 <a id="help"></a>

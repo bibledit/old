@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Login needed") ?></h3>
+<h3><?php echo gettext("Login needed") ?></h3>
 <p>
-  <?php echo Locale_Translate::_("This page requires privileges you do not have.") ?>
-  <?php echo Locale_Translate::_("Login with sufficient privileges to access this page.") ?>
+  <?php echo gettext("This page requires privileges you do not have.") ?>
+  <?php echo gettext("Login with sufficient privileges to access this page.") ?>
 </p>

@@ -17,11 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Methodology") ?></h1>
-<p><a href="scrum.php"><?php echo Locale_Translate::_("Scrum-based translation process.") ?></a></p>
-<p><a href="discussions.php"><?php echo Locale_Translate::_("Transparent, fair, and argued discussions") ?></a></p>
-<p><?php echo Locale_Translate::_("Use of reliable Hebrew and Greek manuscripts.") ?></p>
-<p><?php echo Locale_Translate::_("Looking for and depending on the help of the Lord Jesus.") ?></p>
-<p><?php echo Locale_Translate::_("Use of modern tools and technology.") ?></p>
-<p><?php echo Locale_Translate::_("Goal: Deliver a reliable Bible translation within a reasonable time frame.") ?></p>
-<p><a href="leanmanagement.php"><?php echo Locale_Translate::_("Lean management") ?></a></p>
+<h1><?php echo gettext("Methodology") ?></h1>
+<p><a href="scrum.php"><?php echo gettext("Scrum-based translation process.") ?></a></p>
+<p><a href="discussions.php"><?php echo gettext("Transparent, fair, and argued discussions") ?></a></p>
+<p><?php echo gettext("Use of reliable Hebrew and Greek manuscripts.") ?></p>
+<p><?php echo gettext("Looking for and depending on the help of the Lord Jesus.") ?></p>
+<p><?php echo gettext("Use of modern tools and technology.") ?></p>
+<p><?php echo gettext("Goal: Deliver a reliable Bible translation within a reasonable time frame.") ?></p>
+<p><a href="leanmanagement.php"><?php echo gettext("Lean management") ?></a></p>

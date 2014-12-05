@@ -33,7 +33,7 @@ $compare = Filter_Cli::argument (@$argv, 2);
 $jobId = Filter_Cli::argument (@$argv, 3);
 
 
-$database_logs->log (Locale_Translate::_("Comparing Bibles") . " $bible " . Locale_Translate::_ ("and") . " $compare", Filter_Roles::CONSULTANT_LEVEL);
+$database_logs->log (gettext("Comparing Bibles") . " $bible " . gettext ("and") . " $compare", Filter_Roles::CONSULTANT_LEVEL);
 
 
 $database_config_bible = Database_Config_Bible::getInstance ();
@@ -46,13 +46,13 @@ $database_books = Database_Books::getInstance ();
 $stylesheet = $database_config_bible->getExportStylesheet ($bible);
 
 
-$database_jobs->setProgress ($jobId, Locale_Translate::_("The Bibles are being compared..."));
+$database_jobs->setProgress ($jobId, gettext("The Bibles are being compared..."));
 
 
 // The results of the comparison. Will be displayed to the user.
 $result = array ();
-$result [] = Locale_Translate::_("Bible") . " " . $bible . " " . Locale_Translate::_ ("has been compared with") . " " . $compare . ".";
-$result [] = Locale_Translate::_("Additions are in bold.") . " " . Locale_Translate::_ ("Removed words are in strikethrough.");
+$result [] = gettext("Bible") . " " . $bible . " " . gettext ("has been compared with") . " " . $compare . ".";
+$result [] = gettext("Additions are in bold.") . " " . gettext ("Removed words are in strikethrough.");
 $result [] = "";
 
 
@@ -85,12 +85,12 @@ foreach ($books as $book) {
 
 
   if (!in_array ($book, $bibleBooks)) {
-    $absent [] = Locale_Translate::_("Bible") . " " . $bible . " " . Locale_Translate::_ ("does not contain") . " $bookName.";
+    $absent [] = gettext("Bible") . " " . $bible . " " . gettext ("does not contain") . " $bookName.";
     continue;
   }
   
   if (!in_array ($book, $compareBooks) && !in_array ($book, $resourceBooks)) {
-    $absent [] = Locale_Translate::_("Bible/Resource") . " " . $compare . " " . Locale_Translate::_ ("does not contain") . " $bookName.";
+    $absent [] = gettext("Bible/Resource") . " " . $compare . " " . gettext ("does not contain") . " $bookName.";
     continue;
   }
 
@@ -107,12 +107,12 @@ foreach ($books as $book) {
 
 
     if (!in_array ($chapter, $bibleChapters)) {
-      $absent [] = Locale_Translate::_("Bible") . " " . $bible . " " . Locale_Translate::_ ("does not contain") . " $bookName $chapter.";
+      $absent [] = gettext("Bible") . " " . $bible . " " . gettext ("does not contain") . " $bookName $chapter.";
       continue;
     }
     
     if (!in_array ($chapter, $compareChapters) && !in_array ($chapter, $resourceChapters)) {
-      $absent [] = Locale_Translate::_("Bible/Resource") . " " . $compare . " " . Locale_Translate::_ ("does not contain") . " $bookName $chapter.";
+      $absent [] = gettext("Bible/Resource") . " " . $compare . " " . gettext ("does not contain") . " $bookName $chapter.";
       continue;
     }
     
@@ -181,7 +181,7 @@ if (count ($raw)) {
 // Add the text of the new verses, as they are in the $bible.
 if (count ($new)) {
   $result [] = "";
-  $result [] = Locale_Translate::_("The texts as they are in the Bible") . " " . $bible;
+  $result [] = gettext("The texts as they are in the Bible") . " " . $bible;
   $result [] = "";
   $result = array_merge ($result, $new);
 }
@@ -198,7 +198,7 @@ $result = implode ("\n", $result);
 $database_jobs->setResult ($jobId, $result);
 
 
-$database_logs->log (Locale_Translate::_("Comparison is ready"), Filter_Roles::CONSULTANT_LEVEL);
+$database_logs->log (gettext("Comparison is ready"), Filter_Roles::CONSULTANT_LEVEL);
 
 
 ?>

@@ -37,8 +37,8 @@ $consultationsfolder = $database_notes->mainFolder ();
 
 
 // Our data goes into the local repository.
-echo Locale_Translate::_("Step 1/2:") . " ";
-echo Locale_Translate::_("Exporting the local Bible data to the local repository") . "\n";
+echo gettext("Step 1/2:") . " ";
+echo gettext("Exporting the local Bible data to the local repository") . "\n";
 Filter_Git::syncBible2Git ($object, $directory, true);
 
 
@@ -68,18 +68,18 @@ if ($exit_code != 0) {
 
 
 // Push data to remote repository.
-echo Locale_Translate::_("Step 2/2: Pushing the data to the remote repository") . "\n";
+echo gettext("Step 2/2: Pushing the data to the remote repository") . "\n";
 $command = "cd $shelldirectory; git push 2>&1";
 echo "$command\n";
 exec ($command, $output, $exit_code);
 if ($exit_code == 0) {
-  echo Locale_Translate::_("Your data was pushed to the remote repository successfully.") . "\n";
+  echo gettext("Your data was pushed to the remote repository successfully.") . "\n";
 } else {
   echo "Exit code $exit_code\n";
   foreach ($output as $line) {
     echo "$line\n";
   }
-  echo Locale_Translate::_("Pushing your data to the remote repository failed.") . "\n";
+  echo gettext("Pushing your data to the remote repository failed.") . "\n";
 }
 
 

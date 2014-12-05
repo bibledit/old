@@ -159,7 +159,7 @@ if (isset ($id)) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Search"));
+$header = new Assets_Header (gettext("Search"));
 $header->run ();
 
 

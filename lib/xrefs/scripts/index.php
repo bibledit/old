@@ -18,14 +18,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo Locale_Translate::_("Cross references") ?>
-  <a href="help.php">[<?php echo Locale_Translate::_("help") ?>]</a>
+  <?php echo gettext("Cross references") ?>
+  <a href="help.php">[<?php echo gettext("help") ?>]</a>
   |
-  <?php echo Locale_Translate::_("source Bible:") ?> <a href="?source=" title="<?php echo Locale_Translate::_ ("Select source Bible") ?>"><?php echo $this->source ?></a>
-  <a href="extract.php" title="<?php echo Locale_Translate::_("Copy cross references from source to target for the entire chapter") ?>"> ⇉ <?php echo Locale_Translate::_ ("copy cross references entire chapter") ?> ⇉ </a>
-  <?php echo Locale_Translate::_("target Bible:") ?> <a href="?target=" title="<?php echo Locale_Translate::_ ("Select target Bible") ?>"><?php echo $this->target ?></a>
+  <?php echo gettext("source Bible:") ?> <a href="?source=" title="<?php echo gettext ("Select source Bible") ?>"><?php echo $this->source ?></a>
+  <a href="extract.php" title="<?php echo gettext("Copy cross references from source to target for the entire chapter") ?>"> ⇉ <?php echo gettext ("copy cross references entire chapter") ?> ⇉ </a>
+  <?php echo gettext("target Bible:") ?> <a href="?target=" title="<?php echo gettext ("Select target Bible") ?>"><?php echo $this->target ?></a>
   |
-  <a href="next.php" title="<?php echo Locale_Translate::_("Go to the next chapter without cross references") ?>"><?php echo Locale_Translate::_ ("next chapter without cross references") ?></a>
+  <a href="next.php" title="<?php echo gettext("Go to the next chapter without cross references") ?>"><?php echo gettext ("next chapter without cross references") ?></a>
 </p>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <tr>
 <td class="topalign"><div id="sourcetext"></div></td>
 <td> </td>
-<td class="topalign"><div id="tarLocale_Translate::_"></div></td>
+<td class="topalign"><div id="targettext"></div></td>
 </tr>
 </table>
 <script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>

@@ -26,7 +26,7 @@ $database_notes = Database_Notes::getInstance();
 $database_users = Database_Users::getInstance();
 
 
-$header = new Assets_Header (Locale_Translate::_("Assign notes"));
+$header = new Assets_Header (gettext("Assign notes"));
 $header->run();
 
 

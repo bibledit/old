@@ -57,7 +57,7 @@ foreach ($users as $user) {
   foreach ($bibles as $bible) {
 
     // Body of the email to be sent.
-    $email = "<p>" . Locale_Translate::_("You have entered the changes below in the online Bible Editor.") ." " . Locale_Translate::_ ("You may check if it made its way into the Bible text.") . "</p>";
+    $email = "<p>" . gettext("You have entered the changes below in the online Bible Editor.") ." " . gettext ("You may check if it made its way into the Bible text.") . "</p>";
 
     // Go through the books in that Bible.
     $books = $database_modifications->getUserBooks ($user, $bible);
@@ -105,7 +105,7 @@ foreach ($users as $user) {
 
     // Send the user email with the user's personal changes if the user opted to receive it.
     if ($database_config_user->getUserUserChangesNotification ($user)) {
-      $subject = Locale_Translate::_("Changes you entered in") . " " . $bible;
+      $subject = gettext("Changes you entered in") . " " . $bible;
       if (!config_logic_enabled ()) $database_mail->send ($user, $subject, $email);
     }
     unset ($email);
@@ -144,8 +144,8 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
       if ($old_verse_usfm != $new_verse_usfm) {
         $filter_text_old = new Filter_Text ($bible);
         $filter_text_new = new Filter_Text ($bible);
-        $filter_text_old->html_text_standard = new Html_Text (Locale_Translate::_("Bible"));
-        $filter_text_new->html_text_standard = new Html_Text (Locale_Translate::_("Bible"));
+        $filter_text_old->html_text_standard = new Html_Text (gettext("Bible"));
+        $filter_text_new->html_text_standard = new Html_Text (gettext("Bible"));
         $filter_text_old->text_text = new Text_Text ();
         $filter_text_new->text_text = new Text_Text ();
         $filter_text_old->addUsfmCode ($old_verse_usfm);
@@ -216,7 +216,7 @@ foreach ($bibles as $bible) {
 
 
   // Email users.
-  $subject = Locale_Translate::_("Recent changes") . " " . $bible;
+  $subject = gettext("Recent changes") . " " . $bible;
   $emailBody = filter_url_file_get_contents ($versesoutputfile);
   $users = $database_users->getUsers ();
   foreach ($users as $user) {
@@ -250,8 +250,8 @@ foreach ($bibles as $bible) {
           if ($processedChangesCount < 800) {
             $filter_text_old = new Filter_Text ($bible);
             $filter_text_new = new Filter_Text ($bible);
-            $filter_text_old->html_text_standard = new Html_Text (Locale_Translate::_("Bible"));
-            $filter_text_new->html_text_standard = new Html_Text (Locale_Translate::_("Bible"));
+            $filter_text_old->html_text_standard = new Html_Text (gettext("Bible"));
+            $filter_text_new->html_text_standard = new Html_Text (gettext("Bible"));
             $filter_text_old->text_text = new Text_Text ();
             $filter_text_new->text_text = new Text_Text ();
             $filter_text_old->addUsfmCode ($old_verse_usfm);

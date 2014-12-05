@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::GUEST_LEVEL);
-Assets_Page::header (Locale_Translate::_("Signup"));
+Assets_Page::header (gettext("Signup"));
 
 
 $view = new Assets_View (__FILE__);
@@ -29,21 +29,21 @@ $view = new Assets_View (__FILE__);
 /**
 * Set of security questions.
 */
-$questions[] = Locale_Translate::_("To which city was Paul travelling when a light from heaven shone round about him?");
-$answers[]   = Locale_Translate::_("Damascus");
-$passages[]  = Locale_Translate::_('And while he travelled, he came near Damascus; and suddenly a light from heaven shone round about him.');
+$questions[] = gettext("To which city was Paul travelling when a light from heaven shone round about him?");
+$answers[]   = gettext("Damascus");
+$passages[]  = gettext('And while he travelled, he came near Damascus; and suddenly a light from heaven shone round about him.');
 
-$questions[] = Locale_Translate::_("What is the name of the brother of Aaron the high priest?");
-$answers[]   = Locale_Translate::_("Moses");
-$passages[]  = Locale_Translate::_('And the anger of Jehova was kindled against Moses, and he said: Is not Aaron the Levite your brother?');
+$questions[] = gettext("What is the name of the brother of Aaron the high priest?");
+$answers[]   = gettext("Moses");
+$passages[]  = gettext('And the anger of Jehova was kindled against Moses, and he said: Is not Aaron the Levite your brother?');
 
-$questions[] = Locale_Translate::_("What is the name of the city where Jesus was born?");
-$answers[]   = Locale_Translate::_("Bethlehem");
-$passages[]  = Locale_Translate::_('When Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, wise men from the east came to Jerusalem.');
+$questions[] = gettext("What is the name of the city where Jesus was born?");
+$answers[]   = gettext("Bethlehem");
+$passages[]  = gettext('When Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, wise men from the east came to Jerusalem.');
 
-$questions[] = Locale_Translate::_("What is the name of the island where John was sent to?");
-$answers[]   = Locale_Translate::_("Patmos");
-$passages[]  = Locale_Translate::_('I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.');
+$questions[] = gettext("What is the name of the island where John was sent to?");
+$answers[]   = gettext("Patmos");
+$passages[]  = gettext('I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.');
 
 $question_number = rand (0, 3);
 $view->view->question = $questions[$question_number];
@@ -64,41 +64,41 @@ if (isset($_POST['submit'])) {
   $standard = $_POST['standard'];
   if (strlen ($user) < 2) {
     $form_is_valid = false;
-    $view->view->username_invalid_message = Locale_Translate::_("Username should be at least two characters long");
+    $view->view->username_invalid_message = gettext("Username should be at least two characters long");
   }
   if (strlen ($pass) < 2) {
     $form_is_valid = false;
-    $view->view->password_invalid_message = Locale_Translate::_("Password should be at least two characters long");
+    $view->view->password_invalid_message = gettext("Password should be at least two characters long");
   }
   $validator = new Zend_Validate_EmailAddress ();
   if (!$validator->isValid ($mail)) {
     $form_is_valid = false;
-    $view->view->email_invalid_message = Locale_Translate::_("The email address is not valid");
+    $view->view->email_invalid_message = gettext("The email address is not valid");
   }
   if ($answer != $standard) {
     $form_is_valid = false;
-    $view->view->answer_invalid_message = Locale_Translate::_("The answer to the question is not correct");
+    $view->view->answer_invalid_message = gettext("The answer to the question is not correct");
   }
   $database_users = Database_Users::getInstance ();
   if ($form_is_valid) {
     if ($database_users->usernameExists ($user)) {
-      $view->view->error_message = Locale_Translate::_("The username that you have chosen has already been taken. Please choose another one.");
+      $view->view->error_message = gettext("The username that you have chosen has already been taken. Please choose another one.");
       $form_is_valid = false;
     }
   }
   if ($form_is_valid) {
     if ($database_users->emailExists ($mail)) {
-      $view->view->error_message = Locale_Translate::_("The email address that you have chosen has already been taken. Please choose another one.");
+      $view->view->error_message = gettext("The email address that you have chosen has already been taken. Please choose another one.");
       $form_is_valid = false;
     }
   }
   if ($form_is_valid) {
     $confirm_worker = Confirm_Worker::getInstance ();
-    $initial_subject = Locale_Translate::_("Signup verification");
-    $initial_body = Locale_Translate::_("Somebody requested to open an account with this email address.");
+    $initial_subject = gettext("Signup verification");
+    $initial_body = gettext("Somebody requested to open an account with this email address.");
     $query = $database_users->addNewUserQuery ($user, $pass, Filter_Roles::MEMBER_LEVEL, $mail);
-    $subsequent_subject = Locale_Translate::_("Account opened");
-    $subsequent_body = Locale_Translate::_("Welcome! Your account is now active.");
+    $subsequent_subject = gettext("Account opened");
+    $subsequent_body = gettext("Welcome! Your account is now active.");
     $confirm_worker->setup ($mail, $initial_subject, $initial_body, $query, $subsequent_subject, $subsequent_body);
     $signed_up = true;
   }

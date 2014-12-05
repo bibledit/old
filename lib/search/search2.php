@@ -165,7 +165,7 @@ if (isset ($query)) {
 
 
 // Build the advanced search page.
-$header = new Assets_Header (Locale_Translate::_("Search"));
+$header = new Assets_Header (gettext("Search"));
 $header->setNavigator ();
 $header->run ();
 

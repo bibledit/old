@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::GUEST_LEVEL);
-Assets_Page::header (Locale_Translate::_("Typesetting in LibreOffice"));
+Assets_Page::header (gettext("Typesetting in LibreOffice"));
 $view = new Assets_View (__FILE__);
 $view->render ("typesettinglibreoffice.php");
 Assets_Page::footer ();

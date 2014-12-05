@@ -17,6 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Styles") ?></h1>
-<p><?php echo Locale_Translate::_("The various styles for the Bible editor are contained in a stylesheet.") ?></p>
-<p><?php echo Locale_Translate::_("The stylesheet you are currently using is:") ?> <?php echo $this->stylesheet ?> [<a href="indext.php?sheet="><?php echo Locale_Translate::_ ("switch") ?></a>].</p>
+<h1><?php echo gettext("Styles") ?></h1>
+<p><?php echo gettext("The various styles for the Bible editor are contained in a stylesheet.") ?></p>
+<p><?php echo gettext("The stylesheet you are currently using is:") ?> <?php echo $this->stylesheet ?> [<a href="indext.php?sheet="><?php echo gettext ("switch") ?></a>].</p>

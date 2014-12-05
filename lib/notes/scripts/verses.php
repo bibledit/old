@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Edit the verses?") ?></h3>
+<h3><?php echo gettext("Edit the verses?") ?></h3>
 <form action="verses.php?id=<?php echo $this->id ?>" name="form" method="post">
   <p><textarea name="verses"><?php echo $this->verses ?></textarea></p>
-  <p><input type="submit" name="submit" value=<?php echo Locale_Translate::_("Save") ?> /></p>
+  <p><input type="submit" name="submit" value=<?php echo gettext("Save") ?> /></p>
 </form>
-<h4><a href="actions.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Cancel") ?></a></h4>
+<h4><a href="actions.php?id=<?php echo $this->id ?>"><?php echo gettext("Cancel") ?></a></h4>

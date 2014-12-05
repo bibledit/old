@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Sentence Structure"));
+Assets_Page::header (gettext("Sentence Structure"));
 $view = new Assets_View (__FILE__);
 $database_config_user = Database_Config_User::getInstance();
 $database_config_bible = Database_Config_Bible::getInstance();
@@ -33,37 +33,37 @@ $bible = Access_Bible::clamp ($database_config_user->getBible ());
 
 if (isset($_POST['capitals'])) {
   $database_config_bible->setSentenceStructureCapitals ($bible, $_POST['capitals']);
-  $view->view->success = Locale_Translate::_("The capitals were stored");
+  $view->view->success = gettext("The capitals were stored");
 }
 
 
 if (isset($_POST['smallletters'])) {
   $database_config_bible->setSentenceStructureSmallLetters ($bible, $_POST['smallletters']);
-  $view->view->success = Locale_Translate::_("The small letters were stored");
+  $view->view->success = gettext("The small letters were stored");
 }
 
 
 if (isset($_POST['endpunctuationmarks'])) {
   $database_config_bible->setSentenceStructureEndPunctuation ($bible, $_POST['endpunctuationmarks']);
-  $view->view->success = Locale_Translate::_("The punctuation marks at the ends of sentences were stored");
+  $view->view->success = gettext("The punctuation marks at the ends of sentences were stored");
 }
 
 
 if (isset($_POST['middlepunctuationmarks'])) {
   $database_config_bible->setSentenceStructureMiddlePunctuation ($bible, $_POST['middlepunctuationmarks']);
-  $view->view->success = Locale_Translate::_("The punctuation marks within the sentences were stored");
+  $view->view->success = gettext("The punctuation marks within the sentences were stored");
 }
 
 
 if (isset($_POST['disregards'])) {
   $database_config_bible->setSentenceStructureDisregards ($bible, $_POST['disregards']);
-  $view->view->success = Locale_Translate::_("The characters that should be disregarded within the sentences were stored");
+  $view->view->success = gettext("The characters that should be disregarded within the sentences were stored");
 }
 
 
 if (isset($_POST['names'])) {
   $database_config_bible->setSentenceStructureNames ($bible, $_POST['names']);
-  $view->view->success = Locale_Translate::_("The names that may occur after mid-sentence punctuation were stored");
+  $view->view->success = gettext("The names that may occur after mid-sentence punctuation were stored");
 }
 
 

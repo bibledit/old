@@ -56,14 +56,14 @@ $month = $database_config_user->getSprintMonth ();
 $year = $database_config_user->getSprintYear ();
 
 
-$header = new Assets_Header (Locale_Translate::_("Sprint"));
+$header = new Assets_Header (gettext("Sprint"));
 $view = new Assets_View (__FILE__);
 
 
 @$title = $_POST ['add'];
 if (isset ($title)) {
   $database_sprint->storeTask ($bible, $year, $month, $title);
-  $view->view->success = Locale_Translate::_("New task added");
+  $view->view->success = gettext("New task added");
   // Focus the entry for adding tasks only in case a new task was added.
   $header->setBodyOnload ('document.addtask.add.focus();');
 }
@@ -72,7 +72,7 @@ if (isset ($title)) {
 @$mail = $_GET ['mail'];
 if (isset ($mail)) {
   Sprint_Logic::burndown ($bible, true);
-  $view->view->success = Locale_Translate::_("The information was mailed to the subscribers");
+  $view->view->success = gettext("The information was mailed to the subscribers");
   // Give the burndown logic time to update the sprint history,
   // so the page will display the updated burndown chart.
   sleep (2);
@@ -85,7 +85,7 @@ $header->run ();
 @$bible = $_GET['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Select which Bible to display the Sprint for"));
+    $dialog_list = new Dialog_List2 (gettext("Select which Bible to display the Sprint for"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       // Select from Bibles the user has write access to.
@@ -110,7 +110,7 @@ $bible = Access_Bible::clamp ($database_config_user->getBible ());
 if (isset ($moveback)) {
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
-  $view->view->success = Locale_Translate::_("The task was moved to the previous sprint");
+  $view->view->success = gettext("The task was moved to the previous sprint");
 }
 
 
@@ -118,7 +118,7 @@ if (isset ($moveback)) {
 if (isset ($moveforward)) {
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
-  $view->view->success = Locale_Translate::_("The task was moved to the next sprint");
+  $view->view->success = gettext("The task was moved to the next sprint");
 }
 
 

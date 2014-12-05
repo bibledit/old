@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::ADMIN_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Language"));
+Assets_Page::header (gettext("Language"));
 
 
 $database_config_general = Database_Config_General::getInstance ();
@@ -31,7 +31,7 @@ $database_config_general = Database_Config_General::getInstance ();
 @$language =  $_GET['language'];
 if (isset ($language)) {
   if ($language == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Set the default language for the site"));
+    $dialog_list = new Dialog_List2 (gettext("Set the default language for the site"));
     $languages = Locale_Logic::getLocalizations ();
     foreach ($languages as $language) {
       $dialog_list->add_row (Locale_Logic::getLanguage ($language), "&language=$language");

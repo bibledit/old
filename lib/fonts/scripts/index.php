@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo Locale_Translate::_("Fonts") ?></h2>
+<h2><?php echo gettext("Fonts") ?></h2>
 
-<p><?php echo Locale_Translate::_("The following fonts are available within Bibledit-Web:") ?></p>
+<p><?php echo gettext("The following fonts are available within Bibledit-Web:") ?></p>
 <br>
 <?php foreach ($this->fonts as $font) { ?>
   <p>
-   <a href="?delete=<?php echo $font ?>" title="<?php echo Locale_Translate::_("Delete font") ?>"> ✗ </a>
+   <a href="?delete=<?php echo $font ?>" title="<?php echo gettext("Delete font") ?>"> ✗ </a>
    <?php echo $font ?>
   </p>
 <?php } ?>
@@ -31,10 +31,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 
 <p>
-  <?php echo Locale_Translate::_("You can upload a new font.") ?>
+  <?php echo gettext("You can upload a new font.") ?>
 </p>
 <form enctype="multipart/form-data" action="index.php" method="POST">
   <input name="data" type="file" />
-  <input type="submit" name="upload" value="<?php echo Locale_Translate::_("Upload") ?>" />
+  <input type="submit" name="upload" value="<?php echo gettext("Upload") ?>" />
 </form>
-<p><?php echo Locale_Translate::_("Maximum size of font to upload:") ?> <?php echo $this->upload_max_filesize ?></p>
+<p><?php echo gettext("Maximum size of font to upload:") ?> <?php echo $this->upload_max_filesize ?></p>

@@ -31,7 +31,7 @@ if (isset ($bench)) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Workbench"));
+$header = new Assets_Header (gettext("Workbench"));
 $header->setNavigator ();
 $header->run ();
 

@@ -27,14 +27,14 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_config_general = Database_Config_General::getInstance ();
 
 
-Assets_Page::header (Locale_Translate::_("Send/Receive"));
+Assets_Page::header (gettext("Send/Receive"));
 $view = new Assets_View (__FILE__);
 
 
 @$bible = $_GET['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Select a Bible"));
+    $dialog_list = new Dialog_List2 (gettext("Select a Bible"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       // Select Bibles the user has write access to.
@@ -55,7 +55,7 @@ $view->view->bible = $bible;
 
 if (isset($_GET['runbible'])) {
   SendReceive_Logic::queuebible ($bible);
-  $view->view->successbible = Locale_Translate::_("Will send and receive.");
+  $view->view->successbible = gettext("Will send and receive.");
 }
 
 
@@ -66,16 +66,16 @@ $view->view->repeatbible = $database_config_bible->getRepeatSendReceive ($bible)
 
 
 if ($database_config_bible->getRemoteRepositoryUrl ($bible) == "") {
-  $view->view->errorbible = Locale_Translate::_("Collaboration has not been set up for this Bible");
+  $view->view->errorbible = gettext("Collaboration has not been set up for this Bible");
 }
 
 
 if (isset($_GET['runsync'])) {
   if (SendReceive_Logic::syncqueued ()) {
-    $view->view->successnotes = Locale_Translate::_("Still sending and receiving from the last time.");
+    $view->view->successnotes = gettext("Still sending and receiving from the last time.");
   } else {
     SendReceive_Logic::queuesync (true);
-    $view->view->successnotes = Locale_Translate::_("Will send and receive.");
+    $view->view->successnotes = gettext("Will send and receive.");
   }
 }
 
@@ -94,7 +94,7 @@ $view->view->repeatsync = $database_config_general->getRepeatSendReceive ();
 
 
 if ($database_config_general->getServerAddress () == "") {
-  $view->view->errornotes = Locale_Translate::_("Collaboration has not been set up for the Bibles and Consultation Notes");
+  $view->view->errornotes = gettext("Collaboration has not been set up for the Bibles and Consultation Notes");
 }
 
 

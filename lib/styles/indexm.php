@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Styles"));
+Assets_Page::header (gettext("Styles"));
 $view = new Assets_View (__FILE__);
 
 
@@ -43,10 +43,10 @@ if ($delete != "") {
     if ($write) {
       $database_styles->deleteSheet ($delete);
       $database_styles->revokeWriteAccess ("", $delete);
-      Assets_Page::success (Locale_Translate::_("The stylesheet has been deleted"));
+      Assets_Page::success (gettext("The stylesheet has been deleted"));
     }
   } else {
-    $dialog_yes = new Dialog_Yes (NULL, Locale_Translate::_("Would you like to delete this stylesheet?"), "delete");
+    $dialog_yes = new Dialog_Yes (NULL, gettext("Would you like to delete this stylesheet?"), "delete");
     die;
   }
 }
@@ -57,16 +57,16 @@ $database_styles->deleteSheet ("");
 if (isset($_POST['new'])) {
   $name = $_POST['entry'];
   if (in_array ($name, $database_styles->getSheets ())) {
-    Assets_Page::error (Locale_Translate::_("This stylesheet already exists"));
+    Assets_Page::error (gettext("This stylesheet already exists"));
   } else {
     $database_styles->createSheet ($name);
     $database_styles->grantWriteAccess ($username, $name);
     Styles_Sheets::create_all ();
-    Assets_Page::success (Locale_Translate::_("The stylesheet has been created"));
+    Assets_Page::success (gettext("The stylesheet has been created"));
   }
 }
 if (isset ($_GET['new'])) {
-  $dialog_entry = new Dialog_Entry ("", Locale_Translate::_("Please enter the name for the new stylesheet"), "", "new", "");
+  $dialog_entry = new Dialog_Entry ("", gettext("Please enter the name for the new stylesheet"), "", "new", "");
   die;
 }
 

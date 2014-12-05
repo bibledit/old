@@ -40,7 +40,7 @@ $checksum = $_POST['checksum'];
 // Check on information about where to save the verse.
 $save = (isset ($bible) && isset ($book) && isset ($chapter) && isset ($verse) && isset ($usfm));
 if (!$save) {
-  echo Locale_Translate::_("Don't know where to save");
+  echo gettext("Don't know where to save");
   die;
 }
 
@@ -48,7 +48,7 @@ if (!$save) {
 // Checksum.
 if (Checksum_Logic::get ($usfm) != $checksum) {
   http_response_code (409);
-  echo Locale_Translate::_("Checksum error");
+  echo gettext("Checksum error");
   die;
 }
 
@@ -56,14 +56,14 @@ if (Checksum_Logic::get ($usfm) != $checksum) {
 // Check there's anything to save at all.
 $usfm = trim ($usfm);
 if ($usfm == "") {
-  echo Locale_Translate::_("Nothing to save");
+  echo gettext("Nothing to save");
   die;
 }
 
 
 // Check on valid UTF-8.
 if (!Validate_Utf8::valid ($usfm)) {
-  echo Locale_Translate::_("Cannot save: Needs Unicode");
+  echo gettext("Cannot save: Needs Unicode");
   die;
 }
 
@@ -105,12 +105,12 @@ foreach ($book_chapter_text as $data) {
       $newID = $database_bibles->getChapterId ($bible, $book, $chapter);
       $newText = $chapter_data_to_save;
       $database_modifications->recordUserSave ($username, $bible, $book, $chapter, $oldID, $oldText, $newID, $newText);
-      echo Locale_Translate::_("Saved");
+      echo gettext("Saved");
     } else {
-      echo Locale_Translate::_("Not saved because of too many changes");
+      echo gettext("Not saved because of too many changes");
     }
   } else {
-    echo Locale_Translate::_("Save failure");
+    echo gettext("Save failure");
     $database_logs->log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
   }
 }

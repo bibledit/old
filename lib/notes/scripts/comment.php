@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><a href="index.php"><?php echo Locale_Translate::_("Back to notes list") ?></a></p>
-<p><?php echo Locale_Translate::_("Summary") ?>: <?php echo $this->summary ?></p>
+<p><a href="index.php"><?php echo gettext("Back to notes list") ?></a></p>
+<p><?php echo gettext("Summary") ?>: <?php echo $this->summary ?></p>
 <div><?php echo $this->content ?></div>
 <hr>
 <form style="border:1px #bbb solid;" action="comment.php" name="form"  method="post">
-  <p><?php echo Locale_Translate::_("Add a comment to this note:") ?></p>
+  <p><?php echo gettext("Add a comment to this note:") ?></p>
   <textarea name="comment" id="comment" class="fullwidth"></textarea>
   <p>
-    <input type="submit" name="submit" value=<?php echo Locale_Translate::_("Save") ?> onClick="this.value = '<?php echo Locale_Translate::_ ("Please wait") ?>'; return true;" />
-    <input type="submit" name="cancel" value=<?php echo Locale_Translate::_("Cancel") ?> />
+    <input type="submit" name="submit" value=<?php echo gettext("Save") ?> onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" />
+    <input type="submit" name="cancel" value=<?php echo gettext("Cancel") ?> />
   </p>
   <input type="hidden" name="id" value=<?php echo $this->id ?> />
 </form>

@@ -38,7 +38,7 @@ if (isset ($severity)) {
 }
 
 
-$assets_header = new Assets_Header (Locale_Translate::_("Severity"));
+$assets_header = new Assets_Header (gettext("Severity"));
 $assets_header->run();
 
 

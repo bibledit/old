@@ -38,7 +38,7 @@ if (isset ($compare)) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Compare"));
+$header = new Assets_Header (gettext("Compare"));
 $header->run ();
 
 

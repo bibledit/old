@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Update the severity of this note") ?></h3>
+<h3><?php echo gettext("Update the severity of this note") ?></h3>
 <ul>
 <?php foreach ($this->severities as $severity) { ?>
   <li><a href="severity-1.php?id=<?php echo $this->id ?>&severity=<?php echo $severity[0] ?>"><?php echo $severity[1] ?></a></li>
 <?php } ?>
 </ul>
-<h4><a href="actions.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Cancel") ?></a></h4>
+<h4><a href="actions.php?id=<?php echo $this->id ?>"><?php echo gettext("Cancel") ?></a></h4>

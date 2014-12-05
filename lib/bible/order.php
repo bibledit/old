@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
 
 
-$header = new Assets_Header (Locale_Translate::_("Order"));
+$header = new Assets_Header (gettext("Order"));
 $header->jQueryUIOn ("sortable");
 $header->run ();
 

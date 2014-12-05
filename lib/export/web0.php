@@ -64,7 +64,7 @@ $backLinkPath = Export_Logic::webBackLinkDirectory ($bible);
 $html_text_rich_bible_index = new Html_Text ($bible);
 // On top are the breadcrumbs, starting with a clickable Bible name.
 $htmlHeader = new Html_Header ($html_text_rich_bible_index);
-$htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible (), Locale_Translate::_("Go back to Bible"));
+$htmlHeader->searchBackLink ($backLinkPath . Filter_Paths::htmlFileNameBible (), gettext("Go back to Bible"));
 $htmlHeader->create (array (array ($bible, Filter_Paths::htmlFileNameBible ())));
 
 
@@ -92,7 +92,7 @@ $html_text_rich_bible_index->save ($index00);
 copy ("../webbible/lens.png", "$directory/lens.png");
 
 
-$database_logs->log (Locale_Translate::_("Web export index") . " $bible", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Web export index") . " $bible", Filter_Roles::TRANSLATOR_LEVEL);
 
 
 ?>

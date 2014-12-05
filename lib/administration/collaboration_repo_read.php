@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::ADMIN_LEVEL);
-Assets_Page::header (Locale_Translate::_("Collaboration"));
+Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
 $object = $_GET ['object'];
@@ -46,9 +46,9 @@ ob_end_clean();
 $view->view->read_access_result = nl2br ($read_access_result);
 
 if ($exit_code == 0) {
-  $success_message = Locale_Translate::_("Read access to the repository is successful.");
+  $success_message = gettext("Read access to the repository is successful.");
 } else {
-  $error_message = Locale_Translate::_("Read access failed. Please retry it, possibly with another URL.");
+  $error_message = gettext("Read access failed. Please retry it, possibly with another URL.");
 }
 @$view->view->success_message = $success_message;
 @$view->view->error_message = $error_message;

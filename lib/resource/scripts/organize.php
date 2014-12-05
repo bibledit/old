@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Settings for Resources") ?></h3>
-<p><a href="index.php">[<?php echo Locale_Translate::_("back") ?></a>]</p>
-<h4><?php echo Locale_Translate::_("Active resources") ?></h4>
+<h3><?php echo gettext("Settings for Resources") ?></h3>
+<p><a href="index.php">[<?php echo gettext("back") ?></a>]</p>
+<h4><?php echo gettext("Active resources") ?></h4>
 <div id="sortable">
 <?php foreach ($this->actives as $active) { ?>
   <p><a href="?remove=<?php echo $active ?>"> ✗ </a><?php echo $active ?></p>
@@ -27,12 +27,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </div>
 <br>
 <p>
-  <?php echo Locale_Translate::_("To change the order, drag an item to another location.") ?>
-  <?php echo Locale_Translate::_("Click ✗ to remove.") ?>
+  <?php echo gettext("To change the order, drag an item to another location.") ?>
+  <?php echo gettext("Click ✗ to remove.") ?>
 </p>
-<h4><?php echo Locale_Translate::_("Available resources") ?></h4>
+<h4><?php echo gettext("Available resources") ?></h4>
 <p>
-<?php echo Locale_Translate::_("Click to activate:") ?>
+<?php echo gettext("Click to activate:") ?>
 <?php foreach ($this->selectables as $offset => $selectable) { ?>
   <?php if ($offset) echo " | " ?>
   <a href="?add=<?php echo $selectable ?>"><?php echo $selectable ?></a>

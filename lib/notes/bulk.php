@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-$header = new Assets_Header (Locale_Translate::_("Bulk update"));
+$header = new Assets_Header (gettext("Bulk update"));
 $header->run();
 
 
@@ -94,7 +94,7 @@ if (isset($_GET['subscribe'])) {
   foreach ($identifiers as $identifier) {
     $notes_logic->subscribe ($identifier);
   }
-  Assets_Page::success (Locale_Translate::_("You subscribed to these notes"));
+  Assets_Page::success (gettext("You subscribed to these notes"));
 }
 
 
@@ -102,7 +102,7 @@ if (isset($_GET['unsubscribe'])) {
   foreach ($identifiers as $identifier) {
     $notes_logic->unsubscribe ($identifier);
   }
-  Assets_Page::success (Locale_Translate::_("You unsubscribed from these notes"));
+  Assets_Page::success (gettext("You unsubscribed from these notes"));
 }
 
 
@@ -115,7 +115,7 @@ if (isset ($assign)) {
       }
     }
   }
-  Assets_Page::success (Locale_Translate::_("The notes were assigned to the user"));
+  Assets_Page::success (gettext("The notes were assigned to the user"));
   $database_logs->log ("Notes assigned to user $assign: $identifierlist");
 }
 
@@ -129,7 +129,7 @@ if (isset ($unassign)) {
       }
     }
   }
-  Assets_Page::success (Locale_Translate::_("The notes are no longer assigned to the user"));
+  Assets_Page::success (gettext("The notes are no longer assigned to the user"));
   $database_logs->log ("Notes unassigned from user $unassign: $identifierlist", true);
 }
 
@@ -141,7 +141,7 @@ if (isset ($status)) {
       $notes_logic->setStatus ($identifier, $status);
     }
   }
-  Assets_Page::success (Locale_Translate::_("The status of the notes was updated"));
+  Assets_Page::success (gettext("The status of the notes was updated"));
   $database_logs->log ("Status update of notes: $identifierlist", true);
 }
 
@@ -153,7 +153,7 @@ if (isset ($severity)) {
       $notes_logic->setRawSeverity ($identifier, $severity);
     }
   }
-  Assets_Page::success (Locale_Translate::_("The severity of the notes was updated"));
+  Assets_Page::success (gettext("The severity of the notes was updated"));
   $database_logs->log ("Severity update of notes: $identifierlist", true);
 }
 
@@ -166,7 +166,7 @@ if (isset ($bible)) {
       $notes_logic->setBible ($identifier, $bible);
     }
   }
-  Assets_Page::success (Locale_Translate::_("The Bible of the notes was updated"));
+  Assets_Page::success (gettext("The Bible of the notes was updated"));
   $database_logs->log ("Bible update of notes: $identifierlist", true);
 }
 
@@ -175,7 +175,7 @@ if (isset ($bible)) {
 if (isset ($delete)) {
   @$confirm = $_GET['confirm'];
   if ($confirm != "yes") {
-    $dialog_yes = new Dialog_Yes2 (Locale_Translate::_("Would you like to delete the notes?"), "&delete=");
+    $dialog_yes = new Dialog_Yes2 (gettext("Would you like to delete the notes?"), "&delete=");
   } else {
     foreach ($identifiers as $identifier) {
       $notes_logic->delete ($identifier); // Notifications handling.
@@ -183,7 +183,7 @@ if (isset ($delete)) {
       $trash_handler->consultationNote ($identifier);
       $database_notes->delete ($identifier);
     }
-    Assets_Page::success (Locale_Translate::_("The notes were deleted"));
+    Assets_Page::success (gettext("The notes were deleted"));
     $database_logs->log ("Notes deleted: $identifierlist", true);
   }
 }

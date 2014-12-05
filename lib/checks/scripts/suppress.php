@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Suppressed check results") ?></h1>
-<p><a href="index.php">[<?php echo Locale_Translate::_("back") ?>] <a href="#help">[<?php echo Locale_Translate::_ ("help") ?>]</a></p>
+<h1><?php echo gettext("Suppressed check results") ?></h1>
+<p><a href="index.php">[<?php echo gettext("back") ?>] <a href="#help">[<?php echo gettext ("help") ?>]</a></p>
 <br>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
@@ -33,9 +33,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <a id="help"></a>
 <p>
-  <?php echo Locale_Translate::_("The page lists the suppressed results of the checks.") ?>
+  <?php echo gettext("The page lists the suppressed results of the checks.") ?>
 </p>
 <p>
-  <?php echo Locale_Translate::_("Click ✗ to remove the items from the suppressed list.") ?>
-  <?php echo Locale_Translate::_("It will be visible again in the list of check results.") ?>
+  <?php echo gettext("Click ✗ to remove the items from the suppressed list.") ?>
+  <?php echo gettext("It will be visible again in the list of check results.") ?>
 </p>

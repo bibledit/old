@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Checks") ?></h1>
-<p><a href="#help">[<?php echo Locale_Translate::_("help") ?>]</a></p>
+<h1><?php echo gettext("Checks") ?></h1>
+<p><a href="#help">[<?php echo gettext("help") ?>]</a></p>
 <br>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
@@ -33,14 +33,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 <br>
 <a id="help"></a>
-<p><?php echo Locale_Translate::_("The page displays a list of results of running the checks.") ?></p>
-<p><?php echo Locale_Translate::_("Click ✔ to approve and suppress the entry.") ?></p>
+<p><?php echo gettext("The page displays a list of results of running the checks.") ?></p>
+<p><?php echo gettext("Click ✔ to approve and suppress the entry.") ?></p>
 <p>
-  <?php echo Locale_Translate::_("Click ✗ to remove the entry for just now.") ?>
-  <?php echo Locale_Translate::_("It will be back next day, unless the text of the Bible is corrected.") ?>
+  <?php echo gettext("Click ✗ to remove the entry for just now.") ?>
+  <?php echo gettext("It will be back next day, unless the text of the Bible is corrected.") ?>
 </p>
-<p><?php echo Locale_Translate::_("Click an entry to open the chapter in the text editor.") ?></p>
-<p><?php echo Locale_Translate::_("The Manager should enable the checks.") ?></p>
-<p><a href="suppress.php"><?php echo Locale_Translate::_("Suppressed entries") ?></a></p>
+<p><?php echo gettext("Click an entry to open the chapter in the text editor.") ?></p>
+<p><?php echo gettext("The Manager should enable the checks.") ?></p>
+<p><a href="suppress.php"><?php echo gettext("Suppressed entries") ?></a></p>
 <script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
 <script type="text/javascript" src="../navigation/nav.js?<?php echo config_logic_version () ?>"></script>

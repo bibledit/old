@@ -38,7 +38,7 @@ if (isset ($bible)) {
 }
 
 
-$assets_header = new Assets_Header (Locale_Translate::_("Bibles"));
+$assets_header = new Assets_Header (gettext("Bibles"));
 $assets_header->run();
 
 

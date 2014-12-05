@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Stylesheet") ?> <?php echo $this->name ?></h1>
+<h1><?php echo gettext("Stylesheet") ?> <?php echo $this->name ?></h1>
 
 <table>
   <thead>
     <tr>
-      <td><?php echo Locale_Translate::_("Style") ?></td>
-      <td><?php echo Locale_Translate::_("Name") ?></td>
+      <td><?php echo gettext("Style") ?></td>
+      <td><?php echo gettext("Name") ?></td>
       <td></td>
     </tr>
   </thead>
@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     <tr>
       <td><a href="view.php?sheet=<?php echo $this->name ?>&style=<?php echo $marker ?>"><?php echo $marker ?></a></td>
       <td><?php echo $this->names[$offset] ?></td>
-      <td>[<a href="sheetm.php?name=<?php echo $this->name ?>&delete=<?php echo $marker ?>"><?php echo Locale_Translate::_("delete") ?>]</a></td>
+      <td>[<a href="sheetm.php?name=<?php echo $this->name ?>&delete=<?php echo $marker ?>"><?php echo gettext("delete") ?>]</a></td>
     </tr>
     <?php } ?>
   </tbody>
@@ -40,18 +40,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <br>
 
-<p><a href="sheetm.php?name=<?php echo $this->name ?>&new="><?php echo Locale_Translate::_("Add a style to the stylesheet.") ?></a></p>
-<p><a href="indexm.php?delete=<?php echo $this->name ?>"><?php echo Locale_Translate::_("Delete the entire stylesheet.") ?></a></p>
+<p><a href="sheetm.php?name=<?php echo $this->name ?>&new="><?php echo gettext("Add a style to the stylesheet.") ?></a></p>
+<p><a href="indexm.php?delete=<?php echo $this->name ?>"><?php echo gettext("Delete the entire stylesheet.") ?></a></p>
 <br>
 
 <p>
-  <?php echo Locale_Translate::_("Below is the stylesheet in XML format.") ?>
-  <?php echo Locale_Translate::_("You can edit the XML, then submit it.") ?>
-  <?php echo Locale_Translate::_("It will then update the stylesheet.") ?>
+  <?php echo gettext("Below is the stylesheet in XML format.") ?>
+  <?php echo gettext("You can edit the XML, then submit it.") ?>
+  <?php echo gettext("It will then update the stylesheet.") ?>
 </p>
 <br>
 
 <form action="sheetm.php?name=<?php echo $this->name ?>" name="form" method="post">
   <p><textarea name="data"><?php echo $this->xml ?></textarea></p>
-  <p><input type="submit" name="submit" value=<?php echo Locale_Translate::_("Submit") ?> /></p>
+  <p><input type="submit" name="submit" value=<?php echo gettext("Submit") ?> /></p>
 </form>

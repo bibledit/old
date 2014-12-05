@@ -17,34 +17,34 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><a href="note.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Go back to the note contents") ?></a></p>
-<p><?php echo Locale_Translate::_("Summary") ?>: <?php echo $this->summary ?></p>
+<p><a href="note.php?id=<?php echo $this->id ?>"><?php echo gettext("Go back to the note contents") ?></a></p>
+<p><?php echo gettext("Summary") ?>: <?php echo $this->summary ?></p>
 <p>
 <?php if ($this->subscribed) { ?>
-<?php echo Locale_Translate::_("You are subscribed to this note") ?> <a href="?id=<?php echo $this->id ?>&unsubscribe=">[<?php echo Locale_Translate::_ ("unsubscribe") ?>]</a>
+<?php echo gettext("You are subscribed to this note") ?> <a href="?id=<?php echo $this->id ?>&unsubscribe=">[<?php echo gettext ("unsubscribe") ?>]</a>
 <?php } else { ?>
-<a href="?id=<?php echo $this->id ?>&subscribe="><?php echo Locale_Translate::_("Subscribe to this note") ?></a>
+<a href="?id=<?php echo $this->id ?>&subscribe="><?php echo gettext("Subscribe to this note") ?></a>
 <?php } ?>
-<p><?php echo Locale_Translate::_("The note has been assigned to") ?>:
+<p><?php echo gettext("The note has been assigned to") ?>:
 <?php foreach ($this->assignees as $offset => $assignee) { ?>
   <?php echo $this->assignees[$offset] ?>
   <?php if ($this->level >= 5) { ?>
-    <a href="?id=<?php echo $this->id ?>&unassign=<?php echo $this->assignees[$offset] ?>">[<?php echo Locale_Translate::_("unassign") ?>]</a>
+    <a href="?id=<?php echo $this->id ?>&unassign=<?php echo $this->assignees[$offset] ?>">[<?php echo gettext("unassign") ?>]</a>
     |
   <?php } ?>
 <?php } ?>
 <?php if ($this->level >= 5) { ?>
-  <a href="assign-1.php?id=<?php echo $this->id ?>">[<?php echo Locale_Translate::_("add assignee") ?>]</a>
+  <a href="assign-1.php?id=<?php echo $this->id ?>">[<?php echo gettext("add assignee") ?>]</a>
 <?php } ?>
 </p>
 <?php if ($this->assignee) { ?>
   <p>
-  <?php echo Locale_Translate::_("This note has been assigned to you for you to take action on.") ?>
-  <a href="?id=<?php echo $this->id ?>&done="><?php echo Locale_Translate::_("I have done my part on it.") ?></a>
+  <?php echo gettext("This note has been assigned to you for you to take action on.") ?>
+  <a href="?id=<?php echo $this->id ?>&done="><?php echo gettext("I have done my part on it.") ?></a>
   </p>
 <?php } ?>
 <p>
-<?php echo Locale_Translate::_("Status") ?>:
+<?php echo gettext("Status") ?>:
 <?php if ($this->level >= 4) { ?>
   <a href="status-1.php?id=<?php echo $this->id ?>"><?php echo $this->status ?></a>
 <?php } else { ?>
@@ -52,35 +52,35 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 </p>
 <p>
-  <?php echo Locale_Translate::_("Verses") ?>: <?php echo $this->verses ?> |
-  <a href="verses.php?id=<?php echo $this->id ?>">[<?php echo Locale_Translate::_("edit") ?>]</a>
+  <?php echo gettext("Verses") ?>: <?php echo $this->verses ?> |
+  <a href="verses.php?id=<?php echo $this->id ?>">[<?php echo gettext("edit") ?>]</a>
 </p>
-  <p><?php echo Locale_Translate::_("Severity") ?>:
+  <p><?php echo gettext("Severity") ?>:
   <a href="severity-1.php?id=<?php echo $this->id ?>"><?php echo $this->severity ?></a></p>
 <p>
 </p>
 <p>
-<?php echo Locale_Translate::_("Bible") ?>:
+<?php echo gettext("Bible") ?>:
 <?php if ($this->bible != "") { ?>
   <?php echo $this->bible ?>
 <?php } else { ?>
-  <?php echo Locale_Translate::_("This is a general note, it does not apply to any specific Bible") ?>
+  <?php echo gettext("This is a general note, it does not apply to any specific Bible") ?>
 <?php } ?>
-  <a href="bible-1.php?id=<?php echo $this->id ?>">[<?php echo Locale_Translate::_("change") ?>]</a>
+  <a href="bible-1.php?id=<?php echo $this->id ?>">[<?php echo gettext("change") ?>]</a>
 </p>
-<p><?php echo Locale_Translate::_("Identifier") ?>: <?php echo $this->id ?></p>
+<p><?php echo gettext("Identifier") ?>: <?php echo $this->id ?></p>
 </p>
 <?php if ($this->level >= 5) { ?>
   <p>
   <?php if ($this->marked) { ?>
-    <?php echo Locale_Translate::_("The note will be deleted after it expires
+    <?php echo gettext("The note will be deleted after it expires
     ") ?>
-    <a href="?id=<?php echo $this->id ?>&unmarkdel=">[<?php echo Locale_Translate::_("cancel") ?>]</a>
+    <a href="?id=<?php echo $this->id ?>&unmarkdel=">[<?php echo gettext("cancel") ?>]</a>
   <?php } else { ?>
-    <a href="?id=<?php echo $this->id ?>&markdel="><?php echo Locale_Translate::_("Mark the note for deletion after a week") ?></a>
+    <a href="?id=<?php echo $this->id ?>&markdel="><?php echo gettext("Mark the note for deletion after a week") ?></a>
   <?php } ?>
   </p>
-  <p><a href="?id=<?php echo $this->id ?>&delete="><?php echo Locale_Translate::_("Delete the note now") ?></a></p>
+  <p><a href="?id=<?php echo $this->id ?>&delete="><?php echo gettext("Delete the note now") ?></a></p>
 <?php } ?>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>

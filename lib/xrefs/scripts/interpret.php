@@ -19,16 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <p class="error"><?php echo $this->errorr ?></p>
 <p class="success"><?php echo $this->success ?></p>
-<p><?php echo Locale_Translate::_("The abbreviation below needs clarification as to which Bible book it refers to.") ?></p>
+<p><?php echo gettext("The abbreviation below needs clarification as to which Bible book it refers to.") ?></p>
 <br>
 <form action="interpret.php" name="pair" method="post">
   <table>
     <tr>
-      <td>1. <?php echo Locale_Translate::_("Optionally update the abbreviation:") ?></td>
+      <td>1. <?php echo gettext("Optionally update the abbreviation:") ?></td>
       <td><input type="text" name="abbreviation" maxlength="50" value="<?php echo $this->abbreviation ?>" /></td>
     </tr>
     <tr>
-      <td>2. <?php echo Locale_Translate::_("Select the Bible book it represents:") ?></td>
+      <td>2. <?php echo gettext("Select the Bible book it represents:") ?></td>
       <td>
         <select name="fullname">
         <?php foreach ($this->books as $book) { ?>
@@ -38,12 +38,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
       </td>
     </tr>
     <tr>
-      <td>3. <?php echo Locale_Translate::_("Save it:") ?></td>
-      <td><input type="submit" name="save" value=<?php echo Locale_Translate::_("Save") ?> /></td>
+      <td>3. <?php echo gettext("Save it:") ?></td>
+      <td><input type="submit" name="save" value=<?php echo gettext("Save") ?> /></td>
     </tr>
   </table>
 </form>
 <br>
 <?php if ($this->remaining) { ?>
-  <p><?php echo Locale_Translate::_("Remaining abbreviations to clarify:") ?> <?php echo $this->remaining ?>.</p>
+  <p><?php echo gettext("Remaining abbreviations to clarify:") ?> <?php echo $this->remaining ?>.</p>
 <?php } ?>

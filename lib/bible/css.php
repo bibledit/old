@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Font and text direction"));
+Assets_Page::header (gettext("Font and text direction"));
 $view = new Assets_View (__FILE__);
 
 

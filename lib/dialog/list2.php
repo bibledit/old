@@ -34,8 +34,8 @@ class Dialog_List2
     $caller_url = $_SERVER["PHP_SELF"] . "?" . http_build_query (array ());
     $this->view->view->caller_url = $caller_url;
     $this->view->view->header = $header;
-    $this->view->view->info_top = Locale_Translate::_("Here are the various options:");
-    $this->view->view->info_bottom = Locale_Translate::_("Please pick one.");
+    $this->view->view->info_top = gettext("Here are the various options:");
+    $this->view->view->info_bottom = gettext("Please pick one.");
   }
 
 

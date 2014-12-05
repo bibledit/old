@@ -36,7 +36,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$database_logs->log (Locale_Translate::_("Sending statistics to users"), Filter_Roles::ADMIN_LEVEL);
+$database_logs->log (gettext("Sending statistics to users"), Filter_Roles::ADMIN_LEVEL);
 
 
 $siteUrl = $database_config_general->getSiteURL ();
@@ -49,13 +49,13 @@ $users = $database_users->getUsers ();
 foreach ($users as $user) {
 
 
-  $subject = "Bibledit " . Locale_Translate::_("statistics");
+  $subject = "Bibledit " . gettext("statistics");
   $body = array ();
 
 
   if ($database_config_user->getUserPendingChangesNotification ($user)) {
     $ids = $database_modifications->getNotificationIdentifiers ($user);
-    $body [] = "<p><a href=\"$siteUrl/changes/changes.php\">" . Locale_Translate::_("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/changes/changes.php\">" . gettext("Number of change notifications awaiting your approval") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
@@ -76,12 +76,12 @@ foreach ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<p><a href=\"$siteUrl/notes/index.php?presetselection=assigned\">" . Locale_Translate::_("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
+    $body [] = "<p><a href=\"$siteUrl/notes/index.php?presetselection=assigned\">" . gettext("Number of consultation notes assigned to you awaiting your response") . "</a>: " . count ($ids) . "</p>\n";
   }
 
 
   if ($database_config_user->getUserSubscribedNotesStatisticsNotification ($user)) {
-    $body [] = "<p>" . Locale_Translate::_("Number of consultation notes you are subscribed to") . ":</p>\n";
+    $body [] = "<p>" . gettext("Number of consultation notes you are subscribed to") . ":</p>\n";
     $body [] = "<ul>\n";
     $session_logic->setUsername ($user);
 
@@ -101,7 +101,7 @@ foreach ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribed\">" . Locale_Translate::_("Total") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribed\">" . gettext("Total") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -118,7 +118,7 @@ foreach ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribeddayidle\">" . Locale_Translate::_("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribeddayidle\">" . gettext("Inactive for a day") . "</a>: " . count ($ids) . "</li>\n";
     $ids = $database_notes->selectNotes (
       $bibles, // Bible.
       0,       // Book
@@ -135,7 +135,7 @@ foreach ($users as $user) {
       0,       // Text selector.
       "",      // Search text.
       NULL);   // Limit.
-    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribedweekidle\">" . Locale_Translate::_("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
+    $body [] = "<li><a href=\"$siteUrl/notes/index.php?presetselection=subscribedweekidle\">" . gettext("Inactive for a week") . "</a>: " . count ($ids) . "</li>\n";
     $body [] = "</ul>\n";
     $session_logic->setUsername ("");
   }

@@ -33,7 +33,7 @@ $database_modifications = Database_Modifications::getInstance ();
 
 
 $resource = Filter_Cli::argument (@$argv, 1);
-$database_logs->log (Locale_Translate::_("Converting USFM Resource to Bible") . ": $resource");
+$database_logs->log (gettext("Converting USFM Resource to Bible") . ": $resource");
 
 
 $database_bibles->createBible ($resource);
@@ -50,7 +50,7 @@ foreach ($books as $book) {
 $database_usfmresources->deleteResource ($resource);
 
 
-$database_logs->log (Locale_Translate::_("Conversion completed"));
+$database_logs->log (gettext("Conversion completed"));
 
 
 ?>

@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::CONSULTANT_LEVEL);
 
 
-$header = new Assets_Header (Locale_Translate::_("Select notes"));
+$header = new Assets_Header (gettext("Select notes"));
 $header->run();
 
 
@@ -96,7 +96,7 @@ if (isset ($text_selector)) {
   @$search_text = $_POST['text'];
   if (isset ($search_text)) {
     $database_config_user->setConsultationNotesSearchText ($search_text);
-    Assets_Page::success (Locale_Translate::_("Search text saved"));
+    Assets_Page::success (gettext("Search text saved"));
   }
 }
 

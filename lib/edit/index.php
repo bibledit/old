@@ -41,7 +41,7 @@ if (isset ($switchbook) && isset ($switchchapter)) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Edit"));
+$header = new Assets_Header (gettext("Edit"));
 $header->setNavigator ();
 $header->setEditorStylesheet ();
 $header->run ();
@@ -50,7 +50,7 @@ $header->run ();
 @$changebible = $_GET['changebible'];
 if (isset ($changebible)) {
   if ($changebible == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Select which Bible to open in the editor"));
+    $dialog_list = new Dialog_List2 (gettext("Select which Bible to open in the editor"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&changebible=$bible");
@@ -87,9 +87,9 @@ $write_access = Access_Bible::write ($bible);
 $view->view->write_access = $write_access;
 
 
-$chapterLoaded = Locale_Translate::_("Loaded");
-$chapterSaving = Locale_Translate::_("Saving...");
-$chapterRetrying = Locale_Translate::_("Retrying...");
+$chapterLoaded = gettext("Loaded");
+$chapterSaving = gettext("Saving...");
+$chapterRetrying = gettext("Retrying...");
 $write_access = $write_access ? "true" : "false";
 $script = <<<EOD
 var editorChapterLoaded = '$chapterLoaded';

@@ -17,46 +17,46 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Consistency") ?></h1>
+<h1><?php echo gettext("Consistency") ?></h1>
 <p>
-  <?php echo Locale_Translate::_("Bibledit-Web assists with checking how consistent words have been translated in the Bible.") ?>
-  <?php echo Locale_Translate::_("The suggested work-flow for consistency checking is this:") ?>
+  <?php echo gettext("Bibledit-Web assists with checking how consistent words have been translated in the Bible.") ?>
+  <?php echo gettext("The suggested work-flow for consistency checking is this:") ?>
 </p>
 <br>
 <p>
   *
-  <?php echo Locale_Translate::_("Create a Consultation Note, and enter the details of the desired consistency check, plus the passages to check.") ?>
+  <?php echo gettext("Create a Consultation Note, and enter the details of the desired consistency check, plus the passages to check.") ?>
 </p>
 <p>
   *
-  <a href="../consistency/index.php" target="_blank"><?php echo Locale_Translate::_("Open the Consistency tool in a new tab.") ?></a>
+  <a href="../consistency/index.php" target="_blank"><?php echo gettext("Open the Consistency tool in a new tab.") ?></a>
 </p>
 <p>
   *
-  <?php echo Locale_Translate::_("Copy the passages from the Consultation Note and paste them in the Consistency tool.") ?>
+  <?php echo gettext("Copy the passages from the Consultation Note and paste them in the Consistency tool.") ?>
 </p>
 <p>
   *
-  <?php echo Locale_Translate::_("Enter the desired translation or translations in the Consistency tool.") ?>
+  <?php echo gettext("Enter the desired translation or translations in the Consistency tool.") ?>
 </p>
 <br>
 <p>
-  <?php echo Locale_Translate::_("The Consistency tool will display the verse texts from the active Bible.") ?>
-  <?php echo Locale_Translate::_("It will mark the translations in the verse.") ?>
+  <?php echo gettext("The Consistency tool will display the verse texts from the active Bible.") ?>
+  <?php echo gettext("It will mark the translations in the verse.") ?>
 </p>
 <br>
 <p>
   *
-  <?php echo Locale_Translate::_("To make corrections, click a Passage.") ?>
+  <?php echo gettext("To make corrections, click a Passage.") ?>
 </p>
 <br>
 <p>
-  <?php echo Locale_Translate::_("The text editor will open at the correct chapter and verse.") ?>
-  <?php echo Locale_Translate::_("Changes can be made in the text.") ?>
-  <?php echo Locale_Translate::_("The Consistency tool will display any updates in the Bible.") ?>
+  <?php echo gettext("The text editor will open at the correct chapter and verse.") ?>
+  <?php echo gettext("Changes can be made in the text.") ?>
+  <?php echo gettext("The Consistency tool will display any updates in the Bible.") ?>
 </p>
 <br>
 <p>
-  <?php echo Locale_Translate::_("The Consistency tool can display extra Bibles.") ?>
-  <?php echo Locale_Translate::_("This assists the checking process.") ?>
+  <?php echo gettext("The Consistency tool can display extra Bibles.") ?>
+  <?php echo gettext("This assists the checking process.") ?>
 </p>

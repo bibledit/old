@@ -18,14 +18,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <div id="searchbox">
-  <?php // echo Locale_Translate::_("Bible") ?>
+  <?php // echo gettext("Bible") ?>
   <?php echo $this->bible; ?>
-  <input id="searchentry" type="text" value="" placeholder="<?php echo Locale_Translate::_("Search for") ?>" />
-  <input id="searchbutton" type="button" value="<?php echo Locale_Translate::_("Search") ?>"  />
+  <input id="searchentry" type="text" value="" placeholder="<?php echo gettext("Search for") ?>" />
+  <input id="searchbutton" type="button" value="<?php echo gettext("Search") ?>"  />
   <img id="searchloading" src="../pix/loading.gif">
   <progress value="0" max="100"></progress>
   <span id="hitcount"></span>
-  <span><a href="select.php" title="<?php echo Locale_Translate::_("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
 </div>
 <div id="searchresults">
 </div>

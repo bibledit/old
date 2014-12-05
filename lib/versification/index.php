@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
-Assets_Page::header (Locale_Translate::_("Versifications"));
+Assets_Page::header (gettext("Versifications"));
 $view = new Assets_View (__FILE__);
 $database_versifications = Database_Versifications::getInstance();
 
@@ -31,7 +31,7 @@ if (isset ($_GET['delete'])) {
   if ($confirm != "") {
     $database_versifications->delete ($name);
   } else {
-    $dialog_yes = new Dialog_Yes (NULL, Locale_Translate::_("Would you like to delete this versification system?"), "delete");
+    $dialog_yes = new Dialog_Yes (NULL, gettext("Would you like to delete this versification system?"), "delete");
     die;
   }
 }
@@ -44,7 +44,7 @@ if (isset($_POST['new'])) {
 
 
 if (isset ($_GET['new'])) {
-  $dialog_entry = new Dialog_Entry ("", Locale_Translate::_("Please enter the name for the new versification system"), "", "new", "");
+  $dialog_entry = new Dialog_Entry ("", gettext("Please enter the name for the new versification system"), "", "new", "");
   die;
 }
 

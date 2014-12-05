@@ -17,12 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Clone repository") ?></h1>
+<h1><?php echo gettext("Clone repository") ?></h1>
 
-<p><?php echo Locale_Translate::_("Bible") ?>: <?php echo $this->object ?></p>
-<p><?php echo Locale_Translate::_("Repository URL") ?>: <?php echo $this->url ?></p>
+<p><?php echo gettext("Bible") ?>: <?php echo $this->object ?></p>
+<p><?php echo gettext("Repository URL") ?>: <?php echo $this->url ?></p>
 
-<p><?php echo Locale_Translate::_("Bibledit-Web clones the remote repository, and optimizes the clone for your use.") ?></p>
+<p><?php echo gettext("Bibledit-Web clones the remote repository, and optimizes the clone for your use.") ?></p>
 
 <?php foreach ($this->contents as $line) {  ?>
   <p><code><?php echo $line ?></code></p>

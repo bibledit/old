@@ -126,7 +126,7 @@ class Sprint_Logic
     // Write "days" below the x-axis.
     $lines [] = '<tr>';
     $columncount = count ($data);
-    $text = Locale_Translate::_("days");
+    $text = gettext("days");
     $lines [] = "<td colspan=\"$columncount\">$text</td>";
     $lines [] = "</tr>";
 

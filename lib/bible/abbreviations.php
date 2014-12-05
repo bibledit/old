@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Abbreviations"));
+Assets_Page::header (gettext("Abbreviations"));
 $view = new Assets_View (__FILE__);
 
 
@@ -45,12 +45,12 @@ if (isset($_POST['submit'])) {
   if ($data != "") {
     if (Validate_Utf8::valid ($data)) {
       $database_config_bible->setBookAbbreviations ($bible, $data);
-      $success_message = Locale_Translate::_("The abbreviations were saved.");
+      $success_message = gettext("The abbreviations were saved.");
     } else {
-      $error_message = Locale_Translate::_("Please supply valid Unicode UTF-8 text.");
+      $error_message = gettext("Please supply valid Unicode UTF-8 text.");
     }
   } else {
-    $success_message = Locale_Translate::_("Nothing was saved.");
+    $success_message = gettext("Nothing was saved.");
   }
 }
 

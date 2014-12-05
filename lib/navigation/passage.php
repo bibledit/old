@@ -46,13 +46,13 @@ class Navigation_Passage
     // Links to go back and forward are grayed out or active depending on available passages to go to.
     $fragments [] = '<div id="backforward">';
     if ($database_navigation->previousExists ($user)) {
-      $fragments [] = '<a id="navigateback" href="navigateback" title="' . Locale_Translate::_("Back") . '">↶</a>';
+      $fragments [] = '<a id="navigateback" href="navigateback" title="' . gettext("Back") . '">↶</a>';
     } else {
       $fragments [] = '<span class="grayedout">↶</span>';
     }
     $fragments [] = "";
     if ($database_navigation->nextExists ($user)) {
-      $fragments [] = '<a id="navigateforward" href="navigateforward" title="' . Locale_Translate::_("Forward") . '">↷</a>';
+      $fragments [] = '<a id="navigateforward" href="navigateforward" title="' . gettext("Forward") . '">↷</a>';
     } else {
       $fragments [] = '<span class="grayedout">↷</span>';
     }
@@ -87,7 +87,7 @@ class Navigation_Passage
     $fragments [] = '<div id="versepicker">';
 
     $fragments [] = '<input name="selectpassage" id="selectpassage" type="text" value="' . "$bookName $chapter:$verse" . '" size="14" />';
-    $fragments [] = '<input name="submitpassage" id="submitpassage" type="submit" value="' . Locale_Translate::_("Go") . '" />';
+    $fragments [] = '<input name="submitpassage" id="submitpassage" type="submit" value="' . gettext("Go") . '" />';
 
     $fragments [] = '<div id="handpicker">';
 

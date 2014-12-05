@@ -48,7 +48,7 @@ $alive = ($timestamp > (time () - 5));
 
 if ($alive) {
   // If a Bible editor is alive, send javascript to the browser to close this new window.
-  $message = Locale_Translate::_("The passage has been opened in the existing Bible editor in another browser tab.");
+  $message = gettext("The passage has been opened in the existing Bible editor in another browser tab.");
 $script = <<< EOD
 <!doctype html>
 <html>

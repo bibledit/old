@@ -33,7 +33,7 @@ $focused_chapter = $ipc_focus->getChapter ();
 $focused_verse = $ipc_focus->getVerse ();
 
 
-$header = new Assets_Header (Locale_Translate::_("Change History"));
+$header = new Assets_Header (gettext("Change History"));
 $header->setNavigator ();
 $header->setStylesheet ();
 $header->run ();
@@ -67,7 +67,7 @@ $myBibles = Access_Bible::bibles ();
 
 // The names of the authors in the history, with 'everybody' on top.
 $author_names = $database_history->authors ($myBibles);
-array_unshift ($author_names, Locale_Translate::_("everybody"));
+array_unshift ($author_names, gettext("everybody"));
 
 
 // The filter variables.
@@ -149,7 +149,7 @@ $view->view->verse = http_build_query (array_merge ($state, array ('passage' => 
 
 // Data for the author filter.
 $author_names = $database_history->authors ($myBibles);
-array_unshift ($author_names, Locale_Translate::_("everybody"));
+array_unshift ($author_names, gettext("everybody"));
 $view->view->author_names = $author_names;
 $author_queries = array ();
 foreach ($author_names as $offset => $dummy) {

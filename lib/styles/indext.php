@@ -20,14 +20,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
-Assets_Page::header (Locale_Translate::_("Styles"));
+Assets_Page::header (gettext("Styles"));
 $view = new Assets_View (__FILE__);
 $database_config_user = Database_Config_User::getInstance();
 
 if (isset ($_GET['sheet'])) {
   $sheet = $_GET['sheet'];
   if ($sheet == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Would you like to switch to another stylesheet?"));
+    $dialog_list = new Dialog_List2 (gettext("Would you like to switch to another stylesheet?"));
     $database_styles = Database_Styles::getInstance();
     $sheets = $database_styles->getSheets();
     foreach ($sheets as $sheet) {

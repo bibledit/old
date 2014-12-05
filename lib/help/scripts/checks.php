@@ -17,17 +17,17 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Checks") ?></h1>
+<h1><?php echo gettext("Checks") ?></h1>
 <p>
-  <?php echo Locale_Translate::_("Bibledit-Web runs a number of checks on the text of the Bibles.") ?>
-  <?php echo Locale_Translate::_("It does that every night.") ?>
+  <?php echo gettext("Bibledit-Web runs a number of checks on the text of the Bibles.") ?>
+  <?php echo gettext("It does that every night.") ?>
 </p>
 <ul>
-<li><a href="../checks/index.php" target="_blank"><?php echo Locale_Translate::_("Act on the results of the checks.") ?></a></li>
-<li><a href="../user/notifications.php" target="_blank"><?php echo Locale_Translate::_("Receive the results by email.") ?></a></li>
-<li><a href="../checks/settings.php" target="_blank"><?php echo Locale_Translate::_("Manage the checks.") ?></a></li>
+<li><a href="../checks/index.php" target="_blank"><?php echo gettext("Act on the results of the checks.") ?></a></li>
+<li><a href="../user/notifications.php" target="_blank"><?php echo gettext("Receive the results by email.") ?></a></li>
+<li><a href="../checks/settings.php" target="_blank"><?php echo gettext("Manage the checks.") ?></a></li>
 </ul>
-<p><?php echo Locale_Translate::_("Notes.") ?></p>
+<p><?php echo gettext("Notes.") ?></p>
 <ul>
-<li><?php echo Locale_Translate::_("You deal with checks on the Bibles you have write access to.") ?></li>
+<li><?php echo gettext("You deal with checks on the Bibles you have write access to.") ?></li>
 </ul>

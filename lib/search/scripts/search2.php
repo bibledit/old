@@ -18,25 +18,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo Locale_Translate::_("Bible") ?>: 
+  <?php echo gettext("Bible") ?>: 
   <?php echo $this->bible; ?>
-  <a href="select.php" title="<?php echo Locale_Translate::_("Menu") ?>">☰</a>
+  <a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a>
 </p>
 <p>
-  <input id="searchentry" type="text" value="" placeholder="<?php echo Locale_Translate::_("Search for") ?>" />
-  <input id="searchbutton" type="button" value="<?php echo Locale_Translate::_("Search") ?>"  />
+  <input id="searchentry" type="text" value="" placeholder="<?php echo gettext("Search for") ?>" />
+  <input id="searchbutton" type="button" value="<?php echo gettext("Search") ?>"  />
   <img id="searchloading" src="../pix/loading.gif">
   <span id="hitcount"></span>
   <progress value="0" max="100"></progress>
 </p>
-<p><input type="checkbox" id="casesensitive"><?php echo Locale_Translate::_("Case sensitive") ?></p>
-<p><?php echo Locale_Translate::_("Search") ?> <input type="radio" id="searchplain" name="where" checked="checked"><?php echo Locale_Translate::_ ("main text without notes") ?> <input type="radio" name="where"><?php echo Locale_Translate::_("underlying USFM") ?></p>
-<p><input type="checkbox" id="currentbook"><?php echo Locale_Translate::_("Current book") ?></p>
-<p><?php echo Locale_Translate::_("What to do with the search results") ?>:</p>
-<p><input type="radio" id="load" name="share" checked="checked"><?php echo Locale_Translate::_("Display them on the page") ?></p>
-<p><input type="radio" id="add" name="share"><?php echo Locale_Translate::_("Add them to the ones already on the page") ?></p>
-<p><input type="radio" id="remove" name="share"><?php echo Locale_Translate::_("Remove them from the ones already on the page") ?></p>
-<p><input type="radio" id="intersect" name="share"><?php echo Locale_Translate::_("Display the intersection of them and the ones already on the page") ?></p>
+<p><input type="checkbox" id="casesensitive"><?php echo gettext("Case sensitive") ?></p>
+<p><?php echo gettext("Search") ?> <input type="radio" id="searchplain" name="where" checked="checked"><?php echo gettext ("main text without notes") ?> <input type="radio" name="where"><?php echo gettext("underlying USFM") ?></p>
+<p><input type="checkbox" id="currentbook"><?php echo gettext("Current book") ?></p>
+<p><?php echo gettext("What to do with the search results") ?>:</p>
+<p><input type="radio" id="load" name="share" checked="checked"><?php echo gettext("Display them on the page") ?></p>
+<p><input type="radio" id="add" name="share"><?php echo gettext("Add them to the ones already on the page") ?></p>
+<p><input type="radio" id="remove" name="share"><?php echo gettext("Remove them from the ones already on the page") ?></p>
+<p><input type="radio" id="intersect" name="share"><?php echo gettext("Display the intersection of them and the ones already on the page") ?></p>
 <div id="searchresults"></div>
 <script><?php echo $this->script; ?></script>
 <script type="text/javascript" src="search2.js?<?php echo config_logic_version () ?>"></script>

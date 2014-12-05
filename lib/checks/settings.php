@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Manage Checks"));
+Assets_Page::header (gettext("Manage Checks"));
 $view = new Assets_View (__FILE__);
 
 
@@ -37,7 +37,7 @@ $database_check = Database_Check::getInstance ();
 @$bible = $_GET['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Select which Bible to manage"));
+    $dialog_list = new Dialog_List2 (gettext("Select which Bible to manage"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&bible=$bible");
@@ -52,7 +52,7 @@ $bible = Access_Bible::clamp ($database_config_user->getBible ());
 
 if (isset($_GET['run'])) {
   Checks_Logic::start ($bible);
-  $view->view->success = Locale_Translate::_("Will run the checks. See the Journal for progress.");
+  $view->view->success = gettext("Will run the checks. See the Journal for progress.");
 }
 
 

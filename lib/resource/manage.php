@@ -30,7 +30,7 @@ if (isset ($delete)) {
   if (Access_Bible::write ($delete)) {
     $database_usfmresources->deleteResource ($delete);
   } else {
-    Assets_Page::error (Locale_Translate::_("You do not have write access to this resource"));
+    Assets_Page::error (gettext("You do not have write access to this resource"));
   }
 }
 
@@ -42,12 +42,12 @@ if (isset ($convert)) {
     Filter_Url::redirect ("../journal/index.php");
     die;
   } else {
-    Assets_Page::error (Locale_Translate::_("Insufficient privileges"));
+    Assets_Page::error (gettext("Insufficient privileges"));
   }
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("USFM Resources"));
+$header = new Assets_Header (gettext("USFM Resources"));
 $header->jQueryUIOn ("dialog");
 $header->run ();
 $view = new Assets_View (__FILE__);

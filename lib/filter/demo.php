@@ -52,10 +52,10 @@ class Filter_Demo
       $database_config_general = Database_Config_General::getInstance ();
       $address = $database_config_general->getServerAddress ();
       if ($address == self::demo_address ()) {
-        $warning = Locale_Translate::_("Warning:") 
-           . " " . Locale_Translate::_("The client is connected to a public demo server.") 
-           . " " . Locale_Translate::_("Everybody can modify the data on that server.")
-           . " " . Locale_Translate::_("After send and receive your data will reflect the data on the server.");
+        $warning = gettext("Warning:") 
+           . " " . gettext("The client is connected to a public demo server.") 
+           . " " . gettext("Everybody can modify the data on that server.")
+           . " " . gettext("After send and receive your data will reflect the data on the server.");
       }
     }
     return $warning;

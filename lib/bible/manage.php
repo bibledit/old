@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Bibles"));
+Assets_Page::header (gettext("Bibles"));
 $view = new Assets_View (__FILE__);
 
 
@@ -49,7 +49,7 @@ if (isset ($_GET['delete'])) {
       Assets_Page::error ("Insufficient privileges to complete action");
     }
   } else {
-    $dialog_yes = new Dialog_Yes (NULL, Locale_Translate::_("Would you like to delete Bible $bible?"), "delete");
+    $dialog_yes = new Dialog_Yes (NULL, gettext("Would you like to delete Bible $bible?"), "delete");
     die;
   }
 }
@@ -57,14 +57,14 @@ if (isset ($_GET['delete'])) {
 
 // New Bible handler.
 if (isset ($_GET['new'])) {
-  $dialog_entry = new Dialog_Entry ("", Locale_Translate::_("Please enter a name for the new empty Bible"), "", "new", "");
+  $dialog_entry = new Dialog_Entry ("", gettext("Please enter a name for the new empty Bible"), "", "new", "");
   die;
 }
 if (isset($_POST['new'])) {
   $bible = $_POST['entry'];
   $bibles = $database_bibles->getBibles ();
   if (in_array ($bible, $bibles)) {
-    $error_message = Locale_Translate::_("This Bible already exists");
+    $error_message = gettext("This Bible already exists");
   } else {
     $database_bibles->createBible ($bible);
     // Check / grant access.
@@ -78,7 +78,7 @@ if (isset($_POST['new'])) {
 // Copy Bible handler.
 @$copy = $_GET['copy'];
 if (isset ($copy)) {
-  $dialog_entry = new Dialog_Entry (array ("origin" => $copy), Locale_Translate::_("Please enter a name for where to copy the Bible to"), "", "", "");
+  $dialog_entry = new Dialog_Entry (array ("origin" => $copy), gettext("Please enter a name for where to copy the Bible to"), "", "", "");
   die;
 }
 @$origin = $_GET['origin'];
@@ -87,7 +87,7 @@ if (isset ($origin)) {
   if (isset ($destination)) {
     $bibles = $database_bibles->getBibles ();
     if (in_array ($destination, $bibles)) {
-      $error_message = Locale_Translate::_("Cannot copy Bible because the destination Bible already exists.");
+      $error_message = gettext("Cannot copy Bible because the destination Bible already exists.");
     } else {
       ignore_user_abort (true);
       set_time_limit (0);
@@ -102,7 +102,7 @@ if (isset ($origin)) {
             Bible_Logic::storeChapter ($destination, $book, $chapter, $data);
           }
         }
-        $success_message = Locale_Translate::_("The Bible was copied.");
+        $success_message = gettext("The Bible was copied.");
         // Check / grant access to destination Bible.
         if (!Access_Bible::write ($destination)) {
           $database_users->grantAccess2Bible ($session_logic->currentUser (), $destination);

@@ -74,7 +74,7 @@ EOD;
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Replace"));
+$header = new Assets_Header (gettext("Replace"));
 $header->run ();
 
 

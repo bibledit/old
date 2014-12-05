@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
-Assets_Page::header (Locale_Translate::_("Import USFM"));
+Assets_Page::header (gettext("Import USFM"));
 
 
 $view = new Assets_View (__FILE__);
@@ -48,14 +48,14 @@ if (isset($_POST['submit'])) {
     if (Validate_Utf8::valid ($data)) {
       $datafile = tempnam (sys_get_temp_dir(), '');
      filter_url_file_put_contents ($datafile, $data);
-      $success_message = Locale_Translate::_("Import has started. See Journal for progress.");
+      $success_message = gettext("Import has started. See Journal for progress.");
       $workingdirectory = dirname (__FILE__);
       Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/importcli.php", $datafile, $bible));
     } else {
-      $error_message = Locale_Translate::_("Please supply valid Unicode UTF-8 text.");
+      $error_message = gettext("Please supply valid Unicode UTF-8 text.");
     }
   } else {
-    $success_message = Locale_Translate::_("Nothing was imported.");
+    $success_message = gettext("Nothing was imported.");
   }
 }
 
@@ -70,7 +70,7 @@ if (isset($_POST['upload'])) {
   @$datafile .= $_FILES['data']['name'];
   @$tmpfile = $_FILES['data']['tmp_name'];
   if (move_uploaded_file ($tmpfile, $datafile)) {
-    $success_message = Locale_Translate::_("Import has started. See Journal for progress.");
+    $success_message = gettext("Import has started. See Journal for progress.");
     $workingdirectory = dirname (__FILE__);
     Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/importcli.php", $datafile, $bible));
   } else {

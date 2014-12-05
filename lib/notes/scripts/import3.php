@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Importing notes, step 3") ?></h1>
-<p><?php echo Locale_Translate::_("The notes were uncompressed.") ?></p>
-<p><?php echo Locale_Translate::_("Folder") ?>: <?php echo $this->folder ?></p>
-<h3><a href="import4.php?folder=<?php echo $this->folder ?>"><?php echo Locale_Translate::_("Next") ?></a></h3>
+<h1><?php echo gettext("Importing notes, step 3") ?></h1>
+<p><?php echo gettext("The notes were uncompressed.") ?></p>
+<p><?php echo gettext("Folder") ?>: <?php echo $this->folder ?></p>
+<h3><a href="import4.php?folder=<?php echo $this->folder ?>"><?php echo gettext("Next") ?></a></h3>

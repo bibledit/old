@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Importing notes, last step") ?></h1>
-<p><?php echo Locale_Translate::_("The process for importing consultation notes has been started.") ?></p>
-<p><?php echo Locale_Translate::_("The progress of this process is visible in the Journal.") ?></p>
-<p><?php echo Locale_Translate::_("It can take a good amount of time, depending on the amount of notes to be imported.") ?></p>
-<p><?php echo Locale_Translate::_("After everything has been done, you can see the consultation notes in the normal place. They will be added to any existing ones.") ?></p>
-<p><a href="../journal/index.php"><?php echo Locale_Translate::_("View journal.") ?></a></p>
+<h1><?php echo gettext("Importing notes, last step") ?></h1>
+<p><?php echo gettext("The process for importing consultation notes has been started.") ?></p>
+<p><?php echo gettext("The progress of this process is visible in the Journal.") ?></p>
+<p><?php echo gettext("It can take a good amount of time, depending on the amount of notes to be imported.") ?></p>
+<p><?php echo gettext("After everything has been done, you can see the consultation notes in the normal place. They will be added to any existing ones.") ?></p>
+<p><a href="../journal/index.php"><?php echo gettext("View journal.") ?></a></p>

@@ -51,11 +51,11 @@ class Dialog_List
     $this->view->view->header = $header;
 
     if ($info_top == "")
-      $info_top = Locale_Translate::_("Here are the various options:");
+      $info_top = gettext("Here are the various options:");
     $this->view->view->info_top = $info_top;
 
     if ($info_bottom == "")
-      $info_bottom = Locale_Translate::_("Please pick one.");
+      $info_bottom = gettext("Please pick one.");
     $this->view->view->info_bottom = $info_bottom;
 
     $this->view->view->horizontal = $horizontal;

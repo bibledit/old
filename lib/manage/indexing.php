@@ -40,7 +40,7 @@ if ($refresh == "notes") {
 }
 
 
-Assets_Page::header (Locale_Translate::_("Indexing"));
+Assets_Page::header (gettext("Indexing"));
 
 
 $view = new Assets_View (__FILE__);

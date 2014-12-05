@@ -76,7 +76,7 @@ class Setup_MySQL {
 
     // If there was no connection, give a short diagnostic message.
     if (!$this->is_connected) {
-      $message = Locale_Translate::_("Cannot access the database");
+      $message = gettext("Cannot access the database");
       echo "<h1>$message</h1>";
     }
   }
@@ -116,7 +116,7 @@ class Setup_MySQL {
 
   private function warning ($message)
   {
-    echo Locale_Translate::_("Warning"), ": $message<br>\n";
+    echo gettext("Warning"), ": $message<br>\n";
   }
 
 

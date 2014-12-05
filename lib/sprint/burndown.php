@@ -132,14 +132,14 @@ foreach ($bibles as $bible) {
         if (!Access_Bible::write ($bible, $user)) continue;
         if ($database_config_user->getUserSprintProgressNotification ($user)) {
     
-          $subject = Locale_Translate::_("Team's progress in Sprint");
-          if ($sprintstart) $subject = Locale_Translate::_("Sprint has started");
-          if ($sprintfinish) $subject = Locale_Translate::_("Sprint has finished");
+          $subject = gettext("Team's progress in Sprint");
+          if ($sprintstart) $subject = gettext("Sprint has started");
+          if ($sprintfinish) $subject = gettext("Sprint has finished");
           $subject .=  " | " . $bible;
     
           $body = array ();
     
-          $body [] = "<h3>" . Locale_Translate::_("Sprint Planning and Team's Progress") . " | $bible</h3>";
+          $body [] = "<h3>" . gettext("Sprint Planning and Team's Progress") . " | $bible</h3>";
           $body [] = "<table>";
           $tasks = $database_sprint->getTasks ($bible, $year, $month);
           foreach ($tasks as $id) {
@@ -153,7 +153,7 @@ foreach ($bibles as $bible) {
           }
           $body [] = "</table>";
     
-          $body [] = "<h3>" . Locale_Translate::_("Sprint Burndown Chart - Remaining Tasks") . "</h3>";
+          $body [] = "<h3>" . gettext("Sprint Burndown Chart - Remaining Tasks") . "</h3>";
           $burndownchart = Sprint_Logic::createTextBasedBurndownChart ($bible, $year, $month);
           $body [] = "<p>$burndownchart</p>";
     

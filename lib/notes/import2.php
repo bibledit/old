@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
-Assets_Page::header (Locale_Translate::_("Import"));
+Assets_Page::header (gettext("Import"));
 
 // Move the uploaded file to a temporary name.
 $notesfile = tempnam (sys_get_temp_dir(), '');

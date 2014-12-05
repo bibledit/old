@@ -21,7 +21,7 @@ require_once ("../bootstrap/bootstrap.php");
 
 page_access_level (Filter_Roles::ADMIN_LEVEL);
 
-Assets_Page::header (Locale_Translate::_("Collaboration"));
+Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
 $object = $_GET ['object'];

@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Assign the notes to another Bible") ?></h3>
+<h3><?php echo gettext("Assign the notes to another Bible") ?></h3>
 <ul>
 <?php foreach ($this->bibles as $bible) { ?>
   <li><a href="bulk.php?bible=<?php echo $bible ?>"><?php echo $bible ?></a></li>
 <?php } ?>
 </ul>
-<h4><a href="bulk.php"><?php echo Locale_Translate::_("Cancel") ?></a></h4>
+<h4><a href="bulk.php"><?php echo gettext("Cancel") ?></a></h4>

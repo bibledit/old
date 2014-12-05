@@ -43,10 +43,10 @@ class Filter_Diff
     $new_vs_usfm = array ();
 
     $filter_text_old = new Filter_Text ($bible);
-    $filter_text_old->html_text_standard = new Html_Text (Locale_Translate::_("Bible"));
+    $filter_text_old->html_text_standard = new Html_Text (gettext("Bible"));
     $filter_text_old->text_text = new Text_Text ();
     $filter_text_new = new Filter_Text ($bible);
-    $filter_text_new->html_text_standard = new Html_Text (Locale_Translate::_("Bible"));
+    $filter_text_new->html_text_standard = new Html_Text (gettext("Bible"));
     $filter_text_new->text_text = new Text_Text ();
 
     $books = $database_modifications->getTeamDiffBooks ($bible);

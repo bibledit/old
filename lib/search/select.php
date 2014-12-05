@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::CONSULTANT_LEVEL);
-$header = new Assets_Header (Locale_Translate::_("Search"));
+$header = new Assets_Header (gettext("Search"));
 $header->run ();
 $view = new Assets_View (__FILE__);
 $view->render ("select.php");

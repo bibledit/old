@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,5 +15,37 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<p><?php echo gettext("If there were no errors, then setting up collaboration is now ready, and the Manager can choose menu Send/Receive any time he wants to synchronize Bibles and Consultation Notes with the remote repository.") ?></p>
+
+
+#ifndef INCLUDED_DATABASE_NOTES_H
+#define INCLUDED_DATABASE_NOTES_H
+
+
+#include <config/libraries.h>
+#include <sqlite3.h>
+#include <filter/passage.h>
+
+
+class Database_Notes
+{
+public:
+  Database_Notes ();
+  ~Database_Notes ();
+  void create ();
+  string database_path ();
+  string checksums_database_path ();
+  bool checkup ();
+  bool checkup_checksums ();
+  void trim ();
+  void trim_server ();
+  void optimize ();
+  void sync ();
+private:
+  sqlite3 * connect ();
+  sqlite3 * connect_checksums ();
+  bool healthy ();
+  bool checksums_healthy ();
+};
+
+
+#endif

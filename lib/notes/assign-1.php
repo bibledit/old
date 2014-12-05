@@ -40,7 +40,7 @@ if (isset ($assign)) {
 }
 
 
-$assets_header = new Assets_Header (Locale_Translate::_("Assign note"));
+$assets_header = new Assets_Header (gettext("Assign note"));
 $assets_header->run();
 
 

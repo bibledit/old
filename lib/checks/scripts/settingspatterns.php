@@ -17,18 +17,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo Locale_Translate::_("Patterns") ?></h2>
+<h2><?php echo gettext("Patterns") ?></h2>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
 <p>
-  <?php echo Locale_Translate::_("Bible") ?>: <?php echo $this->bible ?>.
-  <?php echo Locale_Translate::_("Enter the patterns to search for.") ?>
-  <?php echo Locale_Translate::_("One per line.") ?>
+  <?php echo gettext("Bible") ?>: <?php echo $this->bible ?>.
+  <?php echo gettext("Enter the patterns to search for.") ?>
+  <?php echo gettext("One per line.") ?>
 </p>
 <form action="settingspatterns.php" name="form" method="post">
   <p><textarea name="patterns" class="fullwidth"><?php echo $this->patterns ?></textarea></p>
-  <p><input type="submit" name="submit" value=<?php echo Locale_Translate::_("Save") ?> /></p>
+  <p><input type="submit" name="submit" value=<?php echo gettext("Save") ?> /></p>
 </form>
 <br>
-<p><?php echo Locale_Translate::_("It will search the plain text of the Bible, without verse numbers, heading, and other additions.") ?></p>
-<p><a href="settings.php"><?php echo Locale_Translate::_("Go back") ?></a></p>
+<p><?php echo gettext("It will search the plain text of the Bible, without verse numbers, heading, and other additions.") ?></p>
+<p><a href="settings.php"><?php echo gettext("Go back") ?></a></p>

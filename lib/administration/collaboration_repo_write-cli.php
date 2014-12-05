@@ -28,7 +28,7 @@ $escapedDir = escapeshellarg ($directory);
 $database_config_bible = Database_Config_Bible::getInstance();
 $url = $database_config_bible->getRemoteRepositoryUrl ($object);
 
-echo Locale_Translate::_("Step: Adding a temporal file to the cloned repository") . "\n";
+echo gettext("Step: Adding a temporal file to the cloned repository") . "\n";
 
 // Temporal file for trying write access.
 $temporal_file_name = $directory . "/test_repository_writable";
@@ -39,13 +39,13 @@ $command = "cd $escapedDir; git add --all . 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
-  echo Locale_Translate::_("Ok: Local addition was made successfully.");
+  echo gettext("Ok: Local addition was made successfully.");
 } else {
-  echo Locale_Translate::_("Error: Local addition failed.");
+  echo gettext("Error: Local addition failed.");
 }
 echo "\n";
 
-echo Locale_Translate::_("Step: Committing the above changes locally") . "\n";
+echo gettext("Step: Committing the above changes locally") . "\n";
 
 // Commit the above locally.
 $command = "cd $escapedDir; git commit -a -m write-test 2>&1";
@@ -53,13 +53,13 @@ echo "$command\n";
 passthru ($command, $exit_code);
 // Exit code can be 1 in case there was nothing to commit.
 if (($exit_code == 0) || ($exit_code == 1)) {
-  echo Locale_Translate::_("Ok: Local commit was made successfully.");
+  echo gettext("Ok: Local commit was made successfully.");
 } else {
-  echo Locale_Translate::_("Error: Local commit failed.");
+  echo gettext("Error: Local commit failed.");
 }
 echo "\n";
 
-echo Locale_Translate::_("Step: Pulling changes from the remote repository") . "\n";
+echo gettext("Step: Pulling changes from the remote repository") . "\n";
 
 // Pull changes.
 // We cannot look at the exit code here in case the repository is empty,
@@ -67,10 +67,10 @@ echo Locale_Translate::_("Step: Pulling changes from the remote repository") . "
 $command = "cd $escapedDir; git pull 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
-echo Locale_Translate::_("Ok: Changes were pulled from the repository successfully.");
+echo gettext("Ok: Changes were pulled from the repository successfully.");
 echo "\n";
 
-echo Locale_Translate::_("Step: Pushing changes to the remote repository") . "\n";
+echo gettext("Step: Pushing changes to the remote repository") . "\n";
 
 // Push the changes to see if there is write access.
 // Notice the --all switch needed when the remote repository is empty.
@@ -78,13 +78,13 @@ $command = "cd $escapedDir; git push --all 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
-  echo Locale_Translate::_("Ok: Changes were pushed to the repository successfully.");
+  echo gettext("Ok: Changes were pushed to the repository successfully.");
 } else {
-  echo Locale_Translate::_("Error: Pushing changes to the repository failed.");
+  echo gettext("Error: Pushing changes to the repository failed.");
 }
 echo "\n";
 
-echo Locale_Translate::_("Step: Removing the temporal file from the local repository") . "\n";
+echo gettext("Step: Removing the temporal file from the local repository") . "\n";
 
 // Remove the temporal file from the cloned repository.
 unlink ($temporal_file_name);
@@ -92,22 +92,22 @@ $command = "cd $escapedDir; git commit -a -m write-test 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
-  echo Locale_Translate::_("Ok: The temporal file was removed from the local repository successfully.");
+  echo gettext("Ok: The temporal file was removed from the local repository successfully.");
 } else {
-  echo Locale_Translate::_("Error: Removing the temporal file from the local repository failed.");
+  echo gettext("Error: Removing the temporal file from the local repository failed.");
 }
 echo "\n";
 
-echo Locale_Translate::_("Step: Pushing the changes to the remote repository") . "\n";
+echo gettext("Step: Pushing the changes to the remote repository") . "\n";
 
 // Push changes to the remote repository.
 $command = "cd $escapedDir; git push 2>&1";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
-  echo Locale_Translate::_("Ok: Changes were pushed to the remote repository successfully.");
+  echo gettext("Ok: Changes were pushed to the remote repository successfully.");
 } else {
-  echo Locale_Translate::_("Error: Pushing changes to the remote repository failed.");
+  echo gettext("Error: Pushing changes to the remote repository failed.");
 }
 echo "\n";
 

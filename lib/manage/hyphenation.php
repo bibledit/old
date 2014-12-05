@@ -24,7 +24,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Hyphenation"));
+Assets_Page::header (gettext("Hyphenation"));
 $view = new Assets_View (__FILE__);
 
 
@@ -47,7 +47,7 @@ if (isset($_POST['sets'])) {
   $database_config_bible->setHyphenationFirstSet ($bible, $firstset);
   $secondset = $_POST['secondset'];
   $database_config_bible->setHyphenationSecondSet ($bible, $secondset);
-  $success = Locale_Translate::_("The two sets of characters were saved");
+  $success = gettext("The two sets of characters were saved");
 }
 $firstset = $database_config_bible->getHyphenationFirstSet ($bible);
 $secondset = $database_config_bible->getHyphenationSecondSet ($bible);
@@ -56,7 +56,7 @@ $secondset = $database_config_bible->getHyphenationSecondSet ($bible);
 @$bible = $_GET ['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Which Bible would you like to take the data from?"));
+    $dialog_list = new Dialog_List2 (gettext("Which Bible would you like to take the data from?"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $item) {
       $dialog_list->add_row ($item, "bible=$item");
@@ -71,15 +71,15 @@ $bible = Access_Bible::clamp ($database_config_user->getBible ());
 
 if (isset($_GET['run'])) {
   if ($bible == "") {
-    $error = Locale_Translate::_("No Bible given");
+    $error = gettext("No Bible given");
   } else if ($firstset == "") {
-    $error = Locale_Translate::_("No first set of characters given");
+    $error = gettext("No first set of characters given");
   } else if ($secondset == "") {
-    $error = Locale_Translate::_("No second set of characters given");
+    $error = gettext("No second set of characters given");
   } else {
     $workingdirectory = __DIR__;
     Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate.php", $bible, $session_logic->currentUser ()));
-    $success = Locale_Translate::_("The Bible is being hyphenated. See the Journal for details.");
+    $success = gettext("The Bible is being hyphenated. See the Journal for details.");
   }
 }
 

@@ -17,11 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Indexing") ?></h1>
+<h1><?php echo gettext("Indexing") ?></h1>
 <p>
-  <?php echo Locale_Translate::_("Bibledit-Web uses indexes for fast lookup of data.") ?>
-  <?php echo Locale_Translate::_("Normally the indexes are refreshed automatically.") ?>
-  <?php echo Locale_Translate::_("When the Journal indicates unusual behaviour of an index, or errors, it needs to be recreated.") ?>
+  <?php echo gettext("Bibledit-Web uses indexes for fast lookup of data.") ?>
+  <?php echo gettext("Normally the indexes are refreshed automatically.") ?>
+  <?php echo gettext("When the Journal indicates unusual behaviour of an index, or errors, it needs to be recreated.") ?>
 </p>
-<p><a href="?refresh=bibles"><?php echo Locale_Translate::_("Recreate Bibles search index.") ?></a></p>
-<p><a href="?refresh=notes"><?php echo Locale_Translate::_("Recreate Consultation Notes selection and search index.") ?></a></p>
+<p><a href="?refresh=bibles"><?php echo gettext("Recreate Bibles search index.") ?></a></p>
+<p><a href="?refresh=notes"><?php echo gettext("Recreate Consultation Notes selection and search index.") ?></a></p>

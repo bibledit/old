@@ -54,6 +54,7 @@ libbibledit_a_SOURCES = \
 	database/noteactions.cpp \
 	database/versifications.cpp \
 	database/modifications.cpp \
+	database/notes.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \

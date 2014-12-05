@@ -49,14 +49,14 @@ if (isset ($_POST ['connect'])) {
   $response = config_logic_setup ($user, md5 ($pass));
 
   if ($response === false) {
-    $view->view->error = Locale_Translate::_("Could not connect to the server.");
+    $view->view->error = gettext("Could not connect to the server.");
   } else if (($response >= Filter_Roles::GUEST_LEVEL) && ($response <= Filter_Roles::ADMIN_LEVEL)) {
     // Enable client mode upon a successful connection.
     enable_client ($user, $pass, $response);
     // Feedback.
-    $view->view->success = Locale_Translate::_("Connection is okay.");
+    $view->view->success = gettext("Connection is okay.");
   } else {
-    $view->view->error = $response . ": " . Locale_Translate::_("Check that your username and password exist on the server.");
+    $view->view->error = $response . ": " . gettext("Check that your username and password exist on the server.");
   }
 
 }
@@ -76,9 +76,9 @@ if (isset ($_GET['demo'])) {
     // Enable client mode upon a successful connection.
     enable_client ($user, $pass, $response);
     // Feedback.
-    $view->view->success = Locale_Translate::_("Demo connection is okay.");
+    $view->view->success = gettext("Demo connection is okay.");
   } else {
-    $view->view->error = Locale_Translate::_("Could not connect to the demo server.");
+    $view->view->error = gettext("Could not connect to the demo server.");
   }
   
 }
@@ -101,7 +101,7 @@ foreach ($users as $user) {
 $view->view->demo = Filter_Demo::client_demo_warning ();
 
 
-Assets_Page::header (Locale_Translate::_("Client mode"));
+Assets_Page::header (gettext("Client mode"));
 
 
 $view->render ("client.php");

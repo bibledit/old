@@ -18,23 +18,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <div>
-  <?php echo Locale_Translate::_("Search for verses with similar Strong's numbers in:") ?>
+  <?php echo gettext("Search for verses with similar Strong's numbers in:") ?>
   <?php echo $this->bible; ?>
   |
   <img id="searchloading" src="../pix/loading.gif">
   <progress value="0" max="100"></progress>
   <span id="hitcount">0</span>
   |
-  <span><a href="select.php" title="<?php echo Locale_Translate::_("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
 </div>
 <div>
-  <input id="loadbutton" type="button" value="<?php echo Locale_Translate::_("Load") ?>" />
+  <input id="loadbutton" type="button" value="<?php echo gettext("Load") ?>" />
 </div>
 <div>
-  <input id="searchentry" class="fullwidth" type="text" value="" placeholder="<?php echo Locale_Translate::_("Search for words like this") ?>" />
+  <input id="searchentry" class="fullwidth" type="text" value="" placeholder="<?php echo gettext("Search for words like this") ?>" />
 </div>
 <div>
-  <input id="searchbutton" disabled="disabled" type="button" value="<?php echo Locale_Translate::_("Search") ?>" />
+  <input id="searchbutton" disabled="disabled" type="button" value="<?php echo gettext("Search") ?>" />
 </div>
 <div id="searchresults"></div>
 <script><?php echo $this->script; ?></script>

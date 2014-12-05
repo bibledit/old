@@ -66,7 +66,7 @@ if (isset($_POST['cancel'])) {
 }
 
 
-$assets_header = new Assets_Header (Locale_Translate::_("Create note"));
+$assets_header = new Assets_Header (gettext("Create note"));
 $assets_header->run();
 
 
@@ -80,12 +80,12 @@ if (isset ($fromchange)) {
   $database_modifications = Database_Modifications::getInstance ();
   $database_bibles = Database_Bibles::getInstance ();
   $bible = $database_modifications->getNotificationBible ($fromchange);
-  $summary = Locale_Translate::_("Query about a change in the text");
-  $contents = "<p>" . Locale_Translate::_("Old text:") . "</p>";
+  $summary = gettext("Query about a change in the text");
+  $contents = "<p>" . gettext("Old text:") . "</p>";
   $contents .= $database_modifications->getNotificationOldText ($fromchange);
-  $contents .= "<p>" .  Locale_Translate::_("Change:") . "</p>";
+  $contents .= "<p>" .  gettext("Change:") . "</p>";
   $contents .= "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
-  $contents .= "<p>" . Locale_Translate::_("New text:") . "</p>";
+  $contents .= "<p>" . gettext("New text:") . "</p>";
   $contents .= $database_modifications->getNotificationNewText ($fromchange);
   $view->view->summary = $summary;
   $view->view->contents = $contents;

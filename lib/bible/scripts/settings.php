@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Bible") ?> <?php echo $this->bible ?></h1>
+<h1><?php echo gettext("Bible") ?> <?php echo $this->bible ?></h1>
 <p>
-  <?php echo Locale_Translate::_("Available books") ?>
+  <?php echo gettext("Available books") ?>
   (<?php echo $this->book_count; ?>):
   <?php foreach ($this->book_ids as $offset => $book_id) { ?>
     <a href="book.php?bible=<?php echo $this->bible ?>&book=<?php echo $this->book_ids[$offset] ?>"><?php echo $this->book_names[$offset] ?></a>
   <?php } ?>
 </p>
 <p>
-  <?php echo Locale_Translate::_("Versification system") ?>:
+  <?php echo gettext("Versification system") ?>:
   <?php if ($this->write_access) { ?>
     <a href="settings.php?bible=<?php echo $this->bible ?>&versification=">
   <?php } ?>
@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php } ?>
 </p>
 <p>
-  <?php echo Locale_Translate::_("Verse mapping") ?>:
+  <?php echo gettext("Verse mapping") ?>:
   <?php if ($this->write_access) { ?>
     <a href="settings.php?bible=<?php echo $this->bible ?>&mapping=">
   <?php } ?>
@@ -46,16 +46,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php } ?>
 </p>
 <?php if ($this->write_access) { ?>
-  <p><a href="settings.php?bible=<?php echo $this->bible ?>&createbook="><?php echo Locale_Translate::_("Create book") ?></a></p>
-  <p><a href="import_usfm.php?bible=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Import USFM") ?></a></p>
-  <p><a href="import_bibleworks.php?bible=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Import BibleWorks") ?></a></p>
+  <p><a href="settings.php?bible=<?php echo $this->bible ?>&createbook="><?php echo gettext("Create book") ?></a></p>
+  <p><a href="import_usfm.php?bible=<?php echo $this->bible ?>"><?php echo gettext("Import USFM") ?></a></p>
+  <p><a href="import_bibleworks.php?bible=<?php echo $this->bible ?>"><?php echo gettext("Import BibleWorks") ?></a></p>
 <?php } ?>
-<p><a href="manage.php?copy=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Copy this Bible") ?></a></p>
+<p><a href="manage.php?copy=<?php echo $this->bible ?>"><?php echo gettext("Copy this Bible") ?></a></p>
 <?php if ($this->write_access) { ?>
-  <p><a href="manage.php?delete=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Delete this Bible") ?></a></p>
-  <p><a href="../resource/bible2resource.php?bible=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Convert to USFM resource") ?></a></p>
+  <p><a href="manage.php?delete=<?php echo $this->bible ?>"><?php echo gettext("Delete this Bible") ?></a></p>
+  <p><a href="../resource/bible2resource.php?bible=<?php echo $this->bible ?>"><?php echo gettext("Convert to USFM resource") ?></a></p>
 <?php } ?>
-<p><a href="../compare/index.php?bible=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Compare with ...") ?></a></p>
+<p><a href="../compare/index.php?bible=<?php echo $this->bible ?>"><?php echo gettext("Compare with ...") ?></a></p>
 <p>
 <?php if ($this->write_access) { ?>
   <a href="?bible=<?php echo $this->bible ?>&viewable=">
@@ -64,10 +64,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php if ($this->write_access) { ?>
 </a>
 <?php } ?>
-<?php echo Locale_Translate::_("Viewable by all users") ?>
+<?php echo gettext("Viewable by all users") ?>
 </p>
 <?php if ($this->write_access) { ?>
-  <p><a href="abbreviations.php?bible=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Book abbreviations") ?></a></p>
-  <p><a href="order.php?bible=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Book order") ?></a></p>
-  <p><a href="css.php?bible=<?php echo $this->bible ?>"><?php echo Locale_Translate::_("Font and text direction") ?></a></p>
+  <p><a href="abbreviations.php?bible=<?php echo $this->bible ?>"><?php echo gettext("Book abbreviations") ?></a></p>
+  <p><a href="order.php?bible=<?php echo $this->bible ?>"><?php echo gettext("Book order") ?></a></p>
+  <p><a href="css.php?bible=<?php echo $this->bible ?>"><?php echo gettext("Font and text direction") ?></a></p>
 <?php } ?>

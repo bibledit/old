@@ -28,7 +28,7 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$header = new Assets_Header (Locale_Translate::_("Cross references"));
+$header = new Assets_Header (gettext("Cross references"));
 $header->setNavigator ();
 $header->setEditorStylesheet ();
 $header->run ();
@@ -44,7 +44,7 @@ $error = "";
 @$source = $_GET['source'];
 if (isset ($source)) {
   if ($source == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Select which Bible to use as the source where to read the cross references from"));
+    $dialog_list = new Dialog_List2 (gettext("Select which Bible to use as the source where to read the cross references from"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&source=$bible");
@@ -59,7 +59,7 @@ if (isset ($source)) {
 @$target = $_GET['target'];
 if (isset ($target)) {
   if ($target == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Select which Bible to insert the cross references into"));
+    $dialog_list = new Dialog_List2 (gettext("Select which Bible to insert the cross references into"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       if (Access_Bible::write ($bible)) {

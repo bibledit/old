@@ -106,7 +106,7 @@ class Consistency_Logic
           $response [] = $line;
           $previousPassage = $passage;
         } else {
-          $response [] = '<span class="error">' . Locale_Translate::_("Unknown passage") . " " . $line . '</span>';
+          $response [] = '<span class="error">' . gettext("Unknown passage") . " " . $line . '</span>';
         }
       }
     }

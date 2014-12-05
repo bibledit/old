@@ -18,17 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-<a href="index.php"><?php echo Locale_Translate::_("Back to notes list") ?></a>
+<a href="index.php"><?php echo gettext("Back to notes list") ?></a>
 |
-<a href="actions.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Actions") ?></a>
+<a href="actions.php?id=<?php echo $this->id ?>"><?php echo gettext("Actions") ?></a>
 </p>
 <p>
-<?php echo Locale_Translate::_("Summary") ?>: <?php echo $this->summary ?>
+<?php echo gettext("Summary") ?>: <?php echo $this->summary ?>
 <?php if ($this->level >= 5) { ?>
-  [<a href="summary.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("edit") ?></a>]
+  [<a href="summary.php?id=<?php echo $this->id ?>"><?php echo gettext("edit") ?></a>]
 <?php } ?>
 </p>
 <div><?php echo $this->content ?></div>
 <hr>
-<p><a href="comment.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Add a comment to this note") ?></a></p>
+<p><a href="comment.php?id=<?php echo $this->id ?>"><?php echo gettext("Add a comment to this note") ?></a></p>
 <script type="text/javascript" src="poll.js?<?php echo config_logic_version () ?>"></script>

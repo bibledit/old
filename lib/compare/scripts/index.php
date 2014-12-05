@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Compare") ?></h3>
-<p><?php echo Locale_Translate::_("Bible") ?>: <a href="../bible/settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
-<p><?php echo Locale_Translate::_("Compare this Bible with any of the Bibles or USFM Resources below.") ?></p>
+<h3><?php echo gettext("Compare") ?></h3>
+<p><?php echo gettext("Bible") ?>: <a href="../bible/settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
+<p><?php echo gettext("Compare this Bible with any of the Bibles or USFM Resources below.") ?></p>
 <ul>
 <?php foreach ($this->names as $name) { ?>
   <li><a href="index.php?bible=<?php echo $this->bible ?>&compare=<?php echo $name ?>"><?php echo $name ?></a></li>

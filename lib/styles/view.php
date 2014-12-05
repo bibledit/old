@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Style"));
+Assets_Page::header (gettext("Style"));
 $view = new Assets_View (__FILE__);
 
 
@@ -56,7 +56,7 @@ if ($userlevel >= Filter_Roles::ADMIN_LEVEL) $write = true;
 // The style's name.
 $name = $marker_data['name'];
 if (isset ($_GET['name'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter the name for the style"), $name, "name", "");
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter the name for the style"), $name, "name", "");
   die;
 }
 if (isset($_POST['name'])) {
@@ -68,7 +68,7 @@ $view->view->name = Filter_Html::sanitize ($name);
 // The style's info.
 $info = $marker_data['info'];
 if (isset ($_GET['info'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter the description for the style"), $info, "info", "");
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter the description for the style"), $info, "info", "");
   die;
 }
 if (isset($_POST['info'])) {
@@ -83,9 +83,9 @@ if (isset ($_GET['category'])) {
   $category = $_GET['category'];
   if ($category == "") {
     $dialog_list = new Dialog_List (array ("sheet", "style"),
-                                    Locale_Translate::_("Would you like to change the category of this style?"),
-                                    Locale_Translate::_("Here are the various categories:"),
-                                    Locale_Translate::_("Please pick one."));
+                                    gettext("Would you like to change the category of this style?"),
+                                    gettext("Here are the various categories:"),
+                                    gettext("Please pick one."));
     $styles_logic = Styles_Logic::getInstance ();
     $dialog_list->add_row ($styles_logic->categoryText ("id"),   "&category=id");
     $dialog_list->add_row ($styles_logic->categoryText ("ith"),  "&category=ith");
@@ -121,9 +121,9 @@ if (isset ($_GET['type'])) {
   $type = $_GET['type'];
   if ($type == "") {
     $dialog_list = new Dialog_List (array ("sheet", "style"),
-                                    Locale_Translate::_("Would you like to change the type of this style?"),
-                                    Locale_Translate::_("Here are the various types:"),
-                                    Locale_Translate::_("Please pick one."));
+                                    gettext("Would you like to change the type of this style?"),
+                                    gettext("Here are the various types:"),
+                                    gettext("Please pick one."));
     $styles_logic = Styles_Logic::getInstance ();
     for ($i = 0; $i < 99; $i++) {
       $text = $styles_logic->typeText ($i);
@@ -145,7 +145,7 @@ $subtype = $marker_data['subtype'];
 if (isset ($_GET['subtype'])) {
   $subtype = $_GET['subtype'];
   if ($subtype == "") {
-    $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change the sub type of this style?"), "", "");
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change the sub type of this style?"), "", "");
     $database_styles = Database_Styles::getInstance();
     $styles_logic = Styles_Logic::getInstance ();
     $marker_data = $database_styles->getMarkerData ($sheet, $style);
@@ -169,7 +169,7 @@ $view->view->subtype_text = $styles_logic->subtypeText($type, $subtype);
 $view->view->fontsize_relevant = $styles_logic->fontsizeIsRelevant ($type, $subtype);
 $fontsize = $marker_data['fontsize'];
 if (isset ($_GET['fontsize'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter a fontsize between 5 and 60 points"), $fontsize, "fontsize", Locale_Translate::_ ("The value to enter is just a number, e.g. 12."));
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter a fontsize between 5 and 60 points"), $fontsize, "fontsize", gettext ("The value to enter is just a number, e.g. 12."));
   die;
 }
 if (isset($_POST['fontsize'])) {
@@ -190,7 +190,7 @@ $italic = $marker_data['italic'];
 if (isset ($_GET['italic'])) {
   $italic = $_GET['italic'];
   if ($italic == "") {
-    $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change whether this style is in italics?"), "", "");
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change whether this style is in italics?"), "", "");
     $database_styles = Database_Styles::getInstance();
     $styles_logic = Styles_Logic::getInstance ();
     $marker_data = $database_styles->getMarkerData ($sheet, $style);
@@ -213,7 +213,7 @@ $bold   = $marker_data['bold'];
 if (isset ($_GET['bold'])) {
   $bold = $_GET['bold'];
   if ($bold == "") {
-    $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change whether this style is in bold?"), "", "");
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change whether this style is in bold?"), "", "");
     $database_styles = Database_Styles::getInstance();
     $styles_logic = Styles_Logic::getInstance ();
     $marker_data = $database_styles->getMarkerData ($sheet, $style);
@@ -236,7 +236,7 @@ $underline = $marker_data['underline'];
 if (isset ($_GET['underline'])) {
   $underline = $_GET['underline'];
   if ($underline == "") {
-    $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change whether this style is underlined?"), "", "");
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change whether this style is underlined?"), "", "");
     $database_styles = Database_Styles::getInstance();
     $styles_logic = Styles_Logic::getInstance ();
     $marker_data = $database_styles->getMarkerData ($sheet, $style);
@@ -259,7 +259,7 @@ $smallcaps = $marker_data['smallcaps'];
 if (isset ($_GET['smallcaps'])) {
   $smallcaps = $_GET['smallcaps'];
   if ($smallcaps == "") {
-    $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change whether this style is in small caps?"), "", "");
+    $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change whether this style is in small caps?"), "", "");
     $database_styles = Database_Styles::getInstance();
     $styles_logic = Styles_Logic::getInstance ();
     $marker_data = $database_styles->getMarkerData ($sheet, $style);
@@ -293,7 +293,7 @@ $view->view->paragraph_treats_relevant = $styles_logic->paragraphTreatsAreReleva
 // Text alignment.
 $justification = $marker_data['justification'];
 if (isset ($_GET['alignment'])) {
-  $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change the text alignment of this style?"), "", "");
+  $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change the text alignment of this style?"), "", "");
   $styles_logic = Styles_Logic::getInstance();
   for ($i = AlignmentLeft; $i <= AlignmentJustify; $i++) {
     $dialog_list->add_row ($styles_logic->alignmentText ($i), "&justification=$i");
@@ -310,7 +310,7 @@ $view->view->justification = $styles_logic->alignmentText ($justification);
 // Space before paragraph.
 $spacebefore = $marker_data['spacebefore'];
 if (isset ($_GET['spacebefore'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter a space of between 0 and 100 mm before the paragraph"), $spacebefore, "spacebefore", Locale_Translate::_ ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter a space of between 0 and 100 mm before the paragraph"), $spacebefore, "spacebefore", gettext ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
   die;
 }
 if (isset($_POST['spacebefore'])) {
@@ -326,7 +326,7 @@ $view->view->spacebefore = Filter_Html::sanitize ($spacebefore);
 // Space after paragraph.
 $spaceafter = $marker_data['spaceafter'];
 if (isset ($_GET['spaceafter'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter a space of between 0 and 100 mm after the paragraph"), $spaceafter, "spaceafter", Locale_Translate::_ ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter a space of between 0 and 100 mm after the paragraph"), $spaceafter, "spaceafter", gettext ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
   die;
 }
 if (isset($_POST['spaceafter'])) {
@@ -342,7 +342,7 @@ $view->view->spaceafter = Filter_Html::sanitize ($spaceafter);
 // Left margin.
 $leftmargin = $marker_data['leftmargin'];
 if (isset ($_GET['leftmargin'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter a left margin of between -100 and 100 mm"), $leftmargin, "leftmargin", Locale_Translate::_ ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter a left margin of between -100 and 100 mm"), $leftmargin, "leftmargin", gettext ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
   die;
 }
 if (isset($_POST['leftmargin'])) {
@@ -358,7 +358,7 @@ $view->view->leftmargin = Filter_Html::sanitize ($leftmargin);
 // Right margin.
 $rightmargin = $marker_data['rightmargin'];
 if (isset ($_GET['rightmargin'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter a right margin of between -100 and 100 mm"), $rightmargin, "rightmargin", Locale_Translate::_ ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter a right margin of between -100 and 100 mm"), $rightmargin, "rightmargin", gettext ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
   die;
 }
 if (isset($_POST['rightmargin'])) {
@@ -374,7 +374,7 @@ $view->view->rightmargin = Filter_Html::sanitize ($rightmargin);
 // First line indent.
 $firstlineindent = $marker_data['firstlineindent'];
 if (isset ($_GET['firstlineindent'])) {
-  $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter a first line indent of between -100 and 100 mm"), $firstlineindent, "firstlineindent", Locale_Translate::_ ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
+  $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter a first line indent of between -100 and 100 mm"), $firstlineindent, "firstlineindent", gettext ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
   die;
 }
 if (isset($_POST['firstlineindent'])) {
@@ -403,7 +403,7 @@ $color = $marker_data['color'];
 if (isset ($_GET['color'])) {
   $value = $_GET['color'];
   if ($value == "") {
-    $dialog_color = new Dialog_Color ($standard_page_query, Locale_Translate::_("Please specify a new color"), "color");
+    $dialog_color = new Dialog_Color ($standard_page_query, gettext("Please specify a new color"), "color");
     die;
   } else {
     $color = $value;
@@ -460,7 +460,7 @@ switch ($styles_logic->getUserInt1Function ($type, $subtype)) {
   case UserInt1NoteNumbering :
     $view->view->userint1_notenumbering = true;
     if (isset ($_GET['notenumbering'])) {
-      $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change the numbering of the note?"), "", "");
+      $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change the numbering of the note?"), "", "");
       $styles_logic = Styles_Logic::getInstance();
       for ($i = NoteNumbering123; $i <= NoteNumberingUser; $i++) {
         $dialog_list->add_row ($styles_logic->noteNumberingText ($i), "&userint1=$i");
@@ -477,7 +477,7 @@ switch ($styles_logic->getUserInt1Function ($type, $subtype)) {
   case UserInt1TableColumnNumber :
     $view->view->userint1_columnnumber = true;
     if (isset ($_GET['userint1'])) {
-      $dialog_entry = new Dialog_Entry ($standard_page_query, Locale_Translate::_("Please enter a column number between 1 and 4"), $userint1, "userint1", Locale_Translate::_ ("This is the column number for the style. The first columm is number 1."));
+      $dialog_entry = new Dialog_Entry ($standard_page_query, gettext("Please enter a column number between 1 and 4"), $userint1, "userint1", gettext ("This is the column number for the style. The first columm is number 1."));
       die;
     }
     if (isset($_POST['userint1'])) {
@@ -500,7 +500,7 @@ switch ($styles_logic->getUserInt2Function ($type, $subtype)) {
   case UserInt2NoteNumberingRestart :
     $view->view->userint2_notenumberingrestart = true;
     if (isset ($_GET['notenumberingrestart'])) {
-      $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change when the note numbering restarts?"), "", "");
+      $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change when the note numbering restarts?"), "", "");
       $styles_logic = Styles_Logic::getInstance();
       for ($i = NoteRestartNumberingNever; $i <= NoteRestartNumberingEveryChapter; $i++) {
         $dialog_list->add_row ($styles_logic->noteRestartNumberingText ($i), "&userint2=$i");
@@ -517,7 +517,7 @@ switch ($styles_logic->getUserInt2Function ($type, $subtype)) {
   case UserInt2EndnotePosition :
     $view->view->userint2_endnoteposition = true;
     if (isset ($_GET['endnoteposition'])) {
-      $dialog_list = new Dialog_List (array ("sheet", "style"), Locale_Translate::_("Would you like to change the position where to dump the endnotes?"), "", "");
+      $dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change the position where to dump the endnotes?"), "", "");
       $styles_logic = Styles_Logic::getInstance();
       for ($i = EndNotePositionAfterBook; $i <= EndNotePositionAtMarker; $i++) {
         $dialog_list->add_row ($styles_logic->endNotePositionText ($i), "&userint2=$i");
@@ -543,14 +543,14 @@ switch ($styles_logic->getUserString1Function ($type, $subtype)) {
   case UserString1NoteNumberingSequence :
     if ($userint1 == NoteNumberingUser) {
       $view->view->userstring1_numberingsequence = true;
-      $userstring_question = Locale_Translate::_("Please enter a new note numbering sequence");
-      $userstring1_help = Locale_Translate::_("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters");
+      $userstring_question = gettext("Please enter a new note numbering sequence");
+      $userstring1_help = gettext("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters");
     }
     break;
   case UserString1WordListEntryAddition :
     $view->view->userstring1_wordlistaddition = true;
-    $userstring1_question = Locale_Translate::_("Please enter a new addition to the word list entry");
-    $userstring1_help = Locale_Translate::_("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit-Web would include this in the exported documents.");
+    $userstring1_question = gettext("Please enter a new addition to the word list entry");
+    $userstring1_help = gettext("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit-Web would include this in the exported documents.");
     break;
 }
 if (isset ($_GET['userstring1'])) {
@@ -572,8 +572,8 @@ switch ($styles_logic->getUserString2Function ($type, $subtype)) {
   case UserString2DumpEndnotesHere :
     if ($userint2 == EndNotePositionAtMarker) {
       $view->view->userstring2_dumpendnotes = true;
-      $userstring2_question = Locale_Translate::_("Please enter a marker at which the endnotes should be dumped");
-      $userstring2_info = Locale_Translate::_("The marker is to be given without the backslash, e.g. \"zendnotes\".");
+      $userstring2_question = gettext("Please enter a marker at which the endnotes should be dumped");
+      $userstring2_info = gettext("The marker is to be given without the backslash, e.g. \"zendnotes\".");
     }
     break;
 }

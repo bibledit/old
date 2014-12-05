@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Site timezone") ?></h1>
-<p><?php echo Locale_Translate::_("This page deals with the default timezone for the site.") ?></p>
-<p><?php echo Locale_Translate::_("Visitors will use this default timezone.") ?></p>
+<h1><?php echo gettext("Site timezone") ?></h1>
+<p><?php echo gettext("This page deals with the default timezone for the site.") ?></p>
+<p><?php echo gettext("Visitors will use this default timezone.") ?></p>
 <?php if ($this->timezone != "") { ?>
-  <p><?php echo Locale_Translate::_("Current timezone:") ?> <?php echo $this->timezone ?>.</p>
+  <p><?php echo gettext("Current timezone:") ?> <?php echo $this->timezone ?>.</p>
 <?php } else { ?>
-  <p><?php echo Locale_Translate::_("The default timezone has not yet been set.") ?></p>
+  <p><?php echo gettext("The default timezone has not yet been set.") ?></p>
 <?php } ?>
-<p><a href="timezone.php?timezone="><?php echo Locale_Translate::_("Change the timezone.") ?></a></p>
-<p><?php echo Locale_Translate::_("Those who have an account on this site can override this by setting their own preferred timezone.") ?></p>
+<p><a href="timezone.php?timezone="><?php echo gettext("Change the timezone.") ?></a></p>
+<p><?php echo gettext("Those who have an account on this site can override this by setting their own preferred timezone.") ?></p>

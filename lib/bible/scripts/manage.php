@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Bibles") ?></h1>
+<h1><?php echo gettext("Bibles") ?></h1>
 <p class="success"><?php echo $this->success_message ?></p>
 <p class="error"><?php echo $this->error_message ?></p>
-<p><?php echo Locale_Translate::_("Available Bibles:") ?></p>
+<p><?php echo gettext("Available Bibles:") ?></p>
 <ul>
 <?php foreach ($this->bibles as $offset => $bible) { ?>
   <li><a href="settings.php?bible=<?php echo $this->bibles[$offset] ?>"><?php echo $this->bibles[$offset] ?></a></li>
 <?php } ?>
 </ul>
-<p><a href="manage.php?new="><?php echo Locale_Translate::_("Create a new empty Bible") ?></a></p>
+<p><a href="manage.php?new="><?php echo gettext("Create a new empty Bible") ?></a></p>

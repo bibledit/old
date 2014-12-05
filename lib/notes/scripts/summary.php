@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Edit note summary") ?></h3>
+<h3><?php echo gettext("Edit note summary") ?></h3>
 <form action="summary.php?id=<?php echo $this->id ?>" name="form" method="post">
   <p><input type="text" name="entry" maxlength="300" value="<?php echo $this->summary ?>" /></p>
-  <p><input type="submit" name="submit" value=<?php echo Locale_Translate::_("Save") ?> /></p>
+  <p><input type="submit" name="submit" value=<?php echo gettext("Save") ?> /></p>
 </form>
-<h4><a href="note.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Cancel") ?></a></h4>
+<h4><a href="note.php?id=<?php echo $this->id ?>"><?php echo gettext("Cancel") ?></a></h4>

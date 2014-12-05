@@ -17,40 +17,40 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Install Bibledit-Web on Windows") ?></h1>
+<h1><?php echo gettext("Install Bibledit-Web on Windows") ?></h1>
 <p>
-  <?php echo Locale_Translate::_("This assumes a standard installation of the operating system.") ?>
-  <?php echo Locale_Translate::_("Bibledit-Web runs on all recent versions of Windows.") ?>
-  <?php echo Locale_Translate::_("The steps below have been tested on Windows 7.") ?>
+  <?php echo gettext("This assumes a standard installation of the operating system.") ?>
+  <?php echo gettext("Bibledit-Web runs on all recent versions of Windows.") ?>
+  <?php echo gettext("The steps below have been tested on Windows 7.") ?>
 </p>
 
 <ol>
 
 <li>
 <p>
-  <a href="http://download.savannah.gnu.org/releases/bibledit-web/windows" target="_blank"><?php echo Locale_Translate::_("Download") ?> Bibledit-Web</a>.
+  <a href="http://download.savannah.gnu.org/releases/bibledit-web/windows" target="_blank"><?php echo gettext("Download") ?> Bibledit-Web</a>.
 </p>
 </li>
 
 <li>
-<p><?php echo Locale_Translate::_("Install it.") ?></p>
+<p><?php echo gettext("Install it.") ?></p>
 </li>
 
 <li>
 <p>
-  <?php echo Locale_Translate::_("Start it through the menu.") ?>
-</p>
-</li>
-
-<li>
-<p>
-  <?php echo Locale_Translate::_("Open Bibledit.") ?>
+  <?php echo gettext("Start it through the menu.") ?>
 </p>
 </li>
 
 <li>
 <p>
-  <?php echo Locale_Translate::_("Follow the steps in the browser for the initial configuration.") ?>
+  <?php echo gettext("Open Bibledit.") ?>
+</p>
+</li>
+
+<li>
+<p>
+  <?php echo gettext("Follow the steps in the browser for the initial configuration.") ?>
 </p>
 </li>
 

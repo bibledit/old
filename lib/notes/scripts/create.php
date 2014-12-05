@@ -19,16 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <form style="border:1px #bbb solid;" action="create.php"  name="form" method="post">
   <p>
-    <?php echo Locale_Translate::_("Create consultation note for") ?>
+    <?php echo gettext("Create consultation note for") ?>
     <?php echo $this->passage ?>
   </p>
-  <p><?php echo Locale_Translate::_("Summary") ?>:</p>
+  <p><?php echo gettext("Summary") ?>:</p>
   <p><input type="text" name="summary" maxlength="100" class="fullwidth" value="<?php echo $this->summary ?>"/></p>
-  <p><?php echo Locale_Translate::_("Body") ?>: </p>
+  <p><?php echo gettext("Body") ?>: </p>
   <textarea name="contents" class="fullwidth"><?php echo $this->contents ?></textarea>
   <p>
-    <input type="submit" name="submit" value="<?php echo Locale_Translate::_("Save") ?>" onClick="this.value = '<?php echo Locale_Translate::_ ("Please wait") ?>'; return true;" />
-    <input type="submit" name="cancel" value="<?php echo Locale_Translate::_("Cancel") ?>" />
+    <input type="submit" name="submit" value="<?php echo gettext("Save") ?>" onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" />
+    <input type="submit" name="cancel" value="<?php echo gettext("Cancel") ?>" />
   </p>
   <input type="hidden" name="bible" value="<?php echo $this->bible ?>" />
   <input type="hidden" name="book" value="<?php echo $this->book ?>" />

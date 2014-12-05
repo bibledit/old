@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Verse mappings"));
+Assets_Page::header (gettext("Verse mappings"));
 $view = new Assets_View (__FILE__);
 
 

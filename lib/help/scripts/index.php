@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Help") ?></h1>
-<p><a href="introduction.php"><?php echo Locale_Translate::_("Introduction") ?></a></p>
-<p><a href="installation.php"><?php echo Locale_Translate::_("Installation") ?></a></p>
-<p><a href="methodology.php"><?php echo Locale_Translate::_("Methodology") ?></a></p>
-<p><a href="navigation.php"><?php echo Locale_Translate::_("Navigation") ?></a></p>
-<p><a href="shortcuts.php"><?php echo Locale_Translate::_("Keyboard shortcuts") ?></a></p>
-<p><a href="consultations.php"><?php echo Locale_Translate::_("Consultations") ?></a></p>
-<p><a href="consistency.php"><?php echo Locale_Translate::_("Consistency") ?></a></p>
-<p><a href="checks.php"><?php echo Locale_Translate::_("Checks") ?></a></p>
-<p><a href="teams.php"><?php echo Locale_Translate::_("Teams") ?></a></p>
-<p><a href="typesetting.php"><?php echo Locale_Translate::_("Typesetting") ?></a></p>
-<p><a href="tipstricks.php"><?php echo Locale_Translate::_("Tips and tricks") ?></a></p>
-<p><a href="about.php"><?php echo Locale_Translate::_("About") ?></a></p>
+<h1><?php echo gettext("Help") ?></h1>
+<p><a href="introduction.php"><?php echo gettext("Introduction") ?></a></p>
+<p><a href="installation.php"><?php echo gettext("Installation") ?></a></p>
+<p><a href="methodology.php"><?php echo gettext("Methodology") ?></a></p>
+<p><a href="navigation.php"><?php echo gettext("Navigation") ?></a></p>
+<p><a href="shortcuts.php"><?php echo gettext("Keyboard shortcuts") ?></a></p>
+<p><a href="consultations.php"><?php echo gettext("Consultations") ?></a></p>
+<p><a href="consistency.php"><?php echo gettext("Consistency") ?></a></p>
+<p><a href="checks.php"><?php echo gettext("Checks") ?></a></p>
+<p><a href="teams.php"><?php echo gettext("Teams") ?></a></p>
+<p><a href="typesetting.php"><?php echo gettext("Typesetting") ?></a></p>
+<p><a href="tipstricks.php"><?php echo gettext("Tips and tricks") ?></a></p>
+<p><a href="about.php"><?php echo gettext("About") ?></a></p>

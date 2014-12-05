@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Stylesheet"));
+Assets_Page::header (gettext("Stylesheet"));
 $view = new Assets_View (__FILE__);
 
 
@@ -43,15 +43,15 @@ if ($userlevel >= Filter_Roles::ADMIN_LEVEL) $write = true;
 if (isset($_POST['new'])) {
   $new = $_POST['entry'];
   if (in_array ($new, $database_styles->getMarkers ($name))) {
-    Assets_Page::error (Locale_Translate::_("This style already exists"));
+    Assets_Page::error (gettext("This style already exists"));
   } else {
     $database_styles->addMarker ($name, $new);
     Styles_Sheets::create_all ();
-    Assets_Page::success (Locale_Translate::_("The style has been created"));
+    Assets_Page::success (gettext("The style has been created"));
   }
 }
 if (isset ($_GET['new'])) {
-  $dialog_entry = new Dialog_Entry (array ("name" => $name), Locale_Translate::_("Please enter the name for the new style"), "", "new", "");
+  $dialog_entry = new Dialog_Entry (array ("name" => $name), gettext("Please enter the name for the new style"), "", "new", "");
   die;
 }
 
@@ -62,9 +62,9 @@ if (isset($_POST['submit'])) {
     if ($write) {
       $database_styles->deleteSheet ($name);
       $database_styles->importXml ($name, $data);
-      Assets_Page::success (Locale_Translate::_("The stylesheet has been imported"));
+      Assets_Page::success (gettext("The stylesheet has been imported"));
     } else {
-      Assets_Page::error (Locale_Translate::_("No write access to the stylesheet"));
+      Assets_Page::error (gettext("No write access to the stylesheet"));
     }
   }
 }

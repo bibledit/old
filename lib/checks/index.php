@@ -27,7 +27,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_users = Database_Users::getInstance ();
 
 
-Assets_Page::header (Locale_Translate::_("Checks"));
+Assets_Page::header (gettext("Checks"));
 
 
 $view = new Assets_View (__FILE__);
@@ -36,14 +36,14 @@ $view = new Assets_View (__FILE__);
 @$approve = $_GET['approve'];
 if (isset ($approve)) {
   $database_check->approve ($approve);
-  $view->view->success = Locale_Translate::_("The entry was approved and suppressed.");
+  $view->view->success = gettext("The entry was approved and suppressed.");
 }
 
 
 @$delete = $_GET['delete'];
 if (isset ($delete)) {
   $database_check->delete ($delete);
-  $view->view->success = Locale_Translate::_("The entry was deleted for just now.");
+  $view->view->success = gettext("The entry was deleted for just now.");
 }
 
 

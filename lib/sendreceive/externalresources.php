@@ -30,7 +30,7 @@ $database_logs = Database_Logs::getInstance ();
 $database_offlineresources = Database_OfflineResources::getInstance ();
 
 
-$database_logs->log (Locale_Translate::_("Synchronizing external resources"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Synchronizing external resources"), Filter_Roles::TRANSLATOR_LEVEL);
 
 
 $address = $database_config_general->getServerAddress ();

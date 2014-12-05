@@ -35,7 +35,7 @@ class Editor_Styles
     // The recent styles.
     $styles = $database_config_user->getRecentlyAppliedStyles ();
     $styles = explode (" ", $styles);
-    $fragment = Locale_Translate::_("Select style") . ": ";
+    $fragment = gettext("Select style") . ": ";
     foreach ($styles as $offset => $marker) {
       if ($offset) $fragment .= " | ";
       $data = $database_styles->getMarkerData ($stylesheet, $marker);
@@ -47,9 +47,9 @@ class Editor_Styles
 
     // Links for cancelling and for all styles.
     $fragment .= " ";
-    $fragment .= '<a href="cancel">[' . Locale_Translate::_("cancel") . ']</a>';
+    $fragment .= '<a href="cancel">[' . gettext("cancel") . ']</a>';
     $fragment .= " ";
-    $fragment .= '<a href="all" >[' . Locale_Translate::_("all") . ']</a>';
+    $fragment .= '<a href="all" >[' . gettext("all") . ']</a>';
 
     return $fragment;
   }
@@ -70,7 +70,7 @@ class Editor_Styles
 
     $lines [] = '<select id="styleslist">';
 
-    $line = Locale_Translate::_("Select style");
+    $line = gettext("Select style");
     $lines [] = "<option>$line</option>";
 
     foreach ($data as $item) {
@@ -86,7 +86,7 @@ class Editor_Styles
 
     // Link for cancelling.
     $lines [] = " ";
-    $lines [] = '<a href="cancel">[' . Locale_Translate::_("cancel") . ']</a>';
+    $lines [] = '<a href="cancel">[' . gettext("cancel") . ']</a>';
 
     $html = implode ("\n", $lines);
 

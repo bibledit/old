@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
-Assets_Page::header (Locale_Translate::_("Versification system"));
+Assets_Page::header (gettext("Versification system"));
 $view = new Assets_View (__FILE__);
 $database_versifications = Database_Versifications::getInstance();
 

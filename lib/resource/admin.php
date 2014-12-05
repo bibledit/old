@@ -46,7 +46,7 @@ if (isset ($delete)) {
 $database_resources = Database_Resources::getInstance ();
 
 
-$header = new Assets_Header (Locale_Translate::_("Resources"));
+$header = new Assets_Header (gettext("Resources"));
 $header->jQueryUIOn ("dialog");
 $header->run ();
 $view = new Assets_View (__FILE__);

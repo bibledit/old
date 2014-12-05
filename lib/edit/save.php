@@ -72,31 +72,31 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
               $newID = $database_bibles->getChapterId ($bible, $book, $chapter);
               $newText = $chapter_data_to_save;
               $database_modifications->recordUserSave ($username, $bible, $book, $chapter, $oldID, $oldText, $newID, $newText);
-              echo Locale_Translate::_("Saved");
+              echo gettext("Saved");
             } else {
-              echo Locale_Translate::_("Not saved because of too many changes");
+              echo gettext("Not saved because of too many changes");
             }
           } else {
-            echo Locale_Translate::_("Save failure");
+            echo gettext("Save failure");
             $database_logs->log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
           }
         }
       } else {
-        echo Locale_Translate::_("Save failure");
+        echo gettext("Save failure");
         $database_logs->log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
       }
     } else {
-      echo Locale_Translate::_("Nothing to save");
+      echo gettext("Nothing to save");
       $database_logs->log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
     }
 
   } else {
     http_response_code (409);
-    echo Locale_Translate::_("Checksum error");
+    echo gettext("Checksum error");
   }
 
 } else {
-  echo Locale_Translate::_("Nothing to save");
+  echo gettext("Nothing to save");
 }
 
 

@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 }
 
 
-$assets_header = new Assets_Header (Locale_Translate::_("Note passages"));
+$assets_header = new Assets_Header (gettext("Note passages"));
 $assets_header->run();
 
 

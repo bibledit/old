@@ -40,16 +40,16 @@ $userlevel = $session_logic->currentLevel ();
 
 if (!$exists) {
   // Check on existence of the job.
-  $contents = Locale_Translate::_("This job does not exist.");
+  $contents = gettext("This job does not exist.");
 } else if ($level > $userlevel) {
   // Check user access to the job.
-  $contents = Locale_Translate::_("This job is not available to you.");
+  $contents = gettext("This job is not available to you.");
 } else if ($result != "") {
   $contents = $result;
 } else if ($progress != "") {
   $contents = $progress;
 } else {
-  $contents = Locale_Translate::_("The job is in the queue.");
+  $contents = gettext("The job is in the queue.");
 }
 
 
@@ -59,7 +59,7 @@ if ($result == "") {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Job"));
+$header = new Assets_Header (gettext("Job"));
 $header->setEditorStylesheet ();
 $header->run ();
 

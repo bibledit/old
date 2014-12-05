@@ -65,7 +65,7 @@ foreach ($chapters as $chapter) {
 }
 
 
-$database_logs->log (Locale_Translate::_("Completed") . " $resource $bookName", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log (gettext("Completed") . " $resource $bookName", Filter_Roles::MANAGER_LEVEL);
 
 
 ?>

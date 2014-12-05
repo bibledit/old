@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::ADMIN_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Collaboration"));
+Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
 
@@ -30,7 +30,7 @@ $view = new Assets_View (__FILE__);
 @$select = $_GET['select'];
 if (isset ($select)) {
   if ($select == "") {
-    $dialog_list = new Dialog_List (array ("object"), Locale_Translate::_("Which Bible are you going to use?"), "", "");
+    $dialog_list = new Dialog_List (array ("object"), gettext("Which Bible are you going to use?"), "", "");
     $database_bibles = Database_Bibles::getInstance();
     $bibles = $database_bibles->getBibles();
     foreach ($bibles as $value) {

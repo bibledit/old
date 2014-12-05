@@ -30,7 +30,7 @@ $database_logs = Database_Logs::getInstance ();
 $database_usfmresources = Database_UsfmResources::getInstance ();
 
 
-$database_logs->log (Locale_Translate::_("Synchronizing USFM resources"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Synchronizing USFM resources"), Filter_Roles::TRANSLATOR_LEVEL);
 
 
 $address = $database_config_general->getServerAddress ();

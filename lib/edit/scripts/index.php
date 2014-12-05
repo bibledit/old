@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <div id="editorheader">
   <div id="editorinnerheader">
     <?php if ($this->write_access) { ?>
-    <input type="button" id="stylebutton" value="<?php echo Locale_Translate::_("Style") ?>" unselectable="on" class="unselectable" tabIndex="-1">
+    <input type="button" id="stylebutton" value="<?php echo gettext("Style") ?>" unselectable="on" class="unselectable" tabIndex="-1">
     <?php } ?>
     <span id="stylesarea"></span>
     <span id="nostyles">

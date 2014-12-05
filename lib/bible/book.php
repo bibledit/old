@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Book"));
+Assets_Page::header (gettext("Book"));
 $view = new Assets_View (__FILE__);
 
 
@@ -52,7 +52,7 @@ $view->view->book_name = Filter_Html::sanitize ($book_name);
 if ($deletechapter != "") {
   @$confirm = $_GET['confirm'];
   if ($confirm != "yes") {
-    $dialog_yes = new Dialog_Yes (array ("bible", "book"), Locale_Translate::_("Would you like to delete this chapter?"), "deletechapter");
+    $dialog_yes = new Dialog_Yes (array ("bible", "book"), gettext("Would you like to delete this chapter?"), "deletechapter");
     die;
   } else {
     if ($write_access) Bible_Logic::deleteChapter ($bible, $book, $deletechapter);
@@ -62,7 +62,7 @@ if ($deletechapter != "") {
 
 // Add chapter.
 if (isset ($_GET['createchapter'])) {
-  $dialog_entry = new Dialog_Entry (array ("bible" => $bible, "book" => $book), Locale_Translate::_("Please enter the number for the new chapter"), "", "createchapter", NULL);
+  $dialog_entry = new Dialog_Entry (array ("bible" => $bible, "book" => $book), gettext("Please enter the number for the new chapter"), "", "createchapter", NULL);
   die;
 }
 if (isset($_POST['createchapter'])) {
@@ -76,7 +76,7 @@ if (isset($_POST['createchapter'])) {
     if ($result) $success_message = $feedback;
     else $error_message = $feedback;
   } else {
-    $error_message = Locale_Translate::_("This chapter already exists");
+    $error_message = gettext("This chapter already exists");
   }
 }
 

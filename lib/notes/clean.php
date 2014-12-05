@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::ADMIN_LEVEL);
-Assets_Page::header (Locale_Translate::_("Removing duplicate consultation notes"));
+Assets_Page::header (gettext("Removing duplicate consultation notes"));
 set_time_limit (0);
 $workingdirectory = dirname (__FILE__);
 Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/cleancli.php"));

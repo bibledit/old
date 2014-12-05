@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Keyboard shortcuts") ?></h1>
+<h1><?php echo gettext("Keyboard shortcuts") ?></h1>
 <table>
-<tr><td>Ctrl-G</td><td><a href="navigation.php"><?php echo Locale_Translate::_("Focus the entry, enter the passage where to go, and press Enter.") ?></a></td></tr>
-<tr><td>Escape</td><td><a href="navigation.php"><?php echo Locale_Translate::_("Cancel any navigation or style operation.") ?></a></td></tr>
-<tr><td>Alt-Left Arrow</td><td><a href="navigation.php"><?php echo Locale_Translate::_("Go back in the navigation history.") ?></a></td></tr>
-<tr><td>Alt-Right Arrow</td><td><a href="navigation.php"><?php echo Locale_Translate::_("Go forward in the navigation history.") ?></a></td></tr>
-<tr><td>Alt-Down Arrow</td><td><a href="navigation.php"><?php echo Locale_Translate::_("Navigate to the next verse.") ?></a></td></tr>
-<tr><td>Alt-Up Arrow</td><td><a href="navigation.php"><?php echo Locale_Translate::_("Navigate to the previous verse.") ?></a></td></tr>
-<tr><td>Ctrl-S</td><td><?php echo Locale_Translate::_("Open the styles from the Bible editor.") ?></td></tr>
+<tr><td>Ctrl-G</td><td><a href="navigation.php"><?php echo gettext("Focus the entry, enter the passage where to go, and press Enter.") ?></a></td></tr>
+<tr><td>Escape</td><td><a href="navigation.php"><?php echo gettext("Cancel any navigation or style operation.") ?></a></td></tr>
+<tr><td>Alt-Left Arrow</td><td><a href="navigation.php"><?php echo gettext("Go back in the navigation history.") ?></a></td></tr>
+<tr><td>Alt-Right Arrow</td><td><a href="navigation.php"><?php echo gettext("Go forward in the navigation history.") ?></a></td></tr>
+<tr><td>Alt-Down Arrow</td><td><a href="navigation.php"><?php echo gettext("Navigate to the next verse.") ?></a></td></tr>
+<tr><td>Alt-Up Arrow</td><td><a href="navigation.php"><?php echo gettext("Navigate to the previous verse.") ?></a></td></tr>
+<tr><td>Ctrl-S</td><td><?php echo gettext("Open the styles from the Bible editor.") ?></td></tr>
 </table>

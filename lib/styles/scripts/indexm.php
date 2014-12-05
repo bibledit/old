@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo Locale_Translate::_("Stylesheets") ?></h2>
+<h2><?php echo gettext("Stylesheets") ?></h2>
 <p>
-  <?php echo Locale_Translate::_("This lists the currently available stylesheets.") ?>
-  <a href="indexm.php?new="><?php echo Locale_Translate::_("Create a new stylesheet.") ?></a>
+  <?php echo gettext("This lists the currently available stylesheets.") ?>
+  <a href="indexm.php?new="><?php echo gettext("Create a new stylesheet.") ?></a>
 </p>
 <?php foreach ($this->sheets as $offset => $sheet) { ?>
   <p>
     <?php echo $sheet ?>
     <?php if ($this->editable [$offset]) { ?>
-    <a href="sheetm.php?name=<?php echo $sheet ?>">[<?php echo Locale_Translate::_("edit") ?>]</a>
+    <a href="sheetm.php?name=<?php echo $sheet ?>">[<?php echo gettext("edit") ?>]</a>
     <?php } ?>
   </p>
 <?php } ?>

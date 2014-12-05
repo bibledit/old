@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Users"));
+Assets_Page::header (gettext("Users"));
 
 
 $database_users = Database_Users::getInstance();
@@ -37,16 +37,16 @@ $currentLevel = $session_logic->currentLevel ();
 
 // New user creation.
 if (isset ($_GET['new'])) {
-  $dialog_entry = new Dialog_Entry ("", Locale_Translate::_("Please enter a name for the new user"), "", "new", "");
+  $dialog_entry = new Dialog_Entry ("", gettext("Please enter a name for the new user"), "", "new", "");
   die;
 }
 if (isset($_POST['new'])) {
   $user = $_POST['entry'];
   if ($database_users->usernameExists ($user)) {
-    Assets_Page::error (Locale_Translate::_("User already exists"));
+    Assets_Page::error (gettext("User already exists"));
   } else {
     $database_users->addNewUser($user, $user, Filter_Roles::MEMBER_LEVEL, "");
-    Assets_Page::success (Locale_Translate::_("User created"));
+    Assets_Page::success (gettext("User created"));
   }
 }
 
@@ -71,7 +71,7 @@ if (isset ($_GET['delete'])) {
 @$level = $_GET['level'];
 if (isset ($level)) {
   if ($level == "") {
-    $dialog_list = new Dialog_List (NULL, Locale_Translate::_("Would you like to change the role given to user $user?"), "", "");
+    $dialog_list = new Dialog_List (NULL, gettext("Would you like to change the role given to user $user?"), "", "");
     for ($i = Filter_Roles::lowest (); $i <= Filter_Roles::highest (); $i++) {
       if ($i <= $currentLevel) {
         $parameter = "?user=$user&level=$i";
@@ -90,7 +90,7 @@ if (isset ($level)) {
 @$email = $_GET ['email'];
 if (isset ($email)) {
   if ($email == "") {
-    $dialog_entry = new Dialog_Entry (array ("usernamemail" => $_GET['user']), Locale_Translate::_("Please enter an email address for the user"), $database_users->getUserToEmail ($user), "email", "");
+    $dialog_entry = new Dialog_Entry (array ("usernamemail" => $_GET['user']), gettext("Please enter an email address for the user"), $database_users->getUserToEmail ($user), "email", "");
     die;
   }
 }
@@ -98,10 +98,10 @@ if (isset($_POST['email'])) {
   $email = $_POST['entry'];
   $validator = new Zend_Validate_EmailAddress ();
   if ($validator->isValid ($email)) {
-    Assets_Page::success (Locale_Translate::_("Email address was updated"));
+    Assets_Page::success (gettext("Email address was updated"));
     $database_users->updateUserEmail ($_GET['usernamemail'], $email);
   } else {
-    Assets_Page::error (Locale_Translate::_("The email address is not valid"));
+    Assets_Page::error (gettext("The email address is not valid"));
   }
 }
 
@@ -121,7 +121,7 @@ sort ($accessibleBibles);
 @$addbible = $_GET['addbible'];
 if (isset ($addbible)) {
   if ($addbible == "") {
-    $dialog_list = new Dialog_List (NULL, Locale_Translate::_("Would you like to grant user $user access to a Bible?"), "", "");
+    $dialog_list = new Dialog_List (NULL, gettext("Would you like to grant user $user access to a Bible?"), "", "");
     foreach ($accessibleBibles as $bible) {
       $parameter = "?user=$user&addbible=$bible";
       $dialog_list->add_row ($bible, $parameter);
@@ -129,7 +129,7 @@ if (isset ($addbible)) {
     $dialog_list->run ();
     die;
   } else {
-    Assets_Page::success (Locale_Translate::_("The user has become a member of the translation team that works on this Bible"));
+    Assets_Page::success (gettext("The user has become a member of the translation team that works on this Bible"));
     $database_users->grantAccess2Bible ($user, $addbible);
   }
 }
@@ -139,7 +139,7 @@ if (isset ($addbible)) {
 @$removebible = $_GET['removebible'];
 if (isset ($removebible)) {
   $database_users->revokeAccess2Bible ($user, $removebible);
-  Assets_Page::success (Locale_Translate::_("The user is no longer a member of the translation team that works on this Bible"));
+  Assets_Page::success (gettext("The user is no longer a member of the translation team that works on this Bible"));
 }
 
 

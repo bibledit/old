@@ -42,7 +42,7 @@ if (isset ($workbenches)) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Workbenches"));
+$header = new Assets_Header (gettext("Workbenches"));
 $header->jQueryUIOn ("sortable");
 $header->run ();
 $view = new Assets_View (__FILE__);
@@ -52,7 +52,7 @@ $view = new Assets_View (__FILE__);
 if (isset ($remove)) {
   @$confirm = $_GET['confirm'];
   if ($confirm != "yes") {
-    $dialog_yes = new Dialog_Yes2 (Locale_Translate::_("Would you like to delete this workbench configuration?"), "remove=$remove");
+    $dialog_yes = new Dialog_Yes2 (gettext("Would you like to delete this workbench configuration?"), "remove=$remove");
   } else {
     Workbench_Logic::deleteWorkbench ($remove);
   }

@@ -85,7 +85,7 @@ $ids = $database_search->searchText ($queryString, array ($exportedBible));
 // Hit count.
 $hitCount = count ($ids);
 echo "<font size=\"-1\" color=\"grey\"><hr /></font>\n";
-echo "<p><font size=\"-1\" color=\"grey\">$hitCount " . Locale_Translate::_("chapters") . "</font></p>\n";
+echo "<p><font size=\"-1\" color=\"grey\">$hitCount " . gettext("chapters") . "</font></p>\n";
 
 
 // Go through the search hits.

@@ -19,16 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <div id="searchbox">
   <?php echo $this->bible; ?>
-  <input id="searchentry" type="text" value="" placeholder="<?php echo Locale_Translate::_("Search for") ?>" />
+  <input id="searchentry" type="text" value="" placeholder="<?php echo gettext("Search for") ?>" />
   ▶
-  <input id="replaceentry" type="text" value="" placeholder="<?php echo Locale_Translate::_("Replace with") ?>" />
-  <input type="checkbox" id="casesensitive" checked="checked"><?php echo Locale_Translate::_("Case sensitive") ?>
-  <input id="previewbutton" type="button" value="<?php echo Locale_Translate::_("Preview") ?>"  />
+  <input id="replaceentry" type="text" value="" placeholder="<?php echo gettext("Replace with") ?>" />
+  <input type="checkbox" id="casesensitive" checked="checked"><?php echo gettext("Case sensitive") ?>
+  <input id="previewbutton" type="button" value="<?php echo gettext("Preview") ?>"  />
   <img id="searchloading" src="../pix/loading.gif">
-  <input id="applybutton" type="button" value="<?php echo Locale_Translate::_("Apply all") ?>"  />
+  <input id="applybutton" type="button" value="<?php echo gettext("Apply all") ?>"  />
   <progress value="0" max="100"></progress>
   <span id="hitcount"></span>
-  <span><a href="select.php" title="<?php echo Locale_Translate::_("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
 </div>
 <div id="searchresults">
 </div>

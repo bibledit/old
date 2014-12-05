@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
 
 
-$header = new Assets_Header (Locale_Translate::_("Consistency"));
+$header = new Assets_Header (gettext("Consistency"));
 $header->run ();
 
 
@@ -35,7 +35,7 @@ $ipc_focus = Ipc_Focus::getInstance();
 @$add = $_GET ['add'];
 if (isset ($add)) {
   if ($add == "") {
-    $dialog_list = new Dialog_List2 (Locale_Translate::_("Would you like to add a Resource?"));
+    $dialog_list = new Dialog_List2 (gettext("Would you like to add a Resource?"));
     $resources = Resource_Logic::getNames ();
     foreach ($resources as $resource) {
       $dialog_list->add_row ($resource, "&add=$resource");

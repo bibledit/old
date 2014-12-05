@@ -56,7 +56,7 @@ if (isset ($_POST ['save'])) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Edit workbench"));
+$header = new Assets_Header (gettext("Edit workbench"));
 $header->run ();
 $view = new Assets_View (__FILE__);
 

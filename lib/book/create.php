@@ -33,11 +33,11 @@ class Book_Create
     $database_config_bible = Database_Config_Bible::getInstance ();
     $bible_id = $database_bibles->getID ($bible);
     if ($bible_id == 0) {
-      $feedback [] = Locale_Translate::_("Bible $bible does not exist: Cannot create book");
+      $feedback [] = gettext("Bible $bible does not exist: Cannot create book");
       return false;
     }
     if ($book == 0) {
-      $feedback [] = Locale_Translate::_("Invalid book while creating a book template");
+      $feedback [] = gettext("Invalid book while creating a book template");
       return false;
     }
 
@@ -75,11 +75,11 @@ class Book_Create
 
     // Done.
     if (count ($chaptersCreated) == 0) {
-      $feedback [] = Locale_Translate::_("No chapters have been craeted");
+      $feedback [] = gettext("No chapters have been craeted");
       return false;
     }
     $chaptersCreated = implode (" ", $chaptersCreated);
-    $feedback [] = Locale_Translate::_("The following chapters have been created:") . " " . $chaptersCreated;
+    $feedback [] = gettext("The following chapters have been created:") . " " . $chaptersCreated;
     return true;
   }
 

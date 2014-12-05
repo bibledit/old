@@ -17,5 +17,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p class="error"><?php echo Locale_Translate::_("There was a problem uploading the file.") ?></p>
-<p><a href="import1.php"><?php echo Locale_Translate::_("You can go back to retry it.") ?></a></p>
+<p class="error"><?php echo gettext("There was a problem uploading the file.") ?></p>
+<p><a href="import1.php"><?php echo gettext("You can go back to retry it.") ?></a></p>

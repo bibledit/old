@@ -39,7 +39,7 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$database_jobs->setProgress ($jobId, Locale_Translate::_("The document is being created..."));
+$database_jobs->setProgress ($jobId, gettext("The document is being created..."));
 
 
 $resources = $database_config_user->getPrintResourcesForUser ($user);

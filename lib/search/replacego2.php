@@ -162,7 +162,7 @@ if ($replacementOkay) {
     $msg = $updatedUsfm;
   }
 } else {
-  $msg = '<span class="error">' . Locale_Translate::_("This text could not be automatically replaced. Click the passage to do it manually.") . '</span>';
+  $msg = '<span class="error">' . gettext("This text could not be automatically replaced. Click the passage to do it manually.") . '</span>';
 }
 
 

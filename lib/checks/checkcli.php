@@ -174,7 +174,7 @@ foreach ($hits as $hit) {
 
 // Send email to users with write access to the Bible and a subscription to the notification.
 if (count ($emailBody) > 0) {
-  $subject = Locale_Translate::_("Bible Checks") . " " . $bible;
+  $subject = gettext("Bible Checks") . " " . $bible;
   $emailBody = implode ("\n", $emailBody);
   $users = $database_users->getUsers ();
   foreach ($users as $user) {

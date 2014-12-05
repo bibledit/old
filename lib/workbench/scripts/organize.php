@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Workbenches") ?></h3>
+<h3><?php echo gettext("Workbenches") ?></h3>
 <div id="sortable">
 <?php foreach ($this->workbenches as $workbench) { ?>
   <p>
-    <a href="?remove=<?php echo $workbench ?>" title="<?php echo Locale_Translate::_("Delete workbench") ?>"> ✗ </a>
+    <a href="?remove=<?php echo $workbench ?>" title="<?php echo gettext("Delete workbench") ?>"> ✗ </a>
     |
-    <a href="settings.php?name=<?php echo $workbench ?>" title="<?php echo Locale_Translate::_("Edit workbench") ?>"> ✎ </a>
+    <a href="settings.php?name=<?php echo $workbench ?>" title="<?php echo gettext("Edit workbench") ?>"> ✎ </a>
     |
     <span class="drag"><?php echo $workbench ?></span>
   </p>
@@ -32,13 +32,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <form action="organize.php" name="form" method="post">
   <input type="text" name="add" maxlength="300"  />
-  <input type="submit" name="create" value=<?php echo Locale_Translate::_("Create") ?> />
+  <input type="submit" name="create" value=<?php echo gettext("Create") ?> />
 </form>
 <br>
 <p>
-  <?php echo Locale_Translate::_("Drag the list of workbenches into the desired order.") ?>
-  <?php echo Locale_Translate::_("Click ✗ to remove.") ?>
-  <?php echo Locale_Translate::_("Click ✎ to edit.") ?>
-  <?php echo Locale_Translate::_("Or create a new workbench.") ?>
+  <?php echo gettext("Drag the list of workbenches into the desired order.") ?>
+  <?php echo gettext("Click ✗ to remove.") ?>
+  <?php echo gettext("Click ✎ to edit.") ?>
+  <?php echo gettext("Or create a new workbench.") ?>
 </p>
 <script type="text/javascript" src="organize.js?<?php echo config_logic_version () ?>"></script>

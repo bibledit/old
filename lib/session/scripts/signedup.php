@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Signup") ?></h1>
-<p><?php echo Locale_Translate::_("Your account is pending.") ?></p>
-<p><?php echo Locale_Translate::_("A verification email has been sent.") ?></p>
-<p><?php echo Locale_Translate::_("After you reply to the verification email, your account will be activated. This may take five or more minutes.") ?></p>
+<h1><?php echo gettext("Signup") ?></h1>
+<p><?php echo gettext("Your account is pending.") ?></p>
+<p><?php echo gettext("A verification email has been sent.") ?></p>
+<p><?php echo gettext("After you reply to the verification email, your account will be activated. This may take five or more minutes.") ?></p>

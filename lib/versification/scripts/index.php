@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Versifications") ?></h1>
-<p><?php echo Locale_Translate::_("This lists the currently available versification systems.") ?> <a href="index.php?new="><?php echo Locale_Translate::_ ("You can create a new versification system.") ?></a></p>
+<h1><?php echo gettext("Versifications") ?></h1>
+<p><?php echo gettext("This lists the currently available versification systems.") ?> <a href="index.php?new="><?php echo gettext ("You can create a new versification system.") ?></a></p>
 <?php foreach ($this->systems as $system) { ?>
   <p><a href="system.php?name=<?php echo $system ?>"><?php echo $system ?></a></p>
 <?php } ?>

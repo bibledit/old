@@ -46,7 +46,7 @@ if (isset($_POST['cancel'])) {
 }
 
 
-$assets_header = new Assets_Header (Locale_Translate::_("Comment"));
+$assets_header = new Assets_Header (gettext("Comment"));
 $assets_header->run();
 
 

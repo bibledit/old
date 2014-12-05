@@ -341,7 +341,7 @@ class Notes_Logic
       $database_notes = Database_Notes::getInstance();
       $assignees = $database_notes->getAssignees ($identifier);
       if (!in_array ($user, $assignees)) {
-        $this->emailUsers ($identifier, Locale_Translate::_("Assigned"), array ($user), false);
+        $this->emailUsers ($identifier, gettext("Assigned"), array ($user), false);
       }
     }
   }
@@ -449,13 +449,13 @@ class Notes_Logic
     }
 
     // Generate the label prefixed to the subject line of the email.
-    $label = Locale_Translate::_("General");
+    $label = gettext("General");
     switch ($notification) {
-      case self::notifyNoteNew             : $label = Locale_Translate::_("New");                 break;
-      case self::notifyNoteComment         : $label = Locale_Translate::_("Comment");             break;
-      case self::notifyNoteUpdate          : $label = Locale_Translate::_("Updated");             break;
-      case self::notifyNoteDelete          : $label = Locale_Translate::_("Deleted");             break;
-      case self::notifyMarkNoteForDeletion : $label = Locale_Translate::_("Marked for deletion"); break;
+      case self::notifyNoteNew             : $label = gettext("New");                 break;
+      case self::notifyNoteComment         : $label = gettext("Comment");             break;
+      case self::notifyNoteUpdate          : $label = gettext("Updated");             break;
+      case self::notifyNoteDelete          : $label = gettext("Deleted");             break;
+      case self::notifyMarkNoteForDeletion : $label = gettext("Marked for deletion"); break;
     }
 
     // Optional postponing sending email.
@@ -565,7 +565,7 @@ class Notes_Logic
     $database_config_user = Database_Config_User::getInstance ();
     if ($database_config_user->getUserNotifyMeOfMyPosts ($username)) {
       $database_mail = Database_Mail::getInstance();
-      $subject = Locale_Translate::_("Your comment was posted");
+      $subject = gettext("Your comment was posted");
       $database_mail->send ($username, "$subject [CNID$identifier]", $body);
     }
     // Log operation.
@@ -625,14 +625,14 @@ class Notes_Logic
     unset ($subject);
     // Check book, chapter, verse, and summary. Give feedback if there's anything wrong.
     $noteCheck = "";
-    if (!((is_numeric ($book) && ($book > 0)))) $noteCheck .= Locale_Translate::_("Unknown book");
-    if (!is_numeric ($chapter)) $noteCheck .= " " . Locale_Translate::_("Unknown chapter");
-    if (!is_numeric ($verse)) $noteCheck .= " " . Locale_Translate::_("Unknown verse");
-    if (($summary == NULL) || ($summary == "")) $noteCheck .= " " . Locale_Translate::_("Unknown summary");
+    if (!((is_numeric ($book) && ($book > 0)))) $noteCheck .= gettext("Unknown book");
+    if (!is_numeric ($chapter)) $noteCheck .= " " . gettext("Unknown chapter");
+    if (!is_numeric ($verse)) $noteCheck .= " " . gettext("Unknown verse");
+    if (($summary == NULL) || ($summary == "")) $noteCheck .= " " . gettext("Unknown summary");
     // Mail user if the note could not be posted.
     $database_mail = Database_Mail::getInstance();
     if ($noteCheck != "") {
-      $subject = Locale_Translate::_("Your new note could not be posted");
+      $subject = gettext("Your new note could not be posted");
       $database_mail->send ($username, $subject  . ": " . $originalSubject, $noteCheck);
       return false;
     }
@@ -649,7 +649,7 @@ class Notes_Logic
     // Mail confirmation to the $username.
     $database_config_user = Database_Config_User::getInstance ();
     if ($database_config_user->getUserNotifyMeOfMyPosts ($username)) {
-      $subject = Locale_Translate::_("Your new note was posted");
+      $subject = gettext("Your new note was posted");
       $database_mail->send ($username, $subject . ": " . $originalSubject, $body);
     }
     // Log operation.
@@ -662,7 +662,7 @@ class Notes_Logic
   
   public static function generalBibleName ()
   {
-    return "[" . Locale_Translate::_("no Bible") . "]";
+    return "[" . gettext("no Bible") . "]";
   }
 
 

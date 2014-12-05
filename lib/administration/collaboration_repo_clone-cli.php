@@ -32,9 +32,9 @@ $command = "cd $escapedDir; git clone $url .";
 echo "$command\n";
 passthru ($command, $exit_code);
 if ($exit_code == 0) {
-  echo Locale_Translate::_("Ok: The repository was cloned successfully.");
+  echo gettext("Ok: The repository was cloned successfully.");
 } else {
-  echo Locale_Translate::_("Error: The repository could not be cloned.");
+  echo gettext("Error: The repository could not be cloned.");
 }
 echo "\n";
 

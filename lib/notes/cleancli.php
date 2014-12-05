@@ -24,7 +24,7 @@ $database_logs = Database_Logs::getInstance ();
 $database_notes = Database_Notes::getInstance ();
 
 
-$database_logs->log (Locale_Translate::_("Removal of duplicate consultation notes has started"), true);
+$database_logs->log (gettext("Removal of duplicate consultation notes has started"), true);
 
 
 // Security: Page only runs from the cli SAPI.
@@ -34,7 +34,7 @@ Filter_Cli::assert ();
 // Go through all note identifiers.
 $identifiers = $database_notes->getIdentifiers ();
 foreach ($identifiers as $identifier) {
-  $database_logs->log (Locale_Translate::_("Looking into note") . " " . $identifier, true);
+  $database_logs->log (gettext("Looking into note") . " " . $identifier, true);
   // The note may have been deleted already. Check on that.
   if ($database_notes->identifierExists ($identifier)) {
     // Fields that must match in duplicates: passage summary contents
@@ -47,18 +47,18 @@ foreach ($identifiers as $identifier) {
       $database_logs->log ("Passage $rawpassage, Summary $summary, Duplicate count $duplicate_count", true);
       for ($i = 1; $i < $duplicate_count; $i++) {
         $duplicate = $duplicates[$i];
-        $database_logs->log (Locale_Translate::_("Deleting duplicate note") . " " . $duplicate, true);
+        $database_logs->log (gettext("Deleting duplicate note") . " " . $duplicate, true);
         $database_notes->delete ($duplicate);
       }
     }
   } else {
-    $database_logs->log (Locale_Translate::_("This note no longer exists"), true);
+    $database_logs->log (gettext("This note no longer exists"), true);
   }
 }
 unset ($identifier);
 
 
-$database_logs->log (Locale_Translate::_("Removal of duplicate consultation notes has finished"), true);
+$database_logs->log (gettext("Removal of duplicate consultation notes has finished"), true);
 
 
 ?>

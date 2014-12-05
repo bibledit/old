@@ -30,7 +30,7 @@ page_access_level (Filter_Roles::ADMIN_LEVEL);
 include ("config/open.php");
 if ($open_installation) {
   Assets_Page::header ("phpLiteAdmin");
-  Assets_Page::message (Locale_Translate::_("This open demo does not display the database editor for security reasons."));
+  Assets_Page::message (gettext("This open demo does not display the database editor for security reasons."));
   Assets_Page::footer ();
   die;
 }

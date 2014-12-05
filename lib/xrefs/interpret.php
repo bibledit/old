@@ -90,7 +90,7 @@ if (empty ($unknown_abbreviations)) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Cross references"));
+$header = new Assets_Header (gettext("Cross references"));
 $header->run ();
 
 

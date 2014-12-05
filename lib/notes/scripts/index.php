@@ -18,15 +18,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo Locale_Translate::_("Notes") ?>
+  <?php echo gettext("Notes") ?>
   |
-  <a href="select.php">[<?php echo Locale_Translate::_("select") ?>]</a>
+  <a href="select.php">[<?php echo gettext("select") ?>]</a>
   <?php if ($this->level >= 5) { ?>
     |
-    [<a href="bulk.php"><?php echo Locale_Translate::_("update") ?></a>]
+    [<a href="bulk.php"><?php echo gettext("update") ?></a>]
   <?php } ?>
   |
-  <a href="create.php"><?php echo Locale_Translate::_("Create note") ?></a>
+  <a href="create.php"><?php echo gettext("Create note") ?></a>
 </p>
 <br>
 <div id="noteslist"><img src="../pix/loading.gif"></div>

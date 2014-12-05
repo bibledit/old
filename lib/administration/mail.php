@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::ADMIN_LEVEL);
-Assets_Page::header (Locale_Translate::_("Mail"));
+Assets_Page::header (gettext("Mail"));
 
 
 $view = new Assets_View (__FILE__);
@@ -35,14 +35,14 @@ if (isset($_POST['email'])) {
     $validator = new Zend_Validate_EmailAddress ();
     if (!$validator->isValid ($sitemail)) {
       $form_is_valid = false;
-      $view->view->site_name_error = Locale_Translate::_("The email address does not appear to be valid");
+      $view->view->site_name_error = gettext("The email address does not appear to be valid");
     }
   }
   if ($form_is_valid) {
     $config_general = Database_Config_General::getInstance ();
     $config_general->setSiteMailName ($sitename);
     $config_general->setSiteMailAddress ($sitemail);
-    $view->view->site_name_success = Locale_Translate::_("The name and email address were saved");
+    $view->view->site_name_success = gettext("The name and email address were saved");
   }
 }
 
@@ -62,10 +62,10 @@ if (isset($_POST['retrieve'])) {
   $config_general->setMailStoragePassword ($storagepassword);
   $config_general->setMailStorageSecurity ($storagesecurity);
   $config_general->setMailStoragePort     ($storageport);
-  $storage_success .= " " . Locale_Translate::_("The details were saved.");
+  $storage_success .= " " . gettext("The details were saved.");
   try {
     $mail = new Mail_Receive ();
-    $storage_success .= " " . Locale_Translate::_("The account was accessed successfully.") . " " . Locale_Translate::_ ("Messages on server:") . " " . $mail->count . ".";
+    $storage_success .= " " . gettext("The account was accessed successfully.") . " " . gettext ("Messages on server:") . " " . $mail->count . ".";
   } catch (Exception $e) {
     $storage_error .= " " . $e->getMessage ();
   }
@@ -89,10 +89,10 @@ if (isset($_POST['send'])) {
   $config_general->setMailSendPassword       ($sendpassword);
   $config_general->setMailSendSecurity       ($sendsecurity);
   $config_general->setMailSendPort           ($sendport);
-  @$send_success .= " " . Locale_Translate::_("The details were saved.");
+  @$send_success .= " " . gettext("The details were saved.");
   try {
     $mail = new Mail_Send($config_general->getSiteMailAddress(), $config_general->getSiteMailName(), "Test", "This is to try out whether Bibledit-Web can send email.");
-    $send_success .= " " . Locale_Translate::_("For the purpose of trying whether Bibledit-Web can send email, a test email was sent out to the account above:") . " " . $config_general->getSiteMailAddress();
+    $send_success .= " " . gettext("For the purpose of trying whether Bibledit-Web can send email, a test email was sent out to the account above:") . " " . $config_general->getSiteMailAddress();
   } catch (Exception $e) {
     $send_error .= " " . $e->getMessage ();
   }

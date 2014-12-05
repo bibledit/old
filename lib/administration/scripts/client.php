@@ -17,48 +17,48 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Client mode") ?></h3>
+<h3><?php echo gettext("Client mode") ?></h3>
 
 <?php if ($this->client == true) { ?>
 
   <p>
-    <?php echo Locale_Translate::_("Client mode is enabled.") ?>
-    <a href="?disable="><?php echo Locale_Translate::_("Disable it.") ?></a>
+    <?php echo gettext("Client mode is enabled.") ?>
+    <a href="?disable="><?php echo gettext("Disable it.") ?></a>
   </p>
   <p>
-    <?php echo Locale_Translate::_("Server") ?>:
+    <?php echo gettext("Server") ?>:
     <a href="<?php echo $this->address ?>" target="_blank"><?php echo $this->address ?></a>
   </p>
-  <p><?php echo Locale_Translate::_("Your role:") ?> <?php echo $this->role ?></p>
+  <p><?php echo gettext("Your role:") ?> <?php echo $this->role ?></p>
 
 <?php } else { ?>
 
-  <p><?php echo Locale_Translate::_("To enable client mode, enter the details below, and click Enable.") ?></p>
+  <p><?php echo gettext("To enable client mode, enter the details below, and click Enable.") ?></p>
   
   <br>
   
   <form action="client.php" name="server" method="post">
-    <p><?php echo Locale_Translate::_("Address of Bibledit-Web Server on the Internet") ?>:</p>
+    <p><?php echo gettext("Address of Bibledit-Web Server on the Internet") ?>:</p>
     <p><input type="text" name="address" maxlength="1000" class="focus fullwidth" value="<?php echo $this->address ?>" /></p>
     <table>
       <tr>
-        <td align="right"><?php echo Locale_Translate::_("Username on the server") ?></td>
+        <td align="right"><?php echo gettext("Username on the server") ?></td>
         <td><input type="text" name="user" maxlength="30" class="focus" /></td>
       </tr>
       <tr>
-        <td align="right"><?php echo Locale_Translate::_("Password on the server") ?></td>
+        <td align="right"><?php echo gettext("Password on the server") ?></td>
         <td><input type="password" name="pass" maxlength="30" class="focus" /></td>
       </tr>
       <tr>
         <td></td>
-        <td><input type="submit" name="connect" class="focus" value="<?php echo Locale_Translate::_("Enable") ?>" /></td>
+        <td><input type="submit" name="connect" class="focus" value="<?php echo gettext("Enable") ?>" /></td>
       </tr>
     </table>
   </form>
   
   <br>
 
-  <p><a href="?demo="><?php echo Locale_Translate::_("Or else connect to the Bibledit-Web Demo Server.") ?></a></p>
+  <p><a href="?demo="><?php echo gettext("Or else connect to the Bibledit-Web Demo Server.") ?></a></p>
 
 <?php } ?>
 
@@ -69,31 +69,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 
 <p>
-  <?php echo Locale_Translate::_("When client mode is enabled, Bibledit-Web can be used offline as a client on a local computing device.") ?>
+  <?php echo gettext("When client mode is enabled, Bibledit-Web can be used offline as a client on a local computing device.") ?>
 </p>
 
 <br>
 
 <p>
-  <?php echo Locale_Translate::_("Client mode affects the following:") ?>
+  <?php echo gettext("Client mode affects the following:") ?>
 </p>
 <ul>
 <li>
-  <?php echo Locale_Translate::_("Can synchronize the local Bibles with the Bibles on a Bibledit-Web server.") ?>
+  <?php echo gettext("Can synchronize the local Bibles with the Bibles on a Bibledit-Web server.") ?>
 </li>
 <li>
-  <?php echo Locale_Translate::_("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit-Web server.") ?>
+  <?php echo gettext("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit-Web server.") ?>
 </li>
 <li>
-  <?php echo Locale_Translate::_("After connecting to a server, the first time you synchronize, you will get the same data as on the server.") ?>
-  <?php echo Locale_Translate::_("Local Bible data and Notes not on the server will be erased.") ?>
-  <?php echo Locale_Translate::_("Bible data and Notes on the server will be downloaded.") ?>
-  <?php echo Locale_Translate::_("This is good because it means that your data will be backed up to the server.") ?>
+  <?php echo gettext("After connecting to a server, the first time you synchronize, you will get the same data as on the server.") ?>
+  <?php echo gettext("Local Bible data and Notes not on the server will be erased.") ?>
+  <?php echo gettext("Bible data and Notes on the server will be downloaded.") ?>
+  <?php echo gettext("This is good because it means that your data will be backed up to the server.") ?>
 </li>
 <li>
-  <?php echo Locale_Translate::_("Does not send or receive email.") ?>
+  <?php echo gettext("Does not send or receive email.") ?>
 </li>
 <li>
-  <?php echo Locale_Translate::_("User is always logged in.") ?>
+  <?php echo gettext("User is always logged in.") ?>
 </li>
 </ul>

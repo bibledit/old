@@ -17,12 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo Locale_Translate::_("Book order") ?></h3>
-<p><?php echo Locale_Translate::_("Bible") ?>: <a href="settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
+<h3><?php echo gettext("Book order") ?></h3>
+<p><?php echo gettext("Bible") ?>: <a href="settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
 <br>
 <p>
-  <?php echo Locale_Translate::_("Drag books to another location to update the order of the books in this Bible.") ?>
-  <a href="?bible=<?php echo $this->bible ?>&reset="><?php echo Locale_Translate::_("Reset order.") ?></a>
+  <?php echo gettext("Drag books to another location to update the order of the books in this Bible.") ?>
+  <a href="?bible=<?php echo $this->bible ?>&reset="><?php echo gettext("Reset order.") ?></a>
 </p>
 <br>
 <div id="sortable">

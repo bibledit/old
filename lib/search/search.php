@@ -27,7 +27,7 @@ $queryString = isset($_GET['q']) ? $_GET['q'] : '';
 
 
 // Put the query string into the search box.
-Assets_Page::header (Locale_Translate::_("Search"), $queryString);
+Assets_Page::header (gettext("Search"), $queryString);
 
 
 $view = new Assets_View (__FILE__);

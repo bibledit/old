@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (Locale_Translate::_("Import Bible data has started"), true);
+$database_logs->log (gettext("Import Bible data has started"), true);
 
 
 ignore_user_abort (true);

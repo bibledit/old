@@ -36,7 +36,7 @@ if (isset ($delete)) {
   if (!$font_in_use) {
     unlink ($font);
   } else {
-    Assets_Page::error (Locale_Translate::_("The font could not be deleted because it is in use."));
+    Assets_Page::error (gettext("The font could not be deleted because it is in use."));
   }
 }
 
@@ -49,14 +49,14 @@ if (isset($_POST['upload'])) {
   $filename = $_FILES['data']['name'];
   $tmpfile = $_FILES['data']['tmp_name'];
   if (move_uploaded_file ($tmpfile, $filename)) {
-    Assets_Page::success (Locale_Translate::_("The font has been uploaded."));
+    Assets_Page::success (gettext("The font has been uploaded."));
   } else {
     Assets_Page::error (Filter_Upload::error2text ($_FILES['data']['error']));
   }
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Fonts"));
+$header = new Assets_Header (gettext("Fonts"));
 $header->run ();
 
 

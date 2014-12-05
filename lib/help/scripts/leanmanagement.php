@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo Locale_Translate::_("Lean Bible translation management") ?></h1>
-<h2><?php echo Locale_Translate::_("Introduction") ?></h2>
+<h1><?php echo gettext("Lean Bible translation management") ?></h1>
+<h2><?php echo gettext("Introduction") ?></h2>
 <p>
- <?php echo Locale_Translate::_("What is lean management?") ?>
+ <?php echo gettext("What is lean management?") ?>
 </p>
 <br>
 <p>
- <?php echo Locale_Translate::_("Lean management is about the systematic pursuit of desired translation competence and conditions by utilizing human capabilities in a coordinated manner.") ?>
- <?php echo Locale_Translate::_("Two things are essential for this:") ?>
-<p>1. <?php echo Locale_Translate::_("Developing desired conditions.") ?></p>
-<p>2. <?php echo Locale_Translate::_("Developing capable people who can develop the desired conditions.") ?></p>
+ <?php echo gettext("Lean management is about the systematic pursuit of desired translation competence and conditions by utilizing human capabilities in a coordinated manner.") ?>
+ <?php echo gettext("Two things are essential for this:") ?>
+<p>1. <?php echo gettext("Developing desired conditions.") ?></p>
+<p>2. <?php echo gettext("Developing capable people who can develop the desired conditions.") ?></p>
 <br>
-<p><a href="http://www.lean.org" target="_blank"><?php echo Locale_Translate::_("External reference") ?></a></p>
+<p><a href="http://www.lean.org" target="_blank"><?php echo gettext("External reference") ?></a></p>

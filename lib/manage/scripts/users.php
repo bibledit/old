@@ -17,17 +17,17 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo Locale_Translate::_("Users") ?></h2>
+<h2><?php echo gettext("Users") ?></h2>
 <table>
   <thead>
     <tr>
-      <td class="center"><?php echo Locale_Translate::_("Username") ?></td>
+      <td class="center"><?php echo gettext("Username") ?></td>
       <td></td>
-      <td class="center"><?php echo Locale_Translate::_("Role") ?></td>
+      <td class="center"><?php echo gettext("Role") ?></td>
       <td></td>
-      <td class="center"><?php echo Locale_Translate::_("Email") ?></td>
+      <td class="center"><?php echo gettext("Email") ?></td>
       <td></td>
-      <td class="center"><?php echo Locale_Translate::_("Bibles") ?></td>
+      <td class="center"><?php echo gettext("Bibles") ?></td>
     </tr>
   </thead>
   <tbody>
@@ -58,29 +58,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </table>
 <ul>
   <li>
-    <?php echo Locale_Translate::_("This lists the accounts of the users who have access to Bibles you have acccess to, and have roles you are responsible for.") ?>
-    <?php echo Locale_Translate::_("It also lists users without access to any Bibles.") ?>
+    <?php echo gettext("This lists the accounts of the users who have access to Bibles you have acccess to, and have roles you are responsible for.") ?>
+    <?php echo gettext("It also lists users without access to any Bibles.") ?>
   </li>
-  <li><?php echo Locale_Translate::_("Click ✗ before a username to delete the account.") ?></li>
-  <li><?php echo Locale_Translate::_("Click a user's role to change it.") ?></li>
-  <li><?php echo Locale_Translate::_("Click a user's email address to change it.") ?></li>
+  <li><?php echo gettext("Click ✗ before a username to delete the account.") ?></li>
+  <li><?php echo gettext("Click a user's role to change it.") ?></li>
+  <li><?php echo gettext("Click a user's email address to change it.") ?></li>
   <li>
-    <a href="?new="><?php echo Locale_Translate::_("You can create a new user.") ?></a>
-    <?php echo Locale_Translate::_('The password will be the same as the username.') ?>
-    <?php echo Locale_Translate::_('Normally users register their own account.') ?>
+    <a href="?new="><?php echo gettext("You can create a new user.") ?></a>
+    <?php echo gettext('The password will be the same as the username.') ?>
+    <?php echo gettext('Normally users register their own account.') ?>
   </li>
   <li>
-    <?php echo Locale_Translate::_('Bible translation teams.') ?>
+    <?php echo gettext('Bible translation teams.') ?>
     <ul>
-      <li><?php echo Locale_Translate::_('Click ➕  to make a user a member of a Bible translation team.') ?></li>
-      <li><?php echo Locale_Translate::_('Click ✗ before a Bible to remove that member from the team.') ?></li>
+      <li><?php echo gettext('Click ➕  to make a user a member of a Bible translation team.') ?></li>
+      <li><?php echo gettext('Click ✗ before a Bible to remove that member from the team.') ?></li>
       <li>
-        <?php echo Locale_Translate::_('Some roles have write access to Bibles.') ?>
-        <?php echo Locale_Translate::_('A symbol ✍ appears.') ?>
-        <?php echo Locale_Translate::_('Uncheck to remove write access to that Bible.') ?>
+        <?php echo gettext('Some roles have write access to Bibles.') ?>
+        <?php echo gettext('A symbol ✍ appears.') ?>
+        <?php echo gettext('Uncheck to remove write access to that Bible.') ?>
       </li>
-      <li><?php echo Locale_Translate::_('You can only see Bibles you have access to yourself.') ?></li>
-      <li><?php echo Locale_Translate::_('If no user on the whole site has been granted access to any Bible, then all users have access to all Bibles.') ?></li>
+      <li><?php echo gettext('You can only see Bibles you have access to yourself.') ?></li>
+      <li><?php echo gettext('If no user on the whole site has been granted access to any Bible, then all users have access to all Bibles.') ?></li>
     </ul>
   </li>
 </ul>

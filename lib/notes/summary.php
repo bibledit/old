@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
 }
 
 
-$header = new Assets_Header (Locale_Translate::_("Note summary"));
+$header = new Assets_Header (gettext("Note summary"));
 $header->setBodyOnload ('document.form.entry.focus();');
 $header->run();
 

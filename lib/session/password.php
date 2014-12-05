@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::GUEST_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Password"));
+Assets_Page::header (gettext("Password"));
 $view = new Assets_View (__FILE__);
 
 
@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
   $form_is_valid = true;
   $user = $_POST['user'];
   if (strlen ($user) < 4) {
-    $view->view->error_message = Locale_Translate::_("Username or email address is too short");
+    $view->view->error_message = gettext("Username or email address is too short");
     $form_is_valid = false;
   }
   $database_users = Database_Users::getInstance ();
@@ -55,18 +55,18 @@ if (isset($_POST['submit'])) {
     $database_users->updateUserPassword ($username, $generated_password);
     $database_mail = Database_Mail::getInstance ();
     // Send the new password to the user.
-    $subject = Locale_Translate::_("Account changed");
-    $body = Locale_Translate::_("Somebody requested a new password for your account.");
+    $subject = gettext("Account changed");
+    $body = gettext("Somebody requested a new password for your account.");
     $body .= "\n\n";
-    $body .= Locale_Translate::_("Here is the new password:");
+    $body .= gettext("Here is the new password:");
     $body .= "\n\n";
     $body .= $generated_password;
     $body .= "\n\n";
-    $body .= Locale_Translate::_("It is recommended to log into your account with this new password, and then change it.");
+    $body .= gettext("It is recommended to log into your account with this new password, and then change it.");
     $database_mail->send ($username, $subject, $body);
-    $view->view->success_message = Locale_Translate::_("A message was sent to the email address belonging to this account to help you getting the password");
+    $view->view->success_message = gettext("A message was sent to the email address belonging to this account to help you getting the password");
   } else {
-    $view->view->error_message = Locale_Translate::_("Username or email address cannot be found");
+    $view->view->error_message = gettext("Username or email address cannot be found");
   }
 }
 

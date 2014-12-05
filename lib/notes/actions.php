@@ -65,7 +65,7 @@ if (isset ($_GET['done'])) {
 
 if (isset ($_GET['markdel'])) {
   $notes_logic->markForDeletion ($id);
-  $success = Locale_Translate::_("The note will be deleted after a week.") . " " . Locale_Translate::_ ("Adding a comment to the note cancels the deletion.");
+  $success = gettext("The note will be deleted after a week.") . " " . gettext ("Adding a comment to the note cancels the deletion.");
 }
 
 
@@ -81,7 +81,7 @@ if (isset ($_GET['delete'])) {
 }
 
 
-$assets_header = new Assets_Header (Locale_Translate::_("Note actions"));
+$assets_header = new Assets_Header (gettext("Note actions"));
 $assets_header->run();
 
 

@@ -20,14 +20,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (Locale_Translate::_("Import consultation notes has started"), true);
+$database_logs->log (gettext("Import consultation notes has started"), true);
 
 // Security: Page only runs from the cli SAPI.
 Filter_Cli::assert ();
 
 $folder = Filter_Cli::argument (@$argv, 1);
 $folder = "$folder/data";
-$database_logs->log (Locale_Translate::_("Importing from folder:") . " " . $folder, true);
+$database_logs->log (gettext("Importing from folder:") . " " . $folder, true);
 
 $counter = 0;
 foreach (new DirectoryIterator ($folder) as $fileInfo) {
@@ -35,20 +35,20 @@ foreach (new DirectoryIterator ($folder) as $fileInfo) {
   if($fileInfo->isDir()) continue;
   $counter++;
   $basename = $fileInfo->getFilename();
-  $information = Locale_Translate::_("Note") . " " . $basename . " ($counter) ";
+  $information = gettext("Note") . " " . $basename . " ($counter) ";
   if (is_numeric ($basename)) {
     $path = "$folder/$basename";
     $note_identifier = Filter_Notes::importFromBibleditGtkFile ($path);
     if (is_numeric ($note_identifier)) {
-      $database_logs->log ($information . Locale_Translate::_("Imported"), true);
+      $database_logs->log ($information . gettext("Imported"), true);
     } else {
-      $database_logs->log ($information . Locale_Translate::_("Could not import the note"), true);
+      $database_logs->log ($information . gettext("Could not import the note"), true);
     }
   } else {
-    $database_logs->log ($information . Locale_Translate::_("This is not a note"), true);
+    $database_logs->log ($information . gettext("This is not a note"), true);
   }
 }
 
-$database_logs->log (Locale_Translate::_("Import consultation notes has finished"), true);
+$database_logs->log (gettext("Import consultation notes has finished"), true);
 
 ?>

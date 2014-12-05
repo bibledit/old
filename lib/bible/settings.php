@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::MANAGER_LEVEL);
 
 
-Assets_Page::header (Locale_Translate::_("Bible"));
+Assets_Page::header (gettext("Bible"));
 $view = new Assets_View (__FILE__);
 
 
@@ -46,7 +46,7 @@ $view->view->write_access = $write_access;
 @$versification = $_GET['versification'];
 if (isset ($versification)) {
   if ($versification == "") {
-    $dialog_versifications = new Dialog_List (array ("bible"), Locale_Translate::_("Would you like to change the versification system?"), Locale_Translate::_ ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
+    $dialog_versifications = new Dialog_List (array ("bible"), gettext("Would you like to change the versification system?"), gettext ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
     $database_versifications = Database_Versifications::getInstance ();
     $versification_names = $database_versifications->getSystems ();
     foreach ($versification_names as $versification_name) {
@@ -66,7 +66,7 @@ $view->view->versification = $versification;
 @$mapping = $_GET['mapping'];
 if (isset ($mapping)) {
   if ($mapping == "") {
-    $dialog = new Dialog_List (array ("bible"), Locale_Translate::_("Would you like to change the verse mapping?"), Locale_Translate::_ ("A verse mapping can be used to match verses for parallel Bible display. Please make your choice below."), "");
+    $dialog = new Dialog_List (array ("bible"), gettext("Would you like to change the verse mapping?"), gettext ("A verse mapping can be used to match verses for parallel Bible display. Please make your choice below."), "");
     $database_mappings = Database_Mappings::getInstance ();
     $mapping_names = $database_mappings->names ();
     foreach ($mapping_names as $mapping_name) {
@@ -86,7 +86,7 @@ $view->view->mapping = $mapping;
 @$createbook = $_GET['createbook'];
 if (isset ($createbook)) {
   if ($createbook == "") {
-    $dialog_books = new Dialog_Books (array ("bible"), Locale_Translate::_("Create book"), "", "", "createbook", NULL, $database_bibles->getBooks ($bible));
+    $dialog_books = new Dialog_Books (array ("bible"), gettext("Create book"), "", "", "createbook", NULL, $database_bibles->getBooks ($bible));
     die;
   } else {
     $feedback = array ();
@@ -102,7 +102,7 @@ if ($deletebook != "") {
   if ($confirm != "") {
     if ($write_access) Bible_Logic::deleteBook ($bible, $deletebook);
   } else {
-    $dialog_yes = new Dialog_Yes (array ("bible"), Locale_Translate::_("Would you like to delete this book?"), "deletebook");
+    $dialog_yes = new Dialog_Yes (array ("bible"), gettext("Would you like to delete this book?"), "deletebook");
     die;
   }
 }
@@ -113,7 +113,7 @@ $book_names = array ();
 $book_ids = filter_passage_get_ordered_books ($bible);
 foreach ($book_ids as $book) {
   $book_name = $database_books->getEnglishFromId ($book);
-  $book_name = Locale_Translate::_($book_name);
+  $book_name = gettext($book_name);
   $book_names [] = $book_name;
 }
 $view->view->book_ids = $book_ids;

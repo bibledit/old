@@ -34,12 +34,12 @@ $database_users = Database_Users::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$database_logs->log (Locale_Translate::_("Sending and receiving Bibles"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Sending and receiving Bibles"), Filter_Roles::TRANSLATOR_LEVEL);
 
 
 $response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::GUEST_LEVEL || $response > Filter_Roles::ADMIN_LEVEL) {
-  $database_logs->log (Locale_Translate::_("Failure initializing sending and receiving Bibles"), Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log (gettext("Failure initializing sending and receiving Bibles"), Filter_Roles::TRANSLATOR_LEVEL);
   die;
 }
 
@@ -64,7 +64,7 @@ foreach ($bibles as $bible) {
     foreach ($chapters as $chapter) {
 
       $bookname = $database_books->getEnglishFromId ($book);
-      $database_logs->log (Locale_Translate::_("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::TRANSLATOR_LEVEL);
 
       // Get old and new USFM for this chapter.
       $oldusfm = $database_bibleactions->getUsfm ($bible, $book, $chapter);

@@ -18,17 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <div>
-  <?php echo Locale_Translate::_("Search for verses with a certain Strong's number in:") ?>
+  <?php echo gettext("Search for verses with a certain Strong's number in:") ?>
   <?php echo $this->bible; ?>
   |
   <img id="searchloading" src="../pix/loading.gif">
   <progress value="0" max="100"></progress>
   <span id="hitcount">0</span>
   |
-  <span><a href="select.php" title="<?php echo Locale_Translate::_("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
 </div>
 <div>
-  <input id="loadbutton" type="button" value="<?php echo Locale_Translate::_("Load") ?>" />
+  <input id="loadbutton" type="button" value="<?php echo gettext("Load") ?>" />
 </div>
 <div id="strongslinks"></div>
 <div id="searchresults"></div>

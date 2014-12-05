@@ -18,8 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo Locale_Translate::_("Resources") ?>
-  <a href="organize.php">[<?php echo Locale_Translate::_("organize") ?>]</a>
+  <?php echo gettext("Resources") ?>
+  <a href="organize.php">[<?php echo gettext("organize") ?>]</a>
 </p>
 <hr>
 <?php foreach ($this->resources as $offset => $resource) { ?>
