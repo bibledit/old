@@ -84,4 +84,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <?php } ?>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
-<script type="text/javascript" src="poll.js?<?php echo Config_Logic::version () ?>"></script>
+<script type="text/javascript" src="poll.js?<?php echo config_logic_version () ?>"></script>

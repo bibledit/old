@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,19 +15,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<p>
-<a href="index.php"><?php echo Locale_Translate::_("Back to notes list") ?></a>
-|
-<a href="actions.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Actions") ?></a>
-</p>
-<p>
-<?php echo Locale_Translate::_("Summary") ?>: <?php echo $this->summary ?>
-<?php if ($this->level >= 5) { ?>
-  [<a href="summary.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("edit") ?></a>]
-<?php } ?>
-</p>
-<div><?php echo $this->content ?></div>
-<hr>
-<p><a href="comment.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Add a comment to this note") ?></a></p>
-<script type="text/javascript" src="poll.js?<?php echo config_logic_version () ?>"></script>
+
+
+#ifndef INCLUDED_CONFIG_LOGIC_H
+#define INCLUDED_CONFIG_LOGIC_H
+
+
+#include <config/libraries.h>
+
+
+string config_logic_version ();
+bool config_logic_prepared ();
+bool config_logic_enabled ();
+void config_logic_set (bool enable);
+
+
+#endif

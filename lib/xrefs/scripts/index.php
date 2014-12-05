@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <td class="topalign"><div id="tarLocale_Translate::_"></div></td>
 </tr>
 </table>
-<script type="text/javascript" src="index.js?<?php echo Config_Logic::version () ?>"></script>
+<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
 <style type="text/css">
 .focus { 
   border-radius: 100px;

@@ -22,35 +22,6 @@ class Filter_Client
 {
 
 
-  // Returns whether Client mode is prepared during setup.
-  public static function prepared ()
-  {
-    // The configuration file may be present or be absent.
-    @include ("config/client.php");
-    if (isset ($client_mode)) return $client_mode;
-    return false;
-  }
-
-
-  // Returns whether Client mode is enabled.
-  public static function enabled ()
-  {
-    $database_config_general = Database_Config_General::getInstance ();
-    $enabled = $database_config_general->getClientMode ();
-    if ($enabled) return true;
-    return false;
-  }
-
-
-  // Sets the Client mode.
-  // $enable: boolean: true or false.
-  public static function set ($enable)
-  {
-    $database_config_general = Database_Config_General::getInstance ();
-    $database_config_general->setClientMode ($enable);
-  }
-  
-
   // This function does the initial connection from the client to the server.
   // It receives settings from the server and applies them to the client.
   // It returns the level of the user.

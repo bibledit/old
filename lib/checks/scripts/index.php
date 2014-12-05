@@ -42,5 +42,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo Locale_Translate::_("Click an entry to open the chapter in the text editor.") ?></p>
 <p><?php echo Locale_Translate::_("The Manager should enable the checks.") ?></p>
 <p><a href="suppress.php"><?php echo Locale_Translate::_("Suppressed entries") ?></a></p>
-<script type="text/javascript" src="index.js?<?php echo Config_Logic::version () ?>"></script>
-<script type="text/javascript" src="../navigation/nav.js?<?php echo Config_Logic::version () ?>"></script>
+<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="../navigation/nav.js?<?php echo config_logic_version () ?>"></script>

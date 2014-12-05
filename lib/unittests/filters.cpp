@@ -2211,9 +2211,6 @@ void test_filters_passage3 ()
   }
 }
 
-/* Todo
-
-*/
 
 // Tests for the filters in the filter folder.
 void test_filters ()

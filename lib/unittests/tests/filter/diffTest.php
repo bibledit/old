@@ -30,7 +30,7 @@ private $temporary_folder;
     $database_bibles = Database_Bibles::getInstance ();
     $database_modifications = Database_Modifications::getInstance ();
     $this->tearDown ();
-    Filter_Client::set (false);
+    config_logic_set (false);
     $this->temporary_folder = uniqid (sys_get_temp_dir() . "/");
     mkdir ($this->temporary_folder);
     $database_bibles->createBible ("phpunit");
@@ -44,7 +44,7 @@ private $temporary_folder;
   {
     $database_bibles = Database_Bibles::getInstance ();
     $database_modifications = Database_Modifications::getInstance ();
-    Filter_Client::set (false);
+    config_logic_set (false);
     $database_bibles->deleteBible ("phpunit");
     $database_modifications->truncateTeams ();
     Filter_Rmdir::rmdir ($this->temporary_folder);

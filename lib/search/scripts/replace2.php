@@ -36,4 +36,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo Locale_Translate::_("Search") ?> <input type="radio" id="searchplain" name="where" checked="checked"><?php echo Locale_Translate::_ ("main text without notes") ?> <input type="radio" name="where"><?php echo Locale_Translate::_("underlying USFM") ?></p>
 <div id="searchresults"></div>
 <script><?php echo $this->script; ?></script>
-<script type="text/javascript" src="replace2.js?<?php echo Config_Logic::version () ?>"></script>
+<script type="text/javascript" src="replace2.js?<?php echo config_logic_version () ?>"></script>

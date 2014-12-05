@@ -32,7 +32,7 @@ $view = new Assets_View (__FILE__);
 
 
 if (isset($_GET['disable'])) {
-  Filter_Client::set (false);
+  config_logic_set (false);
   remove_all_users ();
   $database_config_general->setRepeatSendReceive (0);
 }
@@ -46,7 +46,7 @@ if (isset ($_POST ['connect'])) {
   $user = $_POST ['user'];
   $pass = $_POST ['pass'];
 
-  $response = Filter_Client::setup ($user, md5 ($pass));
+  $response = config_logic_setup ($user, md5 ($pass));
 
   if ($response === false) {
     $view->view->error = Locale_Translate::_("Could not connect to the server.");
@@ -70,7 +70,7 @@ if (isset ($_GET['demo'])) {
   $user = "admin";
   $pass = "admin";
 
-  $response = Filter_Client::setup ($user, md5 ($pass));
+  $response = config_logic_setup ($user, md5 ($pass));
 
   if (($response >= Filter_Roles::GUEST_LEVEL) && ($response <= Filter_Roles::ADMIN_LEVEL)) {
     // Enable client mode upon a successful connection.
@@ -84,7 +84,7 @@ if (isset ($_GET['demo'])) {
 }
 
 
-$view->view->client = Filter_Client::enabled ();
+$view->view->client = config_logic_enabled ();
 
 
 $address = $database_config_general->getServerAddress ();
@@ -123,7 +123,7 @@ function remove_all_users ()
 function enable_client ($username, $password, $level)
 {
   // Enable client mode upon a successful connection.
-  Filter_Client::set (true);
+  config_logic_set (true);
 
   // Remove all users from the database, and add the current one.
   remove_all_users ();

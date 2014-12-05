@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h1><?php echo Locale_Translate::_("About") ?></h1>
-<p><?php echo Locale_Translate::_("Bibledit-Web") ?> <?php echo Config_Logic::version () ?></p>
+<p><?php echo Locale_Translate::_("Bibledit-Web") ?> <?php echo config_logic_version () ?></p>
 <p><a href="https://sites.google.com/site/bibleditweb">https://sites.google.com/site/bibleditweb</a></p>
 <p>Copyright (©) 2003-2014 Teus Benschop.</p>
 <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>

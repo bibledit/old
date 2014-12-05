@@ -39,4 +39,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><input type="radio" id="intersect" name="share"><?php echo Locale_Translate::_("Display the intersection of them and the ones already on the page") ?></p>
 <div id="searchresults"></div>
 <script><?php echo $this->script; ?></script>
-<script type="text/javascript" src="search2.js?<?php echo Config_Logic::version () ?>"></script>
+<script type="text/javascript" src="search2.js?<?php echo config_logic_version () ?>"></script>

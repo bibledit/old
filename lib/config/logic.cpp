@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,19 +15,47 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<p>
-<a href="index.php"><?php echo Locale_Translate::_("Back to notes list") ?></a>
-|
-<a href="actions.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Actions") ?></a>
-</p>
-<p>
-<?php echo Locale_Translate::_("Summary") ?>: <?php echo $this->summary ?>
-<?php if ($this->level >= 5) { ?>
-  [<a href="summary.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("edit") ?></a>]
-<?php } ?>
-</p>
-<div><?php echo $this->content ?></div>
-<hr>
-<p><a href="comment.php?id=<?php echo $this->id ?>"><?php echo Locale_Translate::_("Add a comment to this note") ?></a></p>
-<script type="text/javascript" src="poll.js?<?php echo config_logic_version () ?>"></script>
+
+
+#include <config/logic.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <database/books.h>
+#include <database/config/general.h>
+#include <config.h>
+
+
+// Returns the Bibledit version number.
+string config_logic_version ()
+{
+  return VERSION;
+}
+
+
+// Returns whether Client mode is prepared during setup.
+bool config_logic_prepared ()
+{
+  return convert_to_bool (CLIENT_INSTALLATION);
+}
+
+
+// Returns whether Client mode is enabled.
+bool config_logic_enabled ()
+{
+  return Database_Config_General::getClientMode ();
+}
+
+
+// Sets the Client mode.
+// $enable: boolean: true or false.
+void config_logic_set (bool enable)
+{
+  Database_Config_General::setClientMode (enable);
+}
+
+
+
+
+
+
+

@@ -69,7 +69,9 @@ libbibledit_a_SOURCES = \
 	odf/text.cpp \
 	timer/index.cpp \
 	tasks/logic.cpp \
-	tasks/run.cpp
+	tasks/run.cpp \
+	config/logic.cpp \
+	bible/logic.cpp
 
 bin_PROGRAMS = server unittest
 

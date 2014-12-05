@@ -49,4 +49,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo Locale_Translate::_("Progress will be visible in the Journal.") ?>
 </p>
 <link rel="stylesheet" href="../jquery/smoothness/jquery-ui-1.10.3.css" />
-<script type="text/javascript" src="manage.js?<?php echo Config_Logic::version () ?>"></script>
+<script type="text/javascript" src="manage.js?<?php echo config_logic_version () ?>"></script>

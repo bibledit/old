@@ -46,6 +46,9 @@ void test_database_usfmresources ();
 void test_database_mappings ();
 void test_database_noteactions ();
 void test_database_versifications ();
+void test_database_modifications_user ();
+void test_database_modifications_team ();
+void test_database_modifications_notifications ();
 
 
 #endif

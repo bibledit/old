@@ -80,7 +80,7 @@ if (isset($_GET['runsync'])) {
 }
 
 
-$view->view->client = Filter_Client::enabled ();
+$view->view->client = config_logic_enabled ();
 
 
 if (isset($_GET['repeatsync'])) {
@@ -98,7 +98,7 @@ if ($database_config_general->getServerAddress () == "") {
 }
 
 
-$view->view->clientmode = Filter_Client::enabled ();
+$view->view->clientmode = config_logic_enabled ();
 
 
 $view->view->demo = Filter_Demo::client_demo_warning ();

@@ -61,6 +61,19 @@ void Database_Config_General::setValue (const char * key, string value)
 }
 
 
+bool Database_Config_General::getValue (const char * key, bool default_value)
+{
+  string value = getValue (key, convert_to_string (default_value).c_str());
+  return convert_to_bool (value);
+}
+
+
+void Database_Config_General::setValue (const char * key, bool value)
+{
+  setValue (key, convert_to_string (value).c_str());
+}
+
+
 vector <string> Database_Config_General::getList (const char * key)
 {
   string contents = getValue (key, "");
@@ -250,11 +263,11 @@ void Database_Config_General::setSiteLanguage (string value)
 }
 
 
-string Database_Config_General::getClientMode ()
+bool Database_Config_General::getClientMode ()
 {
-  return getValue ("client-mode", "");
+  return getValue ("client-mode", false);
 }
-void Database_Config_General::setClientMode (string value)
+void Database_Config_General::setClientMode (bool value)
 {
   setValue ("client-mode", value);
 }

@@ -49,8 +49,8 @@ class Filter_Cli
     if (file_exists ($path)) return true;
     
     // When client mode is prepared, but not yet enabled, it is not yet ready.
-    if (Filter_Client::prepared ()) {
-      if (!Filter_Client::enabled ()) {
+    if (config_logic_prepared ()) {
+      if (!config_logic_enabled ()) {
         return true;
       }
     }

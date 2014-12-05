@@ -30,7 +30,7 @@ class Access_Bible
   static public function read ($bible, $user = "")
   {
     // Client: User has access to all Bibles.
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       return true;
     }
     if ($user == "") {
@@ -54,7 +54,7 @@ class Access_Bible
   static public function write ($bible, $user = "")
   {
     // Client: User has access to all Bibles.
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       return true;
     }
     if ($user == "") {

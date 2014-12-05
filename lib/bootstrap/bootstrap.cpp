@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <setup/index.h>
 #include <journal/index.h>
-#include <config.h>
+#include <config/logic.h>
 
 
 using namespace std;
@@ -42,7 +42,7 @@ void bootstrap_index (Webserver_Request * request)
   if ((extension  == "ico") || (extension  == "png") || (extension == "css") || (extension == "js")) http_serve_file (request);
   
   // Force setup.
-  else if (VERSION != Database_Config_General::getInstalledVersion ()) request->reply = setup_index (request);
+  else if (config_logic_version () != Database_Config_General::getInstalledVersion ()) request->reply = setup_index (request);
 
   // Home page.
   else if (request->get == "/index/index") request->reply = index_index (request);

@@ -37,7 +37,7 @@ $database_books = Database_Books::getInstance ();
 $database_logs->log (Locale_Translate::_("Sending and receiving Bibles"), Filter_Roles::TRANSLATOR_LEVEL);
 
 
-$response = Filter_Client::setup ();
+$response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::GUEST_LEVEL || $response > Filter_Roles::ADMIN_LEVEL) {
   $database_logs->log (Locale_Translate::_("Failure initializing sending and receiving Bibles"), Filter_Roles::TRANSLATOR_LEVEL);
   die;

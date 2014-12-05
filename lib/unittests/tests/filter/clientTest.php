@@ -24,22 +24,22 @@ class filterClientTest extends PHPUnit_Framework_TestCase
   public function setUp ()
   {
     $this->tearDown ();
-    Filter_Client::set (true);
+    config_logic_set (true);
   }
 
 
   public function tearDown ()
   {
-    Filter_Client::set (false);
+    config_logic_set (false);
   }
 
 
   public function testEnabled ()
   {
-    $enabled = Filter_Client::enabled ();
+    $enabled = config_logic_enabled ();
     $this->assertTrue ($enabled);
-    Filter_Client::set (false);
-    $enabled = Filter_Client::enabled ();
+    config_logic_set (false);
+    $enabled = config_logic_enabled ();
     $this->assertFalse ($enabled);
   }
 

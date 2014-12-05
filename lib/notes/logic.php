@@ -78,7 +78,7 @@ class Notes_Logic
     $summary = str_replace ("\n", "", $summary);
     $database_notes = Database_Notes::getInstance ();
     $note_id = $database_notes->storeNewNote ($bible, $book, $chapter, $verse, $summary, $contents, $raw);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -100,7 +100,7 @@ class Notes_Logic
 
     $database_notes = Database_Notes::getInstance ();
     $database_notes->addComment ($identifier, $comment);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -116,7 +116,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->setSummary ($identifier, $summary);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -131,7 +131,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->subscribe ($identifier);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -146,7 +146,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->unsubscribe ($identifier);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -160,7 +160,7 @@ class Notes_Logic
   public function assignUser ($identifier, $user)
   {
     $database_notes = Database_Notes::getInstance ();
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -178,7 +178,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->unassignUser ($identifier, $user);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -193,7 +193,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->setStatus ($identifier, $status);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -210,7 +210,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->setPassages ($identifier, $passages);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -227,7 +227,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->setRawSeverity ($identifier, $severity);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -243,7 +243,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->setBible ($identifier, $bible);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -260,7 +260,7 @@ class Notes_Logic
     $trash_handler = Trash_Handler::getInstance ();
     $database_notes->markForDeletion ($identifier);
     $trash_handler->consultationNote ($identifier);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -276,7 +276,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $database_notes->unmarkForDeletion ($identifier);
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -291,7 +291,7 @@ class Notes_Logic
   {
     $database_notes = Database_Notes::getInstance ();
     $trash_handler = Trash_Handler::getInstance ();
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       // Client: record the action in the database.
       $database_noteactions = Database_NoteActions::getInstance ();
       $session_logic = Session_Logic::getInstance ();
@@ -333,7 +333,7 @@ class Notes_Logic
   {
     // Take no action in client mode.
     $database_config_general = Database_Config_General::getInstance ();
-    if (Filter_Client::enabled ()) return;
+    if (config_logic_enabled ()) return;
 
     $database_config_user = Database_Config_User::getInstance ();
     if ($database_config_user->getUserAssignedConsultationNoteNotification ($user)) {
@@ -368,7 +368,7 @@ class Notes_Logic
   {
     // Take no action in client mode.
     $database_config_general = Database_Config_General::getInstance ();
-    if (Filter_Client::enabled ()) return;
+    if (config_logic_enabled ()) return;
 
     // Databases.
     $database_notes = Database_Notes::getInstance();
@@ -509,7 +509,7 @@ class Notes_Logic
 
     // Send (but not in client mode).
     foreach ($users as $user) {
-      if (!Filter_Client::enabled ()) $database_mail->send ($user, "$label | $passages | $summary | (CNID$identifier)", $contents, $timestamp);
+      if (!config_logic_enabled ()) $database_mail->send ($user, "$label | $passages | $summary | (CNID$identifier)", $contents, $timestamp);
     }
   }
 

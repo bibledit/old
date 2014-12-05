@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/mappings.h>
 #include <database/noteactions.h>
 #include <database/versifications.h>
+#include <database/modifications.h>
 
 
 void setup_create_databases (Webserver_Request * request)
@@ -72,7 +73,8 @@ void setup_create_databases (Webserver_Request * request)
   Database_Versifications database_versifications = Database_Versifications ();
   database_versifications.create ();
   database_versifications.defaults ();
-
+  Database_Modifications database_modifications = Database_Modifications ();
+  database_modifications.create ();
 }
 
 

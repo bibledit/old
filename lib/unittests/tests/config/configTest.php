@@ -36,7 +36,7 @@ class configTest extends PHPUnit_Framework_TestCase
   public function testVersion ()
   {
     include ("config/version.php");
-    $this->assertEquals ($version, Config_Logic::version ());
+    $this->assertEquals ($version, config_logic_version ());
   }
 
 

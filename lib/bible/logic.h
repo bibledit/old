@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -18,17 +17,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Config_Logic
+#ifndef INCLUDED_BIBLE_LOGIC_H
+#define INCLUDED_BIBLE_LOGIC_H
+
+
+#include <config/libraries.h>
+
+
+class Bible_Logic
 {
-
-  public static function version ()
-  {
-    include "version.php";
-    return $version;
-  }
-
-
-}
+public:
+  static void storeChapter (const string& bible, int book, int chapter, const string& usfm);
+  static void deleteChapter (const string& bible, int book, int chapter);
+  static void deleteBook (const string& bible, int book);
+  static void deleteBible (const string& bible);
+};
 
 
-?>
+#endif

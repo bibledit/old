@@ -64,8 +64,8 @@ public:
   static void setSiteURL (string value);
   static string getSiteLanguage ();
   static void setSiteLanguage (string value);
-  static string getClientMode ();
-  static void setClientMode (string value);
+  static bool getClientMode ();
+  static void setClientMode (bool value);
   static string getServerAddress ();
   static void setServerAddress (string value);
   static string getRepeatSendReceive ();
@@ -76,6 +76,8 @@ private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);
   static void setValue (const char * key, string value);
+  static bool getValue (const char * key, bool default_value);
+  static void setValue (const char * key, bool value);
   vector <string> getList (const char * key);
   static void setList (const char * key, vector <string> values);
 };

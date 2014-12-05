@@ -214,12 +214,12 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
     // But keep the menu item in an open installation.
     include ("config/open.php");
     if (!$open_installation) {
-      if (!Filter_Client::prepared ()) {
+      if (!config_logic_prepared ()) {
         unset ($menu ["client"]);
       }
     }
     // If Client mode is enabled, disable certain menu entries.
-    if (Filter_Client::enabled ()) {
+    if (config_logic_enabled ()) {
       unset ($menu ["mail"]);
       unset ($menu ["users"]);
       unset ($menu ["collaboration"]);

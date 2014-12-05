@@ -102,7 +102,9 @@ private:
   string userNewTextFile (const string& username, const string& bible, int book, int chapter, int newID);
   string notificationsMainFolder ();
   string notificationIdentifierFolder (int identifier);
+public:
   string notificationTimeFile (int identifier);
+private:
   string notificationUserFile (int identifier);
   string notificationCategoryFile (int identifier);
   string notificationBibleFile (int identifier);
