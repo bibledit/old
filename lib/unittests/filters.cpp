@@ -143,17 +143,17 @@ void test_filters_test2 ()
   }
   {
     // Test dirname and basename functions.
-    evaluate (__LINE__, __func__, ".", get_dirname (""));
-    evaluate (__LINE__, __func__, ".", get_dirname ("/"));
-    evaluate (__LINE__, __func__, ".", get_dirname ("dir/"));
-    evaluate (__LINE__, __func__, ".", get_dirname ("/dir"));
-    evaluate (__LINE__, __func__, "foo", get_dirname ("foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", get_dirname ("/foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", get_dirname ("/foo/bar/"));
-    evaluate (__LINE__, __func__, "a.txt", get_basename ("/a.txt"));
-    evaluate (__LINE__, __func__, "txt", get_basename ("/txt/"));
-    evaluate (__LINE__, __func__, "foo.bar", get_basename ("/path/to/foo.bar"));
-    evaluate (__LINE__, __func__, "foo.bar", get_basename ("foo.bar"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname (""));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("dir/"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/dir"));
+    evaluate (__LINE__, __func__, "foo", filter_url_dirname ("foo/bar"));
+    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar"));
+    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar/"));
+    evaluate (__LINE__, __func__, "a.txt", filter_url_basename ("/a.txt"));
+    evaluate (__LINE__, __func__, "txt", filter_url_basename ("/txt/"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("/path/to/foo.bar"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("foo.bar"));
   }
   {
     // Test the date and time related functions.

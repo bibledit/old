@@ -193,11 +193,10 @@ void Database_Notes::trim ()
 void Database_Notes::trim_server ()
 {
   // Notes expiry.
-  // Todo restore this: touchMarkedForDeletion ();
-  vector <int> identifiers; // Todo should be:  = getDueForDeletion ();
+  touchMarkedForDeletion ();
+  vector <int> identifiers = getDueForDeletion ();
   for (auto & identifier : identifiers) {
-    if (identifier) {}; // Todo out.
-    // Todo restore this: erase (identifier);
+    erase (identifier);
   }
 }
 
@@ -228,9 +227,9 @@ void Database_Notes::sync ()
             if (convert_to_string (convert_to_int (bit2)) == bit3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
-              // Todo : updateDatabase (identifier);
-              // Todo : updateSearchFields (identifier);
-              // Todo : updateChecksum (identifier);
+              updateDatabase (identifier);
+              updateSearchFields (identifier);
+              updateChecksum (identifier);
             }
           }
         }
@@ -266,7 +265,7 @@ void Database_Notes::sync ()
   // Any note identifiers in the checksums database, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      // Todo should be this: deleteChecksum (id);
+      deleteChecksum (id);
     }
   }
   
@@ -276,25 +275,25 @@ void Database_Notes::sync ()
 void Database_Notes::updateDatabase (int identifier)
 {
   // Read the relevant values from the filesystem.
-  int modified = 0; // Todo: getModified (identifier);
+  int modified = getModified (identifier);
 
-  string file = ""; // Todo: assignedFile (identifier);
+  string file = assignedFile (identifier);
   string assigned = filter_url_file_get_contents (file);
 
-  // Todo: file = subscriptionsFile (identifier);
+  file = subscriptionsFile (identifier);
   string subscriptions = filter_url_file_get_contents (file);
 
-  string bible = ""; // Todo: getBible (identifier);
+  string bible = getBible (identifier);
 
-  string passage = ""; // Todo: getRawPassage (identifier);
+  string passage = getRawPassage (identifier);
 
-  string status = ""; // Todo: getRawStatus (identifier);
+  string status = getRawStatus (identifier);
 
-  string severity = ""; // Todo: getRawSeverity (identifier);
+  int severity = getRawSeverity (identifier);
 
-  string summary = ""; // Todo: getSummary (identifier);
+  string summary = getSummary (identifier);
 
-  string contents = ""; // Todo: getContents (identifier);
+  string contents = getContents (identifier);
 
   // Read the relevant values from the database.
   // If all the values in the database are the same as the values on the filesystem,
@@ -326,7 +325,7 @@ void Database_Notes::updateDatabase (int identifier)
     if (bible != vbible [i]) database_in_sync = false;
     if (passage != vpassage [i]) database_in_sync = false;
     if (status != vstatus [i]) database_in_sync = false;
-    if (severity != vseverity [i]) database_in_sync = false;
+    if (severity != convert_to_int (vseverity [i])) database_in_sync = false;
     if (summary != vsummary [i]) database_in_sync = false;
     if (contents != vcontents [i]) database_in_sync = false;
   }
@@ -462,8 +461,8 @@ void Database_Notes::setIdentifier (int identifier, int new_identifier)
   erase (new_identifier);
   string file = noteFolder (identifier);
   string newfile = noteFolder (new_identifier);
-  filter_url_mkdir (get_dirname (newfile));
-  // Todo implement this as a wrapper rename (file, newfile);
+  filter_url_mkdir (filter_url_dirname (newfile));
+  filter_url_rename (file, newfile);
   
   // Update main notes database.
   sqlite3 * db = connect ();

@@ -30,8 +30,8 @@ string filter_archive_zip_file (string filename)
   if (!filter_url_file_exists (filename)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
   string logfile = filter_url_tempfile () + ".log";
-  string dirname = filter_url_escape_shell_argument (get_dirname (filename));
-  string basename = filter_url_escape_shell_argument (get_basename (filename));
+  string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
+  string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
   string command = "cd " + dirname + " && zip " + zippedfile + " " + basename + " > " + logfile + " 2>&1";
   int return_var = system (command.c_str());
   if (return_var != 0) {
@@ -90,8 +90,8 @@ string filter_archive_unzip (string file)
 string filter_archive_tar_gzip_file (string filename)
 {
   string tarball = filter_url_tempfile () + ".tar.gz";
-  string dirname = filter_url_escape_shell_argument (get_dirname (filename));
-  string basename = filter_url_escape_shell_argument (get_basename (filename));
+  string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
+  string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
   int return_var = system (command.c_str());

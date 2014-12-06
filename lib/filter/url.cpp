@@ -54,7 +54,7 @@ void redirect_browser (string path, Webserver_Request * request)
 
 
 // C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
-string get_dirname (string url)
+string filter_url_dirname (string url)
 {
   if (!url.empty ()) {
     if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
@@ -71,7 +71,7 @@ string get_dirname (string url)
 
 
 // C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
-string get_basename (string url)
+string filter_url_basename (string url)
 {
   if (!url.empty ()) {
     if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
@@ -92,6 +92,12 @@ void filter_url_unlink (string filename)
 #else
   unlink(filename.c_str());
 #endif
+}
+
+
+void filter_url_rename (const string& oldfilename, const string& newfilename)
+{
+  rename (oldfilename.c_str(), newfilename.c_str());
 }
 
 
@@ -154,10 +160,10 @@ void filter_url_mkdir (string directory)
   if (status != 0) {
     vector <string> paths;
     paths.push_back (directory);
-    directory = get_dirname (directory);
+    directory = filter_url_dirname (directory);
     while (directory.length () > 2) {
       paths.push_back (directory);
-      directory = get_dirname (directory);
+      directory = filter_url_dirname (directory);
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {

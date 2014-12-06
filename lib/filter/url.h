@@ -37,9 +37,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string get_base_url (Webserver_Request * request);
 void redirect_browser (string url, Webserver_Request * request);
-string get_dirname (string url);
-string get_basename (string url);
+string filter_url_dirname (string url);
+string filter_url_basename (string url);
 void filter_url_unlink (string filename);
+void filter_url_rename (const string& oldfilename, const string& newfilename);
 string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "", string part6 = "");
 string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "");
 string filter_url_get_extension (string url);
