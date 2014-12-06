@@ -202,6 +202,12 @@ SqliteSQL::~SqliteSQL ()
 }
 
 
+void SqliteSQL::clear ()
+{
+  sql.clear ();
+}
+
+
 void SqliteSQL::add (const char * fragment)
 {
   sql.append (" ");

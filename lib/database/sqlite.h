@@ -48,6 +48,7 @@ class SqliteSQL
 public:
   SqliteSQL ();
   ~SqliteSQL ();
+  void clear ();
   void add (const char * fragment);
   void add (int value);
   void add (string value);

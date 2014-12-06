@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <database/sqlite.h>
+#include <filter/md5.h>
 
 
 // Database resilience.
@@ -33,8 +34,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // * Connections to the database are alive as short as possible.
 
 
-Database_Notes::Database_Notes ()
+Database_Notes::Database_Notes (void * webserver_request_in)
 {
+  webserver_request = webserver_request_in;
 }
 
 
@@ -165,7 +167,7 @@ bool Database_Notes::checkup_checksums ()
 void Database_Notes::trim ()
 {
   // Clean empty directories.
-  string mainfolder = ""; // Todo should be: = mainFolder ();
+  string mainfolder = mainFolder ();
   vector <string> bits1 = filter_url_scandir (mainfolder);
   for (auto bit1 : bits1) {
     if (convert_to_string (convert_to_int (bit1)) == bit1) {
@@ -210,7 +212,7 @@ void Database_Notes::optimize ()
 
 void Database_Notes::sync ()
 {
-  string mainfolder = ""; //Todo : = mainFolder ();
+  string mainfolder = mainFolder ();
 
   // List of notes in the filesystem.
   vector <int> identifiers;
@@ -248,7 +250,7 @@ void Database_Notes::sync ()
   // Any note identifiers in the main index, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      // Todo should be this: erase (id);
+      erase (id);
     }
   }
   
@@ -271,248 +273,268 @@ void Database_Notes::sync ()
 }
 
 
-/* Todo
-
-public function updateDatabase (identifier)
+void Database_Notes::updateDatabase (int identifier)
 {
   // Read the relevant values from the filesystem.
-  modified = this.getModified (identifier);
+  int modified = 0; // Todo: getModified (identifier);
 
-  file = this.assignedFile (identifier);
-  @assigned = filter_url_file_get_contents (file);
-  if (!assigned) assigned = "";
+  string file = ""; // Todo: assignedFile (identifier);
+  string assigned = filter_url_file_get_contents (file);
 
-  file = this.subscriptionsFile (identifier);
-  @subscriptions = filter_url_file_get_contents (file);
-  if (!subscriptions) subscriptions = "";
+  // Todo: file = subscriptionsFile (identifier);
+  string subscriptions = filter_url_file_get_contents (file);
 
-  bible = this.getBible (identifier);
+  string bible = ""; // Todo: getBible (identifier);
 
-  passage = this.getRawPassage (identifier);
+  string passage = ""; // Todo: getRawPassage (identifier);
 
-  status = this.getRawStatus (identifier);
+  string status = ""; // Todo: getRawStatus (identifier);
 
-  severity = this.getRawSeverity (identifier);
+  string severity = ""; // Todo: getRawSeverity (identifier);
 
-  summary = this.getSummary (identifier);
+  string summary = ""; // Todo: getSummary (identifier);
 
-  contents = this.getContents (identifier);
-
-  // Security.
-  identifier = Database_SQLiteInjection::no (identifier);
+  string contents = ""; // Todo: getContents (identifier);
 
   // Read the relevant values from the database.
   // If all the values in the database are the same as the values on the filesystem,
   // it means that the database is already in sync with the filesystem.
   // Bail out in that case.
-  db = self::connect ();
-  database_in_sync = true;
-  record_in_database = false;
-  query = "SELECT modified, assigned, subscriptions, bible, passage, status, severity, summary, contents FROM notes WHERE identifier = identifier;";
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
+  sqlite3 * db = connect ();
+  bool database_in_sync = true;
+  bool record_in_database = false;
+  SqliteSQL sql;
+  sql.add ("SELECT modified, assigned, subscriptions, bible, passage, status, severity, summary, contents FROM notes WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
+  vector <string> vmodified = result ["modified"];
+  vector <string> vassigned = result ["assigned"];
+  vector <string> vsubscriptions = result ["subscriptions"];
+  vector <string> vbible = result ["bible"];
+  vector <string> vpassage = result ["passage"];
+  vector <string> vstatus = result ["status"];
+  vector <string> vseverity = result ["severity"];
+  vector <string> vsummary = result ["summary"];
+  vector <string> vcontents = result ["contents"];
+  for (unsigned int i = 0; i < vmodified.size(); i++) {
     record_in_database = true;
-    if (modified != row ["modified"]) database_in_sync = false;
-    if (assigned != row ["assigned"]) database_in_sync = false;
-    if (subscriptions != row ["subscriptions"]) database_in_sync = false;
-    if (bible != row ["bible"]) database_in_sync = false;
-    if (passage != row ["passage"]) database_in_sync = false;
-    if (status != row ["status"]) database_in_sync = false;
-    if (severity != row ["severity"]) database_in_sync = false;
-    if (summary != row ["summary"]) database_in_sync = false;
-    if (contents != row ["contents"]) database_in_sync = false;
+    if (modified != convert_to_int (vmodified[i])) database_in_sync = false;
+    if (assigned != vassigned[i]) database_in_sync = false;
+    if (subscriptions != vsubscriptions[i]) database_in_sync = false;
+    if (bible != vbible [i]) database_in_sync = false;
+    if (passage != vpassage [i]) database_in_sync = false;
+    if (status != vstatus [i]) database_in_sync = false;
+    if (severity != vseverity [i]) database_in_sync = false;
+    if (summary != vsummary [i]) database_in_sync = false;
+    if (contents != vcontents [i]) database_in_sync = false;
   }
-  unset (db);
   if (database_in_sync && record_in_database) return;
 
   // At this stage, the index needs to be brought in sync with the filesystem.
-  modified = Database_SQLiteInjection::no (modified);
-  assigned = Database_SQLiteInjection::no (assigned);
-  subscriptions = Database_SQLiteInjection::no (subscriptions);
-  bible = Database_SQLiteInjection::no (bible);
-  passage = Database_SQLiteInjection::no (passage);
-  status = Database_SQLiteInjection::no (status);
-  severity = Database_SQLiteInjection::no (severity);
-  summary = Database_SQLiteInjection::no (summary);
-  contents = Database_SQLiteInjection::no (contents);
+  db = connect ();
 
-  db = self::connect ();
+  sql.clear ();
+  sql.add ("DELETE FROM notes WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
 
-  query = "DELETE FROM notes WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
+  sql.clear ();
+  sql.add ("INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (");
+  sql.add (identifier);
+  sql.add (",");
+  sql.add (modified);
+  sql.add (",");
+  sql.add (assigned);
+  sql.add (",");
+  sql.add (subscriptions);
+  sql.add (",");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (passage);
+  sql.add (",");
+  sql.add (status);
+  sql.add (",");
+  sql.add (severity);
+  sql.add (",");
+  sql.add (summary);
+  sql.add (",");
+  sql.add (contents);
+  sql.add (")");
+  database_sqlite_exec (db, sql.sql);
 
-  query = "INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (identifier, modified, 'assigned', 'subscriptions', 'bible', 'passage', 'status', severity, 'summary', 'contents')";
-  Database_SQLite::exec (db, query);
-
-  unset (db);
+  database_sqlite_disconnect (db);
 }
 
 
-public function mainFolder ()
+string Database_Notes::mainFolder ()
 {
-  folder = realpath (__DIR__ . "/../consultations");
-  return folder;
+  return filter_url_create_root_path ("consultations");
 }
 
 
-public function noteFolder (identifier)
+string Database_Notes::noteFolder (int identifier)
 {
-  // The maximum number of folders a folder may contain is limited.
-  // To overcome this limit, the notes are stored in a deep folder structure.
-  bit1 = substr (identifier, 0, 3);
-  bit2 = substr (identifier, 3, 3);
-  bit3 = substr (identifier, 6, 3);
-  folder = this.mainFolder () . "/bit1/bit2/bit3";
-  return folder;
+  // The maximum number of folders a folder may contain is constrained by the filesystem.
+  // To overcome this, the notes will be stored in a deep folder structure.
+  string sidentifier = convert_to_string (identifier);
+  string bit1 = sidentifier.substr (0, 3);
+  string bit2 = sidentifier.substr (3, 3);
+  string bit3 = sidentifier.substr (6, 3);
+  return filter_url_create_path (mainFolder (), bit1, bit2, bit3);
 }
 
 
-public function bibleFile (identifier)
+string Database_Notes::bibleFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/bible";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "bible");
 }
 
 
-public function passageFile (identifier)
+string Database_Notes::passageFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/passage";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "passage");
 }
 
 
-public function statusFile (identifier)
+string Database_Notes::statusFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/status";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "status");
 }
 
 
-public function severityFile (identifier)
+string Database_Notes::severityFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/severity";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "severity");
 }
 
 
-public function modifiedFile (identifier)
+string Database_Notes::modifiedFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/modified";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "modified");
 }
 
 
-public function summaryFile (identifier)
+string Database_Notes::summaryFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/summary";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "summary");
 }
 
 
-public function contentsFile (identifier)
+string Database_Notes::contentsFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/contents";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "contents");
 }
 
 
-public function subscriptionsFile (identifier)
+string Database_Notes::subscriptionsFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/subscriptions";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "subscriptions");
 }
 
 
-public function assignedFile (identifier)
+string Database_Notes::assignedFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/assigned";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "assigned");
 }
 
 
-private function expiryFile (identifier)
+string Database_Notes::expiryFile (int identifier)
 {
-  file = this.noteFolder (identifier) . "/expiry";
-  return file;
+  return filter_url_create_path (noteFolder (identifier), "expiry");
 }
 
 
 // This checks whether the note identifier exists.
-public function identifierExists (identifier)
+bool Database_Notes::identifierExists (int identifier)
 {
-  return file_exists (this.noteFolder (identifier));
+  return filter_url_file_exists (noteFolder (identifier));
 }
 
 
 // Update a note's identifier.
 // new_identifier is the value given to the note identifier by identifier.
-public function setIdentifier (identifier, new_identifier)
+void Database_Notes::setIdentifier (int identifier, int new_identifier)
 {
   // Move data on the filesystem.
-  this.delete (new_identifier);
-  file = this.noteFolder (identifier);
-  newfile = this.noteFolder (new_identifier);
-  @mkdir (dirname (newfile), 0777, true);
-  rename (file, newfile);
+  erase (new_identifier);
+  string file = noteFolder (identifier);
+  string newfile = noteFolder (new_identifier);
+  filter_url_mkdir (get_dirname (newfile));
+  // Todo implement this as a wrapper rename (file, newfile);
   
-  identifier = Database_SQLiteInjection::no (identifier);
-  new_identifier = Database_SQLiteInjection::no (new_identifier);
-
   // Update main notes database.
-  db = self::connect ();
-  query = "UPDATE notes SET identifier = new_identifier WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  sqlite3 * db = connect ();
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET identifier =");
+  sql.add (new_identifier);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
   
   // Update checksums database.
-  db = self::connect_checksums ();
-  query = "UPDATE checksums SET identifier = new_identifier WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
-  
+  db = connect_checksums ();
+  sql.clear ();
+  sql.add ("UPDATE checksums SET identifier =");
+  sql.add (new_identifier);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function getNewUniqueIdentifier ()
+int Database_Notes::getNewUniqueIdentifier ()
 {
+  int identifier = 0;
   do {
-    identifier = rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
-  } while (this.identifierExists (identifier));
+    // Todo implement notes logic identifier = filter_string_rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
+  } while (identifierExists (identifier));
   return identifier;
 }
 
 
-public function getIdentifiers ()
+vector <int> Database_Notes::getIdentifiers ()
 {
-  db = self::connect ();
-  identifiers = array ();
-  query = "SELECT identifier FROM notes;";
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    identifiers [] = row[0];
+  sqlite3 * db = connect ();
+  vector <int> identifiers;
+  vector <string> result = database_sqlite_query (db, "SELECT identifier FROM notes;") ["identifier"];
+  for (auto & id : result) {
+    identifiers.push_back (convert_to_int (id));
   }
-  unset (db);
+  database_sqlite_disconnect (db);
   return identifiers;
 }
 
 
-private function assembleContents (identifier, contents)
+string Database_Notes::assembleContents (int identifier, string contents)
 {
-  new_contents = "";
-  if (is_numeric (identifier)) {
-    new_contents = this.getContents (identifier);
-  }
+  if (identifier) {}; // Todo this goes out.
+  string new_contents;
+  // Todo restore: new_contents = getContents (identifier);
+  /* Todo find replacement.
   datetime = new DateTime();
   Filter_Datetime::user_zone (datetime);
   datetime = datetime.format(DATE_RSS);
-  session_logic = Session_Logic::getInstance();
-  user = session_logic.currentUser ();
-  new_contents .= "<p>user (datetime):</p>\n";
-  if (contents == "<br>") contents = "";
-  lines = explode ("\n", contents);
-  foreach (lines as line) {
-    line = trim (line);
-    new_contents .= "<p>line</p>\n";
+  */
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  new_contents.append ("<p>");
+  new_contents.append (user);
+  new_contents.append (" (");
+  // Todo restore: new_contents.append (datetime);
+  new_contents.append ("):</p>\n");
+  if (contents == "<br>") contents.clear();
+  vector <string> lines = filter_string_explode (contents, '\n');
+  for (auto line : lines) {
+    line = filter_string_trim (line);
+    new_contents.append ("<p>");
+    new_contents.append (line);
+    new_contents.append ("</p>\n");
   }
   return new_contents;
 }
@@ -525,51 +547,63 @@ private function assembleContents (identifier, contents)
 // contents: The note's contents.
 // raw: Import contents as it is. Useful for import from Bibledit-Gtk.
 // It returns the identifier of this new note.
-public function storeNewNote (bible, book, chapter, verse, summary, contents, raw)
+int Database_Notes::storeNewNote (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
 {
   // Create a new identifier.
-  identifier = this.getNewUniqueIdentifier ();
+  int identifier = getNewUniqueIdentifier ();
 
   // Passage.
-  passage = this.encodePassage (book, chapter, verse);
+  string passage = ""; // Todo this is correct: encodePassage (book, chapter, verse);
+  book += chapter + verse; if (book) {}; // Todo this goes out.
   
-  status = 'New';
-  severity = 2;
+  string status = "New";
+  int severity = 2;
 
   // If the summary is not given, take the first line of the contents as the summary.
   if (summary == "") {
     // The notes editor does not put new lines at each line, but instead <div>s. Handle these also.
-    summary = str_replace ("<", "\n", contents);
-    summary = explode ("\n", summary);
-    summary = summary[0];
+    summary = filter_string_str_replace ("<", "\n", contents);
+    vector <string> bits = filter_string_explode (summary, '\n');
+    if (!bits.empty ()) summary = bits [0];
   }
 
   // Assemble contents.
-  if (!raw) contents = this.assembleContents (identifier, contents);
-  if ((contents == "") && (summary == "")) return;
+  if (!raw) contents = assembleContents (identifier, contents);
+  if ((contents.empty()) && (summary.empty())) return 0;
   
   // Store the note in the file system.
-  mkdir (this.noteFolder (identifier), 0777, true);
- filter_url_file_put_contents (this.bibleFile (identifier), bible);
- filter_url_file_put_contents (this.passageFile (identifier), passage);
- filter_url_file_put_contents (this.statusFile (identifier), status);
- filter_url_file_put_contents (this.severityFile (identifier), severity);
- filter_url_file_put_contents (this.summaryFile (identifier), summary);
- filter_url_file_put_contents (this.contentsFile (identifier), contents);
+  filter_url_mkdir (noteFolder (identifier));
+  filter_url_file_put_contents (bibleFile (identifier), bible);
+  filter_url_file_put_contents (passageFile (identifier), passage);
+  filter_url_file_put_contents (statusFile (identifier), status);
+  filter_url_file_put_contents (severityFile (identifier), convert_to_string (severity));
+  filter_url_file_put_contents (summaryFile (identifier), summary);
+  filter_url_file_put_contents (contentsFile (identifier), contents);
   
   // Store new default note into the database.
-  db = self::connect ();
-  bible = Database_SQLiteInjection::no (bible);
-  passage = Database_SQLiteInjection::no (passage);
-  summary = Database_SQLiteInjection::no (summary);
-  contents = Database_SQLiteInjection::no (contents);
-  query = "INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (identifier, 0, '', '', 'bible', 'passage', 'status', severity, 'summary', 'contents')";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  sqlite3 * db = connect ();
+  SqliteSQL sql;
+  sql.add ("INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (");
+  sql.add (identifier);
+  sql.add (", 0, '', '',");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (passage);
+  sql.add (",");
+  sql.add (status);
+  sql.add (",");
+  sql.add (severity);
+  sql.add (",");
+  sql.add (summary);
+  sql.add (",");
+  sql.add (contents);
+  sql.add (")");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 
   // Updates.
-  this.updateSearchFields (identifier);
-  this.noteEditedActions (identifier);
+  // Todo restore updateSearchFields (identifier);
+  // Todo restore noteEditedActions (identifier);
 
   // Return this new note´s identifier.
   return identifier;
@@ -578,7 +612,7 @@ public function storeNewNote (bible, book, chapter, verse, summary, contents, ra
 
 // Returns an array of note identifiers selected.
 // bibles: Array of Bible names the user has read access to. 
-//          Or NULL to disable selection on Bibles.
+//         Or NULL to disable selection on Bibles. Todo enable / test this.
 // book, chapter, verse, passage_selector: These are related and can limit the selection.
 // edit_selector: Optionally constrains selection based on modification time.
 // non_edit_selector: Optionally constrains selection based on modification time.
@@ -589,45 +623,46 @@ public function storeNewNote (bible, book, chapter, verse, summary, contents, ra
 // severity_selector: Optionally limits the selection, based on a note's severity.
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
-// limit: If non-NULL, it indicates the starting limit for the selection.
-public function selectNotes (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selector, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, limit)
+// limit: If >= 0, it indicates the starting limit for the selection.
+vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, int subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
 {
-  session_logic = Session_Logic::getInstance ();
-  username = session_logic.currentUser ();
-  identifiers = array ();
+  string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  vector <int> identifiers;
   // SQL SELECT statement.
-  query = Filter_Sql::notesSelectIdentifier ();
+  string query = ""; // Todo should be this: Filter_Sql::notesSelectIdentifier ();
   // SQL optional fulltext search statement sorted on relevance.
   if (text_selector == 1) {
-    query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement (search_text);
+    // Todo enable: query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement (search_text);
   }
   // SQL FROM ... WHERE statement.
-  query .= Filter_Sql::notesFromWhereStatement ();
+  // Todo enable query .= Filter_Sql::notesFromWhereStatement ();
   // Consider passage selector.
+  string passage;
   switch (passage_selector) {
     case 0:
       // Select notes that refer to the current verse.
       // It means that the book, the chapter, and the verse, should match.
-      passage = this.encodePassage (book, chapter, verse);
-      query .= " AND passage LIKE '%passage%' ";
+      // Todo restore string passage = encodePassage (book, chapter, verse);
+      // Todo restore query.append (" AND passage LIKE '%" + passage + "%' ";
       break;
     case 1:
       // Select notes that refer to the current chapter.
       // It means that the book and the chapter should match.
-      passage = this.encodePassage (book, chapter, NULL);
-      query .= " AND passage LIKE '%passage%' ";
+      // Todo restore string passage = encodePassage (book, chapter, -1);
+      // Todo restore query .= " AND passage LIKE '%passage%' ";
       break;
     case 2:
       // Select notes that refer to the current book.
       // It means that the book should match.
-      passage = this.encodePassage (book, NULL, NULL);
-      query .= " AND passage LIKE '%passage%' ";
+      // Todo restore passage = this.encodePassage (book, NULL, NULL);
+      // Todo restore query .= " AND passage LIKE '%passage%' ";
       break;
     case 3:
       // Select notes that refer to any passage: No constraint to apply here.
       break;
   }
   // Consider edit selector.
+  int time = 0;
   switch (edit_selector) {
     case 0:
       // Select notes that have been edited at any time. Apply no constraint.
@@ -635,23 +670,28 @@ public function selectNotes (bibles, book, chapter, verse, passage_selector, edi
       break;
     case 1:
       // Select notes that have been edited during the last 30 days.
-      time = strtotime ("today -30 days");
+      time = filter_string_date_seconds_since_epoch () - 30 * 24 * 3600;
       break;
     case 2:
       // Select notes that have been edited during the last 7 days.
-      time = strtotime ("today -7 days");
+      time = filter_string_date_seconds_since_epoch () - 7 * 24 * 3600;
       break;
     case 3:
       // Select notes that have been edited since yesterday.
-      time = strtotime ("yesterday");
+      time = filter_string_date_seconds_since_epoch () - 1 * 24 * 3600 - filter_string_date_numerical_hour (filter_string_date_seconds_since_epoch ()) * 3600;
       break;
     case 4:
       // Select notes that have been edited today.
-      time = strtotime ("today");
+      time = filter_string_date_seconds_since_epoch () - filter_string_date_numerical_hour (filter_string_date_seconds_since_epoch ()) * 3600;
       break;
   }
-  if (time != 0) query .= " AND modified >= time ";
+  if (time != 0) {
+    query.append (" AND modified >= ");
+    query.append (convert_to_string (time));
+    query.append (" ");
+  }
   // Consider non-edit selector.
+  int nonedit = 0;
   switch (non_edit_selector) {
     case 0:
       // Select notes that have not been edited at any time. Apply no constraint.
@@ -659,265 +699,296 @@ public function selectNotes (bibles, book, chapter, verse, passage_selector, edi
       break;
     case 1:
       // Select notes that have not been edited for a day.
-      nonedit = strtotime ("-1 day");
+      nonedit = filter_string_date_seconds_since_epoch () - 1 * 24 * 3600;
       break;
     case 2:
       // Select notes that have not been edited for two days.
-      nonedit = strtotime ("-2 days");
+      nonedit = filter_string_date_seconds_since_epoch () - 2 * 24 * 3600;
       break;
     case 3:
       // Select notes that have not been edited for a week.
-      nonedit = strtotime ("-1 week");
+      nonedit = filter_string_date_seconds_since_epoch () - 7 * 24 * 3600;
       break;
     case 4:
-      // Select notes that have not been edited today.
-      nonedit = strtotime ("-1 month");
+      // Select notes that have not been edited for a month.
+      nonedit = filter_string_date_seconds_since_epoch () - 30 * 24 * 3600;
       break;
     case 5:
-      // Select notes that have not been edited today.
-      nonedit = strtotime ("-1 year");
+      // Select notes that have not been edited for a year.
+      nonedit = filter_string_date_seconds_since_epoch () - 365 * 24 * 3600;
       break;
   }
-  if (nonedit != 0) query .= " AND modified <= nonedit ";
+  if (nonedit != 0) {
+    query.append (" AND modified <= ");
+    query.append (convert_to_string (nonedit));
+    query.append (" ");
+  }
   // Consider status constraint.
   if (status_selector != "") {
-    query .= " AND status = 'status_selector' ";
+    query.append (" AND status = '");
+    query.append (database_sqlite_no_sql_injection (status_selector));
+    query.append ("' ");
   }
   // Consider Bible constraints:
   // * A user has access to notes that refer to Bibles the user has access to.
   // * If a bible_selector is given: Select notes that refer to this Bible.
-  // * A note can be a general one, not referring to any specific Bible.
+  // * A note can be a general one, not referring to any specific Bible. Todo test this general note.
   //   Select such notes also.
-  if (is_array (bibles)) {
-    if (bible_selector != "") bibles = array (bible_selector);
-    query .= " AND (bible = '' ";
-    foreach (bibles as bible) {
-      bible = Database_SQLiteInjection::no (bible);
-      query .= " OR bible = 'bible' ";
-    }
-    query .= " ) ";
+  query.append (" AND (bible = '' ");
+  for (auto bible : bibles) {
+    bible = database_sqlite_no_sql_injection (bible);
+    query.append (" OR bible = '");
+    query.append (bible);
+    query.append ("' ");
   }
+  if (bible_selector != "") {
+    bible_selector = database_sqlite_no_sql_injection (bible_selector);
+    query.append (" OR bible = '");
+    query.append (bible_selector);
+    query.append ("' ");
+  }
+  query.append (" ) ");
   // Consider note assignment constraints.
   if (assignment_selector != "") {
-    assignment_selector = Database_SQLiteInjection::no (assignment_selector);
-    query .= " AND assigned LIKE '% assignment_selector %' ";
+    assignment_selector = database_sqlite_no_sql_injection (assignment_selector);
+    query.append (" AND assigned LIKE '% ");
+    query.append (assignment_selector);
+    query.append (" %' ");
   }
   // Consider note subscription constraints.
   if (subscription_selector == 1) {
-    query .= " AND subscriptions LIKE '% username %' ";
+    query.append (" AND subscriptions LIKE '% ");
+    query.append (username);
+    query.append (" %' ");
   }
   // Consider the note severity.
   if (severity_selector != -1) {
-    query .= " AND severity = severity_selector ";
+    query.append (" AND severity = ");
+    query.append (convert_to_string (severity_selector));
+    query.append (" ");
   }
   // Consider text contained in notes.
   if (text_selector == 1) {
-    query .= Filter_Sql::notesOptionalFulltextSearchStatement (search_text);
+    // Todo restore : query .= Filter_Sql::notesOptionalFulltextSearchStatement (search_text);
   }
   if (text_selector == 1) {
     // If searching in fulltext mode, notes get ordered on relevance of search hits.
-    query .= Filter_Sql::notesOrderByRelevanceStatement ();
+    // Todo restore: query .= Filter_Sql::notesOrderByRelevanceStatement ();
   } else {
     // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed.
-    query .= " ORDER BY ABS (passage) ";
+    query.append (" ORDER BY ABS (passage) ");
   }
   // Limit the selection if a limit is given.
-  if (is_numeric (limit)) {
-    limit = Database_SQLiteInjection::no (limit);
-    query .= " LIMIT limit, 50 ";
+  if (limit >= 0) {
+    query.append (" LIMIT ");
+    query.append (convert_to_string (limit));
+    query.append (", 50 ");
   }
-  query .= ";";
+  query.append (";");
 
-  db = self::connect ();
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    identifiers []= row[0];
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, query) ["identifier"];
+  database_sqlite_disconnect (db);
+  for (auto & id : result) {
+    identifiers.push_back (convert_to_int (id));
   }
-  unset (db);
   return identifiers;
+  // Todo rest goes out:
+  if (book) {};
+  if (chapter) {};
+  if (verse) {};
+  cout << search_text << endl;
 }
 
 
-public function getSummary (identifier)
+string Database_Notes::getSummary (int identifier)
 {
-  file = this.summaryFile (identifier);
-  @summary = filter_url_file_get_contents (file);
-  if (summary) return summary;
-  return "";
+  string file = summaryFile (identifier);
+  return filter_url_file_get_contents (file);
 }
 
 
-public function setSummary (identifier, summary)
+void Database_Notes::setSummary (int identifier, const string& summary)
 {
   // Store authoritative copy in the filesystem.
-  file = this.summaryFile (identifier);
- filter_url_file_put_contents (file, summary);
+  string file = summaryFile (identifier);
+  filter_url_file_put_contents (file, summary);
   // Update the shadow database.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  summary = Database_SQLiteInjection::no (summary);
-  query = "UPDATE notes SET summary = 'summary' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET summary =");
+  sql.add (summary);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
   // Update the search data in the database.
-  this.updateSearchFields (identifier);
+  // Todo restore: this.updateSearchFields (identifier);
   // Update checksum.
-  this.updateChecksum (identifier);
+  // Todo restore: this.updateChecksum (identifier);
 }
 
 
-public function getContents (identifier)
+string Database_Notes::getContents (int identifier)
 {
-  file = this.contentsFile (identifier);
-  @contents = filter_url_file_get_contents (file);
-  if (contents) return contents;
-  return "";
+  string file = contentsFile (identifier);
+  return filter_url_file_get_contents (file);
 }
 
 
-public function setContents (identifier, contents)
+void Database_Notes::setContents (int identifier, const string& contents)
 {
   // Store in file system.
-  file = this.contentsFile (identifier);
- filter_url_file_put_contents (file, contents);
+  string file = contentsFile (identifier);
+  filter_url_file_put_contents (file, contents);
   // Update database.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  contents = Database_SQLiteInjection::no (contents);
-  query = "UPDATE notes SET contents = 'contents' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET contents =");
+  sql.add (contents);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
   // Update search system.
-  this.updateSearchFields (identifier);
+  // Todo restore: this.updateSearchFields (identifier);
   // Update checksum.
-  this.updateChecksum (identifier);
+  // Todo restore: this.updateChecksum (identifier);
 }
 
 
-public function delete (identifier)
+void Database_Notes::erase (int identifier)
 {
   // Delete from filesystem.
-  folder = this.noteFolder (identifier);
-  Filter_Rmdir::rmdir (folder);
+  string folder = noteFolder (identifier);
+  filter_url_rmdir (folder);
   // Update database as well.
-  this.deleteChecksum (identifier);
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  query = "DELETE FROM notes WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  // Todo restore: deleteChecksum (identifier);
+  SqliteSQL sql;
+  sql.add ("DELETE FROM notes WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Add a comment to an exiting note identified by identifier.
-public function addComment (identifier, comment)
+void Database_Notes::addComment (int identifier, const string& comment)
 {
   // Assemble the new content and store it.
   // This updates the search database also.
-  contents = this.assembleContents (identifier, comment);
-  this.setContents (identifier, contents);
+  string contents = assembleContents (identifier, comment);
+  setContents (identifier, contents);
 
-  // Some triggeres.
-  this.noteEditedActions (identifier);
-  this.unmarkForDeletion (identifier);
+  // Some triggers.
+  // Todo this.noteEditedActions (identifier);
+  // Todo this.unmarkForDeletion (identifier);
 
   // Update shadow database.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  contents = Database_SQLiteInjection::no (contents);
-  query = "UPDATE notes SET contents = 'contents' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET contents =");
+  sql.add (contents);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Subscribe the current user to the note identified by identifier.
-public function subscribe (identifier)
+void Database_Notes::subscribe (int identifier)
 {
-  session_logic = Session_Logic::getInstance();
-  user = session_logic.currentUser ();
-  this.subscribeUser (identifier, user);
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  subscribeUser (identifier, user);
 }
 
 
 // Subscribe the user to the note identified by identifier.
-public function subscribeUser (identifier, user)
+void Database_Notes::subscribeUser (int identifier, const string& user)
 {
   // If the user already is subscribed to the note, bail out.
-  subscribers = this.getSubscribers (identifier);
-  if (in_array (user, subscribers)) return;
+  vector <string> subscribers = getSubscribers (identifier);
+  if (find (subscribers.begin(), subscribers.end(), user) != subscribers.end()) return;
   // Subscribe user.
-  subscribers [] = user;
-  this.setSubscribers (identifier, subscribers);
+  subscribers.push_back (user);
+  setSubscribers (identifier, subscribers);
 }
 
 
 // Returns an array with the subscribers to the note identified by identifier.
-public function getSubscribers (identifier)
+vector <string> Database_Notes::getSubscribers (int identifier)
 {
-  file = this.subscriptionsFile (identifier);
-  @subscribers = filter_url_file_get_contents (file);
-  if (!subscribers) return array ();
-  subscribers = explode ("\n", subscribers);
-  subscribers = array_diff (subscribers, array (""));
-  foreach (subscribers as offset => subscriber) {
-    subscribers [offset] = trim (subscriber);
+  string file = subscriptionsFile (identifier);
+  string contents = filter_url_file_get_contents (file);
+  if (contents.empty()) return {};
+  vector <string> subscribers = filter_string_explode (contents, '\n');
+  for (auto & subscriber : subscribers) {
+    subscriber = filter_string_trim (subscriber);
   }
   return subscribers;
 }
 
 
-public function setSubscribers (identifier, subscribers)
+void Database_Notes::setSubscribers (int identifier, vector <string> subscribers)
 {
   // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
-  foreach (subscribers as &subscriber) {
-    subscriber = " subscriber ";
+  for (auto & subscriber : subscribers) {
+    subscriber.insert (0, " ");
+    subscriber.append (" ");
   }
-  subscribers = implode ("\n", subscribers);
+  string subscriberstring = filter_string_implode (subscribers, "\n");
   
   // Store them in the filesystem.
-  file = this.subscriptionsFile (identifier);
- filter_url_file_put_contents (file, subscribers);
+  string file = subscriptionsFile (identifier);
+  filter_url_file_put_contents (file, subscriberstring);
   
   // Store them in the database as well.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  subscribers = Database_SQLiteInjection::no (subscribers);
-  query = "UPDATE notes SET subscriptions = 'subscribers' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET subscriptions =");
+  sql.add (subscriberstring);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 
   // Checksum.
-  this.updateChecksum (identifier);
+  // Todo this.updateChecksum (identifier);
 }
 
 
 // Returns true if user is subscribed to the note identified by identifier.
-public function isSubscribed (identifier, user)
+bool Database_Notes::isSubscribed (int identifier, const string& user)
 {
-  subscribers = this.getSubscribers (identifier);
-  return in_array (user, subscribers);
+  vector <string> subscribers = getSubscribers (identifier);
+  return find (subscribers.begin(), subscribers.end(), user) != subscribers.end();
 }
 
 
 // Unsubscribes the currently logged in user from the note identified by identifier.
-public function unsubscribe (identifier)
+void Database_Notes::unsubscribe (int identifier)
 {
-  session_logic = Session_Logic::getInstance();
-  user = session_logic.currentUser ();
-  this.unsubscribeUser (identifier, user);
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  unsubscribeUser (identifier, user);
 }
 
 
 // Unsubscribes user from the note identified by identifier.
-public function unsubscribeUser (identifier, user)
+void Database_Notes::unsubscribeUser (int identifier, const string& user)
 {
   // If the user is not subscribed to the note, bail out.
-  subscribers = this.getSubscribers (identifier);
-  if (!in_array (user, subscribers)) return;
+  vector <string> subscribers = getSubscribers (identifier);
+  if (find (subscribers.begin(), subscribers.end(), user) == subscribers.end()) return;
   // Unsubscribe user.
-  subscribers = array_diff (subscribers, array (user));
-  this.setSubscribers (identifier, subscribers);
+  subscribers.erase (remove (subscribers.begin(), subscribers.end(), user), subscribers.end());
+  setSubscribers (identifier, subscribers);
 }
 
 
@@ -928,185 +999,203 @@ public function unsubscribeUser (identifier, user)
 // But as retrieving the assignees from the file system would be slow, 
 // this function retrieves them from the database.
 // Normally the database is in sync with the filesystem.
-public function getAllAssignees (bibles)
+vector <string> Database_Notes::getAllAssignees (const vector <string>& bibles)
 {
-  assignees = array ();
-  query = "SELECT DISTINCT assigned FROM notes WHERE bible = '' ";
-  foreach (bibles as bible) {
-    bible = Database_SQLiteInjection::no (bible);
-    query .= " OR bible = 'bible' ";
+  set <string> unique_assignees;
+  SqliteSQL sql;
+  sql.add ("SELECT DISTINCT assigned FROM notes WHERE bible = ''");
+  for (auto & bible : bibles) {
+    sql.add ("OR bible =");
+    sql.add (bible);
   }
-  query .= ";";
-  db = self::connect ();
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    names = explode ("\n", row[0]);
-    assignees = array_merge (assignees, names);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["assigned"];
+  for (auto & item : result) {
+    if (item.empty ()) continue;
+    vector <string> names = filter_string_explode (item, '\n');
+    for (auto & name : names) unique_assignees.insert (name);
   }
-  unset (db);
-  assignees = array_unique (assignees);
-  foreach (assignees as &assignee) {
-    assignee = trim (assignee);
+  database_sqlite_disconnect (db);
+  
+  vector <string> assignees (unique_assignees.begin(), unique_assignees.end());
+  for (auto & assignee : assignees) {
+    assignee = filter_string_trim (assignee);
   }
-  assignees = array_diff (assignees, array (""));
-  assignees = array_values (assignees);
   return assignees;
 }
 
 
 // Returns an array with the assignees to the note identified by identifier.
-public function getAssignees (identifier)
+vector <string> Database_Notes::getAssignees (int identifier)
 {
   // Get the asssignees from the filesystem.
-  file = this.assignedFile (identifier);
-  @assignees = filter_url_file_get_contents (file);
-  return this.getAssigneesInternal (assignees);
+  string file = assignedFile (identifier);
+  string assignees = filter_url_file_get_contents (file);
+  return getAssigneesInternal (assignees);
 }
 
 
-private function getAssigneesInternal (assignees)
+vector <string> Database_Notes::getAssigneesInternal (string assignees)
 {
-  if (!assignees) return array ();
-  assignees = explode ("\n", assignees);
-  assignees = array_diff (assignees, array (""));
+  if (assignees.empty ()) return {};
+  vector <string> assignees_vector = filter_string_explode (assignees, '\n');
   // Remove the padding space at both sides of the assignee.
-  foreach (assignees as &assignee) {
-    assignee = trim (assignee);
+  for (auto & assignee : assignees_vector) {
+    assignee = filter_string_trim (assignee);
   }
-  return assignees;
+  return assignees_vector;
 }
 
 
 // Sets the note's assignees.
 // identifier : note identifier.
 // assignees : array of user names.
-public function setAssignees (identifier, assignees)
+void Database_Notes::setAssignees (int identifier, vector <string> assignees)
 {
   // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
-  foreach (assignees as &assignee) {
-    assignee = " assignee ";
+  for (auto & assignee : assignees) {
+    assignee.insert (0, " ");
+    assignee.append (" ");
   }
-  assignees = implode ("\n", assignees);
+  string assignees_string = filter_string_implode (assignees, "\n");
 
   // Store the assignees in the filesystem.
-  file = this.assignedFile (identifier);
-  @file_put_contents (file, assignees);
+  string file = assignedFile (identifier);
+  filter_url_file_put_contents (file, assignees_string);
 
   // Store the assignees in the database also.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  assignees = Database_SQLiteInjection::no (assignees);
-  query = "UPDATE notes SET assigned = 'assignees' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET assigned =");
+  sql.add (assignees_string);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
   
-  this.noteEditedActions (identifier);
+  // Todo noteEditedActions (identifier);
 }
 
 
 // Assign the note identified by identifier to user.
-public function assignUser (identifier, user)
+void Database_Notes::assignUser (int identifier, const string& user)
 {
   // If the note already is assigned to the user, bail out.
-  assignees = this.getAssignees (identifier);
-  if (in_array (user, assignees)) return;
+  vector <string> assignees = getAssignees (identifier);
+  if (find (assignees.begin (), assignees.end(), user) != assignees.end()) return;
   // Assign the note to the user.
-  assignees[]= "user";
+  assignees.push_back (user);
   // Store the whole lot.
-  this.setAssignees (identifier, assignees);
+  setAssignees (identifier, assignees);
 }
 
 
 // Returns true if the note identified by identifier has been assigned to user.
-public function isAssigned (identifier, user)
+bool Database_Notes::isAssigned (int identifier, const string& user)
 {
-  assignees = this.getAssignees (identifier);
-  return in_array (user, assignees);
+  vector <string> assignees = getAssignees (identifier);
+  return find (assignees.begin(), assignees.end(), user) != assignees.end();
 }
 
 
 // Unassigns user from the note identified by identifier.
-public function unassignUser (identifier, user)
+void Database_Notes::unassignUser (int identifier, const string& user)
 {
-  // If the notes is not assigned to the user, bail out.
-  assignees = this.getAssignees (identifier);
-  if (!in_array (user, assignees)) return;
+  // If the note is not assigned to the user, bail out.
+  vector <string> assignees = getAssignees (identifier);
+  if (find (assignees.begin(), assignees.end(), user) == assignees.end()) return;
   // Remove assigned user.
-  assignees = array_diff (assignees, array (user));
-  this.setAssignees (identifier, assignees);
+  assignees.erase (remove (assignees.begin(), assignees.end(), user), assignees.end());
+  setAssignees (identifier, assignees);
 }
 
 
-public function getBible (identifier)
+string Database_Notes::getBible (int identifier)
 {
-  file = this.bibleFile (identifier);
-  @bible = filter_url_file_get_contents (file);
-  if (bible) return bible;
-  return "";
+  string file = bibleFile (identifier);
+  return filter_url_file_get_contents (file);
 }
 
 
-public function setBible (identifier, bible)
+void Database_Notes::setBible (int identifier, const string& bible)
 {
   // Write the bible to the filesystem.
-  file = this.bibleFile (identifier);
- filter_url_file_put_contents (file, bible);
+  string file = bibleFile (identifier);
+  filter_url_file_put_contents (file, bible);
 
   // Update the database also.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  bible = Database_SQLiteInjection::no (bible);
-  query = "UPDATE notes SET bible = 'bible' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET bible =");
+  sql.add (bible);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 
-  this.noteEditedActions (identifier);
+  // Todo reestore: this.noteEditedActions (identifier);
 }
 
 
 // Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
 // and returns this as a string.
-public function encodePassage (book, chapter, verse)
+// The chapter and the verse can be negative, in which case they won't be included. Todo handle this.
+string Database_Notes::encodePassage (int book, int chapter, int verse)
 {
   // Space before and after the passage enables notes selection on passage.
   // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
-  passage = " book.";
-  if (chapter != "") passage .= "chapter.";
-  if (verse != "") passage .= "verse ";
+  string passage;
+  passage.append (" ");
+  passage.append (convert_to_string (book));
+  passage.append (".");
+  if (chapter >= 0) {
+    passage.append (convert_to_string (chapter));
+    passage.append (".");
+  }
+  if (verse >= 0) {
+    passage.append (convert_to_string (verse));
+    passage.append (" ");
+  }
   return passage;
 }
 
 
-// Takes the passage as a string, and returns an array with book, chapter, and verse.
-public function decodePassage (passage)
+// Takes the passage as a string, and returns an object with book, chapter, and verse.
+Passage Database_Notes::decodePassage (string passage)
 {
-  passage = trim (passage);
-  return explode (".", passage);
+  passage = filter_string_trim (passage);
+  Passage decodedpassage = Passage ();
+  vector <string> lines = filter_string_explode (passage, '.');
+  if (lines.size() > 0) decodedpassage.book = convert_to_int (lines[0]);
+  if (lines.size() > 1) decodedpassage.chapter = convert_to_int (lines[1]);
+  if (lines.size() > 2) decodedpassage.verse = lines[2];
+  return decodedpassage;
 }
 
 
 // Returns the raw passage text of the note identified by identifier.
-public function getRawPassage (identifier)
+string Database_Notes::getRawPassage (int identifier)
 {
-  file = this.passageFile (identifier);
-  @contents = filter_url_file_get_contents (file);
-  if (contents) return contents;
-  return "";
+  string file = passageFile (identifier);
+  return filter_url_file_get_contents (file);
 }
 
 
 // Returns an array with the passages that the note identified by identifier refers to.
 // Each passages is an array (book, chapter, verse).
-public function getPassages (identifier)
+vector <Passage> Database_Notes::getPassages (int identifier)
 {
-  contents = this.getRawPassage (identifier);
-  if (!contents) return array ();
-  lines = explode ("\n", contents);
-  lines = array_diff (lines, array (""));
-  passages = array ();
-  foreach (lines as line) {
-    passage = this.decodePassage (line);
-    passages[] = passage;
+  string contents = getRawPassage (identifier);
+  if (contents.empty()) return {};
+  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <Passage> passages;
+  for (auto & line : lines) {
+    if (line.empty()) continue;
+    Passage passage = decodePassage (line);
+    passages.push_back (passage);
   }
   return passages;
 }
@@ -1115,49 +1204,50 @@ public function getPassages (identifier)
 // Set the passages for note identifier.
 // passages is an array of an array (book, chapter, verse) passages.
 // import: If true, just write passages, no further actions.
-public function setPassages (identifier, passages, import = false)
+void Database_Notes::setPassages (int identifier, const vector <Passage>& passages, bool import)
 {
   // Format the passages.
-  line = "";
-  foreach (passages as passage) {
-    line .= this.encodePassage (passage[0], passage[1], passage[2]);
-    line .= "\n";
+  string line;
+  for (auto & passage : passages) {
+    line.append (encodePassage (passage.book, passage.chapter, convert_to_int (passage.verse)));
+    line.append ("\n");
   }
 
   // Store the authoritative copy in the filesystem.
-  file = this.passageFile (identifier);
- filter_url_file_put_contents (file, line);
+  string file = passageFile (identifier);
+  filter_url_file_put_contents (file, line);
 
-  if (!import) this.noteEditedActions (identifier);
+  if (!import) {}; // Todo restore noteEditedActions (identifier);
 
   // Update the shadow database also.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  line = Database_SQLiteInjection::no (line);
-  query = "UPDATE notes SET passage = 'line' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET passage =");
+  sql.add (line);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Gets the raw status of a note.
 // Returns it as a string.
-public function getRawStatus (identifier)
+string Database_Notes::getRawStatus (int identifier)
 {
-  file = this.statusFile (identifier);
-  @status = filter_url_file_get_contents (file);
-  if (status) return status;
-  return "";
+  string file = statusFile (identifier);
+  return filter_url_file_get_contents (file);
 }
 
 
 // Gets the localized status of a note.
 // Returns it as a string.
-public function getStatus (identifier)
+string Database_Notes::getStatus (int identifier)
 {
-  status = this.getRawStatus (identifier);
-  // Localize status if it is a standard one.
-  if (in_array (status, this.standard_statuses)) status = gettext(status);
+  string status = getRawStatus (identifier);
+  // Localize status if possible.
+  status = gettext (status.c_str());
   // Return status.
   return status;
 }
@@ -1165,190 +1255,219 @@ public function getStatus (identifier)
 
 // Sets the status of the note identified by identifier.
 // status is a string.
-// import: Just write status, skip any logic.
-public function setStatus (identifier, status, import = false)
+// import: Just write the status, and skip any logic.
+void Database_Notes::setStatus (int identifier, const string& status, bool import)
 {
   // Store the authoritative copy in the filesystem.
-  file = this.statusFile (identifier);
-  @file_put_contents (file, status);
+  string file = statusFile (identifier);
+  filter_url_file_put_contents (file, status);
 
-  if (!import) this.noteEditedActions (identifier);
+  if (!import) {}; // Todo : noteEditedActions (identifier);
 
   // Store a copy in the database also.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  status = Database_SQLiteInjection::no (status);
-  query = "UPDATE notes SET status = 'status' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET status =");
+  sql.add (status);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Gets an array of array with the possible statuses of consultation notes,
 // both raw and localized versions.
-public function getPossibleStatuses ()
+vector <Database_Notes_Text> Database_Notes::getPossibleStatuses ()
 {
   // Get an array with the statuses used in the database, ordered by occurrence, most often used ones first.
-  db = self::connect ();
-  statuses = array ();
-  query = "SELECT status, COUNT(status) AS occurrences FROM notes GROUP BY status ORDER BY occurrences DESC;";
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    statuses[] = row[0];
-  }
-  unset (db);
+  string query = "SELECT status, COUNT(status) AS occurrences FROM notes GROUP BY status ORDER BY occurrences DESC;";
+  sqlite3 * db = connect ();
+  vector <string> statuses = database_sqlite_query (db, query) ["status"];
+  database_sqlite_disconnect (db);
   // Ensure the standard statuses are there too.
-  foreach (this.standard_statuses as standard_status) {
-    if (!in_array (standard_status, statuses)) {
-      statuses[] = standard_status;
+  vector <string> standard_statuses = {"New", "Pending", "In progress", "Done", "Reopened"};
+  for (auto & standard_status : standard_statuses) {
+    if (find (statuses.begin(), statuses.end(), standard_status) == statuses.end()) {
+      statuses.push_back (standard_status);
     }
   }
   // Localize the results.
-  foreach (statuses as status) {
-    localization = status;
-    if (in_array (status, this.standard_statuses)) localization = gettext(status);
-    localized_status = array (status, localization);
-    localized_statuses [] = localized_status;
+  vector <Database_Notes_Text> localized_statuses;
+  for (auto & status : statuses) {
+    string localization = gettext (status.c_str());
+    Database_Notes_Text localized_status;
+    localized_status.raw = status;
+    localized_status.localized = localization;
+    localized_statuses.push_back (localized_status);
   }
   // Return result.
   return localized_statuses;
 }
 
 
-// Returns the severity of a note as a number.
-public function getRawSeverity (identifier)
+vector <string> Database_Notes::standard_severities ()
 {
-  file = this.severityFile (identifier);
-  @severity = filter_url_file_get_contents (file);
-  if (severity === false) return 2;
-  return (integer) severity;
+  return {"Wish", "Minor", "Normal", "Important", "Major", "Critical"};
+}
+
+
+// Returns the severity of a note as a number.
+int Database_Notes::getRawSeverity (int identifier)
+{
+  string file = severityFile (identifier);
+  string severity = filter_url_file_get_contents (file);
+  if (severity.empty ()) return 2;
+  return convert_to_int (severity);
 }
 
 
 // Returns the severity of a note as a localized string.
-public function getSeverity (identifier)
+string Database_Notes::getSeverity (int identifier)
 {
-  severity = this.getRawSeverity (identifier);
-  severity = this.standard_severities[severity];
-  if (severity == "") severity = "Normal";
-  severity = gettext(severity);
-  return severity;
+  int severity = getRawSeverity (identifier);
+  vector <string> standard = standard_severities ();
+  string severitystring;
+  if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [severity];
+  if (severitystring.empty()) severitystring = "Normal";
+  severitystring = gettext (severitystring.c_str());
+  return severitystring;
 }
 
 
 // Sets the severity of the note identified by identifier.
 // severity is a number.
-public function setRawSeverity (identifier, severity)
+void Database_Notes::setRawSeverity (int identifier, int severity)
 {
   // Update the file system.
-  file = this.severityFile (identifier);
- filter_url_file_put_contents (file, severity);
+  string file = severityFile (identifier);
+  filter_url_file_put_contents (file, convert_to_string (severity));
   
-  this.noteEditedActions (identifier);
+  // Todo restore: this.noteEditedActions (identifier);
   
   // Update the database also.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  severity = Database_SQLiteInjection::no (severity);
-  query = "UPDATE notes SET severity = severity WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET severity =");
+  sql.add (severity);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Gets an array with the possible severities.
-public function getPossibleSeverities ()
+vector <Database_Notes_Text> Database_Notes::getPossibleSeverities ()
 {
-  for (i = 0; i <= 5; i++) {
-    severities[] = array (i, gettext(this.standard_severities[i]));
+  vector <string> standard = standard_severities ();
+  vector <Database_Notes_Text> severities;
+  for (auto & value : standard) {
+    Database_Notes_Text severity;
+    severity.raw = value;
+    severity.localized = gettext (value.c_str());
+    severities.push_back (severity);
   }
   return severities;
 }
 
 
-public function getModified (identifier)
+int Database_Notes::getModified (int identifier)
 {
-  file = this.modifiedFile (identifier);
-  @modified = filter_url_file_get_contents (file);
-  if (modified) return modified;
-  return 0;
+  string file = modifiedFile (identifier);
+  string modified = filter_url_file_get_contents (file);
+  if (modified.empty ()) return 0;
+  return convert_to_int (modified);
 }
 
 
-public function setModified (identifier, time)
+void Database_Notes::setModified (int identifier, int time)
 {
   // Update the filesystem.
-  file = this.modifiedFile (identifier);
-  @file_put_contents (file, time);
+  string file = modifiedFile (identifier);
+  filter_url_file_put_contents (file, convert_to_string (time));
   // Update the database.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  time = Database_SQLiteInjection::no (time);
-  query = "UPDATE notes SET modified = time WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET modified =");
+  sql.add (time);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
   // Update checksum.
-  this.updateChecksum (identifier);
+  // Todo restore this.updateChecksum (identifier);
 }
 
 
 // Takes actions when a note has been edited.
-private function noteEditedActions (identifier)
+void Database_Notes::noteEditedActions (int identifier)
 {
-  // Update 'modified' field and calculate checksum.
-  modified = time();
-  this.setModified (identifier, modified);
+  // Update 'modified' field.
+  setModified (identifier, filter_string_date_seconds_since_epoch());
 }
 
 
 // Returns an array of duplicate note identifiers selected.
-public function selectDuplicateNotes (rawpassage, summary, contents)
+vector <int> Database_Notes::selectDuplicateNotes (const string& rawpassage, const string& summary, const string& contents)
 {
-  db = self::connect ();
-  identifiers = array ();
-  rawpassage = Database_SQLiteInjection::no (rawpassage);
-  summary = Database_SQLiteInjection::no (summary);
-  contents = Database_SQLiteInjection::no (contents);
-  query = "SELECT identifier FROM notes WHERE passage = 'rawpassage' AND summary = 'summary' AND contents = 'contents';";
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    identifiers []= row[0];
+  vector <int> identifiers;
+  SqliteSQL sql;
+  sql.add ("SELECT identifier FROM notes WHERE passage =");
+  sql.add (rawpassage);
+  sql.add ("AND summary =");
+  sql.add (summary);
+  sql.add ("AND contents =");
+  sql.add (contents);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
+  database_sqlite_disconnect (db);
+  for (auto & id : result) {
+    identifiers.push_back (convert_to_int (id));
   }
-  unset (db);
   return identifiers;
 }
 
 
-public function updateSearchFields (identifier)
+void Database_Notes::updateSearchFields (int identifier)
 {
   // The search field is a combination of the summary and content converted to clean text.
   // It enables us to search with wildcards before and after the search query.
-  noteSummary = this.getSummary (identifier);
-  noteContents = this.getContents (identifier);
-  cleanText = noteSummary . "\n" . Filter_Html::html2text (noteContents);
+  string noteSummary = getSummary (identifier);
+  string noteContents = getContents (identifier);
+  string cleanText = noteSummary + "\n"; // Todo add this: + Filter_Html::html2text (noteContents);
   // Bail out if the search field is already up to date.
-  if (cleanText == this.getSearchField (identifier)) return;
+  // Todo restore if (cleanText == getSearchField (identifier)) return;
   // Update the field.
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  cleanText = Database_SQLiteInjection::no (cleanText);
-  query = "UPDATE notes SET cleantext = 'cleanText' WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET cleantext =");
+  sql.add (cleanText);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
-public function getSearchField (identifier)
+string Database_Notes::getSearchField (int identifier)
 {
-  db = self::connect ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  query = "SELECT cleantext FROM notes WHERE identifier = identifier;";
-  result = Database_SQLite::query (db, query);
-  value = "";
-  foreach (result as row) {
-    value = row[0];
+  SqliteSQL sql;
+  sql.add ("SELECT cleantext FROM notes WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["cleantext"];
+  database_sqlite_disconnect (db);
+  string value;
+  for (auto & cleantext : result) {
+    value = cleantext;
   }
-  unset (db);
   return value;
 }
 
@@ -1357,102 +1476,101 @@ public function getSearchField (identifier)
 // Returns an array of note identifiers.
 // search: Contains the text to search for.
 // bibles: Array of Bibles the notes should refer to.
-public function searchNotes (search, bibles)
+vector <int> Database_Notes::searchNotes (string search, const vector <string> & bibles)
 {
-  identifiers = array ();
+  vector <int> identifiers;
 
-  search = trim (search);
+  search = filter_string_trim (search);
   if (search == "") return identifiers;
 
   // SQL SELECT statement.
-  query = Filter_Sql::notesSelectIdentifier ();
+  string query; // Todo this:  = Filter_Sql::notesSelectIdentifier ();
 
   // SQL fulltext search statement sorted on relevance.
-  query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement (search);
+  // Todo restore: query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement (search);
 
   // SQL FROM ... WHERE statement.
-  query .= Filter_Sql::notesFromWhereStatement ();
+  // Todo restore: query .= Filter_Sql::notesFromWhereStatement ();
 
   // Consider text contained in notes.
-  query .= Filter_Sql::notesOptionalFulltextSearchStatement (search);
+  // Todo restore: query .= Filter_Sql::notesOptionalFulltextSearchStatement (search);
 
   // Consider Bible constraints:
   // * A user has access to notes that refer to Bibles the user has access to.
   // * A note can be a general one, not referring to any specific Bible.
   //   Select such notes also.
-  bibles [] = "";
-  query .= " AND (bible = '' ";
-  foreach (bibles as bible) {
-    bible = Database_SQLiteInjection::no (bible);
-    query .= " OR bible = 'bible' ";
+  query.append (" AND (bible = '' ");
+  for (string bible : bibles) {
+    bible = database_sqlite_no_sql_injection (bible);
+    query.append (" OR bible = '");
+    query.append (bible);
+    query.append ("' ");
   }
-  query .= " ) ";
+  query.append (" ) ");
 
   // Notes get ordered on relevance of search hits.
-  query .= Filter_Sql::notesOrderByRelevanceStatement ();
+  // Todo restore this: query .= Filter_Sql::notesOrderByRelevanceStatement ();
 
   // Complete query.
-  query .= ";";
+  query.append (";");
 
-  db = self::connect ();
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    identifiers []= row[0];
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, query) ["identifier"];
+  database_sqlite_disconnect (db);
+  for (auto & id : result) {
+    identifiers.push_back (convert_to_int (id));
   }
-  unset (db);
 
   return identifiers;
 }
 
 
-public function markForDeletion (identifier)
+void Database_Notes::markForDeletion (int identifier)
 {
-  file = this.expiryFile (identifier);
+  string file = expiryFile (identifier);
   // Delete after 7 days.
- filter_url_file_put_contents (file, 7);
+  filter_url_file_put_contents (file, "7");
 }
 
 
-public function unmarkForDeletion (identifier)
+void Database_Notes::unmarkForDeletion (int identifier)
 {
-  file = this.expiryFile (identifier);
-  @unlink (file);
+  string file = expiryFile (identifier);
+  filter_url_unlink (file);
 }
 
 
-public function isMarkedForDeletion (identifier)
+bool Database_Notes::isMarkedForDeletion (int identifier)
 {
-  file = this.expiryFile (identifier);
-  return file_exists (file);
+  string file = expiryFile (identifier);
+  return filter_url_file_exists (file);
 }
 
 
-public function touchMarkedForDeletion ()
+void Database_Notes::touchMarkedForDeletion ()
 {
-  identifiers = this.getIdentifiers ();
-  foreach (identifiers as identifier) {
-    if (this.isMarkedForDeletion (identifier)) {
-      file = this.expiryFile (identifier);
-      days = filter_url_file_get_contents (file);
-      days = (integer) days;
+  vector <int> identifiers = getIdentifiers ();
+  for (auto & identifier : identifiers) {
+    if (isMarkedForDeletion (identifier)) {
+      string file = expiryFile (identifier);
+      int days = convert_to_int (filter_url_file_get_contents (file));
       days--;
-     filter_url_file_put_contents (file, days);
+      filter_url_file_put_contents (file, convert_to_string (days));
     }
   }
 }
 
 
-public function getDueForDeletion ()
+vector <int> Database_Notes::getDueForDeletion ()
 {
-  deletes = array ();
-  identifiers = this.getIdentifiers ();
-  foreach (identifiers as identifier) {
-    if (this.isMarkedForDeletion (identifier)) {
-      file = this.expiryFile (identifier);
-      days = filter_url_file_get_contents (file);
-      days = (integer) days;
+  vector <int> deletes;
+  vector <int> identifiers = getIdentifiers ();
+  for (auto & identifier : identifiers) {
+    if (isMarkedForDeletion (identifier)) {
+      string file = expiryFile (identifier);
+      int days = convert_to_int (filter_url_file_get_contents (file));
       if (days <= 0) {
-        deletes [] = identifier;
+        deletes.push_back (identifier);
       }
     }
   }
@@ -1460,120 +1578,122 @@ public function getDueForDeletion ()
 }
 
 
-public function debug ()
-{
-  db = self::connect ();
-  query = "SELECT * FROM notes;";
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    for (i = 0; i <= 11; i++) unset (row[i]);
-    var_dump (row);
-  }
-  unset (db);
-}
-
-
 // Writes the checksum for note identifier in the database.
-public function setChecksum (identifier, checksum)
+void Database_Notes::setChecksum (int identifier, const string & checksum)
 {
   // Do not write the checksum if it is already up to date.
-  if (checksum == this.getChecksum (identifier)) return;
+  if (checksum == getChecksum (identifier)) return;
   // Write the checksum to the database.
-  this.deleteChecksum (identifier);
-  db = self::connect_checksums ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  checksum = Database_SQLiteInjection::no (checksum);
-  query = "INSERT INTO checksums  VALUES (identifier, 'checksum');";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  deleteChecksum (identifier);
+  SqliteSQL sql;
+  sql.add ("INSERT INTO checksums VALUES (");
+  sql.add (identifier);
+  sql.add (",");
+  sql.add (checksum);
+  sql.add (");");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // Reads the checksum for note identifier from the database.
-public function getChecksum (identifier)
+string Database_Notes::getChecksum (int identifier)
 {
-  db = self::connect_checksums ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  query = "SELECT checksum FROM checksums WHERE identifier = identifier;";
-  result = Database_SQLite::query (db, query);
-  value = "";
-  foreach (result as row) {
-    value = row[0];
+  SqliteSQL sql;
+  sql.add ("SELECT checksum FROM checksums WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["checksum"];
+  database_sqlite_disconnect (db);
+  string value;
+  for (auto & row : result) {
+    value = row;
   }
-  unset (db);
   return value;
 }
 
 
 // Deletes the checksum for note identifier from the database.
-public function deleteChecksum (identifier)
+void Database_Notes::deleteChecksum (int identifier)
 {
-  db = self::connect_checksums ();
-  identifier = Database_SQLiteInjection::no (identifier);
-  query = "DELETE FROM checksums WHERE identifier = identifier;";
-  Database_SQLite::exec (db, query);
-  unset (db);
+  SqliteSQL sql;
+  sql.add ("DELETE FROM checksums WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
 // The function calculates the checksum of the note signature,
 // and writes it to the filesystem.
-public function updateChecksum (identifier)
+void Database_Notes::updateChecksum (int identifier)
 {
-  checksum = array ();
-  checksum [] = this.getModified (identifier);
-  checksum [] = this.getAssignees (identifier);
-  checksum [] = this.getSubscribers (identifier);
-  checksum [] = this.getBible (identifier);
-  checksum [] = this.getPassages (identifier);
-  checksum [] = this.getRawStatus (identifier);
-  checksum [] = this.getRawSeverity (identifier);
-  checksum [] = this.getSummary (identifier);
-  checksum [] = this.getContents (identifier);
-  checksum = serialize (checksum);
+  // Read the raw data from disk to speed up checksumming.
+  string checksum;
+  checksum.append ("modified");
+  checksum.append (filter_url_file_get_contents (modifiedFile (identifier)));
+  checksum.append ("assignees");
+  checksum.append (filter_url_file_get_contents (assignedFile (identifier)));
+  checksum.append ("subscribers");
+  checksum.append (filter_url_file_get_contents (subscriptionsFile (identifier)));
+  checksum.append ("bible");
+  checksum.append (filter_url_file_get_contents (bibleFile (identifier)));
+  checksum.append ("passages");
+  checksum.append (filter_url_file_get_contents (passageFile (identifier)));
+  checksum.append ("status");
+  checksum.append (filter_url_file_get_contents (statusFile (identifier)));
+  checksum.append ("severity");
+  checksum.append (filter_url_file_get_contents (severityFile (identifier)));
+  checksum.append ("summary");
+  checksum.append (filter_url_file_get_contents (summaryFile (identifier)));
+  checksum.append ("contents");
+  checksum.append (filter_url_file_get_contents (contentsFile (identifier)));
   checksum = md5 (checksum);
-  this.setChecksum (identifier, checksum);
+  setChecksum (identifier, checksum);
 }
 
 
 // Reads the checksum for the notes given in array identifiers from the database.
-public function getMultipleChecksum (identifiers)
+string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
 {
-  db = self::connect_checksums ();
-  checksums = array ();
-  foreach (identifiers as identifier) {
-    identifier = Database_SQLiteInjection::no (identifier);
-    query = "SELECT checksum FROM checksums WHERE identifier = identifier;";
-    result = Database_SQLite::query (db, query);
-    value = "";
-    foreach (result as row) {
-      value = row[0];
+  sqlite3 * db = connect ();
+  string checksum;
+  for (auto & identifier : identifiers) {
+    SqliteSQL sql;
+    sql.add ("SELECT checksum FROM checksums WHERE identifier =");
+    sql.add (identifier);
+    sql.add (";");
+    vector <string> result = database_sqlite_query (db, sql.sql) ["checksum"];
+    string value = "";
+    for (auto & row : result) {
+      value = row;
     }
-    checksums [] = value;
+    checksum.append (value);
   }
-  unset (db);
-  checksum = implode ("", checksums);
+  database_sqlite_disconnect (db);
   checksum = md5 (checksum);
   return checksum;
 }
 
 
 // Internal function.
-private function getBibleSelector (bibles)
+string Database_Notes::getBibleSelector (vector <string> bibles)
 {
-  if (is_array (bibles)) {
-    bibles = array_values (bibles);
-    bibles [] = ""; // Select general note also
-    bibleSelector = " AND (";
-    foreach (bibles as offset => bible) {
-      bible = Database_SQLiteInjection::no (bible);
-      if (offset) bibleSelector .= " OR ";
-      bibleSelector .= " bible = 'bible' ";
-    }
-    bibleSelector .= ")";
-    return bibleSelector;
+  bibles.push_back (""); // Select general note also
+  string bibleSelector = " AND (";
+  for (unsigned int i = 0; i < bibles.size(); i++) {
+    bibles[i] = database_sqlite_no_sql_injection (bibles[i]);
+    if (i > 0) bibleSelector.append (" OR ");
+    bibleSelector.append (" bible = '");
+    bibleSelector.append (bibles[i]);
+    bibleSelector.append ("' ");
   }
-  return "";
+  bibleSelector.append (")");
+  return bibleSelector;
 }
 
 
@@ -1581,52 +1701,46 @@ private function getBibleSelector (bibles)
 // within the note identifier range of lowId to highId
 // which refer to any Bible in the array of bibles
 // or refer to no Bible.
-public function getNotesInRangeForBibles (lowId, highId, bibles)
+vector <int> Database_Notes::getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles)
 {
-  db = self::connect ();
-  identifiers = array ();
-  lowId = Database_SQLiteInjection::no (lowId);
-  highId = Database_SQLiteInjection::no (highId);
-  bibleSelector = this.getBibleSelector (bibles);
-  query = "SELECT identifier FROM notes WHERE identifier >= lowId AND identifier <= highId bibleSelector ORDER BY identifier;";
-  result = Database_SQLite::query (db, query);
-  foreach (result as row) {
-    identifiers [] = row[0];
+  vector <int> identifiers;
+  string bibleSelector = getBibleSelector (bibles);
+  string query = "SELECT identifier FROM notes WHERE identifier >= ";
+  query.append (convert_to_string (lowId));
+  query.append (" AND identifier <= ");
+  query.append (convert_to_string (highId));
+  query.append (" ");
+  query.append (bibleSelector);
+  query.append (" ORDER BY identifier;");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, query) ["identifier"];
+  database_sqlite_disconnect (db);
+  for (auto & row : result) {
+    identifiers.push_back (convert_to_int (row));
   }
-  unset (db);
   return identifiers;
 }
 
 
-private function availability_flag ()
+string Database_Notes::availability_flag ()
 {
-  path = dirname (__DIR__) . "/databases/notes.busy";
-  return path;
+  return filter_url_create_root_path ("databases", "notes.busy");
 }
 
 
 // Sets whether the notes databases are available, as a boolean.
-public function set_availability (available)
+void Database_Notes::set_availability (bool available)
 {
   if (available) {
-    @unlink (this.availability_flag ());
+    filter_url_unlink (availability_flag ());
   } else {
-   filter_url_file_put_contents (this.availability_flag (), "");
+   filter_url_file_put_contents (availability_flag (), "");
   }
 }
 
 
 // Returns whether the notes databases are available, as a boolean.
-public function available ()
+bool Database_Notes::available ()
 {
-  if (file_exists (this.availability_flag ())) return false;
-  return true;
+  return !filter_url_file_exists (availability_flag ());
 }
-
-
-private standard_statuses = array ("New", "Pending", "In progress", "Done", "Reopened");
-private standard_severities = array (0 => "Wish", 1 => "Minor", 2 => "Normal", 3 => "Important", 4 => "Major", 5 => "Critical");
-
-
-
-*/
