@@ -72,7 +72,8 @@ libbibledit_a_SOURCES = \
 	tasks/logic.cpp \
 	tasks/run.cpp \
 	config/logic.cpp \
-	bible/logic.cpp
+	bible/logic.cpp \
+	notes/logic.cpp
 
 bin_PROGRAMS = server unittest
 

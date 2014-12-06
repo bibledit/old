@@ -87,11 +87,7 @@ string filter_url_basename (string url)
 
 void filter_url_unlink (string filename)
 {
-#ifdef WIN32
-  _unlink (filename.c_str());
-#else
-  unlink(filename.c_str());
-#endif
+  unlink (filename.c_str ());
 }
 
 

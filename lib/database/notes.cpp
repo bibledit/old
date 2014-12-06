@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <database/sqlite.h>
 #include <filter/md5.h>
+#include <notes/logic.h>
 
 
 // Database resilience.
@@ -492,7 +493,7 @@ int Database_Notes::getNewUniqueIdentifier ()
 {
   int identifier = 0;
   do {
-    // Todo implement notes logic identifier = filter_string_rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
+    identifier = filter_string_rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
   } while (identifierExists (identifier));
   return identifier;
 }
@@ -515,7 +516,7 @@ string Database_Notes::assembleContents (int identifier, string contents)
 {
   if (identifier) {}; // Todo this goes out.
   string new_contents;
-  // Todo restore: new_contents = getContents (identifier);
+  new_contents = getContents (identifier);
   /* Todo find replacement.
   datetime = new DateTime();
   Filter_Datetime::user_zone (datetime);
