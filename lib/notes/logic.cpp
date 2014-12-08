@@ -160,8 +160,12 @@ void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
-    // Todo should be this: passages = serialize (passages); Perhaps this to copy the format from PHP so it works without the need for clients to upgrade.: No clients should upgrade anyway, since it runs on 8080.
-    // Todo restore to this: database_noteactions.record (user, identifier, self::noteActionPassage, passages);
+    vector <string> passagetexts;
+    for (Passage passage : passages) {
+      passagetexts.push_back (passage.to_text ());
+    }
+    string serialization = filter_string_implode (passagetexts, "|");
+    database_noteactions.record (user, identifier, noteActionPassage, serialization);
   } else {
     // Server: do nothing extra.
   }
