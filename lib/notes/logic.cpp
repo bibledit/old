@@ -54,7 +54,7 @@ void Notes_Logic::addComment (int identifier, const string& comment)
     database_noteactions.record (user, identifier, noteActionComment, comment);
   } else {
     // Server: do the notifications.
-    // Todo restore: handlerAddComment (identifier);
+    handlerAddComment (identifier);
   }
 }
 
@@ -115,7 +115,7 @@ void Notes_Logic::assignUser (int identifier, const string& user)
   } else {
     // Server: do the notifications.
     // Assign logic comes before the database action in this particular case.
-    // Todo restore: handlerAssignNote (identifier, user);
+    handlerAssignNote (identifier, user);
   }
   database_notes.assignUser (identifier, user);
 }

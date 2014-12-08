@@ -1934,6 +1934,17 @@ void test_filters_test15 ()
 
 void test_filters_passage1 ()
 {
+  // Convert Passage to/from text.
+  {
+    Passage input = Passage ("", 1, 2, "3");
+    string text = input.to_text ();
+    Passage output = Passage::from_text (text);
+    evaluate (__LINE__, __func__, true, input.equal (output));
+    input = Passage ("", 5, 4, "0");
+    text = input.to_text ();
+    output = Passage::from_text (text);
+    evaluate (__LINE__, __func__, true, input.equal (output));
+  }
   // PassageDisplay
   {
     evaluate (__LINE__, __func__, "Genesis 10:2", filter_passage_display (1, 10, "2"));

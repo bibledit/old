@@ -1737,7 +1737,7 @@ void test_database_noteactions ()
     int now = filter_string_date_seconds_since_epoch ();
     evaluate (__LINE__, __func__, 1, data[0].rowid);
     evaluate (__LINE__, __func__, "phpunit1", data[0].username);
-    if ((data[0].timestamp < now) || (data[0].timestamp > now + 1)) evaluate (__LINE__, __func__, now, data[0].timestamp);
+    if ((data[0].timestamp < now - 1) || (data[0].timestamp > now + 2)) evaluate (__LINE__, __func__, now, data[0].timestamp);
     evaluate (__LINE__, __func__, 3, data[0].action);
     evaluate (__LINE__, __func__, "content3", data[0].content);
     evaluate (__LINE__, __func__, 2, data[1].rowid);

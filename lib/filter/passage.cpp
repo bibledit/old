@@ -51,6 +51,47 @@ bool Passage::equal (Passage & passage)
 }
 
 
+// This method converts the passage of the object into text, like e.g. so:
+// "1.2.3".
+// First the book identifier comes, then the chapter number, and finally the verse number.
+string Passage::to_text ()
+{
+  string text;
+  text.append (convert_to_string (book));
+  text.append (".");
+  text.append (convert_to_string (chapter));
+  text.append (".");
+  text.append (verse);
+  if (verse.empty()) text.append ("0");
+  return text;
+}
+
+
+// This method converts text into a passage.
+// The text is in the format as its complementary function, to_text, produces.
+Passage Passage::from_text (const string& text)
+{
+  Passage passage = Passage ();
+  vector <string> bits = filter_string_explode (text, '.');
+  if (!bits.empty ()) {
+    string verse = bits.back ();
+    if (!verse.empty ()) passage.verse = verse;
+    bits.pop_back ();
+  }
+  if (!bits.empty ()) {
+    string chapter = bits.back ();    
+    if (!chapter.empty()) passage.chapter = convert_to_int (chapter);
+    bits.pop_back ();
+  }
+  if (!bits.empty ()) {
+    string book = bits.back ();
+    if (!book.empty()) passage.book = convert_to_int (book);
+    bits.pop_back ();
+  }
+  return passage;
+}
+
+
 string filter_passage_display (int book, int chapter, string verse)
 {
   string display;

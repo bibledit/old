@@ -34,6 +34,8 @@ public:
   int chapter;
   string verse;
   bool equal (Passage & passage);
+  string to_text ();
+  static Passage from_text (const string& text);
 };
 
 
