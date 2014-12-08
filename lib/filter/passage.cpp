@@ -57,6 +57,8 @@ bool Passage::equal (Passage & passage)
 string Passage::to_text ()
 {
   string text;
+  text.append (bible);
+  text.append (".");
   text.append (convert_to_string (book));
   text.append (".");
   text.append (convert_to_string (chapter));
@@ -86,6 +88,10 @@ Passage Passage::from_text (const string& text)
   if (!bits.empty ()) {
     string book = bits.back ();
     if (!book.empty()) passage.book = convert_to_int (book);
+    bits.pop_back ();
+  }
+  if (!bits.empty ()) {
+    passage.bible = bits.back ();
     bits.pop_back ();
   }
   return passage;

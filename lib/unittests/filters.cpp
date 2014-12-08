@@ -1936,11 +1936,11 @@ void test_filters_passage1 ()
 {
   // Convert Passage to/from text.
   {
-    Passage input = Passage ("", 1, 2, "3");
+    Passage input = Passage ("עברית", 1, 2, "3");
     string text = input.to_text ();
     Passage output = Passage::from_text (text);
     evaluate (__LINE__, __func__, true, input.equal (output));
-    input = Passage ("", 5, 4, "0");
+    input = Passage ("ελληνικά", 5, 4, "0");
     text = input.to_text ();
     output = Passage::from_text (text);
     evaluate (__LINE__, __func__, true, input.equal (output));
