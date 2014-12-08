@@ -64,8 +64,23 @@ public:
   void setStatus (int identifier, const string& status);
   void setPassages (int identifier, const vector <Passage> & passages);
   void setRawSeverity (int identifier, int severity);
+  void setBible (int identifier, const string& bible);
+  void markForDeletion (int identifier);
+  void unmarkForDeletion (int identifier);
+  void erase (int identifier);
+  void handlerNewNote (int identifier);
+  void handlerAddComment (int identifier);
+  void handlerUpdateNote (int identifier);
+  void handlerAssignNote (int identifier, const string& user);
+  void handlerMarkNoteForDeletion (int identifier);
+  void handlerDeleteNote (int identifier);
+  bool handleEmailNew (string from, string subject, string body);
+  string generalBibleName ();
 private:
   void * webserver_request;
+  void notifyUsers (int identifier, int notification);
+  void emailUsers (int identifier, const string& label, const vector <string> & users, bool postpone);
+  bool handleEmailComment (string from, string subject, string body);
 };
 
 
