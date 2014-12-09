@@ -2284,6 +2284,38 @@ void test_filter_string_text2html ()
 }
 
 
+void test_email ()
+{
+  evaluate (__LINE__, __func__, true, filter_url_email_is_valid ("user@web.site"));
+  evaluate (__LINE__, __func__, false, filter_url_email_is_valid ("user@website"));
+  evaluate (__LINE__, __func__, false, filter_url_email_is_valid (" user@web.site"));
+  evaluate (__LINE__, __func__, false, filter_url_email_is_valid ("user @ web.site"));
+
+  evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("Foo Bar <foo@bar.eu>"));
+  evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("<foo@bar.eu>"));
+  evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("foo@bar.eu"));
+
+  string body = "body";
+  evaluate (__LINE__, __func__, body, filter_string_extract_body (body));
+
+  body = 
+    "\n"
+    "test\n"
+    "\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:\n"
+    "\n"
+    "> test notes three\n"
+    "\n"
+    "\n"
+    "> test\n"
+    "\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:\n"
+    "\n"
+    ">    test notes three \n";
+  evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit-Web"));
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -2312,4 +2344,5 @@ void test_filters ()
   test_filters_passage2 ();
   test_filters_passage3 ();
   test_filter_string_text2html ();
+  test_email ();
 }

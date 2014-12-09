@@ -18,88 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_Email
+class Filter_Email // Todo rename.
 {
-
-  /**
-  * Extracts the pure email address from a string.
-  * $input: Foo Bar <foo@bar.nl>
-  * $input: foo@bar.nl
-  * Returns: foo@bar.nl
-  * If there is no valid email, it returns false.
-  */
-  public static function extractEmail ($input)
-  {
-    $pos = strpos ($input, "<");
-    if ($pos !== false) {
-      $input = substr ($input, $pos + 1);
-    }
-    $pos = strpos ($input, ">");
-    if ($pos !== false) {
-       $input = substr ($input, 0, $pos);
-    }
-    $email = $input;
-    unset ($input);
-    $validator = new Zend_Validate_EmailAddress ();
-    if (!$validator->isValid ($email)) return false;
-    return $email;
-  }
-
-
-  /**
-  * Extracts a clean string from the email body given in $input.
-  * It leaves out the bit that was quoted.
-  * If $year and $sender are given, it also removes lines that contain both strings.
-  * This is used to remove lines like:
-  * On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
-  */
-  public static function extractBody ($input, $year = "", $sender = "")
-  {
-    $input = explode ("\n", $input);
-    if ($input === false) return "";
-    $body = array ();
-    foreach ($input as $line) {
-      $trimmed = trim ($line);
-      if ($trimmed == "") continue;
-      if (strpos ($trimmed, ">") === 0) continue;
-      if (($year != "") && ($sender != "")) {
-        if (strpos ($trimmed, $year) !== false) {
-          if (strpos ($trimmed, $sender) !== false) {
-            continue;
-          }
-        }
-      }
-      $body [] = $line;
-    }
-    $body = implode ("\n", $body);
-    $body = trim ($body);
-    return $body;
-  }
-
-
-  /**
-  * Extracts the first text/plain message from a normal or a multipart email message.
-  * $message: Zend_Mail message.
-  * Returns: text/plain Zend_Mail message.
-  */
-  public static function extractPlainTextMessage ($message)
-  {
-    // If the message is not a MIME multipart message,
-    // then the text/plain body part is the message itself.
-    if (!$message->isMultipart ()) return $message;
-    // This is a multipart message. Look for the plain text part.
-    $foundPart = $message;
-    foreach (new RecursiveIteratorIterator($message) as $part) {
-      try {
-        if (strtok($part->contentType, ';') == 'text/plain') {
-          $foundPart = $part;
-          break;
-        }
-      } catch (Zend_Mail_Exception $e) {
-      }
-    }
-    return $foundPart;
-  }
 
 
 }

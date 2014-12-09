@@ -317,3 +317,30 @@ string filter_url_unique_path (string path)
   return path + "." + convert_to_string (filter_string_rand (100, 1000));
 }
 
+
+// Returns true if the email address is valid.
+bool filter_url_email_is_valid (string email)
+{
+  const string valid_set ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._-");
+  // The @ character should appear only once.
+  vector <string> atbits = filter_string_explode (email, '@');
+  if (atbits.size() != 2) return false;
+  // The characters on the left of @ should be from the valid set.
+  string left = atbits [0];
+  for (unsigned int i = 0; i < left.size(); i++) {
+    char c = left [i];
+    if (valid_set.find (c) == string::npos) return false;
+  }
+  // The characters on the right of @ should be from the valid set.
+  string right = atbits [1];
+  for (unsigned int i = 0; i < right.size(); i++) {
+    char c = right [i];
+    if (valid_set.find (c) == string::npos) return false;
+  }
+  // The character . should appear at least once to the right of @.
+  vector <string> dotbits = filter_string_explode (right, '.');
+  if (dotbits.size () < 2) return false;
+  // The email address is valid.
+  return true;
+}
+

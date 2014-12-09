@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <utf8/String.h>
 #include <utf8/utf8.h>
+#include <filter/url.h>
 
 
 // A C++ equivalent for PHP's explode function.
@@ -504,3 +505,78 @@ string filter_string_html2text (string html)
   return text;
 }
 
+
+
+// Extracts the pure email address from a string.
+// input: Foo Bar <foo@bar.nl>
+// input: foo@bar.nl
+// Returns: foo@bar.nl
+// If there is no valid email, it returns false.
+string filter_string_extract_email (string input)
+{
+  size_t pos = input.find ("<");
+  if (pos != string::npos) {
+    input = input.substr (pos + 1);
+  }
+  pos = input.find (">");
+  if (pos != string::npos) {
+    input = input.substr (0, pos);
+  }
+  string email = input;
+  if (!filter_url_email_is_valid (email)) email.clear();
+  return email;
+}
+
+
+// Extracts a clean string from the email body given in input.
+// It leaves out the bit that was quoted.
+// If year and sender are given, it also removes lines that contain both strings.
+// This is used to remove lines like:
+// On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
+string filter_string_extract_body (string input, string year, string sender)
+{
+  vector <string> inputlines = filter_string_explode (input, '\n');
+  if (inputlines.empty ()) return "";
+  vector <string> body;
+  for (string & line : inputlines) {
+    string trimmed = filter_string_trim (line);
+    if (trimmed == "") continue;
+    if (trimmed.find (">") == 0) continue;
+    if ((year != "") && (sender != "")) {
+      if (trimmed.find (year) != string::npos) {
+        if (trimmed.find (sender) != string::npos) {
+          continue;
+        }
+      }
+    }
+    body.push_back (line);
+  }
+  string bodystring = filter_string_implode (body, "\n");
+  bodystring = filter_string_trim (bodystring);
+  return bodystring;
+}
+
+
+/* PortC++
+// Extracts the first text/plain message from a normal or a multipart email message.
+// message: Zend_Mail message.
+// Returns: text/plain Zend_Mail message.
+public static function extractPlainTextMessage (message)
+{
+  // If the message is not a MIME multipart message,
+  // then the text/plain body part is the message itself.
+  if (!message->isMultipart ()) return message;
+  // This is a multipart message. Look for the plain text part.
+  foundPart = message;
+  foreach (new RecursiveIteratorIterator(message) as part) {
+    try {
+      if (strtok(part->contentType, ';') == 'text/plain') {
+        foundPart = part;
+        break;
+      }
+    } catch (Zend_Mail_Exception e) {
+    }
+  }
+  return foundPart;
+}
+*/

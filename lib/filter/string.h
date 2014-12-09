@@ -63,6 +63,8 @@ string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 string unicode_string_casefold (string s);
 int filter_string_rand (int floor, int ceiling);
 string filter_string_html2text (string html);
+string filter_string_extract_email (string input);
+string filter_string_extract_body (string input, string year = "", string sender = "");
 
 
 #endif

@@ -489,7 +489,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   // Check that the from address of the email belongs to an existing user.
   // Or else use the obfuscated email address as the user name.
   string username;
-  // Todo restore from = Filter_Email::extractEmail (from);
+  // Todo restore from = filter_string_extract_email (from);
   if (request->database_users()->emailExists (from)) {
     username = request->database_users()->getEmailToUser (from);
   } else {
@@ -500,7 +500,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   // Clean the email's body.
   string year = convert_to_string (filter_string_date_numerical_year ());
   string sender = Database_Config_General::getSiteMailName();
-  body = ""; // Todo restore: = Filter_Email::extractBody (body, year, sender);
+  body = ""; // Todo restore: = filter_string_extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,
   // because some emails that get posted would otherwise look untidy,
   // when the many new lines take up a lot of space.
@@ -549,7 +549,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   subject = filter_string_str_replace ("  ", " ", subject);
   subject = filter_string_str_replace ("  ", " ", subject);
   // Check that the from address of the email belongs to an existing user.
-  // Todo restore from = Filter_Email::extractEmail (from);
+  // Todo restore from = filter_string_extract_email (from);
   if (!request->database_users()->emailExists (from)) return false;
   string username = request->database_users()->getEmailToUser (from);
   // Extract book, chapter, verse, and note summary from the subject
@@ -594,7 +594,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
     return false;
   }
   // Clean the email's body.
-  // Todo restore: body = Filter_Email::extractBody (body);
+  // Todo restore: body = filter_string_extract_body (body);
   // Post the note.
   string sessionuser = request->session_logic()->currentUser ();
   request->session_logic()->setUsername (username);
