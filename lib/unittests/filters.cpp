@@ -2223,6 +2223,67 @@ void test_filters_passage3 ()
 }
 
 
+void test_filter_string_text2html () // Todo
+{
+  {
+    string html = 
+      "<p>author</p>\n"
+      "<p>Text 1<div>Text 2</div><div>Text 3</div></p>";
+    string plain = 
+      "author\n"
+      "Text 1\n"
+      "Text 2\n"
+      "Text 3";
+    evaluate (__LINE__, __func__, plain, filter_string_html2text (html));
+  }
+  {
+    string html =
+      "<p>writer (15 Nov):</p>\n"
+      "<p>Second note.<div>Second matter.</div><div>A second round is needed.</div></p>\n"
+      "<p>Here is <b>bold</b>, and here is <i>italics</i>.<div>Here is <sup>superscript</sup>&nbsp;and here is <sub>subscript</sub>.</div><div style=\"text-align: center;\">Centered</div><div style=\"text-align: left;\">Left justified</div><div style=\"text-align: left;\"><ol><li>Numbered list.</li></ol>No numbered text.</div><div style=\"text-align: left;\">Link to <a href=\"http://google.nl\">http://google.nl</a>.</div><div style=\"text-align: left;\">Here follows an image:&nbsp;<img src=\"http://localhost/image\">.<br></div><h1>Header 1</h1><div>Normal text again below the header.</div></p>\n";
+    string plain =
+      "writer (15 Nov):\n"
+      "Second note.\n"
+      "Second matter.\n"
+      "A second round is needed.\n"
+      "Here is bold, and here is italics.\n"
+      "Here is superscript and here is subscript.\n"
+      "Centered\n"
+      "Left justified\n"
+      "Numbered list.\n"
+      "No numbered text.\n"
+      "Link to http://google.nl.\n"
+      "Here follows an image: .\n"
+      "Header 1\n"
+      "Normal text again below the header.\n";
+    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+  }
+  {
+    string html =
+      "test notes four\n"
+      "\n"
+      "Logbook:\n"
+      "\n";
+    string plain =
+      "test notes fourLogbook:";
+    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+  }
+  {
+    string html =
+"Line one.<BR>\n"
+"\n"
+"Line two.<BR>\n"
+"\n"
+"Line three.<BR>\n";
+    string plain =
+"Line one.\n"
+"Line two.\n"
+"Line three.\n";
+    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+  }
+}
+
+
 // Tests for the filters in the filter folder.
 void test_filters ()
 {
@@ -2250,6 +2311,7 @@ void test_filters ()
   test_filters_passage1 ();
   test_filters_passage2 ();
   test_filters_passage3 ();
+  test_filter_string_text2html ();
 }
 
 

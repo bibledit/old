@@ -4,5 +4,5 @@
 # Update copyright
 # find . -type f | xargs grep -l "2003-2013" | xargs sed -i 's/2003-2013/2003-2014/'
 
-find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "get_basename" | xargs sed -i 's/get_basename/filter_url_basename/g'
+find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "Filter_Html::html2text" | xargs sed -i 's/Filter_Html::html2text/filter_string_html2text/g'
 

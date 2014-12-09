@@ -444,3 +444,63 @@ int filter_string_rand (int floor, int ceiling)
   int r = rand () % range + floor;
   return r;
 }
+
+
+string filter_string_html2text (string html)
+{
+  // Clean the html up.
+  html = filter_string_str_replace ("\n", "", html);
+
+  // The output text.
+  string text;
+
+  // Keep going while the html contains the < character.
+  size_t pos = html.find ("<");
+  while (pos != string::npos) {
+    // Add the text before the <.
+    text.append (html.substr (0, pos));
+    html = html.substr (pos + 1);
+    // Certain tags start new lines.
+    string tag1 = unicode_string_casefold (html.substr (0, 1));
+    string tag2 = unicode_string_casefold (html.substr (0, 2));
+    string tag3 = unicode_string_casefold (html.substr (0, 3));
+    if  ((tag1 == "p")
+      || (tag3 == "div")
+      || (tag2 == "li")
+      || (tag3 == "/ol")
+      || (tag3 == "/ul")
+      || (tag2 == "h1")
+      || (tag2 == "h2")
+      || (tag2 == "h3")
+      || (tag2 == "h4")
+      || (tag2 == "h5")
+      || (tag2 == "br")
+       ) {
+      text.append ("\n");
+    }
+    // Clear text out till the > character.
+    pos = html.find (">");
+    if (pos != string::npos) {
+      html = html.substr (pos + 1);
+    }
+    // Next iteration.
+    pos = html.find ("<");
+  }
+  // Add any remaining bit of text.
+  text.append (html);
+
+  // Replace xml entities with their text.
+  text = filter_string_str_replace ("&quot;", """", text);
+  text = filter_string_str_replace ("&amp;", "&", text);
+  text = filter_string_str_replace ("&apos;", "'", text);
+  text = filter_string_str_replace ("&lt;", "<", text);
+  text = filter_string_str_replace ("&gt;", ">", text);
+  text = filter_string_str_replace ("&nbsp;", " ", text);
+
+  while (text.find ("\n\n") != string::npos) {
+    text = filter_string_str_replace ("\n\n", "\n", text);
+  }
+  text = filter_string_trim (text);
+  return text;
+}
+

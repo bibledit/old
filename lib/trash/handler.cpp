@@ -44,7 +44,7 @@ void trash_consultation_note (void * webserver_request, int id)
   string passageText = filter_passage_display_inline (passages);
   string summary = database_notes.getSummary (id);
   string contents = database_notes.getContents (id);
-  // Todo fix this: contents = Filter_Html::html2text (contents);
+  // Todo fix this: contents = filter_string_html2text (contents);
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string username = request->session_logic()->currentUser ();
   Database_Logs::log (username + " deleted / marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);

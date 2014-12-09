@@ -1439,7 +1439,7 @@ void Database_Notes::updateSearchFields (int identifier)
   // It enables us to search with wildcards before and after the search query.
   string noteSummary = getSummary (identifier);
   string noteContents = getContents (identifier);
-  string cleanText = noteSummary + "\n"; // Todo add this: + Filter_Html::html2text (noteContents);
+  string cleanText = noteSummary + "\n"; // Todo add this: + filter_string_html2text (noteContents);
   // Bail out if the search field is already up to date.
   // Todo restore if (cleanText == getSearchField (identifier)) return;
   // Update the field.

@@ -45,7 +45,7 @@ Text 1
 Text 2
 Text 3
 EOD;
-    $this->assertEquals ($plain, Filter_Html::html2text ($html));
+    $this->assertEquals ($plain, filter_string_html2text ($html));
   }
 
 
@@ -72,7 +72,7 @@ Here follows an image: .
 Header 1
 Normal text again below the header.
 EOD;
-    $this->assertEquals ($plain, Filter_Html::html2text ($html));
+    $this->assertEquals ($plain, filter_string_html2text ($html));
   }
 
 
@@ -87,7 +87,7 @@ EOD;
 $plain = <<<EOD
 test notes fourLogbook:
 EOD;
-    $this->assertEquals ($plain, Filter_Html::html2text ($html));
+    $this->assertEquals ($plain, filter_string_html2text ($html));
   }
 
 
@@ -105,7 +105,7 @@ Line one.
 Line two.
 Line three.
 EOD;
-    $this->assertEquals ($plain, Filter_Html::html2text ($html));
+    $this->assertEquals ($plain, filter_string_html2text ($html));
   }
 
 

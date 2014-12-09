@@ -159,7 +159,7 @@ class Resource_Logic
       } else {
         $text = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, true);
       }
-      $text = Filter_Html::html2text ($text);
+      $text = filter_string_html2text ($text);
     } else {
       $text = "";
     }
