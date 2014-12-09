@@ -99,7 +99,7 @@ void Database_Config_User::setValue (const char * key, string value)
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
-  if (filter_url_file_exists (directory)) filter_url_mkdir (directory);
+  if (!filter_url_file_exists (directory)) filter_url_mkdir (directory);
   filter_url_file_put_contents (filename, value);
 }
 

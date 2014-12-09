@@ -36,10 +36,10 @@ class filterClientTest extends PHPUnit_Framework_TestCase
 
   public function testEnabled ()
   {
-    $enabled = config_logic_enabled ();
+    $enabled = config_logic_client_enabled ();
     $this->assertTrue ($enabled);
     config_logic_set (false);
-    $enabled = config_logic_enabled ();
+    $enabled = config_logic_client_enabled ();
     $this->assertFalse ($enabled);
   }
 

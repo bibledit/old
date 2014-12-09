@@ -45,7 +45,7 @@ $database_logs = Database_Logs::getInstance ();
 
 $hour = date ('G');
 $minute = date ('i');
-$client = config_logic_enabled ();
+$client = config_logic_client_enabled ();
 
 
 // At midnight, for five minutes, do nothing to allow time for external backup

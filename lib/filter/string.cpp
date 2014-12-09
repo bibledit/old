@@ -227,6 +227,15 @@ int filter_string_date_numerical_hour (int seconds)
 }
 
 
+// The numerical day of the month.
+int filter_string_date_numerical_day (int seconds)
+{
+  time_t tt = seconds;
+  tm utc_tm = *gmtime(&tt);
+  int day = utc_tm.tm_mday;
+  return day;
+}
+
 // A C++ equivalent for PHP's date ("n") function.
 // Numeric representation of a month: 1 through 12.
 int filter_string_date_numerical_month ()

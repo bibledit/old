@@ -48,7 +48,7 @@ void Notes_Logic::addComment (int identifier, const string& comment)
 
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.addComment (identifier, comment);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -64,7 +64,7 @@ void Notes_Logic::setSummary (int identifier, const string& summary)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.setSummary (identifier, summary);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -79,7 +79,7 @@ void Notes_Logic::subscribe (int identifier)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.subscribe (identifier);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -94,7 +94,7 @@ void Notes_Logic::unsubscribe (int identifier)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.unsubscribe (identifier);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -108,7 +108,7 @@ void Notes_Logic::unsubscribe (int identifier)
 void Notes_Logic::assignUser (int identifier, const string& user)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -126,7 +126,7 @@ void Notes_Logic::unassignUser (int identifier, const string& user)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.unassignUser (identifier, user);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -141,7 +141,7 @@ void Notes_Logic::setStatus (int identifier, const string& status)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.setStatus (identifier, status);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -157,7 +157,7 @@ void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.setPassages (identifier, passages);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -178,7 +178,7 @@ void Notes_Logic::setRawSeverity (int identifier, int severity)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.setRawSeverity (identifier, severity);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -194,7 +194,7 @@ void Notes_Logic::setBible (int identifier, const string& bible)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.setBible (identifier, bible);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -210,7 +210,7 @@ void Notes_Logic::markForDeletion (int identifier)
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.markForDeletion (identifier);
   trash_consultation_note (webserver_request, identifier);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -226,7 +226,7 @@ void Notes_Logic::unmarkForDeletion (int identifier)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
   database_notes.unmarkForDeletion (identifier);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -240,7 +240,7 @@ void Notes_Logic::unmarkForDeletion (int identifier)
 void Notes_Logic::erase (int identifier)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
-  if (config_logic_enabled ()) {
+  if (config_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
@@ -281,7 +281,7 @@ void Notes_Logic::handlerUpdateNote (int identifier)
 void Notes_Logic::handlerAssignNote (int identifier, const string& user)
 {
   // Take no action in client mode.
-  if (config_logic_enabled ()) return;
+  if (config_logic_client_enabled ()) return;
 
   Database_Config_User database_config_user = Database_Config_User (webserver_request);
   if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
@@ -310,10 +310,10 @@ void Notes_Logic::handlerDeleteNote (int identifier)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notifyUsers (int identifier, int notification)
+void Notes_Logic::notifyUsers (int identifier, int notification) // Todo
 {
   // Take no action in client mode.
-  if (config_logic_enabled ()) return;
+  if (config_logic_client_enabled ()) return;
 
   // Databases.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -451,7 +451,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
 
   // Send (but not in client mode).
   for (auto & user : users) {
-    if (!config_logic_enabled ()) {
+    if (!config_logic_client_enabled ()) {
       string subject = label;
       subject.append (" | ");
       subject.append (passages);

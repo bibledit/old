@@ -180,7 +180,7 @@ if (count ($emailBody) > 0) {
   foreach ($users as $user) {
     if ($database_config_user->getUserBibleChecksNotification ($user)) {
       if (Access_Bible::write ($bible, $user)) {
-        if (!config_logic_enabled ()) $database_mail->send ($user, $subject, $emailBody);
+        if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }
     }
   }

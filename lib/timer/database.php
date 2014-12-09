@@ -31,7 +31,7 @@ $database_logs->log ("Database maintenance running", Filter_Roles::ADMIN_LEVEL);
 
 // Whether running in client mode.
 $database_config_general = Database_Config_General::getInstance ();
-$client_mode = config_logic_enabled ();
+$client_mode = config_logic_client_enabled ();
 
 
 // While VACUUM or REINDEX on a SQLite database are running, 

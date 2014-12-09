@@ -48,7 +48,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/noteactions.h>
 #include <database/versifications.h>
 #include <database/modifications.h>
+#include <database/notes.h>
 #include <bible/logic.h>
+#include <notes/logic.h>
+#include <sync/logic.h>
 
 
 void test_database_styles ()
@@ -2446,6 +2449,799 @@ void test_database_modifications_notifications ()
   }
 }
 
+
+void test_database_notes ()
+{
+  // DatabasePath
+  {
+    refresh_sandbox (true);
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    string path = database_notes.database_path ();
+    evaluate (__LINE__, __func__, filter_url_create_root_path ("databases", "notes.sqlite"), path);
+    path = database_notes.checksums_database_path ();
+    evaluate (__LINE__, __func__, filter_url_create_root_path ("databases", "notes_checksums.sqlite"), path);
+  }
+  // TrimOptimize
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+    database_notes.optimize ();
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "", "", false);
+    database_notes.erase (identifier);
+    database_notes.trim ();
+    database_notes.trim_server ();
+  }
+  // Identifier.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    int identifier = Notes_Logic::lowNoteIdentifier;
+    evaluate (__LINE__, __func__, 100000000, identifier);
+
+    identifier = Notes_Logic::highNoteIdentifier;
+    evaluate (__LINE__, __func__, 999999999, identifier);
+
+    identifier = database_notes.getNewUniqueIdentifier ();
+    if ((identifier < 100000000) || (identifier > 999999999)) evaluate (__LINE__, __func__, "Out of bounds", convert_to_string (identifier));
+    evaluate (__LINE__, __func__, false, database_notes.identifierExists (identifier));
+
+    identifier = database_notes.storeNewNote ("", 0, 0, 0, "", "", false);
+    evaluate (__LINE__, __func__, true, database_notes.identifierExists (identifier));
+    database_notes.erase (identifier);
+    evaluate (__LINE__, __func__, false, database_notes.identifierExists (identifier));
+  }
+  // SummaryContents
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+    // Test inserting data for both summary and contents.
+    string summary = "Summary";
+    string contents = "Contents";
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, summary, contents, false);
+    string value = database_notes.getSummary (identifier);
+    evaluate (__LINE__, __func__, summary, value);
+    value = database_notes.getContents (identifier);
+    vector <string> values = filter_string_explode (value, '\n');
+    value = values[1];
+    evaluate (__LINE__, __func__, "<p>Contents</p>", value);
+    // Test that if the summary is not given, it is going to be the first line of the contents.
+    contents = "This is a note.\nLine two.";
+    identifier = database_notes.storeNewNote ("", 0, 0, 0, "", contents, false);
+    value = database_notes.getSummary (identifier);
+    evaluate (__LINE__, __func__, "This is a note.", value);
+    value = database_notes.getContents (identifier);
+    values = filter_string_explode (value, '\n');
+    value = values[2];
+    evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
+    // Test setSummary function.
+    database_notes.setSummary (identifier, "summary1");
+    value = database_notes.getSummary (identifier);
+    evaluate (__LINE__, __func__, "summary1", value);
+    // Test setContents function.
+    database_notes.setContents (identifier, "contents1");
+    value = database_notes.getContents (identifier);
+    evaluate (__LINE__, __func__, "contents1", value);
+    // Test adding comment.
+    value = database_notes.getContents (identifier);
+    int length = value.length ();
+    database_notes.addComment (identifier, "comment1");
+    value = database_notes.getContents (identifier);
+    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
+    size_t pos = value.find ("comment1");
+    if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment1'", value);
+  }
+  // Subscriptions.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+    Notes_Logic notes_logic = Notes_Logic(&request);
+    Database_Mail database_mail = Database_Mail (&request);
+    database_mail.create ();
+
+    // Normally creating a new note would subscribe the current user to the note.
+    // But since this PHPUnit test runs without sessions, it would have subscribed an empty user.
+    request.session_logic()->setUsername ("");
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    vector <string> subscribers = database_notes.getSubscribers (identifier);
+    evaluate (__LINE__, __func__, {}, subscribers);
+
+    // Create a note again, but this time set the session variable to a certain user.
+    database_users.addNewUser ("phpunit", "", 5, "");
+    request.session_logic()->setUsername ("phpunit");
+    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
+    identifier = database_notes.storeNewNote ("", 1, 1, 1, "Summary", "Contents", false);
+    notes_logic.handlerNewNote (identifier);
+    subscribers = database_notes.getSubscribers (identifier);
+    evaluate (__LINE__, __func__, {"phpunit"}, subscribers);
+    evaluate (__LINE__, __func__, true, database_notes.isSubscribed (identifier, "phpunit"));
+    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
+    // Test various other subscription related functions.
+    evaluate (__LINE__, __func__, false, database_notes.isSubscribed (identifier, "phpunit_phpunit"));
+    database_notes.unsubscribe (identifier);
+    evaluate (__LINE__, __func__, false, database_notes.isSubscribed (identifier, "phpunit"));
+    database_notes.subscribeUser (identifier, "phpunit_phpunit_phpunit");
+    evaluate (__LINE__, __func__, true, database_notes.isSubscribed (identifier, "phpunit_phpunit_phpunit"));
+    database_notes.unsubscribeUser (identifier, "phpunit_phpunit_phpunit");
+    evaluate (__LINE__, __func__, false, database_notes.isSubscribed (identifier, "phpunit_phpunit_phpunit"));
+  }
+  // Assignments ()
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+    Database_Mail database_mail = Database_Mail (&request);
+    database_mail.create ();
+
+    request.session_logic()->setUsername ("PHPUnit2");
+
+    // Create a note and check that it was not assigned to anybody.
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    vector <string> assignees = database_notes.getAssignees (identifier);
+    evaluate (__LINE__, __func__, {}, assignees);
+
+    // Assign the note to a user, and check that this reflects in the list of assignees.
+    database_notes.assignUser (identifier, "PHPUnit");
+    assignees = database_notes.getAssignees (identifier);
+    evaluate (__LINE__, __func__, {"PHPUnit"}, assignees);
+
+    // Test the setAssignees function.
+    database_notes.setAssignees (identifier, {"PHPUnit"});
+    assignees = database_notes.getAssignees (identifier);
+    evaluate (__LINE__, __func__, {"PHPUnit"}, assignees);
+        
+    // Assign note to second user, and check it reflects.
+    database_notes.assignUser (identifier, "PHPUnit2");
+    assignees = database_notes.getAssignees (identifier);
+    evaluate (__LINE__, __func__, {"PHPUnit", "PHPUnit2"}, assignees);
+
+    // Based on the above, check the isAssigned function.
+    evaluate (__LINE__, __func__, true, database_notes.isAssigned (identifier, "PHPUnit"));
+    evaluate (__LINE__, __func__, true, database_notes.isAssigned (identifier, "PHPUnit2"));
+    evaluate (__LINE__, __func__, false, database_notes.isAssigned (identifier, "PHPUnit3"));
+    
+    // Based on the above, test getAllAssignees().
+    assignees = database_notes.getAllAssignees ({""});
+    evaluate (__LINE__, __func__, {"PHPUnit", "PHPUnit2"}, assignees);
+    
+    // Based on the above, test the unassignUser function.
+    database_notes.unassignUser (identifier, "PHPUnit");
+    assignees = database_notes.getAssignees (identifier);
+    evaluate (__LINE__, __func__, {"PHPUnit2"}, assignees);
+    database_notes.unassignUser (identifier, "PHPUnit2");
+    assignees = database_notes.getAssignees (identifier);
+    evaluate (__LINE__, __func__, {}, assignees);
+  }
+  // Bible
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    request.session_logic()->setUsername ("PHPUnit");
+    int identifier = database_notes.storeNewNote ("PHPUnit", 0, 0, 0, "Summary", "Contents", false);
+    string bible = database_notes.getBible (identifier);
+    evaluate (__LINE__, __func__, "PHPUnit", bible);
+    database_notes.setBible (identifier, "PHPUnit2");
+    bible = database_notes.getBible (identifier);
+    evaluate (__LINE__, __func__, "PHPUnit2", bible);
+    database_notes.setBible (identifier, "");
+    bible = database_notes.getBible (identifier);
+    evaluate (__LINE__, __func__, "", bible);
+  }
+  // Passage.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    request.session_logic()->setUsername ("PHPUnit");
+
+    // Create note for a certain passage.
+    int identifier = database_notes.storeNewNote ("", 10, 9, 8, "Summary", "Contents", false);
+    
+    // Test the getPassages method.
+    vector <Passage> passages = database_notes.getPassages (identifier);
+    Passage standard = Passage ("", 10, 9, "8");
+    evaluate (__LINE__, __func__, 1, passages.size());
+    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+
+    // Test the setPassage method.
+    standard = Passage ("", 5, 6, "7");
+    database_notes.setPassages (identifier, {standard});
+    passages = database_notes.getPassages (identifier);
+    evaluate (__LINE__, __func__, 1, passages.size());
+    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+  }
+  // Status.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    request.session_logic()->setUsername ("PHPUnit");
+
+    // Create note.
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+
+    // Test default status = New.
+    string status = database_notes.getStatus (identifier);
+    evaluate (__LINE__, __func__, "New", status);
+    
+    // Test setStatus function.
+    database_notes.setStatus (identifier, "xxxxx");
+    status = database_notes.getStatus (identifier);
+    evaluate (__LINE__, __func__, "xxxxx", status);
+    
+    // Test the getStatuses function.
+    vector <Database_Notes_Text> statuses = database_notes.getPossibleStatuses ();
+    vector <string> rawstatuses;
+    for (auto & status : statuses) {
+      rawstatuses.push_back (status.raw);
+    }
+    evaluate (__LINE__, __func__, {"xxxxx", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
+  }
+  // Severity
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    request.session_logic()->setUsername ("PHPUnit");
+
+    // Create note.
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+
+    // Test default severity = Normal.
+    string severity = database_notes.getSeverity (identifier);
+    evaluate (__LINE__, __func__, "Normal", severity);
+
+    // Test setSeverity.
+    database_notes.setRawSeverity (identifier, 0);
+    severity = database_notes.getSeverity (identifier);
+    evaluate (__LINE__, __func__, "Wish", severity);
+    database_notes.setRawSeverity (identifier, 4);
+    severity = database_notes.getSeverity (identifier);
+    evaluate (__LINE__, __func__, "Major", severity);
+    
+    // Test getSeverities.
+    vector <Database_Notes_Text> severities = database_notes.getPossibleSeverities ();
+    vector <string> rawseverities;
+    vector <string> localizedseverities;
+    for (auto & severity : severities) {
+      rawseverities.push_back (severity.raw);
+      localizedseverities.push_back (severity.localized);
+    }
+    evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, rawseverities);
+    evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);
+  }
+  // Modified
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    request.session_logic()->setUsername ("PHPUnit");
+    int time = filter_string_date_seconds_since_epoch ();
+
+    // Create note.
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "Summary", "Contents", false);
+    
+    // Test getModified.
+    int value = database_notes.getModified (identifier);
+    if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
+    // Test setModified.
+    time = 123456789;
+    database_notes.setModified (identifier, time);
+    value = database_notes.getModified (identifier);
+    evaluate (__LINE__, __func__, time, value);;
+  }
+  // GetIdentifiers
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    request.session_logic()->setUsername ("phpunit");
+    
+    // Create a few notes.
+    vector <int> standardids;
+    for (unsigned int i = 0; i < 3; i++) {
+      int identifier = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+      standardids.push_back (identifier);
+    }
+    
+    // Get the identifiers.
+    vector <int> identifiers = database_notes.getIdentifiers ();
+    sort (standardids.begin(), standardids.end());
+    sort (identifiers.begin(), identifiers.end());
+    evaluate (__LINE__, __func__, standardids, identifiers);
+  }
+  // SetIdentifier
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    // Create note.
+    request.session_logic()->setUsername ("phpunit");
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    
+    // Contents of the note.
+    string originalContents = database_notes.getContents (identifier);
+    if (originalContents.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int)originalContents.length ()));
+    
+    // Checksum of the note.
+    string originalChecksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, 32, originalChecksum.length());
+    
+    // Change the identifier.
+    int newId = 1234567;
+    database_notes.setIdentifier (identifier, newId);
+    
+    // Check old and new identifier.
+    string contents = database_notes.getContents (identifier);
+    evaluate (__LINE__, __func__, "", contents);
+    contents = database_notes.getContents (newId);
+    evaluate (__LINE__, __func__, originalContents, contents);
+
+    string checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    checksum = database_notes.getChecksum (newId);
+    evaluate (__LINE__, __func__, originalChecksum, checksum);
+  }
+  // ExpireOneNote
+  {
+    // It tests whether a note marked for deletion,
+    // after touching it 7 or 8 times, is returned as due for deletion,
+    // and whether it is not yet due for deletion before that.
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    database_notes.markForDeletion (identifier);
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    vector <int> identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    database_notes.touchMarkedForDeletion ();
+    identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {identifier}, identifiers);
+    database_notes.touchMarkedForDeletion ();
+    identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {identifier}, identifiers);
+  }
+  // ExpireUnmarkNote.
+  {
+    // It tests whethe a note marked for deletion,
+    // touched 6 times, then unmarked, touched again,
+    // will not be due for deletion.
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    int identifier = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    database_notes.markForDeletion (identifier);
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.unmarkForDeletion (identifier);
+    vector <int> identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    database_notes.touchMarkedForDeletion ();
+    identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+  }
+  // ExpireMoreNotes.
+  {
+    // It tests whether three notes, marked for deletion on different days,
+    // are properly touched so they keep their own number of days.
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    int identifier1 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    int identifier2 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    int identifier3 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    database_notes.markForDeletion (identifier1);
+    database_notes.touchMarkedForDeletion ();
+    database_notes.markForDeletion (identifier2);
+    database_notes.touchMarkedForDeletion ();
+    database_notes.markForDeletion (identifier3);
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    database_notes.touchMarkedForDeletion ();
+    vector <int> identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    database_notes.touchMarkedForDeletion ();
+    identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {identifier1}, identifiers);
+    database_notes.unmarkForDeletion (identifier1);
+    database_notes.touchMarkedForDeletion ();
+    identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {identifier2}, identifiers);
+    database_notes.unmarkForDeletion (identifier2);
+    database_notes.touchMarkedForDeletion ();
+    identifiers = database_notes.getDueForDeletion ();
+    evaluate (__LINE__, __func__, {identifier3}, identifiers);
+  }  
+  // ExpireIsMarked.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    int identifier1 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    int identifier2 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    int identifier3 = database_notes.storeNewNote ("", 0, 0, 0, "summary", "contents", false);
+    database_notes.markForDeletion (identifier1);
+    evaluate (__LINE__, __func__, true, database_notes.isMarkedForDeletion (identifier1));
+    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier2));
+    database_notes.unmarkForDeletion (identifier2);
+    evaluate (__LINE__, __func__, true, database_notes.isMarkedForDeletion (identifier1));
+    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier2));
+    database_notes.unmarkForDeletion (identifier1);
+    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier1));
+    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier2));
+    database_notes.markForDeletion (identifier2);
+    evaluate (__LINE__, __func__, true, database_notes.isMarkedForDeletion (identifier2));
+    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier3));
+  }
+  // ChecksumOne
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    // Create note to work with.
+    int identifier = database_notes.storeNewNote ("bible", 1, 2, 3, "summary", "contents", false);
+
+    // Checksum of new note should be calculated.
+    string checksum1 = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum1.empty());
+
+    // Clear checksum, and recalculate it.
+    database_notes.setChecksum (identifier, "");
+    string checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.sync ();
+    string checksum2 = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, checksum1, checksum2);
+
+    // Test that saving a note updates the checksum in most cases.
+    database_notes.setChecksum (identifier, "");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setModified (identifier, 1234567);
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+
+    database_notes.deleteChecksum (identifier);
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setSubscribers (identifier, {"subscribers"});
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+
+    database_notes.setChecksum (identifier, "");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setBible (identifier, "phpunit");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+
+    database_notes.deleteChecksum (identifier);
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setPassages (identifier, {});
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+
+    database_notes.setChecksum (identifier, "");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setStatus (identifier, "Status");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+
+    database_notes.deleteChecksum (identifier);
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setRawSeverity (identifier, 123);
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+
+    database_notes.setChecksum (identifier, "");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setSummary (identifier, "new");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+
+    database_notes.deleteChecksum (identifier);
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, "", checksum);
+    database_notes.setContents (identifier, "new");
+    checksum = database_notes.getChecksum (identifier);
+    evaluate (__LINE__, __func__, false, checksum.empty());
+  }
+  // ChecksumTwo
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    // Create notes to work with.
+    vector <int> identifiers;
+    identifiers.push_back (database_notes.storeNewNote ("bible1", 1, 2, 3, "summary1", "contents1", false));
+    identifiers.push_back (database_notes.storeNewNote ("bible2", 2, 3, 4, "summary2", "contents2", false));
+    identifiers.push_back (database_notes.storeNewNote ("bible3", 3, 4, 5, "summary3", "contents3", false));
+
+    // Checksum calculation: slow and fast methods should be the same.
+    Sync_Logic sync_logic = Sync_Logic (&request);
+    string checksum1 = sync_logic.checksum (identifiers);
+    evaluate (__LINE__, __func__, 32, checksum1.length());
+    string checksum2 = database_notes.getMultipleChecksum (identifiers);
+    evaluate (__LINE__, __func__, checksum1, checksum2);
+  }
+  // GetNotesInRangeForBibles ()
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    // Create a couple of notes to work with.
+    int identifier = database_notes.storeNewNote ("bible1", 1, 2, 3, "summary", "contents", false);
+    int identifier1 = 100000000;
+    database_notes.setIdentifier (identifier, identifier1);
+
+    identifier = database_notes.storeNewNote ("bible2", 1, 2, 3, "summary", "contents", false);
+    int identifier2 = 500000000;
+    database_notes.setIdentifier (identifier, identifier2);
+
+    identifier = database_notes.storeNewNote ("", 1, 2, 3, "summary", "contents", false);
+    int identifier3 = 999999999;
+    database_notes.setIdentifier (identifier, identifier3);
+
+    // Test selection mechanism for certain Bibles.
+    vector <int> identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {"bible1", "bible2"}, false);
+    evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
+
+    identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {"bible1", "bible3"}, false);
+    evaluate (__LINE__, __func__, {100000000, 999999999}, identifiers);
+
+    identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {}, false);
+    evaluate (__LINE__, __func__, {999999999}, identifiers);
+
+    // Test selection mechanism for any Bible.
+    identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {}, true);
+    evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
+  }
+  // CreateRange
+  {
+    Webserver_Request request;
+    Sync_Logic sync_logic = Sync_Logic (&request);
+    
+    vector <Sync_Logic_Range> ranges = sync_logic.create_range (100000000, 999999999);
+    evaluate (__LINE__, __func__, 10, ranges.size());
+    evaluate (__LINE__, __func__, 100000000, ranges[0].low);
+    evaluate (__LINE__, __func__, 189999998, ranges[0].high);
+    evaluate (__LINE__, __func__, 189999999, ranges[1].low);
+    evaluate (__LINE__, __func__, 279999997, ranges[1].high);
+    evaluate (__LINE__, __func__, 279999998, ranges[2].low);
+    evaluate (__LINE__, __func__, 369999996, ranges[2].high);
+    evaluate (__LINE__, __func__, 369999997, ranges[3].low);
+    evaluate (__LINE__, __func__, 459999995, ranges[3].high);
+    evaluate (__LINE__, __func__, 459999996, ranges[4].low);
+    evaluate (__LINE__, __func__, 549999994, ranges[4].high);
+    evaluate (__LINE__, __func__, 549999995, ranges[5].low);
+    evaluate (__LINE__, __func__, 639999993, ranges[5].high);
+    evaluate (__LINE__, __func__, 639999994, ranges[6].low);
+    evaluate (__LINE__, __func__, 729999992, ranges[6].high);
+    evaluate (__LINE__, __func__, 729999993, ranges[7].low);
+    evaluate (__LINE__, __func__, 819999991, ranges[7].high);
+    evaluate (__LINE__, __func__, 819999992, ranges[8].low);
+    evaluate (__LINE__, __func__, 909999990, ranges[8].high);
+    evaluate (__LINE__, __func__, 909999991, ranges[9].low);
+    evaluate (__LINE__, __func__, 999999999, ranges[9].high);
+
+    ranges = sync_logic.create_range (100000000, 100000100);
+    evaluate (__LINE__, __func__, 10, ranges.size());
+    evaluate (__LINE__, __func__, 100000000, ranges[0].low);
+    evaluate (__LINE__, __func__, 100000009, ranges[0].high);
+    evaluate (__LINE__, __func__, 100000010, ranges[1].low);
+    evaluate (__LINE__, __func__, 100000019, ranges[1].high);
+    evaluate (__LINE__, __func__, 100000020, ranges[2].low);
+    evaluate (__LINE__, __func__, 100000029, ranges[2].high);
+    evaluate (__LINE__, __func__, 100000030, ranges[3].low);
+    evaluate (__LINE__, __func__, 100000039, ranges[3].high);
+    evaluate (__LINE__, __func__, 100000040, ranges[4].low);
+    evaluate (__LINE__, __func__, 100000049, ranges[4].high);
+    evaluate (__LINE__, __func__, 100000050, ranges[5].low);
+    evaluate (__LINE__, __func__, 100000059, ranges[5].high);
+    evaluate (__LINE__, __func__, 100000060, ranges[6].low);
+    evaluate (__LINE__, __func__, 100000069, ranges[6].high);
+    evaluate (__LINE__, __func__, 100000070, ranges[7].low);
+    evaluate (__LINE__, __func__, 100000079, ranges[7].high);
+    evaluate (__LINE__, __func__, 100000080, ranges[8].low);
+    evaluate (__LINE__, __func__, 100000089, ranges[8].high);
+    evaluate (__LINE__, __func__, 100000090, ranges[9].low);
+    evaluate (__LINE__, __func__, 100000100, ranges[9].high);
+  }
+  // SelectBible
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    // Create a couple of notes to work with.
+    int identifier1 = database_notes.storeNewNote ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int identifier2 = database_notes.storeNewNote ("bible2", 1, 2, 3, "summary2", "contents2", false);
+    // Todo int identifier3 = database_notes.storeNewNote ("bible3", 1, 2, 3, "summary3", "contents3", false);
+
+    // Select notes while varying Bible selection.
+    vector <int> identifiers = database_notes.selectNotes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", 0);
+    evaluate (__LINE__, __func__, {identifier1}, identifiers);
+
+    identifiers = database_notes.selectNotes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", 0);
+    evaluate (__LINE__, __func__, {identifier2}, identifiers);
+
 /* Todo
+    identifiers = database_notes.selectNotes (array ("bible1", "bible2"), 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", NULL);
+    this.assertEquals (array (identifier1, identifier2), identifiers);
+
+    identifiers = database_notes.selectNotes (array ("bible1", "bible2", "bible4"), 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", NULL);
+    this.assertEquals (array (), identifiers);
+
+    identifiers = database_notes.selectNotes (array (), 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", NULL);
+    this.assertEquals (array (), identifiers);
+
+    identifiers = database_notes.selectNotes (array ("bible1", "bible2", "bible3"), 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", NULL);
+    this.assertEquals (array (identifier3), identifiers);
+
+    identifiers = database_notes.selectNotes (array (), 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", NULL);
+    this.assertEquals (array (identifier3), identifiers);
+
+    identifiers = database_notes.selectNotes (NULL, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", NULL);
+    this.assertEquals (array (identifier1, identifier2, identifier3), identifiers);
+    */
+  }
+}
+
+/* Todo
+  
+
+  public function testResilienceNotes ()
+  {
+    database_notes = Database_Notes::getInstance ();
+    corrupted_database = "/home/teus/documents/dev/dependencies/notes.sqlite.damaged";
+
+    path = database_notes.database_path ();
+    
+    healthy = database_notes.healthy ();
+    this.assertTrue (healthy);
+    
+    if (file_exists (corrupted_database)) {
+      copy (corrupted_database, path);
+      healthy = database_notes.healthy ();
+      this.assertFalse (healthy);
+    }
+    
+    database_notes.checkup ();
+    healthy = database_notes.healthy ();
+    this.assertTrue (healthy);
+  }
+
+
+  public function testResilienceChecksumsNotes ()
+  {
+    database_notes = Database_Notes::getInstance ();
+    corrupted_database = "/home/teus/documents/dev/dependencies/notes.sqlite.damaged";
+
+    path = database_notes.checksums_database_path ();
+    
+    healthy = database_notes.checksums_healthy ();
+    this.assertTrue (healthy);
+    
+    if (file_exists (corrupted_database)) {
+      copy (corrupted_database, path);
+      healthy = database_notes.checksums_healthy ();
+      this.assertFalse (healthy);
+    }
+    
+    database_notes.checkup_checksums ();
+    healthy = database_notes.checksums_healthy ();
+    this.assertTrue (healthy);
+  }
+  
+  
+  public function testAvailability ()
+  {
+    database_notes = Database_Notes::getInstance ();
+    this.assertTrue (database_notes.available ());
+    database_notes.set_availability (false);
+    this.assertFalse (database_notes.available ());
+    database_notes.set_availability (true);
+    this.assertTrue (database_notes.available ());
+  }
+
+  
+
 
 */

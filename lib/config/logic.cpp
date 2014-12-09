@@ -33,14 +33,14 @@ string config_logic_version ()
 
 
 // Returns whether Client mode is prepared during setup.
-bool config_logic_prepared ()
+bool config_logic_client_prepared ()
 {
   return convert_to_bool (CLIENT_INSTALLATION);
 }
 
 
 // Returns whether Client mode is enabled.
-bool config_logic_enabled ()
+bool config_logic_client_enabled ()
 {
   return Database_Config_General::getClientMode ();
 }

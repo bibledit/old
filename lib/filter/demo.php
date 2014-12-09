@@ -48,7 +48,7 @@ class Filter_Demo
   public static function client_demo_warning ()
   {
     $warning = "";
-    if (config_logic_enabled ()) {
+    if (config_logic_client_enabled ()) {
       $database_config_general = Database_Config_General::getInstance ();
       $address = $database_config_general->getServerAddress ();
       if ($address == self::demo_address ()) {

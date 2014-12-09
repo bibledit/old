@@ -222,10 +222,10 @@ void Database_Notes::sync ()
     if (convert_to_string (convert_to_int (bit1)) == bit1) {
       vector <string> bits2 = filter_url_scandir (filter_url_create_path (mainfolder, bit1));
       for (auto & bit2 : bits2) {
-        if (convert_to_string (convert_to_int (bit1)) == bit2) {
+        if (convert_to_string (convert_to_int (bit2)) == bit2) {
           vector <string> bits3 = filter_url_scandir (filter_url_create_path (mainfolder, bit1, bit2));
           for (auto & bit3 : bits3) {
-            if (convert_to_string (convert_to_int (bit2)) == bit3) {
+            if (convert_to_string (convert_to_int (bit3)) == bit3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
               updateDatabase (identifier);
@@ -514,19 +514,15 @@ vector <int> Database_Notes::getIdentifiers ()
 
 string Database_Notes::assembleContents (int identifier, string contents)
 {
-  if (identifier) {}; // Todo this goes out.
   string new_contents;
   new_contents = getContents (identifier);
-  /* Todo find replacement.
-  datetime = new DateTime();
-  Filter_Datetime::user_zone (datetime);
-  datetime = datetime.format(DATE_RSS);
-  */
+  int time = filter_string_date_seconds_since_epoch ();
+  string datetime = convert_to_string (filter_string_date_numerical_day (time)) + "/" + convert_to_string (filter_string_date_numerical_month()) + "/" + convert_to_string (filter_string_date_numerical_year ());
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   new_contents.append ("<p>");
   new_contents.append (user);
   new_contents.append (" (");
-  // Todo restore: new_contents.append (datetime);
+  new_contents.append (datetime);
   new_contents.append ("):</p>\n");
   if (contents == "<br>") contents.clear();
   vector <string> lines = filter_string_explode (contents, '\n');
@@ -553,8 +549,7 @@ int Database_Notes::storeNewNote (const string& bible, int book, int chapter, in
   int identifier = getNewUniqueIdentifier ();
 
   // Passage.
-  string passage = ""; // Todo this is correct: encodePassage (book, chapter, verse);
-  book += chapter + verse; if (book) {}; // Todo this goes out.
+  string passage = encodePassage (book, chapter, verse);
   
   string status = "New";
   int severity = 2;
@@ -602,8 +597,8 @@ int Database_Notes::storeNewNote (const string& bible, int book, int chapter, in
   database_sqlite_disconnect (db);
 
   // Updates.
-  // Todo restore updateSearchFields (identifier);
-  // Todo restore noteEditedActions (identifier);
+  updateSearchFields (identifier);
+  noteEditedActions (identifier);
 
   // Return this new note´s identifier.
   return identifier;
@@ -624,38 +619,38 @@ int Database_Notes::storeNewNote (const string& bible, int book, int chapter, in
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
 // limit: If >= 0, it indicates the starting limit for the selection.
-vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, int subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
+vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
 {
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <int> identifiers;
   // SQL SELECT statement.
-  string query = ""; // Todo should be this: Filter_Sql::notesSelectIdentifier ();
+  string query = notesSelectIdentifier ();
   // SQL optional fulltext search statement sorted on relevance.
   if (text_selector == 1) {
-    // Todo enable: query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement (search_text);
+    query.append (notesOptionalFulltextSearchRelevanceStatement (search_text));
   }
   // SQL FROM ... WHERE statement.
-  // Todo enable query .= Filter_Sql::notesFromWhereStatement ();
+  query.append (notesFromWhereStatement ());
   // Consider passage selector.
   string passage;
   switch (passage_selector) {
     case 0:
       // Select notes that refer to the current verse.
       // It means that the book, the chapter, and the verse, should match.
-      // Todo restore string passage = encodePassage (book, chapter, verse);
-      // Todo restore query.append (" AND passage LIKE '%" + passage + "%' ";
+      passage = encodePassage (book, chapter, verse);
+      query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 1:
       // Select notes that refer to the current chapter.
       // It means that the book and the chapter should match.
-      // Todo restore string passage = encodePassage (book, chapter, -1);
-      // Todo restore query .= " AND passage LIKE '%passage%' ";
+      passage = encodePassage (book, chapter, -1);
+      query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 2:
       // Select notes that refer to the current book.
       // It means that the book should match.
-      // Todo restore passage = this.encodePassage (book, NULL, NULL);
-      // Todo restore query .= " AND passage LIKE '%passage%' ";
+      passage = encodePassage (book, -1, -1);
+      query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 3:
       // Select notes that refer to any passage: No constraint to apply here.
@@ -756,7 +751,7 @@ vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int boo
     query.append (" %' ");
   }
   // Consider note subscription constraints.
-  if (subscription_selector == 1) {
+  if (subscription_selector) {
     query.append (" AND subscriptions LIKE '% ");
     query.append (username);
     query.append (" %' ");
@@ -769,11 +764,11 @@ vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int boo
   }
   // Consider text contained in notes.
   if (text_selector == 1) {
-    // Todo restore : query .= Filter_Sql::notesOptionalFulltextSearchStatement (search_text);
+    query.append (notesOptionalFulltextSearchStatement (search_text));
   }
   if (text_selector == 1) {
     // If searching in fulltext mode, notes get ordered on relevance of search hits.
-    // Todo restore: query .= Filter_Sql::notesOrderByRelevanceStatement ();
+    query.append (notesOrderByRelevanceStatement ());
   } else {
     // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed.
     query.append (" ORDER BY ABS (passage) ");
@@ -793,11 +788,6 @@ vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int boo
     identifiers.push_back (convert_to_int (id));
   }
   return identifiers;
-  // Todo rest goes out:
-  if (book) {};
-  if (chapter) {};
-  if (verse) {};
-  cout << search_text << endl;
 }
 
 
@@ -824,9 +814,9 @@ void Database_Notes::setSummary (int identifier, const string& summary)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update the search data in the database.
-  // Todo restore: this.updateSearchFields (identifier);
+  updateSearchFields (identifier);
   // Update checksum.
-  // Todo restore: this.updateChecksum (identifier);
+  updateChecksum (identifier);
 }
 
 
@@ -853,9 +843,9 @@ void Database_Notes::setContents (int identifier, const string& contents)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update search system.
-  // Todo restore: this.updateSearchFields (identifier);
+  updateSearchFields (identifier);
   // Update checksum.
-  // Todo restore: this.updateChecksum (identifier);
+  updateChecksum (identifier);
 }
 
 
@@ -865,7 +855,7 @@ void Database_Notes::erase (int identifier)
   string folder = noteFolder (identifier);
   filter_url_rmdir (folder);
   // Update database as well.
-  // Todo restore: deleteChecksum (identifier);
+  deleteChecksum (identifier);
   SqliteSQL sql;
   sql.add ("DELETE FROM notes WHERE identifier =");
   sql.add (identifier);
@@ -885,8 +875,8 @@ void Database_Notes::addComment (int identifier, const string& comment)
   setContents (identifier, contents);
 
   // Some triggers.
-  // Todo this.noteEditedActions (identifier);
-  // Todo this.unmarkForDeletion (identifier);
+  noteEditedActions (identifier);
+  unmarkForDeletion (identifier);
 
   // Update shadow database.
   SqliteSQL sql;
@@ -960,7 +950,7 @@ void Database_Notes::setSubscribers (int identifier, vector <string> subscribers
   database_sqlite_disconnect (db);
 
   // Checksum.
-  // Todo this.updateChecksum (identifier);
+  updateChecksum (identifier);
 }
 
 
@@ -1075,7 +1065,7 @@ void Database_Notes::setAssignees (int identifier, vector <string> assignees)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  // Todo noteEditedActions (identifier);
+  noteEditedActions (identifier);
 }
 
 
@@ -1136,13 +1126,13 @@ void Database_Notes::setBible (int identifier, const string& bible)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 
-  // Todo reestore: this.noteEditedActions (identifier);
+  noteEditedActions (identifier);
 }
 
 
 // Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
 // and returns this as a string.
-// The chapter and the verse can be negative, in which case they won't be included. Todo handle this.
+// The chapter and the verse can be negative, in which case they won't be included. Todo handle this. test it also.
 string Database_Notes::encodePassage (int book, int chapter, int verse)
 {
   // Space before and after the passage enables notes selection on passage.
@@ -1217,7 +1207,7 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
   string file = passageFile (identifier);
   filter_url_file_put_contents (file, line);
 
-  if (!import) {}; // Todo restore noteEditedActions (identifier);
+  if (!import) noteEditedActions (identifier);
 
   // Update the shadow database also.
   SqliteSQL sql;
@@ -1262,7 +1252,7 @@ void Database_Notes::setStatus (int identifier, const string& status, bool impor
   string file = statusFile (identifier);
   filter_url_file_put_contents (file, status);
 
-  if (!import) {}; // Todo : noteEditedActions (identifier);
+  if (!import) noteEditedActions (identifier);
 
   // Store a copy in the database also.
   SqliteSQL sql;
@@ -1344,7 +1334,7 @@ void Database_Notes::setRawSeverity (int identifier, int severity)
   string file = severityFile (identifier);
   filter_url_file_put_contents (file, convert_to_string (severity));
   
-  // Todo restore: this.noteEditedActions (identifier);
+  noteEditedActions (identifier);
   
   // Update the database also.
   SqliteSQL sql;
@@ -1399,7 +1389,7 @@ void Database_Notes::setModified (int identifier, int time)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update checksum.
-  // Todo restore this.updateChecksum (identifier);
+  updateChecksum (identifier);
 }
 
 
@@ -1439,9 +1429,9 @@ void Database_Notes::updateSearchFields (int identifier)
   // It enables us to search with wildcards before and after the search query.
   string noteSummary = getSummary (identifier);
   string noteContents = getContents (identifier);
-  string cleanText = noteSummary + "\n"; // Todo add this: + filter_string_html2text (noteContents);
+  string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
   // Bail out if the search field is already up to date.
-  // Todo restore if (cleanText == getSearchField (identifier)) return;
+  if (cleanText == getSearchField (identifier)) return;
   // Update the field.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET cleantext =");
@@ -1484,16 +1474,16 @@ vector <int> Database_Notes::searchNotes (string search, const vector <string> &
   if (search == "") return identifiers;
 
   // SQL SELECT statement.
-  string query; // Todo this:  = Filter_Sql::notesSelectIdentifier ();
+  string query = notesSelectIdentifier ();
 
   // SQL fulltext search statement sorted on relevance.
-  // Todo restore: query .= Filter_Sql::notesOptionalFulltextSearchRelevanceStatement (search);
+  query.append (notesOptionalFulltextSearchRelevanceStatement (search));
 
   // SQL FROM ... WHERE statement.
-  // Todo restore: query .= Filter_Sql::notesFromWhereStatement ();
+  query.append (notesFromWhereStatement ());
 
   // Consider text contained in notes.
-  // Todo restore: query .= Filter_Sql::notesOptionalFulltextSearchStatement (search);
+  query.append (notesOptionalFulltextSearchStatement (search));
 
   // Consider Bible constraints:
   // * A user has access to notes that refer to Bibles the user has access to.
@@ -1509,7 +1499,7 @@ vector <int> Database_Notes::searchNotes (string search, const vector <string> &
   query.append (" ) ");
 
   // Notes get ordered on relevance of search hits.
-  // Todo restore this: query .= Filter_Sql::notesOrderByRelevanceStatement ();
+  query.append (notesOrderByRelevanceStatement ());
 
   // Complete query.
   query.append (";");
@@ -1591,7 +1581,7 @@ void Database_Notes::setChecksum (int identifier, const string & checksum)
   sql.add (",");
   sql.add (checksum);
   sql.add (");");
-  sqlite3 * db = connect ();
+  sqlite3 * db = connect_checksums ();
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
@@ -1604,7 +1594,7 @@ string Database_Notes::getChecksum (int identifier)
   sql.add ("SELECT checksum FROM checksums WHERE identifier =");
   sql.add (identifier);
   sql.add (";");
-  sqlite3 * db = connect ();
+  sqlite3 * db = connect_checksums ();
   vector <string> result = database_sqlite_query (db, sql.sql) ["checksum"];
   database_sqlite_disconnect (db);
   string value;
@@ -1622,7 +1612,7 @@ void Database_Notes::deleteChecksum (int identifier)
   sql.add ("DELETE FROM checksums WHERE identifier =");
   sql.add (identifier);
   sql.add (";");
-  sqlite3 * db = connect ();
+  sqlite3 * db = connect_checksums ();
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
@@ -1660,7 +1650,7 @@ void Database_Notes::updateChecksum (int identifier)
 // Reads the checksum for the notes given in array identifiers from the database.
 string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
 {
-  sqlite3 * db = connect ();
+  sqlite3 * db = connect_checksums ();
   string checksum;
   for (auto & identifier : identifiers) {
     SqliteSQL sql;
@@ -1701,7 +1691,7 @@ string Database_Notes::getBibleSelector (vector <string> bibles)
 // within the note identifier range of lowId to highId
 // which refer to any Bible in the array of bibles
 // or refer to no Bible.
-vector <int> Database_Notes::getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles)
+vector <int> Database_Notes::getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles, bool anybible)
 {
   vector <int> identifiers;
   string bibleSelector = getBibleSelector (bibles);
@@ -1710,7 +1700,7 @@ vector <int> Database_Notes::getNotesInRangeForBibles (int lowId, int highId, co
   query.append (" AND identifier <= ");
   query.append (convert_to_string (highId));
   query.append (" ");
-  query.append (bibleSelector);
+  if (!anybible) query.append (bibleSelector);
   query.append (" ORDER BY identifier;");
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, query) ["identifier"];
@@ -1744,3 +1734,42 @@ bool Database_Notes::available ()
 {
   return !filter_url_file_exists (availability_flag ());
 }
+
+
+string Database_Notes::notesSelectIdentifier ()
+{
+  return " SELECT identifier ";
+}
+
+
+string Database_Notes::notesOptionalFulltextSearchRelevanceStatement (string search)
+{
+  if (search == "") return "";
+  search = filter_string_str_replace (",", "", search);
+  search = database_sqlite_no_sql_injection (search);
+  string query = "";
+  return query;
+}
+
+
+string Database_Notes::notesFromWhereStatement ()
+{
+  return " FROM notes WHERE 1 ";
+}
+
+
+string Database_Notes::notesOptionalFulltextSearchStatement (string search)
+{
+  if (search == "") return "";
+  search = filter_string_str_replace (",", "", search);
+  search = database_sqlite_no_sql_injection (search);
+  string query = " AND cleantext LIKE '%" + search + "%' ";
+  return query;
+}
+
+
+string Database_Notes::notesOrderByRelevanceStatement ()
+{
+  return "";
+}
+

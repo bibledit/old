@@ -36,7 +36,7 @@ class SendReceive_Logic
   static public function queuesync ($control)
   {
     // Send / receive only works in Client mode.
-    if (!config_logic_enabled ()) return;
+    if (!config_logic_client_enabled ()) return;
     
     // Deal with a numerical minute to find out whether it's time to automatically sync.
     if (is_numeric ($control)) {

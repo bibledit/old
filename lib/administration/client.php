@@ -84,7 +84,7 @@ if (isset ($_GET['demo'])) {
 }
 
 
-$view->view->client = config_logic_enabled ();
+$view->view->client = config_logic_client_enabled ();
 
 
 $address = $database_config_general->getServerAddress ();

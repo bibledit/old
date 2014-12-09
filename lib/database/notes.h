@@ -65,7 +65,7 @@ public:
   int getNewUniqueIdentifier ();
   vector <int> getIdentifiers ();
   int storeNewNote (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
-  vector <int> selectNotes (const vector <string>& bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, int subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
+  vector <int> selectNotes (const vector <string>& bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
   string getSummary (int identifier);
   void setSummary (int identifier, const string& summary);
   string getContents (int identifier);
@@ -116,7 +116,7 @@ public:
   void deleteChecksum (int identifier);
   void updateChecksum (int identifier);
   string getMultipleChecksum (const vector <int> & identifiers);
-  vector <int> getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles);
+  vector <int> getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles, bool anybible);
   void set_availability (bool available);
   bool available ();
 private:
@@ -132,6 +132,11 @@ private:
   void noteEditedActions (int identifier);
   string getBibleSelector (vector <string> bibles);
   string availability_flag ();
+  string notesSelectIdentifier ();
+  string notesOptionalFulltextSearchRelevanceStatement (string search);
+  string notesFromWhereStatement ();
+  string notesOptionalFulltextSearchStatement (string search);
+  string notesOrderByRelevanceStatement ();
 };
 
 

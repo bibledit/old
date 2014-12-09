@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -18,10 +17,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Filter_Email // Todo rename.
+#ifndef INCLUDED_SYNC_LOGIC_H
+#define INCLUDED_SYNC_LOGIC_H
+
+
+#include <config/libraries.h>
+#include <sqlite3.h>
+#include <filter/passage.h>
+
+
+class Sync_Logic_Range
 {
+public:
+  int low;
+  int high;
+};
 
 
-}
+class Sync_Logic
+{
+public:
+  Sync_Logic (void * webserver_request_in);
+  ~Sync_Logic ();
+  string checksum (const vector <int> & identifiers);
+  vector <Sync_Logic_Range> create_range (int start, int end);
+private:
+  void * webserver_request;
+};
 
-?>
+
+#endif

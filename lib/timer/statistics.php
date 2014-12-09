@@ -143,7 +143,7 @@ foreach ($users as $user) {
 
   if (count ($body) > 0) {
     $body = implode ("\n", $body);
-    if (!config_logic_enabled ()) $database_mail->send ($user, $subject, $body);
+    if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $body);
   }
 }
 
