@@ -2223,7 +2223,7 @@ void test_filters_passage3 ()
 }
 
 
-void test_filter_string_text2html () // Todo
+void test_filter_string_text2html ()
 {
   {
     string html = 
@@ -2313,5 +2313,3 @@ void test_filters ()
   test_filters_passage3 ();
   test_filter_string_text2html ();
 }
-
-

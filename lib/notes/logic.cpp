@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <config/logic.h>
+#include <trash/handler.h>
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)
@@ -207,9 +208,8 @@ void Notes_Logic::setBible (int identifier, const string& bible)
 void Notes_Logic::markForDeletion (int identifier)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
-  // Todo restore: trash_handler = Trash_Handler::getInstance ();
   database_notes.markForDeletion (identifier);
-  // Todo restore: trash_handler.consultationNote (identifier);
+  trash_consultation_note (webserver_request, identifier);
   if (config_logic_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -217,7 +217,7 @@ void Notes_Logic::markForDeletion (int identifier)
     database_noteactions.record (user, identifier, noteActionMarkDeletion, "");
   } else {
     // Server: notifications.
-    // Todo: Restore: handlerMarkNoteForDeletion (identifier);
+    handlerMarkNoteForDeletion (identifier);
   }
 }
 
@@ -240,7 +240,6 @@ void Notes_Logic::unmarkForDeletion (int identifier)
 void Notes_Logic::erase (int identifier)
 {
   Database_Notes database_notes = Database_Notes (webserver_request);
-  // Todo restore: trash_handler = Trash_Handler::getInstance ();
   if (config_logic_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -248,23 +247,22 @@ void Notes_Logic::erase (int identifier)
     database_noteactions.record (user, identifier, noteActionDelete, "");
   } else {
     // Server: notification.
-    // Todo restore: this.handlerDeleteNote (identifier);
+    handlerDeleteNote (identifier);
   }
-  // Todo restore: trash_handler.consultationNote (identifier);
+  trash_consultation_note (webserver_request, identifier);
   database_notes.erase (identifier);
 }
 
 
 void Notes_Logic::handlerNewNote (int identifier)
 {
-  if (identifier) {}; // Todo temporal.
-  // Todo restore: notifyUsers (identifier, notifyNoteNew);
+  notifyUsers (identifier, notifyNoteNew);
 }
 
 
 void Notes_Logic::handlerAddComment (int identifier)
 {
-  // Todo restore: this.notifyUsers (identifier, self::notifyNoteComment);
+  notifyUsers (identifier, notifyNoteComment);
   // If the note status was Done, and a comment is added, mark it Reopened.
   Database_Notes database_notes = Database_Notes (webserver_request);
   string status = database_notes.getRawStatus (identifier);
@@ -276,15 +274,13 @@ void Notes_Logic::handlerAddComment (int identifier)
 
 void Notes_Logic::handlerUpdateNote (int identifier)
 {
-  if (identifier) {}; // Todo temporal.
-  // Todo restore: this.notifyUsers (identifier, self::notifyNoteUpdate);
+  notifyUsers (identifier, notifyNoteUpdate);
 }
 
 
 void Notes_Logic::handlerAssignNote (int identifier, const string& user)
 {
   // Take no action in client mode.
-  // Todo database_config_general = Database_Config_General::getInstance ();
   if (config_logic_enabled ()) return;
 
   Database_Config_User database_config_user = Database_Config_User (webserver_request);
@@ -293,7 +289,7 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
     Database_Notes database_notes = Database_Notes (webserver_request);
     vector <string> assignees = database_notes.getAssignees (identifier);
     if (find (assignees.begin(), assignees.end(), user) == assignees.end()) {
-      // Todo restore this.emailUsers (identifier, gettext("Assigned"), array (user), false);
+      emailUsers (identifier, gettext("Assigned"), {user}, false);
     }
   }
 }
@@ -301,15 +297,13 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
 
 void Notes_Logic::handlerMarkNoteForDeletion (int identifier)
 {
-  if (identifier) return; // Todo out.
-  // Todo restore: this.notifyUsers (identifier, self::notifyMarkNoteForDeletion);
+  notifyUsers (identifier, notifyMarkNoteForDeletion);
 }
 
 
 void Notes_Logic::handlerDeleteNote (int identifier)
 {
-  if (identifier) return; // Todo out.
-  // this.notifyUsers (identifier, self::notifyNoteDelete);
+  notifyUsers (identifier, notifyNoteDelete);
 }
 
 
@@ -319,7 +313,6 @@ void Notes_Logic::handlerDeleteNote (int identifier)
 void Notes_Logic::notifyUsers (int identifier, int notification)
 {
   // Take no action in client mode.
-  // Todo out. database_config_general = Database_Config_General::getInstance ();
   if (config_logic_enabled ()) return;
 
   // Databases.
@@ -415,8 +408,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   }
 
   // Send mail to all recipients.
-  if (postpone) return; // Todo goes out.
-  // this.emailUsers (identifier, label, recipients, postpone);
+  emailUsers (identifier, label, recipients, postpone);
 }
 
 
