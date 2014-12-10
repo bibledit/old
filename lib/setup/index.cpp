@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/versifications.h>
 #include <database/modifications.h>
 #include <database/notes.h>
+#include <database/volatile.h>
 
 
 void setup_create_databases ()
@@ -79,6 +80,8 @@ void setup_create_databases ()
   database_modifications.create ();
   Database_Notes database_notes = Database_Notes (&request);
   database_notes.create ();
+  Database_Volatile database_volatile = Database_Volatile ();
+  database_volatile.create ();
 }
 
 

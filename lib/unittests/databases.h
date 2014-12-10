@@ -50,6 +50,7 @@ void test_database_modifications_user ();
 void test_database_modifications_team ();
 void test_database_modifications_notifications ();
 void test_database_notes ();
+void test_database_volatile ();
 
 
 #endif

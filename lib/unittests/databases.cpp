@@ -49,6 +49,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/versifications.h>
 #include <database/modifications.h>
 #include <database/notes.h>
+#include <database/volatile.h>
 #include <bible/logic.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
@@ -3241,6 +3242,45 @@ void test_database_notes ()
   }
 }
 
-/* Todo
 
-*/
+void test_database_volatile ()
+{
+  // Keys.
+  {
+    Database_Volatile database_volatile = Database_Volatile ();
+    database_volatile.create ();
+    
+    // There should be no keys initially.
+    vector <string> keys = database_volatile.getKeys (1);
+    evaluate (__LINE__, __func__, {}, keys);
+
+    // Store two keys/values.
+    // There should be two keys now.
+    database_volatile.setValue (1, "key1", "value");
+    database_volatile.setValue (1, "key2", "value");
+    keys = database_volatile.getKeys (1);
+    evaluate (__LINE__, __func__, {"key1", "key2"}, keys);
+
+    // A different identifier should have no keys.
+    keys = database_volatile.getKeys (2);
+    evaluate (__LINE__, __func__, {}, keys);
+  }
+  // Values.
+  {
+    Database_Volatile database_volatile = Database_Volatile ();
+    database_volatile.create ();
+    
+    // No value initially.
+    string value = database_volatile.getValue (1, "key");
+    evaluate (__LINE__, __func__, "", value);
+    
+    // Store value and retrieve it.
+    database_volatile.setValue (2, "key2", "value2");
+    value = database_volatile.getValue (2, "key2");
+    evaluate (__LINE__, __func__, "value2", value);
+    
+    // Another key should retrieve nothing.
+    value = database_volatile.getValue (2, "key1");
+    evaluate (__LINE__, __func__, "", value);
+  }
+}

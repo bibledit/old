@@ -21,6 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This is a database for keeping track of shell processes.
 // Resilience: It is hardly used. The risk of corruption is very low, and acceptable.
 
+// Remark about porting to C++: The new version of Bibledit is not intended to use shell processes.
+// Therefore reather than calling shell processses for e.g. git, use libraries, e.g. libgit2.
+// The code is left just now for reference. It can be removed after the porting is completed.
 
 class Database_Shell
 {
