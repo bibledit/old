@@ -38,17 +38,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/noteactions.h>
 #include <database/versifications.h>
 #include <database/modifications.h>
+#include <database/notes.h>
 
 
-void setup_create_databases (Webserver_Request * request)
+void setup_create_databases ()
 {
-  request->database_users ()->create ();
+  Webserver_Request request;
+  request.database_users ()->create ();
   Database_Logs database_logs = Database_Logs ();
   database_logs.create ();
-  request->database_styles ()->create ();
-  request->database_search ()->create ();
-  request->database_bibleactions ()->create ();
-  request->database_check ()->create ();
+  request.database_styles ()->create ();
+  request.database_search ()->create ();
+  request.database_bibleactions ()->create ();
+  request.database_check ()->create ();
   Database_Commits database_commits = Database_Commits ();
   database_commits.create ();  
   Database_Confirm database_confirm = Database_Confirm ();
@@ -59,7 +61,7 @@ void setup_create_databases (Webserver_Request * request)
   database_jobs.create ();
   Database_Sprint database_sprint = Database_Sprint ();
   database_sprint.create ();
-  Database_Mail database_mail = Database_Mail (request);
+  Database_Mail database_mail = Database_Mail (&request);
   database_mail.create ();
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
@@ -75,6 +77,8 @@ void setup_create_databases (Webserver_Request * request)
   database_versifications.defaults ();
   Database_Modifications database_modifications = Database_Modifications ();
   database_modifications.create ();
+  Database_Notes database_notes = Database_Notes (&request);
+  database_notes.create ();
 }
 
 
@@ -83,7 +87,7 @@ string setup_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   // Create or upgrade the databases.
-  new thread (setup_create_databases, request);
+  new thread (setup_create_databases);
   
   Assets_View view = Assets_View (0);
 
