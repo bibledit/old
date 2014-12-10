@@ -195,6 +195,29 @@ void filter_url_rmdir (string directory)
 }
 
 
+// Returns true is $path points to a directory.
+bool filter_url_is_dir (string path) // Todo
+{
+  struct stat sb;
+  stat (path.c_str(), &sb);
+  return (sb.st_mode & S_IFMT) == S_IFDIR;
+}
+
+
+bool filter_url_get_write_permission (string path) // Todo
+{
+  int result = access (path.c_str(), W_OK);
+  if (result == 0) return true;
+  return false;
+}
+
+
+void filter_url_set_write_permission (string path) // Todo
+{
+  chmod (path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
+}
+
+
 // C++ rough equivalent for PHP'sfilter_url_file_get_contents.
 string filter_url_file_get_contents (string filename)
 {

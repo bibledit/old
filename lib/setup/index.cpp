@@ -42,10 +42,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/volatile.h>
 
 
+void setup_write_access ()
+{
+  vector <string> folders = {"exports", "git", "revisions", "dyncss", "databases", "bibles", "downloads", "fonts", "logbook", "tmp"};
+  for (auto folder : folders) {
+    string path = filter_url_create_root_path (folder);
+    if (!filter_url_get_write_permission (path)) {
+      filter_url_set_write_permission (path);
+    }
+  }
+}
+
+
 void setup_create_databases ()
 {
   Webserver_Request request;
   request.database_users ()->create ();
+  request.database_users ()->upgrade ();
   Database_Logs database_logs = Database_Logs ();
   database_logs.create ();
   request.database_styles ()->create ();
@@ -87,10 +100,13 @@ void setup_create_databases ()
 
 string setup_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  // Ensure write access to certain folders.
+  setup_write_access ();
   
   // Create or upgrade the databases.
   new thread (setup_create_databases);
+  
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   Assets_View view = Assets_View (0);
 
