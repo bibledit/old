@@ -606,8 +606,7 @@ int Database_Notes::storeNewNote (const string& bible, int book, int chapter, in
 
 
 // Returns an array of note identifiers selected.
-// bibles: Array of Bible names the user has read access to. 
-//         Or NULL to disable selection on Bibles. Todo enable / test this.
+// bibles: Array of Bible names the user has read access to.
 // book, chapter, verse, passage_selector: These are related and can limit the selection.
 // edit_selector: Optionally constrains selection based on modification time.
 // non_edit_selector: Optionally constrains selection based on modification time.
@@ -1132,7 +1131,7 @@ void Database_Notes::setBible (int identifier, const string& bible)
 
 // Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
 // and returns this as a string.
-// The chapter and the verse can be negative, in which case they won't be included. Todo handle this. test it also.
+// The chapter and the verse can be negative, in which case they won't be included.
 string Database_Notes::encodePassage (int book, int chapter, int verse)
 {
   // Space before and after the passage enables notes selection on passage.
@@ -1141,13 +1140,15 @@ string Database_Notes::encodePassage (int book, int chapter, int verse)
   passage.append (" ");
   passage.append (convert_to_string (book));
   passage.append (".");
+  // Whether to include the chapter number.
   if (chapter >= 0) {
     passage.append (convert_to_string (chapter));
     passage.append (".");
-  }
-  if (verse >= 0) {
-    passage.append (convert_to_string (verse));
-    passage.append (" ");
+    // Inclusion of verse, also depends on chapter inclusion.
+    if (verse >= 0) {
+      passage.append (convert_to_string (verse));
+      passage.append (" ");
+    }
   }
   return passage;
 }

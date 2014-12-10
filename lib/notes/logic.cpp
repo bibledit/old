@@ -310,7 +310,7 @@ void Notes_Logic::handlerDeleteNote (int identifier)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notifyUsers (int identifier, int notification) // Todo
+void Notes_Logic::notifyUsers (int identifier, int notification)
 {
   // Take no action in client mode.
   if (config_logic_client_enabled ()) return;
