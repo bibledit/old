@@ -2971,7 +2971,9 @@ void test_database_notes ()
     database_notes.setChecksum (identifier, "");
     string checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, "", checksum);
+    this_thread::sleep_for (chrono::milliseconds (10));
     database_notes.sync ();
+    this_thread::sleep_for (chrono::milliseconds (10));
     string checksum2 = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, checksum1, checksum2);
 
@@ -3153,95 +3155,92 @@ void test_database_notes ()
     // Create a couple of notes to work with.
     int identifier1 = database_notes.storeNewNote ("bible1", 1, 2, 3, "summary1", "contents1", false);
     int identifier2 = database_notes.storeNewNote ("bible2", 1, 2, 3, "summary2", "contents2", false);
-    // Todo int identifier3 = database_notes.storeNewNote ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    int identifier3 = database_notes.storeNewNote ("bible3", 1, 2, 3, "summary3", "contents3", false);
 
     // Select notes while varying Bible selection.
-    vector <int> identifiers = database_notes.selectNotes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", 0);
+    vector <int> identifiers = database_notes.selectNotes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier1}, identifiers);
 
-    identifiers = database_notes.selectNotes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", 0);
+    identifiers = database_notes.selectNotes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier2}, identifiers);
 
-/* Todo
-    identifiers = database_notes.selectNotes (array ("bible1", "bible2"), 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", NULL);
-    this.assertEquals (array (identifier1, identifier2), identifiers);
+    identifiers = database_notes.selectNotes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
+    evaluate (__LINE__, __func__, {identifier1, identifier2}, identifiers);
 
-    identifiers = database_notes.selectNotes (array ("bible1", "bible2", "bible4"), 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", NULL);
-    this.assertEquals (array (), identifiers);
+    identifiers = database_notes.selectNotes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
+    evaluate (__LINE__, __func__, {}, identifiers);
 
-    identifiers = database_notes.selectNotes (array (), 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", NULL);
-    this.assertEquals (array (), identifiers);
+    identifiers = database_notes.selectNotes ({}, 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", -1);
+    evaluate (__LINE__, __func__, {}, identifiers);
 
-    identifiers = database_notes.selectNotes (array ("bible1", "bible2", "bible3"), 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", NULL);
-    this.assertEquals (array (identifier3), identifiers);
+    identifiers = database_notes.selectNotes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    evaluate (__LINE__, __func__, {identifier3}, identifiers);
 
-    identifiers = database_notes.selectNotes (array (), 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", NULL);
-    this.assertEquals (array (identifier3), identifiers);
+    identifiers = database_notes.selectNotes ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    evaluate (__LINE__, __func__, {identifier3}, identifiers);
+  }
+  // ResilienceNotes.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
 
-    identifiers = database_notes.selectNotes (NULL, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", NULL);
-    this.assertEquals (array (identifier1, identifier2, identifier3), identifiers);
-    */
+    bool healthy = database_notes.healthy ();
+    evaluate (__LINE__, __func__, true, healthy);
+    
+    string corrupted_database = filter_url_create_root_path ("unittests", "tests", "notes.sqlite.damaged");
+    string path = database_notes.database_path ();
+    filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
+    
+    healthy = database_notes.healthy ();
+    evaluate (__LINE__, __func__, false, healthy);
+    
+    database_notes.checkup ();
+    healthy = database_notes.healthy ();
+    evaluate (__LINE__, __func__, true, healthy);
+  }
+  // ResilienceChecksumsNotes.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+
+    bool healthy = database_notes.checksums_healthy ();
+    evaluate (__LINE__, __func__, true, healthy);
+
+    string corrupted_database = filter_url_create_root_path ("unittests", "tests", "notes.sqlite.damaged");
+    string path = database_notes.checksums_database_path ();
+    filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
+
+    healthy = database_notes.checksums_healthy ();
+    evaluate (__LINE__, __func__, false, healthy);
+    
+    database_notes.checkup_checksums ();
+    healthy = database_notes.checksums_healthy ();
+    evaluate (__LINE__, __func__, true, healthy);
+  }
+  // Availability.
+  {
+    refresh_sandbox (true);
+    Database_Users database_users = Database_Users ();
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes = Database_Notes (&request);
+    database_notes.create ();
+    evaluate (__LINE__, __func__, true, database_notes.available ());
+    database_notes.set_availability (false);
+    evaluate (__LINE__, __func__, false, database_notes.available ());
+    database_notes.set_availability (true);
+    evaluate (__LINE__, __func__, true, database_notes.available ());
   }
 }
 
 /* Todo
-  
-
-  public function testResilienceNotes ()
-  {
-    database_notes = Database_Notes::getInstance ();
-    corrupted_database = "/home/teus/documents/dev/dependencies/notes.sqlite.damaged";
-
-    path = database_notes.database_path ();
-    
-    healthy = database_notes.healthy ();
-    this.assertTrue (healthy);
-    
-    if (file_exists (corrupted_database)) {
-      copy (corrupted_database, path);
-      healthy = database_notes.healthy ();
-      this.assertFalse (healthy);
-    }
-    
-    database_notes.checkup ();
-    healthy = database_notes.healthy ();
-    this.assertTrue (healthy);
-  }
-
-
-  public function testResilienceChecksumsNotes ()
-  {
-    database_notes = Database_Notes::getInstance ();
-    corrupted_database = "/home/teus/documents/dev/dependencies/notes.sqlite.damaged";
-
-    path = database_notes.checksums_database_path ();
-    
-    healthy = database_notes.checksums_healthy ();
-    this.assertTrue (healthy);
-    
-    if (file_exists (corrupted_database)) {
-      copy (corrupted_database, path);
-      healthy = database_notes.checksums_healthy ();
-      this.assertFalse (healthy);
-    }
-    
-    database_notes.checkup_checksums ();
-    healthy = database_notes.checksums_healthy ();
-    this.assertTrue (healthy);
-  }
-  
-  
-  public function testAvailability ()
-  {
-    database_notes = Database_Notes::getInstance ();
-    this.assertTrue (database_notes.available ());
-    database_notes.set_availability (false);
-    this.assertFalse (database_notes.available ());
-    database_notes.set_availability (true);
-    this.assertTrue (database_notes.available ());
-  }
-
-  
-
 
 */

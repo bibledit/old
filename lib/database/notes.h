@@ -42,6 +42,8 @@ public:
   void create ();
   string database_path ();
   string checksums_database_path ();
+  bool healthy ();
+  bool checksums_healthy ();
   bool checkup ();
   bool checkup_checksums ();
   void trim ();
@@ -65,7 +67,7 @@ public:
   int getNewUniqueIdentifier ();
   vector <int> getIdentifiers ();
   int storeNewNote (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
-  vector <int> selectNotes (const vector <string>& bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
+  vector <int> selectNotes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
   string getSummary (int identifier);
   void setSummary (int identifier, const string& summary);
   string getContents (int identifier);
@@ -123,8 +125,6 @@ private:
   void * webserver_request;
   sqlite3 * connect ();
   sqlite3 * connect_checksums ();
-  bool healthy ();
-  bool checksums_healthy ();
   string expiryFile (int identifier);
   string assembleContents (int identifier, string contents);
   vector <string> getAssigneesInternal (string assignees);

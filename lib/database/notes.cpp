@@ -619,7 +619,7 @@ int Database_Notes::storeNewNote (const string& bible, int book, int chapter, in
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
 // limit: If >= 0, it indicates the starting limit for the selection.
-vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
+vector <int> Database_Notes::selectNotes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
 {
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <int> identifiers;
@@ -724,22 +724,22 @@ vector <int> Database_Notes::selectNotes (const vector <string>& bibles, int boo
     query.append (database_sqlite_no_sql_injection (status_selector));
     query.append ("' ");
   }
-  // Consider Bible constraints:
-  // * A user has access to notes that refer to Bibles the user has access to.
-  // * If a bible_selector is given: Select notes that refer to this Bible.
-  // * A note can be a general one, not referring to any specific Bible. Todo test this general note.
-  //   Select such notes also.
+  // Consider two different Bible constraints:
+  // 1. The vector of bibles: "bibles".
+  //    This contains all the Bibles a user has access to, so only notes that refer to any Bible in this lot are going to be selected.
+  // 2. The string "bible_selector".
+  //    If this is left empty, then it selects notes that refer to Bibles in the vector above.
+  //    If this contains a Bible, then it selects notes that refer to this Bible.
+  // In addition to the above two selectors, it always selects note that refer to any Bible.
+  if (!bible_selector.empty()) {
+    bibles.clear ();
+    bibles.push_back (bible_selector);
+  }
   query.append (" AND (bible = '' ");
   for (auto bible : bibles) {
     bible = database_sqlite_no_sql_injection (bible);
     query.append (" OR bible = '");
     query.append (bible);
-    query.append ("' ");
-  }
-  if (bible_selector != "") {
-    bible_selector = database_sqlite_no_sql_injection (bible_selector);
-    query.append (" OR bible = '");
-    query.append (bible_selector);
     query.append ("' ");
   }
   query.append (" ) ");
