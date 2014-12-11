@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
+#include <webserver/request.h>
 
 
 class Filter_Roles
@@ -38,6 +39,7 @@ public:
   static int lowest ();
   static int highest ();
   static string text (int role);
+  static bool access_control (void * webserver_request, int role);
 private:
 };
 

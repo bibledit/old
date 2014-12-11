@@ -20,9 +20,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <string>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <filter/roles.h>
 
 
-using namespace std;
+const char * index_index_url ()
+{
+  return "index/index";
+}
+
+
+bool index_index_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+}
 
 
 string index_index (void * webserver_request)

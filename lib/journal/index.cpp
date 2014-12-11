@@ -26,6 +26,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+#include <filter/roles.h>
+
+
+const char * journal_index_url ()
+{
+  return "journal/index";
+}
+
+
+bool journal_index_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+}
 
 
 string render_journal_entry (string entry)

@@ -67,6 +67,7 @@ vector <Menu_User_Item> * Menu_User::mainmenu (string request)
   return menu;
 }
 
+// C++Port use the page's access control function for determining whether to include the page.
 
 vector <Menu_User_Item> * Menu_User::usermenu ()
 {

@@ -23,6 +23,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/login.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
+#include <filter/roles.h>
+
+
+const char * session_logout_url ()
+{
+  return "session/logout";
+}
+
+
+bool session_logout_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+}
 
 
 string session_logout (void * webserver_request)

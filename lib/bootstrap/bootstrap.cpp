@@ -27,9 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <journal/index.h>
 #include <config/logic.h>
-
-
-using namespace std;
+#include <help/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -37,6 +35,7 @@ using namespace std;
 void bootstrap_index (Webserver_Request * request)
 {
   string extension = filter_url_get_extension (request->get);
+  string url = request->get.substr (1);
   
   // Serve graphics, stylesheets, JavaScript.
   if ((extension  == "ico") || (extension  == "png") || (extension == "css") || (extension == "js")) http_serve_file (request);
@@ -45,14 +44,17 @@ void bootstrap_index (Webserver_Request * request)
   else if (config_logic_version () != Database_Config_General::getInstalledVersion ()) request->reply = setup_index (request);
 
   // Home page.
-  else if (request->get == "/index/index") request->reply = index_index (request);
+  else if ((url == index_index_url ()) && index_index_acl (request)) request->reply = index_index (request);
   
   // Login and logout.
-  else if (request->get == "/session/login") request->reply = session_login (request);
-  else if (request->get == "/session/logout") request->reply = session_logout (request);
+  else if ((url == session_login_url ()) && session_login_acl (request)) request->reply = session_login (request);
+  else if ((url == session_logout_url ()) && session_logout_acl (request)) request->reply = session_logout (request);
   
   // Pages for the Changes menu.
-  else if (request->get == "/journal/index") request->reply = journal_index (request);
+  else if ((url == journal_index_url ()) && session_logout_acl (request)) request->reply = journal_index (request);
+  
+  // Help menu.
+  else if ((url == help_index_url ()) && help_index_acl (request)) request->reply = help_index (request);
   
   // Forward the browser to the default home page.
   else {

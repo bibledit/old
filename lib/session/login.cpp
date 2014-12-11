@@ -30,6 +30,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 
 
+const char * session_login_url ()
+{
+  return "session/login";
+}
+
+
+bool session_login_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+}
+
+
 string session_login (void * webserver_request)
 {
   /*

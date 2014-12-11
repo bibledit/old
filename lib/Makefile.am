@@ -76,7 +76,8 @@ libbibledit_a_SOURCES = \
 	bible/logic.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
-	sync/logic.cpp
+	sync/logic.cpp \
+	help/index.cpp
 
 bin_PROGRAMS = server unittest
 

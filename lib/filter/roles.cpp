@@ -93,3 +93,12 @@ string Filter_Roles::text (int role)
 }
 
 
+// This is for access control.
+// The "role" is the role required for the user to have access.
+bool Filter_Roles::access_control (void * webserver_request, int role)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  int level = request->session_logic ()->currentLevel ();
+  return level >= role;
+}
+

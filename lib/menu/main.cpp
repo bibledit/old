@@ -54,7 +54,7 @@ Menu_Main::~Menu_Main ()
 {
 }
 
-
+// C++Port use the page's access control function for determining whether to include the page.
 vector <Menu_Main_Item> * Menu_Main::mainmenu ()
 {
   // This is the main menu.
@@ -241,9 +241,7 @@ vector <Menu_Main_Item> * Menu_Main::stylessubmenu ()
 vector <Menu_Main_Item> * Menu_Main::helpmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-                                       menu->push_back ( { "", "help/index", gettext ("Help"), NULL } );
-  if (level >= Filter_Roles::admin ()) menu->push_back ( { "", "administration/phpinfo", gettext ("PHPInfo"), NULL } );
+  menu->push_back ( { "", "help/index", gettext ("Help"), NULL } );
   return menu;
 }
 

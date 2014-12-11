@@ -196,7 +196,7 @@ void filter_url_rmdir (string directory)
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (string path) // Todo
+bool filter_url_is_dir (string path)
 {
   struct stat sb;
   stat (path.c_str(), &sb);
@@ -204,7 +204,7 @@ bool filter_url_is_dir (string path) // Todo
 }
 
 
-bool filter_url_get_write_permission (string path) // Todo
+bool filter_url_get_write_permission (string path)
 {
   int result = access (path.c_str(), W_OK);
   if (result == 0) return true;
@@ -212,7 +212,7 @@ bool filter_url_get_write_permission (string path) // Todo
 }
 
 
-void filter_url_set_write_permission (string path) // Todo
+void filter_url_set_write_permission (string path)
 {
   chmod (path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
 }
