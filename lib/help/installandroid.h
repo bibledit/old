@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,10 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::GUEST_LEVEL);
-Assets_Page::header (gettext("Installation"));
-$view = new Assets_View (__FILE__);
-$view->render ("installnewubuntu.php");
-Assets_Page::footer ();
-?>
+
+
+#ifndef INCLUDED_HELP_INSTALLANDROID_H
+#define INCLUDED_HELP_INSTALLANDROID_H
+
+
+#include <config/libraries.h>
+
+
+const char * help_installandroid_url ();
+bool help_installandroid_acl (void * webserver_request);
+string help_installandroid (void * webserver_request);
+
+
+#endif

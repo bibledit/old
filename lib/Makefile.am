@@ -83,7 +83,14 @@ libbibledit_a_SOURCES = \
 	help/changelog.cpp \
 	help/freebible.cpp \
 	help/introduction.cpp \
-	help/installation.cpp
+	help/installation.cpp \
+	help/installwindows.cpp \
+	help/installandroid.cpp \
+	help/installosx.cpp \
+	help/installios.cpp \
+	help/installubuntu.cpp \
+	help/installcentos.cpp \
+	help/installpclinuxos.cpp
 
 bin_PROGRAMS = server unittest
 

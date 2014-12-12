@@ -1,0 +1,91 @@
+<h1>##title##</h1>
+<p>
+  ##intro##
+  Applications / Utilities / Terminal.
+</p>
+<ol>
+<li>
+<p><a href="http://guide.macports.org" target="_blank">##xcode##</a></p>
+</li>
+<li>
+<p><a href="http://www.macports.org" target="_blank">##macports##</a></p>
+</li>
+<li>
+<p>##server##</p>
+<p><code>sudo port install apache2</code></p>
+</li>
+<li>
+<p>##activate##</p>
+<p><code>sudo port load apache2</code></p>
+</li>
+<li>
+<p>
+  ##verify##
+  <a href="http://localhost/" target="_blank">​http://localhost</a>.
+  ##page##
+  It works!
+</p>
+</li>
+<li>
+<p>##php##</p>
+<p><code>sudo port install php5 +apache2</code></p>
+<p><code>sudo port install php5-mbstring</code></p>
+<p><code>sudo port install php5-posix</code></p>
+<p><code>sudo port install php5-sqlite</code></p>
+<p><code>sudo port install php5-iconv</code></p>
+</li>
+<li>
+<p>##register##</p>
+<p><code>cd /opt/local/apache2/modules</code></p>
+<p><code>sudo /opt/local/apache2/bin/apxs -a -e -n "php5" libphp5.so</code></p>
+</li>
+<li>
+<p>##update##</p>
+<p><code>sudo nano /opt/local/apache2/conf/httpd.conf</code></p>
+<p>##searchfor##</p>
+<p><code>DirectoryIndex index.html</code></p>
+<p>##replacewith##</p>
+<p><code>DirectoryIndex index.php index.html</code></p>
+<p>##addline##</p>
+<p><code>Include conf/extra/mod_php.conf</code></p>
+<p>##save##</p>
+</li>
+<li>
+<p>##configphp##</p>
+<p><code>cd /opt/local/etc/php5</code></p>
+<p><code>sudo cp php.ini-development php.ini</code></p>
+</li>
+<li>
+<p>##restart##</p>
+<p><code>sudo /opt/local/apache2/bin/apachectl restart</code></p>
+</li>
+<li>
+<p><a href="http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.8.zip" target="_blank">##download## Bibledit</a>.</p>
+</li>
+<li>
+<p>##unzip## <code>/opt/local/apache2/htdocs</code></p>
+</li>
+<li>
+<p>##permissions##</p>
+<p><code>sudo chown -R root /opt/local/apache2/htdocs/bibledit-web</code></p>
+<p><code>sudo chmod -R 0777 /opt/local/apache2/htdocs/bibledit-web</code></p>
+</li>
+<li>
+<p>
+  ##browseto##
+  <a href="http://localhost/bibledit-web" target="_blank">​http://localhost/bibledit-web</a>.
+  ##browsesteps##
+</p>
+</li>
+<li>
+<p>
+  ##openbibledit##
+  <a href="http://localhost/bibledit-web" target="_blank">​http://localhost/bibledit-web</a>.
+</p>
+</li>
+<li>
+<p>##production##</p>
+<p><code>cd /opt/local/etc/php5</code></p>
+<p><code>sudo cp php.ini-production php.ini</code></p>
+</li>
+</ol>
