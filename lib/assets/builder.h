@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,10 +15,26 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::GUEST_LEVEL);
-Assets_Page::header (gettext("ChangeLog"));
-$view = new Assets_View (__FILE__);
-$view->render ("changelog.php");
-Assets_Page::footer ();
-?>
+
+
+#ifndef INCLUDED_ASSETS_BUILDER_H
+#define INCLUDED_ASSETS_BUILDER_H
+
+
+#include <config/libraries.h>
+
+
+class Assets_Builder
+{
+public:
+  Assets_Builder ();
+  ~Assets_Builder ();
+  void clear ();
+  void sentence (const string& text);
+  string result ();
+private:
+  string asset;
+};
+
+
+#endif

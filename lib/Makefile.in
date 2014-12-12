@@ -113,8 +113,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/text.$(OBJEXT) filter/passage.$(OBJEXT) \
 	flate/flate2.$(OBJEXT) assets/view.$(OBJEXT) \
 	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	assets/builder.$(OBJEXT) index/index.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
@@ -143,7 +144,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
 	bible/logic.$(OBJEXT) notes/logic.$(OBJEXT) \
 	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
-	help/index.$(OBJEXT)
+	help/index.$(OBJEXT) help/about.$(OBJEXT) \
+	help/changelog.$(OBJEXT) help/freebible.$(OBJEXT) \
+	help/introduction.$(OBJEXT) help/installation.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -359,6 +362,7 @@ libbibledit_a_SOURCES = \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
+	assets/builder.cpp \
 	index/index.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
@@ -418,7 +422,12 @@ libbibledit_a_SOURCES = \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
-	help/index.cpp
+	help/index.cpp \
+	help/about.cpp \
+	help/changelog.cpp \
+	help/freebible.cpp \
+	help/introduction.cpp \
+	help/installation.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -561,6 +570,8 @@ assets/view.$(OBJEXT): assets/$(am__dirstamp) \
 assets/page.$(OBJEXT): assets/$(am__dirstamp) \
 	assets/$(DEPDIR)/$(am__dirstamp)
 assets/header.$(OBJEXT): assets/$(am__dirstamp) \
+	assets/$(DEPDIR)/$(am__dirstamp)
+assets/builder.$(OBJEXT): assets/$(am__dirstamp) \
 	assets/$(DEPDIR)/$(am__dirstamp)
 index/$(am__dirstamp):
 	@$(MKDIR_P) index
@@ -820,6 +831,16 @@ help/$(DEPDIR)/$(am__dirstamp):
 	@: > help/$(DEPDIR)/$(am__dirstamp)
 help/index.$(OBJEXT): help/$(am__dirstamp) \
 	help/$(DEPDIR)/$(am__dirstamp)
+help/about.$(OBJEXT): help/$(am__dirstamp) \
+	help/$(DEPDIR)/$(am__dirstamp)
+help/changelog.$(OBJEXT): help/$(am__dirstamp) \
+	help/$(DEPDIR)/$(am__dirstamp)
+help/freebible.$(OBJEXT): help/$(am__dirstamp) \
+	help/$(DEPDIR)/$(am__dirstamp)
+help/introduction.$(OBJEXT): help/$(am__dirstamp) \
+	help/$(DEPDIR)/$(am__dirstamp)
+help/installation.$(OBJEXT): help/$(am__dirstamp) \
+	help/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -939,6 +960,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/builder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/header.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/page.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/view.Po@am__quote@
@@ -989,7 +1011,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/about.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/changelog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/freebible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/introduction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@

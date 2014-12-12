@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,10 +15,38 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::GUEST_LEVEL);
-Assets_Page::header (gettext("Introduction"));
-$view = new Assets_View (__FILE__);
-$view->render ('introduction.php');
-Assets_Page::footer ();
-?>
+
+
+#include <help/changelog.h>
+#include <assets/view.h>
+#include <assets/page.h>
+#include <filter/roles.h>
+#include <config/logic.h>
+
+
+const char * help_changelog_url ()
+{
+  return "help/changelog";
+}
+
+
+bool help_changelog_acl (void * webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+}
+
+
+string help_changelog (void * webserver_request)
+{
+  string page;
+
+  page = Assets_Page::header (gettext("ChangeLog"), webserver_request, "");
+
+  Assets_View view = Assets_View (0);
+
+  page += view.render ("help", "changelog");
+
+  page += Assets_Page::footer ();
+
+  return page;
+}

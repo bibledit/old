@@ -18,6 +18,7 @@ libbibledit_a_SOURCES = \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
+	assets/builder.cpp \
 	index/index.cpp \
 	config/globals.cpp \
 	menu/logic.cpp \
@@ -77,7 +78,12 @@ libbibledit_a_SOURCES = \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
-	help/index.cpp
+	help/index.cpp \
+	help/about.cpp \
+	help/changelog.cpp \
+	help/freebible.cpp \
+	help/introduction.cpp \
+	help/installation.cpp
 
 bin_PROGRAMS = server unittest
 
