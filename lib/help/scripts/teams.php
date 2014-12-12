@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h1><?php echo gettext("Teams") ?></h1>
 <p>
-  <?php echo gettext("Bibledit-Web can host many Bibles.") ?>
+  <?php echo gettext("Bibledit can host many Bibles.") ?>
   <?php echo gettext("Many users can create an account.") ?>
 </p>
 <br>

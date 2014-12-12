@@ -23,10 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext("See the online help about typesetting for more information and general principles.") ?></p>
 
 <h2><?php echo gettext("Chapter numbers in drop caps") ?></h2>
-<p><?php echo gettext("Bibledit-Web normally exports chapter numbers in bigger font in a text frame.") ?></p>
+<p><?php echo gettext("Bibledit normally exports chapter numbers in bigger font in a text frame.") ?></p>
 <p><?php echo gettext("In InDesign it is helpful to have these in drop caps.") ?></p>
 <ul>
-<li><?php echo gettext("Go to Bibledit-Web, menu Export.") ?></li>
+<li><?php echo gettext("Go to Bibledit, menu Export.") ?></li>
 <li><?php echo gettext("There is a setting for using frames in the drop caps. Switch it off.") ?></li>
 <li><?php echo gettext("Do a fresh export.") ?></li>
 </ul>
@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <h2><?php echo gettext("Placing text") ?></h2>
 <p><?php echo gettext("I am going to show how to place Bible text in InDesign.") ?></p>
-<p><?php echo gettext("The text is available from Bibledit-Web as OpenDocument files.") ?></p>
+<p><?php echo gettext("The text is available from Bibledit as OpenDocument files.") ?></p>
 <p><?php echo gettext("Open the book of Genesis, the version with text and note citations, in OpenOffice.") ?></p>
 <p><?php echo gettext("Save it as a Microsoft Word 97 / 2000 / XP (.doc) document.") ?></p>
 <p><?php echo gettext("Create a new document in InDesign.") ?></p>

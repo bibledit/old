@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Install Bibledit-Web 1.8 on iOS 7: iPad and iPhone") ?></h1>
+<h1><?php echo gettext("Install Bibledit 1.8 on iOS 7: iPad and iPhone") ?></h1>
 <p>
   <?php echo gettext("This assumes a standard iPad or iPhone running iOS 7.") ?>
   <?php echo gettext("The steps below have been tested on an iPad mini running iOS 7.1.2.") ?>
@@ -145,7 +145,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <p><a href="http://localhost/bibledit-web" target="_blank"><code>localhost/bibledit-web</code></a></p>
 <p>
-  <?php echo gettext("It should display Bibledit-Web.") ?>
+  <?php echo gettext("It should display Bibledit.") ?>
   <?php echo gettext("Follow the steps in Safari to complete the installation and open Bibledit.") ?>
 </p>
 </li>

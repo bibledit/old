@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <ul>
 <li><?php echo gettext("The Bible is available in USFM code.") ?></li>
 <li><?php echo gettext("The USFM code is clean and adheres to the standards.") ?></li>
-<li><?php echo gettext("You have access to Bibledit-Web.") ?></li>
+<li><?php echo gettext("You have access to Bibledit.") ?></li>
 <li><?php echo gettext("You have OpenOffice, LibreOffice or an equivalent.") ?></li>
 </ul>
 
@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext("This section describes the steps to take to prepare the USFM code for export.") ?></p>
 <p><?php echo gettext("Each Bible book is stored as one USFM file.") ?></p>
 <ul>
-<li><?php echo gettext("Create a new Bible in Bibledit-Web through menu Bibles. Give the Bible a name. The example calls it 'Ndebele'.") ?></li>
+<li><?php echo gettext("Create a new Bible in Bibledit through menu Bibles. Give the Bible a name. The example calls it 'Ndebele'.") ?></li>
 <li><?php echo gettext("Click the 'Ndebele' Bible.") ?></li>
 <li><?php echo gettext("Import data into it.") ?></li>
 <li><?php echo gettext("Choose the option to upload a file.") ?></li>
@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <ul>
 <li><?php echo gettext("Create a new stylesheet in menu Styles. Give it a name. The example calls it 'Ndebele'.") ?></li>
 </ul>
-<p><?php echo gettext("All the data is now in Bibledit-Web. Everthing is ready for export to OpenDocument files.") ?></p>
+<p><?php echo gettext("All the data is now in Bibledit. Everthing is ready for export to OpenDocument files.") ?></p>
 <p><?php echo gettext("The OpenDocument files are used as a starting point for typesetting.") ?></p>
 
 <h2><?php echo gettext("Hyphenation") ?></h2>
@@ -53,9 +53,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext("The words need to get hyphens so that part of the word goes on the next line.") ?></p>
 <p><?php echo gettext("LibreOffice and Adobe InDesign have hyphenation algorithms for many languages. That would solve the problem.") ?></p>
 <p><?php echo gettext("But the programs do not have a hyphenation algorithms for all languages.") ?></p>
-<p><?php echo gettext("Bibledit-Web has a hyphenater that could assist.") ?></p>
+<p><?php echo gettext("Bibledit has a hyphenater that could assist.") ?></p>
 <ul>
-<li><?php echo gettext("In Bibledit-Web, go to menu Hyphenation.") ?></li>
+<li><?php echo gettext("In Bibledit, go to menu Hyphenation.") ?></li>
 <li><?php echo gettext("Enter the first set of characters, and the second set, and save it.") ?></li>
 <li><?php echo gettext("Set the Bible where to take the data from. In this case it is 'Ndebele'.") ?></li>
 <li><?php echo gettext("Insert the soft hyphens according to the setting. It takes a while to complete.") ?></li>
@@ -66,7 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h2><?php echo gettext("Exporting to OpenDocument files") ?></h2>
 <p><?php echo gettext("Make an initial export just to see how the text looks.") ?></p>
 <ul>
-<li><?php echo gettext("In Bibledit-Web, go to menu Exports.") ?></li>
+<li><?php echo gettext("In Bibledit, go to menu Exports.") ?></li>
 <li><?php echo gettext("Add Bible 'Ndebele' to the ones that will be exported.") ?></li>
 <li><?php echo gettext("Use stylesheet 'Ndebele'.") ?></li>
 <li><?php echo gettext("Output the chapter number in drop caps. Switch that setting on.") ?></li>
@@ -143,7 +143,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </li>
 <li>
   <?php echo gettext("The space after the verse numbers would be the same and consistent.") ?>
-  <?php echo gettext("Bibledit-Web exports the text to OpenDocument format using 'en spaces' after each verse.") ?>
+  <?php echo gettext("Bibledit exports the text to OpenDocument format using 'en spaces' after each verse.") ?>
   <?php echo gettext("This ensures a consistent width of the spaces after the verse numbers.") ?>
 </li>
 <li>

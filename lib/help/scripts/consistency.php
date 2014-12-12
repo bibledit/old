@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h1><?php echo gettext("Consistency") ?></h1>
 <p>
-  <?php echo gettext("Bibledit-Web assists with checking how consistent words have been translated in the Bible.") ?>
+  <?php echo gettext("Bibledit assists with checking how consistent words have been translated in the Bible.") ?>
   <?php echo gettext("The suggested work-flow for consistency checking is this:") ?>
 </p>
 <br>

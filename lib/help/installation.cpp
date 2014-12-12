@@ -52,7 +52,7 @@ string help_installation (void * webserver_request)
 
   view.set_variable ("upgrading1", gettext("Upgrading"));
   builder.clear();
-  builder.sentence (gettext("A certain release of Bibledit-Web can upgrade the most recent previous release, but not older releases."));
+  builder.sentence (gettext("A certain release of Bibledit can upgrade the most recent previous release, but not older releases."));
   builder.sentence (gettext("A new release can be installed over the previous release."));
   builder.sentence (gettext("There should be no loss of information."));
   builder.sentence (gettext("Create a backup of the web space before upgrading, just to be sure."));
@@ -60,12 +60,12 @@ string help_installation (void * webserver_request)
 
   view.set_variable ("client1", gettext("Client"));
   builder.clear();
-  builder.sentence (gettext("Bibledit-Web normally runs in Server mode."));
+  builder.sentence (gettext("Bibledit normally runs in Server mode."));
   builder.sentence (gettext("It can also be set to Client mode."));
   builder.sentence (gettext("A Client stores the data offline."));
   builder.sentence (gettext("You can translate the Bible on a Client."));
   builder.sentence (gettext("The user needs to synchronize the data on the client with the data on the server regularly."));
-  builder.sentence (gettext("A Client is useful when the Internet connection to the Bibledit-Web server is not fast or not stable."));
+  builder.sentence (gettext("A Client is useful when the Internet connection to the Bibledit server is not fast or not stable."));
   view.set_variable ("client2", builder.result());
   builder.clear();
   builder.sentence (gettext("Install the Client as you would install Bibledit."));
@@ -86,7 +86,7 @@ string help_installation (void * webserver_request)
   view.set_variable ("email1", gettext("Email"));
   builder.clear();
   builder.sentence (gettext("Bibledit works with email."));
-  builder.sentence (gettext("After completing the installation of Bibledit-Web, sending and receiving emails does not yet work."));
+  builder.sentence (gettext("After completing the installation of Bibledit, sending and receiving emails does not yet work."));
   builder.sentence (gettext("This needs to be set up."));
   builder.sentence (gettext("Setting up the email means to pick an email address and setting details for the mail servers in Bibledit."));
   builder.sentence (gettext("This can be done from within the application."));

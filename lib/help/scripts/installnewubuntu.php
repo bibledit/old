@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo gettext("Install Bibledit-Web 1.8 on Ubuntu 14.04 through Apache") ?></h2>
+<h2><?php echo gettext("Install Bibledit 1.8 on Ubuntu 14.04 through Apache") ?></h2>
 <p>
-  <?php echo gettext("Follow the steps below to install Bibledit-Web.") ?>
+  <?php echo gettext("Follow the steps below to install Bibledit.") ?>
   <?php echo gettext("It needs some basic knowledge of working with Linux servers.") ?>
 </p>
 <ol>
@@ -46,7 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p><code>$ sudo apt-get remove --purge mysql-server* mysql-common</code></p>
 </li>
 <li>
-  <p><?php echo gettext("Install the software Bibledit-Web relies on:") ?></p>
+  <p><?php echo gettext("Install the software Bibledit relies on:") ?></p>
   <p><code>$ sudo apt-get install git unzip php5-json php5-sqlite</code></p>
 </li>
 <li>
@@ -54,11 +54,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p><code>$ sudo service apache2 reload</code></p>
 </li>
 <li>
-  <p><?php echo gettext("Download Bibledit-Web:") ?></p>
+  <p><?php echo gettext("Download Bibledit:") ?></p>
   <p><code>$ sudo wget http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.8.zip</code></p>
 </li>
 <li>
-  <p><?php echo gettext("Install Bibledit-Web in folder /var/www/html as user root:") ?></p>
+  <p><?php echo gettext("Install Bibledit in folder /var/www/html as user root:") ?></p>
   <p><code>$ cd /var/www/html</code></p>
   <p><code>$ sudo unzip ~/bibledit-web-1.8.zip</code></p>
 </li>
@@ -66,10 +66,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p><?php echo gettext("Make everything to be owned by the web server user:") ?></p>
   <p><code>$ sudo chown -R www-data:www-data bibledit-web</code></p>
 </li>
-<li><?php echo gettext("Bibledit-Web will be accessible through:") ?> http://website.org/bibledit-web.</li>
-<li><?php echo gettext("Open the web address in the browser, and follow the steps on the screen to configure Bibledit-Web and log in.") ?></li>
+<li><?php echo gettext("Bibledit will be accessible through:") ?> http://website.org/bibledit-web.</li>
+<li><?php echo gettext("Open the web address in the browser, and follow the steps on the screen to configure Bibledit and log in.") ?></li>
 <li>
-  <a href="https://help.ubuntu.com/community/EnablingUseOfApacheHtaccessFiles" target="_blank"><?php echo gettext("Enable the use of .htaccess files in Apache to secure some Bibledit-Web folders.") ?></a>
+  <a href="https://help.ubuntu.com/community/EnablingUseOfApacheHtaccessFiles" target="_blank"><?php echo gettext("Enable the use of .htaccess files in Apache to secure some Bibledit folders.") ?></a>
   <?php echo gettext("Edit file apache2.conf instead of the one mentioned in the guide.") ?>
 </li>
 </ol>

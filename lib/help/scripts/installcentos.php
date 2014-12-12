@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo gettext("Install Bibledit-Web 1.8 on CentOS 6.4") ?></h2>
+<h2><?php echo gettext("Install Bibledit 1.8 on CentOS 6.4") ?></h2>
 <p>
-  <?php echo gettext("Follow the steps below to install Bibledit-Web.") ?>
+  <?php echo gettext("Follow the steps below to install Bibledit.") ?>
   <?php echo gettext("It needs some basic knowledge of working with Linux servers.") ?>
 </p>
 <ol>
@@ -33,11 +33,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </li>
 <li><?php echo gettext("Select the default settings for anything to be set up.") ?></li>
 <li>
-  <p><?php echo gettext("Download Bibledit-Web:") ?></p>
+  <p><?php echo gettext("Download Bibledit:") ?></p>
   <p><code>$ wget http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.8.zip</code></p>
 </li>
 <li>
-  <p><?php echo gettext("Install Bibledit-Web in folder /var/www/html as user root:") ?></p>
+  <p><?php echo gettext("Install Bibledit in folder /var/www/html as user root:") ?></p>
   <p><code>$ cd /var/www/html</code></p>
   <p><code>$ unzip ~/bibledit-web-1.8.zip</code></p>
 </li>
@@ -45,10 +45,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p><?php echo gettext("Make everything readable and writable to the web server user through the following commands") ?></p>
   <p><code>$ chown -R apache:apache bibledit-web</code></p>
 </li>
-<li><?php echo gettext("Bibledit-Web will be accessible through:") ?> http://website.org/bibledit-web.</li>
-<li><?php echo gettext("Open the web address in the browser, and follow the steps on the screen to configure Bibledit-Web and log in.") ?></li>
+<li><?php echo gettext("Bibledit will be accessible through:") ?> http://website.org/bibledit-web.</li>
+<li><?php echo gettext("Open the web address in the browser, and follow the steps on the screen to configure Bibledit and log in.") ?></li>
 <li>
-  <a href="http://stackoverflow.com/questions/8551740/centos-htaccess-not-being-read" target="_blank"><?php echo gettext("Enable the use of .htaccess files in Apache to secure some Bibledit-Web folders.") ?></a>
+  <a href="http://stackoverflow.com/questions/8551740/centos-htaccess-not-being-read" target="_blank"><?php echo gettext("Enable the use of .htaccess files in Apache to secure some Bibledit folders.") ?></a>
   <?php echo gettext("Set") ?>
   <code>AllowOverride All</code>
   <?php echo gettext("in file") ?>

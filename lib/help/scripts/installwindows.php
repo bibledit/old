@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Install Bibledit-Web on Windows") ?></h1>
+<h1><?php echo gettext("Install Bibledit on Windows") ?></h1>
 <p>
   <?php echo gettext("This assumes a standard installation of the operating system.") ?>
-  <?php echo gettext("Bibledit-Web runs on all recent versions of Windows.") ?>
+  <?php echo gettext("Bibledit runs on all recent versions of Windows.") ?>
   <?php echo gettext("The steps below have been tested on Windows 7.") ?>
 </p>
 
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <li>
 <p>
-  <a href="http://download.savannah.gnu.org/releases/bibledit-web/windows" target="_blank"><?php echo gettext("Download") ?> Bibledit-Web</a>.
+  <a href="http://download.savannah.gnu.org/releases/bibledit-web/windows" target="_blank"><?php echo gettext("Download") ?> Bibledit</a>.
 </p>
 </li>
 

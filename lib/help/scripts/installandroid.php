@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Install Bibledit-Web on Android") ?></h1>
+<h1><?php echo gettext("Install Bibledit on Android") ?></h1>
 <p>
-  <?php echo gettext("Bibledit-Web runs on all recent versions of Android.") ?>
+  <?php echo gettext("Bibledit runs on all recent versions of Android.") ?>
   <?php echo gettext("The steps below have been tested on a Google Nexus 10 running Android 4.4.") ?>
 </p>
 

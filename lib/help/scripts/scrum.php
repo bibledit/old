@@ -132,7 +132,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <br>
 <p>
- <?php echo gettext("Bibledit-Web has the concept of daily Change Notifications.") ?>
+ <?php echo gettext("Bibledit has the concept of daily Change Notifications.") ?>
  <?php echo gettext("A member can opt to receive the Change Notifications through email.") ?>
  <?php echo gettext("This email can be viewed online also.") ?>
  <?php echo gettext("Or a member can opt to have the Change Notifications generated for him online, and can review and approve them there.") ?>

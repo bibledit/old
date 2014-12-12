@@ -55,8 +55,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <br>
 <p><?php echo gettext("The Consultation Notes can partly be operated by email.") ?></p>
-<p><?php echo gettext("When you receive an email from Bibledit-Web, and this email contains a Consultation Note, then you can reply to this email. Your reply will be added as a comment to this particular Consultation Note.") ?></p>
-<p><?php echo gettext("The reply should come from the email address which you registered with Bibledit-Web when you created your  account. The reply should also have (CSID123456789) in the subject line. The number 123456789 is a Consultation Note Identifier. It is different for every Note. Just replying to a Consultation Note you received is usually all that is needed. Only replies that are typed before the quoted text are considered. This is called top-posting. When the quoted text gets posted too, then it is necessary to remove that from your email reply.") ?></p>
+<p><?php echo gettext("When you receive an email from Bibledit, and this email contains a Consultation Note, then you can reply to this email. Your reply will be added as a comment to this particular Consultation Note.") ?></p>
+<p><?php echo gettext("The reply should come from the email address which you registered with Bibledit when you created your  account. The reply should also have (CSID123456789) in the subject line. The number 123456789 is a Consultation Note Identifier. It is different for every Note. Just replying to a Consultation Note you received is usually all that is needed. Only replies that are typed before the quoted text are considered. This is called top-posting. When the quoted text gets posted too, then it is necessary to remove that from your email reply.") ?></p>
 <p><?php echo gettext("You can also submit a new Consultation Note by email.") ?></p>
 <p><?php echo gettext("This is how to do it:") ?></p>
 <p><?php echo gettext("Create a new email to the site's email address. The subject line contains 'New note', then the passage, and finally the summary.") ?></p>

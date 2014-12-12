@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo gettext("Install Bibledit-Web 1.9 (not yet released) on PCLinuxOS LXDE 2014") ?></h2>
+<h2><?php echo gettext("Install Bibledit 1.9 (not yet released) on PCLinuxOS LXDE 2014") ?></h2>
 <p>
   The pre-release of version 1.9 is available here:
   http://bibleconsultants.nl/downloads/temporal/bibledit-web-1.8.32.zip.
 </p>
 <p>
-  <?php echo gettext("Follow the steps below to install Bibledit-Web.") ?>
+  <?php echo gettext("Follow the steps below to install Bibledit.") ?>
 </p>
 <ol>
 <li><?php echo gettext("Open the Synaptic Package Manager.") ?></li>
@@ -50,13 +50,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p><?php echo gettext("Provide the administrative password.") ?></p>
 </li>
 <li>
-  <p><?php echo gettext("Download and install Bibledit-Web in folder /var/www/html:") ?></p>
+  <p><?php echo gettext("Download and install Bibledit in folder /var/www/html:") ?></p>
   <p><code>$ cd /var/www/html</code></p>
   <p><code>$ wget http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.9.zip</code></p>
   <p><code>$ unzip bibledit-web-1.9.zip</code></p>
   <p><code>$ chown -R apache:apache bibledit-web</code></p>
 </li>
-<li><?php echo gettext("Bibledit-Web will be accessible through:") ?> http://localhost/bibledit-web.</li>
-<li><?php echo gettext("Open the web address in the browser, and follow the steps on the screen to configure Bibledit-Web and log in.") ?></li>
+<li><?php echo gettext("Bibledit will be accessible through:") ?> http://localhost/bibledit-web.</li>
+<li><?php echo gettext("Open the web address in the browser, and follow the steps on the screen to configure Bibledit and log in.") ?></li>
 <li><?php echo gettext("Reboot.") ?></li>
 </ol>

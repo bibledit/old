@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <h3><?php echo gettext("Extensions and plugins") ?></h3>
 <p>
-  <?php echo gettext("Browser extensions and plugins may interfere with Bibledit-Web.") ?>
+  <?php echo gettext("Browser extensions and plugins may interfere with Bibledit.") ?>
   <?php echo gettext("There was a case that the USFM editor didn't load the text.") ?>
   <?php echo gettext("Disabling an extension in Chrome resolved it.") ?>
 </p>
@@ -34,21 +34,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <h3><?php echo gettext("Backup") ?></h3>
 <p>
-  <?php echo gettext("Bibledit-Web does not do any backups of its own.") ?>
+  <?php echo gettext("Bibledit does not do any backups of its own.") ?>
   <?php echo gettext("Backup is very important.") ?>
   <?php echo gettext("The system administrator should have a reliable backup strategy in place.") ?>
-  <?php echo gettext("Bibledit-Web uses SQLite for data storage.") ?>
+  <?php echo gettext("Bibledit uses SQLite for data storage.") ?>
   <?php echo gettext("If a database is backed up while SQLite is storing data in it, the database may get malformed.") ?>
   <a href="http://www.sqlite.org/faq.html#q21"><?php echo gettext("Information.") ?></a>
   <?php echo gettext("This applies to any database software, not just SQLite.") ?>
-  <?php echo gettext("To accomodate backup, Bibledit-Web does not access databases from 0:00 to 0:05 at midnight.") ?>
-  <?php echo gettext("If no users access Bibledit-Web during that time, then there is no database access at all.") ?>
+  <?php echo gettext("To accomodate backup, Bibledit does not access databases from 0:00 to 0:05 at midnight.") ?>
+  <?php echo gettext("If no users access Bibledit during that time, then there is no database access at all.") ?>
   <?php echo gettext("Backup can be safely done during that time.") ?>
 </p>
 
 <h3><?php echo gettext("Creating SWORD modules on shared hosting") ?></h3>
 <p>
-  <?php echo gettext("Bibledit-Web can create a SWORD module from the USFM Bible text.") ?>
+  <?php echo gettext("Bibledit can create a SWORD module from the USFM Bible text.") ?>
   <?php echo gettext("It uses the following program for that:") ?>
   <code>osis2mod</code>.
   <a href="http://www.crosswire.org/sword/index.jsp"><?php echo gettext("It is part of the SWORD library.") ?></a>

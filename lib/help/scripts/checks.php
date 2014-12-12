@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h1><?php echo gettext("Checks") ?></h1>
 <p>
-  <?php echo gettext("Bibledit-Web runs a number of checks on the text of the Bibles.") ?>
+  <?php echo gettext("Bibledit runs a number of checks on the text of the Bibles.") ?>
   <?php echo gettext("It does that every night.") ?>
 </p>
 <ul>
