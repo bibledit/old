@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <config/globals.h>
 #include <database/logs.h>
-#include <flate/flate2.h>
+#include <flate/flate.h>
 
 
 using namespace std;

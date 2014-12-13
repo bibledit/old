@@ -14,7 +14,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
-	flate/flate2.cpp \
+	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
@@ -101,7 +101,7 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/tests1.cpp \
+	unittests/libraries.cpp \
 	unittests/database_config.cpp \
 	unittests/filters.cpp \
 	unittests/databases.cpp

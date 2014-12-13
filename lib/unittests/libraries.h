@@ -17,25 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_FLATE_FLATE2_H
-#define INCLUDED_FLATE_FLATE2_H
+#ifndef INCLUDED_UNITTESTS_LIBRARIES_H
+#define INCLUDED_UNITTESTS_LIBRARIES_H
 
 
 #include <config/libraries.h>
 
 
-class Flate
-{
-public:
-  Flate ();
-  ~Flate ();
-  void set_variable (string key, string value);
-  void enable_zone (string zone);
-  string render (string tpl);
-private:
-  map <string, string> variables;
-  map <string, bool> zones;
-};
+void test_sqlite ();
+void test_sqlite ();
+void test_session_logic ();
+void test_empty_folders ();
+void test_flate ();
 
 
 #endif

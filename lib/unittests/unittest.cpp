@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
-#include <unittests/tests1.h>
+#include <unittests/libraries.h>
 #include <unittests/database_config.h>
 #include <unittests/filters.h>
 #include <unittests/databases.h>
@@ -266,7 +266,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  //test_filters (); exit (0); // Todo
+  test_flate (); exit (0); // Todo
 
   // Run the tests.
   test_database_config_general ();
@@ -278,7 +278,7 @@ int main (int argc, char **argv)
   test_database_users ();
   test_session_logic ();
   test_empty_folders ();
-  test_flate2 ();
+  test_flate ();
   test_database_styles ();
   test_database_bibles ();
   test_database_search ();

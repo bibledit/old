@@ -111,7 +111,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/roles.$(OBJEXT) filter/md5.$(OBJEXT) \
 	filter/usfm.$(OBJEXT) filter/archive.$(OBJEXT) \
 	filter/text.$(OBJEXT) filter/passage.$(OBJEXT) \
-	flate/flate2.$(OBJEXT) assets/view.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
 	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
 	assets/builder.$(OBJEXT) index/index.$(OBJEXT) \
 	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
@@ -158,7 +158,7 @@ am_server_OBJECTS = executable/bibledit.$(OBJEXT)
 server_OBJECTS = $(am_server_OBJECTS)
 server_DEPENDENCIES = libbibledit.a
 am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
-	unittests/utilities.$(OBJEXT) unittests/tests1.$(OBJEXT) \
+	unittests/utilities.$(OBJEXT) unittests/libraries.$(OBJEXT) \
 	unittests/database_config.$(OBJEXT) \
 	unittests/filters.$(OBJEXT) unittests/databases.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
@@ -362,7 +362,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
-	flate/flate2.cpp \
+	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
@@ -445,7 +445,7 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/tests1.cpp \
+	unittests/libraries.cpp \
 	unittests/database_config.cpp \
 	unittests/filters.cpp \
 	unittests/databases.cpp
@@ -568,7 +568,7 @@ flate/$(am__dirstamp):
 flate/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) flate/$(DEPDIR)
 	@: > flate/$(DEPDIR)/$(am__dirstamp)
-flate/flate2.$(OBJEXT): flate/$(am__dirstamp) \
+flate/flate.$(OBJEXT): flate/$(am__dirstamp) \
 	flate/$(DEPDIR)/$(am__dirstamp)
 assets/$(am__dirstamp):
 	@$(MKDIR_P) assets
@@ -935,7 +935,7 @@ unittests/unittest.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/utilities.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/tests1.$(OBJEXT): unittests/$(am__dirstamp) \
+unittests/libraries.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/database_config.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
@@ -1035,7 +1035,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/usfm.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/about.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/changelog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/freebible.Po@am__quote@
@@ -1076,7 +1076,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/database_config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tests1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/libraries.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@
