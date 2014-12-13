@@ -44,9 +44,7 @@ string session_logout (void * webserver_request)
   request->session_logic ()->logout ();
   string page;
   page += Assets_Page::header (gettext ("Logout"), webserver_request, "");
-  Assets_View view = Assets_View (0);
-  view.set_variable ("goodbye", gettext("Goodbye"));
-  view.set_variable ("loggedout", gettext("You have logged out"));
+  Assets_View view = Assets_View ();
   page += view.render ("session", "logout");
   page += Assets_Page::footer ();
   return page;

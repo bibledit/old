@@ -60,6 +60,8 @@ libbibledit_a_SOURCES = \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
+	session/password.cpp \
+	session/signup.cpp \
 	parsewebdata/ParseMultipartFormData.cpp \
 	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \

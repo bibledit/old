@@ -27,16 +27,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
-using namespace std;
-
-
 /*
 
-The PHP persistent storage of sessions works well, normally.
+The PHP persistent storage of sessions normally works well.
 On shared hosts, the hosting provider may influence how PHP sessions work.
 In such a case, the session mechanism does not always work as desired.
 This may result in frequently being locked out.
 A possible solution would be to work around this behaviour.
+
 Bibledit-Web has another solution:
 It has its own persistent session storage mechanism.
 This mechanism is independent of any hosting provider or any PHP session mechanism.

@@ -23,6 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <session/login.h>
 #include <session/logout.h>
+#include <session/password.h>
+#include <session/signup.h>
 #include <database/config/general.h>
 #include <setup/index.h>
 #include <journal/index.h>
@@ -49,6 +51,8 @@ void bootstrap_index (Webserver_Request * request)
   // Login and logout.
   else if ((url == session_login_url ()) && session_login_acl (request)) request->reply = session_login (request);
   else if ((url == session_logout_url ()) && session_logout_acl (request)) request->reply = session_logout (request);
+  else if ((url == session_password_url ()) && session_password_acl (request)) request->reply = session_password (request);
+  else if ((url == session_signup_url ()) && session_signup_acl (request)) request->reply = session_signup (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && session_logout_acl (request)) request->reply = journal_index (request);

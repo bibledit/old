@@ -61,7 +61,7 @@ string session_login (void * webserver_request)
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  Assets_View view = Assets_View (0);
+  Assets_View view;
 
   // Form submission handler.
   if (request->post["submit"] != "") {
@@ -103,19 +103,11 @@ string session_login (void * webserver_request)
       return page;
     }
     page += session_login_display_header (webserver_request);
-    view.set_variable ("welcome", gettext ("Welcome"));
-    view.set_variable ("loggedin", gettext ("You have logged in."));
     page += view.render ("session", "loggedin");
   } else {
     page += session_login_display_header (webserver_request);
     view.set_variable ("forward", forward);
     view.enable_zone ("logging_in");
-    view.set_variable ("login", gettext ("Login"));
-    view.set_variable ("username_email", gettext ("Username or email address"));
-    view.set_variable ("password", gettext ("Password"));
-    view.set_variable ("forgot_password", gettext ("Forgot password?"));
-    view.set_variable ("not_registered", gettext ("Not registered?"));
-    view.set_variable ("signup", gettext ("Sign up!"));
     page += view.render ("session", "login");
   }
 

@@ -108,7 +108,7 @@ string setup_index (void * webserver_request)
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  Assets_View view = Assets_View (0);
+  Assets_View view = Assets_View ();
 
   if (!request->post ["Submit"].empty ()) {
   

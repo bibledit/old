@@ -38,7 +38,7 @@ $database_logs->log (gettext("Sending and receiving Bibles"), Filter_Roles::TRAN
 
 
 $response = config_logic_setup ();
-if ($response === false || $response < Filter_Roles::GUEST_LEVEL || $response > Filter_Roles::ADMIN_LEVEL) {
+if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::ADMIN_LEVEL) {
   $database_logs->log (gettext("Failure initializing sending and receiving Bibles"), Filter_Roles::TRANSLATOR_LEVEL);
   die;
 }

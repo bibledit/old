@@ -1,22 +1,22 @@
-<h1>##login##</h1>
+<h1>gettext ("Login")</h1>
 <form action="login?request=##forward##" name="form" method="post">
   <table>
     <p class="error">##error_message##</p>
     <tr>
-      <td align="right">##username_email##</td>
+      <td align="right">gettext ("Username or email address")</td>
       <td><input type="text" name="user" maxlength="30" class="focus" /></td>
       <td class="error">##username_email_invalid##</td>
     </tr>
     <tr>
-      <td align="right">##password##</td>
+      <td align="right">gettext ("Password")</td>
       <td><input type="password" name="pass" maxlength="30" /></td>
       <td class="error">##password_invalid##</td>
     </tr>
     <tr>
       <td align="right"></td>
-      <td><input type="submit" name="submit" value="##login##" /></td>
+      <td><input type="submit" name="submit" value="gettext ("Login")" /></td>
     </tr>
   </table>
-  <p><a href="password">##forgot_password##</a></p>
-  <p>##not_registered## <a href="signup">##signup##</a></p>
+  <p><a href="password">gettext ("Forgot password?")</a></p>
+  <p>gettext ("Not registered?") <a href="signup">gettext ("Sign up!")</a></p>
 </form>

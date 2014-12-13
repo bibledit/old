@@ -53,7 +53,7 @@ string help_index (void * webserver_request, const string& url)
 
   page = Assets_Page::header (gettext("Help"), webserver_request, "");
 
-  Assets_View view = Assets_View (0);
+  Assets_View view = Assets_View ();
 
   view.set_variable ("version", config_logic_version ());
 

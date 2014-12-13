@@ -87,9 +87,9 @@ string Assets_Page::message (string message) // C++Port
 string Assets_Page::footer ()
 {
   string page;
-  Assets_View view = Assets_View (0);
+  Assets_View view;
   page += view.render ("assets", "footer");
-  view = Assets_View (0);
+  view = Assets_View ();
   page += view.render ("assets", "xhtml_finish");
   return page;
 }

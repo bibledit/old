@@ -36,7 +36,7 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
   includedStylesheet = false;
   includedEditorStylesheet = false;
   webserver_request = webserver_request_in;
-  view = new Assets_View (0);
+  view = new Assets_View ();
   view->set_variable ("title", title);
 }
 

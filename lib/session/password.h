@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,32 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h1><?php echo gettext("New password") ?></h1>
 
-<form action="password.php" name="form" method="post">
 
-<table>
+#ifndef INCLUDED_SESSION_PASSWORD_H
+#define INCLUDED_SESSION_PASSWORD_H
 
-<p class="success"><?php echo $this->success_message ?></p>
 
-<?php if ($this->success_message == "") { ?>
+#include <config/libraries.h>
 
-<p><?php echo gettext("If you lost the password, submit your username or email address, and a new password will be emailed to you.") ?></p>
 
-<tr>
-<td align="right"><?php echo gettext("Username or email address") ?></td>
-<td><input type="text" name="user" maxlength="30" class="focus" /></td>
-<td class="error"><?php echo $this->error_message ?></td>
-</tr>
+const char * session_password_url ();
+bool session_password_acl (void * webserver_request);
+string session_password (void * webserver_request);
 
-<tr>
-<td align="right"></td>
-<td><input type="submit" name="submit" value=<?php echo gettext("Submit") ?> /></td>
-</tr>
 
-<?php } ?>
-
-</table>
-
-</form>
+#endif

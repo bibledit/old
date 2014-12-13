@@ -4,5 +4,5 @@
 # Update copyright
 # find . -type f | xargs grep -l "2003-2013" | xargs sed -i 's/2003-2013/2003-2014/'
 
-find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "Bibledit-Web" | xargs sed -i 's/Bibledit-Web/Bibledit/g'
+find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "GUEST_LEVEL" | xargs sed -i 's/GUEST_LEVEL/guest ()/g'
 

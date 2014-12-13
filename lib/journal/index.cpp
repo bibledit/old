@@ -95,7 +95,7 @@ string journal_index (void * webserver_request)
   string page = header.run ();
 
 
-  Assets_View view = Assets_View (0);
+  Assets_View view = Assets_View ();
   view.set_variable ("journal", gettext ("Journal"));
 
 

@@ -38,7 +38,7 @@ $database_logs->log (gettext("Sending and receiving Consultation Notes"), Filter
 
 
 $response = config_logic_setup ();
-if ($response === false || $response < Filter_Roles::GUEST_LEVEL || $response > Filter_Roles::ADMIN_LEVEL) {
+if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::ADMIN_LEVEL) {
   $database_logs->log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::TRANSLATOR_LEVEL);
   die;
 }
