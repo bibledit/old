@@ -28,18 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <journal/index.h>
 #include <config/logic.h>
 #include <help/index.h>
-#include <help/about.h>
-#include <help/changelog.h>
-#include <help/freebible.h>
-#include <help/introduction.h>
-#include <help/installation.h>
-#include <help/installwindows.h>
-#include <help/installandroid.h>
-#include <help/installosx.h>
-#include <help/installios.h>
-#include <help/installubuntu.h>
-#include <help/installcentos.h>
-#include <help/installpclinuxos.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -66,19 +54,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == journal_index_url ()) && session_logout_acl (request)) request->reply = journal_index (request);
   
   // Help menu.
-  else if ((url == help_index_url ()) && help_index_acl (request)) request->reply = help_index (request);
-  else if ((url == help_about_url ()) && help_about_acl (request)) request->reply = help_about (request);
-  else if ((url == help_changelog_url ()) && help_changelog_acl (request)) request->reply = help_changelog (request);
-  else if ((url == help_freebible_url ()) && help_freebible_acl (request)) request->reply = help_freebible (request);
-  else if ((url == help_introduction_url ()) && help_introduction_acl (request)) request->reply = help_introduction (request);
-  else if ((url == help_installation_url ()) && help_installation_acl (request)) request->reply = help_installation (request);
-  else if ((url == help_installwindows_url ()) && help_installwindows_acl (request)) request->reply = help_installwindows (request);
-  else if ((url == help_installandroid_url ()) && help_installandroid_acl (request)) request->reply = help_installandroid (request);
-  else if ((url == help_installosx_url ()) && help_installosx_acl (request)) request->reply = help_installosx (request);
-  else if ((url == help_installios_url ()) && help_installios_acl (request)) request->reply = help_installios (request);
-  else if ((url == help_installubuntu_url ()) && help_installubuntu_acl (request)) request->reply = help_installubuntu (request);
-  else if ((url == help_installcentos_url ()) && help_installcentos_acl (request)) request->reply = help_installcentos (request);
-  else if ((url == help_installpclinuxos_url ()) && help_installpclinuxos_acl (request)) request->reply = help_installpclinuxos (request);
+  else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);
   
   // Forward the browser to the default home page.
   else {

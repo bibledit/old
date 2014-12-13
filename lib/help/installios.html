@@ -1,75 +1,139 @@
-<h1>##title##</h1>
-<p>##intro##</p>
+<h1>gettext("Install Bibledit-Web 1.9 on iOS 7: iPad and iPhone")</h1>
+<p>
+  gettext("This assumes a standard iPad or iPhone running iOS 7.")
+  gettext("The steps below have been tested on an iPad mini running iOS 7.1.2.")
+</p>
+
 <ol>
-<li>
-<p>##jailbreak##</p>
-</li>
+
 <li>
 <p>
-  ##cydia1##
-  <a href="http://www.cydiaios7.com" target="_blank">##cydia2##</a>
-  ##cydia3##
+  gettext("Do an untethered jailbreak of iOS 7.1.x on the device with Pangu or another tool.")
+  gettext("A number of guides on the Internet provide assistance.")
 </p>
 </li>
+
 <li>
-<p>##url##</p>
+<p>
+  gettext("If the jailbreaking did not install Cydia:")
+  <a href="http://www.cydiaios7.com" target="_blank">gettext("Install Cydia iOS 7 on the device.")</a>
+  gettext("Open Cydia for the first time and let it install the software and reboot the device.")
+</p>
+</li>
+
+<li>
+<p>gettext("Open Cydia, go to Sources, and add the following APT URL:")</p>
 <p><code>http://ios-webstack.tk/cydia</code></p>
 </li>
+
 <li>
-<p>##packages1##</p>
+<p>gettext("In Cydia, search for and install the following package:")</p>
 <p><code>ios-lighttpd-php-mysql</code></p>
 </li>
-<li>
-<p>##safari##</p>
-<p><a href="http://localhost" target="_blank"><code>localhost</code></a></p>
-<p>##ok##</p>
-</li>
+
 <li>
 <p>
-  ##settings1##
-  "Lighttpd MySQL".
-  ##settings2##
+  gettext("Open Safari on the device.")
+  gettext("Browse to the following address:")
+</p>
+<p><a href="http://localhost" target="_blank"><code>localhost</code></a></p>
+<p>
+  gettext("It should display a page saying that it works.")
 </p>
 </li>
+
 <li>
-<p>##packages2##
+<p>
+  gettext("In the iOS Settings, there is a new entry:")
+  "Lighttpd MySQL".
+  gettext("Tap it, look for the MySQL Server, and disable it.")
+  gettext("This saves system resources.")
+</p>
+</li>
+
+<li>
+<p>gettext("In Cydia, search for and install the following packages:")</p>
 <p><code>MobileTerminal</code></p>
 <p><code>wget</code></p>
 <p><code>unzip</code></p>
 </li>
+
 <li>
-<p>##terminal##</p>
+<p>gettext('Open the "Terminal" app.')</p>
 </li>
+
 <li>
-<p>##root##</p>
+<p>
+  gettext("Become root to escalate your privileges.")
+  gettext("In the terminal, type the command below, and press return:")
+</p>
 <p><code>su root</code></p>
-<p>##alpine##</p>
+<p>
+  gettext("It asks for the password.")
+  gettext("In the terminal, type the password below, and press return:")
+</p>
 <p><code>alpine</code></p>
-<p>##invisible##</p>
+<p>
+  gettext("The password is invisible in the terminal.")
+</p>
 </li>
+
 <li>
-<p>##cd##</p>
+<p>
+  gettext("Change to the home directory.")
+  gettext("In the terminal, type the command below, and press return:")
+</p>
 <p><code>cd</code></p>
 </li>
+
 <li>
-<p>##download1##</p>
+<p>
+  gettext("Download the Bibledit software.")
+  gettext("In the terminal, type the command below, and press return:")
+</p>
 <p><code>wget --no-check-certificate https://github.com/teusbenschop/bibledit-ios/archive/master.zip</code></p>
-<p>##download2##</p>
+<p>
+  gettext("The download takes some time.")
+</p>
 </li>
+
 <li>
-<p>##unzip##</p>
+<p>
+  gettext("Unpack the downloaded software.")
+  gettext("In the terminal, type the command below, and press return:")
+</p>
 <p><code>unzip master</code></p>
-<p>##inflate##</p>
+<p>
+  gettext("It will inflate a lot of files.")
+</p>
 </li>
+
 <li>
-<p>##script##</p>
+<p>
+  gettext("Run the Bibledit installation script.")
+  gettext("In the terminal, type the command below, and press return:")
+</p>
 <p><code>./bibledit-ios-master/install</code></p>
-<p>##messages##</p>
+<p>
+  gettext("It will output messages but no errors should occur.")
+</p>
 </li>
+
 <li>
-<p>##open##</p>
+<p>
+  gettext("Open Safari on the device.")
+  gettext("Browse to the following address:")
+</p>
 <p><a href="http://localhost/bibledit-web" target="_blank"><code>localhost/bibledit-web</code></a></p>
-<p>##configure##</p>
+<p>
+  gettext("It should display Bibledit-Web.")
+  gettext("Follow the steps in Safari to complete the installation and open Bibledit.")
+</p>
 </li>
+
 </ol>
-<p>##future##</p>
+
+<p>
+  gettext("Note:")
+  gettext("Work on a version of Bibledit on iOS that does not require jailbreaking the device is in progress.")
+</p>

@@ -144,13 +144,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
 	bible/logic.$(OBJEXT) notes/logic.$(OBJEXT) \
 	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
-	help/index.$(OBJEXT) help/about.$(OBJEXT) \
-	help/changelog.$(OBJEXT) help/freebible.$(OBJEXT) \
-	help/introduction.$(OBJEXT) help/installation.$(OBJEXT) \
-	help/installwindows.$(OBJEXT) help/installandroid.$(OBJEXT) \
-	help/installosx.$(OBJEXT) help/installios.$(OBJEXT) \
-	help/installubuntu.$(OBJEXT) help/installcentos.$(OBJEXT) \
-	help/installpclinuxos.$(OBJEXT)
+	help/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -426,19 +420,7 @@ libbibledit_a_SOURCES = \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
-	help/index.cpp \
-	help/about.cpp \
-	help/changelog.cpp \
-	help/freebible.cpp \
-	help/introduction.cpp \
-	help/installation.cpp \
-	help/installwindows.cpp \
-	help/installandroid.cpp \
-	help/installosx.cpp \
-	help/installios.cpp \
-	help/installubuntu.cpp \
-	help/installcentos.cpp \
-	help/installpclinuxos.cpp
+	help/index.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -842,30 +824,6 @@ help/$(DEPDIR)/$(am__dirstamp):
 	@: > help/$(DEPDIR)/$(am__dirstamp)
 help/index.$(OBJEXT): help/$(am__dirstamp) \
 	help/$(DEPDIR)/$(am__dirstamp)
-help/about.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/changelog.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/freebible.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/introduction.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installation.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installwindows.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installandroid.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installosx.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installios.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installubuntu.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installcentos.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
-help/installpclinuxos.$(OBJEXT): help/$(am__dirstamp) \
-	help/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1036,19 +994,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/about.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/changelog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/freebible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installandroid.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installation.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installcentos.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installios.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installosx.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installpclinuxos.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installubuntu.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/installwindows.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/introduction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@journal/$(DEPDIR)/index.Po@am__quote@

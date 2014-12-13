@@ -21,21 +21,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
+#include <filter/url.h>
+#include <config/logic.h>
 
 
-const char * help_index_url ()
+string help_index_html (const string& url)
 {
-  return "help/index";
+  string path = filter_url_basename (url);
+  path.append (".html");
+  path = filter_url_create_root_path ("help", path);
+  return path;
 }
 
 
-bool help_index_acl (void * webserver_request)
+bool help_index_url (const string& url)
 {
+  return filter_url_file_exists (help_index_html (url));
+}
+
+
+bool help_index_acl (void * webserver_request, const string& url)
+{
+  if (url.empty()) {};
   return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
 
-string help_index (void * webserver_request)
+string help_index (void * webserver_request, const string& url)
 {
   string page;
 
@@ -43,21 +55,9 @@ string help_index (void * webserver_request)
 
   Assets_View view = Assets_View (0);
 
-  view.set_variable ("title", gettext("Help"));
-  view.set_variable ("introduction", gettext("Introduction"));
-  view.set_variable ("installation", gettext("Installation"));
-  view.set_variable ("methodology", gettext("Methodology"));
-  view.set_variable ("navigation", gettext("Navigation"));
-  view.set_variable ("shortcuts", gettext("Keyboard shortcuts"));
-  view.set_variable ("consultations", gettext("Consultations"));
-  view.set_variable ("consistency", gettext("Consistency"));
-  view.set_variable ("checks", gettext("Checks"));
-  view.set_variable ("teams", gettext("Teams"));
-  view.set_variable ("typesetting", gettext("Typesetting"));
-  view.set_variable ("tipstricks", gettext("Tips and tricks"));
-  view.set_variable ("about", gettext("About"));
+  view.set_variable ("version", config_logic_version ());
 
-  page += view.render ("help", "index");
+  page += view.render ("help", filter_url_basename (url));
 
   page += Assets_Page::footer ();
 

@@ -1,28 +1,38 @@
-<h2>##title##</h2>
-<p>##intro##</p>
+<h2>gettext("Install Bibledit-Web 1.9 on CentOS 6.4")</h2>
+<p>
+  gettext("Follow the steps below to install Bibledit-Web.")
+  gettext("It needs some basic knowledge of working with Linux servers.")
+</p>
 <ol>
-<li>##terminal##</li>
-<li><a href="http://www.howtoforge.com/installing-apache2-with-php5-and-mysql-support-on-centos-6.4-lamp" target="_blank">##lamp##</a></li>
-<li>##firewall##</li>
+<li>gettext("Open a terminal.")</li>
+<li><a href="http://www.howtoforge.com/installing-apache2-with-php5-and-mysql-support-on-centos-6.4-lamp" target="_blank">gettext("Install Apache, PHP5 and MySQL.")</a></li>
+<li>Set up the firewall to enable incoming web traffic.</li>
 <li>
-  <p>##dependencies##</p>
+  <p>gettext("In the terminal issue the following commands:")</p>
   <p><code>$ yum install git unzip rcs php-mysql php-mbstring php-xml php-posix php-sqlite</code></p>
   <p><code>$ service httpd restart</code></p>
 </li>
-<li>##defaults##</li>
+<li>gettext("Select the default settings for anything to be set up.")</li>
 <li>
-  <p>##download##</p>
-  <p><code>$ wget http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.8.zip</code></p>
+  <p>gettext("Download Bibledit-Web:")</p>
+  <p><code>$ wget http://download.savannah.nongnu.org/releases/bibledit-web/source/bibledit-web-1.9.zip</code></p>
 </li>
 <li>
-  <p>##install##</p>
+  <p>gettext("Install Bibledit-Web in folder /var/www/html as user root:")</p>
   <p><code>$ cd /var/www/html</code></p>
-  <p><code>$ unzip ~/bibledit-web-1.8.zip</code></p>
+  <p><code>$ unzip ~/bibledit-web-1.9.zip</code></p>
 </li>
 <li>
-  <p>##chown##</p>
+  <p>gettext("Make everything readable and writable to the web server user through the following commands")</p>
   <p><code>$ chown -R apache:apache bibledit-web</code></p>
 </li>
-<li>##website## http://website.org/bibledit-web.</li>
-<li>##configure##</li>
+<li>gettext("Bibledit-Web will be accessible through:") http://website.org/bibledit-web.</li>
+<li>gettext("Open the web address in the browser, and follow the steps on the screen to configure Bibledit-Web and log in.")</li>
+<li>
+  <a href="http://stackoverflow.com/questions/8551740/centos-htaccess-not-being-read" target="_blank">gettext("Enable the use of .htaccess files in Apache to secure some Bibledit-Web folders.")</a>
+  gettext("Set")
+  <code>AllowOverride All</code>
+  gettext("in file")
+  <code>httpd.conf</code>.
+</li>
 </ol>
