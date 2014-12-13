@@ -80,7 +80,8 @@ libbibledit_a_SOURCES = \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
-	help/index.cpp
+	help/index.cpp \
+	confirm/worker.cpp
 
 bin_PROGRAMS = server unittest
 

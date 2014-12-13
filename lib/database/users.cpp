@@ -504,3 +504,9 @@ bool Database_Users::hasReadOnlyAccess2Bible (string user, string bible)
 }
   
 
+void Database_Users::execute (const string& sql)
+{
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql);
+  database_sqlite_disconnect (db);
+}

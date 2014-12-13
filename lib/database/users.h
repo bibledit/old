@@ -66,6 +66,7 @@ public:
   bool hasAccess2Bible (string user, string bible);
   void setReadOnlyAccess2Bible (string user, string bible, bool readonly);
   bool hasReadOnlyAccess2Bible (string user, string bible);
+  void execute (const string& sql);
 private:
   sqlite3 * connect ();
   string mainFolder ();
