@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <confirm/worker.h>
 
 
 class Verification
@@ -129,20 +130,17 @@ string session_signup (void * webserver_request)
       }
     }
     if (form_is_valid) {
-      /* Todo
-      confirm_worker = Confirm_Worker::getInstance ();
-      initial_subject = gettext("Signup verification");
-      initial_body = gettext("Somebody requested to open an account with this email address.");
-      query = database_users.addNewUserQuery (user, pass, Filter_Roles::MEMBER_LEVEL, mail);
-      subsequent_subject = gettext("Account opened");
-      subsequent_body = gettext("Welcome! Your account is now active.");
+      Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
+      string initial_subject = gettext("Signup verification");
+      string initial_body = gettext("There is a request to open an account with this email address.");
+      string query = database_users.addNewUserQuery (user, pass, Filter_Roles::member (), mail);
+      string subsequent_subject = gettext("Account opened");
+      string subsequent_body = gettext("Welcome! Your account is now active.");
       confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
       signed_up = true;
-      */
     }
   }
 
-signed_up = false; // Todo
   if (signed_up) page += view.render ("session", "signedup");
   else page += view.render ("session", "signup");
 

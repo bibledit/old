@@ -37,15 +37,15 @@ Confirm_Worker::~Confirm_Worker ()
 }
 
 
-// setup - Sets up a confirmation cycle in order to change something in the database.
-//         If e.g. the user requests the email address to be changed, an initial email will be
-//         sent, which the user should confirm.
-// to - Email address for the initial email and the response.
-// initial_subject - The subject of the initial email message.
-// initial_body - The body of the initial email message.
-// query - The query to be executed on the database if the user confirms the email successfully.
-// subsequent_subject - The subject of the email to send upon user confirmation.
-// subsequent_body - The body of the email to send upon user confirmation.
+// Sets up a confirmation cycle in order to change something in the database.
+// If for example a user requests the email address to be changed, 
+// an initial email will be sent, which the user should confirm.
+// to                : Email address for the initial email and the response.
+// initial_subject   : The subject of the initial email message.
+// initial_body      : The body of the initial email message.
+// query             : The query to be executed on the database if the user confirms the email successfully.
+// subsequent_subject: The subject of the email to send upon user confirmation.
+// subsequent_body   : The body of the email to send upon user confirmation.
 void Confirm_Worker::setup (string to, string initial_subject, string initial_body, string query, string subsequent_subject, string subsequent_body) // Todo test it.
 {
   Database_Confirm database_confirm = Database_Confirm ();

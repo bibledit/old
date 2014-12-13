@@ -48,7 +48,6 @@ string session_password (void * webserver_request)
   string page;
 
   Assets_Header header = Assets_Header (gettext ("Password"), webserver_request);
-  header.setBodyOnload ("document.form.user.focus();");
   page += header.run ();
 
   Assets_View view = Assets_View ();

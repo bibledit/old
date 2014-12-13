@@ -45,7 +45,7 @@ if (isset($_POST['new'])) {
   if ($database_users->usernameExists ($user)) {
     Assets_Page::error (gettext("User already exists"));
   } else {
-    $database_users->addNewUser($user, $user, Filter_Roles::MEMBER_LEVEL, "");
+    $database_users->addNewUser($user, $user, Filter_Roles::member (), "");
     Assets_Page::success (gettext("User created"));
   }
 }

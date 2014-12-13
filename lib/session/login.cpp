@@ -86,8 +86,8 @@ string session_login (void * webserver_request)
       } else {
         view.set_variable ("error_message", gettext ("Username or email address or password are not correct"));
         request->session_logic()->logout();
-        // Log the login failure for the Administrator(s), so that others cannot reverse engineer a user's password based on the failure information.
-        Database_Logs::log ("Failed login attempt for user $user with password $pass", Filter_Roles::admin ());
+        // Log the login failure for the Administrator(s) only. Other with lower roles cannot reverse engineer a user's password based on the failure information.
+        Database_Logs::log ("Failed login attempt for user " + user + " with password " + pass, Filter_Roles::admin ());
       }
     }
   }
@@ -127,6 +127,5 @@ string session_login_display_header (void * webserver_request)
      Therefore no output should be sent so the forward headers work.
   */
   Assets_Header header = Assets_Header (gettext ("Login"), webserver_request);
-  header.setBodyOnload ("document.form.user.focus();");
   return header.run ();
 }

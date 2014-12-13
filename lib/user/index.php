@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::MEMBER_LEVEL);
+page_access_level (Filter_Roles::member ());
 Assets_Page::header (gettext("My area"));
 $view = new Assets_View (__FILE__);
 $view->render ("index.php");
