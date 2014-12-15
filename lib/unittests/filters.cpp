@@ -2316,7 +2316,7 @@ void test_email ()
 }
 
 
-void test_stat () // Todo
+void test_stat ()
 {
   // Testing is_dir.
   string path = filter_url_create_root_path ("git");

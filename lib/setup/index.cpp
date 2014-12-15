@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/modifications.h>
 #include <database/notes.h>
 #include <database/volatile.h>
+#include <config/globals.h>
 
 
 void setup_write_access ()
@@ -56,6 +57,13 @@ void setup_write_access ()
 
 void setup_create_databases ()
 {
+  // If the setup is already running, bail out.
+  // This situation may happen if a user keeps refreshing the setup page.
+  if (config_globals_setup_running) return;
+  // Set flag that setup is now running.
+  config_globals_setup_running = true;
+
+  // Do the database setup.
   Webserver_Request request;
   request.database_users ()->create ();
   request.database_users ()->upgrade ();
@@ -95,6 +103,9 @@ void setup_create_databases ()
   database_notes.create ();
   Database_Volatile database_volatile = Database_Volatile ();
   database_volatile.create ();
+  
+  // Clear setup flag.
+  config_globals_setup_running = false;
 }
 
 
