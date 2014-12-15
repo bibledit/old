@@ -121,36 +121,55 @@ string setup_index (void * webserver_request)
   
   Assets_View view = Assets_View ();
 
-  if (!request->post ["Submit"].empty ()) {
-  
-    string admin_username = request->post ["admin_username"];
-    string admin_password = request->post ["admin_password"];
-    string admin_email = request->post ["admin_email"];
-  
-    vector <string> errors;
-    
-    if (admin_username.length() < 5) {
-      errors.push_back ("Choose a longer username.");
-    }
-    
-    if (admin_password.length() < 7) {
-      errors.push_back ("Choose a longer password.");
-    }
-    
-    if (admin_email.length() < 5) {
-      errors.push_back ("Enter a valid email address.");
-    }
-  
-    if (errors.empty()) {
-      request->database_users ()->removeUser (admin_username);
-      request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
-      Database_Config_General::setInstalledVersion (VERSION);
-      redirect_browser ("/index/index", request);
-    } else {
-      view.enable_zone ("errors");
-      view.set_variable ("error", filter_string_implode (errors, " "));  
-    }
+  // Get the existing Administrators.
+  vector <string> admins = request->database_users ()->getAdministrators ();
 
+  // Admins do not yet exist: Allow to enter an admin.
+  if (admins.empty ()) {
+    if (!request->post ["Submit"].empty ()) {
+      string admin_username = request->post ["admin_username"];
+      string admin_password = request->post ["admin_password"];
+      string admin_email = request->post ["admin_email"];
+      vector <string> errors;
+      if (admin_username.length() < 5) errors.push_back ("Choose a longer username.");
+      if (admin_password.length() < 7) errors.push_back ("Choose a longer password.");
+      if (admin_email.length() < 5) errors.push_back ("Enter a valid email address.");
+      if (errors.empty()) {
+        request->database_users ()->removeUser (admin_username);
+        request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
+        Database_Config_General::setInstalledVersion (VERSION);
+        redirect_browser ("/index/index", request);
+      } else {
+        view.enable_zone ("errors");
+        view.set_variable ("error", filter_string_implode (errors, " "));
+      }
+    }
+  }
+
+  // Enable appropriate zones: Either enter admin's details, or else display the details.
+  if (admins.empty ()) {
+    view.enable_zone ("enteradmin");
+    view.enable_zone ("enteruser");
+    view.enable_zone ("enterpass");
+    view.enable_zone ("entermail");
+    view.enable_zone ("displaysubmit");
+  } else {
+    string usernames;
+    string emails;
+    for (unsigned int i = 0; i < admins.size(); i++) {
+      if (i) {
+        usernames.append (" / ");
+        emails.append (" / ");
+      }
+      usernames.append (admins[i]);
+      emails.append (request->database_users ()->getUserToEmail (admins[i]));
+    }
+    view.set_variable ("usernames", usernames);
+    view.set_variable ("emails", emails);
+    view.enable_zone ("displayok");
+    // If the admin's are already there, then the setup has completed.
+    // The automatic page refresh will kick in, and navigate to the main screen.
+    Database_Config_General::setInstalledVersion (VERSION);
   }
 
   return view.render ("setup", "index");
