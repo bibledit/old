@@ -58,7 +58,7 @@ class Access_User
         // The admin has all users assigned.
         $userBibles = $database_users->getBibles4User ($user);
         $biblesInCommon = array_intersect ($userBibles, $mybibles);
-        if (!empty ($biblesInCommon) || empty ($userBibles) || $mylevel >= Filter_Roles::ADMIN_LEVEL) {
+        if (!empty ($biblesInCommon) || empty ($userBibles) || $mylevel >= Filter_Roles::admin ()) {
           $assignees [] = $user;
         }
       }

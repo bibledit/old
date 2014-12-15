@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 
 
 // phpLiteAdmin is secured through the standard Bibledit-Web login mechanism.
-page_access_level (Filter_Roles::ADMIN_LEVEL);
+page_access_level (Filter_Roles::admin ());
 
 
 // Do not show phpLiteAdmin in an open installation, 

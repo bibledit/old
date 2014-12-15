@@ -200,7 +200,7 @@ foreach ($server_identifiers as $key => $identifier) {
     $database_notes->updateSearchFields ($identifier);
     $database_notes->updateChecksum ($identifier);
 
-    $database_logs->log ("Note received from server" . ": " . $summary, Filter_Roles::MANAGER_LEVEL);
+    $database_logs->log ("Note received from server" . ": " . $summary, Filter_Roles::manager ());
 
     $checksum = $database_notes->getChecksum ($identifier);
 

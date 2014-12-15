@@ -38,7 +38,7 @@ $database_logs->log (gettext("Sending and receiving Consultation Notes"), Filter
 
 
 $response = config_logic_setup ();
-if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::ADMIN_LEVEL) {
+if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
   $database_logs->log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::TRANSLATOR_LEVEL);
   die;
 }
@@ -133,7 +133,7 @@ foreach ($notes as $note) {
       // Set modified field last as it is affected by the previous store actions.
       $database_notes->setModified ($note, $modified);
 
-      $database_logs->log ("Updated note received from server" . ": " . $summary, Filter_Roles::MANAGER_LEVEL);
+      $database_logs->log ("Updated note received from server" . ": " . $summary, Filter_Roles::manager ());
 
       // Update search and checksum.
       $database_notes->updateSearchFields ($note);

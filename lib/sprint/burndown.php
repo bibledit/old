@@ -75,7 +75,7 @@ $database_sprint = Database_Sprint::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$database_logs->log ("Updating Sprint information", Filter_Roles::ADMIN_LEVEL);
+$database_logs->log ("Updating Sprint information", Filter_Roles::admin ());
 
 
 // Determine year / month / day of the current sprint.

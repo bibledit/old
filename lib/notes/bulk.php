@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::MANAGER_LEVEL);
+page_access_level (Filter_Roles::manager ());
 
 
 $header = new Assets_Header (gettext("Bulk update"));
@@ -56,7 +56,7 @@ $userid = Filter_User::myIdentifier ();
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-if ($session_logic->currentLevel () == Filter_Roles::ADMIN_LEVEL) $bibles = NULL;
+if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 
 
 // In case there are no GET variables yet, 

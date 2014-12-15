@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Creating stylesheet.css files", Filter_Roles::ADMIN_LEVEL);
+$database_logs->log ("Creating stylesheet.css files", Filter_Roles::admin ());
 
 
 $styles_sheets = new Styles_Sheets ();

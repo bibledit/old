@@ -73,8 +73,8 @@ $users = array (
   array ("member", Filter_Roles::member ()),
   array ("consultant", Filter_Roles::CONSULTANT_LEVEL),
   array ("translator", Filter_Roles::TRANSLATOR_LEVEL),
-  array ("manager", Filter_Roles::MANAGER_LEVEL),
-  array ("admin", Filter_Roles::ADMIN_LEVEL)
+  array ("manager", Filter_Roles::manager ()),
+  array ("admin", Filter_Roles::admin ())
 );
 foreach ($users as $user) {
   if (!$database_users->usernameExists ($user [0])) {

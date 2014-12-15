@@ -81,7 +81,10 @@ libbibledit_a_SOURCES = \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \
-	confirm/worker.cpp
+	confirm/worker.cpp \
+	email/index.cpp \
+	email/send.cpp \
+	email/receive.cpp
 
 bin_PROGRAMS = server unittest
 

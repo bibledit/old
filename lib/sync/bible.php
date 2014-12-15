@@ -40,9 +40,9 @@ $database_mail = Database_Mail::getInstance ();
 
 
 $user_ok = $database_users->usernameExists ($username);
-if (!$user_ok) $database_logs->log ("Non existing user $username", Filter_Roles::MANAGER_LEVEL);
+if (!$user_ok) $database_logs->log ("Non existing user $username", Filter_Roles::manager ());
 $pass_ok = ($password == $database_users->getmd5 ($username));
-if (!$pass_ok) $database_logs->log ("Incorrect password $password for user $username", Filter_Roles::MANAGER_LEVEL);
+if (!$pass_ok) $database_logs->log ("Incorrect password $password for user $username", Filter_Roles::manager ());
 if (!$user_ok || !$pass_ok) {
   // Unauthorized.
   http_response_code (401); 
@@ -56,13 +56,13 @@ $session_logic->setUsername ($username);
 $bookname = $database_books->getEnglishFromId ($book);
 
 
-$database_logs->log ("Client sent Bible data: $bible $bookname $chapter", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log ("Client sent Bible data: $bible $bookname $chapter", Filter_Roles::manager ());
 
 
 // Check whether the user has write-access to the Bible.
 if (!Access_Bible::write ($bible, $username)) {
   $message = "User $username does not have write access to Bible $bible";
-  $database_logs->log ($message, Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ($message, Filter_Roles::manager ());
   echo $message;
   die;
 }
@@ -71,7 +71,7 @@ if (!Access_Bible::write ($bible, $username)) {
 // Check checksum.
 if ($checksum != Checksum_Logic::get ($oldusfm . $newusfm)) {
   $message = "The received data is corrupted";
-  $database_logs->log ($message, Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ($message, Filter_Roles::manager ());
   echo $message;
   die;
 }

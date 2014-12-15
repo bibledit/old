@@ -75,13 +75,13 @@ $setting = unserialize ($_POST ['s']);
 
   $user = Filter_Hex::hex2bin ($_POST ['u']);
   if (!$database_users->usernameExists ($user)) {
-    $database_logs->log ("A client passes non existing user $user", Filter_Roles::MANAGER_LEVEL);
+    $database_logs->log ("A client passes non existing user $user", Filter_Roles::manager ());
     die;
   }
 
   $md5 = $_POST ['p'];
   if ($md5 != $database_users->getmd5 ($user)) {
-    $database_logs->log ("A client provides incorrect password for user $user", Filter_Roles::MANAGER_LEVEL); // Test it.
+    $database_logs->log ("A client provides incorrect password for user $user", Filter_Roles::manager ()); // Test it.
     die;
   }
 
@@ -142,7 +142,7 @@ $setting = unserialize ($_POST ['s']);
   $summary = $database_notes->getSummary ($identifier);
   $contents = $database_notes->getContents ($identifier);
 
-  $database_logs->log ("Client requested a note from server" . ": " . $summary, Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client requested a note from server" . ": " . $summary, Filter_Roles::manager ());
 
   $response = array (
     'm'  => $modified,

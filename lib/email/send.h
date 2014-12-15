@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -17,24 +16,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::manager ());
-Assets_Page::header (gettext("Import"));
 
-// Move the uploaded file to a temporary name.
-$notesfile = tempnam (sys_get_temp_dir(), '');
-unlink ($notesfile);
-@$notesfile .= $_FILES['notes']['name'];
-@$tmpfile = $_FILES['notes']['tmp_name'];
-$view = new Assets_View (__FILE__);
-if(move_uploaded_file($tmpfile, $notesfile)) {
-  $view->view->filename = $notesfile;
-  $notesfolder = Filter_Archive::uncompress ($notesfile, true);
-  $view->view->folder = $notesfolder;
-  $view->render ("import2.php");
-} else {
-  $view->render ("import2error.php");
-}
-Assets_Page::footer ();
+#ifndef INCLUDED_EMAIL_SEND
+#define INCLUDED_EMAIL_SEND
 
-?>
+
+#include <config/libraries.h>
+
+
+void email_send ();
+bool email_send (string to_mail, string to_name, string subject, string body);
+
+
+#endif

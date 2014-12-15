@@ -38,11 +38,11 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $user_ok = $database_users->usernameExists ($username);
-if (!$user_ok) $database_logs->log ("Non existing user $username", Filter_Roles::MANAGER_LEVEL);
+if (!$user_ok) $database_logs->log ("Non existing user $username", Filter_Roles::manager ());
 $pass_ok = ($password == $database_users->getmd5 ($username));
-if (!$pass_ok) $database_logs->log ("Incorrect password $password for user $username", Filter_Roles::MANAGER_LEVEL);
+if (!$pass_ok) $database_logs->log ("Incorrect password $password for user $username", Filter_Roles::manager ());
 $level_ok = ($level == $database_users->getUserLevel ($username));
-if (!$level_ok) $database_logs->log ("Incorrect role $level for user $username", Filter_Roles::MANAGER_LEVEL);
+if (!$level_ok) $database_logs->log ("Incorrect role $level for user $username", Filter_Roles::manager ());
 if (!$user_ok || !$pass_ok || !$level_ok) {
   // Unauthorized.
   http_response_code (401); 
@@ -72,7 +72,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Update search field.
   $database_notes->updateSearchFields ($note);
 
-  $database_logs->log ("Client created note on server" . ": $summary", Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client created note on server" . ": $summary", Filter_Roles::manager ());
   echo "The server created the note";
 
 } else if ($action == Notes_Logic::noteActionComment) {
@@ -83,7 +83,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Update search field.
   $database_notes->updateSearchFields ($note);
 
-  $database_logs->log ("Client added comment to note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client added comment to note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server added a comment to the note";
 
 } else if ($action == Notes_Logic::noteActionSummary) {
@@ -94,7 +94,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Update search field.
   $database_notes->updateSearchFields ($note);
 
-  $database_logs->log ("Client updated the summary of note on server" . ": " . $content, Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client updated the summary of note on server" . ": " . $content, Filter_Roles::manager ());
   echo "The server updated the summary of the note";
 
 } else if ($action == Notes_Logic::noteActionSubscribe) {
@@ -102,7 +102,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Subscribe to the note on the server.
   $database_notes->subscribeUser ($note, $username);
 
-  $database_logs->log ("Client subscribed to the note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client subscribed to the note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server subscribed a user to the note";
 
 } else if ($action == Notes_Logic::noteActionUnsubscribe) {
@@ -110,7 +110,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Unsubscribe from the note on the server.
   $database_notes->unsubscribeUser ($note, $username);
 
-  $database_logs->log ("Client unsubscribed from the note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client unsubscribed from the note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server unsubscribed a user from the note";
 
 } else if ($action == Notes_Logic::noteActionAssign) {
@@ -118,7 +118,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Assign user to the note on the server.
   $notes_logic->assignUser ($note, $content);
 
-  $database_logs->log ("Client assigned the note to a user on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client assigned the note to a user on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server assigned a note to a user";
 
 } else if ($action == Notes_Logic::noteActionUnassign) {
@@ -126,7 +126,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Unassign the user from the note on the server.
   $notes_logic->unassignUser ($note, $content);
 
-  $database_logs->log ("Client unassigned a user from the note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client unassigned a user from the note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server unassigned a user from the note";
 
 } else if ($action == Notes_Logic::noteActionStatus) {
@@ -134,7 +134,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Set the status for a note on the server.
   $notes_logic->setStatus ($note, $content);
 
-  $database_logs->log ("Client set the note status on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client set the note status on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server updated the status of the note";
 
 } else if ($action == Notes_Logic::noteActionPassage) {
@@ -142,7 +142,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Set the passages for a note on the server.
   $notes_logic->setPassages ($note, unserialize ($content));
 
-  $database_logs->log ("Client set the passages for a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client set the passages for a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server updated the passages of the note";
 
 } else if ($action == Notes_Logic::noteActionSeverity) {
@@ -150,7 +150,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Set the severity for a note on the server.
   $notes_logic->setRawSeverity ($note, $content);
 
-  $database_logs->log ("Client set the severity for a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client set the severity for a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server updated the severity of the note";
 
 } else if ($action == Notes_Logic::noteActionBible) {
@@ -158,7 +158,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Set the Bible for a note on the server.
   $notes_logic->setBible ($note, $content);
 
-  $database_logs->log ("Client set the Bible for a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client set the Bible for a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server updated the Bible of the note";
 
 } else if ($action == Notes_Logic::noteActionMarkDeletion) {
@@ -166,7 +166,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Mark note on server for deletion.
   $notes_logic->markForDeletion ($note);
 
-  $database_logs->log ("Client marked a note on server for deletion" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client marked a note on server for deletion" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server marked the note for deletion";
 
 } else if ($action == Notes_Logic::noteActionUnmarkDeletion) {
@@ -174,7 +174,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Unmark note on server for deletion.
   $notes_logic->unmarkForDeletion ($note);
 
-  $database_logs->log ("Client unmarked a note on server for deletion" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client unmarked a note on server for deletion" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server unmarked the note for deletion";
 
 } else if ($action == Notes_Logic::noteActionDelete) {
@@ -182,7 +182,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   // Delete note on server.
   $notes_logic->delete ($note);
 
-  $database_logs->log ("Client deleted a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client deleted a note on server" . ": " . $database_notes->getSummary ($note), Filter_Roles::manager ());
   echo "The server deleted the note";
 
 } else if ($action == Notes_Logic::noteActionGet) {
@@ -202,7 +202,7 @@ if ($action == Notes_Logic::noteActionCreate) {
   $summary = $database_notes->getSummary ($note);
   $contents = $database_notes->getContents ($note);
 
-  $database_logs->log ("Client requested a note from server" . ": " . $summary, Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Client requested a note from server" . ": " . $summary, Filter_Roles::manager ());
   
   $data = array (
     'm'  => $modified,

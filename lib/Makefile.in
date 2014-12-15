@@ -145,7 +145,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
 	bible/logic.$(OBJEXT) notes/logic.$(OBJEXT) \
 	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
-	help/index.$(OBJEXT) confirm/worker.$(OBJEXT)
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -424,7 +426,10 @@ libbibledit_a_SOURCES = \
 	trash/handler.cpp \
 	sync/logic.cpp \
 	help/index.cpp \
-	confirm/worker.cpp
+	confirm/worker.cpp \
+	email/index.cpp \
+	email/send.cpp \
+	email/receive.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -840,6 +845,18 @@ confirm/$(DEPDIR)/$(am__dirstamp):
 	@: > confirm/$(DEPDIR)/$(am__dirstamp)
 confirm/worker.$(OBJEXT): confirm/$(am__dirstamp) \
 	confirm/$(DEPDIR)/$(am__dirstamp)
+email/$(am__dirstamp):
+	@$(MKDIR_P) email
+	@: > email/$(am__dirstamp)
+email/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) email/$(DEPDIR)
+	@: > email/$(DEPDIR)/$(am__dirstamp)
+email/index.$(OBJEXT): email/$(am__dirstamp) \
+	email/$(DEPDIR)/$(am__dirstamp)
+email/send.$(OBJEXT): email/$(am__dirstamp) \
+	email/$(DEPDIR)/$(am__dirstamp)
+email/receive.$(OBJEXT): email/$(am__dirstamp) \
+	email/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -931,6 +948,7 @@ mostlyclean-compile:
 	-rm -f confirm/*.$(OBJEXT)
 	-rm -f database/*.$(OBJEXT)
 	-rm -f database/config/*.$(OBJEXT)
+	-rm -f email/*.$(OBJEXT)
 	-rm -f esword/*.$(OBJEXT)
 	-rm -f executable/*.$(OBJEXT)
 	-rm -f filter/*.$(OBJEXT)
@@ -1001,6 +1019,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/bible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/receive.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@esword/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/archive.Po@am__quote@
@@ -1338,6 +1359,8 @@ distclean-generic:
 	-rm -f database/$(am__dirstamp)
 	-rm -f database/config/$(DEPDIR)/$(am__dirstamp)
 	-rm -f database/config/$(am__dirstamp)
+	-rm -f email/$(DEPDIR)/$(am__dirstamp)
+	-rm -f email/$(am__dirstamp)
 	-rm -f esword/$(DEPDIR)/$(am__dirstamp)
 	-rm -f esword/$(am__dirstamp)
 	-rm -f executable/$(DEPDIR)/$(am__dirstamp)
@@ -1399,7 +1422,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf assets/$(DEPDIR) bible/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bible/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -1447,7 +1470,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf assets/$(DEPDIR) bible/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
+	-rm -rf assets/$(DEPDIR) bible/$(DEPDIR) bootstrap/$(DEPDIR) config/$(DEPDIR) confirm/$(DEPDIR) database/$(DEPDIR) database/config/$(DEPDIR) email/$(DEPDIR) esword/$(DEPDIR) executable/$(DEPDIR) filter/$(DEPDIR) flate/$(DEPDIR) help/$(DEPDIR) html/$(DEPDIR) index/$(DEPDIR) journal/$(DEPDIR) library/$(DEPDIR) locale/$(DEPDIR) menu/$(DEPDIR) notes/$(DEPDIR) odf/$(DEPDIR) onlinebible/$(DEPDIR) parsewebdata/$(DEPDIR) session/$(DEPDIR) setup/$(DEPDIR) styles/$(DEPDIR) sync/$(DEPDIR) tasks/$(DEPDIR) text/$(DEPDIR) timer/$(DEPDIR) trash/$(DEPDIR) unittests/$(DEPDIR) webserver/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

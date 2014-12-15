@@ -18,21 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-chdir (__DIR__);
-
-
-require_once ("../bootstrap/bootstrap.php");
-
-
 if (Filter_Cli::not_yet_ready ()) die;
-
-
-// The script runs through the cli Server API only.
-Filter_Cli::assert ();
-
-
-ignore_user_abort (true);
-set_time_limit (0);
 
 
 // CPU-intensive actions run at night.
@@ -43,35 +29,7 @@ $config_general = Database_Config_General::getInstance ();
 $database_logs = Database_Logs::getInstance ();
 
 
-$hour = date ('G');
-$minute = date ('i');
 $client = config_logic_client_enabled ();
-
-
-// At midnight, for five minutes, do nothing to allow time for external backup
-// without corrupting the SQLite databases due to simultaneous access by
-// Bibledit-Web and the backup program.
-if ($hour == 0) {
-  if ($minute <= 5) {
-    die;
-  }
-}
-
-
-
-// Every minute send out queued email, except in offline mode.
-if (!$client) {
-  Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/mailer.php"));
-}
-
-
-// Check for new mail every five minutes.
-// Do not check more often with gmail else the account may be shut down.
-if (!$client) {
-  if (($minute % 5) == 0) {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/receiver.php"));
-  }
-}
 
 
 // The order for running the following nightly scripts is important.

@@ -33,7 +33,7 @@ $database_search = Database_Search::getInstance ();
 // Health check on the database.
 $recreate = $database_search->checkup ();
 if ($recreate) {
-  $database_logs->log ("Recreating damaged search database" , Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Recreating damaged search database" , Filter_Roles::manager ());
 }
 
 
@@ -49,7 +49,7 @@ $database_search->optimize ();
 
 
 // Check for and delete extra Bibles from the search database.
-$database_logs->log ("Trimming search database" , Filter_Roles::MANAGER_LEVEL);
+$database_logs->log ("Trimming search database" , Filter_Roles::manager ());
 $bibles = $database_bibles->getBibles ();
 $searchBibles = $database_search->getBibles ();
 foreach ($searchBibles as $searchBible) {
@@ -95,7 +95,7 @@ foreach ($searchBibles as $searchBible) {
 // When the raw USFM matches for a chapter, than this chapter is considered okay.
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
-  $database_logs->log ("Updating search index for Bible $bible" , Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("Updating search index for Bible $bible" , Filter_Roles::manager ());
   $books = $database_bibles->getBooks ($bible);
   foreach ($books as $book) {
     $chapters = $database_bibles->getChapters ($bible, $book);
@@ -120,7 +120,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$database_logs->log ("Recreating Bible indexes ready", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log ("Recreating Bible indexes ready", Filter_Roles::manager ());
 
 
 ?>

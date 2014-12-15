@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <filter/roles.h>
 #include <webserver/request.h>
+#include <email/index.h>
+#include <config/logic.h>
 
 
 using namespace std;
@@ -202,7 +204,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "manage/indexing", gettext ("Indexing"), NULL } );
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "administration/language", gettext ("Language"), NULL } );
   if (level >= Filter_Roles::admin ())      menu->push_back ( { "", "administration/timezone", gettext ("Timezone"), NULL } );
-  if (level >= Filter_Roles::admin ())      menu->push_back ( { "mail", "administration/mail", gettext ("Mail"), NULL } );
+  if (email_index_acl (webserver_request) && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "styles/indext", gettext ("Styles"), stylessubmenu () } );
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "versification/index", gettext ("Versifications"), NULL } );
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
@@ -220,7 +222,6 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
     }
     // If Client mode is enabled, disable certain menu entries.
     if (config_logic_client_enabled ()) {
-      unset ($menu ["mail"]);
       unset ($menu ["users"]);
       unset ($menu ["collaboration"]);
     }

@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::MANAGER_LEVEL);
+page_access_level (Filter_Roles::manager ());
 
 
 Assets_Page::header (gettext("Styles"));
@@ -39,7 +39,7 @@ if ($delete != "") {
   @$confirm = $_GET['confirm'];
   if ($confirm != "") {
     $write = $database_styles->hasWriteAccess ($username, $delete);
-    if ($userlevel >= Filter_Roles::ADMIN_LEVEL) $write = true;
+    if ($userlevel >= Filter_Roles::admin ()) $write = true;
     if ($write) {
       $database_styles->deleteSheet ($delete);
       $database_styles->revokeWriteAccess ("", $delete);
@@ -75,7 +75,7 @@ $sheets = $database_styles->getSheets();
 $editable = array ();
 foreach ($sheets as $sheet) {
   $write = $database_styles->hasWriteAccess ($username, $sheet);
-  if ($userlevel >= Filter_Roles::ADMIN_LEVEL) $write = true;
+  if ($userlevel >= Filter_Roles::admin ()) $write = true;
   $editable [] = $write;
 }
 

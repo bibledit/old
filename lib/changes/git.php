@@ -27,7 +27,7 @@ Filter_Cli::assert ();
 
 $history = "history:";
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("$history Extracting history from the git repository", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log ("$history Extracting history from the git repository", Filter_Roles::manager ());
 
 
 // Newer git versions would read their config from /root and then generate a fatal error.
@@ -49,7 +49,7 @@ foreach ($bibles as $bible) {
   // The git directory for the Bible.
   $directory = Filter_Git::git_directory ($bible);
   if (!is_dir ($directory)) continue;
-  $database_logs->log ("$history Processing directory" . " " . $directory, Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("$history Processing directory" . " " . $directory, Filter_Roles::manager ());
   $shelldirectory = escapeshellarg ($directory);
 
   // Retrieve all commits from the git repository.
@@ -65,11 +65,11 @@ foreach ($bibles as $bible) {
     $timestamp = Filter_Git::timestamp ($directory, $sha1);
     $datetime = date ('j F Y g:i:s a', $timestamp);
 
-    $database_logs->log ("$history $author $datetime $bible $sha1", Filter_Roles::MANAGER_LEVEL);
+    $database_logs->log ("$history $author $datetime $bible $sha1", Filter_Roles::manager ());
 
     $files = Filter_Git::files ($directory, $sha1);
     foreach ($files as $path) {
-      $database_logs->log ("$history $path", Filter_Roles::MANAGER_LEVEL);
+      $database_logs->log ("$history $path", Filter_Roles::manager ());
       $data = Filter_Git::explodePath ($path);
       if ($data) {
         $book = $data ['book'];
@@ -115,7 +115,7 @@ foreach ($bibles as $bible) {
 }
 
 
-$database_logs->log ("$history Ready", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log ("$history Ready", Filter_Roles::manager ());
 
 
 ?>

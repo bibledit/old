@@ -36,7 +36,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$database_logs->log (gettext("Sending statistics to users"), Filter_Roles::ADMIN_LEVEL);
+$database_logs->log (gettext("Sending statistics to users"), Filter_Roles::admin ());
 
 
 $siteUrl = $database_config_general->getSiteURL ();

@@ -34,13 +34,13 @@ $database_books = Database_Books::getInstance ();
 $bible = Filter_Cli::argument (@$argv, 1);
 
 
-$database_logs->log (gettext("Converting Bible to USFM Resource") . ": $bible", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log (gettext("Converting Bible to USFM Resource") . ": $bible", Filter_Roles::manager ());
 
 
 $books = $database_bibles->getBooks ($bible);
 foreach ($books as $book) {
   $bookname = $database_books->getEnglishFromId ($book);
-  $database_logs->log ("$bookname", Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("$bookname", Filter_Roles::manager ());
   $chapters = $database_bibles->getChapters ($bible, $book);
   foreach ($chapters as $chapter) {
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
@@ -54,7 +54,7 @@ $database_bibles->deleteBible ($bible);
 // back to a Bible.
 
 
-$database_logs->log (gettext("Completed"), Filter_Roles::MANAGER_LEVEL);
+$database_logs->log (gettext("Completed"), Filter_Roles::manager ());
 
 
 ?>

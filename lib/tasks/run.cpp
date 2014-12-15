@@ -23,6 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <mutex>
+#include <email/receive.h>
+#include <email/send.h>
 
 
 mutex mutex_tasks; 
@@ -54,7 +56,11 @@ void tasks_run_one (string filename)
     database_logs.checkup ();
     database_logs.rotate ();
     Database_Logs::log ("The Journal was checked and rotated");
-  } else if (command == "Placerholderw") {
+  } else if (command == RECEIVEEMAIL) {
+    email_receive ();
+  } else if (command == SENDEMAIL) {
+    email_send ();
+  } else if (command == "Placerholder") {
   } else {
     Database_Logs::log ("Unknown task: " + command);
   }

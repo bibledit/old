@@ -36,11 +36,11 @@ $database_notes->set_availability (false);
 // Check on health of the databases, and optionally recreate them.
 $recreate = $database_notes->checkup ();
 if ($recreate) {
-  $database_logs->log ("The Consultation Notes main index was damaged is being recreated" , Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("The Consultation Notes main index was damaged is being recreated" , Filter_Roles::manager ());
 }
 $recreate = $database_notes->checkup_checksums ();
 if ($recreate) {
-  $database_logs->log ("The Consultation Notes checksums database was damaged is being recreated" , Filter_Roles::MANAGER_LEVEL);
+  $database_logs->log ("The Consultation Notes checksums database was damaged is being recreated" , Filter_Roles::manager ());
 }
 
 
@@ -49,7 +49,7 @@ if ($recreate) {
 // could not be written to the database because of errors. 
 // Then the notes index would not match the notes data.
 // Syncing ensures the index matches the notes data in the filesystem.
-$database_logs->log ("Updating Consultation Notes databases", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log ("Updating Consultation Notes databases", Filter_Roles::manager ());
 $database_notes->sync ();
 
 
@@ -57,7 +57,7 @@ $database_notes->sync ();
 $database_notes->set_availability (true);
 
 
-$database_logs->log ("Updating Consultation Notes databases ready", Filter_Roles::MANAGER_LEVEL);
+$database_logs->log ("Updating Consultation Notes databases ready", Filter_Roles::manager ());
 
 
 ?>

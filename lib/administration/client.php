@@ -50,7 +50,7 @@ if (isset ($_POST ['connect'])) {
 
   if ($response === false) {
     $view->view->error = gettext("Could not connect to the server.");
-  } else if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::ADMIN_LEVEL)) {
+  } else if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
     // Enable client mode upon a successful connection.
     enable_client ($user, $pass, $response);
     // Feedback.
@@ -72,7 +72,7 @@ if (isset ($_GET['demo'])) {
 
   $response = config_logic_setup ($user, md5 ($pass));
 
-  if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::ADMIN_LEVEL)) {
+  if (($response >= Filter_Roles::guest ()) && ($response <= Filter_Roles::admin ())) {
     // Enable client mode upon a successful connection.
     enable_client ($user, $pass, $response);
     // Feedback.

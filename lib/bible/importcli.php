@@ -85,9 +85,9 @@ foreach ($files as $file) {
           if ($book_number > 0) {
             Bible_Logic::storeChapter ($bible, $book_number, $chapter_number, $chapter_data);
             $book_name = $database_books->getUsfmFromId ($book_number);
-            $database_logs->log ("Imported $book_name $chapter_number", Filter_Roles::MANAGER_LEVEL);
+            $database_logs->log ("Imported $book_name $chapter_number", Filter_Roles::manager ());
           } else {
-            $database_logs->log ("Could not import this data: " . substr ($chapter_data, 0, 1000), Filter_Roles::MANAGER_LEVEL);
+            $database_logs->log ("Could not import this data: " . substr ($chapter_data, 0, 1000), Filter_Roles::manager ());
           }
         }
       } else {

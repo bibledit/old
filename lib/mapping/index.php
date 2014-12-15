@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::MANAGER_LEVEL);
+page_access_level (Filter_Roles::manager ());
 
 
 Assets_Page::header (gettext("Verse Mappings"));
@@ -53,7 +53,7 @@ $editable = array ();
 foreach ($mappings as $mapping) {
   //$write = $database_styles->hasWriteAccess ($username, $sheet);
   $write = true;
-  if ($userlevel >= Filter_Roles::ADMIN_LEVEL) $write = true;
+  if ($userlevel >= Filter_Roles::admin ()) $write = true;
   $editable [] = $write;
 }
 

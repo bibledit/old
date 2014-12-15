@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <journal/index.h>
 #include <config/logic.h>
 #include <help/index.h>
+#include <email/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -55,7 +56,10 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == session_signup_url ()) && session_signup_acl (request)) request->reply = session_signup (request);
   
   // Changes menu.
-  else if ((url == journal_index_url ()) && session_logout_acl (request)) request->reply = journal_index (request);
+  else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
+
+  // Settings menu.
+  else if ((url == email_index_url ()) && email_index_acl (request)) request->reply = email_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);

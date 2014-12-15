@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::MANAGER_LEVEL);
+page_access_level (Filter_Roles::manager ());
 
 
 Assets_Page::header (gettext("Users"));
@@ -61,7 +61,7 @@ if (isset ($_GET['delete'])) {
   $role = Filter_Roles::text ($level);
   $email = $database_users->getUserToEmail ($user);
   $message = "Deleted user $user with role $role and email $email";
-  $database_logs->log ($message, Filter_Roles::ADMIN_LEVEL);
+  $database_logs->log ($message, Filter_Roles::admin ());
   $database_users->removeUser($user);
   Assets_Page::success ($message);
 }
@@ -155,7 +155,7 @@ if (isset ($readonlytoggle)) {
 // The admin has access to all Bibles.
 $mylevel = $session_logic->currentLevel ();
 $mybibles = $database_users->getBibles4User ($currentUser);
-if ($mylevel >= Filter_Roles::ADMIN_LEVEL) {
+if ($mylevel >= Filter_Roles::admin ()) {
   $mybibles = $database_bibles->getBibles ();
 }
 
