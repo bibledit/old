@@ -88,10 +88,6 @@ void Database_Users::upgrade ()
   // Upgrade table "users".
   // Column 'timestamp' is available in older databases. It is not in use.
   // It cannot be dropped easily in SQLite. Leave it for just now.
-  sqlite3 * db = connect ();
-  string sql = "PRAGMA table_info (users);";
-  vector <string> columns = database_sqlite_query (db, sql) ["name"];
-  database_sqlite_disconnect (db);
 }
 
 

@@ -76,8 +76,8 @@ void Database_Sprint::create ()
     ");";
   database_sqlite_exec (db, sql);
 
-  // Upgrade the two tables: Add a column for the Bible.
-  sql = "PRAGMA table_info (users);";
+  // Upgrade the two tables: Add a column for the Bible. /// Todo
+  sql = "PRAGMA table_info (sprint);";
   vector <string> columns = database_sqlite_query (db, sql) ["name"];
   if (find (columns.begin(), columns.end(), "bible") == columns.end()) {
     sql = "ALTER TABLE sprint ADD COLUMN bible text;";
