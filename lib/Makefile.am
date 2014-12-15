@@ -105,10 +105,12 @@ unittest_LDADD = libbibledit.a
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
 AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
+AM_CXXFLAGS += $(CURL_CFLAGS)
 
 LIBS = -Wall -lpthread
 LIBS += `xml2-config --libs`
 LIBS += $(SQLITE_LIBS)
+LIBS += $(CURL_LIBS)
 
 EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* k* l* m* n* o* p* r* s* t* u* v* w* x*
 
