@@ -173,16 +173,6 @@ void Database_Config_General::setMailSendHost (string value)
 }
 
 
-string Database_Config_General::getMailSendAuthentication ()
-{
-  return getValue ("mail-send-authentication", "");
-}
-void Database_Config_General::setMailSendAuthentication (string value)
-{
-  setValue ("mail-send-authentication", value);
-}
-
-
 string Database_Config_General::getMailSendUsername ()
 {
   return getValue ("mail-send-username", "");
@@ -200,16 +190,6 @@ string Database_Config_General::getMailSendPassword ()
 void Database_Config_General::setMailSendPassword (string value)
 {
   setValue ("mail-send-password", value);
-}
-
-
-string Database_Config_General::getMailSendSecurity ()
-{
-  return getValue ("mail-send-security", "");
-}
-void Database_Config_General::setMailSendSecurity (string value)
-{
-  setValue ("mail-send-security", value);
 }
 
 

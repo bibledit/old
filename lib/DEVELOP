@@ -41,3 +41,6 @@ version written in C++ is this: A LAMP stack has many option to run
 shell commands and has options for security holes.
 The self-contained version is offers hardly any options for security holes.
 Thus the server is expected to be more secure.
+
+Libcurl may not be available easily on all types of tablets.
+Therefore it can be used for operations essential to servers, but not essential to smaller clients.

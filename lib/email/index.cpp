@@ -109,33 +109,28 @@ string email_index (void * webserver_request)
     string sendsecurity = request->post ["sendsecurity"];
     string sendport  = request->post ["sendport"];
     Database_Config_General::setMailSendHost (sendhost);
-    Database_Config_General::setMailSendAuthentication (sendauthentication);
     Database_Config_General::setMailSendUsername (sendusername);
     Database_Config_General::setMailSendPassword (sendpassword);
-    Database_Config_General::setMailSendSecurity (sendsecurity);
     Database_Config_General::setMailSendPort (sendport);
     string send_success  = gettext("The details were saved.");
     string send_error;
-    bool success = email_send (Database_Config_General::getSiteMailAddress(), Database_Config_General::getSiteMailName(), "Test", "This is to try out whether Bibledit can send email.");
-    if (success) {
+    string send_debug;
+    string result = email_send (Database_Config_General::getSiteMailAddress(), Database_Config_General::getSiteMailName(), "Test", "This is to try out whether Bibledit can send email.");
+    if (result.empty()) {
       send_success.append (" ");
       send_success.append (gettext("For the purpose of trying whether Bibledit can send email, a test email was sent out to the account above:"));
       send_success.append (" ");
       send_success.append (Database_Config_General::getSiteMailAddress());
     } else {
-      // Todo send_error .= " " . e.getMessage ();
+      send_error = result;
     }
     view.set_variable ("send_success", send_success);;
     view.set_variable ("send_error", send_error);
+    view.set_variable ("send_debug", send_debug);
   }
   view.set_variable ("sendhost", Database_Config_General::getMailSendHost ());
-  if (Database_Config_General::getMailSendAuthentication () == "Plain") view.set_variable ("sendplain", "selected=\"selected\"");
-  if (Database_Config_General::getMailSendAuthentication () == "Login") view.set_variable ("sendlogin", "selected=\"selected\"");
-  if (Database_Config_General::getMailSendAuthentication () == "Crammd5") view.set_variable ("sendlrammd5", "selected=\"selected\"");
   view.set_variable ("sendusername", Database_Config_General::getMailSendUsername ());
   view.set_variable ("sendpassword", Database_Config_General::getMailSendPassword ());
-  if (Database_Config_General::getMailSendSecurity () == "SSL") view.set_variable ("sendssl", "selected=\"selected\"");
-  if (Database_Config_General::getMailSendSecurity () == "TLS") view.set_variable ("sendtls", "selected=\"selected\"");
   view.set_variable ("sendport", Database_Config_General::getMailSendPort ());
 
   page += view.render ("email", "index");

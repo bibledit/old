@@ -22,8 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/mail.h>
 #include <database/users.h>
+#include <database/config/general.h>
 #include <filter/url.h>
 #include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/md5.h>
+#include <curl/curl.h>
 
 
 void email_send ()
@@ -61,58 +65,164 @@ void email_send ()
     }
   
     // Send the email.
-    // Todo mail = new Mail_Send (email, username, subject, body);
-    database_mail.erase (id);
-    string message = "Email to " + email + " with subject " + subject + " was sent successfully";
-    Database_Logs::log (message, Filter_Roles::manager ());
-    /* Todo 
-    database_mail.postpone (id);
-    message = e.getMessage ();
-    message = "Email to email could not be sent - reason: message";
-    Database_Logs::log (message);
-    */
+    string result = email_send (email, username, subject, body);
+    if (result.empty ()) {
+      database_mail.erase (id);
+      result = "Email to " + email + " with subject " + subject + " was sent successfully";
+    } else {
+      database_mail.postpone (id);
+      result.insert (0, "Email to email could not be sent - reason: ");
+    }
+    Database_Logs::log (result, Filter_Roles::manager ());
   }
 }
 
 
-bool email_send (string to_mail, string to_name, string subject, string body)
-{
+static vector <string> payload_text;
 
-  /* // Todo
-  config_general = Database_Config_General::getInstance ();
-  mail = new Zend_Mail();
-  mail.setFrom(config_general.getSiteMailAddress(), config_general.getSiteMailName());
-  mail.addTo(to_mail, to_name);
-  mail.setSubject(subject);
-  mail.setBodyHtml(body, "UTF-8", Zend_Mime::ENCODING_8BIT);
-  smtp_host =           config_general.getMailSendHost();
-  smtp_authentication = config_general.getMailSendAuthentication ();
-  smtp_user =           config_general.getMailSendUsername();
-  smtp_password =       config_general.getMailSendPassword();
-  smtp_security =       config_general.getMailSendSecurity();
-  smtp_port =           config_general.getMailSendPort();
-  if (smtp_host != "") {
-    if (smtp_authentication != "None") {
-      config = array ('auth' => smtp_authentication, 'username' => smtp_user, 'password' => smtp_password);
-      mta = new Zend_Mail_Transport_Smtp(smtp_host);
-    }
-    if (smtp_security != "NONE") {
-      config = array_merge (config, array ('ssl' => smtp_security));
-    }
-    if (smtp_port != "") {
-      config = array_merge (config, array ('port' => smtp_port));
-    }
-    if (isset (config)) {
-      mta = new Zend_Mail_Transport_Smtp(smtp_host, config);
-    } else {
-      mta = new Zend_Mail_Transport_Smtp(smtp_host);
-    }
-    mail.send(mta);
-  } else {
-    // If no smtp host is given, it uses the default sendmail mail transport agent.
-    mail.send();
+
+struct upload_status {
+  int lines_read;
+};
+
+
+static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
+{
+  struct upload_status *upload_ctx = (struct upload_status *)userp;
+  const char *data;
+
+  if((size == 0) || (nmemb == 0) || ((size*nmemb) < 1)) {
+    return 0;
   }
-  */
-  return true;
+  
+  if (upload_ctx->lines_read >= (int)payload_text.size()) {
+    return 0;
+  }
+
+  data = payload_text[upload_ctx->lines_read].c_str();
+
+  size_t len = strlen(data);
+  memcpy(ptr, data, len);
+  upload_ctx->lines_read++;
+
+  return len;
+}
+
+
+// Sends the email as specified by the parameters.
+// If all went well, it returns an empty string.
+// In case of failure, it returns the error message.
+string email_send (string to_mail, string to_name, string subject, string body)
+{
+  string from_mail = Database_Config_General::getSiteMailAddress ();
+  string from_name = Database_Config_General::getSiteMailName ();
+  
+  CURL *curl;
+  CURLcode res = CURLE_OK;
+  struct curl_slist *recipients = NULL;
+  struct upload_status upload_ctx;
+
+  upload_ctx.lines_read = 0;
+
+  int seconds = filter_string_date_seconds_since_epoch ();
+  payload_text.clear();
+  string payload;
+  payload = "Date: " + convert_to_string (filter_string_date_numerical_year ()) + "/" + convert_to_string (filter_string_date_numerical_month ()) + "/" + convert_to_string (filter_string_date_numerical_day (seconds)) + " " + convert_to_string (filter_string_date_numerical_hour (seconds)) + ":" + convert_to_string (filter_string_date_numerical_minute (seconds)) + "\r\n";
+  payload_text.push_back (payload);
+  payload = "To: <" + to_mail + "> " + to_name + "\r\n";
+  payload_text.push_back (payload);
+  payload = "From: <" + from_mail + "> " + from_name + "\r\n";
+  payload_text.push_back (payload);
+  string site = from_mail;
+  size_t pos = site.find ("@");
+  if (pos != string::npos) site = site.substr (pos);
+  payload = "Message-ID: <" + md5 (convert_to_string (filter_string_rand (0, 1000000))) + site + ">\r\n";
+  payload_text.push_back (payload);
+  payload = "Subject: " + subject + "\r\n";
+  payload_text.push_back (payload);
+  // Empty line to divide headers from body, see RFC5322.
+  payload_text.push_back ("\r\n");
+  // Body here.
+  vector <string> bodylines = filter_string_explode (body, '\n');
+  for (auto & line : bodylines) payload_text.push_back (line);
+  // Empty line.
+  payload_text.push_back ("\r\n");
+
+  curl = curl_easy_init();
+  /* Set username and password */
+  curl_easy_setopt(curl, CURLOPT_USERNAME, Database_Config_General::getMailSendUsername().c_str());
+  curl_easy_setopt(curl, CURLOPT_PASSWORD, Database_Config_General::getMailSendPassword().c_str());
+
+  /* This is the URL for your mailserver. Note the use of port 587 here,
+   * instead of the normal SMTP port (25). Port 587 is commonly used for
+   * secure mail submission (see RFC4403), but you should use whatever
+   * matches your server configuration. */
+  string smtp = "smtp://";
+  smtp.append (Database_Config_General::getMailSendHost());
+  smtp.append (":");
+  smtp.append (Database_Config_General::getMailSendPort());
+  curl_easy_setopt(curl, CURLOPT_URL, smtp.c_str());
+
+  /* In this example, we'll start with a plain text connection, and upgrade
+   * to Transport Layer Security (TLS) using the STARTTLS command. Be careful
+   * of using CURLUSESSL_TRY here, because if TLS upgrade fails, the transfer
+   * will continue anyway - see the security discussion in the libcurl
+   * tutorial for more details. */
+  curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+
+  /* If your server doesn't have a valid certificate, then you can disable
+   * part of the Transport Layer Security protection by setting the
+   * CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST options to 0 (false).
+   *   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+   *   curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+   * That is, in general, a bad idea. It is still better than sending your
+   * authentication details in plain text though.
+   * Instead, you should get the issuer certificate (or the host certificate
+   * if the certificate is self-signed) and add it to the set of certificates
+   * that are known to libcurl using CURLOPT_CAINFO and/or CURLOPT_CAPATH. See
+   * docs/SSLCERTS for more information. */
+  //curl_easy_setopt(curl, CURLOPT_CAINFO, "/path/to/certificate.pem");
+
+  /* Note that this option isn't strictly required, omitting it will result in
+   * libcurl sending the MAIL FROM command with empty sender data. All
+   * autoresponses should have an empty reverse-path, and should be directed
+   * to the address in the reverse-path which triggered them. Otherwise, they
+   * could cause an endless loop. See RFC 5321 Section 4.5.5 for more details.
+   */
+  curl_easy_setopt(curl, CURLOPT_MAIL_FROM, from_mail.c_str());
+
+  /* Add the recipients, in this particular case they correspond to the
+   * To: addressee in the header, but they could be any kind of recipient. */
+  recipients = curl_slist_append(recipients, to_mail.c_str());
+  curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+
+  /* We're using a callback function to specify the payload (the headers and
+   * body of the message). You could just use the CURLOPT_READDATA option to
+   * specify a FILE pointer to read from. */
+  curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
+  curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);
+  curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+
+  // Since the traffic will be encrypted, it is very useful to turn on debug
+  // information within libcurl to see what is happening during the transfer.
+  // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+  
+  // Timeout values.
+  curl_easy_setopt (curl, CURLOPT_CONNECTTIMEOUT, 10);
+
+  /* Send the message */
+  res = curl_easy_perform(curl);
+
+  /* Check for errors */
+  string result;
+  if (res != CURLE_OK) result = curl_easy_strerror (res);
+
+  /* Free the list of recipients */
+  curl_slist_free_all(recipients);
+
+  /* Always cleanup */
+  curl_easy_cleanup(curl);
+
+  return result;
 }
 

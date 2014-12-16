@@ -1,4 +1,4 @@
-AC_INIT([bibledit], [1.0.21],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit], [1.0.22],[http://www.nongnu.org/bibledit])
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -49,7 +49,7 @@ AC_SUBST(SQLITE_CFLAGS)
 AC_SUBST(SQLITE_LIBS)
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
 
-PKG_CHECK_MODULES(CURL, libcurl >= 7.0.0,,AC_MSG_ERROR(libcurl development version >= 7.0.0 is needed.))
+PKG_CHECK_MODULES(CURL, libcurl >= 7.20.0,,AC_MSG_ERROR(libcurl development version >= 7.20.0 is needed.))
 AC_SUBST(CURL_CFLAGS)
 AC_SUBST(CURL_LIBS)
 AC_CHECK_HEADER(curl/curl.h, , AC_MSG_ERROR([Header file curl/curl.h was not found. Usually this is in libcurl4-openssl-dev or libcurl4-gnutls-dev.]))

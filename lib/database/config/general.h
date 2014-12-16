@@ -46,14 +46,10 @@ public:
   static void setMailStoragePort (string value);
   static string getMailSendHost();
   static void setMailSendHost (string value);
-  static string getMailSendAuthentication();
-  static void setMailSendAuthentication (string value);
   static string getMailSendUsername();
   static void setMailSendUsername (string value);
   static string getMailSendPassword();
   static void setMailSendPassword (string value);
-  static string getMailSendSecurity();
-  static void setMailSendSecurity (string value);
   static string getMailSendPort();
   static void setMailSendPort (string value);
   static string getTimerMinute();
