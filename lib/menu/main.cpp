@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <email/index.h>
 #include <config/logic.h>
+#include <manage/indexing.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
 
@@ -203,7 +204,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
   if (level >= Filter_Roles::manager ())    menu->push_back ( { "users", "manage/users", gettext ("Users"), NULL } );
-  if (level >= Filter_Roles::manager ()) menu->push_back ( { "", "manage/indexing", gettext ("Indexing"), NULL } );
+  if (manage_indexing_acl (webserver_request)) menu->push_back ( { "", manage_indexing_url (), gettext ("Indexing"), NULL } );
   if (administration_language_acl (webserver_request)) menu->push_back ( { "", administration_language_url (), gettext ("Language"), NULL } );
   if (administration_timezone_acl (webserver_request)) menu->push_back ( { "", administration_timezone_url (), gettext ("Timezone"), NULL } );
   if (email_index_acl (webserver_request) && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );

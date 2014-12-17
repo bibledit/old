@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,12 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h1><?php echo gettext("Indexing") ?></h1>
-<p>
-  <?php echo gettext("Bibledit-Web uses indexes for fast lookup of data.") ?>
-  <?php echo gettext("Normally the indexes are refreshed automatically.") ?>
-  <?php echo gettext("When the Journal indicates unusual behaviour of an index, or errors, it needs to be recreated.") ?>
-</p>
-<p><a href="?refresh=bibles"><?php echo gettext("Recreate Bibles search index.") ?></a></p>
-<p><a href="?refresh=notes"><?php echo gettext("Recreate Consultation Notes selection and search index.") ?></a></p>
+
+
+#ifndef INCLUDED_MANAGE_INDEXING_H
+#define INCLUDED_MANAGE_INDEXING_H
+
+
+#include <config/libraries.h>
+
+
+string manage_indexing_url ();
+bool manage_indexing_acl (void * webserver_request);
+string manage_indexing (void * webserver_request);
+
+
+#endif

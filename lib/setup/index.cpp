@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/notes.h>
 #include <database/volatile.h>
 #include <config/globals.h>
+#include <index/index.h>
 
 
 void setup_write_access ()
@@ -138,7 +139,7 @@ string setup_index (void * webserver_request)
         request->database_users ()->removeUser (admin_username);
         request->database_users ()->addNewUser (admin_username, admin_password, Filter_Roles::admin (), admin_email);
         Database_Config_General::setInstalledVersion (VERSION);
-        redirect_browser ("/index/index", request);
+        redirect_browser (index_index_url (), request);
       } else {
         view.enable_zone ("errors");
         view.set_variable ("error", filter_string_implode (errors, " "));

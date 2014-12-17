@@ -87,6 +87,7 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
+	manage/indexing.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp
 

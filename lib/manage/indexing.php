@@ -18,36 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::manager ());
-
-
-@$refresh = $_GET['refresh'];
-
-if ($refresh == "bibles") {
-  $directory = dirname (__DIR__) . "/search";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/rebibles.php"));
-  Filter_Url::redirect ("../journal/index.php");
-  die;
-}
-
-
-if ($refresh == "notes") {
-  $directory = dirname (__DIR__) . "/search";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$directory/renotes.php"));
-  Filter_Url::redirect ("../journal/index.php");
-  die;
-}
-
-
-Assets_Page::header (gettext("Indexing"));
-
-
-$view = new Assets_View (__FILE__);
-$view->render ("indexing.php");
-
-
-Assets_Page::footer ();
 
 
 ?>

@@ -36,7 +36,7 @@ string get_base_url (Webserver_Request * request)
   // Port
   string port = "8080"; 
   // Full URL.  
-  string url = scheme + "://" + request->host + ":" + port;
+  string url = scheme + "://" + request->host + ":" + port + "/";
   return url;
 }
 
