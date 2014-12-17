@@ -148,7 +148,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
 	email/index.$(OBJEXT) email/send.$(OBJEXT) \
 	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
-	user/account.$(OBJEXT) administration/language.$(OBJEXT)
+	user/account.$(OBJEXT) administration/language.$(OBJEXT) \
+	administration/timezone.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -436,7 +437,8 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
-	administration/language.cpp
+	administration/language.cpp \
+	administration/timezone.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -882,6 +884,8 @@ administration/$(DEPDIR)/$(am__dirstamp):
 	@: > administration/$(DEPDIR)/$(am__dirstamp)
 administration/language.$(OBJEXT): administration/$(am__dirstamp) \
 	administration/$(DEPDIR)/$(am__dirstamp)
+administration/timezone.$(OBJEXT): administration/$(am__dirstamp) \
+	administration/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1006,6 +1010,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/language.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@administration/$(DEPDIR)/timezone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/builder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/header.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/page.Po@am__quote@

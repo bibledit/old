@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,14 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h1><?php echo gettext("Site timezone") ?></h1>
-<p><?php echo gettext("This page deals with the default timezone for the site.") ?></p>
-<p><?php echo gettext("Visitors will use this default timezone.") ?></p>
-<?php if ($this->timezone != "") { ?>
-  <p><?php echo gettext("Current timezone:") ?> <?php echo $this->timezone ?>.</p>
-<?php } else { ?>
-  <p><?php echo gettext("The default timezone has not yet been set.") ?></p>
-<?php } ?>
-<p><a href="timezone.php?timezone="><?php echo gettext("Change the timezone.") ?></a></p>
-<p><?php echo gettext("Those who have an account on this site can override this by setting their own preferred timezone.") ?></p>
+
+
+#ifndef INCLUDED_ADMINISTRATION_TIMEZONE_H
+#define INCLUDED_ADMINISTRATION_TIMEZONE_H
+
+
+#include <config/libraries.h>
+
+
+string administration_timezone_url ();
+bool administration_timezone_acl (void * webserver_request);
+string administration_timezone (void * webserver_request);
+
+
+#endif

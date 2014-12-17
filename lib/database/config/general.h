@@ -54,8 +54,8 @@ public:
   static void setMailSendPort (string value);
   static string getTimerMinute();
   static void setTimerMinute (string value);
-  static string getTimezone();
-  static void setTimezone (string value);
+  static int getTimezone();
+  static void setTimezone (int value);
   static string getSiteURL();
   static void setSiteURL (string value);
   static string getSiteLanguage ();
@@ -72,8 +72,10 @@ private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);
   static void setValue (const char * key, string value);
-  static bool getValue (const char * key, bool default_value);
-  static void setValue (const char * key, bool value);
+  static bool getBValue (const char * key, bool default_value);
+  static void setBValue (const char * key, bool value);
+  static int getIValue (const char * key, int default_value);
+  static void setIValue (const char * key, int value);
   vector <string> getList (const char * key);
   static void setList (const char * key, vector <string> values);
 };

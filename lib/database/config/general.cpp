@@ -61,14 +61,27 @@ void Database_Config_General::setValue (const char * key, string value)
 }
 
 
-bool Database_Config_General::getValue (const char * key, bool default_value)
+bool Database_Config_General::getBValue (const char * key, bool default_value)
 {
   string value = getValue (key, convert_to_string (default_value).c_str());
   return convert_to_bool (value);
 }
 
 
-void Database_Config_General::setValue (const char * key, bool value)
+void Database_Config_General::setBValue (const char * key, bool value)
+{
+  setValue (key, convert_to_string (value).c_str());
+}
+
+
+int Database_Config_General::getIValue (const char * key, int default_value)
+{
+  string value = getValue (key, convert_to_string (default_value).c_str());
+  return convert_to_int (value);
+}
+
+
+void Database_Config_General::setIValue (const char * key, int value)
 {
   setValue (key, convert_to_string (value).c_str());
 }
@@ -213,13 +226,13 @@ void Database_Config_General::setTimerMinute (string value)
 }
 
 
-string Database_Config_General::getTimezone ()
+int Database_Config_General::getTimezone ()
 {
-  return getValue ("timezone", "UTC");
+  return getIValue ("timezone", 0);
 }
-void Database_Config_General::setTimezone (string value)
+void Database_Config_General::setTimezone (int value)
 {
-  setValue ("timezone", value);
+  setIValue ("timezone", value);
 }
 
 
@@ -245,11 +258,11 @@ void Database_Config_General::setSiteLanguage (string value)
 
 bool Database_Config_General::getClientMode ()
 {
-  return getValue ("client-mode", false);
+  return getBValue ("client-mode", false);
 }
 void Database_Config_General::setClientMode (bool value)
 {
-  setValue ("client-mode", value);
+  setBValue ("client-mode", value);
 }
 
 

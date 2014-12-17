@@ -87,7 +87,8 @@ libbibledit_a_SOURCES = \
 	email/receive.cpp \
 	user/notifications.cpp \
 	user/account.cpp \
-	administration/language.cpp
+	administration/language.cpp \
+	administration/timezone.cpp
 
 bin_PROGRAMS = server unittest
 
