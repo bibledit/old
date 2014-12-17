@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,8 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h1><?php echo gettext("Site language") ?></h1>
-<p><?php echo gettext("This page deals with the language for the site.") ?></p>
-<p><?php echo gettext("Current language:") ?> <?php echo $this->language ?>.</p>
-<p><a href="language.php?language="><?php echo gettext("Change the language.") ?></a></p>
+
+
+#ifndef INCLUDED_ADMINISTRATION_LANGUAGE_H
+#define INCLUDED_ADMINISTRATION_LANGUAGE_H
+
+
+#include <config/libraries.h>
+
+
+string administration_language_url ();
+bool administration_language_acl (void * webserver_request);
+string administration_language (void * webserver_request);
+
+
+#endif

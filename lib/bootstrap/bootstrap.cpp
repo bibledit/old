@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/index.h>
 #include <user/notifications.h>
 #include <user/account.h>
+#include <administration/language.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -61,6 +62,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
 
   // Settings menu.
+  else if ((url == administration_language_url ()) && administration_language_acl (request)) request->reply = administration_language (request);
   else if ((url == email_index_url ()) && email_index_acl (request)) request->reply = email_index (request);
   
   // Help menu.
