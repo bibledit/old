@@ -38,11 +38,12 @@ void timer_index ()
       // Wait shortly.
       this_thread::sleep_for (chrono::milliseconds (100));
       
-      // The current time.
+      // The current time, localized.
       int seconds_since_epoch = filter_string_date_seconds_since_epoch ();
-      int second = filter_string_date_numerical_second (seconds_since_epoch);
-      int minute = filter_string_date_numerical_minute (seconds_since_epoch);
-      int hour = filter_string_date_numerical_hour (seconds_since_epoch);
+      int local_seconds = filter_string_date_local_seconds (seconds_since_epoch);
+      int second = filter_string_date_numerical_second (local_seconds);
+      int minute = filter_string_date_numerical_minute (local_seconds);
+      int hour = filter_string_date_numerical_hour (local_seconds);
       
       // Run once per second.
       if (second == previous_second) continue;

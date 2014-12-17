@@ -45,9 +45,11 @@ string render_journal_entry (string entry)
 {
   // Remove the user's level.
   entry = entry.substr (2);
-  // Extract and remove the seconds since Unix epoch.
+  // Extract and remove the seconds since the Unix epoch.
   time_t seconds = convert_to_int (entry);
   entry = entry.substr (11);
+  // Localize the seconds.
+  seconds = filter_string_date_local_seconds (seconds);
   // Sanitize HTML.
   entry = filter_string_sanitize_html (entry);
   // Convert the seconds into a human readable time.
