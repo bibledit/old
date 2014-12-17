@@ -32,7 +32,6 @@ public:
   ~Assets_Header ();
   void jQueryUIOn (string subset = "");
   void addHeadLine (string line);
-  void setBodyOnload (string code);
   void setLogin ();
   void setNavigator ();
   void setStylesheet ();

@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
 
 
 $header = new Assets_Header (gettext("Note summary"));
-$header->setBodyOnload ('document.form.entry.focus();');
+$header->setBodyOnload ('document.form.entry.focus();'); // Use html5 autofocus
 $header->run();
 
 

@@ -23,7 +23,7 @@ page_access_level (Filter_Roles::manager ());
 
 
 $header = new Assets_Header (gettext("Edit Note Source"));
-$header->setBodyOnload ('document.noteid.identifier.focus();');
+$header->setBodyOnload ('document.noteid.identifier.focus();'); // Use html5 autofocus
 $header->run ();
 
 

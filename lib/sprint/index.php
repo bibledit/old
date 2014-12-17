@@ -65,7 +65,7 @@ if (isset ($title)) {
   $database_sprint->storeTask ($bible, $year, $month, $title);
   $view->view->success = gettext("New task added");
   // Focus the entry for adding tasks only in case a new task was added.
-  $header->setBodyOnload ('document.addtask.add.focus();');
+  $header->setBodyOnload ('document.addtask.add.focus();'); // Use html5 autofocus
 }
 
 

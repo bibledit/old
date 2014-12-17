@@ -73,15 +73,6 @@ void Assets_Header::addHeadLine (string line) // C++Port
 }
 
 
-// Adds an 'onload' statement to the <body> html tag.
-// Variable "code" could be, e.g.: onload="document.form.user.focus();"
-void Assets_Header::setBodyOnload (string code)
-{
-  view->enable_zone ("on_load_statement");
-  view->set_variable ("onLoadStatement", code);
-}
-
-
 // Adds logic to the header allowing to redirect the user to the original
 // URL after successful login.
 void Assets_Header::setLogin () // C++Port
