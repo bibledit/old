@@ -66,6 +66,7 @@ int filter_string_rand (int floor, int ceiling);
 string filter_string_html2text (string html);
 string filter_string_extract_email (string input);
 string filter_string_extract_body (string input, string year = "", string sender = "");
+string get_tick_box (bool enabled);
 
 
 #endif

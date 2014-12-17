@@ -23,6 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <webserver/request.h>
 #include <filter/roles.h>
+#include <session/logout.h>
+#include <user/notifications.h>
+#include <user/account.h>
 
 
 using namespace std;
@@ -73,14 +76,15 @@ vector <Menu_User_Item> * Menu_User::usermenu ()
 {
   // Generate the user menu.
   // Take access control into account.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  int level = request->session_logic ()->currentLevel ();
   vector <Menu_User_Item> * menu = new vector <Menu_User_Item>;
-  if (level >= Filter_Roles::member ()) menu->push_back ( { "", "session/logout",     gettext ("Logout"),        NULL } );
-  if (level >= Filter_Roles::member ()) menu->push_back ( { "", "user/notifications", gettext ("Notifications"), NULL } );
-  if (level >= Filter_Roles::member ()) menu->push_back ( { "", "user/account",       gettext ("Account"),       NULL } );
+  if (session_logout_acl (webserver_request)) menu->push_back ( { "", session_logout_url (), gettext ("Logout"), NULL } );
+  if (user_notifications_acl (webserver_request)) menu->push_back ( { "", user_notifications_url (), gettext ("Notifications"), NULL } );
+  if (user_account_acl (webserver_request)) menu->push_back ( { "", user_account_url (), gettext ("Account"), NULL } );
   return menu;
 }
+
+
+
 
 
 // Create the menu.

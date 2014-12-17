@@ -31,6 +31,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <help/index.h>
 #include <email/index.h>
+#include <user/notifications.h>
+#include <user/account.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -63,7 +65,11 @@ void bootstrap_index (Webserver_Request * request)
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);
-  
+
+  // User menu.  
+  else if ((url == user_notifications_url ()) && user_notifications_acl (request)) request->reply = user_notifications (request);
+  else if ((url == user_account_url ()) && user_account_acl (request)) request->reply = user_account (request);
+
   // Forward the browser to the default home page.
   else {
     redirect_browser ("/index/index", request);

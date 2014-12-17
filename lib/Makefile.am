@@ -84,7 +84,9 @@ libbibledit_a_SOURCES = \
 	confirm/worker.cpp \
 	email/index.cpp \
 	email/send.cpp \
-	email/receive.cpp
+	email/receive.cpp \
+	user/notifications.cpp \
+	user/account.cpp
 
 bin_PROGRAMS = server unittest
 

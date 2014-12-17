@@ -47,7 +47,8 @@ void Database_Logs::log (string description, int level)
 {
   // No new lines.
   description = filter_string_str_replace ("\n", " ", description);
-
+  // Discard empty line.
+  if (filter_string_trim (description).empty()) return;
   // Save this logbook entry to a filename with seconds and microseconds.
   string seconds = convert_to_string (filter_string_date_seconds_since_epoch ());
   string time = seconds + filter_string_fill (convert_to_string (filter_string_date_numerical_microseconds ()), 8, '0');

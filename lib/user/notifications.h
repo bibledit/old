@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,10 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::member ());
-Assets_Page::header (gettext("My area"));
-$view = new Assets_View (__FILE__);
-$view->render ("index.php");
-Assets_Page::footer ();
-?>
+
+
+#ifndef INCLUDED_USER_NOTIFICATIONS_H
+#define INCLUDED_USER_NOTIFICATIONS_H
+
+
+#include <config/libraries.h>
+
+
+string user_notifications_url ();
+bool user_notifications_acl (void * webserver_request);
+string user_notifications (void * webserver_request);
+
+
+#endif

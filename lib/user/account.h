@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,4 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
+
+
+#ifndef INCLUDED_USER_ACCOUNT_H
+#define INCLUDED_USER_ACCOUNT_H
+
+
+#include <config/libraries.h>
+
+
+string user_account_url ();
+bool user_account_acl (void * webserver_request);
+string user_account (void * webserver_request);
+
+
+#endif
