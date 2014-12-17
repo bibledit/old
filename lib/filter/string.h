@@ -50,6 +50,7 @@ int filter_string_date_numerical_month ();
 int filter_string_date_numerical_year ();
 int filter_string_date_numerical_microseconds ();
 int filter_string_date_seconds_since_epoch ();
+int filter_string_date_local_seconds (int seconds);
 string filter_string_trim (string s);
 string filter_string_ltrim (string s);
 string filter_string_fill (string s, int width, char fill);

@@ -292,6 +292,17 @@ int filter_string_date_seconds_since_epoch ()
 }
 
 
+// This function takes the "seconds" parameter, 
+// corrects it according to the local timezone,
+// and returns it.
+int filter_string_date_local_seconds (int seconds)
+{
+  int offset = Database_Config_General::getTimezone ();
+  seconds += (offset * 3600);
+  return seconds;
+}
+
+
 // A C++ equivalent for PHP's trim function.
 string filter_string_trim (string s)
 {
