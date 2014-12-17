@@ -22,10 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <config/logic.h>
 #include <database/config/general.h>
 #include <webserver/request.h>
 #include <email/send.h>
+#include <email/receive.h>
 
 
 string email_index_url ()
@@ -77,27 +79,30 @@ string email_index (void * webserver_request)
     string storagepassword = request->post ["storagepassword"];
     string storagesecurity = request->post ["storagesecurity"];
     string storageport = request->post ["storageport"];
-    string storage_error;
     Database_Config_General::setMailStorageHost (storagehost);
     Database_Config_General::setMailStorageUsername (storageusername);
     Database_Config_General::setMailStoragePassword (storagepassword);
-    Database_Config_General::setMailStorageSecurity (storagesecurity);
+    Database_Config_General::setMailStorageProtocol (storagesecurity);
     Database_Config_General::setMailStoragePort (storageport);
-    string storage_success (" ");
-    storage_success.append (gettext("The details were saved."));
-    /* Todo
-    mail = new Mail_Receive ();
-    storage_success += " " + gettext("The account was accessed successfully.") + " " + gettext ("Messages on server:") + " " + convert_to_string (mail.count) + ".";
-    storage_error += " " + e.getMessage ();
-    */
+    string storage_success = gettext("The details were saved.");
+    string storage_error;
+    int mailcount = email_receive_count (storage_error);
+    if (storage_error.empty ()) {
+      storage_success.append (" ");
+      storage_success.append (gettext("The account was accessed successfully."));
+      storage_success.append (" ");
+      storage_success.append (gettext ("Messages on server:"));
+      storage_success.append (" ");
+      storage_success.append (convert_to_string (mailcount));
+      storage_success.append (".");
+    }
     view.set_variable ("storage_success", storage_success);
     view.set_variable ("storage_error", storage_error);
   }
   view.set_variable ("storagehost", Database_Config_General::getMailStorageHost ());
   view.set_variable ("storageusername", Database_Config_General::getMailStorageUsername ());
   view.set_variable ("storagepassword", Database_Config_General::getMailStoragePassword ());
-  if (Database_Config_General::getMailStorageSecurity () == "SSL") view.set_variable ("storagessl", "selected=\"selected\"");
-  if (Database_Config_General::getMailStorageSecurity () == "TLS") view.set_variable ("storagetls", "selected=\"selected\"");
+  if (Database_Config_General::getMailStorageProtocol () == "POP3S") view.set_variable ("storagepop3s", "selected=\"selected\"");
   view.set_variable ("storageport", Database_Config_General::getMailStoragePort ());
   
   // Sending email.

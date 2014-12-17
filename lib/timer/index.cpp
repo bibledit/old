@@ -61,7 +61,9 @@ void timer_index ()
       previous_minute = minute;
       
       // Every minute send out queued email, except in client mode.
-      if (!client) tasks_logic_queue (SENDEMAIL);
+      if (!client) {
+        tasks_logic_queue (SENDEMAIL);
+      }
 
       // Check for new mail every five minutes.
       // Do not check more often with gmail else the account may be shut down.

@@ -46,7 +46,7 @@ Confirm_Worker::~Confirm_Worker ()
 // query             : The query to be executed on the database if the user confirms the email successfully.
 // subsequent_subject: The subject of the email to send upon user confirmation.
 // subsequent_body   : The body of the email to send upon user confirmation.
-void Confirm_Worker::setup (string to, string initial_subject, string initial_body, string query, string subsequent_subject, string subsequent_body) // Todo test it.
+void Confirm_Worker::setup (string to, string initial_subject, string initial_body, string query, string subsequent_subject, string subsequent_body)
 {
   Database_Confirm database_confirm = Database_Confirm ();
   int confirmation_id = database_confirm.getNewID ();
@@ -61,7 +61,7 @@ void Confirm_Worker::setup (string to, string initial_subject, string initial_bo
 
 // Handles a confirmation email received "from" with "subject" and "body".
 // Returns true if the mail was handled, else false.
-bool Confirm_Worker::handleEmail (string from, string subject, string body) // Todo test it in real life.
+bool Confirm_Worker::handleEmail (string from, string subject, string body)
 {
   if (from.empty()) {};
   // Find out in the confirmation database whether the subject line contains an active ID.

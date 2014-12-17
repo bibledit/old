@@ -40,8 +40,8 @@ public:
   static void setMailStorageUsername (string value);
   static string getMailStoragePassword();
   static void setMailStoragePassword (string value);
-  static string getMailStorageSecurity();
-  static void setMailStorageSecurity (string value);
+  static string getMailStorageProtocol();
+  static void setMailStorageProtocol (string value);
   static string getMailStoragePort();
   static void setMailStoragePort (string value);
   static string getMailSendHost();

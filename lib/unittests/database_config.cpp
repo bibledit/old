@@ -42,7 +42,7 @@ void test_database_config_general ()
   Database_Config_General::setSiteMailName (ref);
   evaluate (__LINE__, __func__, ref, Database_Config_General::getSiteMailName ());
 
-  evaluate (__LINE__, __func__, "", Database_Config_General::getMailStorageSecurity ());
+  evaluate (__LINE__, __func__, "", Database_Config_General::getMailStorageProtocol ());
 }
 
 

@@ -143,13 +143,13 @@ void Database_Config_General::setMailStoragePassword (string value)
 }
 
 
-string Database_Config_General::getMailStorageSecurity ()
+string Database_Config_General::getMailStorageProtocol ()
 {
-  return getValue ("mail-storage-security", "");
+  return getValue ("mail-storage-protocol", "");
 }
-void Database_Config_General::setMailStorageSecurity (string value)
+void Database_Config_General::setMailStorageProtocol (string value)
 {
-  setValue ("mail-storage-security", value);
+  setValue ("mail-storage-protocol", value);
 }
 
 

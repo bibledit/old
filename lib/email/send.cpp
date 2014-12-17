@@ -28,10 +28,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <curl/curl.h>
+#include <config/globals.h>
 
 
 void email_send ()
 {
+  // One email send process runs simultaneously.
+  if (config_globals_mail_send_running) return;
+  config_globals_mail_send_running = true;
+
   // The databases involved.
   Webserver_Request request;
   Database_Mail database_mail = Database_Mail (&request);
@@ -56,7 +61,7 @@ void email_send ()
       email = username;
       username = "";
     }
-  
+
     // If the email address validates, ok, else remove this mail from the queue and log the action.
     if (!filter_url_email_is_valid (email)) {
       database_mail.erase (id);
@@ -75,6 +80,8 @@ void email_send ()
     }
     Database_Logs::log (result, Filter_Roles::manager ());
   }
+  
+  config_globals_mail_send_running = false;
 }
 
 
@@ -127,26 +134,29 @@ string email_send (string to_mail, string to_name, string subject, string body)
   int seconds = filter_string_date_seconds_since_epoch ();
   payload_text.clear();
   string payload;
-  payload = "Date: " + convert_to_string (filter_string_date_numerical_year ()) + "/" + convert_to_string (filter_string_date_numerical_month ()) + "/" + convert_to_string (filter_string_date_numerical_day (seconds)) + " " + convert_to_string (filter_string_date_numerical_hour (seconds)) + ":" + convert_to_string (filter_string_date_numerical_minute (seconds)) + "\r\n";
+  payload = "Date: " + convert_to_string (filter_string_date_numerical_year ()) + "/" + convert_to_string (filter_string_date_numerical_month ()) + "/" + convert_to_string (filter_string_date_numerical_day (seconds)) + " " + convert_to_string (filter_string_date_numerical_hour (seconds)) + ":" + convert_to_string (filter_string_date_numerical_minute (seconds)) + "\n";
   payload_text.push_back (payload);
-  payload = "To: <" + to_mail + "> " + to_name + "\r\n";
+  payload = "To: <" + to_mail + "> " + to_name + "\n";
   payload_text.push_back (payload);
-  payload = "From: <" + from_mail + "> " + from_name + "\r\n";
+  payload = "From: <" + from_mail + "> " + from_name + "\n";
   payload_text.push_back (payload);
   string site = from_mail;
   size_t pos = site.find ("@");
   if (pos != string::npos) site = site.substr (pos);
-  payload = "Message-ID: <" + md5 (convert_to_string (filter_string_rand (0, 1000000))) + site + ">\r\n";
+  payload = "Message-ID: <" + md5 (convert_to_string (filter_string_rand (0, 1000000))) + site + ">\n";
   payload_text.push_back (payload);
-  payload = "Subject: " + subject + "\r\n";
+  payload = "Subject: " + subject + "\n";
   payload_text.push_back (payload);
   // Empty line to divide headers from body, see RFC5322.
-  payload_text.push_back ("\r\n");
+  payload_text.push_back ("\n");
   // Body here.
   vector <string> bodylines = filter_string_explode (body, '\n');
-  for (auto & line : bodylines) payload_text.push_back (line);
+  for (auto & line : bodylines) {
+    if (filter_string_trim (line).empty ()) payload_text.push_back (" ");
+    else payload_text.push_back (line);
+  }
   // Empty line.
-  payload_text.push_back ("\r\n");
+  payload_text.push_back ("\n");
 
   curl = curl_easy_init();
   /* Set username and password */

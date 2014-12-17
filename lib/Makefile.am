@@ -103,7 +103,7 @@ unittest_SOURCES = \
 unittest_LDADD = libbibledit.a
 
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking
-AM_CXXFLAGS += `xml2-config --cflags`
+AM_CXXFLAGS += `xml2-config --cflags`	
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(CURL_CFLAGS)
 

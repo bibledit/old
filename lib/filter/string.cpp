@@ -565,27 +565,3 @@ string filter_string_extract_body (string input, string year, string sender)
   return bodystring;
 }
 
-
-/* PortC++
-// Extracts the first text/plain message from a normal or a multipart email message.
-// message: Zend_Mail message.
-// Returns: text/plain Zend_Mail message.
-public static function extractPlainTextMessage (message)
-{
-  // If the message is not a MIME multipart message,
-  // then the text/plain body part is the message itself.
-  if (!message->isMultipart ()) return message;
-  // This is a multipart message. Look for the plain text part.
-  foundPart = message;
-  foreach (new RecursiveIteratorIterator(message) as part) {
-    try {
-      if (strtok(part->contentType, ';') == 'text/plain') {
-        foundPart = part;
-        break;
-      }
-    } catch (Zend_Mail_Exception e) {
-    }
-  }
-  return foundPart;
-}
-*/
