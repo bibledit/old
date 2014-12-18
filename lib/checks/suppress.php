@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
+page_access_level (Filter_Roles::translator ());
 
 
 $database_check = Database_Check::getInstance ();
@@ -41,7 +41,7 @@ if (isset($release)) {
 $bibleIDs = array ();
 $bibles = $database_bibles->getBibles ();
 foreach ($bibles as $bible) {
-  if (Access_Bible::write ($bible)) {
+  if (access_bible_write ($bible)) {
     $id = $database_bibles->getID ($bible);
     $bibleIDs [] = $id;
   }

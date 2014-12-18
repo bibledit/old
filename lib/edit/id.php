@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
+page_access_level (Filter_Roles::translator ());
 
 
 // Update the timestamp indicating that the Bible editor is alive.

@@ -1,0 +1,17 @@
+<h2>##header##</h2>
+<?php if (!$this->horizontal) {
+  <p>$this->info_top</p>
+<?php }
+<?php if (!$this->horizontal) {
+  <ul>
+<?php }
+<?php foreach ($this->text_lines as $offset => $text_line) {
+  <?php if (!$this->horizontal) {<li><?php }<a href="$this->caller_url$this->get_parameters[$offset]">$this->text_lines[$offset]</a><?php if (!$this->horizontal) {</li><?php }
+<?php }
+<?php if (!$this->horizontal) {
+  </ul>
+<?php }
+<?php if (!$this->horizontal) {
+  <p>$this->info_bottom</p>
+<?php }
+<h3><a href="$this->caller_url">gettext("Cancel")</a></h3>

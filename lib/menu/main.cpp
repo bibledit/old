@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/index.h>
 #include <config/logic.h>
 #include <manage/indexing.h>
+#include <manage/users.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
 
@@ -203,17 +204,17 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
   int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "users", "manage/users", gettext ("Users"), NULL } );
-  if (manage_indexing_acl (webserver_request)) menu->push_back ( { "", manage_indexing_url (), gettext ("Indexing"), NULL } );
-  if (administration_language_acl (webserver_request)) menu->push_back ( { "", administration_language_url (), gettext ("Language"), NULL } );
-  if (administration_timezone_acl (webserver_request)) menu->push_back ( { "", administration_timezone_url (), gettext ("Timezone"), NULL } );
-  if (email_index_acl (webserver_request) && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "styles/indext", gettext ("Styles"), stylessubmenu () } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "versification/index", gettext ("Versifications"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
-  if (level >= Filter_Roles::admin ())      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );
-  if (level >= Filter_Roles::consultant ()) menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "fonts/index", gettext ("Fonts"), NULL } );
+  if (manage_users_acl (webserver_request)              && !config_logic_client_enabled ()) menu->push_back ( { "", manage_users_url (), gettext ("Users"), NULL } );
+  if (manage_indexing_acl (webserver_request))                                              menu->push_back ( { "", manage_indexing_url (), gettext ("Indexing"), NULL } );
+  if (administration_language_acl (webserver_request))                                      menu->push_back ( { "", administration_language_url (), gettext ("Language"), NULL } );
+  if (administration_timezone_acl (webserver_request))                                      menu->push_back ( { "", administration_timezone_url (), gettext ("Timezone"), NULL } );
+  if (email_index_acl (webserver_request)               && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
+  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "styles/indext", gettext ("Styles"), stylessubmenu () } );
+  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "versification/index", gettext ("Versifications"), NULL } );
+  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
+  if (level >= Filter_Roles::admin ())                                                      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );
+  if (level >= Filter_Roles::consultant ())                                                 menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
+  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "fonts/index", gettext ("Fonts"), NULL } );
 /* C++Port client mode dependent.
     // If the installation is not prepared for Client mode, disable the client menu.
     // But keep the menu item in an open installation.
@@ -225,7 +226,6 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
     }
     // If Client mode is enabled, disable certain menu entries.
     if (config_logic_client_enabled ()) {
-      unset ($menu ["users"]);
       unset ($menu ["collaboration"]);
     }
 */

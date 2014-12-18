@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
+page_access_level (Filter_Roles::translator ());
 
 
 $database_config_bible = Database_Config_Bible::getInstance ();
@@ -89,7 +89,7 @@ if (isset ($bible)) {
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       // Select from Bibles the user has write access to.
-      if (Access_Bible::write ($bible)) {
+      if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "&bible=$bible");
       }
     }

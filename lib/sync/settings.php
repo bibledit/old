@@ -176,7 +176,7 @@ function die_if_databases_unhealthy_or_busy ()
   if (!$database_notes->available ()) $available = false;
   if (!$available) {
     $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ("Notes databases are unhealthy or unavailable", Filter_Roles::TRANSLATOR_LEVEL);
+    $database_logs->log ("Notes databases are unhealthy or unavailable", Filter_Roles::translator ());
     die;
   }
 }

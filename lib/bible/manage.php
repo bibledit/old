@@ -39,7 +39,7 @@ if (isset ($_GET['delete'])) {
     ignore_user_abort (true);
     set_time_limit (0);
     // User needs write access for delete operation.
-    if (Access_Bible::write ($bible)) {
+    if (access_bible_write ($bible)) {
       Bible_Logic::deleteBible ($bible);
       $gitdirectory = Filter_Git::git_directory ($bible);
       if (file_exists ($gitdirectory)) {
@@ -68,7 +68,7 @@ if (isset($_POST['new'])) {
   } else {
     $database_bibles->createBible ($bible);
     // Check / grant access.
-    if (!Access_Bible::write ($bible)) {
+    if (!access_bible_write ($bible)) {
       $database_users->grantAccess2Bible ($session_logic->currentUser (), $bible);
     }
   }
@@ -104,7 +104,7 @@ if (isset ($origin)) {
         }
         $success_message = gettext("The Bible was copied.");
         // Check / grant access to destination Bible.
-        if (!Access_Bible::write ($destination)) {
+        if (!access_bible_write ($destination)) {
           $database_users->grantAccess2Bible ($session_logic->currentUser (), $destination);
         }
       }

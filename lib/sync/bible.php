@@ -60,7 +60,7 @@ $database_logs->log ("Client sent Bible data: $bible $bookname $chapter", Filter
 
 
 // Check whether the user has write-access to the Bible.
-if (!Access_Bible::write ($bible, $username)) {
+if (!access_bible_write ($bible, $username)) {
   $message = "User $username does not have write access to Bible $bible";
   $database_logs->log ($message, Filter_Roles::manager ());
   echo $message;

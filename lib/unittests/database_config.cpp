@@ -51,7 +51,7 @@ void test_database_config_bible ()
   // Tests for Database_Config_Bible.
     evaluate (__LINE__, __func__, "", Database_Config_Bible::getViewableByAllUsers ("testbible"));
 
-    string ref = "1";
+    bool ref = true;
     Database_Config_Bible::setViewableByAllUsers ("testbible", ref);
     evaluate (__LINE__, __func__, ref, Database_Config_Bible::getViewableByAllUsers ("testbible"));
 }

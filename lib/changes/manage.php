@@ -38,7 +38,7 @@ if (isset ($clear)) {
 }
 
 
-$users = Access_User::assignees ();
+$users = access_user_assignees ();
 $pendingUsers = array ();
 $pendingCount = array ();
 foreach ($users as $user) {

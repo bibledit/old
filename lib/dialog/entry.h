@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,5 +15,24 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<p class="success"><?php echo $this->message ?></p>
+
+
+#ifndef INCLUDED_DIALOG_ENTRY_H
+#define INCLUDED_DIALOG_ENTRY_H
+
+
+#include <config/libraries.h>
+
+
+class Dialog_Entry
+{
+public:
+  Dialog_Entry (const string& url, map <string, string> query, const string& question, const string& value, const string& submit, const string& help);
+  ~Dialog_Entry ();
+  string run ();
+private:
+  void * assets_view = NULL;
+};
+
+
+#endif

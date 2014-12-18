@@ -116,7 +116,7 @@ $filter_text_book->run ($stylesheet);
 $filter_text_book->text_text->save ($textFilename);
 
 
-$database_logs->log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . gettext("Exported to basic USFM and text"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ($bible . " " . Export_Logic::baseBookFileName ($book) . ": " . gettext("Exported to basic USFM and text"), Filter_Roles::translator ());
 
 
 ?>

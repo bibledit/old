@@ -92,7 +92,7 @@ $html_text_rich_bible_index->save ($index00);
 copy ("../webbible/lens.png", "$directory/lens.png");
 
 
-$database_logs->log (gettext("Web export index") . " $bible", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Web export index") . " $bible", Filter_Roles::translator ());
 
 
 ?>

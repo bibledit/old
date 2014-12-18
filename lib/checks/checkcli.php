@@ -42,7 +42,7 @@ if ($bible == "") {
 }
 
 
-$database_logs->log ("Check $bible: Start", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("Check $bible: Start", Filter_Roles::translator ());
 
 
 $database_check->truncateOutput ($bible);
@@ -179,7 +179,7 @@ if (count ($emailBody) > 0) {
   $users = $database_users->getUsers ();
   foreach ($users as $user) {
     if ($database_config_user->getUserBibleChecksNotification ($user)) {
-      if (Access_Bible::write ($bible, $user)) {
+      if (access_bible_write ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }
     }
@@ -187,7 +187,7 @@ if (count ($emailBody) > 0) {
 }
 
 
-$database_logs->log ("Check $bible: Complete", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("Check $bible: Complete", Filter_Roles::translator ());
 
 
 ?>

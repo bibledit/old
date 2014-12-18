@@ -92,7 +92,7 @@ $filter_text->run ($stylesheet);
 $filter_text->html_text_standard->save ($filename);
 
 
-$database_logs->log (gettext("Exported to html") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Exported to html") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
 
 
 ?>

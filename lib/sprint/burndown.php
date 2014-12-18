@@ -129,7 +129,7 @@ foreach ($bibles as $bible) {
       $category_percentage = intval (100 / $category_count);
       $users = $database_users->getUsers ();
       foreach ($users as $user) {
-        if (!Access_Bible::write ($bible, $user)) continue;
+        if (!access_bible_write ($bible, $user)) continue;
         if ($database_config_user->getUserSprintProgressNotification ($user)) {
     
           $subject = gettext("Team's progress in Sprint");

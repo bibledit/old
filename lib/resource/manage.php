@@ -27,7 +27,7 @@ $database_usfmresources = Database_UsfmResources::getInstance ();
 
 @$delete = $_GET['delete'];
 if (isset ($delete)) {
-  if (Access_Bible::write ($delete)) {
+  if (access_bible_write ($delete)) {
     $database_usfmresources->deleteResource ($delete);
   } else {
     Assets_Page::error (gettext("You do not have write access to this resource"));
@@ -37,7 +37,7 @@ if (isset ($delete)) {
 
 @$convert = $_GET['convert'];
 if (isset ($convert)) {
-  if (Access_Bible::write ($convert)) {
+  if (access_bible_write ($convert)) {
     Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2bible.php", $convert));
     Filter_Url::redirect ("../journal/index.php");
     die;

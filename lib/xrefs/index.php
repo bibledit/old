@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 
-page_access_level (Filter_Roles::TRANSLATOR_LEVEL);
+page_access_level (Filter_Roles::translator ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -62,7 +62,7 @@ if (isset ($target)) {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to insert the cross references into"));
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
-      if (Access_Bible::write ($bible)) {
+      if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "&target=$bible");
       }
     }
@@ -79,7 +79,7 @@ if (!Access_Bible::read ($source)) {
   $database_config_user->setSourceXrefBible ($source);
 }
 $target = $database_config_user->getTargetXrefBible ();
-if (!Access_Bible::write ($target)) {
+if (!access_bible_write ($target)) {
   $target = "";
   $database_config_user->setTargetXrefBible ($target);
 }

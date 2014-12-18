@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Generating lists of changes in the Bibles", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("Generating lists of changes in the Bibles", Filter_Roles::translator ());
 
 
 // Recreate modifications database.
@@ -49,7 +49,7 @@ $database_users = Database_Users::getInstance ();
 // It runs before the team changes.
 // This produces the desired order of the notifications in the GUI.
 $users = $database_modifications->getUserUsernames ();
-if (!empty ($users)) $database_logs->log ("Generating lists of changes made per user", Filter_Roles::TRANSLATOR_LEVEL);
+if (!empty ($users)) $database_logs->log ("Generating lists of changes made per user", Filter_Roles::translator ());
 foreach ($users as $user) {
 
   // Go through the Bibles changed by the current user.
@@ -233,7 +233,7 @@ foreach ($bibles as $bible) {
   foreach ($books as $book) {
     $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
     foreach ($chapters as $chapter) {
-      $database_logs->log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::translator ());
       $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
       $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
       $old_verse_numbers = usfm_get_verse_numbers ($old_chapter_usfm);
@@ -287,11 +287,11 @@ foreach ($bibles as $bible) {
 
 
 // Index the data and remove expired notifications.
-$database_logs->log ("Indexing the online change notifications", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("Indexing the online change notifications", Filter_Roles::translator ());
 $database_modifications->indexTrimAllNotifications ();
 
 
-$database_logs->log ("Ready generating lists of changes in the Bibles", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("Ready generating lists of changes in the Bibles", Filter_Roles::translator ());
 
 
 ?>

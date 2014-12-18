@@ -30,7 +30,7 @@ $database_logs = Database_Logs::getInstance ();
 $database_offlineresources = Database_OfflineResources::getInstance ();
 
 
-$database_logs->log (gettext("Synchronizing external resources"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Synchronizing external resources"), Filter_Roles::translator ());
 
 
 $address = $database_config_general->getServerAddress ();
@@ -46,12 +46,12 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting checksum for the external resources", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Failure requesting checksum for the external resources", Filter_Roles::translator ());
   die;
 }
 $checksum = Sync_Logic::offline_resources_checksum ();
 if ($response == $checksum) {
-  $database_logs->log ("The external resources are up to date", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("The external resources are up to date", Filter_Roles::translator ());
   die;
 }
 
@@ -63,7 +63,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting available external resources", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Failure requesting available external resources", Filter_Roles::translator ());
   die;
 }
 $server_resources = $response;
@@ -91,7 +91,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting checksum of external resource", Filter_Roles::TRANSLATOR_LEVEL);
+    $database_logs->log ("Failure requesting checksum of external resource", Filter_Roles::translator ());
     continue;
   }
   $checksum = Sync_Logic::offline_resource_checksum ($resource);
@@ -108,7 +108,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting files of external resource", Filter_Roles::TRANSLATOR_LEVEL);
+    $database_logs->log ("Failure requesting files of external resource", Filter_Roles::translator ());
     continue;
   }
   $server_files = $response;
@@ -137,7 +137,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure requesting checksum of external resource file", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("Failure requesting checksum of external resource file", Filter_Roles::translator ());
       continue;
     }
     $checksum = Sync_Logic::offline_resource_file_checksum ($resource, $file);
@@ -147,7 +147,7 @@ foreach ($server_resources as $resource) {
 
 
     // Download the file from the server, and store it locally on the client.
-    $database_logs->log ("Downloading external resource" . " $resource $file", Filter_Roles::TRANSLATOR_LEVEL);
+    $database_logs->log ("Downloading external resource" . " $resource $file", Filter_Roles::translator ());
     $post = array (
       "a" => "download",
       "r" => $resource,
@@ -156,7 +156,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure downloading external resource file", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("Failure downloading external resource file", Filter_Roles::translator ());
       continue;
     }
     $database_offlineresources->save ($resource, $file, $response);
@@ -169,7 +169,7 @@ foreach ($server_resources as $resource) {
 
 
 // Done.
-$database_logs->log ("The external resources are now up to date", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("The external resources are now up to date", Filter_Roles::translator ());
 
 
 ?>

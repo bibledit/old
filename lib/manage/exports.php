@@ -39,7 +39,7 @@ if (isset ($bible)) {
     $bibles = Access_Bible::bibles ();
     foreach ($bibles as $bible) {
       // Select Bibles the user has write access to.
-      if (Access_Bible::write ($bible)) {
+      if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "bible=$bible");
       }
     }

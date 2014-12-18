@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,21 +15,16 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h2><?php echo $this->header ?></h2>
-<?php if (!$this->horizontal) { ?>
-  <p><?php echo $this->info_top ?></p>
-<?php } ?>
-<?php if (!$this->horizontal) { ?>
-  <ul>
-<?php } ?>
-<?php foreach ($this->text_lines as $offset => $text_line) { ?>
-  <?php if (!$this->horizontal) { ?><li><?php } ?><a href="<?php echo $this->caller_url ?><?php echo $this->get_parameters[$offset] ?>"><?php echo $this->text_lines[$offset] ?></a><?php if (!$this->horizontal) { ?></li><?php } ?>
-<?php } ?>
-<?php if (!$this->horizontal) { ?>
-  </ul>
-<?php } ?>
-<?php if (!$this->horizontal) { ?>
-  <p><?php echo $this->info_bottom ?></p>
-<?php } ?>
-<h3><a href="<?php echo $this->caller_url ?>"><?php echo gettext("Cancel") ?></a></h3>
+
+
+#ifndef INCLUDED_ACCESS_USER_H
+#define INCLUDED_ACCESS_USER_H
+
+
+#include <config/libraries.h>
+
+
+vector <string> access_user_assignees (void * webserver_request);
+
+
+#endif

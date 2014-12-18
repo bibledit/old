@@ -65,7 +65,7 @@ $filter_text_bible->esword_text->finalize ();
 $filter_text_bible->esword_text->createModule ($filename);
 
 
-$database_logs->log ($bible . ": " . gettext("Exported to e-Sword"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ($bible . ": " . gettext("Exported to e-Sword"), Filter_Roles::translator ());
 
 
 ?>

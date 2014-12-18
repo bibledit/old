@@ -42,7 +42,7 @@ $send_receive = "send/receive:";
 putenv ("HOME=" . dirname (__FILE__));
 
 
-$database_logs->log ("Send/receive Bible" . " " . $bible, Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("Send/receive Bible" . " " . $bible, Filter_Roles::translator ());
 
 
 // The git directory for this object.
@@ -84,7 +84,7 @@ if ($success) {
     $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 0)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::TRANSLATOR_LEVEL);
+    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -100,7 +100,7 @@ if ($success) {
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 4)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::TRANSLATOR_LEVEL);
+    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -116,7 +116,7 @@ if ($success) {
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 4)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::TRANSLATOR_LEVEL);
+    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -142,7 +142,7 @@ if ($success) {
     Filter_Conflict::run ($directory);
   }
   if (!$success || $conflict || (count ($result) > 1)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::TRANSLATOR_LEVEL);
+    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -160,7 +160,7 @@ if ($success) {
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 1)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::TRANSLATOR_LEVEL);
+    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -180,9 +180,9 @@ if ($success) {
 
 // Done.
 if (!$success) {
-  $database_logs->log ("Failure during sending and receiving", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Failure during sending and receiving", Filter_Roles::translator ());
 }
-$database_logs->log ("Ready sending and receiving Bible" . " " . $bible, Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("Ready sending and receiving Bible" . " " . $bible, Filter_Roles::translator ());
 
 
 ?>

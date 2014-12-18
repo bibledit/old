@@ -88,10 +88,15 @@ libbibledit_a_SOURCES = \
 	user/notifications.cpp \
 	user/account.cpp \
 	manage/indexing.cpp \
+	manage/users.cpp \
 	administration/language.cpp \
 	administration/timezone.cpp \
 	search/rebibles.cpp \
-	search/renotes.cpp
+	search/renotes.cpp \
+	access/user.cpp \
+	access/bible.cpp \
+	dialog/entry.cpp \
+	dialog/list.cpp
 
 bin_PROGRAMS = server unittest
 

@@ -31,8 +31,8 @@ public:
   ~Database_Config_Bible ();
   static string getRemoteRepositoryUrl (string bible);
   static void setRemoteRepositoryUrl (string bible, string url);
-  static string getViewableByAllUsers (string bible);
-  static void setViewableByAllUsers (string bible, string url);
+  static bool getViewableByAllUsers (string bible);
+  static void setViewableByAllUsers (string bible, bool value);
   static string getCheckDoubleSpacesUsfm (string bible);
   static void setCheckDoubleSpacesUsfm (string bible, string value);
   static string getCheckFullStopInHeadings (string bible);
@@ -129,8 +129,8 @@ private:
   static string file (string bible, const char * key);
   static string getValue (string bible, const char * key, const char * default_value);
   static void setValue (string bible, const char * key, string value);
-  static bool getValue (string bible, const char * key, bool default_value);
-  static void setValue (string bible, const char * key, bool value);
+  static bool getBValue (string bible, const char * key, bool default_value);
+  static void setBValue (string bible, const char * key, bool value);
 };
 
 

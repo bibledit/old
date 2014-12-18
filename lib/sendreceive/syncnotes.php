@@ -44,7 +44,7 @@ $healthy = true;
 if (!$database_notes->healthy ()) $healthy = false;
 if (!$database_notes->checksums_healthy ()) $healthy = false;
 if (!$healthy) {
-  $database_logs->log ("Skipping sending and receiving notes just now because of database problems", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Skipping sending and receiving notes just now because of database problems", Filter_Roles::translator ());
   die;
 }
 
@@ -81,7 +81,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure synchronizing Consultation Notes while requesting totals", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Failure synchronizing Consultation Notes while requesting totals", Filter_Roles::translator ());
   die;
 }
 $server_total = $response ["t"];
@@ -91,7 +91,7 @@ $client_total = count ($identifiers);
 $client_checksum = $database_notes->getMultipleChecksum ($identifiers);
 if ($server_total == $client_total) {
   if ($server_checksum == $client_checksum) {
-    if ($main_script) $database_logs->log ("The Consultation Notes are up to date", Filter_Roles::TRANSLATOR_LEVEL);
+    if ($main_script) $database_logs->log ("The Consultation Notes are up to date", Filter_Roles::translator ());
     die;
   }
 }
@@ -135,7 +135,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure synchronizing Consultation Notes while identifiers and checksums", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Failure synchronizing Consultation Notes while identifiers and checksums", Filter_Roles::translator ());
   die;
 }
 $server_identifiers = $response ['i'];
@@ -149,7 +149,7 @@ $identifiers = array_diff ($client_identifiers, $server_identifiers);
 foreach ($identifiers as $identifier) {
   $summary = $database_notes->getSummary ($identifier);
   $database_notes->delete ($identifier);
-  $database_logs->log ("Deleting note on client while syncing with server" . ": $summary", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Deleting note on client while syncing with server" . ": $summary", Filter_Roles::translator ());
 }
 
 // Check whether the local notes on the client match the ones on the server.
@@ -171,7 +171,7 @@ foreach ($server_identifiers as $key => $identifier) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure synchronizing Consultation Notes while downloading a note", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("Failure synchronizing Consultation Notes while downloading a note", Filter_Roles::translator ());
       die;
     }
 

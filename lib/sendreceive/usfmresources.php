@@ -30,7 +30,7 @@ $database_logs = Database_Logs::getInstance ();
 $database_usfmresources = Database_UsfmResources::getInstance ();
 
 
-$database_logs->log (gettext("Synchronizing USFM resources"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Synchronizing USFM resources"), Filter_Roles::translator ());
 
 
 $address = $database_config_general->getServerAddress ();
@@ -46,12 +46,12 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting totals for the USFM resources", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Failure requesting totals for the USFM resources", Filter_Roles::translator ());
   die;
 }
 $checksum = Sync_Logic::usfm_resources_checksum ();
 if ($response == $checksum) {
-  $database_logs->log ("The USFM resources are up to date", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("The USFM resources are up to date", Filter_Roles::translator ());
   die;
 }
 
@@ -63,7 +63,7 @@ $post = array (
 $response = Sync_Logic::post ($post, $url);
 @$response = unserialize ($response);
 if ($response === false) {
-  $database_logs->log ("Failure requesting available USFM resources", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log ("Failure requesting available USFM resources", Filter_Roles::translator ());
   die;
 }
 $server_resources = $response;
@@ -91,7 +91,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting checksum of USFM resource", Filter_Roles::TRANSLATOR_LEVEL);
+    $database_logs->log ("Failure requesting checksum of USFM resource", Filter_Roles::translator ());
     continue;
   }
   $checksum = Sync_Logic::usfm_resource_checksum ($resource);
@@ -108,7 +108,7 @@ foreach ($server_resources as $resource) {
   $response = Sync_Logic::post ($post, $url);
   @$response = unserialize ($response);
   if ($response === false) {
-    $database_logs->log ("Failure requesting books of USFM resource", Filter_Roles::TRANSLATOR_LEVEL);
+    $database_logs->log ("Failure requesting books of USFM resource", Filter_Roles::translator ());
     continue;
   }
   $server_books = $response;
@@ -137,7 +137,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure requesting checksum of USFM resource book", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("Failure requesting checksum of USFM resource book", Filter_Roles::translator ());
       continue;
     }
     $checksum = Sync_Logic::usfm_resource_book_checksum ($resource, $book);
@@ -146,7 +146,7 @@ foreach ($server_resources as $resource) {
     }
 
 
-    $database_logs->log ("Synchronizing USFM resource" . " $resource $book", Filter_Roles::TRANSLATOR_LEVEL);
+    $database_logs->log ("Synchronizing USFM resource" . " $resource $book", Filter_Roles::translator ());
 
 
     // Retrieve a list of chapters in the $book from the server.
@@ -158,7 +158,7 @@ foreach ($server_resources as $resource) {
     $response = Sync_Logic::post ($post, $url);
     @$response = unserialize ($response);
     if ($response === false) {
-      $database_logs->log ("Failure requesting chapters of USFM resource book", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("Failure requesting chapters of USFM resource book", Filter_Roles::translator ());
       continue;
     }
     $server_chapters = $response;
@@ -186,7 +186,7 @@ foreach ($server_resources as $resource) {
       $response = Sync_Logic::post ($post, $url);
       @$response = unserialize ($response);
       if ($response === false) {
-        $database_logs->log ("Failure requesting checksum of USFM resource chapter", Filter_Roles::TRANSLATOR_LEVEL);
+        $database_logs->log ("Failure requesting checksum of USFM resource chapter", Filter_Roles::translator ());
         continue;
       }
       $checksum = Sync_Logic::usfm_resource_chapter_checksum ($resource, $book, $chapter);
@@ -205,7 +205,7 @@ foreach ($server_resources as $resource) {
       $response = Sync_Logic::post ($post, $url);
       @$response = unserialize ($response);
       if ($response === false) {
-        $database_logs->log ("Failure downloading chapter of USFM resource", Filter_Roles::TRANSLATOR_LEVEL);
+        $database_logs->log ("Failure downloading chapter of USFM resource", Filter_Roles::translator ());
         continue;
       }
       $database_usfmresources->storeChapter ($resource, $book, $chapter, $response);
@@ -217,7 +217,7 @@ foreach ($server_resources as $resource) {
 
 
 // Done.
-$database_logs->log ("The USFM resources are now up to date", Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log ("The USFM resources are now up to date", Filter_Roles::translator ());
 
 
 ?>

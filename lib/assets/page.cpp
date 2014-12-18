@@ -48,39 +48,27 @@ string Assets_Page::header (string title, void * webserver_request, string searc
 }
 
 
-string Assets_Page::success (string message) // C++Port
+string Assets_Page::success (string message)
 {
-  if (message.length()) {};
-  /*
-    $view = new Assets_View (__FILE__);
-    $view->view->message = $message;
-    $view->render ("success.php");
-  */
-  return "";
+  Assets_View view;
+  view.set_variable ("message", message);
+  return view.render ("assets", "success");
 }
 
 
-string Assets_Page::error (string message) // C++Port
+string Assets_Page::error (string message)
 {
-  if (message.length()) {};
-  /*
-    $view = new Assets_View (__FILE__);
-    $view->view->message = $message;
-    $view->render ("error.php");
-  */
-  return "";
+  Assets_View view;
+  view.set_variable ("message", message);
+  return view.render ("assets", "error");
 }
 
 
-string Assets_Page::message (string message) // C++Port
+string Assets_Page::message (string message)
 {
-  if (message.length()) {};
-  /*
-    $view = new Assets_View (__FILE__);
-    $view->view->message = $message;
-    $view->render ("message.php");
-  */
-  return "";
+  Assets_View view;
+  view.set_variable ("message", message);
+  return view.render ("assets", "message");
 }
 
 
@@ -93,5 +81,4 @@ string Assets_Page::footer ()
   page += view.render ("assets", "xhtml_finish");
   return page;
 }
-
 

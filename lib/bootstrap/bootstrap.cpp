@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/notifications.h>
 #include <user/account.h>
 #include <manage/indexing.h>
+#include <manage/users.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
 
@@ -64,6 +65,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
 
   // Settings menu.
+  else if ((url == manage_users_url ()) && manage_users_acl (request)) request->reply = manage_users (request);
   else if ((url == manage_indexing_url ()) && manage_indexing_acl (request)) request->reply = manage_indexing (request);
   else if ((url == administration_language_url ()) && administration_language_acl (request)) request->reply = administration_language (request);
   else if ((url == administration_timezone_url ()) && administration_timezone_acl (request)) request->reply = administration_timezone (request);

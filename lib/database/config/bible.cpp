@@ -54,24 +54,24 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
 }
 
 
-bool Database_Config_Bible::getValue (string bible, const char * key, bool default_value)
-{
-  return convert_to_bool (getValue (bible, key, convert_to_string (default_value).c_str()));
-}
-
-
-void Database_Config_Bible::setValue (string bible, const char * key, bool value)
-{
-  setValue (bible, key, convert_to_string (value));
-}
-
-
 void Database_Config_Bible::setValue (string bible, const char * key, string value)
 {
   string filename = file (bible, key);
   string dirname = filter_url_dirname (filename);
   if (!filter_url_file_exists (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
+}
+
+
+bool Database_Config_Bible::getBValue (string bible, const char * key, bool default_value)
+{
+  return convert_to_bool (getValue (bible, key, convert_to_string (default_value).c_str()));
+}
+
+
+void Database_Config_Bible::setBValue (string bible, const char * key, bool value)
+{
+  setValue (bible, key, convert_to_string (value));
 }
 
 
@@ -88,13 +88,13 @@ void Database_Config_Bible::setRemoteRepositoryUrl (string bible, string url)
 }
 
 
-string Database_Config_Bible::getViewableByAllUsers (string bible)
+bool Database_Config_Bible::getViewableByAllUsers (string bible)
 {
-  return getValue (bible, "viewable-by-all-users", "");
+  return getBValue (bible, "viewable-by-all-users", false);
 }
-void Database_Config_Bible::setViewableByAllUsers (string bible, string url)
+void Database_Config_Bible::setViewableByAllUsers (string bible, bool value)
 {
-  setValue (bible, "viewable-by-all-users", url);
+  setBValue (bible, "viewable-by-all-users", value);
 }
 
 
@@ -280,11 +280,11 @@ void Database_Config_Bible::setRepeatSendReceive (string bible, string value)
 
 bool Database_Config_Bible::getExportChapterDropCapsFrames (string bible)
 {
-  return getValue (bible, "export-chapter-drop-caps-frames", false);
+  return getBValue (bible, "export-chapter-drop-caps-frames", false);
 }
 void Database_Config_Bible::setExportChapterDropCapsFrames (string bible, bool value) 
 {
-  setValue (bible, "export-chapter-drop-caps-frames", value);
+  setBValue (bible, "export-chapter-drop-caps-frames", value);
 }
 
 
@@ -350,11 +350,11 @@ void Database_Config_Bible::setBottomMargin  (string bible, string value)
 
 bool Database_Config_Bible::getDateInHeader (string bible) 
 {
-  return getValue (bible, "date-in-header", false);
+  return getBValue (bible, "date-in-header", false);
 }
 void Database_Config_Bible::setDateInHeader  (string bible, bool value) 
 {
-  setValue (bible, "date-in-header", value);
+  setBValue (bible, "date-in-header", value);
 }
 
 

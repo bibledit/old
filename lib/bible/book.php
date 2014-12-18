@@ -36,7 +36,7 @@ $view->view->bible = Filter_Html::sanitize ($bible);
 
 
 // Whether the user has write access to this Bible.
-$write_access = Access_Bible::write ($bible);
+$write_access = access_bible_write ($bible);
 $view->view->write_access = $write_access;
 
 

@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,5 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<p><?php echo $this->message ?></p>
+
+
+#ifndef INCLUDED_MANAGE_USERS_H
+#define INCLUDED_MANAGE_USERS_H
+
+
+#include <config/libraries.h>
+
+
+string manage_users_url ();
+bool manage_users_acl (void * webserver_request);
+string manage_users (void * webserver_request);
+
+
+#endif

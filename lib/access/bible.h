@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,12 +15,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<body onload="document.form.entry.focus();">
-<h2><?php echo $this->question ?></h2>
-<form action="<?php echo $this->base_url ?>" name="form" method="post">
-  <p><input type="text" name="entry" maxlength="300" value="<?php echo $this->value ?>" /></p>
-  <p><input type="submit" name="<?php echo $this->submit ?>" value=<?php echo gettext("Submit") ?> /></p>
-</form>
-<h3><a href="<?php echo $this->base_url ?>"><?php echo gettext("Cancel") ?></a></h3>
-<p><?php echo $this->help ?></p>
+
+
+#ifndef INCLUDED_ACCESS_BIBLE_H
+#define INCLUDED_ACCESS_BIBLE_H
+
+
+#include <config/libraries.h>
+
+
+bool access_bible_read (void * webserver_request, string & bible, string user = "");
+bool access_bible_write (void * webserver_request, string & bible, string user = "");
+vector <string> access_bible_bibles (void * webserver_request, string user = "");
+string access_bible_clamp (void * webserver_request, string bible);
+
+
+#endif

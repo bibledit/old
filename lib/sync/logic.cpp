@@ -108,7 +108,7 @@ public static function post (post, url)
       database_logs = Database_Logs::getInstance ();
       // If the server or connection is down entirely there won't be even a response header.
       @response_header = http_response_header [0];
-      if (response_header) database_logs.log (response_header, Filter_Roles::TRANSLATOR_LEVEL);
+      if (response_header) database_logs.log (response_header, Filter_Roles::translator ());
     } else {
       // Return successful response.
       return response;

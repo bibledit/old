@@ -34,12 +34,12 @@ $database_users = Database_Users::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-$database_logs->log (gettext("Sending and receiving Consultation Notes"), Filter_Roles::TRANSLATOR_LEVEL);
+$database_logs->log (gettext("Sending and receiving Consultation Notes"), Filter_Roles::translator ());
 
 
 $response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  $database_logs->log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log (gettext("Failure sending and receiving Consultation Notes"), Filter_Roles::translator ());
   die;
 }
 
@@ -52,7 +52,7 @@ $notes = $database_noteactions->getNotes ();
 foreach ($notes as $note) {
 
   $summary = $database_notes->getSummary ($note);
-  $database_logs->log (gettext("Sending note to server") . ": $summary", Filter_Roles::TRANSLATOR_LEVEL);
+  $database_logs->log (gettext("Sending note to server") . ": $summary", Filter_Roles::translator ());
 
 
   // Go through all the actions for the current note.
@@ -99,7 +99,7 @@ foreach ($notes as $note) {
     $response = Sync_Logic::post ($post, $url);
 
     if ($response === false) {
-      $database_logs->log ("Failure sending and receiving Consultation Notes", Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ("Failure sending and receiving Consultation Notes", Filter_Roles::translator ());
       die;
     }
 
@@ -108,7 +108,7 @@ foreach ($notes as $note) {
       
       @$response = unserialize ($response);
       if ($response === false) {
-        $database_logs->log ("Failure receiving Consultation Note", Filter_Roles::TRANSLATOR_LEVEL);
+        $database_logs->log ("Failure receiving Consultation Note", Filter_Roles::translator ());
         die;
       }
 
@@ -140,7 +140,7 @@ foreach ($notes as $note) {
       $database_notes->updateChecksum ($note);
 
     } else {
-      $database_logs->log ($response, Filter_Roles::TRANSLATOR_LEVEL);
+      $database_logs->log ($response, Filter_Roles::translator ());
     }
 
     // Delete this note action because it has been dealt with.
