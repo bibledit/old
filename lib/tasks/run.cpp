@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mutex>
 #include <email/receive.h>
 #include <email/send.h>
+#include <search/rebibles.h>
+#include <search/renotes.h>
 
 
 mutex mutex_tasks; 
@@ -60,6 +62,10 @@ void tasks_run_one (string filename)
     email_receive ();
   } else if (command == SENDEMAIL) {
     email_send ();
+  } else if (command == REINDEXBIBLES) {
+    search_reindex_bibles ();
+  } else if (command == REINDEXNOTES) {
+    search_reindex_notes ();
   } else if (command == "Placerholder") {
   } else {
     Database_Logs::log ("Unknown task: " + command);

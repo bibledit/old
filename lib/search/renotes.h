@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -18,6 +17,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#ifndef INCLUDED_SEARCH_RENOTES_H
+#define INCLUDED_SEARCH_RENOTES_H
 
 
-?>
+#include <config/libraries.h>
+
+
+void search_reindex_notes ();
+
+
+#endif

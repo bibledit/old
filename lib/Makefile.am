@@ -89,7 +89,9 @@ libbibledit_a_SOURCES = \
 	user/account.cpp \
 	manage/indexing.cpp \
 	administration/language.cpp \
-	administration/timezone.cpp
+	administration/timezone.cpp \
+	search/rebibles.cpp \
+	search/renotes.cpp
 
 bin_PROGRAMS = server unittest
 

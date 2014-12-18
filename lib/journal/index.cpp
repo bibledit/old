@@ -130,7 +130,7 @@ string journal_index (void * webserver_request)
   // Pass the filename of the most recent entry to javascript for use by the AJAX calls for getting subsequent journal entries.
   string script = "var filename = " + lastfilename + ";";
   view.set_variable ("script", script);
-  
+
 
   page += view.render ("journal", "index");
 
