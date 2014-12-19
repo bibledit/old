@@ -12,11 +12,15 @@ namespace ParseWebData {
 typedef bool (*ParserFunc)(const std::string& data, const string_map& content_type, WebDataMap& dataMap);
 
 static bool parse_default(const std::string& data, const string_map& content_type, WebDataMap& dataMap) {
+  if (data.empty()) {};
+  if (content_type.empty()) {};
+  if (sizeof (dataMap)) {};
 	return false;
 }
 
 bool parse_url_encoded_data(const std::string& data, const string_map& content_type, WebDataMap& dataMap)
 {
+  if (content_type.empty()) {};
 	string_map values = map_pairs(data, "&", "=");
 	for(string_map::const_iterator iter = values.begin(); iter != values.end(); ++iter)
 	{
@@ -27,6 +31,7 @@ bool parse_url_encoded_data(const std::string& data, const string_map& content_t
 
 bool parse_plain_text_data(const std::string& data, const string_map& content_type, WebDataMap& dataMap)
 {
+  if (content_type.empty()) {};
 	string_map values = map_pairs(data, "\r\n", "=");
 	for(string_map::const_iterator iter = values.begin(); iter != values.end(); ++iter)
 	{

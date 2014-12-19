@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <locale/translate.h>
 
 
 Filter_Text_Passage_Marker_Value::Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in)

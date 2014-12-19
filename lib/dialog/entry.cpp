@@ -32,16 +32,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // $value   : The initial value to be put into the entry.
 // $submit  : Name of POST request to submit the information.
 // $help    : Help information explaining to the user what's going on.
-Dialog_Entry::Dialog_Entry (const string& url, map <string, string> query, const string& question, const string& value, const string& submit, const string& help)
+Dialog_Entry::Dialog_Entry (const string& url, const string& question, const string& value, const string& submit, const string& help)
 {
   Assets_View * view = new Assets_View ();
   string base_url (url);
-  /* Todo
-  $base_url = $_SERVER['PHP_SELF'];
-  if (is_array ($query)) {
-    $base_url .= "?" . http_build_query ($query);
-  }
-  */
   view->set_variable ("base_url", base_url);
   view->set_variable ("question", question);
   view->set_variable ("value", value);
@@ -55,6 +49,18 @@ Dialog_Entry::~Dialog_Entry ()
 {
   Assets_View * view = (Assets_View *) assets_view;
   delete view;
+}
+
+
+void Dialog_Entry::query (map <string, string> value)
+{
+  if (value.empty()) {}; // Temporal
+  /* Todo
+   $base_url = $_SERVER['PHP_SELF'];
+   if (is_array ($query)) {
+   $base_url .= "?" . http_build_query ($query);
+   }
+  */
 }
 
 

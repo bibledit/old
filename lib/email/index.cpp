@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <email/send.h>
 #include <email/receive.h>
+#include <locale/translate.h>
 
 
 string email_index_url ()

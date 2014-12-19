@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/logs.h>
 #include <access/user.h>
+#include <locale/translate.h>
 
 
 string manage_users_url ()
@@ -44,7 +45,7 @@ bool manage_users_acl (void * webserver_request)
 }
 
 
-string manage_users (void * webserver_request)
+string manage_users (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -61,7 +62,7 @@ string manage_users (void * webserver_request)
   
   // New user creation.
   if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry (manage_users_url (), {}, gettext("Please enter a name for the new user"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry (manage_users_url (), gettext("Please enter a name for the new user"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }

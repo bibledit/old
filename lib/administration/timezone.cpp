@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <confirm/worker.h>
 #include <database/config/general.h>
+#include <locale/translate.h>
 
 
 string administration_timezone_url ()

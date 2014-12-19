@@ -23,6 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <locale/translate.h>
+#include <cmath>
 
 
 Passage::Passage ()

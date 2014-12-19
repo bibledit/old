@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/mail.h>
 #include <database/sqlite.h>
 #include <webserver/request.h>
+#include <locale/translate.h>
 
 
 Confirm_Worker::Confirm_Worker (void * webserver_request_in)

@@ -27,8 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Dialog_Entry
 {
 public:
-  Dialog_Entry (const string& url, map <string, string> query, const string& question, const string& value, const string& submit, const string& help);
+  Dialog_Entry (const string& url, const string& question, const string& value, const string& submit, const string& help);
   ~Dialog_Entry ();
+  void query (map <string, string> value);
   string run ();
 private:
   void * assets_view = NULL;
