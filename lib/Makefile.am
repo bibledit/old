@@ -68,6 +68,7 @@ libbibledit_a_SOURCES = \
 	setup/index.cpp \
 	journal/index.cpp \
 	styles/logic.cpp \
+	styles/indext.cpp \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \

@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <administration/language.h>
 #include <administration/timezone.h>
+#include <styles/indext.h>
 
 
 using namespace std;
@@ -209,7 +210,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (administration_language_acl (webserver_request))                                      menu->push_back ( { "", administration_language_url (), gettext ("Language"), NULL } );
   if (administration_timezone_acl (webserver_request))                                      menu->push_back ( { "", administration_timezone_url (), gettext ("Timezone"), NULL } );
   if (email_index_acl (webserver_request)               && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
-  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "styles/indext", gettext ("Styles"), stylessubmenu () } );
+  if (styles_indext_acl (webserver_request))                                                menu->push_back ( { "", styles_indext_url (), gettext ("Styles"), stylessubmenu () } );
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "versification/index", gettext ("Versifications"), NULL } );
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
   if (level >= Filter_Roles::admin ())                                                      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );

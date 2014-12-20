@@ -79,6 +79,19 @@ foreach ($sheets as $sheet) {
   $editable [] = $write;
 }
 
+  
+  /*
+   <?php foreach ($this->sheets as $offset => $sheet) {
+   <p>
+   $sheet
+   <?php if ($this->editable [$offset]) {
+   <a href="sheetm.php?name=$sheet">[gettext("edit")]</a>
+   <?php }
+   </p>
+   <?php }
+   
+   */
+
 
 $view->view->sheets = $sheets;
 $view->view->editable = $editable;

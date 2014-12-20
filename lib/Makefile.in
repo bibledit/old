@@ -139,17 +139,18 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
-	text/text.$(OBJEXT) esword/text.$(OBJEXT) \
-	onlinebible/text.$(OBJEXT) html/text.$(OBJEXT) \
-	odf/text.$(OBJEXT) timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
-	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
-	bible/logic.$(OBJEXT) notes/logic.$(OBJEXT) \
-	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
-	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
-	email/index.$(OBJEXT) email/send.$(OBJEXT) \
-	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
-	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
-	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
+	styles/indext.$(OBJEXT) text/text.$(OBJEXT) \
+	esword/text.$(OBJEXT) onlinebible/text.$(OBJEXT) \
+	html/text.$(OBJEXT) odf/text.$(OBJEXT) timer/index.$(OBJEXT) \
+	tasks/logic.$(OBJEXT) tasks/run.$(OBJEXT) \
+	config/logic.$(OBJEXT) bible/logic.$(OBJEXT) \
+	notes/logic.$(OBJEXT) trash/handler.$(OBJEXT) \
+	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
+	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
+	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
+	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
+	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
+	administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) search/rebibles.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
 	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
@@ -434,6 +435,7 @@ libbibledit_a_SOURCES = \
 	setup/index.cpp \
 	journal/index.cpp \
 	styles/logic.cpp \
+	styles/indext.cpp \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \
@@ -773,6 +775,8 @@ styles/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) styles/$(DEPDIR)
 	@: > styles/$(DEPDIR)/$(am__dirstamp)
 styles/logic.$(OBJEXT): styles/$(am__dirstamp) \
+	styles/$(DEPDIR)/$(am__dirstamp)
+styles/indext.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
 text/$(am__dirstamp):
 	@$(MKDIR_P) text
@@ -1165,6 +1169,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/signup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@

@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2014 Teus Benschop.
 
@@ -16,17 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-?>
-<h2><?php echo gettext("Stylesheets") ?></h2>
-<p>
-  <?php echo gettext("This lists the currently available stylesheets.") ?>
-  <a href="indexm.php?new="><?php echo gettext("Create a new stylesheet.") ?></a>
-</p>
-<?php foreach ($this->sheets as $offset => $sheet) { ?>
-  <p>
-    <?php echo $sheet ?>
-    <?php if ($this->editable [$offset]) { ?>
-    <a href="sheetm.php?name=<?php echo $sheet ?>">[<?php echo gettext("edit") ?>]</a>
-    <?php } ?>
-  </p>
-<?php } ?>
+
+
+#ifndef INCLUDED_STYLES_INDEXT_H
+#define INCLUDED_STYLES_INDEXT_H
+
+
+#include <config/libraries.h>
+
+
+string styles_indext_url ();
+bool styles_indext_acl (void * webserver_request);
+string styles_indext (void * webserver_request);
+
+
+#endif
