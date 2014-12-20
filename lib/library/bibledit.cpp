@@ -78,12 +78,8 @@ void bibledit_stop ()
   config_globals_timer->join ();
   
   // Clear memory.
-#ifdef WIN32
-#else
   xmlCleanupThreads();
   xmlCleanupParser();
-#endif
   delete config_globals_worker;
   delete config_globals_timer;
-
 }

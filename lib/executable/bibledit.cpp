@@ -33,7 +33,7 @@ int main (int argc, char **argv)
 {
   if (argc) {};
   if (argv[0]) {};
-
+  
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   struct sigaction sigIntHandler;
   sigIntHandler.sa_handler = sigint_handler;
