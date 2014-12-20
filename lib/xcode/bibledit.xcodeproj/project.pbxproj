@@ -1209,8 +1209,8 @@
 		CAA4D4991A45A649003ABA25 /* source.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = source.php; sourceTree = "<group>"; };
 		CAA4D49A1A45A649003ABA25 /* target.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = target.php; sourceTree = "<group>"; };
 		CAA4D49B1A45A649003ABA25 /* translate.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = translate.php; sourceTree = "<group>"; };
-		CAA4D49D1A45BD0E003ABA25 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; name = TODO; path = ../../../TODO; sourceTree = "<group>"; };
 		CAA4D49E1A45CB4E003ABA25 /* listhorizontal.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listhorizontal.html; sourceTree = "<group>"; };
+		CAA4D4A11A45FC70003ABA25 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; name = TODO; path = ../../../TODO; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -3910,7 +3910,7 @@
 		CAB29AC01A4480CC00139BD7 = {
 			isa = PBXGroup;
 			children = (
-				CAA4D49D1A45BD0E003ABA25 /* TODO */,
+				CAA4D4A11A45FC70003ABA25 /* TODO */,
 				CAA4CEF51A45A647003ABA25 /* access */,
 				CAA4CF001A45A647003ABA25 /* administration */,
 				CAA4CF2F1A45A647003ABA25 /* assets */,
