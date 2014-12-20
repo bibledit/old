@@ -27,11 +27,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Dialog_List
 {
 public:
-  Dialog_List (const string& url, map <string, string> query, const string& question, const string& value, const string& submit, const string& help);
+  Dialog_List (string url, string question, string info_top, string info_bottom);
   ~Dialog_List ();
+  void set_query (map <string, string> query);
+  void add_row (string text, string query);
+  void set_horizontal ();
   string run ();
 private:
   void * assets_view = NULL;
+  string base_url;
+  map <string, string> selectors;
+  string list_block;
+  bool horizontal = false;
+  
 };
 
 

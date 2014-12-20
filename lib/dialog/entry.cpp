@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/entry.h>
 #include <assets/view.h>
 #include <assets/page.h>
+#include <filter/url.h>
 
 
 // Entry dialog constructor
@@ -32,11 +33,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // $value   : The initial value to be put into the entry.
 // $submit  : Name of POST request to submit the information.
 // $help    : Help information explaining to the user what's going on.
-Dialog_Entry::Dialog_Entry (const string& url, const string& question, const string& value, const string& submit, const string& help)
+Dialog_Entry::Dialog_Entry (string url, string question, string value, string submit, string help)
 {
   Assets_View * view = new Assets_View ();
-  string base_url (url);
-  view->set_variable ("base_url", base_url);
+  base_url =  url;
   view->set_variable ("question", question);
   view->set_variable ("value", value);
   view->set_variable ("submit", submit);
@@ -52,21 +52,16 @@ Dialog_Entry::~Dialog_Entry ()
 }
 
 
-void Dialog_Entry::query (map <string, string> value)
+void Dialog_Entry::add_query (string parameter, string value)
 {
-  if (value.empty()) {}; // Temporal
-  /* Todo
-   $base_url = $_SERVER['PHP_SELF'];
-   if (is_array ($query)) {
-   $base_url .= "?" . http_build_query ($query);
-   }
-  */
+  base_url = filter_url_build_http_query (base_url, parameter, value);
 }
 
 
 string Dialog_Entry::run ()
 {
   Assets_View * view = (Assets_View *) assets_view;
+  view->set_variable ("base_url", base_url);
   string page = view->render ("dialog", "entry");
   page += Assets_Page::footer ();
   return page;

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 #include <assets/page.h>
 #include <dialog/entry.h>
+#include <dialog/list.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -62,7 +63,7 @@ string manage_users (void * webserver_request) // Todo
   
   // New user creation.
   if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry (manage_users_url (), gettext("Please enter a name for the new user"), "", "new", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("users", gettext("Please enter a name for the new user"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }
@@ -97,17 +98,15 @@ string manage_users (void * webserver_request) // Todo
   if (request->query.count ("level")) {
     string level = request->query ["level"];
     if (level == "") {
-      /* Todo
-      dialog_list = new Dialog_List (NULL, gettext("Would you like to change the role given to user user?"), "", "");
-      for (i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
+      Dialog_List dialog_list = Dialog_List ("users", gettext("Select a role for") + " " + user, "", "");
+      for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
         if (i <= currentLevel) {
-          parameter = "?user=user&level=i";
+          string parameter = "?user=" + user + "&level=" + convert_to_string (i);
           dialog_list.add_row (Filter_Roles::text (i), parameter);
         }
       }
-      dialog_list.run ();
-      die;
-      */
+      page += dialog_list.run ();
+      return page;
     } else {
       request->database_users ()->updateUserLevel (user, convert_to_int (level));
     }
@@ -118,17 +117,21 @@ string manage_users (void * webserver_request) // Todo
   if (request->query.count ("email")) {
     string email = request->query ["email"];
     if (email == "") {
-      // Todo dialog_entry = new Dialog_Entry (array ("usernamemail" => _GET["user"]), gettext("Please enter an email address for the user"), request->database_users ()->getUserToEmail (user), "email", "");
-      // Todo die;
+      string question = gettext("Please enter an email address for") + " " + user;
+      string value = request->database_users ()->getUserToEmail (user);
+      Dialog_Entry dialog_entry = Dialog_Entry ("users", question, value, "email", "");
+      dialog_entry.add_query ("user", user);
+      page += dialog_entry.run ();
+      return page;
     }
   }
   if (request->post.count ("email")) {
     string email = request->post["entry"];
     if (filter_url_email_is_valid (email)) {
-      Assets_Page::success (gettext("Email address was updated"));
-      request->database_users ()->updateUserEmail (request->query["usernamemail"], email);
+      page += Assets_Page::success (gettext("Email address was updated"));
+      request->database_users ()->updateUserEmail (user, email);
     } else {
-      Assets_Page::error (gettext("The email address is not valid"));
+      page += Assets_Page::error (gettext("The email address is not valid"));
     }
   }
   
@@ -148,7 +151,7 @@ string manage_users (void * webserver_request) // Todo
   if (request->query.count ("addbible")) {
     string addbible = request->query["addbible"];
     if (addbible == "") {
-      /* Todo
+      /* sC++Port
       dialog_list = new Dialog_List (NULL, gettext("Would you like to grant user user access to a Bible?"), "", "");
       foreach (accessibleBibles as bible) {
         parameter = "?user=user&addbible=bible";

@@ -61,6 +61,7 @@ string filter_url_tempfile ();
 string filter_url_escape_shell_argument (string argument);
 string filter_url_unique_path (string path);
 bool filter_url_email_is_valid (string email);
+string filter_url_build_http_query (string url, const string& parameter, const string& value);
 
 
 #endif

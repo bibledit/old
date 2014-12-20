@@ -367,3 +367,14 @@ bool filter_url_email_is_valid (string email)
   return true;
 }
 
+
+string filter_url_build_http_query (string url, const string& parameter, const string& value)
+{
+  size_t pos = url.find ("?");
+  if (pos == string::npos) url.append ("?");
+  else url.append ("&");
+  url.append (parameter);
+  url.append ("=");
+  url.append (value);
+  return url;
+}

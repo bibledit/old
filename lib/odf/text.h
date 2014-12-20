@@ -59,7 +59,7 @@ private:
   xmlDocPtr stylesDom; // The styles.xml DOMDocument.
   vector <string> createdStyles; // An array with styles already created in the $stylesDom.
   xmlNodePtr officeStylesDomNode; // The office:styles DOMNode.
-  xmlNodePtr officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
+  //xmlNodePtr officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
   xmlNodePtr currentTextPDomElement; // The current text:p DOMElement.
   xmlAttrPtr currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
   int frameCount;

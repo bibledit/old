@@ -51,7 +51,6 @@ void webserver ()
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl (INADDR_ANY);
   serveraddr.sin_port = htons (porti);
-  // Probably put this in C file and compile with C else it fails. Todo
   result = mybind (listenfd, (SA *) &serveraddr, sizeof (serveraddr));
   if (result != 0) cerr << "Error binding server to socket" << endl;
 
