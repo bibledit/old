@@ -304,7 +304,10 @@ vector <Reference> kjv_get_strongs_verses (const ustring& strongs)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
     char *sql;
-    sql = g_strdup_printf("select distinct book, chapter, verse from kjv where lemma glob ('*%s*');", strongs.c_str());
+    // The first like finds any lemma field with 'G68' alone or '...G68' at the end of the lemma.
+    // The second like finds any lemma that has G68 at the beginning or middle but not followed by a digit
+    // as in 'G689'. The '%%' is the way to get the sql % character in the pattern match. MAP
+    sql = g_strdup_printf("select distinct book, chapter, verse from kjv where lemma like '%%%s' or lemma like '%%%s[^0-9]%%';", strongs.c_str(), strongs.c_str());
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc) {
