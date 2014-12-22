@@ -61,22 +61,23 @@ string styles_indext (void * webserver_request) // Todo
   if (request->query.count ("sheet")) {
   string sheet = request->query["sheet"];
     
-    /* Todo  if (sheet == "") {
-   $dialog_list = new Dialog_List2 (gettext("Would you like to switch to another stylesheet?"));
-   $database_styles = Database_Styles::getInstance();
-   $sheets = $database_styles->getSheets();
-   foreach ($sheets as $sheet) {
-   $parameter = "&sheet=$sheet";
-   $dialog_list->add_row ($sheet, $parameter);
-   }
-   $dialog_list->run ();
-   } else {
-   $database_config_user->setStylesheet ($sheet);
-   }
-   }*/
+  if (sheet == "") { // Todo implement it.
+    Dialog_List dialog_list = Dialog_List ("indext", gettext("Would you like to switch to another stylesheet?"), "", "");
+    Database_Styles database_styles = Database_Styles();
+    vector <string> sheets = database_styles.getSheets();
+    for (auto& name : sheets) {
+      string parameter = "?sheet=" + name;
+      dialog_list.add_row (name, parameter);
+    }
+    page += dialog_list.run ();
+    return page;
+  } else {
+    database_config_user.setStylesheet (sheet);
+    }
+  }
    
   string stylesheet = database_config_user.getStylesheet();
-  view.set_variable ("stylesheet",  = Filter_Html::sanitize (stylesheet);
+  view.set_variable ("stylesheet", filter_string_sanitize_html (stylesheet));
   
   page += view.render ("styles", "indext");
 
