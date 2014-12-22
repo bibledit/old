@@ -567,7 +567,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (label_progress);
   page_number_progress = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "The export is in progress");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
@@ -575,7 +575,7 @@ AssistantBase("Export", "export")
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "The export was completed successfully");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
@@ -679,8 +679,6 @@ void ExportAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoint
 
 void ExportAssistant::on_assistant_apply ()
 {
-  // Show progress page.
-  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), page_number_progress);
   // Take action depending on the type of export.
   switch (get_type()) {
     case etBible:
@@ -813,8 +811,6 @@ void ExportAssistant::on_assistant_apply ()
       break;
     }
   }
-  // Show summary.
-  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
   
   // Save values.
   extern Settings * settings;
@@ -972,7 +968,7 @@ gint ExportAssistant::assistant_forward (gint current_page)
     }
   }
 
-  // Always end up goint to the confirmation and summary pages.
+  // Always end up going to the confirmation and summary pages.
   forward_sequence.insert (page_number_confirm);
   forward_sequence.insert (summary_page_number);
   
