@@ -308,7 +308,7 @@ vector <string> Database_Styles::getSheets ()
 // Deletes a stylesheet.
 void Database_Styles::deleteSheet (string sheet)
 {
-  filter_url_rmdir (sheetfolder (sheet));
+  if (!sheet.empty ()) filter_url_rmdir (sheetfolder (sheet));
 }
 
 

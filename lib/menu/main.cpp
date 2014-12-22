@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <administration/language.h>
 #include <administration/timezone.h>
 #include <styles/indext.h>
+#include <styles/indexm.h>
 
 
 using namespace std;
@@ -237,8 +238,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
 vector <Menu_Main_Item> * Menu_Main::stylessubmenu ()
 {
   vector <Menu_Main_Item> * menu = new vector <Menu_Main_Item>;
-  int level = ((Webserver_Request *) webserver_request)->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::manager ()) menu->push_back ( { "", "styles/indexm", gettext ("Manage"), NULL } );
+  if (styles_indexm_acl (webserver_request)) menu->push_back ( { "", styles_indexm_url (), gettext ("Manage"), NULL } );
   return menu;
 }
 

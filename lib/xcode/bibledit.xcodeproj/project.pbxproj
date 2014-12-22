@@ -904,7 +904,6 @@
 		CAA4D35C1A45A648003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CAA4D3631A45A648003ABA25 /* css.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = css.php; sourceTree = "<group>"; };
 		CAA4D3641A45A648003ABA25 /* csscli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = csscli.php; sourceTree = "<group>"; };
-		CAA4D3661A45A648003ABA25 /* indexm.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = indexm.php; sourceTree = "<group>"; };
 		CAA4D3681A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D3691A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAA4D3701A45A648003ABA25 /* sheetm.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = sheetm.php; sourceTree = "<group>"; };
@@ -1117,12 +1116,6 @@
 		CAA4D4661A45A649003ABA25 /* lens.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lens.png; sourceTree = "<group>"; };
 		CAA4D4671A45A649003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CAA4D4681A45A649003ABA25 /* search.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = search.php; sourceTree = "<group>"; };
-		CAA4D46B1A45A649003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D46C1A45A649003ABA25 /* http.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = http.Po; sourceTree = "<group>"; };
-		CAA4D46D1A45A649003ABA25 /* io.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = io.Po; sourceTree = "<group>"; };
-		CAA4D46E1A45A649003ABA25 /* request.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = request.Po; sourceTree = "<group>"; };
-		CAA4D46F1A45A649003ABA25 /* webserver.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = webserver.Po; sourceTree = "<group>"; };
-		CAA4D4701A45A649003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D4711A45A649003ABA25 /* http.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = http.cpp; sourceTree = "<group>"; };
 		CAA4D4721A45A649003ABA25 /* http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = http.h; sourceTree = "<group>"; };
 		CAA4D4731A45A649003ABA25 /* io.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = io.c; sourceTree = "<group>"; };
@@ -1167,6 +1160,8 @@
 		CAA4D4A61A460861003ABA25 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
 		CAA4D4A71A4608BC003ABA25 /* indext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indext.cpp; sourceTree = "<group>"; };
 		CAA4D4A81A4608BC003ABA25 /* indext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indext.h; sourceTree = "<group>"; };
+		CAB399B31A484893007C79E8 /* indexm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indexm.cpp; sourceTree = "<group>"; };
+		CAB399B41A484893007C79E8 /* indexm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indexm.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -3151,7 +3146,8 @@
 			children = (
 				CAA4D3631A45A648003ABA25 /* css.php */,
 				CAA4D3641A45A648003ABA25 /* csscli.php */,
-				CAA4D3661A45A648003ABA25 /* indexm.php */,
+				CAB399B41A484893007C79E8 /* indexm.h */,
+				CAB399B31A484893007C79E8 /* indexm.cpp */,
 				CAA4D4A31A460861003ABA25 /* indexm.html */,
 				CAA4D4A71A4608BC003ABA25 /* indext.cpp */,
 				CAA4D4A81A4608BC003ABA25 /* indext.h */,
@@ -3681,8 +3677,6 @@
 		CAA4D4691A45A649003ABA25 /* webserver */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D46A1A45A649003ABA25 /* .deps */,
-				CAA4D4701A45A649003ABA25 /* .dirstamp */,
 				CAA4D4711A45A649003ABA25 /* http.cpp */,
 				CAA4D4721A45A649003ABA25 /* http.h */,
 				CAA4D4731A45A649003ABA25 /* io.c */,
@@ -3694,18 +3688,6 @@
 			);
 			name = webserver;
 			path = ../webserver;
-			sourceTree = "<group>";
-		};
-		CAA4D46A1A45A649003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D46B1A45A649003ABA25 /* .dirstamp */,
-				CAA4D46C1A45A649003ABA25 /* http.Po */,
-				CAA4D46D1A45A649003ABA25 /* io.Po */,
-				CAA4D46E1A45A649003ABA25 /* request.Po */,
-				CAA4D46F1A45A649003ABA25 /* webserver.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAA4D4791A45A649003ABA25 /* workbench */ = {
