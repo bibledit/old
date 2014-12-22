@@ -119,7 +119,7 @@ $subscriptions = array ();
 $assignments = array ();
 foreach ($notes as $note) {
   $summary = $database_notes->getSummary ($note);
-  $summary = Filter_Html::sanitize ($summary);
+  $summary = filter_string_sanitize_html ($summary);
   $summaries [] = $summary;
   $subscriptions [] = $database_notes->isSubscribed ($note, $username);
   $assignments [] = $database_notes->isAssigned ($note, $username);

@@ -31,7 +31,7 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $name = $_GET['name'];
-$view->view->name = Filter_Html::sanitize ($name);
+$view->view->name = filter_string_sanitize_html ($name);
 
 
 $username = $session_logic->currentUser ();

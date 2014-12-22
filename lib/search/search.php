@@ -70,7 +70,7 @@ foreach ($identifiers as $identifier) {
   $summary = $database_notes->getSummary ($identifier);
   $verses = Filter_Books::filter_passage_display_inline ($database_notes->getPassages ($identifier));
   $title = "$summary | $verses";
-  $title = Filter_Html::sanitize ($title);
+  $title = filter_string_sanitize_html ($title);
   $noteTitles [] = $title;
 
   // The url.

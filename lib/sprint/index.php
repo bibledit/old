@@ -147,7 +147,7 @@ $tasks = $database_sprint->getTasks ($bible, $year, $month);
 $titles = array ();
 $percentages = array ();
 foreach ($tasks as &$id) {
-  $titles [] = Filter_Html::sanitize ($database_sprint->getTitle ($id));
+  $titles [] = filter_string_sanitize_html ($database_sprint->getTitle ($id));
   $percentages [] = $database_sprint->getComplete ($id);
 }
 

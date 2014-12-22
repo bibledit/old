@@ -4,5 +4,6 @@
 # Update copyright
 # find . -type f | xargs grep -l "2003-2013" | xargs sed -i 's/2003-2013/2003-2014/'
 
-find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "Filter_Html::sanitize" | xargs sed -i 's/Filter_Html::sanitize/filter_string_sanitize_html/g'
+find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "Filter_Html::sanitize" | xargs sed -i.bak 's/Filter_Html::sanitize/filter_string_sanitize_html/g'
+find . -name *.bak -delete
 

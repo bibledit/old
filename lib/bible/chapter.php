@@ -32,7 +32,7 @@ $database_books = Database_Books::getInstance();
 
 // The Bible.
 $bible = Access_Bible::clamp ($_GET['bible']);
-$view->view->bible = Filter_Html::sanitize ($bible);
+$view->view->bible = filter_string_sanitize_html ($bible);
 
 
 // Whether the user has write access to this Bible.
@@ -42,14 +42,14 @@ $view->view->write_access = $write_access;
 
 // The book.
 $book = $_GET['book'];
-$view->view->book = Filter_Html::sanitize ($book);
+$view->view->book = filter_string_sanitize_html ($book);
 $book_name = $database_books->getEnglishFromId ($book);
-$view->view->book_name = Filter_Html::sanitize ($book_name);
+$view->view->book_name = filter_string_sanitize_html ($book_name);
 
 
 // The chapter.
 $chapter = $_GET['chapter'];
-$view->view->chapter = Filter_Html::sanitize ($chapter);
+$view->view->chapter = filter_string_sanitize_html ($chapter);
 
 
 $view->render ("chapter.php");

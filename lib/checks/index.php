@@ -71,14 +71,14 @@ foreach ($hits as $hit) {
   $bibleID = $hit['bible'];
   if (in_array ($bibleID, $bibleIDs)) {
     $ids [] = $hit['rowid'];
-    $bible = Filter_Html::sanitize ($database_bibles->getName ($bibleID));
+    $bible = filter_string_sanitize_html ($database_bibles->getName ($bibleID));
     $bibles [] = $bible;
     $book = $hit['book'];
     $chapter = $hit['chapter'];
     $verse = $hit['verse'];
     $link = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
     $links [] = $link;
-    $information [] = Filter_Html::sanitize ($hit['data']);
+    $information [] = filter_string_sanitize_html ($hit['data']);
   }
 }
 

@@ -53,7 +53,7 @@ class Html_Header
       foreach ($breadcrumbs as $breadcrumb) {
         if ($crumbAdded) {
           $spanElement = $this->htmlText->newElement ("span");
-          $spanElement->nodeValue = Filter_Html::sanitize ("»");
+          $spanElement->nodeValue = filter_string_sanitize_html ("»");
           $tableDataElement->appendChild ($spanElement);
         }
         $this->htmlText->addLink ($tableDataElement, $breadcrumb [1], "", $breadcrumb [0], "", ' ' . $breadcrumb [0] . ' ');

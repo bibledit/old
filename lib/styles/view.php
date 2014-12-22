@@ -32,11 +32,11 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $sheet = $_GET['sheet'];
-$view->view->sheet = Filter_Html::sanitize ($sheet);
+$view->view->sheet = filter_string_sanitize_html ($sheet);
 
 
 $style = $_GET['style'];
-$view->view->style = Filter_Html::sanitize ($style);
+$view->view->style = filter_string_sanitize_html ($style);
 
 
 $standard_page_query = array ("sheet"=> $sheet, "style" => $style);
@@ -63,7 +63,7 @@ if (isset($_POST['name'])) {
   $name = $_POST['entry'];
   if ($write) $database_styles->updateName ($sheet, $style, $name);
 }
-$view->view->name = Filter_Html::sanitize ($name);
+$view->view->name = filter_string_sanitize_html ($name);
 
 // The style's info.
 $info = $marker_data['info'];
@@ -75,7 +75,7 @@ if (isset($_POST['info'])) {
   $info = $_POST['entry'];
   if ($write) $database_styles->updateInfo ($sheet, $style, $info);
 }
-$view->view->info = Filter_Html::sanitize ($info);
+$view->view->info = filter_string_sanitize_html ($info);
 
 // The style's category.
 $category = $marker_data['category'];
@@ -137,7 +137,7 @@ if (isset ($_GET['type'])) {
     if ($write) $database_styles->updateType ($sheet, $style, $type);
   }
 }
-$view->view->type = Filter_Html::sanitize ($type);
+$view->view->type = filter_string_sanitize_html ($type);
 $view->view->type_text = $styles_logic->typeText($type);
 
 // The style's subtype.
@@ -162,7 +162,7 @@ if (isset ($_GET['subtype'])) {
     if ($write) $database_styles->updateSubType ($sheet, $style, $subtype);
   }
 }
-$view->view->subtype = Filter_Html::sanitize ($subtype);
+$view->view->subtype = filter_string_sanitize_html ($subtype);
 $view->view->subtype_text = $styles_logic->subtypeText($type, $subtype);
 
 // The fontsize.
@@ -180,7 +180,7 @@ if (isset($_POST['fontsize'])) {
     if ($write) $database_styles->updateFontsize ($sheet, $style, $fontsize);
   }
 }
-$view->view->fontsize = Filter_Html::sanitize ($fontsize);
+$view->view->fontsize = filter_string_sanitize_html ($fontsize);
 
 // Italics, bold, underline, small caps relevance.
 $view->view->ibus_relevant = $styles_logic->italicBoldUnderLineSmallcapsAreRelevant ($type, $subtype);
@@ -321,7 +321,7 @@ if (isset($_POST['spacebefore'])) {
     if ($write) $database_styles->updateSpaceBefore ($sheet, $style, $spacebefore);
   }
 }
-$view->view->spacebefore = Filter_Html::sanitize ($spacebefore);
+$view->view->spacebefore = filter_string_sanitize_html ($spacebefore);
 
 // Space after paragraph.
 $spaceafter = $marker_data['spaceafter'];
@@ -337,7 +337,7 @@ if (isset($_POST['spaceafter'])) {
     if ($write) $database_styles->updateSpaceAfter ($sheet, $style, $spaceafter);
   }
 }
-$view->view->spaceafter = Filter_Html::sanitize ($spaceafter);
+$view->view->spaceafter = filter_string_sanitize_html ($spaceafter);
 
 // Left margin.
 $leftmargin = $marker_data['leftmargin'];
@@ -353,7 +353,7 @@ if (isset($_POST['leftmargin'])) {
     if ($write) $database_styles->updateLeftMargin ($sheet, $style, $leftmargin);
   }
 }
-$view->view->leftmargin = Filter_Html::sanitize ($leftmargin);
+$view->view->leftmargin = filter_string_sanitize_html ($leftmargin);
 
 // Right margin.
 $rightmargin = $marker_data['rightmargin'];
@@ -369,7 +369,7 @@ if (isset($_POST['rightmargin'])) {
     if ($write) $database_styles->updateRightMargin ($sheet, $style, $rightmargin);
   }
 }
-$view->view->rightmargin = Filter_Html::sanitize ($rightmargin);
+$view->view->rightmargin = filter_string_sanitize_html ($rightmargin);
 
 // First line indent.
 $firstlineindent = $marker_data['firstlineindent'];
@@ -385,7 +385,7 @@ if (isset($_POST['firstlineindent'])) {
     if ($write) $database_styles->updateFirstLineIndent ($sheet, $style, $firstlineindent);
   }
 }
-$view->view->firstlineindent = Filter_Html::sanitize ($firstlineindent);
+$view->view->firstlineindent = filter_string_sanitize_html ($firstlineindent);
 
 // Columns spanning.
 $view->view->columns_relevant = $styles_logic->columnsAreRelevant ($type, $subtype);
@@ -410,7 +410,7 @@ if (isset ($_GET['color'])) {
     if ($write) $database_styles->updateColor ($sheet, $style, $color);
   }
 }
-$view->view->color = Filter_Html::sanitize ($color);
+$view->view->color = filter_string_sanitize_html ($color);
 
 // Whether to print this style.
 $view->view->print_relevant = $styles_logic->printIsRelevant ($type, $subtype);
@@ -562,7 +562,7 @@ if (isset($_POST['userstring1'])) {
   if ($write) $database_styles->updateUserstring1 ($sheet, $style, $userstring1);
 }
 if ($userstring1 == "") $userstring1 = "--";
-$view->view->userstring1 = Filter_Html::sanitize ($userstring1);
+$view->view->userstring1 = filter_string_sanitize_html ($userstring1);
 
 // Userstring2
 $userstring2 = $marker_data['userstring2'];
@@ -586,7 +586,7 @@ if (isset($_POST['userstring2'])) {
   if ($write) $database_styles->updateUserstring2 ($sheet, $style, $userstring2);
 }
 if ($userstring2 == "") $userstring2 = "--";
-$view->view->userstring2 = Filter_Html::sanitize ($userstring2);
+$view->view->userstring2 = filter_string_sanitize_html ($userstring2);
 
 // Recreate stylesheets after editing a style.
 if ((count ($_GET) != 2) || (count ($_POST) != 0)) {

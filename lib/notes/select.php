@@ -181,7 +181,7 @@ $view->view->textselector = $text_selector;
 
 
 $search_text = $database_config_user->getConsultationNotesSearchText();
-$view->view->searchtext = Filter_Html::sanitize ($search_text);
+$view->view->searchtext = filter_string_sanitize_html ($search_text);
 
 
 $passage_inclusion_selector = $database_config_user->getConsultationNotesPassageInclusionSelector();

@@ -56,9 +56,9 @@ foreach ($suppressions as $suppression) {
   // Only display entries for Bibles the user has write access to.
   if (in_array ($bibleID, $bibleIDs)) {
     $ids [] = $suppression['rowid'];
-    $bible = Filter_Html::sanitize ($database_bibles->getName ($bibleID));
+    $bible = filter_string_sanitize_html ($database_bibles->getName ($bibleID));
     $passage = Filter_Books::filter_passage_display_inline (array (array ($suppression['book'], $suppression['chapter'], $suppression['verse'])));
-    $result = Filter_Html::sanitize ($suppression['data']);
+    $result = filter_string_sanitize_html ($suppression['data']);
     $result = "$bible $passage $result";
     $data [] = $result;
   }

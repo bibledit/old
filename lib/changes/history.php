@@ -113,11 +113,11 @@ $newTexts = array ();
 $data = $database_history->get ($author_filter, $myBibles, $book_filter, $chapter_filter, $verse_filter, $start);
 foreach ($data as $entry) {
   $passageText = Filter_Books::filter_passage_display_inline (array (array ($entry['book'], $entry['chapter'], $entry['verse'])));
-  $passageText = Filter_Html::sanitize ($passageText);
+  $passageText = filter_string_sanitize_html ($passageText);
   $passageTexts [] = $passageText;
-  $authors [] = Filter_Html::sanitize ($entry ['author']);
+  $authors [] = filter_string_sanitize_html ($entry ['author']);
   $dates [] = $timestamp = date ('j F Y g:i:s a', $entry ['timestamp']);
-  $bibles [] = Filter_Html::sanitize ($entry ['bible']);
+  $bibles [] = filter_string_sanitize_html ($entry ['bible']);
   $oldTexts [] = $entry ['oldtext'];
   $modifications [] = $entry ['modification'];
   $newTexts [] = $entry ['newtext'];

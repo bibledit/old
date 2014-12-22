@@ -49,7 +49,7 @@ $view->view->id = $id;
 
 
 $summary = $database_notes->getSummary ($id);
-$summary = Filter_Html::sanitize ($summary);
+$summary = filter_string_sanitize_html ($summary);
 $view->view->summary = $summary;
 
 

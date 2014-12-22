@@ -36,7 +36,7 @@ $database_bibles = Database_Bibles::getInstance ();
 
 
 $bible = Access_Bible::clamp ($_GET['bible']);
-$view->view->bible = Filter_Html::sanitize ($bible);
+$view->view->bible = filter_string_sanitize_html ($bible);
 
 
 @$reset = $_GET ["reset"];

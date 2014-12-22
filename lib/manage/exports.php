@@ -242,14 +242,14 @@ if (isset($_GET['infonow'])) {
 }
 
 
-$view->view->stylesheet = Filter_Html::sanitize ($database_config_bible->getExportStylesheet ($bible));
+$view->view->stylesheet = filter_string_sanitize_html ($database_config_bible->getExportStylesheet ($bible));
 $view->view->dropcaps = $database_config_bible->getExportChapterDropCapsFrames ($bible);
-$view->view->pagewidth = Filter_Html::sanitize ($database_config_bible->getPageWidth ($bible));
-$view->view->pageheight = Filter_Html::sanitize ($database_config_bible->getPageHeight ($bible));
-$view->view->innermargin = Filter_Html::sanitize ($database_config_bible->getInnerMargin ($bible));
-$view->view->outermargin = Filter_Html::sanitize ($database_config_bible->getOuterMargin ($bible));
-$view->view->topmargin = Filter_Html::sanitize ($database_config_bible->getTopMargin ($bible));
-$view->view->bottommargin = Filter_Html::sanitize ($database_config_bible->getBottomMargin ($bible));
+$view->view->pagewidth = filter_string_sanitize_html ($database_config_bible->getPageWidth ($bible));
+$view->view->pageheight = filter_string_sanitize_html ($database_config_bible->getPageHeight ($bible));
+$view->view->innermargin = filter_string_sanitize_html ($database_config_bible->getInnerMargin ($bible));
+$view->view->outermargin = filter_string_sanitize_html ($database_config_bible->getOuterMargin ($bible));
+$view->view->topmargin = filter_string_sanitize_html ($database_config_bible->getTopMargin ($bible));
+$view->view->bottommargin = filter_string_sanitize_html ($database_config_bible->getBottomMargin ($bible));
 $view->view->dateinheader = $database_config_bible->getDateInHeader ($bible);
 
 

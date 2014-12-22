@@ -68,12 +68,12 @@ if (isset($_POST['names'])) {
 
 
 $view->view->bible = $bible;
-$view->view->capitals = Filter_Html::sanitize ($database_config_bible->getSentenceStructureCapitals ($bible));
-$view->view->smallletters = Filter_Html::sanitize ($database_config_bible->getSentenceStructureSmallLetters ($bible));
-$view->view->endpunctuationmarks = Filter_Html::sanitize ($database_config_bible->getSentenceStructureEndPunctuation ($bible));
-$view->view->middlepunctuationmarks = Filter_Html::sanitize ($database_config_bible->getSentenceStructureMiddlePunctuation ($bible));
-$view->view->disregards = Filter_Html::sanitize ($database_config_bible->getSentenceStructureDisregards ($bible));
-$view->view->names = Filter_Html::sanitize ($database_config_bible->getSentenceStructureNames ($bible));
+$view->view->capitals = filter_string_sanitize_html ($database_config_bible->getSentenceStructureCapitals ($bible));
+$view->view->smallletters = filter_string_sanitize_html ($database_config_bible->getSentenceStructureSmallLetters ($bible));
+$view->view->endpunctuationmarks = filter_string_sanitize_html ($database_config_bible->getSentenceStructureEndPunctuation ($bible));
+$view->view->middlepunctuationmarks = filter_string_sanitize_html ($database_config_bible->getSentenceStructureMiddlePunctuation ($bible));
+$view->view->disregards = filter_string_sanitize_html ($database_config_bible->getSentenceStructureDisregards ($bible));
+$view->view->names = filter_string_sanitize_html ($database_config_bible->getSentenceStructureNames ($bible));
 $view->render ("settingssentences.php");
 
 

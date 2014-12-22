@@ -34,7 +34,7 @@ $database_users = Database_Users::getInstance ();
 
 // The Bible.
 $bible = Access_Bible::clamp ($_GET['bible']);
-$view->view->bible = Filter_Html::sanitize ($bible);
+$view->view->bible = filter_string_sanitize_html ($bible);
 
 
 // Whether the user has write access to this Bible.

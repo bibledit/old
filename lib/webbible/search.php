@@ -103,7 +103,7 @@ foreach ($ids as $id) {
 
   // The title.
   $title = "$bible" . " | " . filter_passage_display ($book, $chapter, $verse);
-  $title = Filter_Html::sanitize ($title);
+  $title = filter_string_sanitize_html ($title);
 
 
   // The URL.
