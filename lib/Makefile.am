@@ -70,6 +70,7 @@ libbibledit_a_SOURCES = \
 	styles/logic.cpp \
 	styles/indext.cpp \
 	styles/indexm.cpp \
+	styles/sheetm.cpp \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \

@@ -1162,6 +1162,8 @@
 		CAA4D4A81A4608BC003ABA25 /* indext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indext.h; sourceTree = "<group>"; };
 		CAB399B31A484893007C79E8 /* indexm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indexm.cpp; sourceTree = "<group>"; };
 		CAB399B41A484893007C79E8 /* indexm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indexm.h; sourceTree = "<group>"; };
+		CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sheetm.cpp; sourceTree = "<group>"; };
+		CAFE132D1A48ABEA00F0DB35 /* sheetm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheetm.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -3154,8 +3156,10 @@
 				CAA4D4A41A460861003ABA25 /* indext.html */,
 				CAA4D3681A45A648003ABA25 /* logic.cpp */,
 				CAA4D3691A45A648003ABA25 /* logic.h */,
-				CAA4D3701A45A648003ABA25 /* sheetm.php */,
+				CAFE132D1A48ABEA00F0DB35 /* sheetm.h */,
+				CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */,
 				CAA4D4A51A460861003ABA25 /* sheetm.html */,
+				CAA4D3701A45A648003ABA25 /* sheetm.php */,
 				CAA4D3711A45A648003ABA25 /* sheets.php */,
 				CAA4D4A61A460861003ABA25 /* view.html */,
 				CAA4D3721A45A648003ABA25 /* view.php */,

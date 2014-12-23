@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <administration/timezone.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
+#include <styles/sheetm.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -74,7 +75,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == email_index_url ()) && email_index_acl (request)) request->reply = email_index (request);
   else if ((url == styles_indext_url ()) && styles_indext_acl (request)) request->reply = styles_indext (request);
   else if ((url == styles_indexm_url ()) && styles_indexm_acl (request)) request->reply = styles_indexm (request);
-  
+  else if ((url == styles_sheetm_url ()) && styles_sheetm_acl (request)) request->reply = styles_sheetm (request);
+
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);
 
