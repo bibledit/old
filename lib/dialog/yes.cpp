@@ -29,7 +29,7 @@
 Dialog_Yes::Dialog_Yes (string url, string question)
 {
   Assets_View * view = new Assets_View ();
-  base_url =  url;
+  base_url = url;
   view->set_variable ("question", question);
   assets_view = view;
 }

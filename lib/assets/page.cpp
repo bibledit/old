@@ -25,9 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
-using namespace std;
-
-
 Assets_Page::Assets_Page (const char * file)
 {
   if (file) {};

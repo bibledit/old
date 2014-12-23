@@ -281,6 +281,12 @@ void Database_Styles::create ()
 }
 
 
+string Database_Styles::standard ()
+{
+  return "Standard";
+}
+
+
 // Creates a stylesheet.
 void Database_Styles::createSheet (string sheet)
 {
@@ -295,10 +301,9 @@ void Database_Styles::createSheet (string sheet)
 // Returns an array with the available stylesheets.
 vector <string> Database_Styles::getSheets ()
 {
-  string standard = "Standard";
   vector <string> sheets = filter_url_scandir (databasefolder ());
-  if (find (sheets.begin (), sheets.end (), standard) == sheets.end ()) {
-    sheets.push_back (standard);
+  if (find (sheets.begin (), sheets.end (), standard ()) == sheets.end ()) {
+    sheets.push_back (standard ());
   }
   sort (sheets.begin(), sheets.end());
   return sheets;

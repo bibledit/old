@@ -26,9 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-using namespace std;
-
-
 Database_Config_User::Database_Config_User (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;

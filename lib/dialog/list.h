@@ -29,17 +29,15 @@ class Dialog_List
 public:
   Dialog_List (string url, string question, string info_top, string info_bottom);
   ~Dialog_List ();
-  void set_query (map <string, string> query);
+  void add_query (string parameter, string value);
   void add_row (string text, string query);
   void set_horizontal ();
   string run ();
 private:
   void * assets_view = NULL;
   string base_url;
-  map <string, string> selectors;
   string list_block;
   bool horizontal = false;
-  
 };
 
 

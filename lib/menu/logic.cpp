@@ -22,9 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 
 
-using namespace std;
-
-
 string menu_logic_href (string href)
 {
   href.insert (0, "/");

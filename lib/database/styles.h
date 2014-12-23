@@ -24,9 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-using namespace std;
-
-
 class Database_Styles_Item
 {
 public:
@@ -71,6 +68,7 @@ public:
   Database_Styles ();
   ~Database_Styles ();
   void create ();
+  string standard ();
   void createSheet (string sheet);
   vector <string> getSheets ();
   void deleteSheet (string sheet);

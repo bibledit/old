@@ -27,9 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <timer/index.h>
 
 
-using namespace std;
-
-
 // Set the root folder for the web server.
 void bibledit_root (string directory)
 {

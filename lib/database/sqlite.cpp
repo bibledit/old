@@ -23,9 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 
 
-using namespace std;
-
-
 /*
 It has been seen on a shared hosting platform that the MySQL server did not have
 sufficient available concurrent connections at times.

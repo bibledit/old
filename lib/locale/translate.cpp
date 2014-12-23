@@ -17,10 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <string>
-
-
-using namespace std;
+#include <config/libraries.h>
 
 
 // Equivalent for the well-known gettext function.

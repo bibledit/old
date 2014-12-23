@@ -111,6 +111,8 @@ string styles_indexm (void * webserver_request) // Todo
     sheetblock.push_back (sheet);
     bool editable = database_styles.hasWriteAccess (username, sheet);
     if (userlevel >= Filter_Roles::admin ()) editable = true;
+    // Cannot edit the Standard stylesheet.
+    if (sheet == database_styles.standard()) editable = false;
     if (editable) {
       sheetblock.push_back ("<a href=\"sheetm?name=" + sheet + "\">[" + gettext("edit") + "]</a>");
     }

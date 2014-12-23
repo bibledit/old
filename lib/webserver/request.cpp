@@ -20,9 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-using namespace std;
-
-
 Webserver_Request::Webserver_Request ()
 {
   response_code = 200;

@@ -26,9 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-using namespace std;
-
-
 // This database is resilient.
 // Part of the data is stored in a SQLite database.
 // This part is read often, and infrequently written to.

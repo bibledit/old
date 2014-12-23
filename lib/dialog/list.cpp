@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 #include <assets/page.h>
 #include <locale/translate.h>
+#include <filter/url.h>
 
 
 // Entry dialog constructor
@@ -32,7 +33,6 @@ Dialog_List::Dialog_List (string url, string question, string info_top, string i
 {
   Assets_View * view = new Assets_View ();
   base_url = url;
-  view->set_variable ("base_url", base_url);
   view->set_variable ("question", question);
   if (info_top == "")
     info_top = gettext("Here are the various options:");
@@ -51,19 +51,13 @@ Dialog_List::~Dialog_List ()
 }
 
 
-// $query   : A map with query variables, e.g. ("search" => "bibledit").
-//            If any $query is passed, if Cancel is clicked in this dialog, it should go go back
-//            to the original caller page  with the $query added. Same for Ok, it would post
-//            the value entered, but also add the $query to the url.
-void Dialog_List::set_query (map <string, string> query)
+// Add "parameter" and "value" to be added in the base query, or base url.
+// If any $query is passed, if Cancel is clicked in this dialog, it should go go back
+// to the original caller page  with the $query added.
+// Same for when a selection is made: It adds the $query to the page where to go.
+void Dialog_List::add_query (string parameter, string value)
 {
-  if (query.empty ()) {}; // Temporal
-  /* Todo
-   $base_url = $_SERVER['PHP_SELF'];
-   if (is_array ($query)) {
-   $base_url .= "?" . http_build_query ($query);
-   }
-   */
+  base_url = filter_url_build_http_query (base_url, parameter, value);
 }
 
 
@@ -79,24 +73,9 @@ void Dialog_List::add_row (string text, string query)
 string Dialog_List::run ()
 {
   Assets_View * view = (Assets_View *) assets_view;
+  view->set_variable ("base_url", base_url);
   view->set_variable ("list_block", list_block);
   string page = view->render ("dialog", "listhorizontal");
   page += Assets_Page::footer ();
   return page;
 }
-/*
- 
-
- 
- $this->view->view->horizontal = $horizontal;
- }
- 
- 
- public function add_row ($text_line, $get_parameter)
- {
- $this->text_lines[]     = $text_line;
- $this->get_parameters[] = $get_parameter;
- }
- 
- 
-*/
