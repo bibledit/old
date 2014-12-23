@@ -14,20 +14,20 @@
 
 <tr><td>gettext("This style")</td><td><a href="view?sheet=##sheet##&style=##style##&type=">##type_text##</a></td></tr>
 
-  <?php if ($this->subtype_text != "") {
-  <tr><td>gettext("This one")</td><td><a href="view?sheet=##sheet##&style=##style##&subtype=">$this->subtype_text</a></td></tr>
-  <?php }
+<!-- #BEGINZONE subtype_text -->
+<tr><td>gettext("This one")</td><td><a href="view?sheet=##sheet##&style=##style##&subtype=">##subtype_text##</a></td></tr>
+<!-- #ENDZONE subtype_text -->
 
-  <?php if ($this->fontsize_relevant) {
-  <tr><td>gettext("Font size")</td><td><a href="view?sheet=##sheet##&style=##style##&fontsize=">$this->fontsize gettext ("points")</a></td></tr>
-  <?php }
+<!-- #BEGINZONE subtype_text -->
+<tr><td>gettext("Font size")</td><td><a href="view?sheet=##sheet##&style=##style##&fontsize=">##fontsize## gettext ("points")</a></td></tr>
+<!-- #BEGINZONE subtype_text -->
 
-  <?php if ($this->ibus_relevant) {
-  <tr><td>gettext("Italic")</td><td><a href="view?sheet=##sheet##&style=##style##&italic=">$this->italic</a></td></tr>
-  <tr><td>gettext("Bold")</td><td><a href="view?sheet=##sheet##&style=##style##&bold=">$this->bold</a></td></tr>
-  <tr><td>gettext("Underline")</td><td><a href="view?sheet=##sheet##&style=##style##&underline">$this->underline</a></td></tr>
-  <tr><td>gettext("Small caps")</td><td><a href="view?sheet=##sheet##&style=##style##&smallcaps=">$this->smallcaps</a></td></tr>
-  <?php }
+<!-- #BEGINZONE ibus_relevant -->
+<tr><td>gettext("Italic")</td><td><a href="view?sheet=##sheet##&style=##style##&italic=">##italic##</a></td></tr>
+<tr><td>gettext("Bold")</td><td><a href="view?sheet=##sheet##&style=##style##&bold=">##bold##</a></td></tr>
+<tr><td>gettext("Underline")</td><td><a href="view?sheet=##sheet##&style=##style##&underline">##underline##</a></td></tr>
+<tr><td>gettext("Small caps")</td><td><a href="view?sheet=##sheet##&style=##style##&smallcaps=">##smallcaps##</a></td></tr>
+<!-- #BEGINZONE ibus_relevant -->
 
   <?php if ($this->superscript_relevant) {
   <tr><td>gettext("Superscript")</td><td><a href="view?sheet=##sheet##&style=##style##&superscript=$this->superscript_toggle">$this->superscript_value</a></td></tr>

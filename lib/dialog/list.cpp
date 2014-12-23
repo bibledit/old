@@ -61,11 +61,12 @@ void Dialog_List::add_query (string parameter, string value)
 }
 
 
-void Dialog_List::add_row (string text, string query)
+void Dialog_List::add_row (string text, string parameter, string value)
 {
   if (!list_block.empty ()) list_block.append ("\n");
   if (!horizontal) list_block.append ("<li>");
-  list_block.append ("<a href=\"" + base_url + query + "\">" + text + "</a>");
+  string href = filter_url_build_http_query (base_url, parameter, value);
+  list_block.append ("<a href=\"" + href + "\">" + text + "</a>");
   if (!horizontal) list_block.append ("</li>");
 }
 

@@ -30,7 +30,7 @@ public:
   Dialog_List (string url, string question, string info_top, string info_bottom);
   ~Dialog_List ();
   void add_query (string parameter, string value);
-  void add_row (string text, string query);
+  void add_row (string text, string parameter, string value);
   void set_horizontal ();
   string run ();
 private:

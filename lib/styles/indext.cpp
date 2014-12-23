@@ -66,8 +66,7 @@ string styles_indext (void * webserver_request) // Todo
     Database_Styles database_styles = Database_Styles();
     vector <string> sheets = database_styles.getSheets();
     for (auto& name : sheets) {
-      string parameter = "?sheet=" + name;
-      dialog_list.add_row (name, parameter);
+      dialog_list.add_row (name, "sheet", name);
     }
     page += dialog_list.run ();
     return page;
