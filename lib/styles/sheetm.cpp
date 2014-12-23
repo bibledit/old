@@ -69,17 +69,19 @@ string styles_sheetm (void * webserver_request) // Todo
   if (request->post.count ("new")) {
     string newstyle = request->post["entry"];
     vector <string> existing_markers = database_styles.getMarkers (name);
-    if (find (existing_markers.begin(), existing_markers.end(), newstyle) == existing_markers.end()) {
+    if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
       page += Assets_Page::error (gettext("This style already exists"));
     } else {
       database_styles.addMarker (name, newstyle);
       // Todo C++Port Styles_Sheets::create_all ();
-      Assets_Page::success (gettext("The style has been created"));
+      page += Assets_Page::success (gettext("The style has been created"));
     }
   }
-  if (isset (_GET['new'])) {
-    dialog_entry = new Dialog_Entry (array ("name" => name), gettext("Please enter the name for the new style"), "", "new", "");
-    die;
+  if (request->query.count("new")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("sheetm", gettext("Please enter the name for the new style"), "", "new", "");
+    dialog_entry.add_query ("name", name);
+    page += dialog_entry.run ();
+    return page;
   }
   
   string del = request->query["delete"];

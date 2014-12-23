@@ -284,8 +284,8 @@ vector <string> filter_url_scandir (string folder)
         files.push_back (name);
       }
     }
+    closedir (dir);
   }
-  closedir (dir);
   sort (files.begin(), files.end());
   return files;
 }

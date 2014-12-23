@@ -22,6 +22,7 @@
 #include <assets/page.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
+#include <dialog/yes.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -83,7 +84,7 @@ string styles_indexm (void * webserver_request) // Todo
     string del = request->query ["delete"];
     if (del != "") {
       string confirm = request->query ["confirm"];
-      if (confirm != "") {
+      if (confirm == "yes") {
         bool write = database_styles.hasWriteAccess (username, del);
         if (userlevel >= Filter_Roles::admin ()) write = true;
         if (write) {
@@ -91,9 +92,11 @@ string styles_indexm (void * webserver_request) // Todo
           database_styles.revokeWriteAccess ("", del);
           page += Assets_Page::success (gettext("The stylesheet has been deleted"));
         }
-      } else {
-        // Todo implement $dialog_yes = new Dialog_Yes (NULL, gettext("Would you like to delete this stylesheet?"), "delete");
-        // Todo die;
+      } if (confirm == "") {
+        Dialog_Yes dialog_yes = Dialog_Yes ("indexm", gettext("Would you like to delete this stylesheet?"));
+        dialog_yes.add_query ("delete", del);
+        page += dialog_yes.run ();
+        return page;
       }
     }
   

@@ -155,7 +155,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) search/rebibles.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
 	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
-	dialog/list.$(OBJEXT)
+	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -468,7 +468,8 @@ libbibledit_a_SOURCES = \
 	access/user.cpp \
 	access/bible.cpp \
 	dialog/entry.cpp \
-	dialog/list.cpp
+	dialog/list.cpp \
+	dialog/yes.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -964,6 +965,8 @@ dialog/entry.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
 dialog/list.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
+dialog/yes.$(OBJEXT): dialog/$(am__dirstamp) \
+	dialog/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1138,6 +1141,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/list.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/yes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/receive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@
