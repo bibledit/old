@@ -251,6 +251,32 @@ string styles_view (void * webserver_request) // Todo
   view.set_variable ("italic", styles_logic_off_on_inherit_toggle_text (italic));
   
 
+  // Bold.
+  int bold = marker_data.bold;
+  if (request->query.count ("bold")) {
+    string s = request->query["bold"];
+    if (s == "") {
+      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change whether this style is in bold?"), "", "");
+      dialog_list.add_query ("sheet", sheet);
+      dialog_list.add_query ("style", style);
+      Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
+      int last_value = ooitOn;
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
+        last_value = ooitToggle;
+      for (int i = 0; i <= last_value; i++) {
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", convert_to_string (i));
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      bold = convert_to_int (s);
+      if (write) database_styles.updateBold (sheet, style, bold);
+    }
+  }
+  view.set_variable ("bold", styles_logic_off_on_inherit_toggle_text (bold));
+  
+
+  
   
   page += view.render ("styles", "view");
   

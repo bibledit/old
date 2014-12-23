@@ -1,27 +1,4 @@
 <?php
-// Bold.
-bold   = marker_data["bold"];
-if (isset (request->query["bold"])) {
-  bold = request->query["bold"];
-  if (bold == "") {
-    dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change whether this style is in bold?"), "", "");
-    database_styles = Database_Styles::getInstance();
-    styles_logic = Styles_Logic::getInstance ();
-    marker_data = database_styles.getMarkerData (sheet, style);
-    last_value = ooitOn;
-    if (styles_logic.italicBoldUnderLineSmallcapsAreFull (marker_data["type"], marker_data["subtype"]))
-      last_value = ooitToggle;
-    for (i = 0; i <= last_value; i++) {
-      dialog_list.add_row (styles_logic.OffOnInheritToggleText (i), "&bold=i");
-    }
-    dialog_list.run ();
-    die;
-  } else {
-    if (write) database_styles.updateBold (sheet, style, bold);
-  }
-}
-view.view.bold = styles_logic.OffOnInheritToggleText (bold);
-
 // Underline.
 underline = marker_data["underline"];
 if (isset (request->query["underline"])) {
