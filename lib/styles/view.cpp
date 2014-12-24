@@ -465,7 +465,6 @@ string styles_view (void * webserver_request) // Todo
   // Color.
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
   string color = marker_data.color;
-  cout << color << endl; // Todo
   if (request->query.count ("color")) {
     color = request->query["color"];
     if (color == "") {
@@ -494,6 +493,87 @@ string styles_view (void * webserver_request) // Todo
   view.set_variable ("print_toggle", convert_to_string (!print));
   
 
+  // Userbool1
+  string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function (type, subtype));
+  if (userbool1_function.length () > 2) view.enable_zone ("userbool1_relevant");
+  view.set_variable ("userbool1_function", userbool1_function);
+  bool userbool1 = marker_data.userbool1;
+  if (request->query.count ("userbool1")) {
+    userbool1 = convert_to_bool (request->query["userbool1"]);
+    if (write) database_styles.updateUserbool1 (sheet, style, userbool1);
+  }
+  view.set_variable ("userbool1_value", styles_logic_off_on_inherit_toggle_text (userbool1));
+  view.set_variable ("userbool1_toggle", convert_to_string (!userbool1));
+
+  
+  // Userbool2
+  string userbool2_function = styles_logic_get_userbool2_text (styles_logic_get_userbool2_function (type, subtype));
+  if (userbool2_function.length () > 2) view.enable_zone ("userbool2_relevant");
+  view.set_variable ("userbool2_function", userbool2_function);
+  bool userbool2 = marker_data.userbool2;
+  if (request->query.count ("userbool2")) {
+    userbool2 = convert_to_bool (request->query["userbool2"]);
+    if (write) database_styles.updateUserbool2 (sheet, style, userbool2);
+  }
+  view.set_variable ("userbool2_value", styles_logic_off_on_inherit_toggle_text (userbool2));
+  view.set_variable ("userbool2_toggle", convert_to_string (!userbool2));
+
+  
+  // Userbool3
+  string userbool3_function = styles_logic_get_userbool3_text (styles_logic_get_userbool3_function (type, subtype));
+  if (userbool3_function.length () > 2) view.enable_zone ("userbool3_relevant");
+  view.set_variable ("userbool3_function", userbool3_function);
+  bool userbool3 = marker_data.userbool3;
+  if (request->query.count ("userbool3")) {
+    userbool3 = convert_to_bool (request->query["userbool3"]);
+    if (write) database_styles.updateUserbool3 (sheet, style, userbool3);
+  }
+  view.set_variable ("userbool3_value", styles_logic_off_on_inherit_toggle_text (userbool3));
+  view.set_variable ("userbool3_toggle", convert_to_string (!userbool3));
+
+  
+  // Userint1.
+  int userint1 = marker_data.userint1;
+  switch (styles_logic_get_userint1_function (type, subtype)) {
+    case UserInt1None :
+      break;
+    case UserInt1NoteNumbering :
+      view.enable_zone ("userint1_notenumbering");
+      if (request->query.count ("notenumbering")) {
+        Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the numbering of the note?"), "", "");
+        dialog_list.add_query ("sheet", sheet);
+        dialog_list.add_query ("style", style);
+        for (int i = NoteNumbering123; i <= NoteNumberingUser; i++) {
+          dialog_list.add_row (styles_logic_note_numbering_text (i), "userint1", convert_to_string (i));
+        }
+        page += dialog_list.run ();
+        return page;
+      }
+      if (request->query.count ("userint1")) {
+        userint1 = convert_to_int (request->query["userint1"]);
+        if (write) database_styles.updateUserint1 (sheet, style, userint1);
+      }
+      view.set_variable ("userint1", styles_logic_note_numbering_text (userint1));
+      break;
+    case UserInt1TableColumnNumber :
+      view.enable_zone ("userint1_columnnumber");
+      if (request->query.count ("userint1")) {
+        Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a column number between 1 and 4"), convert_to_string (userint1), "userint1", gettext ("This is the column number for the style. The first columm is number 1."));
+        dialog_entry.add_query ("sheet", sheet);
+        dialog_entry.add_query ("style", style);
+        page += dialog_entry.run ();
+        return page;
+      }
+      if (request->post.count ("userint1")) {
+        int value = convert_to_int (request->post["entry"]);
+        if ((value >= 1) && (value <= 4)) {
+          userint1 = value;
+          if (write) database_styles.updateUserint1 (sheet, style, userint1);
+        }
+      }
+      view.set_variable ("userint1", convert_to_string (userint1));
+      break;
+  }
   
   
   page += view.render ("styles", "view");

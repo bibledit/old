@@ -20,18 +20,18 @@
 
 <!-- #BEGINZONE subtype_text -->
 <tr><td>gettext("Font size")</td><td><a href="view?sheet=##sheet##&style=##style##&fontsize=">##fontsize## gettext ("points")</a></td></tr>
-<!-- #BEGINZONE subtype_text -->
+<!-- #ENDZONE subtype_text -->
 
 <!-- #BEGINZONE ibus_relevant -->
 <tr><td>gettext("Italic")</td><td><a href="view?sheet=##sheet##&style=##style##&italic=">##italic##</a></td></tr>
 <tr><td>gettext("Bold")</td><td><a href="view?sheet=##sheet##&style=##style##&bold=">##bold##</a></td></tr>
 <tr><td>gettext("Underline")</td><td><a href="view?sheet=##sheet##&style=##style##&underline">##underline##</a></td></tr>
 <tr><td>gettext("Small caps")</td><td><a href="view?sheet=##sheet##&style=##style##&smallcaps=">##smallcaps##</a></td></tr>
-<!-- #BEGINZONE ibus_relevant -->
+<!-- #ENDZONE ibus_relevant -->
 
 <!-- #BEGINZONE superscript_relevant -->
 <tr><td>gettext("Superscript")</td><td><a href="view?sheet=##sheet##&style=##style##&superscript=##superscript_toggle##">##superscript_value##</a></td></tr>
-<!-- #BEGINZONE superscript_relevant -->
+<!-- #ENDZONE superscript_relevant -->
 
 <!-- #BEGINZONE paragraph_treats_relevant -->
 <tr><td>gettext("Text alignment")</td><td><a href="view?sheet=##sheet##&style=##style##&alignment=">##justification##</a></td></tr>
@@ -40,39 +40,39 @@
 <tr><td>gettext("Left margin")</td><td><a href="view?sheet=##sheet##&style=##style##&leftmargin=">##leftmargin## gettext ("mm")</a></td></tr>
 <tr><td>gettext("Right margin")</td><td><a href="view?sheet=##sheet##&style=##style##&rightmargin=">##rightmargin## gettext ("mm")</a></td></tr>
 <tr><td>gettext("First line indent")</td><td><a href="view?sheet=##sheet##&style=##style##&firstlineindent=">##firstlineindent## gettext ("mm")</a></td></tr>
-<!-- #BEGINZONE paragraph_treats_relevant -->
+<!-- #ENDZONE paragraph_treats_relevant -->
 
 <!-- #BEGINZONE columns_relevant -->
 <tr><td>gettext("Span columns")</td><td><a href="view?sheet=##sheet##&style=##style##&spancolumns=##spancolumns_toggle##">##spancolumns##</a></td></tr>
-<!-- #BEGINZONE columns_relevant -->
+<!-- #ENDZONE columns_relevant -->
 
 <!-- #BEGINZONE color_relevant -->
 <tr><td>gettext("Color")</td><td style="background-color:##color##"></td><td><a href="view?sheet=##sheet##&style=##style##&color=">[gettext ("edit")]</a></td></tr>
-<!-- #BEGINZONE color_relevant -->
+<!-- #ENDZONE color_relevant -->
 
 <!-- #BEGINZONE print_relevant -->
 <tr><td>gettext("Print")</td><td><a href="view?sheet=##sheet##&style=##style##&print=##print_toggle##">##print##</a></td></tr>
-<!-- #BEGINZONE print_relevant -->
+<!-- #ENDZONE print_relevant -->
 
-<?php if ($this->userbool1_function != "") {
-<tr><td>$this->userbool1_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool1=$this->userbool1_toggle">$this->userbool1_value</a></td></tr>
-<?php }
+<!-- #BEGINZONE userbool1_relevant -->
+<tr><td>##userbool1_function##</td><td><a href="view?sheet=##sheet##&style=##style##&userbool1=##userbool1_toggle##">##userbool1_value##</a></td></tr>
+<!-- #ENDZONE userbool1_relevant -->
 
-<?php if ($this->userbool2_function != "") {
-<tr><td>$this->userbool2_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool2=$this->userbool2_toggle">$this->userbool2_value</a></td></tr>
-<?php }
+<!-- #BEGINZONE userbool2_relevant -->
+<tr><td>##userbool2_function##</td><td><a href="view?sheet=##sheet##&style=##style##&userbool2=##userbool2_toggle##">##userbool2_value##</a></td></tr>
+<!-- #ENDZONE userbool2_relevant -->
 
-<?php if ($this->userbool3_function != "") {
-<tr><td>$this->userbool3_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool3=$this->userbool3_toggle">$this->userbool3_value</a></td></tr>
-<?php }
+<!-- #BEGINZONE userbool3_relevant -->
+<tr><td>##userbool3_function##</td><td><a href="view?sheet=##sheet##&style=##style##&userbool3=##userbool3_toggle##">##userbool3_value##</a></td></tr>
+<!-- #ENDZONE userbool3_relevant -->
 
-<?php if ($this->userint1_notenumbering) {
-<tr><td>gettext("Note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumbering=">$this->userint1</a></td></tr>
-<?php }
+<!-- #BEGINZONE userint1_notenumbering -->
+<tr><td>gettext("Note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumbering=">##userint1##</a></td></tr>
+<!-- #ENDZONE userint1_notenumbering -->
 
-<?php if ($this->userint1_columnnumber) {
-<tr><td>gettext("Column number")</td><td><a href="view?sheet=##sheet##&style=##style##&userint1=">$this->userint1</a></td></tr>
-<?php }
+<!-- #BEGINZONE userint1_columnnumber -->
+<tr><td>gettext("Column number")</td><td><a href="view?sheet=##sheet##&style=##style##&userint1=">##userint1##</a></td></tr>
+<!-- #ENDZONE userint1_columnnumber -->
 
 <?php if ($this->userint2_notenumberingrestart) {
 <tr><td>gettext("Restart the note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumberingrestart=">$this->userint2</a></td></tr>
