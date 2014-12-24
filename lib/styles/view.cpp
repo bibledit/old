@@ -301,6 +301,83 @@ string styles_view (void * webserver_request) // Todo
   view.set_variable ("underline", styles_logic_off_on_inherit_toggle_text (underline));
 
   
+  // Small caps.
+  int smallcaps = marker_data.smallcaps;
+  if (request->query.count ("smallcaps")) {
+    string s = request->query["smallcaps"];
+    if (s == "") {
+      Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change whether this style is in small caps?"), "", "");
+      dialog_list.add_query ("sheet", sheet);
+      dialog_list.add_query ("style", style);
+      Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
+      int last_value = ooitOn;
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
+        last_value = ooitToggle;
+      for (int i = 0; i <= last_value; i++) {
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", convert_to_string (i));
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      smallcaps = convert_to_int (s);
+      if (write) database_styles.updateSmallcaps (sheet, style, smallcaps);
+    }
+  }
+  view.set_variable ("smallcaps", styles_logic_off_on_inherit_toggle_text (smallcaps));
+  
+  
+  // Superscript.
+  if (styles_logic_superscript_is_relevant (type, subtype)) view.enable_zone ("superscript_relevant");
+  int superscript = marker_data.superscript;
+  if (request->query.count ("superscript")) {
+    superscript = convert_to_int (request->query["superscript"]);
+    if (write) database_styles.updateSuperscript (sheet, style, superscript);
+  }
+  view.set_variable ("superscript_value", styles_logic_off_on_inherit_toggle_text (superscript));
+  view.set_variable ("superscript_toggle", convert_to_string (!(bool) superscript));
+  
+
+  // Whether a list of the following paragraph treats are relevant.
+  if (styles_logic_paragraph_treats_are_relevant (type, subtype)) view.enable_zone ("paragraph_treats_relevant");
+
+  
+  // Text alignment.
+  int justification = marker_data.justification;
+  if (request->query.count ("alignment")) {
+    Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the text alignment of this style?"), "", "");
+    dialog_list.add_query ("sheet", sheet);
+    dialog_list.add_query ("style", style);
+    for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
+      dialog_list.add_row (styles_logic_alignment_text (i), "justification", convert_to_string (i));
+    }
+    page += dialog_list.run ();
+    return page;
+  }
+  if (request->query.count ("justification")) {
+    justification = convert_to_int (request->query["justification"]);
+    if (write) database_styles.updateJustification (sheet, style, justification);
+  }
+  view.set_variable ("justification", styles_logic_alignment_text (justification));
+  
+
+  // Space before paragraph.
+  float spacebefore = marker_data.spacebefore;
+  if (request->query.count ("spacebefore")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a space of between 0 and 100 mm before the paragraph"), convert_to_string (spacebefore), "spacebefore", gettext ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
+    dialog_entry.add_query ("sheet", sheet);
+    dialog_entry.add_query ("style", style);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("spacebefore")) {
+    spacebefore = convert_to_float (request->post["entry"]);
+    if (spacebefore < 0) spacebefore = 0;
+    if (spacebefore > 100) spacebefore = 100;
+    if (write) database_styles.updateSpaceBefore (sheet, style, spacebefore);
+  }
+  view.set_variable ("spacebefore", convert_to_string (spacebefore));
+  
+
   
   
   page += view.render ("styles", "view");
