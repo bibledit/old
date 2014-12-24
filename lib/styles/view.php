@@ -1,27 +1,4 @@
 <?php
-// Underline.
-underline = marker_data["underline"];
-if (isset (request->query["underline"])) {
-  underline = request->query["underline"];
-  if (underline == "") {
-    dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change whether this style is underlined?"), "", "");
-    database_styles = Database_Styles::getInstance();
-    styles_logic = Styles_Logic::getInstance ();
-    marker_data = database_styles.getMarkerData (sheet, style);
-    last_value = ooitOn;
-    if (styles_logic.italicBoldUnderLineSmallcapsAreFull (type, subtype))
-      last_value = ooitToggle;
-    for (i = 0; i <= last_value; i++) {
-      dialog_list.add_row (styles_logic.OffOnInheritToggleText (i), "&underline=i");
-    }
-    dialog_list.run ();
-    die;
-  } else {
-    if (write) database_styles.updateUnderline (sheet, style, underline);
-  }
-}
-view.view.underline = styles_logic.OffOnInheritToggleText (underline);
-
 // Small caps.
 smallcaps = marker_data["smallcaps"];
 if (isset (request->query["smallcaps"])) {
