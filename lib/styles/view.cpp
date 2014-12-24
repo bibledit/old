@@ -396,6 +396,60 @@ string styles_view (void * webserver_request) // Todo
   view.set_variable ("spaceafter", convert_to_string (spaceafter));
   
 
+  // Left margin.
+  float leftmargin = marker_data.leftmargin;
+  if (request->query.count ("leftmargin")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a left margin of between -100 and 100 mm"), convert_to_string (leftmargin), "leftmargin", gettext ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
+    dialog_entry.add_query ("sheet", sheet);
+    dialog_entry.add_query ("style", style);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count("leftmargin")) {
+    leftmargin = convert_to_float (request->post ["entry"]);
+    if (leftmargin < 0) leftmargin = 0;
+    if (leftmargin > 100) leftmargin = 100;
+    if (write) database_styles.updateLeftMargin (sheet, style, leftmargin);
+  }
+  view.set_variable ("leftmargin", convert_to_string (leftmargin));
+
+  
+  // Right margin.
+  float rightmargin = marker_data.rightmargin;
+  if (request->query.count ("rightmargin")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a right margin of between -100 and 100 mm"), convert_to_string (rightmargin), "rightmargin", gettext ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
+    dialog_entry.add_query ("sheet", sheet);
+    dialog_entry.add_query ("style", style);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count("rightmargin")) {
+    rightmargin = convert_to_float (request->post["entry"]);
+    if (rightmargin < -100) rightmargin = -100;
+    if (rightmargin > 100) rightmargin = 100;
+    if (write) database_styles.updateRightMargin (sheet, style, rightmargin);
+  }
+  view.set_variable ("rightmargin", convert_to_string (rightmargin));
+  
+  
+  // First line indent.
+  float firstlineindent = marker_data.firstlineindent;
+  if (request->query.count ("firstlineindent")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a first line indent of between -100 and 100 mm"), convert_to_string (firstlineindent), "firstlineindent", gettext ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
+    dialog_entry.add_query ("sheet", sheet);
+    dialog_entry.add_query ("style", style);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("firstlineindent")) {
+    firstlineindent = convert_to_float (request->post["entry"]);
+    if (firstlineindent < -100) firstlineindent = -100;
+    if (firstlineindent > 100) firstlineindent = 100;
+    if (write) database_styles.updateFirstLineIndent (sheet, style, firstlineindent);
+  }
+  view.set_variable ("firstlineindent", convert_to_string (firstlineindent));
+  
+
   
   
   page += view.render ("styles", "view");
