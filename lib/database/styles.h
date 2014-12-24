@@ -48,7 +48,7 @@ public:
   float rightmargin;
   float firstlineindent;
   bool spancolumns;
-  int color;
+  string color;
   bool print;
   bool userbool1;
   bool userbool2;
@@ -95,7 +95,7 @@ public:
   void updateRightMargin (string sheet, string marker, float rightmargin);
   void updateFirstLineIndent (string sheet, string marker, float firstlineindent);
   void updateSpanColumns (string sheet, string marker, bool spancolumns);
-  void updateColor (string sheet, string marker, int color);
+  void updateColor (string sheet, string marker, string color);
   void updatePrint (string sheet, string marker, bool print);
   void updateUserbool1 (string sheet, string marker, bool userbool1);
   void updateUserbool2 (string sheet, string marker, bool userbool2);

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		CA699A021A4AEBE000B23E0A /* color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
+		CA699A031A4AEBE000B23E0A /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
+		CA699A041A4AEBE000B23E0A /* color.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = color.html; sourceTree = "<group>"; };
 		CAA4CEF71A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4CEF81A45A647003ABA25 /* bible.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = bible.Po; sourceTree = "<group>"; };
 		CAA4CEF91A45A647003ABA25 /* user.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = user.Po; sourceTree = "<group>"; };
@@ -287,7 +290,6 @@
 		CAA4D0681A45A647003ABA25 /* dev */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = dev; path = ../dev; sourceTree = "<group>"; };
 		CAA4D0691A45A647003ABA25 /* DEVELOP */ = {isa = PBXFileReference; lastKnownFileType = text; name = DEVELOP; path = ../DEVELOP; sourceTree = "<group>"; };
 		CAA4D0701A45A647003ABA25 /* books.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = books.php; sourceTree = "<group>"; };
-		CAA4D0721A45A647003ABA25 /* color.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = color.php; sourceTree = "<group>"; };
 		CAA4D0731A45A647003ABA25 /* entry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = entry.cpp; sourceTree = "<group>"; };
 		CAA4D0741A45A647003ABA25 /* entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = entry.h; sourceTree = "<group>"; };
 		CAA4D0751A45A647003ABA25 /* entry.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = entry.html; sourceTree = "<group>"; };
@@ -1828,7 +1830,9 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D0701A45A647003ABA25 /* books.php */,
-				CAA4D0721A45A647003ABA25 /* color.php */,
+				CA699A031A4AEBE000B23E0A /* color.h */,
+				CA699A021A4AEBE000B23E0A /* color.cpp */,
+				CA699A041A4AEBE000B23E0A /* color.html */,
 				CAA4D0731A45A647003ABA25 /* entry.cpp */,
 				CAA4D0741A45A647003ABA25 /* entry.h */,
 				CAA4D0751A45A647003ABA25 /* entry.html */,

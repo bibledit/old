@@ -1,29 +1,4 @@
 <?php
-// Columns spanning.
-view.view.columns_relevant = styles_logic.columnsAreRelevant (type, subtype);
-spancolumns = marker_data["spancolumns"];
-if (isset (request->query["spancolumns"])) {
-  spancolumns = Filter_Bool::int (request->query["spancolumns"]);
-  if (write) database_styles.updateSpanColumns (sheet, style, spancolumns);
-}
-view.view.spancolumns = styles_logic.OffOnInheritToggleText (spancolumns);
-view.view.spancolumns_toggle = Filter_Bool::not (spancolumns);
-
-// Color.
-view.view.color_relevant = styles_logic.colorIsRelevant (type, subtype);
-color = marker_data["color"];
-if (isset (request->query["color"])) {
-  value = request->query["color"];
-  if (value == "") {
-    dialog_color = new Dialog_Color (standard_page_query, gettext("Please specify a new color"), "color");
-    die;
-  } else {
-    color = value;
-    if (write) database_styles.updateColor (sheet, style, color);
-  }
-}
-view.view.color = filter_string_sanitize_html (color);
-
 // Whether to print this style.
 view.view.print_relevant = styles_logic.printIsRelevant (type, subtype);
 print = marker_data["print"];

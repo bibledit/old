@@ -108,7 +108,7 @@ void Flate::process_variables (string& rendering)
   // Start processing variables by locating the first one.
   size_t position = rendering.find ("##");
   // Iterate through the contents till all variables have been dealt with.
-  while ((position != string::npos) && (iterations < 100)) {
+  while ((position != string::npos) && (iterations < 1000)) {
     iterations++;
     // Position where the variable ends.
     size_t pos = rendering.find ("##", position + 1);

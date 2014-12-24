@@ -813,7 +813,7 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
     int underline = style.underline;
     int smallcaps = style.smallcaps;
     int superscript = style.superscript;
-    int color = style.color;
+    string color = style.color;
     createdStyles.push_back (marker);
 
     // The style entry looks like this in styles.xml, e.g., for italic:
@@ -860,9 +860,8 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
       //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%");
     }
 
-    if (color != 0) {
-      string scolor = filter_string_fill (convert_to_string (color), 6, '0');
-      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:color", BAD_CAST convert_to_string ("#" + scolor).c_str());
+    if (color != "#000000") {
+      xmlNewProp (styleTextPropertiesDomElement, BAD_CAST "fo:color", BAD_CAST color.c_str());
     }
 
   }

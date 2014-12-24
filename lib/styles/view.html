@@ -42,13 +42,13 @@
 <tr><td>gettext("First line indent")</td><td><a href="view?sheet=##sheet##&style=##style##&firstlineindent=">##firstlineindent## gettext ("mm")</a></td></tr>
 <!-- #BEGINZONE paragraph_treats_relevant -->
 
-  <?php if ($this->columns_relevant) {
-  <tr><td>gettext("Span columns")</td><td><a href="view?sheet=##sheet##&style=##style##&spancolumns=$this->spancolumns_toggle">$this->spancolumns</a></td></tr>
-  <?php }
+<!-- #BEGINZONE columns_relevant -->
+<tr><td>gettext("Span columns")</td><td><a href="view?sheet=##sheet##&style=##style##&spancolumns=##spancolumns_toggle##">##spancolumns##</a></td></tr>
+<!-- #BEGINZONE columns_relevant -->
 
-  <?php if ($this->color_relevant) {
-  <tr><td>gettext("Color")</td><td style="background-color:#$this->color"></td><td><a href="view?sheet=##sheet##&style=##style##&color=">[gettext ("edit")]</a></td></tr>
-  <?php }
+<!-- #BEGINZONE color_relevant -->
+<tr><td>gettext("Color")</td><td style="background-color:##color##"></td><td><a href="view?sheet=##sheet##&style=##style##&color=">[gettext ("edit")]</a></td></tr>
+<!-- #BEGINZONE color_relevant -->
 
   <?php if ($this->print_relevant) {
   <tr><td>gettext("Print")</td><td><a href="view?sheet=##sheet##&style=##style##&print=$this->print_toggle">$this->print</a></td></tr>

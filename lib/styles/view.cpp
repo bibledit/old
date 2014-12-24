@@ -23,6 +23,7 @@
 #include <assets/page.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
+#include <dialog/color.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -448,7 +449,39 @@ string styles_view (void * webserver_request) // Todo
     if (write) database_styles.updateFirstLineIndent (sheet, style, firstlineindent);
   }
   view.set_variable ("firstlineindent", convert_to_string (firstlineindent));
+
   
+  // Columns spanning.
+  if (styles_logic_columns_are_relevant (type, subtype)) view.enable_zone ("columns_relevant");
+  bool spancolumns = marker_data.spancolumns;
+  if (request->query.count ("spancolumns")) {
+    spancolumns = convert_to_bool (request->query["spancolumns"]);
+    if (write) database_styles.updateSpanColumns (sheet, style, spancolumns);
+  }
+  view.set_variable ("spancolumns", styles_logic_off_on_inherit_toggle_text (spancolumns));
+  view.set_variable ("spancolumns_toggle", convert_to_string (!spancolumns));
+
+  
+  // Color.
+  if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
+  string color = marker_data.color;
+  if (request->query.count ("color")) {
+    color = request->query["color"];
+    if (color == "") {
+      Dialog_Color dialog_color = Dialog_Color ("view", gettext("Please specify a new color"));
+      dialog_color.add_query ("sheet", sheet);
+      dialog_color.add_query ("style", style);
+      page += dialog_color.run ();
+      return page;
+    } else {
+      if (color.find ("#") == string::npos) color.insert (0, "#");
+      if (color.length () != 7) color = "#000000";
+      if (write) database_styles.updateColor (sheet, style, color);
+    }
+  }
+  view.set_variable ("color", color);
+  
+
 
   
   

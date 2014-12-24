@@ -102,7 +102,8 @@ libbibledit_a_SOURCES = \
 	access/bible.cpp \
 	dialog/entry.cpp \
 	dialog/list.cpp \
-	dialog/yes.cpp
+	dialog/yes.cpp \
+	dialog/color.cpp
 
 bin_PROGRAMS = server unittest
 

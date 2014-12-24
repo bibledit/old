@@ -519,7 +519,7 @@ void Database_Styles::updateSpanColumns (string sheet, string marker, bool spanc
 }
 
 
-void Database_Styles::updateColor (string sheet, string marker, int color)
+void Database_Styles::updateColor (string sheet, string marker, string color)
 {
   Database_Styles_Item item = read_item (sheet, marker);
   item.color = color;
@@ -799,7 +799,7 @@ void Database_Styles::write_item (string sheet, Database_Styles_Item & item)
   lines.push_back (convert_to_string (item.rightmargin));
   lines.push_back (convert_to_string (item.firstlineindent));
   lines.push_back (convert_to_string (item.spancolumns));
-  lines.push_back (convert_to_string (item.color));
+  lines.push_back (item.color);
   lines.push_back (convert_to_string (item.print));
   lines.push_back (convert_to_string (item.userbool1));
   lines.push_back (convert_to_string (item.userbool2));
@@ -834,7 +834,7 @@ Database_Styles_Item::Database_Styles_Item ()
   rightmargin = 0;
   firstlineindent = 0;
   spancolumns = false;
-  color = 0;
+  color = "#000000";
   print = false;
   userbool1 = false;
   userbool2 = false;
