@@ -576,6 +576,54 @@ string styles_view (void * webserver_request) // Todo
   }
   
   
+  // Userint2.
+  int userint2 = marker_data.userint2;
+  switch (styles_logic_get_userint2_function (type, subtype)) {
+    case UserInt2None :
+      break;
+    case UserInt2NoteNumberingRestart :
+      view.enable_zone ("userint2_notenumberingrestart");
+      if (request->query.count ("notenumberingrestart")) {
+        Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change when the note numbering restarts?"), "", "");
+        dialog_list.add_query ("sheet", sheet);
+        dialog_list.add_query ("style", style);
+        for (int i = NoteRestartNumberingNever; i <= NoteRestartNumberingEveryChapter; i++) {
+          dialog_list.add_row (styles_logic_note_restart_numbering_text (i), "userint2", convert_to_string (i));
+        }
+        page += dialog_list.run ();
+        return page;
+      }
+      if (request->query.count ("userint2")) {
+        userint2 = convert_to_int (request->query["userint2"]);
+        if (write) database_styles.updateUserint2 (sheet, style, userint2);
+      }
+      view.set_variable ("userint2", styles_logic_note_restart_numbering_text (userint2));
+      break;
+    case UserInt2EndnotePosition :
+      view.enable_zone ("userint2_endnoteposition");
+      if (request->query.count ("endnoteposition")) {
+        Dialog_List dialog_list = Dialog_List ("view", gettext("Would you like to change the position where to dump the endnotes?"), "", "");
+        dialog_list.add_query ("sheet", sheet);
+        dialog_list.add_query ("style", style);
+        for (int i = EndNotePositionAfterBook; i <= EndNotePositionAtMarker; i++) {
+          dialog_list.add_row (styles_logic_end_note_position_text (i), "userint2", convert_to_string(i));
+        }
+        page += dialog_list.run ();
+        return page;
+      }
+      if (request->query.count ("userint2")) {
+        userint2 = convert_to_int (request->query["userint2"]);
+        if (write) database_styles.updateUserint2 (sheet, style, userint2);
+      }
+      view.set_variable ("userint2", styles_logic_end_note_position_text (userint2));
+      break;
+  }
+
+  
+  // Userint3 not yet used.
+  
+
+  
   page += view.render ("styles", "view");
   
   page += Assets_Page::footer ();

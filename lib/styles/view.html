@@ -74,13 +74,13 @@
 <tr><td>gettext("Column number")</td><td><a href="view?sheet=##sheet##&style=##style##&userint1=">##userint1##</a></td></tr>
 <!-- #ENDZONE userint1_columnnumber -->
 
-<?php if ($this->userint2_notenumberingrestart) {
-<tr><td>gettext("Restart the note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumberingrestart=">$this->userint2</a></td></tr>
-<?php }
+<!-- #BEGINZONE userint2_notenumberingrestart -->
+<tr><td>gettext("Restart the note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumberingrestart=">##userint2##</a></td></tr>
+<!-- #ENDZONE userint2_notenumberingrestart -->
 
-<?php if ($this->userint2_endnoteposition) {
-<tr><td>gettext("Position of endnote")</td><td><a href="view?sheet=##sheet##&style=##style##&endnoteposition=">$this->userint2</a></td></tr>
-<?php }
+<!-- #BEGINZONE userint2_endnoteposition -->
+<tr><td>gettext("Position of endnote")</td><td><a href="view?sheet=##sheet##&style=##style##&endnoteposition=">##userint2##</a></td></tr>
+<!-- #ENDZONE userint2_endnoteposition -->
 
 <?php if ($this->userstring1_numberingsequence) {
 <tr><td>gettext("User-defined note numbering sequence")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">$this->userstring1</a></td></tr>

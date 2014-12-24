@@ -1,48 +1,5 @@
 <?php
 
-// Userint2.
-userint2 = marker_data["userint2"];
-switch (styles_logic.getUserInt2Function (type, subtype)) {
-  case UserInt2None :
-    break;
-  case UserInt2NoteNumberingRestart :
-    view.view.userint2_notenumberingrestart = true;
-    if (isset (request->query["notenumberingrestart"])) {
-      dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change when the note numbering restarts?"), "", "");
-      styles_logic = Styles_Logic::getInstance();
-      for (i = NoteRestartNumberingNever; i <= NoteRestartNumberingEveryChapter; i++) {
-        dialog_list.add_row (styles_logic.noteRestartNumberingText (i), "&userint2=i");
-      }
-      dialog_list.run ();
-      die;
-    }
-    if (isset (request->query["userint2"])) {
-      userint2 = request->query["userint2"];
-      if (write) database_styles.updateUserint2 (sheet, style, userint2);
-    }
-    view.view.userint2 = styles_logic.noteRestartNumberingText (userint2);
-    break;
-  case UserInt2EndnotePosition :
-    view.view.userint2_endnoteposition = true;
-    if (isset (request->query["endnoteposition"])) {
-      dialog_list = new Dialog_List (array ("sheet", "style"), gettext("Would you like to change the position where to dump the endnotes?"), "", "");
-      styles_logic = Styles_Logic::getInstance();
-      for (i = EndNotePositionAfterBook; i <= EndNotePositionAtMarker; i++) {
-        dialog_list.add_row (styles_logic.endNotePositionText (i), "&userint2=i");
-      }
-      dialog_list.run ();
-      die;
-    }
-    if (isset (request->query["userint2"])) {
-      userint2 = request->query["userint2"];
-      if (write) database_styles.updateUserint2 (sheet, style, userint2);
-    }
-    view.view.userint2 = styles_logic.endNotePositionText (userint2);
-    break;
-}
-
-// Userint3 not yet used.
-
 // Userstring1.
 userstring1 = marker_data["userstring1"];
 switch (styles_logic.getUserString1Function (type, subtype)) {
