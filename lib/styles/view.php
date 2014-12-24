@@ -1,20 +1,4 @@
 <?php
-// Space after paragraph.
-spaceafter = marker_data["spaceafter"];
-if (isset (request->query["spaceafter"])) {
-  dialog_entry = new Dialog_Entry (standard_page_query, gettext("Please enter a space of between 0 and 100 mm after the paragraph"), spaceafter, "spaceafter", gettext ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
-  die;
-}
-if (isset(_POST["spaceafter"])) {
-  value = _POST["entry"];
-  value = Filter_Numeric::float_in_string (value);
-  if ((value >= 0) && (value <= 100)) {
-    spaceafter = value;
-    if (write) database_styles.updateSpaceAfter (sheet, style, spaceafter);
-  }
-}
-view.view.spaceafter = filter_string_sanitize_html (spaceafter);
-
 // Left margin.
 leftmargin = marker_data["leftmargin"];
 if (isset (request->query["leftmargin"])) {

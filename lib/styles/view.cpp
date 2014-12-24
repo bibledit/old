@@ -378,6 +378,24 @@ string styles_view (void * webserver_request) // Todo
   view.set_variable ("spacebefore", convert_to_string (spacebefore));
   
 
+  // Space after paragraph.
+  float spaceafter = marker_data.spaceafter;
+  if (request->query.count ("spaceafter")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", gettext("Please enter a space of between 0 and 100 mm after the paragraph"), convert_to_string (spaceafter), "spaceafter", gettext ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
+    dialog_entry.add_query ("sheet", sheet);
+    dialog_entry.add_query ("style", style);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count("spaceafter")) {
+    spaceafter = convert_to_float (request->post["entry"]);
+    if (spaceafter < 0) spaceafter = 0;
+    if (spaceafter > 100) spaceafter = 100;
+    if (write) database_styles.updateSpaceAfter (sheet, style, spaceafter);
+  }
+  view.set_variable ("spaceafter", convert_to_string (spaceafter));
+  
+
   
   
   page += view.render ("styles", "view");
