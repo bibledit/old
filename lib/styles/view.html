@@ -50,48 +50,48 @@
 <tr><td>gettext("Color")</td><td style="background-color:##color##"></td><td><a href="view?sheet=##sheet##&style=##style##&color=">[gettext ("edit")]</a></td></tr>
 <!-- #BEGINZONE color_relevant -->
 
-  <?php if ($this->print_relevant) {
-  <tr><td>gettext("Print")</td><td><a href="view?sheet=##sheet##&style=##style##&print=$this->print_toggle">$this->print</a></td></tr>
-  <?php }
+<!-- #BEGINZONE print_relevant -->
+<tr><td>gettext("Print")</td><td><a href="view?sheet=##sheet##&style=##style##&print=##print_toggle##">##print##</a></td></tr>
+<!-- #BEGINZONE print_relevant -->
 
-  <?php if ($this->userbool1_function != "") {
-  <tr><td>$this->userbool1_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool1=$this->userbool1_toggle">$this->userbool1_value</a></td></tr>
-  <?php }
+<?php if ($this->userbool1_function != "") {
+<tr><td>$this->userbool1_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool1=$this->userbool1_toggle">$this->userbool1_value</a></td></tr>
+<?php }
 
-  <?php if ($this->userbool2_function != "") {
-  <tr><td>$this->userbool2_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool2=$this->userbool2_toggle">$this->userbool2_value</a></td></tr>
-  <?php }
+<?php if ($this->userbool2_function != "") {
+<tr><td>$this->userbool2_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool2=$this->userbool2_toggle">$this->userbool2_value</a></td></tr>
+<?php }
 
-  <?php if ($this->userbool3_function != "") {
-  <tr><td>$this->userbool3_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool3=$this->userbool3_toggle">$this->userbool3_value</a></td></tr>
-  <?php }
+<?php if ($this->userbool3_function != "") {
+<tr><td>$this->userbool3_function</td><td><a href="view?sheet=##sheet##&style=##style##&userbool3=$this->userbool3_toggle">$this->userbool3_value</a></td></tr>
+<?php }
 
-  <?php if ($this->userint1_notenumbering) {
-  <tr><td>gettext("Note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumbering=">$this->userint1</a></td></tr>
-  <?php }
+<?php if ($this->userint1_notenumbering) {
+<tr><td>gettext("Note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumbering=">$this->userint1</a></td></tr>
+<?php }
 
-  <?php if ($this->userint1_columnnumber) {
-  <tr><td>gettext("Column number")</td><td><a href="view?sheet=##sheet##&style=##style##&userint1=">$this->userint1</a></td></tr>
-  <?php }
+<?php if ($this->userint1_columnnumber) {
+<tr><td>gettext("Column number")</td><td><a href="view?sheet=##sheet##&style=##style##&userint1=">$this->userint1</a></td></tr>
+<?php }
 
-  <?php if ($this->userint2_notenumberingrestart) {
-  <tr><td>gettext("Restart the note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumberingrestart=">$this->userint2</a></td></tr>
-  <?php }
+<?php if ($this->userint2_notenumberingrestart) {
+<tr><td>gettext("Restart the note numbering")</td><td><a href="view?sheet=##sheet##&style=##style##&notenumberingrestart=">$this->userint2</a></td></tr>
+<?php }
 
-  <?php if ($this->userint2_endnoteposition) {
-  <tr><td>gettext("Position of endnote")</td><td><a href="view?sheet=##sheet##&style=##style##&endnoteposition=">$this->userint2</a></td></tr>
-  <?php }
+<?php if ($this->userint2_endnoteposition) {
+<tr><td>gettext("Position of endnote")</td><td><a href="view?sheet=##sheet##&style=##style##&endnoteposition=">$this->userint2</a></td></tr>
+<?php }
 
-  <?php if ($this->userstring1_numberingsequence) {
-  <tr><td>gettext("User-defined note numbering sequence")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">$this->userstring1</a></td></tr>
-  <?php }
+<?php if ($this->userstring1_numberingsequence) {
+<tr><td>gettext("User-defined note numbering sequence")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">$this->userstring1</a></td></tr>
+<?php }
 
-  <?php if ($this->userstring1_wordlistaddition) {
-  <tr><td>gettext("Addition after word list entry")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">$this->userstring1</a></td></tr>
-  <?php }
+<?php if ($this->userstring1_wordlistaddition) {
+<tr><td>gettext("Addition after word list entry")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">$this->userstring1</a></td></tr>
+<?php }
 
-  <?php if ($this->userstring2_dumpendnotes) {
-  <tr><td>gettext("Dump endnotes when encountering marker")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring2=">$this->userstring2</a></td></tr>
-  <?php }
+<?php if ($this->userstring2_dumpendnotes) {
+<tr><td>gettext("Dump endnotes when encountering marker")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring2=">$this->userstring2</a></td></tr>
+<?php }
 
 </table>

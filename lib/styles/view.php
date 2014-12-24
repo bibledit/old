@@ -1,14 +1,4 @@
 <?php
-// Whether to print this style.
-view.view.print_relevant = styles_logic.printIsRelevant (type, subtype);
-print = marker_data["print"];
-if (isset (request->query["print"])) {
-  print = Filter_Bool::int (request->query["print"]);
-  if (write) database_styles.updatePrint (sheet, style, print);
-}
-view.view.print = styles_logic.OffOnInheritToggleText (print);
-view.view.print_toggle = Filter_Bool::not (print);
-
 // Userbool1
 view.view.userbool1_function = styles_logic.getUserBool1Text (styles_logic.getUserBool1Function (type, subtype));
 userbool1 = marker_data["userbool1"];

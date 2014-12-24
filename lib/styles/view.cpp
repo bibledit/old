@@ -465,6 +465,7 @@ string styles_view (void * webserver_request) // Todo
   // Color.
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
   string color = marker_data.color;
+  cout << color << endl; // Todo
   if (request->query.count ("color")) {
     color = request->query["color"];
     if (color == "") {
@@ -482,6 +483,16 @@ string styles_view (void * webserver_request) // Todo
   view.set_variable ("color", color);
   
 
+  // Whether to print this style.
+  if (styles_logic_print_is_relevant (type, subtype)) view.enable_zone ("print_relevant");
+  bool print = marker_data.print;
+  if (request->query.count ("print")) {
+    print = convert_to_bool (request->query["print"]);
+    if (write) database_styles.updatePrint (sheet, style, print);
+  }
+  view.set_variable ("print", styles_logic_off_on_inherit_toggle_text (print));
+  view.set_variable ("print_toggle", convert_to_string (!print));
+  
 
   
   
