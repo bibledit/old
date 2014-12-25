@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <locale/translate.h>
 #include <locale/translate.h>
+#include <config/globals.h>
 
 
 // Database resilience.
@@ -212,7 +213,7 @@ void Database_Notes::optimize ()
 }
 
 
-void Database_Notes::sync ()
+void Database_Notes::sync () // 
 {
   string mainfolder = mainFolder ();
 
