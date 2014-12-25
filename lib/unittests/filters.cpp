@@ -938,7 +938,7 @@ void test_filters_test9 ()
     string tarball = filter_archive_tar_gzip_file (file1);
     evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 155) || (size > 165)) evaluate (__LINE__, __func__, "between 155 and 165", convert_to_string (size));
+    if ((size < 155) || (size > 180)) evaluate (__LINE__, __func__, "between 155 and 180", convert_to_string (size));
     // Clean up tarball from /tmp folder.
     filter_url_unlink (tarball);
     // Test that compressing a non-existing file returns NULL.
@@ -955,7 +955,7 @@ void test_filters_test9 ()
     string tarball = filter_archive_tar_gzip_folder (folder);
     evaluate (__LINE__, __func__, true, filter_url_file_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 235) || (size > 245)) evaluate (__LINE__, __func__, "between 235 and 245", convert_to_string (size));
+    if ((size < 235) || (size > 260)) evaluate (__LINE__, __func__, "between 235 and 260", convert_to_string (size));
     // Clean up.
     filter_url_unlink (tarball);
     filter_url_rmdir (folder);
@@ -1013,14 +1013,14 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-"Paragraph One\n"
-"\n"
-"Paragraph Two\n"
-"\n"
-"Heading One\n"
-"===========\n"
-"\n"
-"Paragraph Three\n";
+    "  Paragraph One\n"
+    "\n"
+    "  Paragraph Two\n"
+    "\n"
+    "  Heading One\n"
+    "  ===========\n"
+    "\n"
+    "  Paragraph Three\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1054,11 +1054,11 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-"Text†\n"
-"\n"
-"Note\n"
-"\n"
-".\n";
+    "  Text†\n"
+    "\n"
+    "  Note\n"
+    "\n"
+    "  .\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1106,11 +1106,11 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-      "Text𐌰\n"
+      "  Text𐌰\n"
       "\n"
-      "Addnormal\n"
+      "  Addnormal\n"
       "\n"
-      ".\n";
+      "  .\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1188,11 +1188,11 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "text𐌰\n"
+    "  text𐌰\n"
     "\n"
-    "addndnormal\n"
+    "  addndnormal\n"
     "\n"
-    ".\n";
+    "  .\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (OdfTextTestDotOdt);
@@ -1215,9 +1215,9 @@ void test_filters_test10 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "Paragraph with d style\n"
+    "  Paragraph with d style\n"
     "\n"
-    "Paragraph with d style at first, then Standard\n"
+    "  Paragraph with d style at first, then Standard\n"
     "";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -1361,23 +1361,23 @@ void test_filters_test11 ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
     "\n"
-    "Header4 Ⅰ\n"
-    "=========\n"
+    "  Header4 Ⅰ\n"
+    "  =========\n"
     "\n"
-    "[-- Image: frame1 --]\n"
+    "  [-- Image: frame1 --]\n"
     "\n"
-    "Ⅰ\n"
+    "  Ⅰ\n"
     "\n"
-    "Text chapter 1\n"
+    "  Text chapter 1\n"
     "\n"
-    "Header4 ②\n"
-    "=========\n"
+    "  Header4 ②\n"
+    "  =========\n"
     "\n"
-    "[-- Image: frame2 --]\n"
+    "  [-- Image: frame2 --]\n"
     "\n"
-    "②\n"
+    "  ②\n"
     "\n"
-    "Text chapter 2\n"
+    "  Text chapter 2\n"
     "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -1411,25 +1411,25 @@ void test_filters_test11 ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
       "\n"
-      "Genesis 1\n"
-      "=========\n"
+      "  Genesis 1\n"
+      "  =========\n"
       "\n"
-      "Text Genesis 1\n"
+      "  Text Genesis 1\n"
       "\n"
-      "Genesis 2\n"
-      "=========\n"
+      "  Genesis 2\n"
+      "  =========\n"
       "\n"
-      "Text Genesis 2\n"
+      "  Text Genesis 2\n"
       "\n"
-      "Matthew 1\n"
-      "=========\n"
+      "  Matthew 1\n"
+      "  =========\n"
       "\n"
-      "Text Matthew 1\n"
+      "  Text Matthew 1\n"
       "\n"
-      "Matthew 2\n"
-      "=========\n"
+      "  Matthew 2\n"
+      "  =========\n"
       "\n"
-      "Text Matthew 2\n"
+      "  Text Matthew 2\n"
       "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
     evaluate (__LINE__, __func__, {"Genesis 0:0 Text encoding indicator not supported. Encoding is always in UTF8: \\ide XYZ", "Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}, filter_text.fallout);
@@ -1457,11 +1457,11 @@ void test_filters_test11 ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
       "\n"
-      "1" + get_en_space () + "Verse One.\n"
+      "  1" + get_en_space () + "Verse One.\n"
       "\n"
-      "Paragraph One. 2" + get_en_space () + "Verse Two.\n"
+      "  Paragraph One. 2" + get_en_space () + "Verse Two.\n"
       "\n"
-      "3" + get_en_space () + "Verse Three. 4" + get_en_space () + "Verse Four. 5" + get_en_space () + "Verse Five.\n";
+      "  3" + get_en_space () + "Verse Three. 4" + get_en_space () + "Verse Four. 5" + get_en_space () + "Verse Five.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   // Test footnotes and cross references.
@@ -1480,27 +1480,27 @@ void test_filters_test11 ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
       "\n"
-      "1" + get_en_space () + "Text 1a\n"
+      "  1" + get_en_space () + "Text 1a\n"
       "\n"
-      "Isa. 1.1.\n"
+      "  Isa. 1.1.\n"
       "\n"
-      "Isa. 2.2.\n"
+      "  Isa. 2.2.\n"
       "\n"
-      "b\n"
+      "  b\n"
       "\n"
-      "Isa. 3.3.\n"
+      "  Isa. 3.3.\n"
       "\n"
-      ", text 21\n"
+      "  , text 21\n"
       "\n"
-      "Word1: Heb. Explanation1.\n"
+      "  Word1: Heb. Explanation1.\n"
       "\n"
-      "2\n"
+      "  2\n"
       "\n"
-      "Word2: Heb. Explanation2.\n"
+      "  Word2: Heb. Explanation2.\n"
       "\n"
-      ", text3.3\n"
+      "  , text3.3\n"
       "\n"
-      "Test: Heb. Note at the very end.\n"
+      "  Test: Heb. Note at the very end.\n"
       "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -1791,10 +1791,10 @@ void test_filters_test12 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
-      "Genesis 1\n"
-      "=========\n"
+      "  Genesis 1\n"
+      "  =========\n"
       "\n"
-      "1 I will sing to the Lord.\n";
+      "  1 I will sing to the Lord.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   // Exercise bits in document to generate text and note citations.
@@ -1833,10 +1833,10 @@ void test_filters_test12 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
-      "Genesis 1\n"
-      "=========\n"
+      "  Genesis 1\n"
+      "  =========\n"
       "\n"
-      "1 I will sing to the Lord God.\n";
+      "  1 I will sing to the Lord God.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   // Test EmbeddedOpenDocumentThree
@@ -1857,10 +1857,10 @@ void test_filters_test12 ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
-      "Genesis 1\n"
-      "=========\n"
+      "  Genesis 1\n"
+      "  =========\n"
       "\n"
-      "1 I will sing to the Lord.\n";
+      "  1 I will sing to the Lord.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   filter_url_unlink (TextTestOdt);
