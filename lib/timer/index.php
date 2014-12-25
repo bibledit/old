@@ -102,14 +102,6 @@ if (!$client) {
 }
 
 
-// A flag is set upon installation, so it (re-)generates the stylesheets once.
-$create_css_flag = "../dyncss/create_css.txt";
-if (file_exists ($create_css_flag)) {
-  unlink ($create_css_flag);
-  Styles_Sheets::create_all ();
-}
-
-
 // Export the Bibles to the various output formats.
 // This may take an hour on a production machine.
 if (($hour == 1) && ($minute == 10)) {

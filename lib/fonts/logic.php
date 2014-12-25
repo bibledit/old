@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("bootstrap/bootstrap.php");
 
 
-class Fonts_Logic
+class Fonts_Logic // Todo fonts logic, plus unit tests.
 {
 
 

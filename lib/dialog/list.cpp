@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // $question: The question to be asked.
 // $info_top : Information.
 // $info_bottom: Information.
-Dialog_List::Dialog_List (string url, string question, string info_top, string info_bottom) // Todo porting this one.
+Dialog_List::Dialog_List (string url, string question, string info_top, string info_bottom)
 {
   Assets_View * view = new Assets_View ();
   base_url = url;

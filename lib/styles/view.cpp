@@ -34,6 +34,7 @@
 #include <database/logs.h>
 #include <access/user.h>
 #include <locale/translate.h>
+#include <styles/sheets.h>
 
 
 string styles_view_url ()
@@ -48,7 +49,7 @@ bool styles_view_acl (void * webserver_request)
 }
 
 
-string styles_view (void * webserver_request) // Todo
+string styles_view (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -689,7 +690,7 @@ string styles_view (void * webserver_request) // Todo
   
   // Recreate stylesheets after editing a style.
   if ((request->query.size () != 2) || (request->post.size () != 0)) {
-    // Todo Styles_Sheets::create_all ();
+    styles_sheets_create_all ();
   }
 
   

@@ -46,7 +46,7 @@ bool manage_users_acl (void * webserver_request)
 }
 
 
-string manage_users (void * webserver_request) // Todo
+string manage_users (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

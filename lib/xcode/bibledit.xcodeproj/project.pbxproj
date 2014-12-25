@@ -10,6 +10,10 @@
 		CA699A021A4AEBE000B23E0A /* color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
 		CA699A031A4AEBE000B23E0A /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
 		CA699A041A4AEBE000B23E0A /* color.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = color.html; sourceTree = "<group>"; };
+		CA699A051A4C654F00B23E0A /* css.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = css.cpp; sourceTree = "<group>"; };
+		CA699A061A4C654F00B23E0A /* css.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = css.h; sourceTree = "<group>"; };
+		CA699A071A4C657000B23E0A /* sheets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sheets.cpp; sourceTree = "<group>"; };
+		CA699A081A4C657000B23E0A /* sheets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheets.h; sourceTree = "<group>"; };
 		CAA4CEF71A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4CEF81A45A647003ABA25 /* bible.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = bible.Po; sourceTree = "<group>"; };
 		CAA4CEF91A45A647003ABA25 /* user.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = user.Po; sourceTree = "<group>"; };
@@ -861,13 +865,6 @@
 		CAA4D32B1A45A648003ABA25 /* syncnotes.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = syncnotes.php; sourceTree = "<group>"; };
 		CAA4D32C1A45A648003ABA25 /* syncsettings.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = syncsettings.php; sourceTree = "<group>"; };
 		CAA4D32D1A45A648003ABA25 /* usfmresources.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = usfmresources.php; sourceTree = "<group>"; };
-		CAA4D3301A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D3311A45A648003ABA25 /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
-		CAA4D3321A45A648003ABA25 /* login.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = login.Po; sourceTree = "<group>"; };
-		CAA4D3331A45A648003ABA25 /* logout.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logout.Po; sourceTree = "<group>"; };
-		CAA4D3341A45A648003ABA25 /* password.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = password.Po; sourceTree = "<group>"; };
-		CAA4D3351A45A648003ABA25 /* signup.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = signup.Po; sourceTree = "<group>"; };
-		CAA4D3361A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D3371A45A648003ABA25 /* loggedin.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = loggedin.html; sourceTree = "<group>"; };
 		CAA4D3381A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D3391A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
@@ -884,9 +881,6 @@
 		CAA4D3441A45A648003ABA25 /* signup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = signup.cpp; sourceTree = "<group>"; };
 		CAA4D3451A45A648003ABA25 /* signup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = signup.h; sourceTree = "<group>"; };
 		CAA4D3461A45A648003ABA25 /* signup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = signup.html; sourceTree = "<group>"; };
-		CAA4D3491A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D34A1A45A648003ABA25 /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CAA4D34B1A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D34C1A45A648003ABA25 /* cron.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = cron.php; sourceTree = "<group>"; };
 		CAA4D34D1A45A648003ABA25 /* crontab.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crontab.php; sourceTree = "<group>"; };
 		CAA4D34E1A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -904,8 +898,6 @@
 		CAA4D3641A45A648003ABA25 /* csscli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = csscli.php; sourceTree = "<group>"; };
 		CAA4D3681A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D3691A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CAA4D3711A45A648003ABA25 /* sheets.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = sheets.php; sourceTree = "<group>"; };
-		CAA4D3721A45A648003ABA25 /* view.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = view.php; sourceTree = "<group>"; };
 		CAA4D3751A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D3761A45A648003ABA25 /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
 		CAA4D3771A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
@@ -921,10 +913,6 @@
 		CAA4D3811A45A648003ABA25 /* settings.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = settings.php; sourceTree = "<group>"; };
 		CAA4D3821A45A648003ABA25 /* setup.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = setup.php; sourceTree = "<group>"; };
 		CAA4D3831A45A648003ABA25 /* usfmresources.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = usfmresources.php; sourceTree = "<group>"; };
-		CAA4D3861A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D3871A45A648003ABA25 /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
-		CAA4D3881A45A648003ABA25 /* run.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = run.Po; sourceTree = "<group>"; };
-		CAA4D3891A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D38A1A45A648003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D38B1A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D38C1A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
@@ -3037,8 +3025,6 @@
 		CAA4D32E1A45A648003ABA25 /* session */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D32F1A45A648003ABA25 /* .deps */,
-				CAA4D3361A45A648003ABA25 /* .dirstamp */,
 				CAA4D3371A45A648003ABA25 /* loggedin.html */,
 				CAA4D3381A45A648003ABA25 /* logic.cpp */,
 				CAA4D3391A45A648003ABA25 /* logic.h */,
@@ -3060,24 +3046,9 @@
 			path = ../session;
 			sourceTree = "<group>";
 		};
-		CAA4D32F1A45A648003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D3301A45A648003ABA25 /* .dirstamp */,
-				CAA4D3311A45A648003ABA25 /* logic.Po */,
-				CAA4D3321A45A648003ABA25 /* login.Po */,
-				CAA4D3331A45A648003ABA25 /* logout.Po */,
-				CAA4D3341A45A648003ABA25 /* password.Po */,
-				CAA4D3351A45A648003ABA25 /* signup.Po */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
 		CAA4D3471A45A648003ABA25 /* setup */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D3481A45A648003ABA25 /* .deps */,
-				CAA4D34B1A45A648003ABA25 /* .dirstamp */,
 				CAA4D34C1A45A648003ABA25 /* cron.php */,
 				CAA4D34D1A45A648003ABA25 /* crontab.php */,
 				CAA4D34E1A45A648003ABA25 /* index.cpp */,
@@ -3087,15 +3058,6 @@
 			);
 			name = setup;
 			path = ../setup;
-			sourceTree = "<group>";
-		};
-		CAA4D3481A45A648003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D3491A45A648003ABA25 /* .dirstamp */,
-				CAA4D34A1A45A648003ABA25 /* index.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAA4D3521A45A648003ABA25 /* sprint */ = {
@@ -3141,6 +3103,8 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D3631A45A648003ABA25 /* css.php */,
+				CA699A061A4C654F00B23E0A /* css.h */,
+				CA699A051A4C654F00B23E0A /* css.cpp */,
 				CAA4D3641A45A648003ABA25 /* csscli.php */,
 				CAB399B41A484893007C79E8 /* indexm.h */,
 				CAB399B31A484893007C79E8 /* indexm.cpp */,
@@ -3153,11 +3117,11 @@
 				CAFE132D1A48ABEA00F0DB35 /* sheetm.h */,
 				CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */,
 				CAA4D4A51A460861003ABA25 /* sheetm.html */,
-				CAA4D3711A45A648003ABA25 /* sheets.php */,
+				CA699A081A4C657000B23E0A /* sheets.h */,
+				CA699A071A4C657000B23E0A /* sheets.cpp */,
 				CAEAA5221A49BA660055F6D5 /* view.h */,
 				CAEAA5211A49BA660055F6D5 /* view.cpp */,
 				CAA4D4A61A460861003ABA25 /* view.html */,
-				CAA4D3721A45A648003ABA25 /* view.php */,
 			);
 			name = styles;
 			path = ../styles;
@@ -3197,8 +3161,6 @@
 		CAA4D3841A45A648003ABA25 /* tasks */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D3851A45A648003ABA25 /* .deps */,
-				CAA4D3891A45A648003ABA25 /* .dirstamp */,
 				CAA4D38A1A45A648003ABA25 /* index.php */,
 				CAA4D38B1A45A648003ABA25 /* logic.cpp */,
 				CAA4D38C1A45A648003ABA25 /* logic.h */,
@@ -3208,16 +3170,6 @@
 			);
 			name = tasks;
 			path = ../tasks;
-			sourceTree = "<group>";
-		};
-		CAA4D3851A45A648003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D3861A45A648003ABA25 /* .dirstamp */,
-				CAA4D3871A45A648003ABA25 /* logic.Po */,
-				CAA4D3881A45A648003ABA25 /* run.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAA4D3901A45A648003ABA25 /* text */ = {

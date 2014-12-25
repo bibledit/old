@@ -33,6 +33,7 @@
 #include <database/logs.h>
 #include <access/user.h>
 #include <locale/translate.h>
+#include <styles/sheets.h>
 
 
 string styles_indexm_url ()
@@ -47,7 +48,7 @@ bool styles_indexm_acl (void * webserver_request)
 }
 
 
-string styles_indexm (void * webserver_request) // Todo
+string styles_indexm (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -70,7 +71,7 @@ string styles_indexm (void * webserver_request) // Todo
     } else {
       database_styles.createSheet (name);
       database_styles.grantWriteAccess (username, name);
-      // C++Port Styles_Sheets::create_all ();
+      styles_sheets_create_all ();
       page += Assets_Page::success (gettext("The stylesheet has been created"));
     }
   }

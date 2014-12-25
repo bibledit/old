@@ -141,6 +141,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	journal/index.$(OBJEXT) styles/logic.$(OBJEXT) \
 	styles/indext.$(OBJEXT) styles/indexm.$(OBJEXT) \
 	styles/sheetm.$(OBJEXT) styles/view.$(OBJEXT) \
+	styles/css.$(OBJEXT) styles/sheets.$(OBJEXT) \
 	text/text.$(OBJEXT) esword/text.$(OBJEXT) \
 	onlinebible/text.$(OBJEXT) html/text.$(OBJEXT) \
 	odf/text.$(OBJEXT) timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
@@ -441,6 +442,8 @@ libbibledit_a_SOURCES = \
 	styles/indexm.cpp \
 	styles/sheetm.cpp \
 	styles/view.cpp \
+	styles/css.cpp \
+	styles/sheets.cpp \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \
@@ -790,6 +793,10 @@ styles/indexm.$(OBJEXT): styles/$(am__dirstamp) \
 styles/sheetm.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
 styles/view.$(OBJEXT): styles/$(am__dirstamp) \
+	styles/$(DEPDIR)/$(am__dirstamp)
+styles/css.$(OBJEXT): styles/$(am__dirstamp) \
+	styles/$(DEPDIR)/$(am__dirstamp)
+styles/sheets.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
 text/$(am__dirstamp):
 	@$(MKDIR_P) text
@@ -1188,10 +1195,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/password.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/signup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indexm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheetm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@

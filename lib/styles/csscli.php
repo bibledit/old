@@ -25,7 +25,7 @@ require_once ("../bootstrap/bootstrap.php");
 Filter_Cli::assert ();
 
 
-$database_logs = Database_Logs::getInstance ();
+$database_logs = Database_Logs::getInstance (); // Todo port the whole thing.
 $database_logs->log ("Creating stylesheet.css files", Filter_Roles::admin ());
 
 

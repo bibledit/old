@@ -46,7 +46,7 @@ bool styles_indext_acl (void * webserver_request)
 }
 
 
-string styles_indext (void * webserver_request) // Todo
+string styles_indext (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -61,7 +61,7 @@ string styles_indext (void * webserver_request) // Todo
   if (request->query.count ("sheet")) {
   string sheet = request->query["sheet"];
     
-  if (sheet == "") { // Todo implement it.
+  if (sheet == "") {
     Dialog_List dialog_list = Dialog_List ("indext", gettext("Would you like to switch to another stylesheet?"), "", "");
     Database_Styles database_styles = Database_Styles();
     vector <string> sheets = database_styles.getSheets();

@@ -32,6 +32,7 @@
 #include <database/logs.h>
 #include <access/user.h>
 #include <locale/translate.h>
+#include <styles/sheets.h>
 
 
 string styles_sheetm_url ()
@@ -46,7 +47,7 @@ bool styles_sheetm_acl (void * webserver_request)
 }
 
 
-string styles_sheetm (void * webserver_request) // Todo
+string styles_sheetm (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -73,7 +74,7 @@ string styles_sheetm (void * webserver_request) // Todo
       page += Assets_Page::error (gettext("This style already exists"));
     } else {
       database_styles.addMarker (name, newstyle);
-      // Todo C++Port Styles_Sheets::create_all ();
+      styles_sheets_create_all ();
       page += Assets_Page::success (gettext("The style has been created"));
     }
   }

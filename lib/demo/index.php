@@ -52,7 +52,7 @@ $database_styles->revokeWriteAccess ("", $standard_sheet);
 $database_styles->deleteSheet ("");
 $database_styles->createSheet ($standard_sheet);
 $database_styles->grantWriteAccess ("admin", $standard_sheet);
-Styles_Sheets::create_all ();
+styles_sheets_create_all ();
 
 
 // Set the export stylesheet to "Standard" for all Bibles and the admin.

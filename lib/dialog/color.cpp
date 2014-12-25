@@ -24,7 +24,7 @@
 #include <filter/url.h>
 
 
-Dialog_Color::Dialog_Color (string url, string question) // Todo porting this one.
+Dialog_Color::Dialog_Color (string url, string question)
 {
   Assets_View * view = new Assets_View ();
   base_url = url;

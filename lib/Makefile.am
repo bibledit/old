@@ -72,6 +72,8 @@ libbibledit_a_SOURCES = \
 	styles/indexm.cpp \
 	styles/sheetm.cpp \
 	styles/view.cpp \
+	styles/css.cpp \
+	styles/sheets.cpp \
 	text/text.cpp \
 	esword/text.cpp \
 	onlinebible/text.cpp \
