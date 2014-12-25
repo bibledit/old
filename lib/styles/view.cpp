@@ -623,6 +623,78 @@ string styles_view (void * webserver_request) // Todo
   // Userint3 not yet used.
   
 
+  // Userstring1.
+  string userstring1 = marker_data.userstring1;
+  string userstring1_question;
+  string userstring1_help;
+  switch (styles_logic_get_userstring1_function (type, subtype)) {
+    case UserString1None :
+      break;
+    case UserString1NoteNumberingSequence :
+      if (userint1 == NoteNumberingUser) {
+        view.enable_zone ("userstring1_numberingsequence");
+        userstring1_question = gettext("Please enter a new note numbering sequence");
+        userstring1_help = gettext("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters");
+      }
+      break;
+    case UserString1WordListEntryAddition :
+      view.enable_zone ("userstring1_wordlistaddition");
+      userstring1_question = gettext("Please enter a new addition to the word list entry");
+      userstring1_help = gettext("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit would include this in the exported documents.");
+      break;
+  }
+  if (request->query.count ("userstring1")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", userstring1_question, userstring1, "userstring1", userstring1_help);
+    dialog_entry.add_query ("sheet", sheet);
+    dialog_entry.add_query ("style", style);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("userstring1")) {
+    userstring1 = request->post["entry"];
+    if (write) database_styles.updateUserstring1 (sheet, style, userstring1);
+  }
+  if (userstring1 == "") userstring1 = "--";
+  view.set_variable ("userstring1", filter_string_sanitize_html (userstring1));
+  
+
+  // Userstring2
+  string userstring2 = marker_data.userstring2;
+  string userstring2_question;
+  string userstring2_info;
+  switch (styles_logic_get_userstring2_function (type, subtype)) {
+    case UserString2None :
+      break;
+    case UserString2DumpEndnotesHere :
+      if (userint2 == EndNotePositionAtMarker) {
+        view.enable_zone ("userstring2_dumpendnotes");
+        userstring2_question = gettext("Please enter a marker at which the endnotes should be dumped");
+        userstring2_info = gettext("The marker is to be given without the backslash, e.g. \"zendnotes\".");
+      }
+      break;
+  }
+  if (request->query.count ("userstring2")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", userstring2_question, userstring2, "userstring2", userstring2_info);
+    dialog_entry.add_query ("sheet", sheet);
+    dialog_entry.add_query ("style", style);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count("userstring2")) {
+    userstring2 = request->post["entry"];
+    if (write) database_styles.updateUserstring2 (sheet, style, userstring2);
+  }
+  if (userstring2 == "") userstring2 = "--";
+  view.set_variable ("userstring2", filter_string_sanitize_html (userstring2));
+  
+  // Recreate stylesheets after editing a style.
+  if ((request->query.size () != 2) || (request->post.size () != 0)) {
+    // Todo Styles_Sheets::create_all ();
+  }
+
+  
+  // Userstring3 not yet used.
+  
   
   page += view.render ("styles", "view");
   

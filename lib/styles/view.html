@@ -82,16 +82,16 @@
 <tr><td>gettext("Position of endnote")</td><td><a href="view?sheet=##sheet##&style=##style##&endnoteposition=">##userint2##</a></td></tr>
 <!-- #ENDZONE userint2_endnoteposition -->
 
-<?php if ($this->userstring1_numberingsequence) {
-<tr><td>gettext("User-defined note numbering sequence")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">$this->userstring1</a></td></tr>
-<?php }
+<!-- #BEGINZONE userstring1_numberingsequence -->
+<tr><td>gettext("User-defined note numbering sequence")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">##userstring1##</a></td></tr>
+<!-- #ENDZONE userstring1_numberingsequence -->
 
-<?php if ($this->userstring1_wordlistaddition) {
-<tr><td>gettext("Addition after word list entry")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">$this->userstring1</a></td></tr>
-<?php }
+<!-- #BEGINZONE userstring1_wordlistaddition -->
+<tr><td>gettext("Addition after word list entry")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring1=">##userstring1##</a></td></tr>
+<!-- #ENDZONE userstring1_wordlistaddition -->
 
-<?php if ($this->userstring2_dumpendnotes) {
-<tr><td>gettext("Dump endnotes when encountering marker")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring2=">$this->userstring2</a></td></tr>
-<?php }
+<!-- #BEGINZONE userstring2_dumpendnotes -->
+<tr><td>gettext("Dump endnotes when encountering marker")</td><td><a href="view?sheet=##sheet##&style=##style##&userstring2=">##userstring2##</a></td></tr>
+<!-- #ENDZONE userstring2_dumpendnotes -->
 
 </table>
