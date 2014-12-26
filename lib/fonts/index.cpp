@@ -54,7 +54,7 @@ string fonts_index (void * webserver_request)
   Assets_View view = Assets_View ();
 
   
-  // Delete a font if it is not in use. Todo test it.
+  // Delete a font if it is not in use. C++Port Test the 'not-in-use" bit.
   if (request->query.count ("delete")) {
     string del = request->query ["delete"];
     string font = filter_url_basename (del);
