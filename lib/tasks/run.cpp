@@ -57,7 +57,6 @@ void tasks_run_one (string filename)
     Database_Logs database_logs = Database_Logs ();
     database_logs.checkup ();
     database_logs.rotate ();
-    Database_Logs::log ("The Journal was checked and rotated");
   } else if (command == RECEIVEEMAIL) {
     email_receive ();
   } else if (command == SENDEMAIL) {
