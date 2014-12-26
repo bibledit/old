@@ -172,8 +172,11 @@ void test_session_logic ()
 void test_empty_folders ()
 {
   // There should be no empty folders in the library, because git does not include them.
-  int result = system ("find . -type d -empty");
+  int result = system ("find . -type d -empty > /tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, 0, result);
+  string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
+  evaluate (__LINE__, __func__, "", contents);
+  filter_url_unlink ("/tmp/bibledittest.txt");
 }
 
 

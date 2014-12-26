@@ -349,15 +349,6 @@ bool filter_string_is_numeric (string s)
 }
 
 
-void var_dump (map <string, string> var)
-{
-  for (map <string, string>::const_iterator iter = var.begin(); iter != var.end(); ++iter) {
-    cout << "first: " << (*iter).first << ", second: " << (*iter).second << endl;
-  }
-  
-}
-
-
 // C++ equivalent for PHP function htmlspecialchars.
 string filter_string_sanitize_html (string html)
 {

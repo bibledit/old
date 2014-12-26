@@ -2380,7 +2380,6 @@ void test_filters ()
   test_filters_test11 ();
   refresh_sandbox (true);
   test_filters_test12 ();
-  exit (0); // Todo
   refresh_sandbox (true);
   test_filters_test13 ();
   test_filters_test14 ();
