@@ -119,7 +119,6 @@ void http_parse_headers (string headers, Webserver_Request * request)
     // Content-Type: application/x-www-form-urlencoded
     if (line.substr (0, 12) == "Content-Type") {
       request->content_type = line.substr (14);
-      //cout << request->content_type << endl; // Todo
     }
   
     // Flag POST data: It follows a blank line.
@@ -127,25 +126,25 @@ void http_parse_headers (string headers, Webserver_Request * request)
   }
 
   // Read and parse the GET data.
-  if (!query_data.empty ()) {
- 	  ParseWebData::WebDataMap dataMap;
-    ParseWebData::parse_get_data (query_data, dataMap);
-    for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
-      request->query [(*iter).first] = filter_url_urldecode ((*iter).second.value);
+  try {
+    if (!query_data.empty ()) {
+      ParseWebData::WebDataMap dataMap;
+      ParseWebData::parse_get_data (query_data, dataMap);
+      for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
+        request->query [(*iter).first] = filter_url_urldecode ((*iter).second.value);
+      }
     }
+  } catch (...) {
   }
   
   // Read and parse the POST data.
   try {
     if (!post_data.empty ()) {
-      
       ParseWebData::WebDataMap dataMap;
       ParseWebData::parse_post_data (post_data, request->content_type, dataMap);
       for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
         request->post [(*iter).first] = filter_url_urldecode ((*iter).second.value);
-        // cout << (*iter).first << " " << (*iter).second.value << endl; // Todo
       }
-      
     }
   } catch (...) {
   }

@@ -92,7 +92,6 @@ void webserver ()
           for (unsigned int i = 0; i < bytes_read; i++) {
             input += buffer[i];
           }
-          cout << bytes_read << endl; // Todo
         } while (bytes_read == sizeof (buffer));
   
         // Parse the browser's request's headers.
