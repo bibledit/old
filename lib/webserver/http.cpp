@@ -53,12 +53,23 @@ void http_parse_headers (string headers, Webserver_Request * request)
   
   // Query data.
   string query_data;
-    
+  
+  // POST data or body.
+  string post_data;
+
   // Split the headers up into separate lines and process them.
   vector <string> lines = filter_string_explode (headers, '\n');
   for (unsigned int i = 0; i < lines.size (); i++) {
     string line = filter_string_trim (lines [i]);
 
+    // Store the POST data.
+    if (reading_post_data && post_request) {
+      if (!post_data.empty ()) post_data.append ("\n");
+      post_data.append (line);
+      // All checks below are irrelevant for the post data.
+      continue;
+    }
+    
     // Deal with a header like this: GET /css/stylesheet.css?1.0.1 HTTP/1.1
     // Or like this: POST /session/login?request= HTTP/1.1
     bool get = false;
@@ -108,18 +119,10 @@ void http_parse_headers (string headers, Webserver_Request * request)
     // Content-Type: application/x-www-form-urlencoded
     if (line.substr (0, 12) == "Content-Type") {
       request->content_type = line.substr (14);
+      //cout << request->content_type << endl; // Todo
     }
-    
-    // Read and parse the POST data.
-    if (reading_post_data && post_request) {
-   	  ParseWebData::WebDataMap dataMap;
-      ParseWebData::parse_post_data (line, request->content_type, dataMap);
-      for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
-        request->post [(*iter).first] = filter_url_urldecode ((*iter).second.value);
-      }
-    }
-    
-    // The POST data comes after a blank line.
+  
+    // Flag POST data: It follows a blank line.
     if (line == "") reading_post_data = true;
   }
 
@@ -131,6 +134,22 @@ void http_parse_headers (string headers, Webserver_Request * request)
       request->query [(*iter).first] = filter_url_urldecode ((*iter).second.value);
     }
   }
+  
+  // Read and parse the POST data.
+  try {
+    if (!post_data.empty ()) {
+      
+      ParseWebData::WebDataMap dataMap;
+      ParseWebData::parse_post_data (post_data, request->content_type, dataMap);
+      for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
+        request->post [(*iter).first] = filter_url_urldecode ((*iter).second.value);
+        // cout << (*iter).first << " " << (*iter).second.value << endl; // Todo
+      }
+      
+    }
+  } catch (...) {
+  }
+  
 }
 
 

@@ -27,8 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Config_Bible
 {
 public:
-  Database_Config_Bible ();
-  ~Database_Config_Bible ();
   static string getRemoteRepositoryUrl (string bible);
   static void setRemoteRepositoryUrl (string bible, string url);
   static bool getViewableByAllUsers (string bible);

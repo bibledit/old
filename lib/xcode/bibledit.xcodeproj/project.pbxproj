@@ -16,6 +16,9 @@
 		CA699A081A4C657000B23E0A /* sheets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheets.h; sourceTree = "<group>"; };
 		CA699A091A4D6F8600B23E0A /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA699A0A1A4D6F8600B23E0A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA699A0B1A4D8FD200B23E0A /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CA699A0C1A4D8FD200B23E0A /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CA699A0D1A4D8FDE00B23E0A /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA4CEF71A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4CEF81A45A647003ABA25 /* bible.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = bible.Po; sourceTree = "<group>"; };
 		CAA4CEF91A45A647003ABA25 /* user.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = user.Po; sourceTree = "<group>"; };
@@ -420,7 +423,6 @@
 		CAA4D11B1A45A647003ABA25 /* flate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = flate.cpp; sourceTree = "<group>"; };
 		CAA4D11C1A45A647003ABA25 /* flate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flate.h; sourceTree = "<group>"; };
 		CAA4D11E1A45A647003ABA25 /* Cardo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cardo-Regular.ttf"; sourceTree = "<group>"; };
-		CAA4D11F1A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D1231A45A647003ABA25 /* SIL-Licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-Licenses.txt"; sourceTree = "<group>"; };
 		CAA4D1241A45A647003ABA25 /* SIL-README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-README.txt"; sourceTree = "<group>"; };
 		CAA4D1251A45A647003ABA25 /* SILEOT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SILEOT.ttf; sourceTree = "<group>"; };
@@ -2109,7 +2111,9 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D11E1A45A647003ABA25 /* Cardo-Regular.ttf */,
-				CAA4D11F1A45A647003ABA25 /* index.php */,
+				CA699A0B1A4D8FD200B23E0A /* index.cpp */,
+				CA699A0C1A4D8FD200B23E0A /* index.h */,
+				CA699A0D1A4D8FDE00B23E0A /* index.html */,
 				CA699A091A4D6F8600B23E0A /* logic.cpp */,
 				CA699A0A1A4D6F8600B23E0A /* logic.h */,
 				CAA4D1231A45A647003ABA25 /* SIL-Licenses.txt */,

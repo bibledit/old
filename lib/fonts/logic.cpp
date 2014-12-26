@@ -45,9 +45,10 @@ vector <string> Fonts_Logic::getFonts ()
   for (auto & file : files) {
     string suffix = filter_url_get_extension (file);
     if (suffix == "txt") continue;
-    if (suffix == "php") continue;
+    if (suffix == "html") continue;
     if (suffix == "h") continue;
     if (suffix == "cpp") continue;
+    if (suffix == "o") continue;
     fonts.push_back (file);
   }
   return fonts;
@@ -79,3 +80,11 @@ string Fonts_Logic::getFontPath (string font)
   // Font is on external location.
   return font;
 }
+
+
+void Fonts_Logic::erase (string font)
+{
+  string path = filter_url_create_path (folder (), font);
+  filter_url_unlink (path);
+}
+

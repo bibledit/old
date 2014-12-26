@@ -82,14 +82,18 @@ void webserver ()
 
     try {
       if (config_globals_running) {
-        #define BUFLEN 65535
+        string input;
         // Read the client's request.
-        char buffer [BUFLEN];
-        memset(&buffer, 0, BUFLEN); // Fix valgrind unitialized value message.
         size_t bytes_read;
-        bytes_read = read(connfd, buffer, sizeof(buffer));
-        if (bytes_read) {};
-        string input = buffer;
+        char buffer [65535];
+        do {
+          memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
+          bytes_read = read (connfd, buffer, sizeof (buffer));
+          for (unsigned int i = 0; i < bytes_read; i++) {
+            input += buffer[i];
+          }
+          cout << bytes_read << endl; // Todo
+        } while (bytes_read == sizeof (buffer));
   
         // Parse the browser's request's headers.
         http_parse_headers (input, request);
@@ -107,18 +111,22 @@ void webserver ()
       }
 
     } catch (exception & e) {
-      Database_Logs::log (e.what ());
+      string message ("Internal error: ");
+      message.append (e.what ());
+      Database_Logs::log (message);
     } catch (exception * e) {
-      Database_Logs::log (e->what ());
+      string message ("Internal error: ");
+      message.append (e->what ());
+      Database_Logs::log (message);
     } catch (...) {
-      Database_Logs::log ("A general internal error occurred in the web server");
+      Database_Logs::log ("A general internal error occurred");
     }
 
     // Clear memory.
     delete request;
 
     // Done: Close.
-    close(connfd);
+    close (connfd);
   }
 }
 

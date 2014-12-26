@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <administration/timezone.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
+#include <fonts/index.h>
 
 
 /*
@@ -213,7 +214,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
   if (level >= Filter_Roles::admin ())                                                      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );
   if (level >= Filter_Roles::consultant ())                                                 menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );
-  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "fonts/index", gettext ("Fonts"), NULL } );
+  if (fonts_index_acl (webserver_request))                                                  menu->push_back ( { "", fonts_index_url (), gettext ("Fonts"), NULL } );
 /* C++Port client mode dependent.
     // If the installation is not prepared for Client mode, disable the client menu.
     // But keep the menu item in an open installation.

@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
 #include <styles/view.h>
+#include <fonts/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -78,6 +79,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == styles_indexm_url ()) && styles_indexm_acl (request)) request->reply = styles_indexm (request);
   else if ((url == styles_sheetm_url ()) && styles_sheetm_acl (request)) request->reply = styles_sheetm (request);
   else if ((url == styles_view_url ()) && styles_view_acl (request)) request->reply = styles_view (request);
+  else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   
   // Help menu.
   else if ((help_index_url (url)) && help_index_acl (request, url)) request->reply = help_index (request, url);

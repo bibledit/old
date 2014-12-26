@@ -22,16 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-Database_Config_Bible::Database_Config_Bible ()
-{
-}
-
-
-Database_Config_Bible::~Database_Config_Bible ()
-{
-}
-
-
 // Functions for getting and setting values or lists of values.
 
 

@@ -157,7 +157,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
 	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
 	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) fonts/logic.$(OBJEXT)
+	dialog/color.$(OBJEXT) fonts/logic.$(OBJEXT) \
+	fonts/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -476,7 +477,8 @@ libbibledit_a_SOURCES = \
 	dialog/list.cpp \
 	dialog/yes.cpp \
 	dialog/color.cpp \
-	fonts/logic.cpp
+	fonts/logic.cpp \
+	fonts/index.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -990,6 +992,8 @@ fonts/$(DEPDIR)/$(am__dirstamp):
 	@: > fonts/$(DEPDIR)/$(am__dirstamp)
 fonts/logic.$(OBJEXT): fonts/$(am__dirstamp) \
 	fonts/$(DEPDIR)/$(am__dirstamp)
+fonts/index.$(OBJEXT): fonts/$(am__dirstamp) \
+	fonts/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -1181,6 +1185,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/url.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@fonts/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@fonts/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@
