@@ -71,7 +71,7 @@ string fonts_index (void * webserver_request)
   }
   
 
-  // Upload a font. Todo test it.
+  // Upload a font. C++Port implement it.
   if (request->post.count ("upload")) {
     // Upload may take time in case the file is large or the network is slow.
     /*

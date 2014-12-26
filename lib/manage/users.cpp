@@ -99,10 +99,12 @@ string manage_users (void * webserver_request)
     string level = request->query ["level"];
     if (level == "") {
       Dialog_List dialog_list = Dialog_List ("users", gettext("Select a role for") + " " + user, "", "");
+      dialog_list.add_query ("user", user);
       for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
         if (i <= currentLevel) {
           string parameter = "?user=" + user + "&level=" + convert_to_string (i);
-          // Todo update this, and then test it. dialog_list.add_row (Filter_Roles::text (i), parameter);
+          dialog_list.add_row (Filter_Roles::text (i), "level", convert_to_string (i));
+          // Todo update this, and then test it. dialog_list.add_row (, parameter);
         }
       }
       page += dialog_list.run ();
@@ -151,7 +153,7 @@ string manage_users (void * webserver_request)
   if (request->query.count ("addbible")) {
     string addbible = request->query["addbible"];
     if (addbible == "") {
-      /* sC++Port
+      /* C++Port
       dialog_list = new Dialog_List (NULL, gettext("Would you like to grant user user access to a Bible?"), "", "");
       foreach (accessibleBibles as bible) {
         parameter = "?user=user&addbible=bible";

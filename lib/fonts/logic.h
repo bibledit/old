@@ -27,8 +27,6 @@
 class Fonts_Logic
 {
 public:
-  Fonts_Logic ();
-  ~Fonts_Logic ();
   static vector <string> getFonts ();
   static bool fontExists (string font);
   static string getFontPath (string font);

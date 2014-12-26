@@ -22,16 +22,6 @@
 #include <filter/string.h>
 
 
-Fonts_Logic::Fonts_Logic ()
-{
-}
-
-
-Fonts_Logic::~Fonts_Logic ()
-{
-}
-
-
 string Fonts_Logic::folder ()
 {
   return filter_url_create_root_path ("fonts");
