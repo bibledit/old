@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <br>
   
   <form action="client.php" name="server" method="post">
-    <p><?php echo gettext("Address of Bibledit-Web Server on the Internet") ?>:</p>
+    <p><?php echo gettext("Address of Bibledit Server on the Internet") ?>:</p>
     <p><input type="text" name="address" maxlength="1000" class="focus fullwidth" value="<?php echo $this->address ?>" /></p>
     <table>
       <tr>
@@ -58,7 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   
   <br>
 
-  <p><a href="?demo="><?php echo gettext("Or else connect to the Bibledit-Web Demo Server.") ?></a></p>
+  <p><a href="?demo="><?php echo gettext("Or else connect to the Bibledit Demo Server.") ?></a></p>
 
 <?php } ?>
 
@@ -69,7 +69,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 
 <p>
-  <?php echo gettext("When client mode is enabled, Bibledit-Web can be used offline as a client on a local computing device.") ?>
+  <?php echo gettext("When client mode is enabled, Bibledit can be used offline as a client on a local computing device.") ?>
 </p>
 
 <br>
@@ -79,10 +79,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <ul>
 <li>
-  <?php echo gettext("Can synchronize the local Bibles with the Bibles on a Bibledit-Web server.") ?>
+  <?php echo gettext("Can synchronize the local Bibles with the Bibles on a Bibledit server.") ?>
 </li>
 <li>
-  <?php echo gettext("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit-Web server.") ?>
+  <?php echo gettext("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit server.") ?>
 </li>
 <li>
   <?php echo gettext("After connecting to a server, the first time you synchronize, you will get the same data as on the server.") ?>

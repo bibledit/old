@@ -22,7 +22,7 @@ class Filter_Git
 {
 
 
-  // This filter takes the Bible data as it is stored in Bibledit-Web's database,
+  // This filter takes the Bible data as it is stored in Bibledit's database,
   // and puts this information into the layout in books and chapters
   // such as is used in Bibledit-Gtk into the $git folder.
   // The $git is a git repository, and may contain other data as well.
@@ -127,7 +127,7 @@ class Filter_Git
   
 
   // This filter takes the Bible data as it is stored in the $git folder,
-  // and puts this information into Bibledit-Web's database.
+  // and puts this information into Bibledit's database.
   // The $git is a git repository, and may contain other data as well.
   // The filter focuses on reading the data in the git repository and the database,
   // and only writes to the database if necessary,
@@ -213,7 +213,7 @@ class Filter_Git
 
 
   // This filter takes one chapter of the Bible data as it is stored in the $git folder,
-  // and puts this information into Bibledit-Web's database.
+  // and puts this information into Bibledit's database.
   // The $git is a git repository, and may contain other data as well.
   public static function syncGitChapter2Bible ($git, $bible, $book, $chapter)
   {
@@ -283,7 +283,7 @@ class Filter_Git
   }
 
 
-  // This function takes a $path as it occurs in the git repository as used in Bibledit-Web,
+  // This function takes a $path as it occurs in the git repository as used in Bibledit,
   // and explodes it into book and chapter.
   // It returns an array of them.
   // If anything is invalid, it returns NULL.

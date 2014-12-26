@@ -545,7 +545,7 @@ string filter_string_extract_email (string input)
 // It leaves out the bit that was quoted.
 // If year and sender are given, it also removes lines that contain both strings.
 // This is used to remove lines like:
-// On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:
+// On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:
 string filter_string_extract_body (string input, string year, string sender)
 {
   vector <string> inputlines = filter_string_explode (input, '\n');

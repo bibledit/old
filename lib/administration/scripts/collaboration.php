@@ -18,9 +18,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h1><?php echo gettext("Web collaboration") ?></h1>
-<p><?php echo gettext("With Bibledit-Web several translators can work on one Bible at the same time.") ?></p>
+<p><?php echo gettext("With Bibledit several translators can work on one Bible at the same time.") ?></p>
 <p><?php echo gettext("There is nothing special needed to make this happen.") ?></p>
-<p><?php echo gettext("The people log into the site that runs Bibledit-Web, and translate there.") ?></p>
+<p><?php echo gettext("The people log into the site that runs Bibledit, and translate there.") ?></p>
 <p><?php echo gettext("All the data related to the Bible is saved on that website, and is available to the relevant people.") ?></p>
 <p><?php echo gettext("When collaborating in this way, the information given below on the rest of the page is not relevant.") ?></p>
 
@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext("They collaborate through the network or a USB drive.") ?></p>
 <p><?php echo gettext("Once everything has been set up, it all goes automatic. The person working on the Bible does not notice the mechanics of the collaboration. It all happens under the hood.") ?></p>
 <p><?php echo gettext("There are a variety of methods for collaboration. The administrator who will set it all up needs to have sufficient knowledge of information technology.") ?></p>
-<p><?php echo gettext("Bibledit-Web stores all data locally. When collaboration is enabled, it also connects to a central repository. Through that repository the data gets shared between the various translators and other users.") ?></p>
+<p><?php echo gettext("Bibledit stores all data locally. When collaboration is enabled, it also connects to a central repository. Through that repository the data gets shared between the various translators and other users.") ?></p>
 <p><?php echo gettext("Under the hood, Bibledit uses Git for collaboration. Git is a content manager. The user does not notice that Git is used. He does not operate it directly. The only thing that the manager needs to do at regular times is to 'Send/Receive' the Bible. After having done that, the changes in the Bible, made by the other translators or users, appear on his screen too. And the changes made by himself get stored in the repository, and if the other users do Send/Receive also, then these changes will reflect on their screens also.") ?></p>
 <p><?php echo gettext("If distributed collaboration is used, it needs to be set up per Bible.") ?> <a href="collaboration.php?object=<?php echo $this->object ?>&select"><?php echo gettext ("Select which Bible to use.") ?></a></p>
 <?php if ($this->object != "") { ?>
@@ -57,7 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     </li>
     <li>
       <em><?php echo gettext("Secured Network Repository.") ?></em>
-      <?php echo gettext("For high security it is recommended to use this type of repository. Only those who have the secure keys to such a repository can write to it. Bibledit-Web supports this in case the GNU/Linux server has been set up to access this repository through passphrase-less private and public keys.") ?>
+      <?php echo gettext("For high security it is recommended to use this type of repository. Only those who have the secure keys to such a repository can write to it. Bibledit supports this in case the GNU/Linux server has been set up to access this repository through passphrase-less private and public keys.") ?>
       <a href="collaboration_secure_network_setup.php?object=<?php echo $this->object ?>"><?php echo gettext("Set it up.") ?></a>
     </li>
   </ul>

@@ -24,13 +24,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext("Hyphenation may not be so important when preparing a Bible for proofreading. It is usually regarded important for production quality Bibles.") ?></p>
 <br>
 <p><?php echo gettext("When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the wordprocessor itself provides hyphenation algorithms for many languages.") ?></p>
-<p><?php echo gettext("If no suitable hyphenation algorithm can be used, perhaps Bibledit-Web can assist to a limited degree.") ?></p>
+<p><?php echo gettext("If no suitable hyphenation algorithm can be used, perhaps Bibledit can assist to a limited degree.") ?></p>
 <br>
-<p><?php echo gettext("Bibledit-Web can take the data from a Bible, insert soft hyphens in the words according to a certain algorithm, and then save this data as a new Bible.") ?></p>
+<p><?php echo gettext("Bibledit can take the data from a Bible, insert soft hyphens in the words according to a certain algorithm, and then save this data as a new Bible.") ?></p>
 <p><?php echo gettext("This new Bible can then be exported to OpenDocument format, and opened in a wordprocessor.") ?></p>
 <p><?php echo gettext("The wordprocessor sees these soft hyphens. When a soft hyphen occurs near the end of the line, it breaks the word there.") ?></p>
 <br>
-<p><?php echo gettext("Bibledit-Web has one hyphenating algorithm. When there is a transition in the text from any character of a first set of characters, to any character of a second set of characters, then the soft hyphen will be inserted at that location in the text.") ?></p>
+<p><?php echo gettext("Bibledit has one hyphenating algorithm. When there is a transition in the text from any character of a first set of characters, to any character of a second set of characters, then the soft hyphen will be inserted at that location in the text.") ?></p>
 <br>
 <a name="sets"></a>
 <form action="hyphenation.php#sets" method="post">

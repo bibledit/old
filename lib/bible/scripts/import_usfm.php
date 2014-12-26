@@ -48,7 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <p><?php echo gettext("You can also upload a file.") ?></p>
 <p>
-  <?php echo gettext("The configuration of the server on which Bibledit-Web limits limits the size of the file to be uploaded.") ?>
+  <?php echo gettext("The configuration of the server on which Bibledit limits limits the size of the file to be uploaded.") ?>
   <?php echo gettext("The size of the file should not exceed any of the two limits given below:") ?>
 </p>
 <p><?php echo gettext("Maximum size of a file to be posted:") ?> <?php echo $this->post_max_size ?></p>

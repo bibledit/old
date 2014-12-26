@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// This script is called on a client device and makes settings for Bibledit-Web.
+// This script is called on a client device and makes settings for Bibledit.
 // It can be called from localhost only for security reasons.
 if ($_SERVER ['SERVER_ADDR'] != $_SERVER ['REMOTE_ADDR']) die;
 

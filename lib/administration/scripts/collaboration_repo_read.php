@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <p><?php echo gettext("Repository URL") ?>: <?php echo $this->url ?></p>
 
-<p><?php echo gettext("Bibledit-Web attempted to read data from this repository. This is the result:") ?></p>
+<p><?php echo gettext("Bibledit attempted to read data from this repository. This is the result:") ?></p>
 
 <p><code><?php echo $this->read_access_result ?></code></p>
 

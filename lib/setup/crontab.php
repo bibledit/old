@@ -60,7 +60,7 @@ if (!$timerIncluded || !$tasksIncluded) {
   $result = array ();
   exec ("crontab $filename 2>&1", $result, $exitcode);
   if ($exitcode != 0) {
-    $messages [] = "Crontab ran with an exitcode of $exitcode, while 0 would be expected. Therefore the scheduled task for Bibledit-Web may not have been set properly.";
+    $messages [] = "Crontab ran with an exitcode of $exitcode, while 0 would be expected. Therefore the scheduled task for Bibledit may not have been set properly.";
     foreach ($result as $line) {
       $messages [] = "Error: " . $line;
     }
@@ -90,12 +90,12 @@ if (function_exists ("posix_getpwuid")) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Bibledit-Web Installation</title>
+<title>Bibledit Installation</title>
 <link rel="stylesheet" href="stylesheet.css" type="text/css" />
 </head>
 <body>
-<h1><img src="../assets/bibledit.png"> <a href="http://bibledit.org/">Bibledit-Web</a></h1>
-<p>Bibledit-Web tried to configure the timer for running scheduled tasks through program <code>crontab</code>, but failed to do so.</p>
+<h1><img src="../assets/bibledit.png"> <a href="http://bibledit.org/">Bibledit</a></h1>
+<p>Bibledit tried to configure the timer for running scheduled tasks through program <code>crontab</code>, but failed to do so.</p>
 <p>More information is below.</p>
 <ul>
 <?php

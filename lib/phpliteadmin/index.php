@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 
-// phpLiteAdmin is secured through the standard Bibledit-Web login mechanism.
+// phpLiteAdmin is secured through the standard Bibledit login mechanism.
 page_access_level (Filter_Roles::admin ());
 
 
@@ -934,7 +934,7 @@ if ($auth->isAuthorized())
 header('Content-Type: text/html; charset=utf-8');
 
 
-// Displaying the Bibledit-Web heder and menu is postponed till here.
+// Displaying the Bibledit heder and menu is postponed till here.
 // This fixes the following:
 // Warning: session_start(): Cannot send session cache limiter - headers already sent (output started at assets/view.php:57) in phpliteadmin/index.php on line 464
 // With headers, it forgets which table it has selected.

@@ -41,7 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <a name="keys"></a>
 <h2><?php echo gettext("Secure shell keys") ?></h2>
-<p><?php echo gettext("Once manual access to the secure repository works, the next step is to set up secure shell keys. These keys allow Bibledit-Web easy access to the secure repository, without the need to type the password each time.") ?></p>
+<p><?php echo gettext("Once manual access to the secure repository works, the next step is to set up secure shell keys. These keys allow Bibledit easy access to the secure repository, without the need to type the password each time.") ?></p>
 
 <h3><?php echo gettext("Generating the keys") ?></h3>
 <p><?php echo gettext("Keys can be generated with this command:") ?></p>

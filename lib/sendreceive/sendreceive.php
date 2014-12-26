@@ -137,7 +137,7 @@ if ($success) {
     $pull_messages [] = $line;
   }
   if ($conflict) {
-    $message = "Bibledit-Web will merge the conflicts.";
+    $message = "Bibledit will merge the conflicts.";
     $logs [] = "$send_receive $message";
     Filter_Conflict::run ($directory);
   }

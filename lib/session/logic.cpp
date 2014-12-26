@@ -35,7 +35,7 @@ In such a case, the session mechanism does not always work as desired.
 This may result in frequently being locked out.
 A possible solution would be to work around this behaviour.
 
-Bibledit-Web has another solution:
+Bibledit has another solution:
 It has its own persistent session storage mechanism.
 This mechanism is independent of any hosting provider or any PHP session mechanism.
 
@@ -46,11 +46,11 @@ The above is undesired.
 The behaviour can be prevented when one of the users sets another user agent.
 
 To improve the persistent login mechanism, the following could be done:
-1. On sending the login screen, Bibledit-Web generates a unique cookie with unique name and the correct path.
+1. On sending the login screen, Bibledit generates a unique cookie with unique name and the correct path.
 2. When the user logs in, the browser will send this new cookie.
-3. Bibledit-Web stores the cookie details as it receives the cookie details through the header during login.
+3. Bibledit stores the cookie details as it receives the cookie details through the header during login.
 4. Next time when the user requests any page page, the browser will again send this cookie.
-   Bibledit-Web checks the details from the submitted header with its database.
+   Bibledit checks the details from the submitted header with its database.
    If the details match, the user is logged in.
 Optionally it sets the cookie to expire after a week, or a month, or to never expire.
 Upon regenerating the cookie, it will keep storing the old cookie signature, and will also store the new cookie signature.

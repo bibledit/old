@@ -32,7 +32,7 @@ if ($book >= 40) {
 }
 
 
-// This array maps the the book identifiers from Bibledit-Web to the book names as used by Biblehub.
+// This array maps the the book identifiers from Bibledit to the book names as used by Biblehub.
 $bookConverter = array (
 1 => "genesis",
 2 => "exodus",

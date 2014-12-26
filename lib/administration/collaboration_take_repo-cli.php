@@ -38,7 +38,7 @@ $url = $database_config_bible->getRemoteRepositoryUrl ($object);
 $directory = Filter_Git::git_directory ($object);
 
 
-// Copy the data from the local cloned repository, and store it in Bibledit-Web's Bible given in $object,
+// Copy the data from the local cloned repository, and store it in Bibledit's Bible given in $object,
 // overwriting the whole Bible that was there before.
 echo gettext("Copying the data from the local cloned repository, and storing it in the Bible") . "\n";
 Filter_Git::syncGit2Bible ($directory, $object);

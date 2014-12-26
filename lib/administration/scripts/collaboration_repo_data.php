@@ -18,11 +18,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h1><?php echo gettext("Repository data") ?></h1>
-<p><?php echo gettext("You are now at a stage that the data in Bibledit-Web, and the data in the repository, needs to be synchronized. This means that some action needs to be taken to make these two sets of data the same. Not all the data in Bibledit-Web needs to be synchronized with the repository. It is only the data in the one Bible or the Consultation Notes you are now dealing with.") ?></p>
+<p><?php echo gettext("You are now at a stage that the data in Bibledit, and the data in the repository, needs to be synchronized. This means that some action needs to be taken to make these two sets of data the same. Not all the data in Bibledit needs to be synchronized with the repository. It is only the data in the one Bible or the Consultation Notes you are now dealing with.") ?></p>
 <p><?php echo gettext("Bible") ?>: <?php echo $this->object ?></p>
 
 <p><?php echo gettext("There are two options:") ?></p>
 <ol>
-  <li><em><?php echo gettext("Take the data in the repository.") ?></em> <?php echo gettext ("Taking the data in the repository means that the data in the repository is left as it is, and that a copy of that data overwrites your own data in Bibledit-Web. This option is used most of the time.") ?> <a href="collaboration_take_repo.php?object=<?php echo $this->object ?>"><?php echo gettext("Take the data in the repository.") ?></a></li>
+  <li><em><?php echo gettext("Take the data in the repository.") ?></em> <?php echo gettext ("Taking the data in the repository means that the data in the repository is left as it is, and that a copy of that data overwrites your own data in Bibledit. This option is used most of the time.") ?> <a href="collaboration_take_repo.php?object=<?php echo $this->object ?>"><?php echo gettext("Take the data in the repository.") ?></a></li>
   <li><em><?php echo gettext("Take your own data.") ?></em> <?php echo gettext ("Taking your own data means that your data is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.") ?> <a href="collaboration_take_yourself.php?object=<?php echo $this->object ?>"><?php echo gettext("Take your data.") ?></a></li>
 </ol>

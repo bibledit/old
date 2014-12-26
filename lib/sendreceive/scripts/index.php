@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p class="error"><?php echo $this->errornotes ?></p>
   <p class="error"><?php echo $this->demo ?></p>
   <p><?php echo gettext("Bibles and Consultation Notes.") ?></p>
-  <p><?php echo gettext("Bibledit-Web sends and receives the Bibles and Consultation Notes every night.") ?></p>
+  <p><?php echo gettext("Bibledit sends and receives the Bibles and Consultation Notes every night.") ?></p>
   <p><a href="?runsync="><?php echo gettext("Send and receive them now.") ?></a></p>
   <p><?php echo gettext("Repeat send and receive:") ?></p>
   <p>
@@ -47,8 +47,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     <?php if ($this->repeatsync == 0) { ?>⇇<?php } ?>
   </p>
   <p>
-    <?php echo gettext("It sends changes made here to the Bibledit-Web server.") ?>
-    <?php echo gettext("It receives updates of the Bibles and Consultation Notes from the Bibledit-Web server.") ?>
+    <?php echo gettext("It sends changes made here to the Bibledit server.") ?>
+    <?php echo gettext("It receives updates of the Bibles and Consultation Notes from the Bibledit server.") ?>
   </p>
 
 <?php } else { ?>
@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p class="success"><?php echo $this->successbible ?></p>
   <p class="error"><?php echo $this->errorbible ?></p>
   <p><?php echo gettext("Bible") ?>: <a href="?bible="><?php echo $this->bible ?></a>.</p>
-  <p><?php echo gettext("Bibledit-Web sends and receives this Bible every night.") ?></p>
+  <p><?php echo gettext("Bibledit sends and receives this Bible every night.") ?></p>
   <p><a href="?runbible="><?php echo gettext("Send and receive it now.") ?></a></p>
   <p>
   <a href="?repeatbible=">
@@ -65,8 +65,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext("Send and receive it every five minutes.") ?>
   </p>
   <p>
-    <?php echo gettext("It receives changes made by others in Bibledit-Gtk or other instances of Bibledit-Web.") ?>
-    <?php echo gettext("It sends changes made here to the server for use by other translators who use Bibledit-Gtk or Bibledit-Web.") ?>
+    <?php echo gettext("It receives changes made by others in Bibledit-Gtk or other instances of Bibledit.") ?>
+    <?php echo gettext("It sends changes made here to the server for use by other translators who use Bibledit-Gtk or Bibledit.") ?>
   </p>
 
 <?php } ?>

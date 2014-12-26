@@ -2309,17 +2309,17 @@ void test_email ()
     "\n"
     "test\n"
     "\n"
-    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
     "\n"
     "> test notes three\n"
     "\n"
     "\n"
     "> test\n"
     "\n"
-    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit-Web wrote:\n"
+    "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
     "\n"
     ">    test notes three \n";
-  evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit-Web"));
+  evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit"));
 }
 
 

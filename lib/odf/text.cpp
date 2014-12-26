@@ -1047,7 +1047,7 @@ void Odf_Text::addNote (string caller, string style, bool endnote)
   xmlNewProp (textNoteDomElement, BAD_CAST "text:note-class", BAD_CAST noteclass.c_str());
 
   // The note citation, the 'caller' is normally in superscript in the OpenDocument.
-  // The default values of the application are used. The Bibledit-Web stylesheet is not consulted.
+  // The default values of the application are used. The Bibledit stylesheet is not consulted.
   xmlNodePtr textNoteCitationDomElement = xmlNewNode (NULL, BAD_CAST "text:note-citation");
   xmlAddChild (textNoteDomElement, textNoteCitationDomElement);
   xmlNewProp (textNoteCitationDomElement, BAD_CAST "text:label", BAD_CAST filter_string_sanitize_html (caller).c_str());

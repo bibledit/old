@@ -51,7 +51,7 @@ void timer_index ()
 
       // At midnight, for five minutes, do nothing to allow time for external backup
       // without corrupting the SQLite databases due to simultaneous access by
-      // Bibledit-Web and the backup program.
+      // Bibledit and the backup program.
       if ((hour == 0) && (minute <= 5)) continue;
 
       // Every second: Deal with queued and/or active tasks.

@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Database resilience.
 // Write operations to table "suppress" are very infrequent.
 // Write operations to table "output" happen every night.
-// In case of database corruption, running the Bibledit-Web setup re-creates
+// In case of database corruption, running the Bibledit setup re-creates
 // this table. The table does not contain important data.
 // In cases of extreme corruption, the database file should be manually removed
 // before running setup.

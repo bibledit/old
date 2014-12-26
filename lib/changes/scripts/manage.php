@@ -19,12 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h3><?php echo gettext("Manage Changes") ?></h3>
 <p>
-  <?php echo gettext("Bibledit-Web tracks the changes in the text of the Bibles.") ?>
+  <?php echo gettext("Bibledit tracks the changes in the text of the Bibles.") ?>
   <?php echo gettext("It generates details about them during the night.") ?>
 </p>
 <ul>
 <li><?php echo gettext("Lists with changes can be downloaded.") ?></li>
-<li><?php echo gettext("Bibledit-Web emails lists with the changes to users who have subscribed to them.") ?></li>
+<li><?php echo gettext("Bibledit emails lists with the changes to users who have subscribed to them.") ?></li>
 <li>
   <?php echo gettext("It generates Change Notifications for users who have enabled that option.") ?>
   <?php echo gettext("Every user makes personal settings.") ?>

@@ -78,7 +78,7 @@ void Database_Mappings::create2 ()
 }
 
 
-// Import the default mappings that come with Bibledit-Web.
+// Import the default mappings that come with Bibledit.
 void Database_Mappings::defaults ()
 {
   string folder = filter_url_create_root_path ("mapping");

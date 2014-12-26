@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Localization of the names of the books of the Bible.
 // The names are gathered from the data below.
 // People who wish can translate these.
-// The translation can be imported into Bibledit-Web.
+// The translation can be imported into Bibledit.
 // Then localization of the book names works.
 
 gettext("Front Matter");

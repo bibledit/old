@@ -157,7 +157,7 @@ class Styles_Css // Todo porting now.
 
 
   // This function adds a style to the internal CSS.
-  // $style: Array with the Bibledit-Web style information.
+  // $style: Array with the Bibledit style information.
   // $paragraph: True: Is paragraph. False: Is inline text.
   // $keepwithnext: Keep text in this style together with the next paragraph.
   private function add ($style, $paragraph, $keepwithnext)

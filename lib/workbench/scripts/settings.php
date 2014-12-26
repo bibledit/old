@@ -92,7 +92,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h4><?php echo gettext("Help") ?></h4>
 <p>
   <?php echo gettext("This page is for configuring the layout of a workbench.") ?>
-  <?php echo gettext("A workbench enables you to display parts of Bibledit-Web or websites side-by-side.") ?>
+  <?php echo gettext("A workbench enables you to display parts of Bibledit or websites side-by-side.") ?>
 </p>
 <br>
 <p>
@@ -109,13 +109,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <br>
 <p>
-  <?php echo gettext("You can enter the URLs of internal Bibledit-Web pages or external pages to display.") ?>
+  <?php echo gettext("You can enter the URLs of internal Bibledit pages or external pages to display.") ?>
   <?php echo gettext("Enter their widths as a percentage of the total width of the browser window.") ?>
   <?php echo gettext("Or add px to set pixels.") ?>
 </p>
 <br>
 <p>
-  <?php echo gettext("The internal URL of a Bibledit-Web function can be found by opening that function in the web browser, and then copying the last two bits from the URL in the address bar.") ?>
+  <?php echo gettext("The internal URL of a Bibledit function can be found by opening that function in the web browser, and then copying the last two bits from the URL in the address bar.") ?>
   <?php echo gettext("The Edit page would have this URL:") ?>
   "edit/index.php".
   <?php echo gettext("The Resources page is") ?>
