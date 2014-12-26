@@ -1,17 +1,17 @@
 <h1>gettext("Installation")</h1>
 
 <h2>gettext("Standard installation")</h2>
-<p><a href="installwindows">gettext("Bibledit-Web on Windows")</a></p>
-<p><a href="installandroid">gettext("Bibledit-Web on Android")</a></p>
-<p><a href="installosx">gettext("Bibledit-Web on OSX")</a></p>
-<p><a href="installios">gettext("Bibledit-Web on iOS")</a></p>
-<p><a href="installubuntu">gettext("Bibledit-Web on Ubuntu")</a></p>
-<p><a href="installcentos">gettext("Bibledit-Web on CentOS")</a></p>
-<p><a href="installpclinuxos">gettext("Bibledit-Web on PCLinuxOS")</a></p>
+<p><a href="installwindows">gettext("Bibledit on Windows")</a></p>
+<p><a href="installandroid">gettext("Bibledit on Android")</a></p>
+<p><a href="installosx">gettext("Bibledit on OSX")</a></p>
+<p><a href="installios">gettext("Bibledit on iOS")</a></p>
+<p><a href="installubuntu">gettext("Bibledit on Ubuntu")</a></p>
+<p><a href="installcentos">gettext("Bibledit on CentOS")</a></p>
+<p><a href="installpclinuxos">gettext("Bibledit on PCLinuxOS")</a></p>
 
 <h2>gettext("Upgrading")</h2>
 <p>
-  gettext("A certain release of Bibledit-Web can upgrade the most recent previous release, but not older releases.")
+  gettext("A certain release of Bibledit can upgrade the most recent previous release, but not older releases.")
   gettext("A new release can be installed over the previous release.")
   gettext("There should be no loss of information.")
   gettext("Create a backup of the web space before upgrading, just to be sure.")
@@ -19,15 +19,15 @@
 
 <h2>gettext("Client")</h2>
 <p>
-  gettext("Bibledit-Web normally runs in Server mode.")
+  gettext("Bibledit normally runs in Server mode.")
   gettext("It can also be set to Client mode.")
   gettext("A Client stores the data offline.")
   gettext("You can translate the Bible on a Client.")
   gettext("The user needs to synchronize the data on the client with the data on the server regularly.")
-  gettext("A Client is useful when the Internet connection to the Bibledit-Web server is not fast or not stable.")
+  gettext("A Client is useful when the Internet connection to the Bibledit server is not fast or not stable.")
 </p>
 <p>
-  gettext("Install the Client as you would install Bibledit-Web.")
+  gettext("Install the Client as you would install Bibledit.")
   gettext("During setup you can switch it to client mode.")
   gettext("In client mode, connect to the server once, and provide your username and password as you normally log in on the server.")
   gettext("Then synchronize the data.")
@@ -44,10 +44,10 @@
 
 <h2>gettext("Email")</h2>
 <p>
-  gettext("Bibledit-Web works with email.")
-  gettext("After completing the installation of Bibledit-Web, sending and receiving emails does not yet work.")
+  gettext("Bibledit works with email.")
+  gettext("After completing the installation of Bibledit, sending and receiving emails does not yet work.")
   gettext("This needs to be set up.")
-  gettext("Setting up the email means to pick an email address and setting details for the mail servers in Bibledit-Web.")
+  gettext("Setting up the email means to pick an email address and setting details for the mail servers in Bibledit.")
   gettext("This can be done from within the web application.")
 </p>
 
@@ -55,7 +55,7 @@
 <p>gettext("There are two ways to have multiple translation teams on one server. ")</p>
 <ol>
 <li>
-  gettext("Install multiple parallel copies of Bibledit-Web on one server.")
+  gettext("Install multiple parallel copies of Bibledit on one server.")
   gettext("Unpack the installation zip archive in sub folders with different names.")
   gettext("Each copy has its own web address.")
   gettext("Everything is completely separated between the parallel copies.")
@@ -63,7 +63,7 @@
   gettext("Every copy has its own independent databases.")
 </li>
 <li>
-  gettext("Use one installation of Bibledit-Web.")
+  gettext("Use one installation of Bibledit.")
   gettext("Give various users read or write access to various Bibles.")
   gettext("Users with write access together constitute a translation team that can edit the Bible.")
 </li>
@@ -71,40 +71,40 @@
 
 <h2>gettext("Install development version")</h2>
 <p>
-  gettext("Read the instructions for a standard Bibledit-Web installation to find out about server setup and prerequisites.")
+  gettext("Read the instructions for a standard Bibledit installation to find out about server setup and prerequisites.")
 </p>
 <br>
 <p>
-  gettext("The Bibledit-Web code is kept in a git repository.")
-  <a href="https://savannah.nongnu.org/projects/bibledit-web" target="_blank">gettext("The repository is accessible from the Savannah Project Page.")</a>
+  gettext("The Bibledit code is kept in a git repository.")
+  <a href="https://savannah.nongnu.org/projects/Bibledit" target="_blank">gettext("The repository is accessible from the Savannah Project Page.")</a>
   gettext("To view the code on the web, click Source Code - Browse Sources Repository.")
   gettext("To use the repository in another way, click on Source Code - Use Git.")
   gettext("Information will be provided there.")
   gettext("The code can be checked out from the repository.")
-  gettext("This gives the most recent version of Bibledit-Web.")
+  gettext("This gives the most recent version of Bibledit.")
   gettext("The code is supported.")
 </p>
 <br>
 <p>
   gettext("To get the most recent code, run the following in a terminal:")
 </p>
-<p><code>$ git clone git://git.savannah.nongnu.org/bibledit-web</code></p>
+<p><code>$ git clone git://git.savannah.nongnu.org/Bibledit</code></p>
 <p>
   gettext("This clones the code repository to your computer.")
   gettext("It will create directory")
-  <code>bibledit-web</code>.
+  <code>Bibledit</code>.
   gettext("Change into that directory.")
   gettext("Then create an installation package:")
 </p>
 <p><code>$ ./scripts/package</code></p>
 <p>
   gettext("It will display where the package will be stored.")
-  gettext("This package can be used to do a standard installation of Bibledit-Web.")
+  gettext("This package can be used to do a standard installation of Bibledit.")
 </p>
 
 <h2>gettext("Open installation")</h2>
 <p>
-  gettext("You can configure Bibledit-Web to be open.")
+  gettext("You can configure Bibledit to be open.")
   gettext("It means that there is no need to login.")
   gettext("The website appears to be logged in as user 'admin' to any visitor.")
   gettext("This is useful for demo installations, or to provide a free service to the the community.")
@@ -117,17 +117,17 @@
 
 <h2>gettext("Hosting providers")</h2>
 <p>
-  gettext("Bibledit-Web is not supported on a shared Linux hosting account.")
-  gettext("On several occassions Bibledit-Web has been used on such an account though.")
-  gettext("Bibledit-Web is a heavy application.")
+  gettext("Bibledit is not supported on a shared Linux hosting account.")
+  gettext("On several occassions Bibledit has been used on such an account though.")
+  gettext("Bibledit is a heavy application.")
   gettext("It uses a lot of resources compared to what is available on a shared hosting account.")
-  gettext("The hosting providers have responded in various ways to having Bibledit-Web on their shared platform:")
+  gettext("The hosting providers have responded in various ways to having Bibledit on their shared platform:")
 </p>
 <p>
   * gettext("Closing the website saying it causes inconvenience on the shared platform.")
 </p>
 <p>
-  * gettext("Silently modifying the scheduled tasks to run less often, crippling Bibledit-Web operations.")
+  * gettext("Silently modifying the scheduled tasks to run less often, crippling Bibledit operations.")
 </p>
 <p>
   * gettext("Suggesting it to be moved to a virtual private server.")
@@ -142,7 +142,7 @@
   gettext("It has also been observed that the Bibledit databases regularly got corrupted due to insufficient file locking on the shared platform.")
 </p>
 <p>
-  gettext("To make good use of Bibledit-Web, a VPS (Virtual Private Server) is recommended.")
+  gettext("To make good use of Bibledit, a VPS (Virtual Private Server) is recommended.")
   gettext("Good providers are:")
 </p>
 <p>
