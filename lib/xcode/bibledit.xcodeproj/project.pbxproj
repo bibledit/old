@@ -14,6 +14,8 @@
 		CA699A061A4C654F00B23E0A /* css.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = css.h; sourceTree = "<group>"; };
 		CA699A071A4C657000B23E0A /* sheets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sheets.cpp; sourceTree = "<group>"; };
 		CA699A081A4C657000B23E0A /* sheets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheets.h; sourceTree = "<group>"; };
+		CA699A091A4D6F8600B23E0A /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CA699A0A1A4D6F8600B23E0A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAA4CEF71A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4CEF81A45A647003ABA25 /* bible.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = bible.Po; sourceTree = "<group>"; };
 		CAA4CEF91A45A647003ABA25 /* user.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = user.Po; sourceTree = "<group>"; };
@@ -419,8 +421,6 @@
 		CAA4D11C1A45A647003ABA25 /* flate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flate.h; sourceTree = "<group>"; };
 		CAA4D11E1A45A647003ABA25 /* Cardo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cardo-Regular.ttf"; sourceTree = "<group>"; };
 		CAA4D11F1A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
-		CAA4D1201A45A647003ABA25 /* logic.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = logic.php; sourceTree = "<group>"; };
-		CAA4D1221A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D1231A45A647003ABA25 /* SIL-Licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-Licenses.txt"; sourceTree = "<group>"; };
 		CAA4D1241A45A647003ABA25 /* SIL-README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-README.txt"; sourceTree = "<group>"; };
 		CAA4D1251A45A647003ABA25 /* SILEOT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SILEOT.ttf; sourceTree = "<group>"; };
@@ -2110,22 +2110,14 @@
 			children = (
 				CAA4D11E1A45A647003ABA25 /* Cardo-Regular.ttf */,
 				CAA4D11F1A45A647003ABA25 /* index.php */,
-				CAA4D1201A45A647003ABA25 /* logic.php */,
-				CAA4D1211A45A647003ABA25 /* scripts */,
+				CA699A091A4D6F8600B23E0A /* logic.cpp */,
+				CA699A0A1A4D6F8600B23E0A /* logic.h */,
 				CAA4D1231A45A647003ABA25 /* SIL-Licenses.txt */,
 				CAA4D1241A45A647003ABA25 /* SIL-README.txt */,
 				CAA4D1251A45A647003ABA25 /* SILEOT.ttf */,
 			);
 			name = fonts;
 			path = ../fonts;
-			sourceTree = "<group>";
-		};
-		CAA4D1211A45A647003ABA25 /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D1221A45A647003ABA25 /* index.php */,
-			);
-			path = scripts;
 			sourceTree = "<group>";
 		};
 		CAA4D1261A45A647003ABA25 /* git */ = {
