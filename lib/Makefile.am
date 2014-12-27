@@ -15,6 +15,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
+	filter/customcss.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \

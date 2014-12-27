@@ -22,6 +22,8 @@
 		CA699A0E1A4EE04300B23E0A /* basic.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = basic.css; sourceTree = "<group>"; };
 		CA699A0F1A4EE05800B23E0A /* editor.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = editor.css; sourceTree = "<group>"; };
 		CA699A101A4EE05800B23E0A /* exports.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = exports.css; sourceTree = "<group>"; };
+		CA699A111A4EFF6600B23E0A /* customcss.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = customcss.cpp; sourceTree = "<group>"; };
+		CA699A121A4EFF6600B23E0A /* customcss.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = customcss.h; sourceTree = "<group>"; };
 		CAA4CEF71A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4CEF81A45A647003ABA25 /* bible.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = bible.Po; sourceTree = "<group>"; };
 		CAA4CEF91A45A647003ABA25 /* user.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = user.Po; sourceTree = "<group>"; };
@@ -1006,7 +1008,6 @@
 		CAA4D3FD1A45A648003ABA25 /* bibleworksTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = bibleworksTest.php; sourceTree = "<group>"; };
 		CAA4D3FE1A45A648003ABA25 /* clientTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = clientTest.php; sourceTree = "<group>"; };
 		CAA4D3FF1A45A648003ABA25 /* conflictTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = conflictTest.php; sourceTree = "<group>"; };
-		CAA4D4001A45A648003ABA25 /* customcssTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = customcssTest.php; sourceTree = "<group>"; };
 		CAA4D4011A45A648003ABA25 /* datetimeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = datetimeTest.php; sourceTree = "<group>"; };
 		CAA4D4031A45A648003ABA25 /* changed_verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = changed_verses.html; sourceTree = "<group>"; };
 		CAA4D4041A45A648003ABA25 /* chapters_new.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = chapters_new.usfm; sourceTree = "<group>"; };
@@ -2046,6 +2047,8 @@
 				CAA4D0EA1A45A647003ABA25 /* client.php */,
 				CAA4D0EB1A45A647003ABA25 /* conflict.php */,
 				CAA4D0EC1A45A647003ABA25 /* customcss.php */,
+				CA699A111A4EFF6600B23E0A /* customcss.cpp */,
+				CA699A121A4EFF6600B23E0A /* customcss.h */,
 				CAA4D0ED1A45A647003ABA25 /* datetime.php */,
 				CAA4D0EE1A45A647003ABA25 /* demo.php */,
 				CAA4D0EF1A45A647003ABA25 /* diff.php */,
@@ -3394,7 +3397,6 @@
 				CAA4D3FD1A45A648003ABA25 /* bibleworksTest.php */,
 				CAA4D3FE1A45A648003ABA25 /* clientTest.php */,
 				CAA4D3FF1A45A648003ABA25 /* conflictTest.php */,
-				CAA4D4001A45A648003ABA25 /* customcssTest.php */,
 				CAA4D4011A45A648003ABA25 /* datetimeTest.php */,
 				CAA4D4021A45A648003ABA25 /* diffStandards */,
 				CAA4D40A1A45A648003ABA25 /* diffTest.php */,

@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_styles_css (); exit (0); // Todo
+  test_filter_custom_css (); test_styles_css (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -307,6 +307,7 @@ int main (int argc, char **argv)
   test_database_notes ();
   test_database_volatile ();
   test_styles_css ();
+  test_filter_custom_css ();
 
   // Output possible journal entries.
   refresh_sandbox (true);
