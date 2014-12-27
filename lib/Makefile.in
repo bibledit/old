@@ -167,7 +167,6 @@ server_OBJECTS = $(am_server_OBJECTS)
 server_DEPENDENCIES = libbibledit.a
 am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/utilities.$(OBJEXT) unittests/libraries.$(OBJEXT) \
-	unittests/database_config.$(OBJEXT) \
 	unittests/filters.$(OBJEXT) unittests/databases.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
@@ -486,7 +485,6 @@ unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
 	unittests/libraries.cpp \
-	unittests/database_config.cpp \
 	unittests/filters.cpp \
 	unittests/databases.cpp
 
@@ -1065,8 +1063,6 @@ unittests/utilities.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/libraries.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/database_config.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/filters.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/databases.$(OBJEXT): unittests/$(am__dirstamp) \
@@ -1224,7 +1220,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@timer/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@trash/$(DEPDIR)/handler.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/database_config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/filters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/libraries.Po@am__quote@

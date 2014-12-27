@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
 #include <unittests/libraries.h>
-#include <unittests/database_config.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
 #include <database/config/user.h>
@@ -2390,4 +2389,59 @@ void test_filters ()
   test_filter_string_text2html ();
   test_email ();
   test_stat ();
+}
+
+
+void test_styles_css () // Todo
+{
+  refresh_sandbox (true);
+
+  /* Todo port it.
+  public function setUp ()
+  {
+    $this->tearDown ();
+    $database_styles = Database_Styles::getInstance ();
+    $database_styles->createSheet ("phpunit");
+  }
+  
+  
+  public function tearDown ()
+  {
+    $database_styles = Database_Styles::getInstance ();
+    $database_styles->deleteSheet ("phpunit");
+  }
+  
+  
+  public function testBasic ()
+  {
+    $styles_css = new Styles_Css ("phpunit");
+    $styles_css->generate ();
+    $css = $styles_css->css ();
+    $standard = trim (file_get_contents (dirname (__FILE__) . "/basic.css"));
+    $this->assertEquals ($standard, $css);
+  }
+  
+  
+  public function testExport ()
+  {
+    $styles_css = new Styles_Css ("phpunit");
+    $styles_css->exports ();
+    $styles_css->generate ();
+    $css = $styles_css->css ();
+    $standard = trim (file_get_contents (dirname (__FILE__) . "/exports.css"));
+    $this->assertEquals ($standard, $css);
+  }
+  
+  
+  public function testEditor ()
+  {
+    $styles_css = new Styles_Css ("phpunit");
+    $styles_css->editor ();
+    $styles_css->generate ();
+    $css = $styles_css->css ();
+    $standard = trim (file_get_contents (dirname (__FILE__) . "/editor.css"));
+    $this->assertEquals ($standard, $css);
+  }
+  
+*/
 }

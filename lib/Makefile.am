@@ -119,7 +119,6 @@ unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
 	unittests/libraries.cpp \
-	unittests/database_config.cpp \
 	unittests/filters.cpp \
 	unittests/databases.cpp
 

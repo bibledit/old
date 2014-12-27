@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
 #include <unittests/libraries.h>
-#include <unittests/database_config.h>
 #include <unittests/filters.h>
 #include <unittests/databases.h>
 #include <config/libraries.h>
@@ -266,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  //test_database_config_bible (); exit (0); // Todo
+  test_styles_css (); exit (0); // Todo
   
   // Run the tests.
   test_database_config_general ();
@@ -307,6 +306,7 @@ int main (int argc, char **argv)
   test_database_modifications_notifications ();
   test_database_notes ();
   test_database_volatile ();
+  test_styles_css ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

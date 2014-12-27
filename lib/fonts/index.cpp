@@ -84,8 +84,7 @@ string fonts_index (void * webserver_request)
     }
     */
   }
-  for (auto & item : request->post) cout << item.first << endl; // Todo
-
+  
 
   vector <string> fonts = Fonts_Logic::getFonts ();
   

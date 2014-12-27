@@ -27,10 +27,23 @@
 class Styles_Css // Todo porting.
 {
 public:
-  Styles_Css (void * webserver_request_in);
+  Styles_Css (void * webserver_request_in, string stylesheet_in);
   ~Styles_Css ();
+  void editor ();
+  void exports ();
+  void generate ();
+  string css (string path = "");
+  void customize (const string& bible);
 private:
   void * webserver_request;
+  string stylesheet;
+  vector <string> code;
+  bool editor_enabled = false; // Whether to generate CSS for the Bible text editor.
+  bool exports_enabled = false; // Whether to generate CSS for exported Bibles.
+  void evaluate (void * database_styles_item);
+  void add (void * database_styles_item, bool paragraph, bool keepwithnext);
+  void add_exports_styles ();
+  void add_editor_styles ();
 };
 
 
