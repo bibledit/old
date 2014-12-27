@@ -895,7 +895,6 @@
 		CAA4D35A1A45A648003ABA25 /* sqlite.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sqlite.Po; sourceTree = "<group>"; };
 		CAA4D35B1A45A648003ABA25 /* sqlite3.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sqlite3.Po; sourceTree = "<group>"; };
 		CAA4D35C1A45A648003ABA25 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		CAA4D3641A45A648003ABA25 /* csscli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = csscli.php; sourceTree = "<group>"; };
 		CAA4D3681A45A648003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4D3691A45A648003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAA4D3751A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
@@ -3078,7 +3077,6 @@
 			children = (
 				CA699A061A4C654F00B23E0A /* css.h */,
 				CA699A051A4C654F00B23E0A /* css.cpp */,
-				CAA4D3641A45A648003ABA25 /* csscli.php */,
 				CAB399B41A484893007C79E8 /* indexm.h */,
 				CAB399B31A484893007C79E8 /* indexm.cpp */,
 				CAA4D4A31A460861003ABA25 /* indexm.html */,

@@ -2394,7 +2394,7 @@ void test_filters ()
 }
 
 
-void test_styles_css () // Todo
+void test_styles_css ()
 {
   Webserver_Request request;
   // Basic.

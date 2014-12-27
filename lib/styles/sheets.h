@@ -25,9 +25,10 @@
 
 
 void styles_sheets_create_all ();
+void styles_sheets_create_all_run ();
 
 
-class Styles_Sheets // Todo porting.
+class Styles_Sheets
 {
 public:
   Styles_Sheets ();

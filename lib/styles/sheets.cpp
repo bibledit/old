@@ -20,17 +20,27 @@
 #include <styles/sheets.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/roles.h>
 #include <tasks/logic.h>
 #include <database/styles.h>
+#include <database/logs.h>
+#include <styles/css.h>
 
 
 // Recreates all stylesheet.css files through a background process.
 // The advantage of this is that the user interface will be more responsive.
-void styles_sheets_create_all () // Todo
+void styles_sheets_create_all ()
 {
   tasks_logic_queue (CREATECSS);
 }
 
+
+void styles_sheets_create_all_run ()
+{
+  Database_Logs::log ("Creating stylesheet.css files", Filter_Roles::admin ());
+  Styles_Sheets styles_sheets = Styles_Sheets ();
+  styles_sheets.recreate ();
+}
 
 
 Styles_Sheets::Styles_Sheets ()
@@ -44,7 +54,7 @@ Styles_Sheets::~Styles_Sheets ()
 
 
 // Recreates the various stylesheets.css files.
-void Styles_Sheets::recreate () // Todo test.
+void Styles_Sheets::recreate ()
 {
   Database_Styles database_styles = Database_Styles ();
   vector <string> stylesheets = database_styles.getSheets ();
@@ -59,22 +69,22 @@ void Styles_Sheets::recreate () // Todo test.
 
 void Styles_Sheets::create (string stylesheet, string path, bool editor, bool export_bible)
 {
-  /* Todo await porting Styles_Css
-  styles_css = new Styles_Css (stylesheet);
+  Webserver_Request request;
+  Styles_Css styles_css = Styles_Css (&request, stylesheet);
   if (editor) {
     styles_css.editor ();
   }
   if (export_bible) {
     styles_css.exports ();
-    styles_css.customize (export_bible);
+    //styles_css.customize (export_bible); // C++Later : See how the Bible as a string comes in here, and what it does.
+    styles_css.customize ("");
   }
   styles_css.generate ();
   styles_css.css (path);
-  */
 }
 
 
-string Styles_Sheets::get_location (string sheet, bool editor) // Todo test it.
+string Styles_Sheets::get_location (string sheet, bool editor)
 {
   string path;
   if (editor) path = "editor";

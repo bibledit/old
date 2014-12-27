@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/send.h>
 #include <search/rebibles.h>
 #include <search/renotes.h>
+#include <styles/sheets.h>
 
 
 mutex mutex_tasks; 
@@ -65,6 +66,8 @@ void tasks_run_one (string filename)
     search_reindex_bibles ();
   } else if (command == REINDEXNOTES) {
     search_reindex_notes ();
+  } else if (command == CREATECSS) {
+    styles_sheets_create_all_run ();
   } else if (command == "Placerholder") {
   } else {
     Database_Logs::log ("Unknown task: " + command);

@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_filter_custom_css (); test_styles_css (); exit (0); // Todo
+  // test_filter_custom_css (); test_styles_css (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
