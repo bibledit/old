@@ -37,6 +37,8 @@ string help_index_html (const string& url)
 
 bool help_index_url (const string& url)
 {
+  string folder = filter_url_dirname (url);
+  if (folder != "help") return false;
   return filter_url_file_exists (help_index_html (url));
 }
 

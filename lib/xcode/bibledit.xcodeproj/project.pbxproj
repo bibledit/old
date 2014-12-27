@@ -426,23 +426,6 @@
 		CAA4D1241A45A647003ABA25 /* SIL-README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-README.txt"; sourceTree = "<group>"; };
 		CAA4D1251A45A647003ABA25 /* SILEOT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SILEOT.ttf; sourceTree = "<group>"; };
 		CAA4D1271A45A647003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D12A1A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D12B1A45A647003ABA25 /* about.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = about.Po; sourceTree = "<group>"; };
-		CAA4D12C1A45A647003ABA25 /* changelog.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = changelog.Po; sourceTree = "<group>"; };
-		CAA4D12D1A45A647003ABA25 /* consistency.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = consistency.Po; sourceTree = "<group>"; };
-		CAA4D12E1A45A647003ABA25 /* consultations.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = consultations.Po; sourceTree = "<group>"; };
-		CAA4D12F1A45A647003ABA25 /* freebible.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = freebible.Po; sourceTree = "<group>"; };
-		CAA4D1301A45A647003ABA25 /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CAA4D1311A45A647003ABA25 /* installandroid.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installandroid.Po; sourceTree = "<group>"; };
-		CAA4D1321A45A647003ABA25 /* installation.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installation.Po; sourceTree = "<group>"; };
-		CAA4D1331A45A647003ABA25 /* installcentos.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installcentos.Po; sourceTree = "<group>"; };
-		CAA4D1341A45A647003ABA25 /* installios.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installios.Po; sourceTree = "<group>"; };
-		CAA4D1351A45A647003ABA25 /* installosx.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installosx.Po; sourceTree = "<group>"; };
-		CAA4D1361A45A647003ABA25 /* installpclinuxos.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installpclinuxos.Po; sourceTree = "<group>"; };
-		CAA4D1371A45A647003ABA25 /* installubuntu.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installubuntu.Po; sourceTree = "<group>"; };
-		CAA4D1381A45A647003ABA25 /* installwindows.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = installwindows.Po; sourceTree = "<group>"; };
-		CAA4D1391A45A647003ABA25 /* introduction.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = introduction.Po; sourceTree = "<group>"; };
-		CAA4D13A1A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D13B1A45A647003ABA25 /* about.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		CAA4D13C1A45A647003ABA25 /* changelog.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = changelog.html; sourceTree = "<group>"; };
 		CAA4D13D1A45A647003ABA25 /* checks.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = checks.html; sourceTree = "<group>"; };
@@ -2113,8 +2096,6 @@
 		CAA4D1281A45A647003ABA25 /* help */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D1291A45A647003ABA25 /* .deps */,
-				CAA4D13A1A45A647003ABA25 /* .dirstamp */,
 				CAA4D13B1A45A647003ABA25 /* about.html */,
 				CAA4D13C1A45A647003ABA25 /* changelog.html */,
 				CAA4D13D1A45A647003ABA25 /* checks.html */,
@@ -2147,29 +2128,6 @@
 			);
 			name = help;
 			path = ../help;
-			sourceTree = "<group>";
-		};
-		CAA4D1291A45A647003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D12A1A45A647003ABA25 /* .dirstamp */,
-				CAA4D12B1A45A647003ABA25 /* about.Po */,
-				CAA4D12C1A45A647003ABA25 /* changelog.Po */,
-				CAA4D12D1A45A647003ABA25 /* consistency.Po */,
-				CAA4D12E1A45A647003ABA25 /* consultations.Po */,
-				CAA4D12F1A45A647003ABA25 /* freebible.Po */,
-				CAA4D1301A45A647003ABA25 /* index.Po */,
-				CAA4D1311A45A647003ABA25 /* installandroid.Po */,
-				CAA4D1321A45A647003ABA25 /* installation.Po */,
-				CAA4D1331A45A647003ABA25 /* installcentos.Po */,
-				CAA4D1341A45A647003ABA25 /* installios.Po */,
-				CAA4D1351A45A647003ABA25 /* installosx.Po */,
-				CAA4D1361A45A647003ABA25 /* installpclinuxos.Po */,
-				CAA4D1371A45A647003ABA25 /* installubuntu.Po */,
-				CAA4D1381A45A647003ABA25 /* installwindows.Po */,
-				CAA4D1391A45A647003ABA25 /* introduction.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAA4D1581A45A647003ABA25 /* html */ = {
