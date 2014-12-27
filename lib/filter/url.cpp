@@ -240,7 +240,7 @@ void filter_url_file_put_contents (string filename, string contents)
 {
   try {
     ofstream file;  
-    file.open (filename, ios::binary);  
+    file.open (filename, ios::binary | ios::trunc);
     file << contents;
     file.close ();
   } catch (...) {

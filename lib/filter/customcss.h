@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-class Filter_CustomCSS // Todo porting.
+class Filter_CustomCSS
 {
 public:
   static string directionUnspecified (int value);

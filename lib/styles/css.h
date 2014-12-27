@@ -24,7 +24,7 @@
 #include <config/libraries.h>
 
 
-class Styles_Css // Todo porting.
+class Styles_Css
 {
 public:
   Styles_Css (void * webserver_request_in, string stylesheet_in);

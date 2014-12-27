@@ -119,8 +119,8 @@ public:
   static void setSecureOdtExport (string bible, string value);
   static string getBookOrder (string bible);
   static void setBookOrder (string bible, string value);
-  static string getTextDirection (string bible);
-  static void setTextDirection (string bible, string value);
+  static int getTextDirection (string bible);
+  static void setTextDirection (string bible, int value);
   static string getTextFont (string bible);
   static void setTextFont (string bible, string value);
 private:
@@ -129,6 +129,8 @@ private:
   static void setValue (string bible, const char * key, string value);
   static bool getBValue (string bible, const char * key, bool default_value);
   static void setBValue (string bible, const char * key, bool value);
+  static int getIValue (string bible, const char * key, int default_value);
+  static void setIValue (string bible, const char * key, int value);
 };
 
 

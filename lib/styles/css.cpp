@@ -20,9 +20,12 @@
 #include <styles/css.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/customcss.h>
 #include <config/globals.h>
 #include <webserver/request.h>
 #include <styles/logic.h>
+#include <database/config/bible.h>
+#include <fonts/logic.h>
 
 
 Styles_Css::Styles_Css (void * webserver_request_in, string stylesheet_in)
@@ -168,7 +171,7 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
 
   // Start with the class. Notice the dot.
   string class_ = style->marker;
-  code.push_back (".$class {");
+  code.push_back ("." + class_ + " {");
   
   // Font size.
   if (paragraph) {
@@ -233,19 +236,19 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
       case AlignmentRight:   alignment = "right"; break;
       case AlignmentJustify: alignment = "justify"; break;
     }
-    code.push_back ("text-align: $alignment;");
+    code.push_back ("text-align: " + alignment + ";");
     
     // Paragraph measurements; given in mm.
     spacebefore += "mm";
-    code.push_back ("margin-top: $spacebefore;");
+    code.push_back ("margin-top: " + spacebefore + ";");
     spaceafter += "mm";
-    code.push_back ("margin-bottom: $spaceafter;");
+    code.push_back ("margin-bottom: " + spaceafter + ";");
     leftmargin += "mm";
-    code.push_back ("margin-left: $leftmargin;");
+    code.push_back ("margin-left: " + leftmargin + ";");
     rightmargin += "mm";
-    code.push_back ("margin-right: $rightmargin;");
+    code.push_back ("margin-right: " + rightmargin + ";");
     firstlineindent += "mm";
-    code.push_back ("text-indent: $firstlineindent;");
+    code.push_back ("text-indent: " + firstlineindent + ";");
     
     // Columns have not yet been implemented.
     //bool spancolumns = style->spancolumns;
@@ -270,8 +273,8 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     }
     
     string color = style->color;
-    if (color != "000000") {
-      code.push_back ("color: #" + color + ";");
+    if (color != "#000000") {
+      code.push_back ("color: " + color + ";");
     }
     
   }
@@ -318,17 +321,14 @@ void Styles_Css::add_editor_styles ()
 
 void Styles_Css::customize (const string& bible)
 {
-  /* Todo implement after porting the dependency.
-  $database_config_bible = Database_Config_Bible::getInstance ();
-  $class = Filter_CustomCSS::getClass ($bible);
-  $font = $database_config_bible.getTextFont ($bible);
-  $uploaded_font = Fonts_Logic::fontExists ($font);
-  $font = Fonts_Logic::getFontPath ($font);
-  $direction = $database_config_bible.getTextDirection ($bible);
-  $css = Filter_CustomCSS::getCss ($class, $font, $direction);
-  if ($uploaded_font) $css = str_replace ("../fonts/", "", $css);
-  code.push_back ($css;
-  */
+  string cls = Filter_CustomCSS::getClass (bible);
+  string font = Database_Config_Bible::getTextFont (bible);
+  bool uploaded_font = Fonts_Logic::fontExists (font);
+  font = Fonts_Logic::getFontPath (font);
+  int direction = Database_Config_Bible::getTextDirection (bible);
+  string css = Filter_CustomCSS::getCss (cls, font, direction);
+  if (uploaded_font) css = filter_string_str_replace ("../fonts/", "", css);
+  code.push_back (css);
 }
 
 

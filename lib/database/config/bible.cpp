@@ -62,6 +62,18 @@ void Database_Config_Bible::setBValue (string bible, const char * key, bool valu
 }
 
 
+int Database_Config_Bible::getIValue (string bible, const char * key, int default_value)
+{
+  return convert_to_int (getValue (bible, key, convert_to_string (default_value).c_str()));
+}
+
+
+void Database_Config_Bible::setIValue (string bible, const char * key, int value)
+{
+  setValue (bible, key, convert_to_string (value));
+}
+
+
 // Named configuration functions.
 
 
@@ -525,13 +537,13 @@ void Database_Config_Bible::setBookOrder (string bible, string value)
 }
 
 
-string Database_Config_Bible::getTextDirection (string bible)
+int Database_Config_Bible::getTextDirection (string bible)
 {
-  return getValue (bible, "text-direction", "0");
+  return getIValue (bible, "text-direction", 0);
 }
-void Database_Config_Bible::setTextDirection (string bible, string value) 
+void Database_Config_Bible::setTextDirection (string bible, int value)
 {
-  setValue (bible, "text-direction", value);
+  setIValue (bible, "text-direction", value);
 }
 
 

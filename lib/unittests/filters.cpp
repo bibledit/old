@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <html/text.h>
 #include <odf/text.h>
 #include <styles/logic.h>
+#include <styles/css.h>
 
 
 void test_filters_test1 ()
@@ -2395,60 +2396,46 @@ void test_filters ()
 
 void test_styles_css () // Todo
 {
-  refresh_sandbox (true);
-
-  /* Todo port it.
-  public function setUp ()
+  Webserver_Request request;
+  // Basic.
   {
-    $this->tearDown ();
-    $database_styles = Database_Styles::getInstance ();
-    $database_styles->createSheet ("phpunit");
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    styles_css.generate ();
+    string css = styles_css.css ();
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "basic.css")));
+    evaluate (__LINE__, __func__, standard, css);
   }
-  
-  
-  public function tearDown ()
+  // Export.
   {
-    $database_styles = Database_Styles::getInstance ();
-    $database_styles->deleteSheet ("phpunit");
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    styles_css.exports ();
+    styles_css.generate ();
+    string css = styles_css.css ();
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "exports.css")));
+    evaluate (__LINE__, __func__, standard, css);
   }
-  
-  
-  public function testBasic ()
+  // Editor.
   {
-    $styles_css = new Styles_Css ("phpunit");
-    $styles_css->generate ();
-    $css = $styles_css->css ();
-    $standard = trim (file_get_contents (dirname (__FILE__) . "/basic.css"));
-    evaluate (__LINE__, __func__, $standard, $css);
+    refresh_sandbox (true);
+    Database_Styles database_styles = Database_Styles ();
+    database_styles.createSheet ("phpunit");
+    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    styles_css.editor ();
+    styles_css.generate ();
+    string css = styles_css.css ();
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "editor.css")));
+    evaluate (__LINE__, __func__, standard, css);
   }
-  
-  
-  public function testExport ()
-  {
-    $styles_css = new Styles_Css ("phpunit");
-    $styles_css->exports ();
-    $styles_css->generate ();
-    $css = $styles_css->css ();
-    $standard = trim (file_get_contents (dirname (__FILE__) . "/exports.css"));
-    evaluate (__LINE__, __func__, $standard, $css);
-  }
-  
-  
-  public function testEditor ()
-  {
-    $styles_css = new Styles_Css ("phpunit");
-    $styles_css->editor ();
-    $styles_css->generate ();
-    $css = $styles_css->css ();
-    $standard = trim (file_get_contents (dirname (__FILE__) . "/editor.css"));
-    evaluate (__LINE__, __func__, $standard, $css);
-  }
-  
-*/
 }
 
 
-void test_filter_custom_css () // Todo
+void test_filter_custom_css ()
 {
   // Direction
   {
