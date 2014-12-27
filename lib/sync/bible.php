@@ -97,9 +97,9 @@ if ($serverusfm == "") {
     // Email the user with the details, so the user can resolve the conflicts.
     $subject = "Problem sending chapter to server";
     $body = "<p>While sending $bible $bookname $chapter to the server, the server didn't manage to merge it.</p>";
-    $body .= "<p>Please re-enter your changes as you see fit.</p>";
-    $body .= "<p>Here is the chapter you sent to the server:</p>";
-    $body .= "<pre>$newusfm</pre>";
+    $body += "<p>Please re-enter your changes as you see fit.</p>";
+    $body += "<p>Here is the chapter you sent to the server:</p>";
+    $body += "<pre>$newusfm</pre>";
     $database_mail->send ($username, $subject, $body);
   } else {
     // Update the server with the new chapter data.

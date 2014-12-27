@@ -135,7 +135,7 @@ foreach ($bibles as $bible) {
           $subject = gettext("Team's progress in Sprint");
           if ($sprintstart) $subject = gettext("Sprint has started");
           if ($sprintfinish) $subject = gettext("Sprint has finished");
-          $subject .=  " | " . $bible;
+          $subject +=  " | " . $bible;
     
           $body = array ();
     

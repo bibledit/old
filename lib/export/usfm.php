@@ -73,8 +73,8 @@ foreach ($books as $book) {
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
     $chapter_data = trim ($chapter_data);
     // Add the chapter USFM code to the book's USFM code.
-    $bookUsfmDataFull .= $chapter_data;
-    $bookUsfmDataFull .= "\n";
+    $bookUsfmDataFull += $chapter_data;
+    $bookUsfmDataFull += "\n";
   }
 
 

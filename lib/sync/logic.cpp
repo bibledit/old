@@ -124,7 +124,7 @@ public static function post (post, url)
 static public function settings_checksum ()
 {
   checksum = "";
-  checksum .= Sync_Logic::workbench_checksum ();
+  checksum += Sync_Logic::workbench_checksum ();
   checksum = md5 (checksum);
   return checksum;
 }
@@ -150,7 +150,7 @@ static public function offline_resources_checksum ()
   database_offlineresources = Database_OfflineResources::getInstance ();
   names = database_offlineresources.names ();
   foreach (names as name) {
-    checksum .= self::offline_resource_checksum (name);
+    checksum += self::offline_resource_checksum (name);
   }
   checksum = md5 (checksum);
   return checksum;

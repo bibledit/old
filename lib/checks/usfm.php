@@ -265,13 +265,13 @@ class Checks_Usfm
       case Checks_Usfm::displayNothing:
         break;
       case Checks_Usfm::displayCurrent:
-        $text .= ": " . $current;
+        $text += ": " . $current;
         break;
       case Checks_Usfm::displayNext:
-        $text .= ": " . $next;
+        $text += ": " . $next;
         break;
       case Checks_Usfm::displayFull:
-        $text .= ": " . $current . $next;
+        $text += ": " . $current . $next;
         break;
     }
     $this->checkingResults [] = array ((int) ($this->verseNumber) => $text);

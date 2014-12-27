@@ -50,17 +50,17 @@ foreach ($chapters as $chapter) {
   $message = "$resource: $bookName chapter $chapter";
   $verses = $database_versifications->getVerses ($versification, $book, $chapter);
   foreach ($verses as $verse) {
-    $message .= "; verse $verse: ";
+    $message += "; verse $verse: ";
     if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
-      $message .= "exists";
+      $message += "exists";
     } else {
       $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, false);
       $database_offlineresources->store ($resource, $book, $chapter, $verse, $html);
       $size = strlen ($html);
-      $message .= "size $size";
+      $message += "size $size";
     }
   }
-  $message .= "; done";
+  $message += "; done";
   $database_logs->log ($message, Filter_Roles::manager ());
 }
 

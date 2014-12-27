@@ -130,7 +130,7 @@ class Navigation_Passage
       $bookName = $database_books->getEnglishFromId ($book);
       $selected = "";
       if ($book == $activeBook) $selected = " selected";
-      $html .= "<option$selected>" . $bookName . "</option>";
+      $html += "<option$selected>" . $bookName . "</option>";
     }
     return $html;
   }
@@ -149,7 +149,7 @@ class Navigation_Passage
     foreach ($chapters as $ch) {
       $selected = "";
       if ($ch == $chapter) $selected = " selected";
-      $html .= "<option$selected>" . $ch . "</option>";;
+      $html += "<option$selected>" . $ch . "</option>";;
     }
     return $html;
   }
@@ -168,7 +168,7 @@ class Navigation_Passage
     foreach ($verses as $vs) {
       $selected = "";
       if ($verse == $vs) $selected = " selected";
-      $html .= "<option$selected>" . $vs . "</option>";;
+      $html += "<option$selected>" . $vs . "</option>";;
     }
     return $html;
   }
@@ -178,15 +178,15 @@ class Navigation_Passage
   {
     $code = '';
     if ($header) {
-      $code .= '<script type="text/javascript" src="../navigation/passage.js"></script>';
-      $code .= "\n";
+      $code += '<script type="text/javascript" src="../navigation/passage.js"></script>';
+      $code += "\n";
     }
-    $code .= '<script type="text/javascript">';
-    $code .= "\n";
-    $code .= 'navigationBible = "' . $bible . '";';
-    $code .= "\n";
-    $code .= '</script>';
-    $code .= "\n";
+    $code += '<script type="text/javascript">';
+    $code += "\n";
+    $code += 'navigationBible = "' . $bible . '";';
+    $code += "\n";
+    $code += '</script>';
+    $code += "\n";
     return $code;
   }
 

@@ -140,10 +140,10 @@ class Export_Logic
   static public function USFMdirectory ($bible, $type)
   {
     $directory = self::bibleDirectory ($bible);
-    $directory .= "/usfm";
+    $directory += "/usfm";
     switch ($type) {
-      case 0: $directory .= "/full"; break;
-      case 1: $directory .= "/basic"; break;
+      case 0: $directory += "/full"; break;
+      case 1: $directory += "/basic"; break;
       default: break;
     }
     return $directory;
@@ -153,7 +153,7 @@ class Export_Logic
   static public function webDirectory ($bible)
   {
     $directory = self::bibleDirectory ($bible);
-    $directory .= "/web";
+    $directory += "/web";
     return $directory;
   }
   
@@ -184,7 +184,7 @@ class Export_Logic
   static public function osisDirectory ($bible)
   {
     $directory = self::bibleDirectory ($bible);
-    $directory .= "/osis";
+    $directory += "/osis";
     return $directory;
   }
   

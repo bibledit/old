@@ -97,9 +97,9 @@ foreach ($chapters as $chapter) {
   if ($chapter > 0) {
     $verses_text = $filter_text_chapter->getVersesText ();
     $basicUsfm = "\\c $chapter\n";
-    $basicUsfm .= "\\p\n";
+    $basicUsfm += "\\p\n";
     foreach ($verses_text as $verse => $text) {
-      $basicUsfm .= "\\v $verse $text\n";
+      $basicUsfm += "\\v $verse $text\n";
     }
    filter_url_file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
   }

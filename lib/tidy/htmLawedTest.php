@@ -97,17 +97,17 @@ function hexdump($d){
  for($i=$j=0; $i<$len; $i++)
  {
   // Convert to hexidecimal
-  $hexi .= sprintf("%02X ", ord($d[$i]));
+  $hexi += sprintf("%02X ", ord($d[$i]));
   // Replace non-viewable bytes with '.'
   if(ord($d[$i]) >= 32){
-   $ascii .= htmlspecialchars($d[$i]);
+   $ascii += htmlspecialchars($d[$i]);
   }else{
-   $ascii .= '.';
+   $ascii += '.';
   } 
   // Add extra column spacing
   if($j == 7){
-   $hexi .= ' ';
-   $ascii .= '  ';
+   $hexi += ' ';
+   $ascii += '  ';
   }
   // Add row
   if(++$j == 16 || $i == $len-1){

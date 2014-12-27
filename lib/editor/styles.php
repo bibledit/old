@@ -37,19 +37,19 @@ class Editor_Styles
     $styles = explode (" ", $styles);
     $fragment = gettext("Select style") . ": ";
     foreach ($styles as $offset => $marker) {
-      if ($offset) $fragment .= " | ";
+      if ($offset) $fragment += " | ";
       $data = $database_styles->getMarkerData ($stylesheet, $marker);
       if (!$data) continue;
       $name = $data ['name'] . " ($marker)";
       $info = $data ['info'];
-      $fragment .= "<a href=\"$marker\" title=\"$info\">$name</a>";
+      $fragment += "<a href=\"$marker\" title=\"$info\">$name</a>";
     }
 
     // Links for cancelling and for all styles.
-    $fragment .= " ";
-    $fragment .= '<a href="cancel">[' . gettext("cancel") . ']</a>';
-    $fragment .= " ";
-    $fragment .= '<a href="all" >[' . gettext("all") . ']</a>';
+    $fragment += " ";
+    $fragment += '<a href="cancel">[' . gettext("cancel") . ']</a>';
+    $fragment += " ";
+    $fragment += '<a href="all" >[' . gettext("all") . ']</a>';
 
     return $fragment;
   }

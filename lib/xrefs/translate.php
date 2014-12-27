@@ -39,7 +39,7 @@ if (isset ($_POST ['save'])) {
   $abbreviation = $_POST ['abbreviation'];
   $abbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
   $abbreviations = Filter_Abbreviations::display ($abbreviations);
-  $abbreviations .= "\n$fullname = $abbreviation";
+  $abbreviations += "\n$fullname = $abbreviation";
   $database_config_bible->setBookAbbreviations ($targetBible, $abbreviations);
 }
 

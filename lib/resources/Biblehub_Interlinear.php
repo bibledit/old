@@ -181,8 +181,8 @@ EOD;
 $output = $stylesheet;
 // The following line prevents the Hebrew and Greek from floating around
 // the name of the Resource, which would disturb the order of the words in Hebrew.
-$output .= "<p></p>\n";
-$output .= $html;
+$output += "<p></p>\n";
+$output += $html;
 
 
 ?>

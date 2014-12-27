@@ -90,11 +90,11 @@ class Workbench_Logic
         if ($url == "") continue;
         $pos = strpos ($url, "?");
         if ($pos === false) {
-          $url .= "?";
+          $url += "?";
         } else {
-          $url .= "&";
+          $url += "&";
         }
-        $url .= "topbar=0";
+        $url += "topbar=0";
       }
     }
 

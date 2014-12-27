@@ -66,7 +66,7 @@ class Resource_Logic
         $object = new Resource_External ();
         $html = $object->get ($name, $passage [0], $passage [1], $passage [2]);
         unset ($object);
-        $output .= $html;
+        $output += $html;
       }
       return $output;
     } else {
@@ -114,7 +114,7 @@ class Resource_Logic
         $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
         $html = "";
         foreach ($passages as $passage) {
-          $html .= $database_offlineresources->get ($resource, $passage [0], $passage [1], $passage [2]);
+          $html += $database_offlineresources->get ($resource, $passage [0], $passage [1], $passage [2]);
         }
       } else {
         $html = Resource_Logic::getExternal ($resource, $book, $chapter, $verse, true);

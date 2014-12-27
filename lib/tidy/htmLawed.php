@@ -214,7 +214,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   $add = ''; // Nesting - close open tags that need to be
   for($j=-1, $cj=count($q); ++$j<$cj;){  
    if(($d = array_pop($q)) == $e){break;}
-   else{$add .= "</{$d}>";}
+   else{$add += "</{$d}>";}
   }
   echo $add, '</', $e, '>'; unset($e); continue;
  }
@@ -303,7 +303,7 @@ global $C;
 if(!($v = $C[$n = $t[3] == '-' ? 'comment' : 'cdata'])){return $t;}
 if($v == 1){return '';}
 if($n == 'comment'){
- if(substr(($t = preg_replace('`--+`', '-', substr($t, 4, -3))), -1) != ' '){$t .= ' ';}
+ if(substr(($t = preg_replace('`--+`', '-', substr($t, 4, -3))), -1) != ' '){$t += ' ';}
 }
 else{$t = substr($t, 1, -1);}
 $t = $v == 2 ? str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), $t) : $t;
@@ -515,7 +515,7 @@ foreach($aA as $k=>$v){
      $r0 = $C['anti_link_spam'][0];
      if(!empty($r0) && preg_match($r0, $v)){
       if(isset($a['rel'])){
-       if(!preg_match('`\bnofollow\b`i', $a['rel'])){$a['rel'] .= ' nofollow';}
+       if(!preg_match('`\bnofollow\b`i', $a['rel'])){$a['rel'] += ' nofollow';}
       }elseif(isset($aA['rel'])){
        if(!preg_match('`\bnofollow\b`i', $aA['rel'])){$nfr = 1;}
       }else{$a['rel'] = 'nofollow';}
@@ -609,7 +609,7 @@ if(!empty($trt)){
 // return with empty ele /
 if(empty($C['hook_tag'])){
  $aA = '';
- foreach($a as $k=>$v){$aA .= " {$k}=\"{$v}\"";}
+ foreach($a as $k=>$v){$aA += " {$k}=\"{$v}\"";}
  return "<{$e}{$aA}". (isset($eE[$e]) ? ' /' : ''). '>';
 }
 else{return $C['hook_tag']($e, $a);}
@@ -626,13 +626,13 @@ static $fs = array('0'=>'xx-small', '1'=>'xx-small', '2'=>'small', '3'=>'medium'
 if($e == 'font'){
  $a2 = '';
  if(preg_match('`face\s*=\s*(\'|")([^=]+?)\\1`i', $a, $m) or preg_match('`face\s*=(\s*)(\S+)`i', $a, $m)){
-  $a2 .= ' font-family: '. str_replace('"', '\'', trim($m[2])). ';';
+  $a2 += ' font-family: '. str_replace('"', '\'', trim($m[2])). ';';
  }
  if(preg_match('`color\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m)){
-  $a2 .= ' color: '. trim($m[2]). ';';
+  $a2 += ' color: '. trim($m[2]). ';';
  }
  if(preg_match('`size\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m) && isset($fs[($m = trim($m[2]))])){
-  $a2 .= ' font-size: '. $fs[$m]. ';';
+  $a2 += ' font-size: '. $fs[$m]. ';';
  }
  $e = 'span'; return ltrim($a2);
 }

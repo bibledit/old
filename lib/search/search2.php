@@ -148,7 +148,7 @@ if (isset ($query)) {
   // Generate one string from the hits.
   $output = "";
   foreach ($hits as $hit) {
-    $output .= "$hit\n";
+    $output += "$hit\n";
   }
   
   // Store search hits in the volatile database.

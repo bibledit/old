@@ -38,7 +38,7 @@ class Dialog_Books
       foreach ($query as $value) {
         $full_query = array_merge ($full_query, array ($value => $_GET[$value]));
       }
-      $caller .= "?" . http_build_query ($full_query);
+      $caller += "?" . http_build_query ($full_query);
     }
     $this->view->view->caller = $caller;
     $this->view->view->header = $header;

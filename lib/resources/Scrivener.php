@@ -140,8 +140,8 @@ font-size: large;
 EOD;
 
 $output = $stylesheet;
-$output .= "\n";
-$output .= $html;
+$output += "\n";
+$output += $html;
 
 
 ?>

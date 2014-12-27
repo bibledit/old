@@ -86,7 +86,7 @@ $identifiers = unserialize ($database_volatile->getValue ($userid, "identifiers"
 
 $identifierlist = "";
 foreach ($identifiers as $identifier) {
-  $identifierlist .= " $identifier";
+  $identifierlist += " $identifier";
 }
 
 

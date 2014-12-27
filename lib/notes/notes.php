@@ -89,8 +89,8 @@ foreach ($identifiers as $identifier) {
     foreach ($passages as $passage) {
       $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
       $text = usfm_get_verse_text ($usfm, $passage[2]);
-      $verse_text .= $text;
-      $verse_text .= "\n";
+      $verse_text += $text;
+      $verse_text += "\n";
     }
   }
   $verse_texts [] = nl2br ($verse_text);

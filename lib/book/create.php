@@ -47,8 +47,8 @@ class Book_Create
     // Chapter 0.
     if (!isset ($chapter) || ($chapter == 0)) {
       $data  = "\\id "    . $database_books->getUsfmFromId($book)     . "\n";
-      $data .= "\\h "     . $database_books->getEnglishFromId ($book) . "\n";
-      $data .= "\\toc2 "  . $database_books->getEnglishFromId ($book) . "\n";
+      $data += "\\h "     . $database_books->getEnglishFromId ($book) . "\n";
+      $data += "\\toc2 "  . $database_books->getEnglishFromId ($book) . "\n";
       Bible_Logic::storeChapter ($bible, $book, 0, $data);
       $chaptersCreated [] = 0;
     }
@@ -63,9 +63,9 @@ class Book_Create
         $verse = $row["verse"];
         if (!isset ($chapter) || ($chapter == $ch)) {
           $data  = "\\c $ch\n";
-          $data .= "\\p\n";
+          $data += "\\p\n";
           for ($i = 1; $i <= $verse; $i++) {
-            $data .= "\\v $i\n";
+            $data += "\\v $i\n";
           }
           Bible_Logic::storeChapter ($bible, $book, $ch, $data);
           $chaptersCreated [] = $ch;

@@ -158,11 +158,11 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
         $new_text = $filter_text_new->text_text->get ();
         if ($old_text != $new_text) {
           $modification = Filter_Diff::diff ($old_text, $new_text);
-          $email .= "<div>";
-          $email .= filter_passage_display ($book, $chapter, $verse);
-          $email .= " ";
-          $email .= $modification;
-          $email .= "</div>";
+          $email += "<div>";
+          $email += filter_passage_display ($book, $chapter, $verse);
+          $email += " ";
+          $email += $modification;
+          $email += "</div>";
           if ($database_config_user->getUserUserChangesNotificationsOnline ($user)) {
             $changeNotificationUsers = array ($user);
             $database_modifications->recordNotification ($changeNotificationUsers, "☺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);

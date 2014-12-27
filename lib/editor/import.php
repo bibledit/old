@@ -77,7 +77,7 @@ class Editor_Import
   {
     // Clean up.
     $usfm = trim ($usfm);
-    $usfm .= "\n";
+    $usfm += "\n";
     // Separate it into markers and text.
     $markersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);
     // Load it into the object.
@@ -501,7 +501,7 @@ EOD;
         // Take character style(s) as specified in this object.
         $spanDomElement->setAttribute ("class", implode (" ", $this->currentTextStyles));
       }
-      $this->currentParagraphContent .= $text;
+      $this->currentParagraphContent += $text;
     }
     $this->textLength += mb_strlen ($text);
   }

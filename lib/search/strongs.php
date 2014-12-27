@@ -47,11 +47,11 @@ if (isset ($load)) {
   $searchtext = "";
   $details = $database_kjv->getVerse ($book, $chapter, $verse);
   foreach ($details as $offset => $detail) {
-    if ($offset) $searchtext .= " ";
-    $searchtext .= $detail ['strong'];
-    $searchtext .= " (";
-    $searchtext .= $detail ['english'];
-    $searchtext .= ")";
+    if ($offset) $searchtext += " ";
+    $searchtext += $detail ['strong'];
+    $searchtext += " (";
+    $searchtext += $detail ['english'];
+    $searchtext += ")";
   }
   
   $searchtext = trim ($searchtext);

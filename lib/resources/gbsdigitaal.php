@@ -56,7 +56,7 @@ function gbsdigitaal ($url, $verse)
   }
   
   
-  $output .= "\n";
+  $output += "\n";
   return $output;
 }
 

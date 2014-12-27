@@ -101,11 +101,11 @@ $filter_text->run ($stylesheet);
 $updatedPlainText = "";
 $texts = $filter_text->getVersesText ();
 foreach ($texts as $vs => $text) {
-  if ($vs == $verse) $updatedPlainText .= "$text\n";
+  if ($vs == $verse) $updatedPlainText += "$text\n";
 }
 $headings = $filter_text->verses_headings;
 foreach ($headings as $vs => $heading) {
-  if ($vs == $verse) $updatedPlainText .= "$heading\n";
+  if ($vs == $verse) $updatedPlainText += "$heading\n";
 }
 
 

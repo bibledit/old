@@ -524,60 +524,60 @@ abstract class graphBase implements iGraph {
 		$phpCode = '<?php';
 
 		//Set config
-		$phpCode .= "\t\n";
-		$phpCode .= "\t//Set content-type header\n";
-		$phpCode .= "\theader(\"Content-type: image/png\");\n\n";
-		$phpCode .= "\t//Include phpMyGraph5.0.php\n";
-		$phpCode .= "\tinclude_once('phpMyGraph5.0.php');\n";
-		$phpCode .= "\t\n";
-		$phpCode .= "\t//Set config directives\n";
-		$phpCode .= "\t\$cfg['title'] = 'Example graph';\n";
-		$phpCode .= "\t\$cfg['width'] = 500;\n";
-		$phpCode .= "\t\$cfg['height'] = 250;\n";
-		$phpCode .= "\t\n";
-		$phpCode .= "\t//Set data\n";
-		$phpCode .= "\t\$data = array(\n";
-		$phpCode .= "\t	'Jan' => 12,\n";
-		$phpCode .= "\t	'Feb' => 25,\n";
-		$phpCode .= "\t	'Mar' => 0,\n";
-		$phpCode .= "\t	'Apr' => 7,\n";
-		$phpCode .= "\t	'May' => 80,\n";
-		$phpCode .= "\t	'Jun' => 67,\n";
-		$phpCode .= "\t	'Jul' => 45,\n";
-		$phpCode .= "\t	'Aug' => 66,\n";
-		$phpCode .= "\t	'Sep' => 23,\n";
-		$phpCode .= "\t	'Oct' => 23,\n";
-		$phpCode .= "\t	'Nov' => 78,\n";
-		$phpCode .= "\t	'Dec' => 23\n";
-		$phpCode .= "\t);\n";
-		$phpCode .= "\t\n"; 
+		$phpCode += "\t\n";
+		$phpCode += "\t//Set content-type header\n";
+		$phpCode += "\theader(\"Content-type: image/png\");\n\n";
+		$phpCode += "\t//Include phpMyGraph5.0.php\n";
+		$phpCode += "\tinclude_once('phpMyGraph5.0.php');\n";
+		$phpCode += "\t\n";
+		$phpCode += "\t//Set config directives\n";
+		$phpCode += "\t\$cfg['title'] = 'Example graph';\n";
+		$phpCode += "\t\$cfg['width'] = 500;\n";
+		$phpCode += "\t\$cfg['height'] = 250;\n";
+		$phpCode += "\t\n";
+		$phpCode += "\t//Set data\n";
+		$phpCode += "\t\$data = array(\n";
+		$phpCode += "\t	'Jan' => 12,\n";
+		$phpCode += "\t	'Feb' => 25,\n";
+		$phpCode += "\t	'Mar' => 0,\n";
+		$phpCode += "\t	'Apr' => 7,\n";
+		$phpCode += "\t	'May' => 80,\n";
+		$phpCode += "\t	'Jun' => 67,\n";
+		$phpCode += "\t	'Jul' => 45,\n";
+		$phpCode += "\t	'Aug' => 66,\n";
+		$phpCode += "\t	'Sep' => 23,\n";
+		$phpCode += "\t	'Oct' => 23,\n";
+		$phpCode += "\t	'Nov' => 78,\n";
+		$phpCode += "\t	'Dec' => 23\n";
+		$phpCode += "\t);\n";
+		$phpCode += "\t\n"; 
 		
 		/*
-		$phpCode .= "//NEW WAY\n";
-		$phpCode .= "	//Create instance\n";
-		$phpCode .= "	\$graph = new ".get_class($this)."();\n";
-		$phpCode .= "\n";
-		$phpCode .= "	//Parse\n";
-		$phpCode .= "	\$graph->parse(\$data, \$cfg);\n";
-		$phpCode .= "\n";
-		$phpCode .= "//FACTORY WAY\n";
-		$phpCode .= "	//Create instance via factory\n";
-		$phpCode .= "	\$graph = phpMyGraph::factory('horizontalLineGraph');\n";
-		$phpCode .= "\n";
-		$phpCode .= "	//Parse\n";
-		$phpCode .= "	\$graph->parse(\$data, \$cfg);\n";
-		$phpCode .= "\n";		
-		$phpCode .= "//BACKWARDS COMPATIBILITY WAY\n";
+		$phpCode += "//NEW WAY\n";
+		$phpCode += "	//Create instance\n";
+		$phpCode += "	\$graph = new ".get_class($this)."();\n";
+		$phpCode += "\n";
+		$phpCode += "	//Parse\n";
+		$phpCode += "	\$graph->parse(\$data, \$cfg);\n";
+		$phpCode += "\n";
+		$phpCode += "//FACTORY WAY\n";
+		$phpCode += "	//Create instance via factory\n";
+		$phpCode += "	\$graph = phpMyGraph::factory('horizontalLineGraph');\n";
+		$phpCode += "\n";
+		$phpCode += "	//Parse\n";
+		$phpCode += "	\$graph->parse(\$data, \$cfg);\n";
+		$phpCode += "\n";		
+		$phpCode += "//BACKWARDS COMPATIBILITY WAY\n";
 		*/
 		
-		$phpCode .= "	//Create phpMyGraph instance\n";
-		$phpCode .= "	\$graph = new phpMyGraph();\n";
-		$phpCode .= "\n";
-		$phpCode .= "	//Parse\n";
-		$phpCode .= "	\$graph->parse".ucfirst(get_class($this))."(\$data, \$cfg);\n";
+		$phpCode += "	//Create phpMyGraph instance\n";
+		$phpCode += "	\$graph = new phpMyGraph();\n";
+		$phpCode += "\n";
+		$phpCode += "	//Parse\n";
+		$phpCode += "	\$graph->parse".ucfirst(get_class($this))."(\$data, \$cfg);\n";
 		
 		
-		$phpCode .= '?>';
+		$phpCode += '?>';
 		
 		return highlight_string($phpCode, true);
 	}

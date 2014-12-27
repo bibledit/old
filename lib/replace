@@ -4,7 +4,7 @@
 # Update copyright
 # find . -type f | xargs grep -l "2003-2013" | xargs sed -i.bak 's/2003-2013/2003-2014/'
 
-find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l "Bibledit-Web" | xargs sed -i.bak 's/Bibledit-Web/Bibledit/g'
+find . -name '*.h' -o -name '*.cpp' -o -name '*.php' | xargs grep -l ".=" | xargs sed -i.bak 's/\.=/+=/g'
 
 find . -name *.bak -delete
 

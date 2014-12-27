@@ -41,11 +41,11 @@ if (isset ($new)) {
   $bible = $database_modifications->getNotificationBible ($new);
   $summary = gettext("Query about a change in the text");
   $contents = "<p>" . gettext("Old text:") . "</p>";
-  $contents .= $database_modifications->getNotificationOldText ($new);
-  $contents .= "<p>" .  gettext("Change:") . "</p>";
-  $contents .= "<p>" . $database_modifications->getNotificationModification ($new) . "</p>";
-  $contents .= "<p>" . gettext("New text:") . "</p>";
-  $contents .= $database_modifications->getNotificationNewText ($new);
+  $contents += $database_modifications->getNotificationOldText ($new);
+  $contents += "<p>" .  gettext("Change:") . "</p>";
+  $contents += "<p>" . $database_modifications->getNotificationModification ($new) . "</p>";
+  $contents += "<p>" . gettext("New text:") . "</p>";
+  $contents += $database_modifications->getNotificationNewText ($new);
   $passage = $database_modifications->getNotificationPassage ($new);
   $database_notes = Database_Notes::getInstance ();
   $notes_logic = Notes_Logic::getInstance();

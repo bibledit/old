@@ -49,15 +49,15 @@ if (isset ($load)) {
   if ($type == "ot") {
     $details = $database_morphhb->getVerse ($book, $chapter, $verse);
     foreach ($details as $offset => $detail) {
-      if ($offset) $searchtext .= " ";
-      $searchtext .= $detail ['hebrew'];
+      if ($offset) $searchtext += " ";
+      $searchtext += $detail ['hebrew'];
     }
   }
   if ($type == "nt") {
     $details = $database_sblgnt->getVerse ($book, $chapter, $verse);
     foreach ($details as $offset => $detail) {
-      if ($offset) $searchtext .= " ";
-      $searchtext .= $detail ['greek'];
+      if ($offset) $searchtext += " ";
+      $searchtext += $detail ['greek'];
     }
   }
 

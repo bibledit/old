@@ -189,9 +189,9 @@ class Filter_CustomCSS // Todo port plus unittests.
     
     if ($direction > 0) {
       $line = "direction: ";
-      if ($direction == 2) $line .= self::rtl ();
-      else $line .= self::ltr ();
-      $line .= ";";
+      if ($direction == 2) $line += self::rtl ();
+      else $line += self::ltr ();
+      $line += ";";
       $css [] = $line;
     }
 
@@ -201,13 +201,13 @@ class Filter_CustomCSS // Todo port plus unittests.
     if ($mode > 0) {
       $line = "writing-mode: ";
       switch ($mode) {
-        case 1: $line .= self::tb_lr (); break;
-        case 2: $line .= self::tb_rl (); break;
-        case 3: $line .= self::bt_lr (); break;
-        case 4: $line .= self::bt_rl (); break;
-        default: $line .= self::tb_lr (); break;
+        case 1: $line += self::tb_lr (); break;
+        case 2: $line += self::tb_rl (); break;
+        case 3: $line += self::bt_lr (); break;
+        case 4: $line += self::bt_rl (); break;
+        default: $line += self::tb_lr (); break;
       }
-      $line .= ";";
+      $line += ";";
       $css [] = $line;
     }
 

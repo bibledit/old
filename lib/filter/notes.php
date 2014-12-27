@@ -59,7 +59,7 @@ class Filter_Notes
       $summary = trim ($note[6]);
       $contents = "";
       for ($i = 6; $i < count ($note); $i++) {
-        $contents .= $note[$i] . "\n";
+        $contents += $note[$i] . "\n";
       }
       // Store note.
       // (In client mode, upon sync to the server, these notes will be erased: Import them on the server).

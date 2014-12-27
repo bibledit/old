@@ -67,7 +67,7 @@ if (isset($_POST['upload'])) {
   set_time_limit (0);
   $datafile = tempnam (sys_get_temp_dir(), '');
   unlink ($datafile);
-  @$datafile .= $_FILES['data']['name'];
+  @$datafile += $_FILES['data']['name'];
   @$tmpfile = $_FILES['data']['tmp_name'];
   if (move_uploaded_file ($tmpfile, $datafile)) {
     $success_message = gettext("Import has started. See Journal for progress.");

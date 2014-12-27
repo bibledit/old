@@ -40,22 +40,22 @@ class Filter_Paths
 
     // No book ID given: Return the name for the index file for the Bible.
     if ($book == "") {
-      $filename .= "index.html";
+      $filename += "index.html";
       return $filename;
     }
 
     // Add the name for the book. No spaces.
-    $filename .= str_pad ($book, 2, "0", STR_PAD_LEFT);
+    $filename += str_pad ($book, 2, "0", STR_PAD_LEFT);
     $book = $database_books->getEnglishFromId ($book);
     $book = str_replace (" ", "", $book);
-    $filename .= '-' . $book;
+    $filename += '-' . $book;
 
     // No chapter given: Provide name for the index files of all chapters in a book.
     if ($chapter !== "") {
-      $filename .= '-' . str_pad ($chapter, 3, "0", STR_PAD_LEFT);
+      $filename += '-' . str_pad ($chapter, 3, "0", STR_PAD_LEFT);
     }
 
-    $filename .= ".html";
+    $filename += ".html";
 
     return $filename;
   }

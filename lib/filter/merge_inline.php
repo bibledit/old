@@ -94,7 +94,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
     {
         array_walk($lines, array(&$this, '_encode'));
         $lines[0] = $this->_ins_prefix . $lines[0];
-        $lines[count($lines) - 1] .= $this->_ins_suffix;
+        $lines[count($lines) - 1] += $this->_ins_suffix;
         return $this->_lines($lines, ' ', false);
     }
 
@@ -102,7 +102,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
     {
         array_walk($lines, array(&$this, '_encode'));
         $lines[0] = $this->_del_prefix . $lines[0];
-        $lines[count($lines) - 1] .= $this->_del_suffix;
+        $lines[count($lines) - 1] += $this->_del_suffix;
         return $this->_lines($lines, ' ', false);
     }
 
@@ -115,7 +115,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
             while ($orig[0] !== false && $final[0] !== false &&
                    substr($orig[0], 0, 1) == ' ' &&
                    substr($final[0], 0, 1) == ' ') {
-                $prefix .= substr($orig[0], 0, 1);
+                $prefix += substr($orig[0], 0, 1);
                 $orig[0] = substr($orig[0], 1);
                 $final[0] = substr($final[0], 1);
             }

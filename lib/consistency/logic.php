@@ -69,7 +69,7 @@ class Consistency_Logic
           $chapter = $passage [1];
           $verse = $passage [2];
           $line = filter_passage_link_for_opening_editor_at ($book, $chapter, $verse);
-          $line .= " ";
+          $line += " ";
           
           // Check whether the chapter identifier has changed for this reference.
           // If so, set a flag so the data can be re-assembled for this verse.
@@ -99,9 +99,9 @@ class Consistency_Logic
             
             // Formatting.
             if (count ($resources) > 1) {
-              $line .= "<br>";
+              $line += "<br>";
             }
-            $line .= $text;
+            $line += $text;
           }
           $response [] = $line;
           $previousPassage = $passage;
@@ -113,7 +113,7 @@ class Consistency_Logic
 
     $output = "";
     foreach ($response as $line) {
-      $output .= "<div>$line</div>\n";
+      $output += "<div>$line</div>\n";
     }
     return $output;
   }

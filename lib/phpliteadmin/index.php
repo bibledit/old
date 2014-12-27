@@ -1130,34 +1130,34 @@ else //user is authorized - display the main application
 				{
 					if($_POST[$i.'_field']!="")
 					{
-						$query .= $db->quote($_POST[$i.'_field'])." ";
-						$query .= $_POST[$i.'_type']." ";
+						$query += $db->quote($_POST[$i.'_field'])." ";
+						$query += $_POST[$i.'_type']." ";
 						if(isset($_POST[$i.'_primarykey']))
 						{
 							if(count($primary_keys)==1)
 							{
-								$query .= "PRIMARY KEY "; 
+								$query += "PRIMARY KEY "; 
 								if(isset($_POST[$i.'_autoincrement']) && $db->getType() != "SQLiteDatabase")
-									$query .=  "AUTOINCREMENT ";
+									$query +=  "AUTOINCREMENT ";
 							}
-							$query .= "NOT NULL ";
+							$query += "NOT NULL ";
 						}
 						if(!isset($_POST[$i.'_primarykey']) && isset($_POST[$i.'_notnull']))
-							$query .= "NOT NULL ";
+							$query += "NOT NULL ";
 						if($_POST[$i.'_defaultoption']!='defined' && $_POST[$i.'_defaultoption']!='none' && $_POST[$i.'_defaultoption']!='expr')
-							$query .= "DEFAULT ".$_POST[$i.'_defaultoption']." ";
+							$query += "DEFAULT ".$_POST[$i.'_defaultoption']." ";
 						elseif($_POST[$i.'_defaultoption']=='expr')
-							$query .= "DEFAULT (".$_POST[$i.'_defaultvalue'].") ";
+							$query += "DEFAULT (".$_POST[$i.'_defaultvalue'].") ";
 						elseif(isset($_POST[$i.'_defaultvalue']) && $_POST[$i.'_defaultoption']=='defined')
 						{
 							$typeAffinity = get_type_affinity($_POST[$i.'_type']);
 							if(($typeAffinity=="INTEGER" || $typeAffinity=="REAL" || $typeAffinity=="NUMERIC") && is_numeric($_POST[$i.'_defaultvalue']))
-								$query .= "DEFAULT ".$_POST[$i.'_defaultvalue']."  ";
+								$query += "DEFAULT ".$_POST[$i.'_defaultvalue']."  ";
 							else
-								$query .= "DEFAULT ".$db->quote($_POST[$i.'_defaultvalue'])." ";
+								$query += "DEFAULT ".$db->quote($_POST[$i.'_defaultvalue'])." ";
 						}
 						$query = substr($query, 0, sizeof($query)-2);
-						$query .= ", ";
+						$query += ", ";
 					}
 				}
 				if (count($primary_keys)>1)
@@ -1165,12 +1165,12 @@ else //user is authorized - display the main application
 					$compound_key = "";
 					foreach ($primary_keys as $primary_key)
 					{
-						$compound_key .= ($compound_key=="" ? "" : ", ") . $db->quote($primary_key);
+						$compound_key += ($compound_key=="" ? "" : ", ") . $db->quote($primary_key);
 					}
-					$query .= "PRIMARY KEY (".$compound_key."), ";
+					$query += "PRIMARY KEY (".$compound_key."), ";
 				}
 				$query = substr($query, 0, sizeof($query)-3);
-				$query .= ")";
+				$query += ")";
 				$result = $db->query($query);
 				if($result===false)
 					$error = true;
@@ -1271,24 +1271,24 @@ else //user is authorized - display the main application
 								continue;
 							} else
 								$all_default = false;
-							$query_cols .= $db->quote_id($fields[$j]).",";
+							$query_cols += $db->quote_id($fields[$j]).",";
 							
 							$type = $result[$j]['type'];
 							$typeAffinity = get_type_affinity($type);
 							$function = $_POST["function_".$i."_".$fields[$j]];
 							if($function!="")
-								$query_vals .= $function."(";
+								$query_vals += $function."(";
 							if(($typeAffinity=="TEXT" || $typeAffinity=="NONE") && !$null)
-								$query_vals .= $db->quote($value);
+								$query_vals += $db->quote($value);
 							elseif(($typeAffinity=="INTEGER" || $typeAffinity=="REAL"|| $typeAffinity=="NUMERIC") && $value=="")
-								$query_vals .= "NULL";
+								$query_vals += "NULL";
 							elseif($null)
-								$query_vals .= "NULL";
+								$query_vals += "NULL";
 							else
-								$query_vals .= $db->quote($value);
+								$query_vals += $db->quote($value);
 							if($function!="")
-								$query_vals .= ")";
-							$query_vals .= ",";
+								$query_vals += ")";
+							$query_vals += ",";
 						}
 						$query = "INSERT INTO ".$db->quote_id($_GET['table']);
 						if(!$all_default)
@@ -1296,14 +1296,14 @@ else //user is authorized - display the main application
 							$query_cols = substr($query_cols, 0, strlen($query_cols)-1);
 							$query_vals = substr($query_vals, 0, strlen($query_vals)-1);
 						
-							$query.=" (". $query_cols . ") VALUES (". $query_vals. ")";
+							$query+=" (". $query_cols . ") VALUES (". $query_vals. ")";
 						} else {
-							$query .= " DEFAULT VALUES";
+							$query += " DEFAULT VALUES";
 						}
 						$result1 = $db->query($query);
 						if($result1===false)
 							$error = true;
-						$completed .= "<span style='font-size:11px;'>".htmlencode($query)."</span><br/>";
+						$completed += "<span style='font-size:11px;'>".htmlencode($query)."</span><br/>";
 						$z++;
 					}
 				}
@@ -1316,7 +1316,7 @@ else //user is authorized - display the main application
 				$query = "DELETE FROM ".$db->quote_id($_GET['table'])." WHERE ROWID = ".$pks[0];
 				for($i=1; $i<sizeof($pks); $i++)
 				{
-					$query .= " OR ROWID = ".$pks[$i];
+					$query += " OR ROWID = ".$pks[$i];
 				}
 				$result = $db->query($query);
 				if($result===false)
@@ -1346,10 +1346,10 @@ else //user is authorized - display the main application
 						$query = "INSERT INTO ".$db->quote_id($_GET['table'])." (";
 						for($j=0; $j<sizeof($fields); $j++)
 						{
-							$query .= $db->quote_id($fields[$j]).",";
+							$query += $db->quote_id($fields[$j]).",";
 						}
 						$query = substr($query, 0, sizeof($query)-2);
-						$query .= ") VALUES (";
+						$query += ") VALUES (";
 						for($j=0; $j<sizeof($fields); $j++)
 						{
 							$field_index = str_replace(" ","_",$fields[$j]);
@@ -1359,22 +1359,22 @@ else //user is authorized - display the main application
 							$typeAffinity = get_type_affinity($type);
 							$function = $_POST["function_".$pks[$i]."_".$field_index];
 							if($function!="")
-								$query .= $function."(";
+								$query += $function."(";
 								//di - messed around with this logic for null values
 							if(($typeAffinity=="TEXT" || $typeAffinity=="NONE") && $null==false)
-								$query .= $db->quote($value);
+								$query += $db->quote($value);
 							else if(($typeAffinity=="INTEGER" || $typeAffinity=="REAL" || $typeAffinity=="NUMERIC") && $null==false && $value=="")
-								$query .= "NULL";
+								$query += "NULL";
 							else if($null==true)
-								$query .= "NULL";
+								$query += "NULL";
 							else
-								$query .= $db->quote($value);
+								$query += $db->quote($value);
 							if($function!="")
-								$query .= ")";
-							$query .= ",";
+								$query += ")";
+							$query += ",";
 						}
 						$query = substr($query, 0, sizeof($query)-2);
-						$query .= ")";
+						$query += ")";
 						$result1 = $db->query($query);
 						if($result1===false)
 							$error = true;
@@ -1389,26 +1389,26 @@ else //user is authorized - display the main application
 							$field_index = str_replace(" ","_",$fields[$j]);
 							$function = $_POST["function_".$pks[$i]."_".$field_index];
 							$null = isset($_POST[$pks[$i].":".$field_index."_null"]);
-							$query .= $db->quote_id($fields[$j])."=";
+							$query += $db->quote_id($fields[$j])."=";
 							if($function!="")
-								$query .= $function."(";
+								$query += $function."(";
 							if($null)
-								$query .= "NULL";
+								$query += "NULL";
 							else
-								$query .= $db->quote($_POST[$pks[$i].":".$field_index]);
+								$query += $db->quote($_POST[$pks[$i].":".$field_index]);
 							if($function!="")
-								$query .= ")";
-							$query .= ", ";
+								$query += ")";
+							$query += ", ";
 						}
 						$query = substr($query, 0, sizeof($query)-3);
-						$query .= " WHERE ROWID = ".$pks[$i];
+						$query += " WHERE ROWID = ".$pks[$i];
 						$result1 = $db->query($query);
 						if($result1===false)
 						{
 							$error = true;
 						}
 					}
-					$completed .= "<span style='font-size:11px;'>".htmlencode($query)."</span><br/>";
+					$completed += "<span style='font-size:11px;'>".htmlencode($query)."</span><br/>";
 				}
 				if(isset($_POST['new_row']))
 					$completed = $z." ".$lang['rows']." ".$lang['inserted'].".<br/><br/>".$completed;
@@ -1423,22 +1423,22 @@ else //user is authorized - display the main application
 					if($_POST[$i.'_field']!="")
 					{
 						$query = "ALTER TABLE ".$db->quote_id($_GET['table'])." ADD ".$db->quote($_POST[$i.'_field'])." ";
-						$query .= $_POST[$i.'_type']." ";
+						$query += $_POST[$i.'_type']." ";
 						if(isset($_POST[$i.'_primarykey']))
-							$query .= "PRIMARY KEY ";
+							$query += "PRIMARY KEY ";
 						if(isset($_POST[$i.'_notnull']))
-							$query .= "NOT NULL ";
+							$query += "NOT NULL ";
 						if($_POST[$i.'_defaultoption']!='defined' && $_POST[$i.'_defaultoption']!='none' && $_POST[$i.'_defaultoption']!='expr')
-							$query .= "DEFAULT ".$_POST[$i.'_defaultoption']." ";
+							$query += "DEFAULT ".$_POST[$i.'_defaultoption']." ";
 						elseif($_POST[$i.'_defaultoption']=='expr')
-							$query .= "DEFAULT (".$_POST[$i.'_defaultvalue'].") ";
+							$query += "DEFAULT (".$_POST[$i.'_defaultvalue'].") ";
 						elseif(isset($_POST[$i.'_defaultvalue']) && $_POST[$i.'_defaultoption']=='defined')
 						{
 							$typeAffinity = get_type_affinity($_POST[$i.'_type']);
 							if(($typeAffinity=="INTEGER" || $typeAffinity=="REAL" || $typeAffinity=="NUMERIC") && is_numeric($_POST[$i.'_defaultvalue']))
-								$query .= "DEFAULT ".$_POST[$i.'_defaultvalue']."  ";
+								$query += "DEFAULT ".$_POST[$i.'_defaultvalue']."  ";
 							else
-								$query .= "DEFAULT ".$db->quote($_POST[$i.'_defaultvalue'])." ";
+								$query += "DEFAULT ".$db->quote($_POST[$i.'_defaultvalue'])." ";
 						}
 						if($db->getVersion()==3 &&
 							($_POST[$i.'_defaultoption']=='defined' || $_POST[$i.'_defaultoption']=='none' || $_POST[$i.'_defaultoption']=='NULL')
@@ -1460,7 +1460,7 @@ else //user is authorized - display the main application
 				$query = "ALTER TABLE ".$db->quote_id($_GET['table']).' DROP '.$db->quote_id($pks[0]);
 				for($i=1; $i<sizeof($pks); $i++)
 				{
-					$query .= ", DROP ".$db->quote_id($pks[$i]);
+					$query += ", DROP ".$db->quote_id($pks[$i]);
 				}
 				$result = $db->query($query);
 				if($result===false)
@@ -1474,9 +1474,9 @@ else //user is authorized - display the main application
 				$query = "ALTER TABLE ".$db->quote_id($_GET['table']).' ADD PRIMARY KEY ('.$db->quote_id($pks[0]);
 				for($i=1; $i<sizeof($pks); $i++)
 				{
-					$query .= ", ".$db->quote_id($pks[$i]);
+					$query += ", ".$db->quote_id($pks[$i]);
 				}
-				$query .= ")";
+				$query += ")";
 				$result = $db->query($query);
 				if($result===false)
 					$error = true;
@@ -1514,15 +1514,15 @@ else //user is authorized - display the main application
 			case "trigger_create":
 				$str = "CREATE TRIGGER ".$db->quote($_POST['trigger_name']);
 				if($_POST['beforeafter']!="")
-					$str .= " ".$_POST['beforeafter'];
-				$str .= " ".$_POST['event']." ON ".$db->quote_id($_GET['table']);
+					$str += " ".$_POST['beforeafter'];
+				$str += " ".$_POST['event']." ON ".$db->quote_id($_GET['table']);
 				if(isset($_POST['foreachrow']))
-					$str .= " FOR EACH ROW";
+					$str += " FOR EACH ROW";
 				if($_POST['whenexpression']!="")
-					$str .= " WHEN ".$_POST['whenexpression'];
-				$str .= " BEGIN";
-				$str .= " ".$_POST['triggersteps'];
-				$str .= " END";
+					$str += " WHEN ".$_POST['whenexpression'];
+				$str += " BEGIN";
+				$str += " ".$_POST['triggersteps'];
+				$str += " END";
 				$query = $str;
 				$result = $db->query($query);
 				if($result===false)
@@ -1545,15 +1545,15 @@ else //user is authorized - display the main application
 				{
 					$str = "CREATE ";
 					if($_POST['duplicate']=="no")
-						$str .= "UNIQUE ";
-					$str .= "INDEX ".$db->quote($_POST['name'])." ON ".$db->quote_id($_GET['table'])." (";
-					$str .= $db->quote_id($_POST['0_field']).$_POST['0_order'];
+						$str += "UNIQUE ";
+					$str += "INDEX ".$db->quote($_POST['name'])." ON ".$db->quote_id($_GET['table'])." (";
+					$str += $db->quote_id($_POST['0_field']).$_POST['0_order'];
 					for($i=1; $i<$num; $i++)
 					{
 						if($_POST[$i.'_field']!="")
-							$str .= ", ".$db->quote_id($_POST[$i.'_field']).$_POST[$i.'_order'];
+							$str += ", ".$db->quote_id($_POST[$i.'_field']).$_POST[$i.'_order'];
 					}
-					$str .= ")";
+					$str += ")";
 					$query = $str;
 					$result = $db->query($query);
 					if($result===false)
@@ -2146,13 +2146,13 @@ else //user is authorized - display the main application
 					$whereTo = '';
 					if(sizeof($arr)>0)
 					{
-						$whereTo .= " WHERE ".$arr[0];
+						$whereTo += " WHERE ".$arr[0];
 						for($i=1; $i<sizeof($arr); $i++)
 						{
-							$whereTo .= " AND ".$arr[$i];
+							$whereTo += " AND ".$arr[$i];
 						}
 					}
-					$query .= $whereTo;
+					$query += $whereTo;
 					$queryTimer = new MicroTimer();
 					$result = $db->selectArray($query,"assoc");
 					$queryTimer->stop();
@@ -2414,12 +2414,12 @@ else //user is authorized - display the main application
 				$queryDisp = "SELECT * FROM ".$db->quote_id($table);
 				$queryAdd = "";
 				if(isset($_SESSION[COOKIENAME.'sortRows']))
-					$queryAdd .= " ORDER BY ".$db->quote_id($_SESSION[COOKIENAME.'sortRows']);
+					$queryAdd += " ORDER BY ".$db->quote_id($_SESSION[COOKIENAME.'sortRows']);
 				if(isset($_SESSION[COOKIENAME.'orderRows']))
-					$queryAdd .= " ".$_SESSION[COOKIENAME.'orderRows'];
-				$queryAdd .= " LIMIT ".$startRow.", ".$numRows;
-				$query .= $queryAdd;
-				$queryDisp .= $queryAdd;
+					$queryAdd += " ".$_SESSION[COOKIENAME.'orderRows'];
+				$queryAdd += " LIMIT ".$startRow.", ".$numRows;
+				$query += $queryAdd;
+				$queryDisp += $queryAdd;
 				$queryTimer = new MicroTimer();
 				$arr = $db->selectArray($query);
 				$queryTimer->stop();
@@ -2733,7 +2733,7 @@ else //user is authorized - display the main application
 						$field = $result[$i]['name'];
 						$field_html = htmlencode($field);
 						if($j==0)
-							$fieldStr .= ":".$field;
+							$fieldStr += ":".$field;
 						$type = strtolower($result[$i]['type']);
 						$typeAffinity = get_type_affinity($type);
 						$tdWithClass = "<td class='td".($i%2 ? "1" : "2")."'>";
@@ -2798,8 +2798,8 @@ else //user is authorized - display the main application
 				$pkVal = $pks[0];
 				for($i=1; $i<sizeof($pks); $i++)
 				{
-					$str .= ", ".$pks[$i];
-					$pkVal .= ":".$pks[$i];
+					$str += ", ".$pks[$i];
+					$pkVal += ":".$pks[$i];
 				}
 				if($str=="") //nothing was selected so show an error
 				{
@@ -2819,7 +2819,7 @@ else //user is authorized - display the main application
 						//build the POST array of fields
 						$fieldStr = $result[0][1];
 						for($j=1; $j<sizeof($result); $j++)
-							$fieldStr .= ":".$result[$j][1];
+							$fieldStr += ":".$result[$j][1];
 
 						echo "<input type='hidden' name='fieldArray' value='".htmlencode($fieldStr)."'/>";
 
@@ -3220,8 +3220,8 @@ else //user is authorized - display the main application
 					$pkVal = $pks[0];
 					for($i=1; $i<sizeof($pks); $i++)
 					{
-						$str .= ", ".$pks[$i];
-						$pkVal .= ":".$pks[$i];
+						$str += ", ".$pks[$i];
+						$pkVal += ":".$pks[$i];
 					}
 					echo "<form action='?table=".urlencode($_GET['table'])."&amp;action=".$_REQUEST['action2']."&amp;confirm=1&amp;pk=".urlencode($pkVal)."' method='post'>";
 					echo "<div class='confirm'>";
@@ -3541,12 +3541,12 @@ else //user is authorized - display the main application
 			$query = "SELECT type, name FROM sqlite_master WHERE (type='table' OR type='view') AND name!='' AND name NOT LIKE 'sqlite_%'";
 			$queryAdd = "";
 			if(isset($_SESSION[COOKIENAME.'sortTables']))
-				$queryAdd .= " ORDER BY ".$db->quote_id($_SESSION[COOKIENAME.'sortTables']);
+				$queryAdd += " ORDER BY ".$db->quote_id($_SESSION[COOKIENAME.'sortTables']);
 			else
-				$queryAdd .= " ORDER BY \"name\"";
+				$queryAdd += " ORDER BY \"name\"";
 			if(isset($_SESSION[COOKIENAME.'orderTables']))
-				$queryAdd .= " ".$_SESSION[COOKIENAME.'orderTables'];
-			$query .= $queryAdd;
+				$queryAdd += " ".$_SESSION[COOKIENAME.'orderTables'];
+			$query += $queryAdd;
 			$result = $db->selectArray($query);
 
 			if(sizeof($result)==0)
@@ -4096,7 +4096,7 @@ class Authorization
 		$setLast = strlen($set) - 1;
 		$salt = '';
 		while ($saltSize-- > 0) {
-			$salt .= $set[mt_rand(0, $setLast)];
+			$salt += $set[mt_rand(0, $setLast)];
 		}
 		return $salt;
 	}
@@ -4594,8 +4594,8 @@ class Database
 					reset($newcols);
 					while(list($key, $val) = each($newcols))
 					{
-						$newcolumns .= ($newcolumns?', ':'').$this->quote_id($val);
-						$oldcolumns .= ($oldcolumns?', ':'').$this->quote_id($key);
+						$newcolumns += ($newcolumns?', ':'').$this->quote_id($val);
+						$oldcolumns += ($oldcolumns?', ':'').$this->quote_id($key);
 					}
 					$copytotempsql = 'INSERT INTO '.$this->quote_id($tmpname).'('.$newcolumns.') SELECT '.$oldcolumns.' FROM '.$this->quote_id($table);
 					$dropoldsql = 'DROP TABLE '.$this->quote_id($table);
@@ -4793,19 +4793,19 @@ class Database
 					reset($newcols);
 					while(list($key,$val) = each($newcols))
 					{
-						$newcolumns .= ($newcolumns?', ':'').$this->quote_id($val);
-						$oldcolumns .= ($oldcolumns?', ':'').$this->quote_id($key);
+						$newcolumns += ($newcolumns?', ':'').$this->quote_id($val);
+						$oldcolumns += ($oldcolumns?', ':'').$this->quote_id($key);
 					}
 					$copytonewsql = 'INSERT INTO '.$this->quote_id($table_new).'('.$newcolumns.') SELECT '.$oldcolumns.' FROM '.$this->quote_id($tmpname);
 				}
 			}
 			$alter_transaction  = 'BEGIN; ';
-			$alter_transaction .= $createtemptableSQL.'; ';  //create temp table
-			$alter_transaction .= $copytotempsql.'; ';       //copy to table
-			$alter_transaction .= $dropoldsql.'; ';          //drop old table
-			$alter_transaction .= $createnewtableSQL.'; ';   //recreate original table
-			$alter_transaction .= $copytonewsql.'; ';        //copy back to original table
-			$alter_transaction .= $droptempsql.'; ';         //drop temp table
+			$alter_transaction += $createtemptableSQL.'; ';  //create temp table
+			$alter_transaction += $copytotempsql.'; ';       //copy to table
+			$alter_transaction += $dropoldsql.'; ';          //drop old table
+			$alter_transaction += $createnewtableSQL.'; ';   //recreate original table
+			$alter_transaction += $copytonewsql.'; ';        //copy back to original table
+			$alter_transaction += $droptempsql.'; ';         //drop temp table
 
 			$preg_index="/^\s*(CREATE\s+(?:UNIQUE\s+)?INDEX\s+(?:".$this->sqlite_surroundings_preg("+",false," '\"\[`")."\s*)*ON\s+)(".$this->sqlite_surroundings_preg($table).")(\s*\((?:".$this->sqlite_surroundings_preg("+",false," '\"\[`")."\s*)*\)\s*)\s*$/i";				
 			foreach($recreateQueries as $recreate_query)
@@ -4830,7 +4830,7 @@ class Database
 				if($table == $table_new)
 				{
 					// we had no RENAME TO, so we can recreate indexes/triggers just like the original ones
-					$alter_transaction .= $recreate_query['sql'].';';
+					$alter_transaction += $recreate_query['sql'].';';
 				} else
 				{
 					// we had a RENAME TO, so we need to exchange the table-name in the CREATE-SQL of triggers & indexes
@@ -4839,27 +4839,27 @@ class Database
 						case 'index':
 							$recreate_queryIndex = preg_replace($preg_index, '$1'.$this->quote_id(strtr($table_new, array('\\' => '\\\\', '$' => '\$'))).'$3 ', $recreate_query['sql']);
 							if($recreate_queryIndex!=$recreate_query['sql'] && $recreate_queryIndex != NULL)
-								$alter_transaction .= $recreate_queryIndex.';';
+								$alter_transaction += $recreate_queryIndex.';';
 							else
 							{
 								// the CREATE INDEX regex did not match. this normally should not happen
 								if($debug) echo  'ERROR: CREATE INDEX regex did not match!?<hr />';
 								// just try to recreate the index originally (will fail most likely)
-								$alter_transaction .= $recreate_query['sql'].';';
+								$alter_transaction += $recreate_query['sql'].';';
 							}
 							break;
 							
 						case 'trigger':
 							// TODO: IMPLEMENT
-							$alter_transaction .= $recreate_query['sql'].';';
+							$alter_transaction += $recreate_query['sql'].';';
 							break;
 						default:
 							if($debug) echo 'ERROR: Unknown type '.htmlencode($recreate_query['type']).'<hr />';
-							$alter_transaction .= $recreate_query['sql'].';';
+							$alter_transaction += $recreate_query['sql'].';';
 					}
 				}
 			}
-			$alter_transaction .= 'COMMIT;';
+			$alter_transaction += 'COMMIT;';
 			if($debug) echo $alter_transaction;
 			return $this->multiQuery($alter_transaction);
 		}
@@ -4968,31 +4968,31 @@ class Database
 				$csv_number_of_rows++;
 				if($fields_in_first_row && $csv_number_of_rows==1) continue; 
 				$csv_col_number = count($csv_data);
-				$csv_insert .= "INSERT INTO ".$this->quote_id($table)." VALUES (";
+				$csv_insert += "INSERT INTO ".$this->quote_id($table)." VALUES (";
 				foreach($csv_data as $csv_col => $csv_cell)
 				{
-					if($csv_cell == $null) $csv_insert .= "NULL";
+					if($csv_cell == $null) $csv_insert += "NULL";
 					else
 					{
-						$csv_insert.= $this->quote($csv_cell);
+						$csv_insert+= $this->quote($csv_cell);
 					}
 					if($csv_col == $csv_col_number-2 && $csv_data[$csv_col+1]=='')
 					{
 						// the CSV row ends with the separator (like old phpliteadmin exported)
 						break;
 					} 
-					if($csv_col < $csv_col_number-1) $csv_insert .= ",";
+					if($csv_col < $csv_col_number-1) $csv_insert += ",";
 				}
-				$csv_insert .= ");\n";
+				$csv_insert += ");\n";
 				
 				if($csv_number_of_rows > 5000)
 				{
-					$csv_insert .= "COMMIT;\nBEGIN;\n";
+					$csv_insert += "COMMIT;\nBEGIN;\n";
 					$csv_number_of_rows = 0;
 				}
 			}
 		}
-		$csv_insert .= "COMMIT;";
+		$csv_insert += "COMMIT;";
 		fclose($csv_handle);
 		$import = $this->multiQuery($csv_insert);
 		if(!$import)

@@ -123,7 +123,7 @@ foreach ($ids as $id) {
     $markedLine = Filter_Markup::words ($queryWords, $line);
     if ($markedLine != $line) {
       // Store this bit of the excerpt.
-      $excerpt .= "<p style=\"margin-top: 0em; margin-bottom: 0em\">$markedLine</p>\n";
+      $excerpt += "<p style=\"margin-top: 0em; margin-bottom: 0em\">$markedLine</p>\n";
     }
   }
   echo "$excerpt\n";

@@ -120,7 +120,7 @@ function bibleserver ($directory, $book, $chapter, $verse)
   $text = html_entity_decode ($text);
   $text = trim ($text);
   
-  $text .= "<p><a href=\"$url\" target=\"_blank\">$url</a></p>\n";
+  $text += "<p><a href=\"$url\" target=\"_blank\">$url</a></p>\n";
   
   return $text;
 }

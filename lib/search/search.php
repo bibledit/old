@@ -86,7 +86,7 @@ foreach ($identifiers as $identifier) {
     $markedLine =  Filter_Markup::words ($queryWords, $line);
     // If the line is marked up, add it to the excerpts.
     if ($markedLine != $line) {
-      $excerpt .= "<p style=\"margin-top: 0em\">$markedLine</p>\n";
+      $excerpt += "<p style=\"margin-top: 0em\">$markedLine</p>\n";
     }
   }
   $noteExcerpts [] = $excerpt;
@@ -136,7 +136,7 @@ foreach ($hits as $hit) {
     $markedLine =  Filter_Markup::words ($queryWords, $line);
     if ($markedLine != $line) {
       // Store this bit of the excerpt.
-      $excerpt .= "<p style=\"margin-top: 0em\">$markedLine</p>\n";
+      $excerpt += "<p style=\"margin-top: 0em\">$markedLine</p>\n";
     }
   }
   $textExcerpts [] = $excerpt;

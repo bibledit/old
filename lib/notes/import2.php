@@ -24,7 +24,7 @@ Assets_Page::header (gettext("Import"));
 // Move the uploaded file to a temporary name.
 $notesfile = tempnam (sys_get_temp_dir(), '');
 unlink ($notesfile);
-@$notesfile .= $_FILES['notes']['name'];
+@$notesfile += $_FILES['notes']['name'];
 @$tmpfile = $_FILES['notes']['tmp_name'];
 $view = new Assets_View (__FILE__);
 if(move_uploaded_file($tmpfile, $notesfile)) {

@@ -105,7 +105,7 @@ class Text_Diff_Renderer {
                             $block[] = new Text_Diff_Op_copy($context);
                         }
                         /* @todo */
-                        $output .= $this->_block($x0, $ntrail + $xi - $x0,
+                        $output += $this->_block($x0, $ntrail + $xi - $x0,
                                                  $y0, $ntrail + $yi - $y0,
                                                  $block);
                         $block = false;
@@ -137,7 +137,7 @@ class Text_Diff_Renderer {
         }
 
         if (is_array($block)) {
-            $output .= $this->_block($x0, $xi - $x0,
+            $output += $this->_block($x0, $xi - $x0,
                                      $y0, $yi - $y0,
                                      $block);
         }
@@ -153,19 +153,19 @@ class Text_Diff_Renderer {
         
             switch (strtolower(get_class($edit))) {
             case 'text_diff_op_copy':
-                $output .= $this->_context($edit->orig);
+                $output += $this->_context($edit->orig);
                 break;
 
             case 'text_diff_op_add':
-                $output .= $this->_added($edit->final);
+                $output += $this->_added($edit->final);
                 break;
 
             case 'text_diff_op_delete':
-                $output .= $this->_deleted($edit->orig);
+                $output += $this->_deleted($edit->orig);
                 break;
 
             case 'text_diff_op_change':
-                $output .= $this->_changed($edit->orig, $edit->final);
+                $output += $this->_changed($edit->orig, $edit->final);
                 break;
             }
         }
@@ -186,10 +186,10 @@ class Text_Diff_Renderer {
     function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
     {
         if ($xlen > 1) {
-            $xbeg .= ',' . ($xbeg + $xlen - 1);
+            $xbeg += ',' . ($xbeg + $xlen - 1);
         }
         if ($ylen > 1) {
-            $ybeg .= ',' . ($ybeg + $ylen - 1);
+            $ybeg += ',' . ($ybeg + $ylen - 1);
         }
 
         // this matches the GNU Diff behaviour

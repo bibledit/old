@@ -129,7 +129,7 @@ class Checks_Sentences
       if ($iterations > 0) {
         $verse_numbers [] = $verse;
         $graphemes [] = " ";
-        $this->fullText .= " ";
+        $this->fullText += " ";
       }
       // Split the UTF-8 text into graphemes and add them to the arrays of verse_numbers/graphemes.
       $count = mb_strlen ($text);
@@ -140,7 +140,7 @@ class Checks_Sentences
         // Store verse numbers and graphemes.
         $verse_numbers [] = $verse;
         $graphemes [] = $grapheme;
-        $this->fullText .= $grapheme;
+        $this->fullText += $grapheme;
       }
       // Next iteration.
       $iterations++;
@@ -295,10 +295,10 @@ class Checks_Sentences
     }
     // Assemble text for checking result.
     if ($modifier == 1) {
-      $text .= ": " . $this->grapheme;
+      $text += ": " . $this->grapheme;
     }
     if (($modifier == 2) || ($modifier == 3)) {
-      $text .= ": " . $previousFragment . $this->grapheme . $nextFragment;
+      $text += ": " . $previousFragment . $this->grapheme . $nextFragment;
     }
     // Store checking result.
     $this->checkingResults [] = array ($this->verseNumber => $text);

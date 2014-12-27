@@ -146,13 +146,13 @@ font-size: x-large;
 
 EOD;
 
-$output .= $stylesheet;
+$output += $stylesheet;
 
 // The following line prevents the Hebrew from floating around the name of the Resource, 
 // which would disturb the order of the words.
-$output .= "<p></p>\n";
+$output += "<p></p>\n";
 
-$output .= $html;
+$output += $html;
 
 
 ?>

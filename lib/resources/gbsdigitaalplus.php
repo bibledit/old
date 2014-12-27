@@ -42,7 +42,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
     $introduction = str_replace ('  ', ' ', $introduction);
     $introduction = str_replace ('<br />', "", $introduction);
     $introduction = trim ($introduction);
-    $output .= "<p>$introduction</p>";
+    $output += "<p>$introduction</p>";
   }
   
   
@@ -52,7 +52,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
     $introduction = str_replace ("\t", "", $introduction);
     $introduction = str_replace ('  ', ' ', $introduction);
     $introduction = trim ($introduction);
-    $output .= "<p>$introduction</p>";
+    $output += "<p>$introduction</p>";
   }
   
   
@@ -67,14 +67,14 @@ function gbsdigitaalplus ($url, $chapter, $verse)
             $object = $verses [$offset - 1];
             if (isset ($object->isHeader)) {
               $text = $object->text;
-              $output .= "<p><i>$text</i></p>";
+              $output += "<p><i>$text</i></p>";
             }
           }
           // Add verse text.
           if (isset ($data->text)) {
             $text = $data->text;
             $text = str_replace ('<br />', "", $text);
-            $output .= $text;
+            $output += $text;
           }
           // Add notes.
           if (isset ($data->commentaries)) {
@@ -100,7 +100,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
                       . mb_substr ($text, $start, $length) . "</a>"
                       . mb_substr ($text, $start + $length);
               }
-              $output .= "<p>$number $text</p>";
+              $output += "<p>$number $text</p>";
             }
           }
         }
@@ -109,7 +109,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
   }
  
   
-  $output .= "\n";
+  $output += "\n";
   return $output;
 }
 

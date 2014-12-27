@@ -49,9 +49,9 @@ if (isset ($load)) {
   foreach ($details as $detail) {
     $strong = $detail ['strong'];
     $english = $detail ['english'];
-    $html .= "<tr><td><a href=\"$strong\">$strong</a></td><td>$english</td></tr>\n";
+    $html += "<tr><td><a href=\"$strong\">$strong</a></td><td>$english</td></tr>\n";
   }
-  $html .= "</table>\n";
+  $html += "</table>\n";
   
   echo $html;
   die;

@@ -82,11 +82,11 @@ if (isset ($fromchange)) {
   $bible = $database_modifications->getNotificationBible ($fromchange);
   $summary = gettext("Query about a change in the text");
   $contents = "<p>" . gettext("Old text:") . "</p>";
-  $contents .= $database_modifications->getNotificationOldText ($fromchange);
-  $contents .= "<p>" .  gettext("Change:") . "</p>";
-  $contents .= "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
-  $contents .= "<p>" . gettext("New text:") . "</p>";
-  $contents .= $database_modifications->getNotificationNewText ($fromchange);
+  $contents += $database_modifications->getNotificationOldText ($fromchange);
+  $contents += "<p>" .  gettext("Change:") . "</p>";
+  $contents += "<p>" . $database_modifications->getNotificationModification ($fromchange) . "</p>";
+  $contents += "<p>" . gettext("New text:") . "</p>";
+  $contents += $database_modifications->getNotificationNewText ($fromchange);
   $view->view->summary = $summary;
   $view->view->contents = $contents;
 }

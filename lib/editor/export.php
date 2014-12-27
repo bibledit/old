@@ -245,7 +245,7 @@ EOD;
           // Start the USFM line with a marker with the class name.
           default:
           {
-            $this->currentLine .= Filter_Usfm::getOpeningUsfm ($class);
+            $this->currentLine += Filter_Usfm::getOpeningUsfm ($class);
             break;
           }
         }
@@ -317,7 +317,7 @@ EOD;
 
         if (in_array ($class, $this->noteOpeners)) {
           // Deal with note closers.
-          $this->currentLine .= Filter_Usfm::getClosingUsfm ($class);
+          $this->currentLine += Filter_Usfm::getClosingUsfm ($class);
         } else {
           // Normally a p element closes the USFM line.
           $this->flushLine ();
@@ -343,7 +343,7 @@ EOD;
         foreach ($classes as $offset => $class) {
           $embedded = (count ($classes) > 1) && ($offset == 0);
           if (!empty ($this->characterStyles)) $embedded = true;
-          $this->currentLine .= Filter_Usfm::getClosingUsfm ($class, $embedded);
+          $this->currentLine += Filter_Usfm::getClosingUsfm ($class, $embedded);
         }
         break;
       }
@@ -374,7 +374,7 @@ EOD;
   {
     // Add the text to the current USFM line.
     $text = $node->wholeText;
-    $this->currentLine .= $text;
+    $this->currentLine += $text;
   }
 
 
@@ -398,7 +398,7 @@ EOD;
     $classes = explode (" ", $class);
     foreach ($classes as $offset => $class) {
       $embedded = (count ($this->characterStyles) + $offset) > 0;
-      $this->currentLine .= Filter_Usfm::getOpeningUsfm ($class, $embedded);
+      $this->currentLine += Filter_Usfm::getOpeningUsfm ($class, $embedded);
     }
     // Store active character styles in some cases.
     $store = true;
