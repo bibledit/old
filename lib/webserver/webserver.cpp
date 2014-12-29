@@ -24,6 +24,50 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <config.h>
 #include <webserver/io.h>
+#include <filter/string.h>
+
+
+/**********************************************************************/
+/* Get a line from a socket, whether the line ends in a newline,
+ * carriage return, or a CRLF combination.  Terminates the string read
+ * with a null character.  If no newline indicator is found before the
+ * end of the buffer, the string is terminated with a null.  If any of
+ * the above three line terminators is read, the last character of the
+ * string will be a linefeed and the string will be terminated with a
+ * null character.
+ * Parameters: the socket file descriptor
+ *             the buffer to save the data in
+ *             the size of the buffer
+ * Returns: the number of bytes stored (excluding null) */
+/**********************************************************************/
+int get_line (int sock, char *buf, int size)
+{
+  int i = 0;
+  char c = '\0';
+  int n;
+  
+  while ((i < size - 1) && (c != '\n'))
+  {
+    n = recv (sock, &c, 1, 0);
+    if (n > 0)
+    {
+      if (c == '\r')
+      {
+        n = recv (sock, &c, 1, MSG_PEEK);
+        if ((n > 0) && (c == '\n')) recv (sock, &c, 1, 0);
+        else c = '\n';
+      }
+      buf[i] = c;
+      i++;
+    }
+    else
+    c = '\n';
+  }
+  buf[i] = '\0';
+  
+  return(i);
+}
+
 
 
 void webserver () 
@@ -73,10 +117,16 @@ void webserver ()
     // Socket and file descriptor for the client connection.
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof(clientaddr);
-    int connfd = accept(listenfd, (SA *)&clientaddr, &clientlen);
+    int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
     
-    // Non-blocking read. Todo
+    // Non-blocking read.
     // fcntl (connfd, F_SETFL, O_NONBLOCK);
+    
+    // Socket receive timeout.
+    // struct timeval tv;
+    // tv.tv_sec = 2;
+    // tv.tv_usec = 0;
+    // setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 
     // The client's remote IPv4 address in dotted notation.
     char remote_address[256];
@@ -87,22 +137,30 @@ void webserver ()
       if (config_globals_running) {
         string input;
         // Read the client's request.
+        // With the HTTP protocol it is not possible to read the request till EOF,
+        // because EOF does never come, because the browser keeps the connection open
+        // for the response.
+        // The HTTP protocol works per line.
+        // Read one line of data from the client.
+        // An empty line marks the end of the headers.
         int bytes_read;
-        char buffer [65535];
-        //do {
+        bool header_parsed = true;
+        do {
+          char buffer [2048];
+          memset (&buffer, 0, 2048); // Fix valgrind unitialized value message.
+          bytes_read = get_line (connfd, buffer, sizeof (buffer));
+          // Parse the browser's request's headers.
+          header_parsed = http_parse_header (buffer, request);
+        } while (header_parsed);
+
+        // In the case of a POST request, one more line follows: The POST request itself.
+        // Read that data, and parse it.
+        if (request->is_post) {
+          char buffer [65535];
           memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
           bytes_read = read (connfd, buffer, sizeof (buffer));
-          for (int i = 0; i < bytes_read; i++) {
-            input += buffer[i];
-          }
-        cout << input << endl; // Todo
-        cout << "bytes_read: " << bytes_read << endl; // Todo
-        //  cout << "EAGAIN: " << EAGAIN << " and errno " << errno << endl; // Todo
-        //} while (bytes_read == sizeof (buffer));
-        //} while (bytes_read != 0);
-  
-        // Parse the browser's request's headers.
-        http_parse_headers (input, request);
+          http_parse_post (buffer, request);
+        }
     
         // Assemble response.
         bootstrap_index (request);

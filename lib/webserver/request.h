@@ -39,13 +39,15 @@ public:
   Webserver_Request ();
   ~Webserver_Request ();
   string remote_address; // The browser's or client's remote IPv4 address.
-  string get; // The page the browser requests via GET.
+  string get; // The page the browser requests via GET or via POST.
+  bool is_post; // Whether it is a POST request.
   map <string, string> query; // The query from the browser, e.g. foo=bar&baz=qux, neatly arranged into a map.
   string user_agent; // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
   string accept_language; // The browser's or client's Accept-Language header.
   string host; // The server's host as requested by the client.
   string content_type; // The content type of the browser request.
-  map <string, string> post; // The raw POST data from the browser, line by line.
+  size_t content_length; // The content length of the browser request.
+  map <string, string> post; // The raw POST data from the browser, item by item.
   string header; // Extra header to be sent back to the browser.
   string reply; // Body to be sent back to the browser.
   int response_code; // Response code to be sent to the browser.

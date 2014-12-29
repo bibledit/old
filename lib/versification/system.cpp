@@ -57,7 +57,6 @@ string versification_system (void * webserver_request)
   string name = request->query["name"];
   view.set_variable ("name", filter_string_sanitize_html (name));
 
-  // cout << request->post ["data"]; // Todo
   if (request->post.count ("submit")) {
     string data = request->post["data"];
     if (data != "") {
