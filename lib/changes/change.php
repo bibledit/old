@@ -78,7 +78,7 @@ $view->view->new_text = $new_text;
 
 // Bibles and passage.
 $passage = $database_modifications->getNotificationPassage ($id);
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 
 
 // Get notes for the passage.

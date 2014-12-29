@@ -44,6 +44,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <fonts/index.h>
 #include <versification/index.h>
 #include <versification/system.h>
+#include <bible/manage.h>
+#include <bible/settings.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -67,6 +69,10 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == session_logout_url ()) && session_logout_acl (request)) request->reply = session_logout (request);
   else if ((url == session_password_url ()) && session_password_acl (request)) request->reply = session_password (request);
   else if ((url == session_signup_url ()) && session_signup_acl (request)) request->reply = session_signup (request);
+  
+  // Bible menu.
+  else if ((url == bible_manage_url ()) && bible_manage_acl (request)) request->reply = bible_manage (request);
+  else if ((url == bible_settings_url ()) && bible_settings_acl (request)) request->reply = bible_settings (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);

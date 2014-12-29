@@ -47,7 +47,7 @@ $header->run ();
 if (isset ($changebible)) {
   if ($changebible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to open in the editor"));
-    $bibles = Access_Bible::bibles ();
+    $bibles = access_bible_bibles ();
     for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&changebible=$bible");
     }
@@ -63,7 +63,7 @@ $view = new Assets_View (__FILE__);
 
 // Get active Bible, and check read access to it.
 // If needed, change Bible to one it has read access to.
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 $view->view->bible = $bible;
 
 

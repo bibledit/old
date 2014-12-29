@@ -33,7 +33,7 @@ $ipc_focus = Ipc_Focus::getInstance();
 // If no Bible is passed, it takes the user's active Bible.
 @$bible = $_POST ['bible'];
 if ($bible == "") {
-  $bible = Access_Bible::clamp ($database_config_user->getBible ());
+  $bible = access_bible_clamp ($database_config_user->getBible ());
 }
 
 

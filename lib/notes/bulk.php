@@ -36,7 +36,7 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 $verse = $ipc_focus->getVerse ();

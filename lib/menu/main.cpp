@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/indexm.h>
 #include <fonts/index.h>
 #include <versification/index.h>
+#include <bible/manage.h>
 
 
 /*
@@ -89,7 +90,7 @@ vector <Menu_Main_Item> * Menu_Main::biblemenu ()
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "search/index",    gettext ("Search"),    NULL                    } );
   if (level >= Filter_Roles::consultant ()) menu->push_back ( { "", "workbench/index", gettext ("Workbench"), bible_workbench_menu () } );
   if (level >= Filter_Roles::translator ()) menu->push_back ( { "", "checks/index",    gettext ("Checks"),    bible_checks_menu ()    } );
-  if (level >= Filter_Roles::manager ())    menu->push_back ( { "", "bible/manage",    gettext ("Bibles"),    NULL                    } );
+  if (bible_manage_acl (webserver_request)) menu->push_back ( { "", bible_manage_url (), gettext ("Bibles"), NULL} );
   return menu;
 }
 

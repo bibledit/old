@@ -40,7 +40,7 @@ class Consistency_Logic
 
     // The resources to display in the Consistency tool.
     $resources = array ();
-    $resources [] = Access_Bible::clamp ($database_config_user->getBible ());
+    $resources [] = access_bible_clamp ($database_config_user->getBible ());
     $resources = array_merge ($resources, $database_config_user->getConsistencyResources ());
 
     // The passages entered in the Consistency tool.

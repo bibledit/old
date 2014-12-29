@@ -1,0 +1,48 @@
+<h1>gettext("Bible") ##bible##</h1>
+<p>gettext("Available books") (##book_count##): ##bookblock##</p>
+<p>
+  gettext("Versification system"):
+  <!-- #BEGINZONE write_access -->
+    <a href="settings?bible=##bible##&versification=">
+  <!-- #ENDZONE write_access -->
+  ##versification##
+  <!-- #BEGINZONE write_access -->
+  </a>
+  <!-- #ENDZONE write_access -->
+</p>
+<p>
+  gettext("Verse mapping"):
+  <!-- #BEGINZONE write_access -->
+    <a href="settings?bible=##bible##&mapping=">
+  <!-- #ENDZONE write_access -->
+  ##mapping##
+  <!-- #BEGINZONE write_access -->
+  </a>
+  <!-- #ENDZONE write_access -->
+</p>
+<!-- #BEGINZONE write_access -->
+  <p><a href="settings?bible=##bible##&createbook=">gettext("Create book")</a></p>
+  <p><a href="import_usfm.php?bible=##bible##">gettext("Import USFM")</a></p>
+  <p><a href="import_bibleworks.php?bible=##bible##">gettext("Import BibleWorks")</a></p>
+<!-- #ENDZONE write_access -->
+<p><a href="manage.php?copy=##bible##">gettext("Copy this Bible")</a></p>
+<!-- #BEGINZONE write_access -->
+  <p><a href="manage.php?delete=##bible##">gettext("Delete this Bible")</a></p>
+  <p><a href="../resource/bible2resource.php?bible=##bible##">gettext("Convert to USFM resource")</a></p>
+<!-- #ENDZONE write_access -->
+<p><a href="../compare/index.php?bible=##bible##">gettext("Compare with ...")</a></p>
+<p>
+<!-- #BEGINZONE write_access -->
+  <a href="?bible=##bible##&viewable=">
+<!-- #ENDZONE write_access -->
+<?php if ($this->viewable == true) { ☑ <?php } else { ☐ <?php }
+  <!-- #BEGINZONE write_access -->
+</a>
+  <!-- #ENDZONE write_access -->
+gettext("Viewable by all users")
+</p>
+<!-- #BEGINZONE write_access -->
+  <p><a href="abbreviations.php?bible=##bible##">gettext("Book abbreviations")</a></p>
+  <p><a href="order.php?bible=##bible##">gettext("Book order")</a></p>
+  <p><a href="css.php?bible=##bible##">gettext("Font and text direction")</a></p>
+<!-- #ENDZONE write_access -->

@@ -144,7 +144,7 @@ $view->view->statusselector = $status_selector;
 // The information about available Bibles could be gathered from the notes database.
 // But multiple teams can be hosted, the information about available Bibles
 // is gathered from the Bibles the user has access to.
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $view->view->bibles = $bibles;
 
 

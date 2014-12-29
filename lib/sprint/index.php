@@ -51,7 +51,7 @@ if (isset ($_GET ['nextsprint'])) {
 }
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 $month = $database_config_user->getSprintMonth ();
 $year = $database_config_user->getSprintYear ();
 
@@ -86,7 +86,7 @@ $header->run ();
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to display the Sprint for"));
-    $bibles = Access_Bible::bibles ();
+    $bibles = access_bible_bibles ();
     for ($bibles as $bible) {
       // Select from Bibles the user has write access to.
       if (access_bible_write ($bible)) {
@@ -100,7 +100,7 @@ if (isset ($bible)) {
 }
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 @$id = $_GET ['id'];

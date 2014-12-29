@@ -54,7 +54,7 @@ if ($action == "total") {
     die;
   }
 
-  $bibles = Access_Bible::bibles ($username);
+  $bibles = access_bible_bibles ($username);
   $server_checksum = Checksum_Logic::getBibles ($bibles);
   echo $server_checksum;
 
@@ -70,7 +70,7 @@ if ($action == "total") {
     die;
   }
 
-  $bibles = Access_Bible::bibles ($username);
+  $bibles = access_bible_bibles ($username);
   $bibles = implode ("\n", $bibles);
   $checksum = Checksum_Logic::get ($bibles);
   echo "$checksum\n$bibles";

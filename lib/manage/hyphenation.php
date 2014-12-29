@@ -34,7 +34,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 $success = "";
@@ -57,7 +57,7 @@ $secondset = $database_config_bible->getHyphenationSecondSet ($bible);
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Which Bible would you like to take the data from?"));
-    $bibles = Access_Bible::bibles ();
+    $bibles = access_bible_bibles ();
     for ($bibles as $item) {
       $dialog_list->add_row ($item, "bible=$item");
     }
@@ -66,7 +66,7 @@ if (isset ($bible)) {
     $database_config_user->setBible ($bible);
   }
 }
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 if (isset($_GET['run'])) {

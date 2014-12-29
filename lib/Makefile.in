@@ -147,7 +147,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	onlinebible/text.$(OBJEXT) html/text.$(OBJEXT) \
 	odf/text.$(OBJEXT) timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
 	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
-	bible/logic.$(OBJEXT) notes/logic.$(OBJEXT) \
+	bible/logic.$(OBJEXT) bible/manage.$(OBJEXT) \
+	bible/settings.$(OBJEXT) notes/logic.$(OBJEXT) \
 	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
 	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
 	email/index.$(OBJEXT) email/send.$(OBJEXT) \
@@ -457,6 +458,8 @@ libbibledit_a_SOURCES = \
 	tasks/run.cpp \
 	config/logic.cpp \
 	bible/logic.cpp \
+	bible/manage.cpp \
+	bible/settings.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
@@ -873,6 +876,10 @@ bible/$(DEPDIR)/$(am__dirstamp):
 	@: > bible/$(DEPDIR)/$(am__dirstamp)
 bible/logic.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
+bible/manage.$(OBJEXT): bible/$(am__dirstamp) \
+	bible/$(DEPDIR)/$(am__dirstamp)
+bible/settings.$(OBJEXT): bible/$(am__dirstamp) \
+	bible/$(DEPDIR)/$(am__dirstamp)
 notes/$(am__dirstamp):
 	@$(MKDIR_P) notes
 	@: > notes/$(am__dirstamp)
@@ -1145,6 +1152,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/page.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/logic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/manage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bootstrap/$(DEPDIR)/bootstrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@config/$(DEPDIR)/logic.Po@am__quote@

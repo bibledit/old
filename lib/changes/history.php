@@ -62,7 +62,7 @@ if (isset ($author)) $state ['author'] = $author;
 
 
 // The Bibles the user has read access to.
-$myBibles = Access_Bible::bibles ();
+$myBibles = access_bible_bibles ();
 
 
 // The names of the authors in the history, with 'everybody' on top.

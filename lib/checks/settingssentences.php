@@ -28,7 +28,7 @@ $database_config_user = Database_Config_User::getInstance();
 $database_config_bible = Database_Config_Bible::getInstance();
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 if (isset($_POST['capitals'])) {

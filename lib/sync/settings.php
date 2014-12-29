@@ -85,7 +85,7 @@ $setting = unserialize ($_POST ['s']);
     die;
   }
 
-  $bibles = Access_Bible::bibles ($user);
+  $bibles = access_bible_bibles ($user);
 
   $lowId = $_POST ['l'];
   $highId = $_POST ['h'];
@@ -108,7 +108,7 @@ $setting = unserialize ($_POST ['s']);
     die;
   }
 
-  $bibles = Access_Bible::bibles ($user);
+  $bibles = access_bible_bibles ($user);
 
   $lowId = $_POST ['l'];
   $highId = $_POST ['h'];

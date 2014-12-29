@@ -21,7 +21,7 @@ page_access_level (Filter_Roles::CONSULTANT_LEVEL);
 $assets_header = new Assets_Header (gettext("Bibles"));
 $assets_header->run();
 $view = new Assets_View (__FILE__);
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 // Add general Bible.
 $bibles [] = Notes_Logic::generalBibleName ();
 $view->view->bibles = $bibles;

@@ -33,7 +33,7 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = Access_Bible::clamp ($database_config_user->getBible());
+$bible = access_bible_clamp ($database_config_user->getBible());
 $book = $ipc_focus->getBook ();
 $chapter = $ipc_focus->getChapter ();
 $verse = $ipc_focus->getVerse ();
@@ -57,7 +57,7 @@ $view = new Assets_View (__FILE__);
 
 
 // The Bibles the current user has access to.
-$bibles = Access_Bible::bibles ($session_logic->currentUser ());
+$bibles = access_bible_bibles ($session_logic->currentUser ());
 
 
 // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.

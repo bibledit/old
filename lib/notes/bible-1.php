@@ -48,7 +48,7 @@ $view = new Assets_View (__FILE__);
 $view->view->id = $id;
 
 
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $bibles [] = Notes_Logic::generalBibleName ();
 $view->view->bibles = $bibles;
 

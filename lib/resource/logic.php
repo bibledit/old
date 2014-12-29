@@ -30,7 +30,7 @@ class Resource_Logic
     $names = array ();
 
     // Take Bibles the user has read access to.
-    $bibles = Access_Bible::bibles ();
+    $bibles = access_bible_bibles ();
     $names = array_merge ($names, $bibles);
 
     // Take USFM Resources.

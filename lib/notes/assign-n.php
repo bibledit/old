@@ -34,7 +34,7 @@ $view = new Assets_View (__FILE__);
 
 
 // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to.
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $users = $database_users->getUsers ();
 for ($users as $offset => $user) {
   $access = false;

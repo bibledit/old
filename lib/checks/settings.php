@@ -38,7 +38,7 @@ $database_check = Database_Check::getInstance ();
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to manage"));
-    $bibles = Access_Bible::bibles ();
+    $bibles = access_bible_bibles ();
     for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&bible=$bible");
     }
@@ -47,7 +47,7 @@ if (isset ($bible)) {
     $database_config_user->setBible ($bible);
   }
 }
-$bible = Access_Bible::clamp ($database_config_user->getBible ());
+$bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 if (isset($_GET['run'])) {

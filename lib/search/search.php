@@ -51,7 +51,7 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Search the notes.
-$bibles = Access_Bible::bibles ();
+$bibles = access_bible_bibles ();
 $identifiers = $database_notes->searchNotes ($queryString, $bibles);
 
 

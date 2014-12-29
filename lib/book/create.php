@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class Book_Create
+class Book_Create // Todo port / unittests.
 {
   /**
   * Creates book template with ID $book in Bible $bible.

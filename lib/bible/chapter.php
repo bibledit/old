@@ -31,7 +31,7 @@ $database_books = Database_Books::getInstance();
 
 
 // The Bible.
-$bible = Access_Bible::clamp ($_GET['bible']);
+$bible = access_bible_clamp ($_GET['bible']);
 $view->view->bible = filter_string_sanitize_html ($bible);
 
 

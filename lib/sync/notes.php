@@ -50,7 +50,7 @@ if ($action == "notes") {
     die;
   }
 
-  $bibles = Access_Bible::bibles ($user);
+  $bibles = access_bible_bibles ($user);
 
   $lowId = $_POST ['l'];
   $highId = $_POST ['h'];
@@ -73,7 +73,7 @@ if ($action == "notes") {
     die;
   }
 
-  $bibles = Access_Bible::bibles ($user);
+  $bibles = access_bible_bibles ($user);
 
   $lowId = $_POST ['l'];
   $highId = $_POST ['h'];

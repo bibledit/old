@@ -166,7 +166,7 @@ string Assets_Header::run ()
     $this->view->view->display_navigator = $this->displayNavigator; // C++Port
     if ($this->view->view->display_navigator) {
       $database_config_user = Database_Config_User::getInstance ();
-      $bible = Access_Bible::clamp ($database_config_user->getBible ());
+      $bible = access_bible_clamp ($database_config_user->getBible ());
       $this->view->view->navigationHtml = Navigation_Passage::getContainer ();
       $this->view->view->navigationCode = Navigation_Passage::code ($bible, true);
     }
