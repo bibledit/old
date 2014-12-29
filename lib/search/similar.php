@@ -76,7 +76,7 @@ if (isset ($words)) {
   // The values are how often the identifiers occur in the entire focused verse.
   $identifiers = array ();
 
-  foreach ($words as $word) {
+  for ($words as $word) {
     
     // Find out how often this word occurs in the Bible. Skip if too often.
     $ids = $database_search->searchBibleText ($bible, $word);
@@ -84,7 +84,7 @@ if (isset ($words)) {
     if ($count > $maxcount) continue;
     
     // Store the identifiers and their count.
-    foreach ($ids as $id) {
+    for ($ids as $id) {
       if (isset ($identifiers [$id])) $identifiers [$id]++;
       else $identifiers [$id] = 1;
     }
@@ -96,7 +96,7 @@ if (isset ($words)) {
   
   // Output the passage identifiers to the browser.
   // Skip identifiers that only occur once.
-  foreach ($identifiers as $key => $value) {
+  for ($identifiers as $key => $value) {
     if ($value <= 1) continue;
     echo "$key\n";
   }

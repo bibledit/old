@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <a href="#help"><?php echo gettext("help") ?></a>
 </p>
 <br>
-<?php foreach ($this->passageTexts as $offset => $passageText) { ?>
+<?php for ($this->passageTexts as $offset => $passageText) { ?>
   <?php if ($offset) { ?>
   <br>
   <?php } ?>
@@ -69,7 +69,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <a href="history.php?<?php echo $this->verse ?>" title="<?php echo gettext("Display entries for the focused verse") ?>"><?php echo gettext ("verse") ?></a>
 </p>
 <ul>
-<?php foreach ($this->author_names as $offset => $author_name) { ?>
+<?php for ($this->author_names as $offset => $author_name) { ?>
   <li><a href="history.php?<?php echo $this->author_queries[$offset] ?>"><?php echo $author_name ?></a></li>
 <?php } ?>
 </ul>

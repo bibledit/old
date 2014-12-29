@@ -57,7 +57,7 @@ class Book_Create
     // Subsequent chapters.
     $versification = $database_config_bible->getVersificationSystem ($bible);
     $versification_data = $database_versifications->getBooksChaptersVerses ($versification);
-    foreach ($versification_data as $row) {
+    for ($versification_data as $row) {
       if ($book == $row["book"]) {
         $ch = $row["chapter"];
         $verse = $row["verse"];

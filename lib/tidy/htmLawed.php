@@ -28,7 +28,7 @@ else{
  if(isset($x[1])){
   preg_match_all('`(?:^|-|\+)[^\-+]+?(?=-|\+|$)`', $x, $m, PREG_SET_ORDER);
   for($i=count($m); --$i>=0;){$m[$i] = $m[$i][0];}
-  foreach($m as $v){
+  for($m as $v){
    if($v[0] == '+'){$e[substr($v, 1)] = 1;}
    if($v[0] == '-' && isset($e[($v = substr($v, 1))]) && !in_array('+'. $v, $m)){unset($e[$v]);}
   }
@@ -46,7 +46,7 @@ $C['deny_attribute'] = $x;
 // config URL
 $x = (isset($C['schemes'][2]) && strpos($C['schemes'], ':')) ? strtolower($C['schemes']) : 'href: aim, feed, file, ftp, gopher, http, https, irc, mailto, news, nntp, sftp, ssh, telnet; *:file, http, https';
 $C['schemes'] = array();
-foreach(explode(';', str_replace(array(' ', "\t", "\r", "\n"), '', $x)) as $v){
+for(explode(';', str_replace(array(' ', "\t", "\r", "\n"), '', $x)) as $v){
  $x = $x2 = null; list($x, $x2) = explode(':', $v, 2);
  if($x2){$C['schemes'][$x] = array_flip(explode(',', $x2));}
 }
@@ -115,7 +115,7 @@ return $t;
 function hl_attrval($t, $p){
 // check attr val against $S
 $o = 1; $l = strlen($t);
-foreach($p as $k=>$v){
+for($p as $k=>$v){
  switch($k){
   case 'maxlen':if($l > $v){$o = 0;}
   break; case 'minlen': if($l < $v){$o = 0;}
@@ -125,11 +125,11 @@ foreach($p as $k=>$v){
   break; case 'nomatch': if(preg_match($v, $t)){$o = 0;}
   break; case 'oneof':
    $m = 0;
-   foreach(explode('|', $v) as $n){if($t == $n){$m = 1; break;}}
+   for(explode('|', $v) as $n){if($t == $n){$m = 1; break;}}
    $o = $m;
   break; case 'noneof':
    $m = 1;
-   foreach(explode('|', $v) as $n){if($t == $n){$m = 0; break;}}
+   for(explode('|', $v) as $n){if($t == $n){$m = 0; break;}}
    $o = $m;
   break; default:
   break;
@@ -199,7 +199,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   }
   elseif($do < 3 or isset($ok['#pcdata'])){echo $x;}
   elseif(strpos($x, "\x02\x04")){
-   foreach(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
+   for(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
     echo (substr($v, 0, 2) == "\x01\x02" ? $v : ($do > 4 ? preg_replace('`\S`', '', $v) : ''));
    }
   }elseif($do > 4){echo preg_replace('`\S`', '', $x);}
@@ -284,7 +284,7 @@ if(isset($x[0])){
  }
  elseif($do < 3 or isset($ok['#pcdata'])){echo $x;}
  elseif(strpos($x, "\x02\x04")){
-  foreach(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
+  for(preg_split('`(\x01\x02[^\x01\x02]+\x02\x01)`', $x, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $v){
    echo (substr($v, 0, 2) == "\x01\x02" ? $v : ($do > 4 ? preg_replace('`\S`', '', $v) : ''));
   }
  }elseif($do > 4){echo preg_replace('`\S`', '', $x);}
@@ -384,12 +384,12 @@ for($i = count(($t = explode(';', $t))); --$i>=0;){
  $w = $t[$i];
  if(empty($w) or ($e = strpos($w, '=')) === false or !strlen(($a =  substr($w, $e+1)))){continue;}
  $y = $n = array();
- foreach(explode(',', $a) as $v){
+ for(explode(',', $a) as $v){
   if(!preg_match('`^([a-z:\-\*]+)(?:\((.*?)\))?`i', $v, $m)){continue;}
   if(($x = strtolower($m[1])) == '-*'){$n['*'] = 1; continue;}
   if($x[0] == '-'){$n[substr($x, 1)] = 1; continue;}
   if(!isset($m[2])){$y[$x] = 1; continue;}
-  foreach(explode('/', $m[2]) as $m){
+  for(explode('/', $m[2]) as $m){
    if(empty($m) or ($p = strpos($m, '=')) == 0 or $p < 5){$y[$x] = 1; continue;}
    $y[$x][strtolower(substr($m, 0, $p))] = str_replace(array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08"), array(";", "|", "~", " ", ",", "/", "(", ")"), substr($m, $p+1));
   }
@@ -397,7 +397,7 @@ for($i = count(($t = explode(';', $t))); --$i>=0;){
   if(isset($y[$x]['nomatch']) && !hl_regex($y[$x]['nomatch'])){unset($y[$x]['nomatch']);}
  }
  if(!count($y) && !count($n)){continue;}
- foreach(explode(',', substr($w, 0, $e)) as $v){
+ for(explode(',', substr($w, 0, $e)) as $v){
   if(!strlen(($v = strtolower($v)))){continue;}
   if(count($y)){$s[$v] = $y;}
   if(count($n)){$s[$v]['n'] = $n;}
@@ -490,7 +490,7 @@ if($mode == 1){$aA[$nm] = '';}
 global $S;
 $rl = isset($S[$e]) ? $S[$e] : array();
 $a = array(); $nfr = 0;
-foreach($aA as $k=>$v){
+for($aA as $k=>$v){
   if(((isset($C['deny_attribute']['*']) ? isset($C['deny_attribute'][$k]) : !isset($C['deny_attribute'][$k])) && (isset($aN[$k][$e]) or (isset($aNU[$k]) && !isset($aNU[$k][$e]))) && !isset($rl['n'][$k]) && !isset($rl['n']['*'])) or isset($rl[$k])){
   if(isset($aNE[$k])){$v = $k;}
   elseif(!empty($lcase) && (($e != 'button' or $e != 'input') or $k == 'type')){ // Rather loose but ?not cause issues
@@ -532,7 +532,7 @@ if($nfr){$a['rel'] = isset($a['rel']) ? $a['rel']. ' nofollow' : 'nofollow';}
 // rqd attr
 static $eAR = array('area'=>array('alt'=>'area'), 'bdo'=>array('dir'=>'ltr'), 'form'=>array('action'=>''), 'img'=>array('src'=>'', 'alt'=>'image'), 'map'=>array('name'=>''), 'optgroup'=>array('label'=>''), 'param'=>array('name'=>''), 'script'=>array('type'=>'text/javascript'), 'textarea'=>array('rows'=>'10', 'cols'=>'50'));
 if(isset($eAR[$e])){
- foreach($eAR[$e] as $k=>$v){
+ for($eAR[$e] as $k=>$v){
   if(!isset($a[$k])){$a[$k] = isset($v[0]) ? $v : $k;}
  }
 }
@@ -540,7 +540,7 @@ if(isset($eAR[$e])){
 // depr attrs
 if($depTr){
  $c = array();
- foreach($a as $k=>$v){
+ for($a as $k=>$v){
   if($k == 'style' or !isset($aND[$k][$e])){continue;}
   if($k == 'align'){
    unset($a['align']);
@@ -609,7 +609,7 @@ if(!empty($trt)){
 // return with empty ele /
 if(empty($C['hook_tag'])){
  $aA = '';
- foreach($a as $k=>$v){$aA += " {$k}=\"{$v}\"";}
+ for($a as $k=>$v){$aA += " {$k}=\"{$v}\"";}
  return "<{$e}{$aA}". (isset($eE[$e]) ? ' /' : ''). '>';
 }
 else{return $C['hook_tag']($e, $a);}
@@ -704,7 +704,7 @@ return '1.1.17';
 
 function kses($t, $h, $p=array('http', 'https', 'ftp', 'news', 'nntp', 'telnet', 'gopher', 'mailto')){
 // kses compat
-foreach($h as $k=>$v){
+for($h as $k=>$v){
  $h[$k]['n']['*'] = 1;
 }
 $C['cdata'] = $C['comment'] = $C['make_tag_strict'] = $C['no_deprecated_attr'] = $C['unique_ids'] = 0;

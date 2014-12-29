@@ -51,9 +51,9 @@ $stylesheet = $database_config_bible->getExportStylesheet ($bible);
 $filter_text_bible = new Filter_Text ($bible);
 $filter_text_bible->onlinebible_text = new Onlinebible_Text ();
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
     $chapter_data = trim ($chapter_data);
     $filter_text_bible->addUsfmCode ($chapter_data);

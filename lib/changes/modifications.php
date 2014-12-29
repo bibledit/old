@@ -50,22 +50,22 @@ $database_users = Database_Users::getInstance ();
 // This produces the desired order of the notifications in the GUI.
 $users = $database_modifications->getUserUsernames ();
 if (!empty ($users)) $database_logs->log ("Generating lists of changes made per user", Filter_Roles::translator ());
-foreach ($users as $user) {
+for ($users as $user) {
 
   // Go through the Bibles changed by the current user.
   $bibles = $database_modifications->getUserBibles ($user);
-  foreach ($bibles as $bible) {
+  for ($bibles as $bible) {
 
     // Body of the email to be sent.
     $email = "<p>" . gettext("You have entered the changes below in the online Bible Editor.") ." " . gettext ("You may check if it made its way into the Bible text.") . "</p>";
 
     // Go through the books in that Bible.
     $books = $database_modifications->getUserBooks ($user, $bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
 
       // Go through the chapters in that book.
       $chapters = $database_modifications->getUserChapters ($user, $bible, $book);
-      foreach ($chapters as $chapter) {
+      for ($chapters as $chapter) {
 
         // Get the sets of identifiers for that chapter, and set some variables.
         $IdSets = $database_modifications->getUserIdentifiers ($user, $bible, $book, $chapter);
@@ -75,7 +75,7 @@ foreach ($users as $user) {
         $restart = true;
 
         // Go through the sets of identifiers.
-        foreach ($IdSets as $IdSet) {
+        for ($IdSets as $IdSet) {
 
           $oldId = $IdSet ['oldid'];
           $newId = $IdSet ['newid'];
@@ -138,7 +138,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
     $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
     $verses = array_unique ($verses);
     sort ($verses, SORT_NUMERIC);
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $old_verse_usfm = usfm_get_verse_text ($old_chapter_usfm, $verse);
       $new_verse_usfm = usfm_get_verse_text ($new_chapter_usfm, $verse);
       if ($old_verse_usfm != $new_verse_usfm) {
@@ -178,7 +178,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
 // Generate the notifications, online and by email, 
 // for the changes in the Bibles accepted by the team since the previous notifications were generated.
 $bibles = $database_modifications->getTeamDiffBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
 
 
   $stylesheet = $database_config_bible->getExportStylesheet ($bible);
@@ -186,7 +186,7 @@ foreach ($bibles as $bible) {
 
   $changeNotificationUsers = array ();
   $users = $database_users->getUsers ();
-  foreach ($users as $user) {
+  for ($users as $user) {
     if (Access_Bible::read ($bible, $user)) {
       if ($database_config_user->getUserGenerateChangeNotifications ($user)) {
         $changeNotificationUsers [] = $user;
@@ -219,7 +219,7 @@ foreach ($bibles as $bible) {
   $subject = gettext("Recent changes") . " " . $bible;
   $emailBody = filter_url_file_get_contents ($versesoutputfile);
   $users = $database_users->getUsers ();
-  foreach ($users as $user) {
+  for ($users as $user) {
     if ($database_config_user->getUserBibleChangesNotification ($user)) {
       if (Access_Bible::read ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
@@ -230,9 +230,9 @@ foreach ($bibles as $bible) {
 
   // Generate the online change notifications.
   $books = $database_modifications->getTeamDiffBooks ($bible);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $database_logs->log ("$bible " . filter_passage_display ($book, $chapter, "") . " Listing changes", Filter_Roles::translator ());
       $old_chapter_usfm = $database_modifications->getTeamDiff ($bible, $book, $chapter);
       $new_chapter_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
@@ -241,7 +241,7 @@ foreach ($bibles as $bible) {
       $verses = array_merge ($old_verse_numbers, $new_verse_numbers);
       $verses = array_unique ($verses);
       sort ($verses, SORT_NUMERIC);
-      foreach ($verses as $verse) {
+      for ($verses as $verse) {
         $old_verse_usfm = usfm_get_verse_text ($old_chapter_usfm, $verse);
         $new_verse_usfm = usfm_get_verse_text ($new_chapter_usfm, $verse);
         if ($old_verse_usfm != $new_verse_usfm) {

@@ -37,7 +37,7 @@ class Text_Diff_Renderer {
      */
     function Text_Diff_Renderer($params = array())
     {
-        foreach ($params as $param => $value) {
+        for ($params as $param => $value) {
             $v = '_' . $param;
             if (isset($this->$v)) {
                 $this->$v = $value;
@@ -53,7 +53,7 @@ class Text_Diff_Renderer {
     function getParams()
     {
         $params = array();
-        foreach (get_object_vars($this) as $k => $v) {
+        for (get_object_vars($this) as $k => $v) {
             if ($k[0] == '_') {
                 $params[substr($k, 1)] = $v;
             }
@@ -82,7 +82,7 @@ class Text_Diff_Renderer {
 
         $diffs = $diff->getDiff();
         
-        foreach ($diffs as $i => $edit) {
+        for ($diffs as $i => $edit) {
             /* If these are unchanged (copied) lines, and we want to keep
              * leading or trailing context lines, extract them from the copy
              * block. */
@@ -149,7 +149,7 @@ class Text_Diff_Renderer {
     {
         $output = $this->_startBlock($this->_blockHeader($xbeg, $xlen, $ybeg, $ylen));
 
-        foreach ($edits as $edit) {
+        for ($edits as $edit) {
         
             switch (strtolower(get_class($edit))) {
             case 'text_diff_op_copy':

@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <a href="?id=<?php echo $this->id ?>&subscribe="><?php echo gettext("Subscribe to this note") ?></a>
 <?php } ?>
 <p><?php echo gettext("The note has been assigned to") ?>:
-<?php foreach ($this->assignees as $offset => $assignee) { ?>
+<?php for ($this->assignees as $offset => $assignee) { ?>
   <?php echo $this->assignees[$offset] ?>
   <?php if ($this->level >= 5) { ?>
     <a href="?id=<?php echo $this->id ?>&unassign=<?php echo $this->assignees[$offset] ?>">[<?php echo gettext("unassign") ?>]</a>

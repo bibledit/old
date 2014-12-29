@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
   $verses = explode ("\n", $_POST['verses']);
   $passages = array ();
   $previousPassage = array (1, 1, 1);
-  foreach ($verses as $line) {
+  for ($verses as $line) {
     $line = trim ($line);
     if ($line != "") {
       $passage = filter_passage_interpret_passage ($previousPassage, $line);

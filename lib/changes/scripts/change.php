@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </table>
 <br>
 <table>
-  <?php foreach ($this->notes as $offset => $note) { ?>
+  <?php for ($this->notes as $offset => $note) { ?>
     <tr>
       <td>
       <?php if ($this->live_notes_editor) { ?>

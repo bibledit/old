@@ -55,7 +55,7 @@ $editor_import->run ();
 if ($offset <= $editor_import->textLength) {
 
   // Look for the verse that matches the offset.
-  foreach ($editor_import->verseStartOffsets as $key => $value) {
+  for ($editor_import->verseStartOffsets as $key => $value) {
     if ($offset >= $value) $verse = $key;
   }
 

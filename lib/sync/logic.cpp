@@ -149,7 +149,7 @@ static public function offline_resources_checksum ()
   checksum = "";
   database_offlineresources = Database_OfflineResources::getInstance ();
   names = database_offlineresources.names ();
-  foreach (names as name) {
+  for (names as name) {
     checksum += self::offline_resource_checksum (name);
   }
   checksum = md5 (checksum);
@@ -163,7 +163,7 @@ static public function offline_resource_checksum (name)
   checksum = array ();
   database_offlineresources = Database_OfflineResources::getInstance ();
   files = database_offlineresources.files (name);
-  foreach (files as file) {
+  for (files as file) {
     checksum [] = name;
     checksum [] = self::offline_resource_file_checksum (name, file);
   }
@@ -188,7 +188,7 @@ static public function usfm_resources_checksum ()
   checksum = array ();
   database_usfmresources = Database_UsfmResources::getInstance ();
   resources = database_usfmresources.getResources ();
-  foreach (resources as resource) {
+  for (resources as resource) {
     checksum [] = self::usfm_resource_checksum (resource);
   }
   checksum = implode ("", checksum);
@@ -203,7 +203,7 @@ static public function usfm_resource_checksum (name)
   checksum = array ();
   database_usfmresources = Database_UsfmResources::getInstance ();
   books = database_usfmresources.getBooks (name);
-  foreach (books as book) {
+  for (books as book) {
     checksum [] = book;
     checksum [] = self::usfm_resource_book_checksum (name, book);
   }
@@ -219,7 +219,7 @@ static public function usfm_resource_book_checksum (name, book)
   checksum = array ();
   database_usfmresources = Database_UsfmResources::getInstance ();
   chapters = database_usfmresources.getChapters (name, book);
-  foreach (chapters as chapter) {
+  for (chapters as chapter) {
     checksum [] = chapter;
     checksum [] = self::usfm_resource_chapter_checksum (name, book, chapter);
   }

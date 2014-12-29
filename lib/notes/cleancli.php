@@ -33,7 +33,7 @@ Filter_Cli::assert ();
 
 // Go through all note identifiers.
 $identifiers = $database_notes->getIdentifiers ();
-foreach ($identifiers as $identifier) {
+for ($identifiers as $identifier) {
   $database_logs->log (gettext("Looking into note") . " " . $identifier, true);
   // The note may have been deleted already. Check on that.
   if ($database_notes->identifierExists ($identifier)) {

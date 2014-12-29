@@ -37,7 +37,7 @@ if (isset ($add)) {
   if ($add == "") {
     $dialog_list = new Dialog_List2 (gettext("Would you like to add a Resource?"));
     $resources = Resource_Logic::getNames ();
-    foreach ($resources as $resource) {
+    for ($resources as $resource) {
       $dialog_list->add_row ($resource, "&add=$resource");
     }
     $dialog_list->run();

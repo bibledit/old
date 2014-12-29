@@ -72,7 +72,7 @@ class Workbench_Logic
     
     if ($use) {
       // Transform the internal URLs to full ones.
-      foreach ($urls as &$url) {
+      for ($urls as &$url) {
         if ($url == "") continue;
         $parts = pathinfo ($url);
         $dirname = $parts ['dirname'];
@@ -86,7 +86,7 @@ class Workbench_Logic
     
     if ($use) {
       // Add query value for suppressing the topbar as the workbench already has one.
-      foreach ($urls as &$url) {
+      for ($urls as &$url) {
         if ($url == "") continue;
         $pos = strpos ($url, "?");
         if ($pos === false) {
@@ -156,7 +156,7 @@ class Workbench_Logic
     $widths = unserialize ($widths);
     @$widths = $widths [$workbench];
     if (!is_array ($widths)) $widths = array ();
-    foreach ($widths as $offset => $width) {
+    for ($widths as $offset => $width) {
       $widths [$offset] = Workbench_Logic::processUnits ($widths [$offset]);
     }
     if (count ($widths) != 15) {
@@ -207,7 +207,7 @@ class Workbench_Logic
     $heights = unserialize ($heights);
     @$heights = $heights [$workbench];
     if (!is_array ($heights)) $heights = array ();
-    foreach ($heights as $offset => $height) {
+    for ($heights as $offset => $height) {
       $heights [$offset] = Workbench_Logic::processUnits ($heights [$offset]);
     }
     if (count ($heights) != 3) {
@@ -276,7 +276,7 @@ class Workbench_Logic
     $newurls = array ();
     $newwidths = array ();
     $newheights = array ();
-    foreach ($workbenches as $workbench) {
+    for ($workbenches as $workbench) {
       $newurls [$workbench] = $urls [$workbench];
       $newwidths [$workbench] = $widths [$workbench];
       $newheights [$workbench] = $heights [$workbench];

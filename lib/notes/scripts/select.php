@@ -57,7 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
 <?php echo gettext("Select notes that have a certain status:") ?>
   <a <?php if ($this->statusselector == "") { ?>class="active"<?php } ?> href="select.php?statusselector="><?php echo gettext("Any") ?></a>
-  <?php foreach ($this->statusids as $offset => $statusid) { ?>
+  <?php for ($this->statusids as $offset => $statusid) { ?>
     |
     <a <?php if ($this->statusselector == $statusid) { ?>class="active"<?php } ?> href="select.php?statusselector=<?php echo $this->statusids[$offset] ?>"><?php echo $this->statuslocs[$offset] ?></a>
   <?php } ?>
@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
 <?php echo gettext("Select notes that belong to:") ?>
   <a <?php if ($this->bibleselector == "") { ?>class="active"<?php } ?> href="select.php?bibleselector="><?php echo gettext("any Bible") ?></a>
-  <?php foreach ($this->bibles as $offset => $bible) { ?>
+  <?php for ($this->bibles as $offset => $bible) { ?>
     |
     <a <?php if ($this->bibleselector == $bible) { ?>class="active"<?php } ?> href="select.php?bibleselector=<?php echo $this->bibles[$offset] ?>"><?php echo $this->bibles[$offset] ?></a>
   <?php } ?>
@@ -73,7 +73,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p>
 <?php echo gettext("Select notes that have been assigned to somebody:") ?>
   <a <?php if ($this->assignmentselector == "") { ?>class="active"<?php } ?> href="select.php?assignmentselector="><?php echo gettext("do not care about this") ?></a>
-  <?php foreach ($this->assignees as $offset => $assignee) { ?>
+  <?php for ($this->assignees as $offset => $assignee) { ?>
     |
     <a <?php if ($this->assignmentselector == $assignee) { ?>class="active"<?php } ?> href="select.php?assignmentselector=<?php echo $this->assignees[$offset] ?>"><?php echo $this->assignees[$offset] ?></a>
   <?php } ?>
@@ -89,7 +89,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <?php echo gettext("Select notes that have a severity of:") ?>
   <a <?php if ($this->severityselector == -1) { ?>class="active"<?php } ?> href="select.php?severityselector=-1"><?php echo gettext("Any") ?></a>
-  <?php foreach ($this->severities as $offset => $severity) { ?>
+  <?php for ($this->severities as $offset => $severity) { ?>
     |
     <a <?php if ($this->severityselector == $severity[0]) { ?>class="active"<?php } ?> href="select.php?severityselector=<?php echo $this->severities[$offset][0] ?>"><?php echo $this->severities[$offset][1] ?></a>
   <?php } ?>

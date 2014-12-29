@@ -80,7 +80,7 @@ $books = array (
   "Mal"
 );
 
-foreach ($books as $book => $osis) {
+for ($books as $book => $osis) {
 
   $book++;
   echo "$osis ";

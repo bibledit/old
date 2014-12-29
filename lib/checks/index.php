@@ -50,7 +50,7 @@ if (isset ($delete)) {
 // Get the Bibles the user has write-access to.
 $bibleIDs = array ();
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   if (access_bible_write ($bible)) {
     $id = $database_bibles->getID ($bible);
     $bibleIDs [] = $id;
@@ -67,7 +67,7 @@ $information = array ();
 
 
 $hits = $database_check->getHits ();
-foreach ($hits as $hit) {
+for ($hits as $hit) {
   $bibleID = $hit['bible'];
   if (in_array ($bibleID, $bibleIDs)) {
     $ids [] = $hit['rowid'];

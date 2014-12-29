@@ -74,7 +74,7 @@ $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
 sort ($verses, SORT_NUMERIC);
 $usfmArray = array ();
-foreach ($verses as $vs) {
+for ($verses as $vs) {
   $usfmArray [$vs] = usfm_get_verse_text ($usfmString, $vs);
 }
 
@@ -89,7 +89,7 @@ $usfm = implode ("\n", $usfmArray);
 
 $stylesheet = $database_config_user->getStylesheet();
 $book_chapter_text = usfm_import ($usfm, $stylesheet);
-foreach ($book_chapter_text as $data) {
+for ($book_chapter_text as $data) {
   $book_number = $data[0];
   $chapter_number = $data[1];
   $chapter_data_to_save = $data[2];

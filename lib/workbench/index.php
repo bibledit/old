@@ -41,7 +41,7 @@ $view = new Assets_View (__FILE__);
 
 $urls = Workbench_Logic::getURLs (true);
 $widths = Workbench_Logic::getWidths ();
-foreach ($urls as $key => $url) {
+for ($urls as $key => $url) {
   $row = intval ($key / 5) + 1;
   $column = $key % 5 + 1;
   $variable = "url" . $row . $column;
@@ -52,7 +52,7 @@ foreach ($urls as $key => $url) {
 
 
 $heights = Workbench_Logic::getHeights ();
-foreach ($heights as $key => $height) {
+for ($heights as $key => $height) {
   $row = $key + 1;
   $variable = "height" . $row;
   $view->view->$variable = $height;

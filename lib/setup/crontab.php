@@ -47,7 +47,7 @@ if ($exitcode != 0) {
 // If any of the entries are not there yet, add them.
 $timerIncluded = false;
 $tasksIncluded = false;
-foreach ($result as $line) {
+for ($result as $line) {
   if ($line == $timerSignature) $timerIncluded = true;
   if ($line == $tasksSignature) $tasksIncluded = true;
 }
@@ -61,7 +61,7 @@ if (!$timerIncluded || !$tasksIncluded) {
   exec ("crontab $filename 2>&1", $result, $exitcode);
   if ($exitcode != 0) {
     $messages [] = "Crontab ran with an exitcode of $exitcode, while 0 would be expected. Therefore the scheduled task for Bibledit may not have been set properly.";
-    foreach ($result as $line) {
+    for ($result as $line) {
       $messages [] = "Error: " . $line;
     }
   }
@@ -99,7 +99,7 @@ if (function_exists ("posix_getpwuid")) {
 <p>More information is below.</p>
 <ul>
 <?php
-foreach ($messages as $message) {
+for ($messages as $message) {
   echo "<li>$message</li>\n";
 }
 ?>

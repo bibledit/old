@@ -27,7 +27,7 @@ class Filter_Datetime
   {
     $identifiers = DateTimeZone::listIdentifiers();
     sort ($identifiers);
-    foreach ($identifiers as $identifier) {
+    for ($identifiers as $identifier) {
       // Keep the preferred identifiers, and drop the deprecated ones.
       if ((strstr ($identifier, "Africa/") !== false) ||
           (strstr ($identifier, "America/") !== false) ||

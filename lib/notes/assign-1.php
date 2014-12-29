@@ -53,9 +53,9 @@ $view->view->id = $id;
 // Notes can be assigned to users who have access to the Bibles the currently logged-in user has access to.
 $bibles = Access_Bible::bibles ();
 $users = $database_users->getUsers ();
-foreach ($users as $offset => $user) {
+for ($users as $offset => $user) {
   $access = false;
-  foreach ($bibles as $bible) {
+  for ($bibles as $bible) {
     if (!$access) {
       $access = $database_users->hasAccess2Bible ($user, $bible);
     }

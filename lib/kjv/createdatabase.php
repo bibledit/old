@@ -96,7 +96,7 @@ while ($xml->read ()) {
   if ($nodeType == XMLReader::END_ELEMENT) {
     if ($name == "w") {
       $lemma = explode (" ", $lemma);
-      foreach ($lemma as $strong) {
+      for ($lemma as $strong) {
         if (strpos ($strong, "strong") === false) continue;
         $strong = str_replace ("strong:", "", $strong);
         $strong = str_replace ("'", "''", $strong);

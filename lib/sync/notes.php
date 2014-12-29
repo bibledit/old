@@ -80,7 +80,7 @@ if ($action == "notes") {
 
   $identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId, $bibles);
   $checksums = array ();
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     $checksum = $database_notes->getChecksum ($identifier);
     $checksums [] = $checksum;
   }

@@ -30,7 +30,7 @@ $folder = "$folder/data";
 $database_logs->log (gettext("Importing from folder:") . " " . $folder, true);
 
 $counter = 0;
-foreach (new DirectoryIterator ($folder) as $fileInfo) {
+for (new DirectoryIterator ($folder) as $fileInfo) {
   if($fileInfo->isDot()) continue;
   if($fileInfo->isDir()) continue;
   $counter++;

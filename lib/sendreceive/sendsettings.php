@@ -58,7 +58,7 @@ $ids = $database_config_user->getUpdatedSettings ();
 if (!empty ($ids)) {
   $database_logs->log (gettext("Sending settings"), Filter_Roles::translator ());
 }
-foreach ($ids as $id) {
+for ($ids as $id) {
 
   // Get and serialize the setting.
   $setting = null;

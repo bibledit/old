@@ -45,7 +45,7 @@ if ($usfmString == "") die;
 
 $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
-foreach ($verses as $vs) {
+for ($verses as $vs) {
   $usfmArray [$vs] = usfm_get_verse_text ($usfmString, $vs);
 }
 

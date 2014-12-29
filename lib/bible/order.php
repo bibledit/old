@@ -49,7 +49,7 @@ if (isset ($reset)) {
 if (isset ($order)) {
   $order = explode (",", $order);
   $ids = array ();
-  foreach ($order as $english) {
+  for ($order as $english) {
     $id = $database_books->getIdFromEnglish ($english);
     $ids [] = $id;
   }
@@ -67,7 +67,7 @@ $view->view->script = $script;
 
 $names = array ();
 $books = filter_passage_get_ordered_books ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   $names [] = $database_books->getEnglishFromId ($book);
 }
 $view->view->names = $names;

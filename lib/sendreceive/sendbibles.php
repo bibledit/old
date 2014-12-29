@@ -57,11 +57,11 @@ $communication_errors = false;
 
 // Go through the Bibles / books / chapters that have actions recorded for them.
 $bibles = $database_bibleactions->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   $books = $database_bibleactions->getBooks ($bible);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $chapters = $database_bibleactions->getChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
 
       $bookname = $database_books->getEnglishFromId ($book);
       $database_logs->log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::translator ());

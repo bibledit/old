@@ -75,7 +75,7 @@ class Text_Diff {
     function countAddedLines()
     {
         $count = 0;
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if (is_a($edit, 'Text_Diff_Op_add') ||
                 is_a($edit, 'Text_Diff_Op_change')) {
                 $count += $edit->nfinal();
@@ -95,7 +95,7 @@ class Text_Diff {
     function countDeletedLines()
     {
         $count = 0;
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if (is_a($edit, 'Text_Diff_Op_delete') ||
                 is_a($edit, 'Text_Diff_Op_change')) {
                 $count += $edit->norig();
@@ -126,7 +126,7 @@ class Text_Diff {
             $rev = $this;
         }
         $rev->_edits = array();
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             $rev->_edits[] = $edit->reverse();
         }
         return $rev;
@@ -139,7 +139,7 @@ class Text_Diff {
      */
     function isEmpty()
     {
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if (!is_a($edit, 'Text_Diff_Op_copy')) {
                 return false;
             }
@@ -157,7 +157,7 @@ class Text_Diff {
     function lcs()
     {
         $lcs = 0;
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if (is_a($edit, 'Text_Diff_Op_copy')) {
                 $lcs += count($edit->orig);
             }
@@ -175,7 +175,7 @@ class Text_Diff {
     function getOriginal()
     {
         $lines = array();
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if ($edit->orig) {
                 array_splice($lines, count($lines), 0, $edit->orig);
             }
@@ -193,7 +193,7 @@ class Text_Diff {
     function getFinal()
     {
         $lines = array();
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if ($edit->final) {
                 array_splice($lines, count($lines), 0, $edit->final);
             }
@@ -273,7 +273,7 @@ class Text_Diff {
         }
 
         $prevtype = null;
-        foreach ($this->_edits as $edit) {
+        for ($this->_edits as $edit) {
             if ($prevtype == get_class($edit)) {
                 trigger_error("Edit sequence is non-optimal", E_USER_ERROR);
             }

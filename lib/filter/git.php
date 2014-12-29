@@ -40,7 +40,7 @@ class Filter_Git
     // and check if they occur in the database.
     // If a chapter is not in the database, remove it from the repository.
     $books = $database_bibles->getBooks ($bible);
-    foreach (new DirectoryIterator ($git) as $fileInfo) {
+    for (new DirectoryIterator ($git) as $fileInfo) {
       if ($fileInfo->isDot ()) continue;
       if ($fileInfo->isDir ()) {
         $bookname = $fileInfo->getFilename ();
@@ -49,7 +49,7 @@ class Filter_Git
           if (in_array ($book, $books)) {
             // Book exists in the database: Check the chapters.
             $chapters = $database_bibles->getChapters ($bible, $book);
-            foreach (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
+            for (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
               if ($fileInfo2->isDot ()) continue;
               if ($fileInfo2->isDir ()) {
                 $chapter = $fileInfo2->getFilename ();
@@ -77,13 +77,13 @@ class Filter_Git
     // and check if they occur in the repository, and the data matches.
     // If necessary, save the chapter to the repository.
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       $bookname = $database_books->getEnglishFromId ($book);
       if ($progress) echo "$bookname ";
       $bookdir = "$git/$bookname";
       if (!file_exists ($bookdir)) mkdir ($bookdir);
       $chapters = $database_bibles->getChapters ($bible, $book);
-      foreach ($chapters as $chapter) {
+      for ($chapters as $chapter) {
         $chapterdir = "$bookdir/$chapter";
         if (!file_exists ($chapterdir)) mkdir ($chapterdir);
         $datafile = "$chapterdir/data";
@@ -146,7 +146,7 @@ class Filter_Git
     // If any does not occur, add the chapter to the database.
     // This stage does not check the contents of the chapters.
     $books = $database_bibles->getBooks ($bible);
-    foreach (new DirectoryIterator ($git) as $fileInfo) {
+    for (new DirectoryIterator ($git) as $fileInfo) {
       if ($fileInfo->isDot ()) continue;
       if ($fileInfo->isDir ()) {
         $bookname = $fileInfo->getFilename ();
@@ -154,7 +154,7 @@ class Filter_Git
         if ($book) {
           // Check the chapters.
           $chapters = $database_bibles->getChapters ($bible, $book);
-          foreach (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
+          for (new DirectoryIterator ("$git/$bookname") as $fileInfo2) {
             if ($fileInfo2->isDot ()) continue;
             if ($fileInfo2->isDir ()) {
               $chapter = $fileInfo2->getFilename ();
@@ -184,12 +184,12 @@ class Filter_Git
     // folder and the contents in the database match.
     // If necessary, update the data in the database.
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       $bookname = $database_books->getEnglishFromId ($book);
       $bookdir = "$git/$bookname";
       if (file_exists ($bookdir)) {
         $chapters = $database_bibles->getChapters ($bible, $book);
-        foreach ($chapters as $chapter) {
+        for ($chapters as $chapter) {
           $chapterdir = "$bookdir/$chapter";
           if (file_exists ($chapterdir)) {
             $datafile = "$chapterdir/data";
@@ -259,7 +259,7 @@ class Filter_Git
     $command = "cd $directory; git log --all --pretty=format:%H 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       $commit = explode (" ", $line);
       $commit = $commit [0];
       $commits [] = $commit;
@@ -276,7 +276,7 @@ class Filter_Git
     $command = "cd $directory; git diff-tree --no-commit-id --name-only -r $sha1 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       $files [] = $line;
     }
     return $files;
@@ -313,7 +313,7 @@ class Filter_Git
     $command = "cd $directory; git show --pretty=format:'%at' $sha1 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       return $line;
     }
     return time ();
@@ -327,7 +327,7 @@ class Filter_Git
     $command = "cd $directory; git show --pretty=format:'%cn %ce' $sha1 2>&1";
     unset ($result);
     exec ($command, $result, $exit_code);
-    foreach ($result as $line) {
+    for ($result as $line) {
       return $line;
     }
     return "Unknown";

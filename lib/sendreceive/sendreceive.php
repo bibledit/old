@@ -80,11 +80,11 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if ($exit_code != 0) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 0)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -96,11 +96,11 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if ($exit_code != 0) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 4)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -112,11 +112,11 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if (($exit_code != 0) && ($exit_code != 1)) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 4)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -131,7 +131,7 @@ if ($success) {
   $logs [] = "$send_receive $command";
   unset ($result);
   exec ($command, $result, $exit_code);
-  foreach ($result as $line) {
+  for ($result as $line) {
     $logs [] = "$send_receive $line";
     if (strstr ($line, "CONFLICT") !== false) $conflict = true;
     $pull_messages [] = $line;
@@ -142,7 +142,7 @@ if ($success) {
     Filter_Conflict::run ($directory);
   }
   if (!$success || $conflict || (count ($result) > 1)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
@@ -155,19 +155,19 @@ if ($success) {
   unset ($result);
   exec ($command, $result, $exit_code);
   if ($exit_code != 0) $success = false;
-  foreach ($result as $line) {
+  for ($result as $line) {
     if (strstr ($line, "/.ssh") != false) continue;
     if ($line) $logs [] = "$send_receive $line";
   }
   if (!$success || (count ($result) > 1)) {
-    foreach ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
+    for ($logs as $log) $database_logs->log ($log, Filter_Roles::translator ());
   }
 }
 
 
 // Record the changes from the collaborators into the Bible database.
 if ($success) {
-  foreach ($pull_messages as $pull_message) {
+  for ($pull_messages as $pull_message) {
     $book_chapter = Filter_Git::getPullPassage ($pull_message);
     if ($book_chapter) {
       $book = $book_chapter ['book'];

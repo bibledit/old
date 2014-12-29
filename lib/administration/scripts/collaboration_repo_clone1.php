@@ -24,6 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <p><?php echo gettext("Bibledit clones the remote repository, and optimizes the clone for your use.") ?></p>
 
-<?php foreach ($this->contents as $line) {  ?>
+<?php for ($this->contents as $line) {  ?>
   <p><code><?php echo $line ?></code></p>
 <?php } ?>

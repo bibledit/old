@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p class="error"><?php echo $this->error_message ?></p>
 <p><?php echo gettext("Bible") ?>: <a href="settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
 <p><?php echo gettext("Chapters:") ?>
-<?php foreach ($this->chapters as $offset => $chapter) { ?>
+<?php for ($this->chapters as $offset => $chapter) { ?>
   <a href="chapter.php?bible=<?php echo $this->bible ?>&book=<?php echo $this->book ?>&chapter=<?php echo $this->chapters[$offset] ?>"><?php echo $this->chapters[$offset] ?></a>
 <?php } ?>
 </p>

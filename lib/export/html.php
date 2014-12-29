@@ -76,7 +76,7 @@ $filter_text->html_text_standard->customClass = Filter_CustomCSS::getClass ($bib
 
 // Load one book.
 $chapters = $database_bibles->getChapters ($bible, $book);
-foreach ($chapters as $chapter) {
+for ($chapters as $chapter) {
   $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
   $usfm = trim ($usfm);
   // Use small chunks of USFM at a time for much better performance.

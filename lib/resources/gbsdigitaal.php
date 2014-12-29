@@ -33,7 +33,7 @@ function gbsdigitaal ($url, $verse)
   
   @$verses = $data->verses;
   if (is_array ($verses)) {
-    foreach ($verses as $data) {
+    for ($verses as $data) {
       if (isset ($data->number)) {
         if ($data->number == $verse) {
           if (isset ($data->text)) {

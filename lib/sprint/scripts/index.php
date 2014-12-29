@@ -33,18 +33,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <tr>
     <td></td>
     <td></td>
-    <?php foreach ($this->categories as $offset => $category) { ?>
+    <?php for ($this->categories as $offset => $category) { ?>
       <td style="text-align:center"><?php echo $category ?></td>
     <?php } ?>
   </tr>
-<?php foreach ($this->tasks as $offset => $id) { ?>
+<?php for ($this->tasks as $offset => $id) { ?>
   <tr>
     <td><a href="?id=<?php echo $id ?>&moveback="> « </a></td>
     <td><?php echo $this->titles [$offset] ?></td>
     <?php
     $category_count = count ($this->categories);
     $category_percentage = 100 / $category_count;
-    foreach ($this->categories as $offset2 => $category) {
+    for ($this->categories as $offset2 => $category) {
       $low = intval ($offset2 * $category_percentage);
       $high = intval (($offset2 + 1) * $category_percentage);
       $background = "";

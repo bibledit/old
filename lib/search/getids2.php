@@ -49,7 +49,7 @@ if ($casesensitive) {
 
 
 // Output identifiers of the search results.
-foreach ($hits as $hit) {
+for ($hits as $hit) {
   echo "$hit\n";
 }
 

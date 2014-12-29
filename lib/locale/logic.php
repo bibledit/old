@@ -55,7 +55,7 @@ class Locale_Logic
     $localizations = array ("default");
     $localeFolder = dirname (__FILE__);
     $files = scandir ($localeFolder);
-    foreach ($files as $file) {
+    for ($files as $file) {
       $extension = pathinfo ($file, PATHINFO_EXTENSION);
       if ($extension != "mo") continue;
       $localization = pathinfo ($file, PATHINFO_FILENAME);
@@ -76,7 +76,7 @@ class Locale_Logic
     @$data = filter_url_file_get_contents ($filename);
     if ($data !== false) {
       $data = explode ("\n", $data);
-      foreach ($data as $line) {
+      for ($data as $line) {
         if (strpos ($line, "\"Language-Team: ") !== false) {
           $line = substr ($line, 16);
           $pos = strpos ($line, " <");

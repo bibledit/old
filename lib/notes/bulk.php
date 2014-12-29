@@ -85,13 +85,13 @@ $identifiers = unserialize ($database_volatile->getValue ($userid, "identifiers"
 
 
 $identifierlist = "";
-foreach ($identifiers as $identifier) {
+for ($identifiers as $identifier) {
   $identifierlist += " $identifier";
 }
 
 
 if (isset($_GET['subscribe'])) {
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     $notes_logic->subscribe ($identifier);
   }
   Assets_Page::success (gettext("You subscribed to these notes"));
@@ -99,7 +99,7 @@ if (isset($_GET['subscribe'])) {
 
 
 if (isset($_GET['unsubscribe'])) {
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     $notes_logic->unsubscribe ($identifier);
   }
   Assets_Page::success (gettext("You unsubscribed from these notes"));
@@ -109,7 +109,7 @@ if (isset($_GET['unsubscribe'])) {
 @$assign = $_GET['assign'];
 if (isset ($assign)) {
   if ($database_users->usernameExists ($assign)) {
-    foreach ($identifiers as $identifier) {
+    for ($identifiers as $identifier) {
       if (!$database_notes->isAssigned ($identifier, $assign)) {
         $notes_logic->assignUser ($identifier, $assign);
       }
@@ -123,7 +123,7 @@ if (isset ($assign)) {
 @$unassign = $_GET['unassign'];
 if (isset ($unassign)) {
   if ($database_users->usernameExists ($unassign)) {
-    foreach ($identifiers as $identifier) {
+    for ($identifiers as $identifier) {
       if ($database_notes->isAssigned ($identifier, $unassign)) {
         $notes_logic->unassignUser ($identifier, $unassign);
       }
@@ -136,7 +136,7 @@ if (isset ($unassign)) {
 
 @$status = $_GET['status'];
 if (isset ($status)) {
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     if ($database_notes->getRawStatus ($identifier) != $status) {
       $notes_logic->setStatus ($identifier, $status);
     }
@@ -148,7 +148,7 @@ if (isset ($status)) {
 
 @$severity = $_GET['severity'];
 if (isset ($severity)) {
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     if ($database_notes->getRawSeverity ($identifier) != $severity) {
       $notes_logic->setRawSeverity ($identifier, $severity);
     }
@@ -161,7 +161,7 @@ if (isset ($severity)) {
 @$bible = $_GET['bible'];
 if (isset ($bible)) {
   if ($bible == Notes_Logic::generalBibleName ()) $bible = "";
-  foreach ($identifiers as $identifier) {
+  for ($identifiers as $identifier) {
     if ($database_notes->getBible ($identifier) != $bible) {
       $notes_logic->setBible ($identifier, $bible);
     }
@@ -177,7 +177,7 @@ if (isset ($delete)) {
   if ($confirm != "yes") {
     $dialog_yes = new Dialog_Yes2 (gettext("Would you like to delete the notes?"), "&delete=");
   } else {
-    foreach ($identifiers as $identifier) {
+    for ($identifiers as $identifier) {
       $notes_logic->delete ($identifier); // Notifications handling.
       $trash_handler = Trash_Handler::getInstance ();
       $trash_handler->consultationNote ($identifier);

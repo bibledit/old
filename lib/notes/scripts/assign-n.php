@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h3><?php echo gettext("Select the user to assign the notes to") ?></h3>
 <ul>
-<?php foreach ($this->users as $user) { ?>
+<?php for ($this->users as $user) { ?>
   <li><a href="bulk.php?assign=<?php echo $user ?>"><?php echo $user ?></a></li>
 <?php } ?>
 </ul>

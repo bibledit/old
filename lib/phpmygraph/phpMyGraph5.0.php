@@ -603,7 +603,7 @@ abstract class graphBase implements iGraph {
 		}
 		
 		//Loop properties
-		foreach($properties as $propertyData) {
+		for($properties as $propertyData) {
 		
 			//Test for key
 			if(!array_key_exists($propertyData['name'], $cfg)) {
@@ -820,7 +820,7 @@ abstract class graphBase implements iGraph {
 		);
 			
 		//Loop
-		foreach($data as $key => $value) {
+		for($data as $key => $value) {
 			//Test
 			if(!is_numeric($value)) {
 				throw new Exception(
@@ -909,7 +909,7 @@ abstract class graphBase implements iGraph {
 			return false;
 		}
 		//Validate
-		foreach($values as $key) {
+		for($values as $key) {
 			if(!array_key_exists($key, $structure)) {
 				return false;
 			}
@@ -957,7 +957,7 @@ abstract class graphBase implements iGraph {
 		$avgArray = array();
 		
 		//Loop
-		foreach($argumentList as $idx => $dataStructure) {
+		for($argumentList as $idx => $dataStructure) {
 		
 			//Test cols
 			if(is_null($structure['cols'])) {
@@ -1024,7 +1024,7 @@ abstract class graphBase implements iGraph {
 		$structure['negativeSectionPercentage'] = $structure['minQuadrantPercentage'];
 		
 		//Override datastructures
-		foreach($argumentList as $idx => $dataStructure) {
+		for($argumentList as $idx => $dataStructure) {
 			
 			//Override
 			$dataStructure['fakeMax'] = $structure['fakeMax'];
@@ -1078,7 +1078,7 @@ abstract class graphBase implements iGraph {
 		$messageWidth = 0;
 		
 		//Loop lines to get max width
-		foreach($lines as $lineMessage) {
+		for($lines as $lineMessage) {
 			$messageWidth = ceil(strlen($lineMessage) * $fontWidth);
 			if($imageWidth < $messageWidth) {
 				$imageWidth = $messageWidth;
@@ -1096,7 +1096,7 @@ abstract class graphBase implements iGraph {
 		imagefilledrectangle($this->ip, 0, 0, $imageWidth, $imageHeight, $backgroundColor);
 		
 		//Parse lines
-		foreach($lines as $lineMessage) {
+		for($lines as $lineMessage) {
 			imagestring($this->ip, 2, $x, $y, $lineMessage, $textColor);
 			$y = $y + $fontHeight;
 		}
@@ -1767,7 +1767,7 @@ abstract class verticalGraphBase extends graphBase {
 		$columns = array();
 		
 		//Loop data items
-		foreach($datastructure['data'] as $key => $value) {
+		for($datastructure['data'] as $key => $value) {
 			
 			//Calc
 			$colWidthOffset = ($points['col']['width'] > 8) ? 3 : 0;
@@ -2395,7 +2395,7 @@ abstract class verticalGraphBase extends graphBase {
 		$columnShadowColor = $this->allocateColor($this->cfg['column-shadow-color'], $this->cfg['column-shadow-alpha']); 
 		
 		//Loop
-		foreach($graphPoints['columns'] as $colPoint) {
+		for($graphPoints['columns'] as $colPoint) {
 
 			
 			//Test for random colors
@@ -2565,7 +2565,7 @@ abstract class verticalGraphBase extends graphBase {
 			$this->drawTitle($graphPoints);
 			$this->drawValueLabels($graphPoints, $firstStructure);
 			$this->drawBoxBackground($graphPoints);
-				foreach($compareStructure['structures'] as $idx =>  $dataStructure) {
+				for($compareStructure['structures'] as $idx =>  $dataStructure) {
 					$graphPoints2 = $this->calculateGraph($dataStructure);
 					$this->drawColumns($graphPoints2, $dataStructure, ($idx!=1));
 				}
@@ -3186,7 +3186,7 @@ abstract class horizontalGraphBase extends graphBase {
 		$columns = array();
 		
 		//Loop data items
-		foreach($datastructure['data'] as $key => $value) {
+		for($datastructure['data'] as $key => $value) {
 			
 			//Calc
 			$colWidthOffset = ($points['col']['height'] > 8) ? 3 : 0;
@@ -3842,7 +3842,7 @@ abstract class horizontalGraphBase extends graphBase {
 		$columnShadowColor = $this->allocateColor($this->cfg['column-shadow-color'], $this->cfg['column-shadow-alpha']); 
 		
 		//Loop
-		foreach($graphPoints['columns'] as $colPoint) {
+		for($graphPoints['columns'] as $colPoint) {
 
 			
 			//Test for random colors
@@ -4017,7 +4017,7 @@ abstract class horizontalGraphBase extends graphBase {
 			$this->drawTitle($graphPoints);
 			$this->drawValueLabels($graphPoints, $firstStructure);
 			$this->drawBoxBackground($graphPoints);
-				foreach($compareStructure['structures'] as $idx =>  $dataStructure) {
+				for($compareStructure['structures'] as $idx =>  $dataStructure) {
 					$graphPoints2 = $this->calculateGraph($dataStructure);
 					$this->drawColumns($graphPoints2, $dataStructure, ($idx!=1));
 				}

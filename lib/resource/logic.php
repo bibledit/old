@@ -62,7 +62,7 @@ class Resource_Logic
       $resource_mapping = $database_resources->getMapping ($name);
       $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
       $output = "";
-      foreach ($passages as $passage) {
+      for ($passages as $passage) {
         $object = new Resource_External ();
         $html = $object->get ($name, $passage [0], $passage [1], $passage [2]);
         unset ($object);
@@ -113,7 +113,7 @@ class Resource_Logic
         $resource_mapping = $database_resources->getMapping ($resource);
         $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
         $html = "";
-        foreach ($passages as $passage) {
+        for ($passages as $passage) {
           $html += $database_offlineresources->get ($resource, $passage [0], $passage [1], $passage [2]);
         }
       } else {

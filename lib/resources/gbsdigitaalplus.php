@@ -58,7 +58,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
   
   if (isset ($data->verses)) {
     $verses = $data->verses;
-    foreach ($verses as $offset => $data) {
+    for ($verses as $offset => $data) {
       if (isset ($data->number)) {
         // Verse match.
         if ($data->number == $verse) {
@@ -78,18 +78,18 @@ function gbsdigitaalplus ($url, $chapter, $verse)
           }
           // Add notes.
           if (isset ($data->commentaries)) {
-            foreach ($data->commentaries as $offset => $commentary) {
+            for ($data->commentaries as $offset => $commentary) {
               $number = $commentary->number;
               $text = $commentary->originalText;
               $references = $commentary->references;
-              foreach ($references as &$reference) {
+              for ($references as &$reference) {
                 $reference = array ('passage' => $reference->id, 'start' => $reference->startIndex, 'length' => $reference->length, 'title' => $reference->text);
               }
               // Invert the references, so we start replacing from the back of the string,
               // so the lengths and offsets are not affected.
               // Insert link, e.g.: <a class="navigate" href="19.90.2">Ps. 90:2</a>
               $references = array_reverse ($references);
-              foreach ($references as $reference) {
+              for ($references as $reference) {
                 $passage = $reference ['passage'];
                 $start = $reference ['start'];
                 $length = $reference ['length'];

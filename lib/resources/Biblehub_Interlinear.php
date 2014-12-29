@@ -105,7 +105,7 @@ $tidied = explode ("\n", $tidy);
 $filtered_lines = array ();
 
 $relevant_line = 0;
-foreach ($tidied as $line) {
+for ($tidied as $line) {
   if (strpos ($line, '<div') !== false) {
     $relevant_line = 0;
   }

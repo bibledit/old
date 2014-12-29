@@ -35,7 +35,7 @@ function studylight ($directory, $book, $chapter, $verse)
   $relevant_lines = array ();
   $relevant_flag = false;
     
-  foreach ($tidied as $line) {
+  for ($tidied as $line) {
     
     if ($relevant_flag) {
       $relevant_lines [] = $line;

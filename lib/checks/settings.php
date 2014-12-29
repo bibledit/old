@@ -39,7 +39,7 @@ if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to manage"));
     $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&bible=$bible");
     }
     $dialog_list->run();

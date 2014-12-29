@@ -499,7 +499,7 @@ define("COOKIENAME", preg_replace('/[^a-zA-Z0-9_]/', '_', $cookie_name . '_' . V
 if (get_magic_quotes_gpc()) {
 	$process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
 	while (list($key, $val) = each($process)) {
-		foreach ($val as $k => $v) {
+		for ($val as $k => $v) {
 			unset($process[$key][$k]);
 			if (is_array($v)) {
 				$process[$key][stripslashes($k)] = $v;
@@ -539,7 +539,7 @@ function explode_sql($delimiter, $sql)
 			continue;
 		}
 		// Eat comments and string literals
-		foreach($ign as $start => $end)
+		for($ign as $start => $end)
 		{
 			$ilen = strlen($start);
 			if($slen - $i >= $ilen && substr($sql, $i, $ilen) == $start)
@@ -665,7 +665,7 @@ function checkDbName($name)
 function isManagedDB($path)
 {
 	global $databases;
-	foreach($databases as $db_key => $database)
+	for($databases as $db_key => $database)
 	{
 		if($path == $database['path'])
 		{
@@ -772,7 +772,7 @@ if ($auth->isAuthorized())
 			sort($databases);
 			if(isset($tdata))
 			{
-				foreach($databases as $db_id => $database)
+				for($databases as $db_id => $database)
 				{
 					if($database['path'] == $tdata['path'])
 					{
@@ -980,13 +980,13 @@ if(isset($_GET['help'])) //this page is used as the popup help section
 	<?php
 	echo "<div class='help_list'>";
 	echo "<span style='font-size:18px;'>".PROJECT." v".VERSION." ".$lang['help_doc']."</span><br/><br/>";
-	foreach((array)$help as $key => $val)
+	for((array)$help as $key => $val)
 	{
 		echo "<a href='#".$key."'>".$key."</a><br/>";
 	}
 	echo "</div>";
 	echo "<br/><br/>";
-	foreach((array)$help as $key => $val)
+	for((array)$help as $key => $val)
 	{
 		echo "<div class='help_outer'>";
 		echo "<a class='headd' name='".$key."'>".$key."</a>";
@@ -1078,7 +1078,7 @@ else //user is authorized - display the main application
 
 	if(isset($_POST['database_switch'])) //user is switching database with drop-down menu
 	{
-		foreach($databases as $db_id => $database)
+		for($databases as $db_id => $database)
 		{
 			if($database['path'] == $_POST['database_switch'])
 			{
@@ -1090,7 +1090,7 @@ else //user is authorized - display the main application
 	}
 	else if(isset($_GET['switchdb']))
 	{
-		foreach($databases as $db_id => $database)
+		for($databases as $db_id => $database)
 		{
 			if($database['path'] == $_GET['switchdb'])
 			{
@@ -1163,7 +1163,7 @@ else //user is authorized - display the main application
 				if (count($primary_keys)>1)
 				{
 					$compound_key = "";
-					foreach ($primary_keys as $primary_key)
+					for ($primary_keys as $primary_key)
 					{
 						$compound_key += ($compound_key=="" ? "" : ", ") . $db->quote($primary_key);
 					}
@@ -1516,7 +1516,7 @@ else //user is authorized - display the main application
 				if($_POST['beforeafter']!="")
 					$str += " ".$_POST['beforeafter'];
 				$str += " ".$_POST['event']." ON ".$db->quote_id($_GET['table']);
-				if(isset($_POST['foreachrow']))
+				if(isset($_POST['forrow']))
 					$str += " FOR EACH ROW";
 				if($_POST['whenexpression']!="")
 					$str += " WHEN ".$_POST['whenexpression'];
@@ -1579,7 +1579,7 @@ else //user is authorized - display the main application
 	if(sizeof($databases)<10) //if there aren't a lot of databases, just show them as a list of links instead of drop down menu
 	{
 		$i=0;
-		foreach($databases as $database)
+		for($databases as $database)
 		{
 			$i++;
 			echo '[' . ($database['readable'] ? 'r':' ' ) . ($database['writable'] && $database['writable_dir'] ? 'w':' ' ) . '] ';
@@ -1596,7 +1596,7 @@ else //user is authorized - display the main application
 	{
 		echo "<form action='".PAGE."' method='post'>";
 		echo "<select name='database_switch'>";
-		foreach($databases as $database)
+		for($databases as $database)
 		{
 			$perms_string = htmlencode('[' . ($database['readable'] ? 'r':' ' ) . ($database['writable'] && $database['writable_dir'] ? 'w':' ' ) . '] ');
 			if($database == $_SESSION[COOKIENAME.'currentDB'])
@@ -1825,7 +1825,7 @@ else //user is authorized - display the main application
 						echo "</td>";
 						echo $tdWithClass;
 						echo "<select name='".$i."_type' id='i".$i."_type' onchange='toggleAutoincrement(".$i.");'>";
-						foreach ($sqlite_datatypes as $t) {
+						for ($sqlite_datatypes as $t) {
 							echo "<option value='".htmlencode($t)."'>".htmlencode($t)."</option>";
 						}
 						echo "</select>";
@@ -2748,7 +2748,7 @@ else //user is authorized - display the main application
 						echo $tdWithClassLeft;
 						echo "<select name='function_".$j."_".$field_html."' onchange='notNull(\"row_".$j."_field_".$i."_null\");'>";
 						echo "<option value=''>&nbsp;</option>";
-						foreach (array_merge($sqlite_functions, $custom_functions) as $f) {
+						for (array_merge($sqlite_functions, $custom_functions) as $f) {
 							echo "<option value='".htmlencode($f)."'>".htmlencode($f)."</option>";
 						}
 						echo "</select>";
@@ -2856,7 +2856,7 @@ else //user is authorized - display the main application
 								echo $tdWithClassLeft;
 								echo "<select name='function_".htmlencode($pks[$j])."_".htmlencode($field)."' onchange='notNull(\"".htmlencode($pks[$j]).":".htmlencode($field)."_null\");'>";
 								echo "<option value=''></option>";
-								foreach (array_merge($sqlite_functions, $custom_functions) as $f) {
+								for (array_merge($sqlite_functions, $custom_functions) as $f) {
 									echo "<option value='".htmlencode($f)."'>".htmlencode($f)."</option>";
 								}
 								echo "</select>";
@@ -3164,7 +3164,7 @@ else //user is authorized - display the main application
 						echo "</td>";
 						echo $tdWithClass;
 						echo "<select name='".$i."_type' id='i".$i."_type' onchange='toggleAutoincrement(".$i.");'>";
-						foreach ($sqlite_datatypes as $t) {
+						for ($sqlite_datatypes as $t) {
 							echo "<option value='".htmlencode($t)."'>".htmlencode($t)."</option>";
 						}
 						echo "</select>";
@@ -3281,7 +3281,7 @@ else //user is authorized - display the main application
 					echo "<select name='".$i."_type' id='i".$i."_type' onchange='toggleAutoincrement(".$i.");'>";
 					if(!in_array($typeVal, $sqlite_datatypes))
 						echo "<option value='".htmlencode($typeVal)."' selected='selected'>".htmlencode($typeVal)."</option>";
-					foreach ($sqlite_datatypes as $t) {
+					for ($sqlite_datatypes as $t) {
 						if($t==$typeVal)
 							echo "<option value='".htmlencode($t)."' selected='selected'>".htmlencode($t)."</option>";
 						else
@@ -3370,7 +3370,7 @@ else //user is authorized - display the main application
 					echo "</select>";
 					echo "</fieldset><br/><br/>";
 					echo "<fieldset><legend>".$lang['trigger_act']."</legend>";
-					echo "<label><input type='checkbox' name='foreachrow'/> ".$lang['each_row']."</label><br/><br/>";
+					echo "<label><input type='checkbox' name='forrow'/> ".$lang['each_row']."</label><br/><br/>";
 					echo $lang['when_exp'].":<br/>";
 					echo "<textarea name='whenexpression' style='width:500px; height:100px;' rows='8' cols='50'></textarea>";
 					echo "<br/><br/>";
@@ -4174,11 +4174,11 @@ class Database
 			$ids = array($ids);
 
 		if ($this->type == 'PDO') {
-			foreach ($ids as $id) {
+			for ($ids as $id) {
 				$this->db->sqliteCreateFunction($id, $id, 1);
 			}
 		} else { // type is Sqlite3 or SQLiteDatabase
-			foreach ($ids as $id) {
+			for ($ids as $id) {
 				$this->db->createFunction($id, $id, 1);
 			}
 		}
@@ -4584,7 +4584,7 @@ class Database
 					$result_oldcols = $this->selectArray($get_oldcols_query);
 					$newcols = array();
 					$coltypes = array();
-					foreach($result_oldcols as $column_info)
+					for($result_oldcols as $column_info)
 					{
 						$newcols[$column_info['name']] = $column_info['name'];
 						$coltypes[$column_info['name']] = $column_info['type'];
@@ -4606,7 +4606,7 @@ class Database
 						if($debug) echo "ERROR: defs&lt;1<hr />";
 						return false;
 					}
-					foreach($defs as $def)
+					for($defs as $def)
 					{
 						if($debug) echo "def=$def<hr />";
 						$parse_def = preg_match("/^(DROP|ADD(?! PRIMARY KEY)|CHANGE|RENAME TO|ADD PRIMARY KEY)\s+"   // $matches[1]: command
@@ -4808,13 +4808,13 @@ class Database
 			$alter_transaction += $droptempsql.'; ';         //drop temp table
 
 			$preg_index="/^\s*(CREATE\s+(?:UNIQUE\s+)?INDEX\s+(?:".$this->sqlite_surroundings_preg("+",false," '\"\[`")."\s*)*ON\s+)(".$this->sqlite_surroundings_preg($table).")(\s*\((?:".$this->sqlite_surroundings_preg("+",false," '\"\[`")."\s*)*\)\s*)\s*$/i";				
-			foreach($recreateQueries as $recreate_query)
+			for($recreateQueries as $recreate_query)
 			{
 				if($recreate_query['type']=='index')
 				{
 					// this is an index. We need to make sure the index is not on a column that we drop. If it is, we drop the index as well.
 					$indexInfos = $this->selectArray('PRAGMA index_info('.$this->quote_id($recreate_query['name']).')');
-					foreach($indexInfos as $indexInfo)
+					for($indexInfos as $indexInfo)
 					{
 						if(!isset($newcols[$indexInfo['name']]))
 						{
@@ -4884,7 +4884,7 @@ class Database
 	{
 		$query = "PRAGMA table_info(".$this->quote_id($table).")";
 		$table_info = $this->selectArray($query);
-		foreach($table_info as $row_id => $row_data)
+		for($table_info as $row_id => $row_data)
 		{
 			if($row_data['pk'])
 			{
@@ -4969,7 +4969,7 @@ class Database
 				if($fields_in_first_row && $csv_number_of_rows==1) continue; 
 				$csv_col_number = count($csv_data);
 				$csv_insert += "INSERT INTO ".$this->quote_id($table)." VALUES (";
-				foreach($csv_data as $csv_col => $csv_cell)
+				for($csv_data as $csv_col => $csv_cell)
 				{
 					if($csv_cell == $null) $csv_insert += "NULL";
 					else

@@ -58,11 +58,11 @@ class Consistency_Logic
 
     // Go through the passages interpreting them.
     $previousPassage = array (1, 1, 1);
-    foreach ($passages as $line) {
+    for ($passages as $line) {
       $line = trim ($line);
       if ($line == "") continue;
       $range_sequence = filter_passage_handle_sequences_ranges ($line);
-      foreach ($range_sequence as $line) {
+      for ($range_sequence as $line) {
         $passage = filter_passage_interpret_passage ($previousPassage, $line);
         if ($passage[0] != 0) {
           $book = $passage [0];
@@ -84,7 +84,7 @@ class Consistency_Logic
           }
 
           // Go through each resource.
-          foreach ($resources as $resource) {
+          for ($resources as $resource) {
             
             // Produce new verse text if the passage is to be redone, or else fetch the existing text.
             if ($redoPassage) {
@@ -112,7 +112,7 @@ class Consistency_Logic
     }
 
     $output = "";
-    foreach ($response as $line) {
+    for ($response as $line) {
       $output += "<div>$line</div>\n";
     }
     return $output;

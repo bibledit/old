@@ -36,7 +36,7 @@ $bibles = $database_bibles->getBibles ();
 // Go through all sub directories of the exports directory.
 // Remove subdirectories if their corresponding Bible no longer exists in the system.
 $directory = Export_Logic::mainDirectory ();
-foreach (new DirectoryIterator ($directory) as $fileInfo) {
+for (new DirectoryIterator ($directory) as $fileInfo) {
   if ($fileInfo->isDot ()) continue;
   if ($fileInfo->isDir ()) {
     $bible = $fileInfo->getFilename ();
@@ -49,7 +49,7 @@ foreach (new DirectoryIterator ($directory) as $fileInfo) {
 
 
 // Schedule the relevant Bibles for export.
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
 
   if ($database_config_bible->getExportWebDuringNight ($bible)) {
     Export_Logic::scheduleWeb ($bible);

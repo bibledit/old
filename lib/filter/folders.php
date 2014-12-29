@@ -27,7 +27,7 @@ class Filter_Folders
   // It returns the remaining entries.
   public static function cleanup ($files)
   {
-    foreach ($files as $offset => $file) {
+    for ($files as $offset => $file) {
       if ($file == ".") unset ($files [$offset]);
       if ($file == "..") unset ($files [$offset]);
       if ($file == ".htaccess") unset ($files [$offset]);

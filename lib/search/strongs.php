@@ -46,7 +46,7 @@ if (isset ($load)) {
   // Get Strong's numbers, plus English snippets.
   $searchtext = "";
   $details = $database_kjv->getVerse ($book, $chapter, $verse);
-  foreach ($details as $offset => $detail) {
+  for ($details as $offset => $detail) {
     if ($offset) $searchtext += " ";
     $searchtext += $detail ['strong'];
     $searchtext += " (";
@@ -76,7 +76,7 @@ if (isset ($words)) {
   // The values are how often the passages occur in the search results.
   $passages = array ();
 
-  foreach ($words as $strong) {
+  for ($words as $strong) {
     
     // Skip short words.
     if (strlen ($strong) < 2) continue;
@@ -88,7 +88,7 @@ if (isset ($words)) {
     if ($count > $maxcount) continue;
     
     // Store the identifiers and their count.
-    foreach ($details as $detail) {
+    for ($details as $detail) {
       $book = $detail ['book'];
       $chapter = $detail ['chapter'];
       $verse = $detail ['verse'];
@@ -105,7 +105,7 @@ if (isset ($words)) {
   
   // Output the passage identifiers to the browser.
   // Skip identifiers that only occur once.
-  foreach ($passages as $key => $value) {
+  for ($passages as $key => $value) {
     if ($value <= 1) continue;
     echo "$key\n";
   }

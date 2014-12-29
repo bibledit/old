@@ -50,7 +50,7 @@ class Html_Header
     $tableDataElement = $this->htmlText->newTableData ($tableRowElement);
     if (is_array ($breadcrumbs)) {
       $crumbAdded = false;
-      foreach ($breadcrumbs as $breadcrumb) {
+      for ($breadcrumbs as $breadcrumb) {
         if ($crumbAdded) {
           $spanElement = $this->htmlText->newElement ("span");
           $spanElement->nodeValue = filter_string_sanitize_html ("»");

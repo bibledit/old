@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<?php foreach ($this->line_data_before as $offset => $line) { ?>
+<?php for ($this->line_data_before as $offset => $line) { ?>
   <a name="line<?php echo $this->line_numbers_before[$offset] ?>"></a>
   <p><a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&editusfmline=<?php echo $this->line_numbers_before[$offset] ?>#line<?php echo $this->line_numbers_before[$offset] ?>"><?php echo $this->line_data_before[$offset] ?></a></p>
 <?php } ?>
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <p><input type="submit" name="submit" value=<?php echo gettext("Save") ?> /><input type="submit" name="cancel" value=<?php echo gettext ("Cancel") ?> /></p>
 </form>
 <?php } ?>
-<?php foreach ($this->line_data_after as $offset => $line) { ?>
+<?php for ($this->line_data_after as $offset => $line) { ?>
   <a name="line<?php echo $this->line_numbers_after[$offset] ?>"></a>
   <p><a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&editusfmline=<?php echo $this->line_numbers_after[$offset] ?>#line<?php echo $this->line_numbers_after[$offset] ?>"><?php echo $this->line_data_after[$offset] ?></a></p>
 <?php } ?>

@@ -108,14 +108,14 @@ $database_logs->log (gettext("Bibles") . ": " . implode (", ", $server_bibles), 
 // No change Bible actions to be recorded for this operation.
 $bibles = $database_bibles->getBibles ();
 $bibles = array_diff ($bibles, $server_bibles);
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   $database_bibles->deleteBible ($bible);
   $database_logs->log (gettext("Deleting Bible because the server did not grant access to it") . ": " . $bible, Filter_Roles::translator ());
 }
 
 
 // The client goes through all the Bibles, and deals with each of them.
-foreach ($server_bibles as $bible) {
+for ($server_bibles as $bible) {
 
 
   // Compare the checksum of the whole Bible on client and server to see if this Bible is in sync.
@@ -157,7 +157,7 @@ foreach ($server_bibles as $bible) {
   }
   // Any books not on the server, delete them from the client as well.
   $client_books = array_diff ($client_books, $server_books);
-  foreach ($client_books as $book) {
+  for ($client_books as $book) {
     $database_bibles->deleteBook ($bible, $book);
     $book_name = $database_books->getEnglishFromId ($book);
     $database_logs->log (gettext("Deleting book because the server does not have it") . ": $bible $book_name" , Filter_Roles::translator ());
@@ -165,7 +165,7 @@ foreach ($server_bibles as $bible) {
  
 
   // The client goes through all the books as on the server, and deals with each of them.
-  foreach ($server_books as $book) {
+  for ($server_books as $book) {
 
 
     $book_name = $database_books->getEnglishFromId ($book);
@@ -212,7 +212,7 @@ foreach ($server_bibles as $bible) {
     }
     // The client removes any local chapters not on the server.
     $client_chapters = array_diff ($client_chapters, $server_chapters);
-    foreach ($client_chapters as $chapter) {
+    for ($client_chapters as $chapter) {
       $database_bibles->deleteChapter ($bible, $book, $chapter);
       $database_logs->log (gettext("Deleting chapter because the server does not have it") . ": $bible $book_name $chapter" , Filter_Roles::translator ());
     }
@@ -227,7 +227,7 @@ foreach ($server_bibles as $bible) {
     // The solution is this:
     // When the Bible actions database contains an action for this particular chapter,
     // it means that chapter is being edited, and therefore the new chapter from the server should be merged with what is on the client.
-    foreach ($server_chapters as $chapter) {
+    for ($server_chapters as $chapter) {
 
       // Get checksum for the chapter on client and on server.
       // If both are the same, it means the USFM in both is the same, and we're done.

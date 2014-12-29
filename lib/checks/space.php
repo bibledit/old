@@ -39,7 +39,7 @@ class Checks_Space
   {
     if (!is_array ($texts)) return;
     $database_check = Database_Check::getInstance ();
-    foreach ($texts as $verse => $text) {
+    for ($texts as $verse => $text) {
       if (strpos ($text, " ,") !== false) {
         $database_check->recordOutput ($bible, $book, $chapter, $verse, "Space before a comma");
       }

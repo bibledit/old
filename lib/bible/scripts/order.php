@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </p>
 <br>
 <div id="sortable">
-<?php foreach ($this->names as $name) { ?>
+<?php for ($this->names as $name) { ?>
   <p> ⇕ <span class="drag"><?php echo $name ?></span> ⇕ </p>
 <?php } ?>
 </div>

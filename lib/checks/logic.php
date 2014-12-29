@@ -29,7 +29,7 @@ class Checks_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $bibles = $database_bibles->getBibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       self::start ($bible);
     }
   }

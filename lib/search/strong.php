@@ -46,7 +46,7 @@ if (isset ($load)) {
   // Get Strong's numbers, plus English snippets.
   $html = "<table>\n";
   $details = $database_kjv->getVerse ($book, $chapter, $verse);
-  foreach ($details as $detail) {
+  for ($details as $detail) {
     $strong = $detail ['strong'];
     $english = $detail ['english'];
     $html += "<tr><td><a href=\"$strong\">$strong</a></td><td>$english</td></tr>\n";
@@ -67,7 +67,7 @@ if (isset ($strong)) {
 
   $details = $database_kjv->searchStrong ($strong);
     
-  foreach ($details as $detail) {
+  for ($details as $detail) {
     $book = $detail ['book'];
     $chapter = $detail ['chapter'];
     $verse = $detail ['verse'];
@@ -78,7 +78,7 @@ if (isset ($strong)) {
   
   $passages = array_unique ($passages, SORT_NUMERIC);
     
-  foreach ($passages as $passage) {
+  for ($passages as $passage) {
     echo "$passage\n";
   }
 

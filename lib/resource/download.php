@@ -37,7 +37,7 @@ $view->view->name = $name;
 if (isset ($_GET ['download'])) {
   $versification = "English";
   $books = $database_versifications->getBooks ($versification);
-  foreach ($books as $book) {
+  for ($books as $book) {
     // Schedule the task with low priority so it does not get in the way of regular tasks.
     Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/downloadcli.php", $name, $book));
   }

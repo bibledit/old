@@ -111,7 +111,7 @@ $oldTexts = array ();
 $modifications = array ();
 $newTexts = array ();
 $data = $database_history->get ($author_filter, $myBibles, $book_filter, $chapter_filter, $verse_filter, $start);
-foreach ($data as $entry) {
+for ($data as $entry) {
   $passageText = Filter_Books::filter_passage_display_inline (array (array ($entry['book'], $entry['chapter'], $entry['verse'])));
   $passageText = filter_string_sanitize_html ($passageText);
   $passageTexts [] = $passageText;
@@ -152,7 +152,7 @@ $author_names = $database_history->authors ($myBibles);
 array_unshift ($author_names, gettext("everybody"));
 $view->view->author_names = $author_names;
 $author_queries = array ();
-foreach ($author_names as $offset => $dummy) {
+for ($author_names as $offset => $dummy) {
   $author_queries [] = http_build_query (array_merge ($state, array ('author' => $offset)));
 }
 $view->view->author_queries = $author_queries;

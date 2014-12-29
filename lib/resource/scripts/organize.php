@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><a href="index.php">[<?php echo gettext("back") ?></a>]</p>
 <h4><?php echo gettext("Active resources") ?></h4>
 <div id="sortable">
-<?php foreach ($this->actives as $active) { ?>
+<?php for ($this->actives as $active) { ?>
   <p><a href="?remove=<?php echo $active ?>"> ✗ </a><?php echo $active ?></p>
 <?php } ?>
 </div>
@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <h4><?php echo gettext("Available resources") ?></h4>
 <p>
 <?php echo gettext("Click to activate:") ?>
-<?php foreach ($this->selectables as $offset => $selectable) { ?>
+<?php for ($this->selectables as $offset => $selectable) { ?>
   <?php if ($offset) echo " | " ?>
   <a href="?add=<?php echo $selectable ?>"><?php echo $selectable ?></a>
 <?php } ?>

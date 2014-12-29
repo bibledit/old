@@ -46,7 +46,7 @@ if (isset ($source)) {
   if ($source == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to use as the source where to read the cross references from"));
     $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&source=$bible");
     }
     $dialog_list->run();
@@ -61,7 +61,7 @@ if (isset ($target)) {
   if ($target == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to insert the cross references into"));
     $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "&target=$bible");
       }

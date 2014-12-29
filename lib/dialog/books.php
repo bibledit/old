@@ -35,7 +35,7 @@ class Dialog_Books
     $caller = $_SERVER["PHP_SELF"];
     if (is_array ($query)) {
       $full_query = array ();
-      foreach ($query as $value) {
+      for ($query as $value) {
         $full_query = array_merge ($full_query, array ($value => $_GET[$value]));
       }
       $caller += "?" . http_build_query ($full_query);
@@ -55,7 +55,7 @@ class Dialog_Books
       $book_ids = array_diff ($book_ids, $exclusions);
       $book_ids = array_values ($book_ids);
     }
-    foreach ($book_ids as $id) {
+    for ($book_ids as $id) {
       $book_names[] = $database_books->getEnglishFromId ($id);
     }
     $this->view->view->book_ids = $book_ids;

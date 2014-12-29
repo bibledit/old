@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <div style="float:left; width:50%;">
 <font size="-1" color="grey"><hr /></font>
 <p><font size="-1" color="grey"><?php echo $this->noteCount ?> <?php echo gettext("notes") ?></font></p>
-<?php foreach ($this->noteUrls as $offset => $noteUrl) { ?>
+<?php for ($this->noteUrls as $offset => $noteUrl) { ?>
   <p style="margin-top: 0.75em; margin-bottom: 0em"><a href="<?php echo $noteUrl ?>"><?php echo $this->noteTitles[$offset] ?></a></p>
   <?php echo $this->noteExcerpts[$offset] ?>
 <?php } ?>
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <div style="float:right; width:50%; ">
 <font size="-1" color="grey"><hr /></font>
 <p><font size="-1" color="grey"><?php echo $this->textCount ?> <?php echo gettext("verses") ?></font></p>
-<?php foreach ($this->textLinks as $offset => $textLink) { ?>
+<?php for ($this->textLinks as $offset => $textLink) { ?>
   <p style="margin-top: 0.75em; margin-bottom: 0em"><?php echo $textLink ?></p>
   <?php echo $this->textExcerpts[$offset] ?>
 <?php } ?>

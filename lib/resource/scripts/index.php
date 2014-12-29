@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <a href="organize.php">[<?php echo gettext("organize") ?>]</a>
 </p>
 <hr>
-<?php foreach ($this->resources as $offset => $resource) { ?>
+<?php for ($this->resources as $offset => $resource) { ?>
   <div id="line<?php echo $offset + 1 ?>" style="clear:both">
   <span id="name<?php echo $offset + 1 ?>" class="small"><?php echo $resource ?></span>
   <span id="loading<?php echo $offset + 1 ?>"><img src="../pix/loading.gif"></span>

@@ -39,9 +39,9 @@ $currentLocation = filter_passage_to_integer ($currentPassage);
 
 
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     if ($chapter == 0) continue;
     $passage = array ($book, $chapter, 1);
     $location = filter_passage_to_integer ($passage);

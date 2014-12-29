@@ -87,7 +87,7 @@ if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to display the Sprint for"));
     $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       // Select from Bibles the user has write access to.
       if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "&bible=$bible");
@@ -134,7 +134,7 @@ if (isset ($categories)) {
   $categories2 = array ();
   $categories = trim ($categories);
   $categories = explode ("\n", $categories);
-  foreach ($categories as $category) {
+  for ($categories as $category) {
     $category = trim ($category);
     if ($category != "") $categories2 [] = $category;
   }
@@ -146,7 +146,7 @@ if (isset ($categories)) {
 $tasks = $database_sprint->getTasks ($bible, $year, $month);
 $titles = array ();
 $percentages = array ();
-foreach ($tasks as &$id) {
+for ($tasks as &$id) {
   $titles [] = filter_string_sanitize_html ($database_sprint->getTitle ($id));
   $percentages [] = $database_sprint->getComplete ($id);
 }

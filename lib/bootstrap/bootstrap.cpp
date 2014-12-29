@@ -42,6 +42,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/sheetm.h>
 #include <styles/view.h>
 #include <fonts/index.h>
+#include <versification/index.h>
+#include <versification/system.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -79,6 +81,8 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == styles_indexm_url ()) && styles_indexm_acl (request)) request->reply = styles_indexm (request);
   else if ((url == styles_sheetm_url ()) && styles_sheetm_acl (request)) request->reply = styles_sheetm (request);
   else if ((url == styles_view_url ()) && styles_view_acl (request)) request->reply = styles_view (request);
+  else if ((url == versification_index_url ()) && versification_index_acl (request)) request->reply = versification_index (request);
+  else if ((url == versification_system_url ()) && versification_system_acl (request)) request->reply = versification_system (request);
   else if ((url == fonts_index_url ()) && fonts_index_acl (request)) request->reply = fonts_index (request);
   
   // Help menu.

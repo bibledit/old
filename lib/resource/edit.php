@@ -55,7 +55,7 @@ $view->view->code = $code;
 $database_books = Database_Books::getInstance ();
 $books = $database_books->getIDs ();
 $booknames = array ();
-foreach ($books as $id) {
+for ($books as $id) {
   $booknames [] = $database_books->getEnglishFromId ($id);
 }
 $view->view->books = $books;

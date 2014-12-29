@@ -77,7 +77,7 @@ $absent = array ();
 $new = array ();
 
 
-foreach ($books as $book) {
+for ($books as $book) {
 
 
   $bookName = $database_books->getEnglishFromId ($book);
@@ -103,7 +103,7 @@ foreach ($books as $book) {
   $chapters = array_values ($chapters);
 
  
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
 
 
     if (!in_array ($chapter, $bibleChapters)) {
@@ -131,7 +131,7 @@ foreach ($books as $book) {
     sort ($verses, SORT_NUMERIC);
 
 
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $bible_verse_usfm = usfm_get_verse_text ($bible_chapter_usfm, $verse);
       $compare_verse_usfm = usfm_get_verse_text ($compare_chapter_usfm, $verse);
       if ($bible_verse_usfm != $compare_verse_usfm) {
@@ -187,7 +187,7 @@ if (count ($new)) {
 }
 
 // Format and store the result of the comparison.
-foreach ($result as &$line) {
+for ($result as &$line) {
   if ($line == "") {
     $line = "<br>";
   } else {

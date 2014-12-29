@@ -46,10 +46,10 @@ $versification = $database_resources->getVersification ($resource);
 
 
 $chapters = $database_versifications->getChapters ($versification, $book, true);
-foreach ($chapters as $chapter) {
+for ($chapters as $chapter) {
   $message = "$resource: $bookName chapter $chapter";
   $verses = $database_versifications->getVerses ($versification, $book, $chapter);
-  foreach ($verses as $verse) {
+  for ($verses as $verse) {
     $message += "; verse $verse: ";
     if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
       $message += "exists";

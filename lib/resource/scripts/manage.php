@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <h2><?php echo gettext("USFM Resources") ?></h2>
-<?php foreach ($this->resources as $resource) { ?>
+<?php for ($this->resources as $resource) { ?>
   <p>
     <a href="?delete=<?php echo $resource ?>" class="deleteresource" title="<?php echo gettext("Remove") ?>">
     ✗

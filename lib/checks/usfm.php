@@ -49,7 +49,7 @@ class Checks_Usfm
     $stylesheet = $database_config_bible->getExportStylesheet ($bible);
     $this->markersStylesheet = $database_styles->getMarkers ($stylesheet);
     $styles_logic = Styles_Logic::getInstance ();
-    foreach ($this->markersStylesheet as $marker) {
+    for ($this->markersStylesheet as $marker) {
       $style = $database_styles->getMarkerData ($stylesheet, $marker);
       $requiredEndmarker = false;
       $styleType = $style['type'];

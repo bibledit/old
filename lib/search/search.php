@@ -64,7 +64,7 @@ $noteTitles = array ();
 $noteUrls = array ();
 $noteExcerpts = array ();
 
-foreach ($identifiers as $identifier) {
+for ($identifiers as $identifier) {
 
   // The title.
   $summary = $database_notes->getSummary ($identifier);
@@ -82,7 +82,7 @@ foreach ($identifiers as $identifier) {
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.
-  foreach ($text as $line) {
+  for ($text as $line) {
     $markedLine =  Filter_Markup::words ($queryWords, $line);
     // If the line is marked up, add it to the excerpts.
     if ($markedLine != $line) {
@@ -112,7 +112,7 @@ $textLinks = array ();
 $textExcerpts = array ();
 
 
-foreach ($hits as $hit) {
+for ($hits as $hit) {
 
 
   // Get the details of this search hit.
@@ -132,7 +132,7 @@ foreach ($hits as $hit) {
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.
-  foreach ($text as $line) {
+  for ($text as $line) {
     $markedLine =  Filter_Markup::words ($queryWords, $line);
     if ($markedLine != $line) {
       // Store this bit of the excerpt.

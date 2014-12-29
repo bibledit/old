@@ -105,7 +105,7 @@ $tidied = explode ("\n", $clean);
 
 $html = "";
 $hit = false;
-foreach ($tidied as $line) {
+for ($tidied as $line) {
   if ($hit) {
     // This is the line we are now at:
     // </span><span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.</span></p>

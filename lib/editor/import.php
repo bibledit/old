@@ -82,7 +82,7 @@ class Editor_Import
     $markersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);
     // Load it into the object.
     $this->markersAndText = array ();
-    foreach ($markersAndText as $item) {
+    for ($markersAndText as $item) {
       $this->markersAndText [] = $item;
     }
     // Debug.
@@ -97,7 +97,7 @@ class Editor_Import
     $database_styles = Database_Styles::getInstance ();
     $markers = $database_styles->getMarkers ($stylesheet);
     // Load the style information into the object.
-    foreach ($markers as $marker) {
+    for ($markers as $marker) {
       $style = $database_styles->getMarkerData ($stylesheet, $marker);
       $this->styles [$marker] = $style;
       if ($style['type'] == StyleTypeFootEndNote) {

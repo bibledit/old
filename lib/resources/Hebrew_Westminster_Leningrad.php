@@ -115,7 +115,7 @@ $filtered_lines = array ();
 
 $relevant_line = 0;
 
-foreach ($tidied as $line) {
+for ($tidied as $line) {
   if ($relevant_line == 1) {
     $filtered_lines [] = $line;
     $relevant_line++;

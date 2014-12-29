@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
       <td>2. <?php echo gettext("Select the Bible book it represents:") ?></td>
       <td>
         <select name="fullname">
-        <?php foreach ($this->books as $book) { ?>
+        <?php for ($this->books as $book) { ?>
           <option value="<?php echo $book ?>"><?php echo $book ?></option>
         <?php } ?>
         </select>

@@ -40,7 +40,7 @@ if (isset($release)) {
 // Get the Bibles the user has write-access to.
 $bibleIDs = array ();
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   if (access_bible_write ($bible)) {
     $id = $database_bibles->getID ($bible);
     $bibleIDs [] = $id;
@@ -51,7 +51,7 @@ foreach ($bibles as $bible) {
 $ids = array ();
 $data = array ();
 $suppressions = $database_check->getSuppressions ();
-foreach ($suppressions as $suppression) {
+for ($suppressions as $suppression) {
   $bibleID = $suppression['bible'];
   // Only display entries for Bibles the user has write access to.
   if (in_array ($bibleID, $bibleIDs)) {

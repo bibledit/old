@@ -39,7 +39,7 @@ if(!isset($_SESSION['token'])){
 
 // slashes
 if(get_magic_quotes_gpc()){
- foreach($_POST as $k => $v){
+ for($_POST as $k => $v){
   $_POST[$k] = stripslashes($v);
  }
  ini_set('magic_quotes_gpc', 0);
@@ -531,7 +531,7 @@ $cfg = array(
 'valid_xhtml'=>array('2', 'nil', 'auto-set various parameters for most valid XHTML', 'nil'),
 'xml:lang'=>array('3', 'nil', 'auto-add <em>xml:lang</em> attribute', '0'),
 );
-foreach($cfg as $k=>$v){
+for($cfg as $k=>$v){
  echo '<li>', $k, ': ';
  if(!empty($v[0])){ // input radio
   $j = $v[3];
@@ -547,7 +547,7 @@ foreach($cfg as $k=>$v){
     echo $v[6], ': <input type="text" size="', $v[4], '" name="h', $k. $j, '" value="', htmlspecialchars(isset($_POST['h'. $k. $j][0]) ? $_POST['h'. $k. $j] : $v[5]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
    }
    else{
-    foreach($v[4] as $z){
+    for($v[4] as $z){
      echo ' ', $z[3], ': <input type="text" size="', $z[0], '" name="h', $k. $j. $z[1], '" value="', htmlspecialchars(isset($_POST['h'. $k. $j. $z[1]][0]) ? $_POST['h'. $k. $j. $z[1]] : $z[2]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
     }    
    }
@@ -568,7 +568,7 @@ echo '</ul></td></tr><tr><td><span style="vertical-align: top;" class="help" tit
 <?php
 if($do){
  $cfg = array();
- foreach($_POST as $k=>$v){
+ for($_POST as $k=>$v){
   if($k[0] == 'h' && $v != 'nil'){
    $cfg[substr($k, 1)] = $v;
   }

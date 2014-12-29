@@ -41,7 +41,7 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/textusfm.php", $bible, $book));
     }
   }
@@ -60,7 +60,7 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/odt.php", $bible, $book));
     }
   }
@@ -80,7 +80,7 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/html.php", $bible, $book));
     }
   }
@@ -92,7 +92,7 @@ class Export_Logic
   {
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/web.php", $bible, $book));
     }
   }

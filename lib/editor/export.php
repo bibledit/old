@@ -91,7 +91,7 @@ EOD;
     $errors = libxml_get_errors ();
     if (count ($errors)) {
       $database_logs = Database_Logs::getInstance ();
-      foreach ($errors as $error) {
+      for ($errors as $error) {
         $level = "";
         switch ($error->level) {
           case LIBXML_ERR_WARNING:
@@ -120,7 +120,7 @@ EOD;
     $database_styles = Database_Styles::getInstance ();
     $markers = $database_styles->getMarkers ($stylesheet);
     // Load the style information into the object.
-    foreach ($markers as $marker) {
+    for ($markers as $marker) {
       $style = $database_styles->getMarkerData ($stylesheet, $marker);
       $this->styles [$marker] = $style;
       // Get markers with should not have endmarkers.
@@ -167,7 +167,7 @@ EOD;
   private function process ()
   {
     $DOMNodeList = $this->document->getElementsByTagName ("p");
-    foreach ($DOMNodeList as $DOMNode) {
+    for ($DOMNodeList as $DOMNode) {
       $this->processNode ($DOMNode);
     }
   }
@@ -294,7 +294,7 @@ EOD;
   private function processNodeChildren ($node)
   {
     if ($node->hasChildNodes ()) {
-      foreach ($node->childNodes as $childnode) {
+      for ($node->childNodes as $childnode) {
         $this->processNode ($childnode);
       }
     }
@@ -340,7 +340,7 @@ EOD;
         $classes = explode (" ", $class);
         $this->characterStyles = array_diff ($this->characterStyles, $classes);
         $classes = array_reverse ($classes);
-        foreach ($classes as $offset => $class) {
+        for ($classes as $offset => $class) {
           $embedded = (count ($classes) > 1) && ($offset == 0);
           if (!empty ($this->characterStyles)) $embedded = true;
           $this->currentLine += Filter_Usfm::getClosingUsfm ($class, $embedded);
@@ -396,7 +396,7 @@ EOD;
     //   <span class="nd">Lord God</span> 
     // is calling</span> you</span><span>.</span>
     $classes = explode (" ", $class);
-    foreach ($classes as $offset => $class) {
+    for ($classes as $offset => $class) {
       $embedded = (count ($this->characterStyles) + $offset) > 0;
       $this->currentLine += Filter_Usfm::getOpeningUsfm ($class, $embedded);
     }
@@ -414,7 +414,7 @@ EOD;
   {
     // The note citation in the text will have the "1" or the "2", and so on, till "9". Remove it.
     if ($node->hasChildNodes ()) {
-      foreach ($node->childNodes as $childnode) {
+      for ($node->childNodes as $childnode) {
         $node->removeChild ($childnode);
       }
     }
@@ -481,7 +481,7 @@ EOD;
     // E.g.: \f + ...\f*.
     // Check for missing note caller, and if it's not there, add the default "+".
     // Also replace a double space after a note opener.
-    foreach ($this->noteOpeners as $noteOpener) {
+    for ($this->noteOpeners as $noteOpener) {
       $opener = Filter_Usfm::getOpeningUsfm ($noteOpener);
       $usfm = str_replace ($opener . " ", $opener, $usfm);
       $pos = mb_strpos ($usfm, $opener);

@@ -167,7 +167,7 @@ vector <int> Database_Bibles::getBooks (string bible)
   /*
   $sequence = array ();
   $database_books = Database_Books::getInstance ();
-  foreach ($books as $book) {
+  for ($books as $book) {
     $sequence [] = $database_books->getSequenceFromId ($book);
   }
   array_multisort ($sequence, $books);

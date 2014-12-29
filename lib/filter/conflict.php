@@ -26,7 +26,7 @@ class Filter_Conflict
   public static function run ($repository)
   {
     $unmerged_paths = Filter_Conflict::getUnmergedPaths ($repository);
-    foreach ($unmerged_paths as $path) {
+    for ($unmerged_paths as $path) {
       Filter_Conflict::mergeUnmergedPath ($repository, $path);
     }
     if (count ($unmerged_paths)) {
@@ -41,7 +41,7 @@ class Filter_Conflict
     $shellrepo = escapeshellarg ($repository);
     $command = "cd $shellrepo; git status 2>&1";
     exec ($command, $output, $exit_code);
-    foreach ($output as $line) {
+    for ($output as $line) {
       if (strpos ($line, "both modified:") !== false) {
         $line = trim ($line);
         $line = substr ($line, 20);

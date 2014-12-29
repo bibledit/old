@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 </ul>
 <p><?php echo gettext("Users who have change notifications awaiting their approval:") ?></p>
 <table>
-<?php foreach ($this->users as $offset => $user) { ?>
+<?php for ($this->users as $offset => $user) { ?>
   <tr>
     <td><?php echo $this->users[$offset] ?>:</td>
     <td><?php echo $this->count[$offset] ?></td>

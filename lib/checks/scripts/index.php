@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <p class="error"><?php echo $this->error ?></p>
 <p class="success"><?php echo $this->success ?></p>
-<?php foreach ($this->ids as $offset => $id) { ?>
+<?php for ($this->ids as $offset => $id) { ?>
   <p>
     <a href="index.php?approve=<?php echo $id ?>"> ✔ </a>
     <a href="index.php?delete=<?php echo $id ?>"> ✗ </a>

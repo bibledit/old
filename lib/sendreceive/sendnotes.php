@@ -49,7 +49,7 @@ $address = $database_config_general->getServerAddress ();
 
 // Go through all notes which have actions recorded for them.
 $notes = $database_noteactions->getNotes ();
-foreach ($notes as $note) {
+for ($notes as $note) {
 
   $summary = $database_notes->getSummary ($note);
   $database_logs->log (gettext("Sending note to server") . ": $summary", Filter_Roles::translator ());
@@ -71,7 +71,7 @@ foreach ($notes as $note) {
   }
 
   // Deal with the note actions for this note.
-  foreach ($note_actions as $note_action) {
+  for ($note_actions as $note_action) {
 
     $rowid = $note_action ['rowid'];
     $username = $note_action ['username'];

@@ -33,7 +33,7 @@ if (isset ($select)) {
     $dialog_list = new Dialog_List (array ("object"), gettext("Which Bible are you going to use?"), "", "");
     $database_bibles = Database_Bibles::getInstance();
     $bibles = $database_bibles->getBibles();
-    foreach ($bibles as $value) {
+    for ($bibles as $value) {
       $dialog_list->add_row ($value, "&select=$value");
     }
     $dialog_list->run ();

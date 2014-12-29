@@ -45,7 +45,7 @@ class Filter_Notes
       // Sample: Lev.26.16 Deut.28.22
       // It uses OSIS for book encoding.
       $passages = array ();
-      foreach (explode (" ", trim ($note[2])) as $bibledit_gtk_reference) {
+      for (explode (" ", trim ($note[2])) as $bibledit_gtk_reference) {
         $passages [] = filter_passage_explode_passage ($bibledit_gtk_reference);
       }
       // line 3: note category.

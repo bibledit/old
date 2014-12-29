@@ -63,7 +63,7 @@ if (isset ($q)) {
   // Search in the active Bible.
   $hits = $database_search->searchBibleText ($bible, $q);
   // Output results.
-  foreach ($hits as $hit) {
+  for ($hits as $hit) {
     echo "$hit\n";
   }
   // Done.

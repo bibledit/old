@@ -118,7 +118,7 @@ if (isset ($query)) {
     $ipc_focus = Ipc_Focus::getInstance();
     $book = $ipc_focus->getBook ();
     $bookhits = array ();
-    foreach ($hits as $hit) {
+    for ($hits as $hit) {
       $details = $database_search->getBiblePassage ($hit);
       if ($book == $details ['book']) {
         $bookhits [] = $hit;
@@ -147,7 +147,7 @@ if (isset ($query)) {
   
   // Generate one string from the hits.
   $output = "";
-  foreach ($hits as $hit) {
+  for ($hits as $hit) {
     $output += "$hit\n";
   }
   

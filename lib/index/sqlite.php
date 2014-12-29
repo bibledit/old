@@ -109,7 +109,7 @@ EOD;
   {
     $query = "SELECT * FROM users WHERE username = '$user'";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       return true;
     }
     return false;
@@ -120,7 +120,7 @@ EOD;
   {
     $query = "SELECT * FROM users;";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       unset ($row[0]);
       unset ($row[1]);
       var_dump ($row);

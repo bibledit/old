@@ -73,7 +73,7 @@ $html_text_rich_book_index->addText ("|");
 
 // Go through the chapters of this book.
 $chapters = $database_bibles->getChapters ($bible, $book);
-foreach ($chapters as $chapter) {
+for ($chapters as $chapter) {
 
   // The text filter for this chapter.
   $filter_text_chapter = new Filter_Text ($bible);

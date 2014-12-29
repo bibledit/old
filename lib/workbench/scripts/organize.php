@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h3><?php echo gettext("Workbenches") ?></h3>
 <div id="sortable">
-<?php foreach ($this->workbenches as $workbench) { ?>
+<?php for ($this->workbenches as $workbench) { ?>
   <p>
     <a href="?remove=<?php echo $workbench ?>" title="<?php echo gettext("Delete workbench") ?>"> ✗ </a>
     |

@@ -59,7 +59,7 @@ if (!file_exists ($usfmDirectoryFull)) mkdir ($usfmDirectoryFull, 0777, true);
 
 
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
 
 
   // The USFM data of the current book.
@@ -68,7 +68,7 @@ foreach ($books as $book) {
 
   // Collect the USFM for all chapters in this book.
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     // Get the USFM code for the current chapter.
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
     $chapter_data = trim ($chapter_data);
@@ -106,7 +106,7 @@ if ($database_config_bible->getSecureUsfmExport ($bible)) {
   $files = scandir ($usfmDirectoryFull);
   $files = Filter_Folders::cleanup ($files);
   $basefile = basename ($zipfile);
-  foreach ($files as $file) {
+  for ($files as $file) {
     if ($file != $basefile) unlink ("$usfmDirectoryFull/$file");
   }
   $directory = escapeshellarg ($usfmDirectoryFull);

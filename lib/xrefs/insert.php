@@ -44,7 +44,7 @@ $chapter = $ipc_focus->getChapter ();
 $sourceAbbreviations = $database_config_bible->getBookAbbreviations ($sourceBible);
 $sourceAbbreviations = Filter_Abbreviations::read ($sourceAbbreviations);
 $sorter = array ();
-foreach ($sourceAbbreviations as $abbrev => $dummy) {
+for ($sourceAbbreviations as $abbrev => $dummy) {
   $sorter [] = mb_strlen ($abbrev);
 }
 array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $sourceAbbreviations);
@@ -57,7 +57,7 @@ $targetAbbreviations = Filter_Abbreviations::read ($targetAbbreviations);
 // Create array with book abbreviations to find, and one with their matching replacements.
 $find = array ();
 $replace = array ();
-foreach ($sourceAbbreviations as $sourceAbbreviation => $bk) {
+for ($sourceAbbreviations as $sourceAbbreviation => $bk) {
   $find [] = $sourceAbbreviation;
   $key = array_search ($bk, $targetAbbreviations);
   if ($key === false) {
@@ -78,7 +78,7 @@ $allxrefs = unserialize ($allxrefs);
 
 
 // Replace the abbreviations in the cross references.
-foreach ($allxrefs as $key => $xref) {
+for ($allxrefs as $key => $xref) {
   $allxrefs [$key] ['text'] = str_replace ($find, $replace, $allxrefs [$key] ['text']);
 }
 
@@ -88,20 +88,20 @@ $usfmArray = array ();
 $usfmString = $database_bibles->getChapter ($targetBible, $book, $chapter);
 $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
-foreach ($verses as $verse) {
+for ($verses as $verse) {
   $usfmArray [$verse] = usfm_get_verse_text ($usfmString, $verse);
 }
 
 
 // Go through each verse, through each note within that verse,
 // look at source location, define target location, and insert the xref.
-foreach ($verses as $verse) {
+for ($verses as $verse) {
   
   
   // Gather array of cross references for this verse, if any.
   $xrefs = array ();
   reset ($allxrefs);
-  foreach ($allxrefs as $xref) {
+  for ($allxrefs as $xref) {
     if ($xref ['verse'] == $verse) {
       $xrefs [] = array ($xref ['offset'], $xref ['text']);
     }

@@ -37,7 +37,7 @@ if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a Bible"));
     $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       // Select Bibles the user has write access to.
       if (access_bible_write ($bible)) {
         $dialog_list->add_row ($bible, "bible=$bible");
@@ -285,7 +285,7 @@ if (isset ($_GET['sheet'])) {
     $dialog_list = new Dialog_List2 (gettext("Would you like to use another stylesheet for the exports?"));
     $database_styles = Database_Styles::getInstance();
     $sheets = $database_styles->getSheets();
-    foreach ($sheets as $sheet) {
+    for ($sheets as $sheet) {
       $parameter = "&sheet=$sheet";
       $dialog_list->add_row ($sheet, $parameter);
     }

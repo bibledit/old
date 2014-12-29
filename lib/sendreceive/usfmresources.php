@@ -72,13 +72,13 @@ $server_resources = $response;
 // Delete any resource on the local client but not on the server.
 $client_resources = $database_usfmresources->getResources ();
 $resources = array_diff ($client_resources, $server_resources);
-foreach ($resources as $resource) {
+for ($resources as $resource) {
   $database_usfmresources->deleteResource ($resource);
 }
 
 
 // Deal with each USFM resource individually.
-foreach ($server_resources as $resource) {
+for ($server_resources as $resource) {
 
 
   // Request the checksum of the resources from the server.
@@ -117,13 +117,13 @@ foreach ($server_resources as $resource) {
   // Delete any books from the client that are not on the server.
   $client_books = $database_usfmresources->getBooks ($resource);
   $books = array_diff ($client_books, $server_books);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $database_usfmresources->deleteBook ($resource, $book);
   }
   
   
   // Deal with each book individually.
-  foreach ($server_books as $book) {
+  for ($server_books as $book) {
 
 
     // Request checksum of this book,
@@ -167,13 +167,13 @@ foreach ($server_resources as $resource) {
     // Delete local chapters not found on the server.
     $client_chapters = $database_usfmresources->getChapters ($resource, $book);
     $chapters = array_diff ($client_chapters, $server_chapters);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $database_usfmresources->deleteChapter ($resource, $book, $chapter);
     }
     
     
     // Go through each chapter individually.
-    foreach ($server_chapters as $chapter) {
+    for ($server_chapters as $chapter) {
       
       
       // Get the checksum of the chapter as it is on the server.

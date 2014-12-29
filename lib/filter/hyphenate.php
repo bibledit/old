@@ -43,7 +43,7 @@ class Filter_Hyphenate
 
     // Split the text up into lines and go through each one.
     $lines = explode ("\n", $text);
-    foreach ($lines as &$line) {
+    for ($lines as &$line) {
 
       // Split the line up into an array of UTF8 Unicode characters.
       $characters = array();
@@ -58,7 +58,7 @@ class Filter_Hyphenate
       $isUsfm = false;
 
       // Process each character.
-      foreach ($characters as $key => &$character) {
+      for ($characters as $key => &$character) {
 
         // Skip USFM marker.
         if ($character == "\\") $isUsfm = true;

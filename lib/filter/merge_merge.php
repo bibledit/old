@@ -90,7 +90,7 @@ class ThreeWayMerge
 		
 		if ( is_array($matches) AND count($matches) )
 		{
-			foreach( $matches[1] as $index => $m )
+			for( $matches[1] as $index => $m )
 			{	
 				$_all	 = $matches[0][$index];
 				$_new    = trim( $matches[1][$index], "\n" );

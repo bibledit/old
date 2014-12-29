@@ -21,6 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <p><?php echo gettext("Bible") ?>: <?php echo $this->object ?></p>
 <p><?php echo gettext("Repository URL") ?>: <?php echo $this->url ?></p>
 <p><?php echo gettext("The data in the remote repository is being copied over into Bibledit's data, overwriting the data that was there before.") ?></p>
-<?php foreach ($this->contents as $line) { ?>
+<?php for ($this->contents as $line) { ?>
   <p><code><?php echo $line ?></code></p>
 <?php } ?>

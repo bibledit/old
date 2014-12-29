@@ -79,14 +79,14 @@ $books = $database_bibles->getBooks ($bible);
 if ($check_versification) Checks_Versification::books ($bible, $books);
 
 
-foreach ($books as $book) {
+for ($books as $book) {
 
 
   $chapters = $database_bibles->getChapters ($bible, $book);
   if ($check_versification) Checks_Versification::chapters ($bible, $book, $chapters);
 
 
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $chapterUsfm = $database_bibles->getChapter ($bible, $book, $chapter);
 
 
@@ -94,7 +94,7 @@ foreach ($books as $book) {
     if ($check_versification) Checks_Versification::verses ($bible, $book, $chapter, $verses);
 
 
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $verseUsfm = usfm_get_verse_text ($chapterUsfm, $verse);
       if ($check_double_spaces_usfm) {
         Checks_Space::doubleSpaceUsfm ($bible, $book, $chapter, $verse, $verseUsfm);
@@ -121,7 +121,7 @@ foreach ($books as $book) {
       if ($check_sentence_structure) $checks_sentences->check ($verses_text);
       if ($check_paragraph_structure) $checks_sentences->paragraphs ($verses_text, $filter_text->paragraph_start_positions);
       $results = $checks_sentences->getResults ();
-      foreach ($results as $result) {
+      for ($results as $result) {
         $verse = array_keys ($result);
         $verse = $verse [0];
         $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
@@ -134,7 +134,7 @@ foreach ($books as $book) {
       $checks_usfm->check ($chapterUsfm);
       $checks_usfm->finalize ();
       $results = $checks_usfm->getResults ();
-      foreach ($results as $result) {
+      for ($results as $result) {
         $verse = array_keys ($result);
         $verse = $verse [0];
         $database_check->recordOutput ($bible, $book, $chapter, $verse, $result[$verse]);
@@ -162,7 +162,7 @@ $bibleID = $database_bibles->getID ($bible);
 // Create an email with the checking results for this $bible.
 $emailBody = array ();
 $hits = $database_check->getHits ();
-foreach ($hits as $hit) {
+for ($hits as $hit) {
   if ($hit['bible'] == $bibleID) {
     $passage = Filter_Books::filter_passage_display_inline (array (array ($hit['book'], $hit['chapter'], $hit['verse'])));
     $data = filter_string_sanitize_html ($hit['data']);
@@ -177,7 +177,7 @@ if (count ($emailBody) > 0) {
   $subject = gettext("Bible Checks") . " " . $bible;
   $emailBody = implode ("\n", $emailBody);
   $users = $database_users->getUsers ();
-  foreach ($users as $user) {
+  for ($users as $user) {
     if ($database_config_user->getUserBibleChecksNotification ($user)) {
       if (access_bible_write ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);

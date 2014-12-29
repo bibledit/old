@@ -49,7 +49,7 @@ if (isset ($versification)) {
     $dialog_versifications = new Dialog_List (array ("bible"), gettext("Would you like to change the versification system?"), gettext ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
     $database_versifications = Database_Versifications::getInstance ();
     $versification_names = $database_versifications->getSystems ();
-    foreach ($versification_names as $versification_name) {
+    for ($versification_names as $versification_name) {
       $dialog_versifications->add_row ($versification_name, "&versification=$versification_name");
     }
     $dialog_versifications->run();
@@ -69,7 +69,7 @@ if (isset ($mapping)) {
     $dialog = new Dialog_List (array ("bible"), gettext("Would you like to change the verse mapping?"), gettext ("A verse mapping can be used to match verses for parallel Bible display. Please make your choice below."), "");
     $database_mappings = Database_Mappings::getInstance ();
     $mapping_names = $database_mappings->names ();
-    foreach ($mapping_names as $mapping_name) {
+    for ($mapping_names as $mapping_name) {
       $dialog->add_row ($mapping_name, "&mapping=$mapping_name");
     }
     $dialog->run ();
@@ -111,7 +111,7 @@ if ($deletebook != "") {
 // Available books.
 $book_names = array ();
 $book_ids = filter_passage_get_ordered_books ($bible);
-foreach ($book_ids as $book) {
+for ($book_ids as $book) {
   $book_name = $database_books->getEnglishFromId ($book);
   $book_name = gettext($book_name);
   $book_names [] = $book_name;

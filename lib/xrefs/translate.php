@@ -56,7 +56,7 @@ $targetAbbreviations = array_values ($targetAbbreviations);
 
 $unknown_abbreviations = array_diff ($sourceAbbreviations, $targetAbbreviations);
 $unknown_abbreviations = array_unique ($unknown_abbreviations);
-foreach ($unknown_abbreviations as &$abbreviation) {
+for ($unknown_abbreviations as &$abbreviation) {
   $abbreviation = $database_books->getEnglishFromId ($abbreviation);
 }
 $unknown_abbreviations = array_values ($unknown_abbreviations);

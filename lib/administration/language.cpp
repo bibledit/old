@@ -58,7 +58,7 @@ string administration_language (void * webserver_request)
     if (language == "") {
       dialog_list = new Dialog_List2 (gettext("Set the default language for the site"));
       languages = Locale_Logic::getLocalizations ();
-      foreach (languages as language) {
+      for (languages as language) {
         dialog_list.add_row (Locale_Logic::getLanguage (language), "&language=language");
       }
       dialog_list.run ();

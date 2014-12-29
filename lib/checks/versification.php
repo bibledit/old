@@ -29,10 +29,10 @@ class Checks_Versification
     $absentBooks = array_diff ($standardBooks, $books);
     $extraBooks = array_diff ($books, $standardBooks);
     $database_check = Database_Check::getInstance ();
-    foreach ($absentBooks as $book) {
+    for ($absentBooks as $book) {
       $database_check->recordOutput ($bible, $book, 1, 1, "This book is absent from the Bible");
     }
-    foreach ($extraBooks as $book) {
+    for ($extraBooks as $book) {
       $database_check->recordOutput ($bible, $book, 1, 1, "This book is extra in the Bible");
     }
   }
@@ -45,10 +45,10 @@ class Checks_Versification
     $absentChapters = array_diff ($standardChapters, $chapters);
     $extraChapters = array_diff ($chapters, $standardChapters);
     $database_check = Database_Check::getInstance ();
-    foreach ($absentChapters as $chapter) {
+    for ($absentChapters as $chapter) {
       $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is missing");
     }
-    foreach ($extraChapters as $chapter) {
+    for ($extraChapters as $chapter) {
       $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is extra");
     }
   }
@@ -65,16 +65,16 @@ class Checks_Versification
     $absentVerses = array_diff ($standardVerses, $verses);
     $extraVerses = array_diff ($verses, $standardVerses);
     $database_check = Database_Check::getInstance ();
-    foreach ($absentVerses as $verse) {
+    for ($absentVerses as $verse) {
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is missing according to the versification system");
     }
-    foreach ($extraVerses as $verse) {
+    for ($extraVerses as $verse) {
       //if (($chapter == 0) && ($verse == 0)) continue;
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is extra according to the versification system");
     }
     // Look for verses out of order.
     $previousVerse = 0;
-    foreach ($verses as $key => $verse) {
+    for ($verses as $key => $verse) {
       if ($key > 0) {
         if ($verse != ($previousVerse + 1)) {
           $database_check->recordOutput ($bible, $book, $chapter, $verse, "The verse is out of sequence");

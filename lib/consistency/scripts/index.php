@@ -65,7 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 <h4><?php echo gettext("Tips") ?></h4>
 <p><?php echo gettext("Add Resources as extra aids for comparison") ?>:
-<?php foreach ($this->resources as $resource) { ?>
+<?php for ($this->resources as $resource) { ?>
   <?php echo $resource ?>
   <a href="?remove=<?php echo $resource ?>">[<?php echo gettext("remove") ?>]</a>
   |

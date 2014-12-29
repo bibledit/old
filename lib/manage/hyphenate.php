@@ -59,10 +59,10 @@ $database_users->grantAccess2Bible ($user, $outputBible);
 
 // Go through the input Bible's books and chapters.
 $books = $database_bibles->getBooks ($inputBible);
-foreach ($books as $book) {
+for ($books as $book) {
   $database_logs->log ($database_books->getEnglishFromId ($book));
   $chapters = $database_bibles->getChapters ($inputBible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $data = $database_bibles->getChapter ($inputBible, $book, $chapter);
     $data = Filter_Hyphenate::atTransition ($firstset, $secondset, $data);
     $database_bibles->storeChapter ($outputBible, $book, $chapter, $data);

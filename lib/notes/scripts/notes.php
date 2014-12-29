@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<?php foreach ($this->identifiers as $offset => $identifier) { ?>
+<?php for ($this->identifiers as $offset => $identifier) { ?>
   <a name="note<?php echo $this->identifiers[$offset] ?>"></a>
   <p><a href="note.php?id=<?php echo $this->identifiers[$offset] ?>"><?php echo $this->summaries[$offset] ?></a></p>
   <p><?php echo $this->versetexts[$offset] ?></p>

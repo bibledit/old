@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <textarea name="code"><?php echo $this->code ?></textarea>
   <h3><?php echo gettext("Save and test") ?></h3>
   <select name="book">
-    <?php foreach ($this->books as $offset => $book) { ?>
+    <?php for ($this->books as $offset => $book) { ?>
     <option <?php if ($this->book == $book) echo 'selected="selected"' ?> value="<?php echo $book ?>"><?php echo $this->booknames [$offset] ?></option>
     <?php } ?>
   </select>

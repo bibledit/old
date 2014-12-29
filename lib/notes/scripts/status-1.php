@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h3><?php echo gettext("Select the new status for the note") ?></h3>
 <ul>
-<?php foreach ($this->statuses as $status) { ?>
+<?php for ($this->statuses as $status) { ?>
   <li><a href="status-1.php?id=<?php echo $this->id ?>&status=<?php echo $status[0] ?>"><?php echo $status[0] ?></a></li>
 <?php } ?>
 </ul>

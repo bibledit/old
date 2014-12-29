@@ -32,7 +32,7 @@ class Filter_Abbreviations
     $output = array ();
 
     $data = Filter_String::string2array ($data);
-    foreach ($data as &$entry) {
+    for ($data as &$entry) {
       $entry = trim ($entry);
       $entry = explode ("=", $entry);
       if (count ($entry) != 2) continue;
@@ -65,9 +65,9 @@ class Filter_Abbreviations
 
     // Check for books, order them, supply missing ones.
     $books = $database_books->getIDs ();
-    foreach ($books as $book) {
+    for ($books as $book) {
       $found = false;
-      foreach ($data as $abbreviation => $bookId) {
+      for ($data as $abbreviation => $bookId) {
         if ($book == $bookId) {
           $output [] = $database_books->getEnglishFromId ($book) . " = " . $abbreviation;
           $found = true;

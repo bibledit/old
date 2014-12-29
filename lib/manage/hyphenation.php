@@ -58,7 +58,7 @@ if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Which Bible would you like to take the data from?"));
     $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $item) {
+    for ($bibles as $item) {
       $dialog_list->add_row ($item, "bible=$item");
     }
     $dialog_list->run();

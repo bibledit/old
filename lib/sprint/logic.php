@@ -49,7 +49,7 @@ class Sprint_Logic
     $history = $database_sprint->getHistory ($bible, $year, $month);
     $data = array ();
     for ($day = 1; $day <= $days_in_month; $day++) {
-      foreach ($history as $item) {
+      for ($history as $item) {
         if ($day == $item ['day']) {
           $tasks = $item ['tasks'];
           $complete = $item ['complete'];
@@ -94,7 +94,7 @@ class Sprint_Logic
     for ($day = 1; $day <= $days_in_month; $day++) {
       if (Filter_Datetime::isBusinessDay ($year, $month, $day)) {
         $data [$day] = "";
-        foreach ($history as $item) {
+        for ($history as $item) {
           if ($day == $item ['day']) {
             $tasks = $item ['tasks'];
             $complete = $item ['complete'];
@@ -110,7 +110,7 @@ class Sprint_Logic
     $lines = array ();
     $lines [] = '<table style="text-align:center;">';
     $lines [] = '<tr style="vertical-align: bottom;">';
-    foreach ($data as $day => $tasks) {
+    for ($data as $day => $tasks) {
       $text = str_repeat ("▓<br>", intval ($tasks));
       $lines [] = "<td>$text</td>";
     }
@@ -118,7 +118,7 @@ class Sprint_Logic
 
     // Write number of days along the x-axis.
     $lines [] = '<tr>';
-    foreach ($data as $day => $tasks) {
+    for ($data as $day => $tasks) {
       $lines [] = "<td style=\"width:1em\">$day</td>";
     }
     $lines [] = "</tr>";

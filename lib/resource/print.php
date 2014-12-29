@@ -54,7 +54,7 @@ if (isset ($add)) {
     // The selectable resources are the available ones minus the already selected ones.
     $resources = Resource_Logic::getNames ();
     $resources = array_diff ($resources, $database_config_user->getPrintResources ());
-    foreach ($resources as $resource) {
+    for ($resources as $resource) {
       $parameter = "&add=$resource";
       $dialog_list->add_row ($resource, $parameter);
     }
@@ -89,7 +89,7 @@ if (isset ($frombook)) {
   if ($frombook == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a book"));
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       $parameter = "frombook=$book";
       $book = $database_books->getEnglishFromId ($book);
       $dialog_list->add_row ($book, $parameter);
@@ -123,7 +123,7 @@ if (isset ($fromchapter)) {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
     $passage = explode (".", $database_config_user->getPrintPassageFrom ());
     $chapters = $database_bibles->getChapters ($bible, $passage [0]);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $parameter = "fromchapter=$chapter";
       $dialog_list->add_row ($chapter, $parameter);
     }
@@ -154,7 +154,7 @@ if (isset ($fromverse)) {
     $passage = explode (".", $database_config_user->getPrintPassageFrom ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $parameter = "fromverse=$verse";
       $dialog_list->add_row ($verse, $parameter);
     }
@@ -180,7 +180,7 @@ if (isset ($tobook)) {
   if ($tobook == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a book"));
     $books = $database_bibles->getBooks ($bible);
-    foreach ($books as $book) {
+    for ($books as $book) {
       $parameter = "tobook=$book";
       $book = $database_books->getEnglishFromId ($book);
       $dialog_list->add_row ($book, $parameter);
@@ -212,7 +212,7 @@ if (isset ($tochapter)) {
     $dialog_list = new Dialog_List2 (gettext("Select a chapter"));
     $passage = explode (".", $database_config_user->getPrintPassageTo ());
     $chapters = $database_bibles->getChapters ($bible, $passage [0]);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $parameter = "tochapter=$chapter";
       $dialog_list->add_row ($chapter, $parameter);
     }
@@ -243,7 +243,7 @@ if (isset ($toverse)) {
     $passage = explode (".", $database_config_user->getPrintPassageTo ());
     $usfm = $database_bibles->getChapter ($bible, $passage [0], $passage [1]);
     $verses = usfm_get_verse_numbers ($usfm);
-    foreach ($verses as $verse) {
+    for ($verses as $verse) {
       $parameter = "toverse=$verse";
       $dialog_list->add_row ($verse, $parameter);
     }

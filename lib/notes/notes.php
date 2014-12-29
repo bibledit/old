@@ -75,7 +75,7 @@ $view->view->count = $count;
 $summaries = array ();
 $verse_texts = array ();
 $contents = array ();
-foreach ($identifiers as $identifier) {
+for ($identifiers as $identifier) {
 
   $summary = $database_notes->getSummary ($identifier);
 
@@ -86,7 +86,7 @@ foreach ($identifiers as $identifier) {
   $verse_text = "";
   if ($passage_inclusion_selector) {
     $passages = $database_notes->getPassages ($identifier);
-    foreach ($passages as $passage) {
+    for ($passages as $passage) {
       $usfm = $database_bibles->getChapter ($bible, $passage[0], $passage[1]);
       $text = usfm_get_verse_text ($usfm, $passage[2]);
       $verse_text += $text;

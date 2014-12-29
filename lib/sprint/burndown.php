@@ -98,7 +98,7 @@ if ($bible == "") {
 }
 
 
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
 
 
   // Get the total number of tasks for this sprint,
@@ -106,7 +106,7 @@ foreach ($bibles as $bible) {
   // and store this information in the sprint history table.
   $ids = $database_sprint->getTasks ($bible, $year, $month);
   $percentages = array ();
-  foreach ($ids as $id) {
+  for ($ids as $id) {
     $percentages [] = $database_sprint->getComplete ($id);
   }
   $tasks = count ($ids);
@@ -128,7 +128,7 @@ foreach ($bibles as $bible) {
       $category_count = count ($categories);
       $category_percentage = intval (100 / $category_count);
       $users = $database_users->getUsers ();
-      foreach ($users as $user) {
+      for ($users as $user) {
         if (!access_bible_write ($bible, $user)) continue;
         if ($database_config_user->getUserSprintProgressNotification ($user)) {
     
@@ -142,7 +142,7 @@ foreach ($bibles as $bible) {
           $body [] = "<h3>" . gettext("Sprint Planning and Team's Progress") . " | $bible</h3>";
           $body [] = "<table>";
           $tasks = $database_sprint->getTasks ($bible, $year, $month);
-          foreach ($tasks as $id) {
+          for ($tasks as $id) {
             $body [] = "<tr>";
             $title = $database_sprint->getTitle ($id);
             $body [] = "<td>" . $title . "</td>";

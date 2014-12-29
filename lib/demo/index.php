@@ -57,7 +57,7 @@ styles_sheets_create_all ();
 
 // Set the export stylesheet to "Standard" for all Bibles and the admin.
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   $database_config_bible->setExportStylesheet ($bible, $standard_sheet);
 }
 $database_config_user->setStylesheet ($standard_sheet);
@@ -76,7 +76,7 @@ $users = array (
   array ("manager", Filter_Roles::manager ()),
   array ("admin", Filter_Roles::admin ())
 );
-foreach ($users as $user) {
+for ($users as $user) {
   if (!$database_users->usernameExists ($user [0])) {
     $database_users->addNewUser($user [0], $user [0], $user [1], "");
   }
@@ -611,9 +611,9 @@ $usfm = <<<'EOD'
 EOD;
 $data [] = $usfm;
 
-foreach ($data as $usfm) {
+for ($data as $usfm) {
   $book_chapter_text = usfm_import ($usfm, "Standard");
-  foreach ($book_chapter_text as $data) {
+  for ($book_chapter_text as $data) {
     $book_number = $data[0];
     $chapter_number = $data[1];
     $chapter_data = $data[2];
@@ -626,11 +626,11 @@ foreach ($data as $usfm) {
 
 // Clean out nearly empty chapters from the Bibles.
 $bibles = $database_bibles->getBibles ();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
   $books = $database_bibles->getBooks ($bible);
-  foreach ($books as $book) {
+  for ($books as $book) {
     $chapters = $database_bibles->getChapters ($bible, $book);
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       // Remove chapters, other than 0, that are rather short, as these chapters likely contain no text, but USFM markers only.
       if ($chapter == 0) continue;
       $usfm = $database_bibles->getChapter ($bible, $book, $chapter);

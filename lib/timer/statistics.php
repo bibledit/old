@@ -46,7 +46,7 @@ $bibles = $database_bibles->getBibles ();
 
 
 $users = $database_users->getUsers ();
-foreach ($users as $user) {
+for ($users as $user) {
 
 
   $subject = "Bibledit " . gettext("statistics");

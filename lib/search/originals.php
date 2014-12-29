@@ -48,14 +48,14 @@ if (isset ($load)) {
   $searchtext = "";
   if ($type == "ot") {
     $details = $database_morphhb->getVerse ($book, $chapter, $verse);
-    foreach ($details as $offset => $detail) {
+    for ($details as $offset => $detail) {
       if ($offset) $searchtext += " ";
       $searchtext += $detail ['hebrew'];
     }
   }
   if ($type == "nt") {
     $details = $database_sblgnt->getVerse ($book, $chapter, $verse);
-    foreach ($details as $offset => $detail) {
+    for ($details as $offset => $detail) {
       if ($offset) $searchtext += " ";
       $searchtext += $detail ['greek'];
     }
@@ -94,7 +94,7 @@ if (isset ($words)) {
   // The values are how often the passages occur in the search results.
   $passages = array ();
 
-  foreach ($words as $word) {
+  for ($words as $word) {
     
      // Find out how often this word occurs in the Hebrew or Greek Bible. Skip if too often.
     if ($type == "ot") {
@@ -108,7 +108,7 @@ if (isset ($words)) {
     if ($count > $maxcount) continue;
     
     // Store the identifiers and their count.
-    foreach ($details as $detail) {
+    for ($details as $detail) {
       $book = $detail ['book'];
       $chapter = $detail ['chapter'];
       $verse = $detail ['verse'];
@@ -125,7 +125,7 @@ if (isset ($words)) {
   
   // Output the passage identifiers to the browser.
   // Skip identifiers that only occur once.
-  foreach ($passages as $key => $value) {
+  for ($passages as $key => $value) {
     if ($value <= 1) continue;
     echo "$key\n";
   }

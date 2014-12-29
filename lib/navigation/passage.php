@@ -126,7 +126,7 @@ class Navigation_Passage
       $books = filter_passage_get_ordered_books ($bible);
     }
     $html = "";
-    foreach ($books as $book) {
+    for ($books as $book) {
       $bookName = $database_books->getEnglishFromId ($book);
       $selected = "";
       if ($book == $activeBook) $selected = " selected";
@@ -146,7 +146,7 @@ class Navigation_Passage
       $chapters = $database_bibles->getChapters ($bible, $book);
     }
     $html = "";
-    foreach ($chapters as $ch) {
+    for ($chapters as $ch) {
       $selected = "";
       if ($ch == $chapter) $selected = " selected";
       $html += "<option$selected>" . $ch . "</option>";;
@@ -165,7 +165,7 @@ class Navigation_Passage
       $verses = usfm_get_verse_numbers ($database_bibles->getChapter ($bible, $book, $chapter));
     }
     $html = "";
-    foreach ($verses as $vs) {
+    for ($verses as $vs) {
       $selected = "";
       if ($verse == $vs) $selected = " selected";
       $html += "<option$selected>" . $vs . "</option>";;

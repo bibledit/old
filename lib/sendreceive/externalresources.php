@@ -72,13 +72,13 @@ $server_resources = $response;
 // Delete resources that exist locally but not on the server.
 $client_resources = $database_offlineresources->names ();
 $resources = array_diff ($client_resources, $server_resources);
-foreach ($resources as $resource) {
+for ($resources as $resource) {
   $database_offlineresources->delete ($resource);
 }
 
 
 // Deal with each offline resource individually.
-foreach ($server_resources as $resource) {
+for ($server_resources as $resource) {
 
 
   // Request the checksum of the resources from the server.
@@ -117,13 +117,13 @@ foreach ($server_resources as $resource) {
   // Delete files that exist locally but not on the server.
   $client_files = $database_offlineresources->files ($resource);
   $files = array_diff ($client_files, $server_files);
-  foreach ($files as $file) {
+  for ($files as $file) {
     $database_offlineresources->unlink ($resource, $file);
   }
  
   
   // Deal with each file individually.
-  foreach ($server_files as $file) {
+  for ($server_files as $file) {
 
 
     // Request checksum of this file,

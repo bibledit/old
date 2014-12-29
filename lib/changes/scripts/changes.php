@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <a href="#help">[<?php echo gettext("help") ?>]</a>
 </p>
 <br>
-<?php foreach ($this->modifications as $offset => $modification) { ?>
+<?php for ($this->modifications as $offset => $modification) { ?>
   <div id="entry<?php echo $this->ids[$offset] ?>">
     <a href="expand" id="expand<?php echo $this->ids[$offset] ?>"> ⊞ </a>
     <a href="remove" id="remove<?php echo $this->ids[$offset] ?>"> ✗ </a>

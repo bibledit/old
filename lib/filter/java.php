@@ -42,7 +42,7 @@ class Filter_Java
     // Assemble the class path.
     $cp = ".";
     if (is_array ($classpath)) {
-      foreach ($classpath as $path) {
+      for ($classpath as $path) {
         $cp = "$cp:$path";
       }
     }
@@ -56,7 +56,7 @@ class Filter_Java
     $command = "cd $workingdirectory && javac -cp $cp $javafile 2>&1";
     $database_logs->log ($command);
     exec ($command, $output, $return_var);
-    foreach ($output as $line) {
+    for ($output as $line) {
       $database_logs->log ($line);
     }
 
@@ -77,7 +77,7 @@ class Filter_Java
     // Assemble the class path.
     $cp = ".";
     if (is_array ($classpath)) {
-      foreach ($classpath as $path) {
+      for ($classpath as $path) {
         $cp = "$cp:$path";
       }
     }
@@ -91,7 +91,7 @@ class Filter_Java
     $command = "cd $workingdirectory && java -cp $cp $runclass 2>&1";
     $database_logs->log ($command);
     exec ($command, $output, $return_var);
-    foreach ($output as $line) {
+    for ($output as $line) {
       $database_logs->log ($line);
     }
     return $return_var;

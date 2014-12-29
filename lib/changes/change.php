@@ -98,7 +98,7 @@ $notes = $database_notes->selectNotes (
   NULL); // Limit.
 
 // Remove the ones marked for deletion.
-foreach ($notes as $offset => $note) {
+for ($notes as $offset => $note) {
   if ($database_notes->isMarkedForDeletion ($note)) {
     unset ($notes [$offset]);
   }
@@ -106,7 +106,7 @@ foreach ($notes as $offset => $note) {
 
 // Sort them, most recent notes first.
 $timestamps = array ();
-foreach ($notes as $note) {
+for ($notes as $note) {
   $timestap = $database_notes->getModified ($note);
   $timestamps [] = $timestap;
 }
@@ -117,7 +117,7 @@ array_multisort ($timestamps, SORT_DESC, $notes);
 $summaries = array ();
 $subscriptions = array ();
 $assignments = array ();
-foreach ($notes as $note) {
+for ($notes as $note) {
   $summary = $database_notes->getSummary ($note);
   $summary = filter_string_sanitize_html ($summary);
   $summaries [] = $summary;

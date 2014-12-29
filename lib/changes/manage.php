@@ -41,7 +41,7 @@ if (isset ($clear)) {
 $users = access_user_assignees ();
 $pendingUsers = array ();
 $pendingCount = array ();
-foreach ($users as $user) {
+for ($users as $user) {
   $ids = $database_modifications->getNotificationIdentifiers ($user);
   $count = count ($ids);
   if ($count > 0) {

@@ -52,7 +52,7 @@ echo "$command\n";
 exec ($command, $output, $exit_code);
 echo "Exit code $exit_code\n";
 if ($exit_code != 0) {
-  foreach ($output as $line) {
+  for ($output as $line) {
     echo "$line\n";
   }
 }
@@ -61,7 +61,7 @@ echo "$command\n";
 exec ($command, $output, $exit_code);
 echo "Exit code $exit_code\n";
 if ($exit_code != 0) {
-  foreach ($output as $line) {
+  for ($output as $line) {
     echo "$line\n";
   }
 }
@@ -76,7 +76,7 @@ if ($exit_code == 0) {
   echo gettext("Your data was pushed to the remote repository successfully.") . "\n";
 } else {
   echo "Exit code $exit_code\n";
-  foreach ($output as $line) {
+  for ($output as $line) {
     echo "$line\n";
   }
   echo gettext("Pushing your data to the remote repository failed.") . "\n";

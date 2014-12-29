@@ -49,7 +49,7 @@ class Filter_Bibleworks
 
 
     // Go through each line of data to be imported.
-    foreach ($data as $line) {
+    for ($data as $line) {
       $line = trim ($line);
 
 

@@ -120,6 +120,7 @@ void http_parse_headers (string headers, Webserver_Request * request)
     if (line.substr (0, 12) == "Content-Type") {
       request->content_type = line.substr (14);
     }
+    if (line.find ("Content-Length") != string::npos) cout << line << endl; // Todo
   
     // Flag POST data: It follows a blank line.
     if (line == "") reading_post_data = true;
@@ -140,6 +141,7 @@ void http_parse_headers (string headers, Webserver_Request * request)
   // Read and parse the POST data.
   try {
     if (!post_data.empty ()) {
+      cout << "Post data length: " << post_data.length() << endl; // Todo
       ParseWebData::WebDataMap dataMap;
       ParseWebData::parse_post_data (post_data, request->content_type, dataMap);
       for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {

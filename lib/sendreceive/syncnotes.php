@@ -107,7 +107,7 @@ if ($server_total == $client_total) {
 // and then starts one script for each range.
 if ($server_total > 20) {
   $ranges = Sync_Logic::create_range ($lowId, $highId);
-  foreach ($ranges as $range) {
+  for ($ranges as $range) {
     $low = $range [0];
     $high = $range [1];
     Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$low", "$high"));
@@ -146,7 +146,7 @@ $client_identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId
 
 // Client deletes notes no longer on the server.
 $identifiers = array_diff ($client_identifiers, $server_identifiers);
-foreach ($identifiers as $identifier) {
+for ($identifiers as $identifier) {
   $summary = $database_notes->getSummary ($identifier);
   $database_notes->delete ($identifier);
   $database_logs->log ("Deleting note on client while syncing with server" . ": $summary", Filter_Roles::translator ());
@@ -154,7 +154,7 @@ foreach ($identifiers as $identifier) {
 
 // Check whether the local notes on the client match the ones on the server.
 // If needed download the note from the server.
-foreach ($server_identifiers as $key => $identifier) {
+for ($server_identifiers as $key => $identifier) {
   $server_checksum = $server_checksums [$key];
   $client_checksum = $database_notes->getChecksum ($identifier);
   if ($client_checksum != $server_checksum) {

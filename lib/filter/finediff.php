@@ -226,7 +226,7 @@ class FineDiff {
 
 	public function getOpcodes() {
 		$opcodes = array();
-		foreach ( $this->edits as $edit ) {
+		for ( $this->edits as $edit ) {
 			$opcodes[] = $edit->getOpcode();
 			}
 		return implode('', $opcodes);
@@ -235,7 +235,7 @@ class FineDiff {
 	public function renderDiffToHTML() {
 		$in_offset = 0;
 		ob_start();
-		foreach ( $this->edits as $edit ) {
+		for ( $this->edits as $edit ) {
 			$n = $edit->getFromLen();
 			if ( $edit instanceof FineDiffCopyOp ) {
 				FineDiff::renderDiffToHTMLFromOpcode('c', $this->from_text, $in_offset, $n);
@@ -390,7 +390,7 @@ class FineDiff {
 	private function _processGranularity($from_segment, $to_segment) {
 		$delimiters = $this->granularityStack[$this->stackpointer++];
 		$has_next_stage = $this->stackpointer < count($this->granularityStack);
-		foreach ( FineDiff::doFragmentDiff($from_segment, $to_segment, $delimiters) as $fragment_edit ) {
+		for ( FineDiff::doFragmentDiff($from_segment, $to_segment, $delimiters) as $fragment_edit ) {
 			// increase granularity
 			if ( $fragment_edit instanceof FineDiffReplaceOp && $has_next_stage ) {
 				$this->_processGranularity(
@@ -480,7 +480,7 @@ class FineDiff {
 					// get only indices which falls within current segment
 					if ( $to_segment_start > 0 || $to_segment_end < $to_text_len ) {
 						$to_fragment_indices = array();
-						foreach ( $to_all_fragment_indices as $to_fragment_index ) {
+						for ( $to_all_fragment_indices as $to_fragment_index ) {
 							if ( $to_fragment_index < $to_segment_start ) { continue; }
 							if ( $to_fragment_index >= $to_segment_end ) { break; }
 							$to_fragment_indices[] = $to_fragment_index;
@@ -495,7 +495,7 @@ class FineDiff {
 					$to_fragment_indices = $cached_array_keys_for_current_segment[$from_base_fragment];
 					}
 				// iterate through collected indices
-				foreach ( $to_fragment_indices as $to_base_fragment_index ) {
+				for ( $to_fragment_indices as $to_base_fragment_index ) {
 					$fragment_index_offset = $from_base_fragment_length;
 					// iterate until no more match
 					for (;;) {

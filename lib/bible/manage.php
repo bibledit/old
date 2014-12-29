@@ -95,9 +95,9 @@ if (isset ($origin)) {
       if (Access_Bible::read ($origin)) {
         $database_bibles->createBible ($destination);
         $books = $database_bibles->getBooks ($origin);
-        foreach ($books as $book) {
+        for ($books as $book) {
           $chapters = $database_bibles->getChapters ($origin, $book);
-          foreach ($chapters as $chapter) {
+          for ($chapters as $chapter) {
             $data = $database_bibles->getChapter ($origin, $book, $chapter);
             Bible_Logic::storeChapter ($destination, $book, $chapter, $data);
           }

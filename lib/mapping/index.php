@@ -50,7 +50,7 @@ if (isset ($_GET['new'])) {
 
 $mappings = $database_mappings->names ();
 $editable = array ();
-foreach ($mappings as $mapping) {
+for ($mappings as $mapping) {
   //$write = $database_styles->hasWriteAccess ($username, $sheet);
   $write = true;
   if ($userlevel >= Filter_Roles::admin ()) $write = true;

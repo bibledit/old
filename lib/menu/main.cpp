@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/indext.h>
 #include <styles/indexm.h>
 #include <fonts/index.h>
+#include <versification/index.h>
 
 
 /*
@@ -111,7 +112,7 @@ vector <Menu_Main_Item> * Menu_Main::bible_workbench_menu ()
   /* C++Port
   // Add the available configured Workbenches to the menu. 
   $workbenches = Workbench_Logic::getWorkbenches ();
-  foreach ($workbenches as $offset => $workbench) {
+  for ($workbenches as $offset => $workbench) {
     $menu [] = array ("workbench/index?bench=$offset", $workbench, NULL);
   }
   */
@@ -210,7 +211,7 @@ vector <Menu_Main_Item> * Menu_Main::settingsmenu ()
   if (administration_timezone_acl (webserver_request))                                      menu->push_back ( { "", administration_timezone_url (), gettext ("Timezone"), NULL } );
   if (email_index_acl (webserver_request)               && !config_logic_client_enabled ()) menu->push_back ( { "", email_index_url (), gettext ("Mail"), NULL } );
   if (styles_indext_acl (webserver_request))                                                menu->push_back ( { "", styles_indext_url (), gettext ("Styles"), stylessubmenu () } );
-  if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "versification/index", gettext ("Versifications"), NULL } );
+  if (versification_index_acl (webserver_request))                                          menu->push_back ( { "", versification_index_url (), gettext ("Versifications"), NULL } );
   if (level >= Filter_Roles::manager ())                                                    menu->push_back ( { "", "mapping/index", gettext ("Verse mappings"), NULL } );
   if (level >= Filter_Roles::admin ())                                                      menu->push_back ( { "collaboration", "administration/collaboration", gettext ("Collaboration"), NULL } );
   if (level >= Filter_Roles::consultant ())                                                 menu->push_back ( { "client", "administration/client", gettext ("Client"), NULL } );

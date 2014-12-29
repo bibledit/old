@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h3><?php echo gettext("Assign the notes to another Bible") ?></h3>
 <ul>
-<?php foreach ($this->bibles as $bible) { ?>
+<?php for ($this->bibles as $bible) { ?>
   <li><a href="bulk.php?bible=<?php echo $bible ?>"><?php echo $bible ?></a></li>
 <?php } ?>
 </ul>

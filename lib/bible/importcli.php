@@ -50,7 +50,7 @@ $files = array ();
 
 if (is_dir ($location)) {
   $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($location));
-  foreach($objects as $name => $object) {
+  for($objects as $name => $object) {
     if (is_file ($name)) {
       $files [] = $name;
     }
@@ -69,7 +69,7 @@ $database_books = Database_Books::getInstance ();
 $database_logs = Database_Logs::getInstance ();
 
 
-foreach ($files as $file) {
+for ($files as $file) {
   $database_logs->log ("Examining file for import: $file", true);
   $success_message = "";
   $error_message = "";
@@ -78,7 +78,7 @@ foreach ($files as $file) {
     if ($data != "") {
       if (Validate_Utf8::valid ($data)) {
         $book_chapter_text = usfm_import ($data, $stylesheet);
-        foreach ($book_chapter_text as $data) {
+        for ($book_chapter_text as $data) {
           $book_number = $data[0];
           $chapter_number = $data[1];
           $chapter_data = $data[2];

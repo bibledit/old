@@ -129,7 +129,7 @@ $view->view->noneditselector = $non_edit_selector;
 
 
 $possible_statuses = $database_notes->getPossibleStatuses();
-foreach ($possible_statuses as $possible_status) {
+for ($possible_statuses as $possible_status) {
   $status_ids [] = $possible_status[0];
   $status_localizations [] = $possible_status[1];
 }

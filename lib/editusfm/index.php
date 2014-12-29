@@ -48,7 +48,7 @@ if (isset ($changebible)) {
   if ($changebible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to open in the editor"));
     $bibles = Access_Bible::bibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       $dialog_list->add_row ($bible, "&changebible=$bible");
     }
     $dialog_list->run();

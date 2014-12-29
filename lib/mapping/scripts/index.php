@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   <?php echo gettext("This lists the available verse mappings.") ?>
   <a href="index.php?new="><?php echo gettext("Create new.") ?></a>
 </p>
-<?php foreach ($this->mappings as $offset => $mapping) { ?>
+<?php for ($this->mappings as $offset => $mapping) { ?>
   <p>
     <?php echo $mapping ?>
     <?php if ($this->editable [$offset]) { ?>

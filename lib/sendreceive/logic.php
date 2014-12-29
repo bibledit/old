@@ -94,7 +94,7 @@ class SendReceive_Logic
     $database_config_general = Database_Config_General::getInstance ();
 
     $bibles = $database_bibles->getBibles ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       if ($database_config_bible->getRemoteRepositoryUrl ($bible) != "") {
         if ($database_config_bible->getRepeatSendReceive ($bible) || $now) {
           self::queuebible ($bible);

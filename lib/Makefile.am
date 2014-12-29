@@ -108,7 +108,9 @@ libbibledit_a_SOURCES = \
 	dialog/yes.cpp \
 	dialog/color.cpp \
 	fonts/logic.cpp \
-	fonts/index.cpp
+	fonts/index.cpp \
+	versification/index.cpp \
+	versification/system.cpp
 
 bin_PROGRAMS = server unittest
 

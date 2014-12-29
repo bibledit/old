@@ -89,7 +89,7 @@ echo "<p><font size=\"-1\" color=\"grey\">$hitCount " . gettext("chapters") . "<
 
 
 // Go through the search hits.
-foreach ($ids as $id) {
+for ($ids as $id) {
 
 
   // Get the details of this search hit.
@@ -119,7 +119,7 @@ foreach ($ids as $id) {
   $text = explode ("\n", $text);
   $excerpt = "";
   // Go through each line of text separately.
-  foreach ($text as $line) {
+  for ($text as $line) {
     $markedLine = Filter_Markup::words ($queryWords, $line);
     if ($markedLine != $line) {
       // Store this bit of the excerpt.

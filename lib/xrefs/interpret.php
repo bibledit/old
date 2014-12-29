@@ -59,7 +59,7 @@ $allnotes = unserialize ($allnotes);
 $abbreviations = $database_config_bible->getBookAbbreviations ($bible);
 $abbreviations = Filter_Abbreviations::read ($abbreviations);
 $sorter = array ();
-foreach ($abbreviations as $abbrev => $book) {
+for ($abbreviations as $abbrev => $book) {
   $sorter [] = mb_strlen ($abbrev);
 }
 array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $abbreviations);
@@ -70,13 +70,13 @@ $unknown_abbreviations = array ();
 
 
 // Go through notes, do the replacement, collect unknown abbreviations.
-foreach ($allnotes as $note) {
+for ($allnotes as $note) {
   $note = $note ['text'];
   $note = str_replace ('\x*', "", $note);
   $note = str_replace ('\x', "", $note);
   $note = str_replace ($abbreviations, "", $note);
   $note = explode (" ", $note);
-  foreach ($note as $fragment) {
+  for ($note as $fragment) {
     if (strlen ($fragment) <= 1) continue;
     if (intval ($fragment) > 0) continue;
     $unknown_abbreviations [] = $fragment;
@@ -105,7 +105,7 @@ $view->view->abbreviation = $unknown_abbreviations [0];
 
 
 $books = $database_books->getIDs ();
-foreach ($books as &$book) {
+for ($books as &$book) {
   $book = $database_books->getEnglishFromId ($book);
 }
 $view->view->books = $books;

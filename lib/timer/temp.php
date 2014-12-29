@@ -37,7 +37,7 @@ $names = scandir ($directory);
 $names = Filter_Folders::cleanup ($names);
 
 
-foreach ($names as $name) {
+for ($names as $name) {
   $filename = "$directory/$name";
   $mtime = filemtime ($filename);
   if ($mtime < $expired) {

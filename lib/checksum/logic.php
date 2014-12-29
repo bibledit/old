@@ -64,7 +64,7 @@ class Checksum_Logic
     $database_bibles = Database_Bibles::getInstance ();
     $chapters = $database_bibles->getChapters ($bible, $book);
     $checksum = array ();
-    foreach ($chapters as $chapter) {
+    for ($chapters as $chapter) {
       $checksum [] = self::getChapter ($bible, $book, $chapter);
     }
     $checksum = implode ("", $checksum);
@@ -79,7 +79,7 @@ class Checksum_Logic
     $database_bibles = Database_Bibles::getInstance ();
     $books = $database_bibles->getBooks ($bible);
     $checksum = array ();
-    foreach ($books as $book) {
+    for ($books as $book) {
       $checksum [] = self::getBook ($bible, $book);
     }
     $checksum = implode ("", $checksum);
@@ -92,7 +92,7 @@ class Checksum_Logic
   public static function getBibles ($bibles)
   {
     $checksum = array ();
-    foreach ($bibles as $bible) {
+    for ($bibles as $bible) {
       $checksum [] = self::getBible ($bible);
     }
     $checksum = implode ("", $checksum);

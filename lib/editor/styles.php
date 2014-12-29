@@ -36,7 +36,7 @@ class Editor_Styles
     $styles = $database_config_user->getRecentlyAppliedStyles ();
     $styles = explode (" ", $styles);
     $fragment = gettext("Select style") . ": ";
-    foreach ($styles as $offset => $marker) {
+    for ($styles as $offset => $marker) {
       if ($offset) $fragment += " | ";
       $data = $database_styles->getMarkerData ($stylesheet, $marker);
       if (!$data) continue;
@@ -73,7 +73,7 @@ class Editor_Styles
     $line = gettext("Select style");
     $lines [] = "<option>$line</option>";
 
-    foreach ($data as $item) {
+    for ($data as $item) {
       $marker = $item ['marker'];
       $data = $database_styles->getMarkerData ($stylesheet, $marker);
       $category = $data ['category'];

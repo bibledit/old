@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <h3><?php echo gettext("Update the severity of the notes") ?></h3>
 <ul>
-<?php foreach ($this->severities as $severity) { ?>
+<?php for ($this->severities as $severity) { ?>
   <li><a href="bulk.php?severity=<?php echo $severity[0] ?>"><?php echo $severity[1] ?></a></li>
 <?php } ?>
 </ul>

@@ -56,9 +56,9 @@ $filter_text = new Filter_Text ($bible);
 
 
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   $chapters = $database_bibles->getChapters ($bible, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
     $usfm = trim ($usfm);
     // Use small chunks of USFM at a time for much better performance.

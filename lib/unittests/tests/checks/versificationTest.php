@@ -45,7 +45,7 @@ class versificationsTest extends PHPUnit_Framework_TestCase
     $database_versifications = Database_Versifications::getInstance ();
     $data = $database_versifications->getBooksChaptersVerses ("English");
     $books = array ();
-    foreach ($data as $row) {
+    for ($data as $row) {
       $book = $row ["book"];
       $books [] = $book;
     }

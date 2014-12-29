@@ -555,8 +555,8 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
     // kses compatibility
     $allowed_html = $spec;
     $allowed_protocols = array();
-    foreach($cf['schemes'] as $v){
-     foreach($v as $k2=>$v2){
+    for($cf['schemes'] as $v){
+     for($v as $k2=>$v2){
       if(!in_array($k2, $allowed_protocols)){
        $allowed_protocols[] = $k2;
       }
@@ -1242,7 +1242,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
       }
 
       $string = '';
-      foreach($attribute_array as $k=>$v){
+      for($attribute_array as $k=>$v){
         $string .= " {$k}=\"{$v}\"";
       }
       

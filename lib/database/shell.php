@@ -93,7 +93,7 @@ EOD;
     $pid = Database_SQLiteInjection::no ($pid);
     $query = "SELECT output FROM shell WHERE name = '$name' AND pid = '$pid';";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       return $row[0];
     }
     return "";
@@ -109,7 +109,7 @@ EOD;
     $pid = Database_SQLiteInjection::no ($pid);
     $query = "SELECT run FROM shell WHERE name = '$name' AND pid = '$pid';";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       return  (boolean) $row[0];
     }
     return false;
@@ -137,7 +137,7 @@ EOD;
     $pid = Database_SQLiteInjection::no ($pid);
     $query = "SELECT run FROM shell WHERE name = '$name' AND pid = '$pid';";
     $result = Database_SQLite::query ($this->db, $query);
-    foreach ($result as $row) {
+    for ($result as $row) {
       return  !(boolean) $row[0];
     }
     return false;
@@ -159,7 +159,7 @@ EOD;
   public function debug ()
   {
     $result = Database_SQLite::query ($this->db, "SELECT * from shell;");
-    foreach ($result as $row) {
+    for ($result as $row) {
       for ($i = 0; $i <= 3; $i++) unset ($row[$i]);
       var_dump ($row);
     }

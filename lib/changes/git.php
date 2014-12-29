@@ -42,7 +42,7 @@ $database_config_bible = Database_Config_Bible::getInstance ();
 
 
 $bibles = $database_bibles->getBibles();
-foreach ($bibles as $bible) {
+for ($bibles as $bible) {
 
   $stylesheet = $database_config_bible->getExportStylesheet ($bible);
 
@@ -58,7 +58,7 @@ foreach ($bibles as $bible) {
   $commits = array_diff ($commits, $database_commits->get ($bible));
 
   // Deal with all the remaining commits.
-  foreach ($commits as $sha1) {
+  for ($commits as $sha1) {
 
     // Get author and timestamp.
     $author = Filter_Git::committer ($directory, $sha1);
@@ -68,7 +68,7 @@ foreach ($bibles as $bible) {
     $database_logs->log ("$history $author $datetime $bible $sha1", Filter_Roles::manager ());
 
     $files = Filter_Git::files ($directory, $sha1);
-    foreach ($files as $path) {
+    for ($files as $path) {
       $database_logs->log ("$history $path", Filter_Roles::manager ());
       $data = Filter_Git::explodePath ($path);
       if ($data) {
@@ -82,7 +82,7 @@ foreach ($bibles as $bible) {
         $verses = array_merge ($oldverses, $newverses);
         $verses = array_unique ($verses);
         sort ($verses, SORT_NUMERIC);
-        foreach ($verses as $verse) {
+        for ($verses as $verse) {
           $old_verse_usfm = usfm_get_verse_text ($oldusfm, $verse);
           $new_verse_usfm = usfm_get_verse_text ($newusfm, $verse);
           if ($old_verse_usfm != $new_verse_usfm) {

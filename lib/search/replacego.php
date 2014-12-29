@@ -68,7 +68,7 @@ $usfmString = $database_bibles->getChapter ($bible, $book, $chapter);
 $verses = usfm_get_verse_numbers ($usfmString);
 $verses = array_unique ($verses);
 sort ($verses, SORT_NUMERIC);
-foreach ($verses as $vs) {
+for ($verses as $vs) {
   $usfmArray [$vs] = usfm_get_verse_text ($usfmString, $vs);
 }
 
@@ -100,11 +100,11 @@ $filter_text->run ($stylesheet);
 // Get the updated plain text of the correct verse of the updated USFM.
 $updatedPlainText = "";
 $texts = $filter_text->getVersesText ();
-foreach ($texts as $vs => $text) {
+for ($texts as $vs => $text) {
   if ($vs == $verse) $updatedPlainText += "$text\n";
 }
 $headings = $filter_text->verses_headings;
-foreach ($headings as $vs => $heading) {
+for ($headings as $vs => $heading) {
   if ($vs == $verse) $updatedPlainText += "$heading\n";
 }
 

@@ -153,7 +153,7 @@ string manage_users (void * webserver_request)
     if (addbible == "") {
       /* C++Port
       dialog_list = new Dialog_List (NULL, gettext("Would you like to grant user user access to a Bible?"), "", "");
-      foreach (accessibleBibles as bible) {
+      for (accessibleBibles as bible) {
         parameter = "?user=user&addbible=bible";
         dialog_list.add_row (bible, parameter);
       }

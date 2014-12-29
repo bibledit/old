@@ -74,6 +74,9 @@ void webserver ()
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof(clientaddr);
     int connfd = accept(listenfd, (SA *)&clientaddr, &clientlen);
+    
+    // Non-blocking read. Todo
+    // fcntl (connfd, F_SETFL, O_NONBLOCK);
 
     // The client's remote IPv4 address in dotted notation.
     char remote_address[256];
@@ -84,15 +87,19 @@ void webserver ()
       if (config_globals_running) {
         string input;
         // Read the client's request.
-        size_t bytes_read;
+        int bytes_read;
         char buffer [65535];
-        do {
+        //do {
           memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
           bytes_read = read (connfd, buffer, sizeof (buffer));
-          for (unsigned int i = 0; i < bytes_read; i++) {
+          for (int i = 0; i < bytes_read; i++) {
             input += buffer[i];
           }
-        } while (bytes_read == sizeof (buffer));
+        cout << input << endl; // Todo
+        cout << "bytes_read: " << bytes_read << endl; // Todo
+        //  cout << "EAGAIN: " << EAGAIN << " and errno " << errno << endl; // Todo
+        //} while (bytes_read == sizeof (buffer));
+        //} while (bytes_read != 0);
   
         // Parse the browser's request's headers.
         http_parse_headers (input, request);

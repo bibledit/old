@@ -75,7 +75,7 @@ $html_text_rich_bible_index->addText (" |");
 
 // Go through the Bible books.
 $books = $database_bibles->getBooks ($bible);
-foreach ($books as $book) {
+for ($books as $book) {
   // Add this book to the main web index.
   $html_text_rich_bible_index->addLink ($html_text_rich_bible_index->currentPDomElement,  Filter_Paths::htmlFileNameBible ("", $book), "", $database_books->getEnglishFromId ($book), "", " " . $database_books->getEnglishFromId ($book) . " ");
   $html_text_rich_bible_index->addText ("|");

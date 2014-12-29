@@ -38,11 +38,11 @@ $database_logs->log (gettext("Converting USFM Resource to Bible") . ": $resource
 
 $database_bibles->createBible ($resource);
 $books = $database_usfmresources->getBooks ($resource);
-foreach ($books as $book) {
+for ($books as $book) {
   $bookname = $database_books->getEnglishFromId ($book);
   $database_logs->log ("$bookname");
   $chapters = $database_usfmresources->getChapters ($resource, $book);
-  foreach ($chapters as $chapter) {
+  for ($chapters as $chapter) {
     $usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
     $database_bibles->storeChapter ($resource, $book, $chapter, $usfm);
   }

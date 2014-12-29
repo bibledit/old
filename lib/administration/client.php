@@ -92,7 +92,7 @@ $view->view->address = $address;
 
 
 $users = $database_users->getUsers ();
-foreach ($users as $user) {
+for ($users as $user) {
   $level = $database_users->getUserLevel ($user);
   $view->view->role = Filter_Roles::text ($level);
 }
@@ -114,7 +114,7 @@ function remove_all_users ()
 {
   $database_users = Database_Users::getInstance ();
   $existingusers = $database_users->getUsers ();
-  foreach ($existingusers as $existinguser) {
+  for ($existingusers as $existinguser) {
     $database_users->removeUser ($existinguser);
   }
 }

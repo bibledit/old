@@ -92,7 +92,7 @@ $view->view->ids = $ids;
 $links = array ();
 $categories = array ();
 $modifications = array ();
-foreach ($ids as $id) {
+for ($ids as $id) {
   $passage = $database_modifications->getNotificationPassage ($id);
   $link = filter_passage_link_for_opening_editor_at ($passage['book'], $passage['chapter'], $passage['verse']);
   $links [] = $link;
