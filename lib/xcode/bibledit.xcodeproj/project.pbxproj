@@ -709,9 +709,6 @@
 		CAA4D2821A45A648003ABA25 /* template.odt */ = {isa = PBXFileReference; lastKnownFileType = file; path = template.odt; sourceTree = "<group>"; };
 		CAA4D2831A45A648003ABA25 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CAA4D2841A45A648003ABA25 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
-		CAA4D2871A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D2881A45A648003ABA25 /* text.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = text.Po; sourceTree = "<group>"; };
-		CAA4D2891A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D28A1A45A648003ABA25 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CAA4D28B1A45A648003ABA25 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		CAA4D28E1A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
@@ -2638,22 +2635,11 @@
 		CAA4D2851A45A648003ABA25 /* onlinebible */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D2861A45A648003ABA25 /* .deps */,
-				CAA4D2891A45A648003ABA25 /* .dirstamp */,
 				CAA4D28A1A45A648003ABA25 /* text.cpp */,
 				CAA4D28B1A45A648003ABA25 /* text.h */,
 			);
 			name = onlinebible;
 			path = ../onlinebible;
-			sourceTree = "<group>";
-		};
-		CAA4D2861A45A648003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D2871A45A648003ABA25 /* .dirstamp */,
-				CAA4D2881A45A648003ABA25 /* text.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAA4D28C1A45A648003ABA25 /* parsewebdata */ = {
