@@ -17,6 +17,12 @@
 		CA3925481A529544009302B8 /* books.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = books.h; sourceTree = "<group>"; };
 		CA3925491A529544009302B8 /* books.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = books.html; sourceTree = "<group>"; };
 		CA39254A1A52A960009302B8 /* create.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = create.h; sourceTree = "<group>"; };
+		CA39254B1A52BD69009302B8 /* book.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = book.cpp; sourceTree = "<group>"; };
+		CA39254C1A52BD69009302B8 /* book.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = book.h; sourceTree = "<group>"; };
+		CA39254D1A52BD69009302B8 /* book.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = book.html; sourceTree = "<group>"; };
+		CA39254E1A52CDAB009302B8 /* chapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = chapter.cpp; sourceTree = "<group>"; };
+		CA39254F1A52CDAB009302B8 /* chapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chapter.h; sourceTree = "<group>"; };
+		CA3925501A52CDAB009302B8 /* chapter.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = chapter.html; sourceTree = "<group>"; };
 		CA699A021A4AEBE000B23E0A /* color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
 		CA699A031A4AEBE000B23E0A /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
 		CA699A041A4AEBE000B23E0A /* color.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = color.html; sourceTree = "<group>"; };
@@ -128,8 +134,6 @@
 		CAA4CF551A45A647003ABA25 /* traces.3 */ = {isa = PBXFileReference; lastKnownFileType = text; path = traces.3; sourceTree = "<group>"; };
 		CAA4CF561A45A647003ABA25 /* traces.4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = traces.4; sourceTree = "<group>"; };
 		CAA4CF5C1A45A647003ABA25 /* abbreviations.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = abbreviations.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4CF5D1A45A647003ABA25 /* book.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = book.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4CF5E1A45A647003ABA25 /* chapter.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = chapter.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CF5F1A45A647003ABA25 /* css.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = css.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CF601A45A647003ABA25 /* import_bibleworks.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = import_bibleworks.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4CF611A45A647003ABA25 /* import_usfm.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = import_usfm.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
@@ -1277,8 +1281,12 @@
 			isa = PBXGroup;
 			children = (
 				CAA4CF5C1A45A647003ABA25 /* abbreviations.php */,
-				CAA4CF5D1A45A647003ABA25 /* book.php */,
-				CAA4CF5E1A45A647003ABA25 /* chapter.php */,
+				CA39254B1A52BD69009302B8 /* book.cpp */,
+				CA39254C1A52BD69009302B8 /* book.h */,
+				CA39254D1A52BD69009302B8 /* book.html */,
+				CA39254E1A52CDAB009302B8 /* chapter.cpp */,
+				CA39254F1A52CDAB009302B8 /* chapter.h */,
+				CA3925501A52CDAB009302B8 /* chapter.html */,
 				CAA4CF5F1A45A647003ABA25 /* css.php */,
 				CAA4CF601A45A647003ABA25 /* import_bibleworks.php */,
 				CAA4CF611A45A647003ABA25 /* import_usfm.php */,

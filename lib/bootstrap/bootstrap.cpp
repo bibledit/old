@@ -46,6 +46,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <versification/system.h>
 #include <bible/manage.h>
 #include <bible/settings.h>
+#include <bible/book.h>
+#include <bible/chapter.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -73,6 +75,8 @@ void bootstrap_index (Webserver_Request * request)
   // Bible menu.
   else if ((url == bible_manage_url ()) && bible_manage_acl (request)) request->reply = bible_manage (request);
   else if ((url == bible_settings_url ()) && bible_settings_acl (request)) request->reply = bible_settings (request);
+  else if ((url == bible_book_url ()) && bible_book_acl (request)) request->reply = bible_book (request);
+  else if ((url == bible_chapter_url ()) && bible_chapter_acl (request)) request->reply = bible_chapter (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);

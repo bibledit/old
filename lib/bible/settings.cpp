@@ -34,6 +34,7 @@
 #include <dialog/books.h>
 #include <access/bible.h>
 #include <book/create.h>
+#include <bible/logic.h>
 
 
 string bible_settings_url ()
@@ -123,9 +124,27 @@ string bible_settings (void * webserver_request)
     }
   }
   
+  // Viewable by all users.
+  if (request->query.count ("viewable")) {
+    if (write_access) Database_Config_Bible::setViewableByAllUsers (bible, !Database_Config_Bible::getViewableByAllUsers (bible));
+  }
+  view.set_variable ("viewable", get_tick_box (Database_Config_Bible::getViewableByAllUsers (bible)));
   
-  
-  
+  // Book deletion.
+  string deletebook = request->query["deletebook"];
+  if (deletebook != "") {
+    string confirm = request->query["confirm"];
+    if (confirm == "yes") {
+      if (write_access) Bible_Logic::deleteBook (bible, convert_to_int (deletebook));
+    } else if (confirm == "cancel") {
+    } else {
+      Dialog_Yes dialog_yes = Dialog_Yes ("settings", gettext("Would you like to delete this book?"));
+      dialog_yes.add_query ("bible", bible);
+      dialog_yes.add_query ("deletebook", deletebook);
+      page += dialog_yes.run ();
+      return page;
+    }
+  }
   
   // Available books.
   string bookblock;
@@ -137,8 +156,6 @@ string bible_settings (void * webserver_request)
   }
   view.set_variable ("bookblock", bookblock);
   view.set_variable ("book_count", convert_to_string ((int)book_ids.size()));
-
-
   
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
@@ -149,26 +166,3 @@ string bible_settings (void * webserver_request)
   
   return page;
 }
-
-/* Todo port this.
-
- 
- 
- // Book deletion.
- @deletebook = _GET["deletebook"];
- if (deletebook != "") {
- @confirm = _GET["confirm"];
- if (confirm != "") {
- if (write_access) Bible_Logic::deleteBook (bible, deletebook);
- } else {
- dialog_yes = new Dialog_Yes (array ("bible"), gettext("Would you like to delete this book?"), "deletebook");
- die;
- }
- }
- 
- 
- if (isset (_GET["viewable"])) {
- if (write_access) database_config_bible.setViewableByAllUsers (bible, !database_config_bible.getViewableByAllUsers (bible));
- }
- view.view.viewable = database_config_bible.getViewableByAllUsers (bible);
- */
