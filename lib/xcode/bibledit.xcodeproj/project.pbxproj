@@ -13,6 +13,9 @@
 		CA3925441A51E2C7009302B8 /* settings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = settings.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA3925451A51E2C7009302B8 /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
 		CA3925461A51E2C7009302B8 /* settings.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = settings.html; sourceTree = "<group>"; };
+		CA3925471A529544009302B8 /* books.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = books.cpp; sourceTree = "<group>"; };
+		CA3925481A529544009302B8 /* books.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = books.h; sourceTree = "<group>"; };
+		CA3925491A529544009302B8 /* books.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = books.html; sourceTree = "<group>"; };
 		CA699A021A4AEBE000B23E0A /* color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
 		CA699A031A4AEBE000B23E0A /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
 		CA699A041A4AEBE000B23E0A /* color.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = color.html; sourceTree = "<group>"; };
@@ -1745,6 +1748,9 @@
 			isa = PBXGroup;
 			children = (
 				CAA4D0701A45A647003ABA25 /* books.php */,
+				CA3925471A529544009302B8 /* books.cpp */,
+				CA3925481A529544009302B8 /* books.h */,
+				CA3925491A529544009302B8 /* books.html */,
 				CA699A031A4AEBE000B23E0A /* color.h */,
 				CA699A021A4AEBE000B23E0A /* color.cpp */,
 				CA699A041A4AEBE000B23E0A /* color.html */,
