@@ -74,7 +74,7 @@ if (isset ($target)) {
 
 
 $source = $database_config_user->getSourceXrefBible ();
-if (!Access_Bible::read ($source)) {
+if (!access_bible_read ($source)) {
   $source = "";
   $database_config_user->setSourceXrefBible ($source);
 }

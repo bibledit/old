@@ -187,7 +187,7 @@ for ($bibles as $bible) {
   $changeNotificationUsers = array ();
   $users = $database_users->getUsers ();
   for ($users as $user) {
-    if (Access_Bible::read ($bible, $user)) {
+    if (access_bible_read ($bible, $user)) {
       if ($database_config_user->getUserGenerateChangeNotifications ($user)) {
         $changeNotificationUsers [] = $user;
       }
@@ -221,7 +221,7 @@ for ($bibles as $bible) {
   $users = $database_users->getUsers ();
   for ($users as $user) {
     if ($database_config_user->getUserBibleChangesNotification ($user)) {
-      if (Access_Bible::read ($bible, $user)) {
+      if (access_bible_read ($bible, $user)) {
         if (!config_logic_client_enabled ()) $database_mail->send ($user, $subject, $emailBody);
       }
     }

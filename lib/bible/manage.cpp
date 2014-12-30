@@ -27,6 +27,7 @@
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <access/bible.h>
+#include <bible/logic.h>
 
 
 string bible_manage_url ()
@@ -75,6 +76,68 @@ string bible_manage (void * webserver_request)
     }
   }
   
+  // Copy Bible handler. Todo
+  if (request->query.count ("copy")) {
+    string copy = request->query["copy"];
+    Dialog_Entry dialog_entry = Dialog_Entry ("manage", gettext("Please enter a name for where to copy the Bible to"), "", "", "A new Bible will be created with the given name, and the current Bible copied to it");
+    dialog_entry.add_query ("origin", copy);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->query.count ("origin")) {
+    string origin = request->query["origin"];
+    if (request->post.count ("entry")) {
+      string destination = request->post["entry"];
+      vector <string> bibles = request->database_bibles ()->getBibles ();
+      if (find (bibles.begin(), bibles.end(), destination) != bibles.end()) {
+        error_message = gettext("Cannot copy the Bible because the destination Bible already exists.");
+      } else {
+        // User needs read access to the original.
+        if (access_bible_read (request, origin)) {
+          request->database_bibles ()->createBible (destination);
+          vector <int> books = request->database_bibles ()->getBooks (origin);
+          for (auto & book : books) {
+            vector <int> chapters = request->database_bibles ()->getChapters (origin, book);
+            for (auto & chapter : chapters) {
+              string data = request->database_bibles ()->getChapter (origin, book, chapter);
+              Bible_Logic::storeChapter (destination, book, chapter, data);
+            }
+          }
+          success_message = gettext("The Bible was copied.");
+          // Check / grant access to destination Bible.
+          if (!access_bible_write (request, destination)) {
+            request->database_users ()->grantAccess2Bible (request->session_logic ()->currentUser (), destination);
+          }
+        }
+      }
+    }
+  }
+
+  // Delete Bible handler.
+  if (request->query.count ("delete")) {
+    string bible = request->query ["delete"];
+    string confirm = request->query ["confirm"];
+    if (confirm == "yes") {
+      // User needs write access for delete operation.
+      if (access_bible_write (request, bible)) {
+        Bible_Logic::deleteBible (bible);
+        /* C++Port
+        string gitdirectory = Filter_Git::git_directory (bible);
+        if (file_exists (gitdirectory)) {
+          Filter_Rmdir::rmdir (gitdirectory);
+        }
+        */
+      } else {
+        page += Assets_Page::error ("Insufficient privileges to complete action");
+      }
+    }
+    if (confirm == "") {
+      Dialog_Yes dialog_yes = Dialog_Yes ("manage", gettext("Would you like to delete this Bible?") + " (" + bible + ")");
+      dialog_yes.add_query ("delete", bible);
+      page += dialog_yes.run ();
+      return page;
+    }
+  }
 
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
@@ -92,69 +155,3 @@ string bible_manage (void * webserver_request)
   
   return page;
 }
-
-/* Todo port this.
- // Delete Bible handler.
- if (isset (_GET["delete"])) {
- bible = _GET["delete"];
- @confirm = _GET["confirm"];
- if (confirm != "") {
- ignore_user_abort (true);
- set_time_limit (0);
- // User needs write access for delete operation.
- if (access_bible_write (bible)) {
- Bible_Logic::deleteBible (bible);
- gitdirectory = Filter_Git::git_directory (bible);
- if (file_exists (gitdirectory)) {
- Filter_Rmdir::rmdir (gitdirectory);
- }
- } else {
- Assets_Page::error ("Insufficient privileges to complete action");
- }
- } else {
- dialog_yes = new Dialog_Yes (NULL, gettext("Would you like to delete Bible bible?"), "delete");
- die;
- }
- }
- 
- 
- 
- // Copy Bible handler.
- @copy = _GET["copy"];
- if (isset (copy)) {
- dialog_entry = new Dialog_Entry (array ("origin" => copy), gettext("Please enter a name for where to copy the Bible to"), "", "", "");
- die;
- }
- @origin = _GET["origin"];
- if (isset (origin)) {
- destination = _POST["entry"];
- if (isset (destination)) {
- bibles = database_bibles.getBibles ();
- if (in_array (destination, bibles)) {
- error_message = gettext("Cannot copy Bible because the destination Bible already exists.");
- } else {
- ignore_user_abort (true);
- set_time_limit (0);
- // User needs read access to the original.
- if (Access_Bible::read (origin)) {
- database_bibles.createBible (destination);
- books = database_bibles.getBooks (origin);
- for (books as book) {
- chapters = database_bibles.getChapters (origin, book);
- for (chapters as chapter) {
- data = database_bibles.getChapter (origin, book, chapter);
- Bible_Logic::storeChapter (destination, book, chapter, data);
- }
- }
- success_message = gettext("The Bible was copied.");
- // Check / grant access to destination Bible.
- if (!access_bible_write (destination)) {
- database_users.grantAccess2Bible (session_logic.currentUser (), destination);
- }
- }
- }
- }
- }
- 
- 
-*/
