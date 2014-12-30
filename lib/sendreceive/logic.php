@@ -59,7 +59,7 @@ class SendReceive_Logic
       // Only queue the sync tasks if none are running at the moment.
       if (SendReceive_Logic::syncqueued ()) {
         $database_logs = Database_Logs::getInstance ();
-        $database_logs->log ("Not scheduling sync tasks, because the previous ones have not yet finished");
+        Database_Logs::log ("Not scheduling sync tasks, because the previous ones have not yet finished");
       } else {
         Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendnotes.php"));
         Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ .  "/sendbibles.php"));

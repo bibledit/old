@@ -37,11 +37,11 @@ $session_logic = Session_Logic::getInstance ();
 
 
 $user_ok = $database_users->usernameExists ($username);
-if (!$user_ok) $database_logs->log ("Non existing user $username", Filter_Roles::manager ());
+if (!$user_ok) Database_Logs::log ("Non existing user $username", Filter_Roles::manager ());
 $pass_ok = ($password == $database_users->getmd5 ($username));
-if (!$pass_ok) $database_logs->log ("Incorrect password $password for user $username", Filter_Roles::manager ());
+if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
 $level_ok = ($level == $database_users->getUserLevel ($username));
-if (!$level_ok) $database_logs->log ("Incorrect role $level for user $username", Filter_Roles::manager ());
+if (!$level_ok) Database_Logs::log ("Incorrect role $level for user $username", Filter_Roles::manager ());
 if (!$user_ok || !$pass_ok || !$level_ok) {
   // Unauthorized.
   http_response_code (401); 

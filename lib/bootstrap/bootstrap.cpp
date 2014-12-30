@@ -48,6 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/settings.h>
 #include <bible/book.h>
 #include <bible/chapter.h>
+#include <bible/import_usfm.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -77,6 +78,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_settings_url ()) && bible_settings_acl (request)) request->reply = bible_settings (request);
   else if ((url == bible_book_url ()) && bible_book_acl (request)) request->reply = bible_book (request);
   else if ((url == bible_chapter_url ()) && bible_chapter_acl (request)) request->reply = bible_chapter (request);
+  else if ((url == bible_import_usfm_url ()) && bible_import_usfm_acl (request)) request->reply = bible_import_usfm (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);

@@ -33,7 +33,7 @@ $compare = Filter_Cli::argument (@$argv, 2);
 $jobId = Filter_Cli::argument (@$argv, 3);
 
 
-$database_logs->log (gettext("Comparing Bibles") . " $bible " . gettext ("and") . " $compare", Filter_Roles::CONSULTANT_LEVEL);
+Database_Logs::log (gettext("Comparing Bibles") . " $bible " . gettext ("and") . " $compare", Filter_Roles::CONSULTANT_LEVEL);
 
 
 $database_config_bible = Database_Config_Bible::getInstance ();
@@ -198,7 +198,7 @@ $result = implode ("\n", $result);
 $database_jobs->setResult ($jobId, $result);
 
 
-$database_logs->log (gettext("Comparison is ready"), Filter_Roles::CONSULTANT_LEVEL);
+Database_Logs::log (gettext("Comparison is ready"), Filter_Roles::CONSULTANT_LEVEL);
 
 
 ?>

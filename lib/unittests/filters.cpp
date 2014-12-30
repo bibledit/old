@@ -182,6 +182,10 @@ void test_filters_test2 ()
     evaluate (__LINE__, __func__, 123, convert_to_int ("123xx"));
     evaluate (__LINE__, __func__, 0, convert_to_int ("xxx123xx"));
   }
+  {
+    evaluate (__LINE__, __func__, true, unicode_string_is_valid ("valid"));
+    evaluate (__LINE__, __func__, true, unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
+  }
 }
 
 

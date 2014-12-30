@@ -65,16 +65,16 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($usfm)) {
             }
           } else {
             echo gettext("Save failure");
-            $database_logs->log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
+            Database_Logs::log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
           }
         }
       } else {
         echo gettext("Save failure");
-        $database_logs->log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
+        Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
       }
     } else {
       echo gettext("Nothing to save");
-      $database_logs->log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
+      Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
     }
   } else {
     http_response_code (409);

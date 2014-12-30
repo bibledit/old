@@ -149,7 +149,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) \
 	bible/logic.$(OBJEXT) bible/manage.$(OBJEXT) \
 	bible/settings.$(OBJEXT) bible/book.$(OBJEXT) \
-	bible/chapter.$(OBJEXT) notes/logic.$(OBJEXT) \
+	bible/chapter.$(OBJEXT) bible/import_usfm.$(OBJEXT) \
+	bible/import_task.$(OBJEXT) notes/logic.$(OBJEXT) \
 	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
 	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
 	email/index.$(OBJEXT) email/send.$(OBJEXT) \
@@ -464,6 +465,8 @@ libbibledit_a_SOURCES = \
 	bible/settings.cpp \
 	bible/book.cpp \
 	bible/chapter.cpp \
+	bible/import_usfm.cpp \
+	bible/import_task.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
@@ -890,6 +893,10 @@ bible/book.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/chapter.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
+bible/import_usfm.$(OBJEXT): bible/$(am__dirstamp) \
+	bible/$(DEPDIR)/$(am__dirstamp)
+bible/import_task.$(OBJEXT): bible/$(am__dirstamp) \
+	bible/$(DEPDIR)/$(am__dirstamp)
 notes/$(am__dirstamp):
 	@$(MKDIR_P) notes
 	@: > notes/$(am__dirstamp)
@@ -1174,6 +1181,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/book.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/chapter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_task.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/manage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/settings.Po@am__quote@

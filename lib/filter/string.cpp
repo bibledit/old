@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <filter/string.h>
-#include <utf8/String.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
 #include <database/config/general.h>
@@ -448,6 +447,13 @@ string unicode_string_casefold (string s)
 {
   transform (s.begin(), s.end (), s.begin(), ::tolower);
   return s;
+}
+
+
+// Returns true if string "s" is valid UTF8 encoded.
+bool unicode_string_is_valid (string s) // Todo write, unittests also.
+{
+  return utf8::is_valid (s.begin(), s.end());
 }
 
 

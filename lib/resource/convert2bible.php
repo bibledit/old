@@ -33,14 +33,14 @@ $database_modifications = Database_Modifications::getInstance ();
 
 
 $resource = Filter_Cli::argument (@$argv, 1);
-$database_logs->log (gettext("Converting USFM Resource to Bible") . ": $resource");
+Database_Logs::log (gettext("Converting USFM Resource to Bible") . ": $resource");
 
 
 $database_bibles->createBible ($resource);
 $books = $database_usfmresources->getBooks ($resource);
 for ($books as $book) {
   $bookname = $database_books->getEnglishFromId ($book);
-  $database_logs->log ("$bookname");
+  Database_Logs::log ("$bookname");
   $chapters = $database_usfmresources->getChapters ($resource, $book);
   for ($chapters as $chapter) {
     $usfm = $database_usfmresources->getUsfm ($resource, $book, $chapter);
@@ -50,7 +50,7 @@ for ($books as $book) {
 $database_usfmresources->deleteResource ($resource);
 
 
-$database_logs->log (gettext("Conversion completed"));
+Database_Logs::log (gettext("Conversion completed"));
 
 
 ?>

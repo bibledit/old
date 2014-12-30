@@ -76,7 +76,7 @@ string bible_manage (void * webserver_request)
     }
   }
   
-  // Copy Bible handler. Todo
+  // Copy Bible handler.
   if (request->query.count ("copy")) {
     string copy = request->query["copy"];
     Dialog_Entry dialog_entry = Dialog_Entry ("manage", gettext("Please enter a name for where to copy the Bible to"), "", "", "A new Bible will be created with the given name, and the current Bible copied to it");

@@ -89,6 +89,8 @@ libbibledit_a_SOURCES = \
 	bible/settings.cpp \
 	bible/book.cpp \
 	bible/chapter.cpp \
+	bible/import_usfm.cpp \
+	bible/import_task.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \

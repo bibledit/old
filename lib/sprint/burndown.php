@@ -75,7 +75,7 @@ $database_sprint = Database_Sprint::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-$database_logs->log ("Updating Sprint information", Filter_Roles::admin ());
+Database_Logs::log ("Updating Sprint information", Filter_Roles::admin ());
 
 
 // Determine year / month / day of the current sprint.
@@ -167,7 +167,7 @@ for ($bibles as $bible) {
     } else {
 
       // Since there are no tasks, no mail will be sent: Make a logbook entry.
-      $database_logs->log ("No tasks in this Sprint: No email was sent");
+      Database_Logs::log ("No tasks in this Sprint: No email was sent");
     }
   }
 }

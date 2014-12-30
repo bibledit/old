@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/rebibles.h>
 #include <search/renotes.h>
 #include <styles/sheets.h>
+#include <bible/import_task.h>
 
 
 mutex mutex_tasks; 
@@ -52,7 +53,16 @@ void tasks_run_one (string filename)
     command = lines [0];
     lines.erase (lines.begin ());
   }
-  vector <string> parameters (lines);
+  string parameter1;
+  if (!lines.empty ()) {
+    parameter1 = lines [0];
+    lines.erase (lines.begin ());
+  }
+  string parameter2;
+  if (!lines.empty ()) {
+    parameter2 = lines [0];
+    lines.erase (lines.begin ());
+  }
   
   if (command == ROTATEJOURNAL) {
     Database_Logs database_logs = Database_Logs ();
@@ -68,6 +78,8 @@ void tasks_run_one (string filename)
     search_reindex_notes ();
   } else if (command == CREATECSS) {
     styles_sheets_create_all_run ();
+  } else if (command == IMPORTUSFM) {
+    bible_import_task (parameter1, parameter2);
   } else if (command == "Placerholder") {
   } else {
     Database_Logs::log ("Unknown task: " + command);

@@ -83,7 +83,7 @@ for ($books as $book) {
 
 
 // Save index file for the interlinked web export.
-$database_logs->log ("exports: Create index file for interlinked Web");
+Database_Logs::log ("exports: Create index file for interlinked Web");
 $html_text_rich_bible_index->save ($indexFile);
 $html_text_rich_bible_index->save ($index00);
 
@@ -92,7 +92,7 @@ $html_text_rich_bible_index->save ($index00);
 copy ("../webbible/lens.png", "$directory/lens.png");
 
 
-$database_logs->log (gettext("Web export index") . " $bible", Filter_Roles::translator ());
+Database_Logs::log (gettext("Web export index") . " $bible", Filter_Roles::translator ());
 
 
 ?>

@@ -54,10 +54,10 @@ class Filter_Java
     $cp = escapeshellarg ($cp);
     $javafile = escapeshellarg ("$outputFolder/program.java");
     $command = "cd $workingdirectory && javac -cp $cp $javafile 2>&1";
-    $database_logs->log ($command);
+    Database_Logs::log ($command);
     exec ($command, $output, $return_var);
     for ($output as $line) {
-      $database_logs->log ($line);
+      Database_Logs::log ($line);
     }
 
     // Folder of compiled program.
@@ -89,10 +89,10 @@ class Filter_Java
     $cp = escapeshellarg ($cp);
     $runclass = escapeshellarg ($runclass);
     $command = "cd $workingdirectory && java -cp $cp $runclass 2>&1";
-    $database_logs->log ($command);
+    Database_Logs::log ($command);
     exec ($command, $output, $return_var);
     for ($output as $line) {
-      $database_logs->log ($line);
+      Database_Logs::log ($line);
     }
     return $return_var;
   }

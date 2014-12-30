@@ -110,7 +110,7 @@ $html_text_rich_book_index->save (Filter_Paths::htmlFileNameBible ($directory, $
 
 
 
-$database_logs->log (gettext("Exported to web") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
+Database_Logs::log (gettext("Exported to web") . " $bible " . Export_Logic::baseBookFileName ($book), Filter_Roles::translator ());
 
 
 ?>

@@ -39,7 +39,7 @@ $book = Filter_Cli::argument (@$argv, 2);
 $bookName = $database_books->getEnglishFromId ($book);
 
 
-$database_logs->log ("$resource $bookName: Download has started", Filter_Roles::manager ());
+Database_Logs::log ("$resource $bookName: Download has started", Filter_Roles::manager ());
 
 
 $versification = $database_resources->getVersification ($resource);
@@ -61,11 +61,11 @@ for ($chapters as $chapter) {
     }
   }
   $message += "; done";
-  $database_logs->log ($message, Filter_Roles::manager ());
+  Database_Logs::log ($message, Filter_Roles::manager ());
 }
 
 
-$database_logs->log (gettext("Completed") . " $resource $bookName", Filter_Roles::manager ());
+Database_Logs::log (gettext("Completed") . " $resource $bookName", Filter_Roles::manager ());
 
 
 ?>

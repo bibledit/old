@@ -104,7 +104,7 @@ EOD;
             $level = "Fatal";
             break;
         }
-        $database_logs->log ("Saving Editor text: $level: " . $error->message);
+        Database_Logs::log ("Saving Editor text: $level: " . $error->message);
       }
       libxml_clear_errors();
     }
@@ -215,7 +215,7 @@ EOD;
       default:
       {
         $database_logs = Database_Logs::getInstance ();
-        $database_logs->log ("Unknown DOM node $node while saving editor text");
+        Database_Logs::log ("Unknown DOM node $node while saving editor text");
         break;
       }
     }
@@ -366,7 +366,7 @@ EOD;
   private function processAttributeNode ($node)
   {
     $database_logs = Database_Logs::getInstance ();
-    $database_logs->log ("Unprocessed XML_ATTRIBUTE_NODE while saving editor text");
+    Database_Logs::log ("Unprocessed XML_ATTRIBUTE_NODE while saving editor text");
   }
 
 
@@ -434,7 +434,7 @@ EOD;
     // There should be only one relevant note node.
     if ($nodeList->length != 1) {
       $database_logs = Database_Logs::getInstance ();
-      $database_logs->log ("Discarding note with id $id and href $href");
+      Database_Logs::log ("Discarding note with id $id and href $href");
       return;
     }
 
@@ -502,7 +502,7 @@ EOD;
         // Fix the note caller is necessary.
         if (!$isClean) {
           $database_logs = Database_Logs::getInstance ();
-          $database_logs->log ("Fixing note caller in $usfm");
+          Database_Logs::log ("Fixing note caller in $usfm");
           $pos2--;
           $usfm = mb_substr ($usfm, 0, $pos2) . "+" . mb_substr ($usfm, $pos2);
         }

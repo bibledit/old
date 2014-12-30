@@ -42,7 +42,7 @@ if ($bible == "") {
 }
 
 
-$database_logs->log ("Check $bible: Start", Filter_Roles::translator ());
+Database_Logs::log ("Check $bible: Start", Filter_Roles::translator ());
 
 
 $database_check->truncateOutput ($bible);
@@ -187,7 +187,7 @@ if (count ($emailBody) > 0) {
 }
 
 
-$database_logs->log ("Check $bible: Complete", Filter_Roles::translator ());
+Database_Logs::log ("Check $bible: Complete", Filter_Roles::translator ());
 
 
 ?>

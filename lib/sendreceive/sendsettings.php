@@ -33,12 +33,12 @@ $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$database_logs->log (gettext("Sending and receiving Settings"), Filter_Roles::translator ());
+Database_Logs::log (gettext("Sending and receiving Settings"), Filter_Roles::translator ());
 
 
 $response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  $database_logs->log (gettext("Failure sending and receiving Settings"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Failure sending and receiving Settings"), Filter_Roles::translator ());
   die;
 }
 
@@ -56,7 +56,7 @@ $url = "$address/sync/setting.php";
 // Go through all settings flagged as having been updated on this client.
 $ids = $database_config_user->getUpdatedSettings ();
 if (!empty ($ids)) {
-  $database_logs->log (gettext("Sending settings"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Sending settings"), Filter_Roles::translator ());
 }
 for ($ids as $id) {
 
@@ -91,7 +91,7 @@ for ($ids as $id) {
 
   // Handle server's response.
   if ($response === false) {
-    $database_logs->log ("Failure sending setting to server", Filter_Roles::translator ());
+    Database_Logs::log ("Failure sending setting to server", Filter_Roles::translator ());
   } else {
     $database_config_user->removeUpdatedSetting ($id);
   }

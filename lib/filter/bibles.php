@@ -47,9 +47,9 @@ class Filter_Bibles
     $percentage = abs ($percentage);
     $percentage = round ($percentage);
     if ($percentage > 20) {
-      $database_logs->log ("The chapter was not saved for safety reasons. The length differs $percentage% from the existing chapter. Make minor changes and save often.");
-      $database_logs->log ("$bible " . $database_books->getEnglishFromId ($book) . " $chapter");
-      $database_logs->log ($usfm);
+      Database_Logs::log ("The chapter was not saved for safety reasons. The length differs $percentage% from the existing chapter. Make minor changes and save often.");
+      Database_Logs::log ("$bible " . $database_books->getEnglishFromId ($book) . " $chapter");
+      Database_Logs::log ($usfm);
       return false;
     }
 
@@ -59,9 +59,9 @@ class Filter_Bibles
     $percentage = 100 - $percentage;
     $percentage = round ($percentage);
     if ($percentage > 20) {
-      $database_logs->log ("The chapter was not saved for safety reasons. The new text differs $percentage% from the existing text. Make minor changes and save often.");
-      $database_logs->log ("$bible " . $database_books->getEnglishFromId ($book) . " $chapter");
-      $database_logs->log ($usfm);
+      Database_Logs::log ("The chapter was not saved for safety reasons. The new text differs $percentage% from the existing text. Make minor changes and save often.");
+      Database_Logs::log ("$bible " . $database_books->getEnglishFromId ($book) . " $chapter");
+      Database_Logs::log ($usfm);
       return false;
     }
 

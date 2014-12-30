@@ -63,7 +63,7 @@ $filter_text_bible->run ($stylesheet);
 $filter_text_bible->onlinebible_text->save ($filename);
 
 
-$database_logs->log ($bible . ": " . gettext("Exported to Online Bible"), Filter_Roles::translator ());
+Database_Logs::log ($bible . ": " . gettext("Exported to Online Bible"), Filter_Roles::translator ());
 
 
 ?>

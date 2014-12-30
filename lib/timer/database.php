@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Database maintenance running", Filter_Roles::admin ());
+Database_Logs::log ("Database maintenance running", Filter_Roles::admin ());
 
 
 // Whether running in client mode.

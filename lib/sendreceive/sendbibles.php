@@ -34,12 +34,12 @@ $database_users = Database_Users::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$database_logs->log (gettext("Sending and receiving Bibles"), Filter_Roles::translator ());
+Database_Logs::log (gettext("Sending and receiving Bibles"), Filter_Roles::translator ());
 
 
 $response = config_logic_setup ();
 if ($response === false || $response < Filter_Roles::guest () || $response > Filter_Roles::admin ()) {
-  $database_logs->log (gettext("Failure initializing sending and receiving Bibles"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Failure initializing sending and receiving Bibles"), Filter_Roles::translator ());
   die;
 }
 
@@ -64,7 +64,7 @@ for ($bibles as $bible) {
     for ($chapters as $chapter) {
 
       $bookname = $database_books->getEnglishFromId ($book);
-      $database_logs->log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::translator ());
+      Database_Logs::log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::translator ());
 
       // Get old and new USFM for this chapter.
       $oldusfm = $database_bibleactions->getUsfm ($bible, $book, $chapter);
@@ -105,7 +105,7 @@ for ($bibles as $bible) {
 
           // Communication error.
           $communication_errors = true;
-          $database_logs->log ("Failure sending Bibles", Filter_Roles::translator ());
+          Database_Logs::log ("Failure sending Bibles", Filter_Roles::translator ());
           // Restore the Bible action for this chapter.
           $database_bibleactions->delete ($bible, $book, $chapter);
           $database_bibleactions->record ($bible, $book, $chapter, $oldusfm);
@@ -131,11 +131,11 @@ for ($bibles as $bible) {
               // Checksum error.
               // The chapter will not be stored on the client.
               // That is fine for just now, because the pending sync action will do it.
-              $database_logs->log ("Checksum error while receiving chapter from server", Filter_Roles::translator ());
+              Database_Logs::log ("Checksum error while receiving chapter from server", Filter_Roles::translator ());
             }
   
           } else {
-            $database_logs->log ("The server says: $checksum_message", Filter_Roles::translator ());
+            Database_Logs::log ("The server says: $checksum_message", Filter_Roles::translator ());
           }
 
         } else {

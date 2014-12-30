@@ -37,7 +37,7 @@ $database_users = Database_Users::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$database_logs->log ("Checking and updating the open demo site");
+Database_Logs::log ("Checking and updating the open demo site");
 
 
 // Set user to 'admin' as this is the user who is always logged in an open demo installation.

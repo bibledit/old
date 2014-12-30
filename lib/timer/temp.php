@@ -26,7 +26,7 @@ Filter_Cli::assert ();
 
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log ("Removing expired temporal files", Filter_Roles::admin ());
+Database_Logs::log ("Removing expired temporal files", Filter_Roles::admin ());
 
 
 $expired = strtotime ("-3 days");

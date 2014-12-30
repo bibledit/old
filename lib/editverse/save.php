@@ -111,7 +111,7 @@ for ($book_chapter_text as $data) {
     }
   } else {
     echo gettext("Save failure");
-    $database_logs->log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
+    Database_Logs::log ("The following data could not be saved and was discarded: " . $chapter_data_to_save);
   }
 }
 

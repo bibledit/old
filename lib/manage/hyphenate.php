@@ -40,7 +40,7 @@ $outputBible = "$inputBible-hyphenated";
 $user = Filter_Cli::argument (@$argv, 2);
 
 
-$database_logs->log ("Reading Bible $inputBible, adding soft hyphens, putting it into Bible $outputBible");
+Database_Logs::log ("Reading Bible $inputBible, adding soft hyphens, putting it into Bible $outputBible");
 
 
 // Get the two sets of characters as arrays.
@@ -60,7 +60,7 @@ $database_users->grantAccess2Bible ($user, $outputBible);
 // Go through the input Bible's books and chapters.
 $books = $database_bibles->getBooks ($inputBible);
 for ($books as $book) {
-  $database_logs->log ($database_books->getEnglishFromId ($book));
+  Database_Logs::log ($database_books->getEnglishFromId ($book));
   $chapters = $database_bibles->getChapters ($inputBible, $book);
   for ($chapters as $chapter) {
     $data = $database_bibles->getChapter ($inputBible, $book, $chapter);
@@ -70,7 +70,7 @@ for ($books as $book) {
 }
 
 
-$database_logs->log ("The Bible has been hyphenated");
+Database_Logs::log ("The Bible has been hyphenated");
 
 
 ?>

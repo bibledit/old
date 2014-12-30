@@ -43,7 +43,7 @@ for (new DirectoryIterator ($directory) as $fileInfo) {
     if (in_array ($bible, $bibles)) continue;
     $path = $fileInfo->getPathname ();
     Filter_Rmdir::rmdir ($path);
-    $database_logs->log ("Removing exported Bible $bible", Filter_Roles::admin ());
+    Database_Logs::log ("Removing exported Bible $bible", Filter_Roles::admin ());
   }
 }
 

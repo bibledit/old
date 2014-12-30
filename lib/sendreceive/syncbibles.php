@@ -62,12 +62,12 @@ $post = array (
 $server_checksum = Sync_Logic::post ($post, $url);
 
 if ($server_checksum === false) {
-  $database_logs->log (gettext("Failure getting Bibles checksum"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Failure getting Bibles checksum"), Filter_Roles::translator ());
   die;
 }
 
 if ($client_checksum == $server_checksum) {
-  $database_logs->log (gettext("The Bibles are up to date"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("The Bibles are up to date"), Filter_Roles::translator ());
   die;
 }
 
@@ -85,7 +85,7 @@ $post = array (
 $server_bibles = Sync_Logic::post ($post, $url);
 
 if ($server_bibles === false) {
-  $database_logs->log (gettext("Failure getting list of Bibles"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Failure getting list of Bibles"), Filter_Roles::translator ());
   die;
 }
 
@@ -97,10 +97,10 @@ $server_bibles = explode ("\n", $server_bibles);
 $server_checksum = array_shift ($server_bibles);
 $message_checksum = Checksum_Logic::get (implode ("n", $server_bibles));
 if ($server_checksum != $message_checksum) {
-  $database_logs->log (gettext("Checksum error while receiving list of Bibles from server:"), Filter_Roles::translator ());
+  Database_Logs::log (gettext("Checksum error while receiving list of Bibles from server:"), Filter_Roles::translator ());
   die;
 }
-$database_logs->log (gettext("Bibles") . ": " . implode (", ", $server_bibles), Filter_Roles::translator ());
+Database_Logs::log (gettext("Bibles") . ": " . implode (", ", $server_bibles), Filter_Roles::translator ());
 
 
 // The client now has a list of Bibles the user has access to on the server.
@@ -110,7 +110,7 @@ $bibles = $database_bibles->getBibles ();
 $bibles = array_diff ($bibles, $server_bibles);
 for ($bibles as $bible) {
   $database_bibles->deleteBible ($bible);
-  $database_logs->log (gettext("Deleting Bible because the server did not grant access to it") . ": " . $bible, Filter_Roles::translator ());
+  Database_Logs::log (gettext("Deleting Bible because the server did not grant access to it") . ": " . $bible, Filter_Roles::translator ());
 }
 
 
@@ -126,11 +126,11 @@ for ($server_bibles as $bible) {
   );
   $server_checksum = Sync_Logic::post ($post, $url);
   if ($server_checksum === false) {
-    $database_logs->log (gettext("Failure getting Bible checksum"), Filter_Roles::translator ());
+    Database_Logs::log (gettext("Failure getting Bible checksum"), Filter_Roles::translator ());
     continue;
   }
   if ($client_checksum == $server_checksum) {
-    $database_logs->log (gettext("The Bible is up to date") . ": $bible", Filter_Roles::translator ());
+    Database_Logs::log (gettext("The Bible is up to date") . ": $bible", Filter_Roles::translator ());
     continue;
   }
 
@@ -143,7 +143,7 @@ for ($server_bibles as $bible) {
   );
   $server_books = Sync_Logic::post ($post, $url);
   if ($server_books === false) {
-    $database_logs->log (gettext("Failure getting Bible books"), Filter_Roles::translator ());
+    Database_Logs::log (gettext("Failure getting Bible books"), Filter_Roles::translator ());
     continue;
   }
   // Do checksumming on the data to be sure the data is valid.
@@ -152,7 +152,7 @@ for ($server_bibles as $bible) {
   $server_checksum = array_shift ($server_books);
   $message_checksum = Checksum_Logic::get (implode ("n", $server_books));
   if ($server_checksum != $message_checksum) {
-    $database_logs->log (gettext("Checksum error while receiving list of books from server"), Filter_Roles::translator ());
+    Database_Logs::log (gettext("Checksum error while receiving list of books from server"), Filter_Roles::translator ());
     continue;
   }
   // Any books not on the server, delete them from the client as well.
@@ -160,7 +160,7 @@ for ($server_bibles as $bible) {
   for ($client_books as $book) {
     $database_bibles->deleteBook ($bible, $book);
     $book_name = $database_books->getEnglishFromId ($book);
-    $database_logs->log (gettext("Deleting book because the server does not have it") . ": $bible $book_name" , Filter_Roles::translator ());
+    Database_Logs::log (gettext("Deleting book because the server does not have it") . ": $bible $book_name" , Filter_Roles::translator ());
   }
  
 
@@ -180,7 +180,7 @@ for ($server_bibles as $bible) {
     );
     $server_checksum = Sync_Logic::post ($post, $url);
     if ($server_checksum === false) {
-      $database_logs->log (gettext("Failure getting book checksum"), Filter_Roles::translator ());
+      Database_Logs::log (gettext("Failure getting book checksum"), Filter_Roles::translator ());
       continue;
     }
     if ($client_checksum == $server_checksum) {
@@ -198,7 +198,7 @@ for ($server_bibles as $bible) {
     $server_chapters = Sync_Logic::post ($post, $url);
     if ($server_chapters === false) {
       $bookname = $database_books->getEnglishFromId ($book);
-      $database_logs->log (gettext("Failure getting list of chapters:") . " $bible $bookname", Filter_Roles::translator ());
+      Database_Logs::log (gettext("Failure getting list of chapters:") . " $bible $bookname", Filter_Roles::translator ());
       continue;
     }
     $server_chapters = explode ("\n", $server_chapters);
@@ -207,14 +207,14 @@ for ($server_bibles as $bible) {
     $server_checksum = array_shift ($server_chapters);
     $message_checksum = Checksum_Logic::get (implode ("n", $server_chapters));
     if ($server_checksum != $message_checksum) {
-      $database_logs->log (gettext("Checksum error while receiving list of chapters from server"), Filter_Roles::translator ());
+      Database_Logs::log (gettext("Checksum error while receiving list of chapters from server"), Filter_Roles::translator ());
       continue;
     }
     // The client removes any local chapters not on the server.
     $client_chapters = array_diff ($client_chapters, $server_chapters);
     for ($client_chapters as $chapter) {
       $database_bibles->deleteChapter ($bible, $book, $chapter);
-      $database_logs->log (gettext("Deleting chapter because the server does not have it") . ": $bible $book_name $chapter" , Filter_Roles::translator ());
+      Database_Logs::log (gettext("Deleting chapter because the server does not have it") . ": $bible $book_name $chapter" , Filter_Roles::translator ());
     }
 
 
@@ -240,7 +240,7 @@ for ($server_bibles as $bible) {
       );
       $server_checksum = Sync_Logic::post ($post, $url);
       if ($server_checksum === false) {
-        $database_logs->log (gettext("Failure getting checksum:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+        Database_Logs::log (gettext("Failure getting checksum:") . " $bible $book_name $chapter", Filter_Roles::translator ());
         continue;
       }
       if ($client_checksum == $server_checksum) {
@@ -248,7 +248,7 @@ for ($server_bibles as $bible) {
       }
 
       // Different checksums: Get the USFM for the chapter as it is on the server.
-      $database_logs->log (gettext("Getting chapter:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+      Database_Logs::log (gettext("Getting chapter:") . " $bible $book_name $chapter", Filter_Roles::translator ());
       $post = array (
         "b" => $bible,
         "bk" => $book,
@@ -257,7 +257,7 @@ for ($server_bibles as $bible) {
       );
       $server_usfm = Sync_Logic::post ($post, $url);
       if ($server_usfm === false) {
-        $database_logs->log (gettext("Failure getting chapter:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+        Database_Logs::log (gettext("Failure getting chapter:") . " $bible $book_name $chapter", Filter_Roles::translator ());
         continue;
       }
 
@@ -266,7 +266,7 @@ for ($server_bibles as $bible) {
       $checksum = array_shift ($server_usfm);
       $server_usfm = implode ("\n", $server_usfm);
       if (!Checksum_Logic::get ($server_usfm) == $checksum) {
-        $database_logs->log (gettext("Checksum error while receiving chapter from server:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+        Database_Logs::log (gettext("Checksum error while receiving chapter from server:") . " $bible $book_name $chapter", Filter_Roles::translator ());
         continue;
       }
       
@@ -284,7 +284,7 @@ for ($server_bibles as $bible) {
       // Store the merged data on the client.
       // It stores through the Bible Logic so the changes are staged to be sent.
       // The changes will be sent to the server during the next synchronize action.
-      $database_logs->log (gettext("Merging changes on server and client:") . " $bible $book_name $chapter", Filter_Roles::translator ());
+      Database_Logs::log (gettext("Merging changes on server and client:") . " $bible $book_name $chapter", Filter_Roles::translator ());
       $client_usfm = $database_bibles->getChapter ($bible, $book, $chapter);
       $merged_usfm = Filter_Merge::run ($old_usfm, $client_usfm, $server_usfm);
       Bible_Logic::storeChapter ($bible, $book, $chapter, $merged_usfm);

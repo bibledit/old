@@ -116,7 +116,7 @@ if (isset ($assign)) {
     }
   }
   Assets_Page::success (gettext("The notes were assigned to the user"));
-  $database_logs->log ("Notes assigned to user $assign: $identifierlist");
+  Database_Logs::log ("Notes assigned to user $assign: $identifierlist");
 }
 
 
@@ -130,7 +130,7 @@ if (isset ($unassign)) {
     }
   }
   Assets_Page::success (gettext("The notes are no longer assigned to the user"));
-  $database_logs->log ("Notes unassigned from user $unassign: $identifierlist", true);
+  Database_Logs::log ("Notes unassigned from user $unassign: $identifierlist", true);
 }
 
 
@@ -142,7 +142,7 @@ if (isset ($status)) {
     }
   }
   Assets_Page::success (gettext("The status of the notes was updated"));
-  $database_logs->log ("Status update of notes: $identifierlist", true);
+  Database_Logs::log ("Status update of notes: $identifierlist", true);
 }
 
 
@@ -154,7 +154,7 @@ if (isset ($severity)) {
     }
   }
   Assets_Page::success (gettext("The severity of the notes was updated"));
-  $database_logs->log ("Severity update of notes: $identifierlist", true);
+  Database_Logs::log ("Severity update of notes: $identifierlist", true);
 }
 
 
@@ -167,7 +167,7 @@ if (isset ($bible)) {
     }
   }
   Assets_Page::success (gettext("The Bible of the notes was updated"));
-  $database_logs->log ("Bible update of notes: $identifierlist", true);
+  Database_Logs::log ("Bible update of notes: $identifierlist", true);
 }
 
 
@@ -184,7 +184,7 @@ if (isset ($delete)) {
       $database_notes->delete ($identifier);
     }
     Assets_Page::success (gettext("The notes were deleted"));
-    $database_logs->log ("Notes deleted: $identifierlist", true);
+    Database_Logs::log ("Notes deleted: $identifierlist", true);
   }
 }
 

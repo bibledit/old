@@ -165,7 +165,7 @@ class Filter_Git
                     // Chapter does not exist in the database: Add it.
                     $usfm = filter_url_file_get_contents ($filename);
                     Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
-                    $database_logs->log (gettext("A translator added chapter") . " $bible $bookname $chapter");
+                    Database_Logs::log (gettext("A translator added chapter") . " $bible $bookname $chapter");
                   }
                 }
               }
@@ -197,16 +197,16 @@ class Filter_Git
             $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
             if ($contents != $usfm) {
               Bible_Logic::storeChapter ($bible, $book, $chapter, $contents);
-              $database_logs->log (gettext("A translator updated chapter") . " $bible $bookname $chapter");
+              Database_Logs::log (gettext("A translator updated chapter") . " $bible $bookname $chapter");
            }
           } else {
             Bible_Logic::deleteChapter ($bible, $book, $chapter);
-            $database_logs->log (gettext("A translator deleted chapter") . " $bible $bookname $chapter");
+            Database_Logs::log (gettext("A translator deleted chapter") . " $bible $bookname $chapter");
          }
         }
       } else {
         Bible_Logic::deleteBook ($bible, $book);
-        $database_logs->log (gettext("A translator deleted book") . " $bible $bookname");
+        Database_Logs::log (gettext("A translator deleted book") . " $bible $bookname");
       }
     }
   }
@@ -231,13 +231,13 @@ class Filter_Git
       // Store chapter in database.
       $usfm = filter_url_file_get_contents ($filename);
       Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
-      $database_logs->log (gettext("A collaborator updated") . " $bible $bookname $chapter");
+      Database_Logs::log (gettext("A collaborator updated") . " $bible $bookname $chapter");
 
     } else {
 
       // Delete chapter from database.
       Bible_Logic::deleteChapter ($bible, $book, $chapter);
-      $database_logs->log (gettext("A collaborator deleted chapter") . " $bible $bookname $chapter");
+      Database_Logs::log (gettext("A collaborator deleted chapter") . " $bible $bookname $chapter");
 
     }
   }

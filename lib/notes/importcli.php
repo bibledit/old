@@ -20,14 +20,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 $database_logs = Database_Logs::getInstance ();
-$database_logs->log (gettext("Import consultation notes has started"), true);
+Database_Logs::log (gettext("Import consultation notes has started"), true);
 
 // Security: Page only runs from the cli SAPI.
 Filter_Cli::assert ();
 
 $folder = Filter_Cli::argument (@$argv, 1);
 $folder = "$folder/data";
-$database_logs->log (gettext("Importing from folder:") . " " . $folder, true);
+Database_Logs::log (gettext("Importing from folder:") . " " . $folder, true);
 
 $counter = 0;
 for (new DirectoryIterator ($folder) as $fileInfo) {
@@ -40,15 +40,15 @@ for (new DirectoryIterator ($folder) as $fileInfo) {
     $path = "$folder/$basename";
     $note_identifier = Filter_Notes::importFromBibleditGtkFile ($path);
     if (is_numeric ($note_identifier)) {
-      $database_logs->log ($information . gettext("Imported"), true);
+      Database_Logs::log ($information . gettext("Imported"), true);
     } else {
-      $database_logs->log ($information . gettext("Could not import the note"), true);
+      Database_Logs::log ($information . gettext("Could not import the note"), true);
     }
   } else {
-    $database_logs->log ($information . gettext("This is not a note"), true);
+    Database_Logs::log ($information . gettext("This is not a note"), true);
   }
 }
 
-$database_logs->log (gettext("Import consultation notes has finished"), true);
+Database_Logs::log (gettext("Import consultation notes has finished"), true);
 
 ?>
