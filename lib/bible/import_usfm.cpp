@@ -73,10 +73,6 @@ string bible_import_usfm (void * webserver_request)
         filter_url_file_put_contents (datafile, data);
         success_message = gettext("Import has started. See Journal for progress.");
         tasks_logic_queue (IMPORTUSFM, { datafile, bible });
-        /* Todo port
-        $workingdirectory = dirname (__FILE__);
-        Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/importcli.php", $datafile, $bible));
-        */
       } else {
         error_message = gettext("Please supply valid Unicode UTF-8 text.");
       }
@@ -84,8 +80,6 @@ string bible_import_usfm (void * webserver_request)
       success_message = gettext("Nothing was imported.");
     }
   }
-  
-  
   
   
   view.set_variable ("success_message", success_message);
