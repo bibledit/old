@@ -19,21 +19,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ?>
 <form style="border:1px #bbb solid;" action="create.php"  name="form" method="post">
   <p>
-    <?php echo gettext("Create consultation note for") ?>
-    <?php echo $this->passage ?>
+    gettext("Create consultation note for")
+    $this->passage
   </p>
-  <p><?php echo gettext("Summary") ?>:</p>
-  <p><input type="text" name="summary" maxlength="100" class="fullwidth" value="<?php echo $this->summary ?>"/></p>
-  <p><?php echo gettext("Body") ?>: </p>
-  <textarea name="contents" class="fullwidth"><?php echo $this->contents ?></textarea>
+  <p>gettext("Summary"):</p>
+  <p><input type="text" name="summary" maxlength="100" class="fullwidth" value="$this->summary"/></p>
+  <p>gettext("Body"): </p>
+  <textarea name="contents" class="fullwidth">$this->contents</textarea>
   <p>
-    <input type="submit" name="submit" value="<?php echo gettext("Save") ?>" onClick="this.value = '<?php echo gettext ("Please wait") ?>'; return true;" />
-    <input type="submit" name="cancel" value="<?php echo gettext("Cancel") ?>" />
+    <input type="submit" name="submit" value="gettext("Save")" onClick="this.value = 'gettext ("Please wait")'; return true;" />
+    <input type="submit" name="cancel" value="gettext("Cancel")" />
   </p>
-  <input type="hidden" name="bible" value="<?php echo $this->bible ?>" />
-  <input type="hidden" name="book" value="<?php echo $this->book ?>" />
-  <input type="hidden" name="chapter" value="<?php echo $this->chapter ?>" />
-  <input type="hidden" name="verse" value="<?php echo $this->verse ?>" />
+  <input type="hidden" name="bible" value="$this->bible" />
+  <input type="hidden" name="book" value="$this->book" />
+  <input type="hidden" name="chapter" value="$this->chapter" />
+  <input type="hidden" name="verse" value="$this->verse" />
 </form>
 <script src="../nicedit/nicedit.js"></script>
 <script type="text/javascript">

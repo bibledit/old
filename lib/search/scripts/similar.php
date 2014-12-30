@@ -18,26 +18,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <div>
-  <?php echo gettext("Search for similar verses in:") ?>
-  <?php echo $this->bible; ?>
+  gettext("Search for similar verses in:")
+  $this->bible;
   |
   <img id="searchloading" src="../pix/loading.gif">
   <progress value="0" max="100"></progress>
   <span id="hitcount">0</span>
   |
-  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="gettext("Menu")">☰</a></span>
 </div>
 <div>
-  <input id="loadbutton" type="button" value="<?php echo gettext("Load") ?>" />
+  <input id="loadbutton" type="button" value="gettext("Load")" />
 </div>
 <div>
-  <input id="searchentry" class="fullwidth" type="text" value="" placeholder="<?php echo gettext("Search for words like this") ?>" />
+  <input id="searchentry" class="fullwidth" type="text" value="" placeholder="gettext("Search for words like this")" />
 </div>
 <div>
-  <input id="searchbutton" disabled="disabled" type="button" value="<?php echo gettext("Search") ?>" />
+  <input id="searchbutton" disabled="disabled" type="button" value="gettext("Search")" />
 </div>
 <div id="searchresults"></div>
-<script><?php echo $this->script; ?></script>
-<script type="text/javascript" src="similar.js?<?php echo config_logic_version () ?>"></script>
+<script>$this->script;</script>
+<script type="text/javascript" src="similar.js?config_logic_version ()"></script>
 
 

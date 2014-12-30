@@ -18,17 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo gettext("Cross references") ?>
-  <a href="help.php">[<?php echo gettext("help") ?>]</a>
+  gettext("Cross references")
+  <a href="help.php">[gettext("help")]</a>
   |
-  <?php echo gettext("source Bible:") ?> <a href="?source=" title="<?php echo gettext ("Select source Bible") ?>"><?php echo $this->source ?></a>
-  <a href="extract.php" title="<?php echo gettext("Copy cross references from source to target for the entire chapter") ?>"> ⇉ <?php echo gettext ("copy cross references entire chapter") ?> ⇉ </a>
-  <?php echo gettext("target Bible:") ?> <a href="?target=" title="<?php echo gettext ("Select target Bible") ?>"><?php echo $this->target ?></a>
+  gettext("source Bible:") <a href="?source=" title="gettext ("Select source Bible")">$this->source</a>
+  <a href="extract.php" title="gettext("Copy cross references from source to target for the entire chapter")"> ⇉ gettext ("copy cross references entire chapter") ⇉ </a>
+  gettext("target Bible:") <a href="?target=" title="gettext ("Select target Bible")">$this->target</a>
   |
-  <a href="next.php" title="<?php echo gettext("Go to the next chapter without cross references") ?>"><?php echo gettext ("next chapter without cross references") ?></a>
+  <a href="next.php" title="gettext("Go to the next chapter without cross references")">gettext ("next chapter without cross references")</a>
 </p>
-<p class="error"><?php echo $this->error ?></p>
-<p class="success"><?php echo $this->success ?></p>
+<p class="error">$this->error</p>
+<p class="success">$this->success</p>
 <table>
 <tr>
 <td class="topalign"><div id="sourcetext"></div></td>
@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <td class="topalign"><div id="targettext"></div></td>
 </tr>
 </table>
-<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="index.js?config_logic_version ()"></script>
 <style type="text/css">
 .focus { 
   border-radius: 100px;

@@ -17,16 +17,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h2><?php echo gettext("Verse Mappings") ?></h2>
+<h2>gettext("Verse Mappings")</h2>
 <p>
-  <?php echo gettext("This lists the available verse mappings.") ?>
-  <a href="index.php?new="><?php echo gettext("Create new.") ?></a>
+  gettext("This lists the available verse mappings.")
+  <a href="index.php?new=">gettext("Create new.")</a>
 </p>
-<?php for ($this->mappings as $offset => $mapping) { ?>
+<?php for ($this->mappings as $offset => $mapping) {
   <p>
-    <?php echo $mapping ?>
-    <?php if ($this->editable [$offset]) { ?>
-    <a href="map.php?name=<?php echo $mapping ?>">[<?php echo gettext("edit") ?>]</a>
-    <?php } ?>
+    $mapping
+    <?php if ($this->editable [$offset]) {
+    <a href="map.php?name=$mapping">[gettext("edit")]</a>
+    <?php }
   </p>
-<?php } ?>
+<?php }

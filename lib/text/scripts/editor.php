@@ -17,18 +17,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<?php for ($this->line_data_before as $offset => $line) { ?>
-  <a name="line<?php echo $this->line_numbers_before[$offset] ?>"></a>
-  <p><a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&editusfmline=<?php echo $this->line_numbers_before[$offset] ?>#line<?php echo $this->line_numbers_before[$offset] ?>"><?php echo $this->line_data_before[$offset] ?></a></p>
-<?php } ?>
-<?php if (isset ($this->line_data_edit)) { ?>
-  <a name="line<?php echo $this->line_number_edit ?>"></a>
-  <form action="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&bible=<?php echo $this->bible ?>&book=<?php echo $this->book ?>&chapter=<?php echo $this->chapter ?>&textsaveline=<?php echo $this->line_number_edit ?>#line<?php echo $this->goto_line ?>" name="form" method="post">
-  <p><textarea name="data"><?php echo $this->line_data_edit ?></textarea></p>
-  <p><input type="submit" name="submit" value=<?php echo gettext("Save") ?> /><input type="submit" name="cancel" value=<?php echo gettext ("Cancel") ?> /></p>
+<?php for ($this->line_data_before as $offset => $line) {
+  <a name="line$this->line_numbers_before[$offset]"></a>
+  <p><a href="$this->caller?session=$this->session&editusfmline=$this->line_numbers_before[$offset]#line$this->line_numbers_before[$offset]">$this->line_data_before[$offset]</a></p>
+<?php }
+<?php if (isset ($this->line_data_edit)) {
+  <a name="line$this->line_number_edit"></a>
+  <form action="$this->caller?session=$this->session&bible=$this->bible&book=$this->book&chapter=$this->chapter&textsaveline=$this->line_number_edit#line$this->goto_line" name="form" method="post">
+  <p><textarea name="data">$this->line_data_edit</textarea></p>
+  <p><input type="submit" name="submit" value=gettext("Save") /><input type="submit" name="cancel" value=gettext ("Cancel") /></p>
 </form>
-<?php } ?>
-<?php for ($this->line_data_after as $offset => $line) { ?>
-  <a name="line<?php echo $this->line_numbers_after[$offset] ?>"></a>
-  <p><a href="<?php echo $this->caller ?>?session=<?php echo $this->session ?>&editusfmline=<?php echo $this->line_numbers_after[$offset] ?>#line<?php echo $this->line_numbers_after[$offset] ?>"><?php echo $this->line_data_after[$offset] ?></a></p>
-<?php } ?>
+<?php }
+<?php for ($this->line_data_after as $offset => $line) {
+  <a name="line$this->line_numbers_after[$offset]"></a>
+  <p><a href="$this->caller?session=$this->session&editusfmline=$this->line_numbers_after[$offset]#line$this->line_numbers_after[$offset]">$this->line_data_after[$offset]</a></p>
+<?php }

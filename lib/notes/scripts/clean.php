@@ -17,17 +17,17 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Clean Consultation Notes") ?></h3>
-<p><?php echo gettext("The process for cleaning consultation notes has started.") ?></p>
+<h3>gettext("Clean Consultation Notes")</h3>
+<p>gettext("The process for cleaning consultation notes has started.")</p>
 <p>
-  <?php echo gettext("The progress is visible in the Journal.") ?>
-  <a href="../journal/index.php"><?php echo gettext("View journal.") ?></a>
+  gettext("The progress is visible in the Journal.")
+  <a href="../journal/index.php">gettext("View journal.")</a>
 </p>
-<p><?php echo gettext("It can take time, depending on the amount of consultation notes.") ?></p>
+<p>gettext("It can take time, depending on the amount of consultation notes.")</p>
 <br>
-<p><?php echo gettext("It removes duplicate consultation notes.") ?></p>
-<p><?php echo gettext("Notes are duplicates when their summary, contents, and verses are the same.") ?></p>
+<p>gettext("It removes duplicate consultation notes.")</p>
+<p>gettext("Notes are duplicates when their summary, contents, and verses are the same.")</p>
 <p>
-  <?php echo gettext("Duplicates may occur for various reasons.") ?>
-  <?php echo gettext("One reason could be that some notes have been imported more than once.") ?>
+  gettext("Duplicates may occur for various reasons.")
+  gettext("One reason could be that some notes have been imported more than once.")
 </p>

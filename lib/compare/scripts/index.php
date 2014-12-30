@@ -17,11 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Compare") ?></h3>
-<p><?php echo gettext("Bible") ?>: <a href="../bible/settings.php?bible=<?php echo $this->bible ?>"><?php echo $this->bible ?></a></p>
-<p><?php echo gettext("Compare this Bible with any of the Bibles or USFM Resources below.") ?></p>
+<h3>gettext("Compare")</h3>
+<p>gettext("Bible"): <a href="../bible/settings.php?bible=$this->bible">$this->bible</a></p>
+<p>gettext("Compare this Bible with any of the Bibles or USFM Resources below.")</p>
 <ul>
-<?php for ($this->names as $name) { ?>
-  <li><a href="index.php?bible=<?php echo $this->bible ?>&compare=<?php echo $name ?>"><?php echo $name ?></a></li>
-<?php } ?>
+<?php for ($this->names as $name) {
+  <li><a href="index.php?bible=$this->bible&compare=$name">$name</a></li>
+<?php }
 </ul>

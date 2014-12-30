@@ -18,10 +18,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <style type="text/css">
-<?php echo $this->custom_css ?>
+$this->custom_css
 </style>
 <div>
-  <a href="index.php?changebible="><?php echo $this->bible ?></a>
+  <a href="index.php?changebible=">$this->bible</a>
   |
   <span id="usfmstatus"></span>
 </div>
@@ -31,15 +31,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <pre id="caretbar"></pre>
 </td>
 <td>
-<pre id="usfmeditor" class="<?php echo $this->custom_class ?>" contenteditable="<?php if ($this->write_access) echo "true"; else echo "false"; ?>" style="white-space: pre-wrap; word-wrap:break-word"></pre>
+<pre id="usfmeditor" class="$this->custom_class" contenteditable="<?php if ($this->write_access) echo "true"; else echo "false";" style="white-space: pre-wrap; word-wrap:break-word"></pre>
 </td>
 </tr>
 </table>
 <script>
-<?php echo $this->script; ?>
+$this->script;
 </script>
 <script type="text/javascript" src="../rangy/rangy-core.js"></script>
 <script type="text/javascript" src="../rangy/rangy-textrange.js"></script>
 <script type="text/javascript" src="../checksum/logic.js"></script>
-<script type="text/javascript" src="index.js?<?php echo config_logic_version () ?>"></script>
-<?php echo $this->navigationCode; ?>
+<script type="text/javascript" src="index.js?config_logic_version ()"></script>
+$this->navigationCode;

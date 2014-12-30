@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Select the user to assign the notes to") ?></h3>
+<h3>gettext("Select the user to assign the notes to")</h3>
 <ul>
-<?php for ($this->users as $user) { ?>
-  <li><a href="bulk.php?assign=<?php echo $user ?>"><?php echo $user ?></a></li>
-<?php } ?>
+<?php for ($this->users as $user) {
+  <li><a href="bulk.php?assign=$user">$user</a></li>
+<?php }
 </ul>
-<h4><a href="bulk.php"><?php echo gettext("Cancel") ?></a></h4>
+<h4><a href="bulk.php">gettext("Cancel")</a></h4>

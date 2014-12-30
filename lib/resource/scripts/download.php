@@ -17,33 +17,33 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Download resource") ?> "<?php echo $this->name ?>"</h3>
-<p><a href="admin.php">[<?php echo gettext("back") ?>]</a></p>
+<h3>gettext("Download resource") "$this->name"</h3>
+<p><a href="admin.php">[gettext("back")]</a></p>
 <br>
 <p>
-  <?php echo gettext("Bibledit can display external resources to the user.") ?>
-  <?php echo gettext("It fetches the resources from websites on the Internet.") ?>
-  <?php echo gettext("Some of those websites may be slow to respond.") ?>
-  <?php echo gettext("Bibledit may not always be able to reach them.") ?>
+  gettext("Bibledit can display external resources to the user.")
+  gettext("It fetches the resources from websites on the Internet.")
+  gettext("Some of those websites may be slow to respond.")
+  gettext("Bibledit may not always be able to reach them.")
 </p>
 <p>
-  <?php echo gettext("To address these issues, you can download external resources.") ?>
-  <?php echo gettext("Bibledit then stores the data in its database.") ?>
-  <?php echo gettext("When a downloaded resource is needed, Bibledit can fetch the data from its database rather than from the external website.") ?>
-  <?php echo gettext("This works faster.") ?>
-  <?php echo gettext("It takes the load off the website.") ?>
+  gettext("To address these issues, you can download external resources.")
+  gettext("Bibledit then stores the data in its database.")
+  gettext("When a downloaded resource is needed, Bibledit can fetch the data from its database rather than from the external website.")
+  gettext("This works faster.")
+  gettext("It takes the load off the website.")
 </p>
 <br>
 <p>
-  <?php echo gettext("Number of verses available offline for this resource:") ?>
-  <?php echo $this->count ?>
-  <?php if ($this->count) { ?>
-    [<a href="?name=<?php echo $this->name ?>&clear"><?php echo gettext("clear") ?></a>]
-  <?php } ?>
+  gettext("Number of verses available offline for this resource:")
+  $this->count
+  <?php if ($this->count) {
+    [<a href="?name=$this->name&clear">gettext("clear")</a>]
+  <?php }
 </p>
-<p><a href="?name=<?php echo $this->name ?>&download"><?php echo gettext("Start downloading this resource, en view the progress in the Journal.") ?></a></p>
+<p><a href="?name=$this->name&download">gettext("Start downloading this resource, en view the progress in the Journal.")</a></p>
 <br>
 <p>
-  <?php echo gettext("It takes partial downloads into account, because it only downloads the missing pieces.") ?>
-  <?php echo gettext("Clear any offline verses if a full download is needed.") ?>
+  gettext("It takes partial downloads into account, because it only downloads the missing pieces.")
+  gettext("Clear any offline verses if a full download is needed.")
 </p>

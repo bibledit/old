@@ -946,10 +946,10 @@ Assets_Page::header ("phpLiteAdmin");
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<!-- Copyright <?php echo date("Y").' '.PROJECT.' ('.PROJECT_URL.')'; ?> -->
+<!-- Copyright date("Y").' '.PROJECT.' ('.PROJECT_URL.')'; -->
 <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
 <link rel="shortcut icon" href="?resource=favicon" />
-<title><?php echo PROJECT ?></title>
+<title>PROJECT</title>
 
 <?php
 if(isset($_GET['theme'])) $theme = basename($_GET['theme']);
@@ -975,7 +975,7 @@ if(isset($_GET['help'])) //this page is used as the popup help section
 	);
 	?>
 	</head>
-	<body style="direction:<?php echo $lang['direction']; ?>;">
+	<body style="direction:$lang['direction'];;">
 	<div id='help_container'>
 	<?php
 	echo "<div class='help_list'>";
@@ -1007,7 +1007,7 @@ if(isset($_GET['help'])) //this page is used as the popup help section
 <!-- JavaScript Support -->
 <script type='text/javascript' src='?resource=javascript'></script>
 </head>
-<body style="direction:<?php echo $lang['direction']; ?>;">
+<body style="direction:$lang['direction'];;">
 <?php
 if(ini_get("register_globals") == "on" || ini_get("register_globals")=="1") //check whether register_globals is turned on - if it is, we need to not continue
 {
@@ -2587,8 +2587,8 @@ else //user is authorized - display the main application
 						function drawChart()
 						{
 							var data = new google.visualization.DataTable();
-							data.addColumn('string', '<?php echo $result[$_SESSION[COOKIENAME.$_GET['table'].'chartlabels']]['name']; ?>');
-							data.addColumn('number', '<?php echo $result[$_SESSION[COOKIENAME.$_GET['table'].'chartvalues']]['name']; ?>');
+							data.addColumn('string', '$result[$_SESSION[COOKIENAME.$_GET['table'].'chartlabels']]['name'];');
+							data.addColumn('number', '$result[$_SESSION[COOKIENAME.$_GET['table'].'chartvalues']]['name'];');
 							data.addRows([
 							<?php
 							for($i=0; $i<sizeof($arr); $i++)
@@ -2619,8 +2619,8 @@ else //user is authorized - display the main application
 							var options = 
 							{
 								'width':chartWidth,
-								'height':<?php echo $height; ?>,
-								'title':'<?php echo $result[$_SESSION[COOKIENAME.$_GET['table'].'chartlabels']]['name']." vs ".$result[$_SESSION[COOKIENAME.$_GET['table'].'chartvalues']]['name']; ?>'
+								'height':$height;,
+								'title':'$result[$_SESSION[COOKIENAME.$_GET['table'].'chartlabels']]['name']." vs ".$result[$_SESSION[COOKIENAME.$_GET['table'].'chartvalues']]['name'];'
 							};
 							<?php
 							if($_SESSION[COOKIENAME.'charttype']=="bar")
@@ -2633,7 +2633,7 @@ else //user is authorized - display the main application
 							chart.draw(data, options);
 						}
 						</script>
-						<div id="chart_div" style="float:left;"><?php echo $lang['no_chart']; ?></div>
+						<div id="chart_div" style="float:left;">$lang['no_chart'];</div>
 						<?php
 						echo "<fieldset style='float:right; text-align:center;' id='chartsettingsbox'><legend><b>Chart Settings</b></legend>";
 						echo "<form action='?action=row_view&amp;table=".urlencode($_GET['table']).$is_view."' method='post'>";
@@ -5281,7 +5281,7 @@ function getInternalResource($res) {
 }
 
 // resources embedded below, do not edit!
-__halt_compiler() ?>body{margin:0px;padding:0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#000;background-color:#e0ebf6;overflow:auto}.body_tbl td{padding:9px 2px 9px 9px}.left_td{width:100px}a{color:#03F;text-decoration:none;cursor:pointer}a:hover{color:#06F}hr{height:1px;border:0;color:#bbb;background-color:#bbb;width:100%}h1{margin:0px;padding:5px;font-size:24px;background-color:#f3cece;text-align:center;color:#000;border-top-left-radius:5px;border-top-right-radius:5px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px}#headerlinks{text-align:center;margin-bottom:10px;padding:5px;border-color:#03F;border-width:1px;border-style:solid;border-left-style:none;border-right-style:none;font-size:12px;background-color:#e0ebf6;font-weight:bold}h1 #version{color:#000;font-size:16px}h1 #logo{color:#000}h2{margin:0px;padding:0px;font-size:14px;margin-bottom:20px}input,select,textarea{font-family:Arial,Helvetica,sans-serif;background-color:#eaeaea;color:#03F;border-color:#03F;border-style:solid;border-width:1px;margin:5px;border-radius:5px;-moz-border-radius:5px;padding:3px}input.btn{cursor:pointer}input.btn:hover{background-color:#ccc}fieldset{padding:15px;border-color:#03F;border-width:1px;border-style:solid;border-radius:5px;-moz-border-radius:5px;background-color:#f9f9f9}#container{padding:10px}#leftNav{min-width:250px;padding:0px;border-color:#03F;border-width:1px;border-style:solid;background-color:#FFF;padding-bottom:15px;border-radius:5px;-moz-border-radius:5px}.viewTable tr td{padding:1px}#loginBox{width:500px;margin-left:auto;margin-right:auto;margin-top:50px;border-color:#03F;border-width:1px;border-style:solid;background-color:#FFF;border-radius:5px;-moz-border-radius:5px}#main{border-color:#03F;border-width:1px;border-style:solid;padding:15px;background-color:#FFF;border-bottom-left-radius:5px;border-bottom-right-radius:5px;border-top-right-radius:5px;-moz-border-radius-bottomleft:5px;-moz-border-radius-bottomright:5px;-moz-border-radius-topright:5px}.td1{background-color:#f9e3e3;text-align:right;font-size:12px;padding-left:10px;padding-right:10px}.td2{background-color:#f3cece;text-align:right;font-size:12px;padding-left:10px;padding-right:10px}.tdheader{border-color:#03F;border-width:1px;border-style:solid;font-weight:bold;font-size:12px;padding-left:10px;padding-right:10px;background-color:#e0ebf6;border-radius:5px;-moz-border-radius:5px}.confirm{border-color:#03F;border-width:1px;border-style:dashed;padding:15px;background-color:#e0ebf6}.tab{display:block;padding:5px;padding-right:8px;padding-left:8px;border-color:#03F;border-width:1px;border-style:solid;margin-right:5px;float:left;border-bottom-style:none;position:relative;top:1px;padding-bottom:4px;background-color:#eaeaea;border-top-left-radius:5px;border-top-right-radius:5px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px}.tab_pressed{display:block;padding:5px;padding-right:8px;padding-left:8px;border-color:#03F;border-width:1px;border-style:solid;margin-right:5px;float:left;border-bottom-style:none;position:relative;top:1px;background-color:#FFF;cursor:default;border-top-left-radius:5px;border-top-right-radius:5px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px}.helpq{font-size:11px;font-weight:normal}#help_container{padding:0px;font-size:12px;margin-left:auto;margin-right:auto;background-color:#fff}.help_outer{background-color:#FFF;padding:0px;height:300px;position:relative}.help_list{padding:10px;height:auto}.headd{font-size:14px;font-weight:bold;display:block;padding:10px;background-color:#e0ebf6;border-color:#03F;border-width:1px;border-style:solid;border-left-style:none;border-right-style:none}.help_inner{padding:10px}.help_top{display:block;position:absolute;right:10px;bottom:10px}.warning,.delete,.empty,.drop,.delete_db{color:red}.sidebar_table{font-size:11px}.active_table,.active_db{text-decoration:underline}.null{color:#888}.found{background:#FF0;text-decoration:none}
+__halt_compiler()body{margin:0px;padding:0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#000;background-color:#e0ebf6;overflow:auto}.body_tbl td{padding:9px 2px 9px 9px}.left_td{width:100px}a{color:#03F;text-decoration:none;cursor:pointer}a:hover{color:#06F}hr{height:1px;border:0;color:#bbb;background-color:#bbb;width:100%}h1{margin:0px;padding:5px;font-size:24px;background-color:#f3cece;text-align:center;color:#000;border-top-left-radius:5px;border-top-right-radius:5px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px}#headerlinks{text-align:center;margin-bottom:10px;padding:5px;border-color:#03F;border-width:1px;border-style:solid;border-left-style:none;border-right-style:none;font-size:12px;background-color:#e0ebf6;font-weight:bold}h1 #version{color:#000;font-size:16px}h1 #logo{color:#000}h2{margin:0px;padding:0px;font-size:14px;margin-bottom:20px}input,select,textarea{font-family:Arial,Helvetica,sans-serif;background-color:#eaeaea;color:#03F;border-color:#03F;border-style:solid;border-width:1px;margin:5px;border-radius:5px;-moz-border-radius:5px;padding:3px}input.btn{cursor:pointer}input.btn:hover{background-color:#ccc}fieldset{padding:15px;border-color:#03F;border-width:1px;border-style:solid;border-radius:5px;-moz-border-radius:5px;background-color:#f9f9f9}#container{padding:10px}#leftNav{min-width:250px;padding:0px;border-color:#03F;border-width:1px;border-style:solid;background-color:#FFF;padding-bottom:15px;border-radius:5px;-moz-border-radius:5px}.viewTable tr td{padding:1px}#loginBox{width:500px;margin-left:auto;margin-right:auto;margin-top:50px;border-color:#03F;border-width:1px;border-style:solid;background-color:#FFF;border-radius:5px;-moz-border-radius:5px}#main{border-color:#03F;border-width:1px;border-style:solid;padding:15px;background-color:#FFF;border-bottom-left-radius:5px;border-bottom-right-radius:5px;border-top-right-radius:5px;-moz-border-radius-bottomleft:5px;-moz-border-radius-bottomright:5px;-moz-border-radius-topright:5px}.td1{background-color:#f9e3e3;text-align:right;font-size:12px;padding-left:10px;padding-right:10px}.td2{background-color:#f3cece;text-align:right;font-size:12px;padding-left:10px;padding-right:10px}.tdheader{border-color:#03F;border-width:1px;border-style:solid;font-weight:bold;font-size:12px;padding-left:10px;padding-right:10px;background-color:#e0ebf6;border-radius:5px;-moz-border-radius:5px}.confirm{border-color:#03F;border-width:1px;border-style:dashed;padding:15px;background-color:#e0ebf6}.tab{display:block;padding:5px;padding-right:8px;padding-left:8px;border-color:#03F;border-width:1px;border-style:solid;margin-right:5px;float:left;border-bottom-style:none;position:relative;top:1px;padding-bottom:4px;background-color:#eaeaea;border-top-left-radius:5px;border-top-right-radius:5px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px}.tab_pressed{display:block;padding:5px;padding-right:8px;padding-left:8px;border-color:#03F;border-width:1px;border-style:solid;margin-right:5px;float:left;border-bottom-style:none;position:relative;top:1px;background-color:#FFF;cursor:default;border-top-left-radius:5px;border-top-right-radius:5px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px}.helpq{font-size:11px;font-weight:normal}#help_container{padding:0px;font-size:12px;margin-left:auto;margin-right:auto;background-color:#fff}.help_outer{background-color:#FFF;padding:0px;height:300px;position:relative}.help_list{padding:10px;height:auto}.headd{font-size:14px;font-weight:bold;display:block;padding:10px;background-color:#e0ebf6;border-color:#03F;border-width:1px;border-style:solid;border-left-style:none;border-right-style:none}.help_inner{padding:10px}.help_top{display:block;position:absolute;right:10px;bottom:10px}.warning,.delete,.empty,.drop,.delete_db{color:red}.sidebar_table{font-size:11px}.active_table,.active_db{text-decoration:underline}.null{color:#888}.found{background:#FF0;text-decoration:none}
 function initAutoincrement()
 {var i=0;while(document.getElementById('i'+i+'_autoincrement')!=undefined)
 {document.getElementById('i'+i+'_autoincrement').disabled=true;i++;}}

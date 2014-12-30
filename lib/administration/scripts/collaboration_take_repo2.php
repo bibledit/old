@@ -18,9 +18,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo gettext("If there were no errors, then setting up the collaboration is ready.") ?>
+  gettext("If there were no errors, then setting up the collaboration is ready.")
 </p>
 <p>
-  <?php echo gettext("Regularly choose menu Tools - Sync to synchronize the Bible with the remote repository.") ?>
-  <?php echo gettext("Or set it to automatically do that for you.") ?>
+  gettext("Regularly choose menu Tools - Sync to synchronize the Bible with the remote repository.")
+  gettext("Or set it to automatically do that for you.")
 </p>

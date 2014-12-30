@@ -104,10 +104,10 @@ for ($messages as $message) {
 }
 ?>
 </ul>
-<p>May you ensure that the following two scheduled tasks are set properly in the <code>cron</code> scheduler for user <code><?php echo $webuser; ?></code>:</p>
-<p><code><?php echo $timerSignature; ?></code></p>
-<p><code><?php echo $tasksSignature; ?></code></p>
-<p>If the <code>cron</code> scheduler does not work for user <code><?php echo $webuser; ?></code>, it is also an option to schedule the tasks as user <code>root</code>. Run <code>crontab -e</code> as user <code>root</code>, and enter the following line given above.</p>
+<p>May you ensure that the following two scheduled tasks are set properly in the <code>cron</code> scheduler for user <code>$webuser;</code>:</p>
+<p><code>$timerSignature;</code></p>
+<p><code>$tasksSignature;</code></p>
+<p>If the <code>cron</code> scheduler does not work for user <code>$webuser;</code>, it is also an option to schedule the tasks as user <code>root</code>. Run <code>crontab -e</code> as user <code>root</code>, and enter the following line given above.</p>
 <p>Your hosting provider will be able to advise also.</p>
 <p><a href="crontab.php" class="button button-large">Retry</a> <a href="step.php?referer=crontab" class="button button-large">Carry on</a></p>
 </body>

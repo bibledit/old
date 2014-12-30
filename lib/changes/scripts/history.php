@@ -18,73 +18,73 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo gettext("Change History") ?>
+  gettext("Change History")
   |
-  <a href="history.php?<?php echo $this->back ?>"> « </a>
-  <?php echo $this->start ?>-<?php echo $this->end ?>/<?php echo $this->count ?>
-  <a href="history.php?<?php echo $this->forward ?>"> » </a>
+  <a href="history.php?$this->back"> « </a>
+  $this->start-$this->end/$this->count
+  <a href="history.php?$this->forward"> » </a>
   |
-  <a href="#filter"><?php echo gettext("filter") ?></a>
+  <a href="#filter">gettext("filter")</a>
   |
-  <a href="#help"><?php echo gettext("help") ?></a>
+  <a href="#help">gettext("help")</a>
 </p>
 <br>
-<?php for ($this->passageTexts as $offset => $passageText) { ?>
-  <?php if ($offset) { ?>
+<?php for ($this->passageTexts as $offset => $passageText) {
+  <?php if ($offset) {
   <br>
-  <?php } ?>
+  <?php }
   <p>
-    <?php echo $this->passageTexts[$offset] ?>
+    $this->passageTexts[$offset]
     |
-    <?php echo $this->authors[$offset] ?>
+    $this->authors[$offset]
     |
-    <?php echo $this->dates[$offset] ?>
+    $this->dates[$offset]
     |
-    <?php echo $this->bibles[$offset] ?>
+    $this->bibles[$offset]
   </p>
   <table>
     <tr>
-      <td><?php echo gettext("Old") ?>:</td>
-      <td><?php echo $this->oldTexts[$offset] ?></td>
+      <td>gettext("Old"):</td>
+      <td>$this->oldTexts[$offset]</td>
     </tr>
     <tr>
-      <td><?php echo gettext("Change") ?>:</td>
-      <td><?php echo $this->modifications[$offset] ?></td>
+      <td>gettext("Change"):</td>
+      <td>$this->modifications[$offset]</td>
     </tr>
     <tr>
-      <td><?php echo gettext("New") ?>:</td>
-      <td><?php echo $this->newTexts[$offset] ?></td>
+      <td>gettext("New"):</td>
+      <td>$this->newTexts[$offset]</td>
     </tr>
   </table>
-<?php } ?>
+<?php }
 <br>
 <a id="filter"></a>
 <p>
-  <a href="history.php?<?php echo $this->bible ?>" title="<?php echo gettext("Display entries for the entire Bible") ?>"><?php echo gettext ("Bible") ?></a>
+  <a href="history.php?$this->bible" title="gettext("Display entries for the entire Bible")">gettext ("Bible")</a>
   |
-  <a href="history.php?<?php echo $this->book ?>" title="<?php echo gettext("Display entries for the focused book") ?>"><?php echo gettext ("book") ?></a>
+  <a href="history.php?$this->book" title="gettext("Display entries for the focused book")">gettext ("book")</a>
   |
-  <a href="history.php?<?php echo $this->chapter ?>" title="<?php echo gettext("Display entries for the focused chapter") ?>"><?php echo gettext ("chapter") ?></a>
+  <a href="history.php?$this->chapter" title="gettext("Display entries for the focused chapter")">gettext ("chapter")</a>
   |
-  <a href="history.php?<?php echo $this->verse ?>" title="<?php echo gettext("Display entries for the focused verse") ?>"><?php echo gettext ("verse") ?></a>
+  <a href="history.php?$this->verse" title="gettext("Display entries for the focused verse")">gettext ("verse")</a>
 </p>
 <ul>
-<?php for ($this->author_names as $offset => $author_name) { ?>
-  <li><a href="history.php?<?php echo $this->author_queries[$offset] ?>"><?php echo $author_name ?></a></li>
-<?php } ?>
+<?php for ($this->author_names as $offset => $author_name) {
+  <li><a href="history.php?$this->author_queries[$offset]">$author_name</a></li>
+<?php }
 </ul>
 <a id="help"></a>
 <p>
-  <?php echo gettext("The Change History displays where and when changes in the Bible text were made by whom.") ?>
-  <?php echo gettext("It displays 50 entries at a time.") ?>
-  <?php echo gettext("It displays the most recent entries on top.") ?>
-  <?php echo gettext("There is a pager for displaying older entries.") ?>
+  gettext("The Change History displays where and when changes in the Bible text were made by whom.")
+  gettext("It displays 50 entries at a time.")
+  gettext("It displays the most recent entries on top.")
+  gettext("There is a pager for displaying older entries.")
 </p>
 <p>
-  <?php echo gettext("The page can display items for the current book only, or the current chapter, or the current verse.") ?>
-  <?php echo gettext("It can also display items for one author only.") ?>
+  gettext("The page can display items for the current book only, or the current chapter, or the current verse.")
+  gettext("It can also display items for one author only.")
 </p>
 <p>
-  <?php echo gettext("The items are kept indefinitely.") ?>
+  gettext("The items are kept indefinitely.")
 </p>
-<script type="text/javascript" src="history.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="history.js?config_logic_version ()"></script>

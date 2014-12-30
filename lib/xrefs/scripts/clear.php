@@ -18,16 +18,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <p>
-  <?php echo gettext("This chapter of the target Bible contains cross references:") ?>
-  <?php echo $this->count; ?>
+  gettext("This chapter of the target Bible contains cross references:")
+  $this->count;
 </p>
-<?php if ($this->tags != 0) { ?>
+<?php if ($this->tags != 0) {
 <p>
-  <?php echo gettext("A cross reference is malformed.") ?>
-  <?php echo gettext("The opening tag does not match the closing tag.") ?>
-  <?php echo gettext("Please fix it first.") ?>
+  gettext("A cross reference is malformed.")
+  gettext("The opening tag does not match the closing tag.")
+  gettext("Please fix it first.")
 </p>
-<?php } else { ?>
-<p><a href="clear.php?overwrite="><?php echo gettext("Overwrite the existing cross references.") ?></a></p>
-<?php } ?>
-<p><a href="index.php"><?php echo gettext("Cancel") ?></a></p>
+<?php } else {
+<p><a href="clear.php?overwrite=">gettext("Overwrite the existing cross references.")</a></p>
+<?php }
+<p><a href="index.php">gettext("Cancel")</a></p>

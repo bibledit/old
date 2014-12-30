@@ -17,34 +17,34 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Print Resources") ?></h3>
+<h3>gettext("Print Resources")</h3>
 <ol>
 <li>
 <p>
-  <?php echo gettext("Resources to print:") ?>
+  gettext("Resources to print:")
   <a href="?add=">➕</a>
 </p>
 <div id="sortable">
-<?php for ($this->resources as $resource) { ?>
-  <p><a href="?remove=<?php echo $resource ?>"> ✗ </a> ⇕ <span class="drag"><?php echo $resource ?></span> ⇕ </p>
-<?php } ?>
+<?php for ($this->resources as $resource) {
+  <p><a href="?remove=$resource"> ✗ </a> ⇕ <span class="drag">$resource</span> ⇕ </p>
+<?php }
 </div>
 </li>
 <br>  
 <li>
 <p>
-  <?php echo gettext("Set range: ") ?>
-  <?php echo gettext("From") ?>
-  <a href="?frombook="><?php echo $this->from_book ?></a>
-  <a href="?fromchapter="><?php echo $this->from_chapter ?></a>:<a href="?fromverse="><?php echo $this->from_verse ?></a>
-  <?php echo gettext("to") ?>
-  <a href="?tobook="><?php echo $this->to_book ?></a>
-  <a href="?tochapter="><?php echo $this->to_chapter ?></a>:<a href="?toverse="><?php echo $this->to_verse ?></a>
+  gettext("Set range: ")
+  gettext("From")
+  <a href="?frombook=">$this->from_book</a>
+  <a href="?fromchapter=">$this->from_chapter</a>:<a href="?fromverse=">$this->from_verse</a>
+  gettext("to")
+  <a href="?tobook=">$this->to_book</a>
+  <a href="?tochapter=">$this->to_chapter</a>:<a href="?toverse=">$this->to_verse</a>
   </p>
 </li>
 <br>  
 <li>
-<p><a href="?generate=" target="_blank"><?php echo gettext("Generate the document.") ?></a></p>
+<p><a href="?generate=" target="_blank">gettext("Generate the document.")</a></p>
 </li>
 </ol>
-<script type="text/javascript" src="print.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="print.js?config_logic_version ()"></script>

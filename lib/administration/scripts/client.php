@@ -17,83 +17,83 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Client mode") ?></h3>
+<h3>gettext("Client mode")</h3>
 
-<?php if ($this->client == true) { ?>
+<?php if ($this->client == true) {
 
   <p>
-    <?php echo gettext("Client mode is enabled.") ?>
-    <a href="?disable="><?php echo gettext("Disable it.") ?></a>
+    gettext("Client mode is enabled.")
+    <a href="?disable=">gettext("Disable it.")</a>
   </p>
   <p>
-    <?php echo gettext("Server") ?>:
-    <a href="<?php echo $this->address ?>" target="_blank"><?php echo $this->address ?></a>
+    gettext("Server"):
+    <a href="$this->address" target="_blank">$this->address</a>
   </p>
-  <p><?php echo gettext("Your role:") ?> <?php echo $this->role ?></p>
+  <p>gettext("Your role:") $this->role</p>
 
-<?php } else { ?>
+<?php } else {
 
-  <p><?php echo gettext("To enable client mode, enter the details below, and click Enable.") ?></p>
+  <p>gettext("To enable client mode, enter the details below, and click Enable.")</p>
   
   <br>
   
   <form action="client.php" name="server" method="post">
-    <p><?php echo gettext("Address of Bibledit Server on the Internet") ?>:</p>
-    <p><input type="text" name="address" maxlength="1000" class="focus fullwidth" value="<?php echo $this->address ?>" /></p>
+    <p>gettext("Address of Bibledit Server on the Internet"):</p>
+    <p><input type="text" name="address" maxlength="1000" class="focus fullwidth" value="$this->address" /></p>
     <table>
       <tr>
-        <td align="right"><?php echo gettext("Username on the server") ?></td>
+        <td align="right">gettext("Username on the server")</td>
         <td><input type="text" name="user" maxlength="30" class="focus" /></td>
       </tr>
       <tr>
-        <td align="right"><?php echo gettext("Password on the server") ?></td>
+        <td align="right">gettext("Password on the server")</td>
         <td><input type="password" name="pass" maxlength="30" class="focus" /></td>
       </tr>
       <tr>
         <td></td>
-        <td><input type="submit" name="connect" class="focus" value="<?php echo gettext("Enable") ?>" /></td>
+        <td><input type="submit" name="connect" class="focus" value="gettext("Enable")" /></td>
       </tr>
     </table>
   </form>
   
   <br>
 
-  <p><a href="?demo="><?php echo gettext("Or else connect to the Bibledit Demo Server.") ?></a></p>
+  <p><a href="?demo=">gettext("Or else connect to the Bibledit Demo Server.")</a></p>
 
-<?php } ?>
+<?php }
 
-<p class="error"><?php echo $this->error ?></p>
-<p class="success"><?php echo $this->success ?></p>
-<p class="error"><?php echo $this->demo ?></p>
+<p class="error">$this->error</p>
+<p class="success">$this->success</p>
+<p class="error">$this->demo</p>
 
 <br>
 
 <p>
-  <?php echo gettext("When client mode is enabled, Bibledit can be used offline as a client on a local computing device.") ?>
+  gettext("When client mode is enabled, Bibledit can be used offline as a client on a local computing device.")
 </p>
 
 <br>
 
 <p>
-  <?php echo gettext("Client mode affects the following:") ?>
+  gettext("Client mode affects the following:")
 </p>
 <ul>
 <li>
-  <?php echo gettext("Can synchronize the local Bibles with the Bibles on a Bibledit server.") ?>
+  gettext("Can synchronize the local Bibles with the Bibles on a Bibledit server.")
 </li>
 <li>
-  <?php echo gettext("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit server.") ?>
+  gettext("Can synchronize the local Consultation Notes with the Consultation Notes on a Bibledit server.")
 </li>
 <li>
-  <?php echo gettext("After connecting to a server, the first time you synchronize, you will get the same data as on the server.") ?>
-  <?php echo gettext("Local Bible data and Notes not on the server will be erased.") ?>
-  <?php echo gettext("Bible data and Notes on the server will be downloaded.") ?>
-  <?php echo gettext("This is good because it means that your data will be backed up to the server.") ?>
+  gettext("After connecting to a server, the first time you synchronize, you will get the same data as on the server.")
+  gettext("Local Bible data and Notes not on the server will be erased.")
+  gettext("Bible data and Notes on the server will be downloaded.")
+  gettext("This is good because it means that your data will be backed up to the server.")
 </li>
 <li>
-  <?php echo gettext("Does not send or receive email.") ?>
+  gettext("Does not send or receive email.")
 </li>
 <li>
-  <?php echo gettext("User is always logged in.") ?>
+  gettext("User is always logged in.")
 </li>
 </ul>

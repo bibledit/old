@@ -17,28 +17,28 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Workbenches") ?></h3>
+<h3>gettext("Workbenches")</h3>
 <div id="sortable">
-<?php for ($this->workbenches as $workbench) { ?>
+<?php for ($this->workbenches as $workbench) {
   <p>
-    <a href="?remove=<?php echo $workbench ?>" title="<?php echo gettext("Delete workbench") ?>"> ✗ </a>
+    <a href="?remove=$workbench" title="gettext("Delete workbench")"> ✗ </a>
     |
-    <a href="settings.php?name=<?php echo $workbench ?>" title="<?php echo gettext("Edit workbench") ?>"> ✎ </a>
+    <a href="settings.php?name=$workbench" title="gettext("Edit workbench")"> ✎ </a>
     |
-    <span class="drag"><?php echo $workbench ?></span>
+    <span class="drag">$workbench</span>
   </p>
-<?php } ?>
+<?php }
 </div>
 <br>
 <form action="organize.php" name="form" method="post">
   <input type="text" name="add" maxlength="300"  />
-  <input type="submit" name="create" value=<?php echo gettext("Create") ?> />
+  <input type="submit" name="create" value=gettext("Create") />
 </form>
 <br>
 <p>
-  <?php echo gettext("Drag the list of workbenches into the desired order.") ?>
-  <?php echo gettext("Click ✗ to remove.") ?>
-  <?php echo gettext("Click ✎ to edit.") ?>
-  <?php echo gettext("Or create a new workbench.") ?>
+  gettext("Drag the list of workbenches into the desired order.")
+  gettext("Click ✗ to remove.")
+  gettext("Click ✎ to edit.")
+  gettext("Or create a new workbench.")
 </p>
-<script type="text/javascript" src="organize.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="organize.js?config_logic_version ()"></script>

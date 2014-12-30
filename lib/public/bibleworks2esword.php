@@ -46,12 +46,12 @@ $outputData = $inputData;
 <h3>Step 1: Supply input text</h3>
 <p>Paste some BibleWorks text into the text box, and then press the Submit button below.</p>
 <form action="bibleworks2esword.php" name="form" method="post">
-  <p><textarea name="data"><?php echo $inputData; ?></textarea></p>
+  <p><textarea name="data">$inputData;</textarea></p>
   <p><input type="submit" name="submit" value="Submit" /></p>
 </form>
 <h3>Step 2: Use output text</h3>
 <p>Select the converted text from the text box below and copy it to the clipboard.</p>
-<p><textarea name="outputdata"><?php echo $outputData; ?></textarea></p>
+<p><textarea name="outputdata">$outputData;</textarea></p>
 
 
 <?php

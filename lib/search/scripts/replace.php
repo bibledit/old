@@ -18,21 +18,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <div id="searchbox">
-  <?php echo $this->bible; ?>
-  <input id="searchentry" type="text" value="" placeholder="<?php echo gettext("Search for") ?>" />
+  $this->bible;
+  <input id="searchentry" type="text" value="" placeholder="gettext("Search for")" />
   ▶
-  <input id="replaceentry" type="text" value="" placeholder="<?php echo gettext("Replace with") ?>" />
-  <input type="checkbox" id="casesensitive" checked="checked"><?php echo gettext("Case sensitive") ?>
-  <input id="previewbutton" type="button" value="<?php echo gettext("Preview") ?>"  />
+  <input id="replaceentry" type="text" value="" placeholder="gettext("Replace with")" />
+  <input type="checkbox" id="casesensitive" checked="checked">gettext("Case sensitive")
+  <input id="previewbutton" type="button" value="gettext("Preview")"  />
   <img id="searchloading" src="../pix/loading.gif">
-  <input id="applybutton" type="button" value="<?php echo gettext("Apply all") ?>"  />
+  <input id="applybutton" type="button" value="gettext("Apply all")"  />
   <progress value="0" max="100"></progress>
   <span id="hitcount"></span>
-  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="gettext("Menu")">☰</a></span>
 </div>
 <div id="searchresults">
 </div>
 <script>
-<?php echo $this->script; ?>
+$this->script;
 </script>
-<script type="text/javascript" src="replace.js?<?php echo config_logic_version () ?>"></script>
+<script type="text/javascript" src="replace.js?config_logic_version ()"></script>

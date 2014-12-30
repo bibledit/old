@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h3><?php echo gettext("Login needed") ?></h3>
+<h3>gettext("Login needed")</h3>
 <p>
-  <?php echo gettext("This page requires privileges you do not have.") ?>
-  <?php echo gettext("Login with sufficient privileges to access this page.") ?>
+  gettext("This page requires privileges you do not have.")
+  gettext("Login with sufficient privileges to access this page.")
 </p>

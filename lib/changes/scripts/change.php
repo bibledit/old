@@ -20,42 +20,42 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 <br>
 <table>
   <tr>
-    <td><?php echo gettext("Old") ?>:</td>
-    <td><?php echo $this->old_text ?></td>
+    <td>gettext("Old"):</td>
+    <td>$this->old_text</td>
   </tr>
   <tr>
-    <td><?php echo gettext("Change") ?>:</td>
-    <td><?php echo $this->modification ?></td>
+    <td>gettext("Change"):</td>
+    <td>$this->modification</td>
   </tr>
   <tr>
-    <td><?php echo gettext("New") ?>:</td>
-    <td><?php echo $this->new_text ?></td>
+    <td>gettext("New"):</td>
+    <td>$this->new_text</td>
   </tr>
 </table>
 <br>
 <table>
-  <?php for ($this->notes as $offset => $note) { ?>
+  <?php for ($this->notes as $offset => $note) {
     <tr>
       <td>
-      <?php if ($this->live_notes_editor) { ?>
-        <a class="opennote" href="<?php echo $this->notes[$offset] ?>"><?php echo $this->summaries[$offset] ?></a>
-      <?php } else { ?>
-        <a href="../notes/note.php?id=<?php echo $this->notes[$offset] ?>" target="_blank"><?php echo $this->summaries[$offset] ?></a>
-      <?php } ?>
+      <?php if ($this->live_notes_editor) {
+        <a class="opennote" href="$this->notes[$offset]">$this->summaries[$offset]</a>
+      <?php } else {
+        <a href="../notes/note.php?id=$this->notes[$offset]" target="_blank">$this->summaries[$offset]</a>
+      <?php }
       </td>
-      <td><?php if ($this->subscriptions[$offset]) { ?><a href="unsubscribe" id="unsubscribe<?php echo $this->notes[$offset] ?>">[<?php echo gettext("unsubscribe") ?>]</a><?php } ?></td>
-      <td><?php if ($this->assignments[$offset]) { ?><a href="unassign" id="unassign<?php echo $this->notes[$offset] ?>">[<?php echo gettext("I have done my part on it") ?>]</a><?php } ?></td>
-      <td><?php if ($this->level >= 5) { ?><a href="delete" id="delete<?php echo $this->notes[$offset] ?>">[<?php echo gettext("mark for deletion") ?>]</a><?php } ?></td>
+      <td><?php if ($this->subscriptions[$offset]) {<a href="unsubscribe" id="unsubscribe$this->notes[$offset]">[gettext("unsubscribe")]</a><?php }</td>
+      <td><?php if ($this->assignments[$offset]) {<a href="unassign" id="unassign$this->notes[$offset]">[gettext("I have done my part on it")]</a><?php }</td>
+      <td><?php if ($this->level >= 5) {<a href="delete" id="delete$this->notes[$offset]">[gettext("mark for deletion")]</a><?php }</td>
     </tr>
-  <?php } ?>
+  <?php }
 </table>
 <p>
-  <?php echo $this->timestamp ?>
+  $this->timestamp
   |
-  <?php if ($this->live_notes_editor) { ?>
-    <a class="newnote" href="<?php echo $this->id ?>"><?php echo gettext("Create note") ?></a>
-  <?php } else { ?>
-    <a href="../notes/create.php?fromchange=<?php echo $this->id ?>" target="_blank"><?php echo gettext("Create note") ?></a>
-  <?php } ?>
+  <?php if ($this->live_notes_editor) {
+    <a class="newnote" href="$this->id">gettext("Create note")</a>
+  <?php } else {
+    <a href="../notes/create.php?fromchange=$this->id" target="_blank">gettext("Create note")</a>
+  <?php }
 </p>
 <br>

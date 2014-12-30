@@ -18,21 +18,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
 <div>
-  <?php echo gettext("Search for verses with a certain Strong's number in:") ?>
-  <?php echo $this->bible; ?>
+  gettext("Search for verses with a certain Strong's number in:")
+  $this->bible;
   |
   <img id="searchloading" src="../pix/loading.gif">
   <progress value="0" max="100"></progress>
   <span id="hitcount">0</span>
   |
-  <span><a href="select.php" title="<?php echo gettext("Menu") ?>">☰</a></span>
+  <span><a href="select.php" title="gettext("Menu")">☰</a></span>
 </div>
 <div>
-  <input id="loadbutton" type="button" value="<?php echo gettext("Load") ?>" />
+  <input id="loadbutton" type="button" value="gettext("Load")" />
 </div>
 <div id="strongslinks"></div>
 <div id="searchresults"></div>
-<script><?php echo $this->script; ?></script>
-<script type="text/javascript" src="strong.js?<?php echo config_logic_version () ?>"></script>
+<script>$this->script;</script>
+<script type="text/javascript" src="strong.js?config_logic_version ()"></script>
 
 

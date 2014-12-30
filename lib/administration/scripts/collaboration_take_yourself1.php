@@ -17,10 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<h1><?php echo gettext("Take local data") ?></h1>
-<p><?php echo gettext("Bible") ?>: <?php echo $this->object ?></p>
-<p><?php echo gettext("Repository URL") ?>: <?php echo $this->url ?></p>
-<p><?php echo gettext("Your data is being pushed to the remote repository.") ?></p>
-<?php for ($this->contents as $line) { ?>
-  <p><code><?php echo $line ?></code></p>
-<?php } ?>
+<h1>gettext("Take local data")</h1>
+<p>gettext("Bible"): $this->object</p>
+<p>gettext("Repository URL"): $this->url</p>
+<p>gettext("Your data is being pushed to the remote repository.")</p>
+<?php for ($this->contents as $line) {
+  <p><code>$line</code></p>
+<?php }

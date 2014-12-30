@@ -28,7 +28,7 @@ $database_offlineresources = Database_OfflineResources::getInstance ();
 
 @$add = $_POST['entry'];
 if (isset ($add)) {
-  $database_resources->save ($add, '<?php $output = "dummy"; ?>');
+  $database_resources->save ($add, '<?php $output = "dummy";');
 }
 
 

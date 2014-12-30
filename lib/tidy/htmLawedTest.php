@@ -135,7 +135,7 @@ function hexdump($d){
 <html lang="en" xml:lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="description" content="htmLawed <?php echo hl_version();?> test page" />
+<meta name="description" content="htmLawed hl_version();?> test page" />
 <style type="text/css"><!--/*--><![CDATA[/*><!--*/
 a, a.resizer{text-decoration:none;}
 a:hover, a.resizer:hover{color:red;}
@@ -183,9 +183,9 @@ function sndProc(){
  if(!f){return;}
  var e = document.createElement('input');
  e.type = 'hidden';
- e.name = '<?php echo htmlspecialchars($_sid); ?>';
- e.id = '<?php echo htmlspecialchars($_sid); ?>';
- e.value = readCookie('<?php echo htmlspecialchars($_sid); ?>');
+ e.name = 'htmlspecialchars($_sid);';
+ e.id = 'htmlspecialchars($_sid);';
+ e.value = readCookie('htmlspecialchars($_sid);');
  f.appendChild(e);
  f.submit();
 }
@@ -266,10 +266,10 @@ function sndUnproc(){
  var f = document.createElement('form');
  f.enctype = 'application/x-www-form-urlencoded';
  f.method = 'post';
- f.acceptCharset = '<?php echo htmlspecialchars($_POST['enc']); ?>';
+ f.acceptCharset = 'htmlspecialchars($_POST['enc']);';
  if(f.style){f.style.display = 'none';}
  else{f.visibility = 'hidden';}
- f.innerHTML = '<p style="display:none;"><input style="display:none;" type="hidden" name="token" id="token" value="<?php echo $token; ?>" /><input style="display:none;" type="hidden" name="<?php echo htmlspecialchars($_sid); ?>" id="<?php echo htmlspecialchars($_sid); ?>" value="' + readCookie('<?php echo htmlspecialchars($_sid); ?>') + '" /></p>';
+ f.innerHTML = '<p style="display:none;"><input style="display:none;" type="hidden" name="token" id="token" value="$token;" /><input style="display:none;" type="hidden" name="htmlspecialchars($_sid);" id="htmlspecialchars($_sid);" value="' + readCookie('htmlspecialchars($_sid);') + '" /></p>';
  f.action = 'htmLawedTest.php?pre=1';
  f.target = 'hlprehtm';
  f.method = 'post';
@@ -290,7 +290,7 @@ function sndValidn(id, type){
  var f = document.createElement('form');
  f.enctype = 'application/x-www-form-urlencoded';
  f.method = 'post';
- f.acceptCharset = '<?php echo htmlspecialchars($_POST['enc']); ?>';
+ f.acceptCharset = 'htmlspecialchars($_POST['enc']);';
  if(f.style){f.style.display = 'none';}
  else{f.visibility = 'hidden';}
  f.innerHTML = '<p style="display:none;"><input style="display:none;" type="hidden" name="prefill" id="prefill" value="1" /><input style="display:none;" type="hidden" name="prefill_doctype" id="prefill_doctype" value="'+ type+ '" /><input style="display:none;" type="hidden" name="group" id="group" value="1" /><input type="hidden" name="ss" id="ss" value="1" /></p>';
@@ -432,22 +432,22 @@ this.diff_match_patch=diff_match_patch;this.DIFF_DELETE=-1;this.DIFF_INSERT=1;th
 var dmp = new diff_match_patch(); function diffLaunch(){var text1 = document.getElementById('text').value; var text2 = document.getElementById('text2').value; dmp.Diff_Timeout = 0; dmp.Diff_EditCost = 4; var d = dmp.diff_main(text1, text2); var ds = dmp.diff_prettyHtml(d); document.getElementById('diff').innerHTML = ds;
 }
 //--><!]]></script>
-<title>htmLawed (<?php echo hl_version();?>) test</title>
+<title>htmLawed (hl_version();?>) test</title>
 </head>
 <body>
 <div id="topmost">
 
-<h5 style="float: left; display: inline; margin-top: 0; margin-bottom: 5px;"><a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/index.php" title="htmLawed home">HTM<big><big>L</big></big>AWED</a> <?php echo hl_version();?> <a href="htmLawedTest.php" title="test home">TEST</a></h5>
+<h5 style="float: left; display: inline; margin-top: 0; margin-bottom: 5px;"><a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/index.php" title="htmLawed home">HTM<big><big>L</big></big>AWED</a> hl_version();?> <a href="htmLawedTest.php" title="test home">TEST</a></h5>
 <span style="float: right;" class="help"><a href="htmLawed_README.htm"><span class="notice">htm</span></a> / <a href="htmLawed_README.txt"><span class="notice">txt</span></a> documentation</span><br style="clear:both;" />
 
-<a href="htmLawedTest.php" title="[toggle visibility] type or copy-paste" onclick="javascript:toggle('inputF'); return false;"><span class="notice">Input &raquo;</span> <span class="help" title="limit lower with multibyte characters<?php echo (($_hlimit < $_limit && $_hlimit)? '; limit is '. $_hlimit. ' for viewing binaries' : ''); ?>"><small>(max. <?php echo htmlspecialchars($_limit);?> chars)</small></span></a>
+<a href="htmLawedTest.php" title="[toggle visibility] type or copy-paste" onclick="javascript:toggle('inputF'); return false;"><span class="notice">Input &raquo;</span> <span class="help" title="limit lower with multibyte characters(($_hlimit < $_limit && $_hlimit)? '; limit is '. $_hlimit. ' for viewing binaries' : '');"><small>(max. htmlspecialchars($_limit);?> chars)</small></span></a>
 
-<form id="testform" name="testform" action="htmLawedTest.php" method="post" accept-charset="<?php echo htmlspecialchars($_POST['enc']); ?>" style="padding:0; margin: 0; display:inline;">
+<form id="testform" name="testform" action="htmLawedTest.php" method="post" accept-charset="htmlspecialchars($_POST['enc']);" style="padding:0; margin: 0; display:inline;">
 
 <div id="inputF" style="display: block;">
 
-<input type="hidden" name="token" id="token" value="<?php echo $token; ?>" />
-<div><textarea id="text" class="textarea" name="text" rows="5" cols="100" style="width: 100%;"><?php echo htmlspecialchars($_POST['text']);?></textarea></div>
+<input type="hidden" name="token" id="token" value="$token;" />
+<div><textarea id="text" class="textarea" name="text" rows="5" cols="100" style="width: 100%;">htmlspecialchars($_POST['text']);?></textarea></div>
 <input type="submit" id="submitF" name="submitF" value="Process" style="float:left;" title="filter using htmLawed" onclick="javascript: sndProc(); return false;" onkeypress="javascript: sndProc(); return false;" />
 
 <?php
@@ -477,7 +477,7 @@ else{
 }
 ?>
 
-<span style="float:right;" class="help" title="IANA-recognized name of the input character-set; can be multiple ;- or space-separated values; may not work in some browsers"><span style="font-size: 85%;">Encoding: </span><input type="text" size="8" id="enc" name="enc" style="vertical-align: middle;" value="<?php echo htmlspecialchars($_POST['enc']); ?>" /></span>
+<span style="float:right;" class="help" title="IANA-recognized name of the input character-set; can be multiple ;- or space-separated values; may not work in some browsers"><span style="font-size: 85%;">Encoding: </span><input type="text" size="8" id="enc" name="enc" style="vertical-align: middle;" value="htmlspecialchars($_POST['enc']);" /></span>
 
 </div>
 <br style="clear:both;" />
@@ -619,7 +619,7 @@ else{
 
 <div class="help">Use with a Javascript- and cookie-enabled, relatively new version of a common browser. <em>Submitted input will also be HTML-rendered (XHTML 1) after htmLawed-filtering.</em>
 
-<?php echo (file_exists('./htmLawed_TESTCASE.txt') ? '<br /><br />You can use text from <a href="htmLawed_TESTCASE.txt"><span class="notice">this collection of test-cases</span></a> in the input. Set the character encoding of the browser to Unicode/utf-8 before copying.' : ''); ?>
+(file_exists('./htmLawed_TESTCASE.txt') ? '<br /><br />You can use text from <a href="htmLawed_TESTCASE.txt"><span class="notice">this collection of test-cases</span></a> in the input. Set the character encoding of the browser to Unicode/utf-8 before copying.' : '');
 
 <br /><br />For anti-XSS tests, try the <a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawedSafeModeTest.php"><span class="notice">special test-page</span></a> or see <a href="http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/rsnake/RSnakeXSSTest.htm"><span class="notice">these results</span></a>.
 

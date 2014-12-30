@@ -17,6 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 ?>
-<p><?php echo gettext("You can go to the next page if the cloning completed successfully and there was no error.") ?></p>
+<p>gettext("You can go to the next page if the cloning completed successfully and there was no error.")</p>
 
-<h2><a href="collaboration_repo_write.php?object=<?php echo $this->object ?>"><?php echo gettext("Next page") ?></a></h2>
+<h2><a href="collaboration_repo_write.php?object=$this->object">gettext("Next page")</a></h2>
