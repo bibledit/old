@@ -155,12 +155,20 @@ void webserver ()
 
         // In the case of a POST request, one more line follows: The POST request itself.
         // Read that data, and parse it.
+        bool buffer_full = false;
+        string postdata;
         if (request->is_post) {
-          char buffer [65535];
-          memset (&buffer, 0, 65535); // Fix valgrind unitialized value message.
-          bytes_read = read (connfd, buffer, sizeof (buffer));
-          http_parse_post (buffer, request);
+          char buffer [65536];
+          memset (&buffer, 0, 65536); // Fix valgrind unitialized value message.
+          do {
+            bytes_read = read (connfd, buffer, sizeof (buffer));
+            for (int i = 0; i < bytes_read; i++) {
+              postdata += buffer [i];
+            }
+            buffer_full = (bytes_read == 65536);
+          } while (buffer_full);
         }
+        http_parse_post (postdata, request);
     
         // Assemble response.
         bootstrap_index (request);

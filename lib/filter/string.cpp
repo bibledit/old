@@ -451,7 +451,7 @@ string unicode_string_casefold (string s)
 
 
 // Returns true if string "s" is valid UTF8 encoded.
-bool unicode_string_is_valid (string s) // Todo write, unittests also.
+bool unicode_string_is_valid (string s)
 {
   return utf8::is_valid (s.begin(), s.end());
 }
