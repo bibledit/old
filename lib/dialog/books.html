@@ -1,9 +1,5 @@
-<h2>$this->header</h2>
-<p>$this->info_top</p>
-<p>
-<?php foreach ($this->book_ids as $offset => $book_id) {
-<a href="$this->caller&$this->action=$this->book_ids[$offset]">$this->book_names[$offset]</a>
-<?php }
-</p>
-<p>$this->info_bottom</p>
-<h3><a href="$this->caller">gettext("Cancel")</a></h3>
+<h2>##$header##</h2>
+<p>##info_top##</p>
+<p>##book_block##</p>
+<p>##info_bottom##</p>
+<h3><a href="##base_url##">gettext("Cancel")</a></h3>

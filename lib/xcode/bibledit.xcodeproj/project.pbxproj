@@ -299,7 +299,6 @@
 		CAA4D0661A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = index.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D0681A45A647003ABA25 /* dev */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = dev; path = ../dev; sourceTree = "<group>"; };
 		CAA4D0691A45A647003ABA25 /* DEVELOP */ = {isa = PBXFileReference; lastKnownFileType = text; name = DEVELOP; path = ../DEVELOP; sourceTree = "<group>"; };
-		CAA4D0701A45A647003ABA25 /* books.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = books.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D0731A45A647003ABA25 /* entry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = entry.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D0741A45A647003ABA25 /* entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = entry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D0751A45A647003ABA25 /* entry.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = entry.html; sourceTree = "<group>"; };
@@ -1747,7 +1746,6 @@
 		CAA4D06A1A45A647003ABA25 /* dialog */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D0701A45A647003ABA25 /* books.php */,
 				CA3925471A529544009302B8 /* books.cpp */,
 				CA3925481A529544009302B8 /* books.h */,
 				CA3925491A529544009302B8 /* books.html */,
