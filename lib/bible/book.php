@@ -71,7 +71,7 @@ if (isset($_POST['createchapter'])) {
   // Only create the chapters if it does not yet exist.
   if (array_search ($createchapter, $chapters) === false) {
     $feedback = array ();
-    if ($write_access) $result = Book_Create::create ($bible, $book, $createchapter, $feedback);
+    if ($write_access) $result = book_create ($bible, $book, $createchapter, $feedback);
     $feedback = implode (" ", $feedback);
     if ($result) $success_message = $feedback;
     else $error_message = $feedback;

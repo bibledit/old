@@ -31,7 +31,9 @@
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <dialog/list.h>
+#include <dialog/books.h>
 #include <access/bible.h>
+#include <book/create.h>
 
 
 string bible_settings_url ()
@@ -111,11 +113,13 @@ string bible_settings (void * webserver_request)
   if (request->query.count ("createbook")) {
     string createbook = request->query["createbook"];
     if (createbook == "") {
-      // Todo dialog_books = new Dialog_Books (array ("bible"), gettext("Create book"), "", "", "createbook", NULL, database_bibles.getBooks (bible));
-      // Todo die;
+      Dialog_Books dialog_books = Dialog_Books ("settings", gettext("Create book"), "", "", "createbook", {}, request->database_bibles ()->getBooks (bible));
+      dialog_books.add_query ("bible", bible);
+      page += dialog_books.run ();
+      return page;
     } else {
       vector <string> feedback;
-      // Todo await dependency if (write_access) Book_Create::create (bible, createbook, NULL, feedback);
+      if (write_access) book_create (bible, convert_to_int (createbook), -1, feedback);
     }
   }
   

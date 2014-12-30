@@ -1,4 +1,3 @@
-<?php
 /*
 Copyright (©) 2003-2015 Teus Benschop.
 
@@ -92,5 +91,3 @@ gettext("Jude");
 gettext("Revelation");
 gettext("Back Matter");
 gettext("Other Material");
-
-?>

@@ -113,7 +113,8 @@ libbibledit_a_SOURCES = \
 	fonts/logic.cpp \
 	fonts/index.cpp \
 	versification/index.cpp \
-	versification/system.cpp
+	versification/system.cpp \
+	book/create.cpp
 
 bin_PROGRAMS = server unittest
 
