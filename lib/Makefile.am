@@ -16,6 +16,7 @@ libbibledit_a_SOURCES = \
 	filter/text.cpp \
 	filter/passage.cpp \
 	filter/customcss.cpp \
+	filter/bibleworks.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -90,6 +91,7 @@ libbibledit_a_SOURCES = \
 	bible/book.cpp \
 	bible/chapter.cpp \
 	bible/import_usfm.cpp \
+	bible/import_bibleworks.cpp \
 	bible/import_task.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \

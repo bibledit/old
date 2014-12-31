@@ -112,11 +112,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/md5.$(OBJEXT) filter/usfm.$(OBJEXT) \
 	filter/archive.$(OBJEXT) filter/text.$(OBJEXT) \
 	filter/passage.$(OBJEXT) filter/customcss.$(OBJEXT) \
-	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	assets/builder.$(OBJEXT) index/index.$(OBJEXT) \
-	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	filter/bibleworks.$(OBJEXT) flate/flate.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) assets/builder.$(OBJEXT) \
+	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
@@ -150,13 +150,14 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	bible/logic.$(OBJEXT) bible/manage.$(OBJEXT) \
 	bible/settings.$(OBJEXT) bible/book.$(OBJEXT) \
 	bible/chapter.$(OBJEXT) bible/import_usfm.$(OBJEXT) \
-	bible/import_task.$(OBJEXT) notes/logic.$(OBJEXT) \
-	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
-	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
-	email/index.$(OBJEXT) email/send.$(OBJEXT) \
-	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
-	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
-	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
+	bible/import_bibleworks.$(OBJEXT) bible/import_task.$(OBJEXT) \
+	notes/logic.$(OBJEXT) trash/handler.$(OBJEXT) \
+	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
+	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
+	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
+	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
+	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
+	administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) search/rebibles.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
 	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
@@ -392,6 +393,7 @@ libbibledit_a_SOURCES = \
 	filter/text.cpp \
 	filter/passage.cpp \
 	filter/customcss.cpp \
+	filter/bibleworks.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -466,6 +468,7 @@ libbibledit_a_SOURCES = \
 	bible/book.cpp \
 	bible/chapter.cpp \
 	bible/import_usfm.cpp \
+	bible/import_bibleworks.cpp \
 	bible/import_task.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
@@ -621,6 +624,8 @@ filter/text.$(OBJEXT): filter/$(am__dirstamp) \
 filter/passage.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/customcss.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/bibleworks.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -895,6 +900,8 @@ bible/book.$(OBJEXT): bible/$(am__dirstamp) \
 bible/chapter.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/import_usfm.$(OBJEXT): bible/$(am__dirstamp) \
+	bible/$(DEPDIR)/$(am__dirstamp)
+bible/import_bibleworks.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/import_task.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
@@ -1184,6 +1191,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@assets/$(DEPDIR)/view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/book.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/chapter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_task.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/logic.Po@am__quote@
@@ -1238,6 +1246,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@esword/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/archive.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/customcss.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/passage.Po@am__quote@
