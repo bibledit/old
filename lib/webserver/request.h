@@ -46,7 +46,7 @@ public:
   string accept_language; // The browser's or client's Accept-Language header.
   string host; // The server's host as requested by the client.
   string content_type; // The content type of the browser request.
-  size_t content_length; // The content length of the browser request.
+  int content_length; // The content length of the browser request.
   map <string, string> post; // The raw POST data from the browser, item by item.
   string header; // Extra header to be sent back to the browser.
   string reply; // Body to be sent back to the browser.

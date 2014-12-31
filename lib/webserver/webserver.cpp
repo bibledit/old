@@ -118,80 +118,105 @@ void webserver ()
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof(clientaddr);
     int connfd = accept (listenfd, (SA *)&clientaddr, &clientlen);
-    
-    // Non-blocking read.
-    // fcntl (connfd, F_SETFL, O_NONBLOCK);
-    
-    // Socket receive timeout.
-    // struct timeval tv;
-    // tv.tv_sec = 2;
-    // tv.tv_usec = 0;
-    // setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+    if (connfd > 0) {
 
-    // The client's remote IPv4 address in dotted notation.
-    char remote_address[256];
-    inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
-    request->remote_address = remote_address;
+      // Socket receive timeout.
+      struct timeval tv;
+      tv.tv_sec = 60;
+      tv.tv_usec = 0;
+      setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+      
+      // The client's remote IPv4 address in dotted notation.
+      char remote_address[256];
+      inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
+      request->remote_address = remote_address;
+      
+      try {
+        if (config_globals_running) {
 
-    try {
-      if (config_globals_running) {
-        string input;
-        // Read the client's request.
-        // With the HTTP protocol it is not possible to read the request till EOF,
-        // because EOF does never come, because the browser keeps the connection open
-        // for the response.
-        // The HTTP protocol works per line.
-        // Read one line of data from the client.
-        // An empty line marks the end of the headers.
-        int bytes_read;
-        bool header_parsed = true;
-        do {
-          char buffer [2048];
-          memset (&buffer, 0, 2048); // Fix valgrind unitialized value message.
-          bytes_read = get_line (connfd, buffer, sizeof (buffer));
-          // Parse the browser's request's headers.
-          header_parsed = http_parse_header (buffer, request);
-        } while (header_parsed);
-
-        // In the case of a POST request, one more line follows: The POST request itself.
-        // Read that data, and parse it.
-        bool buffer_full = false;
-        string postdata;
-        if (request->is_post) {
-          char buffer [65536];
-          memset (&buffer, 0, 65536); // Fix valgrind unitialized value message.
+          // Connection health flag.
+          bool connection_healthy = true;
+          
+          // Read the client's request.
+          // With the HTTP protocol it is not possible to read the request till EOF,
+          // because EOF does never come, because the browser keeps the connection open
+          // for the response.
+          // The HTTP protocol works per line.
+          // Read one line of data from the client.
+          // An empty line marks the end of the headers.
+#define BUFFERSIZE 2048
+          int bytes_read;
+          bool header_parsed = true;
+          char buffer [BUFFERSIZE];
+          // Fix valgrind unitialized value message.
+          memset (&buffer, 0, BUFFERSIZE);
           do {
-            bytes_read = read (connfd, buffer, sizeof (buffer));
-            for (int i = 0; i < bytes_read; i++) {
-              postdata += buffer [i];
-            }
-            buffer_full = (bytes_read == 65536);
-          } while (buffer_full);
-        }
-        http_parse_post (postdata, request);
-    
-        // Assemble response.
-        bootstrap_index (request);
-        http_assemble_response (request);
-    
-        // Send response to browser.    
-        const char * output = request->reply.c_str();
-        // The C function strlen () fails on null characters in the reply, so take string::size()
-        size_t length = request->reply.size ();
-        int written = write(connfd, output, length);
-        if (written) {};
-      }
+            bytes_read = get_line (connfd, buffer, BUFFERSIZE);
+            if (bytes_read <= 0) connection_healthy = false;
+            // Parse the browser's request's headers.
+            header_parsed = http_parse_header (buffer, request);
+          } while (header_parsed);
+          
+          if (connection_healthy) {
 
-    } catch (exception & e) {
-      string message ("Internal error: ");
-      message.append (e.what ());
-      Database_Logs::log (message);
-    } catch (exception * e) {
-      string message ("Internal error: ");
-      message.append (e->what ());
-      Database_Logs::log (message);
-    } catch (...) {
-      Database_Logs::log ("A general internal error occurred");
+            // In the case of a POST request, more data follows: The POST request itself.
+            // The length of that data is indicated in the header's Content-Length line.
+            // Read that data, and parse it.
+            string postdata;
+            if (request->is_post) {
+              bool done_reading = false;
+              int total_bytes_read = 0;
+              do {
+                bytes_read = read (connfd, buffer, BUFFERSIZE);
+                for (int i = 0; i < bytes_read; i++) {
+                  postdata += buffer [i];
+                }
+                // EOF indicates reading is ready.
+                // An error also indicates that reading is ready.
+                if (bytes_read <= 0) done_reading = true;
+                if (bytes_read < 0) connection_healthy = false;
+                // "Content-Length" bytes read: Done.
+                total_bytes_read += bytes_read;
+                if (total_bytes_read >= request->content_length) done_reading = true;
+              } while (!done_reading);
+              if (total_bytes_read < request->content_length) connection_healthy = false;
+            }
+            
+            if (connection_healthy) {
+
+              http_parse_post (postdata, request);
+              
+              // Assemble response.
+              bootstrap_index (request);
+              http_assemble_response (request);
+              
+              // Send response to browser.
+              const char * output = request->reply.c_str();
+              // The C function strlen () fails on null characters in the reply, so take string::size()
+              size_t length = request->reply.size ();
+              int written = write (connfd, output, length);
+              if (written) {};
+
+            } else {
+              cerr << "Insufficient data received, closing connection" << endl;
+            }
+          } else {
+            cerr << "Unhealthy connection was closed" << endl;
+          }
+        }
+      } catch (exception & e) {
+        string message ("Internal error: ");
+        message.append (e.what ());
+        Database_Logs::log (message);
+      } catch (exception * e) {
+        string message ("Internal error: ");
+        message.append (e->what ());
+        Database_Logs::log (message);
+      } catch (...) {
+        Database_Logs::log ("A general internal error occurred");
+      }
+    } else {
+      cerr << "Error accepting connection on socket" << endl;
     }
 
     // Clear memory.
