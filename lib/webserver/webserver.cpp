@@ -133,7 +133,6 @@ void webserver_process_request (int connfd, string clientaddress)
         
         if (connection_healthy) {
 
-          cout << postdata << endl; // Todo
           http_parse_post (postdata, &request);
           
           // Assemble response.

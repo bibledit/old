@@ -80,7 +80,19 @@ string bible_import_usfm (void * webserver_request)
       success_message = gettext("Nothing was imported.");
     }
   }
-  
+
+  // File upload.
+  if (request->post.count ("upload")) {
+    string datafile = filter_url_tempfile ();
+    string data = request->post ["data"];
+    if (!data.empty ()) {
+      filter_url_file_put_contents (datafile, data);
+      success_message = gettext("Import has started. See Journal for progress.");
+      tasks_logic_queue (IMPORTUSFM, { datafile, bible });
+    } else {
+      error_message = gettext ("Nothing was uploaded");
+    }
+  }
   
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
@@ -94,22 +106,5 @@ string bible_import_usfm (void * webserver_request)
 
 /* Todo port
  
- // File upload.
- if (isset($_POST['upload'])) {
- // Upload may take long if file is big or network is slow.
- ignore_user_abort (true);
- set_time_limit (0);
- $datafile = tempnam (sys_get_temp_dir(), '');
- unlink ($datafile);
- @$datafile += $_FILES['data']['name'];
- @$tmpfile = $_FILES['data']['tmp_name'];
- if (move_uploaded_file ($tmpfile, $datafile)) {
- $success_message = gettext("Import has started. See Journal for progress.");
- $workingdirectory = dirname (__FILE__);
- Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/importcli.php", $datafile, $bible));
- } else {
- $error_message = Filter_Upload::error2text ($_FILES['data']['error']);
- }
- }
 
 */

@@ -715,10 +715,6 @@
 		CAA4D2841A45A648003ABA25 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		CAA4D28A1A45A648003ABA25 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CAA4D28B1A45A648003ABA25 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
-		CAA4D28E1A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D28F1A45A648003ABA25 /* ParseMultipartFormData.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ParseMultipartFormData.Po; sourceTree = "<group>"; };
-		CAA4D2901A45A648003ABA25 /* ParseWebData.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ParseWebData.Po; sourceTree = "<group>"; };
-		CAA4D2911A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D2921A45A648003ABA25 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
 		CAA4D2931A45A648003ABA25 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		CAA4D2941A45A648003ABA25 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
@@ -2634,8 +2630,6 @@
 		CAA4D28C1A45A648003ABA25 /* parsewebdata */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D28D1A45A648003ABA25 /* .deps */,
-				CAA4D2911A45A648003ABA25 /* .dirstamp */,
 				CAA4D2921A45A648003ABA25 /* AUTHORS */,
 				CAA4D2931A45A648003ABA25 /* ChangeLog */,
 				CAA4D2941A45A648003ABA25 /* COPYING */,
@@ -2648,16 +2642,6 @@
 			);
 			name = parsewebdata;
 			path = ../parsewebdata;
-			sourceTree = "<group>";
-		};
-		CAA4D28D1A45A648003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D28E1A45A648003ABA25 /* .dirstamp */,
-				CAA4D28F1A45A648003ABA25 /* ParseMultipartFormData.Po */,
-				CAA4D2901A45A648003ABA25 /* ParseWebData.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAA4D29B1A45A648003ABA25 /* phpliteadmin */ = {
