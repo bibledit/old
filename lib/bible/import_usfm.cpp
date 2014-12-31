@@ -81,9 +81,9 @@ string bible_import_usfm (void * webserver_request)
     }
   }
 
-  // File upload.
+  // File upload. Todo
   if (request->post.count ("upload")) {
-    string datafile = filter_url_tempfile ();
+    string datafile = filter_url_tempfile () + request->post ["filename"];
     string data = request->post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (datafile, data);

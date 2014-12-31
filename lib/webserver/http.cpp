@@ -117,16 +117,35 @@ bool http_parse_header (string header, Webserver_Request * request)
 }
 
 
-// Takes a line POSTed from the browser, and parses it.
-void http_parse_post (string line, Webserver_Request * request)
+// Takes data POSTed from the browser, and parses it.
+void http_parse_post (string content, Webserver_Request * request)
 {
   // Read and parse the POST data.
   try {
-    if (!line.empty ()) {
+    if (!content.empty ()) {
+      // Standard parse.
+      bool urlencoded = request->content_type.find ("urlencoded") != string::npos;
       ParseWebData::WebDataMap dataMap;
-      ParseWebData::parse_post_data (line, request->content_type, dataMap);
+      ParseWebData::parse_post_data (content, request->content_type, dataMap);
       for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
-        request->post [(*iter).first] = filter_url_urldecode ((*iter).second.value);
+        string value;
+        if (urlencoded) value = filter_url_urldecode ((*iter).second.value);
+        else value = (*iter).second.value;
+        request->post [(*iter).first] = value;
+      }
+      // Special case: Extract the filename in case of a file upload.
+      if (content.length () > 1000) content.resize (1000);
+      if (content.find ("filename=") != string::npos) {
+        vector <string> lines = filter_string_explode (content, '\n');
+        for (auto & line : lines) {
+          if (line.find ("Content-Disposition") == string::npos) continue;
+          size_t pos = line.find ("filename=");
+          if (pos == string::npos) continue;
+          line = line.substr (pos + 10);
+          line = filter_string_trim (line);
+          line.pop_back ();
+          request->post ["filename"] = line;
+        }
       }
     }
   } catch (...) {
