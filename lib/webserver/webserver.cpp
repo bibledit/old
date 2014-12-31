@@ -109,11 +109,6 @@ void webserver ()
   config_globals_running = true;
   while (config_globals_running) {
 
-    // The environment for this request.
-    // It gets passed around from function to function during the entire request.
-    // This provides thread-safety to the request.
-    Webserver_Request * request = new Webserver_Request ();
-
     // Socket and file descriptor for the client connection.
     struct sockaddr_in clientaddr;
     socklen_t clientlen = sizeof(clientaddr);
@@ -126,10 +121,15 @@ void webserver ()
       tv.tv_usec = 0;
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
       
+      // The environment for this request.
+      // It gets passed around from function to function during the entire request.
+      // This provides thread-safety to the request.
+      Webserver_Request request;
+      
       // The client's remote IPv4 address in dotted notation.
       char remote_address[256];
       inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
-      request->remote_address = remote_address;
+      request.remote_address = remote_address;
       
       try {
         if (config_globals_running) {
@@ -154,7 +154,7 @@ void webserver ()
             bytes_read = get_line (connfd, buffer, BUFFERSIZE);
             if (bytes_read <= 0) connection_healthy = false;
             // Parse the browser's request's headers.
-            header_parsed = http_parse_header (buffer, request);
+            header_parsed = http_parse_header (buffer, &request);
           } while (header_parsed);
           
           if (connection_healthy) {
@@ -163,7 +163,7 @@ void webserver ()
             // The length of that data is indicated in the header's Content-Length line.
             // Read that data, and parse it.
             string postdata;
-            if (request->is_post) {
+            if (request.is_post) {
               bool done_reading = false;
               int total_bytes_read = 0;
               do {
@@ -177,23 +177,23 @@ void webserver ()
                 if (bytes_read < 0) connection_healthy = false;
                 // "Content-Length" bytes read: Done.
                 total_bytes_read += bytes_read;
-                if (total_bytes_read >= request->content_length) done_reading = true;
+                if (total_bytes_read >= request.content_length) done_reading = true;
               } while (!done_reading);
-              if (total_bytes_read < request->content_length) connection_healthy = false;
+              if (total_bytes_read < request.content_length) connection_healthy = false;
             }
             
             if (connection_healthy) {
 
-              http_parse_post (postdata, request);
+              http_parse_post (postdata, &request);
               
               // Assemble response.
-              bootstrap_index (request);
-              http_assemble_response (request);
+              bootstrap_index (&request);
+              http_assemble_response (&request);
               
               // Send response to browser.
-              const char * output = request->reply.c_str();
+              const char * output = request.reply.c_str();
               // The C function strlen () fails on null characters in the reply, so take string::size()
-              size_t length = request->reply.size ();
+              size_t length = request.reply.size ();
               int written = write (connfd, output, length);
               if (written) {};
 
@@ -215,12 +215,10 @@ void webserver ()
       } catch (...) {
         Database_Logs::log ("A general internal error occurred");
       }
+
     } else {
       cerr << "Error accepting connection on socket" << endl;
     }
-
-    // Clear memory.
-    delete request;
 
     // Done: Close.
     close (connfd);
