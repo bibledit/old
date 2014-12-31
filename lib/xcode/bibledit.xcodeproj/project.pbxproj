@@ -28,6 +28,9 @@
 		CA3925531A52FE1A009302B8 /* import_usfm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = import_usfm.html; sourceTree = "<group>"; };
 		CA3925551A53104E009302B8 /* import_task.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = import_task.cpp; sourceTree = "<group>"; };
 		CA3925561A53104E009302B8 /* import_task.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = import_task.h; sourceTree = "<group>"; };
+		CA3925571A534AD7009302B8 /* upload.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = upload.cpp; sourceTree = "<group>"; };
+		CA3925581A534AD7009302B8 /* upload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = upload.h; sourceTree = "<group>"; };
+		CA3925591A534AD7009302B8 /* upload.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = upload.html; sourceTree = "<group>"; };
 		CA699A021A4AEBE000B23E0A /* color.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = color.cpp; sourceTree = "<group>"; };
 		CA699A031A4AEBE000B23E0A /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
 		CA699A041A4AEBE000B23E0A /* color.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = color.html; sourceTree = "<group>"; };
@@ -1771,6 +1774,9 @@
 				CAA4D0771A45A647003ABA25 /* list.h */,
 				CAA4D49E1A45CB4E003ABA25 /* listhorizontal.html */,
 				CAA4D0831A45A647003ABA25 /* text.php */,
+				CA3925571A534AD7009302B8 /* upload.cpp */,
+				CA3925581A534AD7009302B8 /* upload.h */,
+				CA3925591A534AD7009302B8 /* upload.html */,
 				CAFE132F1A497AB200F0DB35 /* yes.h */,
 				CAFE132E1A497AB200F0DB35 /* yes.cpp */,
 				CAFE13301A497B9800F0DB35 /* yes.html */,

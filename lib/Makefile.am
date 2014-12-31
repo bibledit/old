@@ -114,6 +114,7 @@ libbibledit_a_SOURCES = \
 	dialog/yes.cpp \
 	dialog/color.cpp \
 	dialog/books.cpp \
+	dialog/upload.cpp \
 	fonts/logic.cpp \
 	fonts/index.cpp \
 	versification/index.cpp \

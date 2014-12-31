@@ -162,9 +162,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
 	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
 	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	fonts/logic.$(OBJEXT) fonts/index.$(OBJEXT) \
-	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
-	book/create.$(OBJEXT)
+	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
+	fonts/index.$(OBJEXT) versification/index.$(OBJEXT) \
+	versification/system.$(OBJEXT) book/create.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -490,6 +490,7 @@ libbibledit_a_SOURCES = \
 	dialog/yes.cpp \
 	dialog/color.cpp \
 	dialog/books.cpp \
+	dialog/upload.cpp \
 	fonts/logic.cpp \
 	fonts/index.cpp \
 	versification/index.cpp \
@@ -1015,6 +1016,8 @@ dialog/color.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
 dialog/books.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
+dialog/upload.$(OBJEXT): dialog/$(am__dirstamp) \
+	dialog/$(DEPDIR)/$(am__dirstamp)
 fonts/$(am__dirstamp):
 	@$(MKDIR_P) fonts
 	@: > fonts/$(am__dirstamp)
@@ -1227,6 +1230,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/color.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/entry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/list.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/upload.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/yes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/receive.Po@am__quote@
