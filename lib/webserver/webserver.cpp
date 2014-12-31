@@ -69,8 +69,108 @@ int get_line (int sock, char *buf, int size)
 }
 
 
+// Processes a single request from a web client.
+void webserver_process_request (int connfd, string clientaddress)
+{
+  // The environment for this request.
+  // It gets passed around from function to function during the entire request.
+  // This provides thread-safety to the request.
+  Webserver_Request request;
 
-void webserver () 
+  // Store remote client address in the request.
+  request.remote_address = clientaddress;
+  
+  try {
+    if (config_globals_running) {
+      
+      // Connection health flag.
+      bool connection_healthy = true;
+      
+      // Read the client's request.
+      // With the HTTP protocol it is not possible to read the request till EOF,
+      // because EOF does never come, because the browser keeps the connection open
+      // for the response.
+      // The HTTP protocol works per line.
+      // Read one line of data from the client.
+      // An empty line marks the end of the headers.
+#define BUFFERSIZE 2048
+      int bytes_read;
+      bool header_parsed = true;
+      char buffer [BUFFERSIZE];
+      // Fix valgrind unitialized value message.
+      memset (&buffer, 0, BUFFERSIZE);
+      do {
+        bytes_read = get_line (connfd, buffer, BUFFERSIZE);
+        if (bytes_read <= 0) connection_healthy = false;
+        // Parse the browser's request's headers.
+        header_parsed = http_parse_header (buffer, &request);
+      } while (header_parsed);
+      
+      if (connection_healthy) {
+        
+        // In the case of a POST request, more data follows: The POST request itself.
+        // The length of that data is indicated in the header's Content-Length line.
+        // Read that data, and parse it.
+        string postdata;
+        if (request.is_post) {
+          bool done_reading = false;
+          int total_bytes_read = 0;
+          do {
+            bytes_read = read (connfd, buffer, BUFFERSIZE);
+            for (int i = 0; i < bytes_read; i++) {
+              postdata += buffer [i];
+            }
+            // EOF indicates reading is ready.
+            // An error also indicates that reading is ready.
+            if (bytes_read <= 0) done_reading = true;
+            if (bytes_read < 0) connection_healthy = false;
+            // "Content-Length" bytes read: Done.
+            total_bytes_read += bytes_read;
+            if (total_bytes_read >= request.content_length) done_reading = true;
+          } while (!done_reading);
+          if (total_bytes_read < request.content_length) connection_healthy = false;
+        }
+        
+        if (connection_healthy) {
+          
+          http_parse_post (postdata, &request);
+          
+          // Assemble response.
+          bootstrap_index (&request);
+          http_assemble_response (&request);
+          
+          // Send response to browser.
+          const char * output = request.reply.c_str();
+          // The C function strlen () fails on null characters in the reply, so take string::size()
+          size_t length = request.reply.size ();
+          int written = write (connfd, output, length);
+          if (written) {};
+          
+        } else {
+          cerr << "Insufficient data received, closing connection" << endl;
+        }
+      } else {
+        cerr << "Unhealthy connection was closed" << endl;
+      }
+    }
+  } catch (exception & e) {
+    string message ("Internal error: ");
+    message.append (e.what ());
+    Database_Logs::log (message);
+  } catch (exception * e) {
+    string message ("Internal error: ");
+    message.append (e->what ());
+    Database_Logs::log (message);
+  } catch (...) {
+    Database_Logs::log ("A general internal error occurred");
+  }
+  
+  // Done: Close.
+  close (connfd);
+}
+
+
+void webserver ()
 {
   // Setup server behaviour.
   if (strcmp (CLIENT_INSTALLATION, "1") == 0) config_globals_client_prepared = true;
@@ -121,107 +221,17 @@ void webserver ()
       tv.tv_usec = 0;
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
       
-      // The environment for this request.
-      // It gets passed around from function to function during the entire request.
-      // This provides thread-safety to the request.
-      Webserver_Request request;
-      
       // The client's remote IPv4 address in dotted notation.
       char remote_address[256];
-      inet_ntop(AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof(remote_address));
-      request.remote_address = remote_address;
+      inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
+      string clientaddress = remote_address;
       
-      try {
-        if (config_globals_running) {
-
-          // Connection health flag.
-          bool connection_healthy = true;
-          
-          // Read the client's request.
-          // With the HTTP protocol it is not possible to read the request till EOF,
-          // because EOF does never come, because the browser keeps the connection open
-          // for the response.
-          // The HTTP protocol works per line.
-          // Read one line of data from the client.
-          // An empty line marks the end of the headers.
-#define BUFFERSIZE 2048
-          int bytes_read;
-          bool header_parsed = true;
-          char buffer [BUFFERSIZE];
-          // Fix valgrind unitialized value message.
-          memset (&buffer, 0, BUFFERSIZE);
-          do {
-            bytes_read = get_line (connfd, buffer, BUFFERSIZE);
-            if (bytes_read <= 0) connection_healthy = false;
-            // Parse the browser's request's headers.
-            header_parsed = http_parse_header (buffer, &request);
-          } while (header_parsed);
-          
-          if (connection_healthy) {
-
-            // In the case of a POST request, more data follows: The POST request itself.
-            // The length of that data is indicated in the header's Content-Length line.
-            // Read that data, and parse it.
-            string postdata;
-            if (request.is_post) {
-              bool done_reading = false;
-              int total_bytes_read = 0;
-              do {
-                bytes_read = read (connfd, buffer, BUFFERSIZE);
-                for (int i = 0; i < bytes_read; i++) {
-                  postdata += buffer [i];
-                }
-                // EOF indicates reading is ready.
-                // An error also indicates that reading is ready.
-                if (bytes_read <= 0) done_reading = true;
-                if (bytes_read < 0) connection_healthy = false;
-                // "Content-Length" bytes read: Done.
-                total_bytes_read += bytes_read;
-                if (total_bytes_read >= request.content_length) done_reading = true;
-              } while (!done_reading);
-              if (total_bytes_read < request.content_length) connection_healthy = false;
-            }
-            
-            if (connection_healthy) {
-
-              http_parse_post (postdata, &request);
-              
-              // Assemble response.
-              bootstrap_index (&request);
-              http_assemble_response (&request);
-              
-              // Send response to browser.
-              const char * output = request.reply.c_str();
-              // The C function strlen () fails on null characters in the reply, so take string::size()
-              size_t length = request.reply.size ();
-              int written = write (connfd, output, length);
-              if (written) {};
-
-            } else {
-              cerr << "Insufficient data received, closing connection" << endl;
-            }
-          } else {
-            cerr << "Unhealthy connection was closed" << endl;
-          }
-        }
-      } catch (exception & e) {
-        string message ("Internal error: ");
-        message.append (e.what ());
-        Database_Logs::log (message);
-      } catch (exception * e) {
-        string message ("Internal error: ");
-        message.append (e->what ());
-        Database_Logs::log (message);
-      } catch (...) {
-        Database_Logs::log ("A general internal error occurred");
-      }
-
+      // Handle this request in a thread, enabling parallel requests.
+      new thread (webserver_process_request, connfd, clientaddress);
+      
     } else {
       cerr << "Error accepting connection on socket" << endl;
     }
-
-    // Done: Close.
-    close (connfd);
   }
 }
 
