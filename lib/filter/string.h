@@ -68,6 +68,16 @@ string filter_string_html2text (string html);
 string filter_string_extract_email (string input);
 string filter_string_extract_body (string input, string year = "", string sender = "");
 string get_tick_box (bool enabled);
+void quick_sort (vector <unsigned int>& one, vector <string>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <unsigned int>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <unsigned int>& one, vector <bool>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <int>& one, vector <unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, vector <string>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, vector <bool>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <string>& one, unsigned int beg, unsigned int end);
+void quick_sort (vector <long unsigned int>& one, vector <long unsigned int>& two, unsigned int beg, unsigned int end);
+void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsigned int end);
 
 
 #endif

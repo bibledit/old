@@ -409,7 +409,6 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
 vector <int> filter_passage_get_ordered_books (const string& bible)
 {
   Database_Bibles database_bibles = Database_Bibles ();
-  //$database_config_bible = Database_Config_Bible::getInstance ();
 
   // The available books from the Bible.
   vector <int> projectbooks = database_bibles.getBooks (bible);
