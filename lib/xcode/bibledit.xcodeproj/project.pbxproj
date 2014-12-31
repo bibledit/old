@@ -491,9 +491,6 @@
 		CAA4D1781A45A647003ABA25 /* jcanvas.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jcanvas.min.js; sourceTree = "<group>"; };
 		CAA4D17A1A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D17C1A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
-		CAA4D17F1A45A647003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CAA4D1801A45A648003ABA25 /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CAA4D1811A45A648003ABA25 /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CAA4D1821A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAA4D1831A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D1841A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -2215,8 +2212,6 @@
 		CAA4D17D1A45A647003ABA25 /* journal */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D17E1A45A647003ABA25 /* .deps */,
-				CAA4D1811A45A648003ABA25 /* .dirstamp */,
 				CAA4D1821A45A648003ABA25 /* index.cpp */,
 				CAA4D1831A45A648003ABA25 /* index.h */,
 				CAA4D1841A45A648003ABA25 /* index.html */,
@@ -2224,15 +2219,6 @@
 			);
 			name = journal;
 			path = ../journal;
-			sourceTree = "<group>";
-		};
-		CAA4D17E1A45A647003ABA25 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D17F1A45A647003ABA25 /* .dirstamp */,
-				CAA4D1801A45A648003ABA25 /* index.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CAA4D1861A45A648003ABA25 /* jquery */ = {

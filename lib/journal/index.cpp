@@ -105,12 +105,15 @@ string journal_index (void * webserver_request)
   vector <string> entries = database_logs.get (0, lastfilename);
 
 
-  // Show no more than so many entries: Avoid clogging the browser.
-  size_t limit = 1000;
-  if (entries.size () > limit) {
-    limit = entries.size () - limit;
-    for (unsigned int i = 0; i < limit; i++) {
-      entries.erase (entries.begin());
+  // By default it shows no more than so many entries to avoid clogging the browser.
+  // The user can elect to view all entries.
+  if (request->query.count ("all") == 0) {
+    size_t limit = 1000;
+    if (entries.size () > limit) {
+      limit = entries.size () - limit;
+      for (unsigned int i = 0; i < limit; i++) {
+        entries.erase (entries.begin());
+      }
     }
   }
 

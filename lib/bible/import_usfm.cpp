@@ -81,7 +81,7 @@ string bible_import_usfm (void * webserver_request)
     }
   }
 
-  // File upload. Todo
+  // File upload.
   if (request->post.count ("upload")) {
     string datafile = filter_url_tempfile () + request->post ["filename"];
     string data = request->post ["data"];
@@ -104,7 +104,3 @@ string bible_import_usfm (void * webserver_request)
   return page;
 }
 
-/* Todo port
- 
-
-*/
