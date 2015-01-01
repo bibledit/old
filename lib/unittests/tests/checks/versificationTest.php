@@ -50,7 +50,7 @@ class versificationsTest extends PHPUnit_Framework_TestCase
       $books [] = $book;
     }
     $books = array_unique ($books, SORT_NUMERIC);
-    $fault = array_diff ($books, array (10));
+    $fault = filter_string_array_diff ($books, array (10));
     Checks_Versification::books ("Bible", $fault);
     $database_check = Database_Check::getInstance ();
     $result = $database_check->getHits ();

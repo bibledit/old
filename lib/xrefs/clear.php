@@ -55,7 +55,7 @@ str_replace ($closer, "", $usfm, $closers);
 
 
 if (empty ($xrefs)) {
-  Filter_Url::redirect ("insert.php");
+  redirect_browser ("insert.php");
   die;
 }
 

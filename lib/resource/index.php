@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 $header = new Assets_Header (gettext("Resources"));
 $header->setNavigator ();
 $header->setStylesheet ();

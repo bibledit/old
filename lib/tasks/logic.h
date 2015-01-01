@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define REINDEXNOTES "reindexnotes"
 #define CREATECSS "createcss"
 #define IMPORTUSFM "importusfm"
+#define COMPAREUSFM "compareusfm"
 
 
 string tasks_logic_folder ();

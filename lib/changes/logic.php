@@ -27,7 +27,7 @@ class Changes_Logic
 
   static public function start ()
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/modifications.php"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/modifications.php"));
   }
 
 

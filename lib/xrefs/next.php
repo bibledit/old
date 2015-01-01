@@ -50,7 +50,7 @@ for ($books as $book) {
       $xrefs = Filter_Usfm::extractNotes ($usfm, array ("x"));
       if (empty ($xrefs)) {
         $ipc_focus->set ($book, $chapter, 1);
-        Filter_Url::redirect ("index.php");
+        redirect_browser ("index.php");
         die;
       }
     }
@@ -58,7 +58,7 @@ for ($books as $book) {
 }
 
 
-Filter_Url::redirect ("index.php");
+redirect_browser ("index.php");
 
 
 ?>

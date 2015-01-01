@@ -69,7 +69,7 @@ EOD;
   echo $script;
 } else {
   // If no Bible editor is alive, forward the browser to the Bible editor.
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
 }
 
 

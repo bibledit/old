@@ -338,7 +338,7 @@ EOD;
         if (in_array ($class, $this->suppressEndMarkers)) break;
         // Add closing USFM, optionally closing embedded tags in reverse order.
         $classes = explode (" ", $class);
-        $this->characterStyles = array_diff ($this->characterStyles, $classes);
+        $this->characterStyles = filter_string_array_diff ($this->characterStyles, $classes);
         $classes = array_reverse ($classes);
         for ($classes as $offset => $class) {
           $embedded = (count ($classes) > 1) && ($offset == 0);

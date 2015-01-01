@@ -97,7 +97,7 @@ void test_filters_test1 ()
     evaluate (__LINE__, __func__, reference, output);
   }
   {
-    // Test filter_string_array_diff, a C++ equivalent for PHP's array_diff function.
+    // Test filter_string_array_diff, a C++ equivalent for PHP's filter_string_array_diff function.
     vector <string> reference;
     reference.push_back ("aaa");
     reference.push_back ("zzz");

@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
@@ -55,13 +55,13 @@ if (isset($_POST['submit'])) {
   $summary = trim ($_POST['summary']);
   $contents = trim ($_POST['contents']);
   $notes_logic->createNote ($bible, $book, $chapter, $verse, $summary, $contents, false);
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
   die;
 }
 
 
 if (isset($_POST['cancel'])) {
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
   die;
 }
 

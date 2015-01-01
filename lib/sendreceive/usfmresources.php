@@ -71,7 +71,7 @@ $server_resources = $response;
 
 // Delete any resource on the local client but not on the server.
 $client_resources = $database_usfmresources->getResources ();
-$resources = array_diff ($client_resources, $server_resources);
+$resources = filter_string_array_diff ($client_resources, $server_resources);
 for ($resources as $resource) {
   $database_usfmresources->deleteResource ($resource);
 }
@@ -116,7 +116,7 @@ for ($server_resources as $resource) {
   
   // Delete any books from the client that are not on the server.
   $client_books = $database_usfmresources->getBooks ($resource);
-  $books = array_diff ($client_books, $server_books);
+  $books = filter_string_array_diff ($client_books, $server_books);
   for ($books as $book) {
     $database_usfmresources->deleteBook ($resource, $book);
   }
@@ -166,7 +166,7 @@ for ($server_resources as $resource) {
     
     // Delete local chapters not found on the server.
     $client_chapters = $database_usfmresources->getChapters ($resource, $book);
-    $chapters = array_diff ($client_chapters, $server_chapters);
+    $chapters = filter_string_array_diff ($client_chapters, $server_chapters);
     for ($chapters as $chapter) {
       $database_usfmresources->deleteChapter ($resource, $book, $chapter);
     }

@@ -54,7 +54,7 @@ $targetAbbreviations = Filter_Abbreviations::read ($targetAbbreviations);
 $targetAbbreviations = array_values ($targetAbbreviations);
 
 
-$unknown_abbreviations = array_diff ($sourceAbbreviations, $targetAbbreviations);
+$unknown_abbreviations = filter_string_array_diff ($sourceAbbreviations, $targetAbbreviations);
 $unknown_abbreviations = array_unique ($unknown_abbreviations);
 for ($unknown_abbreviations as &$abbreviation) {
   $abbreviation = $database_books->getEnglishFromId ($abbreviation);
@@ -63,7 +63,7 @@ $unknown_abbreviations = array_values ($unknown_abbreviations);
 
 
 if (empty ($unknown_abbreviations)) {
-  Filter_Url::redirect ("clear.php");
+  redirect_browser ("clear.php");
   die;
 }
 

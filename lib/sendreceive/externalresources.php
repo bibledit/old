@@ -71,7 +71,7 @@ $server_resources = $response;
 
 // Delete resources that exist locally but not on the server.
 $client_resources = $database_offlineresources->names ();
-$resources = array_diff ($client_resources, $server_resources);
+$resources = filter_string_array_diff ($client_resources, $server_resources);
 for ($resources as $resource) {
   $database_offlineresources->delete ($resource);
 }
@@ -116,7 +116,7 @@ for ($server_resources as $resource) {
 
   // Delete files that exist locally but not on the server.
   $client_files = $database_offlineresources->files ($resource);
-  $files = array_diff ($client_files, $server_files);
+  $files = filter_string_array_diff ($client_files, $server_files);
   for ($files as $file) {
     $database_offlineresources->unlink ($resource, $file);
   }

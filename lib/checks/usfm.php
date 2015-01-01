@@ -241,7 +241,7 @@ class Checks_Usfm
       }
     } else {
       if (in_array ($marker, $this->openMatchingMarkers)) {
-        $this->openMatchingMarkers = array_diff ($this->openMatchingMarkers, array ($marker));
+        $this->openMatchingMarkers = filter_string_array_diff ($this->openMatchingMarkers, array ($marker));
       } else {
         $this->addResult ("Closing marker does not match opening marker" . " " . implode (" ", $this->openMatchingMarkers), Checks_Usfm::displayCurrent);
       }

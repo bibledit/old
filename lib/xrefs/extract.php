@@ -66,7 +66,7 @@ for ($allnotes as $items) {
 
 
 if (!$empty) {
-  Filter_Url::redirect ("interpret.php");
+  redirect_browser ("interpret.php");
   die;
 }
 

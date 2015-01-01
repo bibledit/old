@@ -53,7 +53,7 @@ if (isset ($add)) {
 @$remove = $_GET ['remove'];
 if (isset ($remove)) {
   $resources = $database_config_user->getConsistencyResources ();
-  $resources = array_diff ($resources, array ($remove));
+  $resources = filter_string_array_diff ($resources, array ($remove));
   $resources = array_values ($resources);
   $database_config_user->setConsistencyResources ($resources);
 }

@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -61,7 +61,7 @@ $view->view->actives = $active_resources;
 
 // The selectable resources are the available ones minus the active ones.
 $available_resources = Resource_Logic::getNames ();
-$selectable_resources = array_diff ($available_resources, $active_resources);
+$selectable_resources = filter_string_array_diff ($available_resources, $active_resources);
 $view->view->selectables = $selectable_resources;
 
 

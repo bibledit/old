@@ -85,7 +85,7 @@ for ($allnotes as $note) {
 
 
 if (empty ($unknown_abbreviations)) {
-  Filter_Url::redirect ("translate.php");
+  redirect_browser ("translate.php");
   die;
 }
 

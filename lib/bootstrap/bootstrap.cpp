@@ -50,6 +50,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/chapter.h>
 #include <bible/import_usfm.h>
 #include <bible/import_bibleworks.h>
+#include <compare/index.h>
+#include <jobs/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -81,6 +83,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_chapter_url ()) && bible_chapter_acl (request)) request->reply = bible_chapter (request);
   else if ((url == bible_import_usfm_url ()) && bible_import_usfm_acl (request)) request->reply = bible_import_usfm (request);
   else if ((url == bible_import_bibleworks_url ()) && bible_import_bibleworks_acl (request)) request->reply = bible_import_bibleworks (request);
+  else if ((url == compare_index_url ()) && compare_index_acl (request)) request->reply = compare_index (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
@@ -106,6 +109,9 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == user_notifications_url ()) && user_notifications_acl (request)) request->reply = user_notifications (request);
   else if ((url == user_account_url ()) && user_account_acl (request)) request->reply = user_account (request);
 
+  // Items not in any menu.
+  else if ((url == jobs_index_url ()) && jobs_index_acl (request)) request->reply = jobs_index (request);
+  
   // Forward the browser to the default home page.
   else {
     redirect_browser (index_index_url (), request);

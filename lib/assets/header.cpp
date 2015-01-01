@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <assets/header.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <config/globals.h>
 #include <menu/main.h>
 #include <menu/user.h>
@@ -30,8 +31,6 @@ Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
   includeJQueryUI = false;
   displayNavigator = false;
-  includedStylesheet = false;
-  includedEditorStylesheet = false;
   webserver_request = webserver_request_in;
   view = new Assets_View ();
   view->set_variable ("title", title);
@@ -56,16 +55,6 @@ void Assets_Header::jQueryUIOn (string subset) // C++Port
     if ($subset != "") {
       $this->JQueryUISubset = $subset . ".";
     }
-   */
-}
-
-
-// Adds an extra line in the <head>.
-void Assets_Header::addHeadLine (string line) // C++Port
-{
-  line = ""; // Temporal.
-  /* 
-    $this->headLines [] = $line;
    */
 }
 
@@ -102,13 +91,11 @@ void Assets_Header::setStylesheet () // C++Port
 
 
 // Display the user's editor stylesheet.css.
-void Assets_Header::setEditorStylesheet () // C++Port
+void Assets_Header::setEditorStylesheet ()
 {
-  /*
-    $database_config_user = Database_Config_User::getInstance ();
-    $stylesheet = $database_config_user->getStylesheet ();
-    $this->includedEditorStylesheet = $stylesheet;
-   */
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string stylesheet = request->database_config_user()->getStylesheet ();
+  includedEditorStylesheet = stylesheet;
 }
 
 
@@ -136,6 +123,14 @@ bool Assets_Header::displayTopbar () // C++Port
 }
 
 
+// Sets the page to refresh after "seconds".
+void Assets_Header::refresh (int seconds)
+{
+  string headline = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"" + convert_to_string (seconds) + "\">";
+  headLines.push_back (headline);
+}
+
+
 // Runs the header.
 string Assets_Header::run ()
 {
@@ -147,8 +142,13 @@ string Assets_Header::run ()
   /*
     $this->view->view->include_jquery_ui = $this->includeJQueryUI;  // C++Port
     $this->view->view->include_jquery_ui_subset = $this->JQueryUISubset;
-    $this->view->view->head_lines = $this->headLines;
   */
+  string headlines;
+  for (auto & headline : headLines) {
+    if (!headlines.empty ()) headlines.append ("\n");
+    headlines.append (headline);
+  }
+  view->set_variable ("head_lines", headlines);
 
   if (displayTopbar ()) {
     view->enable_zone ("display_topbar");
@@ -171,8 +171,11 @@ string Assets_Header::run ()
       $this->view->view->navigationCode = Navigation_Passage::code ($bible, true);
     }
     $this->view->view->included_stylesheet = $this->includedStylesheet;
-    $this->view->view->included_editor_stylesheet = $this->includedEditorStylesheet;
   */
+    if (!includedEditorStylesheet.empty ()) {
+      view->enable_zone ("include_editor_stylesheet");
+      view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
+    }
   }
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");

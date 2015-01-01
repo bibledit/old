@@ -169,7 +169,7 @@ for ($bibles as $bible) {
 // then the client should not download changes from the server,
 // because downloading them would overwrite the changes on the client.
 // The client only downloads changes from the server after it has sent all local edits successfully.
-if (!$communication_errors) Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncbibles.php"));
+if (!$communication_errors) tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncbibles.php"));
 
 
 ?>

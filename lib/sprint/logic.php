@@ -33,7 +33,7 @@ class Sprint_Logic
   {
     if ($bible == "") $bible = "-";
     $mail = Filter_Bool::int ($mail);
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/burndown.php", $bible, $mail));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/burndown.php", $bible, $mail));
   }
 
 

@@ -38,8 +38,8 @@ if (isset ($delete)) {
 @$convert = $_GET['convert'];
 if (isset ($convert)) {
   if (access_bible_write ($convert)) {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2bible.php", $convert));
-    Filter_Url::redirect ("../journal/index.php");
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2bible.php", $convert));
+    redirect_browser ("../journal/index.php");
     die;
   } else {
     Assets_Page::error (gettext("Insufficient privileges"));

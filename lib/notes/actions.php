@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_notes = Database_Notes::getInstance();
@@ -76,7 +76,7 @@ if (isset ($_GET['unmarkdel'])) {
 
 if (isset ($_GET['delete'])) {
   $notes_logic->delete ($id);
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
   die;
 }
 

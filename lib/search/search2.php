@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 $database_config_general = Database_Config_General::getInstance ();
 $database_config_user = Database_Config_User::getInstance ();
@@ -136,7 +136,7 @@ if (isset ($query)) {
       $hits = array_merge ($loadedHits, $hits);
     }
     if ($sharing == "remove") {
-      $hits = array_diff ($loadedHits, $hits);
+      $hits = filter_string_array_diff ($loadedHits, $hits);
     }
     if ($sharing == "intersect") {
       $hits = array_intersect ($loadedHits, $hits);

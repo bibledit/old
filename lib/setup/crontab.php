@@ -71,7 +71,7 @@ if (!$timerIncluded || !$tasksIncluded) {
 
 if (count ($messages) == 0) {
   include ("../filter/url.php");
-  Filter_Url::redirect ("step.php?referer=crontab");
+  redirect_browser ("step.php?referer=crontab");
   die;
 }
 

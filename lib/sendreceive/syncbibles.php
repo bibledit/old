@@ -107,7 +107,7 @@ Database_Logs::log (gettext("Bibles") . ": " . implode (", ", $server_bibles), F
 // The client deletes all local Bibles not in this list.
 // No change Bible actions to be recorded for this operation.
 $bibles = $database_bibles->getBibles ();
-$bibles = array_diff ($bibles, $server_bibles);
+$bibles = filter_string_array_diff ($bibles, $server_bibles);
 for ($bibles as $bible) {
   $database_bibles->deleteBible ($bible);
   Database_Logs::log (gettext("Deleting Bible because the server did not grant access to it") . ": " . $bible, Filter_Roles::translator ());
@@ -156,7 +156,7 @@ for ($server_bibles as $bible) {
     continue;
   }
   // Any books not on the server, delete them from the client as well.
-  $client_books = array_diff ($client_books, $server_books);
+  $client_books = filter_string_array_diff ($client_books, $server_books);
   for ($client_books as $book) {
     $database_bibles->deleteBook ($bible, $book);
     $book_name = $database_books->getEnglishFromId ($book);
@@ -211,7 +211,7 @@ for ($server_bibles as $bible) {
       continue;
     }
     // The client removes any local chapters not on the server.
-    $client_chapters = array_diff ($client_chapters, $server_chapters);
+    $client_chapters = filter_string_array_diff ($client_chapters, $server_chapters);
     for ($client_chapters as $chapter) {
       $database_bibles->deleteChapter ($bible, $book, $chapter);
       Database_Logs::log (gettext("Deleting chapter because the server does not have it") . ": $bible $book_name $chapter" , Filter_Roles::translator ());

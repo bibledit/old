@@ -35,7 +35,7 @@ if (isset ($assign)) {
   if ($database_users->usernameExists ($assign)) {
     $notes_logic->assignUser ($id, $assign);
   }
-  Filter_Url::redirect ("actions.php?id=$id");
+  redirect_browser ("actions.php?id=$id");
   die;
 }
 

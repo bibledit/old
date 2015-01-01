@@ -32,7 +32,7 @@ $id = $_GET ['id'];
 @$status = $_GET['status'];
 if (isset ($status)) {
   $notes_logic->setStatus ($id, $status);
-  Filter_Url::redirect ("actions.php?id=$id");
+  redirect_browser ("actions.php?id=$id");
   die;
 }
 

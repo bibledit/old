@@ -39,9 +39,9 @@ if (isset ($_GET ['download'])) {
   $books = $database_versifications->getBooks ($versification);
   for ($books as $book) {
     // Schedule the task with low priority so it does not get in the way of regular tasks.
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/downloadcli.php", $name, $book));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/downloadcli.php", $name, $book));
   }
-  Filter_Url::redirect ("../journal/index.php");
+  redirect_browser ("../journal/index.php");
   die;
 }
 

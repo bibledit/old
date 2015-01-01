@@ -71,7 +71,7 @@ $database_config_general->setSiteLanguage (Locale_Logic::filterDefault ("default
 $users = array (
   array ("guest", Filter_Roles::guest ()),
   array ("member", Filter_Roles::member ()),
-  array ("consultant", Filter_Roles::CONSULTANT_LEVEL),
+  array ("consultant", Filter_Roles::consultant ()),
   array ("translator", Filter_Roles::translator ()),
   array ("manager", Filter_Roles::manager ()),
   array ("admin", Filter_Roles::admin ())

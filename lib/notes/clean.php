@@ -22,7 +22,7 @@ page_access_level (Filter_Roles::admin ());
 Assets_Page::header (gettext("Removing duplicate consultation notes"));
 set_time_limit (0);
 $workingdirectory = dirname (__FILE__);
-Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/cleancli.php"));
+tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/cleancli.php"));
 $view = new Assets_View (__FILE__);
 $view->render ("clean.php");
 Assets_Page::footer ();

@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -51,7 +51,7 @@ if (isset ($_POST ['save'])) {
   Workbench_Logic::setURLs ($urls);
   Workbench_Logic::setWidths ($widths);
   Workbench_Logic::setHeights ($row_heights);
-  Filter_Url::redirect ("index.php");
+  redirect_browser ("index.php");
   die;
 }
 

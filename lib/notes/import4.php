@@ -25,7 +25,7 @@ $folder = $_GET ['folder'];
 if (file_exists ($folder)) {
   $workingdirectory = dirname (__FILE__);
   $command = "php $workingdirectory/importcli.php $folder";
-  Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/importcli.php", $folder));
+  tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/importcli.php", $folder));
   $view = new Assets_View (__FILE__);
   $view->render ("import4.php");
 } else {

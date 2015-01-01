@@ -154,7 +154,7 @@ for ($notes as $note) {
 // the client will now sync its notes with the server's notes.
 $lowId = Notes_Logic::lowNoteIdentifier;
 $highId = Notes_Logic::highNoteIdentifier;
-Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$lowId", "$highId"));
+tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$lowId", "$highId"));
 
 
 ?>

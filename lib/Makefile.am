@@ -122,7 +122,10 @@ libbibledit_a_SOURCES = \
 	fonts/index.cpp \
 	versification/index.cpp \
 	versification/system.cpp \
-	book/create.cpp
+	book/create.cpp \
+	compare/index.cpp \
+	compare/compare.cpp \
+	jobs/index.cpp
 
 bin_PROGRAMS = server unittest
 

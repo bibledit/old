@@ -26,8 +26,8 @@ class Checks_Versification
   {
     $database_versifications = Database_Versifications::getInstance ();
     $standardBooks = $database_versifications->getBooks ("English");
-    $absentBooks = array_diff ($standardBooks, $books);
-    $extraBooks = array_diff ($books, $standardBooks);
+    $absentBooks = filter_string_array_diff ($standardBooks, $books);
+    $extraBooks = filter_string_array_diff ($books, $standardBooks);
     $database_check = Database_Check::getInstance ();
     for ($absentBooks as $book) {
       $database_check->recordOutput ($bible, $book, 1, 1, "This book is absent from the Bible");
@@ -42,8 +42,8 @@ class Checks_Versification
   {
     $database_versifications = Database_Versifications::getInstance ();
     $standardChapters = $database_versifications->getChapters ("English", $book, true);
-    $absentChapters = array_diff ($standardChapters, $chapters);
-    $extraChapters = array_diff ($chapters, $standardChapters);
+    $absentChapters = filter_string_array_diff ($standardChapters, $chapters);
+    $extraChapters = filter_string_array_diff ($chapters, $standardChapters);
     $database_check = Database_Check::getInstance ();
     for ($absentChapters as $chapter) {
       $database_check->recordOutput ($bible, $book, $chapter, 1, "This chapter is missing");
@@ -62,8 +62,8 @@ class Checks_Versification
     $versification = $database_config_bible->getVersificationSystem ($bible);
     $standardVerses = $database_versifications->getVerses ($versification, $book, $chapter);
     // Look for missing and extra verses.
-    $absentVerses = array_diff ($standardVerses, $verses);
-    $extraVerses = array_diff ($verses, $standardVerses);
+    $absentVerses = filter_string_array_diff ($standardVerses, $verses);
+    $extraVerses = filter_string_array_diff ($verses, $standardVerses);
     $database_check = Database_Check::getInstance ();
     for ($absentVerses as $verse) {
       $database_check->recordOutput ($bible, $book, $chapter, $verse, "This verse is missing according to the versification system");

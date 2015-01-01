@@ -110,7 +110,7 @@ if ($server_total > 20) {
   for ($ranges as $range) {
     $low = $range [0];
     $high = $range [1];
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$low", "$high"));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncnotes.php", "$low", "$high"));
   }
   die;
 }
@@ -145,7 +145,7 @@ $server_checksums = $response ['c'];
 $client_identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId, NULL);
 
 // Client deletes notes no longer on the server.
-$identifiers = array_diff ($client_identifiers, $server_identifiers);
+$identifiers = filter_string_array_diff ($client_identifiers, $server_identifiers);
 for ($identifiers as $identifier) {
   $summary = $database_notes->getSummary ($identifier);
   $database_notes->delete ($identifier);

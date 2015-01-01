@@ -59,7 +59,7 @@ class Bootstrap
         if ($folder != "setup") {
           if ($page != "topbar.php") {
             if ($page != "client.php") {
-              Filter_Url::redirect ("../administration/client.php");
+              redirect_browser ("../administration/client.php");
               die;
             }
           }

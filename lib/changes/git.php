@@ -55,7 +55,7 @@ for ($bibles as $bible) {
   // Retrieve all commits from the git repository.
   // Remove the commits already dealt with.
   $commits = Filter_Git::commits ($directory);
-  $commits = array_diff ($commits, $database_commits->get ($bible));
+  $commits = filter_string_array_diff ($commits, $database_commits->get ($bible));
 
   // Deal with all the remaining commits.
   for ($commits as $sha1) {

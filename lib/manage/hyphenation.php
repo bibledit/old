@@ -78,7 +78,7 @@ if (isset($_GET['run'])) {
     $error = gettext("No second set of characters given");
   } else {
     $workingdirectory = __DIR__;
-    Tasks_Logic::queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate.php", $bible, $session_logic->currentUser ()));
+    tasks_logic_queue (Tasks_Logic::PHP, array ("$workingdirectory/hyphenate.php", $bible, $session_logic->currentUser ()));
     $success = gettext("The Bible is being hyphenated. See the Journal for details.");
   }
 }

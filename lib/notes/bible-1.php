@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_bibles = Database_Bibles::getInstance();
@@ -33,7 +33,7 @@ $id = $_GET ['id'];
 if (isset ($bible)) {
   if ($bible == Notes_Logic::generalBibleName ()) $bible = "";
   $notes_logic->setBible ($id, $bible);
-  Filter_Url::redirect ("actions.php?id=$id");
+  redirect_browser ("actions.php?id=$id");
   die;
 }
 

@@ -101,7 +101,7 @@ for ($ids as $id) {
 
 // All changed settings have now been sent to the server.
 // The client will now synchronize its settings with the server's settings.
-Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/syncsettings.php"));
+tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/syncsettings.php"));
 
 
 ?>

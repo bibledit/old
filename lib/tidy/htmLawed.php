@@ -171,7 +171,7 @@ elseif(isset($cI[$in])){$inOk = $eI; $cI['del'] = 1; $cI['ins'] = 1;}
 elseif(isset($cF[$in])){$inOk = $eF; unset($cI['del'], $cI['ins']);}
 elseif(isset($cB[$in])){$inOk = $eB; unset($cI['del'], $cI['ins']);}
 if(isset($cO[$in])){$inOk = $inOk + $cO[$in];}
-if(isset($cN[$in])){$inOk = array_diff_assoc($inOk, $cN[$in]);}
+if(isset($cN[$in])){$inOk = filter_string_array_diff_assoc($inOk, $cN[$in]);}
 
 $t = explode('<', $t);
 $ok = $q = array(); // $q seq list of open non-empty ele
@@ -187,7 +187,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   elseif(isset($cF[$p])){$ok = $eF; unset($cI['del'], $cI['ins']);}
   elseif(isset($cB[$p])){$ok = $eB; unset($cI['del'], $cI['ins']);}
   if(isset($cO[$p])){$ok = $ok + $cO[$p];}
-  if(isset($cN[$p])){$ok = array_diff_assoc($ok, $cN[$p]);}
+  if(isset($cN[$p])){$ok = filter_string_array_diff_assoc($ok, $cN[$p]);}
  }else{$ok = $inOk; unset($cI['del'], $cI['ins']);}
  // bad tags, & ele content
  if(isset($e) && ($do == 1 or (isset($ok['#pcdata']) && ($do == 3 or $do == 5)))){
@@ -250,7 +250,7 @@ for($i=-1, $ci=count($t); ++$i<$ci;){
   if(isset($cS[$d])){$q2[] = $d; continue;}
   $ok2 = isset($cI[$d]) ? $eI : $eF;
   if(isset($cO[$d])){$ok2 = $ok2 + $cO[$d];}
-  if(isset($cN[$d])){$ok2 = array_diff_assoc($ok2, $cN[$d]);}
+  if(isset($cN[$d])){$ok2 = filter_string_array_diff_assoc($ok2, $cN[$d]);}
   if(!isset($ok2[$e])){
    if(!$k && !isset($inOk[$e])){continue 2;}
    $add = "</{$d}>";
@@ -273,7 +273,7 @@ if($ql = count($q)){
  elseif(isset($cF[$p])){$ok = $eF; unset($cI['del'], $cI['ins']);}
  elseif(isset($cB[$p])){$ok = $eB; unset($cI['del'], $cI['ins']);}
  if(isset($cO[$p])){$ok = $ok + $cO[$p];}
- if(isset($cN[$p])){$ok = array_diff_assoc($ok, $cN[$p]);}
+ if(isset($cN[$p])){$ok = filter_string_array_diff_assoc($ok, $cN[$p]);}
 }else{$ok = $inOk; unset($cI['del'], $cI['ins']);}
 if(isset($e) && ($do == 1 or (isset($ok['#pcdata']) && ($do == 3 or $do == 5)))){
  echo '&lt;', $s, $e, $a, '&gt;';

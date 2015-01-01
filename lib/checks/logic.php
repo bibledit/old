@@ -37,7 +37,7 @@ class Checks_Logic
 
   static public function start ($bible)
   {
-    Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/checkcli.php", $bible));
+    tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/checkcli.php", $bible));
   }
 
 

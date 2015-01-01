@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::CONSULTANT_LEVEL);
+page_access_level (Filter_Roles::consultant ());
 
 
 $database_config_user = Database_Config_User::getInstance ();
@@ -34,10 +34,10 @@ $bible = $database_config_user->getBible ();
 
 if (isset ($_GET ["generate"])) {
   $jobId = $database_jobs->getNewId ();
-  $database_jobs->setLevel ($jobId, Filter_Roles::CONSULTANT_LEVEL);
+  $database_jobs->setLevel ($jobId, Filter_Roles::consultant ());
   $username = $session_logic->currentUser ();
-  Tasks_Logic::queue (Tasks_Logic::PHP, array (__DIR__ . "/printcli.php", $jobId, $username, $bible));
-  Filter_Url::redirect ("../jobs/index.php?id=$jobId");
+  tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/printcli.php", $jobId, $username, $bible));
+  redirect_browser ("../jobs/index.php?id=$jobId");
   die;
 }
 
@@ -53,7 +53,7 @@ if (isset ($add)) {
     $dialog_list = new Dialog_List2 (gettext("Select a resource to add"));
     // The selectable resources are the available ones minus the already selected ones.
     $resources = Resource_Logic::getNames ();
-    $resources = array_diff ($resources, $database_config_user->getPrintResources ());
+    $resources = filter_string_array_diff ($resources, $database_config_user->getPrintResources ());
     for ($resources as $resource) {
       $parameter = "&add=$resource";
       $dialog_list->add_row ($resource, $parameter);
