@@ -23,6 +23,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/bibleworks.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <access/bible.h>
@@ -72,11 +73,10 @@ string bible_import_bibleworks (void * webserver_request)
     if (data != "") {
       if (unicode_string_is_valid (data)) {
         // Convert the BibleWorks text to USFM.
-        // Todo Port dependency.
-        // $usfm = Filter_Bibleworks::import ($data, $tags);
+        string usfm = Filter_Bibleworks::import (data, tags);
         // Import the USFM.
         string datafile = filter_url_tempfile ();
-        // filter_url_file_put_contents ($datafile, $usfm);
+        filter_url_file_put_contents (datafile, usfm);
         success_message = gettext("Import has started. See Journal for progress.");
         tasks_logic_queue (IMPORTUSFM, { datafile, bible });
       } else {

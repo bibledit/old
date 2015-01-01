@@ -387,7 +387,6 @@
 		CAA4D0E41A45A647003ABA25 /* archive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = archive.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D0E51A45A647003ABA25 /* archive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = archive.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D0E61A45A647003ABA25 /* bibles.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bibles.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
-		CAA4D0E71A45A647003ABA25 /* bibleworks.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bibleworks.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D0E81A45A647003ABA25 /* bool.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = bool.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D0E91A45A647003ABA25 /* cli.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = cli.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
 		CAA4D0EA1A45A647003ABA25 /* client.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; lineEnding = 0; path = client.php; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.php; };
@@ -984,7 +983,6 @@
 		CAA4D3F91A45A648003ABA25 /* run */ = {isa = PBXFileReference; lastKnownFileType = text; path = run; sourceTree = "<group>"; };
 		CAA4D3FB1A45A648003ABA25 /* abbreviationsTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = abbreviationsTest.php; sourceTree = "<group>"; };
 		CAA4D3FC1A45A648003ABA25 /* biblesTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = biblesTest.php; sourceTree = "<group>"; };
-		CAA4D3FD1A45A648003ABA25 /* bibleworksTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = bibleworksTest.php; sourceTree = "<group>"; };
 		CAA4D3FE1A45A648003ABA25 /* clientTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = clientTest.php; sourceTree = "<group>"; };
 		CAA4D3FF1A45A648003ABA25 /* conflictTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = conflictTest.php; sourceTree = "<group>"; };
 		CAA4D4011A45A648003ABA25 /* datetimeTest.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = datetimeTest.php; sourceTree = "<group>"; };
@@ -1991,7 +1989,6 @@
 				CAA4D0E41A45A647003ABA25 /* archive.cpp */,
 				CAA4D0E51A45A647003ABA25 /* archive.h */,
 				CAA4D0E61A45A647003ABA25 /* bibles.php */,
-				CAA4D0E71A45A647003ABA25 /* bibleworks.php */,
 				CA5A77DA1A54447500BE1708 /* bibleworks.cpp */,
 				CA5A77DB1A54447500BE1708 /* bibleworks.h */,
 				CAA4D0E81A45A647003ABA25 /* bool.php */,
@@ -3285,7 +3282,6 @@
 			children = (
 				CAA4D3FB1A45A648003ABA25 /* abbreviationsTest.php */,
 				CAA4D3FC1A45A648003ABA25 /* biblesTest.php */,
-				CAA4D3FD1A45A648003ABA25 /* bibleworksTest.php */,
 				CAA4D3FE1A45A648003ABA25 /* clientTest.php */,
 				CAA4D3FF1A45A648003ABA25 /* conflictTest.php */,
 				CAA4D4011A45A648003ABA25 /* datetimeTest.php */,

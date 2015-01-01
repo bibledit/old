@@ -78,6 +78,8 @@ void quick_sort (vector <string>& one, vector <bool>& two, unsigned int beg, uns
 void quick_sort (vector <string>& one, unsigned int beg, unsigned int end);
 void quick_sort (vector <long unsigned int>& one, vector <long unsigned int>& two, unsigned int beg, unsigned int end);
 void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsigned int end);
+string substr_replace (string original, string replacement, size_t start, size_t length);
+string number_in_string (const string & str);
 
 
 #endif

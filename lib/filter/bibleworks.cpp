@@ -105,8 +105,8 @@ string Filter_Bibleworks::italics (string line)
   while (startPosition != string::npos) {
     size_t endPosition = line.find ("]", startPosition);
     if (endPosition != string::npos) {
-      // Todo port line = substr_replace ($line, '\add*', $endPosition, 1);
-      // Todo port $line = substr_replace ($line, '\add ', $startPosition, 1);
+      line = substr_replace (line, "\\add*", endPosition, 1);
+      line = substr_replace (line, "\\add ", startPosition, 1);
     }
     startPosition = line.find ("[", startPosition + 1);
   }
@@ -125,8 +125,8 @@ string Filter_Bibleworks::notes (string line)
   while (startPosition != string::npos) {
     size_t endPosition = line.find ("}", startPosition);
     if (endPosition != string::npos) {
-      // Todo port $line = substr_replace ($line, '\f*', $endPosition, 1);
-      // Todo port $line = substr_replace ($line, '\f + ', $startPosition, 1);
+      line = substr_replace (line, "\\f*", endPosition, 1);
+      line = substr_replace (line, "\\f + ", startPosition, 1);
     }
     startPosition = line.find ("{", startPosition + 1);
   }
@@ -150,8 +150,8 @@ string Filter_Bibleworks::parenthesis (string line, vector <string>& malformed)
     size_t endPosition = line.find (")", startPosition);
     if (endPosition != string::npos) {
       string text = line.substr (startPosition + 1, endPosition - startPosition - 1);
-      if (convert_to_string (convert_to_int (text)) == text) {
-        // Todo port $line = substr_replace ($line, "", $startPosition, $endPosition - $startPosition + 1);
+      if (number_in_string (text) == text) {
+        line = substr_replace (line, "", startPosition, endPosition - startPosition + 1);
       } else {
         malformed.push_back (line.substr (startPosition, endPosition - startPosition + 1));
       }
@@ -183,8 +183,8 @@ string Filter_Bibleworks::chevrons (string line, vector <string>& malformed)
       text = filter_string_str_replace (",", "", text);
       text = filter_string_str_replace (" ", "", text);
       // Remove numerical tags, e.g.: <06030>
-      if (convert_to_string (convert_to_int (text)) == text) {
-        // Todo port it.line = substr_replace ($line, "", $startPosition, $endPosition - $startPosition + 1);
+      if (number_in_string  (text) == text) {
+        line = substr_replace (line, "", startPosition, endPosition - startPosition + 1);
       } else {
         malformed.push_back (line.substr (startPosition, endPosition - startPosition + 1));
       }

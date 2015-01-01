@@ -883,3 +883,27 @@ void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsig
 }
 
 
+// It replaces a copy of string delimited by the start and length parameters with the string given in replacement.
+// It is similar to PHP's function with the same name.
+string substr_replace (string original, string replacement, size_t start, size_t length)
+{
+  if (length) original.erase (start, length);
+  original.insert (start, replacement);
+  return original;
+}
+
+
+
+#define MY_NUMBERS "0123456789"
+string number_in_string (const string & str)
+{
+  // Looks for and returns a positive number in a string.
+  string output = str;
+  output.erase (0, output.find_first_of (MY_NUMBERS));
+  size_t end_position = output.find_first_not_of (MY_NUMBERS);
+  if (end_position != string::npos) {
+    output.erase (end_position, output.length());
+  }
+  return output;
+}
+#undef MY_NUMBERS
