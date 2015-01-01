@@ -186,11 +186,11 @@ void compare_compare (string bible, string compare, int jobId)
         /* Todo port it.
    
    if ($bible_text != $compare_text) {
-   $modification = Filter_Diff::diff ($compare_text, $bible_text);
+   $modification = filter_diff_diff ($compare_text, $bible_text);
    $result [] = filter_passage_display ($book, $chapter, $verse) . " " . $modification;
    $new [] = filter_passage_display ($book, $chapter, $verse) . " " . $bible_text;
    }
-   $modification = Filter_Diff::diff ($compare_verse_usfm, $bible_verse_usfm);
+   $modification = filter_diff_diff ($compare_verse_usfm, $bible_verse_usfm);
    $raw [] = filter_passage_display ($book, $chapter, $verse) . " " . $modification;
    
    

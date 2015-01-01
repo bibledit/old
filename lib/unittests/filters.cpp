@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/text.h>
 #include <filter/customcss.h>
 #include <filter/bibleworks.h>
+#include <filter/diff.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -2713,4 +2714,22 @@ void test_filter_bibleworks ()
     evaluate (__LINE__, __func__, data, "Text in chevrons<06030; abc>.");
     evaluate (__LINE__, __func__, malformed, {"<06030; abc>"});
   }
+}
+
+
+void test_filter_diff () // Todo 
+{
+  // Diff
+  {
+    string output = filter_diff_diff ("Old text", "New text");
+    string standard = "<span style=\"text-decoration: line-through;\">Old</span> <span style=\"font-weight: bold;\">New</span> text";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  {
+    string output = filter_diff_diff ("this is really old text", "and this is new text");
+    string standard = "<span style=\"font-weight: bold;\">and</span> this is <span style=\"text-decoration: line-through;\">really</span> <span style=\"text-decoration: line-through;\">old</span> <span style=\"font-weight: bold;\">new</span> text";
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  
+  
 }

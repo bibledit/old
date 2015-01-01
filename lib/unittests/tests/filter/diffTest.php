@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class diffTest extends PHPUnit_Framework_TestCase
+class diffTest extends PHPUnit_Framework_TestCase // Todo port and update for Bibledit-Gtk's code.
 {
 
 
@@ -63,13 +63,5 @@ private $temporary_folder;
   }
 
   
-  public function testDiff ()
-  {
-    $output = Filter_Diff::diff ("Old text", "New text");
-    $standard = '<span style="text-decoration: line-through;">Old </span><span style="font-weight: bold;">New </span>text';
-    $this->assertEquals ($standard, $output);
-  }
-  
-
 }
 ?>

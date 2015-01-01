@@ -18,6 +18,7 @@ libbibledit_a_SOURCES = \
 	filter/customcss.cpp \
 	filter/bibleworks.cpp \
 	filter/git.cpp \
+	filter/diff.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \

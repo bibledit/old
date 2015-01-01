@@ -111,31 +111,6 @@ class Filter_Diff
   }
 
 
-  /**
-  * This filter returns the diff of two input strngs.
-  * $oldstring: The old string for input.
-  * $newstring: The new string for input.
-  * The function returns the differences marked.
-  */
-  public static function diff ($oldstring, $newstring)
-  {
-    include_once ("finediff.php");
-    // FineDiff::$paragraphGranularity
-    // FineDiff::$sentenceGranularity
-    // FineDiff::$wordGranularity
-    // FineDiff::$characterGranularity
-    $diff = new FineDiff ($oldstring, $newstring, FineDiff::$wordGranularity);
-    $rendering = $diff->renderDiffToHTML ();
-    $search = array ("<ins>", "</ins>", "<del>", "</del>");
-    $replace = array ("<span style=\"font-weight: bold;\">",
-                      "</span>",
-                      "<span style=\"text-decoration: line-through;\">",
-                      "</span>");
-    $html = str_replace ($search, $replace, $rendering);
-    return $html;
-  }
-
-
 }
 
 ?>

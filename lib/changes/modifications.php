@@ -157,7 +157,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
         $old_text = $filter_text_old->text_text->get ();
         $new_text = $filter_text_new->text_text->get ();
         if ($old_text != $new_text) {
-          $modification = Filter_Diff::diff ($old_text, $new_text);
+          $modification = filter_diff_diff ($old_text, $new_text);
           $email += "<div>";
           $email += filter_passage_display ($book, $chapter, $verse);
           $email += " ";
@@ -269,7 +269,7 @@ for ($bibles as $bible) {
             $new_text = $new_verse_usfm;
           }
           if ($old_text != $new_text) {
-            $modification = Filter_Diff::diff ($old_text, $new_text);
+            $modification = filter_diff_diff ($old_text, $new_text);
             $database_modifications->recordNotification ($changeNotificationUsers, "♺", $bible, $book, $chapter, $verse, $old_html, $modification, $new_html);
           }
         }

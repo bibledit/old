@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		CA1240231A55D6BB002C4752 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
+		CA1240241A55D6BB002C4752 /* CONTRIBUTORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = CONTRIBUTORS; sourceTree = "<group>"; };
+		CA1240251A55D6BB002C4752 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		CA1240261A55D6BB002C4752 /* Diff.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Diff.hpp; sourceTree = "<group>"; };
+		CA1240271A55D6BB002C4752 /* Diff3.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Diff3.hpp; sourceTree = "<group>"; };
+		CA1240281A55D6BB002C4752 /* dtl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dtl.hpp; sourceTree = "<group>"; };
+		CA1240291A55D6BB002C4752 /* functors.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = functors.hpp; sourceTree = "<group>"; };
+		CA12402A1A55D6BB002C4752 /* Lcs.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lcs.hpp; sourceTree = "<group>"; };
+		CA12402B1A55D6BB002C4752 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA12402C1A55D6BB002C4752 /* Sequence.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sequence.hpp; sourceTree = "<group>"; };
+		CA12402D1A55D6BB002C4752 /* Ses.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ses.hpp; sourceTree = "<group>"; };
+		CA12402E1A55D6BB002C4752 /* variables.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = variables.hpp; sourceTree = "<group>"; };
+		CA12402F1A55D8A1002C4752 /* diff.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = diff.cpp; sourceTree = "<group>"; };
+		CA1240301A55D8A1002C4752 /* diff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = diff.h; sourceTree = "<group>"; };
 		CA3925411A51D63A009302B8 /* manage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = manage.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA3925421A51D63A009302B8 /* manage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manage.h; sourceTree = "<group>"; };
 		CA3925431A51D63A009302B8 /* manage.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = manage.html; sourceTree = "<group>"; };
@@ -1116,6 +1130,26 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		CA1240221A55D6BB002C4752 /* dtl */ = {
+			isa = PBXGroup;
+			children = (
+				CA1240231A55D6BB002C4752 /* ChangeLog */,
+				CA1240241A55D6BB002C4752 /* CONTRIBUTORS */,
+				CA1240251A55D6BB002C4752 /* COPYING */,
+				CA1240261A55D6BB002C4752 /* Diff.hpp */,
+				CA1240271A55D6BB002C4752 /* Diff3.hpp */,
+				CA1240281A55D6BB002C4752 /* dtl.hpp */,
+				CA1240291A55D6BB002C4752 /* functors.hpp */,
+				CA12402A1A55D6BB002C4752 /* Lcs.hpp */,
+				CA12402B1A55D6BB002C4752 /* README.md */,
+				CA12402C1A55D6BB002C4752 /* Sequence.hpp */,
+				CA12402D1A55D6BB002C4752 /* Ses.hpp */,
+				CA12402E1A55D6BB002C4752 /* variables.hpp */,
+			);
+			name = dtl;
+			path = ../dtl;
+			sourceTree = "<group>";
+		};
 		CAA4CEF51A45A647003ABA25 /* access */ = {
 			isa = PBXGroup;
 			children = (
@@ -1971,6 +2005,8 @@
 				CAA4D0ED1A45A647003ABA25 /* datetime.php */,
 				CAA4D0EE1A45A647003ABA25 /* demo.php */,
 				CAA4D0EF1A45A647003ABA25 /* diff.php */,
+				CA12402F1A55D8A1002C4752 /* diff.cpp */,
+				CA1240301A55D8A1002C4752 /* diff.h */,
 				CAA4D0F01A45A647003ABA25 /* finediff.php */,
 				CAA4D0F11A45A647003ABA25 /* folders.php */,
 				CAA4D0F21A45A647003ABA25 /* git.php */,
@@ -3516,7 +3552,6 @@
 		CAB29AC01A4480CC00139BD7 = {
 			isa = PBXGroup;
 			children = (
-				CAA4D4A11A45FC70003ABA25 /* TODO */,
 				CAA4CEF51A45A647003ABA25 /* access */,
 				CAA4CF001A45A647003ABA25 /* administration */,
 				CAA4CF2F1A45A647003ABA25 /* assets */,
@@ -3544,6 +3579,7 @@
 				CAA4D0691A45A647003ABA25 /* DEVELOP */,
 				CAA4D06A1A45A647003ABA25 /* dialog */,
 				CAA4D0861A45A647003ABA25 /* downloads */,
+				CA1240221A55D6BB002C4752 /* dtl */,
 				CAA4D0881A45A647003ABA25 /* dyncss */,
 				CAA4D08A1A45A647003ABA25 /* edit */,
 				CAA4D0961A45A647003ABA25 /* editor */,
@@ -3606,6 +3642,7 @@
 				CAA4D39A1A45A648003ABA25 /* tidy */,
 				CAA4D3A01A45A648003ABA25 /* timer */,
 				CAA4D3AB1A45A648003ABA25 /* tmp */,
+				CAA4D4A11A45FC70003ABA25 /* TODO */,
 				CAA4D3AD1A45A648003ABA25 /* trash */,
 				CAA4D3B41A45A648003ABA25 /* unittests */,
 				CAA4D43A1A45A648003ABA25 /* user */,
