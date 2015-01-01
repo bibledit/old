@@ -46,7 +46,7 @@ Database_Logs::log ("Send/receive Bible" . " " . $bible, Filter_Roles::translato
 
 
 // The git directory for this object.
-$directory = Filter_Git::git_directory ($bible);
+$directory = filter_git_git_directory ($bible);
 $shelldirectory = escapeshellarg ($directory);
 
 
@@ -67,7 +67,7 @@ $success = Filter_Git::syncBible2Git ($bible, $directory);
 // Through the repository this would then be propagated to other the systems.
 // The best thing to do is to remove the .git directory altogether so that it cannot propagate corrupt data.
 if (!$success) {
-  Filter_Rmdir::rmdir ("$directory/.git");
+  filter_url_rmdir ("$directory/.git");
 }
 
 

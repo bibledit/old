@@ -21,6 +21,8 @@
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
+#include <filter/git.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <database/versifications.h>
 #include <locale/translate.h>
@@ -121,12 +123,10 @@ string bible_manage (void * webserver_request)
       // User needs write access for delete operation.
       if (access_bible_write (request, bible)) {
         Bible_Logic::deleteBible (bible);
-        /* C++Port
-        string gitdirectory = Filter_Git::git_directory (bible);
-        if (file_exists (gitdirectory)) {
-          Filter_Rmdir::rmdir (gitdirectory);
+        string gitdirectory = filter_git_git_directory (bible);
+        if (filter_url_file_exists (gitdirectory)) {
+          filter_url_rmdir (gitdirectory);
         }
-        */
       } else {
         page += Assets_Page::error ("Insufficient privileges to complete action");
       }

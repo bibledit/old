@@ -1,23 +1,4 @@
 <?php
-/*
-Copyright (©) 2003-2015 Teus Benschop.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
-
 class Filter_Git
 {
 
@@ -58,7 +39,7 @@ class Filter_Git
                   if (file_exists ($filename)) {
                     if (!in_array ($chapter, $chapters)) {
                       // Chapter does not exist in the database.
-                      Filter_Rmdir::rmdir ("$git/$bookname/$chapter");
+                      filter_url_rmdir ("$git/$bookname/$chapter");
                     }
                   }
                 }
@@ -66,7 +47,7 @@ class Filter_Git
             }
           } else {
             // Book does not exist in the database: Remove it from $git.
-            Filter_Rmdir::rmdir ("$git/$bookname");
+            filter_url_rmdir ("$git/$bookname");
           }
         }
       }
@@ -240,14 +221,6 @@ class Filter_Git
       Database_Logs::log (gettext("A collaborator deleted chapter") . " $bible $bookname $chapter");
 
     }
-  }
-
-
-  // This function returns the directory of the git repository belonging to $object.
-  public static function git_directory ($object)
-  {
-    $directory = realpath ("../git") . "/$object";
-    return $directory;
   }
 
 

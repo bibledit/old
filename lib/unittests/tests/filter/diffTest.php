@@ -47,7 +47,7 @@ private $temporary_folder;
     config_logic_set (false);
     $database_bibles->deleteBible ("phpunit");
     $database_modifications->truncateTeams ();
-    Filter_Rmdir::rmdir ($this->temporary_folder);
+    filter_url_rmdir ($this->temporary_folder);
   }
 
 

@@ -56,7 +56,7 @@ $view->view->bible = $bible;
 
 if (isset($_GET['remove'])) {
   $directory = Export_Logic::bibleDirectory ($bible);
-  Filter_Rmdir::rmdir ($directory);
+  filter_url_rmdir ($directory);
   $view->view->success = gettext("The export has been removed."); 
 }
 

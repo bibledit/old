@@ -101,9 +101,9 @@ class filterConflictTest extends PHPUnit_Framework_TestCase
   
   protected function tearDown ()
   {
-    Filter_Rmdir::rmdir ($this->repository);
-    Filter_Rmdir::rmdir ($this->userclone);
-    Filter_Rmdir::rmdir ($this->serverclone);
+    filter_url_rmdir ($this->repository);
+    filter_url_rmdir ($this->userclone);
+    filter_url_rmdir ($this->serverclone);
   }
   
 

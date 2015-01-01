@@ -24,7 +24,7 @@ $object = $_GET ['object'];
 $view->view->object = $object;
 $database_config_bible = Database_Config_Bible::getInstance();
 $url = $database_config_bible->getRemoteRepositoryUrl ($object);
-$directory = Filter_Git::git_directory ($object);
+$directory = filter_git_git_directory ($object);
 $view->render ("collaboration_repo_data.php");
 Assets_Page::footer ();
 ?>

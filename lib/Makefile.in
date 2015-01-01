@@ -112,11 +112,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/md5.$(OBJEXT) filter/usfm.$(OBJEXT) \
 	filter/archive.$(OBJEXT) filter/text.$(OBJEXT) \
 	filter/passage.$(OBJEXT) filter/customcss.$(OBJEXT) \
-	filter/bibleworks.$(OBJEXT) flate/flate.$(OBJEXT) \
-	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
-	assets/header.$(OBJEXT) assets/builder.$(OBJEXT) \
-	index/index.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
+	filter/bibleworks.$(OBJEXT) filter/git.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
+	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
+	assets/builder.$(OBJEXT) index/index.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/main.$(OBJEXT) menu/user.$(OBJEXT) \
 	locale/translate.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
@@ -394,6 +395,7 @@ libbibledit_a_SOURCES = \
 	filter/passage.cpp \
 	filter/customcss.cpp \
 	filter/bibleworks.cpp \
+	filter/git.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -626,6 +628,8 @@ filter/passage.$(OBJEXT): filter/$(am__dirstamp) \
 filter/customcss.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/bibleworks.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/git.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -1248,6 +1252,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/archive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/customcss.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/passage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@

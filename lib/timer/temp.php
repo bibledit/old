@@ -42,7 +42,7 @@ for ($names as $name) {
   $mtime = filemtime ($filename);
   if ($mtime < $expired) {
     if (is_file ($filename)) unlink ($filename);
-    if (is_dir ($filename)) Filter_Rmdir::rmdir ($filename);
+    if (is_dir ($filename)) filter_url_rmdir ($filename);
   }
 }
 

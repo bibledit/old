@@ -42,7 +42,7 @@ for (new DirectoryIterator ($directory) as $fileInfo) {
     $bible = $fileInfo->getFilename ();
     if (in_array ($bible, $bibles)) continue;
     $path = $fileInfo->getPathname ();
-    Filter_Rmdir::rmdir ($path);
+    filter_url_rmdir ($path);
     Database_Logs::log ("Removing exported Bible $bible", Filter_Roles::admin ());
   }
 }

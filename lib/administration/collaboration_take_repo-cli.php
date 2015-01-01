@@ -35,7 +35,7 @@ $database_notes = Database_Notes::getInstance ();
 
 
 $url = $database_config_bible->getRemoteRepositoryUrl ($object);
-$directory = Filter_Git::git_directory ($object);
+$directory = filter_git_git_directory ($object);
 
 
 // Copy the data from the local cloned repository, and store it in Bibledit's Bible given in $object,
