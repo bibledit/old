@@ -97,6 +97,7 @@ libbibledit_a_SOURCES = \
 	bible/import_bibleworks.cpp \
 	bible/import_task.cpp \
 	bible/abbreviations.cpp \
+	bible/order.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \

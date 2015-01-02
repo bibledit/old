@@ -43,19 +43,16 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jQueryUIOn (string subset) // C++Port
+void Assets_Header::jQueryUIOn (string subset)
 {
-  subset = ""; // Temporal.
-  /*
-    $this->includeJQueryUI = true;
-    // Setting a subset makes a big difference in the size of the JavaScript
-    // the page has to load, and therefore it makes a big difference in the
-    // load time of the page.
-    // Subsets can be created on the download builder at http://jqueryui.com.
-    if ($subset != "") {
-      $this->JQueryUISubset = $subset . ".";
-    }
-   */
+  includeJQueryUI = true;
+  // Setting a subset makes a big difference to the size of the JavaScript
+  // the page has to load, and therefore it makes a big difference for the
+  // load time of the page.
+  // Subsets can be created on the download builder at http://jqueryui.com.
+  if (subset != "") {
+    JQueryUISubset = subset + ".";
+  }
 }
 
 
@@ -139,10 +136,11 @@ string Assets_Header::run ()
   // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
   view->set_variable("VERSION", VERSION);
 
-  /*
-    $this->view->view->include_jquery_ui = $this->includeJQueryUI;  // C++Port
-    $this->view->view->include_jquery_ui_subset = $this->JQueryUISubset;
-  */
+  if (includeJQueryUI) {
+    view->enable_zone ("include_jquery_ui");  // C++Port
+    view->set_variable ("include_jquery_ui_subset", JQueryUISubset);
+  }
+
   string headlines;
   for (auto & headline : headLines) {
     if (!headlines.empty ()) headlines.append ("\n");

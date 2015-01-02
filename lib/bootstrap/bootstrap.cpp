@@ -53,6 +53,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <compare/index.h>
 #include <jobs/index.h>
 #include <bible/abbreviations.h>
+#include <bible/order.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -86,6 +87,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_import_bibleworks_url ()) && bible_import_bibleworks_acl (request)) request->reply = bible_import_bibleworks (request);
   else if ((url == compare_index_url ()) && compare_index_acl (request)) request->reply = compare_index (request);
   else if ((url == bible_abbreviations_url ()) && bible_abbreviations_acl (request)) request->reply = bible_abbreviations (request);
+  else if ((url == bible_order_url ()) && bible_order_acl (request)) request->reply = bible_order (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
