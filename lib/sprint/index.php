@@ -139,7 +139,7 @@ if (isset ($categories)) {
     if ($category != "") $categories2 [] = $category;
   }
   $categories = implode ("\n", $categories2);
-  $database_config_bible->setSprintTaskCompletionCategories ($bible, $categories);
+  Database_Config_Bible::setSprintTaskCompletionCategories ($bible, $categories);
 }
 
 
@@ -163,7 +163,7 @@ $view->view->percentages = $percentages;
 $view->view->chart2 = Sprint_Logic::createTextBasedBurndownChart ($bible, $year, $month);
 
 
-$categorytext = $database_config_bible->getSprintTaskCompletionCategories ($bible);
+$categorytext = Database_Config_Bible::getSprintTaskCompletionCategories ($bible);
 $view->view->categorytext = $categorytext;
 $categories = explode ("\n", $categorytext);
 $view->view->categories = $categories;

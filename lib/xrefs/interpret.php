@@ -37,10 +37,10 @@ $bible = $database_config_user->getSourceXrefBible ();
 if (isset ($_POST ['save'])) {
   $abbreviation = $_POST ['abbreviation'];
   $fullname = $_POST ['fullname'];
-  $abbreviations = $database_config_bible->getBookAbbreviations ($bible);
+  $abbreviations = Database_Config_Bible::getBookAbbreviations ($bible);
   $abbreviations = filter_abbreviations_display ($abbreviations);
   $abbreviations += "\n$fullname = $abbreviation";
-  $database_config_bible->setBookAbbreviations ($bible, $abbreviations);
+  Database_Config_Bible::setBookAbbreviations ($bible, $abbreviations);
 }
 
 
@@ -56,7 +56,7 @@ $allnotes = unserialize ($allnotes);
 // Retrieve all abbreviations, sort them, longest first.
 // The replace routines replaces the longer strings first,
 // to be sure that no partial book abbreviations are replaced.
-$abbreviations = $database_config_bible->getBookAbbreviations ($bible);
+$abbreviations = Database_Config_Bible::getBookAbbreviations ($bible);
 $abbreviations = filter_abbreviations_read ($abbreviations);
 $sorter = array ();
 for ($abbreviations as $abbrev => $book) {

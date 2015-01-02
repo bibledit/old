@@ -41,7 +41,7 @@ $chapter = $ipc_focus->getChapter ();
 // Retrieve all abbreviations for the source Bible, sort them, longest first.
 // The replace routines replaces the longer strings first,
 // to be sure that no partial book abbreviations are replaced.
-$sourceAbbreviations = $database_config_bible->getBookAbbreviations ($sourceBible);
+$sourceAbbreviations = Database_Config_Bible::getBookAbbreviations ($sourceBible);
 $sourceAbbreviations = filter_abbreviations_read ($sourceAbbreviations);
 $sorter = array ();
 for ($sourceAbbreviations as $abbrev => $dummy) {
@@ -50,7 +50,7 @@ for ($sourceAbbreviations as $abbrev => $dummy) {
 array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $sourceAbbreviations);
 
 
-$targetAbbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
+$targetAbbreviations = Database_Config_Bible::getBookAbbreviations ($targetBible);
 $targetAbbreviations = filter_abbreviations_read ($targetAbbreviations);
 
 

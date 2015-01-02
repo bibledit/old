@@ -37,19 +37,19 @@ $targetBible = $database_config_user->getTargetXrefBible ();
 if (isset ($_POST ['save'])) {
   $fullname = $_POST ['fullname'];
   $abbreviation = $_POST ['abbreviation'];
-  $abbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
+  $abbreviations = Database_Config_Bible::getBookAbbreviations ($targetBible);
   $abbreviations = filter_abbreviations_display ($abbreviations);
   $abbreviations += "\n$fullname = $abbreviation";
-  $database_config_bible->setBookAbbreviations ($targetBible, $abbreviations);
+  Database_Config_Bible::setBookAbbreviations ($targetBible, $abbreviations);
 }
 
 
-$sourceAbbreviations = $database_config_bible->getBookAbbreviations ($sourceBible);
+$sourceAbbreviations = Database_Config_Bible::getBookAbbreviations ($sourceBible);
 $sourceAbbreviations = filter_abbreviations_read ($sourceAbbreviations);
 $sourceAbbreviations = array_values ($sourceAbbreviations);
 
 
-$targetAbbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
+$targetAbbreviations = Database_Config_Bible::getBookAbbreviations ($targetBible);
 $targetAbbreviations = filter_abbreviations_read ($targetAbbreviations);
 $targetAbbreviations = array_values ($targetAbbreviations);
 

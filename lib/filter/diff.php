@@ -37,7 +37,7 @@ class Filter_Diff
     $database_modifications = Database_Modifications::getInstance ();
     $database_books = Database_Books::getInstance ();
     $database_config_bible = Database_Config_Bible::getInstance ();
-    $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+    $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
     $old_vs_usfm = array ();
     $new_vs_usfm = array ();

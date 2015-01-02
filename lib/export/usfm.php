@@ -97,7 +97,7 @@ $archive = Filter_Archive::zip ($usfmDirectoryFull);
 rename ($archive, $zipfile);
 
 
-if ($database_config_bible->getSecureUsfmExport ($bible)) {
+if (Database_Config_Bible::getSecureUsfmExport ($bible)) {
   // Securing the full USFM export means that there will be one zip file secured with a password.
   // This zip file contains all exported USFM data.
   // All other files will be removed.
@@ -110,7 +110,7 @@ if ($database_config_bible->getSecureUsfmExport ($bible)) {
     if ($file != $basefile) unlink ("$usfmDirectoryFull/$file");
   }
   $directory = escapeshellarg ($usfmDirectoryFull);
-  $password = escapeshellarg ($database_config_bible->getExportPassword ($bible));
+  $password = escapeshellarg (Database_Config_Bible::getExportPassword ($bible));
   $command = "cd $directory; zip -P $password bible.zip $basefile; rm $basefile";
   Tasks_Logic::save ($command);
 }

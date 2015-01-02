@@ -26,7 +26,7 @@ $directory = Filter_Cli::argument (@$argv, 2);
 $escapedDir = escapeshellarg ($directory);
 
 $database_config_bible = Database_Config_Bible::getInstance();
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 
 $command = "cd $escapedDir; git clone $url .";
 echo "$command\n";

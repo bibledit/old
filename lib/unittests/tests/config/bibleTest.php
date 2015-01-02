@@ -36,10 +36,10 @@ class databaseConfigBibleTest extends PHPUnit_Framework_TestCase
   public function testValue ()
   {
     $database_config_bible = Database_Config_Bible::getInstance ();
-    $value = $database_config_bible->getValue ("bible", "bible", "default");
+    $value = Database_Config_Bible::getValue ("bible", "bible", "default");
     $this->assertEquals ("default", $value);
-    $database_config_bible->setValue ("bible1", "bible2", "Val");
-    $value = $database_config_bible->getValue ("bible1", "bible2", "default");
+    Database_Config_Bible::setValue ("bible1", "bible2", "Val");
+    $value = Database_Config_Bible::getValue ("bible1", "bible2", "default");
     $this->assertEquals ("Val", $value);
   }
 
@@ -47,19 +47,19 @@ class databaseConfigBibleTest extends PHPUnit_Framework_TestCase
   public function testVersificationMapping ()
   {
     $database_config_bible = Database_Config_Bible::getInstance ();
-    $versification = $database_config_bible->getVersificationSystem ("phpunit");
+    $versification = Database_Config_Bible::getVersificationSystem ("phpunit");
     $this->assertEquals ("English", $versification);
-    $mapping = $database_config_bible->getVerseMapping ("phpunit");
+    $mapping = Database_Config_Bible::getVerseMapping ("phpunit");
     $this->assertEquals ("English", $mapping);
-    $versification = $database_config_bible->getVersificationSystem ("x");
+    $versification = Database_Config_Bible::getVersificationSystem ("x");
     $this->assertEquals ("English", $versification);
-    $mapping = $database_config_bible->getVerseMapping ("x");
+    $mapping = Database_Config_Bible::getVerseMapping ("x");
     $this->assertEquals ("English", $mapping);
-    $database_config_bible->setVersificationSystem ("phpunit", "VersificatioN");
-    $versification = $database_config_bible->getVersificationSystem ("phpunit");
+    Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
+    $versification = Database_Config_Bible::getVersificationSystem ("phpunit");
     $this->assertEquals ("VersificatioN", $versification);
-    $database_config_bible->setVerseMapping ("phpunit", "VersificatioN");
-    $mapping = $database_config_bible->getVerseMapping ("phpunit");
+    Database_Config_Bible::setVerseMapping ("phpunit", "VersificatioN");
+    $mapping = Database_Config_Bible::getVerseMapping ("phpunit");
     $this->assertEquals ("VersificatioN", $mapping);
   }
 

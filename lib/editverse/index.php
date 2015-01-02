@@ -90,8 +90,8 @@ $view->view->script = $script;
 
 
 $class = Filter_CustomCSS::getClass ($bible);
-$font = $database_config_bible->getTextFont ($bible);
-$direction = $database_config_bible->getTextDirection ($bible);
+$font = Database_Config_Bible::getTextFont ($bible);
+$direction = Database_Config_Bible::getTextDirection ($bible);
 $view->view->custom_class = $class;
 $view->view->custom_css = Filter_CustomCSS::getCss ($class, Fonts_Logic::getFontPath ($font), $direction);
 

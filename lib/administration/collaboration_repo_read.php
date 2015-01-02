@@ -27,9 +27,9 @@ $view->view->object = $object;
 $database_config_bible = Database_Config_Bible::getInstance();
 if (isset($_POST['url'])) {
   $url = $_POST['urlvalue'];
-  $database_config_bible->setRemoteRepositoryUrl ($object, $url);
+  Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
 }
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $view->view->url = $url;
 
 // Create the git repository directory now since this is the most convenient moment to do it.

@@ -46,7 +46,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 $filter_text_bible = new Filter_Text ($bible);

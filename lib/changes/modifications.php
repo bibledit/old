@@ -127,7 +127,7 @@ function processIdentifiers ($user, $bible, $book, $chapter, $oldId, $newId, &$e
     $database_config_bible = Database_Config_Bible::getInstance ();
     $database_bibles = Database_Bibles::getInstance ();
     $database_history = Database_History::getInstance ();
-    $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+    $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
     $old_chapter_usfm = $database_modifications->getUserChapter ($user, $bible, $book, $chapter, $oldId);
     $old_chapter_usfm = $old_chapter_usfm ['oldtext'];
     $new_chapter_usfm = $database_modifications->getUserChapter ($user, $bible, $book, $chapter, $newId);
@@ -181,7 +181,7 @@ $bibles = $database_modifications->getTeamDiffBibles ();
 for ($bibles as $bible) {
 
 
-  $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+  $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
   $changeNotificationUsers = array ();

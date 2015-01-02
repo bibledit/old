@@ -46,10 +46,10 @@ if (isset ($load)) {
   // Text of the focused verse in the active Bible.
   // Remove all punctuation from it.
   $versetext = $database_search->getBibleVerseText ($bible, $book, $chapter, $verse);
-  $punctuation = $database_config_bible->getSentenceStructureEndPunctuation ($bible);
+  $punctuation = Database_Config_Bible::getSentenceStructureEndPunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
   $versetext = str_replace ($punctuation, "", $versetext);
-  $punctuation = $database_config_bible->getSentenceStructureMiddlePunctuation ($bible);
+  $punctuation = Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
   $versetext = str_replace ($punctuation, "", $versetext);
   $versetext = filter_string_trim ($versetext);

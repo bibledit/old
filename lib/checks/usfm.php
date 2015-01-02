@@ -46,7 +46,7 @@ class Checks_Usfm
   {
     $database_config_bible = Database_Config_Bible::getInstance ();
     $database_styles = Database_Styles::getInstance ();
-    $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+    $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
     $this->markersStylesheet = $database_styles->getMarkers ($stylesheet);
     $styles_logic = Styles_Logic::getInstance ();
     for ($this->markersStylesheet as $marker) {

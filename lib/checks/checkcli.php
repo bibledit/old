@@ -48,29 +48,29 @@ Database_Logs::log ("Check $bible: Start", Filter_Roles::translator ());
 $database_check->truncateOutput ($bible);
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
-$check_double_spaces_usfm = $database_config_bible->getCheckDoubleSpacesUsfm ($bible);
-$check_full_stop_in_headings = $database_config_bible->getCheckFullStopInHeadings ($bible);
-$check_space_before_punctuation = $database_config_bible->getCheckSpaceBeforePunctuation ($bible);
-$check_sentence_structure = $database_config_bible->getCheckSentenceStructure ($bible);
-$check_paragraph_structure = $database_config_bible->getCheckParagraphStructure ($bible);
+$check_double_spaces_usfm = Database_Config_Bible::getCheckDoubleSpacesUsfm ($bible);
+$check_full_stop_in_headings = Database_Config_Bible::getCheckFullStopInHeadings ($bible);
+$check_space_before_punctuation = Database_Config_Bible::getCheckSpaceBeforePunctuation ($bible);
+$check_sentence_structure = Database_Config_Bible::getCheckSentenceStructure ($bible);
+$check_paragraph_structure = Database_Config_Bible::getCheckParagraphStructure ($bible);
 $checks_sentences = new Checks_Sentences ();
-$checks_sentences->enterCapitals ($database_config_bible->getSentenceStructureCapitals ($bible));
-$checks_sentences->enterSmallLetters ($database_config_bible->getSentenceStructureSmallLetters ($bible));
-$end_marks = $database_config_bible->getSentenceStructureEndPunctuation ($bible);
+$checks_sentences->enterCapitals (Database_Config_Bible::getSentenceStructureCapitals ($bible));
+$checks_sentences->enterSmallLetters (Database_Config_Bible::getSentenceStructureSmallLetters ($bible));
+$end_marks = Database_Config_Bible::getSentenceStructureEndPunctuation ($bible);
 $checks_sentences->enterEndMarks ($end_marks);
-$center_marks = $database_config_bible->getSentenceStructureMiddlePunctuation ($bible);
+$center_marks = Database_Config_Bible::getSentenceStructureMiddlePunctuation ($bible);
 $checks_sentences->enterCenterMarks ($center_marks);
-$checks_sentences->enterDisregards ($database_config_bible->getSentenceStructureDisregards ($bible));
-$checks_sentences->enterNames ($database_config_bible->getSentenceStructureNames ($bible));
-$check_versification = $database_config_bible->getCheckChaptesVersesVersification ($bible);
-$check_well_formed_usfm = $database_config_bible->getCheckWellFormedUsfm ($bible);
+$checks_sentences->enterDisregards (Database_Config_Bible::getSentenceStructureDisregards ($bible));
+$checks_sentences->enterNames (Database_Config_Bible::getSentenceStructureNames ($bible));
+$check_versification = Database_Config_Bible::getCheckChaptesVersesVersification ($bible);
+$check_well_formed_usfm = Database_Config_Bible::getCheckWellFormedUsfm ($bible);
 $checks_usfm = new Checks_Usfm ($bible);
-$check_missing_punctuation_end_verse = $database_config_bible->getCheckMissingPunctuationEndVerse ($bible);
-$check_patterns = $database_config_bible->getCheckPatterns ($bible);
-$checking_patterns = $database_config_bible->getCheckingPatterns ($bible);
+$check_missing_punctuation_end_verse = Database_Config_Bible::getCheckMissingPunctuationEndVerse ($bible);
+$check_patterns = Database_Config_Bible::getCheckPatterns ($bible);
+$checking_patterns = Database_Config_Bible::getCheckingPatterns ($bible);
 $checking_patterns = Filter_String::string2array ($checking_patterns);
 $checking_patterns = array_filter ($checking_patterns, 'strlen');
 

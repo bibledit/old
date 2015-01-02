@@ -58,7 +58,7 @@ styles_sheets_create_all ();
 // Set the export stylesheet to "Standard" for all Bibles and the admin.
 $bibles = $database_bibles->getBibles ();
 for ($bibles as $bible) {
-  $database_config_bible->setExportStylesheet ($bible, $standard_sheet);
+  Database_Config_Bible::setExportStylesheet ($bible, $standard_sheet);
 }
 $database_config_user->setStylesheet ($standard_sheet);
 

@@ -53,7 +53,7 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 $filter_text = new Filter_Text ($bible);
@@ -101,8 +101,8 @@ $filter_text->odf_text_notes->save ($notesFilename);
 // Securing the OpenDocument export implies that the exported files are zipped and secured with a password.
 // It uses the external zip binary.
 // PHP 5.6 supports password protected archives: ZipArchive::setPassword ($password).
-$secure = $database_config_bible->getSecureOdtExport ($bible);
-$password = escapeshellarg ($database_config_bible->getExportPassword ($bible));
+$secure = Database_Config_Bible::getSecureOdtExport ($bible);
+$password = escapeshellarg (Database_Config_Bible::getExportPassword ($bible));
 $directory = escapeshellarg ($directory);
 $basefile = escapeshellarg (basename ($standardFilename));
 @unlink ("$standardFilename.zip");

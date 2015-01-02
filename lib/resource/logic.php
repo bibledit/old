@@ -58,7 +58,7 @@ class Resource_Logic
       $database_config_user = Database_Config_User::getInstance ();
       $database_config_bible = Database_Config_Bible::getInstance ();
       $bible = $database_config_user->getBible ();
-      $bible_mapping = $database_config_bible->getVerseMapping ($bible);
+      $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
       $resource_mapping = $database_resources->getMapping ($name);
       $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
       $output = "";
@@ -109,7 +109,7 @@ class Resource_Logic
       // Use offline copy if it exists, else fetch it online.
       if ($database_offlineresources->exists ($resource, $book, $chapter, $verse)) {
         $bible = $database_config_user->getBible ();
-        $bible_mapping = $database_config_bible->getVerseMapping ($bible);
+        $bible_mapping = Database_Config_Bible::getVerseMapping ($bible);
         $resource_mapping = $database_resources->getMapping ($resource);
         $passages = $database_mappings->translate ($bible_mapping, $resource_mapping, $book, $chapter, $verse);
         $html = "";

@@ -30,7 +30,7 @@ $view->view->object = $object;
 $directory = filter_git_git_directory ($object);
 
 $database_config_bible = Database_Config_Bible::getInstance();
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $view->view->url = $url;
 
 $ready = false;

@@ -47,7 +47,7 @@ $chapter = $details [2];
 $verse = $details [3];
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 // As a standard to compare against, get the plain text from the search database,

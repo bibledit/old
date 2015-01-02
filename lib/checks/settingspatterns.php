@@ -34,13 +34,13 @@ $bible = access_bible_clamp ($database_config_user->getBible ());
 
 if (isset($_POST['patterns'])) {
   $patterns = $_POST ['patterns'];
-  if ($bible) $database_config_bible->setCheckingPatterns ($bible, $patterns);
+  if ($bible) Database_Config_Bible::setCheckingPatterns ($bible, $patterns);
   $view->view->success = gettext("The patterns were saved");
 }
 
 
 $view->view->bible = $bible;
-$view->view->patterns = $database_config_bible->getCheckingPatterns ($bible);
+$view->view->patterns = Database_Config_Bible::getCheckingPatterns ($bible);
 $view->render ("settingspatterns.php");
 Assets_Page::footer ();
 

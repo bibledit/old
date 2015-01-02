@@ -154,13 +154,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	bible/chapter.$(OBJEXT) bible/import_usfm.$(OBJEXT) \
 	bible/import_bibleworks.$(OBJEXT) bible/import_task.$(OBJEXT) \
 	bible/abbreviations.$(OBJEXT) bible/order.$(OBJEXT) \
-	notes/logic.$(OBJEXT) trash/handler.$(OBJEXT) \
-	sync/logic.$(OBJEXT) help/index.$(OBJEXT) \
-	confirm/worker.$(OBJEXT) email/index.$(OBJEXT) \
-	email/send.$(OBJEXT) email/receive.$(OBJEXT) \
-	user/notifications.$(OBJEXT) user/account.$(OBJEXT) \
-	manage/indexing.$(OBJEXT) manage/users.$(OBJEXT) \
-	administration/language.$(OBJEXT) \
+	bible/css.$(OBJEXT) notes/logic.$(OBJEXT) \
+	trash/handler.$(OBJEXT) sync/logic.$(OBJEXT) \
+	help/index.$(OBJEXT) confirm/worker.$(OBJEXT) \
+	email/index.$(OBJEXT) email/send.$(OBJEXT) \
+	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
+	user/account.$(OBJEXT) manage/indexing.$(OBJEXT) \
+	manage/users.$(OBJEXT) administration/language.$(OBJEXT) \
 	administration/timezone.$(OBJEXT) search/rebibles.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
 	access/bible.$(OBJEXT) dialog/entry.$(OBJEXT) \
@@ -480,6 +480,7 @@ libbibledit_a_SOURCES = \
 	bible/import_task.cpp \
 	bible/abbreviations.cpp \
 	bible/order.cpp \
+	bible/css.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \
@@ -928,6 +929,8 @@ bible/abbreviations.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
 bible/order.$(OBJEXT): bible/$(am__dirstamp) \
 	bible/$(DEPDIR)/$(am__dirstamp)
+bible/css.$(OBJEXT): bible/$(am__dirstamp) \
+	bible/$(DEPDIR)/$(am__dirstamp)
 notes/$(am__dirstamp):
 	@$(MKDIR_P) notes
 	@: > notes/$(am__dirstamp)
@@ -1235,6 +1238,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/abbreviations.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/book.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/chapter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_task.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@bible/$(DEPDIR)/import_usfm.Po@am__quote@

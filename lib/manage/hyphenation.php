@@ -44,13 +44,13 @@ $error = "";
 // Character sets submission.
 if (isset($_POST['sets'])) {
   $firstset = $_POST['firstset'];
-  $database_config_bible->setHyphenationFirstSet ($bible, $firstset);
+  Database_Config_Bible::setHyphenationFirstSet ($bible, $firstset);
   $secondset = $_POST['secondset'];
-  $database_config_bible->setHyphenationSecondSet ($bible, $secondset);
+  Database_Config_Bible::setHyphenationSecondSet ($bible, $secondset);
   $success = gettext("The two sets of characters were saved");
 }
-$firstset = $database_config_bible->getHyphenationFirstSet ($bible);
-$secondset = $database_config_bible->getHyphenationSecondSet ($bible);
+$firstset = Database_Config_Bible::getHyphenationFirstSet ($bible);
+$secondset = Database_Config_Bible::getHyphenationSecondSet ($bible);
 
 
 @$bible = $_GET ['bible'];

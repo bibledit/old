@@ -34,7 +34,7 @@ $database_config_bible = Database_Config_Bible::getInstance();
 $database_notes = Database_Notes::getInstance ();
 
 
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $directory = filter_git_git_directory ($object);
 
 

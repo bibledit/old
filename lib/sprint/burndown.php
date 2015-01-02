@@ -123,7 +123,7 @@ for ($bibles as $bible) {
   if ($email) {
     if ($tasks) {
       // Only mail if the current sprint contains tasks.
-      $categories = $database_config_bible->getSprintTaskCompletionCategories ($bible);
+      $categories = Database_Config_Bible::getSprintTaskCompletionCategories ($bible);
       $categories = explode ("\n", $categories);
       $category_count = count ($categories);
       $category_percentage = intval (100 / $category_count);

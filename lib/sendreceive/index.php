@@ -60,12 +60,12 @@ if (isset($_GET['runbible'])) {
 
 
 if (isset($_GET['repeatbible'])) {
-  $database_config_bible->setRepeatSendReceive ($bible, !$database_config_bible->getRepeatSendReceive ($bible));
+  Database_Config_Bible::setRepeatSendReceive ($bible, !Database_Config_Bible::getRepeatSendReceive ($bible));
 }
-$view->view->repeatbible = $database_config_bible->getRepeatSendReceive ($bible);
+$view->view->repeatbible = Database_Config_Bible::getRepeatSendReceive ($bible);
 
 
-if ($database_config_bible->getRemoteRepositoryUrl ($bible) == "") {
+if (Database_Config_Bible::getRemoteRepositoryUrl ($bible) == "") {
   $view->view->errorbible = gettext("Collaboration has not been set up for this Bible");
 }
 

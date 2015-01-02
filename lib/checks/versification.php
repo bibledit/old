@@ -59,7 +59,7 @@ class Checks_Versification
     // Get verses in this chapter according to the versification system for the Bible.
     $database_versifications = Database_Versifications::getInstance ();
     $database_config_bible = Database_Config_Bible::getInstance ();
-    $versification = $database_config_bible->getVersificationSystem ($bible);
+    $versification = Database_Config_Bible::getVersificationSystem ($bible);
     $standardVerses = $database_versifications->getVerses ($versification, $book, $chapter);
     // Look for missing and extra verses.
     $absentVerses = filter_string_array_diff ($standardVerses, $verses);

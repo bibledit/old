@@ -44,7 +44,7 @@ $database_config_bible = Database_Config_Bible::getInstance ();
 $bibles = $database_bibles->getBibles();
 for ($bibles as $bible) {
 
-  $stylesheet = $database_config_bible->getExportStylesheet ($bible);
+  $stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
   // The git directory for the Bible.
   $directory = filter_git_git_directory ($bible);

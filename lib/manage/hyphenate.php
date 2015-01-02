@@ -45,9 +45,9 @@ Database_Logs::log ("Reading Bible $inputBible, adding soft hyphens, putting it 
 
 // Get the two sets of characters as arrays.
 // The /u switch treats the text as UTF8 Unicode.
-preg_match_all('/./u', $database_config_bible->getHyphenationFirstSet ($inputBible), $firstset);
+preg_match_all('/./u', Database_Config_Bible::getHyphenationFirstSet ($inputBible), $firstset);
 $firstset = $firstset[0];
-preg_match_all('/./u', $database_config_bible->getHyphenationSecondSet ($inputBible), $secondset);
+preg_match_all('/./u', Database_Config_Bible::getHyphenationSecondSet ($inputBible), $secondset);
 $secondset = $secondset[0];
 
 

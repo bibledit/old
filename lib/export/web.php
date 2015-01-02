@@ -43,11 +43,11 @@ $database_bibles = Database_Bibles::getInstance ();
 $database_books = Database_Books::getInstance ();
 
 
-$stylesheet = $database_config_bible->getExportStylesheet ($bible);
+$stylesheet = Database_Config_Bible::getExportStylesheet ($bible);
 
 
 // Copy font to the output directory.
-$font = $database_config_bible->getTextFont ($bible);
+$font = Database_Config_Bible::getTextFont ($bible);
 if ($font) {
   if (Fonts_Logic::fontExists ($font)) {
     $fontpath = Fonts_Logic::getFontPath ($font);

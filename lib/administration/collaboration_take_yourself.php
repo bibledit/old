@@ -28,7 +28,7 @@ $object = $_GET ['object'];
 $view->view->object = $object;
 
 $database_config_bible = Database_Config_Bible::getInstance();
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $view->view->url = $url;
 
 $ready = false;

@@ -46,14 +46,14 @@ $view->view->object = $object;
 
 
 $database_config_bible = Database_Config_Bible::getInstance();
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 if (isset ($_GET ['disable'])) {
   $url = "";
-  $database_config_bible->setRemoteRepositoryUrl ($object, $url);
+  Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
   $repository = filter_git_git_directory ($object);
   filter_url_rmdir ($repository);
 }
-$url = $database_config_bible->getRemoteRepositoryUrl ($object);
+$url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
 $view->view->url = $url;
 
 
