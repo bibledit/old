@@ -34,6 +34,8 @@
 		CA06BDE71A56D25F00A051FF /* save.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = save.php; sourceTree = "<group>"; };
 		CA06BDE81A56F39200A051FF /* passage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = passage.cpp; sourceTree = "<group>"; };
 		CA06BDE91A56F39200A051FF /* passage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passage.h; sourceTree = "<group>"; };
+		CA06BDEA1A570E1900A051FF /* focus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = focus.cpp; sourceTree = "<group>"; };
+		CA06BDEB1A570E1900A051FF /* focus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = focus.h; sourceTree = "<group>"; };
 		CA1240231A55D6BB002C4752 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		CA1240241A55D6BB002C4752 /* CONTRIBUTORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = CONTRIBUTORS; sourceTree = "<group>"; };
 		CA1240251A55D6BB002C4752 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
@@ -467,9 +469,7 @@
 		CAA4D16B1A45A647003ABA25 /* sqlite.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = sqlite.php; sourceTree = "<group>"; };
 		CAA4D16C1A45A647003ABA25 /* test.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
 		CAA4D16D1A45A647003ABA25 /* test.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = test.php; sourceTree = "<group>"; };
-		CAA4D1711A45A647003ABA25 /* focus.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = focus.php; sourceTree = "<group>"; };
 		CAA4D1721A45A647003ABA25 /* getmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = getmessage.php; sourceTree = "<group>"; };
-		CAA4D1731A45A647003ABA25 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CAA4D1741A45A647003ABA25 /* notes.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = notes.php; sourceTree = "<group>"; };
 		CAA4D1751A45A647003ABA25 /* setmessage.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = setmessage.php; sourceTree = "<group>"; };
 		CAA4D1771A45A647003ABA25 /* jcanvas.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jcanvas.js; sourceTree = "<group>"; };
@@ -2002,9 +2002,9 @@
 		CAA4D1701A45A647003ABA25 /* ipc */ = {
 			isa = PBXGroup;
 			children = (
-				CAA4D1711A45A647003ABA25 /* focus.php */,
+				CA06BDEA1A570E1900A051FF /* focus.cpp */,
+				CA06BDEB1A570E1900A051FF /* focus.h */,
 				CAA4D1721A45A647003ABA25 /* getmessage.php */,
-				CAA4D1731A45A647003ABA25 /* index.php */,
 				CAA4D1741A45A647003ABA25 /* notes.php */,
 				CAA4D1751A45A647003ABA25 /* setmessage.php */,
 			);
