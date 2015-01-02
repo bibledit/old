@@ -130,7 +130,9 @@ libbibledit_a_SOURCES = \
 	book/create.cpp \
 	compare/index.cpp \
 	compare/compare.cpp \
-	jobs/index.cpp
+	jobs/index.cpp \
+	editverse/index.cpp \
+	navigation/passage.cpp
 
 bin_PROGRAMS = server unittest
 

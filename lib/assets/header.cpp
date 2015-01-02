@@ -68,11 +68,9 @@ void Assets_Header::setLogin () // C++Port
 
 
 // Display the passage navigator.
-void Assets_Header::setNavigator () // C++Port
+void Assets_Header::setNavigator () // Todo
 {
-  /* 
-    $this->displayNavigator = true;
-   */
+  displayNavigator = true;
 }
 
 
@@ -161,12 +159,12 @@ string Assets_Header::run ()
       view->set_variable ("searching", gettext ("Searching"));
     }
   /*
-    $this->view->view->display_navigator = $this->displayNavigator; // C++Port
+    $this->view->view->display_navigator = $this->displayNavigator; // Todo
     if ($this->view->view->display_navigator) {
       $database_config_user = Database_Config_User::getInstance ();
       $bible = access_bible_clamp ($database_config_user->getBible ());
-      $this->view->view->navigationHtml = Navigation_Passage::getContainer ();
-      $this->view->view->navigationCode = Navigation_Passage::code ($bible, true);
+      $this->view->view->navigationHtml = Navigation_Passage::getContainer (); // Todo port this.
+      $this->view->view->navigationCode = Navigation_Passage::code ($bible, true); // Todo port this.
     }
     $this->view->view->included_stylesheet = $this->includedStylesheet;
   */

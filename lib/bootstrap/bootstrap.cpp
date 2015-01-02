@@ -55,6 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/abbreviations.h>
 #include <bible/order.h>
 #include <bible/css.h>
+#include <editverse/index.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -90,6 +91,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_abbreviations_url ()) && bible_abbreviations_acl (request)) request->reply = bible_abbreviations (request);
   else if ((url == bible_order_url ()) && bible_order_acl (request)) request->reply = bible_order (request);
   else if ((url == bible_css_url ()) && bible_css_acl (request)) request->reply = bible_css (request);
+  else if ((url == editverse_index_url ()) && editverse_index_acl (request)) request->reply = editverse_index (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
