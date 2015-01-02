@@ -29,7 +29,7 @@ using dtl::Diff;
  * $newstring: The new string for input.
  * The function returns the differences marked.
  */
-string filter_diff_diff (string oldstring, string newstring) // Todo write / unittests.
+string filter_diff_diff (string oldstring, string newstring)
 {
   // Type definitions for the diff template engine.
   typedef string elem;

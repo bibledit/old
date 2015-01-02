@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-class diffTest extends PHPUnit_Framework_TestCase // Todo port and update for Bibledit-Gtk's code.
+class diffTest extends PHPUnit_Framework_TestCase
 {
 
 

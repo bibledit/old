@@ -23,6 +23,8 @@
 #include <filter/roles.h>
 #include <filter/usfm.h>
 #include <filter/text.h>
+#include <filter/diff.h>
+#include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <access/bible.h>
@@ -183,19 +185,13 @@ void compare_compare (string bible, string compare, int jobId)
         string compare_html = filter_text_compare.html_text_standard->getInnerHtml ();
         string bible_text = filter_text_bible.text_text->get ();
         string compare_text = filter_text_compare.text_text->get ();
-        /* Todo port it.
-   
-   if ($bible_text != $compare_text) {
-   $modification = filter_diff_diff ($compare_text, $bible_text);
-   $result [] = filter_passage_display ($book, $chapter, $verse) . " " . $modification;
-   $new [] = filter_passage_display ($book, $chapter, $verse) . " " . $bible_text;
-   }
-   $modification = filter_diff_diff ($compare_verse_usfm, $bible_verse_usfm);
-   $raw [] = filter_passage_display ($book, $chapter, $verse) . " " . $modification;
-   
-   
-   
-   */
+        if (bible_text != compare_text) {
+          string modification = filter_diff_diff (compare_text, bible_text);
+          result.push_back (filter_passage_display (book, chapter, convert_to_string (verse)) + " " + modification);
+          new_verses.push_back (filter_passage_display (book, chapter, convert_to_string (verse)) + " " + bible_text);
+        }
+        string modification = filter_diff_diff (compare_verse_usfm, bible_verse_usfm);
+        raw.push_back (filter_passage_display (book, chapter, convert_to_string (verse)) + " " + modification);
       }
     }
   }

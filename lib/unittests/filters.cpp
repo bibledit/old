@@ -2717,14 +2717,15 @@ void test_filter_bibleworks ()
 }
 
 
-void test_filter_diff () // Todo 
+void test_filter_diff ()
 {
-  // Diff
+  // Diff 1
   {
     string output = filter_diff_diff ("Old text", "New text");
     string standard = "<span style=\"text-decoration: line-through;\">Old</span> <span style=\"font-weight: bold;\">New</span> text";
     evaluate (__LINE__, __func__, standard, output);
   }
+  // Diff 2
   {
     string output = filter_diff_diff ("this is really old text", "and this is new text");
     string standard = "<span style=\"font-weight: bold;\">and</span> this is <span style=\"text-decoration: line-through;\">really</span> <span style=\"text-decoration: line-through;\">old</span> <span style=\"font-weight: bold;\">new</span> text";
