@@ -624,7 +624,7 @@ function htmlencode($value, $flags=ENT_QUOTES, $encoding ="UTF-8")
 //                 default values in the form used to INSERT new data.
 function deQuoteSQL($s)
 {
-	return trim(trim($s), "'");
+	return filter_string_trim(trim($s), "'");
 }
 
 // reduce string chars

@@ -83,14 +83,14 @@ while ($xml->read ()) {
 
     if ($name == "w") {
       $lemma = $xml->getAttribute ("lemma");
-      $lemma = trim ($lemma);
+      $lemma = filter_string_trim ($lemma);
     }
 
   }
 
   if ($nodeType == XMLReader::TEXT) {
     $value = $xml->value;
-    $english = trim ($value);
+    $english = filter_string_trim ($value);
   }
 
   if ($nodeType == XMLReader::END_ELEMENT) {

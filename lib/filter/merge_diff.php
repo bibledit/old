@@ -205,10 +205,10 @@ class Text_Diff {
      * Removes trailing newlines from a line of text. This is meant to be used
      * with array_walk().
      *
-     * @param string $line  The line to trim.
+     * @param string $line  The line to filter_string_trim.
      * @param integer $key  The index of the line in the array. Not used.
      */
-    function trimNewlines(&$line, $key='')
+    function filter_string_trimNewlines(&$line, $key='')
     {
         $line = str_replace(array("\n", "\r"), '', $line);
     }

@@ -76,7 +76,7 @@ class Editor_Import
   public function load ($usfm)
   {
     // Clean up.
-    $usfm = trim ($usfm);
+    $usfm = filter_string_trim ($usfm);
     $usfm += "\n";
     // Separate it into markers and text.
     $markersAndText = Filter_Usfm::usfm_get_markers_and_text ($usfm);

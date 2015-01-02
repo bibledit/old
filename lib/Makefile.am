@@ -19,6 +19,7 @@ libbibledit_a_SOURCES = \
 	filter/bibleworks.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
+	filter/abbreviations.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -95,6 +96,7 @@ libbibledit_a_SOURCES = \
 	bible/import_usfm.cpp \
 	bible/import_bibleworks.cpp \
 	bible/import_task.cpp \
+	bible/abbreviations.cpp \
 	notes/logic.cpp \
 	trash/handler.cpp \
 	sync/logic.cpp \

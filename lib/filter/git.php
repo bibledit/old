@@ -95,7 +95,7 @@ class Filter_Git
     // " create mode 100644 Leviticus/2/data"
     $bits = explode ("/", $line);
     if (count ($bits) != 3) return NULL;
-    $book = trim ($bits [0]);
+    $book = filter_string_trim ($bits [0]);
     $database_books = Database_Books::getInstance();
     $book = $database_books->getIdFromEnglish ($book);
     if (!$book) return NULL;
@@ -320,7 +320,7 @@ class Filter_Git
     unset ($result);
     exec ($command, $result, $exit_code);
     $newtext = filter_url_file_get_contents ($newfile);
-    $newtext = trim ($newtext);
+    $newtext = filter_string_trim ($newtext);
 
     // Get the patch.
     $patchfile = tempnam (sys_get_temp_dir (), "");
@@ -333,7 +333,7 @@ class Filter_Git
     unset ($result);
     exec ($command, $result, $exit_code);
     $oldtext = filter_url_file_get_contents ($newfile);
-    $oldtext = trim ($oldtext);
+    $oldtext = filter_string_trim ($oldtext);
 
     // Clean up.
     unlink ($newfile);

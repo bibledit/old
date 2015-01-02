@@ -114,7 +114,7 @@ void test_database_config_user ()
     standard2.push_back ("seven eight nine");
     evaluate (__LINE__, __func__, standard2, request.database_config_user ()->getUpdatedSettings ());
     
-    // Testing the Sprint month and its trim () function.
+    // Testing the Sprint month and its filter_string_trim () function.
     // It should get today's month.
     int month = filter_string_date_numerical_month ();
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
@@ -2655,12 +2655,12 @@ void test_database_modifications_notifications ()
     vector <int> ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {1, 2}, ids);
 
-    // After trimming the two entries should still be there.
+    // After filter_string_trimming the two entries should still be there.
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {1, 2}, ids);
 
-    // Set the time back, re-index, trim, and check one entry's gone.
+    // Set the time back, re-index, filter_string_trim, and check one entry's gone.
     string file = database_modifications.notificationTimeFile (1);
     database_modifications.indexTrimAllNotifications ();
     filter_url_file_put_contents (file, convert_to_string (filter_string_date_seconds_since_epoch () - 7776001));

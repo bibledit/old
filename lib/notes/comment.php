@@ -33,7 +33,7 @@ if ($id == "") {
 
 
 if (isset($_POST['submit'])) {
-  $comment = trim ($_POST['comment']);
+  $comment = filter_string_trim ($_POST['comment']);
   $notes_logic->addComment ($id, $comment);
   redirect_browser ("note.php?id=$id&temporal");
   die;

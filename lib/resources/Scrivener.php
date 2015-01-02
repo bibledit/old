@@ -109,7 +109,7 @@ for ($tidied as $line) {
   if ($hit) {
     // This is the line we are now at:
     // </span><span class="greek">Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.</span></p>
-    $line = trim ($line);
+    $line = filter_string_trim ($line);
     $line = substr ($line, 7, 1000);
     $pos = strpos ($line, "</p>");
     $line = substr ($line, 0, $pos);

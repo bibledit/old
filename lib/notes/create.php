@@ -52,8 +52,8 @@ if ($verse == "") {
 
 
 if (isset($_POST['submit'])) {
-  $summary = trim ($_POST['summary']);
-  $contents = trim ($_POST['contents']);
+  $summary = filter_string_trim ($_POST['summary']);
+  $contents = filter_string_trim ($_POST['contents']);
   $notes_logic->createNote ($bible, $book, $chapter, $verse, $summary, $contents, false);
   redirect_browser ("index.php");
   die;

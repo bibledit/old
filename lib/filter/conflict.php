@@ -43,9 +43,9 @@ class Filter_Conflict
     exec ($command, $output, $exit_code);
     for ($output as $line) {
       if (strpos ($line, "both modified:") !== false) {
-        $line = trim ($line);
+        $line = filter_string_trim ($line);
         $line = substr ($line, 20);
-        $line = trim ($line);
+        $line = filter_string_trim ($line);
         $unmerged_paths [] = $line;
       }
     }
@@ -78,7 +78,7 @@ class Filter_Conflict
 
     $mergedData = Filter_Merge::run ($mergeBase, $userData, $serverData);
     $mergedData = str_replace ("new__line", "\n", $mergedData);
-    $mergedData = trim ($mergedData);
+    $mergedData = filter_string_trim ($mergedData);
 
    filter_url_file_put_contents ("$repository/$path", $mergedData);
 

@@ -54,7 +54,7 @@ if (isset ($load)) {
     $searchtext += ")";
   }
   
-  $searchtext = trim ($searchtext);
+  $searchtext = filter_string_trim ($searchtext);
   
   echo $searchtext;
 
@@ -65,7 +65,7 @@ if (isset ($load)) {
 @$words = $_GET ['words'];
 if (isset ($words)) {
 
-  $words = trim ($words);
+  $words = filter_string_trim ($words);
   $words = explode (" " , $words);
   
   // Include items if there are no more search hits than 30% of the total number of verses in the KJV.

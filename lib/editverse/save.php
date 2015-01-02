@@ -54,7 +54,7 @@ if (Checksum_Logic::get ($usfm) != $checksum) {
 
 
 // Check there's anything to save at all.
-$usfm = trim ($usfm);
+$usfm = filter_string_trim ($usfm);
 if ($usfm == "") {
   echo gettext("Nothing to save");
   die;
@@ -62,7 +62,7 @@ if ($usfm == "") {
 
 
 // Check on valid UTF-8.
-if (!Validate_Utf8::valid ($usfm)) {
+if (!unicode_string_is_valid ($usfm)) {
   echo gettext("Cannot save: Needs Unicode");
   die;
 }

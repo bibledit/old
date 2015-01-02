@@ -42,7 +42,7 @@ $chapter = $ipc_focus->getChapter ();
 // The replace routines replaces the longer strings first,
 // to be sure that no partial book abbreviations are replaced.
 $sourceAbbreviations = $database_config_bible->getBookAbbreviations ($sourceBible);
-$sourceAbbreviations = Filter_Abbreviations::read ($sourceAbbreviations);
+$sourceAbbreviations = filter_abbreviations_read ($sourceAbbreviations);
 $sorter = array ();
 for ($sourceAbbreviations as $abbrev => $dummy) {
   $sorter [] = mb_strlen ($abbrev);
@@ -51,7 +51,7 @@ array_multisort ($sorter, SORT_DESC, SORT_NUMERIC, $sourceAbbreviations);
 
 
 $targetAbbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
-$targetAbbreviations = Filter_Abbreviations::read ($targetAbbreviations);
+$targetAbbreviations = filter_abbreviations_read ($targetAbbreviations);
 
 
 // Create array with book abbreviations to find, and one with their matching replacements.

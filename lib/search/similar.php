@@ -52,7 +52,7 @@ if (isset ($load)) {
   $punctuation = $database_config_bible->getSentenceStructureMiddlePunctuation ($bible);
   $punctuation = explode (" ", $punctuation);
   $versetext = str_replace ($punctuation, "", $versetext);
-  $versetext = trim ($versetext);
+  $versetext = filter_string_trim ($versetext);
 
   $database_volatile->setValue ($myIdentifier, "searchsimilar", $versetext);
   
@@ -64,7 +64,7 @@ if (isset ($load)) {
 @$words = $_GET ['words'];
 if (isset ($words)) {
 
-  $words = trim ($words);
+  $words = filter_string_trim ($words);
   $database_volatile->setValue ($myIdentifier, "searchsimilar", $words);
   $words = explode (" " , $words);
   

@@ -41,7 +41,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
     $introduction = str_replace ("\t", "", $introduction);
     $introduction = str_replace ('  ', ' ', $introduction);
     $introduction = str_replace ('<br />', "", $introduction);
-    $introduction = trim ($introduction);
+    $introduction = filter_string_trim ($introduction);
     $output += "<p>$introduction</p>";
   }
   
@@ -51,7 +51,7 @@ function gbsdigitaalplus ($url, $chapter, $verse)
     $introduction = str_replace (array ("\n", "\r"), " ", $introduction);
     $introduction = str_replace ("\t", "", $introduction);
     $introduction = str_replace ('  ', ' ', $introduction);
-    $introduction = trim ($introduction);
+    $introduction = filter_string_trim ($introduction);
     $output += "<p>$introduction</p>";
   }
   

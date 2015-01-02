@@ -55,7 +55,7 @@ for ($books as $book) {
   $chapters = $database_bibles->getChapters ($bible, $book);
   for ($chapters as $chapter) {
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
-    $chapter_data = trim ($chapter_data);
+    $chapter_data = filter_string_trim ($chapter_data);
     $filter_text_bible->addUsfmCode ($chapter_data);
   }
 }

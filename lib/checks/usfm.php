@@ -160,7 +160,7 @@ class Checks_Usfm
   private function markerInStylesheet ()
   {
     $marker = substr ($this->usfmItem, 1, 100);
-    $marker = trim ($marker);
+    $marker = filter_string_trim ($marker);
     if (!usfm_is_opening_marker ($marker)) {
       $marker = substr ($marker, 0, -1);
     }
@@ -217,7 +217,7 @@ class Checks_Usfm
   private function widowBackSlash ()
   {
     $marker = $this->usfmItem;
-    $marker = trim ($marker);
+    $marker = filter_string_trim ($marker);
     if (strlen ($marker) == 1) {
       $this->addResult ("Widow backslash", Checks_Usfm::displayCurrent);
     }
@@ -229,7 +229,7 @@ class Checks_Usfm
     $marker = $this->usfmItem;
     // Remove the initial backslash, e.g. '\add' becomes 'add'.
     $marker = substr ($marker, 1);
-    $marker = trim ($marker);
+    $marker = filter_string_trim ($marker);
     $isOpener = usfm_is_opening_marker ($marker);
     if (!$isOpener) $marker = substr ($marker, 0, -1);
     if (!in_array ($marker, $this->markersRequiringEndmarkers)) return;

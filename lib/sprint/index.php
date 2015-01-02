@@ -132,10 +132,10 @@ if (isset ($complete)) {
 @$categories = $_POST ['categories'];
 if (isset ($categories)) {
   $categories2 = array ();
-  $categories = trim ($categories);
+  $categories = filter_string_trim ($categories);
   $categories = explode ("\n", $categories);
   for ($categories as $category) {
-    $category = trim ($category);
+    $category = filter_string_trim ($category);
     if ($category != "") $categories2 [] = $category;
   }
   $categories = implode ("\n", $categories2);

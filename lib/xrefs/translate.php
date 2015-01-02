@@ -38,19 +38,19 @@ if (isset ($_POST ['save'])) {
   $fullname = $_POST ['fullname'];
   $abbreviation = $_POST ['abbreviation'];
   $abbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
-  $abbreviations = Filter_Abbreviations::display ($abbreviations);
+  $abbreviations = filter_abbreviations_display ($abbreviations);
   $abbreviations += "\n$fullname = $abbreviation";
   $database_config_bible->setBookAbbreviations ($targetBible, $abbreviations);
 }
 
 
 $sourceAbbreviations = $database_config_bible->getBookAbbreviations ($sourceBible);
-$sourceAbbreviations = Filter_Abbreviations::read ($sourceAbbreviations);
+$sourceAbbreviations = filter_abbreviations_read ($sourceAbbreviations);
 $sourceAbbreviations = array_values ($sourceAbbreviations);
 
 
 $targetAbbreviations = $database_config_bible->getBookAbbreviations ($targetBible);
-$targetAbbreviations = Filter_Abbreviations::read ($targetAbbreviations);
+$targetAbbreviations = filter_abbreviations_read ($targetAbbreviations);
 $targetAbbreviations = array_values ($targetAbbreviations);
 
 

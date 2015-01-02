@@ -63,7 +63,7 @@ echo "</table>\n";
 
 
 // Clean the query string up.
-$queryString = trim ($queryString);
+$queryString = filter_string_trim ($queryString);
 
 
 // Generate search words for emphasizing the search hits.

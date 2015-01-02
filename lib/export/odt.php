@@ -70,7 +70,7 @@ if ($book == 0) {
     $chapters = $database_bibles->getChapters ($bible, $book);
     for ($chapters as $chapter) {
       $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-      $usfm = trim ($usfm);
+      $usfm = filter_string_trim ($usfm);
       // Use small chunks of USFM at a time for much better performance.
       $filter_text->addUsfmCode ($usfm);
     }
@@ -80,7 +80,7 @@ if ($book == 0) {
   $chapters = $database_bibles->getChapters ($bible, $book);
   for ($chapters as $chapter) {
     $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-    $usfm = trim ($usfm);
+    $usfm = filter_string_trim ($usfm);
     // Use small chunks of USFM at a time for much better performance.
     $filter_text->addUsfmCode ($usfm);
   }

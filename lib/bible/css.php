@@ -38,7 +38,7 @@ $view->view->bible = filter_string_sanitize_html ($bible);
 if (isset($_POST['submit'])) {
 
   $font = $_POST ["font"];
-  $font = trim ($font);
+  $font = filter_string_trim ($font);
   $database_config_bible->setTextFont ($bible, $font);
   
   $direction = $_POST ["direction"];

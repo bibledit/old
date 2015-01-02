@@ -158,7 +158,7 @@ class Text_Diff_Engine_native {
      *
      * This function assumes that the first lines of the specified portions of
      * the two files do not match, and likewise that the last lines do not
-     * match.  The caller must trim matching lines from the beginning and end
+     * match.  The caller must filter_string_trim matching lines from the beginning and end
      * of the portions it is going to specify.
      */
     function _diag ($xoff, $xlim, $yoff, $ylim, $nchunks)

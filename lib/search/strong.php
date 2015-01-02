@@ -61,7 +61,7 @@ if (isset ($load)) {
 @$strong = $_GET ['strong'];
 if (isset ($strong)) {
 
-  $strong = trim ($strong);
+  $strong = filter_string_trim ($strong);
  
   $passages = array ();
 

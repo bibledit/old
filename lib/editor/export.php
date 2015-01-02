@@ -382,7 +382,7 @@ EOD;
   {
     if ($this->currentLine) {
       // Trim so that '\p ' becomes '\p', for example.
-      $this->currentLine = trim ($this->currentLine);
+      $this->currentLine = filter_string_trim ($this->currentLine);
       $this->output [] = $this->currentLine;
       $this->currentLine = '';
     }

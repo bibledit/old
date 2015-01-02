@@ -49,14 +49,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
 
 
@@ -76,14 +76,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
 
 
@@ -100,14 +100,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
   
   
@@ -126,14 +126,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
 
   
@@ -160,14 +160,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
 
 
@@ -184,14 +184,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
 
@@ -210,14 +210,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
 
@@ -234,14 +234,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
   
 
@@ -258,14 +258,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
   
 
@@ -284,14 +284,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
   
@@ -310,14 +310,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
 
@@ -336,14 +336,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
 
@@ -364,14 +364,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
   
@@ -396,7 +396,7 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
 $standard_usfm = <<<'EOD'
 \tr \th1 Tribe \th2 Leader \thr3 Number
@@ -411,7 +411,7 @@ EOD;
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
 
@@ -428,14 +428,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
 
 
@@ -456,14 +456,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
   
 
@@ -486,14 +486,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
   
 
@@ -514,14 +514,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
   
@@ -602,14 +602,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
   
@@ -630,14 +630,14 @@ EOD;
     $editor_import->stylesheet ("Standard");
     $editor_import->run ();
     $html = $editor_import->get ();
-    $this->assertEquals ($standard_html, trim ($html));
+    $this->assertEquals ($standard_html, filter_string_trim ($html));
 
     $editor_export = Editor_Export::getInstance ();
     $editor_export->load ($standard_html);
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $usfm = $editor_export->get ();
-    $this->assertEquals ($standard_usfm, trim ($usfm));
+    $this->assertEquals ($standard_usfm, filter_string_trim ($usfm));
   }
  
   
@@ -673,7 +673,7 @@ EOD;
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $result = $editor_export->get ();
-    $this->assertEquals ($usfm, trim ($result));
+    $this->assertEquals ($usfm, filter_string_trim ($result));
   }
 
 
@@ -732,7 +732,7 @@ EOD;
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $result = $editor_export->get ();
-    $this->assertEquals ($usfm, trim ($result));
+    $this->assertEquals ($usfm, filter_string_trim ($result));
   }
 
 
@@ -752,7 +752,7 @@ EOD;
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $result = $editor_export->get ();
-    $this->assertEquals ($usfm, trim ($result));
+    $this->assertEquals ($usfm, filter_string_trim ($result));
   }
  
   
@@ -776,7 +776,7 @@ EOD;
     $editor_export->stylesheet ("Standard");
     $editor_export->run ();
     $result = $editor_export->get ();
-    $this->assertEquals ($usfm, trim ($result));
+    $this->assertEquals ($usfm, filter_string_trim ($result));
   }
 
 

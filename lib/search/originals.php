@@ -62,7 +62,7 @@ if (isset ($load)) {
   }
 
   
-  $searchtext = trim ($searchtext);
+  $searchtext = filter_string_trim ($searchtext);
   
   echo $searchtext;
 
@@ -73,7 +73,7 @@ if (isset ($load)) {
 @$words = $_GET ['words'];
 if (isset ($words)) {
 
-  $words = trim ($words);
+  $words = filter_string_trim ($words);
   $words = explode (" " , $words);
 
   $book = $ipc_focus->getBook ();

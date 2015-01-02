@@ -156,7 +156,7 @@ namespace UTF8 {
         String Replace(const String &Search, const String &Replace) const;
 
         /**
-         * Returns trimmed string. Removes whitespaces from left and right
+         * Returns filter_string_trimmed string. Removes whitespaces from left and right
          */
         String Trim() const;
 

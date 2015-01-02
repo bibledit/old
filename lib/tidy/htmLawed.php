@@ -331,7 +331,7 @@ function hl_prot($p, $c=null){
 // check URL scheme
 global $C;
 $b = $a = '';
-if($c == null){$c = 'style'; $b = $p[1]; $a = $p[3]; $p = trim($p[2]);}
+if($c == null){$c = 'style'; $b = $p[1]; $a = $p[3]; $p = filter_string_trim($p[2]);}
 $c = isset($C['schemes'][$c]) ? $C['schemes'][$c] : $C['schemes']['*'];
 static $d = 'denied:';
 if(isset($c['!']) && substr($p, 0, 7) != $d){$p = "$d$p";}
@@ -379,7 +379,7 @@ return $r;
 function hl_spec($t){
 // final $spec
 $s = array();
-$t = str_replace(array("\t", "\r", "\n", ' '), '', preg_replace_callback('/"(?>(`.|[^"])*)"/sm', create_function('$m', 'return substr(str_replace(array(";", "|", "~", " ", ",", "/", "(", ")", \'`"\'), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\""), $m[0]), 1, -1);'), trim($t))); 
+$t = str_replace(array("\t", "\r", "\n", ' '), '', preg_replace_callback('/"(?>(`.|[^"])*)"/sm', create_function('$m', 'return substr(str_replace(array(";", "|", "~", " ", ",", "/", "(", ")", \'`"\'), array("\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\""), $m[0]), 1, -1);'), filter_string_trim($t))); 
 for($i = count(($t = explode(';', $t))); --$i>=0;){
  $w = $t[$i];
  if(empty($w) or ($e = strpos($w, '=')) === false or !strlen(($a =  substr($w, $e+1)))){continue;}
@@ -420,7 +420,7 @@ if(!preg_match('`^<(/?)([a-zA-Z][a-zA-Z1-6]*)([^>]*?)\s?>$`m', $t, $m)){
  return (($C['keep_bad']%2) ? str_replace(array('<', '>'), array('&lt;', '&gt;'), $t) : '');
 }
 // attr string
-$a = str_replace(array("\n", "\r", "\t"), ' ', trim($m[3]));
+$a = str_replace(array("\n", "\r", "\t"), ' ', filter_string_trim($m[3]));
 // tag transform
 static $eD = array('applet'=>1, 'center'=>1, 'dir'=>1, 'embed'=>1, 'font'=>1, 'isindex'=>1, 'menu'=>1, 's'=>1, 'strike'=>1, 'u'=>1); // Deprecated
 if($C['make_tag_strict'] && isset($eD[$e])){
@@ -456,7 +456,7 @@ if($C['no_deprecated_attr']){
 
 // attr name-vals
 if(strpos($a, "\x01") !== false){$a = preg_replace('`\x01[^\x01]*\x01`', '', $a);} // No comment/CDATA sec
-$mode = 0; $a = trim($a, ' /'); $aA = array();
+$mode = 0; $a = filter_string_trim($a, ' /'); $aA = array();
 while(strlen($a)){
  $w = 0;
  switch($mode){
@@ -475,7 +475,7 @@ while(strlen($a)){
   break; case 2: // Val
    if(preg_match('`^((?:"[^"]*")|(?:\'[^\']*\')|(?:\s*[^\s"\']+))(.*)`', $a, $m)){
     $a = ltrim($m[2]); $m = $m[1]; $w = 1; $mode = 0;
-    $aA[$nm] = trim(($m[0] == '"' or $m[0] == '\'') ? substr($m, 1, -1) : $m);
+    $aA[$nm] = filter_string_trim(($m[0] == '"' or $m[0] == '\'') ? substr($m, 1, -1) : $m);
    }
   break;
  }
@@ -626,12 +626,12 @@ static $fs = array('0'=>'xx-small', '1'=>'xx-small', '2'=>'small', '3'=>'medium'
 if($e == 'font'){
  $a2 = '';
  if(preg_match('`face\s*=\s*(\'|")([^=]+?)\\1`i', $a, $m) or preg_match('`face\s*=(\s*)(\S+)`i', $a, $m)){
-  $a2 += ' font-family: '. str_replace('"', '\'', trim($m[2])). ';';
+  $a2 += ' font-family: '. str_replace('"', '\'', filter_string_trim($m[2])). ';';
  }
  if(preg_match('`color\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m)){
-  $a2 += ' color: '. trim($m[2]). ';';
+  $a2 += ' color: '. filter_string_trim($m[2]). ';';
  }
- if(preg_match('`size\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m) && isset($fs[($m = trim($m[2]))])){
+ if(preg_match('`size\s*=\s*(\'|")?(.+?)(\\1|\s|$)`i', $a, $m) && isset($fs[($m = filter_string_trim($m[2]))])){
   $a2 += ' font-size: '. $fs[$m]. ';';
  }
  $e = 'span'; return ltrim($a2);

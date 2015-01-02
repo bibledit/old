@@ -304,7 +304,7 @@ int filter_string_date_local_seconds (int seconds)
 }
 
 
-// A C++ equivalent for PHP's trim function.
+// A C++ equivalent for PHP's filter_string_trim function.
 string filter_string_trim (string s)
 {
   if (s.length () == 0)

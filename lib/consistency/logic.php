@@ -45,12 +45,12 @@ class Consistency_Logic
 
     // The passages entered in the Consistency tool.
     $passages = $database_volatile->getValue ($this->id, "passages");
-    $passages = trim ($passages);
+    $passages = filter_string_trim ($passages);
     $passages = Filter_String::string2array ($passages);
     
     // The translations from the Consistency tool.
     $translations = $database_volatile->getValue ($this->id, "translations");
-    $translations = trim ($translations);
+    $translations = filter_string_trim ($translations);
     $translations = Filter_String::string2array ($translations);
 
     // Contains the response to display.
@@ -59,7 +59,7 @@ class Consistency_Logic
     // Go through the passages interpreting them.
     $previousPassage = array (1, 1, 1);
     for ($passages as $line) {
-      $line = trim ($line);
+      $line = filter_string_trim ($line);
       if ($line == "") continue;
       $range_sequence = filter_passage_handle_sequences_ranges ($line);
       for ($range_sequence as $line) {

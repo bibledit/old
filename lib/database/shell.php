@@ -61,7 +61,7 @@ EOD;
   }
 
 
-  public function trim ()
+  public function filter_string_trim ()
   {
     Database_SQLite::exec ($this->db, "DELETE FROM shell;");
   }

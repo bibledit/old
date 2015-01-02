@@ -71,7 +71,7 @@ for ($books as $book) {
   for ($chapters as $chapter) {
     // Get the USFM code for the current chapter.
     $chapter_data = $database_bibles->getChapter ($bible, $book, $chapter);
-    $chapter_data = trim ($chapter_data);
+    $chapter_data = filter_string_trim ($chapter_data);
     // Add the chapter USFM code to the book's USFM code.
     $bookUsfmDataFull += $chapter_data;
     $bookUsfmDataFull += "\n";

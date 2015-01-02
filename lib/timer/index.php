@@ -85,7 +85,7 @@ if (!$client) {
 }
 
 
-// Database maintenance and trimming.
+// Database maintenance and filter_string_trimming.
 // It takes a few minutes on a production machine.
 if (($hour == 0) && ($minute == 50)) {
   tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/database.php"));

@@ -208,7 +208,7 @@ class Navigation_Passage
     $currentBook = $ipc_focus->getBook ();
     $currentChapter = $ipc_focus->getChapter ();
     $currentVerse = $ipc_focus->getVerse ();
-    $passage = trim ($passage);
+    $passage = filter_string_trim ($passage);
     if (($passage == "") || ($passage == "+")) {
       $passage = Navigation_Passage::getNextVerse ($bible, $currentBook, $currentChapter, $currentVerse);
     } else if ($passage == "-") {

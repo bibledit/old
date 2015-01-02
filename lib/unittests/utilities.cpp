@@ -126,6 +126,23 @@ void evaluate (int line, string func, map <int, string> desired, map <int, strin
 }
 
 
+void evaluate (int line, string func, map <string, int> desired, map <string, int> actual)
+{
+  if (desired.size() != actual.size ()) {
+    error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
+    return;
+  }
+  auto desirediterator = desired.begin ();
+  auto actualiterator = actual.begin ();
+  for (auto iterator = desired.begin(); iterator != desired.end(); iterator++) {
+    evaluate (line, func, desirediterator->first, actualiterator->first);
+    evaluate (line, func, desirediterator->second, actualiterator->second);
+    desirediterator++;
+    actualiterator++;
+  }
+}
+
+
 void evaluate (int line, string func, map <string, string> desired, map <string, string> actual)
 {
   if (desired.size() != actual.size ()) {

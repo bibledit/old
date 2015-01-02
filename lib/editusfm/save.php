@@ -38,9 +38,9 @@ $checksum = $_POST['checksum'];
 
 if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($usfm)) {
   if (Checksum_Logic::get ($usfm) == $checksum) {
-    $usfm = trim ($usfm);
+    $usfm = filter_string_trim ($usfm);
     if ($usfm != "") {
-      if (Validate_Utf8::valid ($usfm)) {
+      if (unicode_string_is_valid ($usfm)) {
         $stylesheet = $database_config_user->getStylesheet();
         $book_chapter_text = usfm_import ($usfm, $stylesheet);
         for ($book_chapter_text as $data) {

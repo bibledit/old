@@ -118,7 +118,7 @@ function bibleserver ($directory, $book, $chapter, $verse)
   
   $text = strip_tags ("<" . $text);
   $text = html_entity_decode ($text);
-  $text = trim ($text);
+  $text = filter_string_trim ($text);
   
   $text += "<p><a href=\"$url\" target=\"_blank\">$url</a></p>\n";
   

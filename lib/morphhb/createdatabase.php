@@ -118,7 +118,7 @@ for ($books as $book => $osis) {
     if ($nodeType == XMLReader::TEXT) {
       if ($word) {
         $hebrew = $xml->value;
-        $hebrew = trim ($hebrew);
+        $hebrew = filter_string_trim ($hebrew);
         $hebrew = str_replace ("/", "", $hebrew);
         $hebrew = str_replace ("'", "''", $hebrew);
         $sql = "INSERT INTO morphhb (book, chapter, verse, hebrew) VALUES ($book, $chapter, $verse, '$hebrew');";

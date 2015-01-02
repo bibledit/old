@@ -38,7 +38,7 @@ if (isset ($_POST ['save'])) {
   $abbreviation = $_POST ['abbreviation'];
   $fullname = $_POST ['fullname'];
   $abbreviations = $database_config_bible->getBookAbbreviations ($bible);
-  $abbreviations = Filter_Abbreviations::display ($abbreviations);
+  $abbreviations = filter_abbreviations_display ($abbreviations);
   $abbreviations += "\n$fullname = $abbreviation";
   $database_config_bible->setBookAbbreviations ($bible, $abbreviations);
 }
@@ -57,7 +57,7 @@ $allnotes = unserialize ($allnotes);
 // The replace routines replaces the longer strings first,
 // to be sure that no partial book abbreviations are replaced.
 $abbreviations = $database_config_bible->getBookAbbreviations ($bible);
-$abbreviations = Filter_Abbreviations::read ($abbreviations);
+$abbreviations = filter_abbreviations_read ($abbreviations);
 $sorter = array ();
 for ($abbreviations as $abbrev => $book) {
   $sorter [] = mb_strlen ($abbrev);

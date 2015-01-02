@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/customcss.h>
 #include <filter/bibleworks.h>
 #include <filter/diff.h>
+#include <filter/abbreviations.h>
 #include <session/logic.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -2731,6 +2732,106 @@ void test_filter_diff ()
     string standard = "<span style=\"font-weight: bold;\">and</span> this is <span style=\"text-decoration: line-through;\">really</span> <span style=\"text-decoration: line-through;\">old</span> <span style=\"font-weight: bold;\">new</span> text";
     evaluate (__LINE__, __func__, standard, output);
   }
-  
-  
+}
+
+
+void test_filter_abbreviations ()
+{
+  // Read ()
+  {
+    string input =
+    "Psalms = Ps.\n"
+    "\n"
+    "Exodus = Exod.\n"
+    "\n"
+    "Exodu = Exod.\n"
+    "\n"
+    "Psalms = Psa.\n"
+    "\n"
+    "Joshua =\n"
+    "\n";
+    map <string, int> output = filter_abbreviations_read (input);
+    map <string, int> standard = { make_pair ("Ps.", 19), make_pair ("Exod.", 2), make_pair ("Psa.", 19) };
+    evaluate (__LINE__, __func__, standard, output);
+  }
+  // Display ()
+  {
+    string input =
+    "Psalms = Ps.\n"
+    "\n"
+    "Exodus = Exod.\n"
+    "\n";
+    string output = filter_abbreviations_display (input);
+    string standard =
+    "Genesis = \n"
+    "Exodus = Exod.\n"
+    "Leviticus = \n"
+    "Numbers = \n"
+    "Deuteronomy = \n"
+    "Joshua = \n"
+    "Judges = \n"
+    "Ruth = \n"
+    "1 Samuel = \n"
+    "2 Samuel = \n"
+    "1 Kings = \n"
+    "2 Kings = \n"
+    "1 Chronicles = \n"
+    "2 Chronicles = \n"
+    "Ezra = \n"
+    "Nehemiah = \n"
+    "Esther = \n"
+    "Job = \n"
+    "Psalms = Ps.\n"
+    "Proverbs = \n"
+    "Ecclesiastes = \n"
+    "Song of Solomon = \n"
+    "Isaiah = \n"
+    "Jeremiah = \n"
+    "Lamentations = \n"
+    "Ezekiel = \n"
+    "Daniel = \n"
+    "Hosea = \n"
+    "Joel = \n"
+    "Amos = \n"
+    "Obadiah = \n"
+    "Jonah = \n"
+    "Micah = \n"
+    "Nahum = \n"
+    "Habakkuk = \n"
+    "Zephaniah = \n"
+    "Haggai = \n"
+    "Zechariah = \n"
+    "Malachi = \n"
+    "Matthew = \n"
+    "Mark = \n"
+    "Luke = \n"
+    "John = \n"
+    "Acts = \n"
+    "Romans = \n"
+    "1 Corinthians = \n"
+    "2 Corinthians = \n"
+    "Galatians = \n"
+    "Ephesians = \n"
+    "Philippians = \n"
+    "Colossians = \n"
+    "1 Thessalonians = \n"
+    "2 Thessalonians = \n"
+    "1 Timothy = \n"
+    "2 Timothy = \n"
+    "Titus = \n"
+    "Philemon = \n"
+    "Hebrews = \n"
+    "James = \n"
+    "1 Peter = \n"
+    "2 Peter = \n"
+    "1 John = \n"
+    "2 John = \n"
+    "3 John = \n"
+    "Jude = \n"
+    "Revelation = \n"
+    "Front Matter = \n"
+    "Back Matter = \n"
+    "Other Material = ";
+    evaluate (__LINE__, __func__, standard, output);
+  }
 }

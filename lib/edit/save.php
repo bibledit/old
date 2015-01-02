@@ -40,9 +40,9 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
 
   if (Checksum_Logic::get ($html) == $checksum) {
 
-    $html = trim ($html);
+    $html = filter_string_trim ($html);
     if ($html != "") {
-      if (Validate_Utf8::valid ($html)) {
+      if (unicode_string_is_valid ($html)) {
   
         $stylesheet = $database_config_user->getStylesheet();
   
