@@ -50,7 +50,7 @@ string editverse_save (void * webserver_request)
   
   // Check on information about where to save the verse.
   bool save = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("verse") && request->post.count ("usfm"));
-  if (save) {
+  if (!save) {
     return gettext("Don't know where to save");
   }
 
@@ -63,14 +63,14 @@ string editverse_save (void * webserver_request)
   string checksum = request->post["checksum"];
 
   
-  // Checksum. Todo test it.
+  // Checksum.
   if (Checksum_Logic::get (usfm) != checksum) {
     request->response_code = 409;
     return gettext ("Checksum error");
   }
 
   
-  // Check there's anything to save at all. Todo test it.
+  // Check there's anything to save at all.
   usfm = filter_string_trim (usfm);
   if (usfm == "") {
     return gettext("Nothing to save");
@@ -104,7 +104,6 @@ string editverse_save (void * webserver_request)
   // Create the updated chapter USFM as a string.
   usfm.clear ();
   for (auto & element : usfmMap) {
-    cout << element.first << endl; // Todo
     if (!usfm.empty ()) usfm.append ("\n");
     usfm.append (element.second);
   }

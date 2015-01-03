@@ -93,9 +93,9 @@ string editverse_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   string chapterLoaded = gettext("Loaded");
-  string chapterSaving = gettext("Saving..."); // Todo test the whole block.
-  string chapterRetrying = gettext("Retrying..."); // Todo test the whole block.
-  string java_write_access = write_access ? "true" : "false";
+  string chapterSaving = gettext("Saving...");
+  string chapterRetrying = gettext("Retrying...");
+  string java_write_access = write_access ? "true" : "false"; // C++Port test this.
   string script =
   "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
@@ -103,7 +103,7 @@ string editverse_index (void * webserver_request)
   "var verseEditorWriteAccess = " + java_write_access + ";";
   view.set_variable ("script", script);
   
-  string cls = Filter_CustomCSS::getClass (bible); // Todo test direction and font.
+  string cls = Filter_CustomCSS::getClass (bible);
   string font = Database_Config_Bible::getTextFont (bible);
   int direction = Database_Config_Bible::getTextDirection (bible);
   view.set_variable ("custom_class", cls);
