@@ -70,7 +70,7 @@ void Assets_Header::setLogin () // C++Port
 
 
 // Display the passage navigator.
-void Assets_Header::setNavigator () // Todo
+void Assets_Header::setNavigator ()
 {
   displayNavigator = true;
 }
@@ -165,8 +165,8 @@ string Assets_Header::run ()
     if (displayNavigator) {
       view->enable_zone ("display_navigator"); // Todo
       string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-      view->set_variable ("navigationHtml", Navigation_Passage::getContainer ()); // Todo port this.
-      view->set_variable ("navigationCode", Navigation_Passage::code (bible, true)); // Todo port this.
+      view->set_variable ("navigation_html", Navigation_Passage::getContainer ());
+      view->set_variable ("navigation_code", Navigation_Passage::code (bible, true));
     }
     view->set_variable ("included_stylesheet", includedStylesheet);
     if (!includedEditorStylesheet.empty ()) {

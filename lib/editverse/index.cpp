@@ -92,7 +92,7 @@ string editverse_index (void * webserver_request)
   "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
   "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var verseEditorWriteAccess = " + java_write_access + ";\n";
+  "var verseEditorWriteAccess = " + java_write_access + ";";
   view.set_variable ("script", script);
   
   string cls = Filter_CustomCSS::getClass (bible); // Todo test direction and font.
