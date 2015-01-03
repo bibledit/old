@@ -37,16 +37,16 @@ if (isset ($preset)) {
 }
 
 
-if (isset ($_POST ['save'])) {
+if (isset (request->post ['save'])) {
   $urls = array ();
   $widths = array ();
   $row_heights = array ();
   for ($row = 1; $row <= 3; $row++) {
     for ($column = 1; $column <= 5; $column++) {
-      $urls [] = $_POST ["url$row$column"];
-      $widths [] = $_POST ["width$row$column"];
+      $urls [] = request->post ["url$row$column"];
+      $widths [] = request->post ["width$row$column"];
     }
-    $row_heights [] = $_POST ["height$row"];
+    $row_heights [] = request->post ["height$row"];
   }
   Workbench_Logic::setURLs ($urls);
   Workbench_Logic::setWidths ($widths);

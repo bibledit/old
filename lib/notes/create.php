@@ -31,36 +31,36 @@ $ipc_focus = Ipc_Focus::getInstance();
 // Is is possible to pass a Bible to this script.
 // The note will then be created for this Bible.
 // If no Bible is passed, it takes the user's active Bible.
-@$bible = $_POST ['bible'];
+@$bible = request->post ['bible'];
 if ($bible == "") {
   $bible = access_bible_clamp ($database_config_user->getBible ());
 }
 
 
-@$book = $_POST ['book'];
+@$book = request->post ['book'];
 if ($book == "") {
   $book = $ipc_focus->getBook ();
 }
-@$chapter = $_POST ['chapter'];
+@$chapter = request->post ['chapter'];
 if ($chapter == "") {
   $chapter = $ipc_focus->getChapter ();
 }
-@$verse = $_POST ['verse'];
+@$verse = request->post ['verse'];
 if ($verse == "") {
   $verse = $ipc_focus->getVerse ();
 }
 
 
-if (isset($_POST['submit'])) {
-  $summary = filter_string_trim ($_POST['summary']);
-  $contents = filter_string_trim ($_POST['contents']);
+if (isset(request->post['submit'])) {
+  $summary = filter_string_trim (request->post['summary']);
+  $contents = filter_string_trim (request->post['contents']);
   $notes_logic->createNote ($bible, $book, $chapter, $verse, $summary, $contents, false);
   redirect_browser ("index.php");
   die;
 }
 
 
-if (isset($_POST['cancel'])) {
+if (isset(request->post['cancel'])) {
   redirect_browser ("index.php");
   die;
 }

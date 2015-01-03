@@ -31,8 +31,8 @@ $view = new Assets_View (__FILE__);
 
 
 @$noteIdentifier = request->query['identifier'];
-if (isset($_POST['identifier'])) {
-  $noteIdentifier = $_POST['identifier'];
+if (isset(request->post['identifier'])) {
+  $noteIdentifier = request->post['identifier'];
   $noteIdentifier = Filter_Numeric::integer_in_string ($noteIdentifier);
 }
 
@@ -40,8 +40,8 @@ if (isset($_POST['identifier'])) {
 $database_notes = Database_Notes::getInstance ();
 
 
-if (isset($_POST['data'])) {
-  $noteData = $_POST['data'];
+if (isset(request->post['data'])) {
+  $noteData = request->post['data'];
   if ($database_notes->identifierExists ($noteIdentifier)) {
     $noteData = $database_notes->setContents ($noteIdentifier, $noteData);
     $view->view->success = gettext("The note was saved");

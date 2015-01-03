@@ -134,6 +134,7 @@ libbibledit_a_SOURCES = \
 	editverse/index.cpp \
 	editverse/id.cpp \
 	editverse/load.cpp \
+	editverse/save.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \

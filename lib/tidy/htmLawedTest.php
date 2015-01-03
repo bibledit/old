@@ -39,8 +39,8 @@ if(!isset($_SESSION['token'])){
 
 // slashes
 if(get_magic_quotes_gpc()){
- for($_POST as $k => $v){
-  $_POST[$k] = stripslashes($v);
+ for(request->post as $k => $v){
+  request->post[$k] = stripslashes($v);
  }
  ini_set('magic_quotes_gpc', 0);
 }
@@ -48,12 +48,12 @@ if(get_magic_quotes_runtime()){
  set_magic_quotes_runtime(0);
 }
 
-$_POST['enc'] = (isset($_POST['enc']) and preg_match('`^[-\w]+$`', $_POST['enc'])) ? $_POST['enc'] : 'utf-8';
+request->post['enc'] = (isset(request->post['enc']) and preg_match('`^[-\w]+$`', request->post['enc'])) ? request->post['enc'] : 'utf-8';
 
 // token for anti-CSRF
-if(count($_POST)){
- if((empty(request->query['pre']) and ((!empty($_POST['token']) and !empty($_SESSION['token']) and $_POST['token'] != $_SESSION['token']) or empty($_POST[$_sid]) or $_POST[$_sid] != session_id() or empty($_COOKIE[$_sid]) or $_COOKIE[$_sid] != session_id())) or ($_POST[$_sid] != session_id())){
-  $_POST = array('enc'=>'utf-8');
+if(count(request->post)){
+ if((empty(request->query['pre']) and ((!empty(request->post['token']) and !empty($_SESSION['token']) and request->post['token'] != $_SESSION['token']) or empty(request->post[$_sid]) or request->post[$_sid] != session_id() or empty($_COOKIE[$_sid]) or $_COOKIE[$_sid] != session_id())) or (request->post[$_sid] != session_id())){
+  request->post = array('enc'=>'utf-8');
  }
 }
 if(empty(request->query['pre'])){
@@ -68,17 +68,17 @@ if(function_exists('gzencode') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && pre
 }
 
 // HTM for unprocessed
-if(isset($_POST['inputH'])){
- echo '<html><head><title>htmLawed test: HTML view of unprocessed input</title></head><body style="margin:0; padding: 0;"><p style="background-color: black; color: white; padding: 2px;">&nbsp; Rendering of unprocessed input without an HTML doctype or charset declaration &nbsp; &nbsp; <small><a style="color: white; text-decoration: none;" href="1" onclick="javascript:window.close(this); return false;">close window</a> | <a style="color: white; text-decoration: none;" href="htmLawedTest.php" onclick="javascript: window.open(\'htmLawedTest.php\', \'hlmain\'); window.close(this); return false;">htmLawed test page</a></small></p><div>', $_POST['inputH'], '</div></body></html>';
+if(isset(request->post['inputH'])){
+ echo '<html><head><title>htmLawed test: HTML view of unprocessed input</title></head><body style="margin:0; padding: 0;"><p style="background-color: black; color: white; padding: 2px;">&nbsp; Rendering of unprocessed input without an HTML doctype or charset declaration &nbsp; &nbsp; <small><a style="color: white; text-decoration: none;" href="1" onclick="javascript:window.close(this); return false;">close window</a> | <a style="color: white; text-decoration: none;" href="htmLawedTest.php" onclick="javascript: window.open(\'htmLawedTest.php\', \'hlmain\'); window.close(this); return false;">htmLawed test page</a></small></p><div>', request->post['inputH'], '</div></body></html>';
  exit;
 }
 
 // main
-$_POST['text'] = isset($_POST['text']) ? $_POST['text'] : 'text to process; < '. $_limit. ' characters'. ($_hlimit ? ' (for binary hexdump view, < '. $_hlimit. ')' : '');
-$do = (!empty($_POST[$_sid]) && isset($_POST['text'][0]) && !isset($_POST['text'][$_limit])) ? 1 : 0;
-$limit_exceeded = isset($_POST['text'][$_limit]) ? 1 : 0;
+request->post['text'] = isset(request->post['text']) ? request->post['text'] : 'text to process; < '. $_limit. ' characters'. ($_hlimit ? ' (for binary hexdump view, < '. $_hlimit. ')' : '');
+$do = (!empty(request->post[$_sid]) && isset(request->post['text'][0]) && !isset(request->post['text'][$_limit])) ? 1 : 0;
+$limit_exceeded = isset(request->post['text'][$_limit]) ? 1 : 0;
 $pre_mem = memory_get_usage();
-$validation = (!empty($_POST[$_sid]) and isset($_POST['w3c_validate'][0])) ? 1 : 0;
+$validation = (!empty(request->post[$_sid]) and isset(request->post['w3c_validate'][0])) ? 1 : 0;
 include './htmLawed.php';
 
 function format($t){
@@ -266,7 +266,7 @@ function sndUnproc(){
  var f = document.createElement('form');
  f.enctype = 'application/x-www-form-urlencoded';
  f.method = 'post';
- f.acceptCharset = 'htmlspecialchars($_POST['enc']);';
+ f.acceptCharset = 'htmlspecialchars(request->post['enc']);';
  if(f.style){f.style.display = 'none';}
  else{f.visibility = 'hidden';}
  f.innerHTML = '<p style="display:none;"><input style="display:none;" type="hidden" name="token" id="token" value="$token;" /><input style="display:none;" type="hidden" name="htmlspecialchars($_sid);" id="htmlspecialchars($_sid);" value="' + readCookie('htmlspecialchars($_sid);') + '" /></p>';
@@ -290,7 +290,7 @@ function sndValidn(id, type){
  var f = document.createElement('form');
  f.enctype = 'application/x-www-form-urlencoded';
  f.method = 'post';
- f.acceptCharset = 'htmlspecialchars($_POST['enc']);';
+ f.acceptCharset = 'htmlspecialchars(request->post['enc']);';
  if(f.style){f.style.display = 'none';}
  else{f.visibility = 'hidden';}
  f.innerHTML = '<p style="display:none;"><input style="display:none;" type="hidden" name="prefill" id="prefill" value="1" /><input style="display:none;" type="hidden" name="prefill_doctype" id="prefill_doctype" value="'+ type+ '" /><input style="display:none;" type="hidden" name="group" id="group" value="1" /><input type="hidden" name="ss" id="ss" value="1" /></p>';
@@ -442,12 +442,12 @@ var dmp = new diff_match_patch(); function diffLaunch(){var text1 = document.get
 
 <a href="htmLawedTest.php" title="[toggle visibility] type or copy-paste" onclick="javascript:toggle('inputF'); return false;"><span class="notice">Input &raquo;</span> <span class="help" title="limit lower with multibyte characters(($_hlimit < $_limit && $_hlimit)? '; limit is '. $_hlimit. ' for viewing binaries' : '');"><small>(max. htmlspecialchars($_limit);?> chars)</small></span></a>
 
-<form id="testform" name="testform" action="htmLawedTest.php" method="post" accept-charset="htmlspecialchars($_POST['enc']);" style="padding:0; margin: 0; display:inline;">
+<form id="testform" name="testform" action="htmLawedTest.php" method="post" accept-charset="htmlspecialchars(request->post['enc']);" style="padding:0; margin: 0; display:inline;">
 
 <div id="inputF" style="display: block;">
 
 <input type="hidden" name="token" id="token" value="$token;" />
-<div><textarea id="text" class="textarea" name="text" rows="5" cols="100" style="width: 100%;">htmlspecialchars($_POST['text']);?></textarea></div>
+<div><textarea id="text" class="textarea" name="text" rows="5" cols="100" style="width: 100%;">htmlspecialchars(request->post['text']);?></textarea></div>
 <input type="submit" id="submitF" name="submitF" value="Process" style="float:left;" title="filter using htmLawed" onclick="javascript: sndProc(); return false;" onkeypress="javascript: sndProc(); return false;" />
 
 <?php
@@ -477,7 +477,7 @@ else{
 }
 ?>
 
-<span style="float:right;" class="help" title="IANA-recognized name of the input character-set; can be multiple ;- or space-separated values; may not work in some browsers"><span style="font-size: 85%;">Encoding: </span><input type="text" size="8" id="enc" name="enc" style="vertical-align: middle;" value="htmlspecialchars($_POST['enc']);" /></span>
+<span style="float:right;" class="help" title="IANA-recognized name of the input character-set; can be multiple ;- or space-separated values; may not work in some browsers"><span style="font-size: 85%;">Encoding: </span><input type="text" size="8" id="enc" name="enc" style="vertical-align: middle;" value="htmlspecialchars(request->post['enc']);" /></span>
 
 </div>
 <br style="clear:both;" />
@@ -536,30 +536,30 @@ for($cfg as $k=>$v){
  if(!empty($v[0])){ // input radio
   $j = $v[3];
   for($i = $j-1; ++$i < $v[0]+$v[3];++$j){
-   echo '<input type="radio" name="h', $k, '" value="', $i, '"', (!isset($_POST['h'. $k]) ? ($v[1] == $i ? ' checked="checked"' : '') : ($_POST['h'. $k] == $i ? ' checked="checked"' : '')), (isset($v['d']) ? ' disabled="disabled"' : ''), ' />', $i, ' ';
+   echo '<input type="radio" name="h', $k, '" value="', $i, '"', (!isset(request->post['h'. $k]) ? ($v[1] == $i ? ' checked="checked"' : '') : (request->post['h'. $k] == $i ? ' checked="checked"' : '')), (isset($v['d']) ? ' disabled="disabled"' : ''), ' />', $i, ' ';
   }
   if($v[1] == 'nil'){
-   echo '<input type="radio" name="h', $k, '" value="nil"', ((!isset($_POST['h'. $k]) or $_POST['h'. $k] == 'nil') ? ' checked="checked"' : ''), (isset($v['d']) ? ' disabled="disabled"' : ''), ' />not set ';
+   echo '<input type="radio" name="h', $k, '" value="nil"', ((!isset(request->post['h'. $k]) or request->post['h'. $k] == 'nil') ? ' checked="checked"' : ''), (isset($v['d']) ? ' disabled="disabled"' : ''), ' />not set ';
   }
   if(!empty($v[4])){ // + input text box
-   echo '<input type="radio" name="h', $k, '" value="', $j, '"', (((isset($_POST['h'. $k]) && $_POST['h'. $k] == $j) or (!isset($_POST['h'. $k]) && $j == $v[1])) ? ' checked="checked"' : ''), (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
+   echo '<input type="radio" name="h', $k, '" value="', $j, '"', (((isset(request->post['h'. $k]) && request->post['h'. $k] == $j) or (!isset(request->post['h'. $k]) && $j == $v[1])) ? ' checked="checked"' : ''), (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
    if(!is_array($v[4])){
-    echo $v[6], ': <input type="text" size="', $v[4], '" name="h', $k. $j, '" value="', htmlspecialchars(isset($_POST['h'. $k. $j][0]) ? $_POST['h'. $k. $j] : $v[5]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
+    echo $v[6], ': <input type="text" size="', $v[4], '" name="h', $k. $j, '" value="', htmlspecialchars(isset(request->post['h'. $k. $j][0]) ? request->post['h'. $k. $j] : $v[5]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
    }
    else{
     for($v[4] as $z){
-     echo ' ', $z[3], ': <input type="text" size="', $z[0], '" name="h', $k. $j. $z[1], '" value="', htmlspecialchars(isset($_POST['h'. $k. $j. $z[1]][0]) ? $_POST['h'. $k. $j. $z[1]] : $z[2]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
+     echo ' ', $z[3], ': <input type="text" size="', $z[0], '" name="h', $k. $j. $z[1], '" value="', htmlspecialchars(isset(request->post['h'. $k. $j. $z[1]][0]) ? request->post['h'. $k. $j. $z[1]] : $z[2]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';
     }    
    }
   }
  }
  elseif(ctype_digit($v[3])){ // input text
-  echo '<input type="text" size="', $v[3], '" name="h', $k, '" value="', htmlspecialchars(isset($_POST['h'. $k][0]) ? $_POST['h'. $k] : $v[1]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';  
+  echo '<input type="text" size="', $v[3], '" name="h', $k, '" value="', htmlspecialchars(isset(request->post['h'. $k][0]) ? request->post['h'. $k] : $v[1]), '"', (isset($v['d']) ? ' disabled="disabled"' : ''), ' />';  
  }
  else{} // text-area
  echo ' <span class="help">', $v[2], '</span></li>';
 }
-echo '</ul></td></tr><tr><td><span style="vertical-align: top;" class="help" title="$spec argument: element-specific attribute rules">Spec:</span></td><td><textarea name="spec" id="spec" cols="70" rows="3" style="width:80%;">', htmlspecialchars((isset($_POST['spec']) ? $_POST['spec'] : '')), '</textarea></td></tr></table>';
+echo '</ul></td></tr><tr><td><span style="vertical-align: top;" class="help" title="$spec argument: element-specific attribute rules">Spec:</span></td><td><textarea name="spec" id="spec" cols="70" rows="3" style="width:80%;">', htmlspecialchars((isset(request->post['spec']) ? request->post['spec'] : '')), '</textarea></td></tr></table>';
 ?>
 
 </div>
@@ -568,7 +568,7 @@ echo '</ul></td></tr><tr><td><span style="vertical-align: top;" class="help" tit
 <?php
 if($do){
  $cfg = array();
- for($_POST as $k=>$v){
+ for(request->post as $k=>$v){
   if($k[0] == 'h' && $v != 'nil'){
    $cfg[substr($k, 1)] = $v;
   }
@@ -598,9 +598,9 @@ if($do){
 
  $cfg['show_setting'] = 'hlcfg';
  $st = microtime(); 
- $out = htmLawed($_POST['text'], $cfg, $_POST['spec']);
+ $out = htmLawed(request->post['text'], $cfg, request->post['spec']);
  $et = microtime();
- echo '<br /><a href="htmLawedTest.php" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'inputR\'); return false;"><span class="notice">Input code &raquo;</span></a> <span class="help" title="tags estimated as half of total &gt; and &lt; chars; values may be inaccurate for non-ASCII text"><small><big>', strlen($_POST['text']), '</big> chars, ~<big>', ($tag = round((substr_count($_POST['text'], '>') + substr_count($_POST['text'], '<'))/2)), '</big> tag', ($tag > 1 ? 's' : ''), '</small>&nbsp;</span><div id="inputR" style="display: none;">', format($_POST['text']), '</div><script type="text/javascript">hl(\'inputR\');</script>', (!isset($_POST['text'][$_hlimit]) ? ' <a href="htmLawedTest.php" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'inputD\'); return false;"><span class="notice">Input binary &raquo;&nbsp;</span></a><div id="inputD" style="display: none;">'. hexdump($_POST['text']). '</div>' : ''), ' <a href="htmLawedTest.php" title="[toggle visibility] finalized internal settings as interpreted by htmLawed; for developers" onclick="javascript:toggle(\'settingF\'); return false;"><span class="notice">Finalized internal settings &raquo;&nbsp;</span></a> <div id="settingF" style="display: none;">$config: ', str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['config'], true)))), '<br />$spec: ', str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['spec'], true)))), '</div><script type="text/javascript">hl(\'settingF\');</script>', '<br /><a href="htmLawedTest.php" title="[toggle visibility] suitable for copy-paste" onclick="javascript:toggle(\'outputF\'); return false;"><span class="notice">Output &raquo;</span></a> <span class="help" title="approx., server-specific value excluding the \'include()\' call"><small>htmLawed processing time <big>', number_format(((substr($et,0,9)) + (substr($et,-10)) - (substr($st,0,9)) - (substr($st,-10))),4), '</big> s</small></span>', (($mem = memory_get_peak_usage()) !== false ? '<span class="help"><small>, peak memory usage <big>'. round(($mem-$pre_mem)/1048576, 2). '</big> <small>MB</small>' : ''), '</small></span><div id="outputF"  style="display: block;"><div><textarea id="text2" class="textarea" name="text2" rows="5" cols="100" style="width: 100%;">', htmlspecialchars($out), '</textarea></div><button type="button" onclick="javascript:document.getElementById(\'text2\').focus();document.getElementById(\'text2\').select()" title="select all to copy" style="float:right;">Select all</button>';
+ echo '<br /><a href="htmLawedTest.php" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'inputR\'); return false;"><span class="notice">Input code &raquo;</span></a> <span class="help" title="tags estimated as half of total &gt; and &lt; chars; values may be inaccurate for non-ASCII text"><small><big>', strlen(request->post['text']), '</big> chars, ~<big>', ($tag = round((substr_count(request->post['text'], '>') + substr_count(request->post['text'], '<'))/2)), '</big> tag', ($tag > 1 ? 's' : ''), '</small>&nbsp;</span><div id="inputR" style="display: none;">', format(request->post['text']), '</div><script type="text/javascript">hl(\'inputR\');</script>', (!isset(request->post['text'][$_hlimit]) ? ' <a href="htmLawedTest.php" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'inputD\'); return false;"><span class="notice">Input binary &raquo;&nbsp;</span></a><div id="inputD" style="display: none;">'. hexdump(request->post['text']). '</div>' : ''), ' <a href="htmLawedTest.php" title="[toggle visibility] finalized internal settings as interpreted by htmLawed; for developers" onclick="javascript:toggle(\'settingF\'); return false;"><span class="notice">Finalized internal settings &raquo;&nbsp;</span></a> <div id="settingF" style="display: none;">$config: ', str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['config'], true)))), '<br />$spec: ', str_replace(array('    ', "\t", '  '), array('  ', '&nbsp;  ', '&nbsp; '), nl2br(htmlspecialchars(print_r($GLOBALS['hlcfg']['spec'], true)))), '</div><script type="text/javascript">hl(\'settingF\');</script>', '<br /><a href="htmLawedTest.php" title="[toggle visibility] suitable for copy-paste" onclick="javascript:toggle(\'outputF\'); return false;"><span class="notice">Output &raquo;</span></a> <span class="help" title="approx., server-specific value excluding the \'include()\' call"><small>htmLawed processing time <big>', number_format(((substr($et,0,9)) + (substr($et,-10)) - (substr($st,0,9)) - (substr($st,-10))),4), '</big> s</small></span>', (($mem = memory_get_peak_usage()) !== false ? '<span class="help"><small>, peak memory usage <big>'. round(($mem-$pre_mem)/1048576, 2). '</big> <small>MB</small>' : ''), '</small></span><div id="outputF"  style="display: block;"><div><textarea id="text2" class="textarea" name="text2" rows="5" cols="100" style="width: 100%;">', htmlspecialchars($out), '</textarea></div><button type="button" onclick="javascript:document.getElementById(\'text2\').focus();document.getElementById(\'text2\').select()" title="select all to copy" style="float:right;">Select all</button>';
  if($_w3c_validate && $validation)
  {
 ?>
@@ -610,7 +610,7 @@ if($do){
   
 <?php
  }
- echo '</div><br /><a href="htmLawedTest.php" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'outputR\'); return false;"><span class="notice">Output code &raquo;</span></a><div id="outputR" style="display: block;">', format($out), '</div><script type="text/javascript">hl(\'outputR\');</script>', (!isset($_POST['text'][$_hlimit]) ? ' <a href="htmLawedTest.php" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'outputD\'); return false;"><span class="notice">Output binary &raquo;</span></a><div id="outputD" style="display: none;">'. hexdump($out). '</div>' : ''), ' <a href="htmLawedTest.php" title="[toggle visibility] inline output-input diff; might not be perfectly accurate, semantically or otherwise " onclick="javascript:toggle(\'diff\'); diffLaunch(); return false;"><span class="notice">Diff &raquo;</span></a> <div id="diff" style="display: none;"></div><br /><a href="htmLawedTest.php" title="[toggle visibility] XHTML 1 Transitional doctype" onclick="javascript:toggle(\'outputH\'); return false;"><span class="notice">Output rendered &raquo;</span></a><div id="outputH" style="display: block;">', $out, '</div>';
+ echo '</div><br /><a href="htmLawedTest.php" title="[toggle visibility] syntax-highlighted" onclick="javascript:toggle(\'outputR\'); return false;"><span class="notice">Output code &raquo;</span></a><div id="outputR" style="display: block;">', format($out), '</div><script type="text/javascript">hl(\'outputR\');</script>', (!isset(request->post['text'][$_hlimit]) ? ' <a href="htmLawedTest.php" title="[toggle visibility] hexdump; non-viewable characters like line-returns are shown as dots" onclick="javascript:toggle(\'outputD\'); return false;"><span class="notice">Output binary &raquo;</span></a><div id="outputD" style="display: none;">'. hexdump($out). '</div>' : ''), ' <a href="htmLawedTest.php" title="[toggle visibility] inline output-input diff; might not be perfectly accurate, semantically or otherwise " onclick="javascript:toggle(\'diff\'); diffLaunch(); return false;"><span class="notice">Diff &raquo;</span></a> <div id="diff" style="display: none;"></div><br /><a href="htmLawedTest.php" title="[toggle visibility] XHTML 1 Transitional doctype" onclick="javascript:toggle(\'outputH\'); return false;"><span class="notice">Output rendered &raquo;</span></a><div id="outputH" style="display: block;">', $out, '</div>';
 }
 else{
 ?>

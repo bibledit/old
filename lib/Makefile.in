@@ -172,9 +172,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
 	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
 	editverse/id.$(OBJEXT) editverse/load.$(OBJEXT) \
-	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
-	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	checksum/logic.$(OBJEXT)
+	editverse/save.$(OBJEXT) navigation/passage.$(OBJEXT) \
+	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) checksum/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -520,6 +520,7 @@ libbibledit_a_SOURCES = \
 	editverse/index.cpp \
 	editverse/id.cpp \
 	editverse/load.cpp \
+	editverse/save.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
@@ -1121,6 +1122,8 @@ editverse/id.$(OBJEXT): editverse/$(am__dirstamp) \
 	editverse/$(DEPDIR)/$(am__dirstamp)
 editverse/load.$(OBJEXT): editverse/$(am__dirstamp) \
 	editverse/$(DEPDIR)/$(am__dirstamp)
+editverse/save.$(OBJEXT): editverse/$(am__dirstamp) \
+	editverse/$(DEPDIR)/$(am__dirstamp)
 navigation/$(am__dirstamp):
 	@$(MKDIR_P) navigation
 	@: > navigation/$(am__dirstamp)
@@ -1350,6 +1353,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/load.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/receive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@

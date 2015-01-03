@@ -32,7 +32,7 @@ $username = $session_logic->currentUser ();
 
 
 // Handle AJAX call to remove a change notification.
-@$remove = $_POST['remove'];
+@$remove = request->post['remove'];
 if (isset ($remove)) {
   $trash_handler = Trash_Handler::getInstance ();
   $trash_handler->changeNotification ($remove);
@@ -42,7 +42,7 @@ if (isset ($remove)) {
 
 
 // Handle AJAX call to navigate to the passage belonging to the change notification.
-@$navigate = $_POST['navigate'];
+@$navigate = request->post['navigate'];
 if (isset ($navigate)) {
   $id = $navigate;
   $passage = $database_modifications->getNotificationPassage ($id);

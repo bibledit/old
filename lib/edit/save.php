@@ -29,11 +29,11 @@ $database_modifications = Database_Modifications::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-$bible = $_POST['bible'];
-$book = $_POST['book'];
-$chapter = $_POST['chapter'];
-$html = $_POST['html'];
-$checksum = $_POST['checksum'];
+$bible = request->post['bible'];
+$book = request->post['book'];
+$chapter = request->post['chapter'];
+$html = request->post['html'];
+$checksum = request->post['checksum'];
 
 
 if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isset ($checksum)) {

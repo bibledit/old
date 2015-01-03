@@ -28,7 +28,7 @@
 // calculates a checksum by splitting the $data on the spaces,
 // converts it to JSON,
 // and returns the result.
-string Checksum_Logic::send (string data) // Todo C++Port No JSON, but checksum on first line: Update javascript.
+string Checksum_Logic::send (string data) // C++Port No JSON, but checksum on first line: Update javascript.
 {
   string checksum = get (data);
   checksum.append ("\n");

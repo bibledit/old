@@ -28,19 +28,19 @@ $notes_logic = Notes_Logic::getInstance();
 
 @$id = request->query ['id'];
 if ($id == "") {
-  @$id = $_POST ['id'];
+  @$id = request->post ['id'];
 }
 
 
-if (isset($_POST['submit'])) {
-  $comment = filter_string_trim ($_POST['comment']);
+if (isset(request->post['submit'])) {
+  $comment = filter_string_trim (request->post['comment']);
   $notes_logic->addComment ($id, $comment);
   redirect_browser ("note.php?id=$id&temporal");
   die;
 }
 
 
-if (isset($_POST['cancel'])) {
+if (isset(request->post['cancel'])) {
   redirect_browser ("note.php?id=$id");
   die;
 }

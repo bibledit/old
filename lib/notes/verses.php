@@ -29,8 +29,8 @@ $notes_logic = Notes_Logic::getInstance ();
 $id = request->query ['id'];
 
 
-if (isset($_POST['submit'])) {
-  $verses = explode ("\n", $_POST['verses']);
+if (isset(request->post['submit'])) {
+  $verses = explode ("\n", request->post['verses']);
   $passages = array ();
   $previousPassage = array (1, 1, 1);
   for ($verses as $line) {

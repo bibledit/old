@@ -51,7 +51,3 @@ string editverse_load (void * webserver_request)
   
   return Checksum_Logic::send (usfm);
 }
-/*
- Todo port it.
-  */
-

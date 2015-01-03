@@ -25,9 +25,9 @@ page_access_level (Filter_Roles::translator ());
 $database_volatile = Database_Volatile::getInstance ();
 
 
-$id = $_POST ['id'];
-$passages = $_POST ['passages'];
-$translations = $_POST ['translations'];
+$id = request->post ['id'];
+$passages = request->post ['passages'];
+$translations = request->post ['translations'];
 
 
 $database_volatile->setValue ($id, "passages", $passages);

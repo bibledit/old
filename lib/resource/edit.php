@@ -32,17 +32,17 @@ $database_resources = Database_Resources::getInstance ();
 $view->view->name = $name;
 
 
-if (isset($_POST['code'])) {
-  $code = $_POST['code'];
+if (isset(request->post['code'])) {
+  $code = request->post['code'];
   include ("config/open.php");
   if ($open_installation) {
     echo "<h2>Cannot save data in this open installation</h2>";
   } else {
     $database_resources->save ($name, $code);
   }
-  $book = $_POST ['book'];
-  $chapter = $_POST ['chapter'];
-  $verse = $_POST ['verse'];
+  $book = request->post ['book'];
+  $chapter = request->post ['chapter'];
+  $verse = request->post ['verse'];
   $view->view->posted = true;
 }
 

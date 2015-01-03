@@ -43,8 +43,8 @@ $write = true;
 if ($userlevel >= Filter_Roles::admin ()) $write = true;
 
 
-if (isset($_POST['submit'])) {
-  $data = $_POST['data'];
+if (isset(request->post['submit'])) {
+  $data = request->post['data'];
   if ($write) {
     $database_mappings->import ($name, $data);
   }

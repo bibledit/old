@@ -31,9 +31,9 @@ $database_logs = Database_Logs::getInstance ();
 $database_offlineresources = Database_OfflineResources::getInstance ();
 
 
-$action = $_POST ['a'];
-@$resource = $_POST ['r'];
-@$file = $_POST ['f'];
+$action = request->post ['a'];
+@$resource = request->post ['r'];
+@$file = request->post ['f'];
 
 
 if ($action == "total") {

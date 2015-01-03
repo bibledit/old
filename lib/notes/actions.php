@@ -38,7 +38,7 @@ $error = "";
 
 @$id = request->query ['id'];
 if ($id == "") {
-  @$id = $_POST ['id'];
+  @$id = request->post ['id'];
 }
 
 

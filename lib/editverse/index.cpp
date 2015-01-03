@@ -31,6 +31,7 @@
 #include <fonts/logic.h>
 #include <navigation/passage.h>
 #include <dialog/list.h>
+#include <ipc/focus.h>
 
 
 string editverse_index_url ()
@@ -49,10 +50,17 @@ string editverse_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
+  if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
+    int switchbook = convert_to_int (request->query ["switchbook"]);
+    int switchchapter = convert_to_int (request->query ["switchchapter"]);
+    Ipc_Focus::set (request, switchbook, switchchapter, 1);
+    Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
+  }
+  
   string page;
   
   Assets_Header header = Assets_Header (gettext("Edit USFM"), request);
-  header.setNavigator (); // Todo enable navigator display.
+  header.setNavigator ();
   page = header.run ();
   
   Assets_View view = Assets_View ();
@@ -84,9 +92,9 @@ string editverse_index (void * webserver_request)
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
-  string chapterLoaded = gettext("Loaded"); // Todo test the whole block.
-  string chapterSaving = gettext("Saving...");
-  string chapterRetrying = gettext("Retrying...");
+  string chapterLoaded = gettext("Loaded");
+  string chapterSaving = gettext("Saving..."); // Todo test the whole block.
+  string chapterRetrying = gettext("Retrying..."); // Todo test the whole block.
   string java_write_access = write_access ? "true" : "false";
   string script =
   "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
@@ -112,34 +120,3 @@ string editverse_index (void * webserver_request)
 // * Autosave on going to another passage.
 // * Autosave on document unload.
 // * Autosave shortly after any change.
-
-
-
-
-/*
-
-Todo port it.
-
-
-@$switchbook = request->query ['switchbook'];
-@$switchchapter = request->query ['switchchapter'];
-if (isset ($switchbook) && isset ($switchchapter)) {
-  $ipc_focus = Ipc_Focus::getInstance();
-  $switchbook = Filter_Numeric::integer_in_string ($switchbook);
-  $switchchapter = Filter_Numeric::integer_in_string ($switchchapter);
-  $ipc_focus->set ($switchbook, $switchchapter, 1);
-  Navigation_Passage::recordHistory ($switchbook, $switchchapter, 1);
-}
-
-
-$header = new Assets_Header (gettext("Edit USFM"));
-$header->setNavigator ();
-$header->run ();
-
-
-
-
-
-
-*/
-

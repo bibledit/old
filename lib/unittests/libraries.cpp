@@ -245,7 +245,7 @@ void test_flate ()
 }
 
 
-void test_checksum_logic () // Todo
+void test_checksum_logic ()
 {
   // Get1
   {

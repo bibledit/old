@@ -93,7 +93,7 @@ if (isset ($severity_selector)) {
 @$text_selector = request->query['textselector'];
 if (isset ($text_selector)) {
   $database_config_user->setConsultationNotesTextSelector ($text_selector);
-  @$search_text = $_POST['text'];
+  @$search_text = request->post['text'];
   if (isset ($search_text)) {
     $database_config_user->setConsultationNotesSearchText ($search_text);
     Assets_Page::success (gettext("Search text saved"));

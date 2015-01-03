@@ -58,6 +58,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editverse/index.h>
 #include <editverse/id.h>
 #include <editverse/load.h>
+#include <editverse/save.h>
 #include <navigation/update.h>
 #include <navigation/poll.h>
 
@@ -129,6 +130,7 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == navigation_poll_url ()) && navigation_poll_acl (request)) request->reply = navigation_poll (request);
   else if ((url == editverse_id_url ()) && editverse_id_acl (request)) request->reply = editverse_id (request);
   else if ((url == editverse_load_url ()) && editverse_load_acl (request)) request->reply = editverse_load (request);
+  else if ((url == editverse_save_url ()) && editverse_save_acl (request)) request->reply = editverse_save (request);
   
   // Forward the browser to the default home page.
   else {

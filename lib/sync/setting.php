@@ -21,11 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 
-$username = Filter_Hex::hex2bin ($_POST ['u']);
-$password = $_POST ['p'];
-$level = $_POST ['l'];
-$id = $_POST ['i'];
-$setting = unserialize ($_POST ['s']);
+$username = Filter_Hex::hex2bin (request->post ['u']);
+$password = request->post ['p'];
+$level = request->post ['l'];
+$id = request->post ['i'];
+$setting = unserialize (request->post ['s']);
 
 
 $database_logs = Database_Logs::getInstance ();

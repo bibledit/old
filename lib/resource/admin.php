@@ -26,7 +26,7 @@ $database_resources = Database_Resources::getInstance ();
 $database_offlineresources = Database_OfflineResources::getInstance ();
 
 
-@$add = $_POST['entry'];
+@$add = request->post['entry'];
 if (isset ($add)) {
   $database_resources->save ($add, '<?php $output = "dummy";');
 }

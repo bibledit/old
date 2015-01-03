@@ -34,7 +34,7 @@ string Navigation_Passage::getContainer ()
 }
 
 
-string Navigation_Passage::getNavigator (void * webserver_request, string bible) // Todo
+string Navigation_Passage::getNavigator (void * webserver_request, string bible)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

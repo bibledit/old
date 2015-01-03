@@ -25,7 +25,7 @@ page_access_level (Filter_Roles::consultant ());
 $database_config_user = Database_Config_User::getInstance ();
 
 
-@$add = $_POST['add'];
+@$add = request->post['add'];
 if (isset ($add)) {
   $database_config_user->setActiveWorkbench ($add);
   Workbench_Logic::setURLs    (Workbench_Logic::defaultURLs (0));
@@ -34,7 +34,7 @@ if (isset ($add)) {
 }
 
 
-@$workbenches = $_POST ['workbenches'];
+@$workbenches = request->post ['workbenches'];
 if (isset ($workbenches)) {
   $workbenches = explode (",", $workbenches);
   Workbench_Logic::orderWorkbenches ($workbenches);

@@ -143,8 +143,8 @@ if (isset (request->query['pagewidth'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Please enter a page width in millimeters"), Database_Config_Bible::getPageWidth ($bible), "pagewidth", gettext ("The width of A4 is 210 mm. The width of Letter is 216 mm."));
   die;
 }
-if (isset($_POST['pagewidth'])) {
-  $value = $_POST['entry'];
+if (isset(request->post['pagewidth'])) {
+  $value = request->post['entry'];
   $value = Filter_Numeric::integer_in_string ($value);
   if (($value >= 30) && ($value <= 500)) {
     Database_Config_Bible::setPageWidth ($bible, $value);
@@ -156,8 +156,8 @@ if (isset (request->query['pageheight'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Please enter a page height in millimeters"), Database_Config_Bible::getPageHeight ($bible), "pageheight", gettext ("The height of A4 is 297 mm. The width of Letter is 279 mm."));
   die;
 }
-if (isset($_POST['pageheight'])) {
-  $value = $_POST['entry'];
+if (isset(request->post['pageheight'])) {
+  $value = request->post['entry'];
   $value = Filter_Numeric::integer_in_string ($value);
   if (($value >= 40) && ($value <= 600)) {
     Database_Config_Bible::setPageHeight ($bible, $value);
@@ -169,8 +169,8 @@ if (isset (request->query['innermargin'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Please enter an inner margin size in millimeters"), Database_Config_Bible::getInnerMargin ($bible), "innermargin", "");
   die;
 }
-if (isset($_POST['innermargin'])) {
-  $value = $_POST['entry'];
+if (isset(request->post['innermargin'])) {
+  $value = request->post['entry'];
   $value = Filter_Numeric::integer_in_string ($value);
   if (($value >= 0) && ($value <= 100)) {
     Database_Config_Bible::setInnerMargin ($bible, $value);
@@ -182,8 +182,8 @@ if (isset (request->query['outermargin'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Please enter an outer margin size in millimeters"), Database_Config_Bible::getOuterMargin ($bible), "outermargin", "");
   die;
 }
-if (isset($_POST['outermargin'])) {
-  $value = $_POST['entry'];
+if (isset(request->post['outermargin'])) {
+  $value = request->post['entry'];
   $value = Filter_Numeric::integer_in_string ($value);
   if (($value >= 0) && ($value <= 100)) {
     Database_Config_Bible::setOuterMargin ($bible, $value);
@@ -195,8 +195,8 @@ if (isset (request->query['topmargin'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Please enter an top margin size in millimeters"), Database_Config_Bible::getTopMargin ($bible), "topmargin", "");
   die;
 }
-if (isset($_POST['topmargin'])) {
-  $value = $_POST['entry'];
+if (isset(request->post['topmargin'])) {
+  $value = request->post['entry'];
   $value = Filter_Numeric::integer_in_string ($value);
   if (($value >= 0) && ($value <= 100)) {
     Database_Config_Bible::setTopMargin ($bible, $value);
@@ -208,8 +208,8 @@ if (isset (request->query['bottommargin'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Please enter an bottom margin size in millimeters"), Database_Config_Bible::getBottomMargin ($bible), "bottommargin", "");
   die;
 }
-if (isset($_POST['bottommargin'])) {
-  $value = $_POST['entry'];
+if (isset(request->post['bottommargin'])) {
+  $value = request->post['entry'];
   $value = Filter_Numeric::integer_in_string ($value);
   if (($value >= 0) && ($value <= 100)) {
     Database_Config_Bible::setBottomMargin ($bible, $value);
@@ -296,8 +296,8 @@ if (isset (request->query['sheet'])) {
 }
 
 
-if (isset($_POST['passwordsubmit'])) {
-  $password = $_POST['passwordentry'];
+if (isset(request->post['passwordsubmit'])) {
+  $password = request->post['passwordentry'];
   Database_Config_Bible::setExportPassword ($bible, $password);
   $view->view->success = gettext("The password for securing exports was saved."); 
 }

@@ -33,18 +33,18 @@ $database_notes = Database_Notes::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-$action = $_POST ['a'];
+$action = request->post ['a'];
 
 
 if ($action == "notes") {
 
-  $user = Filter_Hex::hex2bin ($_POST ['u']);
+  $user = Filter_Hex::hex2bin (request->post ['u']);
   if (!$database_users->usernameExists ($user)) {
     Database_Logs::log ("A client passes non existing user $user", Filter_Roles::manager ());
     die;
   }
 
-  $md5 = $_POST ['p'];
+  $md5 = request->post ['p'];
   if ($md5 != $database_users->getmd5 ($user)) {
     Database_Logs::log ("A client provides incorrect password for user $user", Filter_Roles::manager ()); // Test it.
     die;
@@ -52,8 +52,8 @@ if ($action == "notes") {
 
   $bibles = access_bible_bibles ($user);
 
-  $lowId = $_POST ['l'];
-  $highId = $_POST ['h'];
+  $lowId = request->post ['l'];
+  $highId = request->post ['h'];
 
   $identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId, $bibles);
   $checksum = $database_notes->getMultipleChecksum ($identifiers);
@@ -64,19 +64,19 @@ if ($action == "notes") {
 
 } else if ($action == "identifiers") {
 
-  $user = Filter_Hex::hex2bin ($_POST ['u']);
+  $user = Filter_Hex::hex2bin (request->post ['u']);
   if (!$database_users->usernameExists ($user)) {
     die;
   }
-  $md5 = $_POST ['p'];
+  $md5 = request->post ['p'];
   if ($md5 != $database_users->getmd5 ($user)) {
     die;
   }
 
   $bibles = access_bible_bibles ($user);
 
-  $lowId = $_POST ['l'];
-  $highId = $_POST ['h'];
+  $lowId = request->post ['l'];
+  $highId = request->post ['h'];
 
   $identifiers = $database_notes->getNotesInRangeForBibles ($lowId, $highId, $bibles);
   $checksums = array ();
@@ -91,7 +91,7 @@ if ($action == "notes") {
 
 } else if ($action == "fetch") {
 
-  $identifier = $_POST ['i'];
+  $identifier = request->post ['i'];
 
   // Update search and checksum.
   $database_notes->updateSearchFields ($identifier);

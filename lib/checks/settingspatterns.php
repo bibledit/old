@@ -32,8 +32,8 @@ $bible = access_bible_clamp ($database_config_user->getBible ());
 
 
 
-if (isset($_POST['patterns'])) {
-  $patterns = $_POST ['patterns'];
+if (isset(request->post['patterns'])) {
+  $patterns = request->post ['patterns'];
   if ($bible) Database_Config_Bible::setCheckingPatterns ($bible, $patterns);
   $view->view->success = gettext("The patterns were saved");
 }

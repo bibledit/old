@@ -20,15 +20,12 @@
 		CA06BDD91A56C13E00A051FF /* css.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = css.html; sourceTree = "<group>"; };
 		CA06BDDA1A56D25F00A051FF /* id.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = id.cpp; sourceTree = "<group>"; };
 		CA06BDDB1A56D25F00A051FF /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
-		CA06BDDC1A56D25F00A051FF /* id.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = id.php; sourceTree = "<group>"; };
 		CA06BDDD1A56D25F00A051FF /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA06BDDE1A56D25F00A051FF /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA06BDDF1A56D25F00A051FF /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA06BDE01A56D25F00A051FF /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CA06BDE11A56D25F00A051FF /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
 		CA06BDE21A56D25F00A051FF /* load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = load.cpp; sourceTree = "<group>"; };
 		CA06BDE31A56D25F00A051FF /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
-		CA06BDE41A56D25F00A051FF /* load.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = load.php; sourceTree = "<group>"; };
 		CA06BDE51A56D25F00A051FF /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
 		CA06BDE61A56D25F00A051FF /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
 		CA06BDE71A56D25F00A051FF /* save.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = save.php; sourceTree = "<group>"; };
@@ -1746,15 +1743,12 @@
 			children = (
 				CA06BDDA1A56D25F00A051FF /* id.cpp */,
 				CA06BDDB1A56D25F00A051FF /* id.h */,
-				CA06BDDC1A56D25F00A051FF /* id.php */,
 				CA06BDDD1A56D25F00A051FF /* index.cpp */,
 				CA06BDDE1A56D25F00A051FF /* index.h */,
 				CA06BDDF1A56D25F00A051FF /* index.html */,
 				CA06BDE01A56D25F00A051FF /* index.js */,
-				CA06BDE11A56D25F00A051FF /* index.php */,
 				CA06BDE21A56D25F00A051FF /* load.cpp */,
 				CA06BDE31A56D25F00A051FF /* load.h */,
-				CA06BDE41A56D25F00A051FF /* load.php */,
 				CA06BDE51A56D25F00A051FF /* save.cpp */,
 				CA06BDE61A56D25F00A051FF /* save.h */,
 				CA06BDE71A56D25F00A051FF /* save.php */,

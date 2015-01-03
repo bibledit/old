@@ -30,7 +30,7 @@ $session_logic = Session_Logic::getInstance();
 
 
 // Note unsubscribe handler.
-@$unsubscribe = $_POST['unsubscribe'];
+@$unsubscribe = request->post['unsubscribe'];
 if (isset ($unsubscribe)) {
   $database_notes->unsubscribe (Filter_Numeric::integer_in_string ($unsubscribe));
   die;
@@ -38,7 +38,7 @@ if (isset ($unsubscribe)) {
 
 
 // Note unassign handler.
-@$unassign = $_POST['unassign'];
+@$unassign = request->post['unassign'];
 if (isset ($unassign)) {
   $notes_logic->unassignUser (Filter_Numeric::integer_in_string ($unassign), $session_logic->currentUser ());
   die;
@@ -46,7 +46,7 @@ if (isset ($unassign)) {
 
 
 // Note mark for deletion handler.
-@$delete = $_POST['delete'];
+@$delete = request->post['delete'];
 if (isset ($delete)) {
   $identifier = Filter_Numeric::integer_in_string ($delete);
   $notes_logic->markForDeletion ($identifier);

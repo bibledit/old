@@ -34,8 +34,8 @@ $username = $session_logic->currentUser ();
 $userlevel = $session_logic->currentLevel ();
 
 
-if (isset($_POST['new'])) {
-  $name = $_POST['entry'];
+if (isset(request->post['new'])) {
+  $name = request->post['entry'];
   if (in_array ($name, $database_mappings->names ())) {
     Assets_Page::error (gettext("This verse mapping already exists"));
   } else {

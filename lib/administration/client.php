@@ -38,13 +38,13 @@ if (isset(request->query['disable'])) {
 }
 
 
-if (isset ($_POST ['connect'])) {
+if (isset (request->post ['connect'])) {
 
-  $address = $_POST ['address'];
+  $address = request->post ['address'];
   $database_config_general->setServerAddress ($address);
 
-  $user = $_POST ['user'];
-  $pass = $_POST ['pass'];
+  $user = request->post ['user'];
+  $pass = request->post ['pass'];
 
   $response = config_logic_setup ($user, md5 ($pass));
 

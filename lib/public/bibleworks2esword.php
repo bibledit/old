@@ -19,8 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 $inputData = "";
-if (isset($_POST['submit'])) {
-  $inputData = $_POST['data'];
+if (isset(request->post['submit'])) {
+  $inputData = request->post['data'];
   $inputData = filter_string_trim ($inputData);
 }
 $outputData = $inputData;

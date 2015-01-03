@@ -29,12 +29,12 @@ $session_logic = Session_Logic::getInstance ();
 $database_mail = Database_Mail::getInstance ();
 
 
-@$username = Filter_Hex::hex2bin ($_POST ['u']);
-@$password = $_POST ['p'];
-@$bible = $_POST ['b'];
-@$book = $_POST ['bk'];
-@$chapter = $_POST ['c'];
-$action = $_POST ['a'];
+@$username = Filter_Hex::hex2bin (request->post ['u']);
+@$password = request->post ['p'];
+@$bible = request->post ['b'];
+@$book = request->post ['bk'];
+@$chapter = request->post ['c'];
+$action = request->post ['a'];
 
 
 if ($action == "total") {

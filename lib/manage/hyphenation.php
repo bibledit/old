@@ -42,10 +42,10 @@ $error = "";
 
 
 // Character sets submission.
-if (isset($_POST['sets'])) {
-  $firstset = $_POST['firstset'];
+if (isset(request->post['sets'])) {
+  $firstset = request->post['firstset'];
   Database_Config_Bible::setHyphenationFirstSet ($bible, $firstset);
-  $secondset = $_POST['secondset'];
+  $secondset = request->post['secondset'];
   Database_Config_Bible::setHyphenationSecondSet ($bible, $secondset);
   $success = gettext("The two sets of characters were saved");
 }

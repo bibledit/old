@@ -29,8 +29,8 @@ $notes_logic = Notes_Logic::getInstance ();
 $id = request->query ['id'];
 
 
-if (isset($_POST['submit'])) {
-  $summary = $_POST['entry'];
+if (isset(request->post['submit'])) {
+  $summary = request->post['entry'];
   $notes_logic->setSummary ($id, $summary);
   redirect_browser ("note.php?id=$id");
   die;

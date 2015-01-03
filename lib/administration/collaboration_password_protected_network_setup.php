@@ -29,8 +29,8 @@ $object = request->query ['object'];
 $view->view->object = $object;
 
 $database_config_bible = Database_Config_Bible::getInstance();
-if (isset($_POST['url'])) {
-  $url = $_POST['urlvalue'];
+if (isset(request->post['url'])) {
+  $url = request->post['urlvalue'];
   Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
 }
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);

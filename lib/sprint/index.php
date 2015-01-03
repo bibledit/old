@@ -60,7 +60,7 @@ $header = new Assets_Header (gettext("Sprint"));
 $view = new Assets_View (__FILE__);
 
 
-@$title = $_POST ['add'];
+@$title = request->post ['add'];
 if (isset ($title)) {
   $database_sprint->storeTask ($bible, $year, $month, $title);
   $view->view->success = gettext("New task added");
@@ -129,7 +129,7 @@ if (isset ($complete)) {
 }
 
 
-@$categories = $_POST ['categories'];
+@$categories = request->post ['categories'];
 if (isset ($categories)) {
   $categories2 = array ();
   $categories = filter_string_trim ($categories);

@@ -34,9 +34,9 @@ $targetBible = $database_config_user->getTargetXrefBible ();
 
 
 // Save book / abbreviation pair.
-if (isset ($_POST ['save'])) {
-  $fullname = $_POST ['fullname'];
-  $abbreviation = $_POST ['abbreviation'];
+if (isset (request->post ['save'])) {
+  $fullname = request->post ['fullname'];
+  $abbreviation = request->post ['abbreviation'];
   $abbreviations = Database_Config_Bible::getBookAbbreviations ($targetBible);
   $abbreviations = filter_abbreviations_display ($abbreviations);
   $abbreviations += "\n$fullname = $abbreviation";

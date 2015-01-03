@@ -77,7 +77,7 @@ if (isset ($remove)) {
 }
 
 
-@$resources = $_POST ['resources'];
+@$resources = request->post ['resources'];
 if (isset ($resources)) {
   $resources = explode (",", $resources);
   $database_config_user->setPrintResources ($resources);
