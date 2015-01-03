@@ -31,7 +31,7 @@ $database_bibleactions = Database_BibleActions::getInstance ();
 $view = new Assets_View (__FILE__);
 
 
-if (isset($_GET['disable'])) {
+if (isset(request->query['disable'])) {
   config_logic_set (false);
   remove_all_users ();
   $database_config_general->setRepeatSendReceive (0);
@@ -62,7 +62,7 @@ if (isset ($_POST ['connect'])) {
 }
 
 
-if (isset ($_GET['demo'])) {
+if (isset (request->query['demo'])) {
 
   $address = Filter_Demo::demo_address ();
   $database_config_general->setServerAddress ($address);

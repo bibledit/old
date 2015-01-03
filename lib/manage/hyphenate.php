@@ -60,7 +60,7 @@ $database_users->grantAccess2Bible ($user, $outputBible);
 // Go through the input Bible's books and chapters.
 $books = $database_bibles->getBooks ($inputBible);
 for ($books as $book) {
-  Database_Logs::log ($database_books->getEnglishFromId ($book));
+  Database_Logs::log (Database_Books::getEnglishFromId ($book));
   $chapters = $database_bibles->getChapters ($inputBible, $book);
   for ($chapters as $chapter) {
     $data = $database_bibles->getChapter ($inputBible, $book, $chapter);

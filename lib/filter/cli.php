@@ -36,7 +36,7 @@ class Filter_Cli
   {
     $argument = "";
     if (isset ($argv [$key])) $argument = $argv [$key];
-    if (isset ($_GET [$key])) $argument = $_GET [$key];
+    if (isset (request->query [$key])) $argument = request->query [$key];
     return $argument;
   }
   

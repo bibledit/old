@@ -30,13 +30,13 @@ $database_volatile = Database_Volatile::getInstance ();
 $siteUrl = $database_config_general->getSiteURL ();
 
 
-@$bible = $_GET ['bible'];
+@$bible = request->query ['bible'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$identifier = $_GET ['i'];
-@$query = $_GET ['q'];
-@$hit = $_GET ['h'];
+@$identifier = request->query ['i'];
+@$query = request->query ['q'];
+@$hit = request->query ['h'];
 
 
 // Get one search hit.
@@ -85,10 +85,10 @@ if (isset ($query)) {
   
 
   // Get extra search parameters and store them all in the volatile database.
-  @$casesensitive = ($_GET ['c'] == "true");
-  @$plaintext = ($_GET ['p'] == "true");
-  @$currentbook = ($_GET ['b'] == "true");
-  @$sharing = $_GET ['s'];
+  @$casesensitive = (request->query ['c'] == "true");
+  @$plaintext = (request->query ['p'] == "true");
+  @$currentbook = (request->query ['b'] == "true");
+  @$sharing = request->query ['s'];
   $database_volatile->setValue ($identifier, "query", $query);
   $database_volatile->setValue ($identifier, "casesensitive", $casesensitive);
   $database_volatile->setValue ($identifier, "plaintext", $plaintext);

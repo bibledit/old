@@ -29,11 +29,11 @@ $database_bibles = Database_Bibles::getInstance();
 $bible = $database_config_user->getTargetXrefBible ();
 
 
-$book = intval ($_GET ['book']);
-$chapter = intval ($_GET ['chapter']);
-$verse = $_GET ['verse'];
-$focus = intval ($_GET ['focus']);
-$move = intval ($_GET ['move']);
+$book = intval (request->query ['book']);
+$chapter = intval (request->query ['chapter']);
+$verse = request->query ['verse'];
+$focus = intval (request->query ['focus']);
+$move = intval (request->query ['move']);
 
 
 $usfmArray = array ();

@@ -61,7 +61,7 @@ $filter_text_book->text_text = new Text_Text ();
 
 // Basic USFM.
 if (file_exists ($usfmFilename)) unlink ($usfmFilename);
-$basicUsfm = "\\id " . $database_books->getUsfmFromId ($book) . "\n";
+$basicUsfm = "\\id " . Database_Books::getUsfmFromId ($book) . "\n";
 file_put_contents ($usfmFilename, $basicUsfm, FILE_APPEND);
 unset ($basicUsfm);
 

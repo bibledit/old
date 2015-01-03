@@ -27,9 +27,9 @@ $database_ipc = Database_Ipc::getInstance ();
 
 
 // Optionally handle a call to the page to set the passage.
-@$switchbook = $_GET ['switchbook'];
-@$switchchapter = $_GET ['switchchapter'];
-@$switchverse = $_GET ['switchverse'];
+@$switchbook = request->query ['switchbook'];
+@$switchchapter = request->query ['switchchapter'];
+@$switchverse = request->query ['switchverse'];
 if (isset ($switchbook)) {
   $switchbook = Filter_Numeric::integer_in_string ($switchbook);
   if (!isset ($switchchapter)) $switchchapter = 1;

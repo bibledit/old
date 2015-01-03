@@ -30,7 +30,7 @@ Assets_Page::header (gettext("Suppressed check results"));
 $view = new Assets_View (__FILE__);
 
 
-@$release = $_GET['release'];
+@$release = request->query['release'];
 if (isset($release)) {
   $database_check->release ($release);
   $view->view->success = gettext("The check result will no longer be suppressed.");

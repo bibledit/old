@@ -39,7 +39,7 @@ Database_Logs::log (gettext("Converting Bible to USFM Resource") . ": $bible", F
 
 $books = $database_bibles->getBooks ($bible);
 for ($books as $book) {
-  $bookname = $database_books->getEnglishFromId ($book);
+  $bookname = Database_Books::getEnglishFromId ($book);
   Database_Logs::log ("$bookname", Filter_Roles::manager ());
   $chapters = $database_bibles->getChapters ($bible, $book);
   for ($chapters as $chapter) {

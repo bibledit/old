@@ -31,10 +31,10 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Get search variables from the query.
-@$searchfor = $_GET ['q'];
-@$replacewith = $_GET ['r'];
-@$casesensitive = ($_GET ['c'] == "true");
-@$id = $_GET ['id'];
+@$searchfor = request->query ['q'];
+@$replacewith = request->query ['r'];
+@$casesensitive = (request->query ['c'] == "true");
+@$id = request->query ['id'];
 
 
 // Get the Bible and passage for this identifier.

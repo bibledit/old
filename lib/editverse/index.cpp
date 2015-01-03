@@ -29,6 +29,8 @@
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
+#include <navigation/passage.h>
+#include <dialog/list.h>
 
 
 string editverse_index_url ()
@@ -55,6 +57,21 @@ string editverse_index (void * webserver_request)
   
   Assets_View view = Assets_View ();
   
+  if (request->query.count ("changebible")) {
+    string changebible = request->query ["changebible"];
+    if (changebible == "") {
+      Dialog_List dialog_list = Dialog_List ("index", gettext("Select which Bible to open in the editor"), "", "");
+      vector <string> bibles = access_bible_bibles (request);
+      for (auto bible : bibles) {
+        dialog_list.add_row (bible, "changebible", bible);
+      }
+      page += dialog_list.run();
+      return page;
+    } else {
+      request->database_config_user()->setBible (changebible);
+    }
+  }
+  
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
   string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
@@ -65,7 +82,7 @@ string editverse_index (void * webserver_request)
   view.set_variable ("write_access", convert_to_string (write_access)); // Todo fix.
   
   // Store the active Bible in the page's javascript.
-  // Todo port view.set_variable ("navigationCode", Navigation_Passage::code (bible));
+  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   string chapterLoaded = gettext("Loaded"); // Todo test the whole block.
   string chapterSaving = gettext("Saving...");
@@ -104,8 +121,8 @@ string editverse_index (void * webserver_request)
 Todo port it.
 
 
-@$switchbook = $_GET ['switchbook'];
-@$switchchapter = $_GET ['switchchapter'];
+@$switchbook = request->query ['switchbook'];
+@$switchchapter = request->query ['switchchapter'];
 if (isset ($switchbook) && isset ($switchchapter)) {
   $ipc_focus = Ipc_Focus::getInstance();
   $switchbook = Filter_Numeric::integer_in_string ($switchbook);
@@ -119,20 +136,6 @@ $header = new Assets_Header (gettext("Edit USFM"));
 $header->setNavigator ();
 $header->run ();
 
-
-@$changebible = $_GET['changebible'];
-if (isset ($changebible)) {
-  if ($changebible == "") {
-    $dialog_list = new Dialog_List2 (gettext("Select which Bible to open in the editor"));
-    $bibles = access_bible_bibles ();
-    for ($bibles as $bible) {
-      $dialog_list->add_row ($bible, "&changebible=$bible");
-    }
-    $dialog_list->run();
-  } else {
-    $database_config_user->setBible ($changebible);
-  }
-}
 
 
 

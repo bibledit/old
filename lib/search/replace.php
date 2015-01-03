@@ -30,14 +30,14 @@ $database_search = Database_Search::getInstance ();
 $siteUrl = $database_config_general->getSiteURL ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$searchfor = $_GET ['q'];
-@$replacewith = $_GET ['r'];
-@$casesensitive = ($_GET ['c'] == "true");
-@$id = $_GET ['id'];
+@$searchfor = request->query ['q'];
+@$replacewith = request->query ['r'];
+@$casesensitive = (request->query ['c'] == "true");
+@$id = request->query ['id'];
 
 
 if (isset ($id)) {

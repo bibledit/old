@@ -25,7 +25,7 @@ page_access_level (Filter_Roles::consultant ());
 $database_config_user = Database_Config_User::getInstance ();
 
 
-@$add = $_GET['add'];
+@$add = request->query['add'];
 if (isset ($add)) {
   $resources = $database_config_user->getActiveResources ();
   $resources [] = $add;
@@ -33,7 +33,7 @@ if (isset ($add)) {
 }
 
 
-@$remove = $_GET['remove'];
+@$remove = request->query['remove'];
 if (isset ($remove)) {
   $resources = $database_config_user->getActiveResources ();
   $key = array_search ($remove, $resources);

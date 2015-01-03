@@ -28,7 +28,7 @@ $view = new Assets_View (__FILE__);
 $database_resources = Database_Resources::getInstance ();
 
 
-@$name = $_GET['name'];
+@$name = request->query['name'];
 $view->view->name = $name;
 
 
@@ -53,10 +53,10 @@ $view->view->code = $code;
 
 
 $database_books = Database_Books::getInstance ();
-$books = $database_books->getIDs ();
+$books = Database_Books::getIDs ();
 $booknames = array ();
 for ($books as $id) {
-  $booknames [] = $database_books->getEnglishFromId ($id);
+  $booknames [] = Database_Books::getEnglishFromId ($id);
 }
 $view->view->books = $books;
 $view->view->booknames = $booknames;

@@ -16,31 +16,17 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <editverse/id.h>
-#include <filter/roles.h>
-#include <filter/string.h>
-#include <webserver/request.h>
+
+#ifndef INCLUDED_NAVIGATION_POLL_H
+#define INCLUDED_NAVIGATION_POLL_H
 
 
-string editverse_id_url ()
-{
-  return "editverse/id";
-}
+#include <config/libraries.h>
 
 
-bool editverse_id_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
-}
+string navigation_poll_url ();
+bool navigation_poll_acl (void * webserver_request);
+string navigation_poll (void * webserver_request);
 
 
-string editverse_id (void * webserver_request)
-{
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  string bible = request->query ["bible"];
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
-  int id = request->database_bibles()->getChapterId (bible, book, chapter);
-  return convert_to_string (id);
-}
-
+#endif

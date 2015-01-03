@@ -63,7 +63,7 @@ $view->view->level = $level;
 
 
 // The identifier of the change notification.
-@$id = $_GET ["get"];
+@$id = request->query ["get"];
 $view->view->id = $id;
 
 

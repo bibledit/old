@@ -34,34 +34,34 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $session_logic = Session_Logic::getInstance ();
 
 
-@$passage_selector = $_GET['passageselector'];
+@$passage_selector = request->query['passageselector'];
 if (isset ($passage_selector)) {
   if (($passage_selector < 0) || ($passage_selector > 3)) $passage_selector = 0;
   $database_config_user->setConsultationNotesPassageSelector ($passage_selector);
 }
 
 
-@$edit_selector = $_GET['editselector'];
+@$edit_selector = request->query['editselector'];
 if (isset ($edit_selector)) {
   if (($edit_selector < 0) || ($edit_selector > 4)) $edit_selector = 0;
   $database_config_user->setConsultationNotesEditSelector ($edit_selector);
 }
 
 
-@$non_edit_selector = $_GET['noneditselector'];
+@$non_edit_selector = request->query['noneditselector'];
 if (isset ($non_edit_selector)) {
   if (($non_edit_selector < 0) || ($non_edit_selector > 5)) $non_edit_selector = 0;
   $database_config_user->setConsultationNotesNonEditSelector($non_edit_selector);
 }
 
 
-@$status_selector = $_GET['statusselector'];
+@$status_selector = request->query['statusselector'];
 if (isset ($status_selector)) {
   $database_config_user->setConsultationNotesStatusSelector($status_selector);
 }
 
 
-@$bible_selector = $_GET['bibleselector'];
+@$bible_selector = request->query['bibleselector'];
 if (isset ($bible_selector)) {
   $database_config_user->setConsultationNotesBibleSelector ($bible_selector);
   // Also set the active Bible for the user.
@@ -71,26 +71,26 @@ if (isset ($bible_selector)) {
 }
 
 
-@$assignment_selector = $_GET['assignmentselector'];
+@$assignment_selector = request->query['assignmentselector'];
 if (isset ($assignment_selector)) {
   $database_config_user->setConsultationNotesAssignmentSelector($assignment_selector);
 }
 
 
-@$subscription_selector = $_GET['subscriptionselector'];
+@$subscription_selector = request->query['subscriptionselector'];
 if (isset ($subscription_selector)) {
   if ($subscription_selector == 1) $subscription_selector = 1; else $subscription_selector = 0;
   $database_config_user->setConsultationNotesSubscriptionSelector($subscription_selector);
 }
 
 
-@$severity_selector = $_GET['severityselector'];
+@$severity_selector = request->query['severityselector'];
 if (isset ($severity_selector)) {
   $database_config_user->setConsultationNotesSeveritySelector($severity_selector);
 }
 
 
-@$text_selector = $_GET['textselector'];
+@$text_selector = request->query['textselector'];
 if (isset ($text_selector)) {
   $database_config_user->setConsultationNotesTextSelector ($text_selector);
   @$search_text = $_POST['text'];
@@ -101,13 +101,13 @@ if (isset ($text_selector)) {
 }
 
 
-@$passage_inclusion_selector = $_GET['passageinclusionyselector'];
+@$passage_inclusion_selector = request->query['passageinclusionyselector'];
 if (isset ($passage_inclusion_selector)) {
   $database_config_user->setConsultationNotesPassageInclusionSelector ($passage_inclusion_selector);
 }
 
 
-@$text_inclusion_selector = $_GET['textinclusionyselector'];
+@$text_inclusion_selector = request->query['textinclusionyselector'];
 if (isset ($text_inclusion_selector)) {
   $database_config_user->setConsultationNotesTextInclusionSelector ($text_inclusion_selector);
 }

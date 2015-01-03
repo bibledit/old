@@ -63,7 +63,7 @@ for ($bibles as $bible) {
     $chapters = $database_bibleactions->getChapters ($bible, $book);
     for ($chapters as $chapter) {
 
-      $bookname = $database_books->getEnglishFromId ($book);
+      $bookname = Database_Books::getEnglishFromId ($book);
       Database_Logs::log (gettext("Sending to server") . ": $bible $bookname $chapter", Filter_Roles::translator ());
 
       // Get old and new USFM for this chapter.

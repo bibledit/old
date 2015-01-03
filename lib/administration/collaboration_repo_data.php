@@ -20,7 +20,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::admin ());
 Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
-$object = $_GET ['object'];
+$object = request->query ['object'];
 $view->view->object = $object;
 $database_config_bible = Database_Config_Bible::getInstance();
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);

@@ -27,10 +27,10 @@ $notes_logic = Notes_Logic::getInstance();
 $database_users = Database_Users::getInstance();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
-@$assign = $_GET['assign'];
+@$assign = request->query['assign'];
 if (isset ($assign)) {
   if ($database_users->usernameExists ($assign)) {
     $notes_logic->assignUser ($id, $assign);

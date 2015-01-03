@@ -25,7 +25,7 @@ page_access_level (Filter_Roles::manager ());
 $view = new Assets_View (__FILE__);
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 $view->view->bible = $bible;
 
 
@@ -43,7 +43,7 @@ if (in_array ($bible, $externalResources)) {
 }
 
 
-@$convert = $_GET ['convert'];
+@$convert = request->query ['convert'];
 if (isset ($convert)) {
   if (access_bible_write ($bible)) {
     tasks_logic_queue (Tasks_Logic::PHP, array (__DIR__ . "/convert2resource.php", $bible));

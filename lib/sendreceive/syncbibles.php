@@ -159,7 +159,7 @@ for ($server_bibles as $bible) {
   $client_books = filter_string_array_diff ($client_books, $server_books);
   for ($client_books as $book) {
     $database_bibles->deleteBook ($bible, $book);
-    $book_name = $database_books->getEnglishFromId ($book);
+    $book_name = Database_Books::getEnglishFromId ($book);
     Database_Logs::log (gettext("Deleting book because the server does not have it") . ": $bible $book_name" , Filter_Roles::translator ());
   }
  
@@ -168,7 +168,7 @@ for ($server_bibles as $bible) {
   for ($server_books as $book) {
 
 
-    $book_name = $database_books->getEnglishFromId ($book);
+    $book_name = Database_Books::getEnglishFromId ($book);
 
 
     // Compare the checksum for the whole book on the client with the same on the server to see if this book is in sync.
@@ -197,7 +197,7 @@ for ($server_bibles as $bible) {
     );
     $server_chapters = Sync_Logic::post ($post, $url);
     if ($server_chapters === false) {
-      $bookname = $database_books->getEnglishFromId ($book);
+      $bookname = Database_Books::getEnglishFromId ($book);
       Database_Logs::log (gettext("Failure getting list of chapters:") . " $bible $bookname", Filter_Roles::translator ());
       continue;
     }

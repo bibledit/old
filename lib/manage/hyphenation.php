@@ -53,7 +53,7 @@ $firstset = Database_Config_Bible::getHyphenationFirstSet ($bible);
 $secondset = Database_Config_Bible::getHyphenationSecondSet ($bible);
 
 
-@$bible = $_GET ['bible'];
+@$bible = request->query ['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Which Bible would you like to take the data from?"));
@@ -69,7 +69,7 @@ if (isset ($bible)) {
 $bible = access_bible_clamp ($database_config_user->getBible ());
 
 
-if (isset($_GET['run'])) {
+if (isset(request->query['run'])) {
   if ($bible == "") {
     $error = gettext("No Bible given");
   } else if ($firstset == "") {

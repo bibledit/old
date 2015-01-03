@@ -75,7 +75,7 @@ $view = new Assets_View (__FILE__);
 
 // This script can be called from a change notification.
 // It will then create a note based on that change notification.
-@$fromchange = $_GET ['fromchange'];
+@$fromchange = request->query ['fromchange'];
 if (isset ($fromchange)) {
   $database_modifications = Database_Modifications::getInstance ();
   $database_bibles = Database_Bibles::getInstance ();

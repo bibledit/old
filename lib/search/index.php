@@ -26,12 +26,12 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_search = Database_Search::getInstance ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$q = $_GET ['q'];
-@$id = $_GET ['id'];
+@$q = request->query ['q'];
+@$id = request->query ['id'];
 
 
 if (isset ($id)) {

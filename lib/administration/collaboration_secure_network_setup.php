@@ -29,7 +29,7 @@ $view->view->ssh = $which_ssh->available;
 
 $database_config_bible = Database_Config_Bible::getInstance();
 
-$object = $_GET ['object'];
+$object = request->query ['object'];
 $view->view->object = $object;
 
 if (isset($_POST['url'])) {

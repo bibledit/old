@@ -21,7 +21,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::manager ());
 Assets_Page::header (gettext("Import"));
 set_time_limit (0);
-$folder = $_GET ['folder'];
+$folder = request->query ['folder'];
 if (file_exists ($folder)) {
   $workingdirectory = dirname (__FILE__);
   $command = "php $workingdirectory/importcli.php $folder";

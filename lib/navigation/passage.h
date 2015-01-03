@@ -29,15 +29,15 @@ class Navigation_Passage
 {
 public:
   static string getContainer ();
-  static string getNavigator (string bible);
-  static string getBooksFragment (string bible);
+  static string getNavigator (void * webserver_request, string bible);
+  static string getBooksFragment (void * webserver_request, string bible);
   static string getChaptersFragment (void * webserver_request, string bible, int book, int chapter);
   static string getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse);
   static string code (string bible, bool header = false);
-  static void setBookChapterVerse (int book, int chapter, int verse);
-  static void setPassage (string bible, Passage & passage);
-  static void gotoNextVerse (string bible);
-  static void gotoPreviousVerse (string bible);
+  static void setBookChapterVerse (void * webserver_request, int book, int chapter, int verse);
+  static void setPassage (void * webserver_request, string bible, string passage);
+  static void gotoNextVerse (void * webserver_request, string bible);
+  static void gotoPreviousVerse (void * webserver_request, string bible);
   static void recordHistory (void * webserver_request, int book, int chapter, int verse);
   static void goBack (void * webserver_request);
   static void goForward (void * webserver_request);

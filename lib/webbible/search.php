@@ -34,13 +34,13 @@ echo "<body>\n";
 
 
 // Get the URL and the text for the backlink.
-$backlinkUrl = isset($_GET['url']) ? $_GET['url'] : '';
-$backlinkText = isset($_GET['text']) ? $_GET['text'] : '';
+$backlinkUrl = isset(request->query['url']) ? request->query['url'] : '';
+$backlinkText = isset(request->query['text']) ? request->query['text'] : '';
 
 
 // The query: The word or string to search for.
 // Clean input for security.
-$queryString = isset($_GET['q']) ? $_GET['q'] : '';
+$queryString = isset(request->query['q']) ? request->query['q'] : '';
 $queryString = stripslashes ($queryString);
 $queryString = str_replace ("'", "", $queryString);
 

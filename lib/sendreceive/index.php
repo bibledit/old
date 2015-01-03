@@ -31,7 +31,7 @@ Assets_Page::header (gettext("Send/Receive"));
 $view = new Assets_View (__FILE__);
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select a Bible"));
@@ -53,13 +53,13 @@ $bible = access_bible_clamp ($database_config_user->getBible ());
 $view->view->bible = $bible;
 
 
-if (isset($_GET['runbible'])) {
+if (isset(request->query['runbible'])) {
   SendReceive_Logic::queuebible ($bible);
   $view->view->successbible = gettext("Will send and receive.");
 }
 
 
-if (isset($_GET['repeatbible'])) {
+if (isset(request->query['repeatbible'])) {
   Database_Config_Bible::setRepeatSendReceive ($bible, !Database_Config_Bible::getRepeatSendReceive ($bible));
 }
 $view->view->repeatbible = Database_Config_Bible::getRepeatSendReceive ($bible);
@@ -70,7 +70,7 @@ if (Database_Config_Bible::getRemoteRepositoryUrl ($bible) == "") {
 }
 
 
-if (isset($_GET['runsync'])) {
+if (isset(request->query['runsync'])) {
   if (SendReceive_Logic::syncqueued ()) {
     $view->view->successnotes = gettext("Still sending and receiving from the last time.");
   } else {
@@ -83,8 +83,8 @@ if (isset($_GET['runsync'])) {
 $view->view->client = config_logic_client_enabled ();
 
 
-if (isset($_GET['repeatsync'])) {
-  $repeatsync = $_GET['repeatsync'];
+if (isset(request->query['repeatsync'])) {
+  $repeatsync = request->query['repeatsync'];
   if (!is_numeric ($repeatsync)) $repeatsync = 0;
   if ($repeatsync < 0) $repeatsync = 0;
   if ($repeatsync > 2) $repeatsync = 2;

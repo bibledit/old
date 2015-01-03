@@ -52,11 +52,11 @@ $_POST['enc'] = (isset($_POST['enc']) and preg_match('`^[-\w]+$`', $_POST['enc']
 
 // token for anti-CSRF
 if(count($_POST)){
- if((empty($_GET['pre']) and ((!empty($_POST['token']) and !empty($_SESSION['token']) and $_POST['token'] != $_SESSION['token']) or empty($_POST[$_sid]) or $_POST[$_sid] != session_id() or empty($_COOKIE[$_sid]) or $_COOKIE[$_sid] != session_id())) or ($_POST[$_sid] != session_id())){
+ if((empty(request->query['pre']) and ((!empty($_POST['token']) and !empty($_SESSION['token']) and $_POST['token'] != $_SESSION['token']) or empty($_POST[$_sid]) or $_POST[$_sid] != session_id() or empty($_COOKIE[$_sid]) or $_COOKIE[$_sid] != session_id())) or ($_POST[$_sid] != session_id())){
   $_POST = array('enc'=>'utf-8');
  }
 }
-if(empty($_GET['pre'])){
+if(empty(request->query['pre'])){
  $_SESSION['token'] = md5(uniqid(rand(), 1));
  $token = $_SESSION['token'];
  session_regenerate_id(1);

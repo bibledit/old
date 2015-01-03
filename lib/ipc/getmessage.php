@@ -22,15 +22,15 @@ require_once ("../bootstrap/bootstrap.php");
 
 
 // Get the message parameters from the query.
-$user = $_GET['user'];
-$channel = $_GET['channel'];
-$id = $_GET['id'];
+$user = request->query['user'];
+$channel = request->query['channel'];
+$id = request->query['id'];
 if (!isset ($id)) $id = 0;
 
 
 // Bibledit-* clients don't include the 'focus' command.
 // So if no command is included, assume it's the 'focus' command that's intended.
-@$command = $_GET ['command'];
+@$command = request->query ['command'];
 if (!isset ($command)) $command = "focus";
 
 

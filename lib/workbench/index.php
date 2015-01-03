@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::consultant ());
 
 
-@$bench = $_GET ['bench'];
+@$bench = request->query ['bench'];
 if (isset ($bench)) {
   $database_config_user = Database_Config_User::getInstance ();
   $workbenches = Workbench_Logic::getWorkbenches ();

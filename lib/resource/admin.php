@@ -32,7 +32,7 @@ if (isset ($add)) {
 }
 
 
-@$delete = $_GET['delete'];
+@$delete = request->query['delete'];
 if (isset ($delete)) {
   // User cannot delete Resources in an open demo.
   include ("config/open.php");

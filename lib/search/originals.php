@@ -31,18 +31,18 @@ $database_sblgnt = Database_Sblgnt::getInstance ();
 $ipc_focus = Ipc_Focus::getInstance ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$load = $_GET ['load'];
+@$load = request->query ['load'];
 if (isset ($load)) {
 
   $book = $ipc_focus->getBook ();
   $chapter = $ipc_focus->getChapter ();
   $verse = $ipc_focus->getVerse ();
   
-  $type = $database_books->getType ($book);
+  $type = Database_Books::getType ($book);
   
   // Get Hebrew or Greek words.
   $searchtext = "";
@@ -70,14 +70,14 @@ if (isset ($load)) {
 }
 
 
-@$words = $_GET ['words'];
+@$words = request->query ['words'];
 if (isset ($words)) {
 
   $words = filter_string_trim ($words);
   $words = explode (" " , $words);
 
   $book = $ipc_focus->getBook ();
-  $type = $database_books->getType ($book);
+  $type = Database_Books::getType ($book);
 
   // Include items if there are no more search hits than 30% of the total number of verses in the Hebrew or Greek.
   $maxcount = 0;
@@ -135,7 +135,7 @@ if (isset ($words)) {
 }
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if (isset ($id)) {
   
   // Get the and passage for this identifier.

@@ -27,7 +27,7 @@ $database_config_user = Database_Config_User::getInstance ();
 $database_sprint = Database_Sprint::getInstance ();
 
 
-if (isset ($_GET ['previoussprint'])) {
+if (isset (request->query ['previoussprint'])) {
   $month = $database_config_user->getSprintMonth ();
   $year = $database_config_user->getSprintYear ();
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
@@ -36,13 +36,13 @@ if (isset ($_GET ['previoussprint'])) {
 }
 
 
-if (isset ($_GET ['currentprint'])) {
+if (isset (request->query ['currentprint'])) {
   $database_config_user->setSprintMonth (date ("n"));
   $database_config_user->setSprintYear (date ("Y"));
 }
 
 
-if (isset ($_GET ['nextsprint'])) {
+if (isset (request->query ['nextsprint'])) {
   $month = $database_config_user->getSprintMonth ();
   $year = $database_config_user->getSprintYear ();
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
@@ -69,7 +69,7 @@ if (isset ($title)) {
 }
 
 
-@$mail = $_GET ['mail'];
+@$mail = request->query ['mail'];
 if (isset ($mail)) {
   Sprint_Logic::burndown ($bible, true);
   $view->view->success = gettext("The information was mailed to the subscribers");
@@ -82,7 +82,7 @@ if (isset ($mail)) {
 $header->run ();
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to display the Sprint for"));
@@ -103,10 +103,10 @@ if (isset ($bible)) {
 $bible = access_bible_clamp ($database_config_user->getBible ());
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 
 
-@$moveback = $_GET ['moveback'];
+@$moveback = request->query ['moveback'];
 if (isset ($moveback)) {
   $time = mktime (0, 0, 0, $month - 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
@@ -114,7 +114,7 @@ if (isset ($moveback)) {
 }
 
 
-@$moveforward = $_GET ['moveforward'];
+@$moveforward = request->query ['moveforward'];
 if (isset ($moveforward)) {
   $time = mktime (0, 0, 0, $month + 1, 1, $year);
   $database_sprint->updateMonthYear ($id, date ("n", $time), date ("Y", $time));
@@ -122,7 +122,7 @@ if (isset ($moveforward)) {
 }
 
 
-@$complete = $_GET ['complete'];
+@$complete = request->query ['complete'];
 if (isset ($complete)) {
   $complete = Filter_Numeric::integer_in_string ($complete);
   $database_sprint->updateComplete ($id, $complete);

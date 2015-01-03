@@ -25,7 +25,7 @@ $view = new Assets_View (__FILE__);
 $which_git = new Filter_Which ("git");
 $view->view->git = $which_git->available;
 
-$object = $_GET ['object'];
+$object = request->query ['object'];
 $view->view->object = $object;
 
 $database_config_bible = Database_Config_Bible::getInstance();

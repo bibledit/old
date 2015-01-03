@@ -22,10 +22,10 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::consultant ());
 
 
-@$resource = $_GET['resource'];
-@$book = $_GET['book'];
-@$chapter = $_GET['chapter'];
-@$verse = $_GET['verse'];
+@$resource = request->query['resource'];
+@$book = request->query['book'];
+@$chapter = request->query['chapter'];
+@$verse = request->query['verse'];
 
 
 if ($resource == "") die;

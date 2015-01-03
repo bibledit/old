@@ -25,7 +25,7 @@ class Filter_Git
       if ($fileInfo->isDot ()) continue;
       if ($fileInfo->isDir ()) {
         $bookname = $fileInfo->getFilename ();
-        $book = $database_books->getIdFromEnglish ($bookname);
+        $book = Database_Books::getIdFromEnglish ($bookname);
         if ($book) {
           if (in_array ($book, $books)) {
             // Book exists in the database: Check the chapters.
@@ -59,7 +59,7 @@ class Filter_Git
     // If necessary, save the chapter to the repository.
     $books = $database_bibles->getBooks ($bible);
     for ($books as $book) {
-      $bookname = $database_books->getEnglishFromId ($book);
+      $bookname = Database_Books::getEnglishFromId ($book);
       if ($progress) echo "$bookname ";
       $bookdir = "$git/$bookname";
       if (!file_exists ($bookdir)) mkdir ($bookdir);
@@ -97,7 +97,7 @@ class Filter_Git
     if (count ($bits) != 3) return NULL;
     $book = filter_string_trim ($bits [0]);
     $database_books = Database_Books::getInstance();
-    $book = $database_books->getIdFromEnglish ($book);
+    $book = Database_Books::getIdFromEnglish ($book);
     if (!$book) return NULL;
     $chapter = $bits [1];
     if (!is_numeric ($chapter)) return NULL;
@@ -131,7 +131,7 @@ class Filter_Git
       if ($fileInfo->isDot ()) continue;
       if ($fileInfo->isDir ()) {
         $bookname = $fileInfo->getFilename ();
-        $book = $database_books->getIdFromEnglish ($bookname);
+        $book = Database_Books::getIdFromEnglish ($bookname);
         if ($book) {
           // Check the chapters.
           $chapters = $database_bibles->getChapters ($bible, $book);
@@ -166,7 +166,7 @@ class Filter_Git
     // If necessary, update the data in the database.
     $books = $database_bibles->getBooks ($bible);
     for ($books as $book) {
-      $bookname = $database_books->getEnglishFromId ($book);
+      $bookname = Database_Books::getEnglishFromId ($book);
       $bookdir = "$git/$bookname";
       if (file_exists ($bookdir)) {
         $chapters = $database_bibles->getChapters ($bible, $book);
@@ -204,7 +204,7 @@ class Filter_Git
     $database_logs = Database_Logs::getInstance ();
     
     // Filename for the chapter.
-    $bookname = $database_books->getEnglishFromId ($book);
+    $bookname = Database_Books::getEnglishFromId ($book);
     $filename = "$git/$bookname/$chapter/data";
     
     if (file_exists ($filename)) {
@@ -269,7 +269,7 @@ class Filter_Git
       if (is_numeric ($chapter)) {
         $book = dirname ($path);
         $database_books = Database_Books::getInstance ();
-        $book = $database_books->getIdFromEnglish ($book);
+        $book = Database_Books::getIdFromEnglish ($book);
         if ($book != 0) {
           return array ('book' => $book, 'chapter' => $chapter);
         }

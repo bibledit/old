@@ -26,10 +26,10 @@ $database_notes = Database_Notes::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
-@$status = $_GET['status'];
+@$status = request->query['status'];
 if (isset ($status)) {
   $notes_logic->setStatus ($id, $status);
   redirect_browser ("actions.php?id=$id");

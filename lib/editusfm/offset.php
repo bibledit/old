@@ -22,10 +22,10 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::translator ());
 
 
-$bible = $_GET ['bible'];
-$book = $_GET ['book'];
-$chapter = $_GET ['chapter'];
-$offset = $_GET ['offset'];
+$bible = request->query ['bible'];
+$book = request->query ['book'];
+$chapter = request->query ['chapter'];
+$offset = request->query ['offset'];
 
 
 $database_bibles = Database_Bibles::getInstance();

@@ -21,9 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 require_once ("../bootstrap/bootstrap.php");
 
 
-$username = $_GET ['user'];
+$username = request->query ['user'];
 $username = Filter_Hex::hex2bin ($username);
-$password = $_GET ['pass'];
+$password = request->query ['pass'];
 
 
 $database_users = Database_Users::getInstance ();

@@ -30,7 +30,7 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
-@$noteIdentifier = $_GET['identifier'];
+@$noteIdentifier = request->query['identifier'];
 if (isset($_POST['identifier'])) {
   $noteIdentifier = $_POST['identifier'];
   $noteIdentifier = Filter_Numeric::integer_in_string ($noteIdentifier);

@@ -22,9 +22,9 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::translator ());
 
 
-$bible = $_GET ['bible'];
-$book = $_GET ['book'];
-$chapter = $_GET ['chapter'];
+$bible = request->query ['bible'];
+$book = request->query ['book'];
+$chapter = request->query ['chapter'];
 
 
 $database_bibles = Database_Bibles::getInstance();

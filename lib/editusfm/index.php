@@ -27,8 +27,8 @@ $database_config_bible = Database_Config_Bible::getInstance ();
 $database_bibles = Database_Bibles::getInstance ();
 
 
-@$switchbook = $_GET ['switchbook'];
-@$switchchapter = $_GET ['switchchapter'];
+@$switchbook = request->query ['switchbook'];
+@$switchchapter = request->query ['switchchapter'];
 if (isset ($switchbook) && isset ($switchchapter)) {
   $ipc_focus = Ipc_Focus::getInstance();
   $switchbook = Filter_Numeric::integer_in_string ($switchbook);
@@ -43,7 +43,7 @@ $header->setNavigator ();
 $header->run ();
 
 
-@$changebible = $_GET['changebible'];
+@$changebible = request->query['changebible'];
 if (isset ($changebible)) {
   if ($changebible == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to open in the editor"));

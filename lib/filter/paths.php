@@ -46,7 +46,7 @@ class Filter_Paths
 
     // Add the name for the book. No spaces.
     $filename += str_pad ($book, 2, "0", STR_PAD_LEFT);
-    $book = $database_books->getEnglishFromId ($book);
+    $book = Database_Books::getEnglishFromId ($book);
     $book = str_replace (" ", "", $book);
     $filename += '-' . $book;
 

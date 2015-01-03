@@ -16,12 +16,4 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-require_once ("../bootstrap/bootstrap.php");
-$ipc_focus = Ipc_Focus::getInstance();
-$book = $ipc_focus->getBook ();
-$chapter = $ipc_focus->getChapter ();
-$verse = $ipc_focus->getVerse ();
-$passage = array ("book" => $book, "chapter" => $chapter, "verse" => $verse);
-$passage = json_encode ($passage);
-echo $passage;
 ?>

@@ -63,7 +63,7 @@ if ($session_logic->currentLevel () == Filter_Roles::admin ()) $bibles = NULL;
 // assemble the list of identifiers of notes to operate on.
 // This is done to remember them as long as this page is active.
 // Thus bulk operations on notes can be rectified somewhat easier.
-if (count ($_GET) == 0) {
+if (count (request->query) == 0) {
   $identifiers = $database_notes->selectNotes ($bibles, $book, $chapter, $verse,
                                                $passage_selector,
                                                $edit_selector,
@@ -90,7 +90,7 @@ for ($identifiers as $identifier) {
 }
 
 
-if (isset($_GET['subscribe'])) {
+if (isset(request->query['subscribe'])) {
   for ($identifiers as $identifier) {
     $notes_logic->subscribe ($identifier);
   }
@@ -98,7 +98,7 @@ if (isset($_GET['subscribe'])) {
 }
 
 
-if (isset($_GET['unsubscribe'])) {
+if (isset(request->query['unsubscribe'])) {
   for ($identifiers as $identifier) {
     $notes_logic->unsubscribe ($identifier);
   }
@@ -106,7 +106,7 @@ if (isset($_GET['unsubscribe'])) {
 }
 
 
-@$assign = $_GET['assign'];
+@$assign = request->query['assign'];
 if (isset ($assign)) {
   if ($database_users->usernameExists ($assign)) {
     for ($identifiers as $identifier) {
@@ -120,7 +120,7 @@ if (isset ($assign)) {
 }
 
 
-@$unassign = $_GET['unassign'];
+@$unassign = request->query['unassign'];
 if (isset ($unassign)) {
   if ($database_users->usernameExists ($unassign)) {
     for ($identifiers as $identifier) {
@@ -134,7 +134,7 @@ if (isset ($unassign)) {
 }
 
 
-@$status = $_GET['status'];
+@$status = request->query['status'];
 if (isset ($status)) {
   for ($identifiers as $identifier) {
     if ($database_notes->getRawStatus ($identifier) != $status) {
@@ -146,7 +146,7 @@ if (isset ($status)) {
 }
 
 
-@$severity = $_GET['severity'];
+@$severity = request->query['severity'];
 if (isset ($severity)) {
   for ($identifiers as $identifier) {
     if ($database_notes->getRawSeverity ($identifier) != $severity) {
@@ -158,7 +158,7 @@ if (isset ($severity)) {
 }
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == Notes_Logic::generalBibleName ()) $bible = "";
   for ($identifiers as $identifier) {
@@ -171,9 +171,9 @@ if (isset ($bible)) {
 }
 
 
-@$delete = $_GET['delete'];
+@$delete = request->query['delete'];
 if (isset ($delete)) {
-  @$confirm = $_GET['confirm'];
+  @$confirm = request->query['confirm'];
   if ($confirm != "yes") {
     $dialog_yes = new Dialog_Yes2 (gettext("Would you like to delete the notes?"), "&delete=");
   } else {

@@ -32,11 +32,11 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $myIdentifier = Filter_User::myIdentifier ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$load = $_GET ['load'];
+@$load = request->query ['load'];
 if (isset ($load)) {
 
   $book = $ipc_focus->getBook ();
@@ -58,7 +58,7 @@ if (isset ($load)) {
 }
 
 
-@$strong = $_GET ['strong'];
+@$strong = request->query ['strong'];
 if (isset ($strong)) {
 
   $strong = filter_string_trim ($strong);
@@ -87,7 +87,7 @@ if (isset ($strong)) {
 }
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if (isset ($id)) {
   
   // Get the and passage for this identifier.

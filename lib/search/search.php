@@ -23,7 +23,7 @@ page_access_level (Filter_Roles::guest ());
 
 
 // The query: The word or string to search for.
-$queryString = isset($_GET['q']) ? $_GET['q'] : '';
+$queryString = isset(request->query['q']) ? request->query['q'] : '';
 
 
 // Put the query string into the search box.

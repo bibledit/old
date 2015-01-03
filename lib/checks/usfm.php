@@ -179,7 +179,7 @@ class Checks_Usfm
       $id = explode (" ", $code);
       $id = $id [0];
       $database_books = Database_Books::getInstance ();
-      $book = $database_books->getIdFromUsfm ($id);
+      $book = Database_Books::getIdFromUsfm ($id);
       if ($book == 0) {
         $this->addResult ("Unknown ID", Checks_Usfm::displayFull);
       } else {

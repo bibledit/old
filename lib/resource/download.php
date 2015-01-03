@@ -30,11 +30,11 @@ $database_offlineresources = Database_OfflineResources::getInstance ();
 $database_versifications = Database_Versifications::getInstance ();
 
 
-@$name = $_GET['name'];
+@$name = request->query['name'];
 $view->view->name = $name;
 
 
-if (isset ($_GET ['download'])) {
+if (isset (request->query ['download'])) {
   $versification = "English";
   $books = $database_versifications->getBooks ($versification);
   for ($books as $book) {
@@ -46,7 +46,7 @@ if (isset ($_GET ['download'])) {
 }
 
 
-if (isset ($_GET ['clear'])) {
+if (isset (request->query ['clear'])) {
   $database_offlineresources->delete ($name);
 }
 

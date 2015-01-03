@@ -18,9 +18,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::translator ());
-$bible = $_GET ['bible'];
-$book = $_GET ['book'];
-$chapter = $_GET ['chapter'];
+$bible = request->query ['bible'];
+$book = request->query ['book'];
+$chapter = request->query ['chapter'];
 $database_bibles = Database_Bibles::getInstance();
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 $ipc_focus = Ipc_Focus::getInstance ();

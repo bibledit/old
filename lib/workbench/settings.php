@@ -25,11 +25,11 @@ page_access_level (Filter_Roles::consultant ());
 $database_config_user = Database_Config_User::getInstance ();
 
 
-$name = $_GET ['name'];
+$name = request->query ['name'];
 $database_config_user->setActiveWorkbench ($name);
 
 
-@$preset = $_GET ['preset'];
+@$preset = request->query ['preset'];
 if (isset ($preset)) {
   Workbench_Logic::setURLs (Workbench_Logic::defaultURLs ($preset));
   Workbench_Logic::setWidths (Workbench_Logic::defaultWidths ($preset));

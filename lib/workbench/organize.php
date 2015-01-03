@@ -48,9 +48,9 @@ $header->run ();
 $view = new Assets_View (__FILE__);
 
 
-@$remove = $_GET['remove'];
+@$remove = request->query['remove'];
 if (isset ($remove)) {
-  @$confirm = $_GET['confirm'];
+  @$confirm = request->query['confirm'];
   if ($confirm != "yes") {
     $dialog_yes = new Dialog_Yes2 (gettext("Would you like to delete this workbench configuration?"), "remove=$remove");
   } else {

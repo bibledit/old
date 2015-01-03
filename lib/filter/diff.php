@@ -51,7 +51,7 @@ class Filter_Diff
 
     $books = $database_modifications->getTeamDiffBooks ($bible);
     for ($books as $book) {
-      $bookname = $database_books->getEnglishFromId ($book);
+      $bookname = Database_Books::getEnglishFromId ($book);
       $chapters = $database_modifications->getTeamDiffChapters ($bible, $book);
       for ($chapters as $chapter) {
         // Go through the combined verse numbers in the old and new chapter.

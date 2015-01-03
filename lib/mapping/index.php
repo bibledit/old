@@ -42,7 +42,7 @@ if (isset($_POST['new'])) {
     $database_mappings->create ($name);
   }
 }
-if (isset ($_GET['new'])) {
+if (isset (request->query['new'])) {
   $dialog_entry = new Dialog_Entry ("", gettext("Enter a name for the new verse mapping"), "", "new", "");
   die;
 }

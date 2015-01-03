@@ -230,7 +230,7 @@ A PHP Labware internal utility - http://www.bioinformatics.org/phplabware/intern
   
     $processed = htmLawed::hl($text);
 
-  *Notes*: (1) If input is from a '$_GET' or '$_POST' value, and 'magic quotes' are enabled on the PHP setup, run 'stripslashes()' on the input before passing to htmLawed. (2) htmLawed does not have support for head-level elements, 'body', and the frame-level elements, 'frameset', 'frame' and 'noframes'.
+  *Notes*: (1) If input is from a 'request->query' or '$_POST' value, and 'magic quotes' are enabled on the PHP setup, run 'stripslashes()' on the input before passing to htmLawed. (2) htmLawed does not have support for head-level elements, 'body', and the frame-level elements, 'frameset', 'frame' and 'noframes'.
 
   By default, htmLawed will process the text allowing all valid HTML elements/tags, secure URL scheme/CSS style properties, etc. It will allow 'CDATA' sections and HTML comments, balance tags, and ensure proper nesting of elements. Such actions can be configured using two other optional arguments -- '$config' and '$spec':
 

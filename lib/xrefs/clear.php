@@ -37,7 +37,7 @@ $chapter = $ipc_focus->getChapter ();
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);
 
 
-if (isset ($_GET ['overwrite'])) {
+if (isset (request->query ['overwrite'])) {
   $usfm = Filter_Usfm::removeNotes ($usfm, array ("x"));
   Bible_Logic::storeChapter ($bible, $book, $chapter, $usfm);
 }

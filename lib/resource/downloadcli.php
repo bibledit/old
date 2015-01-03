@@ -36,7 +36,7 @@ $resource = Filter_Cli::argument (@$argv, 1);
 $book = Filter_Cli::argument (@$argv, 2);
 
 
-$bookName = $database_books->getEnglishFromId ($book);
+$bookName = Database_Books::getEnglishFromId ($book);
 
 
 Database_Logs::log ("$resource $bookName: Download has started", Filter_Roles::manager ());

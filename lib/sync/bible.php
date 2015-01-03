@@ -53,7 +53,7 @@ if (!$user_ok || !$pass_ok) {
 $session_logic->setUsername ($username);
 
 
-$bookname = $database_books->getEnglishFromId ($book);
+$bookname = Database_Books::getEnglishFromId ($book);
 
 
 Database_Logs::log ("Client sent Bible data: $bible $bookname $chapter", Filter_Roles::manager ());

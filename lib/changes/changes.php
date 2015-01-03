@@ -60,7 +60,7 @@ if (isset ($navigate)) {
 
 
 // Remove personal change proposals and their matching change notifications.
-if (isset ($_GET ['match'])) {
+if (isset (request->query ['match'])) {
   $database_modifications->clearNotificationMatches ($username, "☺", "♺");
 }
 
@@ -75,7 +75,7 @@ $view = new Assets_View (__FILE__);
 
 // Read the identifiers but limit the number of results.
 $ids = array ();
-@$filter = $_GET ['filter'];
+@$filter = request->query ['filter'];
 if ($filter == "personal") {
   $ids = $database_modifications->getNotificationPersonalIdentifiers ($username, "☺", true);
   $view->view->filter = 1;

@@ -41,7 +41,7 @@ $success = "";
 $error = "";
 
 
-@$source = $_GET['source'];
+@$source = request->query['source'];
 if (isset ($source)) {
   if ($source == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to use as the source where to read the cross references from"));
@@ -56,7 +56,7 @@ if (isset ($source)) {
 }
 
 
-@$target = $_GET['target'];
+@$target = request->query['target'];
 if (isset ($target)) {
   if ($target == "") {
     $dialog_list = new Dialog_List2 (gettext("Select which Bible to insert the cross references into"));

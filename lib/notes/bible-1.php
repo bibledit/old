@@ -26,10 +26,10 @@ $database_bibles = Database_Bibles::getInstance();
 $notes_logic = Notes_Logic::getInstance();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
-@$bible = $_GET['bible'];
+@$bible = request->query['bible'];
 if (isset ($bible)) {
   if ($bible == Notes_Logic::generalBibleName ()) $bible = "";
   $notes_logic->setBible ($id, $bible);

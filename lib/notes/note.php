@@ -26,7 +26,7 @@ $database_notes = Database_Notes::getInstance();
 $ipc_focus = Ipc_Focus::getInstance();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
 // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
@@ -42,7 +42,7 @@ if (is_array ($passages)) {
 $header = new Assets_Header (gettext("Note"));
 // After adding a comment to a note it returns to the note.
 // When doing nothing for several seconds, the browser then returns to the list of notes.
-if (isset ($_GET ['temporal'])) {
+if (isset (request->query ['temporal'])) {
   $header->addHeadLine ('<META HTTP-EQUIV="refresh" CONTENT="5;URL=index.php">'); // This can use existing function, expanded with the URL: Function refresh.
 }
 $header->run();

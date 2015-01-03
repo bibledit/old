@@ -34,7 +34,7 @@ $username = $session_logic->currentUser ();
 $userlevel = $session_logic->currentLevel ();
 
 
-$name = $_GET['name'];
+$name = request->query['name'];
 $view->view->name = filter_string_sanitize_html ($name);
 
 

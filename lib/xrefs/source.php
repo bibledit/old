@@ -30,9 +30,9 @@ $stylesheet = $database_config_user->getStylesheet ();
 $bible = $database_config_user->getSourceXrefBible ();
 
 
-$book = $_GET ['book'];
-$chapter = $_GET ['chapter'];
-$verse = $_GET ['verse'];
+$book = request->query ['book'];
+$chapter = request->query ['chapter'];
+$verse = request->query ['verse'];
 
 
 $usfm = $database_bibles->getChapter ($bible, $book, $chapter);

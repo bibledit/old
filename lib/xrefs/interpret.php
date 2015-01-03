@@ -104,9 +104,9 @@ $view->view->remaining = count ($unknown_abbreviations) - 1;
 $view->view->abbreviation = $unknown_abbreviations [0];
 
 
-$books = $database_books->getIDs ();
+$books = Database_Books::getIDs ();
 for ($books as &$book) {
-  $book = $database_books->getEnglishFromId ($book);
+  $book = Database_Books::getEnglishFromId ($book);
 }
 $view->view->books = $books;
 

@@ -29,7 +29,7 @@ $config_general = Database_Config_General::getInstance ();
 $database_logs = Database_Logs::getInstance ();
 
 
-@$clear = $_GET['clear'];
+@$clear = request->query['clear'];
 if (isset ($clear)) {
   // Just in case there are many change notifications to clear, be sure the script does not time out or abort.
   ignore_user_abort (true);

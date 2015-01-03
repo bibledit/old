@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/user.h>
 #include <locale/translate.h>
 #include <config.h>
+#include <access/bible.h>
+#include <navigation/passage.h>
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
@@ -108,8 +110,8 @@ bool Assets_Header::displayTopbar () // C++Port
 {
   /*
     // If the topbar is in the query, it means: don't display it.
-    if (isset ($_GET ['topbar'])) {
-      unset ($_GET ['topbar']);
+    if (isset (request->query ['topbar'])) {
+      unset (request->query ['topbar']);
       return false;      
     }
 */
@@ -129,6 +131,8 @@ void Assets_Header::refresh (int seconds)
 // Runs the header.
 string Assets_Header::run ()
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   string page;
   
   // Include the Bibledit version number in the stylesheet URL to refresh the browser's cache after a Bibledit upgrade.
@@ -153,21 +157,18 @@ string Assets_Header::run ()
     view->enable_zone ("user_full");
     Menu_User menu_user = Menu_User (webserver_request);
     view->set_variable ("usermenu", menu_user.create (loginrequest));
-    if (((Webserver_Request *) webserver_request)->session_logic ()->currentLevel () >= 2) {
+    if (request->session_logic ()->currentLevel () >= 2) {
       view->enable_zone ("display_search");
       view->set_variable ("search", gettext ("Search"));
       view->set_variable ("searching", gettext ("Searching"));
     }
-  /*
-    $this->view->view->display_navigator = $this->displayNavigator; // Todo
-    if ($this->view->view->display_navigator) {
-      $database_config_user = Database_Config_User::getInstance ();
-      $bible = access_bible_clamp ($database_config_user->getBible ());
-      $this->view->view->navigationHtml = Navigation_Passage::getContainer (); // Todo port this.
-      $this->view->view->navigationCode = Navigation_Passage::code ($bible, true); // Todo port this.
+    if (displayNavigator) {
+      view->enable_zone ("display_navigator"); // Todo
+      string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+      view->set_variable ("navigationHtml", Navigation_Passage::getContainer ()); // Todo port this.
+      view->set_variable ("navigationCode", Navigation_Passage::code (bible, true)); // Todo port this.
     }
-    $this->view->view->included_stylesheet = $this->includedStylesheet;
-  */
+    view->set_variable ("included_stylesheet", includedStylesheet);
     if (!includedEditorStylesheet.empty ()) {
       view->enable_zone ("include_editor_stylesheet");
       view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);

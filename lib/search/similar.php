@@ -32,11 +32,11 @@ $ipc_focus = Ipc_Focus::getInstance ();
 $myIdentifier = Filter_User::myIdentifier ();
 
 
-@$bible = $_GET ['b'];
+@$bible = request->query ['b'];
 if (!isset ($bible)) $bible = $database_config_user->getBible ();
 
 
-@$load = $_GET ['load'];
+@$load = request->query ['load'];
 if (isset ($load)) {
 
   $book = $ipc_focus->getBook ();
@@ -61,7 +61,7 @@ if (isset ($load)) {
 }
 
 
-@$words = $_GET ['words'];
+@$words = request->query ['words'];
 if (isset ($words)) {
 
   $words = filter_string_trim ($words);
@@ -106,7 +106,7 @@ if (isset ($words)) {
 }
 
 
-@$id = $_GET ['id'];
+@$id = request->query ['id'];
 if (isset ($id)) {
   
   // Get the Bible and passage for this identifier.

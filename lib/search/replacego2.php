@@ -32,11 +32,11 @@ $siteUrl = $database_config_general->getSiteURL ();
 
 
 // Get the action variables from the query.
-@$id = $_GET ['id'];
-@$searchfor = $_GET ['q'];
-@$replacewith = $_GET ['r'];
-@$casesensitive = ($_GET ['c'] == "true");
-@$searchplain = ($_GET ['p'] == "true");
+@$id = request->query ['id'];
+@$searchfor = request->query ['q'];
+@$replacewith = request->query ['r'];
+@$casesensitive = (request->query ['c'] == "true");
+@$searchplain = (request->query ['p'] == "true");
 
 
 // Get Bible and passage for this identifier.

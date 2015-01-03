@@ -26,7 +26,7 @@ $database_notes = Database_Notes::getInstance ();
 $notes_logic = Notes_Logic::getInstance ();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
 if (isset($_POST['submit'])) {

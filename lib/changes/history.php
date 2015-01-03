@@ -46,18 +46,18 @@ $view = new Assets_View (__FILE__);
 $state = array ();
 // Where to start displaying items.
 // It displays a limited number of items for performance reasons.
-@$start = $_GET ['start'];
+@$start = request->query ['start'];
 if (!isset ($start)) $start = 0;
 if (!is_numeric ($start)) $start = 0;
 $state ['start'] = $start;
 // Filter on Bible / book / chapter / verse.
-@$passage = $_GET ['passage'];
+@$passage = request->query ['passage'];
 if (!isset ($passage)) $passage = 0;
 if (!is_numeric ($passage)) $passage = 0;
 if (isset ($passage)) $state ['passage'] = $passage;
 // Filter on author.
 // It filters on the offset of the array of authors fetched from the database.
-@$author = $_GET ['author'];
+@$author = request->query ['author'];
 if (isset ($author)) $state ['author'] = $author;
 
 

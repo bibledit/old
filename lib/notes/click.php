@@ -22,7 +22,7 @@ require_once ("../bootstrap/bootstrap.php");
 page_access_level (Filter_Roles::consultant ());
 
 
-@$open = $_GET ['open'];
+@$open = request->query ['open'];
 if (isset ($open)) {
   $open = intval (basename ($open));
   $database_notes = Database_Notes::getInstance ();
@@ -33,7 +33,7 @@ if (isset ($open)) {
 }
 
 
-@$new = $_GET ['new'];
+@$new = request->query ['new'];
 if (isset ($new)) {
   $new = intval (basename ($new));
   $database_modifications = Database_Modifications::getInstance ();

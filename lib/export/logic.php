@@ -171,7 +171,7 @@ class Export_Logic
   {
     if ($book) {
       $database_books = Database_Books::getInstance ();
-      $filename = sprintf("%0" . 2 . "d", $book) . "_" . $database_books->getEnglishFromId ($book);
+      $filename = sprintf("%0" . 2 . "d", $book) . "_" . Database_Books::getEnglishFromId ($book);
     } else {
       $filename = "00_Bible";
     }

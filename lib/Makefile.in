@@ -171,7 +171,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	versification/system.$(OBJEXT) book/create.$(OBJEXT) \
 	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
 	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	navigation/passage.$(OBJEXT) ipc/focus.$(OBJEXT)
+	editverse/id.$(OBJEXT) navigation/passage.$(OBJEXT) \
+	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
+	ipc/focus.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -515,7 +517,10 @@ libbibledit_a_SOURCES = \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editverse/index.cpp \
+	editverse/id.cpp \
 	navigation/passage.cpp \
+	navigation/update.cpp \
+	navigation/poll.cpp \
 	ipc/focus.cpp
 
 server_SOURCES = executable/bibledit.cpp
@@ -1109,6 +1114,8 @@ editverse/$(DEPDIR)/$(am__dirstamp):
 	@: > editverse/$(DEPDIR)/$(am__dirstamp)
 editverse/index.$(OBJEXT): editverse/$(am__dirstamp) \
 	editverse/$(DEPDIR)/$(am__dirstamp)
+editverse/id.$(OBJEXT): editverse/$(am__dirstamp) \
+	editverse/$(DEPDIR)/$(am__dirstamp)
 navigation/$(am__dirstamp):
 	@$(MKDIR_P) navigation
 	@: > navigation/$(am__dirstamp)
@@ -1116,6 +1123,10 @@ navigation/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) navigation/$(DEPDIR)
 	@: > navigation/$(DEPDIR)/$(am__dirstamp)
 navigation/passage.$(OBJEXT): navigation/$(am__dirstamp) \
+	navigation/$(DEPDIR)/$(am__dirstamp)
+navigation/update.$(OBJEXT): navigation/$(am__dirstamp) \
+	navigation/$(DEPDIR)/$(am__dirstamp)
+navigation/poll.$(OBJEXT): navigation/$(am__dirstamp) \
 	navigation/$(DEPDIR)/$(am__dirstamp)
 ipc/$(am__dirstamp):
 	@$(MKDIR_P) ipc
@@ -1321,6 +1332,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/upload.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/yes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/receive.Po@am__quote@
@@ -1357,6 +1369,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/poll.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/update.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@odf/$(DEPDIR)/text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@onlinebible/$(DEPDIR)/text.Po@am__quote@

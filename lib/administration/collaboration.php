@@ -26,8 +26,8 @@ Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
 
-@$object = $_GET ['object'];
-@$select = $_GET['select'];
+@$object = request->query ['object'];
+@$select = request->query['select'];
 if (isset ($select)) {
   if ($select == "") {
     $dialog_list = new Dialog_List (array ("object"), gettext("Which Bible are you going to use?"), "", "");
@@ -47,7 +47,7 @@ $view->view->object = $object;
 
 $database_config_bible = Database_Config_Bible::getInstance();
 $url = Database_Config_Bible::getRemoteRepositoryUrl ($object);
-if (isset ($_GET ['disable'])) {
+if (isset (request->query ['disable'])) {
   $url = "";
   Database_Config_Bible::setRemoteRepositoryUrl ($object, $url);
   $repository = filter_git_git_directory ($object);

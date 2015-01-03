@@ -27,10 +27,10 @@ $notes_logic = Notes_Logic::getInstance();
 $database_users = Database_Users::getInstance();
 
 
-$id = $_GET ['id'];
+$id = request->query ['id'];
 
 
-@$severity = $_GET['severity'];
+@$severity = request->query['severity'];
 if (isset ($severity)) {
   $notes_logic->setRawSeverity ($id, $severity);
   redirect_browser ("actions.php?id=$id");

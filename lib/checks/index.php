@@ -33,14 +33,14 @@ Assets_Page::header (gettext("Checks"));
 $view = new Assets_View (__FILE__);
 
 
-@$approve = $_GET['approve'];
+@$approve = request->query['approve'];
 if (isset ($approve)) {
   $database_check->approve ($approve);
   $view->view->success = gettext("The entry was approved and suppressed.");
 }
 
 
-@$delete = $_GET['delete'];
+@$delete = request->query['delete'];
 if (isset ($delete)) {
   $database_check->delete ($delete);
   $view->view->success = gettext("The entry was deleted for just now.");

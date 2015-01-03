@@ -24,7 +24,7 @@ page_access_level (Filter_Roles::admin ());
 Assets_Page::header (gettext("Collaboration"));
 $view = new Assets_View (__FILE__);
 
-$object = $_GET ['object'];
+$object = request->query ['object'];
 $view->view->object = $object;
 
 $directory = filter_git_git_directory ($object);

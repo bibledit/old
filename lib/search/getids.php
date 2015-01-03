@@ -23,9 +23,9 @@ page_access_level (Filter_Roles::translator ());
 
 
 // Get search variables from the query.
-@$bible = $_GET ['b'];
-@$searchfor = $_GET ['q'];
-@$casesensitive = ($_GET ['c'] == "true");
+@$bible = request->query ['b'];
+@$searchfor = request->query ['q'];
+@$casesensitive = (request->query ['c'] == "true");
 
 
 $database_search = Database_Search::getInstance ();

@@ -30,7 +30,7 @@ $session_logic = Session_Logic::getInstance ();
 
 // Presets for notes selectors.
 // Used by the daily statistics and the workbench.
-@$preset_selector = $_GET ['presetselection'];
+@$preset_selector = request->query ['presetselection'];
 if (isset ($preset_selector)) {
   $database_config_user->setConsultationNotesPassageSelector (3);
   $database_config_user->setConsultationNotesEditSelector (0);

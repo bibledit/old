@@ -22,7 +22,10 @@
 #include <filter/usfm.h>
 #include <database/versifications.h>
 #include <database/navigation.h>
+#include <database/books.h>
 #include <webserver/request.h>
+#include <locale/translate.h>
+#include <ipc/focus.h>
 
 
 string Navigation_Passage::getContainer ()
@@ -31,114 +34,105 @@ string Navigation_Passage::getContainer ()
 }
 
 
-string Navigation_Passage::getNavigator (string bible)
+string Navigation_Passage::getNavigator (void * webserver_request, string bible) // Todo
 {
-  /*
-  $ipc_focus = Ipc_Focus::getInstance(); // Todo port as dependency.
-  $database_books = Database_Books::getInstance ();
-  $database_bibles = Database_Bibles::getInstance ();
-  $database_navigation = Database_Navigation::getInstance ();
-  $session_logic = Session_Logic::getInstance ();
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  Database_Navigation database_navigation = Database_Navigation ();
   
-  $user = $session_logic->currentUser ();
+  string user = request->session_logic()->currentUser ();
   
-  $fragments = array ();
+  vector <string> fragments;
   
   // Links to go back and forward are grayed out or active depending on available passages to go to.
-  $fragments [] = '<div id="backforward">';
-  if ($database_navigation->previousExists ($user)) {
-    $fragments [] = '<a id="navigateback" href="navigateback" title="' . gettext("Back") . '">↶</a>';
+  fragments.push_back ("<div id=\"backforward\">");
+  if (database_navigation.previousExists (user)) {
+    fragments.push_back ("<a id=\"navigateback\" href=\"navigateback\" title=\"" + gettext("Back") + "\">↶</a>");
   } else {
-    $fragments [] = '<span class="grayedout">↶</span>';
+    fragments.push_back ("<span class=\"grayedout\">↶</span>");
   }
-  $fragments [] = "";
-  if ($database_navigation->nextExists ($user)) {
-    $fragments [] = '<a id="navigateforward" href="navigateforward" title="' . gettext("Forward") . '">↷</a>';
+  fragments.push_back ("");
+  if (database_navigation.nextExists (user)) {
+    fragments.push_back ("<a id=\"navigateforward\" href=\"navigateforward\" title=\"" + gettext("Forward") + "\">↷</a>");
   } else {
-    $fragments [] = '<span class="grayedout">↷</span>';
+    fragments.push_back ("<span class=\"grayedout\">↷</span>");
   }
-  $fragments [] = '</div>';
+  fragments.push_back ("</div>");
   
-  $book = $ipc_focus->getBook ();
+  int book = Ipc_Focus::getBook (request);
   
   // The book should exist in the Bible.
-  if ($bible != "") {
-    $books = $database_bibles->getBooks ($bible);
-    if (!in_array ($book, $books)) {
-      if (count ($books) > 0) $book = $books [0];
-      else $book = 0;
+  if (bible != "") {
+    vector <int> books = request->database_bibles()->getBooks (bible);
+    if (find (books.begin(), books.end(), book) == books.end()) {
+      if (!books.empty ()) book = books [0];
+      else book = 0;
     }
   }
   
-  $bookName = $database_books->getEnglishFromId ($book);
+  string bookName = Database_Books::getEnglishFromId (book);
   
-  $chapter = $ipc_focus->getChapter ();
+  int chapter = Ipc_Focus::getChapter (request);
   
   // The chapter should exist in the book.
-  if ($bible != "") {
-    $chapters = $database_bibles->getChapters ($bible, $book);
-    if (!in_array ($chapter, $chapters)) {
-      if (count ($chapters) > 0) $chapter = $chapters [0];
-      else $chapter = 1;
+  if (bible != "") {
+    vector <int> chapters = request->database_bibles()->getChapters (bible, book);
+    if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
+      if (!chapters.empty()) chapter = chapters [0];
+      else chapter = 1;
     }
   }
   
-  $verse = $ipc_focus->getVerse ();
+  int verse = Ipc_Focus::getVerse (request);
   
-  $fragments [] = '<div id="versepicker">';
+  fragments.push_back ("<div id=\"versepicker\">");
   
-  $fragments [] = '<input name="selectpassage" id="selectpassage" type="text" value="' . "$bookName $chapter:$verse" . '" size="14" />';
-  $fragments [] = '<input name="submitpassage" id="submitpassage" type="submit" value="' . gettext("Go") . '" />';
+  fragments.push_back ("<input name=\"selectpassage\" id=\"selectpassage\" type=\"text\" value=\"" + bookName + " " + convert_to_string (chapter) + ":" + convert_to_string (verse) + "\" size=\"14\" />");
+  fragments.push_back ("<input name=\"submitpassage\" id=\"submitpassage\" type=\"submit\" value=\"" + gettext("Go") + "\" />");
   
-  $fragments [] = '<div id="handpicker">';
+  fragments.push_back ("<div id=\"handpicker\">");
   
-  $fragments [] = '<select id="booklist" size=15>';
-  $fragments [] = self::getBooksFragment ($bible);
-  $fragments [] = '</select>';
+  fragments.push_back ("<select id=\"booklist\" size=15>");
+  fragments.push_back (getBooksFragment (request, bible));
+  fragments.push_back ("</select>");
   
-  $fragments [] = '<select id="chapterlist" size=15>';
-  $fragments [] = self::getChaptersFragment ($bible, $book, $chapter);
-  $fragments [] = '</select>';
+  fragments.push_back ("<select id=\"chapterlist\" size=15>");
+  fragments.push_back (getChaptersFragment (request, bible, book, chapter));
+  fragments.push_back ("</select>");
   
-  $fragments [] = '<select id="verselist" size=15 multiple>';
-  $fragments [] = self::getVersesFragment ($bible, $book, $chapter, $verse);
+  fragments.push_back ("<select id=\"verselist\" size=15 multiple>");
+  fragments.push_back (getVersesFragment (request, bible, book, chapter, verse));
   
-  $fragments [] = '</select>';
+  fragments.push_back ("</select>");
   
-  $fragments [] = '</div>';
+  fragments.push_back ("</div>");
   
-  $fragments [] = '</div>';
+  fragments.push_back ("</div>");
   
   // The result.
-  return implode ("\n", $fragments);
-  */
-  return "";
+  return filter_string_implode (fragments, "\n");
 }
 
 
-string Navigation_Passage::getBooksFragment (string bible)
+string Navigation_Passage::getBooksFragment (void * webserver_request, string bible)
 {
-  /* C++Port
-  $database_bibles = Database_Bibles::getInstance ();
-  $database_books = Database_Books::getInstance ();
-  $ipc_focus = Ipc_Focus::getInstance(); // Todo port it first.
-  $activeBook = $ipc_focus->getBook ();
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  int activeBook = Ipc_Focus::getBook (request);
   // Take standard books in case of no Bible.
-  if ($bible == "") {
-    $books = $database_books->getIDs ();
+  vector <int> books;
+  if (bible == "") {
+    books = Database_Books::getIDs ();
   } else {
-    $books = filter_passage_get_ordered_books ($bible);
+    books = filter_passage_get_ordered_books (bible);
   }
-  $html = "";
-  for ($books as $book) {
-    $bookName = $database_books->getEnglishFromId ($book);
-    $selected = "";
-    if ($book == $activeBook) $selected = " selected";
-    $html += "<option$selected>" . $bookName . "</option>";
+  string html = "";
+  for (auto book : books) {
+    string bookName = Database_Books::getEnglishFromId (book);
+    string selected;
+    if (book == activeBook) selected = " selected";
+    html += "<option" + selected + ">" + bookName + "</option>";
   }
-  return $html;
-  */
-  return "";
+  return html;
 }
 
 
@@ -199,37 +193,32 @@ string Navigation_Passage::code (string bible, bool header)
 }
 
 
-void Navigation_Passage::setBookChapterVerse (int book, int chapter, int verse)
+void Navigation_Passage::setBookChapterVerse (void * webserver_request, int book, int chapter, int verse)
 {
-  /* Todo port dependency.
-  $ipc_focus = Ipc_Focus::getInstance();
-  $ipc_focus->set ($book, $chapter, $verse);
-  recordHistory (book, chapter, verse);
-   */
+  Ipc_Focus::set (webserver_request, book, chapter, verse);
+  recordHistory (webserver_request, book, chapter, verse);
 }
 
 
-void Navigation_Passage::setPassage (string bible, Passage & passage)
+void Navigation_Passage::setPassage (void * webserver_request, string bible, string passage)
 {
-  /* Todo port dependencies.
-  $ipc_focus = Ipc_Focus::getInstance();
-  $currentBook = $ipc_focus->getBook ();
-  $currentChapter = $ipc_focus->getChapter ();
-  $currentVerse = $ipc_focus->getVerse ();
-  $passage = filter_string_trim ($passage);
-  if (($passage == "") || ($passage == "+")) {
-    $passage = Navigation_Passage::getNextVerse ($bible, $currentBook, $currentChapter, $currentVerse);
-  } else if ($passage == "-") {
-    $passage = Navigation_Passage::getPreviousVerse ($bible, $currentBook, $currentChapter, $currentVerse);
+  int currentBook = Ipc_Focus::getBook (webserver_request);
+  int currentChapter = Ipc_Focus::getChapter (webserver_request);
+  int currentVerse = Ipc_Focus::getVerse (webserver_request);
+  passage = filter_string_trim (passage);
+  Passage passage_to_set;
+  if ((passage == "") || (passage == "+")) {
+    passage_to_set = Navigation_Passage::getNextVerse (webserver_request, bible, currentBook, currentChapter, currentVerse);
+  } else if (passage == "-") {
+    passage_to_set = Navigation_Passage::getPreviousVerse (webserver_request, bible, currentBook, currentChapter, currentVerse);
   } else {
-    $passage = filter_passage_interpret_passage (array ($currentBook, $currentChapter, $currentVerse), $passage);
+    Passage inputpassage = Passage ("", currentBook, currentChapter, convert_to_string (currentVerse));
+    passage_to_set = filter_passage_interpret_passage (inputpassage, passage);
   }
-  if ($passage[0] != 0) {
-    $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
-    Navigation_Passage::recordHistory ($passage [0], $passage [1], $passage [2]);
-    
+  if (passage_to_set.book != 0) {
+    Ipc_Focus::set (webserver_request, passage_to_set.book, passage_to_set.chapter, convert_to_int (passage_to_set.verse));
+    Navigation_Passage::recordHistory (webserver_request, passage_to_set.book, passage_to_set.chapter, convert_to_int (passage_to_set.verse));
   }
-  */
 }
 
 
@@ -263,35 +252,29 @@ Passage Navigation_Passage::getPreviousVerse (void * webserver_request, string b
 }
 
 
-void Navigation_Passage::gotoNextVerse (string bible)
+void Navigation_Passage::gotoNextVerse (void * webserver_request, string bible)
 {
-  /* Todo port dependency.
-  $ipc_focus = Ipc_Focus::getInstance();
-  $currentBook = $ipc_focus->getBook ();
-  $currentChapter = $ipc_focus->getChapter ();
-  $currentVerse = $ipc_focus->getVerse ();
-  $passage = Navigation_Passage::getNextVerse ($bible, $currentBook, $currentChapter, $currentVerse);
-  if ($passage[0] != 0) {
-    $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
-    Navigation_Passage::recordHistory ($passage [0], $passage [1], $passage [2]);
+  int currentBook = Ipc_Focus::getBook (webserver_request);
+  int currentChapter = Ipc_Focus::getChapter (webserver_request);
+  int currentVerse = Ipc_Focus::getVerse (webserver_request);
+  Passage passage = Navigation_Passage::getNextVerse (webserver_request, bible, currentBook, currentChapter, currentVerse);
+  if (passage.book != 0) {
+    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
+    Navigation_Passage::recordHistory (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
-  */
 }
 
 
-void Navigation_Passage::gotoPreviousVerse (string bible)
+void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bible)
 {
-  /* Todo
-  $ipc_focus = Ipc_Focus::getInstance();
-  $currentBook = $ipc_focus->getBook ();
-  $currentChapter = $ipc_focus->getChapter ();
-  $currentVerse = $ipc_focus->getVerse ();
-  $passage = Navigation_Passage::getPreviousVerse ($bible, $currentBook, $currentChapter, $currentVerse);
-  if ($passage[0] != 0) {
-    $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
-    Navigation_Passage::recordHistory ($passage [0], $passage [1], $passage [2]);
+  int currentBook = Ipc_Focus::getBook (webserver_request);
+  int currentChapter = Ipc_Focus::getChapter (webserver_request);
+  int currentVerse = Ipc_Focus::getVerse (webserver_request);
+  Passage passage = Navigation_Passage::getPreviousVerse (webserver_request, bible, currentBook, currentChapter, currentVerse);
+  if (passage.book != 0) {
+    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
+    Navigation_Passage::recordHistory (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
-  */
 }
 
 
@@ -311,8 +294,7 @@ void Navigation_Passage::goBack (void * webserver_request)
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.getPrevious (user);
   if (passage.book) {
-    // Todo port $ipc_focus = Ipc_Focus::getInstance();
-    // $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
+    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
 }
 
@@ -324,7 +306,6 @@ void Navigation_Passage::goForward (void * webserver_request)
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.getNext (user);
   if (passage.book) {
-    // Todo port dependency $ipc_focus = Ipc_Focus::getInstance();
-    // $ipc_focus->set ($passage [0], $passage [1], $passage [2]);
+    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
 }
