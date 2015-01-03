@@ -2732,6 +2732,21 @@ void test_filter_diff ()
     string standard = "<span style=\"font-weight: bold;\">and</span> this is <span style=\"text-decoration: line-through;\">really</span> <span style=\"text-decoration: line-through;\">old</span> <span style=\"font-weight: bold;\">new</span> text";
     evaluate (__LINE__, __func__, standard, output);
   }
+  // Similarity 1.
+  {
+    int similarity = filter_diff_similarity ("Old text", "New text");
+    evaluate (__LINE__, __func__, 45, similarity);
+  }
+  // Similarity 2.
+  {
+    int similarity = filter_diff_similarity ("New text", "New text");
+    evaluate (__LINE__, __func__, 100, similarity);
+  }
+  // Similarity 2.
+  {
+    int similarity = filter_diff_similarity ("ABCDEFGH", "IJKLMNOPQRST");
+    evaluate (__LINE__, __func__, 0, similarity);
+  }
 }
 
 

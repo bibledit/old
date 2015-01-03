@@ -25,6 +25,7 @@
 
 
 string filter_diff_diff (string oldstring, string newstring);
+int filter_diff_similarity (string oldstring, string newstring);
 
 
 #endif

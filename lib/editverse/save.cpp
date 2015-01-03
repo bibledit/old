@@ -21,7 +21,6 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
-// Todo #include <filter/bibles.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
 #include <database/modifications.h>

@@ -21,14 +21,13 @@
 #include <filter/string.h>
 #include <dtl/dtl.hpp>
 using dtl::Diff;
+#include <cmath>
 
 
-/**
- * This filter returns the diff of two input strngs.
- * $oldstring: The old string for input.
- * $newstring: The new string for input.
- * The function returns the differences marked.
- */
+// This filter returns the diff of two input strngs.
+// $oldstring: The old string for input.
+// $newstring: The new string for input.
+// The function returns the differences marked.
 string filter_diff_diff (string oldstring, string newstring)
 {
   // Type definitions for the diff template engine.
@@ -67,4 +66,52 @@ string filter_diff_diff (string oldstring, string newstring)
   // Result.
   string html = filter_string_implode (output, " ");
   return html;
+}
+
+
+// This calculates the similarity between the old and new strings.
+// It returns the similarity as a percentage.
+// 100% means that the text is completely similar.
+// And 0% means that the text is completely different.
+// The output ranges from 0 to 100%.
+int filter_diff_similarity (string oldstring, string newstring)
+{
+  // Type definitions for the diff template engine.
+  typedef string elem;
+  typedef vector <string> sequence;
+  
+  // Split the input up into unicode characers.
+  sequence oldvector;
+  sequence newvector;
+  size_t oldlength = unicode_string_length (oldstring);
+  for (size_t i = 0; i < oldlength; i++) {
+    oldvector.push_back (unicode_string_substr (oldstring, i, 1));
+  }
+  size_t newlength = unicode_string_length (newstring);
+  for (size_t i = 0; i < newlength; i++) {
+    newvector.push_back (unicode_string_substr (newstring, i, 1));
+  }
+  
+  // Run the diff engine.
+  Diff <elem> d (oldvector, newvector);
+  d.compose();
+  
+  // Get the shortest edit distance.
+  stringstream result;
+  d.printSES (result);
+  
+  // Calculate the total elements compared, and the total differences found.
+  int element_count = 0;
+  int similar_count = 0;
+  vector <string> output = filter_string_explode (result.str(), '\n');
+  for (auto & line : output) {
+    if (line.empty ()) continue;
+    element_count++;
+    char indicator = line.front ();
+    if (indicator == ' ') similar_count++;
+  }
+  
+  // Calculate the percentage similarity.
+  int percentage = round (100 * ((float) similar_count / (float) element_count));
+  return percentage;
 }
