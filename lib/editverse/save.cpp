@@ -122,18 +122,16 @@ string editverse_save (void * webserver_request)
       int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
       string oldText = request->database_bibles()->getChapter (bible, book, chapter);
       // Safely store the chapter.
-      /* Todo port Filter_Bibles and write tests for it.
-      bool saved = Filter_Bibles::safeStoreChapter (bible, book, chapter, chapter_data_to_save);
+      bool saved = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save);
       if (saved) {
         // Store details for the user's changes.
-        int newID = request->database_bibles->getChapterId (bible, book, chapter);
-        string newText = $chapter_data_to_save;
+        int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+        string newText = chapter_data_to_save;
         database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
         return gettext("Saved");
       } else {
         return gettext("Not saved because of too many changes");
       }
-       */
     } else {
       Database_Logs::log ("The following data could not be saved and was discarded: " + chapter_data_to_save);
       return gettext("Save failure");

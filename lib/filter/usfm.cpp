@@ -689,7 +689,7 @@ bool usfm_safely_store_chapter (void * webserver_request, string bible, int book
   // The text of the new chapter should be at least 80% similar to the existing text.
   percentage = filter_diff_similarity (existing, usfm);
   if (percentage < 80) {
-    Database_Logs::log ("The chapter was not saved for safety reasons. The new text differs " + convert_to_string (percentage) + "% from the existing text. Make minor changes and save often.");
+    Database_Logs::log ("The chapter was not saved for safety reasons. The new is " + convert_to_string (percentage) + "% similar to the existing text. Make minor changes and save often.");
     Database_Logs::log (bible + " " + Database_Books::getEnglishFromId (book) + " " + convert_to_string (chapter));
     Database_Logs::log (usfm);
     return false;

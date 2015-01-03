@@ -65,7 +65,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
             $oldText = $database_bibles->getChapter ($bible, $book, $chapter);
   
             // Safely store the chapter.
-            $saved = Filter_Bibles::safeStoreChapter ($bible, $book, $chapter, $chapter_data_to_save);
+            $saved = usfm_safely_store_chapter (request, $bible, $book, $chapter, $chapter_data_to_save);
   
             if ($saved) {
               // Store details for the user's changes.

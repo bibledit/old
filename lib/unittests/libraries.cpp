@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/roles.h>
 #include <filter/md5.h>
+#include <filter/usfm.h>
 #include <flate/flate.h>
 #include <config/globals.h>
 #include <database/config/general.h>
@@ -320,5 +321,100 @@ void test_checksum_logic ()
   {
     string checksum = Checksum_Logic::getBibles (&request, {"phpunit3", "phpunit4"});
     evaluate (__LINE__, __func__, "020eb29b524d7ba672d9d48bc72db455", checksum);
+  }
+}
+
+
+void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
+{
+  refresh_sandbox (true);
+  request->database_search()->create ();
+  request->database_bibles()->createBible ("phpunit");
+  request->database_bibles()->storeChapter ("phpunit", 1, 1, usfm);
+}
+
+void test_store_bible_data ()
+{
+  Webserver_Request request;
+  string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 Verse 1.\n"
+  "\\v 2 Verse 2.\n"
+  "\\v 3 Verse 3.\n"
+  "\\v 4 Verse 4.\n"
+  "\\v 5 Verse 5.\n";
+  // SafeStoreChapterSaveOne
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 4 Verse 4.\n"
+    "\\v 5 Verse 5.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, data, result);
+  }
+  // SafeStoreChapterSaveTwo
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 4 Verse 4.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, data, result);
+  }
+  // SafeStoreChapterLength
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 3 Verse 3.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // SafeStoreChapterSimilarity
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    string data =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 Verse 1.\n"
+    "\\v 3 Verse 3.\n"
+    "\\v 2 Verse 2.\n"
+    "\\v 4 Verse 4.\n";
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, data);
+    evaluate (__LINE__, __func__, false, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    refresh_sandbox (false);
+  }
+  // SafeStoreChapterNoChange
+  {
+    test_store_bible_data_safely_setup (&request, usfm);
+    int currentId = request.database_bibles()->getChapterId ("phpunit", 1, 1);
+    bool stored = usfm_safely_store_chapter (&request, "phpunit", 1, 1, usfm);
+    evaluate (__LINE__, __func__, true, stored);
+    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    int currentId2 = request.database_bibles()->getChapterId ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, currentId, currentId2);
   }
 }
