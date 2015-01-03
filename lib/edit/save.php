@@ -91,7 +91,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($html) && isse
     }
 
   } else {
-    http_response_code (409);
+    request->response_code = 409);
     echo gettext("Checksum error");
   }
 

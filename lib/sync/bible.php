@@ -45,7 +45,7 @@ $pass_ok = ($password == $database_users->getmd5 ($username));
 if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
 if (!$user_ok || !$pass_ok) {
   // Unauthorized.
-  http_response_code (401); 
+  request->response_code = 401); 
   die;
 }
 

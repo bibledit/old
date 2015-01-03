@@ -50,7 +50,7 @@ if ($action == "total") {
   if (!$pass_ok) Database_Logs::log ("Incorrect password $password for user $username", Filter_Roles::manager ());
   if (!$user_ok || !$pass_ok) {
     // Unauthorized.
-    http_response_code (401);
+    request->response_code = 401);
     die;
   }
 
@@ -66,7 +66,7 @@ if ($action == "total") {
   // and responds with a list of Bibles this user has access to.
   if ($password != $database_users->getmd5 ($username)) {
     // Unauthorized.
-    http_response_code (401);
+    request->response_code = 401);
     die;
   }
 

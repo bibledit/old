@@ -77,7 +77,7 @@ if (isset ($bible) && isset ($book) && isset ($chapter) && isset ($usfm)) {
       Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
     }
   } else {
-    http_response_code (409);
+    request->response_code = 409);
     echo gettext("Checksum error");
   }
 } else {
