@@ -139,7 +139,13 @@ libbibledit_a_SOURCES = \
 	navigation/update.cpp \
 	navigation/poll.cpp \
 	ipc/focus.cpp \
-	checksum/logic.cpp
+	checksum/logic.cpp \
+	editusfm/focus.cpp \
+	editusfm/id.cpp \
+	editusfm/index.cpp \
+	editusfm/load.cpp \
+	editusfm/offset.cpp \
+	editusfm/save.cpp
 
 bin_PROGRAMS = server unittest
 
