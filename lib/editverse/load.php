@@ -18,24 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-require_once ("../bootstrap/bootstrap.php");
-page_access_level (Filter_Roles::translator ());
-
-
-$bible = request->query ['bible'];
-$book = request->query ['book'];
-$chapter = request->query ['chapter'];
-$verse = request->query ['verse'];
-
-
-$database_bibles = Database_Bibles::getInstance();
-
-
-$usfm = $database_bibles->getChapter ($bible, $book, $chapter);
-$usfm = usfm_get_verse_text ($usfm, $verse);
-
-
-echo Checksum_Logic::send ($usfm);
 
 
 ?>

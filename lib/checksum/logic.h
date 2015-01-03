@@ -17,16 +17,24 @@
  */
 
 
-#ifndef INCLUDED_EDITVERSE_LOAD_H
-#define INCLUDED_EDITVERSE_LOAD_H
+#ifndef INCLUDED_CHECKSUM_LOGIC_H
+#define INCLUDED_CHECKSUM_LOGIC_H
 
 
 #include <config/libraries.h>
 
 
-string editverse_load_url ();
-bool editverse_load_acl (void * webserver_request);
-string editverse_load (void * webserver_request);
+class Checksum_Logic
+{
+public:
+  static string send (string data);
+  static string get (string data);
+  static string getChapter (void * webserver_request, string bible, int book, int chapter);
+  static string getBook (void * webserver_request, string bible, int book);
+  static string getBible (void * webserver_request, string bible);
+  static string getBibles (void * webserver_request, const vector <string> & bibles);
+private:
+};
 
 
 #endif

@@ -133,10 +133,12 @@ libbibledit_a_SOURCES = \
 	jobs/index.cpp \
 	editverse/index.cpp \
 	editverse/id.cpp \
+	editverse/load.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
-	ipc/focus.cpp
+	ipc/focus.cpp \
+	checksum/logic.cpp
 
 bin_PROGRAMS = server unittest
 

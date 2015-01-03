@@ -46,6 +46,6 @@ string navigation_poll (void * webserver_request)
   passage.push_back (convert_to_string (book));
   passage.push_back (convert_to_string (chapter));
   passage.push_back (convert_to_string (verse));
-  return filter_string_implode (passage, "\n"); // Todo update javascript to properly read it.
+  return filter_string_implode (passage, "\n");
 }
 

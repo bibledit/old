@@ -265,7 +265,7 @@ int main (int argc, char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
   
-  test_filter_abbreviations (); test_filter_diff (); exit (0);
+  test_checksum_logic (); exit (0);
   
   // Run the tests.
   test_database_config_general ();
@@ -311,6 +311,7 @@ int main (int argc, char **argv)
   test_filter_bibleworks ();
   test_filter_diff ();
   test_filter_abbreviations ();
+  test_checksum_logic ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

@@ -57,6 +57,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/css.h>
 #include <editverse/index.h>
 #include <editverse/id.h>
+#include <editverse/load.h>
 #include <navigation/update.h>
 #include <navigation/poll.h>
 
@@ -95,7 +96,6 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == bible_order_url ()) && bible_order_acl (request)) request->reply = bible_order (request);
   else if ((url == bible_css_url ()) && bible_css_acl (request)) request->reply = bible_css (request);
   else if ((url == editverse_index_url ()) && editverse_index_acl (request)) request->reply = editverse_index (request);
-  else if ((url == editverse_id_url ()) && editverse_id_acl (request)) request->reply = editverse_id (request);
   
   // Changes menu.
   else if ((url == journal_index_url ()) && journal_index_acl (request)) request->reply = journal_index (request);
@@ -127,6 +127,8 @@ void bootstrap_index (Webserver_Request * request)
   // AJAX calls.
   else if ((url == navigation_update_url ()) && navigation_update_acl (request)) request->reply = navigation_update (request);
   else if ((url == navigation_poll_url ()) && navigation_poll_acl (request)) request->reply = navigation_poll (request);
+  else if ((url == editverse_id_url ()) && editverse_id_acl (request)) request->reply = editverse_id (request);
+  else if ((url == editverse_load_url ()) && editverse_load_acl (request)) request->reply = editverse_load (request);
   
   // Forward the browser to the default home page.
   else {
