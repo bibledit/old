@@ -79,7 +79,7 @@ string editverse_index (void * webserver_request)
   
   // Write access?
   bool write_access = access_bible_write (request, bible);
-  view.set_variable ("write_access", convert_to_string (write_access)); // Todo fix.
+  view.set_variable ("write_access", write_access ? "true" : "false");
   
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
