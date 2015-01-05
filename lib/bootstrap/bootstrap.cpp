@@ -62,6 +62,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <navigation/update.h>
 #include <navigation/poll.h>
 #include <editusfm/index.h>
+#include <editusfm/focus.h>
+#include <editusfm/id.h>
+#include <editusfm/load.h>
+#include <editusfm/offset.h>
+#include <editusfm/save.h>
 
 
 // This function is the first function to be called when a client requests a page or file.
@@ -133,7 +138,12 @@ void bootstrap_index (Webserver_Request * request)
   else if ((url == editverse_id_url ()) && editverse_id_acl (request)) request->reply = editverse_id (request);
   else if ((url == editverse_load_url ()) && editverse_load_acl (request)) request->reply = editverse_load (request);
   else if ((url == editverse_save_url ()) && editverse_save_acl (request)) request->reply = editverse_save (request);
-  
+  else if ((url == editusfm_focus_url ()) && editusfm_focus_acl (request)) request->reply = editusfm_focus (request);
+  else if ((url == editusfm_id_url ()) && editusfm_id_acl (request)) request->reply = editusfm_id (request);
+  else if ((url == editusfm_load_url ()) && editusfm_load_acl (request)) request->reply = editusfm_load (request);
+  else if ((url == editusfm_offset_url ()) && editusfm_offset_acl (request)) request->reply = editusfm_offset (request);
+  else if ((url == editusfm_save_url ()) && editusfm_save_acl (request)) request->reply = editusfm_save (request);
+
   // Forward the browser to the default home page.
   else {
     redirect_browser (index_index_url (), request);
